@@ -13,8 +13,6 @@ package org.eclipse.birt.data.engine.script;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -34,24 +32,66 @@ import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Undefined;
+import org.mozilla.javascript.regexp.NativeRegExp;
 
 
 /**
  * Static utility methods to help evaluating Javascript expressions 
  */
 public class ScriptEvalUtil
-{
+{	
 	private static Logger logger = Logger.getLogger( ScriptEvalUtil.class.getName( ) );
+	
+	/**
+	 * @param exprText
+	 * @param value
+	 * @return an instance of ExprTextAndValue
+	 */
+	public static ExprTextAndValue newExprInfo( String exprText, Object value )
+	{
+		return ExprTextAndValue.newInstance( exprText, value );
+	}
+	
 	/**
 	 * Evaluates a conditional expression. A conditional expression comprises of
-	 * a Javascript expression, an operator, and up to 2 operands (which are 
-	 * Javascript expressions themselves).
+	 * a Javascript expression, an operator, and up to 2 operands (which are
+	 * Javascript expressions themselves).<br>
+	 * Both op1 and op2 will be encapsulated to ExprTextAndValue type to show
+	 * specific message in case anything goes wrong, they are assumed not to be
+	 * null as well.
+	 * <p>
+	 * The basic rule for comparison: obj will always be considered as the
+	 * default data type,i.e. obj, op1 and op2 will be formatted to the superset
+	 * of obj (or Double if obj is numeric)on the condition they are comparable.<br>
+	 * e.g.<br>
+	 * obj: Integer=>obj, op1 and op2 will be formatted to Double.<br>
+	 * obj: Timestamp=>obj, op1 and op2 will be formatted to Date.<br>
+	 * obj: Boolean=>obj and op1 will be formatted to Boolean.<br>
+	 * obj: String=>obj, op1 and op2 will remain the same
+	 * 
+	 * @param obj
+	 * @param operator
+	 * @param op1
+	 * @param op2
 	 * @return A Boolean result
+	 * @throws DataException
 	 */
-	public static Object evalConditionalExpr( Object resultObject,
-			int operator, Object resultOp1, Object resultOp2 )
+	public static Object evalConditionalExpr( Object obj,
+			int operator, ExprTextAndValue op1, ExprTextAndValue op2 )
 			throws DataException
 	{
+		Object resultObject = obj;
+		Object resultOp1 = op1.value;
+		Object resultOp2 = op2.value;
+
+		Object[] obArray = MiscUtil.isComparable( obj, operator, op1, op2 );
+		if ( obArray != null )
+		{
+			resultObject = obArray[0];
+			resultOp1 = obArray[1];
+			resultOp2 = obArray[2];
+		}
+		
 		if ( logger.isLoggable( Level.FINER ) )
 			logger.entering( 
 				ScriptEvalUtil.class.getName( ),
@@ -97,10 +137,10 @@ public class ScriptEvalUtil
 				result = resultObject != null;
 				break;
 			case IConditionalExpression.OP_TRUE :
-				result = isTrue( resultObject );
+				result = isTrueOrFalse( resultObject, Boolean.TRUE );
 				break;
 			case IConditionalExpression.OP_FALSE :
-				result = isFalse( resultObject );
+				result = isTrueOrFalse( resultObject, Boolean.FALSE );
 				break;
 			case IConditionalExpression.OP_LIKE :
 				result = like( resultObject, resultOp1 );
@@ -131,76 +171,36 @@ public class ScriptEvalUtil
 		return new Boolean( result );
 	}
 
-	private static boolean isSameType( Object resultExpr, Object resultOp1 )
+	/**
+	 * Encapsulate operands to ExprTextAndValue, internal use only
+	 * 
+	 * @param obj
+	 * @param operator
+	 * @param op1
+	 * @param op2
+	 * @return A Boolean result
+	 * @throws DataException
+	 */
+	public static Object evalConditionalExpr2( Object obj, int operator,
+			Object op1, Object op2 ) throws DataException
 	{
-		return resultExpr.getClass( ).equals( resultOp1.getClass( ) );
-	}
-
-	private static boolean isNumericOrString( Object result )
-	{
-		return ( result instanceof Number ) || ( result instanceof String );
-	}
-
-	private static boolean isDateOrString( Object result )
-	{
-		return ( result instanceof Date ) || ( result instanceof String );
-	}
-	
-	private static boolean isTrue( Object obj )
-	{
-		if ( obj == null )
-		    return false;
-		try
-		{
-			return DataTypeUtil.toBoolean( obj ).equals( Boolean.TRUE );
-		}
-		catch ( BirtException e )
-		{
-			return false;
-		}
+		return evalConditionalExpr( obj,
+				operator,
+				ExprTextAndValue.newInstance( "", op1 ),
+				ExprTextAndValue.newInstance( "", op2 ) );
 	}
 	
-	private static boolean isFalse( Object obj )
-	{
-		if ( obj == null )
-		    return false;
-		try
-		{
-			return DataTypeUtil.toBoolean( obj ).equals( Boolean.FALSE );
-		}
-		catch ( BirtException e )
-		{
-			return false;
-		}
-	}
-
-	private static boolean isTopN( Object resultObject, Object resultOp1 )
-			throws DataException
-	{
-		return NEvaluator.getInstance( NEvaluator.TOP_INSTANCE )
-				.evaluate( resultObject, resultOp1, false );
-	}
-
-	private static boolean isBottomN( Object resultObject, Object resultOp1 )
-			throws DataException
-	{
-		return NEvaluator.getInstance( NEvaluator.BOTTOM_INSTANCE )
-				.evaluate( resultObject, resultOp1, false );
-	}
-	
-	private static boolean isTopPercent( Object resultObject, Object resultOp1 )
-			throws DataException
-	{
-		return NEvaluator.getInstance( NEvaluator.TOP_INSTANCE )
-				.evaluate( resultObject, resultOp1, true );
-	}
-
-	private static boolean isBottomPercent( Object resultObject,
-			Object resultOp1 ) throws DataException
-	{
-		return NEvaluator.getInstance( NEvaluator.BOTTOM_INSTANCE )
-				.evaluate( resultObject, resultOp1, true );
-	}
+	/**
+	 * Most objects should already be formatted to the same type by method
+	 * formatToComparable at this point if neither of them is null. This method
+	 * will therefore be terminated pretty soon except for calling from method
+	 * between with weird parameters like obj:String, op1:Double and op2:Date.
+	 * 
+	 * @param obj1
+	 * @param obj2
+	 * @return -1,0 and 1 standing for <,= and > respectively
+	 * @throws DataException
+	 */
 	private static int compare( Object obj1, Object obj2 ) throws DataException
 	{
 	    if (obj1 == null || obj2 == null) 
@@ -216,7 +216,7 @@ public class ScriptEvalUtil
 	    
 		try
 		{
-			if ( isSameType( obj1, obj2 ) )
+			if ( MiscUtil.isSameType( obj1, obj2 ) )
 			{
 				if ( obj1 instanceof Boolean )
 				{
@@ -233,17 +233,18 @@ public class ScriptEvalUtil
 				{
 					return ( (Comparable) obj1 ).compareTo( obj2 );
 				}
+				// most judgements should end here
 				else
 				{
 					return obj1.toString( ).compareTo( obj2.toString( ) );
 				}
 			}
-			else if ( isNumericOrString( obj1 ) && isNumericOrString( obj2 ) )
+			else if ( MiscUtil.isNumericOrString( obj1 ) && MiscUtil.isNumericOrString( obj2 ) )
 			{
 				return DataTypeUtil.toDouble( obj1 ).compareTo(
 						DataTypeUtil.toDouble( obj2 ) );
 			}
-			else if ( isDateOrString( obj1 ) && isDateOrString( obj2 ) )
+			else if ( MiscUtil.isDateOrString( obj1 ) && MiscUtil.isDateOrString( obj2 ) )
 			{
 				return DataTypeUtil.toDate( obj1 ).compareTo(
 						DataTypeUtil.toDate( obj2 ) );
@@ -257,29 +258,239 @@ public class ScriptEvalUtil
 		}
 	}
 	
-	public static Object evaluateJSAsMethod (Context cx, Scriptable scope, String scriptText, String source, int lineNo) throws DataException
-	{
-	    if ( logger.isLoggable( Level.FINER ) )
-			logger.entering( ScriptEvalUtil.class.getName( ),
-				"evaluateJSExpr",
-				"evaluateJSExpr() scriptText=" + scriptText 
-				+ ", source=" + source 
-				+ ", lineNo=" + lineNo);
-	    
-	    Object result = evaluateJSScript (cx, scope, ScriptUtil.getTailoredScript( scriptText , scope ) , source, lineNo);
-	    
-	    if ( logger.isLoggable( Level.FINER ) )
-			logger.exiting( ScriptEvalUtil.class.getName( ),
-					"evaluateJSExpr",
-					convertNativeObjToJavaObj( result ) );
-	    return result;
-	}
 	/**
-	 * Evaluates a ROM script and converts the result type into one accepted by BIRT:
-	 * Double (for all numeric types), java.util.Date, String, Boolean. Converts 
-	 * Javascript exception and script runtime exceptions to DataException
+	 * @param resultObject
+	 * @param resultOp1
+	 * @param resultOp2
+	 * @return true if resultObject is between resultOp1 and resultOp2, false otherwise
+	 * @throws DataException
+	 */
+	private static boolean between( Object resultObject, Object resultOp1,
+			Object resultOp2 ) throws DataException
+	{
+		Object min, max;
+		if ( compare( resultOp1, resultOp2 ) <= 0 )
+		{
+			min = resultOp1;
+			max = resultOp2;
+		}
+		else
+		{
+			min = resultOp2;
+			max = resultOp1;
+		}
+		return compare( resultObject, min ) >= 0
+				&& compare( resultObject, max ) <= 0;
+	}
+	
+	/**
+	 * @param obj
+	 * @param bln
+	 * @return true if obj equals to bln, false otherwise
+	 */
+	private static boolean isTrueOrFalse( Object obj, Boolean bln )
+	{
+		if ( obj == null )
+			return false;
+		try
+		{
+			return DataTypeUtil.toBoolean( obj ).equals( bln );
+		}
+		catch ( BirtException e )
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * @param obj1
+	 * @param pattern
+	 * @return true if obj1 matches the given pattern, false otherwise
+	 * @throws DataException
+	 */
+	private static boolean like( Object obj1, Object pattern ) throws DataException
+	{
+		if ( obj1 == null || pattern == null )
+		{
+			if ( obj1 == null && pattern == null )
+				return true;
+			else
+				return false;
+		}
+
+		boolean result = false;
+		try
+		{
+			String patternString = pattern.toString( );
+			if ( pattern instanceof String )
+			{
+				// support '%' as SQL, replace all "%" with ".*"
+				if ( patternString.indexOf( "%" ) >= 0 )
+				{
+					patternString = patternString.replaceAll( "\\Q%\\E", ".*" );
+				}
+				result = obj1.toString( ).matches( patternString );
+			}
+			else if ( pattern instanceof NativeRegExp )
+			{
+				String testString = patternString.concat( ".test(\""
+						+ obj1.toString( ) + "\")" );
+				Context cx = Context.enter( );
+				try
+				{
+					Scriptable scope = cx.initStandardObjects( );
+					Object rlt = evaluateJSScript( cx, scope, testString, "", 0 );
+					if ( rlt instanceof Boolean )
+						result = ( (Boolean) rlt ).booleanValue( );
+				}
+				finally
+				{
+					Context.exit( );
+				}
+			}
+		}
+		catch ( RuntimeException e )
+		{
+			throw new DataException( ResourceConstants.MATCH_ERROR, e );
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * @param resultObject
+	 * @param resultOp1
+	 * @return true if resultObject is Top N, false otherwise
+	 * @throws DataException
+	 */
+	private static boolean isTopN( Object resultObject, Object resultOp1 )
+			throws DataException
+	{
+		return NEvaluator.getInstance( NEvaluator.TOP_INSTANCE )
+				.evaluate( resultObject, resultOp1, false );
+	}
+	
+	/**
 	 * 
-	 * @throws DataException 
+	 * @param resultObject
+	 * @param resultOp1
+	 * @return true if resultObject is Bottom N, false otherwise 
+	 * @throws DataException
+	 */
+	private static boolean isBottomN( Object resultObject, Object resultOp1 )
+			throws DataException
+	{
+		return NEvaluator.getInstance( NEvaluator.BOTTOM_INSTANCE )
+				.evaluate( resultObject, resultOp1, false );
+	}
+	
+	/**
+	 * 
+	 * @param resultObject
+	 * @param resultOp1
+	 * @return true if resultObject is Top Percent, false otherwise
+	 * @throws DataException
+	 */
+	private static boolean isTopPercent( Object resultObject, Object resultOp1 )
+			throws DataException
+	{
+		return NEvaluator.getInstance( NEvaluator.TOP_INSTANCE )
+				.evaluate( resultObject, resultOp1, true );
+	}
+
+	/**
+	 * 
+	 * @param resultObject
+	 * @param resultOp1
+	 * @return true if resultObject is Bottom Percent,false otherwise
+	 * @throws DataException
+	 */
+	private static boolean isBottomPercent( Object resultObject,
+			Object resultOp1 ) throws DataException
+	{
+		return NEvaluator.getInstance( NEvaluator.BOTTOM_INSTANCE )
+				.evaluate( resultObject, resultOp1, true );
+	}
+
+	/**
+	 * Evaluates a IJSExpression or IConditionalExpression
+	 * 	
+	 * @param expr
+	 * @param cx
+	 * @param scope
+	 * @param source
+	 * @param lineNo
+	 * @return 
+	 * @throws DataException
+	 */
+	public static Object evalExpr( IBaseExpression expr, Context cx, Scriptable scope, 
+				String source, int lineNo )
+		throws DataException
+	{
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.entering( ScriptEvalUtil.class.getName( ),
+				"evalExpr",
+				"evalExpr() expr="
+						+ LogUtil.toString( expr ) + ", source=" + source
+						+ ", lineNo=" + lineNo );
+		if ( expr == null )
+		{
+			if ( logger.isLoggable( Level.FINER ) )
+				logger.exiting( ScriptEvalUtil.class.getName( ),
+						"evalExpr",
+						null );
+			return null;
+		}
+		else if ( expr instanceof IConditionalExpression)
+		{
+			ConditionalExpression ConditionalExpr = (ConditionalExpression) expr;
+			Object expression = evalExpr( ConditionalExpr.getExpression( ), cx, scope, source, lineNo );
+			Object Op1 = evalExpr( MiscUtil.constructValidScriptExpression ( ConditionalExpr.getOperand1() ), cx, scope, source, lineNo );
+			Object Op2 = evalExpr( MiscUtil.constructValidScriptExpression ( ConditionalExpr.getOperand2() ), cx, scope, source, lineNo );
+			if ( logger.isLoggable( Level.FINER ) )
+				logger.exiting( ScriptEvalUtil.class.getName( ),
+						"evalExpr",
+						evalConditionalExpr2( expression,
+								ConditionalExpr.getOperator( ),
+								Op1,
+								Op2 ) );
+			return evalConditionalExpr2( expression, ConditionalExpr.getOperator( ), Op1, Op2 );
+		}
+		else
+		{
+			IScriptExpression jsExpr = (IScriptExpression) expr;
+			if ( logger.isLoggable( Level.FINER ) )
+				logger.exiting( ScriptEvalUtil.class.getName( ),
+						"evalExpr",
+						evaluateJSAsExpr( cx,
+								scope,
+								jsExpr.getText( ),
+								source,
+								lineNo ) );
+			if ( jsExpr.getText( ) != null && jsExpr.getHandle( ) != null )
+				return convertNativeObjToJavaObj( ( (CompiledExpression) jsExpr.getHandle( ) ).evaluate( cx,
+						scope ) );
+			return evaluateJSAsExpr( cx,
+					scope,
+					jsExpr.getText( ),
+					source,
+					lineNo );
+		}
+	}	
+	
+	/**
+	 * Evaluates a ROM script and converts the result type into one accepted by
+	 * BIRT: Double (for all numeric types), java.util.Date, String, Boolean.
+	 * Converts Javascript exception and script runtime exceptions to
+	 * DataException
+	 * 
+	 * @param cx
+	 * @param scope
+	 * @param scriptText
+	 * @param source
+	 * @param lineNo
+	 * @return
+	 * @throws DataException
 	 */
 	public static Object evaluateJSAsExpr(Context cx, Scriptable scope,
 			String scriptText, String source, int lineNo)
@@ -302,9 +513,82 @@ public class ScriptEvalUtil
 	}
 	
 	/**
-	 * Converts the result type into one accepted by BIRT:
-	 * Double (for all numeric types), java.util.Date, String, Boolean. 
-	 */	
+	 * @param cx
+	 * @param scope
+	 * @param scriptText
+	 * @param source
+	 * @param lineNo
+	 * @return
+	 * @throws DataException
+	 */
+	public static Object evaluateJSAsMethod (Context cx, Scriptable scope, String scriptText, String source, int lineNo) throws DataException
+	{
+	    if ( logger.isLoggable( Level.FINER ) )
+			logger.entering( ScriptEvalUtil.class.getName( ),
+				"evaluateJSExpr",
+				"evaluateJSExpr() scriptText=" + scriptText 
+				+ ", source=" + source 
+				+ ", lineNo=" + lineNo);
+	    
+	    Object result = evaluateJSScript (cx, scope, ScriptUtil.getTailoredScript( scriptText , scope ) , source, lineNo);
+	    
+	    if ( logger.isLoggable( Level.FINER ) )
+			logger.exiting( ScriptEvalUtil.class.getName( ),
+					"evaluateJSExpr",
+					convertNativeObjToJavaObj( result ) );
+	    return result;
+	}
+	
+	/**
+	 * @param cx
+	 * @param scope
+	 * @param scriptText
+	 * @param source
+	 * @param lineNo
+	 * @return
+	 * @throws DataException
+	 */
+	private static Object evaluateJSScript(Context cx, Scriptable scope,
+			String scriptText, String source, int lineNo)
+			throws DataException 
+	{
+		Object result = null;
+		try
+		{
+			Script compiledScript = ScriptUtil.getCompiledScript( scriptText,
+					source,
+					lineNo );
+			result = compiledScript.exec( cx, scope );
+			
+			// the result might be a DataExceptionMocker.
+			if ( result instanceof DataExceptionMocker )
+			{
+				throw ( (DataExceptionMocker) result ).getCause( );
+			}
+			// It seems Rhino 1.6 has changed its way to process incorrect expression.
+			// When there is an error, exception will not be thrown, but rather an Undefined
+			// instance will be returned. Here its return value is changed to null.
+			if ( result instanceof Undefined )
+			{
+				//throw new Exception( scriptText + " is not valid expression." );
+				return null;
+		
+			}
+		}
+		catch ( RhinoException e)
+		{
+			RethrowJSEvalException( e, scriptText, source, lineNo );
+		}
+		return convertNativeObjToJavaObj(result);
+	}
+	
+	/**
+	 * Converts the result type into one accepted by BIRT: Double (for all
+	 * numeric types), java.util.Date, String, Boolean.
+	 * 
+	 * @param inputObj
+	 * @return
+	 */
 	public static Object convertNativeObjToJavaObj(Object inputObj){
 		if ( logger.isLoggable( Level.FINER ) )
 			logger.entering( ScriptEvalUtil.class.getName( ),
@@ -368,67 +652,14 @@ public class ScriptEvalUtil
 	}
 	
 	/**
-	 * Evaluates a IJSExpression or IConditionalExpression
-	 */  
-	public static Object evalExpr( IBaseExpression expr, Context cx, Scriptable scope, 
-				String source, int lineNo )
-		throws DataException
-	{
-		if ( logger.isLoggable( Level.FINER ) )
-			logger.entering( ScriptEvalUtil.class.getName( ),
-				"evalExpr",
-				"evalExpr() expr="
-						+ LogUtil.toString( expr ) + ", source=" + source
-						+ ", lineNo=" + lineNo );
-		if ( expr == null )
-		{
-			if ( logger.isLoggable( Level.FINER ) )
-				logger.exiting( ScriptEvalUtil.class.getName( ),
-						"evalExpr",
-						null );
-			return null;
-		}
-		else if ( expr instanceof IConditionalExpression)
-		{
-			ConditionalExpression ConditionalExpr = (ConditionalExpression) expr;
-			Object expression = evalExpr( ConditionalExpr.getExpression( ), cx, scope, source, lineNo );
-			Object Op1 = evalExpr( constructValidScriptExpression ( ConditionalExpr.getOperand1() ), cx, scope, source, lineNo );
-			Object Op2 = evalExpr( constructValidScriptExpression ( ConditionalExpr.getOperand2() ), cx, scope, source, lineNo );
-			if ( logger.isLoggable( Level.FINER ) )
-				logger.exiting( ScriptEvalUtil.class.getName( ),
-						"evalExpr",
-						evalConditionalExpr( expression,
-								ConditionalExpr.getOperator( ),
-								Op1,
-								Op2 ) );
-			return evalConditionalExpr( expression, ConditionalExpr.getOperator( ), Op1, Op2 );
-		}
-		else
-		{
-			IScriptExpression jsExpr = (IScriptExpression) expr;
-			if ( logger.isLoggable( Level.FINER ) )
-				logger.exiting( ScriptEvalUtil.class.getName( ),
-						"evalExpr",
-						evaluateJSAsExpr( cx,
-								scope,
-								jsExpr.getText( ),
-								source,
-								lineNo ) );
-			if ( jsExpr.getText( ) != null && jsExpr.getHandle( ) != null )
-				return convertNativeObjToJavaObj( ( (CompiledExpression) jsExpr.getHandle( ) ).evaluate( cx,
-						scope ) );
-			return evaluateJSAsExpr( cx,
-					scope,
-					jsExpr.getText( ),
-					source,
-					lineNo );
-		}
-	}
-	
-	
-	/**
-	 * Converts an exception which occurred in the evaluation of a ROM script to a DataException,
-	 * and rethrows such exception. This method never returns.
+	 * Converts an exception which occurred in the evaluation of a ROM script to
+	 * a DataException, and rethrows such exception. This method never returns.
+	 * 
+	 * @param e
+	 * @param scriptText
+	 * @param source
+	 * @param lineNo
+	 * @throws DataException
 	 */
 	public static void RethrowJSEvalException( RhinoException e, String scriptText, 
 			String source, int lineNo ) 
@@ -453,111 +684,223 @@ public class ScriptEvalUtil
 						scriptText, source, new Integer( lineNo ), e.getLocalizedMessage()
 				} );
 	}
+	
+	/**
+	 * Wrap the text and value of the operand
+	 * 
+	 */
+	public static class ExprTextAndValue
+	{
+		String exprText;
+		Object value;
 
-	private static boolean like( Object obj1, Object pattern ) throws DataException
+		/**
+		 * 
+		 * @param exprText
+		 * @param value
+		 * @return
+		 */
+		public static ExprTextAndValue newInstance( String exprText,
+				Object value )
+		{
+			return new ExprTextAndValue( exprText, value );
+		}
+
+		/**
+		 * 
+		 * @param exprText
+		 * @param value
+		 */
+		public ExprTextAndValue( String exprText, Object value )
+		{
+			this.exprText = exprText;
+			this.value = value;
+		}
+	}	
+	
+	/**
+	 * Utility for miscellaneous use
+	 * 
+	 */
+	private static class MiscUtil
 	{
-		if (obj1 == null || pattern == null) 
+		/**
+		 * 
+		 * @param resultExpr
+		 * @param resultOp1
+		 * @return
+		 */
+		private static boolean isSameType( Object resultExpr, Object resultOp1 )
 		{
-		    if( obj1 == null && pattern == null)
-			    return true;
-			else
-			    return false;
-        }
+			return resultExpr.getClass( ).equals( resultOp1.getClass( ) );
+		}
 		
-		boolean result = false;
-		try
+		/**
+		 * 
+		 * @param result
+		 * @return
+		 */
+		private static boolean isNumericOrString( Object result )
 		{
-			String patternString = pattern.toString( );
-			// support '%' as SQL, replace all "%" with ".*"  
-			if ( patternString.indexOf( "%" ) >= 0 )
-			{
-				patternString = patternString.replaceAll( "\\Q%\\E", ".*" );
-			}
+			return ( result instanceof Number ) || ( result instanceof String );
+		}
+
+		/**
+		 * 
+		 * @param result
+		 * @return
+		 */
+		private static boolean isDateOrString( Object result )
+		{
+			return ( result instanceof Date ) || ( result instanceof String );
+		}
+
+		/**
+		 * To check whether the expressions are comparable. If so, they will be
+		 * formatted to the comparable.For operands, only ExprTextAndValue is
+		 * acceptable.
+		 * 
+		 * @param obj
+		 * @param operator
+		 * @param op1
+		 * @param op2
+		 * @return
+		 * @throws DataException
+		 */
+		private static Object[] isComparable( Object obj, int operator,
+				ExprTextAndValue op1, ExprTextAndValue op2 )
+				throws DataException
+		{
+			if ( isFormatNeeded( obj, operator, op1, op2 ) )
+				return formatToComparable( obj, op1, op2 );
+
+			return null;
+		}
+
+		/**
+		 * 
+		 * @param obj
+		 * @param operator
+		 * @param op1
+		 * @param op2
+		 * @return
+		 */
+		private static boolean isFormatNeeded( Object obj, int operator,
+				ExprTextAndValue op1, ExprTextAndValue op2 )
+		{
+			// compare and between methods without null can get through.
+			if ( operator == IConditionalExpression.OP_LIKE
+					|| obj == null || op1.value == null )
+				return false;
+			// op2.value can not be null either if it's a betteen method
+			else if ( ( operator == IConditionalExpression.OP_BETWEEN || operator == IConditionalExpression.OP_NOT_BETWEEN )
+					&& op2.value == null )
+				return false;
 			
-			Pattern p = Pattern.compile( patternString );
-			Matcher m = p.matcher( obj1.toString( ) );
-			result = m.matches( );
-		}
-		catch ( RuntimeException e )
-		{
-			throw new DataException( ResourceConstants.MATCH_ERROR, e );
-		}
-		return result;
-	}
-	
-	private static boolean between( Object resultObject, Object resultOp1,
-			Object resultOp2 ) throws DataException
-	{
-		// For "Date between String and String
-		// First we should convert all operands to Date
-		if ( resultObject instanceof Date )
-		{
-			try
-			{
-				resultOp1 = DataTypeUtil.toDate( resultOp1 );
-				resultOp2 = DataTypeUtil.toDate( resultOp2 );
-			}
-			catch ( BirtException e )
-			{
-				throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
-						e );
-			}
+			return true;
 		}
 		
-		Object min, max;
-		if ( compare( resultOp1, resultOp2 ) <= 0 )
+		/**
+		 * To ease the methods compare and between. Exception with specific
+		 * explanation will be thrown if anything goes wrong.
+		 * 
+		 * @param obj
+		 * @param op1
+		 * @param op2
+		 * @return
+		 * @throws DataException
+		 */
+		private static Object[] formatToComparable( Object obj,
+				ExprTextAndValue op1, ExprTextAndValue op2 ) throws DataException
 		{
-			min = resultOp1;
-			max = resultOp2;
-		}
-		else
-		{
-			min = resultOp2;
-			max = resultOp1;
-		}
-		return compare( resultObject, min ) >= 0
-				&& compare( resultObject, max ) <= 0;
-	}
-	
-	private static IScriptExpression constructValidScriptExpression ( IScriptExpression ise)
-	{
-	    return ise!=null && ise.getText().trim().length() > 0 ? ise : new ScriptExpression("null");
-	}
-	
-	private static Object evaluateJSScript(Context cx, Scriptable scope,
-			String scriptText, String source, int lineNo)
-			throws DataException 
-	{
-		Object result = null;
-		try
-		{
-			Script compiledScript = ScriptUtil.getCompiledScript( scriptText,
-					source,
-					lineNo );
-			result = compiledScript.exec( cx, scope );
-			
-			// the result might be a DataExceptionMocker.
-			if ( result instanceof DataExceptionMocker )
+			Object[] obArray = new Object[3];
+			obArray[0] = obj;
+			obArray[1] = op1.value;
+			obArray[2] = op2.value;
+
+			String expr4Exception = "";
+
+			// obj will always be considered as the default data type
+			// skip if op2.value!=null but is not same type as obj
+			if ( isSameType( obj, obArray[1] ) )
 			{
-				throw ( (DataExceptionMocker) result ).getCause( );
+				if ( obArray[2] == null	|| ( obArray[2] != null && isSameType( obj, obArray[2] ) ) )
+				{
+					return obArray;
+				}
 			}
-			// It seems Rhino 1.6 has changed its way to process incorrect expression.
-			// When there is an error, exception will not be thrown, but rather an Undefined
-			// instance will be returned. Here its return value is changed to null.
-			if ( result instanceof Undefined )
+
+			if ( obj instanceof Number )
 			{
-				//throw new Exception( scriptText + " is not valid expression." );
-				return null;
+				try
+				{
+					obArray[0] = DataTypeUtil.toDouble( obj );
+					expr4Exception = op1.exprText;
+					obArray[1] = DataTypeUtil.toDouble( obArray[1] );
+					if ( obArray[2] != null )
+					{
+						expr4Exception = op2.exprText;
+						obArray[2] = DataTypeUtil.toDouble( obArray[2] );
+					}
+				}
+				catch ( BirtException e )
+				{
+					throw new DataException( ResourceConstants.CONVERT_TO_DATATYPE_ERROR,
+							new Object[]{
+									expr4Exception, Double.class
+							} );
+				}
+			}
+			else if ( obj instanceof Date )
+			{
+				try
+				{
+					obArray[0] = DataTypeUtil.toDate( obj );
+					expr4Exception = op1.exprText;
+					obArray[1] = DataTypeUtil.toDate( obArray[1] );
+					if ( obArray[2] != null )
+					{
+						expr4Exception = op2.exprText;
+						obArray[2] = DataTypeUtil.toDate( obArray[2] );
+					}
+				}
+				catch ( BirtException e )
+				{
+					throw new DataException( ResourceConstants.CONVERT_TO_DATATYPE_ERROR,
+							new Object[]{
+									expr4Exception, Date.class
+							} );
+				}
+			}
+			else if ( obj instanceof Boolean )
+			{
+				try
+				{
+					obArray[0] = DataTypeUtil.toBoolean( obj );
+					expr4Exception = op1.exprText;
+					obArray[1] = DataTypeUtil.toBoolean( obArray[1] );
+				}
+				catch ( BirtException e )
+				{ // should never get here
+					throw new DataException( ResourceConstants.CONVERT_TO_DATATYPE_ERROR,
+							new Object[]{
+									expr4Exception, Boolean.class
+							} );
+				}
+			}
+
+			// obArray will remain the same if obj is String rather than Date,Number or Boolean
+			return obArray;
+		}
 		
-			}
-		}
-		catch ( RhinoException e)
+		/**
+		 * @param ise
+		 * @return
+		 */
+		private static IScriptExpression constructValidScriptExpression ( IScriptExpression ise)
 		{
-			RethrowJSEvalException( e, scriptText, source, lineNo );
-		}
-		return convertNativeObjToJavaObj(result);
+		    return ise!=null && ise.getText().trim().length() > 0 ? ise : new ScriptExpression("null");
+		}		
 	}
-	
-	
 }
 

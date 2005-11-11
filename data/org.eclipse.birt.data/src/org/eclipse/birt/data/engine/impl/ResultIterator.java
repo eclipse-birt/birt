@@ -302,7 +302,12 @@ class ResultIterator implements IResultIterator
 	    	Object resultExpr=getValue( ce.getExpression( ) );
 	    	Object resultOp1=ce.getOperand1( )!=null?getValue( ce.getOperand1( ) ):null;
 	    	Object resultOp2=ce.getOperand2( )!=null?getValue( ce.getOperand2( ) ):null;
-	    	return ScriptEvalUtil.evalConditionalExpr( resultExpr,ce.getOperator(), resultOp1,resultOp2);
+	    	return ScriptEvalUtil.evalConditionalExpr( resultExpr,
+					ce.getOperator( ),
+					ScriptEvalUtil.newExprInfo( ce.getOperand1( ).getText( ),
+							resultOp1 ),
+					ScriptEvalUtil.newExprInfo( ce.getOperand2( ).getText( ),
+							resultOp2 ) );
 	    }
 	    else{
 	    	DataException e = new DataException( ResourceConstants.INVALID_EXPR_HANDLE );
