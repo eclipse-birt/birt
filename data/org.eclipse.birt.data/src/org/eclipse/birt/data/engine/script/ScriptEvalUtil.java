@@ -13,6 +13,9 @@ package org.eclipse.birt.data.engine.script;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -160,6 +163,9 @@ public class ScriptEvalUtil
 			case IConditionalExpression.OP_ANY :
 				throw new DataException(
 						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "ANY" );
+			case IConditionalExpression.OP_MATCH :
+				result = match( resultObject, resultOp1 );
+				break;
 			default :
 				throw new DataException(
 						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, new Integer(operator) );
@@ -301,60 +307,133 @@ public class ScriptEvalUtil
 			return false;
 		}
 	}
+	// Pattern to determine if a Match operation uses Javascript regexp syntax
+	private static Pattern s_JSReExprPattern;
+	
+	// Gets a matcher to determine if a match pattern string is of JavaScript syntax
+	// The pattern matches string like "/regexpr/gmi", which is used in JavaScript to construct a RegExp object
+	private static Matcher getJSReExprPatternMatcher( String patternStr )
+	{
+		if ( s_JSReExprPattern == null )
+			s_JSReExprPattern = Pattern.compile("^/(.*)/([a-zA-Z]*)$");
+		return s_JSReExprPattern.matcher( patternStr );
+	}
+	
+	private static boolean match( Object source, Object pattern ) throws DataException
+	{
+		String sourceStr = (source == null)? "": source.toString();
+		String patternStr = ( pattern == null )? "" : pattern.toString();
+
+		// Pattern can be one of the following:
+		// (1)Java regular expression pattern
+		// (2)JavaScript RegExp construction syntax: "/RegExpr/[flags]", where flags 
+		// can be a combination of 'g', 'm', 'i'
+		Matcher jsReExprMatcher = getJSReExprPatternMatcher( patternStr ); 
+		int flags = 0;
+		if ( jsReExprMatcher.matches() )
+		{
+			// This is a Javascript syntax
+			// Get the flags; we only expect "m", "i", "g"
+			String flagStr = patternStr.substring( jsReExprMatcher.start(2), 
+					jsReExprMatcher.end(2) );
+			for ( int i = 0; i < flagStr.length(); i++)
+			{
+				switch ( flagStr.charAt(i) )
+				{
+					case 'm': flags |= Pattern.MULTILINE; break;
+					case 'i': flags |= Pattern.CASE_INSENSITIVE; break;
+					case 'g': break;			// this flag has no effect
+						
+					default:
+						throw new DataException( ResourceConstants.MATCH_ERROR, patternStr );
+				}
+			}
+			patternStr = patternStr.substring( jsReExprMatcher.start(1), 
+					jsReExprMatcher.end(1) );
+		}
+		
+		try
+		{
+			Matcher m = Pattern.compile( patternStr, flags ).matcher( sourceStr);
+			return m.lookingAt(); 
+		}
+		catch ( PatternSyntaxException e )
+		{
+			throw new DataException( ResourceConstants.MATCH_ERROR, e, patternStr );
+		}
+	}
 
 	/**
-	 * @param obj1
-	 * @param pattern
 	 * @return true if obj1 matches the given pattern, false otherwise
 	 * @throws DataException
 	 */
-	private static boolean like( Object obj1, Object pattern ) throws DataException
+	private static boolean like( Object source, Object pattern ) throws DataException
 	{
-		if ( obj1 == null || pattern == null )
+		String sourceStr = (source == null)? "": source.toString();
+		String patternStr = ( pattern == null )? "" : pattern.toString();
+	
+		// As per Bugzilla 115940, LIKE operator's pattern syntax is SQL-like: it
+		// recognizes '_' and '%'. Backslash '\' escapes the next character.
+		
+		// Construct a Java RegExp pattern based on input. We need to translate 
+		// unescaped '%' to '.*', and '_' to '.'
+		// Also need to escape any RegExp metacharacter in the source pattern.
+		
+		final String reservedChars = "([{^$|)?*+.";
+		int patternLen = patternStr.length();
+		StringBuffer buffer = new StringBuffer( patternLen * 2 );
+		
+		for ( int i = 0; i < patternLen; i++)
 		{
-			if ( obj1 == null && pattern == null )
-				return true;
+			char c = patternStr.charAt(i);
+			if ( c == '\\' )
+			{
+				// Escape char; copy next character to new pattern if 
+				// it is '\', '%' or '_'
+				++i;
+				if ( i < patternLen )
+				{
+					c = patternStr.charAt( i );
+					if ( c == '%' || c == '_' )
+						buffer.append( c );
+					else if ( c == '\\' )
+						buffer.append( "\\\\");		// Need to escape \
+				}
+				else
+				{
+					buffer.append( "\\\\" );  	// Leave last \ and escape it
+				}
+			}
+			else if ( c == '%')
+			{
+				buffer.append(".*");
+			}
+			else if ( c == '_')
+			{
+				buffer.append(".");
+			}
 			else
-				return false;
-		}
-
-		boolean result = false;
-		try
-		{
-			String patternString = pattern.toString( );
-			if ( pattern instanceof String )
 			{
-				// support '%' as SQL, replace all "%" with ".*"
-				if ( patternString.indexOf( "%" ) >= 0 )
+				// Copy this char to target, escape if it is a metacharacter
+				if ( reservedChars.indexOf(c) >= 0 )
 				{
-					patternString = patternString.replaceAll( "\\Q%\\E", ".*" );
+					buffer.append('\\');
 				}
-				result = obj1.toString( ).matches( patternString );
+				buffer.append(c);
 			}
-			else if ( pattern instanceof NativeRegExp )
-			{
-				String testString = patternString.concat( ".test(\""
-						+ obj1.toString( ) + "\")" );
-				Context cx = Context.enter( );
-				try
-				{
-					Scriptable scope = cx.initStandardObjects( );
-					Object rlt = evaluateJSScript( cx, scope, testString, "", 0 );
-					if ( rlt instanceof Boolean )
-						result = ( (Boolean) rlt ).booleanValue( );
-				}
-				finally
-				{
-					Context.exit( );
-				}
-			}
-		}
-		catch ( RuntimeException e )
-		{
-			throw new DataException( ResourceConstants.MATCH_ERROR, e );
 		}
 		
-		return result;
+		try
+		{
+			String newPatternStr = buffer.toString();
+			Pattern p = Pattern.compile( newPatternStr );
+			Matcher m = p.matcher( sourceStr.toString( ) );
+			return m.matches( );
+		}
+		catch ( PatternSyntaxException e )
+		{
+			throw new DataException( ResourceConstants.MATCH_ERROR,  e, pattern );
+		}
 	}
 	
 	/**

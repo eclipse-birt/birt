@@ -28,6 +28,7 @@ public interface IConditionalExpression extends IBaseExpression
 {
     /*
      * Enumeration constants for operator
+     * *** DO NOT change the value of any existing constant! ***
      */
 	
 	/**
@@ -102,7 +103,10 @@ public interface IConditionalExpression extends IBaseExpression
 	public static final int	OP_FALSE 		  = 12;
 	
 	/**
-	 * The Like operator. TODO: define this operator
+	 * The Like operator. Evaluates to true if the left operand is a String that matches the 
+	 * pattern string provided as right operand. the pattern uses “%” to match 0 or 
+	 * more of any characters, “_” to match exactly one character, and “\” as escape character. 
+	 * All other characters are matched case-sensitively.
 	 */
 	public static final int	OP_LIKE 		  = 13; 
 	
@@ -127,6 +131,13 @@ public interface IConditionalExpression extends IBaseExpression
 	public static final int	OP_BOTTOM_PERCENT = 17; 
 	
 	public static final int	OP_ANY 			  = 18; 
+	
+	/**
+	 * The Match operator. Evaluates to true if the left operand is a String that matches the 
+	 * pattern string provided as right operand. The pattern uses ECMAScript (JavaScript)
+	 * syntax, as defined in Section 15.10 of Standard ECMA-262
+	 */
+	public static final int OP_MATCH 		  = 19;
 
 	/**
 	 * Gets the main expression
