@@ -38,7 +38,7 @@ import org.eclipse.birt.core.framework.PlatformFileContext;
  * Report parameters are handled as command line parameters. Currently, only scalar parameters 
  * are handled.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/07/07 00:26:20 $
+ * @version $Revision: 1.8 $ $Date: 2005/11/02 02:25:16 $
  */
 public class ReportRunner
 {
@@ -149,7 +149,7 @@ public class ReportRunner
 				HashMap contextMap = new HashMap();
 				contextMap.put( HTMLRenderContext.CONTEXT_NAME, renderContext );
 				
-				task.setContext( contextMap );
+				task.setAppContext( contextMap );
 			}
 			
 			if(locale != null) 

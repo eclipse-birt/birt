@@ -32,7 +32,7 @@ public interface IEngineTask {
 	 * 
 	 * @param context - task contexts in a map. The map contains name-value pairs
 	 */
-	public abstract void setContext(Map context);
+	public abstract void setAppContext(Map context);
 	
 	/**
 	 * returns the locale for running the task
@@ -46,7 +46,7 @@ public interface IEngineTask {
 	 * 
 	 * @return the task contexts
 	 */
-	public abstract Map getContext();
+	public abstract Map getAppContext();
 	
 	/**
 	 * returns the report engine object

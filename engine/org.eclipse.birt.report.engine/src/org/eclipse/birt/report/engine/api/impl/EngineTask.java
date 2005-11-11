@@ -137,7 +137,7 @@ public abstract class EngineTask implements IEngineTask
 	 * @param context
 	 *            the task context
 	 */
-	public void setContext( Map context )
+	public void setAppContext( Map context )
 	{
 		this.context = context;
 		executionContext.setAppContext( context );
@@ -167,7 +167,7 @@ public abstract class EngineTask implements IEngineTask
 	 * 
 	 * @return Returns the context.
 	 */
-	public Map getContext( )
+	public Map getAppContext( )
 	{
 		return context;
 	}
@@ -436,7 +436,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.18 $ $Date: 2005/10/24 05:09:30 $
+	 * @version $Revision: 1.19 $ $Date: 2005/11/02 02:25:16 $
 	 */
 	static abstract class ParameterVisitor
 	{
