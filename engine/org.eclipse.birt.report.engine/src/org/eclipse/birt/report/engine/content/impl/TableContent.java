@@ -17,13 +17,13 @@ import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.ir.GridItemDesign;
+import org.eclipse.birt.report.engine.ir.TableItemDesign;
 
 /**
  * 
  * the table content object which contains columns object and row objects
  * 
- * @version $Revision: 1.8 $ $Date: 2005/11/10 08:55:18 $
+ * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:46 $
  */
 public class TableContent extends AbstractContent implements ITableContent
 {
@@ -32,6 +32,11 @@ public class TableContent extends AbstractContent implements ITableContent
 	protected String caption = null;
 
 	protected boolean headerRepeat;
+
+	public void setHeaderRepeat( boolean headerRepeat )
+	{
+		this.headerRepeat = headerRepeat;
+	}
 
 	public boolean isHeaderRepeat( )
 	{
@@ -69,6 +74,20 @@ public class TableContent extends AbstractContent implements ITableContent
 	public void setCaption( String caption )
 	{
 		this.caption = caption;
+	}
+	
+	public void setCaptionKey( String key )
+	{
+		if ( generateBy instanceof TableItemDesign )
+			( (TableItemDesign)generateBy ).setCaption(key, caption);	
+	}
+
+	public String getCaptionKey()
+	{
+		if ( generateBy instanceof TableItemDesign )
+			return ( (TableItemDesign)generateBy ).getCaptionKey();
+		else
+			return null;
 	}
 
 	public int getColumnCount( )

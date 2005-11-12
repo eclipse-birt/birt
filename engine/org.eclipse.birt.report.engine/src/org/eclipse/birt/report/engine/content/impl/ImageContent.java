@@ -4,6 +4,7 @@ package org.eclipse.birt.report.engine.content.impl;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 
 public class ImageContent extends AbstractContent implements IImageContent
@@ -62,6 +63,11 @@ public class ImageContent extends AbstractContent implements IImageContent
 		}
 		return altTextKey;
 	}
+	
+	public void setAltTextKey( String key )
+	{
+		altTextKey = key;
+	}
 
 	public byte[] getData( )
 	{
@@ -97,6 +103,20 @@ public class ImageContent extends AbstractContent implements IImageContent
 		this.altText = altText;
 	}
 
+	public void setImageName( String name )
+	{
+		if ( generateBy instanceof ImageItemDesign )
+			( (ImageItemDesign) generateBy ).setImageName( name );	
+	}
+
+	public String getImageName()
+	{
+		if ( generateBy instanceof ImageItemDesign )
+			return ( (ImageItemDesign)generateBy ).getImageName();
+		else
+			return null;
+	}
+	
 	/**
 	 * @param extension
 	 *            The extension to set.
@@ -160,6 +180,15 @@ public class ImageContent extends AbstractContent implements IImageContent
 	public String getMIMEType( )
 	{
 		return MIMEType;
+	}
+
+	
+	public Expression getExpression()
+	{
+		if ( generateBy instanceof ImageItemDesign )
+			return ( (ImageItemDesign)generateBy ).getImageExpression();
+		else
+			return null;
 	}
 
 }

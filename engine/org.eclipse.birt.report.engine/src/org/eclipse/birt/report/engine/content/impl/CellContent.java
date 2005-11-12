@@ -13,13 +13,14 @@ package org.eclipse.birt.report.engine.content.impl;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
+import org.eclipse.birt.report.engine.ir.CellDesign;
 
 /**
  * 
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.5 $ $Date: 2005/10/27 02:13:35 $
+ * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:46 $
  */
 public class CellContent extends AbstractContent implements ICellContent
 {
@@ -84,6 +85,12 @@ public class CellContent extends AbstractContent implements ICellContent
 	public int getRow()
 	{
 		return row;
+	}
+
+	public void setDrop( String drop )
+	{
+		if ( generateBy instanceof CellDesign)
+			( (CellDesign)generateBy ).setDrop( drop );
 	}
 
 	public void accept( IContentVisitor visitor , Object value)
