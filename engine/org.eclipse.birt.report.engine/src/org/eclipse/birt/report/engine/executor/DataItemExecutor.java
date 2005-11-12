@@ -13,10 +13,12 @@ package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
+import org.eclipse.birt.report.engine.content.impl.DataContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.script.DataItemScriptExecutor;
 
 /**
  * <code>DataItemExecutor</code> is a concrete subclass of
@@ -27,7 +29,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
  * data content instance, evaluate styles, bookmark, action property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.15 $ $Date: 2005/10/19 11:03:05 $
+ * @version $Revision: 1.16 $ $Date: 2005/11/11 06:26:45 $
  */
 public class DataItemExecutor extends QueryItemExecutor
 {
@@ -65,8 +67,9 @@ public class DataItemExecutor extends QueryItemExecutor
 	 */
 	public void execute( ReportItemDesign item, IContentEmitter emitter )
 	{
-		DataItemDesign dataItem = (DataItemDesign) item;
+		DataItemDesign dataItem = ( DataItemDesign ) item;
 		IDataContent dataObj = report.createDataContent( );
+		assert ( dataObj instanceof DataContent );
 		IContent parent = context.getContent( );
 		context.pushContent( dataObj );
 
@@ -88,7 +91,8 @@ public class DataItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			context.execute( item.getOnCreate( ) );
+			DataItemScriptExecutor.handleOnCreate( ( DataContent ) dataObj,
+					context );
 		}
 
 		// pass the text content instance to emitter
@@ -97,7 +101,7 @@ public class DataItemExecutor extends QueryItemExecutor
 			emitter.startData( dataObj );
 		}
 
-		closeResultSet();
+		closeResultSet( );
 		context.popContent( );
 	}
 }

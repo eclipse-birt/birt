@@ -15,17 +15,19 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.impl.ContainerContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.script.ListScriptExecutor;
 
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/08 09:57:06 $
+ * @version $Revision: 1.19 $ $Date: 2005/11/11 06:26:45 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -65,25 +67,27 @@ public class ListItemExecutor extends ListingElementExecutor
 	 */
 	public void execute( ReportItemDesign item, IContentEmitter emitter )
 	{
-		ListItemDesign list = (ListItemDesign) item;
+		ListItemDesign list = ( ListItemDesign ) item;
 		logger.log( Level.FINE, "start list item" ); //$NON-NLS-1$
 
 		IContainerContent listContent = report.createContainerContent( );
+		assert ( listContent instanceof ContainerContent );
 		IContent parent = context.getContent( );
 		context.pushContent( listContent );
 
 		openResultSet( list );
 
-		initializeContent( parent, item, listContent );		
+		initializeContent( parent, item, listContent );
 
 		processAction( item, listContent );
 		processBookmark( item, listContent );
 		processStyle( item, listContent );
 		processVisibility( item, listContent );
-		
-		if (context.isInFactory())
+
+		if ( context.isInFactory( ) )
 		{
-			context.execute( item.getOnCreate( ) );
+			ListScriptExecutor.handleOnCreate(
+					( ContainerContent ) listContent, context );
 		}
 
 		if ( emitter != null )
@@ -122,6 +126,11 @@ public class ListItemExecutor extends ListingElementExecutor
 			for ( int i = 0; i < band.getContentCount( ); i++ )
 			{
 				ReportItemDesign item = band.getContent( i );
+				if ( context.isInFactory( ) )
+				{
+					//TODO: We need to handle onCreate for the detail row here
+					//Where do we get the content object from??
+				}
 				if ( item != null )
 				{
 					item.accept( this.visitor, emitter );
@@ -138,7 +147,7 @@ public class ListItemExecutor extends ListingElementExecutor
 	 */
 	protected void accessDetail( ListingDesign list, IContentEmitter emitter )
 	{
-		accessListBand( ( (ListItemDesign) list ).getDetail( ), emitter );
+		accessListBand( ( ( ListItemDesign ) list ).getDetail( ), emitter );
 	}
 
 	/*
@@ -149,7 +158,7 @@ public class ListItemExecutor extends ListingElementExecutor
 	 */
 	protected void accessFooter( ListingDesign list, IContentEmitter emitter )
 	{
-		accessListBand( ( (ListItemDesign) list ).getFooter( ), emitter );
+		accessListBand( ( ( ListItemDesign ) list ).getFooter( ), emitter );
 	}
 
 	/*
@@ -161,9 +170,8 @@ public class ListItemExecutor extends ListingElementExecutor
 	protected void accessGroupFooter( ListingDesign list, int index,
 			IContentEmitter emitter )
 	{
-		accessListBand(
-				( (ListItemDesign) list ).getGroup( index ).getFooter( ),
-				emitter );
+		accessListBand( ( ( ListItemDesign ) list ).getGroup( index )
+				.getFooter( ), emitter );
 	}
 
 	/*
@@ -175,9 +183,8 @@ public class ListItemExecutor extends ListingElementExecutor
 	protected void accessGroupHeader( ListingDesign list, int index,
 			IContentEmitter emitter )
 	{
-		accessListBand(
-				( (ListItemDesign) list ).getGroup( index ).getHeader( ),
-				emitter );
+		accessListBand( ( ( ListItemDesign ) list ).getGroup( index )
+				.getHeader( ), emitter );
 	}
 
 	/*
@@ -188,6 +195,6 @@ public class ListItemExecutor extends ListingElementExecutor
 	 */
 	protected void accessHeader( ListingDesign list, IContentEmitter emitter )
 	{
-		accessListBand( ( (ListItemDesign) list ).getHeader( ), emitter );
+		accessListBand( ( ( ListItemDesign ) list ).getHeader( ), emitter );
 	}
 }

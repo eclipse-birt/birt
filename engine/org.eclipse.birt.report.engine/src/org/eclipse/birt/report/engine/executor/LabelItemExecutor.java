@@ -13,14 +13,16 @@ package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
+import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.script.LabelScriptExecutor;
 
 /**
  * the labelItem excutor
  * 
- * @version $Revision: 1.9 $ $Date: 2005/11/08 09:57:06 $
+ * @version $Revision: 1.11 $ $Date: 2005/11/11 06:26:45 $
  */
 public class LabelItemExecutor extends StyledItemExecutor
 {
@@ -40,8 +42,8 @@ public class LabelItemExecutor extends StyledItemExecutor
 	}
 
 	/**
-	 * execute a label and output an label item content.
-	 * The execution process is:
+	 * execute a label and output an label item content. The execution process
+	 * is:
 	 * <li> create an label
 	 * <li> push it into the stack
 	 * <li> intialize the content
@@ -49,25 +51,28 @@ public class LabelItemExecutor extends StyledItemExecutor
 	 * <li> execute the onCreate if necessary
 	 * <li> call emitter to start the label
 	 * <li> popup the label.
+	 * 
 	 * @see org.eclipse.birt.report.engine.executor.ReportItemExcutor#execute()
 	 */
 	public void execute( ReportItemDesign item, IContentEmitter emitter )
 	{
 		ILabelContent labelObj = report.createLabelContent( );
-		IContent parent = context.getContent(); 
-		
+		assert ( labelObj instanceof LabelContent );
+		IContent parent = context.getContent( );
+
 		context.pushContent( labelObj );
 
-		initializeContent(parent, item, labelObj);
+		initializeContent( parent, item, labelObj );
 
 		processAction( item, labelObj );
 		processBookmark( item, labelObj );
 		processStyle( item, labelObj );
 		processVisibility( item, labelObj );
 
-		if (context.isInFactory())
+		if ( context.isInFactory( ) )
 		{
-			context.execute( item.getOnCreate( ) );
+			LabelScriptExecutor.handleOnCreate( ( LabelContent ) labelObj,
+					context );
 		}
 
 		if ( emitter != null )

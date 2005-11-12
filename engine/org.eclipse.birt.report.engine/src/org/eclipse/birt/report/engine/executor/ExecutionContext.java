@@ -37,6 +37,7 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportEngine;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.data.DataEngineFactory;
@@ -61,7 +62,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.34 $ $Date: 2005/11/02 02:25:16 $
+ * @version $Revision: 1.35 $ $Date: 2005/11/11 06:26:45 $
  */
 public class ExecutionContext
 {
@@ -110,6 +111,8 @@ public class ExecutionContext
 	protected Object designObj;
 
 	protected Map appContext;
+	
+	private IReportContext reportContext;
 
 	/**
 	 * create a new context. Call close to finish using the execution context
@@ -794,7 +797,15 @@ public class ExecutionContext
 	{
 		this.appContext = appContext;
 	}
+	
+	public IReportContext getReportContext ( ) {
+		return reportContext;
+	}
 
+	public void setReportContext ( IReportContext reportContext ) {
+		this.reportContext = reportContext;
+	}
+	
 	public void setCurrentPage( int pageNo )
 	{
 		currentPage = pageNo;

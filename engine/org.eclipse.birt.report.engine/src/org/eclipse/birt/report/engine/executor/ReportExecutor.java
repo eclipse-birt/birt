@@ -27,6 +27,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
+import org.eclipse.birt.report.engine.script.ReportScriptExecutor;
 
 /**
  * Captures the (report design to) report instance creation logic, by combining
@@ -49,7 +50,7 @@ import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/11/02 10:36:13 $
+ * @version $Revision: 1.21 $ $Date: 2005/11/11 06:26:45 $
  */
 public class ReportExecutor
 {
@@ -113,15 +114,17 @@ public class ReportExecutor
 		Iterator iter = report.getIncludeScripts( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String fileName = (String) iter.next( );
+			String fileName = ( String ) iter.next( );
 			context.loadScript( fileName );
 		}
 
 		// DE needs to support getInitialize() method
-		context.execute( report.getInitialize( ) );
+		ReportScriptExecutor.handleInitialize( report.getReportDesign( ),
+				context );
 
 		// call methods associated with report
-		context.execute( report.getBeforeFactory( ) );
+		ReportScriptExecutor.handleBeforeFactory( report.getReportDesign( ),
+				context );
 
 		// beforeRender is not supported for now
 
@@ -131,7 +134,7 @@ public class ReportExecutor
 
 		// Prepare necessary data for this report
 		timer.restart( );
-		context.getDataEngine( ).prepare( report, context.getAppContext() );
+		context.getDataEngine( ).prepare( report, context.getAppContext( ) );
 		timer.stop( );
 		timer.logTimeTaken( logger, Level.FINE, context.getTaskIDString( ),
 				"Prepare report queries" ); // $NON-NLS-1$
@@ -157,16 +160,19 @@ public class ReportExecutor
 		}
 
 		// Report document is not supported
-		// context.execute(report.getBeforeCloseDoc());
+		// ReportScriptExecutor.handleBeforeCloseDoc( report.getReportDesign( ),
+		// context );
 
 		if ( emitter != null )
 		{
 			emitter.end( reportContent );
 		}
 		// Report document is not supported
-		// context.execute(report.getAfterCloseDoc());
+		// ReportScriptExecutor.handleAfterCloseDoc( report.getReportDesign( ),
+		// context );
 
-		context.execute( report.getAfterFactory( ) );
+		ReportScriptExecutor.handleAfterFactory( report.getReportDesign( ),
+				context );
 		context.getDataEngine( ).shutdown( );
 
 		timer.stop( );
@@ -175,18 +181,19 @@ public class ReportExecutor
 
 	}
 
-	public IPageContent executeMasterPage( int pageNo, MasterPageDesign masterPage )
+	public IPageContent executeMasterPage( int pageNo,
+			MasterPageDesign masterPage )
 	{
 		IReportContent reportContent = context.getReportContent( );
 		IPageContent pageContent = reportContent.createPageContent( );
 		pageContent.setGenerateBy( masterPage );
-		pageContent.setPageNumber(pageNo);
-		
-		context.setCurrentPage(pageNo);
+		pageContent.setPageNumber( pageNo );
+
+		context.setCurrentPage( pageNo );
 
 		if ( masterPage instanceof SimpleMasterPageDesign )
 		{
-			SimpleMasterPageDesign pageDesign = (SimpleMasterPageDesign) masterPage;
+			SimpleMasterPageDesign pageDesign = ( SimpleMasterPageDesign ) masterPage;
 			for ( int i = 0; i < pageDesign.getHeaderCount( ); i++ )
 			{
 				pageDesign.getHeader( i ).accept( builder,
@@ -206,6 +213,7 @@ public class ReportExecutor
 	{
 
 		List contents;
+
 		IContent parent;
 
 		public PageContentBuilder( List contents )
@@ -219,8 +227,7 @@ public class ReportExecutor
 			if ( parent == null )
 			{
 				contents.add( content );
-			}
-			else
+			} else
 			{
 				parent.getChildren( ).add( content );
 			}
@@ -231,7 +238,7 @@ public class ReportExecutor
 		{
 			if ( parent != null )
 			{
-				parent = (IContent) parent.getParent( );
+				parent = ( IContent ) parent.getParent( );
 			}
 		}
 

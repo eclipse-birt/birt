@@ -47,6 +47,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
+import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
@@ -1794,6 +1795,34 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
+	 * Gets a string that defines the event handle class.
+	 * 
+	 * @return the expression as a string
+	 * 
+	 * @see #setEventHandlerClass(String)
+	 */
+	public String getEventHandlerClass( )
+	{
+		return getStringProperty( GroupElement.EVENT_HANDLER_CLASS_PROP );
+	}
+
+	/**
+	 * Sets the group expression.
+	 * 
+	 * @param expr
+	 *            the expression to set
+	 * @throws SemanticException
+	 *             If the expression is invalid.
+	 * 
+	 * @see #getEventHandlerClass()
+	 */
+	public void setEventHandlerClass( String expr ) throws SemanticException
+	{
+		setProperty( GroupElement.EVENT_HANDLER_CLASS_PROP, expr );
+	}
+
+
+	/**
 	 * Creates a template element handle and transforms the current element
 	 * handle to the created template element.
 	 * 
@@ -1868,4 +1897,5 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	{
 		return getElement( ).getTemplateParameterElement( getModule( ) ) != null;
 	}
+
 }

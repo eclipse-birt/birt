@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 
@@ -365,34 +364,5 @@ public abstract class ReportElementHandle extends DesignElementHandle
 
 			assert false;
 		}
-	}
-
-	/**
-	 * Gets a string that defines the event handle class. 
-	 * 
-	 * @return the expression as a string
-	 * 
-	 * @see #setEventHandlerClass(String)
-	 */
-
-	public String getEventHandlerClass( )
-	{
-		return getStringProperty( GroupElement.EVENT_HANDLER_CLASS_PROP );
-	}
-	
-	/**
-	 * Sets the group expression.
-	 * 
-	 * @param expr
-	 *            the expression to set
-	 * @throws SemanticException
-	 *             If the expression is invalid.
-	 * 
-	 * @see #getEventHandlerClass()
-	 */
-
-	public void setEventHandlerClass( String expr ) throws SemanticException
-	{
-		setProperty( GroupElement.EVENT_HANDLER_CLASS_PROP, expr );
 	}
 }

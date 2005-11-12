@@ -16,6 +16,9 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.content.impl.TableContent;
+import org.eclipse.birt.report.engine.content.impl.RowContent;
+import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.CellDesign;
@@ -24,11 +27,14 @@ import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
+import org.eclipse.birt.report.engine.script.TableScriptExecutor;
+import org.eclipse.birt.report.engine.script.DetailRowScriptExecutor;
+import org.eclipse.birt.report.engine.script.CellScriptExecutor;
 
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.8 $ $Date: 2005/11/10 08:55:18 $
+ * @version $Revision: 1.15 $ $Date: 2005/11/11 06:26:45 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -64,7 +70,7 @@ public class GridItemExecutor extends QueryItemExecutor
 	 */
 	public void execute( ReportItemDesign item, IContentEmitter emitter )
 	{
-		GridItemDesign gridItem = (GridItemDesign) item;
+		GridItemDesign gridItem = ( GridItemDesign ) item;
 		ITableContent tableObj = report.createTableContent( );
 		IContent parent = context.getContent( );
 		context.pushContent( tableObj );
@@ -90,7 +96,8 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			context.execute( item.getOnCreate( ) );
+			TableScriptExecutor.handleOnCreate( ( TableContent ) tableObj,
+					context );
 		}
 
 		if ( emitter != null )
@@ -155,7 +162,7 @@ public class GridItemExecutor extends QueryItemExecutor
 			IContentEmitter emitter )
 	{
 		IRowContent rowContent = report.createRowContent( );
-
+		assert ( rowContent instanceof RowContent );
 		context.pushContent( rowContent );
 
 		initializeContent( body, row, rowContent );
@@ -168,7 +175,9 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			context.execute( row.getOnCreate( ) );
+			// TODO: Get datarow from somewhere
+			DetailRowScriptExecutor.handleOnCreate( ( RowContent ) rowContent,
+					null, context );
 		}
 
 		if ( emitter != null )
@@ -214,7 +223,7 @@ public class GridItemExecutor extends QueryItemExecutor
 			IContentEmitter emitter )
 	{
 		ICellContent cellContent = report.createCellContent( );
-
+		assert ( cellContent instanceof CellContent );
 		context.pushContent( cellContent );
 
 		initializeContent( rowContent, cell, cellContent );
@@ -230,7 +239,9 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			context.execute( cell.getOnCreate( ) );
+			//TODO: Get datarow from somewhere
+			CellScriptExecutor.handleOnCreate( ( CellContent ) cellContent,
+					null, context );
 		}
 
 		if ( emitter != null )

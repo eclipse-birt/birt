@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import org.eclipse.birt.report.engine.content.impl.ImageContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.script.ImageScriptExecutor;
 
 /**
  * An abstract class that defines execution logic for a Listing element, which
@@ -63,15 +65,10 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 */
 	protected void accessQuery( ReportItemDesign design, IContentEmitter emitter )
 	{
-		ListingDesign listing = (ListingDesign) design;
+		ListingDesign listing = ( ListingDesign ) design;
 
 		rsetCursor = -1;
 		outputEmitter = emitter;
-
-		if ( context.isInFactory( ) && listing.getOnStart( ) != null )
-		{
-			context.execute( listing.getOnStart( ) );
-		}
 
 		int groupCount = listing.getGroupCount( );
 		int NONE_GROUP = groupCount + 1;
@@ -84,10 +81,10 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			while ( rset.next( ) )
 			{
 				rsetCursor++;
-				if ( context.isInFactory( ) && listing.getOnRow( ) != null )
-				{
-					context.execute( listing.getOnRow( ) );
-				}
+				// if ( context.isInFactory( ) && listing.getOnRow( ) != null )
+				// {
+				// context.execute( listing.getOnRow( ) );
+				// }
 				int startGroup = rset.getStartingGroupLevel( );
 				if ( startGroup != NONE_GROUP )
 				{
@@ -126,13 +123,9 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 				}
 			}
 		}
-		
+
 		accessFooter( listing, outputEmitter );
 
-		if ( context.isInFactory( ) && listing.getOnFinish( ) != null )
-		{
-			context.execute( listing.getOnFinish( ) );
-		}
 	}
 
 	/**
