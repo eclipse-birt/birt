@@ -27,7 +27,7 @@ import org.eclipse.birt.report.engine.script.ListScriptExecutor;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.19 $ $Date: 2005/11/11 06:26:45 $
+ * @version $Revision: 1.20 $ $Date: 2005/11/12 03:32:18 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -86,8 +86,16 @@ public class ListItemExecutor extends ListingElementExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			ListScriptExecutor.handleOnCreate(
-					( ContainerContent ) listContent, context );
+			try
+			{
+				context.newScope( listContent );
+				ListScriptExecutor.handleOnCreate(
+						( ContainerContent ) listContent, context );
+			}
+			finally
+			{
+				context.exitScope();
+			}
 		}
 
 		if ( emitter != null )

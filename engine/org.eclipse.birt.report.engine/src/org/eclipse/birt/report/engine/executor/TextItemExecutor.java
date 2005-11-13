@@ -18,7 +18,6 @@ import java.util.Map;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
-import org.eclipse.birt.report.engine.content.impl.ContainerContent;
 import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -32,7 +31,7 @@ import org.eclipse.birt.report.engine.script.TextItemScriptExecutor;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.20 $ $Date: 2005/11/11 06:26:45 $
+ * @version $Revision: 1.21 $ $Date: 2005/11/12 03:32:18 $
  */
 public class TextItemExecutor extends QueryItemExecutor
 {
@@ -163,10 +162,15 @@ public class TextItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			if ( context.isInFactory( ) )
+			try
 			{
+				context.newScope( content );
 				TextItemScriptExecutor.handleOnCreate(
 						( LabelContent ) content, context );
+			}
+			finally
+			{
+				context.exitScope();
 			}
 		}
 

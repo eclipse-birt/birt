@@ -27,14 +27,14 @@ import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
-import org.eclipse.birt.report.engine.script.TableScriptExecutor;
+import org.eclipse.birt.report.engine.script.GridScriptExecutor;
 import org.eclipse.birt.report.engine.script.DetailRowScriptExecutor;
 import org.eclipse.birt.report.engine.script.CellScriptExecutor;
 
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.15 $ $Date: 2005/11/11 06:26:45 $
+ * @version $Revision: 1.16 $ $Date: 2005/11/12 03:32:18 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -96,8 +96,16 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			TableScriptExecutor.handleOnCreate( ( TableContent ) tableObj,
-					context );
+			try
+			{
+				context.newScope( tableObj ); 
+				GridScriptExecutor.handleOnCreate( ( TableContent ) tableObj, null,
+						context );
+			}
+			finally
+			{
+				context.exitScope();
+			}
 		}
 
 		if ( emitter != null )
@@ -175,9 +183,17 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			// TODO: Get datarow from somewhere
-			DetailRowScriptExecutor.handleOnCreate( ( RowContent ) rowContent,
-					null, context );
+			try
+			{
+				context.newScope( rowContent );
+				// TODO: Get datarow from somewhere
+				DetailRowScriptExecutor.handleOnCreate( ( RowContent ) rowContent,
+						null, context );
+			}
+			finally
+			{
+				context.exitScope();
+			}
 		}
 
 		if ( emitter != null )
@@ -239,9 +255,17 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			//TODO: Get datarow from somewhere
-			CellScriptExecutor.handleOnCreate( ( CellContent ) cellContent,
-					null, context );
+			try
+			{
+				context.newScope( cellContent );
+				//TODO: Get datarow from somewhere
+				CellScriptExecutor.handleOnCreate( ( CellContent ) cellContent,
+						null, context );
+			}
+			finally
+			{
+				context.exitScope();
+			}
 		}
 
 		if ( emitter != null )

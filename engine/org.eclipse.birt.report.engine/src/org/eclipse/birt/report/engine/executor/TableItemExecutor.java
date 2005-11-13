@@ -54,7 +54,7 @@ import org.eclipse.birt.report.engine.script.TableScriptExecutor;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.21 $ $Date: 2005/11/11 06:26:45 $
+ * @version $Revision: 1.22 $ $Date: 2005/11/12 03:32:18 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -125,8 +125,16 @@ public class TableItemExecutor extends ListingElementExecutor
 		}
 		if ( context.isInFactory( ) )
 		{
-			TableScriptExecutor.handleOnCreate( ( TableContent ) tableContent,
-					context );
+			try
+			{
+				context.newScope( tableContent );
+				TableScriptExecutor.handleOnCreate( ( TableContent ) tableContent,
+						context );
+			}
+			finally
+			{
+				context.exitScope();
+			}			
 		}
 
 		if ( emitter != null )
@@ -154,7 +162,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * structure used to cache the information of a table.
 	 * 
-	 * @version $Revision: 1.21 $ $Date: 2005/11/11 06:26:45 $
+	 * @version $Revision: 1.22 $ $Date: 2005/11/12 03:32:18 $
 	 */
 	private static class TABLEINFO
 	{
@@ -489,9 +497,17 @@ public class TableItemExecutor extends ListingElementExecutor
 
 			if ( context.isInFactory( ) && runScript )
 			{
-				// TODO: Get datarow from somewhere
-				DetailRowScriptExecutor.handleOnCreate(
-						( RowContent ) rowContent, null, context );
+				try
+				{
+					context.newScope( rowContent );
+					// TODO: Get datarow from somewhere
+					DetailRowScriptExecutor.handleOnCreate(
+							( RowContent ) rowContent, null, context );
+				}
+				finally
+				{
+					context.exitScope();
+				}
 			}
 
 			if ( emitter != null )
@@ -524,9 +540,17 @@ public class TableItemExecutor extends ListingElementExecutor
 
 				if ( context.isInFactory( ) )
 				{
-					// TODO: Get datarow from somewhere
-					CellScriptExecutor.handleOnCreate(
-							( CellContent ) cellContent, null, context );
+					try
+					{
+						context.newScope( cellContent );
+						// TODO: Get datarow from somewhere
+						CellScriptExecutor.handleOnCreate(
+								( CellContent ) cellContent, null, context );
+					}
+					finally
+					{
+						context.exitScope();
+					}
 				}
 
 				if ( emitter != null )
