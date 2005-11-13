@@ -84,14 +84,12 @@ class ScriptedDesignVisitor extends DesignVisitor
 	
 	private void handleOnPrepare( ReportItemHandle handle )
 	{
-		/*
 		boolean hasJavaScript = (handle.getOnPrepare() != null) &&
 			 					(handle.getOnPrepare().length() !=0);
 		boolean hasJavaCode = 	(handle.getEventHandlerClass() != null) &&
 								(handle.getEventHandlerClass().length() !=0);
 		if ( !hasJavaScript && !hasJavaCode )
 			return;
-		*/
 		
 		try
 		{
@@ -137,14 +135,12 @@ class ScriptedDesignVisitor extends DesignVisitor
 	// TODO: Merge this function with the above one when DE add onPrepare to DesignElementHandle
 	private void handleOnPrepare( CellHandle handle )
 	{
-		/*
 		boolean hasJavaScript = (handle.getOnPrepare() != null) &&
 								(handle.getOnPrepare().length() !=0);
 		boolean hasJavaCode = 	(handle.getEventHandlerClass() != null) &&
 								(handle.getEventHandlerClass().length() !=0);
 		if ( !hasJavaScript && !hasJavaCode )
 			return;
-		*/
 		
 		try
 		{
@@ -160,14 +156,12 @@ class ScriptedDesignVisitor extends DesignVisitor
 	// TODO: Merge this function with the above one when DE add onPrepare to DesignElementHandle
 	private void handleOnPrepare( GroupHandle handle )
 	{
-		/*
 		boolean hasJavaScript = (handle.getOnPrepare() != null) &&
 								(handle.getOnPrepare().length() !=0);
 		boolean hasJavaCode = 	(handle.getEventHandlerClass() != null) &&
 								(handle.getEventHandlerClass().length() !=0);
 		if ( !hasJavaScript && !hasJavaCode )
 			return;
-		*/
 		
 		try
 		{
@@ -184,14 +178,12 @@ class ScriptedDesignVisitor extends DesignVisitor
 	// TODO: Merge this function with the above one when DE add onPrepare to DesignElementHandle
 	private void handleOnPrepare( RowHandle handle )
 	{
-		/*
 		boolean hasJavaScript = (handle.getOnPrepare() != null) &&
 								(handle.getOnPrepare().length() !=0);
 		boolean hasJavaCode = 	(handle.getEventHandlerClass() != null) &&
 								(handle.getEventHandlerClass().length() !=0);
 		if ( !hasJavaScript && !hasJavaCode )
 			return;
-		*/
 		
 		try
 		{
