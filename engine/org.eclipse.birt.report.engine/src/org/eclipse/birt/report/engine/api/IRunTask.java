@@ -22,4 +22,6 @@ public interface IRunTask extends IEngineTask {
       * @throws EngineException throws exception when running report fails
       */
 	public abstract void run(IReportDocManager manager,  String reportDocName) throws EngineException;
+	
+	public abstract void run(IReportDocument reportDoc)  throws EngineException;
 }

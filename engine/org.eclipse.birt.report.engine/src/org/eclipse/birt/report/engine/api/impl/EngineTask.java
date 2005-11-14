@@ -436,7 +436,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.20 $ $Date: 2005/11/11 00:38:49 $
+	 * @version $Revision: 1.21 $ $Date: 2005/11/11 06:26:45 $
 	 */
 	static abstract class ParameterVisitor
 	{
@@ -583,5 +583,9 @@ public abstract class EngineTask implements IEngineTask
 				return visitParametersInGroup( group, value );
 			}
 		}.visit( (ReportDesignHandle) runnable.getDesignHandle( ) );
+	}
+	
+	public void close()
+	{
 	}
 }

@@ -50,7 +50,7 @@ import org.eclipse.birt.report.engine.script.ReportScriptExecutor;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.21 $ $Date: 2005/11/11 06:26:45 $
+ * @version $Revision: 1.22 $ $Date: 2005/11/12 03:32:18 $
  */
 public class ReportExecutor
 {
@@ -213,7 +213,6 @@ public class ReportExecutor
 	{
 
 		List contents;
-
 		IContent parent;
 
 		public PageContentBuilder( List contents )
@@ -227,7 +226,8 @@ public class ReportExecutor
 			if ( parent == null )
 			{
 				contents.add( content );
-			} else
+			}
+			else
 			{
 				parent.getChildren( ).add( content );
 			}
@@ -238,7 +238,7 @@ public class ReportExecutor
 		{
 			if ( parent != null )
 			{
-				parent = ( IContent ) parent.getParent( );
+				parent = (IContent) parent.getParent( );
 			}
 		}
 

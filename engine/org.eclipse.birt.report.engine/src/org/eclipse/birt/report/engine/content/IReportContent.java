@@ -18,7 +18,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 /**
  * The object represents the report content as a whole.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/20 03:39:29 $
+ * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:46 $
  */
 public interface IReportContent
 {
@@ -41,7 +41,11 @@ public interface IReportContent
 
 	public ITableContent createTableContent( );
 
-	public ITableBandContent createTableBandContent( );
+	public ITableBandContent createTableHeader( );
+	
+	public ITableBandContent createTableFooter( );
+	
+	public ITableBandContent createTableBody( );
 
 	public IRowContent createRowContent( );
 

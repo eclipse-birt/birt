@@ -8,6 +8,7 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 
 public class PageContent extends AbstractContent implements IPageContent
@@ -15,8 +16,16 @@ public class PageContent extends AbstractContent implements IPageContent
 
 	protected String orientation;
 	protected String pageType;
-	protected String pageHeight;
-	protected String pageWidth;
+	protected DimensionType pageHeight;
+	protected DimensionType pageWidth;
+	protected DimensionType headerHeight;
+	protected DimensionType footerHeight;
+	protected DimensionType leftWidth;
+	protected DimensionType rightWidth;
+	protected DimensionType marginTop;
+	protected DimensionType marginLeft;
+	protected DimensionType marginRight;
+	protected DimensionType marginBottom;
 	protected ArrayList header;
 	protected ArrayList footer;
 	protected IImageContent waterMark;
@@ -35,14 +44,18 @@ public class PageContent extends AbstractContent implements IPageContent
 			MasterPageDesign page = (MasterPageDesign) design;
 			orientation = page.getOrientation( );
 			pageType = page.getPageType( );
-			pageHeight = page.getPageHeight( ).toString( );
-			pageWidth = page.getPageWidth( ).toString( );
+			pageHeight = page.getPageHeight( );
+			pageWidth = page.getPageWidth( );
+			marginTop = page.getTopMargin();
+			marginLeft = page.getLeftMargin();
+			marginRight = page.getRightMargin();
+			marginBottom = page.getBottomMargin();
 		}
 	}
 
-	public void accept( IContentVisitor visitor , Object value)
+	public void accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitPage( this , value);
+		visitor.visitPage( this, value );
 	}
 
 	MasterPageDesign getMasterPage( )
@@ -60,12 +73,12 @@ public class PageContent extends AbstractContent implements IPageContent
 		return pageType;
 	}
 
-	public String getPageHeight( )
+	public DimensionType getPageHeight( )
 	{
 		return pageHeight;
 	}
 
-	public String getPageWidth( )
+	public DimensionType getPageWidth( )
 	{
 		return pageWidth;
 	}
@@ -106,7 +119,7 @@ public class PageContent extends AbstractContent implements IPageContent
 	 * @param pageHeight
 	 *            The pageHeight to set.
 	 */
-	public void setPageHeight( String pageHeight )
+	public void setPageHeight( DimensionType pageHeight )
 	{
 		this.pageHeight = pageHeight;
 	}
@@ -124,7 +137,7 @@ public class PageContent extends AbstractContent implements IPageContent
 	 * @param pageWidth
 	 *            The pageWidth to set.
 	 */
-	public void setPageWidth( String pageWidth )
+	public void setPageWidth( DimensionType pageWidth )
 	{
 		this.pageWidth = pageWidth;
 	}
@@ -138,83 +151,61 @@ public class PageContent extends AbstractContent implements IPageContent
 		this.waterMark = waterMark;
 	}
 
-	public String getMarginTop()
+	public DimensionType getMarginTop( )
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getMarginBottom()
+	public DimensionType getMarginBottom( )
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getMarginLeft()
+	public DimensionType getMarginLeft( )
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getMarginRight()
+	public DimensionType getMarginRight( )
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getHeaderHeight()
+	public DimensionType getHeaderHeight( )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return headerHeight;
 	}
 
-	public String getFooterHeight()
+	public DimensionType getFooterHeight( )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return footerHeight;
 	}
 
-	public String getLeftWidth()
+	public DimensionType getLeftWidth( )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return leftWidth;
 	}
 
-	public String getRightWidth()
+	public DimensionType getRightWidth( )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return rightWidth;
 	}
 
-	public boolean isShowFloatingFooter()
+	public IStyle getContentStyle( )
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return ( (MasterPageDesign) generateBy ).getContentStyle( );
 	}
 
-	public boolean isShowFooterOnLast()
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean isShowHeaderOnFirst()
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public IStyle getContentStyle()
-	{
-		return ( ( MasterPageDesign ) generateBy ).getContentStyle( );
-	}
-	
-	public void setPageNumber(long pn)
+	public void setPageNumber( long pn )
 	{
 		this.pageNumber = pn;
 	}
-	
-	public long getPageNumber()
+
+	public long getPageNumber( )
 	{
 		return this.pageNumber;
 	}

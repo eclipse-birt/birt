@@ -6,6 +6,7 @@ import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportDocManager;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.ReportEngine;
@@ -16,12 +17,13 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.presentation.HtmlPaginateEmitter;
-import org.eclipse.birt.report.engine.presentation.PageHintEmitter;
+import org.eclipse.birt.report.engine.presentation.ReportDocumentEmitter;
 
 
 public class RunTask extends EngineTask implements IRunTask
 {
 
+	ReportDocument reportDoc;
 	IPageHandler pageHandler;
 	RunTask(ReportEngine engine, IReportRunnable runnable)
 	{
@@ -35,6 +37,20 @@ public class RunTask extends EngineTask implements IRunTask
 
 	public void run( IReportDocManager manager, String reportDocName )
 			throws EngineException
+	{
+	}
+	
+	public void run(IReportDocument reportDoc) throws EngineException
+	{
+		setReportDocument(reportDoc);
+	}
+	
+	protected void setReportDocument(IReportDocument reportDoc)
+	{
+		this.reportDoc = (ReportDocument)reportDoc;
+	}
+	
+	protected void run() throws EngineException
 	{
 		if( !validateParameters() )
 		{
@@ -59,8 +75,8 @@ public class RunTask extends EngineTask implements IRunTask
 		
 		ReportExecutor executor = new ReportExecutor(executionContext);
 
-		//if we need do the paginate, do the paginate.
-		IContentEmitter emitter = new PageHintEmitter();
+		//we need output: TOC, BookMark, PageHint
+		IContentEmitter emitter = new ReportDocumentEmitter(reportDoc);
 		
 		emitter = new HtmlPaginateEmitter(executor, emitter);
 		
@@ -70,6 +86,8 @@ public class RunTask extends EngineTask implements IRunTask
 		try
 		{
 			Report report = new ReportParser().parse( ((ReportRunnable)runnable).getReport() );
+			reportDoc.saveDesign(report.getReportDesign());
+			reportDoc.saveParamters(inputValues);
 			executor.execute(report, emitter);
 		}
 		catch (Exception ex)

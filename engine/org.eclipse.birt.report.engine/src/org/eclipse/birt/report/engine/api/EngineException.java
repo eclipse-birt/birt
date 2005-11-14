@@ -22,6 +22,11 @@ import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
  */
 public class EngineException extends BirtException {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3137320793453389473L;
+
 	static protected ResourceBundle rb = new EngineResourceHandle(Locale.getDefault()).getResourceBundle();
 	
 	protected static final String pluginId = "org.eclipse.birt.report.engine"; //$NON-NLS-1$

@@ -62,7 +62,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.35 $ $Date: 2005/11/11 06:26:45 $
+ * @version $Revision: 1.36 $ $Date: 2005/11/12 03:32:18 $
  */
 public class ExecutionContext
 {
@@ -571,6 +571,7 @@ public class ExecutionContext
 	public void pushContent( IContent obj )
 	{
 		reportContents.push( obj );
+		newScope(obj);
 	}
 
 	/**
@@ -579,6 +580,7 @@ public class ExecutionContext
 	public void popContent( )
 	{
 		reportContents.pop( );
+		exitScope();
 	}
 
 	/**

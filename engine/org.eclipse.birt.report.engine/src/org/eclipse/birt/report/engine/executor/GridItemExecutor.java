@@ -34,7 +34,7 @@ import org.eclipse.birt.report.engine.script.CellScriptExecutor;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.16 $ $Date: 2005/11/12 03:32:18 $
+ * @version $Revision: 1.17 $ $Date: 2005/11/13 20:26:07 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -96,16 +96,8 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			try
-			{
-				context.newScope( tableObj ); 
 				GridScriptExecutor.handleOnCreate( ( TableContent ) tableObj, null,
 						context );
-			}
-			finally
-			{
-				context.exitScope();
-			}
 		}
 
 		if ( emitter != null )
@@ -113,7 +105,7 @@ public class GridItemExecutor extends QueryItemExecutor
 			emitter.startTable( tableObj );
 		}
 
-		ITableBandContent body = report.createTableBandContent( );
+		ITableBandContent body = report.createTableBody( );
 		body.setParent( tableObj );
 
 		context.pushContent( body );
@@ -183,17 +175,9 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			try
-			{
-				context.newScope( rowContent );
 				// TODO: Get datarow from somewhere
 				DetailRowScriptExecutor.handleOnCreate( ( RowContent ) rowContent,
 						null, context );
-			}
-			finally
-			{
-				context.exitScope();
-			}
 		}
 
 		if ( emitter != null )
@@ -255,17 +239,9 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			try
-			{
-				context.newScope( cellContent );
 				//TODO: Get datarow from somewhere
 				CellScriptExecutor.handleOnCreate( ( CellContent ) cellContent,
 						null, context );
-			}
-			finally
-			{
-				context.exitScope();
-			}
 		}
 
 		if ( emitter != null )

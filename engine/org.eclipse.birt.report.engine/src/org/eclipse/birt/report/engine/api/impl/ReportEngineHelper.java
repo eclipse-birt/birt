@@ -17,9 +17,11 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.archive.ReportArchive;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataPreviewTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.ReportEngine;
@@ -33,186 +35,235 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 /**
  * a helper class that does most of the dirty work for report engine
  */
-public class ReportEngineHelper 
+public class ReportEngineHelper
 {
-	
+
 	/**
 	 * logger used to log syntax errors.
 	 */
-	static protected Logger logger = Logger.getLogger( ReportEngineHelper.class.getName() );
-	
+	static protected Logger logger = Logger.getLogger( ReportEngineHelper.class
+			.getName( ) );
+
 	/**
 	 * reference the the public report engine object
 	 */
 	private ReportEngine engine;
-	
+
 	/**
 	 * extension manager
 	 */
 	private ExtensionManager extensionMgr;
-	
+
 	/**
 	 * constructor
 	 * 
-	 * @param engine the report engine
+	 * @param engine
+	 *            the report engine
 	 */
-	public ReportEngineHelper(ReportEngine engine)
+	public ReportEngineHelper( ReportEngine engine )
 	{
 		this.engine = engine;
-		extensionMgr = ExtensionManager.getInstance();
+		extensionMgr = ExtensionManager.getInstance( );
 	}
-	
+
 	/**
-	 * opens a report design file and creates a report design runnable. From the ReportRunnable
-	 * object, embedded images and parameter definitions can be retrieved. Constructing
-	 * an engine task requires a report design runnable object.  
+	 * opens a report design file and creates a report design runnable. From the
+	 * ReportRunnable object, embedded images and parameter definitions can be
+	 * retrieved. Constructing an engine task requires a report design runnable
+	 * object.
 	 * 
-	 * @param designName the full path of the report design file
+	 * @param designName
+	 *            the full path of the report design file
 	 * @return a report design runnable object
-	 * @throws EngineException throwed when the input file does not exist, or the 
-	 * file is invalid
+	 * @throws EngineException
+	 *             throwed when the input file does not exist, or the file is
+	 *             invalid
 	 */
-	public IReportRunnable openReportDesign(String designName) throws EngineException
+	public IReportRunnable openReportDesign( String designName )
+			throws EngineException
 	{
 		ReportDesignHandle designHandle;
-		File file = new File(designName);
-		if(!file.exists())
+		File file = new File( designName );
+		if ( !file.exists( ) )
 		{
-			logger.log(Level.SEVERE, "{0} not found!", file.getAbsolutePath( ) ); //$NON-NLS-1$
-			throw new EngineException(MessageConstants.DESIGN_FILE_NOT_FOUND_EXCEPTION, designName);
+			logger
+					.log( Level.SEVERE,
+							"{0} not found!", file.getAbsolutePath( ) ); //$NON-NLS-1$
+			throw new EngineException(
+					MessageConstants.DESIGN_FILE_NOT_FOUND_EXCEPTION,
+					designName );
 		}
-		
-		try 
+
+		try
 		{
-			designHandle = new ReportParser().getDesignHandle(designName, null);
-		} 
-		catch (DesignFileException e) 
-		{
-			logger.log(Level.SEVERE, "invalid design file {0}", file.getAbsolutePath( ) ); //$NON-NLS-1$
-			throw new EngineException(MessageConstants.INVALID_DESIGN_FILE_EXCEPTION, designName, e);
+			designHandle = new ReportParser( ).getDesignHandle( designName,
+					null );
 		}
-		assert(designHandle != null);
-		ReportRunnable runnable = new ReportRunnable(designHandle);
-		runnable.setReportName(designName);
-		runnable.setReportEngine(engine);
-		return runnable;
-	}
-	
-	/**
-	 * opens a report design stream and creates a report design runnable. From the ReportRunnable
-	 * object, embedded images and parameter definitions can be retrieved. Constructing
-	 * an engine task requires a report design runnableobject. 
-	 * 
-	 * @param designStream the report design input stream  
-	 * @return a report design runnable object
-	 * @throws EngineException throwed when the input stream is null, or the 
-	 * stream does not yield a valid report design
-	 */
-	public IReportRunnable openReportDesign(InputStream designStream) throws EngineException
-	{
-		ReportDesignHandle designHandle;
-		String designName = "<stream>";	//$NON-NLS-1$
-		try 
+		catch ( DesignFileException e )
 		{
-			designHandle = new ReportParser().getDesignHandle(designName, designStream);
-		} 
-		catch (DesignFileException e) 
-		{
-			logger.log(Level.SEVERE, "invalid design file {0}", designName); //$NON-NLS-1$
-			throw new EngineException(MessageConstants.INVALID_DESIGN_FILE_EXCEPTION, designName, e);
+			logger.log( Level.SEVERE,
+					"invalid design file {0}", file.getAbsolutePath( ) ); //$NON-NLS-1$
+			throw new EngineException(
+					MessageConstants.INVALID_DESIGN_FILE_EXCEPTION, designName,
+					e );
 		}
-		assert(designHandle != null);
+		assert ( designHandle != null );
 		ReportRunnable runnable = new ReportRunnable( designHandle );
-		runnable.setReportName(designName);
-		runnable.setReportEngine(engine);
+		runnable.setReportName( designName );
+		runnable.setReportEngine( engine );
 		return runnable;
 	}
 
 	/**
-	 * creates a report design runnable based on a report design handle. From the 
-	 * ReportRunnable object, embedded images and parameter definitions can be retrieved. 
-	 * Constructing an engine task requires a report design runnable object. 
+	 * opens a report design stream and creates a report design runnable. From
+	 * the ReportRunnable object, embedded images and parameter definitions can
+	 * be retrieved. Constructing an engine task requires a report design
+	 * runnableobject.
 	 * 
-	 * @param designStream the report design input stream  
+	 * @param designStream
+	 *            the report design input stream
 	 * @return a report design runnable object
-	 * @throws EngineException throwed when the input stream is null, or the 
-	 * stream does not yield a valid report design
+	 * @throws EngineException
+	 *             throwed when the input stream is null, or the stream does not
+	 *             yield a valid report design
 	 */
-	public IReportRunnable openReportDesign(DesignElementHandle designHandle) throws EngineException
+	public IReportRunnable openReportDesign( InputStream designStream )
+			throws EngineException
 	{
-		assert (designHandle instanceof ReportDesignHandle);
-		ReportRunnable ret = new ReportRunnable( (ReportDesignHandle)designHandle );
-		ret.setReportName(((ReportDesignHandle)designHandle).getFileName());
-		ret.setReportEngine(engine);
+		ReportDesignHandle designHandle;
+		String designName = "<stream>"; //$NON-NLS-1$
+		try
+		{
+			designHandle = new ReportParser( ).getDesignHandle( designName,
+					designStream );
+		}
+		catch ( DesignFileException e )
+		{
+			logger.log( Level.SEVERE, "invalid design file {0}", designName ); //$NON-NLS-1$
+			throw new EngineException(
+					MessageConstants.INVALID_DESIGN_FILE_EXCEPTION, designName,
+					e );
+		}
+		assert ( designHandle != null );
+		ReportRunnable runnable = new ReportRunnable( designHandle );
+		runnable.setReportName( designName );
+		runnable.setReportEngine( engine );
+		return runnable;
+	}
+
+	/**
+	 * creates a report design runnable based on a report design handle. From
+	 * the ReportRunnable object, embedded images and parameter definitions can
+	 * be retrieved. Constructing an engine task requires a report design
+	 * runnable object.
+	 * 
+	 * @param designStream
+	 *            the report design input stream
+	 * @return a report design runnable object
+	 * @throws EngineException
+	 *             throwed when the input stream is null, or the stream does not
+	 *             yield a valid report design
+	 */
+	public IReportRunnable openReportDesign( DesignElementHandle designHandle )
+			throws EngineException
+	{
+		assert ( designHandle instanceof ReportDesignHandle );
+		ReportRunnable ret = new ReportRunnable(
+				(ReportDesignHandle) designHandle );
+		ret
+				.setReportName( ( (ReportDesignHandle) designHandle )
+						.getFileName( ) );
+		ret.setReportEngine( engine );
 		return ret;
 	}
-	
+
 	/**
 	 * creates an engine task for running and rendering report directly to
-	 * output format 
+	 * output format
 	 * 
-	 * @param reportRunnable the runnable report design object
-	 * @return a run and render report task 
+	 * @param reportRunnable
+	 *            the runnable report design object
+	 * @return a run and render report task
 	 */
-	public IRunAndRenderTask createRunAndRenderTask(IReportRunnable reportRunnable)
+	public IRunAndRenderTask createRunAndRenderTask(
+			IReportRunnable reportRunnable )
 	{
-		return new RunAndRenderTask(engine, reportRunnable);
+		return new RunAndRenderTask( engine, reportRunnable );
 	}
 
-	
-	public IGetParameterDefinitionTask createGetParameterDefinitionTask(IReportRunnable reportRunnable)
+	public IGetParameterDefinitionTask createGetParameterDefinitionTask(
+			IReportRunnable reportRunnable )
 	{
-		return new GetParameterDefinitionTask(engine, reportRunnable);
+		return new GetParameterDefinitionTask( engine, reportRunnable );
 	}
 
-	public IDataPreviewTask createDataPreviewTask(IReportRunnable reportRunnable)
+	public IDataPreviewTask createDataPreviewTask(
+			IReportRunnable reportRunnable )
 	{
-		return new DataPreviewTask(engine, reportRunnable);
-	}
-	
-	/**
-	 * returns all supported output formats through BIRT engine emitter extensions
-	 * 
-	 * @return all supported output formats through BIRT engine emitter extensions  
-	 */
-	public String[] getSupportedFormats()
-	{
-		HashMap emitterMap = extensionMgr.getEmitterExtensions();
-		return (String[])emitterMap.keySet().toArray();
+		return new DataPreviewTask( engine, reportRunnable );
 	}
 
 	/**
-	 * the MIME type for the specific formatted supported by the extension. 
+	 * returns all supported output formats through BIRT engine emitter
+	 * extensions
 	 * 
-	 * @param format the output format
-	 * @param extensionID the extension ID, which could be null if only one plugin supports
-	 * the output format
-	 * @return the MIME type for the specific formatted supported by the extension. 
+	 * @return all supported output formats through BIRT engine emitter
+	 *         extensions
 	 */
-	public String getMIMEType(String format) {
-		return extensionMgr.getMIMEType(format);
+	public String[] getSupportedFormats( )
+	{
+		HashMap emitterMap = extensionMgr.getEmitterExtensions( );
+		return (String[]) emitterMap.keySet( ).toArray( );
 	}
 
 	/**
-	 * @param dest log destination. It is the directory name for log file
-	 * @param level log level
+	 * the MIME type for the specific formatted supported by the extension.
+	 * 
+	 * @param format
+	 *            the output format
+	 * @param extensionID
+	 *            the extension ID, which could be null if only one plugin
+	 *            supports the output format
+	 * @return the MIME type for the specific formatted supported by the
+	 *         extension.
 	 */
-	public void setupLogging(String dest, Level level) {
-		EngineLogger.startEngineLogging(dest, level);
+	public String getMIMEType( String format )
+	{
+		return extensionMgr.getMIMEType( format );
 	}
-	
+
+	/**
+	 * @param dest
+	 *            log destination. It is the directory name for log file
+	 * @param level
+	 *            log level
+	 */
+	public void setupLogging( String dest, Level level )
+	{
+		EngineLogger.startEngineLogging( dest, level );
+	}
+
 	/**
 	 * Stop engine logging
 	 */
-	public void stopLogging() {
-		EngineLogger.stopEngineLogging();
+	public void stopLogging( )
+	{
+		EngineLogger.stopEngineLogging( );
 	}
-	
+
 	/**
 	 * Change the log level to the newLevel
-	 * @param newLevel - new log level
+	 * 
+	 * @param newLevel -
+	 *            new log level
 	 */
-	public void changeLogLevel( Level newLevel ){
+	public void changeLogLevel( Level newLevel )
+	{
 		EngineLogger.changeLogLevel( newLevel );
+	}
+
+	public IReportDocument openReportDocument( String docArchiveName )
+	{
+		return new ReportDocument( new ReportArchive( docArchiveName ) );
 	}
 }

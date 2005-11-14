@@ -234,7 +234,7 @@ public class ReportEngine
 	{
 		return helper.openReportDesign( designStream );
 	}
-
+	
 	/**
 	 * creates a report design runnable based on a report design handle, from
 	 * ehich embedded images and parameter definitions can be retrieved.
@@ -395,7 +395,7 @@ public class ReportEngine
 	 */
 	public IReportDocument openReportDocument( String docArchiveName ) throws EngineException
 	{
-		return null;
+		return helper.openReportDocument(docArchiveName);
 	}
 
 	/**
@@ -407,5 +407,13 @@ public class ReportEngine
 	public IDataExtractionTask createDataExtractionTask( IReportDocument reportDocument )
 	{
 		return null;
+	}
+	
+	/**
+	 * shut down the engine, release all the resources.
+	 */
+	public void shutdown()
+	{
+		
 	}
 }

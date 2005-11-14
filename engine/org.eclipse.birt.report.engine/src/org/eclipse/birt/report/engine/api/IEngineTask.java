@@ -120,4 +120,8 @@ public interface IEngineTask {
 	 */
 	public boolean validateParameters( );
 
+	/**
+	 * close the task, relese any resources. 
+	 */
+	public void close();
 }

@@ -36,14 +36,14 @@ import org.eclipse.birt.report.engine.ir.Report;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/11/11 04:12:29 $
+ * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:46 $
  */
 public class ReportContent implements IReportContent
 {
 
 	CSSEngine cssEngine;
 	Report report;
-	ArrayList errors = new ArrayList();
+	ArrayList errors = new ArrayList( );
 
 	/**
 	 * default constructor.
@@ -133,9 +133,25 @@ public class ReportContent implements IReportContent
 		return new PageContent( this );
 	}
 
-	public ITableBandContent createTableBandContent( )
+	public ITableBandContent createTableHeader( )
 	{
-		return new TableBandContent( this );
+		TableBandContent band = new TableBandContent( this );
+		band.setType( ITableBandContent.BAND_HEADER );
+		return band;
+	}
+
+	public ITableBandContent createTableBody( )
+	{
+		TableBandContent band = new TableBandContent( this );
+		band.setType( ITableBandContent.BAND_BODY );
+		return band;
+	}
+
+	public ITableBandContent createTableFooter( )
+	{
+		TableBandContent band = new TableBandContent( this );
+		band.setType( ITableBandContent.BAND_FOOTER );
+		return band;
 	}
 
 	/**
@@ -177,12 +193,12 @@ public class ReportContent implements IReportContent
 	{
 		return new TextContent( content );
 	}
-	
+
 	public IDataContent createDataContent( )
 	{
 		return new DataContent( this );
 	}
-	
+
 	public IDataContent createDataContent( IContent content )
 	{
 		return new DataContent( content );
@@ -197,7 +213,7 @@ public class ReportContent implements IReportContent
 	{
 		return new LabelContent( content );
 	}
-	
+
 	/**
 	 * Creates the extended item content object
 	 * 
@@ -212,6 +228,7 @@ public class ReportContent implements IReportContent
 	{
 		return new ForeignContent( content );
 	}
+
 	/**
 	 * Creates the image content object
 	 * 
@@ -230,7 +247,7 @@ public class ReportContent implements IReportContent
 	{
 		return new ImageContent( content );
 	}
-	
+
 	public List getErrors( )
 	{
 		return errors;

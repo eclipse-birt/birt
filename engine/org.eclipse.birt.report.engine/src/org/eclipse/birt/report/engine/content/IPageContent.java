@@ -13,6 +13,8 @@ package org.eclipse.birt.report.engine.content;
 
 import java.util.List;
 
+import org.eclipse.birt.report.engine.ir.DimensionType;
+
 /**
  * Page instance.
  * 
@@ -21,10 +23,11 @@ import java.util.List;
  * 
  * The content is defined by getBody().
  * 
- * @version $Revision: 1.5 $ $Date: 2005/11/02 10:36:13 $
+ * @version $Revision: 1.1 $ $Date: 2005/11/11 06:26:46 $
  */
 public interface IPageContent extends IContent
 {
+
 	/**
 	 * @return Returns the orientation.
 	 */
@@ -38,72 +41,57 @@ public interface IPageContent extends IContent
 	/**
 	 * @return Returns the pageHeight.
 	 */
-	public String getPageHeight( );
+	public DimensionType getPageHeight( );
 
 	/**
 	 * @return Returns the pageWidth.
 	 */
-	public String getPageWidth( );
-	
+	public DimensionType getPageWidth( );
+
 	/**
 	 * @return Returns the waterMark.
 	 */
 	public IImageContent getWaterMark( );
-	
-	public List getHeader();
-	
-	public List getFooter();
-	
-	public String getMarginTop();
-	
-	public String getMarginBottom();
-	
-	public String getMarginLeft();
-	
-	public String getMarginRight();
-	
+
+	public List getHeader( );
+
+	public List getFooter( );
+
+	public DimensionType getMarginTop( );
+
+	public DimensionType getMarginBottom( );
+
+	public DimensionType getMarginLeft( );
+
+	public DimensionType getMarginRight( );
+
 	/**
 	 * @return Returns the header height
 	 */
-	public String getHeaderHeight( );
+	public DimensionType getHeaderHeight( );
 
 	/**
 	 * @return Returns the footer height
 	 */
-	public String getFooterHeight( );
+	public DimensionType getFooterHeight( );
 
 	/**
 	 * @return Returns the width of the left part
 	 */
-	public String getLeftWidth( );
+	public DimensionType getLeftWidth( );
 
 	/**
 	 * @return Returns the width of the right part
 	 */
-	public String getRightWidth( );
+	public DimensionType getRightWidth( );
 
-	/**
-	 * @return Returns the showFloatingFooter.
-	 */
-	public boolean isShowFloatingFooter( );
-
-	/**
-	 * @return Returns the showFooterOnLast.
-	 */
-	public boolean isShowFooterOnLast( );
-
-	/**
-	 * @return Returns the showHeaderOnFirst.
-	 */
-	public boolean isShowHeaderOnFirst( );
-	
 	/**
 	 * @return Returns the content style.
 	 */
 	public IStyle getContentStyle( );
-	
-	public long getPageNumber();
-	
-	void setPageNumber(long pageNumber);
-	
+
+	public long getPageNumber( );
+
+	void setPageNumber( long pageNumber );
+
 }
