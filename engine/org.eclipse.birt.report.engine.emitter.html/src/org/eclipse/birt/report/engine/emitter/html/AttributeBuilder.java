@@ -12,13 +12,14 @@
 package org.eclipse.birt.report.engine.emitter.html;
 
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.2 $ $Date: 2005/09/27 02:56:39 $
+ * @version $Revision: 1.17 $ $Date: 2005/11/11 08:05:28 $
  */
 public class AttributeBuilder
 {
@@ -277,15 +278,15 @@ public class AttributeBuilder
 	{
 		int flag = 0;
 
-		if ( linethrough != null && !"none".equalsIgnoreCase( linethrough ) ) //$NON-NLS-1$
+		if ( linethrough != null && BIRTConstants.BIRT_TRUE_VALUE.equalsIgnoreCase( linethrough ) ) //$NON-NLS-1$
 		{
 			flag = 1; // linethrough
 		}
-		if ( underline != null && !"none".equalsIgnoreCase( underline ) ) //$NON-NLS-1$
+		if ( underline != null && BIRTConstants.BIRT_TRUE_VALUE.equalsIgnoreCase( underline ) ) //$NON-NLS-1$
 		{
 			flag |= 2; // underline
 		}
-		if ( overline != null && !"none".equalsIgnoreCase( overline ) ) //$NON-NLS-1$
+		if ( overline != null && BIRTConstants.BIRT_TRUE_VALUE.equalsIgnoreCase( overline ) ) //$NON-NLS-1$
 		{
 			flag |= 4; // overline
 		}
@@ -295,15 +296,15 @@ public class AttributeBuilder
 			content.append( " text-decoration:" ); //$NON-NLS-1$
 			if ( ( flag & 1 ) > 0 ) // linethrough
 			{
-				addPropValue( content, linethrough );
+				addPropValue( content, "line-through" );
 			}
 			if ( ( flag & 2 ) > 0 ) // underline
 			{
-				addPropValue( content, underline );
+				addPropValue( content, "underline" );
 			}
 			if ( ( flag & 4 ) > 0 ) //overline
 			{
-				addPropValue( content, overline );
+				addPropValue( content, "overline" );
 			}
 			content.append( ';' );
 		}
