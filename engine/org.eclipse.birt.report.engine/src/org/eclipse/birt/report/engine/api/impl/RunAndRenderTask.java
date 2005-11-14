@@ -136,7 +136,8 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		}
 
 		ReportExecutor executor = new ReportExecutor(executionContext);
-
+		services.setExecutor(executor);
+		
 		//localized emitter
 		emitter = new LocalizedEmitter(executionContext, emitter);
 		

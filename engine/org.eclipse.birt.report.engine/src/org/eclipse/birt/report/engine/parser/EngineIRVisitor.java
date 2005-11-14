@@ -137,7 +137,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.51 $ $Date: 2005/10/31 05:49:31 $
+ * @version $Revision: 1.52 $ $Date: 2005/11/11 06:26:47 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -186,7 +186,7 @@ class EngineIRVisitor extends DesignVisitor
 	/**
 	 * the style name prefix
 	 */
-	protected final String PREFIX_STYLE_NAME = "style_";
+	protected final String PREFIX_STYLE_NAME = "style_"; //$NON-NLS-1$
 
 	/**
 	 * constructor
@@ -447,23 +447,24 @@ class EngineIRVisitor extends DesignVisitor
 	public void visitParameterGroup( ParameterGroupHandle handle )
 	{
 		ParameterGroupDefn paramGroup = new ParameterGroupDefn( );
-		paramGroup.setHandle(handle);
-		paramGroup.setParameterType(IParameterDefnBase.PARAMETER_GROUP);
-		paramGroup.setName(handle.getName());
+		paramGroup.setHandle( handle );
+		paramGroup.setParameterType( IParameterDefnBase.PARAMETER_GROUP );
+		paramGroup.setName( handle.getName( ) );
 		paramGroup.setDisplayName( handle.getDisplayName( ) );
 		paramGroup.setDisplayNameKey( handle.getDisplayNameKey( ) );
 		paramGroup.setHelpText( handle.getHelpText( ) );
-		paramGroup.setHelpTextKey( handle.getHelpTextKey( ) );		
+		paramGroup.setHelpTextKey( handle.getHelpTextKey( ) );
 		SlotHandle parameters = handle.getParameters( );
-		
-		//set custom properties
-		List properties = handle.getUserProperties();
-		for(int i=0; i<properties.size(); i++)
+
+		// set custom properties
+		List properties = handle.getUserProperties( );
+		for ( int i = 0; i < properties.size( ); i++ )
 		{
-			UserPropertyDefn p = (UserPropertyDefn)properties.get(i);
-			paramGroup.addUserProperty(p.getName(),handle.getProperty(p.getName()) );
+			UserPropertyDefn p = (UserPropertyDefn) properties.get( i );
+			paramGroup.addUserProperty( p.getName( ), handle.getProperty( p
+					.getName( ) ) );
 		}
-		
+
 		int size = parameters.getCount( );
 		for ( int n = 0; n < size; n++ )
 		{
@@ -473,30 +474,33 @@ class EngineIRVisitor extends DesignVisitor
 
 		currentElement = paramGroup;
 	}
-	
-	public void visitCascadingParameterGroup(CascadingParameterGroupHandle handle)
+
+	public void visitCascadingParameterGroup(
+			CascadingParameterGroupHandle handle )
 	{
 		CascadingParameterGroupDefn paramGroup = new CascadingParameterGroupDefn( );
-		paramGroup.setHandle(handle);
-		paramGroup.setParameterType(IParameterDefnBase.CASCADING_PARAMETER_GROUP);
-		paramGroup.setName(handle.getName());
+		paramGroup.setHandle( handle );
+		paramGroup
+				.setParameterType( IParameterDefnBase.CASCADING_PARAMETER_GROUP );
+		paramGroup.setName( handle.getName( ) );
 		paramGroup.setDisplayName( handle.getDisplayName( ) );
 		paramGroup.setDisplayNameKey( handle.getDisplayNameKey( ) );
 		paramGroup.setHelpText( handle.getHelpText( ) );
 		paramGroup.setHelpTextKey( handle.getHelpTextKey( ) );
-		DataSetHandle dset = handle.getDataSet();
-		if (dset != null)
+		DataSetHandle dset = handle.getDataSet( );
+		if ( dset != null )
 		{
-			paramGroup.setDataSet(dset.getName());
+			paramGroup.setDataSet( dset.getName( ) );
 		}
 		SlotHandle parameters = handle.getParameters( );
 
-		//set custom properties
-		List properties = handle.getUserProperties();
-		for(int i=0; i<properties.size(); i++)
+		// set custom properties
+		List properties = handle.getUserProperties( );
+		for ( int i = 0; i < properties.size( ); i++ )
 		{
-			UserPropertyDefn p = (UserPropertyDefn)properties.get(i);
-			paramGroup.addUserProperty(p.getName(),handle.getProperty(p.getName()) );
+			UserPropertyDefn p = (UserPropertyDefn) properties.get( i );
+			paramGroup.addUserProperty( p.getName( ), handle.getProperty( p
+					.getName( ) ) );
 		}
 
 		int size = parameters.getCount( );
@@ -507,7 +511,7 @@ class EngineIRVisitor extends DesignVisitor
 		}
 
 		currentElement = paramGroup;
-		
+
 	}
 
 	public void visitScalarParameter( ScalarParameterHandle handle )
@@ -515,39 +519,42 @@ class EngineIRVisitor extends DesignVisitor
 		assert ( handle.getName( ) != null );
 		// Create Parameter
 		ScalarParameterDefn scalarParameter = new ScalarParameterDefn( );
-		scalarParameter.setHandle(handle);
-		scalarParameter.setParameterType(IParameterDefnBase.SCALAR_PARAMETER);
-		scalarParameter.setName(handle.getName());
+		scalarParameter.setHandle( handle );
+		scalarParameter.setParameterType( IParameterDefnBase.SCALAR_PARAMETER );
+		scalarParameter.setName( handle.getName( ) );
 
-		//set custom properties
-		List properties = handle.getUserProperties();
-		for(int i=0; i<properties.size(); i++)
+		// set custom properties
+		List properties = handle.getUserProperties( );
+		for ( int i = 0; i < properties.size( ); i++ )
 		{
-			UserPropertyDefn p = (UserPropertyDefn)properties.get(i);
-			scalarParameter.addUserProperty(p.getName(),handle.getProperty(p.getName()) );
+			UserPropertyDefn p = (UserPropertyDefn) properties.get( i );
+			scalarParameter.addUserProperty( p.getName( ), handle
+					.getProperty( p.getName( ) ) );
 		}
-		String align = handle.getAlignment();
-		if(DesignChoiceConstants.SCALAR_PARAM_ALIGN_CENTER.equals(align))
+		String align = handle.getAlignment( );
+		if ( DesignChoiceConstants.SCALAR_PARAM_ALIGN_CENTER.equals( align ) )
 			scalarParameter.setAlignment( IScalarParameterDefn.CENTER );
-		else if(DesignChoiceConstants.SCALAR_PARAM_ALIGN_LEFT.equals(align))
+		else if ( DesignChoiceConstants.SCALAR_PARAM_ALIGN_LEFT.equals( align ) )
 			scalarParameter.setAlignment( IScalarParameterDefn.LEFT );
-		else if(DesignChoiceConstants.SCALAR_PARAM_ALIGN_RIGHT.equals(align))
+		else if ( DesignChoiceConstants.SCALAR_PARAM_ALIGN_RIGHT.equals( align ) )
 			scalarParameter.setAlignment( IScalarParameterDefn.RIGHT );
 		else
 			scalarParameter.setAlignment( IScalarParameterDefn.AUTO );
 
-		scalarParameter.setAllowBlank( handle.allowBlank( ));
-		scalarParameter.setAllowNull( handle.allowNull( ));
+		scalarParameter.setAllowBlank( handle.allowBlank( ) );
+		scalarParameter.setAllowNull( handle.allowNull( ) );
 
 		String controlType = handle.getControlType( );
-		if(DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals(controlType))
-			scalarParameter.setControlType(IScalarParameterDefn.CHECK_BOX );
-		else if(DesignChoiceConstants.PARAM_CONTROL_LIST_BOX.equals(controlType))
-			scalarParameter.setControlType(IScalarParameterDefn.LIST_BOX);
-		else if(DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals(controlType))
-			scalarParameter.setControlType(IScalarParameterDefn.RADIO_BUTTON);
+		if ( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( controlType ) )
+			scalarParameter.setControlType( IScalarParameterDefn.CHECK_BOX );
+		else if ( DesignChoiceConstants.PARAM_CONTROL_LIST_BOX
+				.equals( controlType ) )
+			scalarParameter.setControlType( IScalarParameterDefn.LIST_BOX );
+		else if ( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON
+				.equals( controlType ) )
+			scalarParameter.setControlType( IScalarParameterDefn.RADIO_BUTTON );
 		else
-			scalarParameter.setControlType(IScalarParameterDefn.TEXT_BOX);
+			scalarParameter.setControlType( IScalarParameterDefn.TEXT_BOX );
 
 		scalarParameter.setDefaultValueExpr( handle.getDefaultValue( ) );
 		scalarParameter.setDisplayName( handle.getDisplayName( ) );
@@ -577,20 +584,27 @@ class EngineIRVisitor extends DesignVisitor
 		Iterator selectionIter = handle.choiceIterator( );
 		while ( selectionIter.hasNext( ) )
 		{
-			SelectionChoiceHandle selection = (SelectionChoiceHandle) selectionIter.next( );
-			ParameterSelectionChoice selectionChoice = new ParameterSelectionChoice( this.handle );
-			selectionChoice.setLabel( selection.getLabelKey( ), selection.getLabel( ) );
-			selectionChoice.setValue( selection.getValue( ), scalarParameter.getDataType() );
+			SelectionChoiceHandle selection = (SelectionChoiceHandle) selectionIter
+					.next( );
+			ParameterSelectionChoice selectionChoice = new ParameterSelectionChoice(
+					this.handle );
+			selectionChoice.setLabel( selection.getLabelKey( ), selection
+					.getLabel( ) );
+			selectionChoice.setValue( selection.getValue( ), scalarParameter
+					.getDataType( ) );
 			values.add( selectionChoice );
 		}
-		scalarParameter.setSelectionList(values);
-		scalarParameter.setAllowNewValues(!handle.isMustMatch());
-		scalarParameter.setFixedOrder(handle.isFixedOrder());
-		
-		if(scalarParameter.getSelectionList() != null && scalarParameter.getSelectionList().size() > 0)
-			scalarParameter.setSelectionListType(IScalarParameterDefn.SELECTION_LIST_STATIC);
+		scalarParameter.setSelectionList( values );
+		scalarParameter.setAllowNewValues( !handle.isMustMatch( ) );
+		scalarParameter.setFixedOrder( handle.isFixedOrder( ) );
+
+		if ( scalarParameter.getSelectionList( ) != null
+				&& scalarParameter.getSelectionList( ).size( ) > 0 )
+			scalarParameter
+					.setSelectionListType( IScalarParameterDefn.SELECTION_LIST_STATIC );
 		else
-			scalarParameter.setSelectionListType(IScalarParameterDefn.SELECTION_LIST_NONE);
+			scalarParameter
+					.setSelectionListType( IScalarParameterDefn.SELECTION_LIST_NONE );
 
 		scalarParameter.setValueConcealed( handle.isConcealValue( ) );
 		currentElement = scalarParameter;
@@ -874,8 +888,9 @@ class EngineIRVisitor extends DesignVisitor
 		// FIXME: change the colspan/rowspan after MODEL fix the bug
 		// cell.setColSpan( LayoutUtil.getEffectiveColumnSpan( handle ) );
 		cell.setColSpan( handle.getColumnSpan( ) );
-		int columnId = handle.getColumn() - 1;
-		if (columnId < 0) {
+		int columnId = handle.getColumn( ) - 1;
+		if ( columnId < 0 )
+		{
 			columnId = -1;
 		}
 		cell.setColumn( columnId );
@@ -1091,9 +1106,9 @@ class EngineIRVisitor extends DesignVisitor
 			item.setBookmark( new Expression( bookmark ) );
 		}
 		String onCreate = handle.getOnCreate( );
-		if (onCreate != null)
+		if ( onCreate != null )
 		{
-			item.setOnCreate( new Expression(onCreate) );
+			item.setOnCreate( new Expression( onCreate ) );
 		}
 		item.setOnRender( handle.getOnRender( ) );
 
@@ -1476,12 +1491,22 @@ class EngineIRVisitor extends DesignVisitor
 		style
 				.setTextIndent( getElementProperty( handle,
 						Style.TEXT_INDENT_PROP ) );
-		style.setTextUnderline( getElementProperty( handle,
-				Style.TEXT_UNDERLINE_PROP ) );
-		style.setTextLineThrough( getElementProperty( handle,
-				Style.TEXT_LINE_THROUGH_PROP ) );
-		style.setTextOverline( getElementProperty( handle,
-				Style.TEXT_OVERLINE_PROP ) );
+
+		if ( "underline".equalsIgnoreCase( getElementProperty( handle, //$NON-NLS-1$
+				Style.TEXT_UNDERLINE_PROP ) ) )
+		{
+			style.setTextUnderline( "true" ); //$NON-NLS-1$
+		}
+		if ( "line-through".equalsIgnoreCase( getElementProperty( handle, //$NON-NLS-1$
+				Style.TEXT_LINE_THROUGH_PROP ) ) )
+		{
+			style.setTextLineThrough( "true" ); //$NON-NLS-1$
+		}
+		if ( "overline".equalsIgnoreCase( getElementProperty( handle, //$NON-NLS-1$
+				Style.TEXT_OVERLINE_PROP ) ) )
+		{
+			style.setTextOverline( "true" ); //$NON-NLS-1$
+		}
 		style.setLetterSpacing( getElementProperty( handle,
 				Style.LETTER_SPACING_PROP ) );
 		style
@@ -1527,12 +1552,14 @@ class EngineIRVisitor extends DesignVisitor
 				Style.FONT_VARIANT_PROP ) );
 
 		// Text decoration
-		style.setTextLineThrough( getElementProperty( handle,
-				Style.TEXT_LINE_THROUGH_PROP ) );
-		style.setTextOverline( getElementProperty( handle,
-				Style.TEXT_OVERLINE_PROP ) );
-		style.setTextUnderline( getElementProperty( handle,
-				Style.TEXT_UNDERLINE_PROP ) );
+		/*
+		 * style.setTextLineThrough(getElementProperty(handle,
+		 * Style.TEXT_LINE_THROUGH_PROP));
+		 * style.setTextOverline(getElementProperty(handle,
+		 * Style.TEXT_OVERLINE_PROP));
+		 * style.setTextUnderline(getElementProperty(handle,
+		 * Style.TEXT_UNDERLINE_PROP));
+		 */
 
 		// Border
 		style.setBorderBottomColor( getElementProperty( handle,
@@ -1631,13 +1658,21 @@ class EngineIRVisitor extends DesignVisitor
 				HighlightRule.TEXT_ALIGN_MEMBER ) );
 		style.setTextIndent( getMemberProperty( highlight,
 				HighlightRule.TEXT_INDENT_MEMBER ) );
-		style.setTextUnderline( getMemberProperty( highlight,
-				HighlightRule.TEXT_UNDERLINE_MEMBER ) );
-		style.setTextLineThrough( getMemberProperty( highlight,
-				HighlightRule.TEXT_LINE_THROUGH_MEMBER ) );
-		style.setTextOverline( getMemberProperty( highlight,
-				HighlightRule.TEXT_OVERLINE_MEMBER ) );
-
+		if ( "underline".equalsIgnoreCase( getMemberProperty( highlight, //$NON-NLS-1$
+				Style.TEXT_UNDERLINE_PROP ) ) )
+		{
+			style.setTextUnderline( "true" ); //$NON-NLS-1$
+		}
+		if ( "line-through".equalsIgnoreCase( getMemberProperty( highlight, //$NON-NLS-1$
+				Style.TEXT_LINE_THROUGH_PROP ) ) )
+		{
+			style.setTextLineThrough( "true" ); //$NON-NLS-1$
+		}
+		if ( "overline".equalsIgnoreCase( getMemberProperty( highlight, //$NON-NLS-1$
+				Style.TEXT_OVERLINE_PROP ) ) )
+		{
+			style.setTextOverline( "true" ); //$NON-NLS-1$
+		}
 		// style.setLetterSpacing(getMemberProperty(highlight,
 		// HighlightRule.LETTER_SPACING_MEMBER));
 		// style.setLineHeight(getMemberProperty(highlight,
@@ -1680,14 +1715,6 @@ class EngineIRVisitor extends DesignVisitor
 				HighlightRule.FONT_WEIGHT_MEMBER ) );
 		style.setFontVariant( getMemberProperty( highlight,
 				HighlightRule.FONT_VARIANT_MEMBER ) );
-
-		// Text decoration
-		style.setTextLineThrough( getMemberProperty( highlight,
-				HighlightRule.TEXT_LINE_THROUGH_MEMBER ) );
-		style.setTextOverline( getMemberProperty( highlight,
-				HighlightRule.TEXT_OVERLINE_MEMBER ) );
-		style.setTextUnderline( getMemberProperty( highlight,
-				HighlightRule.TEXT_UNDERLINE_MEMBER ) );
 
 		// Border
 		style.setBorderBottomColor( getMemberProperty( highlight,
@@ -1783,12 +1810,21 @@ class EngineIRVisitor extends DesignVisitor
 		style
 				.setTextIndent( getStyleProperty( handle,
 						Style.TEXT_INDENT_PROP ) );
-		style.setTextUnderline( getStyleProperty( handle,
-				Style.TEXT_UNDERLINE_PROP ) );
-		style.setTextLineThrough( getStyleProperty( handle,
-				Style.TEXT_LINE_THROUGH_PROP ) );
-		style.setTextOverline( getStyleProperty( handle,
-				Style.TEXT_OVERLINE_PROP ) );
+		if ( "underline".equalsIgnoreCase( getStyleProperty( handle, //$NON-NLS-1$
+				Style.TEXT_UNDERLINE_PROP ) ) )
+		{
+			style.setTextUnderline( "true" ); //$NON-NLS-1$
+		}
+		if ( "line-through".equalsIgnoreCase( getStyleProperty( handle, //$NON-NLS-1$
+				Style.TEXT_LINE_THROUGH_PROP ) ) )
+		{
+			style.setTextLineThrough( "true" ); //$NON-NLS-1$
+		}
+		if ( "overline".equalsIgnoreCase( getStyleProperty( handle, //$NON-NLS-1$
+				Style.TEXT_OVERLINE_PROP ) ) )
+		{
+			style.setTextOverline( "true" ); //$NON-NLS-1$
+		}
 		style.setLetterSpacing( getStyleProperty( handle,
 				Style.LETTER_SPACING_PROP ) );
 		style
@@ -1832,14 +1868,6 @@ class EngineIRVisitor extends DesignVisitor
 		style
 				.setFontVariant( getStyleProperty( handle,
 						Style.FONT_VARIANT_PROP ) );
-
-		// Text decoration
-		style.setTextLineThrough( getStyleProperty( handle,
-				Style.TEXT_LINE_THROUGH_PROP ) );
-		style.setTextOverline( getStyleProperty( handle,
-				Style.TEXT_OVERLINE_PROP ) );
-		style.setTextUnderline( getStyleProperty( handle,
-				Style.TEXT_UNDERLINE_PROP ) );
 
 		// Border
 		style.setBorderBottomColor( getStyleProperty( handle,

@@ -31,7 +31,7 @@ import org.w3c.dom.css.CSSValue;
  * This class provides a manager for the property with support for CSS color
  * values.
  * 
- * @version $Id: AbstractColorManager.java,v 1.3 2005/10/19 01:57:54 Swang Exp $
+ * @version $Id: AbstractColorManager.java,v 1.1 2005/11/11 06:26:44 wyan Exp $
  */
 public abstract class AbstractColorManager extends IdentifierManager {
 
@@ -159,6 +159,8 @@ public abstract class AbstractColorManager extends IdentifierManager {
 				CSSValueConstants.TEAL_RGB_VALUE);
 		computedValues.put(CSSConstants.CSS_AQUA_VALUE,
 				CSSValueConstants.AQUA_RGB_VALUE);
+		computedValues.put(CSSConstants.CSS_TRANSPARENT_VALUE,
+				CSSValueConstants.TRANSPARENT_VALUE);
 	}
 
 	/**
@@ -238,7 +240,7 @@ public abstract class AbstractColorManager extends IdentifierManager {
 
 	private DOMException createInvalidRGBComponentUnitDOMException(short type) {
 		Object[] p = new Object[] { getPropertyName(), new Integer(type) };
-		String s = Messages.formatMessage("invalid.rgb.component.unit", p);
+		String s = Messages.formatMessage("invalid.rgb.component.unit", p); //$NON-NLS-1$
 		return new DOMException(DOMException.NOT_SUPPORTED_ERR, s);
 	}
 

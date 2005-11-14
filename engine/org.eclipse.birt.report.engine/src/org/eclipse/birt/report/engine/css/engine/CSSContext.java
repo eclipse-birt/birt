@@ -23,7 +23,7 @@ import org.w3c.dom.css.CSSValue;
  * This interface allows the user of a CSSEngine to provide contextual
  * informations.
  *
- * @version $Id: CSSContext.java,v 1.2 2005/10/13 10:00:01 wyan Exp $
+ * @version $Id: CSSContext.java,v 1.1 2005/11/11 06:26:48 wyan Exp $
  */
 public interface CSSContext {
     
@@ -51,13 +51,6 @@ public interface CSSContext {
      * Returns the size of a px CSS unit in millimeters.
      */
     float getPixelUnitToMillimeter();
-
-    /**
-     * Returns the size of a px CSS unit in millimeters.
-     * This will be removed after next release.
-     * @see #getPixelUnitToMillimeter()
-     */
-    float getPixelToMillimeter();
 
     /**
      * Returns the medium font size.
