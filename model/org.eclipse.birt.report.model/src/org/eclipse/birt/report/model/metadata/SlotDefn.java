@@ -474,7 +474,7 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	 *         false
 	 */
 
-	public boolean isAddToNameSpace( )
+	public boolean isManagedByNameSpace( )
 	{
 		return isManagedByNameSpace;
 	}
@@ -488,7 +488,7 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	 *            otherwise false
 	 */
 
-	public void setAddToNameSpace( boolean isManagedByNameSpace )
+	public void setManagedByNameSpace( boolean isManagedByNameSpace )
 	{
 		this.isManagedByNameSpace = isManagedByNameSpace;
 	}

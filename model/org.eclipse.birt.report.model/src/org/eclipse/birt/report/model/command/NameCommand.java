@@ -157,7 +157,7 @@ public class NameCommand extends AbstractElementCommand
 			// in the themes, or the report items or data sets in the template
 			// parameter definitions, their names will not put into namepsace.
 
-			if ( slotInfo != null && !slotInfo.isAddToNameSpace( ) )
+			if ( slotInfo != null && !slotInfo.isManagedByNameSpace( ) )
 			{
 				return;
 			}
@@ -251,7 +251,7 @@ public class NameCommand extends AbstractElementCommand
 	private void addSymbol( )
 	{
 		if ( element.getName( ) == null
-				|| ( slotInfo != null && !slotInfo.isAddToNameSpace( ) ) )
+				|| ( slotInfo != null && !slotInfo.isManagedByNameSpace( ) ) )
 			return;
 
 		// if it is a style in the theme, no need to check duplicate names.
@@ -288,7 +288,7 @@ public class NameCommand extends AbstractElementCommand
 	private void dropSymbol( )
 	{
 		if ( element.getName( ) == null
-				|| ( slotInfo != null && !slotInfo.isAddToNameSpace( ) ) )
+				|| ( slotInfo != null && !slotInfo.isManagedByNameSpace( ) ) )
 			return;
 		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
 		if ( !module.getNameSpace( ns ).contains( element.getName( ) ) )
@@ -304,7 +304,7 @@ public class NameCommand extends AbstractElementCommand
 		// not, we will not handle
 
 		if ( element.getContainer( ) != null
-				&& ( slotInfo != null && slotInfo.isAddToNameSpace( ) ) )
+				&& ( slotInfo != null && slotInfo.isManagedByNameSpace( ) ) )
 		{
 			RenameInNameSpaceRecord record = new RenameInNameSpaceRecord(
 					getModule( ), element, oldName, element.getName( ) );

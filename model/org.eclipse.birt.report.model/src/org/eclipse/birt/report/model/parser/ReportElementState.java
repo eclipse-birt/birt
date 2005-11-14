@@ -26,7 +26,6 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -178,7 +177,7 @@ public abstract class ReportElementState extends DesignParseState
 		int id = contentDefn.getNameSpaceID( );
 		if ( name != null
 				&& id != MetaDataConstants.NO_NAME_SPACE
-				&& slotInfo.isAddToNameSpace( ) )
+				&& slotInfo.isManagedByNameSpace( ) )
 		{
 			NameSpace ns = module.getNameSpace( id );
 

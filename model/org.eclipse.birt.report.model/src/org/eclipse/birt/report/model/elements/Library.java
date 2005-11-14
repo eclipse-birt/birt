@@ -183,6 +183,18 @@ public class Library extends Module implements ILibraryModel
 	}
 
 	/**
+	 * Sets the host module.
+	 * 
+	 * @param theHost
+	 *            the host module to set
+	 */
+
+	public void setHost( Module theHost )
+	{
+		this.host = theHost;
+	}
+
+	/**
 	 * Returns whether the library with the given namespace can be included in
 	 * this module.
 	 * 

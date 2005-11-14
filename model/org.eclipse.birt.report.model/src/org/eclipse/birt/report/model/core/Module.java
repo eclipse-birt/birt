@@ -60,6 +60,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.parser.LibraryReader;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -599,7 +600,142 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public Object clone( ) throws CloneNotSupportedException
 	{
-		throw new CloneNotSupportedException( );
+		Module module = (Module) super.clone( );
+
+		// clear some attributes
+
+		module.activityStack = new ActivityStack( );
+		module.allExceptions = null;
+		module.attributeListeners = null;
+		module.disposeListeners = null;
+		module.elementIDCounter = 1;
+		module.fatalException = null;
+		module.idMap = new HashMap( );
+		module.moduleNameSpaces = new IModuleNameSpace[NAME_SPACE_COUNT];
+		module.nameSpaces = new NameSpace[NAME_SPACE_COUNT];
+		module.referencableProperties = null;
+		module.saveState = 0;
+		module.systemId = null;
+		module.translations = (TranslationTable) translations.clone( );
+		module.validationExecutor = new ValidationExecutor( module );
+		module.validationListeners = null;
+		module.setID( module.getNextID( ) );
+		module.addElementID( module );
+
+		// clone module name space and name space
+
+		for ( int i = 0; i < NAME_SPACE_COUNT; i++ )
+		{
+			module.nameSpaces[i] = new NameSpace( );
+			module.moduleNameSpaces[i] = ModuleNameSpaceFactory
+					.createElementNameSpace( module, i );
+		}
+
+		// clone slot
+
+		module.initSlots( );
+		for ( int i = 0; i < slots.length; i++ )
+		{
+			module.slots[i] = slots[i].copy( module, i );
+		}
+
+		// clone theme property
+
+		if ( theme != null )
+			module.theme = new ElementRefValue( null, theme.getName( ) );
+		else
+			module.theme = null;
+
+		// clone libraries
+
+		if ( libraries != null )
+		{
+			for ( int i = 0; i < libraries.size( ); i++ )
+			{
+				module.libraries = new ArrayList( );
+				Library lib = (Library) ( (Library) libraries.get( i ) )
+						.clone( );
+				lib.setHost( module );
+				module.libraries.add( lib );
+			}
+		}
+		else
+			module.libraries = null;
+
+		// build name space and id map
+
+		IElementDefn defn = module.getDefn( );
+		for ( int i = 0; i < defn.getSlotCount( ); i++ )
+		{
+			ContainerSlot slot = module.getSlot( i );
+
+			if ( slot == null )
+				continue;
+
+			for ( int pos = 0; pos < slot.getCount( ); pos++ )
+			{
+				DesignElement innerElement = slot.getContent( pos );
+				buildNameSpaceAndIDMap( module, innerElement );
+			}
+		}
+
+		return module;
+	}
+
+	/**
+	 * Builds up the namespace and id-map for the cloned module.
+	 * 
+	 * @param module
+	 *            the cloned module to build
+	 * @param element
+	 *            the element in the module to add into the namespace and id-map
+	 */
+
+	private void buildNameSpaceAndIDMap( Module module, DesignElement element )
+	{
+		if ( module == null || element == null )
+			return;
+		assert !( element instanceof Module );
+
+		ElementDefn defn = (ElementDefn) element.getDefn( );
+
+		element.setID( module.getNextID( ) );
+		assert module.getElementByID( element.getID( ) ) == null;
+		module.addElementID( element );
+
+		// The name should not be null if it is required. The parser state
+		// should have already caught this case.
+
+		String name = element.getName( );
+		assert !StringUtil.isBlank( name )
+				|| defn.getNameOption( ) != MetaDataConstants.REQUIRED_NAME;
+
+		// Disallow duplicate names.
+
+		assert element.getContainer( ) != null;
+		SlotDefn slotInfo = (SlotDefn) element.getContainer( ).getDefn( )
+				.getSlot( element.getContainerSlot( ) );
+		int id = defn.getNameSpaceID( );
+		if ( name != null && id != MetaDataConstants.NO_NAME_SPACE
+				&& slotInfo.isManagedByNameSpace( ) )
+		{
+			NameSpace ns = module.getNameSpace( id );
+
+			assert !ns.contains( name );
+			ns.insert( element );
+		}
+
+		for ( int i = 0; i < defn.getSlotCount( ); i++ )
+		{
+			ContainerSlot slot = element.getSlot( i );
+			assert slot != null;
+
+			for ( int pos = 0; pos < slot.getCount( ); pos++ )
+			{
+				DesignElement innerElement = slot.getContent( pos );
+				buildNameSpaceAndIDMap( module, innerElement );
+			}
+		}
 	}
 
 	/**
@@ -2022,7 +2158,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 			return null;
 		return theme.getName( );
 	}
-	
+
 	/**
 	 * Returns the resolved theme of the report design/library.
 	 * 
@@ -2170,7 +2306,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		return (TemplateParameterDefinition) resolveElement( name,
 				TEMPLATE_PARAMETER_NAME_SPACE );
 	}
-	
+
 	/**
 	 * Sets the theme. If null, the theme is cleared.
 	 * 

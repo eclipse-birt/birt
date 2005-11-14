@@ -1302,7 +1302,7 @@ class MetaDataHandler extends XMLParserHandler
 			slotDefn = new SlotDefn( );
 			slotDefn.setName( name );
 			slotDefn.setDisplayNameID( displayNameID );
-			slotDefn.setAddToNameSpace( getBooleanAttrib( attrs,
+			slotDefn.setManagedByNameSpace( getBooleanAttrib( attrs,
 					IS_MANAGED_BY_NAME_SPACE_ATTRIB, true ) );
 			slotDefn.setMultipleCardinality( parseBoolean( multipleCardinality,
 					true ) );
