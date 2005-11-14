@@ -240,47 +240,49 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public String getImageName( )
 	{
-		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED
+		if ( !DesignChoiceConstants.IMAGE_REF_TYPE_EMBED
 				.equalsIgnoreCase( getStringProperty( ImageItem.SOURCE_PROP ) ) )
+			return null;
+
+		ImageItem image = (ImageItem) getElement( );
+
+		StructRefValue refValue = (StructRefValue) image.getLocalProperty(
+				getModule( ), IImageItemModel.IMAGE_NAME_PROP );
+		if ( refValue != null )
 		{
-			if ( getElement( ).getLocalProperty( getModule( ),
-					IImageItemModel.IMAGE_NAME_PROP ) != null )
-			{
-				return ( (StructRefValue) getElement( ).getLocalProperty(
-						getModule( ), IImageItemModel.IMAGE_NAME_PROP ) )
-						.getName( );
-			}
-
-			String name = getStringProperty( IImageItemModel.IMAGE_NAME_PROP );
-			if ( name == null )
-				return null;
-
-			// must be extends
-
-			Module module = getModule( );
-			DesignElementHandle parent = getExtends( );
-
-			while ( parent != null )
-			{
-				if ( parent.getElement( ).getLocalProperty(
-						parent.getModule( ), IImageItemModel.IMAGE_NAME_PROP ) != null )
-				{
-					module = (Module) parent.getRoot( ).getElement( );
-					break;
-				}
-
-				parent = parent.getExtends( );
-			}
-
-			if ( module instanceof Library )
-			{
-				String namespace = ( (Library) module ).getNamespace( );
-				return StringUtil.buildQualifiedReference( namespace, name );
-			}
-
-			return name;
+			return refValue.getName( );
 		}
-		return null;
+
+		String name = getStringProperty( IImageItemModel.IMAGE_NAME_PROP );
+		if ( name == null )
+			return null;
+
+		// must be extends
+
+		Module module = getModule( );
+		DesignElement parent = image.isVirtualElement( ) ? image
+				.getVirtualParent( ) : image.getExtendsElement( );
+		while ( parent != null )
+		{
+			if ( parent
+					.getLocalProperty( null, IImageItemModel.IMAGE_NAME_PROP ) != null )
+			{
+				module = parent.getRoot( );
+				break;
+			}
+
+			parent = parent.isVirtualElement( )
+					? parent.getVirtualParent( )
+					: parent.getExtendsElement( );
+		}
+
+		if ( module instanceof Library )
+		{
+			String namespace = ( (Library) module ).getNamespace( );
+			return StringUtil.buildQualifiedReference( namespace, name );
+		}
+
+		return name;
 
 	}
 
