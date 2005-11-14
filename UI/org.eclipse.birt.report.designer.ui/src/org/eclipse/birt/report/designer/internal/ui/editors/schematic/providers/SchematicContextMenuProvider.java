@@ -57,6 +57,7 @@ import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertPasteColumnAction;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
 import org.eclipse.birt.report.designer.ui.actions.NoneAction;
+import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -182,15 +183,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		Object multiSelection = getMultiSelectedElement( );
 
 		// special for dealing with multi selected elements (items).
-		if ( multiSelection == Object.class // report design and slot
-				// multi ?
-				|| multiSelection == DesignElementHandle.class
-				// report design
-				|| isRootElementHandleClass(multiSelection)
-				// saveral report items
-				|| multiSelection == ReportItemHandle.class
-				// table and list
-				|| multiSelection == ListHandle.class )
+		if ( isMutilSelection( multiSelection ) )
 		{
 			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
 					getAction( ActionFactory.UNDO.getId( ) ) );
@@ -205,7 +198,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 					new DeleteAction( selectedElements ) );
 
-			if ( isRootElementHandleClass(multiSelection) )
+			if ( isRootElementHandleClass( multiSelection ) )
 			{
 				createInsertElementMenu( menuManager,
 						GEFActionConstants.GROUP_EDIT );
@@ -384,13 +377,41 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				createEditGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
 			}
 		}
+
+		if ( getElements( ).size( ) == 1 || isMutilSelection( multiSelection ) )
+		{
+			if ( firstSelectedElement instanceof DesignElementHandle )
+			{
+				String elementName = ( (DesignElementHandle) firstSelectedElement ).getDefn( )
+						.getName( );
+				IMenuBuilder menuBuilder = ExtensionPointManager.getInstance( )
+						.getMenuBuilder( elementName );
+				if ( menuBuilder != null )
+				{
+					menuBuilder.buildMenu( menuManager, getElements( ) );
+				}
+			}
+		}
 	}
 
-	
-	private boolean isRootElementHandleClass(Object obj)
+	private boolean isMutilSelection( Object multiSelection )
+	{
+		return multiSelection == Object.class // report design and slot
+				// multi ?
+				|| multiSelection == DesignElementHandle.class
+				// report design
+				|| isRootElementHandleClass( multiSelection )
+				// saveral report items
+				|| multiSelection == ReportItemHandle.class
+				// table and list
+				|| multiSelection == ListHandle.class;
+	}
+
+	private boolean isRootElementHandleClass( Object obj )
 	{
 		return obj == ReportDesignHandle.class || obj == LibraryHandle.class;
 	}
+
 	/**
 	 * @param menuManager
 	 */
@@ -491,23 +512,23 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 		List points = ExtensionPointManager.getInstance( )
 				.getExtendedElementPoints( );
-			for ( Iterator iter = points.iterator( ); iter.hasNext( ); )
+		for ( Iterator iter = points.iterator( ); iter.hasNext( ); )
+		{
+			ExtendedElementUIPoint point = (ExtendedElementUIPoint) iter.next( );
+			action = getAction( point.getExtensionName( ) );
+			if ( action != null )
 			{
-				ExtendedElementUIPoint point = (ExtendedElementUIPoint) iter.next( );
-				action = getAction( point.getExtensionName( ) );
-				if ( action != null )
+				if ( point.getExtensionName( ).equalsIgnoreCase( "Chart" ) ) //$NON-NLS-1$
 				{
-					if(point.getExtensionName( ).equalsIgnoreCase("Chart")) //$NON-NLS-1$
-					{
-						action.setText( "&" + point.getExtensionName( ) ); //$NON-NLS-1$
-					}
-					else
-					{
-						action.setText( point.getExtensionName( ) );
-					}
-					subMenu.add( action );
+					action.setText( "&" + point.getExtensionName( ) ); //$NON-NLS-1$
 				}
+				else
+				{
+					action.setText( point.getExtensionName( ) );
+				}
+				subMenu.add( action );
 			}
+		}
 
 		menuManager.appendToGroup( group_name, subMenu );
 	}
@@ -536,7 +557,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 		menu.add( subMenu );
 		menu.add( new Separator( ) );
-		menu.add(getAction(ImportCSSStyleAction.ID));
+		menu.add( getAction( ImportCSSStyleAction.ID ) );
 		menu.add( getAction( AddStyleRuleAction.ID ) );
 		menuManager.appendToGroup( group_name, menu );
 	}

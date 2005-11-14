@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.core.model.views.outline.EmbeddedImageNode;
 import org.eclipse.birt.report.designer.core.model.views.outline.LibraryNode;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.data.providers.CascadingParameterGroupNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.data.providers.DataSetColumnProvider;
@@ -50,6 +51,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.Tabl
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.TableProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.ThemeNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.ThemesNodeProvider;
+import org.eclipse.birt.report.designer.ui.extensions.IProviderFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -129,24 +131,22 @@ public class ProviderFactory
 						return new BodyNodeProvider( );
 					case ModuleHandle.COMPONENT_SLOT :
 						return new ComponentsProvider( );
-//					case ModuleHandle.STYLE_SLOT :
-//						StylesNodeProvider provider = new StylesNodeProvider( );
-//						provider.setSorter( new AlphabeticallyComparator( ) );
-//						return provider;
+					// case ModuleHandle.STYLE_SLOT :
+					// StylesNodeProvider provider = new StylesNodeProvider( );
+					// provider.setSorter( new AlphabeticallyComparator( ) );
+					// return provider;
 					case ILibraryModel.THEMES_SLOT :
 					{
-						if (model.getElementHandle() instanceof LibraryHandle)
+						if ( model.getElementHandle( ) instanceof LibraryHandle )
 						{
 							ThemesNodeProvider themesProvider = new ThemesNodeProvider( );
 							themesProvider.setSorter( new AlphabeticallyComparator( ) );
 							return themesProvider;
 						}
-						else
-						{
-							StylesNodeProvider provider = new StylesNodeProvider( );
-							provider.setSorter( new AlphabeticallyComparator( ) );
-							return provider;
-						}
+						StylesNodeProvider provider = new StylesNodeProvider( );
+						provider.setSorter( new AlphabeticallyComparator( ) );
+						return provider;
+
 					}
 					case ModuleHandle.PAGE_SLOT :
 						return new MasterPagesNodeProvider( );
@@ -187,6 +187,14 @@ public class ProviderFactory
 		}
 		else if ( object instanceof DesignElementHandle )
 		{
+			String elementName = ( (DesignElementHandle) object ).getDefn( )
+					.getName( );
+			IProviderFactory factory = ExtensionPointManager.getInstance( )
+					.getProviderFactory( elementName );
+			if ( factory != null )
+			{
+				return factory.createProvider( object );
+			}
 			if ( object instanceof CellHandle )
 			{
 				return new CellProvider( );
@@ -257,9 +265,9 @@ public class ProviderFactory
 		{
 			return new DataSetColumnProvider( );
 		}
-		else if ( object instanceof DataSetParameterHandle)
+		else if ( object instanceof DataSetParameterHandle )
 		{
-			return new DataSetParameterProvider();
+			return new DataSetParameterProvider( );
 		}
 		else if ( object instanceof EmbeddedImageNode )
 		{
