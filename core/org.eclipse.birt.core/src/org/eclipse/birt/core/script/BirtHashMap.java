@@ -17,10 +17,15 @@ import java.util.HashMap;
 /**
  *
  * 
- * @version $Revision: 1.2 $ $Date: 2005/05/18 03:31:00 $
+ * @version $Revision: 1.1 $ $Date: 2005/06/01 07:57:57 $
  */
 
 public class BirtHashMap extends HashMap
 {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1968479576285929226L;
 
 }

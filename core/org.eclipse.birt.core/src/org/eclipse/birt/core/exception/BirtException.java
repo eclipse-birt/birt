@@ -40,6 +40,11 @@ public class BirtException extends Exception
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2152858415308815725L;
+
+	/**
 	 * The resource key that represents the internal error code used in fetching
 	 * an externalized message
 	 */

@@ -17,12 +17,17 @@ import org.mozilla.javascript.Scriptable;
 
 /**
  * 
- * @version $Revision: 1.3 $ $Date: 2005/05/08 06:07:16 $
+ * @version $Revision: 1.4 $ $Date: 2005/05/08 06:58:29 $
  */
 public class NativeJavaList extends NativeJavaObject
 {
 
-    public NativeJavaList() { }
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1207726021220583694L;
+
+	public NativeJavaList() { }
 
     public NativeJavaList(Scriptable scope, Object javaObject,
                             Class staticType)

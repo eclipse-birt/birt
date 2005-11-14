@@ -25,6 +25,11 @@ import org.xml.sax.SAXException;
 public class XMLParserException extends SAXException
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4843979661543157480L;
+
+	/**
 	 * The line of the file on which the error occurred.
 	 */
 	

@@ -21,10 +21,15 @@ import org.mozilla.javascript.Scriptable;
  * Represents the scriptable object for Java object which implements the
  * interface <code>Map</code>.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/05/18 03:31:00 $
+ * @version $Revision: 1.8 $ $Date: 2005/06/01 07:57:57 $
  */
 class NativeJavaMap extends NativeJavaObject
 {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3988584321233636629L;
 
 	public NativeJavaMap( )
 	{
@@ -56,11 +61,11 @@ class NativeJavaMap extends NativeJavaObject
 
 	public Object get( String name, Scriptable start )
 	{
-		if (has(name, start))
+		if ( has( name, start ) )
 		{
-			return ((Map) javaObject).get(name);
+			return ( (Map) javaObject ).get( name );
 		}
-		throw new JavaScriptException(name + " not found");
+		throw new JavaScriptException( name + " not found", "<unknown>", -1 );
 	}
 
 	/*
@@ -95,17 +100,17 @@ class NativeJavaMap extends NativeJavaObject
 
 	public Object get( int index, Scriptable start )
 	{
-		if(has(new Integer(index).toString(), start))
+		if ( has( new Integer( index ).toString( ), start ) )
 		{
-			return ( (Map) javaObject ).get(new Integer(index).toString());
+			return ( (Map) javaObject ).get( new Integer( index ).toString( ) );
 		}
-		throw new JavaScriptException(index + " not found"); //$NON-NLS-1$
+		throw new JavaScriptException( index + " not found", "<unknown>", -1 ); //$NON-NLS-1$
 
 	}
-	
-	public void put(int index, Scriptable start, Object value)
+
+	public void put( int index, Scriptable start, Object value )
 	{
-		( (Map) javaObject ).put(new Integer(index).toString(), value);
+		( (Map) javaObject ).put( new Integer( index ).toString( ), value );
 	}
-	 
+
 }

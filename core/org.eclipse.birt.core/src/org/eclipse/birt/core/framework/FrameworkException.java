@@ -24,6 +24,11 @@ public class FrameworkException extends Exception {
 
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9032025140135814484L;
+
+	/**
 	 * Creates a new exception with the given status object.  The message
 	 * of the given status is used as the exception message.
 	 *
