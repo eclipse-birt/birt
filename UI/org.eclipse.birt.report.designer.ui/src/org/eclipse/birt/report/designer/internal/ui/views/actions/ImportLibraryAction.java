@@ -19,12 +19,16 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportLibraryDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.ui.IEditorPart;
 
 /**
  * The action used to add library to a report design
@@ -33,16 +37,28 @@ import org.eclipse.swt.widgets.FileDialog;
 public class ImportLibraryAction extends Action
 {
 
-	private static final String TEXT = Messages.getString( "ImportLibraryAction.Text" ); //$NON-NLS-1$
+	public static final String ID = "UseLibraryAction"; //$NON-NLS-1$
+	public static final String ACTION_TEXT = Messages.getString( "UseLibraryAction.Text" ); //$NON-NLS-1$
 	private static final String MSG_DIALOG_TITLE = Messages.getString( "ImportLibraryAction.Title.ImportSuccessfully" ); //$NON-NLS-1$
 	private static final String MSG_DIALOG_MSG = Messages.getString( "ImportLibraryAction.Message.ImportSuccessfully" ); //$NON-NLS-1$
 
 	public ImportLibraryAction( )
 	{
-		setText( TEXT ); //$NON-NLS-1$
+		setText( ACTION_TEXT ); //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
+	 * @see org.eclipse.jface.action.Action#isEnabled()
+	 */
+	public boolean isEnabled( )
+	{
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
 	public void run( )
@@ -62,16 +78,22 @@ public class ImportLibraryAction extends Action
 		}
 		if ( filename != null )
 		{
+			if ( !isInExplorer( filename ) )
+			{
+				addToPreference(filename);
+			}
+
 			String defaultName = new File( filename ).getName( ).split( "\\." )[0];
 			ImportLibraryDialog importDialog = new ImportLibraryDialog( defaultName ); //$NON-NLS-1$
 			if ( importDialog.open( ) == Dialog.OK )
 			{
 				ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
+						.getReportDesignHandle( );
 				try
 				{
-					moduleHandle.includeLibrary( getRelativedPath(moduleHandle.getFileName(),filename),
-									(String) importDialog.getResult( ) );
+					moduleHandle.includeLibrary( getRelativedPath( moduleHandle.getFileName( ),
+							filename ),
+							(String) importDialog.getResult( ) );
 					ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
 							MessageFormat.format( MSG_DIALOG_MSG, new String[]{
 								filename
@@ -86,11 +108,41 @@ public class ImportLibraryAction extends Action
 		}
 	}
 
-	// copy from org.eclipse.birt.report.designer.ui.lib.explorer.action.ImportLibraryAction
+	private boolean isInExplorer( String fileName )
+	{
+		IEditorPart editor = UIUtil.getActiveEditor( true );
+		ILibraryProvider provider = (ILibraryProvider)editor.getAdapter(ILibraryProvider.class);
+		if(provider!=null){
+			LibraryHandle[] libraries = provider.getLibraries();
+			for ( int i = 0; i < libraries.length; i++ )
+			{
+				if(libraries[i].getFileName( ).equals(fileName))
+					return true;
+			}
+		}
+		return false;
+	}
+
+	private void addToPreference( String fileName )
+	{
+		String[] libraries = ReportPlugin.getDefault( )
+				.getLibraryPreference( );
+		String[] newLibraries = new String[libraries.length + 1];
+		System.arraycopy( libraries,
+				0,
+				newLibraries,
+				0,
+				libraries.length );
+		newLibraries[libraries.length] = fileName;
+		ReportPlugin.getDefault( ).setLibraryPreference( newLibraries );
+	}
+
+	// copy from
+	// org.eclipse.birt.report.designer.ui.lib.explorer.action.ImportLibraryAction
 	private static String getRelativedPath( String base, String child )
 	{
 		URI baseUri = new File( base ).getParentFile( ).toURI( );
 		URI childUri = new File( child ).toURI( );
-		return baseUri.relativize( childUri ).getPath();
+		return baseUri.relativize( childUri ).getPath( );
 	}
 }

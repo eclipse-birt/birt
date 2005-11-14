@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.util;
 
 import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -245,14 +247,37 @@ public class DEUtil
 	 */
 	public static String getDisplayLabel( Object obj )
 	{
+		return getDisplayLabel( obj, true );
+	}
+
+	/**
+	 * Get display label of report element
+	 * 
+	 * @param obj
+	 */
+	public static String getDisplayLabel( Object obj, boolean includeElementName )
+	{
 		if ( obj instanceof DesignElementHandle )
 		{
 			DesignElementHandle handle = (DesignElementHandle) obj;
 			String elementName = handle.getDefn( ).getDisplayName( );
-			String displayName = handle.getDisplayLabel( DesignElementHandle.USER_LABEL );
+			String displayName;
+			if ( handle.getQualifiedName( ) != null
+					&& !handle.getQualifiedName( ).equals( handle.getName( ) ) )
+			{
+				displayName = handle.getQualifiedName( );
+			}
+			else
+			{
+				displayName = handle.getDisplayLabel( DesignElementHandle.USER_LABEL );
+			}
 			if ( !StringUtil.isBlank( displayName ) )
 			{
-				return elementName + " - " + displayName; //$NON-NLS-1$
+				if ( includeElementName )
+				{
+					return elementName + " - " + displayName; //$NON-NLS-1$
+				}
+				return displayName;
 			}
 			return elementName;
 		}
@@ -785,7 +810,7 @@ public class DEUtil
 		if ( model instanceof ParameterHandle )
 		{
 			return IReportElementConstants.PARAMETER_PREFIX
-					+ "[\"" + ( (ParameterHandle) model ).getName( ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
+					+ "[\"" + ( (ParameterHandle) model ).getQualifiedName( ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if ( model instanceof DataSetItemModel )
 		{
@@ -1339,22 +1364,11 @@ public class DEUtil
 	 */
 	public static Iterator getStyles( Comparator comparator )
 	{
-		SlotHandle styles = SessionHandleAdapter.getInstance( )
+		List styles = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.getStyles( );
+				.getAllStyles( );
 
-		if ( styles == null )
-		{
-			return null;
-		}
-
-		Object[] stylesArray = new Object[styles.getCount( )];
-
-		int i = 0;
-		for ( Iterator it = styles.iterator( ); it.hasNext( ); )
-		{
-			stylesArray[i++] = it.next( );
-		}
+		Object[] stylesArray = styles.toArray( );
 
 		if ( comparator != null )
 		{
@@ -1398,5 +1412,23 @@ public class DEUtil
 		}
 		return IReportElementConstants.DATA_COLUMN_PREFIX
 				+ "[\"" + DEUtil.escape( columnName ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	/**
+	 * Relativizes the path against this base path.
+	 * 
+	 * @param basePath
+	 *            the base path
+	 * @param path
+	 *            the path to convert
+	 * @return The relative path based on the base path if it is possible, or
+	 *         the original path
+	 * 
+	 */
+	public static String getRelativedPath( String basePath, String path )
+	{
+		URI baseUri = new File( basePath ).getParentFile( ).toURI( );
+		URI childUri = new File( path ).toURI( );
+		return baseUri.relativize( childUri ).getPath( );
 	}
 }

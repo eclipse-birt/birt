@@ -64,7 +64,7 @@ import org.eclipse.ui.ISharedImages;
 public class ExpressionTreeSupport
 {
 
-	//Tree item icon images
+	// Tree item icon images
 	private static final Image IMAGE_FOLDER = ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJ_FOLDER );
 
 	private static final Image IMAGE_OPERATOR = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_OPERATOR );
@@ -288,7 +288,7 @@ public class ExpressionTreeSupport
 
 	/**
 	 * Create operators band.Must set Tree before execution.
-	 *  
+	 * 
 	 */
 	public void createOperatorsTree( )
 	{
@@ -306,7 +306,7 @@ public class ExpressionTreeSupport
 
 	/**
 	 * Create native object band.Must set Tree before execution.
-	 *  
+	 * 
 	 */
 	public void createNativeObjectsTree( )
 	{
@@ -317,7 +317,7 @@ public class ExpressionTreeSupport
 
 	/**
 	 * Create parameters band. Must set Tree before execution.
-	 *  
+	 * 
 	 */
 	public void createParamtersTree( )
 	{
@@ -325,14 +325,14 @@ public class ExpressionTreeSupport
 		TreeItem topItem = createTopTreeItem( tree, TREE_ITEM_PARAMETERS );
 		for ( Iterator iterator = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.getParameters( )
+				.getAllParameters( )
 				.iterator( ); iterator.hasNext( ); )
 		{
 			ReportElementHandle handle = (ReportElementHandle) iterator.next( );
 			if ( handle instanceof ParameterHandle )
 			{
 				createSubTreeItem( topItem,
-						handle.getDisplayLabel( ),
+						DEUtil.getDisplayLabel( handle, false ),
 						ReportPlatformUIImages.getImage( handle ),
 						DEUtil.getExpression( handle ),
 						( (ParameterHandle) handle ).getHelpText( ),
@@ -341,7 +341,7 @@ public class ExpressionTreeSupport
 			else if ( handle instanceof ParameterGroupHandle )
 			{
 				TreeItem groupItem = createSubTreeItem( topItem,
-						handle.getDisplayLabel( ),
+						DEUtil.getDisplayLabel( handle, false ),
 						ReportPlatformUIImages.getImage( handle ),
 						true );
 				for ( Iterator itor = ( (ParameterGroupHandle) handle ).getParameters( )
@@ -361,7 +361,7 @@ public class ExpressionTreeSupport
 
 	/**
 	 * Create data sets band.Must set Tree before execution.
-	 *  
+	 * 
 	 */
 	public void createDataSetsTree( List dataSetList )
 	{
@@ -371,7 +371,7 @@ public class ExpressionTreeSupport
 		{
 			DataSetHandle handle = (DataSetHandle) iterator.next( );
 			TreeItem dataSetItem = createSubTreeItem( topItem,
-					handle.getDisplayLabel( ),
+					DEUtil.getDisplayLabel( handle, false ),
 					ReportPlatformUIImages.getImage( handle ),
 					true );
 			DataSetItemModel[] columns = DataSetManager.getCurrentInstance( )
@@ -390,7 +390,7 @@ public class ExpressionTreeSupport
 
 	/**
 	 * Creates birt object tree. Must set Tree before execution.
-	 *  
+	 * 
 	 */
 	public void createBirtObjectsTree( )
 	{
@@ -467,7 +467,7 @@ public class ExpressionTreeSupport
 
 	/**
 	 * Adds mouse track listener.Must set Tree before execution.
-	 *  
+	 * 
 	 */
 	public void addMouseTrackListener( )
 	{
@@ -495,7 +495,7 @@ public class ExpressionTreeSupport
 
 	/**
 	 * Add double click behaviour. Must set Tree before execution.
-	 *  
+	 * 
 	 */
 	public void addMouseListener( )
 	{
@@ -608,7 +608,7 @@ public class ExpressionTreeSupport
 
 	/**
 	 * Adds drop support to viewer.Must set viewer before execution.
-	 *  
+	 * 
 	 */
 	public void addDropSupportToViewer( )
 	{
@@ -650,7 +650,7 @@ public class ExpressionTreeSupport
 
 	/**
 	 * Disposes resources.
-	 *  
+	 * 
 	 */
 	public void dispose( )
 	{
@@ -722,7 +722,7 @@ public class ExpressionTreeSupport
 				globalImage = IMAGE_GOLBAL;
 			}
 
-			//Add members
+			// Add members
 			for ( Iterator iterator = classInfo.getMembers( ).iterator( ); iterator.hasNext( ); )
 			{
 				IMemberInfo memberInfo = (IMemberInfo) iterator.next( );
@@ -746,7 +746,7 @@ public class ExpressionTreeSupport
 						true );
 			}
 
-			//Add constructors and methods
+			// Add constructors and methods
 			List methodList = new ArrayList( );
 			methodList.add( classInfo.getConstructor( ) );
 			methodList.addAll( classInfo.getMethods( ) );
@@ -755,7 +755,7 @@ public class ExpressionTreeSupport
 				IMethodInfo methodInfo = (IMethodInfo) iterator.next( );
 				if ( methodInfo == null )
 				{
-					//Constructor is null
+					// Constructor is null
 					continue;
 				}
 				Image image = globalImage;
@@ -770,7 +770,7 @@ public class ExpressionTreeSupport
 						image = IMAGE_METHOD;
 					}
 				}
-				//Split a method with more than one signature into several
+				// Split a method with more than one signature into several
 				// entries
 				List displayList = getMethodArgumentsList( classInfo.getName( ),
 						methodInfo );
@@ -790,7 +790,7 @@ public class ExpressionTreeSupport
 
 	private boolean isGlobal( String name )
 	{
-		//TODO global validation is hard coded
+		// TODO global validation is hard coded
 		return name != null && name.startsWith( "Global" ); //$NON-NLS-1$
 	}
 
@@ -802,7 +802,7 @@ public class ExpressionTreeSupport
 
 		for ( Iterator it = info.argumentListIterator( ); it.hasNext( ); )
 		{
-			//Includes display text in tree view and expression in source
+			// Includes display text in tree view and expression in source
 			// viewer
 			String[] array = new String[2];
 

@@ -551,16 +551,12 @@ public class ChoiceSetFactory
 		ModuleHandle handle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 
-		SlotHandle dataSets = handle.getDataSets( );
-		if ( dataSets != null )
+		for ( Iterator iterator = handle.getAllDataSets( ).iterator( ); iterator.hasNext( ); )
 		{
-			Iterator iterator = dataSets.iterator( );
-			while ( iterator.hasNext( ) )
-			{
-				DataSetHandle DataSetHandle = (DataSetHandle) iterator.next( );
-				list.add( DataSetHandle.getName( ) );
-			}
+			DataSetHandle DataSetHandle = (DataSetHandle) iterator.next( );
+			list.add( DataSetHandle.getQualifiedName( ) );
 		}
+
 		return (String[]) list.toArray( new String[0] );
 	}
 
@@ -629,7 +625,7 @@ public class ChoiceSetFactory
 			while ( iterator.hasNext( ) )
 			{
 				ReportElementHandle elementHandle = (ReportElementHandle) iterator.next( );
-				list.add( elementHandle.getName( ) );
+				list.add( elementHandle.getQualifiedName( ) );
 			}
 		}
 		return (String[]) list.toArray( new String[0] );

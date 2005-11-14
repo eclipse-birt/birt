@@ -486,14 +486,7 @@ public class DNDUtil
 					return false;
 			}
 			return true;
-		}
-		if ( selection instanceof DesignElementHandle )
-		{
-			if ( ( (DesignElementHandle) selection ).getRoot( ) instanceof LibraryHandle )
-			{
-				return false;
-			}
-		}
+		}		
 		if ( selection instanceof ReportElementModel )
 		{
 			return handleValidateDragInOutline( ( (ReportElementModel) selection ).getSlotHandle( ) );

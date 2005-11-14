@@ -14,11 +14,11 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.LibraryElementsToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.DataSetColumnToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.DataSetToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.ParameterToolExtends;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayoutAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -27,7 +27,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.commands.Command;
@@ -117,32 +116,7 @@ public class ReportTemplateTransferDropTargetListener extends
 		}
 		else if ( handleValidateLibrary( template ) )
 		{
-			preHandle = new AbstractToolHandleExtends( ) {
-
-				public boolean preHandleMouseUp( )
-				{
-					Object newObj = getSingleTransferData( template );
-					try
-					{
-						setModel( SessionHandleAdapter.getInstance( )
-								.getReportDesignHandle( )
-								.getElementFactory( )
-								.newElementFrom( (DesignElementHandle) newObj,
-										null ) );
-					}
-					catch ( ExtendsException e )
-					{
-						ExceptionHandler.handle( e );
-					}
-					return super.preHandleMouseUp( );
-				}
-
-				public boolean preHandleMouseDown( )
-				{
-					// TODO Auto-generated method stub
-					return false;
-				}
-			};
+			preHandle = new LibraryElementsToolHandleExtends( (DesignElementHandle) getSingleTransferData( template ) );
 		}
 
 		if ( preHandle != null )
@@ -259,7 +233,8 @@ public class ReportTemplateTransferDropTargetListener extends
 							return false;
 						}
 					}
-					else {
+					else
+					{
 						return false;
 					}
 				}

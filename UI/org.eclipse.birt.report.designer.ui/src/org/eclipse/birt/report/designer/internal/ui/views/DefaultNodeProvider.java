@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFa
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.ExportToLibraryAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayoutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
@@ -151,6 +152,10 @@ public class DefaultNodeProvider implements INodeProvider
 
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
 				+ "-end" ) );//$NON-NLS-1$		
+		
+		action = new ExportToLibraryAction( object );
+		if ( action.isEnabled( ) )
+			menu.add( action );
 	}
 
 	/**

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.preferences;
 
+import org.eclipse.birt.report.designer.internal.ui.views.actions.ExportToLibraryAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.jface.preference.PreferencePage;
@@ -18,12 +19,14 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.MessageBox;
@@ -35,9 +38,8 @@ import org.eclipse.ui.PlatformUI;
  * 
  */
 
-public class LibraryPreferencePage extends PreferencePage
-		implements
-			IWorkbenchPreferencePage
+public class LibraryPreferencePage extends PreferencePage implements
+		IWorkbenchPreferencePage
 {
 
 	// The list that displays the current libraries
@@ -58,6 +60,13 @@ public class LibraryPreferencePage extends PreferencePage
 
 	// The title of the dialog opened for adding.
 	private String openDialogTitle = Messages.getString( "report.designer.ui.preferences.dialogtitle" ); //$NON-NLS-1$
+
+	private static final String EXPORT_PREF_TITLE = Messages.getString( "report.designer.ui.preferences.library.export.title" ); //$NON-NLS-1$
+	private static final String EXPORT_PREF_ALWAYS = Messages.getString( "report.designer.ui.preferences.library.export.overwrite.always" ); //$NON-NLS-1$
+	private static final String EXPORT_PREF_NEVER = Messages.getString( "report.designer.ui.preferences.library.export.overwrite.never" ); //$NON-NLS-1$
+	private static final String EXPORT_PREF_PROMPT = Messages.getString( "report.designer.ui.preferences.library.export.overwrite.prompt" ); //$NON-NLS-1$
+
+	private int exportPref;
 
 	/*
 	 * (non-Javadoc)
@@ -120,7 +129,10 @@ public class LibraryPreferencePage extends PreferencePage
 
 		// Add a List on the left of the Dialog
 		int listStyle = SWT.SINGLE
-				| SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.HIDE_SELECTION;
+				| SWT.BORDER
+				| SWT.H_SCROLL
+				| SWT.V_SCROLL
+				| SWT.HIDE_SELECTION;
 		LibraryList = new List( mainComposite, listStyle );
 		data = new GridData( );
 
@@ -242,6 +254,67 @@ public class LibraryPreferencePage extends PreferencePage
 			}
 		} );
 
+		exportPref = ReportPlugin.getDefault( )
+				.getPreferenceStore( )
+				.getInt( ExportToLibraryAction.PREF_KEY );
+
+		Group optionGroup = new Group( parent, SWT.NONE );
+		optionGroup.setText( EXPORT_PREF_TITLE );
+		GridLayout gridLayout = new GridLayout( );
+		gridLayout.numColumns = 4;
+		gridLayout.marginWidth = 15;
+		gridLayout.marginHeight = 15;
+		optionGroup.setLayout( gridLayout );
+		optionGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		Button alwaysButton = new Button( optionGroup, SWT.RADIO );
+		alwaysButton.setText( EXPORT_PREF_ALWAYS );
+		alwaysButton.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				exportPref = ExportToLibraryAction.PREF_OVERWRITE;
+			}
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				exportPref = ExportToLibraryAction.PREF_OVERWRITE;
+			}
+		} );
+		alwaysButton.setSelection( exportPref == ExportToLibraryAction.PREF_OVERWRITE );
+
+		Button neverButton = new Button( optionGroup, SWT.RADIO );
+		neverButton.setText( EXPORT_PREF_NEVER );
+		neverButton.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				exportPref = ExportToLibraryAction.PREF_NOT_OVERWRITE;
+			}
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				exportPref = ExportToLibraryAction.PREF_NOT_OVERWRITE;
+			}
+		} );
+		neverButton.setSelection( exportPref == ExportToLibraryAction.PREF_NOT_OVERWRITE );
+
+		Button promptButton = new Button( optionGroup, SWT.RADIO );
+		promptButton.setText( EXPORT_PREF_PROMPT );
+		promptButton.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				exportPref = ExportToLibraryAction.PREF_PROMPT;
+			}
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				exportPref = ExportToLibraryAction.PREF_PROMPT;
+			}
+		} );
+		promptButton.setSelection( exportPref == ExportToLibraryAction.PREF_PROMPT );
+
 		return mainComposite;
 	}
 
@@ -281,6 +354,9 @@ public class LibraryPreferencePage extends PreferencePage
 	{
 		ReportPlugin.getDefault( )
 				.setLibraryPreference( LibraryList.getItems( ) );
+		ReportPlugin.getDefault( )
+				.getPreferenceStore( )
+				.setValue( ExportToLibraryAction.PREF_KEY, exportPref );
 		return super.performOk( );
 	}
 

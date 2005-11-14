@@ -47,10 +47,10 @@ public class EditBindingAction extends InsertRowAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return SessionHandleAdapter.getInstance( )
+		return !SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.getDataSets( )
-				.getCount( ) != 0;
+				.getAllDataSets( )
+				.isEmpty( );
 	}
 
 	/*
@@ -64,12 +64,13 @@ public class EditBindingAction extends InsertRowAction
 		{
 			System.out.println( "Edit binding action >> Run ..." ); //$NON-NLS-1$
 		}
-		//Get the first item in the list and pass the model object to the
+		// Get the first item in the list and pass the model object to the
 		// dialog
 		TableEditPart editPart = getTableEditPart( );
 		if ( editPart != null )
 		{
-			CommandStack stack = SessionHandleAdapter.getInstance( ).getCommandStack();
+			CommandStack stack = SessionHandleAdapter.getInstance( )
+					.getCommandStack( );
 			ReportItemHandle handle = (ReportItemHandle) editPart.getModel( );
 			stack.startTrans( Messages.getString( "DesignerActionBarContributor.menu.element.editDataBinding" ) ); //$NON-NLS-1$
 			DataBindingDialog dialog = new DataBindingDialog( PlatformUI.getWorkbench( )
@@ -79,7 +80,7 @@ public class EditBindingAction extends InsertRowAction
 
 			if ( dialog.open( ) == Dialog.OK )
 			{
-				stack.commit( );	
+				stack.commit( );
 			}
 			else
 			{

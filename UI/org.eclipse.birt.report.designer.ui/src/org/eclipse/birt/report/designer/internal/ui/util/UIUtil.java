@@ -11,13 +11,16 @@
 
 package org.eclipse.birt.report.designer.internal.ui.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.GroupDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportLibraryDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.AbstractMultiPageLayoutEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
@@ -27,14 +30,18 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorInput;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -53,6 +60,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ISelection;
@@ -67,6 +75,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Shell;
@@ -85,6 +94,9 @@ import org.osgi.framework.Bundle;
 
 public class UIUtil
 {
+
+	private static final String MSG_DIALOG_TITLE = Messages.getString( "ImportLibraryAction.Title.ImportSuccessfully" ); //$NON-NLS-1$
+	private static final String MSG_DIALOG_MSG = Messages.getString( "ImportLibraryAction.Message.ImportSuccessfully" ); //$NON-NLS-1$
 
 	/**
 	 * Returns if current active editor is reportEditor.
@@ -119,7 +131,8 @@ public class UIUtil
 	 * @return the current active report editor, or null if no report editor is
 	 *         active.
 	 */
-	public static AbstractMultiPageLayoutEditor getActiveReportEditor( boolean activePageOnly )
+	public static AbstractMultiPageLayoutEditor getActiveReportEditor(
+			boolean activePageOnly )
 	{
 		IWorkbenchWindow window = PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( );
@@ -617,7 +630,8 @@ public class UIUtil
 			}
 			// Check if select only one table
 			if ( currentEditPart == null
-					|| currentEditPart != null && part != currentEditPart )
+					|| currentEditPart != null
+					&& part != currentEditPart )
 			{
 				return null;
 			}
@@ -662,7 +676,8 @@ public class UIUtil
 			}
 			// Check if select only one list
 			if ( currentEditPart == null
-					|| currentEditPart != null && part != currentEditPart )
+					|| currentEditPart != null
+					&& part != currentEditPart )
 			{
 				return null;
 			}
@@ -916,25 +931,85 @@ public class UIUtil
 		if ( monitor.isCanceled( ) )
 			throw new OperationCanceledException( );
 	}
-	
+
 	/**
-	 * @return Report Designer UI plugin installation directory as
-	 * OS string.
+	 * @return Report Designer UI plugin installation directory as OS string.
 	 */
-	public static String getHomeDirectory()
+	public static String getHomeDirectory( )
 	{
-		URL url = ReportPlugin.getDefault().getBundle().getEntry("/");
+		URL url = ReportPlugin.getDefault( ).getBundle( ).getEntry( "/" );
 		String home = null;
 		try
 		{
-			 home = Platform.resolve(url).getPath();
+			home = Platform.resolve( url ).getPath( );
 		}
 		catch ( IOException e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace( );
 		}
-		return home.substring(1);
+		return home.substring( 1 );
 	}
 
+	/**
+	 * Creates a blank label under the given parent.
+	 * 
+	 * @return the label created
+	 */
+	public static Label createBlankLabel( Composite parent )
+	{
+		Label label = new Label( parent, SWT.NONE );
+		label.setVisible( false );
+		return label;
+	}
+
+	/**
+	 * Includes the library into within the given module.
+	 * 
+	 * @param moduleHandle
+	 *            the handle module
+	 * @param libraryHandle
+	 *            the library to include.
+	 * @return true if it included successfully, or false if the operation
+	 *         failed.
+	 */
+	public static boolean includeLibrary( ModuleHandle moduleHandle,
+			LibraryHandle libraryHandle ) throws DesignFileException,
+			SemanticException
+	{
+		if ( !moduleHandle.isInclude( libraryHandle ) )
+		{
+			String defaultName = new File( libraryHandle.getFileName( ) ).getName( )
+					.split( File.separator + "." )[0];
+			ImportLibraryDialog dialog = new ImportLibraryDialog( defaultName );
+			if ( dialog.open( ) == Dialog.OK )
+			{
+				moduleHandle.includeLibrary( DEUtil.getRelativedPath( moduleHandle.getFileName( ),
+						libraryHandle.getFileName( ) ),
+						(String) dialog.getResult( ) );
+				ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
+						MessageFormat.format( MSG_DIALOG_MSG, new String[]{
+							libraryHandle.getFileName( )
+						} ),
+						SWT.ICON_INFORMATION );
+				return true;
+			}
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Includes the library into within the current module.
+	 * 
+	 * @param libraryHandle
+	 *            the library to include.
+	 * @return true if it included successfully, or false if the operation
+	 *         failed.
+	 */
+	public static boolean includeLibrary( LibraryHandle libraryHandle )
+			throws DesignFileException, SemanticException
+	{
+		return includeLibrary( SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( ), libraryHandle );
+	}
 }
