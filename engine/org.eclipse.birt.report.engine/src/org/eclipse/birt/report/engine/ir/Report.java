@@ -31,7 +31,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.18 $ $Date: 2005/10/31 05:49:31 $
+ * @version $Revision: 1.19 $ $Date: 2005/11/11 06:26:41 $
  */
 public class Report
 {
@@ -221,7 +221,10 @@ public class Report
 	 */
 	public IStyle findStyle( String name )
 	{
-		assert ( name != null );
+		if ( name == null )
+		{
+			return null;
+		}
 		return (IStyle) this.styleTable.get( name );
 	}
 

@@ -74,7 +74,7 @@ import sun.text.Normalizer;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.17 $ $Date: 2005/11/11 04:50:26 $
+ * @version $Revision: 1.40 $ $Date: 2005/11/11 08:05:28 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -513,6 +513,26 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		fixTransparentPNG( );
 		writer.closeTag( HTMLTags.TAG_HEAD );
 
+		String reportStyleName = report == null ? null : report.getDesign( )
+				.getRootStyleName( );
+		if ( !isEmbeddable )
+		{
+			writer.openTag( HTMLTags.TAG_BODY );
+			if ( reportStyleName != null )
+			{
+				writer.attribute( HTMLTags.ATTR_CLASS, reportStyleName );
+			}
+		}
+		else
+		{
+			writer.openTag( HTMLTags.TAG_DIV );
+			if ( reportStyleName != null )
+			{
+				AttributeBuilder.buildStyle( styleBuffer, report
+						.findStyle( reportStyleName ), this );
+				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+			}
+		}
 	}
 
 	/*
@@ -525,8 +545,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		logger.log( Level.FINE, "[HTMLReportEmitter] End body." ); //$NON-NLS-1$
 		if ( !isEmbeddable )
 		{
+			writer.closeTag( HTMLTags.TAG_BODY );
 			writer.closeTag( HTMLTags.TAG_HTML );
 		}
+		else
+		{
+			writer.closeTag( HTMLTags.TAG_DIV );
+		}
+
 		writer.endWriter( );
 		writer.close( );
 		if ( out != null )
@@ -549,42 +575,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void startPage( IPageContent page )
 	{
-		StringBuffer styleBuffer = new StringBuffer( );
-		String reportStyleName = report == null ? null : report.getDesign( )
-				.getRootStyleName( );
+		writer.openTag( HTMLTags.TAG_DIV );
 		IStyle contentStyle = page == null ? null : page.getContentStyle( );
-
-		if ( !isEmbeddable )
+		if ( contentStyle != null )
 		{
-			writer.openTag( HTMLTags.TAG_BODY );
-			if ( reportStyleName != null )
-			{
-				writer.attribute( HTMLTags.ATTR_CLASS, reportStyleName );
-			}
-			if ( contentStyle != null )
-			{
-				AttributeBuilder.buildStyle( styleBuffer, contentStyle, this );
-				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-			}
-		}
-		else
-		{
-			writer.openTag( HTMLTags.TAG_DIV );
-			if ( reportStyleName != null )
-			{
-				AttributeBuilder.buildStyle( styleBuffer, report
-						.findStyle( reportStyleName ), this );
-				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-			}
-
-			writer.openTag( HTMLTags.TAG_DIV );
-			if ( contentStyle != null )
-			{
-				// clear the buffer
-				styleBuffer.setLength( 0 );
-				AttributeBuilder.buildStyle( styleBuffer, contentStyle, this );
-				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-			}
+			StringBuffer styleBuffer = new StringBuffer( );
+			AttributeBuilder.buildStyle( styleBuffer, contentStyle, this );
+			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 		}
 
 		if ( page != null )
@@ -606,15 +603,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			contentVisitor.visitList( page.getFooter( ), null );
 		}
-		if ( !isEmbeddable )
-		{
-			writer.closeTag( HTMLTags.TAG_BODY );
-		}
-		else
-		{
-			writer.closeTag( HTMLTags.TAG_DIV );
-			writer.closeTag( HTMLTags.TAG_DIV );
-		}
+		writer.closeTag( HTMLTags.TAG_DIV );
 	}
 
 	/*
