@@ -159,19 +159,26 @@ public class TaskSelectType extends SimpleTask
 
 	public Composite getUI( Composite parent )
 	{
-		cmpTask = new Composite( parent, SWT.NONE );
-		GridLayout gridLayout = new GridLayout( );
-		gridLayout.marginWidth = 100;
-		cmpTask.setLayout( gridLayout );
-		cmpTask.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL
-				| GridData.GRAB_VERTICAL ) );
-		cmpTask.addDisposeListener( this );
-		if ( context != null )
+		if ( cmpTask == null )
 		{
-			this.chartModel = ( (ChartWizardContext) context ).getModel( );
+			cmpTask = new Composite( parent, SWT.NONE );
+			GridLayout gridLayout = new GridLayout( );
+			gridLayout.marginWidth = 100;
+			cmpTask.setLayout( gridLayout );
+			cmpTask.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL
+					| GridData.GRAB_VERTICAL ) );
+			cmpTask.addDisposeListener( this );
+			if ( context != null )
+			{
+				this.chartModel = ( (ChartWizardContext) context ).getModel( );
+			}
+			placeComponents( );
+			updateAdapters( );
 		}
-		placeComponents( );
-		updateAdapters( );
+		if ( chartModel != null )
+		{
+			previewPainter.renderModel( chartModel );
+		}
 		return cmpTask;
 	}
 
@@ -189,13 +196,11 @@ public class TaskSelectType extends SimpleTask
 
 	private void createChartPainter( )
 	{
-		previewPainter = new ChartPreviewPainter( ( (ChartWizardContext) getContext( ) ).getProcessor( ) );
+		previewPainter = new ChartPreviewPainter( ( (ChartWizardContext) getContext( ) ).getProcessor( ),
+				container );
 		previewCanvas.addPaintListener( previewPainter );
+		previewCanvas.addControlListener( previewPainter );
 		previewPainter.setPreview( previewCanvas );
-		if ( chartModel != null )
-		{
-			previewPainter.renderModel( chartModel );
-		}
 	}
 
 	private void createPreviewArea( )

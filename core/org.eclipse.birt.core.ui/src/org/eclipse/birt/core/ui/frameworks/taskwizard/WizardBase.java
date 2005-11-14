@@ -82,6 +82,8 @@ public class WizardBase
 	// TRANSIENT STORAGE FOR ERRORS REPORTED BY TASKS USING 'errorDisplay()'
 	private transient Object[] errorHints = null;
 
+	private transient String currentTaskId = null;
+
 	/**
 	 * Launches the wizard with the specified tasks in 'Available' state...and
 	 * the first task set as the 'Active' task.
@@ -234,8 +236,15 @@ public class WizardBase
 		}
 	}
 
+	public ITask getCurrentTask( )
+	{
+		return (ITask) availableTasks.get( currentTaskId );
+	}
+
 	public void switchTo( String sTaskID )
 	{
+		currentTaskId = sTaskID;
+
 		// Update the context from the current task...if available
 		if ( sCurrentActiveTask != null )
 		{
@@ -408,10 +417,9 @@ public class WizardBase
 		if ( sErrors != null && sErrors.length > 0 )
 		{
 			this.errorHints = hints;
-			ErrorDialog dlg = new ErrorDialog( "WizardBase: Exception Encountered", //$NON-NLS-1$
-					"The following exception was encountered in WizardBase", //$NON-NLS-1$
-					sErrors,
-					sFixes/* , currentContext, errorHints */);
+			ErrorDialog dlg = new ErrorDialog( "Exception Encountered", //$NON-NLS-1$
+					"The following exception was encountered", //$NON-NLS-1$
+					sErrors, sFixes/* , currentContext, errorHints */);
 			if ( dlg.getOption( ) == ErrorDialog.OPTION_ACCEPT )
 			{
 				// TODO: FIX THE PROBLEM
@@ -514,6 +522,7 @@ public class WizardBase
 			}
 			else if ( sCmd.equals( Messages.getString( "WizardBase.Ok" ) ) ) //$NON-NLS-1$
 			{
+				checkBeforeSaving( );
 				shell.dispose( );
 			}
 			else if ( sCmd.equals( Messages.getString( "WizardBase.Cancel" ) ) ) //$NON-NLS-1$
@@ -531,6 +540,15 @@ public class WizardBase
 						? true : false );
 			}
 		}
+	}
+
+	/**
+	 * Checks all before pressing OK
+	 * 
+	 */
+	protected void checkBeforeSaving( )
+	{
+
 	}
 
 	/*

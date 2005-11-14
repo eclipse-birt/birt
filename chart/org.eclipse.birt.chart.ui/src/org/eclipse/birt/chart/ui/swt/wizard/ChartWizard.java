@@ -53,9 +53,9 @@ public class ChartWizard extends WizardBase
 		super( WIZARD_ID,
 				DEFAULT_WIZARD_WIDTH,
 				DEFAULT_WIZARD_HEIGHT,
-				Messages.getString("ChartWizard.ChartBuilder"), //$NON-NLS-1$
+				Messages.getString( "ChartWizard.ChartBuilder" ), //$NON-NLS-1$
 				UIHelper.getImage( "icons/obj16/chartselector.gif" ) ); //$NON-NLS-1$
-		adapter = new ChartAdapter( );
+		adapter = new ChartAdapter( this );
 	}
 
 	public void addTask( String sTaskID )
@@ -126,4 +126,28 @@ public class ChartWizard extends WizardBase
 	{
 		return adapter;
 	}
+
+	// protected void checkBeforeSaving( )
+	// {
+	// super.checkBeforeSaving( );
+	// Chart chart = ( (ChartWizardContext) context ).getModel( );
+	// List listError = new ArrayList( );
+	// List listFixs = new ArrayList( );
+	//
+	// if ( !ChartUIUtil.checkDataBinding( chart ) )
+	// {
+	// listError.add( "Data binding is null!" );
+	// listFixs.add( "Please check every series data binding existent!" );
+	// }
+	// displayError( list2StringArray( listError ),
+	// list2StringArray( listFixs ),
+	// null,
+	// context,
+	// null );
+	// }
+	//
+	// private String[] list2StringArray( List list )
+	// {
+	// return (String[]) list.toArray( new String[list.size( )] );
+	// }
 }

@@ -389,7 +389,11 @@ public class TaskFormatChart extends TreeCompoundTask
 	public Composite getUI( Composite parent )
 	{
 		Composite cmp = super.getUI( parent );
-		createPreviewPainter( );
+		if ( previewPainter == null )
+		{
+			createPreviewPainter( );
+		}
+		previewPainter.renderModel( getCurrentModelState( ) );
 		return cmp;
 	}
 
@@ -427,13 +431,11 @@ public class TaskFormatChart extends TreeCompoundTask
 
 	private void createPreviewPainter( )
 	{
-		if ( previewPainter == null )
-		{
-			previewPainter = new ChartPreviewPainter( ( (ChartWizardContext) getContext( ) ).getProcessor( ) );
-			previewCanvas.addPaintListener( previewPainter.getPaintListener( ) );
-			previewPainter.setPreview( previewCanvas );
-		}
-		previewPainter.renderModel( getCurrentModelState( ) );
+		previewPainter = new ChartPreviewPainter( ( (ChartWizardContext) getContext( ) ).getProcessor( ),
+				container );
+		previewCanvas.addPaintListener( previewPainter );
+		previewCanvas.addControlListener( previewPainter );
+		previewPainter.setPreview( previewCanvas );
 	}
 
 	public void changeTask( Notification notification )

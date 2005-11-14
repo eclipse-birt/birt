@@ -130,6 +130,7 @@ public class TaskSelectData extends SimpleTask
 			cmpTask.addDisposeListener( this );
 			dynamicArea = new SelectDataDynamicArea( this );
 			placeComponents( );
+			createPreviewPainter( );
 			initWithoutChart( );
 		}
 		if ( !isInited )
@@ -141,7 +142,7 @@ public class TaskSelectData extends SimpleTask
 				init( );
 			}
 		}
-		createPreviewPainter( );
+		previewPainter.renderModel( getChartModel( ) );
 		customizeUI( );
 		// Refresh all data definitino text
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
@@ -436,14 +437,11 @@ public class TaskSelectData extends SimpleTask
 
 	private void createPreviewPainter( )
 	{
-		if ( previewPainter == null )
-		{
-			previewPainter = new ChartPreviewPainter( getWizardContext( ).getProcessor( ) );
-			previewCanvas.addPaintListener( previewPainter.getPaintListener( ) );
-			previewPainter.setPreview( previewCanvas );
-		}
-
-		previewPainter.renderModel( getChartModel( ) );
+		previewPainter = new ChartPreviewPainter( getWizardContext( ).getProcessor( ),
+				container );
+		previewCanvas.addPaintListener( previewPainter );
+		previewCanvas.addControlListener( previewPainter );
+		previewPainter.setPreview( previewCanvas );
 	}
 
 	protected Chart getChartModel( )
@@ -709,15 +707,7 @@ public class TaskSelectData extends SimpleTask
 		public void run( )
 		{
 			manageColorAndQuery( query );
-			if ( getChartModel( ) instanceof DialChart )
-			{
-				// Only part in dial type is bottom area
-				refreshBottomArea( );
-			}
-			else
-			{
-				refreshLeftArea( );
-			}
+			refreshLeftArea( );
 			// Refresh all data definitino text
 			DataDefinitionTextManager.getInstance( ).refreshAll( );
 		}
@@ -924,7 +914,10 @@ public class TaskSelectData extends SimpleTask
 		{
 			if ( notification.getNotifier( ) instanceof Query )
 			{
+				// No need to nofify model change
+				ChartAdapter.ignoreNotifications( true );
 				doLivePreview( );
+				ChartAdapter.ignoreNotifications( false );
 			}
 			previewPainter.renderModel( getChartModel( ) );
 		}

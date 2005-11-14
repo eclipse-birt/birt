@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 
@@ -38,6 +39,13 @@ public class ChartAdapter extends EContentAdapter
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui/swt" ); //$NON-NLS-1$
 
+	private transient WizardBase wizardContainer;
+
+	public ChartAdapter( WizardBase wizardContainer )
+	{
+		this.wizardContainer = wizardContainer;
+	}
+
 	public void notifyChanged( Notification notification )
 	{
 		if ( bIgnoreNotifications || notification.isTouch( ) )
@@ -53,7 +61,11 @@ public class ChartAdapter extends EContentAdapter
 		for ( int iC = 0; iC < vListeners.size( ); iC++ )
 		{
 			ITaskChangeListener changeLs = (ITaskChangeListener) vListeners.elementAt( iC );
-			changeLs.changeTask( notification );
+			//Only change current task
+			if ( wizardContainer.getCurrentTask( ) == changeLs )
+			{
+				changeLs.changeTask( notification );
+			}
 		}
 
 	}
