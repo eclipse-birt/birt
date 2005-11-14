@@ -54,6 +54,8 @@ public class LineSeriesAttributeComposite extends Composite implements
 {
 
 	private transient Button btnCurve = null;
+	
+	private transient Button btnPalette = null;
 
 	private transient FillChooserComposite fccShadow = null;
 
@@ -109,8 +111,7 @@ public class LineSeriesAttributeComposite extends Composite implements
 	private void placeComponents( )
 	{
 		// Layout for content composite
-		GridLayout glContent = new GridLayout( );
-		glContent.numColumns = 4;
+		GridLayout glContent = new GridLayout( 4, false );
 		glContent.marginHeight = 2;
 		glContent.marginWidth = 2;
 
@@ -128,16 +129,19 @@ public class LineSeriesAttributeComposite extends Composite implements
 				false,
 				false );
 		GridData gdFCCShadow = new GridData( GridData.FILL_HORIZONTAL );
+		gdFCCShadow.widthHint = 180;
 		fccShadow.setLayoutData( gdFCCShadow );
 		fccShadow.addListener( this );
 
 		btnCurve = new Button( this, SWT.CHECK );
-		GridData gdBTNCurve = new GridData( GridData.FILL_HORIZONTAL );
-		gdBTNCurve.horizontalSpan = 2;
-		btnCurve.setLayoutData( gdBTNCurve );
 		btnCurve.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves" ) ); //$NON-NLS-1$
 		btnCurve.setSelection( ( (LineSeries) series ).isCurve( ) );
 		btnCurve.addSelectionListener( this );
+		
+		btnPalette = new Button( this, SWT.CHECK );
+		btnPalette.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
+		btnPalette.setSelection( ( (LineSeries) series ).isPaletteLineColor( ) );
+		btnPalette.addSelectionListener( this );
 
 		// Layout for the Marker group
 		GridLayout glMarker = new GridLayout( );
@@ -231,6 +235,10 @@ public class LineSeriesAttributeComposite extends Composite implements
 		if ( e.getSource( ).equals( btnCurve ) )
 		{
 			( (LineSeries) series ).setCurve( btnCurve.getSelection( ) );
+		}
+		else if ( e.getSource( ).equals( btnPalette ) )
+		{
+			( (LineSeries) series ).setPaletteLineColor( btnPalette.getSelection( ) );
 		}
 		else if ( e.getSource( ).equals( btnMarkerVisible ) )
 		{

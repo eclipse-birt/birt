@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.model.attribute.Direction;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
+import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
@@ -154,6 +155,10 @@ public class LiteralHelper
 	 * Comment for <code>fullPositionSet</code>
 	 */
 	public static final NameSet fullPositionSet = getFullPositionSet( );
+	/**
+	 * Comment for <code>legendBehaviorTypeSet</code>
+	 */
+	public static final NameSet legendBehaviorTypeSet = getLegendBehaviorTypeSet( );
 
 	private LiteralHelper( )
 	{
@@ -506,6 +511,19 @@ public class LiteralHelper
 		return new NameSet( prefix,
 				suffix,
 				toStringNameArray( DateFormatType.VALUES ) );
+	}
+	
+	/**
+	 * @return
+	 */
+	private static NameSet getLegendBehaviorTypeSet( )
+	{
+		String prefix = "LegendBehaviorType."; //$NON-NLS-1$
+		String suffix = ".displayName"; //$NON-NLS-1$
+
+		return new NameSet( prefix,
+				suffix,
+				toStringNameArray( LegendBehaviorType.VALUES ) );
 	}
 
 	private static String[] toStringNameArray( List objList )

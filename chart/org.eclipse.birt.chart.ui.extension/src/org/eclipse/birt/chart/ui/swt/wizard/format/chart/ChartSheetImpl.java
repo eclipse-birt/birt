@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
+import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
@@ -41,10 +42,9 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class ChartSheetImpl extends SubtaskSheetImpl
-		implements
-			SelectionListener,
-			Listener
+public class ChartSheetImpl extends SubtaskSheetImpl implements
+		SelectionListener,
+		Listener
 {
 
 	private transient Composite cmpContent = null;
@@ -61,9 +61,13 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 	private transient Button btnVisible;
 
+	private transient Button btnEnable;
+
 	private transient Combo cmbColorBy;
 
 	private transient Combo cmbStyle;
+
+	private transient Combo cmbInteractivity;
 
 	private transient Button btnEnablePreview;
 
@@ -174,6 +178,44 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			btnEnablePreview.addSelectionListener( this );
 		}
 
+		Composite cmpInteractivity = new Composite( cmpBasic, SWT.NONE );
+		{
+			GridLayout gl = new GridLayout( 4, false );
+			gl.marginHeight = 0;
+			gl.marginWidth = 0;
+			cmpInteractivity.setLayout( gl );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL
+					| GridData.HORIZONTAL_ALIGN_BEGINNING );
+			gd.horizontalSpan = 3;
+			cmpInteractivity.setLayoutData( gd );
+		}
+
+		new Label( cmpInteractivity, SWT.NONE ).setText( Messages.getString( "ChartSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
+
+		btnEnable = new Button( cmpInteractivity, SWT.CHECK );
+		{
+			btnEnable.setText( Messages.getString( "ChartSheetImpl.Label.InteractivityEnable" ) ); //$NON-NLS-1$
+			btnEnable.setSelection( getChart( ).getInteractivity( ).isEnable( ) );
+			btnEnable.addSelectionListener( this );
+		}
+
+		Label lblType = new Label( cmpInteractivity, SWT.NONE );
+		{
+			GridData gridData = new GridData( );
+			gridData.horizontalIndent = 10;
+			lblType.setLayoutData( gridData );
+			lblType.setText( Messages.getString( "ChartSheetImpl.Label.LegendBehaviorType" ) ); //$NON-NLS-1$
+		}
+
+		cmbInteractivity = new Combo( cmpInteractivity, SWT.DROP_DOWN
+				| SWT.READ_ONLY );
+		{
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			cmbInteractivity.setLayoutData( gridData );
+			cmbInteractivity.addSelectionListener( this );
+			cmbInteractivity.setEnabled( btnEnable.getSelection( ) );
+		}
+
 		populateLists( );
 
 		createButtonGroup( cmpContent );
@@ -195,6 +237,12 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 			String sStyle = idsp.getCurrentStyle( );
 			cmbStyle.setText( ( sStyle == null ) ? selection[0] : sStyle );
+
+			NameSet nameSet = LiteralHelper.legendBehaviorTypeSet;
+			cmbInteractivity.setItems( nameSet.getDisplayNames( ) );
+			cmbInteractivity.select( nameSet.getSafeNameIndex( getChart( ).getInteractivity( )
+					.getLegendBehavior( )
+					.getName( ) ) );
 		}
 	}
 
@@ -321,6 +369,16 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		{
 			ChartPreviewPainter.enableProcessor( btnEnablePreview.getSelection( ) );
 			refreshPreview( );
+		}
+		else if ( e.widget.equals( btnEnable ) )
+		{
+			getChart( ).getInteractivity( ).setEnable( btnEnable.getSelection( ) );
+			cmbInteractivity.setEnabled( btnEnable.getSelection( ) );
+		}
+		else if ( e.widget.equals( cmbInteractivity ) )
+		{
+			getChart( ).getInteractivity( )
+					.setLegendBehavior( LegendBehaviorType.get( LiteralHelper.legendBehaviorTypeSet.getNameByDisplayName( cmbInteractivity.getText( ) ) )  );
 		}
 
 	}
