@@ -28,29 +28,17 @@
    
 
    <extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
-            class="org.eclipse.birt.report.designer.ui.LibPerspective"
-            id="org.eclipse.birt.report.designer.ui.lib.LibPerspective"
-            name="%LibPerspective"/>
-   </extension>
-   
-   <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
-         <perspectiveShortcut id="org.eclipse.birt.report.designer.ui.lib.LibPerspective"/>
          <newWizardShortcut id="org.eclipse.birt.report.designer.ui.wizards.NewLibraryWizard"/>
       </perspectiveExtension>
       <perspectiveExtension targetID="org.eclipse.debug.ui.DebugPerspective">
-         <perspectiveShortcut id="org.eclipse.birt.report.designer.ui.lib.LibPerspective"/>
          <newWizardShortcut id="org.eclipse.birt.report.designer.ui.wizards.NewLibraryWizard"/>
       </perspectiveExtension>
       <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
-         <perspectiveShortcut id="org.eclipse.birt.report.designer.ui.lib.LibPerspective"/>
          <newWizardShortcut id="org.eclipse.birt.report.designer.ui.wizards.NewLibraryWizard"/>
       </perspectiveExtension>
       <perspectiveExtension targetID="org.eclipse.birt.report.designer.ui.ReportPerspective">
-         <perspectiveShortcut id="org.eclipse.birt.report.designer.ui.lib.LibPerspective"/>
          <newWizardShortcut id="org.eclipse.birt.report.designer.ui.wizards.NewLibraryWizard"/>
       </perspectiveExtension>      
    </extension>
@@ -72,7 +60,7 @@
             name="%WizardCategoryName"
             id="org.eclipse.birt.report.designer.ui.wizard.category"/>
       <wizard
-            finalPerspective="org.eclipse.birt.report.designer.ui.lib.LibPerspective"
+            finalPerspective="org.eclipse.birt.report.designer.ui.ReportPerspective"
             icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/obj16/new_report.gif"
             class="org.eclipse.birt.report.designer.ui.wizards.NewLibraryWizard"
             category="org.eclipse.birt.report.designer.ui.wizard.category"
