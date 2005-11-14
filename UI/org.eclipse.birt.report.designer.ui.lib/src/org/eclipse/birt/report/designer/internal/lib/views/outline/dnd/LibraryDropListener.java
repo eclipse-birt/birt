@@ -52,6 +52,7 @@ public class LibraryDropListener extends DesignerDropListener
 		supportList.add( IReportElementConstants.REPORT_ELEMENT_TABLE );
 		supportList.add( IReportElementConstants.REPORT_ELEMENT_LIST );
 		supportList.add( IReportElementConstants.REPORT_ELEMENT_IMAGE );
+		supportList.add( IReportElementConstants.REPORT_ELEMENT_TEXTDATA );
 		List exts = ExtensionPointManager.getInstance( )
 				.getExtendedElementPoints( );
 

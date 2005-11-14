@@ -499,7 +499,7 @@ public class BasePaletteFactory
 							.add( textHandle );
 
 					text = AUTOTEXT_LABEL_PAGE
-							+ "<value-of>GlobalBirt.CurrentPage</value-of>" ; //$NON-NLS-1$
+							+ "<value-of>pageNumber</value-of>" ; //$NON-NLS-1$
 					 textHandle = factory.newTextItem( null );
 					 textHandle.setContent( text );
 					 ( (CellHandle) cellList.get( 1 ) ).getContent( )
