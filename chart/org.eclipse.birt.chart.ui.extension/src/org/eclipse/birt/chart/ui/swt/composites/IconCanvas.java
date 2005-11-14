@@ -220,6 +220,7 @@ public class IconCanvas extends Canvas
 			sourceImage = null;
 		}
 		sourceImage = new Image( getDisplay( ), filename );
+		
 		if ( sourceImage.getBounds( ).width > this.getBounds( ).width
 				|| sourceImage.getBounds( ).height > this.getBounds( ).height )
 		{
@@ -288,7 +289,7 @@ public class IconCanvas extends Canvas
 		transform = new AffineTransform( );
 		syncScrollBars( );
 	}
-
+	
 	/**
 	 * Clear the canvas
 	 */

@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.LineSeries;
@@ -240,28 +241,36 @@ public class LineSeriesAttributeComposite extends Composite implements
 		}
 		else if ( e.getSource( ).equals( cmbMarkerTypes ) )
 		{
-			if ( LiteralHelper.markerTypeSet.getNameByDisplayName( cmbMarkerTypes.getText( ) ) == "Icon" ) //$NON-NLS-1$
+			if ( MarkerType.get( getSelectedMarkerName( ) ) == MarkerType.ICON_LITERAL )
 			{
-//				MarkerIconDialog iconDialog = new MarkerIconDialog( this.getShell( ),
-//						( (LineSeries) series ).getMarker( ).getIconPalette( ) );
-//
-//				if ( iconDialog.applyMarkerIcon( ) )
-//				{
-//					( (LineSeries) series ).getMarker( )
-//							.setIconPalette( iconDialog.getIconPalette( ) );
-//					( (LineSeries) series ).getMarker( )
-//							.setType( MarkerType.get( "Icon" ) ); //$NON-NLS-1$
-//				}
-			}
-			else
-			{
-				( (LineSeries) series ).getMarker( )
-						.setType( MarkerType.get( LiteralHelper.markerTypeSet.getNameByDisplayName( cmbMarkerTypes.getText( ) ) ) );
-			}
+				MarkerIconDialog iconDialog = new MarkerIconDialog( this.getShell( ),
+						 getSeriesMarker( ).getIconPalette( ) );
 
+				if ( iconDialog.applyMarkerIcon( ) )
+				{
+					getSeriesMarker( )
+							.setIconPalette( iconDialog.getIconPalette( ) );
+				}
+				else
+				{
+					cmbMarkerTypes.setText( LiteralHelper.markerTypeSet.getDisplayNameByName( getSeriesMarker( ).getType( ).getName( ) ) );
+				}
+			}
+			
+			getSeriesMarker( )
+					.setType( MarkerType.get( getSelectedMarkerName( ) ) );
 		}
 	}
 
+	private Marker getSeriesMarker( )
+	{
+		return ( (LineSeries) series ).getMarker( );
+	}
+	
+	private String getSelectedMarkerName( )
+	{
+		return LiteralHelper.markerTypeSet.getNameByDisplayName( cmbMarkerTypes.getText( ) );
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
