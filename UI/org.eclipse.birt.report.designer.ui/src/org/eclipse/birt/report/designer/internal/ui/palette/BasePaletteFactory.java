@@ -502,6 +502,7 @@ public class BasePaletteFactory
 							+ "<value-of>pageNumber</value-of>" ; //$NON-NLS-1$
 					 textHandle = factory.newTextItem( null );
 					 textHandle.setContent( text );
+					 textHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
 					 ( (CellHandle) cellList.get( 1 ) ).getContent( )
 					 .add( textHandle );
 
