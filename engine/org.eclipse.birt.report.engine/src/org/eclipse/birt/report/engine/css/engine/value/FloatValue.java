@@ -6,7 +6,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 /**
  * This class represents float values.
  * 
- * @version $Id: FloatValue.java,v 1.2 2005/10/13 09:59:59 wyan Exp $
+ * @version $Id: FloatValue.java,v 1.1 2005/11/11 06:26:44 wyan Exp $
  */
 public class FloatValue extends Value implements CSSPrimitiveValue {
 
@@ -94,7 +94,7 @@ public class FloatValue extends Value implements CSSPrimitiveValue {
 		case CSSPrimitiveValue.CSS_DIMENSION:
 		case CSSPrimitiveValue.CSS_PX:
 			if (value.getPrimitiveType() == unitType) {
-				return value.getFloatValue(unitType);
+				return value.getFloatValue();
 			}
 			break;
 		case CSSPrimitiveValue.CSS_CM:
