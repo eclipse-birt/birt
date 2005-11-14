@@ -15,6 +15,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Series;
@@ -93,7 +94,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		Series series = getSeriesDefinitionForProcessing( ).getDesignTimeSeries( );
 		getSeriesAttributeUI( series, grpDetails );
 
-		if ( getChart( ) instanceof ChartWithAxes )
+		if ( ( getChart( ) instanceof ChartWithAxes ) && ( getChart( ).getDimension() != ChartDimension.THREE_DIMENSIONAL_LITERAL ) )
 		{
 			btnShowLine = new Button( cmpContent, SWT.CHECK );
 			{
@@ -136,7 +137,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			btnInteractivity.addSelectionListener( this );
 		}
 
-		if ( getChart( ) instanceof ChartWithAxes )
+		if ( ( getChart( ) instanceof ChartWithAxes ) && ( getChart( ).getDimension() != ChartDimension.THREE_DIMENSIONAL_LITERAL ) )
 		{
 			btnTrendline = new Button( cmp, SWT.TOGGLE );
 			{

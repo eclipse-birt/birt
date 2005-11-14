@@ -44,6 +44,8 @@ public class MarkerIconDialog implements SelectionListener
 	private transient Button btnURL;
 	
 	private transient Button btnLocal;
+	
+	private transient Button btnAdd;
 
 	private transient Button btnPreview;
 
@@ -137,6 +139,7 @@ public class MarkerIconDialog implements SelectionListener
 		btnOK.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING ) );
 		btnOK.setText( Messages.getString( "Shared.Lbl.OK" ) ); //$NON-NLS-1$
 		btnOK.addSelectionListener( this );
+		btnOK.setEnabled( iconList.getSelectionCount( ) > 0 );
 
 		btnCancel = new Button( btnComposite, SWT.NONE );
 		btnCancel.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
@@ -287,19 +290,21 @@ public class MarkerIconDialog implements SelectionListener
 		Composite innerComp = new Composite( inputArea, SWT.NONE );
 		innerComp.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
 
-		GridLayout gl = new GridLayout( );
+		GridLayout gl = new GridLayout( 2, false );
 		gl.marginWidth = 0;
 		gl.marginHeight = 0;
 		gl.verticalSpacing = 2;
 		innerComp.setLayout( gl );
 
+		btnAdd = new Button( innerComp, SWT.PUSH );
+		btnAdd.setText( Messages.getString( "MarkerIconDialog.Lbl.Add" ) ); //$NON-NLS-1$
+		btnAdd.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
+		btnAdd.addSelectionListener( this ); 
+		
 		btnPreview = new Button( innerComp, SWT.PUSH );
 		btnPreview.setText( Messages.getString( "MarkerIconDialog.Lbl.Preview" ) ); //$NON-NLS-1$
 		btnPreview.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
 		btnPreview.addSelectionListener( this );
-		btnPreview.setEnabled( false );
-		
-		updateButton( );
 	}
 
 	private void swtichToListType( )
@@ -326,13 +331,13 @@ public class MarkerIconDialog implements SelectionListener
 	
 	private void updateButton( )
 	{
-		btnPreview.setEnabled( uriEditor.getText( ) != null );
+		btnOK.setEnabled( iconList.getSelectionCount( ) != 0 );
 	}
 
 	/**
 	 * Preview the image when it is a local image file.
 	 * @param fullPath
-	 * 				Image absolute path without "file:\"
+	 * 				Image absolute path without "file:///"
 	 */
 	private void preview( String fullPath )
 	{
@@ -409,14 +414,20 @@ public class MarkerIconDialog implements SelectionListener
 		{
 			switchTo( LOCAL_TYPE );
 		}
+		else if ( e.widget.equals( btnAdd ) )
+		{
+			uriEditor.setText( uriEditor.getText( ).trim( ) );
+			String path = uriEditor.getText( );
+			iconList.add( path );
+			iconList.select( iconList.indexOf( path ) );
+			addIconToPalette( );
+			updateButton( );
+		}
 		else if ( e.widget.equals( btnPreview ) )
 		{
 			uriEditor.setText( uriEditor.getText( ).trim( ) );
 			String path = uriEditor.getText( );
 			preview( convertStringToURL( path ) );
-			iconList.add( path );
-			iconList.select( iconList.indexOf( path ) );
-			addIconToPalette( );
 		}
 		else if ( e.widget.equals( iconList ) )
 		{
@@ -429,6 +440,7 @@ public class MarkerIconDialog implements SelectionListener
 			{
 				preview( path.substring(6) );
 			}
+			updateButton( );
 		}
 		else if ( e.widget.equals( btnBrowse ) )
 		{
@@ -448,7 +460,7 @@ public class MarkerIconDialog implements SelectionListener
 						return;
 					}
 					preview( path );
-					path = new StringBuffer("file:\\").append(path).toString(); //$NON-NLS-1$
+					path = new StringBuffer("file:///").append(path).toString(); //$NON-NLS-1$
 					iconList.add( path );
 					iconList.select( iconList.indexOf( path ) );
 					addIconToPalette( );
@@ -458,6 +470,7 @@ public class MarkerIconDialog implements SelectionListener
 			{
 				ex.printStackTrace( );
 			}
+			updateButton( );
 		}
 		else if ( e.widget.equals( btnRemove ) )
 		{
@@ -468,6 +481,7 @@ public class MarkerIconDialog implements SelectionListener
 				previewCanvas.clear( );
 				iconList.remove( iconList.getSelectionIndex( ) );
 			}
+			updateButton( );
 		}
 	}
 
