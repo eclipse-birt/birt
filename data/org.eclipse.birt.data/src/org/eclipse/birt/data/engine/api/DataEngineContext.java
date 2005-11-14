@@ -8,13 +8,13 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.data.engine.api;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineContextImpl;
 import org.mozilla.javascript.Scriptable;
 
@@ -24,16 +24,18 @@ import org.mozilla.javascript.Scriptable;
  */
 public abstract class DataEngineContext
 {
-	// mode
-	protected int mode;
-	
 	/** three defined mode*/
 	public final static int MODE_GENERATION = 1;
 	public final static int MODE_PRESENTATION = 2;
-	public final static int MODE_GENANDPRESENT = 3;
+	public final static int MODE_DIRECTPRESENT = 3;
 
 	/**
+	 * When mode is MODE_GENERATION, the output stream of archive will be used.
+	 * When mode is MODE_PRESENTATION, the input stream of archive will be used.
+	 * When mode is MODE_GENANDPRESENT, the archive will not be used.
+	 * 
 	 * @param mode
+	 * @param scope
 	 * @param archive
 	 * @return an instance of DataEngineContext
 	 */
@@ -44,31 +46,15 @@ public abstract class DataEngineContext
 	}
 
 	/**
-	 * @return mode of context
-	 * @throws DataException 
+	 * @return mode
 	 */
-	public DataEngineContext( int mode ) throws DataException
-	{
-		if ( !( mode == MODE_GENERATION || mode == MODE_PRESENTATION || mode == MODE_GENANDPRESENT ) )
-			throw new DataException( "invalid mode " + mode );
+	public abstract int getMode( );
 
-		this.mode = mode;
-	}
-
-	/**
-	 * @return
-	 */
-	public int getMode( )
-	{
-		return mode;
-	}
-	
 	/**
 	 * @return socpe
 	 */
 	public abstract Scriptable getJavaScriptScope( );
-	
-	
+
 	/**
 	 * According to the paramters of streamID and streamType, an output stream
 	 * will be created for it. To make stream close simply, the output stream
@@ -76,22 +62,24 @@ public abstract class DataEngineContext
 	 * stream layer when it is used.
 	 * 
 	 * @param streamID
-	 * @param subName
+	 * @param subStreamID
 	 * @param streamType
 	 * @return output stream for specified streamID and streamType
 	 */
-	public abstract OutputStream getOutputStream( String streamID, String queryName, int streamType );
-	
+	public abstract OutputStream getOutputStream( String streamID,
+			String subStreamID, int streamType );
+
 	/**
 	 * Determins whether one particula stream exists
 	 * 
 	 * @param streamID
-	 * @param queryName
+	 * @param subStreamID
 	 * @param streamType
 	 * @return boolean value
 	 */
-	public abstract boolean isStreamExists( String streamID, String queryName, int streamType );
-	
+	public abstract boolean isStreamExists( String streamID, String subStreamID,
+			int streamType );
+
 	/**
 	 * According to the paramters of streamID and streamType, an input stream
 	 * will be created for it. To make stream close simply, the input stream
@@ -99,10 +87,11 @@ public abstract class DataEngineContext
 	 * stream layer when it is used.
 	 * 
 	 * @param streamID
-	 * @param subName
+	 * @param subStreamID
 	 * @param streamType
 	 * @return input stream for specified streamID and streamType
 	 */
-	public abstract InputStream getInputStream( String streamID, String queryName, int streamType );
-	
+	public abstract InputStream getInputStream( String streamID,
+			String subStreamID, int streamType );
+
 }

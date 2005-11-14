@@ -62,43 +62,40 @@ public class DataEngineImpl extends DataEngine
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 
 	/**
-	 * Constructor to specify the JavaScript Context and shared scope to use by
-	 * the Data Engine for all related ReportQuery processing.
-	 * @param sharedScope
-	 *            The global JavaScript scope shared by all runtime components
-	 *            within a report sesssion. If this parameter is null, a new
-	 *            standard top level scope will be created and used.
+	 * Constructor to specify the DataEngine Context to use by the Data Engine
+	 * for all related ReportQuery processing.
+	 * 
+	 * @param context
+	 *            scope of Context: The global JavaScript scope shared by all
+	 *            runtime components within a report sesssion. If this parameter
+	 *            is null, a new standard top level scope will be created and
+	 *            used.
 	 */
-	public DataEngineImpl( Scriptable sharedScope )
+	public DataEngineImpl( DataEngineContext context )
 	{
+		assert context != null;
+		
 		logger.entering( DataEngineImpl.class.getName( ),
-					"DataEngineImpl",
-					sharedScope );
-		this.sharedScope = sharedScope;
+				"DataEngineImpl",
+				context );
+		
+		this.context = context;
+		this.sharedScope = context.getJavaScriptScope( );
 		if ( this.sharedScope == null )
 		{
 			// No scope provided by the caller; create our own
 			Context cx = Context.enter( );
-			this.sharedScope = new ImporterTopLevel(cx);;
+			this.sharedScope = new ImporterTopLevel( cx );
 			Context.exit( );
-		}
-
-		logger.log(Level.INFO,"Data Engine starts up");
+		}		
 		compiler = new ExpressionCompiler( );
+		
 		logger.exiting( DataEngineImpl.class.getName( ), "DataEngineImpl" );
+		logger.log( Level.INFO, "Data Engine starts up" );
 	}
 
 	/**
-	 * @param context
-	 */
-	public DataEngineImpl( DataEngineContext context )
-	{
-		this( context.getJavaScriptScope( ) );
-		this.context = context;
-	}
-
-	/**
-	 * @return context
+	 * @return context, the context used by this data engine instance
 	 */
 	public DataEngineContext getContext( )
 	{
@@ -110,8 +107,7 @@ public class DataEngineImpl extends DataEngine
 	 */
 	public IQueryResults getQueryResults( String name ) throws DataException
 	{
-		if ( context == null
-				|| context.getMode( ) != DataEngineContext.MODE_PRESENTATION )
+		if ( context.getMode( ) != DataEngineContext.MODE_PRESENTATION )
 			throw new DataException( "wrong status" );
 
 		return new QueryResults2( this.context, name );

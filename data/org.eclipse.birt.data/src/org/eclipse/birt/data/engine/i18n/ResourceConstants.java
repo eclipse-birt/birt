@@ -106,6 +106,13 @@ public class ResourceConstants
 	public final static String DATATYPEUTIL_ERROR = "data.engine.DataConversionError";
 	public final static String INVALID_TYPE_IN_EXPR = "data.engine.BadDataTypeCondExpr";
 	
+	// error related with data engine context
+	public final static String RD_INVALID_MODE = "data.engine.InvalidMode";	
+	public final static String RD_SAVE_ERROR = "data.engine.SaveReportDocumentError";	
+	public final static String RD_LOAD_ERROR = "data.engine.LoadReportDocumentError";
+	public final static String RD_EXPR_NULL_ERROR = "data.engine.NullExpr";
+	public final static String RD_EXPR_INVALID_ERROR = "data.engine.InValidExpr";
+	
 	// other error
 	public final static String SCRIPT_EVAL_ERROR = "data.engine.ScriptEvalError";
 	public final static String PREPARED_QUERY_CLOSED = "data.engine.PreparedQueryClosed";	

@@ -185,7 +185,9 @@ class MemoryCache implements ResultSetCache
 		}
 		catch ( IOException e )
 		{
-			throw new DataException( "save error", e );
+			throw new DataException( ResourceConstants.RD_SAVE_ERROR,
+					e,
+					"Result Set" );
 		}
 	}
 

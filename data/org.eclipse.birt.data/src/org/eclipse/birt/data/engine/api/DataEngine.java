@@ -38,36 +38,57 @@ abstract public class DataEngine
 {
 
     /**
-     * Creates a new instance of DataEngine, using the specified Javascript scope and
-     * home directory setting. 
-     * @param sharedScope a Javascript scope to be used as the "shared" scope to evaluate
-     *    Javascript expressions by the data engine. 
-     * @deprecated, use newDataEngine( DataEngineContext context ) instead
-     */
-    public static DataEngine newDataEngine( Scriptable sharedScope )
-    {
-        return new DataEngineImpl( sharedScope );
-    }
-	
-    /**
-     * @param context
-     * @return an instance of DataEngine
-     */
+	 * Creates a new instance of DataEngine, using the specified
+	 * DataEngineContext as its running environment
+	 * 
+	 * @param context,
+	 *            When this value is null, a default context will be used. The
+	 *            default context is DataEngineContext.MODE_DIRECTPRESENT.
+	 * @return an instance of DataEngine under specified context
+	 */
     public static DataEngine newDataEngine( DataEngineContext context )
-    {
-        return new DataEngineImpl( context );
+    {    	
+    	if ( context == null )
+		{
+			try
+			{
+				context = DataEngineContext.newInstance( DataEngineContext.MODE_DIRECTPRESENT,
+						null,
+						null );
+			}
+			catch ( BirtException e )
+			{
+				// impossible get here
+			}
+		}
+    	
+		return new DataEngineImpl( context );
     }
-    
+
     /**
-     * Used in presentation time
-     * 
-     * @param queryResultID
-     * @return an instanceof IQueryResults
-     * @throws DataException 
-     */
-    public abstract IQueryResults getQueryResults( String queryResultID )
-			throws BirtException;
-    
+	 * Creates a new instance of DataEngine, using the specified Javascript
+	 * scope and home directory setting.
+	 * 
+	 * @param sharedScope
+	 *            a Javascript scope to be used as the "shared" scope to
+	 *            evaluate Javascript expressions by the data engine.
+	 * @deprecated use newDataEngine( DataEngineContext context ) instead
+	 */
+    public static DataEngine newDataEngine( Scriptable sharedScope )
+	{
+		try
+		{
+			return newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_DIRECTPRESENT,
+					sharedScope,
+					null ) );
+		}
+		catch ( BirtException e )
+		{
+			// impossible get here
+			return null;
+		}
+	}
+	    
     /**
      * @deprecated Use newDataEngine(Scriptable) instead. Home Dir is no longer used.
      */
@@ -75,13 +96,26 @@ abstract public class DataEngine
     {
         return newDataEngine( sharedScope );
     }
+        
+    /**
+	 * If and only if current mode is DataEngineContext.MODE_PRESENTATION, query
+	 * result can be retrieved from report document. Otherwise a BirtException
+	 * will be thrown immediatelly.
+	 * 
+	 * @param queryResultID
+	 * @return an instanceof IQueryResults
+	 * @throws BirtException
+	 */
+	public abstract IQueryResults getQueryResults( String queryResultID )
+			throws BirtException;
     
 	/**
-	 * Provides the definition of a data source to Data Engine. A data source must be
-	 * defined using this method prior to preparing any report query that uses such data source.
-	 * <br>
-	 * Data sources are uniquely identified name. If specified data source has already
-	 * been defined, its definition will be updated with the content of the provided definition object.
+	 * Provides the definition of a data source to Data Engine. A data source
+	 * must be defined using this method prior to preparing any report query
+	 * that uses such data source. <br>
+	 * Data sources are uniquely identified name. If specified data source has
+	 * already been defined, its definition will be updated with the content of
+	 * the provided definition object.
 	 */
 	abstract public void defineDataSource( IBaseDataSourceDesign dataSource ) 
 			throws BirtException;

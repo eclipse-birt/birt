@@ -588,7 +588,9 @@ public class SmartCache implements ResultSetCache
 		}
 		catch ( IOException e )
 		{
-			throw new DataException( "load error", e );
+			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
+					e,
+					"Result Set" );
 		}
 
 		OdiAdapter odiAdpater = null;
@@ -629,7 +631,9 @@ public class SmartCache implements ResultSetCache
 		}
 		catch ( IOException e )
 		{
-			throw new DataException( "save error", e );
+			throw new DataException( ResourceConstants.RD_SAVE_ERROR,
+					e,
+					"Result Set" );
 		}
 		
 		resultSetCache.doSave( outputStream, isSubQuery );

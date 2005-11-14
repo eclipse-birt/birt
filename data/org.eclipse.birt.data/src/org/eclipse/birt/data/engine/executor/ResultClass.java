@@ -129,13 +129,17 @@ public class ResultClass implements IResultClass
 			
 			initColumnsInfo( newProjectedColumns );
 		}
-		catch ( IOException e )
-		{
-			throw new DataException( "load error", e );
-		}
 		catch ( ClassNotFoundException e )
 		{
-			throw new DataException( "load error", e );
+			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
+					e,
+					"Result Class" );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
+					e,
+					"Result Class" );
 		}
 	}
 
@@ -174,7 +178,9 @@ public class ResultClass implements IResultClass
 		}
 		catch ( IOException e )
 		{
-			throw new DataException( "save error", e );
+			throw new DataException( ResourceConstants.RD_SAVE_ERROR,
+					e,
+					"Result Class" );
 		}
 	}
 	
