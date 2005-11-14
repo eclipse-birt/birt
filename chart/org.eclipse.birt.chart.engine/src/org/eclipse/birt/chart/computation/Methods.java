@@ -259,7 +259,12 @@ public class Methods implements IConstants
 	public static final double getLocation( AutoScale sc, double dValue )
 			throws IllegalArgumentException
 	{
-		if ( ( sc.getType( ) & IConstants.LINEAR ) == IConstants.LINEAR )
+		if ( ( sc.getType( ) & IConstants.TEXT ) == IConstants.TEXT || sc.isCategoryScale())
+		{
+			double[] da = sc.getTickCordinates( );
+			return da[0] + ( da[1] - da[0] ) * dValue;
+		}
+		else if ( ( sc.getType( ) & IConstants.LINEAR ) == IConstants.LINEAR )
 		{
 			double dMinimum = asDouble( sc.getMinimum( ) ).doubleValue( );
 			double dStep = asDouble( sc.getStep( ) ).doubleValue( );
@@ -267,11 +272,6 @@ public class Methods implements IConstants
 
 			return da[0]
 					- ( ( ( dValue - dMinimum ) / dStep ) * ( da[0] - da[1] ) );
-		}
-		else if ( ( sc.getType( ) & IConstants.TEXT ) == IConstants.TEXT )
-		{
-			double[] da = sc.getTickCordinates( );
-			return da[0] + ( da[1] - da[0] ) * dValue;
 		}
 		else if ( ( sc.getType( ) & IConstants.LOGARITHMIC ) == IConstants.LOGARITHMIC )
 		{
