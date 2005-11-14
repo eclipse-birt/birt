@@ -11,21 +11,15 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 
-import java.io.File;
-import java.net.URI;
-import java.text.MessageFormat;
-
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportLibraryDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
-import org.eclipse.swt.SWT;
 
 /**
  * The action used to add library to a report design
@@ -36,9 +30,7 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 
 	private StructuredViewer viewer;
 
-	private static final String ACTION_TEXT = Messages.getString( "ImportLibraryAction.Text" ); //$NON-NLS-1$
-	private static final String MSG_DIALOG_TITLE = Messages.getString( "ImportLibraryAction.Title.ImportSuccessfully" ); //$NON-NLS-1$
-	private static final String MSG_DIALOG_MSG = Messages.getString( "ImportLibraryAction.Message.ImportSuccessfully" ); //$NON-NLS-1$
+	private static final String ACTION_TEXT = Messages.getString( "UseLibraryAction.Text" ); //$NON-NLS-1$
 
 	public AddSelectedLibToCurrentReportDesignAction( StructuredViewer viewer )
 	{
@@ -53,7 +45,7 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 		{
 			ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
-			return moduleHandle.getLibrary( getSelectedLibrary( ).getName( ) ) == null;
+			return !moduleHandle.isInclude( library );
 		}
 		return false;
 	}
@@ -62,35 +54,13 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 	{
 		if ( isEnabled( ) )
 		{
-			ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( );
-			
-			LibraryHandle library = getSelectedLibrary( );
-			if(library ==null)
+			try
 			{
-				return;
+				UIUtil.includeLibrary( getSelectedLibrary( ) );
 			}
-			
-			String defaultName = new File( library.getFileName( ) ).getName( )
-					.split( File.separator + "." )[0];
-			ImportLibraryDialog dialog = new ImportLibraryDialog( defaultName );
-			if ( dialog.open( ) == Dialog.OK )
+			catch ( Exception e )
 			{
-				try
-				{
-					moduleHandle.includeLibrary( getRelativedPath( moduleHandle.getFileName( ),
-							library.getFileName( ) ),
-							(String) dialog.getResult( ) );
-					ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
-							MessageFormat.format( MSG_DIALOG_MSG, new String[]{
-								library.getFileName( )
-							} ),
-							SWT.ICON_INFORMATION );
-				}
-				catch ( Exception e )
-				{
-					ExceptionHandler.handle( e );
-				}
+				ExceptionHandler.handle( e );
 			}
 		}
 	}
@@ -106,14 +76,6 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 			}
 		}
 		return null;
-	}
-
-	// Relativizes the path against this base path.
-	private static String getRelativedPath( String base, String child )
-	{
-		URI baseUri = new File( base ).getParentFile( ).toURI( );
-		URI childUri = new File( child ).toURI( );
-		return baseUri.relativize( childUri ).getPath( );
 	}
 
 }

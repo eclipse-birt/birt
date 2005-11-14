@@ -13,8 +13,10 @@ package org.eclipse.birt.report.designer.ui.lib.explorer;
 
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.ui.ContextMenuProvider;
+import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddLibraryAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddSelectedLibToCurrentReportDesignAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.RefreshLibExplorerAction;
+import org.eclipse.birt.report.designer.ui.lib.explorer.action.RemoveLibraryAction;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
@@ -70,6 +72,15 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 		if ( refreshAction.isEnabled( ) )
 		{
 			menu.add( refreshAction );
+		}
+
+		IAction addLibraryAction = new AddLibraryAction( );
+		menu.add( addLibraryAction );
+		
+		IAction removeLibraryAction = new RemoveLibraryAction( treeViewer );
+		if ( removeLibraryAction.isEnabled( ) )
+		{
+			menu.add( removeLibraryAction );
 		}
 	}
 }
