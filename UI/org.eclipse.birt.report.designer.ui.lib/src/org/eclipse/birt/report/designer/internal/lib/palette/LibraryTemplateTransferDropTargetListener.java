@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.lib.palette;
 
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportTemplateTransferDropTargetListener;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
@@ -40,6 +41,10 @@ public class LibraryTemplateTransferDropTargetListener extends ReportTemplateTra
 	public void dragOver( DropTargetEvent event )
 	{
 		super.dragOver( event );
-		event.detail = DND.DROP_NONE;
+		if( getTargetEditPart() == null ||
+				getTargetEditPart().getModel() instanceof LibraryHandle)
+		{
+			event.detail = DND.DROP_NONE;
+		}
 	}
 }

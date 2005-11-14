@@ -294,12 +294,14 @@ public class ReportCreationTool extends CreationTool
 	 */
 	protected boolean handleMove( )
 	{
-		if (isCreating || SessionHandleAdapter.getInstance().getReportDesignHandle() instanceof LibraryHandle)
+		boolean validateTrue = false;
+		updateTargetUnderMouse( );
+		
+		if (isCreating || getTargetEditPart().getModel() instanceof LibraryHandle)
 		{
 			return true;
 		}
-		boolean validateTrue = false;
-		updateTargetUnderMouse( );
+		
 		if ( getTargetEditPart( ) != null )
 		{
 			validateTrue = handleValidatePalette( getFactory( ).getObjectType( ),
