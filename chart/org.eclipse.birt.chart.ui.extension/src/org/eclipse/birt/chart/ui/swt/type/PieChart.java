@@ -280,8 +280,8 @@ public class PieChart extends DefaultChartTypeImpl
 			Vector vOSD = new Vector( );
 
 			// Only convert series in primary orthogonal axis.
-			Axis primaryOrthogonalAxis = ( (Axis) ( (ChartWithAxes) helperModel ).getPrimaryOrthogonalAxis( (Axis) ( (ChartWithAxes) helperModel ).getAxes( )
-					.get( 0 ) ) );
+			Axis primaryOrthogonalAxis = ( (ChartWithAxes) helperModel ).getPrimaryOrthogonalAxis( (Axis) ( (ChartWithAxes) helperModel ).getAxes( )
+					.get( 0 ) );
 			EList osd = primaryOrthogonalAxis.getSeriesDefinitions( );
 			for ( int j = 0; j < osd.size( ); j++ )
 			{
@@ -515,13 +515,15 @@ public class PieChart extends DefaultChartTypeImpl
 			}
 			else
 			{
-				if ( sElement.startsWith( "-" ) ) //$NON-NLS-1$ // Negative Number
-				{
-					sElement = sElement.substring( 1 ); // Convert to positive
-					// number since negative
-					// values are not
-					// supported for pie charts
-				}
+				// Ignore negative check
+				// if ( sElement.startsWith( "-" ) ) //$NON-NLS-1$ // Negative
+				// Number
+				// {
+				// sElement = sElement.substring( 1 ); // Convert to positive
+				// // number since negative
+				// // values are not
+				// // supported for pie charts
+				// }
 				sbNewRepresentation.append( sElement );
 			}
 			sbNewRepresentation.append( "," ); //$NON-NLS-1$

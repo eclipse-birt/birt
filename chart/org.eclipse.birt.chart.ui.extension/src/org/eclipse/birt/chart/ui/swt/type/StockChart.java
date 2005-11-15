@@ -566,12 +566,6 @@ public class StockChart extends DefaultChartTypeImpl
 			try
 			{
 				value = nf.parse( sElement ).doubleValue( );
-				if ( value < 0 )
-				{
-					// If the value is negative, use an arbitrary positive value
-					value = 4.0 + iValueCount;
-					iValueCount++;
-				}
 			}
 			catch ( ParseException e )
 			{
@@ -580,19 +574,19 @@ public class StockChart extends DefaultChartTypeImpl
 			}
 
 			sbNewRepresentation.append( "H" ); //$NON-NLS-1$
-			sbNewRepresentation.append( String.valueOf( value + 2 ) );
-			sbNewRepresentation.append( " " ); //$NON-NLS-1$
-
-			sbNewRepresentation.append( " L" ); //$NON-NLS-1$
-			sbNewRepresentation.append( String.valueOf( value - 1 ) );
-			sbNewRepresentation.append( " " ); //$NON-NLS-1$
-
-			sbNewRepresentation.append( " O" ); //$NON-NLS-1$
 			sbNewRepresentation.append( String.valueOf( value ) );
 			sbNewRepresentation.append( " " ); //$NON-NLS-1$
 
+			sbNewRepresentation.append( " L" ); //$NON-NLS-1$
+			sbNewRepresentation.append( String.valueOf( value - 3 ) );
+			sbNewRepresentation.append( " " ); //$NON-NLS-1$
+
+			sbNewRepresentation.append( " O" ); //$NON-NLS-1$
+			sbNewRepresentation.append( String.valueOf( value - 2) );
+			sbNewRepresentation.append( " " ); //$NON-NLS-1$
+
 			sbNewRepresentation.append( " C" ); //$NON-NLS-1$
-			sbNewRepresentation.append( String.valueOf( value + 1 ) );
+			sbNewRepresentation.append( String.valueOf( value - 1 ) );
 			sbNewRepresentation.append( "," ); //$NON-NLS-1$
 		}
 		return sbNewRepresentation.toString( ).substring( 0,

@@ -551,17 +551,7 @@ public class AxisYSheetImpl extends SubtaskSheetImpl
 				else
 				{
 					double dbl = nf.parse( sElement ).doubleValue( );
-					if ( dbl < 0 )
-					{
-						// If the value is negative, use an arbitrary positive
-						// value
-						sElement = String.valueOf( 4.0 + iValueCount );
-						iValueCount++;
-					}
-					else
-					{
-						sElement = String.valueOf( dbl );
-					}
+					sElement = String.valueOf( dbl );
 				}
 			}
 			catch ( ParseException e )

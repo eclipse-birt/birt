@@ -70,7 +70,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = "Scatter Chart"; //$NON-NLS-1$
-	
+
 	public static final String CHART_TITLE = Messages.getString( "ScatterChart.Txt.DefaultScatterChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStandardDescription = Messages.getString( "ScatterChart.Txt.Description" ); //$NON-NLS-1$
@@ -140,7 +140,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 				img2D = UIHelper.getImage( "icons/wizban/horizontalscatterchartimage.gif" ); //$NON-NLS-1$
 			}
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("ScatterChart.Tooltip.StandardScatterChart"), img2D, sStandardDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString( "ScatterChart.Tooltip.StandardScatterChart" ), img2D, sStandardDescription ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}
@@ -161,7 +161,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 					sSubType,
 					orientation,
 					sDimension );
-			
+
 			if ( newChart != null )
 			{
 				return newChart;
@@ -185,10 +185,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 		( (Axis) newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
 				.add( sdX );
 
-		newChart.getTitle( )
-			.getLabel( )
-			.getCaption( )
-			.setValue( CHART_TITLE ); //$NON-NLS-1$
+		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE ); //$NON-NLS-1$
 
 		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
@@ -286,7 +283,10 @@ public class ScatterChart extends DefaultChartTypeImpl
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( false );
 
 				currentChart.setSubType( sNewSubType );
-				currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+				currentChart.getTitle( )
+						.getLabel( )
+						.getCaption( )
+						.setValue( CHART_TITLE );
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
 				for ( int i = 0; i < axes.size( ); i++ )
@@ -399,7 +399,10 @@ public class ScatterChart extends DefaultChartTypeImpl
 			{
 				return null;
 			}
-			currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+			currentChart.getTitle( )
+					.getLabel( )
+					.getCaption( )
+					.setValue( CHART_TITLE );
 		}
 		if ( currentChart instanceof ChartWithAxes
 				&& !( (ChartWithAxes) currentChart ).getOrientation( )
@@ -431,8 +434,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 			scatterseries.setMarker( ( (LineSeries) series ).getMarker( ) );
 		}
 		else if ( series instanceof BarSeries
-				|| series instanceof PieSeries
-				|| series instanceof StockSeries )
+				|| series instanceof PieSeries || series instanceof StockSeries )
 		{
 			// Use the default marker
 		}
@@ -553,16 +555,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 			try
 			{
 				double dbl = nf.parse( sElement ).doubleValue( );
-				if ( dbl < 0 )
-				{
-					// If the value is negative, use an arbitrary positive value
-					sElement = String.valueOf( 4.0 + iValueCount );
-					iValueCount++;
-				}
-				else
-				{
-					sElement = String.valueOf( dbl );
-				}
+				sElement = String.valueOf( dbl );
 			}
 			catch ( ParseException e )
 			{
