@@ -100,7 +100,7 @@ public final class EventHandlers
 			.append( "	this.height = 15;	\n" ) //$NON-NLS-1$
 			.append( "	this.xPadding = 5;	\n" ) //$NON-NLS-1$
 			.append( "	   this.yPadding = -20;\n" ) //$NON-NLS-1$
-			.append( "	   var mainSvg = evt.target.ownerDocument.documentElement;\n" ) //$NON-NLS-1$
+			.append( "	   var mainSvg = evt.target.ownerDocument;\n" ) //$NON-NLS-1$
 			.append( "	   var off = mainSvg.currentTranslate;\n" ) //$NON-NLS-1$
 			.append( "	   var scl = mainSvg.currentScale;\n" ) //$NON-NLS-1$
 			.append( "	   this.group = new BuildHelper(\"g\",\n" ) //$NON-NLS-1$
@@ -148,7 +148,7 @@ public final class EventHandlers
 			.append( "	   return \"\";\n" ) //$NON-NLS-1$
 			.append( "	}\n" ) //$NON-NLS-1$
 			.append( "	        function toggleVisibility(evt, id, compList){\n" ) //$NON-NLS-1$
-		.append( "       var mainSvg = evt.target.ownerDocument.documentElement;\n" ) //$NON-NLS-1$
+		.append( "       var mainSvg = evt.target.ownerDocument;\n" ) //$NON-NLS-1$
 		.append( "    for (i = 0; i < compList.length; i=i+1){\n" ) //$NON-NLS-1$
 			.append( "         var comp = mainSvg.getElementById(id+'_'+compList[i]);\n" ) //$NON-NLS-1$
 			.append( "         var styleStr = comp.getAttribute(\"style\");\n" ) //$NON-NLS-1$
@@ -195,25 +195,55 @@ public final class EventHandlers
        	.append( "           oldCompList = null;\n" ) //$NON-NLS-1$
        	.append( "        }\n" ) //$NON-NLS-1$
     	.append( "     }\n" ) //$NON-NLS-1$
-	.append( "	function highlightElement(evt, id, compList){\n" ) //$NON-NLS-1$
-	.append( "	   if ((id == null) || (compList == null)) return;\n" ) //$NON-NLS-1$
-	.append( "       var mainSvg = evt.target.ownerDocument.documentElement;\n" ) //$NON-NLS-1$
-	.append( "    for (i = 0; i < compList.length; i=i+1){\n" ) //$NON-NLS-1$
-	.append( "    var comp = mainSvg.getElementById(id+'_'+compList[i]);\n" ) //$NON-NLS-1$
-	.append( "    var styleStr = comp.getAttribute(\"style\");\n" ) //$NON-NLS-1$
-	.append( "	   fillIndex = styleStr.search(\"fill:\");\n" ) //$NON-NLS-1$
-	.append( "	   if (fillIndex != -1){\n" ) //$NON-NLS-1$
-	.append( "	      color = styleStr.substring(fillIndex+6, fillIndex+12);\n" ) //$NON-NLS-1$
-	.append( "	      hc = getXorColor(color);\n" ) //$NON-NLS-1$
-	.append( "	      styleStr = styleStr.replace(\"fill:#\"+color,\"fill:\"+hc);\n" ) //$NON-NLS-1$
-	.append( "	   }\n" ) //$NON-NLS-1$
-	.append( "	   strokeIndex = styleStr.search(\"stroke:\");\n" ) //$NON-NLS-1$
-	.append( "	   if (strokeIndex != -1){\n" ) //$NON-NLS-1$
-	.append( "	      color = styleStr.substring(strokeIndex+8, strokeIndex+14);\n" ) //$NON-NLS-1$
-	.append( "	      hc = getXorColor(color);\n" ) //$NON-NLS-1$
-	.append( "	      styleStr = styleStr.replace(\"stroke:#\"+color,\"stroke:\"+hc);\n" ) //$NON-NLS-1$
-	.append( "	   }\n" ) //$NON-NLS-1$
- 	.append( "   comp.setAttributeNS(null, \"style\", styleStr);\n" ) //$NON-NLS-1$
-	.append( "     }\n" ) //$NON-NLS-1$
-	.append( "     }			\n" ); //$NON-NLS-1$
+    	.append( "    	function highlightElement(evt, id, compList){\n" ) //$NON-NLS-1$
+    	.append( "		   if ((id == null) || (compList == null)) return;\n" ) //$NON-NLS-1$
+    	.append( "	       var mainSvg = evt.target.ownerDocument;\n" ) //$NON-NLS-1$
+
+    	.append( "	    for (i = 0; i < compList.length; i=i+1){\n" ) //$NON-NLS-1$
+    	.append( "	    var comp = mainSvg.getElementById(id+'_'+compList[i]);\n" ) //$NON-NLS-1$
+    	.append( "	    var styleStr = comp.getAttribute(\"style\");\n" ) //$NON-NLS-1$
+    	.append( "		   fillIndex = styleStr.search(\"fill:\");\n" ) //$NON-NLS-1$
+    	.append( "		   if (fillIndex != -1){\n" ) //$NON-NLS-1$
+    	.append( "	              styleStr = getNewStyle(styleStr, fillIndex, \"fill:\");\n" ) //$NON-NLS-1$
+    	.append( "		   }\n" ) //$NON-NLS-1$
+    	.append( "		   strokeIndex = styleStr.search(\"stroke:\");\n" ) //$NON-NLS-1$
+    	.append( "		   if (strokeIndex != -1){\n" ) //$NON-NLS-1$
+    	.append( "	              styleStr = getNewStyle(styleStr, strokeIndex, \"stroke:\");\n" ) //$NON-NLS-1$
+    	.append( "		   }\n" ) //$NON-NLS-1$
+    	.append( "	   comp.setAttributeNS(null, \"style\", styleStr);\n" ) //$NON-NLS-1$
+    	.append( "	     }\n" ) //$NON-NLS-1$
+    	.append( "	     }\n" ) //$NON-NLS-1$				
+    	.append( "	function getNewStyle(style, index, styleAttr){\n" ) //$NON-NLS-1$
+    	.append( "	     color = style.substring(index+styleAttr.length, style.length );\n" ) //$NON-NLS-1$
+    	.append( "	     rgbIndex = color.search(\"rgb\");\n" ) //$NON-NLS-1$
+    	.append( "	     if (rgbIndex == -1){\n" ) //$NON-NLS-1$
+    	.append( "	        hexColor = color.substring(1, 7);\n" ) //$NON-NLS-1$
+    	.append( "	        hc = getXorColor(hexColor);\n" ) //$NON-NLS-1$
+    	.append( "	        return style.replace(\"fill:#\"+hexColor,styleAttr+hc);\n" ) //$NON-NLS-1$
+    	.append( "	     }\n" ) //$NON-NLS-1$
+    	.append( "	     else{\n" ) //$NON-NLS-1$
+	     .append( "	        bracketIndex = color.search(\"\\\\)\");\n" ) //$NON-NLS-1$
+    	.append( "	        color = color.substring(0, bracketIndex);\n" ) //$NON-NLS-1$
+    	.append( "	        hexColor = getHexFromRGB(color);\n" ) //$NON-NLS-1$
+    	.append( "	        hc = getXorColor(hexColor);\n" ) //$NON-NLS-1$
+    	.append( "	        return style.substring(0, index) + styleAttr+hc+ style.substring(index+bracketIndex+styleAttr.length+1, style.length);\n" ) //$NON-NLS-1$
+    	.append( "	   }    \n" ) //$NON-NLS-1$
+    	.append( "	}\n" ) //$NON-NLS-1$
+    	.append( "	function getHexFromRGB(color){\n" ) //$NON-NLS-1$
+    	.append( "	        findThem = /\\d{1,3}/g;\n" ) //$NON-NLS-1$
+    	.append( "	        listOfnum = color.match(findThem);\n" ) //$NON-NLS-1$
+    	.append( "	        r = Number(listOfnum[0]).toString(16);\n" ) //$NON-NLS-1$
+    	.append( "	        while (r.length < 2){\n" ) //$NON-NLS-1$
+    	.append( "		    r = \"0\"+r;\n" ) //$NON-NLS-1$
+    	.append( "	        }\n" ) //$NON-NLS-1$
+    	.append( "	        g = Number(listOfnum[1]).toString(16);\n" ) //$NON-NLS-1$
+    	.append( "	        while (g.length < 2){\n" ) //$NON-NLS-1$
+    	.append( "		   g = \"0\"+g;\n" ) //$NON-NLS-1$
+    	.append( "	        }\n" ) //$NON-NLS-1$
+    	.append( "	        b = Number(listOfnum[2]).toString(16);\n" ) //$NON-NLS-1$
+    	.append( "	        while (b.length < 2){\n" ) //$NON-NLS-1$
+    	.append( "	 	   b = \"0\"+b;\n" ) //$NON-NLS-1$
+    	.append( "	        }\n" ) //$NON-NLS-1$
+    	.append( "		return r+g+b;\n" ) //$NON-NLS-1$
+    	.append( "	}\n" ); //$NON-NLS-1$
 }

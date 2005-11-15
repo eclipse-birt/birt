@@ -122,12 +122,22 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 * The SVG version is "-//W3C//DTD SVG 1.0//EN".
 	 */
 	static private final String SVG_VERSION = "-//W3C//DTD SVG 1.0//EN"; //$NON-NLS-1$
-
 	/**
 	 * The SVG DTD is
 	 * "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd".
 	 */
 	static private final String SVG_DTD = "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"; //$NON-NLS-1$
+	
+	/**
+	 * The SVG namespace http://www.w3.org/2000/svg
+	 */
+	static private final String XMLNS = "http://www.w3.org/2000/svg"; //$NON-NLS-1$
+	/**
+	 * The  xmlns:xlink is
+	 * "http://www.w3.org/1999/xlink".
+	 */
+	static private final String XMLNSXINK = "http://www.w3.org/1999/xlink"; //$NON-NLS-1$
+	
 	/**
 	 * 
 	 */
@@ -315,6 +325,9 @@ public class SVGRendererImpl extends SwingRendererImpl
 		DocumentType dType = domImpl.createDocumentType( "svg", //$NON-NLS-1$
 				SVG_VERSION, SVG_DTD );
 		Document svgDocument = domImpl.createDocument( null, "svg", dType ); //$NON-NLS-1$
+		svgDocument.getDocumentElement().setAttribute("xmlns", XMLNS);
+		svgDocument.getDocumentElement().setAttribute("xmlns:xlink", XMLNSXINK);
+		
 		return svgDocument;
 	}
 
