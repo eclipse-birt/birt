@@ -219,7 +219,7 @@ public final class EventHandlers
     	.append( "	     if (rgbIndex == -1){\n" ) //$NON-NLS-1$
     	.append( "	        hexColor = color.substring(1, 7);\n" ) //$NON-NLS-1$
     	.append( "	        hc = getXorColor(hexColor);\n" ) //$NON-NLS-1$
-    	.append( "	        return style.replace(\"fill:#\"+hexColor,styleAttr+hc);\n" ) //$NON-NLS-1$
+    	.append( "	        return style.replace(styleAttr+\"#\"+hexColor,styleAttr+hc);\n" ) //$NON-NLS-1$
     	.append( "	     }\n" ) //$NON-NLS-1$
     	.append( "	     else{\n" ) //$NON-NLS-1$
 	     .append( "	        bracketIndex = color.search(\"\\\\)\");\n" ) //$NON-NLS-1$
