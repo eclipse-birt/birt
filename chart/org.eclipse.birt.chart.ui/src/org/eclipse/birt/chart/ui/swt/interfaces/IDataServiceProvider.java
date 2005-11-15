@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.ui.swt.interfaces;
 
 import java.util.List;
 
+import org.eclipse.birt.chart.exception.ChartException;
+
 /**
  * 
  */
@@ -32,9 +34,9 @@ public interface IDataServiceProvider
 
 	public String getCurrentStyle( );
 
-	public String[] getPreviewHeader( );
+	public String[] getPreviewHeader( ) throws ChartException;
 
-	public List getPreviewData( );
+	public List getPreviewData( ) throws ChartException;
 
 	public void setContext( Object context );
 
@@ -71,6 +73,6 @@ public interface IDataServiceProvider
 	 *         type is by column, array length is column length
 	 */
 	public Object[] getDataForColumns( String[] sExpressions, int iMaxRecords,
-			boolean byRow );
+			boolean byRow ) throws ChartException;
 
 }

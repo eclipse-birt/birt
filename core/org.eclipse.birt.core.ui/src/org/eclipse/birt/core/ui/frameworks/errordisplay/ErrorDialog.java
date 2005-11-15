@@ -12,6 +12,7 @@
 package org.eclipse.birt.core.ui.frameworks.errordisplay;
 
 import org.eclipse.birt.core.ui.frameworks.taskwizard.composites.MessageComposite;
+import org.eclipse.birt.core.ui.i18n.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
@@ -78,18 +79,18 @@ public class ErrorDialog implements SelectionListener
 	 */
 	public static void main( String[] args )
 	{
-		ErrorDialog err = new ErrorDialog( "Test Error Dialog",
-				"An error has occurred!",
+		ErrorDialog err = new ErrorDialog( "Test Error Dialog", //$NON-NLS-1$
+				"An error has occurred!", //$NON-NLS-1$
 				new String[]{
-					"No data has been associated with this object."
+					"No data has been associated with this object." //$NON-NLS-1$
 				},
 				new String[]{
-					"Each object needs to have data associated with it. This data can be associated in the 'X' tab of the dialg. This data can be associated in the 'X' tab of the dialg. This data can be associated in the 'X' tab of the dialg. This data can be associated in the 'X' tab of the dialg."
+					"Each object needs to have data associated with it. This data can be associated in the 'X' tab of the dialg. This data can be associated in the 'X' tab of the dialg. This data can be associated in the 'X' tab of the dialg. This data can be associated in the 'X' tab of the dialg." //$NON-NLS-1$
 				} );
 		// Throwable t = new RuntimeException("This is a test exception!");
 		// ErrorDialog err = new ErrorDialog("Test Exception Dialog", "An
 		// exception has occurred!", t);
-		System.out.println( "Dialog Selection - " + err.getOption( ) );
+		System.out.println( "Dialog Selection - " + err.getOption( ) ); //$NON-NLS-1$
 	}
 
 	private void init( String sTitle )
@@ -194,7 +195,7 @@ public class ErrorDialog implements SelectionListener
 		}
 
 		// DETAILS BUTTON
-		Label lblButtonSpacer = new Label( cmpContainer, SWT.NONE );
+		new Label( cmpContainer, SWT.NONE );
 
 		btnDetails = new Button( cmpContainer, SWT.TOGGLE );
 		GridData gdBtnDetails = new GridData( );
@@ -203,7 +204,7 @@ public class ErrorDialog implements SelectionListener
 		btnDetails.addSelectionListener( this );
 
 		// SOLUTIONS LABEL
-		Label lblDetailSpacer = new Label( cmpContainer, SWT.NONE );
+		new Label( cmpContainer, SWT.NONE );
 
 		slDetails = new StackLayout( );
 
@@ -266,14 +267,12 @@ public class ErrorDialog implements SelectionListener
 
 		if ( bError )
 		{
-			grpProblems.setText( "Error List:" );
+			grpProblems.setText( Messages.getString( "ErrorDialog.text.ErrorList" ) ); //$NON-NLS-1$
 			txtProblems.setText( sErrors );
-			btnDetails.setText( "Show Details..." );
-			grpDetails.setText( "Suggested Fixes:" );
-			btnOK.setText( "   Fix It   " );
-			// TODO unsupported now
-			btnOK.setEnabled( false );
-			btnCancel.setText( "Proceed Without Fixing" );
+			btnDetails.setText( Messages.getString( "ErrorDialog.text.ShowDetails" ) ); //$NON-NLS-1$
+			grpDetails.setText( Messages.getString( "ErrorDialog.text.SuggestedFixes" ) ); //$NON-NLS-1$
+			btnOK.setText( Messages.getString( "ErrorDialog.text.FixIt" ) ); //$NON-NLS-1$
+			btnCancel.setText( Messages.getString( "ErrorDialog.text.ProceedWithoutFixing" ) ); //$NON-NLS-1$
 
 			if ( sFixes == null || sFixes.length( ) == 0 )
 			{
@@ -287,11 +286,11 @@ public class ErrorDialog implements SelectionListener
 		}
 		else
 		{
-			grpProblems.setText( "Exception:" );
+			grpProblems.setText( Messages.getString( "ErrorDialog.text.Exception" ) ); //$NON-NLS-1$
 			txtProblems.setText( sExceptionMessage );
-			btnDetails.setText( "Show Trace..." );
-			grpDetails.setText( "Stack Trace:" );
-			btnOK.setText( "     OK     " );
+			btnDetails.setText( Messages.getString( "ErrorDialog.text.ShowTrace" ) ); //$NON-NLS-1$
+			grpDetails.setText( Messages.getString( "ErrorDialog.text.StackTrace" ) ); //$NON-NLS-1$
+			btnOK.setText( Messages.getString( "ErrorDialog.text.Ok" ) ); //$NON-NLS-1$
 			if ( sTrace == null || sTrace.length( ) == 0 )
 			{
 				btnDetails.setEnabled( false );
@@ -313,12 +312,12 @@ public class ErrorDialog implements SelectionListener
 		return sSelection;
 	}
 
-	/**
-	 * @param errors
-	 * @return
-	 */
 	private String getOrganizedErrors( String[] errors )
 	{
+		if ( errors.length == 1 )
+		{
+			return errors[0];
+		}
 		StringBuffer sbErrors = new StringBuffer( "" ); //$NON-NLS-1$
 		for ( int i = 0; i < errors.length; i++ )
 		{
@@ -326,15 +325,12 @@ public class ErrorDialog implements SelectionListener
 			{
 				sbErrors.append( "\n" ); //$NON-NLS-1$
 			}
+			sbErrors.append( ( i + 1 ) + "] " ); //$NON-NLS-1$
 			sbErrors.append( errors[i] );
 		}
 		return sbErrors.toString( );
 	}
 
-	/**
-	 * @param fixes
-	 * @return
-	 */
 	private String getOrganizedFixes( String[] fixes )
 	{
 		StringBuffer sbFixes = new StringBuffer( "" ); //$NON-NLS-1$
@@ -349,10 +345,6 @@ public class ErrorDialog implements SelectionListener
 		return sbFixes.toString( );
 	}
 
-	/**
-	 * @param t
-	 * @return
-	 */
 	private String getOrganizedTrace( Throwable t )
 	{
 		StringBuffer sbTrace = new StringBuffer( "at:\n" ); //$NON-NLS-1$
@@ -364,8 +356,8 @@ public class ErrorDialog implements SelectionListener
 				{
 					t = t.getCause( );
 				}
-				sbTrace.append( "\n\nCaused By:"
-						+ t.getLocalizedMessage( ) + "\n" );
+				sbTrace.append( Messages.getString( "ErrorDialog.text.CausedBy" ) //$NON-NLS-1$
+						+ t.getLocalizedMessage( ) + "\n" ); //$NON-NLS-1$
 			}
 			StackTraceElement[] se = t.getStackTrace( );
 			for ( int i = 0; i < se.length; i++ )

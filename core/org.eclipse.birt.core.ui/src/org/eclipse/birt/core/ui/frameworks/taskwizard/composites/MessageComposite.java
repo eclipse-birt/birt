@@ -212,10 +212,6 @@ public final class MessageComposite extends Composite implements PaintListener, 
             gc.drawImage(img, 0, 0);
         }
 
-        /**
-         * 
-         * @return
-         */
         public final Rectangle getPreferredBounds()
         {
             return rSize;

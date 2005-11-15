@@ -110,7 +110,7 @@ public class ChartWizard extends WizardBase
 		super.widgetDisposed( e );
 		if ( context != null )
 		{
-			Chart chart = ( (ChartWizardContext) context ).getModel( );
+			Chart chart = getContext( ).getModel( );
 			if ( chart != null )
 			{
 				// Set size if size is zero
@@ -127,27 +127,15 @@ public class ChartWizard extends WizardBase
 		return adapter;
 	}
 
-	// protected void checkBeforeSaving( )
-	// {
-	// super.checkBeforeSaving( );
-	// Chart chart = ( (ChartWizardContext) context ).getModel( );
-	// List listError = new ArrayList( );
-	// List listFixs = new ArrayList( );
-	//
-	// if ( !ChartUIUtil.checkDataBinding( chart ) )
-	// {
-	// listError.add( "Data binding is null!" );
-	// listFixs.add( "Please check every series data binding existent!" );
-	// }
-	// displayError( list2StringArray( listError ),
-	// list2StringArray( listFixs ),
-	// null,
-	// context,
-	// null );
-	// }
-	//
-	// private String[] list2StringArray( List list )
-	// {
-	// return (String[]) list.toArray( new String[list.size( )] );
-	// }
+	protected ChartWizardContext getContext( )
+	{
+		return (ChartWizardContext) context;
+	}
+
+	public String[] validate( )
+	{
+		return getContext( ).getUIServiceProvider( )
+				.validate( getContext( ).getModel( ),
+						getContext( ).getExtendedItem( ) );
+	}
 }

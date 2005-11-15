@@ -19,7 +19,6 @@ public class SimpleTask implements ITask
 	protected transient IWizardContext context = null;
 	protected transient WizardBase container = null;
 	private transient String sLabel = ""; //$NON-NLS-1$
-	private static int iCount = 1;
 	private transient List errorList = new ArrayList( );
 
 	/*
@@ -57,8 +56,7 @@ public class SimpleTask implements ITask
 
 	public SimpleTask( )
 	{
-		sLabel = "Task - " + String.valueOf( iCount ); //$NON-NLS-1$
-		iCount++;
+		sLabel = "Task"; //$NON-NLS-1$
 	}
 
 	public SimpleTask( String sLabel )
@@ -117,20 +115,6 @@ public class SimpleTask implements ITask
 		errorList.remove( errorInfo );
 	}
 
-	protected void displayError( String strError, String strFix, String taskId,
-			String hints )
-	{
-		container.displayError( new String[]{
-			strError
-		}, new String[]{
-			strFix
-		}, new String[]{
-			taskId
-		}, context, new String[]{
-			hints
-		} );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -138,7 +122,18 @@ public class SimpleTask implements ITask
 	 */
 	public void setErrorHints( Object[] errorHints )
 	{
-		// TODO Auto-generated method stub
+		errorList.clear( );
+		for ( int i = 0; i < errorHints.length; i++ )
+		{
+			errorList.add( errorHints.toString( ) );
+		}
+	}
 
+	public void dispose( )
+	{
+		cmpTask = null;
+		context = null;
+		container = null;
+		errorList.clear( );
 	}
 }

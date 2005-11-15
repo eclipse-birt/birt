@@ -56,7 +56,7 @@ public final class UIHelper
 		}
 		catch ( Exception e )
 		{
-            e.printStackTrace();
+			e.printStackTrace( );
 		}
 		return cmpTarget.getShell( ).toDisplay( ptScreen );
 	}
@@ -74,12 +74,10 @@ public final class UIHelper
 		shell.setLocation( Display.getCurrent( )
 				.getPrimaryMonitor( )
 				.getClientArea( ).width
-				/ 2
-				- ( shell.getSize( ).x / 2 ), Display.getCurrent( )
+				/ 2 - ( shell.getSize( ).x / 2 ), Display.getCurrent( )
 				.getPrimaryMonitor( )
 				.getClientArea( ).height
-				/ 2
-				- ( shell.getSize( ).y / 2 ) );
+				/ 2 - ( shell.getSize( ).y / 2 ) );
 	}
 
 	/**
@@ -104,7 +102,7 @@ public final class UIHelper
 			}
 			catch ( MalformedURLException e )
 			{
-				e.printStackTrace();
+				e.printStackTrace( );
 			}
 		}
 		else
@@ -115,7 +113,7 @@ public final class UIHelper
 			}
 			catch ( MalformedURLException e )
 			{
-				e.printStackTrace();
+				e.printStackTrace( );
 			}
 		}
 
@@ -125,7 +123,7 @@ public final class UIHelper
 	/**
 	 * This is a convenience method to get an imgIcon from a URL.
 	 * 
-	 * @param url
+	 * @param sPluginRelativePath
 	 *            The URL for the imgIcon.
 	 * @return The imgIcon represented by the given URL.
 	 */
@@ -147,13 +145,12 @@ public final class UIHelper
 		}
 		catch ( FileNotFoundException e )
 		{
-			e.printStackTrace();
+			e.printStackTrace( );
 		}
 		catch ( IOException e )
 		{
-			e.printStackTrace();
+			e.printStackTrace( );
 		}
-        System.out.println("Returning image: "+img.toString());
 
 		// If still can't load, return a dummy image.
 		if ( img == null )

@@ -18,7 +18,6 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -81,8 +80,6 @@ public class WizardBase
 
 	// TRANSIENT STORAGE FOR ERRORS REPORTED BY TASKS USING 'errorDisplay()'
 	private transient Object[] errorHints = null;
-
-	private transient String currentTaskId = null;
 
 	/**
 	 * Launches the wizard with the specified tasks in 'Available' state...and
@@ -238,47 +235,53 @@ public class WizardBase
 
 	public ITask getCurrentTask( )
 	{
-		return (ITask) availableTasks.get( currentTaskId );
+		return (ITask) availableTasks.get( sCurrentActiveTask );
 	}
 
 	public void switchTo( String sTaskID )
 	{
-		currentTaskId = sTaskID;
-
 		// Update the context from the current task...if available
 		if ( sCurrentActiveTask != null )
 		{
-			this.context = ( (ITask) availableTasks.get( sCurrentActiveTask ) ).getContext( );
-			String[] sErrors = ( (ITask) availableTasks.get( sCurrentActiveTask ) ).getErrors( );
+			String[] sErrors = getCurrentTask( ).getErrors( );
 			if ( sErrors != null && sErrors.length > 0 )
 			{
-				new ErrorDialog( "WizardBase: Errors Encountered", //$NON-NLS-1$
-						"The following errors were reported by the task panel you just left", //$NON-NLS-1$
+				ErrorDialog ed = new ErrorDialog( Messages.getString( "WizardBase.error.ErrorsEncountered" ), //$NON-NLS-1$
+						Messages.getString( "WizardBase.error.FollowingErrorsReportedByTask" ), //$NON-NLS-1$
 						sErrors,
 						new String[]{} );
+				if ( ed.getOption( ) == ErrorDialog.OPTION_ACCEPT )
+				{
+					// Pressing OK will retain current task
+					return;
+				}
 			}
+			this.context = getCurrentTask( ).getContext( );
 		}
 		// Clear any existing popup
 		if ( shellPopup != null && !shellPopup.isDisposed( ) )
 		{
 			shellPopup.close( );
 		}
+
+		// Update current active task ID
+		sCurrentActiveTask = sTaskID;
+
 		// Pass the errorHints if any have been reported by previous task
 		if ( errorHints != null )
 		{
-			( (ITask) availableTasks.get( sTaskID ) ).setErrorHints( errorHints );
+			getCurrentTask( ).setErrorHints( errorHints );
 		}
 		// Pass the context to the new task...so it can prepare its UI
-		( (ITask) availableTasks.get( sTaskID ) ).setContext( context );
+		getCurrentTask( ).setContext( context );
 		// Clear errorHints
 		errorHints = null;
 		// Get the new UI and display it
-		Control c = ( (ITask) availableTasks.get( sTaskID ) ).getUI( cmpTaskContainer );
+		Control c = getCurrentTask( ).getUI( cmpTaskContainer );
 		slTaskContainer.topControl = c;
 		cmpTaskContainer.layout( );
 		tasklist.setActive( (String) vTaskLabels.get( vTaskIDs.indexOf( sTaskID ) ) );
-		// Update current active task ID
-		sCurrentActiveTask = sTaskID;
+
 		// TODO: Handle enabling / disabling of Buttons
 	}
 
@@ -386,7 +389,9 @@ public class WizardBase
 	public void displayException( Throwable t )
 	{
 		// TODO: Implement linkage with the ErrorDialog
-		new ErrorDialog( "WizardBase: Exception Encountered", "The following exception was encountered in WizardBase", t ); //$NON-NLS-1$ //$NON-NLS-2$
+		new ErrorDialog( Messages.getString( "WizardBase.error.ExceptionEncountered" ), //$NON-NLS-1$
+				Messages.getString( "WizardBase.error.FollowingExceptionEncountered" ), //$NON-NLS-1$
+				t );
 	}
 
 	/**
@@ -417,9 +422,10 @@ public class WizardBase
 		if ( sErrors != null && sErrors.length > 0 )
 		{
 			this.errorHints = hints;
-			ErrorDialog dlg = new ErrorDialog( "Exception Encountered", //$NON-NLS-1$
-					"The following exception was encountered", //$NON-NLS-1$
-					sErrors, sFixes/* , currentContext, errorHints */);
+			ErrorDialog dlg = new ErrorDialog( Messages.getString( "WizardBase.error.ExceptionEncountered" ), //$NON-NLS-1$
+					Messages.getString( "WizardBase.error.FollowingExceptionEncountered" ), //$NON-NLS-1$
+					sErrors,
+					sFixes/* , currentContext, errorHints */);
 			if ( dlg.getOption( ) == ErrorDialog.OPTION_ACCEPT )
 			{
 				// TODO: FIX THE PROBLEM
@@ -522,7 +528,19 @@ public class WizardBase
 			}
 			else if ( sCmd.equals( Messages.getString( "WizardBase.Ok" ) ) ) //$NON-NLS-1$
 			{
-				checkBeforeSaving( );
+				final String[] saMessages = validate( );
+				if ( saMessages != null && saMessages.length > 0 )
+				{
+					ErrorDialog ed = new ErrorDialog( Messages.getString( "WizardBase.error.ErrorsEncountered" ), //$NON-NLS-1$
+							Messages.getString( "WizardBase.error.FollowingErrorsReportedWhileVerifying" ), //$NON-NLS-1$
+							saMessages,
+							new String[]{} );
+					if ( ed.getOption( ) == ErrorDialog.OPTION_ACCEPT )
+					{
+						// Stop quitting to fix manually
+						return;
+					}
+				}
 				shell.dispose( );
 			}
 			else if ( sCmd.equals( Messages.getString( "WizardBase.Cancel" ) ) ) //$NON-NLS-1$
@@ -543,12 +561,14 @@ public class WizardBase
 	}
 
 	/**
-	 * Checks all before pressing OK
+	 * Validates before pressing OK.
+	 * 
+	 * @return validation results
 	 * 
 	 */
-	protected void checkBeforeSaving( )
+	public String[] validate( )
 	{
-
+		return null;
 	}
 
 	/*
@@ -603,11 +623,6 @@ class TaskList extends Composite implements DisposeListener
 {
 
 	private transient Vector vTasks = null;
-	private transient Color clrActive = new Color( Display.getCurrent( ),
-			230,
-			230,
-			230 );
-
 	private transient WizardBase wb = null;
 
 	public TaskList( Composite parent, int iStyle, WizardBase wb )
@@ -637,12 +652,22 @@ class TaskList extends Composite implements DisposeListener
 
 	public void setActive( String sTaskLabel )
 	{
-		int i = findButton( sTaskLabel, false );
-		if ( i != -1 )
+		// Disable the button with current task
+		Control[] c = this.getChildren( );
+		for ( int i = 0; i < c.length; i++ )
 		{
-			( (Button) getChildren( )[i] ).setForeground( clrActive );
+			if ( c[i] instanceof Button )
+			{
+				if ( ( (Button) c[i] ).getText( ).equals( sTaskLabel ) )
+				{
+					c[i].setEnabled( false );
+				}
+				else
+				{
+					c[i].setEnabled( true );
+				}
+			}
 		}
-		this.redraw( );
 	}
 
 	private int findButton( String sTaskLabel, boolean bRemove )
@@ -668,7 +693,7 @@ class TaskList extends Composite implements DisposeListener
 
 	private void addButton( )
 	{
-		Button btnTask = new Button( this, SWT.FLAT );
+		Button btnTask = new Button( this, SWT.FLAT | SWT.NO_FOCUS );
 		btnTask.setText( (String) vTasks.get( vTasks.size( ) - 1 ) );
 		btnTask.addSelectionListener( wb );
 		btnTask.setLayoutData( new RowData( 100, 30 ) );
@@ -693,7 +718,7 @@ class TaskList extends Composite implements DisposeListener
 	 */
 	public void widgetDisposed( DisposeEvent e )
 	{
-		clrActive.dispose( );
+
 	}
 }
 
