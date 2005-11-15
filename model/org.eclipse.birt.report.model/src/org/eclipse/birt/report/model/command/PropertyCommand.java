@@ -468,7 +468,7 @@ public class PropertyCommand extends AbstractElementCommand
 
 		MemberRef insertRef = new CachedMemberRef( ref, list.size( ) );
 		PropertyListRecord record = new PropertyListRecord( element, insertRef,
-				list, item );
+				insertRef.getList( module, element ), item );
 		stack.execute( record );
 		stack.commit( );
 	}

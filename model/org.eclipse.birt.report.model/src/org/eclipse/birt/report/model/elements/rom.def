@@ -1566,6 +1566,10 @@
     <Member detailType="DataSetParam" displayNameID="Structure.CachedMetaData.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
     <Member detailType="ResultSetColumn" displayNameID="Structure.CachedMetaData.resultSet" isList="true" name="resultSet" since="1.0" type="structure"/>		
   </Structure>   
+  <Structure displayNameID="Structure.DataSourceParamBinding" name="DataSourceParamBinding" since="2.0">
+    <Member displayNameID="Structure.DataSourceParamBinding.dataSourceName" name="dataSourceName" since="2.0" type="string"/>
+    <Member detailType="ParamBinding" displayNameID="Structure.DataSourceParamBinding.paramBindings" isList="true" name="paramBindings" since="2.0" type="structure" />
+  </Structure>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Module" hasStyle="false" isAbstract="true" name="Module" nameSpace="none" since="2.0">
     <Property canInherit="false" displayNameID="Element.Module.author" name="author" runtimeSettable="false" since="1.0" type="string"/>
     <Property canInherit="false" displayNameID="Element.Module.helpGuide" name="helpGuide" runtimeSettable="false" since="reserved" type="uri"/>
@@ -1628,6 +1632,7 @@
       <Default>0</Default>
     </Property>
     <Property displayNameID="Element.ReportDesign.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
+    <Property detailType="DataSourceParamBinding" displayNameID="Element.ReportDesign.dataSourceBindings" name="dataSourceBindings" isList="true" runtimeSettable="false" since="2.0" type="structure"/>
     <Method context="startup" displayNameID="Element.ReportDesign.beforeFactory" name="beforeFactory" since="1.0" toolTipID="Element.ReportDesign.beforeFactory.toolTip">
       <Argument name="handle" tagID="Element.ReportDesign.beforeFactory.handle" type="ReportDesignHandle"/>
       <Argument name="reportContext" tagID="Element.ReportDesign.beforeFactory.reportContext" type="IReportContext"/>

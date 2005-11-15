@@ -110,21 +110,21 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
  * </ul>
  * 
  * <pre>
- *            // Include one library
- *            
- *            ReportDesignHandle designHandle = ...;
- *            designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
- *            LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *             // Include one library
  *             
- *            // Create one label based on the one in library
- *           
- *            LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
- *            LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
- *           
- *            // Add the new label into design file
- *           
- *            designHandle.getBody().add(myLabelHandle);
- *         
+ *             ReportDesignHandle designHandle = ...;
+ *             designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
+ *             LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *              
+ *             // Create one label based on the one in library
+ *            
+ *             LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
+ *             LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
+ *            
+ *             // Add the new label into design file
+ *            
+ *             designHandle.getBody().add(myLabelHandle);
+ *          
  * </pre>
  * 
  * @see org.eclipse.birt.report.model.elements.ReportDesign
@@ -302,6 +302,21 @@ public class ReportDesignHandle extends ModuleHandle
 	public Iterator includeScriptsIterator( )
 	{
 		PropertyHandle propHandle = getPropertyHandle( INCLUDE_SCRIPTS_PROP );
+		assert propHandle != null;
+		return propHandle.iterator( );
+	}
+
+	/**
+	 * Returns the iterator over all data source bindings. Each one is the
+	 * instance of <code>DataSourceParamBindingHandle</code>
+	 * 
+	 * @return the iterator over all data source bindings.
+	 * @see DataSourceParamBindingHandle
+	 */
+
+	public Iterator dataSourceBindingsIterator( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( DATA_SOURCE_BINDINGS_PROP);
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -512,5 +527,5 @@ public class ReportDesignHandle extends ModuleHandle
 	public SlotHandle getStyles( )
 	{
 		return getSlot( IReportDesignModel.STYLE_SLOT );
-	}	
+	}
 }

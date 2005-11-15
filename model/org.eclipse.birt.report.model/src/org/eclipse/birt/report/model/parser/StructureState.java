@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
+import org.eclipse.birt.report.model.api.elements.structures.DataSourceParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
@@ -55,7 +56,7 @@ import org.xml.sax.SAXException;
 /**
  * Parses one structure. The structure can be either a top level structure on an
  * element or a structure in a list.
- *  
+ * 
  */
 
 public class StructureState extends AbstractPropertyState
@@ -180,8 +181,11 @@ public class StructureState extends AbstractPropertyState
 		{
 			if ( StringUtil.isBlank( name ) )
 			{
-				handler.getErrorHandler( ).semanticError( new DesignParserException(
-						DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+				handler
+						.getErrorHandler( )
+						.semanticError(
+								new DesignParserException(
+										DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				valid = false;
 				return;
 			}
@@ -190,8 +194,10 @@ public class StructureState extends AbstractPropertyState
 			if ( propDefn == null )
 			{
 				handler
-						.getErrorHandler( ).semanticError( new DesignParserException(
-								DesignParserException.DESIGN_EXCEPTION_INVALID_STRUCTURE_NAME ) );
+						.getErrorHandler( )
+						.semanticError(
+								new DesignParserException(
+										DesignParserException.DESIGN_EXCEPTION_INVALID_STRUCTURE_NAME ) );
 				valid = false;
 				return;
 			}
@@ -221,7 +227,8 @@ public class StructureState extends AbstractPropertyState
 
 		if ( tagName
 				.equalsIgnoreCase( DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG ) )
-			return new EncryptedPropertyState( handler, element, propDefn, struct );
+			return new EncryptedPropertyState( handler, element, propDefn,
+					struct );
 
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EXPRESSION_TAG ) )
 			return new ExpressionState( handler, element, propDefn, struct );
@@ -298,7 +305,7 @@ public class StructureState extends AbstractPropertyState
 			return state;
 		}
 
-        String propName = propDefn == null ? null : propDefn.getName(); //$NON-NLS-1$
+		String propName = propDefn == null ? null : propDefn.getName( ); //$NON-NLS-1$
 		if ( element instanceof DataSet )
 		{
 			if ( DataSet.PARAMETERS_PROP.equalsIgnoreCase( propName ) )
@@ -309,15 +316,16 @@ public class StructureState extends AbstractPropertyState
 
 				return state;
 			}
-            else if( DataSet.COMPUTED_COLUMNS_PROP.equalsIgnoreCase( propName ) )
-            {
-            	CompatibleComputedColumnStructureState state = new CompatibleComputedColumnStructureState( handler, element, propDefn, list );
-                state.setName( propName );
-                
-                return state;
-            }
+			else if ( DataSet.COMPUTED_COLUMNS_PROP.equalsIgnoreCase( propName ) )
+			{
+				CompatibleComputedColumnStructureState state = new CompatibleComputedColumnStructureState(
+						handler, element, propDefn, list );
+				state.setName( propName );
+
+				return state;
+			}
 		}
-        
+
 		return super.jumpTo( );
 	}
 
@@ -360,7 +368,7 @@ public class StructureState extends AbstractPropertyState
 
 	/**
 	 * Populates the dictionary for the structure class and name mapping.
-	 *  
+	 * 
 	 */
 
 	private static void populateStructDict( )
@@ -432,5 +440,7 @@ public class StructureState extends AbstractPropertyState
 		structDict.put( DateTimeFormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
 				DateTimeFormatValue.class );
 
+		structDict.put( DataSourceParamBinding.STRUCT_NAME.toLowerCase( ),
+				DataSourceParamBinding.class );
 	}
 }

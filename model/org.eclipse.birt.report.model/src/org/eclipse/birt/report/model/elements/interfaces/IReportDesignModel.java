@@ -77,6 +77,12 @@ public interface IReportDesignModel
 	 */
 
 	public static final String AFTER_RENDER_METHOD = "afterRender"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the data source bindings property.
+	 */
+
+	public static final String DATA_SOURCE_BINDINGS_PROP = "dataSourceBindings"; //$NON-NLS-1$
 
 	// Design slots
 	// See constants defined in the module class.
