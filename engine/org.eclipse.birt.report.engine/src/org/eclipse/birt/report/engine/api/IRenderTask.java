@@ -42,7 +42,7 @@ public interface IRenderTask extends IEngineTask
 	 * Doucment to an output format. 
 	 * @throws EngineException
 	 */
-	public abstract void render(String pageRange) throws EngineException;
+	// public abstract void render(String pageRange) throws EngineException;
 	
 	/**
 	 * Render the ReportLet whose container is identified by iid.
