@@ -576,7 +576,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 					{
 						final Series seRT = (Series) src.getSource( );					
 						logger.log( ILogger.INFORMATION,
-								Messages.getString( "info.toggle.highlight", //$NON-NLS-1$
+								Messages.getString( "info.toggle.visibility", //$NON-NLS-1$
 										getLocale() )
 										+ seRT );
 						String scriptEvent = getJsScriptEvent(tg.getCondition().getValue());
