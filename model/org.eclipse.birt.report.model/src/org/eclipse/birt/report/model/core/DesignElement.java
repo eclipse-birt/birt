@@ -1084,6 +1084,13 @@ public abstract class DesignElement
 			value = getPropertyFromSelector( module, prop, selector );
 			if ( value != null )
 				return value;
+
+			// Check if the container/slot predefined style provides
+			// the value
+
+			value = getPropertyFromSlotSelector( module, prop );
+			if ( value != null )
+				return value;
 		}
 
 		return null;
@@ -1160,8 +1167,7 @@ public abstract class DesignElement
 					|| isStyle( ) )
 				return getSessionDefaultValue( module, prop );
 
-			// Check if the container/slot predefined style provides
-			// the value
+			// for the special case that may relates to the container.
 
 			value = e.getPropertyRelatedToContainer( module, prop );
 			if ( value != null )
@@ -1263,9 +1269,30 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * Returns the property value which is related to container. It may be from
+	 * Returns the property value which is related to slot selector. It is from
 	 * the selector style which represents the slot or combination of container
 	 * and slot.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param prop
+	 *            the definition of property
+	 * @return the property value, or null if no value is set.
+	 */
+
+	protected Object getPropertyFromSlotSelector( Module module,
+			ElementPropertyDefn prop )
+	{
+		if ( getContainer( ) == null )
+			return null;
+
+		String selector = getContainer( ).getSelector( getContainerSlot( ) );
+
+		return getPropertyFromSelector( module, prop, selector );
+	}
+
+	/**
+	 * Returns the property value which is related to container.
 	 * 
 	 * @param module
 	 *            the module
@@ -1277,12 +1304,7 @@ public abstract class DesignElement
 	protected Object getPropertyRelatedToContainer( Module module,
 			ElementPropertyDefn prop )
 	{
-		if ( getContainer( ) == null )
-			return null;
-
-		String selector = getContainer( ).getSelector( getContainerSlot( ) );
-
-		return getPropertyFromSelector( module, prop, selector );
+		return null;
 	}
 
 	/**
@@ -3524,7 +3546,7 @@ public abstract class DesignElement
 		element.handle = null;
 		element.id = 0;
 		element.baseId = NO_BASE_ID;
-		
+
 		// System Properties
 
 		Iterator it = propValues.keySet( ).iterator( );
