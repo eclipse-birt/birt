@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.data.IDataEngine;
@@ -46,39 +47,10 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.23 $ $Date: 2005/11/11 06:26:45 $
+ * @version $Revision: 1.24 $ $Date: 2005/11/11 21:11:19 $
  */
 public class DteDataEngine implements IDataEngine
 {
-
-	/** Used for registering the test expression */
-	private static String TEST_EXPRESSION = "test_expression"; //$NON-NLS-1$
-	/** Used for registering the first value expression of the rule */
-	private static String VALUE1 = "value1"; //$NON-NLS-1$
-	/** Used for registering the second value expression of the rule */
-	private static String VALUE2 = "value2"; //$NON-NLS-1$
-	/**
-	 * The first element is uni-operator and the second needs to be added
-	 * following the test expression
-	 */
-
-	private final static int[] uniOperator = new int[]{
-			IConditionalExpression.OP_NULL, IConditionalExpression.OP_NOT_NULL,
-			IConditionalExpression.OP_TRUE, IConditionalExpression.OP_FALSE};
-	private final static String[] uniOperatorStr = new String[]{"== null", //$NON-NLS-1$
-			"!= null", "==true", "==false"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-
-	/**
-	 * The first element is bi-operator and the second is placed between the two
-	 * test expressions
-	 */
-
-	private final static int[] biOperator = new int[]{
-			IConditionalExpression.OP_LT, IConditionalExpression.OP_LE,
-			IConditionalExpression.OP_EQ, IConditionalExpression.OP_NE,
-			IConditionalExpression.OP_GE, IConditionalExpression.OP_GT};
-	private static String[] biOperatorStr = new String[]{"<", "<=", "==", "!=", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			">=", ">"}; //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
 	 * execution context
@@ -130,7 +102,8 @@ public class DteDataEngine implements IDataEngine
 	 * 
 	 * @see org.eclipse.birt.report.engine.data.IDataEngine#prepare(org.eclipse.birt.report.engine.ir.Report)
 	 */
-	public void prepare(Report report) {
+	public void prepare( Report report )
+	{
 		prepare( report, null );
 	}
 
@@ -140,38 +113,39 @@ public class DteDataEngine implements IDataEngine
 
 		// Handle data sources
 		ReportDesignHandle handle = report.getReportDesign( );
-		List dataSourceList = handle.getAllDataSources();
-		for ( int i = 0; i < dataSourceList.size(); i++ )
+		List dataSourceList = handle.getAllDataSources( );
+		for ( int i = 0; i < dataSourceList.size( ); i++ )
 		{
-			DataSourceHandle dataSource = (DataSourceHandle) dataSourceList.get( i )  ;
+			DataSourceHandle dataSource = (DataSourceHandle) dataSourceList
+					.get( i );
 
 			try
 			{
 				engine.defineDataSource( ModelDteApiAdapter.getInstance( )
-						.createDataSourceDesign(dataSource));
+						.createDataSourceDesign( dataSource ) );
 			}
 			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
-				context.addException(dataSource,  e );
-			}			
+				context.addException( dataSource, e );
+			}
 		} // End of data source handling
 
 		// Handle data sets
-		List dataSetList = handle.getAllDataSets();
-		for ( int i = 0; i < dataSetList.size(); i++ )
+		List dataSetList = handle.getAllDataSets( );
+		for ( int i = 0; i < dataSetList.size( ); i++ )
 		{
-			DataSetHandle dataset = (DataSetHandle) dataSetList.get( i ) ;
+			DataSetHandle dataset = (DataSetHandle) dataSetList.get( i );
 			try
 			{
 				engine.defineDataSet( ModelDteApiAdapter.getInstance( )
-						.createDataSetDesign(dataset) );
+						.createDataSetDesign( dataset ) );
 			}
 			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 				context.addException( dataset, e );
-			}			
+			}
 		} // End of data set handling
 
 		// build report queries
@@ -184,7 +158,8 @@ public class DteDataEngine implements IDataEngine
 					.get( i );
 			try
 			{
-				IPreparedQuery preparedQuery = engine.prepare( query, appContext );
+				IPreparedQuery preparedQuery = engine.prepare( query,
+						appContext );
 				queryMap.put( query, preparedQuery );
 
 			}
@@ -192,7 +167,7 @@ public class DteDataEngine implements IDataEngine
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 				context.addException( e );
-			}			
+			}
 		} // end of prepare
 	}
 
@@ -236,14 +211,14 @@ public class DteDataEngine implements IDataEngine
 					logger.log( Level.SEVERE, e.getMessage( ), e );
 					context.addException( e );
 					return null;
-				}				
+				}
 			}
 		}
 		else if ( query instanceof ISubqueryDefinition )
 		{
-			//Extension Item may used to create the query stack, so we must do
-			//error handling.
-			if (rsStack.isEmpty())
+			// Extension Item may used to create the query stack, so we must do
+			// error handling.
+			if ( rsStack.isEmpty( ) )
 			{
 				return null;
 			}
@@ -309,8 +284,8 @@ public class DteDataEngine implements IDataEngine
 		{
 			try
 			{
-				Object value = ( (DteResultSet) rsStack.getLast( ) ).getResultIterator( )
-						.getValue( expr );
+				Object value = ( (DteResultSet) rsStack.getLast( ) )
+						.getResultIterator( ).getValue( expr );
 				if ( value != null )
 				{
 					return context.jsToJava( value );
@@ -323,10 +298,11 @@ public class DteDataEngine implements IDataEngine
 				context.addException( e );
 				return null;
 			}
-			catch(JavaScriptException ee)
+			catch ( JavaScriptException ee )
 			{
 				logger.log( Level.SEVERE, ee.getMessage( ), ee );
-				context.addException( new EngineException(MessageConstants.INVALID_EXPRESSION_ERROR, expr, ee) );
+				context.addException( new EngineException(
+						MessageConstants.INVALID_EXPRESSION_ERROR, expr, ee ) );
 				return null;
 			}
 		}
@@ -341,7 +317,7 @@ public class DteDataEngine implements IDataEngine
 			return evaluateCondExpr( (IConditionalExpression) expr );
 		}
 
-		//unsupported expression type
+		// unsupported expression type
 		assert ( false );
 		return null;
 	}
@@ -376,11 +352,11 @@ public class DteDataEngine implements IDataEngine
 		if ( expr == null )
 		{
 			EngineException e = new EngineException( "Failed to evaluate: null" );//$NON-NLS-1$
-			context.addException( e ); 
-			logger.log( Level.SEVERE, e.getMessage(), e );
+			context.addException( e );
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 			return new Boolean( false );
 		}
-			
+
 		int operator = expr.getOperator( );
 		IScriptExpression testExpr = expr.getExpression( );
 		IScriptExpression v1 = expr.getOperand1( );
@@ -389,78 +365,34 @@ public class DteDataEngine implements IDataEngine
 		if ( testExpr == null )
 			return new Boolean( false );
 
-		context.newScope( );
 		Object testExprValue = context.evaluate( testExpr.getText( ) );
 		if ( IConditionalExpression.OP_NONE == operator )
 		{
-			context.exitScope( );
 			return testExprValue;
 		}
-
-		context.registerBean( TEST_EXPRESSION, testExprValue );
-		for ( int i = 0; i < uniOperatorStr.length; i++ )
+		Object vv1 = null;
+		Object vv2 = null;
+		if ( v1 != null )
 		{
-			if ( uniOperator[i] == operator )
-			{
-				Object ret = context.evaluate( TEST_EXPRESSION
-						+ uniOperatorStr[i] );
-				context.exitScope( );
-				return ret;
-			}
+			vv1 = context.evaluate( v1.getText( ) );
+		}
+		if ( v2 != null )
+		{
+			vv2 = context.evaluate( v2.getText( ) );
 		}
 
-		if ( v1 == null )
+		try
 		{
-			context.exitScope( );
+			return ScriptEvalUtil.evalConditionalExpr2( testExprValue, expr
+					.getOperator( ), vv1, vv2 );
+		}
+		catch ( Exception e )
+		{
+			logger.log( Level.SEVERE, e.getMessage( ), e );
+			context.addException( new EngineException(
+					MessageConstants.INVALID_EXPRESSION_ERROR, expr, e ) );
 			return new Boolean( false );
 		}
-		Object vv1 = context.evaluate( v1.getText( ) );
-		context.registerBean( VALUE1, vv1 );
-		for ( int i = 0; i < biOperatorStr.length; i++ )
-		{
-			if ( biOperator[i] == operator )
-			{
-				Object ret = context.evaluate( TEST_EXPRESSION
-						+ biOperatorStr[i] + VALUE1 );
-				context.exitScope( );
-				return ret;
-			}
-		}
-		if ( IConditionalExpression.OP_LIKE == operator )
-		{
-			Object ret = context.evaluate( "(" + TEST_EXPRESSION //$NON-NLS-1$
-					+ ").match(" + VALUE1 + ")!=null" ); //$NON-NLS-1$//$NON-NLS-2$
-			context.exitScope( );
-			return ret;
-		}
-
-		if ( v2 == null )
-		{
-			context.exitScope( );
-			return new Boolean( false );
-		}
-		Object vv2 = context.evaluate( v2.getText( ) );
-		context.registerBean( VALUE2, vv2 );
-
-		if ( IConditionalExpression.OP_BETWEEN == operator )
-		{
-			Object ret = context
-					.evaluate( "(" + TEST_EXPRESSION + " >= " + VALUE1 + ") && (" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-							+ TEST_EXPRESSION + " <= " + VALUE2 + ")" ); //$NON-NLS-1$//$NON-NLS-2$
-			context.exitScope( );
-			return ret;
-		}
-		else if ( IConditionalExpression.OP_NOT_BETWEEN == operator )
-		{
-			Object ret = context
-					.evaluate( "(" + TEST_EXPRESSION + " < " + VALUE1 + ") || (" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-							+ TEST_EXPRESSION + " > " + VALUE2 + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
-			context.exitScope( );
-			return ret;
-		}
-		logger.log( Level.SEVERE, "Invalid operator: " + operator ); //$NON-NLS-1$
-		context.exitScope( );
-		return new Boolean( false );
 	}
 
 	public DataEngine getDataEngine( )

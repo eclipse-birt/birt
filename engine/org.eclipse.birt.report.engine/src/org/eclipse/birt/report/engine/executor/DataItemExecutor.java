@@ -29,7 +29,7 @@ import org.eclipse.birt.report.engine.script.DataItemScriptExecutor;
  * data content instance, evaluate styles, bookmark, action property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.18 $ $Date: 2005/11/13 20:26:07 $
+ * @version $Revision: 1.19 $ $Date: 2005/11/14 10:55:58 $
  */
 public class DataItemExecutor extends QueryItemExecutor
 {
@@ -84,10 +84,11 @@ public class DataItemExecutor extends QueryItemExecutor
 		processVisibility( item, dataObj );
 
 		Object value = context.evaluate( dataItem.getValue( ) );
-		// get the mapping value
-		value = getMappingValue( value, dataItem );
-
 		dataObj.setValue( value );
+		
+		// get the mapping value
+		processMappingValue(dataItem, dataObj);
+
 
 		if ( context.isInFactory( ) )
 		{

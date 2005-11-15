@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.executor;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.ir.Expression;
@@ -34,7 +35,7 @@ import org.eclipse.birt.report.engine.util.FileUtil;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/10 08:55:19 $
+ * @version $Revision: 1.19 $ $Date: 2005/11/11 06:26:45 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -65,10 +66,10 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 */
 	protected void processStyle( ReportItemDesign design, IContent content )
 	{
-		content.setX(design.getX());
-		content.setY(design.getY());
-		content.setWidth(design.getWidth());
-		content.setHeight(design.getHeight());
+		content.setX( design.getX( ) );
+		content.setY( design.getY( ) );
+		content.setWidth( design.getWidth( ) );
+		content.setHeight( design.getHeight( ) );
 		content.setStyleClass( design.getStyleName( ) );
 		StyleDeclaration inlineStyle = createHighlightStyle( design
 				.getHighlight( ) );
@@ -124,38 +125,31 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	}
 
 	/**
-	 * Get the mapped value.
-	 * 
-	 * @param oldVal
-	 *            the old value.
-	 * @param style
-	 *            the style with map.
-	 * @param defaultTestExp
-	 *            the default test expression and only useful for data item
-	 * @return the old value if no map rule matched, the mapping value otherwise
+	 * process the mapped rules.
+	 * @param item the design element used to create the data obj.
+	 * @param dataObj Data object.
 	 */
-	protected Object getMappingValue( Object oldVal, StyledElementDesign item )
+	protected void processMappingValue( StyledElementDesign item,
+			IDataContent dataObj )
 	{
 		MapDesign map = item.getMap( );
-		if ( map == null )
+		if ( map != null )
 		{
-			return oldVal;
-		}
-
-		for ( int i = 0; i < map.getRuleCount( ); i++ )
-		{
-			MapRuleDesign rule = map.getRule( i );
-			if ( rule != null )
+			for ( int i = 0; i < map.getRuleCount( ); i++ )
 			{
-				Object value = context.evaluate( rule.getConditionExpr( ) );
-				if ( ( value != null ) && ( value instanceof Boolean )
-						&& ( ( (Boolean) value ).booleanValue( ) ) )
+				MapRuleDesign rule = map.getRule( i );
+				if ( rule != null )
 				{
-					return rule.getDisplayKey( );
+					Object value = context.evaluate( rule.getConditionExpr( ) );
+					if ( ( value != null ) && ( value instanceof Boolean )
+							&& ( ( (Boolean) value ).booleanValue( ) ) )
+					{
+						dataObj.setLabelText( rule.getDisplayText( ) );
+						dataObj.setLabelKey( rule.getDisplayKey( ) );
+					}
 				}
 			}
 		}
-		return oldVal;
 	}
 
 	/**
@@ -226,7 +220,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				}
 				// we should use rule as the string as
 				buffer.append( rule.getFormat( ) );
-				buffer.append( ", " );
+				buffer.append( ", " ); //$NON-NLS-1$
 			}
 			content.getInlineStyle( ).setVisibleFormat( buffer.toString( ) );
 		}
