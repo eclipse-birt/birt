@@ -137,7 +137,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.52 $ $Date: 2005/11/11 06:26:47 $
+ * @version $Revision: 1.53 $ $Date: 2005/11/14 03:27:18 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -182,11 +182,6 @@ class EngineIRVisitor extends DesignVisitor
 	 * the non-inheritable report style
 	 */
 	StyleDeclaration inheritableReportStyle;
-
-	/**
-	 * the style name prefix
-	 */
-	protected final String PREFIX_STYLE_NAME = "style_"; //$NON-NLS-1$
 
 	/**
 	 * constructor
@@ -1420,43 +1415,17 @@ class EngineIRVisitor extends DesignVisitor
 				// There exist a style which has same properties with this
 				// one,
 				style = cachedStyle;
-				return PREFIX_STYLE_NAME + i;
+				return Report.PREFIX_STYLE_NAME + i;
 			}
 		}
 
 		// the style is a new style, we need create a unique name for
 		// it, and
 		// add it into the report's style list.
-		String styleName = PREFIX_STYLE_NAME + report.getStyleCount( );
+		String styleName = Report.PREFIX_STYLE_NAME + report.getStyleCount( );
 		report.addStyle( styleName, style );
 		return styleName;
 	}
-
-	/*	*//**
-			 * Adds a property to style.
-			 * 
-			 * @param type
-			 *            the CSS value type
-			 * @param handle
-			 *            the engines's styled element
-			 * @param name
-			 *            the Model's property name
-			 * @param style
-			 *            the style
-			 */
-	/*
-	 * protected void addStyleProperty( short type, ReportElementHandle handle,
-	 * String name, StyleDeclaration style ) { FactoryPropertyHandle prop =
-	 * handle.getFactoryPropertyHandle( name ); if( prop != null && prop.isSet( ) ) {
-	 * style.setProperty( StylePropertyMapping.getPropertyID( name ),
-	 * IRTypeConverter.toCSSValue( type, prop.getValue( ) ) ); } }
-	 * 
-	 * protected void setStylePropertyValue( short type, Object value, String
-	 * name, StyleDeclaration style ) { if (value != null) { style.setProperty(
-	 * StylePropertyMapping.getPropertyID( name ), IRTypeConverter.toCSSValue(
-	 * type, value ) ); } }
-	 * 
-	 */
 
 	String getElementProperty( ReportElementHandle handle, String name )
 	{

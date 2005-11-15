@@ -31,21 +31,21 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.19 $ $Date: 2005/11/11 06:26:41 $
+ * @version $Revision: 1.20 $ $Date: 2005/11/14 03:52:43 $
  */
 public class Report
 {
-	
+
 	/**
 	 * the non-inheritable style of the report body 
 	 */
 	protected StyleDeclaration defaultStyle;
-	
+
 	/**
 	 * the name of Report root style 
 	 */
 	protected String rootStyleName;
-	
+
 	/**
 	 * A collection that stores all the report parameters.
 	 */
@@ -99,6 +99,11 @@ public class Report
 	 * file (XML) resides
 	 */
 	protected String basePath;
+
+	/**
+	 * The prefix of style name 
+	 */
+	public static final String PREFIX_STYLE_NAME = "style_"; //$NON-NLS-1$
 
 	/**
 	 * default constructor.
@@ -212,6 +217,7 @@ public class Report
 	{
 		return styleTable.entrySet( );
 	}
+
 	/**
 	 * Finds the style in the report.
 	 * 
@@ -240,8 +246,6 @@ public class Report
 		assert ( parameter.getName( ) != null );
 		this.parameters.add( parameter );
 	}
-
-
 
 	/**
 	 * Finds a master page with given name.
@@ -341,10 +345,9 @@ public class Report
 		for ( int n = 0; n < params.size( ); n++ )
 		{
 			param = (IParameterDefnBase) params.get( n );
-			if ( param.getParameterType() == IParameterDefnBase.PARAMETER_GROUP )
+			if ( param.getParameterType( ) == IParameterDefnBase.PARAMETER_GROUP )
 			{
-				flattenParameter( ( (IParameterGroupDefn) param )
-						.getContents() );
+				flattenParameter( ( (IParameterGroupDefn) param ).getContents( ) );
 			}
 			else
 			{
@@ -453,10 +456,10 @@ public class Report
 		}
 		return includes;
 	}
-	
-	public String getInitialize()
+
+	public String getInitialize( )
 	{
-		return reportDesign.getInitialize();
+		return reportDesign.getInitialize( );
 	}
 
 	/**
@@ -478,11 +481,11 @@ public class Report
 		this.basePath = basePath;
 	}
 
-	public StyleDeclaration getDefaultStyle()
+	public StyleDeclaration getDefaultStyle( )
 	{
 		return defaultStyle;
 	}
-	
+
 	public void setDefaultStyle( StyleDeclaration defaultStyle )
 	{
 		this.defaultStyle = defaultStyle;
@@ -495,12 +498,12 @@ public class Report
 	{
 		return rootStyleName;
 	}
-	
+
 	public void setRootStyleName( String rootStyleName )
 	{
 		this.rootStyleName = rootStyleName;
 	}
-	
+
 	public List getErrors( )
 	{
 		return this.reportDesign.getErrorList( );

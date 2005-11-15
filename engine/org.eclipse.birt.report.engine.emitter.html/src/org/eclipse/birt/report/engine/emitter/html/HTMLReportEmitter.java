@@ -20,10 +20,8 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Stack;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -69,18 +67,17 @@ import sun.nio.cs.ThreadLocalCoders;
 import sun.text.Normalizer;
 
 /**
- * <code>HTMLReportEmitter</code> is a concrete class that implements
- * IReportEmitter interface to output IARD Report ojbects to HTML file. It
- * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
- * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
+ * <code>HTMLReportEmitter</code> is a subclass of
+ * <code>ContentEmitterAdapter</code> that implements IContentEmitter
+ * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.40 $ $Date: 2005/11/11 08:05:28 $
+ * @version $Revision: 1.41 $ $Date: 2005/11/14 03:55:35 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
 
 	/**
-	 * the output forma
+	 * the output format
 	 */
 	public static final String OUTPUT_FORMAT_HTML = "HTML"; //$NON-NLS-1$
 
@@ -100,7 +97,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected OutputStream out = null;
 
 	/**
-	 * the report
+	 * the report content
 	 */
 	protected IReportContent report;
 
@@ -115,7 +112,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected IRenderOption renderOption;
 
 	/**
-	 * Specifies if the HTML output is embeddable.
+	 * specifies if the HTML output is embeddable
 	 */
 	protected boolean isEmbeddable = false;
 
@@ -130,8 +127,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected int pageNo = 0;
 
 	/**
-	 * The
-	 * <code>HTMLWriter<code> object that Emitters use to output HTML content.
+	 * the <code>HTMLWriter<code> object that is used to output HTML content
 	 */
 	protected HTMLWriter writer;
 
@@ -140,7 +136,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	protected Object renderContext;
 
-	/** Indicates that the styled element is hidden or not */
+	/**
+	 * indicates that the styled element is hidden or not
+	 */
 	protected Stack stack = new Stack( );
 
 	/**
@@ -171,16 +169,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	private Stack tagStack = new Stack( );
 
-	// /**
-	// * a stack stores the tables' context
-	// */
-	// private Stack tableStack = new Stack( );
-	//
-	// /**
-	// * specifies the current table context
-	// */
-	// private TableData currentData;
-	//
 	/**
 	 * display type of Block
 	 */
@@ -206,22 +194,24 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	protected static final int DISPLAY_FLAG_ALL = 0xffff;
 
+	/**
+	 * content visitor that is used to handle page header/footer
+	 */
 	protected ContentEmitterVisitor contentVisitor;
 
 	/**
-	 * Create a new <code>HTMLReportEmitter</code> object to output all the
-	 * pages.
-	 * 
-	 * @param repository
-	 *            The resource manager.
-	 * @param hyperlinkProcessor
-	 *            The hyperlink transformation object.
+	 * the constructor
 	 */
 	public HTMLReportEmitter( )
 	{
 		contentVisitor = new ContentEmitterVisitor( this );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.emitter.IContentEmitter#initialize(org.eclipse.birt.report.engine.emitter.IEmitterServices)
+	 */
 	public void initialize( IEmitterServices services )
 	{
 		this.services = services;
@@ -323,10 +313,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 	/**
 	 * Pushes the Boolean indicating whether or not the item is hidden according
-	 * to the StyledELementItem
+	 * to the style
 	 * 
-	 * @param item
-	 *            the StyledElementContent
+	 * @param style
 	 */
 	public void push( IStyle style )
 	{
@@ -334,15 +323,21 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	}
 
 	/**
-	 * Pops the peek element of the stack and returns
+	 * Pops the element of the stack
 	 * 
-	 * @return Returns the boolean indicating whether or not the item is hidden
+	 * @return the boolean indicating whether or not the item is hidden
 	 */
 	public boolean pop( )
 	{
 		return ( (Boolean) stack.pop( ) ).booleanValue( );
 	}
 
+	/**
+	 * Peeks the element of stack
+	 * 
+	 * @param style
+	 * @return the boolean indicating whether or not the item is hidden
+	 */
 	public boolean peek( IStyle style )
 	{
 		boolean isHidden = false;
@@ -365,16 +360,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	/**
 	 * Checks if the current item is hidden
 	 * 
-	 * @return Returns the boolean
+	 * @return a boolean value
 	 */
 	public boolean isHidden( )
 	{
 		return ( (Boolean) stack.peek( ) ).booleanValue( );
-	}
-
-	public IEmitterServices getEmitterServices( )
-	{
-		return services;
 	}
 
 	/*
@@ -387,6 +377,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		return OUTPUT_FORMAT_HTML;
 	}
 
+	/**
+	 * add expandable error message at the end of HTML file
+	 */
 	protected void addExpandableErrorMsg( )
 	{
 		writer.writeCode( "<script>" ); //$NON-NLS-1$
@@ -493,19 +486,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		else
 		{
 			Report reportDesign = report.getDesign( );
-
-			Iterator itor = reportDesign.getStyleSet( ).iterator( );
-			if ( itor != null )
+			for ( int n = 0; n < reportDesign.getStyleCount( ); n++ )
 			{
-				while ( itor.hasNext( ) )
-				{
-					styleBuffer.delete( 0, styleBuffer.capacity( ) );
-					Entry entry = (Entry) itor.next( );
-					style = (IStyle) entry.getValue( );
-					AttributeBuilder.buildStyle( styleBuffer, style, this );
-					writer.style( entry.getKey( ).toString( ), styleBuffer
-							.toString( ), false );
-				}
+				styleBuffer.delete( 0, styleBuffer.capacity( ) );
+				style = (IStyle) reportDesign.getStyle( n );
+				AttributeBuilder.buildStyle( styleBuffer, style, this );
+				writer.style( Report.PREFIX_STYLE_NAME + n, styleBuffer
+						.toString( ), false );
 			}
 		}
 
@@ -577,11 +564,22 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		writer.openTag( HTMLTags.TAG_DIV );
 		IStyle contentStyle = page == null ? null : page.getContentStyle( );
+		pageNo++;
 		if ( contentStyle != null )
 		{
+			if ( pageNo > 1 )
+			{
+				contentStyle.setPageBreakBefore( "always" );
+			}
 			StringBuffer styleBuffer = new StringBuffer( );
 			AttributeBuilder.buildStyle( styleBuffer, contentStyle, this );
 			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+		}
+		else if ( pageNo > 1 )
+		{
+			writer
+					.attribute( HTMLTags.ATTR_STYLE,
+							"page-break-before: always;" );
 		}
 
 		if ( page != null )
@@ -653,8 +651,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		writeColumns( table );
-		// currentData = new TableData( table.getColumnCount( ) );
-		// tableStack.push( currentData );
 	}
 
 	protected void writeColumns( ITableContent table )
@@ -690,15 +686,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		writer.closeTag( HTMLTags.TAG_TABLE );
-		// tableStack.pop( );
-		// if ( tableStack.size( ) > 0 )
-		// {
-		// currentData = (TableData) tableStack.peek( );
-		// }
-		// else
-		// {
-		// currentData = null;
-		// }
 
 		logger.log( Level.FINE, "[HTMLTableEmitter] End table" ); //$NON-NLS-1$
 	}
@@ -852,13 +839,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( cell != null )
 		{
-			// assert currentData != null;
-			//
-			// // fill empty cell if needed
-			// currentData.fillCells( cell.getColumn( ), cell.getRowSpan( ),
-			// cell
-			// .getColSpan( ) );
-
 			// output 'td' tag
 			writer.openTag( HTMLTags.TAG_TD ); //$NON-NLS-1$
 
@@ -1127,11 +1107,21 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.emitter.IContentEmitter#startLabel(org.eclipse.birt.report.engine.content.ILabelContent)
+	 */
 	public void startLabel( ILabelContent label )
 	{
 		startText( label );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.emitter.IContentEmitter#startData(org.eclipse.birt.report.engine.content.IDataContent)
+	 */
 	public void startData( IDataContent data )
 	{
 		startText( data );
@@ -1238,6 +1228,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.closeTag( tag );
 	}
 
+	/**
+	 * gets the image's URI
+	 * 
+	 * @param image
+	 *            the image content
+	 * @return image's URI
+	 */
 	protected String getImageURI( IImageContent image )
 	{
 		String imgUri = null;
@@ -1276,8 +1273,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * Sets the <code>'class'</code> property and stores the style to styleMap
 	 * object.
 	 * 
-	 * @param style
-	 *            The <code>StyleDesign</code> object.
+	 * @param styleName
+	 *            the style name
 	 */
 	protected void setStyleName( String styleName )
 	{
@@ -1550,7 +1547,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * Checks the Action object and then output corresponding tag and property.
 	 * 
 	 * @param action
-	 *            The <code>IAction</code> object.
+	 *            The <code>IHyperlinkAction</code> object.
 	 * @return A <code>boolean</code> value indicating whether the Action
 	 *         object is valid or not.
 	 */
@@ -1562,20 +1559,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		Action act = new Action( action );
 		String link = null;
-		if ( actionHandler != null )
-		{
-			link = actionHandler.getURL( act, renderContext );
-		}
-		else
+		if ( actionHandler == null )
 		{
 			return false;
 		}
 
+		link = actionHandler.getURL( act, renderContext );
 		boolean ret = ( link != null && !link.equals( "" ) ); //$NON-NLS-1$
 
 		if ( ret )
 		{
-
 			String href = ( action.getType( ) == IAction.ACTION_BOOKMARK )
 					? ( "#" + link ) //$NON-NLS-1$
 					: link;
@@ -1672,6 +1665,45 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		return imgUri;
 	}
 
+	/**
+	 * Handles the style of the styled element content
+	 * 
+	 * @param element
+	 *            the styled element content
+	 * @param styleBuffer
+	 *            the StringBuffer instance
+	 */
+	protected void handleStyle( IContent element, StringBuffer styleBuffer )
+	{
+		if ( isEmbeddable )
+		{
+			AttributeBuilder
+					.buildStyle( styleBuffer, element.getStyle( ), this );
+		}
+		else
+		{
+			AttributeBuilder.buildStyle( styleBuffer,
+					element.getInlineStyle( ), this );
+		}
+
+		// output in-line style
+		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+	}
+
+	/**
+	 * adds the default table styles
+	 * 
+	 * @param styleBuffer
+	 */
+	protected void addDefaultTableStyles( StringBuffer styleBuffer )
+	{
+		if ( isEmbeddable )
+		{
+			styleBuffer
+					.append( "border-collapse: collapse; empty-cells: show;" ); //$NON-NLS-1$
+		}
+	}
+
 	/*
 	 * Determin if the browser is compatible with MSIE Those MSIE compatible
 	 * browser contain "MSIE" in the user agent field of http header. Those
@@ -1743,158 +1775,4 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		return sb.toString( );
 	}
-
-	/**
-	 * Handles the style of the styled element content
-	 * 
-	 * @param element
-	 *            the styled element content
-	 * @param styleBuffer
-	 *            the StringBuffer instance
-	 */
-	protected void handleStyle( IContent element, StringBuffer styleBuffer )
-	{
-		if ( isEmbeddable )
-		{
-			AttributeBuilder
-					.buildStyle( styleBuffer, element.getStyle( ), this );
-		}
-		else
-		{
-			AttributeBuilder.buildStyle( styleBuffer,
-					element.getInlineStyle( ), this );
-		}
-
-		// output in-line style
-		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-	}
-
-	protected void addDefaultTableStyles( StringBuffer styleBuffer )
-	{
-		if ( isEmbeddable )
-		{
-			styleBuffer
-					.append( "border-collapse: collapse; empty-cells: show;" ); //$NON-NLS-1$
-		}
-	}
-
-	// /**
-	// * <code>TableData</code> is a concrete class that stores necessary data
-	// * so that <code>HTMLTableEmitter</code> can fill the missing cells, get
-	// * the colAlign attribute for a cell, etc.
-	// */
-	// private class TableData
-	// {
-	//
-	// /**
-	// * Specifies the total column number.
-	// */
-	// private int columns;
-	//
-	// /**
-	// * An integer array to store the row span of each column.
-	// */
-	// private int rowSpans[];
-	//
-	// /**
-	// * The Column ID of last cell.
-	// */
-	// private int lastCol;
-	//
-	// /**
-	// * The constructor.
-	// */
-	// public TableData( int columns )
-	// {
-	// this.columns = columns;
-	// rowSpans = new int[columns];
-	// for ( int n = 0; n < columns; n++ )
-	// {
-	// rowSpans[n] = 0;
-	// }
-	//
-	// lastCol = 1;
-	// }
-	//
-	// protected void ensureSize( int columnSize )
-	// {
-	// if ( rowSpans.length < columnSize )
-	// {
-	// int[] newRowSpans = new int[columnSize];
-	// if ( rowSpans != null )
-	// {
-	// System.arraycopy( rowSpans, 0, newRowSpans, 0,
-	// rowSpans.length );
-	// rowSpans = newRowSpans;
-	// }
-	// }
-	// }
-	//
-	// /**
-	// * Adjusts the row spans of each column when a row ends. If lastCol is
-	// * not bigger than column number, we may also need to fill the empty
-	// * cells before ending the row.
-	// */
-	// public void adjustCols( )
-	// {
-	// for ( ; lastCol <= columns; lastCol++ )
-	// {
-	// if ( rowSpans[lastCol - 1] == 0 )
-	// {
-	// startCell( null );
-	// endCell( null );
-	// }
-	// }
-	//
-	// lastCol = 1;
-	// for ( int n = 0; n < columns; n++ )
-	// {
-	// if ( rowSpans[n] > 0 )
-	// {
-	// rowSpans[n]--;
-	// }
-	// }
-	// }
-	//
-	// /**
-	// * Fills the empty cells if needed. When a new cell's columnID is larger
-	// * than lastCol and there are some empty cells (with rowspan=0) between
-	// * them, we need to insert them before adding the new cell.
-	// *
-	// * @param columnID
-	// * The column ID of the new cell.
-	// * @param rowSpan
-	// * The row span of the new cell.
-	// * @param colSpan
-	// * The column span of the new cell.
-	// */
-	// public void fillCells( int columnID, int rowSpan, int colSpan )
-	// {
-	// if ( columnID > 0 )
-	// {
-	// ensureSize( columnID + colSpan );
-	// for ( ; lastCol < columnID; lastCol++ )
-	// {
-	// if ( rowSpans[lastCol - 1] == 0 )
-	// {
-	// startCell( null );
-	// endCell( null );
-	// }
-	// }
-	// }
-	// else
-	// {
-	// while ( lastCol <= rowSpans.length && rowSpans[lastCol - 1] > 0 )
-	// {
-	// lastCol++;
-	// }
-	// }
-	//
-	// ensureSize( lastCol + colSpan );
-	// for ( int n = 0; n < colSpan; n++, lastCol++ )
-	// {
-	// rowSpans[lastCol - 1] = rowSpan;
-	// }
-	// }
-	// }
 }
