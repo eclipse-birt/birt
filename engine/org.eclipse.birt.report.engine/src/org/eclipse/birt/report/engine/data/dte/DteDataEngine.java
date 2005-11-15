@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -47,7 +48,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.24 $ $Date: 2005/11/11 21:11:19 $
+ * @version $Revision: 1.25 $ $Date: 2005/11/15 02:49:02 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -94,7 +95,18 @@ public class DteDataEngine implements IDataEngine
 	{
 		this.context = context;
 
-		engine = DataEngine.newDataEngine( context.getSharedScope( ) );
+		try
+		{
+			DataEngineContext dteContext = DataEngineContext.newInstance(
+					DataEngineContext.MODE_GENERATION,
+					context.getSharedScope( ), null );
+
+			engine = DataEngine.newDataEngine( dteContext );
+		}
+		catch ( Exception ex )
+		{
+			ex.printStackTrace( );
+		}
 	}
 
 	/*

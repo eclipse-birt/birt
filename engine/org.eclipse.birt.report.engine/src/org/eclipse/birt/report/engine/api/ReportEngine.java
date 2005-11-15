@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.archive.IDocumentArchive;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.util.BirtTimer;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
@@ -74,8 +75,9 @@ public class ReportEngine
 		timer.start( );
 
 		this.config = config;
-		
-		// Explicitly initialize Platform with the ServletContext (could be null).
+
+		// Explicitly initialize Platform with the ServletContext (could be
+		// null).
 		Platform.initialize( config.context );
 		this.helper = new ReportEngineHelper( this );
 		setupLogging( );
@@ -90,11 +92,11 @@ public class ReportEngine
 	 */
 	private void setupLogging( )
 	{
-		if (config != null)
+		if ( config != null )
 		{
 			String dest = (String) config.configObjects
 					.get( EngineConfig.LOG_DESTINATION );
-	
+
 			if ( dest != null )
 			{
 				Level level = (Level) config.configObjects
@@ -105,7 +107,7 @@ public class ReportEngine
 			}
 		}
 	}
-	
+
 	/**
 	 * register globally available script functions
 	 */
@@ -134,7 +136,8 @@ public class ReportEngine
 			catch ( Exception ex )
 			{
 				rootScope = null;
-				logger.log(Level.INFO, "Error occurs while initialze script scope", ex);
+				logger.log( Level.INFO,
+						"Error occurs while initialze script scope", ex );
 			}
 			finally
 			{
@@ -142,12 +145,13 @@ public class ReportEngine
 			}
 		}
 	}
-	
+
 	/**
 	 * get the root scope used by the engine
+	 * 
 	 * @return
 	 */
-	public ScriptableObject getRootScope()
+	public ScriptableObject getRootScope( )
 	{
 		return rootScope;
 	}
@@ -234,7 +238,7 @@ public class ReportEngine
 	{
 		return helper.openReportDesign( designStream );
 	}
-	
+
 	/**
 	 * creates a report design runnable based on a report design handle, from
 	 * ehich embedded images and parameter definitions can be retrieved.
@@ -278,9 +282,10 @@ public class ReportEngine
 		return helper.createGetParameterDefinitionTask( reportRunnable );
 	}
 
-	public IDataPreviewTask createDataPreviewTask(IReportRunnable reportRunnable)
+	public IDataPreviewTask createDataPreviewTask(
+			IReportRunnable reportRunnable )
 	{
-		return helper.createDataPreviewTask(reportRunnable);
+		return helper.createDataPreviewTask( reportRunnable );
 	}
 
 	/**
@@ -349,71 +354,85 @@ public class ReportEngine
 	/**
 	 * creates a task to run a report to generate a report document
 	 * 
-	 * @param reportRunnable the runnable report design object
+	 * @param reportRunnable
+	 *            the runnable report design object
 	 * @return a task that runs the report
 	 */
 	public IRunTask createRunTask( IReportRunnable reportRunnable )
 	{
-		return null;
+		return helper.createRunTask(reportRunnable);
 	}
-	
+
 	/**
-	 * creates a task to run a report based on an existing report document,
-	 * to generate a new report document. The parameters used for running
-	 * the report is the same as the report parameter values stored in the
-	 * first report
+	 * creates a task to run a report based on an existing report document, to
+	 * generate a new report document. The parameters used for running the
+	 * report is the same as the report parameter values stored in the first
+	 * report
 	 * 
-	 * @param reportDocument a handle to an IReportDocument object 
+	 * @param reportDocument
+	 *            a handle to an IReportDocument object
 	 * @return a task that runs the report
 	 */
 	public IRunTask createRunTask( IReportDocument reportDocument )
 	{
 		return null;
 	}
-	
 
 	/**
 	 * creates a task that renders the report to a specific output format.
 	 * 
-	 * @param reportDocument a handle to an IReportDocument object 
-	 * @return a task that renders a report to an output format 
+	 * @param reportDocument
+	 *            a handle to an IReportDocument object
+	 * @return a task that renders a report to an output format
 	 */
 	public IRenderTask createRenderTask( IReportDocument reportDocument )
 	{
 		return null;
 	}
-	
+
 	/**
-	 * opens a report document and returns an IReportDocument object, from 
-	 * which further information can be retrieved.
+	 * opens a report document and returns an IReportDocument object, from which
+	 * further information can be retrieved.
 	 * 
-	 * @param docArchiveName the report document name. report document is an
-	 * archive in BIRT.
+	 * @param docArchiveName
+	 *            the report document name. report document is an archive in
+	 *            BIRT.
 	 * @return A handle to the report document
-	 * @throws EngineException throwed when the report document archive does 
-	 * not exist, or the file is not a valud report document
+	 * @throws EngineException
+	 *             throwed when the report document archive does not exist, or
+	 *             the file is not a valud report document
+	 * @deprecated use openReportDocument(IDocumentArchive) instead.
 	 */
-	public IReportDocument openReportDocument( String docArchiveName ) throws EngineException
+	public IReportDocument openReportDocument( String docArchiveName )
+			throws EngineException
 	{
-		return helper.openReportDocument(docArchiveName);
+		return helper.openReportDocument( docArchiveName );
+	}
+
+	public IReportDocument openReportDocument( IDocumentArchive archive )
+			throws EngineException
+	{
+		return helper.openReportDocument( archive );
 	}
 
 	/**
-	 * creates a task that allows data extraction from a report document 
+	 * creates a task that allows data extraction from a report document
 	 * 
-	 * @param reportDocument a handle to an IReportDocument object 
-	 * @return a task that renders a report to an output format 
+	 * @param reportDocument
+	 *            a handle to an IReportDocument object
+	 * @return a task that renders a report to an output format
 	 */
-	public IDataExtractionTask createDataExtractionTask( IReportDocument reportDocument )
+	public IDataExtractionTask createDataExtractionTask(
+			IReportDocument reportDocument )
 	{
 		return null;
 	}
-	
+
 	/**
 	 * shut down the engine, release all the resources.
 	 */
-	public void shutdown()
+	public void shutdown( )
 	{
-		
+
 	}
 }

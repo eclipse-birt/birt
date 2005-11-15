@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.birt.core.archive.IDocumentArchive;
+
 /**
  * A report document (i.e., not modifiable) that can be rendered to other
  * formats in the BIRT presentation engine
@@ -14,6 +16,8 @@ import java.util.List;
  */
 public interface IReportDocument
 {
+
+	IDocumentArchive getArchive( );
 
 	/**
 	 * @return the report document (archive) name
@@ -86,7 +90,9 @@ public interface IReportDocument
 
 	/**
 	 * get the TOCNode have the id.
-	 * @param tocNodeId the id of the toc.
+	 * 
+	 * @param tocNodeId
+	 *            the id of the toc.
 	 * @return TOCNode with sucn an Id. NULL if not founded.
 	 */
 	public abstract TOCNode findTOC( String tocNodeId );

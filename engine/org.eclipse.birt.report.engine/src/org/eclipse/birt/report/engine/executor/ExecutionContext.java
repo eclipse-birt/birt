@@ -35,6 +35,7 @@ import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IRenderOption;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
@@ -62,20 +63,20 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.36 $ $Date: 2005/11/12 03:32:18 $
+ * @version $Revision: 1.37 $ $Date: 2005/11/14 10:55:58 $
  */
 public class ExecutionContext
 {
 
 	// for logging
-	protected static Logger log = Logger.getLogger( ExecutionContext.class
+	private static Logger log = Logger.getLogger( ExecutionContext.class
 			.getName( ) );
 
 	// The scripting context
-	protected ScriptContext scriptContext;
+	private ScriptContext scriptContext;
 
 	// data engine used by this context
-	protected IDataEngine dataEngine;
+	private IDataEngine dataEngine;
 
 	// A stack of content objects, with the current one on the top
 	private Stack reportContents = new Stack( );
@@ -87,31 +88,35 @@ public class ExecutionContext
 	private Map params = new BirtHashMap( );
 
 	// the report design
-	protected Report report;
+	private Report report;
 
 	// the current locale
-	protected Locale locale;
+	private Locale locale;
 
-	protected IReportRunnable runnable;
+	private IReportRunnable runnable;
 
-	protected IRenderOption renderOption;
+	private ReportExecutor executor;
+
+	private IReportDocument reportDoc;
+
+	private IRenderOption renderOption;
 
 	/** the engine used to create this context */
 	private ReportEngine engine;
 
 	private String taskIDString;
 
-	protected IReportContent reportContent;
-	protected int totalPage;
-	protected int currentPage;
+	private IReportContent reportContent;
+	private int totalPage;
+	private int currentPage;
 	private HashMap stringFormatters = new HashMap( );
 	private HashMap numberFormatters = new HashMap( );
 	private HashMap dateFormatters = new HashMap( );
 
-	protected Object designObj;
+	private Object designObj;
 
-	protected Map appContext;
-	
+	private Map appContext;
+
 	private IReportContext reportContext;
 
 	/**
@@ -152,7 +157,6 @@ public class ExecutionContext
 		scriptContext.registerBean( "config", configs ); //$NON-NLS-1$
 		scriptContext.registerBean( "currentPage", new Integer( currentPage ) );
 		scriptContext.registerBean( "totalPage", new Integer( totalPage ) );
-		dataEngine = DataEngineFactory.getInstance( ).createDataEngine( this );
 	}
 
 	protected void initailizeScriptContext( Context cx, Scriptable scope )
@@ -355,7 +359,7 @@ public class ExecutionContext
 	{
 		try
 		{
-			return dataEngine.evaluate( expr );
+			return getDataEngine().evaluate( expr );
 		}
 		catch ( Throwable t )
 		{
@@ -455,6 +459,10 @@ public class ExecutionContext
 	 */
 	public IDataEngine getDataEngine( )
 	{
+		if (dataEngine == null)
+		{
+			dataEngine = DataEngineFactory.getInstance( ).createDataEngine( this );
+		}
 		return dataEngine;
 	}
 
@@ -571,7 +579,7 @@ public class ExecutionContext
 	public void pushContent( IContent obj )
 	{
 		reportContents.push( obj );
-		newScope(obj);
+		newScope( obj );
 	}
 
 	/**
@@ -580,7 +588,7 @@ public class ExecutionContext
 	public void popContent( )
 	{
 		reportContents.pop( );
-		exitScope();
+		exitScope( );
 	}
 
 	/**
@@ -799,15 +807,17 @@ public class ExecutionContext
 	{
 		this.appContext = appContext;
 	}
-	
-	public IReportContext getReportContext ( ) {
+
+	public IReportContext getReportContext( )
+	{
 		return reportContext;
 	}
 
-	public void setReportContext ( IReportContext reportContext ) {
+	public void setReportContext( IReportContext reportContext )
+	{
 		this.reportContext = reportContext;
 	}
-	
+
 	public void setCurrentPage( int pageNo )
 	{
 		currentPage = pageNo;
@@ -829,12 +839,12 @@ public class ExecutionContext
 		return totalPage;
 	}
 
-	boolean isInFactory( )
+	public boolean isInFactory( )
 	{
 		return true;
 	}
 
-	boolean isInPresentation( )
+	public boolean isInPresentation( )
 	{
 		return false;
 	}
@@ -870,6 +880,26 @@ public class ExecutionContext
 			dateFormatters.put( value, fmt );
 		}
 		return fmt;
+	}
+
+	public void setExecutor( ReportExecutor executor )
+	{
+		this.executor = executor;
+	}
+
+	public ReportExecutor getExecutor( )
+	{
+		return executor;
+	}
+
+	public void setReportDocument( IReportDocument doc )
+	{
+		this.reportDoc = doc;
+	}
+
+	public IReportDocument getReportDocument( )
+	{
+		return reportDoc;
 	}
 
 }

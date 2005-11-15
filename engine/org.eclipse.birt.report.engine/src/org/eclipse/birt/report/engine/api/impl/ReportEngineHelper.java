@@ -17,13 +17,15 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.archive.ReportArchive;
+import org.eclipse.birt.core.archive.DocumentArchive;
+import org.eclipse.birt.core.archive.IDocumentArchive;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataPreviewTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
+import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
@@ -264,6 +266,16 @@ public class ReportEngineHelper
 
 	public IReportDocument openReportDocument( String docArchiveName )
 	{
-		return new ReportDocument( new ReportArchive( docArchiveName ) );
+		return new ReportDocument( new DocumentArchive( docArchiveName ) );
+	}
+
+	public IReportDocument openReportDocument( IDocumentArchive archive )
+	{
+		return new ReportDocument( archive );
+	}
+
+	public IRunTask createRunTask( IReportRunnable runnable )
+	{
+		return new RunTask( engine, runnable );
 	}
 }

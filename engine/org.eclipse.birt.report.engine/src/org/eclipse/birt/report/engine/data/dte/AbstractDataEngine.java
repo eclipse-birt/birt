@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.archive.IReportArchive;
+import org.eclipse.birt.core.archive.IDocumentArchive;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -53,8 +53,9 @@ public abstract class AbstractDataEngine implements IDataEngine
 
 	protected DataEngine dataEngine;
 	protected ExecutionContext context;
-	protected DataEngineContext dteContext;
+	//protected DataEngineContext dteContext;
 	protected HashMap queryMap = new HashMap( );
+	protected HashMap queryIDMap = new HashMap();
 
 	protected HashMap mapIDtoQuery = new HashMap( );
 
@@ -62,7 +63,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 
 	protected LinkedList queryResultStack = new LinkedList( );
 
-	protected IReportArchive archive = null;
+	protected IDocumentArchive archive = null;
 	protected String reportArchName = null;
 
 	// protected ArrayList beforeExpressionIDs = new ArrayList();
@@ -154,11 +155,11 @@ public abstract class AbstractDataEngine implements IDataEngine
 	abstract protected void doPrepareQueryID( Report report, Map appContext );
 
 	
-	public IResultSet execute( String queryID, IBaseQueryDefinition query )
+	public IResultSet execute( IBaseQueryDefinition query )
 	{
 		if ( query instanceof IQueryDefinition )
 		{
-			return doExecute( queryID, query );
+			return doExecute( query );
 		}
 		else if ( query instanceof ISubqueryDefinition )
 		{
@@ -167,8 +168,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 		return null;
 	}
 
-	abstract protected IResultSet doExecute( String queryID,
-			IBaseQueryDefinition query );
+	abstract protected IResultSet doExecute( IBaseQueryDefinition query );
 
 	protected IResultSet getParentResultSet( )
 	{

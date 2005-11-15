@@ -27,6 +27,9 @@ public class TOCBuilder
 	public TOCBuilder()
 	{
 		root = new TOCNode();
+		root.setNodeID("/");
+		root.setBookmark("0");
+		root.setDisplayString("/");
 		node = root;
 	}
 	
@@ -58,7 +61,7 @@ public class TOCBuilder
 		OutputStreamWriter writer = new OutputStreamWriter(out, "utf-8");
 		writer.write("<?xml encoding='utf-8'?>");
 		writeNode(root, writer);
-		out.flush();
+		writer.flush();
 		return;
 	}
 	
@@ -77,7 +80,7 @@ public class TOCBuilder
 			TOCNode child = (TOCNode)iter.next();
 			writeNode(child, writer);
 		}
-		writer.write("</tocnod>");
+		writer.write("</tocnode>");
 	}
 	
 	static public TOCNode read(InputStream input)

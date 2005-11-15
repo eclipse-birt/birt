@@ -31,18 +31,18 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.20 $ $Date: 2005/11/14 03:52:43 $
+ * @version $Revision: 1.21 $ $Date: 2005/11/15 06:16:32 $
  */
 public class Report
 {
 
 	/**
-	 * the non-inheritable style of the report body 
+	 * the non-inheritable style of the report body
 	 */
 	protected StyleDeclaration defaultStyle;
 
 	/**
-	 * the name of Report root style 
+	 * the name of Report root style
 	 */
 	protected String rootStyleName;
 
@@ -83,6 +83,11 @@ public class Report
 	 * @see org.eclipse.birt.report.engine.anlyzer.IQueryDefinition
 	 */
 	protected ArrayList queries = new ArrayList( );
+
+	/**
+	 * use to find the query IDs.
+	 */
+	protected HashMap queryIDs = new HashMap( );
 
 	/**
 	 * Page setup this report used
@@ -330,6 +335,11 @@ public class Report
 		return this.queries;
 	}
 
+	public HashMap getQueryIDs( )
+	{
+		return this.queryIDs;
+	}
+
 	/**
 	 * Puts all the report parameters including those appear inside parameter
 	 * groups to the <code>allParameters</code> object.
@@ -492,7 +502,7 @@ public class Report
 	}
 
 	/**
-	 * the name of Report root style 
+	 * the name of Report root style
 	 */
 	public String getRootStyleName( )
 	{

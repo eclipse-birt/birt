@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.engine.data;
 
+import org.eclipse.birt.core.archive.IDocumentArchive;
+import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.data.dte.DataGenerationEngine;
 import org.eclipse.birt.report.engine.data.dte.DteDataEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
@@ -18,7 +21,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
  * A factory class to create data engines. For now, only DtE data engine is
  * created in this factory.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:46 $
  */
 public class DataEngineFactory
 {
@@ -31,7 +34,7 @@ public class DataEngineFactory
 	/**
 	 * private constractor
 	 */
-	private DataEngineFactory()
+	private DataEngineFactory( )
 	{
 	}
 
@@ -40,11 +43,11 @@ public class DataEngineFactory
 	 * 
 	 * @return the factory instance
 	 */
-	synchronized public static DataEngineFactory getInstance()
+	synchronized public static DataEngineFactory getInstance( )
 	{
-		if (sm_instance == null)
+		if ( sm_instance == null )
 		{
-			sm_instance = new DataEngineFactory();
+			sm_instance = new DataEngineFactory( );
 		}
 		return sm_instance;
 	}
@@ -58,10 +61,23 @@ public class DataEngineFactory
 	 */
 	public IDataEngine createDataEngine( ExecutionContext context )
 	{
-		//if (contentx.getArchive() != null)
-		//{
+		IReportDocument document = context.getReportDocument( );
+		if ( document != null )
+		{
+			IDocumentArchive archive = document.getArchive( );
+			String name = document.getReportDocumentName( );
+			if ( context.isInFactory( ) )
+			{
+				return new DataGenerationEngine( context, archive, name );
+			}
+			else
+			{
+				return new DataGenerationEngine( context, archive, name );
+			}
+		}
+		else
+		{
 			return new DteDataEngine( context );
-		//}
-		//return new ArchiveDataEngine(context);
+		}
 	}
 }

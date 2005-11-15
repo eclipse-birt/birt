@@ -92,7 +92,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.33 $ $Date: 2005/10/19 11:03:06 $
+ * @version $Revision: 1.34 $ $Date: 2005/11/11 06:26:45 $
  */
 public class ReportQueryBuilder
 {
@@ -101,6 +101,7 @@ public class ReportQueryBuilder
 	 */
 	protected static Logger logger = Logger.getLogger( ReportQueryBuilder.class
 			.getName( ) );
+	
 	/**
 	 * constructor
 	 */
@@ -124,9 +125,10 @@ public class ReportQueryBuilder
 	 */
 	protected class QueryBuilderVisitor extends DefaultReportItemVisitorImpl
 	{
-
-		
-
+		/**
+		 * query and it's IDs
+		 */
+		protected HashMap queryIDs;
 		/**
 		 * a collection of all the queries
 		 */
@@ -181,6 +183,9 @@ public class ReportQueryBuilder
 			// first clear the collection in case the caller call this function
 			// more than once.
 			queries.clear( );
+			
+			queryIDs = report.getQueryIDs();
+			queryIDs.clear();
 
 			// visit report
 			for ( int i = 0; i < report.getContentCount( ); i++ )
@@ -554,6 +559,7 @@ public class ReportQueryBuilder
 			}
 			addExpression( item.getTOC());
 			addExpression( item.getBookmark( ) );
+			addExpression( item.getOnCreate( ) );
 			//handleStyle( item.getStyle( ) );
 			handleHighlightExpressions( item.getHighlight( ) );
 			handleMapExpressions( item.getMap( ) );
@@ -908,7 +914,7 @@ public class ReportQueryBuilder
 					}
 					
 				}
-				
+				this.queryIDs.put(query, item);
 				this.queries.add( query );
 				item.setQuery( query );
 				return query;

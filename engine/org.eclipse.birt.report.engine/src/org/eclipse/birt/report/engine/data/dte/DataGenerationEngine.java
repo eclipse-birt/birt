@@ -21,7 +21,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.logging.Level;
 
-import org.eclipse.birt.core.archive.IReportArchive;
+import org.eclipse.birt.core.archive.IDocumentArchive;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -35,20 +35,29 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.mozilla.javascript.Scriptable;
 
 public class DataGenerationEngine extends AbstractDataEngine
 {
 
-	public DataGenerationEngine( ExecutionContext ctx, IReportArchive arch,
-			String archName ) throws BirtException
+	public DataGenerationEngine( ExecutionContext ctx, IDocumentArchive arch,
+			String archName )
 	{
 		context = ctx;
 		archive = arch;
 		reportArchName = archName;
-		dteContext = DataEngineContext.newInstance(
-				DataEngineContext.MODE_GENERATION, ctx.getSharedScope( ), arch );
-		dataEngine = DataEngine.newDataEngine( dteContext );
+		try
+		{
+			DataEngineContext dteContext = DataEngineContext.newInstance(
+					DataEngineContext.MODE_GENERATION, ctx.getSharedScope( ),
+					arch );
+			dataEngine = DataEngine.newDataEngine( dteContext );
+		}
+		catch ( BirtException ex )
+		{
+			ex.printStackTrace( );
+		}
 	}
 
 	public void prepare( Report report )
@@ -59,6 +68,7 @@ public class DataGenerationEngine extends AbstractDataEngine
 	protected void doPrepareQueryID( Report report, Map appContext )
 	{
 		// prepare report queries
+		queryIDMap.putAll( report.getQueryIDs( ) );
 		for ( int i = 0; i < report.getQueries( ).size( ); i++ )
 		{
 			IQueryDefinition queryDef = (IQueryDefinition) report.getQueries( )
@@ -109,7 +119,7 @@ public class DataGenerationEngine extends AbstractDataEngine
 					.getAfterExpressions( ).iterator( ) );
 			addIDToExpression( groupID.rowExpressionIDs, group
 					.getRowExpressions( ).iterator( ) );
-			
+
 			Iterator grpSubIter = group.getSubqueries( ).iterator( );
 			while ( grpSubIter.hasNext( ) )
 			{
@@ -137,11 +147,14 @@ public class DataGenerationEngine extends AbstractDataEngine
 		}
 	}
 
-	protected IResultSet doExecute( String queryID, IBaseQueryDefinition query )
+	protected IResultSet doExecute( IBaseQueryDefinition query )
 	{
 		assert query instanceof IQueryDefinition;
 
 		IPreparedQuery preparedQuery = (IPreparedQuery) queryMap.get( query );
+		ReportElementDesign queryElement = (ReportElementDesign) queryIDMap
+				.get( query );
+		String queryID = String.valueOf( queryElement.getID( ) );
 		assert preparedQuery != null;
 		Scriptable queryScope = context.getSharedScope( );
 

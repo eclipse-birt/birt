@@ -23,7 +23,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.logging.Level;
 
-import org.eclipse.birt.core.archive.IReportArchive;
+import org.eclipse.birt.core.archive.IDocumentArchive;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -41,8 +41,8 @@ import org.eclipse.birt.report.engine.ir.Report;
 public class DataPresentationEngine extends AbstractDataEngine
 {
 
-	public DataPresentationEngine( ExecutionContext ctx, IReportArchive arch,
-			String archName ) throws BirtException
+	public DataPresentationEngine( ExecutionContext ctx, IDocumentArchive arch,
+			String archName )
 	{
 		context = ctx;
 		archive = arch;
@@ -51,10 +51,17 @@ public class DataPresentationEngine extends AbstractDataEngine
 
 		loadDteMetaInfo( );
 
-		dteContext = DataEngineContext.newInstance(
-				DataEngineContext.MODE_PRESENTATION, ctx.getSharedScope( ),
-				arch );
-		dataEngine = DataEngine.newDataEngine( dteContext );
+		try
+		{
+			DataEngineContext dteContext = DataEngineContext.newInstance(
+					DataEngineContext.MODE_PRESENTATION, ctx.getSharedScope( ),
+					arch );
+			dataEngine = DataEngine.newDataEngine( dteContext );
+		}
+		catch ( BirtException ex )
+		{
+			ex.printStackTrace( );
+		}
 	}
 
 	private void loadDteMetaInfo( )
@@ -83,7 +90,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 	protected void doPrepareQueryID( Report report, Map appContext )
 	{
 		// prepare report queries
-
+		queryIDMap.putAll( report.getQueryIDs( ) );
 		for ( int i = 0; i < report.getQueries( ).size( ); i++ )
 		{
 			IQueryDefinition queryDef = (IQueryDefinition) report.getQueries( )
@@ -94,7 +101,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 						appContext );
 				queryMap.put( queryDef, preparedQuery );
 				QueryID queryID = (QueryID) queryIDs.get( i );
-				setQueryIDs(queryDef, queryID);
+				setQueryIDs( queryDef, queryID );
 			}
 			catch ( BirtException be )
 			{
@@ -103,41 +110,50 @@ public class DataPresentationEngine extends AbstractDataEngine
 			}
 		}
 	}
-	
-	private void setQueryIDs(IBaseQueryDefinition query, QueryID queryID){
-		setExpressionID(queryID.beforeExpressionIDs, query.getBeforeExpressions());
-		setExpressionID(queryID.afterExpressionIDs, query.getAfterExpressions());
-		setExpressionID(queryID.rowExpressionIDs, query.getRowExpressions());
-		
-		Iterator subIter = query.getSubqueries().iterator();
-		Iterator subIDIter = queryID.subqueryIDs.iterator();
-		while(subIter.hasNext()&&subIDIter.hasNext()){
-			ISubqueryDefinition subquery = (ISubqueryDefinition)subIter.next();
-			QueryID subID = (QueryID)subIDIter.next();
-			setQueryIDs(subquery, subID);
+
+	private void setQueryIDs( IBaseQueryDefinition query, QueryID queryID )
+	{
+		setExpressionID( queryID.beforeExpressionIDs, query
+				.getBeforeExpressions( ) );
+		setExpressionID( queryID.afterExpressionIDs, query
+				.getAfterExpressions( ) );
+		setExpressionID( queryID.rowExpressionIDs, query.getRowExpressions( ) );
+
+		Iterator subIter = query.getSubqueries( ).iterator( );
+		Iterator subIDIter = queryID.subqueryIDs.iterator( );
+		while ( subIter.hasNext( ) && subIDIter.hasNext( ) )
+		{
+			ISubqueryDefinition subquery = (ISubqueryDefinition) subIter.next( );
+			QueryID subID = (QueryID) subIDIter.next( );
+			setQueryIDs( subquery, subID );
 		}
-		
-		Iterator grpIter = query.getGroups().iterator();
-		Iterator grpIDIter = queryID.groupIDs.iterator();
-		while(grpIter.hasNext() && grpIDIter.hasNext()){
-			IGroupDefinition group = (IGroupDefinition)grpIter.next();
-			
-			QueryID groupID = (QueryID)grpIDIter.next();
-			setExpressionID(groupID.beforeExpressionIDs, group.getBeforeExpressions());
-			setExpressionID(groupID.afterExpressionIDs, group.getAfterExpressions());
-			setExpressionID(groupID.rowExpressionIDs, group.getRowExpressions());	
-			
-			Iterator grpSubIter = group.getSubqueries().iterator();
-			Iterator grpIDSubIter = groupID.subqueryIDs.iterator();
-			while(grpSubIter.hasNext() && grpIDSubIter.hasNext()){
-				ISubqueryDefinition grpSubquery = (ISubqueryDefinition)grpSubIter.next();
-				QueryID grpSubID = (QueryID)grpIDSubIter.next();
-				setQueryIDs(grpSubquery, grpSubID);
+
+		Iterator grpIter = query.getGroups( ).iterator( );
+		Iterator grpIDIter = queryID.groupIDs.iterator( );
+		while ( grpIter.hasNext( ) && grpIDIter.hasNext( ) )
+		{
+			IGroupDefinition group = (IGroupDefinition) grpIter.next( );
+
+			QueryID groupID = (QueryID) grpIDIter.next( );
+			setExpressionID( groupID.beforeExpressionIDs, group
+					.getBeforeExpressions( ) );
+			setExpressionID( groupID.afterExpressionIDs, group
+					.getAfterExpressions( ) );
+			setExpressionID( groupID.rowExpressionIDs, group
+					.getRowExpressions( ) );
+
+			Iterator grpSubIter = group.getSubqueries( ).iterator( );
+			Iterator grpIDSubIter = groupID.subqueryIDs.iterator( );
+			while ( grpSubIter.hasNext( ) && grpIDSubIter.hasNext( ) )
+			{
+				ISubqueryDefinition grpSubquery = (ISubqueryDefinition) grpSubIter
+						.next( );
+				QueryID grpSubID = (QueryID) grpIDSubIter.next( );
+				setQueryIDs( grpSubquery, grpSubID );
 			}
 		}
 	}
-	
-	
+
 	private void setExpressionID( Collection idArray, Collection exprArray )
 	{
 		if ( idArray.size( ) != exprArray.size( ) )
@@ -155,10 +171,11 @@ public class DataPresentationEngine extends AbstractDataEngine
 		}
 	}
 
-	protected IResultSet doExecute( String queryID, IBaseQueryDefinition query )
+	protected IResultSet doExecute( IBaseQueryDefinition query )
 	{
 		assert query instanceof IQueryDefinition;
 
+		String queryID = (String) queryIDMap.get( query );
 		try
 		{
 			IQueryResults queryResults = null;
@@ -178,7 +195,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 			}
 			else
 			{
-				String rowid = "" + parentResult.getCurrentPosition();
+				String rowid = "" + parentResult.getCurrentPosition( );
 				resultSetID = getResultID( queryResults.getID( ), rowid );
 			}
 			queryResults = dataEngine.getQueryResults( resultSetID );
