@@ -13,10 +13,13 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.content.IForeignContent;
+import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.script.CellScriptExecutor;
 import org.eclipse.birt.report.engine.script.DataItemScriptExecutor;
 import org.eclipse.birt.report.engine.script.DetailRowScriptExecutor;
+import org.eclipse.birt.report.engine.script.MultiLineScriptExecutor;
 import org.eclipse.birt.report.engine.script.GridScriptExecutor;
 import org.eclipse.birt.report.engine.script.ImageScriptExecutor;
 import org.eclipse.birt.report.engine.script.LabelScriptExecutor;
@@ -50,19 +53,19 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 
-
 class ScriptedDesignVisitor extends DesignVisitor
 {
 	/**
 	 * logger used to log the error.
 	 */
-	protected static Logger logger = Logger.getLogger( ScriptedDesignVisitor.class.getName( ) );
+	protected static Logger logger = Logger
+			.getLogger( ScriptedDesignVisitor.class.getName( ) );
 
 	/**
 	 * report design handle
 	 */
 	protected ReportDesignHandle handle;
-	
+
 	/**
 	 * the execution context to execute the onPrepare script
 	 */
@@ -71,128 +74,138 @@ class ScriptedDesignVisitor extends DesignVisitor
 	/**
 	 * constructor
 	 * 
-	 * @param handle - the entry point to the DE report design IR
-	 * @param executionContext - the execution context to execute the onPrepare script
+	 * @param handle -
+	 *            the entry point to the DE report design IR
+	 * @param executionContext -
+	 *            the execution context to execute the onPrepare script
 	 */
-	ScriptedDesignVisitor( ReportDesignHandle handle, ExecutionContext executionContext )
+	ScriptedDesignVisitor( ReportDesignHandle handle,
+			ExecutionContext executionContext )
 	{
 		super( );
-		
+
 		this.handle = handle;
 		this.executionContext = executionContext;
 	}
-	
+
 	private void handleOnPrepare( ReportItemHandle handle )
 	{
-		boolean hasJavaScript = (handle.getOnPrepare() != null) &&
-			 					(handle.getOnPrepare().length() !=0);
-		boolean hasJavaCode = 	(handle.getEventHandlerClass() != null) &&
-								(handle.getEventHandlerClass().length() !=0);
+		boolean hasJavaScript = ( handle.getOnPrepare( ) != null )
+				&& ( handle.getOnPrepare( ).length( ) != 0 );
+		boolean hasJavaCode = ( handle.getEventHandlerClass( ) != null )
+				&& ( handle.getEventHandlerClass( ).length( ) != 0 );
 		if ( !hasJavaScript && !hasJavaCode )
 			return;
-		
+
 		try
 		{
 			executionContext.newScope( handle );
-			
+
 			if ( handle instanceof DataItemHandle )
 			{
-				DataItemScriptExecutor.handleOnPrepare( (DataItemHandle)handle, executionContext );
-			}
-			else if ( handle instanceof GridHandle)
+				DataItemScriptExecutor.handleOnPrepare(
+						( DataItemHandle ) handle, executionContext );
+			} else if ( handle instanceof GridHandle )
 			{
-				GridScriptExecutor.handleOnPrepare( (GridHandle)handle, executionContext );
-			}
-			else if ( handle instanceof ImageHandle)
+				GridScriptExecutor.handleOnPrepare( ( GridHandle ) handle,
+						executionContext );
+			} else if ( handle instanceof ImageHandle )
 			{
-				ImageScriptExecutor.handleOnPrepare( (ImageHandle)handle, executionContext );
-			}
-			else if ( handle instanceof LabelHandle)
+				ImageScriptExecutor.handleOnPrepare( ( ImageHandle ) handle,
+						executionContext );
+			} else if ( handle instanceof LabelHandle )
 			{
-				LabelScriptExecutor.handleOnPrepare( (LabelHandle)handle, executionContext );
-			}
-			else if ( handle instanceof ListHandle)
+				LabelScriptExecutor.handleOnPrepare( ( LabelHandle ) handle,
+						executionContext );
+			} else if ( handle instanceof ListHandle )
 			{
-				ListScriptExecutor.handleOnPrepare( (ListHandle)handle, executionContext );
-			}
-			else if ( handle instanceof TableHandle)
+				ListScriptExecutor.handleOnPrepare( ( ListHandle ) handle,
+						executionContext );
+			} else if ( handle instanceof TableHandle )
 			{
-				TableScriptExecutor.handleOnPrepare( (TableHandle)handle, executionContext );
-			}
-			else if ( handle instanceof TextItemHandle)
+				TableScriptExecutor.handleOnPrepare( ( TableHandle ) handle,
+						executionContext );
+			} else if ( handle instanceof TextItemHandle )
 			{
-				TextItemScriptExecutor.handleOnPrepare( (TextItemHandle)handle, executionContext );
-			}
-			else // if there's no ScriptExecutor available, execute javascript only
-				executionContext.execute( handle.getOnPrepare() );
-		}
-		finally
+				TextItemScriptExecutor.handleOnPrepare(
+						( TextItemHandle ) handle, executionContext );
+
+			} else if ( handle instanceof TextDataHandle )
+			{
+				MultiLineScriptExecutor.handleOnPrepare(
+						( TextDataHandle ) handle, executionContext );
+			} else
+				// if there's no ScriptExecutor available, execute javascript
+				// only
+				executionContext.execute( handle.getOnPrepare( ) );
+		} finally
 		{
-			executionContext.exitScope(); 
+			executionContext.exitScope( );
 		}
 	}
 
-	// TODO: Merge this function with the above one when DE add onPrepare to DesignElementHandle
+	// TODO: Merge this function with the above one when DE add onPrepare to
+	// DesignElementHandle
 	private void handleOnPrepare( CellHandle handle )
 	{
-		boolean hasJavaScript = (handle.getOnPrepare() != null) &&
-								(handle.getOnPrepare().length() !=0);
-		boolean hasJavaCode = 	(handle.getEventHandlerClass() != null) &&
-								(handle.getEventHandlerClass().length() !=0);
+		boolean hasJavaScript = ( handle.getOnPrepare( ) != null )
+				&& ( handle.getOnPrepare( ).length( ) != 0 );
+		boolean hasJavaCode = ( handle.getEventHandlerClass( ) != null )
+				&& ( handle.getEventHandlerClass( ).length( ) != 0 );
 		if ( !hasJavaScript && !hasJavaCode )
 			return;
-		
+
 		try
 		{
 			executionContext.newScope( handle );
 			CellScriptExecutor.handleOnPrepare( handle, executionContext );
-		}
-		finally
+		} finally
 		{
-			executionContext.exitScope(); 
+			executionContext.exitScope( );
 		}
 	}
 
-	// TODO: Merge this function with the above one when DE add onPrepare to DesignElementHandle
+	// TODO: Merge this function with the above one when DE add onPrepare to
+	// DesignElementHandle
 	private void handleOnPrepare( GroupHandle handle )
 	{
-		boolean hasJavaScript = (handle.getOnPrepare() != null) &&
-								(handle.getOnPrepare().length() !=0);
-		boolean hasJavaCode = 	(handle.getEventHandlerClass() != null) &&
-								(handle.getEventHandlerClass().length() !=0);
+		boolean hasJavaScript = ( handle.getOnPrepare( ) != null )
+				&& ( handle.getOnPrepare( ).length( ) != 0 );
+		boolean hasJavaCode = ( handle.getEventHandlerClass( ) != null )
+				&& ( handle.getEventHandlerClass( ).length( ) != 0 );
 		if ( !hasJavaScript && !hasJavaCode )
 			return;
-		
+
 		try
 		{
 			executionContext.newScope( handle );
-			// Since there's no ScriptHandler available, call exectionContext.execute to execute the javascript only.
-			executionContext.execute( handle.getOnPrepare() );
-		}
-		finally
+			// Since there's no ScriptHandler available, call
+			// exectionContext.execute to execute the javascript only.
+			executionContext.execute( handle.getOnPrepare( ) );
+		} finally
 		{
-			executionContext.exitScope(); 
+			executionContext.exitScope( );
 		}
 	}
 
-	// TODO: Merge this function with the above one when DE add onPrepare to DesignElementHandle
+	// TODO: Merge this function with the above one when DE add onPrepare to
+	// DesignElementHandle
 	private void handleOnPrepare( RowHandle handle )
 	{
-		boolean hasJavaScript = (handle.getOnPrepare() != null) &&
-								(handle.getOnPrepare().length() !=0);
-		boolean hasJavaCode = 	(handle.getEventHandlerClass() != null) &&
-								(handle.getEventHandlerClass().length() !=0);
+		boolean hasJavaScript = ( handle.getOnPrepare( ) != null )
+				&& ( handle.getOnPrepare( ).length( ) != 0 );
+		boolean hasJavaCode = ( handle.getEventHandlerClass( ) != null )
+				&& ( handle.getEventHandlerClass( ).length( ) != 0 );
 		if ( !hasJavaScript && !hasJavaCode )
 			return;
-		
+
 		try
 		{
 			executionContext.newScope( handle );
 			DetailRowScriptExecutor.handleOnPrepare( handle, executionContext );
-		}
-		finally
+		} finally
 		{
-			executionContext.exitScope(); 
+			executionContext.exitScope( );
 		}
 	}
 
@@ -203,7 +216,7 @@ class ScriptedDesignVisitor extends DesignVisitor
 	 */
 	public void visitReportDesign( ReportDesignHandle handle )
 	{
-		//handleOnPrepare( handle );
+		// handleOnPrepare( handle );
 
 		// Handle Master Page
 		SlotHandle pageSlot = handle.getMasterPages( );
@@ -212,59 +225,56 @@ class ScriptedDesignVisitor extends DesignVisitor
 			apply( pageSlot.get( i ) );
 		}
 
-		//FIXME: add page sequence support
+		// FIXME: add page sequence support
 		/*
-		SlotHandle seqSlot = handle.getPageSequences( );
-		for ( int i = 0; i < seqSlot.getCount( ); i++ )
-		{
-			apply( seqSlot.get( i ) );
-		}
-	    */
+		 * SlotHandle seqSlot = handle.getPageSequences( ); for ( int i = 0; i <
+		 * seqSlot.getCount( ); i++ ) { apply( seqSlot.get( i ) ); }
+		 */
 
 		// Handle top-level components
-		SlotHandle componentsSlot = handle.getComponents();
+		SlotHandle componentsSlot = handle.getComponents( );
 		for ( int i = 0; i < componentsSlot.getCount( ); i++ )
 		{
 			apply( componentsSlot.get( i ) );
 		}
-		
+
 		// Handle Report Body
 		SlotHandle bodySlot = handle.getBody( );
 		for ( int i = 0; i < bodySlot.getCount( ); i++ )
 		{
 			apply( bodySlot.get( i ) );
 		}
-		
+
 		// Handler data source
-		SlotHandle dataSourceSlot = handle.getDataSources();
+		SlotHandle dataSourceSlot = handle.getDataSources( );
 		for ( int i = 0; i < dataSourceSlot.getCount( ); i++ )
 		{
 			apply( dataSourceSlot.get( i ) );
 		}
-		
+
 		// Handle data set
-		SlotHandle dataSetSlot = handle.getDataSets();
+		SlotHandle dataSetSlot = handle.getDataSets( );
 		for ( int i = 0; i < dataSetSlot.getCount( ); i++ )
 		{
 			apply( dataSetSlot.get( i ) );
 		}
 
 		// Handle parameters
-		SlotHandle parameterSlot = handle.getParameters();
+		SlotHandle parameterSlot = handle.getParameters( );
 		for ( int i = 0; i < parameterSlot.getCount( ); i++ )
 		{
 			apply( parameterSlot.get( i ) );
 		}
 
 		// Handle scratch pad
-		SlotHandle scratchSlot = handle.getScratchPad();
+		SlotHandle scratchSlot = handle.getScratchPad( );
 		for ( int i = 0; i < scratchSlot.getCount( ); i++ )
 		{
 			apply( scratchSlot.get( i ) );
 		}
-		
+
 		// Handle data set
-		SlotHandle styleSlot = handle.getStyles();
+		SlotHandle styleSlot = handle.getStyles( );
 		for ( int i = 0; i < styleSlot.getCount( ); i++ )
 		{
 			apply( styleSlot.get( i ) );
@@ -282,7 +292,7 @@ class ScriptedDesignVisitor extends DesignVisitor
 
 	public void visitGraphicMasterPage( GraphicMasterPageHandle handle )
 	{
-		//handleOnPrepare( handle );
+		// handleOnPrepare( handle );
 
 		// Master page content
 		SlotHandle contentSlot = handle.getContent( );
@@ -294,7 +304,7 @@ class ScriptedDesignVisitor extends DesignVisitor
 
 	public void visitSimpleMasterPage( SimpleMasterPageHandle handle )
 	{
-		//handleOnPrepare( handle );
+		// handleOnPrepare( handle );
 
 		SlotHandle headerSlot = handle.getPageHeader( );
 		for ( int i = 0; i < headerSlot.getCount( ); i++ )
@@ -314,24 +324,24 @@ class ScriptedDesignVisitor extends DesignVisitor
 		handleOnPrepare( handle );
 
 		// Header
-		SlotHandle headerSlot = handle.getHeader();
-		for ( int i=0; i<headerSlot.getCount(); i++ )
+		SlotHandle headerSlot = handle.getHeader( );
+		for ( int i = 0; i < headerSlot.getCount( ); i++ )
 		{
-			apply( headerSlot.get(i) );
+			apply( headerSlot.get( i ) );
 		}
-		
+
 		// Detail
-		SlotHandle detailSlot = handle.getDetail();
-		for ( int i=0; i<detailSlot.getCount(); i++ )
+		SlotHandle detailSlot = handle.getDetail( );
+		for ( int i = 0; i < detailSlot.getCount( ); i++ )
 		{
-			apply( detailSlot.get(i) );
+			apply( detailSlot.get( i ) );
 		}
-		
+
 		// Footer
-		SlotHandle footerSlot = handle.getFooter();
-		for ( int i=0; i<footerSlot.getCount(); i++ )
+		SlotHandle footerSlot = handle.getFooter( );
+		for ( int i = 0; i < footerSlot.getCount( ); i++ )
 		{
-			apply( footerSlot.get(i) );
+			apply( footerSlot.get( i ) );
 		}
 
 		// Multiple groups
@@ -361,8 +371,8 @@ class ScriptedDesignVisitor extends DesignVisitor
 
 	public void visitParameterGroup( ParameterGroupHandle handle )
 	{
-		//handleOnPrepare( handle );
-		
+		// handleOnPrepare( handle );
+
 		SlotHandle parameters = handle.getParameters( );
 		int size = parameters.getCount( );
 		for ( int n = 0; n < size; n++ )
@@ -370,12 +380,13 @@ class ScriptedDesignVisitor extends DesignVisitor
 			apply( parameters.get( n ) );
 		}
 	}
-	
-	public void visitCascadingParameterGroup(CascadingParameterGroupHandle handle)
+
+	public void visitCascadingParameterGroup(
+			CascadingParameterGroupHandle handle )
 	{
-		//handleOnPrepare( handle );
-		
-		SlotHandle parameters = handle.getParameters( );		
+		// handleOnPrepare( handle );
+
+		SlotHandle parameters = handle.getParameters( );
 		int size = parameters.getCount( );
 		for ( int n = 0; n < size; n++ )
 		{
@@ -385,7 +396,7 @@ class ScriptedDesignVisitor extends DesignVisitor
 
 	public void visitScalarParameter( ScalarParameterHandle handle )
 	{
-		//handleOnPrepare( handle );
+		// handleOnPrepare( handle );
 	}
 
 	public void visitLabel( LabelHandle handle )
@@ -403,14 +414,14 @@ class ScriptedDesignVisitor extends DesignVisitor
 		handleOnPrepare( handle );
 
 		// Handle Columns
-		SlotHandle columnSlot = handle.getColumns();
+		SlotHandle columnSlot = handle.getColumns( );
 		for ( int i = 0; i < columnSlot.getCount( ); i++ )
 		{
 			apply( columnSlot.get( i ) );
 		}
 
 		// Handle Rows
-		SlotHandle rowSlot = handle.getRows();
+		SlotHandle rowSlot = handle.getRows( );
 		for ( int i = 0; i < rowSlot.getCount( ); i++ )
 		{
 			apply( rowSlot.get( i ) );
@@ -425,29 +436,28 @@ class ScriptedDesignVisitor extends DesignVisitor
 	public void visitTable( TableHandle handle )
 	{
 		handleOnPrepare( handle );
-		
 
 		// Handle header design
-		SlotHandle headerSlot = handle.getHeader();
+		SlotHandle headerSlot = handle.getHeader( );
 		for ( int i = 0; i < headerSlot.getCount( ); i++ )
 		{
 			apply( headerSlot.get( i ) );
 		}
-		
+
 		// Handler detail design
-		SlotHandle detailSlot = handle.getDetail();
+		SlotHandle detailSlot = handle.getDetail( );
 		for ( int i = 0; i < detailSlot.getCount( ); i++ )
 		{
 			apply( detailSlot.get( i ) );
 		}
-		
+
 		// Handle footer design
-		SlotHandle footerSlot = handle.getFooter();
+		SlotHandle footerSlot = handle.getFooter( );
 		for ( int i = 0; i < footerSlot.getCount( ); i++ )
 		{
 			apply( footerSlot.get( i ) );
 		}
-		
+
 		// Handle table Columns
 		SlotHandle columnSlot = handle.getColumns( );
 		for ( int i = 0; i < columnSlot.getCount( ); i++ )
@@ -460,32 +470,32 @@ class ScriptedDesignVisitor extends DesignVisitor
 		for ( int i = 0; i < groupSlot.getCount( ); i++ )
 		{
 			apply( groupSlot.get( i ) );
-		}		
+		}
 	}
 
 	public void visitColumn( ColumnHandle handle )
 	{
-		//handleOnPrepare( handle );
+		// handleOnPrepare( handle );
 	}
 
 	public void visitRow( RowHandle handle )
 	{
 		handleOnPrepare( handle );
-		
+
 		// Cells in a row
-		SlotHandle cellSlot = handle.getCells();
+		SlotHandle cellSlot = handle.getCells( );
 		for ( int i = 0; i < cellSlot.getCount( ); i++ )
 		{
 			apply( cellSlot.get( i ) );
 		}
 	}
-	
+
 	public void visitCell( CellHandle handle )
 	{
 		handleOnPrepare( handle );
 
 		// Cell contents
-		SlotHandle contentSlot = handle.getContent();
+		SlotHandle contentSlot = handle.getContent( );
 		for ( int i = 0; i < contentSlot.getCount( ); i++ )
 		{
 			apply( contentSlot.get( i ) );
@@ -502,16 +512,16 @@ class ScriptedDesignVisitor extends DesignVisitor
 	public void visitListGroup( ListGroupHandle handle )
 	{
 		handleOnPrepare( handle );
-		
+
 		// Handle header design
-		SlotHandle headerSlot = handle.getHeader();
+		SlotHandle headerSlot = handle.getHeader( );
 		for ( int i = 0; i < headerSlot.getCount( ); i++ )
 		{
 			apply( headerSlot.get( i ) );
 		}
-		
+
 		// Handle footer design
-		SlotHandle footerSlot = handle.getFooter();
+		SlotHandle footerSlot = handle.getFooter( );
 		for ( int i = 0; i < footerSlot.getCount( ); i++ )
 		{
 			apply( footerSlot.get( i ) );
@@ -529,16 +539,16 @@ class ScriptedDesignVisitor extends DesignVisitor
 	public void visitTableGroup( TableGroupHandle handle )
 	{
 		handleOnPrepare( handle );
-		
+
 		// Handle header design
-		SlotHandle headerSlot = handle.getHeader();
+		SlotHandle headerSlot = handle.getHeader( );
 		for ( int i = 0; i < headerSlot.getCount( ); i++ )
 		{
 			apply( headerSlot.get( i ) );
 		}
-				
+
 		// Handle footer design
-		SlotHandle footerSlot = handle.getFooter();
+		SlotHandle footerSlot = handle.getFooter( );
 		for ( int i = 0; i < footerSlot.getCount( ); i++ )
 		{
 			apply( footerSlot.get( i ) );

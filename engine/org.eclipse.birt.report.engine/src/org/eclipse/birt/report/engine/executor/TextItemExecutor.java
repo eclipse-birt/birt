@@ -31,7 +31,7 @@ import org.eclipse.birt.report.engine.script.TextItemScriptExecutor;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.20 $ $Date: 2005/11/11 06:26:45 $
+ * @version $Revision: 1.23 $ $Date: 2005/11/14 10:55:58 $
  */
 public class TextItemExecutor extends QueryItemExecutor
 {
@@ -66,15 +66,14 @@ public class TextItemExecutor extends QueryItemExecutor
 	 */
 	public void execute( ReportItemDesign item, IContentEmitter emitter )
 	{
-		TextItemDesign textItem = (TextItemDesign) item;
+		TextItemDesign textItem = ( TextItemDesign ) item;
 		String contentType = ForeignContent.getTextRawType( textItem
 				.getTextType( ), textItem.getText( ) );
 
 		if ( IForeignContent.HTML_TYPE.equals( contentType ) )
 		{
 			executeHtmlText( textItem, emitter );
-		}
-		else
+		} else
 		{
 			executePlainText( textItem, emitter );
 		}
@@ -112,8 +111,8 @@ public class TextItemExecutor extends QueryItemExecutor
 			Iterator iter = exprs.entrySet( ).iterator( );
 			while ( iter.hasNext( ) )
 			{
-				Map.Entry entry = (Map.Entry) iter.next( );
-				Expression expr = (Expression) entry.getValue( );
+				Map.Entry entry = ( Map.Entry ) iter.next( );
+				Expression expr = ( Expression ) entry.getValue( );
 				Object value = context.evaluate( expr );
 				results.put( entry.getKey( ), value );
 			}
@@ -123,10 +122,8 @@ public class TextItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			// TODO: Handle onCreate for html
-			// TextItemScriptExecutor.handleOnCreate( ( ForeignContent )
-			// content,
-			// context );
+			TextItemScriptExecutor.handleOnCreate( ( ForeignContent ) content,
+					context );
 		}
 
 		if ( emitter != null )
@@ -163,7 +160,7 @@ public class TextItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			TextItemScriptExecutor.handleOnCreate( (LabelContent) content,
+			TextItemScriptExecutor.handleOnCreate( ( LabelContent ) content,
 					context );
 		}
 
