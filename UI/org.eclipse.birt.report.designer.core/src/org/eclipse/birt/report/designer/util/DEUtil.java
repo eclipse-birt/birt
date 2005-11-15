@@ -25,7 +25,9 @@ import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
+import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DimensionHandle;
@@ -33,6 +35,7 @@ import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
@@ -46,9 +49,11 @@ import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
@@ -1430,5 +1435,63 @@ public class DEUtil
 		URI baseUri = new File( basePath ).getParentFile( ).toURI( );
 		URI childUri = new File( path ).toURI( );
 		return baseUri.relativize( childUri ).getPath( );
+	}
+
+	/**
+	 * Returns the handle of the action of the given element.
+	 * 
+	 * @param element
+	 *            the element handle
+	 * @return the handle of the action, or null if the element is not a proper
+	 *         type
+	 */
+	public static ActionHandle getActionHandle( ReportItemHandle element )
+	{
+		ActionHandle actionHandle = null;
+		if ( element instanceof LabelHandle )
+		{
+			actionHandle = ( (LabelHandle) element ).getActionHandle( );
+		}
+		else if ( element instanceof DataItemHandle )
+		{
+			actionHandle = ( (DataItemHandle) element ).getActionHandle( );
+		}
+		else if ( element instanceof ImageHandle )
+		{
+			actionHandle = ( (ImageHandle) element ).getActionHandle( );
+		}
+		return actionHandle;
+	}
+
+	/**
+	 * Sets the handle of the action of the given element.
+	 * 
+	 * @param element
+	 *            the element handle to set
+	 * @param action
+	 *            the action
+	 * 
+	 * @return the handle of the action, or null if the element is not a proper
+	 *         type
+	 * 
+	 * @throws SemanticException
+	 */
+	public static ActionHandle setAction( ReportItemHandle element,
+			Action action ) throws SemanticException
+	{
+		ActionHandle actionHandle = null;
+		if ( element instanceof LabelHandle )
+		{
+			actionHandle = ( (LabelHandle) element ).setAction( action );
+		}
+		else if ( element instanceof DataItemHandle )
+		{
+			actionHandle = ( (DataItemHandle) element ).setAction( action );
+		}
+		else if ( element instanceof ImageHandle )
+		{
+			actionHandle = ( (ImageHandle) element ).setAction( action );
+		}
+		return actionHandle;
 	}
 }
