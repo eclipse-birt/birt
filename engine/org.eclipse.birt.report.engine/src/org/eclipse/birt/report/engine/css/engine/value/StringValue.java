@@ -7,7 +7,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 /**
  * This class represents string values.
  * 
- * @version $Id: StringValue.java,v 1.2 2005/10/13 09:59:58 wyan Exp $
+ * @version $Id: StringValue.java,v 1.1 2005/11/11 06:26:44 wyan Exp $
  */
 public class StringValue extends Value {
 
@@ -15,6 +15,11 @@ public class StringValue extends Value {
 	 * Returns the CSS text associated with the given type/value pair.
 	 */
 	public static String getCssText(short type, String value) {
+		if( value == null )
+		{
+			return null;
+		}
+		
 		switch (type) {
 		case CSSPrimitiveValue.CSS_URI:
 			return "url(" + value + ")";
