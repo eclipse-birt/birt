@@ -94,7 +94,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		Series series = getSeriesDefinitionForProcessing( ).getDesignTimeSeries( );
 		getSeriesAttributeUI( series, grpDetails );
 
-		if ( ( getChart( ) instanceof ChartWithAxes ) && ( getChart( ).getDimension() != ChartDimension.THREE_DIMENSIONAL_LITERAL ) )
+		if ( isTrendlineAvailable( ) )
 		{
 			btnShowLine = new Button( cmpContent, SWT.CHECK );
 			{
@@ -137,7 +137,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			btnInteractivity.addSelectionListener( this );
 		}
 
-		if ( ( getChart( ) instanceof ChartWithAxes ) && ( getChart( ).getDimension() != ChartDimension.THREE_DIMENSIONAL_LITERAL ) )
+		if ( isTrendlineAvailable( ) )
 		{
 			btnTrendline = new Button( cmp, SWT.TOGGLE );
 			{
@@ -351,10 +351,16 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		btnLabel.setSelection( isSelected );
 		btnInteractivity.setSelection( isSelected );
 		btnDataPoint.setSelection( isSelected );
-		if ( getChart( ) instanceof ChartWithAxes )
+		if ( isTrendlineAvailable( ) )
 		{
 			btnTrendline.setSelection( isSelected );
 		}
+	}
+
+	private boolean isTrendlineAvailable( )
+	{
+		return ( getChart( ) instanceof ChartWithAxes )
+				&& ( getChart( ).getDimension( ) != ChartDimension.THREE_DIMENSIONAL_LITERAL );
 	}
 
 	private boolean isMeterSeries( )
