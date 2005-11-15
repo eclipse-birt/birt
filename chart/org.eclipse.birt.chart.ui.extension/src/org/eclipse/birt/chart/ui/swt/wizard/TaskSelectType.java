@@ -995,10 +995,11 @@ public class TaskSelectType extends SimpleTask
 
 	public void widgetDisposed( DisposeEvent e )
 	{
-		// Not dispose other widgets any more
+		super.dispose( );
+		// No need to dispose other widgets
 		cmpTask = null;
-
 		chartModel = null;
+		previewPainter.dispose( );
 		previewPainter = null;
 		sSubType = null;
 		sType = null;

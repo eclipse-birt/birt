@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.log.impl.DefaultLoggerImpl;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.DialChart;
@@ -415,24 +414,32 @@ public class TaskSelectData extends SimpleTask
 
 	private void switchDataTable( String datasetName )
 	{
-		// Add data header
-		String[] header = getWizardContext( ).getDataServiceProvider( )
-				.getPreviewHeader( );
-		tablePreview.setColumns( header );
-
-		refreshTableColor( );
-
-		// Add data value
-		List dataList = getWizardContext( ).getDataServiceProvider( )
-				.getPreviewData( );
-		for ( Iterator iterator = dataList.iterator( ); iterator.hasNext( ); )
+		try
 		{
-			String[] dataRow = (String[]) iterator.next( );
-			for ( int i = 0; i < dataRow.length; i++ )
+			// Add data header
+			String[] header = getWizardContext( ).getDataServiceProvider( )
+					.getPreviewHeader( );
+			tablePreview.setColumns( header );
+
+			refreshTableColor( );
+
+			// Add data value
+			List dataList = getWizardContext( ).getDataServiceProvider( )
+					.getPreviewData( );
+			for ( Iterator iterator = dataList.iterator( ); iterator.hasNext( ); )
 			{
-				tablePreview.addEntry( dataRow[i], i );
+				String[] dataRow = (String[]) iterator.next( );
+				for ( int i = 0; i < dataRow.length; i++ )
+				{
+					tablePreview.addEntry( dataRow[i], i );
+				}
 			}
 		}
+		catch ( ChartException e )
+		{
+			container.displayException( e );
+		}
+
 	}
 
 	private void createPreviewPainter( )
@@ -468,7 +475,9 @@ public class TaskSelectData extends SimpleTask
 		}
 		catch ( Throwable t )
 		{
-			throw new ChartException( ChartEnginePlugin.ID, 1, t );
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.DATA_BINDING,
+					t );
 		}
 	}
 
@@ -503,10 +512,7 @@ public class TaskSelectData extends SimpleTask
 				}
 				catch ( ChartException e1 )
 				{
-					DefaultLoggerImpl.instance( )
-							.log( DefaultLoggerImpl.ERROR,
-									Messages.getString( "TaskSelectData.Exception.UnableToSwitchToDataset" ) //$NON-NLS-1$
-											+ cmbDataSet.getText( ) );
+					container.displayException( e1 );
 				}
 			}
 			checkUseDataSet( true );
@@ -520,9 +526,7 @@ public class TaskSelectData extends SimpleTask
 			}
 			catch ( ChartException e1 )
 			{
-				DefaultLoggerImpl.instance( )
-						.log( DefaultLoggerImpl.ERROR,
-								Messages.getString( "TaskSelectData.Exception.UnableToSwitchToDataset" ) + cmbDataSet.getText( ) ); //$NON-NLS-1$
+				container.displayException( e1 );
 			}
 		}
 		else if ( e.getSource( ).equals( btnNewData ) )
@@ -559,9 +563,7 @@ public class TaskSelectData extends SimpleTask
 				}
 				catch ( ChartException e1 )
 				{
-					DefaultLoggerImpl.instance( )
-							.log( DefaultLoggerImpl.ERROR,
-									Messages.getString( "TaskSelectData.Exception.UnableToSwitchToDataset" ) + sAllDS[0] ); //$NON-NLS-1$
+					container.displayException( e1 );
 				}
 			}
 		}
@@ -620,9 +622,10 @@ public class TaskSelectData extends SimpleTask
 
 	public void widgetDisposed( DisposeEvent e )
 	{
-		// Not dispose other widgets any more
+		super.dispose( );
+		// No need to dispose other widgets
 		cmpTask = null;
-
+		previewPainter.dispose( );
 		previewPainter = null;
 		isInited = false;
 		dynamicArea.dispose( );
@@ -631,6 +634,7 @@ public class TaskSelectData extends SimpleTask
 
 		disposeResource( whiteColor );
 		whiteColor = null;
+		oldSample = null;
 
 		// Restore color registry
 		ColorPalette.getInstance( ).restore( );
@@ -1030,7 +1034,8 @@ public class TaskSelectData extends SimpleTask
 
 	private void doLivePreview( )
 	{
-		String errorInfo = Messages.getString( "exception.data.DataBindingsAreNull" ); //$NON-NLS-1$
+		// String errorInfo = Messages.getString(
+		// "exception.data.DataBindingsAreNull" ); //$NON-NLS-1$
 		if ( ChartUIUtil.checkDataBinding( getChartModel( ) ) )
 		{
 			oldSample = (SampleData) EcoreUtil.copy( getChartModel( ).getSampleData( ) );
@@ -1038,11 +1043,11 @@ public class TaskSelectData extends SimpleTask
 			// ADD ALL ADAPTERS...AND REFRESH PREVIEW
 			newSample.eAdapters( ).addAll( getChartModel( ).eAdapters( ) );
 			getChartModel( ).setSampleData( newSample );
-			removeError( errorInfo );
+			// removeError( errorInfo );
 		}
-		else
-		{
-			addError( errorInfo );
-		}
+		// else
+		// {
+		// addError( errorInfo );
+		// }
 	}
 }

@@ -561,6 +561,7 @@ public class TaskFormatChart extends TreeCompoundTask
 		super.widgetDisposed( e );
 		cmpTask = null;
 		previewCanvas = null;
+		previewPainter.dispose( );
 		previewPainter = null;
 		if ( whiteColor != null && !whiteColor.isDisposed( ) )
 		{
