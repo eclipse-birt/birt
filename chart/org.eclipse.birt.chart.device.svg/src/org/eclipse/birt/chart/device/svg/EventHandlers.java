@@ -167,5 +167,53 @@ public final class EventHandlers
     			.append( "         }\n" ) //$NON-NLS-1$
 			.append( "         comp.setAttributeNS(null, \"style\", styleStr);\n" ) //$NON-NLS-1$
 			.append( "     }\n" ) //$NON-NLS-1$
-		.append( "     }			\n" ); //$NON-NLS-1$
+		.append( "     }			\n" ) //$NON-NLS-1$
+		.append( "   		function toHex(val)\n" ) //$NON-NLS-1$
+	.append( "	{\n" ) //$NON-NLS-1$
+	.append( "	    strVal = Number(val).toString(16);\n" ) //$NON-NLS-1$
+	.append( "	    while (strVal.length < 6){\n" ) //$NON-NLS-1$
+	.append( "	        strVal = \"0\"+strVal;\n" ) //$NON-NLS-1$
+	.append( "	    }\n" ) //$NON-NLS-1$
+	.append( "	    return strVal;\n" ) //$NON-NLS-1$
+	.append( "	}\n" ) //$NON-NLS-1$
+	.append( "	function getXorColor(color){\n" ) //$NON-NLS-1$
+	.append( "	    var value = parseInt(color, 16);\n" ) //$NON-NLS-1$
+	.append( "	    value = 0xFFFFFF ^ value;\n" ) //$NON-NLS-1$
+	.append( "	    return \"#\"+toHex(value);\n" ) //$NON-NLS-1$
+	.append( "	}		\n" ) //$NON-NLS-1$
+	.append( "	var oldCompId = null;\n" ) //$NON-NLS-1$
+	.append( "	var oldCompList = null;\n" ) //$NON-NLS-1$
+ 	.append( "   function highlight(evt, id, compList){\n" ) //$NON-NLS-1$
+		.append( "       highlightElement(evt, oldCompId, oldCompList);\n" ) //$NON-NLS-1$
+    	.append( "       if (id != oldCompId){\n" ) //$NON-NLS-1$
+        	.append( "           highlightElement(evt, id, compList);\n" ) //$NON-NLS-1$
+       	.append( "           oldCompId = id;\n" ) //$NON-NLS-1$
+       	.append( "          oldCompList = compList;\n" ) //$NON-NLS-1$
+       	.append( "        }\n" ) //$NON-NLS-1$
+    	.append( "        else{\n" ) //$NON-NLS-1$
+        	.append( "           oldCompId = null;\n" ) //$NON-NLS-1$
+       	.append( "           oldCompList = null;\n" ) //$NON-NLS-1$
+       	.append( "        }\n" ) //$NON-NLS-1$
+    	.append( "     }\n" ) //$NON-NLS-1$
+	.append( "	function highlightElement(evt, id, compList){\n" ) //$NON-NLS-1$
+	.append( "	   if ((id == null) || (compList == null)) return;\n" ) //$NON-NLS-1$
+	.append( "       var mainSvg = evt.target.ownerDocument.documentElement;\n" ) //$NON-NLS-1$
+	.append( "    for (i = 0; i < compList.length; i=i+1){\n" ) //$NON-NLS-1$
+	.append( "    var comp = mainSvg.getElementById(id+'_'+compList[i]);\n" ) //$NON-NLS-1$
+	.append( "    var styleStr = comp.getAttribute(\"style\");\n" ) //$NON-NLS-1$
+	.append( "	   fillIndex = styleStr.search(\"fill:\");\n" ) //$NON-NLS-1$
+	.append( "	   if (fillIndex != -1){\n" ) //$NON-NLS-1$
+	.append( "	      color = styleStr.substring(fillIndex+6, fillIndex+12);\n" ) //$NON-NLS-1$
+	.append( "	      hc = getXorColor(color);\n" ) //$NON-NLS-1$
+	.append( "	      styleStr = styleStr.replace(\"fill:#\"+color,\"fill:\"+hc);\n" ) //$NON-NLS-1$
+	.append( "	   }\n" ) //$NON-NLS-1$
+	.append( "	   strokeIndex = styleStr.search(\"stroke:\");\n" ) //$NON-NLS-1$
+	.append( "	   if (strokeIndex != -1){\n" ) //$NON-NLS-1$
+	.append( "	      color = styleStr.substring(strokeIndex+8, strokeIndex+14);\n" ) //$NON-NLS-1$
+	.append( "	      hc = getXorColor(color);\n" ) //$NON-NLS-1$
+	.append( "	      styleStr = styleStr.replace(\"stroke:#\"+color,\"stroke:\"+hc);\n" ) //$NON-NLS-1$
+	.append( "	   }\n" ) //$NON-NLS-1$
+ 	.append( "   comp.setAttributeNS(null, \"style\", styleStr);\n" ) //$NON-NLS-1$
+	.append( "     }\n" ) //$NON-NLS-1$
+	.append( "     }			\n" ); //$NON-NLS-1$
 }

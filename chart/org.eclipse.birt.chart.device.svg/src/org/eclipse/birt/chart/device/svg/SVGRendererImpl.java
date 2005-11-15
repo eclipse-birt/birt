@@ -505,6 +505,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 			for (int x = 0; x < triggers.length; x++) {
 				Trigger tg = triggers[x];
 				
+				final StructureSource src = (StructureSource) ie.getSource( );
 				
 				switch (tg.getAction().getType().getValue()) {
 				case ActionType.SHOW_TOOLTIP:
@@ -526,7 +527,6 @@ public class SVGRendererImpl extends SwingRendererImpl
 
 				case ActionType.TOGGLE_VISIBILITY :
 					
-					final StructureSource src = (StructureSource) ie.getSource( );
 					if ( src.getType( ) == StructureType.SERIES )
 					{
 						final Series seRT = (Series) src.getSource( );					
@@ -570,64 +570,66 @@ public class SVGRendererImpl extends SwingRendererImpl
 						}
 					}
 					break;
+				case ActionType.HIGHLIGHT :
+					
+					if ( src.getType( ) == StructureType.SERIES )
+					{
+						final Series seRT = (Series) src.getSource( );					
+						logger.log( ILogger.INFORMATION,
+								Messages.getString( "info.toggle.highlight", //$NON-NLS-1$
+										getLocale() )
+										+ seRT );
+						String scriptEvent = getJsScriptEvent(tg.getCondition().getValue());
+						if (scriptEvent != null){
+							
+							Series seDT = null;
+							try
+							{
+								// THE
+								// CORRESPONDING
+								// DESIGN-TIME
+								// SERIES							
+								seDT = findDesignTimeSeries( seRT ); // LOCATE
+								List components = (List)componentPrimitives.get(seDT);
+								Iterator iter = components.iterator();
+								StringBuffer sb = new StringBuffer();
+								sb.append(seDT.hashCode());
+								if (iter.hasNext())
+									sb.append(",new Array(");							 //$NON-NLS-1$
+								while (iter.hasNext()){
+									sb.append("'").append(iter.next()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+									if (iter.hasNext())
+										sb.append(","); //$NON-NLS-1$
+								}
+								if (components.size() > 0)
+									sb.append(")"); //$NON-NLS-1$
+								elm.setAttribute(scriptEvent, //$NON-NLS-1$
+										"highlight(evt, " //$NON-NLS-1$
+												+ sb.toString() + ")"); //$NON-NLS-1$							
+								setCursor(elm);
+	
+								//should define style class and set the visibility to visible
+								((SVGGraphics2D)_g2d).addCSSStyle(".class"+seDT.hashCode(), "visibility", "visible"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+							}
+							catch ( ChartException oosx )
+							{
+								logger.log( oosx );
+								return;
+							}
+						}
+					}
+					break;					
 				case ActionType.INVOKE_SCRIPT:
 					final StructureSource sructSource = (StructureSource) ie.getSource( );
-					String scriptEvent = null;
-					switch(tg.getCondition().getValue()){
-					case TriggerCondition.MOUSE_HOVER :
-						scriptEvent = "onmouseover";
-						break;
-					case TriggerCondition.MOUSE_CLICK :
-						scriptEvent = "onclick";
-						break;
-					case TriggerCondition.ONCLICK :
-						scriptEvent = "onclick";
-						break;
-					case TriggerCondition.ONDBLCLICK :
-						scriptEvent = "onclick";
-						break;
-					case TriggerCondition.ONMOUSEDOWN :
-						scriptEvent = "onmousedown";
-						break;
-					case TriggerCondition.ONMOUSEUP :
-						scriptEvent = "onmouseup";
-						break;
-					case TriggerCondition.ONMOUSEOVER :
-						scriptEvent = "onmouseover";
-						break;
-					case TriggerCondition.ONMOUSEMOVE :
-						scriptEvent = "onmousemove";
-						break;
-					case TriggerCondition.ONMOUSEOUT :
-						scriptEvent = "onmouseout";
-						break;
-					case TriggerCondition.ONFOCUS :
-						scriptEvent = "onfocusin";
-						break;
-					case TriggerCondition.ONBLUR :
-						scriptEvent = "onfocusout";
-						break;
-					case TriggerCondition.ONKEYDOWN :
-						scriptEvent = "onkeydown";
-						break;
-					case TriggerCondition.ONKEYPRESS :
-						scriptEvent = "onkeypress";
-						break;
-					case TriggerCondition.ONKEYUP :
-						scriptEvent = "onkeyup";
-						break;
-					case TriggerCondition.ONLOAD :
-						scriptEvent = "onload";
-						break;
-					}
+					String scriptEvent = getJsScriptEvent(tg.getCondition().getValue());
 					if (scriptEvent != null){
 						String script = ((ScriptValue) tg.getAction().getValue()).getScript();
-						String callbackFunction = "callback"+Math.abs(script.hashCode())+"(evt,"+sructSource.getSource().hashCode()+");";
+						String callbackFunction = "callback"+Math.abs(script.hashCode())+"(evt,"+sructSource.getSource().hashCode()+");"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						elm.setAttribute(scriptEvent, callbackFunction); 
 						setCursor(elm);
 						if (!(scripts.contains(script))){
 							
-							((SVGGraphics2D)_g2d).addScript("function callback"+Math.abs(script.hashCode())+"(evt,source)" +"{"+script+"}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+							((SVGGraphics2D)_g2d).addScript("function callback"+Math.abs(script.hashCode())+"(evt,source)" +"{"+script+"}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 							scripts.add(script);
 						}
 					}
@@ -641,7 +643,42 @@ public class SVGRendererImpl extends SwingRendererImpl
 		}
 		
 	}
-	
+	private String getJsScriptEvent(int condition){
+		switch(condition){
+		case TriggerCondition.MOUSE_HOVER :
+			return "onmouseover"; //$NON-NLS-1$
+		case TriggerCondition.MOUSE_CLICK :
+			return "onclick"; //$NON-NLS-1$
+		case TriggerCondition.ONCLICK :
+			return"onclick"; //$NON-NLS-1$
+		case TriggerCondition.ONDBLCLICK :
+			return"onclick"; //$NON-NLS-1$
+		case TriggerCondition.ONMOUSEDOWN :
+			return"onmousedown"; //$NON-NLS-1$
+		case TriggerCondition.ONMOUSEUP :
+			return"onmouseup"; //$NON-NLS-1$
+		case TriggerCondition.ONMOUSEOVER :
+			return"onmouseover"; //$NON-NLS-1$
+		case TriggerCondition.ONMOUSEMOVE :
+			return"onmousemove"; //$NON-NLS-1$
+		case TriggerCondition.ONMOUSEOUT :
+			return"onmouseout"; //$NON-NLS-1$
+		case TriggerCondition.ONFOCUS :
+			return"onfocusin"; //$NON-NLS-1$
+		case TriggerCondition.ONBLUR :
+			return"onfocusout"; //$NON-NLS-1$
+		case TriggerCondition.ONKEYDOWN :
+			return"onkeydown"; //$NON-NLS-1$
+		case TriggerCondition.ONKEYPRESS :
+			return"onkeypress"; //$NON-NLS-1$
+		case TriggerCondition.ONKEYUP :
+			return"onkeyup"; //$NON-NLS-1$
+		case TriggerCondition.ONLOAD :
+			return"onload"; //$NON-NLS-1$
+		}
+		return null;
+		
+	}
 	protected void setCursor( Element currentElement )
 	{
 		String style = currentElement.getAttribute( "style" ); //$NON-NLS-1$
@@ -776,8 +813,9 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 * assigned an id that identifies the source object of the primitive event
 	 * 
 	 * @param pre primitive render event
+	 * @param drawText TODO
 	 */
-	protected void groupPrimitive(PrimitiveRenderEvent pre) {
+	protected void groupPrimitive(PrimitiveRenderEvent pre, boolean drawText) {
 		if ( _iun == null )
 		{
 			logger.log( ILogger.WARNING,
@@ -818,7 +856,10 @@ public class SVGRendererImpl extends SwingRendererImpl
 					svg_g2d.pushParent(primGroup);
 					primGroup
 							.setAttribute("id", seDT.hashCode() + "_" + idTemp); //$NON-NLS-1$ //$NON-NLS-2$
-					primGroup.setAttribute("style", "visibility:visible"); //$NON-NLS-1$ //$NON-NLS-2$
+					primGroup.setAttribute("style", "visibility:visible;"); //$NON-NLS-1$ //$NON-NLS-2$
+
+					if (!drawText)
+						svg_g2d.setDeferStrokColor(primGroup);
 
 				} catch (ChartException e) {
 					logger.log(e);
@@ -832,8 +873,9 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 * UnGroups the svg drawing instructions that represents this primitive events. 
 	 * 
 	 * @param pre primitive render event
+	 * @param drawText TODO
 	 */
-	protected void ungroupPrimitive(PrimitiveRenderEvent pre){
+	protected void ungroupPrimitive(PrimitiveRenderEvent pre, boolean drawText){
 		if ( _iun == null )
 		{
 			logger.log( ILogger.WARNING,
@@ -848,87 +890,89 @@ public class SVGRendererImpl extends SwingRendererImpl
 		if (pre.getSource() instanceof StructureSource) {
 			final StructureSource src = isSeries((StructureSource) pre.getSource( ));
 			if ( src != null ){
+				if (!drawText)
+					svg_g2d.setDeferStrokColor(null);
 				svg_g2d.popParent();
 			}
 		}
 	}
 	
 	public void drawArc(ArcRenderEvent are) throws ChartException {
-		groupPrimitive(are);
+		groupPrimitive(are, false);
 		super.drawArc(are);
-		ungroupPrimitive(are);
+		ungroupPrimitive(are, false);
 	}
 
 	public void drawArea(AreaRenderEvent are) throws ChartException {
-		groupPrimitive(are);
+		groupPrimitive(are, false);
 		super.drawArea(are);
-		ungroupPrimitive(are);
+		ungroupPrimitive(are, false);
 	}
 
 	public void drawImage(ImageRenderEvent pre) throws ChartException {
-		groupPrimitive(pre);
+		groupPrimitive(pre, false);
 		super.drawImage(pre);
-		ungroupPrimitive(pre);
+		ungroupPrimitive(pre, false);
 	}
 
 	public void drawLine(LineRenderEvent lre) throws ChartException {
-		groupPrimitive(lre);
+		groupPrimitive(lre, false);
 		super.drawLine(lre);
-		ungroupPrimitive(lre);
+		ungroupPrimitive(lre, false);
 	}
 
 	public void drawOval(OvalRenderEvent ore) throws ChartException {
-		groupPrimitive(ore);
+		groupPrimitive(ore, false);
 		super.drawOval(ore);
-		ungroupPrimitive(ore);
+		ungroupPrimitive(ore, false);
 	}
 
 	public void drawPolygon(PolygonRenderEvent pre) throws ChartException {
-		groupPrimitive(pre);
+		groupPrimitive(pre, false);
 		super.drawPolygon(pre);
-		ungroupPrimitive(pre);
+		ungroupPrimitive(pre, false);
 	}
 
 	public void drawRectangle(RectangleRenderEvent rre) throws ChartException {
-		groupPrimitive(rre);
+		groupPrimitive(rre, false);
 		super.drawRectangle(rre);
-		ungroupPrimitive(rre);
+		ungroupPrimitive(rre, false);
 	}
 
 	public void drawText(TextRenderEvent tre) throws ChartException {
-		groupPrimitive(tre);
+		groupPrimitive(tre, true);
 		super.drawText(tre);
-		ungroupPrimitive(tre);
+		ungroupPrimitive(tre, true);
 	}
 
 	public void fillArc(ArcRenderEvent are) throws ChartException {
-		groupPrimitive(are);
+		groupPrimitive(are, false);
 		super.fillArc(are);
-		ungroupPrimitive(are);
+		ungroupPrimitive(are, false);
 	}
 
 	public void fillArea(AreaRenderEvent are) throws ChartException {
-		groupPrimitive(are);
+		groupPrimitive(are, false);
 		super.fillArea(are);
-		ungroupPrimitive(are);
+		ungroupPrimitive(are, false);
 	}
 
 	public void fillOval(OvalRenderEvent ore) throws ChartException {
-		groupPrimitive(ore);
+		groupPrimitive(ore, false);
 		super.fillOval(ore);
-		ungroupPrimitive(ore);
+		ungroupPrimitive(ore, false);
 	}
 
 	public void fillPolygon(PolygonRenderEvent pre) throws ChartException {
-		groupPrimitive(pre);
+		groupPrimitive(pre, false);
 		super.fillPolygon(pre);
-		ungroupPrimitive(pre);
+		ungroupPrimitive(pre, false);
 	}
 
 	public void fillRectangle(RectangleRenderEvent rre) throws ChartException {
-		groupPrimitive(rre);
+		groupPrimitive(rre, false);
 		super.fillRectangle(rre);
-		ungroupPrimitive(rre);
+		ungroupPrimitive(rre, false);
 	}
 	
 	

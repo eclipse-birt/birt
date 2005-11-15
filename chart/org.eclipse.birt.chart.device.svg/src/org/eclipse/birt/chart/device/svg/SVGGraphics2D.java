@@ -76,6 +76,7 @@ public class SVGGraphics2D extends Graphics2D
 	protected String id;
 	protected StringBuffer scriptBuffer = new StringBuffer();
 	protected StringBuffer styleBuffer = new StringBuffer();
+	protected Element deferStrokColor = null;
 
 	protected static final String defaultStyles = "fill:none;stroke:none"; //$NON-NLS-1$
 
@@ -719,7 +720,13 @@ public class SVGGraphics2D extends Graphics2D
 
 	protected void setStrokeStyle( Element currentElement )
 	{
-		String style = currentElement.getAttribute( "style" ); //$NON-NLS-1$
+		Element element = currentElement;
+		if (deferStrokColor != null){
+			//Need to get the parent element.  
+			element = deferStrokColor;
+		}
+		
+		String style = element.getAttribute( "style" ); //$NON-NLS-1$
 		if ( style == null )
 			style = ""; //$NON-NLS-1$
 		if ( color != null )
@@ -762,17 +769,22 @@ public class SVGGraphics2D extends Graphics2D
 			}
 
 		}
-		currentElement.setAttribute( "style", style ); //$NON-NLS-1$
+		element.setAttribute( "style", style ); //$NON-NLS-1$
 		if (styleClass != null)
-			currentElement.setAttribute("class", styleClass); //$NON-NLS-1$
+			element.setAttribute("class", styleClass); //$NON-NLS-1$
 		if (id != null)
-			currentElement.setAttribute("id", id); //$NON-NLS-1$
+			element.setAttribute("id", id); //$NON-NLS-1$
 	}
 	
 
 	protected void setFillColor( Element currentElement )
 	{
-		String style = currentElement.getAttribute( "style" ); //$NON-NLS-1$
+		Element element = currentElement;
+		if (deferStrokColor != null){
+			//Need to get the parent element.  
+			element = deferStrokColor;
+		}
+		String style = element.getAttribute( "style" ); //$NON-NLS-1$
 		if ( style == null )
 			style = ""; //$NON-NLS-1$
 		if ( paint == null )
@@ -782,17 +794,17 @@ public class SVGGraphics2D extends Graphics2D
 			String alpha = alphaToString( color );
 			if ( alpha != null )
 				style += "fill-opacity:" + alpha + ";"; //$NON-NLS-1$ //$NON-NLS-2$
-			currentElement.setAttribute( "style", style + "fill:" + serializeToString( color ) + ";" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			element.setAttribute( "style", style + "fill:" + serializeToString( color ) + ";" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 		else
 		{
 			if ( paint instanceof SVGGradientPaint )
-				currentElement.setAttribute( "style", style + "fill:url(#" + ( (SVGGradientPaint) paint ).getId( ) + ");" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				element.setAttribute( "style", style + "fill:url(#" + ( (SVGGradientPaint) paint ).getId( ) + ");" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 		if (styleClass != null)
-			currentElement.setAttribute("class", styleClass); //$NON-NLS-1$
+			element.setAttribute("class", styleClass); //$NON-NLS-1$
 		if (id != null)
-			currentElement.setAttribute("id", id); //$NON-NLS-1$
+			element.setAttribute("id", id); //$NON-NLS-1$
 		
 	}
 
@@ -1360,7 +1372,7 @@ public class SVGGraphics2D extends Graphics2D
 	}
 	
 	public void addCSSStyle(String className, String styleName, String styleValue){
-		styleBuffer.append(className).append("{").append(styleName).append(":").append(styleValue).append("}");				 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		styleBuffer.append(className).append("{").append(styleName).append(":").append(styleValue).append(";}");				 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 	
 	/**
@@ -1391,5 +1403,22 @@ public class SVGGraphics2D extends Graphics2D
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	/**
+	 * Defer setting the stroke and color on an SVG element.
+	 * 
+	 * @return the state of the flag that ignores setting the stroke style and color on a svg element.
+	 */
+	public Element getDeferStrokColor() {
+		return deferStrokColor;
+	}
+
+	/**
+	 * Defer setting the stroke and color on an SVG element.
+	 * @param deferStrokColor set to true if the stroke style and color should be ignored when drawing the svg element.
+	 */
+	public void setDeferStrokColor(Element deferStrokColor) {
+		this.deferStrokColor = deferStrokColor;
 	}
 }
