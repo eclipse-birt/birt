@@ -625,7 +625,7 @@ public class ChoiceSetFactory
 			while ( iterator.hasNext( ) )
 			{
 				ReportElementHandle elementHandle = (ReportElementHandle) iterator.next( );
-				list.add( elementHandle.getQualifiedName( ) );
+				list.add( elementHandle.getName( ) );
 			}
 		}
 		return (String[]) list.toArray( new String[0] );
