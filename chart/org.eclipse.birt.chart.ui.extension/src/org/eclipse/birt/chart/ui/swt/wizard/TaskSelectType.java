@@ -22,9 +22,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
-import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -134,9 +132,6 @@ public class TaskSelectType extends SimpleTask
 	private transient Color whiteColor = null;
 
 	private static final String LEADING_BLANKS = "  "; //$NON-NLS-1$
-
-	// SPECIFIES THE PROPERTY NAME FOR DEFAULT OUTPUT FORMAT EXTENDED PROPERTY
-	private static final String PROP_OUTPUTFORMAT = "outputFormat"; //$NON-NLS-1$
 
 	private static Hashtable htSeriesNames = null;
 
@@ -1034,12 +1029,6 @@ public class TaskSelectType extends SimpleTask
 		{
 			container.displayException( e );
 		}
-
-		// SET THE DEFAULT OUTPUT FORMAT
-		ExtendedProperty propOutputFormat = AttributeFactory.eINSTANCE.createExtendedProperty( );
-		propOutputFormat.setName( PROP_OUTPUTFORMAT );
-		propOutputFormat.setValue( cbOutput.getText( ) );
-		chartModel.getExtendedProperties( ).add( propOutputFormat );
 
 		// RE-ENABLE PREVIEW REFRESH
 		ChartAdapter.ignoreNotifications( false );
