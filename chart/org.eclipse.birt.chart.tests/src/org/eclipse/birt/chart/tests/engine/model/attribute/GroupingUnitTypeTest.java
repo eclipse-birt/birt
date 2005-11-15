@@ -19,7 +19,7 @@ public class GroupingUnitTypeTest extends TestCase {
 	{		
 		assertEquals( GroupingUnitType.SECONDS, GroupingUnitType.SECONDS_LITERAL.getValue() );
 		assertEquals( GroupingUnitType.MINUTES, GroupingUnitType.MINUTES_LITERAL.getValue() );
-		assertEquals( GroupingUnitType.HOURS, GroupingUnitType.MINUTES_LITERAL.getValue() );	
+		assertEquals( GroupingUnitType.HOURS, GroupingUnitType.HOURS_LITERAL.getValue() );	
 		assertEquals( GroupingUnitType.DAYS, GroupingUnitType.DAYS_LITERAL.getValue() );
 		assertEquals( GroupingUnitType.WEEKS, GroupingUnitType.WEEKS_LITERAL.getValue() );
 		assertEquals( GroupingUnitType.MONTHS, GroupingUnitType.MONTHS_LITERAL.getValue() );

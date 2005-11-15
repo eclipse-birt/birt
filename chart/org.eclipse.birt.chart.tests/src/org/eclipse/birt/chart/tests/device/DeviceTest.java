@@ -20,8 +20,8 @@ import junit.framework.TestSuite;
 public class DeviceTest {
 	public static Test suite() {
 		TestSuite suite = new TestSuite(
-				"Test for org.eclipse.birt.chart.device " +
-				"and org.eclipse.birt.chart.device.extension");
+				"Test for org.eclipse.birt.chart.device " + //$NON-NLS-1$
+				"and org.eclipse.birt.chart.device.extension"); //$NON-NLS-1$
 		//$JUnit-BEGIN$
 		suite.addTest(ImageRenderTest.suite());
 		suite.addTestSuite(SVGGradientPaintTest.class);

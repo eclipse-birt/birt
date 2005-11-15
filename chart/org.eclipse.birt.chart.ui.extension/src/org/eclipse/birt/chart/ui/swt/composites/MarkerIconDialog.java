@@ -21,6 +21,8 @@ import org.eclipse.birt.chart.model.attribute.impl.PaletteImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -38,7 +40,7 @@ import org.eclipse.swt.widgets.Text;
 /**
  * MarkerIconDialog is invoked when the user chooses "icon" from Marker Type Combo box.
  */
-public class MarkerIconDialog implements SelectionListener
+public class MarkerIconDialog implements SelectionListener, ModifyListener
 {
 
 	private transient Button btnURL;
@@ -286,6 +288,7 @@ public class MarkerIconDialog implements SelectionListener
 
 		uriEditor = new Text( inputArea, SWT.SINGLE | SWT.BORDER );
 		uriEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		uriEditor.addModifyListener( this );
 
 		Composite innerComp = new Composite( inputArea, SWT.NONE );
 		innerComp.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
@@ -299,11 +302,13 @@ public class MarkerIconDialog implements SelectionListener
 		btnAdd = new Button( innerComp, SWT.PUSH );
 		btnAdd.setText( Messages.getString( "MarkerIconDialog.Lbl.Add" ) ); //$NON-NLS-1$
 		btnAdd.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
+		btnAdd.setEnabled( false );
 		btnAdd.addSelectionListener( this ); 
 		
 		btnPreview = new Button( innerComp, SWT.PUSH );
 		btnPreview.setText( Messages.getString( "MarkerIconDialog.Lbl.Preview" ) ); //$NON-NLS-1$
 		btnPreview.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
+		btnPreview.setEnabled( false );
 		btnPreview.addSelectionListener( this );
 	}
 
@@ -493,6 +498,37 @@ public class MarkerIconDialog implements SelectionListener
 	public void widgetDefaultSelected( SelectionEvent event )
 	{
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+	 */
+	public void modifyText( ModifyEvent e )
+	{
+		if ( e.widget.equals( uriEditor ) )
+		{
+			btnAdd.setEnabled( trimString( uriEditor.getText( ) ) != null );
+			btnPreview.setEnabled( trimString( uriEditor.getText( ) ) != null );					
+		}		
+	}
+	
+	/**
+	 * Trim a string. Removes leading and trailing blanks. If the resulting
+	 * string is empty, normalizes the string to an null string.
+	 * 
+	 * @param value
+	 *            the string to trim
+	 * @return the trimmed string, or null if the string is empty
+	 */
+
+	private static String trimString( String value )
+	{
+		if ( value == null )
+			return null;
+		value = value.trim( );
+		if ( value.length( ) == 0 )
+			return null;
+		return value;
 	}
 
 	/**

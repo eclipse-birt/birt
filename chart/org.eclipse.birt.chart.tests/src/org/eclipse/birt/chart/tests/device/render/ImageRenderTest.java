@@ -23,10 +23,10 @@ import junit.framework.TestSuite;
 
 public class ImageRenderTest
 {
-	protected static final String OUTDIR = "output";
-	protected static final String INDIR = "input";
-	protected static final String CONTROLDIR = "golden";
-	protected static final String DRAWEXT = ".drw";
+	protected static final String OUTDIR = "output";//$NON-NLS-1$
+	protected static final String INDIR = "input";//$NON-NLS-1$
+	protected static final String CONTROLDIR = "golden";//$NON-NLS-1$
+	protected static final String DRAWEXT = ".drw";//$NON-NLS-1$
 	protected String fixedDir;
 	protected String workspaceDir;
 	protected String type;
@@ -58,18 +58,18 @@ public class ImageRenderTest
 	{
 		Properties p = System.getProperties();
 		//This is a standlone test
-		System.setProperty("STANDALONE", "true");
-		fixedDir = File.separator+"src"+File.separator+"org"
-		+File.separator+"eclipse"+File.separator+"birt"+File.separator+"chart"
-		+File.separator+"tests"+File.separator+"device";
-		workspaceDir = (String)p.get("user.dir")+fixedDir;
+		System.setProperty("STANDALONE", "true");//$NON-NLS-1$ //$NON-NLS-2$
+		fixedDir = File.separator+"src"+File.separator+"org"//$NON-NLS-1$ //$NON-NLS-2$
+		+File.separator+"eclipse"+File.separator+"birt"+File.separator+"chart"//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		+File.separator+"tests"+File.separator+"device";//$NON-NLS-1$ //$NON-NLS-2$
+		workspaceDir = (String)p.get("user.dir")+fixedDir;//$NON-NLS-1$
 		File inputDir = new File(workspaceDir+File.separator+INDIR);
-		processDir(inputDir, "");
+		processDir(inputDir, "");//$NON-NLS-1$
 	}	
 
 	public static Test suite( )
 	{
-		TestSuite suite = new TestSuite( "Test for render devices" );
+		TestSuite suite = new TestSuite( "Test for render devices" );//$NON-NLS-1$
 		ImageRenderTest processSuite =  new ImageRenderTest(suite);
 		try {
 			processSuite.process();

@@ -49,20 +49,20 @@ public class ImageOutputBaseTest extends TestCase {
 	
 	public void runTest( ) throws Throwable {
 
-			Gif8PrimitiveGen generator1 = new Gif8PrimitiveGen(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.INDIR+dirName+File.separator+filename+ImageRenderTest.DRAWEXT), workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".gif");
+			Gif8PrimitiveGen generator1 = new Gif8PrimitiveGen(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.INDIR+dirName+File.separator+filename+ImageRenderTest.DRAWEXT), workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".gif");//$NON-NLS-1$
 			generator1.generate();
 			generator1.flush();
-			assertTrue(FileUtil.compareFiles(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".gif"), new FileInputStream(workspaceDir+File.separator+ImageRenderTest.CONTROLDIR+dirName+File.separator+filename+".gif")));
+			assertTrue(FileUtil.compareFiles(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".gif"), new FileInputStream(workspaceDir+File.separator+ImageRenderTest.CONTROLDIR+dirName+File.separator+filename+".gif")));//$NON-NLS-1$//$NON-NLS-2$
 
-			Png24PrimitiveGen generator2 = new Png24PrimitiveGen(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.INDIR+dirName+File.separator+filename+ImageRenderTest.DRAWEXT), workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".png");
+			Png24PrimitiveGen generator2 = new Png24PrimitiveGen(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.INDIR+dirName+File.separator+filename+ImageRenderTest.DRAWEXT), workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".png");//$NON-NLS-1$
 			generator2.generate();
 			generator2.flush();
-			assertTrue(FileUtil.compareFiles(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".png"), new FileInputStream(workspaceDir+File.separator+ImageRenderTest.CONTROLDIR+dirName+File.separator+filename+".png")));
+			assertTrue(FileUtil.compareFiles(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".png"), new FileInputStream(workspaceDir+File.separator+ImageRenderTest.CONTROLDIR+dirName+File.separator+filename+".png")));//$NON-NLS-1$//$NON-NLS-2$
 			
-			SvgPrimitiveGen generator3 = new SvgPrimitiveGen(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.INDIR+dirName+File.separator+filename+ImageRenderTest.DRAWEXT), workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".svg");
+			SvgPrimitiveGen generator3 = new SvgPrimitiveGen(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.INDIR+dirName+File.separator+filename+ImageRenderTest.DRAWEXT), workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".svg");//$NON-NLS-1$
 			generator3.generate();
 			generator3.flush();
-			assertTrue(FileUtil.compareFiles(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".svg"), new FileInputStream(workspaceDir+File.separator+ImageRenderTest.CONTROLDIR+dirName+File.separator+filename+".svg")));
+			assertTrue(FileUtil.compareFiles(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".svg"), new FileInputStream(workspaceDir+File.separator+ImageRenderTest.CONTROLDIR+dirName+File.separator+filename+".svg")));//$NON-NLS-1$//$NON-NLS-2$
 	}
 }
 

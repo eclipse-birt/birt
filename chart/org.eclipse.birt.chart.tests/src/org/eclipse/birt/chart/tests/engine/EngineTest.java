@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.tests.engine.datafeed.DataSetProcessorImplTest;
 import org.eclipse.birt.chart.tests.engine.datafeed.ResultSetDataSetTest;
 import org.eclipse.birt.chart.tests.engine.datafeed.ResultSetWrapperTest;
 import org.eclipse.birt.chart.tests.engine.datafeed.StockEntryTest;
+import org.eclipse.birt.chart.tests.engine.internal.TupleComparatorTest;
 import org.eclipse.birt.chart.tests.engine.model.ModelAttributeTest;
 import org.eclipse.birt.chart.tests.engine.util.CDateTimeTest;
 import org.eclipse.birt.chart.tests.engine.util.ChartUtilTest;
@@ -51,6 +52,8 @@ public class EngineTest
 		suite.addTestSuite( ResultSetDataSetTest.class );
 		suite.addTestSuite( ResultSetWrapperTest.class );
 		suite.addTestSuite( StockEntryTest.class );
+		
+		suite.addTestSuite(TupleComparatorTest.class);
 
 		suite.addTest( ModelAttributeTest.suite( ) );
 

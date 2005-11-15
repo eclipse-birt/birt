@@ -94,13 +94,13 @@ public class Png24PrimitiveGen
 		String lineStr = null;
 		while ( ( lineStr = br.readLine( ) ) != null )
 		{
-			StringTokenizer st = new StringTokenizer( lineStr, " " );
+			StringTokenizer st = new StringTokenizer( lineStr, " " );//$NON-NLS-1$
 			String type = st.nextToken( );
 			if ( type == null )
 			{
-				throw new Exception( "primitive type string is null" );
+				throw new Exception( "primitive type string is null" );//$NON-NLS-1$
 			}
-			else if ( type.equals( "font" ) )
+			else if ( type.equals( "font" ) )//$NON-NLS-1$
 			{
 				String fontName = st.nextToken( );
 				float size = Float.parseFloat( st.nextToken( ) );
@@ -132,7 +132,7 @@ public class Png24PrimitiveGen
 						ta );
 			}
 
-			else if ( type.equals( "size" ) )
+			else if ( type.equals( "size" ) )//$NON-NLS-1$
 			{
 				renderer.setProperty( IDeviceRenderer.EXPECTED_BOUNDS,
 						BoundsImpl.create( Double.parseDouble( st.nextToken( ) ),
@@ -140,33 +140,33 @@ public class Png24PrimitiveGen
 								Double.parseDouble( st.nextToken( ) ),
 								Double.parseDouble( st.nextToken( ) ) ) );
 			}
-			else if ( type.equals( "fill" ) )
+			else if ( type.equals( "fill" ) )//$NON-NLS-1$
 			{
 				fillColor = ColorDefinitionImpl.create( Integer.parseInt( st.nextToken( ) ),
 						Integer.parseInt( st.nextToken( ) ),
 						Integer.parseInt( st.nextToken( ) ),
 						Integer.parseInt( st.nextToken( ) ) );
 			}
-			else if ( type.equals( "lineAttr" ) )
+			else if ( type.equals( "lineAttr" ) )//$NON-NLS-1$
 			{
 				lineAttr = LineAttributesImpl.create( strokeColor,
 						LineStyle.get( Integer.parseInt( st.nextToken( ) ) ),
 						Integer.parseInt( st.nextToken( ) ) );
 			}
-			else if ( type.equals( "stroke" ) )
+			else if ( type.equals( "stroke" ) )//$NON-NLS-1$
 			{
 				strokeColor = ColorDefinitionImpl.create( Integer.parseInt( st.nextToken( ) ),
 						Integer.parseInt( st.nextToken( ) ),
 						Integer.parseInt( st.nextToken( ) ),
 						Integer.parseInt( st.nextToken( ) ) );
 			}
-			else if ( type.equals( "shadow" ) )
+			else if ( type.equals( "shadow" ) )//$NON-NLS-1$
 			{
 				shadowColor = ColorDefinitionImpl.create( Integer.parseInt( st.nextToken( ) ),
 						Integer.parseInt( st.nextToken( ) ),
 						Integer.parseInt( st.nextToken( ) ) );
 			}
-			else if ( type.startsWith( "arc" ) )
+			else if ( type.startsWith( "arc" ) )//$NON-NLS-1$
 			{
 				ArcRenderEvent are = new ArcRenderEvent( this );
 				are.setBackground( fillColor );
@@ -178,12 +178,12 @@ public class Png24PrimitiveGen
 				are.setWidth( Double.parseDouble( st.nextToken( ) ) );
 				are.setOutline( lineAttr );
 				are.setDepth( Double.parseDouble( st.nextToken( ) ) );
-				if ( type.endsWith( "fill" ) )
+				if ( type.endsWith( "fill" ) )//$NON-NLS-1$
 					renderer.fillArc( are );
 				else
 					renderer.drawArc( are );
 			}
-			else if ( type.startsWith( "line" ) )
+			else if ( type.startsWith( "line" ) )//$NON-NLS-1$
 			{
 				LineRenderEvent line = new LineRenderEvent( this );
 				line.setStart( LocationImpl.create( Double.parseDouble( st.nextToken( ) ),
@@ -195,7 +195,7 @@ public class Png24PrimitiveGen
 				renderer.drawLine( line );
 
 			}
-			else if ( type.startsWith( "oval" ) )
+			else if ( type.startsWith( "oval" ) )//$NON-NLS-1$
 			{
 				OvalRenderEvent oval = new OvalRenderEvent( this );
 				oval.setBackground( fillColor );
@@ -205,12 +205,12 @@ public class Png24PrimitiveGen
 						Double.parseDouble( st.nextToken( ) ) ) );
 				oval.setOutline( lineAttr );
 				oval.setDepth( Double.parseDouble( st.nextToken( ) ) );
-				if ( type.endsWith( "fill" ) )
+				if ( type.endsWith( "fill" ) )//$NON-NLS-1$
 					renderer.fillOval( oval );
 				else
 					renderer.drawOval( oval );
 			}
-			else if ( type.startsWith( "rect" ) )
+			else if ( type.startsWith( "rect" ) )//$NON-NLS-1$
 			{
 				RectangleRenderEvent rect = new RectangleRenderEvent( this );
 				rect.setBackground( fillColor );
@@ -220,12 +220,12 @@ public class Png24PrimitiveGen
 						Double.parseDouble( st.nextToken( ) ) ) );
 				rect.setOutline( lineAttr );
 				rect.setDepth( Double.parseDouble( st.nextToken( ) ) );
-				if ( type.endsWith( "fill" ) )
+				if ( type.endsWith( "fill" ) )//$NON-NLS-1$
 					renderer.fillRectangle( rect );
 				else
 					renderer.drawRectangle( rect );
 			}
-			else if ( type.startsWith( "polygon" ) )
+			else if ( type.startsWith( "polygon" ) )//$NON-NLS-1$
 			{
 				PolygonRenderEvent shape = new PolygonRenderEvent( this );
 				shape.setBackground( fillColor );
@@ -239,12 +239,12 @@ public class Png24PrimitiveGen
 							Double.parseDouble( st.nextToken( ) ) );
 				}
 				shape.setPoints( locations );
-				if ( type.endsWith( "fill" ) )
+				if ( type.endsWith( "fill" ) )//$NON-NLS-1$
 					renderer.fillPolygon( shape );
 				else
 					renderer.drawPolygon( shape );
 			}
-			else if ( type.startsWith( "text" ) )
+			else if ( type.startsWith( "text" ) )//$NON-NLS-1$
 			{
 				TextRenderEvent shape = new TextRenderEvent( this );
 				shape.setAction( Integer.parseInt( st.nextToken( ) ) );
@@ -285,17 +285,17 @@ public class Png24PrimitiveGen
 				Label label = LabelImpl.create( );
 				label.setBackground( fillColor );
 				label.setOutline( lineAttr );
-				String strLabel = "";
-				String strDepth = "";
+				String strLabel = "";//$NON-NLS-1$
+				String strDepth = "";//$NON-NLS-1$
 				while ( st.hasMoreTokens( ) )
 				{
 					strDepth = st.nextToken( );
 					if ( st.hasMoreTokens( ) )
 					{
-						if ( strLabel.equals( "" ) )
+						if ( strLabel.equals( "" ) )//$NON-NLS-1$
 							strLabel = strDepth;
 						else
-							strLabel += " " + strDepth;
+							strLabel += " " + strDepth;//$NON-NLS-1$
 					}
 				}
 				Text text = TextImpl.create( strLabel );
@@ -308,7 +308,7 @@ public class Png24PrimitiveGen
 				shape.setDepth( Double.parseDouble( strDepth ) );
 				renderer.drawText( shape );
 			}
-			else if ( type.equals( "transform" ) )
+			else if ( type.equals( "transform" ) )//$NON-NLS-1$
 			{
 				TransformationEvent trans = new TransformationEvent( this );
 				trans.setTransform( Integer.parseInt( st.nextToken( ) ) );
@@ -319,7 +319,7 @@ public class Png24PrimitiveGen
 						Double.parseDouble( st.nextToken( ) ) );
 				renderer.applyTransformation( trans );
 			}
-			else if ( type.equals( "clip" ) )
+			else if ( type.equals( "clip" ) )//$NON-NLS-1$
 			{
 				ClipRenderEvent clip = new ClipRenderEvent( this );
 				clip.setDepth( Double.parseDouble( st.nextToken( ) ) );
@@ -333,7 +333,7 @@ public class Png24PrimitiveGen
 				clip.setVertices( locations );
 				renderer.setClip( clip );
 			}
-			else if ( type.startsWith( "area" ) )
+			else if ( type.startsWith( "area" ) )//$NON-NLS-1$
 			{
 				AreaRenderEvent area = new AreaRenderEvent( this );
 
@@ -343,7 +343,7 @@ public class Png24PrimitiveGen
 				renderer.drawArea( area );
 			}
 
-			else if ( type.equals( "image" ) )
+			else if ( type.equals( "image" ) )//$NON-NLS-1$
 			{
 				ImageRenderEvent image = new ImageRenderEvent( this );
 
