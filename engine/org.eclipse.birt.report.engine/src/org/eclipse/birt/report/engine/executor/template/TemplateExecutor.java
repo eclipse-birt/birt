@@ -36,6 +36,11 @@ public class TemplateExecutor implements TextTemplate.Visitor
 		this.buffer = new StringBuffer( );
 		this.values = values;
 
+		if( template == null )
+		{
+			return "";
+		}
+		
 		ArrayList nodes = template.getNodes( );
 		Iterator iter = nodes.iterator( );
 		while ( iter.hasNext( ) )
