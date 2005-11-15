@@ -70,7 +70,19 @@ public class StringValue extends Value {
 		if (unitType != v.unitType) {
 			return false;
 		}
-		return value.equals(v.value);
+		if(value!=null)
+		{
+			return value.equals(v.value);
+		}
+		else
+		{
+			if(v.value==null)
+			{
+				return true;
+			}
+		}
+		return false;
+		
 	}
 
 	/**
