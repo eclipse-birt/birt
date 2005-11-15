@@ -525,7 +525,6 @@ public class AxisYSheetImpl extends SubtaskSheetImpl
 		NumberFormat nf = NumberFormat.getNumberInstance( );
 		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy", Locale.getDefault( ) ); //$NON-NLS-1$
 		StringBuffer sbNewRepresentation = new StringBuffer( "" ); //$NON-NLS-1$
-		int iValueCount = 0;
 		while ( strtok.hasMoreTokens( ) )
 		{
 			String sElement = strtok.nextToken( ).trim( );
@@ -556,24 +555,7 @@ public class AxisYSheetImpl extends SubtaskSheetImpl
 			}
 			catch ( ParseException e )
 			{
-				if ( getAxisForProcessing( ).getType( )
-						.equals( AxisType.DATE_TIME_LITERAL ) )
-				{
-					Calendar cal = Calendar.getInstance( Locale.getDefault( ) );
-					cal.set( Calendar.MINUTE, 0 );
-					StringBuffer sbNewDate = new StringBuffer( "" ); //$NON-NLS-1$
-					sbNewDate.append( cal.get( Calendar.MONTH ) + 1 );
-					sbNewDate.append( "/" ); //$NON-NLS-1$
-					sbNewDate.append( cal.get( Calendar.DATE ) + iValueCount );
-					sbNewDate.append( "/" ); //$NON-NLS-1$
-					sbNewDate.append( cal.get( Calendar.YEAR ) );
-					sElement = sbNewDate.toString( );
-				}
-				else
-				{
-					sElement = String.valueOf( 6.0 + iValueCount );
-				}
-				iValueCount++;
+				// Use the orginal sample data if parse exception encountered
 			}
 			sbNewRepresentation.append( sElement );
 			sbNewRepresentation.append( "," ); //$NON-NLS-1$

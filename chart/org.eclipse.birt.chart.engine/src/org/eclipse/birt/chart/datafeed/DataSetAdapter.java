@@ -127,7 +127,7 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 					ResourceBundle.getBundle( Messages.ENGINE, getLocale( ) ) );
 		}
 		StringBuffer buffer = new StringBuffer( );
-		SimpleDateFormat sdf = new SimpleDateFormat( "yyyy/MM/dd" ); //$NON-NLS-1$
+		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
 
 		// Gets the data type first
 		int dataType = 0;
