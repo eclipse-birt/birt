@@ -255,7 +255,7 @@ public final class SwingEventHandler implements
 						ICallBackAction callbackAction = cv.getCallBackAction( );
 						if ( callbackAction != null )
 						{
-							callbackAction.execute( event, sa.getSource( ) );
+							callbackAction.execute( event, sa.getSource( ), iun );
 						}
 						break;
 				}
