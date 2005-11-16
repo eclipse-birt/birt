@@ -23,7 +23,6 @@ import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
-import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
@@ -79,23 +78,24 @@ public class DeleteCommand extends Command
 			{
 				for ( int i = 0; i < embeddedImageList.size( ); i++ )
 				{
-					IStructure item = ( (EmbeddedImageHandle) embeddedImageList.get( i ) ).getStructure( );
-					String name = ( (EmbeddedImageHandle) embeddedImageList.get( i ) ).getName( );
-					SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( )
+					IStructure item = ( (EmbeddedImageHandle) embeddedImageList
+							.get( i ) ).getStructure( );
+					String name = ( (EmbeddedImageHandle) embeddedImageList
+							.get( i ) ).getName( );
+					SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
 							.getPropertyHandle( ReportDesignHandle.IMAGES_PROP )
 							.removeItem( item );
 					if ( DesignerConstants.TRACING_COMMANDS )
 					{
-						System.out.println( "DeleteCommand >> Dropping embedded image " //$NON-NLS-1$
-								+ item.getStructName( ) );
+						System.out
+								.println( "DeleteCommand >> Dropping embedded image " //$NON-NLS-1$
+										+ item.getStructName( ) );
 						;
 					}
 					// remove cached image
-					String key = ImageManager.getInstance( )
-							.generateKey( SessionHandleAdapter.getInstance( )
-									.getReportDesignHandle( ),
-									name );
+					String key = ImageManager.getInstance( ).generateKey(
+							SessionHandleAdapter.getInstance( )
+									.getReportDesignHandle( ), name );
 					ImageManager.getInstance( ).removeCachedImage( key );
 				}
 			}
@@ -243,7 +243,9 @@ public class DeleteCommand extends Command
 			SlotHandle slot = (SlotHandle) source;
 			DesignElementHandle handle = slot.getElementHandle( );
 			return slot.getContents( ).size( ) > 0
-					&& ( handle instanceof ListHandle || handle instanceof ListGroupHandle );
+					&& ( ( handle instanceof ListHandle
+							&& ( (ListHandle) handle ).canDrop( ) || ( handle instanceof ListGroupHandle )
+							&& ( (ListGroupHandle) handle ).canDrop( ) ) ) && canDrop(slot.getContents());
 		}
 		if ( source instanceof EmbeddedImageHandle )
 		{
@@ -252,7 +254,8 @@ public class DeleteCommand extends Command
 		if ( source instanceof CellHandle )
 		{
 			// CellHandle is subclass of ReportElementHandle
-			return ( (CellHandle) source ).getContent( ).getContents( ).size( ) > 0;
+			return ( (CellHandle) source ).getContent( ).getContents( ).size( ) > 0
+					&& ( (CellHandle) source ).canDrop( );
 		}
 
 		if ( source instanceof MasterPageHandle )
@@ -261,13 +264,7 @@ public class DeleteCommand extends Command
 		}
 		else if ( source instanceof ReportElementHandle )
 		{
-			if ( ( (ReportElementHandle) source ).getRoot( ) instanceof LibraryHandle
-					&& SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( ) instanceof ReportDesignHandle )
-			{
-				return false;
-			}
-			return true;
+			return ( (ReportElementHandle) source ).canDrop( );
 
 		}
 		else

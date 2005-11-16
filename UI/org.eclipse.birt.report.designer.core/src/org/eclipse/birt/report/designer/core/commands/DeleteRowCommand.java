@@ -99,4 +99,9 @@ public class DeleteRowCommand extends Command
 		}
 		return null;
 	}
+	
+	public boolean canExecute( )
+	{
+		return super.canExecute( ) && ((RowHandle)handle).canDrop();
+	}
 }

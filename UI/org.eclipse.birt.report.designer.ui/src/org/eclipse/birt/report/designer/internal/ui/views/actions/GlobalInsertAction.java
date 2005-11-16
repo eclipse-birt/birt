@@ -20,19 +20,11 @@ import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
 import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFactory;
 import org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
-import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.jface.viewers.StructuredSelection;
 
 /**
  * 
@@ -61,43 +53,12 @@ public class GlobalInsertAction extends AbstractGlobalSelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		if ( libraryInsertConfict( ) )
-		{
-			return false;
-		}
 
 		SlotHandle container = getContainer( );
 		if ( container != null )
 		{
 			return container.getElementHandle( )
-					.canContain( container.getSlotID( ), dataType );
-		}
-
-		return false;
-	}
-
-	private boolean libraryInsertConfict( )
-	{
-		int index = -1;
-		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof ReportDesignHandle
-				&& ( (StructuredSelection) getSelection( ) ).toArray( ).length > 0 )
-		{
-			for ( int i = 0; i < ( (StructuredSelection) getSelection( ) ).toArray( ).length; i++ )
-			{
-				if ( ( (StructuredSelection) getSelection( ) ).toArray( )[i] instanceof ReportElementModel )
-				{
-					index = i;
-					break;
-				}
-			}
-
-		}
-		if ( index >= 0 )
-		{
-			if ( ( (ReportElementModel) ( ( (StructuredSelection) getSelection( ) ).toArray( )[index] ) ).getElementHandle( ) instanceof LibraryHandle )
-			{
-				return true;
-			}
+					.canContain( container.getSlotID( ), dataType ) ;
 		}
 
 		return false;

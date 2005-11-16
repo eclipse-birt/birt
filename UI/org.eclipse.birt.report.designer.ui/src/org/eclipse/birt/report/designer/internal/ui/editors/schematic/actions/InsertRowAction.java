@@ -11,8 +11,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
@@ -52,8 +56,26 @@ public class InsertRowAction extends ContextSelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return !getRowHandles( ).isEmpty( );
+		return !getRowHandles( ).isEmpty( ) && canDrop(getRowHandles());
 	}
+	
+	private boolean canDrop( List columnHandles )
+	{
+		for ( Iterator it = columnHandles.iterator( ); it.hasNext( ); )
+		{
+			if ( !canDrop( (RowHandle)it.next( ) ) )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private boolean canDrop(RowHandle handle)
+	{
+		return ((RowHandle)handle).canDrop();
+	}
+
 
 	/**
 	 * Runs the action.

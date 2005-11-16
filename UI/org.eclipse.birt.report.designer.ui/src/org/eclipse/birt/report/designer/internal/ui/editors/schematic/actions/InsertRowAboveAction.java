@@ -22,7 +22,8 @@ import org.eclipse.ui.IWorkbenchPart;
 public class InsertRowAboveAction extends InsertRowAction
 {
 
-	private static final String ACTION_MSG_ROW_ABOVE = Messages.getString( "InsertRowAboveAction.actionMsg.rowAbove" ); //$NON-NLS-1$
+	private static final String ACTION_MSG_ROW_ABOVE = Messages
+			.getString( "InsertRowAboveAction.actionMsg.rowAbove" ); //$NON-NLS-1$
 
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAboveAction"; //$NON-NLS-1$
@@ -40,19 +41,9 @@ public class InsertRowAboveAction extends InsertRowAction
 		setText( ACTION_MSG_ROW_ABOVE );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-	 */
-	protected boolean calculateEnabled( )
-	{
-		return super.calculateEnabled( );
-	}
-
 	/**
 	 * Runs action.
-	 *  
+	 * 
 	 */
 	public void run( )
 	{

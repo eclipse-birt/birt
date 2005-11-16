@@ -11,15 +11,19 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * Action of inserting a column into table.
  * 
  * @author Dazhen Gao
- * @version $Revision: 1.3 $ $Date: 2005/04/20 02:57:25 $
+ * @version $Revision: 1.4 $ $Date: 2005/07/14 09:13:33 $
  */
 public class InsertColumnAction extends ContextSelectionAction
 {
@@ -49,7 +53,24 @@ public class InsertColumnAction extends ContextSelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return !getColumnHandles( ).isEmpty( );
+		return !getColumnHandles( ).isEmpty( ) && canDrop(getColumnHandles());
+	}
+	
+	private boolean canDrop(List columns)
+	{
+		for(Iterator it = columns.iterator();it.hasNext();)
+		{
+			if ( !canDrop( (ColumnHandle) it.next( ) ) )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private boolean canDrop(ColumnHandle handle)
+	{
+		return ((ColumnHandle)handle).canDrop();
 	}
 
 	/**

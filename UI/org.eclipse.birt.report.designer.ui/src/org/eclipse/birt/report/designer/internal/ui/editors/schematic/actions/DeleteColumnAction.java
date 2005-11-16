@@ -11,9 +11,14 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
@@ -58,9 +63,26 @@ public class DeleteColumnAction extends ContextSelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return !getColumnHandles( ).isEmpty( );
+		return !getColumnHandles( ).isEmpty( ) && canDrop(getColumnHandles());
 	}
 
+	private boolean canDrop( List columnHandles )
+	{
+		for(Iterator it = columnHandles.iterator();it.hasNext();)
+		{
+			if(!canDrop((ColumnHandle)it.next()))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean canDrop(ColumnHandle handle)
+	{
+		return ((ColumnHandle)handle).canDrop();
+		
+	}
 	/**
 	 * Runs this action.
 	 *  

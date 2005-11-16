@@ -11,9 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
@@ -22,13 +26,14 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * Action delete a row or multi rows of a table or a grid.
- *  
+ * 
  */
 public class DeleteRowAction extends ContextSelectionAction
 {
 
 	/** action text */
-	private static final String ACTION_MSG_DELETE = Messages.getString( "DeleteRowAction.actionMsg.delete" ); //$NON-NLS-1$
+	private static final String ACTION_MSG_DELETE = Messages
+			.getString( "DeleteRowAction.actionMsg.delete" ); //$NON-NLS-1$
 
 	/** action ID for registry */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteRowAction"; //$NON-NLS-1$
@@ -46,8 +51,10 @@ public class DeleteRowAction extends ContextSelectionAction
 		setText( ACTION_MSG_DELETE );
 		ISharedImages shareImages = PlatformUI.getWorkbench( )
 				.getSharedImages( );
-		setImageDescriptor( shareImages.getImageDescriptor( ISharedImages.IMG_TOOL_DELETE ) );
-		setDisabledImageDescriptor( shareImages.getImageDescriptor( ISharedImages.IMG_TOOL_DELETE_DISABLED ) );
+		setImageDescriptor( shareImages
+				.getImageDescriptor( ISharedImages.IMG_TOOL_DELETE ) );
+		setDisabledImageDescriptor( shareImages
+				.getImageDescriptor( ISharedImages.IMG_TOOL_DELETE_DISABLED ) );
 		setAccelerator( SWT.DEL );
 	}
 
@@ -58,12 +65,29 @@ public class DeleteRowAction extends ContextSelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return !getRowHandles( ).isEmpty( );
+		return !getRowHandles( ).isEmpty( ) && canDrop( getRowHandles( ) );
+	}
+
+	private boolean canDrop( List rowHandles )
+	{
+		for ( Iterator it = rowHandles.iterator( ); it.hasNext( ); )
+		{
+			if ( !canDrop( (RowHandle) it.next( ) ) )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean canDrop( RowHandle handle )
+	{
+		return ( (RowHandle) handle ).canDrop( );
 	}
 
 	/**
 	 * Runs this action.
-	 *  
+	 * 
 	 */
 	public void run( )
 	{
