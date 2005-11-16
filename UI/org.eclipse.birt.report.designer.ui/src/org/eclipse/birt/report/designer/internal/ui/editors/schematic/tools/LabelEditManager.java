@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.PlaceHolderEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.designer.internal.ui.views.LabelCellEditor;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -38,6 +39,8 @@ public class LabelEditManager extends DirectEditManager
 {
 
 	Font scaledFont;
+	private Object model;
+	private boolean changed=false;
 
 	/**
 	 * Constructor.
@@ -50,7 +53,22 @@ public class LabelEditManager extends DirectEditManager
 			CellEditorLocator locator )
 	{
 		super( source, editorType, locator );
+		setModel(source.getModel());
 	}
+
+	/**
+	 * @param model
+	 */
+	public void setModel( Object model )
+	{
+		this.model = model;		
+	}
+	
+	Object getModel()
+	{
+		return model;
+	}
+	
 
 	/**
 	 * @see org.eclipse.gef.tools.DirectEditManager#bringDown()
@@ -63,6 +81,10 @@ public class LabelEditManager extends DirectEditManager
 		super.bringDown( );
 		if ( disposeFont != null )
 			disposeFont.dispose( );
+		if(getEditPart() instanceof PlaceHolderEditPart)
+		{
+			((PlaceHolderEditPart)getEditPart()).perfrormLabelEdit(getChanged());
+		}
 	}
 
 	protected void initCellEditor( )
@@ -70,8 +92,7 @@ public class LabelEditManager extends DirectEditManager
 		Text text = (Text) getCellEditor( ).getControl( );
 
 		LabelFigure labelFigure = (LabelFigure) getEditPart( ).getFigure( );
-		String initialLabelText = ( (LabelHandle) ( getEditPart( ).getModel( ) ) )
-				.getText( );
+		String initialLabelText = ( (LabelHandle) getModel()).getText( );
 		if ( initialLabelText == null )
 		{
 			initialLabelText = ""; //$NON-NLS-1$
@@ -113,5 +134,21 @@ public class LabelEditManager extends DirectEditManager
 
 		} );
 		return editor;
+	}
+	
+	protected void commit( )
+	{
+		setChanged(true);
+		super.commit( );
+	}
+
+	private void setChanged( boolean b )
+	{
+		this.changed = b;
+	}
+	
+	public boolean getChanged()
+	{
+		return changed;
 	}
 }

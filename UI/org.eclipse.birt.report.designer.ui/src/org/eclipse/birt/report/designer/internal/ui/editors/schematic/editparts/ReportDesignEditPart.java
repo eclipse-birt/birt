@@ -134,6 +134,7 @@ public class ReportDesignEditPart extends ReportElementEditPart
 				break;
 			}
 			case NotificationEvent.PROPERTY_EVENT :
+			case NotificationEvent.TEMPLATE_TRANSFORM_EVENT:
 			{
 				refresh( );
 				this.markDirty( true );

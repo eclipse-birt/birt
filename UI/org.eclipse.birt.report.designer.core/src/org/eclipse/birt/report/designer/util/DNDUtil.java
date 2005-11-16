@@ -36,7 +36,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
-import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -47,6 +46,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.TemplateElementHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
@@ -522,7 +522,8 @@ public class DNDUtil
 				|| selection instanceof GroupHandle
 				|| selection instanceof StyleHandle
 				|| selection instanceof ThemeHandle
-				|| selection instanceof EmbeddedImageHandle;
+				|| selection instanceof EmbeddedImageHandle
+				|| selection instanceof TemplateElementHandle;
 	}
 
 	/**

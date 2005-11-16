@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.TemplateElementHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.gef.EditPart;
@@ -111,6 +112,10 @@ public class GraphicalPartFactory implements EditPartFactory
 		{
 			return new ListBandEditPart( model );
 		}
+		if ( model instanceof TemplateElementHandle )
+		{
+			return new PlaceHolderEditPart( model );
+		}		
 
 		IExtension extension = new IExtension.Stub( ) 
 		{

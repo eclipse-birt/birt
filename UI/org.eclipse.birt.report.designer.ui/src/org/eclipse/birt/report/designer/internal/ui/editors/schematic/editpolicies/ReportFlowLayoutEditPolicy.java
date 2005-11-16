@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.PlaceHolderEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TextEditPart;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
@@ -298,7 +299,8 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 	{
 		if ( child instanceof LabelEditPart
 				|| child instanceof TextEditPart
-				|| child instanceof ListEditPart )
+				|| child instanceof ListEditPart 
+				|| child instanceof PlaceHolderEditPart)
 			return new NonResizableEditPolicy( );
 		if ( child instanceof TableEditPart )
 		{

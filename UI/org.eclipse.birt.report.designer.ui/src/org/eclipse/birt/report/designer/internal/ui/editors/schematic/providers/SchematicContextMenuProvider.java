@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleRuleAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreatePlaceHolderPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteColumnAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteListGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteRowAction;
@@ -203,6 +204,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				createInsertElementMenu( menuManager,
 						GEFActionConstants.GROUP_EDIT );
 			}
+			if(isListHandleCalss(multiSelection))
+			{
+				IAction action = getAction(CreatePlaceHolderPartAction.ID);
+				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+						action );
+
+			}
 			createStyleMenu( menuManager, GEFActionConstants.GROUP_REST );
 			if ( Policy.TRACING_MENU_SHOW )
 			{
@@ -243,6 +251,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					{
 						action.setText( Messages.getString( "SchematicContextMenuProvider.ActionText.editLabel" ) ); //$NON-NLS-1$
 					}
+					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+							action );
+				}
+				
+				if(firstSelectedElement instanceof ReportItemHandle)
+				{
+					IAction action = getAction(CreatePlaceHolderPartAction.ID);
 					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 							action );
 				}
@@ -392,6 +407,11 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				}
 			}
 		}
+	}
+
+	private boolean isListHandleCalss( Object multiSelection )
+	{
+		return multiSelection == ListHandle.class;
 	}
 
 	private boolean isMutilSelection( Object multiSelection )

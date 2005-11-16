@@ -16,8 +16,10 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.commands.SetPropertyCommand;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.PlaceHolderEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
@@ -41,8 +43,20 @@ public class LabelDirectEditPolicy extends DirectEditPolicy
 		String labelText = (String) edit.getCellEditor( ).getValue( );
 		Map extendsData = new HashMap( );
 		extendsData.put( DEUtil.ELEMENT_LABELCONTENT_PROPERTY, labelText );
-		LabelEditPart label = (LabelEditPart) getHost( );
-		SetPropertyCommand command = new SetPropertyCommand( label.getModel( ),
+		EditPart host = getHost();
+		Object model = null;
+		if(host instanceof LabelEditPart)
+		{
+			LabelEditPart label = (LabelEditPart) getHost( );
+			model = label.getModel();
+		}
+		else if(host instanceof PlaceHolderEditPart)
+		{
+			PlaceHolderEditPart label = (PlaceHolderEditPart) getHost( );
+			model=label.getCopiedModel();
+		}
+			
+		SetPropertyCommand command = new SetPropertyCommand( model,
 				extendsData );
 		return command;
 	}

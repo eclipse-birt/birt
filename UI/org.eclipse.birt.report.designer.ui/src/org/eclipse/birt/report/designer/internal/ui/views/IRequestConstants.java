@@ -23,6 +23,10 @@ public interface IRequestConstants
 	String REQUEST_TYPE_INSERT = "insert"; //$NON-NLS-1$
 
 	String REQUEST_TYPE_EDIT = "edit"; //$NON-NLS-1$
+	
+	String REQUEST_CREATE_PLACEHOLDER = "create-placeholder"; //$NON-NLS-1$
+	
+	String REQUEST_TRANSFER_PLACEHOLDER = "transfer-placeholder"; //$NON-NLS-1$
 
 	/**
 	 * @deprecated
