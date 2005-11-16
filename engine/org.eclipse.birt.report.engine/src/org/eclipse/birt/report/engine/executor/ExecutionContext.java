@@ -63,7 +63,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.37 $ $Date: 2005/11/14 10:55:58 $
+ * @version $Revision: 1.38 $ $Date: 2005/11/15 09:38:07 $
  */
 public class ExecutionContext
 {
@@ -735,7 +735,7 @@ public class ExecutionContext
 		this.renderOption = renderOption;
 	}
 
-	protected class ElementExceptionInfo
+	public class ElementExceptionInfo
 	{
 
 		DesignElementHandle element;
