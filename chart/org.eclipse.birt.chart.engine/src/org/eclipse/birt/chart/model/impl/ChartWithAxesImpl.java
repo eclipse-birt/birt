@@ -969,13 +969,12 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 		xAxisBase.getTitle( )
 				.getCaption( )
 				.setValue( Messages.getString( "ChartWithAxesImpl.X_Axis.title" ) ); //$NON-NLS-1$
-		xAxisBase.getTitle( ).setVisible( true );
+		xAxisBase.getTitle( ).setVisible( false );
 		xAxisBase.setPrimaryAxis( true );
 		xAxisBase.setLabelPosition( Position.BELOW_LITERAL );
 		xAxisBase.setOrientation( Orientation.HORIZONTAL_LITERAL );
 		xAxisBase.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
 		xAxisBase.getOrigin( ).setValue( NumberDataElementImpl.create( 0 ) );
-		xAxisBase.getTitle( ).setVisible( true );
 		xAxisBase.setType( AxisType.TEXT_LITERAL );
 
 		// SETUP AN ORTHOGONAL AXIS
@@ -985,7 +984,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 				.getCaption( )
 				.setValue( Messages.getString( "ChartWithAxesImpl.Y_Axis.title" ) ); //$NON-NLS-1$
 		yAxisOrthogonal.getTitle( ).getCaption( ).getFont( ).setRotation( 90 );
-		yAxisOrthogonal.getTitle( ).setVisible( true );
+		yAxisOrthogonal.getTitle( ).setVisible( false );
 		yAxisOrthogonal.setPrimaryAxis( true );
 		yAxisOrthogonal.setLabelPosition( Position.LEFT_LITERAL );
 		yAxisOrthogonal.setOrientation( Orientation.VERTICAL_LITERAL );

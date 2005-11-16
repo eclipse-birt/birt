@@ -2198,7 +2198,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 		// AXIS TITLE
 		Label la = LabelImpl.create( );
 		la.getCaption( ).setValue( "Axis Title" ); //$NON-NLS-1$
-		la.getCaption( ).getFont( ).setSize( 16 );
+		la.getCaption( ).getFont( ).setSize( 14 );
 		la.getCaption( ).getFont( ).setBold( true );
 		la.setVisible( false );
 		setTitle( la );

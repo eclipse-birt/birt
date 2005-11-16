@@ -338,10 +338,10 @@ public class PaletteImpl extends EObjectImpl implements Palette
 			// index.
 			ArrayList al = new ArrayList( );
 
-			al.add( ColorDefinitionImpl.create( 0, 128, 255 ) );
-			al.add( ColorDefinitionImpl.create( 255, 128, 192 ) );
+			al.add( ColorDefinitionImpl.create( 80, 166, 218 ) );
+			al.add( ColorDefinitionImpl.create( 242, 88, 106 ) );
+			al.add( ColorDefinitionImpl.create( 232, 172, 57 ) );
 			al.add( ColorDefinitionImpl.create( 128, 255, 128 ) );
-			al.add( ColorDefinitionImpl.create( 255, 255, 0 ) );
 			al.add( ColorDefinitionImpl.create( 64, 128, 128 ) );
 			al.add( ColorDefinitionImpl.create( 128, 128, 192 ) );
 			al.add( ColorDefinitionImpl.create( 170, 85, 85 ) );
@@ -353,10 +353,10 @@ public class PaletteImpl extends EObjectImpl implements Palette
 		}
 		else if ( iIndex == 0 )
 		{
-			el.add( ColorDefinitionImpl.create( 0, 128, 255 ) );
-			el.add( ColorDefinitionImpl.create( 255, 128, 192 ) );
+			el.add( ColorDefinitionImpl.create( 80, 166, 218 ) );
+			el.add( ColorDefinitionImpl.create( 242, 88, 106 ) );
+			el.add( ColorDefinitionImpl.create( 232, 172, 57 ) );
 			el.add( ColorDefinitionImpl.create( 128, 255, 128 ) );
-			el.add( ColorDefinitionImpl.create( 255, 255, 0 ) );
 			el.add( ColorDefinitionImpl.create( 64, 128, 128 ) );
 			el.add( ColorDefinitionImpl.create( 128, 128, 192 ) );
 			el.add( ColorDefinitionImpl.create( 170, 85, 85 ) );

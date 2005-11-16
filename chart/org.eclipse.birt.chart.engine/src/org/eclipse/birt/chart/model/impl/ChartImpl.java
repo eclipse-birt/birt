@@ -1383,7 +1383,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 		// 3. INITIALIZE THE CHART TITLE
 		Text txtChartTitle = tb.getLabel( ).getCaption( );
 		txtChartTitle.setValue( "Chart Title" ); //$NON-NLS-1$
-		txtChartTitle.getFont( ).setSize( 24 );
+		txtChartTitle.getFont( ).setSize( 16 );
+		txtChartTitle.getFont( ).setBold( true );
 		TextAlignment taTitle = TextAlignmentImpl.create( );
 		taTitle.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
 		taTitle.setVerticalAlignment( VerticalAlignment.CENTER_LITERAL );
