@@ -37,6 +37,7 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 
 public class DataPresentationEngine extends AbstractDataEngine
 {
@@ -66,14 +67,14 @@ public class DataPresentationEngine extends AbstractDataEngine
 
 	private void loadDteMetaInfo( )
 	{
-		File fd = new File( reportArchName );
+		File fd = archive.getStream( reportArchName );
 		try
 		{
 			ObjectInputStream ois = new ObjectInputStream( new FileInputStream(
 					fd ) );
-			mapIDtoQuery = (HashMap) ois.readObject( );
+			mapQueryIDToResultSetIDs = (HashMap) ois.readObject( );
 			queryResultRelations = (ArrayList) ois.readObject( );
-			queryIDs = (ArrayList) ois.readObject( );
+			queryExpressionIDs = (ArrayList) ois.readObject( );
 			ois.close( );
 		}
 		catch ( IOException ioe )
@@ -99,8 +100,8 @@ public class DataPresentationEngine extends AbstractDataEngine
 			{
 				IPreparedQuery preparedQuery = dataEngine.prepare( queryDef,
 						appContext );
-				queryMap.put( queryDef, preparedQuery );
-				QueryID queryID = (QueryID) queryIDs.get( i );
+				mapQueryToPreparedQuery.put( queryDef, preparedQuery );
+				QueryID queryID = (QueryID) queryExpressionIDs.get( i );
 				setQueryIDs( queryDef, queryID );
 			}
 			catch ( BirtException be )
@@ -175,7 +176,8 @@ public class DataPresentationEngine extends AbstractDataEngine
 	{
 		assert query instanceof IQueryDefinition;
 
-		String queryID = (String) queryIDMap.get( query );
+		String queryID = String.valueOf( ((ReportElementDesign) queryIDMap.get( query )).getID( ) );
+		
 		try
 		{
 			IQueryResults queryResults = null;
@@ -189,7 +191,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 
 			if ( queryResults == null )
 			{
-				resultSetID = (String) ( (LinkedList) mapIDtoQuery
+				resultSetID = (String) ( (LinkedList) mapQueryIDToResultSetIDs
 						.get( queryID ) ).get( 0 );
 
 			}

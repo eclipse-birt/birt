@@ -77,10 +77,10 @@ public class DataGenerationEngine extends AbstractDataEngine
 			{
 				IPreparedQuery preparedQuery = dataEngine.prepare( queryDef,
 						appContext );
-				queryMap.put( queryDef, preparedQuery );
+				mapQueryToPreparedQuery.put( queryDef, preparedQuery );
 
 				QueryID qid = getQueryIDs( queryDef );
-				queryIDs.add( qid );
+				queryExpressionIDs.add( qid );
 			}
 			catch ( BirtException be )
 			{
@@ -133,11 +133,6 @@ public class DataGenerationEngine extends AbstractDataEngine
 		return queryID;
 	}
 
-	protected void doPrepareSubqueryID( IBaseQueryDefinition query )
-	{
-
-	}
-
 	private void addIDToExpression( Collection idArray, Iterator iter )
 	{
 		while ( iter.hasNext( ) )
@@ -147,11 +142,12 @@ public class DataGenerationEngine extends AbstractDataEngine
 		}
 	}
 
+	
 	protected IResultSet doExecute( IBaseQueryDefinition query )
 	{
 		assert query instanceof IQueryDefinition;
 
-		IPreparedQuery preparedQuery = (IPreparedQuery) queryMap.get( query );
+		IPreparedQuery preparedQuery = (IPreparedQuery) mapQueryToPreparedQuery.get( query );
 		ReportElementDesign queryElement = (ReportElementDesign) queryIDMap
 				.get( query );
 		String queryID = String.valueOf( queryElement.getID( ) );
@@ -191,13 +187,13 @@ public class DataGenerationEngine extends AbstractDataEngine
 			}
 
 			queryResultStack.addLast( resultSet );
-			LinkedList qidList = (LinkedList) mapIDtoQuery.get( queryID );
+			LinkedList qidList = (LinkedList) mapQueryIDToResultSetIDs.get( queryID );
 			if ( qidList == null )
 			{
 				qidList = new LinkedList( );
 			}
 			qidList.add( queryResults.getID( ) );
-			mapIDtoQuery.put( queryID, qidList );
+			mapQueryIDToResultSetIDs.put( queryID, qidList );
 		}
 		catch ( BirtException be )
 		{
@@ -225,15 +221,15 @@ public class DataGenerationEngine extends AbstractDataEngine
 
 	private void storeDteMetaInfo( )
 	{
-		File fd = new File( reportArchName );
+		File fd = archive.createStream( reportArchName );
 
 		try
 		{
 			ObjectOutputStream oos = new ObjectOutputStream(
 					new FileOutputStream( fd ) );
-			oos.writeObject( mapIDtoQuery );
+			oos.writeObject( mapQueryIDToResultSetIDs );
 			oos.writeObject( queryResultRelations );
-			oos.writeObject( queryIDs );
+			oos.writeObject( queryExpressionIDs );
 
 			oos.close( );
 		}
