@@ -277,9 +277,12 @@ public class ContentRecord extends SimpleRecord
 
 		// Validate the content.
 
-		ElementDefn contentDefn = (ElementDefn) content.getDefn( );
-		list.addAll( ValidationExecutor.getValidationNodes( content,
-				contentDefn.getTriggerDefnSet( ), false ) );
+		if ( add && state != UNDONE_STATE || !add && state == UNDONE_STATE )
+		{
+			ElementDefn contentDefn = (ElementDefn) content.getDefn( );
+			list.addAll( ValidationExecutor.getValidationNodes( content,
+					contentDefn.getTriggerDefnSet( ), false ) );
+		}
 
 		return list;
 	}

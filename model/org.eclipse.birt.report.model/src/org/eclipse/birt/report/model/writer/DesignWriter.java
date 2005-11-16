@@ -14,10 +14,9 @@ package org.eclipse.birt.report.model.writer;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.core.IModuleModel;
-import org.eclipse.birt.report.model.api.elements.structures.Action;
-import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.DataSourceParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
@@ -85,6 +84,10 @@ public class DesignWriter extends ModuleWriter
 		property( obj, ReportDesign.BEFORE_RENDER_METHOD );
 		property( obj, ReportDesign.AFTER_RENDER_METHOD );
 		property( obj, IModuleModel.THEME_PROP );
+		resourceKey( obj, DesignElement.DISPLAY_NAME_ID_PROP,
+				DesignElement.DISPLAY_NAME_PROP );
+		property( obj, ReportDesign.ICON_FILE_PROP );
+		property( obj, ReportDesign.CHEET_SHEET_PROP );
 
 		// include libraries and scripts
 

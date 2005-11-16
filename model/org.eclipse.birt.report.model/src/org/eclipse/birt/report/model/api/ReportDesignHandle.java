@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
@@ -533,7 +534,7 @@ public class ReportDesignHandle extends ModuleHandle
 	{
 		return getSlot( IReportDesignModel.STYLE_SLOT );
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -569,5 +570,110 @@ public class ReportDesignHandle extends ModuleHandle
 		}
 
 		stack.commit( );
+	}
+
+	/**
+	 * Sets the resource key of the display name.
+	 * 
+	 * @param displayNameKey
+	 *            the resource key of the display name
+	 * @throws SemanticException
+	 *             if the display name resource-key property is locked or not
+	 *             defined on this design.
+	 */
+
+	public void setDisplayNameKey( String displayNameKey )
+			throws SemanticException
+	{
+		setStringProperty( DesignElement.DISPLAY_NAME_ID_PROP, displayNameKey );
+	}
+
+	/**
+	 * Gets the resource key of the display name.
+	 * 
+	 * @return the resource key of the display name
+	 */
+
+	public String getDisplayNameKey( )
+	{
+		return getStringProperty( DesignElement.DISPLAY_NAME_ID_PROP );
+	}
+
+	/**
+	 * Sets the display name.
+	 * 
+	 * @param displayName
+	 *            the display name
+	 * @throws SemanticException
+	 *             if the display name property is locked or not defined on this
+	 *             design.
+	 */
+
+	public void setDisplayName( String displayName ) throws SemanticException
+	{
+		setStringProperty( DesignElement.DISPLAY_NAME_PROP, displayName );
+	}
+
+	/**
+	 * Gets the display name.
+	 * 
+	 * @return the display name
+	 */
+
+	public String getDisplayName( )
+	{
+		return getStringProperty( DesignElement.DISPLAY_NAME_PROP );
+	}
+	
+	/**
+	 * Sets the design icon/thumbnail file path.
+	 * 
+	 * @param iconFile
+	 *            the design icon/thumbnail file path to set
+	 * @throws SemanticException
+	 *             if the property is locked or not defined on this
+	 *             design.
+	 */
+
+	public void setIconFile( String iconFile ) throws SemanticException
+	{
+		setStringProperty( ReportDesign.ICON_FILE_PROP, iconFile );
+	}
+
+	/**
+	 * Gets the design icon/thumbnail file path.
+	 * 
+	 * @return the design icon/thumbnail file path
+	 */
+
+	public String getIconFile( )
+	{
+		return getStringProperty( ReportDesign.ICON_FILE_PROP );
+	}
+	
+	/**
+	 * Sets the design cheet sheet file path.
+	 * 
+	 * @param cheetSheet
+	 *            the design cheet sheet file path to set
+	 * @throws SemanticException
+	 *             if the property is locked or not defined on this
+	 *             design.
+	 */
+
+	public void setCheetSheet( String cheetSheet ) throws SemanticException
+	{
+		setStringProperty( ReportDesign.CHEET_SHEET_PROP, cheetSheet );
+	}
+
+	/**
+	 * Gets the design cheet sheet file path.
+	 * 
+	 * @return the design cheet sheet file path
+	 */
+
+	public String getCheetSheet( )
+	{
+		return getStringProperty( ReportDesign.CHEET_SHEET_PROP );
 	}
 }

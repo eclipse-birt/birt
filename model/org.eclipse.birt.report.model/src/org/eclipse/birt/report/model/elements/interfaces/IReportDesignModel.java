@@ -83,6 +83,18 @@ public interface IReportDesignModel
 	 */
 
 	public static final String DATA_SOURCE_BINDINGS_PROP = "dataSourceBindings"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the property to store report design icon/thumbnail file path.
+	 */
+	
+	public static final String ICON_FILE_PROP = "iconFile"; //$NON-NLS-1$
+		
+	/**
+	 * Name of the property to store the cheet sheet file name.
+	 */
+	
+	public static final String CHEET_SHEET_PROP = "cheetSheet"; //$NON-NLS-1$
 
 	// Design slots
 	// See constants defined in the module class.

@@ -1666,6 +1666,10 @@
       <Argument name="reportContext" tagID="Element.ReportDesign.afterRender.reportContext" type="IReportContext"/>
       <Argument name="object" tagID="Element.ReportDesign.afterRender.object" type="Object"/>
     </Method>
+    <Property displayNameID="Element.ReportDesign.displayName" name="displayName" runtimeSettable="false" since="2.0" type="string"/>
+    <Property displayNameID="Element.ReportDesign.displayNameID" name="displayNameID" since="2.0" type="resourceKey"/>
+    <Property displayNameID="Element.ReportDesign.iconFile" name="iconFile" runtimeSettable="false" since="2.0" type="string"/>
+    <Property displayNameID="Element.ReportDesign.cheetSheet" name="cheetSheet" runtimeSettable="false" since="2.0" type="string"/>
     <PropertyVisibility name="refreshRate" visibility="hide"/>	    
 	<PropertyVisibility name="includeResource" visibility="hide"/>	
 	<PropertyVisibility name="beforeOpenDoc" visibility="hide"/>

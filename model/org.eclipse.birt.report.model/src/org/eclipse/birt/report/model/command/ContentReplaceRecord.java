@@ -218,17 +218,22 @@ public class ContentReplaceRecord extends SimpleRecord
 		List list = ValidationExecutor.getValidationNodes( container, slotDefn
 				.getTriggerDefnSet( ), false );
 
-		// Validate the old element.
+		if ( state != UNDONE_STATE )
+		{
+			// Validate the new element.
 
-		ElementDefn contentDefn = (ElementDefn) oldElement.getDefn( );
-		list.addAll( ValidationExecutor.getValidationNodes( oldElement,
-				contentDefn.getTriggerDefnSet( ), false ) );
+			ElementDefn contentDefn = (ElementDefn) newElement.getDefn( );
+			list.addAll( ValidationExecutor.getValidationNodes( newElement,
+					contentDefn.getTriggerDefnSet( ), false ) );
+		}
+		else
+		{
+			// validate the old elment
 
-		// validate the new elment
-
-		contentDefn = (ElementDefn) newElement.getDefn( );
-		list.addAll( ValidationExecutor.getValidationNodes( newElement,
-				contentDefn.getTriggerDefnSet( ), false ) );
+			ElementDefn contentDefn = (ElementDefn) oldElement.getDefn( );
+			list.addAll( ValidationExecutor.getValidationNodes( oldElement,
+					contentDefn.getTriggerDefnSet( ), false ) );
+		}
 
 		return list;
 	}
