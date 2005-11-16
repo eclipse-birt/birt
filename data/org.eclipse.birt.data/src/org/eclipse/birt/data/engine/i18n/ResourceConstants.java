@@ -107,7 +107,8 @@ public class ResourceConstants
 	public final static String INVALID_TYPE_IN_EXPR = "data.engine.BadDataTypeCondExpr";
 	
 	// error related with data engine context
-	public final static String RD_INVALID_MODE = "data.engine.InvalidMode";	
+	public final static String RD_INVALID_MODE = "data.engine.InvalidMode";
+	public final static String RD_INVALID_ARCHIVE = "data.engine.InvalidArchive";
 	public final static String RD_SAVE_ERROR = "data.engine.SaveReportDocumentError";	
 	public final static String RD_LOAD_ERROR = "data.engine.LoadReportDocumentError";
 	public final static String RD_EXPR_NULL_ERROR = "data.engine.NullExpr";

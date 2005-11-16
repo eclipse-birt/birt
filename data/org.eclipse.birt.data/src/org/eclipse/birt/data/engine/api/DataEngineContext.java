@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.api;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.eclipse.birt.core.archive.IDocumentArchive;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.impl.DataEngineContextImpl;
 import org.mozilla.javascript.Scriptable;
@@ -40,7 +41,7 @@ public abstract class DataEngineContext
 	 * @return an instance of DataEngineContext
 	 */
 	public static DataEngineContext newInstance( int mode, Scriptable scope,
-			Object archive ) throws BirtException
+			IDocumentArchive archive ) throws BirtException
 	{
 		return new DataEngineContextImpl( mode, scope, archive );
 	}
