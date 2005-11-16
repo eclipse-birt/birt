@@ -539,8 +539,8 @@ public class TaskSelectData extends SimpleTask
 			}
 			cmbDataSet.setEnabled( true );
 			btnNewData.setEnabled( true );
-			btnFilters.setEnabled( true );
-			btnParameters.setEnabled( true );
+			btnFilters.setEnabled( hasDataSet( ) );
+			btnParameters.setEnabled( hasDataSet( ) );
 		}
 		else if ( e.getSource( ).equals( cmbDataSet ) )
 		{
