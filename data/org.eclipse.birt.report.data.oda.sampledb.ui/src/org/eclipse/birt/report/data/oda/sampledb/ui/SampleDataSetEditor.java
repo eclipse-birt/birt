@@ -13,53 +13,103 @@
  */ 
 package org.eclipse.birt.report.data.oda.sampledb.ui;
 
-import java.sql.Connection;
-
-import org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage;
-import org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetaDataProvider;
-import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
-import org.eclipse.birt.report.data.oda.sampledb.SampleDBDriver;
+import org.eclipse.birt.report.data.oda.sampledb.ui.i18n.Messages;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage;
+import org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPageContainer;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 
 /**
- * Implement the Data Set Editor page for SampleDB data sets.
- * This editor is identical to the JDBC SQL Editor page. This class subclasses
- * SQLDataSetEditorPage with an overridden method to provide JDBC connection info
+ * Data Set Editor page for Sample DB Data sets created using builds prior to 2.0M3
+ * It updates the data source to a regular JDBC data source 
  */
-public class SampleDataSetEditor extends SQLDataSetEditorPage
+public class SampleDataSetEditor extends AbstractPropertyPage
 {
-
-	/*
-	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage#connectMetadataProvider(org.eclipse.birt.report.model.api.OdaDataSourceHandle)
+	OdaDataSetHandle dataSet;
+	OdaDataSourceHandle dataSource;
+	
+	/**
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage#setContainer(org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPageContainer)
 	 */
-	protected Connection connectMetadataProvider(IMetaDataProvider metadata, OdaDataSourceHandle dataSourceHandle)
+	public void setContainer(IPropertyPageContainer parentContainer)
 	{
-		// Sanity check; connect to SampleDB only if the data source is a sample DB data source
-		if ( dataSourceHandle.getExtensionID().equals( SampleDBDriver.DATA_SOURCE_ID )&&metadata instanceof JdbcMetaDataProvider )
-		{
-			String user = "";
-			String password = "";
-			String url = SampleDBDriver.getUrl();
-			
-			try
-			{
-				dataSourceHandle.setProperty( "odaDriverClass", SampleDBDriver.DRIVER_CLASS );
-				dataSourceHandle.setProperty( "odaURL", url );
-				dataSourceHandle.setProperty( "odaUser", SampleDBDriver.SAMPLE_DB_SCHEMA);
-			}
-			catch ( SemanticException e )
-			{
-				//Should not arrive here
-			}
-			
-			return ( (JdbcMetaDataProvider) metadata ).connect( user,
-					password,
-					url,
-					SampleDBDriver.DRIVER_CLASS,
-					SampleDBDriver.DATA_SOURCE_ID );
-		}
-		else
-			return super.connectMetadataProvider( metadata, dataSourceHandle);
+		dataSet = (OdaDataSetHandle) parentContainer.getModel();
+		dataSource = (OdaDataSourceHandle) dataSet.getDataSource();
 	}
+
+	/**
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#createPageControl(org.eclipse.swt.widgets.Composite)
+	 */
+	public Control createPageControl(Composite parent)
+	{
+		//create the composite to hold the widgets
+		Composite content = new Composite( parent, SWT.NONE );
+		
+		FillLayout layout = new FillLayout();
+		content.setLayout( layout );
+
+		Label txt = new Label( content, SWT.LEFT );
+		txt.setText( Messages.formatMessage( "datasource.upgrade.msg",
+				new Object[] { dataSource.getName() } ));
+		
+		return content;
+	}
+
+	/* 
+	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#performOk()
+	 */
+	public boolean performOk( )
+	{
+		// Update the data source to a regular JDBC data source
+		// Note that since the data source extensionID is an intristic property we cannot simply 
+		// update it; we will instead drop the original data source and re-create one with 
+		// the same name
+		try
+		{
+			// Save data source properties that user can overwrite in a Sample data source
+			String dataSourceName = dataSource.getName();
+			String afterClose = dataSource.getAfterClose();
+			String afterOpen = dataSource.getAfterOpen();
+			String beforeClose = dataSource.getBeforeClose();
+			String beforeOpen = dataSource.getBeforeOpen();
+			ModuleHandle moduleHandle = dataSource.getModuleHandle();
+				
+			dataSource.drop();
+				
+			dataSource = SampleDataSourceCreationWizard.newSampleDataSource( moduleHandle );
+			dataSource.setName( dataSourceName );
+			dataSource.setAfterClose( afterClose );
+			dataSource.setAfterOpen( afterOpen );
+			dataSource.setBeforeClose( beforeClose );
+			dataSource.setBeforeOpen( beforeOpen );
+			
+			//Add the data source element
+			SlotHandle dataSourceSlot = moduleHandle.getDataSources( );
+			dataSourceSlot.add( dataSource );
+		}
+		catch (SemanticException e)
+		{
+			ExceptionHandler.handle( e );
+			return false;
+		}
+		 
+		return true;
+	}
+
+	/**
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#pageActivated()
+	 */
+	public void pageActivated()
+	{
+	}
+
 }

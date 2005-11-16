@@ -149,5 +149,13 @@
                   odaScalarDataType="String"/><!--Blob"/>-->
       </dataSet>
    </extension>
+   <extension
+         point="org.eclipse.birt.report.data.oda.jdbc.driverinfo">
+      <jdbcDriver
+            connectionFactory="org.eclipse.birt.report.data.oda.sampledb.SampleDBJDBCConnectionFactory"
+            driverClass="org.eclipse.birt.report.data.oda.sampledb.Driver"
+            name="%jdbc.driver.name"
+            urlTemplate="jdbc:classicmodels:sampledb"/>
+   </extension>
 
 </plugin>
