@@ -55,7 +55,7 @@ public class BIRTDataRowEvaluator implements IDataRowExpressionEvaluator
 	}
 	public void first( )
 	{
-		// not needed here		
+		set.next();		
 	}
 
 }
