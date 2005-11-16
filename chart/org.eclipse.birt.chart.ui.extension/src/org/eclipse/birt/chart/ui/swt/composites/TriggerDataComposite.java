@@ -74,11 +74,11 @@ public class TriggerDataComposite extends Composite implements
 
 	private transient IntegerSpinControl iscDelay = null;
 
-	private transient Text txtTooltipText = null;
+	// private transient Text txtTooltipText = null;
 
 	private transient Composite cmpSeries = null;
 
-	private transient Text txtSeriesDefinition = null;
+	// private transient Text txtSeriesDefinition = null;
 
 	private transient StackLayout slValues = null;
 
@@ -202,16 +202,18 @@ public class TriggerDataComposite extends Composite implements
 		cmpSeries = new Composite( grpValue, SWT.NONE );
 		cmpSeries.setLayout( glVisibility );
 
-		Label lblSeries = new Label( cmpSeries, SWT.NONE );
-		GridData gdLBLSeries = new GridData( );
-		gdLBLSeries.horizontalIndent = 2;
-		lblSeries.setLayoutData( gdLBLSeries );
-		lblSeries.setText( Messages.getString( "TriggerDataComposite.Lbl.SeriesDefinition" ) ); //$NON-NLS-1$
-
-		txtSeriesDefinition = new Text( cmpSeries, SWT.BORDER );
-		GridData gdTXTSeriesDefinition = new GridData( GridData.FILL_HORIZONTAL );
-		gdTXTSeriesDefinition.horizontalSpan = 2;
-		txtSeriesDefinition.setLayoutData( gdTXTSeriesDefinition );
+		// Label lblSeries = new Label( cmpSeries, SWT.NONE );
+		// GridData gdLBLSeries = new GridData( );
+		// gdLBLSeries.horizontalIndent = 2;
+		// lblSeries.setLayoutData( gdLBLSeries );
+		// lblSeries.setText( Messages.getString(
+		// "TriggerDataComposite.Lbl.SeriesDefinition" ) ); //$NON-NLS-1$
+		//
+		// txtSeriesDefinition = new Text( cmpSeries, SWT.BORDER );
+		// GridData gdTXTSeriesDefinition = new GridData(
+		// GridData.FILL_HORIZONTAL );
+		// gdTXTSeriesDefinition.horizontalSpan = 2;
+		// txtSeriesDefinition.setLayoutData( gdTXTSeriesDefinition );
 
 		// Composite for tooltip value
 		cmpTooltip = new Composite( grpValue, SWT.NONE );
@@ -232,19 +234,20 @@ public class TriggerDataComposite extends Composite implements
 		iscDelay.setMaximum( 5000 );
 		iscDelay.setIncrement( 100 );
 
-		Label lblText = new Label( cmpTooltip, SWT.NONE );
-		GridData gdLBLText = new GridData( );
-		gdLBLText.horizontalIndent = 2;
-		gdLBLText.horizontalSpan = 3;
-		lblText.setLayoutData( gdLBLText );
-		lblText.setText( Messages.getString( "TriggerDataComposite.Lbl.TooltipText" ) ); //$NON-NLS-1$
-
-		txtTooltipText = new Text( cmpTooltip, SWT.BORDER
-				| SWT.MULTI
-				| SWT.V_SCROLL );
-		GridData gdTXTTooltipText = new GridData( GridData.FILL_BOTH );
-		gdTXTTooltipText.horizontalSpan = 3;
-		txtTooltipText.setLayoutData( gdTXTTooltipText );
+		// Label lblText = new Label( cmpTooltip, SWT.NONE );
+		// GridData gdLBLText = new GridData( );
+		// gdLBLText.horizontalIndent = 2;
+		// gdLBLText.horizontalSpan = 3;
+		// lblText.setLayoutData( gdLBLText );
+		// lblText.setText( Messages.getString(
+		// "TriggerDataComposite.Lbl.TooltipText" ) ); //$NON-NLS-1$
+		//
+		// txtTooltipText = new Text( cmpTooltip, SWT.BORDER
+		// | SWT.MULTI
+		// | SWT.V_SCROLL );
+		// GridData gdTXTTooltipText = new GridData( GridData.FILL_BOTH );
+		// gdTXTTooltipText.horizontalSpan = 3;
+		// txtTooltipText.setLayoutData( gdTXTTooltipText );
 
 		cmpURL = new Composite( grpValue, SWT.NONE );
 		cmpURL.setLayout( glURL );
@@ -365,15 +368,17 @@ public class TriggerDataComposite extends Composite implements
 				TooltipValue tooltipValue = (TooltipValue) trigger.getAction( )
 						.getValue( );
 				iscDelay.setValue( tooltipValue.getDelay( ) );
-				txtTooltipText.setText( ( tooltipValue.getText( ).length( ) > 0 ) ? tooltipValue.getText( )
-						: "" ); //$NON-NLS-1$
+				// txtTooltipText.setText( ( tooltipValue.getText( ).length( ) >
+				// 0 ) ? tooltipValue.getText( )
+				// : "" ); //$NON-NLS-1$
 				break;
 			case 2 :
 				this.slValues.topControl = cmpSeries;
-				SeriesValue seriesValue = (SeriesValue) trigger.getAction( )
-						.getValue( );
-				txtSeriesDefinition.setText( ( seriesValue.getName( ).length( ) > 0 ) ? seriesValue.getName( )
-						: "" ); //$NON-NLS-1$
+				// SeriesValue seriesValue = (SeriesValue) trigger.getAction( )
+				// .getValue( );
+				// txtSeriesDefinition.setText( ( seriesValue.getName( ).length(
+				// ) > 0 ) ? seriesValue.getName( )
+				// : "" ); //$NON-NLS-1$
 				break;
 			case 3 :
 				this.slValues.topControl = cmpScript;
@@ -384,10 +389,13 @@ public class TriggerDataComposite extends Composite implements
 				break;
 			case 4 :
 				this.slValues.topControl = cmpSeries;
-				SeriesValue highlightSeriesValue = (SeriesValue) trigger.getAction( )
-						.getValue( );
-				txtSeriesDefinition.setText( ( highlightSeriesValue.getName( )
-						.length( ) > 0 ) ? highlightSeriesValue.getName( ) : "" ); //$NON-NLS-1$
+				// SeriesValue highlightSeriesValue = (SeriesValue)
+				// trigger.getAction( )
+				// .getValue( );
+				// txtSeriesDefinition.setText( ( highlightSeriesValue.getName(
+				// )
+				// .length( ) > 0 ) ? highlightSeriesValue.getName( ) : "" );
+				// //$NON-NLS-1$
 				break;
 			default :
 				this.slValues.topControl = cmpDefault;
@@ -409,12 +417,11 @@ public class TriggerDataComposite extends Composite implements
 						txtSeriesParm.getText( ) );
 				break;
 			case 1 :
-				value = TooltipValueImpl.create( iscDelay.getValue( ),
-						txtTooltipText.getText( ) );
+				value = TooltipValueImpl.create( iscDelay.getValue( ), "" ); //$NON-NLS-1$
 				break;
 			case 2 :
 				value = AttributeFactory.eINSTANCE.createSeriesValue( );
-				( (SeriesValue) value ).setName( txtSeriesDefinition.getText( ) );
+				( (SeriesValue) value ).setName( "" ); //$NON-NLS-1$
 				break;
 			case 3 :
 				value = AttributeFactory.eINSTANCE.createScriptValue( );
@@ -422,7 +429,7 @@ public class TriggerDataComposite extends Composite implements
 				break;
 			case 4 :
 				value = AttributeFactory.eINSTANCE.createSeriesValue( );
-				( (SeriesValue) value ).setName( txtSeriesDefinition.getText( ) );
+				( (SeriesValue) value ).setName( "" ); //$NON-NLS-1$
 				break;
 			default :
 				break;
