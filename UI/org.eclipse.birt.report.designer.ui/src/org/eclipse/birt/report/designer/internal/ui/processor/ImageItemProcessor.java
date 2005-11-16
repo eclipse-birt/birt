@@ -36,7 +36,8 @@ public class ImageItemProcessor extends AbstractElementProcessor
 
 	public DesignElementHandle createElement( Object extendedData )
 	{
-		ImageBuilder dialog = new ImageBuilder( UIUtil.getDefaultShell( ) );
+		ImageBuilder dialog = new ImageBuilder( UIUtil.getDefaultShell( ),
+				ImageBuilder.DLG_TITLE_NEW );
 		if ( dialog.open( ) == Dialog.OK )
 		{
 			return (DesignElementHandle) dialog.getResult( );
@@ -46,7 +47,8 @@ public class ImageItemProcessor extends AbstractElementProcessor
 
 	public boolean editElement( DesignElementHandle handle )
 	{
-		ImageBuilder dialog = new ImageBuilder( UIUtil.getDefaultShell( ) );
+		ImageBuilder dialog = new ImageBuilder( UIUtil.getDefaultShell( ),
+				ImageBuilder.DLG_TITLE_EDIT );
 		dialog.setInput( handle );
 		return ( dialog.open( ) == Dialog.OK );
 	}

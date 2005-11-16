@@ -4,14 +4,13 @@ package org.eclipse.birt.report.designer.internal.ui.util;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ImageBuilder;
-import org.eclipse.birt.report.designer.ui.dialogs.TextEditDialog;
+import org.eclipse.birt.report.designer.ui.dialogs.TextEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
-import org.eclipse.ui.PlatformUI;
 
 public class ElementBuilderFactory
 {
@@ -36,6 +35,7 @@ public class ElementBuilderFactory
 
 	/**
 	 * Creates builder for given element
+	 * 
 	 * @param handle
 	 * @return
 	 */
@@ -43,36 +43,34 @@ public class ElementBuilderFactory
 	{
 		if ( handle instanceof TextItemHandle )
 		{
-			return new TextEditDialog( handle.getName( ),
+			return new TextEditor( UIUtil.getDefaultShell( ),
+					TextEditor.DLG_TITLE_NEW,
 					(TextItemHandle) handle );
 		}
 		if ( handle instanceof TextDataHandle )
 		{
-			ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI
-					.getWorkbench( ).getDisplay( ).getActiveShell( ),
+			ExpressionBuilder dialog = new ExpressionBuilder( UIUtil.getDefaultShell( ),
 					( (TextDataHandle) handle ).getValueExpr( ) );
 
-			dialog.setExpressionProvier( ( new ExpressionProvider( handle
-					.getModuleHandle( ), DEUtil.getDataSetList( handle ) ) ) );
+			dialog.setExpressionProvier( ( new ExpressionProvider( handle.getModuleHandle( ),
+					DEUtil.getDataSetList( handle ) ) ) );
 
 			return ( dialog );
 		}
 		if ( handle instanceof DataItemHandle )
 		{
-			ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI
-					.getWorkbench( ).getDisplay( ).getActiveShell( ),
+			ExpressionBuilder dialog = new ExpressionBuilder( UIUtil.getDefaultShell( ),
 					( (DataItemHandle) handle ).getValueExpr( ) );
 
-			dialog.setExpressionProvier( ( new ExpressionProvider( handle
-					.getModuleHandle( ), DEUtil.getDataSetList( handle ) ) ) );
+			dialog.setExpressionProvier( ( new ExpressionProvider( handle.getModuleHandle( ),
+					DEUtil.getDataSetList( handle ) ) ) );
 
 			return ( dialog );
 		}
-		if(handle instanceof ImageHandle)
+		if ( handle instanceof ImageHandle )
 		{
-			ImageBuilder dialog = new ImageBuilder( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ) );
+			ImageBuilder dialog = new ImageBuilder( UIUtil.getDefaultShell( ),
+					ImageBuilder.DLG_TITLE_NEW );
 			dialog.setInput( handle );
 			return dialog;
 		}

@@ -339,7 +339,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 	private void add( )
 	{
 		HighlightRuleBuilder builder = new HighlightRuleBuilder( getShell( ),
-				Messages.getString( "HighlightsPreferencePage.text.Title" ), //$NON-NLS-1$
+				Messages.getString( "HighlightsPage.Dialog.NewHighlight" ), //$NON-NLS-1$
 				provider );
 
 		builder.updateHandle( null, fTableViewer.getTable( ).getItemCount( ) );
@@ -371,7 +371,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 						.getItemCount( ) )
 		{
 			HighlightRuleBuilder builder = new HighlightRuleBuilder( getShell( ),
-					Messages.getString( "HighlightsPreferencePage.text.Title" ), //$NON-NLS-1$
+					Messages.getString( "HighlightsPage.Dialog.EditHighlight" ), //$NON-NLS-1$
 					provider );
 
 			HighlightRuleHandle handle = (HighlightRuleHandle) fTableViewer.getTable( )

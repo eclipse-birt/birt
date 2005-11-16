@@ -24,7 +24,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
 /**
- *  
+ * 
  */
 
 public class EditGroupAction extends DynamicItemAction
@@ -80,7 +80,7 @@ public class EditGroupAction extends DynamicItemAction
 
 		GroupDialog dialog = new GroupDialog( PlatformUI.getWorkbench( )
 				.getDisplay( )
-				.getActiveShell( ) );
+				.getActiveShell( ), GroupDialog.GROUP_DLG_TITLE_EDIT );
 		dialog.setInput( handle );
 		dialog.setDataSetList( DEUtil.getDataSetList( handle ) );
 
@@ -101,6 +101,6 @@ public class EditGroupAction extends DynamicItemAction
 	 */
 	protected CommandStack getActiveCommandStack( )
 	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack();
+		return SessionHandleAdapter.getInstance( ).getCommandStack( );
 	}
 }

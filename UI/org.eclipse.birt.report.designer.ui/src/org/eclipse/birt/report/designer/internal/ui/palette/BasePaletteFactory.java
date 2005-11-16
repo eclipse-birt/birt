@@ -211,7 +211,8 @@ public class BasePaletteFactory
 			if ( IReportElementConstants.REPORT_ELEMENT_IMAGE.equalsIgnoreCase( (String) request.getNewObjectType( ) ) )
 			{
 				// Open the builder for new image
-				ImageBuilder dialog = new ImageBuilder( );
+				ImageBuilder dialog = new ImageBuilder( UIUtil.getDefaultShell( ),
+						ImageBuilder.DLG_TITLE_NEW );
 				if ( Window.OK == dialog.open( ) )
 				{
 					setModel( dialog.getResult( ) );
@@ -269,7 +270,7 @@ public class BasePaletteFactory
 				if ( IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase( type ) )
 				{
 					text = AUTOTEXT_LABEL_PAGE
-					+ "<value-of>GlobalBirt.CurrentPage</value-of>" ; //$NON-NLS-1$
+							+ "<value-of>GlobalBirt.CurrentPage</value-of>"; //$NON-NLS-1$
 				}
 				else if ( IReportElementConstants.AUTOTEXT_DATE.equalsIgnoreCase( type ) )
 				{
@@ -380,7 +381,7 @@ public class BasePaletteFactory
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Provides element building support for TextData element.
 	 */
@@ -499,14 +500,13 @@ public class BasePaletteFactory
 							.add( textHandle );
 
 					text = AUTOTEXT_LABEL_PAGE
-							+ "<value-of>pageNumber</value-of>" ; //$NON-NLS-1$
-					 textHandle = factory.newTextItem( null );
-					 textHandle.setContent( text );
-					 textHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
-					 ( (CellHandle) cellList.get( 1 ) ).getContent( )
-					 .add( textHandle );
+							+ "<value-of>pageNumber</value-of>"; //$NON-NLS-1$
+					textHandle = factory.newTextItem( null );
+					textHandle.setContent( text );
+					textHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
+					( (CellHandle) cellList.get( 1 ) ).getContent( )
+							.add( textHandle );
 
-					
 					textHandle = factory.newTextItem( null );
 					textHandle.setContent( "<value-of>new Date()</value-of>" ); //$NON-NLS-1$
 					textHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
@@ -533,13 +533,12 @@ public class BasePaletteFactory
 							.add( textHandle );
 
 					String text = AUTOTEXT_LABEL_PAGE
-							+ "<value-of>GlobalBirt.CurrentPage</value-of>" ; //$NON-NLS-1$
-					 textHandle = factory.newTextItem( null );
-					 textHandle.setContent( text );
-					 ( (CellHandle) cellList.get( 1 ) ).getContent( )
-					 .add( textHandle );
-					
-			
+							+ "<value-of>GlobalBirt.CurrentPage</value-of>"; //$NON-NLS-1$
+					textHandle = factory.newTextItem( null );
+					textHandle.setContent( text );
+					( (CellHandle) cellList.get( 1 ) ).getContent( )
+							.add( textHandle );
+
 				}
 				catch ( SemanticException e )
 				{
@@ -627,9 +626,8 @@ public class BasePaletteFactory
 	/**
 	 * Provides element building support for data set column.
 	 */
-	public static class DataSetColumnToolExtends
-			extends
-				AbstractToolHandleExtends
+	public static class DataSetColumnToolExtends extends
+			AbstractToolHandleExtends
 	{
 
 		/*
@@ -748,7 +746,7 @@ public class BasePaletteFactory
 		else if ( IReportElementConstants.REPORT_ELEMENT_TEXTDATA.equalsIgnoreCase( template ) )
 		{
 			preHandle = new TextDataToolExtends( );
-		}		
+		}
 		else if ( IReportElementConstants.AUTOTEXT_AUTHOR_PAGE_DATE.equalsIgnoreCase( template )
 				|| IReportElementConstants.AUTOTEXT_CONFIDENTIAL_PAGE.equalsIgnoreCase( template )
 				|| IReportElementConstants.REPORT_ELEMENT_GRID.equalsIgnoreCase( template ) )

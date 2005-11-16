@@ -407,7 +407,8 @@ public class UIUtil
 			slotHandle.add( groupHandle, position );
 			if ( !DEUtil.getDataSetList( parent ).isEmpty( ) )
 			{// If data set can be found or a blank group will be inserted.
-				GroupDialog dialog = new GroupDialog( getDefaultShell( ) );
+				GroupDialog dialog = new GroupDialog( getDefaultShell( ),
+						GroupDialog.GROUP_DLG_TITLE_NEW );
 				dialog.setDataSetList( DEUtil.getDataSetList( parent ) );
 				dialog.setInput( groupHandle );
 				if ( dialog.open( ) == Window.CANCEL )

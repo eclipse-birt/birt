@@ -14,7 +14,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.La
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.TextFigure;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.dialogs.TextEditDialog;
+import org.eclipse.birt.report.designer.ui.dialogs.TextEditor;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -26,10 +26,7 @@ import org.eclipse.jface.dialogs.Dialog;
  * Text edit part class
  */
 public class TextEditPart extends LabelEditPart
-{
-
-	private static final String DLG_TITLE_TEXT = Messages.getString( "TextEditPart.Dialog.Title" ); //$NON-NLS-1$
-
+{	
 	private static final String FIGURE_DEFAULT_TEXT = Messages.getString( "TextEditPart.Figure.Dafault" ); //$NON-NLS-1$
 
 	private static final String TEXT_TRANS_MSG = Messages.getString( "TextEditPart.trans.editText" ); //$NON-NLS-1$
@@ -53,7 +50,8 @@ public class TextEditPart extends LabelEditPart
 				.getCommandStack( );
 		stack.startTrans( TEXT_TRANS_MSG );
 
-		TextEditDialog dialog = new TextEditDialog(UIUtil.getDefaultShell( ), DLG_TITLE_TEXT,
+		TextEditor dialog = new TextEditor( UIUtil.getDefaultShell( ),
+				TextEditor.DLG_TITLE_EDIT,
 				( (TextItemHandle) getModel( ) ) );
 
 		if ( dialog.open( ) == Dialog.OK )

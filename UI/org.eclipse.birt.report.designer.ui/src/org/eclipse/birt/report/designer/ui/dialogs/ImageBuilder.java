@@ -62,35 +62,37 @@ public class ImageBuilder extends BaseDialog
 {
 
 	// private static final String DLG_REMOVE_BUTTON = Messages.getString(
-	// "ImageBuilderDialog.Button.Remove" ); //$NON-NLS-1$
+	// "ImageBuilder.Button.Remove" ); //$NON-NLS-1$
 
-	private static final String DLG_IMPORT_BUTTON = Messages.getString( "ImageBuilderDialog.Button.Import" ); //$NON-NLS-1$
+	private static final String DLG_IMPORT_BUTTON = Messages.getString( "ImageBuilder.Button.Import" ); //$NON-NLS-1$
 
-	private static final String DLG_PREVIEW_LABEL = Messages.getString( "ImageBuilderDialog.Button.Preview" ); //$NON-NLS-1$
+	private static final String DLG_PREVIEW_LABEL = Messages.getString( "ImageBuilder.Button.Preview" ); //$NON-NLS-1$
 
-	private static final String DLG_ENTER_URI_LABEL = Messages.getString( "ImageBuilderDialog.Label.EnterUri" ); //$NON-NLS-1$
+	private static final String DLG_ENTER_URI_LABEL = Messages.getString( "ImageBuilder.Label.EnterUri" ); //$NON-NLS-1$
 
-	private static final String DLG_EMBEDDED_IMAGE_LABEL = Messages.getString( "ImageBuilderDialog.Label.EmbededImage" ); //$NON-NLS-1$
+	private static final String DLG_EMBEDDED_IMAGE_LABEL = Messages.getString( "ImageBuilder.Label.EmbededImage" ); //$NON-NLS-1$
 
-	private static final String DLG_URI_LABEL = Messages.getString( "ImageBuilderDialog.Label.URI" ); //$NON-NLS-1$
+	private static final String DLG_URI_LABEL = Messages.getString( "ImageBuilder.Label.URI" ); //$NON-NLS-1$
 
-	private static final String DLG_SELECT_PICTURE_LABEL = Messages.getString( "ImageBuilderDialog.Label.SelectFrom" ); //$NON-NLS-1$
+	private static final String DLG_SELECT_PICTURE_LABEL = Messages.getString( "ImageBuilder.Label.SelectFrom" ); //$NON-NLS-1$
 
-	private static final String DLG_INSERT_BUTTON_MSG = Messages.getString( "ImageBuilderDialog.Button.Insert" ); //$NON-NLS-1$
+	private static final String DLG_INSERT_BUTTON_MSG = Messages.getString( "ImageBuilder.Button.Insert" ); //$NON-NLS-1$
 
-	private static final String DLG_TITLE_MESSAGE = Messages.getString( "ImageBuilderDialog.DialogTitle.ImageBuilder" ); //$NON-NLS-1$
+	public static final String DLG_TITLE_NEW = Messages.getString( "ImageBuilder.DialogTitle.New" ); //$NON-NLS-1$
+	
+	public static final String DLG_TITLE_EDIT = Messages.getString( "ImageBuilder.DialogTitle.Edit" ); //$NON-NLS-1$
 
 	// private static final String SUPPORTED_IMAGE_FILE_EXTS =
-	// Messages.getString( "ImageBuilderDialog.FileDialog.FilterMessage" );
+	// Messages.getString( "ImageBuilder.FileDialog.FilterMessage" );
 	// //$NON-NLS-1$
 
-	private static final String DLG_TITLE_IMPORT_FAIL = Messages.getString( "ImageBuilderDialog.DialogTitle.ImportFailed" ); //$NON-NLS-1$;
+	private static final String DLG_TITLE_IMPORT_FAIL = Messages.getString( "ImageBuilder.DialogTitle.ImportFailed" ); //$NON-NLS-1$;
 
-	private static final String DLG_TITLE_LOADING_FAIL = Messages.getString( "ImageBuilderDialog.DialogTitle.LoadingFailed" ); //$NON-NLS-1$;
+	private static final String DLG_TITLE_LOADING_FAIL = Messages.getString( "ImageBuilder.DialogTitle.LoadingFailed" ); //$NON-NLS-1$;
 
-	private static final String DLG_ERROR_MSG_LOADING_FAIL = Messages.getString( "ImageBuilderDialog.ErrorMessage.LoadingFailed" ); //$NON-NLS-1$;
+	private static final String DLG_ERROR_MSG_LOADING_FAIL = Messages.getString( "ImageBuilder.ErrorMessage.LoadingFailed" ); //$NON-NLS-1$;
 
-	private static final String DLG_ERROR_MSG_FILE_EXISTS = Messages.getString( "ImageBuilderDialog.ErrorMessage.FileLoaded" ); //$NON-NLS-1$
+	private static final String DLG_ERROR_MSG_FILE_EXISTS = Messages.getString( "ImageBuilder.ErrorMessage.FileLoaded" ); //$NON-NLS-1$
 
 	private ImageHandle inputImage;
 
@@ -117,17 +119,9 @@ public class ImageBuilder extends BaseDialog
 	 * 
 	 * @param parentShell
 	 */
-	public ImageBuilder( Shell parentShell )
+	public ImageBuilder( Shell parentShell, String title )
 	{
-		super( parentShell, DLG_TITLE_MESSAGE, false );
-	}
-
-	/**
-	 * The constructor.
-	 */
-	public ImageBuilder( )
-	{
-		super( DLG_TITLE_MESSAGE, false );
+		super( parentShell, title, false );
 	}
 
 	private ModuleHandle getModuleHandle( )
@@ -200,7 +194,7 @@ public class ImageBuilder extends BaseDialog
 		} );
 
 		dynamic = new Button( selectionArea, SWT.RADIO );
-		dynamic.setText( Messages.getString( "ImageBuilderDialog.Button.Dynamic" ) ); //$NON-NLS-1$
+		dynamic.setText( Messages.getString( "ImageBuilder.Button.Dynamic" ) ); //$NON-NLS-1$
 		dynamic.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -285,7 +279,7 @@ public class ImageBuilder extends BaseDialog
 		if ( selectedType == BLOB_TYPE )
 		{
 			innerComp.setLayout( new GridLayout( 3, false ) );
-			title.setText( Messages.getString( "ImageBuilderDialog.Label.EnterExpr" ) ); //$NON-NLS-1$
+			title.setText( Messages.getString( "ImageBuilder.Label.EnterExpr" ) ); //$NON-NLS-1$
 		}
 		else
 		{
@@ -294,7 +288,7 @@ public class ImageBuilder extends BaseDialog
 		}
 
 		Button inputButton = new Button( innerComp, SWT.PUSH );
-		inputButton.setText( Messages.getString( "ImageBuilderDialog.Label.Open" ) ); //$NON-NLS-1$
+		inputButton.setText( Messages.getString( "ImageBuilder.Label.Open" ) ); //$NON-NLS-1$
 		inputButton.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
 		inputButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -307,7 +301,7 @@ public class ImageBuilder extends BaseDialog
 		if ( selectedType == BLOB_TYPE )
 		{
 			bindingButton = new Button( innerComp, SWT.PUSH );
-			bindingButton.setText( Messages.getString( "ImageBuilderDialog.Label.Binding" ) ); //$NON-NLS-1$
+			bindingButton.setText( Messages.getString( "ImageBuilder.Label.Binding" ) ); //$NON-NLS-1$
 			bindingButton.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
 			bindingButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -385,7 +379,7 @@ public class ImageBuilder extends BaseDialog
 			public void widgetSelected( SelectionEvent event )
 			{
 				FileDialog fileChooser = new FileDialog( getShell( ), SWT.OPEN );
-				fileChooser.setText( Messages.getString( "ImageBuilderDialog.Chooser.Title" ) ); //$NON-NLS-1$
+				fileChooser.setText( Messages.getString( "ImageBuilder.Chooser.Title" ) ); //$NON-NLS-1$
 				fileChooser.setFilterExtensions( new String[]{
 						"*.gif", "*.jpg", "*.png", "*.ico", "*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 				} );

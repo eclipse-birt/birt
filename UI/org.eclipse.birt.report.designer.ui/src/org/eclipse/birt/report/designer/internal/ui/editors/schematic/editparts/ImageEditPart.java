@@ -41,7 +41,7 @@ import org.eclipse.ui.PlatformUI;
  * <p>
  * Image edit part
  * </p>
- *  
+ * 
  */
 public class ImageEditPart extends ReportElementEditPart
 {
@@ -128,7 +128,7 @@ public class ImageEditPart extends ReportElementEditPart
 		}
 		catch ( SWTException e )
 		{
-			//Do nothing
+			// Do nothing
 		}
 
 		( (ImageFigure) this.getFigure( ) ).setStretched( image != null );
@@ -203,13 +203,13 @@ public class ImageEditPart extends ReportElementEditPart
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private void performDirectEdit( )
 	{
 		ImageBuilder dialog = new ImageBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
-				.getActiveShell( ) );
+				.getActiveShell( ), ImageBuilder.DLG_TITLE_EDIT );
 		dialog.setInput( getModel( ) );
 		CommandStack stack = SessionHandleAdapter.getInstance( )
 				.getCommandStack( );

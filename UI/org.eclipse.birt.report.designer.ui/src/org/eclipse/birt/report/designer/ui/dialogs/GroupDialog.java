@@ -87,9 +87,9 @@ public class GroupDialog extends BaseDialog
 
 	private static final String GROUP_DLG_GROUP_NAME_LABEL = Messages.getString( "GroupDialog.Label.Name" ); //$NON-NLS-1$
 
-	private static final String TAB_SORTING = Messages.getString("GroupDialog.Tab.Sorting"); //$NON-NLS-1$
+	private static final String TAB_SORTING = Messages.getString( "GroupDialog.Tab.Sorting" ); //$NON-NLS-1$
 
-	private static final String TAB_FILTER = Messages.getString("GroupDialog.Tab.Filter"); //$NON-NLS-1$
+	private static final String TAB_FILTER = Messages.getString( "GroupDialog.Tab.Filter" ); //$NON-NLS-1$
 
 	private static final String GROUP_DLG_INCLUDE_FOOTER_LABEL = Messages.getString( "GroupDialog.Label.IncludeFooter" ); //$NON-NLS-1$
 
@@ -99,11 +99,13 @@ public class GroupDialog extends BaseDialog
 
 	private static final String GROUP_DLG_AREA_MSG = Messages.getString( "GroupDialog.Dialog.GroupDetail" ); //$NON-NLS-1$
 
-	private static final String GROUP_DLG_TITLE = Messages.getString( "GroupDialog.Dialog.Group" ); //$NON-NLS-1$
-
 	private static final String ERROR_DLG_TITLE_NO_DATA = Messages.getString( "GroupDialog.DialogTitle.NoData" ); //$NON-NLS-1$
 
 	private static final String ERROR_MESSAGE_NO_DATA = Messages.getString( "GroupDialog.ErrorMessage.NoData" ); //$NON-NLS-1$
+
+	public static final String GROUP_DLG_TITLE_NEW = Messages.getString( "GroupDialog.Title.New" ); //$NON-NLS-1$
+	
+	public static final String GROUP_DLG_TITLE_EDIT = Messages.getString( "GroupDialog.Title.Edit" ); //$NON-NLS-1$
 
 	private List dataSetList = null, columnList;
 
@@ -156,9 +158,9 @@ public class GroupDialog extends BaseDialog
 	 * 
 	 * @param parentShell
 	 */
-	public GroupDialog( Shell parentShell )
+	public GroupDialog( Shell parentShell, String title )
 	{
-		super( parentShell, GROUP_DLG_TITLE );
+		super( parentShell, title );
 	}
 
 	/*
@@ -441,7 +443,7 @@ public class GroupDialog extends BaseDialog
 					}
 				} );
 		sortPage.setInput( list );
-		sortItem.setText( TAB_SORTING ); 
+		sortItem.setText( TAB_SORTING );
 		sortItem.setControl( sortPage );
 	}
 
