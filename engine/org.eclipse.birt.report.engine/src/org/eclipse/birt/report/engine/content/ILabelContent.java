@@ -16,7 +16,5 @@ public interface ILabelContent extends ITextContent
 
 	String getHelpText( );
 
-	void setHelpKey( String helpKey );
-
 	String getHelpKey( );
 }

@@ -14,7 +14,7 @@ public class DataContent extends TextContent implements IDataContent
 	protected String labelText;
 
 	protected String labelKey;
-
+	
 	public DataContent( ReportContent report )
 	{
 		super( report );
@@ -57,6 +57,11 @@ public class DataContent extends TextContent implements IDataContent
 
 	public String getHelpText( )
 	{
+		if( helpText != null )
+		{
+			return helpText;
+		}
+		
 		if ( generateBy instanceof DataItemDesign )
 		{
 			return ( (DataItemDesign) generateBy ).getHelpText( );

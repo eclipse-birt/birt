@@ -8,9 +8,6 @@ import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 
 public class LabelContent extends TextContent implements ILabelContent
 {
-
-	protected String helpText;
-	protected String helpTextKey;
 	protected String labelText;
 	protected String labelTextKey;
 
@@ -24,38 +21,28 @@ public class LabelContent extends TextContent implements ILabelContent
 		super( content );
 	}
 
-	public void setHelpText( String helpText )
-	{
-		this.helpText = helpText;
-	}
-
 	public String getHelpText( )
 	{
-		if ( helpText == null )
+		if ( helpText != null )
 		{
-			if ( generateBy instanceof LabelItemDesign )
-			{
-				return ( (LabelItemDesign) generateBy ).getHelpText( );
-			}
+			return helpText;
 		}
-		return null;
-	}
 
-	public void setHelpKey( String helpKey )
-	{
-		this.helpText = helpKey;
+		if ( generateBy instanceof LabelItemDesign )
+		{
+			return ( (LabelItemDesign) generateBy ).getHelpText( );
+		}
+		
+		return null;
 	}
 
 	public String getHelpKey( )
 	{
-		if ( helpTextKey == null )
+		if ( generateBy instanceof LabelItemDesign )
 		{
-			if ( generateBy instanceof LabelItemDesign )
-			{
-				return ( (LabelItemDesign) generateBy ).getHelpTextKey( );
-			}
+			return ( (LabelItemDesign) generateBy ).getHelpTextKey( );
 		}
-		return helpTextKey;
+		return null;
 	}
 
 	public void setLabelText( String labelText )

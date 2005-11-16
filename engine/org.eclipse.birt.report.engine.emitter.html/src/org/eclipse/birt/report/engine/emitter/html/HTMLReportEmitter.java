@@ -19,7 +19,10 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -27,6 +30,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
@@ -57,6 +61,9 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
+import org.eclipse.birt.report.engine.executor.ExecutionContext.ElementExceptionInfo;
+import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -522,6 +529,64 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 	}
 
+	private void appendErrorMessage(int index, ElementExceptionInfo info)
+	{
+		EngineResourceHandle rc = EngineResourceHandle.getInstance();
+		writer.writeCode("			<div>" );
+		writer.writeCode("				<span id=\"error_icon" + index +"\"  style=\"cursor:pointer\" onclick=\"expand(" + index +  ")\" > + </span>");
+		writer.writeCode("				<span  id=\"error_title\">" +
+				rc.getMessage( MessageConstants.REPORT_ERROR_MESSAGE, new Object[]{ info.getType( ), info.getElementInfo( ) } ) +
+				"</span>");
+		writer.writeCode("				<pre id=\"error_detail" + index+ "\" style=\"display:block\" >");
+		ArrayList errorList = info.getErrorList();
+		ArrayList countList = info.getCountList();
+		for(int i=0; i<errorList.size(); i++)
+		{
+			BirtException ex = (BirtException)errorList.get(i);
+
+			writer.writeCode( "					" + rc.getMessage( MessageConstants.REPORT_ERROR_ID, new Object[]{ new Integer( i ), ex.getErrorCode( ), countList.get( i ) } ) 
+					+ Character.LINE_SEPARATOR + rc.getMessage( MessageConstants.REPORT_ERROR_DETAIL ) + getDetailMessage(ex)); //$NON-NLS-1$
+		}
+		writer.writeCode("				</pre>" );
+		writer.writeCode("		</div>"); //$NON-NLS-1$
+	}
+	
+	private String getDetailMessage(Throwable t)
+	{
+		StringBuffer detailMsg = new StringBuffer();
+		do
+		{
+			detailMsg.append( t.getLocalizedMessage( ));
+			detailMsg.append( (char) Character.LINE_SEPARATOR );
+			t = t.getCause( );
+		} while (  t != null );
+		
+		return detailMsg.toString();
+	}
+	
+	protected boolean outputErrors( List errors)
+	{
+		//Outputs the error message at the end of the report
+		if ( errors != null && !errors.isEmpty( ) )
+		{
+			writer.writeCode( "	<hr style=\"color:red\"/>" );
+			writer.writeCode( "	<div style=\"color:red\">" );
+			writer.writeCode( "		<div>" + 
+					EngineResourceHandle.getInstance().
+					getMessage( MessageConstants.ERRORS_ON_REPORT_PAGE ) + "</div>"  );//$NON-NLS-1$
+			
+			Iterator it = errors.iterator();
+			int index = 0; 
+			while(it.hasNext())
+			{
+				appendErrorMessage(index++, (ElementExceptionInfo)it.next());
+			}
+			writer.writeCode("</div>");
+			return true;
+		}
+		return false;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -530,6 +595,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	public void end( IReportContent report )
 	{
 		logger.log( Level.FINE, "[HTMLReportEmitter] End body." ); //$NON-NLS-1$
+		if( outputErrors( report.getErrors() ))
+		{
+			addExpandableErrorMsg( );
+		}
 		if ( !isEmbeddable )
 		{
 			writer.closeTag( HTMLTags.TAG_BODY );
