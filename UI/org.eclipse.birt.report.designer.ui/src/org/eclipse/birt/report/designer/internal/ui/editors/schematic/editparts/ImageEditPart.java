@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ImageHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.ImageBuilderDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.LineBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ImageFigure;
@@ -21,6 +20,7 @@ import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.dialogs.ImageBuilder;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -207,7 +207,7 @@ public class ImageEditPart extends ReportElementEditPart
 	 */
 	private void performDirectEdit( )
 	{
-		ImageBuilderDialog dialog = new ImageBuilderDialog( PlatformUI.getWorkbench( )
+		ImageBuilder dialog = new ImageBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getActiveShell( ) );
 		dialog.setInput( getModel( ) );

@@ -1,10 +1,10 @@
 
 package org.eclipse.birt.report.designer.internal.ui.util;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.ImageBuilderDialog;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.TextEditDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.designer.ui.dialogs.ImageBuilder;
+import org.eclipse.birt.report.designer.ui.dialogs.TextEditDialog;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -70,7 +70,7 @@ public class ElementBuilderFactory
 		}
 		if(handle instanceof ImageHandle)
 		{
-			ImageBuilderDialog dialog = new ImageBuilderDialog( PlatformUI.getWorkbench( )
+			ImageBuilder dialog = new ImageBuilder( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getActiveShell( ) );
 			dialog.setInput( handle );

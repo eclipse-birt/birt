@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.HighlightHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.dialogs.HighlightRuleBuilder;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
@@ -337,7 +338,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 
 	private void add( )
 	{
-		HighlightRuleBuilderDialog builder = new HighlightRuleBuilderDialog( getShell( ),
+		HighlightRuleBuilder builder = new HighlightRuleBuilder( getShell( ),
 				Messages.getString( "HighlightsPreferencePage.text.Title" ), //$NON-NLS-1$
 				provider );
 
@@ -369,7 +370,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
 						.getItemCount( ) )
 		{
-			HighlightRuleBuilderDialog builder = new HighlightRuleBuilderDialog( getShell( ),
+			HighlightRuleBuilder builder = new HighlightRuleBuilder( getShell( ),
 					Messages.getString( "HighlightsPreferencePage.text.Title" ), //$NON-NLS-1$
 					provider );
 

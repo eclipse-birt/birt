@@ -1,0 +1,721 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.ui.dialogs;
+
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.MapHandleProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.MapRuleHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
+import org.eclipse.birt.report.model.api.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.jface.resource.JFaceColors;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+
+/**
+ * Dialog for adding or editing map rule.
+ */
+
+public class MapRuleBuilder extends BaseDialog
+{
+
+	/**
+	 * Usable operators for building map rule conditions.
+	 */
+	static final String[][] OPERATOR;
+
+	static
+	{
+		IChoiceSet chset = ChoiceSetFactory.getStructChoiceSet( MapRule.STRUCTURE_NAME,
+				MapRule.OPERATOR_MEMBER );
+		IChoice[] chs = chset.getChoices( );
+		OPERATOR = new String[chs.length][2];
+
+		for ( int i = 0; i < chs.length; i++ )
+		{
+			OPERATOR[i][0] = chs[i].getDisplayName( );
+			OPERATOR[i][1] = chs[i].getName( );
+		}
+	}
+
+	/**
+	 * Returns the operator value by its display name.
+	 * 
+	 * @param name
+	 */
+	public static String getValueForOperator( String name )
+	{
+		for ( int i = 0; i < OPERATOR.length; i++ )
+		{
+			if ( OPERATOR[i][0].equals( name ) )
+			{
+				return OPERATOR[i][1];
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns how many value fields this operator needs.
+	 * 
+	 * @param operatorValue
+	 */
+	public static int determineValueVisible( String operatorValue )
+	{
+		if ( DesignChoiceConstants.MAP_OPERATOR_ANY.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_FALSE.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_TRUE.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_NULL.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_NOT_NULL.equals( operatorValue ) )
+		{
+			return 0;
+		}
+		else if ( DesignChoiceConstants.MAP_OPERATOR_LT.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_LE.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_EQ.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_NE.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_GE.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_GT.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_LIKE.equals( operatorValue ) )
+		{
+			return 1;
+		}
+		else if ( DesignChoiceConstants.MAP_OPERATOR_BETWEEN.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_NOT_BETWEEN.equals( operatorValue ) )
+		{
+			return 2;
+		}
+
+		return 1;
+	}
+
+	/**
+	 * Returns the operator display name by its value.
+	 * 
+	 * @param value
+	 */
+	public static String getNameForOperator( String value )
+	{
+		for ( int i = 0; i < OPERATOR.length; i++ )
+		{
+			if ( OPERATOR[i][1].equals( value ) )
+			{
+				return OPERATOR[i][0];
+			}
+		}
+
+		return ""; //$NON-NLS-1$
+	}
+
+	/**
+	 * Returns the index for given operator value in the operator list.
+	 * 
+	 * @param value
+	 */
+	static int getIndexForOperatorValue( String value )
+	{
+		for ( int i = 0; i < OPERATOR.length; i++ )
+		{
+			if ( OPERATOR[i][1].equals( value ) )
+			{
+				return i;
+			}
+		}
+
+		return 0;
+	}
+
+	private MapRuleHandle handle;
+
+	private MapHandleProvider provider;
+
+	private int handleCount;
+
+	private Combo expression, operator;
+
+	private Button valBuilder1, valBuilder2;
+
+	private Text value1, value2, display;
+
+	private Label andLable;
+
+	private DesignElementHandle designHandle;
+
+	private static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "HighlightRuleBuilderDialog.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
+
+	/**
+	 * Default constructor.
+	 * 
+	 * @param parentShell
+	 *            Parent Shell
+	 * @param title
+	 *            Window Title
+	 */
+	public MapRuleBuilder( Shell parentShell, String title,
+			MapHandleProvider provider )
+	{
+		super( parentShell, title );
+
+		this.provider = provider;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.Composite)
+	 */
+	protected Control createContents( Composite parent )
+	{
+		GridData gdata;
+		GridLayout glayout;
+
+		createTitleArea( parent );
+
+		Composite composite = new Composite( parent, 0 );
+		glayout = new GridLayout( );
+		glayout.marginHeight = 0;
+		glayout.marginWidth = 0;
+		glayout.verticalSpacing = 0;
+		composite.setLayout( glayout );
+		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		applyDialogFont( composite );
+		initializeDialogUnits( composite );
+
+		Composite innerParent = (Composite) createDialogArea( composite );
+		createButtonBar( composite );
+
+		Label lb = new Label( innerParent, SWT.NONE );
+		lb.setText( Messages.getString( "MapRuleBuilderDialog.text.Condition" ) ); //$NON-NLS-1$
+
+		Composite condition = new Composite( innerParent, SWT.NONE );
+		condition.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		glayout = new GridLayout( 5, false );
+		condition.setLayout( glayout );
+
+		expression = new Combo( condition, SWT.NONE );
+		gdata = new GridData( );
+		gdata.widthHint = 100;
+		expression.setLayoutData( gdata );
+		fillExpression( expression );
+		expression.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
+						&& designHandle instanceof DataItemHandle )
+				{
+					expression.setText( DEUtil.resolveNull( ( (DataItemHandle) designHandle ).getValueExpr( ) ) );
+				}
+				updateButtons( );
+			}
+		} );
+		expression.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				updateButtons( );
+			}
+		} );
+
+		Button expBuilder = new Button( condition, SWT.PUSH );
+		expBuilder.setText( "..." ); //$NON-NLS-1$
+		gdata = new GridData( );
+		gdata.heightHint = 20;
+		gdata.widthHint = 20;
+		expBuilder.setLayoutData( gdata );
+		expBuilder.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
+		expBuilder.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				editValue( expression );
+			}
+		} );
+
+		operator = new Combo( condition, SWT.READ_ONLY );
+		for ( int i = 0; i < OPERATOR.length; i++ )
+		{
+			operator.add( OPERATOR[i][0] );
+		}
+		operator.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				String value = getValueForOperator( operator.getText( ) );
+
+				int vv = determineValueVisible( value );
+
+				if ( vv == 0 )
+				{
+					value1.setVisible( false );
+					value2.setVisible( false );
+					valBuilder1.setVisible( false );
+					valBuilder2.setVisible( false );
+					andLable.setVisible( false );
+				}
+				else if ( vv == 1 )
+				{
+					value1.setVisible( true );
+					valBuilder1.setVisible( true );
+					value2.setVisible( false );
+					valBuilder2.setVisible( false );
+					andLable.setVisible( false );
+				}
+				else if ( vv == 2 )
+				{
+					value1.setVisible( true );
+					value2.setVisible( true );
+					valBuilder1.setVisible( true );
+					valBuilder2.setVisible( true );
+					andLable.setVisible( true );
+				}
+				updateButtons( );
+			}
+		} );
+
+		value1 = createText( condition );
+		value1.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				updateButtons( );
+			}
+		} );
+
+		valBuilder1 = new Button( condition, SWT.PUSH );
+		valBuilder1.setText( "..." ); //$NON-NLS-1$
+		gdata = new GridData( );
+		gdata.heightHint = 20;
+		gdata.widthHint = 20;
+		valBuilder1.setLayoutData( gdata );
+		valBuilder1.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
+		valBuilder1.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				editValue( value1 );
+			}
+		} );
+
+		createDummy( condition, 3 );
+
+		andLable = new Label( condition, SWT.NONE );
+		andLable.setText( Messages.getString( "HighlightRuleBuilderDialog.text.AND" ) ); //$NON-NLS-1$
+		andLable.setVisible( false );
+
+		createDummy( condition, 1 );
+		createDummy( condition, 3 );
+
+		value2 = createText( condition );
+		value2.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				updateButtons( );
+			}
+		} );
+		value2.setVisible( false );
+
+		valBuilder2 = new Button( condition, SWT.PUSH );
+		valBuilder2.setText( "..." ); //$NON-NLS-1$
+		gdata = new GridData( );
+		gdata.heightHint = 20;
+		gdata.widthHint = 20;
+		valBuilder2.setLayoutData( gdata );
+		valBuilder2.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
+		valBuilder2.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				editValue( value2 );
+			}
+		} );
+		valBuilder2.setVisible( false );
+
+		if ( operator.getItemCount( ) > 0 )
+		{
+			operator.select( 0 );
+		}
+
+		lb = new Label( innerParent, SWT.NONE );
+		lb.setText( Messages.getString( "MapRuleBuilderDialog.text.Display" ) ); //$NON-NLS-1$
+
+		Composite format = new Composite( innerParent, SWT.NONE );
+		format.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		glayout = new GridLayout( );
+		format.setLayout( glayout );
+
+		display = new Text( format, SWT.BORDER );
+		gdata = new GridData( );
+		gdata.widthHint = 300;
+		display.setLayoutData( gdata );
+
+		Composite space = new Composite( innerParent, SWT.NONE );
+		gdata = new GridData( GridData.FILL_HORIZONTAL );
+		gdata.heightHint = 20;
+		space.setLayoutData( gdata );
+
+		lb = new Label( innerParent, SWT.SEPARATOR | SWT.HORIZONTAL );
+		lb.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		if ( handle != null )
+		{
+			syncViewProperties( );
+		}
+
+		updateButtons( );
+
+		return composite;
+	}
+
+	private Composite createTitleArea( Composite parent )
+	{
+		int margins = 2;
+		final Composite titleArea = new Composite( parent, SWT.NONE );
+		FormLayout layout = new FormLayout( );
+		layout.marginHeight = margins;
+		layout.marginWidth = margins;
+		titleArea.setLayout( layout );
+
+		Display display = parent.getDisplay( );
+		Color background = JFaceColors.getBannerBackground( display );
+		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
+		layoutData.heightHint = 20 + ( margins * 3 );
+		titleArea.setLayoutData( layoutData );
+		titleArea.setBackground( background );
+
+		titleArea.addPaintListener( new PaintListener( ) {
+
+			public void paintControl( PaintEvent e )
+			{
+				e.gc.setForeground( titleArea.getDisplay( )
+						.getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
+				Rectangle bounds = titleArea.getClientArea( );
+				bounds.height = bounds.height - 2;
+				bounds.width = bounds.width - 1;
+				e.gc.drawRectangle( bounds );
+			}
+		} );
+
+		Label label = new Label( titleArea, SWT.NONE );
+		label.setBackground( background );
+		label.setFont( FontManager.getFont( label.getFont( ).toString( ),
+				10,
+				SWT.BOLD ) );
+		label.setText( Messages.getString( "MapRuleBuilderDialog.text.Title" ) ); //$NON-NLS-1$
+
+		return titleArea;
+	}
+
+	private Composite createDummy( Composite parent, int colSpan )
+	{
+		Composite dummy = new Composite( parent, SWT.NONE );
+		GridData gdata = new GridData( );
+		gdata.widthHint = 22;
+		gdata.horizontalSpan = colSpan;
+		gdata.heightHint = 10;
+		dummy.setLayoutData( gdata );
+
+		return dummy;
+	}
+
+	private Text createText( Composite parent )
+	{
+		Text txt = new Text( parent, SWT.BORDER );
+		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
+		gdata.widthHint = 100;
+		txt.setLayoutData( gdata );
+
+		return txt;
+	}
+
+	public void updateHandle( MapRuleHandle handle, int handleCount )
+	{
+		this.handle = handle;
+		this.handleCount = handleCount;
+	}
+
+	public void setDesignHandle( DesignElementHandle handle )
+	{
+		this.designHandle = handle;
+	}
+
+	public MapRuleHandle getHandle( )
+	{
+		return handle;
+	}
+
+	private void fillExpression( Combo control )
+	{
+		String te = "";//$NON-NLS-1$
+
+		if ( handle != null )
+		{
+			te = handle.getTestExpression( );
+		}
+
+		// String te = provider.getTestExpression( );
+
+		if ( designHandle instanceof DataItemHandle )
+		{
+			control.add( VALUE_OF_THIS_DATA_ITEM );
+		}
+
+		control.add( DEUtil.resolveNull( te ) );
+
+		control.select( control.getItemCount( ) - 1 );
+	}
+
+	/**
+	 * Refreshes the OK button state.
+	 * 
+	 */
+	private void updateButtons( )
+	{
+		enableInput( isExpressionOK( ) );
+
+		getOkButton( ).setEnabled( isConditionOK( ) );
+	}
+
+	private void enableInput( boolean val )
+	{
+		operator.setEnabled( val );
+		value1.setEnabled( val );
+		value2.setEnabled( val );
+		valBuilder1.setEnabled( val );
+		valBuilder2.setEnabled( val );
+		display.setEnabled( val );
+	}
+
+	/**
+	 * Gets if the expression field is not empty.
+	 */
+	private boolean isExpressionOK( )
+	{
+		if ( expression == null )
+		{
+			return false;
+		}
+
+		if ( expression.getText( ) == null
+				|| expression.getText( ).length( ) == 0 )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Gets if the condition is available.
+	 */
+	private boolean isConditionOK( )
+	{
+		if ( expression == null )
+		{
+			return false;
+		}
+
+		if ( !isExpressionOK( ) )
+		{
+			return false;
+		}
+
+		return checkValues( );
+	}
+
+	/**
+	 * Gets if the values of the condition is(are) available.
+	 */
+	private boolean checkValues( )
+	{
+		if ( value1.getVisible( ) )
+		{
+			if ( value1.getText( ) == null || value1.getText( ).length( ) == 0 )
+			{
+				return false;
+			}
+		}
+
+		if ( value2.getVisible( ) )
+		{
+			if ( value2.getText( ) == null || value2.getText( ).length( ) == 0 )
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * SYNC the control value according to the handle.
+	 */
+	private void syncViewProperties( )
+	{
+		// expression.setText( DEUtil.resolveNull( provider.getTestExpression( )
+		// ) );
+
+		expression.setText( DEUtil.resolveNull( handle.getTestExpression( ) ) );
+
+		operator.select( getIndexForOperatorValue( handle.getOperator( ) ) );
+
+		value1.setText( DEUtil.resolveNull( handle.getValue1( ) ) );
+
+		value2.setText( DEUtil.resolveNull( handle.getValue2( ) ) );
+
+		int vv = determineValueVisible( handle.getOperator( ) );
+
+		if ( vv == 0 )
+		{
+			value1.setVisible( false );
+			value2.setVisible( false );
+			valBuilder1.setVisible( false );
+			valBuilder2.setVisible( false );
+			andLable.setVisible( false );
+		}
+		else if ( vv == 1 )
+		{
+			value1.setVisible( true );
+			value2.setVisible( false );
+			valBuilder1.setVisible( true );
+			valBuilder2.setVisible( false );
+			andLable.setVisible( false );
+		}
+		else if ( vv == 2 )
+		{
+			value1.setVisible( true );
+			value2.setVisible( true );
+			valBuilder1.setVisible( true );
+			valBuilder2.setVisible( true );
+			andLable.setVisible( true );
+		}
+
+		display.setText( DEUtil.resolveNull( handle.getDisplay( ) ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
+	 */
+	protected void okPressed( )
+	{
+		try
+		{
+			// provider.setTestExpression( DEUtil.resolveNull(
+			// expression.getText( ) ) );
+
+			if ( handle == null )
+			{
+				MapRule rule = StructureFactory.createMapRule( );
+
+				rule.setProperty( HighlightRule.OPERATOR_MEMBER,
+						DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
+				rule.setProperty( HighlightRule.VALUE1_MEMBER,
+						DEUtil.resolveNull( value1.getText( ) ) );
+				rule.setProperty( HighlightRule.VALUE2_MEMBER,
+						DEUtil.resolveNull( value2.getText( ) ) );
+
+				rule.setProperty( MapRule.DISPLAY_MEMBER,
+						DEUtil.resolveNull( display.getText( ) ) );
+
+				// set test expression for new map rule
+				rule.setTestExpression( DEUtil.resolveNull( expression.getText( ) ) );
+
+				handle = provider.doAddItem( rule, handleCount );
+			}
+			else
+			{
+				handle.setOperator( DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
+
+				handle.setValue1( DEUtil.resolveNull( value1.getText( ) ) );
+				handle.setValue2( DEUtil.resolveNull( value2.getText( ) ) );
+
+				handle.setDisplay( DEUtil.resolveNull( display.getText( ) ) );
+
+				handle.setTestExpression( DEUtil.resolveNull( expression.getText( ) ) );
+			}
+		}
+		catch ( Exception e )
+		{
+			WidgetUtil.processError( getShell( ), e );
+		}
+
+		super.okPressed( );
+	}
+
+	private void editValue( Control control )
+	{
+		String initValue = null;
+		if ( control instanceof Text )
+		{
+			initValue = ( (Text) control ).getText( );
+		}
+		else if ( control instanceof Combo )
+		{
+			initValue = ( (Combo) control ).getText( );
+		}
+		ExpressionBuilder expressionBuilder = new ExpressionBuilder( getShell( ),
+				initValue );
+
+		if ( designHandle != null )
+		{
+			expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle.getModuleHandle( ),
+					DEUtil.getDataSetList( designHandle ) ) );
+		}
+
+		if ( expressionBuilder.open( ) == OK )
+		{
+			String result = DEUtil.resolveNull( expressionBuilder.getResult( ) );
+			if ( control instanceof Text )
+			{
+				( (Text) control ).setText( result );
+			}
+			else if ( control instanceof Combo )
+			{
+				( (Combo) control ).setText( result );
+			}
+		}
+		updateButtons( );
+	}
+
+}

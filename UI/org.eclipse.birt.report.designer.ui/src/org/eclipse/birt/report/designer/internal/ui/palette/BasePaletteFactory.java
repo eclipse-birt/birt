@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.ImageBuilderDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.ExtendedElementToolExtends;
@@ -26,6 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.dialogs.ImageBuilder;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -211,7 +211,7 @@ public class BasePaletteFactory
 			if ( IReportElementConstants.REPORT_ELEMENT_IMAGE.equalsIgnoreCase( (String) request.getNewObjectType( ) ) )
 			{
 				// Open the builder for new image
-				ImageBuilderDialog dialog = new ImageBuilderDialog( );
+				ImageBuilder dialog = new ImageBuilder( );
 				if ( Window.OK == dialog.open( ) )
 				{
 					setModel( dialog.getResult( ) );

@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.StyleBuilderDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction.DynamicItemAction;
+import org.eclipse.birt.report.designer.ui.dialogs.StyleBuilder;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.ui.PlatformUI;
@@ -61,7 +61,7 @@ public class EditStyleAction extends DynamicItemAction
 		{
 			System.out.println( "Edit style action >> Run ..." ); //$NON-NLS-1$
 		}
-		StyleBuilderDialog d = new StyleBuilderDialog( PlatformUI.getWorkbench( )
+		StyleBuilder d = new StyleBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getActiveShell( ),
 				handle );

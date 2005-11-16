@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.MapHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.dialogs.MapRuleBuilder;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MapRuleHandle;
 import org.eclipse.jface.dialogs.Dialog;
@@ -322,7 +323,7 @@ public class MapPreferencePage extends BaseStylePreferencePage
 
 	private void add( )
 	{
-		MapRuleBuilderDialog builder = new MapRuleBuilderDialog( getShell( ),
+		MapRuleBuilder builder = new MapRuleBuilder( getShell( ),
 				Messages.getString( "MapPreferencePage.text.Title" ), //$NON-NLS-1$
 				provider );
 
@@ -354,7 +355,7 @@ public class MapPreferencePage extends BaseStylePreferencePage
 				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
 						.getItemCount( ) )
 		{
-			MapRuleBuilderDialog builder = new MapRuleBuilderDialog( getShell( ),
+			MapRuleBuilder builder = new MapRuleBuilder( getShell( ),
 					Messages.getString( "MapPreferencePage.text.Title" ), //$NON-NLS-1$
 					provider );
 
