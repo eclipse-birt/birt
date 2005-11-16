@@ -51,7 +51,7 @@ public class SchemaPopulationUtil
 	public static ATreeNode getSchemaTree( String fileName )
 			throws OdaException
 	{
-		if( fileName.toUpperCase().endsWith(".xsd"))
+		if( fileName.toUpperCase().endsWith(".XSD"))
 			return XSDFileSchemaTreePopulator.getSchemaTree( fileName );
 		else
 			return new XMLFileSchemaTreePopulator().getSchemaTree( fileName );

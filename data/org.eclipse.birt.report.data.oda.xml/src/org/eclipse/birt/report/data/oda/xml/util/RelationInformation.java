@@ -27,10 +27,10 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 public class RelationInformation
 {
 	//
-	private static final String CONST_TABLE_DELIMITER = "#-#";
-	private static final String CONST_TABLE_COLUMN_DELIMITER = ":";
-	private static final String CONST_COLUMN_METAINFO_DELIMITER = ";";
-	private static final String CONST_COLUMN_DELIMITER = ",";
+	public static final String CONST_TABLE_DELIMITER = "#-#";
+	public static final String CONST_TABLE_COLUMN_DELIMITER = ":";
+	public static final String CONST_COLUMN_METAINFO_DELIMITER = ";";
+	public static final String CONST_COLUMN_DELIMITER = ",";
 	
 	//
 	private HashMap tableInfos;
@@ -77,19 +77,26 @@ public class RelationInformation
 				String[] columnInfos = trimedColumn.substring( 1,
 						trimedColumn.length( ) - 1 )
 						.split( CONST_COLUMN_METAINFO_DELIMITER );
-				assert columnInfos.length == 3;
+				
 				//columnInfos[0]: column name
 				//columnInfos[1]: column type
 				//columnInfos[2]: column XPath
-				
+				String columnXpath = null;
+				if( columnInfos.length == 3 )
+				{
+					columnXpath = columnInfos[2];
+				}else
+				{
+					columnXpath = "";
+				}
 				for ( int m = 0; m < columnInfos.length; m++ )
 					columnInfos[m] = columnInfos[m].trim( );
 				
 				//if it is a filter expression
-				if ( columnInfos[2].matches( ".*\\Q[@\\E.*\\Q=\\E.*" ) )
+				if ( columnXpath.matches( ".*\\Q[@\\E.*\\Q=\\E.*" ) )
 				{
 					//get the filter value
-					String value = columnInfos[2].replaceAll( ".*\\Q[@\\E.*\\Q=\\E",
+					String value = columnXpath.replaceAll( ".*\\Q[@\\E.*\\Q=\\E",
 							"" )
 							.trim( );
 					value = value.substring( 1, value.length( ) - 2 );
@@ -97,13 +104,13 @@ public class RelationInformation
 					//add it to filter
 					tableInfo.addFilter( columnInfos[0], value );
 					
-					columnInfos[2] = columnInfos[2].replaceAll( "\\Q=\\E.*",
+					columnXpath = columnXpath.replaceAll( "\\Q=\\E.*",
 							"]" );
 				}
 				tableInfo.addColumn( new ColumnInfo( j + 1,
 						columnInfos[0],
 						columnInfos[1],
-						combineColumnPath(tableInfo.getRootPath( ),columnInfos[2])));
+						combineColumnPath(tableInfo.getRootPath( ),columnXpath), columnXpath));
 			}
 			this.tableInfos.put( temp[0].trim( ), tableInfo );
 		}
@@ -138,6 +145,17 @@ public class RelationInformation
 		return ( (TableInfo) this.tableInfos.get( tableName ) ).getPath( columnName );
 	}
 
+	/**
+	 * Return the path of a column in certain table.
+	 * 
+	 * @param tableName
+	 * @param columnName
+	 * @return
+	 */
+	public String getTableOriginalColumnPath( String tableName, String columnName )
+	{
+		return ( (TableInfo) this.tableInfos.get( tableName ) ).getOriginalPath( columnName );
+	}
 	/**
 	 * Return the type of a column in certain table.
 	 * 
@@ -251,6 +269,17 @@ class TableInfo
 	public String getPath( String columnName )
 	{
 		return ( (ColumnInfo) this.columnInfos.get( columnName ) ).getColumnPath( );
+	}
+	
+	/**
+	 * Return the original path of certain column.
+	 * 
+	 * @param columnName
+	 * @return
+	 */
+	public String getOriginalPath( String columnName )
+	{
+		return ( (ColumnInfo) this.columnInfos.get( columnName ) ).getColumnOriginalPath();
 	}
 
 	/**
@@ -378,19 +407,19 @@ class TableInfo
 		if ( theLongestPath.startsWith( "//" ) )
 		{
 			isAbsolutePath = false;
-			theLongestPath.replaceFirst( "\\Q//\\E", "" );
+			theLongestPath = theLongestPath.replaceFirst( "\\Q//\\E", "" );
 		}
 		else
 		{
 			isAbsolutePath = true;
-			theLongestPath.replaceFirst( "\\Q/\\E", "" );
+			theLongestPath = theLongestPath.replaceFirst( "\\Q/\\E", "" );
 		}
 
 		String[] temp = theLongestPath.split( "\\Q/\\E" );
 		String prefix = isAbsolutePath ? "/" : "//";
 		for ( int j = 0; j < temp.length; j++ )
 		{
-			String attempedPrefix = j == 0 ? temp[j] : prefix + "/" + temp[j];
+			String attempedPrefix = j == 0 ? prefix + temp[j] : prefix + "/" + temp[j];
 			for ( int i = 0; i < paths.length; i++ )
 			{
 				if ( !paths[i].startsWith( attempedPrefix ) )
@@ -399,7 +428,8 @@ class TableInfo
 			}
 			prefix = attempedPrefix;
 		}
-		return null;
+		
+		return prefix;
 	}
 }
 
@@ -414,8 +444,18 @@ class ColumnInfo
 	private String name;
 	private String type;
 	private String path;
+	private String originalPath;
 	
-	public ColumnInfo( int index, String name, String type, String path ) throws OdaException
+	/**
+	 * 
+	 * @param index
+	 * @param name
+	 * @param type
+	 * @param path
+	 * @param originalPath
+	 * @throws OdaException
+	 */
+	public ColumnInfo( int index, String name, String type, String path, String originalPath ) throws OdaException
 	{
 		this.index = index;
 		this.name = name;
@@ -423,6 +463,7 @@ class ColumnInfo
 		if( !DataTypes.isValidType( type ) )
 			throw new OdaException( "The given data type name is invalid.");
 		this.path = buildPath( path );
+		this.originalPath = originalPath;
 	}
 
 	/**
@@ -512,5 +553,17 @@ class ColumnInfo
 	public int getColumnIndex( )
 	{
 		return this.index;
+	}
+	
+	/**
+	 * Return the original path of the column. The original path of a column is the path
+	 * directly get from relation information String without building it to an absolute path.
+	 * This method is mainly used by UI.
+	 * 
+	 * @return
+	 */
+	public String getColumnOriginalPath()
+	{
+		return this.originalPath;
 	}
 }

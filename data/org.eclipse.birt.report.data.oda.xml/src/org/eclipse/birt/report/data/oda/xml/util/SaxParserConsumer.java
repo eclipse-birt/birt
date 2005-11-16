@@ -49,7 +49,7 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	private String ancestorPath;
 	
 	//indicate whether the table is nested xml table. 
-	private boolean isNestedXMLTable;
+	private boolean isNotNestedXMLTable;
 	
 	//The names of nested xml columns
 	private String[] namesOfCachedColumns;
@@ -94,7 +94,7 @@ public class SaxParserConsumer implements ISaxParserConsumer
 		cachedResultSet = new String[Constants.CACHED_RESULT_SET_LENGTH][resultSet.getMetaData().getColumnCount( )];
 		this.rootPath = relationInfo.getTableRootPath( tableName );
 		this.ancestorPath = relationInfo.getTableAncestor( tableName );
-		this.isNestedXMLTable = rootPath.equals( ancestorPath );
+		this.isNotNestedXMLTable = rootPath.equals( ancestorPath );
 		
 		this.namesOfCachedColumns = relationInfo.getTableNestedXMLColumnNames( tableName );
 		this.cachedColumns = new HashMap( );
@@ -150,12 +150,15 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	 */
 	public void detectNewRow( String path )
 	{
+
 		clearCachedColumns( path );
 		
 		//if the new row started.
 		if ( isSamePath( rootPath, path ) )
 		{
 			populateNestedXMLDataMappingColumns( );
+			
+			
 			if ( !isCurrentRowValid( ) )
 				return;
 			cachedResultSetRowNo++;
@@ -174,7 +177,7 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	 */
 	private void clearCachedColumns( String path )
 	{
-		if ( ( !isNestedXMLTable ) && isSamePath( ancestorPath, path ) )
+		if ( ( !isNotNestedXMLTable ) && isSamePath( ancestorPath, path ) )
 		{
 			cachedColumns.clear( );
 		}
@@ -263,7 +266,7 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	 */
 	private void populateNestedXMLDataMappingColumns( )
 	{
-		if ( !isNestedXMLTable )
+		if ( !isNotNestedXMLTable )
 		{
 			Iterator it = cachedColumns.keySet( ).iterator( );
 			Integer i = null;

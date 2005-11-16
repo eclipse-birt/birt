@@ -202,10 +202,11 @@ public class SaxParser extends DefaultHandler implements Runnable
 	 */
 	private String getElementName( String uri, String qName, String name )
 	{
-		if ( "".equals( uri ) )
+		//TODO add support to namespace.
+		//if ( "".equals( uri ) )
 			return qName;
-		else
-			return uri + name;
+		//else
+		//	return "["+ uri.replaceAll("\\Q\\\\E","/")+ "]" + name;
 	}
 
 	/*

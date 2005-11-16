@@ -16,12 +16,38 @@
       <import plugin="org.eclipse.datatools.connectivity.oda"/>
       <import plugin="org.eclipse.birt.report.model"/>
    </requires>
- <!--  
+   
    <extension
-         point="org.eclipse.birt.data.oda.dataSource">
+         point="org.eclipse.datatools.connectivity.oda.dataSource">
       <dataSet
             defaultDisplayName="%dataset.name"
             id="org.eclipse.birt.report.data.oda.xml.dataSet">
+          <properties>
+         <propertyGroup
+               defaultDisplayName="Dataset Properties"
+               name="dateset properties">
+            <property
+                  type="string"
+                  defaultDisplayName="max row"
+                  canInherit="true"
+                  name="MAX_ROW"/>           
+            <property
+                  type="string"
+                  defaultDisplayName="xml file"
+                  canInherit="true"
+                  name="XML_FILE"/> 
+            <property
+                  type="string"
+                  defaultDisplayName="XPath List"
+                  canInherit="true"
+                  name="XPATHTEXT"/> 
+            <property
+                  type="string"
+                  defaultDisplayName="Table Name"
+                  canInherit="true"
+                  name="TABLENAME"/>
+         </propertyGroup>
+         </properties>
             <dataTypeMapping
                   nativeDataType="BIT"
                   nativeDataTypeCode="-7"
@@ -103,7 +129,6 @@
                   nativeDataTypeCode="16"
                   odaScalarDataType="Integer"/>
       </dataSet>
-     
 	  <dataSource
             odaVersion="2.0.0"
             driverClass="org.eclipse.birt.report.data.oda.xml.Driver"
@@ -121,11 +146,17 @@
                   name="FILELIST"/>
             <property
                   type="string"
+                  defaultDisplayName="Schema File List"
                   canInherit="true"
-                  name="RELATIONINFORMATION"/>                 
+                  name="SCHEMAFILELIST"/>
+            <property
+                  type="string"
+                  defaultDisplayName="relation information"
+                  canInherit="true"
+                  name="RELATIONINFORMATION"/>                  
          </propertyGroup>
          </properties>
       </dataSource>
    </extension>
--->
 </plugin>
+
