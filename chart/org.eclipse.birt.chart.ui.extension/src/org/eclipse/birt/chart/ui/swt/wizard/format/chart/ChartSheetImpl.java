@@ -58,6 +58,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 	private transient Button btnBlockProp;
 
 	private transient Button btnGeneralProp;
+	
+	private transient Button btnTVisible;
 
 	private transient Button btnVisible;
 
@@ -113,9 +115,17 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 				getChart( ).getTitle( ).getLabel( ).getCaption( ).getValue( ) );
 		{
 			GridData gdTXTTitle = new GridData( GridData.FILL_HORIZONTAL );
-			gdTXTTitle.horizontalSpan = 2;
 			txtTitle.setLayoutData( gdTXTTitle );
+			txtTitle.setEnabled( getChart( ).getTitle( ).isVisible( ) );
 			txtTitle.addListener( this );
+		}
+		
+		btnTVisible = new Button( cmpBasic, SWT.CHECK );
+		{
+			btnTVisible.setText( Messages.getString( "ChartSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
+			btnTVisible.setSelection( getChart( ).getTitle( )
+					.isVisible( ) );
+			btnTVisible.addSelectionListener( this );
 		}
 
 		Label lblBackground = new Label( cmpBasic, SWT.NONE );
@@ -263,6 +273,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			btnTitleProp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			btnTitleProp.setText( Messages.getString( "ChartSheetImpl.Label.TitleProperties" ) ); //$NON-NLS-1$
 			btnTitleProp.addSelectionListener( this );
+			btnTitleProp.setEnabled( getChart( ).getTitle( ).isVisible( ) );
 		}
 
 		btnBlockProp = new Button( cmp, SWT.TOGGLE );
@@ -348,6 +359,18 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 					.getOutline( )
 					.setVisible( btnVisible.getSelection( ) );
 			refreshPopupSheet( );
+		}
+		else if ( e.widget.equals( btnTVisible ) )
+		{
+			getChart( ).getTitle( )
+					.setVisible( btnTVisible.getSelection( ) );
+			txtTitle.setEnabled( btnTVisible.getSelection( ) );
+			btnTitleProp.setEnabled( btnTVisible.getSelection( ) );
+			
+			if( btnTitleProp.getSelection( ) )
+			{
+				detachPopup( );			
+			}
 		}
 		else if ( e.widget.equals( cmbColorBy ) )
 		{
