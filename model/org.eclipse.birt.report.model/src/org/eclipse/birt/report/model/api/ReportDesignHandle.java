@@ -12,8 +12,13 @@
 package org.eclipse.birt.report.model.api;
 
 import java.util.Iterator;
+import java.util.List;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 
@@ -110,21 +115,21 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
  * </ul>
  * 
  * <pre>
- *             // Include one library
- *             
- *             ReportDesignHandle designHandle = ...;
- *             designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
- *             LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *              // Include one library
  *              
- *             // Create one label based on the one in library
- *            
- *             LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
- *             LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
- *            
- *             // Add the new label into design file
- *            
- *             designHandle.getBody().add(myLabelHandle);
- *          
+ *              ReportDesignHandle designHandle = ...;
+ *              designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
+ *              LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *               
+ *              // Create one label based on the one in library
+ *             
+ *              LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
+ *              LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
+ *             
+ *              // Add the new label into design file
+ *             
+ *              designHandle.getBody().add(myLabelHandle);
+ *           
  * </pre>
  * 
  * @see org.eclipse.birt.report.model.elements.ReportDesign
@@ -316,7 +321,7 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public Iterator dataSourceBindingsIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( DATA_SOURCE_BINDINGS_PROP);
+		PropertyHandle propHandle = getPropertyHandle( DATA_SOURCE_BINDINGS_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -527,5 +532,42 @@ public class ReportDesignHandle extends ModuleHandle
 	public SlotHandle getStyles( )
 	{
 		return getSlot( IReportDesignModel.STYLE_SLOT );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.ModuleHandle#importCssStyles(org.eclipse.birt.report.model.api.css.CssStyleSheetHandle,
+	 *      java.util.List)
+	 */
+
+	public void importCssStyles( CssStyleSheetHandle stylesheet,
+			List selectedStyles )
+	{
+		ActivityStack stack = module.getActivityStack( );
+		stack.startTrans( );
+		for ( int i = 0; i < selectedStyles.size( ); i++ )
+		{
+			SharedStyleHandle style = (SharedStyleHandle) selectedStyles
+					.get( i );
+			if ( stylesheet.findStyle( style.getName( ) ) != null )
+			{
+				try
+				{
+					module.makeUniqueName( style.getElement( ) );
+					addElement( style, IReportDesignModel.STYLE_SLOT );
+				}
+				catch ( ContentException e )
+				{
+					assert false;
+				}
+				catch ( NameException e )
+				{
+					assert false;
+				}
+			}
+		}
+
+		stack.commit( );
 	}
 }

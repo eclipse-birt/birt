@@ -24,11 +24,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.CustomMsgException;
-import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
@@ -2025,37 +2022,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @param selectedStyles
 	 *            the selected style list
 	 * 
+	 * 
 	 */
 
-	public void importCssStyles( CssStyleSheetHandle stylesheet,
-			List selectedStyles )
-	{
-		ActivityStack stack = module.getActivityStack( );
-		stack.startTrans( );
-		for ( int i = 0; i < selectedStyles.size( ); i++ )
-		{
-			SharedStyleHandle style = (SharedStyleHandle) selectedStyles
-					.get( i );
-			if ( stylesheet.findStyle( style.getName( ) ) != null )
-			{
-				try
-				{
-					module.makeUniqueName( style.getElement( ) );
-					addElement( style, IReportDesignModel.STYLE_SLOT );
-				}
-				catch ( ContentException e )
-				{
-					assert false;
-				}
-				catch ( NameException e )
-				{
-					assert false;
-				}
-			}
-		}
-
-		stack.commit( );
-	}
+	abstract public void importCssStyles( CssStyleSheetHandle stylesheet,
+			List selectedStyles );
 
 	/**
 	 * Sets the theme to a report.

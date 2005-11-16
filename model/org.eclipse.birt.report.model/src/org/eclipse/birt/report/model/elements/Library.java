@@ -219,4 +219,17 @@ public class Library extends Module implements ILibraryModel
 		return false;
 	}
 
+	/**
+	 * Finds a theme in this module itself.
+	 * 
+	 * @param name
+	 *            Name of the theme to find.
+	 * @return The style, or null if the theme is not found.
+	 */
+
+	public Theme findNativeTheme( String name )
+	{
+		return (Theme) nameSpaces[THEME_NAME_SPACE].getElement( name );
+	}
+
 }

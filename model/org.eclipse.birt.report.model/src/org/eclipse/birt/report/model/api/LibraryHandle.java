@@ -11,9 +11,19 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.eclipse.birt.report.model.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Represents the handle of library element. The library contains the resuable
@@ -141,7 +151,7 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 	}
 
 	/**
-	 * Returns a slot handle to work with the styles within the library. 
+	 * Returns a slot handle to work with the styles within the library.
 	 * 
 	 * @return A handle for working with the styles. Or <code>null</code> if
 	 *         the library has no values for the theme property
@@ -155,5 +165,111 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 			return null;
 
 		return theme.getStyles( );
+	}
+
+	/*
+	 * 
+	 * 
+	 * @see org.eclipse.birt.report.model.api.ModuleHandle#importCssStyles(org.eclipse.birt.report.model.api.css.CssStyleSheetHandle,
+	 *      java.util.List)
+	 * 
+	 */
+
+	public void importCssStyles( CssStyleSheetHandle stylesheet,
+			List selectedStyles )
+	{
+		importCssStyles( stylesheet, selectedStyles, ModelMessages
+				.getMessage( Theme.DEFAULT_THEME_NAME ) );
+	}
+
+	/**
+	 * Imports the selected styles in a <code>CssStyleSheetHandle</code> to
+	 * the given theme of the library. Each in the list is instance of
+	 * <code>SharedStyleHandle</code> .If any style selected has a duplicate
+	 * name with that of one style already existing in the report design, this
+	 * method will rename it and then add it to the design.
+	 * 
+	 * @param stylesheet
+	 *            the style sheet handle that contains all the selected styles
+	 * @param selectedStyles
+	 *            the selected style list
+	 * @param themeName
+	 *            the name of the theme to put styles
+	 * 
+	 */
+
+	public void importCssStyles( CssStyleSheetHandle stylesheet,
+			List selectedStyles, String themeName )
+	{
+		Library libElement = (Library) getRoot( ).getElement( );
+		Theme theme = libElement.findNativeTheme( themeName );
+
+		if ( theme == null )
+			return;
+
+		ThemeHandle themeHandle = theme.handle( module );
+
+		ActivityStack stack = module.getActivityStack( );
+		stack.startTrans( );
+		for ( int i = 0; i < selectedStyles.size( ); i++ )
+		{
+			SharedStyleHandle style = (SharedStyleHandle) selectedStyles
+					.get( i );
+			if ( stylesheet.findStyle( style.getName( ) ) != null )
+			{
+				try
+				{
+					style.getElement( )
+							.setName(
+									makeUniqueStyleName( themeHandle, style
+											.getName( ) ) );
+					themeHandle.getStyles( ).add( style );
+				}
+				catch ( ContentException e )
+				{
+					assert false;
+				}
+				catch ( NameException e )
+				{
+					assert false;
+				}
+			}
+		}
+
+		stack.commit( );
+	}
+
+	/**
+	 * Makes the unique style name in the given theme. The return name is based
+	 * on <code>name</code>.
+	 * 
+	 * @param theme
+	 *            the theme where the style to be inserted
+	 * @param name
+	 *            the style name
+	 * @return the new unique style name
+	 */
+
+	private String makeUniqueStyleName( ThemeHandle theme, String name )
+	{
+		assert theme != null;
+
+		SlotHandle styles = theme.getStyles( );
+		Set set = new HashSet( );
+		for ( int i = 0; i < styles.getCount( ); i++ )
+		{
+			StyleHandle style = (StyleHandle) styles.get( i );
+			set.add( style.getName( ) );
+		}
+
+		// Add a numeric suffix that makes the name unique.
+
+		int index = 0;
+		String baseName = name;
+		while ( set.contains( name ) )
+		{
+			name = baseName + ++index; //$NON-NLS-1$
+		}
+		return name;
 	}
 }
