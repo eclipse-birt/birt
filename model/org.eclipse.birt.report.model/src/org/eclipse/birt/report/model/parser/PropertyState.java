@@ -21,7 +21,10 @@ import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
+import org.eclipse.birt.report.model.elements.ListingElement;
+import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
@@ -180,7 +183,20 @@ class PropertyState extends AbstractPropertyState
 						.equalsIgnoreCase( "footerHeight" ) ) ) //$NON-NLS-1$
 			return new CompatibleIgnorePropertyState( handler, element );
 
-		
+		if ( ( element instanceof ListingElement || element instanceof GroupElement ) )
+		{
+			if ( name.equalsIgnoreCase( "onStart" ) || name //$NON-NLS-1$
+					.equalsIgnoreCase( "onFinish" ) ) //$NON-NLS-1$
+				return new CompatibleIgnorePropertyState( handler, element );
+
+			if ( "onRow".equalsIgnoreCase( name ) //$NON-NLS-1$
+					&& !( element instanceof TableItem ) )
+				return new CompatibleIgnorePropertyState( handler, element );
+			
+			if ( "onRow".equalsIgnoreCase( name ) )//$NON-NLS-1$
+				return new CompatibleOnRowPropertyState( handler, element );
+		}
+
 		return super.jumpTo( );
 	}
 }

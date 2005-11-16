@@ -1754,10 +1754,23 @@
     <PropertyVisibility name="displayNameID" visibility="hide"/>        
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.DataSource" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="DataSource" nameSpace="dataSource" since="1.0" xmlName="data-source">
-    <Method context="factory" displayNameID="Element.DataSource.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.DataSource.beforeOpen.toolTip"/>
-    <Method context="factory" displayNameID="Element.DataSource.beforeClose" name="beforeClose" since="1.0" toolTipID="Element.DataSource.beforeClose.toolTip"/>
-    <Method context="factory" displayNameID="Element.DataSource.afterOpen" name="afterOpen" since="1.0" toolTipID="Element.DataSource.afterOpen.toolTip"/>
-    <Method context="factory" displayNameID="Element.DataSource.afterClose" name="afterClose" since="1.0" toolTipID="Element.DataSource.afterClose.toolTip"/>
+    <Method context="factory" displayNameID="Element.DataSource.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.DataSource.beforeOpen.toolTip" >
+      <Argument name="handle" tagID="Element.DataSource.beforeOpen.handle" type="DataSourceHandle"/>
+      <Argument name="reportContext" tagID="Element.DataSource.beforeOpen.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.DataSource.beforeOpen.object" type="Object"/>
+	</Method>		
+    <Method context="factory" displayNameID="Element.DataSource.beforeClose" name="beforeClose" since="1.0" toolTipID="Element.DataSource.beforeClose.toolTip" >
+      <Argument name="reportContext" tagID="Element.DataSource.beforeClose.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.DataSource.beforeClose.object" type="Object"/>
+	</Method>			
+    <Method context="factory" displayNameID="Element.DataSource.afterOpen" name="afterOpen" since="1.0" toolTipID="Element.DataSource.afterOpen.toolTip" >
+      <Argument name="reportContext" tagID="Element.DataSource.afterOpen.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.DataSource.afterOpen.object" type="Object"/>
+	</Method>	
+    <Method context="factory" displayNameID="Element.DataSource.afterClose" name="afterClose" since="1.0" toolTipID="Element.DataSource.afterClose.toolTip" >
+      <Argument name="reportContext" tagID="Element.DataSource.afterClose.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.DataSource.afterClose.object" type="Object"/>
+	</Method>		
   </Element>
   <Element canExtend="false" displayNameID="Element.OdaDataSource" extends="DataSource" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSource" name="OdaDataSource" since="1.0" xmlName="oda-data-source">
     <Property displayNameID="Element.OdaDataSource.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string"/>
@@ -1766,15 +1779,38 @@
     <PropertyVisibility name="privateDriverProperties" visibility="hide" />
   </Element>
   <Element canExtend="true" displayNameID="Element.ScriptDataSource" extends="DataSource" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSource" name="ScriptDataSource" since="1.0" xmlName="script-data-source">
-    <Method context="factory" displayNameID="Element.ScriptDataSource.open" name="open" since="1.0" toolTipID="Element.ScriptDataSource.open.toolTip" />
-    <Method context="factory" displayNameID="Element.ScriptDataSource.close" name="close" since="1.0" toolTipID="Element.ScriptDataSource.close.toolTip"/>
+    <Method context="factory" displayNameID="Element.ScriptDataSource.open" name="open" since="1.0" toolTipID="Element.ScriptDataSource.open.toolTip" >
+      <Argument name="reportContext" tagID="Element.ScriptDataSet.open.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ScriptDataSet.open.object" type="Object"/>		
+	</Method>			
+    <Method context="factory" displayNameID="Element.ScriptDataSource.close" name="close" since="1.0" toolTipID="Element.ScriptDataSource.close.toolTip" >
+      <Argument name="reportContext" tagID="Element.ScriptDataSet.close.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ScriptDataSet.close.object" type="Object"/>		
+	</Method>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.DataSet" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="DataSet" nameSpace="dataSet" since="1.0" xmlName="data-set">
-    <Method context="factory" displayNameID="Element.DataSet.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.DataSet.beforeOpen.toolTip"/>
-    <Method context="factory" displayNameID="Element.DataSet.beforeClose" name="beforeClose" since="1.0" toolTipID="Element.DataSet.beforeClose.toolTip"/>
-    <Method context="factory" displayNameID="Element.DataSet.onFetch" name="onFetch" since="1.0" toolTipID="Element.DataSet.onFetch.toolTip"/>
-    <Method context="factory" displayNameID="Element.DataSet.afterOpen" name="afterOpen" since="1.0" toolTipID="Element.DataSet.afterOpen.toolTip"/>
-    <Method context="factory" displayNameID="Element.DataSet.afterClose" name="afterClose" since="1.0" toolTipID="Element.DataSet.afterClose.toolTip"/>
+    <Method context="factory" displayNameID="Element.DataSet.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.DataSet.beforeOpen.toolTip" >
+      <Argument name="handle" tagID="Element.DataSet.beforeOpen.handle" type="DataSetHandle"/>
+      <Argument name="reportContext" tagID="Element.DataSet.beforeOpen.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.DataSet.beforeOpen.object" type="Object"/>
+	</Method>
+    <Method context="factory" displayNameID="Element.DataSet.beforeClose" name="beforeClose" since="1.0" toolTipID="Element.DataSet.beforeClose.toolTip" >
+      <Argument name="reportContext" tagID="Element.DataSet.beforeClose.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.DataSet.beforeClose.object" type="Object"/>
+	</Method>				
+    <Method context="factory" displayNameID="Element.DataSet.onFetch" name="onFetch" since="1.0" toolTipID="Element.DataSet.onFetch.toolTip" >
+	  <Argument name="dataRow" tagID="Element.DataSet.onFetch.reportContext" type="DataRow"/>
+      <Argument name="reportContext" tagID="Element.DataSet.onFetch.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.DataSet.onFetch.object" type="Object"/>
+	</Method>				  
+    <Method context="factory" displayNameID="Element.DataSet.afterOpen" name="afterOpen" since="1.0" toolTipID="Element.DataSet.afterOpen.toolTip" >
+      <Argument name="reportContext" tagID="Element.DataSet.afterOpen.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.DataSet.afterOpen.object" type="Object"/>
+	</Method>		
+    <Method context="factory" displayNameID="Element.DataSet.afterClose" name="afterClose" since="1.0" toolTipID="Element.DataSet.afterClose.toolTip" >
+      <Argument name="reportContext" tagID="Element.DataSet.afterClose.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.DataSet.afterClose.object" type="Object"/>
+	</Method>	
     <Property detailType="DataSource" displayNameID="Element.DataSet.dataSource" name="dataSource" since="1.0" type="element" valueRequired="true"/>    
     <Property detailType="DataSetParam" displayNameID="Element.DataSet.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
     <Property detailType="ParamBinding" displayNameID="Element.DataSet.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>
@@ -1789,10 +1825,22 @@
     <PropertyVisibility name="refTemplateParameter" visibility="hide"/>
   </Element>
   <Element canExtend="true" displayNameID="Element.ScriptDataSet" extends="DataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSet" name="ScriptDataSet" since="1.0" xmlName="script-data-set">
-    <Method context="factory" displayNameID="Element.ScriptDataSet.open" name="open" since="1.0" toolTipID="Element.ScriptDataSet.open.toolTip"/>
-    <Method context="factory" displayNameID="Element.ScriptDataSet.describe" name="describe" returnType="ColumnDefn[]" since="reserved" toolTipID="Element.ScriptDataSet.describe.toolTip"/>
-    <Method context="factory" displayNameID="Element.ScriptDataSet.fetch" name="fetch" returnType="DataRow" since="1.0" toolTipID="Element.ScriptDataSet.fetch.toolTip" valueRequired="true"/>
-    <Method context="factory" displayNameID="Element.ScriptDataSet.close" name="close" since="1.0" toolTipID="Element.ScriptDataSet.close.toolTip"/>
+    <Method context="factory" displayNameID="Element.ScriptDataSet.open" name="open" since="1.0" toolTipID="Element.ScriptDataSet.open.toolTip" >
+      <Argument name="reportContext" tagID="Element.ScriptDataSet.open.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ScriptDataSet.open.object" type="Object"/>		
+	</Method>		
+    <Method context="factory" displayNameID="Element.ScriptDataSet.describe" name="describe" returnType="ColumnDefn[]" since="reserved" toolTipID="Element.ScriptDataSet.describe.toolTip" >
+      <Argument name="reportContext" tagID="Element.ScriptDataSet.describe.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ScriptDataSet.describe.object" type="Object"/>		
+	</Method>		  
+    <Method context="factory" displayNameID="Element.ScriptDataSet.fetch" name="fetch" returnType="DataRow" since="1.0" toolTipID="Element.ScriptDataSet.fetch.toolTip" valueRequired="true" >
+      <Argument name="reportContext" tagID="Element.ScriptDataSet.fetch.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ScriptDataSet.fetch.object" type="Object"/>		
+	</Method>		  		
+    <Method context="factory" displayNameID="Element.ScriptDataSet.close" name="close" since="1.0" toolTipID="Element.ScriptDataSet.close.toolTip" >
+      <Argument name="reportContext" tagID="Element.ScriptDataSet.close.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ScriptDataSet.close.object" type="Object"/>		
+	</Method>		  				
   </Element>
   <Element canExtend="false" displayNameID="Element.OdaDataSet" extends="DataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" name="OdaDataSet" since="1.0" xmlName="oda-data-set">
     <Property displayNameID="Element.OdaDataSet.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string"/>
@@ -2426,17 +2474,11 @@
       <Argument name="reportContext" tagID="Element.ListingGroup.onRender.reportContext" type="IReportContext"/>
       <Argument name="object" tagID="Element.ListingGroup.onRender.object" type="Object"/>
     </Method>
-	<Method context="factory" displayNameID="Element.ListingGroup.onStart" name="onStart" since="1.0" toolTipID="Element.ListingGroup.onStart.toolTip"/>
-    <Method context="factory" displayNameID="Element.ListingGroup.onRow" name="onRow" since="1.0" toolTipID="Element.ListingGroup.onRow.toolTip"/>
-    <Method context="factory" displayNameID="Element.ListingGroup.onFinish" name="onFinish" since="1.0" toolTipID="Element.ListingGroup.onFinish.toolTip"/>  
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Listing" extends="ReportItem" isAbstract="true" name="Listing" nameSpace="none" since="1.0">
     <Property detailType="SortKey" displayNameID="Element.Listing.sorting" isList="true" name="sort" runtimeSettable="false" since="1.0" type="structure"/>
     <Property detailType="FilterCondition" displayNameID="Element.Listing.filter" isList="true" name="filter" runtimeSettable="false" since="1.0" type="structure"/>
     <Property displayNameID="Element.Listing.pageBreakInterval" name="pageBreakInterval" runtimeSettable="false" since="2.0" type="string"/>
-    <Method context="factory" displayNameID="Element.Listing.onStart" name="onStart" since="1.0" toolTipID="Element.Listing.onStart.toolTip"/>
-    <Method context="factory" displayNameID="Element.Listing.onRow" name="onRow" since="1.0" toolTipID="Element.Listing.onRow.toolTip"/>
-    <Method context="factory" displayNameID="Element.Listing.onFinish" name="onFinish" since="1.0" toolTipID="Element.Listing.onFinish.toolTip"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.List" extends="Listing" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ListItem" name="List" selector="list" since="1.0" xmlName="list">
     <Slot displayNameID="Element.List.slot.header" multipleCardinality="true" name="header" selector="list-header" since="1.0" xmlName="header">

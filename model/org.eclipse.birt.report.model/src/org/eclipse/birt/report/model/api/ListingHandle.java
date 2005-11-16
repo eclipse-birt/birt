@@ -145,11 +145,13 @@ public abstract class ListingHandle extends ReportItemHandle
 	 * set.
 	 * 
 	 * @return the script that executes
+	 * 
+	 * @deprecated
 	 */
 
 	public String getOnStart( )
 	{
-		return getStringProperty( ListingElement.ON_START_METHOD );
+		return null;
 	}
 
 	/**
@@ -160,22 +162,25 @@ public abstract class ListingHandle extends ReportItemHandle
 	 *            the script to set
 	 * @throws SemanticException
 	 *             if the property is locked.
+	 * 
+	 * @deprecated
 	 */
 
 	public void setOnStart( String value ) throws SemanticException
 	{
-		setProperty( ListingElement.ON_START_METHOD, value );
 	}
 
 	/**
 	 * Returns the script called when one row retrieved from the data set.
 	 * 
 	 * @return the script that executes
+	 * 
+	 * @deprecated
 	 */
 
 	public String getOnRow( )
 	{
-		return getStringProperty( ListingElement.ON_ROW_METHOD );
+		return null;
 	}
 
 	/**
@@ -185,22 +190,23 @@ public abstract class ListingHandle extends ReportItemHandle
 	 *            the script to set
 	 * @throws SemanticException
 	 *             if the property is locked.
+	 * @deprecated
 	 */
 
 	public void setOnRow( String value ) throws SemanticException
 	{
-		setProperty( ListingElement.ON_ROW_METHOD, value );
 	}
 
 	/**
 	 * Returns the script called after the last row is read from the data set.
 	 * 
 	 * @return the script that executes
+	 * @deprecated
 	 */
 
 	public String getOnFinish( )
 	{
-		return getStringProperty( ListingElement.ON_FINISH_METHOD );
+		return null;
 	}
 
 	/**
@@ -210,11 +216,12 @@ public abstract class ListingHandle extends ReportItemHandle
 	 *            the script to set
 	 * @throws SemanticException
 	 *             if the property is locked.
+	 * 
+	 * @deprecated
 	 */
 
 	public void setOnFinish( String value ) throws SemanticException
 	{
-		setProperty( ListingElement.ON_FINISH_METHOD, value );
 	}
 
 	/**
@@ -222,7 +229,7 @@ public abstract class ListingHandle extends ReportItemHandle
 	 * 
 	 * @return the page break interval value
 	 */
-	
+
 	public int getPageBreakInterval( )
 	{
 		return getIntProperty( ListingElement.PAGE_BREAK_INTERVAL_PROP );
@@ -236,7 +243,7 @@ public abstract class ListingHandle extends ReportItemHandle
 	 * @throws SemanticException
 	 *             if the parameter is not a valid integer
 	 */
-	
+
 	public void setPageBreakInterval( int pageBreakInterval )
 			throws SemanticException
 	{

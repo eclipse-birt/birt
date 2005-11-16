@@ -13,9 +13,11 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.elements.table.BasicLayoutStrategies;
 import org.eclipse.birt.report.model.api.elements.table.LayoutTable;
+import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
@@ -97,6 +99,32 @@ public class TableItemState extends ListingItemState
 		LayoutTable layoutTable = ( (TableItem) element )
 				.getLayoutModel( handler.getModule( ) );
 		BasicLayoutStrategies.appliesStrategies( layoutTable, false );
+
+		setCompatibleOnRowMethod( );
+	}
+
+	/**
+	 * Sets onRow method to detail rows' onCreate method.
+	 */
+
+	private void setCompatibleOnRowMethod( )
+	{
+		String onRowValue = (String) handler.tempValue.get( element );
+		if ( onRowValue == null )
+			return;
+
+		ContainerSlot detail = element.getSlot( TableItem.DETAIL_SLOT );
+		for ( int i = 0; i < detail.getCount( ); i++ )
+		{
+			TableRow row = (TableRow) detail.getContent( i );
+
+			// if onCreate property value is null, then set the compatible
+			// value. Otherwise not.
+
+			if ( row.getLocalProperty( handler.getModule( ),
+					TableRow.ON_CREATE_METHOD ) == null )
+				row.setProperty( TableRow.ON_CREATE_METHOD, onRowValue );
+		}
 	}
 
 	/**

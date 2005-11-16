@@ -58,12 +58,14 @@ class ExpressionState extends PropertyState
 				&& "highlightTestExpr".equalsIgnoreCase( name ) ) //$NON-NLS-1$ //$NON-NLS-2$
 		{
 			if ( handler.isVersion( "0" ) || handler.isVersion( "1" ) ) //$NON-NLS-1$//$NON-NLS-2$
-				return new CompatibleTestExpreState( handler, element, Style.HIGHLIGHT_RULES_PROP);
+				return new CompatibleTestExpreState( handler, element,
+						Style.HIGHLIGHT_RULES_PROP );
 		}
 		if ( ( ( element instanceof StyleElement )
 				|| ( element instanceof DataItem ) || ( element instanceof TableItem ) )
 				&& ( "mapTestExpr".equalsIgnoreCase( name ) ) ) //$NON-NLS-1$
-			return new CompatibleTestExpreState( handler, element, Style.MAP_RULES_PROP );
+			return new CompatibleTestExpreState( handler, element,
+					Style.MAP_RULES_PROP );
 
 		return super.jumpTo( );
 	}

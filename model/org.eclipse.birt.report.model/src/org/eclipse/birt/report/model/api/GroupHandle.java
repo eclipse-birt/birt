@@ -106,36 +106,36 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * Gets the on-start script of the group.
 	 * 
 	 * @return the on-start script of the group
-	 * 
+	 * @deprecated
 	 */
 
 	public String getOnStart( )
 	{
-		return getStringProperty( GroupElement.ON_START_METHOD );
+		return null;
 	}
 
 	/**
 	 * Gets the on-row script of the group.
 	 * 
 	 * @return the on-row script of the group
-	 * 
+	 * @deprecated
 	 */
 
 	public String getOnRow( )
 	{
-		return getStringProperty( GroupElement.ON_ROW_METHOD );
+		return null;
 	}
 
 	/**
 	 * Gets the on-finish script of the group.
 	 * 
 	 * @return the on-finish script of the group
-	 * 
+	 * @deprecated
 	 */
 
 	public String getOnFinish( )
 	{
-		return getStringProperty( GroupElement.ON_FINISH_METHOD );
+		return null;
 	}
 
 	/**
@@ -172,12 +172,11 @@ public abstract class GroupHandle extends ReportElementHandle
 	 *             if the method is locked.
 	 * 
 	 * @see #getOnStart()
-	 * 
+	 * @deprecated
 	 */
 
 	public void setOnStart( String script ) throws SemanticException
 	{
-		setProperty( GroupElement.ON_START_METHOD, script );
 	}
 
 	/**
@@ -189,12 +188,11 @@ public abstract class GroupHandle extends ReportElementHandle
 	 *             if the method is locked.
 	 * 
 	 * @see #getOnRow()
-	 * 
+	 * @deprecated
 	 */
 
 	public void setOnRow( String script ) throws SemanticException
 	{
-		setProperty( GroupElement.ON_ROW_METHOD, script );
 	}
 
 	/**
@@ -206,12 +204,11 @@ public abstract class GroupHandle extends ReportElementHandle
 	 *             if the method is locked.
 	 * 
 	 * @see #getOnFinish()
-	 * 
+	 * @deprecated
 	 */
 
 	public void setOnFinish( String script ) throws SemanticException
 	{
-		setProperty( GroupElement.ON_FINISH_METHOD, script );
 	}
 
 	/**
@@ -497,7 +494,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	{
 		return getStringProperty( GroupElement.TOC_PROP );
 	}
-	
+
 	/**
 	 * Sets the sort type, which indicates the way of sorting
 	 * 

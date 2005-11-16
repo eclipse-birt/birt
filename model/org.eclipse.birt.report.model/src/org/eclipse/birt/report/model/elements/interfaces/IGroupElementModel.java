@@ -119,6 +119,7 @@ public interface IGroupElementModel
 	 * is retrieved from the data set for this element. Called after the data
 	 * set is open but before the header band is created.
 	 * 
+	 * @deprecated
 	 */
 
 	public static final String ON_START_METHOD = "onStart"; //$NON-NLS-1$
@@ -128,6 +129,7 @@ public interface IGroupElementModel
 	 * retrieved from the data set for this element, but before creating any
 	 * content for that row.
 	 * 
+	 * @deprecated
 	 */
 
 	public static final String ON_ROW_METHOD = "onRow"; //$NON-NLS-1$
@@ -137,6 +139,7 @@ public interface IGroupElementModel
 	 * is read from the data set for this element, but before the footer band is
 	 * created.
 	 * 
+	 * @deprecated
 	 */
 
 	public static final String ON_FINISH_METHOD = "onFinish"; //$NON-NLS-1$
