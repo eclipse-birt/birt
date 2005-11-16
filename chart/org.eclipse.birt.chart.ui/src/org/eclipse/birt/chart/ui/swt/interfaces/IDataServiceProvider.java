@@ -28,7 +28,9 @@ public interface IDataServiceProvider
 
 	public String[] getAllDataSets( );
 
-	public String getCurrentDataSet( );
+	public String getBoundDataSet( );
+
+	public String getReportDataSet( );
 
 	public String[] getAllStyles( );
 

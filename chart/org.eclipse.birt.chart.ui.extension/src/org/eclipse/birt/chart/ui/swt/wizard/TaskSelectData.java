@@ -98,15 +98,13 @@ public class TaskSelectData extends SimpleTask
 	private transient Button btnNewData = null;
 
 	private transient CustomPreviewTable tablePreview = null;
-	// private transient Button btnFilters = null;
+	private transient Button btnFilters = null;
 	private transient Button btnParameters = null;
 
 	// private transient Action actionInsertAggregation = new
 	// InsertAggregationAction( );
 
 	private transient SelectDataDynamicArea dynamicArea;
-	private boolean isInited = false;
-	private String reportDataSet;
 
 	private SampleData oldSample = null;
 
@@ -130,17 +128,9 @@ public class TaskSelectData extends SimpleTask
 			dynamicArea = new SelectDataDynamicArea( this );
 			placeComponents( );
 			createPreviewPainter( );
-			initWithoutChart( );
+			init( );
 		}
-		if ( !isInited )
-		{
-			if ( getWizardContext( ) != null
-					&& getWizardContext( ).getDataServiceProvider( ) != null )
-			{
-				isInited = true;
-				init( );
-			}
-		}
+
 		previewPainter.renderModel( getChartModel( ) );
 		customizeUI( );
 		// Refresh all data definitino text
@@ -347,16 +337,15 @@ public class TaskSelectData extends SimpleTask
 			composite.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_END ) );
 		}
 
-		// btnFilters = new Button( composite, SWT.NONE );
-		// {
-		// btnFilters.setAlignment( SWT.CENTER );
-		// GridData gridData = new GridData( );
-		// gridData.widthHint = 80;
-		// btnFilters.setLayoutData( gridData );
-		// btnFilters.setText( Messages.getString(
-		// "TaskSelectData.Label.Filters" ) ); //$NON-NLS-1$
-		// btnFilters.addSelectionListener( this );
-		// }
+		btnFilters = new Button( composite, SWT.NONE );
+		{
+			btnFilters.setAlignment( SWT.CENTER );
+			GridData gridData = new GridData( );
+			gridData.widthHint = 80;
+			btnFilters.setLayoutData( gridData );
+			btnFilters.setText( Messages.getString( "TaskSelectData.Label.Filters" ) ); //$NON-NLS-1$
+			btnFilters.addSelectionListener( this );
+		}
 
 		btnParameters = new Button( composite, SWT.NONE );
 		{
@@ -374,32 +363,38 @@ public class TaskSelectData extends SimpleTask
 		// Create data set list
 		getWizardContext( ).getDataServiceProvider( )
 				.setContext( getWizardContext( ).getExtendedItem( ) );
-		reportDataSet = getWizardContext( ).getDataServiceProvider( )
-				.getCurrentDataSet( );
-		if ( reportDataSet != null )
+		String currentDataSet = getWizardContext( ).getDataServiceProvider( )
+				.getBoundDataSet( );
+		if ( currentDataSet != null )
 		{
 			cmbDataSet.setItems( getWizardContext( ).getDataServiceProvider( )
 					.getAllDataSets( ) );
-			cmbDataSet.setText( reportDataSet );
-			useDataSet( true );
+			cmbDataSet.setText( currentDataSet );
+			useReportDataSet( false );
 			switchDataTable( cmbDataSet.getText( ) );
 		}
 		else
 		{
-			cmbDataSet.setText( "" ); //$NON-NLS-1$
+			useReportDataSet( true );
+			String reportDataSet = getWizardContext( ).getDataServiceProvider( )
+					.getReportDataSet( );
+			if ( reportDataSet != null )
+			{
+				switchDataTable( reportDataSet );
+			}
 		}
+
+		btnFilters.setEnabled( hasDataSet( ) );
+		btnParameters.setEnabled( hasDataSet( ) );
 	}
 
-	protected void initWithoutChart( )
+	private void useReportDataSet( boolean bDS )
 	{
-		useDataSet( false );
-	}
+		btnUseReportData.setSelection( bDS );
 
-	private void useDataSet( boolean bDS )
-	{
-		btnUseDataSet.setSelection( bDS );
-		btnUseReportData.setSelection( !bDS );
-		checkUseDataSet( bDS );
+		btnUseDataSet.setSelection( !bDS );
+		cmbDataSet.setEnabled( !bDS );
+		btnNewData.setEnabled( !bDS );
 	}
 
 	private void refreshTableColor( )
@@ -467,9 +462,21 @@ public class TaskSelectData extends SimpleTask
 			getWizardContext( ).getDataServiceProvider( )
 					.setDataSet( datasetName );
 			tablePreview.clearContents( );
+
+			// Try to get report data set
+			if ( datasetName == null )
+			{
+				datasetName = getWizardContext( ).getDataServiceProvider( )
+						.getReportDataSet( );
+			}
+
 			if ( datasetName != null )
 			{
 				switchDataTable( datasetName );
+			}
+			else
+			{
+				tablePreview.createDummyTable( );
 			}
 			tablePreview.layout( );
 		}
@@ -479,12 +486,20 @@ public class TaskSelectData extends SimpleTask
 					ChartException.DATA_BINDING,
 					t );
 		}
+
+		DataDefinitionTextManager.getInstance( ).refreshAll( );
+		doLivePreview( );
 	}
 
 	public void widgetSelected( SelectionEvent e )
 	{
 		if ( e.getSource( ).equals( btnUseReportData ) )
 		{
+			// Skip when selection is false
+			if ( !btnUseReportData.getSelection( ) )
+			{
+				return;
+			}
 			try
 			{
 				switchDataSet( null );
@@ -493,11 +508,18 @@ public class TaskSelectData extends SimpleTask
 			{
 				container.displayException( e1 );
 			}
-			tablePreview.createDummyTable( );
-			checkUseDataSet( false );
+			cmbDataSet.setEnabled( false );
+			btnNewData.setEnabled( false );
+			btnFilters.setEnabled( hasDataSet( ) );
+			btnParameters.setEnabled( hasDataSet( ) );
 		}
 		else if ( e.getSource( ).equals( btnUseDataSet ) )
 		{
+			// Skip when selection is false
+			if ( !btnUseDataSet.getSelection( ) )
+			{
+				return;
+			}
 			if ( cmbDataSet.getText( ).length( ) == 0 )
 			{
 				cmbDataSet.setItems( getWizardContext( ).getDataServiceProvider( )
@@ -515,7 +537,10 @@ public class TaskSelectData extends SimpleTask
 					container.displayException( e1 );
 				}
 			}
-			checkUseDataSet( true );
+			cmbDataSet.setEnabled( true );
+			btnNewData.setEnabled( true );
+			btnFilters.setEnabled( true );
+			btnParameters.setEnabled( true );
 		}
 		else if ( e.getSource( ).equals( cmbDataSet ) )
 		{
@@ -537,7 +562,7 @@ public class TaskSelectData extends SimpleTask
 			if ( sAllDS.length > 0 )
 			{
 				sCurrentDS = getWizardContext( ).getDataServiceProvider( )
-						.getCurrentDataSet( );
+						.getBoundDataSet( );
 			}
 			getWizardContext( ).getDataServiceProvider( )
 					.invoke( IDataServiceProvider.COMMAND_NEW_DATASET );
@@ -545,7 +570,6 @@ public class TaskSelectData extends SimpleTask
 					.getAllDataSets( );
 			// Update UI with DS list
 			cmbDataSet.setItems( sAllDS );
-			checkUseDataSet( true );
 
 			if ( sCurrentDS.length( ) > 0 )
 			{
@@ -567,20 +591,22 @@ public class TaskSelectData extends SimpleTask
 				}
 			}
 		}
-		// else if ( e.getSource( ).equals( btnFilters ) )
-		// {
-		// if ( getWizardContext( ).getDataServiceProvider( )
-		// .invoke( IDataServiceProvider.COMMAND_EDIT_FILTER ) == Window.OK )
-		// {
-		// refreshTablePreview( );
-		// }
-		// }
+		else if ( e.getSource( ).equals( btnFilters ) )
+		{
+			if ( getWizardContext( ).getDataServiceProvider( )
+					.invoke( IDataServiceProvider.COMMAND_EDIT_FILTER ) == Window.OK )
+			{
+				refreshTablePreview( );
+				doLivePreview( );
+			}
+		}
 		else if ( e.getSource( ).equals( btnParameters ) )
 		{
 			if ( getWizardContext( ).getDataServiceProvider( )
 					.invoke( IDataServiceProvider.COMMAND_EDIT_PARAMETER ) == Window.OK )
 			{
 				refreshTablePreview( );
+				doLivePreview( );
 			}
 		}
 		else if ( e.getSource( ) instanceof MenuItem )
@@ -611,13 +637,11 @@ public class TaskSelectData extends SimpleTask
 	{
 	}
 
-	private void checkUseDataSet( boolean checked )
+	private boolean hasDataSet( )
 	{
-		boolean hasDataset = cmbDataSet.getItems( ).length > 0;
-		cmbDataSet.setEnabled( checked );
-		btnNewData.setEnabled( checked );
-		// btnFilters.setEnabled( checked && hasDataset );
-		btnParameters.setEnabled( checked && hasDataset );
+		return getWizardContext( ).getDataServiceProvider( ).getReportDataSet( ) != null
+				|| getWizardContext( ).getDataServiceProvider( )
+						.getBoundDataSet( ) != null;
 	}
 
 	public void widgetDisposed( DisposeEvent e )
@@ -627,10 +651,8 @@ public class TaskSelectData extends SimpleTask
 		cmpTask = null;
 		previewPainter.dispose( );
 		previewPainter = null;
-		isInited = false;
 		dynamicArea.dispose( );
 		dynamicArea = null;
-		reportDataSet = null;
 
 		disposeResource( whiteColor );
 		whiteColor = null;
@@ -754,8 +776,9 @@ public class TaskSelectData extends SimpleTask
 	public void handleEvent( Event event )
 	{
 		if ( event.type == CustomPreviewTable.MOUSE_RIGHT_CLICK_TYPE
-				&& getWizardContext( ).getDataServiceProvider( )
-						.getCurrentDataSet( ) != null )
+				&& ( getWizardContext( ).getDataServiceProvider( )
+						.getBoundDataSet( ) != null || getWizardContext( ).getDataServiceProvider( )
+						.getReportDataSet( ) != null ) )
 		{
 			MenuManager menuManager = new MenuManager( );
 			menuManager.setRemoveAllWhenShown( true );

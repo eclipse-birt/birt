@@ -389,8 +389,8 @@ public class WizardBase
 	public void displayException( Throwable t )
 	{
 		// TODO: Implement linkage with the ErrorDialog
-		new ErrorDialog( Messages.getString( "WizardBase.error.ExceptionEncountered" ), //$NON-NLS-1$
-				Messages.getString( "WizardBase.error.FollowingExceptionEncountered" ), //$NON-NLS-1$
+		new ErrorDialog( Messages.getString( "WizardBase.error.ErrorsEncountered" ), //$NON-NLS-1$
+				Messages.getString( "WizardBase.error.FollowingErrorEncountered" ), //$NON-NLS-1$
 				t );
 	}
 
@@ -422,8 +422,8 @@ public class WizardBase
 		if ( sErrors != null && sErrors.length > 0 )
 		{
 			this.errorHints = hints;
-			ErrorDialog dlg = new ErrorDialog( Messages.getString( "WizardBase.error.ExceptionEncountered" ), //$NON-NLS-1$
-					Messages.getString( "WizardBase.error.FollowingExceptionEncountered" ), //$NON-NLS-1$
+			ErrorDialog dlg = new ErrorDialog( Messages.getString( "WizardBase.error.ErrorsEncountered" ), //$NON-NLS-1$
+					Messages.getString( "WizardBase.error.FollowingErrorEncountered" ), //$NON-NLS-1$
 					sErrors,
 					sFixes/* , currentContext, errorHints */);
 			if ( dlg.getOption( ) == ErrorDialog.OPTION_ACCEPT )
