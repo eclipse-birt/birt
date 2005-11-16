@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
+import org.eclipse.birt.report.engine.content.impl.ExtendedItemContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.data.dte.DteResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -162,7 +163,11 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			closeQueries( rowSets );
 		}
 		content.setRawType( IForeignContent.EXTERNAL_TYPE );
-		content.setRawValue( generationStatus );
+		IRowSet[] rowSets = executeQueries( item );
+		ExtendedItemContent status = new ExtendedItemContent( );
+		status.setValues( generationStatus );
+		status.setRowSets( rowSets );
+		content.setRawValue( status );
 	}
 
 	/**
@@ -207,7 +212,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			rowSets = new IRowSet[queries.length];
 			for ( int i = 0; i < rowSets.length; i++ )
 			{
-				IResultSet rset = context.getDataEngine().execute( queries[i] );
+				IResultSet rset = context.getDataEngine( ).execute( queries[i] );
 				if ( rset != null )
 				{
 					rowSets[i] = new RowSet( (DteResultSet) rset );
