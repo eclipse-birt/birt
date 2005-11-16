@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.css.engine.value.InheritValue;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.RawStringManager;
 import org.w3c.css.sac.CSSException;
 import org.w3c.css.sac.DocumentHandler;
 import org.w3c.css.sac.InputSource;
@@ -33,6 +34,7 @@ import org.w3c.css.sac.LexicalUnit;
 import org.w3c.css.sac.Parser;
 import org.w3c.css.sac.SACMediaList;
 import org.w3c.css.sac.SelectorList;
+import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.CSSValue;
 
@@ -40,7 +42,7 @@ import org.w3c.dom.css.CSSValue;
  * This is the base class for all the CSS engines.
  *
  * @author <a href="mailto:stephane@hillion.org">Stephane Hillion</a>
- * @version $Id: CSSEngine.java,v 1.3 2005/10/20 07:47:44 wyan Exp $
+ * @version $Id: CSSEngine.java,v 1.1 2005/11/11 06:26:48 wyan Exp $
  */
 public abstract class CSSEngine implements CSSConstants, CSSValueConstants{
 
@@ -155,6 +157,10 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants{
     {
     	assert idx >= 0 && idx < pm.getNumberOfProperties();
         ValueManager vm = pm.getValueManager(idx);
+        if ( vm instanceof RawStringManager )
+        {
+        	return vm.createStringValue( CSSPrimitiveValue.CSS_STRING, value, this );
+        }
         try {
             LexicalUnit lu;
             lu = parser.parsePropertyValue(new InputSource(new StringReader(value)));

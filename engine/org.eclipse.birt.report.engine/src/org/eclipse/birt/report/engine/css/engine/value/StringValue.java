@@ -7,7 +7,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 /**
  * This class represents string values.
  * 
- * @version $Id: StringValue.java,v 1.1 2005/11/11 06:26:44 wyan Exp $
+ * @version $Id: StringValue.java,v 1.2 2005/11/15 09:54:32 thuang Exp $
  */
 public class StringValue extends Value {
 
@@ -25,8 +25,7 @@ public class StringValue extends Value {
 			return "url(" + value + ")";
 
 		case CSSPrimitiveValue.CSS_STRING:
-			char q = (value.indexOf('"') != -1) ? '\'' : '"';
-			return q + value + q;
+			return value;
 		}
 		return value;
 	}

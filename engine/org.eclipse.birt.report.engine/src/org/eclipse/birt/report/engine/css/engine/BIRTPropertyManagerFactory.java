@@ -25,8 +25,8 @@ import org.eclipse.birt.report.engine.css.engine.value.css.LineHeightManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.MarginManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.PageBreakBeforeAfterManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.PageBreakInsideManager;
+import org.eclipse.birt.report.engine.css.engine.value.css.RawStringManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.SpacingManager;
-import org.eclipse.birt.report.engine.css.engine.value.css.StringManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.TextAlignManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.TextTransformManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.URIManager;
@@ -50,16 +50,15 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory {
 		vms[StyleConstants.STYLE_TEXT_INDENT] = new LengthManager(CSSConstants.CSS_TEXT_INDENT_PROPERTY, true, CSSValueConstants.NUMBER_0);
 		vms[StyleConstants.STYLE_NUMBER_ALIGN] = new TextAlignManager(BIRTConstants.BIRT_NUMBER_ALIGN_PROPERTY);
 		
-		vms[StyleConstants.STYLE_NUMBER_FORMAT] = new StringManager(BIRTConstants.BIRT_NUMBER_FORMAT_PROPERTY,true, null);
-		vms[StyleConstants.STYLE_STRING_FORMAT] = new StringManager(BIRTConstants.BIRT_STRING_FORMAT_PROPERTY,true, null);
-		vms[StyleConstants.STYLE_DATE_FORMAT] = new StringManager(BIRTConstants.BIRT_DATE_TIME_FORMAT_PROPERTY,true, null);
+		vms[StyleConstants.STYLE_NUMBER_FORMAT] = new RawStringManager(BIRTConstants.BIRT_NUMBER_FORMAT_PROPERTY,true, null);
+		vms[StyleConstants.STYLE_STRING_FORMAT] = new RawStringManager(BIRTConstants.BIRT_STRING_FORMAT_PROPERTY,true, null);
+		vms[StyleConstants.STYLE_DATE_FORMAT] = new RawStringManager(BIRTConstants.BIRT_DATE_TIME_FORMAT_PROPERTY,true, null);
 		
 		vms[StyleConstants.STYLE_VERTICAL_ALIGN] = new VerticalAlignManager();
 		
 		vms[StyleConstants.STYLE_LINE_HEIGHT] = new LineHeightManager();
 		vms[StyleConstants.STYLE_BACKGROUND_REPEAT] = new BackgroundRepeatManager();
 		vms[StyleConstants.STYLE_BACKGROUND_ATTACHMENT] = new BackgroundAttachmentManager();
-		vms[StyleConstants.STYLE_DATE_FORMAT] = new StringManager(BIRTConstants.BIRT_DATE_TIME_FORMAT_PROPERTY, true, null);
 		vms[StyleConstants.STYLE_CAN_SHRINK] = new BooleanManager(BIRTConstants.BIRT_CAN_SHRINK_PROPERTY, true, false);
 		vms[StyleConstants.STYLE_TEXT_OVERLINE] = new BooleanManager(BIRTConstants.BIRT_TEXT_OVERLINE_PROPERTY, true,
 				false);
@@ -104,8 +103,7 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory {
 		vms[StyleConstants.STYLE_WHITE_SPACE] = new WhiteSpaceManager();
 		vms[StyleConstants.STYLE_ORPHANS] = new IntegerManager( CSSConstants.CSS_ORPHANS_PROPERTY, true, 2);
 		//TODO: check the masterpage default value
-		vms[StyleConstants.STYLE_MASTER_PAGE] = new StringManager(BIRTConstants.BIRT_MASTER_PAGE_PROPERTY, false, null);
-		vms[StyleConstants.STYLE_STRING_FORMAT] = new StringManager(BIRTConstants.BIRT_STRING_FORMAT_PROPERTY,true, null);
+		vms[StyleConstants.STYLE_MASTER_PAGE] = new RawStringManager(BIRTConstants.BIRT_MASTER_PAGE_PROPERTY, false, null);
 		vms[StyleConstants.STYLE_WORD_SPACING] = new SpacingManager( CSSConstants.CSS_WORD_SPACING_PROPERTY);
 		vms[StyleConstants.STYLE_BACKGROUND_POSITION_X] = new BackgroundPositionXManager();
 		vms[StyleConstants.STYLE_PAGE_BREAK_BEFORE] = new PageBreakBeforeAfterManager(CSSConstants.CSS_PAGE_BREAK_BEFORE_PROPERTY);
