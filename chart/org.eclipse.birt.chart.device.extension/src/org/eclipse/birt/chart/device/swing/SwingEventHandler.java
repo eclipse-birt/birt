@@ -41,7 +41,9 @@ import org.eclipse.birt.chart.event.StructureType;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -313,45 +315,144 @@ public final class SwingEventHandler implements
 	private final Series findDesignTimeSeries( Series seRT )
 			throws ChartException
 	{
-		final ChartWithAxes cwaRT = (ChartWithAxes) iun.getRunTimeModel( );
-		final ChartWithAxes cwaDT = (ChartWithAxes) iun.getDesignTimeModel( );
+
 		Series seDT = null;
 
-		Axis[] axaBase = cwaRT.getPrimaryBaseAxes( );
-		Axis axBase = axaBase[0];
-		Axis[] axaOrthogonal = cwaRT.getOrthogonalAxes( axBase, true );
-		EList elSD, elSE;
-		SeriesDefinition sd;
-		Series se = null;
-		int i = -1, j = 0, k = 0;
-		boolean bFound = false;
+		final Chart cmRT = iun.getRunTimeModel( );
+		final Chart cmDT = iun.getDesignTimeModel( );
 
-		elSD = axaBase[0].getSeriesDefinitions( );
-		for ( j = 0; j < elSD.size( ); j++ )
+		if ( cmDT instanceof ChartWithAxes )
 		{
-			sd = (SeriesDefinition) elSD.get( j );
-			elSE = sd.getSeries( );
-			for ( k = 0; k < elSE.size( ); k++ )
+			final ChartWithAxes cwaRT = (ChartWithAxes) cmRT;
+			final ChartWithAxes cwaDT = (ChartWithAxes) cmDT;
+
+			Axis[] axaBase = cwaRT.getPrimaryBaseAxes( );
+			Axis axBase = axaBase[0];
+			Axis[] axaOrthogonal = cwaRT.getOrthogonalAxes( axBase, true );
+			EList elSD, elSE;
+			SeriesDefinition sd;
+			Series se = null;
+			int i = -1, j = 0, k = 0;
+			boolean bFound = false;
+
+			elSD = axaBase[0].getSeriesDefinitions( );
+			for ( j = 0; j < elSD.size( ); j++ )
 			{
-				se = (Series) elSE.get( k );
-				if ( seRT == se )
+				sd = (SeriesDefinition) elSD.get( j );
+				elSE = sd.getSeries( );
+				for ( k = 0; k < elSE.size( ); k++ )
 				{
-					bFound = true;
+					se = (Series) elSE.get( k );
+					if ( seRT == se )
+					{
+						bFound = true;
+						break;
+					}
+				}
+				if ( bFound )
+				{
 					break;
 				}
 			}
-			if ( bFound )
-			{
-				break;
-			}
-		}
 
-		if ( !bFound )
-		{
-			// LOCATE INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN RUN TIME MODEL
-			for ( i = 0; i < axaOrthogonal.length; i++ )
+			if ( !bFound )
+			{
+				// LOCATE INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN RUN TIME
+				// MODEL
+				for ( i = 0; i < axaOrthogonal.length; i++ )
+				{
+					elSD = axaOrthogonal[i].getSeriesDefinitions( );
+					for ( j = 0; j < elSD.size( ); j++ )
+					{
+						sd = (SeriesDefinition) elSD.get( j );
+						elSE = sd.getSeries( );
+						for ( k = 0; k < elSE.size( ); k++ )
+						{
+							se = (Series) elSE.get( k );
+							if ( seRT == se )
+							{
+								bFound = true;
+								break;
+							}
+						}
+						if ( bFound )
+						{
+							break;
+						}
+					}
+					if ( bFound )
+					{
+						break;
+					}
+				}
+			}
+
+			if ( !bFound )
+			{
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.OUT_OF_SYNC,
+						"info.cannot.find.series", //$NON-NLS-1$
+						new Object[]{
+							seRT
+						},
+						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
+								lcl ) );
+			}
+
+			// MAP TO INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN DESIGN TIME
+			// MODEL
+			axaBase = cwaDT.getPrimaryBaseAxes( );
+			axBase = axaBase[0];
+			axaOrthogonal = cwaDT.getOrthogonalAxes( axBase, true );
+			if ( i == -1 )
+			{
+				elSD = axaBase[0].getSeriesDefinitions( );
+			}
+			else
 			{
 				elSD = axaOrthogonal[i].getSeriesDefinitions( );
+			}
+			sd = (SeriesDefinition) elSD.get( j );
+			elSE = sd.getSeries( );
+			seDT = (Series) elSE.get( k );
+		}
+		else if ( cmDT instanceof ChartWithoutAxes )
+		{
+			final ChartWithoutAxes cwoaRT = (ChartWithoutAxes) cmRT;
+			final ChartWithoutAxes cwoaDT = (ChartWithoutAxes) cmDT;
+
+			EList elSD, elSE;
+			SeriesDefinition sd;
+			Series se = null;
+			int i = -1, j = 0, k = 0;
+			boolean bFound = false;
+
+			elSD = cwoaRT.getSeriesDefinitions( );
+			for ( j = 0; j < elSD.size( ); j++ )
+			{
+				sd = (SeriesDefinition) elSD.get( j );
+				elSE = sd.getSeries( );
+				for ( k = 0; k < elSE.size( ); k++ )
+				{
+					se = (Series) elSE.get( k );
+					if ( seRT == se )
+					{
+						bFound = true;
+						break;
+					}
+				}
+				if ( bFound )
+				{
+					break;
+				}
+			}
+
+			if ( !bFound )
+			{
+				i = 1;
+				elSD = ( (SeriesDefinition) cwoaRT.getSeriesDefinitions( )
+						.get( 0 ) ).getSeriesDefinitions( );
+
 				for ( j = 0; j < elSD.size( ); j++ )
 				{
 					sd = (SeriesDefinition) elSD.get( j );
@@ -370,39 +471,33 @@ public final class SwingEventHandler implements
 						break;
 					}
 				}
-				if ( bFound )
-				{
-					break;
-				}
 			}
-		}
 
-		if ( !bFound )
-		{
-			throw new ChartException( ChartDeviceExtensionPlugin.ID,
-					ChartException.OUT_OF_SYNC,
-					"info.cannot.find.series", //$NON-NLS-1$
-					new Object[]{
-						seRT
-					},
-					ResourceBundle.getBundle( Messages.DEVICE_EXTENSION, lcl ) );
-		}
+			if ( !bFound )
+			{
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.OUT_OF_SYNC,
+						"info.cannot.find.series", //$NON-NLS-1$
+						new Object[]{
+							seRT
+						},
+						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
+								lcl ) );
+			}
 
-		// MAP TO INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN DESIGN TIME MODEL
-		axaBase = cwaDT.getPrimaryBaseAxes( );
-		axBase = axaBase[0];
-		axaOrthogonal = cwaDT.getOrthogonalAxes( axBase, true );
-		if ( i == -1 )
-		{
-			elSD = axaBase[0].getSeriesDefinitions( );
+			if ( i == -1 )
+			{
+				elSD = cwoaDT.getSeriesDefinitions( );
+			}
+			else
+			{
+				elSD = ( (SeriesDefinition) cwoaDT.getSeriesDefinitions( )
+						.get( 0 ) ).getSeriesDefinitions( );
+			}
+			sd = (SeriesDefinition) elSD.get( j );
+			elSE = sd.getSeries( );
+			seDT = (Series) elSE.get( k );
 		}
-		else
-		{
-			elSD = axaOrthogonal[i].getSeriesDefinitions( );
-		}
-		sd = (SeriesDefinition) elSD.get( j );
-		elSE = sd.getSeries( );
-		seDT = (Series) elSE.get( k );
 
 		return seDT;
 	}

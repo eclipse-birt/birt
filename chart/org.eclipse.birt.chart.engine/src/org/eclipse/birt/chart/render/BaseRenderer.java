@@ -428,7 +428,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_BLOCK,
 						bl );
 			}
-			else if ( bl instanceof Legend && bStarted )
+			else if ( bl instanceof Legend && bStarted && bLastInSequence)
 			{
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.BEFORE_DRAW_BLOCK,
