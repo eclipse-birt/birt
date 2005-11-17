@@ -20,7 +20,7 @@ import org.eclipse.birt.report.engine.executor.template.TextTemplate;
 /**
  * Text element captures a long string with internal formatting.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/11/08 09:57:07 $
+ * @version $Revision: 1.10 $ $Date: 2005/11/11 06:26:41 $
  */
 public class TextItemDesign extends ReportItemDesign
 {
@@ -49,7 +49,12 @@ public class TextItemDesign extends ReportItemDesign
 	
 	public HashMap getExpressions()
 	{
-		if (HTML_TEXT.equals(textType) && exprs == null)
+		if( exprs != null )
+		{
+			return exprs;
+		}
+
+		if( HTML_TEXT.equals(textType) || ( AUTO_TEXT.equals(textType) && text.startsWith( "<html>") ))
 		{
 			exprs = new HashMap( );
 			TextTemplate template = new TemplateParser( ).parse( text );
