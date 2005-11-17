@@ -31,7 +31,7 @@ import org.w3c.dom.css.CSSValue;
  * This class provides a manager for the property with support for CSS color
  * values.
  * 
- * @version $Id: AbstractColorManager.java,v 1.1 2005/11/11 06:26:44 wyan Exp $
+ * @version $Id: AbstractColorManager.java,v 1.2 2005/11/14 03:27:18 gliu Exp $
  */
 public abstract class AbstractColorManager extends IdentifierManager {
 
@@ -58,6 +58,7 @@ public abstract class AbstractColorManager extends IdentifierManager {
 		values.put(CSSConstants.CSS_MAROON_VALUE, CSSValueConstants.MAROON_VALUE);
 		values.put(CSSConstants.CSS_NAVY_VALUE, CSSValueConstants.NAVY_VALUE);
 		values.put(CSSConstants.CSS_OLIVE_VALUE, CSSValueConstants.OLIVE_VALUE);
+		values.put(CSSConstants.CSS_ORANGE_VALUE, CSSValueConstants.ORANGE_VALUE);
 		values.put(CSSConstants.CSS_PURPLE_VALUE, CSSValueConstants.PURPLE_VALUE);
 		values.put(CSSConstants.CSS_RED_VALUE, CSSValueConstants.RED_VALUE);
 		values.put(CSSConstants.CSS_SILVER_VALUE, CSSValueConstants.SILVER_VALUE);
@@ -149,6 +150,8 @@ public abstract class AbstractColorManager extends IdentifierManager {
 				CSSValueConstants.LIME_RGB_VALUE);
 		computedValues.put(CSSConstants.CSS_OLIVE_VALUE,
 				CSSValueConstants.OLIVE_RGB_VALUE);
+		computedValues.put(CSSConstants.CSS_ORANGE_VALUE,
+				CSSValueConstants.ORANGE_RGB_VALUE);
 		computedValues.put(CSSConstants.CSS_YELLOW_VALUE,
 				CSSValueConstants.YELLOW_RGB_VALUE);
 		computedValues.put(CSSConstants.CSS_NAVY_VALUE,

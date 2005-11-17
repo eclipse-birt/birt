@@ -10,7 +10,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 /**
  * This interface defines constants for CSS values.
  * 
- * @version $Id: CSSValueConstants.java,v 1.1 2005/10/13 09:59:56 wyan Exp $
+ * @version $Id: CSSValueConstants.java,v 1.1 2005/11/11 06:26:47 wyan Exp $
  */
 public interface CSSValueConstants {
 
@@ -43,6 +43,11 @@ public interface CSSValueConstants {
 	 */
 	Value NUMBER_128 = new FloatValue(CSSPrimitiveValue.CSS_NUMBER, 128);
 
+	/**
+	 * 165
+	 */
+	Value NUMBER_165 = new FloatValue(CSSPrimitiveValue.CSS_NUMBER, 165);
+	
 	/**
 	 * 192
 	 */
@@ -534,6 +539,12 @@ public interface CSSValueConstants {
 			CSSConstants.CSS_OLIVE_VALUE);
 
 	/**
+	 * The 'orange' color name.
+	 */
+	Value ORANGE_VALUE = new StringValue(CSSPrimitiveValue.CSS_IDENT,
+			CSSConstants.CSS_ORANGE_VALUE);
+	
+	/**
 	 * The 'purple' color name.
 	 */
 	Value PURPLE_VALUE = new StringValue(CSSPrimitiveValue.CSS_IDENT,
@@ -796,6 +807,11 @@ public interface CSSValueConstants {
 	 * The 'olive' RGB color.
 	 */
 	Value OLIVE_RGB_VALUE = new RGBColorValue(NUMBER_128, NUMBER_128, NUMBER_0);
+
+	/**
+	 * The 'orange' RGB color.
+	 */
+	Value ORANGE_RGB_VALUE = new RGBColorValue(NUMBER_255, NUMBER_165, NUMBER_0);
 
 	/**
 	 * The 'yellow' RGB color.
