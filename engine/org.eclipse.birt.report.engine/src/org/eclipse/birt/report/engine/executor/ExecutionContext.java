@@ -63,7 +63,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.38 $ $Date: 2005/11/15 09:38:07 $
+ * @version $Revision: 1.39 $ $Date: 2005/11/16 07:47:54 $
  */
 public class ExecutionContext
 {
@@ -612,7 +612,11 @@ public class ExecutionContext
 	public void addException( BirtException ex )
 	{
 		IContent content = getContent( );
-		ReportItemDesign design = (ReportItemDesign) content.getGenerateBy( );
+		
+		ReportItemDesign design = null;
+		if ( content != null )
+			design = (ReportItemDesign) content.getGenerateBy( );
+		
 		DesignElementHandle handle = design == null ? null : design.getHandle( );
 		addException( handle, ex );
 	}
@@ -626,7 +630,8 @@ public class ExecutionContext
 		if ( exInfo == null )
 		{
 			exInfo = new ElementExceptionInfo( element );
-			reportContent.getErrors( ).add( exInfo );
+			if ( reportContent != null )
+				reportContent.getErrors( ).add( exInfo );
 			elementExceptions.put( element, exInfo );
 		}
 		exInfo.addException( ex );
