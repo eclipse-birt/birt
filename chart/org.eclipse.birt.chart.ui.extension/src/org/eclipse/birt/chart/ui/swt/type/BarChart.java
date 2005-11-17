@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
+import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
@@ -563,6 +564,7 @@ public class BarChart extends DefaultChartTypeImpl
 			{
 				return null;
 			}
+			currentChart.getLegend( ).setItemType( LegendItemType.SERIES_LITERAL );
 			currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 		}
 		if ( currentChart instanceof ChartWithAxes

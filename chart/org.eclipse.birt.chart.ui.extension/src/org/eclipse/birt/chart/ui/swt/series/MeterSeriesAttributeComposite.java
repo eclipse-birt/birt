@@ -146,8 +146,8 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		GridData gdISCStartAngle = new GridData( GridData.FILL_HORIZONTAL );
 		iscStartAngle.setLayoutData( gdISCStartAngle );
 		iscStartAngle.setValue( (int) ( series.getDial( ).getStartAngle( ) ) );
-		iscStartAngle.setMinimum( 0 );
-		iscStartAngle.setMaximum( 180 );
+		iscStartAngle.setMinimum( -360 );
+		iscStartAngle.setMaximum( 360 );
 		iscStartAngle.addListener( this );
 
 		Label lblStopAngle = new Label( cmpContent, SWT.NONE );
@@ -161,7 +161,7 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		GridData gdISCStopAngle = new GridData( GridData.FILL_HORIZONTAL );
 		iscStopAngle.setLayoutData( gdISCStopAngle );
 		iscStopAngle.setValue( (int) ( series.getDial( ).getStopAngle( ) ) );
-		iscStopAngle.setMinimum( 0 );
+		iscStopAngle.setMinimum( -360 );
 		iscStopAngle.setMaximum( 360 );
 		iscStopAngle.addListener( this );
 

@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
@@ -386,6 +387,7 @@ public class StockChart extends DefaultChartTypeImpl
 			{
 				return null;
 			}
+			currentChart.getLegend( ).setItemType( LegendItemType.SERIES_LITERAL );
 			currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 		}
 		if ( currentChart instanceof ChartWithAxes

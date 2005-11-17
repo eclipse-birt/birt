@@ -161,7 +161,7 @@ public class SeriesGroupingComposite extends Composite implements
 		GridData gdISCInterval = new GridData( );
 		gdISCInterval.widthHint = 80;
 		iscInterval.setLayoutData( gdISCInterval );
-		iscInterval.setMinimum( 1 );
+		iscInterval.setMinimum( 0 );
 		iscInterval.addListener( this );
 
 		Label lblDummy = new Label( grpContent, SWT.NONE );

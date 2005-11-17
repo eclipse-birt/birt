@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
@@ -399,6 +400,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 			{
 				return null;
 			}
+			currentChart.getLegend( ).setItemType( LegendItemType.SERIES_LITERAL );
 			currentChart.getTitle( )
 					.getLabel( )
 					.getCaption( )
