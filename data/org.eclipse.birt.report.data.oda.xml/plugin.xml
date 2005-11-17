@@ -6,6 +6,18 @@
    version="1.0.1"
    provider-name="Eclipse.org">
    <runtime>
+       <library name="lib/resolver.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/xercesImpl.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/xml-apis.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/xalan.jar">
+         <export name="*"/>
+      </library>
       <library name="oda-xml.jar">
          <export name="*"/>
       </library>

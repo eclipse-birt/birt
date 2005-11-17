@@ -103,7 +103,7 @@
 		</fileset>
 		
 		<!-- dependend on eclipse due to Plugin class -->
-		<fileset dir="${eclipse.home}/lib">
+		<fileset dir="lib">
 			<include name="resolver.jar"/>
 			<include name="xalan.jar"/>
 			<include name="xercesImpl.jar"/>
@@ -219,6 +219,11 @@
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>
 		<echo message="end call Jar task in ${core.dir}"/>
+		<echo message="start call Jar task in ${dtp.oda.dir}"/>
+		<ant dir="${dtp.oda.dir}" antfile="BuildOda.xml" target="Jar" inheritall="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>
+		<echo message="end call Jar task in ${dtp.oda.dir}"/>
 	</target>
 	
 	<target name="compileSource" depends="buildDependency" description="compile the source ">

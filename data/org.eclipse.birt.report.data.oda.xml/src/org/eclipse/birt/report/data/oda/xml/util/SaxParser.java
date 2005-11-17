@@ -18,12 +18,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
+import org.apache.xerces.parsers.SAXParser;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
  * This instance interacts with a SaxParserConsumer instance to populate
@@ -72,20 +72,22 @@ public class SaxParser extends DefaultHandler implements Runnable
 	 */
 	public void run( )
 	{
-		System.setProperty( "org.xml.sax.parser",
-				"org.apache.xerces.parsers.SAXParser" );
+		//System.setProperty( "org.xml.sax.parser",
+		//		"org.apache.xerces.parsers.SAXParser" );
 		XMLReader xr;
 		try
 		{
-			xr = XMLReaderFactory.createXMLReader( );
-
+			// xr = XMLReaderFactory.createXMLReader(
+			// "org.apache.xerces.parsers.SAXParser" );
+		
+			xr = new SAXParser( );
 			xr.setContentHandler( this );
 			xr.setErrorHandler( this );
 
 			FileReader r = new FileReader( xmlFile );
 			xr.parse( new InputSource( r ) );
-			this.alive = false;
-			spConsumer.wakeup();
+			//this.alive = false;
+			//spConsumer.wakeup( );
 		}
 		catch ( SAXException e )
 		{
@@ -102,7 +104,11 @@ public class SaxParser extends DefaultHandler implements Runnable
 			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
-
+		finally
+		{
+			this.alive = false;
+			spConsumer.wakeup( );
+		}
 	}
 
 	/*
