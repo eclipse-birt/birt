@@ -92,10 +92,20 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 	 */
 	public void selectionChanged( IAction action, ISelection selection )
 	{
+		action.setEnabled( isEnable() ); //$NON-NLS-1$
+	}
+	
+	private boolean isEnable()
+	{
 		IEditorPart editor = UIUtil.getActiveEditor( true );
-		action.setEnabled( editor.getEditorInput( )
-				.getName( )
-				.endsWith( ".rpttemplate" ) ); //$NON-NLS-1$
+		if(editor !=null)
+		{
+			return ( editor.getEditorInput( )
+					.getName( )
+					.endsWith( ".rpttemplate" ) ); //$NON-NLS-1$
+		}
+		return false;
+		
 	}
 
 }
