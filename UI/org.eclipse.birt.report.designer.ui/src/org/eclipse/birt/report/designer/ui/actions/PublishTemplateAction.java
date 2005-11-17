@@ -92,18 +92,10 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 	 */
 	public void selectionChanged( IAction action, ISelection selection )
 	{
-		action.setEnabled( isEnable()); 
-	}
-
-	private boolean isEnable( )
-	{
 		IEditorPart editor = UIUtil.getActiveEditor( true );
-		if ( editor != null )
-		{
-			return editor.getEditorInput( ).getName( )
-					.endsWith( ".rpttemplate" );//$NON-NLS-1$
-		}
-		return false;
+		action.setEnabled( editor.getEditorInput( )
+				.getName( )
+				.endsWith( ".rpttemplate" ) ); //$NON-NLS-1$
 	}
 
 }
@@ -114,8 +106,7 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 class PublishTemplateWizard extends Wizard
 {
 
-	private static final String windowTitle = Messages
-			.getString( "PublishTemplateAction.wizard.title" ); //$NON-NLS-1$
+	private static final String windowTitle = Messages.getString( "PublishTemplateAction.wizard.title" ); //$NON-NLS-1$
 
 	private PublishPage page;
 
@@ -147,9 +138,9 @@ class PublishTemplateWizard extends Wizard
 				.getDefaultTemplatePreference( );
 
 		String filePath = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( ).getFileName( );
-		String fileName = filePath.substring( filePath
-				.lastIndexOf( File.separator ) );
+				.getReportDesignHandle( )
+				.getFileName( );
+		String fileName = filePath.substring( filePath.lastIndexOf( File.separator ) );
 		try
 		{
 			copyFile( filePath, templateFolderPath + fileName );
@@ -194,12 +185,20 @@ class PublishTemplateWizard extends Wizard
 			SemanticException, IOException
 	{
 		ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
-				.getSessionHandle( ).openDesign( fileName );
-		handle.setDisplayName( page.getDisplayName( ) );
-		handle.setProperty( ModuleHandle.DESCRIPTION_PROP, page
-				.getDescription( ) );
-		handle.setIconFile( page.getPreviewImagePath( ) );
+				.getSessionHandle( )
+				.openDesign( fileName );
+		if ( !page.getDisplayName( ).equals( "" ) ) //$NON-NLS-1$
+			handle.setDisplayName( page.getDisplayName( ) );
+		if ( !page.getDescription( ).equals( "" ) ) //$NON-NLS-1$
+			handle.setProperty( ModuleHandle.DESCRIPTION_PROP,
+					page.getDescription( ) );
+		if ( !page.getPreviewImagePath( ).equals( "" ) ) //$NON-NLS-1$
+			handle.setIconFile( page.getPreviewImagePath( ) );
+		if ( !page.getCheetSheetPath( ).equals( "" ) ) //$NON-NLS-1$
+			handle.setCheetSheet( page.getCheetSheetPath( ) );
+
 		handle.save( );
+		handle.close( );
 	}
 
 	private void copyFile( String in, String out ) throws IOException
@@ -223,35 +222,33 @@ class PublishTemplateWizard extends Wizard
 class PublishPage extends WizardPage
 {
 
-	private static final String PAGE_TITLE = Messages
-			.getString( "PublishTemplateAction.wizard.page.title" ); //$NON-NLS-1$
-	private static final String PAGE_DESC = Messages
-			.getString( "PublishTemplateAction.wizard.page.desc" ); //$NON-NLS-1$
-	private static final String LABEL_DISPLAY_NAME = Messages
-			.getString( "PublishTemplateAction.wizard.page.label.dispalyName" ); //$NON-NLS-1$
-	private static final String LABEL_DESCRIPTION = Messages
-			.getString( "PublishTemplateAction.wizard.page.label.description" ); //$NON-NLS-1$
-	private static final String LABEL_IMAGE = Messages
-			.getString( "PublishTemplateAction.wizard.page.label.image" ); //$NON-NLS-1$
-	private static final String BTN_CHOOSE = Messages
-			.getString( "PublishTemplateAction.wizard.page.btn.browse" ); //$NON-NLS-1$
-	private static final String BROWSE_TITLE = Messages
-			.getString( "PublishTemplateAction.wizard.page.browse.title" ); //$NON-NLS-1$
-	private static final String IMAGE_ERROR = Messages
-			.getString( "PublishTemplateAction.wizard.page.imageError" ); //$NON-NLS-1$
+	private static final String PAGE_TITLE = Messages.getString( "PublishTemplateAction.wizard.page.title" ); //$NON-NLS-1$
+	private static final String PAGE_DESC = Messages.getString( "PublishTemplateAction.wizard.page.desc" ); //$NON-NLS-1$
+	private static final String LABEL_DISPLAY_NAME = Messages.getString( "PublishTemplateAction.wizard.page.label.dispalyName" ); //$NON-NLS-1$
+	private static final String LABEL_DESCRIPTION = Messages.getString( "PublishTemplateAction.wizard.page.label.description" ); //$NON-NLS-1$
+	private static final String LABEL_IMAGE = Messages.getString( "PublishTemplateAction.wizard.page.label.image" ); //$NON-NLS-1$
+	private static final String BTN_CHOOSE = Messages.getString( "PublishTemplateAction.wizard.page.btn.browse" ); //$NON-NLS-1$
+	private static final String BROWSE_TITLE = Messages.getString( "PublishTemplateAction.wizard.page.browse.title" ); //$NON-NLS-1$
+	private static final String IMAGE_ERROR = "PublishTemplateAction.wizard.page.imageError"; //$NON-NLS-1$
+	private static final String LABEL_CHEATSHEET = Messages.getString( "PublishTemplateAction.wizard.page.label.cheatsheet" ); //$NON-NLS-1$
+	private static final String BROWSE_CS_TITLE = Messages.getString( "PublishTemplateAction.wizard.page.browse.cheatsheet.title" ); //$NON-NLS-1$
+	private static final String CHEATSHEET_ERROR = "PublishTemplateAction.wizard.page.cheatsheetError"; //$NON-NLS-1$
+
 	private static final String STR_EMPTY = ""; //$NON-NLS-1$
 
-	private ModuleHandle module;
+	private ReportDesignHandle module;
 	private Text previewImageText;
 	private Text descText;
 	private Text nameText;
+	private Text cheatSheetText;
 
 	public PublishPage( )
 	{
 		super( PAGE_TITLE );
 		setTitle( PAGE_TITLE );
 		setMessage( PAGE_DESC );
-		module = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+		module = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
 	}
 
 	/*
@@ -265,7 +262,7 @@ class PublishPage extends WizardPage
 		Composite container = new Composite( parent, SWT.NONE );
 		GridLayout gridLayout = new GridLayout( );
 		gridLayout.marginWidth = 20;
-		gridLayout.marginTop = 10;
+		gridLayout.marginHeight = 10;
 		gridLayout.verticalSpacing = 7;
 		gridLayout.numColumns = 3;
 		container.setLayout( gridLayout );
@@ -273,22 +270,22 @@ class PublishPage extends WizardPage
 		new Label( container, SWT.NONE ).setText( LABEL_DISPLAY_NAME );
 		nameText = createText( container, 2, 1 );
 		if ( module.getProperty( ModuleHandle.DISPLAY_NAME_PROP ) != null )
-			nameText.setText( (String) module
-					.getProperty( ModuleHandle.DISPLAY_NAME_PROP ) );
+			nameText.setText( module.getDisplayName( ) );
 
 		new Label( container, SWT.NONE ).setText( LABEL_DESCRIPTION );
 		descText = createText( container, 2, 5 );
 		if ( module.getProperty( ModuleHandle.DESCRIPTION_PROP ) != null )
-			descText.setText( (String) module
-					.getProperty( ModuleHandle.DESCRIPTION_PROP ) );
+			descText.setText( (String) module.getProperty( ModuleHandle.DESCRIPTION_PROP ) );
 
 		new Label( container, SWT.NONE ).setText( LABEL_IMAGE );
 		previewImageText = createText( container, 1, 1 );
+		if ( module.getIconFile( ) != null )
+			previewImageText.setText( module.getIconFile( ) );
 		previewImageText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
 			{
-				validateImage( );
+				validate( );
 			}
 		} );
 
@@ -299,7 +296,8 @@ class PublishPage extends WizardPage
 			public void widgetSelected( SelectionEvent e )
 			{
 				FileDialog dialog = new FileDialog( PlatformUI.getWorkbench( )
-						.getDisplay( ).getActiveShell( ) );
+						.getDisplay( )
+						.getActiveShell( ) );
 				dialog.setText( BROWSE_TITLE );
 				String fileName = dialog.open( );
 				if ( fileName == null )
@@ -315,25 +313,68 @@ class PublishPage extends WizardPage
 			}
 		} );
 
+		new Label( container, SWT.NONE ).setText( LABEL_CHEATSHEET );
+		cheatSheetText = createText( container, 1, 1 );
+		if ( module.getCheetSheet( ) != null )
+			cheatSheetText.setText( module.getCheetSheet( ) );
+		cheatSheetText.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				validate( );
+			}
+		} );
+
+		Button chooseBtn2 = new Button( container, SWT.NONE );
+		chooseBtn2.setText( BTN_CHOOSE );
+		chooseBtn2.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				FileDialog dialog = new FileDialog( PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getActiveShell( ) );
+				dialog.setText( BROWSE_CS_TITLE );
+				String fileName = dialog.open( );
+				if ( fileName == null )
+				{
+					return;
+				}
+				cheatSheetText.setText( fileName );
+			}
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+
+			}
+		} );
+
 		chooseBtn.forceFocus( );
 		setControl( container );
 	}
 
 	public String getDisplayName( )
 	{
-		return nameText.getText( ) == null ? STR_EMPTY : nameText.getText( );
+		return nameText.getText( ) == null ? STR_EMPTY : nameText.getText( )
+				.trim( );
 	}
 
 	public String getDescription( )
 	{
-		return descText.getText( ) == null ? STR_EMPTY : descText.getText( );
+		return descText.getText( ) == null ? STR_EMPTY : descText.getText( )
+				.trim( );
 	}
 
 	public String getPreviewImagePath( )
 	{
-		return previewImageText.getText( ) == null
-				? STR_EMPTY
-				: previewImageText.getText( );
+		return previewImageText.getText( ) == null ? STR_EMPTY
+				: previewImageText.getText( ).trim( );
+	}
+
+	public String getCheetSheetPath( )
+	{
+		return cheatSheetText.getText( ) == null ? STR_EMPTY
+				: cheatSheetText.getText( ).trim( );
 	}
 
 	private Text createText( Composite container, int column, int row )
@@ -354,7 +395,7 @@ class PublishPage extends WizardPage
 		return text;
 	}
 
-	private void validateImage( )
+	private void validate( )
 	{
 		if ( previewImageText.getText( ).trim( ).length( ) == 0 )
 		{
@@ -363,8 +404,26 @@ class PublishPage extends WizardPage
 		}
 		else if ( !new File( previewImageText.getText( ) ).exists( ) )
 		{
-			setErrorMessage( IMAGE_ERROR );
+			setErrorMessage( Messages.getFormattedString(IMAGE_ERROR,new String[]{previewImageText.getText( )}) );
 			setPageComplete( false );
+			return;
+		}
+		else
+		{
+			setErrorMessage( null );
+			setPageComplete( true );
+		}
+
+		if ( cheatSheetText.getText( ).trim( ).length( ) == 0 )
+		{
+			setErrorMessage( null );
+			setPageComplete( true );
+		}
+		else if ( !new File( cheatSheetText.getText( ) ).exists( ) )
+		{
+			setErrorMessage( Messages.getFormattedString(CHEATSHEET_ERROR,new String[]{cheatSheetText.getText( )}) );
+			setPageComplete( false );
+			return;
 		}
 		else
 		{
@@ -372,5 +431,4 @@ class PublishPage extends WizardPage
 			setPageComplete( true );
 		}
 	}
-
 };
