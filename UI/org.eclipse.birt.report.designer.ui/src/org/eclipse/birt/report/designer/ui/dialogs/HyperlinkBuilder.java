@@ -280,15 +280,9 @@ public class HyperlinkBuilder extends BaseDialog
 		}
 	};
 
-	public HyperlinkBuilder( Shell parentShell, String title )
+	public HyperlinkBuilder( Shell parentShell )
 	{
-		super( parentShell, title );
-
-	}
-
-	public HyperlinkBuilder( String title )
-	{
-		super( title );
+		super( parentShell, "Hyperlink Options" );
 
 	}
 
@@ -377,7 +371,7 @@ public class HyperlinkBuilder extends BaseDialog
 		Composite buttonArea = new Composite( displayArea, SWT.NONE );
 		buttonArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, true ) );
 		buttonArea.setLayoutData( new GridData( ) );
-		createBrowerButton( buttonArea, locationEditor, true );
+		createBrowerButton( buttonArea, locationEditor, true, false );
 		createExpressionButton( buttonArea, locationEditor );
 		createTargetBar( );
 	}
@@ -400,7 +394,7 @@ public class HyperlinkBuilder extends BaseDialog
 				updateButtons( );
 			}
 		} );
-		createBrowerButton( displayArea, locationEditor, false );
+		createBrowerButton( displayArea, locationEditor, false, true );
 
 		UIUtil.createBlankLabel( displayArea );
 		messageLine = new CLabel( displayArea, SWT.NONE );
@@ -508,7 +502,7 @@ public class HyperlinkBuilder extends BaseDialog
 	}
 
 	private void createBrowerButton( Composite parent, final Text text,
-			final boolean needQuote )
+			final boolean needQuote, final boolean needFilter )
 	{
 		Button button = new Button( parent, SWT.PUSH );
 		button.setLayoutData( new GridData( ) );
@@ -519,9 +513,12 @@ public class HyperlinkBuilder extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				FileDialog dialog = new FileDialog( UIUtil.getDefaultShell( ) );
-				dialog.setFilterExtensions( new String[]{
-					"*.rptdesign" //$NON-NLS-1$
-					} );
+				if ( needFilter )
+				{
+					dialog.setFilterExtensions( new String[]{
+						"*.rptdesign" //$NON-NLS-1$
+						} );
+				}
 				try
 				{
 					String filename = dialog.open( );
