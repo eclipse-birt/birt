@@ -155,6 +155,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer = new IndentableXMLWriter( outputFile, getModule( )
 				.getUTFSignature( ) );
 		writeFile( );
+		writer.close( );
 	}
 
 	/**
@@ -1497,12 +1498,12 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, TableRow.HEIGHT_PROP );
 		property( obj, TableRow.BOOKMARK_PROP );
-		
+
 		property( obj, TableRow.EVENT_HANDLER_CLASS_PROP );
 		property( obj, TableRow.ON_PREPARE_METHOD );
 		property( obj, TableRow.ON_CREATE_METHOD );
 		property( obj, TableRow.ON_RENDER_METHOD );
-		
+
 		writeStyle( obj );
 		writeStructureList( obj, TableRow.VISIBILITY_PROP );
 
@@ -1535,7 +1536,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, Cell.ON_PREPARE_METHOD );
 		property( obj, Cell.ON_CREATE_METHOD );
 		property( obj, Cell.ON_RENDER_METHOD );
-		
+
 		writeStyle( obj );
 
 		writeContents( obj, Cell.CONTENT_SLOT, null );
@@ -2152,7 +2153,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
 		writer.attribute( DesignElement.NAME_PROP, propName );
-		
+
 		property( action, Action.FORMAT_TYPE_MEMBER );
 		property( action, Action.LINK_TYPE_MEMBER );
 
@@ -2393,7 +2394,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitListing( obj );
 
 		property( obj, ListingElement.PAGE_BREAK_INTERVAL_PROP );
-				
+
 		writeStructureList( obj, ListingElement.SORT_PROP );
 		writeStructureList( obj, ListingElement.FILTER_PROP );
 	}
@@ -2422,7 +2423,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, GroupElement.ON_PREPARE_METHOD );
 		property( obj, GroupElement.ON_CREATE_METHOD );
 		property( obj, GroupElement.ON_RENDER_METHOD );
-		
+
 		writeStructureList( obj, GroupElement.SORT_PROP );
 		writeStructureList( obj, GroupElement.FILTER_PROP );
 	}

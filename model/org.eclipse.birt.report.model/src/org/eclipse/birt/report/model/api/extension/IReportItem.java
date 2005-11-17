@@ -13,20 +13,22 @@ package org.eclipse.birt.report.model.api.extension;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.List;
+
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 
 /**
  * Represents an instance of a extended report element. There is a one-to-one
- * correspondence between the BIRT-defined report item and this
- * IReportItem.
+ * correspondence between the BIRT-defined report item and this IReportItem.
  * <p>
  * 
  * <pre>
- *            BIRT Extended Item &lt;--&gt; ExtendedItem 
+ *             BIRT Extended Item &lt;--&gt; ExtendedItem 
  * </pre>
  * 
  * 
- * IReportItem is responsible for storing model data, and for serializing
- * the model state. They can optionally provide generic property access.
+ * IReportItem is responsible for storing model data, and for serializing the
+ * model state. They can optionally provide generic property access.
  */
 
 public interface IReportItem
@@ -158,7 +160,7 @@ public interface IReportItem
 	 */
 
 	public IReportItem copy( );
-	
+
 	/**
 	 * Justifies whether the property list of the extended element is changed.
 	 * 
@@ -167,4 +169,13 @@ public interface IReportItem
 	 */
 
 	boolean refreshPropertyDefinition( );
+
+	/**
+	 * Returns the method definition list of extension elements. Each object in
+	 * the list is instance of {@link IElementPropertyDefn}.
+	 * 
+	 * @return the method definition list.
+	 */
+
+	public List getMethods( );
 }

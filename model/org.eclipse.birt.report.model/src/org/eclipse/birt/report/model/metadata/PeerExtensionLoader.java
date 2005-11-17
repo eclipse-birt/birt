@@ -81,6 +81,11 @@ public class PeerExtensionLoader extends ExtensionLoader
 
 		private static final String STYLE_PROPERTY_TAG = "styleProperty"; //$NON-NLS-1$
 		private static final String METHOD_TAG = "method"; //$NON-NLS-1$
+		private static final String ARGUMENT_TAG = "argument"; //$NON-NLS-1$
+		private static final String TOOL_TIP_ID_ATTRIB = "toolTipID"; //$NON-NLS-1$
+		private static final String RETURN_TYPE_ATTRIB = "returnType"; //$NON-NLS-1$
+		private static final String TAG_ID_ATTRIB = "tagID"; //$NON-NLS-1$		
+		private static final String IS_STATIC_ATTRIB = "isStatic"; //$NON-NLS-1$
 
 		private static final String DEFAULT_STYLE_ATTRIB = "defaultStyle"; //$NON-NLS-1$
 		private static final String IS_NAME_REQUIRED_ATTRIB = "isNameRequired"; //$NON-NLS-1$
@@ -175,7 +180,12 @@ public class PeerExtensionLoader extends ExtensionLoader
 					else if ( METHOD_TAG.equalsIgnoreCase( elements[i]
 							.getName( ) ) )
 					{
-						// Method
+						SystemPropertyDefn extPropDefn = loadMethod(
+								elementTag, elements[i], elementDefn );
+
+						// Unique check is performed in addProperty()
+
+						elementDefn.addProperty( extPropDefn );
 					}
 				}
 			}
@@ -246,7 +256,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 				throw new ExtensionException(
 						new String[]{defaultValue},
 						ExtensionException.DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE );
-			}				
+			}
 			extPropDefn.setIntrinsic( false );
 			extPropDefn.setStyleProperty( false );
 			extPropDefn.setDefaultDisplayName( defaultDisplayName );
@@ -284,6 +294,145 @@ public class PeerExtensionLoader extends ExtensionLoader
 			}
 
 			return extPropDefn;
+		}
+
+		/**
+		 * Loads one property definition of the given element.
+		 * 
+		 * @param elementTag
+		 *            the element tag
+		 * @param propTag
+		 *            the property tag
+		 * @param elementDefn
+		 *            element definition
+		 * @return the property definition
+		 * @throws ExtensionException
+		 *             if the class some attribute specifies can not be
+		 *             instanced.
+		 */
+
+		ExtensionPropertyDefn loadMethod( IConfigurationElement elementTag,
+				IConfigurationElement propTag, ExtensionElementDefn elementDefn )
+				throws ExtensionException
+		{
+			String name = propTag.getAttribute( NAME_ATTRIB );
+			String displayNameID = propTag
+					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
+			String toolTipID = propTag.getAttribute( TOOL_TIP_ID_ATTRIB );
+			String returnType = propTag.getAttribute( RETURN_TYPE_ATTRIB );
+			String isStatic = propTag.getAttribute( IS_STATIC_ATTRIB );
+
+			if ( name == null )
+			{
+				throw new ExtensionException( new String[]{},
+						ExtensionException.DESIGN_EXCEPTION_MISSING_METHOD_NAME );
+			}
+			if ( displayNameID == null )
+			{
+				throw new ExtensionException( new String[]{},
+						ExtensionException.DESIGN_EXCEPTION_VALUE_REQUIRED );
+			}
+
+			// Note that here ROM supports overloadding, while JavaScript not.
+			// finds the method info if it has been parsed.
+
+			MethodInfo methodInfo = new MethodInfo( false );
+
+			methodInfo.setName( name );
+			methodInfo.setDisplayNameKey( displayNameID );
+			methodInfo.setReturnType( returnType );
+			methodInfo.setToolTipKey( toolTipID );
+			methodInfo.setStatic( Boolean.getBoolean( isStatic ) );
+
+			IConfigurationElement[] elements = propTag.getChildren( );
+			ArgumentInfoList argumentList = null;
+
+			for ( int i = 0; i < elements.length; i++ )
+			{
+				if ( ARGUMENT_TAG.equalsIgnoreCase( elements[i].getName( ) ) )
+				{
+					ArgumentInfo argument = loadArgument( elementTag,
+							elements[i], elementDefn );
+
+					if ( argumentList == null )
+						argumentList = new ArgumentInfoList( );
+
+					try
+					{
+						argumentList.addArgument( argument );
+					}
+					catch ( MetaDataException e )
+					{
+						throw new ExtensionException(
+								new String[]{},
+								ExtensionException.DESIGN_EXCEPTION_DUPLICATE_ARGUMENT_NAME );
+					}
+
+				}
+			}
+
+			methodInfo.addArgumentList( argumentList );
+			return addDefnTo( elementDefn, methodInfo );
+		}
+
+		private ExtensionPropertyDefn addDefnTo(
+				ExtensionElementDefn elementDefn, MethodInfo methodInfo )
+				throws ExtensionException
+		{
+			ExtensionPropertyDefn extPropDefn = new ExtensionPropertyDefn(
+					( (PeerExtensionElementDefn) elementDefn )
+							.getReportItemFactory( ).getMessages( ) );
+
+			PropertyType typeDefn = MetaDataDictionary.getInstance( )
+					.getPropertyType( PropertyType.SCRIPT_TYPE );
+
+			String name = methodInfo.getName( );
+			String displayNameID = methodInfo.getDisplayNameKey( );
+
+			extPropDefn.setName( name );
+			extPropDefn.setDisplayNameID( displayNameID );
+			extPropDefn.setType( typeDefn );
+			extPropDefn.setGroupNameKey( null );
+			extPropDefn.setCanInherit( true );
+			extPropDefn.setIntrinsic( false );
+			extPropDefn.setStyleProperty( false );
+			extPropDefn.setDetails( methodInfo );
+
+			return extPropDefn;
+		}
+
+		/**
+		 * Loads one property definition of the given element.
+		 * 
+		 * @param elementTag
+		 *            the element tag
+		 * @param propTag
+		 *            the property tag
+		 * @param elementDefn
+		 *            element definition
+		 * @return the property definition
+		 * @throws ExtensionException
+		 *             if the class some attribute specifies can not be
+		 *             instanced.
+		 */
+
+		ArgumentInfo loadArgument( IConfigurationElement elementTag,
+				IConfigurationElement propTag, ExtensionElementDefn elementDefn )
+				throws ExtensionException
+		{
+			String name = propTag.getAttribute( NAME_ATTRIB );
+			String tagID = propTag.getAttribute( TAG_ID_ATTRIB );
+			String type = propTag.getAttribute( TYPE_ATTRIB );
+
+			if ( name == null )
+				return null;
+
+			ArgumentInfo argument = new ArgumentInfo( );
+			argument.setName( name );
+			argument.setType( type );
+			argument.setDisplayNameKey( tagID );
+
+			return argument;
 		}
 	}
 }

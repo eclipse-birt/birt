@@ -13,11 +13,13 @@ package org.eclipse.birt.report.model.api.extension;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Extension adapter class for the IReportItem. By default, the report item will
- * have no model. Therefore, it has no model properties and all the related method
- * will do nothing or return null.
+ * have no model. Therefore, it has no model properties and all the related
+ * method will do nothing or return null.
  */
 
 public class ReportItem implements IReportItem, Cloneable
@@ -40,7 +42,7 @@ public class ReportItem implements IReportItem, Cloneable
 	 * @see org.eclipse.birt.report.model.extension.IReportItem#deserialize(java.lang.String,
 	 *      java.io.ByteArrayInputStream)
 	 */
-	
+
 	public void deserialize( String propName, ByteArrayInputStream data )
 			throws ExtendedElementException
 	{
@@ -73,7 +75,7 @@ public class ReportItem implements IReportItem, Cloneable
 	 * @see org.eclipse.birt.report.model.extension.IReportItem#checkProperty(java.lang.String,
 	 *      java.lang.Object)
 	 */
-	
+
 	public void checkProperty( String propName, Object value )
 			throws ExtendedElementException
 	{
@@ -86,7 +88,7 @@ public class ReportItem implements IReportItem, Cloneable
 	 * @see org.eclipse.birt.report.model.extension.IReportItem#setProperty(java.lang.String,
 	 *      java.lang.Object)
 	 */
-	
+
 	public void setProperty( String propName, Object value )
 	{
 		return;
@@ -97,7 +99,7 @@ public class ReportItem implements IReportItem, Cloneable
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.IReportItem#validate()
 	 */
-	
+
 	public void validate( ) throws ExtendedElementException
 	{
 		return;
@@ -108,12 +110,12 @@ public class ReportItem implements IReportItem, Cloneable
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.IReportItem#copy()
 	 */
-	
+
 	public IReportItem copy( )
 	{
 		try
 		{
-			return (IReportItem)super.clone( );
+			return (IReportItem) super.clone( );
 		}
 		catch ( CloneNotSupportedException e )
 		{
@@ -127,10 +129,21 @@ public class ReportItem implements IReportItem, Cloneable
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.IReportItem#refreshPropertyDefinition()
 	 */
-	
+
 	public boolean refreshPropertyDefinition( )
 	{
 		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getMethods()
+	 */
+
+	public List getMethods( )
+	{
+		return Collections.EMPTY_LIST;
 	}
 
 }
