@@ -26,9 +26,9 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyType;
-import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.metadata.ReferenceValue;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * A handle for working with a top-level property of an element.
@@ -98,10 +98,10 @@ public class PropertyHandle extends SimpleValueHandle
 	{
 		Object value = getElement( ).getProperty( getModule( ), propDefn );
 
-		if ( value instanceof ElementRefValue )
-			value = ( (ElementRefValue) value ).getName( );
-		if ( value instanceof StructRefValue )
-			value = ( (StructRefValue) value ).getName( );
+		if ( value instanceof ReferenceValue )
+			return ModelUtil.needTheNamespacePrefix( (ReferenceValue) value,
+					getElement( ).getRoot( ), getModule( ) );
+		
 		return value;
 	}
 
@@ -148,6 +148,7 @@ public class PropertyHandle extends SimpleValueHandle
 
 	public boolean isLocal( )
 	{
+		//TODO: getModule() here should be getRoot()
 		Object value = getElement( ).getLocalProperty( getModule( ), propDefn );
 		return ( value != null );
 	}

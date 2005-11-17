@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents a reference to a structure. A structure reference is different
@@ -154,15 +155,17 @@ public class StructRefPropertyType extends PropertyType
 			return null;
 
 		Structure target = getStructure( module, targetDefn, name );
-		
+
 		String namespace = null;
+		// TODO: the embeddedImage has "." in the name which will cause the
+		// nemaspace ambiguity.
 		if ( module instanceof Library )
-			namespace  = ( (Library) module ).getNamespace( ); //$NON-NLS-1$
-		
+			namespace = ( (Library) module ).getNamespace( ); //$NON-NLS-1$
+
 		// Element is unresolved.
 
 		if ( target == null )
-			return new StructRefValue(namespace, name );
+			return new StructRefValue( namespace, name );
 
 		// Check type.
 
@@ -173,8 +176,8 @@ public class StructRefPropertyType extends PropertyType
 					PropertyType.STRUCT_REF_TYPE );
 
 		// Resolved reference.
-	
-		return new StructRefValue(namespace, target );
+
+		return new StructRefValue( namespace, target );
 	}
 
 	private Structure getStructure( Module module, StructureDefn targetDefn,
@@ -251,10 +254,10 @@ public class StructRefPropertyType extends PropertyType
 					PropertyType.STRUCT_REF_TYPE );
 
 		// Resolved reference.
-		String namespace = null;		
+		String namespace = null;
 		if ( module instanceof Library )
-			namespace  = ( (Library) module ).getNamespace( ); //$NON-NLS-1$
-		
+			namespace = ( (Library) module ).getNamespace( ); //$NON-NLS-1$
+
 		return new StructRefValue( namespace, target );
 	}
 
@@ -273,8 +276,9 @@ public class StructRefPropertyType extends PropertyType
 
 		if ( value instanceof String )
 			return (String) value;
-		
-		return ( (StructRefValue) value ).getName( );
+
+		return ModelUtil.needTheNamespacePrefix( (StructRefValue) value, null,
+				module );
 	}
 
 	/**

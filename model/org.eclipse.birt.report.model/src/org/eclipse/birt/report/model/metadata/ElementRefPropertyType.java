@@ -20,6 +20,8 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
+import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents a reference to an element. An element reference is different from
@@ -125,7 +127,7 @@ public class ElementRefPropertyType extends PropertyType
 		}
 
 		// Invalid property value.
-		
+
 		logger.log( Level.SEVERE, "Invalid value type: " + value ); //$NON-NLS-1$
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
@@ -231,12 +233,15 @@ public class ElementRefPropertyType extends PropertyType
 
 		ElementRefValue refValue = (ElementRefValue) value;
 
-		if ( !StyledElement.STYLE_PROP.equals( defn.getName( ) ) )
+		// TODO: add theme. Add the if need namespace ligic here.
+		if ( !StyledElement.STYLE_PROP.equals( defn.getName( ) )
+				|| !ReportDesign.THEME_PROP.equals( defn.getName( ) ) )
 		{
-			return refValue.getQualifiedReference( );
+			return ModelUtil.needTheNamespacePrefix( (ReferenceValue) value,
+					null, module );
 		}
 
-		return refValue.getQualifiedReference( );
+		return refValue.getName( );
 	}
 
 	/**
@@ -257,10 +262,20 @@ public class ElementRefPropertyType extends PropertyType
 		if ( ref.isResolved( ) )
 			return;
 		ElementDefn targetDefn = (ElementDefn) defn.getTargetElementType( );
-		DesignElement target = module.resolveElement( ref.getName( ),
-				targetDefn.getNameSpaceID( ) );
+	
+		// Let the corresponding name scope do the resolve things for the
+		// element reference value. The scope will search the target element not
+		// only in the current root namespace, but also in the included
+		// libraries namespace.
+
+		IModuleNameSpace elementResolver = module
+				.getModuleNameSpace( targetDefn.getNameSpaceID( ) );
+
+		String name = ModelUtil.needTheNamespacePrefix( ref, null, module );
+
+		DesignElement target = module.resolveElement( name, targetDefn
+				.getNameSpaceID( ) );
 		if ( target != null )
 			ref.resolve( target );
 	}
-
 }

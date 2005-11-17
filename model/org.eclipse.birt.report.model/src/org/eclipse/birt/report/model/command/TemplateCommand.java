@@ -263,7 +263,7 @@ public class TemplateCommand extends AbstractElementCommand
 				base, name );
 
 		// if content element is not a report
-		// item or data set, then the operarion is forbidden
+		// item or data set, then the operation is forbidden
 
 		if ( template == null )
 			throw new TemplateException(

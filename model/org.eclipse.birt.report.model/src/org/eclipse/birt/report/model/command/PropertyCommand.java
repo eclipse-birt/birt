@@ -43,6 +43,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Sets the value of a property. Works with both system and user properties.
@@ -315,7 +316,13 @@ public class PropertyCommand extends AbstractElementCommand
 			if ( value == null )
 				cmd.setExtendsName( null );
 			else
-				cmd.setExtendsName( ( (ElementRefValue) value ).getName( ) );
+			{
+				// TODO: the root here should not be module.
+				String name = ( (ElementRefValue) value ).getName( );
+				name = ModelUtil.needTheNamespacePrefix(
+						(ElementRefValue) value, null, module );
+				cmd.setExtendsName( name );
+			}
 		}
 		else if ( StyledElement.STYLE_PROP.equals( propName ) )
 		{

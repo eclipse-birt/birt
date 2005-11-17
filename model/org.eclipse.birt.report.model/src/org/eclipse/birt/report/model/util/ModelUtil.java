@@ -40,6 +40,7 @@ import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.command.LibraryException;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
@@ -51,6 +52,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.xml.sax.SAXException;
@@ -190,10 +192,11 @@ public class ModelUtil
 	 * <ul>
 	 * <li>Properties set on element itself
 	 * <li>Inherited from style or element's selector style
-	 * <li>Inherited from parent 
+	 * <li>Inherited from parent
 	 * </ul>
 	 * 
-	 * @param element the element to be localized.
+	 * @param element
+	 *            the element to be localized.
 	 */
 
 	public static void localizeElement( DesignElement element )
@@ -204,20 +207,21 @@ public class ModelUtil
 			return;
 
 		duplicateProperties( parent, element );
-		
+
 		ContentIterator iter1 = new ContentIterator( parent );
 		ContentIterator iter2 = new ContentIterator( element );
-		
-		while( iter1.hasNext() )
+
+		while ( iter1.hasNext( ) )
 		{
-			DesignElement virtualParent = (DesignElement)iter1.next();
-			DesignElement virtualChild = (DesignElement)iter2.next();
-				
+			DesignElement virtualParent = (DesignElement) iter1.next( );
+			DesignElement virtualChild = (DesignElement) iter2.next( );
+
 			duplicateProperties( virtualParent, virtualChild );
 		}
 	}
 
-	private static void duplicateProperties( DesignElement from, DesignElement to )
+	private static void duplicateProperties( DesignElement from,
+			DesignElement to )
 	{
 		if ( from.getDefn( ).allowsUserProperties( ) )
 		{
@@ -244,8 +248,9 @@ public class ModelUtil
 					|| DesignElement.USER_PROPERTIES_PROP.equals( propName ) )
 				continue;
 
-			Object localValue = to.getLocalProperty( from.getRoot(), propDefn );
-			Object parentValue = from.getPropertyFromElement( from.getRoot(), propDefn );
+			Object localValue = to.getLocalProperty( from.getRoot( ), propDefn );
+			Object parentValue = from.getPropertyFromElement( from.getRoot( ),
+					propDefn );
 
 			if ( localValue == null && parentValue != null )
 			{
@@ -254,7 +259,7 @@ public class ModelUtil
 			}
 		}
 	}
-	
+
 	/**
 	 * Duplicates the properties from source element to destination element.
 	 * Source and the destination element should be of the same type. The
@@ -408,12 +413,15 @@ public class ModelUtil
 			case PropertyType.ELEMENT_REF_TYPE :
 
 				ElementRefValue refValue = (ElementRefValue) value;
-				return new ElementRefValue( null, refValue.getName( ) );
+				return new ElementRefValue( refValue.getLibraryNamespace( ),
+						refValue.getName( ) );
 
 			case PropertyType.STRUCT_REF_TYPE :
 
 				StructRefValue structRefValue = (StructRefValue) value;
-				return new StructRefValue( null,structRefValue.getName( ) );
+				return new StructRefValue(
+						structRefValue.getLibraryNamespace( ), structRefValue
+								.getName( ) );
 		}
 
 		return value;
@@ -565,7 +573,7 @@ public class ModelUtil
 	 * 
 	 * @param propDefns
 	 *            a list that contains PropertyDefns.
-	 * @return the list of <code>PropertyDefn</code>s that is sorted by their
+	 * @return the list of <code>PropertyDefn</code> s that is sorted by their
 	 *         display name.
 	 */
 
@@ -710,4 +718,44 @@ public class ModelUtil
 
 		theme.setContainer( library, Library.THEMES_SLOT );
 	}
+
+	/**
+	 * Gets the property value with the name prefix. This method is just used
+	 * for the element/structure reference type property. If the report design
+	 * element is extended from a library element and the retrieved value comes
+	 * from the parent, the namespace of the library should be added before the
+	 * value. This is used to allocate the referenced element/structure within
+	 * the correct scope.
+	 * 
+	 * @param refValue
+	 *            the reference value 
+	 * @return the value of the property. The type of the returned object should
+	 *         be strings.
+	 * 
+	 */
+
+	public static String needTheNamespacePrefix( ReferenceValue refValue,
+			Module root, Module module )
+	{
+		
+		String namespace = refValue.getLibraryNamespace( );
+		String value = refValue.getName( );
+
+		if ( namespace == null )
+			return value;
+		Module theRoot = module;
+		if ( root != null )
+			theRoot = root;
+
+		if ( theRoot instanceof Library )
+		{
+			if ( !namespace.equals( ( (Library) theRoot ).getNamespace( ) ) )
+				value = namespace + "." + value; //$NON-NLS-1$
+		}
+		else 
+			value = namespace + "." + value; //$NON-NLS-1$
+
+		return value;
+	}
+
 }

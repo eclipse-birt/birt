@@ -395,7 +395,7 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * <li>The {@link Listener}class to receive notifications.</li>
  * <li>A subclass of {@link NotificationEvent}notifies the listener of the
  * type of change, and information about the change.</li>
- * <li>The {@link org.eclipse.birt.report.model.activity.ActivityStack} class
+ * <li>The {@link org.eclipse.birt.report.model.activity.ActivityStack}class
  * triggers the notifications as it processes commands.</li>
  * <li>ActivityStack calls the {@link #sendEvent}method to send the
  * notification to the appropriate listeners.</li>
@@ -808,7 +808,7 @@ public abstract class DesignElement
 	/**
 	 * Returns <code>true</code> if the element is within a child element
 	 * which extends from another. Returns <code>false</code> otherwise. <br>
-	 * <strong>Notice:</strong> <br>
+	 * <strong>Notice: </strong> <br>
 	 * If the element is a virtual element, it must have defined a <code>
 	 * baseId<code> which point to the ID of its virtual parent. 
 	 * 

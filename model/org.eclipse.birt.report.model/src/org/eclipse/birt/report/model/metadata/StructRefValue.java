@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 
@@ -38,57 +37,35 @@ import org.eclipse.birt.report.model.core.Structure;
  * 
  */
 
-public class StructRefValue
+public class StructRefValue extends ReferenceValue
 {
-
-	/**
-	 * Library namespace that indicats which library this reference is using
-	 */
-
-	String libraryNamespace;
-
-	/**
-	 * Unresolved name of the target element.
-	 */
-
-	public String name;
-
-	/**
-	 * Resolved pointer to the target element.
-	 */
-
-	public Structure resolved;
 
 	/**
 	 * Constructor of an unresolved reference.
 	 * 
 	 * @param namespace
-	 *            the library name space	 
+	 *            the library name space
 	 * @param theName
 	 *            the unresolved name
 	 */
 
 	public StructRefValue( String namespace, String theName )
 	{
-		assert theName != null;
-		name = theName;
-		libraryNamespace = namespace;
+		super( namespace, theName );
 	}
 
 	/**
 	 * Constructor of a resolved reference.
 	 * 
 	 * @param namespace
-	 *            the library name space	
+	 *            the library name space
 	 * @param structure
 	 *            the resolved structure
 	 */
 
 	public StructRefValue( String namespace, Structure structure )
 	{
-		assert structure != null;
-		resolved = structure;
-		libraryNamespace = namespace;
+		super( namespace, structure );
 	}
 
 	/**
@@ -104,7 +81,7 @@ public class StructRefValue
 		if ( name != null )
 			return name;
 		if ( resolved != null )
-			return resolved.getReferencableProperty( );
+			return ( (Structure) resolved ).getReferencableProperty( );
 		assert false;
 		return null;
 	}
@@ -118,7 +95,7 @@ public class StructRefValue
 
 	public Structure getStructure( )
 	{
-		return resolved;
+		return (Structure) resolved;
 	}
 
 	/**
@@ -140,59 +117,11 @@ public class StructRefValue
 	 *            the resolved structure
 	 */
 
-	public void resolve( Structure structure )
+	public void resolve( Object structure )
 	{
+		assert structure instanceof Structure;
 		name = null;
-		resolved = structure;
+		resolved = (Structure) structure;
 	}
 
-	/**
-	 * Sets the unresolved structure name.
-	 * 
-	 * @param theName
-	 *            the unresolved structure name
-	 */
-
-	public void unresolved( String theName )
-	{
-		resolved = null;
-		name = theName;
-	}
-
-	/**
-	 * Determines if this reference is resolved.
-	 * 
-	 * @return true if this structure is resolved, false if it is unset, or set
-	 *         to an unresolved name
-	 */
-
-	public boolean isResolved( )
-	{
-		assert !( name != null && resolved != null );
-		return resolved != null;
-	}
-
-	/**
-	 * Determines if this reference is set.
-	 * 
-	 * @return true if the reference is set, false if not
-	 */
-
-	public boolean isSet( )
-	{
-		return name != null || resolved != null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-
-	public String toString( )
-	{
-		if ( !StringUtil.isBlank( getName( ) ) )
-			return getName( );
-		return super.toString( );
-	}
 }

@@ -115,6 +115,18 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 		super( library );
 	}
 
+	/**
+	 * Returns the host handle which includes the library.
+	 * 
+	 * @return the host handle which include this library.
+	 */
+
+	public ModuleHandle getHostHandle( )
+	{
+		return (ModuleHandle) ( (Library) getElement( ) ).getHost( ).getHandle(
+				getModule( ) );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

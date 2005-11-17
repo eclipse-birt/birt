@@ -251,13 +251,11 @@
     <Choice displayNameID="Choices.filterOperator.isTrue" name="is-true" />
     <Choice displayNameID="Choices.filterOperator.isFalse" name="is-false" />
     <Choice displayNameID="Choices.filterOperator.like" name="like" />
-	<!-- DTE doesn't support the following operator
     <Choice displayNameID="Choices.filterOperator.top-n" name="top-n" />
     <Choice displayNameID="Choices.filterOperator.bottom-n" name="bottom-n" />
     <Choice displayNameID="Choices.filterOperator.top-percent" name="top-percent" />
     <Choice displayNameID="Choices.filterOperator.bottom-percent" name="bottom-percent" />
     <Choice displayNameID="Choices.filterOperator.any" name="any" />
-    -->
   </ChoiceType>
   <ChoiceType name="imageSize">
     <Choice displayNameID="Choices.imageSize.size-to-image" name="size-to-image"/>

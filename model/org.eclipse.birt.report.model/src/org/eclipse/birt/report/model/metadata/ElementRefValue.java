@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 
@@ -41,26 +40,8 @@ import org.eclipse.birt.report.model.core.ReferenceableElement;
  * 
  */
 
-public class ElementRefValue
+public class ElementRefValue extends ReferenceValue
 {
-
-	/**
-	 * Library namespace that indicats which library this reference is using
-	 */
-
-	String libraryNamespace;
-
-	/**
-	 * Unresolved name of the target element.
-	 */
-
-	String name;
-
-	/**
-	 * Resolved pointer to the target element.
-	 */
-
-	DesignElement resolved;
 
 	/**
 	 * Constructor of an unresolved reference.
@@ -74,9 +55,7 @@ public class ElementRefValue
 
 	public ElementRefValue( String namespace, String theName )
 	{
-		assert theName != null;
-		name = theName;
-		libraryNamespace = namespace;
+		super( namespace,theName );
 	}
 
 	/**
@@ -91,9 +70,7 @@ public class ElementRefValue
 
 	public ElementRefValue( String namespace, DesignElement element )
 	{
-		assert element != null;
-		resolved = element;
-		libraryNamespace = namespace;
+		super (namespace,element);
 	}
 
 	/**
@@ -109,11 +86,24 @@ public class ElementRefValue
 		if ( name != null )
 			return name;
 		if ( resolved != null )
-			return resolved.getName( );
+			return ( (DesignElement) resolved ).getName( );
 		assert false;
 		return null;
 	}
 
+	/**
+	 * Sets the resolved element.
+	 * 
+	 * @param element
+	 *            the resolved element.
+	 */
+	public void resolve( Object element ){
+	
+		assert element instanceof DesignElement;
+		name = null;
+		resolved = (DesignElement )element;
+	}
+	
 	/**
 	 * Returns the referenced element, if the element is resolved.
 	 * 
@@ -123,7 +113,7 @@ public class ElementRefValue
 
 	public DesignElement getElement( )
 	{
-		return resolved;
+		return ( DesignElement )resolved;
 	}
 
 	/**
@@ -136,67 +126,6 @@ public class ElementRefValue
 	public ReferenceableElement getTargetElement( )
 	{
 		return (ReferenceableElement) resolved;
-	}
-
-	/**
-	 * Sets the resolved element.
-	 * 
-	 * @param element
-	 *            the resolved element
-	 */
-
-	public void resolve( DesignElement element )
-	{
-		name = null;
-		resolved = element;
-	}
-
-	/**
-	 * Sets the unresolved element name.
-	 * 
-	 * @param theName
-	 *            the unresolved element name
-	 */
-
-	public void unresolved( String theName )
-	{
-		resolved = null;
-		name = theName;
-	}
-
-	/**
-	 * Determines if this reference is resolved.
-	 * 
-	 * @return true if this element is resolved, false if it is unset, or set to
-	 *         an unresolved name
-	 */
-
-	public boolean isResolved( )
-	{
-		assert !( name != null && resolved != null );
-		return resolved != null;
-	}
-
-	/**
-	 * Determines if this reference is set.
-	 * 
-	 * @return true if the reference is set, false if not
-	 */
-
-	public boolean isSet( )
-	{
-		return name != null || resolved != null;
-	}
-
-	/**
-	 * Returns the library namespace.
-	 * 
-	 * @return the library namespace
-	 */
-
-	public String getLibraryNamespace( )
-	{
-		return libraryNamespace;
 	}
 
 	/*
@@ -216,7 +145,9 @@ public class ElementRefValue
 				{
 					return getElement( ).equals( value.getElement( ) );
 				}
-				return getLibraryNamespace().equals( value.getLibraryNamespace()) && getName( ).equals( value.getName( ) );
+				return getLibraryNamespace( ).equals(
+						value.getLibraryNamespace( ) )
+						&& getName( ).equals( value.getName( ) );
 			}
 			return false;
 
@@ -224,38 +155,5 @@ public class ElementRefValue
 		return false;
 	}
 
-	/**
-	 * Returns the qualified reference of this reference value, which is made up
-	 * with library namespace and element name. If no library namespace is available,
-	 * only element name is returned.
-	 * <p>
-	 * For example,
-	 * <ul>
-	 * <li>The library namespace is "LibA", and element name is "style1".
-	 * "LibA:style1" is retured.
-	 * <li>If it has no library namespace, 
-	 * </ul>
-	 * 
-	 * @return the qualified reference
-	 */
 
-	public String getQualifiedReference( )
-	{
-		return StringUtil.buildQualifiedReference( getLibraryNamespace( ),
-				getName( ) );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-
-	public String toString( )
-	{
-		if ( !StringUtil.isBlank( getName( ) ) )
-			return getQualifiedReference( );
-			
-		return super.toString( );
-	}
 }

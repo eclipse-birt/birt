@@ -59,8 +59,10 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Base class for all report elements. Provides a high-level interface to the
@@ -208,12 +210,12 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		DesignElement element = getElement( );
 		Object value = element.getProperty( module, propName );
 
-		if ( value instanceof ElementRefValue )
-			value = ( (ElementRefValue) value ).getName( );
-		if ( value instanceof StructRefValue )
-			value = ( (StructRefValue) value ).getName( );
+		if ( value instanceof ReferenceValue )
+			return ModelUtil.needTheNamespacePrefix( (ReferenceValue) value,
+					getElement( ).getRoot( ), getModule( ) );
 
 		return value;
+
 	}
 
 	/**
@@ -902,11 +904,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( getElement( ).getName( ) == null )
 			return null;
 
-		Module rootElement = ( Module )getRoot( ).getElement( );
+		Module rootElement = (Module) getRoot( ).getElement( );
 		if ( rootElement instanceof Library )
 		{
-			String namespace = ( (Library) rootElement )
-					.getNamespace( );
+			String namespace = ( (Library) rootElement ).getNamespace( );
 			return StringUtil.buildQualifiedReference( namespace, getElement( )
 					.getName( ) );
 		}
@@ -1555,8 +1556,13 @@ public abstract class DesignElementHandle implements IDesignElementModel
 					targetHandle.setProperty( propDefn.getName( ), refValue
 							.getElement( ) );
 				else
-					targetHandle.setProperty( propDefn.getName( ), refValue
-							.getName( ) );
+				{
+					String name = refValue.getName( );
+					name = ModelUtil.needTheNamespacePrefix(
+							(ReferenceValue) value, getElement( ).getRoot( ),
+							getModule( ) );
+					targetHandle.setProperty( propDefn.getName( ), name );
+				}
 				break;
 
 			case PropertyType.STRUCT_REF_TYPE :
@@ -1820,7 +1826,6 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	{
 		setProperty( GroupElement.EVENT_HANDLER_CLASS_PROP, expr );
 	}
-
 
 	/**
 	 * Creates a template element handle and transforms the current element

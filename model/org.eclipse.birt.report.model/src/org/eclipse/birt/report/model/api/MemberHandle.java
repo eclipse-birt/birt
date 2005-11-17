@@ -17,9 +17,9 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
-import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
-import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * A handle to a member of a property structure. A structure list occurs in an
@@ -96,11 +96,11 @@ public class MemberHandle extends SimpleValueHandle
 	public Object getValue( )
 	{
 		Object value = memberRef.getValue( getModule( ), getElement( ) );
+	
+		if ( value instanceof ReferenceValue )
+			return ModelUtil.needTheNamespacePrefix( (ReferenceValue) value,
+					getElement( ).getRoot( ), getModule( ) );
 
-		if ( value instanceof ElementRefValue )
-			value = ( (ElementRefValue) value ).getName( );
-		if ( value instanceof StructRefValue )
-			value = ( (StructRefValue) value ).getName( );
 		return value;
 	}
 
@@ -142,7 +142,7 @@ public class MemberHandle extends SimpleValueHandle
 	 * 
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#isVisible()
 	 */
-	
+
 	public boolean isVisible( )
 	{
 		return true;

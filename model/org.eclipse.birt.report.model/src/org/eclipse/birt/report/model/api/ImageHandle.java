@@ -14,13 +14,10 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ImageItem;
-import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
-import org.eclipse.birt.report.model.metadata.StructRefValue;
 
 /**
  * Represents an image report item. The image can come from a number of sources:
@@ -243,46 +240,8 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		if ( !DesignChoiceConstants.IMAGE_REF_TYPE_EMBED
 				.equalsIgnoreCase( getStringProperty( ImageItem.SOURCE_PROP ) ) )
 			return null;
-
-		ImageItem image = (ImageItem) getElement( );
-
-		StructRefValue refValue = (StructRefValue) image.getLocalProperty(
-				getModule( ), IImageItemModel.IMAGE_NAME_PROP );
-		if ( refValue != null )
-		{
-			return refValue.getName( );
-		}
-
-		String name = getStringProperty( IImageItemModel.IMAGE_NAME_PROP );
-		if ( name == null )
-			return null;
-
-		// must be extends
-
-		Module module = getModule( );
-		DesignElement parent = image.isVirtualElement( ) ? image
-				.getVirtualParent( ) : image.getExtendsElement( );
-		while ( parent != null )
-		{
-			if ( parent
-					.getLocalProperty( null, IImageItemModel.IMAGE_NAME_PROP ) != null )
-			{
-				module = parent.getRoot( );
-				break;
-			}
-
-			parent = parent.isVirtualElement( )
-					? parent.getVirtualParent( )
-					: parent.getExtendsElement( );
-		}
-
-		if ( module instanceof Library )
-		{
-			String namespace = ( (Library) module ).getNamespace( );
-			return StringUtil.buildQualifiedReference( namespace, name );
-		}
-
-		return name;
+		
+		return getStringProperty( IImageItemModel.IMAGE_NAME_PROP );
 
 	}
 
