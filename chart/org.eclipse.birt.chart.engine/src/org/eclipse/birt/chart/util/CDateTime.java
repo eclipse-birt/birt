@@ -431,6 +431,11 @@ public class CDateTime extends GregorianCalendar
 		{
 			return ( l1 - l2 ) / MILLIS_IN_DAY;
 		}
+		else if ( iUnit == Calendar.WEEK_OF_YEAR )
+		{
+			final double dDays = computeDifference( cdt1, cdt2, Calendar.DATE );
+			return dDays / 7.0;
+		}
 		else if ( iUnit == Calendar.MONTH )
 		{
 			final double dDays = computeDifference( cdt1, cdt2, Calendar.DATE );
@@ -469,7 +474,7 @@ public class CDateTime extends GregorianCalendar
 				if ( cCurr.get( iaUnitTypes[k] ) != cPrev.get( iaUnitTypes[k] ) )
 				{
 					return iaUnitTypes[k]; // THE UNIT FOR WHICH A DIFFERENCE
-											// WAS NOTED
+					// WAS NOTED
 				}
 				cPrev = cCurr;
 			}
@@ -488,7 +493,8 @@ public class CDateTime extends GregorianCalendar
 	 * @return The least significant unit for which a difference in datetime
 	 *         values was noted
 	 */
-	public static final int computeUnit( CDateTime[] cdta ) throws ChartException
+	public static final int computeUnit( CDateTime[] cdta )
+			throws ChartException
 	{
 		int j;
 		for ( int k = 0; k < iaUnitTypes.length; k++ )
@@ -512,7 +518,7 @@ public class CDateTime extends GregorianCalendar
 				if ( cdta[i].get( iaUnitTypes[k] ) != cdta[j].get( iaUnitTypes[k] ) )
 				{
 					return iaUnitTypes[k]; // THE UNIT FOR WHICH A DIFFERENCE
-											// WAS NOTED
+					// WAS NOTED
 				}
 			}
 		}
