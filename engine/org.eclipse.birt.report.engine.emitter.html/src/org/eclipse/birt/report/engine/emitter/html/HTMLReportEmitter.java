@@ -78,7 +78,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.44 $ $Date: 2005/11/16 08:43:20 $
+ * @version $Revision: 1.45 $ $Date: 2005/11/17 06:37:51 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1156,31 +1156,18 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		Object rawValue = foreign.getRawValue( );
 		String rawType = foreign.getRawType( );
-		boolean notHtml = !IForeignContent.HTML_TYPE.equalsIgnoreCase( rawType );
+		boolean isHtml = IForeignContent.HTML_TYPE.equalsIgnoreCase( rawType );
 		String text = rawValue == null ? null : rawValue.toString( );
 
-		if ( !notHtml )
+		if ( isHtml )
 		{
-			text = text.trim( );
-			if ( text.length( ) > 6 )
-			{
-				String htmlTag = text.substring( 0, 6 );
-				if ( "<html>".equalsIgnoreCase( htmlTag ) )
-				{
-					text = text.substring( 6 );
-				}
-			}
-			if ( text.length( ) > 7 )
-			{
-				String endTag = text.substring( text.length( ) - 7 );
-				if ( "</html>".equalsIgnoreCase( endTag ) )
-				{
-					text = text.substring( 0, text.length( ) - 7 );
-				}
-			}
+			text = text.replaceAll( "<html>", "");
+			text = text.replaceAll( "</html>", "");
+			text = text.replaceAll( "<body>", "");
+			text = text.replaceAll( "</body>", "");
 		}
 
-		writer.text( text, notHtml, notHtml );
+		writer.text( text, !isHtml, !isHtml );
 
 		writer.closeTag( tagName );
 
