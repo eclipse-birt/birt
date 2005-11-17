@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.birt.prototypetaskwizardframework">
+<schema targetNamespace="org.eclipse.birt.core.ui">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.birt.prototypetaskwizardframework" id="taskWizards" name="taskWizards"/>
+         <meta.schema plugin="org.eclipse.birt.core.ui" id="taskWizards" name="taskWizards"/>
       </appInfo>
       <documentation>
          [Enter description of this extension point.]

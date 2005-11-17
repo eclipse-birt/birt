@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="TaskWizardFramework">
+<schema targetNamespace="org.eclipse.birt.core.ui">
 <annotation>
       <appInfo>
-         <meta.schema plugin="TaskWizardFramework" id="wizardTask" name="Task to be used in a Task-oriented Wizard"/>
+         <meta.schema plugin="org.eclipse.birt.core.ui" id="wizardTask" name="Task to be used in a Task-oriented Wizard"/>
       </appInfo>
       <documentation>
          [Enter description of this extension point.]
