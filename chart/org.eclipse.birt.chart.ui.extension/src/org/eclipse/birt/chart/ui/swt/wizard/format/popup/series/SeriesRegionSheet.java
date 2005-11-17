@@ -394,11 +394,11 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		} else if (event.widget.equals(txtInnerRadius)) {
 			((DialRegion) (getDialForProcessing().getDialRegions())
 					.get(getMarkerIndex())).setInnerRadius(Double
-					.parseDouble(txtInnerRadius.getText()));
+					.parseDouble( trimString(txtInnerRadius.getText())));
 		} else if (event.widget.equals(txtOuterRadius)) {
 			((DialRegion) (getDialForProcessing().getDialRegions())
 					.get(getMarkerIndex())).setOuterRadius(Double
-					.parseDouble(txtOuterRadius.getText()));
+					.parseDouble( trimString( txtOuterRadius.getText())));
 		} else if (event.widget.equals(liacMarkerRange)) {
 			if (event.type == LineAttributesComposite.STYLE_CHANGED_EVENT) {
 				((DialRegion) getDialForProcessing().getDialRegions().get(
@@ -639,6 +639,18 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		catch ( ParseException e1 )
 		{
 			return NumberDataElementImpl.create( 0.0 );
+		}
+	}
+
+	private String trimString( String input )
+	{
+		if ( input.trim( ).length( ) == 0 )
+		{
+			return "0.0"; //$NON-NLS-1$
+		}
+		else
+		{
+			return input.trim( );
 		}
 	}
 }

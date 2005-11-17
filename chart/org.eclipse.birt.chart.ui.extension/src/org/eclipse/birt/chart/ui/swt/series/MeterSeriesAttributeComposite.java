@@ -227,8 +227,8 @@ public class MeterSeriesAttributeComposite extends Composite implements
 	{
 		if ( event.widget.equals( txtRadius ) )
 		{
-			series.getDial( )
-					.setRadius( Double.parseDouble( txtRadius.getText( ) ) );
+				series.getDial( )
+					.setRadius( Double.parseDouble( trimString(txtRadius.getText( ) ) ) );		
 		}
 		else if ( event.widget.equals( iscStartAngle ) )
 		{
@@ -284,5 +284,16 @@ public class MeterSeriesAttributeComposite extends Composite implements
 			series.setDial( scaleDialog.getDialForProcessing( ) );
 		}
 	}
-
+	
+	private String trimString( String input )
+	{
+		if ( input.trim( ).length( ) == 0 )
+		{
+			return "0.0"; //$NON-NLS-1$
+		}
+		else
+		{
+			return input.trim( );
+		}
+	}
 }
