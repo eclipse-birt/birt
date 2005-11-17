@@ -20,5 +20,8 @@ import org.eclipse.pde.internal.ui.launcher.ILauncherSettings;
  */
 public interface IReportLauncherSettings extends ILauncherSettings
 {
+	/**
+	 *Key for the selection project name
+	 */
 	String WSPROJECT = "wsproject"; //$NON-NLS-1$
 }

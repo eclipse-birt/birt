@@ -58,20 +58,9 @@
 	        id="org.eclipse.birt.report.debug.ui.launchConfigurationTypeImage.report">
 	    </launchConfigurationTypeImage>
 	</extension>
-	
-	<extension
-         point="org.eclipse.debug.core.sourceLocators">
-      <sourceLocator
-            name="%javaSourceLocatorName"
-            class="org.eclipse.jdt.launching.sourcelookup.JavaSourceLocator"
-            id="org.eclipse.jdt.launching.javaSourceLocator">
-      </sourceLocator>
-   </extension>
- 	<extension point="org.eclipse.debug.core.sourceLocators">
-   		<sourceLocator
-   			id="org.eclipse.jdt.launching.sourceLocator.JavaSourceLookupDirector"
-   			class="org.eclipse.jdt.internal.launching.JavaSourceLookupDirector"
-   			name="%javaSourceLookupDirector.name">
-   		</sourceLocator>
+	<extension point="org.eclipse.ui.startup">
+
+     <startup class="org.eclipse.birt.report.debug.internal.ui.launcher.DebugStartupClass"/>
+
    </extension>
 </plugin>

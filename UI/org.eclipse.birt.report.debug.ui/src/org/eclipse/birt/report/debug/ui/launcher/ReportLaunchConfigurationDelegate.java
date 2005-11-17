@@ -32,6 +32,10 @@ import org.eclipse.pde.internal.ui.launcher.*;
 public class ReportLaunchConfigurationDelegate extends LaunchConfigurationDelegate
     implements ILauncherSettings
 {
+	/**
+	 * It is roperty key.
+	 */
+	private static final String PROJECT_NAMES_KEY = "user.projectname";
 
     public ReportLaunchConfigurationDelegate()
     {
@@ -215,7 +219,7 @@ public class ReportLaunchConfigurationDelegate extends LaunchConfigurationDelega
         throws CoreException
     {
         String temp[] = (new ExecutionArguments(configuration.getAttribute("vmargs", ""), "")).getVMArgumentsArray();
-        String append = "-Duser.projectname=" + configuration.getAttribute("importproject", "");
+        String append = "-D" + PROJECT_NAMES_KEY + "=" + configuration.getAttribute("importproject", "");
         if(temp == null)
         {
             temp = (new String[] {
