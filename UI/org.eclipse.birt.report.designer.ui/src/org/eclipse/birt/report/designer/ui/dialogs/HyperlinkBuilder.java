@@ -80,6 +80,7 @@ import org.eclipse.ui.ISharedImages;
 public class HyperlinkBuilder extends BaseDialog
 {
 
+	private static final String TITLE = Messages.getString( "HyperlinkBuilder.DialogTitle" );
 	private static final String LABEL_SELECT_TYPE = Messages.getString( "HyperlinkBuilder.Label.SelectType" ); //$NON-NLS-1$
 	private static final String LABEL_LOCATION = Messages.getString( "HyperlinkBuilder.Label.Location" ); //$NON-NLS-1$
 	private static final String LABEL_TARGET = Messages.getString( "HyperlinkBuilder.Label.Target" ); //$NON-NLS-1$
@@ -105,6 +106,8 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private static final String TOOLTIP_BROWSE_FILE = "Browse for File"; //$NON-NLS-1$
 	private static final String TOOLTIP_EXPRESSION = "Open Expression Builder"; //$NON-NLS-1$
+
+	private static final String REQUIED_MARK = "*";
 
 	private static final IChoiceSet CHOICESET_TARGET = DesignEngine.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_TARGET_NAMES_TYPE );
@@ -282,7 +285,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 	public HyperlinkBuilder( Shell parentShell )
 	{
-		super( parentShell, "Hyperlink Options" );
+		super( parentShell, TITLE ); //$NON-NLS-1$
 
 	}
 
@@ -358,7 +361,8 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private void switchToURI( )
 	{
-		new Label( displayArea, SWT.NONE ).setText( LABEL_LOCATION );
+		new Label( displayArea, SWT.NONE ).setText( REQUIED_MARK
+				+ LABEL_LOCATION );
 		locationEditor = new Text( displayArea, SWT.BORDER | SWT.SINGLE );
 		locationEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		locationEditor.addModifyListener( new ModifyListener( ) {
@@ -378,12 +382,12 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private void switchToBookmark( )
 	{
-		createBookmarkBar( );
+		createBookmarkBar( true );
 	}
 
 	private void switchToDrillthrough( )
 	{
-		new Label( displayArea, SWT.NONE ).setText( LABEL_REPORT );
+		new Label( displayArea, SWT.NONE ).setText( REQUIED_MARK + LABEL_REPORT );
 		locationEditor = new Text( displayArea, SWT.BORDER | SWT.SINGLE );
 		locationEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		locationEditor.addModifyListener( new ModifyListener( ) {
@@ -403,7 +407,7 @@ public class HyperlinkBuilder extends BaseDialog
 		messageLine.setLayoutData( gd );
 
 		createBindingTable( );
-		createBookmarkBar( );
+		createBookmarkBar( false );
 		createTargetBar( );
 		createFormatBar( );
 	}
@@ -555,9 +559,18 @@ public class HyperlinkBuilder extends BaseDialog
 		UIUtil.createBlankLabel( displayArea );
 	}
 
-	private void createBookmarkBar( )
+	private void createBookmarkBar( boolean isRequired )
 	{
-		new Label( displayArea, SWT.NONE ).setText( LABEL_BOOKMARK );
+		String label;
+		if ( isRequired )
+		{
+			label = REQUIED_MARK + LABEL_BOOKMARK;
+		}
+		else
+		{
+			label = LABEL_BOOKMARK;
+		}
+		new Label( displayArea, SWT.NONE ).setText( label );
 		bookmarkEditor = new Text( displayArea, SWT.BORDER | SWT.SINGLE );
 		bookmarkEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		bookmarkEditor.addModifyListener( new ModifyListener( ) {
@@ -609,7 +622,11 @@ public class HyperlinkBuilder extends BaseDialog
 				{
 					inputHandle.addParamBinding( (ParamBinding) iter.next( ) );
 				}
-				inputHandle.setTargetBookmark( bookmarkEditor.getText( ) );
+				if ( !StringUtil.isBlank( bookmarkEditor.getText( ) ) )
+				{
+					inputHandle.setTargetBookmark( bookmarkEditor.getText( )
+							.trim( ) );
+				}
 				inputHandle.setTargetWindow( ChoiceSetFactory.getValueFromChoiceSet( targetChooser.getText( ),
 						CHOICESET_TARGET ) );
 				inputHandle.setFormatType( ChoiceSetFactory.getValueFromChoiceSet( formatChooser.getText( ),
@@ -813,7 +830,6 @@ public class HyperlinkBuilder extends BaseDialog
 		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( selectedType ) )
 		{
 			okEnable = !StringUtil.isBlank( locationEditor.getText( ) )
-					&& !StringUtil.isBlank( bookmarkEditor.getText( ) )
 					&& messageLine.getImage( ) == null;
 		}
 		getOkButton( ).setEnabled( okEnable );
