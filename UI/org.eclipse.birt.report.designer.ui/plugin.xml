@@ -133,10 +133,10 @@
             name="%preference.birt"
             id="org.eclipse.birt.report.designer.ui.preferences"/>
       <page
-            class="org.eclipse.birt.report.designer.ui.preferences.DateSetPreviewPreferencePage"
+            class="org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage"
             category="org.eclipse.birt.report.designer.ui.preferences"
             name="%preference.datasetpreview"
-            id="org.eclipse.birt.report.designer.ui.preferences.DateSetPreviewPreferencePage"/>
+            id="org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage"/>
       <page
             class="org.eclipse.birt.report.designer.ui.preferences.ElementNamesPreferencePage"
             category="org.eclipse.birt.report.designer.ui.preferences"

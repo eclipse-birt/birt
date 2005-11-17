@@ -29,11 +29,14 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.Procedure;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ProcedureParameter;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage;
 import org.eclipse.birt.report.designer.ui.editors.sql.SQLPartitionScanner;
+import org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -46,7 +49,7 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextOperationTarget;
-import org.eclipse.jface.text.rules.DefaultPartitioner;
+import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.jface.text.source.CompositeRuler;
 import org.eclipse.jface.text.source.LineNumberRulerColumn;
 import org.eclipse.jface.text.source.SourceViewer;
@@ -94,7 +97,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.29 $ $Date: 2005/09/21 09:24:25 $
+ * @version $Revision: 1.30 $ $Date: 2005/11/02 10:06:00 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -560,6 +563,19 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		ArrayList procedureRs = null;
 		if (schemaList != null && schemaList.size() > 0)
 		{
+			int numberOfSchema = 0;
+			Preferences preferences = ReportPlugin.getDefault( )
+					.getPluginPreferences( );
+			if ( preferences.contains( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA ) )
+			{
+				numberOfSchema = preferences.getInt( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA );
+			}
+			else
+			{
+				numberOfSchema = DateSetPreferencePage.DEFAULT_MAX_NUM_OF_SCHEMA;
+				preferences.setValue( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA,
+						numberOfSchema );
+			}
 			cachedSchemaComboIndex = schemaCombo.getSelectionIndex();
 			if ( schemaCombo.getSelectionIndex() == 0)
 			{
@@ -568,13 +584,14 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			else
 			{
 				targetSchemaList.add( schemaCombo.getItem( schemaCombo.getSelectionIndex() ));
+				numberOfSchema = 1;
 			}
 			
-		
+			
 			// For each schema Get  the List of Tables
 			int numTables = 0;
 	
-			for( int i=0; i< targetSchemaList.size(); i++)
+			for( int i=0; i< targetSchemaList.size() && i < numberOfSchema; i++)
 			{
 				int count = 0;
 				String schemaName = (String)targetSchemaList.get(i);
@@ -770,7 +787,9 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 				namePattern = namePattern + "%";
 			}
 		}else
+		{
 			namePattern = "%";
+		}
 		
 		return namePattern;
 	}
@@ -1284,7 +1303,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		viewer.configure( sourceViewerConfiguration );
 		
 		doc = new Document( getQueryText() );
-		DefaultPartitioner partitioner = new DefaultPartitioner( new SQLPartitionScanner( ),
+		FastPartitioner partitioner = new FastPartitioner( new SQLPartitionScanner( ),
 				new String[]{
 						SQLPartitionScanner.SINGLE_LINE_COMMENT1,
 						SQLPartitionScanner.SINGLE_LINE_COMMENT2,
