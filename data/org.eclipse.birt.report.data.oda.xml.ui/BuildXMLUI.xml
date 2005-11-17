@@ -101,6 +101,7 @@
 			<include name="org.eclipse.core.runtime*.jar"/>
 			<include name="org.eclipse.osgi*.jar"/>
 			<include name="org.eclipse.jface_*.jar"/>
+			<include name="org.eclipse.ui*.jar"/>
 		</fileset>
 		
 	</path>
@@ -197,7 +198,7 @@
 	
 	<target name="buildDependency">
 		<echo message="start call Jar task in ${oda.xml.dir}"/>
-		<ant dir="${oda.xml.dir}" antfile="BuildXml.xml" target="Jar" inheritAll="false">
+		<ant dir="${oda.xml.dir}" antfile="buildXML.xml" target="Jar" inheritAll="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>
 		<echo message="end call Jar task in ${oda.xml.dir}"/>
@@ -214,11 +215,6 @@
 		</ant> 		
 		<echo message="end call Jar task in ${designer.ui.dir}"/>
 		
-		<echo message="start call Jar task in ${oda.xml.ui.dir}"/>
-		<ant dir="${oda.xml.ui.dir}" antfile="BuildXMLUI.xml" target="Jar" inheritAll="false">
-		  <property name="eclipse.home" value="${eclipse.home}" /> 
-		</ant>
-		<echo message="end call Jar task in ${oda.xml.ui.dir}"/>
 	</target>
 	
 	<target name="compileSource" depends="buildDependency" description="compile the source ">
