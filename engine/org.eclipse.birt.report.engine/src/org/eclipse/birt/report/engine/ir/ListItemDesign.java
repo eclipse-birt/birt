@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-import java.util.ArrayList;
 
 /**
  * List Item IR. Listing is a base element in report design. it has a query,
@@ -20,7 +19,7 @@ import java.util.ArrayList;
  * In creating, a listing will be replace by one header, one footer, several
  * details (surround by groups, each row in dataset will create a detail).
  * 
- * @version $Revision: 1.6 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.7 $ $Date: 2005/11/11 06:26:41 $
  */
 public class ListItemDesign extends ListingDesign
 {
@@ -121,8 +120,8 @@ public class ListItemDesign extends ListingDesign
 		this.header = header;
 	}
 
-	public void accept( IReportItemVisitor visitor, Object value)
+	public Object accept( IReportItemVisitor visitor, Object value)
 	{
-		visitor.visitListItem( this ,value);
+		return visitor.visitListItem( this ,value);
 	}
 }

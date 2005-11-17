@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * A visitor class against the report design.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.4 $ $Date: 2005/11/11 06:26:41 $
  */
 public interface IReportItemVisitor {
 
@@ -24,7 +24,7 @@ public interface IReportItemVisitor {
 	 * @param container
 	 *            the free-form container to be visited
 	 */
-	void visitFreeFormItem(FreeFormItemDesign container, Object value);
+	Object visitFreeFormItem(FreeFormItemDesign container, Object value);
 
 	/**
 	 * visit list item
@@ -32,7 +32,7 @@ public interface IReportItemVisitor {
 	 * @param list
 	 *            the list item to be viisted
 	 */
-	void visitListItem(ListItemDesign list, Object value);
+	Object visitListItem(ListItemDesign list, Object value);
 
 	/**
 	 * visit text item
@@ -40,7 +40,7 @@ public interface IReportItemVisitor {
 	 * @param text
 	 *            the text item to be visited
 	 */
-	void visitTextItem(TextItemDesign text, Object value);
+	Object visitTextItem(TextItemDesign text, Object value);
 
 	/**
 	 * visit label item
@@ -48,7 +48,7 @@ public interface IReportItemVisitor {
 	 * @param label
 	 *            the label item to be visited
 	 */
-	void visitLabelItem(LabelItemDesign label, Object value);
+	Object visitLabelItem(LabelItemDesign label, Object value);
 
 	/**
 	 * visit data item
@@ -56,7 +56,7 @@ public interface IReportItemVisitor {
 	 * @param data
 	 *            the data item to be visited
 	 */
-	void visitDataItem(DataItemDesign data, Object value);
+	Object visitDataItem(DataItemDesign data, Object value);
 
 	/**
 	 * visit multi-line data item
@@ -64,7 +64,7 @@ public interface IReportItemVisitor {
 	 * @param multiLine
 	 *            the multi-line item to be visited.
 	 */
-	void visitMultiLineItem(MultiLineItemDesign multiLine, Object value);
+	Object visitMultiLineItem(MultiLineItemDesign multiLine, Object value);
 
 	/**
 	 * visit grid item
@@ -72,7 +72,7 @@ public interface IReportItemVisitor {
 	 * @param grid
 	 *            the grid to be visited
 	 */
-	void visitGridItem(GridItemDesign grid, Object value);
+	Object visitGridItem(GridItemDesign grid, Object value);
 
 	/**
 	 * visit table item
@@ -80,11 +80,11 @@ public interface IReportItemVisitor {
 	 * @param table
 	 *            the table item to be visited
 	 */
-	void visitTableItem(TableItemDesign table, Object value);
+	Object visitTableItem(TableItemDesign table, Object value);
 	
-	void visitRow(RowDesign row, Object value);
+	Object visitRow(RowDesign row, Object value);
 	
-	void visitCell(CellDesign cell, Object value);
+	Object visitCell(CellDesign cell, Object value);
 
 	/**
 	 * visit image item.
@@ -92,7 +92,7 @@ public interface IReportItemVisitor {
 	 * @param image
 	 *            the image item to be visited.
 	 */
-	void visitImageItem(ImageItemDesign image, Object value);
+	Object visitImageItem(ImageItemDesign image, Object value);
 
 	/**
 	 * visit extended item
@@ -100,5 +100,5 @@ public interface IReportItemVisitor {
 	 * @param item
 	 *            the extended item to be visited
 	 */
-	void visitExtendedItem(ExtendedItemDesign item, Object value);
+	Object visitExtendedItem(ExtendedItemDesign item, Object value);
 }

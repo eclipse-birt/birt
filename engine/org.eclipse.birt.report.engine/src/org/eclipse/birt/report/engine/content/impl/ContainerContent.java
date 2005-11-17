@@ -11,35 +11,33 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
-
 
 public class ContainerContent extends AbstractContent
 		implements
 			IContainerContent
 {
-	ArrayList children;
-	
-	public ContainerContent(ReportContent report)
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1485803000983450409L;
+
+	/**
+	 * constructor use by serialize and deserialize
+	 */
+	public ContainerContent( )
 	{
-		super(report);
 	}
-	
-	public void accept( IContentVisitor visitor , Object value)
+
+	public ContainerContent( ReportContent report )
 	{
-		visitor.visitContainer(this, value);
+		super( report );
 	}
-	
-	public List getChildren()
+
+	public void accept( IContentVisitor visitor, Object value )
 	{
-		if (children == null)
-		{
-			children = new ArrayList();
-		}
-		return children;
+		visitor.visitContainer( this, value );
 	}
 }

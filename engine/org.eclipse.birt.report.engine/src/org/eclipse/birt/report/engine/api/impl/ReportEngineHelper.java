@@ -22,6 +22,7 @@ import org.eclipse.birt.core.archive.IDocumentArchive;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataPreviewTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
+import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
@@ -277,5 +278,20 @@ public class ReportEngineHelper
 	public IRunTask createRunTask( IReportRunnable runnable )
 	{
 		return new RunTask( engine, runnable );
+	}
+
+	public IRenderTask createRenderTask( IReportDocument reportDoc )
+	{
+		try
+		{
+			IReportRunnable runnable = engine.openReportDesign( reportDoc
+					.getDesignStream( ) );
+			return new RenderTask( engine, runnable, (ReportDocument) reportDoc );
+		}
+		catch ( EngineException ex )
+		{
+			ex.printStackTrace( );
+		}
+		return null;
 	}
 }

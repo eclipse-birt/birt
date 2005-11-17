@@ -1,7 +1,18 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.css.dom;
 
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSRule;
@@ -11,6 +22,11 @@ abstract public class AbstractStyle implements IStyle
 {
 
 	protected CSSEngine engine;
+
+	public AbstractStyle( )
+	{
+		engine = BIRTCSSEngine.getInstance( );
+	}
 
 	public AbstractStyle( CSSEngine engine )
 	{
@@ -134,14 +150,14 @@ abstract public class AbstractStyle implements IStyle
 
 	public void setCssText( int index, String cssText )
 	{
-		if (cssText != null)
+		if ( cssText != null )
 		{
 			CSSValue value = engine.parsePropertyValue( index, cssText );
 			setProperty( index, value );
 		}
 		else
 		{
-			setProperty(index, null);
+			setProperty( index, null );
 		}
 	}
 

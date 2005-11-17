@@ -9,12 +9,29 @@ import org.eclipse.birt.report.engine.ir.DataItemDesign;
 public class DataContent extends TextContent implements IDataContent
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6575007426044738170L;
+
 	protected Object value;
 
 	protected String labelText;
 
 	protected String labelKey;
-	
+
+	protected String helpText;
+
+	protected String helpKey;
+
+	/**
+	 * constructor use by serialize and deserialize
+	 */
+	public DataContent( )
+	{
+
+	}
+
 	public DataContent( ReportContent report )
 	{
 		super( report );
@@ -57,25 +74,26 @@ public class DataContent extends TextContent implements IDataContent
 
 	public String getHelpText( )
 	{
-		if( helpText != null )
+		if ( helpText == null )
 		{
-			return helpText;
+			if ( generateBy instanceof DataItemDesign )
+			{
+				return ( (DataItemDesign) generateBy ).getHelpText( );
+			}
 		}
-		
-		if ( generateBy instanceof DataItemDesign )
-		{
-			return ( (DataItemDesign) generateBy ).getHelpText( );
-		}
-		return null;
+		return helpText;
 	}
 
 	public String getHelpKey( )
 	{
-		if ( generateBy instanceof DataItemDesign )
+		if ( helpKey == null )
 		{
-			return ( (DataItemDesign) generateBy ).getHelpTextKey( );
+			if ( generateBy instanceof DataItemDesign )
+			{
+				return ( (DataItemDesign) generateBy ).getHelpTextKey( );
+			}
 		}
-		return null;
+		return helpKey;
 	}
 
 	/*

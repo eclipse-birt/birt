@@ -27,7 +27,7 @@ import org.eclipse.birt.report.engine.script.ListScriptExecutor;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.21 $ $Date: 2005/11/13 20:26:07 $
+ * @version $Revision: 1.22 $ $Date: 2005/11/14 10:55:58 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -62,7 +62,7 @@ public class ListItemExecutor extends ListingElementExecutor
 	 * <li> close the query.
 	 * <li> pop up the container.
 	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ReportItemExecutor#execute(org.eclipse.birt.report.engine.ir.ReportItemDesign,
+	 * @see org.eclipse.birt.report.engine.executor.ReportItemExecutor#load(org.eclipse.birt.report.engine.ir.ReportItemDesign,
 	 *      org.eclipse.birt.report.engine.emitter.IReportEmitter)
 	 */
 	public void execute( ReportItemDesign item, IContentEmitter emitter )

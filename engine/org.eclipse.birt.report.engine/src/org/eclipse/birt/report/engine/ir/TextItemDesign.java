@@ -20,7 +20,7 @@ import org.eclipse.birt.report.engine.executor.template.TextTemplate;
 /**
  * Text element captures a long string with internal formatting.
  * 
- * @version $Revision: 1.10 $ $Date: 2005/11/11 06:26:41 $
+ * @version $Revision: 1.11 $ $Date: 2005/11/17 09:07:57 $
  */
 public class TextItemDesign extends ReportItemDesign
 {
@@ -110,9 +110,9 @@ public class TextItemDesign extends ReportItemDesign
 	 * 
 	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.report.engine.ir.IReportItemVisitor)
 	 */
-	public void accept( IReportItemVisitor visitor, Object value )
+	public Object accept( IReportItemVisitor visitor, Object value )
 	{
-		visitor.visitTextItem( this, value );
+		return visitor.visitTextItem( this, value );
 	}
 
 	/**

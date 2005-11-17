@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.Serializable;
+
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IBounds;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -22,14 +24,17 @@ import org.eclipse.birt.report.engine.css.dom.CompositeStyle;
 import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
-abstract public class AbstractContent extends AbstractElement implements
-		IContent {
-	
-	protected IReportContent report;
-	
+abstract public class AbstractContent extends AbstractElement
+		implements
+			IContent,
+			Serializable
+{
+
+	transient protected IReportContent report;
+
 	protected String name;
 
-	protected IBounds bounds;
+	transient protected IBounds bounds;
 
 	protected DimensionType x;
 
@@ -45,139 +50,162 @@ abstract public class AbstractContent extends AbstractElement implements
 
 	protected String helpText;
 
-	protected String styleClass;
+	transient protected String styleClass;
 
 	protected IStyle inlineStyle;
 
 	transient protected IStyle style;
-	
+
 	transient protected IStyle computedStyle;
-	
-	protected Object generateBy;
-	
+
+	transient protected Object generateBy;
+
 	protected InstanceID instanceId;
-	
+
 	protected String toc;
 
+	/**
+	 * default contructor, used by serialize and deserialize.
+	 */
+	public AbstractContent( )
+	{
+	}
 
-	public AbstractContent(IReportContent report) {
+	public AbstractContent( IReportContent report )
+	{
 		this.report = report;
 	}
-	
-	public AbstractContent (IContent content)
+
+	public void setReport( IReportContent report )
 	{
-		this(content.getReport());
-		this.name = content.getName();
-		this.bounds = content.getBounds();
-		this.x = content.getX();
-		this.y = content.getY();
-		this.width = content.getWidth();
-		this.height = content.getHeight();
-		this.hyperlink = content.getHyperlinkAction();
-		this.bookmark = content.getBookmark();
-		this.helpText = content.getHelpText();
-		this.inlineStyle = content.getInlineStyle();
-		this.generateBy = content.getGenerateBy();
-		this.styleClass = content.getStyleClass();
-		this.instanceId = content.getInstanceID();
-		this.toc = content.getTOC();
+		this.report = report;
 	}
-	
-	public IReportContent getReport()
+
+	public AbstractContent( IContent content )
+	{
+		this( content.getReport( ) );
+		this.name = content.getName( );
+		this.bounds = content.getBounds( );
+		this.x = content.getX( );
+		this.y = content.getY( );
+		this.width = content.getWidth( );
+		this.height = content.getHeight( );
+		this.hyperlink = content.getHyperlinkAction( );
+		this.bookmark = content.getBookmark( );
+		this.helpText = content.getHelpText( );
+		this.inlineStyle = content.getInlineStyle( );
+		this.generateBy = content.getGenerateBy( );
+		this.styleClass = content.getStyleClass( );
+		this.instanceId = content.getInstanceID( );
+		this.toc = content.getTOC( );
+	}
+
+	public IReportContent getReport( )
 	{
 		return this.report;
 	}
 
-	public String getName() {
+	public String getName( )
+	{
 		return name;
 	}
 
-	public void accept(IContentVisitor visitor, Object value)
+	public void accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitContent(this, value);
+		visitor.visitContent( this, value );
 	}
 
-	public IBounds getBounds() {
+	public IBounds getBounds( )
+	{
 		return bounds;
 	}
 
 	/**
 	 * @return the bookmark value
 	 */
-	public String getBookmark() {
+	public String getBookmark( )
+	{
 		return bookmark;
 	}
 
 	/**
 	 * @return the actionString
 	 */
-	public IHyperlinkAction getHyperlinkAction() {
+	public IHyperlinkAction getHyperlinkAction( )
+	{
 		return hyperlink;
 	}
 
 	/**
 	 * @return the height of the report item
 	 */
-	public DimensionType getHeight() {
+	public DimensionType getHeight( )
+	{
 		return height;
 	}
 
 	/**
 	 * @return the width of the report item
 	 */
-	public DimensionType getWidth() {
+	public DimensionType getWidth( )
+	{
 		return width;
 	}
 
 	/**
 	 * @return the x position of the repor titem.
 	 */
-	public DimensionType getX() {
+	public DimensionType getX( )
+	{
 		return x;
 	}
 
 	/**
 	 * @return Returns the y position of the repor titem.
 	 */
-	public DimensionType getY() {
+	public DimensionType getY( )
+	{
 		return y;
 	}
 
 	/**
 	 * @return Returns the helpText.
 	 */
-	public String getHelpText() {
+	public String getHelpText( )
+	{
 		return helpText;
 	}
 
-	public IStyle getComputedStyle() 
+	public IStyle getComputedStyle( )
 	{
-		if (computedStyle == null)
+		if ( computedStyle == null )
 		{
-			computedStyle = new ComputedStyle(this);
+			computedStyle = new ComputedStyle( this );
 		}
 		return computedStyle;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IStyledContent#getStyle()
 	 */
-	public IStyle getStyle() {
-		if (style == null)
+	public IStyle getStyle( )
+	{
+		if ( style == null )
 		{
-			if (inlineStyle == null)
+			if ( inlineStyle == null )
 			{
-				inlineStyle = report.createStyle();
+				inlineStyle = report.createStyle( );
 			}
-			IStyle classStyle = report.findStyle(styleClass);
-			style = new CompositeStyle(classStyle, inlineStyle);
+			IStyle classStyle = report.findStyle( styleClass );
+			style = new CompositeStyle( classStyle, inlineStyle );
 		}
 		return style;
 	}
 
-	public Object getGenerateBy() {
+	public Object getGenerateBy( )
+	{
 		return generateBy;
 	}
 
@@ -185,7 +213,8 @@ abstract public class AbstractContent extends AbstractElement implements
 	 * @param bookmark
 	 *            The bookmark to set.
 	 */
-	public void setBookmark(String bookmark) {
+	public void setBookmark( String bookmark )
+	{
 		this.bookmark = bookmark;
 	}
 
@@ -193,7 +222,8 @@ abstract public class AbstractContent extends AbstractElement implements
 	 * @param bounds
 	 *            The bounds to set.
 	 */
-	public void setBounds(IBounds bounds) {
+	public void setBounds( IBounds bounds )
+	{
 		this.bounds = bounds;
 	}
 
@@ -201,7 +231,8 @@ abstract public class AbstractContent extends AbstractElement implements
 	 * @param generateBy
 	 *            The generateBy to set.
 	 */
-	public void setGenerateBy(Object generateBy) {
+	public void setGenerateBy( Object generateBy )
+	{
 		this.generateBy = generateBy;
 	}
 
@@ -209,7 +240,8 @@ abstract public class AbstractContent extends AbstractElement implements
 	 * @param height
 	 *            The height to set.
 	 */
-	public void setHeight(DimensionType height) {
+	public void setHeight( DimensionType height )
+	{
 		this.height = height;
 	}
 
@@ -217,7 +249,8 @@ abstract public class AbstractContent extends AbstractElement implements
 	 * @param helpText
 	 *            The helpText to set.
 	 */
-	public void setHelpText(String helpText) {
+	public void setHelpText( String helpText )
+	{
 		this.helpText = helpText;
 	}
 
@@ -225,7 +258,8 @@ abstract public class AbstractContent extends AbstractElement implements
 	 * @param hyperlink
 	 *            The hyperlink to set.
 	 */
-	public void setHyperlinkAction(IHyperlinkAction hyperlink) {
+	public void setHyperlinkAction( IHyperlinkAction hyperlink )
+	{
 		this.hyperlink = hyperlink;
 	}
 
@@ -233,34 +267,36 @@ abstract public class AbstractContent extends AbstractElement implements
 	 * @param name
 	 *            The name to set.
 	 */
-	public void setName(String name) {
+	public void setName( String name )
+	{
 		this.name = name;
 	}
 
-	
-	public void setStyleClass(String name)
+	public void setStyleClass( String name )
 	{
 		this.styleClass = name;
 		this.style = null;
 		this.computedStyle = null;
 	}
-	
-	public String getStyleClass()
+
+	public String getStyleClass( )
 	{
 		return this.styleClass;
 	}
+
 	/**
 	 * @param style
 	 *            The style to set.
 	 */
-	public void setInlineStyle(IStyle style) {
-		
+	public void setInlineStyle( IStyle style )
+	{
+
 		this.inlineStyle = style;
 		this.style = null;
 		this.computedStyle = null;
 	}
-	
-	public IStyle getInlineStyle()
+
+	public IStyle getInlineStyle( )
 	{
 		return inlineStyle;
 	}
@@ -269,7 +305,8 @@ abstract public class AbstractContent extends AbstractElement implements
 	 * @param width
 	 *            The width to set.
 	 */
-	public void setWidth(DimensionType width) {
+	public void setWidth( DimensionType width )
+	{
 		this.width = width;
 	}
 
@@ -277,7 +314,8 @@ abstract public class AbstractContent extends AbstractElement implements
 	 * @param x
 	 *            The x to set.
 	 */
-	public void setX(DimensionType x) {
+	public void setX( DimensionType x )
+	{
 		this.x = x;
 	}
 
@@ -285,26 +323,27 @@ abstract public class AbstractContent extends AbstractElement implements
 	 * @param y
 	 *            The y to set.
 	 */
-	public void setY(DimensionType y) {
+	public void setY( DimensionType y )
+	{
 		this.y = y;
 	}
-	
-	public InstanceID getInstanceID()
+
+	public InstanceID getInstanceID( )
 	{
 		return instanceId;
 	}
-	
-	public void setInstanceID(InstanceID id)
+
+	public void setInstanceID( InstanceID id )
 	{
 		this.instanceId = id;
 	}
-	
-	public void setTOC(String toc)
+
+	public void setTOC( String toc )
 	{
 		this.toc = toc;
 	}
-	
-	public String getTOC()
+
+	public String getTOC( )
 	{
 		return toc;
 	}

@@ -10,12 +10,17 @@ import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 public class ImageContent extends AbstractContent implements IImageContent
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1509174600180440369L;
 	protected String altText;
 	protected String altTextKey;
 	protected String extension;
 	protected String uri;
+	protected String imageName;
 	protected int sourceType;
-	protected byte[] data;
+	transient protected byte[] data;
 	/**
 	 * The image map object (if any). Null means there's no image map. For HTML
 	 * format, the image map is the HTML client-side image map string. It can be
@@ -24,6 +29,14 @@ public class ImageContent extends AbstractContent implements IImageContent
 	protected Object imageMap;
 
 	protected String MIMEType;
+
+	/**
+	 * constructor. use by serialize and deserialize
+	 */
+	public ImageContent( )
+	{
+
+	}
 
 	public ImageContent( ReportContent report )
 	{
@@ -63,7 +76,7 @@ public class ImageContent extends AbstractContent implements IImageContent
 		}
 		return altTextKey;
 	}
-	
+
 	public void setAltTextKey( String key )
 	{
 		altTextKey = key;
@@ -105,18 +118,20 @@ public class ImageContent extends AbstractContent implements IImageContent
 
 	public void setImageName( String name )
 	{
-		if ( generateBy instanceof ImageItemDesign )
-			( (ImageItemDesign) generateBy ).setImageName( name );	
+		imageName = name;
 	}
 
-	public String getImageName()
+	public String getImageName( )
 	{
-		if ( generateBy instanceof ImageItemDesign )
-			return ( (ImageItemDesign)generateBy ).getImageName();
-		else
-			return null;
+		if ( imageName == null )
+		{
+			if ( generateBy instanceof ImageItemDesign )
+				return ( (ImageItemDesign) generateBy ).getImageName( );
+		}
+		return imageName;
+
 	}
-	
+
 	/**
 	 * @param extension
 	 *            The extension to set.
@@ -182,13 +197,13 @@ public class ImageContent extends AbstractContent implements IImageContent
 		return MIMEType;
 	}
 
-	
-	public Expression getExpression()
+	public Expression getExpression( )
 	{
 		if ( generateBy instanceof ImageItemDesign )
-			return ( (ImageItemDesign)generateBy ).getImageExpression();
-		else
-			return null;
+		{
+			return ( (ImageItemDesign) generateBy ).getImageExpression( );
+		}
+		return null;
 	}
 
 }

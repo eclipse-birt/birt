@@ -27,7 +27,6 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.archive.IDocumentArchive;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
-import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -215,12 +214,14 @@ public abstract class AbstractDataEngine implements IDataEngine
 		DteResultSet resultSet;
 		try
 		{
-			IResultIterator ri = ( (DteResultSet) queryResultStack.getLast( ) )
-					.getResultIterator( ).getSecondaryIterator(
-							( (ISubqueryDefinition) query ).getName( ),
-							context.getSharedScope( ) );
+			DteResultSet parent = (DteResultSet) queryResultStack.getLast( );
+			ISubqueryDefinition subQuery = (ISubqueryDefinition) query;
+			String subQueryName = subQuery.getName( );
+			IResultIterator parentRI = parent.getResultIterator( );
+			IResultIterator ri = parentRI.getSecondaryIterator( subQueryName,
+					context.getSharedScope( ) );
 			assert ri != null;
-			resultSet = new DteResultSet( ri, this );
+			resultSet = new DteResultSet( parent, subQueryName, ri, this, context );
 			queryResultStack.addLast( resultSet );
 			return resultSet;
 		}

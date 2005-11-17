@@ -18,20 +18,15 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.impl.ReportRunnable;
-
 /**
  * Collection of file utility.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/05/08 06:08:27 $
+ * @version $Revision: 1.13 $ $Date: 2005/05/08 06:59:46 $
  */
 public class FileUtil
 {

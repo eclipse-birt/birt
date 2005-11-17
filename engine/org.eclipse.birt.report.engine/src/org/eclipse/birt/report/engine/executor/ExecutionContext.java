@@ -63,7 +63,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.39 $ $Date: 2005/11/16 07:47:54 $
+ * @version $Revision: 1.40 $ $Date: 2005/11/17 02:06:03 $
  */
 public class ExecutionContext
 {
@@ -118,6 +118,9 @@ public class ExecutionContext
 	private Map appContext;
 
 	private IReportContext reportContext;
+	
+	private boolean presentationMode = false;
+	private boolean factoryMode = true;
 
 	/**
 	 * create a new context. Call close to finish using the execution context
@@ -846,14 +849,23 @@ public class ExecutionContext
 
 	public boolean isInFactory( )
 	{
-		return true;
+		return factoryMode;
 	}
 
 	public boolean isInPresentation( )
 	{
-		return false;
+		return presentationMode;
 	}
 
+	public void setFactoryMode(boolean mode)
+	{
+		this.factoryMode = mode;
+	}
+	
+	public void setPresentationMode(boolean mode)
+	{
+		this.presentationMode = mode;
+	}
 	public StringFormatter getStringFormatter( String value )
 	{
 		StringFormatter fmt = (StringFormatter) stringFormatters.get( value );

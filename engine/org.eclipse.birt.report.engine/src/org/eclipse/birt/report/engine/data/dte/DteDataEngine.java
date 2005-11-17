@@ -48,7 +48,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.26 $ $Date: 2005/11/15 09:38:07 $
+ * @version $Revision: 1.27 $ $Date: 2005/11/16 03:17:48 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -238,12 +238,16 @@ public class DteDataEngine implements IDataEngine
 
 			try
 			{
-				IResultIterator ri = ( (DteResultSet) rsStack.getLast( ) )
-						.getResultIterator( ).getSecondaryIterator(
-								( (ISubqueryDefinition) query ).getName( ),
-								context.getSharedScope( ) );
+
+				DteResultSet parent = (DteResultSet) rsStack.getLast( );
+				ISubqueryDefinition subQuery = (ISubqueryDefinition) query;
+				String subQueryName = subQuery.getName( );
+				IResultIterator parentRI = parent.getResultIterator( );
+				IResultIterator ri = parentRI.getSecondaryIterator(
+						subQueryName, context.getSharedScope( ) );
 				assert ri != null;
-				DteResultSet dRS = new DteResultSet( ri, this );
+				DteResultSet dRS = new DteResultSet( parent, subQueryName, ri,
+						this, context );
 				rsStack.addLast( dRS );
 				return dRS;
 			}

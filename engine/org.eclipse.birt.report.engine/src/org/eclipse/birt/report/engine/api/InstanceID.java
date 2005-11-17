@@ -1,12 +1,28 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.api;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  * a class that wraps around an identifier for a report element instance
  */
-public class InstanceID
+public class InstanceID implements Serializable
 {
 
+	private static final long serialVersionUID = 7087928232937707787L;
 	InstanceID parentId;
 	long designId;
 	DataID dataId;
@@ -38,18 +54,19 @@ public class InstanceID
 
 	protected void append( StringBuffer buffer )
 	{
-		if ( parentId != null )
+		if ( dataId == null )
 		{
-			parentId.append( buffer );
+			if ( parentId != null )
+			{
+				parentId.append( buffer );
+			}
 		}
 		buffer.append( "/" );
 		buffer.append( designId );
 		if ( dataId != null )
 		{
 			buffer.append( "(" );
-			buffer.append( dataId.dataSetName );
-			buffer.append( ":" );
-			buffer.append( dataId.rowId );
+			dataId.append( buffer );
 			buffer.append( ")" );
 		}
 	}
@@ -60,4 +77,82 @@ public class InstanceID
 		append( buffer );
 		return buffer.toString( );
 	}
+
+	public static InstanceID parse( String instanceId )
+	{
+		return parse( instanceId.toCharArray( ), 0, instanceId.length( ) );
+	}
+
+	public static InstanceID parse( char[] buffer, int offset, int length )
+	{
+		DataID dataId = null;
+		// search the last '(' to see if we have data id
+		int ptr = offset + length - 1;
+		if ( ptr >= offset && buffer[ptr] == ')' )
+		{
+			ptr--; // skip the first ')'
+			while ( ptr >= offset && buffer[ptr] != '(' )
+			{
+				ptr--;
+			}
+			if ( ptr < offset || buffer[ptr] != '(' )
+			{
+				// it should be a data Id but it isn't return null
+				return null;
+			}
+			// we found the data Id
+			dataId = DataID.parse( buffer, ptr + 1, offset + length - ptr - 2 );
+			if ( dataId == null )
+			{
+				// it should be an data id, but it returns null,
+				return null;
+			}
+			ptr--; // skip the current '('
+			length = ptr - offset + 1;
+		}
+		// the remain characters are instance id.
+		// search the parent
+		while ( ptr >= offset && buffer[ptr] != '/' )
+		{
+			ptr--;
+		}
+		if ( ptr >= offset && buffer[ptr] == '/' )
+		{
+			String strDesignId = new String( buffer, ptr + 1, offset + length
+					- ptr - 1 );
+			long designId = Long.parseLong( strDesignId );
+			ptr--; // skip the current '/'
+			if ( ptr >= offset )
+			{
+				length = ptr - offset + 1;
+				InstanceID parent = InstanceID.parse( buffer, offset, length );
+				if ( parent != null )
+				{
+					return new InstanceID( parent, designId, dataId );
+				}
+			}
+			else
+			{
+				return new InstanceID( null, designId, dataId );
+			}
+		}
+		return null;
+	}
+
+	private void writeObject( ObjectOutputStream out ) throws IOException
+	{
+		String iid = toString( );
+		out.writeObject( iid );
+	}
+
+	private void readObject( ObjectInputStream in ) throws IOException,
+			ClassNotFoundException
+	{
+		String iid = (String) in.readObject( );
+		InstanceID id = parse( iid );
+		dataId = id.dataId;
+		designId = id.designId;
+		parentId = id.parentId;
+	}
+
 }

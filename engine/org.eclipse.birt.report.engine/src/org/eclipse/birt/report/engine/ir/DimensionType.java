@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.ir;
 
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,11 +21,18 @@ import org.eclipse.birt.report.model.api.util.DimensionUtil;
 
 /**
  * 
- * @version $Revision: 1.7 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.8 $ $Date: 2005/05/08 06:59:45 $
  */
-public class DimensionType
+public class DimensionType implements Serializable
 {
-	private static Logger log = Logger.getLogger(DimensionType.class.getName());
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5975464652793004932L;
+
+	private static Logger log = Logger
+			.getLogger( DimensionType.class.getName( ) );
 
 	public final static int TYPE_DIMENSION = 1;
 	public final static int TYPE_CHOICE = 0;
@@ -37,10 +45,14 @@ public class DimensionType
 	public final static String UNITS_PERCENTAGE = EngineIRConstants.UNITS_PERCENTAGE;
 	public final static String UNITS_PT = EngineIRConstants.UNITS_PT;
 	public final static String UNITS_PX = EngineIRConstants.UNITS_PX;
-	final protected int type;
-	final protected String unitType;
-	final protected double measure;
-	final protected String choice;
+	protected int type;
+	protected String unitType;
+	protected double measure;
+	protected String choice;
+
+	public DimensionType( )
+	{
+	}
 
 	public DimensionType( String choice )
 	{
@@ -49,7 +61,7 @@ public class DimensionType
 		this.measure = 0;
 		this.unitType = null;
 	}
-	
+
 	public DimensionType( double value, String units )
 	{
 		this.type = TYPE_DIMENSION;
@@ -57,7 +69,7 @@ public class DimensionType
 		this.measure = value;
 		this.choice = null;
 	}
-	
+
 	public int getValueType( )
 	{
 		return type;
@@ -68,8 +80,8 @@ public class DimensionType
 		assert this.type == TYPE_DIMENSION;
 		return this.measure;
 	}
-	
-	public String getUnits()
+
+	public String getUnits( )
 	{
 		assert this.type == TYPE_DIMENSION;
 		return this.unitType;
@@ -84,13 +96,13 @@ public class DimensionType
 	{
 		if ( type == TYPE_DIMENSION )
 		{
-			//Copy from DimensionValue
-	   		String value = Double.toString( measure );
-	   	   
-	   	   	// Eliminate the ".0" that the default implementation tacks onto
-	   	   	// the end of integers.
-	   	   	if ( value.substring( value.length( ) - 2 ).equals( ".0" ) ) //$NON-NLS-1$
-	   	   			value = value.substring( 0, value.length( ) - 2 );
+			// Copy from DimensionValue
+			String value = Double.toString( measure );
+
+			// Eliminate the ".0" that the default implementation tacks onto
+			// the end of integers.
+			if ( value.substring( value.length( ) - 2 ).equals( ".0" ) ) //$NON-NLS-1$
+				value = value.substring( 0, value.length( ) - 2 );
 			return value + this.unitType;
 		}
 		return choice;
@@ -99,21 +111,23 @@ public class DimensionType
 	public double convertTo( String targetUnit )
 	{
 		assert type == TYPE_DIMENSION;
-		DimensionValue value = DimensionUtil.convertTo(this.measure, this.unitType, targetUnit);
-		if (value != null)
+		DimensionValue value = DimensionUtil.convertTo( this.measure,
+				this.unitType, targetUnit );
+		if ( value != null )
 		{
-			return value.getMeasure();
+			return value.getMeasure( );
 		}
 		return 0;
 	}
+
 	/**
 	 * Implement the subtract operation of type <Code>DimensionType</Code>.
-	 *	
+	 * 
 	 * @param subtrahend
 	 *            the subtrahend
 	 * @return the result whose unit is <Code>CM_UNIT</Code>
 	 */
-	public DimensionType subtract(  DimensionType subtrahend )
+	public DimensionType subtract( DimensionType subtrahend )
 	{
 		assert ( getValueType( ) == DimensionType.TYPE_DIMENSION );
 		assert ( subtrahend != null && subtrahend.getValueType( ) == DimensionType.TYPE_DIMENSION );
@@ -123,9 +137,10 @@ public class DimensionType
 		DimensionType ret = new DimensionType( measure, DimensionType.UNITS_CM );
 		return ret;
 	}
+
 	/**
 	 * Implement the compare operation of type <Code>DimensionType</Code>.
-	 * 	
+	 * 
 	 * @param subtrahend
 	 *            the subtrahend operand
 	 * @return a negative double, zero, or a positive double as the first
@@ -141,7 +156,7 @@ public class DimensionType
 
 		return measure;
 	}
-	
+
 	/**
 	 * Parses a dimension string. The string must match the following:
 	 * <ul>
@@ -149,22 +164,22 @@ public class DimensionType
 	 * <li>[1-9][0-9]*[.[0-9]*[ ]*[in|cm|mm|pt|pc|em|ex|px|%]]</li>
 	 * </ul>
 	 * 
-	 * If the error exists, return the result whose measure is 0. 
+	 * If the error exists, return the result whose measure is 0.
 	 */
-	public static DimensionType parserUnit(String value)
+	public static DimensionType parserUnit( String value )
 	{
-		if (value != null)
+		if ( value != null )
 		{
 			try
 			{
-				DimensionValue val=DimensionValue.parse(value);
-				return new DimensionType(val.getMeasure(),val.getUnits());
+				DimensionValue val = DimensionValue.parse( value );
+				return new DimensionType( val.getMeasure( ), val.getUnits( ) );
 			}
 			catch ( PropertyValueException e )
 			{
-				log.log(Level.SEVERE, e.getMessage());
+				log.log( Level.SEVERE, e.getMessage( ) );
 			}
 		}
-		return new DimensionType(0,DimensionType.UNITS_CM);
+		return new DimensionType( 0, DimensionType.UNITS_CM );
 	}
 }

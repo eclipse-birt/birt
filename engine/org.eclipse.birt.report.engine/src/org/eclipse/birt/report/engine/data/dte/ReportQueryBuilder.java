@@ -92,7 +92,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.34 $ $Date: 2005/11/11 06:26:45 $
+ * @version $Revision: 1.35 $ $Date: 2005/11/15 09:38:07 $
  */
 public class ReportQueryBuilder
 {
@@ -232,7 +232,7 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitFreeFormItem(org.eclipse.birt.report.engine.ir.FreeFormItemDesign)
 		 */
-		public void visitFreeFormItem( FreeFormItemDesign container, Object value )
+		public Object visitFreeFormItem( FreeFormItemDesign container, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( container );
 
@@ -240,6 +240,7 @@ public class ReportQueryBuilder
 				container.getItem( i ).accept( this , value);
 
 			finishVisit( query );
+			return value;
 		}
 
 		/*
@@ -247,7 +248,7 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitGridItem(org.eclipse.birt.report.engine.ir.GridItemDesign)
 		 */
-		public void visitGridItem( GridItemDesign grid, Object value )
+		public Object visitGridItem( GridItemDesign grid, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( grid );
 
@@ -261,6 +262,7 @@ public class ReportQueryBuilder
 				handleRow( grid.getRow( i ) ,value);
 
 			finishVisit( query );
+			return value;
 		}
 
 		/*
@@ -268,7 +270,7 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitImageItem(org.eclipse.birt.report.engine.ir.ImageItemDesign)
 		 */
-		public void visitImageItem( ImageItemDesign image, Object value )
+		public Object visitImageItem( ImageItemDesign image, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( image );
 
@@ -285,6 +287,7 @@ public class ReportQueryBuilder
 			}
 
 			finishVisit( query );
+			return value;
 		}
 
 		/*
@@ -292,11 +295,12 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitLabelItem(org.eclipse.birt.report.engine.ir.LabelItemDesign)
 		 */
-		public void visitLabelItem( LabelItemDesign label , Object value)
+		public Object visitLabelItem( LabelItemDesign label , Object value)
 		{
 			BaseQueryDefinition query = prepareVisit( label );
 			handleAction( label.getAction( ) );
 			finishVisit( query );
+			return value;
 		}
 
 		/*
@@ -304,7 +308,7 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitExtendedItem(org.eclipse.birt.report.engine.ir.ExtendedItemDesign)
 		 */
-		public void visitExtendedItem( ExtendedItemDesign item , Object value)
+		public Object visitExtendedItem( ExtendedItemDesign item , Object value)
 		{
 			//create user-defined generation-time helper object
 			ExtendedItemHandle handle = (ExtendedItemHandle) item.getHandle( );
@@ -386,6 +390,7 @@ public class ReportQueryBuilder
 					}
 				}
 			}
+			return value;
 		}
 
 		/*
@@ -393,7 +398,7 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitListItem(org.eclipse.birt.report.engine.ir.ListItemDesign)
 		 */
-		public void visitListItem( ListItemDesign list , Object value)
+		public Object visitListItem( ListItemDesign list , Object value)
 		{
 			BaseQueryDefinition query = prepareVisit( list );
 			if ( query == null )
@@ -429,6 +434,7 @@ public class ReportQueryBuilder
 				popExpressions( );
 			}
 			finishVisit( query );
+			return value;
 		}
 
 		/*
@@ -436,7 +442,7 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitTextItem(org.eclipse.birt.report.engine.ir.TextItemDesign)
 		 */
-		public void visitTextItem( TextItemDesign text , Object value)
+		public Object visitTextItem( TextItemDesign text , Object value)
 		{
 			BaseQueryDefinition query = prepareVisit( text );
 /*			if ( text.getDomTree( ) == null )
@@ -464,6 +470,7 @@ public class ReportQueryBuilder
 			}
 			
 			finishVisit( query );
+			return value;
 		}
 
 		/*
@@ -471,7 +478,7 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitTableItem(org.eclipse.birt.report.engine.ir.TableItemDesign)
 		 */
-		public void visitTableItem( TableItemDesign table , Object value)
+		public Object visitTableItem( TableItemDesign table , Object value)
 		{
 			BaseQueryDefinition query = prepareVisit( table );
 			for ( int i = 0; i < table.getColumnCount( ); i++ )
@@ -511,6 +518,7 @@ public class ReportQueryBuilder
 				popExpressions( );
 			}
 			finishVisit( query );
+			return value;
 		}
 
 		/*
@@ -518,13 +526,14 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitMultiLineItem(org.eclipse.birt.report.engine.ir.MultiLineItemDesign)
 		 */
-		public void visitMultiLineItem( MultiLineItemDesign multiLine , Object value)
+		public Object visitMultiLineItem( MultiLineItemDesign multiLine , Object value)
 		{
 			BaseQueryDefinition query = prepareVisit( multiLine );
 
 			addExpression( multiLine.getContent( ) );
 			addExpression( multiLine.getContentType( ) );
 			finishVisit( query );
+			return value;
 		}
 
 		/*
@@ -532,13 +541,14 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitDataItem(org.eclipse.birt.report.engine.ir.DataItemDesign)
 		 */
-		public void visitDataItem( DataItemDesign data , Object value)
+		public Object visitDataItem( DataItemDesign data , Object value)
 		{
 			BaseQueryDefinition query = prepareVisit( data );
 			handleReportItemExpressions( data );
 			handleAction( data.getAction( ) );
 			addExpression( data.getValue( ) );
 			finishVisit( query );
+			return value;
 		}
 
 		/**

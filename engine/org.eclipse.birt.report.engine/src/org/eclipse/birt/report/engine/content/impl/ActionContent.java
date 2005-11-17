@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
@@ -19,8 +20,13 @@ import org.eclipse.birt.report.engine.content.IHyperlinkAction;
  * Implements the <code>IHyperlinkAction</code> interface for passing action
  * informaiton to emitters
  */
-public class ActionContent implements IHyperlinkAction
+public class ActionContent implements IHyperlinkAction, Serializable
 {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 838392998260798057L;
 
 	/**
 	 * action type

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.Serializable;
+
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.ir.DimensionType;
@@ -19,41 +21,58 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * column content object
  * 
- * @version $Revision: 1.2 $ $Date: 2005/11/10 08:55:18 $
+ * @version $Revision: 1.1 $ $Date: 2005/11/11 06:26:46 $
  */
-public class Column implements IColumn
+public class Column implements IColumn, Serializable
 {
-	DimensionType width;
-	String styleClass;
-	public Column()
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 591656342008905721L;
+
+	protected DimensionType width;
+
+	protected String styleClass;
+
+	/**
+	 * constructor use by serialize and deserialize
+	 */
+	public Column( )
 	{
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.IColumn#getStyle()
 	 */
 	public IStyle getStyle( )
 	{
 		return null;
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.IColumn#getWidth()
 	 */
 	public DimensionType getWidth( )
 	{
 		return width;
 	}
-	
-	public void setWidth(DimensionType width)
+
+	public void setWidth( DimensionType width )
 	{
 		this.width = width;
 	}
-	
-	public String getStyleClass()
+
+	public String getStyleClass( )
 	{
 		return styleClass;
 	}
-	
-	public void setStyleClass(String styleClass)
+
+	public void setStyleClass( String styleClass )
 	{
 		this.styleClass = styleClass;
 	}

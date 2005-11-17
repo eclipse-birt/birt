@@ -23,16 +23,28 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * 
  * the table content object which contains columns object and row objects
  * 
- * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:46 $
+ * @version $Revision: 1.7 $ $Date: 2005/11/12 02:35:46 $
  */
 public class TableContent extends AbstractContent implements ITableContent
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2267750727901854517L;
 	protected ArrayList columns = new ArrayList( );
 	protected String caption = null;
 
 	protected boolean headerRepeat;
 
+	/**
+	 * constructor.
+	 * use by serialize and deserialize
+	 */
+	public TableContent()
+	{
+	}
+	
 	public void setHeaderRepeat( boolean headerRepeat )
 	{
 		this.headerRepeat = headerRepeat;

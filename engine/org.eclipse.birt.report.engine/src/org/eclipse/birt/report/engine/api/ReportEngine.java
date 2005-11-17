@@ -360,7 +360,7 @@ public class ReportEngine
 	 */
 	public IRunTask createRunTask( IReportRunnable reportRunnable )
 	{
-		return helper.createRunTask(reportRunnable);
+		return helper.createRunTask( reportRunnable );
 	}
 
 	/**
@@ -387,7 +387,7 @@ public class ReportEngine
 	 */
 	public IRenderTask createRenderTask( IReportDocument reportDocument )
 	{
-		return null;
+		return helper.createRenderTask( reportDocument );
 	}
 
 	/**

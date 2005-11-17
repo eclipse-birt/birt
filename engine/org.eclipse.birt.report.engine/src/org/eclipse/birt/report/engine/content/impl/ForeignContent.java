@@ -16,67 +16,76 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 
-
 public class ForeignContent extends AbstractContent implements IForeignContent
 {
 
-	String rawType;
-	Object rawValue;
-	IContent content;
-	
-	public ForeignContent(ReportContent report)
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7041526628380142925L;
+	protected String rawType;
+	protected Object rawValue;
+
+	/**
+	 * constructor.
+	 * use by serialize and deserialize
+	 */
+	public ForeignContent( )
 	{
-		super(report);
+
 	}
-	public ForeignContent(IContent content)
+
+	public ForeignContent( ReportContent report )
 	{
-		super(content);
+		super( report );
 	}
-	
-	/* (non-Javadoc)
+
+	public ForeignContent( IContent content )
+	{
+		super( content );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.eclipse.birt.report.engine.content.IContentVisitor)
 	 */
 	public void accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitForeign(this, value);
+		visitor.visitForeign( this, value );
 	}
-	
-    public String getRawType()
-    {
-    	return rawType;
-    }
+
+	public String getRawType( )
+	{
+		return rawType;
+	}
+
 	/**
 	 * @return Returns the content. Caller knows how to cast this object
 	 */
-	public Object getRawValue()
+	public Object getRawValue( )
 	{
 		return rawValue;
 	}
-	
-	public IContent getContent()
-	{
-		if (content == null)
-		{content = null;
-		}
-		return content;
-	}
-	
+
 	/**
-	 * @param rawType The rawType to set.
+	 * @param rawType
+	 *            The rawType to set.
 	 */
 	public void setRawType( String rawType )
 	{
 		this.rawType = rawType;
 	}
-	
+
 	/**
-	 * @param rawValue The rawValue to set.
+	 * @param rawValue
+	 *            The rawValue to set.
 	 */
 	public void setRawValue( Object rawValue )
 	{
 		this.rawValue = rawValue;
 	}
-	
+
 	/**
 	 * @param contentType
 	 * @param content

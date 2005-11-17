@@ -18,7 +18,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 /**
  * Report Item
  * 
- * @version $Revision: 1.8 $ $Date: 2005/10/19 11:03:03 $
+ * @version $Revision: 1.9 $ $Date: 2005/11/11 06:26:41 $
  */
 abstract public class ReportItemDesign extends StyledElementDesign
 {
@@ -147,7 +147,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 * 
 	 * @param visitor
 	 */
-	abstract public void accept( IReportItemVisitor visitor , Object value);
+	abstract public Object accept( IReportItemVisitor visitor , Object value);
 
 	
 	public Expression getTOC()

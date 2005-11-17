@@ -8,8 +8,23 @@ import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 
 public class LabelContent extends TextContent implements ILabelContent
 {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7432225225256258289L;
+	protected String helpText;
+	protected String helpTextKey;
 	protected String labelText;
 	protected String labelTextKey;
+
+	/**
+	 * constructor. use by serialize and deserialize
+	 */
+	public LabelContent( )
+	{
+
+	}
 
 	public LabelContent( ReportContent report )
 	{
@@ -21,28 +36,38 @@ public class LabelContent extends TextContent implements ILabelContent
 		super( content );
 	}
 
+	public void setHelpText( String helpText )
+	{
+		this.helpText = helpText;
+	}
+
 	public String getHelpText( )
 	{
-		if ( helpText != null )
+		if ( helpText == null )
 		{
-			return helpText;
+			if ( generateBy instanceof LabelItemDesign )
+			{
+				return ( (LabelItemDesign) generateBy ).getHelpText( );
+			}
 		}
-
-		if ( generateBy instanceof LabelItemDesign )
-		{
-			return ( (LabelItemDesign) generateBy ).getHelpText( );
-		}
-		
 		return null;
+	}
+
+	public void setHelpKey( String helpKey )
+	{
+		this.helpText = helpKey;
 	}
 
 	public String getHelpKey( )
 	{
-		if ( generateBy instanceof LabelItemDesign )
+		if ( helpTextKey == null )
 		{
-			return ( (LabelItemDesign) generateBy ).getHelpTextKey( );
+			if ( generateBy instanceof LabelItemDesign )
+			{
+				return ( (LabelItemDesign) generateBy ).getHelpTextKey( );
+			}
 		}
-		return null;
+		return helpTextKey;
 	}
 
 	public void setLabelText( String labelText )

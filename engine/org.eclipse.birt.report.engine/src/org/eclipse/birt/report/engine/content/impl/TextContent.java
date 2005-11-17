@@ -8,6 +8,7 @@
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
+
 package org.eclipse.birt.report.engine.content.impl;
 
 import org.eclipse.birt.report.engine.content.IContent;
@@ -17,46 +18,61 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
 
 public class TextContent extends AbstractContent implements ITextContent
 {
-	String text;
 
-	public TextContent(ReportContent report)
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8523330299951660123L;
+	transient protected String text;
+
+	/**
+	 * constructor. use by serialize and deserialize
+	 */
+	public TextContent( )
 	{
-		super(report);
+
 	}
 
-	public TextContent(IContent content)
+	public TextContent( ReportContent report )
 	{
-		super(content);
+		super( report );
 	}
-	
+
+	public TextContent( IContent content )
+	{
+		super( content );
+	}
+
 	public String getText( )
 	{
 		return text;
 	}
-	
-	public void setText(String text)
+
+	public void setText( String text )
 	{
 		this.text = text;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.eclipse.birt.report.engine.content.IContentVisitor)
 	 */
-	public void accept( IContentVisitor visitor , Object value)
+	public void accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitText(this, value);
+		visitor.visitText( this, value );
 	}
-	
+
 	public void setTextKey( String key )
 	{
 		if ( generateBy instanceof TextItemDesign )
-			( (TextItemDesign)generateBy ).setText( key, text );
+			( (TextItemDesign) generateBy ).setText( key, text );
 	}
 
-	public String getTextKey()
+	public String getTextKey( )
 	{
 		if ( generateBy instanceof TextItemDesign )
-			return ( (TextItemDesign)generateBy ).getTextKey();
+			return ( (TextItemDesign) generateBy ).getTextKey( );
 		else
 			return null;
 	}
@@ -64,13 +80,13 @@ public class TextContent extends AbstractContent implements ITextContent
 	public void setTextType( String type )
 	{
 		if ( generateBy instanceof TextItemDesign )
-			( (TextItemDesign)generateBy ).setTextType( type );	
+			( (TextItemDesign) generateBy ).setTextType( type );
 	}
 
-	public String getTextType()
+	public String getTextType( )
 	{
 		if ( generateBy instanceof TextItemDesign )
-			return ( (TextItemDesign)generateBy ).getTextType();
+			return ( (TextItemDesign) generateBy ).getTextType( );
 		else
 			return null;
 	}

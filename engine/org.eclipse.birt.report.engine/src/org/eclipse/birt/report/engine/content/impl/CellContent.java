@@ -21,10 +21,15 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/12 02:35:46 $
+ * @version $Revision: 1.8 $ $Date: 2005/11/17 01:40:45 $
  */
 public class CellContent extends AbstractContent implements ICellContent
 {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2900450585025938785L;
 
 	/**
 	 * row span
@@ -41,6 +46,14 @@ public class CellContent extends AbstractContent implements ICellContent
 	 */
 	protected int column = -1;
 
+	/**
+	 * constructor
+	 * use by serialize and deserialize
+	 */
+	public CellContent()
+	{
+	}
+	
 	/**
 	 * constructor
 	 * 

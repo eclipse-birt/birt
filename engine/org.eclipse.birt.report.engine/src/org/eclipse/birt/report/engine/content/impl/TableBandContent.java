@@ -19,20 +19,31 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
  * table band content object There are three type: table header, table footer,
  * table body
  * 
- * @version $Revision: 1.5 $ $Date: 2005/10/27 02:13:34 $
+ * @version $Revision: 1.4 $ $Date: 2005/11/11 06:26:46 $
  */
 public class TableBandContent extends AbstractContent
 		implements
 			ITableBandContent
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1289181945575289281L;
 	protected int type;
-	
-	public TableBandContent(ReportContent report)
+
+	/**
+	 * constructor. use by serialize and deserialize
+	 */
+	public TableBandContent( )
 	{
-		super(report);
+
 	}
-	
+
+	public TableBandContent( ReportContent report )
+	{
+		super( report );
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -41,7 +52,7 @@ public class TableBandContent extends AbstractContent
 	 */
 	public void accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitTableBand( this , value);
+		visitor.visitTableBand( this, value );
 
 	}
 
@@ -54,8 +65,8 @@ public class TableBandContent extends AbstractContent
 	{
 		return this.type;
 	}
-	
-	public void setType(int type)
+
+	public void setType( int type )
 	{
 		this.type = type;
 	}

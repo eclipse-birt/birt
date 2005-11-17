@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.report.engine.css.engine;
 
 import java.net.URI;
@@ -6,8 +17,8 @@ import org.eclipse.birt.report.engine.css.engine.value.css.FontFamilyManager;
 import org.w3c.dom.css.CSSValue;
 import org.w3c.flute.parser.Parser;
 
-
-public class BIRTCSSEngine extends CSSEngine {
+public class BIRTCSSEngine extends CSSEngine
+{
 
 	/**
 	 * Creates a new SVGCSSEngine.
@@ -21,85 +32,124 @@ public class BIRTCSSEngine extends CSSEngine {
 	 * @param ctx
 	 *            The CSS context.
 	 */
-	public BIRTCSSEngine() {
-		super(new Parser(), new BIRTPropertyManagerFactory(), new BIRTContext());
+	protected BIRTCSSEngine( )
+	{
+		super( new Parser( ), new BIRTPropertyManagerFactory( ),
+				new BIRTContext( ) );
 	}
-	
-	
+
+	static CSSEngine engine;
+
+	static public CSSEngine getInstance( )
+	{
+		if ( engine == null )
+		{
+			engine = new BIRTCSSEngine( );
+		}
+		return engine;
+	}
+
 	static class BIRTContext implements CSSContext
 	{
-		public CSSValue getSystemColor(String ident) {
-			return SystemColorSupport.getSystemColor(ident);
+
+		public CSSValue getSystemColor( String ident )
+		{
+			return SystemColorSupport.getSystemColor( ident );
 		}
 
-        /**
-         * Returns the default font family.
-         */
-		public CSSValue getDefaultFontFamily() {
+		/**
+		 * Returns the default font family.
+		 */
+		public CSSValue getDefaultFontFamily( )
+		{
 			return FontFamilyManager.DEFAULT_VALUE;
 		}
 
-        /**
-         * Returns the size of a px CSS unit in millimeters.
-         */
-        public float getPixelUnitToMillimeter() {
-            return 0.26458333333333333333333333333333f; // 96dpi
-        }
-        
-        /** 
-         * Returns the  medium font size. 
-         */
-        public float getMediumFontSize() {
-            // 9pt (72pt == 1in)
-            return 9f * 1000.0f;
-        }
+		/**
+		 * Returns the size of a px CSS unit in millimeters.
+		 */
+		public float getPixelUnitToMillimeter( )
+		{
+			return 0.26458333333333333333333333333333f; // 96dpi
+		}
 
-        /**
-         * Returns a lighter font-weight.
-         */
-        public float getLighterFontWeight(float f) {
-            // Round f to nearest 100...
-            int weight = ((int)((f+50)/100))*100;
-            switch (weight) {
-            case 100: return 100;
-            case 200: return 100;
-            case 300: return 200;
-            case 400: return 300;
-            case 500: return 400;
-            case 600: return 400;
-            case 700: return 400;
-            case 800: return 400;
-            case 900: return 400;
-            default:
-                throw new IllegalArgumentException("Bad Font Weight: " + f); //$NON-NLS-1$
-            }
-        }
+		/**
+		 * Returns the medium font size.
+		 */
+		public float getMediumFontSize( )
+		{
+			// 9pt (72pt == 1in)
+			return 9f * 1000.0f;
+		}
 
-        /**
-         * Returns a bolder font-weight.
-         */
-        public float getBolderFontWeight(float f) {
-            // Round f to nearest 100...
-            int weight = ((int)((f+50)/100))*100;
-            switch (weight) {
-            case 100: return 600;
-            case 200: return 600;
-            case 300: return 600;
-            case 400: return 600;
-            case 500: return 600;
-            case 600: return 700;
-            case 700: return 800;
-            case 800: return 900;
-            case 900: return 900;
-            default:
-                throw new IllegalArgumentException("Bad Font Weight: " + f); //$NON-NLS-1$
-            }
-        }
+		/**
+		 * Returns a lighter font-weight.
+		 */
+		public float getLighterFontWeight( float f )
+		{
+			// Round f to nearest 100...
+			int weight = ( (int) ( ( f + 50 ) / 100 ) ) * 100;
+			switch ( weight )
+			{
+				case 100 :
+					return 100;
+				case 200 :
+					return 100;
+				case 300 :
+					return 200;
+				case 400 :
+					return 300;
+				case 500 :
+					return 400;
+				case 600 :
+					return 400;
+				case 700 :
+					return 400;
+				case 800 :
+					return 400;
+				case 900 :
+					return 400;
+				default :
+					throw new IllegalArgumentException( "Bad Font Weight: " + f ); //$NON-NLS-1$
+			}
+		}
+
+		/**
+		 * Returns a bolder font-weight.
+		 */
+		public float getBolderFontWeight( float f )
+		{
+			// Round f to nearest 100...
+			int weight = ( (int) ( ( f + 50 ) / 100 ) ) * 100;
+			switch ( weight )
+			{
+				case 100 :
+					return 600;
+				case 200 :
+					return 600;
+				case 300 :
+					return 600;
+				case 400 :
+					return 600;
+				case 500 :
+					return 600;
+				case 600 :
+					return 700;
+				case 700 :
+					return 800;
+				case 800 :
+					return 900;
+				case 900 :
+					return 900;
+				default :
+					throw new IllegalArgumentException( "Bad Font Weight: " + f ); //$NON-NLS-1$
+			}
+		}
 
 	}
 
-
-	public URI getCSSBaseURI() {
+	public URI getCSSBaseURI( )
+	{
 		return null;
 	}
 }

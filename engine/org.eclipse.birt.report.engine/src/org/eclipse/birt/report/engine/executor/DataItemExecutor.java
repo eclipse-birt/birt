@@ -29,7 +29,7 @@ import org.eclipse.birt.report.engine.script.DataItemScriptExecutor;
  * data content instance, evaluate styles, bookmark, action property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.19 $ $Date: 2005/11/14 10:55:58 $
+ * @version $Revision: 1.20 $ $Date: 2005/11/15 02:49:02 $
  */
 public class DataItemExecutor extends QueryItemExecutor
 {
@@ -63,7 +63,7 @@ public class DataItemExecutor extends QueryItemExecutor
 	 * <li> close the data set if any
 	 * <li> pop the stack.
 	 * 
-	 * @see org.eclipse.birt.report.engine.excutor.ReportItemExecutor#execute()
+	 * @see org.eclipse.birt.report.engine.excutor.ReportItemLoader#execute()
 	 */
 	public void execute( ReportItemDesign item, IContentEmitter emitter )
 	{

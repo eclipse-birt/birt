@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Cell type is used by Row, which is the base element of the table item and
  * grid item.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:41 $
  */
 public class CellDesign extends ReportItemDesign
 {
@@ -148,8 +148,8 @@ public class CellDesign extends ReportItemDesign
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.report.engine.ir.IReportItemVisitor)
 	 */
-	public void accept( IReportItemVisitor visitor, Object value )
+	public Object accept( IReportItemVisitor visitor, Object value )
 	{
-		visitor.visitCell(this, value);
+		return visitor.visitCell(this, value);
 	}
 }

@@ -15,6 +15,10 @@ import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 public class PageContent extends AbstractContent implements IPageContent
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7435083876405858204L;
 	protected String orientation;
 	protected String pageType;
 	protected DimensionType pageHeight;
@@ -27,10 +31,18 @@ public class PageContent extends AbstractContent implements IPageContent
 	protected DimensionType marginLeft;
 	protected DimensionType marginRight;
 	protected DimensionType marginBottom;
-	protected ArrayList header;
-	protected ArrayList footer;
-	protected IImageContent waterMark;
+	transient protected ArrayList header;
+	transient protected ArrayList footer;
+	transient protected IImageContent waterMark;
 	protected long pageNumber;
+
+	/**
+	 * constructor. use by serialize and deserialize
+	 */
+	public PageContent( )
+	{
+
+	}
 
 	public PageContent( ReportContent report )
 	{
@@ -47,10 +59,10 @@ public class PageContent extends AbstractContent implements IPageContent
 			pageType = page.getPageType( );
 			pageHeight = page.getPageHeight( );
 			pageWidth = page.getPageWidth( );
-			marginTop = page.getTopMargin();
-			marginLeft = page.getLeftMargin();
-			marginRight = page.getRightMargin();
-			marginBottom = page.getBottomMargin();
+			marginTop = page.getTopMargin( );
+			marginLeft = page.getLeftMargin( );
+			marginRight = page.getRightMargin( );
+			marginBottom = page.getBottomMargin( );
 			headerHeight = new DimensionType(1.0f, EngineIRConstants.UNITS_IN );
 			footerHeight = new DimensionType(1.0f, EngineIRConstants.UNITS_IN );
 		}

@@ -8,8 +8,8 @@ import org.eclipse.birt.report.engine.content.IElement;
 class AbstractElement implements IElement {
 
 	final static List EMPTY_CHILDREN_LIST = new ArrayList();
-	IElement parent;
-	ArrayList children;
+	transient protected IElement parent;
+	transient protected ArrayList children;
 	
 	public AbstractElement ()
 	{

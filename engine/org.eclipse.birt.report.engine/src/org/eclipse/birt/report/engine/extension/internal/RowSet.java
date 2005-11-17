@@ -9,28 +9,28 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-
 package org.eclipse.birt.report.engine.extension.internal;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.data.dte.DteResultSet;
 import org.eclipse.birt.report.engine.extension.IRowMetaData;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 
-
 /**
- *
-
- * @version $Revision: 1.7 $ $Date: 2005/06/29 06:51:14 $
+ * 
+ * 
+ * @version $Revision: 1.8 $ $Date: 2005/11/11 06:26:49 $
  */
 public class RowSet implements IRowSet
 {
+
 	protected DteResultSet rset;
 	protected IRowMetaData metaData;
 	protected boolean closed;
-	
-	public RowSet(DteResultSet rset)
+
+	public RowSet( DteResultSet rset )
 	{
 		closed = false;
 		this.rset = rset;
@@ -50,39 +50,39 @@ public class RowSet implements IRowSet
 			{
 				return -1;
 			}
-
-			public String getColumnExpression( int index ) throws BirtException
-			{
-				return null;
-			}
 		};
 
 		try
 		{
 			if ( rset != null && rset.getQueryResults( ) != null )
 			{
-				metaData = new RowMetaData( rset.getQueryResults( ).getResultMetaData( ) );
+				metaData = new RowMetaData( rset.getQueryResults( )
+						.getResultMetaData( ) );
 			}
 		}
-		catch(BirtException ex)
+		catch ( BirtException ex )
 		{
-			
+
 		}
-		
+
 	}
-	
-	
+
+	public DataSetID getID( )
+	{
+		return rset.getID( );
+	}
+
 	/**
 	 * returns the definition for the data row
 	 * 
 	 * @return the definition for the data row
 	 */
-	public IRowMetaData getMetaData()
+	public IRowMetaData getMetaData( )
 	{
 		return metaData;
 	}
-	
-	public boolean next()
+
+	public boolean next( )
 	{
 		if ( rset != null )
 		{
@@ -90,8 +90,8 @@ public class RowSet implements IRowSet
 		}
 		return false;
 	}
-	
-	public Object evaluate(IBaseExpression expr)
+
+	public Object evaluate( IBaseExpression expr )
 	{
 		if ( rset != null )
 		{
@@ -99,45 +99,48 @@ public class RowSet implements IRowSet
 		}
 		return null;
 	}
-	
-	public Object getValue(int columnIndex)
+
+	public Object getValue( int columnIndex )
 	{
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException( );
 	}
-	
-	public Object getValue(String columnName)
+
+	public Object getValue( String columnName )
 	{
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException( );
 	}
-	
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.extension.IRowSet#getEndingGroupLevel()
 	 */
 	public int getEndingGroupLevel( )
 	{
-		if (rset != null)
+		if ( rset != null )
 		{
-			return rset.getEndingGroupLevel();
+			return rset.getEndingGroupLevel( );
 		}
 		return 0;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.extension.IRowSet#getStartingGroupLevel()
 	 */
 	public int getStartingGroupLevel( )
 	{
-		if (rset != null)
+		if ( rset != null )
 		{
-			return rset.getStartingGroupLevel();
+			return rset.getStartingGroupLevel( );
 		}
 		return 0;
 	}
-	
-	public void close()
+
+	public void close( )
 	{
-		if (closed == false)
+		if ( closed == false )
 		{
 			closed = true;
 			if ( rset != null )
@@ -146,5 +149,5 @@ public class RowSet implements IRowSet
 			}
 		}
 	}
-	
+
 }

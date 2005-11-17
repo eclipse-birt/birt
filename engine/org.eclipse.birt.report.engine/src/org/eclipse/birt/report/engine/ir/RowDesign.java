@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * 
  * @see GridItemDesign
  * @see TableItemDesign
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:41 $
  */
 ///TODO: RowDesign is not a realy styled element. It only has a style, but has
 // no other attributes.
@@ -97,8 +97,8 @@ public class RowDesign extends ReportItemDesign
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.report.engine.ir.IReportItemVisitor)
 	 */
-	public void accept( IReportItemVisitor visitor , Object value)
+	public Object accept( IReportItemVisitor visitor , Object value)
 	{
-		visitor.visitRow(this, value);
+		return visitor.visitRow(this, value);
 	}
 }

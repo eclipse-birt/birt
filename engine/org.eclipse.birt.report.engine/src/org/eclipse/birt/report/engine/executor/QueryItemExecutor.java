@@ -75,7 +75,7 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 	{
 		if (rset != null)
 		{
-			return new DataID(rset.getName(), rset.getCurrentPosition());
+			return new DataID(rset.getID(), rset.getCurrentPosition());
 		}
 		return null;
 	}

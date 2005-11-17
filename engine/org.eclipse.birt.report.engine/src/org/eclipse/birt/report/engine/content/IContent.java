@@ -20,7 +20,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * the content of report document.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/11/02 10:36:13 $
+ * @version $Revision: 1.1 $ $Date: 2005/11/11 06:26:46 $
  */
 public interface IContent extends IElement, CSSStylableElement
 {
@@ -30,6 +30,8 @@ public interface IContent extends IElement, CSSStylableElement
 	void setInstanceID(InstanceID id);
 	
 	IReportContent getReport( );
+	
+	void setReport(IReportContent report);
 
 	/**
 	 * unique id of the content.

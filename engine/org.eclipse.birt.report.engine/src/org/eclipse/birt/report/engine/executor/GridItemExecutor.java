@@ -34,7 +34,7 @@ import org.eclipse.birt.report.engine.script.CellScriptExecutor;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.18 $ $Date: 2005/11/14 10:55:58 $
+ * @version $Revision: 1.19 $ $Date: 2005/11/17 01:40:44 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -106,7 +106,7 @@ public class GridItemExecutor extends QueryItemExecutor
 		}
 
 		ITableBandContent body = report.createTableBody( );
-		body.setParent( tableObj );
+		initializeContent( tableObj, null, body );
 
 		context.pushContent( body );
 
