@@ -92,10 +92,18 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 	 */
 	public void selectionChanged( IAction action, ISelection selection )
 	{
+		action.setEnabled( isEnable()); 
+	}
+
+	private boolean isEnable( )
+	{
 		IEditorPart editor = UIUtil.getActiveEditor( true );
-		action.setEnabled( editor.getEditorInput( )
-				.getName( )
-				.endsWith( ".rpttemplate" ) ); //$NON-NLS-1$
+		if ( editor != null )
+		{
+			return editor.getEditorInput( ).getName( )
+					.endsWith( ".rpttemplate" );//$NON-NLS-1$
+		}
+		return false;
 	}
 
 }
@@ -106,15 +114,16 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 class PublishTemplateWizard extends Wizard
 {
 
-	private static final String windowTitle = Messages.getString( "PublishTemplateAction.wizard.title" ); //$NON-NLS-1$
-	
+	private static final String windowTitle = Messages
+			.getString( "PublishTemplateAction.wizard.title" ); //$NON-NLS-1$
+
 	private PublishPage page;
-	
-	public PublishTemplateWizard()
+
+	public PublishTemplateWizard( )
 	{
-		setWindowTitle(windowTitle);
+		setWindowTitle( windowTitle );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -126,7 +135,9 @@ class PublishTemplateWizard extends Wizard
 		addPage( page );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
 	public boolean performFinish( )
@@ -136,9 +147,9 @@ class PublishTemplateWizard extends Wizard
 				.getDefaultTemplatePreference( );
 
 		String filePath = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getFileName( );
-		String fileName = filePath.substring( filePath.lastIndexOf( File.separator ) );
+				.getReportDesignHandle( ).getFileName( );
+		String fileName = filePath.substring( filePath
+				.lastIndexOf( File.separator ) );
 		try
 		{
 			copyFile( filePath, templateFolderPath + fileName );
@@ -183,14 +194,11 @@ class PublishTemplateWizard extends Wizard
 			SemanticException, IOException
 	{
 		ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
-				.getSessionHandle( )
-				.openDesign( fileName );
-		// handle.setProperty( ModuleHandle.DISPLAY_NAME_PROP,
-		// page.getDisplayName( ) );
-		handle.setProperty( ModuleHandle.DESCRIPTION_PROP,
-				page.getDescription( ) );
-		// handle.setProperty( ReportDesignHandle.IMAGES_PROP,
-		// page.getPreviewImagePath( ) );
+				.getSessionHandle( ).openDesign( fileName );
+		handle.setDisplayName( page.getDisplayName( ) );
+		handle.setProperty( ModuleHandle.DESCRIPTION_PROP, page
+				.getDescription( ) );
+		handle.setIconFile( page.getPreviewImagePath( ) );
 		handle.save( );
 	}
 
@@ -215,14 +223,22 @@ class PublishTemplateWizard extends Wizard
 class PublishPage extends WizardPage
 {
 
-	private static final String PAGE_TITLE = Messages.getString( "PublishTemplateAction.wizard.page.title" ); //$NON-NLS-1$
-	private static final String PAGE_DESC = Messages.getString( "PublishTemplateAction.wizard.page.desc" ); //$NON-NLS-1$
-	private static final String LABEL_DISPLAY_NAME = Messages.getString( "PublishTemplateAction.wizard.page.label.dispalyName" ); //$NON-NLS-1$
-	private static final String LABEL_DESCRIPTION = Messages.getString( "PublishTemplateAction.wizard.page.label.description" ); //$NON-NLS-1$
-	private static final String LABEL_IMAGE = Messages.getString( "PublishTemplateAction.wizard.page.label.image" ); //$NON-NLS-1$
-	private static final String BTN_CHOOSE = Messages.getString( "PublishTemplateAction.wizard.page.btn.browse" ); //$NON-NLS-1$
-	private static final String BROWSE_TITLE = Messages.getString( "PublishTemplateAction.wizard.page.browse.title" ); //$NON-NLS-1$
-	private static final String IMAGE_ERROR = Messages.getString( "PublishTemplateAction.wizard.page.imageError" ); //$NON-NLS-1$
+	private static final String PAGE_TITLE = Messages
+			.getString( "PublishTemplateAction.wizard.page.title" ); //$NON-NLS-1$
+	private static final String PAGE_DESC = Messages
+			.getString( "PublishTemplateAction.wizard.page.desc" ); //$NON-NLS-1$
+	private static final String LABEL_DISPLAY_NAME = Messages
+			.getString( "PublishTemplateAction.wizard.page.label.dispalyName" ); //$NON-NLS-1$
+	private static final String LABEL_DESCRIPTION = Messages
+			.getString( "PublishTemplateAction.wizard.page.label.description" ); //$NON-NLS-1$
+	private static final String LABEL_IMAGE = Messages
+			.getString( "PublishTemplateAction.wizard.page.label.image" ); //$NON-NLS-1$
+	private static final String BTN_CHOOSE = Messages
+			.getString( "PublishTemplateAction.wizard.page.btn.browse" ); //$NON-NLS-1$
+	private static final String BROWSE_TITLE = Messages
+			.getString( "PublishTemplateAction.wizard.page.browse.title" ); //$NON-NLS-1$
+	private static final String IMAGE_ERROR = Messages
+			.getString( "PublishTemplateAction.wizard.page.imageError" ); //$NON-NLS-1$
 	private static final String STR_EMPTY = ""; //$NON-NLS-1$
 
 	private ModuleHandle module;
@@ -238,13 +254,14 @@ class PublishPage extends WizardPage
 		module = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public void createControl( Composite parent )
 	{
 
-		
 		Composite container = new Composite( parent, SWT.NONE );
 		GridLayout gridLayout = new GridLayout( );
 		gridLayout.marginWidth = 20;
@@ -256,12 +273,14 @@ class PublishPage extends WizardPage
 		new Label( container, SWT.NONE ).setText( LABEL_DISPLAY_NAME );
 		nameText = createText( container, 2, 1 );
 		if ( module.getProperty( ModuleHandle.DISPLAY_NAME_PROP ) != null )
-			nameText.setText( (String) module.getProperty( ModuleHandle.DISPLAY_NAME_PROP ) );
+			nameText.setText( (String) module
+					.getProperty( ModuleHandle.DISPLAY_NAME_PROP ) );
 
 		new Label( container, SWT.NONE ).setText( LABEL_DESCRIPTION );
 		descText = createText( container, 2, 5 );
 		if ( module.getProperty( ModuleHandle.DESCRIPTION_PROP ) != null )
-			descText.setText( (String) module.getProperty( ModuleHandle.DESCRIPTION_PROP ) );
+			descText.setText( (String) module
+					.getProperty( ModuleHandle.DESCRIPTION_PROP ) );
 
 		new Label( container, SWT.NONE ).setText( LABEL_IMAGE );
 		previewImageText = createText( container, 1, 1 );
@@ -280,8 +299,7 @@ class PublishPage extends WizardPage
 			public void widgetSelected( SelectionEvent e )
 			{
 				FileDialog dialog = new FileDialog( PlatformUI.getWorkbench( )
-						.getDisplay( )
-						.getActiveShell( ) );
+						.getDisplay( ).getActiveShell( ) );
 				dialog.setText( BROWSE_TITLE );
 				String fileName = dialog.open( );
 				if ( fileName == null )
@@ -313,7 +331,8 @@ class PublishPage extends WizardPage
 
 	public String getPreviewImagePath( )
 	{
-		return previewImageText.getText( ) == null ? STR_EMPTY
+		return previewImageText.getText( ) == null
+				? STR_EMPTY
 				: previewImageText.getText( );
 	}
 

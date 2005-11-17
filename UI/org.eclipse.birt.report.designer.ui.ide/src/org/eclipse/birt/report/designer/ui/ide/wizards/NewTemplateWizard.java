@@ -82,7 +82,7 @@ public class NewTemplateWizard extends NewReportWizard
 		}
 		InputStream streamFromPage = null;
 		URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI ),
-				new Path( "/templates/blank_template.rpttemplate" ) );//$NON-NLS-1$
+				new Path( "/templates/blank_report.rptdesign" ) );//$NON-NLS-1$
 		if ( url != null )
 		{
 			try

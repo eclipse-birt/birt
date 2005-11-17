@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.MissingResourceException;
@@ -256,6 +257,16 @@ public class ReportPlugin extends AbstractUIPlugin
 		if ( image == null )
 		{
 			URL url = ReportPlugin.getDefault( ).find( new Path( key ) );
+			if(url==null)
+			{
+				try
+				{
+					url = new URL("file:///" + key);
+				}
+				catch ( MalformedURLException e )
+				{
+				}
+			}
 
 			if ( null != url )
 			{
@@ -267,7 +278,7 @@ public class ReportPlugin extends AbstractUIPlugin
 				image = ImageDescriptor.getMissingImageDescriptor( )
 						.createImage( );
 			}
-
+			
 			imageRegistry.put( key, image );
 		}
 

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.ui.ide.wizards;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -158,7 +160,7 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		//		{
 		// predefined template
 		URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI ),
-				new Path( templateChoicePage.getTemplate( ).reportPath ) );
+				new Path( templateChoicePage.getTemplate( ).getReportPath() ) );
 		if ( url != null )
 		{
 			try
@@ -170,8 +172,18 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 				//ignore.
 			}
 		}
+		else
+		{
+			try
+			{
+				streamFromPage = new FileInputStream(templateChoicePage.getTemplate( ).getReportPath() );
+			}
+			catch ( FileNotFoundException e )
+			{
+			}
+		}
 
-		cheatSheetIdFromPage = templateChoicePage.getTemplate( ).cheatSheetId;
+		cheatSheetIdFromPage = templateChoicePage.getTemplate( ).getCheatSheetId();
 		showCheatSheetFromPage = templateChoicePage.getShowCheatSheet( );
 		//			Temporary remark the choice page for that feature is not supported in
 		// R1
