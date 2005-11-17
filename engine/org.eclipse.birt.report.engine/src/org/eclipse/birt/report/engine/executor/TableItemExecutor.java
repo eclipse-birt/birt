@@ -54,7 +54,7 @@ import org.eclipse.birt.report.engine.script.TableScriptExecutor;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.23 $ $Date: 2005/11/13 20:26:07 $
+ * @version $Revision: 1.25 $ $Date: 2005/11/15 02:55:55 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -65,6 +65,8 @@ public class TableItemExecutor extends ListingElementExecutor
 	private int groupIndex;
 
 	private TableLayoutEmitter layoutEmitter;
+	
+	private int rowId = 0;
 
 	/**
 	 * a structure contains the table group/row/drop information
@@ -154,7 +156,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * structure used to cache the information of a table.
 	 * 
-	 * @version $Revision: 1.23 $ $Date: 2005/11/13 20:26:07 $
+	 * @version $Revision: 1.25 $ $Date: 2005/11/15 02:55:55 $
 	 */
 	private static class TABLEINFO
 	{
@@ -311,6 +313,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	{
 		super.reset( );
 		tableInfo = null;
+		rowId = 0;
 	}
 
 	/*
@@ -477,6 +480,7 @@ public class TableItemExecutor extends ListingElementExecutor
 		if ( rowClosed )
 		{
 			IRowContent rowContent = report.createRowContent( );
+			rowContent.setRowID(rowId++);
 			assert ( rowContent instanceof RowContent );
 			IContent parent = context.getContent( );
 			context.pushContent( rowContent );

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.content.impl;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
+import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 
 /**
@@ -20,7 +21,7 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:46 $
+ * @version $Revision: 1.7 $ $Date: 2005/11/12 02:35:46 $
  */
 public class CellContent extends AbstractContent implements ICellContent
 {
@@ -39,11 +40,6 @@ public class CellContent extends AbstractContent implements ICellContent
 	 * column id, if equals to 0, get it from the design
 	 */
 	protected int column = -1;
-
-	/**
-	 * row id
-	 */
-	protected int row = -1;
 
 	/**
 	 * constructor
@@ -84,7 +80,11 @@ public class CellContent extends AbstractContent implements ICellContent
 	
 	public int getRow()
 	{
-		return row;
+		if(parent!=null && parent instanceof IRowContent)
+		{
+			return ((IRowContent)parent).getRowID();
+		}
+		return 0;
 	}
 
 	public void setDrop( String drop )
@@ -117,8 +117,4 @@ public class CellContent extends AbstractContent implements ICellContent
 		this.column = column;
 	}
 	
-	public void setRow(int row)
-	{
-		this.row = row;
-	}
 }

@@ -9,6 +9,7 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 
 public class PageContent extends AbstractContent implements IPageContent
@@ -50,6 +51,8 @@ public class PageContent extends AbstractContent implements IPageContent
 			marginLeft = page.getLeftMargin();
 			marginRight = page.getRightMargin();
 			marginBottom = page.getBottomMargin();
+			headerHeight = new DimensionType(1.0f, EngineIRConstants.UNITS_IN );
+			footerHeight = new DimensionType(1.0f, EngineIRConstants.UNITS_IN );
 		}
 	}
 
@@ -153,26 +156,22 @@ public class PageContent extends AbstractContent implements IPageContent
 
 	public DimensionType getMarginTop( )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.marginTop;
 	}
 
 	public DimensionType getMarginBottom( )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.marginBottom;
 	}
 
 	public DimensionType getMarginLeft( )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.marginLeft;
 	}
 
 	public DimensionType getMarginRight( )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.marginRight;
 	}
 
 	public DimensionType getHeaderHeight( )

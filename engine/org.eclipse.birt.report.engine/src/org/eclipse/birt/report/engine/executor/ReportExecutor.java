@@ -50,7 +50,7 @@ import org.eclipse.birt.report.engine.script.ReportScriptExecutor;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.22 $ $Date: 2005/11/12 03:32:18 $
+ * @version $Revision: 1.23 $ $Date: 2005/11/14 10:55:58 $
  */
 public class ReportExecutor
 {
@@ -242,6 +242,11 @@ public class ReportExecutor
 			}
 		}
 
+	}
+	
+	public ExecutionContext getContext()
+	{
+		return this.context;
 	}
 
 }

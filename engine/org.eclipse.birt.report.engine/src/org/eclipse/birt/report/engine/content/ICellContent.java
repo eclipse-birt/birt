@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.content;
 /**
  * Provides the interfaces for Cell Content
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.5 $ $Date: 2005/11/11 06:26:45 $
  */
 public interface ICellContent extends IContainerContent
 {
@@ -41,8 +41,6 @@ public interface ICellContent extends IContainerContent
 	 * @return
 	 */
 	public int getRow( );
-
-	public void setRow( int row );
 
 	public void setColumn( int column );
 

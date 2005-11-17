@@ -34,7 +34,7 @@ import org.eclipse.birt.report.engine.script.CellScriptExecutor;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.17 $ $Date: 2005/11/13 20:26:07 $
+ * @version $Revision: 1.18 $ $Date: 2005/11/14 10:55:58 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -162,6 +162,7 @@ public class GridItemExecutor extends QueryItemExecutor
 			IContentEmitter emitter )
 	{
 		IRowContent rowContent = report.createRowContent( );
+		rowContent.setRowID(rowId);
 		assert ( rowContent instanceof RowContent );
 		context.pushContent( rowContent );
 

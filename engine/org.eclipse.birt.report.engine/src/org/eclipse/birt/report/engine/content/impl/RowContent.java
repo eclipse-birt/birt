@@ -18,11 +18,11 @@ import org.eclipse.birt.report.engine.content.IRowContent;
  * 
  * the row content object which contains cell content objects
  * 
- * @version $Revision: 1.5 $ $Date: 2005/10/27 02:13:34 $
+ * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:46 $
  */
 public class RowContent extends AbstractContent implements IRowContent
 {
-
+	protected int rowID;
 	/**
 	 * constructor
 	 * 
@@ -37,5 +37,15 @@ public class RowContent extends AbstractContent implements IRowContent
 	public void accept( IContentVisitor visitor , Object value)
 	{
 		visitor.visitRow( this , value);
+	}
+
+	public int getRowID( )
+	{
+		return rowID;
+	}
+	
+	public void setRowID(int rowID)
+	{
+		this.rowID = rowID;
 	}
 }
