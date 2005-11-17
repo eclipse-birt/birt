@@ -168,7 +168,7 @@ public class NewReportWizard extends Wizard
 		boolean showCheatSheetFromPage = false;
 
 		URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI ),
-				new Path( templateChoicePage.getTemplate( ).reportPath ) );
+				new Path( templateChoicePage.getTemplate( ).getReportPath() ) );
 		if ( url != null )
 		{
 			try
@@ -181,7 +181,7 @@ public class NewReportWizard extends Wizard
 			}
 		}
 
-		cheatSheetIdFromPage = templateChoicePage.getTemplate( ).cheatSheetId;
+		cheatSheetIdFromPage = templateChoicePage.getTemplate( ).getCheatSheetId();
 		showCheatSheetFromPage = templateChoicePage.getShowCheatSheet( );
 		final InputStream stream = inputData;
 		final String cheatSheetId = cheatSheetIdFromPage;
