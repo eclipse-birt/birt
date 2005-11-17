@@ -2197,7 +2197,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *             if the property is locked.
 	 */
 
-	public void setDescirption( String description ) throws SemanticException
+	public void setDescription( String description ) throws SemanticException
 	{
 		setStringProperty( Module.DESCRIPTION_PROP, description );
 	}
