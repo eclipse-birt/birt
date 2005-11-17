@@ -671,11 +671,43 @@ public class ElementFactory
 
 	public ExtendedItemHandle newExtendedItem( String name, String extensionName )
 	{
+		try
+		{
+			return newExtendedItem( name, extensionName, null );
+		}
+		catch ( ExtendsException e )
+		{
+			assert false;
+			return null;
+		}
+	}
+
+	/**
+	 * Creates a new extended item which extends from a given parent.
+	 * 
+	 * @param name
+	 *            the optional extended item name. Can be <code>null</code>.
+	 * @param extensionName
+	 *            the required extension name
+	 * @param parent
+	 *            a given parent element.
+	 * @return a handle to extended item, return <code>null</code> if the
+	 *         definition with the given extension name is not found
+	 * @throws ExtendsException
+	 */
+
+	private ExtendedItemHandle newExtendedItem( String name,
+			String extensionName, ExtendedItemHandle parent )
+			throws ExtendsException
+	{
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
 				.getExtension( extensionName );
 		if ( extDefn == null )
 			return null;
+
+		if ( parent != null )
+			assert ( (ExtendedItem) parent.getElement( ) ).getExtDefn( ) == extDefn;
 
 		if ( !( extDefn instanceof PeerExtensionElementDefn ) )
 			throw new IllegalOperationException(
@@ -709,6 +741,11 @@ public class ElementFactory
 		}
 
 		ExtendedItem element = new ExtendedItem( defaultName );
+		if ( parent != null )
+		{
+			element.getHandle( module ).setExtends( parent );
+		}
+
 		element.setProperty( ExtendedItem.EXTENSION_NAME_PROP, extensionName );
 		module.makeUniqueName( element );
 		ExtendedItemHandle handle = element.handle( module );
@@ -723,7 +760,6 @@ public class ElementFactory
 			assert false;
 		}
 		return handle;
-
 	}
 
 	/**
@@ -875,10 +911,22 @@ public class ElementFactory
 
 		if ( baseElement.getRoot( ).getElement( ) == module )
 		{
-			DesignElementHandle childElement = newElement( baseElement
-					.getElement( ).getElementName( ), name );
-			childElement.setExtends( baseElement );
-			childElement.getElement( ).refreshStructureFromParent( module );
+			DesignElementHandle childElement = null;
+			if ( baseElement instanceof ExtendedItemHandle )
+			{
+				String extensionName = baseElement
+						.getStringProperty( ExtendedItem.EXTENSION_NAME_PROP );
+				childElement = this.newExtendedItem( name, extensionName,
+						(ExtendedItemHandle) baseElement );
+				childElement.getElement( ).refreshStructureFromParent( module );
+			}
+			else
+			{
+				childElement = newElement( baseElement.getElement( )
+						.getElementName( ), name );
+				childElement.setExtends( baseElement );
+				childElement.getElement( ).refreshStructureFromParent( module );
+			}
 
 			return childElement;
 		}
@@ -903,16 +951,29 @@ public class ElementFactory
 			// if the element with the name is not found or the element type
 			// is inconsistent, throw an exception
 
-			if ( base == null || base.getDefn( ) != baseElement.getDefn( ) )
+			if ( base == null
+					|| base.getDefn( ) != baseElement.getElement( ).getDefn( ) )
 			{
 				throw new ExtendsException( null, baseElement.getName( ),
 						ExtendsException.DESIGN_EXCEPTION_NOT_FOUND );
 			}
 
-			DesignElementHandle childElement = newElement( base
-					.getElementName( ), name );
-			childElement.setExtends( base.getHandle( lib ) );
-			childElement.getElement( ).refreshStructureFromParent( module );
+			DesignElementHandle childElement = null;
+			if ( baseElement instanceof ExtendedItemHandle )
+			{
+				String extensionName = baseElement
+						.getStringProperty( ExtendedItem.EXTENSION_NAME_PROP );
+				childElement = this.newExtendedItem( name, extensionName,
+						(ExtendedItemHandle) base.getHandle( lib ) );
+				childElement.getElement( ).refreshStructureFromParent( module );
+			}
+			else
+			{
+				childElement = newElement( base.getElementName( ), name );
+				childElement.setExtends( base.getHandle( lib ) );
+				childElement.getElement( ).refreshStructureFromParent( module );
+			}
+
 			return childElement;
 		}
 

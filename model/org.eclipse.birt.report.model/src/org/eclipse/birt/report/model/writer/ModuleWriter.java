@@ -1287,6 +1287,11 @@ public abstract class ModuleWriter extends ElementVisitor
 				if ( ExtendedItem.EXTENSION_NAME_PROP.equals( prop.getName( ) ) )
 					continue;
 
+				// TODO: support extending those xml properties.
+				// Now, each time a child is initialized, its xml-properties are
+				// serialized on the IReportItem itself, never minding whether 
+				// the xml-property values are set locally or extended from parent.
+				
 				Object value = obj.getLocalProperty( getModule( ), prop
 						.getName( ) );
 				if ( value != null )

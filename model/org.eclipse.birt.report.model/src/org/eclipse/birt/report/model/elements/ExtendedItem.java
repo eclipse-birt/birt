@@ -76,7 +76,7 @@ public class ExtendedItem extends ReportItem
 	 * extendable element.
 	 */
 
-	PeerExtensibilityProvider provider = null;
+	private PeerExtensibilityProvider provider = null;
 
 	/**
 	 * Default constructor.
@@ -276,6 +276,19 @@ public class ExtendedItem extends ReportItem
 					ExtendedElementException.PLUGIN_ID,
 					SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION, null );
 
+	}
+
+	/**
+	 * Returns the extensibility provider which provides the functionality of
+	 * this extendable element.
+	 * 
+	 * @return the extensibility provider which provides the functionality of
+	 *         this extendable element.
+	 */
+
+	public PeerExtensibilityProvider getExtensibilityProvider( )
+	{
+		return this.provider;
 	}
 
 	/*

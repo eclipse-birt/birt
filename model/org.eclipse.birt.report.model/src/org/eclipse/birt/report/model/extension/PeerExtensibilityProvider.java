@@ -14,8 +14,6 @@ package org.eclipse.birt.report.model.extension;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,6 +28,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionModelPropertyDefn;
@@ -345,47 +344,61 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 
 		reportItem = elementFactory.newReportItem( element.getHandle( module ) );
 
-		// if the item caches the property values of extension, transfer them
-		// and then clear the cached values
-
-		List names = new ArrayList( );
-
-		Collection values = extensionPropValues.keySet( );
-		if ( values != null )
+		List localPropDefns = getExtDefn( ).getLocalProperties();
+		for ( int i = 0; i < localPropDefns.size( ); i++ )
 		{
-			Iterator iter = values.iterator( );
-			while ( iter.hasNext( ) )
+			ElementPropertyDefn propDefn = (ElementPropertyDefn) localPropDefns
+					.get( i );
+
+			assert propDefn.isExtended();
+			if ( propDefn.getTypeCode( ) != PropertyType.XML_TYPE || !propDefn.canInherit() )
+				continue;
+
+			Object value = extensionPropValues.get( propDefn.getName( ) );
+			if ( value == null )
 			{
-				String propName = (String) iter.next( );
-				ElementPropertyDefn prop = element.getPropertyDefn( propName );
-				assert prop != null;
-
-				Object value = extensionPropValues.get( propName );
-				assert value != null;
-
-				if ( prop.getTypeCode( ) == PropertyType.XML_TYPE )
+				// Get the raw xml data from parent.
+				
+				ExtendedItem parent = (ExtendedItem) element
+						.getExtendsElement( );
+				while ( parent != null )
 				{
-					byte[] raw = null;
-					try
-					{
-						raw = value.toString( ).getBytes(
-								UnicodeUtil.SIGNATURE_UTF_8 );
-					}
-					catch ( UnsupportedEncodingException e )
-					{
-						assert false;
-					}
-					reportItem.deserialize( prop.getName( ),
-							new ByteArrayInputStream( raw ) );
-					names.add( propName );
+					PeerExtensibilityProvider parentProvider = parent
+							.getExtensibilityProvider( );
+					HashMap propValues = parentProvider.extensionPropValues;
+					value = propValues.get( propDefn.getName( ) );
+
+					if ( value != null )
+						break;
+
+					parent = (ExtendedItem) parent.getExtendsElement( );
 				}
+			}
+			else
+			{
+				// if the item caches the property values of extension, transfer
+				// them and then clear the cached values
+
+				this.extensionPropValues.remove( propDefn.getName( ) );
+			}
+
+			if ( value != null )
+			{
+				byte[] raw = null;
+				try
+				{
+					raw = value.toString( ).getBytes(
+							UnicodeUtil.SIGNATURE_UTF_8 );
+				}
+				catch ( UnsupportedEncodingException e )
+				{
+					assert false;
+				}
+				reportItem.deserialize( propDefn.getName( ),
+						new ByteArrayInputStream( raw ) );
 			}
 		}
 
-		for ( int i = 0; i < names.size( ); i++ )
-		{
-			extensionPropValues.remove( names.get( i ) );
-		}
 	}
 
 	/**
