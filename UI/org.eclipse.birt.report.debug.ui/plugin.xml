@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.eclipse.birt.report.debug.ui"
+   name="Ui Plug-in"
+   version="1.0.0"
+   provider-name="org.eclipse"
+   class="org.eclipse.birt.report.debug.ui.DebugUI">
+
+   <runtime>
+      <library name="debugui.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.debug.core"/>
+      <import plugin="org.eclipse.debug.ui"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.core.runtime.compatibility"/>
+      <import plugin="org.eclipse.core.runtime.compatibility"/>
+      <import plugin="org.eclipse.jdt.launching"/>
+      <import plugin="org.eclipse.pde.ui"/>
+      <import plugin="org.eclipse.pde.core"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.jdt.junit"/>
+      <import plugin="org.eclipse.pde"/>
+      <import plugin="org.eclipse.jdt.ui"/>
+   </requires>
+   
+   
+	<extension
+	         point="org.eclipse.debug.core.launchConfigurationTypes">
+	      <launchConfigurationType
+	            name="org.eclipse.birt.report.debug.Report"
+	            delegate="org.eclipse.birt.report.debug.ui.launcher.ReportLaunchConfigurationDelegate"
+	            modes="debug"
+	            id="org.eclipse.birt.report.debug.ui.ReportRuntimeWorkbench">
+	      </launchConfigurationType>
+   </extension>
+   
+    <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            type="org.eclipse.birt.report.debug.ui.ReportRuntimeWorkbench"
+            description="Run or debug a report Java program"
+            class="org.eclipse.birt.report.debug.ui.launching.ReportTabGroup"
+            id="org.eclipse.birt.report.debug.ui.launchConfigurationTabGroup.report">
+      </launchConfigurationTabGroup>
+   </extension>
+   
+	<extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+	    <launchConfigurationTypeImage
+	        icon="icons/full/ctool16/java_applet.gif"
+	        configTypeID="org.eclipse.birt.report.debug.ui.ReportRuntimeWorkbench"
+	        id="org.eclipse.birt.report.debug.ui.launchConfigurationTypeImage.report">
+	    </launchConfigurationTypeImage>
+	</extension>
+	
+	<extension
+         point="org.eclipse.debug.core.sourceLocators">
+      <sourceLocator
+            name="%javaSourceLocatorName"
+            class="org.eclipse.jdt.launching.sourcelookup.JavaSourceLocator"
+            id="org.eclipse.jdt.launching.javaSourceLocator">
+      </sourceLocator>
+   </extension>
+ 	<extension point="org.eclipse.debug.core.sourceLocators">
+   		<sourceLocator
+   			id="org.eclipse.jdt.launching.sourceLocator.JavaSourceLookupDirector"
+   			class="org.eclipse.jdt.internal.launching.JavaSourceLookupDirector"
+   			name="%javaSourceLookupDirector.name">
+   		</sourceLocator>
+   </extension>
+</plugin>
