@@ -104,6 +104,12 @@
                class="org.eclipse.birt.report.designer.ui.actions.PreviewAction"
                menubarPath="file/preview"
                id="org.eclipse.birt.report.designer.ui.actions.PreviewAction"/>
+         <action
+               class="org.eclipse.birt.report.designer.ui.actions.PublishTemplateAction"
+               id="org.eclipse.birt.report.designer.ui.TemplatepublisAction"
+               label="%publish.template"
+               menubarPath="file/export"
+               style="push"/>
       </actionSet>
    </extension>
    

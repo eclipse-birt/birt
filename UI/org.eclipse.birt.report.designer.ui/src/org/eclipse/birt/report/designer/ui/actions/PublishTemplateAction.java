@@ -1,0 +1,357 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.ui.actions;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+import org.eclipse.ui.PlatformUI;
+
+/**
+ * PublishTemplateAction
+ */
+public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
+{
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#dispose()
+	 */
+	public void dispose( )
+	{
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.IWorkbenchWindow)
+	 */
+	public void init( IWorkbenchWindow window )
+	{
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
+	 */
+	public void run( IAction action )
+	{
+		WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
+				new PublishTemplateWizard( ) );
+		dialog.setPageSize( 500, 250 );
+		dialog.open( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
+	 *      org.eclipse.jface.viewers.ISelection)
+	 */
+	public void selectionChanged( IAction action, ISelection selection )
+	{
+		IEditorPart editor = UIUtil.getActiveEditor( true );
+		action.setEnabled( editor.getEditorInput( )
+				.getName( )
+				.endsWith( ".rpttemplate" ) ); //$NON-NLS-1$
+	}
+
+}
+
+/**
+ * PublishTemplateWizard
+ */
+class PublishTemplateWizard extends Wizard
+{
+
+	private static final String windowTitle = Messages.getString( "PublishTemplateAction.wizard.title" ); //$NON-NLS-1$
+	
+	private PublishPage page;
+	
+	public PublishTemplateWizard()
+	{
+		setWindowTitle(windowTitle);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.wizard.Wizard#addPages()
+	 */
+	public void addPages( )
+	{
+		page = new PublishPage( );
+		addPage( page );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
+	 */
+	public boolean performFinish( )
+	{
+		// copy to template folder
+		String templateFolderPath = ReportPlugin.getDefault( )
+				.getDefaultTemplatePreference( );
+
+		String filePath = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
+				.getFileName( );
+		String fileName = filePath.substring( filePath.lastIndexOf( File.separator ) );
+		try
+		{
+			copyFile( filePath, templateFolderPath + fileName );
+		}
+		catch ( IOException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+
+		try
+		{
+			setDesignFile( templateFolderPath + fileName );
+		}
+		catch ( DesignFileException e )
+		{
+			ExceptionHandler.handle( e );
+			return false;
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+			return false;
+		}
+		catch ( IOException e )
+		{
+			ExceptionHandler.handle( e );
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * 
+	 * set ReportDesignHandle properties.
+	 * 
+	 * @param fileName
+	 * @throws DesignFileException
+	 * @throws SemanticException
+	 * @throws IOException
+	 */
+	private void setDesignFile( String fileName ) throws DesignFileException,
+			SemanticException, IOException
+	{
+		ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
+				.getSessionHandle( )
+				.openDesign( fileName );
+		// handle.setProperty( ModuleHandle.DISPLAY_NAME_PROP,
+		// page.getDisplayName( ) );
+		handle.setProperty( ModuleHandle.DESCRIPTION_PROP,
+				page.getDescription( ) );
+		// handle.setProperty( ReportDesignHandle.IMAGES_PROP,
+		// page.getPreviewImagePath( ) );
+		handle.save( );
+	}
+
+	private void copyFile( String in, String out ) throws IOException
+	{
+		FileInputStream fis = new FileInputStream( in );
+		FileOutputStream fos = new FileOutputStream( out );
+		byte[] buf = new byte[1024];
+		int i = 0;
+		while ( ( i = fis.read( buf ) ) != -1 )
+		{
+			fos.write( buf, 0, i );
+		}
+		fis.close( );
+		fos.close( );
+	}
+}
+
+/**
+ * PublishPage
+ */
+class PublishPage extends WizardPage
+{
+
+	private static final String PAGE_TITLE = Messages.getString( "PublishTemplateAction.wizard.page.title" ); //$NON-NLS-1$
+	private static final String PAGE_DESC = Messages.getString( "PublishTemplateAction.wizard.page.desc" ); //$NON-NLS-1$
+	private static final String LABEL_DISPLAY_NAME = Messages.getString( "PublishTemplateAction.wizard.page.label.dispalyName" ); //$NON-NLS-1$
+	private static final String LABEL_DESCRIPTION = Messages.getString( "PublishTemplateAction.wizard.page.label.description" ); //$NON-NLS-1$
+	private static final String LABEL_IMAGE = Messages.getString( "PublishTemplateAction.wizard.page.label.image" ); //$NON-NLS-1$
+	private static final String BTN_CHOOSE = Messages.getString( "PublishTemplateAction.wizard.page.btn.browse" ); //$NON-NLS-1$
+	private static final String BROWSE_TITLE = Messages.getString( "PublishTemplateAction.wizard.page.browse.title" ); //$NON-NLS-1$
+	private static final String IMAGE_ERROR = Messages.getString( "PublishTemplateAction.wizard.page.imageError" ); //$NON-NLS-1$
+	private static final String STR_EMPTY = ""; //$NON-NLS-1$
+
+	private ModuleHandle module;
+	private Text previewImageText;
+	private Text descText;
+	private Text nameText;
+
+	public PublishPage( )
+	{
+		super( PAGE_TITLE );
+		setTitle( PAGE_TITLE );
+		setMessage( PAGE_DESC );
+		module = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+	 */
+	public void createControl( Composite parent )
+	{
+
+		
+		Composite container = new Composite( parent, SWT.NONE );
+		GridLayout gridLayout = new GridLayout( );
+		gridLayout.marginWidth = 20;
+		gridLayout.marginTop = 10;
+		gridLayout.verticalSpacing = 7;
+		gridLayout.numColumns = 3;
+		container.setLayout( gridLayout );
+
+		new Label( container, SWT.NONE ).setText( LABEL_DISPLAY_NAME );
+		nameText = createText( container, 2, 1 );
+		if ( module.getProperty( ModuleHandle.DISPLAY_NAME_PROP ) != null )
+			nameText.setText( (String) module.getProperty( ModuleHandle.DISPLAY_NAME_PROP ) );
+
+		new Label( container, SWT.NONE ).setText( LABEL_DESCRIPTION );
+		descText = createText( container, 2, 5 );
+		if ( module.getProperty( ModuleHandle.DESCRIPTION_PROP ) != null )
+			descText.setText( (String) module.getProperty( ModuleHandle.DESCRIPTION_PROP ) );
+
+		new Label( container, SWT.NONE ).setText( LABEL_IMAGE );
+		previewImageText = createText( container, 1, 1 );
+		previewImageText.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				validateImage( );
+			}
+		} );
+
+		Button chooseBtn = new Button( container, SWT.NONE );
+		chooseBtn.setText( BTN_CHOOSE );
+		chooseBtn.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				FileDialog dialog = new FileDialog( PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getActiveShell( ) );
+				dialog.setText( BROWSE_TITLE );
+				String fileName = dialog.open( );
+				if ( fileName == null )
+				{
+					return;
+				}
+				previewImageText.setText( fileName );
+			}
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+
+			}
+		} );
+
+		chooseBtn.forceFocus( );
+		setControl( container );
+	}
+
+	public String getDisplayName( )
+	{
+		return nameText.getText( ) == null ? STR_EMPTY : nameText.getText( );
+	}
+
+	public String getDescription( )
+	{
+		return descText.getText( ) == null ? STR_EMPTY : descText.getText( );
+	}
+
+	public String getPreviewImagePath( )
+	{
+		return previewImageText.getText( ) == null ? STR_EMPTY
+				: previewImageText.getText( );
+	}
+
+	private Text createText( Composite container, int column, int row )
+	{
+		Text text;
+		GridData gridData = new GridData( GridData.FILL_HORIZONTAL
+				| GridData.GRAB_HORIZONTAL );
+		gridData.horizontalSpan = column;
+
+		if ( row > 1 )
+		{
+			text = new Text( container, SWT.BORDER | SWT.MULTI | SWT.WRAP );
+			gridData.heightHint = row * 20;
+		}
+		else
+			text = new Text( container, SWT.BORDER | SWT.SINGLE );
+		text.setLayoutData( gridData );
+		return text;
+	}
+
+	private void validateImage( )
+	{
+		if ( previewImageText.getText( ).trim( ).length( ) == 0 )
+		{
+			setErrorMessage( null );
+			setPageComplete( true );
+		}
+		else if ( !new File( previewImageText.getText( ) ).exists( ) )
+		{
+			setErrorMessage( IMAGE_ERROR );
+			setPageComplete( false );
+		}
+		else
+		{
+			setErrorMessage( null );
+			setPageComplete( true );
+		}
+	}
+
+};
