@@ -2150,4 +2150,82 @@ public abstract class ModuleHandle extends DesignElementHandle
 		return generateHandleList( elementList );
 	}
 
+	/**
+	 * Returns the static description for the module.
+	 * 
+	 * @return the static description to display
+	 */
+
+	public String getDescription( )
+	{
+		return getStringProperty( Module.DESCRIPTION_PROP );
+	}
+
+	/**
+	 * Returns the localized description for the module. If the localized
+	 * description for the description resource key is found, it will be
+	 * returned. Otherwise, the static description will be returned.
+	 * 
+	 * @return the localized description for the module
+	 */
+
+	public String getDisplayDescription( )
+	{
+		String textKey = getStringProperty( Module.DESCRIPTION_ID_PROP );
+		if ( !StringUtil.isBlank( textKey ) )
+		{
+			// find in report.
+
+			String localizedText = getModule( ).getMessage( textKey );
+			if ( !StringUtil.isBlank( localizedText ) )
+				return localizedText;
+		}
+
+		// use static text.
+
+		return getStringProperty( Module.DESCRIPTION_PROP );
+	}
+
+	/**
+	 * Sets the description of the module. Sets the static description itself.
+	 * If the module is to be externalized, then set the description ID
+	 * separately.
+	 * 
+	 * @param description
+	 *            the new description for the module
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setDescirption( String description ) throws SemanticException
+	{
+		setStringProperty( Module.DESCRIPTION_PROP, description );
+	}
+
+	/**
+	 * Returns the resource key of the static description of the module.
+	 * 
+	 * @return the resource key of the static description
+	 */
+
+	public String getDescriptionKey( )
+	{
+		return getStringProperty( Module.DESCRIPTION_ID_PROP );
+	}
+
+	/**
+	 * Sets the resource key of the static description of the module.
+	 * 
+	 * @param resourceKey
+	 *            the resource key of the static description
+	 * 
+	 * @throws SemanticException
+	 *             if the resource key property is locked.
+	 */
+
+	public void setDescriptionKey( String resourceKey )
+			throws SemanticException
+	{
+		setStringProperty( Module.DESCRIPTION_ID_PROP, resourceKey );
+	}
 }
