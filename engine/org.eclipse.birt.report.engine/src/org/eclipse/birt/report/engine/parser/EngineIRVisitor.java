@@ -137,7 +137,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.53 $ $Date: 2005/11/14 03:27:18 $
+ * @version $Revision: 1.54 $ $Date: 2005/11/15 06:16:32 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1427,11 +1427,22 @@ class EngineIRVisitor extends DesignVisitor
 		return styleName;
 	}
 
-	String getElementProperty( ReportElementHandle handle, String name )
+	protected String getElementProperty( ReportElementHandle handle, String name )
+	{
+		return getElementProperty( handle, name, false );
+	}
+
+	protected String getElementProperty( ReportElementHandle handle,
+			String name, boolean isColorProperty )
 	{
 		FactoryPropertyHandle prop = handle.getFactoryPropertyHandle( name );
 		if ( prop != null && prop.isSet( ) )
 		{
+			if ( isColorProperty )
+			{
+				return prop.getColorValue( );
+			}
+
 			return prop.getStringValue( );
 		}
 		return null;
@@ -1443,7 +1454,7 @@ class EngineIRVisitor extends DesignVisitor
 		StyleDeclaration style = new StyleDeclaration( cssEngine );
 
 		style.setBackgroundColor( getElementProperty( handle,
-				Style.BACKGROUND_COLOR_PROP ) );
+				Style.BACKGROUND_COLOR_PROP, true ) );
 		style.setBackgroundImage( getElementProperty( handle,
 				Style.BACKGROUND_IMAGE_PROP ) );
 		style.setBackgroundPositionX( getElementProperty( handle,
@@ -1509,7 +1520,7 @@ class EngineIRVisitor extends DesignVisitor
 		style
 				.setFontFamily( getElementProperty( handle,
 						Style.FONT_FAMILY_PROP ) );
-		style.setColor( getElementProperty( handle, Style.COLOR_PROP ) );
+		style.setColor( getElementProperty( handle, Style.COLOR_PROP, true ) );
 		style.setFontSize( getElementProperty( handle, Style.FONT_SIZE_PROP ) );
 		style
 				.setFontStyle( getElementProperty( handle,
@@ -1520,37 +1531,27 @@ class EngineIRVisitor extends DesignVisitor
 		style.setFontVariant( getElementProperty( handle,
 				Style.FONT_VARIANT_PROP ) );
 
-		// Text decoration
-		/*
-		 * style.setTextLineThrough(getElementProperty(handle,
-		 * Style.TEXT_LINE_THROUGH_PROP));
-		 * style.setTextOverline(getElementProperty(handle,
-		 * Style.TEXT_OVERLINE_PROP));
-		 * style.setTextUnderline(getElementProperty(handle,
-		 * Style.TEXT_UNDERLINE_PROP));
-		 */
-
 		// Border
 		style.setBorderBottomColor( getElementProperty( handle,
-				Style.BORDER_BOTTOM_COLOR_PROP ) );
+				Style.BORDER_BOTTOM_COLOR_PROP, true ) );
 		style.setBorderBottomStyle( getElementProperty( handle,
 				Style.BORDER_BOTTOM_STYLE_PROP ) );
 		style.setBorderBottomWidth( getElementProperty( handle,
 				Style.BORDER_BOTTOM_WIDTH_PROP ) );
 		style.setBorderLeftColor( getElementProperty( handle,
-				Style.BORDER_LEFT_COLOR_PROP ) );
+				Style.BORDER_LEFT_COLOR_PROP, true ) );
 		style.setBorderLeftStyle( getElementProperty( handle,
 				Style.BORDER_LEFT_STYLE_PROP ) );
 		style.setBorderLeftWidth( getElementProperty( handle,
 				Style.BORDER_LEFT_WIDTH_PROP ) );
 		style.setBorderRightColor( getElementProperty( handle,
-				Style.BORDER_RIGHT_COLOR_PROP ) );
+				Style.BORDER_RIGHT_COLOR_PROP, true ) );
 		style.setBorderRightStyle( getElementProperty( handle,
 				Style.BORDER_RIGHT_STYLE_PROP ) );
 		style.setBorderRightWidth( getElementProperty( handle,
 				Style.BORDER_RIGHT_WIDTH_PROP ) );
 		style.setBorderTopColor( getElementProperty( handle,
-				Style.BORDER_TOP_COLOR_PROP ) );
+				Style.BORDER_TOP_COLOR_PROP, true ) );
 		style.setBorderTopStyle( getElementProperty( handle,
 				Style.BORDER_TOP_STYLE_PROP ) );
 		style.setBorderTopWidth( getElementProperty( handle,
@@ -1750,162 +1751,6 @@ class EngineIRVisitor extends DesignVisitor
 		return style;
 	}
 
-	String getStyleProperty( StyleHandle handle, String property )
-	{
-		PropertyHandle prop = handle.getPropertyHandle( property );
-		if ( prop != null )
-		{
-			return prop.getStringValue( );
-		}
-		return null;
-	}
-
-	IStyle setupStyle( StyleHandle handle, IStyle style )
-	{
-		// Background
-		style.setBackgroundColor( getStyleProperty( handle,
-				Style.BACKGROUND_COLOR_PROP ) );
-		style.setBackgroundImage( getStyleProperty( handle,
-				Style.BACKGROUND_IMAGE_PROP ) );
-		style.setBackgroundPositionX( getStyleProperty( handle,
-				Style.BACKGROUND_POSITION_X_PROP ) );
-		style.setBackgroundPositionY( getStyleProperty( handle,
-				Style.BACKGROUND_POSITION_Y_PROP ) );
-		style.setBackgroundRepeat( getStyleProperty( handle,
-				Style.BACKGROUND_REPEAT_PROP ) );
-
-		// Text related
-		style.setTextAlign( getStyleProperty( handle, Style.TEXT_ALIGN_PROP ) );
-		style
-				.setTextIndent( getStyleProperty( handle,
-						Style.TEXT_INDENT_PROP ) );
-		if ( "underline".equalsIgnoreCase( getStyleProperty( handle, //$NON-NLS-1$
-				Style.TEXT_UNDERLINE_PROP ) ) )
-		{
-			style.setTextUnderline( "true" ); //$NON-NLS-1$
-		}
-		if ( "line-through".equalsIgnoreCase( getStyleProperty( handle, //$NON-NLS-1$
-				Style.TEXT_LINE_THROUGH_PROP ) ) )
-		{
-			style.setTextLineThrough( "true" ); //$NON-NLS-1$
-		}
-		if ( "overline".equalsIgnoreCase( getStyleProperty( handle, //$NON-NLS-1$
-				Style.TEXT_OVERLINE_PROP ) ) )
-		{
-			style.setTextOverline( "true" ); //$NON-NLS-1$
-		}
-		style.setLetterSpacing( getStyleProperty( handle,
-				Style.LETTER_SPACING_PROP ) );
-		style
-				.setLineHeight( getStyleProperty( handle,
-						Style.LINE_HEIGHT_PROP ) );
-		style.setOrphans( getStyleProperty( handle, Style.ORPHANS_PROP ) );
-		style.setTextTransform( getStyleProperty( handle,
-				Style.TEXT_TRANSFORM_PROP ) );
-		style.setVerticalAlign( getStyleProperty( handle,
-				Style.VERTICAL_ALIGN_PROP ) );
-		style
-				.setWhiteSpace( getStyleProperty( handle,
-						Style.WHITE_SPACE_PROP ) );
-		style.setWidows( getStyleProperty( handle, Style.WIDOWS_PROP ) );
-		style
-				.setWordSpacing( getStyleProperty( handle,
-						Style.WORD_SPACING_PROP ) );
-
-		// Section properties
-		style.setDisplay( getStyleProperty( handle, Style.DISPLAY_PROP ) );
-		style
-				.setMasterPage( getStyleProperty( handle,
-						Style.MASTER_PAGE_PROP ) );
-		style.setPageBreakAfter( getStyleProperty( handle,
-				Style.PAGE_BREAK_AFTER_PROP ) );
-		style.setPageBreakBefore( getStyleProperty( handle,
-				Style.PAGE_BREAK_BEFORE_PROP ) );
-		style.setPageBreakInside( getStyleProperty( handle,
-				Style.PAGE_BREAK_INSIDE_PROP ) );
-
-		// Font related
-		style
-				.setFontFamily( getStyleProperty( handle,
-						Style.FONT_FAMILY_PROP ) );
-		style.setColor( getStyleProperty( handle, Style.COLOR_PROP ) );
-		style.setFontSize( getStyleProperty( handle, Style.FONT_SIZE_PROP ) );
-		style.setFontStyle( getStyleProperty( handle, Style.FONT_STYLE_PROP ) );
-		style
-				.setFontWeight( getStyleProperty( handle,
-						Style.FONT_WEIGHT_PROP ) );
-		style
-				.setFontVariant( getStyleProperty( handle,
-						Style.FONT_VARIANT_PROP ) );
-
-		// Border
-		style.setBorderBottomColor( getStyleProperty( handle,
-				Style.BORDER_BOTTOM_COLOR_PROP ) );
-		style.setBorderBottomStyle( getStyleProperty( handle,
-				Style.BORDER_BOTTOM_STYLE_PROP ) );
-		style.setBorderBottomWidth( getStyleProperty( handle,
-				Style.BORDER_BOTTOM_WIDTH_PROP ) );
-		style.setBorderLeftColor( getStyleProperty( handle,
-				Style.BORDER_LEFT_COLOR_PROP ) );
-		style.setBorderLeftStyle( getStyleProperty( handle,
-				Style.BORDER_LEFT_STYLE_PROP ) );
-		style.setBorderLeftWidth( getStyleProperty( handle,
-				Style.BORDER_LEFT_WIDTH_PROP ) );
-		style.setBorderRightColor( getStyleProperty( handle,
-				Style.BORDER_RIGHT_COLOR_PROP ) );
-		style.setBorderRightStyle( getStyleProperty( handle,
-				Style.BORDER_RIGHT_STYLE_PROP ) );
-		style.setBorderRightWidth( getStyleProperty( handle,
-				Style.BORDER_RIGHT_WIDTH_PROP ) );
-		style.setBorderTopColor( getStyleProperty( handle,
-				Style.BORDER_TOP_COLOR_PROP ) );
-		style.setBorderTopStyle( getStyleProperty( handle,
-				Style.BORDER_TOP_STYLE_PROP ) );
-		style.setBorderTopWidth( getStyleProperty( handle,
-				Style.BORDER_TOP_WIDTH_PROP ) );
-
-		// Margin
-		style.setMarginTop( getStyleProperty( handle, Style.MARGIN_TOP_PROP ) );
-		style
-				.setMarginLeft( getStyleProperty( handle,
-						Style.MARGIN_LEFT_PROP ) );
-		style.setMarginBottom( getStyleProperty( handle,
-				Style.MARGIN_BOTTOM_PROP ) );
-		style
-				.setMarginRight( getStyleProperty( handle,
-						Style.MARGIN_RIGHT_PROP ) );
-
-		// Padding
-		style
-				.setPaddingTop( getStyleProperty( handle,
-						Style.PADDING_TOP_PROP ) );
-		style
-				.setPaddingLeft( getStyleProperty( handle,
-						Style.PADDING_LEFT_PROP ) );
-		style.setPaddingBottom( getStyleProperty( handle,
-				Style.PADDING_BOTTOM_PROP ) );
-		style.setPaddingRight( getStyleProperty( handle,
-				Style.PADDING_RIGHT_PROP ) );
-
-		// Data Formatting
-		style
-				.setNumberAlign( getStyleProperty( handle,
-						Style.NUMBER_ALIGN_PROP ) );
-		style.setDateFormat( getStyleProperty( handle,
-				Style.DATE_TIME_FORMAT_PROP ) );
-		style.setNumberFormat( getStyleProperty( handle,
-				Style.NUMBER_FORMAT_PROP ) );
-		style.setStringFormat( getStyleProperty( handle,
-				Style.STRING_FORMAT_PROP ) );
-
-		// Others
-		style.setCanShrink( getStyleProperty( handle, Style.CAN_SHRINK_PROP ) );
-		style.setShowIfBlank( getStyleProperty( handle,
-				Style.SHOW_IF_BLANK_PROP ) );
-
-		return style;
-	}
-
 	protected DimensionType createDimension( DimensionHandle handle )
 	{
 		if ( handle == null || !handle.isSet( ) )
@@ -1984,17 +1829,14 @@ class EngineIRVisitor extends DesignVisitor
 		return IConditionalExpression.OP_NONE;
 	}
 
-	/*
-	 * protected void createReportDefaultStyles( StyleHandle handle ) {
-	 * StyleDeclaration style = new StyleDeclaration( cssEngine );
-	 * 
-	 * setupStyle(handle, style);
-	 * 
-	 * if( !style.isEmpty( ) ) { report.setDefaultStyle( style ); } }
-	 */
-
 	protected void addReportDefaultPropertyValue( String name,
 			StyleHandle handle )
+	{
+		addReportDefaultPropertyValue( name, handle, false );
+	}
+
+	protected void addReportDefaultPropertyValue( String name,
+			StyleHandle handle, boolean isColorProperty )
 	{
 		Object value = null;
 		int index = StylePropertyMapping.getPropertyID( name );
@@ -2003,7 +1845,14 @@ class EngineIRVisitor extends DesignVisitor
 		{
 			if ( handle != null )
 			{
-				value = handle.getProperty( name );
+				if ( isColorProperty )
+				{
+					value = handle.getColorProperty( name ).getCssValue( );
+				}
+				else
+				{
+					value = handle.getProperty( name );
+				}
 			}
 			if ( value == null )
 			{
@@ -2033,7 +1882,8 @@ class EngineIRVisitor extends DesignVisitor
 		inheritableReportStyle = new StyleDeclaration( cssEngine );
 
 		// Background
-		addReportDefaultPropertyValue( Style.BACKGROUND_COLOR_PROP, handle );
+		addReportDefaultPropertyValue( Style.BACKGROUND_COLOR_PROP, handle,
+				true );
 		addReportDefaultPropertyValue( Style.BACKGROUND_IMAGE_PROP, handle );
 		addReportDefaultPropertyValue( Style.BACKGROUND_POSITION_X_PROP, handle );
 		addReportDefaultPropertyValue( Style.BACKGROUND_POSITION_Y_PROP, handle );
@@ -2060,7 +1910,7 @@ class EngineIRVisitor extends DesignVisitor
 
 		// Font related
 		addReportDefaultPropertyValue( Style.FONT_FAMILY_PROP, handle );
-		addReportDefaultPropertyValue( Style.COLOR_PROP, handle );
+		addReportDefaultPropertyValue( Style.COLOR_PROP, handle, true );
 		addReportDefaultPropertyValue( Style.FONT_SIZE_PROP, handle );
 		addReportDefaultPropertyValue( Style.FONT_STYLE_PROP, handle );
 		addReportDefaultPropertyValue( Style.FONT_WEIGHT_PROP, handle );
@@ -2072,16 +1922,20 @@ class EngineIRVisitor extends DesignVisitor
 		addReportDefaultPropertyValue( Style.TEXT_UNDERLINE_PROP, handle );
 
 		// Border
-		addReportDefaultPropertyValue( Style.BORDER_BOTTOM_COLOR_PROP, handle );
+		addReportDefaultPropertyValue( Style.BORDER_BOTTOM_COLOR_PROP, handle,
+				true );
 		addReportDefaultPropertyValue( Style.BORDER_BOTTOM_STYLE_PROP, handle );
 		addReportDefaultPropertyValue( Style.BORDER_BOTTOM_WIDTH_PROP, handle );
-		addReportDefaultPropertyValue( Style.BORDER_LEFT_COLOR_PROP, handle );
+		addReportDefaultPropertyValue( Style.BORDER_LEFT_COLOR_PROP, handle,
+				true );
 		addReportDefaultPropertyValue( Style.BORDER_LEFT_STYLE_PROP, handle );
 		addReportDefaultPropertyValue( Style.BORDER_LEFT_WIDTH_PROP, handle );
-		addReportDefaultPropertyValue( Style.BORDER_RIGHT_COLOR_PROP, handle );
+		addReportDefaultPropertyValue( Style.BORDER_RIGHT_COLOR_PROP, handle,
+				true );
 		addReportDefaultPropertyValue( Style.BORDER_RIGHT_STYLE_PROP, handle );
 		addReportDefaultPropertyValue( Style.BORDER_RIGHT_WIDTH_PROP, handle );
-		addReportDefaultPropertyValue( Style.BORDER_TOP_COLOR_PROP, handle );
+		addReportDefaultPropertyValue( Style.BORDER_TOP_COLOR_PROP, handle,
+				true );
 		addReportDefaultPropertyValue( Style.BORDER_TOP_STYLE_PROP, handle );
 		addReportDefaultPropertyValue( Style.BORDER_TOP_WIDTH_PROP, handle );
 
