@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 public class Messages
 {
 	private static ResourceBundle rb = ResourceBundle.getBundle( 
-			"org.eclipse.birt.report.data.oda.sampledb.ui.i18n.messages" );
+			"org.eclipse.birt.report.data.oda.sampledb.ui.i18n.Messages" );
 	
 	public static String getMessage( String key )
 	{

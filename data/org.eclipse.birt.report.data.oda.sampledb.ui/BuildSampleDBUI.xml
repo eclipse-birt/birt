@@ -232,7 +232,11 @@
 	
 	<target name="compileSource" depends="buildDependency" description="compile the source ">
 		<mkdir dir="${dir.bin}" />
-
+		<copy todir="${bin}">
+			<fileset dir="${src}">
+				<include name="**/Messages*.properties"/>
+			</fileset>
+		</copy>
 		<!-- Compile the java code from ${dir.src} into ${dir.bin} -->
 		<javac srcdir="${dir.src}" 
 			   destdir="${dir.bin}" 
