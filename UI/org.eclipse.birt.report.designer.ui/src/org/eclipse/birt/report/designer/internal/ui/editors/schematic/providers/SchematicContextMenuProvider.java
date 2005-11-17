@@ -525,6 +525,11 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		action = getAction( GeneralInsertMenuAction.INSERT_TABLE_ID );
 		action.setText( GeneralInsertMenuAction.INSERT_TABLE_DISPLAY_TEXT );
 		subMenu.add( action );
+		
+
+		action = getAction( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_ID );
+		action.setText( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_DISPLAY_TEXT );
+		subMenu.add( action );
 
 		/*
 		 * Extended Items insert actions

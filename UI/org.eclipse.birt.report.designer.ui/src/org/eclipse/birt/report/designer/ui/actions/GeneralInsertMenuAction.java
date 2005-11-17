@@ -93,6 +93,17 @@ public class GeneralInsertMenuAction extends BaseInsertMenuAction
 	public static final String INSERT_TABLE_DISPLAY_TEXT = Messages.getString( "GeneralInsertMenuAction.text.Table" ); //$NON-NLS-1$
 
 	/**
+	 * ID for insert Table action.
+	 */
+	public static final String INSERT_DYNAMIC_TEXT_ID = "Insert Dynamic Text"; //$NON-NLS-1$
+
+	/**
+	 * Display text for insert Table action.
+	 */
+	public static final String INSERT_DYNAMIC_TEXT_DISPLAY_TEXT = Messages.getString( "GeneralInsertMenuAction.text.DynamicText" ); //$NON-NLS-1$
+
+	
+	/**
 	 * The constructor.
 	 * 
 	 * @param part

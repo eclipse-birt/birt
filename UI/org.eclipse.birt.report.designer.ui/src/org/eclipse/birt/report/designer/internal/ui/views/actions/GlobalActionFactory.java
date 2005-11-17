@@ -14,10 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAboveAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowBelowAction;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
@@ -60,6 +58,7 @@ public class GlobalActionFactory
 			GeneralInsertMenuAction.INSERT_GRID_ID,
 			GeneralInsertMenuAction.INSERT_LIST_ID,
 			GeneralInsertMenuAction.INSERT_TABLE_ID,
+			GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_ID,
 	};
 
 	public final static String[] GLOBAL_ELEMENT_ACTIONS = {
@@ -128,6 +127,10 @@ public class GlobalActionFactory
 		else if ( GeneralInsertMenuAction.INSERT_TABLE_ID.equals( id ) )
 		{
 			elementType = ReportDesignConstants.TABLE_ITEM;
+		}
+		else if ( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_ID.equals( id ) )
+		{
+			elementType = ReportDesignConstants.TEXT_DATA_ITEM;
 		}
 		else if ( InsertRowAboveAction.ID.equals( id ) )
 		{
