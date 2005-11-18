@@ -171,7 +171,7 @@ public class LibraryCommand extends AbstractElementCommand
 
 			String libraryFileName = library.getFileName( );
 			assert libraryFileName != null;
-			removeIncludeLibrary( libraryFileName );
+			removeIncludeLibrary( libraryFileName, library.getNamespace() );
 
 		}
 		catch ( SemanticException ex )
@@ -241,7 +241,7 @@ public class LibraryCommand extends AbstractElementCommand
 		{
 			String libFileName = library.getFileName( );
 			assert libFileName != null;
-			removeIncludeLibrary( libFileName );
+			removeIncludeLibrary( libFileName, library.getNamespace() );
 		}
 		catch ( SemanticException ex )
 		{
@@ -276,19 +276,28 @@ public class LibraryCommand extends AbstractElementCommand
 	 * 
 	 * @param fileName
 	 *            file name of the library.
+	 *            
+	 * @param namespace
+	 *            namespace of the library.
+	 *            
 	 * @throws PropertyValueException
 	 */
 
-	private void removeIncludeLibrary( String fileName )
+	private void removeIncludeLibrary( String fileName, String namespace )
 			throws PropertyValueException
 	{
 		assert fileName != null;
+		assert namespace != null;
 
 		List includeLibraries = module.getIncludeLibraries( );
 		Iterator iter = includeLibraries.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			IncludeLibrary includeLibrary = (IncludeLibrary) iter.next( );
+			
+			if ( !namespace.equals( includeLibrary.getNamespace() ) )
+				continue;
+			
 			if ( !fileName.endsWith( includeLibrary.getFileName( ) ) )
 				continue;
 
