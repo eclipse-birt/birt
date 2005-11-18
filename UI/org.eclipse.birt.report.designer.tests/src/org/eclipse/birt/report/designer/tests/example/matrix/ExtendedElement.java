@@ -518,4 +518,10 @@ public class ExtendedElement implements IReportItem
 		return false;
 	}
 
+	public List getMethods( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
