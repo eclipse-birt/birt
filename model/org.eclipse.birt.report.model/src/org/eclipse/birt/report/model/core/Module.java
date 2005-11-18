@@ -60,7 +60,6 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
-import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.parser.LibraryReader;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -713,11 +712,9 @@ public abstract class Module extends DesignElement implements IModuleModel
 		// Disallow duplicate names.
 
 		assert element.getContainer( ) != null;
-		SlotDefn slotInfo = (SlotDefn) element.getContainer( ).getDefn( )
-				.getSlot( element.getContainerSlot( ) );
 		int id = defn.getNameSpaceID( );
 		if ( name != null && id != MetaDataConstants.NO_NAME_SPACE
-				&& slotInfo.isManagedByNameSpace( ) )
+				&& element.isManagedByNameSpace( ) )
 		{
 			NameSpace ns = module.getNameSpace( id );
 

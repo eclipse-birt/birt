@@ -175,9 +175,8 @@ public abstract class ReportElementState extends DesignParseState
 		}
 
 		int id = contentDefn.getNameSpaceID( );
-		if ( name != null
-				&& id != MetaDataConstants.NO_NAME_SPACE
-				&& slotInfo.isManagedByNameSpace( ) )
+		if ( name != null && id != MetaDataConstants.NO_NAME_SPACE
+				&& container.isManagedByNameSpace( slotID ) )
 		{
 			NameSpace ns = module.getNameSpace( id );
 
@@ -383,26 +382,27 @@ public abstract class ReportElementState extends DesignParseState
 			return;
 		IModuleNameSpace moduleNameSpace = module.getModuleNameSpace( id );
 		ElementRefValue refValue = moduleNameSpace.resolve( extendsName );
-		
-		if( !refValue.isResolved() )
+
+		if ( !refValue.isResolved( ) )
 		{
-			handler.getErrorHandler( ).semanticWarning( new ExtendsException( element, extendsName,
-					ExtendsException.DESIGN_EXCEPTION_NOT_FOUND ) );
+			handler.getErrorHandler( ).semanticWarning(
+					new ExtendsException( element, extendsName,
+							ExtendsException.DESIGN_EXCEPTION_NOT_FOUND ) );
 			return;
 		}
-		
+
 		try
 		{
-			DesignElement parent = refValue.getElement();
+			DesignElement parent = refValue.getElement( );
 			assert parent != null;
 			element.checkExtends( parent );
-			
+
 		}
 		catch ( ExtendsException ex )
 		{
 			handler.getErrorHandler( ).semanticError( ex );
 		}
-		
+
 		element.setExtendsElement( refValue.getElement( ) );
 		element.refreshStructureFromParent( module );
 	}

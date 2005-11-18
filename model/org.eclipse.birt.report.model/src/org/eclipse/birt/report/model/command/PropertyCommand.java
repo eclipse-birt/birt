@@ -42,7 +42,6 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
@@ -293,22 +292,9 @@ public class PropertyCommand extends AbstractElementCommand
 		if ( DesignElement.NAME_PROP.equals( propName ) )
 		{
 			String name = (String) value;
-			int slotID = element.getContainerSlot( );
-			DesignElement container = element.getContainer( );
 
-			// all elements that have names have container too.
-
-			if ( container != null )
-			{
-				NameCommand cmd = new NameCommand( module, element,
-						(SlotDefn) container.getDefn( ).getSlot( slotID ) );
-				cmd.setName( name );
-			}
-			else
-			{
-				NameCommand cmd = new NameCommand( module, element, null );
-				cmd.setName( name );
-			}
+			NameCommand cmd = new NameCommand( module, element );
+			cmd.setName( name );
 		}
 		else if ( DesignElement.EXTENDS_PROP.equals( propName ) )
 		{

@@ -3686,4 +3686,56 @@ public abstract class DesignElement
 
 		propValues.clear( );
 	}
+
+	/**
+	 * Determines whether this element and its contents are managed by
+	 * namespace. If this element is a pending node and not in any module, or it
+	 * is contained in a slot that is not managed by namespace, then return
+	 * false. Otherwise true.
+	 * 
+	 * @param slotID
+	 *            the slot ID in this element
+	 * @return true if this element and its contents are managed by namespace,
+	 *         otherwise false
+	 */
+
+	public boolean isManagedByNameSpace( int slotID )
+	{
+		// if this element is a pending node, return false
+
+		if ( getRoot( ) == null )
+			return false;
+
+		// check the slot
+
+		DesignElement containerObj = this;
+		int slot = slotID;
+		while ( containerObj != null )
+		{
+			ElementDefn defn = (ElementDefn) containerObj.getDefn( );
+			SlotDefn slotInfo = (SlotDefn) defn.getSlot( slot );
+			if ( slotInfo != null && !slotInfo.isManagedByNameSpace( ) )
+				return false;
+
+			slot = containerObj.getContainerSlot( );
+			containerObj = containerObj.getContainer( );
+		}
+		return true;
+	}
+
+	/**
+	 * Determines whether this element is managed by namespace. If this element
+	 * is a pending node or the container is not managed by the namespace,
+	 * return false. Otherwise true.
+	 * 
+	 * @return true if this element is managed by namespace, otherwise false
+	 */
+	
+	public boolean isManagedByNameSpace( )
+	{
+		if ( getContainer( ) == null )
+			return false;
+
+		return getContainer( ).isManagedByNameSpace( getContainerSlot( ) );
+	}
 }

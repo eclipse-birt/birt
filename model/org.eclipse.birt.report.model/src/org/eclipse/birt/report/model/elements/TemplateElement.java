@@ -175,8 +175,8 @@ public abstract class TemplateElement extends DesignElement
 		{
 			if ( templateParam.getElement( ) != null )
 			{
-				element.setProperty( REF_TEMPLATE_PARAMETER_PROP, templateParam
-						.getElement( ) );
+				ElementRefValue ref = new ElementRefValue( null, templateParam.getElement( ) );
+				element.setProperty( DesignElement.REF_TEMPLATE_PARAMETER_PROP, ref );
 			}
 
 		}

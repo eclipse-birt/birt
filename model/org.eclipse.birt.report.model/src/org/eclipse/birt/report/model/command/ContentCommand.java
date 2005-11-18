@@ -43,7 +43,6 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
-import org.eclipse.birt.report.model.util.ContentIterator;
 
 /**
  * This class adds, deletes and moves content elements. Adding a content element
@@ -216,10 +215,6 @@ public class ContentCommand extends AbstractElementCommand
 					ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT,
 					templateParam, true );
 
-		// Ensure we can add the name.
-
-		checkElementNames( content, slotInfo );
-
 		// Add the item to the container.
 
 		ContentRecord addRecord;
@@ -236,76 +231,65 @@ public class ContentCommand extends AbstractElementCommand
 
 		ActivityStack stack = getActivityStack( );
 		stack.startTrans( addRecord.getLabel( ) );
-		if ( addTemplateParam != null )
-			stack.execute( addTemplateParam );
-		stack.execute( addRecord );
-		addElementNames( content, slotInfo );
+
+		try
+		{
+			// add the template parameter definition first
+
+			if ( addTemplateParam != null )
+				stack.execute( addTemplateParam );
+
+			// add the element
+
+			stack.execute( addRecord );
+
+			// check the name of the content and all its children and add names
+			// of them to the namespace
+
+			addElementNames( content );
+		}
+		catch ( NameException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
 
 		stack.commit( );
 	}
 
 	/**
-	 * Checks the element name and names of nested element in it.
+	 * Adds the element name and names of nested element in it to name spaces.
 	 * 
-	 * @param element
-	 *            the element to check
-	 * @param slotDefn
-	 *            the definition of the slot to add
+	 * @param content
+	 *            the content to add
 	 * @throws NameException
 	 *             if any element has duplicate name with elements already on
 	 *             the design tree.
 	 */
 
-	private void checkElementNames( DesignElement element, SlotDefn slotDefn )
-			throws NameException
+	private void addElementNames( DesignElement content ) throws NameException
 	{
-		NameCommand nameCmd = new NameCommand( module, element, slotDefn );
-		nameCmd.checkName( element.getName( ) );
+		// before handle the names for the content and its children, the content
+		// is added into the container first
 
-		ContentIterator iterator = new ContentIterator( element );
-		while ( iterator.hasNext( ) )
+		assert content.getContainer( ) != null;
+
+		// if the content is managed by namespace, then check the name and add
+		// it to the namespace, otherwise do nothing
+
+		NameCommand nameCmd = new NameCommand( module, content );
+		nameCmd.addElement( );
+
+		// recusively check the contents and add them
+
+		for ( int i = 0; i < content.getDefn( ).getSlotCount( ); i++ )
 		{
-			DesignElement tmpElement = (DesignElement) iterator.next( );
-			int slotID = tmpElement.getContainerSlot( );
-			nameCmd = new NameCommand( module, tmpElement,
-					(SlotDefn) tmpElement.getContainer( ).getDefn( ).getSlot(
-							slotID ) );
-			nameCmd.checkName( tmpElement.getName( ) );
-		}
-	}
-
-	/**
-	 * Adds the element name and names of nested element in it to name spaces.
-	 * 
-	 * @param element
-	 *            the element to add
-	 * @param slotInfo
-	 *            the definition of the slot the element to add or exsit
-	 */
-
-	private void addElementNames( DesignElement element, SlotDefn slotInfo )
-	{
-		try
-		{
-			NameCommand nameCmd = new NameCommand( module, element, slotInfo );
-			nameCmd.addElement( );
-
-			ContentIterator iterator = new ContentIterator( element );
-			while ( iterator.hasNext( ) )
+			ContainerSlot slot = content.getSlot( i );
+			for ( int j = 0; j < slot.getCount( ); j++ )
 			{
-				DesignElement tmpElement = (DesignElement) iterator.next( );
-				int slotID = tmpElement.getContainerSlot( );
-				nameCmd = new NameCommand( module, tmpElement,
-						(SlotDefn) tmpElement.getContainer( ).getDefn( )
-								.getSlot( slotID ) );
-				nameCmd.addElement( );
+				DesignElement tmpElement = slot.getContent( j );
+				addElementNames( tmpElement );
 			}
-		}
-		catch ( NameException e )
-		{
-			// names have been check, there should be no exception here.
-
-			assert false;
 		}
 	}
 
@@ -465,8 +449,7 @@ public class ContentCommand extends AbstractElementCommand
 
 			if ( content.getName( ) != null )
 			{
-				NameCommand nameCmd = new NameCommand( module, content,
-						(SlotDefn) element.getDefn( ).getSlot( slotID ) );
+				NameCommand nameCmd = new NameCommand( module, content );
 				nameCmd.dropElement( );
 			}
 		}
@@ -1051,8 +1034,7 @@ public class ContentCommand extends AbstractElementCommand
 	 */
 
 	private void doReplace( DesignElement oldElement, DesignElement newElement,
-			int slotID, boolean unresolveReference )
-			throws SemanticException
+			int slotID, boolean unresolveReference ) throws SemanticException
 	{
 		assert newElement.getContainer( ) == null;
 
@@ -1126,16 +1108,11 @@ public class ContentCommand extends AbstractElementCommand
 					ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT,
 					templateParam, true );
 
-		// Ensure we can add the name.
-
-		NameCommand nameCmd = new NameCommand( module, oldElement, slotInfo );
-		nameCmd.checkName( newElement );
-
 		// Prepare the transaction.
 
-		ContentReplaceRecord replaceRecord = new TemplateTransformRecord( module, element,
-					slotID, oldElement, newElement );
-		
+		ContentReplaceRecord replaceRecord = new TemplateTransformRecord(
+				module, element, slotID, oldElement, newElement );
+
 		ActivityStack stack = getActivityStack( );
 
 		stack.startFilterEventTrans( replaceRecord.getLabel( ) );
@@ -1175,8 +1152,7 @@ public class ContentCommand extends AbstractElementCommand
 
 			if ( oldElement.getName( ) != null )
 			{
-				nameCmd = new NameCommand( module, oldElement,
-						(SlotDefn) element.getDefn( ).getSlot( slotID ) );
+				NameCommand nameCmd = new NameCommand( module, oldElement );
 				nameCmd.dropElement( );
 			}
 		}
@@ -1192,7 +1168,15 @@ public class ContentCommand extends AbstractElementCommand
 		// Remove the element itself.
 
 		stack.execute( replaceRecord );
-		addElementNames( newElement, slotInfo );
+		try
+		{
+			addElementNames( newElement );
+		}
+		catch ( NameException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
 
 		stack.commit( );
 	}

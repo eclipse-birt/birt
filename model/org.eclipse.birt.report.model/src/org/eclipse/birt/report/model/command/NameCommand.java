@@ -14,16 +14,11 @@ package org.eclipse.birt.report.model.command;
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.command.NameException;
-import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.StyleElement;
-import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
-import org.eclipse.birt.report.model.metadata.SlotDefn;
 
 /**
  * Renames a design element.
@@ -34,26 +29,17 @@ public class NameCommand extends AbstractElementCommand
 {
 
 	/**
-	 * The definition of the slot the element to add or exsit.
-	 */
-
-	private SlotDefn slotInfo = null;
-
-	/**
 	 * Constructor.
 	 * 
 	 * @param module
 	 *            the module
 	 * @param obj
 	 *            the element to modify.
-	 * @param slotInfo
-	 *            the definition of the slot the element to add or exsit
 	 */
 
-	public NameCommand( Module module, DesignElement obj, SlotDefn slotInfo )
+	public NameCommand( Module module, DesignElement obj )
 	{
 		super( module, obj );
-		this.slotInfo = slotInfo;
 	}
 
 	/**
@@ -107,25 +93,7 @@ public class NameCommand extends AbstractElementCommand
 	 *             if the element name is not allowed to change.
 	 */
 
-	public void checkName( String name ) throws NameException
-	{
-		doCheckName( name, false );
-	}
-
-	/**
-	 * Does some checks about the name of the element to insert, to replace or
-	 * to set a new name.
-	 * 
-	 * @param name
-	 *            the new name to check
-	 * @param isReplace
-	 *            true if the name check occurs in the replacement, otherwise
-	 *            false
-	 * @throws NameException
-	 */
-
-	private void doCheckName( String name, boolean isReplace )
-			throws NameException
+	private void checkName( String name ) throws NameException
 	{
 		ElementDefn metaData = (ElementDefn) element.getDefn( );
 
@@ -152,15 +120,12 @@ public class NameCommand extends AbstractElementCommand
 				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN );
 
-			// if the contents in the slot to add should not be added into the
-			// namespace, then checks for the names don't work; such as styles
-			// in the themes, or the report items or data sets in the template
-			// parameter definitions, their names will not put into namepsace.
+			// if the element is a pending node and not in any module, or it is
+			// in a slot that is not managed by namespace, then we need not
+			// check whether the name is duplicate
 
-			if ( slotInfo != null && !slotInfo.isManagedByNameSpace( ) )
-			{
+			if ( !element.isManagedByNameSpace( ) )
 				return;
-			}
 			int ns = metaData.getNameSpaceID( );
 
 			// first found the element with the given name. Since the library
@@ -170,51 +135,14 @@ public class NameCommand extends AbstractElementCommand
 			DesignElement existedElement = getModule( ).getNameSpace( ns )
 					.getElement( name );
 
-			// if the element is null, then the name is OK. Otherwise, if the
-			// found element is the same as the current element, do not consider
-			// as a duplicate. Consider a case: 1. new a compound element from
-			// ElementFactory; 2. add elements ( names of these elements have
-			// been added into namespaces through element handles) into the new
-			// compound element (still not in the design tree); 3. add the
-			// compound element to the design tree; 4. for this case, should
-			// have no exception thrown.
+			// if the element is null, then the name is OK. Now, the name of the
+			// element is inserted into the namespace only if the element is in
+			// a design tree(module) and the slot it exsits is managed by
+			// namespace
 
-			if ( existedElement != null
-					&& existedElement != element
-					&& ( !isReplace || ( isReplace && !existedElement
-							.isContentOf( element ) ) ) )
+			if ( existedElement != null )
 				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_DUPLICATE );
-		}
-	}
-
-	/**
-	 * Checks the current element name. Done when adding a newly created element
-	 * where the element name is already set on the new element.
-	 * 
-	 * @param newElement
-	 *            the new element to check.
-	 * @throws NameException
-	 *             if the element name is not allowed to change.
-	 */
-
-	public void checkName( DesignElement newElement ) throws NameException
-	{
-		if ( newElement == null )
-			return;
-		String name = newElement.getName( );
-		doCheckName( name, true );
-
-		IElementDefn metaData = newElement.getDefn( );
-		for ( int i = 0; i < metaData.getSlotCount( ); i++ )
-		{
-			ContainerSlot slot = newElement.getSlot( i );
-
-			for ( int j = 0; j < slot.getCount( ); j++ )
-			{
-				DesignElement content = slot.getContent( j );
-				checkName( content );
-			}
 		}
 	}
 
@@ -250,34 +178,33 @@ public class NameCommand extends AbstractElementCommand
 
 	private void addSymbol( )
 	{
-		if ( element.getName( ) == null
-				|| ( slotInfo != null && !slotInfo.isManagedByNameSpace( ) ) )
+		if ( element.getName( ) == null )
 			return;
 
 		// if it is a style in the theme, no need to check duplicate names.
 		// In the library, style names can be duplicate.
 
-		if ( element instanceof StyleElement
-				&& element.getContainer( ) instanceof Theme )
+		if ( !element.isManagedByNameSpace( ) )
 			return;
 
-		if ( element.getContainer( ) != null )
-		{
-			int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
+		assert element.getRoot( ) != null;
 
-			// if the element has been in the name space, that is, the element
-			// is added to another element through handels but the outermost
-			// compound element is not in the design tree, then do not insert
-			// the element
-			// to the name space agian.
+		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
 
-			DesignElement existedElement = getModule( ).getNameSpace( ns )
-					.getElement( element.getName( ) );
+		// if the element has been in the name space, that is, the element
+		// is added to another element through handels but the outermost
+		// compound element is not in the design tree, then do not insert
+		// the element
+		// to the name space agian.
 
-			if ( existedElement != element )
-				getActivityStack( ).execute(
-						new NameSpaceRecord( getModule( ), ns, element, true ) );
-		}
+		DesignElement existedElement = getModule( ).getNameSpace( ns )
+				.getElement( element.getName( ) );
+
+		assert existedElement == null;
+
+		if ( existedElement == null )
+			getActivityStack( ).execute(
+					new NameSpaceRecord( getModule( ), ns, element, true ) );
 	}
 
 	/**
@@ -287,15 +214,21 @@ public class NameCommand extends AbstractElementCommand
 
 	private void dropSymbol( )
 	{
-		if ( element.getName( ) == null
-				|| ( slotInfo != null && !slotInfo.isManagedByNameSpace( ) ) )
+		if ( element.getName( ) == null )
 			return;
 		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
-		if ( !module.getNameSpace( ns ).contains( element.getName( ) ) )
+		if ( module.getNameSpace( ns ).getElement( element.getName( ) ) != element )
 			return;
 		getActivityStack( ).execute(
 				new NameSpaceRecord( getModule( ), ns, element, false ) );
 	}
+
+	/**
+	 * Renames the namespace when call {@link #setName(String)}.
+	 * 
+	 * @param oldName
+	 *            the old name of the element
+	 */
 
 	private void renameSymbolFrom( String oldName )
 	{
@@ -303,8 +236,7 @@ public class NameCommand extends AbstractElementCommand
 		// namespace issue, we will do some replace operarions for namespace; if
 		// not, we will not handle
 
-		if ( element.getContainer( ) != null
-				&& ( slotInfo != null && slotInfo.isManagedByNameSpace( ) ) )
+		if ( element.isManagedByNameSpace( ) )
 		{
 			RenameInNameSpaceRecord record = new RenameInNameSpaceRecord(
 					getModule( ), element, oldName, element.getName( ) );

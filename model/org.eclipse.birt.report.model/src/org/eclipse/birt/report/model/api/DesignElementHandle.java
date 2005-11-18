@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -60,7 +61,6 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
-import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -928,19 +928,9 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public void setName( String name ) throws NameException
 	{
-		DesignElementHandle container = getContainer( );
-		if ( container == null )
-		{
-			NameCommand cmd = new NameCommand( module, getElement( ), null );
-			cmd.setName( name );
-		}
-		else
-		{
-			NameCommand cmd = new NameCommand( module, getElement( ),
-					(SlotDefn) container.getDefn( ).getSlot(
-							getElement( ).getContainerSlot( ) ) );
-			cmd.setName( name );
-		}
+		NameCommand cmd = new NameCommand( module, getElement( ) );
+		cmd.setName( name );
+
 	}
 
 	/**
@@ -1902,5 +1892,22 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	{
 		return getElement( ).getTemplateParameterElement( getModule( ) ) != null;
 	}
+	
+	/**
+	 * Gets the property data for either a system-defined or user-defined
+	 * property.
+	 * 
+	 * @param propName
+	 *            The name of the property to lookup.
+	 * @return The property definition, or null, if the property is undefined.
+	 */
+
+	public IElementPropertyDefn getPropertyDefn( String propName )
+	{
+		// Look for the property defined on this element.
+
+		return getElement().getPropertyDefn( propName );
+	}
+
 
 }

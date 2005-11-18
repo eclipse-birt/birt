@@ -347,16 +347,18 @@ public class TemplateCommand extends AbstractElementCommand
 
 			assert defaultElement != null;
 
-			ContentCommand contentCmd = new ContentCommand( module,
+			ContentCommand contentCmd = null;
+			
+			contentCmd = new ContentCommand( module,
 					templateParam );
 			contentCmd.add( defaultElement,
 					TemplateParameterDefinition.DEFAULT_SLOT );
-
-			// let the template handle refer the template parameter definition
-
+			
 			contentCmd = new ContentCommand( module, module );
 			contentCmd.add( templateParam,
-					ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
+					ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );			
+
+			// let the template handle refer the template parameter definition
 
 			propertyCmd = new PropertyCommand( module, template );
 			propertyCmd.setProperty(
