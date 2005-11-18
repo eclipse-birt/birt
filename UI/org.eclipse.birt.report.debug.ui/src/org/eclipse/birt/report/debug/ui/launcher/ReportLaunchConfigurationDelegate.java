@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -24,6 +26,7 @@ import org.eclipse.birt.report.debug.internal.ui.launcher.IReportLauncherSetting
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.DebugUtil;
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.ReportLauncherUtils;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -33,6 +36,9 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.ExecutionArguments;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.VMRunnerConfiguration;
@@ -56,6 +62,7 @@ public class ReportLaunchConfigurationDelegate
 	 * It is roperty key.
 	 */
 	private static final String PROJECT_NAMES_KEY = "user.projectname";
+	private static final String PROJECT_CLASSPATH_KEY = "user.projectclasspath";
 
 	public ReportLaunchConfigurationDelegate( )
 	{
@@ -280,8 +287,27 @@ public class ReportLaunchConfigurationDelegate
 	{
 		String temp[] = ( new ExecutionArguments( configuration.getAttribute(
 				"vmargs", "" ), "" ) ).getVMArgumentsArray( );
-		String append = "-D" + PROJECT_NAMES_KEY + "="
-				+ configuration.getAttribute( "importproject", "" );
+		String path = configuration.getAttribute( IMPORTPROJECT, "" );
+
+		String append = "-D" + PROJECT_NAMES_KEY + "=" + path;
+		
+		
+		List paths = getAllProjectPaths(configuration.getAttribute( IMPORTPROJECTNAMES, "" ));
+		StringBuffer wbuf = new StringBuffer( );
+		for ( int i = 0; i < paths.size(); i++ )
+		{
+			String classPath = (String)paths.get(i);
+			if (classPath != null && classPath.length() != 0)
+			{
+				wbuf.append( "|" + classPath );
+			}
+		}
+		
+		if (wbuf.toString().length() != 0)
+		{
+			append = append + " -D" + PROJECT_CLASSPATH_KEY + "=" + wbuf.toString();
+		}
+		
 		if ( temp == null )
 		{
 			temp = ( new String[]{append} );
@@ -297,6 +323,157 @@ public class ReportLaunchConfigurationDelegate
 			temp = (String[]) list.toArray( temp );
 		}
 		return temp;
+	}
+
+	private List getAllProjectPaths( String path )
+	{
+		List retValue = new ArrayList( );
+		if (path == null || path.length() == 0)
+		{
+			return retValue;
+		}
+		StringTokenizer token = new StringTokenizer( path, "|" );
+		while ( token.hasMoreTokens( ) )
+		{
+			String projectName = token.nextToken( );
+			List paths = getProjectPaths(projectName);
+			for (int i=0; i<paths.size(); i++)
+			{
+				retValue.add(paths.get(i));
+			}
+		}
+
+		return retValue;
+	}
+
+	/**
+	 * @param projectName
+	 * @return
+	 */
+	private List getProjectPaths( String projectName )
+	{
+		List retValue = new ArrayList( );
+		
+		IProject project = ResourcesPlugin.getWorkspace( ).getRoot( ).getProject(projectName);
+		
+		if (projectName == null)
+		{
+			return retValue;
+		}
+		
+		List paths = getProjectPath( project );
+		for ( int j = 0; j < paths.size( ); j++ )
+		{
+			URL url = (URL) paths.get( j );
+			if ( url != null )
+			{
+				retValue.add( url.getPath( ) );
+			}
+		}
+		
+		String url = getProjectOutClassPath(project);
+		if ( url != null )
+		{
+			retValue.add( url);
+		}
+		return retValue;
+	}
+	
+	private String getProjectOutClassPath( IProject project )
+	{
+		if ( !hasJavaNature( project ) )
+		{
+			return null;
+		}
+
+		IJavaProject fCurrJProject = JavaCore.create( project );
+		IPath path = null;
+		boolean projectExists = ( project.exists( ) && project.getFile(
+				".classpath" ).exists( ) ); //$NON-NLS-1$
+		if ( projectExists )
+		{
+			if ( path == null )
+			{				
+				path = fCurrJProject.readOutputLocation( );
+				String curPath = path.toOSString( );
+				String directPath = project.getLocation( ).toOSString( );
+				int index = directPath.lastIndexOf(File.separator);
+				String absPath = directPath.substring(0,index) + curPath;
+				
+				return absPath;
+			}
+		}
+
+		return null;
+	}
+	
+	private List getProjectPath( IProject project )
+	{
+		List retValue = new ArrayList( );
+		if ( !hasJavaNature( project ) )
+		{
+			return retValue;
+		}
+
+		IJavaProject fCurrJProject = JavaCore.create( project );
+		IClasspathEntry[] classpathEntries = null;
+		boolean projectExists = ( project.exists( ) && project.getFile(
+				".classpath" ).exists( ) ); //$NON-NLS-1$
+		if ( projectExists )
+		{
+			if ( classpathEntries == null )
+			{
+				classpathEntries = fCurrJProject.readRawClasspath( );
+			}
+		}
+
+		if ( classpathEntries != null )
+		{
+			retValue = getExistingEntries( classpathEntries );
+		}
+		return retValue;
+	}
+	
+	private List getExistingEntries( IClasspathEntry[] classpathEntries )
+	{
+		ArrayList newClassPath = new ArrayList( );
+		for ( int i = 0; i < classpathEntries.length; i++ )
+		{
+			IClasspathEntry curr = classpathEntries[i];
+			if ( curr.getEntryKind( ) == IClasspathEntry.CPE_LIBRARY )
+			{
+				try
+				{
+					newClassPath.add( curr.getPath( ).toFile( ).toURL( ) );
+				}
+				catch ( MalformedURLException e )
+				{
+					//DO nothing
+				}
+			}
+		}
+		return newClassPath;
+	}
+	
+	/**
+	 * Returns true if the given project is accessible and it has a java nature,
+	 * otherwise false.
+	 * 
+	 * @param project
+	 *            IProject
+	 * @return boolean
+	 */
+	private boolean hasJavaNature( IProject project )
+	{
+		try
+		{
+			return project.hasNature( JavaCore.NATURE_ID );
+		}
+		catch ( CoreException e )
+		{
+			// project does not exist or is not open
+		}
+		return false;
 	}
 
 	private void validateFeatures( ) throws CoreException

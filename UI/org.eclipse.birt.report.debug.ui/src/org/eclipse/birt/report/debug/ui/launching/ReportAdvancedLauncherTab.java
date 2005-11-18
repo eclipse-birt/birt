@@ -509,15 +509,20 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 	public void performApply( ILaunchConfigurationWorkingCopy config )
 	{
 		StringBuffer wbuf = new StringBuffer( );
+		StringBuffer namesWbuf = new StringBuffer( );
 		for ( int i = 0; i < fWorkspaceModels.length; i++ )
 		{
 			IProject model = fWorkspaceModels[i];
 			String path = model.getLocation( ).toOSString( );
 			if ( fPluginTreeViewer.getChecked( model ) )
 				wbuf.append( "|" + path );
+			
+			namesWbuf.append("|" + model.getName());
 		}
-
-		config.setAttribute( "importproject", wbuf.toString( ) );
+		
+		
+		config.setAttribute( IMPORTPROJECT, wbuf.toString( ) );
+		config.setAttribute( IMPORTPROJECTNAMES, namesWbuf.toString( ) );
 		config.setAttribute( "clearws", true );
 		config.setAttribute( "askclear", false );
 		config.setAttribute( "location0", LauncherUtils.getDefaultWorkspace( ) );
