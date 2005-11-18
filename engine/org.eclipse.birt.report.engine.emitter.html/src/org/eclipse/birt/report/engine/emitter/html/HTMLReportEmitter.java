@@ -78,7 +78,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.45 $ $Date: 2005/11/17 06:37:51 $
+ * @version $Revision: 1.46 $ $Date: 2005/11/17 09:52:43 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1161,10 +1161,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( isHtml )
 		{
-			text = text.replaceAll( "<html>", "");
-			text = text.replaceAll( "</html>", "");
-			text = text.replaceAll( "<body>", "");
-			text = text.replaceAll( "</body>", "");
+			text = text.replaceAll( "<[H|h][T|t][M|m][L|l]>", "");
+			text = text.replaceAll( "</[H|h][T|t][M|m][L|l]>", "");
+			text = text.replaceAll( "<[B|b][O|o][D|d][Y|y]>", "");
+			text = text.replaceAll( "</[B|b][O|o][D|d][Y|y]>", "");
 		}
 
 		writer.text( text, !isHtml, !isHtml );

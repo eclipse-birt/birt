@@ -42,7 +42,7 @@ import org.w3c.dom.css.CSSValue;
  * This is the base class for all the CSS engines.
  *
  * @author <a href="mailto:stephane@hillion.org">Stephane Hillion</a>
- * @version $Id: CSSEngine.java,v 1.1 2005/11/11 06:26:48 wyan Exp $
+ * @version $Id: CSSEngine.java,v 1.2 2005/11/16 06:18:01 thuang Exp $
  */
 public abstract class CSSEngine implements CSSConstants, CSSValueConstants{
 
@@ -157,7 +157,7 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants{
     {
     	assert idx >= 0 && idx < pm.getNumberOfProperties();
         ValueManager vm = pm.getValueManager(idx);
-        if ( vm instanceof RawStringManager )
+        if ( vm instanceof RawStringManager || idx == IStyle.STYLE_BACKGROUND_IMAGE )
         {
         	return vm.createStringValue( CSSPrimitiveValue.CSS_STRING, value, this );
         }

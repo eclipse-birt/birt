@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.17 $ $Date: 2005/11/11 08:05:28 $
+ * @version $Revision: 1.18 $ $Date: 2005/11/14 05:51:06 $
  */
 public class AttributeBuilder
 {
@@ -133,7 +133,7 @@ public class AttributeBuilder
 		buildProperty( content, HTMLTags.ATTR_BACKGROUND_COLOR, style.getBackgroundColor( ) );
 
 		String image = style.getBackgroundImage( );
-		if ( image == null && !"none".equalsIgnoreCase( image ) ) //$NON-NLS-1$
+		if ( image == null || "none".equalsIgnoreCase( image ) ) //$NON-NLS-1$
 		{
 			return;
 		}

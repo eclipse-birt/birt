@@ -15,16 +15,19 @@
  limitations under the License.
 
  */
+
 package org.eclipse.birt.report.engine.css.engine.value.css;
 
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.ValueManager;
 import org.eclipse.birt.report.engine.css.engine.value.IdentifierManager;
 import org.eclipse.birt.report.engine.css.engine.value.StringMap;
+import org.eclipse.birt.report.engine.css.engine.value.StringValue;
 import org.eclipse.birt.report.engine.css.engine.value.URIValue;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
 import org.w3c.css.sac.LexicalUnit;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.css.CSSPrimitiveValue;
 
 /**
  * One line Class Desc
@@ -32,23 +35,26 @@ import org.w3c.dom.DOMException;
  * Complete Class Desc
  * 
  * @author <a href="mailto:deweese@apache.org">l449433</a>
- * @version $Id: URIManager.java,v 1.1 2005/10/13 09:59:54 wyan Exp $
+ * @version $Id: URIManager.java,v 1.1 2005/11/11 06:26:47 wyan Exp $
  */
-public class URIManager extends IdentifierManager {
+public class URIManager extends IdentifierManager
+{
 
 	/**
 	 * The identifier values.
 	 */
-	protected final static StringMap values = new StringMap();
-	static {
-		values.put(CSSConstants.CSS_NONE_VALUE, CSSValueConstants.NONE_VALUE);
+	protected final static StringMap values = new StringMap( );
+	static
+	{
+		values.put( CSSConstants.CSS_NONE_VALUE, CSSValueConstants.NONE_VALUE );
 	}
 
 	protected String propertyName;
 	protected Value defaultValue;
 	protected boolean inherit;
-	
-	public URIManager(String propertyName, boolean inherit, Value defaultValue) {
+
+	public URIManager( String propertyName, boolean inherit, Value defaultValue )
+	{
 		this.propertyName = propertyName;
 		this.defaultValue = defaultValue;
 		this.inherit = inherit;
@@ -58,7 +64,8 @@ public class URIManager extends IdentifierManager {
 	 * Implements {@link
 	 * org.apache.batik.css.engine.value.ValueManager#isInheritedProperty()}.
 	 */
-	public boolean isInheritedProperty() {
+	public boolean isInheritedProperty( )
+	{
 		return inherit;
 	}
 
@@ -66,7 +73,8 @@ public class URIManager extends IdentifierManager {
 	 * Implements {@link
 	 * org.apache.batik.css.engine.value.ValueManager#getPropertyName()}.
 	 */
-	public String getPropertyName() {
+	public String getPropertyName( )
+	{
 		return propertyName;
 	}
 
@@ -74,29 +82,45 @@ public class URIManager extends IdentifierManager {
 	 * Implements {@link
 	 * org.apache.batik.css.engine.value.ValueManager#getDefaultValue()}.
 	 */
-	public Value getDefaultValue() {
+	public Value getDefaultValue( )
+	{
 		return defaultValue;
 	}
 
 	/**
 	 * Implements {@link ValueManager#createValue(LexicalUnit,CSSEngine)}.
 	 */
-	public Value createValue(LexicalUnit lu, CSSEngine engine)
-			throws DOMException {
+	public Value createValue( LexicalUnit lu, CSSEngine engine )
+			throws DOMException
+	{
 
-		if (lu.getLexicalUnitType() == LexicalUnit.SAC_URI)
+		if ( lu.getLexicalUnitType( ) == LexicalUnit.SAC_URI )
 		{
-			   String uri = resolveURI(engine.getCSSBaseURI(), 
-                       lu.getStringValue());
-			   return new URIValue(lu.getStringValue(), uri);			
+			String uri = resolveURI( engine.getCSSBaseURI( ), lu
+					.getStringValue( ) );
+			return new URIValue( lu.getStringValue( ), uri );
 		}
-		return super.createValue(lu, engine);
+		return super.createValue( lu, engine );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.css.engine.ValueManager#createStringValue(short,
+	 *      java.lang.String,
+	 *      org.eclipse.birt.report.engine.css.engine.CSSEngine)
+	 */
+	public Value createStringValue( short type, String value, CSSEngine engine )
+			throws DOMException
+	{
+		return new StringValue( CSSPrimitiveValue.CSS_STRING, value );
 	}
 
 	/**
 	 * Implements {@link IdentifierManager#getIdentifiers()}.
 	 */
-	public StringMap getIdentifiers() {
+	public StringMap getIdentifiers( )
+	{
 		return values;
 	}
 }
