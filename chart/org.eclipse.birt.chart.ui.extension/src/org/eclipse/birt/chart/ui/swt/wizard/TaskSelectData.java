@@ -14,17 +14,12 @@ package org.eclipse.birt.chart.ui.swt.wizard;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.data.BaseSampleData;
-import org.eclipse.birt.chart.model.data.DataFactory;
-import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
-import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
@@ -38,11 +33,9 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
@@ -101,12 +94,9 @@ public class TaskSelectData extends SimpleTask
 	private transient Button btnFilters = null;
 	private transient Button btnParameters = null;
 
-	// private transient Action actionInsertAggregation = new
-	// InsertAggregationAction( );
-
 	private transient SelectDataDynamicArea dynamicArea;
 
-	private SampleData oldSample = null;
+	// private SampleData oldSample = null;
 
 	public TaskSelectData( )
 	{
@@ -656,7 +646,7 @@ public class TaskSelectData extends SimpleTask
 
 		disposeResource( whiteColor );
 		whiteColor = null;
-		oldSample = null;
+		// oldSample = null;
 
 		// Restore color registry
 		ColorPalette.getInstance( ).restore( );
@@ -738,30 +728,6 @@ public class TaskSelectData extends SimpleTask
 			DataDefinitionTextManager.getInstance( ).refreshAll( );
 		}
 	}
-
-	// This popup menu action is removed
-	// class InsertAggregationAction extends Action
-	// {
-	//
-	// InsertAggregationAction( )
-	// {
-	// super( Messages.getString( "TaskSelectData.Label.InsertAggregation" ) );
-	// //$NON-NLS-1$
-	// }
-	//
-	// public void run( )
-	// {
-	// // TODO: Invoke expression builder...create a column with the
-	// // resulting expression as header
-	// String sExpr = getWizardContext( ).getUIServiceProvider( )
-	// .invoke( "", //$NON-NLS-1$
-	// getWizardContext( ).getExtendedItem( ),
-	// Messages.getString( "TaskSelectData.Label.DataExpressionBuilder" ) );
-	// //$NON-NLS-1$
-	// tablePreview.addColumn( sExpr, null, 200 );
-	// tablePreview.layout( );
-	// }
-	// }
 
 	class HeaderShowAction extends Action
 	{
@@ -937,107 +903,111 @@ public class TaskSelectData extends SimpleTask
 
 	public void changeTask( Notification notification )
 	{
-		if ( cmpTask != null )
+		if ( previewPainter != null )
 		{
 			if ( notification.getNotifier( ) instanceof Query )
 			{
-				// No need to nofify model change
-				ChartAdapter.ignoreNotifications( true );
 				doLivePreview( );
-				ChartAdapter.ignoreNotifications( false );
 			}
 			previewPainter.renderModel( getChartModel( ) );
 		}
 	}
 
-	private SampleData updateSampleData( SampleData sdOld )
-	{
-		SampleData sdNew = DataFactory.eINSTANCE.createSampleData( );
-		Chart chart = getChartModel( );
-		// CREATE BaseSampleData
-		Series baseSeries = ( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
-				.get( 0 ) ).getDesignTimeSeries( );
-		if ( baseSeries == null )
-		{
-			throw new IllegalStateException( "Chart does not have a Base Series!" ); //$NON-NLS-1$
-		}
-		String sBaseData = ""; //$NON-NLS-1$
-		try
-		{
-			sBaseData = getDataForSeries( baseSeries );
-			BaseSampleData bsd = DataFactory.eINSTANCE.createBaseSampleData( );
-			bsd.setDataSetRepresentation( sBaseData );
-			sdNew.getBaseSampleData( ).add( bsd );
-		}
-		catch ( ChartException e )
-		{
-			container.displayException( e );
-			return sdOld;
-		}
-
-		// CREATE OrthogonalSampleData
-		Series orthogonalSeries = null;
-		List orgSdList = ChartUIUtil.getOrthogonalSeriesDefinitions( chart, -1 );
-		// FOR EACH SERIES
-		for ( int i = 0; i < orgSdList.size( ); i++ )
-		{
-			orthogonalSeries = ( (SeriesDefinition) orgSdList.get( i ) ).getDesignTimeSeries( );
-			if ( orthogonalSeries == null )
-			{
-				throw new IllegalStateException( "Chart does not have an Orthogonal Series!" ); //$NON-NLS-1$
-			}
-			String sOrthogonalData = ""; //$NON-NLS-1$
-			try
-			{
-				sOrthogonalData = getDataForSeries( orthogonalSeries );
-				OrthogonalSampleData osd = DataFactory.eINSTANCE.createOrthogonalSampleData( );
-				osd.setDataSetRepresentation( sOrthogonalData );
-				osd.setSeriesDefinitionIndex( i );
-				osd.eAdapters( ).addAll( sdOld.eAdapters( ) );
-				sdNew.getOrthogonalSampleData( ).add( osd );
-			}
-			catch ( ChartException e )
-			{
-				container.displayException( e );
-				return sdOld;
-			}
-		}
-		// TODO CREATE AncillarySampleData
-		// ADD ADAPTERS
-		// SET SampleData INTO MODEL
-		return sdNew;
-	}
-
-	private String getDataForSeries( Series series ) throws ChartException
-	{
-		Class clSeries = series.getClass( );
-		IDataSetProcessor iDSP = PluginSettings.instance( )
-				.getDataSetProcessor( clSeries );
-		// String sFormat = iDSP.getExpectedStringFormat( );
-		int iSeriesComponents = series.getDataDefinition( ).size( );
-		// GET DATA FOR EACH COMPONENT...THE FIRST DIMENSION INDEX IN THE ARRAY
-		// REPRESENTS THE COMPONENT FOR WHICH THE DATA IN THE SECOND DIMENSION
-		// APPLIES
-		String[] exprArray = new String[iSeriesComponents];
-		for ( int i = 0; i < iSeriesComponents; i++ )
-		{
-			String sExpr = ""; //$NON-NLS-1$
-			try
-			{
-				sExpr = ( (Query) series.getDataDefinition( ).get( i ) ).getDefinition( );
-			}
-			catch ( Exception e )
-			{
-				// IF DATA FOR ALL THE COMPONENTS HAS NOT BEEN SPECIFIED...USE
-				// THE DATA FOR THE FIRST COMPONENT
-				sExpr = ( (Query) series.getDataDefinition( ).get( 0 ) ).getDefinition( );
-			}
-			exprArray[i] = sExpr;
-		}
-		Object[] columnData = getWizardContext( ).getDataServiceProvider( )
-				.getDataForColumns( exprArray, -1, true );
-		return iDSP.toString( columnData );
-	}
+	// private SampleData updateSampleData( SampleData sdOld )
+	// {
+	// SampleData sdNew = DataFactory.eINSTANCE.createSampleData( );
+	// Chart chart = getChartModel( );
+	// // CREATE BaseSampleData
+	// Series baseSeries = ( (SeriesDefinition)
+	// ChartUIUtil.getBaseSeriesDefinitions( chart )
+	// .get( 0 ) ).getDesignTimeSeries( );
+	// if ( baseSeries == null )
+	// {
+	// throw new IllegalStateException( "Chart does not have a Base Series!" );
+	// //$NON-NLS-1$
+	// }
+	// String sBaseData = ""; //$NON-NLS-1$
+	// try
+	// {
+	// sBaseData = getDataForSeries( baseSeries );
+	// BaseSampleData bsd = DataFactory.eINSTANCE.createBaseSampleData( );
+	// bsd.setDataSetRepresentation( sBaseData );
+	// sdNew.getBaseSampleData( ).add( bsd );
+	// }
+	// catch ( ChartException e )
+	// {
+	// container.displayException( e );
+	// return sdOld;
+	// }
+	//
+	// // CREATE OrthogonalSampleData
+	// Series orthogonalSeries = null;
+	// List orgSdList = ChartUIUtil.getOrthogonalSeriesDefinitions( chart, -1 );
+	// // FOR EACH SERIES
+	// for ( int i = 0; i < orgSdList.size( ); i++ )
+	// {
+	// orthogonalSeries = ( (SeriesDefinition) orgSdList.get( i )
+	// ).getDesignTimeSeries( );
+	// if ( orthogonalSeries == null )
+	// {
+	// throw new IllegalStateException( "Chart does not have an Orthogonal
+	// Series!" ); //$NON-NLS-1$
+	// }
+	// String sOrthogonalData = ""; //$NON-NLS-1$
+	// try
+	// {
+	// sOrthogonalData = getDataForSeries( orthogonalSeries );
+	// OrthogonalSampleData osd =
+	// DataFactory.eINSTANCE.createOrthogonalSampleData( );
+	// osd.setDataSetRepresentation( sOrthogonalData );
+	// osd.setSeriesDefinitionIndex( i );
+	// osd.eAdapters( ).addAll( sdOld.eAdapters( ) );
+	// sdNew.getOrthogonalSampleData( ).add( osd );
+	// }
+	// catch ( ChartException e )
+	// {
+	// container.displayException( e );
+	// return sdOld;
+	// }
+	// }
+	// // TODO CREATE AncillarySampleData
+	// // ADD ADAPTERS
+	// // SET SampleData INTO MODEL
+	// return sdNew;
+	// }
+	//
+	// private String getDataForSeries( Series series ) throws ChartException
+	// {
+	// Class clSeries = series.getClass( );
+	// IDataSetProcessor iDSP = PluginSettings.instance( )
+	// .getDataSetProcessor( clSeries );
+	// // String sFormat = iDSP.getExpectedStringFormat( );
+	// int iSeriesComponents = series.getDataDefinition( ).size( );
+	// // GET DATA FOR EACH COMPONENT...THE FIRST DIMENSION INDEX IN THE ARRAY
+	// // REPRESENTS THE COMPONENT FOR WHICH THE DATA IN THE SECOND DIMENSION
+	// // APPLIES
+	// String[] exprArray = new String[iSeriesComponents];
+	// for ( int i = 0; i < iSeriesComponents; i++ )
+	// {
+	// String sExpr = ""; //$NON-NLS-1$
+	// try
+	// {
+	// sExpr = ( (Query) series.getDataDefinition( ).get( i ) ).getDefinition(
+	// );
+	// }
+	// catch ( Exception e )
+	// {
+	// // IF DATA FOR ALL THE COMPONENTS HAS NOT BEEN SPECIFIED...USE
+	// // THE DATA FOR THE FIRST COMPONENT
+	// sExpr = ( (Query) series.getDataDefinition( ).get( 0 ) ).getDefinition(
+	// );
+	// }
+	// exprArray[i] = sExpr;
+	// }
+	// Object[] columnData = getWizardContext( ).getDataServiceProvider( )
+	// .getDataForColumns( exprArray, -1, true );
+	// return iDSP.toString( columnData );
+	// }
 
 	private void manageColorAndQuery( Query query )
 	{
@@ -1057,20 +1027,32 @@ public class TaskSelectData extends SimpleTask
 
 	private void doLivePreview( )
 	{
-		// String errorInfo = Messages.getString(
-		// "exception.data.DataBindingsAreNull" ); //$NON-NLS-1$
 		if ( ChartUIUtil.checkDataBinding( getChartModel( ) ) )
 		{
-			oldSample = (SampleData) EcoreUtil.copy( getChartModel( ).getSampleData( ) );
-			SampleData newSample = updateSampleData( oldSample );
-			// ADD ALL ADAPTERS...AND REFRESH PREVIEW
-			newSample.eAdapters( ).addAll( getChartModel( ).eAdapters( ) );
-			getChartModel( ).setSampleData( newSample );
-			// removeError( errorInfo );
+			// Enable live preview
+			ChartPreviewPainter.setEnableLivePreview( true );
+			// Make sure not affect model changed
+			ChartAdapter.ignoreNotifications( true );
+			try
+			{
+				ChartUIUtil.doLivePreview( getChartModel( ),
+						getWizardContext( ).getDataServiceProvider( ) );
+			}
+			catch ( ChartException e )
+			{
+				container.displayException( e );
+			}
+			ChartAdapter.ignoreNotifications( false );
+			if ( previewPainter != null )
+			{
+				previewPainter.renderModel( getChartModel( ) );
+			}
 		}
-		// else
-		// {
-		// addError( errorInfo );
-		// }
+		else
+		{
+			// Disable live preview
+			ChartPreviewPainter.setEnableLivePreview( false );
+		}
 	}
+
 }

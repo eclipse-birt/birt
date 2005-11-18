@@ -12,8 +12,15 @@
 package org.eclipse.birt.chart.ui.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
+import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.Generator;
+import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -26,6 +33,7 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -261,6 +269,10 @@ public class ChartUIUtil
 		{
 			EList ddList = ( (SeriesDefinition) sdList.get( i ) ).getDesignTimeSeries( )
 					.getDataDefinition( );
+			if ( ddList.size( ) == 0 )
+			{
+				return false;
+			}
 			for ( int j = 0; j < ddList.size( ); j++ )
 			{
 				String query = ( (Query) ddList.get( j ) ).getDefinition( );
@@ -271,6 +283,76 @@ public class ChartUIUtil
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Does Live Priview. Need to check all series data binding complete before
+	 * invoking
+	 * 
+	 * @param chart
+	 *            chart model
+	 * @param dataProvider
+	 *            data service provider
+	 * @throws ChartException
+	 */
+	public static void doLivePreview( Chart chart,
+			IDataServiceProvider dataProvider ) throws ChartException
+	{
+		final List expressions;
+		final Object[] columnData;
+		expressions = Generator.instance( ).getRowExpressions( chart );
+		columnData = dataProvider.getDataForColumns( (String[]) expressions.toArray( new String[0] ),
+				-1,
+				false );
+
+		final Map map = new HashMap( );
+		for ( int i = 0; i < expressions.size( ); i++ )
+		{
+			map.put( expressions.get( i ), columnData[i] );
+		}
+		IDataRowExpressionEvaluator evaluator = new IDataRowExpressionEvaluator( ) {
+
+			private int i;
+			private Object[] column;
+
+			public Object evaluate( String expression )
+			{
+				column = (Object[]) map.get( expression );
+				return column[i];
+			}
+
+			public void first( )
+			{
+				i = 0;
+			}
+
+			public boolean next( )
+			{
+				if ( column != null && i < column.length - 1 )
+				{
+					i++;
+					return true;
+				}
+				return false;
+			}
+
+			public void close( )
+			{
+				// no-op
+			}
+		};
+
+		RunTimeContext context = new RunTimeContext( );
+		context.setLocale( Locale.getDefault( ) );
+		Generator.instance( ).bindData( evaluator, chart, context );
+
+		// Original live preview code: use sample data. See TaskSelectData
+		// oldSample = (SampleData) EcoreUtil.copy( getChartModel(
+		// ).getSampleData( ) );
+		// SampleData newSample = updateSampleData( oldSample );
+		// ADD ALL ADAPTERS...AND REFRESH PREVIEW
+		// newSample.eAdapters( ).addAll( getChartModel( ).eAdapters( ) );
+		// getChartModel( ).setSampleData( newSample );
 	}
 
 }

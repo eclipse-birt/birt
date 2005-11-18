@@ -191,10 +191,12 @@ public class DataDefinitionSelector
 
 	protected void addNewSeriesDefinition( )
 	{
+		// Create a series definition without data definition
 		SeriesDefinition sdTmp = SeriesDefinitionImpl.create( );
 		sdTmp.getSeriesPalette( ).update( -1 );
 		sdTmp.getSeries( )
 				.add( EcoreUtil.copy( ( (SeriesDefinition) seriesDefns.get( 0 ) ).getDesignTimeSeries( ) ) );
+		cleanDataDefinition( sdTmp );
 		sdTmp.eAdapters( ).addAll( getCurrentSeriesDefinition( ).eAdapters( ) );
 
 		int firstIndex = getFirstIndexOfSameAxis( );
@@ -216,6 +218,15 @@ public class DataDefinitionSelector
 			{
 				( (OrthogonalSampleData) list.get( i ) ).setSeriesDefinitionIndex( i );
 			}
+		}
+	}
+
+	private void cleanDataDefinition( SeriesDefinition sd )
+	{
+		EList dds = sd.getDesignTimeSeries( ).getDataDefinition( );
+		for ( int i = 0; i < dds.size( ); i++ )
+		{
+			( (Query) dds.get( i ) ).setDefinition( "" ); //$NON-NLS-1$
 		}
 	}
 

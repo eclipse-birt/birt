@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.model.attribute.impl.AxisOriginImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.i18n.Messages;
@@ -38,6 +39,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
@@ -170,10 +172,7 @@ public class TaskSelectType extends SimpleTask
 			placeComponents( );
 			updateAdapters( );
 		}
-		if ( chartModel != null )
-		{
-			previewPainter.renderModel( chartModel );
-		}
+		doLivePreview( );
 		return cmpTask;
 	}
 
@@ -581,13 +580,30 @@ public class TaskSelectType extends SimpleTask
 		overlayAxis.getTitle( )
 				.getCaption( )
 				.setValue( Messages.getString( "TaskSelectType.Caption.OverlayAxis1" ) ); //$NON-NLS-1$
+
+		// Retain the first series of the axis. Remove others
+		if ( overlayAxis.getSeriesDefinitions( ).size( ) > 1 )
+		{
+			EList list = overlayAxis.getSeriesDefinitions( );
+			for ( int i = list.size( ) - 1; i > 0; i-- )
+			{
+				list.remove( i );
+			}
+		}
+
 		// Add the notification listeners from the old axis to the new one
 		overlayAxis.eAdapters( ).addAll( yAxis.eAdapters( ) );
+
 		// Update overlay series definition
-		( (SeriesDefinition) overlayAxis.getSeriesDefinitions( ).get( 0 ) ).getQuery( )
-				.setDefinition( "" ); //$NON-NLS-1$
-		( (SeriesDefinition) overlayAxis.getSeriesDefinitions( ).get( 0 ) ).getSeriesPalette( )
-				.update( 1 );
+		SeriesDefinition sdOverlay = (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
+				.get( 0 );
+		sdOverlay.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
+		EList dds = sdOverlay.getDesignTimeSeries( ).getDataDefinition( );
+		for ( int i = 0; i < dds.size( ); i++ )
+		{
+			( (Query) dds.get( i ) ).setDefinition( "" ); //$NON-NLS-1$
+		}
+		sdOverlay.getSeriesPalette( ).update( 1 );
 
 		// Update the chart model with the new Axis
 		( (Axis) ( (ChartWithAxes) chartModel ).getAxes( ).get( 0 ) ).getAssociatedAxes( )
@@ -1030,10 +1046,6 @@ public class TaskSelectType extends SimpleTask
 
 		// RE-ENABLE PREVIEW REFRESH
 		ChartAdapter.ignoreNotifications( false );
-		if ( previewPainter != null )
-		{
-			previewPainter.renderModel( chartModel );
-		}
 
 		updateSelection( );
 		if ( context == null )
@@ -1047,6 +1059,8 @@ public class TaskSelectType extends SimpleTask
 		( (ChartWizardContext) context ).setChartType( chartType );
 		setContext( context );
 
+		// Refresh preview
+		doLivePreview( );
 	}
 
 	private SeriesDefinition getSeriesDefinitionForProcessing( )
@@ -1154,6 +1168,36 @@ public class TaskSelectType extends SimpleTask
 	public void changeTask( Notification notification )
 	{
 		if ( previewPainter != null )
+		{
+			previewPainter.renderModel( chartModel );
+		}
+	}
+
+	private void doLivePreview( )
+	{
+		if ( ChartUIUtil.checkDataBinding( chartModel ) )
+		{
+			// Enable live preview
+			ChartPreviewPainter.setEnableLivePreview( true );
+			// Make sure not affect model changed
+			ChartAdapter.ignoreNotifications( true );
+			try
+			{
+				ChartUIUtil.doLivePreview( chartModel,
+						( (ChartWizardContext) getContext( ) ).getDataServiceProvider( ) );
+			}
+			catch ( ChartException e )
+			{
+				container.displayException( e );
+			}
+			ChartAdapter.ignoreNotifications( false );
+		}
+		else
+		{
+			// Disable live preview
+			ChartPreviewPainter.setEnableLivePreview( false );
+		}
+		if ( chartModel != null && previewPainter != null )
 		{
 			previewPainter.renderModel( chartModel );
 		}
