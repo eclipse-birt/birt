@@ -137,7 +137,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.55 $ $Date: 2005/11/17 02:06:37 $
+ * @version $Revision: 1.56 $ $Date: 2005/11/17 16:50:53 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1482,21 +1482,14 @@ class EngineIRVisitor extends DesignVisitor
 				.setTextIndent( getElementProperty( handle,
 						Style.TEXT_INDENT_PROP ) );
 
-		if ( "underline".equalsIgnoreCase( getElementProperty( handle, //$NON-NLS-1$
-				Style.TEXT_UNDERLINE_PROP ) ) )
-		{
-			style.setTextUnderline( "true" ); //$NON-NLS-1$
-		}
-		if ( "line-through".equalsIgnoreCase( getElementProperty( handle, //$NON-NLS-1$
-				Style.TEXT_LINE_THROUGH_PROP ) ) )
-		{
-			style.setTextLineThrough( "true" ); //$NON-NLS-1$
-		}
-		if ( "overline".equalsIgnoreCase( getElementProperty( handle, //$NON-NLS-1$
-				Style.TEXT_OVERLINE_PROP ) ) )
-		{
-			style.setTextOverline( "true" ); //$NON-NLS-1$
-		}
+		style.setTextUnderline( getElementProperty( handle,
+				Style.TEXT_UNDERLINE_PROP ) );
+
+		style.setTextLineThrough( getElementProperty( handle,
+				Style.TEXT_LINE_THROUGH_PROP ) );
+		style.setTextOverline( getElementProperty( handle,
+				Style.TEXT_OVERLINE_PROP ) );
+
 		style.setLetterSpacing( getElementProperty( handle,
 				Style.LETTER_SPACING_PROP ) );
 		style

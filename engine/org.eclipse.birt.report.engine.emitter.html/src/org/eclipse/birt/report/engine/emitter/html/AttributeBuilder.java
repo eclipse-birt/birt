@@ -12,14 +12,14 @@
 package org.eclipse.birt.report.engine.emitter.html;
 
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.18 $ $Date: 2005/11/14 05:51:06 $
+ * @version $Revision: 1.19 $ $Date: 2005/11/18 03:36:54 $
  */
 public class AttributeBuilder
 {
@@ -102,8 +102,7 @@ public class AttributeBuilder
 	 * @param style
 	 *            The style object.
 	 */
-	private static void buildPagedMedia( StringBuffer content,
-			IStyle style )
+	private static void buildPagedMedia( StringBuffer content, IStyle style )
 	{
 		buildProperty( content, HTMLTags.ATTR_ORPHANS, style.getOrphans( ) );
 		buildProperty( content, HTMLTags.ATTR_WIDOWS, style.getWidows( ) );
@@ -126,11 +125,12 @@ public class AttributeBuilder
 	 *            The <code>HTMLReportEmitter</code> object which provides
 	 *            resource manager and hyperlink builder objects.
 	 */
-	private static void buildBackground( StringBuffer content,
-			IStyle style, HTMLReportEmitter emitter )
+	private static void buildBackground( StringBuffer content, IStyle style,
+			HTMLReportEmitter emitter )
 	{
 		buildProperty( content, HTMLTags.ATTR_COLOR, style.getColor( ) );
-		buildProperty( content, HTMLTags.ATTR_BACKGROUND_COLOR, style.getBackgroundColor( ) );
+		buildProperty( content, HTMLTags.ATTR_BACKGROUND_COLOR, style
+				.getBackgroundColor( ) );
 
 		String image = style.getBackgroundImage( );
 		if ( image == null || "none".equalsIgnoreCase( image ) ) //$NON-NLS-1$
@@ -139,15 +139,17 @@ public class AttributeBuilder
 		}
 
 		image = emitter.handleStyleImage( image );
-		if( image != null && image.length( ) > 0 )
+		if ( image != null && image.length( ) > 0 )
 		{
 			buildURLProperty( content, HTMLTags.ATTR_BACKGROUND_IMAGE, image );
-			buildProperty( content, HTMLTags.ATTR_BACKGROUND_REPEAT, style.getBackgroundRepeat( ) );
-			buildProperty( content, HTMLTags.ATTR_BACKGROUND_ATTACHEMNT, style.getBackgroundAttachment( ) );
-			
+			buildProperty( content, HTMLTags.ATTR_BACKGROUND_REPEAT, style
+					.getBackgroundRepeat( ) );
+			buildProperty( content, HTMLTags.ATTR_BACKGROUND_ATTACHEMNT, style
+					.getBackgroundAttachment( ) );
+
 			String x = style.getBackgroundPositionX( );
 			String y = style.getBackgroundPositionY( );
-			if( x != null || y != null )
+			if ( x != null || y != null )
 			{
 				addPropName( content, HTMLTags.ATTR_BACKGROUND_POSITION );
 				addPropValue( content, x );
@@ -216,7 +218,7 @@ public class AttributeBuilder
 		buildProperty( content, HTMLTags.ATTR_TEXT_ALIGN, style.getTextAlign( ) );
 
 		buildTextDecoration( content, style.getTextLineThrough( ), style
-				.getTextOverline( ), style.getTextUnderline( ) );
+				.getTextUnderline( ), style.getTextOverline( ) );
 
 		buildProperty( content, HTMLTags.ATTR_LETTER_SPACING, style
 				.getLetterSpacing( ) );
@@ -251,16 +253,17 @@ public class AttributeBuilder
 
 		buildProperty( content, HTMLTags.ATTR_FONT_SIZE, style.getFontSize( ) );
 	}
-	
-	public static void checkHyperlinkTextDecoration( IStyle style, StringBuffer content )
+
+	public static void checkHyperlinkTextDecoration( IStyle style,
+			StringBuffer content )
 	{
-		if( style != null )
+		if ( style != null )
 		{
-			buildTextDecoration( content, style.getTextLineThrough( ),
-					style.getTextUnderline( ), style.getTextOverline( ) );
+			buildTextDecoration( content, style.getTextLineThrough( ), style
+					.getTextUnderline( ), style.getTextOverline( ) );
 		}
 	}
-	
+
 	/**
 	 * Build the Text-Decoration style string.
 	 * 
@@ -278,15 +281,20 @@ public class AttributeBuilder
 	{
 		int flag = 0;
 
-		if ( linethrough != null && BIRTConstants.BIRT_TRUE_VALUE.equalsIgnoreCase( linethrough ) ) //$NON-NLS-1$
+		if ( linethrough != null
+				&& CSSConstants.CSS_LINE_THROUGH_VALUE
+						.equalsIgnoreCase( linethrough ) ) //$NON-NLS-1$
 		{
 			flag = 1; // linethrough
 		}
-		if ( underline != null && BIRTConstants.BIRT_TRUE_VALUE.equalsIgnoreCase( underline ) ) //$NON-NLS-1$
+		if ( underline != null
+				&& CSSConstants.CSS_UNDERLINE_VALUE
+						.equalsIgnoreCase( underline ) ) //$NON-NLS-1$
 		{
 			flag |= 2; // underline
 		}
-		if ( overline != null && BIRTConstants.BIRT_TRUE_VALUE.equalsIgnoreCase( overline ) ) //$NON-NLS-1$
+		if ( overline != null
+				&& CSSConstants.CSS_OVERLINE_VALUE.equalsIgnoreCase( overline ) ) //$NON-NLS-1$
 		{
 			flag |= 4; // overline
 		}
@@ -302,7 +310,7 @@ public class AttributeBuilder
 			{
 				addPropValue( content, "underline" );
 			}
-			if ( ( flag & 4 ) > 0 ) //overline
+			if ( ( flag & 4 ) > 0 ) // overline
 			{
 				addPropValue( content, "overline" );
 			}
@@ -383,16 +391,17 @@ public class AttributeBuilder
 		}
 	}
 
-	private static void buildURLProperty( StringBuffer content, String name, String url )
+	private static void buildURLProperty( StringBuffer content, String name,
+			String url )
 	{
-		if( url != null )
+		if ( url != null )
 		{
 			addPropName( content, name );
 			addURLValue( content, url );
 			content.append( ';' );
 		}
 	}
-	
+
 	/**
 	 * Add property name to the Style string.
 	 * 
@@ -493,4 +502,3 @@ public class AttributeBuilder
 		}
 	}
 }
-
