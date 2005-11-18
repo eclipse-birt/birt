@@ -76,14 +76,14 @@ abstract public class AbstractContent extends AbstractElement
 		this.report = report;
 	}
 
-	public void setReport( IReportContent report )
+	public void setReportContent( IReportContent report )
 	{
 		this.report = report;
 	}
 
 	public AbstractContent( IContent content )
 	{
-		this( content.getReport( ) );
+		this( content.getReportContent( ) );
 		this.name = content.getName( );
 		this.bounds = content.getBounds( );
 		this.x = content.getX( );
@@ -100,7 +100,7 @@ abstract public class AbstractContent extends AbstractElement
 		this.toc = content.getTOC( );
 	}
 
-	public IReportContent getReport( )
+	public IReportContent getReportContent( )
 	{
 		return this.report;
 	}

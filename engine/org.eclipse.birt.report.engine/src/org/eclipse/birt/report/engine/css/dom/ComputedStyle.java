@@ -17,7 +17,7 @@ public class ComputedStyle extends AbstractStyle implements IStyle
 
 	public ComputedStyle( IContent elt )
 	{
-		super( ( (ReportContent) elt.getReport( ) ).getCSSEngine( ) );
+		super( ( (ReportContent) elt.getReportContent( ) ).getCSSEngine( ) );
 		this.elt = elt;
 	}
 
