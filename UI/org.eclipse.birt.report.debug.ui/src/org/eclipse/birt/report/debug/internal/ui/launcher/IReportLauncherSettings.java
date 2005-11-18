@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.debug.internal.ui.launcher;
 
-import org.eclipse.pde.internal.ui.launcher.ILauncherSettings;
 
 
 /**
@@ -20,9 +19,13 @@ import org.eclipse.pde.internal.ui.launcher.ILauncherSettings;
  */
 public interface IReportLauncherSettings
 {
+	
 	/**
 	 *Key for the selection project name
 	 */
+	String IMPORTPROJECT = "importproject"; //$NON-NLS-1$
+	String IMPORTPROJECTNAMES = "importprojectnames"; //$NON-NLS-1$
+	
 	String WSPROJECT = "wsproject"; //$NON-NLS-1$
 	
 	String LOCATION = "location"; //$NON-NLS-1$
