@@ -92,7 +92,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.35 $ $Date: 2005/11/15 09:38:07 $
+ * @version $Revision: 1.36 $ $Date: 2005/11/17 16:50:46 $
  */
 public class ReportQueryBuilder
 {
@@ -211,7 +211,6 @@ public class ReportQueryBuilder
 				pushQuery( tempQuery );
 				pushExpressions( tempQuery.getRowExpressions( ) );
 			}
-			handleReportItemExpressions( item );
 			return tempQuery;
 		}
 
@@ -236,6 +235,8 @@ public class ReportQueryBuilder
 		{
 			BaseQueryDefinition query = prepareVisit( container );
 
+			handleReportItemExpressions( container );
+
 			for ( int i = 0; i < container.getItemCount( ); i++ )
 				container.getItem( i ).accept( this , value);
 
@@ -251,6 +252,8 @@ public class ReportQueryBuilder
 		public Object visitGridItem( GridItemDesign grid, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( grid );
+
+			handleReportItemExpressions( grid );
 
 			for ( int i = 0; i < grid.getColumnCount( ); i++ )
 			{
@@ -274,6 +277,7 @@ public class ReportQueryBuilder
 		{
 			BaseQueryDefinition query = prepareVisit( image );
 
+			handleReportItemExpressions( image );
 			handleAction( image.getAction( ) );
 			if ( image.getImageSource( ) == ImageItemDesign.IMAGE_EXPRESSION )
 			{
@@ -298,6 +302,7 @@ public class ReportQueryBuilder
 		public Object visitLabelItem( LabelItemDesign label , Object value)
 		{
 			BaseQueryDefinition query = prepareVisit( label );
+			handleReportItemExpressions( label );
 			handleAction( label.getAction( ) );
 			finishVisit( query );
 			return value;
@@ -409,6 +414,7 @@ public class ReportQueryBuilder
 			else
 			{
 				pushExpressions( query.getBeforeExpressions( ) );
+				handleReportItemExpressions( list );
 				visitListBand( list.getHeader( ), value );
 				popExpressions( );
 
@@ -445,19 +451,7 @@ public class ReportQueryBuilder
 		public Object visitTextItem( TextItemDesign text , Object value)
 		{
 			BaseQueryDefinition query = prepareVisit( text );
-/*			if ( text.getDomTree( ) == null )
-			{
-				String content = getLocalizedString( text.getTextKey( ), text
-						.getText( ) );
-				text.setDomTree( new TextParser( ).parse( content, text
-						.getTextType( ) ) );
-			}
-			Document doc = text.getDomTree( );
-			if ( doc != null )
-			{
-				getEmbeddedExpression( doc.getFirstChild( ), text );
-			}*/
-			
+			handleReportItemExpressions( text );
 			HashMap exprs = text.getExpressions();
 			if (exprs != null)
 			{
@@ -494,6 +488,7 @@ public class ReportQueryBuilder
 			else
 			{
 				pushExpressions( query.getBeforeExpressions( ) );
+				handleReportItemExpressions( table );
 				handleTableBand( table.getHeader( ) ,value);
 				popExpressions( );
 				SlotHandle groupsSlot = ( (TableHandle) table.getHandle( ) )
@@ -529,7 +524,7 @@ public class ReportQueryBuilder
 		public Object visitMultiLineItem( MultiLineItemDesign multiLine , Object value)
 		{
 			BaseQueryDefinition query = prepareVisit( multiLine );
-
+			handleReportItemExpressions( multiLine );
 			addExpression( multiLine.getContent( ) );
 			addExpression( multiLine.getContentType( ) );
 			finishVisit( query );

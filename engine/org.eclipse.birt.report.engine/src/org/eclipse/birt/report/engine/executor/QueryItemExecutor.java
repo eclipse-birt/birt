@@ -14,7 +14,8 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 	 * result set used by this item.
 	 */
 	protected IResultSet rset;
-	
+	protected boolean rsetEmpty;
+
 	protected QueryItemExecutor( ExecutionContext context,
 			IReportItemVisitor visitor )
 	{
@@ -32,7 +33,7 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 	 * @param ds
 	 *            the dataset object, null is valid
 	 */
-	protected void closeResultSet()
+	protected void closeResultSet( )
 	{
 		if ( rset != null )
 		{
@@ -59,30 +60,30 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 		if ( item.getQuery( ) != null )
 		{
 			rset = context.getDataEngine( ).execute( item.getQuery( ) );
+			if ( rset != null )
+			{
+				rsetEmpty = !rset.next( );
+			}
+
 		}
 	}
 
-	protected void accessQuery( ReportItemDesign design,
-			IContentEmitter emitter )
+	protected void accessQuery( ReportItemDesign design, IContentEmitter emitter )
 	{
-		if (rset != null)
-		{
-			rset.next( );
-		}
 	}
 
-	public DataID getDataID()
+	public DataID getDataID( )
 	{
-		if (rset != null)
+		if ( rset != null )
 		{
-			return new DataID(rset.getID(), rset.getCurrentPosition());
+			return new DataID( rset.getID( ), rset.getCurrentPosition( ) );
 		}
 		return null;
 	}
-	
-	public void reset()
+
+	public void reset( )
 	{
 		rset = null;
-		super.reset();
+		super.reset( );
 	}
 }

@@ -72,54 +72,72 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		int NONE_GROUP = groupCount + 1;
 		int groupIndex;
 
-		accessHeader( listing, outputEmitter );
-
-		if ( rset != null )
+		if ( rset == null || rsetEmpty == true )
 		{
-			while ( rset.next( ) )
-			{
-				rsetCursor++;
-				int startGroup = rset.getStartingGroupLevel( );
-				if ( startGroup != NONE_GROUP )
-				{
-					// It start the group startGroup. It also start the
-					// groups from startGroup to groupCount.
-					groupIndex = startGroup - 1;
-					if ( groupIndex < 0 )
-					{
-						groupIndex = 0;
-					}
-					while ( groupIndex < groupCount )
-					{
-						accessGroupHeader( listing, groupIndex, outputEmitter );
-						groupIndex++;
-					}
-				}
+			// empty rset
+			accessHeader( listing, outputEmitter );
 
-				accessDetail( listing, outputEmitter );
-				int endGroup = rset.getEndingGroupLevel( );
-				if ( endGroup != NONE_GROUP )
-				{
-					// the endGroup has terminate, it also termiate the groups
-					// from endGroup-1
-					// to groupCount-1.
-					endGroup = endGroup - 1;
-					if ( endGroup < 0 )
-					{
-						endGroup = 0;
-					}
-					groupIndex = groupCount - 1;
-					while ( groupIndex >= endGroup )
-					{
-						accessGroupFooter( listing, groupIndex, outputEmitter );
-						groupIndex--;
-					}
-				}
-			}
+			accessFooter( listing, outputEmitter );
 		}
+		else
+		{
+			accessHeader( listing, outputEmitter );
+			if ( groupCount == 0 )
+			{
+				do
+				{
+					rsetCursor++;
+					accessDetail( listing, outputEmitter );
+				} while ( rset.next( ) );
+			}
+			else
+			{
+				do
+				{
+					rsetCursor++;
+					int startGroup = rset.getStartingGroupLevel( );
+					if ( startGroup != NONE_GROUP )
+					{
+						// It start the group startGroup. It also start the
+						// groups from startGroup to groupCount.
+						groupIndex = startGroup - 1;
+						if ( groupIndex < 0 )
+						{
+							groupIndex = 0;
+						}
+						while ( groupIndex < groupCount )
+						{
+							accessGroupHeader( listing, groupIndex,
+									outputEmitter );
+							groupIndex++;
+						}
+					}
 
-		accessFooter( listing, outputEmitter );
-
+					accessDetail( listing, outputEmitter );
+					int endGroup = rset.getEndingGroupLevel( );
+					if ( endGroup != NONE_GROUP )
+					{
+						// the endGroup has terminate, it also termiate the
+						// groups
+						// from endGroup-1
+						// to groupCount-1.
+						endGroup = endGroup - 1;
+						if ( endGroup < 0 )
+						{
+							endGroup = 0;
+						}
+						groupIndex = groupCount - 1;
+						while ( groupIndex >= endGroup )
+						{
+							accessGroupFooter( listing, groupIndex,
+									outputEmitter );
+							groupIndex--;
+						}
+					}
+				} while ( rset.next( ) );
+			}
+			accessFooter( listing, outputEmitter );
+		}
 	}
 
 	/**
