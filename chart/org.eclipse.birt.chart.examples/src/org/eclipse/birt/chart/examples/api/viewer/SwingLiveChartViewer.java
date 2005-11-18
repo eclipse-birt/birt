@@ -102,7 +102,7 @@ public final class SwingLiveChartViewer extends JPanel
         frame.setSize(dApp);
         frame.setLocation((dScreen.width - dApp.width)/2, (dScreen.height - dApp.height) / 2);
         
-        frame.setTitle(lcViewer.getClass().getName() + " [device="+lcViewer.dRenderer.getClass().getName()+"]");
+        frame.setTitle(lcViewer.getClass().getName() + " [device="+lcViewer.dRenderer.getClass().getName()+"]");//$NON-NLS-1$//$NON-NLS-2$
         frame.show();
     }
     
@@ -113,7 +113,7 @@ public final class SwingLiveChartViewer extends JPanel
     {
         final PluginSettings ps = PluginSettings.instance();
         try {
-        	dRenderer = ps.getDevice("dv.SWING");
+        	dRenderer = ps.getDevice("dv.SWING");//$NON-NLS-1$
         } catch (ChartException ex)
         {
             ex.printStackTrace();
@@ -164,8 +164,8 @@ public final class SwingLiveChartViewer extends JPanel
     
 
     //Live Date Set 
-	private static final String[] sa = { "One", "Two", "Three", "Four", "Five",
-			"Six", "Seven", "Eight", "Nine", "Ten" };
+	private static final String[] sa = { "One", "Two", "Three", "Four", "Five",//$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$//$NON-NLS-5$
+			"Six", "Seven", "Eight", "Nine", "Ten" };//$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$//$NON-NLS-5$
 	private static final double[] da1 = { 56.99, 352.95, -201.95, 299.95,
 			-95.95, 25.45, 129.33, -26.5, 43.5, 122 };
 
@@ -197,7 +197,7 @@ public final class SwingLiveChartViewer extends JPanel
 		lg.getInsets().setRight(10);
 
 		//Title
-		cwaBar.getTitle().getLabel().getCaption().setValue("Live Chart Demo");
+		cwaBar.getTitle().getLabel().getCaption().setValue("Live Chart Demo");//$NON-NLS-1$
 
 		//X-Axis
 		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes()[0];
@@ -206,7 +206,7 @@ public final class SwingLiveChartViewer extends JPanel
 		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
 		xAxisPrimary.getOrigin().setType(IntersectionType.MIN_LITERAL);
 		
-		xAxisPrimary.getTitle().getCaption().setValue("Category Text X-Axis");
+		xAxisPrimary.getTitle().getCaption().setValue("Category Text X-Axis");//$NON-NLS-1$
 		xAxisPrimary.setTitlePosition(Position.BELOW_LITERAL);
 		
 		xAxisPrimary.getLabel().getCaption().getFont().setRotation(75);
@@ -222,12 +222,12 @@ public final class SwingLiveChartViewer extends JPanel
 		//Y-Axis
 		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis(xAxisPrimary);
 		
-		yAxisPrimary.getLabel().getCaption().setValue("Price Axis");
+		yAxisPrimary.getLabel().getCaption().setValue("Price Axis");//$NON-NLS-1$
 		yAxisPrimary.getLabel().getCaption().getFont().setRotation(37);
 		yAxisPrimary.setLabelPosition(Position.LEFT_LITERAL);
 		
 		yAxisPrimary.setTitlePosition(Position.LEFT_LITERAL);
-		yAxisPrimary.getTitle().getCaption().setValue("Linear Value Y-Axis");
+		yAxisPrimary.getTitle().getCaption().setValue("Linear Value Y-Axis");//$NON-NLS-1$
 		
 		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
 		
@@ -253,14 +253,14 @@ public final class SwingLiveChartViewer extends JPanel
 
 		//Y-Series (1)
 		BarSeries bs1 = (BarSeries) BarSeriesImpl.create();
-		bs1.setSeriesIdentifier("Unit Price");
+		bs1.setSeriesIdentifier("Unit Price");//$NON-NLS-1$
 		bs1.setDataSet(seriesOneValues);
 		bs1.setRiserOutline(null);
 		bs1.setRiser(RiserType.RECTANGLE_LITERAL);
 
 		//Y-Series (2)
 		LineSeries ls1 = (LineSeries) LineSeriesImpl.create();
-		ls1.setSeriesIdentifier("Quantity");
+		ls1.setSeriesIdentifier("Quantity");//$NON-NLS-1$
 		ls1.setDataSet(seriesTwoValues);
 		ls1.getLineAttributes().setColor(ColorDefinitionImpl.GREEN());
 		ls1.getMarker().setType(MarkerType.BOX_LITERAL);

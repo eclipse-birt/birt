@@ -81,8 +81,8 @@ public final class SwtChartViewerSelector implements PaintListener,
 		Shell sh = new Shell(d);
 		sh.setSize(900, 700);
 		sh.setLayout(gl);
-		sh.setText(scv.getClass().getName() + " [device="
-				+ scv.idr.getClass().getName() + "]");
+		sh.setText(scv.getClass().getName() + " [device="//$NON-NLS-1$
+				+ scv.idr.getClass().getName() + "]");//$NON-NLS-1$
 
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		Canvas cCenter = new Canvas(sh, SWT.NONE);
@@ -96,36 +96,36 @@ public final class SwtChartViewerSelector implements PaintListener,
 
 		Label la = new Label(cBottom, SWT.NONE);
 
-		la.setText("Choose: ");
+		la.setText("Choose: ");//$NON-NLS-1$
 		Combo cbType = new Combo(cBottom, SWT.DROP_DOWN | SWT.READ_ONLY);
-		cbType.add("Bar Chart");
-		cbType.add("Bar Chart(2 Series)");
-		cbType.add("Pie Chart");
-		cbType.add("Pie Chart(4 Series)");
-		cbType.add("Line Chart");
-		cbType.add("Bar/Line Stacked Chart");
-		cbType.add("Scatter Chart");
-		cbType.add("Stock Chart");
-		cbType.add("Area Chart");
+		cbType.add("Bar Chart");//$NON-NLS-1$
+		cbType.add("Bar Chart(2 Series)");//$NON-NLS-1$
+		cbType.add("Pie Chart");//$NON-NLS-1$
+		cbType.add("Pie Chart(4 Series)");//$NON-NLS-1$
+		cbType.add("Line Chart");//$NON-NLS-1$
+		cbType.add("Bar/Line Stacked Chart");//$NON-NLS-1$
+		cbType.add("Scatter Chart");//$NON-NLS-1$
+		cbType.add("Stock Chart");//$NON-NLS-1$
+		cbType.add("Area Chart");//$NON-NLS-1$
 
 		cbType.select(0);
 
 		Combo cbDimension = new Combo(cBottom, SWT.DROP_DOWN | SWT.READ_ONLY);
-		cbDimension.add("2D");
-		cbDimension.add("2D with Depth");
+		cbDimension.add("2D");//$NON-NLS-1$
+		cbDimension.add("2D with Depth");//$NON-NLS-1$
 		cbDimension.select(0);
 
 		Button cbTransposed = new Button(cBottom, SWT.CHECK);
-		cbTransposed.setText("Transposed");
+		cbTransposed.setText("Transposed");//$NON-NLS-1$
 
 		Button cbPercent = new Button(cBottom, SWT.CHECK);
-		cbPercent.setText("Percent");
+		cbPercent.setText("Percent");//$NON-NLS-1$
 
 		Button cbLogarithmic = new Button(cBottom, SWT.CHECK);
-		cbLogarithmic.setText("Logarithmic");
+		cbLogarithmic.setText("Logarithmic");//$NON-NLS-1$
 
 		Button btn = new Button(cBottom, SWT.NONE);
-		btn.setText("Update");
+		btn.setText("Update");//$NON-NLS-1$
 		btn.addSelectionListener(scv);
 
 		scv.cb = cbType;
@@ -151,7 +151,7 @@ public final class SwtChartViewerSelector implements PaintListener,
 	SwtChartViewerSelector() {
 		final PluginSettings ps = PluginSettings.instance();
 		try {
-			idr = ps.getDevice("dv.SWT");
+			idr = ps.getDevice("dv.SWT");//$NON-NLS-1$
 		} catch (ChartException ex) {
 			ex.printStackTrace();
 		}
@@ -241,7 +241,7 @@ public final class SwtChartViewerSelector implements PaintListener,
 			
 			if (cbPercent.getSelection()== true) {
 					ax.setFormatSpecifier(JavaNumberFormatSpecifierImpl
-							.create("0'%'"));
+							.create("0'%'"));//$NON-NLS-1$
 			} else {
 				ax.setFormatSpecifier(null);
 			}
@@ -299,13 +299,13 @@ public final class SwtChartViewerSelector implements PaintListener,
 		}
 
 		if (sMessage == null) {
-			sMessage = "<null>";
+			sMessage = "<null>";//$NON-NLS-1$
 		}
 		StackTraceElement[] stea = ex.getStackTrace();
 		Point d = ca.getSize();
 
 		Device dv = Display.getCurrent();
-		Font fo = new Font(dv, "Courier", SWT.BOLD, 16);
+		Font fo = new Font(dv, "Courier", SWT.BOLD, 16);//$NON-NLS-1$
 		g2d.setFont(fo);
 		FontMetrics fm = g2d.getFontMetrics();
 		g2d.setBackground(dv.getSystemColor(SWT.COLOR_WHITE));
@@ -314,16 +314,16 @@ public final class SwtChartViewerSelector implements PaintListener,
 		g2d.drawRectangle(20, 20, d.x - 40, d.y - 40);
 		g2d.setClipping(20, 20, d.x - 40, d.y - 40);
 		int x = 25, y = 20 + fm.getHeight();
-		g2d.drawString("Exception:", x, y);
-		x += g2d.textExtent("Exception:").x + 5;
+		g2d.drawString("Exception:", x, y);//$NON-NLS-1$
+		x += g2d.textExtent("Exception:").x + 5;//$NON-NLS-1$
 		g2d.setForeground(dv.getSystemColor(SWT.COLOR_RED));
 		g2d.drawString(sException, x, y);
 		x = 25;
 		y += fm.getHeight();
 		if (sWrappedException != null) {
 			g2d.setForeground(dv.getSystemColor(SWT.COLOR_BLACK));
-			g2d.drawString("Wrapped In:", x, y);
-			x += g2d.textExtent("Wrapped In:").x + 5;
+			g2d.drawString("Wrapped In:", x, y);//$NON-NLS-1$
+			x += g2d.textExtent("Wrapped In:").x + 5;//$NON-NLS-1$
 			g2d.setForeground(dv.getSystemColor(SWT.COLOR_RED));
 			g2d.drawString(sWrappedException, x, y);
 			x = 25;
@@ -331,21 +331,21 @@ public final class SwtChartViewerSelector implements PaintListener,
 		}
 		g2d.setForeground(dv.getSystemColor(SWT.COLOR_BLACK));
 		y += 10;
-		g2d.drawString("Message:", x, y);
-		x += g2d.textExtent("Message:").x + 5;
+		g2d.drawString("Message:", x, y);//$NON-NLS-1$
+		x += g2d.textExtent("Message:").x + 5;//$NON-NLS-1$
 		g2d.setForeground(dv.getSystemColor(SWT.COLOR_BLUE));
 		g2d.drawString(sMessage, x, y);
 		x = 25;
 		y += fm.getHeight();
 		g2d.setForeground(dv.getSystemColor(SWT.COLOR_BLACK));
 		y += 10;
-		g2d.drawString("Trace:", x, y);
+		g2d.drawString("Trace:", x, y);//$NON-NLS-1$
 		x = 40;
 		y += fm.getHeight();
 		g2d.setForeground(dv.getSystemColor(SWT.COLOR_DARK_GREEN));
 		for (int i = 0; i < stea.length; i++) {
-			g2d.drawString(stea[i].getClassName() + ":"
-					+ stea[i].getMethodName() + "(...):"
+			g2d.drawString(stea[i].getClassName() + ":"//$NON-NLS-1$
+					+ stea[i].getMethodName() + "(...):"//$NON-NLS-1$
 					+ stea[i].getLineNumber(), x, y);
 			x = 40;
 			y += fm.getHeight();

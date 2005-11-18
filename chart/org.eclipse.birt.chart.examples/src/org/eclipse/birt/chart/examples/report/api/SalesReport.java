@@ -96,72 +96,72 @@ public class SalesReport {
 		createStyles();
 		createBody();
 
-		String outputPath = "output";
+		String outputPath = "output";//$NON-NLS-1$
 		File outputFolder = new File(outputPath);
 		if (!outputFolder.exists() && !outputFolder.mkdir()) {
-			throw new IOException("Can not create the output folder");
+			throw new IOException("Can not create the output folder");//$NON-NLS-1$
 		}
-		reportDesignHandle.saveAs(outputPath + "/" + "SalesReport.rptdesign");
+		reportDesignHandle.saveAs(outputPath + "/" + "SalesReport.rptdesign");//$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	private void createDataSources() throws SemanticException {
 		ScriptDataSourceHandle dataSourceHandle = elementFactory
-				.newScriptDataSource("Data Source");
+				.newScriptDataSource("Data Source");//$NON-NLS-1$
 		reportDesignHandle.getDataSources().add(dataSourceHandle);
 	}
 
 	private void createDataSets() throws SemanticException {
 		//Data Set
 		ScriptDataSetHandle dataSetHandle = elementFactory
-				.newScriptDataSet("Data Set");
-		dataSetHandle.setDataSource("Data Source");
+				.newScriptDataSet("Data Set");//$NON-NLS-1$
+		dataSetHandle.setDataSource("Data Source");//$NON-NLS-1$
 
 		//Set open( ) in code
 		dataSetHandle
-				.setOpen("i=0;"
-						+ "sourcedata = new Array( new Array(3), new Array(3), new Array(3), "
-						+ "new Array(3), new Array(3), new Array(3));"
-						+ "sourcedata[0][0] = 10; "
-						+ "sourcedata[0][1] = \"Chris Kwai\";"
-						+ "sourcedata[0][2] = 2413;"
+				.setOpen("i=0;"//$NON-NLS-1$
+						+ "sourcedata = new Array( new Array(3), new Array(3), new Array(3), "//$NON-NLS-1$
+						+ "new Array(3), new Array(3), new Array(3));"//$NON-NLS-1$
+						+ "sourcedata[0][0] = 10; "//$NON-NLS-1$
+						+ "sourcedata[0][1] = \"Chris Kwai\";"//$NON-NLS-1$
+						+ "sourcedata[0][2] = 2413;"//$NON-NLS-1$
 
-						+ "sourcedata[1][0] = 10; "
-						+ "sourcedata[1][1] = \"Ice Bella\";"
-						+ "sourcedata[1][2] = 2304;"
+						+ "sourcedata[1][0] = 10; "//$NON-NLS-1$
+						+ "sourcedata[1][1] = \"Ice Bella\";"//$NON-NLS-1$
+						+ "sourcedata[1][2] = 2304;"//$NON-NLS-1$
 
-						+ "sourcedata[2][0] = 10; "
-						+ "sourcedata[2][1] = \"Nola Dicci\";"
-						+ "sourcedata[2][2] = 1998;"
+						+ "sourcedata[2][0] = 10; "//$NON-NLS-1$
+						+ "sourcedata[2][1] = \"Nola Dicci\";"//$NON-NLS-1$
+						+ "sourcedata[2][2] = 1998;"//$NON-NLS-1$
 
-						+ "sourcedata[3][0] = 11; "
-						+ "sourcedata[3][1] = \"Chris Kwai\";"
-						+ "sourcedata[3][2] = 2087;"
+						+ "sourcedata[3][0] = 11; "//$NON-NLS-1$
+						+ "sourcedata[3][1] = \"Chris Kwai\";"//$NON-NLS-1$
+						+ "sourcedata[3][2] = 2087;"//$NON-NLS-1$
 
-						+ "sourcedata[4][0] = 11; "
-						+ "sourcedata[4][1] = \"Ice Bella\";"
-						+ "sourcedata[4][2] = 2502;"
+						+ "sourcedata[4][0] = 11; "//$NON-NLS-1$
+						+ "sourcedata[4][1] = \"Ice Bella\";"//$NON-NLS-1$
+						+ "sourcedata[4][2] = 2502;"//$NON-NLS-1$
 
-						+ "sourcedata[5][0] = 11; "
-						+ "sourcedata[5][1] = \"Nola Dicci\";"
-						+ "sourcedata[5][2] = 2011;");
+						+ "sourcedata[5][0] = 11; "//$NON-NLS-1$
+						+ "sourcedata[5][1] = \"Nola Dicci\";"//$NON-NLS-1$
+						+ "sourcedata[5][2] = 2011;");//$NON-NLS-1$
 
 		//Set fetch( ) in code
-		dataSetHandle.setFetch("if ( i < 6 ){"
-				+ "row[\"Month\"] = sourcedata[i][0];"
-				+ "row[\"Product\"] = sourcedata[i][1];"
-				+ "row[\"Amount\"] = sourcedata[i][2];"
-				+ "i++;"
-				+ "return true;}" + "else return false;");
+		dataSetHandle.setFetch("if ( i < 6 ){"//$NON-NLS-1$
+				+ "row[\"Month\"] = sourcedata[i][0];"//$NON-NLS-1$
+				+ "row[\"Product\"] = sourcedata[i][1];"//$NON-NLS-1$
+				+ "row[\"Amount\"] = sourcedata[i][2];"//$NON-NLS-1$
+				+ "i++;"//$NON-NLS-1$
+				+ "return true;}" + "else return false;");//$NON-NLS-1$//$NON-NLS-2$
 
 		//Set Output Columns in Data Set
 		ColumnHint ch1 = StructureFactory.createColumnHint();
-		ch1.setProperty("columnName", "Month");
+		ch1.setProperty("columnName", "Month");//$NON-NLS-1$//$NON-NLS-2$
 
 		ColumnHint ch2 = StructureFactory.createColumnHint();
-		ch2.setProperty("columnName", "Product");
+		ch2.setProperty("columnName", "Product");//$NON-NLS-1$//$NON-NLS-2$
 
 		ColumnHint ch3 = StructureFactory.createColumnHint();
-		ch3.setProperty("columnName", "Amount");
+		ch3.setProperty("columnName", "Amount");//$NON-NLS-1$//$NON-NLS-2$
 
 		PropertyHandle columnHint = dataSetHandle
 				.getPropertyHandle(ScriptDataSetHandle.COLUMN_HINTS_PROP);
@@ -171,19 +171,19 @@ public class SalesReport {
 
 		//Set Preview Results columns in Data Set
 		ResultSetColumn rs1 = StructureFactory.createResultSetColumn();
-		rs1.setColumnName("Month");
+		rs1.setColumnName("Month");//$NON-NLS-1$
 		rs1.setPosition(new Integer(1));
-		rs1.setDataType("integer");
+		rs1.setDataType("integer");//$NON-NLS-1$
 
 		ResultSetColumn rs2 = StructureFactory.createResultSetColumn();
-		rs2.setColumnName("Product");
+		rs2.setColumnName("Product");//$NON-NLS-1$
 		rs2.setPosition(new Integer(2));
-		rs2.setDataType("string");
+		rs2.setDataType("string");//$NON-NLS-1$
 
 		ResultSetColumn rs3 = StructureFactory.createResultSetColumn();
-		rs3.setColumnName("Amount");
+		rs3.setColumnName("Amount");//$NON-NLS-1$
 		rs3.setPosition(new Integer(3));
-		rs3.setDataType("integer");
+		rs3.setDataType("integer");//$NON-NLS-1$
 		
 		PropertyHandle resultSet = dataSetHandle
 				.getPropertyHandle(ScriptDataSetHandle.RESULT_SET_PROP);
@@ -196,22 +196,22 @@ public class SalesReport {
 
 	private void createMasterPages() throws ContentException, NameException {
 		DesignElementHandle simpleMasterPage = elementFactory
-				.newSimpleMasterPage("Master Page");
+				.newSimpleMasterPage("Master Page");//$NON-NLS-1$
 		reportDesignHandle.getMasterPages().add(simpleMasterPage);
 	}
 
 	private void createStyles() throws SemanticException {
-		StyleHandle labelStyle = elementFactory.newStyle("Label");
+		StyleHandle labelStyle = elementFactory.newStyle("Label");//$NON-NLS-1$
 		labelStyle.setProperty(StyleHandle.FONT_WEIGHT_PROP,
 				DesignChoiceConstants.FONT_WEIGHT_BOLD);
-		labelStyle.setProperty(StyleHandle.FONT_FAMILY_PROP, "Arial Black");
-		labelStyle.setProperty(StyleHandle.COLOR_PROP, "#008000");
+		labelStyle.setProperty(StyleHandle.FONT_FAMILY_PROP, "Arial Black");//$NON-NLS-1$
+		labelStyle.setProperty(StyleHandle.COLOR_PROP, "#008000");//$NON-NLS-1$
 		
-		StyleHandle dataStyle = elementFactory.newStyle("Data");
+		StyleHandle dataStyle = elementFactory.newStyle("Data");//$NON-NLS-1$
 		dataStyle.setProperty(StyleHandle.FONT_WEIGHT_PROP,
 				DesignChoiceConstants.FONT_WEIGHT_BOLD);
-		dataStyle.setProperty(StyleHandle.FONT_FAMILY_PROP, "Century");
-		dataStyle.setProperty(StyleHandle.COLOR_PROP, "#009B9B");
+		dataStyle.setProperty(StyleHandle.FONT_FAMILY_PROP, "Century");//$NON-NLS-1$
+		dataStyle.setProperty(StyleHandle.COLOR_PROP, "#009B9B");//$NON-NLS-1$
 
 		reportDesignHandle.getStyles().add(labelStyle);
 		reportDesignHandle.getStyles().add(dataStyle);
@@ -242,8 +242,8 @@ public class SalesReport {
 	private void createBody() throws SemanticException {
 		
 		//Grid 1
-		GridHandle grid1 = elementFactory.newGridItem("grid1", 3, 1);
-		grid1.setWidth("100%");
+		GridHandle grid1 = elementFactory.newGridItem("grid1", 3, 1);//$NON-NLS-1$
+		grid1.setWidth("100%");//$NON-NLS-1$
 		reportDesignHandle.getBody().add(grid1);
 
 		//First Grid Row
@@ -256,12 +256,12 @@ public class SalesReport {
 		try {
 		EmbeddedImage image1 = StructureFactory.createEmbeddedImage( );
 		image1.setType( DesignChoiceConstants.IMAGE_TYPE_IMAGE_JPEG );
-		image1.setData( load( "logo1.jpg" ) );
-		image1.setName( "logo1" );
+		image1.setData( load( "logo1.jpg" ) );//$NON-NLS-1$
+		image1.setName( "logo1" );//$NON-NLS-1$
 		reportDesignHandle.addImage( image1 );
-		ImageHandle imageHandle = elementFactory.newImage("handle");
+		ImageHandle imageHandle = elementFactory.newImage("handle");//$NON-NLS-1$
 		imageHandle.setSource(DesignChoiceConstants.IMAGE_REF_TYPE_EMBED);
-		imageHandle.setImageName("logo1");
+		imageHandle.setImageName("logo1");//$NON-NLS-1$
 		cell.getContent().add(imageHandle);
 		}catch (IOException e){
 			e.printStackTrace();
@@ -273,12 +273,12 @@ public class SalesReport {
 		try{
 		EmbeddedImage image2 = StructureFactory.createEmbeddedImage( );
 		image2.setType( DesignChoiceConstants.IMAGE_TYPE_IMAGE_JPEG );
-		image2.setData( load( "logo2.jpg" ) );
-		image2.setName( "logo2" );
+		image2.setData( load( "logo2.jpg" ) );//$NON-NLS-1$
+		image2.setName( "logo2" );//$NON-NLS-1$
 		reportDesignHandle.addImage( image2 );
-		ImageHandle imageHandle2 = elementFactory.newImage("imageHandle2");
+		ImageHandle imageHandle2 = elementFactory.newImage("imageHandle2");//$NON-NLS-1$
 		imageHandle2.setSource(DesignChoiceConstants.IMAGE_REF_TYPE_EMBED);
-		imageHandle2.setImageName("logo2");
+		imageHandle2.setImageName("logo2");//$NON-NLS-1$
 		cell.getContent().add(imageHandle2);
 		}catch (IOException e){
 			e.printStackTrace();
@@ -290,20 +290,20 @@ public class SalesReport {
 		try{
 		EmbeddedImage image3 = StructureFactory.createEmbeddedImage( );
 		image3.setType( DesignChoiceConstants.IMAGE_TYPE_IMAGE_JPEG );
-		image3.setData( load( "logo3.jpg" ) );
-		image3.setName( "logo3" );
+		image3.setData( load( "logo3.jpg" ) );//$NON-NLS-1$
+		image3.setName( "logo3" );//$NON-NLS-1$
 		reportDesignHandle.addImage( image3 );
-		ImageHandle imageHandle3 = elementFactory.newImage("imageHandle3");
+		ImageHandle imageHandle3 = elementFactory.newImage("imageHandle3");//$NON-NLS-1$
 		imageHandle3.setSource(DesignChoiceConstants.IMAGE_REF_TYPE_EMBED);
-		imageHandle3.setImageName("logo3");
+		imageHandle3.setImageName("logo3");//$NON-NLS-1$
 		cell.getContent().add(imageHandle3);
 		} catch (IOException e){
 			e.printStackTrace();
 		}
 
 		//Grid 2
-		GridHandle grid2 = elementFactory.newGridItem("grid2", 2, 1);
-		grid2.setWidth("100%");
+		GridHandle grid2 = elementFactory.newGridItem("grid2", 2, 1);//$NON-NLS-1$
+		grid2.setWidth("100%");//$NON-NLS-1$
 		reportDesignHandle.getBody().add(grid2);
 
 		//First Grid Row
@@ -319,13 +319,13 @@ public class SalesReport {
 		TableHandle table = elementFactory.newTableItem( null, 3, 1, 1, 1 );
 		table.setProperty( StyleHandle.TEXT_ALIGN_PROP,
 				DesignChoiceConstants.TEXT_ALIGN_CENTER );
-		table.setWidth( "80%" );
-		table.setProperty( TableHandle.DATA_SET_PROP, "Data Set" );
+		table.setWidth( "80%" );//$NON-NLS-1$
+		table.setProperty( TableHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
 		
 		//Table sorter
 		SortKey key = StructureFactory.createSortKey();
-		key.setKey("row[\"Month\"]");
-		key.setDirection("asc");
+		key.setKey("row[\"Month\"]");//$NON-NLS-1$
+		key.setDirection("asc");//$NON-NLS-1$
 		PropertyHandle sort = table.getPropertyHandle(
 				TableHandle.SORT_PROP);
 		sort.addItem(key);
@@ -335,51 +335,51 @@ public class SalesReport {
 		
 		CellHandle tcell = (CellHandle) header.getCells( ).get( 0 );
 		LabelHandle label = elementFactory.newLabel( null );
-		label.setText( "Product" );
-		label.setStyleName("Label");
+		label.setText( "Product" );//$NON-NLS-1$
+		label.setStyleName("Label");//$NON-NLS-1$
 		tcell.getContent( ).add( label );
 		
 		tcell = (CellHandle) header.getCells( ).get( 1 );
 		label = elementFactory.newLabel( null );
-		label.setText( "Month" );
-		label.setStyleName("Label");
+		label.setText( "Month" );//$NON-NLS-1$
+		label.setStyleName("Label");//$NON-NLS-1$
 		tcell.getContent( ).add( label );
 		
 		tcell = (CellHandle) header.getCells( ).get( 2 );
 		label = elementFactory.newLabel( null );
-		label.setText( "Amount" );
-		label.setStyleName("Label");
+		label.setText( "Amount" );//$NON-NLS-1$
+		label.setStyleName("Label");//$NON-NLS-1$
 		tcell.getContent( ).add( label );
 		
 		//Table Group
 		TableGroupHandle group = elementFactory.newTableGroup();
-		group.setKeyExpr("row[\"Product\"]");
+		group.setKeyExpr("row[\"Product\"]");//$NON-NLS-1$
 		table.getGroups().add(group);		
 		
 		RowHandle groupHeader= elementFactory.newTableRow(3);
 		tcell = (CellHandle) groupHeader.getCells().get(0);
 		tcell.setDrop(DesignChoiceConstants.DROP_TYPE_DETAIL);
 		DataItemHandle data = elementFactory.newDataItem( null );
-		data.setStyleName("Data");
-		data.setValueExpr( "row[\"Product\"]" );
+		data.setStyleName("Data");//$NON-NLS-1$
+		data.setValueExpr( "row[\"Product\"]" );//$NON-NLS-1$
 		tcell.getContent( ).add( data );
 		group.getHeader().add(groupHeader);
 		
 		RowHandle groupFooter = elementFactory.newTableRow(3);
 		tcell = (CellHandle) groupFooter.getCells().get(0);
-		tcell.setProperty(StyleHandle.BORDER_BOTTOM_COLOR_PROP, "#FF8000");
+		tcell.setProperty(StyleHandle.BORDER_BOTTOM_COLOR_PROP, "#FF8000");//$NON-NLS-1$
 		tcell.setProperty(StyleHandle.BORDER_BOTTOM_STYLE_PROP,
 				DesignChoiceConstants.LINE_STYLE_SOLID);
 		tcell.setProperty( StyleHandle.BORDER_BOTTOM_WIDTH_PROP,
 				DesignChoiceConstants.LINE_WIDTH_THIN);	
 		tcell = (CellHandle) groupFooter.getCells().get(1);
-		tcell.setProperty(StyleHandle.BORDER_BOTTOM_COLOR_PROP, "#FF8000");
+		tcell.setProperty(StyleHandle.BORDER_BOTTOM_COLOR_PROP, "#FF8000");//$NON-NLS-1$
 		tcell.setProperty(StyleHandle.BORDER_BOTTOM_STYLE_PROP,
 				DesignChoiceConstants.LINE_STYLE_SOLID);
 		tcell.setProperty( StyleHandle.BORDER_BOTTOM_WIDTH_PROP,
 				DesignChoiceConstants.LINE_WIDTH_THIN);
 		tcell = (CellHandle) groupFooter.getCells().get(2);
-		tcell.setProperty(StyleHandle.BORDER_BOTTOM_COLOR_PROP, "#FF8000");
+		tcell.setProperty(StyleHandle.BORDER_BOTTOM_COLOR_PROP, "#FF8000");//$NON-NLS-1$
 		tcell.setProperty(StyleHandle.BORDER_BOTTOM_STYLE_PROP,
 				DesignChoiceConstants.LINE_STYLE_SOLID);
 		tcell.setProperty( StyleHandle.BORDER_BOTTOM_WIDTH_PROP,
@@ -390,14 +390,14 @@ public class SalesReport {
 		RowHandle detail= (RowHandle) table.getDetail( ).get( 0 );
 		tcell = (CellHandle) detail.getCells().get(1);
 		data = elementFactory.newDataItem( null );
-		data.setStyleName("Data");
-		data.setValueExpr( "row[\"Month\"]" );
+		data.setStyleName("Data");//$NON-NLS-1$
+		data.setValueExpr( "row[\"Month\"]" );//$NON-NLS-1$
 		tcell.getContent( ).add( data );
 		
 		tcell = (CellHandle) detail.getCells().get(2);
 		data = elementFactory.newDataItem( null );
-		data.setStyleName("Data");
-		data.setValueExpr( "row[\"Amount\"]" );
+		data.setStyleName("Data");//$NON-NLS-1$
+		data.setValueExpr( "row[\"Amount\"]" );//$NON-NLS-1$
 		tcell.getContent( ).add( data );		
 		
 		cell.getContent().add(table);
@@ -409,19 +409,19 @@ public class SalesReport {
 	}
 
 	private ExtendedItemHandle createPieChart() {
-		ExtendedItemHandle eih = elementFactory.newExtendedItem(null, "Chart");
+		ExtendedItemHandle eih = elementFactory.newExtendedItem(null, "Chart");//$NON-NLS-1$
 
 		try {
-			eih.setHeight("288pt");
-			eih.setWidth("252pt");
-			eih.setProperty(ExtendedItemHandle.DATA_SET_PROP, "Data Set");
+			eih.setHeight("288pt");//$NON-NLS-1$
+			eih.setWidth("252pt");//$NON-NLS-1$
+			eih.setProperty(ExtendedItemHandle.DATA_SET_PROP, "Data Set");//$NON-NLS-1$
 		} catch (SemanticException e) {
 			e.printStackTrace();
 		}
 
 		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create();
-		cwoaPie.setType("Pie Chart");
-		cwoaPie.setSubType("Standard Pie Chart");
+		cwoaPie.setType("Pie Chart");//$NON-NLS-1$
+		cwoaPie.setSubType("Standard Pie Chart");//$NON-NLS-1$
 		cwoaPie.getTitle().setVisible(false);
 		cwoaPie.getBlock().setBounds(BoundsImpl.create(0, 0, 252, 288));
 		cwoaPie.getBlock().getOutline().setVisible(true);
@@ -439,19 +439,19 @@ public class SalesReport {
 
 		SampleData sd = DataFactory.eINSTANCE.createSampleData();
 		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
-		sdBase.setDataSetRepresentation("Category-A, Category-B");
+		sdBase.setDataSetRepresentation("Category-A, Category-B");//$NON-NLS-1$//$NON-NLS-2$
 		sd.getBaseSampleData().add(sdBase);
 
 		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE
 				.createOrthogonalSampleData();
-		sdOrthogonal.setDataSetRepresentation("4,12");
+		sdOrthogonal.setDataSetRepresentation("4,12");//$NON-NLS-1$
 		sdOrthogonal.setSeriesDefinitionIndex(0);
 		sd.getOrthogonalSampleData().add(sdOrthogonal);
 
 		cwoaPie.setSampleData(sd);
 
 		Series seCategory = SeriesImpl.create();
-		Query query = QueryImpl.create("row[\"Product\"]");
+		Query query = QueryImpl.create("row[\"Product\"]");//$NON-NLS-1$
 		seCategory.getDataDefinition().add(query);
 		
 		SeriesDefinition series = SeriesDefinitionImpl.create();
@@ -459,18 +459,18 @@ public class SalesReport {
 		cwoaPie.getSeriesDefinitions().add(series);
 		
 		PieSeries ps = (PieSeries) PieSeriesImpl.create();
-		Query query2 = QueryImpl.create("row[\"Amount\"]");
+		Query query2 = QueryImpl.create("row[\"Amount\"]");//$NON-NLS-1$
 		ps.getDataDefinition().add(query2);
 
 		SeriesDefinition seGroup = SeriesDefinitionImpl.create();
-		Query query1 = QueryImpl.create("row[\"Month\"]");
+		Query query1 = QueryImpl.create("row[\"Month\"]");//$NON-NLS-1$
 		seGroup.setQuery(query1);
 		series.getSeriesPalette().update(-2);
 		series.getSeriesDefinitions().add(seGroup);	
 		seGroup.getSeries().add(ps);
 		
 		DataPointComponent dpc = DataPointComponentImpl.create( DataPointComponentType.ORTHOGONAL_VALUE_LITERAL,
-				JavaNumberFormatSpecifierImpl.create("###,###") );
+				JavaNumberFormatSpecifierImpl.create("###,###") );//$NON-NLS-1$
 		ps.getDataPoint().getComponents().clear();
 		ps.getDataPoint().getComponents().add(dpc);
 		ps.getLabel().setVisible(true);
@@ -480,7 +480,7 @@ public class SalesReport {
 			//Add ChartReportItemImpl to ExtendedItemHandle
 			crii = (ChartReportItemImpl) eih.getReportItem();
 			//Add chart instance to ChartReportItemImpl
-			crii.setProperty("chart.instance", cwoaPie);
+			crii.setProperty("chart.instance", cwoaPie);//$NON-NLS-1$
 		} catch (ExtendedElementException e) {
 			e.printStackTrace();
 		}

@@ -89,8 +89,8 @@ public final class SwingChartViewerSelector extends JPanel implements
 		jf.setLocation((dScreen.width - dApp.width) / 2,
 				(dScreen.height - dApp.height) / 2);
 
-		jf.setTitle(scv.getClass().getName() + " [device="
-				+ scv.idr.getClass().getName() + "]");
+		jf.setTitle(scv.getClass().getName() + " [device=" //$NON-NLS-1$
+				+ scv.idr.getClass().getName() + "]");//$NON-NLS-1$
 
 		ControlPanel cp = scv.new ControlPanel(scv);
 		co.add(cp, BorderLayout.SOUTH);
@@ -104,7 +104,7 @@ public final class SwingChartViewerSelector extends JPanel implements
 	SwingChartViewerSelector() {
 		final PluginSettings ps = PluginSettings.instance();
 		try {
-			idr = ps.getDevice("dv.SWING");
+			idr = ps.getDevice("dv.SWING");//$NON-NLS-1$
 		} catch (ChartException ex) {
 			ex.printStackTrace();
 		}
@@ -203,13 +203,13 @@ public final class SwingChartViewerSelector extends JPanel implements
 		}
 
 		if (sMessage == null) {
-			sMessage = "<null>";
+			sMessage = "<null>";//$NON-NLS-1$
 		}
 
 		StackTraceElement[] stea = ex.getStackTrace();
 		Dimension d = getSize();
 
-		Font fo = new Font("Monospaced", Font.BOLD, 14);
+		Font fo = new Font("Monospaced", Font.BOLD, 14);//$NON-NLS-1$
 		g2d.setFont(fo);
 		FontMetrics fm = g2d.getFontMetrics();
 		g2d.setColor(Color.WHITE);
@@ -218,16 +218,16 @@ public final class SwingChartViewerSelector extends JPanel implements
 		g2d.drawRect(20, 20, d.width - 40, d.height - 40);
 		g2d.setClip(20, 20, d.width - 40, d.height - 40);
 		int x = 25, y = 20 + fm.getHeight();
-		g2d.drawString("Exception:", x, y);
-		x += fm.stringWidth("Exception:") + 5;
+		g2d.drawString("Exception:", x, y);//$NON-NLS-1$
+		x += fm.stringWidth("Exception:") + 5;//$NON-NLS-1$
 		g2d.setColor(Color.RED);
 		g2d.drawString(sException, x, y);
 		x = 25;
 		y += fm.getHeight();
 		if (sWrappedException != null) {
 			g2d.setColor(Color.BLACK);
-			g2d.drawString("Wrapped In:", x, y);
-			x += fm.stringWidth("Wrapped In:") + 5;
+			g2d.drawString("Wrapped In:", x, y);//$NON-NLS-1$
+			x += fm.stringWidth("Wrapped In:") + 5;//$NON-NLS-1$
 			g2d.setColor(Color.RED);
 			g2d.drawString(sWrappedException, x, y);
 			x = 25;
@@ -235,21 +235,21 @@ public final class SwingChartViewerSelector extends JPanel implements
 		}
 		g2d.setColor(Color.BLACK);
 		y += 10;
-		g2d.drawString("Message:", x, y);
-		x += fm.stringWidth("Message:") + 5;
+		g2d.drawString("Message:", x, y);//$NON-NLS-1$
+		x += fm.stringWidth("Message:") + 5;//$NON-NLS-1$
 		g2d.setColor(Color.BLUE);
 		g2d.drawString(sMessage, x, y);
 		x = 25;
 		y += fm.getHeight();
 		g2d.setColor(Color.BLACK);
 		y += 10;
-		g2d.drawString("Trace:", x, y);
+		g2d.drawString("Trace:", x, y);//$NON-NLS-1$
 		x = 40;
 		y += fm.getHeight();
 		g2d.setColor(Color.GREEN.darker());
 		for (int i = 0; i < stea.length; i++) {
-			g2d.drawString(stea[i].getClassName() + ":"
-					+ stea[i].getMethodName() + "(...):"
+			g2d.drawString(stea[i].getClassName() + ":"//$NON-NLS-1$
+					+ stea[i].getMethodName() + "(...):"//$NON-NLS-1$
 					+ stea[i].getLineNumber(), x, y);
 			x = 40;
 			y += fm.getHeight();
@@ -313,37 +313,37 @@ public final class SwingChartViewerSelector extends JPanel implements
 			JPanel jp1 = new JPanel();
 			jp1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
-			jp1.add(new JLabel("Choose:"));
+			jp1.add(new JLabel("Choose:"));//$NON-NLS-1$
 			jcbModels = new JComboBox();
 
-			jcbModels.addItem("Bar Chart");
-			jcbModels.addItem("Bar Chart(2 Series)");
-			jcbModels.addItem("Pie Chart");
-			jcbModels.addItem("Pie Chart(4 Series)");
-			jcbModels.addItem("Line Chart");
-			jcbModels.addItem("Bar/Line Stacked Chart");
-			jcbModels.addItem("Scatter Chart");
-			jcbModels.addItem("Stock Chart");
-			jcbModels.addItem("Area Chart");
+			jcbModels.addItem("Bar Chart");//$NON-NLS-1$
+			jcbModels.addItem("Bar Chart(2 Series)");//$NON-NLS-1$
+			jcbModels.addItem("Pie Chart");//$NON-NLS-1$
+			jcbModels.addItem("Pie Chart(4 Series)");//$NON-NLS-1$
+			jcbModels.addItem("Line Chart");//$NON-NLS-1$
+			jcbModels.addItem("Bar/Line Stacked Chart");//$NON-NLS-1$
+			jcbModels.addItem("Scatter Chart");//$NON-NLS-1$
+			jcbModels.addItem("Stock Chart");//$NON-NLS-1$
+			jcbModels.addItem("Area Chart");//$NON-NLS-1$
 
 			jcbModels.setSelectedIndex(0);
 			jp1.add(jcbModels);
 
 			jcbDimensions = new JComboBox();
-			jcbDimensions.addItem("2D");
-			jcbDimensions.addItem("2D with Depth");
+			jcbDimensions.addItem("2D");//$NON-NLS-1$
+			jcbDimensions.addItem("2D with Depth");//$NON-NLS-1$
 			jp1.add(jcbDimensions);
 
-			jcbTransposed = new JCheckBox("Transposed", false);
+			jcbTransposed = new JCheckBox("Transposed", false);//$NON-NLS-1$
 			jp1.add(jcbTransposed);
 
-			jcbPercent = new JCheckBox("Percent", false);
+			jcbPercent = new JCheckBox("Percent", false);//$NON-NLS-1$
 			jp1.add(jcbPercent);
 
-			jcbLogarithmic = new JCheckBox("Logarithmic", false);
+			jcbLogarithmic = new JCheckBox("Logarithmic", false);//$NON-NLS-1$
 			jp1.add(jcbLogarithmic);
 
-			jbUpdate = new JButton("Update");
+			jbUpdate = new JButton("Update");//$NON-NLS-1$
 			jbUpdate.addActionListener(this);
 			jp1.add(jbUpdate);
 
@@ -446,7 +446,7 @@ public final class SwingChartViewerSelector extends JPanel implements
 
 				if (jcbPercent.isSelected() == true) {
 					ax.setFormatSpecifier(JavaNumberFormatSpecifierImpl
-							.create("0'%'"));
+							.create("0'%'"));//$NON-NLS-1$
 				} else {
 					ax.setFormatSpecifier(null);
 				}

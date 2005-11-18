@@ -56,10 +56,10 @@ public class GroupOnYAxis {
 		SessionHandle sessionHandle = DesignEngine.newSession( null );
 		ReportDesignHandle designHandle = null;
 		
-		String path = "src/org/eclipse/birt/chart/examples/api/data/";
+		String path = "src/org/eclipse/birt/chart/examples/api/data/";//$NON-NLS-1$
 		
 	    try {
-	        designHandle = sessionHandle.openDesign(path + "NonGroupOnYAxis.rptdesign");
+	        designHandle = sessionHandle.openDesign(path + "NonGroupOnYAxis.rptdesign");//$NON-NLS-1$
 	    } catch (DesignFileException e) {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();
@@ -75,16 +75,16 @@ public class GroupOnYAxis {
 	        e.printStackTrace();
 	    }
 	    
-	    Chart cm = (Chart) crii.getProperty( "chart.instance" ); 
+	    Chart cm = (Chart) crii.getProperty( "chart.instance" ); //$NON-NLS-1$
 	    
-	    cm.getTitle().getLabel().getCaption().setValue("Group On Y Axis");
+	    cm.getTitle().getLabel().getCaption().setValue("Group On Y Axis");//$NON-NLS-1$
 
 	    Axis axisBase = (Axis) ( (ChartWithAxes) cm ).getAxes( ).get( 0 ); // X-Axis
 	    Axis axisOrth = (Axis) axisBase.getAssociatedAxes( ).get( 0 ); //Y-Axis	    
 	    SeriesDefinition sdY = (SeriesDefinition) axisOrth.getSeriesDefinitions().get(0); //Y-Series
 	    
 	    SeriesDefinition sdGroup = SeriesDefinitionImpl.create();
-	    Query query = QueryImpl.create("row[\"Month\"]");
+	    Query query = QueryImpl.create("row[\"Month\"]");//$NON-NLS-1$
 		sdGroup.setQuery(query);
 		
 		axisOrth.getSeriesDefinitions().clear(); // Clear the original Y-Series (sdY)
@@ -92,7 +92,7 @@ public class GroupOnYAxis {
 		sdGroup.getSeries().add(sdY.getSeries().get(0));
 		
 		try{
-		designHandle.saveAs(path + "GroupOnYAxis.rptdesign");
+		designHandle.saveAs(path + "GroupOnYAxis.rptdesign");//$NON-NLS-1$
 		}catch (IOException e){
 			e.printStackTrace();
 		}

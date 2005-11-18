@@ -52,10 +52,10 @@ public class GroupOnXSeries {
 		SessionHandle sessionHandle = DesignEngine.newSession( null );
 		ReportDesignHandle designHandle = null;
 		
-		String path = "src/org/eclipse/birt/chart/examples/api/data/";
+		String path = "src/org/eclipse/birt/chart/examples/api/data/";//$NON-NLS-1$
 		
 	    try {
-	        designHandle = sessionHandle.openDesign(path + "NonGroupOnXSeries.rptdesign");
+	        designHandle = sessionHandle.openDesign(path + "NonGroupOnXSeries.rptdesign");//$NON-NLS-1$
 	    } catch (DesignFileException e) {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();
@@ -71,21 +71,21 @@ public class GroupOnXSeries {
 	        e.printStackTrace();
 	    }
 	    
-	    Chart cm = (Chart) crii.getProperty( "chart.instance" ); 
+	    Chart cm = (Chart) crii.getProperty( "chart.instance" ); //$NON-NLS-1$
 	    
-	    cm.getTitle().getLabel().getCaption().setValue("Group On X Series");
+	    cm.getTitle().getLabel().getCaption().setValue("Group On X Series");//$NON-NLS-1$
 		
 	    SeriesDefinition sdX = (SeriesDefinition) ( (Axis) ( (ChartWithAxes) cm).getAxes( )
 				.get( 0 ) ).getSeriesDefinitions( ).get( 0 );
 
 		sdX.setSorting(SortOption.ASCENDING_LITERAL);
 		sdX.getGrouping().setEnabled(true);
-		sdX.getGrouping().setAggregateExpression("Sum");
+		sdX.getGrouping().setAggregateExpression("Sum");//$NON-NLS-1$
 		sdX.getGrouping().setGroupType(DataType.NUMERIC_LITERAL);
 		sdX.getGrouping().setGroupingInterval(1);
 		
 		try{
-		designHandle.saveAs(path + "GroupOnXSeries.rptdesign");
+		designHandle.saveAs(path + "GroupOnXSeries.rptdesign");//$NON-NLS-1$
 		}catch (IOException e){
 			e.printStackTrace();
 		}
