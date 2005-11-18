@@ -440,7 +440,7 @@ public class TaskFormatChart extends TreeCompoundTask
 
 	public void changeTask( Notification notification )
 	{
-		if ( cmpTask != null )
+		if ( previewPainter != null )
 		{
 			previewPainter.renderModel( getCurrentModelState( ) );
 		}
@@ -561,7 +561,10 @@ public class TaskFormatChart extends TreeCompoundTask
 		super.widgetDisposed( e );
 		cmpTask = null;
 		previewCanvas = null;
-		previewPainter.dispose( );
+		if ( previewPainter != null )
+		{
+			previewPainter.dispose( );
+		}
 		previewPainter = null;
 		if ( whiteColor != null && !whiteColor.isDisposed( ) )
 		{

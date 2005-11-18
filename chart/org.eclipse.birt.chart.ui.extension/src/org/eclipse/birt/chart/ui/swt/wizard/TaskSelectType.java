@@ -270,7 +270,6 @@ public class TaskSelectType extends SimpleTask
 		cbSeriesType = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
 			GridData gd = new GridData( GridData.GRAB_HORIZONTAL );
-			gd.widthHint = 80;
 			cbSeriesType.setLayoutData( gd );
 			cbSeriesType.setEnabled( false );
 			cbSeriesType.addSelectionListener( this );
@@ -283,7 +282,6 @@ public class TaskSelectType extends SimpleTask
 		cbDimension = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
 		gridData = new GridData( GridData.GRAB_HORIZONTAL );
 		gridData.horizontalSpan = 3;
-		gridData.widthHint = 70;
 		cbDimension.setLayoutData( gridData );
 		cbDimension.addSelectionListener( this );
 
@@ -294,7 +292,6 @@ public class TaskSelectType extends SimpleTask
 		cbOutput = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
 		gridData = new GridData( GridData.GRAB_HORIZONTAL );
 		gridData.horizontalSpan = 3;
-		gridData.widthHint = 70;
 		cbOutput.setLayoutData( gridData );
 		cbOutput.addSelectionListener( this );
 
@@ -1156,7 +1153,7 @@ public class TaskSelectType extends SimpleTask
 
 	public void changeTask( Notification notification )
 	{
-		if ( cmpTask != null )
+		if ( previewPainter != null )
 		{
 			previewPainter.renderModel( chartModel );
 		}

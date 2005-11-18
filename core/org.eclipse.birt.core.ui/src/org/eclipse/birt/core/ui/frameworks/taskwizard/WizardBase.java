@@ -694,9 +694,11 @@ class TaskList extends Composite implements DisposeListener
 	private void addButton( )
 	{
 		Button btnTask = new Button( this, SWT.FLAT | SWT.NO_FOCUS );
-		btnTask.setText( (String) vTasks.get( vTasks.size( ) - 1 ) );
+		String taskText = (String) vTasks.get( vTasks.size( ) - 1 );
+		btnTask.setText( taskText );
 		btnTask.addSelectionListener( wb );
-		btnTask.setLayoutData( new RowData( 100, 30 ) );
+		btnTask.setLayoutData( new RowData( taskText.length( ) > 15
+				? SWT.DEFAULT : 100, 30 ) );
 	}
 
 	private void placeComponents( )

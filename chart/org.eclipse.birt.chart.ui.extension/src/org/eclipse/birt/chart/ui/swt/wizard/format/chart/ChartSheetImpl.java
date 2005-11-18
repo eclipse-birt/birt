@@ -12,8 +12,10 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 import java.util.List;
 
 import org.eclipse.birt.chart.model.attribute.Fill;
-import org.eclipse.birt.chart.model.attribute.LegendItemType;
+import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
+import org.eclipse.birt.chart.model.attribute.LegendItemType;
+import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
@@ -42,9 +44,10 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class ChartSheetImpl extends SubtaskSheetImpl implements
-		SelectionListener,
-		Listener
+public class ChartSheetImpl extends SubtaskSheetImpl
+		implements
+			SelectionListener,
+			Listener
 {
 
 	private transient Composite cmpContent = null;
@@ -58,7 +61,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 	private transient Button btnBlockProp;
 
 	private transient Button btnGeneralProp;
-	
+
 	private transient Button btnTVisible;
 
 	private transient Button btnVisible;
@@ -80,6 +83,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 	 */
 	public void getComponent( Composite parent )
 	{
+		init( );
+
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
 			GridLayout glContent = new GridLayout( 3, true );
@@ -119,12 +124,11 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			txtTitle.setEnabled( getChart( ).getTitle( ).isVisible( ) );
 			txtTitle.addListener( this );
 		}
-		
+
 		btnTVisible = new Button( cmpBasic, SWT.CHECK );
 		{
 			btnTVisible.setText( Messages.getString( "ChartSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
-			btnTVisible.setSelection( getChart( ).getTitle( )
-					.isVisible( ) );
+			btnTVisible.setSelection( getChart( ).getTitle( ).isVisible( ) );
 			btnTVisible.addSelectionListener( this );
 		}
 
@@ -229,6 +233,18 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		populateLists( );
 
 		createButtonGroup( cmpContent );
+	}
+
+	private void init( )
+	{
+		// Make it compatible with old model
+		if ( getChart( ).getInteractivity( ) == null )
+		{
+			Interactivity interactivity = InteractivityImpl.create( );
+			interactivity.eAdapters( ).addAll( getChart( ).eAdapters( ) );
+			getChart( ).setInteractivity( interactivity );
+		}
+
 	}
 
 	private void populateLists( )
@@ -362,14 +378,13 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		}
 		else if ( e.widget.equals( btnTVisible ) )
 		{
-			getChart( ).getTitle( )
-					.setVisible( btnTVisible.getSelection( ) );
+			getChart( ).getTitle( ).setVisible( btnTVisible.getSelection( ) );
 			txtTitle.setEnabled( btnTVisible.getSelection( ) );
 			btnTitleProp.setEnabled( btnTVisible.getSelection( ) );
-			
-			if( btnTitleProp.getSelection( ) )
+
+			if ( btnTitleProp.getSelection( ) )
 			{
-				detachPopup( );			
+				detachPopup( );
 			}
 		}
 		else if ( e.widget.equals( cmbColorBy ) )
@@ -395,13 +410,14 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		}
 		else if ( e.widget.equals( btnEnable ) )
 		{
-			getChart( ).getInteractivity( ).setEnable( btnEnable.getSelection( ) );
+			getChart( ).getInteractivity( )
+					.setEnable( btnEnable.getSelection( ) );
 			cmbInteractivity.setEnabled( btnEnable.getSelection( ) );
 		}
 		else if ( e.widget.equals( cmbInteractivity ) )
 		{
 			getChart( ).getInteractivity( )
-					.setLegendBehavior( LegendBehaviorType.get( LiteralHelper.legendBehaviorTypeSet.getNameByDisplayName( cmbInteractivity.getText( ) ) )  );
+					.setLegendBehavior( LegendBehaviorType.get( LiteralHelper.legendBehaviorTypeSet.getNameByDisplayName( cmbInteractivity.getText( ) ) ) );
 		}
 
 	}
