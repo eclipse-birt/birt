@@ -134,19 +134,19 @@
    
    <extension
          point="org.eclipse.birt.core.ui.tasks">
-      <tasks
+      <task
             classDefinition="org.eclipse.birt.chart.ui.swt.wizard.TaskSelectType"
             taskID="org.eclipse.birt.chart.ui.swt.wizard.TaskSelectType"/>
-      <tasks
+      <task
             classDefinition="org.eclipse.birt.chart.ui.swt.wizard.TaskSelectData"
             taskID="org.eclipse.birt.chart.ui.swt.wizard.TaskSelectData"/>
-      <tasks
+      <task
             classDefinition="org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart"
             taskID="org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart"/>            
    </extension>
    <extension
          point="org.eclipse.birt.core.ui.taskWizards">
-      <taskWizards
+      <taskWizard
             wizardID="org.eclipse.birt.chart.ui.ChartWizard"
             tasklist="org.eclipse.birt.chart.ui.swt.wizard.TaskSelectType,org.eclipse.birt.chart.ui.swt.wizard.TaskSelectData,org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart"/>
    </extension>   

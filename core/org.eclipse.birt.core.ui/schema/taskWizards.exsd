@@ -13,7 +13,7 @@
    <element name="extension">
       <complexType>
          <sequence>
-            <element ref="taskWizards" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="taskWizard" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -39,7 +39,7 @@
       </complexType>
    </element>
 
-   <element name="taskWizards">
+   <element name="taskWizard">
       <annotation>
          <documentation>
             A representation of a task-oriented Wizard. This representation is intended for extending the tasks available in the wizard on initialization without modifying invocation code.

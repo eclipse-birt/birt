@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.birt.core.ui">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.birt.core.ui" id="wizardTask" name="Task to be used in a Task-oriented Wizard"/>
+         <meta.schema plugin="org.eclipse.birt.core.ui" id="tasks" name="Task to be used in a Task-oriented Wizard"/>
       </appInfo>
       <documentation>
          [Enter description of this extension point.]
@@ -13,7 +13,7 @@
    <element name="extension">
       <complexType>
          <sequence>
-            <element ref="tasks" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="task" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -39,7 +39,7 @@
       </complexType>
    </element>
 
-   <element name="tasks">
+   <element name="task">
       <annotation>
          <documentation>
             The UI provider class associated with a task for a Task-oriented Wizard.
