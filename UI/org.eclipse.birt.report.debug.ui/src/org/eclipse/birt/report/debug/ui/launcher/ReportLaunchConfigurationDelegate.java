@@ -39,9 +39,7 @@ import org.eclipse.jdt.launching.VMRunnerConfiguration;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.internal.core.ExternalModelManager;
 import org.eclipse.pde.internal.core.PDECore;
-import org.eclipse.pde.internal.core.TargetPlatform;
 import org.eclipse.pde.internal.ui.PDEPlugin;
-import org.eclipse.pde.internal.ui.build.ClasspathHelper;
 import org.eclipse.pde.internal.ui.launcher.LauncherUtils;
 
 /**

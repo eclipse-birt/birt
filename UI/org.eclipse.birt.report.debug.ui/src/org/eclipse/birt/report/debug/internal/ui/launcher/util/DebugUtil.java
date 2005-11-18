@@ -263,7 +263,7 @@ public class DebugUtil
 		Properties properties = new Properties( );
 		WorkspaceModelManager manager = PDECore.getDefault( )
 				.getWorkspaceModelManager( );
-		IPluginModelBase[] models = manager.getAllModels( );
+		IPluginModelBase[] models = getAllModels(manager );
 		for ( int i = 0; i < models.length; i++ )
 		{
 			String id = models[i].getPluginBase( ).getId( );
@@ -289,12 +289,23 @@ public class DebugUtil
 		}
 		return getDevEntries( checkExcluded );
 	}
-
+	private static IPluginModelBase[] getAllModels(WorkspaceModelManager manager)
+	{
+		try
+		{
+			Method method = WorkspaceModelManager.class.getDeclaredMethod("getAllModels", new Class[]{});
+			return (IPluginModelBase[])method.invoke(manager, new Object[]{});
+		}
+		catch ( Exception e )
+		{
+		}
+		return null;
+	}
 	public static String getDevEntries( boolean checkExcluded )
 	{
 		WorkspaceModelManager manager = PDECore.getDefault( )
 				.getWorkspaceModelManager( );
-		IPluginModelBase[] models = manager.getAllModels( );
+		IPluginModelBase[] models = getAllModels(manager );
 		ArrayList list = new ArrayList( );
 		for ( int i = 0; i < models.length; i++ )
 		{
@@ -403,4 +414,6 @@ public class DebugUtil
 		if ( !result.contains( path ) )
 			result.add( path );
 	}
+	
+	
 }
