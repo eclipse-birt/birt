@@ -11,19 +11,37 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.MissingResourceException;
+import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.StringTokenizer;
+import java.util.TreeMap;
 
 import org.eclipse.core.internal.resources.ProjectDescriptionReader;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.pde.core.plugin.IPluginModelBase;
+import org.eclipse.pde.internal.core.PDECore;
+import org.eclipse.pde.internal.core.TargetPlatform;
+import org.eclipse.pde.internal.core.WorkspaceModelManager;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.launcher.LaunchListener;
 
@@ -171,25 +189,218 @@ public class DebugUtil
 					new Class[]{} );
 			return (LaunchListener) ( method.invoke( in, new Object[]{} ) );
 		}
-		catch (Exception e )
+		catch ( Exception e )
 		{
-			if (method == null)
+			if ( method == null )
 			{
 				try
 				{
-					method = PDEPlugin.class.getDeclaredMethod("getLaunchListener", new Class[]{});
-					return (LaunchListener) ( method.invoke( in, new Object[]{} ) );
+					method = PDEPlugin.class.getDeclaredMethod(
+							"getLaunchListener", new Class[]{} );
+					return (LaunchListener) ( method
+							.invoke( in, new Object[]{} ) );
 				}
 				catch ( Exception e1 )
 				{
-				
+
 				}
-				
+
 			}
 
 		}
 
-
 		return null;
+	}
+
+	public static void runCreatePlatformConfigurationArea( TreeMap pluginMap,
+			File configDir, String primaryFeatureId, HashMap autoStartPlugins )
+	{
+		Method method = null;
+		try
+		{
+			method = TargetPlatform.class.getDeclaredMethod(
+					"createPlatformConfigurationArea", new Class[]{
+							TreeMap.class, File.class, String.class,
+							HashMap.class} );
+			method.invoke( TargetPlatform.class, new Object[]{pluginMap,
+					configDir, primaryFeatureId, autoStartPlugins} );
+			return;
+		}
+		catch ( Exception e )
+		{
+			method = null;
+		}
+
+		if ( method == null )
+		{
+			try
+			{
+				method = TargetPlatform.class.getDeclaredMethod(
+						"createPlatformConfigurationArea", new Class[]{
+								TreeMap.class, File.class, String.class} );
+				method.invoke( TargetPlatform.class, new Object[]{pluginMap,
+						configDir, primaryFeatureId} );
+			}
+			catch ( Exception e )
+			{
+			}
+		}
+	}
+
+	public static String getDevEntriesProperties( String fileName,
+			boolean checkExcluded )
+	{
+		File file = new File( fileName );
+		if ( !file.exists( ) )
+		{
+			File directory = file.getParentFile( );
+			if ( directory != null
+					&& ( !directory.exists( ) || directory.isFile( ) ) )
+			{
+				directory.mkdirs( );
+			}
+		}
+		Properties properties = new Properties( );
+		WorkspaceModelManager manager = PDECore.getDefault( )
+				.getWorkspaceModelManager( );
+		IPluginModelBase[] models = manager.getAllModels( );
+		for ( int i = 0; i < models.length; i++ )
+		{
+			String id = models[i].getPluginBase( ).getId( );
+			if ( id == null )
+				continue;
+			String entry = writeEntry( getOutputFolders( models[i],
+					checkExcluded ) );
+			if ( entry.length( ) > 0 )
+				properties.put( id, entry );
+		}
+
+		try
+		{
+			FileOutputStream stream = new FileOutputStream( fileName );
+			properties.store( stream, "" ); //$NON-NLS-1$
+			stream.flush( );
+			stream.close( );
+			return new URL( "file:" + fileName ).toString( ); //$NON-NLS-1$
+		}
+		catch ( IOException e )
+		{
+			PDECore.logException( e );
+		}
+		return getDevEntries( checkExcluded );
+	}
+
+	public static String getDevEntries( boolean checkExcluded )
+	{
+		WorkspaceModelManager manager = PDECore.getDefault( )
+				.getWorkspaceModelManager( );
+		IPluginModelBase[] models = manager.getAllModels( );
+		ArrayList list = new ArrayList( );
+		for ( int i = 0; i < models.length; i++ )
+		{
+			String id = models[i].getPluginBase( ).getId( );
+			if ( id == null || id.trim( ).length( ) == 0 )
+				continue;
+			IPath[] paths = getOutputFolders( models[i], checkExcluded );
+			for ( int j = 0; j < paths.length; j++ )
+			{
+				list.add( paths[j] );
+			}
+		}
+		String entry = writeEntry( (IPath[]) list.toArray( new IPath[list
+				.size( )] ) );
+		return entry.length( ) > 0 ? entry : "bin"; //$NON-NLS-1$
+	}
+
+	private static IPath[] getOutputFolders( IPluginModelBase model,
+			boolean checkExcluded )
+	{
+		ArrayList result = new ArrayList( );
+		IProject project = model.getUnderlyingResource( ).getProject( );
+		try
+		{
+			if ( project.hasNature( JavaCore.NATURE_ID ) )
+			{
+				IJavaProject jProject = JavaCore.create( project );
+
+				List excluded = getFoldersToExclude( project, checkExcluded );
+				IPath path = jProject.getOutputLocation( );
+				if ( path != null && !excluded.contains( path ) )
+					addPath( result, project, path );
+
+				IClasspathEntry[] entries = jProject.getRawClasspath( );
+				for ( int i = 0; i < entries.length; i++ )
+				{
+					if ( entries[i].getContentKind( ) == IPackageFragmentRoot.K_SOURCE
+							&& entries[i].getEntryKind( ) == IClasspathEntry.CPE_SOURCE )
+					{
+						path = entries[i].getOutputLocation( );
+						if ( path != null && !excluded.contains( path ) )
+							addPath( result, project, path );
+					}
+				}
+			}
+		}
+		catch ( JavaModelException e )
+		{
+		}
+		catch ( CoreException e )
+		{
+		}
+		return (IPath[]) result.toArray( new IPath[result.size( )] );
+	}
+
+	private static List getFoldersToExclude( IProject project,
+			boolean checkExcluded )
+	{
+		ArrayList list = new ArrayList( );
+		if ( checkExcluded )
+		{
+			IEclipsePreferences pref = new ProjectScope( project )
+					.getNode( PDECore.PLUGIN_ID );
+			if ( pref != null )
+			{
+				String binExcludes = pref.get(
+						PDECore.SELFHOSTING_BIN_EXLCUDES, "" ); //$NON-NLS-1$
+				StringTokenizer tokenizer = new StringTokenizer( binExcludes,
+						"," ); //$NON-NLS-1$
+				while ( tokenizer.hasMoreTokens( ) )
+				{
+					list.add( new Path( tokenizer.nextToken( ).trim( ) ) );
+				}
+			}
+		}
+		return list;
+	}
+
+	private static String writeEntry( IPath[] paths )
+	{
+		StringBuffer buffer = new StringBuffer( );
+		for ( int i = 0; i < paths.length; i++ )
+		{
+			buffer.append( paths[i].toString( ) );
+			if ( i < paths.length - 1 )
+				buffer.append( "," ); //$NON-NLS-1$
+		}
+		return buffer.toString( );
+	}
+
+	private static void addPath( ArrayList result, IProject project, IPath path )
+	{
+		if ( path.getDevice( ) == null )
+		{
+			if ( path.segmentCount( ) >= 1 )
+			{
+				if ( path.segment( 0 ).equals( project.getName( ) ) )
+				{
+					path = path.removeFirstSegments( 1 );
+					if ( path.segmentCount( ) == 0 )
+						path = new Path( "." ); //$NON-NLS-1$
+				}
+			}
+		}
+
+		if ( !result.contains( path ) )
+			result.add( path );
 	}
 }
