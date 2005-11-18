@@ -161,27 +161,7 @@ class MemoryCache implements ResultSetCache
 		ResultObjectUtil roUtil = ResultObjectUtil.newInstance( rsMeta );
 		try
 		{
-			if ( isSubQuery == false )
-			{
-				roUtil.writeData( outputStream,
-						resultObjects,
-						resultObjects.length );
-			}
-			else
-			{
-				int currIndex = this.currResultIndex;				
-				this.reset( );
-				
-				int posIndex = rsMeta.getFieldCount( );
-				while ( this.next( ) )
-				{
-					IOUtil.writeInt( outputStream,
-							( (Integer) this.getCurrentResult( )
-									.getFieldValue( posIndex ) ).intValue( ) );
-				}
-				
-				this.moveTo(currIndex);
-			}
+			roUtil.writeData( outputStream, resultObjects, resultObjects.length );
 		}
 		catch ( IOException e )
 		{

@@ -23,7 +23,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.OrderingInfo;
 import org.eclipse.birt.data.engine.executor.ResultObject;
-import org.eclipse.birt.data.engine.executor.cache.OdiAdapterOfSubQuery.OdiAdapterOfSubQueryForSave;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
@@ -136,17 +135,20 @@ public class SmartCache implements ResultSetCache
 		assert query != null;
 		assert rsMeta != null;
 
-		OdiAdapterOfSubQueryForSave odiAdpater = OdiAdapterOfSubQuery.newSave( resultCache,
-				rsMeta,
-				startIndex );
-		IResultClass newMeta = odiAdpater.getMetaData( );
-		initInstance2( resultCache,
-				odiAdpater,
-				query,
-				startIndex,
-				endIndex,
-				newMeta,
-				sortSpec );
+		OdiAdapter odiAdpater = new OdiAdapter( resultCache );
+		initInstance2( resultCache, odiAdpater, query, startIndex, endIndex, rsMeta, sortSpec );
+		
+//		OdiAdapterOfSubQueryForSave odiAdpater = OdiAdapterOfSubQuery.newSave( resultCache,
+//				rsMeta,
+//				startIndex );
+//		IResultClass newMeta = odiAdpater.getMetaData( );
+//		initInstance2( resultCache,
+//				odiAdpater,
+//				query,
+//				startIndex,
+//				endIndex,
+//				newMeta,
+//				sortSpec );
 	}
 	
 	/**
@@ -594,19 +596,10 @@ public class SmartCache implements ResultSetCache
 		}
 
 		OdiAdapter odiAdpater = null;
-		if ( isSubQuery == false )
-		{
-			ResultObjectReader roReader = ResultObjectReader.newInstance( rsMeta,
-					inputStream,
-					count );
-			odiAdpater = new OdiAdapter( roReader );
-		}
-		else
-		{
-			odiAdpater = OdiAdapterOfSubQuery.newLoad( rsCache,
-					inputStream,
-					count );
-		}
+		ResultObjectReader roReader = ResultObjectReader.newInstance( rsMeta,
+				inputStream,
+				count );
+		odiAdpater = new OdiAdapter( roReader );
 
 		initInstance( odiAdpater, new BaseQuery( ) {
 			/*

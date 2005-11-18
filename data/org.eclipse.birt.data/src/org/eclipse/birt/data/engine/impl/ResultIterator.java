@@ -35,7 +35,8 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.CachedResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.rd.RDSaveAndLoad;
+import org.eclipse.birt.data.engine.impl.rd2.RDSave;
+import org.eclipse.birt.data.engine.impl.rd2.RDUtil;
 import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
@@ -61,16 +62,8 @@ public class ResultIterator implements IResultIterator
 	private int savedStartingGroupLevel;
 
 	// context of data engine
-	protected DataEngineContext context;
-	
-	// the name of sub query
-	protected String subQueryName;
-	// the index of sub query in its corresponding group level
-	protected int subQueryIndex;
-	// the group information of its sub query
-	protected int[] subQueryInfo;
-	// whether its query results is saved for sub query
-	private boolean isQueryResultsNotSaved;
+	private DataEngineContext context;
+	private RDSaveUtil rdSaveUtil;
 	
 	protected static Logger logger = Logger.getLogger( ResultIterator.class.getName( ) );
 
@@ -296,8 +289,9 @@ public class ResultIterator implements IResultIterator
 			throw e;
 		}
 
+		Object exprValue = null;
+		
 		Object handle = dataExpr.getHandle( );
-
 		if ( handle instanceof CompiledExpression )
 		{
 			CompiledExpression expr = (CompiledExpression) handle;
@@ -313,7 +307,7 @@ public class ResultIterator implements IResultIterator
 			}
 			try
 			{
-				return DataTypeUtil.convert( value, dataExpr.getDataType( ) );
+				exprValue = DataTypeUtil.convert( value, dataExpr.getDataType( ) );
 			}
 			catch ( BirtException e )
 			{
@@ -323,31 +317,56 @@ public class ResultIterator implements IResultIterator
 								value.getClass( ),
 								DataType.getClass( dataExpr.getDataType( ) )
 						} );
-			}	
-	    }
-	    else if(handle instanceof ConditionalExpression){
-	    	ConditionalExpression ce = (ConditionalExpression) handle;
-	    	Object resultExpr=getValue( ce.getExpression( ) );
-	    	Object resultOp1=ce.getOperand1( )!=null?getValue( ce.getOperand1( ) ):null;
-	    	Object resultOp2=ce.getOperand2( )!=null?getValue( ce.getOperand2( ) ):null;
-	    	String op1Text=ce.getOperand1( )!=null?ce.getOperand1( ).getText():null;
-	    	String op2Text=ce.getOperand2( )!=null?ce.getOperand2( ).getText():null;
-	    	return ScriptEvalUtil.evalConditionalExpr( resultExpr,
+			}
+		}
+		else if ( handle instanceof ConditionalExpression )
+		{
+			ConditionalExpression ce = (ConditionalExpression) handle;
+			Object resultExpr = getValue( ce.getExpression( ) );
+			Object resultOp1 = ce.getOperand1( ) != null
+					? getValue( ce.getOperand1( ) ) : null;
+			Object resultOp2 = ce.getOperand2( ) != null
+					? getValue( ce.getOperand2( ) ) : null;
+			String op1Text = ce.getOperand1( ) != null ? ce.getOperand1( )
+					.getText( ) : null;
+			String op2Text = ce.getOperand2( ) != null ? ce.getOperand2( )
+					.getText( ) : null;
+			exprValue = ScriptEvalUtil.evalConditionalExpr( resultExpr,
 					ce.getOperator( ),
 					ScriptEvalUtil.newExprInfo( op1Text, resultOp1 ),
 					ScriptEvalUtil.newExprInfo( op2Text, resultOp2 ) );
-	    }
-	    else{
-	    	DataException e = new DataException( ResourceConstants.INVALID_EXPR_HANDLE );
+		}
+		else
+		{
+			DataException e = new DataException( ResourceConstants.INVALID_EXPR_HANDLE );
 			logger.logp( Level.FINE,
 					ResultIterator.class.getName( ),
 					"getValue",
 					"Invalid expression handle.",
 					e );
 			throw e;
-	    }
+		}
+		
+		this.getRdSaveUtil( ).doSaveExpr( dataExpr, exprValue );
+		
+		return exprValue;
 	}
-
+	
+	/**
+	 * @return
+	 */
+	private RDSaveUtil getRdSaveUtil( )
+	{
+		if ( this.rdSaveUtil == null )
+		{
+			rdSaveUtil = new RDSaveUtil( this.context,
+					this.queryResults.getID( ),
+					this.odiResult );
+		}
+		
+		return this.rdSaveUtil;
+	}
+	
 	/**
 	 * Returns the value of a query result expression as a Boolean, by type
 	 * casting the Object returned by getValue. <br>
@@ -696,29 +715,6 @@ public class ResultIterator implements IResultIterator
 			throw e;
 		}
 	}
-
-	// indicate whether this result iterator is associated with a sub query
-
-
-	String getSubQueryName( )
-	{
-		return this.subQueryName;
-	}
-
-	int getSubQueryIndex( )
-	{
-		return this.subQueryIndex;
-	}
-
-	int[] getSubQueryInfo( )
-	{
-		return this.subQueryInfo;
-	}
-	
-	public void setSubQueryName( String subQueryName )
-	{
-		this.subQueryName = subQueryName;
-	}
 	
 	/**
 	 * Returns the secondary result specified by a SubQuery that was defined in
@@ -740,18 +736,22 @@ public class ResultIterator implements IResultIterator
 				"getSecondaryIterator",
 				"Returns the secondary result specified by a SubQuery" );
 
-		ResultIterator resultIt = (ResultIterator) results.getResultIterator( );
-		resultIt.subQueryName = subQueryName;
-		resultIt.subQueryIndex = odiResult.getCurrentGroupIndex( results.getGroupLevel( ) );
-		resultIt.subQueryInfo = odiResult.getGroupStartAndEndIndex( results.getGroupLevel( ) );
-		resultIt.isQueryResultsNotSaved = true;
-
-		if ( this.subQueryName == null )
+		// set query result id
+		if ( this.getRdSaveUtil( ).getSubQueryID( ) == null )
 			results.setID( this.getQueryResults( ).getID( ) );
 		else
 			results.setID( this.getQueryResults( ).getID( )
-					+ "/" + this.subQueryName + "/" + this.subQueryIndex );
-		
+					+ "/" + this.getRdSaveUtil( ).getSubQueryID( ) );
+
+		// init RDSave util of sub query
+		ResultIterator resultIt = (ResultIterator) results.getResultIterator( );
+		resultIt.rdSaveUtil = new RDSaveUtil( resultIt.context,
+				resultIt.getQueryResults( ).getID( ),
+				resultIt.odiResult,
+				subQueryName,
+				odiResult.getCurrentGroupIndex( results.getGroupLevel( ) ),
+				odiResult.getGroupStartAndEndIndex( results.getGroupLevel( ) ) );
+
 		return resultIt;
 	}
 
@@ -791,7 +791,7 @@ public class ResultIterator implements IResultIterator
 		// save results when neededs
 		try
 		{
-			doSaveJob( );
+			this.getRdSaveUtil( ).doSaveFinish( );
 		}
 		catch ( DataException e )
 		{
@@ -823,35 +823,7 @@ public class ResultIterator implements IResultIterator
 				"close",
 				"a ResultIterator is closed" );
 	}
-
-	/**
-	 * If current context is in generation mode, the result of result iterator
-	 * needs to be stored for next presentation.
-	 * 
-	 * @throws DataException
-	 */
-	private void doSaveJob( ) throws BirtException
-	{
-		if ( started == false
-				|| context == null
-				|| context.getMode( ) != DataEngineContext.MODE_GENERATION )
-			return;
-				
-		if ( isQueryResultsNotSaved )
-		{
-			isQueryResultsNotSaved = false;
-			getQueryResults( ).close( );
-			return;
-		}
-
-		RDSaveAndLoad rdSave = RDSaveAndLoad.newSave( this.context,
-				this.getQueryResults( ).getID( ),
-				this.subQueryName,
-				this.subQueryIndex );
-		rdSave.saveResultIterator( (CachedResultSet) this.odiResult,
-				getSubQueryInfo( ) );
-	}
-
+	
 	/**
 	 * Specifies the maximum number of rows that can be accessed from this
 	 * result iterator. Default is no limit.
@@ -1002,12 +974,132 @@ public class ResultIterator implements IResultIterator
 		return columnName;
 	}
 
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getValue(java.lang.String)
+	/**
+	 * Help resultiterator to save data
 	 */
-	public Object getValue( String str ) throws DataException
+	private class RDSaveUtil
 	{
-		throw new DataException( "invalid access in generation time" );
-	}
+		// context info
+		private DataEngineContext context;
+		private String queryResultID;
 
+		// report document save and load instance
+		private RDSave rdSave;
+
+		// the name of sub query
+		private String subQueryName;
+		// the index of sub query in its corresponding group level
+		private int subQueryIndex;
+		// the group information of its sub query
+		private int[] subQueryInfo;
+
+		// odi result
+		private org.eclipse.birt.data.engine.odi.IResultIterator odiResult;
+
+		/**
+		 * @param context
+		 * @param queryResultID
+		 * @param odiResult
+		 */
+		public RDSaveUtil( DataEngineContext context, String queryResultID,
+				org.eclipse.birt.data.engine.odi.IResultIterator odiResult )
+		{
+			this( context, queryResultID, odiResult, null, -1, null );
+		}
+
+		/**
+		 * @param context
+		 * @param queryResultID
+		 * @param odiResult
+		 * @param subQueryName
+		 * @param subQueryIndex
+		 * @param subQueryInfo
+		 */
+		RDSaveUtil( DataEngineContext context, String queryResultID,
+				org.eclipse.birt.data.engine.odi.IResultIterator odiResult,
+				String subQueryName, int subQueryIndex, int[] subQueryInfo )
+		{
+			this.context = context;
+			this.queryResultID = queryResultID;
+			this.odiResult = odiResult;
+			this.subQueryName = subQueryName;
+			this.subQueryIndex = subQueryIndex;
+			this.subQueryInfo = subQueryInfo;
+		}
+
+		/**
+		 * @return
+		 */
+		String getSubQueryID( )
+		{
+			if ( this.subQueryName == null )
+				return null;
+
+			return this.subQueryName + "/" + this.subQueryIndex;
+		}
+
+		/**
+		 * @param dataExpr
+		 * @param value
+		 * @throws DataException
+		 */
+		void doSaveExpr( IBaseExpression dataExpr, Object value )
+				throws DataException
+		{
+			if ( isNeedsToSave( ) == false )
+				return;
+
+			this.getRdSave( )
+					.saveExprValue( odiResult.getCurrentResultIndex( ),
+							dataExpr.getID( ),
+							value );
+		}
+
+		/**
+		 * @throws DataException
+		 */
+		void doSaveFinish( ) throws DataException
+		{
+			if ( isNeedsToSave( ) == false )
+				return;
+
+			this.getRdSave( )
+					.saveResultIterator( (CachedResultSet) this.odiResult,
+							this.subQueryInfo );
+
+			this.getRdSave( ).saveFinish( );
+		}
+		
+		/**
+		 * @return
+		 */
+		private boolean isNeedsToSave( )
+		{
+			if ( started == false
+					|| context == null
+					|| context.getMode( ) != DataEngineContext.MODE_GENERATION )
+				return false;
+
+			return true;
+		}
+		
+		/**
+		 * @return
+		 * @throws DataException
+		 */
+		private RDSave getRdSave( ) throws DataException
+		{
+			if ( rdSave == null )
+			{
+				rdSave = RDUtil.newSave( this.context,
+						this.queryResultID,
+						( (CachedResultSet) odiResult ).getRowCount( ),
+						this.subQueryName,
+						this.subQueryIndex );
+			}
+
+			return rdSave;
+		}
+	}
+	
 }

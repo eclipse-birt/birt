@@ -24,7 +24,6 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.rd.RDSaveAndLoad;
 
 /** 
  * A report query's results opened and ready for data retrieval.  
@@ -42,12 +41,12 @@ class QueryResults implements IQueryResults
 	protected PreparedQuery.Executor	queryExecutor;
 	protected static Logger logger = Logger.getLogger( QueryResults.class.getName( ) );
 
-	// id of this instance
-	private String nameID;
-	
 	// context of data engine
-	protected DataEngineContext context;	
-		
+	private DataEngineContext context;
+	
+	// id of this instance
+	private String queryResultID;
+	
 	/**
 	 * @param reportQuery The associated report query.
 	 * @param query The actual query (either report query or subquery)
@@ -160,9 +159,6 @@ class QueryResults implements IQueryResults
 			return;
 		}
 		
-		// save current query results
-		doSaveJob( );
-		
 	    if ( iterator != null )
 	    {
 	        iterator.close();
@@ -178,28 +174,6 @@ class QueryResults implements IQueryResults
 				QueryResults.class.getName( ),
 				"close",
 				"QueryResults is closed" );
-	}
-	
-	/**
-	 * If current context is in generation mode, the result of query results
-	 * needs to be stored for next presentation.
-	 * 
-	 * @throws DataException
-	 */
-	private void doSaveJob() throws DataException
-	{
-		if ( queryExecutor == null
-				|| context == null
-				|| context.getMode( ) != DataEngineContext.MODE_GENERATION )
-			return;
-		
-		RDSaveAndLoad rdSave = RDSaveAndLoad.newSave( context,
-				getID( ),
-				iterator.getSubQueryName( ),
-				iterator.getSubQueryIndex( ) );
-
-		rdSave.saveQueryResults( query.getQueryDefn( ),
-				queryExecutor.aggregates );
 	}
 	
 	/**
@@ -226,11 +200,11 @@ class QueryResults implements IQueryResults
 	 * generated independently, and it is needs to be attached with its parent
 	 * query.
 	 * 
-	 * @param nameID
+	 * @param queryResultID
 	 */
-	void setID( String nameID )
+	void setID( String queryResultID )
 	{
-		this.nameID = nameID;
+		this.queryResultID = queryResultID;
 	}
 	
 	/*
@@ -238,10 +212,10 @@ class QueryResults implements IQueryResults
 	 */
 	public String getID( )
 	{
-		if ( nameID == null )
-			nameID = IDUtil.nextQursID( );
+		if ( queryResultID == null )
+			queryResultID = IDUtil.nextQursID( );
 		
-		return nameID;
+		return queryResultID;
 	}
 
 }
