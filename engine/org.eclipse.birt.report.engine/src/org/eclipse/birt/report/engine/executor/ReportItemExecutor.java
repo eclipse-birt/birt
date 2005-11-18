@@ -41,7 +41,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.10 $ $Date: 2005/11/10 08:55:18 $
+ * @version $Revision: 1.16 $ $Date: 2005/11/11 06:26:45 $
  */
 public abstract class ReportItemExecutor
 {
@@ -79,10 +79,10 @@ public abstract class ReportItemExecutor
 	protected ReportItemExecutor( ExecutionContext context,
 			IReportItemVisitor visitor )
 	{
-		
+
 		this.context = context;
 		this.visitor = visitor;
-		this.report = context.getReportContent();
+		this.report = context.getReportContent( );
 	}
 
 	/**
@@ -101,7 +101,7 @@ public abstract class ReportItemExecutor
 	 *            the report emitter
 	 */
 	public abstract void execute( ReportItemDesign item, IContentEmitter emitter );
-	
+
 	/**
 	 * reset the state of the report item executor. This operation will reset
 	 * all property of this object
@@ -110,7 +110,6 @@ public abstract class ReportItemExecutor
 	public void reset( )
 	{
 	}
-
 
 	/**
 	 * Calculate the bookmark value which is set to
@@ -130,15 +129,15 @@ public abstract class ReportItemExecutor
 				itemContent.setBookmark( tmp.toString( ) );
 			}
 		}
-		Expression toc = item.getTOC();
-		if (toc != null)
+		Expression toc = item.getTOC( );
+		if ( toc != null )
 		{
-			Object tmp = context.evaluate(toc);
-			if (tmp != null)
+			Object tmp = context.evaluate( toc );
+			if ( tmp != null )
 			{
-				itemContent.setTOC(tmp.toString());
+				itemContent.setTOC( tmp.toString( ) );
 			}
-			
+
 		}
 	}
 
@@ -185,20 +184,35 @@ public abstract class ReportItemExecutor
 				case ActionDesign.ACTION_DRILLTHROUGH :
 					assert action.getDrillThrough( ) != null;
 					DrillThroughActionDesign drill = action.getDrillThrough( );
-					value = context.evaluate( drill.getBookmark( ) );
 					String bookmark = null;
-					if ( value != null && value instanceof String )
+					Expression bookmarkExpr = drill.getBookmark( );
+					if ( bookmarkExpr != null )
 					{
-						bookmark = value.toString( );
+						value = context.evaluate( drill.getBookmark( ) );
+						if ( value != null && value instanceof String )
+						{
+							bookmark = value.toString( );
+						}
 					}
-					Iterator paramsDesignIte = drill.getParameters( )
-							.entrySet( ).iterator( );
 					Map paramsVal = new HashMap( );
-					while ( paramsDesignIte.hasNext( ) )
+					Map params = drill.getParameters( );
+					if ( params != null )
 					{
-						Map.Entry entry = (Map.Entry) paramsDesignIte.next( );
-						paramsVal.put( entry.getKey( ), context
-								.evaluate( (Expression) entry.getValue( ) ) );
+						Iterator paramsDesignIte = params.entrySet( )
+								.iterator( );
+						while ( paramsDesignIte.hasNext( ) )
+						{
+							Map.Entry entry = (Map.Entry) paramsDesignIte
+									.next( );
+							Expression valueExpr = (Expression) entry
+									.getValue( );
+							if ( valueExpr != null )
+							{
+								Object paramValue = context
+										.evaluate( valueExpr );
+								paramsVal.put( entry.getKey( ), paramValue );
+							}
+						}
 					}
 					// XXX Do not support Search criteria
 					IHyperlinkAction obj = report.
@@ -215,24 +229,25 @@ public abstract class ReportItemExecutor
 
 		}
 	}
-	
 
-	protected DataID getDataID()
+	protected DataID getDataID( )
 	{
 		return null;
 	}
-	
-	protected void initializeContent(IContent parent, ReportElementDesign design, IContent content)
+
+	protected void initializeContent( IContent parent,
+			ReportElementDesign design, IContent content )
 	{
 		InstanceID pid = null;
-		if (parent != null)
+		if ( parent != null )
 		{
-			pid = parent.getInstanceID();
+			pid = parent.getInstanceID( );
 		}
-		InstanceID id = new InstanceID(pid, design == null ? -1 : design.getID(), getDataID());
-		content.setInstanceID(id);
+		InstanceID id = new InstanceID( pid, design == null ? -1 : design
+				.getID( ), getDataID( ) );
+		content.setInstanceID( id );
 		content.setGenerateBy( design );
 		content.setParent( parent );
 	}
-	
+
 }

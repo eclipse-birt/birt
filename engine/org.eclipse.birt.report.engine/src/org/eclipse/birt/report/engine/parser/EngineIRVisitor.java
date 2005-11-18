@@ -137,7 +137,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.56 $ $Date: 2005/11/17 16:50:53 $
+ * @version $Revision: 1.57 $ $Date: 2005/11/18 06:11:39 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -425,14 +425,9 @@ class EngineIRVisitor extends DesignVisitor
 		setupReportItem( multiLineItem, handle );
 
 		String valueExpr = handle.getValueExpr( );
-
 		String typeExpr = handle.getContentType( );
-		assert ( valueExpr != null );
-		multiLineItem.setContent( new Expression( valueExpr ) );
-		if ( typeExpr != null )
-		{
-			multiLineItem.setContentType( new Expression( typeExpr ) );
-		}
+		multiLineItem.setContent( createExpression( valueExpr ) );
+		multiLineItem.setContentType( createExpression( typeExpr ) );
 		setHighlight( multiLineItem, valueExpr );
 		setMap( multiLineItem, valueExpr );
 
@@ -637,10 +632,7 @@ class EngineIRVisitor extends DesignVisitor
 
 		// Fill in data expression
 		String expr = handle.getValueExpr( );
-		if ( expr != null )
-		{
-			data.setValue( new Expression( expr ) );
-		}
+		data.setValue( createExpression( expr ) );
 		// Handle Action
 		ActionHandle action = handle.getActionHandle( );
 		if ( action != null )
@@ -712,16 +704,14 @@ class EngineIRVisitor extends DesignVisitor
 
 		if ( EngineIRConstants.IMAGE_REF_TYPE_URL.equals( imageSrc ) )
 		{
-			image.setImageUri( new Expression( handle.getURI( ) ) );
+			image.setImageUri( createExpression( handle.getURI( ) ) );
 		}
 		else if ( EngineIRConstants.IMAGE_REF_TYPE_EXPR.equals( imageSrc ) )
 		{
 			String valueExpr = handle.getValueExpression( );
 			String typeExpr = handle.getTypeExpression( );
-			Expression imageValue = valueExpr == null ? null : new Expression(
-					valueExpr );
-			Expression imageType = typeExpr == null ? null : new Expression(
-					typeExpr );
+			Expression imageValue = createExpression( valueExpr );
+			Expression imageType = createExpression( typeExpr );
 			image.setImageExpression( imageValue, imageType );
 		}
 		else if ( EngineIRConstants.IMAGE_REF_TYPE_EMBED.equals( imageSrc ) )
@@ -730,7 +720,7 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		else if ( EngineIRConstants.IMAGE_REF_TYPE_FILE.equals( imageSrc ) )
 		{
-			image.setImageFile( new Expression( handle.getURI( ) ) );
+			image.setImageFile( createExpression( handle.getURI( ) ) );
 		}
 		else
 		{
@@ -823,10 +813,7 @@ class EngineIRVisitor extends DesignVisitor
 
 		// Book mark
 		String bookmark = handle.getBookmark( );
-		if ( bookmark != null )
-		{
-			row.setBookmark( new Expression( bookmark ) );
-		}
+		row.setBookmark( createExpression( bookmark ) );
 
 		// Visibility
 		VisibilityDesign visibility = createVisibility( handle
@@ -1061,7 +1048,7 @@ class EngineIRVisitor extends DesignVisitor
 	protected VisibilityRuleDesign createHide( HideRuleHandle handle )
 	{
 		VisibilityRuleDesign rule = new VisibilityRuleDesign( );
-		rule.setExpression( new Expression( handle.getExpression( ) ) );
+		rule.setExpression( createExpression( handle.getExpression( ) ) );
 		rule.setFormat( handle.getFormat( ) );
 		return rule;
 	}
@@ -1090,21 +1077,15 @@ class EngineIRVisitor extends DesignVisitor
 
 		// setup TOC expression
 		String toc = handle.getTocExpression( );
-		if ( toc != null )
-		{
-			item.setTOC( new Expression( toc ) );
-		}
+		item.setTOC( createExpression( toc ) );
+
 		// setup book mark
 		String bookmark = handle.getBookmark( );
-		if ( bookmark != null )
-		{
-			item.setBookmark( new Expression( bookmark ) );
-		}
+		item.setBookmark( createExpression( bookmark ) );
+
 		String onCreate = handle.getOnCreate( );
-		if ( onCreate != null )
-		{
-			item.setOnCreate( new Expression( onCreate ) );
-		}
+		item.setOnCreate( createExpression( onCreate ) );
+
 		item.setOnRender( handle.getOnRender( ) );
 
 		// Sets up the visibility
@@ -1150,6 +1131,15 @@ class EngineIRVisitor extends DesignVisitor
 		}
 	}
 
+	protected Expression createExpression( String expr )
+	{
+		if ( expr != null )
+		{
+			return new Expression( expr );
+		}
+		return null;
+	}
+
 	/**
 	 * create a Action.
 	 * 
@@ -1163,13 +1153,15 @@ class EngineIRVisitor extends DesignVisitor
 		String linkType = handle.getLinkType( );
 		if ( EngineIRConstants.ACTION_LINK_TYPE_HYPERLINK.equals( linkType ) )
 		{
-			action.setHyperlink( new Expression( handle.getURI( ) ) );
+
+			action.setHyperlink( createExpression( handle.getURI( ) ) );
 			action.setTargetWindow( handle.getTargetWindow( ) );
 		}
 		else if ( EngineIRConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
 				.equals( linkType ) )
 		{
-			action.setBookmark( new Expression( handle.getTargetBookmark( ) ) );
+			action
+					.setBookmark( createExpression( handle.getTargetBookmark( ) ) );
 		}
 		else if ( EngineIRConstants.ACTION_LINK_TYPE_DRILL_THROUGH
 				.equals( linkType ) )
@@ -1180,7 +1172,7 @@ class EngineIRVisitor extends DesignVisitor
 			action.setDrillThrough( drillThrough );
 
 			drillThrough.setReportName( handle.getReportName( ) );
-			drillThrough.setBookmark( new Expression( handle
+			drillThrough.setBookmark( createExpression( handle
 					.getTargetBookmark( ) ) );
 			Map params = new HashMap( );
 			Iterator paramIte = handle.paramBindingsIterator( );
@@ -1188,7 +1180,7 @@ class EngineIRVisitor extends DesignVisitor
 			{
 				ParamBindingHandle member = (ParamBindingHandle) paramIte
 						.next( );
-				params.put( member.getParamName( ), new Expression( member
+				params.put( member.getParamName( ), createExpression( member
 						.getExpression( ) ) );
 			}
 			drillThrough.setParameters( params );
