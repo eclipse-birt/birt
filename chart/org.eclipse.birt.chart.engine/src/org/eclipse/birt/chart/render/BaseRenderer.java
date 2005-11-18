@@ -428,7 +428,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_BLOCK,
 						bl );
 			}
-			else if ( bl instanceof Legend && bStarted && bLastInSequence)
+			else if ( bl instanceof Legend && bStarted && bLastInSequence )
 			{
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.BEFORE_DRAW_BLOCK,
@@ -2719,13 +2719,21 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
+	 * @return
+	 */
+	protected final Bounds getCellBounds( )
+	{
+		return getCellBounds( iSeriesIndex );
+	}
+
+	/**
 	 * Returns the bounds of an individual cell (if the rendered model is a
 	 * ChartWithoutAxis and plot is to be split into a grid) or the entire plot
 	 * bounds (if the rendered model is a ChartWithAxis).
 	 * 
 	 * @return
 	 */
-	protected final Bounds getCellBounds( )
+	protected final Bounds getCellBounds( int seriesIndex )
 	{
 		Object obj = getComputations( );
 
@@ -2734,7 +2742,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		if ( obj instanceof PlotWithoutAxes )
 		{
 			PlotWithoutAxes pwoa = (PlotWithoutAxes) obj;
-			Coordinates co = pwoa.getCellCoordinates( iSeriesIndex - 1 );
+			Coordinates co = pwoa.getCellCoordinates( seriesIndex - 1 );
 			Size sz = pwoa.getCellSize( );
 
 			bo = (Bounds) EcoreUtil.copy( pwoa.getBounds( ) );
