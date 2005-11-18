@@ -9,6 +9,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.eclipse.birt.report.debug.internal.ui.launcher.IReportLauncherSettings;
+import org.eclipse.birt.report.debug.internal.ui.launcher.util.DebugUtil;
+import org.eclipse.birt.report.debug.internal.ui.launcher.util.ReportLauncherUtils;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -332,7 +334,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		fPluginTreeViewer.getTree( ).setLayoutData( new GridData( 1808 ) );
 		Image pluginsImage = PDEPlugin.getDefault( ).getLabelProvider( ).get(
 				PDEPluginImages.DESC_REQ_PLUGINS_OBJ );
-		fWorkspacePlugins = new NamedElement( PDEPlugin
+		fWorkspacePlugins = new NamedElement( DebugUtil
 				.getResourceString( "AdvancedLauncherTab.workspacePlugins" ),
 				pluginsImage );
 	}
@@ -348,17 +350,17 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		composite.setLayout( layout );
 		composite.setLayoutData( new GridData( 1040 ) );
 		fSelectAllButton = new Button( composite, 8 );
-		fSelectAllButton.setText( PDEPlugin
+		fSelectAllButton.setText( DebugUtil
 				.getResourceString( "AdvancedLauncherTab.selectAll" ) );
 		fSelectAllButton.setLayoutData( new GridData( 770 ) );
 		SWTUtil.setButtonDimensionHint( fSelectAllButton );
 		fDeselectButton = new Button( composite, 8 );
-		fDeselectButton.setText( PDEPlugin
+		fDeselectButton.setText( DebugUtil
 				.getResourceString( "AdvancedLauncherTab.deselectAll" ) );
 		fDeselectButton.setLayoutData( new GridData( 768 ) );
 		SWTUtil.setButtonDimensionHint( fDeselectButton );
 		fDefaultsButton = new Button( composite, 8 );
-		fDefaultsButton.setText( PDEPlugin
+		fDefaultsButton.setText( DebugUtil
 				.getResourceString( "AdvancedLauncherTab.defaults" ) );
 		fDefaultsButton.setLayoutData( new GridData( 768 ) );
 		SWTUtil.setButtonDimensionHint( fDefaultsButton );
@@ -369,7 +371,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 	{
 		fNumWorkspaceChecked = fWorkspaceModels.length;
 		fPluginTreeViewer.setSubtreeChecked( fWorkspacePlugins, true );
-		TreeSet deselected = LauncherUtils.parseDeselectedWSIds( config );
+		TreeSet deselected = ReportLauncherUtils.parseDeselectedWSIds( config );
 		for ( int i = 0; i < fWorkspaceModels.length; i++ )
 			if ( deselected.contains( fWorkspaceModels[i].getName( ) )
 					&& fPluginTreeViewer

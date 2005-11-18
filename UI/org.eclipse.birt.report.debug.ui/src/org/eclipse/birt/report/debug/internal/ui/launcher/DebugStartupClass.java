@@ -45,6 +45,5 @@ public class DebugStartupClass implements IStartup
 				e1.printStackTrace();
 			}
 		}
-		
 	}
 }

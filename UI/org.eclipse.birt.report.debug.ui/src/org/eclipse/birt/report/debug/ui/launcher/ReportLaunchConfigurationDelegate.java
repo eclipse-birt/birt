@@ -10,19 +10,38 @@
  *******************************************************************************/
 package org.eclipse.birt.report.debug.ui.launcher;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+import java.util.TreeMap;
 
-import org.eclipse.core.resources.*;
-import org.eclipse.core.runtime.*;
-import org.eclipse.debug.core.*;
+import org.eclipse.birt.report.debug.internal.ui.launcher.IReportLauncherSettings;
+import org.eclipse.birt.report.debug.internal.ui.launcher.util.DebugUtil;
+import org.eclipse.birt.report.debug.internal.ui.launcher.util.ReportLauncherUtils;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.ILaunch;
+import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
-import org.eclipse.jdt.launching.*;
+import org.eclipse.jdt.launching.ExecutionArguments;
+import org.eclipse.jdt.launching.IVMInstall;
+import org.eclipse.jdt.launching.VMRunnerConfiguration;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
-import org.eclipse.pde.internal.core.*;
+import org.eclipse.pde.internal.core.ExternalModelManager;
+import org.eclipse.pde.internal.core.PDECore;
+import org.eclipse.pde.internal.core.TargetPlatform;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.build.ClasspathHelper;
-import org.eclipse.pde.internal.ui.launcher.*;
+import org.eclipse.pde.internal.ui.launcher.LauncherUtils;
 
 /**
  * add comment here
@@ -30,7 +49,7 @@ import org.eclipse.pde.internal.ui.launcher.*;
  */
 
 public class ReportLaunchConfigurationDelegate extends LaunchConfigurationDelegate
-    implements ILauncherSettings
+    implements IReportLauncherSettings
 {
 	/**
 	 * It is roperty key.
@@ -71,7 +90,8 @@ public class ReportLaunchConfigurationDelegate extends LaunchConfigurationDelega
             }
             monitor.worked(1);
             LauncherUtils.setDefaultSourceLocator(configuration, launch);
-            PDEPlugin.getDefault().getLaunchesListener().manage(launch);
+            //PDEPlugin.getDefault().getLaunchesListener().manage(launch);
+            DebugUtil.getPDEPluginLaunchListener(PDEPlugin.getDefault()).manage(launch);
             launcher.getVMRunner(mode).run(runnerConfig, launch, monitor);
             monitor.worked(1);
         }
@@ -93,7 +113,7 @@ public class ReportLaunchConfigurationDelegate extends LaunchConfigurationDelega
         String classpath[] = LauncherUtils.constructClasspath(configuration);
         if(classpath == null)
         {
-            String message = PDEPlugin.getResourceString("WorkbenchLauncherConfigurationDelegate.noStartup");
+            String message = DebugUtil.getResourceString("WorkbenchLauncherConfigurationDelegate.noStartup");
             throw new CoreException(LauncherUtils.createErrorStatus(message));
         }
         String programArgs[] = getProgramArguments(configuration);
@@ -147,7 +167,7 @@ public class ReportLaunchConfigurationDelegate extends LaunchConfigurationDelega
 					pluginMap,
 					getConfigDir(configuration),
 					primaryFeatureId,
-					LauncherUtils.getAutoStartPlugins(configuration));
+					ReportLauncherUtils.getAutoStartPlugins(configuration));
 			programArgs.add("-configuration"); //$NON-NLS-1$
 			if (isOSGI)
 				programArgs.add("file:" + new Path(getConfigDir(configuration).getPath()).addTrailingSeparator().toString()); //$NON-NLS-1$
@@ -251,7 +271,7 @@ public class ReportLaunchConfigurationDelegate extends LaunchConfigurationDelega
         }
         if(badStructure)
         {
-            throw new CoreException(LauncherUtils.createErrorStatus(PDEPlugin.getResourceString("WorkbenchLauncherConfigurationDelegate.badFeatureSetup")));
+            throw new CoreException(LauncherUtils.createErrorStatus(DebugUtil.getResourceString("WorkbenchLauncherConfigurationDelegate.badFeatureSetup")));
         } else
         {
             ensureProductFilesExist(getProductPath());
@@ -359,12 +379,12 @@ public class ReportLaunchConfigurationDelegate extends LaunchConfigurationDelega
                     fConfigDir = new File(root);
                 } else
                 {
-                    fConfigDir = LauncherUtils.createConfigArea(config.getName());
+                    fConfigDir = ReportLauncherUtils.createConfigArea(config.getName());
                 }
             }
             catch(CoreException _ex)
             {
-                fConfigDir = LauncherUtils.createConfigArea(config.getName());
+                fConfigDir = ReportLauncherUtils.createConfigArea(config.getName());
             }
         if(!fConfigDir.exists())
             fConfigDir.mkdirs();
