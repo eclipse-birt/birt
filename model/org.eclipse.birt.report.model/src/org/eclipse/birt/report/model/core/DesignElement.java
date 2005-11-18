@@ -395,7 +395,7 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * <li>The {@link Listener}class to receive notifications.</li>
  * <li>A subclass of {@link NotificationEvent}notifies the listener of the
  * type of change, and information about the change.</li>
- * <li>The {@link org.eclipse.birt.report.model.activity.ActivityStack}class
+ * <li>The {@link org.eclipse.birt.report.model.activity.ActivityStack} class
  * triggers the notifications as it processes commands.</li>
  * <li>ActivityStack calls the {@link #sendEvent}method to send the
  * notification to the appropriate listeners.</li>
@@ -808,7 +808,7 @@ public abstract class DesignElement
 	/**
 	 * Returns <code>true</code> if the element is within a child element
 	 * which extends from another. Returns <code>false</code> otherwise. <br>
-	 * <strong>Notice: </strong> <br>
+	 * <strong>Notice:</strong> <br>
 	 * If the element is a virtual element, it must have defined a <code>
 	 * baseId<code> which point to the ID of its virtual parent. 
 	 * 
@@ -3546,33 +3546,45 @@ public abstract class DesignElement
 		element.handle = null;
 		element.id = 0;
 		element.baseId = NO_BASE_ID;
-
-		// System Properties
-
-		Iterator it = propValues.keySet( ).iterator( );
 		element.propValues = new HashMap( );
-		while ( it.hasNext( ) )
-		{
-			String key = (String) it.next( );
-			PropertyDefn propDefn = getPropertyDefn( key );
-			Object value = propValues.get( key );
-			Object valueToSet = ModelUtil.copyValue( propDefn, value );
 
-			element.propValues.put( key, valueToSet );
-		}
-
-		// User Properties
-		if ( userProperties != null )
+		DesignElement current = this;
+		Iterator iter = null;
+		while ( current != null )
 		{
-			element.userProperties = new HashMap( );
-			it = userProperties.keySet( ).iterator( );
-			while ( it.hasNext( ) )
+			iter = current.propValues.keySet( ).iterator( );
+			while ( iter.hasNext( ) )
 			{
-				Object key = it.next( );
-				UserPropertyDefn uDefn = (UserPropertyDefn) userProperties
-						.get( key );
-				element.userProperties.put( key, uDefn.copy( ) );
+				String key = (String) iter.next( );
+				if ( element.propValues.get( key ) != null )
+					continue;
+
+				PropertyDefn propDefn = getPropertyDefn( key );
+				Object value = current.propValues.get( key );
+				element.propValues.put( key, ModelUtil.copyValue( propDefn,
+						value ) );
 			}
+
+			if ( !current.isVirtualElement( ) && current.userProperties != null )
+			{
+				if ( element.userProperties == null )
+					element.userProperties = new HashMap( );
+
+				iter = current.userProperties.keySet( ).iterator( );
+				while ( iter.hasNext( ) )
+				{
+					Object key = iter.next( );
+					if ( element.userProperties.get( key ) != null )
+						continue;
+					UserPropertyDefn uDefn = (UserPropertyDefn) current.userProperties
+							.get( key );
+					element.userProperties.put( key, uDefn.copy( ) );
+				}
+			}
+			
+			current = current.isVirtualElement( )
+					? current.getVirtualParent( )
+					: current.getExtendsElement( );
 		}
 
 		return element;
