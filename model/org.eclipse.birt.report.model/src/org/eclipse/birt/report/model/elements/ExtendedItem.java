@@ -425,4 +425,19 @@ public class ExtendedItem extends ReportItem
 		return false;
 	}
 
+	/**
+	 * returns the methods defined on this element and defined in the extension
+	 * model.
+	 * 
+	 * @return the method list
+	 */
+	public List getMethods( )
+	{
+		if ( provider != null )
+			return provider.getModelMethodDefns( );
+
+		return getDefn( ).getMethods( );
+
+	}
+
 }

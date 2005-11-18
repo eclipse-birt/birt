@@ -141,9 +141,9 @@ public class ReportItem implements IReportItem, Cloneable
 	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getMethods()
 	 */
 
-	public List getMethods( )
+	public IPropertyDefinition[] getMethods( )
 	{
-		return Collections.EMPTY_LIST;
+		return null;
 	}
 
 }

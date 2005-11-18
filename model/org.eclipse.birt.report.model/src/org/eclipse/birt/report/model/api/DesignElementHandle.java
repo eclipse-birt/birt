@@ -622,6 +622,18 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
+	 * Returns the methods defined on the element definition.
+	 * 
+	 * @return List contains the methods.
+	 * 
+	 */
+	public List getMethods( )
+	{
+		return getElement( ).getDefn( ).getMethods( );
+
+	}
+
+	/**
 	 * Sets a bunch of property values on the element. If this operation should
 	 * be treated as a whole, execution should be in a transaction.
 	 * 

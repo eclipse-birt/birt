@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.extension;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,6 +33,7 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionModelPropertyDefn;
+import org.eclipse.birt.report.model.metadata.MethodInfo;
 import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -134,6 +136,45 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 	}
 
 	/**
+	 * Returns the methods defined on the element. Not only the method on the
+	 * extension element definition but also include those defined inside the
+	 * extension model.
+	 * 
+	 * @return
+	 * 		the method list
+	 */
+
+	public List getModelMethodDefns( )
+	{
+
+		List methods = new ArrayList( );
+		PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) getExtDefn( );
+		if ( extDefn == null )
+			return null;
+
+		if ( extDefn.getMethods( ) != null )
+			methods.addAll( extDefn.getMethods( ) );
+
+		if ( reportItem == null )
+			return null;
+
+		IPropertyDefinition[] dynamicMethods = reportItem.getMethods( );
+		if ( dynamicMethods != null )
+		{
+			for ( int i = 0; i < dynamicMethods.length; i++ )
+			{
+				IPropertyDefinition extProp = dynamicMethods[i];
+				MethodInfo methodInfo = (MethodInfo) extProp.getMethodInfo( );
+				ExtensionModelPropertyDefn modelPropDefn = new ExtensionModelPropertyDefn(
+						extProp, extDefn.getReportItemFactory( ).getMessages( ) );
+				modelPropDefn.setDetails( methodInfo );
+				methods.add( modelPropDefn );
+			}
+		}
+		return methods;
+	}
+
+	/**
 	 * Returns the element property definition with the given name from Model,
 	 * the extension definition file or extension model defined by
 	 * <code>IReportItem</code>.
@@ -194,8 +235,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 	}
 
 	/**
-	 * Returns the value of extension property or extension model property. If
-	 * the given property is a
+	 * Returns the value of extension property or extension model property.
 	 * 
 	 * @param propName
 	 *            name of the property
@@ -344,21 +384,22 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 
 		reportItem = elementFactory.newReportItem( element.getHandle( module ) );
 
-		List localPropDefns = getExtDefn( ).getLocalProperties();
+		List localPropDefns = getExtDefn( ).getLocalProperties( );
 		for ( int i = 0; i < localPropDefns.size( ); i++ )
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) localPropDefns
 					.get( i );
 
-			assert propDefn.isExtended();
-			if ( propDefn.getTypeCode( ) != PropertyType.XML_TYPE || !propDefn.canInherit() )
+			assert propDefn.isExtended( );
+			if ( propDefn.getTypeCode( ) != PropertyType.XML_TYPE
+					|| !propDefn.canInherit( ) )
 				continue;
 
 			Object value = extensionPropValues.get( propDefn.getName( ) );
 			if ( value == null )
 			{
 				// Get the raw xml data from parent.
-				
+
 				ExtendedItem parent = (ExtendedItem) element
 						.getExtendsElement( );
 				while ( parent != null )

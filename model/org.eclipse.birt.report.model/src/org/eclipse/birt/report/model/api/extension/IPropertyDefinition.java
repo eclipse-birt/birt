@@ -13,6 +13,8 @@ package org.eclipse.birt.report.model.api.extension;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
+
 /**
  * Defines a property or structure member provided by an peer extension. Most
  * fields are optional except for type and internal name.
@@ -101,4 +103,14 @@ public interface IPropertyDefinition
 	 */
 
 	Object getDefaultValue( );
+	
+	
+	/**
+	 * Returns the method information of this property.
+	 * 
+	 * @return the method information of this property. Return null, if this
+	 *         property is not a method property.
+	 */
+	
+	IMethodInfo getMethodInfo();
 }

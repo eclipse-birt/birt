@@ -141,6 +141,17 @@ public class ExtendedItemHandle extends ReportItemHandle
 	}
 
 	/**
+	 * Returns the methods defined on the extension element definition and the
+	 * methods defined within the extension model property inside.
+	 * 
+	 * @return the list of methods
+	 */
+	public List getMethods( )
+	{
+		return ( (ExtendedItem) getElement( ) ).getMethods( );
+	}
+
+	/**
 	 * Returns an iterator over filter. The iterator returns instances of
 	 * <code>FilterConditionHandle</code> that represents filter condition
 	 * object.

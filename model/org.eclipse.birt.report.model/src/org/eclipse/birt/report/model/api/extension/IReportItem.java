@@ -177,5 +177,5 @@ public interface IReportItem
 	 * @return the method definition list.
 	 */
 
-	public List getMethods( );
+	public IPropertyDefinition[] getMethods( );
 }

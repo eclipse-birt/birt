@@ -128,7 +128,9 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 		// TODO: till now, we will support the scripting type?
 		// if so, we will handle this in IPropertyDefinition
 
-		return null;
+		return super.getMethodInfo( );
+
+		// return null;
 	}
 
 	/*
@@ -382,16 +384,6 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 		assert false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#setDetails(java.lang.Object)
-	 */
-
-	public void setDetails( Object obj )
-	{
-		assert false;
-	}
 
 	/*
 	 * (non-Javadoc)
