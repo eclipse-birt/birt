@@ -30,6 +30,7 @@
             allowMultiple="false"
             category="org.eclipse.birt.report.designer.ui.views.category"
             class="org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerView"
+            icon="icons/full/eview16/library_explorer.gif"
             id="org.eclipse.birt.report.designer.ui.lib.explorer.view"
             name="%LibraryExplorer"/>
    </extension>

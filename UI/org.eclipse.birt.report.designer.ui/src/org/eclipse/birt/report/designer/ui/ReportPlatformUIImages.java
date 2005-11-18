@@ -203,6 +203,16 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_TEXT, ICONS_PATH
 				+ PAL_PATH + "text.gif" ); //$NON-NLS-1$		
 
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_LIBRARY, ICONS_PATH
+				+ OBJ16_PATH + "library.gif" ); //$NON-NLS-1$		
+
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_LIBRARY_REFERENCED, ICONS_PATH
+				+ OBJ16_PATH + "library_referenced.gif" ); //$NON-NLS-1$		
+
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_THEME, ICONS_PATH
+				+ OBJ16_PATH + "theme.gif" ); //$NON-NLS-1$		
+
+		
 		//outline icons
 		declareImage( IReportGraphicConstants.ICON_NODE_BODY, ICONS_PATH
 				+ OBJ16_PATH + "body_icon.gif" ); //$NON-NLS-1$
@@ -230,6 +240,12 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_NODE_GROUP_FOOTER,
 				ICONS_PATH + OBJ16_PATH + "group_footer.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_NODE_LIBRARIES,
+				ICONS_PATH + OBJ16_PATH + "library_folder.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_NODE_THEMES,
+				ICONS_PATH + OBJ16_PATH + "theme.gif" ); //$NON-NLS-1$
 
 		// layout icons
 		declareImage( IReportGraphicConstants.ICON_LAYOUT_NORMAL, ICONS_PATH

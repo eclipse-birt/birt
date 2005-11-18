@@ -90,8 +90,14 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_TABLE_GROUP = ReportDesignConstants.TABLE_GROUP_ELEMENT;
 
 	public final static String ICON_ELEMENT_TEXT = ReportDesignConstants.TEXT_ITEM;
-	
+
 	public final static String ICON_ELEMENT_TEXTDATA = ReportDesignConstants.TEXT_DATA_ITEM;
+
+	public final static String ICON_ELEMENT_LIBRARY = ReportDesignConstants.LIBRARY_ELEMENT;
+
+	public final static String ICON_ELEMENT_LIBRARY_REFERENCED = "Library Referenced"; //$NON-NLS-1$
+
+	public final static String ICON_ELEMENT_THEME = ReportDesignConstants.THEME_ITEM;
 
 	// outline view icons
 	public final static String ICON_NODE_BODY = "Body"; //$NON-NLS-1$
@@ -111,6 +117,10 @@ public interface IReportGraphicConstants
 	public final static String ICON_NODE_GROUP_HEADER = "Group Header"; //$NON-NLS-1$
 
 	public final static String ICON_NODE_GROUP_FOOTER = "Group Footer"; //$NON-NLS-1$
+
+	public final static String ICON_NODE_LIBRARIES = "Libraries"; //$NON-NLS-1$
+
+	public final static String ICON_NODE_THEMES = "Themes"; //$NON-NLS-1$
 
 	// icons for layout
 	public final static String ICON_LAYOUT_NORMAL = "Layout Normal"; //$NON-NLS-1$

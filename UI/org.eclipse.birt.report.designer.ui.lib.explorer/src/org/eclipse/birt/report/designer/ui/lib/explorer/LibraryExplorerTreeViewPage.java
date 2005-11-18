@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ItemSorter;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ListenerElementVisitor;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.lib.explorer.dnd.LibraryDragListener;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -58,6 +59,7 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -82,7 +84,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	private static final String LABEL_DOUBLE_CLICK = Messages.getString( "DataViewTreeViewerPage.tooltip.DoubleClickToEdit" ); //$NON-NLS-1$
 	private ListenerElementVisitor visitor = new ListenerElementVisitor( this );
 	private List dataSetsToRefresh = new ArrayList( );
-	private ILibraryProvider provider;
+	private ILibraryProvider libraryProvider;
 	private IEclipsePreferences reportPreferenceNode;
 	private TreeViewer treeViewer;
 
@@ -130,7 +132,22 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	protected void configTreeViewer( )
 	{
 
-		ViewsTreeProvider provider = new ViewsTreeProvider( );
+		ViewsTreeProvider provider = new ViewsTreeProvider( ) {
+
+			public Image getImage( Object element )
+			{
+				if ( element instanceof LibraryHandle )
+				{
+					Image image = libraryProvider.getDisplayIcon( (LibraryHandle) element );
+					if ( image == null )
+					{
+						image = ReportPlatformUIImages.getImage( element );
+					}
+					return image;
+				}
+				return super.getImage( element );
+			}
+		};
 		treeViewer.setContentProvider( provider );
 		treeViewer.setLabelProvider( provider );
 
@@ -148,7 +165,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 				new LibraryDragListener( treeViewer ) );
 
 	}
-	
+
 	/**
 	 * Initializes the data view page.
 	 */
@@ -243,7 +260,6 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		}
 		return ""; //$NON-NLS-1$
 	}
-
 
 	/**
 	 * The <code>Page</code> implementation of this <code>IPage</code>
@@ -386,12 +402,12 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 	private void refreshRoot( )
 	{
-		treeViewer.setInput( provider.getLibraries( ) );
+		treeViewer.setInput( libraryProvider.getLibraries( ) );
 	}
 
 	public void setLibraryProvider( ILibraryProvider provider )
 	{
-		this.provider = provider;
+		this.libraryProvider = provider;
 	}
 
 	private void addListener( Object input )

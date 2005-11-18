@@ -68,6 +68,9 @@ public class ReportPlatformUIImagesTest extends TestCase
 				IReportGraphicConstants.ICON_ELEMENT_TABLE,
 				IReportGraphicConstants.ICON_ELEMENT_TABLE_GROUP,
 				IReportGraphicConstants.ICON_ELEMENT_TEXT,
+				IReportGraphicConstants.ICON_ELEMENT_LIBRARY,
+				IReportGraphicConstants.ICON_ELEMENT_LIBRARY_REFERENCED,
+				IReportGraphicConstants.ICON_ELEMENT_THEME,
 
 				//outline view icons
 				IReportGraphicConstants.ICON_NODE_BODY,
@@ -77,6 +80,7 @@ public class ReportPlatformUIImagesTest extends TestCase
 				IReportGraphicConstants.ICON_NODE_DETAILS,
 				IReportGraphicConstants.ICON_NODE_FOOTER,
 				IReportGraphicConstants.ICON_NODE_GROUPS,
+				IReportGraphicConstants.ICON_NODE_THEMES,
 
 				// add image constants for border
 				IReportGraphicConstants.ICON_BORDER_ALL,
