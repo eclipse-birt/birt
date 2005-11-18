@@ -302,15 +302,15 @@ public class ReportLaunchConfigurationDelegate
 				wbuf.append( "|" + classPath );
 			}
 		}
-		
+		String classPath = "";
 		if (wbuf.toString().length() != 0)
 		{
-			append = append + " -D" + PROJECT_CLASSPATH_KEY + "=" + wbuf.toString();
+			classPath =  "-D" + PROJECT_CLASSPATH_KEY + "=" + wbuf.toString();
 		}
 		
 		if ( temp == null )
 		{
-			temp = ( new String[]{append} );
+			temp = ( new String[]{append, classPath} );
 		}
 		else
 		{
@@ -320,6 +320,7 @@ public class ReportLaunchConfigurationDelegate
 				list.add( temp[i] );
 
 			list.add( append );
+			list.add( classPath );
 			temp = (String[]) list.toArray( temp );
 		}
 		return temp;
