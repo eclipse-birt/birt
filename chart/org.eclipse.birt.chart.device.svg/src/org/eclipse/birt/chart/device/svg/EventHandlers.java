@@ -100,7 +100,7 @@ public final class EventHandlers
 			.append( "	this.height = 15;	\n" ) //$NON-NLS-1$
 			.append( "	this.xPadding = 5;	\n" ) //$NON-NLS-1$
 			.append( "	   this.yPadding = -20;\n" ) //$NON-NLS-1$
-			.append( "	   var mainSvg = evt.target.ownerDocument;\n" ) //$NON-NLS-1$
+			.append( "	   var mainSvg = evt.target.ownerDocument.documentElement;\n" ) //$NON-NLS-1$
 			.append( "	   var off = mainSvg.currentTranslate;\n" ) //$NON-NLS-1$
 			.append( "	   var scl = mainSvg.currentScale;\n" ) //$NON-NLS-1$
 			.append( "	   this.group = new BuildHelper(\"g\",\n" ) //$NON-NLS-1$
