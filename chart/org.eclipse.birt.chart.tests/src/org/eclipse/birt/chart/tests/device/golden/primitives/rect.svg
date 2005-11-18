@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="533.0" height="333.0"><g style="fill:none;stroke:none"><defs/><script><![CDATA[function BuildHelper(tag, attrList, text) {
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="533.0" height="333.0"><g style="fill:none;stroke:none"><defs/><script><![CDATA[function BuildHelper(tag, attrList, text) {
 	this.tag = tag;
 	this.attrList = attrList;
 	this.text       = text;
@@ -79,7 +79,7 @@ TM.setParent = function TooltipManager_setParent(parent, mainSvg){
 	this.height = 15;	
 	this.xPadding = 5;	
 	   this.yPadding = -20;
-	   var mainSvg = evt.target.ownerDocument.documentElement;
+	   var mainSvg = evt.target.ownerDocument;
 	   var off = mainSvg.currentTranslate;
 	   var scl = mainSvg.currentScale;
 	   this.group = new BuildHelper("g",
@@ -127,7 +127,7 @@ TM.setParent = function TooltipManager_setParent(parent, mainSvg){
 	   return "";
 	}
 	        function toggleVisibility(evt, id, compList){
-       var mainSvg = evt.target.ownerDocument.documentElement;
+       var mainSvg = evt.target.ownerDocument;
     for (i = 0; i < compList.length; i=i+1){
          var comp = mainSvg.getElementById(id+'_'+compList[i]);
          var styleStr = comp.getAttribute("style");
@@ -147,4 +147,81 @@ TM.setParent = function TooltipManager_setParent(parent, mainSvg){
          comp.setAttributeNS(null, "style", styleStr);
      }
      }			
+   		function toHex(val)
+	{
+	    strVal = Number(val).toString(16);
+	    while (strVal.length < 6){
+	        strVal = "0"+strVal;
+	    }
+	    return strVal;
+	}
+	function getXorColor(color){
+	    var value = parseInt(color, 16);
+	    value = 0xFFFFFF ^ value;
+	    return "#"+toHex(value);
+	}		
+	var oldCompId = null;
+	var oldCompList = null;
+   function highlight(evt, id, compList){
+       highlightElement(evt, oldCompId, oldCompList);
+       if (id != oldCompId){
+           highlightElement(evt, id, compList);
+           oldCompId = id;
+          oldCompList = compList;
+        }
+        else{
+           oldCompId = null;
+           oldCompList = null;
+        }
+     }
+    	function highlightElement(evt, id, compList){
+		   if ((id == null) || (compList == null)) return;
+	       var mainSvg = evt.target.ownerDocument;
+	    for (i = 0; i < compList.length; i=i+1){
+	    var comp = mainSvg.getElementById(id+'_'+compList[i]);
+	    var styleStr = comp.getAttribute("style");
+		   fillIndex = styleStr.search("fill:");
+		   if (fillIndex != -1){
+	              styleStr = getNewStyle(styleStr, fillIndex, "fill:");
+		   }
+		   strokeIndex = styleStr.search("stroke:");
+		   if (strokeIndex != -1){
+	              styleStr = getNewStyle(styleStr, strokeIndex, "stroke:");
+		   }
+	   comp.setAttributeNS(null, "style", styleStr);
+	     }
+	     }
+	function getNewStyle(style, index, styleAttr){
+	     color = style.substring(index+styleAttr.length, style.length );
+	     rgbIndex = color.search("rgb");
+	     if (rgbIndex == -1){
+	        hexColor = color.substring(1, 7);
+	        hc = getXorColor(hexColor);
+	        return style.replace(styleAttr+"#"+hexColor,styleAttr+hc);
+	     }
+	     else{
+	        bracketIndex = color.search("\\)");
+	        color = color.substring(0, bracketIndex);
+	        hexColor = getHexFromRGB(color);
+	        hc = getXorColor(hexColor);
+	        return style.substring(0, index) + styleAttr+hc+ style.substring(index+bracketIndex+styleAttr.length+1, style.length);
+	   }    
+	}
+	function getHexFromRGB(color){
+	        findThem = /\d{1,3}/g;
+	        listOfnum = color.match(findThem);
+	        r = Number(listOfnum[0]).toString(16);
+	        while (r.length < 2){
+		    r = "0"+r;
+	        }
+	        g = Number(listOfnum[1]).toString(16);
+	        while (g.length < 2){
+		   g = "0"+g;
+	        }
+	        b = Number(listOfnum[2]).toString(16);
+	        while (b.length < 2){
+	 	   b = "0"+b;
+	        }
+		return r+g+b;
+	}
 ]]></script><style type="text/css"><![CDATA[.tooltip.text{ text-anchor:left;font-size:12pt;fill:black;}.tooltip{fill:rgb(244,245,235)}]]></style><path d=" M10.0 10.0 L29.0 10.0 L29.0 29.0 L10.0 29.0 L10.0 10.0 Z" style="stroke:#100726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 30.0 L30.0 30.0 L30.0 50.0 L10.0 50.0 L10.0 30.0 Z" style="fill-opacity:1.0;fill:#170a37;"/><path d=" M-10.0 -10.0 L9.0 -10.0 L9.0 9.0 L-10.0 9.0 L-10.0 -10.0 Z" style="stroke:#100726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M-10.0 -30.0 L10.0 -30.0 L10.0 -10.0 L-10.0 -10.0 L-10.0 -30.0 Z" style="fill-opacity:1.0;fill:#170a37;"/><path d="" style="stroke:#100726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d="" style="fill-opacity:1.0;fill:#170a37;"/><path d=" M44.34 12.23 L143.8623 12.23 L143.8623 23.431 L44.34 23.431 L44.34 12.23 Z" style="stroke:#100726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M44.34 62.23 L144.8623 62.23 L144.8623 74.431 L44.34 74.431 L44.34 62.23 Z" style="fill-opacity:1.0;fill:#170a37;"/></g><g style="fill-opacity:0.01;fill:#FFFFFF;"/></svg>
