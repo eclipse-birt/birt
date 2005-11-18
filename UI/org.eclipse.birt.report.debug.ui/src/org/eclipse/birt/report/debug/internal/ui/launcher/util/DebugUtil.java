@@ -294,6 +294,7 @@ public class DebugUtil
 		try
 		{
 			Method method = WorkspaceModelManager.class.getDeclaredMethod("getAllModels", new Class[]{});
+			method.setAccessible(true);
 			return (IPluginModelBase[])method.invoke(manager, new Object[]{});
 		}
 		catch ( Exception e )
