@@ -71,7 +71,7 @@ public interface IUIServiceProvider
      *            the application-specific context used by the Expression Builder for each invocation
      * @param sTitle
      *            the title to be used for the Expression Builder Dialog
-	 * @param isExplode
+	 * @param isChartProvider
      *            specified for chart expression provider.
      * @return The final expression string built by the user in the expression builder
      */
