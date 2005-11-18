@@ -37,7 +37,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.Grid
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.GroupProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.LabelProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.LibrariesNodeProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.LibraryHandleNodeProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.LibraryNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.ListBandProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.ListProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.MasterPageBandProvider;
@@ -117,7 +117,7 @@ public class ProviderFactory
 		}
 		if ( object instanceof LibraryHandle )
 		{
-			return new LibraryHandleNodeProvider( );
+			return new LibraryNodeProvider( );
 		}
 		else if ( object instanceof ReportElementModel )
 		{
