@@ -78,24 +78,23 @@ public class DeleteCommand extends Command
 			{
 				for ( int i = 0; i < embeddedImageList.size( ); i++ )
 				{
-					IStructure item = ( (EmbeddedImageHandle) embeddedImageList
-							.get( i ) ).getStructure( );
-					String name = ( (EmbeddedImageHandle) embeddedImageList
-							.get( i ) ).getName( );
-					SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
+					IStructure item = ( (EmbeddedImageHandle) embeddedImageList.get( i ) ).getStructure( );
+					String name = ( (EmbeddedImageHandle) embeddedImageList.get( i ) ).getName( );
+					SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( )
 							.getPropertyHandle( ReportDesignHandle.IMAGES_PROP )
 							.removeItem( item );
 					if ( DesignerConstants.TRACING_COMMANDS )
 					{
-						System.out
-								.println( "DeleteCommand >> Dropping embedded image " //$NON-NLS-1$
-										+ item.getStructName( ) );
+						System.out.println( "DeleteCommand >> Dropping embedded image " //$NON-NLS-1$
+								+ item.getStructName( ) );
 						;
 					}
 					// remove cached image
-					String key = ImageManager.getInstance( ).generateKey(
-							SessionHandleAdapter.getInstance( )
-									.getReportDesignHandle( ), name );
+					String key = ImageManager.getInstance( )
+							.generateKey( SessionHandleAdapter.getInstance( )
+									.getReportDesignHandle( ),
+									name );
 					ImageManager.getInstance( ).removeCachedImage( key );
 				}
 			}
@@ -216,6 +215,10 @@ public class DeleteCommand extends Command
 		{
 			return false;
 		}
+		if ( source instanceof List )
+		{
+			return canDrop( ( (List) source ).toArray( ) );
+		}
 		if ( source instanceof StructuredSelection )
 		{
 			return canDrop( ( (StructuredSelection) source ).toArray( ) );
@@ -243,9 +246,8 @@ public class DeleteCommand extends Command
 			SlotHandle slot = (SlotHandle) source;
 			DesignElementHandle handle = slot.getElementHandle( );
 			return slot.getContents( ).size( ) > 0
-					&& ( ( handle instanceof ListHandle
-							&& ( (ListHandle) handle ).canDrop( ) || ( handle instanceof ListGroupHandle )
-							&& ( (ListGroupHandle) handle ).canDrop( ) ) ) && canDrop(slot.getContents());
+					&& ( ( handle instanceof ListHandle && ( (ListHandle) handle ).canDrop( ) ) || ( handle instanceof ListGroupHandle && ( (ListGroupHandle) handle ).canDrop( ) ) )
+					&& canDrop( slot.getContents( ) );
 		}
 		if ( source instanceof EmbeddedImageHandle )
 		{
