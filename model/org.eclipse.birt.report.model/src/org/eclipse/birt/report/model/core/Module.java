@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.StyleEvent;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
@@ -55,6 +56,7 @@ import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.TranslationTable;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -1743,14 +1745,15 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 			ReferenceableElement referenceableElement = (ReferenceableElement) element;
 
+			// first unresolve theme itself first
+
+			updateClientReferences( referenceableElement );
+
 			// removes references of styles in the theme
 
 			if ( referenceableElement instanceof Theme )
 				updateReferenceableClients( referenceableElement,
 						Theme.STYLES_SLOT );
-
-			updateClientReferences( referenceableElement );
-
 		}
 	}
 
@@ -1766,6 +1769,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	{
 		List clients = referred.getClientList( );
 		Iterator iter = clients.iterator( );
+
 		while ( iter.hasNext( ) )
 		{
 			BackRef ref = (BackRef) iter.next( );
@@ -1777,8 +1781,11 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 			referred.dropClient( client );
 
-			client.resolveElementReference( this, client
-					.getPropertyDefn( ref.propName ) );
+			if ( IStyledElementModel.STYLE_PROP.equalsIgnoreCase( ref.propName ) )
+				client.broadcast( new StyleEvent( client ) );
+			else
+				client.resolveElementReference( this, client
+						.getPropertyDefn( ref.propName ) );
 		}
 	}
 

@@ -87,18 +87,17 @@ public class ThemeRecord extends SimpleRecord
 
 		if ( undo )
 		{
-			unresolveStyles( newTheme );
-
 			if ( oldTheme instanceof String )
 				module.setThemeName( (String) oldTheme );
 			else
 				module.setTheme( (Theme) oldTheme );
-
+			
+			updateStyles( newTheme );
 		}
 		else
 		{
-			unresolveStyles( oldTheme );
 			module.setTheme( newTheme );
+			updateStyles( oldTheme );
 		}
 
 	}
@@ -132,7 +131,7 @@ public class ThemeRecord extends SimpleRecord
 	 *            the theme
 	 */
 
-	private void unresolveStyles( Object theme )
+	private void updateStyles( Object theme )
 	{
 		// if the old theme is empty of not resolved. Do not need to unresolv.
 
