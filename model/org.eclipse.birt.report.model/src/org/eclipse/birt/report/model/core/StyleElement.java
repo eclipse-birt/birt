@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.NameEvent;
 import org.eclipse.birt.report.model.api.command.StyleEvent;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -270,11 +271,8 @@ public abstract class StyleElement extends ReferenceableElement
 
 			// Broadcast the element which is selected by this style
 
-			String selector = ( (ElementDefn) element.getDefn( ) )
-					.getSelector( );
-
-			if ( selector != null && selector.equalsIgnoreCase( selectorName ) )
-
+			String selector = getMatchedElementSelector( element, selectorName );
+			if ( selector != null )
 			{
 				element.broadcast( event, module );
 				continue;
@@ -293,6 +291,50 @@ public abstract class StyleElement extends ReferenceableElement
 						element.getSlot( i ), selectorName );
 			}
 		}
+	}
+
+	/**
+	 * Returns the element selector if its selector matches the given
+	 * <code>selectorName</code>.
+	 * 
+	 * @param element
+	 *            the design element
+	 * @param selectorName
+	 *            the name to match
+	 * @return the matched selector name or null if not matched.
+	 */
+
+	private String getMatchedElementSelector( DesignElement element,
+			String selectorName )
+	{
+		String selector = null;
+		
+		// get extension defined style 
+		
+		if ( element instanceof ExtendedItem )
+		{
+			String tmpSelector = null;
+			
+			// get extension element definition of the extended item.
+			
+			ElementDefn elementDefn = ( (ExtendedItem) element ).getExtDefn( );
+			if ( elementDefn != null )
+				tmpSelector = elementDefn.getSelector( );
+
+			if ( tmpSelector != null
+					&& tmpSelector.equalsIgnoreCase( selectorName ) )
+				selector = tmpSelector;
+		}
+
+		// get ROM defined style 
+		
+		if ( selector == null )
+			selector = ( (ElementDefn) element.getDefn( ) ).getSelector( );
+
+		if ( selector != null && selector.equalsIgnoreCase( selectorName ) )
+			return selector;
+
+		return null;
 	}
 
 	private boolean checkSlotSelector( DesignElement element,

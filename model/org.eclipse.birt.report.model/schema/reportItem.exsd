@@ -52,6 +52,7 @@
             <element ref="styleProperty" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="method" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="propertyVisibility" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="style" minOccurs="0" maxOccurs="1"/>
          </sequence>
          <attribute name="extensionName" type="string" use="required">
             <annotation>
@@ -371,6 +372,30 @@
             <annotation>
                <documentation>
                   Two options are: hide, readonly.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="style">
+      <annotation>
+         <documentation>
+            Extension element default style -- selector.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="displayNameID" type="string">
+            <annotation>
+               <documentation>
+                  
                </documentation>
             </annotation>
          </attribute>

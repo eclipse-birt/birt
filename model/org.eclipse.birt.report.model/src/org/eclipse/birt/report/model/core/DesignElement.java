@@ -1080,8 +1080,7 @@ public abstract class DesignElement
 
 		if ( prop.isStyleProperty( ) )
 		{
-			String selector = ( (ElementDefn) getDefn( ) ).getSelector( );
-			value = getPropertyFromSelector( module, prop, selector );
+			value = getPropertyFromSelfSelector( module, prop );
 			if ( value != null )
 				return value;
 
@@ -1266,6 +1265,24 @@ public abstract class DesignElement
 		}
 
 		return null;
+	}
+
+	/**
+	 * Returns the property value which is related to element selector. It is
+	 * from the selector style.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param prop
+	 *            the definition of property
+	 * @return the property value, or null if no value is set.
+	 */
+
+	protected Object getPropertyFromSelfSelector( Module module,
+			ElementPropertyDefn prop )
+	{
+		String selector = ( (ElementDefn) getDefn( ) ).getSelector( );
+		return getPropertyFromSelector( module, prop, selector );
 	}
 
 	/**
@@ -3581,7 +3598,7 @@ public abstract class DesignElement
 					element.userProperties.put( key, uDefn.copy( ) );
 				}
 			}
-			
+
 			current = current.isVirtualElement( )
 					? current.getVirtualParent( )
 					: current.getExtendsElement( );
@@ -3742,7 +3759,7 @@ public abstract class DesignElement
 	 * 
 	 * @return true if this element is managed by namespace, otherwise false
 	 */
-	
+
 	public boolean isManagedByNameSpace( )
 	{
 		if ( getContainer( ) == null )

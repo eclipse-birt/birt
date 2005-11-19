@@ -86,6 +86,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 		private static final String RETURN_TYPE_ATTRIB = "returnType"; //$NON-NLS-1$
 		private static final String TAG_ID_ATTRIB = "tagID"; //$NON-NLS-1$		
 		private static final String IS_STATIC_ATTRIB = "isStatic"; //$NON-NLS-1$
+		private static final String STYLE_TAG = "style"; //$NON-NLS-1$
 
 		private static final String DEFAULT_STYLE_ATTRIB = "defaultStyle"; //$NON-NLS-1$
 		private static final String IS_NAME_REQUIRED_ATTRIB = "isNameRequired"; //$NON-NLS-1$
@@ -180,12 +181,21 @@ public class PeerExtensionLoader extends ExtensionLoader
 					else if ( METHOD_TAG.equalsIgnoreCase( elements[i]
 							.getName( ) ) )
 					{
-						SystemPropertyDefn extPropDefn = loadMethod(
+						ExtensionPropertyDefn extPropDefn = loadMethod(
 								elementTag, elements[i], elementDefn );
 
 						// Unique check is performed in addProperty()
 
 						elementDefn.addProperty( extPropDefn );
+					}
+					else if ( STYLE_TAG
+							.equalsIgnoreCase( elements[i].getName( ) ) )
+					{
+						PredefinedStyle style = loadStyle( elementTag,
+								elements[i], elementDefn );
+
+						MetaDataDictionary.getInstance( ).addPredefinedStyle(
+								style );
 					}
 				}
 			}
@@ -433,6 +443,35 @@ public class PeerExtensionLoader extends ExtensionLoader
 			argument.setDisplayNameKey( tagID );
 
 			return argument;
+		}
+
+		/**
+		 * Loads one property definition of the given element.
+		 * 
+		 * @param elementTag
+		 *            the element tag
+		 * @param propTag
+		 *            the property tag
+		 * @param elementDefn
+		 *            element definition
+		 * @return the property definition
+		 * @throws ExtensionException
+		 *             if the class some attribute specifies can not be
+		 *             instanced.
+		 */
+
+		PredefinedStyle loadStyle( IConfigurationElement elementTag,
+				IConfigurationElement propTag, ExtensionElementDefn elementDefn )
+				throws ExtensionException
+		{
+			String name = propTag.getAttribute( NAME_ATTRIB );
+			String displayNameID = propTag
+					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
+
+			PredefinedStyle style = new PredefinedStyle( );
+			style.setName( name );
+			style.setDisplayNameKey( displayNameID );
+			return style;
 		}
 	}
 }

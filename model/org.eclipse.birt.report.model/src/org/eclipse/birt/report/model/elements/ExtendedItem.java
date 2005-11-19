@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -438,6 +439,32 @@ public class ExtendedItem extends ReportItem
 
 		return getDefn( ).getMethods( );
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyFromSelfSelector(org.eclipse.birt.report.model.core.Module,
+	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+
+	protected Object getPropertyFromSelfSelector( Module module,
+			ElementPropertyDefn prop )
+	{
+		// find the selector defined in extension
+
+		IElementDefn elementDefn = getExtDefn( );
+		if ( elementDefn != null )
+		{
+			String selector = getExtDefn( ).getSelector( );
+			Object value = getPropertyFromSelector( module, prop, selector );
+			if ( value != null )
+				return value;
+		}
+		
+		// find the "extended-item" selector
+
+		return super.getPropertyFromSelfSelector( module, prop );
 	}
 
 }
