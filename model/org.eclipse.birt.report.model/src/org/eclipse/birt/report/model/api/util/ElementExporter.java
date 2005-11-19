@@ -348,7 +348,7 @@ class ElementExporter
 		ThemeHandle themeHandle = null;
 
 		// if no default theme, create it in the themes slot.
-		
+
 		if ( theme == null )
 		{
 			themeHandle = targetLibraryHandle.getElementFactory( ).newTheme(
@@ -410,7 +410,8 @@ class ElementExporter
 	void exportDesign( ReportDesignHandle designToExport )
 			throws SemanticException
 	{
-		ModelUtil.duplicateProperties( designToExport, targetLibraryHandle, false );
+		ModelUtil.duplicateProperties( designToExport, targetLibraryHandle,
+				false );
 
 		// Copy the contents in design file.
 
@@ -429,11 +430,11 @@ class ElementExporter
 
 				if ( !StringUtil.isBlank( contentHandle.getName( ) ) )
 				{
-					DesignElementHandle newContentHandle = duplicateElement(
-							contentHandle, false );
+//					DesignElementHandle newContentHandle = duplicateElement(
+//							contentHandle, false );
 
-					exportElement( newContentHandle, false );
-					// addToSlot( destinationSlotHandle, newContentHandle );
+					exportElement( contentHandle, false );
+					 //addToSlot( destinationSlotHandle, newContentHandle );
 				}
 			}
 		}
@@ -492,8 +493,6 @@ class ElementExporter
 
 		return newElementHandle;
 	}
-
-	
 
 	/**
 	 * Duplicates the content elements from source element to destination

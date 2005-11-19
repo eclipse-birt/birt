@@ -23,7 +23,7 @@
 <p></p>
 <ul class=ConfigMarkup id=attlistDesc>
 </ul>
-<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.reportItem">reportItem</a> (<a href="#e.property">property</a>* , <a href="#e.propertyGroup">propertyGroup</a>* , <a href="#e.styleProperty">styleProperty</a>* , <a href="#e.method">method</a>* , <a href="#e.propertyVisibility">propertyVisibility</a>*)&gt;</p>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.reportItem">reportItem</a> (<a href="#e.property">property</a>* , <a href="#e.propertyGroup">propertyGroup</a>* , <a href="#e.styleProperty">styleProperty</a>* , <a href="#e.method">method</a>* , <a href="#e.propertyVisibility">propertyVisibility</a>* , <a href="#e.style">style</a>?)&gt;</p>
 <p class=code id=dtd>&lt;!ATTLIST reportItem</p>
 <p class=code id=dtdAttlist>extensionName&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>defaultStyle&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>isNameRequired&nbsp;(true | false) <p class=code id=dtdAttlist>class&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>displayNameID&nbsp;&nbsp;CDATA #IMPLIED&gt;</p>
 <p></p>
@@ -69,7 +69,7 @@ Element definition</p>
 </ul>
 <br><p class=code id=dtd>&lt;!ELEMENT <a name="e.method">method</a> (<a href="#e.argument">argument</a>)*&gt;</p>
 <p class=code id=dtd>&lt;!ATTLIST method</p>
-<p class=code id=dtdAttlist>name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>displayNameID&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>toolTipID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>returnType&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>isStatic&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(true | false) "false"&gt;</p>
+<p class=code id=dtdAttlist>name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>displayNameID&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>toolTipID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>returnType&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>isStatic&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(true | false) "false"<p class=code id=dtdAttlist>context&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED&gt;</p>
 <p></p>
 <ul class=ConfigMarkup id=attlistDesc>
 <li><b>name</b> - </li>
@@ -77,6 +77,7 @@ Element definition</p>
 <li><b>toolTipID</b> - </li>
 <li><b>returnType</b> - </li>
 <li><b>isStatic</b> - </li>
+<li><b>context</b> - </li>
 </ul>
 <br><p class=code id=dtd>&lt;!ELEMENT <a name="e.argument">argument</a> EMPTY&gt;</p>
 <p class=code id=dtd>&lt;!ATTLIST argument</p>
@@ -107,6 +108,17 @@ To set the visible level of this property when it is shown in the property sheet
 <ul class=ConfigMarkup id=attlistDesc>
 <li><b>name</b> - </li>
 <li><b>visibility</b> - Two options are: hide, readonly.</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.style">style</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST style</p>
+<p class=code id=dtdAttlist>name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>displayNameID&nbsp;CDATA #IMPLIED&gt;</p>
+<p></p>
+<p class=ConfigMarkup id=elementDesc>
+Extension element default style -- selector.</p>
+<br>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>name</b> - </li>
+<li><b>displayNameID</b> - </li>
 </ul>
 <br><h6 class=CaptionFigColumn id=header>Examples: </h6>The following is an example of the Report Item extension.
 <p>

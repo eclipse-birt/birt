@@ -117,7 +117,7 @@ public class ElementExportUtil
 			if ( session == null )
 				session = elementToExport.getModule( ).getSession( );
 		}
-		
+
 		// That means the list of elements to export is empty.
 		if ( session == null )
 			return;
@@ -172,7 +172,7 @@ public class ElementExportUtil
 
 	/**
 	 * Exports the given structure into one library. The allowed structures are
-	 * <code>EmbeddedImage</code>, <code>CustomColor</code> and
+	 * <code>EmbeddedImage</code>,<code>CustomColor</code> and
 	 * <code>ConfigVariable</code>. If the library file is not found, new
 	 * library file will be created and saved as the given file name.
 	 * 
@@ -216,7 +216,7 @@ public class ElementExportUtil
 
 	/**
 	 * Exports the given structure into one library. The allowed structures are
-	 * <code>EmbeddedImage</code>, <code>CustomColor</code> and
+	 * <code>EmbeddedImage</code>,<code>CustomColor</code> and
 	 * <code>ConfigVariable</code>. If the library file is not found, new
 	 * library file will be created and saved as the given file name.
 	 * 
@@ -285,7 +285,7 @@ public class ElementExportUtil
 
 	/**
 	 * Exports the given structure into one library. The allowed structures are
-	 * <code>EmbeddedImage</code>, <code>CustomColor</code> and
+	 * <code>EmbeddedImage</code>,<code>CustomColor</code> and
 	 * <code>ConfigVariable</code>.
 	 * 
 	 * @param structToExport
@@ -310,6 +310,40 @@ public class ElementExportUtil
 		ElementExporter exporter = new ElementExporter( targetLibraryHandle );
 
 		exporter.exportStructure( structToExport, canOverride );
+	}
+
+	/**
+	 * Export the report design to a library file specified by the file name. If
+	 * the library file is not found, new library file will be created and saved
+	 * as the given name.
+	 * 
+	 * @param designToExport
+	 * 				the design which need to be exported
+	 * @param libraryFileName
+	 * 				target library file name 
+	 * 				
+	 * @throws DesignFileException
+	 * 				if the library file has fatal errors which can not be opened.
+	 * @throws SemanticException
+	 * 				if error encountered when element name is duplicated in the target library.
+	 * @throws IOException
+	 * 				if error encountered when writing file.
+	 */
+
+	public static void exportDesign( ReportDesignHandle designToExport,
+			String libraryFileName ) throws DesignFileException,
+			SemanticException, IOException
+	{
+
+		DesignSession session = designToExport.getModule( ).getSession( );
+		LibraryHandle libraryHandle = openOrCreateLibrary( session,
+				libraryFileName );
+		assert libraryHandle != null;
+
+		exportDesign( designToExport, libraryHandle );
+		
+		libraryHandle.save( );
+		libraryHandle.close( );
 	}
 
 	/**

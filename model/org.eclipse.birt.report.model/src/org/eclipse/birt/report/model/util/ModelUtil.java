@@ -31,7 +31,9 @@ import org.eclipse.birt.report.model.activity.NotificationRecordTask;
 import org.eclipse.birt.report.model.activity.RecordTask;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
@@ -283,7 +285,9 @@ public class ModelUtil
 	{
 		assert source != null;
 		assert destination != null;
-		assert source.getDefn( ) == destination.getDefn( );
+
+		if ( !( ( source instanceof ReportDesignHandle ) && ( destination instanceof LibraryHandle ) ) )
+			assert source.getDefn( ) == destination.getDefn( );
 
 		if ( source.getDefn( ).allowsUserProperties( ) )
 		{
@@ -292,8 +296,11 @@ public class ModelUtil
 
 			Object value = source.getElement( ).getUserProperties( );
 
-			Object valueToSet = ModelUtil.copyValue( propHandle.getDefn( ),
-					value );
+			Object valueToSet = null;
+			if ( propHandle != null )
+			{
+				valueToSet = ModelUtil.copyValue( propHandle.getDefn( ), value );
+			}
 
 			if ( valueToSet != null )
 			{
@@ -728,7 +735,7 @@ public class ModelUtil
 	 * the correct scope.
 	 * 
 	 * @param refValue
-	 *            the reference value 
+	 *            the reference value
 	 * @return the value of the property. The type of the returned object should
 	 *         be strings.
 	 * 
@@ -737,7 +744,7 @@ public class ModelUtil
 	public static String needTheNamespacePrefix( ReferenceValue refValue,
 			Module root, Module module )
 	{
-		
+
 		String namespace = refValue.getLibraryNamespace( );
 		String value = refValue.getName( );
 
@@ -752,7 +759,7 @@ public class ModelUtil
 			if ( !namespace.equals( ( (Library) theRoot ).getNamespace( ) ) )
 				value = namespace + "." + value; //$NON-NLS-1$
 		}
-		else 
+		else
 			value = namespace + "." + value; //$NON-NLS-1$
 
 		return value;
