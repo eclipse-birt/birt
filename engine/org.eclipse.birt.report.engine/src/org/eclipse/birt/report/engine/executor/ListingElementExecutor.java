@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.util.Collection;
+import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.report.engine.api.script.ExpressionResults;
+import org.eclipse.birt.report.engine.data.dte.DteResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
@@ -63,7 +67,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 */
 	protected void accessQuery( ReportItemDesign design, IContentEmitter emitter )
 	{
-		ListingDesign listing = (ListingDesign) design;
+		ListingDesign listing = ( ListingDesign ) design;
 
 		rsetCursor = -1;
 		outputEmitter = emitter;
@@ -78,19 +82,25 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			accessHeader( listing, outputEmitter );
 
 			accessFooter( listing, outputEmitter );
-		}
-		else
+		} else
 		{
+
+			IResultIterator rsIterator = ( ( DteResultSet ) rset )
+					.getResultIterator( );
+			Collection rowExpressions = listing.getQuery( ).getRowExpressions( );
+
+			ExpressionResults exprResults = new ExpressionResults( rsIterator,
+					rowExpressions );
+
 			accessHeader( listing, outputEmitter );
 			if ( groupCount == 0 )
 			{
 				do
 				{
 					rsetCursor++;
-					accessDetail( listing, outputEmitter );
+					accessDetail( listing, outputEmitter, exprResults );
 				} while ( rset.next( ) );
-			}
-			else
+			} else
 			{
 				do
 				{
@@ -113,7 +123,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 						}
 					}
 
-					accessDetail( listing, outputEmitter );
+					accessDetail( listing, outputEmitter, exprResults );
 					int endGroup = rset.getEndingGroupLevel( );
 					if ( endGroup != NONE_GROUP )
 					{
@@ -175,7 +185,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 *            output emitter
 	 */
 	abstract protected void accessDetail( ListingDesign list,
-			IContentEmitter emitter );
+			IContentEmitter emitter, ExpressionResults expressionResults );
 
 	/**
 	 * create the header band

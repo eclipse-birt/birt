@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.util.logging.Level;
 
+import org.eclipse.birt.report.engine.api.script.ExpressionResults;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.ContainerContent;
@@ -27,7 +28,7 @@ import org.eclipse.birt.report.engine.script.ListScriptExecutor;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.22 $ $Date: 2005/11/14 10:55:58 $
+ * @version $Revision: 1.23 $ $Date: 2005/11/17 16:50:45 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -86,8 +87,8 @@ public class ListItemExecutor extends ListingElementExecutor
 
 		if ( context.isInFactory( ) )
 		{
-				ListScriptExecutor.handleOnCreate(
-						( ContainerContent ) listContent, context );
+			ListScriptExecutor.handleOnCreate(
+					( ContainerContent ) listContent, context );
 		}
 
 		if ( emitter != null )
@@ -116,10 +117,13 @@ public class ListItemExecutor extends ListingElementExecutor
 	 *            the list band
 	 * @param emitter
 	 *            the report emitter
+	 * @param expressionRow
+	 *            TODO
 	 * @param isDetail
 	 *            true if it is detail band
 	 */
-	private void accessListBand( ListBandDesign band, IContentEmitter emitter )
+	private void accessListBand( ListBandDesign band, IContentEmitter emitter,
+			ExpressionResults expressionResults )
 	{
 		if ( band != null && band.getContentCount( ) > 0 )
 		{
@@ -128,8 +132,8 @@ public class ListItemExecutor extends ListingElementExecutor
 				ReportItemDesign item = band.getContent( i );
 				if ( context.isInFactory( ) )
 				{
-					//TODO: We need to handle onCreate for the detail row here
-					//Where do we get the content object from??
+					// TODO: We need to handle onCreate for the detail row here
+					// Where do we get the content object from??
 				}
 				if ( item != null )
 				{
@@ -143,11 +147,14 @@ public class ListItemExecutor extends ListingElementExecutor
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.engine.executor.ListingElementExecutor#accessDetail(org.eclipse.birt.report.engine.ir.ListingDesign,
-	 *      org.eclipse.birt.report.engine.emitter.IContentEmitter)
+	 *      org.eclipse.birt.report.engine.emitter.IContentEmitter,
+	 *      org.eclipse.birt.report.engine.api.script.ExpressionRow)
 	 */
-	protected void accessDetail( ListingDesign list, IContentEmitter emitter )
+	protected void accessDetail( ListingDesign list, IContentEmitter emitter,
+			ExpressionResults expressionResults )
 	{
-		accessListBand( ( ( ListItemDesign ) list ).getDetail( ), emitter );
+		accessListBand( ( ( ListItemDesign ) list ).getDetail( ), emitter,
+				expressionResults );
 	}
 
 	/*
@@ -158,7 +165,7 @@ public class ListItemExecutor extends ListingElementExecutor
 	 */
 	protected void accessFooter( ListingDesign list, IContentEmitter emitter )
 	{
-		accessListBand( ( ( ListItemDesign ) list ).getFooter( ), emitter );
+		accessListBand( ( ( ListItemDesign ) list ).getFooter( ), emitter, null );
 	}
 
 	/*
@@ -171,7 +178,7 @@ public class ListItemExecutor extends ListingElementExecutor
 			IContentEmitter emitter )
 	{
 		accessListBand( ( ( ListItemDesign ) list ).getGroup( index )
-				.getFooter( ), emitter );
+				.getFooter( ), emitter, null );
 	}
 
 	/*
@@ -184,7 +191,7 @@ public class ListItemExecutor extends ListingElementExecutor
 			IContentEmitter emitter )
 	{
 		accessListBand( ( ( ListItemDesign ) list ).getGroup( index )
-				.getHeader( ), emitter );
+				.getHeader( ), emitter, null );
 	}
 
 	/*
@@ -195,6 +202,6 @@ public class ListItemExecutor extends ListingElementExecutor
 	 */
 	protected void accessHeader( ListingDesign list, IContentEmitter emitter )
 	{
-		accessListBand( ( ( ListItemDesign ) list ).getHeader( ), emitter );
+		accessListBand( ( ( ListItemDesign ) list ).getHeader( ), emitter, null );
 	}
 }
