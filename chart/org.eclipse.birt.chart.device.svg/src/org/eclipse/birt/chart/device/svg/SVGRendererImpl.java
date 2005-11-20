@@ -56,7 +56,9 @@ import org.eclipse.birt.chart.event.WrappedStructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Location;
@@ -556,25 +558,27 @@ public class SVGRendererImpl extends SwingRendererImpl
 							// SERIES							
 							seDT = findDesignTimeSeries( seRT ); // LOCATE
 							List components = (List)componentPrimitives.get(seDT);
-							Iterator iter = components.iterator();
-							StringBuffer sb = new StringBuffer();
-							sb.append(seDT.hashCode());
-							if (iter.hasNext())
-								sb.append(",new Array(");							 //$NON-NLS-1$
-							while (iter.hasNext()){
-								sb.append("'").append(iter.next()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+							if (components != null){
+								Iterator iter = components.iterator();
+								StringBuffer sb = new StringBuffer();
+								sb.append(seDT.hashCode());
 								if (iter.hasNext())
-									sb.append(","); //$NON-NLS-1$
+									sb.append(",new Array(");							 //$NON-NLS-1$
+								while (iter.hasNext()){
+									sb.append("'").append(iter.next()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+									if (iter.hasNext())
+										sb.append(","); //$NON-NLS-1$
+								}
+								if (components.size() > 0)
+									sb.append(")"); //$NON-NLS-1$
+								elm.setAttribute("onmousedown", //$NON-NLS-1$
+										"toggleVisibility(evt, " //$NON-NLS-1$
+												+ sb.toString() + ")"); //$NON-NLS-1$							
+								setCursor(elm);
+	
+								//should define style class and set the visibility to visible
+								((SVGGraphics2D)_g2d).addCSSStyle(".class"+seDT.hashCode(), "visibility", "visible"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 							}
-							if (components.size() > 0)
-								sb.append(")"); //$NON-NLS-1$
-							elm.setAttribute("onmousedown", //$NON-NLS-1$
-									"toggleVisibility(evt, " //$NON-NLS-1$
-											+ sb.toString() + ")"); //$NON-NLS-1$							
-							setCursor(elm);
-
-							//should define style class and set the visibility to visible
-							((SVGGraphics2D)_g2d).addCSSStyle(".class"+seDT.hashCode(), "visibility", "visible"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						}
 						catch ( ChartException oosx )
 						{
@@ -604,25 +608,27 @@ public class SVGRendererImpl extends SwingRendererImpl
 								// SERIES							
 								seDT = findDesignTimeSeries( seRT ); // LOCATE
 								List components = (List)componentPrimitives.get(seDT);
-								Iterator iter = components.iterator();
-								StringBuffer sb = new StringBuffer();
-								sb.append(seDT.hashCode());
-								if (iter.hasNext())
-									sb.append(",new Array(");							 //$NON-NLS-1$
-								while (iter.hasNext()){
-									sb.append("'").append(iter.next()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+								if (components != null){
+									Iterator iter = components.iterator();
+									StringBuffer sb = new StringBuffer();
+									sb.append(seDT.hashCode());
 									if (iter.hasNext())
-										sb.append(","); //$NON-NLS-1$
+										sb.append(",new Array(");							 //$NON-NLS-1$
+									while (iter.hasNext()){
+										sb.append("'").append(iter.next()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+										if (iter.hasNext())
+											sb.append(","); //$NON-NLS-1$
+									}
+									if (components.size() > 0)
+										sb.append(")"); //$NON-NLS-1$
+									elm.setAttribute(scriptEvent, //$NON-NLS-1$
+											"highlight(evt, " //$NON-NLS-1$
+													+ sb.toString() + ")"); //$NON-NLS-1$							
+									setCursor(elm);
+		
+									//should define style class and set the visibility to visible
+									((SVGGraphics2D)_g2d).addCSSStyle(".class"+seDT.hashCode(), "visibility", "visible"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 								}
-								if (components.size() > 0)
-									sb.append(")"); //$NON-NLS-1$
-								elm.setAttribute(scriptEvent, //$NON-NLS-1$
-										"highlight(evt, " //$NON-NLS-1$
-												+ sb.toString() + ")"); //$NON-NLS-1$							
-								setCursor(elm);
-	
-								//should define style class and set the visibility to visible
-								((SVGGraphics2D)_g2d).addCSSStyle(".class"+seDT.hashCode(), "visibility", "visible"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 							}
 							catch ( ChartException oosx )
 							{
@@ -731,23 +737,27 @@ public class SVGRendererImpl extends SwingRendererImpl
 	private final Series findDesignTimeSeries( Series seRT )
 			throws ChartException
 	{
-		final ChartWithAxes cwaRT = (ChartWithAxes) _iun.getRunTimeModel( );
-		final ChartWithAxes cwaDT = (ChartWithAxes) _iun.getDesignTimeModel( );
+
 		Series seDT = null;
 
-		Axis[] axaBase = cwaRT.getPrimaryBaseAxes( );
-		Axis axBase = axaBase[0];
-		Axis[] axaOrthogonal = cwaRT.getOrthogonalAxes( axBase, true );
-		EList elSD, elSE;
-		SeriesDefinition sd;
-		Series se = null;
-		int i, j = 0, k = 0;
-		boolean bFound = false;
+		final Chart cmRT = _iun.getRunTimeModel( );
+		final Chart cmDT = _iun.getDesignTimeModel( );
 
-		// LOCATE INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN RUN TIME MODEL
-		for ( i = 0; i < axaOrthogonal.length; i++ )
+		if ( cmDT instanceof ChartWithAxes )
 		{
-			elSD = axaOrthogonal[i].getSeriesDefinitions( );
+			final ChartWithAxes cwaRT = (ChartWithAxes) cmRT;
+			final ChartWithAxes cwaDT = (ChartWithAxes) cmDT;
+
+			Axis[] axaBase = cwaRT.getPrimaryBaseAxes( );
+			Axis axBase = axaBase[0];
+			Axis[] axaOrthogonal = cwaRT.getOrthogonalAxes( axBase, true );
+			EList elSD, elSE;
+			SeriesDefinition sd;
+			Series se = null;
+			int i = -1, j = 0, k = 0;
+			boolean bFound = false;
+
+			elSD = axaBase[0].getSeriesDefinitions( );
 			for ( j = 0; j < elSD.size( ); j++ )
 			{
 				sd = (SeriesDefinition) elSD.get( j );
@@ -766,31 +776,150 @@ public class SVGRendererImpl extends SwingRendererImpl
 					break;
 				}
 			}
-			if ( bFound )
+
+			if ( !bFound )
 			{
-				break;
+				// LOCATE INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN RUN TIME
+				// MODEL
+				for ( i = 0; i < axaOrthogonal.length; i++ )
+				{
+					elSD = axaOrthogonal[i].getSeriesDefinitions( );
+					for ( j = 0; j < elSD.size( ); j++ )
+					{
+						sd = (SeriesDefinition) elSD.get( j );
+						elSE = sd.getSeries( );
+						for ( k = 0; k < elSE.size( ); k++ )
+						{
+							se = (Series) elSE.get( k );
+							if ( seRT == se )
+							{
+								bFound = true;
+								break;
+							}
+						}
+						if ( bFound )
+						{
+							break;
+						}
+					}
+					if ( bFound )
+					{
+						break;
+					}
+				}
 			}
-		}
 
-		if ( !bFound )
+			if ( !bFound )
+			{
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.OUT_OF_SYNC,
+						"info.cannot.find.series", //$NON-NLS-1$
+						new Object[]{
+							seRT
+						},
+						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
+								getLocale() ) );
+			}
+
+			// MAP TO INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN DESIGN TIME
+			// MODEL
+			axaBase = cwaDT.getPrimaryBaseAxes( );
+			axBase = axaBase[0];
+			axaOrthogonal = cwaDT.getOrthogonalAxes( axBase, true );
+			if ( i == -1 )
+			{
+				elSD = axaBase[0].getSeriesDefinitions( );
+			}
+			else
+			{
+				elSD = axaOrthogonal[i].getSeriesDefinitions( );
+			}
+			sd = (SeriesDefinition) elSD.get( j );
+			elSE = sd.getSeries( );
+			seDT = (Series) elSE.get( k );
+		}
+		else if ( cmDT instanceof ChartWithoutAxes )
 		{
-			throw new ChartException( ChartDeviceExtensionPlugin.ID,
-					ChartException.OUT_OF_SYNC,
-					"info.cannot.find.series", //$NON-NLS-1$
-					new Object[]{
-						seRT
-					},
-					ResourceBundle.getBundle( Messages.DEVICE_EXTENSION, getLocale() ) );
-		}
+			final ChartWithoutAxes cwoaRT = (ChartWithoutAxes) cmRT;
+			final ChartWithoutAxes cwoaDT = (ChartWithoutAxes) cmDT;
 
-		// MAP TO INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN DESIGN TIME MODEL
-		axaBase = cwaDT.getPrimaryBaseAxes( );
-		axBase = axaBase[0];
-		axaOrthogonal = cwaDT.getOrthogonalAxes( axBase, true );
-		elSD = axaOrthogonal[i].getSeriesDefinitions( );
-		sd = (SeriesDefinition) elSD.get( j );
-		elSE = sd.getSeries( );
-		seDT = (Series) elSE.get( k );
+			EList elSD, elSE;
+			SeriesDefinition sd;
+			Series se = null;
+			int i = -1, j = 0, k = 0;
+			boolean bFound = false;
+
+			elSD = cwoaRT.getSeriesDefinitions( );
+			for ( j = 0; j < elSD.size( ); j++ )
+			{
+				sd = (SeriesDefinition) elSD.get( j );
+				elSE = sd.getSeries( );
+				for ( k = 0; k < elSE.size( ); k++ )
+				{
+					se = (Series) elSE.get( k );
+					if ( seRT == se )
+					{
+						bFound = true;
+						break;
+					}
+				}
+				if ( bFound )
+				{
+					break;
+				}
+			}
+
+			if ( !bFound )
+			{
+				i = 1;
+				elSD = ( (SeriesDefinition) cwoaRT.getSeriesDefinitions( )
+						.get( 0 ) ).getSeriesDefinitions( );
+
+				for ( j = 0; j < elSD.size( ); j++ )
+				{
+					sd = (SeriesDefinition) elSD.get( j );
+					elSE = sd.getSeries( );
+					for ( k = 0; k < elSE.size( ); k++ )
+					{
+						se = (Series) elSE.get( k );
+						if ( seRT == se )
+						{
+							bFound = true;
+							break;
+						}
+					}
+					if ( bFound )
+					{
+						break;
+					}
+				}
+			}
+
+			if ( !bFound )
+			{
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.OUT_OF_SYNC,
+						"info.cannot.find.series", //$NON-NLS-1$
+						new Object[]{
+							seRT
+						},
+						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
+								getLocale() ) );
+			}
+
+			if ( i == -1 )
+			{
+				elSD = cwoaDT.getSeriesDefinitions( );
+			}
+			else
+			{
+				elSD = ( (SeriesDefinition) cwoaDT.getSeriesDefinitions( )
+						.get( 0 ) ).getSeriesDefinitions( );
+			}
+			sd = (SeriesDefinition) elSD.get( j );
+			elSE = sd.getSeries( );
+			seDT = (Series) elSE.get( k );
+		}
 
 		return seDT;
 	}

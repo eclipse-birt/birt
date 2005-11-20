@@ -111,7 +111,9 @@ public class SVGGraphics2D extends Graphics2D
 
 	public Element popParent( )
 	{
-		Element popElement = (Element) parentStack.pop( );
+		Element popElement = null;
+		if ( !parentStack.isEmpty( ) )
+			popElement = (Element) parentStack.pop( );
 		if ( !parentStack.isEmpty( ) )
 			currentParent = (Element) parentStack.peek( );
 		return popElement;
