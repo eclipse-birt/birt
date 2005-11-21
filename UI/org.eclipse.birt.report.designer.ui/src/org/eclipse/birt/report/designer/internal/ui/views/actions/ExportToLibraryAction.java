@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -79,7 +80,9 @@ public class ExportToLibraryAction extends AbstractViewAction
 	 */
 	public boolean isEnabled( )
 	{
-		if ( getSelection( ) instanceof ReportElementHandle )
+		if ( getSelection( ) instanceof ReportDesignHandle )
+			return true;
+		else if ( getSelection( ) instanceof ReportElementHandle )
 			return ( (ReportElementHandle) getSelection( ) ).getName( ) != null;
 		return false;
 	}
@@ -93,8 +96,11 @@ public class ExportToLibraryAction extends AbstractViewAction
 	{
 		try
 		{
-			FileDialog dialog = new FileDialog( UIUtil.getDefaultShell( ),
-					SWT.OPEN );
+			FileDialog dialog;
+			if ( getSelection( ) instanceof ReportDesignHandle )
+				dialog = new FileDialog( UIUtil.getDefaultShell( ), SWT.SAVE );
+			else
+				dialog = new FileDialog( UIUtil.getDefaultShell( ), SWT.OPEN );
 			dialog.setFilterExtensions( new String[]{
 				"*.rptlibrary" //$NON-NLS-1$
 				} );
@@ -105,86 +111,93 @@ public class ExportToLibraryAction extends AbstractViewAction
 			filename = dialog.open( );
 			if ( filename != null )
 			{
-				if ( pref == PREF_PROMPT )
+				if ( getSelection( ) instanceof ReportDesignHandle )
+					ElementExportUtil.exportDesign( (ReportDesignHandle) getSelection( ),
+							filename );
+				else
 				{
+					if ( pref == PREF_PROMPT )
+					{
 
-					MessageDialog prefDialog = new MessageDialog( dialog.getParent( ),
-							DIALOG_TITLE,
-							null,
-							DIALOG_MESSAGE,
-							MessageDialog.INFORMATION,
-							new String[]{
-									BUTTON_YES, BUTTON_NO, BUTTON_CANCEL
-							},
-							0 ) {
+						MessageDialog prefDialog = new MessageDialog( dialog.getParent( ),
+								DIALOG_TITLE,
+								null,
+								DIALOG_MESSAGE,
+								MessageDialog.INFORMATION,
+								new String[]{
+										BUTTON_YES, BUTTON_NO, BUTTON_CANCEL
+								},
+								0 ) {
 
-						/*
-						 * (non-Javadoc)
-						 * 
-						 * @see org.eclipse.jface.dialogs.MessageDialog#createCustomArea(org.eclipse.swt.widgets.Composite)
-						 */
-						protected Control createCustomArea( Composite parent )
-						{
-							Composite container = new Composite( parent,
-									SWT.NONE );
-							GridLayout gridLayout = new GridLayout( );
-							gridLayout.marginWidth = 20;
-							gridLayout.marginTop = 15;
-							container.setLayout( gridLayout );
-
-							Button chkbox = new Button( container, SWT.CHECK );
-							chkbox.setText( REMEMBER_DECISION );
-							chkbox.addSelectionListener( new SelectionListener( ) {
-
-								public void widgetSelected( SelectionEvent e )
-								{
-									saveDecision = !saveDecision;
-								}
-
-								public void widgetDefaultSelected(
-										SelectionEvent e )
-								{
-									saveDecision = false;
-								}
-							} );
-
-							return super.createCustomArea( parent );
-						}
-
-						/*
-						 * (non-Javadoc)
-						 * 
-						 * @see org.eclipse.jface.dialogs.MessageDialog#buttonPressed(int)
-						 */
-						protected void buttonPressed( int buttonId )
-						{
-							switch ( buttonId )
+							/*
+							 * (non-Javadoc)
+							 * 
+							 * @see org.eclipse.jface.dialogs.MessageDialog#createCustomArea(org.eclipse.swt.widgets.Composite)
+							 */
+							protected Control createCustomArea( Composite parent )
 							{
-								case 0 :
-									pref = PREF_OVERWRITE;
-									break;
-								case 1 :
-									pref = PREF_NOT_OVERWRITE;
-									break;
-								default :
-									break;
-							}
-							if ( saveDecision )
-							{
-								ReportPlugin.getDefault( )
-										.getPreferenceStore( )
-										.setValue( PREF_KEY, pref );
-							}
-							super.buttonPressed( buttonId );
-						}
+								Composite container = new Composite( parent,
+										SWT.NONE );
+								GridLayout gridLayout = new GridLayout( );
+								gridLayout.marginWidth = 20;
+								gridLayout.marginTop = 15;
+								container.setLayout( gridLayout );
 
-					};
-					if ( prefDialog.open( ) == 2 )
-						return;
+								Button chkbox = new Button( container,
+										SWT.CHECK );
+								chkbox.setText( REMEMBER_DECISION );
+								chkbox.addSelectionListener( new SelectionListener( ) {
+
+									public void widgetSelected( SelectionEvent e )
+									{
+										saveDecision = !saveDecision;
+									}
+
+									public void widgetDefaultSelected(
+											SelectionEvent e )
+									{
+										saveDecision = false;
+									}
+								} );
+
+								return super.createCustomArea( parent );
+							}
+
+							/*
+							 * (non-Javadoc)
+							 * 
+							 * @see org.eclipse.jface.dialogs.MessageDialog#buttonPressed(int)
+							 */
+							protected void buttonPressed( int buttonId )
+							{
+								switch ( buttonId )
+								{
+									case 0 :
+										pref = PREF_OVERWRITE;
+										break;
+									case 1 :
+										pref = PREF_NOT_OVERWRITE;
+										break;
+									default :
+										break;
+								}
+								if ( saveDecision )
+								{
+									ReportPlugin.getDefault( )
+											.getPreferenceStore( )
+											.setValue( PREF_KEY, pref );
+								}
+								super.buttonPressed( buttonId );
+							}
+
+						};
+						if ( prefDialog.open( ) == 2 )
+							return;
+					}
+					ElementExportUtil.exportElement( (DesignElementHandle) getSelection( ),
+							filename,
+							pref == PREF_OVERWRITE );
 				}
-				ElementExportUtil.exportElement( (DesignElementHandle) getSelection( ),
-						filename,
-						pref == PREF_OVERWRITE );
 			}
 		}
 		catch ( Exception e )

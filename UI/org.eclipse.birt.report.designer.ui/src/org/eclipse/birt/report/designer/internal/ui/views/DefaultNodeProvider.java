@@ -41,7 +41,9 @@ import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -179,7 +181,8 @@ public class DefaultNodeProvider implements INodeProvider
 				+ "-end" ) );//$NON-NLS-1$		
 
 		action = new ExportToLibraryAction( object );
-		if ( action.isEnabled( ) )
+		if ( object instanceof ReportDesignHandle
+				|| ( object instanceof ReportElementHandle && !( ( (ReportElementHandle) object ).getRoot( ) instanceof LibraryHandle ) ) )
 			menu.add( action );
 
 //		action = new CreatePlaceHolderAction( object );
