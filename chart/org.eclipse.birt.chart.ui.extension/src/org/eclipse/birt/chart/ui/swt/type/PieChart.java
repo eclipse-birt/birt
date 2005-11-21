@@ -63,7 +63,7 @@ public class PieChart extends DefaultChartTypeImpl
 	 */
 	public static final String TYPE_LITERAL = "Pie Chart"; //$NON-NLS-1$
 	
-	public static final String STANDARD_SUBTYPE_LITERAL = "Standard Pie Chart"; //$NON-NLS-1$
+	private static final String STANDARD_SUBTYPE_LITERAL = "Standard Pie Chart"; //$NON-NLS-1$
 
 	public static final String CHART_TITLE = Messages.getString( "PieChart.Txt.DefaultPieChartTitle" ); //$NON-NLS-1$
 

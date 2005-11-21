@@ -72,7 +72,7 @@ public class StockChart extends DefaultChartTypeImpl
 	 */
 	public static final String TYPE_LITERAL = "Stock Chart"; //$NON-NLS-1$
 	
-	public static final String STANDARD_SUBTYPE_LITERAL = "Standard Stock Chart"; //$NON-NLS-1$
+	private static final String STANDARD_SUBTYPE_LITERAL = "Standard Stock Chart"; //$NON-NLS-1$
 	
 	public static final String CHART_TITLE = Messages.getString( "StockChart.Txt.DefaultStockChartTitle" ); //$NON-NLS-1$
 

@@ -72,7 +72,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 	 */
 	public static final String TYPE_LITERAL = "Scatter Chart"; //$NON-NLS-1$
 	
-	public static final String STANDARD_SUBTYPE_LITERAL = "Standard Scatter Chart"; //$NON-NLS-1$
+	private static final String STANDARD_SUBTYPE_LITERAL = "Standard Scatter Chart"; //$NON-NLS-1$
 
 	public static final String CHART_TITLE = Messages.getString( "ScatterChart.Txt.DefaultScatterChartTitle" ); //$NON-NLS-1$
 

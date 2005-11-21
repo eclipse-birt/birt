@@ -74,11 +74,11 @@ public class AreaChart extends DefaultChartTypeImpl
 	 */
 	public static final String TYPE_LITERAL = "Area Chart"; //$NON-NLS-1$
 	
-	public static final String STACKED_SUBTYPE_LITERAL = "Stacked"; //$NON-NLS-1$
+	private static final String STACKED_SUBTYPE_LITERAL = "Stacked"; //$NON-NLS-1$
 	
-	public static final String PERCENTSTACKED_SUBTYPE_LITERAL = "Precent Stacked"; //$NON-NLS-1$
+	private static final String PERCENTSTACKED_SUBTYPE_LITERAL = "Percent Stacked"; //$NON-NLS-1$
 	
-	public static final String OVERLAY_SUBTYPE_LITERAL = "Overlay"; //$NON-NLS-1$
+	private static final String OVERLAY_SUBTYPE_LITERAL = "Overlay"; //$NON-NLS-1$
 	
 	public static final String CHART_TITLE = Messages.getString( "AreaChart.Txt.DefaultAreaChartTitle" ); //$NON-NLS-1$
 

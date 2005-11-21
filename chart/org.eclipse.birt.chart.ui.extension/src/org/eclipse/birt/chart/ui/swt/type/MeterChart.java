@@ -63,9 +63,9 @@ public class MeterChart extends DefaultChartTypeImpl
 	 */
 	public static final String TYPE_LITERAL = "Meter Chart"; //$NON-NLS-1$
 	
-	public static final String STANDARD_SUBTYPE_LITERAL = "Standard Meter Chart"; //$NON-NLS-1$
+	private static final String STANDARD_SUBTYPE_LITERAL = "Standard Meter Chart"; //$NON-NLS-1$
 	
-	public static final String SUPERIMPOSED_SUBTYPE_LITERAL = "Superimposed Meter Chart"; //$NON-NLS-1$
+	private static final String SUPERIMPOSED_SUBTYPE_LITERAL = "Superimposed Meter Chart"; //$NON-NLS-1$
 
 	public static final String CHART_TITLE = Messages.getString( "MeterChart.Txt.DefaultMeterChartTitle" ); //$NON-NLS-1$
 
