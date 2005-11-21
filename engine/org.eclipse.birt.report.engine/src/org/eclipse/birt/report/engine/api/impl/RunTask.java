@@ -59,12 +59,6 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		run( );
 	}
 
-	public void run( IReportDocument reportDoc ) throws EngineException
-	{
-		this.reportDoc = (ReportDocument) reportDoc;
-		run( );
-	}
-
 	protected void run( ) throws EngineException
 	{
 		if ( !validateParameters( ) )
