@@ -1186,7 +1186,8 @@ public class TaskSelectType extends SimpleTask
 				ChartUIUtil.doLivePreview( chartModel,
 						( (ChartWizardContext) getContext( ) ).getDataServiceProvider( ) );
 			}
-			catch ( ChartException e )
+			// Includes RuntimeException
+			catch ( Exception e )
 			{
 				container.displayException( e );
 			}

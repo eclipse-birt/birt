@@ -1508,9 +1508,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 						+ ( iO + 1 ) );
 
 				// Set sample data definition
-				Query q = QueryImpl.create( "Data " //$NON-NLS-1$
-						+ ( sdTmp.getSeries( ).size( ) ) );
-				seriesOrthogonalRuntime.getDataDefinition( ).add( q );
+//				Query q = QueryImpl.create( "Data " //$NON-NLS-1$
+//						+ ( sdTmp.getSeries( ).size( ) ) );
+//				seriesOrthogonalRuntime.getDataDefinition( ).add( q );
 
 				sdTmp.getSeries( ).add( seriesOrthogonalRuntime );
 			}

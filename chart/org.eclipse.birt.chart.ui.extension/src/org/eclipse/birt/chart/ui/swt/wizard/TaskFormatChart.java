@@ -19,14 +19,17 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSheetEntry;
 import org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSubtaskEntry;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIManager;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.resource.JFaceResources;
@@ -442,7 +445,39 @@ public class TaskFormatChart extends TreeCompoundTask
 	{
 		if ( previewPainter != null )
 		{
+			if ( notification.getNotifier( ) instanceof SeriesGrouping
+					|| ( notification.getNewValue( ) instanceof SortOption || notification.getOldValue( ) instanceof SortOption ) )
+			{
+				doLivePreview( );
+			}
 			previewPainter.renderModel( getCurrentModelState( ) );
+		}
+	}
+
+	private void doLivePreview( )
+	{
+		if ( ChartUIUtil.checkDataBinding( getCurrentModelState( ) ) )
+		{
+			// Enable live preview
+			ChartPreviewPainter.setEnableLivePreview( true );
+			// Make sure not affect model changed
+			ChartAdapter.ignoreNotifications( true );
+			try
+			{
+				ChartUIUtil.doLivePreview( getCurrentModelState( ),
+						( (ChartWizardContext) getContext( ) ).getDataServiceProvider( ) );
+			}
+			// Includes RuntimeException
+			catch ( Exception e )
+			{
+				container.displayException( e );
+			}
+			ChartAdapter.ignoreNotifications( false );
+		}
+		else
+		{
+			// Disable live preview
+			ChartPreviewPainter.setEnableLivePreview( false );
 		}
 	}
 

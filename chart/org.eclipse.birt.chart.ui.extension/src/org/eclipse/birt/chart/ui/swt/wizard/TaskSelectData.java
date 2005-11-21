@@ -1038,7 +1038,8 @@ public class TaskSelectData extends SimpleTask
 				ChartUIUtil.doLivePreview( getChartModel( ),
 						getWizardContext( ).getDataServiceProvider( ) );
 			}
-			catch ( ChartException e )
+			// Includes RuntimeException
+			catch ( Exception e )
 			{
 				container.displayException( e );
 			}

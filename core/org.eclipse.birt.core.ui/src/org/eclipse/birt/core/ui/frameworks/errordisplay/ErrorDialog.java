@@ -142,6 +142,10 @@ public class ErrorDialog implements SelectionListener
 	{
 		this.sMessage = sMessage;
 		this.sExceptionMessage = t.getLocalizedMessage( );
+		if ( sExceptionMessage == null )
+		{
+			sExceptionMessage = t.toString( );
+		}
 		this.sTrace = getOrganizedTrace( t );
 		this.bError = false;
 		init( sTitle );
