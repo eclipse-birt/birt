@@ -19,8 +19,6 @@ import org.eclipse.birt.report.engine.api.FORenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.IReportView;
-import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -35,12 +33,16 @@ import org.eclipse.birt.report.engine.script.ReportContextImpl;
 
 public class RenderTask extends EngineTask implements IRenderTask
 {
+	IRenderOption 	renderOptions;
+	ReportDocument 	reportDoc;
+	String 			emitterID;
 
-	IRenderOption renderOptions;
-	IReportView reportView;
-	ReportDocument reportDoc;
-
-	RenderTask( ReportEngine engine, IReportRunnable runnable,
+	/**
+	 * @param engine the report engine
+	 * @param runnable the report runnable object
+	 * @param reportDoc the report document instance
+	 */
+	public RenderTask( ReportEngine engine, IReportRunnable runnable,
 			ReportDocument reportDoc )
 	{
 		super( engine, runnable );
@@ -55,26 +57,25 @@ public class RenderTask extends EngineTask implements IRenderTask
 		setParameterValues( reportDoc.getParameterValues( ) );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setRenderOption(org.eclipse.birt.report.engine.api.IRenderOption)
+	 */
 	public void setRenderOption( IRenderOption options )
 	{
 		this.renderOptions = options;
 	}
 
-	public void setReportView( IReportView view )
-	{
-		this.reportView = view;
-	}
-
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IRenderTask#getRenderOption()
+	 */
 	public IRenderOption getRenderOption( )
 	{
 		return renderOptions;
 	}
 
-	public void render( ) throws EngineException
-	{
-		throw new UnsupportedOperationException( "render" );
-	}
-
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IRenderTask#render(long)
+	 */
 	public void render( long pageNumber ) throws EngineException
 	{
 		long totalPage = reportDoc.getPageCount( );
@@ -87,16 +88,10 @@ public class RenderTask extends EngineTask implements IRenderTask
 		doRender( pageNumber );
 	}
 
-	public void render( String pageRange ) throws EngineException
-	{
-		throw new UnsupportedOperationException( "render" );
-	}
-
-	public void render( InstanceID iid ) throws EngineException
-	{
-		throw new UnsupportedOperationException( "render" );
-	}
-
+	/**
+	 * @param pageNumber the page to be rendered
+	 * @throws EngineException throws exception if there is a rendering error
+	 */
 	protected void doRender( long pageNumber ) throws EngineException
 	{
 		// create the emitter services object that is needed in the emitters.
@@ -188,4 +183,19 @@ public class RenderTask extends EngineTask implements IRenderTask
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setEmitterID(java.lang.String)
+	 */
+	public void setEmitterID(String id) {
+		this.emitterID = id;
+	}
+
+	/**
+	 * @return the emitter ID to be used to render this report. Could be null, in which
+	 * case the engine will choose one emitter that matches the requested output format. 
+	 */
+	public String getEmitterID()
+	{
+		return this.emitterID;
+	}
 }

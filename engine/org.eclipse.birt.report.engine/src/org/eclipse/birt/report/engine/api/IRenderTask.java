@@ -27,25 +27,35 @@ public interface IRenderTask extends IEngineTask
 	public abstract void setRenderOption( IRenderOption options );
 
 	/**
-	 * set the report view that are used in rendering
-	 * 
-	 * @param view
-	 *            an IReportView object that captures user interactivity
-	 */
-	public abstract void setReportView( IReportView view );
-
-	/**
 	 * @return the render option
 	 */
 	public abstract IRenderOption getRenderOption( );
 
+	/**
+	 * sets a specific emitter to use when generate output. Used when there 
+	 * are more than one emitters that support a single format. One example 
+	 * is the FO-based PDF emitter and the new PDF emitter added in BIRT2.0.
+	 * If this function is not called when there are more than 1 emitters 
+	 * that support a format, engine may arbitrarily pick one.
+	 * @param id the identifier for the emitter
+	 */
+	public abstract void setEmitterID(String id);
+
+	/**
+	 * set the callback function that the engine calls to allow the caller 
+     * to have a final change on the report design before running the report
+     * @param dm design modifier, which allows the design to be modified 
+     * before running the report. Not supported now
+     */
+	// public abstract void setDesignModifier(IDesignModifier dm);
+	
 	/**
 	 * render the whole report document or an output format
 	 * 
 	 * @throws EngineException
 	 *             if rendering fails
 	 */
-	public abstract void render( ) throws EngineException;
+	// public abstract void render( ) throws EngineException;
 
 	/**
 	 * @param pageNumber
@@ -68,5 +78,5 @@ public interface IRenderTask extends IEngineTask
 	 *            the report iteminstance to be rendered
 	 * @throws EngineException
 	 */
-	public abstract void render( InstanceID iid ) throws EngineException;
+	// public abstract void render( InstanceID iid ) throws EngineException;
 }
