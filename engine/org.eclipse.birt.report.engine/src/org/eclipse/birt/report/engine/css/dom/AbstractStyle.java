@@ -901,6 +901,11 @@ abstract public class AbstractStyle implements IStyle
 		setCssText( STYLE_WIDOWS, widows );
 	}
 
+	public void setWordSpacing( String wordSpacing ) throws DOMException
+	{
+		setCssText( STYLE_WORD_SPACING, wordSpacing );
+	}
+
 	public void setStringFormat( String format ) throws DOMException
 	{
 		setCssText( STYLE_STRING_FORMAT, format );
@@ -1775,10 +1780,6 @@ abstract public class AbstractStyle implements IStyle
 	public void setWidth( String width ) throws DOMException
 	{
 		throw createUnsupportedPropertyException( "width" );
-	}
-
-	public void setWordSpacing( String wordSpacing ) throws DOMException
-	{
 	}
 
 	public String getZIndex( )
