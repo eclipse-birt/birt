@@ -297,9 +297,9 @@ public class ReportLaunchConfigurationDelegate
 		for ( int i = 0; i < paths.size(); i++ )
 		{
 			String classPath = (String)paths.get(i);
-			if (classPath != null && classPath.length() != 0)
+			if (classPath != null && classPath.length() != 0 && i!=0)
 			{
-				wbuf.append( "|" + classPath );
+				wbuf.append( PROPERTYSEPARATOR + classPath );
 			}
 		}
 		String classPath = "";

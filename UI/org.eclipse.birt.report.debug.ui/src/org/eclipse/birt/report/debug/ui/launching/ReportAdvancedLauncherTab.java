@@ -515,9 +515,9 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 			IProject model = fWorkspaceModels[i];
 			String path = model.getLocation( ).toOSString( );
 			if ( fPluginTreeViewer.getChecked( model ) )
-				wbuf.append( "|" + path );
+				wbuf.append( PROPERTYSEPARATOR + path );
 			
-			namesWbuf.append("|" + model.getName());
+			namesWbuf.append(PROPERTYSEPARATOR + model.getName());
 		}
 		
 		
