@@ -5,6 +5,8 @@
 
 package org.eclipse.birt.report.debug.ui.launching;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -18,6 +20,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
@@ -25,6 +28,7 @@ import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.internal.core.plugin.WorkspacePluginModelBase;
+import org.eclipse.pde.internal.ui.PDELabelProvider;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.PDEPluginImages;
 import org.eclipse.pde.internal.ui.elements.DefaultContentProvider;
@@ -54,6 +58,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 			IReportLauncherSettings
 {
 
+	private static final String REPORTPROJECTKID = "org.eclipse.birt.report.designer.ui.reportprojectnature";
 	private static final String FILEDELIMETER = "|";
 	private Label fUseListRadio;
 	private CheckboxTreeViewer fPluginTreeViewer;
@@ -72,6 +77,11 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 			implements
 				ITreeContentProvider
 	{
+
+		PluginContentProvider( )
+		{
+			super( );
+		}
 
 		public boolean hasChildren( Object parent )
 		{
@@ -96,10 +106,6 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 			return ( new Object[]{fWorkspacePlugins} );
 		}
 
-		PluginContentProvider( )
-		{
-			super( );
-		}
 	}
 
 	public ReportAdvancedLauncherTab( )
@@ -118,8 +124,37 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		fShowFeatures = showFeatures;
 		PDEPlugin.getDefault( ).getLabelProvider( ).connect( this );
 		fImage = PDEPluginImages.DESC_REQ_PLUGINS_OBJ.createImage( );
-		fWorkspaceModels = ResourcesPlugin.getWorkspace( ).getRoot( )
+		fWorkspaceModels = getInterestProject();
+	}
+
+	private IProject[] getInterestProject( )
+	{
+		List retValue = new ArrayList( );
+		IProject[] allProjects = ResourcesPlugin.getWorkspace( ).getRoot( )
 				.getProjects( );
+		if ( allProjects == null )
+		{
+			return new IProject[]{};
+		}
+		int len = allProjects.length;
+		for ( int i = 0; i < len; i++ )
+		{
+			IProject project = allProjects[i];
+			try
+			{
+				if ( project.hasNature( JavaCore.NATURE_ID )
+						|| project.hasNature( REPORTPROJECTKID ) )
+				{
+					retValue.add( project );
+				}
+			}
+			catch ( CoreException e )
+			{
+			}
+		}
+		IProject[] temp = new IProject[retValue.size( )];
+		temp = (IProject[]) retValue.toArray( temp );
+		return temp;
 	}
 
 	/*
@@ -300,8 +335,18 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 	{
 		fPluginTreeViewer = new CheckboxTreeViewer( composite, 2048 );
 		fPluginTreeViewer.setContentProvider( new PluginContentProvider( ) );
-		fPluginTreeViewer.setLabelProvider( PDEPlugin.getDefault( )
-				.getLabelProvider( ) );
+		fPluginTreeViewer.setLabelProvider( new PDELabelProvider( )
+		{
+
+			public String getText( Object obj )
+			{
+				if ( obj instanceof IProject )
+				{
+					return ( (IProject) obj ).getName( );
+				}
+				return super.getText( obj );
+			}
+		} );
 		fPluginTreeViewer.setAutoExpandLevel( 2 );
 		fPluginTreeViewer.addCheckStateListener( new ICheckStateListener( )
 		{
@@ -350,18 +395,16 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		composite.setLayout( layout );
 		composite.setLayoutData( new GridData( 1040 ) );
 		fSelectAllButton = new Button( composite, 8 );
-		fSelectAllButton.setText( DebugUtil
-				.getResourceString( "AdvancedLauncherTab.selectAll" ) );
+		fSelectAllButton.setText( DebugUtil.getResourceString( "Select All" ) );
 		fSelectAllButton.setLayoutData( new GridData( 770 ) );
 		SWTUtil.setButtonDimensionHint( fSelectAllButton );
 		fDeselectButton = new Button( composite, 8 );
-		fDeselectButton.setText( DebugUtil
-				.getResourceString( "AdvancedLauncherTab.deselectAll" ) );
+		fDeselectButton.setText( DebugUtil.getResourceString( "Deselect All" ) );
 		fDeselectButton.setLayoutData( new GridData( 768 ) );
 		SWTUtil.setButtonDimensionHint( fDeselectButton );
 		fDefaultsButton = new Button( composite, 8 );
 		fDefaultsButton.setText( DebugUtil
-				.getResourceString( "AdvancedLauncherTab.defaults" ) );
+				.getResourceString( "Restore Defaults" ) );
 		fDefaultsButton.setLayoutData( new GridData( 768 ) );
 		SWTUtil.setButtonDimensionHint( fDefaultsButton );
 	}
@@ -516,11 +559,10 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 			String path = model.getLocation( ).toOSString( );
 			if ( fPluginTreeViewer.getChecked( model ) )
 				wbuf.append( PROPERTYSEPARATOR + path );
-			
-			namesWbuf.append(PROPERTYSEPARATOR + model.getName());
+
+			namesWbuf.append( PROPERTYSEPARATOR + model.getName( ) );
 		}
-		
-		
+
 		config.setAttribute( IMPORTPROJECT, wbuf.toString( ) );
 		config.setAttribute( IMPORTPROJECTNAMES, namesWbuf.toString( ) );
 		config.setAttribute( "clearws", true );
