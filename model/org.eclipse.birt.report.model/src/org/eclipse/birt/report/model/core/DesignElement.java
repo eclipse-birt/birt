@@ -908,7 +908,11 @@ public abstract class DesignElement
 			cur = cur.getContainer( );
 		}
 
-		assert parent != null;
+		// The element is not in the tree.
+		
+		if( parent == null )
+			return null;
+		
 		assert parent.getContainer( ) instanceof Module;
 
 		return parent.getRoot( ).getElementByID( baseId );

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeLibrary;
@@ -75,9 +77,19 @@ public class LibraryCommand extends AbstractElementCommand
 					LibraryException.DESIGN_EXCEPTION_DUPLICATE_LIBRARY_NAMESPACE );
 		}
 
+		//	the library has already been included.
+		
+		URL url = module.findResource( libraryFileName, IResourceLocator.LIBRARY );
+		if ( url != null && module.getLibraryByLocation( url.toString( ) ) != null )
+		{
+			throw new LibraryException( module, new String[]{url.toString( )},
+					LibraryException.DESIGN_EXCEPTION_LIBRARY_ALREADY_INCLUDED );
+		}
+		
+		
 		Library library = module.loadLibrary( libraryFileName, namespace );
 		assert library != null;
-
+	
 		getActivityStack( ).startTrans( );
 
 		LibraryRecord record = new LibraryRecord( module, library, true );
