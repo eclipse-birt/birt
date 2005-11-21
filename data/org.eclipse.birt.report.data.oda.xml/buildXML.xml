@@ -105,7 +105,6 @@
 		<!-- dependend on eclipse due to Plugin class -->
 		<fileset dir="lib">
 			<include name="resolver.jar"/>
-			<include name="xalan.jar"/>
 			<include name="xercesImpl.jar"/>
 			<include name="xml-apis.jar"/>
 		</fileset>
