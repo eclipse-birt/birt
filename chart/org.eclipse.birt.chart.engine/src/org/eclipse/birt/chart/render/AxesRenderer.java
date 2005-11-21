@@ -3665,10 +3665,13 @@ public abstract class AxesRenderer extends BaseRenderer
 				dZ = l3d.getZ( );
 			}
 
-			double dYTick1 = ( ( iMajorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? ( dY - IConstants.TICK_SIZE )
-					: dY;
-			double dYTick2 = ( ( iMajorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? dY
+			double dYTick1 = ( ( iMajorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? ( bRendering3D ? dY
 					+ IConstants.TICK_SIZE
+					: dY - IConstants.TICK_SIZE )
+					: dY;
+			double dYTick2 = ( ( iMajorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? ( bRendering3D ? dY
+					- IConstants.TICK_SIZE
+					: dY + IConstants.TICK_SIZE )
 					: dY;
 
 			if ( iv != null
@@ -3753,8 +3756,9 @@ public abstract class AxesRenderer extends BaseRenderer
 					dOffset = dUnitSize / 2;
 				}
 
-				double y = ( iLabelLocation == IConstants.ABOVE ) ? dYTick1 - 1
-						: dYTick2 + 1;
+				double y = ( iLabelLocation == IConstants.ABOVE ) ? ( bRendering3D ? dYTick1 + 1
+						: dYTick1 - 1 )
+						: ( bRendering3D ? dYTick2 - 1 : dYTick2 + 1 );
 				dsi.reset( );
 				for ( int i = 0; i < da.length - 1; i++ )
 				{
@@ -3766,9 +3770,13 @@ public abstract class AxesRenderer extends BaseRenderer
 					}
 					if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
 					{
-						double dYMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? ( dY - IConstants.TICK_SIZE )
-								: dY, dYMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? dY
+						double dYMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? ( bRendering3D ? dY
 								+ IConstants.TICK_SIZE
+								: dY - IConstants.TICK_SIZE )
+								: dY;
+						double dYMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? ( bRendering3D ? dY
+								- IConstants.TICK_SIZE
+								: dY + IConstants.TICK_SIZE )
 								: dY;
 						if ( dYMinorTick1 != -dYMinorTick2 )
 						{
@@ -4026,8 +4034,9 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 
 				dAxisValue = Methods.asDouble( sc.getMinimum( ) ).doubleValue( ); // RESET
-				double y = ( iLabelLocation == IConstants.ABOVE ) ? dYTick1 - 1
-						: dYTick2 + 1;
+				double y = ( iLabelLocation == IConstants.ABOVE ) ? ( bRendering3D ? dYTick1 + 1
+						: dYTick1 - 1 )
+						: ( bRendering3D ? dYTick2 - 1 : dYTick2 + 1 );
 				for ( int i = 0; i < da.length; i++ )
 				{
 					x = (int) da[i];
@@ -4038,9 +4047,13 @@ public abstract class AxesRenderer extends BaseRenderer
 					}
 					if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
 					{
-						double dYMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? ( dY - IConstants.TICK_SIZE )
-								: dY, dYMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? dY
+						double dYMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? ( bRendering3D ? dY
 								+ IConstants.TICK_SIZE
+								: dY - IConstants.TICK_SIZE )
+								: dY;
+						double dYMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? ( bRendering3D ? dY
+								- IConstants.TICK_SIZE
+								: dY + IConstants.TICK_SIZE )
 								: dY;
 						if ( dYMinorTick1 != -dYMinorTick2 )
 						{
@@ -4218,8 +4231,9 @@ public abstract class AxesRenderer extends BaseRenderer
 						.doubleValue( );
 
 				dAxisValue = Methods.asDouble( sc.getMinimum( ) ).doubleValue( ); // RESET
-				double y = ( iLabelLocation == IConstants.ABOVE ) ? dYTick1 - 1
-						: dYTick2 + 1;
+				double y = ( iLabelLocation == IConstants.ABOVE ) ? ( bRendering3D ? dYTick1 + 1
+						: dYTick1 - 1 )
+						: ( bRendering3D ? dYTick2 - 1 : dYTick2 + 1 );
 				for ( int i = 0; i < da.length; i++ )
 				{
 					x = (int) da[i];
@@ -4231,9 +4245,13 @@ public abstract class AxesRenderer extends BaseRenderer
 
 					if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
 					{
-						double dYMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? ( dY - IConstants.TICK_SIZE )
-								: dY, dYMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? dY
+						double dYMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? ( bRendering3D ? dY
 								+ IConstants.TICK_SIZE
+								: dY - IConstants.TICK_SIZE )
+								: dY;
+						double dYMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? ( bRendering3D ? dY
+								- IConstants.TICK_SIZE
+								: dY + IConstants.TICK_SIZE )
 								: dY;
 						if ( dYMinorTick1 != -dYMinorTick2 )
 						{
@@ -4420,8 +4438,9 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				cdt = cdtAxisValue;
 
-				double y = ( iLabelLocation == IConstants.ABOVE ) ? dYTick1 - 1
-						: dYTick2 + 1;
+				double y = ( iLabelLocation == IConstants.ABOVE ) ? ( bRendering3D ? dYTick1 + 1
+						: dYTick1 - 1 )
+						: ( bRendering3D ? dYTick2 - 1 : dYTick2 + 1 );
 				for ( int i = 0; i < da.length; i++ )
 				{
 					x = (int) da[i];
@@ -4433,9 +4452,13 @@ public abstract class AxesRenderer extends BaseRenderer
 
 					if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
 					{
-						double dYMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? ( dY - IConstants.TICK_SIZE )
-								: dY, dYMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? dY
+						double dYMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? ( bRendering3D ? dY
 								+ IConstants.TICK_SIZE
+								: dY - IConstants.TICK_SIZE )
+								: dY;
+						double dYMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? ( bRendering3D ? dY
+								- IConstants.TICK_SIZE
+								: dY + IConstants.TICK_SIZE )
 								: dY;
 						if ( dYMinorTick1 != -dYMinorTick2 )
 						{
