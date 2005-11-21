@@ -13,6 +13,8 @@ package org.eclipse.birt.report.model.api.extension;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
+
 /**
  * Extension adapter class for the IPropertyDefintion. By default, the extension
  * property definition has no resource key for the display name, no choices, no
@@ -90,7 +92,7 @@ abstract public class PropertyDefinition implements IPropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getMembers()
 	 */
-	public List getMembers( )
+	public IMethodInfo getMethodInfo( )
 	{
 		return null;
 	}
