@@ -50,7 +50,7 @@ import org.eclipse.birt.report.engine.script.ReportScriptExecutor;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.23 $ $Date: 2005/11/14 10:55:58 $
+ * @version $Revision: 1.24 $ $Date: 2005/11/17 01:40:44 $
  */
 public class ReportExecutor
 {
@@ -189,7 +189,7 @@ public class ReportExecutor
 		pageContent.setGenerateBy( masterPage );
 		pageContent.setPageNumber( pageNo );
 
-		context.setCurrentPage( pageNo );
+		context.setPageNumber( pageNo );
 
 		if ( masterPage instanceof SimpleMasterPageDesign )
 		{

@@ -63,7 +63,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.40 $ $Date: 2005/11/17 02:06:03 $
+ * @version $Revision: 1.41 $ $Date: 2005/11/17 16:50:45 $
  */
 public class ExecutionContext
 {
@@ -108,7 +108,7 @@ public class ExecutionContext
 
 	private IReportContent reportContent;
 	private int totalPage;
-	private int currentPage;
+	private int pageNumber;
 	private HashMap stringFormatters = new HashMap( );
 	private HashMap numberFormatters = new HashMap( );
 	private HashMap dateFormatters = new HashMap( );
@@ -158,7 +158,7 @@ public class ExecutionContext
 		scriptContext.registerBean( "report", new ReportObject( ) );
 		scriptContext.registerBean( "params", params ); //$NON-NLS-1$
 		scriptContext.registerBean( "config", configs ); //$NON-NLS-1$
-		scriptContext.registerBean( "currentPage", new Integer( currentPage ) );
+		scriptContext.registerBean( "currentPage", new Integer( pageNumber ) );
 		scriptContext.registerBean( "totalPage", new Integer( totalPage ) );
 	}
 
@@ -826,20 +826,20 @@ public class ExecutionContext
 		this.reportContext = reportContext;
 	}
 
-	public void setCurrentPage( int pageNo )
+	public void setPageNumber( int pageNo )
 	{
-		currentPage = pageNo;
-		scriptContext.registerBean( "currentPage", new Integer( currentPage ) );
-		if ( totalPage < currentPage )
+		pageNumber = pageNo;
+		scriptContext.registerBean( "pageNumber", new Integer( pageNumber ) );
+		if ( totalPage < pageNumber )
 		{
-			totalPage = currentPage;
+			totalPage = pageNumber;
 			scriptContext.registerBean( "totalPage", new Integer( totalPage ) );
 		}
 	}
 
-	public int getCurrentPage( )
+	public int getPageNumber( )
 	{
-		return currentPage;
+		return pageNumber;
 	}
 
 	public int getTotalPage( )
