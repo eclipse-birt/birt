@@ -30,14 +30,14 @@ public interface IRunTask extends IEngineTask
 	/**
 	 * runs the task to generate report document
 	 * 
-	 * @param reportDocName
-	 *            the name for the report document file
-	 * @throws EngineException
-	 *             throws exception when running report fails
+	 * @param reportDocName the name for the report document file
+	 * @throws EngineException throws exception when running report fails
 	 */
 	public abstract void run( String reportDocName ) throws EngineException;
 
+	/**
+	 * @param archive	a document archive object that supports various doc-related functionalities
+	 * @throws EngineException throws exception when running report fails
+	 */
 	public abstract void run( IDocumentArchive archive ) throws EngineException;
-
-	public abstract void run( IReportDocument document ) throws EngineException;
 }

@@ -374,69 +374,54 @@ public abstract class EngineTask implements IEngineTask
 		return true;
 				}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api2.IRunAndRenderTask#setParameterValues(java.util.HashMap)
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IEngineTask#setParameterValues(java.util.HashMap)
 	 */
-	public void setValues( HashMap params )
+	public void setParameterValues(HashMap params)
 	{
 		parameterChanged = true;
 		inputValues.putAll( params );
-			}
-	
-	public void setParameterValues(HashMap params)
-	{
-		setValues(params);
-		}
+	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.IRunAndRenderTask#setParameterValue(java.lang.String,
-	 *      java.lang.Object)
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IEngineTask#setParameterValue(java.lang.String, java.lang.Object)
+	 */
+	public void setParameterValue( String name, Object value )
+	{
+		parameterChanged = true;
+		inputValues.put( name, value );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IEngineTask#setParameterValue(java.lang.String, java.lang.Object)
 	 */
 	public void setValue( String name, Object value )
 	{
 		parameterChanged = true;
 		inputValues.put( name, value );
 	}
-
-	public void setParameterValue( String name, Object value )
-	{
-		setValue(name, value);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api2.IRunAndRenderTask#getParameterValues()
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IEngineTask#getParameterValues()
 	 */
-	public HashMap getValues( )
+	public HashMap getParameterValues( )
 	{
 		return (HashMap) inputValues.clone( );
 	}
-	
-	public HashMap getParameterValues( )
-	{
-		return getValues();
-	}
 
-	public Object getValue( String name )
-	{
-		return inputValues.get( name );
-	}
-	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IEngineTask#getParameterValue(java.lang.String)
+	 */
 	public Object getParameterValue( String name )
 	{
-		return getValue(name);
+		return inputValues.get( name );
 	}
 	
 
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.21 $ $Date: 2005/11/11 06:26:45 $
+	 * @version $Revision: 1.22 $ $Date: 2005/11/14 10:55:57 $
 	 */
 	static abstract class ParameterVisitor
 	{

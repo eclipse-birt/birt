@@ -22,42 +22,36 @@ import java.util.Map;
 public interface IEngineTask {
 	/**
 	 * sets the task locale
-	 * 
 	 * @param locale the task locale
 	 */
 	public abstract void setLocale(Locale locale);
 
 	/**
 	 * sets the task context
-	 * 
 	 * @param context - task contexts in a map. The map contains name-value pairs
 	 */
 	public abstract void setAppContext(Map context);
 	
 	/**
 	 * returns the locale for running the task
-	 * 
 	 * @return the locale for running the task
 	 */
 	public abstract Locale getLocale();
 	
 	/**
 	 * returns the context objects for the task
-	 * 
 	 * @return the task contexts
 	 */
 	public abstract Map getAppContext();
 	
 	/**
 	 * returns the report engine object
-	 * 
 	 * @return the engine object
 	 */
 	public abstract ReportEngine getEngine();
 	
 	/**
 	 * defines an additional Java object that is exposed to BIRT scripting at a per-task level
-
 	 * @param jsName the name that the object is referenced in JavaScript
 	 * @param obj the Java object that is wrapped and scripted
 	 */
@@ -66,54 +60,40 @@ public interface IEngineTask {
 	 /**
      * returns an identifier for the task. The identifier can be used to identify the
      * task, especially when writing logs in a multi-threaded environment.  
-     * 
      * @return an identifier for the task.
      */
     public abstract int getID();
 
 	/**
 	 * returns the runnable report design object
-	 * 
 	 * @return the runnable report design object
 	 */
 	public abstract IReportRunnable getReportRunnable();
 	
 	/**
 	 * set all parameter valuess
-	 * 
 	 * @param params a hash map with all parameters
-	 * @deprecated
 	 */
 	public abstract void setParameterValues(HashMap params);
 	
-	public void setValues(HashMap params);
-	
 	/**
 	 * sets one parameter value
-	 * 
 	 * @param name parameter name
 	 * @param value parameter value
-	 * @deprecated
 	 */
 	public abstract void setParameterValue(String name, Object value);
-	void setValue(String name, Object value);
 	
 	/**
 	 * returns the parameter name/value collection
-	 * 
 	 * @return the parameter names/values in a hash map
-	 * @deprecated 
 	 */
 	public abstract HashMap getParameterValues();
-	public HashMap getValues();
 	
 	/**
      * returns the value of a parameter.
      * @return the parameter value.
-     * @deprecated
      */
 	public abstract Object getParameterValue(String name);
-	public Object getValue(String name);
 	
 	/**
 	 * @return whether the parameter validation succeeds <br>
