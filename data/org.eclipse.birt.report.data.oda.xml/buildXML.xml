@@ -142,6 +142,9 @@
 	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
 	        <fileset dir="." includes="*.jar,plugin.xml,plugin*.properties,About.html, .options"/>
 	    </copy>
+		<copy todir="${export.dir}/${module.name}_${plugin.version}/lib">
+			<fileset dir="./lib" includes="**/*.*"/>
+	    </copy>
 	</target>
 
 	<!-- public task UnitTest will not explicitly depend on complie, Top level script should call compile before calling UnitTest -->
