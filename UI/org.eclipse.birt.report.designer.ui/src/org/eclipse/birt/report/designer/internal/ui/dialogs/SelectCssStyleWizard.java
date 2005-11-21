@@ -15,6 +15,11 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.graphics.Image;
@@ -34,11 +39,14 @@ public class SelectCssStyleWizard extends Wizard
 
 	private static final String WIZARD_TITLE = Messages.getString( "SelectCssStyleWizard.wizard.title" ); //$NON-NLS-1$
 
+	private Object selection;
+
 	private WizardSelectCssStylePage stylePage;
 
-	public SelectCssStyleWizard( )
+	public SelectCssStyleWizard( Object selection )
 	{
 		setWindowTitle( WIZARD_TITLE );
+		this.selection = selection;
 	}
 
 	public Image getDefaultPageImage( )
@@ -70,10 +78,49 @@ public class SelectCssStyleWizard extends Wizard
 		if ( cssHandle != null )
 		{
 			List styleList = stylePage.getStyleList( );
-			SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.importCssStyles( cssHandle, styleList );
+			if ( selection != null && selection instanceof DesignElementHandle )
+			{
+				DesignElementHandle element = (DesignElementHandle) selection;
+				if ( selection instanceof ThemeHandle )// selection is Theme node.
+				{
+					LibraryHandle libraryHandle = (LibraryHandle) ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) );
+					libraryHandle.importCssStyles( cssHandle,
+							styleList,
+							element.getName( ) );
+				}
+				else if ( element.getContainer( ) instanceof ThemeHandle )// selection is a Style node under Theme node.
+				{
+					LibraryHandle libraryHandle = (LibraryHandle) ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) );
+					libraryHandle.importCssStyles( cssHandle,
+							styleList,
+							element.getContainer( ).getName( ) );
+				}
+				else if ( element instanceof StyleHandle )//selection is a Style node in Report. 
+				{
+					SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( )
+							.importCssStyles( cssHandle, styleList );
+				}
+			}
+			else
+			{
+				// no selection.
+				if ( SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( ) instanceof LibraryHandle )
+				{
+					LibraryHandle libraryHandle = (LibraryHandle) ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) );
+					libraryHandle.importCssStyles( cssHandle, styleList );
+				}
+				else if ( SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( ) instanceof ReportDesignHandle )
+				{
+					SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( )
+							.importCssStyles( cssHandle, styleList );
+				}
+			}
 		}
 		return true;
 	}
+
 }

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.SelectCssStyleWizard;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
@@ -25,7 +26,7 @@ public class ImportCSSStyleAction extends AbstractViewAction
 
 	public static final String ID = "ImportCSSStyleAction"; //$NON-NLS-1$
 
-	public static final String ACTION_TEXT = "Import CSS Style..."; //$NON-NLS-1$
+	public static final String ACTION_TEXT = Messages.getString("ImportCSSStyleAction.text"); //$NON-NLS-1$
 
 	public ImportCSSStyleAction( Object selectedObject )
 	{
@@ -41,7 +42,7 @@ public class ImportCSSStyleAction extends AbstractViewAction
 	{
 		Dialog dialog = new WizardDialog( PlatformUI.getWorkbench( )
 				.getDisplay( )
-				.getActiveShell( ), new SelectCssStyleWizard( ) );
+				.getActiveShell( ), new SelectCssStyleWizard( getSelection() ) );
 		dialog.open( );
 
 		// FileDialog fd = new FileDialog( PlatformUI.getWorkbench( )
