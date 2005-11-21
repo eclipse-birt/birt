@@ -439,7 +439,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			Object oValue;
 			int iSeriesPerGroup;
 			double dGroupMin, dGroupMax, dValue, dAbsTotal, dPercentMax = 0, dPercentMin = 0;
-			double dAxisMin = Double.MAX_VALUE, dAxisMax = Double.MIN_VALUE;
+			double dAxisMin = Double.MAX_VALUE, dAxisMax = -Double.MAX_VALUE;
 			ArrayList alSeriesGroupsPerAxis = ssl.getStackGroups( ax );
 			ArrayList alSeriesPerGroup;
 			StackGroup sg;

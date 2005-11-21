@@ -246,13 +246,13 @@ public class Object3D
 	private void computeExtremums( )
 	{
 		xMin = Double.MAX_VALUE;
-		xMax = Double.MIN_VALUE;
+		xMax = -Double.MAX_VALUE;
 
 		yMin = Double.MAX_VALUE;
-		yMax = Double.MIN_VALUE;
+		yMax = -Double.MAX_VALUE;
 
 		zMin = Double.MAX_VALUE;
-		zMax = Double.MIN_VALUE;
+		zMax = -Double.MAX_VALUE;
 
 		for ( int i = 0; i < va.length; i++ )
 		{

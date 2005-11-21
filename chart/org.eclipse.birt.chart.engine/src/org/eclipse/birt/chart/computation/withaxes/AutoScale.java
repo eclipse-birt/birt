@@ -1038,7 +1038,7 @@ public final class AutoScale extends Methods implements Cloneable
 			if ( ( iType & NUMERICAL ) == NUMERICAL )
 			{
 
-				double dValue, dMinValue = Double.MAX_VALUE, dMaxValue = Double.MIN_VALUE;
+				double dValue, dMinValue = Double.MAX_VALUE, dMaxValue = -Double.MAX_VALUE;
 				dsiData.reset( );
 				while ( dsiData.hasNext( ) )
 				{
@@ -1724,7 +1724,7 @@ public final class AutoScale extends Methods implements Cloneable
 		else if ( ( iType & LINEAR ) == LINEAR )
 		{
 			Object oValue;
-			double dValue, dMinValue = Double.MAX_VALUE, dMaxValue = Double.MIN_VALUE;
+			double dValue, dMinValue = Double.MAX_VALUE, dMaxValue = -Double.MAX_VALUE;
 			dsi.reset( );
 			while ( dsi.hasNext( ) )
 			{
@@ -1926,7 +1926,7 @@ public final class AutoScale extends Methods implements Cloneable
 		else if ( ( iType & LOGARITHMIC ) == LOGARITHMIC )
 		{
 			Object oValue;
-			double dValue, dMinValue = Double.MAX_VALUE, dMaxValue = Double.MIN_VALUE;
+			double dValue, dMinValue = Double.MAX_VALUE, dMaxValue = -Double.MAX_VALUE;
 			if ( ( iType & PERCENT ) == PERCENT )
 			{
 				dMinValue = 0;
