@@ -21,8 +21,8 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.content.impl.Column;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
+import org.eclipse.birt.report.engine.content.impl.Column;
 import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.emitter.BufferedReportEmitter;
@@ -43,7 +43,6 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.script.CellScriptExecutor;
 import org.eclipse.birt.report.engine.script.DetailRowScriptExecutor;
 import org.eclipse.birt.report.engine.script.TableScriptExecutor;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 /**
  * Defines execution logic for a List report item.
@@ -56,7 +55,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.26 $ $Date: 2005/11/17 01:40:44 $
+ * @version $Revision: 1.27 $ $Date: 2005/11/19 00:42:50 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -158,7 +157,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * structure used to cache the information of a table.
 	 * 
-	 * @version $Revision: 1.26 $ $Date: 2005/11/17 01:40:44 $
+	 * @version $Revision: 1.27 $ $Date: 2005/11/19 00:42:50 $
 	 */
 	private static class TABLEINFO
 	{

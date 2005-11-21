@@ -18,7 +18,6 @@
 package org.eclipse.birt.report.engine.css.engine.value.css;
 
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.CSSContext;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
@@ -37,7 +36,7 @@ import org.w3c.dom.css.CSSValue;
  * This class provides a manager for the 'font-size' property values.
  * 
  * @author <a href="mailto:stephane@hillion.org">Stephane Hillion</a>
- * @version $Id: FontSizeManager.java,v 1.2 2005/10/20 07:47:44 wyan Exp $
+ * @version $Id: FontSizeManager.java,v 1.1 2005/11/11 06:26:47 wyan Exp $
  */
 public class FontSizeManager extends AbstractLengthManager {
 
@@ -197,8 +196,7 @@ public class FontSizeManager extends AbstractLengthManager {
 		if (doParentRelative) {
 			CSSStylableElement parent = (CSSStylableElement) elt.getParent();
 			if (parent != null) {
-				StyleDeclaration style = (StyleDeclaration) parent
-						.getComputedStyle();
+				IStyle style = parent.getComputedStyle();
 				if (style != null) {
 					Value fontSize = (Value)style.getProperty(IStyle.STYLE_FONT_SIZE);
 					if (fontSize != null) {
