@@ -249,6 +249,9 @@ public class PieChart extends DefaultChartTypeImpl
 			currentChart.setBlock( helperModel.getBlock( ) );
 			currentChart.setDescription( helperModel.getDescription( ) );
 			currentChart.setGridColumnCount( helperModel.getGridColumnCount( ) );
+			currentChart.getInteractivity().setEnable( helperModel.getInteractivity().isEnable());
+			currentChart.getInteractivity().setLegendBehavior( helperModel.getInteractivity().getLegendBehavior());
+			
 			if ( !currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
 					&& !currentChart.getType( ).equals( BarChart.TYPE_LITERAL )
 					&& !currentChart.getType( ).equals( AreaChart.TYPE_LITERAL ) )
@@ -341,6 +344,8 @@ public class PieChart extends DefaultChartTypeImpl
 				currentChart.setScript( helperModel.getScript( ) );
 				currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
 				currentChart.setUnits( helperModel.getUnits( ) );
+				currentChart.getInteractivity().setEnable( helperModel.getInteractivity().isEnable());
+				currentChart.getInteractivity().setLegendBehavior( helperModel.getInteractivity().getLegendBehavior());
 
 				// Clear existing series definitions
 				( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )

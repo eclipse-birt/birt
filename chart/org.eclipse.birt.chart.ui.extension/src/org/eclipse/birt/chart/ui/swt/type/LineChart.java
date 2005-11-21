@@ -476,6 +476,8 @@ public class LineChart extends DefaultChartTypeImpl
 			currentChart.setScript( helperModel.getScript( ) );
 			currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
 			currentChart.setUnits( helperModel.getUnits( ) );
+			currentChart.getInteractivity().setEnable( helperModel.getInteractivity().isEnable());
+			currentChart.getInteractivity().setLegendBehavior( helperModel.getInteractivity().getLegendBehavior());
 
 			if ( helperModel.getType( ).equals( PieChart.TYPE_LITERAL )
 					|| helperModel.getType( ).equals( MeterChart.TYPE_LITERAL ) )

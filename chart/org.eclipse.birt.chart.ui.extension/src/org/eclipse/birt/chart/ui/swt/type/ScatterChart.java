@@ -324,6 +324,8 @@ public class ScatterChart extends DefaultChartTypeImpl
 			currentChart.setSubType( sNewSubType );
 			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
+			currentChart.getInteractivity().setEnable( helperModel.getInteractivity().isEnable());
+			currentChart.getInteractivity().setLegendBehavior( helperModel.getInteractivity().getLegendBehavior());
 
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
