@@ -17,7 +17,6 @@ import org.eclipse.birt.core.archive.DocumentArchive;
 import org.eclipse.birt.core.archive.IDocumentArchive;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IPageHandler;
-import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.ReportEngine;
@@ -25,7 +24,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.parser.ReportParser;
-import org.eclipse.birt.report.engine.presentation.HtmlPaginateEmitter;
+import org.eclipse.birt.report.engine.presentation.HTMLPaginationEmitter;
 import org.eclipse.birt.report.engine.presentation.ReportDocumentEmitter;
 
 public class RunTask extends AbstractRunTask implements IRunTask
@@ -34,48 +33,58 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	ReportDocument reportDoc;
 	IPageHandler pageHandler;
 
-	RunTask( ReportEngine engine, IReportRunnable runnable )
+	/**
+	 * @param engine the report engine
+	 * @param runnable the report runnable instance
+	 */
+	public RunTask( ReportEngine engine, IReportRunnable runnable )
 	{
 		super( engine, runnable );
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IRunTask#setPageHandler(org.eclipse.birt.report.engine.api.IPageHandler)
+	 */
 	public void setPageHandler( IPageHandler callback )
 	{
 		this.pageHandler = callback;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IRunTask#run(java.lang.String)
+	 */
 	public void run( String reportDocName ) throws EngineException
 	{
-		IDocumentArchive archive = new DocumentArchive( reportDocName );
-		reportDoc = (ReportDocument) engine.openReportDocument( archive );
+		reportDoc = new ReportDocument(new DocumentArchive( reportDocName ));
 		run( );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IRunTask#run(org.eclipse.birt.core.archive.IDocumentArchive)
+	 */
 	public void run( IDocumentArchive archive ) throws EngineException
 	{
-
-		reportDoc = (ReportDocument) engine.openReportDocument( archive );
+		reportDoc = new ReportDocument(archive);
 		run( );
 	}
 
+	/**
+	 * runs the report
+	 * 
+	 * @throws EngineException throws exception when there is a run error
+	 */
 	protected void run( ) throws EngineException
 	{
 		if ( !validateParameters( ) )
-		{
-			throw new EngineException(
-					MessageConstants.INVALID_PARAMETER_EXCEPTION ); //$NON-NLS-1$
-		}
+			throw new EngineException(MessageConstants.INVALID_PARAMETER_EXCEPTION ); //$NON-NLS-1$
 
 		setupExecutionContext( );
 
 		executionContext.setReportDocument( reportDoc );
 
 		setupEmitterService();
-		// we need output: TOC, BookMark, PageHint
-		IContentEmitter emitter = new ReportDocumentEmitter( reportDoc );
-
-		emitter = new HtmlPaginateEmitter( executor, emitter );
+		IContentEmitter emitter = new HTMLPaginationEmitter( executor, new ReportDocumentEmitter( reportDoc ) );
 
 		// emitter is not null
 		emitter.initialize( services );

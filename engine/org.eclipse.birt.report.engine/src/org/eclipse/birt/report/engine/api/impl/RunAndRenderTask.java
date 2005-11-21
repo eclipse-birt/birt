@@ -29,8 +29,8 @@ import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.parser.ReportParser;
-import org.eclipse.birt.report.engine.presentation.DefaultPaginateEmitter;
-import org.eclipse.birt.report.engine.presentation.HtmlPaginateEmitter;
+import org.eclipse.birt.report.engine.presentation.DefaultPaginationEmitter;
+import org.eclipse.birt.report.engine.presentation.HTMLPaginationEmitter;
 import org.eclipse.birt.report.engine.presentation.LocalizedEmitter;
 import org.eclipse.birt.report.engine.script.ReportContextImpl;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -174,13 +174,13 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		// if we need do the paginate, do the paginate.
 		if ( format.equalsIgnoreCase( "html" ) )
 		{
-			emitter = new HtmlPaginateEmitter( executor, emitter );
+			emitter = new HTMLPaginationEmitter( executor, emitter );
 		}
 		else if ( format.equalsIgnoreCase( "fo" )
 				|| format.equalsIgnoreCase( "fop" )
 				|| format.equalsIgnoreCase( "pdf" ) )
 		{
-			emitter = new DefaultPaginateEmitter( executor, emitter );
+			emitter = new DefaultPaginationEmitter( executor, emitter );
 		}
 
 		// emitter is not null
