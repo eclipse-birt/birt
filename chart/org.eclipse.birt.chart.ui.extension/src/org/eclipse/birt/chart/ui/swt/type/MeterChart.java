@@ -62,6 +62,10 @@ public class MeterChart extends DefaultChartTypeImpl
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = "Meter Chart"; //$NON-NLS-1$
+	
+	public static final String STANDARD_SUBTYPE_LITERAL = "Standard Meter Chart"; //$NON-NLS-1$
+	
+	public static final String SUPERIMPOSED_SUBTYPE_LITERAL = "Superimposed Meter Chart"; //$NON-NLS-1$
 
 	public static final String CHART_TITLE = Messages.getString( "MeterChart.Txt.DefaultMeterChartTitle" ); //$NON-NLS-1$
 
@@ -135,8 +139,8 @@ public class MeterChart extends DefaultChartTypeImpl
 			imgStandard = UIHelper.getImage( "icons/wizban/meterchartimage.gif" ); //$NON-NLS-1$
 			imgSuperimposed = UIHelper.getImage( "icons/wizban/meterchartsuperimposedimage.gif" ); //$NON-NLS-1$
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString( "MeterChart.Tooltip.StandardMeterChart" ), imgStandard, sStandardDescription ) ); //$NON-NLS-1$
-			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString( "MeterChart.Tooltip.SuperimposedMeterChart" ), imgSuperimposed, sSuperimposedDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL, imgStandard, sStandardDescription  ) );
+			vSubTypes.add( new DefaultChartSubTypeImpl( SUPERIMPOSED_SUBTYPE_LITERAL, imgSuperimposed, sSuperimposedDescription ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}
@@ -167,7 +171,7 @@ public class MeterChart extends DefaultChartTypeImpl
 		newChart.setDimension( getDimensionFor( sDimension ) );
 		newChart.setUnits( "Points" ); //$NON-NLS-1$
 
-		newChart.setDialSuperimposition( sSubType.equals( "Superimposed Meter Chart" ) ); //$NON-NLS-1$
+		newChart.setDialSuperimposition( sSubType.equals( SUPERIMPOSED_SUBTYPE_LITERAL  ) );
 		newChart.getLegend( ).setItemType( LegendItemType.SERIES_LITERAL );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
@@ -176,7 +180,7 @@ public class MeterChart extends DefaultChartTypeImpl
 		sdX.getSeries( ).add( categorySeries );
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
 
-		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE ); //$NON-NLS-1$
+		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE ); 
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).update( 0 );
@@ -283,7 +287,7 @@ public class MeterChart extends DefaultChartTypeImpl
 			if ( currentChart.getType( ).equals( TYPE_LITERAL ) )
 			{
 				currentChart.setSubType( sNewSubType );
-				( (DialChart) currentChart ).setDialSuperimposition( sNewSubType.equals( "Superimposed Meter Chart" ) ); //$NON-NLS-1$
+				( (DialChart) currentChart ).setDialSuperimposition( sNewSubType.equals( SUPERIMPOSED_SUBTYPE_LITERAL  ) ); 
 				if ( !currentChart.getDimension( )
 						.equals( getDimensionFor( sNewDimension ) ) )
 				{
@@ -299,7 +303,7 @@ public class MeterChart extends DefaultChartTypeImpl
 				currentChart.setSubType( sNewSubType );
 				currentChart.setDimension( getDimensionFor( sNewDimension ) );
 
-				( (DialChart) currentChart ).setDialSuperimposition( sNewSubType.equals( "Superimposed Meter Chart" ) ); //$NON-NLS-1$
+				( (DialChart) currentChart ).setDialSuperimposition( sNewSubType.equals( SUPERIMPOSED_SUBTYPE_LITERAL  ) ); 
 
 				// Copy generic chart properties from the old chart
 				currentChart.setBlock( helperModel.getBlock( ) );

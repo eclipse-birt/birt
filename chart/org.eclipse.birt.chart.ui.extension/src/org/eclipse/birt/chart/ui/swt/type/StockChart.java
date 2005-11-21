@@ -72,6 +72,8 @@ public class StockChart extends DefaultChartTypeImpl
 	 */
 	public static final String TYPE_LITERAL = "Stock Chart"; //$NON-NLS-1$
 	
+	public static final String STANDARD_SUBTYPE_LITERAL = "Standard Stock Chart"; //$NON-NLS-1$
+	
 	public static final String CHART_TITLE = Messages.getString( "StockChart.Txt.DefaultStockChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStandardDescription = Messages.getString( "StockChart.Txt.Description" ); //$NON-NLS-1$
@@ -140,7 +142,7 @@ public class StockChart extends DefaultChartTypeImpl
 			{
 				img2D = UIHelper.getImage( "icons/wizban/horizontalstockchartimage.gif" ); //$NON-NLS-1$
 			}
-			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("StockChart.Tooltip.StandardStockChart"), img2D, sStandardDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL, img2D, sStandardDescription ) ); 
 		}
 		return vSubTypes;
 	}

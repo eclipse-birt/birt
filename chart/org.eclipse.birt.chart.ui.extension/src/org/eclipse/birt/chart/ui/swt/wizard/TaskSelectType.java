@@ -438,7 +438,7 @@ public class TaskSelectType extends SimpleTask
 			btnType.setImage( subType.getImage( ) );
 			btnType.setLayoutData( rowData );
 			btnType.addSelectionListener( this );
-			btnType.setToolTipText( subType.getName( ) );
+			btnType.setToolTipText( subType.getDescription( ) );
 			btnType.getImage( ).setBackground( btnType.getBackground( ) );
 			btnType.setVisible( true );
 			cmpTypeButtons.layout( true );

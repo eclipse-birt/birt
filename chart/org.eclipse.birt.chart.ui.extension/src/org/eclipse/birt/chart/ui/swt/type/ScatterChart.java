@@ -71,6 +71,8 @@ public class ScatterChart extends DefaultChartTypeImpl
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = "Scatter Chart"; //$NON-NLS-1$
+	
+	public static final String STANDARD_SUBTYPE_LITERAL = "Standard Scatter Chart"; //$NON-NLS-1$
 
 	public static final String CHART_TITLE = Messages.getString( "ScatterChart.Txt.DefaultScatterChartTitle" ); //$NON-NLS-1$
 
@@ -141,7 +143,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 				img2D = UIHelper.getImage( "icons/wizban/horizontalscatterchartimage.gif" ); //$NON-NLS-1$
 			}
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString( "ScatterChart.Tooltip.StandardScatterChart" ), img2D, sStandardDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL, img2D, sStandardDescription ) ); 
 		}
 		return vSubTypes;
 	}
@@ -202,7 +204,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.get( 0 ) ).getSeriesDefinitions( ).add( sdY );
 
-		if ( sSubType.equalsIgnoreCase( "Standard Scatter Chart" ) ) //$NON-NLS-1$
+		if ( sSubType.equalsIgnoreCase( STANDARD_SUBTYPE_LITERAL ) ) 
 		{
 			newChart.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
 		}
