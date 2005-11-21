@@ -287,7 +287,10 @@ public class BasePaletteFactory
 						.equalsIgnoreCase( type ) )
 				{
 					text = AUTOTEXT_LABEL_PAGE
-							+ "<value-of>GlobalBirt.CurrentPage</value-of>"; //$NON-NLS-1$
+							+ "<value-of>pageNumber</value-of>"; //$NON-NLS-1$
+					textItemHandle
+					.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
+					
 				}
 				else if ( IReportElementConstants.AUTOTEXT_DATE
 						.equalsIgnoreCase( type ) )
@@ -582,11 +585,14 @@ public class BasePaletteFactory
 							textHandle );
 
 					String text = AUTOTEXT_LABEL_PAGE
-							+ "<value-of>GlobalBirt.CurrentPage</value-of>"; //$NON-NLS-1$
+							+ "<value-of>pageNumber</value-of>"; //$NON-NLS-1$
 					textHandle = factory.newTextItem( null );
+					textHandle
+					.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
 					textHandle.setContent( text );
 					( (CellHandle) cellList.get( 1 ) ).getContent( ).add(
 							textHandle );
+					
 
 				}
 				catch ( SemanticException e )
