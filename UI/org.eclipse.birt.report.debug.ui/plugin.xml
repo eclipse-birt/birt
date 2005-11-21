@@ -20,7 +20,6 @@
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.core.runtime.compatibility"/>
-      <import plugin="org.eclipse.core.runtime.compatibility"/>
       <import plugin="org.eclipse.jdt.launching"/>
       <import plugin="org.eclipse.pde.ui"/>
       <import plugin="org.eclipse.pde.core"/>
