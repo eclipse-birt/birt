@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.tests.example.matrix;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 
 public class ExtensionPropertyDefn implements IPropertyDefinition
@@ -174,6 +175,12 @@ public class ExtensionPropertyDefn implements IPropertyDefinition
 	public String getDisplayNameID( )
 	{
 		return displayNameID;
+	}
+
+	public IMethodInfo getMethodInfo( )
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
