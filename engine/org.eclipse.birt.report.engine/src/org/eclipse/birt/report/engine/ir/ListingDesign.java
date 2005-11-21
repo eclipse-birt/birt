@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 /**
  * 
- * @version $Revision: 1.6 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.7 $ $Date: 2005/11/11 06:26:41 $
  */
 abstract public class ListingDesign extends ReportItemDesign
 {
@@ -39,18 +39,18 @@ abstract public class ListingDesign extends ReportItemDesign
 	 * array list store the ISortDefn
 	 */
 	protected ArrayList sorts = new ArrayList();
-	/**
-	 * on start script
-	 */
-	protected String onStart;
-	/**
-	 * on row script
-	 */
-	protected String onRow;
-	/**
-	 * on finish script
-	 */
-	protected String onFinish;
+//	/**
+//	 * on start script
+//	 */
+//	protected String onStart;
+//	/**
+//	 * on row script
+//	 */
+//	protected String onRow;
+//	/**
+//	 * on finish script
+//	 */
+//	protected String onFinish;
 	
 	/**
 	 * get all the groups in this listing.
@@ -88,48 +88,48 @@ abstract public class ListingDesign extends ReportItemDesign
 		return sorts;
 	}
 	
-	/**
-	 * @return Returns the onFinish.
-	 */
-	public String getOnFinish( )
-	{
-		return onFinish;
-	}
-	/**
-	 * @param onFinish The onFinish to set.
-	 */
-	public void setOnFinish( String onFinish )
-	{
-		this.onFinish = onFinish;
-	}
-	/**
-	 * @return Returns the onRow.
-	 */
-	public String getOnRow( )
-	{
-		return onRow;
-	}
-	/**
-	 * @param onRow The onRow to set.
-	 */
-	public void setOnRow( String onRow )
-	{
-		this.onRow = onRow;
-	}
-	/**
-	 * @return Returns the onStart.
-	 */
-	public String getOnStart( )
-	{
-		return onStart;
-	}
-	/**
-	 * @param onStart The onStart to set.
-	 */
-	public void setOnStart( String onStart )
-	{
-		this.onStart = onStart;
-	}
+//	/**
+//	 * @return Returns the onFinish.
+//	 */
+//	public String getOnFinish( )
+//	{
+//		return onFinish;
+//	}
+//	/**
+//	 * @param onFinish The onFinish to set.
+//	 */
+//	public void setOnFinish( String onFinish )
+//	{
+//		this.onFinish = onFinish;
+//	}
+//	/**
+//	 * @return Returns the onRow.
+//	 */
+//	public String getOnRow( )
+//	{
+//		return onRow;
+//	}
+//	/**
+//	 * @param onRow The onRow to set.
+//	 */
+//	public void setOnRow( String onRow )
+//	{
+//		this.onRow = onRow;
+//	}
+//	/**
+//	 * @return Returns the onStart.
+//	 */
+//	public String getOnStart( )
+//	{
+//		return onStart;
+//	}
+//	/**
+//	 * @param onStart The onStart to set.
+//	 */
+//	public void setOnStart( String onStart )
+//	{
+//		this.onStart = onStart;
+//	}
 	
 	public void setPageBreakInterval(int interval)
 	{

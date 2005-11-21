@@ -15,6 +15,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSRule;
 import org.w3c.dom.css.CSSValue;
 
@@ -56,7 +57,7 @@ abstract public class AbstractStyle implements IStyle
 			{
 				sb.append( engine.getPropertyName( i ) );
 				sb.append( ": " );
-				sb.append( value.getCssText( ) );
+				sb.append( getCssText( value ) );
 				sb.append( "; " );
 			}
 		}
@@ -65,6 +66,21 @@ abstract public class AbstractStyle implements IStyle
 			sb.setLength( sb.length( ) - 2 );
 		}
 		return sb.toString( );
+	}
+
+	protected String getCssText( CSSValue value )
+	{
+		String cssText = value.getCssText( );
+		if ( value.getCssValueType( ) == CSSValue.CSS_PRIMITIVE_VALUE )
+		{
+			CSSPrimitiveValue pvalue = (CSSPrimitiveValue) value;
+			if ( pvalue.getPrimitiveType( ) == CSSPrimitiveValue.CSS_STRING )
+			{
+				char q = ( cssText.indexOf( '"' ) != -1 ) ? '\'' : '"';
+				return q + cssText + q;
+			}
+		}
+		return cssText;
 	}
 
 	public void setCssText( String cssText ) throws DOMException

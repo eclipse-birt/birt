@@ -137,7 +137,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.57 $ $Date: 2005/11/18 06:11:39 $
+ * @version $Revision: 1.58 $ $Date: 2005/11/18 09:04:27 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1773,9 +1773,9 @@ class EngineIRVisitor extends DesignVisitor
 		setupReportItem( listing, handle );
 
 		// setup scripts
-		listing.setOnStart( handle.getOnStart( ) );
-		listing.setOnRow( handle.getOnRow( ) );
-		listing.setOnFinish( handle.getOnFinish( ) );
+//		listing.setOnStart( handle.getOnStart( ) );
+//		listing.setOnRow( handle.getOnRow( ) );
+//		listing.setOnFinish( handle.getOnFinish( ) );
 	}
 
 	// Convert model operator value to DtE IColumnFilter enum value
