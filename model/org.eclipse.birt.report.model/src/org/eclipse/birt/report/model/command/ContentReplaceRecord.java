@@ -19,7 +19,6 @@ import org.eclipse.birt.report.model.activity.NotificationRecordTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentReplaceEvent;
-import org.eclipse.birt.report.model.api.command.ElementDeletedEvent;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -283,23 +282,6 @@ public class ContentReplaceRecord extends SimpleRecord
 				retValue.add( new NotificationRecordTask( oldElement, event,
 						container.getRoot( ) ) );
 		}
-
-		// Broadcast to the old element of the replace event.
-
-		if ( state != UNDONE_STATE )
-		{
-			event = new ElementDeletedEvent( container, oldElement );
-			retValue.add( new NotificationRecordTask( oldElement, event,
-					container.getRoot( ) ) );
-		}
-		else
-		{
-			event = new ElementDeletedEvent( container, newElement );
-			retValue.add( new NotificationRecordTask( newElement, event,
-					container.getRoot( ) ) );
-		}
-		if ( state == DONE_STATE )
-			event.setSender( sender );
 
 		return retValue;
 	}

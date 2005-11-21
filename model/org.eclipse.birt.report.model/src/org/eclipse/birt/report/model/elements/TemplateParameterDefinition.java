@@ -11,15 +11,12 @@
 
 package org.eclipse.birt.report.model.elements;
 
-import java.util.List;
-
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.TemplateParameterDefinitionHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.api.validators.TemplateParameterTypeValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -167,22 +164,6 @@ public class TemplateParameterDefinition extends ReferenceableElement
 				.clone( );
 		templateParam.defaultContent = defaultContent.copy( templateParam, DEFAULT_SLOT );
 		return templateParam;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#valdiate(org.eclipse.birt.report.model.elements.ReportDesign)
-	 */
-
-	public List validate( Module module )
-	{
-		List list = super.validate( module );
-
-		list.addAll( TemplateParameterTypeValidator.getInstance( ).validate(
-				module, this ) );
-
-		return list;
 	}
 
 	/**

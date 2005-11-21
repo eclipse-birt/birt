@@ -93,7 +93,7 @@ public class TemplateDataSetState extends ReportElementState
 												refTemplateParam
 														.getIdentifier( )},
 										DesignParserException.DESIGN_EXCEPTION_INCONSISTENT_TEMPLATE_ELEMENT_TYPE ) );
-			}
+			}			
 		}
 		else
 		{

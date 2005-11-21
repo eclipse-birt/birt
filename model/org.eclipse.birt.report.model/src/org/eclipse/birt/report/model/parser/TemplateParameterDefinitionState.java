@@ -11,7 +11,10 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
@@ -203,6 +206,33 @@ public class TemplateParameterDefinitionState extends ReportElementState
 							new DesignParserException(
 									new String[]{element.getIdentifier( )},
 									DesignParserException.DESIGN_EXCEPTION_MISSING_TEMPLATE_PARAMETER_DEFAULT ) );
+		}
+		else
+		{
+			// if allowed type is empty or inconsistent with the default
+			// element, then set it to the type of the default element
+
+			String allowedType = element.getAllowedType( handler.getModule( ) );
+
+			if ( defaultElement instanceof ReportItem )
+			{
+				if ( !defaultElement.getElementName( ).equals( allowedType ) )
+					setProperty( TemplateParameterDefinition.ALLOWED_TYPE_PROP,
+							defaultElement.getElementName( ) );
+			}
+			else if ( defaultElement instanceof DataSet )
+			{
+				if ( !DesignChoiceConstants.TEMPLATE_ELEMENT_TYPE_DATA_SET
+						.equals( allowedType ) )
+					setProperty(
+							TemplateParameterDefinition.ALLOWED_TYPE_PROP,
+							DesignChoiceConstants.TEMPLATE_ELEMENT_TYPE_DATA_SET );
+			}
+			else
+			{
+				assert false;
+			}
+
 		}
 		super.end( );
 	}

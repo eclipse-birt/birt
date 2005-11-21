@@ -1358,8 +1358,7 @@
   	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.StructureReferenceValidator" modules="design, library" name="StructureReferenceValidator" />
   	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.StyleReferenceValidator" modules="design, library" name="StyleReferenceValidator" />
    	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.CascadingParameterTypeValidator" modules="design, library" name="CascadingParameterTypeValidator" />
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator" modules="library" name="ThemeStyleNameValidator" />	  
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.TemplateParameterTypeValidator" modules="design" name="TemplateParameterTypeValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator" modules="library" name="ThemeStyleNameValidator" />	
   </Validators>
   <Structure displayNameID="Structure.NumberFormatValue" name="NumberFormatValue" since="1.0">
     <Member detailType="numberFormat" displayNameID="Structure.NumberFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
@@ -2924,10 +2923,8 @@
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.TemplateParameterDefinition" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.TemplateParameterDefinition" name="TemplateParameterDefinition" nameSpace="templateParameterDefinition" since="2.0" xmlName="template-parameter-definition">
   	<Property canInherit="false" displayNameID="Element.TemplateParameterDefinition.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.0" type="name"/>
-  	<Property canInherit="false" detailType="templateElementType" displayNameID="Element.TemplateParameterDefinition.allowedType" name="allowedType" runtimeSettable="false" since="2.0" type="choice">
- 		<Trigger preRequisite="true" validator="TemplateParameterTypeValidator"/>
-  	</Property>
-  	<Property canInherit="false" displayNameID="Element.TemplateParameterDefinition.description" name="description" runtimeSettable="false" since="2.0" type="string"/>
+  	<Property canInherit="false" detailType="templateElementType" displayNameID="Element.TemplateParameterDefinition.allowedType" name="allowedType" runtimeSettable="false" since="2.0" type="choice"/>
+ 	<Property canInherit="false" displayNameID="Element.TemplateParameterDefinition.description" name="description" runtimeSettable="false" since="2.0" type="string"/>
   	<Property canInherit="false" displayNameID="Element.TemplateParameterDefinition.descriptionID" name="descriptionID" runtimeSettable="false" since="2.0" type="resourceKey"/>
   	<Slot displayNameID="Element.TemplateParameterDefinition.slot.default" isManagedByNameSpace="false" multipleCardinality="false" name="default" since="2.0" xmlName="default">
   		<Type name="Table"/>
@@ -2940,7 +2937,6 @@
   		<Type name="ExtendedItem"/>
   		<Type name="TextData"/>
   		<Type name="DataSet"/>
-  		<Trigger preRequisite="true" validator="TemplateParameterTypeValidator"/>
   	</Slot>
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.TemplateElement" hasStyle="false" isAbstract="true" isNameRequired="false" name="TemplateElement" nameSpace="none" since="2.0">

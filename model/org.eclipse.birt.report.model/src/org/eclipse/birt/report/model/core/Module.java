@@ -1400,6 +1400,32 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public final void semanticCheck( Module module )
 	{
 		allExceptions = validateWithContents( module );
+
+		// delete all useless template parameter definition
+
+		if ( module instanceof ReportDesign )
+		{
+			ContainerSlot slot = module.getSlot( ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
+			assert slot != null;
+			for ( int i = slot.getCount( ) - 1; i >= 0; i-- )
+			{
+				TemplateParameterDefinition templateParam = (TemplateParameterDefinition) slot
+						.getContent( i );
+				if ( templateParam.getClientList( ).isEmpty( ) )
+				{
+					slot.remove( templateParam );
+
+					// Remove the element from the ID map if we are using
+					// IDs.
+
+					module.manageId( templateParam, false, false );
+
+					// Clear the inverse relationship.
+
+					templateParam.setContainer( null, DesignElement.NO_SLOT );
+				}
+			}
+		}
 	}
 
 	/**
