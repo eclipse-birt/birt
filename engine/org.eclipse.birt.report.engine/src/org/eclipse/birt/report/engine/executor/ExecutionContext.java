@@ -63,7 +63,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.41 $ $Date: 2005/11/17 16:50:45 $
+ * @version $Revision: 1.42 $ $Date: 2005/11/21 02:00:31 $
  */
 public class ExecutionContext
 {
@@ -118,7 +118,7 @@ public class ExecutionContext
 	private Map appContext;
 
 	private IReportContext reportContext;
-	
+
 	private boolean presentationMode = false;
 	private boolean factoryMode = true;
 
@@ -362,7 +362,7 @@ public class ExecutionContext
 	{
 		try
 		{
-			return getDataEngine().evaluate( expr );
+			return getDataEngine( ).evaluate( expr );
 		}
 		catch ( Throwable t )
 		{
@@ -462,9 +462,10 @@ public class ExecutionContext
 	 */
 	public IDataEngine getDataEngine( )
 	{
-		if (dataEngine == null)
+		if ( dataEngine == null )
 		{
-			dataEngine = DataEngineFactory.getInstance( ).createDataEngine( this );
+			dataEngine = DataEngineFactory.getInstance( ).createDataEngine(
+					this );
 		}
 		return dataEngine;
 	}
@@ -588,10 +589,10 @@ public class ExecutionContext
 	/**
 	 * @return
 	 */
-	public void popContent( )
+	public IContent popContent( )
 	{
-		reportContents.pop( );
 		exitScope( );
+		return (IContent) reportContents.pop( );
 	}
 
 	/**
@@ -615,11 +616,11 @@ public class ExecutionContext
 	public void addException( BirtException ex )
 	{
 		IContent content = getContent( );
-		
+
 		ReportItemDesign design = null;
 		if ( content != null )
 			design = (ReportItemDesign) content.getGenerateBy( );
-		
+
 		DesignElementHandle handle = design == null ? null : design.getHandle( );
 		addException( handle, ex );
 	}
@@ -857,15 +858,16 @@ public class ExecutionContext
 		return presentationMode;
 	}
 
-	public void setFactoryMode(boolean mode)
+	public void setFactoryMode( boolean mode )
 	{
 		this.factoryMode = mode;
 	}
-	
-	public void setPresentationMode(boolean mode)
+
+	public void setPresentationMode( boolean mode )
 	{
 		this.presentationMode = mode;
 	}
+
 	public StringFormatter getStringFormatter( String value )
 	{
 		StringFormatter fmt = (StringFormatter) stringFormatters.get( value );

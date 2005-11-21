@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.content.impl;
 
@@ -63,8 +73,8 @@ public class PageContent extends AbstractContent implements IPageContent
 			marginLeft = page.getLeftMargin( );
 			marginRight = page.getRightMargin( );
 			marginBottom = page.getBottomMargin( );
-			headerHeight = new DimensionType(1.0f, EngineIRConstants.UNITS_IN );
-			footerHeight = new DimensionType(1.0f, EngineIRConstants.UNITS_IN );
+			headerHeight = new DimensionType( 1.0f, EngineIRConstants.UNITS_IN );
+			footerHeight = new DimensionType( 1.0f, EngineIRConstants.UNITS_IN );
 		}
 	}
 
@@ -208,7 +218,11 @@ public class PageContent extends AbstractContent implements IPageContent
 
 	public IStyle getContentStyle( )
 	{
-		return ( (MasterPageDesign) generateBy ).getContentStyle( );
+		if ( generateBy instanceof MasterPageDesign )
+		{
+			return ( (MasterPageDesign) generateBy ).getContentStyle( );
+		}
+		return null;
 	}
 
 	public void setPageNumber( long pn )

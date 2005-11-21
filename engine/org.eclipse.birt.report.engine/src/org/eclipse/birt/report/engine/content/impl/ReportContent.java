@@ -30,28 +30,34 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
+import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.Report;
 
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:46 $
+ * @version $Revision: 1.7 $ $Date: 2005/11/14 10:55:58 $
  */
 public class ReportContent implements IReportContent
 {
 
-	CSSEngine cssEngine;
-	Report report;
+	private CSSEngine cssEngine;
+	private Report report;
 	ArrayList errors = new ArrayList( );
 
 	/**
 	 * default constructor.
 	 */
-	public ReportContent( CSSEngine engine, Report report )
+	public ReportContent( Report report )
 	{
-		cssEngine = engine;
+		cssEngine = BIRTCSSEngine.getInstance( );
 		this.report = report;
+	}
+
+	public ReportContent( )
+	{
+		cssEngine = BIRTCSSEngine.getInstance( );
 	}
 
 	public Report getDesign( )
@@ -61,17 +67,16 @@ public class ReportContent implements IReportContent
 
 	public IStyle findStyle( String styleClass )
 	{
-		return (IStyle) report.findStyle( styleClass );
+		if ( report != null )
+		{
+			return (IStyle) report.findStyle( styleClass );
+		}
+		return null;
 	}
 
 	public CSSEngine getCSSEngine( )
 	{
 		return this.cssEngine;
-	}
-
-	public Object getGenerateBy( )
-	{
-		return report;
 	}
 
 	/**

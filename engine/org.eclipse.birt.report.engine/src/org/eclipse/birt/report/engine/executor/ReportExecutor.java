@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.util.BirtTimer;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
@@ -50,7 +51,7 @@ import org.eclipse.birt.report.engine.script.ReportScriptExecutor;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.24 $ $Date: 2005/11/17 01:40:44 $
+ * @version $Revision: 1.25 $ $Date: 2005/11/21 02:00:31 $
  */
 public class ReportExecutor
 {
@@ -114,7 +115,7 @@ public class ReportExecutor
 		Iterator iter = report.getIncludeScripts( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String fileName = ( String ) iter.next( );
+			String fileName = (String) iter.next( );
 			context.loadScript( fileName );
 		}
 
@@ -193,7 +194,9 @@ public class ReportExecutor
 
 		if ( masterPage instanceof SimpleMasterPageDesign )
 		{
-			SimpleMasterPageDesign pageDesign = ( SimpleMasterPageDesign ) masterPage;
+			SimpleMasterPageDesign pageDesign = (SimpleMasterPageDesign) masterPage;
+			InstanceID iid = new InstanceID( null, pageDesign.getID( ), null );
+			pageContent.setInstanceID( iid );
 			for ( int i = 0; i < pageDesign.getHeaderCount( ); i++ )
 			{
 				pageDesign.getHeader( i ).accept( builder,
@@ -243,8 +246,8 @@ public class ReportExecutor
 		}
 
 	}
-	
-	public ExecutionContext getContext()
+
+	public ExecutionContext getContext( )
 	{
 		return this.context;
 	}

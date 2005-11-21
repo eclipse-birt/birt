@@ -78,7 +78,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.46 $ $Date: 2005/11/17 09:52:43 $
+ * @version $Revision: 1.47 $ $Date: 2005/11/18 03:36:54 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -605,9 +605,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	public void end( IReportContent report )
 	{
 		logger.log( Level.FINE, "[HTMLReportEmitter] End body." ); //$NON-NLS-1$
-		if ( outputErrors( report.getErrors( ) ) )
+		if ( report != null )
 		{
-			addExpandableErrorMsg( );
+			if ( outputErrors( report.getErrors( ) ) )
+			{
+				addExpandableErrorMsg( );
+			}
 		}
 		if ( !isEmbeddable )
 		{
@@ -1161,10 +1164,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( isHtml )
 		{
-			text = text.replaceAll( "<[H|h][T|t][M|m][L|l]>", "");
-			text = text.replaceAll( "</[H|h][T|t][M|m][L|l]>", "");
-			text = text.replaceAll( "<[B|b][O|o][D|d][Y|y]>", "");
-			text = text.replaceAll( "</[B|b][O|o][D|d][Y|y]>", "");
+			text = text.replaceAll( "<[H|h][T|t][M|m][L|l]>", "" );
+			text = text.replaceAll( "</[H|h][T|t][M|m][L|l]>", "" );
+			text = text.replaceAll( "<[B|b][O|o][D|d][Y|y]>", "" );
+			text = text.replaceAll( "</[B|b][O|o][D|d][Y|y]>", "" );
 		}
 
 		writer.text( text, !isHtml, !isHtml );

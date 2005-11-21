@@ -30,7 +30,6 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.presentation.LocalizedEmitter;
-import org.eclipse.birt.report.engine.presentation.PageHint;
 import org.eclipse.birt.report.engine.presentation.ReportContentLoader;
 import org.eclipse.birt.report.engine.script.ReportContextImpl;
 
@@ -50,8 +49,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 		executionContext.setReportDocument( reportDoc );
 		executionContext.setFactoryMode( false );
 		executionContext.setPresentationMode( true );
-		Report report = new ReportParser().parse( ((ReportRunnable)runnable).getReport() );
-		executionContext.setReport(report);
+		Report report = new ReportParser( ).parse( ( (ReportRunnable) runnable )
+				.getReport( ) );
+		executionContext.setReport( report );
 		setParameterValues( reportDoc.getParameterValues( ) );
 	}
 
@@ -72,25 +72,19 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	public void render( ) throws EngineException
 	{
-		render( null, null );
+		throw new UnsupportedOperationException( "render" );
 	}
 
 	public void render( long pageNumber ) throws EngineException
 	{
-		PageHint pageHint = reportDoc.getPageHint( pageNumber );
-		if ( pageHint == null )
+		long totalPage = reportDoc.getPageCount( );
+		if ( pageNumber < 0 || pageNumber >= totalPage )
 		{
 			throw new EngineException( "Can't find page hints :{0}", new Long(
 					pageNumber ) );
 		}
-		InstanceID startId = InstanceID.parse( pageHint.getStartID( ) );
-		InstanceID endId = InstanceID.parse( pageHint.getEndID( ) );
-		/*
-		 * if ( startId == null || endId == null ) { throw new EngineException(
-		 * "Invalid instance id:{0} or {1}", new Object[]{pageHint.getStartID( ),
-		 * pageHint.getEndID( )} ); }
-		 */
-		render( startId, endId );
+
+		doRender( pageNumber );
 	}
 
 	public void render( String pageRange ) throws EngineException
@@ -100,11 +94,10 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	public void render( InstanceID iid ) throws EngineException
 	{
-		render( iid, iid );
+		throw new UnsupportedOperationException( "render" );
 	}
 
-	protected void render( InstanceID siid, InstanceID eiid )
-			throws EngineException
+	protected void doRender( long pageNumber ) throws EngineException
 	{
 		// create the emitter services object that is needed in the emitters.
 		EngineEmitterServices services = new EngineEmitterServices( this );
@@ -180,7 +173,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		{
 			ReportContentLoader loader = new ReportContentLoader(
 					executionContext );
-			loader.load( siid, eiid, emitter );
+			loader.loadPage( pageNumber, emitter );
 		}
 		catch ( Exception ex )
 		{

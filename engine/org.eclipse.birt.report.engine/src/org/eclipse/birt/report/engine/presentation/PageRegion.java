@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.report.engine.presentation;
 
 import java.util.Iterator;
@@ -16,241 +27,244 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 
-
-
 public class PageRegion extends WrappedEmitter
 
 {
+
 	Page page;
-	
+
 	PageRegion parent;
-	
+
 	PageFlow pageFlow;
-	
-	public PageRegion(Page page, PageFlow pageFlow)
+
+	public PageRegion( Page page, PageFlow pageFlow )
 	{
-		super(page.getEmitter());
-		
+		super( page.getEmitter( ) );
+
 		this.page = page;
 		this.parent = null;
 		this.pageFlow = pageFlow;
 	}
 
-	PageRegion createRegion(PageFlow pageFlow)
+	PageRegion createRegion( PageFlow pageFlow )
 	{
-		PageRegion region = new PageRegion(page, pageFlow);
+		PageRegion region = new PageRegion( page, pageFlow );
 		region.parent = this;
 		return region;
 	}
-	
-	PageFlow getPageFlow()
+
+	PageFlow getPageFlow( )
 	{
 		return this.pageFlow;
 	}
-	
-	Page getPage()
+
+	Page getPage( )
 	{
 		return page;
 	}
-	
-	PageRegion getParent()
+
+	PageRegion getParent( )
 	{
 		return parent;
 	}
-	
+
 	boolean closed;
 	boolean opened;
-	public void open()
+
+	public void open( )
 	{
-		if (opened == false)
+		if ( opened == false )
 		{
 			IContent root = null;
-			if (parent != null)
+			if ( parent != null )
 			{
-				root = parent.getContent();
+				root = parent.getContent( );
 			}
-			IContent content = getContent();
-			openContent(content, root);
-			//output the content
+			IContent content = getContent( );
+			openContent( content, root );
+			// output the content
 			opened = true;
 		}
 	}
-	
-	IContent getContent()
+
+	IContent getContent( )
 	{
-		if (pageFlow != null)
+		if ( pageFlow != null )
 		{
-			return pageFlow.getContent();
+			return pageFlow.getContent( );
 		}
 		return null;
 	}
-	
-	public void close()
-	{
-		if (closed == false)
-		{
-			//output the content
-			IContent root = null;
-			if (parent != null)
-			{
-				root = parent.getContent();
-			}
-			IContent content = getContent();
 
-			closeContent(content, root);
-			
+	public void close( )
+	{
+		if ( closed == false )
+		{
+			// output the content
+			IContent root = null;
+			if ( parent != null )
+			{
+				root = parent.getContent( );
+			}
+			IContent content = getContent( );
+
+			closeContent( content, root );
+
 			closed = true;
 		}
 	}
-	
-	protected void openContent(IContent content, IContent root)
+
+	protected void openContent( IContent content, IContent root )
 	{
-		LinkedList contents = new LinkedList();
-		while (content != root && content != null)
+		LinkedList contents = new LinkedList( );
+		while ( content != root && content != null )
 		{
-			contents.addFirst(content);
-			content  = (IContent) content.getParent();
+			contents.addFirst( content );
+			content = (IContent) content.getParent( );
 		}
-		
-		Iterator iter = contents.iterator();
-		while (iter.hasNext())
+
+		Iterator iter = contents.iterator( );
+		while ( iter.hasNext( ) )
 		{
-			content = (IContent)iter.next();
-			new StartEmitterVisitor(emitter).visit(content, null);
+			content = (IContent) iter.next( );
+			new StartEmitterVisitor( emitter ).visit( content, null );
 		}
 	}
-	
-	protected void closeContent(IContent content, IContent root)
+
+	protected void closeContent( IContent content, IContent root )
 	{
-		while (content != null && content != root)
+		while ( content != null && content != root )
 		{
-			new EndEmitterVisitor(emitter).visit(content, null);
-			content = (IContent)content.getParent();
-		} 
+			new EndEmitterVisitor( emitter ).visit( content, null );
+			content = (IContent) content.getParent( );
+		}
 	}
 
 	class StartEmitterVisitor extends ContentVisitorAdapter
 	{
 
 		IContentEmitter emitter;
-		public StartEmitterVisitor (IContentEmitter emitter)
+
+		public StartEmitterVisitor( IContentEmitter emitter )
 		{
 			this.emitter = emitter;
 		}
 
 		public void visitCell( ICellContent cell, Object value )
 		{
-			emitter.startCell(cell);
+			emitter.startCell( cell );
 		}
 
 		public void visitContainer( IContainerContent container, Object value )
 		{
-			emitter.startContainer(container);
+			emitter.startContainer( container );
 		}
 
 		public void visitContent( IContent content, Object value )
 		{
-			emitter.startContent(content);
+			emitter.startContent( content );
 		}
 
 		public void visitForeign( IForeignContent content, Object value )
 		{
-			emitter.startForeign(content);
+			emitter.startForeign( content );
 		}
 
 		public void visitImage( IImageContent image, Object value )
 		{
-			emitter.startImage(image);
+			emitter.startImage( image );
 		}
 
 		public void visitPage( IPageContent page, Object value )
 		{
-			emitter.startPage(page);
+			emitter.startPage( page );
 		}
 
 		public void visitRow( IRowContent row, Object value )
 		{
-			emitter.startRow(row);
+			emitter.startRow( row );
 		}
 
 		public void visitTable( ITableContent table, Object value )
 		{
-			emitter.startTable(table);
+			emitter.startTable( table );
 		}
 
 		public void visitTableBand( ITableBandContent tableBand, Object value )
 		{
-			switch(tableBand.getType())
+			switch ( tableBand.getType( ) )
 			{
-				case ITableBandContent.BAND_HEADER:
-					emitter.startTableHeader(tableBand);
+				case ITableBandContent.BAND_HEADER :
+					emitter.startTableHeader( tableBand );
 					break;
-				case ITableBandContent.BAND_FOOTER:
-					emitter.startTableFooter(tableBand);
+				case ITableBandContent.BAND_FOOTER :
+					emitter.startTableFooter( tableBand );
 					break;
-				case ITableBandContent.BAND_BODY:
-				default:
-					emitter.startTableBody(tableBand);
-				break;
+				case ITableBandContent.BAND_BODY :
+				default :
+					emitter.startTableBody( tableBand );
+					break;
 			}
 		}
 
 		public void visitText( ITextContent text, Object value )
 		{
-			emitter.startText(text);
+			emitter.startText( text );
 		}
-		
+
 	};
-	
+
 	class EndEmitterVisitor extends ContentVisitorAdapter
 	{
+
 		IContentEmitter emitter;
-		public EndEmitterVisitor (IContentEmitter emitter)
+
+		public EndEmitterVisitor( IContentEmitter emitter )
 		{
 			this.emitter = emitter;
 		}
 
 		public void visitCell( ICellContent cell, Object value )
 		{
-			emitter.endCell(cell);
+			emitter.endCell( cell );
 		}
 
 		public void visitContainer( IContainerContent container, Object value )
 		{
-			emitter.endContainer(container);
+			emitter.endContainer( container );
 		}
 
 		public void visitPage( IPageContent page, Object value )
 		{
-			emitter.endPage(page);
+			emitter.endPage( page );
 		}
 
 		public void visitRow( IRowContent row, Object value )
 		{
-			emitter.endRow(row);
+			emitter.endRow( row );
 		}
 
 		public void visitTable( ITableContent table, Object value )
 		{
-			emitter.endTable(table);
+			emitter.endTable( table );
 		}
 
 		public void visitTableBand( ITableBandContent tableBand, Object value )
 		{
-			switch(tableBand.getType())
+			switch ( tableBand.getType( ) )
 			{
-				case ITableBandContent.BAND_HEADER:
-					emitter.endTableHeader(tableBand);
+				case ITableBandContent.BAND_HEADER :
+					emitter.endTableHeader( tableBand );
 					break;
-				case ITableBandContent.BAND_FOOTER:
-					emitter.endTableFooter(tableBand);
+				case ITableBandContent.BAND_FOOTER :
+					emitter.endTableFooter( tableBand );
 					break;
-				case ITableBandContent.BAND_BODY:
-				default:
-					emitter.endTableBody(tableBand);
-				break;
+				case ITableBandContent.BAND_BODY :
+				default :
+					emitter.endTableBody( tableBand );
+					break;
 			}
 		}
-		
+
 	}
 }

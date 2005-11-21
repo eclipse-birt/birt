@@ -21,38 +21,50 @@ public class PageHint implements Serializable
 	 */
 	private static final long serialVersionUID = -7666468796696037741L;
 
-	protected String startId;
-	protected long startOffset;
-	protected String endId;
-	protected long endOffset;
+	protected long pageNumber;
+	protected long pageOffset;
+	protected long pageStart;
+	protected long pageEnd;
 
-	public PageHint( String startId, long startOffset, String endId,
-			long endOffset )
+	public PageHint( long pageNumber, long pageOffset, long pageStart,
+			long pageEnd )
 	{
-		this.startId = startId;
-		this.startOffset = startOffset;
-		this.endId = endId;
-		this.endOffset = endOffset;
+		this.pageNumber = pageNumber;
+		this.pageOffset = pageOffset;
+		this.pageStart = pageStart;
+		this.pageEnd = pageEnd;
 	}
 
-	public String getStartID( )
+	/**
+	 * @return Returns the pageEnd.
+	 */
+	public long getPageEnd( )
 	{
-		return startId;
+		return pageEnd;
 	}
 
-	public String getEndID( )
+	/**
+	 * @return Returns the pageNumber.
+	 */
+	public long getPageNumber( )
 	{
-		return endId;
+		return pageNumber;
 	}
 
-	public long getStartOffset( )
+	/**
+	 * @return Returns the pageOffset.
+	 */
+	public long getPageOffset( )
 	{
-		return startOffset;
+		return pageOffset;
 	}
 
-	public long getEndOffset( )
+	/**
+	 * @return Returns the pageStart.
+	 */
+	public long getPageStart( )
 	{
-		return endOffset;
+		return pageStart;
 	}
 
 }

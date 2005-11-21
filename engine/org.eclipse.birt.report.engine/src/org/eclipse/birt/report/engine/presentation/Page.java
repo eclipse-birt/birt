@@ -1,44 +1,55 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.report.engine.presentation;
 
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 
-
 public class Page
 {
+
 	IPageContent pageContent;
 	IContentEmitter emitter;
 	PageRegion rootRegion;
 
-	public Page(IContentEmitter emitter, IPageContent pageContent)
+	public Page( IContentEmitter emitter, IPageContent pageContent )
 	{
 		this.emitter = emitter;
 		this.pageContent = pageContent;
-		this.rootRegion = new PageRegion(this,null);
+		this.rootRegion = new PageRegion( this, null );
 	}
-	
-	public PageRegion getRootRegion()
+
+	public PageRegion getRootRegion( )
 	{
 		return rootRegion;
 	}
-	
-	public IContentEmitter getEmitter()
+
+	public IContentEmitter getEmitter( )
 	{
 		return this.emitter;
 	}
-	
-	public void open()
+
+	public void open( )
 	{
-		emitter.startPage(pageContent);
+		emitter.startPage( pageContent );
 	}
-	
-	public void close()
+
+	public void close( )
 	{
-		emitter.endPage(pageContent);
+		emitter.endPage( pageContent );
 	}
-	
-	public PageRegion createRegion(PageFlow pageFlow)
+
+	public PageRegion createRegion( PageFlow pageFlow )
 	{
-		return getRootRegion();
+		return getRootRegion( );
 	}
 }
