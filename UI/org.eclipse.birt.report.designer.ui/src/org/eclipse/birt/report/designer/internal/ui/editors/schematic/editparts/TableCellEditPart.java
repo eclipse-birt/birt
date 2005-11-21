@@ -94,6 +94,7 @@ public class TableCellEditPart extends ReportElementEditPart
 		switch ( ev.getEventType( ) )
 		{
 			case NotificationEvent.CONTENT_EVENT :
+			case NotificationEvent.TEMPLATE_TRANSFORM_EVENT:
 			{
 				( (TableEditPart) getParent( ) ).refreshChildren( );
 				refreshChildren( );

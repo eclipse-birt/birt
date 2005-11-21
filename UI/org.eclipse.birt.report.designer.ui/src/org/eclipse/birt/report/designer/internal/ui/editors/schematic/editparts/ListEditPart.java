@@ -84,6 +84,7 @@ public class ListEditPart extends ReportElementEditPart
 		switch ( ev.getEventType( ) )
 		{
 			case NotificationEvent.CONTENT_EVENT :
+			case NotificationEvent.TEMPLATE_TRANSFORM_EVENT:
 			{
 				if ( focus instanceof ListHandle )
 				{
