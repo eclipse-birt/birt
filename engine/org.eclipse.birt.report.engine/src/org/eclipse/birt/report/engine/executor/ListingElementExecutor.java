@@ -31,6 +31,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 * the cursor position in the query result.
 	 */
 	protected int rsetCursor;
+	protected boolean needPageBreak;
 
 	/**
 	 * emitter used to output the content
@@ -67,7 +68,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 */
 	protected void accessQuery( ReportItemDesign design, IContentEmitter emitter )
 	{
-		ListingDesign listing = ( ListingDesign ) design;
+		ListingDesign listing = (ListingDesign) design;
 
 		rsetCursor = -1;
 		outputEmitter = emitter;
@@ -75,6 +76,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		int groupCount = listing.getGroupCount( );
 		int NONE_GROUP = groupCount + 1;
 		int groupIndex;
+		int pageBreakInterval = listing.getPageBreakInterval( );
 
 		if ( rset == null || rsetEmpty == true )
 		{
@@ -82,10 +84,11 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			accessHeader( listing, outputEmitter );
 
 			accessFooter( listing, outputEmitter );
-		} else
+		}
+		else
 		{
 
-			IResultIterator rsIterator = ( ( DteResultSet ) rset )
+			IResultIterator rsIterator = ( (DteResultSet) rset )
 					.getResultIterator( );
 			Collection rowExpressions = listing.getQuery( ).getRowExpressions( );
 
@@ -99,8 +102,16 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 				{
 					rsetCursor++;
 					accessDetail( listing, outputEmitter, exprResults );
+					if ( pageBreakInterval > 0 )
+					{
+						if ( ( rsetCursor + 1 ) % pageBreakInterval == 0 )
+						{
+							needPageBreak = true;
+						}
+					}
 				} while ( rset.next( ) );
-			} else
+			}
+			else
 			{
 				do
 				{
@@ -142,6 +153,13 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 							accessGroupFooter( listing, groupIndex,
 									outputEmitter );
 							groupIndex--;
+						}
+					}
+					if ( pageBreakInterval > 0 )
+					{
+						if ( ( rsetCursor + 1 ) % pageBreakInterval == 0 )
+						{
+							needPageBreak = true;
 						}
 					}
 				} while ( rset.next( ) );

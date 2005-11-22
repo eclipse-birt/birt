@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.css.engine.value;
 
@@ -7,25 +17,28 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 /**
  * This class represents string values.
  * 
- * @version $Id: StringValue.java,v 1.2 2005/11/15 09:54:32 thuang Exp $
+ * @version $Id: StringValue.java,v 1.4 2005/11/16 06:18:02 thuang Exp $
  */
-public class StringValue extends Value {
+public class StringValue extends Value
+{
 
 	/**
 	 * Returns the CSS text associated with the given type/value pair.
 	 */
-	public static String getCssText(short type, String value) {
-		if( value == null )
+	public static String getCssText( short type, String value )
+	{
+		if ( value == null )
 		{
 			return null;
 		}
-		
-		switch (type) {
-		case CSSPrimitiveValue.CSS_URI:
-			return "url(" + value + ")";
 
-		case CSSPrimitiveValue.CSS_STRING:
-			return value;
+		switch ( type )
+		{
+			case CSSPrimitiveValue.CSS_URI :
+				return "url(" + value + ")";
+
+			case CSSPrimitiveValue.CSS_STRING :
+				return value;
 		}
 		return value;
 	}
@@ -43,7 +56,8 @@ public class StringValue extends Value {
 	/**
 	 * Creates a new StringValue.
 	 */
-	public StringValue(short type, String s) {
+	public StringValue( short type, String s )
+	{
 		unitType = type;
 		value = s;
 	}
@@ -51,7 +65,8 @@ public class StringValue extends Value {
 	/**
 	 * The type of the value.
 	 */
-	public short getPrimitiveType() {
+	public short getPrimitiveType( )
+	{
 		return unitType;
 	}
 
@@ -61,34 +76,38 @@ public class StringValue extends Value {
 	 * @param obj
 	 *            the reference object with which to compare.
 	 */
-	public boolean equals(Object obj) {
-		if (obj == null || !(obj instanceof StringValue)) {
+	public boolean equals( Object obj )
+	{
+		if ( obj == null || !( obj instanceof StringValue ) )
+		{
 			return false;
 		}
 		StringValue v = (StringValue) obj;
-		if (unitType != v.unitType) {
+		if ( unitType != v.unitType )
+		{
 			return false;
 		}
-		if(value!=null)
+		if ( value != null )
 		{
-			return value.equals(v.value);
+			return value.equals( v.value );
 		}
 		else
 		{
-			if(v.value==null)
+			if ( v.value == null )
 			{
 				return true;
 			}
 		}
 		return false;
-		
+
 	}
 
 	/**
 	 * A string representation of the current value.
 	 */
-	public String getCssText() {
-		return getCssText(unitType, value);
+	public String getCssText( )
+	{
+		return getCssText( unitType, value );
 	}
 
 	/**
@@ -98,14 +117,16 @@ public class StringValue extends Value {
 	 *                INVALID_ACCESS_ERR: Raised if the value doesn't contain a
 	 *                string value.
 	 */
-	public String getStringValue() throws DOMException {
+	public String getStringValue( ) throws DOMException
+	{
 		return value;
 	}
 
 	/**
 	 * Returns a printable representation of this value.
 	 */
-	public String toString() {
-		return getCssText();
+	public String toString( )
+	{
+		return getCssText( );
 	}
 }

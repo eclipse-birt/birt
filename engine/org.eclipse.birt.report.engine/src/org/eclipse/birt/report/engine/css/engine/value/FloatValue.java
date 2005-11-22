@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine.value;
 
 import org.w3c.dom.DOMException;
@@ -6,7 +16,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 /**
  * This class represents float values.
  * 
- * @version $Id: FloatValue.java,v 1.1 2005/11/11 06:26:44 wyan Exp $
+ * @version $Id: FloatValue.java,v 1.2 2005/11/14 07:10:55 gliu Exp $
  */
 public class FloatValue extends Value implements CSSPrimitiveValue {
 

@@ -1,20 +1,13 @@
-/*
-
-   Copyright 2000-2004  The Apache Software Foundation 
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
- */
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine.value.birt;
 
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
@@ -22,7 +15,7 @@ import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 /**
  * Define BIRT constants, such as tag names, attribute names and URI
  *
- * @version $Id: BIRTConstants.java,v 1.2 2005/10/27 09:27:31 wyan Exp $
+ * @version $Id: BIRTConstants.java,v 1.1 2005/11/11 06:26:42 wyan Exp $
  */
 public interface BIRTConstants extends CSSConstants {
 
@@ -50,4 +43,5 @@ public interface BIRTConstants extends CSSConstants {
 	String BIRT_TRUE_VALUE = "true";
 	String BIRT_FALSE_VALUE = "false";
 	String BIRT_ALL_VALUE = "all";
+	String BIRT_SOFT_VALUE = "soft";
 }

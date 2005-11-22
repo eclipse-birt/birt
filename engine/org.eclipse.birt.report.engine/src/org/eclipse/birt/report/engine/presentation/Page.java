@@ -50,6 +50,6 @@ public class Page
 
 	public PageRegion createRegion( PageFlow pageFlow )
 	{
-		return getRootRegion( );
+		return new PageRegion( this, pageFlow );
 	}
 }

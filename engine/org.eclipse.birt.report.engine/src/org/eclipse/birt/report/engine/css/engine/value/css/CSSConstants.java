@@ -1,10 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine.value.css;
 
 /**
  * This interface defines constants for CSS.
  * Important: Constants must not contain uppercase characters.
  *
- * @version $Id: CSSConstants.java,v 1.1 2005/10/13 09:59:56 wyan Exp $
+ * @version $Id: CSSConstants.java,v 1.1 2005/11/11 06:26:47 wyan Exp $
  */
 public interface CSSConstants {
 

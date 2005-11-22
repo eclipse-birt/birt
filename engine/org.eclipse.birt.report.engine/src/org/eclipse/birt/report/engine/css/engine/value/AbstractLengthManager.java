@@ -1,20 +1,13 @@
-/*
-
- Copyright 2002-2003  The Apache Software Foundation 
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
- */
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.css.engine.value;
 
@@ -33,7 +26,7 @@ import org.w3c.dom.css.CSSValue;
  * values.
  * 
  * @author <a href="mailto:stephane@hillion.org">Stephane Hillion</a>
- * @version $Id: AbstractLengthManager.java,v 1.1 2005/11/11 06:26:44 wyan Exp $
+ * @version $Id: AbstractLengthManager.java,v 1.2 2005/11/14 03:27:18 gliu Exp $
  */
 public abstract class AbstractLengthManager extends AbstractValueManager
 {

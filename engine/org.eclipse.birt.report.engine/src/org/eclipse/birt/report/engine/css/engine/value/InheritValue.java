@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.report.engine.css.engine.value;
 
 import org.w3c.dom.css.CSSValue;
@@ -5,38 +16,44 @@ import org.w3c.dom.css.CSSValue;
 /**
  * This singleton class represents the 'inherit' value.
  * 
- * @version $Id: InheritValue.java,v 1.2 2005/10/13 10:00:00 wyan Exp $
+ * @version $Id: InheritValue.java,v 1.1 2005/11/11 06:26:44 wyan Exp $
  */
-public class InheritValue extends Value {
+public class InheritValue extends Value
+{
+
 	/**
 	 * The only instance of this class.
 	 */
-	public final static InheritValue INSTANCE = new InheritValue();
+	public final static InheritValue INSTANCE = new InheritValue( );
 
 	/**
 	 * Creates a new InheritValue object.
 	 */
-	protected InheritValue() {
+	protected InheritValue( )
+	{
 	}
 
 	/**
 	 * A string representation of the current value.
 	 */
-	public String getCssText() {
+	public String getCssText( )
+	{
 		return "inherit";
 	}
 
 	/**
 	 * A code defining the type of the value.
 	 */
-	public short getCssValueType() {
+	public short getCssValueType( )
+	{
 		return CSSValue.CSS_INHERIT;
 	}
 
 	/**
 	 * Returns a printable representation of this object.
 	 */
-	public String toString() {
-		return getCssText();
+	public String toString( )
+	{
+		return getCssText( );
 	}
 }

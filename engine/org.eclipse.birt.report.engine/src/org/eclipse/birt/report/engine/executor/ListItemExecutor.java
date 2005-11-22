@@ -28,7 +28,7 @@ import org.eclipse.birt.report.engine.script.ListScriptExecutor;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.23 $ $Date: 2005/11/17 16:50:45 $
+ * @version $Revision: 1.24 $ $Date: 2005/11/19 00:42:50 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -134,6 +134,10 @@ public class ListItemExecutor extends ListingElementExecutor
 				{
 					// TODO: We need to handle onCreate for the detail row here
 					// Where do we get the content object from??
+				}
+				if (needPageBreak)
+				{
+					needPageBreak = false;
 				}
 				if ( item != null )
 				{

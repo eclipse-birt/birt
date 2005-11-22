@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine.value.css;
 
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
@@ -10,7 +20,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 /**
  * This interface defines constants for CSS values.
  * 
- * @version $Id: CSSValueConstants.java,v 1.1 2005/11/11 06:26:47 wyan Exp $
+ * @version $Id: CSSValueConstants.java,v 1.2 2005/11/17 07:00:44 thuang Exp $
  */
 public interface CSSValueConstants {
 

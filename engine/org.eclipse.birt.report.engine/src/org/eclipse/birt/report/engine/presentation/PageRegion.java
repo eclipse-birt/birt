@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.engine.presentation;
 
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -25,122 +24,75 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 
 public class PageRegion extends WrappedEmitter
-
 {
 
-	Page page;
-
-	PageRegion parent;
-
-	PageFlow pageFlow;
+	private PageFlow pageFlow;
+	private StartEmitterVisitor startEmitterVisitor;
+	private EndEmitterVisitor endEmitterVisitor;
+	private DOMBuildingEmitter domBuilderEmitter;
 
 	public PageRegion( Page page, PageFlow pageFlow )
 	{
 		super( page.getEmitter( ) );
 
-		this.page = page;
-		this.parent = null;
 		this.pageFlow = pageFlow;
+		startEmitterVisitor = new StartEmitterVisitor( emitter );
+		endEmitterVisitor = new EndEmitterVisitor( emitter );
 	}
-
-	PageRegion createRegion( PageFlow pageFlow )
-	{
-		PageRegion region = new PageRegion( page, pageFlow );
-		region.parent = this;
-		return region;
-	}
-
-	PageFlow getPageFlow( )
-	{
-		return this.pageFlow;
-	}
-
-	Page getPage( )
-	{
-		return page;
-	}
-
-	PageRegion getParent( )
-	{
-		return parent;
-	}
-
-	boolean closed;
-	boolean opened;
 
 	public void open( )
 	{
-		if ( opened == false )
-		{
-			IContent root = null;
-			if ( parent != null )
-			{
-				root = parent.getContent( );
-			}
-			IContent content = getContent( );
-			openContent( content, root );
-			// output the content
-			opened = true;
-		}
-	}
-
-	IContent getContent( )
-	{
 		if ( pageFlow != null )
 		{
-			return pageFlow.getContent( );
+			ArrayList contents = getAncestors( );
+			int size = contents.size( ) - 1;
+			for ( int i = size; i >= 0; i-- )
+			{
+				openContent( (IContent) contents.get( i ) );
+			}
 		}
-		return null;
 	}
 
 	public void close( )
 	{
-		if ( closed == false )
+		if ( pageFlow != null )
 		{
-			// output the content
-			IContent root = null;
-			if ( parent != null )
+			ArrayList contents = getAncestors( );
+			int size = contents.size( );
+			for ( int i = 0; i < size; i++ )
 			{
-				root = parent.getContent( );
+				closeContent( (IContent) contents.get( i ) );
 			}
-			IContent content = getContent( );
-
-			closeContent( content, root );
-
-			closed = true;
 		}
 	}
 
-	protected void openContent( IContent content, IContent root )
+	private ArrayList getAncestors( )
 	{
-		LinkedList contents = new LinkedList( );
-		while ( content != root && content != null )
+		ArrayList list = new ArrayList( );
+		PageFlow flow = pageFlow;
+		while ( flow != null )
 		{
-			contents.addFirst( content );
-			content = (IContent) content.getParent( );
+			list.add( flow.getContent( ) );
+			flow = flow.getParent( );
 		}
-
-		Iterator iter = contents.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			content = (IContent) iter.next( );
-			new StartEmitterVisitor( emitter ).visit( content, null );
-		}
+		return list;
 	}
 
-	protected void closeContent( IContent content, IContent root )
+	protected void openContent( IContent content )
 	{
-		while ( content != null && content != root )
-		{
-			new EndEmitterVisitor( emitter ).visit( content, null );
-			content = (IContent) content.getParent( );
-		}
+		startEmitterVisitor.visit( content, null );
 	}
 
-	class StartEmitterVisitor extends ContentVisitorAdapter
+	protected void closeContent( IContent content )
+	{
+		endEmitterVisitor.visit( content, null );
+	}
+
+	private class StartEmitterVisitor extends ContentVisitorAdapter
 	{
 
 		IContentEmitter emitter;
@@ -214,7 +166,7 @@ public class PageRegion extends WrappedEmitter
 
 	};
 
-	class EndEmitterVisitor extends ContentVisitorAdapter
+	private class EndEmitterVisitor extends ContentVisitorAdapter
 	{
 
 		IContentEmitter emitter;
@@ -266,5 +218,34 @@ public class PageRegion extends WrappedEmitter
 			}
 		}
 
+	}
+
+	private class DOMBuildingEmitter extends ContentEmitterAdapter
+	{
+
+		private IContent parent;
+
+		public DOMBuildingEmitter( )
+		{
+		}
+
+		public void startContent( IContent content )
+		{
+			if ( parent != null )
+			{
+				parent.getChildren( ).add( content );
+				parent = content;
+			}
+			openContent( content );
+		}
+
+		public void endContent( IContent content )
+		{
+			if ( parent != null )
+			{
+				parent = (IContent) parent.getParent( );
+			}
+			closeContent( content );
+		}
 	}
 }
