@@ -73,8 +73,7 @@ public class TextContent extends AbstractContent implements ITextContent
 	{
 		if ( generateBy instanceof TextItemDesign )
 			return ( (TextItemDesign) generateBy ).getTextKey( );
-		else
-			return null;
+		return null;
 	}
 
 	public void setTextType( String type )
@@ -87,7 +86,6 @@ public class TextContent extends AbstractContent implements ITextContent
 	{
 		if ( generateBy instanceof TextItemDesign )
 			return ( (TextItemDesign) generateBy ).getTextType( );
-		else
-			return null;
+		return null;
 	}
 }

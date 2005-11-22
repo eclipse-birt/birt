@@ -37,14 +37,13 @@ import org.eclipse.birt.report.engine.ir.Report;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/14 10:55:58 $
+ * @version $Revision: 1.8 $ $Date: 2005/11/21 15:35:50 $
  */
 public class ReportContent implements IReportContent
 {
-
-	private CSSEngine cssEngine;
-	private Report report;
-	ArrayList errors = new ArrayList( );
+	private 	CSSEngine 	cssEngine;
+	private 	Report 		report;
+	private 	ArrayList 	errors = new ArrayList( );
 
 	/**
 	 * default constructor.
@@ -67,16 +66,12 @@ public class ReportContent implements IReportContent
 
 	public IStyle findStyle( String styleClass )
 	{
-		if ( report != null )
-		{
-			return (IStyle) report.findStyle( styleClass );
-		}
-		return null;
+		return ( report == null ) ? null : report.findStyle( styleClass );
 	}
 
 	public CSSEngine getCSSEngine( )
 	{
-		return this.cssEngine;
+		return cssEngine;
 	}
 
 	/**

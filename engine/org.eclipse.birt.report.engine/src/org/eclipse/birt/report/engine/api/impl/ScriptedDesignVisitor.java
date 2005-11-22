@@ -13,8 +13,6 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.engine.content.IForeignContent;
-import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.script.CellScriptExecutor;
 import org.eclipse.birt.report.engine.script.DataItemScriptExecutor;

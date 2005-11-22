@@ -89,7 +89,7 @@ public class SpacingManager extends AbstractLengthManager
 		{
 			if ( value.getPrimitiveType( ) == CSSPrimitiveValue.CSS_IDENT )
 			{
-				return (Value) CSSValueConstants.NUMBER_0;
+				return CSSValueConstants.NUMBER_0;
 			}
 		}
 		return super.computeValue( elt, engine, idx, value );

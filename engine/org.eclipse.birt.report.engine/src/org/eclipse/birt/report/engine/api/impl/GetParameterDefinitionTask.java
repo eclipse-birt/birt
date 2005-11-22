@@ -263,10 +263,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	 */
 	public Object getDefaultValue( IParameterDefnBase param )
 	{
-		if (param == null)
-			return null;
-		else
-			return getDefaultValue( param.getName() );
+		return (param == null) ? null : getDefaultValue( param.getName() );
 	}
 	
 	public Object getDefaultValue( String name )
@@ -620,7 +617,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		ScalarParameterHandle requestedParam =  (ScalarParameterHandle) slotHandle.get( groupKeyValues.length ); // The parameters in parameterGroup must be scalar parameters.
 		int listLimit = requestedParam.getListlimit();
         boolean fixedOrder = requestedParam.isFixedOrder();
-		String valueType = requestedParam.getDataType();
+		//String valueType = requestedParam.getDataType();
 		// We need to cache the expression object in function evaluateQuery and 
 		// use the cached object here instead of creating a new one because 
 		// according to DtE API for IResultIterator.getString, 

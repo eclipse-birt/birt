@@ -23,14 +23,10 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * 
  * the table content object which contains columns object and row objects
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/12 02:35:46 $
+ * @version $Revision: 1.8 $ $Date: 2005/11/17 16:50:43 $
  */
 public class TableContent extends AbstractContent implements ITableContent
 {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2267750727901854517L;
 	protected ArrayList columns = new ArrayList( );
 	protected String caption = null;
@@ -98,8 +94,7 @@ public class TableContent extends AbstractContent implements ITableContent
 	{
 		if ( generateBy instanceof TableItemDesign )
 			return ( (TableItemDesign)generateBy ).getCaptionKey();
-		else
-			return null;
+		return null;
 	}
 
 	public int getColumnCount( )

@@ -240,22 +240,6 @@ public class ReportEngine
 	}
 
 	/**
-	 * creates a report design runnable based on a report design handle, from
-	 * ehich embedded images and parameter definitions can be retrieved.
-	 * 
-	 * @param designHandle
-	 *            the report design handle created by the design engine
-	 * @return a report design runnable object
-	 * @throws EngineException
-	 *             throwed when the input stream is null, or the stream does not
-	 *             yield a valid report design
-	 */
-	/*
-	 * public IReportRunnable openReportDesign(DesignElementHandle designHandle)
-	 * throws EngineException { return helper.openReportDesign(designHandle); }
-	 */
-
-	/**
 	 * creates an engine task for running and rendering report directly to
 	 * output format
 	 * 
@@ -317,23 +301,6 @@ public class ReportEngine
 	}
 
 	/**
-	 * opens a report document file and creates a report instance handle. From
-	 * the report instance object, report can be exported to different output
-	 * formats.
-	 * 
-	 * @param reportDocName
-	 *            report document file name
-	 * @return a report instance handle
-	 * @throws EngineException
-	 *             throwed when the file does not exist or the file is not a
-	 *             valid report document
-	 */
-	/*
-	 * public ReportDocument openReportDocument(String reportDocName) throws
-	 * EngineException { return null; }
-	 */
-
-	/**
 	 * shuts down the report engine
 	 */
 	public void destroy( )
@@ -361,21 +328,6 @@ public class ReportEngine
 	public IRunTask createRunTask( IReportRunnable reportRunnable )
 	{
 		return helper.createRunTask( reportRunnable );
-	}
-
-	/**
-	 * creates a task to run a report based on an existing report document, to
-	 * generate a new report document. The parameters used for running the
-	 * report is the same as the report parameter values stored in the first
-	 * report
-	 * 
-	 * @param reportDocument
-	 *            a handle to an IReportDocument object
-	 * @return a task that runs the report
-	 */
-	public IRunTask createRunTask( IReportDocument reportDocument )
-	{
-		return null;
 	}
 
 	/**
