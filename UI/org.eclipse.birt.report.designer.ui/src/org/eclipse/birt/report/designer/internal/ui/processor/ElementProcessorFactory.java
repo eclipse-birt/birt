@@ -33,6 +33,10 @@ public class ElementProcessorFactory
 		{
 			return new TableGridProcessor( elementType );
 		}
+		if ( ReportDesignConstants.TEXT_DATA_ITEM.equals( elementType ))
+		{
+			return new DynamicTextProcessor( elementType );
+		}
 		else
 		{
 			if ( DesignEngine.getMetaDataDictionary( )
