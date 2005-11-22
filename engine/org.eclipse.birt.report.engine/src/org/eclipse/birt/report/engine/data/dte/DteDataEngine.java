@@ -48,7 +48,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.27 $ $Date: 2005/11/16 03:17:48 $
+ * @version $Revision: 1.28 $ $Date: 2005/11/17 16:50:46 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -296,7 +296,7 @@ public class DteDataEngine implements IDataEngine
 			return null;
 		}
 
-		if ( !rsStack.isEmpty( ) ) // DtE handles evaluation
+		if ( expr.getHandle() != null && !rsStack.isEmpty( ) ) // DtE handles evaluation
 		{
 			try
 			{
