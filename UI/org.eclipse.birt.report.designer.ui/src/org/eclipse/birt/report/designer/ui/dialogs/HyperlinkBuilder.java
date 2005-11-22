@@ -882,4 +882,30 @@ public class HyperlinkBuilder extends BaseDialog
 			reportHandle = null;
 		}
 	}
+
+	/**
+	 * Serializes an action.
+	 * 
+	 * @param action
+	 *            the action to serialize
+	 * 
+	 * @return The serialize result.
+	 */
+	public static String serialize( ActionHandle action )
+	{
+		return null;
+	}
+
+	/**
+	 * Deserializes an action.
+	 * 
+	 * @param serialize
+	 *            the serialize of action
+	 * 
+	 * @return the action deserialized.
+	 */
+	public static ActionHandle deseriaize( String serialize )
+	{
+		return null;
+	}
 }
