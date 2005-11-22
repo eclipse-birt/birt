@@ -20,7 +20,7 @@ import org.w3c.dom.css.CSSValueList;
  * This class represents a list of values.
  * 
  * @author <a href="mailto:stephane@hillion.org">Stephane Hillion</a>
- * @version $Id: ListValue.java,v 1.1 2005/11/11 06:26:44 wyan Exp $
+ * @version $Id: ListValue.java,v 1.2 2005/11/21 08:22:49 wyan Exp $
  */
 public class ListValue extends Value implements CSSValueList
 {
@@ -143,5 +143,30 @@ public class ListValue extends Value implements CSSValueList
 			items = t;
 		}
 		items[length++] = v;
+	}
+
+	public boolean equals( Object value )
+	{
+		if ( value instanceof ListValue )
+		{
+			ListValue l = (ListValue) value;
+			if ( l.length == length )
+			{
+				for ( int i = 0; i < length; i++ )
+				{
+					CSSValue i1 = items[i];
+					CSSValue i2 = l.items[i];
+					if ( i1 != i2 )
+					{
+						if ( i1 == null || !i1.equals( i2 ) )
+						{
+							return false;
+						}
+					}
+				}
+				return true;
+			}
+		}
+		return false;
 	}
 }
