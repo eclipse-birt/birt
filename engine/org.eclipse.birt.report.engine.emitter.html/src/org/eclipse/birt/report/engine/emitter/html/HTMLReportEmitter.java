@@ -59,6 +59,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.executor.ExecutionContext.ElementExceptionInfo;
@@ -78,7 +79,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.47 $ $Date: 2005/11/18 03:36:54 $
+ * @version $Revision: 1.48 $ $Date: 2005/11/21 15:34:28 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -356,7 +357,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			String formats = style.getVisibleFormat( );
 			if ( formats != null
-					&& formats.indexOf( EngineIRConstants.FORMAT_TYPE_VIEWER ) >= 0 )
+					&& ( formats.indexOf( EngineIRConstants.FORMAT_TYPE_VIEWER ) >= 0 || formats
+							.indexOf( BIRTConstants.BIRT_ALL_VALUE ) >= 0 ) )
 			{
 				isHidden = true;
 			}

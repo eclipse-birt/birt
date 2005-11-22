@@ -35,7 +35,7 @@ import org.eclipse.birt.report.engine.util.FileUtil;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.19 $ $Date: 2005/11/11 06:26:45 $
+ * @version $Revision: 1.20 $ $Date: 2005/11/15 02:49:02 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -126,8 +126,11 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 
 	/**
 	 * process the mapped rules.
-	 * @param item the design element used to create the data obj.
-	 * @param dataObj Data object.
+	 * 
+	 * @param item
+	 *            the design element used to create the data obj.
+	 * @param dataObj
+	 *            Data object.
 	 */
 	protected void processMappingValue( StyledElementDesign item,
 			IDataContent dataObj )
@@ -190,6 +193,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	protected void processVisibility( ReportItemDesign design, IContent content )
 	{
 		VisibilityDesign visibility = design.getVisibility( );
+		boolean isFirst = true;
 		if ( visibility != null )
 		{
 			StringBuffer buffer = new StringBuffer( );
@@ -219,10 +223,17 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 					continue;
 				}
 				// we should use rule as the string as
+				if ( isFirst )
+				{
+					isFirst = false;
+				}
+				else
+				{
+					buffer.append( ", " ); //$NON-NLS-1$
+				}
 				buffer.append( rule.getFormat( ) );
-				buffer.append( ", " ); //$NON-NLS-1$
 			}
-			content.getInlineStyle( ).setVisibleFormat( buffer.toString( ) );
+			content.getStyle( ).setVisibleFormat( buffer.toString( ) );
 		}
 	}
 
