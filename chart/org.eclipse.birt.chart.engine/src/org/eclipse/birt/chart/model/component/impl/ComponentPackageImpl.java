@@ -612,9 +612,19 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getDial_InverseScale( )
+	{
+		return (EAttribute) dialEClass.getEStructuralFeatures( ).get( 9 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getDial_Label( )
 	{
-		return (EReference) dialEClass.getEStructuralFeatures( ).get( 9 );
+		return (EReference) dialEClass.getEStructuralFeatures( ).get( 10 );
 	}
 
 	/**
@@ -624,7 +634,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 */
 	public EReference getDial_FormatSpecifier( )
 	{
-		return (EReference) dialEClass.getEStructuralFeatures( ).get( 10 );
+		return (EReference) dialEClass.getEStructuralFeatures( ).get( 11 );
 	}
 
 	/**
@@ -1165,6 +1175,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEReference( dialEClass, DIAL__MAJOR_GRID );
 		createEReference( dialEClass, DIAL__MINOR_GRID );
 		createEReference( dialEClass, DIAL__SCALE );
+		createEAttribute( dialEClass, DIAL__INVERSE_SCALE );
 		createEReference( dialEClass, DIAL__LABEL );
 		createEReference( dialEClass, DIAL__FORMAT_SPECIFIER );
 
@@ -1412,6 +1423,9 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				this.getScale( ),
 				null,
 				"scale", null, 1, 1, Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getDial_InverseScale( ),
+				theXMLTypePackage.getBoolean( ),
+				"inverseScale", "false", 1, 1, Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getDial_Label( ),
 				this.getLabel( ),
 				null,
@@ -1789,6 +1803,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		addAnnotation( getDial_Scale( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Scale" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getDial_InverseScale( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "InverseScale" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getDial_Label( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$

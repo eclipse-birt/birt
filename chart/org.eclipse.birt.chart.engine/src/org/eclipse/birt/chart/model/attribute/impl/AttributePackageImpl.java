@@ -1015,6 +1015,17 @@ public class AttributePackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCallBackValue_Identifier( )
+	{
+		return (EAttribute) callBackValueEClass.getEStructuralFeatures( )
+				.get( 0 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -2767,6 +2778,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		createEAttribute( boundsEClass, BOUNDS__HEIGHT );
 
 		callBackValueEClass = createEClass( CALL_BACK_VALUE );
+		createEAttribute( callBackValueEClass, CALL_BACK_VALUE__IDENTIFIER );
 
 		colorDefinitionEClass = createEClass( COLOR_DEFINITION );
 		createEAttribute( colorDefinitionEClass, COLOR_DEFINITION__TRANSPARENCY );
@@ -3097,6 +3109,9 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEClass( callBackValueEClass,
 				CallBackValue.class,
 				"CallBackValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEAttribute( getCallBackValue_Identifier( ),
+				theXMLTypePackage.getString( ),
+				"identifier", null, 1, 1, CallBackValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( colorDefinitionEClass,
 				ColorDefinition.class,
@@ -3982,7 +3997,11 @@ public class AttributePackageImpl extends EPackageImpl implements
 		} );
 		addAnnotation( callBackValueEClass, source, new String[]{
 				"name", "CallBackValue", //$NON-NLS-1$ //$NON-NLS-2$
-				"kind", "empty" //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getCallBackValue_Identifier( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Identifier" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( chartDimensionEEnum, source, new String[]{
 				"name", "ChartDimension" //$NON-NLS-1$ //$NON-NLS-2$

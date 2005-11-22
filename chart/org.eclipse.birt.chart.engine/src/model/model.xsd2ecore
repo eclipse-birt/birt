@@ -688,7 +688,10 @@
         outputs="org.eclipse.birt.chart.model.layout.ecore#//Block/triggers"/>
   </nested>
   <nested inputs="../../xsd/attribute.xsd#//CallBackValue;XSDComplexTypeDefinition=6"
-      outputs="org.eclipse.birt.chart.model.attribute.ecore#//CallBackValue"/>
+      outputs="org.eclipse.birt.chart.model.attribute.ecore#//CallBackValue">
+    <nested inputs="../../xsd/attribute.xsd#//CallBackValue;XSDComplexTypeDefinition=6/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//CallBackValue/identifier"/>
+  </nested>
   <nested inputs="../../xsd/attribute.xsd#//ChartDimension;XSDSimpleTypeDefinition=2"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//ChartDimension">
     <nested inputs="../../xsd/attribute.xsd#//ChartDimension;XSDSimpleTypeDefinition=2/XSDEnumerationFacet"
@@ -939,8 +942,10 @@
     <nested inputs="../../xsd/component.xsd#//Dial;XSDComplexTypeDefinition=11/XSDParticle/XSDModelGroup/XSDParticle=8"
         outputs="org.eclipse.birt.chart.model.component.ecore#//Dial/scale"/>
     <nested inputs="../../xsd/component.xsd#//Dial;XSDComplexTypeDefinition=11/XSDParticle/XSDModelGroup/XSDParticle=9"
-        outputs="org.eclipse.birt.chart.model.component.ecore#//Dial/label"/>
+        outputs="org.eclipse.birt.chart.model.component.ecore#//Dial/inverseScale"/>
     <nested inputs="../../xsd/component.xsd#//Dial;XSDComplexTypeDefinition=11/XSDParticle/XSDModelGroup/XSDParticle=10"
+        outputs="org.eclipse.birt.chart.model.component.ecore#//Dial/label"/>
+    <nested inputs="../../xsd/component.xsd#//Dial;XSDComplexTypeDefinition=11/XSDParticle/XSDModelGroup/XSDParticle=11"
         outputs="org.eclipse.birt.chart.model.component.ecore#//Dial/formatSpecifier"/>
   </nested>
   <nested inputs="../../xsd/model.xsd#//DialChart;XSDComplexTypeDefinition=3" outputs="org.eclipse.birt.chart.model.ecore#//DialChart">

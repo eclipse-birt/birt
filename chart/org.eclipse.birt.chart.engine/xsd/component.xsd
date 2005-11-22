@@ -634,6 +634,11 @@ extending across the dial between the start and end positions.</xsd:documentatio
 					<xsd:documentation>Defines the scale for the dial.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element name="InverseScale" type="xsd:boolean" default="false">
+				<xsd:annotation>
+					<xsd:documentation>Defines if invert the scale during rendering(right to left)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element name="Label" type="Label">
 				<xsd:annotation>
 					<xsd:documentation>Defines the properties for grid labels.</xsd:documentation>

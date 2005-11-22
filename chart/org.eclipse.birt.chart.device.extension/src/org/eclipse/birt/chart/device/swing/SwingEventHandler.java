@@ -32,6 +32,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.JComponent;
 
+import org.eclipse.birt.chart.device.ICallBackNotifier;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
@@ -54,7 +55,6 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.interactivity.ICallBackAction;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -253,11 +253,21 @@ public final class SwingEventHandler implements
 						}
 						break;
 					case ActionType.CALL_BACK :
-						final CallBackValue cv = (CallBackValue) ac.getValue( );
-						ICallBackAction callbackAction = cv.getCallBackAction( );
-						if ( callbackAction != null )
+						if ( iun instanceof ICallBackNotifier )
 						{
-							callbackAction.execute( event, sa.getSource( ), iun );
+							final CallBackValue cv = (CallBackValue) ac.getValue( );
+							( (ICallBackNotifier) iun ).callback( event,
+									sa.getSource( ),
+									cv );
+						}
+						else
+						{
+							logger.log( ILogger.WARNING,
+									Messages.getString( "info.improper.callback.notifier", //$NON-NLS-1$
+											new Object[]{
+												iun
+											},
+											lcl ) );
 						}
 						break;
 				}

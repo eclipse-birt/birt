@@ -444,13 +444,22 @@ public interface ComponentPackage extends EPackage
 	int DIAL__SCALE = 8;
 
 	/**
+	 * The feature id for the '<em><b>Inverse Scale</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL__INVERSE_SCALE = 9;
+
+	/**
 	 * The feature id for the '<em><b>Label</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DIAL__LABEL = 9;
+	int DIAL__LABEL = 10;
 
 	/**
 	 * The feature id for the '<em><b>Format Specifier</b></em>' containment reference.
@@ -459,7 +468,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int DIAL__FORMAT_SPECIFIER = 10;
+	int DIAL__FORMAT_SPECIFIER = 11;
 
 	/**
 	 * The number of structural features of the the '<em>Dial</em>' class.
@@ -468,7 +477,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int DIAL_FEATURE_COUNT = 11;
+	int DIAL_FEATURE_COUNT = 12;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.DialRegionImpl <em>Dial Region</em>}' class.
@@ -1453,6 +1462,17 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 */
 	EReference getDial_Scale( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Dial#isInverseScale <em>Inverse Scale</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Inverse Scale</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Dial#isInverseScale()
+	 * @see #getDial()
+	 * @generated
+	 */
+	EAttribute getDial_InverseScale( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Dial#getLabel <em>Label</em>}'.

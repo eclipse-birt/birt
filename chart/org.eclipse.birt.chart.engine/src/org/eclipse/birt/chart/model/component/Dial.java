@@ -40,6 +40,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.component.Dial#getMajorGrid <em>Major Grid</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Dial#getMinorGrid <em>Minor Grid</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Dial#getScale <em>Scale</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Dial#isInverseScale <em>Inverse Scale</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Dial#getLabel <em>Label</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Dial#getFormatSpecifier <em>Format Specifier</em>}</li>
  * </ul>
@@ -357,6 +358,60 @@ public interface Dial extends EObject
 	 * @generated
 	 */
 	void setScale( Scale value );
+
+	/**
+	 * Returns the value of the '<em><b>Inverse Scale</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Defines if invert the scale during rendering(right to left)
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Inverse Scale</em>' attribute.
+	 * @see #isSetInverseScale()
+	 * @see #unsetInverseScale()
+	 * @see #setInverseScale(boolean)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_InverseScale()
+	 * @model default="false" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 *        extendedMetaData="kind='element' name='InverseScale'"
+	 * @generated
+	 */
+	boolean isInverseScale( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Dial#isInverseScale <em>Inverse Scale</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Inverse Scale</em>' attribute.
+	 * @see #isSetInverseScale()
+	 * @see #unsetInverseScale()
+	 * @see #isInverseScale()
+	 * @generated
+	 */
+	void setInverseScale( boolean value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Dial#isInverseScale <em>Inverse Scale</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetInverseScale()
+	 * @see #isInverseScale()
+	 * @see #setInverseScale(boolean)
+	 * @generated
+	 */
+	void unsetInverseScale( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Dial#isInverseScale <em>Inverse Scale</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Inverse Scale</em>' attribute is set.
+	 * @see #unsetInverseScale()
+	 * @see #isInverseScale()
+	 * @see #setInverseScale(boolean)
+	 * @generated
+	 */
+	boolean isSetInverseScale( );
 
 	/**
 	 * Returns the value of the '<em><b>Label</b></em>' containment reference.

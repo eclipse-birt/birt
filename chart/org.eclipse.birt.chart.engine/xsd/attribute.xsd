@@ -579,7 +579,15 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 		</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
-			<xsd:extension base="ActionValue"/>
+			<xsd:extension base="ActionValue">
+				<xsd:sequence>
+					<xsd:element name="Identifier" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>Specify a call back identifier to be used in the call back routine.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="Text">

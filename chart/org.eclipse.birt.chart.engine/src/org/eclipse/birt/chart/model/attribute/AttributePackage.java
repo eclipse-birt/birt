@@ -238,13 +238,22 @@ public interface AttributePackage extends EPackage
 	int CALL_BACK_VALUE = 4;
 
 	/**
+	 * The feature id for the '<em><b>Identifier</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CALL_BACK_VALUE__IDENTIFIER = ACTION_VALUE_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the the '<em>Call Back Value</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CALL_BACK_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 0;
+	int CALL_BACK_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.FillImpl <em>Fill</em>}' class.
@@ -2344,6 +2353,17 @@ public interface AttributePackage extends EPackage
 	 * @generated
 	 */
 	EClass getCallBackValue( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.CallBackValue#getIdentifier <em>Identifier</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Identifier</em>'.
+	 * @see org.eclipse.birt.chart.model.attribute.CallBackValue#getIdentifier()
+	 * @see #getCallBackValue()
+	 * @generated
+	 */
+	EAttribute getCallBackValue_Identifier( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition <em>Color Definition</em>}'.

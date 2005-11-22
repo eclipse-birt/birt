@@ -50,29 +50,29 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getStartAngle <em>Start Angle</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getStopAngle <em>Stop Angle</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getRadius <em>Radius</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getLineAttributes <em>Line Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getFill <em>Fill</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getDialRegions <em>Dial Regions</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getMajorGrid <em>Major Grid</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getMinorGrid <em>Minor Grid</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getScale <em>Scale</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getLabel <em>Label</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getStartAngle <em>Start Angle</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getStopAngle <em>Stop Angle</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getRadius <em>Radius</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getLineAttributes <em>Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getFill <em>Fill</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getDialRegions <em>Dial Regions</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getMajorGrid <em>Major Grid</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getMinorGrid <em>Minor Grid</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getScale <em>Scale</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#isInverseScale <em>Inverse Scale</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.DialImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class DialImpl extends EObjectImpl implements Dial
 {
 
 	/**
-	 * The default value of the '{@link #getStartAngle() <em>Start Angle</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getStartAngle() <em>Start Angle</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStartAngle()
 	 * @generated
 	 * @ordered
@@ -80,9 +80,8 @@ public class DialImpl extends EObjectImpl implements Dial
 	protected static final double START_ANGLE_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getStartAngle() <em>Start Angle</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getStartAngle() <em>Start Angle</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStartAngle()
 	 * @generated
 	 * @ordered
@@ -99,9 +98,8 @@ public class DialImpl extends EObjectImpl implements Dial
 	protected boolean startAngleESet = false;
 
 	/**
-	 * The default value of the '{@link #getStopAngle() <em>Stop Angle</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getStopAngle() <em>Stop Angle</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStopAngle()
 	 * @generated
 	 * @ordered
@@ -109,9 +107,8 @@ public class DialImpl extends EObjectImpl implements Dial
 	protected static final double STOP_ANGLE_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getStopAngle() <em>Stop Angle</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getStopAngle() <em>Stop Angle</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStopAngle()
 	 * @generated
 	 * @ordered
@@ -128,9 +125,8 @@ public class DialImpl extends EObjectImpl implements Dial
 	protected boolean stopAngleESet = false;
 
 	/**
-	 * The default value of the '{@link #getRadius() <em>Radius</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getRadius() <em>Radius</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getRadius()
 	 * @generated
 	 * @ordered
@@ -138,9 +134,8 @@ public class DialImpl extends EObjectImpl implements Dial
 	protected static final double RADIUS_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getRadius() <em>Radius</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getRadius() <em>Radius</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getRadius()
 	 * @generated
 	 * @ordered
@@ -148,18 +143,17 @@ public class DialImpl extends EObjectImpl implements Dial
 	protected double radius = RADIUS_EDEFAULT;
 
 	/**
-	 * This is true if the Radius attribute has been set. <!-- begin-user-doc
+	 * This is true if the Radius attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean radiusESet = false;
 
 	/**
-	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLineAttributes()
 	 * @generated
 	 * @ordered
@@ -167,9 +161,8 @@ public class DialImpl extends EObjectImpl implements Dial
 	protected LineAttributes lineAttributes = null;
 
 	/**
-	 * The cached value of the '{@link #getFill() <em>Fill</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getFill() <em>Fill</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFill()
 	 * @generated
 	 * @ordered
@@ -177,9 +170,8 @@ public class DialImpl extends EObjectImpl implements Dial
 	protected Fill fill = null;
 
 	/**
-	 * The cached value of the '{@link #getDialRegions() <em>Dial Regions</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getDialRegions() <em>Dial Regions</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDialRegions()
 	 * @generated
 	 * @ordered
@@ -187,9 +179,8 @@ public class DialImpl extends EObjectImpl implements Dial
 	protected EList dialRegions = null;
 
 	/**
-	 * The cached value of the '{@link #getMajorGrid() <em>Major Grid</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getMajorGrid() <em>Major Grid</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMajorGrid()
 	 * @generated
 	 * @ordered
@@ -197,9 +188,8 @@ public class DialImpl extends EObjectImpl implements Dial
 	protected Grid majorGrid = null;
 
 	/**
-	 * The cached value of the '{@link #getMinorGrid() <em>Minor Grid</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getMinorGrid() <em>Minor Grid</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMinorGrid()
 	 * @generated
 	 * @ordered
@@ -207,9 +197,8 @@ public class DialImpl extends EObjectImpl implements Dial
 	protected Grid minorGrid = null;
 
 	/**
-	 * The cached value of the '{@link #getScale() <em>Scale</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getScale() <em>Scale</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getScale()
 	 * @generated
 	 * @ordered
@@ -217,9 +206,37 @@ public class DialImpl extends EObjectImpl implements Dial
 	protected Scale scale = null;
 
 	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isInverseScale() <em>Inverse Scale</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isInverseScale()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean INVERSE_SCALE_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isInverseScale() <em>Inverse Scale</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isInverseScale()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean inverseScale = INVERSE_SCALE_EDEFAULT;
+
+	/**
+	 * This is true if the Inverse Scale attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean inverseScaleESet = false;
+
+	/**
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -227,9 +244,8 @@ public class DialImpl extends EObjectImpl implements Dial
 	protected Label label = null;
 
 	/**
-	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFormatSpecifier()
 	 * @generated
 	 * @ordered
@@ -238,7 +254,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected DialImpl( )
@@ -248,7 +263,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -258,7 +272,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getStartAngle( )
@@ -268,7 +281,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setStartAngle( double newStartAngle )
@@ -288,7 +300,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetStartAngle( )
@@ -308,7 +319,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetStartAngle( )
@@ -318,7 +328,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getStopAngle( )
@@ -328,7 +337,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setStopAngle( double newStopAngle )
@@ -348,7 +356,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetStopAngle( )
@@ -368,7 +375,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetStopAngle( )
@@ -378,7 +384,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getRadius( )
@@ -388,7 +393,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setRadius( double newRadius )
@@ -408,7 +412,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetRadius( )
@@ -428,7 +431,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetRadius( )
@@ -438,7 +440,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LineAttributes getLineAttributes( )
@@ -448,7 +449,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLineAttributes(
@@ -473,7 +473,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLineAttributes( LineAttributes newLineAttributes )
@@ -507,7 +506,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Fill getFill( )
@@ -517,7 +515,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFill( Fill newFill, NotificationChain msgs )
@@ -541,7 +538,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setFill( Fill newFill )
@@ -573,7 +569,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList getDialRegions( )
@@ -589,7 +584,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Grid getMajorGrid( )
@@ -599,7 +593,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetMajorGrid( Grid newMajorGrid,
@@ -624,7 +617,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setMajorGrid( Grid newMajorGrid )
@@ -658,7 +650,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Grid getMinorGrid( )
@@ -668,7 +659,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetMinorGrid( Grid newMinorGrid,
@@ -693,7 +683,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setMinorGrid( Grid newMinorGrid )
@@ -727,7 +716,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Scale getScale( )
@@ -737,7 +725,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetScale( Scale newScale,
@@ -762,7 +749,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setScale( Scale newScale )
@@ -793,8 +779,67 @@ public class DialImpl extends EObjectImpl implements Dial
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isInverseScale( )
+	{
+		return inverseScale;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setInverseScale( boolean newInverseScale )
+	{
+		boolean oldInverseScale = inverseScale;
+		inverseScale = newInverseScale;
+		boolean oldInverseScaleESet = inverseScaleESet;
+		inverseScaleESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.DIAL__INVERSE_SCALE,
+					oldInverseScale,
+					inverseScale,
+					!oldInverseScaleESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetInverseScale( )
+	{
+		boolean oldInverseScale = inverseScale;
+		boolean oldInverseScaleESet = inverseScaleESet;
+		inverseScale = INVERSE_SCALE_EDEFAULT;
+		inverseScaleESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					ComponentPackage.DIAL__INVERSE_SCALE,
+					oldInverseScale,
+					INVERSE_SCALE_EDEFAULT,
+					oldInverseScaleESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetInverseScale( )
+	{
+		return inverseScaleESet;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Label getLabel( )
@@ -804,7 +849,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLabel( Label newLabel,
@@ -829,7 +873,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLabel( Label newLabel )
@@ -861,7 +904,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public FormatSpecifier getFormatSpecifier( )
@@ -871,7 +913,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFormatSpecifier(
@@ -896,7 +937,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setFormatSpecifier( FormatSpecifier newFormatSpecifier )
@@ -930,7 +970,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -969,7 +1008,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -994,6 +1032,8 @@ public class DialImpl extends EObjectImpl implements Dial
 				return getMinorGrid( );
 			case ComponentPackage.DIAL__SCALE :
 				return getScale( );
+			case ComponentPackage.DIAL__INVERSE_SCALE :
+				return isInverseScale( ) ? Boolean.TRUE : Boolean.FALSE;
 			case ComponentPackage.DIAL__LABEL :
 				return getLabel( );
 			case ComponentPackage.DIAL__FORMAT_SPECIFIER :
@@ -1004,7 +1044,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -1039,6 +1078,9 @@ public class DialImpl extends EObjectImpl implements Dial
 			case ComponentPackage.DIAL__SCALE :
 				setScale( (Scale) newValue );
 				return;
+			case ComponentPackage.DIAL__INVERSE_SCALE :
+				setInverseScale( ( (Boolean) newValue ).booleanValue( ) );
+				return;
 			case ComponentPackage.DIAL__LABEL :
 				setLabel( (Label) newValue );
 				return;
@@ -1051,7 +1093,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -1085,6 +1126,9 @@ public class DialImpl extends EObjectImpl implements Dial
 			case ComponentPackage.DIAL__SCALE :
 				setScale( (Scale) null );
 				return;
+			case ComponentPackage.DIAL__INVERSE_SCALE :
+				unsetInverseScale( );
+				return;
 			case ComponentPackage.DIAL__LABEL :
 				setLabel( (Label) null );
 				return;
@@ -1097,7 +1141,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -1122,6 +1165,8 @@ public class DialImpl extends EObjectImpl implements Dial
 				return minorGrid != null;
 			case ComponentPackage.DIAL__SCALE :
 				return scale != null;
+			case ComponentPackage.DIAL__INVERSE_SCALE :
+				return isSetInverseScale( );
 			case ComponentPackage.DIAL__LABEL :
 				return label != null;
 			case ComponentPackage.DIAL__FORMAT_SPECIFIER :
@@ -1132,7 +1177,6 @@ public class DialImpl extends EObjectImpl implements Dial
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -1154,6 +1198,11 @@ public class DialImpl extends EObjectImpl implements Dial
 		result.append( ", radius: " ); //$NON-NLS-1$
 		if ( radiusESet )
 			result.append( radius );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", inverseScale: " ); //$NON-NLS-1$
+		if ( inverseScaleESet )
+			result.append( inverseScale );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
