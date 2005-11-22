@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
@@ -526,8 +527,11 @@ public class HyperlinkBuilder extends BaseDialog
 				try
 				{
 					String filename = dialog.open( );
+
 					if ( filename != null )
 					{
+						filename = Path.fromOSString( filename )
+								.toPortableString( );
 						if ( needQuote )
 						{
 							filename = "\"" + filename + "\""; //$NON-NLS-1$ //$NON-NLS-2$
