@@ -297,9 +297,16 @@ public class ReportLaunchConfigurationDelegate
 		for ( int i = 0; i < paths.size(); i++ )
 		{
 			String classPath = (String)paths.get(i);
-			if (classPath != null && classPath.length() != 0 && i!=0)
+			if (classPath != null && classPath.length() != 0)
 			{
-				wbuf.append( PROPERTYSEPARATOR + classPath );
+				if (i==0)
+				{
+					wbuf.append(classPath );
+				}
+				else
+				{
+					wbuf.append( PROPERTYSEPARATOR + classPath );
+				}
 			}
 		}
 		String classPath = "";
@@ -333,7 +340,7 @@ public class ReportLaunchConfigurationDelegate
 		{
 			return retValue;
 		}
-		StringTokenizer token = new StringTokenizer( path, "|" );
+		StringTokenizer token = new StringTokenizer( path, PROPERTYSEPARATOR );
 		while ( token.hasMoreTokens( ) )
 		{
 			String projectName = token.nextToken( );
