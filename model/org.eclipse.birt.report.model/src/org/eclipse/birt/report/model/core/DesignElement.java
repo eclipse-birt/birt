@@ -841,39 +841,6 @@ public abstract class DesignElement
 		if ( parent == null )
 			return false;
 
-		if ( getDefn( ).getSlotCount( ) == 0 )
-			return true;
-
-		DesignElement cloned = null;
-		try
-		{
-			cloned = (DesignElement) parent.clone( );
-		}
-		catch ( CloneNotSupportedException e )
-		{
-			assert false;
-			return false;
-		}
-
-		// Parent element and the cloned one must have the same structures.
-
-		Iterator parentIter = new ContentIterator( parent );
-		Iterator childIter = new ContentIterator( cloned );
-		while ( childIter.hasNext( ) )
-		{
-			DesignElement virtualParent = (DesignElement) parentIter.next( );
-			DesignElement virtualChild = (DesignElement) childIter.next( );
-
-			// 1. clear all childrens' properties.
-
-			virtualChild.clearAllProperties( );
-
-			// 2. set base id reference.
-
-			// assert virtualParent.getID() > 0;
-			virtualChild.setBaseId( virtualParent.getID( ) );
-		}
-
 		// Copies top level slots from cloned element to the target element.
 
 		return ModelUtil.duplicateStructure( parent, this );

@@ -170,6 +170,7 @@ public interface MessageConstants
 	public static final String STYLE_EXCEPTION_NOT_FOUND = "Error.StyleException.NOT_FOUND"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_MISSING_TEMPLATE_PARAMETER_TYPE = "Error.SemanticError.MISSING_TEMPLATE_PARAMETER_TYPE"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INCONSISTENT_TEMPLATE_PARAMETER_TYPE = "Error.SemanticError.INCONSISTENT_TEMPLATE_PARAMETER_TYPE";	 //$NON-NLS-1$
+	public static final String THEME_EXCEPTION_NOT_FOUND = "Error.ThemeException.NOT_FOUND"; //$NON-NLS-1$
 	
 	// DesignParserException
 	public static final String DESIGN_PARSER_EXCEPTION_FILE_NOT_FOUND = "Error.DesignParserException.FILE_NOT_FOUND"; //$NON-NLS-1$

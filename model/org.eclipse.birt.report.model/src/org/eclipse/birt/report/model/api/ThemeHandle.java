@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
@@ -73,5 +76,37 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 			return null;
 
 		return (StyleHandle) style.getHandle( getModule( ) );
+	}
+
+	/**
+	 * Makes the unique style name in the given theme. The return name is based
+	 * on <code>name</code>.
+	 * 
+	 * @param name
+	 *            the style name
+	 * @return the new unique style name
+	 */
+	
+	String makeUniqueStyleName( String name )
+	{
+		assert this != null;
+	
+		SlotHandle styles = getStyles( );
+		Set set = new HashSet( );
+		for ( int i = 0; i < styles.getCount( ); i++ )
+		{
+			StyleHandle style = (StyleHandle) styles.get( i );
+			set.add( style.getName( ) );
+		}
+	
+		// Add a numeric suffix that makes the name unique.
+	
+		int index = 0;
+		String baseName = name;
+		while ( set.contains( name ) )
+		{
+			name = baseName + ++index; //$NON-NLS-1$
+		}
+		return name;
 	}
 }

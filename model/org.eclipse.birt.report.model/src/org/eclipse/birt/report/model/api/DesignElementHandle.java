@@ -916,7 +916,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( getElement( ).getName( ) == null )
 			return null;
 
-		Module rootElement = (Module) getRoot( ).getElement( );
+		Module rootElement = getElement( ).getRoot( );
 		if ( rootElement instanceof Library )
 		{
 			String namespace = ( (Library) rootElement ).getNamespace( );
@@ -1904,7 +1904,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	{
 		return getElement( ).getTemplateParameterElement( getModule( ) ) != null;
 	}
-	
+
 	/**
 	 * Gets the property data for either a system-defined or user-defined
 	 * property.
@@ -1918,8 +1918,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	{
 		// Look for the property defined on this element.
 
-		return getElement().getPropertyDefn( propName );
+		return getElement( ).getPropertyDefn( propName );
 	}
-
 
 }

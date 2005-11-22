@@ -11,15 +11,16 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
@@ -190,8 +191,60 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 	public void importCssStyles( CssStyleSheetHandle stylesheet,
 			List selectedStyles )
 	{
-		importCssStyles( stylesheet, selectedStyles, ModelMessages
-				.getMessage( Theme.DEFAULT_THEME_NAME ) );
+		String themeName = ( (Module) getElement( ) ).getThemeName( );
+
+		if ( themeName == null )
+			themeName = ModelMessages.getMessage( Theme.DEFAULT_THEME_NAME );
+
+		importCssStyles( stylesheet, selectedStyles, themeName );
+
+	}
+
+	/**
+	 * Creates the theme with the given name if it does not exist. Sets the
+	 * theme value of the library to the given name if this value was
+	 * <code>null</code>.
+	 * 
+	 * @param themeName
+	 *            the theme name
+	 * @return the theme handle
+	 */
+
+	private ThemeHandle setupTheme( String themeName )
+	{
+		Library libElement = (Library) getElement( ).getRoot();
+		Theme theme = libElement.findNativeTheme( themeName );
+
+		if ( theme == null )
+		{
+			ThemeHandle newTheme = getModuleHandle( ).getElementFactory( )
+					.newTheme( themeName );
+			try
+			{
+				getThemes( ).add( newTheme );
+			}
+			catch ( ContentException e )
+			{
+				assert false;
+			}
+			catch ( NameException e )
+			{
+				assert false;
+			}
+			theme = (Theme) newTheme.getElement( );
+		}
+
+		try
+		{
+			if ( libElement.getThemeName( ) == null )
+				setThemeName( themeName );
+		}
+		catch ( SemanticException e )
+		{
+			assert false;
+		}
+
+		return (ThemeHandle) theme.getHandle( module );
 	}
 
 	/**
@@ -213,16 +266,16 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 	public void importCssStyles( CssStyleSheetHandle stylesheet,
 			List selectedStyles, String themeName )
 	{
-		Library libElement = (Library) getRoot( ).getElement( );
-		Theme theme = libElement.findNativeTheme( themeName );
-
-		if ( theme == null )
+		if (StringUtil.isBlank(themeName))
 			return;
-
-		ThemeHandle themeHandle = theme.handle( module );
-
+			
 		ActivityStack stack = module.getActivityStack( );
 		stack.startTrans( );
+
+		// creates the theme if it does not exist
+
+		ThemeHandle themeHandle = setupTheme( themeName );
+
 		for ( int i = 0; i < selectedStyles.size( ); i++ )
 		{
 			SharedStyleHandle style = (SharedStyleHandle) selectedStyles
@@ -233,7 +286,7 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 				{
 					style.getElement( )
 							.setName(
-									makeUniqueStyleName( themeHandle, style
+									themeHandle.makeUniqueStyleName( style
 											.getName( ) ) );
 					themeHandle.getStyles( ).add( style );
 				}
@@ -249,39 +302,5 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 		}
 
 		stack.commit( );
-	}
-
-	/**
-	 * Makes the unique style name in the given theme. The return name is based
-	 * on <code>name</code>.
-	 * 
-	 * @param theme
-	 *            the theme where the style to be inserted
-	 * @param name
-	 *            the style name
-	 * @return the new unique style name
-	 */
-
-	private String makeUniqueStyleName( ThemeHandle theme, String name )
-	{
-		assert theme != null;
-
-		SlotHandle styles = theme.getStyles( );
-		Set set = new HashSet( );
-		for ( int i = 0; i < styles.getCount( ); i++ )
-		{
-			StyleHandle style = (StyleHandle) styles.get( i );
-			set.add( style.getName( ) );
-		}
-
-		// Add a numeric suffix that makes the name unique.
-
-		int index = 0;
-		String baseName = name;
-		while ( set.contains( name ) )
-		{
-			name = baseName + ++index; //$NON-NLS-1$
-		}
-		return name;
 	}
 }

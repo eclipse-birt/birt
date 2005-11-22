@@ -13,7 +13,7 @@ package org.eclipse.birt.report.model.command;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.StyleException;
+import org.eclipse.birt.report.model.api.command.ThemeException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -72,8 +72,8 @@ public class ThemeCommand extends AbstractElementCommand
 				return;
 
 			if ( theme == null )
-				throw new StyleException( element, name,
-						StyleException.DESIGN_EXCEPTION_NOT_FOUND );
+				throw new ThemeException( element, name,
+						ThemeException.DESIGN_EXCEPTION_NOT_FOUND );
 		}
 		else
 		{

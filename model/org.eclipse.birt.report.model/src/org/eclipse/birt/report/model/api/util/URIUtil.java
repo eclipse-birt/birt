@@ -212,7 +212,7 @@ public class URIUtil
 	/**
 	 * Converts a filename to a valid URL. The filename can include directory
 	 * information, either relative or absolute directory. And the file should
-	 * be on the local disk. TODO: add samples.
+	 * be on the local disk.
 	 * 
 	 * @param filePath
 	 *            the file name
@@ -310,5 +310,162 @@ public class URIUtil
 		}
 
 		return null;
+	}
+
+	/**
+	 * Return the relative path for the given <code>resource</code> according
+	 * to <code>base</code>. Only handle file system. Network protocols such
+	 * as http, ftp, etc. are not supported. If such cases happens,
+	 * <code>resource</code> is returned.
+	 * <p>
+	 * The <code>base</code> value should be directory ONLY and does NOT
+	 * contain file name and the format can be:
+	 * <ul>
+	 * <li>./../hello/
+	 * <li>C:\\hello\..\
+	 * <li>/C:/../hello/
+	 * </ul>
+	 * The spearator in the return path is platform-depedent.
+	 * 
+	 * @param base
+	 *            the base directory
+	 * @param resource
+	 *            the full path
+	 * @return the relative path
+	 */
+
+	public static String getRelativePath( String base, String resource )
+	{
+		// make sure that must be file protocol
+
+		String baseDir = getLocalPath( base );
+		String resourceDir = getLocalPath( resource );
+
+		if ( baseDir == null || resourceDir == null )
+			return resource;
+
+		File baseFile = new File( baseDir );
+		File resourceFile = new File( resourceDir );
+
+		// get platform-depedent file path by using Java File class
+
+		baseDir = baseFile.getAbsolutePath( );
+		resourceDir = resourceFile.getAbsolutePath( );
+
+		// do the string match to get the location of same prefix
+
+		int matchedPos = 0;
+		for ( matchedPos = 0; matchedPos < baseDir.length( )
+				&& matchedPos < resourceDir.length( ); matchedPos++ )
+		{
+			if ( baseDir.charAt( matchedPos ) != resourceDir
+					.charAt( matchedPos ) )
+				break;
+		}
+
+		// adjust the same prefix by the path separator
+
+		// for the special case like:
+		// baseDir: c:/hello/test
+		// resourceDir: c:/hello/test/library.xml
+		// then the matched position is the length of baseDir insteadof
+		// the slash before "test".
+
+		if ( isLastDirectoryMatched( baseDir, resourceDir, matchedPos )
+				|| isLastDirectoryMatched( resourceDir, baseDir, matchedPos ) )
+			;
+		else
+			matchedPos = baseDir.lastIndexOf( File.separator, matchedPos );
+
+		// saves the matched position
+
+		int samePrefixPos = matchedPos;
+
+		int upDirs = 0;
+
+		// calcualtes out the number of up directory should have.
+
+		while ( matchedPos < baseDir.length( ) && matchedPos > 0 )
+		{
+			matchedPos = baseDir.indexOf( File.separator, matchedPos + 1 );
+			upDirs++;
+		}
+
+		// appends up directories information.
+
+		StringBuffer sb = new StringBuffer( );
+		for ( int i = 0; i < upDirs; i++ )
+		{
+			sb.append( ".." + File.separator ); //$NON-NLS-1$
+		}
+
+		// appends the relative path.
+
+		if ( samePrefixPos < resourceDir.length( ) )
+			sb.append( resourceDir.substring( samePrefixPos + 1 ) );
+
+		return sb.toString( );
+	}
+
+	/**
+	 * Return the relative path for the given <code>resource</code> according
+	 * to <code>base</code>. Only handle file system. Network protocols such
+	 * as http, ftp, etc. are not supported.
+	 * <p>
+	 * The <code>base</code> value should be directory ONLY and does NOT
+	 * contain file name and the format can be:
+	 * <ul>
+	 * <li>./../hello/
+	 * <li>C:\\hello\..\
+	 * <li>/C:/../hello/
+	 * </ul>
+	 * The spearator in the return path is platform-depedent.
+	 * 
+	 * @param base
+	 *            the base directory
+	 * @param relativePath
+	 *            the relative path
+	 * @return the absolute path
+	 */
+
+	public static String resolveAbsolutePath( String base, String relativePath )
+	{
+		// make sure that must be file protocol
+
+		String baseDir = getLocalPath( base );
+		String relativeDir = getLocalPath( relativePath );
+
+		if ( baseDir == null || relativeDir == null )
+			return relativePath;
+
+		File baseFile = new File( baseDir );
+		File resourceFile = new File( baseFile, relativePath );
+
+		return resourceFile.getPath( );
+	}
+
+	/**
+	 * Tests whether the string before <code>matchedPos</code> is a directory.
+	 * 
+	 * @param baseDir
+	 *            the base directory
+	 * @param resourceDir
+	 *            the resource directory
+	 * @param matchedPos
+	 *            the 0-based position
+	 * @return <code>true</code> if the string before <code>matchedPos</code>
+	 *         is a directory
+	 */
+
+	private static boolean isLastDirectoryMatched( String baseDir,
+			String resourceDir, int matchedPos )
+	{
+		if ( matchedPos == baseDir.length( )
+				&& ( ( matchedPos < resourceDir.length( ) && resourceDir
+						.charAt( matchedPos ) == File.separatorChar ) || matchedPos == resourceDir
+						.length( ) ) )
+			return true;
+
+		return false;
 	}
 }
