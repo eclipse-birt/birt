@@ -335,6 +335,9 @@ public class StringUtil
 
 	public static String extractFileName( String filePathName )
 	{
+		if( filePathName == null )
+			return null;
+		
 		int dotPos = filePathName.lastIndexOf( '.' );
 		int slashPos = filePathName.lastIndexOf( '\\' );
 		if ( slashPos == -1 )
@@ -369,6 +372,9 @@ public class StringUtil
 
 	public static String extractFileNameWithSuffix( String filePathName )
 	{
+		if( filePathName == null )
+			return null;
+		
 		int slashPos = filePathName.lastIndexOf( '\\' );
 		if ( slashPos == -1 )
 			slashPos = filePathName.lastIndexOf( '/' );
@@ -391,6 +397,9 @@ public class StringUtil
 
 	public static String extractNamespace( String qualifiedName )
 	{
+		if( qualifiedName == null )
+			return null;
+		
 		int pos = qualifiedName.indexOf( '.' );
 		if ( pos == -1 )
 			return null;
@@ -414,6 +423,9 @@ public class StringUtil
 	 */
 	public static String extractName( String qualifiedName )
 	{
+		if( qualifiedName == null )
+			return null;
+		
 		int pos = qualifiedName.indexOf( '.' );
 		if ( pos == -1 )
 			return qualifiedName;
