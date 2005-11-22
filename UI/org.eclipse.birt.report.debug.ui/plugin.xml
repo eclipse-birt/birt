@@ -36,7 +36,9 @@
 	            name="org.eclipse.birt.report.debug.Report"
 	            delegate="org.eclipse.birt.report.debug.ui.launcher.ReportLaunchConfigurationDelegate"
 	            modes="debug"
-	            id="org.eclipse.birt.report.debug.ui.ReportRuntimeWorkbench">
+	            id="org.eclipse.birt.report.debug.ui.ReportRuntimeWorkbench"
+	            sourceLocatorId="org.eclipse.jdt.launching.sourceLocator.JavaSourceLookupDirector"
+                sourcePathComputerId="org.eclipse.jdt.launching.sourceLookup.javaSourcePathComputer">
 	      </launchConfigurationType>
    </extension>
    
@@ -62,4 +64,15 @@
      <startup class="org.eclipse.birt.report.debug.internal.ui.launcher.DebugStartupClass"/>
 
    </extension>
+   
+   <extension
+         point="org.eclipse.debug.core.sourceLocators">
+      <sourceLocator
+            name="%javaSourceLocatorName"
+            class="org.eclipse.jdt.launching.sourcelookup.JavaSourceLocator"
+            id="org.eclipse.jdt.launching.javaSourceLocator">
+      </sourceLocator>
+   </extension>
+   
+
 </plugin>
