@@ -24,13 +24,13 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.DataTextDropListener;
+import org.eclipse.birt.chart.ui.swt.wizard.internal.SimpleTextTransfer;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTarget;
-import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -130,9 +130,8 @@ public class BaseDataDefinitionComponent
 
 			// Listener for handling dropping of custom table header
 			DropTarget target = new DropTarget( txtDefinition, DND.DROP_COPY );
-			final TextTransfer textTransfer = TextTransfer.getInstance( );
 			Transfer[] types = new Transfer[]{
-				textTransfer
+				SimpleTextTransfer.getInstance( )
 			};
 			target.setTransfer( types );
 			// Add drop support
