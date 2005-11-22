@@ -81,7 +81,6 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
@@ -92,20 +91,13 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.37 $ $Date: 2005/11/18 06:25:47 $
+ * @version $Revision: 1.38 $ $Date: 2005/11/22 09:30:33 $
  */
 public class ReportQueryBuilder
 {
-
-	/**
-	 * for logging
-	 */
 	protected static Logger logger = Logger.getLogger( ReportQueryBuilder.class
 			.getName( ) );
 
-	/**
-	 * constructor
-	 */
 	public ReportQueryBuilder( )
 	{
 	}
@@ -126,7 +118,6 @@ public class ReportQueryBuilder
 	 */
 	protected class QueryBuilderVisitor extends DefaultReportItemVisitorImpl
 	{
-
 		/**
 		 * query and it's IDs
 		 */
@@ -198,8 +189,7 @@ public class ReportQueryBuilder
 		 * Handles query creation and initialization with report-item related
 		 * expressions
 		 * 
-		 * @param item
-		 *            report item
+		 * @param item report item
 		 */
 		private BaseQueryDefinition prepareVisit( ReportItemDesign item )
 		{
@@ -835,8 +825,7 @@ public class ReportQueryBuilder
 		protected void addExpression( IBaseExpression expr )
 		{
 			// expressions may be null, which means the expression is in the
-			// topmost
-			// element, and has no data set associated with it.
+			// topmost element, and has no data set associated with it.
 			if ( expr != null && expressions != null )
 				expressions.add( expr );
 		}
@@ -904,8 +893,7 @@ public class ReportQueryBuilder
 						.getProperty( ReportItemHandle.DATA_SET_PROP );
 				if ( dsName != null && dsName.length( ) > 0 )
 				{
-					context.addException( (ReportElementHandle) item
-							.getHandle( ), new EngineException(
+					context.addException( item.getHandle( ), new EngineException(
 							MessageConstants.UNDEFINED_DATASET_ERROR, dsName ) );
 				}
 			}

@@ -85,8 +85,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	/**
 	 * the logger
 	 */
-	protected static Logger logger = Logger.getLogger( DteDataEngine.class
-			.getName( ) );
+	protected static Logger logger = Logger.getLogger( DteDataEngine.class.getName( ) );
 
 	/** Used for registering the test expression */
 	private static String TEST_EXPRESSION = "test_expression"; //$NON-NLS-1$
@@ -118,15 +117,13 @@ public abstract class AbstractDataEngine implements IDataEngine
 
 	public void prepare( Report report, Map appContext )
 	{
-		ReportDesignHandle rptHandle = (ReportDesignHandle) report
-				.getReportDesign( );
+		ReportDesignHandle rptHandle = report.getReportDesign( );
 
 		// Handling data sources
 		List dataSourceList = rptHandle.getAllDataSources( );
 		for ( int i = 0; i < dataSourceList.size( ); i++ )
 		{
-			DataSourceHandle dataSource = (DataSourceHandle) dataSourceList
-					.get( i );
+			DataSourceHandle dataSource = (DataSourceHandle) dataSourceList.get( i );
 			try
 			{
 				dataEngine.defineDataSource( ModelDteApiAdapter.getInstance( )
@@ -186,9 +183,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 		{
 			DteResultSet rs = (DteResultSet) queryResultStack.get( i );
 			if ( rs.getQueryResults( ) != null )
-			{
 				return rs;
-			}
 		}
 		return null;
 	}
@@ -207,9 +202,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 		// error handling.
 		assert query instanceof ISubqueryDefinition;
 		if ( queryResultStack.isEmpty( ) )
-		{
 			return null;
-		}
 		assert ( queryResultStack.getLast( ) instanceof DteResultSet );
 		DteResultSet resultSet;
 		try
@@ -240,9 +233,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	public Object evaluate( IBaseExpression expr )
 	{
 		if ( expr == null )
-		{
 			return null;
-		}
 
 		if ( !queryResultStack.isEmpty( ) ) // DtE handles evaluation
 		{

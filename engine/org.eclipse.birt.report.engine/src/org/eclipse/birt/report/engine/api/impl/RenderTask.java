@@ -84,6 +84,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 			throw new EngineException( "Can't find page hints :{0}", new Long(
 					pageNumber ) );
 		}
+		
+		if ( renderOptions == null )
+		{
+			throw new EngineException( "Render options have to be specified to render a report." );
+		}
 
 		doRender( pageNumber );
 	}
