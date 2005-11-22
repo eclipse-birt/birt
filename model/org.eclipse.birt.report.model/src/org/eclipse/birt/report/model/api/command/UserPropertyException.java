@@ -26,6 +26,12 @@ public class UserPropertyException extends SemanticException
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>.
+	 */
+	
+	private static final long serialVersionUID = -2257635814080094408L;
+
+	/**
 	 * The name of the user property affected.
 	 */
 

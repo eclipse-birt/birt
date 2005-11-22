@@ -385,7 +385,7 @@ public class CustomColor extends ReferencableStructure
 	 * <li>The color value can not be the same as a CSS color name.</li>
 	 * </ul>
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#validate(module,
+	 * @see org.eclipse.birt.report.model.core.Structure#validate(Module,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 

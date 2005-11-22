@@ -49,7 +49,7 @@ import org.eclipse.birt.report.model.core.Structure;
  * <dd>a filter condition has an optional value 2 expression of the second
  * comparison value for trinary operators(between, not between).</dd>
  * </dl>
- *  
+ * 
  */
 
 public class FilterCondition extends Structure
@@ -304,8 +304,8 @@ public class FilterCondition extends Structure
 	 * <ul>
 	 * <li>The filter expression is required.</li>
 	 * </ul>
-	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#validate(module,
+	 *  
+	 * @see org.eclipse.birt.report.model.core.Structure#validate(Module,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
@@ -315,9 +315,8 @@ public class FilterCondition extends Structure
 
 		if ( StringUtil.isBlank( getFilterExpr( ) ) )
 		{
-			list.add( new PropertyValueException( element,
-					getDefn( ).getMember( EXPR_MEMBER ),
-					getFilterExpr( ),
+			list.add( new PropertyValueException( element, getDefn( )
+					.getMember( EXPR_MEMBER ), getFilterExpr( ),
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 
@@ -355,7 +354,7 @@ public class FilterCondition extends Structure
 	 *            the column name to set
 	 * 
 	 * @deprecated This property has been removed.
-	 *  
+	 * 
 	 */
 	public void setColumn( String column )
 	{

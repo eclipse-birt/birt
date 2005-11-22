@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api;
 import java.math.BigDecimal;
 
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;

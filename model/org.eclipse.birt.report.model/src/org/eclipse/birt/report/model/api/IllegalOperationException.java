@@ -20,6 +20,16 @@ package org.eclipse.birt.report.model.api;
 public class IllegalOperationException extends RuntimeException
 {
 
+	/**
+	 * Comment for <code>serialVersionUID</code>.
+	 */
+	
+	private static final long serialVersionUID = 1657341610022221191L;
+	
+	/**
+	 * Error message for the exception.
+	 */
+	
 	public final static String ILLEGAL_OPERATION_EXCEPTION = "This operation is forbidden!"; //$NON-NLS-1$
 
 	/**

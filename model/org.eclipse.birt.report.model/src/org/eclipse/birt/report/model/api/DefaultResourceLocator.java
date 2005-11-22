@@ -75,8 +75,8 @@ public class DefaultResourceLocator implements IResourceLocator
 	 * Return a url if the <code>fileName</code> can be found in the directory
 	 * <code>filePath</code>.
 	 * 
-	 * @param filePath
-	 *            the file directory
+	 * @param systemId
+	 *            the systemID to search
 	 * @param fileName
 	 *            the file name
 	 * @return the <code>URL</code> object. <code>null</code> if the file
@@ -113,8 +113,8 @@ public class DefaultResourceLocator implements IResourceLocator
 	 * Return a url with the given base <code>uri</code> and the
 	 * <code>fileName</code>.
 	 * 
-	 * @param uri
-	 *            the uri
+	 * @param systemId
+	 *            the URL systemID
 	 * @param fileName
 	 *            the file name
 	 * @return the <code>URL</code> object. <code>null</code> if the file

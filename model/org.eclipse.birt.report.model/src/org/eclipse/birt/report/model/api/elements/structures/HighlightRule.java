@@ -89,6 +89,8 @@ public class HighlightRule extends StyleRule
 	 * @param v2
 	 *            the second comparison value for operators that take two
 	 *            arguments (between)
+	 * @param testExpre
+	 *            the expression to check
 	 */
 
 	public HighlightRule( String op, String v1, String v2, String testExpre )

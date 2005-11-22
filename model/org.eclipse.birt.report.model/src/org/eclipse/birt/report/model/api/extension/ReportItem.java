@@ -13,8 +13,6 @@ package org.eclipse.birt.report.model.api.extension;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Extension adapter class for the IReportItem. By default, the report item will

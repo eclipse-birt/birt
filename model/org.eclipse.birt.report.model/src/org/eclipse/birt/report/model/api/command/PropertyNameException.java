@@ -26,6 +26,12 @@ public class PropertyNameException extends SemanticException
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>.
+	 */
+	
+	private static final long serialVersionUID = 8269697054523876373L;
+
+	/**
 	 * The property/member name that caused the error.
 	 */
 

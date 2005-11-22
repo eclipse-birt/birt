@@ -89,6 +89,8 @@ public abstract class StyleRule extends PropertyStructure
 	 *            expression for the first operand
 	 * @param v2
 	 *            expression for the second operand
+	 * @param testExpr
+	 *            the expression to check
 	 */
 
 	public StyleRule( String op, String v1, String v2, String testExpr )
@@ -115,7 +117,7 @@ public abstract class StyleRule extends PropertyStructure
 			return value2;
 		else if ( TEST_EXPR_MEMBER.equals( propName ) )
 			return testExpression;
-		
+
 		return super.getIntrinsicProperty( propName );
 	} /*
 		 * (non-Javadoc)
@@ -246,9 +248,9 @@ public abstract class StyleRule extends PropertyStructure
 	/**
 	 * sets the test expression for the rule.
 	 * 
-	 * @param value
-	 *			the expression value 
-	 *
+	 * @param expression
+	 *            the expression value
+	 * 
 	 */
 	public void setTestExpression( String expression )
 	{
@@ -258,8 +260,7 @@ public abstract class StyleRule extends PropertyStructure
 	/**
 	 * gets the test expression value of this rule.
 	 * 
-	 * @return
-	 * 		the expression
+	 * @return the expression
 	 */
 	public String getTestExpression( )
 	{

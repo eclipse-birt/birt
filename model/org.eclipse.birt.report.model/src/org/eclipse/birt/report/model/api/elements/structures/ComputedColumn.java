@@ -241,7 +241,7 @@ public class ComputedColumn extends Structure
 	 * <li>The column name is required.
 	 * </ul>
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#validate(module,
+	 * @see org.eclipse.birt.report.model.core.Structure#validate(Module,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 

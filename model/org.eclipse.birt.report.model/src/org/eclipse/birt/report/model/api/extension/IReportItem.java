@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.api.extension;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.List;
 
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 

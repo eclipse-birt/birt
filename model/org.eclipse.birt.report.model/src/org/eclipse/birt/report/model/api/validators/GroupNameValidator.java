@@ -367,8 +367,8 @@ public class GroupNameValidator extends AbstractElementValidator
 	/**
 	 * Checks whether the given group name duplicates one of the list.
 	 * 
-	 * @param design
-	 *            the module
+	 * @param module
+	 *            the root module of the element to validate
 	 * @param groupNameList
 	 *            the group name list
 	 * @param groupName

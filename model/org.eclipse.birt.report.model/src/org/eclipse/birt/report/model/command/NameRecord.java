@@ -47,8 +47,6 @@ public class NameRecord extends SimpleRecord
 	/**
 	 * Constructor.
 	 * 
-	 * @param ns
-	 *            the namespace in which the element to change exists.
 	 * @param obj
 	 *            the element to change.
 	 * @param name

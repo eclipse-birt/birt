@@ -22,6 +22,12 @@ import org.eclipse.birt.report.model.metadata.MetaDataParserException;
 
 public class MetaDataReaderException extends ModelException
 {
+	/**
+	 * Comment for <code>serialVersionUID</code>.
+	 */
+	
+	private static final long serialVersionUID = -6052803773978695357L;
+
 	private MetaDataParserException e = null;
 	
 	public final static String DESIGN_EXCEPTION_META_DATA_ERROR = MessageConstants.META_DATA_READER_EXCEPTION_META_DATA_ERROR;

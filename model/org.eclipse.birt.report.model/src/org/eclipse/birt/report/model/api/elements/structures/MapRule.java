@@ -83,6 +83,8 @@ public class MapRule extends StyleRule
 	 * @param v2
 	 *            the second comparison value for operators that take two
 	 *            arguments (between)
+	 * @param testExpre
+	 *            the expression to check
 	 * @param id
 	 *            the message id if the display value is to be localized
 	 * @param disp

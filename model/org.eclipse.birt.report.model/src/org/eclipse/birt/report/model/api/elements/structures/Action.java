@@ -27,8 +27,8 @@ import org.eclipse.birt.report.model.core.PropertyStructure;
  * bookmark.
  * </ul>
  * <p>
- * The drill-through link can link to an existing report, or request to run a new
- * report. It can optionally include:</li>
+ * The drill-through link can link to an existing report, or request to run a
+ * new report. It can optionally include:</li>
  * <ul>
  * <li>Parameters to pass when creating a new report.</li>
  * <li>A location within the target report as specified by a search.</li>
@@ -47,111 +47,103 @@ import org.eclipse.birt.report.model.core.PropertyStructure;
  * web server that hosts ActivePortal. A bookmark link simply identifies a
  * bookmark identified within this report. Use the Bookmark property of a report
  * item to create the target bookmark.
- *  
+ * 
  */
 
 public class Action extends PropertyStructure
 {
 
-    /**
-     * Name of this structure. Matches the definition in the meta-data
-     * dictionary.
-     */
+	/**
+	 * Name of this structure. Matches the definition in the meta-data
+	 * dictionary.
+	 */
 
-    public final static String ACTION_STRUCT = "Action"; //$NON-NLS-1$
+	public final static String ACTION_STRUCT = "Action"; //$NON-NLS-1$
 
-    
-    /**
-     * Property name of the hyperlink.
-     */
-    
-    public final static String URI_MEMBER = "uri"; //$NON-NLS-1$
+	/**
+	 * Property name of the hyperlink.
+	 */
 
-    
-    /**
-     * Property name of report name, when this action is drill-through action.
-     * 
-     */
+	public final static String URI_MEMBER = "uri"; //$NON-NLS-1$
 
-    public final static String REPORT_NAME_MEMBER = "reportName"; //$NON-NLS-1$
+	/**
+	 * Property name of report name, when this action is drill-through action.
+	 * 
+	 */
 
-    
-    /**
-     * Link type of the Action. Only one of hyperlink, bookmark link or drill-through (below) can be supplied.
-     */
+	public final static String REPORT_NAME_MEMBER = "reportName"; //$NON-NLS-1$
 
-    public final static String LINK_TYPE_MEMBER = "linkType"; //$NON-NLS-1$
+	/**
+	 * Link type of the Action. Only one of hyperlink, bookmark link or
+	 * drill-through (below) can be supplied.
+	 */
 
-    
-    /**
-     * Property name of the target browser window for the link. (Optional.)
-     */
+	public final static String LINK_TYPE_MEMBER = "linkType"; //$NON-NLS-1$
 
-    public final static String TARGET_WINDOW_MEMBER = "targetWindow"; //$NON-NLS-1$
+	/**
+	 * Property name of the target browser window for the link. (Optional.)
+	 */
 
-    
-    /**
-     * Property name of the target bookmark link.
-     */
+	public final static String TARGET_WINDOW_MEMBER = "targetWindow"; //$NON-NLS-1$
 
-    public final static String TARGET_BOOKMARK_MEMBER = "targetBookmark"; //$NON-NLS-1$
+	/**
+	 * Property name of the target bookmark link.
+	 */
 
-    
-    /**
-     * Property name of parameter bindings, when this action is drill-through
-     * action.
-     */
-    
-    public final static String PARAM_BINDINGS_MEMBER = "paramBindings"; //$NON-NLS-1$
+	public final static String TARGET_BOOKMARK_MEMBER = "targetBookmark"; //$NON-NLS-1$
 
-    
-    
-    /**
-     * Property name of search, when this action is drill-through action.
-     */
+	/**
+	 * Property name of parameter bindings, when this action is drill-through
+	 * action.
+	 */
 
-    public final static String SEARCH_MEMBER = "search"; //$NON-NLS-1$
+	public final static String PARAM_BINDINGS_MEMBER = "paramBindings"; //$NON-NLS-1$
 
+	/**
+	 * Property name of search, when this action is drill-through action.
+	 */
 
-    /**
-     * Property name of format.
-     */
+	public final static String SEARCH_MEMBER = "search"; //$NON-NLS-1$
 
-    public final static String FORMAT_TYPE_MEMBER = "formatType"; //$NON-NLS-1$
+	/**
+	 * Property name of format.
+	 */
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
-     */
+	public final static String FORMAT_TYPE_MEMBER = "formatType"; //$NON-NLS-1$
 
-    public String getStructName( )
-    {
-        return ACTION_STRUCT;
-    }
-    
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-     *      int)
-     */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
+	 */
 
-    protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
-    {
-        assert false;
-        return null;
-    }
+	public String getStructName( )
+	{
+		return ACTION_STRUCT;
+	}
 
-    
-    /**
-     * Return an <code>ActionHandle</code> to deal with the action.
-     *  
-     */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
+	 *      int)
+	 */
 
-    public StructureHandle getHandle( SimpleValueHandle valueHandle )
-    {
-        return new ActionHandle( valueHandle.getElementHandle( ), valueHandle
-                .getReference( ) );
-    }
+	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
+	{
+		assert false;
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt.report.model.api.SimpleValueHandle)
+	 */
+
+	public StructureHandle getHandle( SimpleValueHandle valueHandle )
+	{
+		return new ActionHandle( valueHandle.getElementHandle( ), valueHandle
+				.getReference( ) );
+	}
 }

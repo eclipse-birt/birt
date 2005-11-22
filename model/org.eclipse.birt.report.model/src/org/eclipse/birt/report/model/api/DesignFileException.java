@@ -41,6 +41,12 @@ public class DesignFileException extends ModelException
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>.
+	 */
+	
+	private static final long serialVersionUID = 8790341685615483274L;
+
+	/**
 	 * The list containing errors encountered when opening the design file.
 	 */
 

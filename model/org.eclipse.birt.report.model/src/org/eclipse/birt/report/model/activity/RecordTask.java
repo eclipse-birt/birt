@@ -29,8 +29,8 @@ public abstract class RecordTask
 	/**
 	 * Constructor.
 	 * 
-	 * @param element
-	 *            the design element
+	 * @param target
+	 *            the target design element
 	 */
 
 	RecordTask( Object target )

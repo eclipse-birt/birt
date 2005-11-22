@@ -25,6 +25,12 @@ public class ExtendsException extends SemanticException
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>.
+	 */
+	
+	private static final long serialVersionUID = 4652036899546927124L;
+
+	/**
 	 * The new extends value.
 	 */
 

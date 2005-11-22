@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.api.metadata;
 
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;

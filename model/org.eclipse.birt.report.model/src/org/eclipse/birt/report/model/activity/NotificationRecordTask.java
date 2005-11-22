@@ -165,8 +165,10 @@ public class NotificationRecordTask extends RecordTask
 		return false;
 	}
 
-	/**
-	 * Fire event to the target.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.activity.IInterceptorTask#doTask(org.eclipse.birt.report.model.activity.ActivityRecord)
 	 */
 
 	public void doTask( ActivityRecord record, Stack transStack )

@@ -38,7 +38,7 @@ public interface IReportItemFactory
 	 * Creates a new instance of the extended element given a handle to the BIRT
 	 * report element that represents the extended element.
 	 * 
-	 * @param item
+	 * @param extendedItemHandle
 	 *            the BIRT report item that represents the extended element
 	 * @return a new peer element
 	 */

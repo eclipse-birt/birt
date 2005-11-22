@@ -21,6 +21,12 @@ public class ValidationValueException extends PropertyValueException
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>.
+	 */
+	
+	private static final long serialVersionUID = -5090192631774412136L;
+	
+	/**
 	 * The name of the data type being validated.
 	 */
 

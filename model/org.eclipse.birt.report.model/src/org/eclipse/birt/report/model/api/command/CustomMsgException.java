@@ -25,6 +25,12 @@ public class CustomMsgException extends SemanticException
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>.
+	 */
+	
+	private static final long serialVersionUID = 2747010046327832852L;
+
+	/**
 	 * The resource key with error.
 	 */
 

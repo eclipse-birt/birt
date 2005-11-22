@@ -79,6 +79,8 @@ public class NameSpaceEvent extends NotificationEvent
 	 *            the root element
 	 * @param id
 	 *            the id of the name space that changed
+	 * @param element
+	 *            the element to modify
 	 * @param theAction
 	 *            the action causing this event
 	 */
@@ -135,7 +137,7 @@ public class NameSpaceEvent extends NotificationEvent
 	 * 
 	 * @return Returns the element.
 	 */
-	
+
 	public DesignElement getElement( )
 	{
 		return element;

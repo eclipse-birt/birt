@@ -56,9 +56,10 @@ public class CachedMetaData extends PropertyStructure
 		return null;
 	}
 
-	/**
-	 * Return an <code>CachedMetaDataHandle</code> to deal with the structure.
-	 *  
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt.report.model.api.SimpleValueHandle)
 	 */
 
 	public StructureHandle getHandle( SimpleValueHandle valueHandle )

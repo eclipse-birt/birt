@@ -28,6 +28,12 @@ public class PropertyValueException extends SemanticException
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>.
+	 */
+	
+	private static final long serialVersionUID = 6453952392044174297L;
+
+	/**
 	 * The invalid value.
 	 */
 

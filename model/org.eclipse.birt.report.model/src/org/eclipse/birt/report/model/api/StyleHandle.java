@@ -124,6 +124,8 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * 
 	 * @param value
 	 *            the new background image address
+	 * @throws SemanticException
+	 *             if the property is locked
 	 */
 
 	public void setBackgroundImage( String value ) throws SemanticException
@@ -646,12 +648,12 @@ public abstract class StyleHandle extends ReportElementHandle
 			String valueToSet ) throws SemanticException
 	{
 		DesignElement element = getElement( );
-		Object value = element.getLocalProperty( module, propName );			
+		Object value = element.getLocalProperty( module, propName );
 
 		if ( value == null )
 		{
 			FormatValue formatValueToSet = null;
-			
+
 			if ( Style.DATE_TIME_FORMAT_PROP.equalsIgnoreCase( propName ) )
 				formatValueToSet = new DateTimeFormatValue( );
 			else if ( Style.NUMBER_FORMAT_PROP.equalsIgnoreCase( propName ) )
@@ -671,8 +673,8 @@ public abstract class StyleHandle extends ReportElementHandle
 			setProperty( propName, formatValueToSet );
 		}
 		else
-		{	
-			PropertyHandle propHandle = getPropertyHandle( propName );			
+		{
+			PropertyHandle propHandle = getPropertyHandle( propName );
 			FormatValue formatValueToSet = (FormatValue) value;
 
 			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet
@@ -1278,7 +1280,7 @@ public abstract class StyleHandle extends ReportElementHandle
 	 *            the value of new map test expression
 	 * @throws SemanticException
 	 *             if the expression is invalid.
-	 *  @deprecated
+	 * @deprecated
 	 */
 	public void setMapTestExpr( String value ) throws SemanticException
 	{
@@ -1321,7 +1323,7 @@ public abstract class StyleHandle extends ReportElementHandle
 	 *            the value of new highlight test expression
 	 * @throws SemanticException
 	 *             if the expression is invalid.
-	 *             
+	 * 
 	 * @deprecated
 	 */
 
@@ -1854,7 +1856,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 		if ( MetaDataDictionary.getInstance( ).getPredefinedStyle( getName( ) ) != null )
 			return true;
-		
+
 		return false;
 
 	}

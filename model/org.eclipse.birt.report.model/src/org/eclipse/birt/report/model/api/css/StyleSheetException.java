@@ -23,6 +23,12 @@ public class StyleSheetException extends ModelException
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>.
+	 */
+	
+	private static final long serialVersionUID = 5816843037267500577L;
+
+	/**
 	 * The style sheet is not found.
 	 */
 

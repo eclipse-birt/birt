@@ -367,9 +367,9 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 * sets the test expression for this hilghtlight rule.
 	 * 
 	 * @param expression
-	 * 				the expression 
-	 * @throws SemanticException
+	 * 				the expression  
 	 */
+	
 	public void setTestExpression( String expression ) 
 	{
 		setPropertySilently( HighlightRule.TEST_EXPR_MEMBER, expression );

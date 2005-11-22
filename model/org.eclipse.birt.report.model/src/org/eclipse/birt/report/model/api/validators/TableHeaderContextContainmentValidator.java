@@ -161,8 +161,8 @@ public class TableHeaderContextContainmentValidator
 	 * Validates whether the given element can recursively resides in the
 	 * specific slot of specific container type when trying to add an element.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the root module of the element to validate
 	 * @param element
 	 *            the container element
 	 * @param toAdd

@@ -56,8 +56,6 @@ public class ThemeRecord extends SimpleRecord
 	 *            the module
 	 * @param newTheme
 	 *            the new theme
-	 * @param oldTheme
-	 *            the old theme
 	 */
 
 	ThemeRecord( Module module, Theme newTheme )

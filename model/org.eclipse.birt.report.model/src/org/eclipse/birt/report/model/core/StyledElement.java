@@ -211,6 +211,8 @@ public abstract class StyledElement extends DesignElement
 	 * If the style name is represented as a name, then attempts to resolve the
 	 * style name to obtain the referenced style.
 	 * 
+	 * @see #validate(Module)
+	 * 
 	 */
 
 	public List validate( Module module )

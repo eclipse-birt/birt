@@ -25,6 +25,12 @@ public class StyleException extends SemanticException
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>.
+	 */
+	
+	private static final long serialVersionUID = -4383500737464797856L;
+
+	/**
 	 * The style name being set.
 	 */
 

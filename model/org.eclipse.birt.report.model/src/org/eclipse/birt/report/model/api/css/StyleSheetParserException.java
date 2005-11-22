@@ -25,6 +25,12 @@ public class StyleSheetParserException extends ModelException
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>.
+	 */
+	
+	private static final long serialVersionUID = 6470924439843008936L;
+
+	/**
 	 * The name of the style or rule which has the errors.
 	 */
 
