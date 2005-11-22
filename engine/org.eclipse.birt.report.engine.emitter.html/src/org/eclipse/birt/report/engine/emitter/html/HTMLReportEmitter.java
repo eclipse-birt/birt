@@ -79,7 +79,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.48 $ $Date: 2005/11/21 15:34:28 $
+ * @version $Revision: 1.49 $ $Date: 2005/11/22 03:03:20 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1008,10 +1008,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		setBookmark( tagName, container.getBookmark( ) );
 
 		// output style
-		if ( x == null && y == null )
-		{
-			styleBuffer.append( "position: relative;" ); //$NON-NLS-1$
-		}
+		//if ( x == null && y == null )
+		//{
+		//	styleBuffer.append( "position: relative;" ); //$NON-NLS-1$
+		//}
 
 		setDisplayProperty( display, DISPLAY_INLINE_BLOCK, styleBuffer );
 
