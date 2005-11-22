@@ -3602,7 +3602,9 @@ public abstract class AxesRenderer extends BaseRenderer
 							bb.getHeight( ) ) );
 
 					tre.setLabel( la );
-					tre.setBlockAlignment( null );
+					tre.setBlockAlignment( la.getCaption( )
+							.getFont( )
+							.getAlignment( ) );
 					tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 					ipr.drawText( tre );
 
@@ -3624,7 +3626,9 @@ public abstract class AxesRenderer extends BaseRenderer
 
 					tre.setBlockBounds( bo );
 					tre.setLabel( la );
-					tre.setBlockAlignment( null );
+					tre.setBlockAlignment( la.getCaption( )
+							.getFont( )
+							.getAlignment( ) );
 					tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 					ipr.drawText( tre );
 				}
@@ -4693,7 +4697,9 @@ public abstract class AxesRenderer extends BaseRenderer
 					}
 
 					tre.setLabel( la );
-					tre.setBlockAlignment( null );
+					tre.setBlockAlignment( la.getCaption( )
+							.getFont( )
+							.getAlignment( ) );
 					tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 					ipr.drawText( tre );
 				}
@@ -4706,7 +4712,9 @@ public abstract class AxesRenderer extends BaseRenderer
 
 					tre.setBlockBounds( bo );
 					tre.setLabel( la );
-					tre.setBlockAlignment( null );
+					tre.setBlockAlignment( la.getCaption( )
+							.getFont( )
+							.getAlignment( ) );
 					tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 					ipr.drawText( tre );
 				}
