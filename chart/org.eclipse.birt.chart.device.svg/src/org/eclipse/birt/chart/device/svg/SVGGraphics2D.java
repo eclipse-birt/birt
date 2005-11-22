@@ -192,7 +192,12 @@ public class SVGGraphics2D extends Graphics2D
 	 */
 	public void drawString( String arg0, int arg1, int arg2 )
 	{
-		logger.log( new Exception( Messages.getString( "SVGGraphics2D.drawString.StringInt" ) ) ); //$NON-NLS-1$
+		currentElement = this.createText(arg0);
+
+		currentElement.setAttribute( "x", Integer.toString(arg1) ); //$NON-NLS-1$
+		currentElement.setAttribute( "y", Integer.toString(arg2) ); //$NON-NLS-1$
+		
+		appendChild(currentElement);
 
 	}
 
@@ -203,7 +208,12 @@ public class SVGGraphics2D extends Graphics2D
 	 */
 	public void drawString( String arg0, float arg1, float arg2 )
 	{
-		logger.log( new Exception( Messages.getString( "SVGGraphics2D.drawString.StringFloat" ) ) ); //$NON-NLS-1$
+		currentElement = this.createText(arg0);
+
+		currentElement.setAttribute( "x", Float.toString(arg1) ); //$NON-NLS-1$
+		currentElement.setAttribute( "y", Float.toString(arg2) ); //$NON-NLS-1$
+		
+		appendChild(currentElement);
 	}
 
 	/*
@@ -417,7 +427,7 @@ public class SVGGraphics2D extends Graphics2D
 	 */
 	public void transform( AffineTransform arg0 )
 	{
-		logger.log( new Exception( Messages.getString( "SVGGraphics2D.transform.AffineTransform" ) ) ); //$NON-NLS-1$
+		transforms.concatenate((AffineTransform)arg0.clone());
 	}
 
 	/*
@@ -425,9 +435,9 @@ public class SVGGraphics2D extends Graphics2D
 	 * 
 	 * @see java.awt.Graphics2D#setTransform(java.awt.geom.AffineTransform)
 	 */
-	public void setTransform( AffineTransform arg0 )
+	public void setTransform( AffineTransform transform )
 	{
-		logger.log( new Exception( Messages.getString( "SVGGraphics2D.setTransform.Affine" ) ) ); //$NON-NLS-1$
+		this.transforms = transform;
 	}
 
 	/*
@@ -437,8 +447,7 @@ public class SVGGraphics2D extends Graphics2D
 	 */
 	public AffineTransform getTransform( )
 	{
-		logger.log( new Exception( Messages.getString( "SVGGraphics2D.getTransform" ) ) ); //$NON-NLS-1$
-		return null;
+		return transforms;
 	}
 
 	/*
@@ -507,9 +516,15 @@ public class SVGGraphics2D extends Graphics2D
 	 * 
 	 * @see java.awt.Graphics#setXORMode(java.awt.Color)
 	 */
-	public void setXORMode( Color arg0 )
+	public void setXORMode( Color xorColor )
 	{
-		logger.log( new Exception( Messages.getString( "SVGGraphics2D.setXORModel.Color" ) ) ); //$NON-NLS-1$
+		if ((color == null) || (xorColor == null)) return;
+		
+		int newColor = ((xorColor.getRed() << 16) + (xorColor.getGreen() << 8) + xorColor.getBlue()) ^  ((color.getRed() << 16) + (color.getGreen() << 8) + color.getBlue());
+		int r = newColor >> 16 & 0x0000FF;
+		int g = (0x00FF00 & newColor) >> 8;
+		int b = 0x0000FF & newColor;
+		color = new Color(r, g, b);
 	}
 
 	/*
@@ -874,7 +889,9 @@ public class SVGGraphics2D extends Graphics2D
 	 */
 	public void drawPolyline( int[] arg0, int[] arg1, int arg2 )
 	{
-		logger.log( new Exception( Messages.getString( "SVGGraphics2D.drawPolyline.Int" ) ) ); //$NON-NLS-1$
+		currentElement = createPolyline( arg0, arg1, arg2 );
+		appendChild( currentElement );
+		setStrokeStyle( currentElement );
 	}
 
 	/*
@@ -1262,6 +1279,28 @@ public class SVGGraphics2D extends Graphics2D
 		}
 		return elem;
 	}
+	protected Element createText( String text )
+	{
+		Element elem = dom.createElement( "text" ); //$NON-NLS-1$
+		elem.appendChild( dom.createTextNode( text ) );
+		elem.setAttribute( "font-family", getFont().getFamily()); //$NON-NLS-1$
+		elem.setAttribute( "font-size", Integer.toString(getFont().getSize())); //$NON-NLS-1$
+		if ( color != null ){
+			String alpha = alphaToString( color );
+			String style = "";
+			if ( alpha != null )
+				style += "fill-opacity:" + alpha + ";"; //$NON-NLS-1$ //$NON-NLS-2$
+			elem.setAttribute( "style", style + "fill:" + serializeToString( color ) + ";" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		}
+		if ( transforms.getType( ) != AffineTransform.TYPE_IDENTITY )
+		{
+			double[] matrix = new double[6];
+			transforms.getMatrix( matrix );
+			elem.setAttribute( "transform", "matrix(" + matrix[0] + "," + matrix[1] + "," + matrix[2] + "," + matrix[3] + "," + matrix[4] + "," + matrix[5] + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+		}
+		
+		return elem;
+	}
 
 	protected Element createRect( double arg0, double arg1, double arg2,
 			double arg3 )
@@ -1308,6 +1347,20 @@ public class SVGGraphics2D extends Graphics2D
 		double endY = y * Math.sin( startAngle + arcAngle );
 		int sweepFlag = ( arcAngle < 0 ) ? 0 : 1;
 		elem.setAttribute( "d", "M" + startX + "," + startY + " a" + width / 2 + "," + height / 2 + " " + Math.abs( arcAngle ) + " 0 " + sweepFlag + " " + endX + " " + endY ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
+		return elem;
+	}
+
+	public Element createPolyline( int[] arg0, int[] arg1, int arg2 )
+	{
+		Element elem = createElement( "polyline" ); //$NON-NLS-1$
+		StringBuffer pointsStr = new StringBuffer( );
+		;
+		for ( int x = 0; x < arg2; x++ )
+		{
+			pointsStr.append( arg0[x] )
+					.append( "," ).append( arg1[x] ).append( " " ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		elem.setAttribute( "points", pointsStr.toString( ) ); //$NON-NLS-1$
 		return elem;
 	}
 
