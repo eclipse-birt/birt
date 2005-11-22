@@ -17,9 +17,7 @@ package org.eclipse.birt.report.engine.api;
  * other purposes too. 
  */
 public class HTMLRenderContext {
-	
-	public final static String CONTEXT_NAME = "HTML_RENDER_CONTEXT"; 
-	
+		
 	/**
 	 * base URL used for action handler
 	 */

@@ -38,7 +38,7 @@ import org.eclipse.birt.core.framework.PlatformFileContext;
  * Report parameters are handled as command line parameters. Currently, only scalar parameters 
  * are handled.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/11/02 02:25:16 $
+ * @version $Revision: 1.9 $ $Date: 2005/11/11 00:38:49 $
  */
 public class ReportRunner
 {
@@ -147,7 +147,7 @@ public class ReportRunner
 				renderContext.setImageDirectory("image"); //$NON-NLS-1$
 				
 				HashMap contextMap = new HashMap();
-				contextMap.put( HTMLRenderContext.CONTEXT_NAME, renderContext );
+				contextMap.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT, renderContext );
 				
 				task.setAppContext( contextMap );
 			}
