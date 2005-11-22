@@ -49,6 +49,11 @@ public class WebViewer
 	final public static String USER_LOCALE = "user_locale"; //$NON-NLS-1$
 
 	/**
+	 * Preference key for SVG chart flag.
+	 */
+	final public static String SVG_FLAG = "svg_flag"; //$NON-NLS-1$
+
+	/**
 	 * locale mapping. Save some time.
 	 */
 	public static TreeMap LocaleTable = null;
@@ -104,12 +109,20 @@ public class WebViewer
 		}
 		
 		String locale = ViewerPlugin.getDefault( ).getPluginPreferences( ).getString( USER_LOCALE );
+		String svgFlag = ViewerPlugin.getDefault( ).getPluginPreferences( ).getString( SVG_FLAG );
+		boolean bSVGFlag = false;
+		if ( "true".equalsIgnoreCase( svgFlag ) )
+		{
+			bSVGFlag = true;
+		}
+
 		// So far, only report name is encoded as utf-8 format 
 		return getBaseURL( )
 			+ servletName + "?" //$NON-NLS-1$
 			+ "__report=" + encodedReportName //$NON-NLS-1$
 			+ "&__format=" + format //$NON-NLS-1$
 			+ "&__usetestconfig=true" //$NON-NLS-1$
+			+ "&__svg=" +  String.valueOf( bSVGFlag )//$NON-NLS-1$
 			+ "&__locale=" + LocaleTable.get(locale); //$NON-NLS-1$
 		
 	}
