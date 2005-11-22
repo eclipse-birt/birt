@@ -416,7 +416,7 @@ public class GroupDialog extends BaseDialog
 
 		TabItem filterItem = new TabItem( tab, SWT.NONE );
 		filterPage = new FormPage( tab,
-				FormPage.SIMPLE_FUNCTION,
+				FormPage.NORMAL_FUNCTION,
 				new FilterHandleProvider( ) {
 
 					public int[] getColumnWidths( )
@@ -432,7 +432,7 @@ public class GroupDialog extends BaseDialog
 
 		TabItem sortItem = new TabItem( tab, SWT.NONE );
 		sortPage = new FormPage( tab,
-				FormPage.SIMPLE_FUNCTION,
+				FormPage.NORMAL_FUNCTION,
 				new SortingHandleProvider( ) {
 
 					public int[] getColumnWidths( )
