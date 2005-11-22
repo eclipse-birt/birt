@@ -114,7 +114,7 @@ public class ModelDteApiAdapter
     
     IOdaDataSourceDesign newExtendedDataSource( OdaDataSourceHandle source ) throws EngineException
     {
-        OdaDataSourceDesign dteSource = new OdaDataSourceDesign( source.getName() );
+        OdaDataSourceDesign dteSource = new OdaDataSourceDesign( source.getQualifiedName() );
         
         // Adapt base class properties
         adaptBaseDataSource( source, dteSource );
@@ -175,7 +175,7 @@ public class ModelDteApiAdapter
     
     IScriptDataSourceDesign newScriptDataSource( ScriptDataSourceHandle source )
     {
-        ScriptDataSourceDesign dteSource = new ScriptDataSourceDesign( source.getName() );
+        ScriptDataSourceDesign dteSource = new ScriptDataSourceDesign( source.getQualifiedName() );
         
         // Adapt base class properties
         adaptBaseDataSource( source, dteSource );
@@ -197,7 +197,7 @@ public class ModelDteApiAdapter
         
     IOdaDataSetDesign newExtendedDataSet( OdaDataSetHandle modelDataSet ) throws EngineException
     {
-        OdaDataSetDesign dteDataSet = new OdaDataSetDesign( modelDataSet.getName() );
+        OdaDataSetDesign dteDataSet = new OdaDataSetDesign( modelDataSet.getQualifiedName());
             
         // Adapt base class properties
         adaptBaseDataSet( modelDataSet, dteDataSet );
@@ -244,7 +244,7 @@ public class ModelDteApiAdapter
     
     IScriptDataSetDesign newScriptDataSet( ScriptDataSetHandle modelDataSet ) throws EngineException
     {
-        ScriptDataSetDesign dteDataSet = new ScriptDataSetDesign( modelDataSet.getName() );
+        ScriptDataSetDesign dteDataSet = new ScriptDataSetDesign( modelDataSet.getQualifiedName() );
                 
         // Adapt base class properties
         adaptBaseDataSet( modelDataSet, dteDataSet );
@@ -261,7 +261,7 @@ public class ModelDteApiAdapter
     void adaptBaseDataSet( DataSetHandle modelDataSet,
             				BaseDataSetDesign dteDataSet ) throws EngineException
     {
-        dteDataSet.setDataSource( modelDataSet.getDataSourceName() );
+        dteDataSet.setDataSource( modelDataSet.getDataSource().getQualifiedName() );
         dteDataSet.setBeforeOpenScript( modelDataSet.getBeforeOpen() );
         dteDataSet.setAfterOpenScript( modelDataSet.getAfterOpen() );
         dteDataSet.setOnFetchScript( modelDataSet.getOnFetch() );

@@ -64,13 +64,13 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	}
 
 	/**
-	 * Gets the data source binding to report element.
+	 * Gets all the data source binding to report element.
 	 * 
 	 * @return
 	 */
 	public List getDataSources( )
 	{
-		return getModuleHandle( ).getDataSources( ).getContents( );
+		return getModuleHandle( ).getAllDataSources();
 	}
 
 	/**
