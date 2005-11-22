@@ -4,6 +4,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
@@ -71,7 +72,8 @@ public class CreatePlaceHolderAction extends AbstractElementAction
 	{
 		return super.isEnabled( )
 				&& getSelectedElement( ) instanceof ReportItemHandle
-				//Can't create place holder in Simple Master Page
-				&& !(getSelectedElement().getContainer() instanceof SimpleMasterPageHandle);
+				// Can't create place holder in Simple Master Page
+				&& !( getSelectedElement( ).getContainer( ) instanceof SimpleMasterPageHandle) 
+					&& !( getSelectedElement( ).getRoot( ) instanceof LibraryHandle ) ;
 	}
 }
