@@ -139,7 +139,7 @@
                   odaScalarDataType="Integer"/>
       </dataSet>
 	  <dataSource
-            odaVersion="2.0.0"
+            odaVersion="3.0.0"
             driverClass="org.eclipse.birt.report.data.oda.xml.Driver"
             defaultDisplayName="%datasource.name"
             id="org.eclipse.birt.report.data.oda.xml"
