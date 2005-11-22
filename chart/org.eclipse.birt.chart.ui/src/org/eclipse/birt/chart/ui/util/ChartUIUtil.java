@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.i18n.Messages;
+import org.eclipse.birt.chart.ui.plugin.ChartUIPlugin;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
@@ -318,6 +319,12 @@ public class ChartUIUtil
 			public Object evaluate( String expression )
 			{
 				column = (Object[]) map.get( expression );
+				if ( i >= column.length )
+				{
+					throw new RuntimeException( new ChartException( ChartUIPlugin.ID,
+							ChartException.DATA_SET,
+							Messages.getString( "ChartUIUtil.Exception.NoValueReturned" ) ) ); //$NON-NLS-1$
+				}
 				return column[i];
 			}
 
