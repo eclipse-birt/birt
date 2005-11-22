@@ -2937,6 +2937,8 @@
   		<Type name="ExtendedItem"/>
   		<Type name="TextData"/>
   		<Type name="DataSet"/>
+  		<Type name="List"/>
+  		<Type name="Line"/>
   	</Slot>
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.TemplateElement" hasStyle="false" isAbstract="true" isNameRequired="false" name="TemplateElement" nameSpace="none" since="2.0">
