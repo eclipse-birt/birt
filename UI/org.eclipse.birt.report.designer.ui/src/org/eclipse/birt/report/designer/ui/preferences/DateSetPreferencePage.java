@@ -75,7 +75,7 @@ public class DateSetPreferencePage extends PreferencePage
 		Label lab = maxDisplaySchemaEditor.getLabelControl( mainComposite );
         lab.setText(Messages.getString( "designer.preview.preference.resultset.maxNoOfSchema.description" ));
 		
-		maxDisplaySchemaEditor.setPage(this);
+		maxDisplaySchemaEditor.setPreferencePage(this);
 		maxDisplaySchemaEditor.setTextLimit( Integer.toString( MAX_MAX_ROW ).length( ) );
 		
 		maxDisplaySchemaEditor.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
@@ -107,7 +107,7 @@ public class DateSetPreferencePage extends PreferencePage
         lab2.setText(Messages.getString( "designer.preview.preference.resultset.maxrow.description" ));
 
 		
-		maxRowEditor.setPage(this);
+		maxRowEditor.setPreferencePage(this);
 		maxRowEditor.setTextLimit( Integer.toString( MAX_MAX_ROW ).length( ) );
 		maxRowEditor.setErrorMessage( Messages.getFormattedString( "designer.preview.preference.resultset.maxrow.errormessage",
 				new Object[]{new Integer( MAX_MAX_ROW )	} ) );

@@ -62,7 +62,7 @@ public class TemplateReportItemPropertiesDialog extends BaseDialog
 		Composite container = new Composite( parent, SWT.NONE );
 		GridLayout gridLayout = new GridLayout( );
 		gridLayout.marginWidth = 10;
-		gridLayout.marginTop = 7;
+		//gridLayout.marginTop = 7;
 		container.setLayout( gridLayout );
 		GridData gridData = new GridData( );
 		gridData.widthHint = 400;

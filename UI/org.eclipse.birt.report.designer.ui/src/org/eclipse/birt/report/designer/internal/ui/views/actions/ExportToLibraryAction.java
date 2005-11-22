@@ -140,7 +140,7 @@ public class ExportToLibraryAction extends AbstractViewAction
 										SWT.NONE );
 								GridLayout gridLayout = new GridLayout( );
 								gridLayout.marginWidth = 20;
-								gridLayout.marginTop = 15;
+								//gridLayout.marginTop = 15;
 								container.setLayout( gridLayout );
 
 								Button chkbox = new Button( container,
