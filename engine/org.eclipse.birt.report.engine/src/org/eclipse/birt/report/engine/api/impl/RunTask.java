@@ -27,11 +27,13 @@ import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.presentation.HTMLPaginationEmitter;
 import org.eclipse.birt.report.engine.presentation.ReportDocumentEmitter;
 
+/**
+ * A task for running a report design to get a report document
+ */
 public class RunTask extends AbstractRunTask implements IRunTask
 {
-
-	ReportDocument reportDoc;
-	IPageHandler pageHandler;
+	ReportDocument 	reportDoc;
+	IPageHandler 	pageHandler;
 
 	/**
 	 * @param engine the report engine
@@ -56,6 +58,8 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	 */
 	public void run( String reportDocName ) throws EngineException
 	{
+		if (reportDocName == null || reportDocName.length() == 0)
+			throw new EngineException("Report document name is not specified when running a report."); //$NON-NLS-1$	
 		reportDoc = new ReportDocument(new DocumentArchive( reportDocName ));
 		run( );
 	}
@@ -65,6 +69,9 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	 */
 	public void run( IDocumentArchive archive ) throws EngineException
 	{
+		if (archive == null)
+			throw new EngineException("Report archive is not specified when running a report."); //$NON-NLS-1$	
+			
 		reportDoc = new ReportDocument(archive);
 		run( );
 	}
