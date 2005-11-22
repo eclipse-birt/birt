@@ -1,4 +1,4 @@
- /*******************************************************************************
+/*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -92,16 +92,17 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.36 $ $Date: 2005/11/17 16:50:46 $
+ * @version $Revision: 1.37 $ $Date: 2005/11/18 06:25:47 $
  */
 public class ReportQueryBuilder
 {
+
 	/**
 	 * for logging
 	 */
 	protected static Logger logger = Logger.getLogger( ReportQueryBuilder.class
 			.getName( ) );
-	
+
 	/**
 	 * constructor
 	 */
@@ -125,6 +126,7 @@ public class ReportQueryBuilder
 	 */
 	protected class QueryBuilderVisitor extends DefaultReportItemVisitorImpl
 	{
+
 		/**
 		 * query and it's IDs
 		 */
@@ -183,13 +185,13 @@ public class ReportQueryBuilder
 			// first clear the collection in case the caller call this function
 			// more than once.
 			queries.clear( );
-			
-			queryIDs = report.getQueryIDs();
-			queryIDs.clear();
+
+			queryIDs = report.getQueryIDs( );
+			queryIDs.clear( );
 
 			// visit report
 			for ( int i = 0; i < report.getContentCount( ); i++ )
-				report.getContent( i ).accept( this, null);
+				report.getContent( i ).accept( this, null );
 		}
 
 		/**
@@ -231,14 +233,15 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitFreeFormItem(org.eclipse.birt.report.engine.ir.FreeFormItemDesign)
 		 */
-		public Object visitFreeFormItem( FreeFormItemDesign container, Object value )
+		public Object visitFreeFormItem( FreeFormItemDesign container,
+				Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( container );
 
 			handleReportItemExpressions( container );
 
 			for ( int i = 0; i < container.getItemCount( ); i++ )
-				container.getItem( i ).accept( this , value);
+				container.getItem( i ).accept( this, value );
 
 			finishVisit( query );
 			return value;
@@ -257,12 +260,12 @@ public class ReportQueryBuilder
 
 			for ( int i = 0; i < grid.getColumnCount( ); i++ )
 			{
-				//ColumnDesign column = grid.getColumn( i );
-				//handleStyle( column.getStyle( ) );
+				// ColumnDesign column = grid.getColumn( i );
+				// handleStyle( column.getStyle( ) );
 			}
 
 			for ( int i = 0; i < grid.getRowCount( ); i++ )
-				handleRow( grid.getRow( i ) ,value);
+				handleRow( grid.getRow( i ), value );
 
 			finishVisit( query );
 			return value;
@@ -284,10 +287,10 @@ public class ReportQueryBuilder
 				addExpression( image.getImageExpression( ) );
 				addExpression( image.getImageFormat( ) );
 			}
-			else if (image.getImageSource( ) == ImageItemDesign.IMAGE_URI ||
-			image.getImageSource( ) == ImageItemDesign.IMAGE_FILE)
+			else if ( image.getImageSource( ) == ImageItemDesign.IMAGE_URI
+					|| image.getImageSource( ) == ImageItemDesign.IMAGE_FILE )
 			{
-				addExpression(image.getImageUri());
+				addExpression( image.getImageUri( ) );
 			}
 
 			finishVisit( query );
@@ -299,7 +302,7 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitLabelItem(org.eclipse.birt.report.engine.ir.LabelItemDesign)
 		 */
-		public Object visitLabelItem( LabelItemDesign label , Object value)
+		public Object visitLabelItem( LabelItemDesign label, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( label );
 			handleReportItemExpressions( label );
@@ -313,9 +316,9 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitExtendedItem(org.eclipse.birt.report.engine.ir.ExtendedItemDesign)
 		 */
-		public Object visitExtendedItem( ExtendedItemDesign item , Object value)
+		public Object visitExtendedItem( ExtendedItemDesign item, Object value )
 		{
-			//create user-defined generation-time helper object
+			// create user-defined generation-time helper object
 			ExtendedItemHandle handle = (ExtendedItemHandle) item.getHandle( );
 			String tagName = handle.getExtensionName( );
 
@@ -335,54 +338,59 @@ public class ReportQueryBuilder
 					itemQuery.setModelObject( handle );
 
 					queries = itemQuery.getReportQueries( parentQuery );
-					
+
 				}
 				catch ( BirtException ex )
 				{
-					logger.log(Level.WARNING, ex.getMessage(), ex);
+					logger.log( Level.WARNING, ex.getMessage( ), ex );
 				}
 				if ( queries != null )
 				{
-					item.setQueries(queries);
+					item.setQueries( queries );
 					for ( int i = 0; i < queries.length; i++ )
 					{
-						//only a regular query need add to list
-						if (queries[i] != null )
+						// only a regular query need add to list
+						if ( queries[i] != null )
 						{
-							if (queries[i] instanceof IQueryDefinition)
+							if ( queries[i] instanceof IQueryDefinition )
 							{
 								this.queries.add( queries[i] );
-								//to support parameter binding with data related expression in report query
-								Collection bindings = ((IQueryDefinition)queries[i]).getInputParamBindings();
-								if(bindings.size()>0)
+								// to support parameter binding with data
+								// related expression in report query
+								Collection bindings = ( (IQueryDefinition) queries[i] )
+										.getInputParamBindings( );
+								if ( bindings.size( ) > 0 )
 								{
-									if(parentTrans!=null)
+									if ( parentTrans != null )
 									{
-										Iterator iter = bindings.iterator();
-										while(iter.hasNext())
+										Iterator iter = bindings.iterator( );
+										while ( iter.hasNext( ) )
 										{
-											IInputParameterBinding binding = (IInputParameterBinding)iter.next();
-											parentTrans.getRowExpressions().add(binding.getExpr());
+											IInputParameterBinding binding = (IInputParameterBinding) iter
+													.next( );
+											parentTrans.getRowExpressions( )
+													.add( binding.getExpr( ) );
 										}
 									}
-									
+
 								}
 							}
-							else if (queries[i] instanceof ISubqueryDefinition)
+							else if ( queries[i] instanceof ISubqueryDefinition )
 							{
-								//TODO: chart engine make a mistake here
-								if (parentTrans != null)
+								// TODO: chart engine make a mistake here
+								if ( parentTrans != null )
 								{
-									parentTrans.getSubqueries().add(queries[i]);
+									parentTrans.getSubqueries( ).add(
+											queries[i] );
 								}
 							}
-							
+
 						}
 					}
-					if (queries.length > 0)
+					if ( queries.length > 0 )
 					{
 						IBaseQueryDefinition query = queries[0];
-						if (query != null)
+						if ( query != null )
 						{
 							item.setQuery( query );
 							pushQuery( query );
@@ -403,12 +411,12 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitListItem(org.eclipse.birt.report.engine.ir.ListItemDesign)
 		 */
-		public Object visitListItem( ListItemDesign list , Object value)
+		public Object visitListItem( ListItemDesign list, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( list );
 			if ( query == null )
 			{
-				visitListBand( list.getHeader( ), value);
+				visitListBand( list.getHeader( ), value );
 				visitListBand( list.getFooter( ), value );
 			}
 			else
@@ -423,7 +431,7 @@ public class ReportQueryBuilder
 				for ( int i = 0; i < list.getGroupCount( ); i++ )
 				{
 					handleListGroup( list.getGroup( i ),
-							(GroupHandle) groupsSlot.get( i ) ,value);
+							(GroupHandle) groupsSlot.get( i ), value );
 				}
 
 				if ( list.getDetail( ).getContentCount( ) != 0 )
@@ -432,11 +440,11 @@ public class ReportQueryBuilder
 				}
 
 				pushExpressions( query.getRowExpressions( ) );
-				visitListBand( list.getDetail( ),value );
+				visitListBand( list.getDetail( ), value );
 				popExpressions( );
 
 				pushExpressions( query.getAfterExpressions( ) );
-				visitListBand( list.getFooter( ),value );
+				visitListBand( list.getFooter( ), value );
 				popExpressions( );
 			}
 			finishVisit( query );
@@ -448,21 +456,21 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitTextItem(org.eclipse.birt.report.engine.ir.TextItemDesign)
 		 */
-		public Object visitTextItem( TextItemDesign text , Object value)
+		public Object visitTextItem( TextItemDesign text, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( text );
 			handleReportItemExpressions( text );
-			HashMap exprs = text.getExpressions();
-			if (exprs != null)
+			HashMap exprs = text.getExpressions( );
+			if ( exprs != null )
 			{
-				Iterator iter = exprs.values().iterator();
-				while (iter.hasNext())
+				Iterator iter = exprs.values( ).iterator( );
+				while ( iter.hasNext( ) )
 				{
-					IBaseExpression expr = (IBaseExpression)iter.next();
-					addExpression(expr);
+					IBaseExpression expr = (IBaseExpression) iter.next( );
+					addExpression( expr );
 				}
 			}
-			
+
 			finishVisit( query );
 			return value;
 		}
@@ -472,31 +480,31 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitTableItem(org.eclipse.birt.report.engine.ir.TableItemDesign)
 		 */
-		public Object visitTableItem( TableItemDesign table , Object value)
+		public Object visitTableItem( TableItemDesign table, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( table );
 			for ( int i = 0; i < table.getColumnCount( ); i++ )
 			{
-				//ColumnDesign column = table.getColumn( i );
-				//handleStyle( column.getStyle( ) );
+				// ColumnDesign column = table.getColumn( i );
+				// handleStyle( column.getStyle( ) );
 			}
 			if ( query == null )
 			{
-				handleTableBand( table.getHeader( ) ,value);
-				handleTableBand( table.getFooter( ) ,value);
+				handleTableBand( table.getHeader( ), value );
+				handleTableBand( table.getFooter( ), value );
 			}
 			else
 			{
 				pushExpressions( query.getBeforeExpressions( ) );
 				handleReportItemExpressions( table );
-				handleTableBand( table.getHeader( ) ,value);
+				handleTableBand( table.getHeader( ), value );
 				popExpressions( );
 				SlotHandle groupsSlot = ( (TableHandle) table.getHandle( ) )
 						.getGroups( );
 				for ( int i = 0; i < table.getGroupCount( ); i++ )
 				{
 					handleTableGroup( table.getGroup( i ),
-							(GroupHandle) groupsSlot.get( i ) ,value);
+							(GroupHandle) groupsSlot.get( i ), value );
 				}
 
 				if ( table.getDetail( ).getRowCount( ) != 0 )
@@ -505,11 +513,11 @@ public class ReportQueryBuilder
 				}
 
 				pushExpressions( query.getRowExpressions( ) );
-				handleTableBand( table.getDetail( ),value );
+				handleTableBand( table.getDetail( ), value );
 				popExpressions( );
 
 				pushExpressions( query.getAfterExpressions( ) );
-				handleTableBand( table.getFooter( ),value );
+				handleTableBand( table.getFooter( ), value );
 				popExpressions( );
 			}
 			finishVisit( query );
@@ -521,7 +529,8 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitMultiLineItem(org.eclipse.birt.report.engine.ir.MultiLineItemDesign)
 		 */
-		public Object visitMultiLineItem( MultiLineItemDesign multiLine , Object value)
+		public Object visitMultiLineItem( MultiLineItemDesign multiLine,
+				Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( multiLine );
 			handleReportItemExpressions( multiLine );
@@ -536,7 +545,7 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitDataItem(org.eclipse.birt.report.engine.ir.DataItemDesign)
 		 */
-		public Object visitDataItem( DataItemDesign data , Object value)
+		public Object visitDataItem( DataItemDesign data, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( data );
 			handleReportItemExpressions( data );
@@ -562,10 +571,10 @@ public class ReportQueryBuilder
 							.getExpression( ) );
 				}
 			}
-			addExpression( item.getTOC());
+			addExpression( item.getTOC( ) );
 			addExpression( item.getBookmark( ) );
 			addExpression( item.getOnCreate( ) );
-			//handleStyle( item.getStyle( ) );
+			// handleStyle( item.getStyle( ) );
 			handleHighlightExpressions( item.getHighlight( ) );
 			handleMapExpressions( item.getMap( ) );
 		}
@@ -574,11 +583,11 @@ public class ReportQueryBuilder
 		 * @param band
 		 *            the list band
 		 */
-		protected void visitListBand( ListBandDesign band , Object value)
+		protected void visitListBand( ListBandDesign band, Object value )
 		{
 			for ( int i = 0; i < band.getContentCount( ); i++ )
 			{
-				band.getContent( i ).accept( this ,value);
+				band.getContent( i ).accept( this, value );
 			}
 		}
 
@@ -594,11 +603,11 @@ public class ReportQueryBuilder
 			IGroupDefinition groupDefn = handleGroup( group, handle );
 			pushQuery( groupDefn );
 			pushExpressions( groupDefn.getBeforeExpressions( ) );
-			visitListBand( group.getHeader( ) , value);
+			visitListBand( group.getHeader( ), value );
 			popExpressions( );
 
 			pushExpressions( groupDefn.getAfterExpressions( ) );
-			visitListBand( group.getFooter( ) , value);
+			visitListBand( group.getFooter( ), value );
 			popExpressions( );
 			popQuery( );
 		}
@@ -616,9 +625,9 @@ public class ReportQueryBuilder
 			{
 				groupDefn.setInterval( parseInterval( interval ) );
 			}
-			//inter-range
+			// inter-range
 			groupDefn.setIntervalRange( handle.getIntervalRange( ) );
-			//sort-direction
+			// sort-direction
 			String direction = handle.getSortDirection( );
 			if ( direction != null )
 			{
@@ -636,26 +645,26 @@ public class ReportQueryBuilder
 		/**
 		 * processes a band in a table
 		 */
-		protected void handleTableBand( TableBandDesign band , Object value)
+		protected void handleTableBand( TableBandDesign band, Object value )
 		{
 			for ( int i = 0; i < band.getRowCount( ); i++ )
-				handleRow( band.getRow( i ) , value);
+				handleRow( band.getRow( i ), value );
 		}
 
 		/**
 		 * processes a table group
 		 */
 		protected void handleTableGroup( TableGroupDesign group,
-				GroupHandle handle , Object value)
+				GroupHandle handle, Object value )
 		{
 			IGroupDefinition groupDefn = handleGroup( group, handle );
 			pushQuery( groupDefn );
 			pushExpressions( groupDefn.getBeforeExpressions( ) );
-			handleTableBand( group.getHeader( ) ,value);
+			handleTableBand( group.getHeader( ), value );
 			popExpressions( );
 
 			pushExpressions( groupDefn.getAfterExpressions( ) );
-			handleTableBand( group.getFooter( ),value );
+			handleTableBand( group.getFooter( ), value );
 			popExpressions( );
 			popQuery( );
 		}
@@ -751,9 +760,9 @@ public class ReportQueryBuilder
 		/**
 		 * visit content of a row
 		 */
-		protected void handleRow( RowDesign row, Object value)
+		protected void handleRow( RowDesign row, Object value )
 		{
-			//handleStyle( row.getStyle( ) );
+			// handleStyle( row.getStyle( ) );
 			if ( row.getVisibility( ) != null )
 			{
 				for ( int i = 0; i < row.getVisibility( ).count( ); i++ )
@@ -763,10 +772,10 @@ public class ReportQueryBuilder
 			addExpression( row.getBookmark( ) );
 			for ( int i = 0; i < row.getCellCount( ); i++ )
 			{
-				CellDesign cell = row.getCell(i);
-				if (cell != null)
+				CellDesign cell = row.getCell( i );
+				if ( cell != null )
 				{
-					handleCell( cell , value);
+					handleCell( cell, value );
 				}
 			}
 		}
@@ -774,11 +783,11 @@ public class ReportQueryBuilder
 		/**
 		 * handles a cell in a row
 		 */
-		protected void handleCell( CellDesign cell , Object value)
+		protected void handleCell( CellDesign cell, Object value )
 		{
-				//handleStyle( cell.getStyle( ) );
-				for ( int i = 0; i < cell.getContentCount( ); i++ )
-					cell.getContent( i ).accept( this , value);
+			// handleStyle( cell.getStyle( ) );
+			for ( int i = 0; i < cell.getContentCount( ); i++ )
+				cell.getContent( i ).accept( this, value );
 		}
 
 		/**
@@ -885,15 +894,19 @@ public class ReportQueryBuilder
 		 */
 		protected BaseQueryDefinition createQuery( ReportItemDesign item )
 		{
-			DataSetHandle dsHandle = ( (ReportItemHandle) item.getHandle( ) ).getDataSet( );
-			
-			if (dsHandle == null)
+			DataSetHandle dsHandle = ( (ReportItemHandle) item.getHandle( ) )
+					.getDataSet( );
+
+			if ( dsHandle == null )
 			{
-				//dataset reference error
-				String dsName = (String)( (ReportItemHandle) item.getHandle( ) ).getProperty(ReportItemHandle.DATA_SET_PROP);
-				if(dsName!=null && dsName.length()>0)
+				// dataset reference error
+				String dsName = (String) ( (ReportItemHandle) item.getHandle( ) )
+						.getProperty( ReportItemHandle.DATA_SET_PROP );
+				if ( dsName != null && dsName.length( ) > 0 )
 				{
-					context.addException((ReportElementHandle)item.getHandle(), new EngineException(MessageConstants.UNDEFINED_DATASET_ERROR, dsName));
+					context.addException( (ReportElementHandle) item
+							.getHandle( ), new EngineException(
+							MessageConstants.UNDEFINED_DATASET_ERROR, dsName ) );
 				}
 			}
 
@@ -901,25 +914,26 @@ public class ReportQueryBuilder
 			{
 				ReportItemHandle riHandle = (ReportItemHandle) item.getHandle( );
 				QueryDefinition query = new QueryDefinition( getParentQuery( ) );
-				query.setDataSetName( dsHandle.getName( ) );
+				query.setDataSetName( dsHandle.getQualifiedName( ) );
 
 				ArrayList bindings = createParamBindings( riHandle
 						.paramBindingsIterator( ) );
-				if(bindings.size()>0)
+				if ( bindings.size( ) > 0 )
 				{
-					query.getInputParamBindings( ).addAll(bindings);
-					IBaseTransform trans = getTransform();
-					if(trans!=null)
+					query.getInputParamBindings( ).addAll( bindings );
+					IBaseTransform trans = getTransform( );
+					if ( trans != null )
 					{
-						for(int i=0; i<bindings.size(); i++)
+						for ( int i = 0; i < bindings.size( ); i++ )
 						{
-							IInputParameterBinding binding = (IInputParameterBinding)bindings.get(i);
-							trans.getRowExpressions().add(binding.getExpr());
+							IInputParameterBinding binding = (IInputParameterBinding) bindings
+									.get( i );
+							trans.getRowExpressions( ).add( binding.getExpr( ) );
 						}
 					}
-					
+
 				}
-				this.queryIDs.put(query, item);
+				this.queryIDs.put( query, item );
 				this.queries.add( query );
 				item.setQuery( query );
 				return query;
@@ -1001,55 +1015,31 @@ public class ReportQueryBuilder
 		 * @param text
 		 *            the text object
 		 */
-/*		protected void getEmbeddedExpression( Node node, TextItemDesign text )
-		{
-			if ( node.getNodeType( ) == Node.ELEMENT_NODE )
-			{
-				if ( node.getNodeName( ).equals( "value-of" ) ) //$NON-NLS-1$
-				{
-					if ( !text.hasExpression( node.getFirstChild( )
-							.getNodeValue( ) ) )
-					{
-						Expression expr = new Expression( node.getFirstChild( )
-								.getNodeValue( ) );
-						this.addExpression( expr );
-						text.addExpression( node.getFirstChild( )
-								.getNodeValue( ), expr );
-
-						return;
-					}
-
-				}
-				else if ( node.getNodeName( ).equals( "image" ) ) //$NON-NLS-1$
-				{
-
-					String imageType = ( (Element) ( node ) )
-							.getAttribute( "type" ); //$NON-NLS-1$
-
-					if ( "expr".equals( imageType ) ) //$NON-NLS-1$
-					{
-						if ( !text.hasExpression( node.getFirstChild( )
-								.getNodeValue( ) ) )
-						{
-							Expression expr = new Expression( node
-									.getFirstChild( ).getNodeValue( ) );
-
-							this.addExpression( expr );
-							text.addExpression( node.getFirstChild( )
-									.getNodeValue( ), expr );
-						}
-					}
-					return;
-				}
-				//call recursively
-				for ( Node child = node.getFirstChild( ); child != null; child = child
-						.getNextSibling( ) )
-				{
-					getEmbeddedExpression( child, text );
-				}
-			}
-
-		}*/
+		/*
+		 * protected void getEmbeddedExpression( Node node, TextItemDesign text ) {
+		 * if ( node.getNodeType( ) == Node.ELEMENT_NODE ) { if (
+		 * node.getNodeName( ).equals( "value-of" ) ) //$NON-NLS-1$ { if (
+		 * !text.hasExpression( node.getFirstChild( ) .getNodeValue( ) ) ) {
+		 * Expression expr = new Expression( node.getFirstChild( )
+		 * .getNodeValue( ) ); this.addExpression( expr ); text.addExpression(
+		 * node.getFirstChild( ) .getNodeValue( ), expr );
+		 * 
+		 * return; } } else if ( node.getNodeName( ).equals( "image" ) )
+		 * //$NON-NLS-1$ {
+		 * 
+		 * String imageType = ( (Element) ( node ) ) .getAttribute( "type" );
+		 * //$NON-NLS-1$
+		 * 
+		 * if ( "expr".equals( imageType ) ) //$NON-NLS-1$ { if (
+		 * !text.hasExpression( node.getFirstChild( ) .getNodeValue( ) ) ) {
+		 * Expression expr = new Expression( node .getFirstChild(
+		 * ).getNodeValue( ) );
+		 * 
+		 * this.addExpression( expr ); text.addExpression( node.getFirstChild( )
+		 * .getNodeValue( ), expr ); } } return; } //call recursively for ( Node
+		 * child = node.getFirstChild( ); child != null; child = child
+		 * .getNextSibling( ) ) { getEmbeddedExpression( child, text ); } } }
+		 */
 
 		/**
 		 * create one Filter given a filter condition handle
