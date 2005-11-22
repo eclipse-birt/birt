@@ -16,7 +16,9 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -116,6 +118,11 @@ public class PlaceHolderEditPart extends ReportElementEditPart
 			return ReportPlatformUIImages
 					.getImage( IReportGraphicConstants.ICON_ELEMENT_TEXTDATA );
 		}
+		if ( getDefaultHandle( ) instanceof ImageHandle )
+		{
+			return ReportPlatformUIImages
+					.getImage( IReportGraphicConstants.ICON_ELEMENT_IMAGE );
+		}		
 		if ( getDefaultHandle( ) instanceof TableHandle )
 		{
 			return ReportPlatformUIImages
@@ -131,6 +138,11 @@ public class PlaceHolderEditPart extends ReportElementEditPart
 			return ReportPlatformUIImages
 					.getImage( IReportGraphicConstants.ICON_ELEMENT_LIST );
 		}
+		if ( getDefaultHandle( ) instanceof ExtendedItemHandle )
+		{
+			return ReportPlatformUIImages.getImage(getDefaultHandle());
+		}
+		
 		return null;
 	}
 
