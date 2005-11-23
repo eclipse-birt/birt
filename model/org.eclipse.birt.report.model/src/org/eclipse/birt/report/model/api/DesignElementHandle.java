@@ -1643,7 +1643,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	{
 		boolean canEdit = true;
 
-		if ( getRoot( ).getElement( ) != getModule( ) )
+		if ( ( getRoot( ) != null )
+				&& ( getRoot( ).getElement( ) != getModule( ) ) )
 			canEdit = false;
 
 		return canEdit;

@@ -82,7 +82,7 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="displayNameID" type="string">
+         <attribute name="displayNameID" type="string" use="required">
             <annotation>
                <documentation>
                   Resource key for display name
