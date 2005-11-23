@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.io.IOException;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.archive.DocumentArchive;
@@ -32,12 +33,15 @@ import org.eclipse.birt.report.engine.presentation.ReportDocumentEmitter;
  */
 public class RunTask extends AbstractRunTask implements IRunTask
 {
-	ReportDocument 	reportDoc;
-	IPageHandler 	pageHandler;
+
+	ReportDocument reportDoc;
+	IPageHandler pageHandler;
 
 	/**
-	 * @param engine the report engine
-	 * @param runnable the report runnable instance
+	 * @param engine
+	 *            the report engine
+	 * @param runnable
+	 *            the report runnable instance
 	 */
 	public RunTask( ReportEngine engine, IReportRunnable runnable )
 	{
@@ -45,7 +49,9 @@ public class RunTask extends AbstractRunTask implements IRunTask
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IRunTask#setPageHandler(org.eclipse.birt.report.engine.api.IPageHandler)
 	 */
 	public void setPageHandler( IPageHandler callback )
@@ -53,45 +59,64 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		this.pageHandler = callback;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IRunTask#run(java.lang.String)
 	 */
 	public void run( String reportDocName ) throws EngineException
 	{
-		if (reportDocName == null || reportDocName.length() == 0)
-			throw new EngineException("Report document name is not specified when running a report."); //$NON-NLS-1$	
-		reportDoc = new ReportDocument(new DocumentArchive( reportDocName ));
-		run( );
+		if ( reportDocName == null || reportDocName.length( ) == 0 )
+			throw new EngineException(
+					"Report document name is not specified when running a report." ); //$NON-NLS-1$
+		DocumentArchive archive = new DocumentArchive( reportDocName );
+		run( archive );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IRunTask#run(org.eclipse.birt.core.archive.IDocumentArchive)
 	 */
 	public void run( IDocumentArchive archive ) throws EngineException
 	{
-		if (archive == null)
-			throw new EngineException("Report archive is not specified when running a report."); //$NON-NLS-1$	
-			
-		reportDoc = new ReportDocument(archive);
-		run( );
+		if ( archive == null )
+			throw new EngineException(
+					"Report archive is not specified when running a report." ); //$NON-NLS-1$	
+
+		try
+		{
+			archive.open( );
+		}
+		catch ( IOException ex )
+		{
+			throw new EngineException( "Can't open the report archive.", ex ); //$NON-NLS-1$	
+		}
+
+		reportDoc = new ReportDocument( archive );
+		doRun( );
+		archive.close( );
 	}
 
 	/**
 	 * runs the report
 	 * 
-	 * @throws EngineException throws exception when there is a run error
+	 * @throws EngineException
+	 *             throws exception when there is a run error
 	 */
-	protected void run( ) throws EngineException
+	protected void doRun( ) throws EngineException
 	{
 		if ( !validateParameters( ) )
-			throw new EngineException(MessageConstants.INVALID_PARAMETER_EXCEPTION ); //$NON-NLS-1$
+			throw new EngineException(
+					MessageConstants.INVALID_PARAMETER_EXCEPTION ); //$NON-NLS-1$
 
 		setupExecutionContext( );
 
 		executionContext.setReportDocument( reportDoc );
 
-		setupEmitterService();
-		IContentEmitter emitter = new HTMLPaginationEmitter( executor, new ReportDocumentEmitter( reportDoc ) );
+		setupEmitterService( );
+		IContentEmitter emitter = new HTMLPaginationEmitter( executor,
+				new ReportDocumentEmitter( reportDoc ) );
 
 		// emitter is not null
 		emitter.initialize( services );

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -271,8 +272,17 @@ public class ReportEngineHelper
 	}
 
 	public IReportDocument openReportDocument( IDocumentArchive archive )
+			throws EngineException
 	{
-		return new ReportDocument( archive );
+		try
+		{
+			archive.open( );
+			return new ReportDocument( archive );
+		}
+		catch ( IOException ex )
+		{
+			throw new EngineException( "Can't open archive", ex );
+		}
 	}
 
 	public IRunTask createRunTask( IReportRunnable runnable )

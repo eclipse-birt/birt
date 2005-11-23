@@ -33,14 +33,18 @@ import org.eclipse.birt.report.engine.script.ReportContextImpl;
 
 public class RenderTask extends EngineTask implements IRenderTask
 {
-	IRenderOption 	renderOptions;
-	ReportDocument 	reportDoc;
-	String 			emitterID;
+
+	IRenderOption renderOptions;
+	ReportDocument reportDoc;
+	String emitterID;
 
 	/**
-	 * @param engine the report engine
-	 * @param runnable the report runnable object
-	 * @param reportDoc the report document instance
+	 * @param engine
+	 *            the report engine
+	 * @param runnable
+	 *            the report runnable object
+	 * @param reportDoc
+	 *            the report document instance
 	 */
 	public RenderTask( ReportEngine engine, IReportRunnable runnable,
 			ReportDocument reportDoc )
@@ -57,7 +61,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 		setParameterValues( reportDoc.getParameterValues( ) );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setRenderOption(org.eclipse.birt.report.engine.api.IRenderOption)
 	 */
 	public void setRenderOption( IRenderOption options )
@@ -65,7 +71,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 		this.renderOptions = options;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IRenderTask#getRenderOption()
 	 */
 	public IRenderOption getRenderOption( )
@@ -73,7 +81,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 		return renderOptions;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IRenderTask#render(long)
 	 */
 	public void render( long pageNumber ) throws EngineException
@@ -84,18 +94,21 @@ public class RenderTask extends EngineTask implements IRenderTask
 			throw new EngineException( "Can't find page hints :{0}", new Long(
 					pageNumber ) );
 		}
-		
+
 		if ( renderOptions == null )
 		{
-			throw new EngineException( "Render options have to be specified to render a report." );
+			throw new EngineException(
+					"Render options have to be specified to render a report." );
 		}
 
 		doRender( pageNumber );
 	}
 
 	/**
-	 * @param pageNumber the page to be rendered
-	 * @throws EngineException throws exception if there is a rendering error
+	 * @param pageNumber
+	 *            the page to be rendered
+	 * @throws EngineException
+	 *             throws exception if there is a rendering error
 	 */
 	protected void doRender( long pageNumber ) throws EngineException
 	{
@@ -188,19 +201,29 @@ public class RenderTask extends EngineTask implements IRenderTask
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setEmitterID(java.lang.String)
 	 */
-	public void setEmitterID(String id) {
+	public void setEmitterID( String id )
+	{
 		this.emitterID = id;
 	}
 
 	/**
-	 * @return the emitter ID to be used to render this report. Could be null, in which
-	 * case the engine will choose one emitter that matches the requested output format. 
+	 * @return the emitter ID to be used to render this report. Could be null,
+	 *         in which case the engine will choose one emitter that matches the
+	 *         requested output format.
 	 */
-	public String getEmitterID()
+	public String getEmitterID( )
 	{
 		return this.emitterID;
+	}
+
+	public void close( )
+	{
+		super.close( );
+		reportDoc.getArchive( ).close( );
 	}
 }
