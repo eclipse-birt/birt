@@ -93,6 +93,8 @@ public class DEUtil
 		notSupportList.add( DesignEngine.getMetaDataDictionary( )
 				.getElement( ReportDesignConstants.LINE_ITEM ) );
 		notSupportList.add( DesignEngine.getMetaDataDictionary( )
+				.getElement( ReportDesignConstants.TEMPLATE_REPORT_ITEM) );
+		notSupportList.add( DesignEngine.getMetaDataDictionary( )
 				.getElement( ReportDesignConstants.FREE_FORM_ITEM ) );
 		notSupportList.add( DesignEngine.getMetaDataDictionary( )
 				.getElement( ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT ) );
