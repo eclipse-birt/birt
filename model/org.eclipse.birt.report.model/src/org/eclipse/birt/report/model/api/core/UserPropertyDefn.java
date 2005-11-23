@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.model.api.core;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -23,11 +27,15 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefPropertyType;
+import org.eclipse.birt.report.model.metadata.ExtendsPropertyType;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.MetaDataException;
 import org.eclipse.birt.report.model.metadata.MethodInfo;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.metadata.StructPropertyType;
+import org.eclipse.birt.report.model.metadata.StructRefPropertyType;
 
 /**
  * Represents a user-defined property. User-defined properties are created by
@@ -38,7 +46,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * The user property definition implements the <code>IStructure</code>
  * interface so that it can be accessed generically, and changes can be done
  * though the command mechanism to allow undo/redo of style changes.
- *  
+ * 
  */
 
 public final class UserPropertyDefn extends ElementPropertyDefn
@@ -90,6 +98,13 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	public static final String CHOICES_MEMBER = "choices"; //$NON-NLS-1$
 
 	/**
+	 * All the allowed types of UserProeprtyDefn. Now, "extends", elementRef,
+	 * structRef, structure are not supported.
+	 */
+
+	private static List allowedTypes = null;
+
+	/**
 	 * Default constructor.
 	 */
 
@@ -98,6 +113,35 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 		PropertyType typeDefn = MetaDataDictionary.getInstance( )
 				.getPropertyType( PropertyType.STRING_TYPE_NAME );
 		setType( typeDefn );
+	}
+
+	/**
+	 * Gets valid types for user property. Each one in the list is an instance
+	 * of <code>IPropertyType</code>.
+	 * 
+	 * @return the list of allowed property types for user property.
+	 */
+
+	public static List getAllowedTypes( )
+	{
+		if ( allowedTypes != null )
+			return allowedTypes;
+
+		allowedTypes = new ArrayList( );
+		Iterator iter = MetaDataDictionary.getInstance( ).getPropertyTypes( )
+				.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			PropertyType propType = (PropertyType) iter.next( );
+			if ( propType instanceof StructPropertyType
+					|| propType instanceof StructRefPropertyType
+					|| propType instanceof ElementRefPropertyType
+					|| propType instanceof ExtendsPropertyType )
+				continue;
+			allowedTypes.add( propType );
+		}
+
+		return allowedTypes;
 	}
 
 	/**
@@ -146,7 +190,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 			if ( value == null )
 				displayName = null;
 			else
-				displayName = value.toString( ); 
+				displayName = value.toString( );
 		}
 		else if ( memberName.equals( DISPLAY_NAME_ID_MEMBER ) )
 		{
@@ -161,7 +205,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 * Gets the name predefined for this structure.
 	 * 
 	 * @return structure name "UserProperty".
-	 *  
+	 * 
 	 */
 
 	public String getStructName( )
@@ -173,7 +217,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 * Gets the property type.
 	 * 
 	 * @return integer represented user property type.
-	 *  
+	 * 
 	 */
 
 	public int getValueType( )
@@ -222,7 +266,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 * Gets the object definition of the user property definition.
 	 * 
 	 * @return object definition.
-	 *  
+	 * 
 	 */
 
 	public IObjectDefn getObjectDefn( )
@@ -236,7 +280,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 * itself. If no display name defined, the XML name will be returned.
 	 * 
 	 * @return display name of this user property.
-	 *  
+	 * 
 	 */
 	public String getDisplayName( )
 	{
@@ -370,9 +414,8 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 *             if the user property definition is inconsistent.
 	 */
 
-	public void checkUserPropertyDefn( Module module,
-			DesignElement element ) throws UserPropertyException,
-			MetaDataException
+	public void checkUserPropertyDefn( Module module, DesignElement element )
+			throws UserPropertyException, MetaDataException
 	{
 		// Does the element allow user properties?
 
@@ -403,7 +446,6 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 
 		// TODO: Check the display name or id.
 
-
 		// Ensure choices exist if this is a choice typeCode.
 
 		if ( getTypeCode( ) == PropertyType.CHOICE_TYPE )
@@ -413,7 +455,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 				throw new UserPropertyException( element, name,
 						UserPropertyException.DESIGN_EXCEPTION_MISSING_CHOICES );
 		}
-		
+
 		// if the user-defined property has choices and its type is not
 		// "choice", validate the value of the user choice according to the
 		// type.
@@ -455,7 +497,6 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 			}
 		}
 
-
 		// Build the cached semantic data.
 
 		this.build( );
@@ -467,7 +508,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 * @see org.eclipse.birt.report.model.core.IStructure#getLocalProperty(org.eclipse.birt.report.model.elements.ReportDesign,
 	 *      org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
-	
+
 	public Object getLocalProperty( Module module, PropertyDefn propDefn )
 	{
 		assert propDefn != null;
@@ -491,5 +532,5 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	public boolean isReferencable( )
 	{
 		return false;
-	}	
+	}
 }
