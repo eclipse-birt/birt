@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.report.data.oda.xml.util;
 
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
@@ -84,8 +86,9 @@ public class SaxParser extends DefaultHandler implements Runnable
 			xr.setContentHandler( this );
 			xr.setErrorHandler( this );
 
-			FileReader r = new FileReader( xmlFile );
-			xr.parse( new InputSource( r ) );
+			Reader file = new InputStreamReader( new File(xmlFile).toURL().openStream() );
+		
+			xr.parse( new InputSource( file ) );
 			//this.alive = false;
 			//spConsumer.wakeup( );
 		}
@@ -104,6 +107,7 @@ public class SaxParser extends DefaultHandler implements Runnable
 			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
+	
 		finally
 		{
 			this.alive = false;

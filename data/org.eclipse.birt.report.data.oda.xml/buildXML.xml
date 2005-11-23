@@ -252,7 +252,7 @@
 	<!-- Compile Oda Test Files 
 			 javac.failonerror should be true.
 	-->
-	<target name="compileTest" description="compile the test ">
+	<target name="compileTest" depends = "compileSource" description="compile the test ">
 		<mkdir dir="${dir.bin}" />
 		
 		<!-- Compile the java code from ${dir.test} into ${dir.bin} -->
