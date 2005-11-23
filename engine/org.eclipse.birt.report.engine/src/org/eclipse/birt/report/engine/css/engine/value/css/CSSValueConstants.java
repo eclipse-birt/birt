@@ -20,7 +20,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 /**
  * This interface defines constants for CSS values.
  * 
- * @version $Id: CSSValueConstants.java,v 1.3 2005/11/22 09:59:56 wyan Exp $
+ * @version $Id: CSSValueConstants.java,v 1.4 2005/11/23 06:21:54 thuang Exp $
  */
 public interface CSSValueConstants {
 
@@ -1031,6 +1031,6 @@ public interface CSSValueConstants {
     /**
      * the empty string value
      */
-    Value EMPTY_STRING_VALUE = new StringValue( CSSPrimitiveValue.CSS_STRING, "");
+    Value NULL_STRING_VALUE = new StringValue( CSSPrimitiveValue.CSS_STRING, null );
 
 }
