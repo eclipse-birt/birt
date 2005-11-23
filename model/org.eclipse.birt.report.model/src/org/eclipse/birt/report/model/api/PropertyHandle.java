@@ -242,6 +242,10 @@ public class PropertyHandle extends SimpleValueHandle
 	public boolean isVisible( )
 	{
 		IElementDefn elementDefn = getElementHandle( ).getDefn( );
-		return elementDefn.isPropertyVisible( propDefn.getName( ) );
+		if ( elementDefn.isPropertyVisible( propDefn.getName( ) ) )
+			return true;
+		if ( propDefn.isUserProperty( ) )
+			return true;
+		return false;
 	}
 }

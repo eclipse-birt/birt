@@ -316,9 +316,15 @@ public class GroupElementHandle
 
 		for ( int i = 0; i < elements.size( ); i++ )
 		{
-			IElementDefn elementDefn = ( (DesignElementHandle) elements.get( i ) )
-					.getDefn( );
-			if ( !elementDefn.isPropertyVisible( propName ) )
+			PropertyHandle propertyHandle = ( (DesignElementHandle) elements
+					.get( i ) ).getPropertyHandle( propName );
+
+			// if the property is not defined, then it is invisible; if the
+			// property exsits and set to invisible in ROM, then it is invisible
+			// too.
+
+			if ( propertyHandle != null && !propertyHandle.isVisible( )
+					|| propertyHandle == null )
 			{
 				isVisible = false;
 				break;
@@ -346,7 +352,12 @@ public class GroupElementHandle
 		{
 			PropertyHandle propertyHandle = ( (DesignElementHandle) elements
 					.get( i ) ).getPropertyHandle( propName );
-			if ( propertyHandle != null && propertyHandle.isReadOnly( ) )
+
+			// if the property is not defined, then it is read-only; if it
+			// exsits and set to read-only in ROM, then it is read-only too.
+
+			if ( propertyHandle != null && propertyHandle.isReadOnly( )
+					|| propertyHandle == null )
 			{
 				isReadOnly = true;
 				break;
