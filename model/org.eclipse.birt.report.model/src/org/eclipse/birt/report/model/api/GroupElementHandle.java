@@ -344,9 +344,9 @@ public class GroupElementHandle
 
 		for ( int i = 0; i < elements.size( ); i++ )
 		{
-			IElementDefn elementDefn = ( (DesignElementHandle) elements.get( i ) )
-					.getDefn( );
-			if ( elementDefn.isPropertyReadOnly( propName ) )
+			PropertyHandle propertyHandle = ( (DesignElementHandle) elements
+					.get( i ) ).getPropertyHandle( propName );
+			if ( propertyHandle != null && propertyHandle.isReadOnly( ) )
 			{
 				isReadOnly = true;
 				break;
