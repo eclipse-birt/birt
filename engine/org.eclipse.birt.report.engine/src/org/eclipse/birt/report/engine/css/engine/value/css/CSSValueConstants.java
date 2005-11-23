@@ -20,7 +20,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 /**
  * This interface defines constants for CSS values.
  * 
- * @version $Id: CSSValueConstants.java,v 1.2 2005/11/17 07:00:44 thuang Exp $
+ * @version $Id: CSSValueConstants.java,v 1.3 2005/11/22 09:59:56 wyan Exp $
  */
 public interface CSSValueConstants {
 
@@ -1027,5 +1027,10 @@ public interface CSSValueConstants {
 	 * the "always" value
 	 */
     Value  ALWAYS_VALUE = new StringValue(CSSPrimitiveValue.CSS_IDENT,CSSConstants.CSS_ALWAYS_VALUE)  ;
+    
+    /**
+     * the empty string value
+     */
+    Value EMPTY_STRING_VALUE = new StringValue( CSSPrimitiveValue.CSS_STRING, "");
 
 }

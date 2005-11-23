@@ -71,11 +71,14 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory
 				BIRTConstants.BIRT_NUMBER_ALIGN_PROPERTY );
 
 		vms[StyleConstants.STYLE_NUMBER_FORMAT] = new RawStringManager(
-				BIRTConstants.BIRT_NUMBER_FORMAT_PROPERTY, true, null );
+				BIRTConstants.BIRT_NUMBER_FORMAT_PROPERTY, true,
+				CSSValueConstants.EMPTY_STRING_VALUE );
 		vms[StyleConstants.STYLE_STRING_FORMAT] = new RawStringManager(
-				BIRTConstants.BIRT_STRING_FORMAT_PROPERTY, true, null );
+				BIRTConstants.BIRT_STRING_FORMAT_PROPERTY, true,
+				CSSValueConstants.EMPTY_STRING_VALUE );
 		vms[StyleConstants.STYLE_DATE_FORMAT] = new RawStringManager(
-				BIRTConstants.BIRT_DATE_TIME_FORMAT_PROPERTY, true, null );
+				BIRTConstants.BIRT_DATE_TIME_FORMAT_PROPERTY, true,
+				CSSValueConstants.EMPTY_STRING_VALUE );
 
 		vms[StyleConstants.STYLE_VERTICAL_ALIGN] = new VerticalAlignManager( );
 
