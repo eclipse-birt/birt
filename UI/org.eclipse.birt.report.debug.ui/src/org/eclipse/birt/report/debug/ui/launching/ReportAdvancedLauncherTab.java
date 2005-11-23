@@ -20,7 +20,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
@@ -34,7 +33,6 @@ import org.eclipse.pde.internal.ui.PDEPluginImages;
 import org.eclipse.pde.internal.ui.elements.DefaultContentProvider;
 import org.eclipse.pde.internal.ui.elements.NamedElement;
 import org.eclipse.pde.internal.ui.launcher.AbstractLauncherTab;
-import org.eclipse.pde.internal.ui.launcher.LauncherUtils;
 import org.eclipse.pde.internal.ui.util.SWTUtil;
 import org.eclipse.pde.internal.ui.wizards.ListUtil;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -59,7 +57,6 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 {
 
 	private static final String REPORTPROJECTKID = "org.eclipse.birt.report.designer.ui.reportprojectnature";
-	private static final String FILEDELIMETER = "|";
 	private Label fUseListRadio;
 	private CheckboxTreeViewer fPluginTreeViewer;
 	private Label fVisibleLabel;
@@ -124,7 +121,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		fShowFeatures = showFeatures;
 		PDEPlugin.getDefault( ).getLabelProvider( ).connect( this );
 		fImage = PDEPluginImages.DESC_REQ_PLUGINS_OBJ.createImage( );
-		fWorkspaceModels = getInterestProject();
+		fWorkspaceModels = getInterestProject( );
 	}
 
 	private IProject[] getInterestProject( )
@@ -142,8 +139,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 			IProject project = allProjects[i];
 			try
 			{
-				if ( project.hasNature( JavaCore.NATURE_ID )
-						|| project.hasNature( REPORTPROJECTKID ) )
+				if ( project.hasNature( REPORTPROJECTKID ) )
 				{
 					retValue.add( project );
 				}
@@ -179,7 +175,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		Composite composite = new Composite( parent, 0 );
 		composite.setLayout( new GridLayout( ) );
 		fUseListRadio = new Label( composite, 16 );
-		fUseListRadio.setText( "Choose project to launch from the list" );
+		fUseListRadio.setText( "Choose project to launch from the list, the selection project will be import launch" );
 		createPluginList( composite );
 		hookListeners( );
 		setControl( composite );
@@ -380,7 +376,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		Image pluginsImage = PDEPlugin.getDefault( ).getLabelProvider( ).get(
 				PDEPluginImages.DESC_REQ_PLUGINS_OBJ );
 		fWorkspacePlugins = new NamedElement( DebugUtil
-				.getResourceString( "AdvancedLauncherTab.workspacePlugins" ),
+				.getResourceString( "workspace report projects" ),
 				pluginsImage );
 	}
 
@@ -552,7 +548,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 	public void performApply( ILaunchConfigurationWorkingCopy config )
 	{
 		StringBuffer wbuf = new StringBuffer( );
-		StringBuffer namesWbuf = new StringBuffer( );
+		//StringBuffer namesWbuf = new StringBuffer( );
 		for ( int i = 0; i < fWorkspaceModels.length; i++ )
 		{
 			IProject model = fWorkspaceModels[i];
@@ -560,14 +556,14 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 			if ( fPluginTreeViewer.getChecked( model ) )
 				wbuf.append( PROPERTYSEPARATOR + path );
 
-			namesWbuf.append( PROPERTYSEPARATOR + model.getName( ) );
+			//namesWbuf.append( PROPERTYSEPARATOR + model.getName( ) );
 		}
 
 		config.setAttribute( IMPORTPROJECT, wbuf.toString( ) );
-		config.setAttribute( IMPORTPROJECTNAMES, namesWbuf.toString( ) );
+		//config.setAttribute( IMPORTPROJECTNAMES, namesWbuf.toString( ) );
 		config.setAttribute( "clearws", true );
 		config.setAttribute( "askclear", false );
-		config.setAttribute( "location0", WORKESPACENAME);
+		config.setAttribute( "location0", WORKESPACENAME );
 	}
 
 	private void updateStatus( )
@@ -587,7 +583,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 	 */
 	public String getName( )
 	{
-		return "Projects";
+		return "Report Projects";
 	}
 
 	/*

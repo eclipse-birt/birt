@@ -44,7 +44,7 @@ public class ReportTabGroup extends AbstractLaunchConfigurationTabGroup
 	{
 		ILaunchConfigurationTab tabs[] = (ILaunchConfigurationTab[]) null;
 		tabs = ( new ILaunchConfigurationTab[]{
-				new ReportAdvancedLauncherTab( ), new AdvancedLauncherTab( )} );
+				new ReportAdvancedLauncherTab( ), new ReportClasspathLaucnTab(), new AdvancedLauncherTab( )} );
 		setTabs( tabs );
 	}
 
