@@ -453,9 +453,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 * 
 	 * @return The current font family
 	 */
-	protected Font getFont( )
+	protected Font getFont(ReportItemHandle handle )
 	{
-		StyleHandle styleHandle = ( (ReportItemHandle) getModel( ) ).getPrivateStyle( );
+		StyleHandle styleHandle =  handle.getPrivateStyle( );
 
 		String family = (String) ( styleHandle.getFontFamilyHandle( ).getValue( ) );
 		String FontFamily = (String) DesignerConstants.familyMap.get( family );
@@ -464,8 +464,6 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		{
 			FontFamily = family;
 		}
-
-		ReportItemHandle handle = (ReportItemHandle) getModel( );
 
 		int fontSize = DEUtil.getFontSizeIntValue(handle);
 
@@ -493,6 +491,11 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		Font font = FontManager.getFont( FontFamily, fontSize, fontStyle );
 
 		return font;
+	}
+	
+	protected Font getFont()
+	{
+		return getFont((ReportItemHandle) getModel());
 	}
 
 	/**

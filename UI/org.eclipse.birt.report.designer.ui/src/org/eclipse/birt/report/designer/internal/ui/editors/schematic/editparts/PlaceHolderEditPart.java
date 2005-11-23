@@ -40,6 +40,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 
 public class PlaceHolderEditPart extends ReportElementEditPart
@@ -83,6 +84,7 @@ public class PlaceHolderEditPart extends ReportElementEditPart
 		StyleHandle style = ( (DesignElementHandle) getDefaultHandle( ) )
 				.getPrivateStyle( );
 
+		( (LabelFigure) getFigure( ) ).setFont( getFont( ) );
 		( (LabelFigure) getFigure( ) ).setImage( getImage( ) );
 		( (LabelFigure) getFigure( ) ).setAlignment( PositionConstants.WEST );
 		( (LabelFigure) getFigure( ) ).setText( getTemplateModel( )
@@ -92,8 +94,18 @@ public class PlaceHolderEditPart extends ReportElementEditPart
 		( (LabelFigure) getFigure( ) )
 				.setForegroundColor( ReportColorConstants.ShadowLineColor );
 		( (LabelFigure) getFigure( ) ).setDisplay( style.getDisplay( ) );
-		
-		getFigure( ).setBorder( new LineBorder(1));
+
+		getFigure( ).setBorder( new LineBorder( 1 ) );
+	}
+
+	/**
+	 * Get the current font family.
+	 * 
+	 * @return The current font family
+	 */
+	protected Font getFont( )
+	{
+		return getFont( (ReportItemHandle) getDefaultHandle( ) );
 	}
 
 	private Image getImage( )
@@ -122,7 +134,7 @@ public class PlaceHolderEditPart extends ReportElementEditPart
 		{
 			return ReportPlatformUIImages
 					.getImage( IReportGraphicConstants.ICON_ELEMENT_IMAGE );
-		}		
+		}
 		if ( getDefaultHandle( ) instanceof TableHandle )
 		{
 			return ReportPlatformUIImages
@@ -140,9 +152,9 @@ public class PlaceHolderEditPart extends ReportElementEditPart
 		}
 		if ( getDefaultHandle( ) instanceof ExtendedItemHandle )
 		{
-			return ReportPlatformUIImages.getImage(getDefaultHandle());
+			return ReportPlatformUIImages.getImage( getDefaultHandle( ) );
 		}
-		
+
 		return null;
 	}
 
@@ -215,7 +227,7 @@ public class PlaceHolderEditPart extends ReportElementEditPart
 												.getResult( ) );
 
 							}
-							if (copiedHandle instanceof DataItemHandle )
+							if ( copiedHandle instanceof DataItemHandle )
 							{
 								( (DataItemHandle) copiedHandle )
 										.setValueExpr( ( (ExpressionBuilder) builder )
