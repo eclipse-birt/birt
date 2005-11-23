@@ -425,7 +425,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 	private boolean isMutilSelection( Object multiSelection )
 	{
-		return multiSelection == Object.class // report design and slot
+		return multiSelection!=null &&
+				(multiSelection == Object.class // report design and slot
 				// multi ?
 				|| multiSelection == DesignElementHandle.class
 				// report design
@@ -433,7 +434,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				// saveral report items
 				|| multiSelection == ReportItemHandle.class
 				// table and list
-				|| multiSelection == ListHandle.class;
+				|| multiSelection == ListHandle.class);
 	}
 
 	private boolean isRootElementHandleClass( Object obj )
@@ -720,23 +721,28 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	{
 		List list = getElements( );
 		Object baseHandle = list.get( 0 );
-		Class base = baseHandle.getClass( );
-
-		for ( int i = 1; i < list.size( ); i++ )
+		if(baseHandle!=null)
 		{
-			Object obj = list.get( i );
-			if ( base.isInstance( obj ) )
+			
+			Class base = baseHandle.getClass( );
+	
+			for ( int i = 1; i < list.size( ); i++ )
 			{
+				Object obj = list.get( i );
+				if ( base.isInstance( obj ) )
+				{
+					continue;
+				}
+				// Ensure multi selected elements are instance of the "base" class.
+				while ( !base.isInstance( obj ) )
+				{
+					base = base.getSuperclass( );
+				}
 				continue;
 			}
-			// Ensure multi selected elements are instance of the "base" class.
-			while ( !base.isInstance( obj ) )
-			{
-				base = base.getSuperclass( );
-			}
-			continue;
+			return base;
 		}
-		return base;
+		return null;
 	}
 
 	/**
