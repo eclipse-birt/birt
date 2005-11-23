@@ -34,6 +34,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.In
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAboveAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowBelowAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.MergeAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.RevertToReportItemPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SplitAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
@@ -73,6 +74,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
+import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -258,6 +260,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				if(firstSelectedElement instanceof ReportItemHandle)
 				{
 					IAction action = getAction(CreatePlaceHolderPartAction.ID);
+					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+							action );
+				}
+				
+				if(firstSelectedElement instanceof TemplateReportItemHandle)
+				{
+					IAction action = getAction(RevertToReportItemPartAction.ID);
 					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 							action );
 				}
