@@ -530,8 +530,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 					if ( filename != null )
 					{
-						filename = Path.fromOSString( filename )
-								.toPortableString( );
+						filename = new Path( filename ).toPortableString( );
 						if ( needQuote )
 						{
 							filename = "\"" + filename + "\""; //$NON-NLS-1$ //$NON-NLS-2$
