@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -218,7 +219,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		if ( images == null )
 			return;
 
-		// build the embeded image names
+		// build the embedded image names
 
 		List names = new ArrayList( );
 		for ( int i = 0; i < images.size( ); i++ )
@@ -424,7 +425,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 			list.add( s );
 		}
 
-		List theLibraries = getAllLibraries( );
+		List theLibraries = this.getLibraries( );
 		int size = theLibraries.size( );
 		for ( int i = 0; i < size; i++ )
 		{
@@ -1221,8 +1222,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
-	 * Returns the iterator over all embedded images. Each one is the instance
-	 * of <code>EmbeddedImageHandle</code>
+	 * Returns the iterator over all embedded images of this module instance.
+	 * Each one is the instance of <code>EmbeddedImageHandle</code>
 	 * 
 	 * @return the iterator over all embedded images.
 	 * 
@@ -1231,7 +1232,21 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public Iterator imagesIterator( )
 	{
-		return getStructureList( IMAGES_PROP ).iterator( );
+		return getPropertyHandle( IMAGES_PROP ).iterator( );
+	}
+
+	/**
+	 * Returns the list of embedded images, including the one from libraries.
+	 * Each one is the instance of <code>EmbeddedImageHandle</code>
+	 * 
+	 * @return the list of embedded images.
+	 * 
+	 * @see EmbeddedImageHandle
+	 */
+
+	public List getAllImages( )
+	{
+		return getStructureList( IMAGES_PROP );
 	}
 
 	/**
@@ -1294,7 +1309,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		IElementDefn defn = elementHandle.getElement( ).getDefn( );
 
-		if ( defn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
+		if ( defn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME
+				|| elementHandle.getModuleHandle( ) instanceof LibraryHandle )
 			module.makeUniqueName( elementHandle.getElement( ) );
 		else
 			elementHandle.getElement( ).setName( null );

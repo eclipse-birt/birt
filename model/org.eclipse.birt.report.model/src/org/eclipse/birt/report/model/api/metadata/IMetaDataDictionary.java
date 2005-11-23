@@ -200,4 +200,12 @@ public interface IMetaDataDictionary
 	 */
 
 	public IElementDefn getExtension( String name );
+	
+	/**
+     * Gets a list of rom-defined property types.
+     * 
+     * @return a list of rom-defined property types.
+     */
+
+	public List getPropertyTypes( );
 }

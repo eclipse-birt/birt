@@ -2479,7 +2479,9 @@
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Listing" extends="ReportItem" isAbstract="true" name="Listing" nameSpace="none" since="1.0">
     <Property detailType="SortKey" displayNameID="Element.Listing.sorting" isList="true" name="sort" runtimeSettable="false" since="1.0" type="structure"/>
     <Property detailType="FilterCondition" displayNameID="Element.Listing.filter" isList="true" name="filter" runtimeSettable="false" since="1.0" type="structure"/>
-    <Property displayNameID="Element.Listing.pageBreakInterval" name="pageBreakInterval" runtimeSettable="false" since="2.0" type="string"/>
+    <Property displayNameID="Element.Listing.pageBreakInterval" name="pageBreakInterval" runtimeSettable="false" since="2.0" type="string">
+      <Default>50</Default>
+    </Property>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.List" extends="Listing" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ListItem" name="List" selector="list" since="1.0" xmlName="list">
     <Slot displayNameID="Element.List.slot.header" multipleCardinality="true" name="header" selector="list-header" since="1.0" xmlName="header">
