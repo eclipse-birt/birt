@@ -122,7 +122,8 @@ public class ResultClass implements IResultClass
 						ntName,
 						bool );
 				metaData.setAlias( alias );
-				metaData.setDriverProvidedDataType( Class.forName( dpdpName ) );
+				if ( dpdpName != null )
+					metaData.setDriverProvidedDataType( Class.forName( dpdpName ) );
 				newProjectedColumns.add( metaData );
 			}
 			dis.close( );
@@ -170,8 +171,11 @@ public class ResultClass implements IResultClass
 				IOUtil.writeStr( dos, column.getDataType( ).getName( ) );
 				IOUtil.writeStr( dos, column.getNativeTypeName( ) );
 				IOUtil.writeBool( dos, column.isCustom( ) );
-				IOUtil.writeStr( dos, column.getDriverProvidedDataType( )
-						.getName( ) );
+				if ( column.getDriverProvidedDataType( ) == null )
+					IOUtil.writeStr( dos, null );
+				else
+					IOUtil.writeStr( dos, column.getDriverProvidedDataType( )
+							.getName( ) );
 			}
 			
 			dos.close( );
