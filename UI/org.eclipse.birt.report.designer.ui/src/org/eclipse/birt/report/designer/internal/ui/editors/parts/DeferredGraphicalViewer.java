@@ -49,7 +49,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.widgets.Display;
 
 /**
  * 
@@ -311,10 +310,10 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	protected void fireSelectionChanged( )
 	{
 
-		Display.getCurrent( ).asyncExec( new Runnable( ) {
-
-			public void run( )
-			{
+//		Display.getCurrent( ).asyncExec( new Runnable( ) {
+//
+//			public void run( )
+//			{
 				if ( DeferredGraphicalViewer.this.getControl( ) == null
 						|| DeferredGraphicalViewer.this.getControl( )
 								.isDisposed( ) )
@@ -340,9 +339,9 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 
 				DeferredGraphicalViewer.super.fireSelectionChanged( );
 				// SessionHandleAdapter.getInstance().getMediator().popState();
-			}
-
-		} );
+//			}
+//
+//		} );
 
 	}
 
