@@ -136,10 +136,6 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 
 		public void placeComponents( Composite parent )
 		{
-			GridLayout layout = new GridLayout( 3, true );
-			layout.horizontalSpacing = 40;
-			parent.setLayout( layout );
-
 			Label lblAxis = new Label( parent, SWT.NONE );
 			{
 				GridData gd = new GridData( );
