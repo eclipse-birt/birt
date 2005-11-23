@@ -261,6 +261,9 @@ public class ModelDteApiAdapter
     void adaptBaseDataSet( DataSetHandle modelDataSet,
             				BaseDataSetDesign dteDataSet ) throws EngineException
     {
+    	if ( modelDataSet.getDataSource( ) == null )
+			throw new EngineException( "The data source of this data set can not be null." );
+    	
         dteDataSet.setDataSource( modelDataSet.getDataSource().getQualifiedName() );
         dteDataSet.setBeforeOpenScript( modelDataSet.getBeforeOpen() );
         dteDataSet.setAfterOpenScript( modelDataSet.getAfterOpen() );
