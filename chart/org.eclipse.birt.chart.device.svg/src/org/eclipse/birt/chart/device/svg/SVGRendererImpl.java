@@ -326,7 +326,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		DOMImplementation domImpl = builder.getDOMImplementation( );
 		DocumentType dType = domImpl.createDocumentType( "svg", //$NON-NLS-1$
 				SVG_VERSION, SVG_DTD );
-		Document svgDocument = domImpl.createDocument( null, "svg", dType ); //$NON-NLS-1$
+		Document svgDocument = domImpl.createDocument( XMLNS, "svg", dType ); //$NON-NLS-1$
 		svgDocument.getDocumentElement().setAttribute("xmlns", XMLNS);
 		svgDocument.getDocumentElement().setAttribute("xmlns:xlink", XMLNSXINK);
 		
