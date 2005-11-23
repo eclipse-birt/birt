@@ -98,17 +98,24 @@ public class ExportToLibraryAction extends AbstractViewAction
 		{
 			FileDialog dialog;
 			if ( getSelection( ) instanceof ReportDesignHandle )
+			{
 				dialog = new FileDialog( UIUtil.getDefaultShell( ), SWT.SAVE );
+			}
 			else
+			{
 				dialog = new FileDialog( UIUtil.getDefaultShell( ), SWT.OPEN );
+			}
 			dialog.setFilterExtensions( new String[]{
 				"*.rptlibrary" //$NON-NLS-1$
 				} );
-			String filename;
+			String filename = dialog.open( );
 			pref = ReportPlugin.getDefault( )
 					.getPreferenceStore( )
 					.getInt( PREF_KEY );
-			filename = dialog.open( );
+			if ( !filename.endsWith( ".rptlibrary" ) ) //$NON-NLS-1$
+			{
+				filename += ".rptlibrary"; //$NON-NLS-1$
+			}
 			if ( filename != null )
 			{
 				if ( getSelection( ) instanceof ReportDesignHandle )
@@ -140,7 +147,7 @@ public class ExportToLibraryAction extends AbstractViewAction
 										SWT.NONE );
 								GridLayout gridLayout = new GridLayout( );
 								gridLayout.marginWidth = 20;
-								//gridLayout.marginTop = 15;
+								// gridLayout.marginTop = 15;
 								container.setLayout( gridLayout );
 
 								Button chkbox = new Button( container,
