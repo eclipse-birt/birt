@@ -103,7 +103,7 @@ public abstract class StyledElement extends DesignElement
 		if ( refValue.isResolved( ) )
 		{
 			target = (StyleElement) refValue.getElement( );
-			
+
 			style.resolve( target );
 			target.addClient( this, STYLE_PROP );
 		}
@@ -155,7 +155,7 @@ public abstract class StyledElement extends DesignElement
 		// if the style is null and new style is null, return
 		// if the style is resolved and the resolved element equals to the new
 		// style, return
-		
+
 		if ( oldStyle == newStyle && ( style == null || style.isResolved( ) ) )
 			return;
 
@@ -255,15 +255,67 @@ public abstract class StyledElement extends DesignElement
 
 		// Get the value from this element and its parent.
 
-		Object value = getPropertyFromElement( module, prop );
+		Object value = getFactoryPropertyFromElement( module, prop );
 		if ( value != null )
 			return value;
 
 		return null;
 	}
 
+	/**
+	 * Gets the property value by the following rule:
+	 * <li>if the value existed on self, return it.</li>
+	 * <li>if the value existed on parent, return null, else check the element
+	 * selector.</li>
+	 * <li>if the value existed on the self selector, return it.</li>
+	 * 
+	 */
+	private Object getFactoryPropertyFromElement( Module module,
+			ElementPropertyDefn prop )
+	{
+		Object value = null;
+
+		value = getPropertyFromSelf( module, prop );
+		if ( value != null )
+			return value;
+
+		// Can we search the parent element ?
+
+		if ( isInheritableProperty( prop ) )
+		{
+			if ( isVirtualElement( ) )
+			{
+				assert getExtendsElement( ) == null;
+				DesignElement virtualParent = getVirtualParent( );
+				if ( virtualParent != null )
+					value = virtualParent.getPropertyFromSelf( module, prop );
+			}
+			else
+			{
+				// Does the parent provide the value of this property?
+
+				value = getPropertyFromParent( module, prop );
+			}
+
+			if ( value != null )
+				return null;
+		}
+
+		// Check if this element predefined style provides
+		// the property value
+
+		if ( prop.isStyleProperty( ) )
+		{
+			value = getPropertyFromSelfSelector( module, prop );
+			if ( value != null )
+				return value;
+		}
+		return null;
+	}
+
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#clearAllProperties()
 	 */
 	public void clearAllProperties( )

@@ -934,7 +934,7 @@ public class ElementFactory
 		// the base element is not in the module, check whether the root module
 		// of the base element is included
 
-		Module root = baseElement.getModule( );
+		Module root = (Module) baseElement.getRoot( ).getElement( );
 		if ( root instanceof Library )
 		{
 			// the library with the location path is never included

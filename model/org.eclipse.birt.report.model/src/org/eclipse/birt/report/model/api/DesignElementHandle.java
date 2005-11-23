@@ -1634,6 +1634,22 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
+	 * Determines if this element is editable or not. If the element comes from
+	 * a library, it can not be edited in the report design.
+	 * 
+	 * @return true if it can be edited. false if it can't.
+	 */
+	public boolean canEdit( )
+	{
+		boolean canEdit = true;
+
+		if ( getRoot( ).getElement( ) != getModule( ) )
+			canEdit = false;
+
+		return canEdit;
+	}
+
+	/**
 	 * Determines if the slot can contain an element with the type of
 	 * <code>type</code>.
 	 * 

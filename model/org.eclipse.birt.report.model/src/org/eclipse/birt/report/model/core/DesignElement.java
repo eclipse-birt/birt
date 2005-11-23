@@ -960,7 +960,7 @@ public abstract class DesignElement
 	 * @return the property value, or null if no value is set.
 	 */
 
-	private Object getPropertyFromSelf( Module module, ElementPropertyDefn prop )
+	protected Object getPropertyFromSelf( Module module, ElementPropertyDefn prop )
 	{
 		// 1). If we can find the value here, return it.
 
