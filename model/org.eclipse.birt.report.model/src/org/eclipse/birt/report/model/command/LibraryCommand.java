@@ -89,6 +89,7 @@ public class LibraryCommand extends AbstractElementCommand
 		
 		Library library = module.loadLibrary( libraryFileName, namespace );
 		assert library != null;
+		library.setReadOnly( );
 	
 		getActivityStack( ).startTrans( );
 

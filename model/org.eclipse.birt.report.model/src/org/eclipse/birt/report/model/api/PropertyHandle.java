@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -101,7 +102,7 @@ public class PropertyHandle extends SimpleValueHandle
 		if ( value instanceof ReferenceValue )
 			return ModelUtil.needTheNamespacePrefix( (ReferenceValue) value,
 					getElement( ).getRoot( ), getModule( ) );
-		
+
 		return value;
 	}
 
@@ -148,7 +149,7 @@ public class PropertyHandle extends SimpleValueHandle
 
 	public boolean isLocal( )
 	{
-		//TODO: getModule() here should be getRoot()
+		// TODO: getModule() here should be getRoot()
 		Object value = getElement( ).getLocalProperty( getModule( ), propDefn );
 		return ( value != null );
 	}
@@ -221,7 +222,15 @@ public class PropertyHandle extends SimpleValueHandle
 	public boolean isReadOnly( )
 	{
 		IElementDefn elementDefn = getElementHandle( ).getDefn( );
-		return elementDefn.isPropertyReadOnly( propDefn.getName( ) );
+		if ( elementDefn.isPropertyReadOnly( propDefn.getName( ) ) )
+			return true;
+		Module root = getElement( ).getRoot( ) == null
+				? getModule( )
+				: getElement( ).getRoot( );
+		assert root != null;
+		if ( root.isReadOnly( ) )
+			return true;
+		return false;
 	}
 
 	/*
