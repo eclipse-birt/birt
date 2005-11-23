@@ -31,8 +31,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
-import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
@@ -79,7 +79,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.49 $ $Date: 2005/11/22 03:03:20 $
+ * @version $Revision: 1.50 $ $Date: 2005/11/22 10:26:10 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -287,7 +287,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		if ( services.getRenderContext( ) instanceof Map )
 		{
 			renderContext = ( (Map) services.getRenderContext( ) )
-					.get( HTMLRenderContext.CONTEXT_NAME );
+					.get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
 		}
 		else
 		{
@@ -1008,10 +1008,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		setBookmark( tagName, container.getBookmark( ) );
 
 		// output style
-		//if ( x == null && y == null )
-		//{
-		//	styleBuffer.append( "position: relative;" ); //$NON-NLS-1$
-		//}
+		// if ( x == null && y == null )
+		// {
+		// styleBuffer.append( "position: relative;" ); //$NON-NLS-1$
+		// }
 
 		setDisplayProperty( display, DISPLAY_INLINE_BLOCK, styleBuffer );
 
