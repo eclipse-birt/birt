@@ -51,7 +51,7 @@ import org.eclipse.birt.report.engine.script.ReportScriptExecutor;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.25 $ $Date: 2005/11/21 02:00:31 $
+ * @version $Revision: 1.26 $ $Date: 2005/11/21 15:35:49 $
  */
 public class ReportExecutor
 {
@@ -174,7 +174,6 @@ public class ReportExecutor
 
 		ReportScriptExecutor.handleAfterFactory( report.getReportDesign( ),
 				context );
-		context.getDataEngine( ).shutdown( );
 
 		timer.stop( );
 		timer.logTimeTaken( logger, Level.FINE, context.getTaskIDString( ),

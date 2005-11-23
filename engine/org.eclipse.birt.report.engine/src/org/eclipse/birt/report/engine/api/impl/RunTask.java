@@ -141,4 +141,10 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			throw err;
 		}
 	}
+	
+	public void close()
+	{
+		super.close();
+		executionContext.getDataEngine( ).shutdown( );
+	}
 }
