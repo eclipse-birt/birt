@@ -295,7 +295,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	 * 
 	 * @see org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#format(double)
 	 */
-	public final String format( double dValue, Locale lo )
+	public String format( double dValue, Locale lo )
 	{
 		final DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance( lo );
 		df.applyLocalizedPattern( getPattern( ) );

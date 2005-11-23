@@ -454,7 +454,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 	 * 
 	 * @see org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#format(double)
 	 */
-	public final String format( double dValue, Locale lo )
+	public String format( double dValue, Locale lo )
 	{
 		final DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance( lo );
 		if ( isSetFractionDigits( ) )

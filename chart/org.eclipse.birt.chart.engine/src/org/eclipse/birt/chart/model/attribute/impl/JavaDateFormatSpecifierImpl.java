@@ -197,7 +197,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	 * @see org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier#format(java.util.Calendar,
 	 *      java.util.Locale)
 	 */
-	public final String format( Calendar c, Locale lcl )
+	public String format( Calendar c, Locale lcl )
 	{
 		// ATTN: LOCALE IS UNUSED WHEN THE FORMAT PATTERN IS SPECIFIED
 		final SimpleDateFormat sdf = new SimpleDateFormat( getPattern( ) );
