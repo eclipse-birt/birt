@@ -722,18 +722,15 @@ public class ElementFactory
 
 			assert peerFactory != null;
 
+			String extensionDefaultName = null;
 			IMessages msgs = peerFactory.getMessages( );
-			if ( msgs == null )
-				throw new IllegalArgumentException(
-						"The name parameter must not be empty since report item extension doesn't provides default extension element name." ); //$NON-NLS-1$
-
-			String extensionDefaultName = msgs.getMessage( (String) extDefn
+			if ( msgs != null )
+				extensionDefaultName = msgs.getMessage( (String) extDefn
 					.getDisplayNameKey( ), ThreadResources.getLocale( ) );
 
-			if ( extensionDefaultName == null )
-				throw new IllegalArgumentException(
-						"The name parameter must not be empty since report item extension doesn't provides default extension element name." ); //$NON-NLS-1$
-
+			if (StringUtil.isBlank(extensionDefaultName))
+				extensionDefaultName = extensionName;
+			
 			defaultName = ModelMessages
 					.getMessage( MessageConstants.NAME_PREFIX_NEW_MESSAGE );
 

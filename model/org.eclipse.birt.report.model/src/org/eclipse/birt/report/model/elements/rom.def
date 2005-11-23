@@ -1590,8 +1590,7 @@
     <Method context="startup" displayNameID="Element.Module.initialize" name="initialize" since="1.0" toolTipID="Element.Module.initialize.toolTip">
 		<Argument name="reportContext" tagID="Element.Module.initialize.reportContext" type="IReportContext"/>
 	    <Argument name="object" tagID="Element.Module.initialize.object" type="Object"/>
-    </Method>
-	<PropertyVisibility name="theme" visibility="hide"/>	  
+    </Method>  
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Library" extends="Module" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Library" name="Library" nameSpace="none" selector="library" since="2.0" xmlName="library">
     <Slot displayNameID="Element.Library.slot.themes" multipleCardinality="true" name="themes" since="2.0" xmlName="themes">

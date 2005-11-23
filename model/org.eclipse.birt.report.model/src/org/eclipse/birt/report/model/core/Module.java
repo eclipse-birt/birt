@@ -1732,9 +1732,6 @@ public abstract class Module extends DesignElement implements IModuleModel
 		for ( int i = 0; i < size; i++ )
 		{
 			updateReferenceableClients( (Library) libraries.get( i ) );
-
-			// updateReferenceableClients( (Library) libraries.get( i ),
-			// IReportDesignModel.STYLE_SLOT );
 		}
 	}
 
