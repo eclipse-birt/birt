@@ -26,6 +26,7 @@ public interface IReportLauncherSettings
 	String IMPORTPROJECT = "importproject"; //$NON-NLS-1$
 	String IMPORTPROJECTNAMES = "importprojectnames"; //$NON-NLS-1$
 	String PROPERTYSEPARATOR = ";"; //$NON-NLS-1$separator
+	String WORKESPACENAME = "birt-debugger-workspace";
 	
 	String WSPROJECT = "wsproject"; //$NON-NLS-1$
 	

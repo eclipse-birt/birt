@@ -567,7 +567,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		config.setAttribute( IMPORTPROJECTNAMES, namesWbuf.toString( ) );
 		config.setAttribute( "clearws", true );
 		config.setAttribute( "askclear", false );
-		config.setAttribute( "location0", LauncherUtils.getDefaultWorkspace( ) );
+		config.setAttribute( "location0", WORKESPACENAME);
 	}
 
 	private void updateStatus( )

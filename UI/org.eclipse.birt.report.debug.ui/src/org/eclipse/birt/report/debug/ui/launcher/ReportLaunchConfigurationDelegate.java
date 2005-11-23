@@ -85,7 +85,7 @@ public class ReportLaunchConfigurationDelegate
 			monitor.beginTask( "", 5 );
 			String workspace = configuration.getAttribute( "location0",
 					LauncherUtils.getDefaultPath( ).append(
-							"runtime-workbench-workspace" ).toOSString( ) );
+							WORKESPACENAME ).toOSString( ) );
 			if ( !LauncherUtils.clearWorkspace( configuration, workspace,
 					new SubProgressMonitor( monitor, 1 ) ) )
 			{
@@ -175,7 +175,7 @@ public class ReportLaunchConfigurationDelegate
 		// specify the workspace location for the runtime workbench
 		String targetWorkspace = configuration
 				.getAttribute(
-						LOCATION + "0", LauncherUtils.getDefaultPath( ).append( "runtime-workbench-workspace" ).toOSString( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+						LOCATION + "0", LauncherUtils.getDefaultPath( ).append( WORKESPACENAME ).toOSString( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		programArgs.add( "-data" ); //$NON-NLS-1$
 		programArgs.add( targetWorkspace );
 
