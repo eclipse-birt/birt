@@ -95,13 +95,14 @@ public class UIUtilUITest extends BirtUITestCase
 		TreeViewer outlineTreeViewer = (TreeViewer) PrivateAccessor.getField( outlinePage,
 				"treeViewer" );
 
-		ReportDesignHandle reportHandle = (ReportDesignHandle)SessionHandleAdapter.getInstance( )
+		ReportDesignHandle reportHandle = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 
 		DataSourceHandle dataSource = reportHandle.getElementFactory( )
-				.newOdaDataSource( null );
+				.newOdaDataSource( null, null );
 		DataSetHandle dataSet = reportHandle.getElementFactory( )
 				.newScriptDataSet( null );
+		dataSet.setDataSource( dataSource.getName( ) );
 		ScalarParameterHandle param1 = reportHandle.getElementFactory( )
 				.newScalarParameter( "P1" );
 		ScalarParameterHandle param2 = reportHandle.getElementFactory( )
@@ -147,7 +148,7 @@ public class UIUtilUITest extends BirtUITestCase
 			assertTrue( UIUtil.containElement( dataTreeViewer, param1 ) );
 			assertTrue( UIUtil.containElement( dataTreeViewer, paramGroup ) );
 			assertTrue( UIUtil.containElement( dataTreeViewer, param2 ) );
-			
+
 			assertFalse( UIUtil.containElement( outlineTreeViewer, dataSource ) );
 			assertFalse( UIUtil.containElement( outlineTreeViewer, dataSet ) );
 			assertFalse( UIUtil.containElement( outlineTreeViewer, param1 ) );
@@ -159,7 +160,7 @@ public class UIUtilUITest extends BirtUITestCase
 			assertFalse( UIUtil.containElement( dataTreeViewer, text ) );
 			assertFalse( UIUtil.containElement( dataTreeViewer, list ) );
 			assertFalse( UIUtil.containElement( dataTreeViewer, listGroup ) );
-			
+
 		}
 		catch ( Throwable e )
 		{
