@@ -56,7 +56,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 		final int COLUMN_NUMBER = 3;
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
-			GridLayout glContent = new GridLayout( COLUMN_NUMBER, true );
+			GridLayout glContent = new GridLayout( COLUMN_NUMBER, false );
 			glContent.horizontalSpacing = 40;
 			cmpContent.setLayout( glContent );
 			GridData gd = new GridData( GridData.FILL_BOTH );
@@ -91,16 +91,10 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 		List seriesDefns = ChartUIUtil.getBaseSeriesDefinitions( getChart( ) );
 		for ( int i = 0; i < seriesDefns.size( ); i++ )
 		{
-			Composite cmpY = new SeriesOptionComposite( cmpContent,
-					( (SeriesDefinition) seriesDefns.get( i ) ),
+			new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( i ) ),
 					getChart( ) instanceof ChartWithAxes
 							? Messages.getString( "SeriesSheetImpl.Label.CategoryXSeries" ) : Messages.getString( "SeriesSheetImpl.Label.CategoryBaseSeries" ), //$NON-NLS-1$ //$NON-NLS-2$
-					i );
-			{
-				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-				gd.horizontalSpan = COLUMN_NUMBER;
-				cmpY.setLayoutData( gd );
-			}
+					i ).placeComponents( cmpContent );
 		}
 
 		seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
@@ -109,15 +103,9 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 		{
 			String text = getChart( ) instanceof ChartWithAxes
 					? Messages.getString( "SeriesSheetImpl.Label.ValueYSeries" ) : Messages.getString( "SeriesSheetImpl.Label.ValueOrthogonalSeries" ); //$NON-NLS-1$ //$NON-NLS-2$
-			Composite cmpY = new SeriesOptionComposite( cmpContent,
-					( (SeriesDefinition) seriesDefns.get( i ) ),
+			new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( i ) ),
 					( seriesDefns.size( ) == 1 ? text
-							: ( text + " - " + ( i + 1 ) ) ) + ":", i ); //$NON-NLS-1$ //$NON-NLS-2$
-			{
-				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-				gd.horizontalSpan = COLUMN_NUMBER;
-				cmpY.setLayoutData( gd );
-			}
+							: ( text + " - " + ( i + 1 ) ) ) + ":", i ).placeComponents( cmpContent ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
@@ -128,10 +116,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 		return getContext( );
 	}
 
-	class SeriesOptionComposite extends Composite
-			implements
-				SelectionListener,
-				Listener
+	class SeriesOptionChoser implements SelectionListener, Listener
 	{
 
 		private transient SeriesDefinition seriesDefn;
@@ -141,24 +126,21 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 		private transient Combo cmbTypes;
 		private transient int iSeriesDefinitionIndex = 0;
 
-		public SeriesOptionComposite( Composite parent,
-				SeriesDefinition seriesDefn, String seriesName,
+		SeriesOptionChoser( SeriesDefinition seriesDefn, String seriesName,
 				int iSeriesDefinitionIndex )
 		{
-			super( parent, SWT.NONE );
 			this.seriesDefn = seriesDefn;
 			this.seriesName = seriesName;
 			this.iSeriesDefinitionIndex = iSeriesDefinitionIndex;
-			placeComponents( );
 		}
 
-		private void placeComponents( )
+		public void placeComponents( Composite parent )
 		{
 			GridLayout layout = new GridLayout( 3, true );
 			layout.horizontalSpacing = 40;
-			this.setLayout( layout );
+			parent.setLayout( layout );
 
-			Label lblAxis = new Label( this, SWT.NONE );
+			Label lblAxis = new Label( parent, SWT.NONE );
 			{
 				GridData gd = new GridData( );
 				lblAxis.setLayoutData( gd );
@@ -171,7 +153,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 				keys = serviceprovider.getRegisteredKeys( );
 			}
 
-			txtTitle = new ExternalizedTextEditorComposite( this,
+			txtTitle = new ExternalizedTextEditorComposite( parent,
 					SWT.BORDER | SWT.SINGLE,
 					-1,
 					-1,
@@ -186,7 +168,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 				txtTitle.addListener( this );
 			}
 
-			cmbTypes = new Combo( this, SWT.DROP_DOWN | SWT.READ_ONLY );
+			cmbTypes = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				cmbTypes.setLayoutData( gd );

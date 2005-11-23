@@ -24,6 +24,7 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
@@ -214,5 +215,18 @@ public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
 	protected int getIndex( )
 	{
 		return subtaskIndex;
+	}
+
+	protected Button createToggleButton( Composite parent, String text )
+	{
+		Button button = new Button( parent, SWT.TOGGLE );
+		button.setText( text );
+		if ( text.length( ) <= 15 )
+		{
+			GridData gd = new GridData( );
+			gd.widthHint = 100;
+			button.setLayoutData( gd );
+		}
+		return button;
 	}
 }

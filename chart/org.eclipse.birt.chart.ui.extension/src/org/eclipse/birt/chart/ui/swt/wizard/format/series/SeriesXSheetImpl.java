@@ -60,7 +60,7 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 	{
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
-			GridLayout glContent = new GridLayout( 2, true );
+			GridLayout glContent = new GridLayout( 2, false );
 			cmpContent.setLayout( glContent );
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			cmpContent.setLayoutData( gd );
@@ -101,7 +101,7 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
-			cmp.setLayout( new GridLayout( 5, true ) );
+			cmp.setLayout( new GridLayout( ) );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.horizontalSpan = 2;
 			gridData.grabExcessVerticalSpace = true;
@@ -109,13 +109,9 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 			cmp.setLayoutData( gridData );
 		}
 
-		btnSeriesPal = new Button( cmp, SWT.TOGGLE );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			btnSeriesPal.setLayoutData( gd );
-			btnSeriesPal.setText( Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette" ) ); //$NON-NLS-1$
-			btnSeriesPal.addSelectionListener( this );
-		}
+		btnSeriesPal = createToggleButton( cmp,
+				Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette" ) ); //$NON-NLS-1$
+		btnSeriesPal.addSelectionListener( this );
 	}
 
 	private void populateLists( )

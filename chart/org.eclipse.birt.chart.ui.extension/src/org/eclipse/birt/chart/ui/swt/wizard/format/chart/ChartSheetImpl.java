@@ -87,7 +87,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
-			GridLayout glContent = new GridLayout( 3, true );
+			GridLayout glContent = new GridLayout( 3, false );
 			cmpContent.setLayout( glContent );
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			cmpContent.setLayoutData( gd );
@@ -276,7 +276,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
-			cmp.setLayout( new GridLayout( 5, true ) );
+			cmp.setLayout( new GridLayout( 3, false ) );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.horizontalSpan = 3;
 			gridData.grabExcessVerticalSpace = true;
@@ -284,27 +284,18 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			cmp.setLayoutData( gridData );
 		}
 
-		btnTitleProp = new Button( cmp, SWT.TOGGLE );
-		{
-			btnTitleProp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			btnTitleProp.setText( Messages.getString( "ChartSheetImpl.Label.TitleProperties" ) ); //$NON-NLS-1$
-			btnTitleProp.addSelectionListener( this );
-			btnTitleProp.setEnabled( getChart( ).getTitle( ).isVisible( ) );
-		}
+		btnTitleProp = createToggleButton( cmp,
+				Messages.getString( "ChartSheetImpl.Label.TitleProperties" ) ); //$NON-NLS-1$
+		btnTitleProp.addSelectionListener( this );
+		btnTitleProp.setEnabled( getChart( ).getTitle( ).isVisible( ) );
 
-		btnBlockProp = new Button( cmp, SWT.TOGGLE );
-		{
-			btnBlockProp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			btnBlockProp.setText( Messages.getString( "ChartSheetImpl.Label.BlockProperties" ) ); //$NON-NLS-1$
-			btnBlockProp.addSelectionListener( this );
-		}
+		btnBlockProp = createToggleButton( cmp,
+				Messages.getString( "ChartSheetImpl.Label.BlockProperties" ) ); //$NON-NLS-1$
+		btnBlockProp.addSelectionListener( this );
 
-		btnGeneralProp = new Button( cmp, SWT.TOGGLE );
-		{
-			btnGeneralProp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			btnGeneralProp.setText( Messages.getString( "ChartSheetImpl.Label.GeneralProperties" ) ); //$NON-NLS-1$
-			btnGeneralProp.addSelectionListener( this );
-		}
+		btnGeneralProp = createToggleButton( cmp,
+				Messages.getString( "ChartSheetImpl.Label.GeneralProperties" ) ); //$NON-NLS-1$
+		btnGeneralProp.addSelectionListener( this );
 	}
 
 	public Object onHide( )

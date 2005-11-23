@@ -57,7 +57,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 	{
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
-			GridLayout glContent = new GridLayout( 2, true );
+			GridLayout glContent = new GridLayout( 2, false );
 			cmpContent.setLayout( glContent );
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			cmpContent.setLayoutData( gd );
@@ -87,7 +87,8 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 				true,
 				true );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gd = new GridData( );
+			gd.widthHint = 200;
 			cmbBlockColor.setLayoutData( gd );
 			cmbBlockColor.addListener( this );
 		}
@@ -119,7 +120,8 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 				.getClientArea( )
 				.getBackground( ), true, true );
 		{
-			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gridData = new GridData( );
+			gridData.widthHint = 200;
 			cmbClientAreaColor.setLayoutData( gridData );
 			cmbClientAreaColor.addListener( this );
 		}
@@ -151,9 +153,8 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 			cmp.setLayoutData( gridData );
 		}
 
-		btnArea = new Button( cmp, SWT.TOGGLE );
-		btnArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		btnArea.setText( Messages.getString( "ChartPlotSheetImpl.Label.ClientArea" ) ); //$NON-NLS-1$
+		btnArea = createToggleButton( cmp,
+				Messages.getString( "ChartPlotSheetImpl.Label.ClientArea" ) ); //$NON-NLS-1$
 		btnArea.addSelectionListener( this );
 	}
 

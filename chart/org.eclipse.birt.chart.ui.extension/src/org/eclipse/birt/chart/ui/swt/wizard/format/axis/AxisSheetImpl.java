@@ -50,10 +50,10 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 	 */
 	public void getComponent( Composite parent )
 	{
-		final int COLUMN_NUMBER = 5;
+		final int COLUMN_NUMBER = ChartUIUtil.is3DType( getChart( ) ) ? 5 : 4;
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
-			GridLayout glContent = new GridLayout( COLUMN_NUMBER, true );
+			GridLayout glContent = new GridLayout( COLUMN_NUMBER, false );
 			glContent.horizontalSpacing = HORIZONTAL_SPACING;
 			cmpContent.setLayout( glContent );
 			GridData gd = new GridData( GridData.FILL_BOTH );
@@ -108,42 +108,24 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			}
 		}
 
-		Composite cmpX = new AxisOptionComposite( cmpContent,
-				ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) getChart( ) ),
+		new AxisOptionChoser( ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) getChart( ) ),
 				"X", //$NON-NLS-1$
-				AngleType.X );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.horizontalSpan = COLUMN_NUMBER;
-			cmpX.setLayoutData( gd );
-		}
+				AngleType.X ).placeComponents( cmpContent );
 
 		int yaxisNumber = ChartUIUtil.getOrthogonalAxisNumber( getChart( ) );
 		for ( int i = 0; i < yaxisNumber; i++ )
 		{
 			String text = "Y"; //$NON-NLS-1$
-			Composite cmpY = new AxisOptionComposite( cmpContent,
-					ChartUIUtil.getAxisYForProcessing( (ChartWithAxes) getChart( ),
-							i ),
-					yaxisNumber == 1 ? text : ( text + " - " + ( i + 1 ) ), AngleType.Y ); //$NON-NLS-1$
-			{
-				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-				gd.horizontalSpan = COLUMN_NUMBER;
-				cmpY.setLayoutData( gd );
-			}
+			new AxisOptionChoser( ChartUIUtil.getAxisYForProcessing( (ChartWithAxes) getChart( ),
+					i ),
+					yaxisNumber == 1 ? text : ( text + " - " + ( i + 1 ) ), AngleType.Y ).placeComponents( cmpContent ); //$NON-NLS-1$
 		}
 
 		if ( ChartUIUtil.is3DType( getChart( ) ) )
 		{
-			Composite cmpZ = new AxisOptionComposite( cmpContent,
-					ChartUIUtil.getAxisZForProcessing( (ChartWithAxes) getChart( ) ),
+			new AxisOptionChoser( ChartUIUtil.getAxisZForProcessing( (ChartWithAxes) getChart( ) ),
 					"Z", //$NON-NLS-1$
-					AngleType.Z );
-			{
-				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-				gd.horizontalSpan = COLUMN_NUMBER;
-				cmpZ.setLayoutData( gd );
-			}
+					AngleType.Z ).placeComponents( cmpContent );
 		}
 
 	}
@@ -155,10 +137,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		return getContext( );
 	}
 
-	public class AxisOptionComposite extends Composite
-			implements
-				SelectionListener,
-				Listener
+	class AxisOptionChoser implements SelectionListener, Listener
 	{
 
 		private transient Button btnVisible;
@@ -168,23 +147,16 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		private transient String axisName;
 		private transient int angleType;
 
-		AxisOptionComposite( Composite parent, Axis axis, String axisName,
-				int angleType )
+		AxisOptionChoser( Axis axis, String axisName, int angleType )
 		{
-			super( parent, SWT.NONE );
 			this.axis = axis;
 			this.axisName = axisName;
 			this.angleType = angleType;
-			placeComponents( );
 		}
 
-		private void placeComponents( )
+		public void placeComponents( Composite parent )
 		{
-			GridLayout layout = new GridLayout( 5, true );
-			layout.horizontalSpacing = HORIZONTAL_SPACING;
-			this.setLayout( layout );
-
-			Label lblAxis = new Label( this, SWT.NONE );
+			Label lblAxis = new Label( parent, SWT.NONE );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
@@ -192,7 +164,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				lblAxis.setText( axisName );
 			}
 
-			btnVisible = new Button( this, SWT.CHECK );
+			btnVisible = new Button( parent, SWT.CHECK );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
@@ -201,7 +173,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				btnVisible.setSelection( axis.getLineAttributes( ).isVisible( ) );
 			}
 
-			Label lblType = new Label( this, SWT.NONE );
+			Label lblType = new Label( parent, SWT.NONE );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
@@ -214,17 +186,18 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			{
 				clrCurrent = axis.getLineAttributes( ).getColor( );
 			}
-			cmbColor = new FillChooserComposite( this, SWT.DROP_DOWN
+			cmbColor = new FillChooserComposite( parent, SWT.DROP_DOWN
 					| SWT.READ_ONLY, clrCurrent, false, false );
 			{
-				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				GridData gd = new GridData( );
+				gd.widthHint = 200;
 				cmbColor.setLayoutData( gd );
 				cmbColor.addListener( this );
 			}
 
 			if ( ChartUIUtil.is3DType( getChart( ) ) )
 			{
-				iscRotation = new IntegerSpinControl( this,
+				iscRotation = new IntegerSpinControl( parent,
 						SWT.NONE,
 						(int) getAxisAngle( angleType ) );
 				{

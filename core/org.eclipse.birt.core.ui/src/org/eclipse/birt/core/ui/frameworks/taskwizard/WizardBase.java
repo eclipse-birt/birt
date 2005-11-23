@@ -16,6 +16,8 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
@@ -37,6 +39,7 @@ public class WizardBase
 			IRegistrationListener,
 			SelectionListener,
 			ControlListener,
+			KeyListener,
 			DisposeListener
 {
 
@@ -126,6 +129,7 @@ public class WizardBase
 			shell.setImage( wizardImage );
 		}
 		shell.addControlListener( this );
+		shell.addKeyListener( this );
 
 		// Initialize and layout UI components of the framework
 		tasklist = new TaskList( shell, SWT.NONE, this );
@@ -276,13 +280,15 @@ public class WizardBase
 		getCurrentTask( ).setContext( context );
 		// Clear errorHints
 		errorHints = null;
+
 		// Get the new UI and display it
 		Control c = getCurrentTask( ).getUI( cmpTaskContainer );
 		slTaskContainer.topControl = c;
 		cmpTaskContainer.layout( );
 		tasklist.setActive( (String) vTaskLabels.get( vTaskIDs.indexOf( sTaskID ) ) );
 
-		// TODO: Handle enabling / disabling of Buttons
+		// Pack every task to show as much as possible
+		shell.pack( );
 	}
 
 	public Shell createPopupContainer( )
@@ -616,6 +622,21 @@ public class WizardBase
 	public void widgetDisposed( DisposeEvent e )
 	{
 		// TODO Add cleanup code here...including removal of adapters
+	}
+
+	public void keyPressed( KeyEvent e )
+	{
+		if ( e.keyCode == SWT.ESC )
+		{
+			// Same as clicking Cancel
+			context = null;
+			shell.dispose( );
+		}
+	}
+
+	public void keyReleased( KeyEvent e )
+	{
+		// do nothing
 	}
 }
 

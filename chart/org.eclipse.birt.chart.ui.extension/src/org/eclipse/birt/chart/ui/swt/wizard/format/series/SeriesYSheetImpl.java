@@ -112,7 +112,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
-			cmp.setLayout( new GridLayout( 5, true ) );
+			cmp.setLayout( new GridLayout( 5, false ) );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.horizontalSpan = 2;
 			gridData.grabExcessVerticalSpace = true;
@@ -120,42 +120,26 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			cmp.setLayoutData( gridData );
 		}
 
-		btnLabel = new Button( cmp, SWT.TOGGLE );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			btnLabel.setLayoutData( gd );
-			btnLabel.setText( isMeterSeries( )
-					? Messages.getString( "SeriesYSheetImpl.Label.Region" ) : Messages.getString( "SeriesYSheetImpl.Label.Labels" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-			btnLabel.addSelectionListener( this );
-		}
+		btnLabel = createToggleButton( cmp,
+				isMeterSeries( )
+						? Messages.getString( "SeriesYSheetImpl.Label.Region" ) : Messages.getString( "SeriesYSheetImpl.Label.Labels" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		btnLabel.addSelectionListener( this );
 
-		btnInteractivity = new Button( cmp, SWT.TOGGLE );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			btnInteractivity.setLayoutData( gd );
-			btnInteractivity.setText( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
-			btnInteractivity.addSelectionListener( this );
-		}
+		btnInteractivity = createToggleButton( cmp,
+				Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
+		btnInteractivity.addSelectionListener( this );
 
 		if ( isTrendlineAvailable( ) )
 		{
-			btnTrendline = new Button( cmp, SWT.TOGGLE );
-			{
-				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-				btnTrendline.setLayoutData( gd );
-				btnTrendline.setText( Messages.getString( "SeriesYSheetImpl.Label.Trendline" ) ); //$NON-NLS-1$
-				btnTrendline.addSelectionListener( this );
-				btnTrendline.setEnabled( btnShowLine.getSelection( ) );
-			}
+			btnTrendline = createToggleButton( cmp,
+					Messages.getString( "SeriesYSheetImpl.Label.Trendline" ) ); //$NON-NLS-1$
+			btnTrendline.addSelectionListener( this );
+			btnTrendline.setEnabled( btnShowLine.getSelection( ) );
 		}
 
-		btnDataPoint = new Button( cmp, SWT.TOGGLE );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			btnDataPoint.setLayoutData( gd );
-			btnDataPoint.setText( Messages.getString( "SeriesYSheetImpl.Label.DataPoint" ) ); //$NON-NLS-1$
-			btnDataPoint.addSelectionListener( this );
-		}
+		btnDataPoint = createToggleButton( cmp,
+				Messages.getString( "SeriesYSheetImpl.Label.DataPoint" ) ); //$NON-NLS-1$
+		btnDataPoint.addSelectionListener( this );
 	}
 
 	private void getSeriesAttributeUI( Series series, Composite parent )

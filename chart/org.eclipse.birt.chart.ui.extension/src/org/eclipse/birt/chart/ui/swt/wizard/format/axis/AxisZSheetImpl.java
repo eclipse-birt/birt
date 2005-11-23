@@ -60,8 +60,7 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 	{
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
-			GridLayout glContent = new GridLayout( 2, true );
-			cmpContent.setLayout( glContent );
+			cmpContent.setLayout( new GridLayout( ) );
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			cmpContent.setLayoutData( gd );
 		}
@@ -110,30 +109,20 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
-			cmp.setLayout( new GridLayout( 5, true ) );
+			cmp.setLayout( new GridLayout( 2, false ) );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-			gridData.horizontalSpan = 2;
 			gridData.grabExcessVerticalSpace = true;
 			gridData.verticalAlignment = SWT.END;
 			cmp.setLayoutData( gridData );
 		}
 
-		btnAxisTitle = new Button( cmp, SWT.TOGGLE );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			btnAxisTitle.setLayoutData( gd );
-			btnAxisTitle.setText( Messages.getString( "AxisZSheetImpl.Label.AxisText" ) ); //$NON-NLS-1$
-			btnAxisTitle.addSelectionListener( this );
-		}
+		btnAxisTitle = createToggleButton( cmp,
+				Messages.getString( "AxisZSheetImpl.Label.AxisText" ) );//$NON-NLS-1$
+		btnAxisTitle.addSelectionListener( this );
 
-		btnGridlines = new Button( cmp, SWT.TOGGLE );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			btnGridlines.setLayoutData( gd );
-			btnGridlines.setText( Messages.getString( "AxisZSheetImpl.Label.Gridlines" ) ); //$NON-NLS-1$
-			btnGridlines.addSelectionListener( this );
-		}
-
+		btnGridlines = createToggleButton( cmp,
+				Messages.getString( "AxisZSheetImpl.Label.Gridlines" ) );//$NON-NLS-1$
+		btnGridlines.addSelectionListener( this );
 	}
 
 	public Object onHide( )

@@ -311,7 +311,7 @@ public class TaskSelectData extends SimpleTask
 		{
 			GridData gridData = new GridData( GridData.FILL_BOTH );
 			gridData.widthHint = CENTER_WIDTH_HINT;
-			gridData.heightHint = 250;
+			gridData.heightHint = 150;
 			tablePreview.setLayoutData( gridData );
 			tablePreview.setHeaderAlignment( SWT.LEFT );
 			tablePreview.addListener( CustomPreviewTable.MOUSE_RIGHT_CLICK_TYPE,

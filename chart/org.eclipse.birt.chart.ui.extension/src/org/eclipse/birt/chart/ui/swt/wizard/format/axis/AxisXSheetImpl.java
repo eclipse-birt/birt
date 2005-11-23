@@ -66,7 +66,7 @@ public class AxisXSheetImpl extends SubtaskSheetImpl
 	{
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
-			GridLayout glContent = new GridLayout( 2, true );
+			GridLayout glContent = new GridLayout( 2, false );
 			cmpContent.setLayout( glContent );
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			cmpContent.setLayoutData( gd );
@@ -116,7 +116,7 @@ public class AxisXSheetImpl extends SubtaskSheetImpl
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
-			cmp.setLayout( new GridLayout( 5, true ) );
+			cmp.setLayout( new GridLayout( 4, false ) );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.horizontalSpan = 2;
 			gridData.grabExcessVerticalSpace = true;
@@ -124,37 +124,21 @@ public class AxisXSheetImpl extends SubtaskSheetImpl
 			cmp.setLayoutData( gridData );
 		}
 
-		btnAxisTitle = new Button( cmp, SWT.TOGGLE );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			btnAxisTitle.setLayoutData( gd );
-			btnAxisTitle.setText( Messages.getString( "AxisXSheetImpl.Label.AxisText" ) ); //$NON-NLS-1$
-			btnAxisTitle.addSelectionListener( this );
-		}
+		btnAxisTitle = createToggleButton( cmp,
+				Messages.getString( "AxisXSheetImpl.Label.AxisText" ) ); //$NON-NLS-1$
+		btnAxisTitle.addSelectionListener( this );
 
-		btnGridlines = new Button( cmp, SWT.TOGGLE );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			btnGridlines.setLayoutData( gd );
-			btnGridlines.setText( Messages.getString( "AxisXSheetImpl.Label.Gridlines" ) ); //$NON-NLS-1$
-			btnGridlines.addSelectionListener( this );
-		}
+		btnGridlines = createToggleButton( cmp,
+				Messages.getString( "AxisXSheetImpl.Label.Gridlines" ) ); //$NON-NLS-1$
+		btnGridlines.addSelectionListener( this );
 
-		btnMarkers = new Button( cmp, SWT.TOGGLE );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			btnMarkers.setLayoutData( gd );
-			btnMarkers.setText( Messages.getString( "AxisXSheetImpl.Label.Markers" ) ); //$NON-NLS-1$
-			btnMarkers.addSelectionListener( this );
-		}
+		btnMarkers = createToggleButton( cmp,
+				Messages.getString( "AxisXSheetImpl.Label.Markers" ) );//$NON-NLS-1$
+		btnMarkers.addSelectionListener( this );
 
-		btnAxisData = new Button( cmp, SWT.TOGGLE );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			btnAxisData.setLayoutData( gd );
-			btnAxisData.setText( Messages.getString( "AxisXSheetImpl.Label.AxisData" ) ); //$NON-NLS-1$
-			btnAxisData.addSelectionListener( this );
-		}
+		btnAxisData = createToggleButton( cmp,
+				Messages.getString( "AxisXSheetImpl.Label.AxisData" ) );//$NON-NLS-1$
+		btnAxisData.addSelectionListener( this );
 	}
 
 	public Object onHide( )

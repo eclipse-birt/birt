@@ -153,7 +153,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 
 	private void init( )
 	{
-		//Make it compatible with old model
+		// Make it compatible with old model
 		if ( getChart( ).getLegend( ).getTitle( ) == null )
 		{
 			org.eclipse.birt.chart.model.component.Label label = LabelImpl.create( );
@@ -167,7 +167,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
-			cmp.setLayout( new GridLayout( 5, true ) );
+			cmp.setLayout( new GridLayout( 2, false ) );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.horizontalSpan = 2;
 			gridData.grabExcessVerticalSpace = true;
@@ -175,14 +175,12 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			cmp.setLayoutData( gridData );
 		}
 
-		btnLegendText = new Button( cmp, SWT.TOGGLE );
-		btnLegendText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		btnLegendText.setText( Messages.getString( "ChartLegendSheetImpl.Label.LegendText" ) ); //$NON-NLS-1$
+		btnLegendText = createToggleButton( cmp,
+				Messages.getString( "ChartLegendSheetImpl.Label.LegendText" ) ); //$NON-NLS-1$
 		btnLegendText.addSelectionListener( this );
 
-		btnAreaProp = new Button( cmp, SWT.TOGGLE );
-		btnAreaProp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		btnAreaProp.setText( Messages.getString( "ChartLegendSheetImpl.Label.AreaProperties" ) ); //$NON-NLS-1$
+		btnAreaProp = createToggleButton( cmp,
+				Messages.getString( "ChartLegendSheetImpl.Label.AreaProperties" ) ); //$NON-NLS-1$
 		btnAreaProp.addSelectionListener( this );
 	}
 
