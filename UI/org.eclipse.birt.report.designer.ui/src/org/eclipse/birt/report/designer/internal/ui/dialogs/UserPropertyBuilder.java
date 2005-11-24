@@ -196,7 +196,9 @@ public class UserPropertyBuilder extends BaseDialog
 				def.setType( PROPERTY_TYPES[typeChooser.getSelectionIndex( )] );
 				break;
 			case NAMED_EXPRESSION :
-				def.setType( EXPRESSION_TYPE );				
+				def.setType( EXPRESSION_TYPE );
+				def.setDefault( UIUtil.convertToModelString( defaultValueEditor.getText( ),
+						false ) );
 				break;
 		}
 		setResult( def );
