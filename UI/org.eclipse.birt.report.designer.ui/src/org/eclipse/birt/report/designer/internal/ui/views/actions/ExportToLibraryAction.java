@@ -109,6 +109,10 @@ public class ExportToLibraryAction extends AbstractViewAction
 				"*.rptlibrary" //$NON-NLS-1$
 				} );
 			String filename = dialog.open( );
+			if(filename == null)
+			{
+				return;
+			}
 			pref = ReportPlugin.getDefault( )
 					.getPreferenceStore( )
 					.getInt( PREF_KEY );
