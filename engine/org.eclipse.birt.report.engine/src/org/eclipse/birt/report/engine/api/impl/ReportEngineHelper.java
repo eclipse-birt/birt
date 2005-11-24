@@ -267,8 +267,9 @@ public class ReportEngineHelper
 	}
 
 	public IReportDocument openReportDocument( String docArchiveName )
+			throws EngineException
 	{
-		return new ReportDocument( new DocumentArchive( docArchiveName ) );
+		return openReportDocument( new DocumentArchive( docArchiveName ) );
 	}
 
 	public IReportDocument openReportDocument( IDocumentArchive archive )
@@ -277,7 +278,7 @@ public class ReportEngineHelper
 		try
 		{
 			archive.open( );
-			return new ReportDocument( archive );
+			return new ReportDocument( engine, archive );
 		}
 		catch ( IOException ex )
 		{

@@ -93,7 +93,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			throw new EngineException( "Can't open the report archive.", ex ); //$NON-NLS-1$	
 		}
 
-		reportDoc = new ReportDocument( archive );
+		reportDoc = new ReportDocument( engine, archive );
 		doRun( );
 		archive.close( );
 	}
@@ -141,10 +141,10 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			throw err;
 		}
 	}
-	
-	public void close()
+
+	public void close( )
 	{
-		super.close();
+		super.close( );
 		executionContext.getDataEngine( ).shutdown( );
 	}
 }
