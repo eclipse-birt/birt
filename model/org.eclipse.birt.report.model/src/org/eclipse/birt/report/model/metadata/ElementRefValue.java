@@ -55,7 +55,7 @@ public class ElementRefValue extends ReferenceValue
 
 	public ElementRefValue( String namespace, String theName )
 	{
-		super( namespace,theName );
+		super( namespace, theName );
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class ElementRefValue extends ReferenceValue
 
 	public ElementRefValue( String namespace, DesignElement element )
 	{
-		super (namespace,element);
+		super( namespace, element );
 	}
 
 	/**
@@ -97,13 +97,14 @@ public class ElementRefValue extends ReferenceValue
 	 * @param element
 	 *            the resolved element.
 	 */
-	public void resolve( Object element ){
-	
+	public void resolve( Object element )
+	{
+
 		assert element instanceof DesignElement;
 		name = null;
-		resolved = (DesignElement )element;
+		resolved = (DesignElement) element;
 	}
-	
+
 	/**
 	 * Returns the referenced element, if the element is resolved.
 	 * 
@@ -113,7 +114,7 @@ public class ElementRefValue extends ReferenceValue
 
 	public DesignElement getElement( )
 	{
-		return ( DesignElement )resolved;
+		return (DesignElement) resolved;
 	}
 
 	/**
@@ -136,24 +137,32 @@ public class ElementRefValue extends ReferenceValue
 
 	public boolean equals( Object obj )
 	{
-		if ( obj instanceof ElementRefValue )
-		{
-			ElementRefValue value = (ElementRefValue) obj;
-			if ( this.isResolved( ) == value.isResolved( ) )
-			{
-				if ( value.isResolved( ) )
-				{
-					return getElement( ).equals( value.getElement( ) );
-				}
-				return getLibraryNamespace( ).equals(
-						value.getLibraryNamespace( ) )
-						&& getName( ).equals( value.getName( ) );
-			}
+		if ( !( obj instanceof ElementRefValue ) )
 			return false;
 
-		}
+		ElementRefValue value = (ElementRefValue) obj;
+		if ( isResolved( ) != value.isResolved( ) )
+			return false;
+
+		// both in resolved status.
+
+		if ( value.isResolved( ) )
+			return getElement( ).equals( value.getElement( ) );
+
+		// both in unresolved status
+
+		if ( !getName( ).equals( value.getName( ) ) )
+			return false;
+
+		String myNameSpace = getLibraryNamespace( );
+		String objNameSpace = value.getLibraryNamespace( );
+
+		if ( myNameSpace == null && objNameSpace == null )
+			return true;
+
+		if ( myNameSpace != null && myNameSpace.equals( objNameSpace ) )
+			return true;
+
 		return false;
 	}
-
-
 }
