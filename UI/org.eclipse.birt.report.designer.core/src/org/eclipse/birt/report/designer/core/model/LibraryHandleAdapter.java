@@ -29,11 +29,10 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 {
 
-	private Object currentEditorModel = NULLMODEL;
+	private Object currentEditorModel;
 	
 	public static final String CURRENTMODEL = "current model";
 	
-	public static final Object NULLMODEL = new Object();
 	
 	private List listeners = new ArrayList();
 	/**
@@ -42,6 +41,7 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 	public LibraryHandleAdapter( ModuleHandle handle )
 	{
 		super( handle );
+		setCurrentEditorModel(handle);
 	}
 	
 	public void addPropertyChangeListener(PropertyChangeListener listener)
@@ -93,7 +93,7 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 		Object old = this.currentEditorModel;
 		if (currentEditorModel == null || current instanceof LibraryHandle)
 		{
-			this.currentEditorModel = NULLMODEL;
+			this.currentEditorModel = new LibRootModel((LibraryHandle) current);
 		}
 		else
 		{

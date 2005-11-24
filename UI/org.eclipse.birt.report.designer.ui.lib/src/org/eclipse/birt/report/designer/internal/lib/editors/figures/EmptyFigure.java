@@ -23,7 +23,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
  */
 public class EmptyFigure extends Figure
 {
-	private static final String EMPTYTEXT = "Library currently empty, add components from the palette or the menu to the library outline menu.";
+	private String text;
+	
 	public EmptyFigure()
 	{
 		setBackgroundColor(ReportColorConstants.greyFillColor);
@@ -35,10 +36,15 @@ public class EmptyFigure extends Figure
 	protected void paintFigure( Graphics graphics )
 	{
 		super.paintFigure( graphics );
-		graphics.setBackgroundColor(ReportColorConstants.greyFillColor);
+		graphics.setBackgroundColor(ReportColorConstants.ShadowLineColor);
 		
 		Rectangle rect = getBounds();
 		graphics.fillRectangle(rect);
-		graphics.drawText(EMPTYTEXT, rect.x,rect.y);
+		graphics.drawText(text, rect.x,rect.y);
+	}
+	
+	public void setText(String text)
+	{
+		this.text = text;
 	}
 }

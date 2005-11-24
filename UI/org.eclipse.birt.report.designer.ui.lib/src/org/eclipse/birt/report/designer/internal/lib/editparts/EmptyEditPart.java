@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.designer.internal.lib.editparts;
 
+import org.eclipse.birt.report.designer.core.model.LibRootModel;
 import org.eclipse.birt.report.designer.internal.lib.editors.figures.EmptyFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.draw2d.IFigure;
@@ -25,7 +27,8 @@ import org.eclipse.gef.EditPolicy;
  */
 public class EmptyEditPart extends ReportElementEditPart
 {
-
+	public final static  String EMPTY_LIB = Messages.getString("EmptyEditPart.Msg.EmptyLib");
+	public final static  String NON_VISUAL_SELECTED = Messages.getString("EmptyEditPart.Msg.NonVisual");
 	/**
 	 * @param model
 	 */
@@ -56,6 +59,21 @@ public class EmptyEditPart extends ReportElementEditPart
 	public void refreshFigure( )
 	{
 		getFigure().setSize(getFigure().getParent().getClientArea().getSize());
+		if(getModel() instanceof LibRootModel)
+		{
+			if(((LibRootModel)getModel()).isEmpty())
+			{
+				((EmptyFigure)getFigure()).setText(EMPTY_LIB);
+			}
+			else
+			{
+				((EmptyFigure)getFigure()).setText(NON_VISUAL_SELECTED);
+			}
+		}
+		else
+		{
+			((EmptyFigure)getFigure()).setText(NON_VISUAL_SELECTED);
+		}
 	}
 
 	/* (non-Javadoc)
