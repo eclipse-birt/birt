@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -149,20 +150,20 @@ public class SortingModelProvider
 			if ( value != null )
 				newValue = value;
 		}
-		//		if ( !( element instanceof StructureHandle ) )
-		//		{
-		//			SortKey sortkey = StructureFactory.createSortKey( );
-		//			if ( key.equals( SortKey.KEY_MEMBER ) )
-		//			{
-		//				sortkey.setKey( newValue );
-		//			}
+		// if ( !( element instanceof StructureHandle ) )
+		// {
+		// SortKey sortkey = StructureFactory.createSortKey( );
+		// if ( key.equals( SortKey.KEY_MEMBER ) )
+		// {
+		// sortkey.setKey( newValue );
+		// }
 		//
-		//			DesignElementHandle handle = (DesignElementHandle) item;
-		//			PropertyHandle propertyHandle = handle.getPropertyHandle(
+		// DesignElementHandle handle = (DesignElementHandle) item;
+		// PropertyHandle propertyHandle = handle.getPropertyHandle(
 		// ListingElement.SORT_PROP );
-		//			propertyHandle.addItem( sortkey );
-		//			element = sortkey.getHandle( propertyHandle );
-		//		}
+		// propertyHandle.addItem( sortkey );
+		// element = sortkey.getHandle( propertyHandle );
+		// }
 
 		String saveValue = newValue;
 		StructureHandle handle = (StructureHandle) element;
@@ -195,8 +196,14 @@ public class SortingModelProvider
 					key );
 			return ChoiceSetFactory.getDisplayNamefromChoiceSet( choiceSet );
 		}
+		if ( item instanceof GroupHandle )
+		{
+			item = ( (GroupHandle) item ).getContainer( );
+		}
 		if ( !( item instanceof ReportItemHandle ) )
+		{
 			return EMPTY;
+		}
 		return getDataSetColumns( (ReportItemHandle) item );
 	}
 

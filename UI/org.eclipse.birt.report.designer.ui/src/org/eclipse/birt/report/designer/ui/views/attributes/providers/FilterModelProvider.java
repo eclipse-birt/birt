@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -35,10 +36,9 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 
-
 /**
  * Filter data processor
- *  
+ * 
  */
 public class FilterModelProvider
 {
@@ -52,7 +52,7 @@ public class FilterModelProvider
 	 * Constant, represents empty String array.
 	 */
 	private static final String[] EMPTY = new String[0];
-	
+
 	private DataSetItemModel[] models;
 
 	/**
@@ -68,7 +68,8 @@ public class FilterModelProvider
 		String[] columnNames = new String[keys.length];
 		for ( int i = 0; i < keys.length; i++ )
 		{
-			IStructureDefn structure = DesignEngine.getMetaDataDictionary().getStructure( FilterCondition.FILTER_COND_STRUCT );
+			IStructureDefn structure = DesignEngine.getMetaDataDictionary( )
+					.getStructure( FilterCondition.FILTER_COND_STRUCT );
 			columnNames[i] = structure.getMember( keys[i] ).getDisplayName( );
 		}
 		return columnNames;
@@ -151,24 +152,25 @@ public class FilterModelProvider
 	public boolean setStringValue( Object item, Object element, String key,
 			String newValue ) throws NameException, SemanticException
 	{
-		if(!key.equals(FilterCondition.OPERATOR_MEMBER ))
+		if ( !key.equals( FilterCondition.OPERATOR_MEMBER ) )
 		{
-			String value = DEUtil.getExpression(getResultSetColumn(newValue));
-			if(value != null)
-				newValue = value; 
+			String value = DEUtil.getExpression( getResultSetColumn( newValue ) );
+			if ( value != null )
+				newValue = value;
 		}
-//		if ( !( element instanceof StructureHandle ) )
-//		{
-//			FilterCondition filterCond = StructureFactory.createFilterCond( );
-//			if ( key.equals( FilterCondition.EXPR_MEMBER ) )
-//			{
-//				filterCond.setExpr( newValue );
-//			}
-//			DesignElementHandle handle = (DesignElementHandle) item;
-//			PropertyHandle propertyHandle = handle.getPropertyHandle( ListingElement.FILTER_PROP );
-//			propertyHandle.addItem( filterCond );
-//			element = filterCond.getHandle( propertyHandle );
-//		}
+		// if ( !( element instanceof StructureHandle ) )
+		// {
+		// FilterCondition filterCond = StructureFactory.createFilterCond( );
+		// if ( key.equals( FilterCondition.EXPR_MEMBER ) )
+		// {
+		// filterCond.setExpr( newValue );
+		// }
+		// DesignElementHandle handle = (DesignElementHandle) item;
+		// PropertyHandle propertyHandle = handle.getPropertyHandle(
+		// ListingElement.FILTER_PROP );
+		// propertyHandle.addItem( filterCond );
+		// element = filterCond.getHandle( propertyHandle );
+		// }
 
 		String saveValue = newValue;
 		StructureHandle handle = (StructureHandle) element;
@@ -201,6 +203,10 @@ public class FilterModelProvider
 					key );
 			return ChoiceSetFactory.getDisplayNamefromChoiceSet( choiceSet );
 		}
+		if ( item instanceof GroupHandle )
+		{
+			item = ( (GroupHandle) item ).getContainer( );
+		}
 		if ( !( item instanceof ReportItemHandle ) )
 			return EMPTY;
 		return getDataSetColumns( (ReportItemHandle) item );
@@ -218,24 +224,27 @@ public class FilterModelProvider
 		DataSetHandle dataSet = handle.getDataSet( );
 		if ( dataSet == null )
 			return EMPTY;
-		models = DataSetManager.getCurrentInstance().getColumns(dataSet,false);
-		if(models == null)
+		models = DataSetManager.getCurrentInstance( ).getColumns( dataSet,
+				false );
+		if ( models == null )
 			return EMPTY;
 		String[] values = new String[models.length];
-		for(int i=0; i<models.length; i++)
+		for ( int i = 0; i < models.length; i++ )
 		{
-			values[i] = models[i].getDisplayName();
+			values[i] = models[i].getDisplayName( );
 		}
 		return values;
 	}
-	
-	private Object getResultSetColumn(String name)
+
+	private Object getResultSetColumn( String name )
 	{
-		if(models == null)return null;
-		for(int i=0; i<models.length; i++)
+		if ( models == null )
+			return null;
+		for ( int i = 0; i < models.length; i++ )
 		{
 			DataSetItemModel model = models[i];
-			if(model.getDisplayName().equals(name))return model;
+			if ( model.getDisplayName( ).equals( name ) )
+				return model;
 		}
 		return null;
 	}
@@ -282,7 +291,7 @@ public class FilterModelProvider
 
 		return true;
 	}
-	
+
 	/**
 	 * Inserts one item into the given position.
 	 * 
@@ -296,10 +305,9 @@ public class FilterModelProvider
 	public boolean doAddItem( Object item, int pos ) throws SemanticException
 	{
 		FilterCondition filterCond = StructureFactory.createFilterCond( );
-		filterCond.setExpr("Expression");//$NON-NLS-1$
+		filterCond.setExpr( "Expression" );//$NON-NLS-1$
 		DesignElementHandle handle = (DesignElementHandle) item;
-		PropertyHandle propertyHandle = handle
-				.getPropertyHandle( ListingHandle.FILTER_PROP );
+		PropertyHandle propertyHandle = handle.getPropertyHandle( ListingHandle.FILTER_PROP );
 		propertyHandle.addItem( filterCond );
 		return true;
 	}
