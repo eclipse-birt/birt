@@ -245,15 +245,12 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 		}
 		else
 		{
-			if ( !( getChartModel( ) instanceof DialChart ) )
-			{
-				ISelectDataComponent component = new MultipleSeriesComponent( getValueSeriesDefinitionForProcessing( ),
-						getContext( ).getUIServiceProvider( ),
-						getContext( ).getExtendedItem( ),
-						Messages.getString( "AbstractSelectDataCustomizeUI.Label.SeriesGrouping" ), this ); //$NON-NLS-1$
-				subRightAreas.add( component );
-				component.createArea( cmpRightArea );
-			}
+			ISelectDataComponent component = new MultipleSeriesComponent( getValueSeriesDefinitionForProcessing( ),
+					getContext( ).getUIServiceProvider( ),
+					getContext( ).getExtendedItem( ),
+					Messages.getString( "AbstractSelectDataCustomizeUI.Label.SeriesGrouping" ), this ); //$NON-NLS-1$
+			subRightAreas.add( component );
+			component.createArea( cmpRightArea );
 		}
 
 	}

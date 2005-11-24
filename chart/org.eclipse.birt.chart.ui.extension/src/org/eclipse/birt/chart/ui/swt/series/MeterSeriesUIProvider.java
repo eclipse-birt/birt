@@ -134,6 +134,14 @@ public class MeterSeriesUIProvider implements ISeriesUIProvider
 					oContext,
 					sTitle );
 		}
+		else if ( seriesType == ISelectDataCustomizeUI.GROUPING_SERIES )
+		{
+			return new BaseDataDefinitionComponent( seriesDefn,
+					seriesDefn.getQuery( ),
+					builder,
+					oContext,
+					sTitle );
+		}
 		return new BlankSelectDataComponent( );
 	}
 }

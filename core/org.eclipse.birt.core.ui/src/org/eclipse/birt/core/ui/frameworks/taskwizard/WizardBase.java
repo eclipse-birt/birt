@@ -21,6 +21,7 @@ import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -121,8 +122,6 @@ public class WizardBase
 		// Set shell properties
 		shell.setLayout( glShell );
 		shell.setSize( iWizardWidth, iWizardHeight );
-		shell.setLocation( ( display.getClientArea( ).width / 2 - ( iWizardWidth / 2 ) ),
-				( display.getClientArea( ).height / 2 ) - ( iWizardHeight / 2 ) );
 		shell.setText( wizardTitle );
 		if ( wizardImage != null )
 		{
@@ -162,6 +161,11 @@ public class WizardBase
 		}
 		switchTo( (String) vTaskIDs.get( 0 ) );
 		sCurrentActiveTask = vTaskIDs.get( 0 ).toString( );
+
+		shell.setLocation( ( display.getClientArea( ).width / 2 - ( shell.getSize( ).x / 2 ) ),
+				( display.getClientArea( ).height / 2 )
+						- ( shell.getSize( ).y / 2 ) );
+
 		shell.addDisposeListener( this );
 		shell.open( );
 		while ( !shell.isDisposed( ) )
@@ -288,7 +292,7 @@ public class WizardBase
 		tasklist.setActive( (String) vTaskLabels.get( vTaskIDs.indexOf( sTaskID ) ) );
 
 		// Pack every task to show as much as possible
-		shell.pack( );
+		packWizard( );
 	}
 
 	public Shell createPopupContainer( )
@@ -637,6 +641,32 @@ public class WizardBase
 	public void keyReleased( KeyEvent e )
 	{
 		// do nothing
+	}
+
+	/**
+	 * Packs the wizard to display enough size
+	 * 
+	 */
+	public void packWizard( )
+	{
+		boolean changed = false;
+		Point wizardSize = shell.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		Point oldSize = shell.getSize( );
+		if ( oldSize.x < wizardSize.x )
+		{
+			oldSize.x = wizardSize.x;
+			changed = true;
+		}
+		if ( oldSize.y < wizardSize.y )
+		{
+			oldSize.y = wizardSize.y;
+			changed = true;
+		}
+		if ( changed )
+		{
+			shell.setSize( oldSize );
+			shell.layout( );
+		}		
 	}
 }
 

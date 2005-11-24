@@ -23,6 +23,7 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 
 /**
@@ -34,25 +35,21 @@ public class ChartWizard extends WizardBase
 
 	public static final String WIZARD_ID = "org.eclipse.birt.chart.ui.ChartWizard"; //$NON-NLS-1$
 
-	private static final int DEFAULT_WIZARD_WIDTH = 750;
+	private static final double DEFAULT_CHART_HEIGHT = 130;// 250;
 
-	private static final int DEFAULT_WIZARD_HEIGHT = 700;
+	private static final double DEFAULT_CHART_WIDTH = 212;// 400;
 
-	private static final double DEFAULT_CHART_HEIGHT = 130;//250;
+	private static final double DEFAULT_CHART_WITHOUT_AXIS_HEIGHT = 130;// 250;
 
-	private static final double DEFAULT_CHART_WIDTH = 212;//400;
-
-	private static final double DEFAULT_CHART_WITHOUT_AXIS_HEIGHT = 130;//250;
-
-	private static final double DEFAULT_CHART_WITHOUT_AXIS_WIDTH = 212;//280;
+	private static final double DEFAULT_CHART_WITHOUT_AXIS_WIDTH = 212;// 280;
 
 	private ChartAdapter adapter = null;
 
 	public ChartWizard( )
 	{
 		super( WIZARD_ID,
-				DEFAULT_WIZARD_WIDTH,
-				DEFAULT_WIZARD_HEIGHT,
+				SWT.DEFAULT,
+				SWT.DEFAULT,
 				Messages.getString( "ChartWizard.ChartBuilder" ), //$NON-NLS-1$
 				UIHelper.getImage( "icons/obj16/chartselector.gif" ) ); //$NON-NLS-1$
 		adapter = new ChartAdapter( this );

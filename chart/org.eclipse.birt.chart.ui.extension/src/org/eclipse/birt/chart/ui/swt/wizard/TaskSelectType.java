@@ -727,8 +727,10 @@ public class TaskSelectType extends SimpleTask
 			sType = ( (TableItem) e.item ).getText( ).trim( );
 			createAndDisplayTypesSheet( sType );
 			setDefaultSubtypeSelection( );
-			// Ensure populate list after chart model generated
-			// populateSeriesTypesList( );
+
+			// Pack to display enough space for different chart
+			container.packWizard( );
+			cmpMisc.layout( );
 		}
 		else if ( oSelected.equals( cbDimension ) )
 		{
