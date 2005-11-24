@@ -72,9 +72,8 @@
 	<property name="javadoc.dir" location="docs/api" />
 	<property name="plugin.version" value="1.0.0" />
 	<property name="export.dir" location="export" />
-	<property name="eclipse.home" location="." />
+	<property name="eclipse.home" location=".." />
 	<property name="dtp.home" location=".." />
-	
 	<property name="dir.utest" value="utest" />
  	<property name="dir.src" value="src" />
  	<property name="dir.test" value="test" />
@@ -166,7 +165,7 @@
 			<jvmarg value="-ea" />
 			<classpath refid="class.path" />
 			<formatter type="xml" />
-			
+			<sysproperty key="xml.home" value="${eclipse.home}/${module.name}" />
 			<batchtest todir="${utest.report.dir}">
 				<fileset dir="${dir.test}">
 					<include name="**/*Test.java" />
