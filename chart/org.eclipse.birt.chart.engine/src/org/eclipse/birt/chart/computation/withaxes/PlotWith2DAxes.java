@@ -749,7 +749,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				sc.getMax( ),
 				sc.isSetStep( ) ? new Double( sc.getStep( ) ) : null,
 				axPrimaryBase.getFormatSpecifier( ),
-				rtc, false );
+				rtc,
+				false );
 		oaxPrimaryBase.set( scPrimaryBase ); // UPDATE SCALE ON PRIMARY-BASE
 		// AXIS
 
@@ -785,7 +786,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				sc.getMax( ),
 				sc.isSetStep( ) ? new Double( sc.getStep( ) ) : null,
 				axPrimaryOrthogonal.getFormatSpecifier( ),
-				rtc, false );
+				rtc,
+				false );
 		oaxPrimaryOrthogonal.set( scPrimaryOrthogonal ); // UPDATE SCALE ON
 		// PRIMARY-ORTHOGONAL
 		// AXIS
@@ -1050,7 +1052,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					scModel.isSetStep( ) ? new Double( scModel.getStep( ) )
 							: null,
 					axaOrthogonal[j].getFormatSpecifier( ),
-					rtc, false );
+					rtc,
+					false );
 
 			oaxOverlay.set( sc );
 			iv = oaxOverlay.getIntersectionValue( );
@@ -1073,7 +1076,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						oaxOverlay.getLabel( ),
 						oaxOverlay.getLabelPosition( ) ) )
 				{
-					if (!sc.zoomOut( ))
+					if ( !sc.zoomOut( ) )
 					{
 						break;
 					}
@@ -1100,8 +1103,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				// AND AXIS-PLOT SPACING
 				double dX = 0, dX1 = 0, dX2 = 0; // Y-AXIS BAND VERTICAL
 				// CO-ORDINATES
-				final boolean bTicksLeft = ( iTickStyle & TICK_LEFT ) == TICK_LEFT; 
-				final boolean bTicksRight = ( iTickStyle & TICK_RIGHT ) == TICK_RIGHT; 
+				final boolean bTicksLeft = ( iTickStyle & TICK_LEFT ) == TICK_LEFT;
+				final boolean bTicksRight = ( iTickStyle & TICK_RIGHT ) == TICK_RIGHT;
 				final double dAppliedYAxisPlotSpacing = dYAxisPlotSpacing;
 				if ( laAxisTitle.isVisible( ) )
 				{
@@ -1440,7 +1443,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				oaMinMax = scOA.getMinMax( );
 				while ( !scOA.checkFit( ids, la, axOverlay.getLabelPosition( ) ) )
 				{
-					if (!scOA.zoomOut( ))
+					if ( !scOA.zoomOut( ) )
 					{
 						break;
 					}
@@ -1475,8 +1478,11 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		 */
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.computation.withaxes.PlotWithAxes#getSeriesRenderingHints(org.eclipse.birt.chart.model.data.SeriesDefinition, org.eclipse.birt.chart.model.component.Series)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.computation.withaxes.PlotWithAxes#getSeriesRenderingHints(org.eclipse.birt.chart.model.data.SeriesDefinition,
+	 *      org.eclipse.birt.chart.model.component.Series)
 	 */
 	public final ISeriesRenderingHints getSeriesRenderingHints(
 			SeriesDefinition sdOrthogonal, Series seOrthogonal )
@@ -1585,9 +1591,10 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				else if ( dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL )
 				{
 					fsOrthogonal = dpc.getFormatSpecifier( );
-					if ( fsOrthogonal == null ) // BACKUP
+					if ( fsOrthogonal == null
+							&& seOrthogonal.eContainer( ) instanceof SeriesDefinition )
 					{
-						fsOrthogonal = sdOrthogonal.getFormatSpecifier( );
+						fsOrthogonal = ( (SeriesDefinition) seOrthogonal.eContainer( ) ).getFormatSpecifier( );
 					}
 				}
 				else if ( dpct == DataPointComponentType.SERIES_VALUE_LITERAL )
@@ -1614,7 +1621,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						}
 						catch ( IllegalArgumentException nvex )
 						{
-							//dX = dOrthogonalZero;
+							// dX = dOrthogonalZero;
 							dX = Double.NaN;
 						}
 						catch ( ChartException dfex )
@@ -1631,7 +1638,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						}
 						catch ( IllegalArgumentException nvex )
 						{
-							//dY = dOrthogonalZero;
+							// dY = dOrthogonalZero;
 							dY = Double.NaN;
 						}
 						catch ( ChartException dfex )
@@ -1662,7 +1669,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					}
 					catch ( IllegalArgumentException nvex )
 					{
-						//dY = dOrthogonalZero; // MAP TO ZERO
+						// dY = dOrthogonalZero; // MAP TO ZERO
 						dX = Double.NaN;
 					}
 					catch ( ChartException dfex )

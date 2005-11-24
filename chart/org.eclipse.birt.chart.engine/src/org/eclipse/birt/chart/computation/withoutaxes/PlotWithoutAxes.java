@@ -238,10 +238,10 @@ public final class PlotWithoutAxes
 				else if ( dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL )
 				{
 					fsOrthogonal = dpc.getFormatSpecifier( );
-					if ( fsOrthogonal == null ) // BACKUP
+					if ( fsOrthogonal == null
+							&& seOrthogonal.eContainer( ) instanceof SeriesDefinition )
 					{
-						fsOrthogonal = ( (SeriesDefinition) sd.getSeriesDefinitions( )
-								.get( i ) ).getFormatSpecifier( );
+						fsOrthogonal = ( (SeriesDefinition) seOrthogonal.eContainer( ) ).getFormatSpecifier( );
 					}
 				}
 				else if ( dpct == DataPointComponentType.SERIES_VALUE_LITERAL )

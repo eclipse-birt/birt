@@ -1423,9 +1423,10 @@ public class PlotWith3DAxes extends PlotWithAxes
 				else if ( dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL )
 				{
 					fsOrthogonal = dpc.getFormatSpecifier( );
-					if ( fsOrthogonal == null ) // BACKUP
+					if ( fsOrthogonal == null
+							&& seOrthogonal.eContainer( ) instanceof SeriesDefinition )
 					{
-						fsOrthogonal = sdOrthogonal.getFormatSpecifier( );
+						fsOrthogonal = ( (SeriesDefinition) seOrthogonal.eContainer( ) ).getFormatSpecifier( );
 					}
 				}
 				else if ( dpct == DataPointComponentType.SERIES_VALUE_LITERAL )
@@ -1481,7 +1482,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 						}
 						catch ( IllegalArgumentException nvex )
 						{
-							//dX = dOrthogonalZero;
+							// dX = dOrthogonalZero;
 							dX = Double.NaN;
 						}
 						catch ( ChartException dfex )
@@ -1523,7 +1524,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 						}
 						catch ( IllegalArgumentException nvex )
 						{
-							//dY = dOrthogonalZero;
+							// dY = dOrthogonalZero;
 							dX = Double.NaN;
 						}
 						catch ( ChartException dfex )
