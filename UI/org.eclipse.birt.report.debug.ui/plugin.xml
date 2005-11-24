@@ -14,19 +14,19 @@
    </runtime>
 
    <requires>
-      <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.debug.core"/>
       <import plugin="org.eclipse.debug.ui"/>
       <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.core.runtime.compatibility"/>
       <import plugin="org.eclipse.jdt.launching"/>
       <import plugin="org.eclipse.pde.ui"/>
       <import plugin="org.eclipse.pde.core"/>
       <import plugin="org.eclipse.jdt.core"/>
-      <import plugin="org.eclipse.jdt.junit"/>
       <import plugin="org.eclipse.pde"/>
-      <import plugin="org.eclipse.jdt.ui"/>
+      <import plugin="org.eclipse.birt.core"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.birt.report.viewer"/>
+      <import plugin="org.eclipse.birt.report.engine"/>
    </requires>
    
    

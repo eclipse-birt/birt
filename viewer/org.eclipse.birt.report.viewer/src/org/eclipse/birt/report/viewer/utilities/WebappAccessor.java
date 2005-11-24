@@ -14,7 +14,10 @@ package org.eclipse.birt.report.viewer.utilities;
 import java.io.IOException;
 import java.net.URL;
 
+import org.eclipse.birt.report.engine.script.ScriptExecutor;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
@@ -50,24 +53,46 @@ public class WebappAccessor
 	 * unique web app names by prefixing them with the plugin id.
 	 * </p>
 	 * 
-	 * @param webappName the name of the web app (also knowns as application context)
-	 * @param pluginId plugin that defines the webapp
-	 * @param path webapp relative path to the plugin directory
+	 * @param webappName
+	 *            the name of the web app (also knowns as application context)
+	 * @param pluginId
+	 *            plugin that defines the webapp
+	 * @param path
+	 *            webapp relative path to the plugin directory
 	 * @exception CoreException
 	 */
-	public synchronized static void start( String webappName, String pluginId, IPath path ) throws CoreException
+	public synchronized static void start( String webappName, String pluginId,
+			IPath path ) throws CoreException
 	{
-		if (!applicationsStarted)
+		if ( !applicationsStarted )
 		{
+
+			// Search current workspace, add to classpath
+			IProject[] projects = ResourcesPlugin.getWorkspace( ).getRoot( )
+					.getProjects( );
+
+			String projectString = "";
+			for ( int i = 0; i < projects.length; i++ )
+			{
+				IProject proj = projects[i];
+				projectString += proj.getName( )
+						+ ScriptExecutor.PROPERTYSEPARATOR;
+			}
+
+			String projectClassPaths = ClasspathUtil
+					.getAllProjectPaths( projectString );
+
+			System.setProperty( ScriptExecutor.WORKSPACE_CLASSPATH_KEY,
+					projectClassPaths );
+
 			IPath webappPath = getWebappPath( pluginId, path );
-	
+
 			// we get the server before constructing the class loader, so
 			// class loader exposed by the server is available to the webapps.
-			IWebappServer server = AppServerWrapper.getInstance( ).getAppServer( );
-	
-			server.start( webappName,
-					webappPath,
-					new PluginClassLoaderWrapper( pluginId ) );
+			IWebappServer server = AppServerWrapper.getInstance( )
+					.getAppServer( );
+			server.start( webappName, webappPath, new PluginClassLoaderWrapper(
+					pluginId ) );
 
 			applicationsStarted = true;
 		}
@@ -76,7 +101,8 @@ public class WebappAccessor
 	/**
 	 * Stops the specified web application.
 	 * 
-	 * @param webappName web application name
+	 * @param webappName
+	 *            web application name
 	 * @exception CoreException
 	 */
 	public static void stop( String webappName ) throws CoreException
@@ -100,8 +126,7 @@ public class WebappAccessor
 		try
 		{
 			return AppServerWrapper.getInstance( ).getAppServer( ).getPort( );
-		}
-		catch ( CoreException e )
+		} catch ( CoreException e )
 		{
 			return 0;
 		}
@@ -118,8 +143,7 @@ public class WebappAccessor
 		try
 		{
 			return AppServerWrapper.getInstance( ).getAppServer( ).getHost( );
-		}
-		catch ( CoreException e )
+		} catch ( CoreException e )
 		{
 			return null;
 		}
@@ -128,8 +152,10 @@ public class WebappAccessor
 	/**
 	 * Get path of web applcation.
 	 * 
-	 * @param pluginId Embedded web application id
-	 * @param path webapp path relative to the plugin directory
+	 * @param pluginId
+	 *            Embedded web application id
+	 * @param path
+	 *            webapp path relative to the plugin directory
 	 * @return String absolute webapp path
 	 * @exception CoreException
 	 */
@@ -141,38 +167,40 @@ public class WebappAccessor
 		if ( bundle == null )
 		{
 			throw new CoreException( new Status( IStatus.ERROR,
-					ViewerPlugin.PLUGIN_ID,
-					IStatus.OK,
-					ViewerPlugin.getFormattedResourceString("viewer.appserver.cannotfindplugin", //$NON-NLS-1$
-					new Object[] { pluginId } ), null ) );
+					ViewerPlugin.PLUGIN_ID, IStatus.OK, ViewerPlugin
+							.getFormattedResourceString(
+									"viewer.appserver.cannotfindplugin", //$NON-NLS-1$
+									new Object[] { pluginId } ), null ) );
 		}
 
 		// Note: we just look for one webapp directory.
-		//       If needed, may want to use the locale specific path.
+		// If needed, may want to use the locale specific path.
 		URL webappURL = Platform.find( bundle, path );
 
 		if ( webappURL == null )
 		{
 			throw new CoreException( new Status( IStatus.ERROR,
-					ViewerPlugin.PLUGIN_ID,
-					IStatus.OK,
-					ViewerPlugin.getFormattedResourceString("viewer.appserver.cannotfindpath", //$NON-NLS-1$
-					new Object[] { pluginId, path.toOSString( ) } ), null ) );
+					ViewerPlugin.PLUGIN_ID, IStatus.OK,
+					ViewerPlugin.getFormattedResourceString(
+							"viewer.appserver.cannotfindpath", //$NON-NLS-1$
+							new Object[] { pluginId, path.toOSString( ) } ),
+					null ) );
 		}
 
 		try
 		{
-			String webappLocation = Platform.asLocalURL( Platform.resolve( webappURL ) ).getFile( );
+			String webappLocation = Platform.asLocalURL(
+					Platform.resolve( webappURL ) ).getFile( );
 			webappLocation += "birt/"; //$NON-NLS-1$
 			return new Path( webappLocation );
-		}
-		catch ( IOException ioe )
+		} catch ( IOException ioe )
 		{
 			throw new CoreException( new Status( IStatus.ERROR,
-					ViewerPlugin.PLUGIN_ID,
-					IStatus.OK,
-					ViewerPlugin.getFormattedResourceString("viewer.appserver.cannotresolvepath", //$NON-NLS-1$
-					new Object[] { pluginId, path.toOSString( ) } ), ioe ) );
+					ViewerPlugin.PLUGIN_ID, IStatus.OK,
+					ViewerPlugin.getFormattedResourceString(
+							"viewer.appserver.cannotresolvepath", //$NON-NLS-1$
+							new Object[] { pluginId, path.toOSString( ) } ),
+					ioe ) );
 		}
 	}
 

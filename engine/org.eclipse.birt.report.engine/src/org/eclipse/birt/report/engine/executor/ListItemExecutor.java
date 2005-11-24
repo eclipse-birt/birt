@@ -17,18 +17,20 @@ import org.eclipse.birt.report.engine.api.script.ExpressionResults;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.ContainerContent;
+import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.script.DetailRowScriptExecutor;
 import org.eclipse.birt.report.engine.script.ListScriptExecutor;
 
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.24 $ $Date: 2005/11/19 00:42:50 $
+ * @version $Revision: 1.25 $ $Date: 2005/11/22 09:59:57 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -132,10 +134,11 @@ public class ListItemExecutor extends ListingElementExecutor
 				ReportItemDesign item = band.getContent( i );
 				if ( context.isInFactory( ) )
 				{
-					// TODO: We need to handle onCreate for the detail row here
-					// Where do we get the content object from??
+					// TODO: Where do we get the content object from??
+					DetailRowScriptExecutor.handleOnCreate( null,
+							expressionResults, context );
 				}
-				if (needPageBreak)
+				if ( needPageBreak )
 				{
 					needPageBreak = false;
 				}
