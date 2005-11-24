@@ -84,6 +84,8 @@ public class WizardBase
 
 	// TRANSIENT STORAGE FOR ERRORS REPORTED BY TASKS USING 'errorDisplay()'
 	private transient Object[] errorHints = null;
+	
+	private transient boolean bWasCancelled = true;
 
 	/**
 	 * Launches the wizard with the specified tasks in 'Available' state...and
@@ -175,7 +177,15 @@ public class WizardBase
 				display.sleep( );
 			}
 		}
-		return this.context;
+		
+		if( !bWasCancelled )
+		{
+			return this.context;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	public void enable( String sTaskID )
@@ -551,6 +561,7 @@ public class WizardBase
 						return;
 					}
 				}
+				this.bWasCancelled = false;
 				shell.dispose( );
 			}
 			else if ( sCmd.equals( Messages.getString( "WizardBase.Cancel" ) ) ) //$NON-NLS-1$
