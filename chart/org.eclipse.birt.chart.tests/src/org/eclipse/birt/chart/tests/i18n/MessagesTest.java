@@ -50,18 +50,4 @@ public class MessagesTest extends TestCase
 		assertEquals("Value", org.eclipse.birt.chart.reportitem.i18n.Messages.getString( "ChartDataBindingPage.Lbl.Value" ) );//$NON-NLS-1$//$NON-NLS-2$
 		assertEquals("!chart!", org.eclipse.birt.chart.reportitem.i18n.Messages.getString( "chart") );//$NON-NLS-1$//$NON-NLS-2$
 	}
-	
-	//org.eclipse.birt.chart.ui
-	public void testUIGetString( )
-	{
-		assertEquals("Cancel", org.eclipse.birt.chart.ui.i18n.Messages.getString( "Shared.Lbl.Cancel" ) );//$NON-NLS-1$//$NON-NLS-2$
-		assertEquals("!chart!", org.eclipse.birt.chart.ui.i18n.Messages.getString( "chart") );//$NON-NLS-1$//$NON-NLS-2$
-	}
-	
-	//org.eclipse.birt.chart.ui.extension
-	public void testUIExtGetString( )
-	{
-		assertEquals("Cancel", org.eclipse.birt.chart.ui.extension.i18n.Messages.getString( "Shared.Lbl.Cancel" ) );//$NON-NLS-1$//$NON-NLS-2$
-		assertEquals("!chart!", org.eclipse.birt.chart.ui.extension.i18n.Messages.getString( "chart") );//$NON-NLS-1$//$NON-NLS-2$
-	}
 }

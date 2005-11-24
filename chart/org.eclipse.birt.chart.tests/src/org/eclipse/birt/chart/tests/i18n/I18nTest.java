@@ -23,9 +23,7 @@ public class I18nTest {
 				", org.eclipse.birt.chart.device.svg.i18n"+//$NON-NLS-1$
 				", org.eclipse.birt.chart.engine.i18n" +//$NON-NLS-1$
 				", org.eclipse.birt.chart.engine.extension.i18n"+//$NON-NLS-1$
-				", org.eclipse.birt.chart.reportitem.i18n"+//$NON-NLS-1$
-				", org.eclipse.birt.chart.ui.i18n" +//$NON-NLS-1$
-				"and org.eclipse.birt.chart.ui.extension.i18n");//$NON-NLS-1$
+				", org.eclipse.birt.chart.reportitem.i18n");//$NON-NLS-1$
 		//$JUnit-BEGIN$
 		suite.addTestSuite(MessagesTest.class);
 		

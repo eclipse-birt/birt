@@ -1,13 +1,13 @@
 package org.eclipse.birt.chart.tests;
 
-import org.eclipse.ui.plugin.*;
+import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 import java.util.*;
 
 /**
  * The main plugin class to be used in the desktop.
  */
-public class TestsPlugin extends AbstractUIPlugin {
+public class TestsPlugin extends Plugin {
 	//The shared instance.
 	private static TestsPlugin plugin;
 	//Resource bundle.
