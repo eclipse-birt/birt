@@ -31,7 +31,6 @@ import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.internal.core.ExternalModelManager;
 import org.eclipse.pde.internal.core.ModelEntry;
 import org.eclipse.pde.internal.core.PDECore;
-import org.eclipse.pde.internal.ui.launcher.ILauncherSettings;
 
 /**
  * add comment here
@@ -198,13 +197,44 @@ public class ReportLauncherUtils
 			throws CoreException
 	{
 		TreeSet deselected = new TreeSet( );
-		String ids = config.getAttribute( ILauncherSettings.WSPROJECT,
-				(String) null );
-		if ( ids != null )
+		String ids = config.getAttribute(
+				IReportLauncherSettings.IMPORTPROJECT, (String) null );
+		if ( ids != null && ids.length( ) > 0 )
 		{
-			StringTokenizer tok = new StringTokenizer( ids, File.pathSeparator );
-			while ( tok.hasMoreTokens( ) )
-				deselected.add( tok.nextToken( ) );
+			StringTokenizer token = new StringTokenizer( ids, ";" );
+			while ( token.hasMoreTokens( ) )
+			{
+				String str = token.nextToken( );
+				int index = str.lastIndexOf( File.separator );
+				if ( index > 0 )
+				{
+					str = str.substring( index + 1 );
+				}
+				deselected.add( str );
+			}
+		}
+		return deselected;
+	}
+
+	public static TreeSet parseDeselectedClassIds( ILaunchConfiguration config )
+			throws CoreException
+	{
+		TreeSet deselected = new TreeSet( );
+		String ids = config.getAttribute(
+				IReportLauncherSettings.IMPORTPROJECTNAMES, (String) null );
+		if ( ids != null && ids.length( ) > 0 )
+		{
+			StringTokenizer token = new StringTokenizer( ids, ";" );
+			while ( token.hasMoreTokens( ) )
+			{
+				String str = token.nextToken( );
+				int index = str.lastIndexOf( File.separator );
+				if ( index > 0 )
+				{
+					str = str.substring( index + 1 );
+				}
+				deselected.add( str );
+			}
 		}
 		return deselected;
 	}
@@ -222,16 +252,19 @@ public class ReportLauncherUtils
 		}
 		return JavaRuntime.getDefaultVMInstall( );
 	}
-	
-	public static IVMInstall[] getAllVMInstances() {
-		ArrayList res = new ArrayList();
-		IVMInstallType[] types = JavaRuntime.getVMInstallTypes();
-		for (int i = 0; i < types.length; i++) {
-			IVMInstall[] installs = types[i].getVMInstalls();
-			for (int k = 0; k < installs.length; k++) {
-				res.add(installs[k]);
+
+	public static IVMInstall[] getAllVMInstances( )
+	{
+		ArrayList res = new ArrayList( );
+		IVMInstallType[] types = JavaRuntime.getVMInstallTypes( );
+		for ( int i = 0; i < types.length; i++ )
+		{
+			IVMInstall[] installs = types[i].getVMInstalls( );
+			for ( int k = 0; k < installs.length; k++ )
+			{
+				res.add( installs[k] );
 			}
 		}
-		return (IVMInstall[]) res.toArray(new IVMInstall[res.size()]);
+		return (IVMInstall[]) res.toArray( new IVMInstall[res.size( )] );
 	}
 }

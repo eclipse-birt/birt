@@ -139,7 +139,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 			IProject project = allProjects[i];
 			try
 			{
-				if ( project.hasNature( REPORTPROJECTKID ) )
+				if ( project.hasNature( REPORTPROJECTKID ))
 				{
 					retValue.add( project );
 				}
@@ -175,7 +175,8 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		Composite composite = new Composite( parent, 0 );
 		composite.setLayout( new GridLayout( ) );
 		fUseListRadio = new Label( composite, 16 );
-		fUseListRadio.setText( "Choose project to launch from the list, the selection project will be import launch" );
+		fUseListRadio
+				.setText( "Choose project to launch from the list, the selection project will be import launch" );
 		createPluginList( composite );
 		hookListeners( );
 		setControl( composite );
@@ -376,8 +377,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		Image pluginsImage = PDEPlugin.getDefault( ).getLabelProvider( ).get(
 				PDEPluginImages.DESC_REQ_PLUGINS_OBJ );
 		fWorkspacePlugins = new NamedElement( DebugUtil
-				.getResourceString( "workspace report projects" ),
-				pluginsImage );
+				.getResourceString( "workspace report projects" ), pluginsImage );
 	}
 
 	/**
@@ -412,10 +412,15 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		fPluginTreeViewer.setSubtreeChecked( fWorkspacePlugins, true );
 		TreeSet deselected = ReportLauncherUtils.parseDeselectedWSIds( config );
 		for ( int i = 0; i < fWorkspaceModels.length; i++ )
-			if ( deselected.contains( fWorkspaceModels[i].getName( ) )
-					&& fPluginTreeViewer
-							.setChecked( fWorkspaceModels[i], false ) )
-				fNumWorkspaceChecked--;
+		{
+			if (!deselected.contains( fWorkspaceModels[i].getName( ) ) )
+			{
+				if (fPluginTreeViewer.setChecked( fWorkspaceModels[i], false ))
+				{
+					fNumWorkspaceChecked--;
+				}
+			}
+		}
 
 		if ( fNumWorkspaceChecked == 0 )
 			fPluginTreeViewer.setChecked( fWorkspacePlugins, false );
@@ -562,6 +567,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		config.setAttribute( IMPORTPROJECT, wbuf.toString( ) );
 		//config.setAttribute( IMPORTPROJECTNAMES, namesWbuf.toString( ) );
 		config.setAttribute( "clearws", true );
+
 		config.setAttribute( "askclear", false );
 		config.setAttribute( "location0", WORKESPACENAME );
 	}
