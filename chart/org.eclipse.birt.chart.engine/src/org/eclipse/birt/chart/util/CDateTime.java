@@ -20,7 +20,6 @@ import java.util.ResourceBundle;
 import java.util.TimeZone;
 
 import org.eclipse.birt.chart.computation.DataSetIterator;
-import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
@@ -479,7 +478,9 @@ public class CDateTime extends GregorianCalendar
 				cPrev = cCurr;
 			}
 		}
-		return IConstants.UNDEFINED;
+
+		// if all no difference, return year as default unit.
+		return Calendar.YEAR;
 	}
 
 	/**
@@ -522,7 +523,9 @@ public class CDateTime extends GregorianCalendar
 				}
 			}
 		}
-		return IConstants.UNDEFINED;
+
+		// if all no difference, return year as default unit.
+		return Calendar.YEAR;
 	}
 
 	/**

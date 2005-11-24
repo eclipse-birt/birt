@@ -55,6 +55,7 @@
             class="org.eclipse.birt.chart.reportitem.ChartReportItemFactoryImpl"
             isNameRequired="true"
             displayNameID="Element.Chart"
+            defaultStyle="chart"
             extensionName="Chart">
          <property
                type="xml"
