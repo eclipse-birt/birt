@@ -165,7 +165,7 @@
 			<jvmarg value="-ea" />
 			<classpath refid="class.path" />
 			<formatter type="xml" />
-			<sysproperty key="xml.home" value="${eclipse.home}/${module.name}" />
+			<sysproperty key="xml.home" value="${eclipse.home}/plugins/${module.name}" />
 			<batchtest todir="${utest.report.dir}">
 				<fileset dir="${dir.test}">
 					<include name="**/*Test.java" />
