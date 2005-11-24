@@ -884,6 +884,8 @@ public class ResultIterator implements IResultIterator
 
 		// Return to first row.
 		odiResult.first( 0 );
+		if( odiResult.getCurrentResult() == null )
+			return false;
 		do
 		{
 			for ( int i = 0; i < columnNames.length; i++ )
