@@ -11,12 +11,22 @@
 
 package org.eclipse.birt.report.data.oda.xml.util.ui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 
 import org.eclipse.birt.report.data.oda.xml.util.ISaxParserConsumer;
 import org.eclipse.birt.report.data.oda.xml.util.SaxParser;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * This class is used to offer GUI a utility to get an tree from certain xml/xsd file.
@@ -30,17 +40,10 @@ public class SchemaPopulationUtil
 			throws OdaException
 	{
 		if( fileName.toUpperCase().endsWith(".XSD"))
-			return new XSDFileSchemaTreePopulator().getSchemaTree( fileName );
+			return XSDFileSchemaTreePopulator.getSchemaTree( fileName );
 		else
 			return new XMLFileSchemaTreePopulator().getSchemaTree( fileName );
 	}
-
-	public static void main( String[] argv )
-	{
-
-		
-	}
-
 }
 /**
  * This class is used to populate an XML schema tree from an xml file.
@@ -216,149 +219,76 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 }
 
 /**
- * This class is used to populate the XML schema tree from XSD files.
+ * This class is used to populate an XML schema tree from an xml file.
  *
  */
-final class XSDFileSchemaTreePopulator implements ISaxParserConsumer
+final class XSDFileSchemaTreePopulator
 {
-	//
-	private ATreeNode root;
-	
-	//The tree node that is currently manapulated.
-	private ATreeNode currentTreeNode;
-	
-	//The complexType tree node under which the current tree node belongs to.
-	//If current tree node is of simpleType then the value of currentComplexTypeTreeNode
-	//would be null.
-	private ATreeNode currentComplexTypeTreeNode;
-	
-	private boolean inComplexType;
-	
-	private SaxParser sp; 
-	
-	/**
-	 * 
-	 *
-	 */
-	XSDFileSchemaTreePopulator( )
-	{
-		root = new ATreeNode();
-		root.setValue("ROOT");
-		currentTreeNode = root;
-		inComplexType = false;
-	}
 
-	/*
-	 *  (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.oda.xml.util.ISaxParserConsumer#manipulateData(java.lang.String, java.lang.String)
+	/**
+	 * Populate the node list of a tree node in certain level. TODO add comments
+	 * 
+	 * @param nodeList
+	 * @param root
+	 * @param level
+	 * @throws XPathExpressionException
 	 */
-	public void manipulateData( String path, String value )
+	private static void populateNodeList( NodeList nodeList, ATreeNode root,
+			int level ) throws XPathExpressionException
 	{
-		String treamedPath = path.replaceAll( "\\Q[\\E\\d+\\Q]\\E", "" ).trim();
-		if( !isAttribute( treamedPath ) )
+
+		for ( int i = 0; i < nodeList.getLength( ); i++ )
 		{
-			if( treamedPath.endsWith( "complexType" ) )
+			boolean goToNextLevel = false;
+			String space = "";
+			for ( int t = 0; t < level; t++ )
 			{
-				this.inComplexType = !this.inComplexType;
-				if( inComplexType && this.currentComplexTypeTreeNode == null )
+				space += "   ";
+			}
+			Node item = nodeList.item( i );
+
+			if ( item.getLocalName( ) != null )
+			{
+				ATreeNode node = new ATreeNode( );
+
+				if ( item.getLocalName( ).equals( "element" )
+						|| item.getLocalName( ).equals( "attribute" ) )
 				{
-					this.currentComplexTypeTreeNode = this.currentTreeNode;
-				}else if (!inComplexType )
+					String name = "<NULL>";
+					//String type = "<NULL>";
+					if ( item.getAttributes( ).getNamedItem( "name" ) != null )
+					{
+						name = item.getAttributes( )
+								.getNamedItem( "name" )
+								.getNodeValue( );
+						//type = "name";
+					}
+					else
+					{
+						name = item.getAttributes( )
+								.getNamedItem( "ref" )
+								.getNodeValue( );
+						//type = "ref";
+					}
+					node.setParent( root );
+					node.setValue( name );
+
+					if ( item.getLocalName( ).equals( "element" ) )
+						node.setType( ATreeNode.ELEMENT_TYPE );
+					else
+						node.setType( ATreeNode.ATTRIBUTE_TYPE );
+					goToNextLevel = true;
+				}
+				if ( item.getChildNodes( ).getLength( ) != 0 )
 				{
-					this.currentComplexTypeTreeNode = null;
+					populateNodeList( item.getChildNodes( ), goToNextLevel
+							? node : root, goToNextLevel ? level + 1 : level );
 				}
 			}
-		}else
-			this.insertNode( treamedPath, value );
-		
-	}
 
-	/*
-	 *  (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.oda.xml.util.ISaxParserConsumer#detectNewRow(java.lang.String)
-	 */
-	public void detectNewRow( String path )
-	{
-	}
-
-	/**
-	 * Exam whether given path specified an attribute
-	 * @param path
-	 * @return
-	 */
-	private boolean isAttribute( String path )
-	{
-		return path.matches( ".*\\Q[@\\E.+\\Q]\\E.*" );
-	}
-
-	/*
-	 *  (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.oda.xml.util.ISaxParserConsumer#wakeup()
-	 */
-	public synchronized void wakeup( )
-	{
-		notify( );
-	}
-
-	/**
-	 * Return the root node of a schema tree.
-	 * 
-	 * @param fileName
-	 * @return
-	 */
-	public ATreeNode getSchemaTree( String fileName )
-	{
-		sp = new SaxParser( fileName, this );
-		Thread spThread = new Thread( sp );
-		spThread.start( );
-		while( sp.isAlive() )
-		{
-			try
-			{
-				synchronized ( this )
-				{
-					wait( );
-				}
-			}
-			catch ( InterruptedException e )
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace( );
-			}
-		}
-		
-		populateRoot( root );
-		
-		return root;
-	}
-	
-	/**
-	 * Insert a node specified by the path.
-	 * 
-	 * @param treatedPath
-	 */	
-	private void insertNode( String treatedPath, String value )
-	{
-		if ( treatedPath.endsWith( "[@name]" ) || treatedPath.endsWith( "[@ref]" ) )
-		{
-			if( inComplexType )
-			{
-				currentTreeNode = new ATreeNode();
-				currentTreeNode.setParent( currentComplexTypeTreeNode );
-			}else
-			{
-				currentTreeNode = new ATreeNode();
-				currentTreeNode.setParent( root );
-			}
-			currentTreeNode.setValue( value );
-			String elementPath = treatedPath.replaceFirst("//Q[@//E*.//Q]//E","");
-			if( elementPath.endsWith( "attribute" ))
-				currentTreeNode.setType( ATreeNode.ATTRIBUTE_TYPE );
-			else
-				currentTreeNode.setType( ATreeNode.ELEMENT_TYPE );
 		}
 	}
-	
+
 	/**
 	 * Populate the whole tree until all the leaves have no child.
 	 * 
@@ -401,7 +331,49 @@ final class XSDFileSchemaTreePopulator implements ISaxParserConsumer
 			findNodeWithValue( (ATreeNode) children[i], value, container );
 		}
 	}
-}
 
+	/**
+	 * Return the root node of a schema tree.
+	 * 
+	 * @param fileName
+	 * @return
+	 * @throws OdaException
+	 */
+	public static ATreeNode getSchemaTree( String fileName )
+			throws OdaException
+	{
+		try
+		{
+		    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance( );
+			factory.setNamespaceAware( true );
+			DocumentBuilder builder = factory.newDocumentBuilder( );
+
+			Document document = builder.parse( fileName );
+
+			NodeList nodes = document.getChildNodes( );
+			ATreeNode root = new ATreeNode( );
+			root.setValue( "ROOT" );
+			populateNodeList( nodes, root, 0 );
+			populateRoot( root );
+			return root;
+		}
+		catch ( XPathExpressionException e )
+		{
+			throw new OdaException( e.getMessage( ) );
+		}
+		catch ( ParserConfigurationException e )
+		{
+			throw new OdaException( e.getMessage( ) );
+		}
+		catch ( SAXException e )
+		{
+			throw new OdaException( e.getMessage( ) );
+		}
+		catch ( IOException e )
+		{
+			throw new OdaException( e.getMessage( ) );
+		}
+	}
+}
 
 
