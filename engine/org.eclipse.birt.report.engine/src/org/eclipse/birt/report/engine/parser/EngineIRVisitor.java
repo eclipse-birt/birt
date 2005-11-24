@@ -137,7 +137,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.60 $ $Date: 2005/11/22 09:59:58 $
+ * @version $Revision: 1.61 $ $Date: 2005/11/24 07:25:15 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -246,8 +246,10 @@ class EngineIRVisitor extends DesignVisitor
 		for ( int i = 0; i < pageSlot.getCount( ); i++ )
 		{
 			apply( pageSlot.get( i ) );
-			assert ( currentElement != null );
-			pageSetup.addMasterPage( (MasterPageDesign) currentElement );
+			if ( currentElement != null )
+			{
+				pageSetup.addMasterPage( (MasterPageDesign) currentElement );
+			}
 		}
 		// FIXME: add page sequence support
 		// Handle Page Sequence
@@ -268,8 +270,10 @@ class EngineIRVisitor extends DesignVisitor
 		for ( int i = 0; i < bodySlot.getCount( ); i++ )
 		{
 			apply( bodySlot.get( i ) );
-			assert ( currentElement != null );
-			report.addContent( (ReportItemDesign) currentElement );
+			if ( currentElement != null )
+			{
+				report.addContent( (ReportItemDesign) currentElement );
+			}
 		}
 
 		// SCRATCH-PAD
@@ -320,6 +324,12 @@ class EngineIRVisitor extends DesignVisitor
 		page.setMargin( top, left, bottom, right );
 	}
 
+	protected void visitDesignElement( DesignElementHandle obj )
+	{
+		// any unsupported element
+		currentElement = null;
+	}
+
 	public void visitGraphicMasterPage( GraphicMasterPageHandle handle )
 	{
 		GraphicMasterPageDesign page = new GraphicMasterPageDesign( );
@@ -336,8 +346,10 @@ class EngineIRVisitor extends DesignVisitor
 		for ( int i = 0; i < contentSlot.getCount( ); i++ )
 		{
 			apply( contentSlot.get( i ) );
-			assert ( currentElement != null );
-			page.addContent( (ReportItemDesign) currentElement );
+			if ( currentElement != null )
+			{
+				page.addContent( (ReportItemDesign) currentElement );
+			}
 		}
 
 		currentElement = page;
@@ -357,16 +369,20 @@ class EngineIRVisitor extends DesignVisitor
 		for ( int i = 0; i < headerSlot.getCount( ); i++ )
 		{
 			apply( headerSlot.get( i ) );
-			assert ( currentElement != null );
-			page.addHeader( (ReportItemDesign) currentElement );
+			if ( currentElement != null )
+			{
+				page.addHeader( (ReportItemDesign) currentElement );
+			}
 		}
 
 		SlotHandle footerSlot = handle.getPageFooter( );
 		for ( int i = 0; i < footerSlot.getCount( ); i++ )
 		{
 			apply( footerSlot.get( i ) );
-			assert ( currentElement != null );
-			page.addFooter( (ReportItemDesign) currentElement );
+			if ( currentElement != null )
+			{
+				page.addFooter( (ReportItemDesign) currentElement );
+			}
 		}
 
 		currentElement = page;
@@ -387,7 +403,10 @@ class EngineIRVisitor extends DesignVisitor
 		for ( int i = 0; i < groupsSlot.getCount( ); i++ )
 		{
 			apply( groupsSlot.get( i ) );
-			listItem.addGroup( (ListGroupDesign) currentElement );
+			if ( currentElement != null )
+			{
+				listItem.addGroup( (ListGroupDesign) currentElement );
+			}
 		}
 
 		// List detail
@@ -412,7 +431,10 @@ class EngineIRVisitor extends DesignVisitor
 		for ( int i = 0; i < slot.getCount( ); i++ )
 		{
 			apply( slot.get( i ) );
-			container.addItem( (ReportItemDesign) currentElement );
+			if ( currentElement != null )
+			{
+				container.addItem( (ReportItemDesign) currentElement );
+			}
 		}
 
 		currentElement = container;
@@ -459,7 +481,10 @@ class EngineIRVisitor extends DesignVisitor
 		for ( int n = 0; n < size; n++ )
 		{
 			apply( parameters.get( n ) );
-			paramGroup.addParameter( (IParameterDefnBase) currentElement );
+			if ( currentElement != null )
+			{
+				paramGroup.addParameter( (IParameterDefnBase) currentElement );
+			}
 		}
 
 		currentElement = paramGroup;
@@ -497,7 +522,10 @@ class EngineIRVisitor extends DesignVisitor
 		for ( int n = 0; n < size; n++ )
 		{
 			apply( parameters.get( n ) );
-			paramGroup.addParameter( (IParameterDefnBase) currentElement );
+			if ( currentElement != null )
+			{
+				paramGroup.addParameter( (IParameterDefnBase) currentElement );
+			}
 		}
 
 		currentElement = paramGroup;
@@ -660,11 +688,13 @@ class EngineIRVisitor extends DesignVisitor
 		{
 			ColumnHandle columnHandle = (ColumnHandle) columnSlot.get( i );
 			apply( columnHandle );
-			assert currentElement != null;
-			ColumnDesign columnDesign = (ColumnDesign) currentElement;
-			for ( int j = 0; j < columnHandle.getRepeatCount( ); j++ )
+			if ( currentElement != null )
 			{
-				grid.addColumn( columnDesign );
+				ColumnDesign columnDesign = (ColumnDesign) currentElement;
+				for ( int j = 0; j < columnHandle.getRepeatCount( ); j++ )
+				{
+					grid.addColumn( columnDesign );
+				}
 			}
 		}
 
@@ -673,7 +703,10 @@ class EngineIRVisitor extends DesignVisitor
 		for ( int i = 0; i < rowSlot.getCount( ); i++ )
 		{
 			apply( rowSlot.get( i ) );
-			grid.addRow( (RowDesign) currentElement );
+			if ( currentElement != null )
+			{
+				grid.addRow( (RowDesign) currentElement );
+			}
 		}
 
 		new TableItemDesignLayout( ).layout( grid );
@@ -752,11 +785,13 @@ class EngineIRVisitor extends DesignVisitor
 		{
 			ColumnHandle columnHandle = (ColumnHandle) columnSlot.get( i );
 			apply( columnHandle );
-			assert currentElement != null;
-			ColumnDesign columnDesign = (ColumnDesign) currentElement;
-			for ( int j = 0; j < columnHandle.getRepeatCount( ); j++ )
+			if ( currentElement != null )
 			{
-				table.addColumn( columnDesign );
+				ColumnDesign columnDesign = (ColumnDesign) currentElement;
+				for ( int j = 0; j < columnHandle.getRepeatCount( ); j++ )
+				{
+					table.addColumn( columnDesign );
+				}
 			}
 		}
 
@@ -770,7 +805,10 @@ class EngineIRVisitor extends DesignVisitor
 		for ( int i = 0; i < groupSlot.getCount( ); i++ )
 		{
 			apply( groupSlot.get( i ) );
-			table.addGroup( (TableGroupDesign) currentElement );
+			if ( currentElement != null )
+			{
+				table.addGroup( (TableGroupDesign) currentElement );
+			}
 		}
 
 		// Handle detail section
@@ -825,7 +863,10 @@ class EngineIRVisitor extends DesignVisitor
 		for ( int i = 0; i < cellSlot.getCount( ); i++ )
 		{
 			apply( cellSlot.get( i ) );
-			row.addCell( (CellDesign) currentElement );
+			if ( currentElement != null )
+			{
+				row.addCell( (CellDesign) currentElement );
+			}
 		}
 
 		currentElement = row;
@@ -863,7 +904,10 @@ class EngineIRVisitor extends DesignVisitor
 		for ( int i = 0; i < contentSlot.getCount( ); i++ )
 		{
 			apply( contentSlot.get( i ) );
-			cell.addContent( (ReportItemDesign) currentElement );
+			if ( currentElement != null )
+			{
+				cell.addContent( (ReportItemDesign) currentElement );
+			}
 		}
 
 		// Span, Drop properties of a cell
@@ -897,8 +941,10 @@ class EngineIRVisitor extends DesignVisitor
 		for ( int i = 0; i < elements.getCount( ); i++ )
 		{
 			apply( elements.get( i ) );
-			assert ( currentElement != null );
-			band.addContent( (ReportItemDesign) currentElement );
+			if ( currentElement != null )
+			{
+				band.addContent( (ReportItemDesign) currentElement );
+			}
 		}
 
 		return band;
@@ -1003,7 +1049,10 @@ class EngineIRVisitor extends DesignVisitor
 		for ( int i = 0; i < elements.getCount( ); i++ )
 		{
 			apply( elements.get( i ) );
-			band.addRow( (RowDesign) currentElement );
+			if ( currentElement != null )
+			{
+				band.addRow( (RowDesign) currentElement );
+			}
 		}
 
 		return band;
