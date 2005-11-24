@@ -33,8 +33,10 @@ import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -860,6 +862,11 @@ public class InsertInLayoutUtil
 		else if ( insertObj instanceof IStructuredSelection )
 		{
 			return handleValidateInsert( ( (IStructuredSelection) insertObj ).toArray( ) );
+		}
+		else if ( insertObj instanceof ParameterHandle )
+		{
+			if ( ( (ParameterHandle) insertObj ).getRoot( ) instanceof LibraryHandle )
+				return false;
 		}
 		return insertObj instanceof DataSetHandle
 				|| insertObj instanceof DataSetItemModel

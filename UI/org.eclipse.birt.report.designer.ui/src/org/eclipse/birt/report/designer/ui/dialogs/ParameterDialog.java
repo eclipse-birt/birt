@@ -973,7 +973,7 @@ public class ParameterDialog extends BaseDialog
 			DataSetHandle dataSet = (DataSetHandle) iter.next( );
 			if ( !dataSet.parametersIterator( ).hasNext( ) )
 			{
-				avaiableList.add( dataSet.getName( ) );
+				avaiableList.add( dataSet.getQualifiedName( ) );
 			}
 		}
 		String[] newList = (String[]) avaiableList.toArray( new String[]{} );
