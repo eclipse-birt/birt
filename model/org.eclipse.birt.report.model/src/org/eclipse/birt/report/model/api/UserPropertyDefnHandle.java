@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.util.List;
-
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -24,8 +22,14 @@ import org.eclipse.birt.report.model.command.UserPropertyCommand;
  * @see org.eclipse.birt.report.model.api.core.UserPropertyDefn
  */
 
-public class UserPropertyDefnHandle extends PropertyHandle
+public class UserPropertyDefnHandle extends ElementDetailHandle
 {
+
+	/**
+	 * The user property definition of the handle. It must not be null.
+	 */
+
+	private UserPropertyDefn propDefn = null;
 
 	/**
 	 * Constructs a handle for the user-defined property with the given element
@@ -40,7 +44,9 @@ public class UserPropertyDefnHandle extends PropertyHandle
 	public UserPropertyDefnHandle( DesignElementHandle element,
 			UserPropertyDefn prop )
 	{
-		super( element, prop );
+		super( element );
+		this.propDefn = prop;
+		assert prop != null;
 	}
 
 	/**
@@ -55,7 +61,11 @@ public class UserPropertyDefnHandle extends PropertyHandle
 
 	public UserPropertyDefnHandle( DesignElementHandle element, String propName )
 	{
-		super( element, propName );
+		super( element );
+		propDefn = element.getElement( ).getUserPropertyDefn( propName );
+		if ( propDefn == null )
+			throw new IllegalArgumentException(
+					"The user property \"" + propName + "\" does not exsit!" ); //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	/**
@@ -66,7 +76,7 @@ public class UserPropertyDefnHandle extends PropertyHandle
 
 	public String getName( )
 	{
-		return getDefn( ).getName( );
+		return propDefn.getName( );
 	}
 
 	/**
@@ -79,7 +89,7 @@ public class UserPropertyDefnHandle extends PropertyHandle
 
 	public int getType( )
 	{
-		return getDefn( ).getTypeCode( );
+		return propDefn.getTypeCode( );
 	}
 
 	/**
@@ -90,7 +100,7 @@ public class UserPropertyDefnHandle extends PropertyHandle
 
 	public String getDisplayName( )
 	{
-		return getDefn( ).getDisplayName( );
+		return propDefn.getDisplayName( );
 	}
 
 	/**
@@ -111,7 +121,7 @@ public class UserPropertyDefnHandle extends PropertyHandle
 	{
 		UserPropertyCommand cmd = new UserPropertyCommand( elementHandle
 				.getModule( ), getElement( ) );
-		cmd.setPropertyDefn( (UserPropertyDefn) getDefn( ), prop );
+		cmd.setPropertyDefn( propDefn, prop );
 	}
 
 	/**
@@ -123,8 +133,18 @@ public class UserPropertyDefnHandle extends PropertyHandle
 
 	public UserPropertyDefn getCopy( )
 	{
-		UserPropertyDefn prop = (UserPropertyDefn) ( (UserPropertyDefn) getDefn( ) )
-				.copy( );
+		UserPropertyDefn prop = (UserPropertyDefn) ( propDefn ).copy( );
 		return prop;
+	}
+
+	/**
+	 * Gets the user-defined property of this handle.
+	 * 
+	 * @return the user-defined property of this handle
+	 */
+
+	public UserPropertyDefn getDefn( )
+	{
+		return this.propDefn;
 	}
 }

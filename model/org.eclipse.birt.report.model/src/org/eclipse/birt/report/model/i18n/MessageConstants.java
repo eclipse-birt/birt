@@ -228,7 +228,8 @@ public interface MessageConstants
 	public static final String USER_PROPERTY_EXCEPTION_INVALID_CHOICE_VALUE = "Error.UserPropertyException.INVALID_CHOICE_VALUE"; //$NON-NLS-1$
 	public static final String USER_PROPERTY_EXCEPTION_CHOICE_NAME_REQUIRED = "Error.UserPropertyException.CHOICE_NAME_REQUIRED"; //$NON-NLS-1$
 	public static final String USER_PROPERTY_EXCEPTION_INVALID_DEFINITION = "Error.UserPropertyException.INVALID_DEFINITION"; //$NON-NLS-1$
-
+	public static final String USER_PROPERTY_EXCEPTION_INVALID_DEFAULT_VALUE = "Error.UserPropertyException.INVALID_DEFAULT_VALUE"; //$NON-NLS-1$
+	
 	// MetaDataReaderException
 	public static final String META_DATA_READER_EXCEPTION_META_DATA_ERROR = "Error.MetaDataReaderException.META_DATA_ERROR"; //$NON-NLS-1$
 
@@ -257,4 +258,5 @@ public interface MessageConstants
 	public static final String TEMPLATE_EXCEPTION_CREATE_TEMPLATE_ELEMENT_FORBIDDEN = "Error.TemplateException.CREATE_TEMPLATE_ELEMENT_FORBIDDEN"; //$NON-NLS-1$
 	public static final String TEMPLATE_EXCEPTION_TEMPLATE_ELEMENT_NOT_SUPPORTED = "Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED"; //$NON-NLS-1$
 	public static final String TEMPLATE_EXCEPTION_REVERT_TO_TEMPLATE_FORBIDDEN = "Error.TemplateException.REVERT_TO_TEMPLATE_FORBIDDEN"; //$NON-NLS-1$
+	
 }

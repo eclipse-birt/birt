@@ -34,7 +34,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
 /**
  * Creates, modifies and deletes user-defined property, which is also known as
  * user property.
- *  
+ * 
  */
 
 public class UserPropertyCommand extends AbstractElementCommand
@@ -315,9 +315,10 @@ public class UserPropertyCommand extends AbstractElementCommand
 					UserPropertyException.DESIGN_EXCEPTION_NAME_REQUIRED );
 
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		if ( dd.getPropertyType( prop.getTypeCode( ) ) == null
-				|| prop.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE
-				|| prop.getTypeCode( ) == PropertyType.STRUCT_TYPE )
+		List supportedTypes = UserPropertyDefn.getAllowedTypes( );
+		assert supportedTypes != null;
+		if ( !supportedTypes
+				.contains( dd.getPropertyType( prop.getTypeCode( ) ) ) )
 			throw new UserPropertyException( element, name,
 					UserPropertyException.DESIGN_EXCEPTION_INVALID_TYPE );
 
@@ -383,6 +384,25 @@ public class UserPropertyCommand extends AbstractElementCommand
 								UserPropertyException.DESIGN_EXCEPTION_INVALID_CHOICE_VALUE );
 					}
 				}
+			}
+		}
+
+		// build the default value
+
+		Object defaultValue = prop.getDefault( );
+		if ( defaultValue != null )
+		{
+			try
+			{
+				prop.validateValue( getModule( ), defaultValue );
+			}
+			catch ( PropertyValueException e )
+			{
+				throw new UserPropertyException(
+						element,
+						name,
+						UserPropertyException.DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE,
+						e, new String[]{defaultValue.toString( ), prop.getType().getName()} );
 			}
 		}
 

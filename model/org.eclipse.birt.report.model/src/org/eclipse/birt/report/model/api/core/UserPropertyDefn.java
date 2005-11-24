@@ -27,15 +27,11 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.ElementRefPropertyType;
-import org.eclipse.birt.report.model.metadata.ExtendsPropertyType;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.MetaDataException;
 import org.eclipse.birt.report.model.metadata.MethodInfo;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
-import org.eclipse.birt.report.model.metadata.StructPropertyType;
-import org.eclipse.birt.report.model.metadata.StructRefPropertyType;
 
 /**
  * Represents a user-defined property. User-defined properties are created by
@@ -133,12 +129,17 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 		while ( iter.hasNext( ) )
 		{
 			PropertyType propType = (PropertyType) iter.next( );
-			if ( propType instanceof StructPropertyType
-					|| propType instanceof StructRefPropertyType
-					|| propType instanceof ElementRefPropertyType
-					|| propType instanceof ExtendsPropertyType )
-				continue;
-			allowedTypes.add( propType );
+			int type = propType.getTypeCode( );
+			switch ( type )
+			{
+				case PropertyType.STRUCT_TYPE :
+				case PropertyType.STRUCT_REF_TYPE :
+				case PropertyType.ELEMENT_REF_TYPE :
+				case PropertyType.EXTENDS_TYPE :
+					break;
+				default :
+					allowedTypes.add( propType );
+			}
 		}
 
 		return allowedTypes;
@@ -529,8 +530,38 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 * 
 	 * @see org.eclipse.birt.report.model.api.core.IStructure#isReferencable()
 	 */
+
 	public boolean isReferencable( )
 	{
 		return false;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#setDefault(java.lang.Object)
+	 */
+
+	public void setDefault( Object value )
+	{
+		super.setDefault( value );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.ElementPropertyDefn#build()
+	 */
+
+	public void build( ) throws MetaDataException
+	{
+		// Check consistency of options. A style property that is meant
+		// to be used by multiple elements cannot also be intrinsic:
+		// defined by a member variable.
+
+		if ( isIntrinsic( ) && isStyleProperty( ) )
+			throw new MetaDataException( new String[]{name},
+					MetaDataException.DESIGN_EXCEPTION_INCONSISTENT_PROP_TYPE );
+	}
+
 }

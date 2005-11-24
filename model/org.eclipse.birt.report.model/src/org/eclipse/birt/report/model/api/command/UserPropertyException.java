@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api.command;
 
+import org.eclipse.birt.report.model.api.ModelException;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
@@ -19,7 +20,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataException;
 
 /**
  * Reports an error during a user property operation.
- *  
+ * 
  */
 
 public class UserPropertyException extends SemanticException
@@ -28,7 +29,7 @@ public class UserPropertyException extends SemanticException
 	/**
 	 * Comment for <code>serialVersionUID</code>.
 	 */
-	
+
 	private static final long serialVersionUID = -2257635814080094408L;
 
 	/**
@@ -109,6 +110,13 @@ public class UserPropertyException extends SemanticException
 	public static final String DESIGN_EXCEPTION_INVALID_CHOICE_VALUE = MessageConstants.USER_PROPERTY_EXCEPTION_INVALID_CHOICE_VALUE;
 
 	/**
+	 * Error code indicating the default value is invalid for the user property
+	 * type.
+	 */
+
+	public static final String DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE = MessageConstants.USER_PROPERTY_EXCEPTION_INVALID_DEFAULT_VALUE;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param obj
@@ -146,6 +154,28 @@ public class UserPropertyException extends SemanticException
 	}
 
 	/**
+	 * Constructor.
+	 * 
+	 * @param obj
+	 *            the element to be changed
+	 * @param name
+	 *            the name of the user property
+	 * @param errCode
+	 *            the error code
+	 * @param cause
+	 *            the nested exception
+	 * @param args
+	 *            argument array used for error message
+	 */
+
+	public UserPropertyException( DesignElement obj, String name,
+			String errCode, ModelException cause, String[] args )
+	{
+		super( obj, args, errCode, cause );
+		propertyName = name;
+	}
+
+	/**
 	 * Gets the name of the property that caused the problem.
 	 * 
 	 * @return the property name.
@@ -177,6 +207,13 @@ public class UserPropertyException extends SemanticException
 		{
 			return ModelMessages.getMessage( sResourceKey,
 					new String[]{getElementName( element )} );
+		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE )
+		{
+			assert oaMessageArguments.length == 2;
+			return ModelMessages.getMessage( sResourceKey, new String[]{
+					getElementName( element ), propertyName,
+					(String)oaMessageArguments[0], (String)oaMessageArguments[1]} );
 		}
 
 		return ModelMessages.getMessage( sResourceKey );

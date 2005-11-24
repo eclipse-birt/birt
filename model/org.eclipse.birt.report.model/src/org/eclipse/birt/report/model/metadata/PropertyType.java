@@ -44,12 +44,12 @@ public abstract class PropertyType implements IPropertyType
 	 */
 
 	private String displayNameKey = null;
-	
+
 	/**
 	 * The default locale of all the BIRT meta-data.
 	 */
-	
-	protected static final Locale DEFAULT_LOCALE = Locale.ENGLISH; 
+
+	protected static final Locale DEFAULT_LOCALE = Locale.ENGLISH;
 
 	/**
 	 * Constructs a property type given its display name id.
@@ -181,8 +181,8 @@ public abstract class PropertyType implements IPropertyType
 	 *             if the value is not valid
 	 */
 
-	abstract public Object validateValue( Module module,
-			PropertyDefn defn, Object value ) throws PropertyValueException;
+	abstract public Object validateValue( Module module, PropertyDefn defn,
+			Object value ) throws PropertyValueException;
 
 	/**
 	 * Validate a user input value for this property, the value is one that
@@ -229,8 +229,8 @@ public abstract class PropertyType implements IPropertyType
 	 *             if the value is not valid
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn,
-			String value ) throws PropertyValueException
+	public Object validateXml( Module module, PropertyDefn defn, String value )
+			throws PropertyValueException
 	{
 		return validateValue( module, defn, value );
 	}
@@ -360,11 +360,13 @@ public abstract class PropertyType implements IPropertyType
 	{
 		return toInteger( module, value ) != 0;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	
+
 	public String toString( )
 	{
 		if ( !StringUtil.isBlank( getName( ) ) )
@@ -372,4 +374,20 @@ public abstract class PropertyType implements IPropertyType
 		return super.toString( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	
+	public boolean equals( Object obj )
+	{
+		if ( obj instanceof IPropertyType )
+		{
+			if ( getTypeCode( ) == ( (IPropertyType) obj ).getTypeCode( ) )
+				return true;
+		}
+
+		return false;
+	}
 }
