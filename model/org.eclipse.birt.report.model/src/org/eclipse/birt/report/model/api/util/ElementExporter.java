@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -315,8 +316,13 @@ class ElementExporter
 						.getModuleHandle( ) )
 			slotID = Module.COMPONENT_SLOT;
 
-		SlotHandle slotHandle = targetLibraryHandle.getSlot( slotID );
+		// if the element only exist in the report design such as template
+		// element definition, do not export it.
 
+		if ( slotID >= Library.SLOT_COUNT )
+			return;
+
+		SlotHandle slotHandle = targetLibraryHandle.getSlot( slotID );
 		addToSlot( slotHandle, newElementHandle );
 	}
 
@@ -419,8 +425,6 @@ class ElementExporter
 		for ( int i = 0; i < slotCount; i++ )
 		{
 			SlotHandle sourceSlotHandle = designToExport.getSlot( i );
-			// SlotHandle destinationSlotHandle = targetLibraryHandle.getSlot( i
-			// );
 
 			Iterator iter = sourceSlotHandle.iterator( );
 			while ( iter.hasNext( ) )
@@ -429,13 +433,7 @@ class ElementExporter
 						.next( );
 
 				if ( !StringUtil.isBlank( contentHandle.getName( ) ) )
-				{
-//					DesignElementHandle newContentHandle = duplicateElement(
-//							contentHandle, false );
-
 					exportElement( contentHandle, false );
-					 //addToSlot( destinationSlotHandle, newContentHandle );
-				}
 			}
 		}
 	}

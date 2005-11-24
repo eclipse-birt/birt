@@ -876,10 +876,10 @@ public abstract class DesignElement
 		}
 
 		// The element is not in the tree.
-		
-		if( parent == null )
+
+		if ( parent == null )
 			return null;
-		
+
 		assert parent.getContainer( ) instanceof Module;
 
 		return parent.getRoot( ).getElementByID( baseId );
@@ -960,7 +960,8 @@ public abstract class DesignElement
 	 * @return the property value, or null if no value is set.
 	 */
 
-	protected Object getPropertyFromSelf( Module module, ElementPropertyDefn prop )
+	protected Object getPropertyFromSelf( Module module,
+			ElementPropertyDefn prop )
 	{
 		// 1). If we can find the value here, return it.
 
@@ -3067,8 +3068,11 @@ public abstract class DesignElement
 				slot = container.getContainerSlot( );
 				container = container.getContainer( );
 			}
-
+			
+			if ( module instanceof Library )
+				return false;
 		}
+				
 		return true;
 	}
 
