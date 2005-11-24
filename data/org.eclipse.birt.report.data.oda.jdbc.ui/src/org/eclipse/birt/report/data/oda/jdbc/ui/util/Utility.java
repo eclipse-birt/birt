@@ -44,7 +44,7 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.17 $ $Date: 2005/09/21 07:52:42 $
+ * @version $Revision: 1.18 $ $Date: 2005/09/23 10:54:32 $
  */
 public class Utility
 {
@@ -66,15 +66,7 @@ public class Utility
 
     public static String getUserProperty(DesignElementHandle ds, String propertyName)
     {
-        String returnValue = null;
-        UserPropertyDefnHandle handle = ds.getUserPropertyDefnHandle(propertyName);
-        if(handle != null)
-        {
-            returnValue = handle.getStringValue();
-        }
-    
-        
-        return returnValue;
+    	return ds.getStringProperty( propertyName );
     }
 
     public static void setUserProperty(DesignElementHandle ds, String propertyName, String value)
