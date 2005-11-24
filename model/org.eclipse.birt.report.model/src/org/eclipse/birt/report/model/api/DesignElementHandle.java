@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -1639,15 +1640,35 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * 
 	 * @return true if it can be edited. false if it can't.
 	 */
-
 	public boolean canEdit( )
 	{
-		Module root = getElement( ).getRoot( ) == null
+				Module root = getElement( ).getRoot( ) == null
 				? getModule( )
 				: getElement( ).getRoot( );
 				
 		assert root != null;
 		return !root.isReadOnly( );
+
+	}
+
+	/**
+	 * Determines if the current element can be transformed to a template
+	 * element. False will be returned if the element can not be dropped or the
+	 * container of the current element can not contain the template element.
+	 * 
+	 * @return
+	 * 		true if it can be transformed, otherwise false.
+	 */
+	public boolean canTransformToTemplate( )
+	{
+		if ( !canDrop( ) )
+			return false;
+
+		if ( getContainer() != null )
+		return getContainer( ).canContain( getContainerSlotHandle( ).slotID,
+				ReportDesignConstants.TEMPLATE_ELEMENT );
+		
+		return true;
 	}
 
 	/**
