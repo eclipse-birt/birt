@@ -16,8 +16,6 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
@@ -40,7 +38,6 @@ public class WizardBase
 			IRegistrationListener,
 			SelectionListener,
 			ControlListener,
-			KeyListener,
 			DisposeListener
 {
 
@@ -84,7 +81,7 @@ public class WizardBase
 
 	// TRANSIENT STORAGE FOR ERRORS REPORTED BY TASKS USING 'errorDisplay()'
 	private transient Object[] errorHints = null;
-	
+
 	private transient boolean bWasCancelled = true;
 
 	/**
@@ -130,7 +127,6 @@ public class WizardBase
 			shell.setImage( wizardImage );
 		}
 		shell.addControlListener( this );
-		shell.addKeyListener( this );
 
 		// Initialize and layout UI components of the framework
 		tasklist = new TaskList( shell, SWT.NONE, this );
@@ -177,15 +173,12 @@ public class WizardBase
 				display.sleep( );
 			}
 		}
-		
-		if( !bWasCancelled )
+
+		if ( !bWasCancelled )
 		{
 			return this.context;
 		}
-		else
-		{
-			return null;
-		}
+		return null;
 	}
 
 	public void enable( String sTaskID )
@@ -639,19 +632,9 @@ public class WizardBase
 		// TODO Add cleanup code here...including removal of adapters
 	}
 
-	public void keyPressed( KeyEvent e )
+	public void setTitle( String wizardTitle )
 	{
-		if ( e.keyCode == SWT.ESC )
-		{
-			// Same as clicking Cancel
-			context = null;
-			shell.dispose( );
-		}
-	}
-
-	public void keyReleased( KeyEvent e )
-	{
-		// do nothing
+		this.wizardTitle = wizardTitle;
 	}
 
 	/**
@@ -677,7 +660,7 @@ public class WizardBase
 		{
 			shell.setSize( oldSize );
 			shell.layout( );
-		}		
+		}
 	}
 }
 

@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TasksManager;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -50,7 +51,7 @@ public class ChartWizard extends WizardBase
 		super( WIZARD_ID,
 				SWT.DEFAULT,
 				SWT.DEFAULT,
-				Messages.getString( "ChartWizard.ChartBuilder" ), //$NON-NLS-1$
+				Messages.getString( "ChartWizard.Title.ChartBuilder" ), //$NON-NLS-1$
 				UIHelper.getImage( "icons/obj16/chartselector.gif" ) ); //$NON-NLS-1$
 		adapter = new ChartAdapter( this );
 	}
@@ -134,5 +135,18 @@ public class ChartWizard extends WizardBase
 		return getContext( ).getUIServiceProvider( )
 				.validate( getContext( ).getModel( ),
 						getContext( ).getExtendedItem( ) );
+	}
+
+	public IWizardContext open( String[] sTasks, IWizardContext initialContext )
+	{
+		if ( ( (ChartWizardContext) initialContext ).getModel( ) == null )
+		{
+			setTitle( Messages.getString( "ChartWizard.Title.NewChart" ) ); //$NON-NLS-1$
+		}
+		else
+		{
+			setTitle( Messages.getString( "ChartWizard.Title.EditChart" ) ); //$NON-NLS-1$
+		}
+		return super.open( sTasks, initialContext );
 	}
 }
