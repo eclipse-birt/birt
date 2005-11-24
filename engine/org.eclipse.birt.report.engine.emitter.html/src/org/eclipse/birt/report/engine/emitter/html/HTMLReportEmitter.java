@@ -40,6 +40,7 @@ import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.api.impl.Image;
@@ -79,7 +80,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.51 $ $Date: 2005/11/23 01:49:32 $
+ * @version $Revision: 1.52 $ $Date: 2005/11/24 09:02:17 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -713,6 +714,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		writer.openTag( HTMLTags.TAG_TABLE );
 
+		// Instance ID
+		InstanceID iid = table.getInstanceID( );
+		if ( iid != null )
+		{
+			writer.attribute( "iid", iid.toString( ) );
+		}
 		// style string
 		setStyleName( table.getStyleClass( ) );
 		int display = checkElementType( x, y, mergedStyle, styleBuffer );
