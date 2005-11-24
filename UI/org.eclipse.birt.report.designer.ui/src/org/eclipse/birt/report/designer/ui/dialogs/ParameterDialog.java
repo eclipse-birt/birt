@@ -470,8 +470,7 @@ public class ParameterDialog extends BaseDialog
 				}
 				if ( COLUMN_VALUE.equals( property ) )
 				{
-					if ( isDefaultChoice( choice )
-							&& !PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ) )
+					if ( isDefaultChoice( choice ) )
 					{
 						defaultValue = newValue;
 					}
@@ -726,16 +725,6 @@ public class ParameterDialog extends BaseDialog
 		{
 			promptTextEditor.setText( inputParameter.getDisplayName( ) );
 		}
-		if ( isStatic( )
-				&& !DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( inputParameter.getControlType( ) )
-				&& ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( inputParameter.getDataType( ) ) || DesignChoiceConstants.PARAM_TYPE_STRING.equals( inputParameter.getDataType( ) ) ) )
-		{
-			defaultValue = removeQuoteString( inputParameter.getDefaultValue( ) );
-		}
-		else
-		{
-			defaultValue = inputParameter.getDefaultValue( );
-		}
 		helpTextEditor.setText( UIUtil.convertToGUIString( inputParameter.getHelpText( ) ) );
 		if ( inputParameter.getValueType( )
 				.equals( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC ) )
@@ -753,7 +742,16 @@ public class ParameterDialog extends BaseDialog
 		{
 			dynamicRadio.setSelection( true );
 		}
-
+		if ( isStatic( )
+				&& !DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( inputParameter.getControlType( ) )
+				&& ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( inputParameter.getDataType( ) ) || DesignChoiceConstants.PARAM_TYPE_STRING.equals( inputParameter.getDataType( ) ) ) )
+		{
+			defaultValue = removeQuoteString( inputParameter.getDefaultValue( ) );
+		}
+		else
+		{
+			defaultValue = inputParameter.getDefaultValue( );
+		}
 		if ( inputParameter.getPropertyHandle( ScalarParameterHandle.LIST_LIMIT_PROP )
 				.isSet( ) )
 		{
