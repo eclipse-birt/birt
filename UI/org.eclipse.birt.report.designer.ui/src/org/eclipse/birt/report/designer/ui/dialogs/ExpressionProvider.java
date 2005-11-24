@@ -116,11 +116,8 @@ public class ExpressionProvider implements IExpressionProvider
 			new Operator( "-", "ExpressionProvider.Operator.Sub" ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "*", "ExpressionProvider.Operator.Mult" ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "/", "ExpressionProvider.Operator.Dvides" ), //$NON-NLS-1$ //$NON-NLS-2$ 
-			new Operator( "++X ", "ExpressionProvider.Operator.Inc", "++@" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
-			new Operator( "X++ ", "ExpressionProvider.Operator.ReturnInc", "@++" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			new Operator( "--X ", "ExpressionProvider.Operator.Dec", "--@" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			new Operator( "X-- ", "ExpressionProvider.Operator.ReturnDec", "@--" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-
+			new Operator( "++ ", "ExpressionProvider.Operator.Inc", "++" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+			new Operator( "-- ", "ExpressionProvider.Operator.Dec", "--" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	};
 
 	/** Logical operators and their descriptions */

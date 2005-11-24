@@ -623,30 +623,6 @@ public class ExpressionBuilder extends TitleAreaDialog
 			return;
 		}
 		int selectionStart = textWidget.getSelection( ).x;
-		// character replacement
-		StringBuffer insertText = new StringBuffer( );
-		for ( int index; ( index = text.indexOf( "@" ) ) != -1; )
-		{
-			insertText.append( text.substring( 0, index ) );
-			if ( index == text.length( ) - 1 )
-			{
-				insertText.append( textWidget.getSelectionText( ) );
-				text = "";
-			}
-			else if ( text.charAt( index + 1 ) != '@' )
-			{
-				insertText.append( textWidget.getSelectionText( ) );
-				text = text.substring( index + 1 );
-			}
-			else
-			{
-				insertText.append( "@" );
-				text = text.substring( index + 2 );
-			}
-		}
-		insertText.append( text );
-		text = insertText.toString( );
-
 		textWidget.insert( text );
 		textWidget.setSelection( selectionStart + text.length( ) );
 		textWidget.setFocus( );
