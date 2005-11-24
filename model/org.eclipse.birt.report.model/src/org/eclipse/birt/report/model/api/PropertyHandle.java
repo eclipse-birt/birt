@@ -222,7 +222,8 @@ public class PropertyHandle extends SimpleValueHandle
 	public boolean isReadOnly( )
 	{
 		IElementDefn elementDefn = getElementHandle( ).getDefn( );
-		if ( elementDefn.isPropertyReadOnly( propDefn.getName( ) ) )
+		if ( elementDefn.isPropertyReadOnly( propDefn.getName( ) )
+				&& !propDefn.isUserProperty( ) )
 			return true;
 		Module root = getElement( ).getRoot( ) == null
 				? getModule( )
