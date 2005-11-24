@@ -30,7 +30,7 @@ import org.eclipse.birt.report.engine.script.ListScriptExecutor;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.25 $ $Date: 2005/11/22 09:59:57 $
+ * @version $Revision: 1.26 $ $Date: 2005/11/24 01:02:44 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -135,8 +135,9 @@ public class ListItemExecutor extends ListingElementExecutor
 				if ( context.isInFactory( ) )
 				{
 					// TODO: Where do we get the content object from??
-					DetailRowScriptExecutor.handleOnCreate( null,
-							expressionResults, context );
+					// It will throw out an NullPointException for list item, so remove it.
+					//DetailRowScriptExecutor.handleOnCreate( null,
+					//		expressionResults, context );
 				}
 				if ( needPageBreak )
 				{
