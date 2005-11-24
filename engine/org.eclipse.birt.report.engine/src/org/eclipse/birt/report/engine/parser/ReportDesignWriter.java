@@ -48,7 +48,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * visitor used to write the IR.
  * 
- * @version $Revision: 1.11 $ $Date: 2005/05/26 07:39:42 $
+ * @version $Revision: 1.12 $ $Date: 2005/11/11 06:26:47 $
  */
 class ReportDesignWriter
 {
@@ -394,7 +394,7 @@ class ReportDesignWriter
 			pushTag( "multi-line" ); //$NON-NLS-1$
 			writeReportItem( multiLine );
 			pushTag( "content-type" ); //$NON-NLS-1$
-			text( multiLine.getContentType( ).getExpr( ) );
+			text( multiLine.getContentType( ) );
 			popTag( );
 			pushTag( "content" ); //$NON-NLS-1$
 			text( multiLine.getContent( ).getExpr( ) );

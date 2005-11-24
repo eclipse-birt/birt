@@ -91,10 +91,11 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.38 $ $Date: 2005/11/22 09:30:33 $
+ * @version $Revision: 1.39 $ $Date: 2005/11/22 20:12:42 $
  */
 public class ReportQueryBuilder
 {
+
 	protected static Logger logger = Logger.getLogger( ReportQueryBuilder.class
 			.getName( ) );
 
@@ -118,6 +119,7 @@ public class ReportQueryBuilder
 	 */
 	protected class QueryBuilderVisitor extends DefaultReportItemVisitorImpl
 	{
+
 		/**
 		 * query and it's IDs
 		 */
@@ -189,7 +191,8 @@ public class ReportQueryBuilder
 		 * Handles query creation and initialization with report-item related
 		 * expressions
 		 * 
-		 * @param item report item
+		 * @param item
+		 *            report item
 		 */
 		private BaseQueryDefinition prepareVisit( ReportItemDesign item )
 		{
@@ -525,7 +528,6 @@ public class ReportQueryBuilder
 			BaseQueryDefinition query = prepareVisit( multiLine );
 			handleReportItemExpressions( multiLine );
 			addExpression( multiLine.getContent( ) );
-			addExpression( multiLine.getContentType( ) );
 			finishVisit( query );
 			return value;
 		}
@@ -893,8 +895,10 @@ public class ReportQueryBuilder
 						.getProperty( ReportItemHandle.DATA_SET_PROP );
 				if ( dsName != null && dsName.length( ) > 0 )
 				{
-					context.addException( item.getHandle( ), new EngineException(
-							MessageConstants.UNDEFINED_DATASET_ERROR, dsName ) );
+					context.addException( item.getHandle( ),
+							new EngineException(
+									MessageConstants.UNDEFINED_DATASET_ERROR,
+									dsName ) );
 				}
 			}
 

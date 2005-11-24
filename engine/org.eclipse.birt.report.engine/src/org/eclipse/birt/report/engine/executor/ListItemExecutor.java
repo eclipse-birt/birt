@@ -17,20 +17,18 @@ import org.eclipse.birt.report.engine.api.script.ExpressionResults;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.ContainerContent;
-import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.script.DetailRowScriptExecutor;
 import org.eclipse.birt.report.engine.script.ListScriptExecutor;
 
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.26 $ $Date: 2005/11/24 01:02:44 $
+ * @version $Revision: 1.27 $ $Date: 2005/11/24 06:22:23 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {

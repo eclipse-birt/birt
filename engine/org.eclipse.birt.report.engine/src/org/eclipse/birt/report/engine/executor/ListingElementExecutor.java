@@ -164,6 +164,8 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 					}
 				} while ( rset.next( ) );
 			}
+			//we never add page break before the table header and the last row 
+			needPageBreak = false;
 			accessFooter( listing, outputEmitter );
 		}
 	}
