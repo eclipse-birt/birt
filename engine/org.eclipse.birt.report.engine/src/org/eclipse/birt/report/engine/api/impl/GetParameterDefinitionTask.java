@@ -522,7 +522,7 @@ public class GetParameterDefinitionTask extends EngineTask
 				}
 
 				QueryDefinition queryDefn = new QueryDefinition( );
-				queryDefn.setDataSetName( dataSet.getName( ) );
+				queryDefn.setDataSetName( dataSet.getQualifiedName( ) );
 				SlotHandle parameters = parameterGroup.getParameters( );
 				Iterator iter = parameters.iterator( );
 
