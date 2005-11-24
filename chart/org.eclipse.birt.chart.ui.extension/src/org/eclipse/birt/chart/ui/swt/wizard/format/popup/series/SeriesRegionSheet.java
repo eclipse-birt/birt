@@ -648,9 +648,6 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		{
 			return "0.0"; //$NON-NLS-1$
 		}
-		else
-		{
-			return input.trim( );
-		}
+		return input.trim( );
 	}
 }

@@ -22,7 +22,6 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
-import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
@@ -100,8 +99,6 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements Listener
 		gdLACLabel.widthHint = 200;
 		lacLabel.setLayoutData( gdLACLabel );
 		lacLabel.addListener( this );
-		// StockSeries don't draw the label
-		lacLabel.setEnabled( !( series instanceof StockSeries ) );
 
 		if ( series instanceof PieSeries )
 		{

@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.DialSeries;
+import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.UIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
@@ -120,15 +121,27 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			cmp.setLayoutData( gridData );
 		}
 
-		btnLabel = createToggleButton( cmp,
-				isMeterSeries( )
-						? Messages.getString( "SeriesYSheetImpl.Label.Region" ) : Messages.getString( "SeriesYSheetImpl.Label.Labels" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		btnLabel.addSelectionListener( this );
+		// Label or Region
+		if ( !( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof StockSeries ) )
+		{
+			btnLabel = createToggleButton( cmp,
+					isMeterSeries( )
+							? Messages.getString( "SeriesYSheetImpl.Label.Region" ) : Messages.getString( "SeriesYSheetImpl.Label.Labels" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			btnLabel.addSelectionListener( this );
+		}
+		else
+		{
+			// Disable Label properties for Stock series
+			btnLabel = new Button( cmp, SWT.NONE );
+			btnLabel.setVisible( false );
+		}
 
+		// Interactivity
 		btnInteractivity = createToggleButton( cmp,
 				Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
 		btnInteractivity.addSelectionListener( this );
 
+		// Trendline
 		if ( isTrendlineAvailable( ) )
 		{
 			btnTrendline = createToggleButton( cmp,
@@ -137,6 +150,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			btnTrendline.setEnabled( btnShowLine.getSelection( ) );
 		}
 
+		// DataPoint
 		btnDataPoint = createToggleButton( cmp,
 				Messages.getString( "SeriesYSheetImpl.Label.DataPoint" ) ); //$NON-NLS-1$
 		btnDataPoint.addSelectionListener( this );
