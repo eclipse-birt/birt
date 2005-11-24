@@ -79,7 +79,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.50 $ $Date: 2005/11/22 10:26:10 $
+ * @version $Revision: 1.51 $ $Date: 2005/11/23 01:49:32 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1631,29 +1631,32 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			return false;
 		}
 		Action act = new Action( action );
-		String link = null;
+
 		if ( actionHandler == null )
 		{
 			return false;
 		}
 
-		link = actionHandler.getURL( act, renderContext );
+		String link = actionHandler.getURL( act, renderContext );
 		boolean ret = ( link != null && !link.equals( "" ) ); //$NON-NLS-1$
 
 		if ( ret )
 		{
-			String href = ( action.getType( ) == IAction.ACTION_BOOKMARK )
-					? ( "#" + link ) //$NON-NLS-1$
-					: link;
-
-			if ( urlEncoding != null )
+			if ( action.getType( ) == IAction.ACTION_BOOKMARK )
 			{
-				href = URLEncoder.encode( href, urlEncoding );
+				link = "#" + link;
+			}
+			else
+			{
+				if ( urlEncoding != null )
+				{
+					link = URLEncoder.encode( link, urlEncoding );
+				}
 			}
 
 			writer.openTag( HTMLTags.TAG_A );
 
-			writer.attribute( HTMLTags.ATTR_HREF, href );
+			writer.attribute( HTMLTags.ATTR_HREF, link );
 
 			writer.attribute( HTMLTags.ATTR_TARGET, action.getTargetWindow( ) );
 		}
