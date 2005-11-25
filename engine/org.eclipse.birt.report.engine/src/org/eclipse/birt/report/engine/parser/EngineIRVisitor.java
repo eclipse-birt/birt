@@ -137,7 +137,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.61 $ $Date: 2005/11/24 07:25:15 $
+ * @version $Revision: 1.62 $ $Date: 2005/11/24 08:38:53 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1892,7 +1892,7 @@ class EngineIRVisitor extends DesignVisitor
 			{
 				if ( isColorProperty )
 				{
-					value = handle.getColorProperty( name ).getCssValue( );
+					value = handle.getColorProperty( name ).getStringValue( );
 				}
 				else
 				{
