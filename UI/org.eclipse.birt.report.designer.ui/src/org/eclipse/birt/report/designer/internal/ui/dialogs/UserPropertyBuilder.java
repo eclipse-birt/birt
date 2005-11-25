@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -70,9 +71,9 @@ public class UserPropertyBuilder extends BaseDialog
 
 	static
 	{
-		List typeList = UserPropertyDefn.getAllowedTypes( );
+		List typeList = new ArrayList( UserPropertyDefn.getAllowedTypes( ) );
 		EXPRESSION_TYPE = DesignEngine.getMetaDataDictionary( )
-				.getPropertyType( PropertyType.EXPRESSION_TYPE );
+				.getPropertyType( PropertyType.EXPRESSION_TYPE );		
 		typeList.remove( EXPRESSION_TYPE );
 		PROPERTY_TYPES = (PropertyType[]) typeList.toArray( new PropertyType[0] );
 	}
