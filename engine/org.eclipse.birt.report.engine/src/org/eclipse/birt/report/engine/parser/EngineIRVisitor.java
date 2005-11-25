@@ -137,7 +137,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.62 $ $Date: 2005/11/24 08:38:53 $
+ * @version $Revision: 1.63 $ $Date: 2005/11/25 03:30:23 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1672,21 +1672,12 @@ class EngineIRVisitor extends DesignVisitor
 				HighlightRule.TEXT_ALIGN_MEMBER ) );
 		style.setTextIndent( getMemberProperty( highlight,
 				HighlightRule.TEXT_INDENT_MEMBER ) );
-		if ( "underline".equalsIgnoreCase( getMemberProperty( highlight, //$NON-NLS-1$
-				Style.TEXT_UNDERLINE_PROP ) ) )
-		{
-			style.setTextUnderline( "true" ); //$NON-NLS-1$
-		}
-		if ( "line-through".equalsIgnoreCase( getMemberProperty( highlight, //$NON-NLS-1$
-				Style.TEXT_LINE_THROUGH_PROP ) ) )
-		{
-			style.setTextLineThrough( "true" ); //$NON-NLS-1$
-		}
-		if ( "overline".equalsIgnoreCase( getMemberProperty( highlight, //$NON-NLS-1$
-				Style.TEXT_OVERLINE_PROP ) ) )
-		{
-			style.setTextOverline( "true" ); //$NON-NLS-1$
-		}
+		style.setTextUnderline( getMemberProperty( highlight,
+				Style.TEXT_UNDERLINE_PROP ) );
+		style.setTextLineThrough( getMemberProperty( highlight, 
+				Style.TEXT_LINE_THROUGH_PROP ) );
+		style.setTextOverline( getMemberProperty( highlight,
+				Style.TEXT_OVERLINE_PROP ) );
 		// style.setLetterSpacing(getMemberProperty(highlight,
 		// HighlightRule.LETTER_SPACING_MEMBER));
 		// style.setLineHeight(getMemberProperty(highlight,
