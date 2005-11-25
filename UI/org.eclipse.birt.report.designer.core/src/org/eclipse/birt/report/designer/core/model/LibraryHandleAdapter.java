@@ -93,7 +93,7 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 		Object old = this.currentEditorModel;
 		if (currentEditorModel == null || current instanceof LibraryHandle)
 		{
-			this.currentEditorModel = new LibRootModel((LibraryHandle) current);
+			this.currentEditorModel = new LibRootModel(current);
 		}
 		else
 		{

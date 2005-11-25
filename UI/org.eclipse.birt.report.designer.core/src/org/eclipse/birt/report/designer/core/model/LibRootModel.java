@@ -5,23 +5,18 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 
 public class LibRootModel
 {
-	private LibraryHandle library;
+	private Object library;
 
-	public LibRootModel(LibraryHandle lib)
+	public LibRootModel(Object lib)
 	{
 		this.library = lib;
 	}
 	
-	public LibraryHandle getLibraryHandle()
-	{
-		return library;
-	}
-	
 	public boolean isEmpty()
 	{
-		if(library !=null)
+		if(library !=null && library instanceof LibraryHandle)
 		{
-			return library.getComponents().getCount()==0;
+			return ((LibraryHandle)library).getComponents().getCount()==0;
 		}
 		return true;
 	}
