@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -21,8 +21,6 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
-import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -72,9 +70,9 @@ public class UserPropertyBuilder extends BaseDialog
 
 	static
 	{
-		IMetaDataDictionary dictionary = DesignEngine.getMetaDataDictionary( );
-		ArrayList typeList = new ArrayList( ( (MetaDataDictionary) DesignEngine.getMetaDataDictionary( ) ).getPropertyTypes( ) );
-		EXPRESSION_TYPE = dictionary.getPropertyType( PropertyType.EXPRESSION_TYPE );
+		List typeList = UserPropertyDefn.getAllowedTypes( );
+		EXPRESSION_TYPE = DesignEngine.getMetaDataDictionary( )
+				.getPropertyType( PropertyType.EXPRESSION_TYPE );
 		typeList.remove( EXPRESSION_TYPE );
 		PROPERTY_TYPES = (PropertyType[]) typeList.toArray( new PropertyType[0] );
 	}
