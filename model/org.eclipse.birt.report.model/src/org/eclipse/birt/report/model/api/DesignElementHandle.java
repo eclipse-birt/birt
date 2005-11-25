@@ -1666,7 +1666,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 		if ( getContainer() != null )
 		return getContainer( ).canContain( getContainerSlotHandle( ).slotID,
-				ReportDesignConstants.TEMPLATE_ELEMENT );
+				ReportDesignConstants.TEMPLATE_REPORT_ITEM ) || getContainer( ).canContain( getContainerSlotHandle( ).slotID,
+						ReportDesignConstants.TEMPLATE_DATA_SET );
 		
 		return true;
 	}
