@@ -23,24 +23,25 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * 
  * the table content object which contains columns object and row objects
  * 
- * @version $Revision: 1.8 $ $Date: 2005/11/17 16:50:43 $
+ * @version $Revision: 1.9 $ $Date: 2005/11/22 19:25:39 $
  */
 public class TableContent extends AbstractContent implements ITableContent
 {
+
 	private static final long serialVersionUID = 2267750727901854517L;
 	protected ArrayList columns = new ArrayList( );
-	protected String caption = null;
+	protected String caption;
+	protected String captionKey;
 
 	protected boolean headerRepeat;
 
 	/**
-	 * constructor.
-	 * use by serialize and deserialize
+	 * constructor. use by serialize and deserialize
 	 */
-	public TableContent()
+	public TableContent( )
 	{
 	}
-	
+
 	public void setHeaderRepeat( boolean headerRepeat )
 	{
 		this.headerRepeat = headerRepeat;
@@ -72,6 +73,13 @@ public class TableContent extends AbstractContent implements ITableContent
 	 */
 	public String getCaption( )
 	{
+		if ( caption == null )
+		{
+			if ( generateBy instanceof TableItemDesign )
+			{
+				return ( (TableItemDesign) generateBy ).getCaption( );
+			}
+		}
 		return caption;
 	}
 
@@ -83,18 +91,20 @@ public class TableContent extends AbstractContent implements ITableContent
 	{
 		this.caption = caption;
 	}
-	
+
 	public void setCaptionKey( String key )
 	{
-		if ( generateBy instanceof TableItemDesign )
-			( (TableItemDesign)generateBy ).setCaption(key, caption);	
+		this.captionKey = key;
 	}
 
-	public String getCaptionKey()
+	public String getCaptionKey( )
 	{
-		if ( generateBy instanceof TableItemDesign )
-			return ( (TableItemDesign)generateBy ).getCaptionKey();
-		return null;
+		if ( captionKey == null )
+		{
+			if ( generateBy instanceof TableItemDesign )
+				return ( (TableItemDesign) generateBy ).getCaptionKey( );
+		}
+		return captionKey;
 	}
 
 	public int getColumnCount( )
