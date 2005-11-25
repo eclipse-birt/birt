@@ -900,17 +900,17 @@ abstract class PreparedQuery
 
 			    // set filter event
 			    List mergedFilters = new ArrayList( );
-			    if ( queryDefn.getFilters( ) != null )
-				{
-					mergedFilters.addAll( queryDefn.getFilters( ) );
-				}
 			    
-			    if ( dataSet != null &&
-		    		 dataSet.getFilters( ) != null )
+			    if ( dataSet != null && dataSet.getFilters( ) != null )
 				{
 					mergedFilters.addAll( dataSet.getFilters( ) );
 				}
 			    
+			    if ( queryDefn.getFilters( ) != null )
+				{
+					mergedFilters.addAll( queryDefn.getFilters( ) );
+				}
+			   		   			    
 			    if ( mergedFilters.size() > 0 )
 			    {
 			    	IResultObjectEvent objectEvent = new FilterByRow( mergedFilters, 
