@@ -269,6 +269,12 @@ public abstract class StyledElement extends DesignElement
 	 * selector.</li>
 	 * <li>if the value existed on the self selector, return it.</li>
 	 * 
+	 * @param module
+	 *            module
+	 * @param prop
+	 *            definition of the property to get
+	 * @return The property value, or null if no value is set.
+	 * 
 	 */
 	private Object getFactoryPropertyFromElement( Module module,
 			ElementPropertyDefn prop )
@@ -309,6 +315,14 @@ public abstract class StyledElement extends DesignElement
 			value = getPropertyFromSelfSelector( module, prop );
 			if ( value != null )
 				return value;
+
+			// Check if the container/slot predefined style provides
+			// the value
+
+			value = getPropertyFromSlotSelector( module, prop );
+			if ( value != null )
+				return value;
+
 		}
 		return null;
 	}
