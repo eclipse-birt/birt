@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -96,7 +97,12 @@ public abstract class BaseTestCase extends TestCase
 	
     protected ReportDesign design = null;
 
-	/**
+    /**
+	 * the root element for this library.
+	 */
+    protected Library library = null;
+
+    /**
 	 * The file name of metadata file.
 	 */
 	
