@@ -23,7 +23,6 @@ public class LabelContent extends TextContent implements ILabelContent
 	 * 
 	 */
 	private static final long serialVersionUID = 7432225225256258289L;
-	protected String helpText;
 	protected String helpTextKey;
 	protected String labelText;
 	protected String labelTextKey;
@@ -60,7 +59,7 @@ public class LabelContent extends TextContent implements ILabelContent
 				return ( (LabelItemDesign) generateBy ).getHelpText( );
 			}
 		}
-		return null;
+		return helpText;
 	}
 
 	public void setHelpKey( String helpKey )

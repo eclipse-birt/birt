@@ -30,8 +30,6 @@ public class DataContent extends TextContent implements IDataContent
 
 	protected String labelKey;
 
-	protected String helpText;
-
 	protected String helpKey;
 
 	/**

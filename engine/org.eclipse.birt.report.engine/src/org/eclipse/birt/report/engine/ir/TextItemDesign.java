@@ -20,10 +20,11 @@ import org.eclipse.birt.report.engine.executor.template.TextTemplate;
 /**
  * Text element captures a long string with internal formatting.
  * 
- * @version $Revision: 1.11 $ $Date: 2005/11/17 09:07:57 $
+ * @version $Revision: 1.12 $ $Date: 2005/11/17 16:50:43 $
  */
 public class TextItemDesign extends ReportItemDesign
 {
+
 	public static final String AUTO_TEXT = "auto"; //$NON-NLS-1$
 	public static final String PLAIN_TEXT = "plain"; //$NON-NLS-1$
 	public static final String HTML_TEXT = "html"; //$NON-NLS-1$
@@ -44,31 +45,36 @@ public class TextItemDesign extends ReportItemDesign
 	 */
 	protected String text;
 
-
 	protected HashMap exprs = null;
-	
-	public HashMap getExpressions()
+
+	public HashMap getExpressions( )
 	{
-		if( exprs != null )
+		if ( text == null )
+		{
+			return null;
+		}
+		if ( exprs != null )
 		{
 			return exprs;
 		}
 
-		if( HTML_TEXT.equals(textType) || ( AUTO_TEXT.equals(textType) && text.startsWith( "<html>") ))
+		if ( HTML_TEXT.equals( textType )
+				|| ( AUTO_TEXT.equals( textType ) && text.startsWith( "<html>" ) ) )
 		{
 			exprs = new HashMap( );
 			TextTemplate template = new TemplateParser( ).parse( text );
-			if( template != null && template.getNodes() != null )
+			if ( template != null && template.getNodes( ) != null )
 			{
-				Iterator itor = template.getNodes().iterator();
+				Iterator itor = template.getNodes( ).iterator( );
 				Object obj;
 				String expression;
-				while( itor.hasNext( ) )
+				while ( itor.hasNext( ) )
 				{
-					obj = itor.next();
-					if( obj instanceof TextTemplate.ValueNode )
+					obj = itor.next( );
+					if ( obj instanceof TextTemplate.ValueNode )
 					{
-						expression = ( ( TextTemplate.ValueNode ) obj ).getValue( ); 
+						expression = ( (TextTemplate.ValueNode) obj )
+								.getValue( );
 						exprs.put( expression, new Expression( expression ) );
 					}
 				}
@@ -76,7 +82,7 @@ public class TextItemDesign extends ReportItemDesign
 		}
 		return exprs;
 	}
-	
+
 	/**
 	 * @param textKey
 	 *            the message key for the text
