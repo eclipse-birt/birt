@@ -20,7 +20,7 @@ import org.eclipse.birt.report.engine.executor.template.TextTemplate;
 /**
  * Text element captures a long string with internal formatting.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/11/17 16:50:43 $
+ * @version $Revision: 1.13 $ $Date: 2005/11/28 07:42:57 $
  */
 public class TextItemDesign extends ReportItemDesign
 {
@@ -63,19 +63,27 @@ public class TextItemDesign extends ReportItemDesign
 		{
 			exprs = new HashMap( );
 			TextTemplate template = new TemplateParser( ).parse( text );
-			if ( template != null && template.getNodes( ) != null )
+			if( template != null && template.getNodes() != null )
 			{
-				Iterator itor = template.getNodes( ).iterator( );
+				Iterator itor = template.getNodes().iterator();
 				Object obj;
-				String expression;
-				while ( itor.hasNext( ) )
+				String expression = null;
+				while( itor.hasNext( ) )
 				{
-					obj = itor.next( );
-					if ( obj instanceof TextTemplate.ValueNode )
+					obj = itor.next();
+					if( obj instanceof TextTemplate.ValueNode )
+				{
+						expression = ( ( TextTemplate.ValueNode ) obj ).getValue( ); 
+					}
+					else if( obj instanceof TextTemplate.ImageNode )
 					{
-						expression = ( (TextTemplate.ValueNode) obj )
-								.getValue( );
+						expression = ( ( TextTemplate.ImageNode ) obj ).getExpr();
+					}
+					
+					if( expression != null )
+					{
 						exprs.put( expression, new Expression( expression ) );
+						expression = null;
 					}
 				}
 			}

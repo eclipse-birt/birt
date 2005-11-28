@@ -5,30 +5,44 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
+import org.eclipse.birt.report.engine.api.HTMLCompleteImageHandler;
+import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.impl.Image;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 
 public class TemplateExecutor implements TextTemplate.Visitor
 {
+
 	protected StringBuffer buffer;
 	protected HashMap values;
 	protected ExecutionContext context;
 	protected IHTMLImageHandler imageHandler;
+	protected Object renderContext;
 
-	public TemplateExecutor( ExecutionContext context, IHTMLImageHandler imageHandler)
+	public TemplateExecutor( ExecutionContext context,
+			IHTMLImageHandler imageHandler, Object renderContext )
 	{
 		this.context = context;
 		this.imageHandler = imageHandler;
-/*		Object im = option.getOutputSetting().get(HTMLRenderOption.IMAGE_HANDLER);
-		if ( im != null && im instanceof IHTMLImageHandler )
+		this.renderContext = renderContext;
+		if( imageHandler == null)
 		{
-			imageHandler = (IHTMLImageHandler) im;
-		}*/
+			this.imageHandler = new HTMLCompleteImageHandler( );			
+		}
+
+		/*
+		 * Object im =
+		 * option.getOutputSetting().get(HTMLRenderOption.IMAGE_HANDLER); if (
+		 * im != null && im instanceof IHTMLImageHandler ) { imageHandler =
+		 * (IHTMLImageHandler) im; }
+		 */
 	}
 
 	public String execute( TextTemplate template, HashMap values )
@@ -36,7 +50,7 @@ public class TemplateExecutor implements TextTemplate.Visitor
 		this.buffer = new StringBuffer( );
 		this.values = values;
 
-		if( template == null )
+		if ( template == null )
 		{
 			return "";
 		}
@@ -114,13 +128,51 @@ public class TemplateExecutor implements TextTemplate.Visitor
 
 	public Object visitImage( TextTemplate.ImageNode node, Object value )
 	{
-		Object result = values.get( node.getValue( ) );
-		if ( result instanceof byte[] )
+		Object imageContent = null;
+		if ( TextTemplate.ImageNode.IMAGE_TYPE_EXPR == node.getType( ) )
 		{
-			Image image = new Image( (byte[]) result, null );
+			imageContent = values.get( node.getExpr( ) );
+		}
+		else
+		{
+			EmbeddedImage image = context.getDesign( ).findImage(
+					node.getImageName( ) );
+			if ( image != null )
+			{
+				imageContent = image.getData( );
+			}
+		}
+		if ( imageContent instanceof byte[] )
+		{
+			Image image = new Image( (byte[]) imageContent, null );
+			image.setRenderOption( context.getRenderOption() );
+			image.setReportRunnable( context.getRunnable() );
+
 			if ( imageHandler != null )
 			{
-				imageHandler.onCustomImage( image, null );
+				String src = imageHandler.onCustomImage( image, renderContext );
+				if( src != null )
+				{
+					buffer.append( "<img src=\"" );
+					buffer.append( src );
+					buffer.append( "\" " );
+					Iterator iter = node.getAttributes( ).entrySet( ).iterator( );
+					while ( iter.hasNext( ) )
+					{
+						Map.Entry entry = (Map.Entry) iter.next( );
+	
+						Object attrName = entry.getKey( );
+						Object attrValue = entry.getValue( );
+						if ( attrName != null && attrValue != null )
+						{
+							buffer.append( attrName.toString( ) );
+							buffer.append( "=\"" );
+							buffer.append( attrValue.toString( ) );
+							buffer.append( "\" " );
+						}
+					}
+					buffer.append( ">" );
+				}
 			}
 		}
 		return value;
