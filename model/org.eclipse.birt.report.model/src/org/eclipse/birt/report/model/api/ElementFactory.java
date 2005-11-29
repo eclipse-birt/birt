@@ -111,8 +111,10 @@ public class ElementFactory
 				.getElement( elementTypeName );
 
 		if ( elemDefn == null )
-			return null;
-
+		{
+			return newExtensionElement( elementTypeName, name );
+		}
+		
 		String javaClass = elemDefn.getJavaClass( );
 		if ( javaClass == null )
 			return null;
@@ -145,8 +147,8 @@ public class ElementFactory
 
 			assert false;
 		}
-
-		return newExtensionElement( elementTypeName, name );
+		
+		return null;
 	}
 
 	/**
