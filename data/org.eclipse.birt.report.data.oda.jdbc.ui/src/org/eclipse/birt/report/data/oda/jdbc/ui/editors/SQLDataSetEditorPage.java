@@ -20,6 +20,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
+import org.eclipse.birt.report.data.oda.jdbc.ui.editors.assis.FastPartitioner;
 import org.eclipse.birt.report.data.oda.jdbc.ui.preference.externaleditor.ExternalEditorPreferenceManager;
 import org.eclipse.birt.report.data.oda.jdbc.ui.preference.externaleditor.IExternalEditorPreference;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetaDataProvider;
@@ -49,7 +50,6 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextOperationTarget;
-import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.jface.text.source.CompositeRuler;
 import org.eclipse.jface.text.source.LineNumberRulerColumn;
 import org.eclipse.jface.text.source.SourceViewer;
@@ -97,7 +97,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.30 $ $Date: 2005/11/02 10:06:00 $
+ * @version $Revision: 1.31 $ $Date: 2005/11/17 07:38:19 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
