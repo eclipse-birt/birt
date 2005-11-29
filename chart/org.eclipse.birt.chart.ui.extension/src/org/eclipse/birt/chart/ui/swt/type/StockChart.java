@@ -71,9 +71,9 @@ public class StockChart extends DefaultChartTypeImpl
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = "Stock Chart"; //$NON-NLS-1$
-	
+
 	private static final String STANDARD_SUBTYPE_LITERAL = "Standard Stock Chart"; //$NON-NLS-1$
-	
+
 	public static final String CHART_TITLE = Messages.getString( "StockChart.Txt.DefaultStockChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStandardDescription = Messages.getString( "StockChart.Txt.Description" ); //$NON-NLS-1$
@@ -142,7 +142,9 @@ public class StockChart extends DefaultChartTypeImpl
 			{
 				img2D = UIHelper.getImage( "icons/wizban/horizontalstockchartimage.gif" ); //$NON-NLS-1$
 			}
-			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL, img2D, sStandardDescription ) ); 
+			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
+					img2D,
+					sStandardDescription ) );
 		}
 		return vSubTypes;
 	}
@@ -174,11 +176,8 @@ public class StockChart extends DefaultChartTypeImpl
 		newChart.setOrientation( orientation );
 		newChart.setDimension( getDimensionFor( sDimension ) );
 		newChart.setUnits( "Points" ); //$NON-NLS-1$
-		
-		newChart.getTitle( )
-			.getLabel( )
-			.getCaption( )
-			.setValue( CHART_TITLE ); //$NON-NLS-1$
+
+		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE ); //$NON-NLS-1$
 
 		( (Axis) newChart.getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
 		( (Axis) newChart.getAxes( ).get( 0 ) ).setType( AxisType.DATE_TIME_LITERAL );
@@ -273,7 +272,10 @@ public class StockChart extends DefaultChartTypeImpl
 					currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ) ) );
 				}
 				currentChart.setType( TYPE_LITERAL );
-				currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+				currentChart.getTitle( )
+						.getLabel( )
+						.getCaption( )
+						.setValue( CHART_TITLE );
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.DATE_TIME_LITERAL );
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
 
@@ -330,8 +332,15 @@ public class StockChart extends DefaultChartTypeImpl
 			currentChart.setScript( helperModel.getScript( ) );
 			currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
 			currentChart.setUnits( helperModel.getUnits( ) );
-			currentChart.getInteractivity().setEnable( helperModel.getInteractivity().isEnable());
-			currentChart.getInteractivity().setLegendBehavior( helperModel.getInteractivity().getLegendBehavior());
+
+			if ( helperModel.getInteractivity( ) != null )
+			{
+				currentChart.getInteractivity( )
+						.setEnable( helperModel.getInteractivity( ).isEnable( ) );
+				currentChart.getInteractivity( )
+						.setLegendBehavior( helperModel.getInteractivity( )
+								.getLegendBehavior( ) );
+			}
 
 			if ( helperModel.getType( ).equals( PieChart.TYPE_LITERAL )
 					|| helperModel.getType( ).equals( MeterChart.TYPE_LITERAL ) )
@@ -391,8 +400,12 @@ public class StockChart extends DefaultChartTypeImpl
 			{
 				return null;
 			}
-			currentChart.getLegend( ).setItemType( LegendItemType.SERIES_LITERAL );
-			currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+			currentChart.getLegend( )
+					.setItemType( LegendItemType.SERIES_LITERAL );
+			currentChart.getTitle( )
+					.getLabel( )
+					.getCaption( )
+					.setValue( CHART_TITLE );
 		}
 		if ( currentChart instanceof ChartWithAxes
 				&& !( (ChartWithAxes) currentChart ).getOrientation( )
@@ -419,8 +432,8 @@ public class StockChart extends DefaultChartTypeImpl
 		}
 		StockSeries stockseries = (StockSeries) StockSeriesImpl.create( );
 		stockseries.getLineAttributes( )
-		.setColor( ColorDefinitionImpl.BLACK( ) );
-		
+				.setColor( ColorDefinitionImpl.BLACK( ) );
+
 		// Copy generic series properties
 		stockseries.setLabel( series.getLabel( ) );
 		if ( series.getLabelPosition( ).equals( Position.INSIDE_LITERAL )
@@ -479,7 +492,7 @@ public class StockChart extends DefaultChartTypeImpl
 		{
 			stockseries.setLineAttributes( ( (LineSeries) series ).getLineAttributes( ) );
 		}
-		
+
 		stockseries.getLineAttributes( ).setVisible( true );
 
 		return stockseries;
@@ -588,7 +601,7 @@ public class StockChart extends DefaultChartTypeImpl
 			sbNewRepresentation.append( " " ); //$NON-NLS-1$
 
 			sbNewRepresentation.append( " O" ); //$NON-NLS-1$
-			sbNewRepresentation.append( String.valueOf( value - 2) );
+			sbNewRepresentation.append( String.valueOf( value - 2 ) );
 			sbNewRepresentation.append( " " ); //$NON-NLS-1$
 
 			sbNewRepresentation.append( " C" ); //$NON-NLS-1$
@@ -634,7 +647,7 @@ public class StockChart extends DefaultChartTypeImpl
 		// Other types are not supported.
 		return ChartDimension.TWO_DIMENSIONAL_LITERAL;
 	}
-	
+
 	public ISelectDataComponent getBaseUI( Chart chart,
 			ISelectDataCustomizeUI selectDataUI, IUIServiceProvider builder,
 			Object oContext, String sTitle )

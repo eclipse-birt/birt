@@ -73,13 +73,13 @@ public class AreaChart extends DefaultChartTypeImpl
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = "Area Chart"; //$NON-NLS-1$
-	
+
 	private static final String STACKED_SUBTYPE_LITERAL = "Stacked"; //$NON-NLS-1$
-	
+
 	private static final String PERCENTSTACKED_SUBTYPE_LITERAL = "Percent Stacked"; //$NON-NLS-1$
-	
+
 	private static final String OVERLAY_SUBTYPE_LITERAL = "Overlay"; //$NON-NLS-1$
-	
+
 	public static final String CHART_TITLE = Messages.getString( "AreaChart.Txt.DefaultAreaChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStackedDescription = Messages.getString( "AreaChart.Txt.StackedDescription" ); //$NON-NLS-1$
@@ -167,9 +167,15 @@ public class AreaChart extends DefaultChartTypeImpl
 				imgSideBySide = UIHelper.getImage( "icons/wizban/horizontalsidebysideareachartimage.gif" ); //$NON-NLS-1$
 			}
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL , imgStacked, sStackedDescription ) ); 
-			vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL, imgPercentStacked, sPercentStackedDescription ) ); 
-			vSubTypes.add( new DefaultChartSubTypeImpl( OVERLAY_SUBTYPE_LITERAL, imgSideBySide, sOverlayDescription ) ); 
+			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
+					imgStacked,
+					sStackedDescription ) );
+			vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
+					imgPercentStacked,
+					sPercentStackedDescription ) );
+			vSubTypes.add( new DefaultChartSubTypeImpl( OVERLAY_SUBTYPE_LITERAL,
+					imgSideBySide,
+					sOverlayDescription ) );
 		}
 		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
@@ -184,14 +190,18 @@ public class AreaChart extends DefaultChartTypeImpl
 
 			}
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL , imgStackedWithDepth, sStackedDescription ) ); 
+			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
+					imgStackedWithDepth,
+					sStackedDescription ) );
 		}
 		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
 			imgSideBySide3D = UIHelper.getImage( "icons/wizban/sidebysideareachart3dimage.gif" ); //$NON-NLS-1$
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( OVERLAY_SUBTYPE_LITERAL, imgSideBySide3D, sOverlayDescription ) ); 
+			vSubTypes.add( new DefaultChartSubTypeImpl( OVERLAY_SUBTYPE_LITERAL,
+					imgSideBySide3D,
+					sOverlayDescription ) );
 		}
 		return vSubTypes;
 	}
@@ -235,12 +245,9 @@ public class AreaChart extends DefaultChartTypeImpl
 		( (Axis) newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
 				.add( sdX );
 
-		newChart.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( CHART_TITLE ); 
+		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 
-		if ( sSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) ) 
+		if ( sSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) )
 		{
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 					.get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
@@ -259,7 +266,7 @@ public class AreaChart extends DefaultChartTypeImpl
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 					.get( 0 ) ).getSeriesDefinitions( ).add( sdY );
 		}
-		else if ( sSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) 
+		else if ( sSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
 		{
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 					.get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
@@ -280,7 +287,7 @@ public class AreaChart extends DefaultChartTypeImpl
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 					.get( 0 ) ).getSeriesDefinitions( ).add( sdY );
 		}
-		else if ( sSubType.equalsIgnoreCase( OVERLAY_SUBTYPE_LITERAL ) ) 
+		else if ( sSubType.equalsIgnoreCase( OVERLAY_SUBTYPE_LITERAL ) )
 		{
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 					.get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
@@ -395,7 +402,7 @@ public class AreaChart extends DefaultChartTypeImpl
 							.get( 0 ) ).getAssociatedAxes( );
 					for ( int i = 0; i < axes.size( ); i++ )
 					{
-						if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) 
+						if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
 						{
 							( (Axis) axes.get( i ) ).setPercent( true );
 						}
@@ -407,8 +414,7 @@ public class AreaChart extends DefaultChartTypeImpl
 						for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 						{
 							Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-							if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType 
-									.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) ) 
+							if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 							{
 								series.setStacked( true );
 							}
@@ -426,7 +432,7 @@ public class AreaChart extends DefaultChartTypeImpl
 					|| currentChart.getType( )
 							.equals( ScatterChart.TYPE_LITERAL ) )
 			{
-				if ( !currentChart.getType( ).equals( BarChart.TYPE_LITERAL ) ) 
+				if ( !currentChart.getType( ).equals( BarChart.TYPE_LITERAL ) )
 				{
 					currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ) ) );
 					( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -434,12 +440,15 @@ public class AreaChart extends DefaultChartTypeImpl
 				}
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
-				currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+				currentChart.getTitle( )
+						.getLabel( )
+						.getCaption( )
+						.setValue( CHART_TITLE );
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
 				for ( int i = 0; i < axes.size( ); i++ )
 				{
-					if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) 
+					if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
 					{
 						( (Axis) axes.get( i ) ).setPercent( true );
 					}
@@ -500,8 +509,15 @@ public class AreaChart extends DefaultChartTypeImpl
 			currentChart.setScript( helperModel.getScript( ) );
 			currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
 			currentChart.setUnits( helperModel.getUnits( ) );
-			currentChart.getInteractivity().setEnable( helperModel.getInteractivity().isEnable());
-			currentChart.getInteractivity().setLegendBehavior( helperModel.getInteractivity().getLegendBehavior());
+
+			if ( helperModel.getInteractivity( ) != null )
+			{
+				currentChart.getInteractivity( )
+						.setEnable( helperModel.getInteractivity( ).isEnable( ) );
+				currentChart.getInteractivity( )
+						.setLegendBehavior( helperModel.getInteractivity( )
+								.getLegendBehavior( ) );
+			}
 
 			if ( helperModel.getType( ).equals( PieChart.TYPE_LITERAL )
 					|| helperModel.getType( ).equals( MeterChart.TYPE_LITERAL ) )
@@ -548,7 +564,7 @@ public class AreaChart extends DefaultChartTypeImpl
 				{
 					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 					series = getConvertedSeries( series );
-					if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) ) 
+					if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 					{
 						series.setStacked( true );
 					}
@@ -568,8 +584,12 @@ public class AreaChart extends DefaultChartTypeImpl
 			{
 				return null;
 			}
-			currentChart.getLegend( ).setItemType( LegendItemType.SERIES_LITERAL );
-			currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+			currentChart.getLegend( )
+					.setItemType( LegendItemType.SERIES_LITERAL );
+			currentChart.getTitle( )
+					.getLabel( )
+					.getCaption( )
+					.setValue( CHART_TITLE );
 		}
 		if ( currentChart instanceof ChartWithAxes
 				&& !( (ChartWithAxes) currentChart ).getOrientation( )
@@ -834,7 +854,7 @@ public class AreaChart extends DefaultChartTypeImpl
 		}
 		return ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
 	}
-	
+
 	public ISelectDataComponent getBaseUI( Chart chart,
 			ISelectDataCustomizeUI selectDataUI, IUIServiceProvider builder,
 			Object oContext, String sTitle )

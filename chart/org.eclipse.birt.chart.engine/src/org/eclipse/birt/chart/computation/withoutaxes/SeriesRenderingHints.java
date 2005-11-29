@@ -131,17 +131,16 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 		final double[] doa = new double[iCount];
 		Object o;
 
-		int j = 0;
 		for ( int i = 0; i < iCount; i++ )
 		{
 			o = dpha[i].getOrthogonalValue( );
 			if ( o instanceof Double )
 			{
-				doa[j++] = ( (Double) o ).doubleValue( );
+				doa[i] = ( (Double) o ).doubleValue( );
 			}
 			else if ( o == null )
 			{
-				continue;
+				doa[i] = Double.NaN;
 			}
 			else
 			{
@@ -155,9 +154,7 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 								pwoa.getRunTimeContext( ).getLocale( ) ) );
 			}
 		}
-		final double[] doaTrimmed = new double[j];
-		System.arraycopy( doa, 0, doaTrimmed, 0, j );
-		return doaTrimmed;
+		return doa;
 	}
 
 	/*

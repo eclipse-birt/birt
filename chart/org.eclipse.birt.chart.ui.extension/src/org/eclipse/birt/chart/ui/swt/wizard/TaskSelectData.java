@@ -67,12 +67,11 @@ import org.eclipse.swt.widgets.MenuItem;
  * 
  */
 
-public class TaskSelectData extends SimpleTask
-		implements
-			SelectionListener,
-			DisposeListener,
-			ITaskChangeListener,
-			Listener
+public class TaskSelectData extends SimpleTask implements
+		SelectionListener,
+		DisposeListener,
+		ITaskChangeListener,
+		Listener
 {
 
 	private final static int CENTER_WIDTH_HINT = 500;
@@ -307,7 +306,9 @@ public class TaskSelectData extends SimpleTask
 		}
 
 		tablePreview = new CustomPreviewTable( composite, SWT.SINGLE
-				| SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION );
+				| SWT.H_SCROLL
+				| SWT.V_SCROLL
+				| SWT.FULL_SELECTION );
 		{
 			GridData gridData = new GridData( GridData.FILL_BOTH );
 			gridData.widthHint = CENTER_WIDTH_HINT;
@@ -864,8 +865,7 @@ public class TaskSelectData extends SimpleTask
 	private String getSecondMenuText( int axisIndex, int seriesIndex,
 			Series series )
 	{
-		String text = axisIndex == 0
-				? "" : Messages.getString( "TaskSelectData.Label.Overlay" ); //$NON-NLS-1$ //$NON-NLS-2$
+		String text = axisIndex == 0 ? "" : Messages.getString( "TaskSelectData.Label.Overlay" ); //$NON-NLS-1$ //$NON-NLS-2$
 		text += Messages.getString( "TaskSelectData.Label.Series" ) //$NON-NLS-1$
 				+ ( seriesIndex + 1 ) + " (" + series.getDisplayName( ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 		return text;
@@ -909,6 +909,12 @@ public class TaskSelectData extends SimpleTask
 			if ( notification.getNotifier( ) instanceof Query )
 			{
 				doLivePreview( );
+			}
+			else if ( ChartPreviewPainter.isEnableLivePreview( ) )
+			{
+				ChartAdapter.ignoreNotifications( true );
+				ChartUIUtil.syncRuntimeSeries( getChartModel( ) );
+				ChartAdapter.ignoreNotifications( false );
 			}
 			previewPainter.renderModel( getChartModel( ) );
 		}

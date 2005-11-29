@@ -71,7 +71,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = "Scatter Chart"; //$NON-NLS-1$
-	
+
 	private static final String STANDARD_SUBTYPE_LITERAL = "Standard Scatter Chart"; //$NON-NLS-1$
 
 	public static final String CHART_TITLE = Messages.getString( "ScatterChart.Txt.DefaultScatterChartTitle" ); //$NON-NLS-1$
@@ -143,7 +143,9 @@ public class ScatterChart extends DefaultChartTypeImpl
 				img2D = UIHelper.getImage( "icons/wizban/horizontalscatterchartimage.gif" ); //$NON-NLS-1$
 			}
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL, img2D, sStandardDescription ) ); 
+			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
+					img2D,
+					sStandardDescription ) );
 		}
 		return vSubTypes;
 	}
@@ -204,7 +206,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.get( 0 ) ).getSeriesDefinitions( ).add( sdY );
 
-		if ( sSubType.equalsIgnoreCase( STANDARD_SUBTYPE_LITERAL ) ) 
+		if ( sSubType.equalsIgnoreCase( STANDARD_SUBTYPE_LITERAL ) )
 		{
 			newChart.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
 		}
@@ -324,8 +326,15 @@ public class ScatterChart extends DefaultChartTypeImpl
 			currentChart.setSubType( sNewSubType );
 			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
-			currentChart.getInteractivity().setEnable( helperModel.getInteractivity().isEnable());
-			currentChart.getInteractivity().setLegendBehavior( helperModel.getInteractivity().getLegendBehavior());
+
+			if ( helperModel.getInteractivity( ) != null )
+			{
+				currentChart.getInteractivity( )
+						.setEnable( helperModel.getInteractivity( ).isEnable( ) );
+				currentChart.getInteractivity( )
+						.setLegendBehavior( helperModel.getInteractivity( )
+								.getLegendBehavior( ) );
+			}
 
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
@@ -404,7 +413,8 @@ public class ScatterChart extends DefaultChartTypeImpl
 			{
 				return null;
 			}
-			currentChart.getLegend( ).setItemType( LegendItemType.SERIES_LITERAL );
+			currentChart.getLegend( )
+					.setItemType( LegendItemType.SERIES_LITERAL );
 			currentChart.getTitle( )
 					.getLabel( )
 					.getCaption( )
@@ -440,7 +450,8 @@ public class ScatterChart extends DefaultChartTypeImpl
 			scatterseries.setMarker( ( (LineSeries) series ).getMarker( ) );
 		}
 		else if ( series instanceof BarSeries
-				|| series instanceof PieSeries || series instanceof StockSeries )
+				|| series instanceof PieSeries
+				|| series instanceof StockSeries )
 		{
 			// Use the default marker
 		}

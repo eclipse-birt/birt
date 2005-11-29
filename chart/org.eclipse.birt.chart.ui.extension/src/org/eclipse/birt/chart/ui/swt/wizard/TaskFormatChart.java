@@ -47,10 +47,9 @@ import org.eclipse.swt.widgets.Label;
  * 
  */
 
-public class TaskFormatChart extends TreeCompoundTask
-		implements
-			IUIManager,
-			ITaskChangeListener
+public class TaskFormatChart extends TreeCompoundTask implements
+		IUIManager,
+		ITaskChangeListener
 {
 
 	private transient ChartPreviewPainter previewPainter = null;
@@ -449,6 +448,12 @@ public class TaskFormatChart extends TreeCompoundTask
 					|| ( notification.getNewValue( ) instanceof SortOption || notification.getOldValue( ) instanceof SortOption ) )
 			{
 				doLivePreview( );
+			}
+			else if ( ChartPreviewPainter.isEnableLivePreview( ) )
+			{
+				ChartAdapter.ignoreNotifications( true );
+				ChartUIUtil.syncRuntimeSeries( getCurrentModelState( ) );
+				ChartAdapter.ignoreNotifications( false );
 			}
 			previewPainter.renderModel( getCurrentModelState( ) );
 		}

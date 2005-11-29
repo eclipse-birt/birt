@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -29,6 +30,7 @@ import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
@@ -36,6 +38,7 @@ import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIPlugin;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridLayout;
@@ -43,9 +46,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 /**
- * 
+ * ChartUIUtil
  */
-
 public class ChartUIUtil
 {
 
@@ -284,6 +286,135 @@ public class ChartUIUtil
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Synchronize runtime series with design series.
+	 * 
+	 * @param chart
+	 */
+	public static void syncRuntimeSeries( Chart chart )
+	{
+		if ( chart instanceof ChartWithAxes )
+		{
+			ChartWithAxes cwa = (ChartWithAxes) chart;
+
+			// !NO NEED TO SYNC BASE SERIES
+			// SeriesDefinition sdBase = (SeriesDefinition) cwa.getBaseAxes(
+			// )[0].getSeriesDefinitions( )
+			// .get( 0 );
+			// Series seDesignBase = sdBase.getDesignTimeSeries( );
+
+			// dss = new DesignSeriesSynchronizer( seDesignBase,
+			// sdBase.getRunTimeSeries( ) );
+			// seDesignBase.eAdapters( ).add(0, dss );
+			// synchronizers.add( dss );
+
+			Axis[] axa = cwa.getOrthogonalAxes( cwa.getPrimaryBaseAxes( )[0],
+					true );
+			int iOrthogonalSeriesDefinitionCount = 0;
+
+			for ( int i = 0; i < axa.length; i++ )
+			{
+				EList elSD = axa[i].getSeriesDefinitions( );
+				for ( int j = 0; j < elSD.size( ); j++ )
+				{
+					SeriesDefinition sd = (SeriesDefinition) elSD.get( j );
+					Query qy = sd.getQuery( );
+					if ( qy == null )
+					{
+						continue;
+					}
+					String sExpression = qy.getDefinition( );
+					if ( sExpression == null || sExpression.length( ) == 0 )
+					{
+						continue;
+					}
+					iOrthogonalSeriesDefinitionCount++;
+				}
+			}
+
+			// SYNC ALL ORTHOGONAL SERIES
+			for ( int i = 0; i < axa.length; i++ )
+			{
+				for ( Iterator itr = axa[i].getSeriesDefinitions( ).iterator( ); itr.hasNext( ); )
+				{
+					SeriesDefinition sdOrthogonal = (SeriesDefinition) itr.next( );
+					Series seDesignOrthogonal = sdOrthogonal.getDesignTimeSeries( );
+
+					ArrayList seRuntimes = sdOrthogonal.getRunTimeSeries( );
+
+					sdOrthogonal.getSeries( ).removeAll( seRuntimes );
+
+					for ( int j = 0; j < seRuntimes.size( ); j++ )
+					{
+						Series seRuntimeOrthogonal = (Series) EcoreUtil.copy( seDesignOrthogonal );
+						seRuntimeOrthogonal.setDataSet( ( (Series) seRuntimes.get( j ) ).getDataSet( ) );
+						if ( iOrthogonalSeriesDefinitionCount < 1 )
+						{
+							seRuntimeOrthogonal.setSeriesIdentifier( seDesignOrthogonal.getSeriesIdentifier( ) );
+						}
+						else
+						{
+							seRuntimeOrthogonal.setSeriesIdentifier( ( (Series) seRuntimes.get( j ) ).getSeriesIdentifier( ) );
+						}
+						sdOrthogonal.getSeries( ).add( seRuntimeOrthogonal );
+					}
+				}
+			}
+		}
+		else if ( chart instanceof ChartWithoutAxes )
+		{
+			ChartWithoutAxes cwoa = (ChartWithoutAxes) chart;
+
+			final SeriesDefinition sdBase = (SeriesDefinition) cwoa.getSeriesDefinitions( )
+					.get( 0 );
+			int iOrthogonalSeriesDefinitionCount = 0;
+
+			EList elSD = sdBase.getSeriesDefinitions( );
+			for ( int j = 0; j < elSD.size( ); j++ )
+			{
+				SeriesDefinition sd = (SeriesDefinition) elSD.get( j );
+				Query qy = sd.getQuery( );
+				if ( qy == null )
+				{
+					continue;
+				}
+				String sExpression = qy.getDefinition( );
+				if ( sExpression == null || sExpression.length( ) == 0 )
+				{
+					continue;
+				}
+				iOrthogonalSeriesDefinitionCount++;
+			}
+
+			// SYNC ALL ORTHOGONAL SERIES
+			for ( Iterator itr = elSD.iterator( ); itr.hasNext( ); )
+			{
+				SeriesDefinition sdOrthogonal = (SeriesDefinition) itr.next( );
+				Series seDesignOrthogonal = sdOrthogonal.getDesignTimeSeries( );
+
+				ArrayList seRuntimes = sdOrthogonal.getRunTimeSeries( );
+
+				sdOrthogonal.getSeries( ).removeAll( seRuntimes );
+
+				for ( int j = 0; j < seRuntimes.size( ); j++ )
+				{
+					Series seRuntimeOrthogonal = (Series) EcoreUtil.copy( seDesignOrthogonal );
+					seRuntimeOrthogonal.setDataSet( ( (Series) seRuntimes.get( j ) ).getDataSet( ) );
+					if ( iOrthogonalSeriesDefinitionCount < 1 )
+					{
+						seRuntimeOrthogonal.setSeriesIdentifier( seDesignOrthogonal.getSeriesIdentifier( ) );
+					}
+					else
+					{
+						seRuntimeOrthogonal.setSeriesIdentifier( ( (Series) seRuntimes.get( j ) ).getSeriesIdentifier( ) );
+					}
+					sdOrthogonal.getSeries( ).add( seRuntimeOrthogonal );
+				}
+			}
+		}
+
 	}
 
 	/**

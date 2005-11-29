@@ -66,9 +66,9 @@ public class MeterChart extends DefaultChartTypeImpl
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = "Meter Chart"; //$NON-NLS-1$
-	
+
 	private static final String STANDARD_SUBTYPE_LITERAL = "Standard Meter Chart"; //$NON-NLS-1$
-	
+
 	private static final String SUPERIMPOSED_SUBTYPE_LITERAL = "Superimposed Meter Chart"; //$NON-NLS-1$
 
 	public static final String CHART_TITLE = Messages.getString( "MeterChart.Txt.DefaultMeterChartTitle" ); //$NON-NLS-1$
@@ -82,7 +82,7 @@ public class MeterChart extends DefaultChartTypeImpl
 	private transient Image imgStandard = null;
 
 	private transient Image imgSuperimposed = null;
-	
+
 	private static final String BLANK_QUERY = "\"base\""; //$NON-NLS-1$
 
 	private static final String[] saDimensions = new String[]{
@@ -145,8 +145,12 @@ public class MeterChart extends DefaultChartTypeImpl
 			imgStandard = UIHelper.getImage( "icons/wizban/meterchartimage.gif" ); //$NON-NLS-1$
 			imgSuperimposed = UIHelper.getImage( "icons/wizban/meterchartsuperimposedimage.gif" ); //$NON-NLS-1$
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL, imgStandard, sStandardDescription  ) );
-			vSubTypes.add( new DefaultChartSubTypeImpl( SUPERIMPOSED_SUBTYPE_LITERAL, imgSuperimposed, sSuperimposedDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
+					imgStandard,
+					sStandardDescription ) );
+			vSubTypes.add( new DefaultChartSubTypeImpl( SUPERIMPOSED_SUBTYPE_LITERAL,
+					imgSuperimposed,
+					sSuperimposedDescription ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}
@@ -177,21 +181,21 @@ public class MeterChart extends DefaultChartTypeImpl
 		newChart.setDimension( getDimensionFor( sDimension ) );
 		newChart.setUnits( "Points" ); //$NON-NLS-1$
 
-		newChart.setDialSuperimposition( sSubType.equals( SUPERIMPOSED_SUBTYPE_LITERAL  ) );
+		newChart.setDialSuperimposition( sSubType.equals( SUPERIMPOSED_SUBTYPE_LITERAL ) );
 		newChart.getLegend( ).setItemType( LegendItemType.SERIES_LITERAL );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		sdX.getSeriesPalette( ).update( 0 );
 		Series categorySeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( categorySeries );
-		
+
 		// Add a blank query to base series
-		Query baseQuery = QueryImpl.create( BLANK_QUERY );	
+		Query baseQuery = QueryImpl.create( BLANK_QUERY );
 		categorySeries.getDataDefinition( ).add( baseQuery );
-		
+
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
 
-		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE ); 
+		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).update( 0 );
@@ -244,10 +248,16 @@ public class MeterChart extends DefaultChartTypeImpl
 			currentChart.setBlock( helperModel.getBlock( ) );
 			currentChart.setDescription( helperModel.getDescription( ) );
 			currentChart.setGridColumnCount( helperModel.getGridColumnCount( ) );
-			
-			currentChart.getInteractivity().setEnable( helperModel.getInteractivity().isEnable());
-			currentChart.getInteractivity().setLegendBehavior( helperModel.getInteractivity().getLegendBehavior());
-			
+
+			if ( helperModel.getInteractivity( ) != null )
+			{
+				currentChart.getInteractivity( )
+						.setEnable( helperModel.getInteractivity( ).isEnable( ) );
+				currentChart.getInteractivity( )
+						.setLegendBehavior( helperModel.getInteractivity( )
+								.getLegendBehavior( ) );
+			}
+
 			if ( !currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
 					&& !currentChart.getType( ).equals( PieChart.TYPE_LITERAL )
 					&& !currentChart.getType( ).equals( BarChart.TYPE_LITERAL )
@@ -296,7 +306,7 @@ public class MeterChart extends DefaultChartTypeImpl
 
 			currentChart.getLegend( )
 					.setItemType( LegendItemType.SERIES_LITERAL );
-			
+
 			// Ensure base query is not null
 			EList dataDefinitions = ( (SeriesDefinition) ( (DialChart) currentChart ).getSeriesDefinitions( )
 					.get( 0 ) ).getDesignTimeSeries( ).getDataDefinition( );
@@ -319,7 +329,7 @@ public class MeterChart extends DefaultChartTypeImpl
 			if ( currentChart.getType( ).equals( TYPE_LITERAL ) )
 			{
 				currentChart.setSubType( sNewSubType );
-				( (DialChart) currentChart ).setDialSuperimposition( sNewSubType.equals( SUPERIMPOSED_SUBTYPE_LITERAL  ) ); 
+				( (DialChart) currentChart ).setDialSuperimposition( sNewSubType.equals( SUPERIMPOSED_SUBTYPE_LITERAL ) );
 				if ( !currentChart.getDimension( )
 						.equals( getDimensionFor( sNewDimension ) ) )
 				{
@@ -335,7 +345,7 @@ public class MeterChart extends DefaultChartTypeImpl
 				currentChart.setSubType( sNewSubType );
 				currentChart.setDimension( getDimensionFor( sNewDimension ) );
 
-				( (DialChart) currentChart ).setDialSuperimposition( sNewSubType.equals( SUPERIMPOSED_SUBTYPE_LITERAL  ) ); 
+				( (DialChart) currentChart ).setDialSuperimposition( sNewSubType.equals( SUPERIMPOSED_SUBTYPE_LITERAL ) );
 
 				// Copy generic chart properties from the old chart
 				currentChart.setBlock( helperModel.getBlock( ) );
@@ -344,9 +354,16 @@ public class MeterChart extends DefaultChartTypeImpl
 				currentChart.setSampleData( helperModel.getSampleData( ) );
 				currentChart.setScript( helperModel.getScript( ) );
 				currentChart.setUnits( helperModel.getUnits( ) );
-				
-				currentChart.getInteractivity().setEnable( helperModel.getInteractivity().isEnable());
-				currentChart.getInteractivity().setLegendBehavior( helperModel.getInteractivity().getLegendBehavior());
+
+				if ( helperModel.getInteractivity( ) != null )
+				{
+					currentChart.getInteractivity( )
+							.setEnable( helperModel.getInteractivity( )
+									.isEnable( ) );
+					currentChart.getInteractivity( )
+							.setLegendBehavior( helperModel.getInteractivity( )
+									.getLegendBehavior( ) );
+				}
 
 				// Clear existing series definitions
 				( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
@@ -383,7 +400,7 @@ public class MeterChart extends DefaultChartTypeImpl
 						.getCaption( )
 						.setValue( CHART_TITLE );
 			}
-			
+
 			// Ensure base query is not null
 			EList dataDefinitions = ( (SeriesDefinition) ( (DialChart) currentChart ).getSeriesDefinitions( )
 					.get( 0 ) ).getDesignTimeSeries( ).getDataDefinition( );
@@ -404,7 +421,7 @@ public class MeterChart extends DefaultChartTypeImpl
 		else
 		{
 			return null;
-		}	
+		}
 		return currentChart;
 	}
 
@@ -591,7 +608,7 @@ public class MeterChart extends DefaultChartTypeImpl
 		// oContext,
 		// sTitle,
 		// selectDataUI );
-		return new ISelectDataComponent( ){
+		return new ISelectDataComponent( ) {
 
 			public Composite createArea( Composite parent )
 			{
@@ -604,13 +621,14 @@ public class MeterChart extends DefaultChartTypeImpl
 			public void selectArea( boolean selected, Object data )
 			{
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			public void dispose( )
 			{
 				// TODO Auto-generated method stub
-				
-			}};
+
+			}
+		};
 	}
 }

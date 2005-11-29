@@ -70,13 +70,13 @@ public class BarChart extends DefaultChartTypeImpl
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = "Bar Chart"; //$NON-NLS-1$
-	
+
 	private static final String STACKED_SUBTYPE_LITERAL = "Stacked"; //$NON-NLS-1$
-	
+
 	private static final String PERCENTSTACKED_SUBTYPE_LITERAL = "Percent Stacked"; //$NON-NLS-1$
-	
+
 	private static final String SIDE_SUBTYPE_LITERAL = "Side-by-side"; //$NON-NLS-1$
-	
+
 	public static final String CHART_TITLE = Messages.getString( "BarChart.Txt.DefaultBarChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStackedDescription = Messages.getString( "BarChart.Txt.StackedDescription" ); //$NON-NLS-1$
@@ -168,9 +168,15 @@ public class BarChart extends DefaultChartTypeImpl
 				imgSideBySide = UIHelper.getImage( "icons/wizban/horizontalsidebysidebarchartimage.gif" ); //$NON-NLS-1$
 			}
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL, imgStacked, sStackedDescription ) ); 
-			vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL, imgPercentStacked, sPercentStackedDescription ) ); 
-			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL, imgSideBySide, sSideBySideDescription ) ); 
+			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
+					imgStacked,
+					sStackedDescription ) );
+			vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
+					imgPercentStacked,
+					sPercentStackedDescription ) );
+			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL,
+					imgSideBySide,
+					sSideBySideDescription ) );
 		}
 		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
@@ -187,10 +193,15 @@ public class BarChart extends DefaultChartTypeImpl
 				imgPercentStackedWithDepth = UIHelper.getImage( "icons/wizban/horizontalpercentstackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
 				imgSideBySideWithDepth = UIHelper.getImage( "icons/wizban/horizontalsidebysidebarchartwithdepthimage.gif" ); //$NON-NLS-1$
 			}
-			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL, imgStackedWithDepth, sStackedDescription ) ); 
-			vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL, imgPercentStackedWithDepth, 
+			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
+					imgStackedWithDepth,
+					sStackedDescription ) );
+			vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
+					imgPercentStackedWithDepth,
 					sPercentStackedDescription ) );
-			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL, imgSideBySideWithDepth, sSideBySideDescription ) ); 
+			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL,
+					imgSideBySideWithDepth,
+					sSideBySideDescription ) );
 		}
 		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
@@ -203,7 +214,9 @@ public class BarChart extends DefaultChartTypeImpl
 			{
 				imgSideBySide3D = UIHelper.getImage( "icons/wizban/horizontalsidebysidebarchart3dimage.gif" ); //$NON-NLS-1$
 			}
-			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL, imgSideBySide3D, sSideBySideDescription ) ); 
+			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL,
+					imgSideBySide3D,
+					sSideBySideDescription ) );
 		}
 		return vSubTypes;
 	}
@@ -247,12 +260,9 @@ public class BarChart extends DefaultChartTypeImpl
 		( (Axis) newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
 				.add( sdX );
 
-		newChart.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( CHART_TITLE ); 
+		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 
-		if ( sSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) ) 
+		if ( sSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) )
 		{
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 					.get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
@@ -268,7 +278,7 @@ public class BarChart extends DefaultChartTypeImpl
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 					.get( 0 ) ).getSeriesDefinitions( ).add( sdY );
 		}
-		else if ( sSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) 
+		else if ( sSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
 		{
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 					.get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
@@ -287,7 +297,7 @@ public class BarChart extends DefaultChartTypeImpl
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 					.get( 0 ) ).getSeriesDefinitions( ).add( sdY );
 		}
-		else if ( sSubType.equalsIgnoreCase( SIDE_SUBTYPE_LITERAL ) ) 
+		else if ( sSubType.equalsIgnoreCase( SIDE_SUBTYPE_LITERAL ) )
 		{
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 					.get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
@@ -307,9 +317,9 @@ public class BarChart extends DefaultChartTypeImpl
 		if ( sDimension.equals( THREE_DIMENSION_TYPE ) )
 		{
 			newChart.setRotation( Rotation3DImpl.create( new Angle3D[]{
-					Angle3DImpl.create( -20, 45, 0 )
+				Angle3DImpl.create( -20, 45, 0 )
 			} ) );
-			
+
 			newChart.setUnitSpacing( 50 );
 
 			newChart.getPrimaryBaseAxes( )[0].getAncillaryAxes( ).clear( );
@@ -399,7 +409,7 @@ public class BarChart extends DefaultChartTypeImpl
 							.get( 0 ) ).getAssociatedAxes( );
 					for ( int i = 0; i < axes.size( ); i++ )
 					{
-						if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) 
+						if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
 						{
 							( (Axis) axes.get( i ) ).setPercent( true );
 						}
@@ -411,8 +421,7 @@ public class BarChart extends DefaultChartTypeImpl
 						for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 						{
 							Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-							if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType 
-									.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) ) 
+							if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 							{
 								series.setStacked( true );
 							}
@@ -438,12 +447,15 @@ public class BarChart extends DefaultChartTypeImpl
 				}
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
-				currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+				currentChart.getTitle( )
+						.getLabel( )
+						.getCaption( )
+						.setValue( CHART_TITLE );
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
 				for ( int i = 0; i < axes.size( ); i++ )
 				{
-					if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) 
+					if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
 					{
 						( (Axis) axes.get( i ) ).setPercent( true );
 					}
@@ -456,7 +468,7 @@ public class BarChart extends DefaultChartTypeImpl
 					{
 						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 						series = getConvertedSeries( series );
-						if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) ) 
+						if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 						{
 							series.setStacked( true );
 						}
@@ -485,8 +497,8 @@ public class BarChart extends DefaultChartTypeImpl
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
 			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
-			currentChart.setDimension( getDimensionFor( sNewDimension ) );			
-			
+			currentChart.setDimension( getDimensionFor( sNewDimension ) );
+
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.TEXT_LITERAL );
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
@@ -504,8 +516,15 @@ public class BarChart extends DefaultChartTypeImpl
 			currentChart.setScript( helperModel.getScript( ) );
 			currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
 			currentChart.setUnits( helperModel.getUnits( ) );
-			currentChart.getInteractivity().setEnable( helperModel.getInteractivity().isEnable());
-			currentChart.getInteractivity().setLegendBehavior( helperModel.getInteractivity().getLegendBehavior());
+
+			if ( helperModel.getInteractivity( ) != null )
+			{
+				currentChart.getInteractivity( )
+						.setEnable( helperModel.getInteractivity( ).isEnable( ) );
+				currentChart.getInteractivity( )
+						.setLegendBehavior( helperModel.getInteractivity( )
+								.getLegendBehavior( ) );
+			}
 
 			if ( helperModel.getType( ).equals( PieChart.TYPE_LITERAL )
 					|| helperModel.getType( ).equals( MeterChart.TYPE_LITERAL ) )
@@ -552,7 +571,7 @@ public class BarChart extends DefaultChartTypeImpl
 				{
 					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 					series = getConvertedSeries( series );
-					if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) ) 
+					if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 					{
 						series.setStacked( true );
 					}
@@ -572,8 +591,12 @@ public class BarChart extends DefaultChartTypeImpl
 			{
 				return null;
 			}
-			currentChart.getLegend( ).setItemType( LegendItemType.SERIES_LITERAL );
-			currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+			currentChart.getLegend( )
+					.setItemType( LegendItemType.SERIES_LITERAL );
+			currentChart.getTitle( )
+					.getLabel( )
+					.getCaption( )
+					.setValue( CHART_TITLE );
 		}
 		if ( currentChart instanceof ChartWithAxes
 				&& !( (ChartWithAxes) currentChart ).getOrientation( )
@@ -591,11 +614,11 @@ public class BarChart extends DefaultChartTypeImpl
 				&& getDimensionFor( sNewDimension ) != oldDimension )
 		{
 			( (ChartWithAxes) currentChart ).setRotation( Rotation3DImpl.create( new Angle3D[]{
-					Angle3DImpl.create( -20, 45, 0 )
+				Angle3DImpl.create( -20, 45, 0 )
 			} ) );
 
 			( (ChartWithAxes) currentChart ).setUnitSpacing( 50 );
-			
+
 			( (ChartWithAxes) currentChart ).getPrimaryBaseAxes( )[0].getAncillaryAxes( )
 					.clear( );
 
@@ -842,7 +865,7 @@ public class BarChart extends DefaultChartTypeImpl
 	{
 		return false;
 	}
-	
+
 	public ISelectDataComponent getBaseUI( Chart chart,
 			ISelectDataCustomizeUI selectDataUI, IUIServiceProvider builder,
 			Object oContext, String sTitle )

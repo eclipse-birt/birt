@@ -62,7 +62,7 @@ public class PieChart extends DefaultChartTypeImpl
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = "Pie Chart"; //$NON-NLS-1$
-	
+
 	private static final String STANDARD_SUBTYPE_LITERAL = "Standard Pie Chart"; //$NON-NLS-1$
 
 	public static final String CHART_TITLE = Messages.getString( "PieChart.Txt.DefaultPieChartTitle" ); //$NON-NLS-1$
@@ -134,14 +134,18 @@ public class PieChart extends DefaultChartTypeImpl
 		{
 			img2D = UIHelper.getImage( "icons/wizban/piechartimage.gif" ); //$NON-NLS-1$
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL , img2D, sStandardDescription ) ); 
+			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
+					img2D,
+					sStandardDescription ) );
 		}
 		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
 		{
 			img2DWithDepth = UIHelper.getImage( "icons/wizban/piechartwithdepthimage.gif" ); //$NON-NLS-1$
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL , img2DWithDepth, sStandardDescription ) ); 
+			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
+					img2DWithDepth,
+					sStandardDescription ) );
 		}
 		return vSubTypes;
 	}
@@ -249,9 +253,16 @@ public class PieChart extends DefaultChartTypeImpl
 			currentChart.setBlock( helperModel.getBlock( ) );
 			currentChart.setDescription( helperModel.getDescription( ) );
 			currentChart.setGridColumnCount( helperModel.getGridColumnCount( ) );
-			currentChart.getInteractivity().setEnable( helperModel.getInteractivity().isEnable());
-			currentChart.getInteractivity().setLegendBehavior( helperModel.getInteractivity().getLegendBehavior());
-			
+
+			if ( helperModel.getInteractivity( ) != null )
+			{
+				currentChart.getInteractivity( )
+						.setEnable( helperModel.getInteractivity( ).isEnable( ) );
+				currentChart.getInteractivity( )
+						.setLegendBehavior( helperModel.getInteractivity( )
+								.getLegendBehavior( ) );
+			}
+
 			if ( !currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
 					&& !currentChart.getType( ).equals( BarChart.TYPE_LITERAL )
 					&& !currentChart.getType( ).equals( AreaChart.TYPE_LITERAL ) )
@@ -344,8 +355,16 @@ public class PieChart extends DefaultChartTypeImpl
 				currentChart.setScript( helperModel.getScript( ) );
 				currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
 				currentChart.setUnits( helperModel.getUnits( ) );
-				currentChart.getInteractivity().setEnable( helperModel.getInteractivity().isEnable());
-				currentChart.getInteractivity().setLegendBehavior( helperModel.getInteractivity().getLegendBehavior());
+
+				if ( helperModel.getInteractivity( ) != null )
+				{
+					currentChart.getInteractivity( )
+							.setEnable( helperModel.getInteractivity( )
+									.isEnable( ) );
+					currentChart.getInteractivity( )
+							.setLegendBehavior( helperModel.getInteractivity( )
+									.getLegendBehavior( ) );
+				}
 
 				// Clear existing series definitions
 				( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
