@@ -46,6 +46,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -1073,8 +1074,17 @@ public class DEUtil
 			}
 		}
 
-		Object fontSizeValue = handle.getPrivateStyle( ).getFontSize( )
-				.getValue( );
+		//Fix 118374
+		//ReportTemplateElement is the only exception that is a DesignElemtn but doesn't have Style attached. 
+		StyleHandle styleHandle = handle.getPrivateStyle( );
+		Object fontSizeValue = null;
+		if(styleHandle !=null)
+		{
+			fontSizeValue = handle.getPrivateStyle( ).getFontSize( )
+			.getValue( );
+		}
+		//Changed ended.
+		
 		if ( fontSizeValue instanceof DimensionValue )
 		{
 			// use parent's font size as the base size for converting sizeValue
