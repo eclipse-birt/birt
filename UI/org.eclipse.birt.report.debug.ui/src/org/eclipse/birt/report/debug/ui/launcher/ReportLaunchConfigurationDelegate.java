@@ -15,8 +15,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -25,6 +23,7 @@ import java.util.TreeMap;
 import org.eclipse.birt.report.debug.internal.ui.launcher.IReportLauncherSettings;
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.DebugUtil;
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.ReportLauncherUtils;
+import org.eclipse.birt.report.debug.internal.ui.launcher.util.WorkspaceClassPathFinder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -38,8 +37,6 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 import org.eclipse.debug.core.sourcelookup.ISourceContainer;
 import org.eclipse.debug.core.sourcelookup.containers.DirectorySourceContainer;
-import org.eclipse.jdt.core.IClasspathEntry;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.launching.JavaSourceLookupDirector;
 import org.eclipse.jdt.launching.ExecutionArguments;
@@ -53,19 +50,21 @@ import org.eclipse.pde.internal.ui.launcher.LauncherUtils;
 
 /**
  * add comment here
- *  
+ * 
  */
 
-public class ReportLaunchConfigurationDelegate
-		extends
-			LaunchConfigurationDelegate implements IReportLauncherSettings
+public class ReportLaunchConfigurationDelegate extends
+		LaunchConfigurationDelegate implements IReportLauncherSettings
 {
 
 	/**
 	 * It is roperty key.
 	 */
 	private static final String PROJECT_NAMES_KEY = "user.projectname";
+
 	private static final String PROJECT_CLASSPATH_KEY = "user.projectclasspath";
+
+	private static WorkspaceClassPathFinder finder = new WorkspaceClassPathFinder( );
 
 	public ReportLaunchConfigurationDelegate( )
 	{
@@ -116,8 +115,7 @@ public class ReportLaunchConfigurationDelegate
 			launcher.getVMRunner( mode ).run( runnerConfig, launch, monitor );
 			monitor.worked( 1 );
 
-		}
-		catch ( CoreException e )
+		} catch ( CoreException e )
 		{
 			monitor.setCanceled( true );
 			throw e;
@@ -131,7 +129,7 @@ public class ReportLaunchConfigurationDelegate
 	{
 		if ( launch.getSourceLocator( ) instanceof JavaSourceLookupDirector )
 		{
-			JavaSourceLookupDirector director = (JavaSourceLookupDirector) launch
+			JavaSourceLookupDirector director = ( JavaSourceLookupDirector ) launch
 					.getSourceLocator( );
 			ISourceContainer[] contains = director.getSourceContainers( );
 			List list = new ArrayList( );
@@ -150,19 +148,18 @@ public class ReportLaunchConfigurationDelegate
 						.getAttribute( IMPORTPROJECTNAMES, "" ) );
 				for ( int i = 0; i < sourcePaths.size( ); i++ )
 				{
-					String source = (String) sourcePaths.get( i );
+					String source = ( String ) sourcePaths.get( i );
 					ISourceContainer temp = new DirectorySourceContainer(
 							new Path( source ), true );
 					list.add( temp );
 				}
-			}
-			catch ( CoreException e )
+			} catch ( CoreException e )
 			{
 
 			}
 
 			ISourceContainer[] retValue = new ISourceContainer[list.size( )];
-			retValue = (ISourceContainer[]) list.toArray( retValue );
+			retValue = ( ISourceContainer[] ) list.toArray( retValue );
 			director.setSourceContainers( retValue );
 		}
 	}
@@ -186,8 +183,7 @@ public class ReportLaunchConfigurationDelegate
 		if ( programArgs == null )
 		{
 			return null;
-		}
-		else
+		} else
 		{
 			String envp[] = DebugPlugin.getDefault( ).getLaunchManager( )
 					.getEnvironment( configuration );
@@ -210,8 +206,7 @@ public class ReportLaunchConfigurationDelegate
 		{
 			programArgs.add( "-product" ); //$NON-NLS-1$
 			programArgs.add( configuration.getAttribute( PRODUCT, "" ) ); //$NON-NLS-1$
-		}
-		else
+		} else
 		{
 			// specify the application to launch
 			programArgs.add( "-application" ); //$NON-NLS-1$
@@ -237,8 +232,7 @@ public class ReportLaunchConfigurationDelegate
 			programArgs
 					.add( "file:" + installPath.removeLastSegments( 1 ).addTrailingSeparator( ).toString( ) ); //$NON-NLS-1$
 			programArgs.add( "-update" ); //$NON-NLS-1$
-		}
-		else
+		} else
 		{
 			TreeMap pluginMap = LauncherUtils.getPluginsToRun( configuration );
 			if ( pluginMap == null )
@@ -263,7 +257,7 @@ public class ReportLaunchConfigurationDelegate
 					programArgs.add( "-feature" ); //$NON-NLS-1$
 					programArgs.add( primaryFeatureId );
 				}
-				IPluginModelBase bootModel = (IPluginModelBase) pluginMap
+				IPluginModelBase bootModel = ( IPluginModelBase ) pluginMap
 						.get( "org.eclipse.core.boot" ); //$NON-NLS-1$
 				String bootPath = LauncherUtils.getBootPath( bootModel );
 				if ( bootPath != null && !bootPath.endsWith( ".jar" ) ) { //$NON-NLS-1$
@@ -290,7 +284,7 @@ public class ReportLaunchConfigurationDelegate
 		// add tracing, if turned on
 		if ( configuration.getAttribute( TRACING, false )
 				&& !TRACING_NONE.equals( configuration.getAttribute(
-						TRACING_CHECKED, (String) null ) ) )
+						TRACING_CHECKED, ( String ) null ) ) )
 		{
 			programArgs.add( "-debug" ); //$NON-NLS-1$
 			programArgs.add( LauncherUtils.getTracingFileArgument(
@@ -321,7 +315,8 @@ public class ReportLaunchConfigurationDelegate
 			programArgs.add( 0, "-showsplash" ); //$NON-NLS-1$
 			programArgs.add( 1, computeShowsplashArgument( ) );
 		}
-		return (String[]) programArgs.toArray( new String[programArgs.size( )] );
+		return ( String[] ) programArgs
+				.toArray( new String[programArgs.size( )] );
 	}
 
 	/**
@@ -338,38 +333,20 @@ public class ReportLaunchConfigurationDelegate
 
 		String append = "-D" + PROJECT_NAMES_KEY + "=" + path;
 
-		List paths = getAllProjectPaths( configuration.getAttribute(
-				IMPORTPROJECTNAMES, "" ) );
-
-		StringBuffer wbuf = new StringBuffer( );
-		for ( int i = 0; i < paths.size( ); i++ )
-		{
-			String classPath = (String) paths.get( i );
-			if ( classPath != null && classPath.length( ) != 0 )
-			{
-				if ( i == 0 )
-				{
-					wbuf.append( classPath );
-				}
-				else
-				{
-					wbuf.append( PROPERTYSEPARATOR + classPath );
-				}
-			}
-		}
+		String projectClassPaths = finder.getClassPath( configuration
+				.getAttribute( IMPORTPROJECTNAMES, "" ) );
 
 		String classPath = "";
-		//String sourcePath = "";
-		if ( wbuf.toString( ).length( ) != 0 )
+		// String sourcePath = "";
+		if ( projectClassPaths != null && projectClassPaths.length( ) != 0 )
 		{
-			classPath = "-D" + PROJECT_CLASSPATH_KEY + "=" + wbuf.toString( );
+			classPath = "-D" + PROJECT_CLASSPATH_KEY + "=" + projectClassPaths;
 		}
 
 		if ( temp == null )
 		{
-			temp = ( new String[]{append, classPath} );
-		}
-		else
+			temp = ( new String[] { append, classPath } );
+		} else
 		{
 			List list = new ArrayList( );
 			int size = temp.length;
@@ -378,30 +355,9 @@ public class ReportLaunchConfigurationDelegate
 
 			list.add( append );
 			list.add( classPath );
-			temp = (String[]) list.toArray( temp );
+			temp = ( String[] ) list.toArray( temp );
 		}
 		return temp;
-	}
-
-	private List getAllProjectPaths( String path )
-	{
-		List retValue = new ArrayList( );
-		if ( path == null || path.length( ) == 0 )
-		{
-			return retValue;
-		}
-		StringTokenizer token = new StringTokenizer( path, PROPERTYSEPARATOR );
-		while ( token.hasMoreTokens( ) )
-		{
-			String projectName = token.nextToken( );
-			List paths = getProjectPaths( projectName );
-			for ( int i = 0; i < paths.size( ); i++ )
-			{
-				retValue.add( paths.get( i ) );
-			}
-		}
-
-		return retValue;
 	}
 
 	private List getAllProjectSourcePaths( String path )
@@ -429,96 +385,6 @@ public class ReportLaunchConfigurationDelegate
 	 * @param projectName
 	 * @return
 	 */
-	private List getProjectPaths( String projectName )
-	{
-		List retValue = new ArrayList( );
-
-		IProject project = ResourcesPlugin.getWorkspace( ).getRoot( )
-				.getProject( projectName );
-
-		if ( projectName == null )
-		{
-			return retValue;
-		}
-
-		List paths = getProjectPath( project );
-		for ( int j = 0; j < paths.size( ); j++ )
-		{
-			URL url = (URL) paths.get( j );
-			if ( url != null )
-			{
-				retValue.add( url.getPath( ) );
-			}
-		}
-
-		String url = getProjectOutClassPath( project );
-		if ( url != null )
-		{
-			retValue.add( url );
-		}
-		return retValue;
-	}
-
-	private String getProjectOutClassPath( IProject project )
-	{
-		if ( !hasJavaNature( project ) )
-		{
-			return null;
-		}
-
-		IJavaProject fCurrJProject = JavaCore.create( project );
-		IPath path = null;
-		boolean projectExists = ( project.exists( ) && project.getFile(
-				".classpath" ).exists( ) ); //$NON-NLS-1$
-		if ( projectExists )
-		{
-			if ( path == null )
-			{
-				//fCurrJProject.getR
-				path = fCurrJProject.readOutputLocation( );
-				String curPath = path.toOSString( );
-				String directPath = project.getLocation( ).toOSString( );
-				int index = directPath.lastIndexOf( File.separator );
-				String absPath = directPath.substring( 0, index ) + curPath;
-
-				return absPath;
-			}
-		}
-
-		return null;
-	}
-
-	private List getProjectPath( IProject project )
-	{
-		List retValue = new ArrayList( );
-		if ( !hasJavaNature( project ) )
-		{
-			return retValue;
-		}
-
-		IJavaProject fCurrJProject = JavaCore.create( project );
-		IClasspathEntry[] classpathEntries = null;
-		boolean projectExists = ( project.exists( ) && project.getFile(
-				".classpath" ).exists( ) ); //$NON-NLS-1$
-		if ( projectExists )
-		{
-			if ( classpathEntries == null )
-			{
-				classpathEntries = fCurrJProject.readRawClasspath( );
-			}
-		}
-
-		if ( classpathEntries != null )
-		{
-			retValue = getExistingEntries( classpathEntries );
-		}
-		return retValue;
-	}
-
-	/**
-	 * @param projectName
-	 * @return
-	 */
 	private List getProjectSourcePaths( String projectName )
 	{
 		List retValue = new ArrayList( );
@@ -534,7 +400,7 @@ public class ReportLaunchConfigurationDelegate
 		List list = getProjectSourcePath( project );
 		for ( int j = 0; j < list.size( ); j++ )
 		{
-			String url = (String) list.get( j );
+			String url = ( String ) list.get( j );
 			if ( url != null )
 			{
 				retValue.add( url );
@@ -551,49 +417,28 @@ public class ReportLaunchConfigurationDelegate
 			return null;
 		}
 
-		//		IJavaProject fCurrJProject = JavaCore.create( project );
+		// IJavaProject fCurrJProject = JavaCore.create( project );
 
 		//
-		//		IClasspathEntry[] paths = fCurrJProject.readRawClasspath( );
-		//		if (paths == null || paths.length == 0)
-		//		{
-		//			return retValue;
-		//		}
-		//		int len = paths.length;
-		//		for (int i=0; i<len; i++)
-		//		{
-		//			IPath temp = paths[i].getPath();
+		// IClasspathEntry[] paths = fCurrJProject.readRawClasspath( );
+		// if (paths == null || paths.length == 0)
+		// {
+		// return retValue;
+		// }
+		// int len = paths.length;
+		// for (int i=0; i<len; i++)
+		// {
+		// IPath temp = paths[i].getPath();
 		//			
-		//			String curPath = temp.toOSString( );
-		//			String directPath = project.getLocation( ).toOSString( );
-		//			int index = directPath.lastIndexOf( File.separator );
-		//			String absPath = directPath.substring( 0, index ) + curPath;
+		// String curPath = temp.toOSString( );
+		// String directPath = project.getLocation( ).toOSString( );
+		// int index = directPath.lastIndexOf( File.separator );
+		// String absPath = directPath.substring( 0, index ) + curPath;
 		//				
-		//			retValue.add(directPath);
-		//		}
+		// retValue.add(directPath);
+		// }
 		retValue.add( project.getLocation( ).toOSString( ) );
 		return retValue;
-	}
-
-	private List getExistingEntries( IClasspathEntry[] classpathEntries )
-	{
-		ArrayList newClassPath = new ArrayList( );
-		for ( int i = 0; i < classpathEntries.length; i++ )
-		{
-			IClasspathEntry curr = classpathEntries[i];
-			if ( curr.getEntryKind( ) == IClasspathEntry.CPE_LIBRARY )
-			{
-				try
-				{
-					newClassPath.add( curr.getPath( ).toFile( ).toURL( ) );
-				}
-				catch ( MalformedURLException e )
-				{
-					//DO nothing
-				}
-			}
-		}
-		return newClassPath;
 	}
 
 	/**
@@ -609,8 +454,7 @@ public class ReportLaunchConfigurationDelegate
 		try
 		{
 			return project.hasNature( JavaCore.NATURE_ID );
-		}
-		catch ( CoreException e )
+		} catch ( CoreException e )
 		{
 			// project does not exist or is not open
 		}
@@ -635,8 +479,7 @@ public class ReportLaunchConfigurationDelegate
 					LauncherUtils
 							.createErrorStatus( DebugUtil
 									.getResourceString( "WorkbenchLauncherConfigurationDelegate.badFeatureSetup" ) ) );
-		}
-		else
+		} else
 		{
 			ensureProductFilesExist( getProductPath( ) );
 			return;
@@ -676,8 +519,7 @@ public class ReportLaunchConfigurationDelegate
 			if ( !ini.exists( ) )
 				copyFile( eclipsePath.append( "configuration" ), "config.ini",
 						ini );
-		}
-		else
+		} else
 		{
 			File ini = new File( productDir, "install.ini" );
 			if ( !ini.exists( ) )
@@ -704,11 +546,9 @@ public class ReportLaunchConfigurationDelegate
 				os.write( buf, 0, len );
 			}
 
-		}
-		catch ( IOException _ex )
+		} catch ( IOException _ex )
 		{
-		}
-		finally
+		} finally
 		{
 			try
 			{
@@ -716,8 +556,7 @@ public class ReportLaunchConfigurationDelegate
 					is.close( );
 				if ( os != null )
 					os.close( );
-			}
-			catch ( IOException _ex )
+			} catch ( IOException _ex )
 			{
 			}
 		}
@@ -750,14 +589,12 @@ public class ReportLaunchConfigurationDelegate
 							.isOSGiRuntime( ) )
 						root = root + "/configuration";
 					fConfigDir = new File( root );
-				}
-				else
+				} else
 				{
 					fConfigDir = ReportLauncherUtils.createConfigArea( config
 							.getName( ) );
 				}
-			}
-			catch ( CoreException _ex )
+			} catch ( CoreException _ex )
 			{
 				fConfigDir = ReportLauncherUtils.createConfigArea( config
 						.getName( ) );
@@ -768,6 +605,8 @@ public class ReportLaunchConfigurationDelegate
 	}
 
 	private static final String KEY_BAD_FEATURE_SETUP = "WorkbenchLauncherConfigurationDelegate.badFeatureSetup";
+
 	private static final String KEY_NO_STARTUP = "WorkbenchLauncherConfigurationDelegate.noStartup";
+
 	private File fConfigDir;
 }

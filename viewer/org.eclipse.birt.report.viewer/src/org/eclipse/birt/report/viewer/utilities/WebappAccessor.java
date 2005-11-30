@@ -14,10 +14,7 @@ package org.eclipse.birt.report.viewer.utilities;
 import java.io.IOException;
 import java.net.URL;
 
-import org.eclipse.birt.report.engine.script.ScriptExecutor;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
@@ -34,6 +31,8 @@ import org.osgi.framework.Bundle;
  */
 public class WebappAccessor
 {
+	private static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath";
+
 	private static boolean applicationsStarted = false;
 
 	/**
@@ -66,24 +65,9 @@ public class WebappAccessor
 	{
 		if ( !applicationsStarted )
 		{
-
-			// Search current workspace, add to classpath
-			IProject[] projects = ResourcesPlugin.getWorkspace( ).getRoot( )
-					.getProjects( );
-
-			String projectString = "";
-			for ( int i = 0; i < projects.length; i++ )
-			{
-				IProject proj = projects[i];
-				projectString += proj.getName( )
-						+ ScriptExecutor.PROPERTYSEPARATOR;
-			}
-
-			String projectClassPaths = ClasspathUtil
-					.getAllProjectPaths( projectString );
-
-			System.setProperty( ScriptExecutor.WORKSPACE_CLASSPATH_KEY,
-					projectClassPaths );
+			// Set the classpath property (used in Java scripting)
+			String projectClassPaths = WorkspaceClasspathManager.getClassPath( );
+			System.setProperty( WORKSPACE_CLASSPATH_KEY, projectClassPaths );
 
 			IPath webappPath = getWebappPath( pluginId, path );
 

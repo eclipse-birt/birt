@@ -25,8 +25,6 @@
       <import plugin="org.eclipse.help.appserver"/>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.birt.report.model"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.jdt.core"/>
    </requires>
 
    <extension-point id="browser" name="Web Browser" schema="schema/browser.exsd"/>

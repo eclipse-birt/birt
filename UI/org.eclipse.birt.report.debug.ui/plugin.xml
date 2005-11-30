@@ -25,6 +25,7 @@
       <import plugin="org.eclipse.pde"/>
       <import plugin="org.eclipse.birt.core"/>
       <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.birt.report.viewer"/>
    </requires>
    
    

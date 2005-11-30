@@ -15,11 +15,14 @@ import java.util.StringTokenizer;
 
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.DebugUtil;
 import org.eclipse.ui.IStartup;
+import org.eclipse.birt.report.viewer.utilities.IWorkspaceClasspathFinder;
+import org.eclipse.birt.report.viewer.utilities.WorkspaceClasspathManager;
+import org.eclipse.birt.report.debug.internal.ui.launcher.util.WorkspaceClassPathFinder;
 
 /**
  * Copy the seletion of the project in the debug lauch.The key name is
  * user.projectname.
- *  
+ * 
  */
 public class DebugStartupClass implements IStartup
 {
@@ -31,6 +34,10 @@ public class DebugStartupClass implements IStartup
 	 */
 	public void earlyStartup( )
 	{
+		// Register a classpath finder class to the viewer
+		WorkspaceClasspathManager
+				.registerClassPathFinder( new WorkspaceClassPathFinder( ) );
+
 		String value = System.getProperty( "user.projectname" );
 		if ( value == null || value.length( ) == 0 )
 		{
@@ -43,8 +50,7 @@ public class DebugStartupClass implements IStartup
 			try
 			{
 				DebugUtil.importProject( str );
-			}
-			catch ( Exception e1 )
+			} catch ( Exception e1 )
 			{
 
 				e1.printStackTrace( );
