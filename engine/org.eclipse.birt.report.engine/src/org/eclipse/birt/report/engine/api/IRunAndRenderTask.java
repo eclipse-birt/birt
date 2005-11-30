@@ -34,4 +34,13 @@ public interface IRunAndRenderTask extends IEngineTask {
 	 */
 	public abstract void run() throws EngineException;
 
+	/**
+	 * sets a specific emitter to use when generate output. Used when there 
+	 * are more than one emitters that support a single format. One example 
+	 * is the FO-based PDF emitter and the new PDF emitter added in BIRT2.0.
+	 * If this function is not called when there are more than 1 emitters 
+	 * that support a format, engine may arbitrarily pick one.
+	 * @param id the identifier for the emitter
+	 */
+	public abstract void setEmitterID(String id);
 }

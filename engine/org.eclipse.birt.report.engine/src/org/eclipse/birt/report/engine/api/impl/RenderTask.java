@@ -164,7 +164,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		}
 
 		IContentEmitter emitter = ExtensionManager.getInstance( )
-				.createEmitter( format );
+				.createEmitter( format, emitterID );
 		if ( emitter == null )
 		{
 			log.log( Level.SEVERE, "Report engine can not create {0} emitter.",

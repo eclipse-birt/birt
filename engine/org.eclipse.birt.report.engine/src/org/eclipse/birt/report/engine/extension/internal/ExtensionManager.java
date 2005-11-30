@@ -157,7 +157,7 @@ public class ExtensionManager
 	 * @param format the format that the extension point supports
 	 * @return an emitter
 	 */
-	public IContentEmitter createEmitter(String format)
+	public IContentEmitter createEmitter(String format, String emitterID)
 	{
 		IConfigurationElement config = (IConfigurationElement)emitterExtensions.get(format);
 		if (config != null)

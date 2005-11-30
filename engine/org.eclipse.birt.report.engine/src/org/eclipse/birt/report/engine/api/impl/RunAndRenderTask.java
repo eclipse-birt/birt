@@ -61,6 +61,11 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	 * full path for the output file name
 	 */
 	protected String outputFileName;
+	
+	/**
+	 * specifies the emitter ID used for rendering the report
+	 */
+	protected String emitterID;
 
 	/**
 	 * @param engine
@@ -156,7 +161,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		}
 
 		IContentEmitter emitter = ExtensionManager.getInstance( )
-				.createEmitter( format );
+				.createEmitter( format, emitterID );
 		if ( emitter == null )
 		{
 			log.log( Level.SEVERE, "Report engine can not create {0} emitter.",
@@ -231,5 +236,12 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	public IRenderOption getRenderOption( )
 	{
 		return renderOption;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IRunAndRenderTask#setEmitterID(java.lang.String)
+	 */
+	public void setEmitterID(String id) {
+		emitterID = id;
 	}
 }
