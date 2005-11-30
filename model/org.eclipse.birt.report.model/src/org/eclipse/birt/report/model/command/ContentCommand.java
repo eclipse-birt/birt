@@ -1080,13 +1080,11 @@ public class ContentCommand extends AbstractElementCommand
 					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_FOUND );
 
 		// Can not drop a virtual element.
-
-		if ( !oldElement.canDrop( ) )
+		if ( !oldElement.canTransformToTemplate( module ) )
 			throw new ContentException(
 					element,
 					slotID,
-					oldElement,
-					ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN );
+					ContentException.DESIGN_EXCEPTION_TEMPLATE_TRANSFORM_FORBIDDEN );
 
 		// if the old element is in component slot of report design and it has
 		// children, then the operation is forbidden.
@@ -1180,5 +1178,4 @@ public class ContentCommand extends AbstractElementCommand
 
 		stack.commit( );
 	}
-
 }

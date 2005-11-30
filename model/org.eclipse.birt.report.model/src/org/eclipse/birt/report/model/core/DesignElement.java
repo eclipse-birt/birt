@@ -395,7 +395,7 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * <li>The {@link Listener}class to receive notifications.</li>
  * <li>A subclass of {@link NotificationEvent}notifies the listener of the
  * type of change, and information about the change.</li>
- * <li>The {@link org.eclipse.birt.report.model.activity.ActivityStack} class
+ * <li>The {@link org.eclipse.birt.report.model.activity.ActivityStack}class
  * triggers the notifications as it processes commands.</li>
  * <li>ActivityStack calls the {@link #sendEvent}method to send the
  * notification to the appropriate listeners.</li>
@@ -808,7 +808,7 @@ public abstract class DesignElement
 	/**
 	 * Returns <code>true</code> if the element is within a child element
 	 * which extends from another. Returns <code>false</code> otherwise. <br>
-	 * <strong>Notice:</strong> <br>
+	 * <strong>Notice: </strong> <br>
 	 * If the element is a virtual element, it must have defined a <code>
 	 * baseId<code> which point to the ID of its virtual parent. 
 	 * 
@@ -2873,7 +2873,8 @@ public abstract class DesignElement
 		if ( !retValue )
 			return false;
 
-		// if this element can not be contained in the module, retur false; such
+		// if this element can not be contained in the module, return false;
+		// such
 		// as, template elements can not be contained in the libraries, so
 		// either a template table or a real tabel with a template image in one
 		// cell of it can never be contained in a libraries
@@ -3068,11 +3069,11 @@ public abstract class DesignElement
 				slot = container.getContainerSlot( );
 				container = container.getContainer( );
 			}
-			
+
 			if ( module instanceof Library )
 				return false;
 		}
-				
+
 		return true;
 	}
 
@@ -3741,5 +3742,60 @@ public abstract class DesignElement
 			return false;
 
 		return getContainer( ).isManagedByNameSpace( getContainerSlot( ) );
+	}
+
+	/**
+	 * Determines if the current element can be transformed to a template
+	 * element. False will be returned if the element can not be dropped or the
+	 * container of the current element can not contain the template element.
+	 * 
+	 * @return true if it can be transformed, otherwise false.
+	 */
+	public boolean canTransformToTemplate( Module module )
+	{
+		if ( ( !canDrop( ) ) || ( isContainTamplateElement( ) ) )
+			return false;
+
+		IElementDefn templateReportItem = MetaDataDictionary.getInstance( )
+				.getElement( ReportDesignConstants.TEMPLATE_REPORT_ITEM );
+		IElementDefn templateDataSet = MetaDataDictionary.getInstance( )
+				.getElement( ReportDesignConstants.TEMPLATE_DATA_SET );
+		if ( getContainer( ) != null )
+			return getContainer( ).canContain( module, getContainerSlot( ),
+					templateReportItem )
+					|| getContainer( ).canContain( module, getContainerSlot( ),
+							templateDataSet );
+
+		return true;
+	}
+
+	/**
+	 * checks if the element contains any sub level element is a template.
+	 * 
+	 * @return true if contain template element, otherwise return false.
+	 */
+	
+	private boolean isContainTamplateElement( )
+	{
+		boolean isFound = false;
+		int slotCount = getDefn( ).getSlotCount( );
+		for ( int i = 0; i < slotCount; i++ )
+		{
+			if ( isFound )
+				break;
+			ContainerSlot contentSlot = getSlot( i );
+
+			Iterator iter = contentSlot.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Object content = iter.next( );
+				if ( content instanceof TemplateElement )
+					isFound = true;
+				else
+					isFound = ( (DesignElement) content )
+							.isContainTamplateElement( );
+			}
+		}
+		return isFound;
 	}
 }

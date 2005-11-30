@@ -30,7 +30,6 @@ import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -1642,10 +1641,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 */
 	public boolean canEdit( )
 	{
-				Module root = getElement( ).getRoot( ) == null
+		Module root = getElement( ).getRoot( ) == null
 				? getModule( )
 				: getElement( ).getRoot( );
-				
+
 		assert root != null;
 		return !root.isReadOnly( );
 
@@ -1656,20 +1655,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * element. False will be returned if the element can not be dropped or the
 	 * container of the current element can not contain the template element.
 	 * 
-	 * @return
-	 * 		true if it can be transformed, otherwise false.
+	 * @return true if it can be transformed, otherwise false.
 	 */
 	public boolean canTransformToTemplate( )
 	{
-		if ( !canDrop( ) )
-			return false;
-
-		if ( getContainer() != null )
-		return getContainer( ).canContain( getContainerSlotHandle( ).slotID,
-				ReportDesignConstants.TEMPLATE_REPORT_ITEM ) || getContainer( ).canContain( getContainerSlotHandle( ).slotID,
-						ReportDesignConstants.TEMPLATE_DATA_SET );
-		
-		return true;
+		return getElement().canTransformToTemplate( getModule() );
 	}
 
 	/**
@@ -1926,6 +1916,17 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( template == null )
 			return null;
 		return (TemplateElementHandle) template.getHandle( module );
+	}
+
+	/**
+	 * if this design element is based on a template definition
+	 * {@link #isTemplateParameterValue( )},get rid of the template definition )
+	 * 
+	 * @throws SemanticException
+	 */
+	public void revertToReportItem( ) throws SemanticException
+	{
+		clearProperty( REF_TEMPLATE_PARAMETER_PROP );
 	}
 
 	/**

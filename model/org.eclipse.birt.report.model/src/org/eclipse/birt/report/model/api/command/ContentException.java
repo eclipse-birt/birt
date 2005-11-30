@@ -127,6 +127,12 @@ public class ContentException extends SemanticException
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT = MessageConstants.CONTENT_EXCEPTION_INVALID_TEMPLATE_ELEMENT;
+	
+	/**
+	 * The template element has no referred template definition, it is invalid.
+	 */
+
+	public static final String DESIGN_EXCEPTION_TEMPLATE_TRANSFORM_FORBIDDEN = MessageConstants.CONTENT_EXCEPTION_TEMPLATE_TRANSFORM_FORBIDDEN;
 
 	/**
 	 * Constructs the exception with container element, slot id, and error code.
