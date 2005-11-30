@@ -895,8 +895,7 @@ public class DEUtil
 			}
 		}
 
-		Object fontSizeValue = handle.getPrivateStyle( ).getFontSize( )
-				.getValue( );
+		Object fontSizeValue = getModelFontSize(handle);
 
 		if ( fontSizeValue instanceof DimensionValue )
 		{
@@ -945,8 +944,8 @@ public class DEUtil
 			}
 		}
 
-		Object fontSizeValue = handle.getPrivateStyle( ).getFontSize( )
-				.getValue( );
+		Object fontSizeValue = getModelFontSize(handle);
+		
 		if ( fontSizeValue instanceof DimensionValue )
 		{
 			int parentSize = getFontSizeIntValue( handle.getContainer( ) );
@@ -1006,8 +1005,8 @@ public class DEUtil
 			}
 		}
 
-		Object fontSizeValue = handle.getPrivateStyle( ).getFontSize( )
-				.getValue( );
+		Object fontSizeValue =getModelFontSize(handle); 
+			
 		if ( fontSizeValue instanceof DimensionValue )
 		{
 			int parentSize = getFontSizeIntValue( handle.getContainer( ) );
@@ -1074,16 +1073,7 @@ public class DEUtil
 			}
 		}
 
-		//Fix 118374
-		//ReportTemplateElement is the only exception that is a DesignElemtn but doesn't have Style attached. 
-		StyleHandle styleHandle = handle.getPrivateStyle( );
-		Object fontSizeValue = null;
-		if(styleHandle !=null)
-		{
-			fontSizeValue = handle.getPrivateStyle( ).getFontSize( )
-			.getValue( );
-		}
-		//Changed ended.
+		Object fontSizeValue = getModelFontSize(handle);
 		
 		if ( fontSizeValue instanceof DimensionValue )
 		{
@@ -1136,8 +1126,8 @@ public class DEUtil
 			}
 		}
 
-		Object fontSizeValue = handle.getPrivateStyle( ).getFontSize( )
-				.getValue( );
+		Object fontSizeValue = getModelFontSize(handle);
+		
 		if ( fontSizeValue instanceof DimensionValue )
 		{
 			int size = getFontSizeIntValue( handle.getContainer( ) );
@@ -1194,8 +1184,8 @@ public class DEUtil
 			}
 		}
 
-		Object fontSizeValue = handle.getPrivateStyle( ).getFontSize( )
-				.getValue( );
+		Object fontSizeValue =getModelFontSize(handle); 
+			
 		if ( fontSizeValue instanceof DimensionValue )
 		{
 			int gParentFontSize = getFontSizeIntValue( handle.getContainer( ) );
@@ -1509,5 +1499,19 @@ public class DEUtil
 			actionHandle = ( (ImageHandle) element ).setAction( action );
 		}
 		return actionHandle;
+	}
+	
+	private static Object getModelFontSize(DesignElementHandle handle)
+	{
+		//Fix 118374
+		//ReportTemplateElement is the only exception that is a DesignElemtn but doesn't have Style attached. 
+		StyleHandle styleHandle = handle.getPrivateStyle( );
+		Object fontSizeValue = null;
+		if(styleHandle !=null)
+		{
+			fontSizeValue = handle.getPrivateStyle( ).getFontSize( )
+			.getValue( );
+		}
+		return fontSizeValue;
 	}
 }
