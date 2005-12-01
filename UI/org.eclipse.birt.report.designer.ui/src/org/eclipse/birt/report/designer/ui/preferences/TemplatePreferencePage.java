@@ -46,10 +46,9 @@ public class TemplatePreferencePage extends PreferencePage
 	public static final String TITLE_LABEL = Messages.getString( "report.designer.ui.preferences.template.title" ); //$NON-NLS-1$
 	public static final String TEMPLATE_IMAGE_LABEL = Messages.getString( "report.designer.ui.preferences.template.templatefolder" ); //$NON-NLS-1$
 	public static final String BROWSER_BUTTON = Messages.getString( "report.designer.ui.preferences.template.select" ); //$NON-NLS-1$
-
 	public static final String OPEN_DIALOG_TITLE = Messages.getString( "report.designer.ui.preferences.template.openDialogTitle" ); //$NON-NLS-1$
 
-	public static final String DIRCTORY = Messages.getString("report.designer.ui.preferences.template.templatedir"); //$NON-NLS-1$
+	public static final String DIRCTORY = "templates"; //$NON-NLS-1$
 	/*
 	 * (non-Javadoc)
 	 * 

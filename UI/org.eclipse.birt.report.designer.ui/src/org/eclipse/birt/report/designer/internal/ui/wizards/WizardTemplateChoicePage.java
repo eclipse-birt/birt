@@ -128,11 +128,13 @@ public class WizardTemplateChoicePage extends WizardPage
 				}
 
 				// Todo: get description from report design.
-				name = reportDesign.getDisplayName( ) == null ? "" : reportDesign.getDisplayName( );//$NON-NLS-1$
-				templateDescription=reportDesign.getStringProperty( ModuleHandle.DESCRIPTION_PROP);
-				if(templateDescription==null)
+				name = reportDesign.getDisplayName( ) == null
+						? "" : reportDesign.getDisplayName( );//$NON-NLS-1$
+				templateDescription = reportDesign
+						.getStringProperty( ModuleHandle.DESCRIPTION_PROP );
+				if ( templateDescription == null )
 				{
-					templateDescription="";//$NON-NLS-1$
+					templateDescription = "";//$NON-NLS-1$
 				}
 
 				picturePath = reportDesign.getIconFile( ) == null
@@ -407,7 +409,8 @@ public class WizardTemplateChoicePage extends WizardPage
 	private void createCustomTemplateList( )
 	{
 		String templateFolderPath = ReportPlugin.getDefault( )
-				.getDefaultTemplatePreference( );
+				.getTemplatePreference( );
+
 		File templateDirectory = new File( templateFolderPath );
 
 		if ( templateDirectory.isDirectory( ) )

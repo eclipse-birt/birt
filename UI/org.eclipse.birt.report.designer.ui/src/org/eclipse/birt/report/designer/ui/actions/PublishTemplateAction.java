@@ -144,8 +144,8 @@ class PublishTemplateWizard extends Wizard
 	public boolean performFinish( )
 	{
 		// copy to template folder
-		String templateFolderPath = ReportPlugin.getDefault( )
-				.getDefaultTemplatePreference( );
+		String templateFolderPath = ReportPlugin.getDefault( ).getTemplatePreference();
+				
 
 		String filePath = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( ).getFileName( );
