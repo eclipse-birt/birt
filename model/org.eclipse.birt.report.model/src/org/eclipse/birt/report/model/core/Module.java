@@ -984,7 +984,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	{
 		StructureDefn defn = (StructureDefn) MetaDataDictionary.getInstance( )
 				.getStructure( EmbeddedImage.EMBEDDED_IMAGE_STRUCT );
-		return (EmbeddedImage) StructureRefUtil.getStructure( this, defn,
+		return (EmbeddedImage) StructureRefUtil.findNativeStructure( this, defn,
 				imageName );
 	}
 

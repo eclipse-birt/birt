@@ -178,7 +178,7 @@ public class StructRefPropertyType extends PropertyType
 			targetModule = module.getLibraryWithNamespace( namespace );
 			if ( targetModule != null )
 			{
-				target = StructureRefUtil.getStructure( targetModule,
+				target = StructureRefUtil.findNativeStructure( targetModule,
 						targetDefn, ref.getName( ) );
 				if ( target != null )
 					ref.resolve( target );
@@ -192,7 +192,7 @@ public class StructRefPropertyType extends PropertyType
 			String namespace = module instanceof Library ? ( (Library) module )
 					.getNamespace( ) : null;
 			assert StringUtil.isEqual( namespace, ref.getLibraryNamespace( ) );
-			target = StructureRefUtil.getStructure( module, targetDefn, ref
+			target = StructureRefUtil.findNativeStructure( module, targetDefn, ref
 					.getName( ) );
 			if ( target != null )
 				ref.resolve( target );

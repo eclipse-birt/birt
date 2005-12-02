@@ -400,9 +400,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
-	 * Returns the structures which are defined in report design and all
+	 * Returns the structures which are defined in the current module and all
 	 * included valid libraries. This method will collect all structures from
-	 * design file and each valid library.
+	 * this module file and each valid library.
 	 * 
 	 * @param propName
 	 *            name of the list property
@@ -414,6 +414,38 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		List list = new ArrayList( );
 
+		List tempList = getNativeStructureList( propName );
+		if ( !tempList.isEmpty( ) )
+			list.addAll( tempList );
+
+		List theLibraries = getLibraries( );
+		int size = theLibraries.size( );
+		for ( int i = 0; i < size; i++ )
+		{
+			LibraryHandle library = (LibraryHandle) theLibraries.get( i );
+			tempList = library.getNativeStructureList( propName );
+			if ( !tempList.isEmpty( ) )
+				list.addAll( tempList );
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the structures which are defined locally in the current module.
+	 * This method will collect all structures from the current module file
+	 * locally.
+	 * 
+	 * @param propName
+	 *            name of the list property
+	 * @return the structure list, each of which is the instance of
+	 *         <code>StructureHandle</code>
+	 */
+
+	List getNativeStructureList( String propName )
+	{
+		List list = new ArrayList( );
+
 		PropertyHandle propHandle = getPropertyHandle( propName );
 		assert propHandle != null;
 
@@ -422,17 +454,6 @@ public abstract class ModuleHandle extends DesignElementHandle
 		{
 			StructureHandle s = (StructureHandle) iter.next( );
 			list.add( s );
-		}
-
-		List theLibraries = getLibraries( );
-		int size = theLibraries.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			LibraryHandle library = (LibraryHandle) theLibraries.get( i );
-			if ( library.isValid( ) )
-			{
-				list.addAll( library.getStructureList( propName ) );
-			}
 		}
 
 		return list;
