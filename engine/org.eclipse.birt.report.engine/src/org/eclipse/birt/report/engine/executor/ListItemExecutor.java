@@ -28,7 +28,7 @@ import org.eclipse.birt.report.engine.script.ListScriptExecutor;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.27 $ $Date: 2005/11/24 06:22:23 $
+ * @version $Revision: 1.28 $ $Date: 2005/11/24 07:25:16 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -68,7 +68,7 @@ public class ListItemExecutor extends ListingElementExecutor
 	 */
 	public void execute( ReportItemDesign item, IContentEmitter emitter )
 	{
-		ListItemDesign list = ( ListItemDesign ) item;
+		ListItemDesign list = (ListItemDesign) item;
 		logger.log( Level.FINE, "start list item" ); //$NON-NLS-1$
 
 		IContainerContent listContent = report.createContainerContent( );
@@ -87,10 +87,11 @@ public class ListItemExecutor extends ListingElementExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			ListScriptExecutor.handleOnCreate(
-					( ContainerContent ) listContent, context );
+			ListScriptExecutor.handleOnCreate( (ContainerContent) listContent,
+					context );
 		}
 
+		openTOCEntry( listContent );
 		if ( emitter != null )
 		{
 			emitter.startContainer( listContent );
@@ -105,6 +106,7 @@ public class ListItemExecutor extends ListingElementExecutor
 			emitter.endContainer( listContent );
 		}
 
+		closeTOCEntry( );
 		closeResultSet( );
 		context.popContent( );
 		logger.log( Level.FINE, "end list item" ); //$NON-NLS-1$
@@ -133,9 +135,10 @@ public class ListItemExecutor extends ListingElementExecutor
 				if ( context.isInFactory( ) )
 				{
 					// TODO: Where do we get the content object from??
-					// It will throw out an NullPointException for list item, so remove it.
-					//DetailRowScriptExecutor.handleOnCreate( null,
-					//		expressionResults, context );
+					// It will throw out an NullPointException for list item, so
+					// remove it.
+					// DetailRowScriptExecutor.handleOnCreate( null,
+					// expressionResults, context );
 				}
 				if ( needPageBreak )
 				{
@@ -159,7 +162,7 @@ public class ListItemExecutor extends ListingElementExecutor
 	protected void accessDetail( ListingDesign list, IContentEmitter emitter,
 			ExpressionResults expressionResults )
 	{
-		accessListBand( ( ( ListItemDesign ) list ).getDetail( ), emitter,
+		accessListBand( ( (ListItemDesign) list ).getDetail( ), emitter,
 				expressionResults );
 	}
 
@@ -171,7 +174,7 @@ public class ListItemExecutor extends ListingElementExecutor
 	 */
 	protected void accessFooter( ListingDesign list, IContentEmitter emitter )
 	{
-		accessListBand( ( ( ListItemDesign ) list ).getFooter( ), emitter, null );
+		accessListBand( ( (ListItemDesign) list ).getFooter( ), emitter, null );
 	}
 
 	/*
@@ -183,8 +186,9 @@ public class ListItemExecutor extends ListingElementExecutor
 	protected void accessGroupFooter( ListingDesign list, int index,
 			IContentEmitter emitter )
 	{
-		accessListBand( ( ( ListItemDesign ) list ).getGroup( index )
-				.getFooter( ), emitter, null );
+		accessListBand(
+				( (ListItemDesign) list ).getGroup( index ).getFooter( ),
+				emitter, null );
 	}
 
 	/*
@@ -196,8 +200,9 @@ public class ListItemExecutor extends ListingElementExecutor
 	protected void accessGroupHeader( ListingDesign list, int index,
 			IContentEmitter emitter )
 	{
-		accessListBand( ( ( ListItemDesign ) list ).getGroup( index )
-				.getHeader( ), emitter, null );
+		accessListBand(
+				( (ListItemDesign) list ).getGroup( index ).getHeader( ),
+				emitter, null );
 	}
 
 	/*
@@ -208,6 +213,6 @@ public class ListItemExecutor extends ListingElementExecutor
 	 */
 	protected void accessHeader( ListingDesign list, IContentEmitter emitter )
 	{
-		accessListBand( ( ( ListItemDesign ) list ).getHeader( ), emitter, null );
+		accessListBand( ( (ListItemDesign) list ).getHeader( ), emitter, null );
 	}
 }

@@ -41,12 +41,10 @@ import org.mozilla.javascript.Scriptable;
 public class DataGenerationEngine extends AbstractDataEngine
 {
 
-	public DataGenerationEngine( ExecutionContext ctx, IDocumentArchive arch,
-			String archName )
+	public DataGenerationEngine( ExecutionContext ctx, IDocumentArchive arch)
 	{
 		context = ctx;
 		archive = arch;
-		reportArchName = archName;
 		try
 		{
 			DataEngineContext dteContext = DataEngineContext.newInstance(
@@ -221,7 +219,7 @@ public class DataGenerationEngine extends AbstractDataEngine
 
 	private void storeDteMetaInfo( )
 	{
-		File fd = archive.createStream( reportArchName );
+		File fd = archive.createStream( DATA_META_STREAM );
 
 		try
 		{

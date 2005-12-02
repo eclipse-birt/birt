@@ -29,6 +29,7 @@ import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.script.ReportScriptExecutor;
+import org.eclipse.birt.report.engine.toc.TOCBuilder;
 
 /**
  * Captures the (report design to) report instance creation logic, by combining
@@ -51,7 +52,7 @@ import org.eclipse.birt.report.engine.script.ReportScriptExecutor;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.26 $ $Date: 2005/11/21 15:35:49 $
+ * @version $Revision: 1.27 $ $Date: 2005/11/23 15:54:07 $
  */
 public class ReportExecutor
 {
@@ -102,6 +103,7 @@ public class ReportExecutor
 		IReportContent reportContent = ContentFactory
 				.createReportContent( report );
 
+		context.setTOCBuilder( new TOCBuilder( reportContent.getTOC( ) ) );
 		context.setReportContent( reportContent );
 
 		// Exceute scripts defined in included libraries. For each library,

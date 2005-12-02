@@ -30,7 +30,6 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
-import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.data.IDataEngine;
@@ -48,7 +47,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.28 $ $Date: 2005/11/17 16:50:46 $
+ * @version $Revision: 1.29 $ $Date: 2005/11/22 08:12:02 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -296,7 +295,8 @@ public class DteDataEngine implements IDataEngine
 			return null;
 		}
 
-		if ( expr.getHandle() != null && !rsStack.isEmpty( ) ) // DtE handles evaluation
+		if ( expr.getHandle( ) != null && !rsStack.isEmpty( ) ) // DtE handles
+																// evaluation
 		{
 			try
 			{
@@ -330,7 +330,7 @@ public class DteDataEngine implements IDataEngine
 		}
 		if ( expr instanceof IConditionalExpression )
 		{
-			return evaluateCondExpr( (IConditionalExpression) expr );
+			return context.evaluateCondExpr( (IConditionalExpression) expr );
 		}
 
 		// unsupported expression type
@@ -349,66 +349,6 @@ public class DteDataEngine implements IDataEngine
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * evaluate conditional expression. A conditional expression can have an
-	 * operator, one LHS expression, and up to two expressions on RHS, i.e.,
-	 * 
-	 * testExpr operator operand1 operand2 or testExpr between 1 20
-	 * 
-	 * Now only support comparison between the same data type
-	 * 
-	 * @param expr
-	 *            the conditional expression to be evaluated
-	 * @return a boolean value (as an Object)
-	 */
-	protected Object evaluateCondExpr( IConditionalExpression expr )
-	{
-		if ( expr == null )
-		{
-			EngineException e = new EngineException( "Failed to evaluate: null" );//$NON-NLS-1$
-			context.addException( e );
-			logger.log( Level.SEVERE, e.getMessage( ), e );
-			return new Boolean( false );
-		}
-
-		int operator = expr.getOperator( );
-		IScriptExpression testExpr = expr.getExpression( );
-		IScriptExpression v1 = expr.getOperand1( );
-		IScriptExpression v2 = expr.getOperand2( );
-
-		if ( testExpr == null )
-			return new Boolean( false );
-
-		Object testExprValue = context.evaluate( testExpr.getText( ) );
-		if ( IConditionalExpression.OP_NONE == operator )
-		{
-			return testExprValue;
-		}
-		Object vv1 = null;
-		Object vv2 = null;
-		if ( v1 != null )
-		{
-			vv1 = context.evaluate( v1.getText( ) );
-		}
-		if ( v2 != null )
-		{
-			vv2 = context.evaluate( v2.getText( ) );
-		}
-
-		try
-		{
-			return ScriptEvalUtil.evalConditionalExpr2( testExprValue, expr
-					.getOperator( ), vv1, vv2 );
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
-			context.addException( new EngineException(
-					MessageConstants.INVALID_EXPRESSION_ERROR, expr, e ) );
-			return new Boolean( false );
-		}
 	}
 
 	public DataEngine getDataEngine( )

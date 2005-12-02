@@ -41,7 +41,7 @@ import org.eclipse.birt.core.framework.PlatformFileContext;
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
  * 
- * @version $Revision: 1.10 $ $Date: 2005/11/22 19:01:06 $
+ * @version $Revision: 1.11 $ $Date: 2005/11/23 09:29:21 $
  */
 public class ReportRunner
 {
@@ -126,19 +126,20 @@ public class ReportRunner
 	 */
 	public static void main( String[] args )
 	{
-		new ReportRunner( args ).execute( );
+		int result = new ReportRunner( args ).execute( );
+		System.exit( result );
 	}
 
 	/**
 	 * Check if the arguments are valid. If yes, continue to execuate the
 	 * report. If no, simply return.
 	 */
-	protected void execute( )
+	public int execute( )
 	{
 		if ( args.length == 0 )
 		{
 			printUsage( );
-			return;
+			return 0;
 		}
 		try
 		{
@@ -146,21 +147,21 @@ public class ReportRunner
 			parseOptions( );
 			if ( "Run".equalsIgnoreCase( mode ) )
 			{
-				runReport( );
+				return runReport( );
 			}
 			else if ( "Render".equalsIgnoreCase( mode ) )
 			{
-				renderReport( );
+				return renderReport( );
 			}
 			else
 			{
-				runAndRenderReport( );
+				return runAndRenderReport( );
 			}
-
 		}
 		catch ( Exception ex )
 		{
 			logger.log( Level.SEVERE, "exception in parsing the paramters", ex );
+			return -1;
 		}
 
 	}
@@ -172,7 +173,7 @@ public class ReportRunner
 	 * etc). <br>
 	 * 3. Run the task.
 	 */
-	protected void runAndRenderReport( )
+	protected int runAndRenderReport( )
 	{
 		try
 		{
@@ -229,17 +230,19 @@ public class ReportRunner
 			task.setLocale( getLocale( locale ) );
 
 			task.run( );
+			return 0;
 		}
 		catch ( EngineException e )
 		{
 			logger.log( Level.SEVERE, e.getMessage( ), e );
+			return -1;
 		}
 	}
 
 	/**
 	 * running the report to create the report document
 	 */
-	protected void runReport( )
+	protected int runReport( )
 	{
 		try
 		{
@@ -263,10 +266,13 @@ public class ReportRunner
 
 			// close the task.
 			task.close( );
+
+			return 0;
 		}
 		catch ( org.eclipse.birt.report.engine.api.EngineException e )
 		{
 			logger.log( Level.SEVERE, e.getMessage( ), e );
+			return -1;
 		}
 
 	}
@@ -274,7 +280,7 @@ public class ReportRunner
 	/**
 	 * render the report.
 	 */
-	protected void renderReport( )
+	protected int renderReport( )
 	{
 		try
 		{
@@ -332,13 +338,13 @@ public class ReportRunner
 			task.setLocale( getLocale( locale ) );
 
 			// setup the output file
-			if ( pageNumber < 0 )
+			if ( pageNumber <= 0 )
 			{
 				int extPos = targetFile.lastIndexOf( '.' );
 				assert extPos != -1;
 				String pathName = targetFile.substring( 0, extPos );
 				String extName = targetFile.substring( extPos );
-				for ( long i = 0; i < document.getPageCount( ); i++ )
+				for ( long i = 1; i <= document.getPageCount( ); i++ )
 				{
 					String fileName = pathName + '_' + ( i ) + extName;
 					options.setOutputFileName( fileName );
@@ -351,10 +357,12 @@ public class ReportRunner
 				task.render( pageNumber );
 			}
 			task.close( );
+			return 0;
 		}
 		catch ( org.eclipse.birt.report.engine.api.EngineException e )
 		{
 			logger.log( Level.SEVERE, e.getMessage( ), e );
+			return -1;
 		}
 	}
 

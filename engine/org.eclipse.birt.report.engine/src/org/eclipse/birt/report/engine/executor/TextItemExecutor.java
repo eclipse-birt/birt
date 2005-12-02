@@ -31,7 +31,7 @@ import org.eclipse.birt.report.engine.script.TextItemScriptExecutor;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.25 $ $Date: 2005/11/17 09:07:58 $
+ * @version $Revision: 1.26 $ $Date: 2005/11/21 06:49:18 $
  */
 public class TextItemExecutor extends QueryItemExecutor
 {
@@ -66,14 +66,15 @@ public class TextItemExecutor extends QueryItemExecutor
 	 */
 	public void execute( ReportItemDesign item, IContentEmitter emitter )
 	{
-		TextItemDesign textItem = ( TextItemDesign ) item;
+		TextItemDesign textItem = (TextItemDesign) item;
 		String contentType = ForeignContent.getTextRawType( textItem
 				.getTextType( ), textItem.getText( ) );
 
 		if ( IForeignContent.HTML_TYPE.equals( contentType ) )
 		{
 			executeHtmlText( textItem, emitter );
-		} else
+		}
+		else
 		{
 			executePlainText( textItem, emitter );
 		}
@@ -110,8 +111,8 @@ public class TextItemExecutor extends QueryItemExecutor
 			Iterator iter = exprs.entrySet( ).iterator( );
 			while ( iter.hasNext( ) )
 			{
-				Map.Entry entry = ( Map.Entry ) iter.next( );
-				Expression expr = ( Expression ) entry.getValue( );
+				Map.Entry entry = (Map.Entry) iter.next( );
+				Expression expr = (Expression) entry.getValue( );
 				Object value = context.evaluate( expr );
 				results.put( entry.getKey( ), value );
 			}
@@ -121,14 +122,16 @@ public class TextItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			TextItemScriptExecutor.handleOnCreate( ( ForeignContent ) content,
+			TextItemScriptExecutor.handleOnCreate( (ForeignContent) content,
 					context );
 		}
 
+		openTOCEntry( content );
 		if ( emitter != null )
 		{
 			emitter.startForeign( content );
 		}
+		closeTOCEntry( );
 
 		closeResultSet( );
 		context.popContent( );
@@ -147,7 +150,7 @@ public class TextItemExecutor extends QueryItemExecutor
 		assert ( content instanceof LabelContent );
 		IContent parent = context.getContent( );
 		context.pushContent( content );
-		
+
 		openResultSet( design );
 		accessQuery( design, emitter );
 
@@ -162,14 +165,16 @@ public class TextItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			TextItemScriptExecutor.handleOnCreate( ( LabelContent ) content,
+			TextItemScriptExecutor.handleOnCreate( (LabelContent) content,
 					context );
 		}
 
+		openTOCEntry( content );
 		if ( emitter != null )
 		{
 			emitter.startLabel( content );
 		}
+		closeTOCEntry( );
 
 		closeResultSet( );
 		context.popContent( );

@@ -31,39 +31,179 @@ import org.xml.sax.helpers.DefaultHandler;
 public class TOCBuilder
 {
 
-	TOCNode root = new TOCNode( );
-	TOCNode node;
+	private TOCNode currentEntry;
+	private TOCNode rootEntry;
 
-	public TOCBuilder( )
+	public TOCBuilder( TOCNode root )
 	{
-		root = new TOCNode( );
-		root.setNodeID( "/" );
-		root.setBookmark( "0" );
-		root.setDisplayString( "/" );
-		node = root;
+		rootEntry = root;
+		currentEntry = rootEntry;
 	}
 
-	public void openToc( String id, String display, String bookmark )
+	static long count = 0;
+	public void openEntry( )
 	{
-		TOCNode child = new TOCNode( );
-		child.setNodeID( id );
-		child.setDisplayString( display );
-		child.setBookmark( bookmark );
-		child.setParent( node );
-		node.getChildren( ).add( child );
-		node = child;
+		TOCNode entry = new TOCNode( );
+		entry.setParent( currentEntry );
+		currentEntry = entry;
 	}
 
-	public void closeTOC( )
+	public void openEntry( String id, String label, String bookmark )
 	{
-		assert node != null;
-		assert node != root;
-		node = node.getParent( );
+		openEntry( );
+		TOCNode entry = currentEntry;
+		TOCNode parent = entry.getParent( );
+		while ( parent != rootEntry && parent.getNodeID( ) == null )
+		{
+			entry = parent;
+			parent = entry.getParent( );
+		}
+		// entry.node id is null
+		entry.setNodeID( id );
+		entry.setDisplayString( label );
+		entry.setBookmark( bookmark );
+		entry.getParent( ).getChildren( ).add( entry );
 	}
+
+	public void createEntry( String id, String label, String bookmark )
+	{
+		openEntry( id, label, bookmark );
+		closeEntry( );
+
+	}
+
+	public void closeEntry( )
+	{
+		currentEntry = currentEntry.getParent( );
+		assert currentEntry != null;
+	}
+
+	// public void createTOCEntry( DesignElementHandle design, String id,
+	// String label, String bookmark )
+	// {
+	// TOCEntry parent = currentEntry;
+	// Object tocDesign = design;
+	//
+	// // search if we should add it into the parent
+	// do
+	// {
+	// // test if the current design is the child of current TOC entry.
+	// // the condition is true if:
+	// // the container's parent == parent.design
+	// tocDesign = getDirectChildOf( design, parent.design );
+	// if ( tocDesign != null )
+	// {
+	// break;
+	// }
+	//
+	// parent = parent.parent;
+	//
+	// } while ( parent != null );
+	//
+	// // the parent is the parent Entry, the tocDesign is the design level
+	// TOCNode node = new TOCNode( );
+	// node.setNodeID( id );
+	// node.setDisplayString( label );
+	// node.setBookmark( bookmark );
+	//
+	// TOCEntry entry = new TOCEntry( );
+	// entry.design = tocDesign;
+	// entry.node = node;
+	// entry.setParent( parent );
+	// currentEntry = entry;
+	// }
+	//
+	// private Object getContainer( Object child )
+	// {
+	// if ( child == null )
+	// {
+	// return null;
+	// }
+	// if ( child instanceof SlotHandle )
+	// {
+	// // it must be a group header, group footer, detail, header or footer
+	// SlotHandle childSlot = (SlotHandle) child;
+	// int slotId = childSlot.getSlotID( );
+	// DesignElementHandle container = childSlot.getElementHandle( );
+	// if ( container instanceof ListingHandle
+	// && slotId == ListingHandle.DETAIL_SLOT )
+	// {
+	// ListingHandle listing = (ListingHandle) container;
+	// SlotHandle groupSlot = listing.getGroups( );
+	// int groupCount = groupSlot.getCount( );
+	// if ( groupCount != 0 )
+	// {
+	// return groupSlot.get( groupCount - 1 );
+	// }
+	// }
+	// return container;
+	// }
+	// else if ( child instanceof GroupHandle )
+	// {
+	// GroupHandle group = (GroupHandle) child;
+	// ListingHandle listing = (ListingHandle) group.getContainer( );
+	// SlotHandle groups = listing.getGroups( );
+	// int groupId = groups.findPosn( group );
+	// if ( groupId > 0 )
+	// {
+	// // return the previous groupo
+	// return groups.get( groupId - 1 );
+	// }
+	// return listing;
+	// }
+	// else
+	// {
+	// assert child instanceof DesignElementHandle;
+	// DesignElementHandle childElement = (DesignElementHandle) child;
+	// DesignElementHandle container = childElement.getContainer( );
+	// if ( container == null || container.getContainer( ) == null )
+	// {
+	// // this is the top level report element
+	// return null;
+	// }
+	// if ( container instanceof GroupHandle
+	// || container instanceof ListingHandle )
+	// {
+	// // group header / footer, listing header, listing footer or
+	// // listing detail
+	// return childElement.getContainerSlotHandle( );
+	// }
+	// return container;
+	// }
+	// }
+	//
+	// /**
+	// * return a object which is the ancestor of child and direct child of
+	// * parent.
+	// *
+	// * @param child
+	// * child object
+	// * @param parent
+	// * parent object
+	// * @return object if we found one, NULL oterwise.
+	// */
+	// public Object getDirectChildOf( Object child, Object parent )
+	// {
+	// while ( child != null )
+	// {
+	// Object container = getContainer( child );
+	// if ( container == parent )
+	// {
+	// return child;
+	// }
+	// if ( container == null )
+	// {
+	// return null;
+	// }
+	// child = container;
+	// container = getContainer( child );
+	// }
+	// return null;
+	// }
 
 	public TOCNode getTOCNode( )
 	{
-		return root;
+		return rootEntry;
 	}
 
 	static public void write( TOCNode root, OutputStream out )
@@ -80,12 +220,27 @@ public class TOCBuilder
 	private static void writeNode( TOCNode node, Writer writer )
 			throws IOException
 	{
-		writer.write( "<tocnode id='" );
-		writer.write( node.getNodeID( ) );
-		writer.write( "' href='" );
-		writer.write( node.getBookmark( ) );
-		writer.write( "'>" );
-		writer.write( node.getDisplayString( ) );
+		String id = node.getNodeID( );
+		String label = node.getDisplayString( );
+		String bookmark = node.getBookmark( );
+		writer.write( "<tocnode" );
+		if ( id != null )
+		{
+			writer.write( " id='" );
+			writer.write( node.getNodeID( ) );
+			writer.write( "'" );
+		}
+		if ( bookmark != null )
+		{
+			writer.write( " href='" );
+			writer.write( node.getBookmark( ) );
+			writer.write( "'" );
+		}
+		writer.write( ">" );
+		if ( label != null )
+		{
+			writer.write( label );
+		}
 		List children = node.getChildren( );
 		Iterator iter = children.iterator( );
 		while ( iter.hasNext( ) )
@@ -123,11 +278,11 @@ public class TOCBuilder
 		private TOCNode root = null;
 		private TOCNode node;
 
-		public TOCNode getRoot()
+		public TOCNode getRoot( )
 		{
 			return this.root;
 		}
-		
+
 		public void characters( char[] ch, int start, int length )
 				throws SAXException
 		{
@@ -137,7 +292,7 @@ public class TOCBuilder
 				buffer.append( node.getDisplayString( ) );
 			}
 			buffer.append( ch, start, length );
-			node.setDisplayString( buffer.toString( ).trim() );
+			node.setDisplayString( buffer.toString( ).trim( ) );
 		}
 
 		public void startElement( String uri, String localName, String qName,

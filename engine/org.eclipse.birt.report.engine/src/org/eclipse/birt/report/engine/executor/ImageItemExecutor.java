@@ -119,11 +119,13 @@ public class ImageItemExecutor extends QueryItemExecutor
 			ImageScriptExecutor.handleOnCreate( (ImageContent) imageContent,
 					context );
 		}
+		openTOCEntry( imageContent );
 		// forward to emitter for further processing
 		if ( emitter != null )
 		{
 			emitter.startImage( imageContent );
 		}
+		closeTOCEntry( );
 		closeResultSet( );
 		context.popContent( );
 

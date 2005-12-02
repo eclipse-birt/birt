@@ -421,7 +421,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.22 $ $Date: 2005/11/14 10:55:57 $
+	 * @version $Revision: 1.23 $ $Date: 2005/11/21 22:34:21 $
 	 */
 	static abstract class ParameterVisitor
 	{
@@ -572,5 +572,6 @@ public abstract class EngineTask implements IEngineTask
 	
 	public void close()
 	{
+		executionContext.close();
 	}
 }

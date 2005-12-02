@@ -34,7 +34,7 @@ import org.eclipse.birt.report.engine.script.CellScriptExecutor;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.19 $ $Date: 2005/11/17 01:40:44 $
+ * @version $Revision: 1.20 $ $Date: 2005/11/17 16:50:45 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -70,7 +70,7 @@ public class GridItemExecutor extends QueryItemExecutor
 	 */
 	public void execute( ReportItemDesign item, IContentEmitter emitter )
 	{
-		GridItemDesign gridItem = ( GridItemDesign ) item;
+		GridItemDesign gridItem = (GridItemDesign) item;
 		ITableContent tableObj = report.createTableContent( );
 		IContent parent = context.getContent( );
 		context.pushContent( tableObj );
@@ -96,10 +96,11 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-				GridScriptExecutor.handleOnCreate( ( TableContent ) tableObj, null,
-						context );
+			GridScriptExecutor.handleOnCreate( (TableContent) tableObj, null,
+					context );
 		}
 
+		openTOCEntry( tableObj );
 		if ( emitter != null )
 		{
 			emitter.startTable( tableObj );
@@ -110,6 +111,7 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		context.pushContent( body );
 
+		openTOCEntry( body );
 		if ( emitter != null )
 		{
 			emitter.startTableBody( body );
@@ -127,12 +129,14 @@ public class GridItemExecutor extends QueryItemExecutor
 		{
 			emitter.endTableBody( body );
 		}
+		closeTOCEntry( );
 		context.popContent( );
 
 		if ( emitter != null )
 		{
 			emitter.endTable( tableObj );
 		}
+		closeTOCEntry( );
 		closeResultSet( );
 		context.popContent( );
 	}
@@ -162,7 +166,7 @@ public class GridItemExecutor extends QueryItemExecutor
 			IContentEmitter emitter )
 	{
 		IRowContent rowContent = report.createRowContent( );
-		rowContent.setRowID(rowId);
+		rowContent.setRowID( rowId );
 		assert ( rowContent instanceof RowContent );
 		context.pushContent( rowContent );
 
@@ -176,11 +180,12 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-				// TODO: Get datarow from somewhere
-				DetailRowScriptExecutor.handleOnCreate( ( RowContent ) rowContent,
-						null, context );
+			// TODO: Get datarow from somewhere
+			DetailRowScriptExecutor.handleOnCreate( (RowContent) rowContent,
+					null, context );
 		}
 
+		openTOCEntry( rowContent );
 		if ( emitter != null )
 		{
 			emitter.startRow( rowContent );
@@ -198,6 +203,7 @@ public class GridItemExecutor extends QueryItemExecutor
 		{
 			emitter.endRow( rowContent );
 		}
+		closeTOCEntry( );
 		context.popContent( );
 	}
 
@@ -240,11 +246,12 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-				//TODO: Get datarow from somewhere
-				CellScriptExecutor.handleOnCreate( ( CellContent ) cellContent,
-						null, context );
+			// TODO: Get datarow from somewhere
+			CellScriptExecutor.handleOnCreate( (CellContent) cellContent, null,
+					context );
 		}
 
+		openTOCEntry( cellContent );
 		if ( emitter != null )
 		{
 			emitter.startCell( cellContent );
@@ -263,6 +270,7 @@ public class GridItemExecutor extends QueryItemExecutor
 		{
 			emitter.endCell( cellContent );
 		}
+		closeTOCEntry( );
 		context.popContent( );
 	}
 

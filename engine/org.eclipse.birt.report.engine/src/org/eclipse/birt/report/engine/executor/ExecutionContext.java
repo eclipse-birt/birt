@@ -33,6 +33,9 @@ import org.eclipse.birt.core.script.CoreJavaScriptWrapper;
 import org.eclipse.birt.core.script.IJavascriptWrapper;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -46,6 +49,7 @@ import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -63,7 +67,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.42 $ $Date: 2005/11/21 02:00:31 $
+ * @version $Revision: 1.43 $ $Date: 2005/11/21 15:35:49 $
  */
 public class ExecutionContext
 {
@@ -72,55 +76,125 @@ public class ExecutionContext
 	private static Logger log = Logger.getLogger( ExecutionContext.class
 			.getName( ) );
 
-	// The scripting context
-	private ScriptContext scriptContext;
-
-	// data engine used by this context
-	private IDataEngine dataEngine;
-
-	// A stack of content objects, with the current one on the top
-	private Stack reportContents = new Stack( );
-
-	// Global configuration variables
-	private Map configs = new BirtHashMap( );
-
-	// Report parameters
-	private Map params = new BirtHashMap( );
-
-	// the report design
-	private Report report;
-
-	// the current locale
-	private Locale locale;
-
-	private IReportRunnable runnable;
-
-	private ReportExecutor executor;
-
-	private IReportDocument reportDoc;
-
-	private IRenderOption renderOption;
-
+	// engines used to create the context
 	/** the engine used to create this context */
 	private ReportEngine engine;
 
+	/**
+	 * task ID string
+	 */
 	private String taskIDString;
 
+	/**
+	 * execution mode, in this mode, the render operation should be executed.
+	 */
+	private boolean presentationMode = false;
+
+	/**
+	 * execution mode, in this mode, the genreation opration should be executed.
+	 */
+	private boolean factoryMode = true;
+
+	// utilitis used in this context.
+
+	/**
+	 * The scripting context, used to evaluate the script.
+	 */
+	private ScriptContext scriptContext;
+
+	/**
+	 * data engine, used to evaluate the data related expressions.
+	 */
+	private IDataEngine dataEngine;
+
+	/**
+	 * utility used to create the report content
+	 */
+	private ReportExecutor executor;
+
+	/**
+	 * utility used to create the TOC
+	 */
+	private TOCBuilder tocBuilder;
+
+	// then is the input content
+	/**
+	 * report runnable used to create the report content
+	 */
+	private IReportRunnable runnable;
+
+	/**
+	 * the report design contained in the report runnable
+	 */
+	private Report report;
+
+	/**
+	 * the current executed design object.
+	 */
+	private Object designObj;
+
+	/**
+	 * Global configuration variables
+	 */
+	private Map configs = new BirtHashMap( );
+
+	/**
+	 * Report parameters used to create the report content
+	 */
+	private Map params = new BirtHashMap( );
+
+	/**
+	 * app context
+	 */
+	private Map appContext;
+
+	/**
+	 * report context used to evaluate the java-based script.
+	 */
+	private IReportContext reportContext;
+
+	/**
+	 * options used to render the report content
+	 */
+	private IRenderOption renderOption;
+
+	/**
+	 * the current locale, used to localize the report content
+	 */
+	private Locale locale;
+
+	// at last the output objects
+	/**
+	 * report document, may be the output or input.
+	 */
+	private IReportDocument reportDoc;
+
+	/**
+	 * the created report content
+	 */
 	private IReportContent reportContent;
-	private int totalPage;
-	private int pageNumber;
+
+	/**
+	 * A stack of content objects, with the current one on the top
+	 */
+	private Stack reportContents = new Stack( );
+
+	/**
+	 * total page
+	 */
+	private long totalPage;
+
+	/**
+	 * current page number
+	 */
+	private long pageNumber;
+
+	/**
+	 * utilities used in the report execution.
+	 */
 	private HashMap stringFormatters = new HashMap( );
 	private HashMap numberFormatters = new HashMap( );
 	private HashMap dateFormatters = new HashMap( );
-
-	private Object designObj;
-
-	private Map appContext;
-
-	private IReportContext reportContext;
-
-	private boolean presentationMode = false;
-	private boolean factoryMode = true;
 
 	/**
 	 * create a new context. Call close to finish using the execution context
@@ -158,8 +232,8 @@ public class ExecutionContext
 		scriptContext.registerBean( "report", new ReportObject( ) );
 		scriptContext.registerBean( "params", params ); //$NON-NLS-1$
 		scriptContext.registerBean( "config", configs ); //$NON-NLS-1$
-		scriptContext.registerBean( "currentPage", new Integer( pageNumber ) );
-		scriptContext.registerBean( "totalPage", new Integer( totalPage ) );
+		scriptContext.registerBean( "currentPage", new Long( pageNumber ) );
+		scriptContext.registerBean( "totalPage", new Long( totalPage ) );
 	}
 
 	protected void initailizeScriptContext( Context cx, Scriptable scope )
@@ -193,9 +267,14 @@ public class ExecutionContext
 		new CoreJavaScriptInitializer( ).initialize( cx, scope );
 	}
 
+	/**
+	 * get the report engine. In that engine, we create the context.
+	 * 
+	 * @return the report engine used to create the context.
+	 */
 	public ReportEngine getEngine( )
 	{
-		return this.engine;
+		return engine;
 	}
 
 	/**
@@ -214,6 +293,11 @@ public class ExecutionContext
 	public void close( )
 	{
 		scriptContext.exit( );
+		if ( dataEngine != null )
+		{
+			dataEngine.shutdown( );
+			dataEngine = null;
+		}
 	}
 
 	/**
@@ -224,6 +308,12 @@ public class ExecutionContext
 		scriptContext.enterScope( );
 	}
 
+	/**
+	 * create a new scope, use the object to create the curren scope.
+	 * 
+	 * @param object
+	 *            the "this" object in the new scope
+	 */
 	public void newScope( Object object )
 	{
 		Object jsObject = scriptContext.javaToJs( object );
@@ -245,6 +335,12 @@ public class ExecutionContext
 		scriptContext.exitScope( );
 	}
 
+	/**
+	 * register beans in the execution context
+	 * 
+	 * @param map
+	 *            name value pair.
+	 */
 	public void registerBeans( HashMap map )
 	{
 		if ( map != null )
@@ -284,26 +380,7 @@ public class ExecutionContext
 	 */
 	public Object evaluate( String source )
 	{
-		if ( source == null )
-		{
-			EngineException e = new EngineException(
-					"Failed to evaluate " + source );//$NON-NLS-1$
-			addException( e );
-			log.log( Level.SEVERE, e.getMessage( ), e );
-			return null;
-		}
-		try
-		{
-			return scriptContext.eval( source );
-		}
-		catch ( Exception e )
-		{
-			log.log( Level.SEVERE, e.getMessage( ), e );
-			addException( new EngineException(
-					"Failed to evaluate " + source, e ) ); //$NON-NLS-1$
-		}
-		return null;
-
+		return evaluate( source, "<inline>", 1 );
 	}
 
 	/**
@@ -330,25 +407,20 @@ public class ExecutionContext
 	 */
 	public Object evaluate( String expr, String name, int lineNo )
 	{
-		if ( expr == null )
+		if ( expr != null )
 		{
-			EngineException e = new EngineException(
-					MessageConstants.SCRIPT_EVALUATION_ERROR, expr );
-			addException( e );
-			log.log( Level.SEVERE, e.getMessage( ), e );
-			return null;
-		}
-		try
-		{
-			return scriptContext.eval( expr, name, lineNo );
-		}
-		catch ( Exception e )
-		{
-			// TODO eval may throw RuntimeException, which may also need
-			// logging. May need to log more info.
-			log.log( Level.SEVERE, e.getMessage( ), e );
-			addException( new EngineException(
-					MessageConstants.SCRIPT_EVALUATION_ERROR, expr, e ) ); //$NON-NLS-1$
+			try
+			{
+				return scriptContext.eval( expr, name, lineNo );
+			}
+			catch ( Exception e )
+			{
+				// TODO eval may throw RuntimeException, which may also need
+				// logging. May need to log more info.
+				log.log( Level.SEVERE, e.getMessage( ), e );
+				addException( new EngineException(
+						MessageConstants.SCRIPT_EVALUATION_ERROR, expr, e ) ); //$NON-NLS-1$
+			}
 		}
 		return null;
 	}
@@ -360,6 +432,7 @@ public class ExecutionContext
 	 */
 	public Object evaluate( IBaseExpression expr )
 	{
+		assert expr != null;
 		try
 		{
 			return getDataEngine( ).evaluate( expr );
@@ -372,6 +445,59 @@ public class ExecutionContext
 					MessageConstants.INVALID_EXPRESSION_ERROR, expr, t ) ); //$NON-NLS-1$
 		}
 		return null;
+	}
+
+	/**
+	 * evaluate conditional expression. A conditional expression can have an
+	 * operator, one LHS expression, and up to two expressions on RHS, i.e.,
+	 * 
+	 * testExpr operator operand1 operand2 or testExpr between 1 20
+	 * 
+	 * Now only support comparison between the same data type
+	 * 
+	 * @param expr
+	 *            the conditional expression to be evaluated
+	 * @return a boolean value (as an Object)
+	 */
+	public Object evaluateCondExpr( IConditionalExpression expr )
+	{
+		int operator = expr.getOperator( );
+		IScriptExpression testExpr = expr.getExpression( );
+		IScriptExpression v1 = expr.getOperand1( );
+		IScriptExpression v2 = expr.getOperand2( );
+
+		if ( testExpr == null )
+			return Boolean.FALSE;
+
+		Object testExprValue = evaluate( testExpr.getText( ) );
+		if ( IConditionalExpression.OP_NONE == operator )
+		{
+			return testExprValue;
+		}
+		Object vv1 = null;
+		Object vv2 = null;
+		if ( v1 != null )
+		{
+			vv1 = evaluate( v1.getText( ) );
+		}
+		if ( v2 != null )
+		{
+			vv2 = evaluate( v2.getText( ) );
+		}
+
+		try
+		{
+
+			return ScriptEvalUtil.evalConditionalExpr2( testExprValue, expr
+					.getOperator( ), vv1, vv2 );
+		}
+		catch ( Exception e )
+		{
+			log.log( Level.SEVERE, e.getMessage( ), e );
+			addException( new EngineException(
+					MessageConstants.INVALID_EXPRESSION_ERROR, expr, e ) );
+			return Boolean.FALSE;
+		}
 	}
 
 	/**
@@ -388,6 +514,13 @@ public class ExecutionContext
 		}
 	}
 
+	/**
+	 * execute script. call evaluate to evaluate the script and drop the return
+	 * value
+	 * 
+	 * @param script
+	 *            script to be executed.
+	 */
 	public void execute( IBaseExpression script )
 	{
 		if ( script != null )
@@ -441,20 +574,21 @@ public class ExecutionContext
 	}
 
 	/**
-	 * @return Returns the report.
-	 */
-	public IReportContent getReportContent( )
-	{
-		return reportContent;
-	}
-
-	/**
 	 * @param report
 	 *            The report to set.
 	 */
 	public void setReport( Report report )
 	{
 		this.report = report;
+	}
+
+	public void openDataEngine( )
+	{
+		if ( dataEngine == null )
+		{
+			dataEngine = DataEngineFactory.getInstance( ).createDataEngine(
+					this );
+		}
 	}
 
 	/**
@@ -468,6 +602,15 @@ public class ExecutionContext
 					this );
 		}
 		return dataEngine;
+	}
+
+	public void closeDataEngine( )
+	{
+		if ( dataEngine != null )
+		{
+			dataEngine.shutdown( );
+			dataEngine = null;
+		}
 	}
 
 	/**
@@ -499,24 +642,17 @@ public class ExecutionContext
 		return report.getReportDesign( );
 	}
 
-	public IReportContent getReportCotent( )
+	/**
+	 * @return Returns the report.
+	 */
+	public IReportContent getReportContent( )
 	{
-		return this.reportContent;
+		return reportContent;
 	}
 
 	public void setReportContent( IReportContent content )
 	{
 		this.reportContent = content;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.executor.IPrensentationContext#getItemState()
-	 */
-	public IContent getItemState( )
-	{
-		return (IContent) reportContents.peek( );
 	}
 
 	/*
@@ -575,6 +711,11 @@ public class ExecutionContext
 	public Scriptable getSharedScope( )
 	{
 		return scriptContext.getSharedScope( );
+	}
+
+	ScriptContext getScriptContext( )
+	{
+		return this.scriptContext;
 	}
 
 	/**
@@ -668,7 +809,7 @@ public class ExecutionContext
 		 */
 		public Object getDocument( )
 		{
-			return null;
+			return reportDoc;
 		}
 
 		/**
@@ -827,47 +968,100 @@ public class ExecutionContext
 		this.reportContext = reportContext;
 	}
 
-	public void setPageNumber( int pageNo )
+	public void setPageNumber( long pageNo )
 	{
 		pageNumber = pageNo;
-		scriptContext.registerBean( "pageNumber", new Integer( pageNumber ) );
+		scriptContext.registerBean( "pageNumber", new Long( pageNumber ) );
 		if ( totalPage < pageNumber )
 		{
-			totalPage = pageNumber;
-			scriptContext.registerBean( "totalPage", new Integer( totalPage ) );
+			setTotalPage( pageNumber );
 		}
 	}
 
-	public int getPageNumber( )
+	/**
+	 * set the total page.
+	 * 
+	 * @param totalPage
+	 *            total page
+	 */
+	public void setTotalPage( long totalPage )
+	{
+		if ( totalPage > pageNumber )
+		{
+			totalPage = pageNumber;
+			scriptContext.registerBean( "totalPage", new Long( totalPage ) );
+		}
+	}
+
+	/**
+	 * get the current page number
+	 * 
+	 * @return current page number
+	 */
+	public long getPageNumber( )
 	{
 		return pageNumber;
 	}
 
-	public int getTotalPage( )
+	/**
+	 * get the total page have been created.
+	 * 
+	 * @return total page
+	 */
+	public long getTotalPage( )
 	{
 		return totalPage;
 	}
 
+	/**
+	 * is in factory mode
+	 * 
+	 * @return true, factory mode, false not in factory mode
+	 */
 	public boolean isInFactory( )
 	{
 		return factoryMode;
 	}
 
+	/**
+	 * is in presentation mode.
+	 * 
+	 * @return true, presentation mode, false otherwise
+	 */
 	public boolean isInPresentation( )
 	{
 		return presentationMode;
 	}
 
+	/**
+	 * set the in factory mode
+	 * 
+	 * @param mode
+	 *            factory mode
+	 */
 	public void setFactoryMode( boolean mode )
 	{
 		this.factoryMode = mode;
 	}
 
+	/**
+	 * set in presentation mode
+	 * 
+	 * @param mode
+	 *            presentation mode
+	 */
 	public void setPresentationMode( boolean mode )
 	{
 		this.presentationMode = mode;
 	}
 
+	/**
+	 * get a string formatter object
+	 * 
+	 * @param value
+	 *            string format
+	 * @return formatter object
+	 */
 	public StringFormatter getStringFormatter( String value )
 	{
 		StringFormatter fmt = (StringFormatter) stringFormatters.get( value );
@@ -879,6 +1073,13 @@ public class ExecutionContext
 		return fmt;
 	}
 
+	/**
+	 * get a number formatter object
+	 * 
+	 * @param value
+	 *            number format
+	 * @return formatter object
+	 */
 	public NumberFormatter getNumberFormatter( String value )
 	{
 		NumberFormatter fmt = (NumberFormatter) numberFormatters.get( value );
@@ -890,6 +1091,13 @@ public class ExecutionContext
 		return fmt;
 	}
 
+	/**
+	 * get a date formatter object
+	 * 
+	 * @param value
+	 *            date format
+	 * @return formatter object
+	 */
 	public DateFormatter getDateFormatter( String value )
 	{
 		DateFormatter fmt = (DateFormatter) dateFormatters.get( value );
@@ -901,21 +1109,51 @@ public class ExecutionContext
 		return fmt;
 	}
 
+	/**
+	 * set the executor used in the execution context
+	 * 
+	 * @param executor
+	 */
 	public void setExecutor( ReportExecutor executor )
 	{
 		this.executor = executor;
 	}
 
+	/**
+	 * get the executor used to execute the report
+	 * 
+	 * @return report executor
+	 */
 	public ReportExecutor getExecutor( )
 	{
 		return executor;
 	}
 
+	public TOCBuilder getTOCBuilder( )
+	{
+		return tocBuilder;
+	}
+
+	public void setTOCBuilder( TOCBuilder builder )
+	{
+		this.tocBuilder = builder;
+	}
+
+	/**
+	 * set the report document used in the context
+	 * 
+	 * @param doc
+	 */
 	public void setReportDocument( IReportDocument doc )
 	{
 		this.reportDoc = doc;
 	}
 
+	/**
+	 * get the report document used in the context.
+	 * 
+	 * @return
+	 */
 	public IReportDocument getReportDocument( )
 	{
 		return reportDoc;

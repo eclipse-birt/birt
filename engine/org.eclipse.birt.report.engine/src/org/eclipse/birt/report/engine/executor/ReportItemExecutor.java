@@ -28,6 +28,7 @@ import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.toc.TOCBuilder;
 
 /**
  * Abstract class, Represents a report item executor. Report item executor
@@ -41,7 +42,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.16 $ $Date: 2005/11/11 06:26:45 $
+ * @version $Revision: 1.17 $ $Date: 2005/11/18 09:04:24 $
  */
 public abstract class ReportItemExecutor
 {
@@ -68,6 +69,11 @@ public abstract class ReportItemExecutor
 	protected IReportItemVisitor visitor;
 
 	/**
+	 * toc builder used to build the TOC of IReportContent
+	 */
+	protected TOCBuilder tocBuilder;
+
+	/**
 	 * construct a report item executor by giving execution context and report
 	 * executor visitor
 	 * 
@@ -83,6 +89,7 @@ public abstract class ReportItemExecutor
 		this.context = context;
 		this.visitor = visitor;
 		this.report = context.getReportContent( );
+		this.tocBuilder = context.getTOCBuilder( );
 	}
 
 	/**
@@ -137,7 +144,6 @@ public abstract class ReportItemExecutor
 			{
 				itemContent.setTOC( tmp.toString( ) );
 			}
-
 		}
 	}
 
@@ -248,6 +254,38 @@ public abstract class ReportItemExecutor
 		content.setInstanceID( id );
 		content.setGenerateBy( design );
 		content.setParent( parent );
+	}
+
+	protected void openTOCEntry( )
+	{
+		openTOCEntry( null );
+	}
+
+	protected void openTOCEntry( IContent content )
+	{
+		if ( content != null )
+		{
+			InstanceID iid = content.getInstanceID( );
+			String tocLabel = content.getTOC( );
+			if ( tocLabel != null && iid != null )
+			{
+				String tocId = iid.toString( );
+				String bookmark = content.getBookmark( );
+				if ( bookmark == null )
+				{
+					bookmark = "TOC_" + tocId;
+				}
+				tocBuilder.openEntry( tocId, tocLabel, bookmark );
+				return;
+			}
+
+		}
+		tocBuilder.openEntry( );
+	}
+
+	protected void closeTOCEntry( )
+	{
+		tocBuilder.closeEntry( );
 	}
 
 }

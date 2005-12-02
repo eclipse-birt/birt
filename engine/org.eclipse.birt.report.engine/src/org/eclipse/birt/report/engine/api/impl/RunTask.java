@@ -127,12 +127,16 @@ public class RunTask extends AbstractRunTask implements IRunTask
 					.parse( ( (ReportRunnable) runnable ).getReport( ) );
 			reportDoc.saveDesign( report.getReportDesign( ) );
 			reportDoc.saveParamters( inputValues );
+			executionContext.openDataEngine( );
 			executor.execute( report, emitter );
+			executionContext.closeDataEngine( );
 		}
 		catch ( Exception ex )
 		{
 			log.log( Level.SEVERE,
 					"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
+			throw new EngineException(
+					"Error happended while runntine the report", ex );
 		}
 		catch ( OutOfMemoryError err )
 		{
@@ -145,6 +149,5 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	public void close( )
 	{
 		super.close( );
-		executionContext.getDataEngine( ).shutdown( );
 	}
 }

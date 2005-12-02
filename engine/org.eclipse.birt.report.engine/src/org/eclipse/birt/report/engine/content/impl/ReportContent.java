@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.content.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -35,15 +36,30 @@ import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.Report;
 
 /**
- * Report is the root element of the design.
+ * Report content is the result of report generation.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/11/21 15:35:50 $
+ * @version $Revision: 1.9 $ $Date: 2005/11/22 19:25:39 $
  */
 public class ReportContent implements IReportContent
 {
-	private 	CSSEngine 	cssEngine;
-	private 	Report 		report;
-	private 	ArrayList 	errors = new ArrayList( );
+
+	/**
+	 * css engine used by this report.
+	 */
+	private CSSEngine cssEngine;
+	/**
+	 * report design used to create this report.
+	 */
+	private Report report;
+	/**
+	 * errors occured in the generation.
+	 */
+	private ArrayList errors = new ArrayList( );
+
+	/**
+	 * toc of this report
+	 */
+	private TOCNode tocRoot;
 
 	/**
 	 * default constructor.
@@ -54,6 +70,9 @@ public class ReportContent implements IReportContent
 		this.report = report;
 	}
 
+	/**
+	 * default constructor.
+	 */
 	public ReportContent( )
 	{
 		cssEngine = BIRTCSSEngine.getInstance( );
@@ -69,20 +88,16 @@ public class ReportContent implements IReportContent
 		return ( report == null ) ? null : report.findStyle( styleClass );
 	}
 
+	/**
+	 * get the css engine used in the report.
+	 * 
+	 * @return css engine
+	 */
 	public CSSEngine getCSSEngine( )
 	{
 		return cssEngine;
 	}
 
-	/**
-	 * Creates the Action Content
-	 * 
-	 * @param hyperlink
-	 *            the hyper link string
-	 * @param target
-	 *            the target frame
-	 * @return the action content instance
-	 */
 	public IHyperlinkAction createActionContent( )
 	{
 		return new ActionContent( );
@@ -93,41 +108,16 @@ public class ReportContent implements IReportContent
 		return new StyleDeclaration( cssEngine );
 	}
 
-	/**
-	 * Creates the Cell Content
-	 * 
-	 * @param design
-	 *            the Cell Design
-	 * @param parentNode
-	 *            the parent content object
-	 * @return the Cell Content instance
-	 */
 	public ICellContent createCellContent( )
 	{
 		return new CellContent( this );
 	}
 
-	/**
-	 * Creates the Container Content
-	 * 
-	 * @param design
-	 *            the report item design
-	 * @param parent
-	 *            the parent content object
-	 * @return the container content instance
-	 */
 	public IContainerContent createContainerContent( )
 	{
 		return new ContainerContent( this );
 	}
 
-	/**
-	 * Creates the Page setup content object
-	 * 
-	 * @param design
-	 *            the page setup design
-	 * @return the instance
-	 */
 	public IPageContent createPageContent( )
 	{
 		return new PageContent( this );
@@ -154,16 +144,6 @@ public class ReportContent implements IReportContent
 		return band;
 	}
 
-	/**
-	 * Creates the Row Content object
-	 * 
-	 * @param design
-	 *            the RowDesign
-	 * @param parent
-	 *            the parent content object
-	 * @return the instance
-	 */
-
 	public IRowContent createRowContent( )
 	{
 		return new RowContent( this );
@@ -174,16 +154,6 @@ public class ReportContent implements IReportContent
 		return new TableContent( this );
 	}
 
-	/**
-	 * Creates the Text content object
-	 * 
-	 * @param design
-	 *            the TextItemDesign
-	 * @param parent
-	 *            the parent content object
-	 * 
-	 * @return the instance
-	 */
 	public ITextContent createTextContent( )
 	{
 		return new TextContent( this );
@@ -214,11 +184,6 @@ public class ReportContent implements IReportContent
 		return new LabelContent( content );
 	}
 
-	/**
-	 * Creates the extended item content object
-	 * 
-	 * @return the instance
-	 */
 	public IForeignContent createForeignContent( )
 	{
 		return new ForeignContent( this );
@@ -229,15 +194,6 @@ public class ReportContent implements IReportContent
 		return new ForeignContent( content );
 	}
 
-	/**
-	 * Creates the image content object
-	 * 
-	 * @param design
-	 *            the image design, or extened item design
-	 * @param parent
-	 *            the parent content object
-	 * @return the instance
-	 */
 	public IImageContent createImageContent( )
 	{
 		return new ImageContent( this );
@@ -251,5 +207,19 @@ public class ReportContent implements IReportContent
 	public List getErrors( )
 	{
 		return errors;
+	}
+
+	public TOCNode getTOC( )
+	{
+		if ( tocRoot == null )
+		{
+			tocRoot = new TOCNode( );
+		}
+		return tocRoot;
+	}
+
+	public void setTOC( TOCNode root )
+	{
+		this.tocRoot = root;
 	}
 }

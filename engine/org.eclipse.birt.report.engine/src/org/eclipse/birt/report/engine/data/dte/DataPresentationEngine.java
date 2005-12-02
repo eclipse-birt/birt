@@ -42,12 +42,10 @@ import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 public class DataPresentationEngine extends AbstractDataEngine
 {
 
-	public DataPresentationEngine( ExecutionContext ctx, IDocumentArchive arch,
-			String archName )
+	public DataPresentationEngine( ExecutionContext ctx, IDocumentArchive arch)
 	{
 		context = ctx;
 		archive = arch;
-		reportArchName = archName;
 		// fd = getRandomAccessFile();
 
 		loadDteMetaInfo( );
@@ -67,7 +65,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 
 	private void loadDteMetaInfo( )
 	{
-		File fd = archive.getStream( reportArchName );
+		File fd = archive.getStream( DATA_META_STREAM );
 		try
 		{
 			ObjectInputStream ois = new ObjectInputStream( new FileInputStream(

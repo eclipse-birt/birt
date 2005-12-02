@@ -89,7 +89,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	public void render( long pageNumber ) throws EngineException
 	{
 		long totalPage = reportDoc.getPageCount( );
-		if ( pageNumber < 0 || pageNumber >= totalPage )
+		if ( pageNumber <= 0 || pageNumber > totalPage )
 		{
 			throw new EngineException( "Can't find page hints :{0}", new Long(
 					pageNumber ) );
@@ -223,7 +223,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	public void close( )
 	{
-		super.close( );
 		reportDoc.getArchive( ).close( );
+		super.close( );
 	}
 }

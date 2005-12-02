@@ -95,11 +95,12 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			context.execute( item.getOnCreate( ) );
 		}
 
+		openTOCEntry( content );
 		if ( emitter != null )
 		{
 			emitter.startForeign( content );
 		}
-
+		closeTOCEntry( );
 		context.popContent( );
 	}
 

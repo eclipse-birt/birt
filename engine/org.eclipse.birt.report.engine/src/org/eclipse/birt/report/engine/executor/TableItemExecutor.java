@@ -56,7 +56,7 @@ import org.eclipse.birt.report.engine.script.TableScriptExecutor;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.30 $ $Date: 2005/11/24 01:02:44 $
+ * @version $Revision: 1.31 $ $Date: 2005/11/24 07:25:16 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -133,6 +133,7 @@ public class TableItemExecutor extends ListingElementExecutor
 					context );
 		}
 
+		openTOCEntry( tableContent );
 		if ( emitter != null )
 		{
 			emitter.startTable( tableContent );
@@ -145,6 +146,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			emitter.endTable( tableContent );
 		}
 
+		closeTOCEntry( );
 		context.popContent( );
 		closeResultSet( );
 
@@ -158,7 +160,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * structure used to cache the information of a table.
 	 * 
-	 * @version $Revision: 1.30 $ $Date: 2005/11/24 01:02:44 $
+	 * @version $Revision: 1.31 $ $Date: 2005/11/24 07:25:16 $
 	 */
 	private static class TABLEINFO
 	{
@@ -507,6 +509,7 @@ public class TableItemExecutor extends ListingElementExecutor
 						(RowContent) rowContent, expressionResults, context );
 			}
 
+			openTOCEntry( rowContent );
 			if ( emitter != null )
 			{
 				emitter.startRow( rowContent );
@@ -542,6 +545,7 @@ public class TableItemExecutor extends ListingElementExecutor
 							context );
 				}
 
+				openTOCEntry( cellContent );
 				if ( emitter != null )
 				{
 					emitter.startCell( cellContent );
@@ -566,6 +570,7 @@ public class TableItemExecutor extends ListingElementExecutor
 				{
 					emitter.endCell( cellContent );
 				}
+				closeTOCEntry( );
 				context.popContent( );
 			}
 		}
@@ -574,6 +579,7 @@ public class TableItemExecutor extends ListingElementExecutor
 		if ( closeRow )
 		{
 			emitter.endRow( (IRowContent) context.getContent( ) );
+			closeTOCEntry( );
 			context.popContent( );
 			rowClosed = true;
 		}

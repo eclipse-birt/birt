@@ -81,9 +81,13 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		if ( rset == null || rsetEmpty == true )
 		{
 			// empty rset
+			openTOCEntry( );
 			accessHeader( listing, outputEmitter );
+			closeTOCEntry( );
 
+			openTOCEntry( );
 			accessFooter( listing, outputEmitter );
+			closeTOCEntry( );
 		}
 		else
 		{
@@ -95,13 +99,17 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			ExpressionResults exprResults = new ExpressionResults( rsIterator,
 					rowExpressions );
 
+			openTOCEntry( );
 			accessHeader( listing, outputEmitter );
+			closeTOCEntry( );
 			if ( groupCount == 0 )
 			{
 				do
 				{
 					rsetCursor++;
+					openTOCEntry( );
 					accessDetail( listing, outputEmitter, exprResults );
+					closeTOCEntry( );
 					if ( pageBreakInterval > 0 )
 					{
 						if ( ( rsetCursor + 1 ) % pageBreakInterval == 0 )
@@ -128,13 +136,17 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 						}
 						while ( groupIndex < groupCount )
 						{
+							openTOCEntry( );// open the group
+							openTOCEntry( );// open the group header
 							accessGroupHeader( listing, groupIndex,
 									outputEmitter );
+							closeTOCEntry( );// close the group header
 							groupIndex++;
 						}
 					}
-
+					openTOCEntry( );
 					accessDetail( listing, outputEmitter, exprResults );
+					closeTOCEntry( );
 					int endGroup = rset.getEndingGroupLevel( );
 					if ( endGroup != NONE_GROUP )
 					{
@@ -150,8 +162,11 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 						groupIndex = groupCount - 1;
 						while ( groupIndex >= endGroup )
 						{
+							openTOCEntry( ); // open the group footer
 							accessGroupFooter( listing, groupIndex,
 									outputEmitter );
+							closeTOCEntry( ); // close the group footer
+							closeTOCEntry( ); // close the group
 							groupIndex--;
 						}
 					}
@@ -164,9 +179,11 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 					}
 				} while ( rset.next( ) );
 			}
-			//we never add page break before the table header and the last row 
+			// we never add page break before the table header and the last row
 			needPageBreak = false;
+			openTOCEntry( );
 			accessFooter( listing, outputEmitter );
+			closeTOCEntry( );
 		}
 	}
 
