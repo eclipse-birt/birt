@@ -89,7 +89,8 @@ public class RenameAction extends AbstractViewerAction
 			{
 				return true;
 			}
-			return ( (ReportElementHandle) obj ).getDefn( ).getNameOption( ) != MetaDataConstants.NO_NAME;
+			return ( (ReportElementHandle) obj ).getDefn( ).getNameOption( ) != MetaDataConstants.NO_NAME
+					&& ( (ReportElementHandle) obj ).canEdit( );
 		}
 		// No report element selected
 		return false;
@@ -104,7 +105,8 @@ public class RenameAction extends AbstractViewerAction
 	{
 		if ( Policy.TRACING_ACTIONS )
 		{
-			System.out.println( "Rename action >> Runs with " + DEUtil.getDisplayLabel( getSelectedObjects( ).getFirstElement( ) ) ); //$NON-NLS-1$
+			System.out
+					.println( "Rename action >> Runs with " + DEUtil.getDisplayLabel( getSelectedObjects( ).getFirstElement( ) ) ); //$NON-NLS-1$
 		}
 		if ( tool != null )
 		{
