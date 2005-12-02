@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 import org.eclipse.birt.report.model.util.StructureRefUtil;
 
 /**
@@ -146,8 +146,8 @@ public class StructRefPropertyType extends PropertyType
 
 		if ( value instanceof String )
 			return (String) value;
-		
-		return ModelUtil.needTheNamespacePrefix( (StructRefValue) value, null,
+
+		return ReferenceValueUtil.needTheNamespacePrefix( (StructRefValue) value, null,
 				module );
 	}
 

@@ -20,8 +20,6 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.StyledElement;
-import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
-import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -35,11 +33,12 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * <h3>Applicability</h3>
  * This validator is only applied to the <code>StyledElement.STYLE_PROP</code>
  * value of <code>StyledElement</code>.
- *  
+ * 
  */
 
 public class StyleReferenceValidator extends AbstractElementValidator
 {
+
 	/**
 	 * Name of this validator.
 	 */
@@ -87,19 +86,28 @@ public class StyleReferenceValidator extends AbstractElementValidator
 
 		if ( styleName != null && style == null )
 		{
-			IModuleNameSpace nameSpace = module.getModuleNameSpace( Module.STYLE_NAME_SPACE );
-			ElementRefValue refValue = nameSpace.resolve( styleName );
-//			StyleElement theStyle = (StyleElement) nameSpace.getElement( styleName );
-//			NameSpace ns = module.getNameSpace( Module.STYLE_NAME_SPACE );
-//			StyleElement theStyle = (StyleElement) ns.getElement( styleName );
-			if ( ! refValue.isResolved( ) )
+			DesignElement resolvedElement = module.resolveElement( styleName,
+					Module.STYLE_NAME_SPACE, toValidate
+							.getPropertyDefn( StyledElement.STYLE_PROP ) );
+
+			// IModuleNameSpace nameSpace = module.getModuleNameSpace(
+			// Module.STYLE_NAME_SPACE );
+			// ElementRefValue refValue = nameSpace.resolve( styleName );
+
+			// StyleElement theStyle = (StyleElement) nameSpace.getElement(
+			// styleName );
+			// NameSpace ns = module.getNameSpace( Module.STYLE_NAME_SPACE );
+			// StyleElement theStyle = (StyleElement) ns.getElement( styleName
+			// );
+			if ( resolvedElement == null )
 			{
 				list.add( new StyleException( toValidate, styleName,
 						StyleException.DESIGN_EXCEPTION_NOT_FOUND ) );
 			}
 			else
 			{
-				toValidate.setStyle( (StyleElement) refValue.getElement( ) );
+				// toValidate.setStyle( (StyleElement) refValue.getElement( ) );
+				toValidate.setStyle( (StyleElement) resolvedElement );
 			}
 		}
 

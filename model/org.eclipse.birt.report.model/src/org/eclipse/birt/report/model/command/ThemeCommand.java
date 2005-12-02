@@ -14,10 +14,14 @@ package org.eclipse.birt.report.model.command;
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ThemeException;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
  * Sets the theme of the report design.
@@ -27,18 +31,27 @@ public class ThemeCommand extends AbstractElementCommand
 {
 
 	/**
+	 * the module that the new theme attaches
+	 * 
+	 */
+
+	private Module themeRoot = null;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param module
-	 *            the module
+	 *            the module that holds <code>ActivityStack</code>
+	 * @param themeRoot
+	 *            the module that the theme attaches
 	 * @param element
 	 *            the module to set the theme
 	 */
 
-	public ThemeCommand( Module module, DesignElement element )
+	public ThemeCommand( Module module, Module themeRoot, DesignElement element )
 	{
 		super( module, element );
-
+		this.themeRoot = themeRoot;
 		assert element instanceof Module;
 	}
 
@@ -56,37 +69,15 @@ public class ThemeCommand extends AbstractElementCommand
 		name = StringUtil.trimString( name );
 
 		Module currentModule = (Module) element;
+		ElementPropertyDefn propDefn = currentModule
+				.getPropertyDefn( IModuleModel.THEME_PROP );
 
-		// Ensure that the theme exists
+		if ( name == null && currentModule.getThemeName( ) == null )
+			return;
 
-		Theme theme = null;
-		Theme oldTheme = currentModule.getTheme( );
-		
-		if ( name != null )
-		{
-			theme = getModule( ).findTheme( name );
+		Object retValue = propDefn.validateValue( currentModule, name );
 
-			// the theme in the element is the same with the new set value
-
-			if ( theme == oldTheme )
-				return;
-
-			if ( theme == null )
-				throw new ThemeException( element, name,
-						ThemeException.DESIGN_EXCEPTION_NOT_FOUND );
-		}
-		else
-		{
-			// the new name is null and the theme in the element is un-set
-
-			if ( oldTheme == null )
-				return;
-		}
-
-		// adjust the back references for styles in the theme
-
-		ThemeRecord themeRecord = new ThemeRecord( currentModule, theme );
-		getModule( ).getActivityStack( ).execute( themeRecord );
+		doSetThemeRefValue( (ElementRefValue) retValue );
 	}
 
 	/**
@@ -106,7 +97,62 @@ public class ThemeCommand extends AbstractElementCommand
 
 		String name = null;
 		if ( theme != null )
-			name = theme.getName( );
+			name = ReferenceValueUtil.needTheNamespacePrefix( theme, themeRoot,
+					(Module) element );
 		setTheme( name );
+
+	}
+
+	/**
+	 * Sets the theme with the given element reference value. Call this method
+	 * when the theme name or theme element has been validated. Otherwise, uses
+	 * {@link #setTheme(String)} or {@link #setThemeElement(Theme)}.
+	 * 
+	 * @param refValue
+	 *            the validated reference value
+	 * @throws SemanticException
+	 *             if the element can not have theme or the theme is not found.
+	 */
+
+	protected void setThemeRefValue( ElementRefValue refValue )
+			throws SemanticException
+	{
+		if ( refValue == null
+				&& ( (Module) element ).getThemeName( ) == null )
+			return;
+		
+		doSetThemeRefValue( refValue );
+	}
+
+	/**
+	 * Do the work to set the new theme with the given
+	 * <code>newThemeValue</code>.
+	 * 
+	 * @param newThemeValue
+	 *            the validated <code>ElementRefValue</code>
+	 */
+
+	private void doSetThemeRefValue( ElementRefValue newThemeValue )
+			throws SemanticException
+	{
+		if ( newThemeValue != null && !newThemeValue.isResolved( ) )
+		{
+			String name = ReferenceValueUtil.needTheNamespacePrefix(
+					newThemeValue, (Module) element );
+			throw new ThemeException( element, name,
+					ThemeException.DESIGN_EXCEPTION_NOT_FOUND );
+		}
+
+		if ( newThemeValue != null
+				&& newThemeValue.isResolved( )
+				&& newThemeValue.getElement( ) == ( (Module) element )
+						.getTheme( ) )
+			return;
+
+		// adjust the back references for styles in the theme
+
+		ThemeRecord themeRecord = new ThemeRecord( (Module) element,
+				newThemeValue );
+		getModule( ).getActivityStack( ).execute( themeRecord );
 	}
 }

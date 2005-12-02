@@ -116,15 +116,15 @@ public class ExtendsPropertyType extends PropertyType
 			IModuleNameSpace elementResolver = module
 					.getModuleNameSpace( ( (ElementDefn) target.getDefn( ) )
 							.getNameSpaceID( ) );
-			ElementRefValue refValue = elementResolver.resolve( target );
+			ElementRefValue refValue = elementResolver.resolve( target, defn );
 
 			// Resolved reference.
 
-			return refValue; 
+			return refValue;
 		}
-		
+
 		// Invalid property value.
-		
+
 		logger.log( Level.SEVERE,
 				"The value of the extends property is not a valid type " ); //$NON-NLS-1$
 		throw new PropertyValueException( value,

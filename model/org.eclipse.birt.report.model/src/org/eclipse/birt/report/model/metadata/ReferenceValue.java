@@ -20,6 +20,12 @@ public abstract class ReferenceValue
 {
 
 	/**
+	 * The delimiter between the namespace and the name.
+	 */
+
+	public static final String NAMESPACE_DELIMITER = "."; //$NON-NLS-1$
+
+	/**
 	 * Library namespace that indicats which library this reference is using
 	 */
 
@@ -167,5 +173,17 @@ public abstract class ReferenceValue
 			return getQualifiedReference( );
 
 		return super.toString( );
+	}
+
+	/**
+	 * Sets the library name space for the reference.
+	 * 
+	 * @param libraryNamespace
+	 *            The libraryNamespace to set.
+	 */
+
+	public void setLibraryNamespace( String libraryNamespace )
+	{
+		this.libraryNamespace = libraryNamespace;
 	}
 }

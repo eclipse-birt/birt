@@ -49,7 +49,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
-import org.eclipse.birt.report.model.core.namespace.ModuleNameSpaceFactory;
+import org.eclipse.birt.report.model.core.namespace.ModuleNameScopeFactory;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
@@ -65,11 +65,13 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.parser.LibraryReader;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 import org.eclipse.birt.report.model.util.StructureRefUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 import org.eclipse.birt.report.model.writer.ModuleWriter;
@@ -305,7 +307,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		for ( int i = 0; i < NAME_SPACE_COUNT; i++ )
 		{
 			nameSpaces[i] = new NameSpace( );
-			moduleNameSpaces[i] = ModuleNameSpaceFactory
+			moduleNameSpaces[i] = ModuleNameScopeFactory
 					.createElementNameSpace( this, i );
 		}
 
@@ -351,7 +353,9 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public StyleElement findStyle( String name )
 	{
-		return (StyleElement) resolveElement( name, STYLE_NAME_SPACE );
+		ElementRefValue refValue = moduleNameSpaces[STYLE_NAME_SPACE]
+				.resolve( name );
+		return (StyleElement) refValue.getElement( );
 	}
 
 	/**
@@ -365,7 +369,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public DesignElement findElement( String name )
 	{
-		return resolveElement( name, ELEMENT_NAME_SPACE );
+		return resolveNativeElement( name, ELEMENT_NAME_SPACE );
 	}
 
 	/**
@@ -378,7 +382,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public DesignElement findDataSource( String name )
 	{
-		return resolveElement( name, DATA_SOURCE_NAME_SPACE );
+		return resolveNativeElement( name, DATA_SOURCE_NAME_SPACE );
 	}
 
 	/**
@@ -391,7 +395,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public DesignElement findDataSet( String name )
 	{
-		return resolveElement( name, DATA_SET_NAME_SPACE );
+		return resolveNativeElement( name, DATA_SET_NAME_SPACE );
 	}
 
 	/**
@@ -404,7 +408,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public DesignElement findPage( String name )
 	{
-		return resolveElement( name, PAGE_NAME_SPACE );
+		return resolveNativeElement( name, PAGE_NAME_SPACE );
 	}
 
 	/**
@@ -417,7 +421,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public DesignElement findParameter( String name )
 	{
-		return resolveElement( name, PARAMETER_NAME_SPACE );
+		return resolveNativeElement( name, PARAMETER_NAME_SPACE );
 	}
 
 	/**
@@ -634,7 +638,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		for ( int i = 0; i < NAME_SPACE_COUNT; i++ )
 		{
 			module.nameSpaces[i] = new NameSpace( );
-			module.moduleNameSpaces[i] = ModuleNameSpaceFactory
+			module.moduleNameSpaces[i] = ModuleNameScopeFactory
 					.createElementNameSpace( module, i );
 		}
 
@@ -1362,6 +1366,56 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	/**
 	 * Resolves element with the given element name and name space.
+	 * <code>propDefn</code> gives the information that how to resolve the
+	 * <code>elementName</code>.
+	 * 
+	 * @param elementName
+	 *            name of the element
+	 * @param nameSpace
+	 *            name space
+	 * @param propDefn
+	 *            the property definition
+	 * @return the resolved element if the name can be resolved, otherwise,
+	 *         return null.
+	 * 
+	 * @see IModuleNameSpace#resolve(String, PropertyDefn)
+	 */
+
+	public DesignElement resolveElement( String elementName, int nameSpace,
+			PropertyDefn propDefn )
+	{
+		ElementRefValue refValue = moduleNameSpaces[nameSpace].resolve(
+				elementName, propDefn );
+		return refValue.getElement( );
+	}
+
+	/**
+	 * Resolves element with the given element name and name space.
+	 * <code>propDefn</code> gives the information that how to resolve the
+	 * <code>elementName</code>.
+	 * 
+	 * @param element
+	 *            the element
+	 * @param nameSpace
+	 *            name space
+	 * @param propDefn
+	 *            the property definition
+	 * @return the resolved element if the name can be resolved, otherwise,
+	 *         return null.
+	 * 
+	 * @see IModuleNameSpace#resolve(String, PropertyDefn)
+	 */
+
+	public DesignElement resolveElement( DesignElement element, int nameSpace,
+			PropertyDefn propDefn )
+	{
+		ElementRefValue refValue = moduleNameSpaces[nameSpace].resolve(
+				element, propDefn );
+		return refValue.getElement( );
+	}
+
+	/**
+	 * Resolves element with the given element name and name space.
 	 * 
 	 * @param elementName
 	 *            name of the element
@@ -1371,10 +1425,11 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *         return null.
 	 */
 
-	public DesignElement resolveElement( String elementName, int nameSpace )
+	private DesignElement resolveNativeElement( String elementName,
+			int nameSpace )
 	{
-		ElementRefValue refValue = moduleNameSpaces[nameSpace]
-				.resolve( elementName );
+		ElementRefValue refValue = moduleNameSpaces[nameSpace].resolve(
+				elementName, null );
 		return refValue.getElement( );
 	}
 
@@ -1762,6 +1817,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 			ElementRefValue value = (ElementRefValue) client.getLocalProperty(
 					this, ref.propName );
+
 			value.unresolved( value.getName( ) );
 
 			referred.dropClient( client );
@@ -2021,19 +2077,10 @@ public abstract class Module extends DesignElement implements IModuleModel
 			units = (String) value;
 		else if ( THEME_PROP.equals( propName ) )
 		{
-			// the value must be either ElementRefValue or null
+			updateReference( theme, (ElementRefValue) value,
+					getPropertyDefn( THEME_PROP ) );
 
-			if ( value instanceof ElementRefValue )
-			{
-				ElementRefValue refValue = (ElementRefValue) value;
-				if ( refValue.isResolved( ) )
-					setTheme( (Theme) refValue.getElement( ) );
-				else
-					setThemeName( refValue.getName( ) );
-			}
-			else
-				setTheme( null );
-
+			theme = (ElementRefValue) value;
 		}
 		else
 			super.setIntrinsicProperty( propName, value );
@@ -2118,7 +2165,9 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public Theme findTheme( String name )
 	{
-		return (Theme) resolveElement( name, THEME_NAME_SPACE );
+		ElementRefValue refValue = moduleNameSpaces[THEME_NAME_SPACE]
+				.resolve( name );
+		return (Theme) refValue.getElement( );
 	}
 
 	/**
@@ -2166,7 +2215,10 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		IModuleNameSpace resolver = module
 				.getModuleNameSpace( Module.THEME_NAME_SPACE );
-		ElementRefValue refValue = resolver.resolve( theme.getName( ) );
+
+		ElementRefValue refValue = resolver.resolve( ReferenceValueUtil
+				.needTheNamespacePrefix( theme, this ) );
+
 		Theme target = null;
 		if ( refValue.isResolved( ) )
 		{
@@ -2292,60 +2344,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public TemplateParameterDefinition findTemplateParameterDefinition(
 			String name )
 	{
-		return (TemplateParameterDefinition) resolveElement( name,
+		return (TemplateParameterDefinition) resolveNativeElement( name,
 				TEMPLATE_PARAMETER_NAME_SPACE );
-	}
-
-	/**
-	 * Sets the theme. If null, the theme is cleared.
-	 * 
-	 * @param newTheme
-	 *            the style to set
-	 */
-
-	public void setTheme( Theme newTheme )
-	{
-		Theme oldTheme = null;
-		if ( theme != null )
-			oldTheme = (Theme) theme.getElement( );
-
-		// if the theme is null and new theme is null, return
-		// if the theme is resolved and the resolved element equals to the new
-		// theme, return
-
-		if ( oldTheme == newTheme && ( theme == null || theme.isResolved( ) ) )
-			return;
-
-		if ( oldTheme != null )
-			oldTheme.dropClient( this );
-		if ( newTheme != null )
-		{
-			if ( theme == null )
-				theme = new ElementRefValue( null, newTheme );
-			else
-				theme.resolve( newTheme );
-			newTheme.addClient( this, THEME_PROP );
-		}
-		else
-			theme = null;
-	}
-
-	/**
-	 * Sets the theme by name. If null, the theme is cleared. Use this form to
-	 * represent an "unresolved" theme: a reference to an undefined theme, or a
-	 * forward reference while parsing a design file.
-	 * 
-	 * @param theName
-	 *            the style name
-	 */
-
-	public void setThemeName( String theName )
-	{
-		if ( theme == null && theName == null )
-			return;
-		setTheme( null );
-		assert theme == null;
-		theme = new ElementRefValue( null, theName );
 	}
 
 	/**
@@ -2372,5 +2372,4 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		return false;
 	}
-
 }

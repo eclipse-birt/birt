@@ -24,12 +24,11 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
-import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
-import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
@@ -380,10 +379,13 @@ public abstract class ReportElementState extends DesignParseState
 		String extendsName = element.getExtendsName( );
 		if ( StringUtil.isBlank( extendsName ) )
 			return;
-		IModuleNameSpace moduleNameSpace = module.getModuleNameSpace( id );
-		ElementRefValue refValue = moduleNameSpace.resolve( extendsName );
 
-		if ( !refValue.isResolved( ) )
+		DesignElement parent = module.resolveElement( extendsName, id, element
+				.getPropertyDefn( IDesignElementModel.EXTENDS_PROP ) );
+		// IModuleNameSpace moduleNameSpace = module.getModuleNameSpace( id );
+		// ElementRefValue refValue = moduleNameSpace.resolve( extendsName );
+
+		if ( parent == null )
 		{
 			handler.getErrorHandler( ).semanticWarning(
 					new ExtendsException( element, extendsName,
@@ -393,7 +395,7 @@ public abstract class ReportElementState extends DesignParseState
 
 		try
 		{
-			DesignElement parent = refValue.getElement( );
+			// DesignElement parent = refValue.getElement( );
 			assert parent != null;
 			element.checkExtends( parent );
 
@@ -403,7 +405,8 @@ public abstract class ReportElementState extends DesignParseState
 			handler.getErrorHandler( ).semanticError( ex );
 		}
 
-		element.setExtendsElement( refValue.getElement( ) );
+		// element.setExtendsElement( refValue.getElement( ) );
+		element.setExtendsElement( parent );
 		element.refreshStructureFromParent( module );
 	}
 

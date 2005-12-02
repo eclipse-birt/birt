@@ -1773,7 +1773,7 @@
       <Argument name="object" tagID="Element.DataSource.afterClose.object" type="Object"/>
 	</Method>		
   </Element>
-  <Element canExtend="false" displayNameID="Element.OdaDataSource" extends="DataSource" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSource" name="OdaDataSource" since="1.0" xmlName="oda-data-source">
+  <Element canExtend="true" displayNameID="Element.OdaDataSource" extends="DataSource" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSource" name="OdaDataSource" since="1.0" xmlName="oda-data-source">
     <Property displayNameID="Element.OdaDataSource.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string"/>
     <Property detailType="ExtendedProperty" displayNameID="Element.OdaDataSource.privateDriverProperties" isList="true" name="privateDriverProperties" since="1.0" type="structure"/>
     <PropertyVisibility name="extensionID" visibility="hide" />
@@ -1843,7 +1843,7 @@
       <Argument name="object" tagID="Element.ScriptDataSet.close.object" type="Object"/>		
 	</Method>		  				
   </Element>
-  <Element canExtend="false" displayNameID="Element.OdaDataSet" extends="DataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" name="OdaDataSet" since="1.0" xmlName="oda-data-set">
+  <Element canExtend="true" displayNameID="Element.OdaDataSet" extends="DataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" name="OdaDataSet" since="1.0" xmlName="oda-data-set">
     <Property displayNameID="Element.OdaDataSet.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string"/>
     <Property displayNameID="Element.OdaDataSet.queryText" name="queryText" since="1.0" type="string"/>
     <Property displayNameID="Element.OdaDataSet.resultSetName" name="resultSetName" since="reserved" type="string"/>

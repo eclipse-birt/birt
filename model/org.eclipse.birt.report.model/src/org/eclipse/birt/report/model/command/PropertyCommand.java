@@ -42,7 +42,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
  * Sets the value of a property. Works with both system and user properties.
@@ -304,9 +304,10 @@ public class PropertyCommand extends AbstractElementCommand
 			else
 			{
 				// TODO: the root here should not be module.
+
 				String name = ( (ElementRefValue) value ).getName( );
-				name = ModelUtil.needTheNamespacePrefix(
-						(ElementRefValue) value, null, module );
+				name = ReferenceValueUtil.needTheNamespacePrefix(
+						(ElementRefValue) value, module );
 				cmd.setExtendsName( name );
 			}
 		}
@@ -328,11 +329,8 @@ public class PropertyCommand extends AbstractElementCommand
 		}
 		else if ( Module.THEME_PROP.equals( propName ) )
 		{
-			ThemeCommand cmd = new ThemeCommand( module, element );
-			if ( value == null )
-				cmd.setTheme( null );
-			else
-				cmd.setTheme( ( (ElementRefValue) value ).getName( ) );
+			ThemeCommand cmd = new ThemeCommand( module, module, element );
+			cmd.setThemeRefValue( (ElementRefValue) value );
 		}
 		else
 		{

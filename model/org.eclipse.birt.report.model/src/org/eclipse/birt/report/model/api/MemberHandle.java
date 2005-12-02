@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
  * A handle to a member of a property structure. A structure list occurs in an
@@ -96,10 +96,11 @@ public class MemberHandle extends SimpleValueHandle
 	public Object getValue( )
 	{
 		Object value = memberRef.getValue( getModule( ), getElement( ) );
-	
+
 		if ( value instanceof ReferenceValue )
-			return ModelUtil.needTheNamespacePrefix( (ReferenceValue) value,
-					getElement( ).getRoot( ), getModule( ) );
+			return ReferenceValueUtil.needTheNamespacePrefix(
+					(ReferenceValue) value, getElementHandle( )
+							.getEffectiveModule( ) );
 
 		return value;
 	}

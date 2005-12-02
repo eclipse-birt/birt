@@ -832,7 +832,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		Theme theme = module.findTheme( name );
 		if ( theme == null )
 			return null;
-		return (ThemeHandle) theme.getHandle( module );
+		return (ThemeHandle) theme.getHandle( getModule( ) );
 	}
 
 	/**
@@ -1617,8 +1617,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllDataSources( )
 	{
-		List elementList = module.getModuleNameSpace(
-				Module.DATA_SOURCE_NAME_SPACE ).getElements( );
+		List elementList = module.getNameSpace( Module.DATA_SOURCE_NAME_SPACE )
+				.getElements( );
 
 		return generateHandleList( elementList );
 	}
@@ -1633,8 +1633,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllDataSets( )
 	{
-		List elementList = module.getModuleNameSpace(
-				Module.DATA_SET_NAME_SPACE ).getElements( );
+		List elementList = module.getNameSpace( Module.DATA_SET_NAME_SPACE )
+				.getElements( );
 
 		return generateHandleList( elementList );
 	}
@@ -1649,7 +1649,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllPages( )
 	{
-		List elementList = module.getModuleNameSpace( Module.PAGE_NAME_SPACE )
+		List elementList = module.getNameSpace( Module.PAGE_NAME_SPACE )
 				.getElements( );
 
 		return generateHandleList( elementList );
@@ -1665,8 +1665,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllParameters( )
 	{
-		List elementList = module.getModuleNameSpace(
-				Module.PARAMETER_NAME_SPACE ).getElements( );
+		List elementList = module.getNameSpace( Module.PARAMETER_NAME_SPACE )
+				.getElements( );
 
 		return generateHandleList( elementList );
 	}
@@ -2074,7 +2074,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void setThemeName( String themeName ) throws SemanticException
 	{
-		ThemeCommand command = new ThemeCommand( getModule( ), getElement( ) );
+		ThemeCommand command = new ThemeCommand( getModule( ), null,
+				getElement( ) );
 		command.setTheme( themeName );
 	}
 
@@ -2104,9 +2105,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void setTheme( ThemeHandle theme ) throws SemanticException
 	{
 		if ( theme == null )
-			setThemeElement( null );
+			setThemeElement( null, theme.getEffectiveModule( ) );
 		else
-			setThemeElement( (Theme) theme.getElement( ) );
+			setThemeElement( (Theme) theme.getElement( ), theme
+					.getEffectiveModule( ) );
 	}
 
 	/**
@@ -2117,9 +2119,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @throws SemanticException
 	 */
 
-	private void setThemeElement( Theme theme ) throws SemanticException
+	private void setThemeElement( Theme theme, Module themeRoot )
+			throws SemanticException
 	{
-		ThemeCommand command = new ThemeCommand( getModule( ), getElement( ) );
+		ThemeCommand command = new ThemeCommand( getModule( ), themeRoot,
+				getElement( ) );
 		command.setThemeElement( theme );
 	}
 

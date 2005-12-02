@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -109,7 +110,11 @@ public class NameSpaceRecord extends SimpleRecord
 			if ( element instanceof ReferenceableElement )
 			{
 				ReferenceableElement originalElement = (ReferenceableElement) root
-						.resolveElement( element.getName( ), nameSpaceID );
+						.resolveElement(
+								element.getName( ),
+								nameSpaceID,
+								element
+										.getPropertyDefn( IDesignElementModel.NAME_PROP ) );
 				ns.insert( element );
 				if ( originalElement != null )
 					updateAllElementReferences( originalElement );

@@ -20,9 +20,15 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.command.ContentCommand;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ReferenceValue;
 
 /**
  * Represents a "slot" within an element. A slot holds a collection of report
@@ -226,7 +232,7 @@ public class SlotHandle extends ElementDetailHandle
 
 		return checkPostPasteErrors( (DesignElement) content );
 
-	}	
+	}
 
 	/**
 	 * Checks the element after the paste action.
@@ -240,10 +246,60 @@ public class SlotHandle extends ElementDetailHandle
 
 	private List checkPostPasteErrors( DesignElement content )
 	{
+		Module currentModule = getElementHandle( ).getEffectiveModule( );
+		String nameSpace = null;
+
+		if ( currentModule != null && currentModule instanceof Library )
+			nameSpace = ( (Library) currentModule ).getNamespace( );
+
+		reviseNameSpace( content, nameSpace );
+
 		List exceptionList = content.validateWithContents( getModule( ) );
 		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
 
 		return errorDetailList;
+	}
+
+	/**
+	 * Uses the new name space of the current module for reference property
+	 * values of the given element. This method checks the <code>content</code>
+	 * and nested elements in it.
+	 * 
+	 * @param content
+	 *            the element to revise
+	 * @param nameSpace
+	 *            the new name space
+	 */
+
+	private void reviseNameSpace( DesignElement content, String nameSpace )
+	{
+
+		List propDefns = content.getPropertyDefns( );
+		for ( int i = 0; i < propDefns.size( ); i++ )
+		{
+			ElementPropertyDefn propDefn = (ElementPropertyDefn) propDefns
+					.get( i );
+			if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
+				continue;
+
+			Object value = content.getLocalProperty( getModule( ), propDefn );
+			if ( value == null )
+				continue;
+
+			ReferenceValue refValue = (ReferenceValue) value;
+			refValue.setLibraryNamespace( nameSpace );
+		}
+
+		IElementDefn defn = content.getDefn( );
+
+		for ( int i = 0; i < defn.getSlotCount( ); i++ )
+		{
+			ContainerSlot slot = elementHandle.getElement( ).getSlot( i );
+
+			if ( slot != null )
+				for ( int pos = 0; pos < slot.getCount( ); pos++ )
+					reviseNameSpace( slot.getContent( pos ), nameSpace );
+		}
 	}
 
 	/**
@@ -394,7 +450,8 @@ public class SlotHandle extends ElementDetailHandle
 	 *             if the content is not within the slot
 	 */
 
-	public void dropAndClear( DesignElementHandle content ) throws SemanticException
+	public void dropAndClear( DesignElementHandle content )
+			throws SemanticException
 	{
 		ContentCommand cmd = new ContentCommand( getModule( ), getElement( ) );
 		cmd.remove( content.getElement( ), slotID, false );
@@ -410,8 +467,7 @@ public class SlotHandle extends ElementDetailHandle
 	 *             if the content is not within the slot
 	 */
 
-	public void drop( DesignElementHandle content )
-			throws SemanticException
+	public void drop( DesignElementHandle content ) throws SemanticException
 	{
 		ContentCommand cmd = new ContentCommand( getModule( ), getElement( ) );
 		cmd.remove( content.getElement( ), slotID, true );
@@ -490,7 +546,6 @@ public class SlotHandle extends ElementDetailHandle
 		return slotID;
 	}
 
-	
 	/**
 	 * Determines if the slot can contain an element with the type of
 	 * <code>type</code>.

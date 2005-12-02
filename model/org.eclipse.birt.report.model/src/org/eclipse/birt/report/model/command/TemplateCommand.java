@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
@@ -92,10 +91,16 @@ public class TemplateCommand extends AbstractElementCommand
 			assert value instanceof ElementRefValue;
 			if ( ( (ElementRefValue) value ).getElement( ) == null )
 			{
-				ElementRefValue refValue = resolveTemplateParameterDefinition(
+				// ElementRefValue refValue =
+				// resolveTemplateParameterDefinition(
+				// module, ( (ElementRefValue) value ).getName( ) );
+				// TemplateParameterDefinition templateParam =
+				// (TemplateParameterDefinition) refValue
+				// .getElement( );
+
+				TemplateParameterDefinition templateParam = resolveTemplateParameterDefinition(
 						module, ( (ElementRefValue) value ).getName( ) );
-				TemplateParameterDefinition templateParam = (TemplateParameterDefinition) refValue
-						.getElement( );
+
 				if ( !( templateParam.getDefaultElement( ) instanceof ReportItem ) )
 					throw new PropertyValueException(
 							element,
@@ -112,10 +117,16 @@ public class TemplateCommand extends AbstractElementCommand
 			assert value instanceof ElementRefValue;
 			if ( ( (ElementRefValue) value ).getElement( ) == null )
 			{
-				ElementRefValue refValue = resolveTemplateParameterDefinition(
+				// ElementRefValue refValue =
+				// resolveTemplateParameterDefinition(
+				// module, ( (ElementRefValue) value ).getName( ) );
+				// TemplateParameterDefinition templateParam =
+				// (TemplateParameterDefinition) refValue
+				// .getElement( );
+
+				TemplateParameterDefinition templateParam = resolveTemplateParameterDefinition(
 						module, ( (ElementRefValue) value ).getName( ) );
-				TemplateParameterDefinition templateParam = (TemplateParameterDefinition) refValue
-						.getElement( );
+
 				if ( !( templateParam.getDefaultElement( ) instanceof DataSet ) )
 					throw new PropertyValueException(
 							element,
@@ -137,18 +148,22 @@ public class TemplateCommand extends AbstractElementCommand
 	 * @return the element reference value
 	 */
 
-	private ElementRefValue resolveTemplateParameterDefinition( Module module,
-			String name )
+	private TemplateParameterDefinition resolveTemplateParameterDefinition(
+			Module module, String name )
 	{
 		PropertyDefn prop = element
 				.getPropertyDefn( DesignElement.REF_TEMPLATE_PARAMETER_PROP );
 		if ( prop == null )
 			return null;
 		ElementDefn targetDefn = (ElementDefn) prop.getTargetElementType( );
-		IModuleNameSpace elementResolver = module
-				.getModuleNameSpace( targetDefn.getNameSpaceID( ) );
-		ElementRefValue refValue = elementResolver.resolve( name );
-		return refValue;
+
+		DesignElement resolvedElement = module.resolveElement( name, targetDefn
+				.getNameSpaceID( ), (ElementPropertyDefn) prop );
+		// IModuleNameSpace elementResolver = module
+		// .getModuleNameSpace( targetDefn.getNameSpaceID( ) );
+		// ElementRefValue refValue = elementResolver.resolve( name );
+		// return refValue;
+		return (TemplateParameterDefinition) resolvedElement;
 	}
 
 	/**
@@ -191,10 +206,14 @@ public class TemplateCommand extends AbstractElementCommand
 				// template definition does not exsit in the module, fire an
 				// error
 
-				ElementRefValue refValue = resolveTemplateParameterDefinition(
+				// ElementRefValue refValue =
+				// resolveTemplateParameterDefinition(
+				// module, templateParam.getName( ) );
+
+				TemplateParameterDefinition templateDefn = resolveTemplateParameterDefinition(
 						module, templateParam.getName( ) );
-				assert refValue != null;
-				if ( refValue.getElement( ) == null )
+
+				if ( templateDefn == null )
 				{
 					throw new ContentException(
 							element,
@@ -348,15 +367,14 @@ public class TemplateCommand extends AbstractElementCommand
 			assert defaultElement != null;
 
 			ContentCommand contentCmd = null;
-			
-			contentCmd = new ContentCommand( module,
-					templateParam );
+
+			contentCmd = new ContentCommand( module, templateParam );
 			contentCmd.add( defaultElement,
 					TemplateParameterDefinition.DEFAULT_SLOT );
-			
+
 			contentCmd = new ContentCommand( module, module );
 			contentCmd.add( templateParam,
-					ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );			
+					ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
 
 			// let the template handle refer the template parameter definition
 

@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
-import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
  * Represents a reference to an element. An element reference is different from
@@ -115,7 +114,8 @@ public class ElementRefPropertyType extends PropertyType
 			logger.log( Level.FINE,
 					"Validate the value of the element reference property as a string: " //$NON-NLS-1$
 							+ value );
-			return validateStringValue( module, targetDefn, (String) value );
+			return validateStringValue( module, targetDefn, defn,
+					(String) value );
 		}
 		if ( value instanceof DesignElement )
 		{
@@ -123,7 +123,7 @@ public class ElementRefPropertyType extends PropertyType
 					"Validate the value of the element reference property as a DesignElement " //$NON-NLS-1$
 							+ ( (DesignElement) value ).getName( ) );
 			DesignElement target = (DesignElement) value;
-			return validateElementValue( module, targetDefn, target );
+			return validateElementValue( module, targetDefn, defn, target );
 		}
 
 		// Invalid property value.
@@ -150,7 +150,8 @@ public class ElementRefPropertyType extends PropertyType
 	 */
 
 	private ElementRefValue validateStringValue( Module module,
-			ElementDefn targetDefn, String name ) throws PropertyValueException
+			ElementDefn targetDefn, PropertyDefn propDefn, String name )
+			throws PropertyValueException
 	{
 		name = StringUtil.trimString( name );
 		if ( name == null )
@@ -158,7 +159,13 @@ public class ElementRefPropertyType extends PropertyType
 
 		IModuleNameSpace elementResolver = module
 				.getModuleNameSpace( targetDefn.getNameSpaceID( ) );
-		ElementRefValue refValue = elementResolver.resolve( name );
+
+		ElementRefValue refValue = null;
+
+		// special case for theme property since it can be direcly referred.
+
+		refValue = elementResolver.resolve( name, propDefn );
+
 		assert refValue != null;
 
 		// Element is unresolved.
@@ -196,12 +203,12 @@ public class ElementRefPropertyType extends PropertyType
 	 */
 
 	private ElementRefValue validateElementValue( Module module,
-			ElementDefn targetDefn, DesignElement target )
+			ElementDefn targetDefn, PropertyDefn propDefn, DesignElement target )
 			throws PropertyValueException
 	{
 		IModuleNameSpace elementResolver = module
 				.getModuleNameSpace( targetDefn.getNameSpaceID( ) );
-		ElementRefValue refValue = elementResolver.resolve( target );
+		ElementRefValue refValue = elementResolver.resolve( target, propDefn );
 
 		// Check type.
 
@@ -233,12 +240,10 @@ public class ElementRefPropertyType extends PropertyType
 
 		ElementRefValue refValue = (ElementRefValue) value;
 
-		// TODO: add theme. Add the if need namespace ligic here.
-		if ( !StyledElement.STYLE_PROP.equals( defn.getName( ) )
-				|| !ReportDesign.THEME_PROP.equals( defn.getName( ) ) )
+		if ( !StyledElement.STYLE_PROP.equals( defn.getName( ) ) )
 		{
-			return ModelUtil.needTheNamespacePrefix( (ReferenceValue) value,
-					null, module );
+			return ReferenceValueUtil.needTheNamespacePrefix(
+					(ReferenceValue) value, null, module );
 		}
 
 		return refValue.getName( );
@@ -262,16 +267,24 @@ public class ElementRefPropertyType extends PropertyType
 		if ( ref.isResolved( ) )
 			return;
 		ElementDefn targetDefn = (ElementDefn) defn.getTargetElementType( );
-	
+
 		// Let the corresponding name scope do the resolve things for the
 		// element reference value. The scope will search the target element not
 		// only in the current root namespace, but also in the included
 		// libraries namespace.
 
-		String name = ModelUtil.needTheNamespacePrefix( ref, null, module );
+		IModuleNameSpace elementResolver = module
+				.getModuleNameSpace( targetDefn.getNameSpaceID( ) );
 
-		DesignElement target = module.resolveElement( name, targetDefn
-				.getNameSpaceID( ) );
+		String name = ReferenceValueUtil.needTheNamespacePrefix( ref, null,
+				module );
+
+		// special case for theme property since it can be direcly referred.
+
+		DesignElement target = null;
+		target = elementResolver.resolve( name, defn )
+				.getElement( );
+
 		if ( target != null )
 			ref.resolve( target );
 	}

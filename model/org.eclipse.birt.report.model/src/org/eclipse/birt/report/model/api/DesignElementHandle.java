@@ -62,7 +62,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
  * Base class for all report elements. Provides a high-level interface to the
@@ -211,8 +211,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		Object value = element.getProperty( module, propName );
 
 		if ( value instanceof ReferenceValue )
-			return ModelUtil.needTheNamespacePrefix( (ReferenceValue) value,
-					getElement( ).getRoot( ), getModule( ) );
+			return ReferenceValueUtil.needTheNamespacePrefix(
+					(ReferenceValue) value, getEffectiveModule( ) );
 
 		return value;
 
@@ -1560,9 +1560,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 				else
 				{
 					String name = refValue.getName( );
-					name = ModelUtil.needTheNamespacePrefix(
-							(ReferenceValue) value, getElement( ).getRoot( ),
-							getModule( ) );
+					name = ReferenceValueUtil.needTheNamespacePrefix(
+							(ReferenceValue) value, getEffectiveModule( ) );
 					targetHandle.setProperty( propDefn.getName( ), name );
 				}
 				break;
@@ -1639,14 +1638,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * 
 	 * @return true if it can be edited. false if it can't.
 	 */
+
 	public boolean canEdit( )
 	{
-		Module root = getElement( ).getRoot( ) == null
-				? getModule( )
-				: getElement( ).getRoot( );
-
-		assert root != null;
-		return !root.isReadOnly( );
+		return !getEffectiveModule( ).isReadOnly( );
 
 	}
 
@@ -1657,9 +1652,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * 
 	 * @return true if it can be transformed, otherwise false.
 	 */
+
 	public boolean canTransformToTemplate( )
 	{
-		return getElement().canTransformToTemplate( getModule() );
+		return getElement( ).canTransformToTemplate( getModule( ) );
 	}
 
 	/**
@@ -1959,6 +1955,23 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		// Look for the property defined on this element.
 
 		return getElement( ).getPropertyDefn( propName );
+	}
+
+	/**
+	 * Returns the effective module of the element. If the element is attached
+	 * to the design/library, the design/library is returned. Otherwise, the
+	 * module cached in the <code>DesignElementHandle</code> is returned.
+	 * 
+	 * @return the effective module of the element. Can be null.
+	 */
+
+	protected Module getEffectiveModule( )
+	{
+		Module effectiveModule = getElement( ).getRoot( );
+		if ( effectiveModule == null )
+			effectiveModule = getModule( );
+
+		return effectiveModule;
 	}
 
 }

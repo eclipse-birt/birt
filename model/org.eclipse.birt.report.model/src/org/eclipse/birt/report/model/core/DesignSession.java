@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IAbsoluteFontSizeValueProvider;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
@@ -37,6 +38,7 @@ import org.eclipse.birt.report.model.i18n.ResourceHandle;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.DefaultAbsoluteFontSizeValueProvider;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.parser.DesignReader;
@@ -383,7 +385,8 @@ public class DesignSession
 
 		Theme theme = new Theme( ModelMessages
 				.getMessage( Theme.DEFAULT_THEME_NAME ) );
-		library.setTheme( theme );
+		library.setProperty( IModuleModel.THEME_PROP, new ElementRefValue(
+				null, theme ) );
 		ModelUtil.insertCompatibleThemeToLibrary( library, theme );
 
 		// set initial id.

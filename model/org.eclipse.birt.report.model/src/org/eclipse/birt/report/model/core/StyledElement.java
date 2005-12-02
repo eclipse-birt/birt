@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.core;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.validators.StyleReferenceValidator;
-import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -96,14 +95,18 @@ public abstract class StyledElement extends DesignElement
 		if ( style.isResolved( ) )
 			return (StyleElement) style.getElement( );
 
-		IModuleNameSpace resolver = module
-				.getModuleNameSpace( Module.STYLE_NAME_SPACE );
-		ElementRefValue refValue = resolver.resolve( style.getName( ) );
-		StyleElement target = null;
-		if ( refValue.isResolved( ) )
-		{
-			target = (StyleElement) refValue.getElement( );
+		DesignElement resolvedElement = module.resolveElement(
+				style.getName( ), Module.STYLE_NAME_SPACE,
+				getPropertyDefn( STYLE_PROP ) );
 
+		// IModuleNameSpace resolver = module
+		// .getModuleNameSpace( Module.STYLE_NAME_SPACE );
+		// ElementRefValue refValue = resolver.resolve( style.getName( ) );
+		StyleElement target = null;
+		if ( resolvedElement != null )
+		{
+			// target = (StyleElement) refValue.getElement( );
+			target = (StyleElement) resolvedElement;
 			style.resolve( target );
 			target.addClient( this, STYLE_PROP );
 		}

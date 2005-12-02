@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -94,7 +95,8 @@ public class ExtendsCommand extends AbstractElementCommand
 			if ( !metaData.canExtend( ) )
 				throw new ExtendsException( element, base,
 						ExtendsException.DESIGN_EXCEPTION_CANT_EXTEND );
-			parent = root.resolveElement( base, ns );
+			parent = root.resolveElement( base, ns, element
+					.getPropertyDefn( IDesignElementModel.EXTENDS_PROP ) );
 			element.checkExtends( parent );
 
 			if ( metaData.getNameSpaceID( ) == Module.ELEMENT_NAME_SPACE )
@@ -218,7 +220,8 @@ public class ExtendsCommand extends AbstractElementCommand
 			throw new ExtendsException( element, parent,
 					ExtendsException.DESIGN_EXCEPTION_NO_PARENT );
 
-		// Sanity check structure. Parent and the child must be in the same structure
+		// Sanity check structure. Parent and the child must be in the same
+		// structure
 		// when doing the localization.
 
 		ContentIterator parentIter = new ContentIterator( parent );
@@ -289,13 +292,6 @@ public class ExtendsCommand extends AbstractElementCommand
 					{
 						command.makeLocalCompositeValue( new CachedMemberRef(
 								propDefn ) );
-
-						/*
-						 * List listValue = (List)valueToSet; for( int i = 0; i <
-						 * listValue.size(); i ++ ) { command.addItem( new
-						 * CachedMemberRef( propDefn ),
-						 * (Structure)listValue.get( i ) ); }
-						 */
 					}
 					else
 					{

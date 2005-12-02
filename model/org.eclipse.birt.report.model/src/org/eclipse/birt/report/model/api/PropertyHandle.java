@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
  * A handle for working with a top-level property of an element.
@@ -100,8 +100,9 @@ public class PropertyHandle extends SimpleValueHandle
 		Object value = getElement( ).getProperty( getModule( ), propDefn );
 
 		if ( value instanceof ReferenceValue )
-			return ModelUtil.needTheNamespacePrefix( (ReferenceValue) value,
-					getElement( ).getRoot( ), getModule( ) );
+			return ReferenceValueUtil.needTheNamespacePrefix(
+					(ReferenceValue) value, getElementHandle( )
+							.getEffectiveModule( ) );
 
 		return value;
 	}

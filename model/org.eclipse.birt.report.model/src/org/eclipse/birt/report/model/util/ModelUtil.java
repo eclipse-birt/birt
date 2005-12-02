@@ -42,7 +42,6 @@ import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.command.LibraryException;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
@@ -54,7 +53,6 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
-import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.xml.sax.SAXException;
@@ -733,50 +731,6 @@ public class ModelUtil
 		// Cache the inverse relationship.
 
 		theme.setContainer( library, Library.THEMES_SLOT );
-	}
-
-	/**
-	 * Gets the property value with the name prefix. This method is just used
-	 * for the element/structure reference type property. If the report design
-	 * element is extended from a library element and the retrieved value comes
-	 * from the parent, the namespace of the library should be added before the
-	 * value. This is used to allocate the referenced element/structure within
-	 * the correct scope.
-	 * 
-	 * @param refValue
-	 *            the reference value
-	 * @param root
-	 *            the root module if the element lies in a tree
-	 * @param module
-	 *            the module of the handle if the element is pending and not in
-	 *            any tree
-	 * @return the value of the property. The type of the returned object should
-	 *         be strings.
-	 * 
-	 */
-
-	public static String needTheNamespacePrefix( ReferenceValue refValue,
-			Module root, Module module )
-	{
-
-		String namespace = refValue.getLibraryNamespace( );
-		String value = refValue.getName( );
-
-		if ( namespace == null )
-			return value;
-		Module theRoot = module;
-		if ( root != null )
-			theRoot = root;
-
-		if ( theRoot instanceof Library )
-		{
-			if ( !namespace.equals( ( (Library) theRoot ).getNamespace( ) ) )
-				value = namespace + "." + value; //$NON-NLS-1$
-		}
-		else
-			value = namespace + "." + value; //$NON-NLS-1$
-
-		return value;
 	}
 
 }

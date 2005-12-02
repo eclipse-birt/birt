@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.xml.sax.SAXException;
@@ -80,7 +81,8 @@ public class LibraryState extends ModuleState
 
 		}
 
-		library.setTheme( theme );
+		library.setProperty( IModuleModel.THEME_PROP, new ElementRefValue(
+				null, theme ) );
 
 		super.end( );
 	}

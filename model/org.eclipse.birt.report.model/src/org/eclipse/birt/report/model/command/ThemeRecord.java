@@ -16,6 +16,7 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ThemeEvent;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
@@ -23,6 +24,7 @@ import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Records a change to the theme of a report design.
@@ -35,13 +37,13 @@ public class ThemeRecord extends SimpleRecord
 	 * The target Theme
 	 */
 
-	private Theme newTheme;
+	private ElementRefValue newTheme;
 
 	/**
 	 * The target Theme
 	 */
 
-	private Object oldTheme;
+	private ElementRefValue oldTheme;
 
 	/**
 	 * The library to operate
@@ -58,15 +60,13 @@ public class ThemeRecord extends SimpleRecord
 	 *            the new theme
 	 */
 
-	ThemeRecord( Module module, Theme newTheme )
+	ThemeRecord( Module module, ElementRefValue newTheme )
 	{
 		this.module = module;
 		this.newTheme = newTheme;
-		
-		if ( module.getTheme( ) != null )
-			oldTheme = module.getTheme();
-		else 
-			oldTheme = module.getThemeName( );
+
+		oldTheme = (ElementRefValue) module.getLocalProperty( module,
+				IModuleModel.THEME_PROP );
 
 		label = ModelMessages.getMessage( MessageConstants.SET_THEME_MESSAGE );
 
@@ -85,19 +85,14 @@ public class ThemeRecord extends SimpleRecord
 
 		if ( undo )
 		{
-			if ( oldTheme instanceof String )
-				module.setThemeName( (String) oldTheme );
-			else
-				module.setTheme( (Theme) oldTheme );
-			
+			module.setProperty( IModuleModel.THEME_PROP, oldTheme );
 			updateStyles( newTheme );
 		}
 		else
 		{
-			module.setTheme( newTheme );
+			module.setProperty( IModuleModel.THEME_PROP, newTheme );
 			updateStyles( oldTheme );
 		}
-
 	}
 
 	/*
@@ -129,15 +124,18 @@ public class ThemeRecord extends SimpleRecord
 	 *            the theme
 	 */
 
-	private void updateStyles( Object theme )
+	private void updateStyles( ElementRefValue theme )
 	{
 		// if the old theme is empty of not resolved. Do not need to unresolv.
 
-		if ( theme == null || theme instanceof String )
+		if ( theme == null )
 			return;
 
-		Iterator iter = ( (Theme) theme ).getSlot( Theme.STYLES_SLOT )
-				.iterator( );
+		if ( !theme.isResolved( ) )
+			return;
+
+		Iterator iter = ( (Theme) theme.getElement( ) ).getSlot(
+				Theme.STYLES_SLOT ).iterator( );
 		while ( iter.hasNext( ) )
 		{
 			DesignElement element = (DesignElement) iter.next( );
