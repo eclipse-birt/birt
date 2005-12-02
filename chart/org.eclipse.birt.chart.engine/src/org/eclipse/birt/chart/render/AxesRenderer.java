@@ -160,7 +160,10 @@ public abstract class AxesRenderer extends BaseRenderer
 			final BlockGenerationEvent bge = new BlockGenerationEvent( bl );
 
 			// ALWAYS RENDER THE OUTERMOST BLOCK FIRST
-			ScriptHandler.callFunction( sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl, getRunTimeContext( ).getScriptContext() );
+			ScriptHandler.callFunction( sh,
+					ScriptHandler.BEFORE_DRAW_BLOCK,
+					bl,
+					getRunTimeContext( ).getScriptContext( ) );
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 					bl );
 			bge.updateBlock( bl );
@@ -356,7 +359,10 @@ public abstract class AxesRenderer extends BaseRenderer
 			final BlockGenerationEvent bge = new BlockGenerationEvent( this );
 			Plot p = cm.getPlot( );
 			bge.updateBlock( p );
-			ScriptHandler.callFunction( sh, ScriptHandler.BEFORE_DRAW_BLOCK, p, getRunTimeContext( ).getScriptContext() );
+			ScriptHandler.callFunction( sh,
+					ScriptHandler.BEFORE_DRAW_BLOCK,
+					p,
+					getRunTimeContext( ).getScriptContext( ) );
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 					p );
 			renderPlot( idr, p );
@@ -2987,27 +2993,30 @@ public abstract class AxesRenderer extends BaseRenderer
 							}
 						}
 
-						if ( bRendering3D )
+						if ( ax.getLabel( ).isVisible( ) )
 						{
-							// Left wall
-							lo3d.set( sx, y3d + dOffset, dZEnd );
-							t3dre.setLocation3D( lo3d );
-							t3dre.setTextPosition( TextRenderEvent.LEFT );
-							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							dc.addLabel( t3dre );
+							if ( bRendering3D )
+							{
+								// Left wall
+								lo3d.set( sx, y3d + dOffset, dZEnd );
+								t3dre.setLocation3D( lo3d );
+								t3dre.setTextPosition( TextRenderEvent.LEFT );
+								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								dc.addLabel( t3dre );
 
-							// Right wall
-							lo3d.set( sx2, y3d + dOffset, dZ );
-							t3dre.setLocation3D( lo3d );
-							t3dre.setTextPosition( TextRenderEvent.RIGHT );
-							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							dc.addLabel( t3dre );
-						}
-						else
-						{
-							lo.set( sx, y + dOffset );
-							tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							ipr.drawText( tre );
+								// Right wall
+								lo3d.set( sx2, y3d + dOffset, dZ );
+								t3dre.setLocation3D( lo3d );
+								t3dre.setTextPosition( TextRenderEvent.RIGHT );
+								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								dc.addLabel( t3dre );
+							}
+							else
+							{
+								lo.set( sx, y + dOffset );
+								tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								ipr.drawText( tre );
+							}
 						}
 
 						ScriptHandler.callFunction( sh,
@@ -3195,30 +3204,34 @@ public abstract class AxesRenderer extends BaseRenderer
 								getRunTimeContext( ).getScriptContext( ) );
 						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 								la );
-						if ( bRendering3D )
+						if ( ax.getLabel( ).isVisible( ) )
 						{
-							// Left wall
-							lo3d.set( sx, y3d, dZEnd );
-							la.getCaption( ).setValue( sText );
-							t3dre.setLocation3D( lo3d );
-							t3dre.setTextPosition( TextRenderEvent.LEFT );
-							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							dc.addLabel( t3dre );
+							if ( bRendering3D )
+							{
+								// Left wall
+								lo3d.set( sx, y3d, dZEnd );
+								la.getCaption( ).setValue( sText );
+								t3dre.setLocation3D( lo3d );
+								t3dre.setTextPosition( TextRenderEvent.LEFT );
+								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								dc.addLabel( t3dre );
 
-							// Right wall
-							lo3d.set( sx2, y3d, dZ );
-							la.getCaption( ).setValue( sText );
-							t3dre.setLocation3D( lo3d );
-							t3dre.setTextPosition( TextRenderEvent.RIGHT );
-							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							dc.addLabel( t3dre );
-						}
-						else
-						{
-							lo.set( sx, y );
-							la.getCaption( ).setValue( sText );
-							tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							ipr.drawText( tre );
+								// Right wall
+								lo3d.set( sx2, y3d, dZ );
+								la.getCaption( ).setValue( sText );
+								t3dre.setLocation3D( lo3d );
+								t3dre.setTextPosition( TextRenderEvent.RIGHT );
+								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								dc.addLabel( t3dre );
+							}
+							else
+							{
+								lo.set( sx, y );
+								la.getCaption( ).setValue( sText );
+								tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								ipr.drawText( tre );
+
+							}
 						}
 						ScriptHandler.callFunction( sh,
 								ScriptHandler.AFTER_DRAW_AXIS_LABEL,
@@ -3367,31 +3380,35 @@ public abstract class AxesRenderer extends BaseRenderer
 								getRunTimeContext( ).getScriptContext( ) );
 						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 								la );
-						if ( bRendering3D )
+						if ( ax.getLabel( ).isVisible( ) )
 						{
-							// Left wall
-							lo3d.set( sx, y3d, dZEnd );
-							la.getCaption( ).setValue( sText );
-							t3dre.setLocation3D( lo3d );
-							t3dre.setTextPosition( TextRenderEvent.LEFT );
-							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							dc.addLabel( t3dre );
+							if ( bRendering3D )
+							{
+								// Left wall
+								lo3d.set( sx, y3d, dZEnd );
+								la.getCaption( ).setValue( sText );
+								t3dre.setLocation3D( lo3d );
+								t3dre.setTextPosition( TextRenderEvent.LEFT );
+								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								dc.addLabel( t3dre );
 
-							// Right wall
-							lo3d.set( sx2, y3d, dZ );
-							la.getCaption( ).setValue( sText );
-							t3dre.setLocation3D( lo3d );
-							t3dre.setTextPosition( TextRenderEvent.RIGHT );
-							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							dc.addLabel( t3dre );
+								// Right wall
+								lo3d.set( sx2, y3d, dZ );
+								la.getCaption( ).setValue( sText );
+								t3dre.setLocation3D( lo3d );
+								t3dre.setTextPosition( TextRenderEvent.RIGHT );
+								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								dc.addLabel( t3dre );
+							}
+							else
+							{
+								lo.set( sx, y );
+								la.getCaption( ).setValue( sText );
+								tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								ipr.drawText( tre );
+							}
 						}
-						else
-						{
-							lo.set( sx, y );
-							la.getCaption( ).setValue( sText );
-							tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							ipr.drawText( tre );
-						}
+
 						ScriptHandler.callFunction( sh,
 								ScriptHandler.AFTER_DRAW_AXIS_LABEL,
 								axModel,
@@ -3538,30 +3555,33 @@ public abstract class AxesRenderer extends BaseRenderer
 								getRunTimeContext( ).getScriptContext( ) );
 						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 								la );
-						if ( bRendering3D )
+						if ( ax.getLabel( ).isVisible( ) )
 						{
-							// Left wall
-							lo3d.set( sx, y3d, dZEnd );
-							la.getCaption( ).setValue( sText );
-							t3dre.setLocation3D( lo3d );
-							t3dre.setTextPosition( TextRenderEvent.LEFT );
-							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							dc.addLabel( t3dre );
+							if ( bRendering3D )
+							{
+								// Left wall
+								lo3d.set( sx, y3d, dZEnd );
+								la.getCaption( ).setValue( sText );
+								t3dre.setLocation3D( lo3d );
+								t3dre.setTextPosition( TextRenderEvent.LEFT );
+								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								dc.addLabel( t3dre );
 
-							// Right wall
-							lo3d.set( sx2, y3d, dZ );
-							la.getCaption( ).setValue( sText );
-							t3dre.setLocation3D( lo3d );
-							t3dre.setTextPosition( TextRenderEvent.RIGHT );
-							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							dc.addLabel( t3dre );
-						}
-						else
-						{
-							lo.set( sx, y );
-							la.getCaption( ).setValue( sText );
-							tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							ipr.drawText( tre );
+								// Right wall
+								lo3d.set( sx2, y3d, dZ );
+								la.getCaption( ).setValue( sText );
+								t3dre.setLocation3D( lo3d );
+								t3dre.setTextPosition( TextRenderEvent.RIGHT );
+								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								dc.addLabel( t3dre );
+							}
+							else
+							{
+								lo.set( sx, y );
+								la.getCaption( ).setValue( sText );
+								tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								ipr.drawText( tre );
+							}
 						}
 						ScriptHandler.callFunction( sh,
 								ScriptHandler.AFTER_DRAW_AXIS_LABEL,
@@ -3588,6 +3608,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						getRunTimeContext( ).getScriptContext( ) );
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_TITLE,
 						la );
+
 				final String sRestoreValue = la.getCaption( ).getValue( );
 				la.getCaption( )
 						.setValue( rtc.externalizedMessage( sRestoreValue ) );
@@ -3607,47 +3628,53 @@ public abstract class AxesRenderer extends BaseRenderer
 							uiex );
 				}
 
-				if ( bRendering3D )
+				if ( ax.getTitle( ).isVisible( ) )
 				{
-					Bounds cbo = getPlotBounds( );
+					if ( bRendering3D )
+					{
+						Bounds cbo = getPlotBounds( );
 
-					tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
-							+ ( cbo.getWidth( ) / 3d - bb.getWidth( ) )
-							/ 2d,
-							cbo.getTop( ) + 30,
-							bb.getWidth( ),
-							bb.getHeight( ) ) );
+						tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
+								+ ( cbo.getWidth( ) / 3d - bb.getWidth( ) )
+								/ 2d,
+								cbo.getTop( ) + 30,
+								bb.getWidth( ),
+								bb.getHeight( ) ) );
 
-					tre.setLabel( la );
-					tre.setBlockAlignment( la.getCaption( )
-							.getFont( )
-							.getAlignment( ) );
-					tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
-					ipr.drawText( tre );
+						tre.setLabel( la );
+						tre.setBlockAlignment( la.getCaption( )
+								.getFont( )
+								.getAlignment( ) );
+						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+						ipr.drawText( tre );
 
-					tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
-							+ cbo.getWidth( )
-							- bb.getWidth( ),
-							cbo.getTop( ) + 30 * 2,
-							bb.getWidth( ),
-							bb.getHeight( ) ) );
+						tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
+								+ cbo.getWidth( )
+								- bb.getWidth( ),
+								cbo.getTop( ) + 30 * 2,
+								bb.getWidth( ),
+								bb.getHeight( ) ) );
 
-					ipr.drawText( tre );
-				}
-				else
-				{
-					final Bounds bo = BoundsImpl.create( ax.getTitleCoordinate( ),
-							daEndPoints[1],
-							bb.getWidth( ),
-							daEndPoints[0] - daEndPoints[1] );
+						ipr.drawText( tre );
+					}
+					else
+					{
+						final Bounds bo = BoundsImpl.create( ax.getTitleCoordinate( ),
+								daEndPoints[1],
+								bb.getWidth( ),
+								daEndPoints[0] - daEndPoints[1] );
 
-					tre.setBlockBounds( bo );
-					tre.setLabel( la );
-					tre.setBlockAlignment( la.getCaption( )
-							.getFont( )
-							.getAlignment( ) );
-					tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
-					ipr.drawText( tre );
+						tre.setBlockBounds( bo );
+						tre.setLabel( la );
+						tre.setBlockAlignment( la.getCaption( )
+								.getFont( )
+								.getAlignment( ) );
+						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+						if ( ax.getTitle( ).isVisible( ) )
+						{
+							ipr.drawText( tre );
+						}
+					}
 				}
 
 				la.getCaption( ).setValue( sRestoreValue );
@@ -3971,26 +3998,28 @@ public abstract class AxesRenderer extends BaseRenderer
 									sy += dStaggeredLabelOffset;
 								}
 							}
-
-							if ( bRendering3D )
+							if ( ax.getLabel( ).isVisible( ) )
 							{
-								if ( axisType == IConstants.BASE_AXIS )
+								if ( bRendering3D )
 								{
-									lo3d.set( x3d + dOffset, sy, dZEnd );
+									if ( axisType == IConstants.BASE_AXIS )
+									{
+										lo3d.set( x3d + dOffset, sy, dZEnd );
+									}
+									else
+									{
+										lo3d.set( dXEnd, sy, z3d + dOffset );
+									}
+									t3dre.setLocation3D( lo3d );
+									t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+									dc.addLabel( t3dre );
 								}
 								else
 								{
-									lo3d.set( dXEnd, sy, z3d + dOffset );
+									lo.set( x + dOffset, sy );
+									tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+									ipr.drawText( tre );
 								}
-								t3dre.setLocation3D( lo3d );
-								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-								dc.addLabel( t3dre );
-							}
-							else
-							{
-								lo.set( x + dOffset, sy );
-								tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-								ipr.drawText( tre );
 							}
 							ScriptHandler.callFunction( sh,
 									ScriptHandler.AFTER_DRAW_AXIS_LABEL,
@@ -4212,28 +4241,31 @@ public abstract class AxesRenderer extends BaseRenderer
 								sy += dStaggeredLabelOffset;
 							}
 						}
-
-						if ( bRendering3D )
+						if ( ax.getLabel( ).isVisible( ) )
 						{
-							if ( axisType == IConstants.BASE_AXIS )
+							if ( bRendering3D )
 							{
-								lo3d.set( x3d, sy, dZEnd );
+								if ( axisType == IConstants.BASE_AXIS )
+								{
+									lo3d.set( x3d, sy, dZEnd );
+								}
+								else
+								{
+									lo3d.set( dXEnd, sy, z3d );
+								}
+								la.getCaption( ).setValue( sText );
+								t3dre.setLocation3D( lo3d );
+								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								dc.addLabel( t3dre );
+
 							}
 							else
 							{
-								lo3d.set( dXEnd, sy, z3d );
+								lo.set( x, sy );
+								la.getCaption( ).setValue( sText );
+								tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								ipr.drawText( tre );
 							}
-							la.getCaption( ).setValue( sText );
-							t3dre.setLocation3D( lo3d );
-							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							dc.addLabel( t3dre );
-						}
-						else
-						{
-							lo.set( x, sy );
-							la.getCaption( ).setValue( sText );
-							tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							ipr.drawText( tre );
 						}
 						ScriptHandler.callFunction( sh,
 								ScriptHandler.AFTER_DRAW_AXIS_LABEL,
@@ -4415,28 +4447,30 @@ public abstract class AxesRenderer extends BaseRenderer
 								sy += dStaggeredLabelOffset;
 							}
 						}
-
-						if ( bRendering3D )
+						if ( ax.getLabel( ).isVisible( ) )
 						{
-							if ( axisType == IConstants.BASE_AXIS )
+							if ( bRendering3D )
 							{
-								lo3d.set( x3d, sy, dZEnd );
+								if ( axisType == IConstants.BASE_AXIS )
+								{
+									lo3d.set( x3d, sy, dZEnd );
+								}
+								else
+								{
+									lo3d.set( dXEnd, sy, z3d );
+								}
+								la.getCaption( ).setValue( sText );
+								t3dre.setLocation3D( lo3d );
+								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								dc.addLabel( t3dre );
 							}
 							else
 							{
-								lo3d.set( dXEnd, sy, z3d );
+								lo.set( x, sy );
+								la.getCaption( ).setValue( sText );
+								tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								ipr.drawText( tre );
 							}
-							la.getCaption( ).setValue( sText );
-							t3dre.setLocation3D( lo3d );
-							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							dc.addLabel( t3dre );
-						}
-						else
-						{
-							lo.set( x, sy );
-							la.getCaption( ).setValue( sText );
-							tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							ipr.drawText( tre );
 						}
 						ScriptHandler.callFunction( sh,
 								ScriptHandler.AFTER_DRAW_AXIS_LABEL,
@@ -4619,28 +4653,30 @@ public abstract class AxesRenderer extends BaseRenderer
 								sy += dStaggeredLabelOffset;
 							}
 						}
-
-						if ( bRendering3D )
+						if ( ax.getLabel( ).isVisible( ) )
 						{
-							if ( axisType == IConstants.BASE_AXIS )
+							if ( bRendering3D )
 							{
-								lo3d.set( x3d, sy, dZEnd );
+								if ( axisType == IConstants.BASE_AXIS )
+								{
+									lo3d.set( x3d, sy, dZEnd );
+								}
+								else
+								{
+									lo3d.set( dXEnd, sy, z3d );
+								}
+								la.getCaption( ).setValue( sText );
+								t3dre.setLocation3D( lo3d );
+								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								dc.addLabel( t3dre );
 							}
 							else
 							{
-								lo3d.set( dXEnd, sy, z3d );
+								lo.set( x, sy );
+								la.getCaption( ).setValue( sText );
+								tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								ipr.drawText( tre );
 							}
-							la.getCaption( ).setValue( sText );
-							t3dre.setLocation3D( lo3d );
-							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							dc.addLabel( t3dre );
-						}
-						else
-						{
-							lo.set( x, sy );
-							la.getCaption( ).setValue( sText );
-							tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							ipr.drawText( tre );
 						}
 						ScriptHandler.callFunction( sh,
 								ScriptHandler.AFTER_DRAW_AXIS_LABEL,
@@ -4686,58 +4722,64 @@ public abstract class AxesRenderer extends BaseRenderer
 							ChartException.RENDERING,
 							uiex );
 				}
-
-				if ( bRendering3D )
+				if ( ax.getTitle( ).isVisible( ) )
 				{
-					Bounds cbo = getPlotBounds( );
-
-					if ( axisType == IConstants.BASE_AXIS )
+					if ( bRendering3D )
 					{
-						tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
-								+ ( cbo.getWidth( ) / 3d - bb.getWidth( ) ),
-								cbo.getTop( )
-										+ cbo.getHeight( )
-										- Math.min( bb.getHeight( ),
-												bb.getWidth( ) )
-										- 30,
-								bb.getWidth( ),
-								bb.getHeight( ) ) );
+						Bounds cbo = getPlotBounds( );
+
+						if ( axisType == IConstants.BASE_AXIS )
+						{
+							tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
+									+ ( cbo.getWidth( ) / 3d - bb.getWidth( ) ),
+									cbo.getTop( )
+											+ cbo.getHeight( )
+											- Math.min( bb.getHeight( ),
+													bb.getWidth( ) )
+											- 30,
+									bb.getWidth( ),
+									bb.getHeight( ) ) );
+						}
+						else
+						{
+							tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
+									+ cbo.getWidth( )
+									* 2
+									/ 3d
+									+ ( cbo.getWidth( ) / 3d - bb.getWidth( ) )
+									/ 2d,
+									cbo.getTop( )
+											+ cbo.getHeight( )
+											- Math.min( bb.getHeight( ),
+													bb.getWidth( ) )
+											- 30
+											* 2,
+									bb.getWidth( ),
+									bb.getHeight( ) ) );
+						}
+
+						tre.setLabel( la );
+						tre.setBlockAlignment( la.getCaption( )
+								.getFont( )
+								.getAlignment( ) );
+						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+						ipr.drawText( tre );
 					}
 					else
 					{
-						tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
-								+ cbo.getWidth( )
-								* 2
-								/ 3d
-								+ ( cbo.getWidth( ) / 3d - bb.getWidth( ) )
-								/ 2d, cbo.getTop( )
-								+ cbo.getHeight( )
-								- Math.min( bb.getHeight( ), bb.getWidth( ) )
-								- 30
-								* 2, bb.getWidth( ), bb.getHeight( ) ) );
+						final Bounds bo = BoundsImpl.create( daEndPoints[0],
+								ax.getTitleCoordinate( ),
+								daEndPoints[1] - daEndPoints[0],
+								bb.getHeight( ) );
+
+						tre.setBlockBounds( bo );
+						tre.setLabel( la );
+						tre.setBlockAlignment( la.getCaption( )
+								.getFont( )
+								.getAlignment( ) );
+						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+						ipr.drawText( tre );
 					}
-
-					tre.setLabel( la );
-					tre.setBlockAlignment( la.getCaption( )
-							.getFont( )
-							.getAlignment( ) );
-					tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
-					ipr.drawText( tre );
-				}
-				else
-				{
-					final Bounds bo = BoundsImpl.create( daEndPoints[0],
-							ax.getTitleCoordinate( ),
-							daEndPoints[1] - daEndPoints[0],
-							bb.getHeight( ) );
-
-					tre.setBlockBounds( bo );
-					tre.setLabel( la );
-					tre.setBlockAlignment( la.getCaption( )
-							.getFont( )
-							.getAlignment( ) );
-					tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
-					ipr.drawText( tre );
 				}
 				la.getCaption( ).setValue( sRestoreValue ); // RESTORE
 				ScriptHandler.callFunction( sh,
