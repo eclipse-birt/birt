@@ -20,17 +20,18 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
+import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -333,17 +334,7 @@ public class ContextSelectionAction extends SelectionAction
 	 */
 	protected List getElementHandles( )
 	{
-		List list = getSelectedObjects( );
-		if ( list.isEmpty( ) )
-		{
-			return Collections.EMPTY_LIST;
-		}
-		List handles = new ArrayList( );
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			handles.add( ( (EditPart) ( list.get( i ) ) ).getModel( ) );
-		}
-		return handles;
+		return InsertInLayoutUtil.editPart2Model( TableUtil.filletCellInSelectionEditorpart(getSelection( ))).toList();
 	}
 
 	/**

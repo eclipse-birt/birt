@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConve
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.ReportDeferredUpdateManager;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AreaEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ISelectionHandlesEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.TableResizeEditPolice;
@@ -134,7 +135,15 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	private List flitterEditpart( List editparts )
 	{
 		int size = editparts.size( );
-
+		List copy = new ArrayList( editparts );
+		for ( int i = 0; i < size; i++ )
+		{
+			EditPart part = (EditPart) editparts.get( i );
+			if ( part instanceof AreaEditPart)
+			{
+				copy.remove( part );
+			} 
+		}
 		boolean hasCell = false;
 		boolean hasOther = false;
 		for ( int i = 0; i < size; i++ )
@@ -153,7 +162,7 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 		}
 		if ( hasCell && hasOther )
 		{
-			List copy = new ArrayList( editparts );
+			
 			for ( int i = 0; i < size; i++ )
 			{
 				EditPart part = (EditPart) editparts.get( i );
@@ -164,10 +173,10 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 						|| obj instanceof ColumnHandle )
 				{
 					copy.remove( part );
-				}
+				} 
 			}
-			editparts = copy;
 		}
+		editparts = copy;
 		return editparts;
 	}
 
