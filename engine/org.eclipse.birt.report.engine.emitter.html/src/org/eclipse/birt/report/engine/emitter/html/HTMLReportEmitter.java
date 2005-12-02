@@ -16,6 +16,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
@@ -80,7 +82,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.52 $ $Date: 2005/11/24 09:02:17 $
+ * @version $Revision: 1.53 $ $Date: 2005/11/24 13:35:39 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -232,6 +234,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			if ( fd != null )
 			{
 				file = new File( fd.toString( ) );
+				File parent = file.getParentFile( );
+				if ( parent != null && !parent.exists( ) )
+				{
+					parent.mkdirs( );
+				}
 				out = new BufferedOutputStream( new FileOutputStream( file ) );
 			}
 		}
@@ -551,12 +558,20 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			BirtException ex = (BirtException) errorList.get( i );
 
-			writer.writeCode( rc.getMessage( MessageConstants.REPORT_ERROR_ID,
-					new Object[]{new Integer( i ), ex.getErrorCode( ),
-							countList.get( i )} )
-					+ (char) Character.LINE_SEPARATOR
-					+ rc.getMessage( MessageConstants.REPORT_ERROR_DETAIL )
-					+ getDetailMessage( ex ) ); //$NON-NLS-1$
+			String messageTitle = rc.getMessage(
+					MessageConstants.REPORT_ERROR_ID, new Object[]{
+							new Integer( i ), ex.getErrorCode( ),
+							countList.get( i )} );
+			String detailTag = rc
+					.getMessage( MessageConstants.REPORT_ERROR_DETAIL );
+			String messageBody = getDetailMessage( ex );
+			boolean indent = writer.isIndent( );
+			writer.setIndent( false );
+			writer.writeCode( messageTitle );
+			writer.writeCode( "\r\n" );
+			writer.writeCode( detailTag );
+			writer.writeCode( messageBody );
+			writer.setIndent( indent );
 		}
 		writer.writeCode( "				</pre>" );
 		writer.writeCode( "		</div>" ); //$NON-NLS-1$
@@ -564,15 +579,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 	private String getDetailMessage( Throwable t )
 	{
-		StringBuffer detailMsg = new StringBuffer( );
-		do
+		StringWriter out = new StringWriter( );
+		PrintWriter print = new PrintWriter( out );
+		try
 		{
-			detailMsg.append( t.getLocalizedMessage( ) );
-			detailMsg.append( (char) Character.LINE_SEPARATOR );
-			t = t.getCause( );
-		} while ( t != null );
-
-		return detailMsg.toString( );
+			t.printStackTrace( print );
+		}
+		catch ( Throwable ex )
+		{
+		}
+		print.flush( );
+		return out.getBuffer( ).toString( );
 	}
 
 	protected boolean outputErrors( List errors )
