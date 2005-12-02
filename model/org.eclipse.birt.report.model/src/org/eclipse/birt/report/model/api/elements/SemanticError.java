@@ -228,6 +228,12 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_MISSING_TEMPLATE_PARAMETER_TYPE = MessageConstants.SEMANTIC_ERROR_MISSING_TEMPLATE_PARAMETER_TYPE;
 
 	/**
+	 * Error code indicating the structure referred is not found.
+	 */
+
+	public static final String DESIGN_EXCEPTION_INVALID_LIBRARY_REFERENCE = MessageConstants.SEMANTIC_ERROR_INVALID_LIBRARY_REFERENCE; 
+	
+	/**
 	 * Error code indicating default element or value element of template
 	 * parameter definition is incompatible the "allowedType" property defined
 	 * or the element types of default element and value element are not the
@@ -403,6 +409,11 @@ public class SemanticError extends SemanticException
 			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_INCONSISTENT_TEMPLATE_PARAMETER_TYPE )
+		{
+			assert oaMessageArguments.length == 3;
+			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
+		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_LIBRARY_REFERENCE )
 		{
 			assert oaMessageArguments.length == 3;
 			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );

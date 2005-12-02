@@ -56,7 +56,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.24 $ $Date: 2005/11/13 20:26:07 $
+ * @version $Revision: 1.25 $ $Date: 2005/11/14 10:55:58 $
  */
 public class ImageItemExecutor extends QueryItemExecutor
 {
@@ -95,7 +95,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 	public void execute( ReportItemDesign item, IContentEmitter emitter )
 	{
 		assert item instanceof ImageItemDesign;
-		ImageItemDesign imageItem = ( ImageItemDesign ) item;
+		ImageItemDesign imageItem = (ImageItemDesign) item;
 		IImageContent imageContent = report.createImageContent( );
 		IContent parent = context.getContent( );
 		context.pushContent( imageContent );
@@ -116,8 +116,8 @@ public class ImageItemExecutor extends QueryItemExecutor
 		// execute the onCreate
 		if ( context.isInFactory( ) )
 		{
-				ImageScriptExecutor.handleOnCreate( ( ImageContent ) imageContent,
-						context );
+			ImageScriptExecutor.handleOnCreate( (ImageContent) imageContent,
+					context );
 		}
 		// forward to emitter for further processing
 		if ( emitter != null )
@@ -138,41 +138,41 @@ public class ImageItemExecutor extends QueryItemExecutor
 			case ImageItemDesign.IMAGE_URI : // URI
 				Expression imageExpr = imageDesign.getImageUri( );
 				if ( imageExpr != null )
-			{
-				handleURIImage( imageExpr, imageContent );
-			}
-			break;
+				{
+					handleURIImage( imageExpr, imageContent );
+				}
+				break;
 
-		case ImageItemDesign.IMAGE_FILE: // File
-			Expression fileExpr = imageDesign.getImageUri( );
-			assert fileExpr != null;
-			handleFileImage( fileExpr, imageContent );
-			break;
+			case ImageItemDesign.IMAGE_FILE : // File
+				Expression fileExpr = imageDesign.getImageUri( );
+				assert fileExpr != null;
+				handleFileImage( fileExpr, imageContent );
+				break;
 
-		case ImageItemDesign.IMAGE_NAME: // embedded image
-			String imageName = imageDesign.getImageName( );
-			assert imageName != null;
+			case ImageItemDesign.IMAGE_NAME : // embedded image
+				String imageName = imageDesign.getImageName( );
+				assert imageName != null;
 
-			handleNamedImage( imageName, imageContent );
-			break;
+				handleNamedImage( imageName, imageContent );
+				break;
 
-		case ImageItemDesign.IMAGE_EXPRESSION: // get image from
-			// database
+			case ImageItemDesign.IMAGE_EXPRESSION : // get image from
+				// database
 
-			Expression imgExpr = imageDesign.getImageExpression( );
-			Expression fmtExpr = imageDesign.getImageFormat( );
-			assert imgExpr != null;
+				Expression imgExpr = imageDesign.getImageExpression( );
+				Expression fmtExpr = imageDesign.getImageFormat( );
+				assert imgExpr != null;
 
-			handleValueImage( imgExpr, fmtExpr, imageContent );
+				handleValueImage( imgExpr, fmtExpr, imageContent );
 
-			break;
-		default:
-			logger.log( Level.SEVERE,
-					"[ImageItemExecutor] invalid image source" ); //$NON-NLS-1$
-			context.addException( new EngineException(
-					MessageConstants.INVALID_IMAGE_SOURCE_TYPE_ERROR ) );
+				break;
+			default :
+				logger.log( Level.SEVERE,
+						"[ImageItemExecutor] invalid image source" ); //$NON-NLS-1$
+				context.addException( new EngineException(
+						MessageConstants.INVALID_IMAGE_SOURCE_TYPE_ERROR ) );
 
-			assert false;
+				assert false;
 		}
 	}
 
@@ -191,7 +191,8 @@ public class ImageItemExecutor extends QueryItemExecutor
 		if ( uriObj != null )
 		{
 			strUri = uriObj.toString( );
-		} else if ( uriExpr.getExpression( ) != null
+		}
+		else if ( uriExpr.getExpression( ) != null
 				&& uriExpr.getExpression( ).length( ) > 0 )
 		{
 			strUri = uriExpr.getExpression( ).toString( );
@@ -200,7 +201,8 @@ public class ImageItemExecutor extends QueryItemExecutor
 		try
 		{
 			uri = new URL( strUri );
-		} catch ( MalformedURLException e1 )
+		}
+		catch ( MalformedURLException e1 )
 		{
 		}
 		if ( uri != null )
@@ -208,11 +210,13 @@ public class ImageItemExecutor extends QueryItemExecutor
 			if ( uri.getProtocol( ).equals( "file" ) )
 			{
 				handleFileImage( strUri, imageContent );
-			} else
+			}
+			else
 			{
 				imageContent.setURI( strUri );
 			}
-		} else
+		}
+		else
 		{
 			handleFileImage( strUri, imageContent );
 		}
@@ -228,9 +232,10 @@ public class ImageItemExecutor extends QueryItemExecutor
 				.findImage( imageName );
 		if ( embeddedImage != null )
 		{
-			imageContent.setData( embeddedImage.getData( ) );
-			String extension = FileUtil
-					.getExtFromType( embeddedImage.getType( ) );
+			imageContent.setData( embeddedImage.getData( context.getDesign( )
+					.getModule( ) ) );
+			String extension = FileUtil.getExtFromType( embeddedImage
+					.getType( context.getDesign( ).getModule( ) ) );
 			if ( extension != null )
 			{
 				imageContent.setExtension( extension );
@@ -252,7 +257,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 		Object value = context.evaluate( imgExpr );
 		if ( value instanceof byte[] )
 		{
-			imgData = ( byte[] ) value;
+			imgData = (byte[]) value;
 		}
 		if ( fmtExpr != null )
 		{
@@ -280,7 +285,8 @@ public class ImageItemExecutor extends QueryItemExecutor
 		if ( file != null )
 		{
 			imageFile = file.toString( );
-		} else if ( fileExpr.getExpression( ) != null
+		}
+		else if ( fileExpr.getExpression( ) != null
 				&& fileExpr.getExpression( ).length( ) > 0 )
 		{
 			imageFile = fileExpr.getExpression( ).toString( );
@@ -300,12 +306,14 @@ public class ImageItemExecutor extends QueryItemExecutor
 				try
 				{
 					imageFile = URLDecoder.decode( url.getFile( ), "UTF-8" );
-				} catch ( Exception ex )
+				}
+				catch ( Exception ex )
 				{
 					imageFile = url.getFile( );
 				}
 			}
-		} catch ( MalformedURLException ex )
+		}
+		catch ( MalformedURLException ex )
 		{
 			// imageFile is a file name
 		}

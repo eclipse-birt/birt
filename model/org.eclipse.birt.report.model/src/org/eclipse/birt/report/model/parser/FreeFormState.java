@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;

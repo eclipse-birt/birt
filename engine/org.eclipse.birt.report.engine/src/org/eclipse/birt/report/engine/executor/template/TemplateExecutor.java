@@ -32,9 +32,9 @@ public class TemplateExecutor implements TextTemplate.Visitor
 		this.context = context;
 		this.imageHandler = imageHandler;
 		this.renderContext = renderContext;
-		if( imageHandler == null)
+		if ( imageHandler == null )
 		{
-			this.imageHandler = new HTMLCompleteImageHandler( );			
+			this.imageHandler = new HTMLCompleteImageHandler( );
 		}
 
 		/*
@@ -54,7 +54,7 @@ public class TemplateExecutor implements TextTemplate.Visitor
 		{
 			return "";
 		}
-		
+
 		ArrayList nodes = template.getNodes( );
 		Iterator iter = nodes.iterator( );
 		while ( iter.hasNext( ) )
@@ -139,28 +139,30 @@ public class TemplateExecutor implements TextTemplate.Visitor
 					node.getImageName( ) );
 			if ( image != null )
 			{
-				imageContent = image.getData( );
+				imageContent = image
+						.getData( context.getDesign( ).getModule( ) );
 			}
 		}
 		if ( imageContent instanceof byte[] )
 		{
 			Image image = new Image( (byte[]) imageContent, null );
-			image.setRenderOption( context.getRenderOption() );
-			image.setReportRunnable( context.getRunnable() );
+			image.setRenderOption( context.getRenderOption( ) );
+			image.setReportRunnable( context.getRunnable( ) );
 
 			if ( imageHandler != null )
 			{
 				String src = imageHandler.onCustomImage( image, renderContext );
-				if( src != null )
+				if ( src != null )
 				{
 					buffer.append( "<img src=\"" );
 					buffer.append( src );
 					buffer.append( "\" " );
-					Iterator iter = node.getAttributes( ).entrySet( ).iterator( );
+					Iterator iter = node.getAttributes( ).entrySet( )
+							.iterator( );
 					while ( iter.hasNext( ) )
 					{
 						Map.Entry entry = (Map.Entry) iter.next( );
-	
+
 						Object attrName = entry.getKey( );
 						Object attrValue = entry.getValue( );
 						if ( attrName != null && attrValue != null )

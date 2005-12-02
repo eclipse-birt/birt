@@ -987,6 +987,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, Module.COMMENTS_PROP );
 
 		resourceKey( obj, Module.DESCRIPTION_ID_PROP, Module.DESCRIPTION_PROP );
+
+		writeUserPropertyDefns( obj );
+		writeUserPropertyValues( obj );
 	}
 
 	/**
@@ -1015,9 +1018,12 @@ public abstract class ModuleWriter extends ElementVisitor
 
 				try
 				{
-					if ( image.getData( ) != null )
+					if ( image.getLocalProperty( getModule( ),
+							(PropertyDefn) image.getDefn( ).getMember(
+									EmbeddedImage.DATA_MEMBER ) ) != null )
 					{
-						byte[] data = base.encode( image.getData( ) );
+						byte[] data = base
+								.encode( image.getData( getModule( ) ) );
 						String value = new String( data, EmbeddedImage.CHARSET );
 
 						if ( value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
@@ -1151,6 +1157,15 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writer.endElement( );
 	}
+
+	/**
+	 * Writes ODA exension properties.
+	 * 
+	 * @param obj
+	 *            the ODA element to write
+	 * @param extensionIDProp
+	 *            the extension ID for ODA properties
+	 */
 
 	private void writeOdaExtensionProperties( DesignElement obj,
 			String extensionIDProp )
@@ -1290,9 +1305,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 				// TODO: support extending those xml properties.
 				// Now, each time a child is initialized, its xml-properties are
-				// serialized on the IReportItem itself, never minding whether 
-				// the xml-property values are set locally or extended from parent.
-				
+				// serialized on the IReportItem itself, never minding whether
+				// the xml-property values are set locally or extended from
+				// parent.
+
 				Object value = obj.getLocalProperty( getModule( ), prop
 						.getName( ) );
 				if ( value != null )

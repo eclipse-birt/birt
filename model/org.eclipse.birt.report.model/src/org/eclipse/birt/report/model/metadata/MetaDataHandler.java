@@ -395,7 +395,7 @@ class MetaDataHandler extends XMLParserHandler
 				return;
 			String detailName = getAttrib( attrs, DETAIL_TYPE_ATTRIB );
 			ChoiceSet choiceSet = null;
-			StructureDefn structDefn = null;
+			String structDefn = null;
 			switch ( typeDefn.getTypeCode( ) )
 			{
 
@@ -440,6 +440,7 @@ class MetaDataHandler extends XMLParserHandler
 					break;
 
 				case PropertyType.STRUCT_TYPE :
+				case PropertyType.STRUCT_REF_TYPE :
 					if ( detailName == null )
 					{
 						errorHandler
@@ -447,15 +448,7 @@ class MetaDataHandler extends XMLParserHandler
 										MetaDataParserException.DESIGN_EXCEPTION_STRUCT_TYPE_REQUIRED ) );
 						return;
 					}
-					structDefn = (StructureDefn) dictionary
-							.getStructure( detailName );
-					if ( structDefn == null )
-					{
-						errorHandler
-								.semanticError( new MetaDataParserException(
-										MetaDataParserException.DESIGN_EXCEPTION_INVALID_STRUCT_TYPE ) );
-						return;
-					}
+					structDefn = detailName;
 					break;
 
 			}

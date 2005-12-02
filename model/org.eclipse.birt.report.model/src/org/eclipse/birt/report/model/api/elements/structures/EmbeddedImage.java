@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.api.elements.structures;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
@@ -43,7 +42,7 @@ import org.eclipse.birt.report.model.elements.ImageItem;
  * <dt><strong>Data </strong></dt>
  * <dd>value of the image data in Base64 encoding.</dd>
  * </dl>
- *  
+ * 
  */
 
 public class EmbeddedImage extends ReferencableStructure
@@ -107,7 +106,7 @@ public class EmbeddedImage extends ReferencableStructure
 
 	/**
 	 * Default constructor.
-	 *  
+	 * 
 	 */
 
 	public EmbeddedImage( )
@@ -168,8 +167,7 @@ public class EmbeddedImage extends ReferencableStructure
 		else if ( DATA_MEMBER.equals( propName ) )
 			return data;
 
-		assert false;
-		return null;
+		return super.getIntrinsicProperty( propName );
 	}
 
 	/*
@@ -193,7 +191,7 @@ public class EmbeddedImage extends ReferencableStructure
 		}
 		else
 		{
-			assert false;
+			super.setIntrinsicProperty( propName, value );
 		}
 
 	}
@@ -232,12 +230,15 @@ public class EmbeddedImage extends ReferencableStructure
 	 * <li><code>IMAGE_TYPE_IMAGE_X_PNG</code>
 	 * </ul>
 	 * 
+	 * @param module
+	 *            the module of this structure
+	 * 
 	 * @return the type value
 	 */
 
-	public String getType( )
+	public String getType( Module module )
 	{
-		return (String) getProperty( null, TYPE_MEMBER );
+		return (String) getProperty( module, TYPE_MEMBER );
 	}
 
 	/**
@@ -264,12 +265,16 @@ public class EmbeddedImage extends ReferencableStructure
 	/**
 	 * Returns the image data in Base64 encoding.
 	 * 
+	 * @param module
+	 *            the module of this structure
+	 * 
 	 * @return the image data
 	 */
 
-	public byte[] getData( )
+	public byte[] getData( Module module )
 	{
-		String dataValue = data; //(String) getProperty( null, DATA_MEMBER );
+		String dataValue = (String) getProperty( module, DATA_MEMBER );
+
 		if ( dataValue == null )
 			return null;
 
@@ -294,14 +299,14 @@ public class EmbeddedImage extends ReferencableStructure
 
 	public void setData( byte[] data )
 	{
-        // ignore the empty data
-        if( data == null )
-            return;
-        
+		// ignore the empty data
+		if ( data == null )
+			return;
+
 		try
 		{
 			this.data = new String( data, CHARSET );
-			//			setProperty( DATA_MEMBER, new String( data, CHARSET ) );
+			// setProperty( DATA_MEMBER, new String( data, CHARSET ) );
 		}
 		catch ( UnsupportedEncodingException e )
 		{
@@ -331,7 +336,7 @@ public class EmbeddedImage extends ReferencableStructure
 
 	public List validate( Module module, DesignElement element )
 	{
-		List list = new ArrayList( );
+		List list = super.validate( module, element );
 
 		if ( StringUtil.isBlank( name ) )
 		{
@@ -339,7 +344,7 @@ public class EmbeddedImage extends ReferencableStructure
 					.getMember( NAME_MEMBER ), name,
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
-		if ( StringUtil.isBlank( data ) )
+		if ( getData( module ) == null )
 		{
 			list.add( new PropertyValueException( element, getDefn( )
 					.getMember( DATA_MEMBER ), data,
@@ -349,7 +354,9 @@ public class EmbeddedImage extends ReferencableStructure
 		return list;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.core.ReferencableStructure#isReferencableProperty(java.lang.String)
 	 */
 	public boolean isReferencableProperty( String memberName )
@@ -357,9 +364,12 @@ public class EmbeddedImage extends ReferencableStructure
 		return NAME_MEMBER.equalsIgnoreCase( memberName );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#getReferencableProperty()
 	 */
+
 	public String getReferencableProperty( )
 	{
 		return name;

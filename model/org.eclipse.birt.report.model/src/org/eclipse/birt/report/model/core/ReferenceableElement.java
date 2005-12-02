@@ -117,12 +117,12 @@ public abstract class ReferenceableElement extends DesignElement implements IRef
 		return new ArrayList( clients );
 	}
 
-	/**
-	 * Checks if this element is referenced by others.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return true if it has client, otherwise return false.
-	 *  
+	 * @see org.eclipse.birt.report.model.api.core.IReferencable#hasReferences()
 	 */
+	
 	public boolean hasReferences( )
 	{
 		return !clients.isEmpty( );

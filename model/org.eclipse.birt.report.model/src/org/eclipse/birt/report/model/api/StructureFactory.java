@@ -32,6 +32,9 @@ import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
+import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.metadata.StructRefValue;
 
 /**
  * Provides the factory method to create empty structures.
@@ -271,4 +274,25 @@ public class StructureFactory
 		return new ExtendedProperty( );
 	}
 
+	/**
+	 * Creates an embedded image from another library embedded image.
+	 * 
+	 * @param baseImage
+	 * @return the created embedded image
+	 */
+
+	public static EmbeddedImage createEmbeddedImage(
+			EmbeddedImageHandle baseImage )
+	{
+		if ( baseImage == null )
+			return null;
+		EmbeddedImage image = new EmbeddedImage( );
+		Module module = baseImage.getModule( );
+		String namespace = module instanceof Library ? ( (Library) module )
+				.getNamespace( ) : null;
+		StructRefValue libReference = new StructRefValue( namespace, baseImage
+				.getName( ) );
+		image.setProperty( EmbeddedImage.LIB_REFERENCE_MEMBER, libReference );
+		return image;
+	}
 }

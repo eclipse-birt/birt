@@ -1465,6 +1465,7 @@
     <Member displayNameID="Structure.EmbeddedImage.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="name" valueRequired="true"/>
     <Member detailType="imageType" displayNameID="Structure.EmbeddedImage.type" isIntrinsic="true" name="type" runtimeSettable="false" since="1.0" type="choice"/>
     <Member displayNameID="Structure.EmbeddedImage.data" isIntrinsic="true" name="data" runtimeSettable="false" since="1.0" type="string"/>
+  	<Member detailType="EmbeddedImage" displayNameID="Structure.EmbeddedImage.libReference" isIntrinsic="true" name="libReference" runtimeSettable="false" since="2.0" type="structRef"/>
   </Structure>
   <Structure displayNameID="Structure.PropertyMask" name="PropertyMask" since="1.0">
     <Member displayNameID="Structure.PropertyMask.name" isIntrinsic="true" name="name" valueRequired="true" since="1.0" type="string"/>

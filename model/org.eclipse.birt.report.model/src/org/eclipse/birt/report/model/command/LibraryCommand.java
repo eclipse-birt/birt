@@ -69,7 +69,7 @@ public class LibraryCommand extends AbstractElementCommand
 		if ( StringUtil.isBlank( namespace ) )
 			namespace = StringUtil.extractFileName( libraryFileName );
 
-		if ( isDuplicateNamespace( namespace ) )
+		if ( module.isDuplicateNamespace( namespace ) )
 		{
 			throw new LibraryException(
 					module,
@@ -108,31 +108,6 @@ public class LibraryCommand extends AbstractElementCommand
 		propCommand.addItem( new CachedMemberRef( propDefn ), includeLibrary );
 
 		getActivityStack( ).commit( );
-	}
-
-	/**
-	 * Returns whether the namespace to check is duplicate in target module.
-	 * This method helps to judge whether the library to check can be included
-	 * in target module.
-	 * 
-	 * @param namespaceToCheck
-	 *            the namespace to check
-	 * @return true if the namespace to check is duplicate.
-	 */
-
-	private boolean isDuplicateNamespace( String namespaceToCheck )
-	{
-		List libraries = module.getAllLibraries( );
-		Iterator iter = libraries.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			Library library = (Library) iter.next( );
-
-			if ( library.getNamespace( ).equals( namespaceToCheck ) )
-				return true;
-		}
-
-		return false;
 	}
 
 	/**

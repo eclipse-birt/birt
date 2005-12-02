@@ -140,7 +140,7 @@ public class ImageManager
 			return image;
 		}
 		image = new Image( null,
-				new ByteArrayInputStream( embeddedImage.getData( ) ) );
+				new ByteArrayInputStream( embeddedImage.getData( handle.getModule( ) ) ) );
 		if ( image != null )
 		{
 			getImageRegistry( ).put( key, image );

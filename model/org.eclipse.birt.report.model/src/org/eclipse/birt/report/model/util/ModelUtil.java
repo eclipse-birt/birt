@@ -222,6 +222,15 @@ public class ModelUtil
 		}
 	}
 
+	/**
+	 * Duplicates some properties in a design element when to export it.
+	 * 
+	 * @param from
+	 *            the from element to get the property values
+	 * @param to
+	 *            the to element to duplicate the property values
+	 */
+
 	private static void duplicateProperties( DesignElement from,
 			DesignElement to )
 	{
@@ -736,6 +745,11 @@ public class ModelUtil
 	 * 
 	 * @param refValue
 	 *            the reference value
+	 * @param root
+	 *            the root module if the element lies in a tree
+	 * @param module
+	 *            the module of the handle if the element is pending and not in
+	 *            any tree
 	 * @return the value of the property. The type of the returned object should
 	 *         be strings.
 	 * 

@@ -31,6 +31,10 @@ import org.eclipse.birt.report.model.writer.ModuleWriter;
 public class Library extends Module implements ILibraryModel
 {
 
+	/**
+	 * Namespace of the library.
+	 */
+	
 	private String namespace;
 
 	/**

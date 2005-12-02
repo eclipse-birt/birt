@@ -87,7 +87,7 @@ public class ReportRunnable implements IReportRunnable
 
 		if (embeddedImage != null)
 		{
-			Image image = new Image(embeddedImage.getData(), name);
+			Image image = new Image(embeddedImage.getData(designHandle.getModule()), name);
 			image.setReportRunnable(this);
 			
 			return image;

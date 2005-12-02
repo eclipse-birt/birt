@@ -268,9 +268,6 @@ public class ElementRefPropertyType extends PropertyType
 		// only in the current root namespace, but also in the included
 		// libraries namespace.
 
-		IModuleNameSpace elementResolver = module
-				.getModuleNameSpace( targetDefn.getNameSpaceID( ) );
-
 		String name = ModelUtil.needTheNamespacePrefix( ref, null, module );
 
 		DesignElement target = module.resolveElement( name, targetDefn

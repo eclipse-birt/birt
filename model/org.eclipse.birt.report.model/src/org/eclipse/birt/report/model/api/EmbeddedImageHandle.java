@@ -67,7 +67,7 @@ public class EmbeddedImageHandle extends StructureHandle
 	public byte[] getData( )
 	{
 		EmbeddedImage image = (EmbeddedImage) getStructure( );
-		return image.getData( );
+		return image.getData( getModule() );
 	}
 
 	/**

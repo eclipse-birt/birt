@@ -56,4 +56,13 @@ public interface IReferencable
 	 */
 
 	public List getClientList( );
+	
+	/**
+	 * Checks if this referencable object is referenced by others.
+	 * 
+	 * @return true if it has client, otherwise return false.
+	 *  
+	 */
+	
+	public boolean hasReferences( );
 }

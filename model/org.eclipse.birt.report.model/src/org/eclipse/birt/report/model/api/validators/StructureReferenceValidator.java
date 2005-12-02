@@ -39,6 +39,10 @@ public class StructureReferenceValidator extends AbstractPropertyValidator
 
 	public final static String NAME = "StructureReferenceValidator"; //$NON-NLS-1$
 
+	/**
+	 * The singleton validator instance.
+	 */
+	
 	private final static StructureReferenceValidator instance = new StructureReferenceValidator( );
 
 	/**

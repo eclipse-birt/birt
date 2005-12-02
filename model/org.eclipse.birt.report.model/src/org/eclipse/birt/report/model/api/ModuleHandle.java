@@ -17,7 +17,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -375,7 +374,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 			}
 		}
 
-		List theLibraries = getAllLibraries( );
+		List theLibraries = getLibraries( );
 		int size = theLibraries.size( );
 		for ( int i = 0; i < size; i++ )
 		{
@@ -425,7 +424,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 			list.add( s );
 		}
 
-		List theLibraries = this.getLibraries( );
+		List theLibraries = getLibraries( );
 		int size = theLibraries.size( );
 		for ( int i = 0; i < size; i++ )
 		{

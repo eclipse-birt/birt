@@ -30,7 +30,7 @@ public class PropertyValueException extends SemanticException
 	/**
 	 * Comment for <code>serialVersionUID</code>.
 	 */
-	
+
 	private static final long serialVersionUID = 6453952392044174297L;
 
 	/**
@@ -143,13 +143,19 @@ public class PropertyValueException extends SemanticException
 	 */
 
 	public static final String DESIGN_EXCEPTION_EXTENSION_SETTING_FORBIDDEN = MessageConstants.PROPERTY_VALUE_EXTENSION_SETTING_FORBIDDEN;
-	
+
 	/**
-	 * Within child element, properties that can cause structure change are
-	 * not allowed to set.
+	 * Within child element, properties that can cause structure change are not
+	 * allowed to set.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_PROPERTY_CHANGE_FORBIDDEN = MessageConstants.PROPERTY_VALUE_EXCEPTION_PROPERTY_CHANGE_FORBIDDEN;
+
+	/**
+	 * The character "." is forbidden to NamePropertyType.
+	 */
+
+	public static final String DESIGN_EXCEPTION_DOT_FORBIDDEN = MessageConstants.PROPERTY_VALUE_EXCEPTION_DOT_FORBIDDEN;
 
 	/**
 	 * Constructs an exception given an invalid value, error code and the
@@ -225,7 +231,7 @@ public class PropertyValueException extends SemanticException
 		this.propertyTypeName = ( (PropertyDefn) propDefn ).getType( )
 				.getName( );
 	}
-	
+
 	/**
 	 * Constructs an exception given an invalid value, error code.
 	 * 
@@ -343,11 +349,16 @@ public class PropertyValueException extends SemanticException
 			return ModelMessages.getMessage( sResourceKey, new String[]{value,
 					propertyName} );
 		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_EXTENSION_SETTING_FORBIDDEN ||
-				 sResourceKey == DESIGN_EXCEPTION_PROPERTY_CHANGE_FORBIDDEN )
+		else if ( sResourceKey == DESIGN_EXCEPTION_EXTENSION_SETTING_FORBIDDEN
+				|| sResourceKey == DESIGN_EXCEPTION_PROPERTY_CHANGE_FORBIDDEN )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{
 					propertyName, element.getName( )} );
+		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_DOT_FORBIDDEN )
+		{
+			return ModelMessages.getMessage( sResourceKey,
+					new String[]{(String) invalidValue} );
 		}
 		return ModelMessages.getMessage( sResourceKey );
 	}

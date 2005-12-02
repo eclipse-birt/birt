@@ -19,6 +19,10 @@ import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 
+/**
+ * Reads a XML file for design and library.
+ */
+
 public class GenericModuleReader extends ModuleReader
 {
 

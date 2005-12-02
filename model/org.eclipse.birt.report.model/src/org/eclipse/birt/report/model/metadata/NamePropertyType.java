@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
@@ -82,7 +83,7 @@ public class NamePropertyType extends TextualPropertyType
 		}
 		if ( value instanceof String )
 		{
-			String stringValue = StringUtil.trimString( (String) value ) ;
+			String stringValue = StringUtil.trimString( (String) value );
 			if ( stringValue == null )
 			{
 				if ( defn.isStructureMember( ) )
@@ -90,8 +91,16 @@ public class NamePropertyType extends TextualPropertyType
 							value,
 							PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 							NAME_TYPE );
-
 				return null;
+			}
+			else if ( stringValue.indexOf( "." ) != -1 ) //$NON-NLS-1$
+			{
+				if ( !EmbeddedImage.EMBEDDED_IMAGE_STRUCT
+						.equalsIgnoreCase( defn.definedBy( ).getName( ) ) )
+					throw new PropertyValueException(
+							value,
+							PropertyValueException.DESIGN_EXCEPTION_DOT_FORBIDDEN,
+							NAME_TYPE );
 			}
 
 			return stringValue;

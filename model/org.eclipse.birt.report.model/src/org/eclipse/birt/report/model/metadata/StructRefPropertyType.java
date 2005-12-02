@@ -11,17 +11,17 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.StructureRefUtil;
 
 /**
  * Represents a reference to a structure. A structure reference is different
@@ -52,6 +52,7 @@ public class StructRefPropertyType extends PropertyType
 
 	private static Logger logger = Logger
 			.getLogger( StructRefPropertyType.class.getName( ) );
+
 	/**
 	 * Display name key.
 	 */
@@ -106,13 +107,12 @@ public class StructRefPropertyType extends PropertyType
 					"The value of the structure property is null" ); //$NON-NLS-1$
 			return null;
 		}
-		StructureDefn targetDefn = (StructureDefn) defn.getStructDefn( );
 		if ( value instanceof String )
 		{
 			logger.log( Level.INFO,
 					"The value of the structure property is a string" ); //$NON-NLS-1$
 			String name = StringUtil.trimString( (String) value );
-			return validateStringValue( module, targetDefn, name );
+			return StructureRefUtil.resolve( module, defn, name );
 		}
 		if ( value instanceof Structure )
 		{
@@ -120,7 +120,7 @@ public class StructRefPropertyType extends PropertyType
 					.log( Level.INFO,
 							"The value of the structure is a structure" ); //$NON-NLS-1$
 			Structure target = (Structure) value;
-			return validateStructValue( module, targetDefn, target );
+			return StructureRefUtil.resolve( module, defn, target );
 		}
 
 		// Invalid property value.
@@ -129,136 +129,6 @@ public class StructRefPropertyType extends PropertyType
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				PropertyType.ELEMENT_REF_TYPE );
-	}
-
-	/**
-	 * Validates the structure name.
-	 * 
-	 * @param module
-	 *            report design
-	 * @param targetDefn
-	 *            definition of target structure
-	 * @param name
-	 *            structure name
-	 * @return the resolved structure reference value
-	 * @throws PropertyValueException
-	 *             if the type of target structure is not that target
-	 *             definition, or the structure with the given name is not
-	 *             found.
-	 */
-
-	private StructRefValue validateStringValue( Module module,
-			StructureDefn targetDefn, String name )
-			throws PropertyValueException
-	{
-		if ( StringUtil.isBlank( name ) )
-			return null;
-
-		Structure target = getStructure( module, targetDefn, name );
-
-		String namespace = null;
-		// TODO: the embeddedImage has "." in the name which will cause the
-		// nemaspace ambiguity.
-		if ( module instanceof Library )
-			namespace = ( (Library) module ).getNamespace( ); //$NON-NLS-1$
-
-		// Element is unresolved.
-
-		if ( target == null )
-			return new StructRefValue( namespace, name );
-
-		// Check type.
-
-		if ( targetDefn != target.getDefn( ) )
-			throw new PropertyValueException(
-					target.getReferencableProperty( ),
-					PropertyValueException.DESIGN_EXCEPTION_WRONG_ITEM_TYPE,
-					PropertyType.STRUCT_REF_TYPE );
-
-		// Resolved reference.
-
-		return new StructRefValue( namespace, target );
-	}
-
-	private Structure getStructure( Module module, StructureDefn targetDefn,
-			String name )
-	{
-		if ( StringUtil.isBlank( name ) || targetDefn == null )
-			return null;
-
-		List referencableProperties = module.getReferencablePropertyDefns( );
-		assert !referencableProperties.isEmpty( );
-		IElementPropertyDefn defn = null;
-		for ( int i = 0; i < referencableProperties.size( ); i++ )
-		{
-			IElementPropertyDefn refDefn = (IElementPropertyDefn) referencableProperties
-					.get( i );
-			if ( targetDefn == refDefn.getStructDefn( ) )
-			{
-				defn = refDefn;
-				break;
-			}
-		}
-
-		if ( defn == null )
-			return null;
-		assert defn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
-
-		if ( defn.isList( ) )
-		{
-			List list = module.getListProperty( module, defn.getName( ) );
-			if ( list == null )
-				return null;
-			for ( int i = 0; i < list.size( ); i++ )
-			{
-				Structure struct = (Structure) list.get( i );
-				if ( name.equals( struct.getReferencableProperty( ) ) )
-					return struct;
-			}
-		}
-		else
-		{
-			Structure struct = (Structure) module.getProperty( module, defn
-					.getName( ) );
-			if ( name.equals( struct.getReferencableProperty( ) ) )
-				return struct;
-		}
-		return null;
-	}
-
-	/**
-	 * Validates the structure value.
-	 * 
-	 * @param module
-	 *            report design
-	 * @param targetDefn
-	 *            definition of target structure
-	 * @param target
-	 *            target structure
-	 * @return the resolved structure reference value
-	 * @throws PropertyValueException
-	 *             if the type of target structure is not that target
-	 *             definition.
-	 */
-
-	private StructRefValue validateStructValue( Module module,
-			StructureDefn targetDefn, Structure target )
-			throws PropertyValueException
-	{
-		// Check type.
-
-		if ( targetDefn != target.getDefn( ) )
-			throw new PropertyValueException(
-					target.getReferencableProperty( ),
-					PropertyValueException.DESIGN_EXCEPTION_WRONG_ITEM_TYPE,
-					PropertyType.STRUCT_REF_TYPE );
-
-		// Resolved reference.
-		String namespace = null;
-		if ( module instanceof Library )
-			namespace = ( (Library) module ).getNamespace( ); //$NON-NLS-1$
-
-		return new StructRefValue( namespace, target );
 	}
 
 	/*
@@ -276,7 +146,7 @@ public class StructRefPropertyType extends PropertyType
 
 		if ( value instanceof String )
 			return (String) value;
-
+		
 		return ModelUtil.needTheNamespacePrefix( (StructRefValue) value, null,
 				module );
 	}
@@ -296,11 +166,36 @@ public class StructRefPropertyType extends PropertyType
 
 	public void resolve( Module module, PropertyDefn defn, StructRefValue ref )
 	{
-		if ( ref.isResolved( ) )
+		if ( ref.isResolved( ) || module == null )
 			return;
 		StructureDefn targetDefn = (StructureDefn) defn.getStructDefn( );
-		Structure target = getStructure( module, targetDefn, ref.getName( ) );
-		if ( target != null )
-			ref.resolve( target );
+		Structure target = null;
+		Module targetModule = null;
+		if ( ReferencableStructure.LIB_REFERENCE_MEMBER
+				.equals( defn.getName( ) ) )
+		{
+			String namespace = ref.getLibraryNamespace( );
+			targetModule = module.getLibraryWithNamespace( namespace );
+			if ( targetModule != null )
+			{
+				target = StructureRefUtil.getStructure( targetModule,
+						targetDefn, ref.getName( ) );
+				if ( target != null )
+					ref.resolve( target );
+			}
+		}
+		else
+		{
+			// for now, "imageName" can only refer a local embedded image except
+			// that extended from the parent
+
+			String namespace = module instanceof Library ? ( (Library) module )
+					.getNamespace( ) : null;
+			assert StringUtil.isEqual( namespace, ref.getLibraryNamespace( ) );
+			target = StructureRefUtil.getStructure( module, targetDefn, ref
+					.getName( ) );
+			if ( target != null )
+				ref.resolve( target );
+		}
 	}
 }

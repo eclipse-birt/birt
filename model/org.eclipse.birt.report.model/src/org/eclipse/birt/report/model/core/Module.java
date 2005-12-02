@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.command.StyleEvent;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
@@ -61,10 +62,15 @@ import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.parser.LibraryReader;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.StructureRefUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 import org.eclipse.birt.report.model.writer.ModuleWriter;
 
@@ -205,7 +211,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * property. Each one in the list is instance of <code>IPropertyDefn</code>
 	 */
 
-	private List referencableProperties = null;
+	private HashMap referencableProperties = null;
 
 	/**
 	 * Accumulates errors and warnings during a batch operation. Each one is the
@@ -942,29 +948,10 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public CustomColor findColor( String colorName )
 	{
-		String namespace = StringUtil.extractNamespace( colorName );
-		String name = StringUtil.extractName( colorName );
-
-		Module moduleToSearch = this;
-		if ( namespace != null )
-			moduleToSearch = getLibraryWithNamespace( namespace );
-
-		if ( moduleToSearch != null )
-		{
-			ArrayList list = (ArrayList) moduleToSearch.getLocalProperty(
-					moduleToSearch, COLOR_PALETTE_PROP );
-			if ( list != null )
-			{
-				for ( int i = 0; i < list.size( ); i++ )
-				{
-					CustomColor color = (CustomColor) list.get( i );
-					if ( color.getName( ).equals( name ) )
-						return color;
-				}
-			}
-		}
-
-		return null;
+		StructureDefn defn = (StructureDefn) MetaDataDictionary.getInstance( )
+				.getStructure( CustomColor.CUSTOM_COLOR_STRUCT );
+		return (CustomColor) StructureRefUtil.findStructure( this, defn,
+				colorName );
 	}
 
 	/**
@@ -978,32 +965,10 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public ConfigVariable findConfigVariabel( String variableName )
 	{
-		ArrayList list = (ArrayList) getLocalProperty( this, CONFIG_VARS_PROP );
-		if ( list != null )
-		{
-			for ( int i = 0; i < list.size( ); i++ )
-			{
-				ConfigVariable variable = (ConfigVariable) list.get( i );
-				if ( variable.getName( ).equals( variableName ) )
-					return variable;
-			}
-		}
-
-		List theLibraries = getLibraries( );
-		int size = theLibraries.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			Library library = (Library) theLibraries.get( i );
-			if ( library.isValid( ) )
-			{
-				ConfigVariable variable = library
-						.findConfigVariabel( variableName );
-				if ( variable != null )
-					return variable;
-			}
-		}
-
-		return null;
+		StructureDefn defn = (StructureDefn) MetaDataDictionary.getInstance( )
+				.getStructure( ConfigVariable.CONFIG_VAR_STRUCT );
+		return (ConfigVariable) StructureRefUtil.findStructure( this, defn,
+				variableName );
 	}
 
 	/**
@@ -1017,71 +982,37 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public EmbeddedImage findImage( String imageName )
 	{
-		EmbeddedImage image = findImage( imageName, this );
-		if ( image != null )
-			return image;
-
-		String namespace = StringUtil.extractNamespace( imageName );
-		String name = StringUtil.extractName( imageName );
-
-		if ( namespace == null )
-			return null;
-
-		Module moduleToSearch = getLibraryWithNamespace( namespace );
-
-		return findImage( name, moduleToSearch );
+		StructureDefn defn = (StructureDefn) MetaDataDictionary.getInstance( )
+				.getStructure( EmbeddedImage.EMBEDDED_IMAGE_STRUCT );
+		return (EmbeddedImage) StructureRefUtil.getStructure( this, defn,
+				imageName );
 	}
 
 	/**
-	 * Finds an embedded image by name in the given module.
+	 * Gets the property definition whose detail type is of the given structure
+	 * name.
 	 * 
-	 * @param imageName
-	 *            the name of the image to find
-	 * @param moduleToSearch
-	 *            the module in which embedded image is searched
-	 * @return image if found, otherwise, return null.
+	 * @param structureName
+	 *            the structure name to search
+	 * @return the property definition whose detail type is of the given
+	 *         structure name, otherwise null
 	 */
 
-	private EmbeddedImage findImage( String imageName, Module moduleToSearch )
-	{
-		if ( moduleToSearch == null )
-			return null;
-
-		List list = (List) moduleToSearch.getLocalProperty( moduleToSearch,
-				IMAGES_PROP );
-		if ( list != null )
-		{
-			for ( int i = 0; i < list.size( ); i++ )
-			{
-				EmbeddedImage image = (EmbeddedImage) list.get( i );
-				if ( image.getName( ) != null
-						&& image.getName( ).equals( imageName ) )
-					return image;
-			}
-		}
-
-		return null;
-	}
-
-	/**
-	 * Gets the property definition list of the structure list type and its
-	 * structure can be referred by other elements. Each one in the list is
-	 * instance of <code>IElementPropertyDefn</code>.
-	 * 
-	 * @return the property definition list of the structure list type and its
-	 *         structure can be referred by other elements
-	 */
-
-	public List getReferencablePropertyDefns( )
+	public ElementPropertyDefn getReferencablePropertyDefn( String structureName )
 	{
 		if ( referencableProperties == null )
-			referencableProperties = new ArrayList( );
-		if ( referencableProperties.size( ) > 0 )
-			return referencableProperties;
-		referencableProperties.add( getPropertyDefn( CONFIG_VARS_PROP ) );
-		referencableProperties.add( getPropertyDefn( COLOR_PALETTE_PROP ) );
-		referencableProperties.add( getPropertyDefn( IMAGES_PROP ) );
-		return referencableProperties;
+		{
+			referencableProperties = new HashMap( );
+			referencableProperties.put( ConfigVariable.CONFIG_VAR_STRUCT,
+					getPropertyDefn( CONFIG_VARS_PROP ) );
+			referencableProperties.put( EmbeddedImage.EMBEDDED_IMAGE_STRUCT,
+					getPropertyDefn( IMAGES_PROP ) );
+			referencableProperties.put( CustomColor.CUSTOM_COLOR_STRUCT,
+					getPropertyDefn( COLOR_PALETTE_PROP ) );
+
+		}
+
+		return (ElementPropertyDefn) referencableProperties.get( structureName );
 	}
 
 	/**
@@ -1405,7 +1336,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		if ( module instanceof ReportDesign )
 		{
-			ContainerSlot slot = module.getSlot( ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
+			ContainerSlot slot = module
+					.getSlot( ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
 			assert slot != null;
 			for ( int i = slot.getCount( ) - 1; i >= 0; i-- )
 			{
@@ -1707,7 +1639,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( libraries == null )
 			return null;
 
-		Iterator iter = getAllLibraries( ).iterator( );
+		Iterator iter = getLibraries( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
 			Library library = (Library) iter.next( );
@@ -1746,6 +1678,36 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public void updateReferenceableClients( Library library )
 	{
 		updateReferenceableClients( library, ILibraryModel.THEMES_SLOT );
+
+		// update clients of embedded images
+
+		List images = library.getListProperty( library, Module.IMAGES_PROP );
+		if ( images == null || images.isEmpty( ) )
+			return;
+		boolean sendEvent = false;
+		for ( int i = 0; i < images.size( ); i++ )
+		{
+			EmbeddedImage image = (EmbeddedImage) images.get( i );
+			List clients = image.getClientStructures( );
+			if ( clients == null || clients.isEmpty( ) )
+				continue;
+			for ( int j = 0; j < clients.size( ); j++ )
+			{
+				Structure client = (Structure) clients.get( j );
+				StructRefValue value = (StructRefValue) client
+						.getLocalProperty( this,
+								ReferencableStructure.LIB_REFERENCE_MEMBER );
+				assert value != null;
+				value.unresolved( value.getName( ) );
+				image.dropClientStructure( client );
+				sendEvent = true;
+			}
+		}
+
+		// send the property event to current module
+
+		if ( sendEvent )
+			broadcast( new PropertyEvent( this, Module.IMAGES_PROP ) );
 	}
 
 	/**
@@ -2305,7 +2267,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		// look up the library with the location path in the included library
 		// list
 
-		List libraries = getAllLibraries( );
+		List libraries = getLibraries( );
 		for ( int i = 0; i < libraries.size( ); i++ )
 		{
 			Library library = (Library) libraries.get( i );
@@ -2384,6 +2346,31 @@ public abstract class Module extends DesignElement implements IModuleModel
 		setTheme( null );
 		assert theme == null;
 		theme = new ElementRefValue( null, theName );
+	}
+
+	/**
+	 * Returns whether the namespace to check is duplicate in target module.
+	 * This method helps to judge whether the library to check can be included
+	 * in target module.
+	 * 
+	 * @param namespaceToCheck
+	 *            the namespace to check
+	 * @return true if the namespace to check is duplicate.
+	 */
+
+	public boolean isDuplicateNamespace( String namespaceToCheck )
+	{
+		List libraries = getLibraries( );
+		Iterator iter = libraries.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			Library library = (Library) iter.next( );
+
+			if ( library.getNamespace( ).equals( namespaceToCheck ) )
+				return true;
+		}
+
+		return false;
 	}
 
 }

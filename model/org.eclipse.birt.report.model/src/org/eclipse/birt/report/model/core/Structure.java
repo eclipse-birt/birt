@@ -132,6 +132,29 @@ public abstract class Structure implements IStructure
 			return getIntrinsicProperty( propDefn.getName( ) );
 		return null;
 	}
+	
+	/**
+	 * Gets the locale value of a property.
+	 * 
+	 * @param module
+	 *            the module
+	 * 
+	 * @param memberName
+	 *            name of the member to get
+	 * @return value of the item as an object, or null if the item is not set
+	 *         locally or is not found.
+	 */
+
+	public Object getLocalProperty( Module module, String memberName )
+	{
+		PropertyDefn prop = (PropertyDefn) getDefn( ).getMember( memberName );
+		if ( prop == null )
+			return null;
+
+		if ( prop.isIntrinsic( ) )
+			return getIntrinsicProperty( memberName );
+		return null;
+	}
 
 	/**
 	 * Sets the value of the member.

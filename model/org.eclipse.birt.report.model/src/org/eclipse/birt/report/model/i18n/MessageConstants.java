@@ -45,7 +45,7 @@ public interface MessageConstants
 	public static final String SET_LOCALE_MESSAGE = "Message.SetLocale"; //$NON-NLS-1$
 	public static final String SET_TRANSLATION_TEXT_MESSAGE = "Message.SetTranslationText"; //$NON-NLS-1$
 	public static final String SET_THEME_MESSAGE = "Message.SetTheme"; //$NON-NLS-1$
-
+	
 	public static final String MOVE_ELEMENT_MESSAGE = "Message.MoveElement"; //$NON-NLS-1$
 	public static final String INSERT_ELEMENT_MESSAGE = "Message.InsertElement"; //$NON-NLS-1$
 	public static final String DELETE_ELEMENT_MESSAGE = "Message.DeleteElement"; //$NON-NLS-1$
@@ -60,7 +60,7 @@ public interface MessageConstants
 	// Errors
 
 	// ContentException
-	public static final String CONTENT_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN = "Error.ContentException.STRUCTURE_CHANGE_FORBIDDEN"; //$NON-NLS-1$
+	public static final String CONTENT_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN = "Error.ContentException.STRUCTURE_CHANGE_FORBIDDEN";  //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_SLOT_NOT_FOUND = "Error.ContentException.SLOT_NOT_FOUND"; //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_WRONG_TYPE = "Error.ContentException.WRONG_TYPE"; //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_DROP_FORBIDDEN = "Error.ContentException.DROP_FORBIDDEN"; //$NON-NLS-1$
@@ -77,7 +77,8 @@ public interface MessageConstants
 	public static final String CONTENT_EXCEPTION_CONTENT_NAME_REQUIRED = "Error.ContentException.CONTENT_NAME_REQUIRED"; //$NON-NLS-1$
 
 	public static final String CONTENT_EXCEPTION_INVALID_TEMPLATE_ELEMENT = "Error.ContentException.INVALID_TEMPLATE_ELEMENT"; //$NON-NLS-1$
-
+	public static final String CONTENT_EXCEPTION_TEMPLATE_TRANSFORM_FORBIDDEN = "Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN"; //$NON-NLS-1$
+	
 	// CustomMsgException
 	public static final String CUSTOM_MSG_EXCEPTION_RESOURCE_KEY_REQUIRED = "Error.CustomMsgException.RESOURCE_KEY_REQUIRED"; //$NON-NLS-1$
 
@@ -97,7 +98,7 @@ public interface MessageConstants
 	public static final String EXTENDS_EXCEPTION_PARENT_NOT_IN_COMPONENT = "Error.ExtendsException.PARENT_NOT_IN_COMPONENT"; //$NON-NLS-1$
 	public static final String EXTENDS_EXCEPTION_PARENT_NOT_INCLUDE = "Error.ExtendsException.PARENT_NOT_INCLUDE"; //$NON-NLS-1$
 	public static final String EXTENDS_EXCEPTION_NO_PARENT = "Error.ExtendsException.NO_PARENT"; //$NON-NLS-1$
-
+	
 	// NameException
 	public static final String NAME_EXCEPTION_NAME_REQUIRED = "Error.NameException.NAME_REQUIRED"; //$NON-NLS-1$
 	public static final String NAME_EXCEPTION_NAME_FORBIDDEN = "Error.NameException.NAME_FORBIDDEN"; //$NON-NLS-1$
@@ -125,7 +126,8 @@ public interface MessageConstants
 	public static final String PROPERTY_VALUE_EXCEPTION_WRONG_ITEM_TYPE = "Error.PropertyValueException.WRONG_ITEM_TYPE"; //$NON-NLS-1$
 	public static final String PROPERTY_VALUE_EXCEPTION_NEGATIVE_VALUE = "Error.PropertyValueException.NEGATIVE_VALUE"; //$NON-NLS-1$
 	public static final String PROPERTY_VALUE_EXCEPTION_NON_POSITIVE_VALUE = "Error.PropertyValueException.NON_POSITIVE_VALUE"; //$NON-NLS-1$
-
+	public static final String PROPERTY_VALUE_EXCEPTION_DOT_FORBIDDEN = "Error.PropertyValueException.DOT_FORBIDDEN"; //$NON-NLS-1$
+	
 	// SemanticError
 	public static final String SEMANTIC_ERROR_INCONSITENT_TABLE_COL_COUNT = "Error.SemanticError.INCONSITENT_TABLE_COL_COUNT"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INCONSITENT_TABLE_COL_COUNT_COZ_DROP = "Error.SemanticError.INCONSITENT_TABLE_COL_COUNT_COZ_DROP"; //$NON-NLS-1$
@@ -170,8 +172,11 @@ public interface MessageConstants
 	public static final String STYLE_EXCEPTION_NOT_FOUND = "Error.StyleException.NOT_FOUND"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_MISSING_TEMPLATE_PARAMETER_TYPE = "Error.SemanticError.MISSING_TEMPLATE_PARAMETER_TYPE"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INCONSISTENT_TEMPLATE_PARAMETER_TYPE = "Error.SemanticError.INCONSISTENT_TEMPLATE_PARAMETER_TYPE"; //$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_INVALID_LIBRARY_REFERENCE = "Error.SemanticError.INVALID_LIBRARY_REFERENCE"; //$NON-NLS-1$
+	
+	// ThemeException
 	public static final String THEME_EXCEPTION_NOT_FOUND = "Error.ThemeException.NOT_FOUND"; //$NON-NLS-1$
-
+	
 	// DesignParserException
 	public static final String DESIGN_PARSER_EXCEPTION_FILE_NOT_FOUND = "Error.DesignParserException.FILE_NOT_FOUND"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_RGB_REQUIRED = "Error.DesignParserException.RGB_REQUIRED"; //$NON-NLS-1$
@@ -201,7 +206,7 @@ public interface MessageConstants
 	public static final String DESIGN_PARSER_EXCEPTION_DUPLICATE_ELEMENT_ID = "Error.DesignParserException.DUPLICATE_ELEMENT_ID"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_INCONSISTENT_TEMPLATE_ELEMENT_TYPE = "Error.DesignParserException.INCONSISTENT_TEMPLATE_ELEMENT_TYPE"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_MISSING_TEMPLATE_PARAMETER_DEFAULT = "Error.DesignParserException.MISSING_TEMPLATE_PARAMETER_DEFAULT"; //$NON-NLS-1$
-
+	
 	// DesignFileException
 	public static final String DESIGN_FILE_EXCEPTION_SYNTAX_ERROR = "Error.DesignFileException.SYNTAX_ERROR"; //$NON-NLS-1$
 	public static final String DESIGN_FILE_EXCEPTION_SEMANTIC_ERROR = "Error.DesignFileException.SEMANTIC_ERROR"; //$NON-NLS-1$
@@ -229,7 +234,7 @@ public interface MessageConstants
 	public static final String USER_PROPERTY_EXCEPTION_CHOICE_NAME_REQUIRED = "Error.UserPropertyException.CHOICE_NAME_REQUIRED"; //$NON-NLS-1$
 	public static final String USER_PROPERTY_EXCEPTION_INVALID_DEFINITION = "Error.UserPropertyException.INVALID_DEFINITION"; //$NON-NLS-1$
 	public static final String USER_PROPERTY_EXCEPTION_INVALID_DEFAULT_VALUE = "Error.UserPropertyException.INVALID_DEFAULT_VALUE"; //$NON-NLS-1$
-
+	
 	// MetaDataReaderException
 	public static final String META_DATA_READER_EXCEPTION_META_DATA_ERROR = "Error.MetaDataReaderException.META_DATA_ERROR"; //$NON-NLS-1$
 
@@ -239,11 +244,11 @@ public interface MessageConstants
 	public static final String LIBRARY_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY = "Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY"; //$NON-NLS-1$
 	public static final String LIBRARY_EXCEPTION_LIBRARY_HAS_DESCENDENTS = "Error.LibraryException.LIBRARY_HAS_DESCENDENTS"; //$NON-NLS-1$
 	public static final String LIBRARY_EXCEPTION_LIBRARY_ALREADY_INCLUDED = "Error.LibraryException.LIBRARY_ALREADY_INCLUDED"; //$NON-NLS-1$
-
+	
 	// StyleSheetException
 	public static final String STYLE_SHEET_EXCEPTION_STYLE_SHEET_NOT_FOUND = "Error.StyleSheetException.STYLE_SHEET_NOT_FOUND"; //$NON-NLS-1$
 	public static final String STYLE_SHEET_EXCEPTION_SYNTAX_ERROR = "Error.StyleSheetException.SYNTAX_ERROR"; //$NON-NLS-1$
-
+	
 	// StyleSheetParserException
 	public static final String STYLE_SHEET_PARSER_EXCEPTION_RULE_NOT_SUPPORTED = "Error.StyleSheetParserException.RULE_NOT_SUPPORTED"; //$NON-NLS-1$
 	public static final String STYLE_SHEET_PARSER_EXCEPTION_STYLE_NOT_SUPPORTED = "Error.StyleSheetParserException.STYLE_NOT_SUPPORTED"; //$NON-NLS-1$
@@ -251,12 +256,13 @@ public interface MessageConstants
 	public static final String STYLE_SHEET_PARSER_EXCEPTION_INVALID_SHORT_HAND_CSSPROPERTY_VALUE = "Error.StyleSheetParserException.INVALID_SHORT_HAND_CSSPROPERTY_VALUE"; //$NON-NLS-1$
 	public static final String STYLE_SHEET_PARSER_EXCEPTION_INVALID_SIMPLE_CSSPROPERTY_VALUE = "Error.StyleSheetParserException.INVALID_SIMPLE_CSSPROPERTY_VALUE"; //$NON-NLS-1$
 
-	// TemplateException
+	// TemplateException	
 	public static final String TEMPLATE_EXCEPTION_INVALID_TEMPLATE_ELEMENT_TYPE = "Error.TemplateException.INVALID_TEMPLATE_ELEMENT_TYPE"; //$NON-NLS-1$
 	public static final String TEMPLATE_EXCEPTION_TRANSFORM_TO_REPORT_ITEM_FORBIDDEN = "Error.TemplateException.TRANSFORM_TO_REPORT_ITEM_FORBIDDEN"; //$NON-NLS-1$
 	public static final String TEMPLATE_EXCEPTION_TRANSFORM_TO_DATA_SET_FORBIDDEN = "Error.TemplateException.TRANSFORM_TO_DATA_SET_FORBIDDEN"; //$NON-NLS-1$
 	public static final String TEMPLATE_EXCEPTION_CREATE_TEMPLATE_ELEMENT_FORBIDDEN = "Error.TemplateException.CREATE_TEMPLATE_ELEMENT_FORBIDDEN"; //$NON-NLS-1$
 	public static final String TEMPLATE_EXCEPTION_TEMPLATE_ELEMENT_NOT_SUPPORTED = "Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED"; //$NON-NLS-1$
 	public static final String TEMPLATE_EXCEPTION_REVERT_TO_TEMPLATE_FORBIDDEN = "Error.TemplateException.REVERT_TO_TEMPLATE_FORBIDDEN"; //$NON-NLS-1$
-	public static final String CONTENT_EXCEPTION_TEMPLATE_TRANSFORM_FORBIDDEN = "Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN"; //$NON-NLS-1$
+		
+	
 }
