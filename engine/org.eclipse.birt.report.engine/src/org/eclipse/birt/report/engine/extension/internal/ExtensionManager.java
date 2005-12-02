@@ -228,7 +228,7 @@ public class ExtensionManager
 	 */
 	public Collection getSupportedFormat()
 	{
-		return mimeTypes.values();
+		return mimeTypes.keySet();
 	}
 	
 	/**
@@ -349,7 +349,7 @@ public class ExtensionManager
 				String mimeType = configs[j].getAttribute("mimeType");	//$NON-NLS-1$
 				String id = configs[j].getAttribute("id"); //$NON-NLS-1$
 				emitterExtensions.add(new EmitterInfo(format, id, configs[j]));
-				mimeTypes.put(mimeType, format);
+				mimeTypes.put(format, mimeType);
 				logger.log(Level.FINE, "Load {0} emitter {1}", new String[]{format, id}); //$NON-NLS-1$
 			}
 		}
