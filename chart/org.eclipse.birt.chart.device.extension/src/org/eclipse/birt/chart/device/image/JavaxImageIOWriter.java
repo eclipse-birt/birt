@@ -19,6 +19,7 @@ import java.awt.Image;
 import java.awt.Shape;
 import java.awt.geom.PathIterator;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -486,75 +487,80 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	{
 		super.after( );
 
-		// SEARCH FOR WRITER USING FORMAT
-		Iterator it = null;
-		String s = getFormat( );
-		if ( s != null )
+		if ( _oOutputIdentifier != null )
 		{
-			it = ImageIO.getImageWritersByFormatName( s );
-			if ( !it.hasNext( ) )
-			{
-				it = null; // GET INTO NEXT CONSTRUCT; SEARCH BY MIME TYPE
-			}
-		}
 
-		// SEARCH FOR WRITER USING MIME TYPE
-		if ( it == null )
-		{
-			s = getMimeType( );
-			if ( s == null )
+			// SEARCH FOR WRITER USING FORMAT
+			Iterator it = null;
+			String s = getFormat( );
+			if ( s != null )
+			{
+				it = ImageIO.getImageWritersByFormatName( s );
+				if ( !it.hasNext( ) )
+				{
+					it = null; // GET INTO NEXT CONSTRUCT; SEARCH BY MIME TYPE
+				}
+			}
+
+			// SEARCH FOR WRITER USING MIME TYPE
+			if ( it == null )
+			{
+				s = getMimeType( );
+				if ( s == null )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							"exception.no.imagewriter.mimetype.and.format",//$NON-NLS-1$
+							new Object[]{
+									getMimeType( ),
+									getFormat( ),
+									getClass( ).getName( )
+							},
+							ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
+									getLocale( ) ) );
+				}
+				it = ImageIO.getImageWritersByMIMEType( s );
+				if ( !it.hasNext( ) )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							"exception.no.imagewriter.mimetype", //$NON-NLS-1$
+							new Object[]{
+								getMimeType( )
+							},
+							ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
+									getLocale( ) ) );
+				}
+			}
+			final ImageWriter iw = (ImageWriter) it.next( );
+
+			logger.log( ILogger.INFORMATION,
+					Messages.getString( "info.using.imagewriter", getLocale( ) ) //$NON-NLS-1$
+							+ getFormat( ) + iw.getClass( ).getName( ) );
+
+			// WRITE TO SPECIFIC FILE FORMAT
+			final Object o = ( _oOutputIdentifier instanceof String ) ? new File( (String) _oOutputIdentifier )
+					: _oOutputIdentifier;
+			try
+			{
+				final ImageOutputStream ios = ImageIO.createImageOutputStream( o );
+				updateWriterParameters( iw.getDefaultWriteParam( ) ); // SET
+																		// ANY
+				// OUTPUT
+				// FORMAT
+				// SPECIFIC
+				// PARAMETERS
+				// IF NEEDED
+				iw.setOutput( ios );
+				iw.write( (RenderedImage) _img );
+				ios.close( );
+			}
+			catch ( Exception ex )
 			{
 				throw new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.RENDERING,
-						"exception.no.imagewriter.mimetype.and.format",//$NON-NLS-1$
-						new Object[]{
-								getMimeType( ),
-								getFormat( ),
-								getClass( ).getName( )
-						},
-						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) );
+						ex );
 			}
-			it = ImageIO.getImageWritersByMIMEType( s );
-			if ( !it.hasNext( ) )
-			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.RENDERING,
-						"exception.no.imagewriter.mimetype", //$NON-NLS-1$
-						new Object[]{
-							getMimeType( )
-						},
-						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) );
-			}
-		}
-		final ImageWriter iw = (ImageWriter) it.next( );
-
-		logger.log( ILogger.INFORMATION,
-				Messages.getString( "info.using.imagewriter", getLocale( ) ) //$NON-NLS-1$
-						+ getFormat( ) + iw.getClass( ).getName( ) );
-
-		// WRITE TO SPECIFIC FILE FORMAT
-		final Object o = ( _oOutputIdentifier instanceof String ) ? new File( (String) _oOutputIdentifier )
-				: _oOutputIdentifier;
-		try
-		{
-			final ImageOutputStream ios = ImageIO.createImageOutputStream( o );
-			updateWriterParameters( iw.getDefaultWriteParam( ) ); // SET ANY
-			// OUTPUT
-			// FORMAT
-			// SPECIFIC
-			// PARAMETERS
-			// IF NEEDED
-			iw.setOutput( ios );
-			iw.write( (BufferedImage) _img );
-			ios.close( );
-		}
-		catch ( Exception ex )
-		{
-			throw new ChartException( ChartDeviceExtensionPlugin.ID,
-					ChartException.RENDERING,
-					ex );
 		}
 
 		// FLUSH AND RESTORE STATE OF INTERNALLY CREATED IMAGE
