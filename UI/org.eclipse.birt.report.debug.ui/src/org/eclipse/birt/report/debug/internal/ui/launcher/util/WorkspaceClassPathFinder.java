@@ -50,6 +50,7 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 
 		StringTokenizer token = new StringTokenizer( projects,
 				PROPERTYSEPARATOR );
+		boolean hasHeader = false;
 		while ( token.hasMoreTokens( ) )
 		{
 			String projectName = token.nextToken( );
@@ -58,10 +59,15 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 			{
 				String url = ( String ) paths.get( i );
 				if ( url != null && url.length( ) != 0 )
-					if ( i == 0 )
+					if ( i == 0 && !hasHeader)
+					{
 						wbuf.append( url );
+						hasHeader = true;
+					}
 					else
+					{
 						wbuf.append( PROPERTYSEPARATOR + url );
+					}
 			}
 
 		}

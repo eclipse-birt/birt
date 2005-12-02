@@ -36,12 +36,13 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 import org.eclipse.debug.core.sourcelookup.ISourceContainer;
-import org.eclipse.debug.core.sourcelookup.containers.DirectorySourceContainer;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.launching.JavaSourceLookupDirector;
 import org.eclipse.jdt.launching.ExecutionArguments;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.VMRunnerConfiguration;
+import org.eclipse.jdt.launching.sourcelookup.containers.JavaProjectSourceContainer;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.internal.core.ExternalModelManager;
 import org.eclipse.pde.internal.core.PDECore;
@@ -148,9 +149,14 @@ public class ReportLaunchConfigurationDelegate extends
 						.getAttribute( IMPORTPROJECTNAMES, "" ) );
 				for ( int i = 0; i < sourcePaths.size( ); i++ )
 				{
-					String source = ( String ) sourcePaths.get( i );
-					ISourceContainer temp = new DirectorySourceContainer(
-							new Path( source ), true );
+//					String source = ( String ) sourcePaths.get( i );
+//					ISourceContainer temp = new DirectorySourceContainer(
+//							new Path( source ), true );
+//					list.add( temp );
+					
+					IJavaProject source = ( IJavaProject ) sourcePaths.get( i );
+					ISourceContainer temp = new JavaProjectSourceContainer(
+							source);
 					list.add( temp );
 				}
 			} catch ( CoreException e )
@@ -371,11 +377,16 @@ public class ReportLaunchConfigurationDelegate extends
 		while ( token.hasMoreTokens( ) )
 		{
 			String projectName = token.nextToken( );
-			List paths = getProjectSourcePaths( projectName );
-			for ( int i = 0; i < paths.size( ); i++ )
+			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+			if (project != null && hasJavaNature( project ))
 			{
-				retValue.add( paths.get( i ) );
+				retValue.add( JavaCore.create( project ));
 			}
+			//List paths = getProjectSourcePaths( projectName );
+//			for ( int i = 0; i < paths.size( ); i++ )
+//			{
+//				retValue.add( paths.get( i ) );
+//			}
 		}
 
 		return retValue;
