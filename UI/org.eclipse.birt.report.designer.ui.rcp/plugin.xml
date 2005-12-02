@@ -4,7 +4,8 @@
    id="org.eclipse.birt.report.designer.ui.rcp"
    name="%ApplicationName"
    version="1.0.1"
-   provider-name="Eclipse.org">
+   provider-name="Eclipse.org"
+   >
 
    <runtime>
       <library name="uircp.jar">
@@ -14,16 +15,43 @@
 
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.birt.report.designer.ui"/>
-      <import plugin="org.eclipse.birt.report.designer.core"/>
+      <import plugin="org.eclipse.ui.forms"/>
       <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.ui.cheatsheets"/>
       <import plugin="org.eclipse.gef"/>
       <import plugin="org.eclipse.birt.report.model"/>
-      <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.eclipse.update.configurator"/>
-      <import plugin="org.eclipse.ui.forms"/>
+      <import plugin="org.eclipse.birt.report.designer.ui"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.birt.core"/>
+      <import plugin="org.eclipse.birt.report.designer.core"/>
+      <import plugin="org.eclipse.birt.report.designer.ui.lib"/>
+      <import plugin="org.eclipse.ui.cheatsheets"/>
+      <import plugin="org.eclipse.birt.report.designer.ui.lib.explorer"/>
+      <import plugin="org.eclipse.birt"/>
+      <import plugin="org.eclipse.birt.chart.device.extension"/>
+      <import plugin="org.eclipse.birt.chart.device.svg"/>
+      <import plugin="org.eclipse.birt.chart.device.svg.test"/>
+      <import plugin="org.eclipse.birt.chart.engine"/>
+      <import plugin="org.eclipse.birt.chart.engine.extension"/>
+      <import plugin="org.eclipse.birt.chart.examples"/>
+      <import plugin="org.eclipse.birt.chart.reportitem"/>
+      <import plugin="org.eclipse.birt.chart.tests"/>
+      <import plugin="org.eclipse.birt.chart.ui"/>
+      <import plugin="org.eclipse.birt.chart.ui.extension"/>
+      <import plugin="org.eclipse.birt.core.ui"/>
+      <import plugin="org.eclipse.birt.data"/>
+      <import plugin="org.eclipse.birt.data.oda"/>
+      <import plugin="org.eclipse.birt.data.oda.adapter.dtp"/>
+      <import plugin="org.eclipse.birt.doc"/>
+      <import plugin="org.eclipse.birt.report.data.oda.flatfile"/>
+      <import plugin="org.eclipse.birt.report.data.oda.flatfile.ui"/>
+      <import plugin="org.eclipse.birt.report.data.oda.jdbc"/>
+      <import plugin="org.eclipse.birt.report.data.oda.jdbc.ui"/>
+      <import plugin="org.eclipse.birt.report.data.oda.sampledb"/>
+      <import plugin="org.eclipse.birt.report.data.oda.sampledb.ui"/>
+      <import plugin="org.eclipse.birt.report.engine"/>
+      <import plugin="org.eclipse.birt.report.engine.emitter.fo"/>
+      <import plugin="org.eclipse.birt.report.engine.emitter.html"/>
+      <import plugin="org.eclipse.birt.report.viewer"/>
    </requires>
  
    <extension
@@ -66,7 +94,15 @@
             contributorClass="org.eclipse.birt.report.designer.ui.actions.DesignerActionBarContributor"
             name="%ReportEditor"
             id="org.eclipse.birt.report.designer.ui.editors.ReportEditor"
-            extensions="rptdesign"/>
+            extensions="rptdesign,rpttemplate"/>
+      <editor
+            class="org.eclipse.birt.report.designer.ui.editors.RCPLibraryReportEditor"
+            contributorClass="org.eclipse.birt.report.designer.ui.actions.LibraryActionBarContributor"
+            default="false"
+            extensions="rptlibrary"
+            icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/eview16/report.gif"
+            id="org.eclipse.birt.report.designer.ui.editors.LibraryReportEditor"
+            name="%LibraryEditor"/>  
    </extension>
    
    <extension
@@ -89,6 +125,70 @@
                id="org.eclipse.ui.cheatsheets.actions.CheatSheetHelpMenuAction">
          </action>
       </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.birt.report.designer.ui.wizards.NewLibraryWizard"
+            class="org.eclipse.birt.report.designer.ui.internal.rcp.adapters.NewLibraryWizardAdapterFactory">
+         <adapter type="org.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage"/>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.ui.IEditorPart"
+            class="org.eclipse.birt.report.designer.ui.internal.rcp.adapters.LibraryProviderAdapterFactory">
+         <adapter type="org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider"/>
+      </factory>
    </extension>   
-   
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="%WizardCategoryName"
+            id="org.eclipse.birt.report.designer.ui.wizard.category"/>
+      <wizard
+            finalPerspective="org.eclipse.birt.report.designer.ui.ReportPerspective"
+            icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/obj16/new_report.gif"
+            class="org.eclipse.birt.report.designer.ui.internal.rcp.wizards.NewReportWizard"
+            category="org.eclipse.birt.report.designer.ui.wizard.category"
+            project="false"
+            name="%ReportWizard"
+            id="org.eclipse.birt.report.designer.ui.rcp.wizards.NewReportWizard">
+         <description>
+            %ReportWizardDescription
+         </description>
+      </wizard>
+      
+      <wizard
+            finalPerspective="org.eclipse.birt.report.designer.ui.ReportPerspective"
+            icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/obj16/new_template.gif"
+            class="org.eclipse.birt.report.designer.ui.internal.rcp.wizards.NewReportTemplateWizard"
+            category="org.eclipse.birt.report.designer.ui.wizard.category"
+            project="false"
+            name="%TemplateWizard"
+            id="org.eclipse.birt.report.designer.ui.rcp.wizards.NewTemplateWizard">
+         <description>
+            %TemplateWizardDescription
+         </description>
+      </wizard>
+      
+      <wizard
+            category="org.eclipse.birt.report.designer.ui.wizard.category"
+            class="org.eclipse.birt.report.designer.ui.wizards.NewLibraryWizard"
+            finalPerspective="org.eclipse.birt.report.designer.ui.ReportPerspective"
+            icon="platform:/plugin/org.eclipse.birt.report.designer.ui.lib/icon/obj16/new_library.gif"
+            id="org.eclipse.birt.report.designer.ui.rcp.wizards.NewLibraryWizard"
+            name="%LibraryWizard"
+            project="false">
+         <description>
+            %LibraryWizardDescription
+         </description>
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="org.eclipse.birt.report.designer.ui.ReportRCPPerspective">
+         <newWizardShortcut id="org.eclipse.birt.report.designer.ui.rcp.wizards.NewReportWizard"/>
+         <newWizardShortcut id="org.eclipse.birt.report.designer.ui.rcp.wizards.NewTemplateWizard"/>
+         <newWizardShortcut id="org.eclipse.birt.report.designer.ui.rcp.wizards.NewLibraryWizard"/>
+      </perspectiveExtension>
+   </extension>
 </plugin>

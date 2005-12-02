@@ -28,11 +28,19 @@ public class DesignerWorkbenchMessages extends NLS
 		NLS.initializeMessages( BUNDLE_NAME, DesignerWorkbenchMessages.class );
 	}
 
+	public static String Workbench_title;
+	
 	// --- File Menu ---
 	public static String Workbench_file;
+	public static String Workbench_openFile;
 	public static String Workbench_new;
 	public static String Action_newReport;
 	public static String Action_openReport;
+	public static String Action_newLibrary;
+	public static String Action_openLibrary;
+	public static String Action_newTemplate;
+	public static String Action_openTemplate;
+	
 
 	// --- Edit Menu ---
 	public static String Workbench_edit;
@@ -45,4 +53,6 @@ public class DesignerWorkbenchMessages extends NLS
 
 	// --- Help Menu ---
 	public static String Workbench_help;
+	
+	public static String Dialog_openFile;
 }

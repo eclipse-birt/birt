@@ -12,8 +12,10 @@
 package org.eclipse.birt.report.designer.ui.internal.rcp;
 
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.internal.rcp.actions.NewLibraryAction;
 import org.eclipse.birt.report.designer.ui.internal.rcp.actions.NewReportAction;
-import org.eclipse.birt.report.designer.ui.internal.rcp.actions.OpenReportAction;
+import org.eclipse.birt.report.designer.ui.internal.rcp.actions.NewReportTemplateAction;
+import org.eclipse.birt.report.designer.ui.internal.rcp.actions.OpenFileAction;
 import org.eclipse.birt.report.designer.ui.rcp.nls.DesignerWorkbenchMessages;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.ActionContributionItem;
@@ -33,6 +35,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.ContributionItemFactory;
+import org.eclipse.ui.actions.NewWizardDropDownAction;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
@@ -46,9 +49,13 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 	private final IWorkbenchWindow window;
 
 	// generic actions
-	private IWorkbenchAction openReportAction;
+	private IWorkbenchAction openFileAction;
 
 	private IWorkbenchAction newReportAction;
+
+	private IWorkbenchAction newLibraryAction;
+
+	private IWorkbenchAction newReportTemplateAction;
 
 	private IWorkbenchAction closeAction;
 
@@ -142,8 +149,12 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 		{
 			// File Group
 			IToolBarManager fileToolBar = new ToolBarManager( coolBar.getStyle( ) );
-			fileToolBar.add( newReportAction );
-			// fileToolBar.add( openReportAction );
+	            
+			fileToolBar.add(new NewWizardDropDownAction( window));
+			
+//			fileToolBar.add( newReportAction );
+//			fileToolBar.add( newLibraryAction );
+//			fileToolBar.add( newReportTemplateAction );
 			fileToolBar.add( new GroupMarker( IWorkbenchActionConstants.NEW_EXT ) );
 			fileToolBar.add( new GroupMarker( IWorkbenchActionConstants.SAVE_GROUP ) );
 			fileToolBar.add( saveAction );
@@ -211,10 +222,14 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 	{
 		MenuManager menu = new MenuManager( DesignerWorkbenchMessages.Workbench_file,
 				IWorkbenchActionConstants.M_FILE );
-
-		menu.add( new GroupMarker( IWorkbenchActionConstants.NEW_EXT ) );
-		menu.add( newReportAction );
-		menu.add( openReportAction );
+		
+		MenuManager newMenu = new MenuManager(DesignerWorkbenchMessages.Workbench_new, ActionFactory.NEW.getId());
+		newMenu.add(newReportAction);
+		newMenu.add(newLibraryAction);
+		newMenu.add(newReportTemplateAction);
+		menu.add(newMenu);
+		
+		menu.add(openFileAction);
 		menu.add( new Separator( ) );
 
 		menu.add( closeAction );
@@ -337,8 +352,10 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 		pinEditorContributionItem.dispose( );
 
 		// null out actions to make leak debugging easier
-		openReportAction = null;
+		openFileAction = null;
 		newReportAction = null;
+		newLibraryAction = null;
+		newReportTemplateAction = null;
 		closeAction = null;
 		closeAllAction = null;
 		saveAction = null;
@@ -407,11 +424,17 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 	 */
 	public void makeActions( final IWorkbenchWindow window )
 	{
-		openReportAction = new OpenReportAction( window );
-		register( openReportAction );
-
+		openFileAction = new OpenFileAction( window );
+		register( openFileAction );
+		
 		newReportAction = new NewReportAction( window );
 		register( newReportAction );
+
+		newLibraryAction = new NewLibraryAction( window );
+		register( newLibraryAction );
+		
+		newReportTemplateAction = new NewReportTemplateAction( window );
+		register( newReportTemplateAction );
 
 		saveAction = ActionFactory.SAVE.create( window );
 		register( saveAction );

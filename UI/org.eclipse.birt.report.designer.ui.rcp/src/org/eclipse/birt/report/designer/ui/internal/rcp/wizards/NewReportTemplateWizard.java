@@ -12,8 +12,6 @@
 package org.eclipse.birt.report.designer.ui.internal.rcp.wizards;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +19,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditorInput;
@@ -41,41 +38,36 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.cheatsheets.OpenCheatSheetAction;
 
 /**
- * An implementation of <code>INewWizard</code>. Creates a new blank report
- * file.
+ * RCP New Report Template Wizard.
+ * 
  */
 
-public class NewReportWizard extends Wizard implements INewWizard, IExecutableExtension
+public class NewReportTemplateWizard extends Wizard implements INewWizard, IExecutableExtension
 {
 
-	private static final String NEW = Messages.getString( "NewReportWizard.title.New" ); //$NON-NLS-1$
+	private static final String NEW = Messages.getString( "NewTemplateWizard.title.New" ); //$NON-NLS-1$
 
-	private static final String REPORT = Messages.getString( "NewReportWizard.title.Report" ); //$NON-NLS-1$
+	private static final String REPORT = Messages.getString( "NewTemplateWizard.title.Template" ); //$NON-NLS-1$
 
-	private static final String WIZARDPAGE = Messages.getString( "NewReportWizard.title.WizardPage" ); //$NON-NLS-1$
+	private static final String WIZARDPAGE = Messages.getString( "NewTemplateWizard.title.WizardPage" ); //$NON-NLS-1$
 
-	private static final String TEMPLATECHOICEPAGE = Messages.getString( "NewReportWizard.title.Template" ); //$NON-NLS-1$
+	private static final String CREATE_A_NEW_REPORT = Messages.getString( "NewTemplateWizard.text.CreateReport" ); //$NON-NLS-1$
 
-	private static final String CREATE_A_NEW_REPORT = Messages.getString( "NewReportWizard.text.CreateReport" ); //$NON-NLS-1$
+	private static final String CREATING = Messages.getString( "NewTemplateWizard.text.Creating" ); //$NON-NLS-1$
 
-	private static final String SELECT_A_REPORT_TEMPLATE = Messages.getString( "NewReportWizard.text.SelectTemplate" ); //$NON-NLS-1$
+	private static final String OPENING_FILE_FOR_EDITING = Messages.getString( "NewTemplateWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
 
-	private static final String CREATING = Messages.getString( "NewReportWizard.text.Creating" ); //$NON-NLS-1$
+	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages.getString( "NewTemplateWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
 
-	private static final String OPENING_FILE_FOR_EDITING = Messages.getString( "NewReportWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
+	private static final String NEW_REPORT_FILE_EXTENSION = ".rpttemplate"; //$NON-NLS-1$
 
-	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages.getString( "NewReportWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
-
-	private static final String NEW_REPORT_FILE_EXTENSION = ".rptdesign"; //$NON-NLS-1$
+	private static final String TEMPLATE_FILE = "/templates/blank_report.rptdesign"; //$NON-NLS-1$
 
 	private WizardNewReportCreationPage newReportFileWizardPage;
 
-	private WizardTemplateChoicePage templateChoicePage;
-
-	public NewReportWizard( )
+	public NewReportTemplateWizard( )
 	{
 		setWindowTitle( NEW );
 	}
@@ -101,14 +93,9 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 
 		addPage( newReportFileWizardPage );
 
-		templateChoicePage = new WizardTemplateChoicePage( TEMPLATECHOICEPAGE );
-		addPage( templateChoicePage );
-
 		// set titles
 		newReportFileWizardPage.setTitle( REPORT );
 		newReportFileWizardPage.setDescription( CREATE_A_NEW_REPORT );
-		templateChoicePage.setTitle( REPORT );
-		templateChoicePage.setDescription( SELECT_A_REPORT_TEMPLATE );
 
 		// initialize new report file page.
 		newReportFileWizardPage.setInitialFileName( getNewFileFullName( NEW_REPORT_FILE_NAME_PREFIX ) );
@@ -162,20 +149,18 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		String fn = newReportFileWizardPage.getFileName( );
 
 		final String fileName;
-		if ( !fn.endsWith( ".rptdesign" ) ) //$NON-NLS-1$
+		if ( !fn.endsWith( NEW_REPORT_FILE_EXTENSION ) ) //$NON-NLS-1$
 		{
-			fileName = fn + ".rptdesign"; //$NON-NLS-1$
+			fileName = fn + NEW_REPORT_FILE_EXTENSION; //$NON-NLS-1$
 		}
 		else
 		{
 			fileName = fn;
 		}
 		InputStream inputData = null;
-		String cheatSheetIdFromPage = "";//$NON-NLS-1$
-		boolean showCheatSheetFromPage = false;
 
 		URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI ),
-				new Path( templateChoicePage.getTemplate( ).getReportPath() ) );
+				new Path( TEMPLATE_FILE ) );
 		if ( url != null )
 		{
 			try
@@ -184,42 +169,18 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 			}
 			catch ( IOException e1 )
 			{
-				return false;
-			}
-		}
-		else
-		{
-			File file = new File(templateChoicePage.getTemplate( ).getReportPath());
-			if(file.exists())
-			{
-				try
-				{
-					inputData= new FileInputStream(file);
-				}
-				catch ( FileNotFoundException e )
-				{
-					return false;
-				}
+				// ignore.
 			}
 		}
 
-		cheatSheetIdFromPage = templateChoicePage.getTemplate( ).getCheatSheetId();
-		showCheatSheetFromPage = templateChoicePage.getShowCheatSheet( );
 		final InputStream stream = inputData;
-		final String cheatSheetId = cheatSheetIdFromPage;
-		final boolean showCheatSheet = showCheatSheetFromPage;
 		IRunnableWithProgress op = new IRunnableWithProgress( ) {
 
 			public void run( IProgressMonitor monitor )
 			{
 				try
 				{
-					doFinish( locPath,
-							fileName,
-							stream,
-							cheatSheetId,
-							showCheatSheet,
-							monitor );
+					doFinish( locPath, fileName, stream, monitor );
 				}
 				finally
 				{
@@ -249,17 +210,14 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 	 * or just replace its contents, and open the editor on the newly created
 	 * file.
 	 * 
-	 * @param cheatSheetId
-	 * 
 	 * @param locationPath
 	 * @param fileName
-	 * @param showCheatSheet
+	 * @param stream
 	 * @param monitor
 	 */
 
 	private void doFinish( IPath locationPath, String fileName,
-			InputStream stream, final String cheatSheetId,
-			final boolean showCheatSheet, IProgressMonitor monitor )
+			InputStream stream, IProgressMonitor monitor )
 	{
 		// create a sample file
 		monitor.beginTask( CREATING + fileName, 2 );
@@ -307,11 +265,6 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 							ReportEditorInput.EDITOR_ID,
 							true );
 
-					if ( showCheatSheet && !cheatSheetId.equals( "" ) ) //$NON-NLS-1$
-					{
-						OpenCheatSheetAction action = new OpenCheatSheetAction( cheatSheetId );
-						action.run( );
-					}
 				}
 				catch ( Exception e )
 				{
@@ -330,8 +283,7 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 
 	public boolean canFinish( )
 	{
-		return templateChoicePage.isPageComplete( )
-				&& newReportFileWizardPage.isPageComplete( );
+		return newReportFileWizardPage.isPageComplete( );
 	}
 
 	public void init( IWorkbench workbench, IStructuredSelection selection )
