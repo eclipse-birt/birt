@@ -65,6 +65,7 @@ public class PreparedStatement
 	private int m_supportsNamedResults;
 	private int m_supportsOutputParameters;
 	private int m_supportsNamedParameters;
+	private Boolean m_supportsInputParameters;
 	
 	private ArrayList m_parameterHints;
 	// cached Collection of parameter metadata
@@ -115,6 +116,7 @@ public class PreparedStatement
 		m_supportsNamedResults = UNKNOWN;
 		m_supportsOutputParameters = UNKNOWN;
 		m_supportsNamedParameters = UNKNOWN;
+		m_supportsInputParameters = null;	// for unknown
 		
 		sm_logger.exiting( sm_className, methodName, this );
 	}
@@ -1202,6 +1204,23 @@ public class PreparedStatement
 			sm_logger.exiting( sm_className, methodName, Boolean.valueOf( b ) );
 		return b;
 	}
+	
+	private boolean supportsInputParameter() throws DataException
+	{
+		String methodName = "supportsInputParameter";
+		sm_logger.entering( sm_className, methodName );
+		
+		if( m_supportsInputParameters == null )	// unknown
+		{
+			m_supportsInputParameters =
+				Boolean.valueOf( m_connection.getMetaData( m_dataSetType ).supportsInParameters() );
+		}
+		
+		if( sm_logger.isLoggingEnterExitLevel() )
+			sm_logger.exiting( sm_className, methodName, m_supportsInputParameters );
+		
+		return m_supportsInputParameters.booleanValue();
+	}
 
 	private boolean supportsOutputParameter() throws DataException
 	{
@@ -1289,6 +1308,16 @@ public class PreparedStatement
 		
 		if( m_parameterMetaData == null )
 		{
+		    if( ! supportsInputParameter() &&
+		        ! supportsOutputParameter() )
+		    {
+				sm_logger.logp( Level.INFO, sm_className, methodName, 
+						"The ODA driver does not support any type of parameters (IDataSetMetaData); no metadata is available." );
+				sm_logger.exiting( sm_className, methodName, null );	
+				return null;
+		    }
+		    
+		    // the ODA driver supports in/out parameters
 			IParameterMetaData odaParamMetaData = null;
             try
             {
@@ -1356,9 +1385,9 @@ public class PreparedStatement
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot get driver's parameter metadata.", ex );	
-			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_METADATA, ex );
+			sm_logger.logp( Level.WARNING, sm_className, methodName, 
+							"The ODA driver is not capable of providing parameter metadata.", ex );
+			// ignore, and continue to return null metadata
 		}
 
 		sm_logger.exiting( sm_className, methodName, odaParamMetaData );
