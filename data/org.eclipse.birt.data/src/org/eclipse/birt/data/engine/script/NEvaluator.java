@@ -21,7 +21,6 @@ abstract class NEvaluator extends FilterPassController
 	private static int firstPassRowNumberCounter = 0;
 	private static int secondPassRowNumberCounter = 0;
 	private static int qualifiedRowCounter = 0;
-	
 	//The "N" of topN/bottomN.
 	private static int N = -1;
 	private static NEvaluator instance = null;
@@ -117,6 +116,8 @@ abstract class NEvaluator extends FilterPassController
 	{
 		for( int i = 0; i < N; i++ )
 		{
+			if( value == null )
+				value = "{NULL_VALUE_!@#$%^&}";
 			if( valueList[i] == null )
 			{
 				valueList[i] = value;
