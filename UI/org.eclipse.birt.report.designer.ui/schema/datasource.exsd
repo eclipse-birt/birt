@@ -170,6 +170,13 @@ This has to be the same as the ODA Data Set extension name for the same driver.
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="addsDataSetParametersPage" type="boolean" use="default" value="true">
+            <annotation>
+               <documentation>
+                  The attribute indicates that whether the ui should include parameter definition page in data set editor dialog. 
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

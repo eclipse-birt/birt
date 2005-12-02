@@ -43,6 +43,7 @@
                   path="/"
                   displayName="%dataset.editor.page.query"
                   name="org.eclipse.birt.report.data.oda.jdbc.ui.data-set-editor-page1"/>
+ 			<addsDataSetParametersPage>true</addsDataSetParametersPage>
        </odaDataSetUI>
        <odaDataSetUI id="org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet">
             <dataSetEditorPage
