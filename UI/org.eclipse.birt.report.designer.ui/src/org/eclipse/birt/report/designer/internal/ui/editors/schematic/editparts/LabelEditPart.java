@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
@@ -125,6 +126,13 @@ public class LabelEditPart extends ReportElementEditPart
 	{
 		markDirty( true );
 		refreshVisuals( );
+		//Fix bug 116829 Label height doesn't change with label font modification.
+		if ( arg1.getEventType( ) == NotificationEvent.PROPERTY_EVENT
+				&& ( (PropertyEvent) arg1 ).getPropertyName().equals(
+						StyleHandle.FONT_SIZE_PROP))
+		{
+			getFigure().invalidateTree();
+		}
 	}
 
 	protected LabelHandleAdapter getLabelAdapter( )
