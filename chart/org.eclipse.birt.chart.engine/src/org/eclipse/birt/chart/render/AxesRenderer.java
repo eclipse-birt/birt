@@ -160,7 +160,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			final BlockGenerationEvent bge = new BlockGenerationEvent( bl );
 
 			// ALWAYS RENDER THE OUTERMOST BLOCK FIRST
-			ScriptHandler.callFunction( sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl );
+			ScriptHandler.callFunction( sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl, getRunTimeContext( ).getScriptContext() );
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 					bl );
 			bge.updateBlock( bl );
@@ -178,7 +178,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					ScriptHandler.callFunction( sh,
 							ScriptHandler.BEFORE_DRAW_BLOCK,
-							bl );
+							bl,
+							getRunTimeContext( ).getScriptContext( ) );
 					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 							bl );
 					renderPlot( idr, (Plot) bl );
@@ -197,7 +198,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					ScriptHandler.callFunction( sh,
 							ScriptHandler.BEFORE_DRAW_BLOCK,
-							bl );
+							bl,
+							getRunTimeContext( ).getScriptContext( ) );
 					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 							bl );
 					renderTitle( idr, (TitleBlock) bl );
@@ -211,7 +213,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					ScriptHandler.callFunction( sh,
 							ScriptHandler.BEFORE_DRAW_BLOCK,
-							bl );
+							bl,
+							getRunTimeContext( ).getScriptContext( ) );
 					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 							bl );
 					renderLabel( idr, bl, StructureSource.createUnknown( bl ) );
@@ -225,7 +228,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					ScriptHandler.callFunction( sh,
 							ScriptHandler.BEFORE_DRAW_BLOCK,
-							bl );
+							bl,
+							getRunTimeContext( ).getScriptContext( ) );
 					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 							bl );
 					renderLegend( idr, (Legend) bl, htRenderers );
@@ -239,7 +243,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					ScriptHandler.callFunction( sh,
 							ScriptHandler.BEFORE_DRAW_BLOCK,
-							bl );
+							bl,
+							getRunTimeContext( ).getScriptContext( ) );
 					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 							bl );
 					renderBlock( idr, bl, StructureSource.createUnknown( bl ) );
@@ -272,7 +277,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					ScriptHandler.callFunction( sh,
 							ScriptHandler.BEFORE_DRAW_BLOCK,
-							bl );
+							bl,
+							getRunTimeContext( ).getScriptContext( ) );
 					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 							bl );
 					renderPlot( idr, (Plot) bl );
@@ -286,7 +292,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					ScriptHandler.callFunction( sh,
 							ScriptHandler.BEFORE_DRAW_BLOCK,
-							bl );
+							bl,
+							getRunTimeContext( ).getScriptContext( ) );
 					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 							bl );
 					renderTitle( idr, (TitleBlock) bl );
@@ -300,7 +307,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					ScriptHandler.callFunction( sh,
 							ScriptHandler.BEFORE_DRAW_BLOCK,
-							bl );
+							bl,
+							getRunTimeContext( ).getScriptContext( ) );
 					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 							bl );
 					renderLabel( idr, bl, StructureSource.createUnknown( bl ) );
@@ -314,7 +322,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					ScriptHandler.callFunction( sh,
 							ScriptHandler.BEFORE_DRAW_BLOCK,
-							bl );
+							bl,
+							getRunTimeContext( ).getScriptContext( ) );
 					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 							bl );
 					renderLegend( idr, (Legend) bl, htRenderers );
@@ -328,7 +337,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					ScriptHandler.callFunction( sh,
 							ScriptHandler.BEFORE_DRAW_BLOCK,
-							bl );
+							bl,
+							getRunTimeContext( ).getScriptContext( ) );
 					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 							bl );
 					renderBlock( idr, bl, StructureSource.createUnknown( bl ) );
@@ -346,12 +356,12 @@ public abstract class AxesRenderer extends BaseRenderer
 			final BlockGenerationEvent bge = new BlockGenerationEvent( this );
 			Plot p = cm.getPlot( );
 			bge.updateBlock( p );
-			ScriptHandler.callFunction( sh, ScriptHandler.BEFORE_DRAW_BLOCK, p );
+			ScriptHandler.callFunction( sh, ScriptHandler.BEFORE_DRAW_BLOCK, p, getRunTimeContext( ).getScriptContext() );
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 					p );
 			renderPlot( idr, p );
 			ScriptHandler.callFunction( sh, ScriptHandler.AFTER_DRAW_BLOCK, p );
-			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
+			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_BLOCK,
 					p );
 		}
 
@@ -578,7 +588,8 @@ public abstract class AxesRenderer extends BaseRenderer
 		{
 			ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
 					ScriptHandler.BEFORE_DRAW_FITTING_CURVE,
-					curve );
+					curve,
+					getRunTimeContext( ).getScriptContext( ) );
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_FITTING_CURVE,
 					curve );
 
@@ -898,7 +909,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.BEFORE_DRAW_MARKER_RANGE,
 						ax,
-						mr );
+						mr,
+						getRunTimeContext( ).getScriptContext( ) );
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_MARKER_RANGE,
 						mr );
 
@@ -1122,7 +1134,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						ScriptHandler.AFTER_DRAW_MARKER_RANGE,
 						ax,
 						mr );
-				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_MARKER_RANGE,
+				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_MARKER_RANGE,
 						mr );
 			}
 		}
@@ -2126,7 +2138,8 @@ public abstract class AxesRenderer extends BaseRenderer
 		ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.BEFORE_DRAW_SERIES,
 				getSeries( ),
-				this );
+				this,
+				getRunTimeContext( ).getScriptContext( ) );
 		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_SERIES,
 				getSeries( ) );
 		renderSeries( ipr, p, srh ); // CALLS THE APPROPRIATE SUBCLASS FOR
@@ -2259,7 +2272,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.BEFORE_DRAW_MARKER_LINE,
 						ax,
-						ml );
+						ml,
+						getRunTimeContext( ).getScriptContext( ) );
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_MARKER_LINE,
 						ml );
 
@@ -2822,7 +2836,8 @@ public abstract class AxesRenderer extends BaseRenderer
 							ScriptHandler.callFunction( sh,
 									ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
 									axModel,
-									la );
+									la,
+									getRunTimeContext( ).getScriptContext( ) );
 							getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 									la );
 							itmText.reuse( la ); // RECYCLED
@@ -3173,11 +3188,11 @@ public abstract class AxesRenderer extends BaseRenderer
 								sx2 += dStaggeredLabelOffset;
 							}
 						}
-
 						ScriptHandler.callFunction( sh,
 								ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
 								axModel,
-								la );
+								la,
+								getRunTimeContext( ).getScriptContext( ) );
 						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 								la );
 						if ( bRendering3D )
@@ -3345,11 +3360,11 @@ public abstract class AxesRenderer extends BaseRenderer
 								sx2 += dStaggeredLabelOffset;
 							}
 						}
-
 						ScriptHandler.callFunction( sh,
 								ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
 								axModel,
-								la );
+								la,
+								getRunTimeContext( ).getScriptContext( ) );
 						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 								la );
 						if ( bRendering3D )
@@ -3519,7 +3534,8 @@ public abstract class AxesRenderer extends BaseRenderer
 						ScriptHandler.callFunction( sh,
 								ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
 								axModel,
-								la );
+								la,
+								getRunTimeContext( ).getScriptContext( ) );
 						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 								la );
 						if ( bRendering3D )
@@ -3568,7 +3584,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.BEFORE_DRAW_AXIS_TITLE,
 						axModel,
-						la );
+						la,
+						getRunTimeContext( ).getScriptContext( ) );
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_TITLE,
 						la );
 				final String sRestoreValue = la.getCaption( ).getValue( );
@@ -3888,11 +3905,11 @@ public abstract class AxesRenderer extends BaseRenderer
 
 						if ( sc.isTickLabelVisible( i ) )
 						{
-
 							ScriptHandler.callFunction( sh,
 									ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
 									axModel,
-									la );
+									la,
+									getRunTimeContext( ).getScriptContext( ) );
 							getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 									la );
 							itmText.reuse( la );// RECYCLED
@@ -4178,7 +4195,8 @@ public abstract class AxesRenderer extends BaseRenderer
 						ScriptHandler.callFunction( sh,
 								ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
 								axModel,
-								la );
+								la,
+								getRunTimeContext( ).getScriptContext( ) );
 						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 								la );
 
@@ -4380,7 +4398,8 @@ public abstract class AxesRenderer extends BaseRenderer
 						ScriptHandler.callFunction( sh,
 								ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
 								axModel,
-								la );
+								la,
+								getRunTimeContext( ).getScriptContext( ) );
 						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 								la );
 
@@ -4583,7 +4602,8 @@ public abstract class AxesRenderer extends BaseRenderer
 						ScriptHandler.callFunction( sh,
 								ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
 								axModel,
-								la );
+								la,
+								getRunTimeContext( ).getScriptContext( ) );
 						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 								la );
 
@@ -4644,7 +4664,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.BEFORE_DRAW_AXIS_TITLE,
 						axModel,
-						la );
+						la,
+						getRunTimeContext( ).getScriptContext( ) );
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_TITLE,
 						la );
 				final String sRestoreValue = la.getCaption( ).getValue( );

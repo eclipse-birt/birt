@@ -48,6 +48,11 @@ public interface IStructureDefinitionListener
     /**
      * 
      */
+    public static final String BEFORE_DRAW_SERIES_TITLE = ScriptHandler.BEFORE_DRAW_SERIES_TITLE;
+    
+    /**
+     * 
+     */
     public static final String AFTER_DRAW_SERIES = ScriptHandler.AFTER_DRAW_SERIES;
     
     /**
@@ -98,6 +103,11 @@ public interface IStructureDefinitionListener
     /**
      * 
      */
+    public static final String BEFORE_DRAW_DATA_POINT_LABEL = ScriptHandler.BEFORE_DRAW_DATA_POINT_LABEL;
+    
+    /**
+     * 
+     */
     public static final String AFTER_DRAW_DATA_POINT = ScriptHandler.AFTER_DRAW_DATA_POINT;
     
     /**
@@ -119,11 +129,6 @@ public interface IStructureDefinitionListener
      * 
      */
     public static final String AFTER_DRAW_AXIS_TITLE = ScriptHandler.AFTER_DRAW_AXIS_TITLE;
-    
-    /**
-     * 
-     */
-    public static final String BEFORE_DRAW_SERIES_TITLE = ScriptHandler.BEFORE_DRAW_SERIES_TITLE;
     
     /**
      * 

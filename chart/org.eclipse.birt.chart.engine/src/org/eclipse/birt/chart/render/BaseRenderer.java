@@ -361,7 +361,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		if ( bFirstInSequence )
 		{
 			// ALWAYS RENDER THE OUTERMOST BLOCK FIRST
-			ScriptHandler.callFunction( sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl );
+			ScriptHandler.callFunction( sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl, 
+					getRunTimeContext( ).getScriptContext( ) );
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 					bl );
 			bge.updateBlock( bl );
@@ -381,7 +382,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.BEFORE_DRAW_BLOCK,
-						bl );
+						bl,
+						getRunTimeContext( ).getScriptContext( ) );
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 						bl );
 				renderPlot( ir, (Plot) bl );
@@ -404,7 +406,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.BEFORE_DRAW_BLOCK,
-						bl );
+						bl,
+						getRunTimeContext( ).getScriptContext( ) );
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 						bl );
 				renderTitle( ir, (TitleBlock) bl );
@@ -418,7 +421,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.BEFORE_DRAW_BLOCK,
-						bl );
+						bl,
+						getRunTimeContext( ).getScriptContext( ) );
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 						bl );
 				renderLabel( ir, bl, StructureSource.createUnknown( bl ) );
@@ -432,7 +436,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.BEFORE_DRAW_BLOCK,
-						bl );
+						bl,
+						getRunTimeContext( ).getScriptContext( ) );
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 						bl );
 				renderLegend( idr, (Legend) bl, htRenderers );
@@ -446,7 +451,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.BEFORE_DRAW_BLOCK,
-						bl );
+						bl,
+						getRunTimeContext( ).getScriptContext( ) );
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 						bl );
 				renderBlock( ir, bl, StructureSource.createUnknown( bl ) );
@@ -1746,7 +1752,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
 		ScriptHandler.callFunction( sh,
 				ScriptHandler.BEFORE_DRAW_LEGEND_ENTRY,
-				la );
+				la,
+				getRunTimeContext( ).getScriptContext( ) );
 		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_LEGEND_ENTRY,
 				la );
 		final Bounds bo = lirh.getLegendGraphicBounds( );
@@ -1927,7 +1934,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.BEFORE_DRAW_SERIES,
 				getSeries( ),
-				this );
+				this,
+				getRunTimeContext( ).getScriptContext( ) );
 		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_SERIES,
 				getSeries( ) );
 		renderSeries( ipr, p, srh ); // CALLS THE APPROPRIATE SUBCLASS FOR

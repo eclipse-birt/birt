@@ -32,6 +32,7 @@ import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.internal.factory.DataProcessor;
 import org.eclipse.birt.chart.internal.factory.SqlDataRowEvaluator;
+import org.eclipse.birt.chart.internal.script.ChartScriptContext;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
@@ -65,6 +66,7 @@ import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
+import org.eclipse.birt.chart.script.IChartScriptContext;
 import org.eclipse.birt.chart.style.IStyle;
 import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.style.SimpleProcessor;
@@ -490,6 +492,50 @@ public final class Generator
 	}
 	
 	/**
+	 * Since v2, it must be called before build( ), and should only be called once per design model.
+	 * @param model Chart design model
+	 * @param externalContext External Context
+	 * @param locale Locale
+	 * @return a runtime context used by build( )
+	 */
+	public RunTimeContext prepare( Chart model, Object externalContext, Locale locale)
+	{
+		RunTimeContext rtc = new RunTimeContext( );
+
+		//Update the context with a locale if it is undefined.
+		final Chart cmRunTime = (Chart) EcoreUtil.copy( model );
+		if ( rtc.getLocale( ) == null )
+		{
+			rtc.setLocale( Locale.getDefault( ) );
+		}
+		ChartScriptContext csc = new ChartScriptContext();
+		csc.setChartInstance( model );
+		csc.setExternalContext( externalContext );
+		csc.setLocale( rtc.getLocale( ) );
+		csc.setLogger( logger );
+		
+		ScriptHandler sh = new ScriptHandler( );
+		rtc.setScriptHandler( sh );
+		rtc.setScriptContext( (IChartScriptContext)csc );
+		
+		//Call the onPrepare script event funtion.
+		if ( externalContext == null )
+		{
+			ScriptHandler.callFunction( sh,
+					ScriptHandler.ON_PREPARE,
+					cmRunTime);
+		}
+		else
+		{
+			ScriptHandler.callFunction( sh,
+					ScriptHandler.ON_PREPARE,
+					cmRunTime,
+					rtc.getScriptContext( ) );
+		}
+		return rtc;
+	}
+	
+	/**
 	 * Builds and computes preferred sizes of various chart components offscreen
 	 * using the provided display server.
 	 * 
@@ -605,6 +651,10 @@ public final class Generator
 		ScriptHandler.callFunction( sh,
 				ScriptHandler.START_GENERATION,
 				cmRunTime );
+		ScriptHandler.callFunction( sh,
+				ScriptHandler.BEFORE_GENERATION,
+				cmRunTime,
+				rtc.getScriptContext( ) );
 		int iChartType = UNDEFINED;
 		Object oComputations = null;
 		if ( cmRunTime instanceof ChartWithAxes )
@@ -883,7 +933,9 @@ public final class Generator
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.START_RENDERING,
 				gcs );
-
+		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
+				ScriptHandler.BEFORE_RENDERING,
+				gcs.getRunTimeContext().getScriptContext() );
 		Legend lg = cm.getLegend( );
 		lg.updateLayout( cm ); // RE-ORGANIZE BLOCKS IF REQUIRED
 		if ( lg.getPosition( ) == Position.INSIDE_LITERAL )

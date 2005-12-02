@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.StructureChangeEvent;
 import org.eclipse.birt.chart.model.ScriptHandler;
 import org.eclipse.birt.core.i18n.ResourceHandle;
+import org.eclipse.birt.chart.script.IChartScriptContext;
 
 /**
  * Encapsulates runtime information associated with each chart generation and
@@ -36,6 +37,11 @@ public final class RunTimeContext
 	 * A script handler associated with a chart model.
 	 */
 	private transient ScriptHandler sh = null;
+	
+	/**
+	 * A chart script context associated with a chart model.
+	 */
+	private transient IChartScriptContext csc = null;
 
 	/**
 	 * A resource handle capable of retrieving externalized messages.
@@ -230,6 +236,29 @@ public final class RunTimeContext
 	public final void setScriptHandler( ScriptHandler sh )
 	{
 		this.sh = sh;
+	}
+	
+	/**
+	 * Returns an instance of a script context associated with the
+	 * chart being generated. 
+	 * 
+	 * @return An instance of the script context.
+	 */
+	public final IChartScriptContext getScriptContext( )
+	{
+		return csc;
+	}
+	
+	/**
+	 * Sets an instance of a chart script context associated with the chart
+	 * being generated. 
+	 * 
+	 * @param csc
+	 *            An instance of the chart script context.
+	 */
+	public final void setScriptContext( IChartScriptContext csc )
+	{
+		this.csc = csc;
 	}
 
 	/**
