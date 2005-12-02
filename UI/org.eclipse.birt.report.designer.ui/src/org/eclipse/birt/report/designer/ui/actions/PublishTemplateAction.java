@@ -369,7 +369,7 @@ class PublishPage extends WizardPage
 			}
 		} );
 
-		chooseBtn.forceFocus( );
+		nameText.forceFocus( );
 		setControl( container );
 	}
 
