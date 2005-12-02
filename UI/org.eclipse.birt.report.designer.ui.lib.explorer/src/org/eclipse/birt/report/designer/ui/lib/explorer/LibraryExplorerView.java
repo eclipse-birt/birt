@@ -12,14 +12,14 @@
 package org.eclipse.birt.report.designer.ui.lib.explorer;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.AbstractMultiPageLayoutEditor;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.lib.explorer.provider.LibraryProvider;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.IContributedContentsView;
 import org.eclipse.ui.part.IPage;
-import org.eclipse.ui.part.IPageBookViewPage;
 import org.eclipse.ui.part.MessagePage;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.part.PageBookView;
@@ -85,12 +85,16 @@ public class LibraryExplorerView extends PageBookView
 	{
 		if ( part instanceof AbstractMultiPageLayoutEditor )
 		{
-
-			IPageBookViewPage page = new LibraryExplorerTreeViewPage( );
-			( (LibraryExplorerTreeViewPage) page ).setLibraryProvider( new LibraryProvider( ) );
-			initPage( page );
-			page.createControl( getPageBook( ) );
-			return new PageRec( part, page );
+			LibraryExplorerTreeViewPage page = new LibraryExplorerTreeViewPage( );
+			IEditorPart editor = UIUtil.getActiveEditor( true );
+			ILibraryProvider provider = (ILibraryProvider) editor.getAdapter( ILibraryProvider.class );
+			if( provider != null )
+			{
+				page.setLibraryProvider( provider );
+				initPage( page );
+				page.createControl( getPageBook( ) );
+				return new PageRec( part, page );
+			}
 		}
 		return null;
 	}

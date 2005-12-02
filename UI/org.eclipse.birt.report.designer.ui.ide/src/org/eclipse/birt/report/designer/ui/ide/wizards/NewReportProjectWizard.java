@@ -36,23 +36,11 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.ui.PreferenceConstants;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
@@ -98,45 +86,45 @@ public class NewReportProjectWizard extends BasicNewResourceWizard
 			{
 				super.createControl( parent );
 
-				Group group = new Group( (Composite) super.getControl( ),
-						SWT.NONE );
-				group.setText( Messages
-						.getString( "NewReportProjectWizard.projectSetting" ) ); //$NON-NLS-1$
-				GridLayout layout = new GridLayout( );
-				layout.numColumns = 2;
-				group.setLayout( layout );
-				group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
-				Button javaButton = createButton( group );
-				javaButton.setText( Messages
-						.getString( "NewReportProjectWizard.javaProject" ) );
-				javaButton.addSelectionListener( new SelectionAdapter( )
-				{
-
-					public void widgetSelected( SelectionEvent e )
-					{
-						isJavaProject = !isJavaProject;
-						sourceText.setEnabled( isJavaProject );
-						outputText.setEnabled( isJavaProject );
-					}
-				} );
-
-				createLabel( group, Messages
-						.getString( "NewReportProjectWizard.src" ) ); //$NON-NLS-1$
-				sourceText = createText( group );
-
-				IPreferenceStore store = PreferenceConstants
-						.getPreferenceStore( );
-				sourceText.setText( store
-						.getString( PreferenceConstants.SRCBIN_SRCNAME ) );
-				sourceText.setEnabled( isJavaProject );
-
-				createLabel( group, Messages
-						.getString( "NewReportProjectWizard.bin" ) ); //$NON-NLS-1$
-				outputText = createText( group );
-				outputText.setText( store
-						.getString( PreferenceConstants.SRCBIN_BINNAME ) );
-				outputText.setEnabled( isJavaProject );
+//				Group group = new Group( (Composite) super.getControl( ),
+//						SWT.NONE );
+//				group.setText( Messages
+//						.getString( "NewReportProjectWizard.projectSetting" ) ); //$NON-NLS-1$
+//				GridLayout layout = new GridLayout( );
+//				layout.numColumns = 2;
+//				group.setLayout( layout );
+//				group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+//
+//				Button javaButton = createButton( group );
+//				javaButton.setText( Messages
+//						.getString( "NewReportProjectWizard.javaProject" ) );
+//				javaButton.addSelectionListener( new SelectionAdapter( )
+//				{
+//
+//					public void widgetSelected( SelectionEvent e )
+//					{
+//						isJavaProject = !isJavaProject;
+//						sourceText.setEnabled( isJavaProject );
+//						outputText.setEnabled( isJavaProject );
+//					}
+//				} );
+//
+//				createLabel( group, Messages
+//						.getString( "NewReportProjectWizard.src" ) ); //$NON-NLS-1$
+//				sourceText = createText( group );
+//
+//				IPreferenceStore store = PreferenceConstants
+//						.getPreferenceStore( );
+//				sourceText.setText( store
+//						.getString( PreferenceConstants.SRCBIN_SRCNAME ) );
+//				sourceText.setEnabled( isJavaProject );
+//
+//				createLabel( group, Messages
+//						.getString( "NewReportProjectWizard.bin" ) ); //$NON-NLS-1$
+//				outputText = createText( group );
+//				outputText.setText( store
+//						.getString( PreferenceConstants.SRCBIN_BINNAME ) );
+//				outputText.setEnabled( isJavaProject );
 			}
 
 			/*
@@ -202,7 +190,8 @@ public class NewReportProjectWizard extends BasicNewResourceWizard
 
 		description.setNatureIds( natures ); //$NON-NLS-1$
 
-		addJavaBuildSpec( description );
+		if ( isJavaProject )
+			addJavaBuildSpec( description );
 
 		// create the new project operation
 		WorkspaceModifyOperation op = new WorkspaceModifyOperation( )
@@ -397,42 +386,42 @@ public class NewReportProjectWizard extends BasicNewResourceWizard
 		BasicNewProjectResourceWizard.updatePerspective( configElement );
 	}
 
-	private Button createButton( Composite container )
-	{
-		Button button = new Button( container, SWT.CHECK );
-		GridData gd = new GridData( );
-		gd.horizontalSpan = 2;
-		button.setLayoutData( gd );
-		return button;
-	}
-
-	private Label createLabel( Composite container, String text )
-	{
-		Label label = new Label( container, SWT.NONE );
-		label.setText( text );
-		GridData gd = new GridData( );
-		gd.horizontalIndent = 22;
-		label.setLayoutData( gd );
-		return label;
-	}
-
-	private Text createText( Composite container )
-	{
-		Text text = new Text( container, SWT.BORDER | SWT.SINGLE );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.widthHint = 300;
-		text.setLayoutData( gd );
-		text.addModifyListener( new ModifyListener( )
-		{
-
-			public void modifyText( ModifyEvent e )
-			{
-				//					validatePage();
-				mainPage.isPageComplete( );
-			}
-		} );
-		return text;
-	}
+//	private Button createButton( Composite container )
+//	{
+//		Button button = new Button( container, SWT.CHECK );
+//		GridData gd = new GridData( );
+//		gd.horizontalSpan = 2;
+//		button.setLayoutData( gd );
+//		return button;
+//	}
+//
+//	private Label createLabel( Composite container, String text )
+//	{
+//		Label label = new Label( container, SWT.NONE );
+//		label.setText( text );
+//		GridData gd = new GridData( );
+//		gd.horizontalIndent = 22;
+//		label.setLayoutData( gd );
+//		return label;
+//	}
+//
+//	private Text createText( Composite container )
+//	{
+//		Text text = new Text( container, SWT.BORDER | SWT.SINGLE );
+//		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+//		gd.widthHint = 300;
+//		text.setLayoutData( gd );
+//		text.addModifyListener( new ModifyListener( )
+//		{
+//
+//			public void modifyText( ModifyEvent e )
+//			{
+//				//					validatePage();
+//				mainPage.isPageComplete( );
+//			}
+//		} );
+//		return text;
+//	}
 
 	private void addJavaBuildSpec( IProjectDescription description )
 	{

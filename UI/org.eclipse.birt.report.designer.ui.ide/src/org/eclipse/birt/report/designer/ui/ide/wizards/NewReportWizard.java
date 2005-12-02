@@ -74,7 +74,7 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 	private static final String CREATING = Messages.getString( "NewReportWizard.text.Creating" ); //$NON-NLS-1$
 	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages.getString( "NewReportWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
 	private static final String NEW_REPORT_FILE_EXTENSION = Messages.getString( "NewReportWizard.displayName.NewReportFileExtension" ); //$NON-NLS-1$
-	private static final String NEW_REPORT_FILE_NAME = NEW_REPORT_FILE_NAME_PREFIX;
+//	private static final String NEW_REPORT_FILE_NAME = NEW_REPORT_FILE_NAME_PREFIX;
 	private static final String SELECT_A_REPORT_TEMPLATE = Messages.getString( "NewReportWizard.text.SelectTemplate" ); //$NON-NLS-1$
 	private static final String CREATE_A_NEW_REPORT = Messages.getString( "NewReportWizard.text.CreateReport" ); //$NON-NLS-1$
 	String REPORT = Messages.getString( "NewReportWizard.title.Report" ); //$NON-NLS-1$
@@ -341,7 +341,7 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		//		choicePage.setDescription( CHOOSE_FROM_TEMPLATE );
 
 		resetUniqueCount( );
-		newReportFileWizardPage.setFileName( getUniqueReportName( ) + "." + fileExtension );//$NON-NLS-1$
+		newReportFileWizardPage.setFileName( getUniqueReportName(NEW_REPORT_FILE_NAME_PREFIX,NEW_REPORT_FILE_EXTENSION) );//$NON-NLS-1$
 		newReportFileWizardPage.setContainerFullPath( getDefaultContainerPath( ) );
 	}
 
@@ -411,8 +411,16 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 
 		return ct;
 	}
-
-	String getUniqueReportName( )
+	
+	String getUniqueReportName( String prefix, String ext )
+	{
+		int counter = getCounter( prefix, ext );
+		return counter == 0 ? prefix + ext //$NON-NLS-1$
+				: prefix + "_" //$NON-NLS-1$
+						+ counter + ext; //$NON-NLS-1$
+	}
+	
+	int getCounter( String prefix, String ext )
 	{
 		IProject[] pjs = ResourcesPlugin.getWorkspace( )
 				.getRoot( )
@@ -430,8 +438,8 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 			{
 				if ( pjs[i].isAccessible( ) )
 				{
-					if ( !validDuplicate( NEW_REPORT_FILE_NAME_PREFIX,
-							NEW_REPORT_FILE_EXTENSION,
+					if ( !validDuplicate( prefix,
+							ext,
 							UNIQUE_COUNTER,
 							pjs[i] ) )
 					{
@@ -445,19 +453,14 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 			}
 		}
 
-		if ( UNIQUE_COUNTER == 0 )
-		{
-			return NEW_REPORT_FILE_NAME;
-		}
-		return NEW_REPORT_FILE_NAME_PREFIX + "_" //$NON-NLS-1$
-				+ UNIQUE_COUNTER; //$NON-NLS-1$
+		return UNIQUE_COUNTER;
 
 	}
 
 	private static final List tmpList = new ArrayList( );
     private IConfigurationElement configElement;
 
-	private boolean validDuplicate( String prefix, String ext, int count,
+	boolean validDuplicate( String prefix, String ext, int count,
 			IResource res )
 	{
 		if ( res != null && res.isAccessible( ) )

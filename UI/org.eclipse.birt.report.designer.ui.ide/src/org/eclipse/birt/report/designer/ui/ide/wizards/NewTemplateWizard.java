@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -34,11 +35,19 @@ public class NewTemplateWizard extends NewReportWizard
 	private static final String WIZARDPAGE = Messages.getString( "NewTemplateWizard.title.WizardPage" ); //$NON-NLS-1$
 	private static final String OPENING_FILE_FOR_EDITING = Messages.getString( "NewTemplateWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
 	private static final String CREATING = Messages.getString( "NewTemplateWizard.text.Creating" ); //$NON-NLS-1$
+	private static final String NEW_TEMPLATE_FILE_NAME_PREFIX = Messages.getString( "NewTemplateWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
+	private static final String NEW_TEMPLATE_DESCRIPTION = Messages.getString( "NewTemplateWizard.pageDescription.createNewTemplate" ); //$NON-NLS-1$
+	private static final String NEW_TEMPLATE_TITLE = Messages.getString( "NewTemplateWizard.title.Report" ); //$NON-NLS-1$
 	
 	public NewTemplateWizard()
 	{
-		super( IReportElementConstants.TEMPLATE_FILE_EXTENSION );
-		REPORT = Messages.getString( "NewTemplateWizard.title.Report" ); //$NON-NLS-1$
+		super( "." + IReportElementConstants.TEMPLATE_FILE_EXTENSION ); //$NON-NLS-1$
+	}
+	
+	public void init( IWorkbench workbench, IStructuredSelection selection )
+	{
+		super.init(workbench,selection);
+		setWindowTitle( Messages.getString( "NewTemplateWizard.title.New" ) ); //$NON-NLS-1$
 	}
 	
 	/*
@@ -53,8 +62,10 @@ public class NewTemplateWizard extends NewReportWizard
 		addPage( newReportFileWizardPage );
 
 		resetUniqueCount( );
-		newReportFileWizardPage.setFileName( getUniqueReportName( ) + "." + getFileExtension() ); //$NON-NLS-1$
+		newReportFileWizardPage.setFileName( getUniqueReportName(NEW_TEMPLATE_FILE_NAME_PREFIX, getFileExtension())); //$NON-NLS-1$ //$NON-NLS-2$
 		newReportFileWizardPage.setContainerFullPath( getDefaultContainerPath( ) );
+		newReportFileWizardPage.setDescription( NEW_TEMPLATE_DESCRIPTION );
+		newReportFileWizardPage.setTitle(NEW_TEMPLATE_TITLE);
 	}
 	
 	/*
@@ -72,9 +83,9 @@ public class NewTemplateWizard extends NewReportWizard
 		final IPath containerName = newReportFileWizardPage.getContainerFullPath( );
 		String fn = newReportFileWizardPage.getFileName( );
 		final String fileName;
-		if ( !fn.endsWith( "." + getFileExtension() ) ) //$NON-NLS-1$
+		if ( !fn.endsWith( getFileExtension() ) ) //$NON-NLS-1$
 		{
-			fileName = fn + "." + getFileExtension(); //$NON-NLS-1$
+			fileName = fn +  getFileExtension(); //$NON-NLS-1$
 		}
 		else
 		{
@@ -209,6 +220,6 @@ public class NewTemplateWizard extends NewReportWizard
 		} );
 
 		monitor.worked( 1 );
-	}	
+	}
 	
 }

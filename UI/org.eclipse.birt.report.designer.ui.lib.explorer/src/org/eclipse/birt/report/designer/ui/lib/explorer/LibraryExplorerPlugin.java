@@ -1,9 +1,5 @@
 package org.eclipse.birt.report.designer.ui.lib.explorer;
 
-import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
-import org.eclipse.birt.report.designer.ui.lib.explorer.provider.LibraryProviderAdapterFactory;
-import org.eclipse.core.runtime.IAdapterManager;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -23,9 +19,6 @@ public class LibraryExplorerPlugin extends AbstractUIPlugin {
 	 */
 	public LibraryExplorerPlugin() {
 		plugin = this;
-		IAdapterManager manager = Platform.getAdapterManager();
-		LibraryProviderAdapterFactory factory = new LibraryProviderAdapterFactory();
-		manager.registerAdapters(factory, ReportEditor.class);
 	}
 
 	/**
