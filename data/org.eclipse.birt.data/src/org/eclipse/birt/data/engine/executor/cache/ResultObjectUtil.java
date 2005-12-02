@@ -28,6 +28,8 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.datatools.connectivity.oda.IBlob;
+import org.eclipse.datatools.connectivity.oda.IClob;
 
 /**
  * Utility class for ResultObject for serialize and deserialize. Since available
@@ -35,7 +37,7 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * import from it. Therefore, the operation of serialization and deserialization
  * is necessary and important.
  */
-class ResultObjectUtil
+public class ResultObjectUtil
 {
 	// column count of current processed table
 	private int columnCount;
@@ -57,7 +59,7 @@ class ResultObjectUtil
 	 * @param rsMetaData
 	 * @throws DataException
 	 */
-	static ResultObjectUtil newInstance( IResultClass rsMetaData )
+	public static ResultObjectUtil newInstance( IResultClass rsMetaData )
 	{
 		ResultObjectUtil instance = new ResultObjectUtil( );
 		int length = rsMetaData.getFieldCount( );
@@ -112,7 +114,7 @@ class ResultObjectUtil
 	 * @return result object array
 	 * @throws IOException
 	 */
-	IResultObject[] readData( InputStream bis, int length )
+	public IResultObject[] readData( InputStream bis, int length )
 			throws IOException
 	{
 		ResultObject[] rowDatas = new ResultObject[length];
@@ -159,6 +161,22 @@ class ResultObjectUtil
 				else if ( fieldType.equals( String.class )
 						|| fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
 					obs[j] = dis.readUTF( );
+				else if ( fieldType.equals( IClob.class ) )
+					obs[j] = dis.readUTF( );
+				else if ( fieldType.equals( IBlob.class ) )
+				{
+					int len = IOUtil.readInt( dis );
+					if ( len == 0 )
+					{
+						obs[j] = null;
+					}
+					else
+					{
+						byte[] bytes = new byte[len];
+						dis.read( bytes );
+						obs[j] = bytes;
+					}
+				}
 			}
 			rowDatas[i] = newResultObject( obs );
 
@@ -179,70 +197,93 @@ class ResultObjectUtil
 	 * @param length how many objects to be deserialized
 	 * @throws IOException
 	 */
-	void writeData( OutputStream bos,
+	public void writeData( OutputStream bos,
 			IResultObject[] resultObjects, int length ) throws IOException
+	{		
+		for ( int i = 0; i < length; i++ )
+			writeData( bos, resultObjects[i] );
+	}
+	
+	/**
+	 * 
+	 * @param bos
+	 * @param resultObject
+	 * @throws IOException
+	 */
+	public void writeData( OutputStream bos, IResultObject resultObject )
+			throws IOException
 	{
 		byte[] rowsDataBytes;
 
-		ByteArrayOutputStream baos;
-		DataOutputStream dos;
-		
-		for ( int i = 0; i < length; i++ )
+		ByteArrayOutputStream baos = new ByteArrayOutputStream( );
+		DataOutputStream dos = new DataOutputStream( baos );
+
+		for ( int j = 0; j < columnCount; j++ )
 		{
-			baos = new ByteArrayOutputStream( );
-			dos = new DataOutputStream( baos );
-			for ( int j = 0; j < columnCount; j++ )
+			Object fieldValue = null;
+			try
 			{
-				Object fieldValue = null;
-				try
+				fieldValue = resultObject.getFieldValue( j + 1 );
+			}
+			catch ( DataException e )
+			{
+				// never get here since the index value is always value
+			}
+
+			// process null object
+			if ( fieldValue == null )
+			{
+				dos.writeByte( 0 );
+				continue;
+			}
+			else
+			{
+				dos.writeByte( 1 );
+			}
+
+			Class fieldType = typeArray[j];
+			if ( fieldType.equals( Integer.class ) )
+				dos.writeInt( ( (Integer) fieldValue ).intValue( ) );
+			else if ( fieldType.equals( Double.class ) )
+				dos.writeDouble( ( (Double) fieldValue ).doubleValue( ) );
+			else if ( fieldType.equals( BigDecimal.class ) )
+				dos.writeUTF( ( (BigDecimal) fieldValue ).toString( ) );
+			else if ( fieldType.equals( Date.class ) )
+				dos.writeLong( ( (Date) fieldValue ).getTime( ) );
+			else if ( fieldType.equals( Time.class ) )
+				dos.writeLong( ( (Time) fieldValue ).getTime( ) );
+			else if ( fieldType.equals( Timestamp.class ) )
+				dos.writeLong( ( (Timestamp) fieldValue ).getTime( ) );
+			else if ( fieldType.equals( Boolean.class ) )
+				dos.writeBoolean( ( (Boolean) fieldValue ).booleanValue( ) );
+			else if ( fieldType.equals( String.class )
+					|| fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
+				dos.writeUTF( fieldValue.toString( ) );
+			else if ( fieldType.equals( IClob.class ) )
+				dos.writeUTF( fieldValue.toString( ) );
+			else if ( fieldType.equals( IBlob.class ) )
+			{
+				byte[] bytes = (byte[]) fieldValue;
+				if ( bytes == null || bytes.length == 0 )
 				{
-					fieldValue = resultObjects[i].getFieldValue( j + 1 );
-				}
-				catch ( DataException e )
-				{
-					// never get here since the index value is always value
-				}
-					
-				// process null object
-				if ( fieldValue == null )
-				{					
-					dos.writeByte( 0 );
-					continue;
+					IOUtil.writeInt( dos, 0 );
 				}
 				else
 				{
-					dos.writeByte( 1 );
+					IOUtil.writeInt( dos, bytes.length );
+					dos.write( (byte[]) fieldValue );
 				}
-				
-				Class fieldType = typeArray[j];
-				if ( fieldType.equals( Integer.class ) )
-					dos.writeInt( ( (Integer) fieldValue ).intValue( ) );
-				else if ( fieldType.equals( Double.class ) )
-					dos.writeDouble( ( (Double) fieldValue ).doubleValue( ) );
-				else if ( fieldType.equals( BigDecimal.class ) )
-					dos.writeUTF( ( (BigDecimal) fieldValue ).toString( ) );
-				else if ( fieldType.equals( Date.class ) )
-					dos.writeLong( ( (Date) fieldValue ).getTime( ) );
-				else if ( fieldType.equals( Time.class ) )
-					dos.writeLong( ( (Time) fieldValue ).getTime( ) );
-				else if ( fieldType.equals( Timestamp.class ) )
-					dos.writeLong( ( (Timestamp) fieldValue ).getTime( ) );
-				else if ( fieldType.equals( Boolean.class ) )
-					dos.writeBoolean( ( (Boolean) fieldValue ).booleanValue( ) );
-				else if ( fieldType.equals( String.class )
-						|| fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
-					dos.writeUTF( fieldValue.toString( ) );
 			}
-			dos.flush( );
-
-			rowsDataBytes = baos.toByteArray( );
-			IOUtil.writeInt( bos, rowsDataBytes.length );
-			bos.write( rowsDataBytes );
-
-			rowsDataBytes = null;
-			dos = null;
-			baos = null;
 		}
+		dos.flush( );
+
+		rowsDataBytes = baos.toByteArray( );
+		IOUtil.writeInt( bos, rowsDataBytes.length );
+		bos.write( rowsDataBytes );
+
+		rowsDataBytes = null;
+		dos = null;
+		baos = null;
 	}
 	
 }
