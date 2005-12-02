@@ -281,7 +281,7 @@ public class ParameterDialog extends BaseDialog
 		}
 
 		public Object[] getElements( Object inputElement )
-		{
+		{			
 			ArrayList list = ( (ArrayList) inputElement );
 			ArrayList elementsList = (ArrayList) list.clone( );
 			elementsList.add( dummyChoice );
@@ -364,11 +364,8 @@ public class ParameterDialog extends BaseDialog
 
 		public boolean canModify( Object element, String property )
 		{
-			if ( property == null )
-			{
-				return false;
-			}
-			if ( element == dummyChoice && !COLUMN_VALUE.equals( property ) )
+			if ( property == null
+					|| ( element == dummyChoice && !COLUMN_VALUE.equals( property ) ) )
 			{
 				return false;
 			}
@@ -672,7 +669,7 @@ public class ParameterDialog extends BaseDialog
 
 			public void verifyText( VerifyEvent e )
 			{
-				e.doit = ( "1234567890\0".indexOf( e.character ) != -1 ); //$NON-NLS-1$
+				e.doit = ( "1234567890\0\b\0x7f".indexOf( e.character ) != -1 ); //$NON-NLS-1$
 			}
 		} );
 

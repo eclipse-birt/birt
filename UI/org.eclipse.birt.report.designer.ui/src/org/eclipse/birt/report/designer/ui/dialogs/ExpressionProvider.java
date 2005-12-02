@@ -226,7 +226,7 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			categoryList.add( DATASETS );
 		}
-		if ( !moduleHandle.getAllParameters( ).isEmpty( ) )
+		if ( moduleHandle.getParameters( ).getCount( ) != 0 )
 		{
 			categoryList.add( PARAMETERS );
 		}
@@ -275,7 +275,7 @@ public class ExpressionProvider implements IExpressionProvider
 			if ( PARAMETERS.equals( parent ) )
 			{
 				childrenList.add( ALL );
-				for ( Iterator iter = moduleHandle.getAllParameters( )
+				for ( Iterator iter = moduleHandle.getParameters( )
 						.iterator( ); iter.hasNext( ); )
 				{
 					Object obj = iter.next( );
@@ -287,7 +287,7 @@ public class ExpressionProvider implements IExpressionProvider
 			}
 			else if ( ALL.equals( parent ) )
 			{
-				for ( Iterator iter = moduleHandle.getAllParameters( )
+				for ( Iterator iter = moduleHandle.getParameters( )
 						.iterator( ); iter.hasNext( ); )
 				{
 					Object obj = iter.next( );
@@ -444,7 +444,7 @@ public class ExpressionProvider implements IExpressionProvider
 		}
 		else if ( element instanceof DesignElementHandle )
 		{
-			return ( (DesignElementHandle) element ).getName( );
+			return ( (DesignElementHandle) element ).getQualifiedName( );
 		}
 		else if ( element instanceof DataSetItemModel )
 		{
