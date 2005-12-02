@@ -36,7 +36,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
  * Deal with the extension element
- *  
+ * 
  */
 public class GuiExtensionManager
 {
@@ -96,7 +96,7 @@ public class GuiExtensionManager
 				return retValue;
 			}
 			IReportItemPropertyEditUI edit = point.getReportItemPropertyEditUI( );
-			
+
 			ExtendedItemPageGenerator generator = new ExtendedItemPageGenerator( );
 			generator.setPropertyEditUI( edit );
 			retValue = generator;
@@ -215,13 +215,13 @@ public class GuiExtensionManager
 					.getExtension( point.getExtensionName( ) )
 					.getDisplayName( );
 			CombinedTemplateCreationEntry combined = new ReportCombinedTemplateCreationEntry( displayName,
-					Messages.getFormattedString( "GuiExtensionManager.tooltip.insert", new Object[]{ displayName }), //$NON-NLS-1$
-					getExtendedPalletTemplateName(point),
+					Messages.getFormattedString( "GuiExtensionManager.tooltip.insert", new Object[]{displayName} ), //$NON-NLS-1$
+					getExtendedPalletTemplateName( point ),
 					new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_EXTENDED
 							+ point.getExtensionName( ) ),
 					icon,
 					icon,
-					BasePaletteFactory.getAbstractToolHandleExtendsFromPalletName(getExtendedPalletTemplateName(point)) );
+					BasePaletteFactory.getAbstractToolHandleExtendsFromPaletteName( getExtendedPalletTemplateName( point ) ) );
 			PaletteContainer entry = findCategory( list, category );
 			if ( entry == null )
 			{
@@ -237,10 +237,12 @@ public class GuiExtensionManager
 		}
 		return root;
 	}
-	
-	public static Object getExtendedPalletTemplateName(ExtendedElementUIPoint point)
+
+	public static Object getExtendedPalletTemplateName(
+			ExtendedElementUIPoint point )
 	{
-		return IReportElementConstants.REPORT_ELEMENT_EXTENDED + point.getExtensionName( );
+		return IReportElementConstants.REPORT_ELEMENT_EXTENDED
+				+ point.getExtensionName( );
 	}
 
 	private static PaletteCategory findCategory( List list, String category )

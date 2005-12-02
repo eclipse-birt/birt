@@ -17,13 +17,16 @@ import java.util.Iterator;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.BirtImageLoader;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
+import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -79,7 +82,7 @@ public class ImageBuilder extends BaseDialog
 	private static final String DLG_INSERT_BUTTON_MSG = Messages.getString( "ImageBuilder.Button.Insert" ); //$NON-NLS-1$
 
 	public static final String DLG_TITLE_NEW = Messages.getString( "ImageBuilder.DialogTitle.New" ); //$NON-NLS-1$
-	
+
 	public static final String DLG_TITLE_EDIT = Messages.getString( "ImageBuilder.DialogTitle.Edit" ); //$NON-NLS-1$
 
 	// private static final String SUPPORTED_IMAGE_FILE_EXTS =
@@ -114,6 +117,8 @@ public class ImageBuilder extends BaseDialog
 
 	private int selectedType = -1;
 
+	private java.util.List dataSetList = new ArrayList( );
+
 	/**
 	 * The constructor.
 	 * 
@@ -122,6 +127,18 @@ public class ImageBuilder extends BaseDialog
 	public ImageBuilder( Shell parentShell, String title )
 	{
 		super( parentShell, title, false );
+	}
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param parentShell
+	 */
+	public ImageBuilder( Shell parentShell, String title,
+			java.util.List dataSetList )
+	{
+		super( parentShell, title, false );
+		this.dataSetList = dataSetList;
 	}
 
 	private ModuleHandle getModuleHandle( )
@@ -341,8 +358,7 @@ public class ImageBuilder extends BaseDialog
 	private String removeQuoteString( String value )
 	{
 		if ( value != null
-				&& value.length( ) > 1
-				&& value.charAt( 0 ) == '\"'
+				&& value.length( ) > 1 && value.charAt( 0 ) == '\"'
 				&& value.charAt( value.length( ) - 1 ) == '\"' )
 		{
 			return value.substring( 1, value.length( ) - 1 );
@@ -353,10 +369,7 @@ public class ImageBuilder extends BaseDialog
 	private void swtichToEmbeddedType( )
 	{
 		embeddedImageList = new List( inputArea, SWT.NONE
-				| SWT.SINGLE
-				| SWT.BORDER
-				| SWT.V_SCROLL
-				| SWT.H_SCROLL );
+				| SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL );
 		embeddedImageList.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		embeddedImageList.addSelectionListener( new SelectionAdapter( ) {
 
@@ -668,13 +681,15 @@ public class ImageBuilder extends BaseDialog
 
 		ExpressionBuilder expressionBuilder = new ExpressionBuilder( uriEditor.getText( ) );
 
-		if ( inputImage.getDataSet( ) != null )
-		{
-			ArrayList dataSetList = new ArrayList( );
-			dataSetList.add( inputImage.getDataSet( ) );
-			ExpressionProvider provider = new ExpressionProvider( dataSetList );
-			expressionBuilder.setExpressionProvier( provider );
-		}
+		// if ( inputImage.getDataSet( ) != null )
+		// {
+		// ArrayList dataSetList = new ArrayList( );
+		// dataSetList.add( inputImage.getDataSet( ) );
+
+		unionDataSets( );
+		ExpressionProvider provider = new ExpressionProvider( dataSetList );
+		expressionBuilder.setExpressionProvier( provider );
+		// }
 		if ( expressionBuilder.open( ) == OK )
 		{
 			uriEditor.setText( expressionBuilder.getResult( ) );
@@ -700,6 +715,21 @@ public class ImageBuilder extends BaseDialog
 		{
 			stack.rollback( );
 		}
+	}
+
+	private java.util.List unionDataSets( )
+	{
+		if ( inputImage == null || inputImage.getDataSet( ) == null )
+		{
+			return dataSetList;
+		}
+		int i = dataSetList.indexOf( inputImage.getDataSet( ) );
+		if ( i == -1 )
+		{
+			dataSetList.add( inputImage.getDataSet( ) );
+		}
+
+		return dataSetList;
 	}
 
 }

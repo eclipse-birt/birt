@@ -159,7 +159,7 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory
 	private static CombinedTemplateCreationEntry createAutoText( String label,
 			String shortDesc, Object template )
 	{
-		AbstractToolHandleExtends preHandle = BasePaletteFactory.getAbstractToolHandleExtendsFromPalletName(template);
+		AbstractToolHandleExtends preHandle = BasePaletteFactory.getAbstractToolHandleExtendsFromPaletteName(template);
 		
 		ImageDescriptor icon = ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_AUTOTEXT );
 		CombinedTemplateCreationEntry entry = new ReportCombinedTemplateCreationEntry( label,

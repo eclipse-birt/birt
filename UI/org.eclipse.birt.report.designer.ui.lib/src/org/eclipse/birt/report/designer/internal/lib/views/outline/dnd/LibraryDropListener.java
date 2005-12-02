@@ -162,7 +162,7 @@ public class LibraryDropListener extends DesignerDropListener
 	{
 		if ( isSupportPalletType( target, transfer ) )
 		{
-			AbstractToolHandleExtends pre = BasePaletteFactory.getAbstractToolHandleExtendsFromPalletName(transfer);
+			AbstractToolHandleExtends pre = BasePaletteFactory.getAbstractToolHandleExtendsFromPaletteName(transfer);
 			ReportCreationTool tool = new ReportCreationTool(
 					new ReportElementFactory(
 							transfer ), pre );

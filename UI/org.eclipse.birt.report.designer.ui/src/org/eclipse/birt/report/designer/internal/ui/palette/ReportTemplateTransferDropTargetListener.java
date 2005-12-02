@@ -40,8 +40,9 @@ import org.eclipse.swt.dnd.DropTargetEvent;
 /**
  * Drag&Drop listener
  */
-public class ReportTemplateTransferDropTargetListener extends
-		TemplateTransferDropTargetListener
+public class ReportTemplateTransferDropTargetListener
+		extends
+			TemplateTransferDropTargetListener
 {
 
 	private static final String TRANS_LABEL_CREATE_ELEMENT = Messages.getString( "ReportTemplateTransferDropTargetListener.transLabel.createElement" ); //$NON-NLS-1$
@@ -95,7 +96,7 @@ public class ReportTemplateTransferDropTargetListener extends
 		if ( template instanceof String )
 		{
 			transName = TRANS_LABEL_CREATE_ELEMENT;
-			preHandle = BasePaletteFactory.getAbstractToolHandleExtendsFromPalletName( template );
+			preHandle = BasePaletteFactory.getAbstractToolHandleExtendsFromPaletteName( template );
 		}
 		else if ( handleValidateInsert( template ) )
 		{

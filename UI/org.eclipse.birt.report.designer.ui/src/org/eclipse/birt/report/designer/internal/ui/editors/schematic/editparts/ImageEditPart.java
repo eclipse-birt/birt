@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
+import java.util.List;
+
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ImageHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.LineBorder;
@@ -21,6 +23,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.ImageBuilder;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -207,9 +210,10 @@ public class ImageEditPart extends ReportElementEditPart
 	 */
 	private void performDirectEdit( )
 	{
+		List dataSetList = DEUtil.getDataSetList( (DesignElementHandle) getModel( ) );
 		ImageBuilder dialog = new ImageBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
-				.getActiveShell( ), ImageBuilder.DLG_TITLE_EDIT );
+				.getActiveShell( ), ImageBuilder.DLG_TITLE_EDIT, dataSetList );
 		dialog.setInput( getModel( ) );
 		CommandStack stack = SessionHandleAdapter.getInstance( )
 				.getCommandStack( );

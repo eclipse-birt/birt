@@ -63,6 +63,7 @@ import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -75,6 +76,7 @@ import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -206,9 +208,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				createInsertElementMenu( menuManager,
 						GEFActionConstants.GROUP_EDIT );
 			}
-			if(isListHandleCalss(multiSelection))
+			if ( isListHandleCalss( multiSelection ) )
 			{
-				IAction action = getAction(CreatePlaceHolderPartAction.ID);
+				IAction action = getAction( CreatePlaceHolderPartAction.ID );
 				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 						action );
 
@@ -256,17 +258,17 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 							action );
 				}
-				
-				if(firstSelectedElement instanceof ReportItemHandle)
+
+				if ( firstSelectedElement instanceof ReportItemHandle )
 				{
-					IAction action = getAction(CreatePlaceHolderPartAction.ID);
+					IAction action = getAction( CreatePlaceHolderPartAction.ID );
 					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 							action );
 				}
-				
-				if(firstSelectedElement instanceof TemplateReportItemHandle)
+
+				if ( firstSelectedElement instanceof TemplateReportItemHandle )
 				{
-					IAction action = getAction(RevertToReportItemPartAction.ID);
+					IAction action = getAction( RevertToReportItemPartAction.ID );
 					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 							action );
 				}
@@ -425,16 +427,18 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 	private boolean isMutilSelection( Object multiSelection )
 	{
-		return multiSelection!=null &&
-				(multiSelection == Object.class // report design and slot
+		return multiSelection != null && ( multiSelection == Object.class // report
+																			// design
+																			// and
+																			// slot
 				// multi ?
 				|| multiSelection == DesignElementHandle.class
 				// report design
 				|| isRootElementHandleClass( multiSelection )
 				// saveral report items
 				|| multiSelection == ReportItemHandle.class
-				// table and list
-				|| multiSelection == ListHandle.class);
+		// table and list
+				|| multiSelection == ListHandle.class );
 	}
 
 	private boolean isRootElementHandleClass( Object obj )
@@ -535,7 +539,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		action = getAction( GeneralInsertMenuAction.INSERT_TABLE_ID );
 		action.setText( GeneralInsertMenuAction.INSERT_TABLE_DISPLAY_TEXT );
 		subMenu.add( action );
-		
 
 		action = getAction( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_ID );
 		action.setText( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_DISPLAY_TEXT );
@@ -550,12 +553,18 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		for ( Iterator iter = points.iterator( ); iter.hasNext( ); )
 		{
 			ExtendedElementUIPoint point = (ExtendedElementUIPoint) iter.next( );
+
+			IElementDefn extension = DesignEngine.getMetaDataDictionary( )
+					.getExtension( point.getExtensionName( ) );
+			String displayName = new String( );
+			displayName = extension.getDisplayName( );
+
 			action = getAction( point.getExtensionName( ) );
 			if ( action != null )
 			{
-				if ( point.getExtensionName( ).equalsIgnoreCase( "Chart" ) ) //$NON-NLS-1$
+				if ( displayName.equalsIgnoreCase( "Chart" ) ) //$NON-NLS-1$
 				{
-					action.setText( "&" + point.getExtensionName( ) ); //$NON-NLS-1$
+					action.setText( "&" + displayName ); //$NON-NLS-1$
 				}
 				else
 				{
@@ -721,11 +730,11 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	{
 		List list = getElements( );
 		Object baseHandle = list.get( 0 );
-		if(baseHandle!=null)
+		if ( baseHandle != null )
 		{
-			
+
 			Class base = baseHandle.getClass( );
-	
+
 			for ( int i = 1; i < list.size( ); i++ )
 			{
 				Object obj = list.get( i );
@@ -733,7 +742,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				{
 					continue;
 				}
-				// Ensure multi selected elements are instance of the "base" class.
+				// Ensure multi selected elements are instance of the "base"
+				// class.
 				while ( !base.isInstance( obj ) )
 				{
 					base = base.getSuperclass( );
