@@ -244,6 +244,7 @@
     <Choice displayNameID="Choices.filterOperator.le" name="le" />
     <Choice displayNameID="Choices.filterOperator.ge" name="ge" />
     <Choice displayNameID="Choices.filterOperator.gt" name="gt" />
+    <Choice displayNameID="Choices.filterOperator.match" name="match" />
     <Choice displayNameID="Choices.filterOperator.between" name="between" />
     <Choice displayNameID="Choices.filterOperator.notBetween" name="not-between" />
     <Choice displayNameID="Choices.filterOperator.isNull" name="is-null" />

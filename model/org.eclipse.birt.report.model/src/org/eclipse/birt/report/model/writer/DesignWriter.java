@@ -88,6 +88,7 @@ public class DesignWriter extends ModuleWriter
 				DesignElement.DISPLAY_NAME_PROP );
 		property( obj, ReportDesign.ICON_FILE_PROP );
 		property( obj, ReportDesign.CHEET_SHEET_PROP );
+		property( obj, ReportDesign.EVENT_HANDLER_CLASS_PROP );
 
 		// include libraries and scripts
 
