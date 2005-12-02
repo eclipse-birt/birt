@@ -79,6 +79,7 @@
 	<property name="module.name" value="org.eclipse.birt.report.designer.ui.ide" />
 	<property name="designer.core.dir" value="../org.eclipse.birt.report.designer.core" />
 	<property name="designer.ui.dir" value="../org.eclipse.birt.report.designer.ui" />			
+	<property name="designer.lib.dir" value="../org.eclipse.birt.report.designer.ui.lib" />			
 	<property name="viewer.dir" value="../org.eclipse.birt.report.viewer" />		
 	<property name="jar.name" value="uiide.jar"/>
 	
@@ -216,6 +217,12 @@
 	
 	<target name="buildDependents">
 		<ant dir="${designer.ui.dir}" antfile="BuildDesignerUI.xml" target="Jar" inheritAll="false">
+			<property name="eclipse.home" value="${eclipse.home}"/>
+			<property name="os" value="${os}"/>
+			<property name="ws" value="${ws}"/>
+			<property name="arch" value="${arch}"/>
+		</ant>
+		<ant dir="${designer.lib.dir}" antfile="BuildDesignerLib.xml" target="Jar" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}"/>
 			<property name="os" value="${os}"/>
 			<property name="ws" value="${ws}"/>
