@@ -3,7 +3,7 @@
 	<HEAD>
 		<TITLE>Eclipse BIRT Home</TITLE>
 		<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
-		<LINK href="css/index.css" type=text/css rel=stylesheet>
+		<LINK href="styles/iv/index.css" type=text/css rel=stylesheet>
 		<LINK href="http://www.eclipse.org/images/eclipse.ico" type=image/x-icon rel="shortcut icon">
 		<META content="Microsoft FrontPage 5.0" name=GENERATOR>
 	</HEAD>
