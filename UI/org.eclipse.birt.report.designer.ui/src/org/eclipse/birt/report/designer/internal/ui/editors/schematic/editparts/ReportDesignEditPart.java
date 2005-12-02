@@ -51,6 +51,7 @@ import org.eclipse.gef.tools.DeselectAllTracker;
  */
 public class ReportDesignEditPart extends ReportElementEditPart
 {
+
 	protected boolean showMargin = true;
 
 	/**
@@ -74,15 +75,17 @@ public class ReportDesignEditPart extends ReportElementEditPart
 		ReportRootFigure figure = new ReportRootFigure( );
 
 		figure.setOpaque( true );
-		figure.setShowMargin(showMargin);
+		figure.setShowMargin( showMargin );
 
 		ReportDesignLayout layout = new ReportDesignLayout( this );
 
 		SlotHandle slotHandle = ( (ModuleHandle) getModel( ) ).getMasterPages( );
 		Iterator iter = slotHandle.iterator( );
-		SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) iter.next( );
-		
-		//MasterPageHandle masterPageHandle = SessionHandleAdapter.getInstance().getMasterPageHandle();
+		SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) iter
+				.next( );
+
+		// MasterPageHandle masterPageHandle =
+		// SessionHandleAdapter.getInstance().getMasterPageHandle();
 		Dimension size = getMasterPageSize( masterPageHandle );
 
 		Rectangle bounds = new Rectangle( 0, 0, size.width - 1, size.height - 1 );
@@ -91,7 +94,8 @@ public class ReportDesignEditPart extends ReportElementEditPart
 
 		figure.setLayoutManager( layout );
 
-		figure.setBorder( new ReportDesignMarginBorder( getMasterPageInsets( masterPageHandle ) ) );
+		figure.setBorder( new ReportDesignMarginBorder(
+				getMasterPageInsets( masterPageHandle ) ) );
 
 		figure.setBounds( bounds.getCopy( ) );
 
@@ -119,8 +123,7 @@ public class ReportDesignEditPart extends ReportElementEditPart
 	protected List getModelChildren( )
 	{
 		return HandleAdapterFactory.getInstance( )
-				.getReportDesignHandleAdapter( )
-				.getChildren( );
+				.getReportDesignHandleAdapter( ).getChildren( );
 	}
 
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
@@ -134,20 +137,27 @@ public class ReportDesignEditPart extends ReportElementEditPart
 				break;
 			}
 			case NotificationEvent.PROPERTY_EVENT :
-			case NotificationEvent.TEMPLATE_TRANSFORM_EVENT:
+			case NotificationEvent.THEME_EVENT:
+			case NotificationEvent.TEMPLATE_TRANSFORM_EVENT :
 			{
+//				if ( ReportDesignHandle.THEME_PROP.equalsIgnoreCase(
+//						((PropertyEvent) ev )
+//						.getPropertyName( )) )
+//				{
+//					this.getFigure( ).invalidateTree( );
+//				}
+				
 				refresh( );
 				this.markDirty( true );
 				break;
 			}
 		}
-	}
+	} /*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
+		 */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
-	 */
 	public DragTracker getDragTracker( Request req )
 	{
 		if ( req instanceof SelectionRequest
@@ -165,15 +175,15 @@ public class ReportDesignEditPart extends ReportElementEditPart
 	{
 		SlotHandle slotHandle = ( (ModuleHandle) getModel( ) ).getMasterPages( );
 		Iterator iter = slotHandle.iterator( );
-		SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) iter.next( );
-		
+		SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) iter
+				.next( );
 
 		Dimension size = getMasterPageSize( masterPageHandle );
 
 		Rectangle bounds = new Rectangle( 0, 0, size.width - 1, size.height - 1 );
 
-		ReportRootFigure figure = (ReportRootFigure)getFigure();
-		figure.setShowMargin(showMargin);
+		ReportRootFigure figure = (ReportRootFigure) getFigure( );
+		figure.setShowMargin( showMargin );
 		if ( !showMargin )
 		{
 			Insets mg = getMasterPageInsets( masterPageHandle );
@@ -182,11 +192,14 @@ public class ReportDesignEditPart extends ReportElementEditPart
 			bounds.height -= mg.getHeight( );
 		}
 
-		( (AbstractPageFlowLayout) getFigure( ).getLayoutManager( ) ).setInitSize( bounds );
-		//getFigure( ).setBounds( bounds );
+		( (AbstractPageFlowLayout) getFigure( ).getLayoutManager( ) )
+				.setInitSize( bounds );
+		// getFigure( ).setBounds( bounds );
 
-		ReportDesignMarginBorder reportDesignMarginBorder = new ReportDesignMarginBorder( getMasterPageInsets( masterPageHandle ) );
-		reportDesignMarginBorder.setBackgroundColor( masterPageHandle.getProperty( StyleHandle.BACKGROUND_COLOR_PROP ) );
+		ReportDesignMarginBorder reportDesignMarginBorder = new ReportDesignMarginBorder(
+				getMasterPageInsets( masterPageHandle ) );
+		reportDesignMarginBorder.setBackgroundColor( masterPageHandle
+				.getProperty( StyleHandle.BACKGROUND_COLOR_PROP ) );
 		getFigure( ).setBorder( reportDesignMarginBorder );
 
 		int color = getBackgroundColor( masterPageHandle );
@@ -220,14 +233,16 @@ public class ReportDesignEditPart extends ReportElementEditPart
 					.addListener( this );
 		}
 		getFigure( ).setFocusTraversable( false );
-		
+
 		getViewer( ).addPropertyChangeListener( new PropertyChangeListener( ) {
 
 			public void propertyChange( PropertyChangeEvent evt )
 			{
-				if ( DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY.equals( evt.getPropertyName( ) ) )
+				if ( DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY
+						.equals( evt.getPropertyName( ) ) )
 				{
-					showMargin = ( (Boolean) evt.getNewValue( ) ).booleanValue( );
+					showMargin = ( (Boolean) evt.getNewValue( ) )
+							.booleanValue( );
 
 					refresh( );
 					markDirty( true );
