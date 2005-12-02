@@ -3,6 +3,7 @@ package org.eclipse.birt.report.engine.css.dom;
 import java.util.HashMap;
 
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.w3c.dom.css.CSSValue;
 
 public class AreaStyle extends AbstractStyle 
@@ -21,11 +22,16 @@ public class AreaStyle extends AbstractStyle
 		super(style.engine);
 		this.parent = style;
 	}
+	
+	public AreaStyle()
+	{
+		super(BIRTCSSEngine.getInstance());
+	}
 
 	public CSSValue getProperty(int index)
 	{
 		CSSValue value = (CSSValue)vs.get(new Integer(index));
-		if(value==null)
+		if(value==null &&parent!=null)
 		{
 			return parent.getProperty(index);
 		}

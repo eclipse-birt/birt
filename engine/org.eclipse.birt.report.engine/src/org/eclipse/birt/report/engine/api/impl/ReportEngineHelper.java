@@ -216,8 +216,7 @@ public class ReportEngineHelper
 	 */
 	public String[] getSupportedFormats( )
 	{
-		HashMap emitterMap = extensionMgr.getEmitterExtensions( );
-		return (String[]) emitterMap.keySet( ).toArray( );
+		return (String[])extensionMgr.getSupportedFormat().toArray(new String[0]);
 	}
 
 	/**

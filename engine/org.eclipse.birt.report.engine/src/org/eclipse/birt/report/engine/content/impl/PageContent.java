@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
+import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 
 public class PageContent extends AbstractContent implements IPageContent
 {
@@ -73,8 +74,19 @@ public class PageContent extends AbstractContent implements IPageContent
 			marginLeft = page.getLeftMargin( );
 			marginRight = page.getRightMargin( );
 			marginBottom = page.getBottomMargin( );
-			headerHeight = new DimensionType( 1.0f, EngineIRConstants.UNITS_IN );
-			footerHeight = new DimensionType( 1.0f, EngineIRConstants.UNITS_IN );
+			if(page instanceof SimpleMasterPageDesign)
+			{
+				headerHeight = ((SimpleMasterPageDesign)page).getHeaderHeight();
+				footerHeight = ((SimpleMasterPageDesign)page).getFooterHeight();
+			}
+			if(headerHeight==null)
+			{
+				headerHeight = new DimensionType( 0.25f, EngineIRConstants.UNITS_IN );
+			}
+			if(footerHeight==null)
+			{
+				footerHeight = new DimensionType( 0.25f, EngineIRConstants.UNITS_IN );
+			}
 		}
 	}
 

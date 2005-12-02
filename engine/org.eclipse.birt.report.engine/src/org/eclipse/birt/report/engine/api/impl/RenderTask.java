@@ -154,8 +154,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 			format = "fop"; // $NON-NLS-1
 		}
 
-		if ( !ExtensionManager.getInstance( ).getEmitterExtensions( )
-				.containsKey( format ) )
+		if ( !ExtensionManager.getInstance( ).getSupportedFormat()
+				.contains( format ) )
 		{
 			log.log( Level.SEVERE,
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );

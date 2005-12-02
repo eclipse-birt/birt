@@ -10,6 +10,8 @@
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.extension.internal;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,10 +35,10 @@ public class ExtensionManager
 {
 	protected static Logger logger = Logger.getLogger( ExtensionManager.class.getName( ) );
 	
-	public final static String EXTENSION_POINT_EMITTERS = "org.eclipse.birt.report.engine.emitters";	// $NON-NLS-1$
-	public final static String EXTENSION_POINT_GENERATION = "org.eclipse.birt.report.engine.reportitemGeneration"; // $NON-NLS-1$
-	public final static String EXTENSION_POINT_PRESENTATION = "org.eclipse.birt.report.engine.reportitemPresentation"; // $NON-NLS-1$
-	public final static String EXTENSION_POINT_QUERY = "org.eclipse.birt.report.engine.reportitemQuery"; // $NON-NLS-1$
+	public final static String EXTENSION_POINT_EMITTERS = "org.eclipse.birt.report.engine.emitters";	//$NON-NLS-1$
+	public final static String EXTENSION_POINT_GENERATION = "org.eclipse.birt.report.engine.reportitemGeneration"; //$NON-NLS-1$
+	public final static String EXTENSION_POINT_PRESENTATION = "org.eclipse.birt.report.engine.reportitemPresentation"; //$NON-NLS-1$
+	public final static String EXTENSION_POINT_QUERY = "org.eclipse.birt.report.engine.reportitemQuery"; //$NON-NLS-1$
 	
 	/**
 	 * the singleton isntance
@@ -61,12 +63,13 @@ public class ExtensionManager
 	/**
 	 * stores all the emitter extensions 
 	 */
-	protected HashMap emitterExtensions = new HashMap();
+	protected ArrayList emitterExtensions = new ArrayList();
 	
 	/**
 	 * stores all the mime types that are supported
 	 */
 	protected HashMap mimeTypes = new HashMap();
+	
 	
 	/**
 	 * Dummy constructor
@@ -157,9 +160,58 @@ public class ExtensionManager
 	 * @param format the format that the extension point supports
 	 * @return an emitter
 	 */
-	public IContentEmitter createEmitter(String format, String emitterID)
+	public IContentEmitter createEmitter(String format, String id)
 	{
-		IConfigurationElement config = (IConfigurationElement)emitterExtensions.get(format);
+		if(format==null)
+		{
+			return null;
+		}
+		IConfigurationElement config = null;
+		for(int i=0; i<emitterExtensions.size(); i++)
+		{
+			
+			EmitterInfo emitterInfo = (EmitterInfo)emitterExtensions.get(i);
+			if(format.equalsIgnoreCase(emitterInfo.format))
+			{
+				if(id!=null && id.equalsIgnoreCase(emitterInfo.id) || id==null)
+				{
+					config = emitterInfo.emitter;
+					break;
+				}				
+			}
+		}
+		if (config != null)
+		{
+			Object object = createObject(config, "class"); //$NON-NLS-1$
+			if (object instanceof IContentEmitter)
+			{
+				return (IContentEmitter)object;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * @param format the format that the extension point supports
+	 * @return an emitter
+	 */
+	public IContentEmitter createEmitter(String format)
+	{
+		if(format==null)
+		{
+			return null;
+		}
+		IConfigurationElement config = null;
+		for(int i=0; i<emitterExtensions.size(); i++)
+		{
+			
+			EmitterInfo emitterInfo = (EmitterInfo)emitterExtensions.get(i);
+			if(format.equalsIgnoreCase(emitterInfo.format))
+			{
+				config = emitterInfo.emitter;
+				break;
+			}
+		}
 		if (config != null)
 		{
 			Object object = createObject(config, "class"); //$NON-NLS-1$
@@ -174,9 +226,9 @@ public class ExtensionManager
 	/**
 	 * @return all the emitter extensions
 	 */
-	public HashMap getEmitterExtensions()
+	public Collection getSupportedFormat()
 	{
-		return this.emitterExtensions;
+		return mimeTypes.values();
 	}
 	
 	/**
@@ -196,8 +248,8 @@ public class ExtensionManager
 		{
 			if (logger.isLoggable( Level.WARNING ))
 			{
-				logger.log(Level.WARNING, "Can not instantiate class {0} with property {1}.",	// $NON-NLS-1$ 
-						new String[] {config.getAttribute("class"), property} );	// $NON-NLS-1$
+				logger.log(Level.WARNING, "Can not instantiate class {0} with property {1}.",	//$NON-NLS-1$ 
+						new String[] {config.getAttribute("class"), property} );	//$NON-NLS-1$
 			}
 			ex.printStackTrace();
 		}
@@ -293,15 +345,12 @@ public class ExtensionManager
 			IConfigurationElement[] configs = exts[i].getConfigurationElements();
 			for (int j = 0; j < configs.length; j++)	// loop at emitter level 
 			{				
-				String format = configs[j].getAttribute("format");	// $NON-NLS-1$
-				String mimeType = configs[j].getAttribute("mimeType");	// $NON-NLS-1$
-				if(!emitterExtensions.containsKey(format))
-				{
-					emitterExtensions.put(format, configs[j]);
-					mimeTypes.put(format, mimeType);
-					logger.log(Level.FINE, "Load {0} emitter", format); //$NON-NLS-1$
-				}
-				
+				String format = configs[j].getAttribute("format");	//$NON-NLS-1$
+				String mimeType = configs[j].getAttribute("mimeType");	//$NON-NLS-1$
+				String id = configs[j].getAttribute("id"); //$NON-NLS-1$
+				emitterExtensions.add(new EmitterInfo(format, id, configs[j]));
+				mimeTypes.put(mimeType, format);
+				logger.log(Level.FINE, "Load {0} emitter {1}", new String[]{format, id}); //$NON-NLS-1$
 			}
 		}
 	}
@@ -317,5 +366,19 @@ public class ExtensionManager
 			return (String)mimeTypes.get(format);
 		}
 		return null;
+	}
+	
+	protected class EmitterInfo
+	{
+		String format;
+		String id;
+		IConfigurationElement emitter;
+		public EmitterInfo(String format, String id, IConfigurationElement emitter)
+		{
+			this.format = format;
+			this.id = id;
+			this.emitter = emitter;
+		}
+		
 	}
 }

@@ -151,8 +151,8 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			format = "fop"; // $NON-NLS-1
 		}
 
-		if ( !ExtensionManager.getInstance( ).getEmitterExtensions( )
-				.containsKey( format ) )
+		if ( !ExtensionManager.getInstance( ).getSupportedFormat()
+				.contains( format ) )
 		{
 			log.log( Level.SEVERE,
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
@@ -183,10 +183,11 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		}
 		else if ( format.equalsIgnoreCase( "fo" )
 				|| format.equalsIgnoreCase( "fop" )
-				|| format.equalsIgnoreCase( "pdf" ) )
+				|| ((format.equalsIgnoreCase( "pdf" )) && ! "org.eclipse.birt.report.engine.pdf".equals(emitterID)))
 		{
 			emitter = new DefaultPaginationEmitter( executor, emitter );
 		}
+		
 
 		// emitter is not null
 		emitter.initialize( services );
@@ -238,10 +239,9 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		return renderOption;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.IRunAndRenderTask#setEmitterID(java.lang.String)
-	 */
-	public void setEmitterID(String id) {
-		emitterID = id;
+	public void setEmitterID( String id )
+	{
+		this.emitterID = id;
+		
 	}
 }

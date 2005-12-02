@@ -83,7 +83,7 @@ public class VerticalAlignManager extends AbstractLengthManager {
 			case CSSPrimitiveValue.CSS_PERCENTAGE:
 				float scale = value.getFloatValue();
 				float fs = 0;
-				StyleDeclaration cs = (StyleDeclaration) elt.getComputedStyle();
+				IStyle cs =  elt.getComputedStyle();
 				assert cs != null;
 				Value lineHeight = (Value) cs
 						.getProperty(IStyle.STYLE_LINE_HEIGHT);
