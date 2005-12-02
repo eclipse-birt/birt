@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.DialChart;
+import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -49,7 +50,6 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -67,19 +67,18 @@ import org.eclipse.swt.widgets.MenuItem;
  * 
  */
 
-public class TaskSelectData extends SimpleTask implements
-		SelectionListener,
-		DisposeListener,
-		ITaskChangeListener,
-		Listener
+public class TaskSelectData extends SimpleTask
+		implements
+			SelectionListener,
+			DisposeListener,
+			ITaskChangeListener,
+			Listener
 {
 
-	private final static int CENTER_WIDTH_HINT = 500;
+	private final static int CENTER_WIDTH_HINT = 400;
 	private transient ChartPreviewPainter previewPainter = null;
 
 	private transient Composite cmpTask = null;
-
-	private transient Color whiteColor = null;
 
 	private transient Composite cmpPreview = null;
 	private transient Canvas previewCanvas = null;
@@ -109,18 +108,20 @@ public class TaskSelectData extends SimpleTask implements
 			cmpTask = new Composite( parent, SWT.NONE );
 			GridLayout gridLayout = new GridLayout( 3, false );
 			gridLayout.marginWidth = 10;
-			gridLayout.marginHeight = 0;
+			gridLayout.marginHeight = 10;
 			cmpTask.setLayout( gridLayout );
 			cmpTask.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL
 					| GridData.GRAB_VERTICAL ) );
 			cmpTask.addDisposeListener( this );
+
 			dynamicArea = new SelectDataDynamicArea( this );
+			getCustomizeUI( ).init( );
+
 			placeComponents( );
 			createPreviewPainter( );
 			init( );
 		}
-
-		previewPainter.renderModel( getChartModel( ) );
+		doLivePreview( );
 		customizeUI( );
 		// Refresh all data definitino text
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
@@ -129,6 +130,7 @@ public class TaskSelectData extends SimpleTask implements
 
 	protected void customizeUI( )
 	{
+		getCustomizeUI( ).init( );
 		refreshLeftArea( );
 		refreshRightArea( );
 		refreshBottomArea( );
@@ -233,7 +235,7 @@ public class TaskSelectData extends SimpleTask implements
 		{
 			GridData gridData = new GridData( GridData.FILL_BOTH );
 			gridData.widthHint = CENTER_WIDTH_HINT;
-			gridData.heightHint = 300;
+			gridData.heightHint = 200;
 			cmpPreview.setLayoutData( gridData );
 		}
 
@@ -243,11 +245,11 @@ public class TaskSelectData extends SimpleTask implements
 			label.setText( Messages.getString( "TaskSelectData.Label.ChartPreview" ) ); //$NON-NLS-1$
 		}
 
-		previewCanvas = new Canvas( cmpPreview, SWT.NONE );
+		previewCanvas = new Canvas( cmpPreview, SWT.BORDER );
 		{
 			previewCanvas.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-			whiteColor = new Color( Display.getDefault( ), 255, 255, 255 );
-			previewCanvas.setBackground( whiteColor );
+			previewCanvas.setBackground( Display.getDefault( )
+					.getSystemColor( SWT.COLOR_WHITE ) );
 		}
 	}
 
@@ -255,7 +257,7 @@ public class TaskSelectData extends SimpleTask implements
 	{
 		Composite cmpDataSet = new Composite( parent, SWT.NONE );
 		{
-			GridLayout gridLayout = new GridLayout( 4, false );
+			GridLayout gridLayout = new GridLayout( 3, false );
 			gridLayout.marginWidth = 0;
 			gridLayout.marginHeight = 0;
 			cmpDataSet.setLayout( gridLayout );
@@ -264,9 +266,11 @@ public class TaskSelectData extends SimpleTask implements
 
 		Label label = new Label( cmpDataSet, SWT.NONE );
 		{
+			GridData gd = new GridData( );
+			gd.horizontalSpan = 3;
+			label.setLayoutData( gd );
 			label.setText( Messages.getString( "TaskSelectData.Label.SelectDataSet" ) ); //$NON-NLS-1$
 			label.setFont( JFaceResources.getBannerFont( ) );
-			label.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
 		}
 
 		Composite comp = createCompositeWrapper( cmpDataSet );
@@ -297,7 +301,7 @@ public class TaskSelectData extends SimpleTask implements
 	{
 		Composite composite = createCompositeWrapper( parent );
 		{
-			composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+			composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
 		Label label = new Label( composite, SWT.NONE );
 		{
@@ -306,11 +310,9 @@ public class TaskSelectData extends SimpleTask implements
 		}
 
 		tablePreview = new CustomPreviewTable( composite, SWT.SINGLE
-				| SWT.H_SCROLL
-				| SWT.V_SCROLL
-				| SWT.FULL_SELECTION );
+				| SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION );
 		{
-			GridData gridData = new GridData( GridData.FILL_BOTH );
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.widthHint = CENTER_WIDTH_HINT;
 			gridData.heightHint = 150;
 			tablePreview.setLayoutData( gridData );
@@ -644,9 +646,6 @@ public class TaskSelectData extends SimpleTask implements
 		previewPainter = null;
 		dynamicArea.dispose( );
 		dynamicArea = null;
-
-		disposeResource( whiteColor );
-		whiteColor = null;
 		// oldSample = null;
 
 		// Restore color registry
@@ -654,14 +653,6 @@ public class TaskSelectData extends SimpleTask implements
 
 		// Remove all registered data definition text
 		DataDefinitionTextManager.getInstance( ).removeAll( );
-	}
-
-	private void disposeResource( Color color )
-	{
-		if ( color != null && !color.isDisposed( ) )
-		{
-			color.dispose( );
-		}
 	}
 
 	private ISelectDataCustomizeUI getCustomizeUI( )
@@ -865,7 +856,8 @@ public class TaskSelectData extends SimpleTask implements
 	private String getSecondMenuText( int axisIndex, int seriesIndex,
 			Series series )
 	{
-		String text = axisIndex == 0 ? "" : Messages.getString( "TaskSelectData.Label.Overlay" ); //$NON-NLS-1$ //$NON-NLS-2$
+		String text = axisIndex == 0
+				? "" : Messages.getString( "TaskSelectData.Label.Overlay" ); //$NON-NLS-1$ //$NON-NLS-2$
 		text += Messages.getString( "TaskSelectData.Label.Series" ) //$NON-NLS-1$
 				+ ( seriesIndex + 1 ) + " (" + series.getDisplayName( ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 		return text;
@@ -906,7 +898,10 @@ public class TaskSelectData extends SimpleTask implements
 	{
 		if ( previewPainter != null )
 		{
-			if ( notification.getNotifier( ) instanceof Query )
+			// Query and series change need to update Live Preview
+			if ( notification.getNotifier( ) instanceof Query
+					|| notification.getNotifier( ) instanceof Axis
+					|| notification.getNotifier( ) instanceof SeriesDefinition )
 			{
 				doLivePreview( );
 			}
@@ -1034,7 +1029,7 @@ public class TaskSelectData extends SimpleTask implements
 
 	private void doLivePreview( )
 	{
-		if ( ChartUIUtil.checkDataBinding( getChartModel( ) ) )
+		if ( ChartUIUtil.checkDataBinding( getChartModel( ) ) && hasDataSet( ) )
 		{
 			// Enable live preview
 			ChartPreviewPainter.setEnableLivePreview( true );
@@ -1048,19 +1043,17 @@ public class TaskSelectData extends SimpleTask implements
 			// Includes RuntimeException
 			catch ( Exception e )
 			{
-				container.displayException( e );
+				// Enable sample data instead
+				ChartPreviewPainter.setEnableLivePreview( false );
 			}
 			ChartAdapter.ignoreNotifications( false );
-			if ( previewPainter != null )
-			{
-				previewPainter.renderModel( getChartModel( ) );
-			}
 		}
 		else
 		{
 			// Disable live preview
 			ChartPreviewPainter.setEnableLivePreview( false );
 		}
+		previewPainter.renderModel( getChartModel( ) );
 	}
 
 }

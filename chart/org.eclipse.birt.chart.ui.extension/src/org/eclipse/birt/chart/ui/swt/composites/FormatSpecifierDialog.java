@@ -10,8 +10,6 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import java.text.MessageFormat;
-
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -45,36 +43,43 @@ public class FormatSpecifierDialog implements SelectionListener
     private transient boolean bWasCancelled = true;
 
     /**
-     *  
-     */
-    public FormatSpecifierDialog(Shell shellParent, FormatSpecifier formatspecifier, String sTitle)
-    {
-        super();
-        if (formatspecifier != null)
-        {
-            this.formatspecifier = (FormatSpecifier) EcoreUtil.copy(formatspecifier);
-        }
+	 * 
+	 * @param shellParent
+	 *            dialog shell
+	 * @param formatspecifier
+	 *            format model
+	 * @param sTitle
+	 *            this argument is obsolete
+	 */
+	public FormatSpecifierDialog( Shell shellParent,
+			FormatSpecifier formatspecifier, String sTitle )
+	{
+		super( );
+		if ( formatspecifier != null )
+		{
+			this.formatspecifier = (FormatSpecifier) EcoreUtil.copy( formatspecifier );
+		}
 
-        shell = new Shell(shellParent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
-        GridLayout gridLayout = new GridLayout();
-        gridLayout.numColumns = 2;
-        shell.setLayout(new FillLayout());
-        placeComponents();
-        shell
-            .setText(new MessageFormat(Messages.getString("FormatSpecifierDialog.Title.FormatSpecifier")).format(new Object[] { sTitle})); //$NON-NLS-1$
-        shell.pack();
-        shell.setDefaultButton(btnAccept);
-        UIHelper.centerOnScreen(shell);
-        shell.layout();
-        shell.open();
-        while (!shell.isDisposed())
-        {
-            if (!shell.getDisplay().readAndDispatch())
-            {
-                shell.getDisplay().sleep();
-            }
-        }
-    }
+		shell = new Shell( shellParent, SWT.DIALOG_TRIM
+				| SWT.RESIZE | SWT.APPLICATION_MODAL );
+		GridLayout gridLayout = new GridLayout( );
+		gridLayout.numColumns = 2;
+		shell.setLayout( new FillLayout( ) );
+		placeComponents( );
+		shell.setText( Messages.getString( "FormatSpecifierDialog.Title.EditFormat" ) ); //$NON-NLS-1$
+		shell.pack( );
+		shell.setDefaultButton( btnAccept );
+		UIHelper.centerOnScreen( shell );
+		shell.layout( );
+		shell.open( );
+		while ( !shell.isDisposed( ) )
+		{
+			if ( !shell.getDisplay( ).readAndDispatch( ) )
+			{
+				shell.getDisplay( ).sleep( );
+			}
+		}
+	}
 
     private void placeComponents()
     {

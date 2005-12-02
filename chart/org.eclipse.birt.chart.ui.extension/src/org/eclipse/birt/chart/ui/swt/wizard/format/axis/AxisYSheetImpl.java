@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisGridLinesSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisMarkersSheet;
@@ -66,8 +67,6 @@ public class AxisYSheetImpl extends SubtaskSheetImpl
 			Listener,
 			SelectionListener
 {
-
-	private transient Composite cmpContent = null;
 
 	private transient ExternalizedTextEditorComposite txtTitle;
 
@@ -115,6 +114,7 @@ public class AxisYSheetImpl extends SubtaskSheetImpl
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "AxisYSheetImpl.Label.Title" ) ); //$NON-NLS-1$
 
 		List keys = null;
+		IUIServiceProvider serviceprovider = getContext( ).getUIServiceProvider( );
 		if ( serviceprovider != null )
 		{
 			keys = serviceprovider.getRegisteredKeys( );
@@ -128,7 +128,8 @@ public class AxisYSheetImpl extends SubtaskSheetImpl
 				serviceprovider,
 				getAxisForProcessing( ).getTitle( ).getCaption( ).getValue( ) );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gd = new GridData( );
+			gd.widthHint = 250;
 			gd.horizontalSpan = 2;
 			txtTitle.setLayoutData( gd );
 			txtTitle.addListener( this );
@@ -139,27 +140,32 @@ public class AxisYSheetImpl extends SubtaskSheetImpl
 
 		cmbTypes = new Combo( cmpBasic, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gd = new GridData( );
+			gd.widthHint = 200;
 			cmbTypes.setLayoutData( gd );
 			cmbTypes.addSelectionListener( this );
 		}
 
 		btnFormatSpecifier = new Button( cmpBasic, SWT.PUSH );
-		GridData gdBTNFormatSpecifier = new GridData( );
-		gdBTNFormatSpecifier.widthHint = 20;
-		btnFormatSpecifier.setLayoutData( gdBTNFormatSpecifier );
-		btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
-		btnFormatSpecifier.setToolTipText( Messages.getString( "Shared.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
-		btnFormatSpecifier.addSelectionListener( this );
-		btnFormatSpecifier.getImage( )
-				.setBackground( btnFormatSpecifier.getBackground( ) );
+		{
+			GridData gdBTNFormatSpecifier = new GridData( );
+			gdBTNFormatSpecifier.widthHint = 20;
+			gdBTNFormatSpecifier.horizontalIndent = -3;
+			btnFormatSpecifier.setLayoutData( gdBTNFormatSpecifier );
+			btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
+			btnFormatSpecifier.setToolTipText( Messages.getString( "Shared.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
+			btnFormatSpecifier.addSelectionListener( this );
+			btnFormatSpecifier.getImage( )
+					.setBackground( btnFormatSpecifier.getBackground( ) );
+		}
 
 		Label lblOrigin = new Label( cmpBasic, SWT.NONE );
 		lblOrigin.setText( Messages.getString( "OrthogonalAxisDataSheetImpl.Lbl.Origin" ) ); //$NON-NLS-1$
 
 		cmbOrigin = new Combo( cmpBasic, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gd = new GridData( );
+			gd.widthHint = 200;
 			gd.horizontalSpan = 2;
 			cmbOrigin.setLayoutData( gd );
 			cmbOrigin.addSelectionListener( this );
@@ -184,7 +190,8 @@ public class AxisYSheetImpl extends SubtaskSheetImpl
 
 		txtValue = new TextEditorComposite( cmpBasic, SWT.BORDER | SWT.SINGLE );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gd = new GridData( );
+			gd.widthHint = 225;
 			gd.horizontalSpan = 2;
 			txtValue.setLayoutData( gd );
 			txtValue.addListener( this );
@@ -304,13 +311,6 @@ public class AxisYSheetImpl extends SubtaskSheetImpl
 				return null;
 			}
 		}
-	}
-
-	public Object onHide( )
-	{
-		detachPopup( );
-		cmpContent.dispose( );
-		return getContext( );
 	}
 
 	/*
@@ -464,14 +464,6 @@ public class AxisYSheetImpl extends SubtaskSheetImpl
 	{
 		return ChartUIUtil.getAxisYForProcessing( (ChartWithAxes) getChart( ),
 				getIndex( ) );
-	}
-
-	protected void selectAllButtons( boolean isSelected )
-	{
-		btnAxisTitle.setSelection( isSelected );
-		btnGridlines.setSelection( isSelected );
-		btnMarkers.setSelection( isSelected );
-		btnScale.setSelection( isSelected );
 	}
 
 	private void convertSampleData( )

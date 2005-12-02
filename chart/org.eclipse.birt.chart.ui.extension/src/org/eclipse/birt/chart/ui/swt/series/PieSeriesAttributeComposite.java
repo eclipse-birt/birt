@@ -19,38 +19,46 @@ import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.PieSeries;
-import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Actuate Corporation
  * 
  */
-public class PieSeriesAttributeComposite extends Composite implements
-		Listener,
-		SelectionListener
+public class PieSeriesAttributeComposite extends Composite
+		implements
+			Listener,
+			SelectionListener,
+			ModifyListener,
+			FocusListener
 {
 
 	private transient Group grpLeaderLine = null;
-
-	private transient IntegerSpinControl iscExplosion = null;
 
 	private transient FillChooserComposite fccSliceOutline = null;
 
@@ -64,6 +72,26 @@ public class PieSeriesAttributeComposite extends Composite implements
 
 	private static final int MAX_LEADER_LENGTH = 200;
 
+	private transient IUIServiceProvider serviceprovider;
+	private transient Object oContext;
+
+	private transient Text txtExplode;
+	private transient Button btnBuilder;
+
+	private transient Label lblExpSliWhen;
+	private transient Label lblExpDistance;
+	private transient Label lblRatio;
+	private transient IntegerSpinControl iscExplosion;
+	private transient Text txtRatio;
+	private transient boolean isExplodeModified;
+	private transient boolean isRatioModified;
+	private transient String strExplode;
+	private transient String strRatio;
+
+	private final static String TOOLTIP_EXPLODE_SLICE_WHEN = Messages.getString( "PieBottomAreaComponent.Label.TheExplosionCondition" ); //$NON-NLS-1$
+	private final static String TOOLTIP_EXPLOSION_DISTANCE = Messages.getString( "PieBottomAreaComponent.Label.TheAmplitudeOfTheExplosion" ); //$NON-NLS-1$
+	private final static String TOOLTIP_RATIO = Messages.getString( "PieBottomAreaComponent.Label.TheRatioOfTheChart" ); //$NON-NLS-1$
+
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
 	/**
@@ -71,10 +99,12 @@ public class PieSeriesAttributeComposite extends Composite implements
 	 * @param style
 	 */
 	public PieSeriesAttributeComposite( Composite parent, int style,
-			Series series )
+			Series series, IUIServiceProvider builder, Object oContext )
 	{
 		super( parent, style );
-		if ( !( series instanceof PieSeriesImpl ) )
+		this.serviceprovider = builder;
+		this.oContext = oContext;
+		if ( !( series instanceof PieSeries ) )
 		{
 			try
 			{
@@ -116,35 +146,23 @@ public class PieSeriesAttributeComposite extends Composite implements
 		// Main content composite
 		this.setLayout( glContent );
 
-		// Pie Slice Explosion composite
-		Label lblExplosion = new Label( this, SWT.NONE );
-		GridData gdLBLExplosion = new GridData( );
-		lblExplosion.setLayoutData( gdLBLExplosion );
-		lblExplosion.setText( Messages.getString( "PieSeriesAttributeComposite.Lbl.Explosion" ) ); //$NON-NLS-1$
+		// // Pie Slice Explosion composite
+		// Label lblExplosion = new Label( this, SWT.NONE );
+		// GridData gdLBLExplosion = new GridData( );
+		// lblExplosion.setLayoutData( gdLBLExplosion );
+		// lblExplosion.setText( Messages.getString(
+		// "PieSeriesAttributeComposite.Lbl.Explosion" ) ); //$NON-NLS-1$
+		//
+		// iscExplosion = new IntegerSpinControl( this,
+		// SWT.NONE,
+		// series.getExplosion( ) );
+		// GridData gdISCExplosion = new GridData( GridData.FILL_HORIZONTAL );
+		// iscExplosion.setLayoutData( gdISCExplosion );
+		// iscExplosion.setMinimum( 0 );
+		// iscExplosion.setMaximum( 100 );
+		// iscExplosion.addListener( this );
 
-		iscExplosion = new IntegerSpinControl( this,
-				SWT.NONE,
-				series.getExplosion( ) );
-		GridData gdISCExplosion = new GridData( GridData.FILL_HORIZONTAL );
-		iscExplosion.setLayoutData( gdISCExplosion );
-		iscExplosion.setMinimum( 0 );
-		iscExplosion.setMaximum( 100 );
-		iscExplosion.addListener( this );
-
-		// Slice outline color composite
-		Label lblSliceOutline = new Label( this, SWT.NONE );
-		GridData gdLBLSliceOutline = new GridData( );
-		lblSliceOutline.setLayoutData( gdLBLSliceOutline );
-		lblSliceOutline.setText( Messages.getString( "PieSeriesAttributeComposite.Lbl.SliceOutline" ) ); //$NON-NLS-1$
-
-		fccSliceOutline = new FillChooserComposite( this,
-				SWT.NONE,
-				series.getSliceOutline( ),
-				false,
-				false );
-		GridData gdFCCSliceOutline = new GridData( GridData.FILL_HORIZONTAL );
-		fccSliceOutline.setLayoutData( gdFCCSliceOutline );
-		fccSliceOutline.addListener( this );
+		createSeriesDetail( this );
 
 		// LeaderLine group
 		grpLeaderLine = new Group( this, SWT.NONE );
@@ -193,6 +211,98 @@ public class PieSeriesAttributeComposite extends Composite implements
 		iscLeaderLength.setMaximum( MAX_LEADER_LENGTH );
 
 		populateLists( );
+	}
+
+	private void createSeriesDetail( Composite cmpBottomBindingArea )
+	{
+		// Slice outline color composite
+		Label lblSliceOutline = new Label( cmpBottomBindingArea, SWT.NONE );
+		GridData gdLBLSliceOutline = new GridData( );
+		lblSliceOutline.setLayoutData( gdLBLSliceOutline );
+		lblSliceOutline.setText( Messages.getString( "PieSeriesAttributeComposite.Lbl.SliceOutline" ) ); //$NON-NLS-1$
+
+		fccSliceOutline = new FillChooserComposite( cmpBottomBindingArea,
+				SWT.NONE,
+				series.getSliceOutline( ),
+				false,
+				false );
+		GridData gdFCCSliceOutline = new GridData( GridData.FILL_HORIZONTAL );
+		gdFCCSliceOutline.horizontalSpan = 3;
+		fccSliceOutline.setLayoutData( gdFCCSliceOutline );
+		fccSliceOutline.addListener( this );
+
+		lblExpSliWhen = new Label( cmpBottomBindingArea, SWT.NONE );
+		{
+			lblExpSliWhen.setText( Messages.getString( "PieBottomAreaComponent.Label.ExplodeSliceWhen" ) ); //$NON-NLS-1$
+			lblExpSliWhen.setToolTipText( TOOLTIP_EXPLODE_SLICE_WHEN );
+		}
+
+		txtExplode = new Text( cmpBottomBindingArea, SWT.BORDER | SWT.SINGLE );
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
+			txtExplode.setLayoutData( gd );
+			if ( series.getExplosionExpression( ) != null )
+			{
+				txtExplode.setText( series.getExplosionExpression( ) );
+			}
+			txtExplode.setToolTipText( Messages.getString( "PieBaseSeriesComponent.Tooltip.EnterBooleanExpression" ) ); //$NON-NLS-1$
+			txtExplode.addModifyListener( this );
+			txtExplode.addFocusListener( this );
+		}
+
+		btnBuilder = new Button( cmpBottomBindingArea, SWT.PUSH );
+		{
+			GridData gdBTNBuilder = new GridData( );
+			gdBTNBuilder.heightHint = 20;
+			gdBTNBuilder.widthHint = 20;
+			btnBuilder.setLayoutData( gdBTNBuilder );
+			btnBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
+			btnBuilder.addSelectionListener( this );
+			btnBuilder.setToolTipText( Messages.getString( "DataDefinitionComposite.Tooltip.InvokeExpressionBuilder" ) ); //$NON-NLS-1$
+			btnBuilder.getImage( ).setBackground( btnBuilder.getBackground( ) );
+			if ( serviceprovider == null )
+			{
+				btnBuilder.setEnabled( false );
+			}
+		}
+
+		lblExpDistance = new Label( cmpBottomBindingArea, SWT.NONE );
+		{
+			lblExpDistance.setText( Messages.getString( "PieBottomAreaComponent.Label.ByDistance" ) ); //$NON-NLS-1$
+			lblExpDistance.setToolTipText( TOOLTIP_EXPLOSION_DISTANCE );
+		}
+
+		iscExplosion = new IntegerSpinControl( cmpBottomBindingArea,
+				SWT.NONE,
+				series.getExplosion( ) );
+		{
+			GridData gdISCExplosion = new GridData( );
+			gdISCExplosion.widthHint = 50;
+			iscExplosion.setLayoutData( gdISCExplosion );
+			iscExplosion.setMinimum( 0 );
+			iscExplosion.setMaximum( 100 );
+			iscExplosion.addListener( this );
+		}
+
+		lblRatio = new Label( cmpBottomBindingArea, SWT.NONE );
+		{
+			GridData gridData = new GridData( GridData.HORIZONTAL_ALIGN_END );
+			lblRatio.setLayoutData( gridData );
+			lblRatio.setText( Messages.getString( "PieBottomAreaComponent.Label.Ratio" ) ); //$NON-NLS-1$
+			lblRatio.setToolTipText( TOOLTIP_RATIO );
+		}
+
+		txtRatio = new Text( cmpBottomBindingArea, SWT.BORDER );
+		{
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			txtRatio.setLayoutData( gridData );
+			txtRatio.setToolTipText( TOOLTIP_RATIO );
+			txtRatio.setText( String.valueOf( series.getRatio( ) ) );
+			txtRatio.addModifyListener( this );
+			txtRatio.addFocusListener( this );
+		}
+
 	}
 
 	private void populateLists( )
@@ -257,6 +367,16 @@ public class PieSeriesAttributeComposite extends Composite implements
 		{
 			series.setLeaderLineStyle( LeaderLineStyle.get( LiteralHelper.leaderLineStyleSet.getNameByDisplayName( cmbLeaderLine.getText( ) ) ) );
 		}
+		else if ( e.widget.equals( btnBuilder ) )
+		{
+			String sExpr = serviceprovider.invoke( txtExplode.getText( ),
+					oContext,
+					Messages.getString( "PieBaseSeriesComponent.Text.SpecifyExplodeSlice" ), //$NON-NLS-1$
+					true );
+			txtExplode.setText( sExpr );
+			txtExplode.setToolTipText( sExpr );
+			series.setExplosionExpression( sExpr );
+		}
 	}
 
 	/*
@@ -266,6 +386,53 @@ public class PieSeriesAttributeComposite extends Composite implements
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
+	}
+
+	public void modifyText( ModifyEvent e )
+	{
+		if ( e.widget.equals( txtExplode ) )
+		{
+			isExplodeModified = true;
+			strExplode = txtExplode.getText( );
+		}
+		else if ( e.widget.equals( txtRatio ) )
+		{
+			isRatioModified = true;
+			strRatio = txtRatio.getText( );
+		}
+	}
+
+	public void focusGained( FocusEvent e )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public void focusLost( FocusEvent e )
+	{
+		if ( e.widget.equals( txtExplode ) )
+		{
+			if ( isExplodeModified )
+			{
+				series.setExplosionExpression( strExplode );
+				isExplodeModified = false;
+			}
+		}
+		else if ( e.widget.equals( txtRatio ) )
+		{
+			if ( isRatioModified )
+			{
+				if ( strRatio == "" || Double.parseDouble( strRatio ) < 0.0 ) //$NON-NLS-1$
+				{
+					series.setRatio( 0.0 );
+				}
+				else
+				{
+					series.setRatio( Double.parseDouble( strRatio ) );
+				}
+				isRatioModified = false;
+			}
+		}
 	}
 
 }

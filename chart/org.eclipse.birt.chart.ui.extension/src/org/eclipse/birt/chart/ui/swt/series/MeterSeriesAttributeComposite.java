@@ -21,13 +21,15 @@ import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
-import org.eclipse.birt.chart.ui.swt.composites.DialTicksDialog;
 import org.eclipse.birt.chart.ui.swt.composites.DialScaleDialog;
+import org.eclipse.birt.chart.ui.swt.composites.DialTicksDialog;
 import org.eclipse.birt.chart.ui.swt.composites.HeadStyleAttributeComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -36,15 +38,14 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 
 /**
  * Implement Meter Chart -> Orthogonal Series -> Series Details
  */
-public class MeterSeriesAttributeComposite extends Composite implements
-		Listener,
-		SelectionListener
+public class MeterSeriesAttributeComposite extends Composite
+		implements
+			Listener,
+			SelectionListener
 {
 
 	private transient Composite cmpContent = null;
@@ -142,7 +143,7 @@ public class MeterSeriesAttributeComposite extends Composite implements
 
 		iscStartAngle = new IntegerSpinControl( cmpContent,
 				SWT.NONE,
-				(int) ( (DialSeries) series ).getDial( ).getStartAngle( ) );
+				(int) series.getDial( ).getStartAngle( ) );
 		GridData gdISCStartAngle = new GridData( GridData.FILL_HORIZONTAL );
 		iscStartAngle.setLayoutData( gdISCStartAngle );
 		iscStartAngle.setValue( (int) ( series.getDial( ).getStartAngle( ) ) );
@@ -157,7 +158,7 @@ public class MeterSeriesAttributeComposite extends Composite implements
 
 		iscStopAngle = new IntegerSpinControl( cmpContent,
 				SWT.NONE,
-				(int) ( (DialSeries) series ).getDial( ).getStopAngle( ) );
+				(int) series.getDial( ).getStopAngle( ) );
 		GridData gdISCStopAngle = new GridData( GridData.FILL_HORIZONTAL );
 		iscStopAngle.setLayoutData( gdISCStopAngle );
 		iscStopAngle.setValue( (int) ( series.getDial( ).getStopAngle( ) ) );
@@ -227,8 +228,8 @@ public class MeterSeriesAttributeComposite extends Composite implements
 	{
 		if ( event.widget.equals( txtRadius ) )
 		{
-				series.getDial( )
-					.setRadius( Double.parseDouble( trimString(txtRadius.getText( ) ) ) );		
+			series.getDial( )
+					.setRadius( Double.parseDouble( trimString( txtRadius.getText( ) ) ) );
 		}
 		else if ( event.widget.equals( iscStartAngle ) )
 		{
@@ -284,16 +285,13 @@ public class MeterSeriesAttributeComposite extends Composite implements
 			series.setDial( scaleDialog.getDialForProcessing( ) );
 		}
 	}
-	
+
 	private String trimString( String input )
 	{
 		if ( input.trim( ).length( ) == 0 )
 		{
 			return "0.0"; //$NON-NLS-1$
 		}
-		else
-		{
-			return input.trim( );
-		}
+		return input.trim( );
 	}
 }

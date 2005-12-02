@@ -104,7 +104,7 @@ public class BaseDataDefinitionComponent
 			glContent.numColumns = 4;
 			glContent.marginHeight = 0;
 			glContent.marginWidth = 0;
-			glContent.horizontalSpacing = 0;
+			glContent.horizontalSpacing = 2;
 			cmpTop.setLayout( glContent );
 			GridData gd = new GridData( GridData.HORIZONTAL_ALIGN_FILL );
 			cmpTop.setLayoutData( gd );
@@ -123,7 +123,7 @@ public class BaseDataDefinitionComponent
 			if ( query != null && query.getDefinition( ) != null )
 			{
 				txtDefinition.setText( query.getDefinition( ) );
-				txtDefinition.setToolTipText( query.getDefinition( ) );
+				txtDefinition.setToolTipText( getTooltipForDataText( query.getDefinition( ) ) );
 			}
 			txtDefinition.addModifyListener( this );
 			txtDefinition.addFocusListener( this );
@@ -162,24 +162,26 @@ public class BaseDataDefinitionComponent
 		btnFormatEditor.setLayoutData( gdBTNFormatEditor );
 		btnFormatEditor.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
 		btnFormatEditor.addSelectionListener( this );
-		btnFormatEditor.setToolTipText( Messages.getString( "Shared.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
+		btnFormatEditor.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
 		btnFormatEditor.getImage( )
 				.setBackground( btnFormatEditor.getBackground( ) );
+
+		// Updatas color setting
+		setColor( );
 
 		return cmpTop;
 	}
 
 	public void selectArea( boolean selected, Object data )
 	{
-		setColor( );
 		if ( data instanceof Object[] )
 		{
 			Object[] array = (Object[]) data;
 			seriesdefinition = (SeriesDefinition) array[0];
 			query = (Query) array[1];
 			txtDefinition.setText( query.getDefinition( ) );
-			txtDefinition.setToolTipText( query.getDefinition( ) );
 		}
+		setColor( );
 	}
 
 	private void setColor( )
@@ -211,7 +213,6 @@ public class BaseDataDefinitionComponent
 					oContext,
 					sTitle );
 			txtDefinition.setText( sExpr );
-			txtDefinition.setToolTipText( sExpr );
 			query.setDefinition( sExpr );
 		}
 		else if ( e.getSource( ).equals( btnRuleEditor ) )
@@ -264,7 +265,7 @@ public class BaseDataDefinitionComponent
 		{
 			isQueryModified = true;
 			// Reset tooltip
-			txtDefinition.setToolTipText( txtDefinition.getText( ) );
+			txtDefinition.setToolTipText( getTooltipForDataText( txtDefinition.getText( ) ) );
 		}
 	}
 
@@ -304,6 +305,14 @@ public class BaseDataDefinitionComponent
 			txtDefinition.getParent( ).layout( );
 			isQueryModified = false;
 		}
+	}
 
+	private String getTooltipForDataText( String queryText )
+	{
+		if ( queryText.trim( ).length( ) == 0 )
+		{
+			return Messages.getString( "BaseDataDefinitionComponent.Tooltip.InputValueExpression" ); //$NON-NLS-1$
+		}
+		return queryText;
 	}
 }

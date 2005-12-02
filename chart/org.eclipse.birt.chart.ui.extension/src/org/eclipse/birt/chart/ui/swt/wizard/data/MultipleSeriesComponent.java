@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.ui.swt.wizard.data;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -30,7 +29,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 /**
- * 
+ * This UI component is made up of data text fields for grouping series of each
+ * axis.
  */
 
 public class MultipleSeriesComponent implements ISelectDataComponent
@@ -94,23 +94,7 @@ public class MultipleSeriesComponent implements ISelectDataComponent
 
 		for ( int i = 0; i < seriesDefnsArray.length; i++ )
 		{
-			String label = null;
-			if ( isSingle )
-			{
-				label = LABEL_GROUPING_WITHOUTAXIS;
-			}
-			else
-			{
-				if ( i == 0 )
-				{
-					label = LABEL_GROUPING_YSERIES;
-				}
-				else
-				{
-					label = LABEL_GROUPING_OVERLAY;
-				}
-			}
-			createRightGroupArea( cmp, label, seriesDefnsArray[i] );
+			createRightGroupArea( cmp, i, seriesDefnsArray[i] );
 		}
 
 		Label bottomAngle = new Label( cmp, SWT.NONE );
@@ -121,9 +105,10 @@ public class MultipleSeriesComponent implements ISelectDataComponent
 		return cmp;
 	}
 
-	private void createRightGroupArea( Composite parent, final String label,
+	private void createRightGroupArea( Composite parent, final int axisIndex,
 			final EList seriesDefn )
 	{
+		final String strDesc = getGroupingDescription( axisIndex );
 		ISelectDataComponent subUIGroupY = new ISelectDataComponent( ) {
 
 			private transient Composite cmpGroup;
@@ -138,23 +123,20 @@ public class MultipleSeriesComponent implements ISelectDataComponent
 					GridData gd = new GridData( );
 					gd.widthHint = 100;
 					lblRightYGrouping.setLayoutData( gd );
-					lblRightYGrouping.setText( label );
+					lblRightYGrouping.setText( strDesc );
 				}
 
+				int selectedSeriesIndex = selectDataUI.getSeriesIndex( )[axisIndex];
 				if ( seriesDefn != null && !seriesDefn.isEmpty( ) )
 				{
-					int index = 1;
-					for ( Iterator iterator = seriesDefn.iterator( ); iterator.hasNext( ); index++ )
-					{
-						if ( seriesDefn.size( ) == 1 )
-						{
-							// Remove the title when only single series
-							index = 0;
-						}
-						createRightAxisArea( cmpGroup,
-								index,
-								( (SeriesDefinition) iterator.next( ) ) );
-					}
+					// Only display current selected series
+					ISelectDataComponent subUI = selectDataUI.getAreaComponent( ISelectDataCustomizeUI.GROUPING_SERIES,
+							( (SeriesDefinition) seriesDefn.get( selectedSeriesIndex ) ),
+							serviceprovider,
+							oContext,
+							sTitle );
+					subUI.createArea( cmpGroup );
+					components.add( subUI );
 				}
 				return cmpGroup;
 			}
@@ -174,69 +156,6 @@ public class MultipleSeriesComponent implements ISelectDataComponent
 		components.add( subUIGroupY );
 	}
 
-	private void createRightAxisArea( Composite parent, final int axisIndex,
-			SeriesDefinition seriesDefn )
-	{
-		ISelectDataComponent rightAxisArea = new ISelectDataComponent( ) {
-
-			private transient Composite cmpRightAxisArea;
-			private transient Label label;
-
-			public Composite createArea( Composite parent )
-			{
-				cmpRightAxisArea = new Composite( parent, SWT.NONE );
-				cmpRightAxisArea.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL
-						| GridData.VERTICAL_ALIGN_FILL ) );
-				{
-					GridLayout gridLayout = new GridLayout( );
-					gridLayout.marginWidth = 0;
-					gridLayout.marginHeight = 0;
-					cmpRightAxisArea.setLayout( gridLayout );
-				}
-
-				if ( axisIndex > 0 )
-				{
-					label = new Label( cmpRightAxisArea, SWT.NONE );
-					String str = Messages.getString( "MultipleSeriesComponent.Label.Series" );//$NON-NLS-1$
-					if ( !isSingle )
-					{
-						str = "Y " + str; //$NON-NLS-1$
-					}
-					label.setText( str + axisIndex + ":" ); //$NON-NLS-1$
-				}
-
-				return cmpRightAxisArea;
-			}
-
-			public void selectArea( boolean selected, Object data )
-			{
-
-			}
-
-			public void dispose( )
-			{
-				// TODO Auto-generated method stub
-
-			}
-		};
-		Composite cmp = rightAxisArea.createArea( parent );
-		components.add( rightAxisArea );
-
-		// Creates chart type customized UI for right area
-		// ISelectDataComponent subUI = new BaseDataDefinitionComponent(
-		// seriesDefn,
-		// serviceprovider,
-		// oContext,
-		// sTitle );
-		ISelectDataComponent subUI = selectDataUI.getAreaComponent( ISelectDataCustomizeUI.GROUPING_SERIES,
-				seriesDefn,
-				serviceprovider,
-				oContext,
-				sTitle );
-		subUI.createArea( cmp );
-		components.add( subUI );
-	}
-
 	public void selectArea( boolean selected, Object data )
 	{
 		for ( int i = 0; i < components.size( ); i++ )
@@ -252,6 +171,19 @@ public class MultipleSeriesComponent implements ISelectDataComponent
 		{
 			( (ISelectDataComponent) components.get( i ) ).dispose( );
 		}
+	}
+
+	private String getGroupingDescription( int axisIndex )
+	{
+		if ( isSingle )
+		{
+			return LABEL_GROUPING_WITHOUTAXIS;
+		}
+		if ( axisIndex == 0 )
+		{
+			return LABEL_GROUPING_YSERIES;
+		}
+		return LABEL_GROUPING_OVERLAY;
 	}
 
 }

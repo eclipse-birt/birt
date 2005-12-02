@@ -40,7 +40,6 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 
 {
 
-	private transient Composite cmpContent = null;
 	private static final int HORIZONTAL_SPACING = 30;
 
 	/*
@@ -128,13 +127,6 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 					AngleType.Z ).placeComponents( cmpContent );
 		}
 
-	}
-
-	public Object onHide( )
-	{
-		detachPopup( );
-		cmpContent.dispose( );
-		return getContext( );
 	}
 
 	class AxisOptionChoser implements SelectionListener, Listener

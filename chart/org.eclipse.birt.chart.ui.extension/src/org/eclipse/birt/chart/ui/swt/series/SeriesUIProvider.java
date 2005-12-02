@@ -17,9 +17,9 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.composites.DataDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
-import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.BlankSelectDataComponent;
 import org.eclipse.swt.SWT;
@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author Actuate Corporation
  * 
  */
-public class SeriesUIProvider implements ISeriesUIProvider
+public class SeriesUIProvider extends DefaultSeriesUIProvider
 {
 
 	private static final String SERIES_CLASS = "org.eclipse.birt.chart.model.component.impl.SeriesImpl"; //$NON-NLS-1$
@@ -42,12 +42,8 @@ public class SeriesUIProvider implements ISeriesUIProvider
 		super( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesAttributeSheet(org.eclipse.swt.widgets.Composite)
-	 */
-	public Composite getSeriesAttributeSheet( Composite parent, Series series )
+	public Composite getSeriesAttributeSheet( Composite parent, Series series,
+			IUIServiceProvider builder, Object oContext )
 	{
 		return null;
 	}
@@ -135,7 +131,7 @@ public class SeriesUIProvider implements ISeriesUIProvider
 		return SERIES_CLASS;
 	}
 
-    public ISelectDataComponent getSeriesDataComponent( int seriesType,
+	public ISelectDataComponent getSeriesDataComponent( int seriesType,
 			SeriesDefinition seriesDefn, IUIServiceProvider builder,
 			Object oContext, String sTitle )
 	{

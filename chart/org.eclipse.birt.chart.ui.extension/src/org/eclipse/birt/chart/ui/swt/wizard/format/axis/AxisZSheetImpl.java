@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisGridLinesSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisTextSheet;
@@ -40,8 +41,6 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 			Listener,
 			SelectionListener
 {
-
-	private transient Composite cmpContent = null;
 
 	private transient ExternalizedTextEditorComposite txtTitle;
 
@@ -74,6 +73,7 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Title" ) ); //$NON-NLS-1$
 
 		List keys = null;
+		IUIServiceProvider serviceprovider = getContext( ).getUIServiceProvider( );
 		if ( serviceprovider != null )
 		{
 			keys = serviceprovider.getRegisteredKeys( );
@@ -87,7 +87,8 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 				serviceprovider,
 				getAxisForProcessing( ).getTitle( ).getCaption( ).getValue( ) );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gd = new GridData( );
+			gd.widthHint = 200;
 			txtTitle.setLayoutData( gd );
 			txtTitle.addListener( this );
 		}
@@ -123,13 +124,6 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 		btnGridlines = createToggleButton( cmp,
 				Messages.getString( "AxisZSheetImpl.Label.Gridlines" ) );//$NON-NLS-1$
 		btnGridlines.addSelectionListener( this );
-	}
-
-	public Object onHide( )
-	{
-		detachPopup( );
-		cmpContent.dispose( );
-		return getContext( );
 	}
 
 	/*
@@ -196,12 +190,6 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 	private Axis getAxisForProcessing( )
 	{
 		return ChartUIUtil.getAxisZForProcessing( (ChartWithAxes) getChart( ) );
-	}
-
-	protected void selectAllButtons( boolean isSelected )
-	{
-		btnAxisTitle.setSelection( isSelected );
-		btnGridlines.setSelection( isSelected );
 	}
 
 }

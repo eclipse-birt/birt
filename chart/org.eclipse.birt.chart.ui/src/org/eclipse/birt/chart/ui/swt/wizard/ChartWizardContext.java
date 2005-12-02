@@ -11,8 +11,13 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.style.IStyleProcessor;
+import org.eclipse.birt.chart.ui.swt.UIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
@@ -115,6 +120,20 @@ public class ChartWizardContext implements IWizardContext
 
 	public IChartType getChartType( )
 	{
+		if ( chartType == null )
+		{
+			// If chart type is not set, fetch the value from the model
+			LinkedHashMap htTypes = new LinkedHashMap( );
+			Collection cTypes = UIExtensionsImpl.instance( )
+					.getUIChartTypeExtensions( );
+			Iterator iterTypes = cTypes.iterator( );
+			while ( iterTypes.hasNext( ) )
+			{
+				IChartType type = (IChartType) iterTypes.next( );
+				htTypes.put( type.getName( ), type );
+			}
+			chartType = (IChartType) htTypes.get( chartModel.getType( ) );
+		}
 		return chartType;
 	}
 

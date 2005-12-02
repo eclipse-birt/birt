@@ -51,6 +51,14 @@
    <extension
          id="chart"
          name="The chart extension"
+         point="org.eclipse.birt.report.designer.ui.menuBuilders">
+      <menuBuilder
+            class="org.eclipse.birt.chart.reportitem.ui.ChartMenuBuilder"
+            elementName="Chart"/>
+   </extension>
+   <extension
+         id="chart"
+         name="The chart extension"
          point="org.eclipse.birt.report.model.reportItemModel">
       <reportItem
             class="org.eclipse.birt.chart.reportitem.ChartReportItemFactoryImpl"

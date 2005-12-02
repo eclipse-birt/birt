@@ -54,8 +54,6 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			SelectionListener
 {
 
-	private transient Composite cmpContent = null;
-
 	private transient Button btnShowLine;
 
 	private transient Button btnLabel;
@@ -164,7 +162,10 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			getSeriesAttributeUIProviders( );
 		}
 		( (ISeriesUIProvider) htSeriesAttributeUIProviders.get( series.getClass( )
-				.getName( ) ) ).getSeriesAttributeSheet( parent, series );
+				.getName( ) ) ).getSeriesAttributeSheet( parent,
+				series,
+				getContext( ).getUIServiceProvider( ),
+				getContext( ).getExtendedItem( ) );
 	}
 
 	private void getSeriesAttributeUIProviders( )
@@ -179,13 +180,6 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			String sSeries = provider.getSeriesClass( );
 			htSeriesAttributeUIProviders.put( sSeries, provider );
 		}
-	}
-
-	public Object onHide( )
-	{
-		detachPopup( );
-		cmpContent.dispose( );
-		return getContext( );
 	}
 
 	/*
@@ -275,8 +269,8 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 				// Close trendline popup
 				if ( btnTrendline.getSelection( ) )
 				{
-					detachPopup( btnTrendline );
 					btnTrendline.setSelection( false );
+					detachPopup( btnTrendline );
 				}
 			}
 		}
@@ -342,17 +336,6 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			}
 		}
 		return iSeriesDefinitionIndex;
-	}
-
-	protected void selectAllButtons( boolean isSelected )
-	{
-		btnLabel.setSelection( isSelected );
-		btnInteractivity.setSelection( isSelected );
-		btnDataPoint.setSelection( isSelected );
-		if ( isTrendlineAvailable( ) )
-		{
-			btnTrendline.setSelection( isSelected );
-		}
 	}
 
 	private boolean isTrendlineAvailable( )

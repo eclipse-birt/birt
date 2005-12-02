@@ -8,6 +8,7 @@
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
+
 package org.eclipse.birt.chart.ui.swt.series;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -16,10 +17,10 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.composites.DataDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
-import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.BlankSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
@@ -29,85 +30,95 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author Actuate Corporation
- *  
+ * 
  */
-public class LineSeriesUIProvider implements ISeriesUIProvider
+public class LineSeriesUIProvider extends DefaultSeriesUIProvider
 {
-    private static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.LineSeriesImpl"; //$NON-NLS-1$
 
-    /**
-     *  
-     */
-    public LineSeriesUIProvider()
-    {
-        super();
-    }
+	private static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.LineSeriesImpl"; //$NON-NLS-1$
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesAttributeSheet(org.eclipse.swt.widgets.Composite,
-     *      org.eclipse.birt.chart.model.component.Series)
-     */
-    public Composite getSeriesAttributeSheet(Composite parent, Series series)
-    {
-        return new LineSeriesAttributeComposite(parent, SWT.NONE, series);
-    }
+	/**
+	 * 
+	 */
+	public LineSeriesUIProvider( )
+	{
+		super( );
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesDataSheet(org.eclipse.swt.widgets.Composite)
-     */
-    public Composite getSeriesDataSheet(Composite parent, SeriesDefinition seriesdefinition,
-        IUIServiceProvider builder, Object oContext)
-    {
-        Query query = null;
-        if (seriesdefinition.getDesignTimeSeries().getDataDefinition().size() > 0)
-        {
-            query = ((Query) seriesdefinition.getDesignTimeSeries().getDataDefinition().get(0));
-        }
-        else
-        {
-            query = QueryImpl.create(""); //$NON-NLS-1$
-            seriesdefinition.getDesignTimeSeries().getDataDefinition().add(query);
-        }
+	public Composite getSeriesAttributeSheet( Composite parent, Series series,
+			IUIServiceProvider builder, Object oContext )
+	{
+		return new LineSeriesAttributeComposite( parent, SWT.NONE, series );
+	}
 
-        String sPrefix = ""; //$NON-NLS-1$
-        // If container of container is chart, it is a base series
-        if (seriesdefinition.eContainer().eContainer() instanceof Chart)
-        {
-            sPrefix = "X "; //$NON-NLS-1$
-        }
-        else
-        {
-            sPrefix = "Y "; //$NON-NLS-1$
-        }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesDataSheet(org.eclipse.swt.widgets.Composite)
+	 */
+	public Composite getSeriesDataSheet( Composite parent,
+			SeriesDefinition seriesdefinition, IUIServiceProvider builder,
+			Object oContext )
+	{
+		Query query = null;
+		if ( seriesdefinition.getDesignTimeSeries( )
+				.getDataDefinition( )
+				.size( ) > 0 )
+		{
+			query = ( (Query) seriesdefinition.getDesignTimeSeries( )
+					.getDataDefinition( )
+					.get( 0 ) );
+		}
+		else
+		{
+			query = QueryImpl.create( "" ); //$NON-NLS-1$
+			seriesdefinition.getDesignTimeSeries( )
+					.getDataDefinition( )
+					.add( query );
+		}
 
-        String sTitle = query.getDefinition();
-        if (sTitle == null || "".equals(sTitle)) //$NON-NLS-1$
-        {
-            sTitle = sPrefix + Messages.getString("LineSeriesUIProvider.Lbl.SeriesDefinition"); //$NON-NLS-1$
-        }
-        else
-        {
-            sTitle = sPrefix + "Series Definition (" + sTitle + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-        }
+		String sPrefix = ""; //$NON-NLS-1$
+		// If container of container is chart, it is a base series
+		if ( seriesdefinition.eContainer( ).eContainer( ) instanceof Chart )
+		{
+			sPrefix = "X "; //$NON-NLS-1$
+		}
+		else
+		{
+			sPrefix = "Y "; //$NON-NLS-1$
+		}
 
-        return new DataDefinitionComposite(parent, SWT.NONE, query, seriesdefinition, builder, oContext, sTitle);
-    }
+		String sTitle = query.getDefinition( );
+		if ( sTitle == null || "".equals( sTitle ) ) //$NON-NLS-1$
+		{
+			sTitle = sPrefix
+					+ Messages.getString( "LineSeriesUIProvider.Lbl.SeriesDefinition" ); //$NON-NLS-1$
+		}
+		else
+		{
+			sTitle = sPrefix + "Series Definition (" + sTitle + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesClass()
-     */
-    public String getSeriesClass()
-    {
-        return SERIES_CLASS;
-    }
-    
-    public ISelectDataComponent getSeriesDataComponent( int seriesType,
+		return new DataDefinitionComposite( parent,
+				SWT.NONE,
+				query,
+				seriesdefinition,
+				builder,
+				oContext,
+				sTitle );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesClass()
+	 */
+	public String getSeriesClass( )
+	{
+		return SERIES_CLASS;
+	}
+
+	public ISelectDataComponent getSeriesDataComponent( int seriesType,
 			SeriesDefinition seriesDefn, IUIServiceProvider builder,
 			Object oContext, String sTitle )
 	{

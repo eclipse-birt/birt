@@ -35,7 +35,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
@@ -47,9 +46,10 @@ import org.eclipse.swt.widgets.Label;
  * 
  */
 
-public class TaskFormatChart extends TreeCompoundTask implements
-		IUIManager,
-		ITaskChangeListener
+public class TaskFormatChart extends TreeCompoundTask
+		implements
+			IUIManager,
+			ITaskChangeListener
 {
 
 	private transient ChartPreviewPainter previewPainter = null;
@@ -58,7 +58,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 
 	private transient Canvas previewCanvas;
 
-	private transient Color whiteColor;
+	private transient Label lblNodeTitle;
 
 	private transient int iBaseSeriesCount = 0;
 
@@ -395,6 +395,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		{
 			createPreviewPainter( );
 		}
+		doLivePreviewWithoutRenderModel( );
 		previewPainter.renderModel( getCurrentModelState( ) );
 		return cmp;
 	}
@@ -409,6 +410,11 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		}
 		createPreviewArea( );
 
+		lblNodeTitle = new Label( cmpTask, SWT.NONE );
+		{
+			lblNodeTitle.setFont( JFaceResources.getBannerFont( ) );
+		}
+
 		return cmpTask;
 	}
 
@@ -420,15 +426,21 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			label.setText( Messages.getString( "TaskFormatChart.Label.Preview" ) ); //$NON-NLS-1$
 		}
 
-		previewCanvas = new Canvas( cmpTask, SWT.NONE );
+		previewCanvas = new Canvas( cmpTask, SWT.BORDER );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-			gridData.verticalAlignment = SWT.FILL;
 			gridData.heightHint = 250;
+			gridData.horizontalIndent = 10;
 			previewCanvas.setLayoutData( gridData );
-			whiteColor = new Color( Display.getDefault( ), 255, 255, 255 );
-			previewCanvas.setBackground( whiteColor );
+			previewCanvas.setBackground( Display.getDefault( )
+					.getSystemColor( SWT.COLOR_WHITE ) );
 		}
+	}
+
+	protected void createSubtaskArea( Composite parent, ISubtaskSheet subtask )
+	{
+		lblNodeTitle.setText( getNodeName( false ) );
+		super.createSubtaskArea( parent, subtask );
 	}
 
 	private void createPreviewPainter( )
@@ -447,7 +459,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			if ( notification.getNotifier( ) instanceof SeriesGrouping
 					|| ( notification.getNewValue( ) instanceof SortOption || notification.getOldValue( ) instanceof SortOption ) )
 			{
-				doLivePreview( );
+				doLivePreviewWithoutRenderModel( );
 			}
 			else if ( ChartPreviewPainter.isEnableLivePreview( ) )
 			{
@@ -459,9 +471,18 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		}
 	}
 
-	private void doLivePreview( )
+	private boolean hasDataSet( )
 	{
-		if ( ChartUIUtil.checkDataBinding( getCurrentModelState( ) ) )
+		return ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( )
+				.getReportDataSet( ) != null
+				|| ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( )
+						.getBoundDataSet( ) != null;
+	}
+
+	private void doLivePreviewWithoutRenderModel( )
+	{
+		if ( ChartUIUtil.checkDataBinding( getCurrentModelState( ) )
+				&& hasDataSet( ) )
 		{
 			// Enable live preview
 			ChartPreviewPainter.setEnableLivePreview( true );
@@ -475,7 +496,8 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			// Includes RuntimeException
 			catch ( Exception e )
 			{
-				container.displayException( e );
+				// Enable sample data instead
+				ChartPreviewPainter.setEnableLivePreview( false );
 			}
 			ChartAdapter.ignoreNotifications( false );
 		}
@@ -606,10 +628,5 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			previewPainter.dispose( );
 		}
 		previewPainter = null;
-		if ( whiteColor != null && !whiteColor.isDisposed( ) )
-		{
-			whiteColor.dispose( );
-		}
-		whiteColor = null;
 	}
 }

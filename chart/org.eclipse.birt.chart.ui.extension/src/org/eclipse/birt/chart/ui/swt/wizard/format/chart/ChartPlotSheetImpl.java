@@ -36,8 +36,6 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 			SelectionListener
 {
 
-	private transient Composite cmpContent = null;
-
 	private transient Button btnIncludingVisible;
 
 	private transient Button btnWithinVisible;
@@ -145,7 +143,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
-			cmp.setLayout( new GridLayout( 5, true ) );
+			cmp.setLayout( new GridLayout( ) );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.horizontalSpan = 2;
 			gridData.grabExcessVerticalSpace = true;
@@ -156,13 +154,6 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 		btnArea = createToggleButton( cmp,
 				Messages.getString( "ChartPlotSheetImpl.Label.ClientArea" ) ); //$NON-NLS-1$
 		btnArea.addSelectionListener( this );
-	}
-
-	public Object onHide( )
-	{
-		detachPopup( );
-		cmpContent.dispose( );
-		return getContext( );
 	}
 
 	/*
@@ -232,11 +223,6 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
 		// TODO Auto-generated method stub
-	}
-
-	protected void selectAllButtons( boolean isSelected )
-	{
-		btnArea.setSelection( isSelected );
 	}
 
 }

@@ -11,16 +11,17 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.ui.swt.SheetPlaceHolder;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
-import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -43,7 +44,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
 
 	private transient int subtaskIndex = 0;
 
-	private transient Composite cTmp = null;
+	protected transient Composite cmpContent = null;
 
 	private transient ChartWizardContext context = null;
 
@@ -53,9 +54,9 @@ public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
 
 	protected transient ITaskPopupSheet popupSheet;
 
-	protected transient IUIServiceProvider serviceprovider;
-
 	private static boolean POPUP_ATTACHING = false;
+
+	private transient List buttonRegistry = new ArrayList( 4 );
 
 	public SubtaskSheetImpl( )
 	{
@@ -81,7 +82,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
 	 */
 	public void getComponent( Composite parent )
 	{
-		cTmp = new SheetPlaceHolder( parent, SWT.NONE, sIdentifier );
+		cmpContent = new SheetPlaceHolder( parent, SWT.NONE, sIdentifier );
 	}
 
 	/*
@@ -91,11 +92,10 @@ public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
 	 */
 	public Object onHide( )
 	{
-		if ( cTmp != null && !cTmp.isDisposed( ) )
-		{
-			cTmp.dispose( );
-		}
-		return context;
+		detachPopup( );
+		cmpContent.dispose( );
+		buttonRegistry.clear( );
+		return getContext( );
 	}
 
 	/*
@@ -112,7 +112,6 @@ public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
 	{
 		this.context = (ChartWizardContext) context;
 		this.wizard = (WizardBase) container;
-		this.serviceprovider = this.context.getUIServiceProvider( );
 	}
 
 	protected Chart getChart( )
@@ -120,7 +119,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
 		return context.getModel( );
 	}
 
-	protected IWizardContext getContext( )
+	protected ChartWizardContext getContext( )
 	{
 		return context;
 	}
@@ -145,10 +144,8 @@ public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
 	protected boolean detachPopup( Widget widget )
 	{
 		if ( widget instanceof Button
-				&& popupShell != null
-				&& !popupShell.isDisposed( )
-				&& popupShell.getText( )
-						.equals( ( (Button) widget ).getText( ) ) )
+				&& popupShell != null && !popupShell.isDisposed( )
+				&& !isButtonSelected( ) )
 		{
 			getWizard( ).detachPopup( popupShell );
 			popupShell = null;
@@ -183,9 +180,30 @@ public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
 		return shell;
 	}
 
-	protected void selectAllButtons( boolean isSelected )
+	/**
+	 * Selects all registered buttons
+	 * 
+	 * @param isSelected
+	 *            selection status
+	 */
+	final protected void selectAllButtons( boolean isSelected )
 	{
-		// Do nothing
+		for ( int i = 0; i < buttonRegistry.size( ); i++ )
+		{
+			( (Button) buttonRegistry.get( i ) ).setSelection( isSelected );
+		}
+	}
+
+	private boolean isButtonSelected( )
+	{
+		for ( int i = 0; i < buttonRegistry.size( ); i++ )
+		{
+			if ( ( (Button) buttonRegistry.get( i ) ).getSelection( ) )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void widgetDisposed( DisposeEvent e )
@@ -217,6 +235,15 @@ public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
 		return subtaskIndex;
 	}
 
+	/**
+	 * Creates a toggle button to popup and registers it.
+	 * 
+	 * @param parent
+	 *            control parent
+	 * @param text
+	 *            text
+	 * @return button control
+	 */
 	protected Button createToggleButton( Composite parent, String text )
 	{
 		Button button = new Button( parent, SWT.TOGGLE );
@@ -227,6 +254,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
 			gd.widthHint = 100;
 			button.setLayoutData( gd );
 		}
+		buttonRegistry.add( button );
 		return button;
 	}
 }

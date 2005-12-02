@@ -21,8 +21,8 @@ import org.eclipse.swt.widgets.Composite;
 public interface ISelectDataCustomizeUI
 {
 
-	public static final int ORTHOGONAL_SERIES = 1;
-	public static final int GROUPING_SERIES = 2;
+	static final int ORTHOGONAL_SERIES = 1;
+	static final int GROUPING_SERIES = 2;
 
 	/**
 	 * Creates left binding area
@@ -30,25 +30,35 @@ public interface ISelectDataCustomizeUI
 	 * @param parent
 	 *            composite parent
 	 */
-	public void createLeftBindingArea( Composite parent );
+	void createLeftBindingArea( Composite parent );
 
-	public void createRightBindingArea( Composite parent );
+	void createRightBindingArea( Composite parent );
 
-	public void createBottomBindingArea( Composite parent );
+	void createBottomBindingArea( Composite parent );
 
-	public void refreshLeftBindingArea( );
+	void refreshLeftBindingArea( );
 
-	public void refreshRightBindingArea( );
+	void refreshRightBindingArea( );
 
-	public void refreshBottomBindingArea( );
+	void refreshBottomBindingArea( );
 
-	public void selectLeftBindingArea( boolean selected, Object data );
+	void selectLeftBindingArea( boolean selected, Object data );
 
-	public void selectRightBindingArea( boolean selected, Object data );
+	void selectRightBindingArea( boolean selected, Object data );
 
-	public void selectBottomBindingArea( boolean selected, Object data );
+	void selectBottomBindingArea( boolean selected, Object data );
 
-	public void dispose( );
+	/**
+	 * Initializes all required resource.
+	 * 
+	 */
+	void init( );
+
+	/**
+	 * Disposes all resources.
+	 * 
+	 */
+	void dispose( );
 
 	/**
 	 * 
@@ -61,7 +71,7 @@ public interface ISelectDataCustomizeUI
 	 * @param sTitle
 	 * @return UI component
 	 */
-	public ISelectDataComponent getAreaComponent( int areaType,
+	ISelectDataComponent getAreaComponent( int areaType,
 			SeriesDefinition seriesdefinition, IUIServiceProvider builder,
 			Object oContext, String sTitle );
 
@@ -70,8 +80,22 @@ public interface ISelectDataCustomizeUI
 	 * 
 	 * @return custom preview table
 	 */
-	public Object getCustomPreviewTable( );
+	Object getCustomPreviewTable( );
 
-	public void layoutAll( );
+	void layoutAll( );
 
+	/**
+	 * Gets current selected series index of each axis.
+	 * 
+	 * @return array of current selected series index
+	 */
+	int[] getSeriesIndex( );
+
+	/**
+	 * Sets current selected series index of each axis.
+	 * 
+	 * @param seriesIndex
+	 *            array of current selected series index
+	 */
+	void setSeriesIndex( int[] seriesIndex );
 }

@@ -43,8 +43,6 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 			SelectionListener
 {
 
-	private transient Composite cmpContent = null;
-
 	private transient Combo cmbSorting = null;
 
 	private static final String UNSORTED_OPTION = Messages.getString( "BaseSeriesDataSheetImpl.Choice.Unsorted" ); //$NON-NLS-1$
@@ -155,13 +153,6 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 		return sd;
 	}
 
-	public Object onHide( )
-	{
-		detachPopup( );
-		cmpContent.dispose( );
-		return getContext( );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -213,11 +204,6 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
 		// TODO Auto-generated method stub
-	}
-
-	protected void selectAllButtons( boolean isSelected )
-	{
-		btnSeriesPal.setSelection( isSelected );
 	}
 
 }

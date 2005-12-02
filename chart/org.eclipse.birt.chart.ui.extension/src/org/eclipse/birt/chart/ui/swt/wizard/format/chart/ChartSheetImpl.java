@@ -19,10 +19,11 @@ import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TriggerEditorDialog;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
-import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.BlockPropertiesSheet;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.CustomPropertiesSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.MoreOptionsChartSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.TitlePropertiesSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
@@ -50,8 +51,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			Listener
 {
 
-	private transient Composite cmpContent = null;
-
 	private transient ExternalizedTextEditorComposite txtTitle = null;
 
 	private transient FillChooserComposite cmbBackground;
@@ -62,7 +61,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 	private transient Button btnGeneralProp;
 
-	private transient Button btnTVisible;
+	private transient Button btnCustomProp;
 
 	private transient Button btnVisible;
 
@@ -75,6 +74,10 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 	private transient Combo cmbInteractivity;
 
 	private transient Button btnEnablePreview;
+
+	private transient Button btnTitleTriggers;
+
+	private transient Button btnChartAreaTriggers;
 
 	/*
 	 * (non-Javadoc)
@@ -107,16 +110,16 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		}
 
 		List keys = null;
-		if ( serviceprovider != null )
+		if ( getContext( ).getUIServiceProvider( ) != null )
 		{
-			keys = serviceprovider.getRegisteredKeys( );
+			keys = getContext( ).getUIServiceProvider( ).getRegisteredKeys( );
 		}
 		txtTitle = new ExternalizedTextEditorComposite( cmpBasic,
 				SWT.BORDER,
 				-1,
 				-1,
 				keys,
-				serviceprovider,
+				getContext( ).getUIServiceProvider( ),
 				getChart( ).getTitle( ).getLabel( ).getCaption( ).getValue( ) );
 		{
 			GridData gdTXTTitle = new GridData( GridData.FILL_HORIZONTAL );
@@ -125,11 +128,11 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			txtTitle.addListener( this );
 		}
 
-		btnTVisible = new Button( cmpBasic, SWT.CHECK );
+		btnVisible = new Button( cmpBasic, SWT.CHECK );
 		{
-			btnTVisible.setText( Messages.getString( "ChartSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
-			btnTVisible.setSelection( getChart( ).getTitle( ).isVisible( ) );
-			btnTVisible.addSelectionListener( this );
+			btnVisible.setText( Messages.getString( "ChartSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
+			btnVisible.setSelection( getChart( ).getTitle( ).isVisible( ) );
+			btnVisible.addSelectionListener( this );
 		}
 
 		Label lblBackground = new Label( cmpBasic, SWT.NONE );
@@ -142,31 +145,17 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 				true );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-			gridData.horizontalSpan = 2;
 			cmbBackground.setLayoutData( gridData );
 			cmbBackground.addListener( this );
 		}
 
-		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartSheetImpl.Label.Outline" ) ); //$NON-NLS-1$
-
-		btnVisible = new Button( cmpBasic, SWT.CHECK );
-		{
-			GridData gridData = new GridData( );
-			gridData.horizontalSpan = 2;
-			btnVisible.setLayoutData( gridData );
-			btnVisible.setText( Messages.getString( "ChartSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
-			btnVisible.setSelection( getChart( ).getBlock( )
-					.getOutline( )
-					.isVisible( ) );
-			btnVisible.addSelectionListener( this );
-		}
+		new Label( cmpBasic, SWT.NONE );
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartSheetImpl.Label.ColorBy" ) ); //$NON-NLS-1$
 
 		cmbColorBy = new Combo( cmpBasic, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-			gridData.horizontalSpan = 2;
 			cmbColorBy.setLayoutData( gridData );
 			NameSet ns = LiteralHelper.legendItemTypeSet;
 			cmbColorBy.setItems( ns.getDisplayNames( ) );
@@ -175,6 +164,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 					.getName( ) ) );
 			cmbColorBy.addSelectionListener( this );
 		}
+
+		new Label( cmpBasic, SWT.NONE );
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartSheetImpl.Label.Style" ) ); //$NON-NLS-1$
 
@@ -227,8 +218,28 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			cmbInteractivity.setLayoutData( gridData );
 			cmbInteractivity.addSelectionListener( this );
-			cmbInteractivity.setEnabled( btnEnable.getSelection( ) );
 		}
+
+		new Label( cmpInteractivity, SWT.NONE );
+
+		btnTitleTriggers = new Button( cmpInteractivity, SWT.PUSH );
+		{
+			GridData gd = new GridData( );
+			btnTitleTriggers.setLayoutData( gd );
+			btnTitleTriggers.setText( Messages.getString( "ChartSheetImpl.Text.TitleInteractivity" ) ); //$NON-NLS-1$
+			btnTitleTriggers.addSelectionListener( this );
+		}
+
+		btnChartAreaTriggers = new Button( cmpInteractivity, SWT.PUSH );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalSpan = 2;
+			btnChartAreaTriggers.setLayoutData( gd );
+			btnChartAreaTriggers.setText( Messages.getString( "ChartSheetImpl.Text.ChartAreaInteractivity" ) ); //$NON-NLS-1$
+			btnChartAreaTriggers.addSelectionListener( this );
+		}
+
+		enableInteractivity( btnEnable.getSelection( ) );
 
 		populateLists( );
 
@@ -250,7 +261,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 	private void populateLists( )
 	{
 		// POPULATE STYLE COMBO WITH AVAILABLE REPORT STYLES
-		IDataServiceProvider idsp = ( (ChartWizardContext) super.getContext( ) ).getDataServiceProvider( );
+		IDataServiceProvider idsp = getContext( ).getDataServiceProvider( );
 		if ( idsp != null )
 		{
 			String[] styles = idsp.getAllStyles( );
@@ -276,7 +287,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
-			cmp.setLayout( new GridLayout( 3, false ) );
+			cmp.setLayout( new GridLayout( 4, false ) );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.horizontalSpan = 3;
 			gridData.grabExcessVerticalSpace = true;
@@ -285,24 +296,21 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		}
 
 		btnTitleProp = createToggleButton( cmp,
-				Messages.getString( "ChartSheetImpl.Label.TitleProperties" ) ); //$NON-NLS-1$
+				Messages.getString( "ChartSheetImpl.Text.TitleFormat" ) ); //$NON-NLS-1$
 		btnTitleProp.addSelectionListener( this );
 		btnTitleProp.setEnabled( getChart( ).getTitle( ).isVisible( ) );
 
 		btnBlockProp = createToggleButton( cmp,
-				Messages.getString( "ChartSheetImpl.Label.BlockProperties" ) ); //$NON-NLS-1$
+				Messages.getString( "ChartSheetImpl.Text.Outline" ) ); //$NON-NLS-1$
 		btnBlockProp.addSelectionListener( this );
 
 		btnGeneralProp = createToggleButton( cmp,
-				Messages.getString( "ChartSheetImpl.Label.GeneralProperties" ) ); //$NON-NLS-1$
+				Messages.getString( "ChartSheetImpl.Text.GeneralProperties" ) ); //$NON-NLS-1$
 		btnGeneralProp.addSelectionListener( this );
-	}
 
-	public Object onHide( )
-	{
-		detachPopup( );
-		cmpContent.dispose( );
-		return getContext( );
+		btnCustomProp = createToggleButton( cmp,
+				Messages.getString( "ChartSheetImpl.Text.CustomProperties" ) ); //$NON-NLS-1$
+		btnCustomProp.addSelectionListener( this );
 	}
 
 	/*
@@ -359,19 +367,18 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			popupSheet = new MoreOptionsChartSheet( popupShell, getChart( ) );
 			getWizard( ).attachPopup( btnGeneralProp.getText( ), -1, -1 );
 		}
+		else if ( e.widget.equals( btnCustomProp ) )
+		{
+			popupShell = createPopupShell( );
+			popupSheet = new CustomPropertiesSheet( popupShell, getChart( ) );
+			getWizard( ).attachPopup( btnCustomProp.getText( ), -1, -1 );
+		}
 
 		if ( e.widget.equals( btnVisible ) )
 		{
-			getChart( ).getBlock( )
-					.getOutline( )
-					.setVisible( btnVisible.getSelection( ) );
-			refreshPopupSheet( );
-		}
-		else if ( e.widget.equals( btnTVisible ) )
-		{
-			getChart( ).getTitle( ).setVisible( btnTVisible.getSelection( ) );
-			txtTitle.setEnabled( btnTVisible.getSelection( ) );
-			btnTitleProp.setEnabled( btnTVisible.getSelection( ) );
+			getChart( ).getTitle( ).setVisible( btnVisible.getSelection( ) );
+			txtTitle.setEnabled( btnVisible.getSelection( ) );
+			btnTitleProp.setEnabled( btnVisible.getSelection( ) );
 
 			if ( btnTitleProp.getSelection( ) )
 			{
@@ -390,8 +397,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			{
 				sStyleName = null;
 			}
-			( (ChartWizardContext) super.getContext( ) ).getDataServiceProvider( )
-					.setStyle( sStyleName );
+			getContext( ).getDataServiceProvider( ).setStyle( sStyleName );
 			refreshPreview( );
 		}
 		else if ( e.widget.equals( btnEnablePreview ) )
@@ -403,14 +409,33 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		{
 			getChart( ).getInteractivity( )
 					.setEnable( btnEnable.getSelection( ) );
-			cmbInteractivity.setEnabled( btnEnable.getSelection( ) );
+			enableInteractivity( btnEnable.getSelection( ) );
 		}
 		else if ( e.widget.equals( cmbInteractivity ) )
 		{
 			getChart( ).getInteractivity( )
 					.setLegendBehavior( LegendBehaviorType.get( LiteralHelper.legendBehaviorTypeSet.getNameByDisplayName( cmbInteractivity.getText( ) ) ) );
 		}
+		else if ( e.widget.equals( btnTitleTriggers ) )
+		{
+			new TriggerEditorDialog( cmpContent.getShell( ),
+					getChart( ).getTitle( ).getTriggers( ),
+					Messages.getString( "ChartSheetImpl.Title.ChartTitle" ) ); //$NON-NLS-1$
+		}
+		else if ( e.widget.equals( btnChartAreaTriggers ) )
+		{
+			new TriggerEditorDialog( cmpContent.getShell( ),
+					getChart( ).getBlock( ).getTriggers( ),
+					Messages.getString( "ChartSheetImpl.Title.ChartArea" ) ); //$NON-NLS-1$
+		}
 
+	}
+
+	private void enableInteractivity( boolean isEnabled )
+	{
+		cmbInteractivity.setEnabled( isEnabled );
+		btnChartAreaTriggers.setEnabled( isEnabled );
+		btnTitleTriggers.setEnabled( isEnabled );
 	}
 
 	/**
@@ -420,15 +445,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 	private void refreshPreview( )
 	{
 		boolean currentValue = btnVisible.getSelection( );
-		getChart( ).getBlock( ).getOutline( ).setVisible( true );
-		getChart( ).getBlock( ).getOutline( ).setVisible( currentValue );
-	}
-
-	protected void selectAllButtons( boolean isSelected )
-	{
-		btnTitleProp.setSelection( isSelected );
-		btnBlockProp.setSelection( isSelected );
-		btnGeneralProp.setSelection( isSelected );
+		getChart( ).getTitle( ).setVisible( true );
+		getChart( ).getTitle( ).setVisible( currentValue );
 	}
 
 	public void widgetDefaultSelected( SelectionEvent e )

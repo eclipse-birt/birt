@@ -137,16 +137,20 @@ public class ChartWizard extends WizardBase
 						getContext( ).getExtendedItem( ) );
 	}
 
-	public IWizardContext open( String[] sTasks, IWizardContext initialContext )
+	public IWizardContext open( String[] sTasks, String topTaskId,
+			IWizardContext initialContext )
 	{
-		if ( ( (ChartWizardContext) initialContext ).getModel( ) == null )
+		Chart chart = ( (ChartWizardContext) initialContext ).getModel( );
+		if ( chart == null )
 		{
 			setTitle( Messages.getString( "ChartWizard.Title.NewChart" ) ); //$NON-NLS-1$
 		}
 		else
 		{
 			setTitle( Messages.getString( "ChartWizard.Title.EditChart" ) ); //$NON-NLS-1$
+			// Add adapters to chart model
+			chart.eAdapters( ).add( adapter );
 		}
-		return super.open( sTasks, initialContext );
+		return super.open( sTasks, topTaskId, initialContext );
 	}
 }

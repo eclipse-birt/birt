@@ -42,8 +42,6 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 
 {
 
-	private transient Composite cmpContent = null;
-
 	private static Hashtable htSeriesNames = null;
 
 	/*
@@ -109,13 +107,6 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 		}
 	}
 
-	public Object onHide( )
-	{
-		detachPopup( );
-		cmpContent.dispose( );
-		return getContext( );
-	}
-
 	class SeriesOptionChoser implements SelectionListener, Listener
 	{
 
@@ -144,9 +135,10 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 			}
 
 			List keys = null;
-			if ( serviceprovider != null )
+			if ( getContext( ).getUIServiceProvider( ) != null )
 			{
-				keys = serviceprovider.getRegisteredKeys( );
+				keys = getContext( ).getUIServiceProvider( )
+						.getRegisteredKeys( );
 			}
 
 			txtTitle = new ExternalizedTextEditorComposite( parent,
@@ -154,7 +146,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 					-1,
 					-1,
 					keys,
-					serviceprovider,
+					getContext( ).getUIServiceProvider( ),
 					seriesDefn.getDesignTimeSeries( )
 							.getSeriesIdentifier( )
 							.toString( ) );

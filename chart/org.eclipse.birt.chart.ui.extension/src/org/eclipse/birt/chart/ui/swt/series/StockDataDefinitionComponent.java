@@ -75,8 +75,7 @@ public class StockDataDefinitionComponent implements ISelectDataComponent
 	{
 		cmpSeries = new Composite( parent, SWT.NONE );
 		{
-			GridData gridData = new GridData( GridData.VERTICAL_ALIGN_FILL
-					| GridData.HORIZONTAL_ALIGN_FILL );
+			GridData gridData = new GridData( GridData.FILL_BOTH );
 			cmpSeries.setLayoutData( gridData );
 
 			GridLayout gridLayout = new GridLayout( 2, false );
@@ -89,7 +88,8 @@ public class StockDataDefinitionComponent implements ISelectDataComponent
 		{
 			labelArray[i] = new Label( cmpSeries, SWT.NONE );
 			labelArray[i].setText( ChartUIUtil.getStockTitle( i ) );
-			dataComArray[i].createArea( cmpSeries );
+			Composite cmpData = dataComArray[i].createArea( cmpSeries );
+			cmpData.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
 		return cmpSeries;
 	}

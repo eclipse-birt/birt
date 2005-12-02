@@ -40,11 +40,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			SelectionListener
 {
 
-	private transient Composite cmpContent = null;
-
 	private transient ExternalizedTextEditorComposite txtTitle;
-
-	private transient Button btnOutlineVisible;
 
 	private transient FillChooserComposite cmbBackgroundColor;
 
@@ -67,7 +63,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
-			GridLayout glContent = new GridLayout( 2, true );
+			GridLayout glContent = new GridLayout( 2, false );
 			cmpContent.setLayout( glContent );
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			cmpContent.setLayoutData( gd );
@@ -75,42 +71,40 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 
 		Composite cmpBasic = new Composite( cmpContent, SWT.NONE );
 		{
-			cmpBasic.setLayout( new GridLayout( 2, false ) );
+			cmpBasic.setLayout( new GridLayout( 3, false ) );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			cmpBasic.setLayoutData( gd );
 		}
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartLegendSheetImpl.Label.Title" ) ); //$NON-NLS-1$
 
-		btnTitleVisible = new Button( cmpBasic, SWT.CHECK );
-		{
-			btnTitleVisible.setText( Messages.getString( "ChartLegendSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
-			btnTitleVisible.addSelectionListener( this );
-			btnTitleVisible.setSelection( getChart( ).getLegend( )
-					.getTitle( )
-					.isVisible( ) );
-		}
-
-		new Label( cmpBasic, SWT.NONE );
-
 		List keys = null;
-		if ( serviceprovider != null )
+		if ( getContext( ).getUIServiceProvider( ) != null )
 		{
-			keys = serviceprovider.getRegisteredKeys( );
+			keys = getContext( ).getUIServiceProvider( ).getRegisteredKeys( );
 		}
 		txtTitle = new ExternalizedTextEditorComposite( cmpBasic,
 				SWT.BORDER,
 				-1,
 				-1,
 				keys,
-				serviceprovider,
+				getContext( ).getUIServiceProvider( ),
 				getChart( ).getLegend( ).getTitle( ).getCaption( ).getValue( ) );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gd = new GridData( );
 			gd.widthHint = 200;
 			txtTitle.setLayoutData( gd );
 			txtTitle.addListener( this );
 			txtTitle.setEnabled( getChart( ).getLegend( )
+					.getTitle( )
+					.isVisible( ) );
+		}
+
+		btnTitleVisible = new Button( cmpBasic, SWT.CHECK );
+		{
+			btnTitleVisible.setText( Messages.getString( "ChartLegendSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
+			btnTitleVisible.addSelectionListener( this );
+			btnTitleVisible.setSelection( getChart( ).getLegend( )
 					.getTitle( )
 					.isVisible( ) );
 		}
@@ -122,28 +116,22 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 				.getClientArea( )
 				.getBackground( ), true, true );
 		{
-			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gridData = new GridData( );
+			gridData.widthHint = 200;
+			gridData.horizontalSpan = 2;
 			cmbBackgroundColor.setLayoutData( gridData );
 			cmbBackgroundColor.addListener( this );
-		}
-
-		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartLegendSheetImpl.Label.Outline" ) ); //$NON-NLS-1$
-
-		btnOutlineVisible = new Button( cmpBasic, SWT.CHECK );
-		{
-			btnOutlineVisible.setText( Messages.getString( "ChartLegendSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
-			btnOutlineVisible.addSelectionListener( this );
-			btnOutlineVisible.setSelection( getChart( ).getLegend( )
-					.getClientArea( )
-					.getOutline( )
-					.isVisible( ) );
 		}
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartLegendSheetImpl.Label.Value" ) ); //$NON-NLS-1$
 
 		btnShowValue = new Button( cmpBasic, SWT.CHECK );
 		{
+			GridData gridData = new GridData( );
+			gridData.horizontalSpan = 2;
+			btnShowValue.setLayoutData( gridData );
 			btnShowValue.setText( Messages.getString( "ChartLegendSheetImpl.Label.ShowValue" ) ); //$NON-NLS-1$
+			btnShowValue.setToolTipText( Messages.getString( "ChartLegendSheetImpl.Tooltip.ShowDataPointValue" ) ); //$NON-NLS-1$
 			btnShowValue.addSelectionListener( this );
 			btnShowValue.setSelection( getChart( ).getLegend( ).isShowValue( ) );
 		}
@@ -176,19 +164,12 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		}
 
 		btnLegendText = createToggleButton( cmp,
-				Messages.getString( "ChartLegendSheetImpl.Label.LegendText" ) ); //$NON-NLS-1$
+				Messages.getString( "ChartLegendSheetImpl.Label.TextFormat" ) ); //$NON-NLS-1$
 		btnLegendText.addSelectionListener( this );
 
 		btnAreaProp = createToggleButton( cmp,
-				Messages.getString( "ChartLegendSheetImpl.Label.AreaProperties" ) ); //$NON-NLS-1$
+				Messages.getString( "ChartLegendSheetImpl.Label.Layout" ) ); //$NON-NLS-1$
 		btnAreaProp.addSelectionListener( this );
-	}
-
-	public Object onHide( )
-	{
-		detachPopup( );
-		cmpContent.dispose( );
-		return getContext( );
 	}
 
 	/*
@@ -242,14 +223,6 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 					.isVisible( ) );
 			refreshPopupSheet( );
 		}
-		else if ( e.widget.equals( btnOutlineVisible ) )
-		{
-			getChart( ).getLegend( )
-					.getClientArea( )
-					.getOutline( )
-					.setVisible( ( (Button) e.widget ).getSelection( ) );
-			refreshPopupSheet( );
-		}
 		else if ( e.widget.equals( btnShowValue ) )
 		{
 			getChart( ).getLegend( )
@@ -260,13 +233,13 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			popupShell = createPopupShell( );
 			popupSheet = new MoreOptionsChartLegendSheet( popupShell,
 					getChart( ) );
-			getWizard( ).attachPopup( btnAreaProp.getText( ), -1, -1 );
+			getWizard( ).attachPopup( Messages.getString( "ChartLegendSheetImpl.Title.LayoutLegend" ), -1, -1 ); //$NON-NLS-1$
 		}
 		else if ( e.widget.equals( btnLegendText ) )
 		{
 			popupShell = createPopupShell( );
 			popupSheet = new LegendTextSheet( popupShell, getChart( ) );
-			getWizard( ).attachPopup( btnLegendText.getText( ), -1, -1 );
+			getWizard( ).attachPopup( Messages.getString( "ChartLegendSheetImpl.Title.FormatLegendText" ), -1, -1 ); //$NON-NLS-1$
 		}
 
 	}
@@ -274,12 +247,6 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
 		// TODO Auto-generated method stub
-	}
-
-	protected void selectAllButtons( boolean isSelected )
-	{
-		btnLegendText.setSelection( isSelected );
-		btnAreaProp.setSelection( isSelected );
 	}
 
 }

@@ -18,7 +18,6 @@ import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TriggerEditorDialog;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -45,8 +44,6 @@ public class BlockPropertiesSheet extends AbstractPopupSheet
 	private transient Composite cmpContent;
 
 	private transient Button cbVisible;
-
-	private transient Button btnTriggers;
 
 	private transient Group grpOutline;
 
@@ -90,14 +87,8 @@ public class BlockPropertiesSheet extends AbstractPopupSheet
 				getBlockForProcessing( ).getOutline( ),
 				true,
 				true,
-				false );
+				true );
 		liacOutline.addListener( this );
-
-		btnTriggers = new Button( cmpContent, SWT.PUSH );
-		GridData gdBTNTriggers = new GridData( );
-		btnTriggers.setLayoutData( gdBTNTriggers );
-		btnTriggers.setText( Messages.getString( "BlockPropertiesSheet.Label.Interactivity" ) ); //$NON-NLS-1$
-		btnTriggers.addSelectionListener( this );
 
 		return cmpContent;
 	}
@@ -144,12 +135,6 @@ public class BlockPropertiesSheet extends AbstractPopupSheet
 		if ( oSource.equals( cbVisible ) )
 		{
 			getBlockForProcessing( ).setVisible( cbVisible.getSelection( ) );
-		}
-		else if ( oSource.equals( btnTriggers ) )
-		{
-			new TriggerEditorDialog( cmpContent.getShell( ),
-					getBlockForProcessing( ).getTriggers( ),
-					Messages.getString( "TitleBlockAttributeSheetImpl.Lbl.ChartTitle" ) ); //$NON-NLS-1$
 		}
 	}
 

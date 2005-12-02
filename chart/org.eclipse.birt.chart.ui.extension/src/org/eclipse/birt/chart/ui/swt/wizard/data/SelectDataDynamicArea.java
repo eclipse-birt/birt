@@ -60,6 +60,8 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 
 	protected transient ISelectDataComponent bottomArea;
 
+	private transient int[] seriesIndex = new int[0];
+
 	public SelectDataDynamicArea( ITask task )
 	{
 		this.task = task;
@@ -298,5 +300,21 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 		{
 			cmpBottomArea.getParent( ).getParent( ).layout( );
 		}
+	}
+
+	public int[] getSeriesIndex( )
+	{
+		return seriesIndex;
+	}
+
+	public void setSeriesIndex( int[] seriesIndex )
+	{
+		this.seriesIndex = seriesIndex;
+	}
+
+	public void init( )
+	{
+		// Reset selected series index to 0
+		seriesIndex = new int[ChartUIUtil.getOrthogonalAxisNumber( getChartModel( ) )];
 	}
 }

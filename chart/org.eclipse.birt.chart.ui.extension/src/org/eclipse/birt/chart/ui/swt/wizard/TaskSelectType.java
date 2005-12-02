@@ -55,7 +55,6 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowData;
@@ -89,8 +88,6 @@ public class TaskSelectType extends SimpleTask
 	private transient Composite cmpType = null;
 
 	private transient Composite cmpMisc = null;
-
-	private transient Composite cmpLabels = null;
 
 	private transient Composite cmpTypeButtons = null;
 
@@ -130,8 +127,6 @@ public class TaskSelectType extends SimpleTask
 
 	private transient Label lblOutput = null;
 	private transient Combo cbOutput = null;
-
-	private transient Color whiteColor = null;
 
 	private static final String LEADING_BLANKS = "  "; //$NON-NLS-1$
 
@@ -213,10 +208,10 @@ public class TaskSelectType extends SimpleTask
 			label.setFont( JFaceResources.getBannerFont( ) );
 		}
 
-		previewCanvas = new Canvas( cmpPreview, SWT.NONE );
+		previewCanvas = new Canvas( cmpPreview, SWT.BORDER );
 		previewCanvas.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		whiteColor = new Color( Display.getDefault( ), 255, 255, 255 );
-		previewCanvas.setBackground( whiteColor );
+		previewCanvas.setBackground( Display.getDefault( )
+				.getSystemColor( SWT.COLOR_WHITE ) );
 	}
 
 	private void createTypeArea( )
@@ -239,6 +234,55 @@ public class TaskSelectType extends SimpleTask
 
 		GridData gridData = null;
 
+		lblDimension = new Label( cmpMisc, SWT.NONE );
+		lblDimension.setText( Messages.getString( "ChartSelector.Lbl.Dimension" ) ); //$NON-NLS-1$
+
+		// Add the ComboBox for Dimensions
+		cbDimension = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
+		gridData = new GridData( GridData.GRAB_HORIZONTAL );
+		cbDimension.setLayoutData( gridData );
+		cbDimension.addSelectionListener( this );
+
+		lblOutput = new Label( cmpMisc, SWT.NONE );
+		{
+			gridData = new GridData( );
+			gridData.horizontalIndent = 50;
+			lblOutput.setLayoutData( gridData );
+			lblOutput.setText( Messages.getString( "TaskSelectType.Label.OutputFormat" ) ); //$NON-NLS-1$
+		}
+
+		// Add the ComboBox for Output Format
+		cbOutput = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
+		gridData = new GridData( GridData.GRAB_HORIZONTAL );
+		cbOutput.setLayoutData( gridData );
+		cbOutput.addSelectionListener( this );
+
+		lblMultipleY = new Label( cmpMisc, SWT.NONE );
+		lblMultipleY.setText( Messages.getString( "TaskSelectType.Label.MultipleYAxis" ) ); //$NON-NLS-1$
+
+		// Add the checkBox for Multiple Y Axis
+		cbMultipleY = new Button( cmpMisc, SWT.CHECK );
+		cbMultipleY.setText( Messages.getString( "TaskSelectType.Label.AddSecondaryAxis" ) ); //$NON-NLS-1$
+		cbMultipleY.addSelectionListener( this );
+
+		lblSeriesType = new Label( cmpMisc, SWT.NONE );
+		{
+			gridData = new GridData( );
+			gridData.horizontalIndent = 50;
+			lblSeriesType.setLayoutData( gridData );
+			lblSeriesType.setText( Messages.getString( "TaskSelectType.Label.SeriesType" ) ); //$NON-NLS-1$
+			lblSeriesType.setEnabled( false );
+		}
+
+		// Add the ComboBox for Series Type
+		cbSeriesType = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
+		{
+			GridData gd = new GridData( GridData.GRAB_HORIZONTAL );
+			cbSeriesType.setLayoutData( gd );
+			cbSeriesType.setEnabled( false );
+			cbSeriesType.addSelectionListener( this );
+		}
+
 		lblOrientation = new Label( cmpMisc, SWT.NONE );
 		lblOrientation.setText( Messages.getString( "TaskSelectType.Label.Oritention" ) ); //$NON-NLS-1$
 
@@ -250,50 +294,6 @@ public class TaskSelectType extends SimpleTask
 		cbOrientation.setLayoutData( gridData );
 		cbOrientation.addSelectionListener( this );
 
-		lblMultipleY = new Label( cmpMisc, SWT.NONE );
-		lblMultipleY.setText( Messages.getString( "TaskSelectType.Label.MultipleYAxis" ) ); //$NON-NLS-1$
-
-		// Add the checkBox for Multiple Y Axis
-		cbMultipleY = new Button( cmpMisc, SWT.CHECK );
-		cbMultipleY.setText( Messages.getString( "TaskSelectType.Label.AddSecondaryAxis" ) ); //$NON-NLS-1$
-		cbMultipleY.addSelectionListener( this );
-
-		lblSeriesType = new Label( cmpMisc, SWT.NONE );
-		gridData = new GridData( );
-		gridData.horizontalIndent = 50;
-		lblSeriesType.setLayoutData( gridData );
-		lblSeriesType.setText( Messages.getString( "TaskSelectType.Label.SeriesType" ) ); //$NON-NLS-1$
-		lblSeriesType.setEnabled( false );
-
-		// Add the ComboBox for Series Type
-		cbSeriesType = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
-		{
-			GridData gd = new GridData( GridData.GRAB_HORIZONTAL );
-			cbSeriesType.setLayoutData( gd );
-			cbSeriesType.setEnabled( false );
-			cbSeriesType.addSelectionListener( this );
-		}
-
-		lblDimension = new Label( cmpMisc, SWT.NONE );
-		lblDimension.setText( Messages.getString( "ChartSelector.Lbl.Dimension" ) ); //$NON-NLS-1$
-
-		// Add the ComboBox for Dimensions
-		cbDimension = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
-		gridData = new GridData( GridData.GRAB_HORIZONTAL );
-		gridData.horizontalSpan = 3;
-		cbDimension.setLayoutData( gridData );
-		cbDimension.addSelectionListener( this );
-
-		lblOutput = new Label( cmpMisc, SWT.NONE );
-		lblOutput.setText( Messages.getString( "TaskSelectType.Label.OutputFormat" ) ); //$NON-NLS-1$
-
-		// Add the ComboBox for Output Format
-		cbOutput = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
-		gridData = new GridData( GridData.GRAB_HORIZONTAL );
-		gridData.horizontalSpan = 3;
-		cbOutput.setLayoutData( gridData );
-		cbOutput.addSelectionListener( this );
-
 		populateLists( );
 	}
 
@@ -303,39 +303,17 @@ public class TaskSelectType extends SimpleTask
 	 */
 	private void createHeader( )
 	{
-		GridData gdHeader = new GridData( GridData.FILL_HORIZONTAL );
-		gdHeader.heightHint = 90;
-		gdHeader.horizontalSpan = 2;
-		GridData gdLabels = new GridData( GridData.FILL_HORIZONTAL );
-		gdLabels.heightHint = 15;
-		gdLabels.horizontalSpan = 2;
-
-		cmpLabels = new Composite( cmpType, SWT.NONE );
-		{
-			cmpLabels.setLayoutData( gdLabels );
-			GridLayout glLabels = new GridLayout( );
-			glLabels.horizontalSpacing = 6;
-			glLabels.numColumns = 10;
-			glLabels.marginHeight = 0;
-			glLabels.marginWidth = 4;
-			cmpLabels.setLayout( glLabels );
-		}
-
-		Label lblTypes = new Label( cmpLabels, SWT.NO_FOCUS );
+		Label lblTypes = new Label( cmpType, SWT.NO_FOCUS );
 		{
 			lblTypes.setText( Messages.getString( "TaskSelectType.Label.SelectChartType" ) ); //$NON-NLS-1$
-			GridData gdTypes = new GridData( GridData.BEGINNING );
-			gdTypes.widthHint = 110;
-			lblTypes.setLayoutData( gdTypes );
 		}
 
-		Label lblSubtypes = new Label( cmpLabels, SWT.NO_FOCUS );
+		Label lblSubtypes = new Label( cmpType, SWT.NO_FOCUS );
 		{
 			lblSubtypes.setText( Messages.getString( "TaskSelectType.Label.SelectSubtype" ) ); //$NON-NLS-1$
-			GridData gdSubtypes = new GridData( GridData.BEGINNING
-					| GridData.FILL_HORIZONTAL );
-			gdSubtypes.horizontalSpan = 9;
-			lblSubtypes.setLayoutData( gdSubtypes );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalIndent = 5;
+			lblSubtypes.setLayoutData( gd );
 		}
 	}
 
@@ -1021,12 +999,6 @@ public class TaskSelectType extends SimpleTask
 		sDimension = null;
 		vSubTypeNames = null;
 		orientation = Orientation.VERTICAL_LITERAL;
-
-		if ( whiteColor != null && !whiteColor.isDisposed( ) )
-		{
-			whiteColor.dispose( );
-			whiteColor = null;
-		}
 	}
 
 	private void refreshChart( )
@@ -1175,9 +1147,17 @@ public class TaskSelectType extends SimpleTask
 		}
 	}
 
+	private boolean hasDataSet( )
+	{
+		return ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( )
+				.getReportDataSet( ) != null
+				|| ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( )
+						.getBoundDataSet( ) != null;
+	}
+
 	private void doLivePreview( )
 	{
-		if ( ChartUIUtil.checkDataBinding( chartModel ) )
+		if ( ChartUIUtil.checkDataBinding( chartModel ) && hasDataSet( ) )
 		{
 			// Enable live preview
 			ChartPreviewPainter.setEnableLivePreview( true );
@@ -1191,7 +1171,8 @@ public class TaskSelectType extends SimpleTask
 			// Includes RuntimeException
 			catch ( Exception e )
 			{
-				container.displayException( e );
+				// Enable sample data instead
+				ChartPreviewPainter.setEnableLivePreview( false );
 			}
 			ChartAdapter.ignoreNotifications( false );
 		}

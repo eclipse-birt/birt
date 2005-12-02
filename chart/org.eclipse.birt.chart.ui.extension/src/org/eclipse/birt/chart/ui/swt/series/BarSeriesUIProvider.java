@@ -17,10 +17,10 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.composites.DataDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
-import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.BlankSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author Actuate Corporation
  * 
  */
-public class BarSeriesUIProvider implements ISeriesUIProvider
+public class BarSeriesUIProvider extends DefaultSeriesUIProvider
 {
 
 	private static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.BarSeriesImpl"; //$NON-NLS-1$
@@ -45,12 +45,8 @@ public class BarSeriesUIProvider implements ISeriesUIProvider
 		super( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesAttributeSheet(org.eclipse.swt.widgets.Composite)
-	 */
-	public Composite getSeriesAttributeSheet( Composite parent, Series series )
+	public Composite getSeriesAttributeSheet( Composite parent, Series series,
+			IUIServiceProvider builder, Object oContext )
 	{
 		return new BarSeriesAttributeComposite( parent, SWT.NONE, series );
 	}
@@ -122,7 +118,7 @@ public class BarSeriesUIProvider implements ISeriesUIProvider
 		return SERIES_CLASS;
 	}
 
-    public ISelectDataComponent getSeriesDataComponent( int seriesType,
+	public ISelectDataComponent getSeriesDataComponent( int seriesType,
 			SeriesDefinition seriesDefn, IUIServiceProvider builder,
 			Object oContext, String sTitle )
 	{

@@ -39,6 +39,8 @@ public class DefaultBaseSeriesComponent implements ISelectDataComponent
 
 	private transient String sTitle = null;
 
+	private transient String labelText = null;
+
 	private transient Object oContext = null;
 
 	private transient ISelectDataComponent comData;
@@ -46,11 +48,23 @@ public class DefaultBaseSeriesComponent implements ISelectDataComponent
 	public DefaultBaseSeriesComponent( SeriesDefinition seriesDefn,
 			IUIServiceProvider builder, Object oContext, String sTitle )
 	{
+		this( seriesDefn,
+				builder,
+				oContext,
+				sTitle,
+				Messages.getString( "BarBottomAreaComponent.Label.CategoryXSeries" ) ); //$NON-NLS-1$
+	}
+
+	public DefaultBaseSeriesComponent( SeriesDefinition seriesDefn,
+			IUIServiceProvider builder, Object oContext, String sTitle,
+			String labelText )
+	{
 		super( );
 		this.seriesDefn = seriesDefn;
 		this.serviceprovider = builder;
 		this.oContext = oContext;
 		this.sTitle = sTitle;
+		this.labelText = labelText;
 	}
 
 	public Composite createArea( Composite parent )
@@ -61,10 +75,8 @@ public class DefaultBaseSeriesComponent implements ISelectDataComponent
 			gridLayout.marginWidth = 0;
 			gridLayout.marginHeight = 0;
 			cmpBottom.setLayout( gridLayout );
-			GridData gridData = new GridData( GridData.HORIZONTAL_ALIGN_FILL
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
 					| GridData.VERTICAL_ALIGN_BEGINNING );
-			gridData.grabExcessHorizontalSpace = true;
-			gridData.horizontalAlignment = SWT.CENTER;
 			cmpBottom.setLayoutData( gridData );
 		}
 
@@ -77,14 +89,19 @@ public class DefaultBaseSeriesComponent implements ISelectDataComponent
 		}
 
 		lblBottomXSeries = new Label( cmpBottom, SWT.NONE );
-		lblBottomXSeries.setText( Messages.getString( "BarBottomAreaComponent.Label.CategoryXSeries" ) ); //$NON-NLS-1$
+		lblBottomXSeries.setText( labelText );
 
 		comData = new BaseDataDefinitionComponent( seriesDefn,
 				ChartUIUtil.getDataQuery( seriesDefn, 0 ),
 				serviceprovider,
 				oContext,
 				sTitle );
-		comData.createArea( cmpBottom );
+		{
+			Composite cmpData = comData.createArea( cmpBottom );
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			gridData.widthHint = 150;
+			cmpData.setLayoutData( gridData );
+		}
 
 		Label rightAngle = new Label( cmpBottom, SWT.NONE );
 		rightAngle.setImage( UIHelper.getImage( ChartUIConstancts.IMAGE_RA_RIGHTUP ) );

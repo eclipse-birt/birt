@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public interface ISeriesUIProvider
 {
+
 	/**
 	 * Fetches the composite used to set attribute properties for a series.
 	 * 
@@ -28,8 +29,22 @@ public interface ISeriesUIProvider
 	 *            container for the series attribute composite series the series
 	 *            for which this attribute composite is being provided
 	 * @return the series attribute composite
+	 * @deprecated use getSeriesAttributeSheet( Composite parent, Series series,
+	 *             IUIServiceProvider builder, Object oContext )
 	 */
 	public Composite getSeriesAttributeSheet( Composite parent, Series series );
+
+	/**
+	 * Fetches the composite used to set attribute properties for a series.
+	 * 
+	 * @param parent
+	 *            container for the series attribute composite series the series
+	 *            for which this attribute composite is being provided
+	 * @return the series attribute composite
+	 * @since 2.0
+	 */
+	public Composite getSeriesAttributeSheet( Composite parent, Series series,
+			IUIServiceProvider builder, Object oContext );
 
 	/**
 	 * Fetches the composite used to set data properties for a series.
