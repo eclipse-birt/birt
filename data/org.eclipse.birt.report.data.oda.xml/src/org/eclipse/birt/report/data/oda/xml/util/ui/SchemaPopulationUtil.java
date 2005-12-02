@@ -18,7 +18,6 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
 
 import org.eclipse.birt.report.data.oda.xml.util.ISaxParserConsumer;
 import org.eclipse.birt.report.data.oda.xml.util.SaxParser;
@@ -55,7 +54,7 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 	private int rowCount;
 	private ATreeNode root;
 	private SaxParser sp; 
-	
+	Thread spThread;
 	/**
 	 * 
 	 *
@@ -95,6 +94,7 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 		{
 			assert sp != null;
 			sp.setStart( false );
+			spThread.stop();
 		}
 
 	}
@@ -127,9 +127,9 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 	public ATreeNode getSchemaTree( String fileName )
 	{
 		sp = new SaxParser( fileName, this );
-		Thread spThread = new Thread( sp );
+		spThread = new Thread( sp );
 		spThread.start( );
-		while( sp.isAlive() )
+		while( sp.isAlive() && !sp.isSuspended())
 		{
 			try
 			{
@@ -234,7 +234,7 @@ final class XSDFileSchemaTreePopulator
 	 * @throws XPathExpressionException
 	 */
 	private static void populateNodeList( NodeList nodeList, ATreeNode root,
-			int level ) throws XPathExpressionException
+			int level ) 
 	{
 
 		for ( int i = 0; i < nodeList.getLength( ); i++ )
@@ -356,10 +356,6 @@ final class XSDFileSchemaTreePopulator
 			populateNodeList( nodes, root, 0 );
 			populateRoot( root );
 			return root;
-		}
-		catch ( XPathExpressionException e )
-		{
-			throw new OdaException( e.getMessage( ) );
 		}
 		catch ( ParserConfigurationException e )
 		{
