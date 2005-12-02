@@ -17,8 +17,10 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ApplyStyleAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -82,6 +84,12 @@ public class ApplyStyleMenuAction extends MenuUpdateAction
 		if ( !selection.isEmpty( )
 				&& selection.getFirstElement( ) instanceof DesignElementHandle )
 		{
+			if((DesignElementHandle) selection.getFirstElement( ) instanceof RowHandle)
+			{
+				selection = InsertInLayoutUtil.editPart2Model(TableUtil.filletCellInSelectionEditorpart(getSelection( )) );
+			}
+			
+			
 			SharedStyleHandle style = ( (DesignElementHandle) selection.getFirstElement( ) ).getStyle( );
 			for ( Iterator iterator = selection.iterator( ); iterator.hasNext( ); )
 			{
@@ -90,6 +98,7 @@ public class ApplyStyleMenuAction extends MenuUpdateAction
 				{
 					return null;
 				}
+
 				if ( ( (DesignElementHandle) obj ).getStyle( ) != style )
 				{
 					return null;
