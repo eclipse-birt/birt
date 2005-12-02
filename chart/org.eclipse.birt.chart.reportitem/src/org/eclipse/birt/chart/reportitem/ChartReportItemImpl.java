@@ -40,8 +40,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * @author Actuate Corporation
- * 
+ * ChartReportItemImpl
  */
 public final class ChartReportItemImpl extends ReportItem
 {
@@ -106,7 +105,7 @@ public final class ChartReportItemImpl extends ReportItem
 	};
 
 	/**
-	 * 
+	 * The construcotor.
 	 */
 	public ChartReportItemImpl( DesignElementHandle handle )
 	{
@@ -128,13 +127,29 @@ public final class ChartReportItemImpl extends ReportItem
 	{
 		return this.handle;
 	}
-	
+
 	/**
 	 * Sets the design element handle.
 	 */
-	public void setHandle(DesignElementHandle handle)
+	public void setHandle( DesignElementHandle handle )
 	{
 		this.handle = handle;
+	}
+
+	public void executeSetSimplePropertyCommand( DesignElementHandle eih,
+			String propName, Object oldValue, Object newValue )
+	{
+		if ( handle == null )
+		{
+			return;
+		}
+		IElementCommand command = new ChartSimplePropertyCommandImpl( eih,
+				this,
+				propName,
+				newValue,
+				oldValue );
+
+		this.handle.getModuleHandle( ).getCommandStack( ).execute( command );
 	}
 
 	/**
@@ -156,7 +171,6 @@ public final class ChartReportItemImpl extends ReportItem
 	}
 
 	/**
-	 * 
 	 * @param oDesignerRepresentation
 	 */
 	public final void setDesignerRepresentation( Object oDesignerRepresentation )
@@ -229,25 +243,25 @@ public final class ChartReportItemImpl extends ReportItem
 	{
 		if ( cm == null )
 		{
-			logger
-					.log( ILogger.WARNING,
-							Messages.getString( "ChartReportItemImpl.log.RequestForPropertyDefn" ) ); //$NON-NLS-1$
+			logger.log( ILogger.WARNING,
+					Messages.getString( "ChartReportItemImpl.log.RequestForPropertyDefn" ) ); //$NON-NLS-1$
 			return null;
 		}
+
 		final boolean bTransposed = ( cm instanceof ChartWithAxes ) ? ( (ChartWithAxes) cm ).isTransposed( )
 				: false;
 
 		return new IPropertyDefinition[]{
 
 				new ChartPropertyDefinitionImpl( null,
-						"title.value", "property.title.value", false, //$NON-NLS-1$ //$NON-NLS-2$
+						"title.value", "property.label.title.value", false, //$NON-NLS-1$ //$NON-NLS-2$
 						PropertyType.STRING_TYPE,
 						null,
 						null,
 						cm.getTitle( ).getLabel( ).getCaption( ).getValue( ) ),
 
 				new ChartPropertyDefinitionImpl( null,
-						"title.font.rotation", "property.title.font.rotation", false, //$NON-NLS-1$ //$NON-NLS-2$
+						"title.font.rotation", "property.label.title.font.rotation", false, //$NON-NLS-1$ //$NON-NLS-2$
 						PropertyType.FLOAT_TYPE,
 						null,
 						null,
@@ -257,36 +271,29 @@ public final class ChartReportItemImpl extends ReportItem
 								.getFont( )
 								.getRotation( ) ) ),
 
-				/*
-				 * new ChartPropertyDefinitionImpl( null, "title.textColor",
-				 * "property.title.textColor", false, PropertyType.COLOR_TYPE,
-				 * null, null,
-				 * cm.getTitle().getLabel().getCaption().getColor()),
-				 */
-
 				new ChartPropertyDefinitionImpl( null,
-						"legend.position", "property.legend.position", false, //$NON-NLS-1$ //$NON-NLS-2$
+						"legend.position", "property.label.legend.position", false, //$NON-NLS-1$ //$NON-NLS-2$
 						PropertyType.CHOICE_TYPE,
 						liLegendPositions,
 						null,
 						null ),
 
 				new ChartPropertyDefinitionImpl( null,
-						"legend.anchor", "property.legend.anchor", false, //$NON-NLS-1$ //$NON-NLS-2$
+						"legend.anchor", "property.label.legend.anchor", false, //$NON-NLS-1$ //$NON-NLS-2$
 						PropertyType.CHOICE_TYPE,
 						liLegendAnchors,
 						null,
 						null ),
 
 				new ChartPropertyDefinitionImpl( null,
-						"chart.dimension", "property.chart.dimension", false, //$NON-NLS-1$ //$NON-NLS-2$
+						"chart.dimension", "property.label.chart.dimension", false, //$NON-NLS-1$ //$NON-NLS-2$
 						PropertyType.CHOICE_TYPE,
 						liChartDimensions,
 						null,
 						null ),
 
 				new ChartPropertyDefinitionImpl( null,
-						"plot.transposed", "property.chart.plot.transposed", false, //$NON-NLS-1$ //$NON-NLS-2$
+						"plot.transposed", "property.label.chart.plot.transposed", false, //$NON-NLS-1$ //$NON-NLS-2$
 						PropertyType.BOOLEAN_TYPE,
 						null,
 						null,
@@ -301,9 +308,9 @@ public final class ChartReportItemImpl extends ReportItem
 	 */
 	public final Object getProperty( String propName )
 	{
-		logger
-				.log( ILogger.INFORMATION,
-						Messages.getString( "ChartReportItemImpl.log.getProperty", propName ) ); //$NON-NLS-1$
+		logger.log( ILogger.INFORMATION,
+				Messages.getString( "ChartReportItemImpl.log.getProperty", propName ) ); //$NON-NLS-1$
+		
 		if ( propName.equals( "title.value" ) ) //$NON-NLS-1$
 		{
 			return cm.getTitle( ).getLabel( ).getCaption( ).getValue( );
@@ -349,9 +356,8 @@ public final class ChartReportItemImpl extends ReportItem
 	public void checkProperty( String propName, Object value )
 			throws ExtendedElementException
 	{
-		logger
-				.log( ILogger.INFORMATION,
-						Messages.getString( "ChartReportItemImpl.log.checkProperty", new Object[]{propName, value} ) ); //$NON-NLS-1$ 
+		logger.log( ILogger.INFORMATION,
+				Messages.getString( "ChartReportItemImpl.log.checkProperty", new Object[]{propName, value} ) ); //$NON-NLS-1$ 
 	}
 
 	/*
@@ -362,9 +368,22 @@ public final class ChartReportItemImpl extends ReportItem
 	 */
 	public void setProperty( String propName, Object value )
 	{
-		logger
-				.log( ILogger.INFORMATION,
-						Messages.getString( "ChartReportItemImpl.log.setProperty", new Object[]{propName, value} ) ); //$NON-NLS-1$ 
+		logger.log( ILogger.INFORMATION,
+				Messages.getString( "ChartReportItemImpl.log.setProperty", new Object[]{propName, value} ) ); //$NON-NLS-1$ 
+
+		executeSetSimplePropertyCommand( handle,
+				propName,
+				getProperty( propName ),
+				value );
+
+		if ( oDesignerRepresentation != null )
+		{
+			( (DesignerRepresentation) oDesignerRepresentation ).setDirty( true );
+		}
+	}
+
+	void basicSetProperty( String propName, Object value )
+	{
 		if ( propName.equals( "title.value" ) ) //$NON-NLS-1$
 		{
 			cm.getTitle( ).getLabel( ).getCaption( ).setValue( (String) value );
@@ -397,21 +416,15 @@ public final class ChartReportItemImpl extends ReportItem
 			}
 			else
 			{
-				logger
-						.log( ILogger.ERROR,
-								Messages.getString( "ChartReportItemImpl.log.CannotSetState" ) ); //$NON-NLS-1$
+				logger.log( ILogger.ERROR,
+						Messages.getString( "ChartReportItemImpl.log.CannotSetState" ) ); //$NON-NLS-1$
 			}
 		}
 		else if ( propName.equals( "chart.instance" ) ) //$NON-NLS-1$
 		{
 			this.cm = (Chart) value;
 		}
-		// Add the command to the Activity Stack
 
-		if ( oDesignerRepresentation != null )
-		{
-			( (DesignerRepresentation) oDesignerRepresentation ).setDirty( true );
-		}
 	}
 
 	/*

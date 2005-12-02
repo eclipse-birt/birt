@@ -318,7 +318,7 @@
 			   encoding="utf-8" 
 			   source="1.4" 
 			   debug="true" 
-			   excludes="org/eclipse/birt/chart/reportitem/ui/*, org/eclipse/birt/chart/reportitem/ChartReportItemBuilderImpl.java, org/eclipse/birt/chart/reportitem/ChartReportItemUIImpl.java, org/eclipse/birt/chart/reportitem/ReportDataServiceProvider.java">
+			   excludes="org/eclipse/birt/chart/reportitem/ui/**, org/eclipse/birt/chart/reportitem/ChartReportItemBuilderImpl.java, org/eclipse/birt/chart/reportitem/ChartReportItemUIImpl.java, org/eclipse/birt/chart/reportitem/ChartReportItemPropertyEditUIImpl.java, org/eclipse/birt/chart/reportitem/ReportDataServiceProvider.java">
 			
 			<classpath refid="class.path.selective"/>
 		</javac>
@@ -335,7 +335,7 @@
 				<include name="**/*.xml"/>
 				<include name="**/*.def"/>
 				<include name="**/*.properties"/>
-				<exclude name="org/eclipse/birt/chart/reportitem/ChartReportItemBuilderImpl.class, org/eclipse/birt/chart/reportitem/ChartReportItemUIImpl.class, org/eclipse/birt/chart/reportitem/ReportDataServiceProvider.java" />
+				<exclude name="org/eclipse/birt/chart/reportitem/ChartReportItemBuilderImpl.class, org/eclipse/birt/chart/reportitem/ChartReportItemUIImpl.class, org/eclipse/birt/chart/reportitem/ChartReportItemPropertyEditUIImpl.class, org/eclipse/birt/chart/reportitem/ReportDataServiceProvider.class" />
 			</fileset>
 		</jar>
 	</target>

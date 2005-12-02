@@ -8,6 +8,7 @@
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
+
 package org.eclipse.birt.chart.reportitem.i18n;
 
 import java.text.MessageFormat;
@@ -19,30 +20,37 @@ import java.util.ResourceBundle;
  */
 public class Messages
 {
-    public static final String REPORT_ITEM = "org.eclipse.birt.chart.reportitem.i18n.messages";//$NON-NLS-1$
 
-    private static final ResourceBundle REPORT_ITEM_BUNDLE = ResourceBundle.getBundle(REPORT_ITEM);
+	public static final String REPORT_ITEM = "org.eclipse.birt.chart.reportitem.i18n.messages";//$NON-NLS-1$
 
-    private Messages()
-    {
-    }
+	private static final ResourceBundle REPORT_ITEM_BUNDLE = ResourceBundle.getBundle( REPORT_ITEM );
 
-    public static String getString(String key)
-    {
-        try
-        {
-            return REPORT_ITEM_BUNDLE.getString(key);
-        }
-        catch (MissingResourceException e )
-        {
-            return '!' + key + '!';
-        }
-    }
-    
-    /**
+	private Messages( )
+	{
+	}
+
+	/**
+	 * @param key
+	 * @return
+	 */
+	public static String getString( String key )
+	{
+		try
+		{
+			return REPORT_ITEM_BUNDLE.getString( key );
+		}
+		catch ( MissingResourceException e )
+		{
+			return '!' + key + '!';
+		}
+	}
+
+	/**
 	 * 
-	 * @param key key
-	 * @param oas arguments
+	 * @param key
+	 *            key
+	 * @param oas
+	 *            arguments
 	 */
 	public static String getString( String key, Object[] oas )
 	{
@@ -59,8 +67,10 @@ public class Messages
 
 	/**
 	 * 
-	 * @param key key
-	 * @param oa single argument
+	 * @param key
+	 *            key
+	 * @param oa
+	 *            single argument
 	 */
 	public static String getString( String key, Object oa )
 	{

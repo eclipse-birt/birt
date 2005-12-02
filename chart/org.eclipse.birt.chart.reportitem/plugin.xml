@@ -46,6 +46,7 @@
                showInDesigner="true"/>
       <outline
       		   icon="icons/pal/palette_icon.gif"/>
+      <propertyPage class="org.eclipse.birt.chart.reportitem.ChartReportItemPropertyEditUIImpl"/>
    </extension>
    <extension
          id="chart"
