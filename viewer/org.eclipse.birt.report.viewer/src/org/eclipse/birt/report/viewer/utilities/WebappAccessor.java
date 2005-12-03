@@ -183,7 +183,8 @@ public class WebappAccessor
 					Platform.resolve( webappURL ) ).getFile( );
 			webappLocation += "birt/"; //$NON-NLS-1$
 			return new Path( webappLocation );
-		} catch ( IOException ioe )
+		}
+		catch ( IOException ioe )
 		{
 			throw new CoreException( new Status( IStatus.ERROR,
 					ViewerPlugin.PLUGIN_ID, IStatus.OK,

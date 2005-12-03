@@ -27,15 +27,9 @@
 		<param-value></param-value>
 	</context-param>
 
-	<!-- Report engine log level -->
-	<context-param>
-		<param-name>BIRT_VIEWER_LOG_LEVEL</param-name>
-		<param-value>OFF</param-value>
-	</context-param>
-
 	<servlet>
 		<servlet-name>ViewerServlet</servlet-name>
-		<servlet-class>org.eclipse.birt.report.viewer.servlets.ViewerServlet</servlet-class>
+		<servlet-class>org.eclipse.birt.report.viewer.servlet.ViewerServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
@@ -46,16 +40,6 @@
 	<servlet-mapping>
 		<servlet-name>ViewerServlet</servlet-name>
 		<url-pattern>/run</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>ViewerServlet</servlet-name>
-		<url-pattern>/navigation</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>ViewerServlet</servlet-name>
-		<url-pattern>/toolbar</url-pattern>
 	</servlet-mapping>
 
 	@generated@
