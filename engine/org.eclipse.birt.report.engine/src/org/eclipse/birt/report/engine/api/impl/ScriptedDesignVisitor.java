@@ -14,16 +14,16 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
-import org.eclipse.birt.report.engine.script.CellScriptExecutor;
-import org.eclipse.birt.report.engine.script.DataItemScriptExecutor;
-import org.eclipse.birt.report.engine.script.DetailRowScriptExecutor;
-import org.eclipse.birt.report.engine.script.MultiLineScriptExecutor;
-import org.eclipse.birt.report.engine.script.GridScriptExecutor;
-import org.eclipse.birt.report.engine.script.ImageScriptExecutor;
-import org.eclipse.birt.report.engine.script.LabelScriptExecutor;
-import org.eclipse.birt.report.engine.script.ListScriptExecutor;
-import org.eclipse.birt.report.engine.script.TableScriptExecutor;
-import org.eclipse.birt.report.engine.script.TextItemScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.CellScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.DataItemScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.GridScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.ImageScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.LabelScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.MultiLineScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.TableDetailRowScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.TextItemScriptExecutor;
 
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -200,7 +200,7 @@ class ScriptedDesignVisitor extends DesignVisitor
 		try
 		{
 			executionContext.newScope( handle );
-			DetailRowScriptExecutor.handleOnPrepare( handle, executionContext );
+			TableDetailRowScriptExecutor.handleOnPrepare( handle, executionContext );
 		} finally
 		{
 			executionContext.exitScope( );

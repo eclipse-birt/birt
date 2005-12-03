@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.util.Collection;
+
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
@@ -20,6 +25,7 @@ import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
+import org.eclipse.birt.report.engine.data.dte.DteResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
@@ -27,14 +33,15 @@ import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
-import org.eclipse.birt.report.engine.script.GridScriptExecutor;
-import org.eclipse.birt.report.engine.script.DetailRowScriptExecutor;
-import org.eclipse.birt.report.engine.script.CellScriptExecutor;
+import org.eclipse.birt.report.engine.script.element.RowData;
+import org.eclipse.birt.report.engine.script.internal.CellScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.GridRowScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.GridScriptExecutor;
 
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.20 $ $Date: 2005/11/17 16:50:45 $
+ * @version $Revision: 1.21 $ $Date: 2005/12/02 11:57:05 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -70,7 +77,7 @@ public class GridItemExecutor extends QueryItemExecutor
 	 */
 	public void execute( ReportItemDesign item, IContentEmitter emitter )
 	{
-		GridItemDesign gridItem = (GridItemDesign) item;
+		GridItemDesign gridItem = ( GridItemDesign ) item;
 		ITableContent tableObj = report.createTableContent( );
 		IContent parent = context.getContent( );
 		context.pushContent( tableObj );
@@ -94,10 +101,19 @@ public class GridItemExecutor extends QueryItemExecutor
 			tableObj.addColumn( column );
 		}
 
+		IBaseQueryDefinition query = item.getQuery( );
+		Collection rowExpressions = ( query == null ? null : query
+				.getRowExpressions( ) );
+		IResultIterator rsIterator = ( ( DteResultSet ) rset )
+				.getResultIterator( );
+		IRowData rowData = new RowData( rsIterator, rowExpressions );
+
 		if ( context.isInFactory( ) )
 		{
-			GridScriptExecutor.handleOnCreate( (TableContent) tableObj, null,
-					context );
+
+			GridScriptExecutor.handleOnCreate( ( TableContent ) tableObj,
+					rowData, context );
+
 		}
 
 		openTOCEntry( tableObj );
@@ -171,18 +187,25 @@ public class GridItemExecutor extends QueryItemExecutor
 		context.pushContent( rowContent );
 
 		initializeContent( body, row, rowContent );
-		// rowContent.setRowId(rowId);
 
 		processAction( row, rowContent );
 		processBookmark( row, rowContent );
 		processStyle( row, rowContent );
 		processVisibility( row, rowContent );
 
+		//TODO: Right now row.getQuery() will always return null
+		//This is filed as bug #119153 
+		IBaseQueryDefinition query = row.getQuery( );
+		Collection rowExpressions = ( query == null ? null : query
+				.getRowExpressions( ) );
+		IResultIterator rsIterator = ( ( DteResultSet ) rset )
+				.getResultIterator( );
+		IRowData rowData = new RowData( rsIterator, rowExpressions );
+
 		if ( context.isInFactory( ) )
 		{
-			// TODO: Get datarow from somewhere
-			DetailRowScriptExecutor.handleOnCreate( (RowContent) rowContent,
-					null, context );
+			GridRowScriptExecutor.handleOnCreate( ( RowContent ) rowContent,
+					rowData, context );
 		}
 
 		openTOCEntry( rowContent );
@@ -196,7 +219,7 @@ public class GridItemExecutor extends QueryItemExecutor
 			CellDesign cell = row.getCell( j );
 			if ( cell != null )
 			{
-				executeCell( rowContent, cell, emitter );
+				executeCell( rowContent, cell, emitter, rowData );
 			}
 		}
 		if ( emitter != null )
@@ -227,7 +250,7 @@ public class GridItemExecutor extends QueryItemExecutor
 	 *            output emitter
 	 */
 	private void executeCell( IRowContent rowContent, CellDesign cell,
-			IContentEmitter emitter )
+			IContentEmitter emitter, IRowData rowData )
 	{
 		ICellContent cellContent = report.createCellContent( );
 		assert ( cellContent instanceof CellContent );
@@ -246,9 +269,8 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			// TODO: Get datarow from somewhere
-			CellScriptExecutor.handleOnCreate( (CellContent) cellContent, null,
-					context );
+			CellScriptExecutor.handleOnCreate( ( CellContent ) cellContent,
+					rowData, context );
 		}
 
 		openTOCEntry( cellContent );
@@ -273,5 +295,4 @@ public class GridItemExecutor extends QueryItemExecutor
 		closeTOCEntry( );
 		context.popContent( );
 	}
-
 }

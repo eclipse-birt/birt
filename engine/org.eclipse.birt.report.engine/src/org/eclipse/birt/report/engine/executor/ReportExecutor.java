@@ -28,7 +28,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
-import org.eclipse.birt.report.engine.script.ReportScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 
 /**
@@ -52,7 +52,7 @@ import org.eclipse.birt.report.engine.toc.TOCBuilder;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.27 $ $Date: 2005/11/23 15:54:07 $
+ * @version $Revision: 1.28 $ $Date: 2005/12/02 11:57:05 $
  */
 public class ReportExecutor
 {

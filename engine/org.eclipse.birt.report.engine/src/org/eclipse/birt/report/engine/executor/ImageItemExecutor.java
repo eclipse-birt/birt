@@ -26,7 +26,7 @@ import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.script.ImageScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.ImageScriptExecutor;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 
@@ -56,7 +56,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.25 $ $Date: 2005/11/14 10:55:58 $
+ * @version $Revision: 1.27 $ $Date: 2005/12/02 11:57:05 $
  */
 public class ImageItemExecutor extends QueryItemExecutor
 {

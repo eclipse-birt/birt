@@ -17,12 +17,12 @@ import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.script.LabelScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.LabelScriptExecutor;
 
 /**
  * the labelItem excutor
  * 
- * @version $Revision: 1.14 $ $Date: 2005/11/14 10:55:58 $
+ * @version $Revision: 1.15 $ $Date: 2005/12/02 11:57:05 $
  */
 public class LabelItemExecutor extends StyledItemExecutor
 {

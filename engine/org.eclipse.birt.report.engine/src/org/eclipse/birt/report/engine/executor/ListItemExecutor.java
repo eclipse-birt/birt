@@ -13,7 +13,7 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.util.logging.Level;
 
-import org.eclipse.birt.report.engine.api.script.ExpressionResults;
+import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.ContainerContent;
@@ -23,12 +23,12 @@ import org.eclipse.birt.report.engine.ir.ListBandDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.script.ListScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
 
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.28 $ $Date: 2005/11/24 07:25:16 $
+ * @version $Revision: 1.29 $ $Date: 2005/12/02 11:57:05 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -68,7 +68,7 @@ public class ListItemExecutor extends ListingElementExecutor
 	 */
 	public void execute( ReportItemDesign item, IContentEmitter emitter )
 	{
-		ListItemDesign list = (ListItemDesign) item;
+		ListItemDesign list = ( ListItemDesign ) item;
 		logger.log( Level.FINE, "start list item" ); //$NON-NLS-1$
 
 		IContainerContent listContent = report.createContainerContent( );
@@ -87,8 +87,8 @@ public class ListItemExecutor extends ListingElementExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			ListScriptExecutor.handleOnCreate( (ContainerContent) listContent,
-					context );
+			ListScriptExecutor.handleOnCreate(
+					( ContainerContent ) listContent, context );
 		}
 
 		openTOCEntry( listContent );
@@ -125,7 +125,7 @@ public class ListItemExecutor extends ListingElementExecutor
 	 *            true if it is detail band
 	 */
 	private void accessListBand( ListBandDesign band, IContentEmitter emitter,
-			ExpressionResults expressionResults )
+			IRowData rowData )
 	{
 		if ( band != null && band.getContentCount( ) > 0 )
 		{
@@ -160,10 +160,10 @@ public class ListItemExecutor extends ListingElementExecutor
 	 *      org.eclipse.birt.report.engine.api.script.ExpressionRow)
 	 */
 	protected void accessDetail( ListingDesign list, IContentEmitter emitter,
-			ExpressionResults expressionResults )
+			IRowData rowData )
 	{
-		accessListBand( ( (ListItemDesign) list ).getDetail( ), emitter,
-				expressionResults );
+		accessListBand( ( ( ListItemDesign ) list ).getDetail( ), emitter,
+				rowData );
 	}
 
 	/*
@@ -172,9 +172,11 @@ public class ListItemExecutor extends ListingElementExecutor
 	 * @see org.eclipse.birt.report.engine.executor.ListingElementExecutor#accessFooter(org.eclipse.birt.report.engine.ir.ListingDesign,
 	 *      org.eclipse.birt.report.engine.emitter.IContentEmitter)
 	 */
-	protected void accessFooter( ListingDesign list, IContentEmitter emitter )
+	protected void accessFooter( ListingDesign list, IContentEmitter emitter,
+			IRowData rowData )
 	{
-		accessListBand( ( (ListItemDesign) list ).getFooter( ), emitter, null );
+		accessListBand( ( ( ListItemDesign ) list ).getFooter( ), emitter,
+				rowData );
 	}
 
 	/*
@@ -186,9 +188,8 @@ public class ListItemExecutor extends ListingElementExecutor
 	protected void accessGroupFooter( ListingDesign list, int index,
 			IContentEmitter emitter )
 	{
-		accessListBand(
-				( (ListItemDesign) list ).getGroup( index ).getFooter( ),
-				emitter, null );
+		accessListBand( ( ( ListItemDesign ) list ).getGroup( index )
+				.getFooter( ), emitter, null );
 	}
 
 	/*
@@ -200,9 +201,8 @@ public class ListItemExecutor extends ListingElementExecutor
 	protected void accessGroupHeader( ListingDesign list, int index,
 			IContentEmitter emitter )
 	{
-		accessListBand(
-				( (ListItemDesign) list ).getGroup( index ).getHeader( ),
-				emitter, null );
+		accessListBand( ( ( ListItemDesign ) list ).getGroup( index )
+				.getHeader( ), emitter, null );
 	}
 
 	/*
@@ -211,8 +211,10 @@ public class ListItemExecutor extends ListingElementExecutor
 	 * @see org.eclipse.birt.report.engine.executor.ListingElementExecutor#accessHeader(org.eclipse.birt.report.engine.ir.ListingDesign,
 	 *      org.eclipse.birt.report.engine.emitter.IContentEmitter)
 	 */
-	protected void accessHeader( ListingDesign list, IContentEmitter emitter )
+	protected void accessHeader( ListingDesign list, IContentEmitter emitter,
+			IRowData rowData )
 	{
-		accessListBand( ( (ListItemDesign) list ).getHeader( ), emitter, null );
+		accessListBand( ( ( ListItemDesign ) list ).getHeader( ), emitter,
+				rowData );
 	}
 }

@@ -29,7 +29,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.presentation.LocalizedEmitter;
 import org.eclipse.birt.report.engine.presentation.ReportContentLoader;
-import org.eclipse.birt.report.engine.script.ReportContextImpl;
+import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 
 public class RenderTask extends EngineTask implements IRenderTask
 {

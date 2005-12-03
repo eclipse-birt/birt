@@ -32,7 +32,7 @@ import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.presentation.DefaultPaginationEmitter;
 import org.eclipse.birt.report.engine.presentation.HTMLPaginationEmitter;
 import org.eclipse.birt.report.engine.presentation.LocalizedEmitter;
-import org.eclipse.birt.report.engine.script.ReportContextImpl;
+import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**

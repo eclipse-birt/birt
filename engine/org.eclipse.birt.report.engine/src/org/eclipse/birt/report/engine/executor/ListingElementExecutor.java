@@ -12,13 +12,16 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.util.Collection;
+
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.report.engine.api.script.ExpressionResults;
+import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.data.dte.DteResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.script.element.RowData;
 
 /**
  * An abstract class that defines execution logic for a Listing element, which
@@ -31,6 +34,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 * the cursor position in the query result.
 	 */
 	protected int rsetCursor;
+
 	protected boolean needPageBreak;
 
 	/**
@@ -68,7 +72,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 */
 	protected void accessQuery( ReportItemDesign design, IContentEmitter emitter )
 	{
-		ListingDesign listing = (ListingDesign) design;
+		ListingDesign listing = ( ListingDesign ) design;
 
 		rsetCursor = -1;
 		outputEmitter = emitter;
@@ -82,25 +86,30 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		{
 			// empty rset
 			openTOCEntry( );
-			accessHeader( listing, outputEmitter );
+			accessHeader( listing, outputEmitter, null );
 			closeTOCEntry( );
 
 			openTOCEntry( );
-			accessFooter( listing, outputEmitter );
+			accessFooter( listing, outputEmitter, null );
+
 			closeTOCEntry( );
-		}
-		else
+		} else
 		{
 
-			IResultIterator rsIterator = ( (DteResultSet) rset )
+			IResultIterator rsIterator = ( ( DteResultSet ) rset )
 					.getResultIterator( );
-			Collection rowExpressions = listing.getQuery( ).getRowExpressions( );
-
-			ExpressionResults exprResults = new ExpressionResults( rsIterator,
-					rowExpressions );
-
+			IBaseQueryDefinition query = listing.getQuery( );
+			Collection rowExpressions = ( query == null ? null : query
+					.getRowExpressions( ) );
+			Collection beforeExpressions = ( query == null ? null : query
+					.getBeforeExpressions( ) );
+			Collection afterExpressions = ( query == null ? null : query
+					.getAfterExpressions( ) );
+			IRowData rowData = new RowData( rsIterator, rowExpressions );
+			IRowData headerData = new RowData( rsIterator, beforeExpressions );
+			IRowData footerData = new RowData( rsIterator, afterExpressions );
 			openTOCEntry( );
-			accessHeader( listing, outputEmitter );
+			accessHeader( listing, outputEmitter, headerData );
 			closeTOCEntry( );
 			if ( groupCount == 0 )
 			{
@@ -108,7 +117,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 				{
 					rsetCursor++;
 					openTOCEntry( );
-					accessDetail( listing, outputEmitter, exprResults );
+					accessDetail( listing, outputEmitter, rowData );
 					closeTOCEntry( );
 					if ( pageBreakInterval > 0 )
 					{
@@ -118,8 +127,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 						}
 					}
 				} while ( rset.next( ) );
-			}
-			else
+			} else
 			{
 				do
 				{
@@ -145,7 +153,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 						}
 					}
 					openTOCEntry( );
-					accessDetail( listing, outputEmitter, exprResults );
+					accessDetail( listing, outputEmitter, rowData );
 					closeTOCEntry( );
 					int endGroup = rset.getEndingGroupLevel( );
 					if ( endGroup != NONE_GROUP )
@@ -182,7 +190,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			// we never add page break before the table header and the last row
 			needPageBreak = false;
 			openTOCEntry( );
-			accessFooter( listing, outputEmitter );
+			accessFooter( listing, outputEmitter, footerData );
 			closeTOCEntry( );
 		}
 	}
@@ -222,7 +230,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 *            output emitter
 	 */
 	abstract protected void accessDetail( ListingDesign list,
-			IContentEmitter emitter, ExpressionResults expressionResults );
+			IContentEmitter emitter, IRowData rowData );
 
 	/**
 	 * create the header band
@@ -233,7 +241,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 *            output emitter
 	 */
 	abstract protected void accessHeader( ListingDesign list,
-			IContentEmitter emitter );
+			IContentEmitter emitter, IRowData rowData );
 
 	/**
 	 * create the footer band.
@@ -244,7 +252,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 *            output emitter
 	 */
 	abstract protected void accessFooter( ListingDesign list,
-			IContentEmitter emitter );
+			IContentEmitter emitter, IRowData rowData );
 
 	public void reset( )
 	{

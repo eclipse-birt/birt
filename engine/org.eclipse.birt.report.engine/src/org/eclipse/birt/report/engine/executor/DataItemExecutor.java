@@ -18,7 +18,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.script.DataItemScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.DataItemScriptExecutor;
 
 /**
  * <code>DataItemExecutor</code> is a concrete subclass of
@@ -29,7 +29,7 @@ import org.eclipse.birt.report.engine.script.DataItemScriptExecutor;
  * data content instance, evaluate styles, bookmark, action property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.21 $ $Date: 2005/11/17 16:50:45 $
+ * @version $Revision: 1.22 $ $Date: 2005/12/02 11:57:05 $
  */
 public class DataItemExecutor extends QueryItemExecutor
 {
