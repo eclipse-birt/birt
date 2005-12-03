@@ -28,29 +28,48 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * A class for building up TOC hierarchy
+ */
 public class TOCBuilder
 {
-
+	/**
+	 * the current TOC entry in the tree
+	 */
 	private TOCNode currentEntry;
+	
+	/**
+	 * the root TOC entry
+	 */
 	private TOCNode rootEntry;
-
+	
+	/**
+	 * @param root the root for the TOC tree
+	 */
 	public TOCBuilder( TOCNode root )
 	{
 		rootEntry = root;
 		currentEntry = rootEntry;
 	}
 
-	static long count = 0;
-	public void openEntry( )
+	/**
+	 * start a TOC entry. It is used for container elements
+	 */
+	public void startEntry( )
 	{
 		TOCNode entry = new TOCNode( );
 		entry.setParent( currentEntry );
 		currentEntry = entry;
 	}
 
-	public void openEntry( String id, String label, String bookmark )
+	/**
+	 * @param id instance ID for the entry
+	 * @param displayString display string for the TOC entry
+	 * @param bookmark 
+	 */
+	public void startEntry( String id, String displayString, String bookmark )
 	{
-		openEntry( );
+		startEntry( );
 		TOCNode entry = currentEntry;
 		TOCNode parent = entry.getParent( );
 		while ( parent != rootEntry && parent.getNodeID( ) == null )
@@ -58,16 +77,16 @@ public class TOCBuilder
 			entry = parent;
 			parent = entry.getParent( );
 		}
-		// entry.node id is null
+		// entry.nodeid is null
 		entry.setNodeID( id );
-		entry.setDisplayString( label );
+		entry.setDisplayString( displayString );
 		entry.setBookmark( bookmark );
 		entry.getParent( ).getChildren( ).add( entry );
 	}
 
 	public void createEntry( String id, String label, String bookmark )
 	{
-		openEntry( id, label, bookmark );
+		startEntry( id, label, bookmark );
 		closeEntry( );
 
 	}

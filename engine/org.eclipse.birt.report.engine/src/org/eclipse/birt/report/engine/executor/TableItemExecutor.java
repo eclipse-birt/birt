@@ -58,7 +58,7 @@ import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.32 $ $Date: 2005/12/02 11:57:05 $
+ * @version $Revision: 1.33 $ $Date: 2005/12/03 02:01:49 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -110,7 +110,7 @@ public class TableItemExecutor extends ListingElementExecutor
 		BirtTimer timer = new BirtTimer( );
 		timer.start( );
 
-		TableItemDesign tableDesign = ( TableItemDesign ) item;
+		TableItemDesign tableDesign = (TableItemDesign) item;
 
 		tableInfo = new TABLEINFO( tableDesign );
 
@@ -141,11 +141,11 @@ public class TableItemExecutor extends ListingElementExecutor
 		}
 		if ( context.isInFactory( ) )
 		{
-			TableScriptExecutor.handleOnCreate( ( TableContent ) tableContent,
+			TableScriptExecutor.handleOnCreate( (TableContent) tableContent,
 					context );
 		}
 
-		openTOCEntry( tableContent );
+		startTOCEntry( tableContent );
 		if ( emitter != null )
 		{
 			emitter.startTable( tableContent );
@@ -158,7 +158,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			emitter.endTable( tableContent );
 		}
 
-		closeTOCEntry( );
+		finishTOCEntry( );
 		context.popContent( );
 		closeResultSet( );
 
@@ -172,7 +172,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * structure used to cache the information of a table.
 	 * 
-	 * @version $Revision: 1.32 $ $Date: 2005/12/02 11:57:05 $
+	 * @version $Revision: 1.33 $ $Date: 2005/12/03 02:01:49 $
 	 */
 	private static class TABLEINFO
 	{
@@ -339,10 +339,10 @@ public class TableItemExecutor extends ListingElementExecutor
 	protected void accessHeader( ListingDesign list, IContentEmitter emitter,
 			IRowData rowData )
 	{
-		ITableContent tableContent = ( ITableContent ) context.getContent( );
+		ITableContent tableContent = (ITableContent) context.getContent( );
 
 		// start table header
-		TableBandDesign bandDesign = ( ( TableItemDesign ) list ).getHeader( );
+		TableBandDesign bandDesign = ( (TableItemDesign) list ).getHeader( );
 		if ( bandDesign != null )
 		{
 			ITableBandContent header = report.createTableHeader( );
@@ -383,7 +383,7 @@ public class TableItemExecutor extends ListingElementExecutor
 		}
 
 		// end table body
-		ITableBandContent body = ( ITableBandContent ) context.getContent( );
+		ITableBandContent body = (ITableBandContent) context.getContent( );
 		if ( emitter != null )
 		{
 			emitter.endTableBody( body );
@@ -391,7 +391,7 @@ public class TableItemExecutor extends ListingElementExecutor
 		context.popContent( );
 
 		// start table footer
-		TableBandDesign bandDesign = ( ( TableItemDesign ) list ).getFooter( );
+		TableBandDesign bandDesign = ( (TableItemDesign) list ).getFooter( );
 		if ( bandDesign != null )
 		{
 			ITableBandContent footer = report.createTableFooter( );
@@ -418,7 +418,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	protected void accessDetail( ListingDesign list, IContentEmitter emitter,
 			IRowData rowData )
 	{
-		accessTableBand( ( ( TableItemDesign ) list ).getDetail( ), emitter,
+		accessTableBand( ( (TableItemDesign) list ).getDetail( ), emitter,
 				rowData, DETAIL_ROW );
 	}
 
@@ -426,7 +426,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			IContentEmitter emitter )
 	{
 		groupIndex = index;
-		TableGroupDesign group = ( ( TableItemDesign ) list ).getGroup( index );
+		TableGroupDesign group = ( (TableItemDesign) list ).getGroup( index );
 
 		if ( group != null )
 		{
@@ -450,7 +450,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			assert layoutEmitter == emitter;
 			layoutEmitter.resolveCellsOfDropDetail( index );
 		}
-		TableGroupDesign group = ( ( TableItemDesign ) list ).getGroup( index );
+		TableGroupDesign group = ( (TableItemDesign) list ).getGroup( index );
 		if ( group != null )
 		{
 			accessTableBand( group.getFooter( ), emitter, null,
@@ -536,10 +536,10 @@ public class TableItemExecutor extends ListingElementExecutor
 					break;
 				default:
 					break;
-				}
+			}
 			}
 
-			openTOCEntry( rowContent );
+			startTOCEntry( rowContent );
 			if ( emitter != null )
 			{
 				emitter.startRow( rowContent );
@@ -574,7 +574,7 @@ public class TableItemExecutor extends ListingElementExecutor
 							( CellContent ) cellContent, rowData, context );
 				}
 
-				openTOCEntry( cellContent );
+				startTOCEntry( cellContent );
 				if ( emitter != null )
 				{
 					emitter.startCell( cellContent );
@@ -598,7 +598,7 @@ public class TableItemExecutor extends ListingElementExecutor
 				{
 					emitter.endCell( cellContent );
 				}
-				closeTOCEntry( );
+				finishTOCEntry( );
 				context.popContent( );
 			}
 		}
@@ -606,8 +606,8 @@ public class TableItemExecutor extends ListingElementExecutor
 		boolean closeRow = true;
 		if ( closeRow )
 		{
-			emitter.endRow( ( IRowContent ) context.getContent( ) );
-			closeTOCEntry( );
+			emitter.endRow( (IRowContent) context.getContent( ) );
+			finishTOCEntry( );
 			context.popContent( );
 			rowClosed = true;
 		}
@@ -655,7 +655,7 @@ public class TableItemExecutor extends ListingElementExecutor
 
 			// the current executed cell is rowIndex, columnIndex
 			// get the span value of that cell.
-			CellDesign cellDesign = ( CellDesign ) cell.getGenerateBy( );
+			CellDesign cellDesign = (CellDesign) cell.getGenerateBy( );
 			String dropType = cellDesign.getDrop( );
 			if ( dropType != null && !"none".equals( dropType ) )
 			{
@@ -702,14 +702,14 @@ public class TableItemExecutor extends ListingElementExecutor
 			for ( int i = 0; i < rowCount; i++ )
 			{
 				Row row = layout.getRow( i );
-				IRowContent rowContent = ( IRowContent ) row.getContent( );
+				IRowContent rowContent = (IRowContent) row.getContent( );
 				emitter.startRow( rowContent );
 				for ( int j = 0; j < colCount; j++ )
 				{
 					Cell cell = row.getCell( j );
 					if ( cell.getStatus( ) == Cell.CELL_USED )
 					{
-						CellContent content = ( CellContent ) cell.getContent( );
+						CellContent content = (CellContent) cell.getContent( );
 						content.cell.setColumn( cell.getColId( ) );
 						content.cell.setRowSpan( cell.getRowSpan( ) );
 						content.cell.setColSpan( cell.getColSpan( ) );

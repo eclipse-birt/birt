@@ -28,7 +28,7 @@ import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.29 $ $Date: 2005/12/02 11:57:05 $
+ * @version $Revision: 1.30 $ $Date: 2005/12/03 02:01:49 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -68,7 +68,7 @@ public class ListItemExecutor extends ListingElementExecutor
 	 */
 	public void execute( ReportItemDesign item, IContentEmitter emitter )
 	{
-		ListItemDesign list = ( ListItemDesign ) item;
+		ListItemDesign list = (ListItemDesign) item;
 		logger.log( Level.FINE, "start list item" ); //$NON-NLS-1$
 
 		IContainerContent listContent = report.createContainerContent( );
@@ -91,7 +91,7 @@ public class ListItemExecutor extends ListingElementExecutor
 					( ContainerContent ) listContent, context );
 		}
 
-		openTOCEntry( listContent );
+		startTOCEntry( listContent );
 		if ( emitter != null )
 		{
 			emitter.startContainer( listContent );
@@ -106,7 +106,7 @@ public class ListItemExecutor extends ListingElementExecutor
 			emitter.endContainer( listContent );
 		}
 
-		closeTOCEntry( );
+		finishTOCEntry( );
 		closeResultSet( );
 		context.popContent( );
 		logger.log( Level.FINE, "end list item" ); //$NON-NLS-1$
@@ -162,7 +162,7 @@ public class ListItemExecutor extends ListingElementExecutor
 	protected void accessDetail( ListingDesign list, IContentEmitter emitter,
 			IRowData rowData )
 	{
-		accessListBand( ( ( ListItemDesign ) list ).getDetail( ), emitter,
+		accessListBand( ( (ListItemDesign) list ).getDetail( ), emitter,
 				rowData );
 	}
 

@@ -29,7 +29,7 @@ import org.eclipse.birt.report.engine.script.internal.DataItemScriptExecutor;
  * data content instance, evaluate styles, bookmark, action property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.22 $ $Date: 2005/12/02 11:57:05 $
+ * @version $Revision: 1.23 $ $Date: 2005/12/03 02:01:49 $
  */
 public class DataItemExecutor extends QueryItemExecutor
 {
@@ -95,7 +95,7 @@ public class DataItemExecutor extends QueryItemExecutor
 					context );
 		}
 
-		openTOCEntry( dataObj );
+		startTOCEntry( dataObj );
 
 		// pass the text content instance to emitter
 		if ( emitter != null )
@@ -103,7 +103,7 @@ public class DataItemExecutor extends QueryItemExecutor
 			emitter.startData( dataObj );
 		}
 
-		closeTOCEntry( );
+		finishTOCEntry( );
 		closeResultSet( );
 		context.popContent( );
 	}

@@ -41,7 +41,7 @@ import org.eclipse.birt.report.engine.script.internal.GridScriptExecutor;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.21 $ $Date: 2005/12/02 11:57:05 $
+ * @version $Revision: 1.22 $ $Date: 2005/12/03 02:01:49 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -116,7 +116,7 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		}
 
-		openTOCEntry( tableObj );
+		startTOCEntry( tableObj );
 		if ( emitter != null )
 		{
 			emitter.startTable( tableObj );
@@ -127,7 +127,7 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		context.pushContent( body );
 
-		openTOCEntry( body );
+		startTOCEntry( body );
 		if ( emitter != null )
 		{
 			emitter.startTableBody( body );
@@ -145,14 +145,14 @@ public class GridItemExecutor extends QueryItemExecutor
 		{
 			emitter.endTableBody( body );
 		}
-		closeTOCEntry( );
+		finishTOCEntry( );
 		context.popContent( );
 
 		if ( emitter != null )
 		{
 			emitter.endTable( tableObj );
 		}
-		closeTOCEntry( );
+		finishTOCEntry( );
 		closeResultSet( );
 		context.popContent( );
 	}
@@ -208,7 +208,7 @@ public class GridItemExecutor extends QueryItemExecutor
 					rowData, context );
 		}
 
-		openTOCEntry( rowContent );
+		startTOCEntry( rowContent );
 		if ( emitter != null )
 		{
 			emitter.startRow( rowContent );
@@ -226,7 +226,7 @@ public class GridItemExecutor extends QueryItemExecutor
 		{
 			emitter.endRow( rowContent );
 		}
-		closeTOCEntry( );
+		finishTOCEntry( );
 		context.popContent( );
 	}
 
@@ -273,7 +273,7 @@ public class GridItemExecutor extends QueryItemExecutor
 					rowData, context );
 		}
 
-		openTOCEntry( cellContent );
+		startTOCEntry( cellContent );
 		if ( emitter != null )
 		{
 			emitter.startCell( cellContent );
@@ -292,7 +292,7 @@ public class GridItemExecutor extends QueryItemExecutor
 		{
 			emitter.endCell( cellContent );
 		}
-		closeTOCEntry( );
+		finishTOCEntry( );
 		context.popContent( );
 	}
 }

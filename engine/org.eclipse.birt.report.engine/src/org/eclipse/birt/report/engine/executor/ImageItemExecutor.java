@@ -56,7 +56,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.27 $ $Date: 2005/12/02 11:57:05 $
+ * @version $Revision: 1.28 $ $Date: 2005/12/03 02:01:49 $
  */
 public class ImageItemExecutor extends QueryItemExecutor
 {
@@ -119,13 +119,13 @@ public class ImageItemExecutor extends QueryItemExecutor
 			ImageScriptExecutor.handleOnCreate( (ImageContent) imageContent,
 					context );
 		}
-		openTOCEntry( imageContent );
+		startTOCEntry( imageContent );
 		// forward to emitter for further processing
 		if ( emitter != null )
 		{
 			emitter.startImage( imageContent );
 		}
-		closeTOCEntry( );
+		finishTOCEntry( );
 		closeResultSet( );
 		context.popContent( );
 

@@ -5,17 +5,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A node that wraps around a TOC entry
+ * A node that wraps around a TOC entry. To navigate to a specific TOC entry, one starts
+ * with the TOC root and traverse down the TOC tree, obtaining list of TOC nodes.
+ * 
+ * For each node, the user can go to a specific page by following the bookmark.  
  */
 public class TOCNode
 {
-
+	/**
+	 * the string to be displayed for the TOC entry
+	 */
 	protected String displayString;
+	
+	/**
+	 * A bookmark that is stored for the TOC
+	 */
 	protected String bookmark;
+	
+	/**
+	 * the parent node
+	 */
 	protected TOCNode parent;
+	
+	/**
+	 * identifier for the current node
+	 */
 	protected String nodeId;
+	
+	/**
+	 * A list of children for the TOC node
+	 */
 	protected ArrayList children;
 
+	/**
+	 * @return the unique ID for the TOC node
+	 */
 	public String getNodeID( )
 	{
 		return nodeId;
@@ -50,6 +74,14 @@ public class TOCNode
 	}
 
 	/**
+	 * @param display the display string
+	 */
+	public void setDisplayString( String displayStr )
+	{
+		this.displayString = displayStr;
+	}
+	
+	/**
 	 * @return the bookmark string that the TOC item points to.
 	 */
 	public String getBookmark( )
@@ -60,11 +92,6 @@ public class TOCNode
 	public void setBookmark( String bookmark )
 	{
 		this.bookmark = bookmark;
-	}
-
-	public void setDisplayString( String display )
-	{
-		this.displayString = display;
 	}
 
 	public void setNodeID( String id )

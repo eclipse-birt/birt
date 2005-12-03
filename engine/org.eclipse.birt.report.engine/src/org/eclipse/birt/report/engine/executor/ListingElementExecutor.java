@@ -34,7 +34,6 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 * the cursor position in the query result.
 	 */
 	protected int rsetCursor;
-
 	protected boolean needPageBreak;
 
 	/**
@@ -72,7 +71,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 */
 	protected void accessQuery( ReportItemDesign design, IContentEmitter emitter )
 	{
-		ListingDesign listing = ( ListingDesign ) design;
+		ListingDesign listing = (ListingDesign) design;
 
 		rsetCursor = -1;
 		outputEmitter = emitter;
@@ -85,19 +84,17 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		if ( rset == null || rsetEmpty == true )
 		{
 			// empty rset
-			openTOCEntry( );
+			startTOCEntry( null );
 			accessHeader( listing, outputEmitter, null );
-			closeTOCEntry( );
+			finishTOCEntry( );
 
-			openTOCEntry( );
+			startTOCEntry( null );
 			accessFooter( listing, outputEmitter, null );
-
-			closeTOCEntry( );
-		} else
+			finishTOCEntry( );
+		}
+		else
 		{
-
-			IResultIterator rsIterator = ( ( DteResultSet ) rset )
-					.getResultIterator( );
+			IResultIterator rsIterator = ( ( DteResultSet ) rset ).getResultIterator( );
 			IBaseQueryDefinition query = listing.getQuery( );
 			Collection rowExpressions = ( query == null ? null : query
 					.getRowExpressions( ) );
@@ -108,17 +105,17 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			IRowData rowData = new RowData( rsIterator, rowExpressions );
 			IRowData headerData = new RowData( rsIterator, beforeExpressions );
 			IRowData footerData = new RowData( rsIterator, afterExpressions );
-			openTOCEntry( );
+			startTOCEntry( null );
 			accessHeader( listing, outputEmitter, headerData );
-			closeTOCEntry( );
+			finishTOCEntry( );
 			if ( groupCount == 0 )
 			{
 				do
 				{
 					rsetCursor++;
-					openTOCEntry( );
+					startTOCEntry( null );
 					accessDetail( listing, outputEmitter, rowData );
-					closeTOCEntry( );
+					finishTOCEntry( );
 					if ( pageBreakInterval > 0 )
 					{
 						if ( ( rsetCursor + 1 ) % pageBreakInterval == 0 )
@@ -144,17 +141,17 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 						}
 						while ( groupIndex < groupCount )
 						{
-							openTOCEntry( );// open the group
-							openTOCEntry( );// open the group header
+							startTOCEntry( null );// open the group
+							startTOCEntry( null );// open the group header
 							accessGroupHeader( listing, groupIndex,
 									outputEmitter );
-							closeTOCEntry( );// close the group header
+							finishTOCEntry( );// close the group header
 							groupIndex++;
 						}
 					}
-					openTOCEntry( );
+					startTOCEntry( null );
 					accessDetail( listing, outputEmitter, rowData );
-					closeTOCEntry( );
+					finishTOCEntry( );
 					int endGroup = rset.getEndingGroupLevel( );
 					if ( endGroup != NONE_GROUP )
 					{
@@ -170,11 +167,11 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 						groupIndex = groupCount - 1;
 						while ( groupIndex >= endGroup )
 						{
-							openTOCEntry( ); // open the group footer
+							startTOCEntry( null ); // open the group footer
 							accessGroupFooter( listing, groupIndex,
 									outputEmitter );
-							closeTOCEntry( ); // close the group footer
-							closeTOCEntry( ); // close the group
+							finishTOCEntry( ); // close the group footer
+							finishTOCEntry( ); // close the group
 							groupIndex--;
 						}
 					}
@@ -189,9 +186,9 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			}
 			// we never add page break before the table header and the last row
 			needPageBreak = false;
-			openTOCEntry( );
+			startTOCEntry( null );
 			accessFooter( listing, outputEmitter, footerData );
-			closeTOCEntry( );
+			finishTOCEntry( );
 		}
 	}
 

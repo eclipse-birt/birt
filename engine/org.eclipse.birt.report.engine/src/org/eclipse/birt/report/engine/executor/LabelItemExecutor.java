@@ -22,7 +22,7 @@ import org.eclipse.birt.report.engine.script.internal.LabelScriptExecutor;
 /**
  * the labelItem excutor
  * 
- * @version $Revision: 1.15 $ $Date: 2005/12/02 11:57:05 $
+ * @version $Revision: 1.16 $ $Date: 2005/12/03 02:01:49 $
  */
 public class LabelItemExecutor extends StyledItemExecutor
 {
@@ -75,12 +75,12 @@ public class LabelItemExecutor extends StyledItemExecutor
 					context );
 		}
 
-		openTOCEntry( labelObj );
+		startTOCEntry( labelObj );
 		if ( emitter != null )
 		{
 			emitter.startLabel( labelObj );
 		}
-		closeTOCEntry( );
+		finishTOCEntry( );
 		context.popContent( );
 	}
 }
