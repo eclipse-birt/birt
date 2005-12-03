@@ -35,13 +35,13 @@ public class ResultSet implements IResultSet
 {
 
 	/** the JDBC ResultSet object */
-	private java.sql.ResultSet rs;
+	protected java.sql.ResultSet rs;
 
 	/** the variable to remember the max rows that the resultset can return */
-	private int maxRows;
+	protected int maxRows;
 
 	/** the variable to indicate the current row number */
-	private int currentRow;
+	protected int currentRow;
 
 	private static Logger logger = Logger.getLogger( ResultSet.class.getName( ) );	
 

@@ -32,13 +32,13 @@ import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 public class Connection implements IConnection
 {
 	/** The JDBC Connection instance. */
-	private java.sql.Connection jdbcConn = null;
+	protected java.sql.Connection jdbcConn = null;
 	
 	private static Logger logger = Logger.getLogger( Connection.class.getName( ) );	
 	
 	// TODO:
 	//private final String simpleDataType = "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet";
-	private final String advancedDataType = "org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet";
+	private static final String advancedDataType = "org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet";
 
 	public void close( ) throws OdaException
 	{

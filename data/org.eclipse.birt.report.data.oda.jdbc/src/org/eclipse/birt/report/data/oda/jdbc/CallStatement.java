@@ -44,16 +44,16 @@ public class CallStatement implements IAdvancedQuery
 {
 
 	/** the JDBC callableStatement object */
-	private CallableStatement callStat;
+	protected CallableStatement callStat;
 
 	/** the JDBC Connection object */
-	private java.sql.Connection conn;
+	protected java.sql.Connection conn;
 
 	/** remember the max row value, default 0. */
-	private int maxrows;
+	protected int maxrows;
 
 	/** indicates if need to call JDBC setMaxRows before execute statement */
-	private boolean maxRowsUpToDate = false;
+	protected boolean maxRowsUpToDate = false;
 
 	/** Error message for ERRMSG_SET_PARAMETER */
 	private final static String ERRMSG_SET_PARAMETER = "Error setting value for SQL parameter #";
@@ -62,9 +62,9 @@ public class CallStatement implements IAdvancedQuery
 
 	//private boolean isCallabeStatement = true;
 
-	private String procedureName;
+	protected String procedureName;
 
-	private String[] resultSetNames;
+	protected String[] resultSetNames;
 
 	/**
 	 * assertNull(Object o)

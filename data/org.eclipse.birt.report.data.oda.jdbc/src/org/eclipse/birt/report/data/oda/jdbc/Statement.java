@@ -38,16 +38,16 @@ public class Statement implements IQuery
 {
 
 	/** the JDBC preparedStatement object */
-	private PreparedStatement preStat;
+	protected PreparedStatement preStat;
 
 	/** the JDBC Connection object */
-	private java.sql.Connection conn;
+	protected java.sql.Connection conn;
 
 	/** remember the max row value, default 0. */
-	private int maxrows;
+	protected int maxrows;
 	
 	/** indicates if need to call JDBC setMaxRows before execute statement */
-	private boolean maxRowsUpToDate = false;
+	protected boolean maxRowsUpToDate = false;
 
 	/** Error message for ERRMSG_SET_PARAMETER */
 	private final static String ERRMSG_SET_PARAMETER = "Error setting value for SQL parameter #";
