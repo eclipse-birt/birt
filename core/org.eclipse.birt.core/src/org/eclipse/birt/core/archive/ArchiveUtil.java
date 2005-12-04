@@ -28,28 +28,82 @@ import java.util.zip.ZipOutputStream;
 
 public class ArchiveUtil
 {
-	public static String generateFullPath( String archiveFolderPath, String relativePath )
-	{	
-		return new File( archiveFolderPath, relativePath ).getAbsolutePath();
-	}
+	// We need this because the report document should be platform neutual. Here we define the neutual is the unix seperator.
+	public static String UNIX_SEPERATOR = "/";
 	
-	public static String generateRelativePath( String archiveFolderPath, String fullPath )
+	/**
+	 * @param rootPath - the absolute path of the root folder. The path is seperated by system's File seperator. 
+	 * @param relativePath - the relative path. The path is either seperated by system's File seperator or seperated by Unix seperator "/".
+	 * @return the absolute path which concats rootPath and relativePath. The full path is seperated by system's File seperator. The returned absolute path can be used directly to locate the file.  
+	 */
+	public static String generateFullPath( String rootPath, String relativePath )
 	{
-		String relativePath = null;
+		relativePath = convertToSystemString( relativePath );
 		
-		if ( (archiveFolderPath != null) &&
-			 fullPath.startsWith(archiveFolderPath) )
+		if ( rootPath != null )
 		{
-			relativePath = fullPath.substring( archiveFolderPath.length() );
+			if ( !rootPath.endsWith(File.separator) )
+				rootPath += File.separator;
+			
+			if ( relativePath.startsWith(File.separator) )
+				relativePath = relativePath.substring( 1 );
+			
+			return rootPath + relativePath;
 		}
-		else
-			relativePath = fullPath;
-		
-		if ( relativePath.startsWith(File.separator) )
-			relativePath = relativePath.substring( 1 );
 		
 		return relativePath;
 	}
+
+	/**
+	 * @param rootPath - the absolute path of the root folder. The path is seperated by system's File seperator.
+	 * @param fullString - the absolute path of the stream. The path is seperated by system's File seperator.
+	 * @return the relative path string. The path is based on Unix syntax and starts with "/". 
+	 */
+	public static String generateRelativePath( String rootPath, String fullPath )
+	{
+		String relativePath = null;
+		
+		if ( (rootPath != null) &&
+			 fullPath.startsWith(rootPath) )
+		{
+			relativePath = fullPath.substring( rootPath.length() );
+		}
+		else
+			relativePath = fullPath;
+				
+		relativePath = convertToUnixString( relativePath );
+		
+		if ( !relativePath.startsWith(UNIX_SEPERATOR) )
+			relativePath = UNIX_SEPERATOR + relativePath.substring( 1 );
+
+		
+		return relativePath;
+	}
+
+	/**
+	 * @param path - the path that could be in system format (seperated by File.seperator) or Unix format (seperated by "/").
+	 * @return the path that is in Unix format.
+	 */
+	private static String convertToUnixString( String path )
+	{
+		if ( path == null )
+			return null;
+		
+		return path.replace( File.separator.charAt(0), UNIX_SEPERATOR.charAt(0) );
+	}
+
+	/**
+	 * @param path - the path that could be in system format (seperated by File.seperator) or Unix format (seperated by "/").
+	 * @return the path that is in the system format.
+	 */
+	private static String convertToSystemString( String path )
+	{
+		if ( path == null )
+			return null;
+		
+		return path.replace( UNIX_SEPERATOR.charAt(0), File.separator.charAt(0) );
+	}
+
 
 	public static void DeleteAllFiles( File dirOrFile )
 	{	
