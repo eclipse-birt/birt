@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.engine.api;
 
-import org.eclipse.birt.core.archive.IDocumentArchive;
+import org.eclipse.birt.core.archive.IDocArchiveWriter;
 
 /**
  * An engine task that runs a report and generates a report document.
@@ -39,5 +39,5 @@ public interface IRunTask extends IEngineTask
 	 * @param archive	a document archive object that supports various doc-related functionalities
 	 * @throws EngineException throws exception when running report fails
 	 */
-	public abstract void run( IDocumentArchive archive ) throws EngineException;
+	public abstract void run( IDocArchiveWriter archive ) throws EngineException;
 }

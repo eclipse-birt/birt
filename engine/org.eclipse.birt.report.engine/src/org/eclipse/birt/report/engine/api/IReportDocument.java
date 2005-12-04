@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.birt.core.archive.IDocumentArchive;
+import org.eclipse.birt.core.archive.IDocArchiveReader;
 
 /**
  * A report document (i.e., not modifiable) that can be rendered to other
@@ -17,12 +17,12 @@ import org.eclipse.birt.core.archive.IDocumentArchive;
 public interface IReportDocument
 {
 
-	IDocumentArchive getArchive( );
+	public abstract IDocArchiveReader getArchive( );
 
 	/**
 	 * @return the report document (archive) name
 	 */
-	public abstract String getReportDocumentName( );
+	public abstract String getName( );
 
 	/**
 	 * @return a report design stream. This is useful for rerunning a report

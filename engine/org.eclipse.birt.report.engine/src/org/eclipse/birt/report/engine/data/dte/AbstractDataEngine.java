@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.archive.IDocumentArchive;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -71,7 +70,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 
 	protected LinkedList queryResultStack = new LinkedList( );
 
-	protected IDocumentArchive archive = null;
+	protected String reportArchName = null;
 	protected static final String DATA_META_STREAM = "/Data/hierarchy";
 
 	/*

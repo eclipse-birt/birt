@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.archive.IDocumentArchive;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.util.BirtTimer;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
@@ -346,25 +345,18 @@ public class ReportEngine
 	 * opens a report document and returns an IReportDocument object, from which
 	 * further information can be retrieved.
 	 * 
-	 * @param docArchiveName
+	 * @param fileName
 	 *            the report document name. report document is an archive in
 	 *            BIRT.
 	 * @return A handle to the report document
 	 * @throws EngineException
 	 *             throwed when the report document archive does not exist, or
 	 *             the file is not a valud report document
-	 * @deprecated use openReportDocument(IDocumentArchive) instead.
 	 */
-	public IReportDocument openReportDocument( String docArchiveName )
+	public IReportDocument openReportDocument( String fileName )
 			throws EngineException
 	{
-		return helper.openReportDocument( docArchiveName );
-	}
-
-	public IReportDocument openReportDocument( IDocumentArchive archive )
-			throws EngineException
-	{
-		return helper.openReportDocument( archive );
+		return helper.openReportDocument( fileName );
 	}
 
 	/**
@@ -374,8 +366,7 @@ public class ReportEngine
 	 *            a handle to an IReportDocument object
 	 * @return a task that renders a report to an output format
 	 */
-	public IDataExtractionTask createDataExtractionTask(
-			IReportDocument reportDocument )
+	public IDataExtractionTask createDataExtractionTask( IReportDocument reportDocument )
 	{
 		return null;
 	}

@@ -14,8 +14,8 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.io.IOException;
 import java.util.logging.Level;
 
-import org.eclipse.birt.core.archive.DocumentArchive;
-import org.eclipse.birt.core.archive.IDocumentArchive;
+import org.eclipse.birt.core.archive.FileArchiveWriter;
+import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -34,7 +34,7 @@ import org.eclipse.birt.report.engine.presentation.ReportDocumentEmitter;
 public class RunTask extends AbstractRunTask implements IRunTask
 {
 
-	ReportDocument reportDoc;
+	ReportDocumentWriter writer;
 	IPageHandler pageHandler;
 
 	/**
@@ -69,7 +69,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		if ( reportDocName == null || reportDocName.length( ) == 0 )
 			throw new EngineException(
 					"Report document name is not specified when running a report." ); //$NON-NLS-1$
-		DocumentArchive archive = new DocumentArchive( reportDocName );
+		IDocArchiveWriter archive = new FileArchiveWriter( reportDocName );
 		run( archive );
 	}
 
@@ -78,7 +78,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.IRunTask#run(org.eclipse.birt.core.archive.IDocumentArchive)
 	 */
-	public void run( IDocumentArchive archive ) throws EngineException
+	public void run( IDocArchiveWriter archive ) throws EngineException
 	{
 		if ( archive == null )
 			throw new EngineException(
@@ -86,16 +86,24 @@ public class RunTask extends AbstractRunTask implements IRunTask
 
 		try
 		{
-			archive.open( );
+			archive.initialize( );
 		}
 		catch ( IOException ex )
 		{
 			throw new EngineException( "Can't open the report archive.", ex ); //$NON-NLS-1$	
 		}
 
-		reportDoc = new ReportDocument( engine, archive );
+		writer = new ReportDocumentWriter( archive );
 		doRun( );
-		archive.close( );
+		try 
+		{
+			archive.finish( );
+		} 
+		catch (IOException e) 
+		{
+			// TODO: Add Error Handling Code
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -112,11 +120,11 @@ public class RunTask extends AbstractRunTask implements IRunTask
 
 		setupExecutionContext( );
 
-		executionContext.setReportDocument( reportDoc );
+		executionContext.setReportDocWriter( writer );
 
 		setupEmitterService( );
 		IContentEmitter emitter = new HTMLPaginationEmitter( executor,
-				new ReportDocumentEmitter( reportDoc ) );
+				new ReportDocumentEmitter( writer ) );
 
 		// emitter is not null
 		emitter.initialize( services );
@@ -125,8 +133,8 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		{
 			Report report = new ReportParser( )
 					.parse( ( (ReportRunnable) runnable ).getReport( ) );
-			reportDoc.saveDesign( report.getReportDesign( ) );
-			reportDoc.saveParamters( inputValues );
+			writer.saveDesign( report.getReportDesign( ) );
+			writer.saveParamters( inputValues );
 			executionContext.openDataEngine( );
 			executor.execute( report, emitter );
 			executionContext.closeDataEngine( );

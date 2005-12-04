@@ -26,8 +26,8 @@ import java.util.logging.Logger;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
-import org.eclipse.birt.core.archive.DocumentArchive;
-import org.eclipse.birt.core.archive.IDocumentArchive;
+import org.eclipse.birt.core.archive.FileArchiveWriter;
+import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.IPlatformContext;
@@ -41,7 +41,7 @@ import org.eclipse.birt.core.framework.PlatformFileContext;
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
  * 
- * @version $Revision: 1.11 $ $Date: 2005/11/23 09:29:21 $
+ * @version $Revision: 1.12 $ $Date: 2005/12/02 11:57:07 $
  */
 public class ReportRunner
 {
@@ -259,7 +259,7 @@ public class ReportRunner
 			task.setAppContext( new HashMap( ) );
 
 			// open the output archive
-			IDocumentArchive archive = new DocumentArchive( targetFile );
+			IDocArchiveWriter archive = new FileArchiveWriter( targetFile );
 
 			// run the task to create the report document
 			task.run( archive );
@@ -284,11 +284,8 @@ public class ReportRunner
 	{
 		try
 		{
-
-			// open the document archive
-			IDocumentArchive archive = new DocumentArchive( source );
 			// use the archive to open the report document
-			IReportDocument document = engine.openReportDocument( archive );
+			IReportDocument document = engine.openReportDocument( source );
 
 			// create the render task
 			IRenderTask task = engine.createRenderTask( document );

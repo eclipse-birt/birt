@@ -33,9 +33,8 @@ import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 
 public class RenderTask extends EngineTask implements IRenderTask
 {
-
 	IRenderOption renderOptions;
-	ReportDocument reportDoc;
+	ReportDocumentReader reportDoc;
 	String emitterID;
 
 	/**
@@ -47,7 +46,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 *            the report document instance
 	 */
 	public RenderTask( ReportEngine engine, IReportRunnable runnable,
-			ReportDocument reportDoc )
+			ReportDocumentReader reportDoc )
 	{
 		super( engine, runnable );
 		// load the reportR
@@ -118,8 +117,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 		EngineConfig config = engine.getConfig( );
 		if ( config != null )
-			services
-					.setEmitterConfig( engine.getConfig( ).getEmitterConfigs( ) );
+			services.setEmitterConfig( engine.getConfig( ).getEmitterConfigs( ) );
 		services.setRenderContext( context );
 
 		services.setReportRunnable( runnable );
@@ -223,7 +221,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	public void close( )
 	{
-		reportDoc.getArchive( ).close( );
+		reportDoc.close();
 		super.close( );
 	}
 }

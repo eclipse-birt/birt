@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.data.dte;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -23,7 +21,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.logging.Level;
 
-import org.eclipse.birt.core.archive.IDocumentArchive;
+import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -41,11 +39,12 @@ import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 
 public class DataPresentationEngine extends AbstractDataEngine
 {
-
-	public DataPresentationEngine( ExecutionContext ctx, IDocumentArchive arch)
+	private IDocArchiveReader reader;
+	
+	public DataPresentationEngine( ExecutionContext ctx, IDocArchiveReader reader )
 	{
 		context = ctx;
-		archive = arch;
+		this.reader = reader;
 		// fd = getRandomAccessFile();
 
 		loadDteMetaInfo( );
@@ -54,7 +53,8 @@ public class DataPresentationEngine extends AbstractDataEngine
 		{
 			DataEngineContext dteContext = DataEngineContext.newInstance(
 					DataEngineContext.MODE_PRESENTATION, ctx.getSharedScope( ),
-					arch );
+					reader, 
+					null );
 			dataEngine = DataEngine.newDataEngine( dteContext );
 		}
 		catch ( BirtException ex )
@@ -65,11 +65,9 @@ public class DataPresentationEngine extends AbstractDataEngine
 
 	private void loadDteMetaInfo( )
 	{
-		File fd = archive.getStream( DATA_META_STREAM );
 		try
 		{
-			ObjectInputStream ois = new ObjectInputStream( new FileInputStream(
-					fd ) );
+			ObjectInputStream ois = new ObjectInputStream( reader.getStream( DATA_META_STREAM ) );
 			mapQueryIDToResultSetIDs = (HashMap) ois.readObject( );
 			queryResultRelations = (ArrayList) ois.readObject( );
 			queryExpressionIDs = (ArrayList) ois.readObject( );

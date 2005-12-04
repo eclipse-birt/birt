@@ -14,12 +14,11 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.archive.DocumentArchive;
-import org.eclipse.birt.core.archive.IDocumentArchive;
+import org.eclipse.birt.core.archive.FileArchiveReader;
+import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataPreviewTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
@@ -268,16 +267,16 @@ public class ReportEngineHelper
 	public IReportDocument openReportDocument( String docArchiveName )
 			throws EngineException
 	{
-		return openReportDocument( new DocumentArchive( docArchiveName ) );
+		return openReportDocument( new FileArchiveReader( docArchiveName ) );
 	}
 
-	public IReportDocument openReportDocument( IDocumentArchive archive )
+	private IReportDocument openReportDocument( IDocArchiveReader archive )
 			throws EngineException
 	{
 		try
 		{
 			archive.open( );
-			return new ReportDocument( engine, archive );
+			return new ReportDocumentReader( engine, archive );
 		}
 		catch ( IOException ex )
 		{
@@ -296,7 +295,7 @@ public class ReportEngineHelper
 		{
 			IReportRunnable runnable = engine.openReportDesign( reportDoc
 					.getDesignStream( ) );
-			return new RenderTask( engine, runnable, (ReportDocument) reportDoc );
+			return new RenderTask( engine, runnable, (ReportDocumentReader) reportDoc );
 		}
 		catch ( EngineException ex )
 		{

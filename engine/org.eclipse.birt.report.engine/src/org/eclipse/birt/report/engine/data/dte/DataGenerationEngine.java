@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.data.dte;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
@@ -21,7 +19,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.logging.Level;
 
-import org.eclipse.birt.core.archive.IDocumentArchive;
+import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -40,16 +38,18 @@ import org.mozilla.javascript.Scriptable;
 
 public class DataGenerationEngine extends AbstractDataEngine
 {
+	private IDocArchiveWriter writer;
 
-	public DataGenerationEngine( ExecutionContext ctx, IDocumentArchive arch)
+	public DataGenerationEngine( ExecutionContext ctx, IDocArchiveWriter writer )
 	{
 		context = ctx;
-		archive = arch;
+		this.writer = writer;
+
 		try
 		{
 			DataEngineContext dteContext = DataEngineContext.newInstance(
 					DataEngineContext.MODE_GENERATION, ctx.getSharedScope( ),
-					arch );
+					null, writer );
 			dataEngine = DataEngine.newDataEngine( dteContext );
 		}
 		catch ( BirtException ex )
@@ -219,12 +219,10 @@ public class DataGenerationEngine extends AbstractDataEngine
 
 	private void storeDteMetaInfo( )
 	{
-		File fd = archive.createStream( DATA_META_STREAM );
-
 		try
 		{
 			ObjectOutputStream oos = new ObjectOutputStream(
-					new FileOutputStream( fd ) );
+					writer.createRandomAccessStream( DATA_META_STREAM ) );
 			oos.writeObject( mapQueryIDToResultSetIDs );
 			oos.writeObject( queryResultRelations );
 			oos.writeObject( queryExpressionIDs );

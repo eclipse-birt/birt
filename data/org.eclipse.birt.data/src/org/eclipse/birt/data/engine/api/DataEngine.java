@@ -54,7 +54,8 @@ abstract public class DataEngine
 			{
 				context = DataEngineContext.newInstance( DataEngineContext.MODE_DIRECTPRESENT,
 						null,
-						null );
+						null, 
+						null);
 			}
 			catch ( BirtException e )
 			{
@@ -80,7 +81,8 @@ abstract public class DataEngine
 		{
 			return newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_DIRECTPRESENT,
 					sharedScope,
-					null ) );
+					null, 
+					null) );
 		}
 		catch ( BirtException e )
 		{

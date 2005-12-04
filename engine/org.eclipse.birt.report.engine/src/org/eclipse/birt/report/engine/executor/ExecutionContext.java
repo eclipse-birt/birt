@@ -41,6 +41,7 @@ import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportEngine;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -67,7 +68,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.43 $ $Date: 2005/11/21 15:35:49 $
+ * @version $Revision: 1.44 $ $Date: 2005/12/02 11:57:05 $
  */
 public class ExecutionContext
 {
@@ -142,6 +143,8 @@ public class ExecutionContext
 	 * Report parameters used to create the report content
 	 */
 	private Map params = new BirtHashMap( );
+
+	private ReportDocumentWriter	docWriter;
 
 	/**
 	 * app context
@@ -1159,4 +1162,13 @@ public class ExecutionContext
 		return reportDoc;
 	}
 
+	public void setReportDocWriter( ReportDocumentWriter docWriter )
+	{
+		this.docWriter = docWriter;
+	}
+
+	public ReportDocumentWriter getReportDocWriter( )
+	{
+		return docWriter;
+	}
 }
