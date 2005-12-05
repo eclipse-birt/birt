@@ -246,10 +246,10 @@ class PublishPage extends WizardPage
 	private static final String BROWSE_TITLE = Messages
 			.getString( "PublishTemplateAction.wizard.page.browse.title" ); //$NON-NLS-1$
 	private static final String IMAGE_ERROR = "PublishTemplateAction.wizard.page.imageError"; //$NON-NLS-1$
-	private static final String LABEL_CHEATSHEET = Messages
-			.getString( "PublishTemplateAction.wizard.page.label.cheatsheet" ); //$NON-NLS-1$
-	private static final String BROWSE_CS_TITLE = Messages
-			.getString( "PublishTemplateAction.wizard.page.browse.cheatsheet.title" ); //$NON-NLS-1$
+//	private static final String LABEL_CHEATSHEET = Messages
+//			.getString( "PublishTemplateAction.wizard.page.label.cheatsheet" ); //$NON-NLS-1$
+//	private static final String BROWSE_CS_TITLE = Messages
+//			.getString( "PublishTemplateAction.wizard.page.browse.cheatsheet.title" ); //$NON-NLS-1$
 	private static final String CHEATSHEET_ERROR = "PublishTemplateAction.wizard.page.cheatsheetError"; //$NON-NLS-1$
 
 	private static final String STR_EMPTY = ""; //$NON-NLS-1$
@@ -334,40 +334,40 @@ class PublishPage extends WizardPage
 			}
 		} );
 
-		new Label( container, SWT.NONE ).setText( LABEL_CHEATSHEET );
-		cheatSheetText = createText( container, 1, 1 );
-		if ( module.getCheetSheet( ) != null )
-			cheatSheetText.setText( module.getCheetSheet( ) );
-		cheatSheetText.addModifyListener( new ModifyListener( ) {
-
-			public void modifyText( ModifyEvent e )
-			{
-				validate( );
-			}
-		} );
-
-		Button chooseBtn2 = new Button( container, SWT.NONE );
-		chooseBtn2.setText( BTN_CHOOSE );
-		chooseBtn2.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				FileDialog dialog = new FileDialog( PlatformUI.getWorkbench( )
-						.getDisplay( ).getActiveShell( ) );
-				dialog.setText( BROWSE_CS_TITLE );
-				String fileName = dialog.open( );
-				if ( fileName == null )
-				{
-					return;
-				}
-				cheatSheetText.setText( fileName );
-			}
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-
-			}
-		} );
+//		new Label( container, SWT.NONE ).setText( LABEL_CHEATSHEET );
+//		cheatSheetText = createText( container, 1, 1 );
+//		if ( module.getCheetSheet( ) != null )
+//			cheatSheetText.setText( module.getCheetSheet( ) );
+//		cheatSheetText.addModifyListener( new ModifyListener( ) {
+//
+//			public void modifyText( ModifyEvent e )
+//			{
+//				validate( );
+//			}
+//		} );
+//
+//		Button chooseBtn2 = new Button( container, SWT.NONE );
+//		chooseBtn2.setText( BTN_CHOOSE );
+//		chooseBtn2.addSelectionListener( new SelectionListener( ) {
+//
+//			public void widgetSelected( SelectionEvent e )
+//			{
+//				FileDialog dialog = new FileDialog( PlatformUI.getWorkbench( )
+//						.getDisplay( ).getActiveShell( ) );
+//				dialog.setText( BROWSE_CS_TITLE );
+//				String fileName = dialog.open( );
+//				if ( fileName == null )
+//				{
+//					return;
+//				}
+//				cheatSheetText.setText( fileName );
+//			}
+//
+//			public void widgetDefaultSelected( SelectionEvent e )
+//			{
+//
+//			}
+//		} );
 
 		nameText.forceFocus( );
 		setControl( container );
