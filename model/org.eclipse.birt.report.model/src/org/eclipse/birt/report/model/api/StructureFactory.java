@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
-import org.eclipse.birt.report.model.api.elements.structures.IncludeLibrary;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
@@ -159,9 +159,9 @@ public class StructureFactory
 	 * @return an empty include library structure
 	 */
 
-	public static IncludeLibrary createIncludeLibrary( )
+	public static IncludedLibrary createIncludeLibrary( )
 	{
-		return new IncludeLibrary( );
+		return new IncludedLibrary( );
 	}
 
 	/**

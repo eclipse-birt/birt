@@ -95,7 +95,7 @@ public class ReportDesign extends Module implements IReportDesignModel
 		list.addAll( validateStructureList( module, COLOR_PALETTE_PROP ) );
 
 		list.addAll( validateStructureList( module, INCLUDE_SCRIPTS_PROP ) );
-		list.addAll( validateStructureList( module, INCLUDE_LIBRARIES_PROP ) );
+		list.addAll( validateStructureList( module, LIBRARIES_PROP ) );
 
 		return list;
 	}

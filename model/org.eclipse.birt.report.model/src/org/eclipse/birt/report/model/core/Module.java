@@ -42,7 +42,7 @@ import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
-import org.eclipse.birt.report.model.api.elements.structures.IncludeLibrary;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -1562,7 +1562,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * @see #loadLibrary(String, String)
 	 */
 
-	public void loadLibrarySilently( IncludeLibrary includeLibrary )
+	public void loadLibrarySilently( IncludedLibrary includeLibrary )
 	{
 		try
 		{
@@ -2019,7 +2019,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public List getIncludeLibraries( )
 	{
 		return new ArrayList( (List) getLocalProperty( this,
-				INCLUDE_LIBRARIES_PROP ) );
+				LIBRARIES_PROP ) );
 	}
 
 	/**

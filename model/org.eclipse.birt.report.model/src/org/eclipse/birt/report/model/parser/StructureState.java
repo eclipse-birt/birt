@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
-import org.eclipse.birt.report.model.api.elements.structures.IncludeLibrary;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
@@ -153,6 +153,7 @@ public class StructureState extends AbstractPropertyState
 	protected void setName( String name )
 	{
 		super.setName( name );
+
 		propDefn = element.getPropertyDefn( name );
 
 		if ( struct == null )
@@ -399,8 +400,8 @@ public class StructureState extends AbstractPropertyState
 		structDict.put( HighlightRule.STRUCTURE_NAME.toLowerCase( ),
 				HighlightRule.class );
 
-		structDict.put( IncludeLibrary.INCLUDE_LIBRARY_STRUCT.toLowerCase( ),
-				IncludeLibrary.class );
+		structDict.put( IncludedLibrary.INCLUDED_LIBRARY_STRUCT.toLowerCase( ),
+				IncludedLibrary.class );
 
 		structDict.put( IncludeScript.INCLUDE_SCRIPT_STRUCT.toLowerCase( ),
 				IncludeScript.class );

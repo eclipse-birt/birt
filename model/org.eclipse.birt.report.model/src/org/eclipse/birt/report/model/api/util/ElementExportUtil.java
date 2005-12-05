@@ -331,7 +331,7 @@ public class ElementExportUtil
 	 */
 
 	public static void exportDesign( ReportDesignHandle designToExport,
-			String libraryFileName ) throws DesignFileException,
+			String libraryFileName, boolean canOverride ) throws DesignFileException,
 			SemanticException, IOException
 	{
 
@@ -340,7 +340,7 @@ public class ElementExportUtil
 				libraryFileName );
 		assert libraryHandle != null;
 
-		exportDesign( designToExport, libraryHandle );
+		exportDesign( designToExport, libraryHandle, canOverride );
 		
 		libraryHandle.save( );
 		libraryHandle.close( );
@@ -359,12 +359,12 @@ public class ElementExportUtil
 	 */
 
 	public static void exportDesign( ReportDesignHandle designToExport,
-			LibraryHandle targetLibraryHandle ) throws SemanticException
+			LibraryHandle targetLibraryHandle, boolean canOverride ) throws SemanticException
 	{
 
 		ElementExporter exporter = new ElementExporter( targetLibraryHandle );
 
-		exporter.exportDesign( designToExport );
+		exporter.exportDesign( designToExport,canOverride );
 	}
 
 	/**

@@ -1794,12 +1794,12 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * instance of <code>IncludeLibraryHandle</code>
 	 * 
 	 * @return the iterator over all included libraries.
-	 * @see IncludeLibraryHandle
+	 * @see IncludedLibraryHandle
 	 */
 
 	public Iterator includeLibrariesIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( INCLUDE_LIBRARIES_PROP );
+		PropertyHandle propHandle = getPropertyHandle( LIBRARIES_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}

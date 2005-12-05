@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.structures.IncludeLibrary;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
@@ -98,12 +98,12 @@ public class LibraryCommand extends AbstractElementCommand
 
 		// Add includedLibraries
 
-		IncludeLibrary includeLibrary = StructureFactory.createIncludeLibrary( );
+		IncludedLibrary includeLibrary = StructureFactory.createIncludeLibrary( );
 		includeLibrary.setFileName( libraryFileName );
 		includeLibrary.setNamespace( namespace );
 
 		ElementPropertyDefn propDefn = module
-				.getPropertyDefn( Module.INCLUDE_LIBRARIES_PROP );
+				.getPropertyDefn( Module.LIBRARIES_PROP );
 		PropertyCommand propCommand = new PropertyCommand( module, module );
 		propCommand.addItem( new CachedMemberRef( propDefn ), includeLibrary );
 
@@ -281,7 +281,7 @@ public class LibraryCommand extends AbstractElementCommand
 		Iterator iter = includeLibraries.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			IncludeLibrary includeLibrary = (IncludeLibrary) iter.next( );
+			IncludedLibrary includeLibrary = (IncludedLibrary) iter.next( );
 			
 			if ( !namespace.equals( includeLibrary.getNamespace() ) )
 				continue;
@@ -290,7 +290,7 @@ public class LibraryCommand extends AbstractElementCommand
 				continue;
 
 			ElementPropertyDefn propDefn = module
-					.getPropertyDefn( Module.INCLUDE_LIBRARIES_PROP );
+					.getPropertyDefn( Module.LIBRARIES_PROP );
 			PropertyCommand propCommand = new PropertyCommand( module, module );
 			propCommand.removeItem( new CachedMemberRef( propDefn ),
 					includeLibrary );

@@ -208,7 +208,7 @@ public class ExportToLibraryAction extends AbstractViewAction
 				if ( getSelection( ) instanceof ReportDesignHandle )
 				{
 					ElementExportUtil.exportDesign(
-							(ReportDesignHandle) getSelection( ), filename );
+							(ReportDesignHandle) getSelection( ), filename, false );
 				}
 				else
 				{

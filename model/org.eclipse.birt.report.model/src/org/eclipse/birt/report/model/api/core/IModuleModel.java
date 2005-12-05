@@ -128,7 +128,7 @@ public interface IModuleModel
 	 * Name of the property that gives some include libraries.
 	 */
 
-	public static final String INCLUDE_LIBRARIES_PROP = "includeLibraries"; //$NON-NLS-1$
+	public static final String LIBRARIES_PROP = "libraries"; //$NON-NLS-1$
 
 	/**
 	 * Name of the property that gives some include scripts.

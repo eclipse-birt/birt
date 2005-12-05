@@ -302,9 +302,6 @@ class ElementExporter
 						.drop( );
 		}
 
-		DesignElementHandle newElementHandle = duplicateElement(
-				elementToExport, false );
-
 		int slotID = getTopContainerSlot( elementToExport.getElement( ) );
 
 		// The element in body slot should be added into components slot.
@@ -321,6 +318,9 @@ class ElementExporter
 
 		if ( slotID >= Library.SLOT_COUNT )
 			return;
+
+		DesignElementHandle newElementHandle = duplicateElement(
+				elementToExport, false );
 
 		SlotHandle slotHandle = targetLibraryHandle.getSlot( slotID );
 		addToSlot( slotHandle, newElementHandle );
@@ -413,7 +413,7 @@ class ElementExporter
 	 *             library or duplicating property value from the given element.
 	 */
 
-	void exportDesign( ReportDesignHandle designToExport )
+	void exportDesign( ReportDesignHandle designToExport, boolean canOverride )
 			throws SemanticException
 	{
 		ModelUtil.duplicateProperties( designToExport, targetLibraryHandle,
@@ -433,7 +433,7 @@ class ElementExporter
 						.next( );
 
 				if ( !StringUtil.isBlank( contentHandle.getName( ) ) )
-					exportElement( contentHandle, false );
+					exportElement( contentHandle, canOverride );
 			}
 		}
 	}

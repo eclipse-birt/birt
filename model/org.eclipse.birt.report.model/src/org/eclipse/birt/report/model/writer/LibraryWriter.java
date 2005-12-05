@@ -66,7 +66,7 @@ public class LibraryWriter extends ModuleWriter
 
 		// Library including library is not supported.
 		//
-		// writeStructureList( obj, Library.INCLUDE_LIBRARIES_PROP );
+		writeStructureList( obj, Library.LIBRARIES_PROP );
 		writeSimpleStructureList( obj, Library.INCLUDE_SCRIPTS_PROP,
 				IncludeScript.FILE_NAME_MEMBER );
 

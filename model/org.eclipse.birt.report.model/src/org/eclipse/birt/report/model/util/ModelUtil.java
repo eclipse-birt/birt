@@ -294,7 +294,8 @@ public class ModelUtil
 		assert destination != null;
 
 		if ( !( ( source instanceof ReportDesignHandle ) && ( destination instanceof LibraryHandle ) ) )
-			assert source.getDefn( ) == destination.getDefn( );
+			assert destination.getDefn( ).getName( ).equalsIgnoreCase(
+					source.getDefn( ).getName( ) );
 
 		if ( source.getDefn( ).allowsUserProperties( ) )
 		{
