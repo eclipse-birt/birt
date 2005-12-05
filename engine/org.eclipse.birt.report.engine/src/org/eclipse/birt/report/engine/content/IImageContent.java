@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.content;
 /**
  * Image content in the report.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/11/08 09:57:07 $
+ * @version $Revision: 1.1 $ $Date: 2005/11/11 06:26:46 $
  */
 public interface IImageContent extends IContent
 {
@@ -32,6 +32,12 @@ public interface IImageContent extends IContent
 	public String getAltTextKey( );
 
 	public void setAltText( String altText );
+
+	public void setAltTextKey( String key );
+
+	void setHelpKey( String key );
+
+	String getHelpKey( );
 
 	/**
 	 * @return Returns the data.

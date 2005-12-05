@@ -26,6 +26,7 @@ public class ImageContent extends AbstractContent implements IImageContent
 	private static final long serialVersionUID = -1509174600180440369L;
 	protected String altText;
 	protected String altTextKey;
+	protected String helpTextKey;
 	protected String extension;
 	protected String uri;
 	protected String imageName;
@@ -90,6 +91,35 @@ public class ImageContent extends AbstractContent implements IImageContent
 	public void setAltTextKey( String key )
 	{
 		altTextKey = key;
+	}
+
+	public String getHelpText( )
+	{
+		if ( helpText == null )
+		{
+			if ( generateBy instanceof ImageItemDesign )
+			{
+				return ( (ImageItemDesign) generateBy ).getHelpText( );
+			}
+		}
+		return helpText;
+	}
+
+	public String getHelpKey( )
+	{
+		if ( helpTextKey == null )
+		{
+			if ( generateBy instanceof ImageItemDesign )
+			{
+				return ( (ImageItemDesign) generateBy ).getHelpTextKey( );
+			}
+		}
+		return helpTextKey;
+	}
+
+	public void setHelpKey( String key )
+	{
+		helpTextKey = key;
 	}
 
 	public byte[] getData( )
