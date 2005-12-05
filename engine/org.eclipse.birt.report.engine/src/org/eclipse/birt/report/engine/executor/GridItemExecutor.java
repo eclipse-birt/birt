@@ -41,7 +41,7 @@ import org.eclipse.birt.report.engine.script.internal.GridScriptExecutor;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.22 $ $Date: 2005/12/03 02:01:49 $
+ * @version $Revision: 1.23 $ $Date: 2005/12/03 05:34:28 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -102,12 +102,16 @@ public class GridItemExecutor extends QueryItemExecutor
 		}
 
 		IBaseQueryDefinition query = item.getQuery( );
-		Collection rowExpressions = ( query == null ? null : query
-				.getRowExpressions( ) );
-		IResultIterator rsIterator = ( ( DteResultSet ) rset )
-				.getResultIterator( );
-		IRowData rowData = new RowData( rsIterator, rowExpressions );
-
+		IRowData rowData = null;
+		if(query!=null)
+		{
+			Collection rowExpressions = ( query
+					.getRowExpressions( ) );
+			
+			IResultIterator rsIterator = ( ( DteResultSet ) rset )
+					.getResultIterator( );
+			rowData = new RowData( rsIterator, rowExpressions );
+		}
 		if ( context.isInFactory( ) )
 		{
 
@@ -115,7 +119,6 @@ public class GridItemExecutor extends QueryItemExecutor
 					rowData, context );
 
 		}
-
 		startTOCEntry( tableObj );
 		if ( emitter != null )
 		{
@@ -195,18 +198,22 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		//TODO: Right now row.getQuery() will always return null
 		//This is filed as bug #119153 
+		IRowData rowData = null;
 		IBaseQueryDefinition query = row.getQuery( );
-		Collection rowExpressions = ( query == null ? null : query
-				.getRowExpressions( ) );
-		IResultIterator rsIterator = ( ( DteResultSet ) rset )
-				.getResultIterator( );
-		IRowData rowData = new RowData( rsIterator, rowExpressions );
-
+		if(query!=null)
+		{
+			Collection rowExpressions = ( query
+					.getRowExpressions( ) );
+			IResultIterator rsIterator = ( ( DteResultSet ) rset )
+					.getResultIterator( );
+			rowData = new RowData( rsIterator, rowExpressions );
+		}
 		if ( context.isInFactory( ) )
 		{
 			GridRowScriptExecutor.handleOnCreate( ( RowContent ) rowContent,
 					rowData, context );
 		}
+		
 
 		startTOCEntry( rowContent );
 		if ( emitter != null )
