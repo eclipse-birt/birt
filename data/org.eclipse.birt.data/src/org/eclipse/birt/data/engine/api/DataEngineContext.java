@@ -29,12 +29,12 @@ public abstract class DataEngineContext
 	/** three defined mode*/
 	public final static int MODE_GENERATION = 1;
 	public final static int MODE_PRESENTATION = 2;
-	public final static int MODE_DIRECTPRESENT = 3;
+	public final static int DIRECT_PRESENTATION  = 3;
 
 	/**
 	 * When mode is MODE_GENERATION, the output stream of archive will be used.
 	 * When mode is MODE_PRESENTATION, the input stream of archive will be used.
-	 * When mode is MODE_GENANDPRESENT, the archive will not be used.
+	 * When mode is DIRECT_PRESENTATION, the archive will not be used.
 	 * 
 	 * @param mode
 	 * @param scope
@@ -79,7 +79,7 @@ public abstract class DataEngineContext
 	 * @param streamType
 	 * @return boolean value
 	 */
-	public abstract boolean isStreamExists( String streamID, String subStreamID,
+	public abstract boolean hasStream( String streamID, String subStreamID,
 			int streamType );
 
 	/**
