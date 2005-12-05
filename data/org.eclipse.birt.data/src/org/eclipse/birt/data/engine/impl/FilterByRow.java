@@ -19,8 +19,10 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -42,12 +44,45 @@ public class FilterByRow implements IResultObjectEvent
 	
 	protected static Logger logger = Logger.getLogger( FilterByRow.class.getName( ) );
 	
-	FilterByRow( List filters, Scriptable scope, JSRowObject scriptObj )
+	FilterByRow( List filters, Scriptable scope, JSRowObject scriptObj ) throws DataException
 	{
+		isLegal( filters );
 		this.filters = filters;
 		this.scope = scope;
 		this.scriptObj = scriptObj;
 		logger.log( Level.FINER, "FilterByRow starts up" );
+	}
+	
+	/**
+	 * whether the filter expression is valid. if not, throw the exception. 
+	 * @param filters
+	 * @throws DataException
+	 */
+	private void isLegal( List filters ) throws DataException
+	{
+		Iterator filterIt = filters.iterator( );
+		while ( filterIt.hasNext( ) )
+		{
+			IFilterDefinition filter = (IFilterDefinition) filterIt.next( );
+			IBaseExpression expr = filter.getExpression( );
+
+			if ( expr instanceof IConditionalExpression )
+			{
+				String expr4Exception = ( (ConditionalExpression) expr ).getExpression( )
+						.getText( );
+				try
+				{
+					new FilterExpressionParser( null, null ).compileFilterExpression( expr4Exception );
+				}
+				catch ( DataException e )
+				{
+					throw new DataException( ResourceConstants.INVALID_EXPRESSION_IN_FILTER,
+							new Object[]{
+								expr4Exception
+							} );
+				}
+			}
+		}
 	}
 	
 	/*
