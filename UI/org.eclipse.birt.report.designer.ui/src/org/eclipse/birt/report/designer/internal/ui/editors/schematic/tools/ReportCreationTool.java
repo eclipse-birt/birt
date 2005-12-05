@@ -295,9 +295,13 @@ public class ReportCreationTool extends CreationTool
 	protected boolean handleMove( )
 	{
 		boolean validateTrue = false;
+		if (isCreating)
+		{
+			return true;
+		}
 		updateTargetUnderMouse( );
 		
-		if (isCreating || getTargetEditPart().getModel() instanceof LibraryHandle)
+		if (getTargetEditPart().getModel() instanceof LibraryHandle)
 		{
 			return true;
 		}
