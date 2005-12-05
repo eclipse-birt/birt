@@ -47,7 +47,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.30 $ $Date: 2005/12/02 11:57:05 $
+ * @version $Revision: 1.31 $ $Date: 2005/12/04 23:56:14 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -97,7 +97,7 @@ public class DteDataEngine implements IDataEngine
 		try
 		{
 			DataEngineContext dteContext = DataEngineContext.newInstance(
-					DataEngineContext.MODE_DIRECTPRESENT, context
+					DataEngineContext.DIRECT_PRESENTATION, context
 							.getSharedScope( ), null, null );
 
 			engine = DataEngine.newDataEngine( dteContext );
