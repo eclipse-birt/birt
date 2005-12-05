@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.jface.action.Action;
 
 /**
@@ -43,10 +44,10 @@ public class InsertGroupActionFactory
 {
 
 	private static InsertPositionGroupAction[] instances = new InsertPositionGroupAction[]{
-			new InsertAboveGroupAction( null,
-					Messages.getString( "InsertPositionGroupAction.Label.Above" ) ), //$NON-NLS-1$
-			new InsertBelowGroupAction( null,
-					Messages.getString( "InsertPositionGroupAction.Label.Below" ) ), //$NON-NLS-1$
+			new InsertAboveGroupAction( null, Messages
+					.getString( "InsertPositionGroupAction.Label.Above" ) ), //$NON-NLS-1$
+			new InsertBelowGroupAction( null, Messages
+					.getString( "InsertPositionGroupAction.Label.Below" ) ), //$NON-NLS-1$
 	// new InsertIntoGroupAction( null,
 	// Messages.getString( "InsertPositionGroupAction.Label.Into" ) )
 	// //$NON-NLS-1$
@@ -66,19 +67,19 @@ public class InsertGroupActionFactory
 		if ( slotID == TableHandle.HEADER_SLOT
 				|| slotID == ListHandle.HEADER_SLOT )
 		{
-			return new InsertAboveGroupAction( selection,
-					Messages.getString( "InsertGroupActionFactory.label.insertGroup" ) ); //$NON-NLS-1$
+			return new InsertAboveGroupAction( selection, Messages
+					.getString( "InsertGroupActionFactory.label.insertGroup" ) ); //$NON-NLS-1$
 		}
 		else if ( slotID == TableHandle.DETAIL_SLOT
 				|| slotID == ListHandle.DETAIL_SLOT )
 		{
-			return new InsertBelowGroupAction( selection,
-					Messages.getString( "InsertGroupActionFactory.label.insertGroup" ) ); //$NON-NLS-1$
+			return new InsertBelowGroupAction( selection, Messages
+					.getString( "InsertGroupActionFactory.label.insertGroup" ) ); //$NON-NLS-1$
 		}
 		else
 		{
-			return new InsertBelowGroupAction( selection,
-					Messages.getString( "InsertGroupActionFactory.label.insertGroup" ) ); //$NON-NLS-1$
+			return new InsertBelowGroupAction( selection, Messages
+					.getString( "InsertGroupActionFactory.label.insertGroup" ) ); //$NON-NLS-1$
 		}
 	}
 
@@ -107,7 +108,8 @@ public class InsertGroupActionFactory
 abstract class InsertPositionGroupAction extends Action
 {
 
-	private static final String STACK_MSG_ADD_GROUP = Messages.getString( "AddGroupAction.stackMsg.addGroup" ); //$NON-NLS-1$
+	private static final String STACK_MSG_ADD_GROUP = Messages
+			.getString( "AddGroupAction.stackMsg.addGroup" ); //$NON-NLS-1$
 
 	private Object currentModel;
 
@@ -136,7 +138,11 @@ abstract class InsertPositionGroupAction extends Action
 	 */
 	public boolean isEnabled( )
 	{
-		return getTableEditPart( ) != null ^ getListEditPart( ) != null;
+		return getTableEditPart( ) != null
+				^ getListEditPart( ) != null
+				&& ( (TableHandle) getTableEditPart( ).getModel( ) )
+						.canContain( TableHandle.GROUP_SLOT,
+								ReportDesignConstants.GROUP_ELEMENT );
 	}
 
 	/**
@@ -191,34 +197,34 @@ abstract class InsertPositionGroupAction extends Action
 	protected boolean isNotReverse( )
 	{
 		return true;
-//		if ( currentModel != null )
-//		{
-//			if ( isGroup( ) )
-//			{
-//				if ( getRowHandle( ) != null )
-//				{
-//					return getRowHandle( ).getContainerSlotHandle( )
-//							.getSlotID( ) != GroupHandle.FOOTER_SLOT;
-//				}
-//				else if ( getListBandProxy( ) != null )
-//				{
-//					return getListBandProxy( ).getSlotId( ) != GroupHandle.FOOTER_SLOT;
-//				}
-//			}
-//			else
-//			{
-//				if ( getRowHandle( ) != null )
-//				{
-//					return getRowHandle( ).getContainerSlotHandle( )
-//							.getSlotID( ) != TableHandle.FOOTER_SLOT;
-//				}
-//				else if ( getListBandProxy( ) != null )
-//				{
-//					return getListBandProxy( ).getSlotId( ) != ListHandle.FOOTER_SLOT;
-//				}
-//			}
-//		}
-//		return true;
+		// if ( currentModel != null )
+		// {
+		// if ( isGroup( ) )
+		// {
+		// if ( getRowHandle( ) != null )
+		// {
+		// return getRowHandle( ).getContainerSlotHandle( )
+		// .getSlotID( ) != GroupHandle.FOOTER_SLOT;
+		// }
+		// else if ( getListBandProxy( ) != null )
+		// {
+		// return getListBandProxy( ).getSlotId( ) != GroupHandle.FOOTER_SLOT;
+		// }
+		// }
+		// else
+		// {
+		// if ( getRowHandle( ) != null )
+		// {
+		// return getRowHandle( ).getContainerSlotHandle( )
+		// .getSlotID( ) != TableHandle.FOOTER_SLOT;
+		// }
+		// else if ( getListBandProxy( ) != null )
+		// {
+		// return getListBandProxy( ).getSlotId( ) != ListHandle.FOOTER_SLOT;
+		// }
+		// }
+		// }
+		// return true;
 	}
 
 	/**
@@ -249,7 +255,8 @@ abstract class InsertPositionGroupAction extends Action
 			}
 			else if ( obj instanceof TableCellEditPart )
 			{
-				currentEditPart = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
+				currentEditPart = (TableEditPart) ( (TableCellEditPart) obj )
+						.getParent( );
 			}
 			else if ( obj instanceof DummyEditpart )
 			{
@@ -260,8 +267,7 @@ abstract class InsertPositionGroupAction extends Action
 				part = currentEditPart;
 			}
 			// Check if select only one table
-			if ( currentEditPart == null
-					|| currentEditPart != null
+			if ( currentEditPart == null || currentEditPart != null
 					&& part != currentEditPart )
 			{
 				return null;
@@ -301,15 +307,15 @@ abstract class InsertPositionGroupAction extends Action
 			}
 			else if ( obj instanceof ListBandEditPart )
 			{
-				currentEditPart = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
+				currentEditPart = (ListEditPart) ( (ListBandEditPart) obj )
+						.getParent( );
 			}
 			if ( part == null )
 			{
 				part = currentEditPart;
 			}
 			// Check if select only one list
-			if ( currentEditPart == null
-					|| currentEditPart != null
+			if ( currentEditPart == null || currentEditPart != null
 					&& part != currentEditPart )
 			{
 				return null;
@@ -374,7 +380,8 @@ abstract class InsertPositionGroupAction extends Action
 			}
 			else if ( getListBandProxy( ) != null )
 			{
-				DesignElementHandle group = getListBandProxy( ).getElemtHandle( );
+				DesignElementHandle group = getListBandProxy( )
+						.getElemtHandle( );
 				ListHandle list = (ListHandle) group.getContainer( );
 				return DEUtil.findInsertPosition( list.getGroups( )
 						.getElementHandle( ), group, list.getGroups( )
