@@ -527,9 +527,17 @@ public class GroupElementHandle
 
 	class GroupPropertyIterator implements Iterator
 	{
-
+		/**
+		 * The property iterator to traverse the properties.
+		 */
+		
 		Iterator propIterator;
 
+		/**
+		 * Constructs the group property iterator with the common property list.
+		 * @param list
+		 */
+		
 		GroupPropertyIterator( List list )
 		{
 			propIterator = list.iterator( );

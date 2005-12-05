@@ -188,8 +188,6 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 
 	public IChoiceSet getChoices( )
 	{
-		if ( details instanceof ChoiceSet )
-			return (ChoiceSet) details;
 		Collection choices = extProperty.getChoices( );
 		if ( choices == null )
 			return null;

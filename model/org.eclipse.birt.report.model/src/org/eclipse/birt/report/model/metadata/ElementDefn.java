@@ -346,11 +346,11 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 */
 
 	protected Map propVisibilites = null;
-	
+
 	/**
 	 * The name of the XML element used when serializing this ROM element.
 	 */
-	
+
 	protected String xmlElement;
 
 	/**
@@ -611,7 +611,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 * 
 	 * @throws MetaDataException
 	 *             if any build process failed.
-	 *  
+	 * 
 	 */
 
 	protected void build( ) throws MetaDataException
@@ -633,8 +633,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		if ( !isAbstract( ) )
 			checkJavaClass( );
 
-        checkPropertyVisibilities();
-        
+		checkPropertyVisibilities( );
+
 		buildSlots( );
 
 		buildTriggerDefnSet( );
@@ -642,25 +642,33 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		isBuilt = true;
 	}
 
-    
-    private void checkPropertyVisibilities( ) throws MetaDataException
-    {
-        if( this.propVisibilites == null )
-            return;
-        
-        Iterator propNames = this.propVisibilites.keySet().iterator();
-        while( propNames.hasNext() )
-        {
-        	String propName = (String)propNames.next();
-            
-            // Visibility should defined for an exsiting element property.
-            
-            if( getProperty( propName ) == null )
-                throw new MetaDataException( new String[]{ name, propName }, 
-                        MetaDataException.DESIGN_EXCEPTION_VISIBILITY_PROPERTY_NOT_FOUND );
-        }
-    }
-    
+	/**
+	 * Checks the validation of the defined property visibilities. If the
+	 * property with the name is not defined, then the visibility is illegal.
+	 * 
+	 * @throws MetaDataException
+	 *             if the property definition is not found
+	 */
+
+	private void checkPropertyVisibilities( ) throws MetaDataException
+	{
+		if ( this.propVisibilites == null )
+			return;
+
+		Iterator propNames = this.propVisibilites.keySet( ).iterator( );
+		while ( propNames.hasNext( ) )
+		{
+			String propName = (String) propNames.next( );
+
+			// Visibility should defined for an exsiting element property.
+
+			if ( getProperty( propName ) == null )
+				throw new MetaDataException(
+						new String[]{name, propName},
+						MetaDataException.DESIGN_EXCEPTION_VISIBILITY_PROPERTY_NOT_FOUND );
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -750,6 +758,11 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			allowExtend = false;
 	}
 
+	/**
+	 * Builds the style properties in this element.
+	 * @throws MetaDataException
+	 */
+	
 	protected void buildStyleProperties( ) throws MetaDataException
 	{
 		// If this item has a style, copy the relevant style properties onto
@@ -888,15 +901,15 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			Class c = Class.forName( javaClass );
 
 			Class clazz = c;
-			while ( clazz.getSuperclass() != null )
+			while ( clazz.getSuperclass( ) != null )
 			{
 				if ( clazz == DesignElement.class )
 					break;
-				
-				clazz = clazz.getSuperclass();
+
+				clazz = clazz.getSuperclass( );
 			}
 			if ( clazz != DesignElement.class )
-//			if ( !( c.newInstance( ) instanceof DesignElement ) )
+				// if ( !( c.newInstance( ) instanceof DesignElement ) )
 				throw new MetaDataException(
 						new String[]{javaClass},
 						MetaDataException.DESIGN_EXCEPTION_INVALID_ELEMENT_JAVA_CLASS );
@@ -908,20 +921,20 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			throw new MetaDataException( new String[]{name, javaClass},
 					MetaDataException.DESIGN_EXCEPTION_JAVA_CLASS_LOAD_ERROR );
 		}
-//		catch ( InstantiationException e )
-//		{
-//			// can not initalize the java class instance, either javaclass is
-//			// not a valid DesignElement or the class
-//			// itself does not provide a default constructor.
-//
-//			throw new MetaDataException(
-//					new String[]{name, javaClass},
-//					MetaDataException.DESIGN_EXCEPTION_JAVA_CLASS_INITIALIZE_ERROR );
-//		}
-//		catch ( IllegalAccessException e )
-//		{
-//			// ignore
-//		}
+		// catch ( InstantiationException e )
+		// {
+		// // can not initalize the java class instance, either javaclass is
+		// // not a valid DesignElement or the class
+		// // itself does not provide a default constructor.
+		//
+		// throw new MetaDataException(
+		// new String[]{name, javaClass},
+		// MetaDataException.DESIGN_EXCEPTION_JAVA_CLASS_INITIALIZE_ERROR );
+		// }
+		// catch ( IllegalAccessException e )
+		// {
+		// // ignore
+		// }
 	}
 
 	/**
@@ -973,9 +986,10 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		assert hasStyle( );
 		if ( isContainer( ) )
 		{
-			// Add all style properties if this element is container and can have
+			// Add all style properties if this element is container and can
+			// have
 			// style or the element is ExtendedItem.
-			
+
 			List styleProperties = MetaDataDictionary.getInstance( ).getStyle( )
 					.getLocalProperties( );
 			for ( int i = 0; i < styleProperties.size( ); i++ )
@@ -1026,7 +1040,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 				properties.put( prop.getName( ), prop );
 			}
 		}
-		
+
 	}
 
 	/**
@@ -1553,19 +1567,20 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	/**
 	 * Set the name of the XML element for this ROM element.
 	 * 
-	 * @param value the name of the XML element
+	 * @param value
+	 *            the name of the XML element
 	 */
-	
+
 	public void setXmlElement( String value )
 	{
 		xmlElement = value;
 	}
-	
+
 	/**
 	 * 
 	 * @return the name of the XML element used to serialize this ROM element.
 	 */
-	
+
 	public String getXmlElement( )
 	{
 		return xmlElement;

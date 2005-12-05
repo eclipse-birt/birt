@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
@@ -224,11 +225,9 @@ public class PropertyHandle extends SimpleValueHandle
 	{
 		IElementDefn elementDefn = getElementHandle( ).getDefn( );
 		if ( elementDefn.isPropertyReadOnly( propDefn.getName( ) )
-				&& !propDefn.isUserProperty( ) )
+				&& ( propDefn.isSystemProperty( ) || ( propDefn.getValueType( ) == PropertyDefn.EXTENSION_PROPERTY ) ) )
 			return true;
-		Module root = getElement( ).getRoot( ) == null
-				? getModule( )
-				: getElement( ).getRoot( );
+		Module root = getElementHandle( ).getEffectiveModule( );
 		assert root != null;
 		if ( root.isReadOnly( ) )
 			return true;
@@ -244,10 +243,9 @@ public class PropertyHandle extends SimpleValueHandle
 	public boolean isVisible( )
 	{
 		IElementDefn elementDefn = getElementHandle( ).getDefn( );
-		if ( elementDefn.isPropertyVisible( propDefn.getName( ) ) )
-			return true;
-		if ( propDefn.isUserProperty( ) )
-			return true;
-		return false;
+		if ( !elementDefn.isPropertyVisible( propDefn.getName( ) )
+				&& ( propDefn.isSystemProperty( ) || ( propDefn.getValueType( ) == PropertyDefn.EXTENSION_PROPERTY ) ) )
+			return false;
+		return true;
 	}
 }
