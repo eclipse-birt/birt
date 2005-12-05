@@ -204,4 +204,20 @@ public class ExtensionChoice extends Choice
 	{
 		this.defaultDisplayName = defaultDisplayName;
 	}
+
+	
+	/*
+	 *  (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	
+	public int compareTo( Object o )
+	{
+		Choice choice = (Choice)o;
+		
+		String name = getName();
+		assert name != null;
+		
+		return name.compareTo( choice.getName() );
+	}
 }
