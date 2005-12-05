@@ -16,6 +16,9 @@
       <library name="lib/Tidy.jar">
          <export name="*"/>
       </library>
+      <library name="scriptapi.jar">
+         <export name="*"/>
+      </library>
    </runtime>
    <requires>
       <import plugin="org.eclipse.birt.core"/>
