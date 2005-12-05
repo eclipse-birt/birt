@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.content.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
@@ -45,6 +46,7 @@ public class PageContent extends AbstractContent implements IPageContent
 	transient protected ArrayList header;
 	transient protected ArrayList footer;
 	transient protected IImageContent waterMark;
+	transient protected IContent body;
 	protected long pageNumber;
 
 	/**
@@ -52,7 +54,6 @@ public class PageContent extends AbstractContent implements IPageContent
 	 */
 	public PageContent( )
 	{
-
 	}
 
 	public PageContent( ReportContent report )
@@ -74,18 +75,22 @@ public class PageContent extends AbstractContent implements IPageContent
 			marginLeft = page.getLeftMargin( );
 			marginRight = page.getRightMargin( );
 			marginBottom = page.getBottomMargin( );
-			if(page instanceof SimpleMasterPageDesign)
+			if ( page instanceof SimpleMasterPageDesign )
 			{
-				headerHeight = ((SimpleMasterPageDesign)page).getHeaderHeight();
-				footerHeight = ((SimpleMasterPageDesign)page).getFooterHeight();
+				headerHeight = ( (SimpleMasterPageDesign) page )
+						.getHeaderHeight( );
+				footerHeight = ( (SimpleMasterPageDesign) page )
+						.getFooterHeight( );
 			}
-			if(headerHeight==null)
+			if ( headerHeight == null )
 			{
-				headerHeight = new DimensionType( 0.25f, EngineIRConstants.UNITS_IN );
+				headerHeight = new DimensionType( 0.25f,
+						EngineIRConstants.UNITS_IN );
 			}
-			if(footerHeight==null)
+			if ( footerHeight == null )
 			{
-				footerHeight = new DimensionType( 0.25f, EngineIRConstants.UNITS_IN );
+				footerHeight = new DimensionType( 0.25f,
+						EngineIRConstants.UNITS_IN );
 			}
 		}
 	}
@@ -230,11 +235,16 @@ public class PageContent extends AbstractContent implements IPageContent
 
 	public IStyle getContentStyle( )
 	{
-		if ( generateBy instanceof MasterPageDesign )
+		if ( body == null )
 		{
-			return ( (MasterPageDesign) generateBy ).getContentStyle( );
+			if ( generateBy instanceof MasterPageDesign )
+			{
+				body = report.createCellContent( );
+				body.setInlineStyle( ( (MasterPageDesign) generateBy )
+						.getContentStyle( ) );
+			}
 		}
-		return null;
+		return body.getComputedStyle( );
 	}
 
 	public void setPageNumber( long pn )
