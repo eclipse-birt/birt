@@ -203,8 +203,8 @@ class PublishTemplateWizard extends Wizard
 					.getDescription( ) );
 		if ( !page.getPreviewImagePath( ).equals( "" ) ) //$NON-NLS-1$
 			handle.setIconFile( page.getPreviewImagePath( ) );
-		if ( !page.getCheetSheetPath( ).equals( "" ) ) //$NON-NLS-1$
-			handle.setCheetSheet( page.getCheetSheetPath( ) );
+//		if ( !page.getCheetSheetPath( ).equals( "" ) ) //$NON-NLS-1$
+//			handle.setCheetSheet( page.getCheetSheetPath( ) );
 
 		handle.save( );
 		handle.close( );
@@ -250,7 +250,7 @@ class PublishPage extends WizardPage
 //			.getString( "PublishTemplateAction.wizard.page.label.cheatsheet" ); //$NON-NLS-1$
 //	private static final String BROWSE_CS_TITLE = Messages
 //			.getString( "PublishTemplateAction.wizard.page.browse.cheatsheet.title" ); //$NON-NLS-1$
-	private static final String CHEATSHEET_ERROR = "PublishTemplateAction.wizard.page.cheatsheetError"; //$NON-NLS-1$
+//	private static final String CHEATSHEET_ERROR = "PublishTemplateAction.wizard.page.cheatsheetError"; //$NON-NLS-1$
 
 	private static final String STR_EMPTY = ""; //$NON-NLS-1$
 
@@ -258,7 +258,7 @@ class PublishPage extends WizardPage
 	private Text previewImageText;
 	private Text descText;
 	private Text nameText;
-	private Text cheatSheetText;
+	//private Text cheatSheetText;
 
 	public PublishPage( )
 	{
@@ -392,11 +392,11 @@ class PublishPage extends WizardPage
 				: previewImageText.getText( ).trim( );
 	}
 
-	public String getCheetSheetPath( )
-	{
-		return cheatSheetText.getText( ) == null ? STR_EMPTY : cheatSheetText
-				.getText( ).trim( );
-	}
+//	public String getCheetSheetPath( )
+//	{
+//		return cheatSheetText.getText( ) == null ? STR_EMPTY : cheatSheetText
+//				.getText( ).trim( );
+//	}
 
 	private Text createText( Composite container, int column, int row )
 	{
@@ -436,19 +436,19 @@ class PublishPage extends WizardPage
 			setPageComplete( true );
 		}
 
-		if ( cheatSheetText.getText( ).trim( ).length( ) == 0 )
-		{
-			setErrorMessage( null );
-			setPageComplete( true );
-		}
-		else if ( !new File( cheatSheetText.getText( ) ).exists( ) )
-		{
-			setErrorMessage( Messages.getFormattedString( CHEATSHEET_ERROR,
-					new String[]{cheatSheetText.getText( )} ) );
-			setPageComplete( false );
-			return;
-		}
-		else
+//		if ( cheatSheetText.getText( ).trim( ).length( ) == 0 )
+//		{
+//			setErrorMessage( null );
+//			setPageComplete( true );
+//		}
+//		else if ( !new File( cheatSheetText.getText( ) ).exists( ) )
+//		{
+//			setErrorMessage( Messages.getFormattedString( CHEATSHEET_ERROR,
+//					new String[]{cheatSheetText.getText( )} ) );
+//			setPageComplete( false );
+//			return;
+//		}
+//		else
 		{
 			setErrorMessage( null );
 			setPageComplete( true );
