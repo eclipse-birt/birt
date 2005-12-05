@@ -18,6 +18,11 @@ public interface IReportDocument
 {
 
 	public abstract IDocArchiveReader getArchive( );
+	
+	/**
+	 * close the report document, rlease all resources.
+	 */
+	public abstract void close();
 
 	/**
 	 * @return the report document (archive) name

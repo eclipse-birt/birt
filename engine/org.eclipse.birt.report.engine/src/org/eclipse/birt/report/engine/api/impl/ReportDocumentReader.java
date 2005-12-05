@@ -32,6 +32,7 @@ import org.eclipse.birt.report.engine.toc.TOCBuilder;
 
 public class ReportDocumentReader implements IReportDocument
 {
+
 	static private Logger logger = Logger.getLogger( ReportDocumentReader.class
 			.getName( ) );
 	protected static final String DESIGN_STREAM = "/design";
@@ -54,11 +55,13 @@ public class ReportDocumentReader implements IReportDocument
 	{
 		this.engine = engine;
 		this.archive = archive;
-		try {
-			archive.open();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		try
+		{
+			archive.open( );
+		}
+		catch ( IOException e )
+		{
+			logger.log( Level.SEVERE, "Failed to open the archive", e );
 		}
 
 	}
@@ -68,16 +71,18 @@ public class ReportDocumentReader implements IReportDocument
 		return this.archive;
 	}
 
-	public void close()
+	public void close( )
 	{
-		try {
-			archive.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		try
+		{
+			archive.close( );
+		}
+		catch ( IOException e )
+		{
+			logger.log( Level.SEVERE, "Failed to close the archive", e );
 		}
 	}
-	
+
 	public InputStream getDesignStream( )
 	{
 		try
@@ -134,9 +139,9 @@ public class ReportDocumentReader implements IReportDocument
 		}
 		if ( pageHints != null )
 		{
-			if ( pageNumber >= 0 && pageNumber < pageHints.size( ) )
+			if ( pageNumber >= 1 && pageNumber <= pageHints.size( ) )
 			{
-				return (PageHint) pageHints.get( (int) pageNumber );
+				return (PageHint) pageHints.get( (int) ( pageNumber - 1 ) );
 			}
 		}
 		return null;
@@ -256,33 +261,34 @@ public class ReportDocumentReader implements IReportDocument
 	 *            source file
 	 * @return the object read from the file.
 	 */
-    protected Object loadObject( InputStream istream ) throws Exception
-    {
-        try
-        {
-            ObjectInputStream di = new ObjectInputStream( istream );
-            return di.readObject( );
-        }
-        finally
-        {
-            if ( istream != null )
-            {
-                try
-                {
-                    istream.close( );
-                }
-                catch ( IOException ex )
-                {
-                }
-            }
-        }
-    }
+	protected Object loadObject( InputStream istream ) throws Exception
+	{
+		try
+		{
+			ObjectInputStream di = new ObjectInputStream( istream );
+			return di.readObject( );
+		}
+		finally
+		{
+			if ( istream != null )
+			{
+				try
+				{
+					istream.close( );
+				}
+				catch ( IOException ex )
+				{
+				}
+			}
+		}
+	}
 
 	private void loadBookmarks( )
 	{
 		try
 		{
-			bookmarks = (HashMap) loadObject( archive.getStream( BOOKMARK_STREAM ) );
+			bookmarks = (HashMap) loadObject( archive
+					.getStream( BOOKMARK_STREAM ) );
 		}
 		catch ( Exception ex )
 		{
@@ -294,7 +300,8 @@ public class ReportDocumentReader implements IReportDocument
 	{
 		try
 		{
-			parameters = (HashMap) loadObject( archive.getStream( PARAMTER_STREAM ) );
+			parameters = (HashMap) loadObject( archive
+					.getStream( PARAMTER_STREAM ) );
 		}
 		catch ( Exception ex )
 		{
@@ -306,7 +313,8 @@ public class ReportDocumentReader implements IReportDocument
 	{
 		try
 		{
-			pageHints = (ArrayList) loadObject( archive.getStream( PAGEHINT_STREAM ) );
+			pageHints = (ArrayList) loadObject( archive
+					.getStream( PAGEHINT_STREAM ) );
 		}
 		catch ( Exception ex )
 		{
@@ -314,11 +322,14 @@ public class ReportDocumentReader implements IReportDocument
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IReportDocument#getName()
 	 */
-	public String getName() {
-		return archive.getName();
+	public String getName( )
+	{
+		return archive.getName( );
 	}
 
 }

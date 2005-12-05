@@ -95,15 +95,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 
 		writer = new ReportDocumentWriter( archive );
 		doRun( );
-		try 
-		{
-			archive.finish( );
-		} 
-		catch (IOException e) 
-		{
-			// TODO: Add Error Handling Code
-			e.printStackTrace();
-		}
+		writer.close( );
 	}
 
 	/**

@@ -28,7 +28,9 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 /**
  * 
  */
-public class ReportDocumentWriter {
+public class ReportDocumentWriter
+{
+
 	static private Logger logger = Logger.getLogger( ReportDocumentReader.class
 			.getName( ) );
 
@@ -37,17 +39,19 @@ public class ReportDocumentWriter {
 	protected static final String BOOKMARK_STREAM = "/bookmark";
 	protected static final String PAGEHINT_STREAM = "/pages";
 	protected static final String TOC_STREAM = "/toc";
-	
+
 	private IDocArchiveWriter archive;
 
 	public ReportDocumentWriter( IDocArchiveWriter archive )
 	{
 		this.archive = archive;
-		try {
-			archive.initialize();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		try
+		{
+			archive.initialize( );
+		}
+		catch ( IOException e )
+		{
+			logger.log( Level.SEVERE, "Failed in initializing the archive", e );
 		}
 	}
 
@@ -56,19 +60,18 @@ public class ReportDocumentWriter {
 		return this.archive;
 	}
 
-	public void close()
+	public void close( )
 	{
-		try 
+		try
 		{
-			archive.finish();
-		} 
-		catch (IOException e) 
+			archive.finish( );
+		}
+		catch ( IOException e )
 		{
-			// TODO: Add error handling properly
-			e.printStackTrace();
+			logger.log( Level.SEVERE, "Failed in close the archive", e );
 		}
 	}
-	
+
 	public String getReportDocumentName( )
 	{
 		return archive.getName( );
@@ -104,7 +107,8 @@ public class ReportDocumentWriter {
 	{
 		try
 		{
-			saveObject( archive.createRandomAccessStream( PAGEHINT_STREAM ), hints );
+			saveObject( archive.createRandomAccessStream( PAGEHINT_STREAM ),
+					hints );
 		}
 		catch ( Exception ex )
 		{
@@ -122,7 +126,8 @@ public class ReportDocumentWriter {
 	{
 		try
 		{
-			saveObject( archive.createRandomAccessStream( BOOKMARK_STREAM ), bookmarks );
+			saveObject( archive.createRandomAccessStream( BOOKMARK_STREAM ),
+					bookmarks );
 		}
 		catch ( Exception ex )
 		{
@@ -140,9 +145,10 @@ public class ReportDocumentWriter {
 	{
 		try
 		{
-			RAOutputStream out = archive.createRandomAccessStream( DESIGN_STREAM );
+			RAOutputStream out = archive
+					.createRandomAccessStream( DESIGN_STREAM );
 			design.serialize( out );
-			out.close();
+			out.close( );
 		}
 		catch ( Exception ex )
 		{
@@ -160,14 +166,15 @@ public class ReportDocumentWriter {
 	{
 		try
 		{
-			saveObject( archive.createRandomAccessStream( PARAMTER_STREAM ), paramters );
+			saveObject( archive.createRandomAccessStream( PARAMTER_STREAM ),
+					paramters );
 		}
 		catch ( Exception ex )
 		{
 			logger.log( Level.SEVERE, "failed to save the paramters", ex );
 		}
 	}
-	
+
 	/**
 	 * save an object into the file
 	 * 
@@ -176,7 +183,8 @@ public class ReportDocumentWriter {
 	 * @param object
 	 *            object to be saved (must be serialiable)
 	 */
-	private void saveObject( RAOutputStream stream, Object object ) throws Exception
+	private void saveObject( RAOutputStream stream, Object object )
+			throws Exception
 	{
 		FileOutputStream out = null;
 		try
