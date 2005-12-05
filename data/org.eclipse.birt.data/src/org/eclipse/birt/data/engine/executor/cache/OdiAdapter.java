@@ -24,7 +24,7 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 class OdiAdapter
 {
 	// from Oda
-	private ResultSet resultSet;
+	private ResultSet odaResultSet;
 
 	// from odi
 	private ICustomDataSet customDataSet;
@@ -48,10 +48,10 @@ class OdiAdapter
 	 * 
 	 * @param resultSet
 	 */
-	OdiAdapter( ResultSet resultSet )
+	OdiAdapter( ResultSet odaResultSet )
 	{
-		assert resultSet != null;
-		this.resultSet = resultSet;
+		assert odaResultSet != null;
+		this.odaResultSet = odaResultSet;
 	}
 
 	/**
@@ -107,9 +107,9 @@ class OdiAdapter
 	 */
 	IResultObject fetch( ) throws DataException
 	{
-		if ( resultSet != null )
+		if ( odaResultSet != null )
 		{
-			return resultSet.fetch( );
+			return odaResultSet.fetch( );
 		}
 		else if ( customDataSet != null )
 		{

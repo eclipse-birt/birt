@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.data.engine.executor.cache;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -29,7 +27,6 @@ class MemoryCache implements ResultSetCache
 	private int countOfResult;
 	private int currResultIndex = -1;
 	
-	private IResultClass  rsMeta;
 	private IResultObject currResultObject;
 	private IResultObject[] resultObjects;
 	
@@ -41,7 +38,7 @@ class MemoryCache implements ResultSetCache
 			Comparator comparator )
 	{
 		this.resultObjects = resultObjects;
-		this.rsMeta = rsMeta;
+		//this.rsMeta = rsMeta;
 		this.countOfResult = resultObjects.length;
 
 		if ( comparator != null )
@@ -152,23 +149,5 @@ class MemoryCache implements ResultSetCache
 		reset( );
 		resultObjects = null;
 	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#doSave(java.io.OutputStream)
-	 */
-	public void doSave( OutputStream outputStream, boolean isSubQuery ) throws DataException
-	{
-		ResultObjectUtil roUtil = ResultObjectUtil.newInstance( rsMeta );
-		try
-		{
-			roUtil.writeData( outputStream, resultObjects, resultObjects.length );
-		}
-		catch ( IOException e )
-		{
-			throw new DataException( ResourceConstants.RD_SAVE_ERROR,
-					e,
-					"Result Set" );
-		}
-	}
-
+	
 }

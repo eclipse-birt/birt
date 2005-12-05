@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.executor.cache;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -610,26 +609,6 @@ public class SmartCache implements ResultSetCache
 			}
 		}, rsMeta, null );
 		
-	}
-	
-	/*
-	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#doSave(java.io.OutputStream, boolean)
-	 */
-	public void doSave( OutputStream outputStream, boolean isSubQuery )
-			throws DataException
-	{
-		try
-		{
-			IOUtil.writeInt( outputStream, resultSetCache.getCount( ) );
-		}
-		catch ( IOException e )
-		{
-			throw new DataException( ResourceConstants.RD_SAVE_ERROR,
-					e,
-					"Result Set" );
-		}
-		
-		resultSetCache.doSave( outputStream, isSubQuery );
 	}
 	
 }
