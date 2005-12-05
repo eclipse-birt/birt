@@ -34,6 +34,8 @@ import org.eclipse.swt.dnd.DropTarget;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -55,7 +57,8 @@ public class BaseDataDefinitionComponent
 			ISelectDataComponent,
 			SelectionListener,
 			ModifyListener,
-			FocusListener
+			FocusListener,
+			KeyListener
 {
 
 	private transient Composite cmpTop;
@@ -127,6 +130,7 @@ public class BaseDataDefinitionComponent
 			}
 			txtDefinition.addModifyListener( this );
 			txtDefinition.addFocusListener( this );
+			txtDefinition.addKeyListener( this );
 
 			// Listener for handling dropping of custom table header
 			DropTarget target = new DropTarget( txtDefinition, DND.DROP_COPY );
@@ -288,8 +292,15 @@ public class BaseDataDefinitionComponent
 	public void focusLost( FocusEvent e )
 	{
 		// Null event is fired by Drop Listener manually
-		if ( isQueryModified
-				&& ( e == null || e.widget.equals( txtDefinition ) ) )
+		if ( e == null || e.widget.equals( txtDefinition ) )
+		{
+			saveQuery( );
+		}
+	}
+
+	private void saveQuery( )
+	{
+		if ( isQueryModified )
 		{
 			if ( query != null )
 			{
@@ -314,5 +325,19 @@ public class BaseDataDefinitionComponent
 			return Messages.getString( "BaseDataDefinitionComponent.Tooltip.InputValueExpression" ); //$NON-NLS-1$
 		}
 		return queryText;
+	}
+
+	public void keyPressed( KeyEvent e )
+	{
+		if ( e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR )
+		{
+			saveQuery( );
+		}
+	}
+
+	public void keyReleased( KeyEvent e )
+	{
+		// TODO Auto-generated method stub
+
 	}
 }

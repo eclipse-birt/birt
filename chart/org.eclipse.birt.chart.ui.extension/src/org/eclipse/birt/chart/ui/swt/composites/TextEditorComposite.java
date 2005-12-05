@@ -8,6 +8,7 @@
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
+
 package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.util.Vector;
@@ -15,6 +16,8 @@ import java.util.Vector;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -24,119 +27,144 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * This class is intended to be used in the ChartBuilder UI where direct changes to the model are being made via Text
- * Fields. It internally holds a regular text field but only fires events when focus is lost IF the text has been
- * modified. It is intended to reduce the number changes made to the model to make the UI more responsive and to reduce
- * the number of times the Preview is refreshed.
+ * This class is intended to be used in the ChartBuilder UI where direct changes
+ * to the model are being made via Text Fields. It internally holds a regular
+ * text field but only fires events when focus is lost IF the text has been
+ * modified. It is intended to reduce the number changes made to the model to
+ * make the UI more responsive and to reduce the number of times the Preview is
+ * refreshed.
  * 
  * @author Actuate Corporation
  */
-public class TextEditorComposite extends Composite implements ModifyListener, FocusListener
+public class TextEditorComposite extends Composite
+		implements
+			ModifyListener,
+			FocusListener,
+			KeyListener
 {
-    private transient String sText = null;
 
-    private transient boolean bTextModified = false;
+	private transient String sText = null;
 
-    private transient int iStyle = SWT.NONE;
+	private transient boolean bTextModified = false;
 
-    private transient Text txtValue = null;
+	private transient int iStyle = SWT.NONE;
 
-    private transient Vector vListeners = null;
+	private transient Text txtValue = null;
 
-    public static final int TEXT_MODIFIED = 0;
-    
-    private transient boolean bEnabled = true;
+	private transient Vector vListeners = null;
 
-    public TextEditorComposite(Composite parent, int iStyle)
-    {
-        super(parent, SWT.NONE);
-        this.iStyle = iStyle;
-        init();
-        placeComponents();
-    }
+	public static final int TEXT_MODIFIED = 0;
 
-    private void init()
-    {
-        sText = ""; //$NON-NLS-1$
-        vListeners = new Vector();
-        this.setLayout(new FillLayout());
-    }
+	private transient boolean bEnabled = true;
 
-    private void placeComponents()
-    {
-        txtValue = new Text(this, iStyle);
-        txtValue.addModifyListener(this);
-        txtValue.addFocusListener(this);
-    }
+	public TextEditorComposite( Composite parent, int iStyle )
+	{
+		super( parent, SWT.NONE );
+		this.iStyle = iStyle;
+		init( );
+		placeComponents( );
+	}
 
-    public void setEnabled(boolean bState)
-    {
-        this.txtValue.setEnabled(bState);
-        this.bEnabled = bState;
-    }
-    
-    public boolean isEnabled()
-    {
-        return this.bEnabled;
-    }
+	private void init( )
+	{
+		sText = ""; //$NON-NLS-1$
+		vListeners = new Vector( );
+		this.setLayout( new FillLayout( ) );
+	}
 
-    public void setText(String sText)
-    {
-        txtValue.setText(sText);
-    }
+	private void placeComponents( )
+	{
+		txtValue = new Text( this, iStyle );
+		txtValue.addModifyListener( this );
+		txtValue.addFocusListener( this );
+		txtValue.addKeyListener( this );
+	}
 
-    public String getText()
-    {
-        return txtValue.getText();
-    }
+	public void setEnabled( boolean bState )
+	{
+		this.txtValue.setEnabled( bState );
+		this.bEnabled = bState;
+	}
 
-    public void addListener(Listener listener)
-    {
-        vListeners.add(listener);
-    }
+	public boolean isEnabled( )
+	{
+		return this.bEnabled;
+	}
 
-    private void fireEvent()
-    {
-        for (int i = 0; i < vListeners.size(); i++)
-        {
-            Event e = new Event();
-            e.data = this.sText;
-            e.widget = this;
-            e.type = TEXT_MODIFIED;
-            ((Listener) vListeners.get(i)).handleEvent(e);
-        }
-    }
+	public void setText( String sText )
+	{
+		txtValue.setText( sText );
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
-     */
-    public void modifyText(ModifyEvent e)
-    {
-        this.bTextModified = true;
-        this.sText = txtValue.getText();
-    }
+	public String getText( )
+	{
+		return txtValue.getText( );
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.swt.events.FocusListener#focusGained(org.eclipse.swt.events.FocusEvent)
-     */
-    public void focusGained(FocusEvent e)
-    {
-    }
+	public void addListener( Listener listener )
+	{
+		vListeners.add( listener );
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.swt.events.FocusListener#focusLost(org.eclipse.swt.events.FocusEvent)
-     */
-    public void focusLost(FocusEvent e)
-    {
-        if (bTextModified)
-        {
-            fireEvent();
-        }
-    }
+	private void fireEvent( )
+	{
+		for ( int i = 0; i < vListeners.size( ); i++ )
+		{
+			Event e = new Event( );
+			e.data = this.sText;
+			e.widget = this;
+			e.type = TEXT_MODIFIED;
+			( (Listener) vListeners.get( i ) ).handleEvent( e );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+	 */
+	public void modifyText( ModifyEvent e )
+	{
+		this.bTextModified = true;
+		this.sText = txtValue.getText( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.FocusListener#focusGained(org.eclipse.swt.events.FocusEvent)
+	 */
+	public void focusGained( FocusEvent e )
+	{
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.FocusListener#focusLost(org.eclipse.swt.events.FocusEvent)
+	 */
+	public void focusLost( FocusEvent e )
+	{
+		if ( bTextModified )
+		{
+			fireEvent( );
+		}
+	}
+
+	public void keyPressed( KeyEvent e )
+	{
+		if ( e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR )
+		{
+			if ( bTextModified )
+			{
+				fireEvent( );
+			}
+		}
+	}
+
+	public void keyReleased( KeyEvent e )
+	{
+		// TODO Auto-generated method stub
+
+	}
 }
