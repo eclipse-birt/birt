@@ -16,6 +16,9 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
+import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 
 public class ImageContent extends AbstractContent implements IImageContent
 {
@@ -29,7 +32,6 @@ public class ImageContent extends AbstractContent implements IImageContent
 	protected String helpTextKey;
 	protected String extension;
 	protected String uri;
-	protected String imageName;
 	protected int sourceType;
 	transient protected byte[] data;
 	/**
@@ -124,6 +126,19 @@ public class ImageContent extends AbstractContent implements IImageContent
 
 	public byte[] getData( )
 	{
+		if ( data == null && sourceType == IImageContent.IMAGE_NAME )
+		{
+			Report reportDesign = report.getDesign( );
+			if ( reportDesign != null )
+			{
+				ReportDesignHandle design = reportDesign.getReportDesign( );
+				EmbeddedImage embeddedImage = design.findImage( uri );
+				if ( embeddedImage != null )
+				{
+					data = embeddedImage.getData( design.getModule( ) );
+				}
+			}
+		}
 		return data;
 	}
 
@@ -158,17 +173,22 @@ public class ImageContent extends AbstractContent implements IImageContent
 
 	public void setImageName( String name )
 	{
-		imageName = name;
+		sourceType = IMAGE_NAME;
+		uri = name;
 	}
 
 	public String getImageName( )
 	{
-		if ( imageName == null )
+		if ( sourceType == IMAGE_NAME )
 		{
-			if ( generateBy instanceof ImageItemDesign )
-				return ( (ImageItemDesign) generateBy ).getImageName( );
+			if ( uri == null )
+			{
+				if ( generateBy instanceof ImageItemDesign )
+					return ( (ImageItemDesign) generateBy ).getImageName( );
+			}
+			return uri;
 		}
-		return imageName;
+		return null;
 
 	}
 
