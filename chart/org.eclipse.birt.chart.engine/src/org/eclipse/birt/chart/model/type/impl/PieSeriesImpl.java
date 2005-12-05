@@ -227,7 +227,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double RATIO_EDEFAULT = 0.0;
+	protected static final double RATIO_EDEFAULT = 1.0;
 
 	/**
 	 * The cached value of the '{@link #getRatio() <em>Ratio</em>}' attribute.
