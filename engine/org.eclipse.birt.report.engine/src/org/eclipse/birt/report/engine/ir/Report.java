@@ -31,7 +31,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.21 $ $Date: 2005/11/15 06:16:32 $
+ * @version $Revision: 1.22 $ $Date: 2005/11/15 09:38:08 $
  */
 public class Report
 {
@@ -85,7 +85,7 @@ public class Report
 	protected ArrayList queries = new ArrayList( );
 
 	/**
-	 * use to find the query IDs.
+	 * use to find the query IDs.(query, string) pair.
 	 */
 	protected HashMap queryIDs = new HashMap( );
 
@@ -106,7 +106,7 @@ public class Report
 	protected String basePath;
 
 	/**
-	 * The prefix of style name 
+	 * The prefix of style name
 	 */
 	public static final String PREFIX_STYLE_NAME = "style_"; //$NON-NLS-1$
 

@@ -101,28 +101,15 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			emitter.startForeign( content );
 		}
 		finishTOCEntry( );
+
+		// close the rows sets defined in the content
+		ExtendedItemContent status = (ExtendedItemContent) content
+				.getRawValue( );
+		closeQueries( status.getRowSets( ) );
 		context.popContent( );
 	}
 
 	protected void generateContent( ExtendedItemDesign item,
-			IForeignContent content )
-	{
-		if ( context.isInFactory( ) )
-		{
-			generateInFactory( item, content );
-		}
-		else
-		{
-			loadFromArchive( item, content );
-		}
-	}
-
-	protected void loadFromArchive( ExtendedItemDesign item,
-			IForeignContent content )
-	{
-	}
-
-	protected void generateInFactory( ExtendedItemDesign item,
 			IForeignContent content )
 	{
 		// create user-defined generation-time helper object

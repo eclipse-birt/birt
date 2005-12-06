@@ -35,13 +35,14 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 
 public class DataPresentationEngine extends AbstractDataEngine
 {
+
 	private IDocArchiveReader reader;
-	
-	public DataPresentationEngine( ExecutionContext ctx, IDocArchiveReader reader )
+
+	public DataPresentationEngine( ExecutionContext ctx,
+			IDocArchiveReader reader )
 	{
 		context = ctx;
 		this.reader = reader;
@@ -53,8 +54,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 		{
 			DataEngineContext dteContext = DataEngineContext.newInstance(
 					DataEngineContext.MODE_PRESENTATION, ctx.getSharedScope( ),
-					reader, 
-					null );
+					reader, null );
 			dataEngine = DataEngine.newDataEngine( dteContext );
 		}
 		catch ( BirtException ex )
@@ -67,7 +67,8 @@ public class DataPresentationEngine extends AbstractDataEngine
 	{
 		try
 		{
-			ObjectInputStream ois = new ObjectInputStream( reader.getStream( DATA_META_STREAM ) );
+			ObjectInputStream ois = new ObjectInputStream( reader
+					.getStream( DATA_META_STREAM ) );
 			mapQueryIDToResultSetIDs = (HashMap) ois.readObject( );
 			queryResultRelations = (ArrayList) ois.readObject( );
 			queryExpressionIDs = (ArrayList) ois.readObject( );
@@ -172,8 +173,8 @@ public class DataPresentationEngine extends AbstractDataEngine
 	{
 		assert query instanceof IQueryDefinition;
 
-		String queryID = String.valueOf( ((ReportElementDesign) queryIDMap.get( query )).getID( ) );
-		
+		String queryID = (String) queryIDMap.get( query );
+
 		try
 		{
 			IQueryResults queryResults = null;

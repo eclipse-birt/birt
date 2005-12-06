@@ -33,11 +33,11 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.mozilla.javascript.Scriptable;
 
 public class DataGenerationEngine extends AbstractDataEngine
 {
+
 	private IDocArchiveWriter writer;
 
 	public DataGenerationEngine( ExecutionContext ctx, IDocArchiveWriter writer )
@@ -140,15 +140,13 @@ public class DataGenerationEngine extends AbstractDataEngine
 		}
 	}
 
-	
 	protected IResultSet doExecute( IBaseQueryDefinition query )
 	{
 		assert query instanceof IQueryDefinition;
 
-		IPreparedQuery preparedQuery = (IPreparedQuery) mapQueryToPreparedQuery.get( query );
-		ReportElementDesign queryElement = (ReportElementDesign) queryIDMap
+		IPreparedQuery preparedQuery = (IPreparedQuery) mapQueryToPreparedQuery
 				.get( query );
-		String queryID = String.valueOf( queryElement.getID( ) );
+		String queryID = (String) queryIDMap.get( query );
 		assert preparedQuery != null;
 		Scriptable queryScope = context.getSharedScope( );
 
@@ -185,7 +183,8 @@ public class DataGenerationEngine extends AbstractDataEngine
 			}
 
 			queryResultStack.addLast( resultSet );
-			LinkedList qidList = (LinkedList) mapQueryIDToResultSetIDs.get( queryID );
+			LinkedList qidList = (LinkedList) mapQueryIDToResultSetIDs
+					.get( queryID );
 			if ( qidList == null )
 			{
 				qidList = new LinkedList( );
@@ -221,8 +220,8 @@ public class DataGenerationEngine extends AbstractDataEngine
 	{
 		try
 		{
-			ObjectOutputStream oos = new ObjectOutputStream(
-					writer.createRandomAccessStream( DATA_META_STREAM ) );
+			ObjectOutputStream oos = new ObjectOutputStream( writer
+					.createRandomAccessStream( DATA_META_STREAM ) );
 			oos.writeObject( mapQueryIDToResultSetIDs );
 			oos.writeObject( queryResultRelations );
 			oos.writeObject( queryExpressionIDs );

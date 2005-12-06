@@ -91,7 +91,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.39 $ $Date: 2005/11/22 20:12:42 $
+ * @version $Revision: 1.40 $ $Date: 2005/11/24 07:25:15 $
  */
 public class ReportQueryBuilder
 {
@@ -347,6 +347,9 @@ public class ReportQueryBuilder
 						{
 							if ( queries[i] instanceof IQueryDefinition )
 							{
+								this.queryIDs.put( queries[i], String
+										.valueOf( item.getID( ) )
+										+ "_" + String.valueOf( i ) );
 								this.queries.add( queries[i] );
 								// to support parameter binding with data
 								// related expression in report query
@@ -925,7 +928,7 @@ public class ReportQueryBuilder
 					}
 
 				}
-				this.queryIDs.put( query, item );
+				this.queryIDs.put( query, String.valueOf( item.getID( ) ) );
 				this.queries.add( query );
 				item.setQuery( query );
 				return query;
