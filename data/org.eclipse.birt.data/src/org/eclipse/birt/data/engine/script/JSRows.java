@@ -11,14 +11,11 @@
 
 package org.eclipse.birt.data.engine.script;
 
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -30,14 +27,12 @@ public class JSRows extends ScriptableObject
 {
 
 	/**
-	 * Comment for
-	 * <code>rows: In the arraylist,the current 'row' Object's index is 0
-	 * the index of the outer-most 'row' is ArrayList.size()-1 
-	 * </code>
+	 * Array of nested data sets; element[0] is data set for outermost query;
+	 * last element is current query's data set
 	 */
-	 private ArrayList rows = new ArrayList( );
+	private DataSetRuntime[] dataSets;
 
-	 private static Logger logger = Logger.getLogger( JSRows.class.getName( ) );
+	private static Logger logger = Logger.getLogger( JSRows.class.getName( ) );
 	/*
 	 * return the Class Name
 	 * 
@@ -54,41 +49,10 @@ public class JSRows extends ScriptableObject
 	 * @param currentRowObj the row object of the cuurent result 
 	 * @throws DataException
 	 */
-	public JSRows( IQueryResults outerResults, JSRowObject currentRowObj ) throws DataException
+	public JSRows( DataSetRuntime[] dataSets ) throws DataException
 	{
 		logger.entering( JSRows.class.getName( ), "JSRows" );
-		try
-		{
-			if ( currentRowObj != null )
-				rows.add( currentRowObj );
-			if ( outerResults == null )
-				return;
-			IResultIterator resultIterator = outerResults.getResultIterator( );
-			Scriptable scope = resultIterator.getScope( );
-			JSRowObject rowobj;
-	
-			Object obj = scope.get( "rows", scope );
-	
-			if ( obj instanceof JSRows )
-			{
-				JSRows rowsobj = (JSRows) obj;
-				for ( int i = 0; i < rowsobj.size( ); i++ )
-				{
-					rowobj = (JSRowObject) rowsobj.get( i, scope );
-					rows.add( rowobj );
-				}
-			}
-		}
-		catch (BirtException e)
-		{
-			logger.logp( Level.FINER,
-					JSRows.class.getName( ),
-					"get",
-					e.getMessage( ),
-					e );
-			assert e instanceof DataException;
-			throw (DataException)e;
-		}
+		this.dataSets = dataSets;
 	}
 
 	/**
@@ -99,13 +63,9 @@ public class JSRows extends ScriptableObject
 		logger.entering( JSColumnDefn.class.getName( ),
 				"get",
 				new Integer( index ) );
-		if ( has( index, start ) )
+		if ( index >=0 && index < dataSets.length )
 		{
-			if ( logger.isLoggable( Level.FINER ) )
-				logger.exiting( JSColumnDefn.class.getName( ),
-					"get",
-					rows.get( rows.size( ) - 1 - index ) );			
-			return rows.get( rows.size( ) - 1 - index );
+			return dataSets[index].getJSRowObject();
 		}
 		else
 		{
@@ -123,15 +83,7 @@ public class JSRows extends ScriptableObject
 			logger.entering( JSColumnDefn.class.getName( ),
 				"has",
 				new Integer( index ) );
-		return ( rows.size( ) > index ) ? true : false;
+		return ( index >=0 && dataSets.length > index ) ? true : false;
 	}
 
-	/**
-	 * Get the size of the 'rows' object
-	 * @return size of the 'rows' object.
-	 */
-	private int size( )
-	{
-		return rows.size( );
-	}
 }

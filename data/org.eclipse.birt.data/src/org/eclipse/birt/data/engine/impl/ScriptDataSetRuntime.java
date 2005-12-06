@@ -14,19 +14,27 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
+import org.eclipse.birt.data.engine.api.script.IScriptDataSetEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
  * Encapulates the runtime definition of a scripted data set.
  */
-public class ScriptDataSetRuntime extends DataSetRuntime implements IScriptDataSetDesign
+public class ScriptDataSetRuntime extends DataSetRuntime
 {
-    ScriptDataSetRuntime( IScriptDataSetDesign dataSet )
+	private IScriptDataSetEventHandler scriptEventHandler;
+	
+    ScriptDataSetRuntime( IScriptDataSetDesign dataSet, PreparedQuery.Executor executor )
     {
-        super( dataSet );
+        super( dataSet, executor);
+    	if ( getEventHandler() instanceof IScriptDataSetEventHandler )
+    		scriptEventHandler = (IScriptDataSetEventHandler) getEventHandler();
 		logger.log(Level.FINER,"ScriptDataSetRuntime starts up");
     }
 
@@ -46,49 +54,107 @@ public class ScriptDataSetRuntime extends DataSetRuntime implements IScriptDataS
         return getSubdesign().getOpenScript();
     }
     
+    
 	/** Executes the open script */
-	public Object runOpenScript() throws DataException
+	public void open() throws DataException
 	{
-		return runScript( getOpenScript(), "open" );
+		if ( scriptEventHandler != null )
+		{
+			try
+			{
+				scriptEventHandler.open( this );
+			}
+			catch (BirtException e)
+			{
+				throw DataException.wrap(e);
+			}
+		}
 	}
-
-    public String getFetchScript()
-    {
-        return getSubdesign().getFetchScript();
-    }
 
 	/** Executes the fetch script; returns the result */
-	public Object runFetchScript() throws DataException
+	public boolean fetch() throws DataException
 	{
-		return runScript( getFetchScript(), "fetch" );
+		if ( scriptEventHandler != null )
+		{
+			try
+			{
+				return scriptEventHandler.fetch( this, this.getDataRow() );
+			}
+			catch (BirtException e)
+			{
+				throw DataException.wrap(e);
+			}
+		}
+		return false;
 	}
 	
-    public String getCloseScript()
-    {
-        return getSubdesign().getCloseScript();
-    }
     
 	/** Executes the close script*/
-	public Object runCloseScript() throws DataException
+	public void close() throws DataException
 	{
-		return runScript( getCloseScript(), "close" );
+		if ( scriptEventHandler != null )
+		{
+			try
+			{
+				scriptEventHandler.close(this );
+			}
+			catch (BirtException e)
+			{
+				throw DataException.wrap(e);
+			}
+		}
+		super.close();
 	}
-
-    public String getDescribeScript()
-    {
-        return getSubdesign().getDescribeScript();
-    }
 
 	/** Executes the describe script*/
 	public Object runDescribeScript() throws DataException
 	{
-		return runScript( getDescribeScript(), "describe" );
+		if ( scriptEventHandler != null )
+		{
+			try
+			{
+				return scriptEventHandler.describe(this );
+			}
+			catch (BirtException e)
+			{
+				throw DataException.wrap(e);
+			}
+		}
+		return null;
 	}
 	
-	/** Executes the close script to close the data set */
-	public void close() throws DataException
+	/**
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstance#getExtensionID()
+	 */
+	public String getExtensionID()
 	{
-		runCloseScript();
-		logger.log(Level.FINER,"ScriptDataSetRuntime closed");
+		// Not an ODA data set and has no extension. Use a fixed string
+		return "SCRIPT";
 	}
+
+	/**
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstance#getPublicProperties()
+	 */
+	public Map getPublicProperties()
+	{
+		// No public properties
+		return new HashMap();
+	}
+
+	/**
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstance#getQueryText()
+	 */
+	public String getQueryText() throws BirtException
+	{
+		return "";
+	}
+
+	/**
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstance#setQueryText(java.lang.String)
+	 */
+	public void setQueryText(String queryText) throws BirtException
+	{
+		// Query text has no effect on script data set
+	}
+	
 }

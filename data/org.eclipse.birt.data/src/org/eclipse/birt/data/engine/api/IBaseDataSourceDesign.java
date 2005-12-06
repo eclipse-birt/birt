@@ -13,6 +13,8 @@
  */
 package org.eclipse.birt.data.engine.api;
 
+import org.eclipse.birt.data.engine.api.script.IDataSourceEventHandler;
+
 /**
  * Describes the static design of any data source (connection)
  * to be used by the Data Engine.
@@ -50,5 +52,9 @@ public interface IBaseDataSourceDesign
      * @return	The <code>afterClose</code> script.  Null if none is defined.
      */
     public abstract String getAfterCloseScript();
-
+    
+    /**
+     * Gets the event handler for the data source
+     */
+    public abstract IDataSourceEventHandler getEventHandler(); 
 }

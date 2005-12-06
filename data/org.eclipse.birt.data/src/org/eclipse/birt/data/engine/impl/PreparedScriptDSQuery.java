@@ -27,7 +27,6 @@ import org.eclipse.birt.data.engine.executor.DataSourceFactory;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.ResultObject;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -173,7 +172,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			 */
 			public void open( ) throws DataException
 			{
-				((ScriptDataSetRuntime) dataSet).runOpenScript();
+				((ScriptDataSetRuntime) dataSet).open();
 			}
 			
 			/*
@@ -186,13 +185,10 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 				ResultObject resultObject = new ResultObject( resultClass,
 						fields );
 				
-				rowObject.setRowObject( resultObject, true );
-				Object evaResult = ((ScriptDataSetRuntime) dataSet).runFetchScript();
+				dataSet.setRowObject( resultObject, true );
+				boolean evalResult = ((ScriptDataSetRuntime) dataSet).fetch();
 	
-				if ( evaResult instanceof Boolean == false )
-					throw new DataException( ResourceConstants.BAD_FETCH_RETURN_TYPE );
-				
-				if ( ( (Boolean) evaResult ).booleanValue( ) == false )
+				if ( ! evalResult )
 					resultObject = null;
 	
 				return resultObject;
@@ -204,7 +200,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			 */
 			public void close( ) throws DataException
 			{
-				((ScriptDataSetRuntime) dataSet).runCloseScript();
+				((ScriptDataSetRuntime) dataSet).close();
 			}
 	
 		}

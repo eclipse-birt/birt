@@ -17,6 +17,8 @@ package org.eclipse.birt.data.engine.api;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.script.IDataSetEventHandler;
+
 /**
  * Describes the static design of any data set to be used by 
  * the Data Engine.
@@ -116,5 +118,10 @@ public interface IBaseDataSetDesign
      * @return the <code>afterClose</code> script.  Null if none is defined.
      */
     public abstract String getAfterCloseScript();
+    
+	/**
+	 * Returns the event handler for the data set
+	 */ 
+	public abstract IDataSetEventHandler getEventHandler( );
 
 }

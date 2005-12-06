@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.engine.api.script.IJavascriptContext;
 import org.eclipse.birt.data.engine.impl.DataSourceRuntime;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -58,14 +59,14 @@ public class JSDataSources extends ScriptableObject
 	public Object get(String name, Scriptable start)
 	{
 		logger.entering( JSDataSources.class.getName( ), "get", name );
-		DataSourceRuntime ds = (DataSourceRuntime)dataSources.get( name ); 
+		IJavascriptContext ds = (IJavascriptContext)dataSources.get( name ); 
 		if ( ds != null )
 		{
 			if ( logger.isLoggable( Level.FINER ) )
 				logger.exiting( JSDataSources.class.getName( ),
 					"get",
-					ds.getScriptable( ) );
-			return ds.getScriptable();
+					ds.getScriptScope( ) );
+			return ds.getScriptScope();
 		}
 		else
 		{

@@ -19,6 +19,8 @@ import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
+import org.eclipse.birt.data.engine.api.script.IDataSetEventHandler;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -44,6 +46,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
     private String 	onFetchScript;
     private String 	beforeCloseScript;
     private String 	afterCloseScript;
+    private IDataSetEventHandler eventHandler;
 	
 	/**
 	 * Instantiates a data set with given name.
@@ -272,6 +275,22 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	public void setAfterCloseScript( String afterCloseScript ) 
 	{
 		this.afterCloseScript = afterCloseScript;
+	}
+
+	/**
+	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getEventHandler()
+	 */
+	public IDataSetEventHandler getEventHandler()
+	{
+		return eventHandler;
+	}
+	
+	/**
+	 * Sets the event handler for this data set
+	 */
+	public void setEventHandler( IDataSetEventHandler handler )
+	{
+		this.eventHandler = handler;
 	}
 
 }

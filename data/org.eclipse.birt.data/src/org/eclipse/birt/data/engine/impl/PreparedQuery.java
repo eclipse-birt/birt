@@ -45,12 +45,8 @@ import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
-import org.eclipse.birt.data.engine.script.JSOutputParams;
-import org.eclipse.birt.data.engine.script.JSRowObject;
-import org.eclipse.birt.data.engine.script.JSRows;
 import org.eclipse.birt.data.engine.script.OnFetchScriptHelper;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.Scriptable;
 
 
@@ -195,13 +191,9 @@ abstract class PreparedQuery
 		}
 		
 		Executor executor = newExecutor();
-		
-
-		
 		// pass the prepared query's pass thru context to its executor
 		executor.setAppContext( this.getAppContext() );
 		
-
 		//here prepare the execution. After the preparation the result metadata is available by
 		//calling getResultClass, and the query is ready for execution.
 		logger.finer( "Start to prepare the execution." );
@@ -348,10 +340,9 @@ abstract class PreparedQuery
 	 * Executes a subquery
 	 */
 	QueryResults execSubquery( IResultIterator iterator,
-			String subQueryName, Scriptable scope ) throws DataException
+			String subQueryName, Scriptable subScope ) throws DataException
 	{
 		assert subQueryName != null;
-		assert scope != null;
 
 		PreparedSubquery subquery = (PreparedSubquery) subQueryMap.get( subQueryName );
 		if ( subquery == null )
@@ -366,7 +357,7 @@ abstract class PreparedQuery
 			throw e;
 		}
 		
-		return subquery.execute( iterator, scope );
+		return subquery.execute( iterator, subScope );
 	}
 	
 	public DataEngineImpl getDataEngine()
@@ -438,17 +429,27 @@ abstract class PreparedQuery
 		protected 	IQuery			odiQuery;
 		protected 	IDataSource		odiDataSource;
 		protected 	DataSourceRuntime	dataSource;
+		
+		/** Runtime data set used by this instance of executor */
 		protected	DataSetRuntime	dataSet;
+		
+		/** Outer query's results; null if this query is not nested */
+		protected	QueryResults	outerResults;
+		
 		protected 	AggregateCalculator		aggregates;
 		protected 	IResultIterator	odiResult;
-		protected 	JSRowObject		rowObject;
-		protected 	JSRows			rowsObject;
-		protected   JSOutputParams 	outputParamsJSObject;
-		protected	Scriptable		scope;
-		protected 	IQueryResults outerResults;
+		
+		private		Scriptable		queryScope;
+		
+		/** Externally provided query scope; can be null */
+		private		Scriptable		parentScope;
+
 		private 	boolean 		isPrepared = false;
 		private 	boolean			isExecuted = false;
 		private		Map				queryAppContext;
+
+		/** Query nesting level, 1 - outermost query */
+		protected	int				nestedLevel = 1;
 		
 		/**
 		 * Overridden by subclass to create a new unopened odiDataSource given the data 
@@ -500,6 +501,35 @@ abstract class PreparedQuery
 		    queryAppContext = context;
 		}
 		
+		public DataEngineImpl getDataEngine()
+		{
+			return engine;
+		}
+		
+		public DataSetRuntime getDataSet()
+		{
+			return dataSet;
+		}
+		
+		/** Gets the outer result set's query executor; null if this 
+		
+		/**
+		 * Gets the Javascript scope for evaluating expressions for this query
+		 */
+		public Scriptable getQueryScope()
+		{
+			if ( queryScope == null )
+			{
+				// Set up a query scope. All expressions are evaluated against the 
+				// Data set JS object as the prototype (so that it has access to all
+				// data set properties). It uses a subscope of the externally provided
+				// parent scope, or the global shared scope
+				queryScope = getDataEngine().newSubScope( parentScope );
+				queryScope.setPrototype( dataSet.getJSDataSetObject() );
+			}
+			return queryScope;
+		}
+		
 		/*
 		 * Prepare Executor so that it is ready to execute the query
 		 * 
@@ -508,90 +538,39 @@ abstract class PreparedQuery
 		{
 			if(isPrepared)return;
 			
+			this.parentScope = targetScope;
 			dataSource = findDataSource( );
-	
-			if ( targetScope == null )
-			{
-				if ( this.dataSource != null )
-				{
-					dataSource.setScope( DataEngineImpl.createSubscope(engine.getSharedScope( )) );
-					this.scope = DataEngineImpl.createSubscope( this.dataSource.getScriptable( ) );
-				}
-				else
-					this.scope = DataEngineImpl.createSubscope( engine.getSharedScope( ) );
-			}
-			else
-			{
-				if ( this.dataSource != null )
-				{
-					dataSource.setScope( createSubscope (targetScope) );
-				    this.scope = createSubscope( this.dataSource.getScriptable( ) );
-				}
-				else
-					this.scope = targetScope;
-			}
 
+			if ( outerRts != null )
+			{
+				outerResults = ((QueryResults) outerRts );
+				if ( outerResults.queryExecutor == null )
+				{
+					// Outer result is closed; invalid
+					throw new DataException( ResourceConstants.RESULT_CLOSED );
+				}
+				this.nestedLevel = outerResults.queryExecutor.nestedLevel + 1;
+			}
 			
-			openDataSource( );
-			
-			//this.scope = DataEngineImpl.createSubscope( this.dataSource.getScriptable());
-			this.outerResults = outerRts;
 			// Create the data set runtime
 			// Since data set runtime contains the execution result, a new data set
 			// runtime is needed for each execute
 			dataSet = newDataSetRuntime();
+			assert dataSet != null;
+			
+			openDataSource( );
 				
-		    // Set up the Javascript "row" object; this is needed before executeOdiQuery
-			// since filtering may need the object
-		    rowObject = new JSRowObject( dataSet );
-		    this.scope.put( "row", this.scope,  rowObject );
-				
+			// Run beforeOpen script now so the script can modify the DataSetRuntime properties
+			dataSet.beforeOpen();
 			
-			
-			if ( dataSet != null  )
-			{
-				// Run beforeOpen script now so the script can modify the DataSetRuntime properties
-				dataSet.beforeOpen();
-			}
-			
-
-			ExpressionProcessorManager.registerInstance(new ExpressionProcessor( null, null, scope, null ));
+			ExpressionProcessorManager.registerInstance(
+					new ExpressionProcessor( null, null, dataSet, null ));
 			
 			// Let subclass create a new and empty intance of the appropriate odi IQuery
 			odiQuery = createOdiQuery( );
 			populateOdiQuery( );
 			prepareOdiQuery( );
 			isPrepared = true;
-		}
-		
-		/**
-		 * Creates a new child scope using given parent
-		 */
-		private Scriptable createSubscope( Scriptable parent )
-		{
-			Context cx = Context.enter( );
-			try
-			{
-				Scriptable scope = cx.newObject( parent );
-				//scope.setPrototype( prototype );
-				scope.setParentScope( parent );
-				return scope;
-			}
-			catch ( JavaScriptException e )
-			{
-				// Not expected; use provided scrope instead
-				logger.logp( Level.WARNING,
-						DataEngineImpl.class.getName( ),
-						"createSubscope",
-						"Failed to create sub scope",
-						e );
-				return parent;
-			}
-			finally
-			{
-				Context.exit( );
-			}
-
 		}
 		
 		public IResultMetaData getResultMetaData( ) throws DataException
@@ -621,34 +600,20 @@ abstract class PreparedQuery
 			if(this.isExecuted)
 				return;
 
-			// Set the Javascript "rows" object and bind it to our result
-			rowsObject = new JSRows( this.outerResults, rowObject );
-			scope.put( "rows", scope, rowsObject );
-			
-
-			outputParamsJSObject = new JSOutputParams( );
-			scope.put( "outputParams", scope, outputParamsJSObject );
-			
-
 			// Execute the query
 			odiResult = executeOdiQuery( );
 
 			// Bind the row object to the odi result set
-			rowObject.setResultSet( odiResult, false );
+			this.dataSet.setResultSet( odiResult, false );
 				
 		    // Calculate aggregate values
 		    aggregates = new AggregateCalculator( aggrTable, odiResult );
-			    
-		    // Set up the internal JS _aggr_value object and bind it to the aggregate calc engine
-		    Scriptable aggrObj = aggregates.getJSAggrValueObject();
-		    scope.put( ExpressionCompiler.AGGR_VALUE, scope, aggrObj );
 			    
 			Context cx = Context.enter();
 			try
 			{
 			    // Calculate aggregate values
-			    aggregates.calculate(cx, scope);
-			    
+			    aggregates.calculate(cx, getQueryScope() );
 			}
 			finally
 			{
@@ -681,8 +646,7 @@ abstract class PreparedQuery
 		    // Close the data set and associated odi query
 		    try
 			{
-		    	if ( dataSet != null )
-		    		dataSet.beforeClose();
+	    		dataSet.beforeClose();
 			}
 		    catch (DataException e )
 			{
@@ -699,10 +663,7 @@ abstract class PreparedQuery
 		    
 		    try
 			{
-		    	if ( dataSet != null )
-		    	{
-		    		dataSet.close();
-		    	}
+	    		dataSet.close();
 			}
 		    catch (DataException e )
 			{
@@ -717,30 +678,25 @@ abstract class PreparedQuery
 			odiDataSource = null;
 			aggregates = null;
 			odiResult = null;
-			rowObject = null;
-			rowsObject = null;
-			scope = null;
+			queryScope = null;
 			isPrepared = false;
 			isExecuted = false;
 			
 			// Note: reset dataSet and dataSource only after afterClose() is executed, since
 			// the script may access these two objects
-	    	if ( dataSet != null )
-	    	{
-	    		try
-				{
-		    		dataSet.afterClose();
-				}
-			    catch (DataException e )
-				{
-					logger.logp( Level.FINE,
-								PreparedQuery.Executor.class.getName( ),
-								"close",
-								e.getMessage( ),
-								e );
-				}
-			    dataSet = null;
-	    	}
+    		try
+			{
+	    		dataSet.afterClose();
+			}
+		    catch (DataException e )
+			{
+				logger.logp( Level.FINE,
+							PreparedQuery.Executor.class.getName( ),
+							"close",
+							e.getMessage( ),
+							e );
+			}
+		    dataSet = null;
 			dataSource = null;
 		    
 			logger.logp( Level.FINER,
@@ -800,7 +756,6 @@ abstract class PreparedQuery
 		protected void populateOdiQuery( ) throws DataException
 		{
 			assert odiQuery != null;
-			assert scope != null;
 			assert queryDefn != null;
 			
 			Context cx = Context.enter();
@@ -866,42 +821,27 @@ abstract class PreparedQuery
 				
 				List computedColumns = null;
 			    // set computed column event
-			    if ( dataSet != null )
+				computedColumns = this.dataSet.getComputedColumns( );
+				if ( computedColumns != null )
 				{
-					computedColumns = this.dataSet.getComputedColumns( );
-					if ( computedColumns != null )
-					{
-						computedColumns.addAll( temporaryComputedColumns );
-						
-					}
+					computedColumns.addAll( temporaryComputedColumns );
 				}
 				if ( (computedColumns != null && computedColumns.size() > 0)|| temporaryComputedColumns.size( ) > 0 )
 				{
-					IResultObjectEvent objectEvent = new ComputedColumnHelper( ExpressionProcessorManager.getInstance( )
-							.getScope( ),
-							this.rowObject,
+					IResultObjectEvent objectEvent = new ComputedColumnHelper( this.dataSet,
 							(computedColumns == null&&computedColumns.size()>0) ? temporaryComputedColumns : computedColumns );
 					odiQuery.addOnFetchEvent( objectEvent );
 				}
-			    // set Onfetch event - this should be added after computed column and before filtering
-			    if ( dataSet != null )
-			    {
-			    	String onFetchScript = dataSet.getOnFetchScript();
-			    	if ( onFetchScript != null && onFetchScript.length() > 0 )
-			    	{
-			    		OnFetchScriptHelper event = new OnFetchScriptHelper( dataSet ); 
-			    		odiQuery.addOnFetchEvent( event );
-			    	}
+		    	if ( dataSet.getEventHandler() != null )
+		    	{
+		    		OnFetchScriptHelper event = new OnFetchScriptHelper( dataSet ); 
+		    		odiQuery.addOnFetchEvent( event );
 			    }
 			    
-				// Set filtering
-		    	assert rowObject != null;
-		    	assert scope != null;
-
 			    // set filter event
 			    List mergedFilters = new ArrayList( );
 			    
-			    if ( dataSet != null && dataSet.getFilters( ) != null )
+			    if ( dataSet.getFilters( ) != null )
 				{
 					mergedFilters.addAll( dataSet.getFilters( ) );
 				}
@@ -914,7 +854,7 @@ abstract class PreparedQuery
 			    if ( mergedFilters.size() > 0 )
 			    {
 			    	IResultObjectEvent objectEvent = new FilterByRow( mergedFilters, 
-			    			ExpressionProcessorManager.getInstance().getScope(),  rowObject );
+			    			dataSet );
 			    	odiQuery.addOnFetchEvent( objectEvent );
 			    }
 			    

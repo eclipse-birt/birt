@@ -724,13 +724,13 @@ public class ResultIterator implements IResultIterator
 	 *             if error occurs in Data Engine
 	 */
 	public IResultIterator getSecondaryIterator( String subQueryName,
-			Scriptable scope ) throws DataException
+			Scriptable subScope ) throws DataException
 	{
 		checkStarted( );
-
+		
 		QueryResults results = query.execSubquery( odiResult,
 				subQueryName,
-				scope );
+				subScope );
 		logger.logp( Level.FINE,
 				ResultIterator.class.getName( ),
 				"getSecondaryIterator",
@@ -793,13 +793,6 @@ public class ResultIterator implements IResultIterator
 		{
 			if ( odiResult != null )
 				odiResult.close( );
-			if ( scope != null )
-			{
-				// Remove the "row" object created in the scope; it can
-				// no longer be used since the underlying result set is gone
-				scope.delete( "row" );
-				scope = null;
-			}
 		}
 		catch ( Exception e )
 		{

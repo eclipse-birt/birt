@@ -36,7 +36,6 @@ import org.eclipse.birt.data.engine.impl.rd.QueryResults2;
 import org.eclipse.birt.data.engine.script.JSDataSources;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
-import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -83,10 +82,9 @@ public class DataEngineImpl extends DataEngine
 		this.sharedScope = context.getJavaScriptScope( );
 		if ( this.sharedScope == null )
 		{
-			// No scope provided by the caller; create our own
-			Context cx = Context.enter( );
+			Context cx = Context.enter();
 			this.sharedScope = new ImporterTopLevel( cx );
-			Context.exit( );
+			Context.exit();
 		}		
 		compiler = new ExpressionCompiler( );
 		
@@ -114,33 +112,25 @@ public class DataEngineImpl extends DataEngine
 	}
 	
 	/**
-	 * Creates a new top-level scope using given prototype
+	 * Creates a subscope within parent scope
+	 * @param parentScope parent scope. If null, the shared top-level scope is used as parent
 	 */
-	static Scriptable createSubscope( Scriptable prototype )
+	Scriptable newSubScope( Scriptable parentScope )
 	{
+		if ( parentScope == null )
+			parentScope = getSharedScope();
+		
 		Context cx = Context.enter( );
 		try
 		{
-			Scriptable scope = cx.newObject( prototype );
-			scope.setPrototype( prototype );
-			scope.setParentScope( null );
+			Scriptable scope = cx.newObject( parentScope );
+			scope.setParentScope( parentScope );
 			return scope;
-		}
-		catch ( JavaScriptException e )
-		{
-			// Not expected; use provided scrope instead
-			logger.logp( Level.WARNING,
-					DataEngineImpl.class.getName( ),
-					"createSubscope",
-					"Failed to create sub scope",
-					e );
-			return prototype;
 		}
 		finally
 		{
 			Context.exit( );
 		}
-
 	}
 
 	/**

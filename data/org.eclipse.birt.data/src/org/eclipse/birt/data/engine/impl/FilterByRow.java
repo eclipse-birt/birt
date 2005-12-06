@@ -27,29 +27,25 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
-import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
 
 /**
  * Implementation of IFilter, which will do filtering on row data.
  */
 public class FilterByRow implements IResultObjectEvent
 {
-
+	protected DataSetRuntime dataSet;
 	protected List filters;
-	protected Scriptable scope;
-	protected JSRowObject scriptObj;
 	
 	protected static Logger logger = Logger.getLogger( FilterByRow.class.getName( ) );
 	
-	FilterByRow( List filters, Scriptable scope, JSRowObject scriptObj ) throws DataException
+	FilterByRow( List filters, DataSetRuntime dataSet ) throws DataException
 	{
+		assert filters!= null && dataSet != null;
 		isLegal( filters );
 		this.filters = filters;
-		this.scope = scope;
-		this.scriptObj = scriptObj;
+		this.dataSet = dataSet;
 		logger.log( Level.FINER, "FilterByRow starts up" );
 	}
 	
@@ -96,14 +92,15 @@ public class FilterByRow implements IResultObjectEvent
 		{
 			boolean isAccepted = true;
 			Iterator filterIt = filters.iterator( );
-			scriptObj.setRowObject( row, false );
-			scriptObj.setCurrentRowIndex( rowIndex );
+			dataSet.setRowObject( row, false );
+			dataSet.setCurrentRowIndex( rowIndex );
 			while ( filterIt.hasNext( ) )
 			{
 				IFilterDefinition filter = (IFilterDefinition) filterIt.next( );
 				IBaseExpression expr = filter.getExpression( );
 	
-				Object result = ScriptEvalUtil.evalExpr( expr, cx, scope, "Filter", 0 );
+				Object result = ScriptEvalUtil.evalExpr( expr, cx, 
+							dataSet.getScriptScope(), "Filter", 0 );
 				if ( result == null )
 				{
 					Object info = null;

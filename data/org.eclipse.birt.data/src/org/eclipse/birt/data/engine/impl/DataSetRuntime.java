@@ -18,14 +18,26 @@ import java.util.List;
 import java.util.Collection;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
+import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
+import org.eclipse.birt.data.engine.api.script.IDataRow;
+import org.eclipse.birt.data.engine.api.script.IDataSetEventHandler;
+import org.eclipse.birt.data.engine.api.script.IDataSetInstance;
+import org.eclipse.birt.data.engine.api.script.IDataSourceInstance;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.odi.IResultIterator;
+import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.birt.data.engine.script.DataRow;
 import org.eclipse.birt.data.engine.script.JSDataSet;
-import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.mozilla.javascript.Context;
+import org.eclipse.birt.data.engine.script.DataSetJSEventHandler;
+import org.eclipse.birt.data.engine.script.JSOutputParams;
+import org.eclipse.birt.data.engine.script.JSRowObject;
+import org.eclipse.birt.data.engine.script.JSRows;
+import org.eclipse.birt.data.engine.script.ScriptDataSetJSEventHandler;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -33,75 +45,179 @@ import org.mozilla.javascript.Scriptable;
  * has two parts: design time properties specified in the report design that are
  * static, and runtime properties (e.g., SQL query statement) that
  * can be changed in scripts.
+ * A data set runtime also maintains the current data row. The row can come from 
+ * either of these two sources at any given time: a IResultIterator (after result set has been generated), 
+ * or from a IResultObject (during data set processing).
  */
 
-public abstract class DataSetRuntime implements IBaseDataSetDesign
+public abstract class DataSetRuntime implements IDataSetInstance
 {
-	private IBaseDataSetDesign	m_design;
+	/** Static design of data set */
+	private IBaseDataSetDesign	dataSetDesign;
+	/** Javascript object implementing the DataSet class */
+	private Scriptable		jsDataSetObject;
 	
-	private Scriptable		jsObject;
-	private PreparedQuery.Executor queryExecutor;
-	
+	protected PreparedQuery.Executor queryExecutor;
 	protected static Logger logger = Logger.getLogger( DataSetRuntime.class.getName( ) );
+
+	// Fields related to current data row
+	/** IResultObject which is the current data row */
+    protected IResultObject resultObj;
+    /** The result iterator whose iterator position is the current data row */
+    protected IResultIterator resultSet;
+    /** Internal index of current data row */ 
+    protected int currentRowIndex = -1;
+    /** Whether update to current data row is allowed */
+    protected boolean	allowUpdateRowData = false;
+    /** Metadata of curent row */
+    protected IResultMetaData rowMetaData;
 	
-	protected DataSetRuntime( IBaseDataSetDesign dataSet )
+    /** Scriptable object implementing the Javascript "row" property */
+    private JSRowObject jsRowObject;
+    /** Scriptable object implementing the Javascript "rows" property */
+    private JSRows jsRowsObject;
+    /** Object implementing IDataRow interface */
+    private DataRow dataRow;
+    /** Scriptable object implementing the Javascript "outputParams" property */
+    private JSOutputParams jsOutputParamsObject;
+    /** Scriptable object implementing the internal "_aggr_value" property */
+    private Scriptable jsAggrValueObject;
+    
+    private IDataSetEventHandler eventHandler;
+    protected boolean isOpen;
+
+	protected DataSetRuntime( IBaseDataSetDesign dataSetDesign, PreparedQuery.Executor queryExecutor)
 	{
-		assert dataSet != null;
-		m_design = dataSet;
+		this.dataSetDesign = dataSetDesign;
+		this.queryExecutor = queryExecutor;
+		isOpen = true;
+		
+		/*
+		 * TODO: TEMPORARY the follow code is temporary. It will be removed once Engine takes over
+		 * script execution from DtE
+		 */
+		if ( eventHandler == null )
+		{
+			if ( dataSetDesign instanceof IScriptDataSetDesign )
+				eventHandler = new ScriptDataSetJSEventHandler( 
+						(IScriptDataSetDesign) dataSetDesign );
+			else if ( dataSetDesign instanceof IOdaDataSetDesign)
+				eventHandler = new DataSetJSEventHandler( dataSetDesign );
+		}
+		/*
+		 * END Temporary 
+		 */
 	}
 
-	public Scriptable getParentScope()
+	public PreparedQuery.Executor getQueryExecutor()
 	{
-		return queryExecutor.scope;
+		return queryExecutor;
 	}
 	
+	/**
+	 * Gets the instance of the Javascript 'row' object for this data set
+	 */
 	public Scriptable getJSRowObject()
 	{
-		return queryExecutor.rowObject;
+		if ( !isOpen )
+			return null;
+		if ( this.jsRowObject == null )
+		{
+			jsRowObject = new JSRowObject( this );
+		}
+		return jsRowObject;
+	}
+
+	/**
+	 * Gets the instance of the Javascript 'outputParams' object for this data set
+	 */
+	public Scriptable getJSOutputParamsObject()
+	{
+		if ( !isOpen )
+			return null;
+		if ( jsOutputParamsObject == null )
+		{
+			jsOutputParamsObject = new JSOutputParams( this );
+		}
+		return jsOutputParamsObject;
 	}
 	
-	public Scriptable getJSRowsObject()
+	/**
+	 * Gets the instance of the Javascript 'rows' object for this data set
+	 */
+	public Scriptable getJSRowsObject() throws DataException
 	{
-		return queryExecutor.rowsObject;
+		if ( !isOpen )
+			return null;
+		if ( this.jsRowsObject == null )
+		{
+			// Construct an array of nested data sets
+			int size = queryExecutor.nestedLevel;
+			DataSetRuntime[] dataSets = new DataSetRuntime[ size ];
+			PreparedQuery.Executor executor = queryExecutor;
+			dataSets[ size - 1 ] = executor.getDataSet();
+			for ( int i = size -2; i >=0; i--)
+			{
+				executor = executor.outerResults.queryExecutor;
+				dataSets[i] = executor.getDataSet();
+			}
+			jsRowsObject = new JSRows( dataSets );
+		}
+		return jsRowsObject;
+	}
+	
+	public IDataRow getDataRow() 
+	{
+		if ( !isOpen )
+			return null;
+		if (this.dataRow == null)
+		{
+			this.dataRow = new DataRow( this );
+		}
+		return dataRow;
+	}
+	
+	/**
+	 * @return Event handler for this data set 
+	 */
+	protected IDataSetEventHandler getEventHandler()
+	{
+		return eventHandler;
 	}
 	
 	/**
 	 * Gets the IBaseDataSetDesign object which defines the design time properties
 	 * associated with this data set
 	 */
-	public IBaseDataSetDesign getDesign()
+	protected IBaseDataSetDesign getDesign()
 	{
-		return m_design;
+		return dataSetDesign;
 	}
 
-	/**
-	 * Sets the IBaseDataSetDesign object which defines the design time properties
-	 * associated with this data set
-	 */
-	public void setDesign( IBaseDataSetDesign design )
-	{
-		m_design = design;
-	}
-	
-	
 	/**
 	 * Gets the name of the design time properties
 	 * associated with this data set
 	 */
 	public String getName()
 	{
-		return m_design.getName();
+		if ( dataSetDesign != null)
+			return dataSetDesign.getName();
+		else
+			return null;
 	}
 	
 	public String getDataSourceName()
 	{
-	    return m_design.getDataSourceName();
+		if ( dataSetDesign != null)
+		    return dataSetDesign.getDataSourceName();
+		else
+			return null;
 	}
 	
 	/**
 	 * Gets the runtime Data Source definition for this data set
 	 */
-	public DataSourceRuntime getDataSource()
+	public IDataSourceInstance getDataSource()
 	{
 		return this.queryExecutor.dataSource;
 	}
@@ -117,112 +233,185 @@ public abstract class DataSetRuntime implements IBaseDataSetDesign
 		DataSetRuntime dataSet = null;
 		if ( dataSetDefn instanceof IOdaDataSetDesign )
 		{
-			dataSet = new OdaDataSetRuntime( (IOdaDataSetDesign) dataSetDefn );
+			dataSet = new OdaDataSetRuntime( (IOdaDataSetDesign) dataSetDefn, queryExecutor );
 		}
 		else if ( dataSetDefn instanceof IScriptDataSetDesign )
 		{
-			dataSet = new ScriptDataSetRuntime( (IScriptDataSetDesign) dataSetDefn );
+			dataSet = new ScriptDataSetRuntime( (IScriptDataSetDesign) dataSetDefn, queryExecutor );
 		}
 		else
 		{
 			throw new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE );
 		}
 		
-		dataSet.queryExecutor = queryExecutor;
 		return dataSet;
 	}
 	
 	/**
 	 * Gets the Javascript object that wraps this data set runtime 
 	 */
-	public Scriptable getScriptable( )
+	public Scriptable getJSDataSetObject()
 	{
-		// JS wrapper is created on deman
-		if ( jsObject == null )
+		// JS wrapper is created on demand
+		if ( jsDataSetObject == null )
 		{
-			jsObject = new JSDataSet( this);
+			jsDataSetObject = new JSDataSet( this, queryExecutor.getDataEngine().getSharedScope() );
 		}
-		return jsObject;
+		return jsDataSetObject;
 	}
 	
+	/**
+	 * Gets the internal Javascript aggregate value object
+	 */
+	public Scriptable getJSAggrValueObject()
+	{
+		if ( !isOpen )
+			return null;
+		if (jsAggrValueObject == null && queryExecutor.aggregates != null )
+		{
+			jsAggrValueObject = queryExecutor.aggregates.getJSAggrValueObject();
+		}
+		return jsAggrValueObject;
+	}
+	
+	/**
+	 * Returns a Javascript scope suitable for running JS event handler code.
+	 * @see org.eclipse.birt.data.engine.api.script.IJavascriptContext#getScriptScope()
+	 */
+	public Scriptable getScriptScope()
+	{
+		// Data set event handlers are executed as methods on the DataSet object
+		return getJSDataSetObject();
+	}
+	
+	/**
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstance#getResultMetaData()
+	 */
+	public IResultMetaData getResultMetaData() throws DataException
+	{
+		if ( !isOpen )
+			return null;
+		return queryExecutor.getResultMetaData();
+	}
+
 	public Collection getInputParamBindings()
 	{
-	    return m_design.getInputParamBindings();
+		if ( dataSetDesign != null)
+		    return dataSetDesign.getInputParamBindings();
+		else
+			return null;
 	}
 	
 	public List getComputedColumns()
 	{
-	    return m_design.getComputedColumns();
+		if ( dataSetDesign != null)
+		    return dataSetDesign.getComputedColumns();
+		else
+			return null;
 	}
 	
 	public List getFilters()
 	{
-	    return m_design.getFilters();
+		if ( dataSetDesign != null)
+		    return dataSetDesign.getFilters();
+		else
+			return null;
 	}
 
     public List getParameters()
     {
-        return m_design.getParameters();
+		if ( dataSetDesign != null)
+	        return dataSetDesign.getParameters();
+		else
+			return null;
     }
    
 	public List getResultSetHints()
 	{
-		return m_design.getResultSetHints();
-	}
-	
-	public String getAfterCloseScript()
-	{
-		return m_design.getAfterCloseScript();
-	}
-	
-	public String getAfterOpenScript()
-	{
-		return m_design.getAfterOpenScript();
-	}
-	
-	public String getBeforeCloseScript()
-	{
-		return m_design.getBeforeCloseScript();
-	}
-	
-	public String getBeforeOpenScript()
-	{
-		return m_design.getBeforeOpenScript();
-	}
-	
-	public String getOnFetchScript()
-	{
-		return m_design.getOnFetchScript();
+		if ( dataSetDesign != null)
+			return dataSetDesign.getResultSetHints();
+		else
+			return null;
 	}
 	
 	/** Executes the beforeOpen script associated with the data source */
 	public void beforeOpen() throws DataException
 	{
-		runScript( getBeforeOpenScript(), "beforeOpen" );
+		if ( getEventHandler() != null )
+		{
+			try
+			{
+				getEventHandler().beforeOpen( this );
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap(e);
+			}
+		}
 	}
 	
 	/** Executes the beforeClose script associated with the data source */
 	public void beforeClose() throws DataException
 	{
-		runScript( getBeforeCloseScript(), "beforeClose" );
+		if ( getEventHandler() != null )
+		{
+			try
+			{
+				getEventHandler().beforeClose( this );
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap(e);
+			}
+		}
 	}
 	
 	/** Executes the afterOpen script associated with the data source */
 	public void afterOpen() throws DataException
 	{
-		runScript( getAfterOpenScript(), "afterOpen" );
+		if ( getEventHandler() != null )
+		{
+			try
+			{
+				getEventHandler().afterOpen( this );
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap(e);
+			}
+		}
 	}
 	
 	/** Executes the afterClose script associated with the data source */
 	public void afterClose() throws DataException
 	{
-		runScript( getAfterCloseScript(), "afterClose" );
+		if ( getEventHandler() != null )
+		{
+			try
+			{
+				getEventHandler().afterClose( this );
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap(e);
+			}
+		}
 	}
 	
 	/** Executes the onFetch script associated with the data source */
 	public void onFetch() throws DataException
 	{
-		runScript( getAfterCloseScript(), "onFetch" );
+		if ( getEventHandler() != null )
+		{
+			try
+			{
+				getEventHandler().onFetch( this, getDataRow() );
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap(e);
+			}
+		}
 	}
 	
 	/** 
@@ -231,28 +420,91 @@ public abstract class DataSetRuntime implements IBaseDataSetDesign
 	 * beforeClose and afterClose event scripts are NOT run in this method */
 	public void close() throws DataException
 	{
-		
+		isOpen = false;
 	}
 	
-	protected Object runScript( String script, String eventName ) throws DataException
+    /**
+     * Binds the row object to an odi result set. Exising binding
+     * is replaced.
+     * @param resultSet Odi result iterator to bind to
+     * @param allowUpdate If true, update to current row's column values are allowed
+     */
+    public void setResultSet( IResultIterator resultSet, boolean allowUpdate )
+    {
+        assert resultSet != null;
+        this.resultSet = resultSet;
+        resultObj = null;
+        this.allowUpdateRowData = allowUpdate;
+        this.rowMetaData = null;
+    }
+    
+    /**
+     * Binds the row object to a IResultObject. Existing bindings 
+     * is replaced
+     * @param resultObj Result object to bind to.
+     * @param allowUpdate If true, update to current row's column values are allowed
+     */
+    public void setRowObject( IResultObject resultObj, boolean allowUpdate ) 
+    {
+    	assert resultObj != null;
+		this.resultObj = resultObj;
+		resultSet = null;
+        this.allowUpdateRowData = allowUpdate;
+        this.rowMetaData = null;
+    }
+
+	/**
+	 * Indicates the index of the current result row
+	 */
+	public void setCurrentRowIndex( int currentRowIndex )
 	{
-		if ( script != null && script.length() > 0 )
+		this.currentRowIndex = currentRowIndex;
+	}
+	
+    /**
+     * Get result object from IResultObject or IResultSetIterator
+     * @return current result object; can be null 
+     */
+    public IResultObject getCurrentRow( ) 
+	{
+		if ( !isOpen )
+			return null;
+		
+		IResultObject resultObject;
+		if ( resultSet != null )
 		{
-			Context cx = Context.enter();
-			
 			try
 			{
-				return ScriptEvalUtil.evaluateJSAsMethod( cx, getScriptable(), 
-						script, 
-						"DataSet:" + getName() + "." + eventName, 
-						0 ); 
+				resultObject = resultSet.getCurrentResult( );
 			}
-			finally
+			catch ( DataException e )
 			{
-				Context.exit();
+				resultObject = null;
 			}
 		}
-		return null;
+		else
+		{
+			resultObject = resultObj;
+		}
+		return resultObject;
 	}
 	
+	/**
+	 * Gets value of row[0]
+	 */
+	public int getCurrentRowIndex( ) throws DataException
+	{
+		int rowID;
+		if ( resultSet != null )
+			rowID = resultSet.getCurrentResultIndex( );
+		else
+			rowID = this.currentRowIndex;
+
+		return rowID;
+	}
+	
+	public boolean allowUpdateRowData()
+	{
+		return this.allowUpdateRowData;
+	}
 }

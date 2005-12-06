@@ -112,8 +112,7 @@ class PreparedSubquery extends PreparedQuery
 		
 		protected DataSetRuntime newDataSetRuntime()
 		{
-			// Subqueries don't have its own data set
-			return null;
+			return new SubqueryDataSetRuntime( this);
 		}
 		
 		protected IQuery createOdiQuery( ) throws DataException

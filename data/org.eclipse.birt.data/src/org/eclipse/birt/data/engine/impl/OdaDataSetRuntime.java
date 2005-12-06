@@ -25,17 +25,15 @@ import org.mozilla.javascript.Context;
 
 /**
  * Encapulates the runtime definition of a generic extended (ODA) data set.
- * Wraps the static design properties defined in the
- * org.eclipse.birt.data.engine.api.IExtendedDataSetDesign interface.
  */
-public class OdaDataSetRuntime extends DataSetRuntime implements IOdaDataSetDesign
+public class OdaDataSetRuntime extends DataSetRuntime
 {
 	private String 	queryText;
 	private Map		publicProperties;
 	
-    OdaDataSetRuntime( IOdaDataSetDesign dataSet )
+    OdaDataSetRuntime( IOdaDataSetDesign dataSet, PreparedQuery.Executor executor )
     {
-        super( dataSet );
+        super( dataSet, executor );
         
         // Copy from design all properties that may change at runtime
         queryText = dataSet.getQueryText();
@@ -104,7 +102,7 @@ public class OdaDataSetRuntime extends DataSetRuntime implements IOdaDataSetDesi
 			Context cx = Context.enter();
 			try
 			{
-				Object result = ScriptEvalUtil.evaluateJSAsExpr( cx, this.getScriptable(), queryScript, 
+				Object result = ScriptEvalUtil.evaluateJSAsExpr( cx, this.getScriptScope(), queryScript, 
 						"DataSet(" +getName() + ").QueryScript",
 						1);
 				query = result.toString();

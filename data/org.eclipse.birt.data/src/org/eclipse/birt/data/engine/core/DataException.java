@@ -15,6 +15,7 @@ import java.util.Locale;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
  * Implementation of BirtException in DtE project.
@@ -128,4 +129,14 @@ public class DataException extends BirtException
 		return _pluginId;
 	}
 	
+	/**
+	 * Wraps a BirtException in a DataException
+	 */
+	public static DataException wrap( BirtException e )
+	{
+		if ( e instanceof DataException )
+			return (DataException) e;
+		return new DataException( ResourceConstants.WRAPPED_BIRT_EXCEPTION,  
+				e, e.getMessage() );
+	}
 }

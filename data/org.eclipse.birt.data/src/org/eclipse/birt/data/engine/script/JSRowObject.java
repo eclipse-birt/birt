@@ -16,12 +16,9 @@ package org.eclipse.birt.data.engine.script;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.data.DataType;
-import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
-import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
@@ -40,12 +37,8 @@ public class JSRowObject extends ScriptableObject
 	static private final String COLUMN_MD = "columnDefns";
 	static public final String ROW_POSITION = "_rowPosition";
 	
-	private IResultObject resultObj;
-    private IResultIterator resultSet;
     private DataSetRuntime	dataSet;
     private JSColumnMetaData cachedColumnMetaData;
-    private int currentRowIndex = -1;
-    private boolean	allowUpdate = false;
     
 	private static Logger logger = Logger.getLogger( JSRowObject.class.getName( ) );
 
@@ -57,34 +50,6 @@ public class JSRowObject extends ScriptableObject
 		logger.entering( JSRowObject.class.getName( ), "JSRowObject" );
     	this.dataSet = dataSet;
 	}
-    
-    /**
-     * Binds the row object to an odi result set. Exisint binding
-     * is replaced.
-     * @param resultSet Odi result iterator to bind to
-     * @param allowUpdate If true, update to current row's column values are allowed
-     */
-    public void setResultSet( IResultIterator resultSet, boolean allowUpdate )
-    {
-        assert resultSet != null;
-        this.resultSet = resultSet;
-        resultObj = null;
-        this.allowUpdate = allowUpdate;
-    }
-    
-    /**
-     * Binds the row object to a IResultObject. Existing bindings 
-     * is replaced
-     * @param resultObj Result object to bind to.
-     * @param allowUpdate If true, update to current row's column values are allowed
-     */
-    public void setRowObject( IResultObject resultObj, boolean allowUpdate ) 
-    {
-    	assert resultObj != null;
-		this.resultObj = resultObj;
-		resultSet = null;
-        this.allowUpdate = allowUpdate;
-    }
     
     /* (non-Javadoc)
      * @see org.mozilla.javascript.Scriptable#getClassName()
@@ -99,7 +64,7 @@ public class JSRowObject extends ScriptableObject
      */
     public Object[] getIds()
     {
-    	IResultObject obj = this.getResultObject( );
+    	IResultObject obj = dataSet.getCurrentRow();
     	int columnCount = 0;
     	if ( obj != null )
     	{
@@ -149,7 +114,7 @@ public class JSRowObject extends ScriptableObject
 				new Integer( index ) );
         // We maintain indexes 0 to columnCount
         // Column 0 is internal row ID; column 1 - columnCount are actual columns
-    	IResultObject obj = this.getResultObject( );
+    	IResultObject obj = dataSet.getCurrentRow();
 	    	
 		if ( index >= 0
 				&& obj != null
@@ -186,7 +151,7 @@ public class JSRowObject extends ScriptableObject
     	}
     	
         // Check if name is a valid column name or alias
-       	IResultObject obj = this.getResultObject( );
+       	IResultObject obj = dataSet.getCurrentRow();
 		if ( obj != null
 					&& obj.getResultClass( ).getFieldIndex( name ) >= 0 )
 		{
@@ -216,27 +181,9 @@ public class JSRowObject extends ScriptableObject
        	// IResultObject handle it in such case)
     	try
 		{
-	       	if ( index == 0 )
-	       	{
-	       		return getCurrentRowIndex( );
-	       	}
-	       	else
-	       	{
-				IResultObject obj = this.getResultObject( );
-				if ( obj != null ){
-					if ( logger.isLoggable( Level.FINER ) )
-		    			logger.exiting( JSRowObject.class.getName( ),
-							"get",
-							obj.getFieldValue( index ) );
-					return obj.getFieldValue( index );
-				}
-				else{
-		    		logger.exiting( JSRowObject.class.getName( ), "get", null );
-					return null;
-				}
-			}
+    		return dataSet.getDataRow().getColumnValue( index );
 		}
-    	catch (DataException e )
+    	catch ( BirtException e )
 		{
     		logger.logp( Level.FINER,
 					JSColumnDefn.class.getName( ),
@@ -258,9 +205,8 @@ public class JSRowObject extends ScriptableObject
     	if ( name.equals(DATA_SET) ){
 			if ( logger.isLoggable( Level.FINER ) )
     			logger.exiting( JSRowObject.class.getName( ),
-					"get",
-					dataSet.getScriptable( ) );
-    		return dataSet.getScriptable();
+					"get");
+    		return dataSet.getJSDataSetObject();
     	}
     	else if ( name.equals(COLUMN_MD) )
     	{
@@ -274,7 +220,7 @@ public class JSRowObject extends ScriptableObject
 		{
 			try
 			{
-				return getCurrentRowIndex( );
+				return new Integer( dataSet.getCurrentRowIndex( ));
 			}
 			catch ( DataException e )
 			{
@@ -290,16 +236,9 @@ public class JSRowObject extends ScriptableObject
     	// Try column names
         try
 		{
-			IResultObject obj = this.getResultObject( );
-			if ( obj != null ){
-				if ( logger.isLoggable( Level.FINER ) )
-	    			logger.exiting( JSRowObject.class.getName( ),
-						"get",
-						obj.getFieldValue( name ) );
-				return obj.getFieldValue( name );
-			}
+        	return dataSet.getDataRow().getColumnValue( name );
 		}
-		catch ( DataException e )
+		catch ( BirtException e )
 		{
 			// Fall through and let super return not-found
     		logger.logp( Level.FINER,
@@ -312,18 +251,12 @@ public class JSRowObject extends ScriptableObject
     		// re-handle the return object and then return an Undefined type object to the caller
       		return new DataExceptionMocker( e );
  		}
-		
-		if ( logger.isLoggable( Level.FINER ) )
-			logger.exiting( JSRowObject.class.getName( ),
-				"get",
-				super.get( name, start ) );
-		return super.get( name, start );
     }
 
     /** Gets a JS object that implements the ColumnDefn[] array */
     Scriptable getColumnMetadataScriptable()
 	{
-		IResultObject obj = this.getResultObject( );
+		IResultObject obj = dataSet.getCurrentRow();
 		if ( obj == null || obj.getResultClass() == null )
 			return null;
 		
@@ -353,21 +286,7 @@ public class JSRowObject extends ScriptableObject
     	value = getRealValue( value );
         try
 		{
-        	IResultObject obj = this.getResultObject( );
-        	int fieldIndex = -1;
-        	if ( obj != null )
-        		fieldIndex = obj.getResultClass().getFieldIndex( name );
-        	
-			if ( fieldIndex >= 0 )
-			{
-				// Update column value only of allowUpdate; otherwise no-op
-				setFieldValue( fieldIndex, value );
-			}
-			else
-			{
-			    // Not a column managed by us, let super handle it
-			    super.put( name, start, value );
-			}
+        	dataSet.getDataRow().setColumnValue( name, value );
 		}
 		catch ( BirtException e )
 		{
@@ -393,17 +312,7 @@ public class JSRowObject extends ScriptableObject
 		value = getRealValue( value );
         try
 		{
-        	IResultObject obj = this.getResultObject( );    	
-			if ( index >= 0	&& obj != null
-					&& index <= obj.getResultClass( ).getFieldCount( ) )
-			{
-				setFieldValue( index, value );
-			}
-			else
-			{
-			    // Not a column managed by us, let super handle it
-			    super.put( index, start, value );
-			}
+        	dataSet.getDataRow().setColumnValue( index, value);
 		}
 		catch ( BirtException e )
 		{
@@ -431,79 +340,4 @@ public class JSRowObject extends ScriptableObject
 			return value;
 	}
     
-    /** 
-     * Sets the value of a custom field
-     * @param fieldIndex 1-based index of custom field
-     */
-    private void setFieldValue( int fieldIndex, Object value ) 
-    	throws BirtException
-    {
-    	if ( ! allowUpdate )
-    		return;		// updates not allowed; ignore
-    	
-    	IResultObject obj = this.getResultObject( );
-    	
-		// Observe the type restriction on the column
-		Class fieldClass = obj.getResultClass().getFieldValueClass(fieldIndex);
-		if ( fieldClass != DataType.AnyType.class )
-		{
-			value = DataTypeUtil.convert( value, fieldClass);
-		}
-		obj.setCustomFieldValue( fieldIndex, value );
-    }
-    
-    /**
-     * Get result object
-     * 1> from IResultObject
-     * 2> from CachedResultSet
-     * @return
-     */
-    protected IResultObject getResultObject( )
-	{
-		IResultObject resultObject;
-		if ( resultSet != null )
-		{
-			try
-			{
-				resultObject = resultSet.getCurrentResult( );
-			}
-			catch ( DataException e )
-			{
-				resultObject = null;
-			}
-		}
-		else
-		{
-			resultObject = resultObj;
-		}
-		// assert resultObject!=null;
-		return resultObject;
-	}
-
-	/**
-	 * Indicates the index of the current result row
-	 */
-	public void setCurrentRowIndex( int currentRowIndex )
-	{
-		this.currentRowIndex = currentRowIndex;
-	}
-
-	/**
-	 * Gets value of row[0]
-	 * @return
-	 * @throws DataException
-	 */
-	private Object getCurrentRowIndex( ) throws DataException
-	{
-		int rowID;
-		if ( resultSet != null )
-			rowID = resultSet.getCurrentResultIndex( );
-		else
-			rowID = this.currentRowIndex;
-
-		logger.exiting( JSRowObject.class.getName( ),
-				"get",
-				new Integer( rowID ) );
-		return new Integer( rowID );
-	}
 }

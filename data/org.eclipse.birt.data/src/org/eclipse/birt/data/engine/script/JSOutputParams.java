@@ -15,7 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
+import org.eclipse.birt.data.engine.impl.DataSetRuntime;
+import org.eclipse.birt.data.engine.impl.PreparedExtendedDSQuery;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -24,23 +25,20 @@ import org.mozilla.javascript.ScriptableObject;
  */
 public class JSOutputParams extends ScriptableObject
 {
-	// JS class name
-	final private static String className = JSOutputParams.class.getName( );
-
 	// map to cache the parmeter name and its value
 	private Map valueMap = new HashMap( );
 
 	// parameter value provider
-	private IPreparedDSQuery preparedQuery;
+	PreparedExtendedDSQuery.ExtendedDSQueryExecutor queryExecutor;
 	
-	/**
-	 * @param preparedQuery
-	 */
-	public void setPreparedQuery( IPreparedDSQuery preparedDSQuery )
+	public JSOutputParams( DataSetRuntime dataSet )
 	{
-		assert preparedDSQuery != null;
-		
-		this.preparedQuery = preparedDSQuery;
+		// Output param is only available for ODA data sets
+		if ( dataSet.getQueryExecutor() instanceof PreparedExtendedDSQuery.ExtendedDSQueryExecutor )
+		{
+			queryExecutor = (PreparedExtendedDSQuery.ExtendedDSQueryExecutor)( 
+					dataSet.getQueryExecutor() );
+		}
 	}
 	
 	/*
@@ -48,7 +46,7 @@ public class JSOutputParams extends ScriptableObject
 	 */
 	public String getClassName( )
 	{
-		return className;
+		return "OutputParams";
 	}
 
 	/*
@@ -57,7 +55,7 @@ public class JSOutputParams extends ScriptableObject
 	public Object get( int index, Scriptable scope )
 	{
 		// needs to log
-		if ( preparedQuery == null )			
+		if ( queryExecutor == null )			
 			return null;
 		
 		Object paramValue = null;
@@ -70,8 +68,11 @@ public class JSOutputParams extends ScriptableObject
 		{
 			try
 			{
-				paramValue = preparedQuery.getOutputParameterValue( index );
-				valueMap.put( new Integer( index ), paramValue );
+				if ( queryExecutor.getPreparedOdiQuery() != null )
+				{
+					paramValue = queryExecutor.getPreparedOdiQuery().getOutputParameterValue( index );
+					valueMap.put( new Integer( index ), paramValue );
+				}
 			}
 			catch ( DataException e )
 			{
@@ -88,7 +89,7 @@ public class JSOutputParams extends ScriptableObject
 	public Object get( String name, Scriptable scope )
 	{
 		// needs to log
-		if ( preparedQuery == null )
+		if ( queryExecutor == null )
 			return null;
 		
 		Object paramValue = null;
@@ -101,8 +102,11 @@ public class JSOutputParams extends ScriptableObject
 		{
 			try
 			{
-				paramValue = preparedQuery.getOutputParameterValue( name );
-				valueMap.put( name, paramValue );
+				if ( queryExecutor.getPreparedOdiQuery() != null )
+				{
+					paramValue = queryExecutor.getPreparedOdiQuery().getOutputParameterValue( name );
+					valueMap.put( name, paramValue );
+				}
 			}
 			catch ( DataException e )
 			{

@@ -23,7 +23,7 @@ import java.util.logging.Level;
 /**
  * Encapulates the runtime definition of a generic extended data source.
  */
-public class OdaDataSourceRuntime extends DataSourceRuntime implements IOdaDataSourceDesign
+public class OdaDataSourceRuntime extends DataSourceRuntime
 {
 	private	Map			publicProperties;
 	private String		extensionID;
@@ -66,4 +66,5 @@ public class OdaDataSourceRuntime extends DataSourceRuntime implements IOdaDataS
 	{
 	    return getSubdesign().getPrivateProperties();
 	}
+	
 }

@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /** 
  * A report query's results opened and ready for data retrieval.  
@@ -62,7 +63,6 @@ class QueryResults implements IQueryResults
 		assert executor != null;
 	    assert query != null;
 	    assert reportQuery != null;
-	    assert executor.scope != null;
 	    
 	    this.context = context;
 	    this.reportQuery = reportQuery;
@@ -100,6 +100,12 @@ class QueryResults implements IQueryResults
 				QueryResults.class.getName( ),
 				"getResultIterator",
 				"start" );
+		
+		if ( queryExecutor == null )
+		{
+			throw new DataException( ResourceConstants.RESULT_CLOSED );
+		}
+		
 	    if ( iterator == null )
 	    {
 	    	queryExecutor.execute();
@@ -107,7 +113,7 @@ class QueryResults implements IQueryResults
 					this,
 					this.query,
 					queryExecutor.odiResult,
-					queryExecutor.scope );
+					queryExecutor.getQueryScope() );
 	    }
 		logger.logp( Level.FINE,
 				QueryResults.class.getName( ),
@@ -122,6 +128,11 @@ class QueryResults implements IQueryResults
 	 */
 	public IResultMetaData getResultMetaData() throws DataException
 	{
+		if ( queryExecutor == null )
+		{
+			throw new DataException( ResourceConstants.RESULT_CLOSED );
+		}
+		
 		try
 		{
 			return queryExecutor.getResultMetaData();

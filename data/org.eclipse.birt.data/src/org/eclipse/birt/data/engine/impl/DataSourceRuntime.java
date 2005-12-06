@@ -16,15 +16,18 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
+import org.eclipse.birt.data.engine.api.script.IDataSourceEventHandler;
+import org.eclipse.birt.data.engine.api.script.IDataSourceInstance;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.script.JSDataSource;
-import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.mozilla.javascript.Context;
+import org.eclipse.birt.data.engine.script.DataSourceJSEventHandler;
+import org.eclipse.birt.data.engine.script.ScriptDataSourceJSEventHandler;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -32,26 +35,51 @@ import org.mozilla.javascript.Scriptable;
  * properties are updatable by scripts at runtime. Value of those properties are retained
  * by this class. Value for non-modifiable properties are delegated to the design object
  */
-public abstract class DataSourceRuntime implements IBaseDataSourceDesign
+public abstract class  DataSourceRuntime implements IDataSourceInstance
 {
 	/** Associated data source design */
 	private IBaseDataSourceDesign	design;
 	
 	/** Javascript DataSource object that wraps this data source */
-	private Scriptable				jsObject;
+	private Scriptable				jsDataSourceObject;
 
 	/** An open OdiDataSource associated with this data source
 	   If null, this data source is not open */
 	private IDataSource				odiDataSource = null;
 	
-	private Scriptable 				scope;
+	protected DataEngineImpl		dataEngine;
 	
 	protected static Logger logger = Logger.getLogger( DataSourceRuntime.class.getName( ) );
 	
-	protected DataSourceRuntime( IBaseDataSourceDesign dataSource, DataEngineImpl dataEngine )
+	private IDataSourceEventHandler eventHandler;
+	
+	protected DataSourceRuntime( IBaseDataSourceDesign dataSourceDesign, DataEngineImpl dataEngine )
 	{
-		assert dataSource != null;
-		design = dataSource;
+		assert dataSourceDesign != null;
+		design = dataSourceDesign;
+		this.dataEngine = dataEngine;
+		eventHandler = dataSourceDesign.getEventHandler();
+		
+		/*
+		 * TODO: TEMPORARY the follow code is temporary. It will be removed once Engine takes over
+		 * script execution from DtE
+		 */
+		if ( eventHandler == null )
+		{
+			if ( dataSourceDesign instanceof IScriptDataSourceDesign )
+				eventHandler = new ScriptDataSourceJSEventHandler( 
+						(IScriptDataSourceDesign) dataSourceDesign );
+			else
+				eventHandler = new DataSourceJSEventHandler( dataSourceDesign );
+		}
+		/*
+		 * END Temporary 
+		 */
+	}
+	
+	protected IDataSourceEventHandler getEventHandler()
+	{
+		return eventHandler;
 	}
 	
 	/**
@@ -63,13 +91,8 @@ public abstract class DataSourceRuntime implements IBaseDataSourceDesign
 		return design;
 	}
 
-	/**
-	 * Sets the IBaseDataSourceDesign object which defines the design time properties
-	 * associated with this data source
-	 */
 	public void setDesign( IBaseDataSourceDesign design )
 	{
-		assert design != null;
 		this.design = design;
 	}
 	
@@ -82,65 +105,27 @@ public abstract class DataSourceRuntime implements IBaseDataSourceDesign
 		return design.getName();
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IBaseDataSourceDesign#getAfterCloseScript()
-	 */
-	public String getAfterCloseScript()
-	{
-		return design.getAfterCloseScript();
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IBaseDataSourceDesign#getAfterOpenScript()
-	 */
-	public String getAfterOpenScript()
-	{
-		return design.getAfterOpenScript();
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IBaseDataSourceDesign#getBeforeCloseScript()
-	 */
-	public String getBeforeCloseScript()
-	{
-		return design.getBeforeCloseScript();
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IBaseDataSourceDesign#getBeforeOpenScript()
-	 */
-	public String getBeforeOpenScript()
-	{
-		return design.getBeforeOpenScript();
-	}
-		
-	/**
-	 * Define the scope of this data source.
-	 * @param scope
-	 */
-	public void setScope(Scriptable scope)
-	{
-		assert ( scope != null );
-		
-		this.scope = scope;
-		if ( this.jsObject != null )
-		{
-			this.jsObject.setParentScope( this.scope );
-		}
-	}
-	
 	/**
 	 * Gets a ROM Script DataSource object wrapper for this object
 	 */
-	public Scriptable getScriptable( )
+	public Scriptable getJSDataSourceObject( )
 	{
-		assert ( this.scope != null );
 		// Script object is created on demand
-		if ( jsObject == null )
+		if ( jsDataSourceObject == null )
 		{
-			jsObject = new JSDataSource(this, this.scope);//DataEngineImpl.createSubscope( dataEngine.getSharedScope() ) ); 
+			jsDataSourceObject = new JSDataSource(this, dataEngine.getSharedScope()); 
 		}
-		return jsObject;
+
+		return jsDataSourceObject;
+	}
+	
+	/**
+	 * @see org.eclipse.birt.data.engine.api.script.IJavascriptContext#getScriptScope()
+	 */
+	public Scriptable getScriptScope()
+	{
+		// Data source event handlers are executed as methods on the DataSet object
+		return getJSDataSourceObject();
 	}
 	
 	/**
@@ -210,45 +195,65 @@ public abstract class DataSourceRuntime implements IBaseDataSourceDesign
 	/** Executes the beforeOpen script associated with the data source */
 	public void beforeOpen() throws DataException
 	{
-		runScript( getBeforeOpenScript(), "beforeOpen" );
+		if ( eventHandler != null )
+		{
+			try
+			{
+				eventHandler.beforeOpen( this );
+			}
+			catch (BirtException e)
+			{
+				throw DataException.wrap(e);
+			}
+		}
 	}
 	
 	/** Executes the beforeClose script associated with the data source */
 	public void beforeClose() throws DataException
 	{
-		runScript( getBeforeCloseScript(), "beforeClose" );
+		if ( eventHandler != null )
+		{
+			try
+			{
+				eventHandler.beforeClose( this );
+			}
+			catch (BirtException e)
+			{
+				throw DataException.wrap(e);
+			}
+		}
 	}
 	
 	/** Executes the afterOpen script associated with the data source */
 	public void afterOpen() throws DataException
 	{
-		runScript( getAfterOpenScript(), "afterOpen" );
+		if ( eventHandler != null )
+		{
+			try
+			{
+				eventHandler.afterOpen( this );
+			}
+			catch (BirtException e)
+			{
+				throw DataException.wrap(e);
+			}
+		}
 	}
 	
 	/** Executes the afterClose script associated with the data source */
 	public void afterClose() throws DataException
 	{
-		runScript( getAfterCloseScript(), "afterClose" );
-	}
-	
-	protected Object runScript( String script, String eventName ) throws DataException
-	{
-		if ( script != null && script.length() > 0 )
+		if ( eventHandler != null )
 		{
-			Context cx = Context.enter();
-			
 			try
 			{
-				return ScriptEvalUtil.evaluateJSAsMethod( cx, getScriptable(), 
-						script, 
-						"DataSource:" + getName() + "." + eventName, 
-						0 ); 
+				eventHandler.afterClose( this );
 			}
-			finally
+			catch (BirtException e)
 			{
-				Context.exit();
+				throw DataException.wrap(e);
 			}
 		}
-		return null;
 	}
+	
 }

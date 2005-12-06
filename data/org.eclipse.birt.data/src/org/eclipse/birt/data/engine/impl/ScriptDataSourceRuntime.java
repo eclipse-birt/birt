@@ -14,20 +14,28 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
+import org.eclipse.birt.data.engine.api.script.IScriptDataSourceEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 
 /**
  * Encapulates the runtime definition of a scripted data source.
  */
-public class ScriptDataSourceRuntime extends DataSourceRuntime implements IScriptDataSourceDesign
+public class ScriptDataSourceRuntime extends DataSourceRuntime
 {
+	private IScriptDataSourceEventHandler scriptEventHandler; 
     ScriptDataSourceRuntime( IScriptDataSourceDesign dataSource, DataEngineImpl dataEngine )
     {
         super( dataSource, dataEngine );
+        if ( getEventHandler() instanceof IScriptDataSourceEventHandler )
+        	scriptEventHandler = (IScriptDataSourceEventHandler)getEventHandler();
+        
 		logger.log(Level.FINER,"ScriptDataSourceRuntime starts up");
     }
 
@@ -36,26 +44,36 @@ public class ScriptDataSourceRuntime extends DataSourceRuntime implements IScrip
 		return (IScriptDataSourceDesign) getDesign();
 	}
     
-    public String getOpenScript()
-    {
-        return getSubdesign().getOpenScript();
-    }
-    
     /** Executes the open script; returns its result */
-    public Object runOpenScript() throws DataException
+    public void open() throws DataException
     {
-    	return runScript( getOpenScript(), "open");
-    }
-    
-    public String getCloseScript()
-    {
-        return getSubdesign().getCloseScript();
+		if ( scriptEventHandler != null )
+		{
+			try
+			{
+				scriptEventHandler.open( this );
+			}
+			catch (BirtException e)
+			{
+				throw DataException.wrap(e);
+			}
+		}
     }
     
     /** Executes the close script; returns its result */
-    public Object runCloseScript() throws DataException
+    public void close() throws DataException
 	{
-    	return runScript( getCloseScript(), "close");
+		if ( scriptEventHandler != null )
+		{
+			try
+			{
+				scriptEventHandler.close( this );
+			}
+			catch (BirtException e)
+			{
+				throw DataException.wrap(e);
+			}
+		}
 	}
 
 	/**
@@ -64,10 +82,9 @@ public class ScriptDataSourceRuntime extends DataSourceRuntime implements IScrip
 	public void openOdiDataSource(IDataSource odiDataSource) throws DataException
 	{
 		// This is when we should run the Open script associated with the script data source
-		runOpenScript();
+		open();
 		super.openOdiDataSource(odiDataSource);
 	}
-	
 	
 	/**
 	 * @see org.eclipse.birt.data.engine.impl.DataSourceRuntime#closeOdiDataSource()
@@ -75,7 +92,28 @@ public class ScriptDataSourceRuntime extends DataSourceRuntime implements IScrip
 	public void closeOdiDataSource() throws DataException
 	{
 		// This is when we should run the Open script associated with the script data source
-		runCloseScript();
+		close();
 		super.closeOdiDataSource();
 	}
+
+	/**
+	 * @see org.eclipse.birt.data.engine.impl.DataSourceRuntime#getExtensionID()
+	 */
+	public String getExtensionID()
+	{
+		// This is not ODA data source; it has no extension ID
+		// Return a fixed string
+		return "SCRIPT";
+	}
+
+	/**
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstance#getPublicProperties()
+	 */
+	public Map getPublicProperties()
+	{
+		// No public properties for Script data source
+		return new HashMap();
+	}
+	
+	
 }

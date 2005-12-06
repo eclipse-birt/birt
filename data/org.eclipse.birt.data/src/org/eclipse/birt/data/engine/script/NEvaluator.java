@@ -143,8 +143,7 @@ abstract class NEvaluator extends FilterPassController
 				}
 				catch ( BirtException e )
 				{
-			    	DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
-					throw e1;
+					throw DataException.wrap(e);
 				}
 			}
 		}

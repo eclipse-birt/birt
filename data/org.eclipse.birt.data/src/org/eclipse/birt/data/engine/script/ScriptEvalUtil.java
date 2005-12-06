@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.CompiledExpression;
 import org.eclipse.birt.data.engine.impl.LogUtil;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.IdScriptableObject;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
@@ -598,33 +599,6 @@ public class ScriptEvalUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static Object evaluateJSAsMethod (Context cx, Scriptable scope, String scriptText, String source, int lineNo) throws DataException
-	{
-	    if ( logger.isLoggable( Level.FINER ) )
-			logger.entering( ScriptEvalUtil.class.getName( ),
-				"evaluateJSExpr",
-				"evaluateJSExpr() scriptText=" + scriptText 
-				+ ", source=" + source 
-				+ ", lineNo=" + lineNo);
-	    
-	    Object result = evaluateJSScript (cx, scope, ScriptUtil.getTailoredScript( scriptText , scope ) , source, lineNo);
-	    
-	    if ( logger.isLoggable( Level.FINER ) )
-			logger.exiting( ScriptEvalUtil.class.getName( ),
-					"evaluateJSExpr",
-					convertNativeObjToJavaObj( result ) );
-	    return result;
-	}
-	
-	/**
-	 * @param cx
-	 * @param scope
-	 * @param scriptText
-	 * @param source
-	 * @param lineNo
-	 * @return
-	 * @throws DataException
-	 */
 	private static Object evaluateJSScript(Context cx, Scriptable scope,
 			String scriptText, String source, int lineNo)
 			throws DataException 
@@ -640,7 +614,7 @@ public class ScriptEvalUtil
 			// the result might be a DataExceptionMocker.
 			if ( result instanceof DataExceptionMocker )
 			{
-				throw ( (DataExceptionMocker) result ).getCause( );
+				throw DataException.wrap( ((DataExceptionMocker) result ).getCause( ));
 			}
 			// It seems Rhino 1.6 has changed its way to process incorrect expression.
 			// When there is an error, exception will not be thrown, but rather an Undefined
@@ -671,12 +645,13 @@ public class ScriptEvalUtil
 			logger.entering( ScriptEvalUtil.class.getName( ),
 					"convertNativeObjToJavaObj",
 					LogUtil.toString( inputObj ) );
-		if ( inputObj instanceof Scriptable) 
+		
+		if ( inputObj instanceof IdScriptableObject ) 
 		{
-			// Return type is a Javascript native object
+			// Return type is possibly a Javascript native object
 			// Convert to Java object with same value
 			String jsClass = ((Scriptable) inputObj).getClassName();
-			if (jsClass.equals("Date")) 
+			if ( "Date".equals(jsClass) ) 
 			{
 				if ( logger.isLoggable( Level.FINER ) )
 					logger.exiting( ScriptEvalUtil.class.getName( ),
@@ -684,7 +659,7 @@ public class ScriptEvalUtil
 							new Date( (long) Context.toNumber( inputObj ) ) );
 					return new Date( (long) Context.toNumber( inputObj ) );
 			} 
-			else if (jsClass.equals("Boolean")) 
+			else if ( "Boolean".equals(jsClass)) 
 			{
 				if ( logger.isLoggable( Level.FINER ) )
 					logger.exiting( ScriptEvalUtil.class.getName( ),
@@ -692,7 +667,7 @@ public class ScriptEvalUtil
 							new Boolean( Context.toBoolean( inputObj ) ) );
 				return new Boolean(Context.toBoolean(inputObj));
 			} 
-			else if (jsClass.equals("Number")) 
+			else if ( "Number".equals(jsClass)) 
 			{
 				if ( logger.isLoggable( Level.FINER ) )
 					logger.exiting( ScriptEvalUtil.class.getName( ),
@@ -700,26 +675,19 @@ public class ScriptEvalUtil
 							new Double( Context.toNumber( inputObj ) ) );
 				return new Double(Context.toNumber(inputObj));
 			} 
-			else if(jsClass.equals("String"))
+			else if( "String".equals(jsClass) )
 			{
-				// For JS "String" type, toString gives the correct result
-				// For all other types that we cannot handle, toString is the best we can do
 				if ( logger.isLoggable( Level.FINER ) )
 					logger.exiting( ScriptEvalUtil.class.getName( ),
 							"convertNativeObjToJavaObj",
 							inputObj.toString( ).trim() );
 				return inputObj.toString();
 			}
-			else
-			{
-		    	if ( inputObj instanceof NativeJavaObject )
-		    		inputObj = ( (NativeJavaObject) inputObj ).unwrap( );
-		    	else
-		    		return Context.toType( inputObj, Object.class );
-			}
 		}
-		else if ( inputObj!= null && inputObj.toString().equalsIgnoreCase("NaN") )
-		    inputObj = null;
+		else if ( inputObj instanceof NativeJavaObject )
+		{
+		    return ( (NativeJavaObject) inputObj ).unwrap( );
+		}
 		
 		if ( logger.isLoggable( Level.FINER ) )
 			logger.exiting( ScriptEvalUtil.class.getName( ),

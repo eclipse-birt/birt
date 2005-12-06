@@ -102,9 +102,10 @@ public class ResourceConstants
 	public final static String WRITE_TEMPFILE_ERROR = "data.engine.WriteTempError";
 	public final static String READ_TEMPFILE_ERROR = "data.engine.ReadTempError";
 	
-	// wrapper error
+	// wrapped error
 	public final static String DATATYPEUTIL_ERROR = "data.engine.DataConversionError";
 	public final static String INVALID_TYPE_IN_EXPR = "data.engine.BadDataTypeCondExpr";
+	public final static String WRAPPED_BIRT_EXCEPTION = "data.engine.BirtException";
 	
 	// error related with data engine context
 	public final static String RD_INVALID_MODE = "data.engine.InvalidMode";
@@ -132,7 +133,8 @@ public class ResourceConstants
 	public static final String NO_EXPRESSION_PROCESSOR_AVAILABLE = "data.engine.NoExpressionProcessorAvailable";
 	public static final String INCONVERTIBLE_DATATYPE="data.engine.InconvertibleDatatype";
 	public static final String CONVERT_TO_DATATYPE_ERROR="data.engine.ConvertToDataTypeError";
-
+	public static final String NO_ROW_UPDATE="data.engine.NoRowUpdate";
+	
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";

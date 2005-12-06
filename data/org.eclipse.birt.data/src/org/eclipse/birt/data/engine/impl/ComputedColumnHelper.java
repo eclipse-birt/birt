@@ -26,10 +26,8 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
-import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
 
 /**
  * One of implemenation of IResultObjectEvent interface.
@@ -38,11 +36,7 @@ import org.mozilla.javascript.Scriptable;
  */
 public class ComputedColumnHelper implements IResultObjectEvent
 {
-	// scope which is used to evaluate computed column value
-	private Scriptable scope;
-
-	// row object which will bind with row script object
-	private JSRowObject rowObject;
+	private DataSetRuntime dataSet;
 	
 	// computed column list passed from external caller
 	private List ccList;
@@ -58,16 +52,13 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	
 	protected static Logger logger = Logger.getLogger( ComputedColumnHelper.class.getName( ) );
 
-	ComputedColumnHelper( Scriptable scope, JSRowObject rowObject, List ccList)
+	ComputedColumnHelper( DataSetRuntime dataSet, List ccList)
 	{
 		logger.log( Level.FINER, "ComputedColumnHelper starts up" );
-		assert scope != null;
-		assert rowObject != null;
 		assert ccList != null && ccList.size( ) > 0;
-		this.scope = scope;
-		this.rowObject = rowObject;
 		this.ccList = ccList;
 		this.isPrepared = false;
+		this.dataSet = dataSet;
 	}
 
 	public List getComputedColumnList()
@@ -96,8 +87,8 @@ public class ComputedColumnHelper implements IResultObjectEvent
 		}
 		
 		// bind new object to row script object
-		rowObject.setRowObject( resultObject, true );
-		rowObject.setCurrentRowIndex( rowIndex );
+		dataSet.setRowObject( resultObject, true );
+		dataSet.setCurrentRowIndex( rowIndex );
 		// now assign the computed value to each of its projected computed
 		// columns
 		Context cx = Context.enter( );
@@ -111,10 +102,11 @@ public class ComputedColumnHelper implements IResultObjectEvent
 				{
 					Object value = null;
 					if ( columnExprArray[i].getHandle() != null)
-						value = ((CompiledExpression)columnExprArray[i].getHandle()).evaluate(cx,scope);
+						value = ((CompiledExpression)columnExprArray[i].getHandle()).evaluate(cx,
+									dataSet.getScriptScope() );
 					else
 						value = ScriptEvalUtil.evaluateJSAsExpr( cx,
-								scope,
+								dataSet.getJSDataSetObject(),
 								((IScriptExpression)columnExprArray[i]).getText(),
 								"ComputedColumn",
 								0 );
