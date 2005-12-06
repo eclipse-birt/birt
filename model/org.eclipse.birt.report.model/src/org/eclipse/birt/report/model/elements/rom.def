@@ -1811,7 +1811,7 @@
     <Method context="factory" displayNameID="Element.DataSet.afterClose" name="afterClose" since="1.0" toolTipID="Element.DataSet.afterClose.toolTip" >
       <Argument name="reportContext" tagID="Element.DataSet.afterClose.reportContext" type="IReportContext"/>
       <Argument name="object" tagID="Element.DataSet.afterClose.object" type="Object"/>
-	</Method>	
+	</Method>	 
     <Property detailType="DataSource" displayNameID="Element.DataSet.dataSource" name="dataSource" since="1.0" type="element" valueRequired="true"/>    
     <Property detailType="DataSetParam" displayNameID="Element.DataSet.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
     <Property detailType="ParamBinding" displayNameID="Element.DataSet.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>
@@ -1847,6 +1847,7 @@
     <Property displayNameID="Element.OdaDataSet.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string"/>
     <Property displayNameID="Element.OdaDataSet.queryText" name="queryText" since="1.0" type="string"/>
     <Property displayNameID="Element.OdaDataSet.resultSetName" name="resultSetName" since="reserved" type="string"/>
+    <Property displayNameID="Element.OdaDataSet.cachedRowCount" name="cachedRowCount" since="2.0" type="integer"/>
     <Property detailType="ExtendedProperty" displayNameID="Element.OdaDataSet.privateDriverProperties" isList="true" name="privateDriverProperties" since="1.0" type="structure"/>
     <PropertyVisibility name="extensionID" visibility="hide"/>
     <PropertyVisibility name="resultSetName" visibility="hide"/>

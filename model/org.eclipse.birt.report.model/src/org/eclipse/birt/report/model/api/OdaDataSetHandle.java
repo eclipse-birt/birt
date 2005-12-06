@@ -62,8 +62,8 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 
 	/**
 	 * Returns the script for query.
-     * 
-     * @deprecated to be removed.
+	 * 
+	 * @deprecated to be removed.
 	 * @return the script for query .
 	 */
 
@@ -124,8 +124,8 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	/**
 	 * Sets the query script.
 	 * 
-     * @deprecated to be removed.
-     * 
+	 * @deprecated to be removed.
+	 * 
 	 * @param script
 	 *            the script to set
 	 * @throws SemanticException
@@ -288,5 +288,26 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 					.getLocalProperties( );
 
 		return Collections.EMPTY_LIST;
+	}
+
+	/**
+	 * sets the cached row count property value.
+	 * 
+	 *  @throws SemanticException
+	 */
+	public void setCachedRowCount( int count ) throws SemanticException
+	{
+		setIntProperty( CACHED_ROW_COUNT_PROP, count );
+	}
+	
+	/**
+	 * Returns the value of cached row count property.
+	 * 
+	 * @return
+	 * 		the row count.
+	 */
+	public int getCachedRowCount(){
+		
+		return getIntProperty(CACHED_ROW_COUNT_PROP);
 	}
 }

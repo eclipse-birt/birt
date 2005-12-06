@@ -207,7 +207,8 @@ public class SlotHandle extends ElementDetailHandle
 	{
 		add( content, newPos );
 
-		return checkPostPasteErrors( content.getElement( ) );
+		return Collections.EMPTY_LIST;
+//		return checkPostPasteErrors( content.getElement( ) );
 	}
 
 	/**

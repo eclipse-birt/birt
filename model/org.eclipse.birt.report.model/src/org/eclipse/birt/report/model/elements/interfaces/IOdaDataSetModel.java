@@ -43,7 +43,9 @@ public interface IOdaDataSetModel
 	public static final String PRIVATE_DRIVER_PROPERTIES_PROP = "privateDriverProperties"; //$NON-NLS-1$
 
 	/**
-	 * The extensibility provider which provides the functionality of this
-	 * extendable element.
+	 * The property name of cached row count.
 	 */
+	public static final String CACHED_ROW_COUNT_PROP = "cachedRowCount"; //$NON-NLS-1$
+
+
 }

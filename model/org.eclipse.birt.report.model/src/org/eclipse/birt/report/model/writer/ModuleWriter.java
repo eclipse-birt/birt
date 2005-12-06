@@ -2465,6 +2465,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		}
 
 		property( obj, OdaDataSet.RESULT_SET_NAME_PROP );
+		property( obj, OdaDataSet.CACHED_ROW_COUNT_PROP );
 
 		List properties = (List) obj.getLocalProperty( getModule( ),
 				OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP );
