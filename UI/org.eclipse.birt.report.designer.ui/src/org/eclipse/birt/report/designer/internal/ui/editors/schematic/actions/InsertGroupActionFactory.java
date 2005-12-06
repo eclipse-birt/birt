@@ -138,11 +138,22 @@ abstract class InsertPositionGroupAction extends Action
 	 */
 	public boolean isEnabled( )
 	{
-		return getTableEditPart( ) != null
-				^ getListEditPart( ) != null
-				&& ( (TableHandle) getTableEditPart( ).getModel( ) )
-						.canContain( TableHandle.GROUP_SLOT,
-								ReportDesignConstants.GROUP_ELEMENT );
+		boolean canContain = false;
+
+		if ( getTableEditPart( ) != null )
+		{
+			canContain = ( (TableHandle) getTableEditPart( ).getModel( ) )
+					.canContain( TableHandle.GROUP_SLOT,
+							ReportDesignConstants.TABLE_GROUP_ELEMENT );
+		}
+		if ( getListEditPart( ) != null )
+		{
+			canContain = ( (ListHandle) getListEditPart( ).getModel( ) )
+					.canContain( ListHandle.GROUP_SLOT,
+							ReportDesignConstants.LIST_GROUP_ELEMENT );
+
+		}
+		return canContain;
 	}
 
 	/**
