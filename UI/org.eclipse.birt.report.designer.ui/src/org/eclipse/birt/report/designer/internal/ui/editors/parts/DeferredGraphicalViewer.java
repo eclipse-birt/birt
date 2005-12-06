@@ -386,7 +386,7 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 		public int minY, maxY, valueY, extendY;
 	}
 
-	protected class EditorReportRequestConvert implements IRequestConvert
+	public static class EditorReportRequestConvert implements IRequestConvert
 	{
 
 		/*

@@ -19,10 +19,13 @@ import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.commands.DeleteColumnCommand;
 import org.eclipse.birt.report.designer.core.commands.DeleteRowCommand;
 import org.eclipse.birt.report.designer.core.model.ITableAdapterHelper;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SectionBorder;
@@ -253,7 +256,8 @@ public class TableEditPart extends ReportElementEditPart implements
 
 				if ( ( (ContentEvent) ev ).getAction( ) == ContentEvent.REMOVE )
 				{
-					this.getViewer( ).select( this );
+					//this.getViewer( ).select( this );
+					reselectTable(); 
 				}
 				break;
 			}
@@ -312,6 +316,24 @@ public class TableEditPart extends ReportElementEditPart implements
 
 	}
 
+	private void reselectTable()
+	{
+		if (isDelete())
+		{
+			return;
+		}
+		ReportRequest request = new ReportRequest( this );
+		List list = new ArrayList( );
+		list.add(this);
+		request.setSelectionObject( list );
+		request.setType( ReportRequest.SELECTION );
+
+		request.setRequestConvert( new DeferredGraphicalViewer.EditorReportRequestConvert( ) );
+		// SessionHandleAdapter.getInstance().getMediator().pushState();
+		SessionHandleAdapter.getInstance( )
+				.getMediator( )
+				.notifyRequest( request );
+	}
 	/**
 	 * Re-layouts table.
 	 */
