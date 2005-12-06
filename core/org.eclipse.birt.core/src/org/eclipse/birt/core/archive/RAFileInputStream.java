@@ -91,9 +91,9 @@ public class RAFileInputStream extends RAInputStream
      * This method blocks until the four bytes are read, the end of the 
      * stream is detected, or an exception is thrown. 
      *
-     * @return     the next four bytes of this file, interpreted as an
+     * @return     the next four bytes of this stream, interpreted as an
      *             <code>int</code>.
-     * @exception  EOFException  if this file reaches the end before reading
+     * @exception  EOFException  if this stream reaches the end before reading
      *               four bytes.
      * @exception  IOException   if an I/O error occurs.
      */

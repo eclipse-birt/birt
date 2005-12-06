@@ -76,17 +76,21 @@ public class RAFileOutputStream extends RAOutputStream
 	}
 
 	/**
-	 * Move the file pointer to the new location in the stream
-	 * @param localPos - the new local postion in the stream  
+	 * Same behavior as the seek in RandomAccessFile. <br>
+	 * Sets the file-pointer offset, measured from the beginning of this 
+     * file, at which the next read or write occurs.  The offset may be 
+     * set beyond the end of the file. Setting the offset beyond the end 
+     * of the file does not change the file length.  The file length will 
+     * change only by writing after the offset has been set beyond the end 
+     * of the file. 
+
+	 * @param localPos - the new local postion in the stream, measured in bytes from the 
+     *                   beginning of the stream  
 	 */
 	public void seek( long localPos ) throws IOException 
 	{		
 		seekParent( localPos );
-		cur = localPos;
-		
-		long tmp = parent.getFilePointer();
-		if (tmp > endPos)
-			endPos = tmp;
+		cur = localPos;		
 	}
 
 	/**

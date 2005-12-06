@@ -34,8 +34,7 @@ public interface IDocArchiveReader {
 	
 	/**
 	 * This functiona must be called before the reader is used.
-	 * initialize the document archive. For example, if the archive is in a
-	 * compressed format, it may be decompressed. Also, the index stream mey be
+	 * initialize the document archive. For example, the index stream mey be
 	 * read into memory. 
 	 */
 	public void open( ) throws IOException;
@@ -43,27 +42,34 @@ public interface IDocArchiveReader {
 	/**
 	 * returns a sequential access file.
 	 * 
-	 * path is based on Unix syntax, with the root of the archive denoted 
+	 * @param relativePath - the relative stream path in the archive. 
+	 * The relative path is based on Unix syntax, with the root of the archive denoted 
 	 * by "/". The initial "/" character can be skipped. 
-	 * Used mainly for sequential streams in report.  
-	 * 
-	 * @param path the full path to the file 
-	 * @return a File object for the specific stream
+	 * Used mainly for sequential streams in report.
+	 *   
+	 * @return RAInputStream
 	 */
-	public RAInputStream getStream(String path) throws IOException;
+	public RAInputStream getStream( String relativePath ) throws IOException;
 	
 	/**
-	 * @param path the full path to the file
+	 * @param relativePath - the relative stream path in the archive. 
+	 * The relative path is based on Unix syntax, with the root of the archive denoted 
+	 * by "/". The initial "/" character can be skipped. 
+	 * Used mainly for sequential streams in report.
+	 *   
 	 * @return whether the stream exist
 	 */
-	public boolean exists(String path) throws IOException;
+	public boolean exists(String relativePath);
 	
 	/**
-	 * @param path the path for a storage, or stream. 
+	 * @param relativeStoragePath - the relative stream path in the archive. 
+	 * The relative path is based on Unix syntax, with the root of the archive denoted 
+	 * by "/". The initial "/" character can be skipped.
+	 * 
 	 * @return a list of strings representing the underlying stream 
-	 * names. If a stream path is passed to the function, returns null.  
+	 * names. The return values are in the relative path format too.  
 	 */
-	public List listStreams(String storagePath) throws IOException;
+	public List listStreams(String relativeStoragePath) throws IOException;
 	
 	/**
 	 * This function must be called after the reader is used.

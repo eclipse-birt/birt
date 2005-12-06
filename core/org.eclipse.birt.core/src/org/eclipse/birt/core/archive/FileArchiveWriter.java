@@ -95,11 +95,26 @@ public class FileArchiveWriter implements IDocArchiveWriter
 		return out;
 	}
 	
-	public String getFileName()
-	{
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#getName()
+	 */
+	public String getName() {
 		return fileName;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#exists()
+	 */
+	public boolean exists( String relativePath ) 
+	{
+		String path = ArchiveUtil.generateFullPath( tempFolder, relativePath );
+		File fd = new File(path);
+		return fd.exists();
+	}	
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#finish()
+	 */
 	public void finish() throws IOException
 	{
 		// Write the temp archive content to the compound file	
@@ -243,10 +258,4 @@ public class FileArchiveWriter implements IDocArchiveWriter
 	    return totalBytesWritten;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#getName()
-	 */
-	public String getName() {
-		return fileName;
-	}	
 }

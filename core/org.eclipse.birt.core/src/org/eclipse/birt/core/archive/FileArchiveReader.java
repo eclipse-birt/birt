@@ -44,10 +44,10 @@ public class FileArchiveReader implements IDocArchiveReader {
 		this.fileName = fileName;
 	}
 
-	/**
-	 * @return the name of the archive
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#getName()
 	 */
-	public String getFileName() {
+	public String getName() {
 		return fileName;
 	}
 
@@ -93,6 +93,9 @@ public class FileArchiveReader implements IDocArchiveReader {
 
 	public RAInputStream getStream( String relativePath ) throws IOException
 	{
+		if ( !relativePath.startsWith(ArchiveUtil.UNIX_SEPERATOR) )
+			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
+
 		Object entryValue = lookupMap.get( relativePath );
 		if (entryValue == null)
 			return null; // File doesn't exist
@@ -103,8 +106,11 @@ public class FileArchiveReader implements IDocArchiveReader {
 		return inputStream;
 	}
 
-	public boolean exists( String relativePath ) throws IOException
+	public boolean exists( String relativePath )
 	{
+		if ( !relativePath.startsWith(ArchiveUtil.UNIX_SEPERATOR) )
+			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
+
 		return ( lookupMap.get(relativePath) != null );
 	}
 
@@ -135,13 +141,6 @@ public class FileArchiveReader implements IDocArchiveReader {
 		}
 
 		return streamList;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#getName()
-	 */
-	public String getName() {
-		return fileName;
 	}
 
 }

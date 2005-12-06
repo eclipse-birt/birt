@@ -37,18 +37,26 @@ public interface IDocArchiveWriter {
 	public String getName();
 
 	/**
-	 * returns a File. The path is based on Unix 
-	 * syntax, with the root of the archive denoted by "/". The 
- 	 * initial "/" character can be skipped. 
+	 * Create a random access stream in the archive and return it.
 	 * 
-	 * All the parent folder of the specified stream are created if 
-	 * it is not exists, but the user need to create the stream itself. 
-	 * 
-	 * @param relative path to report archive path 
-	 * @return a File object for the specific stream
+	 * @param relativePath - relative path to report archive path. The path is based on Unix 
+	 * 						syntax, with the root of the archive denoted by "/". The 
+	 * 						initial "/" character can be skipped.
+	 *  
+	 * @return RAOutputStream
 	 */
 	public RAOutputStream createRandomAccessStream(String relativePath) throws IOException;
 	
+	/**
+	 * @param relativePath - the relative stream path in the archive. 
+	 * The relative path is based on Unix syntax, with the root of the archive denoted 
+	 * by "/". The initial "/" character can be skipped.
+	 * 
+	 * @return a list of strings representing the underlying stream 
+	 * names. The return values are in the relative path format too.  
+	 */
+	public boolean exists( String relativePath );
+
 	/**
 	 * This function must be called after the writer is used.
 	 * finalizes the socument archive. This may involve compressing the archive
