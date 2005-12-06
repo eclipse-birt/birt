@@ -11,12 +11,16 @@
 
 package org.eclipse.birt.chart.ui.util;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.Generator;
@@ -25,6 +29,7 @@ import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
@@ -491,6 +496,78 @@ public class ChartUIUtil
 		// ADD ALL ADAPTERS...AND REFRESH PREVIEW
 		// newSample.eAdapters( ).addAll( getChartModel( ).eAdapters( ) );
 		// getChartModel( ).setSampleData( newSample );
+	}
+
+	/**
+	 * Convers sample data according to AxisType
+	 * 
+	 * @param axisType
+	 *            axis type
+	 * @param sOldRepresentation
+	 *            old sample data representatio
+	 * @return new sample data representation
+	 */
+	public static String getConvertedSampleDataRepresentation(
+			AxisType axisType, String sOldRepresentation )
+	{
+		StringTokenizer strtok = new StringTokenizer( sOldRepresentation, "," ); //$NON-NLS-1$
+		NumberFormat nf = NumberFormat.getNumberInstance( );
+		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy", Locale.getDefault( ) ); //$NON-NLS-1$
+		StringBuffer sbNewRepresentation = new StringBuffer( "" ); //$NON-NLS-1$
+		while ( strtok.hasMoreTokens( ) )
+		{
+			String sElement = strtok.nextToken( ).trim( );
+			if ( sElement.startsWith( "'" ) ) //$NON-NLS-1$
+			{
+				sElement = sElement.substring( 1, sElement.length( ) - 1 );
+			}
+			try
+			{
+				if ( axisType.equals( AxisType.DATE_TIME_LITERAL ) )
+				{
+					sdf.parse( sElement );
+				}
+				else if ( axisType.equals( AxisType.TEXT_LITERAL ) )
+				{
+					if ( !sElement.startsWith( "'" ) ) //$NON-NLS-1$
+					{
+						sElement = "'" + sElement + "'"; //$NON-NLS-1$ //$NON-NLS-2$
+					}
+				}
+				else
+				{
+					double dbl = nf.parse( sElement ).doubleValue( );
+					sElement = String.valueOf( dbl );
+				}
+			}
+			catch ( ParseException e )
+			{
+				// Use the orginal sample data if parse exception encountered
+
+				// if ( axisType.equals( AxisType.DATE_TIME_LITERAL ) )
+				// {
+				// Calendar cal = Calendar.getInstance( Locale.getDefault( ) );
+				// StringBuffer sbNewDate = new StringBuffer( "" );
+				// //$NON-NLS-1$
+				// sbNewDate.append( cal.get( Calendar.MONTH ) + 1 );
+				// sbNewDate.append( "/" ); //$NON-NLS-1$
+				// // Increasing the date beyond the last date for the month
+				// // causes the month to roll over
+				// sbNewDate.append( cal.get( Calendar.DATE ) + iValueCount );
+				// sbNewDate.append( "/" ); //$NON-NLS-1$
+				// sbNewDate.append( cal.get( Calendar.YEAR ) );
+				// sElement = sbNewDate.toString( );
+				// }
+				// else
+				// {
+				// sElement = String.valueOf( 6.0 + iValueCount );
+				// }
+			}
+			sbNewRepresentation.append( sElement );
+			sbNewRepresentation.append( "," ); //$NON-NLS-1$
+		}
+		return sbNewRepresentation.toString( ).substring( 0,
+				sbNewRepresentation.length( ) - 1 );
 	}
 
 }

@@ -16,7 +16,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.StringTokenizer;
 import java.util.TimeZone;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -489,55 +488,10 @@ public class AxisYSheetImpl extends SubtaskSheetImpl
 			if ( osd.getSeriesDefinitionIndex( ) >= iStartIndex
 					&& osd.getSeriesDefinitionIndex( ) <= iEndIndex )
 			{
-				osd.setDataSetRepresentation( getConvertedSampleDataRepresentation( osd.getDataSetRepresentation( ) ) );
+				osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( getAxisForProcessing( ).getType( ),
+						osd.getDataSetRepresentation( ) ) );
 			}
 		}
-	}
-
-	private String getConvertedSampleDataRepresentation(
-			String sOldRepresentation )
-	{
-		StringTokenizer strtok = new StringTokenizer( sOldRepresentation, "," ); //$NON-NLS-1$
-		NumberFormat nf = NumberFormat.getNumberInstance( );
-		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy", Locale.getDefault( ) ); //$NON-NLS-1$
-		StringBuffer sbNewRepresentation = new StringBuffer( "" ); //$NON-NLS-1$
-		while ( strtok.hasMoreTokens( ) )
-		{
-			String sElement = strtok.nextToken( ).trim( );
-			if ( sElement.startsWith( "'" ) ) //$NON-NLS-1$
-			{
-				sElement = sElement.substring( 1, sElement.length( ) - 1 );
-			}
-			try
-			{
-				if ( getAxisForProcessing( ).getType( )
-						.equals( AxisType.DATE_TIME_LITERAL ) )
-				{
-					sdf.parse( sElement );
-				}
-				else if ( getAxisForProcessing( ).getType( )
-						.equals( AxisType.TEXT_LITERAL ) )
-				{
-					if ( !sElement.startsWith( "'" ) ) //$NON-NLS-1$
-					{
-						sElement = "'" + sElement + "'"; //$NON-NLS-1$ //$NON-NLS-2$
-					}
-				}
-				else
-				{
-					double dbl = nf.parse( sElement ).doubleValue( );
-					sElement = String.valueOf( dbl );
-				}
-			}
-			catch ( ParseException e )
-			{
-				// Use the orginal sample data if parse exception encountered
-			}
-			sbNewRepresentation.append( sElement );
-			sbNewRepresentation.append( "," ); //$NON-NLS-1$
-		}
-		return sbNewRepresentation.toString( ).substring( 0,
-				sbNewRepresentation.length( ) - 1 );
 	}
 
 	private int getFirstSeriesDefinitionIndexForAxis( )

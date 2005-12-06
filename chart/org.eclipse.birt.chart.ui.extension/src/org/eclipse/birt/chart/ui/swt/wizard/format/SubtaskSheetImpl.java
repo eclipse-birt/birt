@@ -20,8 +20,10 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.CompoundTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -38,9 +40,7 @@ import org.eclipse.swt.widgets.Widget;
 public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
 {
 
-	private transient String sIdentifier = ""; //$NON-NLS-1$
-
-	// private transient String sNodePath = ""; //$NON-NLS-1$
+	private transient String sNodePath = ""; //$NON-NLS-1$
 
 	private transient int subtaskIndex = 0;
 
@@ -53,6 +53,8 @@ public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
 	protected transient Shell popupShell;
 
 	protected transient ITaskPopupSheet popupSheet;
+
+	private transient ITask parentTask;
 
 	private static boolean POPUP_ATTACHING = false;
 
@@ -72,7 +74,6 @@ public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
 		// {
 		// this.sNodePath = sNodePath;
 		// }
-		this.sIdentifier = sIdentifier;
 	}
 
 	/*
@@ -82,14 +83,9 @@ public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
 	 */
 	public void getComponent( Composite parent )
 	{
-		cmpContent = new SheetPlaceHolder( parent, SWT.NONE, sIdentifier );
+		cmpContent = new SheetPlaceHolder( parent, SWT.NONE, "" ); //$NON-NLS-1$
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISheetListener#after(org.eclipse.birt.chart.model.Chart)
-	 */
 	public Object onHide( )
 	{
 		detachPopup( );
@@ -256,5 +252,33 @@ public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
 		}
 		buttonRegistry.add( button );
 		return button;
+	}
+
+	public void setParentTask( ITask parentTask )
+	{
+		this.parentTask = parentTask;
+	}
+
+	protected ITask getParentTask( )
+	{
+		return parentTask;
+	}
+
+	protected void switchTo( String subtaskPath )
+	{
+		if ( parentTask instanceof CompoundTask )
+		{
+			( (CompoundTask) parentTask ).switchTo( subtaskPath );
+		}
+	}
+
+	public void setNodePath( String nodePath )
+	{
+		this.sNodePath = nodePath;
+	}
+
+	protected String getNodePath( )
+	{
+		return sNodePath;
 	}
 }

@@ -12,28 +12,41 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.axis;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AngleType;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
+import org.eclipse.birt.chart.ui.swt.wizard.TreeCompoundTask;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.TreeItem;
 
 /**
- * @author Actuate Corporation
+ * "Axis" subtask. Attention: the axis layout order must be consistent with axis
+ * items in the naviagor tree.
  * 
  */
 public class AxisSheetImpl extends SubtaskSheetImpl
@@ -41,6 +54,8 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 {
 
 	private static final int HORIZONTAL_SPACING = 30;
+
+	private transient Cursor curHand = null;
 
 	/*
 	 * (non-Javadoc)
@@ -107,31 +122,54 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			}
 		}
 
+		int treeIndex = 0;
+
 		new AxisOptionChoser( ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) getChart( ) ),
-				"X", //$NON-NLS-1$
-				AngleType.X ).placeComponents( cmpContent );
+				Messages.getString( "AxisSheetImpl.Label.CategoryX" ), //$NON-NLS-1$
+				AngleType.X,
+				treeIndex++ ).placeComponents( cmpContent );
 
 		int yaxisNumber = ChartUIUtil.getOrthogonalAxisNumber( getChart( ) );
 		for ( int i = 0; i < yaxisNumber; i++ )
 		{
-			String text = "Y"; //$NON-NLS-1$
+			String text = Messages.getString( "AxisSheetImpl.Label.ValueY" ); //$NON-NLS-1$
 			new AxisOptionChoser( ChartUIUtil.getAxisYForProcessing( (ChartWithAxes) getChart( ),
 					i ),
-					yaxisNumber == 1 ? text : ( text + " - " + ( i + 1 ) ), AngleType.Y ).placeComponents( cmpContent ); //$NON-NLS-1$
+					yaxisNumber == 1 ? text : ( text + " - " + ( i + 1 ) ), AngleType.Y, treeIndex++ ).placeComponents( cmpContent ); //$NON-NLS-1$
 		}
 
 		if ( ChartUIUtil.is3DType( getChart( ) ) )
 		{
 			new AxisOptionChoser( ChartUIUtil.getAxisZForProcessing( (ChartWithAxes) getChart( ) ),
-					"Z", //$NON-NLS-1$
-					AngleType.Z ).placeComponents( cmpContent );
+					Messages.getString( "AxisSheetImpl.Label.AncillaryZ" ), //$NON-NLS-1$
+					AngleType.Z,
+					treeIndex++ ).placeComponents( cmpContent );
 		}
 
 	}
 
-	class AxisOptionChoser implements SelectionListener, Listener
+	public void onShow( Object context, Object container )
+	{
+		super.onShow( context, container );
+		curHand = new Cursor( Display.getDefault( ), SWT.CURSOR_HAND );
+	}
+
+	public Object onHide( )
+	{
+		curHand.dispose( );
+		return super.onHide( );
+	}
+
+	private class AxisOptionChoser
+			implements
+				SelectionListener,
+				Listener,
+				MouseListener,
+				MouseTrackListener
 	{
 
+		private transient Label lblAxis;
+		private transient Combo cmbTypes;
 		private transient Button btnVisible;
 		private transient FillChooserComposite cmbColor;
 		private transient IntegerSpinControl iscRotation;
@@ -139,21 +177,27 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		private transient String axisName;
 		private transient int angleType;
 
-		AxisOptionChoser( Axis axis, String axisName, int angleType )
+		// Index of tree item in the navigator tee
+		private transient int treeIndex = 0;
+
+		public AxisOptionChoser( Axis axis, String axisName, int angleType,
+				int treeIndex )
 		{
 			this.axis = axis;
 			this.axisName = axisName;
 			this.angleType = angleType;
+			this.treeIndex = treeIndex;
 		}
 
 		public void placeComponents( Composite parent )
 		{
-			Label lblAxis = new Label( parent, SWT.NONE );
+			lblAxis = new Label( parent, SWT.NONE );
 			{
-				GridData gd = new GridData( );
-				gd.horizontalAlignment = SWT.CENTER;
-				lblAxis.setLayoutData( gd );
 				lblAxis.setText( axisName );
+				lblAxis.setForeground( Display.getDefault( )
+						.getSystemColor( SWT.COLOR_DARK_BLUE ) );
+				lblAxis.addMouseListener( this );
+				lblAxis.addMouseTrackListener( this );
 			}
 
 			btnVisible = new Button( parent, SWT.CHECK );
@@ -165,12 +209,15 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				btnVisible.setSelection( axis.getLineAttributes( ).isVisible( ) );
 			}
 
-			Label lblType = new Label( parent, SWT.NONE );
+			cmbTypes = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
-				lblType.setLayoutData( gd );
-				lblType.setText( axis.getType( ).getName( ) );
+				cmbTypes.setLayoutData( gd );
+				NameSet ns = LiteralHelper.axisTypeSet;
+				cmbTypes.setItems( ns.getDisplayNames( ) );
+				cmbTypes.select( ns.getSafeNameIndex( axis.getType( ).getName( ) ) );
+				cmbTypes.addSelectionListener( this );
 			}
 
 			ColorDefinition clrCurrent = null;
@@ -209,6 +256,11 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			{
 				axis.getLineAttributes( )
 						.setVisible( btnVisible.getSelection( ) );
+			}
+			else if ( e.widget.equals( cmbTypes ) )
+			{
+				axis.setType( AxisType.get( LiteralHelper.axisTypeSet.getNameByDisplayName( cmbTypes.getText( ) ) ) );
+				convertSampleData( );
 			}
 		}
 
@@ -277,6 +329,99 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			return (Angle3D) ( (ChartWithAxes) getChart( ) ).getRotation( )
 					.getAngles( )
 					.get( 0 );
+		}
+
+		private void convertSampleData( )
+		{
+			// Run the conversion routine for ALL orthogonal sample data entries
+			// related to series definitions for this axis
+			// Get the start and end index of series definitions that fall under
+			// this axis
+			int iStartIndex = getFirstSeriesDefinitionIndexForAxis( );
+			int iEndIndex = iStartIndex + axis.getSeriesDefinitions( ).size( );
+			// for each entry in orthogonal sample data, if the series index for
+			// the entry is in this range...run conversion routine
+			int iOSDSize = getChart( ).getSampleData( )
+					.getOrthogonalSampleData( )
+					.size( );
+			for ( int i = 0; i < iOSDSize; i++ )
+			{
+				OrthogonalSampleData osd = (OrthogonalSampleData) getChart( ).getSampleData( )
+						.getOrthogonalSampleData( )
+						.get( i );
+				if ( osd.getSeriesDefinitionIndex( ) >= iStartIndex
+						&& osd.getSeriesDefinitionIndex( ) <= iEndIndex )
+				{
+					osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axis.getType( ),
+							osd.getDataSetRepresentation( ) ) );
+				}
+			}
+		}
+
+		private int getFirstSeriesDefinitionIndexForAxis( )
+		{
+			int iTmp = 0;
+			for ( int i = 0; i < getIndex( ); i++ )
+			{
+				iTmp += ChartUIUtil.getAxisYForProcessing( (ChartWithAxes) getChart( ),
+						i )
+						.getSeriesDefinitions( )
+						.size( );
+			}
+			return iTmp;
+		}
+
+		public void mouseDoubleClick( MouseEvent e )
+		{
+			// TODO Auto-generated method stub
+
+		}
+
+		public void mouseDown( MouseEvent e )
+		{
+			switchTo( treeIndex );
+		}
+
+		public void mouseUp( MouseEvent e )
+		{
+
+		}
+
+		public void mouseEnter( MouseEvent e )
+		{
+			lblAxis.setCursor( curHand );
+		}
+
+		public void mouseExit( MouseEvent e )
+		{
+			lblAxis.setCursor( null );
+		}
+
+		public void mouseHover( MouseEvent e )
+		{
+			// TODO Auto-generated method stub
+
+		}
+
+		private void switchTo( int index )
+		{
+			if ( getParentTask( ) instanceof TreeCompoundTask )
+			{
+				TreeCompoundTask compoundTask = (TreeCompoundTask) getParentTask( );
+				TreeItem currentItem = compoundTask.getNavigatorTree( )
+						.getSelection( )[0];
+				TreeItem[] children = currentItem.getItems( );
+				if ( index < children.length )
+				{
+					// Set selection of navigator tree
+					compoundTask.getNavigatorTree( )
+							.setSelection( new TreeItem[]{
+								children[index]
+							} );
+					// Switch to specified subtask
+					compoundTask.switchToTreeItem( children[index] );
+				}
+			}
 		}
 	}
 

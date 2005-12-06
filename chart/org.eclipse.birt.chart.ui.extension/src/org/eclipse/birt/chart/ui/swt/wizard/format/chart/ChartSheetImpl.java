@@ -14,7 +14,6 @@ import java.util.List;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
-import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
@@ -66,8 +65,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 	private transient Button btnVisible;
 
 	private transient Button btnEnable;
-
-	private transient Combo cmbColorBy;
 
 	private transient Combo cmbStyle;
 
@@ -147,22 +144,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			cmbBackground.setLayoutData( gridData );
 			cmbBackground.addListener( this );
-		}
-
-		new Label( cmpBasic, SWT.NONE );
-
-		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartSheetImpl.Label.ColorBy" ) ); //$NON-NLS-1$
-
-		cmbColorBy = new Combo( cmpBasic, SWT.DROP_DOWN | SWT.READ_ONLY );
-		{
-			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-			cmbColorBy.setLayoutData( gridData );
-			NameSet ns = LiteralHelper.legendItemTypeSet;
-			cmbColorBy.setItems( ns.getDisplayNames( ) );
-			cmbColorBy.select( ns.getSafeNameIndex( getChart( ).getLegend( )
-					.getItemType( )
-					.getName( ) ) );
-			cmbColorBy.addSelectionListener( this );
 		}
 
 		new Label( cmpBasic, SWT.NONE );
@@ -384,11 +365,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			{
 				detachPopup( );
 			}
-		}
-		else if ( e.widget.equals( cmbColorBy ) )
-		{
-			getChart( ).getLegend( )
-					.setItemType( LegendItemType.get( LiteralHelper.legendItemTypeSet.getNameByDisplayName( cmbColorBy.getText( ) ) ) );
 		}
 		else if ( e.widget.equals( cmbStyle ) )
 		{

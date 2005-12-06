@@ -112,7 +112,6 @@ public class DataDefinitionSelector
 
 	public Composite createArea( Composite parent )
 	{
-		cmpTop = null;
 		{
 			if ( axisIndex > 0 )
 			{
@@ -128,7 +127,7 @@ public class DataDefinitionSelector
 			layout.numColumns = 2;
 			layout.marginHeight = 0;
 			layout.marginWidth = 0;
-			layout.horizontalSpacing = 2;
+			layout.horizontalSpacing = 0;
 			layout.verticalSpacing = 2;
 			cmpTop.setLayout( layout );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
@@ -145,6 +144,10 @@ public class DataDefinitionSelector
 
 		btnSeriesDelete = new Button( cmpTop, SWT.NONE );
 		{
+			GridData gridData = new GridData( );
+			gridData.heightHint = 20;
+			gridData.widthHint = 20;
+			btnSeriesDelete.setLayoutData( gridData );
 			btnSeriesDelete.setImage( UIHelper.getImage( ChartUIConstancts.IMAGE_DELETE ) );
 			btnSeriesDelete.setToolTipText( Messages.getString( "DataDefinitionSelector.Tooltip.RemoveSeries" ) ); //$NON-NLS-1$
 			btnSeriesDelete.addSelectionListener( this );

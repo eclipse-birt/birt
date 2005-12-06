@@ -61,7 +61,7 @@ public class CompoundTask implements ITask
 		subtasks.remove( sSubtaskPath );
 	}
 
-	protected void switchTo( String sSubtaskPath )
+	public void switchTo( String sSubtaskPath )
 	{
 		if ( getCurrentSubtask( ) != null )
 		{
@@ -148,6 +148,11 @@ public class CompoundTask implements ITask
 
 	public void dispose( )
 	{
+		// Dispose current subtask
+		if ( sCurrentTaskSheet != null )
+		{
+			sCurrentTaskSheet.onHide( );
+		}
 		sCurrentTaskSheet = null;
 		subtasks.clear( );
 	}
