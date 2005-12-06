@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.api;
 
+import java.util.List;
+
 /**
  * output settings for HTML output format 
  */
@@ -21,7 +23,24 @@ public class HTMLRenderOption extends RenderOptionBase {
 	public static final String HTML_NOCSS = "HTMLNoCSS"; 	//$NON-NLS-1$
 	public static final String USER_AGENT = "user-agent"; 	//$NON-NLS-1$
 	public static final String URL_ENCODING = "url-encoding"; //$NON-NLS-1$
+	public static final String INSTANCE_ID_LIST = "InstanceIdList"; //$NON-NLS-1$
 	
+	// used to pass back a set of instance IDs. One use is for interactivity
+	protected List instanceIDs = null;
+	
+	/**
+	 * @return Returns the instanceIDs.
+	 */
+	public List getInstanceIDs() {
+		return instanceIDs;
+	}
+	
+	/**
+	 * @param instanceIDs The instanceIDs to set.
+	 */
+	public void setInstanceIDs(List instanceIDs) {
+		this.instanceIDs = instanceIDs;
+	}
 	/**
 	 * constructor
 	 */

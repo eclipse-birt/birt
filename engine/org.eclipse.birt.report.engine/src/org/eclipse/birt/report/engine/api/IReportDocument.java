@@ -69,7 +69,7 @@ public interface IReportDocument
 	 *            report item instance id
 	 * @return the page number that the instance appears first
 	 */
-	public abstract long getPageNumber( InstanceID iid );
+	// public abstract long getPageNumber( InstanceID iid );
 
 	/**
 	 * Given a bookmark in a report, find the (first) page that the bookmark
