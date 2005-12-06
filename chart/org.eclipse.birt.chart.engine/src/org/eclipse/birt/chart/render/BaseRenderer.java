@@ -361,7 +361,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		if ( bFirstInSequence )
 		{
 			// ALWAYS RENDER THE OUTERMOST BLOCK FIRST
-			ScriptHandler.callFunction( sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl, 
+			ScriptHandler.callFunction( sh,
+					ScriptHandler.BEFORE_DRAW_BLOCK,
+					bl,
 					getRunTimeContext( ).getScriptContext( ) );
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 					bl );
@@ -2080,9 +2082,42 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 				RectangleRenderEvent.class );
 		rre.updateFrom( b, dScale );
-
 		ipr.fillRectangle( rre );
 		ipr.drawRectangle( rre );
+
+		if ( isInteractivityEnabled( ) )
+		{
+			Trigger tg;
+			EList elTriggers = b.getTriggers( );
+			Location[] loaHotspot = new Location[4];
+			Bounds bo = b.getBounds( ).scaledInstance( dScale );
+			double dLeft = bo.getLeft( );
+			double dTop = bo.getTop( );
+			double dWidth = bo.getWidth( );
+			double dHeight = bo.getHeight( );
+			loaHotspot[0] = LocationImpl.create( dLeft, dTop );
+			loaHotspot[1] = LocationImpl.create( dLeft + dWidth, dTop );
+			loaHotspot[2] = LocationImpl.create( dLeft + dWidth, dTop + dHeight );
+			loaHotspot[3] = LocationImpl.create( dLeft, dTop + dHeight );
+
+			if ( !elTriggers.isEmpty( ) )
+			{
+				final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createUnknown( b ),
+						InteractionEvent.class );
+				for ( int t = 0; t < elTriggers.size( ); t++ )
+				{
+					tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+					iev.addTrigger( tg );
+				}
+
+				final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createUnknown( b ),
+						PolygonRenderEvent.class );
+				pre.setPoints( loaHotspot );
+				iev.setHotSpot( pre );
+				ipr.enableInteraction( iev );
+			}
+
+		}
 	}
 
 	/**
@@ -2124,6 +2159,42 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			throws ChartException
 	{
 		renderLabel( ipr, b, StructureSource.createTitle( b ) );
+
+		if ( isInteractivityEnabled( ) )
+		{
+			Trigger tg;
+			EList elTriggers = b.getTriggers( );
+			Location[] loaHotspot = new Location[4];
+			final double dScale = getDevice( ).getDisplayServer( )
+					.getDpiResolution( ) / 72d;
+			Bounds bo = b.getBounds( ).scaledInstance( dScale );
+			double dLeft = bo.getLeft( );
+			double dTop = bo.getTop( );
+			double dWidth = bo.getWidth( );
+			double dHeight = bo.getHeight( );
+			loaHotspot[0] = LocationImpl.create( dLeft, dTop );
+			loaHotspot[1] = LocationImpl.create( dLeft + dWidth, dTop );
+			loaHotspot[2] = LocationImpl.create( dLeft + dWidth, dTop + dHeight );
+			loaHotspot[3] = LocationImpl.create( dLeft, dTop + dHeight );
+
+			if ( !elTriggers.isEmpty( ) )
+			{
+				final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createTitle( b ),
+						InteractionEvent.class );
+				for ( int t = 0; t < elTriggers.size( ); t++ )
+				{
+					tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+					iev.addTrigger( tg );
+				}
+
+				final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createTitle( b ),
+						PolygonRenderEvent.class );
+				pre.setPoints( loaHotspot );
+				iev.setHotSpot( pre );
+				ipr.enableInteraction( iev );
+			}
+
+		}
 	}
 
 	/**
