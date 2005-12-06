@@ -76,7 +76,9 @@ public class SVGGraphics2D extends Graphics2D
 	protected String id;
 	protected StringBuffer scriptBuffer = new StringBuffer();
 	protected StringBuffer styleBuffer = new StringBuffer();
-	protected Element deferStrokColor = null;
+	protected Element deferStrokColor = null;	
+	protected String primitiveId = null;
+
 
 	protected static final String defaultStyles = "fill:none;stroke:none"; //$NON-NLS-1$
 
@@ -791,6 +793,9 @@ public class SVGGraphics2D extends Graphics2D
 			element.setAttribute("class", styleClass); //$NON-NLS-1$
 		if (id != null)
 			element.setAttribute("id", id); //$NON-NLS-1$
+		if ( clip != null )
+			element.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		
 	}
 	
 
@@ -822,6 +827,8 @@ public class SVGGraphics2D extends Graphics2D
 			element.setAttribute("class", styleClass); //$NON-NLS-1$
 		if (id != null)
 			element.setAttribute("id", id); //$NON-NLS-1$
+		if ( clip != null )
+			element.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		
 	}
 
@@ -934,7 +941,7 @@ public class SVGGraphics2D extends Graphics2D
 		currentElement.setAttribute( "width", "100%" ); //$NON-NLS-1$ //$NON-NLS-2$
 		currentElement.setAttribute( "height", "100%" ); //$NON-NLS-1$ //$NON-NLS-2$
 		if ( clip != null )
-			currentElement.setAttribute( "clip-rule", "url(clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			currentElement.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		appendChild( currentElement );
 
@@ -958,7 +965,7 @@ public class SVGGraphics2D extends Graphics2D
 		currentElement.setAttribute( "width", Double.toString( arg3 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "height", Double.toString( arg4 ) ); //$NON-NLS-1$
 		if ( clip != null )
-			currentElement.setAttribute( "clip-rule", "url(clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			currentElement.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		appendChild( currentElement );
 
 		return true;
@@ -982,7 +989,7 @@ public class SVGGraphics2D extends Graphics2D
 		currentElement.setAttribute( "height", "100%" ); //$NON-NLS-1$ //$NON-NLS-2$
 		currentElement.setAttribute( "fill", serializeToString( arg3 ) ); //$NON-NLS-1$
 		if ( clip != null )
-			currentElement.setAttribute( "clip-rule", "url(clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			currentElement.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		appendChild( currentElement );
 
 		return true;
@@ -1006,7 +1013,7 @@ public class SVGGraphics2D extends Graphics2D
 		currentElement.setAttribute( "height", Double.toString( arg4 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "fill", serializeToString( arg5 ) ); //$NON-NLS-1$
 		if ( clip != null )
-			currentElement.setAttribute( "clip-rule", "url(clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			currentElement.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		appendChild( currentElement );
 
 		return true;
@@ -1029,7 +1036,7 @@ public class SVGGraphics2D extends Graphics2D
 		currentElement.setAttribute( "width", Double.toString( arg3 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "height", Double.toString( arg4 ) ); //$NON-NLS-1$
 		if ( clip != null )
-			currentElement.setAttribute( "clip-rule", "url(clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			currentElement.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		appendChild( currentElement );
 
 		return true;
@@ -1054,7 +1061,7 @@ public class SVGGraphics2D extends Graphics2D
 		currentElement.setAttribute( "height", Double.toString( arg4 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "fill", serializeToString( arg9 ) ); //$NON-NLS-1$
 		if ( clip != null )
-			currentElement.setAttribute( "clip-rule", "url(clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			currentElement.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		appendChild( currentElement );
 
 		return true;
@@ -1117,7 +1124,7 @@ public class SVGGraphics2D extends Graphics2D
 			Element clipPath = dom.createElement( "clipPath" ); //$NON-NLS-1$
 			clipPath.setAttribute( "id", "clip" + clip.hashCode( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 			clipPath.appendChild( createGeneralPath( clip ) );
-			appendChild( clipPath );
+			definitions.appendChild( clipPath );
 		}
 
 	}
@@ -1391,6 +1398,8 @@ public class SVGGraphics2D extends Graphics2D
 	protected Element createElement( String id )
 	{
 		Element elem = dom.createElement( id );
+		if (this.primitiveId != null)
+			elem.setAttribute("id", primitiveId);
 		if ( transforms.getType( ) != AffineTransform.TYPE_IDENTITY )
 		{
 			double[] matrix = new double[6];
@@ -1476,4 +1485,23 @@ public class SVGGraphics2D extends Graphics2D
 	public void setDeferStrokColor(Element deferStrokColor) {
 		this.deferStrokColor = deferStrokColor;
 	}
+	
+
+	/**
+	 * Returns the current id that is used to identify a svg drawing primitive
+	 * @return
+	 */
+	public String getPrimitiveId() {
+		return primitiveId;
+	}
+	
+	/**
+	 * Sets the current primitive id
+	 * @param primitiveId
+	 */
+	public void setPrimitiveId(String primitiveId) {
+		this.primitiveId = primitiveId;
+	}
+		
+	
 }
