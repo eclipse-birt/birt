@@ -67,6 +67,7 @@ import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.birt.chart.script.IChartScriptContext;
+import org.eclipse.birt.chart.script.IExternalContext;
 import org.eclipse.birt.chart.style.IStyle;
 import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.style.SimpleProcessor;
@@ -145,7 +146,8 @@ public final class Generator
 	 * @param model
 	 * @param externalProcessor
 	 */
-	protected final void prepareStyles( Chart model, IStyleProcessor externalProcessor )
+	protected final void prepareStyles( Chart model,
+			IStyleProcessor externalProcessor )
 	{
 		Stack token = new Stack( );
 
@@ -448,82 +450,134 @@ public final class Generator
 	}
 
 	/**
-	 * This retrieves all the row expressions stored in the chart model. This
-	 * is useful to prepare a specific query for the chart.
-	 * @param The Chart model
+	 * This retrieves all the row expressions stored in the chart model. This is
+	 * useful to prepare a specific query for the chart.
+	 * 
+	 * @param The
+	 *            Chart model
 	 * @return All row expressions in a list of String instances.
 	 * @throws ChartException
+	 * 
+	 * @since 2.0
 	 */
 	public List getRowExpressions( Chart cm ) throws ChartException
 	{
 		return DataProcessor.getRowExpressions( cm );
 	}
-	
+
 	/**
-	 * Binds a sql Resuset to a chart model. This is based on the assumption the 
-	 * column names of the resultset match exactly the data query definitions and other expressions 
-	 * set inside the chart model.
+	 * Binds a sql Resuset to a chart model. This is based on the assumption the
+	 * column names of the resultset match exactly the data query definitions
+	 * and other expressions set inside the chart model.
 	 * 
-	 * @param resultSet A sql resultset that contains the data. The following methods
-	 * of the interface need to be implemented: first(), next(), getObject(String), close()
-	 * @param chart The chart model to bind the data to
-	 * @param rtc The runtime context
+	 * @param resultSet
+	 *            A sql resultset that contains the data. The following methods
+	 *            of the interface need to be implemented: first(), next(),
+	 *            getObject(String), close()
+	 * @param chart
+	 *            The chart model to bind the data to
+	 * @param rtc
+	 *            The runtime context
 	 * @throws ChartException
+	 * 
+	 * @since 2.0
 	 */
-	public void bindData( java.sql.ResultSet resultSet, Chart chart, RunTimeContext rtc ) throws ChartException
+	public void bindData( java.sql.ResultSet resultSet, Chart chart,
+			RunTimeContext rtc ) throws ChartException
 	{
-		SqlDataRowEvaluator rowEvaluator = new SqlDataRowEvaluator(  resultSet );
+		SqlDataRowEvaluator rowEvaluator = new SqlDataRowEvaluator( resultSet );
 		bindData( rowEvaluator, chart, rtc );
 	}
-	
+
 	/**
-	 * Binds data to the chart model using a row expression evaluator. The evaluator provides the ability  
-	 * to evaluate the expressions set in the chart on a row context. 
-	 * @param expressionEvaluator The data row expression evaluator implementation
-	 * @param chart The chart model
-	 * @param rtc The runtime context
+	 * Binds data to the chart model using a row expression evaluator. The
+	 * evaluator provides the ability to evaluate the expressions set in the
+	 * chart on a row context.
+	 * 
+	 * @param expressionEvaluator
+	 *            The data row expression evaluator implementation
+	 * @param chart
+	 *            The chart model
+	 * @param rtc
+	 *            The runtime context
 	 * @throws ChartException
+	 * 
+	 * @since 2.0
 	 */
-	public void bindData( IDataRowExpressionEvaluator expressionEvaluator, Chart chart, RunTimeContext rtc ) throws ChartException
+	public void bindData( IDataRowExpressionEvaluator expressionEvaluator,
+			Chart chart, RunTimeContext rtc ) throws ChartException
 	{
-		DataProcessor helper = new DataProcessor(rtc);
-		ResultSetWrapper wrapper = helper.mapToChartResultSet(expressionEvaluator, chart);
+		DataProcessor helper = new DataProcessor( rtc );
+		ResultSetWrapper wrapper = helper.mapToChartResultSet( expressionEvaluator,
+				chart );
 		helper.generateRuntimeSeries( chart, wrapper );
 	}
-	
+
 	/**
-	 * Since v2, it must be called before build( ), and should only be called once per design model.
-	 * @param model Chart design model
-	 * @param externalContext External Context
-	 * @param locale Locale
+	 * Since v2, it must be called before build( ), and should only be called
+	 * once per design model.
+	 * 
+	 * @param model
+	 *            Chart design model
+	 * @param externalContext
+	 *            External Context
+	 * @param locale
+	 *            Locale
 	 * @return a runtime context used by build( )
+	 * 
+	 * @since 2.0
 	 */
-	public RunTimeContext prepare( Chart model, Object externalContext, Locale locale)
+	public RunTimeContext prepare( Chart model,
+			IExternalContext externalContext, Locale locale )
+			throws ChartException
 	{
 		RunTimeContext rtc = new RunTimeContext( );
 
-		//Update the context with a locale if it is undefined.
+		// Update the context with a locale if it is undefined.
 		final Chart cmRunTime = (Chart) EcoreUtil.copy( model );
-		if ( rtc.getLocale( ) == null )
-		{
-			rtc.setLocale( Locale.getDefault( ) );
-		}
-		ChartScriptContext csc = new ChartScriptContext();
-		csc.setChartInstance( model );
+		rtc.setLocale( Locale.getDefault( ) );
+
+		ChartScriptContext csc = new ChartScriptContext( );
+		csc.setChartInstance( cmRunTime );
 		csc.setExternalContext( externalContext );
 		csc.setLocale( rtc.getLocale( ) );
 		csc.setLogger( logger );
-		
+		rtc.setScriptContext( csc );
+
 		ScriptHandler sh = new ScriptHandler( );
 		rtc.setScriptHandler( sh );
-		rtc.setScriptContext( (IChartScriptContext)csc );
-		
-		//Call the onPrepare script event funtion.
+
+		// initialize scripthandler.
+		try
+		{
+			if ( externalContext != null
+					&& externalContext.getScriptable( ) != null )
+			{
+				sh.init( externalContext.getScriptable( ) );
+			}
+			else
+			{
+				sh.init( null );
+			}
+			sh.setRunTimeModel( cmRunTime );
+
+			final String sScriptContent = cmRunTime.getScript( );
+			if ( sScriptContent != null )
+			{
+				sh.register( sScriptContent );
+			}
+		}
+		catch ( ChartException sx )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
+					sx );
+		}
+
+		// Call the onPrepare script event funtion.
 		if ( externalContext == null )
 		{
-			ScriptHandler.callFunction( sh,
-					ScriptHandler.ON_PREPARE,
-					cmRunTime);
+			ScriptHandler.callFunction( sh, ScriptHandler.ON_PREPARE, cmRunTime );
 		}
 		else
 		{
@@ -532,9 +586,10 @@ public final class Generator
 					cmRunTime,
 					rtc.getScriptContext( ) );
 		}
+
 		return rtc;
 	}
-	
+
 	/**
 	 * Builds and computes preferred sizes of various chart components offscreen
 	 * using the provided display server.
@@ -555,6 +610,8 @@ public final class Generator
 	 *         chart information that may be subsequently rendered.
 	 * 
 	 * @throws GenerationException
+	 * 
+	 * @deprecated
 	 */
 	public final GeneratedChartState build( IDisplayServer ids,
 			Chart cmDesignTime, Scriptable scParent, Bounds bo,
@@ -584,12 +641,61 @@ public final class Generator
 	 *         chart information that may be subsequently rendered.
 	 * 
 	 * @throws GenerationException
+	 * 
+	 * @deprecated
 	 */
 	public final GeneratedChartState build( IDisplayServer ids,
 			Chart cmDesignTime, Scriptable scParent, Bounds bo,
 			RunTimeContext rtc, IStyleProcessor externalProcessor )
 			throws ChartException
 	{
+		final Scriptable scriptContext = scParent;
+
+		return build( ids, cmDesignTime, bo, new IExternalContext( ) {
+
+			private static final long serialVersionUID = 1L;
+
+			public Object getObject( )
+			{
+				return null;
+			}
+
+			public Scriptable getScriptable( )
+			{
+				return scriptContext;
+			}
+
+		}, rtc, externalProcessor );
+	}
+
+	/**
+	 * Builds and computes preferred sizes of various chart components offscreen
+	 * using the provided display server.
+	 * 
+	 * @param ids
+	 *            A display server using which the chart may be built.
+	 * @param cmDesignTime
+	 *            The design time chart model (bound to a dataset).
+	 * @param externalContext
+	 *            An external context object.
+	 * @param bo
+	 *            The bounds associated with the chart being built.
+	 * @param rtc
+	 *            Encapsulates the runtime environment for the build process.
+	 * @param externalProcessor
+	 *            An external style processor. If it's null, an implicit
+	 *            processor will be used.
+	 * @return An instance of a generated chart state that encapsulates built
+	 *         chart information that may be subsequently rendered.
+	 * 
+	 * @throws GenerationException
+	 */
+	public final GeneratedChartState build( IDisplayServer ids,
+			Chart cmDesignTime, Bounds bo, IExternalContext externalContext,
+			RunTimeContext rtc, IStyleProcessor externalProcessor )
+			throws ChartException
+	{
+
 		if ( ids == null || cmDesignTime == null || bo == null )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
@@ -600,33 +706,68 @@ public final class Generator
 							) );
 		}
 
-		// CREATE A CONTEXT IF NEEDED
+		// CREATE A RUNTIME CONTEXT IF NEEDED
 		if ( rtc == null )
 		{
 			rtc = new RunTimeContext( );
 		}
 
 		// UPDATE THE CONTEXT WITH A LOCALE IF IT IS UNDEFINED
-		final Chart cmRunTime = (Chart) EcoreUtil.copy( cmDesignTime );
 		if ( rtc.getLocale( ) == null )
 		{
 			rtc.setLocale( Locale.getDefault( ) );
 		}
 
+		// UPDATE THE CHART SCRIPT CONTEXT
+		IChartScriptContext icsc = rtc.getScriptContext( );
+		if ( icsc == null )
+		{
+			// re-init chart script context.
+			ChartScriptContext csc = new ChartScriptContext( );
+			csc.setChartInstance( (Chart) EcoreUtil.copy( cmDesignTime ) );
+			csc.setExternalContext( externalContext );
+			csc.setLocale( rtc.getLocale( ) );
+			csc.setLogger( logger );
+
+			rtc.setScriptContext( csc );
+			icsc = csc;
+		}
+		else if ( icsc instanceof ChartScriptContext )
+		{
+			// reset logger.
+			( (ChartScriptContext) icsc ).setLogger( logger );
+		}
+
+		if ( externalContext != null && icsc instanceof ChartScriptContext )
+		{
+			( (ChartScriptContext) icsc ).setExternalContext( externalContext );
+		}
+
+		final Chart cmRunTime = icsc.getChartInstance( );
+
+		// flatten the default styles.
 		prepareStyles( cmRunTime, externalProcessor );
 
 		// INITIALIZE THE SCRIPT HANDLER
-		final String sScriptContent = cmRunTime.getScript( );
 		ScriptHandler sh = rtc.getScriptHandler( );
-		if ( sh == null ) // NOT PREVIOUSLY DEFINED BY
+		if ( sh == null ) // IF NOT PREVIOUSLY DEFINED BY
 		// REPORTITEM ADAPTER
 		{
 			sh = new ScriptHandler( );
+			rtc.setScriptHandler( sh );
+
 			try
 			{
-				sh.init( scParent );
-				sh.setRunTimeModel( cmRunTime );
-				rtc.setScriptHandler( sh );
+				final String sScriptContent = cmRunTime.getScript( );
+				if ( externalContext != null
+						&& externalContext.getScriptable( ) != null )
+				{
+					sh.init( externalContext.getScriptable( ) );
+				}
+				else
+				{
+					sh.init( null );
+				}
 
 				if ( sScriptContent != null )
 				{
@@ -640,12 +781,6 @@ public final class Generator
 						sx );
 			}
 		}
-		else if ( sh != null ) // COPY SCRIPTS FROM DESIGNTIME TO RUNTIME
-		// INSTANCE
-		{
-			rtc.setScriptHandler( sh );
-		}
-		rtc.setScriptHandler( sh );
 
 		// SETUP THE COMPUTATIONS
 		ScriptHandler.callFunction( sh,
@@ -935,7 +1070,7 @@ public final class Generator
 				gcs );
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.BEFORE_RENDERING,
-				gcs.getRunTimeContext().getScriptContext() );
+				gcs.getRunTimeContext( ).getScriptContext( ) );
 		Legend lg = cm.getLegend( );
 		lg.updateLayout( cm ); // RE-ORGANIZE BLOCKS IF REQUIRED
 		if ( lg.getPosition( ) == Position.INSIDE_LITERAL )

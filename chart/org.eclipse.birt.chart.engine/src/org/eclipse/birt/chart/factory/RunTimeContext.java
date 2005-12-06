@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.factory;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -25,23 +26,25 @@ import org.eclipse.birt.chart.script.IChartScriptContext;
  * Encapsulates runtime information associated with each chart generation and
  * rendering session. It contains global objects that are defined per request.
  */
-public final class RunTimeContext
+public final class RunTimeContext implements Serializable
 {
+
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The locale associated with the runtime context.
 	 */
-	private transient Locale lcl = null;
+	private Locale lcl = null;
+
+	/**
+	 * A chart script context associated with a chart model.
+	 */
+	private IChartScriptContext csc = null;
 
 	/**
 	 * A script handler associated with a chart model.
 	 */
 	private transient ScriptHandler sh = null;
-	
-	/**
-	 * A chart script context associated with a chart model.
-	 */
-	private transient IChartScriptContext csc = null;
 
 	/**
 	 * A resource handle capable of retrieving externalized messages.
@@ -237,10 +240,10 @@ public final class RunTimeContext
 	{
 		this.sh = sh;
 	}
-	
+
 	/**
-	 * Returns an instance of a script context associated with the
-	 * chart being generated. 
+	 * Returns an instance of a script context associated with the chart being
+	 * generated.
 	 * 
 	 * @return An instance of the script context.
 	 */
@@ -248,10 +251,10 @@ public final class RunTimeContext
 	{
 		return csc;
 	}
-	
+
 	/**
 	 * Sets an instance of a chart script context associated with the chart
-	 * being generated. 
+	 * being generated.
 	 * 
 	 * @param csc
 	 *            An instance of the chart script context.
