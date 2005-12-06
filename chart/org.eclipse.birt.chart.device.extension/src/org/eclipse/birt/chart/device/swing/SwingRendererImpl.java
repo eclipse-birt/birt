@@ -206,8 +206,16 @@ public class SwingRendererImpl extends DeviceAdapter
 	public void setClip( ClipRenderEvent pre )
 	{
 		final Location[] loa = pre.getVertices( );
-		final int[][] i2a = getCoordinatesAsInts( loa );
-		_g2d.setClip( new Polygon( i2a[0], i2a[1], loa.length ) );
+
+		if ( loa == null )
+		{
+			_g2d.setClip( null );
+		}
+		else
+		{
+			final int[][] i2a = getCoordinatesAsInts( loa );
+			_g2d.setClip( new Polygon( i2a[0], i2a[1], loa.length ) );
+		}
 	}
 
 	/*
@@ -476,7 +484,10 @@ public class SwingRendererImpl extends DeviceAdapter
 			}
 
 			final Shape shClip = _g2d.getClip( );
-			_g2d.setClip( r2d );
+			Area ar1 = new Area( shClip );
+			Area ar2 = new Area( r2d );
+			ar2.intersect( ar1 );
+			_g2d.setClip( ar2 );
 
 			final Size szImage = _ids.getSize( img );
 
@@ -672,7 +683,10 @@ public class SwingRendererImpl extends DeviceAdapter
 						muex );
 			}
 			final Shape shClip = _g2d.getClip( );
-			_g2d.setClip( new Polygon( i2a[0], i2a[1], loa.length ) );
+			Area ar1 = new Area( shClip );
+			Area ar2 = new Area( new Polygon( i2a[0], i2a[1], loa.length ) );
+			ar2.intersect( ar1 );
+			_g2d.setClip( ar2 );
 
 			final double dMinX = BaseRenderer.getX( loa, IConstants.MIN );
 			final double dMaxX = BaseRenderer.getX( loa, IConstants.MAX );
@@ -774,7 +788,10 @@ public class SwingRendererImpl extends DeviceAdapter
 			fArea.exclusiveOr( new Area( innerArc ) );
 
 			Shape prevClip = _g2d.getClip( );
-			_g2d.setClip( fArea );
+			Area ar1 = new Area( prevClip );
+			Area ar2 = new Area( fArea );
+			ar2.intersect( ar1 );
+			_g2d.setClip( ar2 );
 			_g2d.draw( fArea );
 			_g2d.setClip( prevClip );
 		}
@@ -859,7 +876,10 @@ public class SwingRendererImpl extends DeviceAdapter
 				fArea.exclusiveOr( new Area( innerArc ) );
 
 				Shape prevClip = _g2d.getClip( );
-				_g2d.setClip( fArea );
+				Area ar1 = new Area( prevClip );
+				Area ar2 = new Area( fArea );
+				ar2.intersect( ar1 );
+				_g2d.setClip( ar2 );
 				_g2d.fill( fArea );
 				_g2d.setClip( prevClip );
 			}
@@ -972,7 +992,10 @@ public class SwingRendererImpl extends DeviceAdapter
 				fArea.exclusiveOr( new Area( innerArc ) );
 
 				Shape prevClip = _g2d.getClip( );
-				_g2d.setClip( fArea );
+				Area ar1 = new Area( prevClip );
+				Area ar2 = new Area( fArea );
+				ar2.intersect( ar1 );
+				_g2d.setClip( ar2 );
 				_g2d.fill( fArea );
 				_g2d.setClip( prevClip );
 			}
@@ -1029,6 +1052,8 @@ public class SwingRendererImpl extends DeviceAdapter
 				Area fArea = new Area( outerArc );
 				fArea.exclusiveOr( new Area( innerArc ) );
 
+				Area ar1 = new Area( shPreviousClip );
+				fArea.intersect( ar1 );
 				_g2d.setClip( fArea );
 			}
 			else
@@ -1041,7 +1066,10 @@ public class SwingRendererImpl extends DeviceAdapter
 						are.getStartAngle( ),
 						are.getAngleExtent( ),
 						toSwingArcType( are.getStyle( ) ) );
-				_g2d.setClip( shArc );
+				Area ar1 = new Area( shPreviousClip );
+				Area ar2 = new Area( shArc );
+				ar2.intersect( ar1 );
+				_g2d.setClip( ar2 );
 			}
 
 			// LOAD THE IMAGE
@@ -1679,7 +1707,10 @@ public class SwingRendererImpl extends DeviceAdapter
 			}
 
 			final Shape shClip = _g2d.getClip( );
-			_g2d.setClip( e2d );
+			Area ar1 = new Area( shClip );
+			Area ar2 = new Area( e2d );
+			ar2.intersect( ar1 );
+			_g2d.setClip( ar2 );
 
 			final Size szImage = _ids.getSize( img );
 
