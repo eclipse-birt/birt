@@ -233,7 +233,7 @@ public class PageContent extends AbstractContent implements IPageContent
 		return rightWidth;
 	}
 
-	public IStyle getContentStyle( )
+	public IStyle getContentComputedStyle( )
 	{
 		if ( body == null )
 		{
@@ -245,6 +245,15 @@ public class PageContent extends AbstractContent implements IPageContent
 			}
 		}
 		return body.getComputedStyle( );
+	}
+	
+	public IStyle getContentStyle()
+	{
+		if ( generateBy instanceof MasterPageDesign )
+		{
+			return ( (MasterPageDesign) generateBy ).getContentStyle( );
+		}
+		return null;
 	}
 
 	public void setPageNumber( long pn )

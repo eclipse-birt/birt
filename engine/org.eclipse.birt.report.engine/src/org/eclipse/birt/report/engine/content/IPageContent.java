@@ -23,7 +23,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * The content is defined by getBody().
  * 
- * @version $Revision: 1.1 $ $Date: 2005/11/11 06:26:46 $
+ * @version $Revision: 1.2 $ $Date: 2005/11/14 10:55:59 $
  */
 public interface IPageContent extends IContent
 {
@@ -93,5 +93,7 @@ public interface IPageContent extends IContent
 	public long getPageNumber( );
 
 	void setPageNumber( long pageNumber );
+	
+	public IStyle getContentComputedStyle();
 
 }
