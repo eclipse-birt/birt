@@ -247,9 +247,21 @@ public class LiteralHelper
 		String prefix = "TriggerCondition."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix,
-				suffix,
-				toStringNameArray( TriggerCondition.VALUES ) );
+		return new NameSet( prefix, suffix, new String[]{
+				TriggerCondition.ONCLICK_LITERAL.getName( ),
+				TriggerCondition.ONDBLCLICK_LITERAL.getName( ),
+				TriggerCondition.ONMOUSEDOWN_LITERAL.getName( ),
+				TriggerCondition.ONMOUSEUP_LITERAL.getName( ),
+				TriggerCondition.ONMOUSEOVER_LITERAL.getName( ),
+				TriggerCondition.ONMOUSEMOVE_LITERAL.getName( ),
+				TriggerCondition.ONMOUSEOUT_LITERAL.getName( ),
+				TriggerCondition.ONFOCUS_LITERAL.getName( ),
+				TriggerCondition.ONBLUR_LITERAL.getName( ),
+				TriggerCondition.ONKEYDOWN_LITERAL.getName( ),
+				TriggerCondition.ONKEYPRESS_LITERAL.getName( ),
+				TriggerCondition.ONKEYUP_LITERAL.getName( ),
+				TriggerCondition.ONLOAD_LITERAL.getName( ),
+		} );
 	}
 
 	/**
@@ -512,7 +524,7 @@ public class LiteralHelper
 				suffix,
 				toStringNameArray( DateFormatType.VALUES ) );
 	}
-	
+
 	/**
 	 * @return
 	 */
