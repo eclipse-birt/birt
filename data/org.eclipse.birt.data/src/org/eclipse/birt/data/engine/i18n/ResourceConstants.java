@@ -109,8 +109,10 @@ public class ResourceConstants
 	// error related with data engine context
 	public final static String RD_INVALID_MODE = "data.engine.InvalidMode";
 	public final static String RD_INVALID_ARCHIVE = "data.engine.InvalidArchive";
-	public final static String RD_SAVE_ERROR = "data.engine.SaveReportDocumentError";	
+	public final static String RD_SAVE_ERROR = "data.engine.SaveReportDocumentError";
 	public final static String RD_LOAD_ERROR = "data.engine.LoadReportDocumentError";
+	public final static String RD_SAVE_STREAM_ERROR = "data.engine.GetSaveStreamError";
+	public final static String RD_LOAD_STREAM_ERROR = "data.engine.GetLoadStreamError";
 	public final static String RD_EXPR_NULL_ERROR = "data.engine.NullExpr";
 	public final static String RD_EXPR_INVALID_ERROR = "data.engine.InValidExpr";
 	
