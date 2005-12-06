@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -46,7 +47,7 @@ public final class NameSpace implements Cloneable
 	 * The actual name space.
 	 */
 
-	private HashMap names = new HashMap( );
+	private HashMap names = new LinkedHashMap( );
 
 	/**
 	 * Constructor.
@@ -168,7 +169,7 @@ public final class NameSpace implements Cloneable
 	{
 
 		NameSpace ns = (NameSpace) super.clone( );
-		ns.names = new HashMap( );
+		ns.names = new LinkedHashMap( );
 
 		return ns;
 	}
