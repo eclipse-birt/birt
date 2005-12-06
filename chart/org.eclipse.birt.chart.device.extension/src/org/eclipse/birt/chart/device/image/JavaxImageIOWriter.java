@@ -135,9 +135,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		List al = (List) triggerMap.get( TriggerCondition.ONFOCUS_LITERAL );
 		if ( al != null )
 		{
-			for ( Iterator itr = al.iterator( ); itr.hasNext( ); )
+			for ( int i = al.size() - 1; i >= 0; i -- )
 			{
-				ShapedAction sa = (ShapedAction) itr.next( );
+				ShapedAction sa = (ShapedAction) al.get( i );
 				Action ac = sa.getAction( );
 				String coords = shape2polyCoords( sa.getShape( ) );
 
@@ -179,9 +179,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		al = (List) triggerMap.get( TriggerCondition.ONBLUR_LITERAL );
 		if ( al != null )
 		{
-			for ( Iterator itr = al.iterator( ); itr.hasNext( ); )
+			for ( int i = al.size() - 1; i >= 0; i -- )
 			{
-				ShapedAction sa = (ShapedAction) itr.next( );
+				ShapedAction sa = (ShapedAction) al.get( i );
 				Action ac = sa.getAction( );
 				String coords = shape2polyCoords( sa.getShape( ) );
 
@@ -223,9 +223,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		al = (List) triggerMap.get( TriggerCondition.ONCLICK_LITERAL );
 		if ( al != null )
 		{
-			for ( Iterator itr = al.iterator( ); itr.hasNext( ); )
+			for ( int i = al.size() - 1; i >= 0; i -- )
 			{
-				ShapedAction sa = (ShapedAction) itr.next( );
+				ShapedAction sa = (ShapedAction) al.get( i );
 				Action ac = sa.getAction( );
 				String coords = shape2polyCoords( sa.getShape( ) );
 
@@ -266,9 +266,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		al = (List) triggerMap.get( TriggerCondition.ONMOUSEOVER_LITERAL );
 		if ( al != null )
 		{
-			for ( Iterator itr = al.iterator( ); itr.hasNext( ); )
+			for ( int i = al.size() - 1; i >= 0; i -- )
 			{
-				ShapedAction sa = (ShapedAction) itr.next( );
+				ShapedAction sa = (ShapedAction) al.get( i );
 				Action ac = sa.getAction( );
 				String coords = shape2polyCoords( sa.getShape( ) );
 
