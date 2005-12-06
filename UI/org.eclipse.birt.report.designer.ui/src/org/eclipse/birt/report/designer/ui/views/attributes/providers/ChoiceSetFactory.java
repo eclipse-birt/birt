@@ -577,7 +577,7 @@ public class ChoiceSetFactory
 			while ( iterator.hasNext( ) )
 			{
 				ReportElementHandle elementHandle = (ReportElementHandle) iterator.next( );
-				list.add( elementHandle.getName( ) );
+				list.add( elementHandle.getQualifiedName() );
 			}
 		}
 		return (String[]) list.toArray( new String[0] );
@@ -600,7 +600,7 @@ public class ChoiceSetFactory
 			while ( iterator.hasNext( ) )
 			{
 				ReportElementHandle elementHandle = (ReportElementHandle) iterator.next( );
-				list.add( elementHandle.getName( ) );
+				list.add( elementHandle.getQualifiedName() );
 			}
 		}
 		return (String[]) list.toArray( new String[0] );
@@ -625,7 +625,7 @@ public class ChoiceSetFactory
 			while ( iterator.hasNext( ) )
 			{
 				ReportElementHandle elementHandle = (ReportElementHandle) iterator.next( );
-				list.add( elementHandle.getName( ) );
+				list.add( elementHandle.getQualifiedName( ) );
 			}
 		}
 		return (String[]) list.toArray( new String[0] );
