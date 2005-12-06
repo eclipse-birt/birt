@@ -157,7 +157,7 @@ public class ReportLaunchConfigurationDelegate extends
 					IJavaProject source = ( IJavaProject ) sourcePaths.get( i );
 					ISourceContainer temp = new JavaProjectSourceContainer(
 							source);
-					list.add( temp );
+					list.add(i, temp );
 				}
 			} catch ( CoreException e )
 			{
