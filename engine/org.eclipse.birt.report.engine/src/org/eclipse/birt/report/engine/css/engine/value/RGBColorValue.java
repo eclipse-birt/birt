@@ -19,7 +19,7 @@ import org.w3c.dom.css.RGBColor;
  * This class represents RGB colors.
  * 
  * @author <a href="mailto:stephane@hillion.org">Stephane Hillion</a>
- * @version $Id: RGBColorValue.java,v 1.2 2005/11/22 09:59:57 wyan Exp $
+ * @version $Id: RGBColorValue.java,v 1.3 2005/11/22 11:03:36 wyan Exp $
  */
 public class RGBColorValue extends Value implements RGBColor
 {
@@ -89,6 +89,11 @@ public class RGBColorValue extends Value implements RGBColor
 	public CSSPrimitiveValue getBlue( ) throws DOMException
 	{
 		return blue;
+	}
+
+	public RGBColor getRGBColorValue( ) throws DOMException
+	{
+		return this;
 	}
 
 	/**

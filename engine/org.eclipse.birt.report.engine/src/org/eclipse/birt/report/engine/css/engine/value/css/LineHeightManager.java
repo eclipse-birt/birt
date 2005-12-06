@@ -76,7 +76,7 @@ public class LineHeightManager extends AbstractLengthManager {
 				return value;
 			case CSSPrimitiveValue.CSS_PERCENTAGE:
 				float scale = value.getFloatValue();
-				StyleDeclaration cs = (StyleDeclaration) elt.getComputedStyle();
+				IStyle cs = (IStyle) elt.getComputedStyle();
 				assert cs != null;
 				Value fontSize = (Value) cs.getProperty(IStyle.STYLE_FONT_SIZE);
 				assert fontSize != null;

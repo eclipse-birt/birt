@@ -13,18 +13,20 @@ package org.eclipse.birt.report.engine.css.engine.value;
 
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
+import org.eclipse.birt.report.engine.css.engine.ValueManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.w3c.css.sac.LexicalUnit;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
+import org.w3c.dom.css.RGBColor;
 
 /**
  * This class provides a manager for the property with support for CSS color
  * values.
  * 
- * @version $Id: AbstractColorManager.java,v 1.3 2005/11/17 07:00:46 thuang Exp $
+ * @version $Id: AbstractColorManager.java,v 1.4 2005/11/22 09:59:57 wyan Exp $
  */
 public abstract class AbstractColorManager extends IdentifierManager
 {
@@ -205,7 +207,8 @@ public abstract class AbstractColorManager extends IdentifierManager
 		if ( value.getCssValueType( ) == CSSValue.CSS_PRIMITIVE_VALUE )
 		{
 			CSSPrimitiveValue pvalue = (CSSPrimitiveValue) value;
-			if ( pvalue.getPrimitiveType( ) == CSSPrimitiveValue.CSS_IDENT )
+			int primitiveType = pvalue.getPrimitiveType( );
+			if ( primitiveType == CSSPrimitiveValue.CSS_IDENT )
 			{
 				String ident = pvalue.getStringValue( );
 				// Search for a direct computed value.
@@ -221,8 +224,56 @@ public abstract class AbstractColorManager extends IdentifierManager
 				}
 				return (Value) engine.getCSSContext( ).getSystemColor( ident );
 			}
+			if ( primitiveType == CSSPrimitiveValue.CSS_RGBCOLOR )
+			{
+				RGBColor color = value.getRGBColorValue( );
+				CSSPrimitiveValue red = color.getRed( );
+				CSSPrimitiveValue green = color.getGreen( );
+				CSSPrimitiveValue blue = color.getBlue( );
+
+				return createRGBColor( createColorComponent( red ),
+						createColorComponent( green ),
+						createColorComponent( blue ) );
+			}
 		}
 		return super.computeValue( elt, engine, idx, value );
+	}
+
+	protected CSSPrimitiveValue createColorComponent( CSSPrimitiveValue value )
+			throws DOMException
+	{
+		if ( value.getPrimitiveType( ) == CSSPrimitiveValue.CSS_PERCENTAGE )
+		{
+			float v = value.getFloatValue( CSSPrimitiveValue.CSS_PERCENTAGE );
+			if ( v < 0 )
+			{
+				v = 0.0f;
+			}
+			else if ( v > 100 )
+			{
+				v = 1.0f;
+			}
+			else
+			{
+				v = 255.0f * v / 100.0f;
+			}
+			return new FloatValue( CSSPrimitiveValue.CSS_NUMBER, v );
+		}
+		else if ( value.getPrimitiveType( ) == CSSPrimitiveValue.CSS_NUMBER )
+		{
+			float v = value.getFloatValue( CSSPrimitiveValue.CSS_NUMBER );
+			if ( v <= 0 )
+			{
+				v = 0;
+			}
+			else if ( v >= 255 )
+			{
+				v = 255;
+			}
+			return new FloatValue( CSSPrimitiveValue.CSS_NUMBER, v );
+		}
+		return value;
+
 	}
 
 	/**
