@@ -33,6 +33,7 @@ import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 
 public class RenderTask extends EngineTask implements IRenderTask
 {
+
 	IRenderOption renderOptions;
 	ReportDocumentReader reportDoc;
 	String emitterID;
@@ -117,7 +118,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 		EngineConfig config = engine.getConfig( );
 		if ( config != null )
-			services.setEmitterConfig( engine.getConfig( ).getEmitterConfigs( ) );
+			services
+					.setEmitterConfig( engine.getConfig( ).getEmitterConfigs( ) );
 		services.setRenderContext( context );
 
 		services.setReportRunnable( runnable );
@@ -152,8 +154,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 			format = "fop"; // $NON-NLS-1
 		}
 
-		if ( !ExtensionManager.getInstance( ).getSupportedFormat()
-				.contains( format ) )
+		if ( !ExtensionManager.getInstance( ).getSupportedFormat( ).contains(
+				format ) )
 		{
 			log.log( Level.SEVERE,
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
@@ -221,7 +223,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	public void close( )
 	{
-		reportDoc.close();
+		reportDoc.close( );
 		super.close( );
 	}
 }
