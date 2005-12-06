@@ -5,6 +5,9 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 
+/**
+ * Represents a the design of an Image in the scripting environment
+ */
 public interface IImage extends IReportItem
 {
 

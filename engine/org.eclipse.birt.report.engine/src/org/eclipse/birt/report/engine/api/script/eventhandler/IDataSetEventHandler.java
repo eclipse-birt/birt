@@ -34,7 +34,7 @@ public interface IDataSetEventHandler
 	/**
 	 * Handle the onFetch event
 	 */
-	void onFetch( IRowData expressionResults,
+	void onFetch( IRowData rowData,
 			IReportContext reportContext );
 
 	/**

@@ -31,7 +31,7 @@ public interface ICellEventHandler
 	 * Handle the onCreate event
 	 */
 	void onCreate( ICellInstance cellInstance,
-			IRowData expressionResults, IReportContext reportContext );
+			IRowData rowData, IReportContext reportContext );
 
 	/**
 	 * Handle the onRender event

@@ -4,6 +4,9 @@ import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 
+/**
+ * Represents a the design of a DataItem in the scripting environment
+ */
 public interface IDataItem extends IReportItem
 {
 

@@ -4,6 +4,9 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
+/**
+ * Represents a the design of a report item in the scripting environment
+ */
 public interface IReportItem extends IReportElement
 {
 

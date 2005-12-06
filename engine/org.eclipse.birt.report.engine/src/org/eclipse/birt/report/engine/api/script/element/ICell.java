@@ -2,6 +2,10 @@ package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
+/**
+ * Represents a the design of a Cell in the scripting environment
+ * 
+ */
 public interface ICell extends IReportElement
 {
 

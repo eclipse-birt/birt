@@ -27,7 +27,7 @@ public class CellEventAdapter implements ICellEventHandler
 	}
 
 	public void onCreate( ICellInstance cellInstance,
-			IRowData expressionResults, IReportContext reportContext )
+			IRowData rowData, IReportContext reportContext )
 	{
 	}
 

@@ -1,6 +1,5 @@
 package org.eclipse.birt.report.engine.api.script.instance;
 
-import org.eclipse.birt.report.engine.api.script.IScriptStyle;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 public interface IRowInstance

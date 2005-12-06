@@ -3,6 +3,9 @@ package org.eclipse.birt.report.engine.api.script.element;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
+/**
+ * Represents a row in the scripting environment
+ */
 public interface IRow extends IReportElement
 {
 

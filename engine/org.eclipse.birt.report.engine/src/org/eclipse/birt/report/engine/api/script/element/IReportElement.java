@@ -3,6 +3,9 @@ package org.eclipse.birt.report.engine.api.script.element;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 
+/**
+ * Represents a the design of a report element in the scripting environment
+ */
 public interface IReportElement
 {
 

@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.api.script.IScriptStyle;
+import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 
 /**
  * A class representing the style of a report item in the scripting environment

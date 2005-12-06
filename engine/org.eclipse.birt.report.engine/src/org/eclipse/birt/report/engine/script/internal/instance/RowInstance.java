@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.engine.script.internal.instance;
 
-import org.eclipse.birt.report.engine.api.script.IScriptStyle;
 import org.eclipse.birt.report.engine.api.script.instance.IGridRowInstance;
+import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.api.script.instance.ITableDetailRowInstance;
 import org.eclipse.birt.report.engine.api.script.instance.ITableFooterRowInstance;
 import org.eclipse.birt.report.engine.api.script.instance.ITableHeaderRowInstance;

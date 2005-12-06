@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.engine.script.internal.instance;
 
-import org.eclipse.birt.report.engine.api.script.IScriptStyle;
 import org.eclipse.birt.report.engine.api.script.instance.ICellInstance;
+import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 
 /**

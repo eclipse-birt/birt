@@ -1,5 +1,8 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
+/**
+ * Represents a the design of a Grid in the scripting environment
+ */
 public interface IGrid extends IReportItem
 {
 

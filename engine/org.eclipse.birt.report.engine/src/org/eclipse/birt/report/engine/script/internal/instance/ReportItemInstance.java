@@ -13,8 +13,8 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 
 import java.lang.String;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.api.script.IScriptStyle;
 import org.eclipse.birt.report.engine.api.script.instance.IReportItemInstance;
+import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.content.impl.AbstractContent;
 
 /**

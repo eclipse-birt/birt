@@ -12,6 +12,10 @@ package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
+/**
+ * Represents the design time style for a report element in the scripting
+ * environment
+ */
 public interface IScriptStyleDesign
 {
 

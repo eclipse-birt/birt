@@ -29,7 +29,7 @@ public class DataSetEventAdapter implements IDataSetEventHandler
 	{
 	}
 
-	public void onFetch( IRowData expressionResults,
+	public void onFetch( IRowData rowData,
 			IReportContext reportContext )
 	{
 	}
