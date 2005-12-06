@@ -53,7 +53,8 @@ public class ElementExportUtil
 	 * @throws IOException
 	 *             if error encountered when writing file.
 	 * @throws IllegalArgumentException
-	 *             if the element to export is not in design file.
+	 *             if the element to export is not in design file, or the
+	 *             element doesn't has name.
 	 */
 
 	public static void exportElement( DesignElementHandle elementToExport,
@@ -164,9 +165,7 @@ public class ElementExportUtil
 			throws SemanticException
 	{
 		ElementExporter.checkElementToExport( elementToExport );
-
 		ElementExporter exporter = new ElementExporter( targetLibraryHandle );
-
 		exporter.exportElement( elementToExport, canOverride );
 	}
 
@@ -201,7 +200,6 @@ public class ElementExportUtil
 			throws DesignFileException, SemanticException, IOException
 	{
 		ElementExporter.checkStructureToExport( structToExport );
-
 		DesignSession session = structToExport.getElementHandle( ).getModule( )
 				.getSession( );
 		LibraryHandle libraryHandle = openOrCreateLibrary( session,
@@ -318,30 +316,37 @@ public class ElementExportUtil
 	 * as the given name.
 	 * 
 	 * @param designToExport
-	 * 				the design which need to be exported
+	 *            the design which need to be exported
 	 * @param libraryFileName
-	 * 				target library file name 
-	 * 				
+	 *            target library file name
+	 * @param canOverride
+	 *            indicates whether the element with the same name in target
+	 *            library will be overriden.
+	 * @param genDefaultName
+	 *            if true, a default name will be generated if an element
+	 *            doesn't has a name. if false, an exception will be throwed
+	 *            indicate that the element to export must has a name
 	 * @throws DesignFileException
-	 * 				if the library file has fatal errors which can not be opened.
+	 *             if the library file has fatal errors which can not be opened.
 	 * @throws SemanticException
-	 * 				if error encountered when element name is duplicated in the target library.
+	 *             if error encountered when element name is duplicated in the
+	 *             target library.
+	 * 
 	 * @throws IOException
-	 * 				if error encountered when writing file.
+	 *             if error encountered when writing file.
 	 */
 
 	public static void exportDesign( ReportDesignHandle designToExport,
-			String libraryFileName, boolean canOverride ) throws DesignFileException,
-			SemanticException, IOException
+			String libraryFileName, boolean canOverride, boolean genDefaultName )
+			throws DesignFileException, SemanticException, IOException
 	{
-
 		DesignSession session = designToExport.getModule( ).getSession( );
 		LibraryHandle libraryHandle = openOrCreateLibrary( session,
 				libraryFileName );
 		assert libraryHandle != null;
 
-		exportDesign( designToExport, libraryHandle, canOverride );
-		
+		exportDesign( designToExport, libraryHandle, canOverride,
+				genDefaultName );
 		libraryHandle.save( );
 		libraryHandle.close( );
 	}
@@ -353,18 +358,25 @@ public class ElementExportUtil
 	 *            handle of the report design to export
 	 * @param targetLibraryHandle
 	 *            handle of target library
+	 * @param canOverride
+	 *            indicates whether the element with the same name in target
+	 *            library will be overriden.
+	 * @param genDefaultName
+	 *            if true, a default name will be generated if an element
+	 *            doesn't has a name. if false, an exception will be throwed
+	 *            indicate that the element to export must has a name
 	 * @throws SemanticException
 	 *             if error encountered when element name is duplicate in the
 	 *             target library.
 	 */
 
 	public static void exportDesign( ReportDesignHandle designToExport,
-			LibraryHandle targetLibraryHandle, boolean canOverride ) throws SemanticException
+			LibraryHandle targetLibraryHandle, boolean canOverride,
+			boolean genDefaultName ) throws SemanticException
 	{
 
 		ElementExporter exporter = new ElementExporter( targetLibraryHandle );
-
-		exporter.exportDesign( designToExport,canOverride );
+		exporter.exportDesign( designToExport, canOverride, genDefaultName );
 	}
 
 	/**

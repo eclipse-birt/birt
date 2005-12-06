@@ -298,7 +298,7 @@ class ElementExporter
 			DesignElement duplicateElement = nameSpace
 					.getElement( elementToExport.getName( ) );
 			if ( duplicateElement != null )
-				duplicateElement.getHandle( elementToExport.getModule( ) )
+				duplicateElement.getHandle( targetLibraryHandle.getModule() )
 						.drop( );
 		}
 
@@ -408,13 +408,20 @@ class ElementExporter
 	 * 
 	 * @param designToExport
 	 *            handle of the report design to export.
+	 * @param canOverride
+	 *            indicates whether the element with the same name in target
+	 *            library will be overriden.
+	 * @param genDefaultName
+	 *            if true, a default name will be generated if an element
+	 *            doesn't has a name. if false, an exception will be throwed
+	 *            indicate that the element to export must has a name
 	 * @throws SemanticException
 	 *             if error encountered when adding this element to target
 	 *             library or duplicating property value from the given element.
 	 */
 
-	void exportDesign( ReportDesignHandle designToExport, boolean canOverride )
-			throws SemanticException
+	void exportDesign( ReportDesignHandle designToExport, boolean canOverride,
+			boolean genDefaultName ) throws SemanticException
 	{
 		ModelUtil.duplicateProperties( designToExport, targetLibraryHandle,
 				false );
@@ -432,8 +439,26 @@ class ElementExporter
 				DesignElementHandle contentHandle = (DesignElementHandle) iter
 						.next( );
 
-				if ( !StringUtil.isBlank( contentHandle.getName( ) ) )
-					exportElement( contentHandle, canOverride );
+				if ( StringUtil.isBlank( contentHandle.getName( ) ) )
+				{
+					if ( !genDefaultName )
+					{
+						String typeName = contentHandle.getDefn( )
+								.getDisplayName( );
+						String location = contentHandle.getElement( )
+								.getIdentifier( );
+
+						throw new IllegalArgumentException(
+								"The element [type=\"" + typeName + "\"," //$NON-NLS-1$//$NON-NLS-2$ 
+										+ "location=\"" + location + "\"] must have name defined." ); //$NON-NLS-1$ //$NON-NLS-2$
+					}
+
+					targetLibraryHandle.getModule( ).makeUniqueName(
+							contentHandle.getElement( ) );
+				}
+
+				exportElement( contentHandle, canOverride );
+
 			}
 		}
 	}
