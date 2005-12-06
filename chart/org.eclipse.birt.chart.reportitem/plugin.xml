@@ -66,6 +66,7 @@
             displayNameID="Element.Chart"
             defaultStyle="chart"
             extensionName="Chart">
+         <style name="chart" displayNameID="Element.Chart"/>
          <property
                type="xml"
                displayNameID="Element.Chart.xmlRepresentation"
