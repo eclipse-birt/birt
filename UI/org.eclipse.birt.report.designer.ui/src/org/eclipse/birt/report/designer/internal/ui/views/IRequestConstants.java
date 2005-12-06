@@ -27,6 +27,11 @@ public interface IRequestConstants
 	String REQUEST_CREATE_PLACEHOLDER = "create-placeholder"; //$NON-NLS-1$
 	
 	String REQUEST_TRANSFER_PLACEHOLDER = "transfer-placeholder"; //$NON-NLS-1$
+	
+//	String REQUST_REVERT_TEMPLATE ="revert-template"; //$NON-NLS-1$
+	
+	String	REQUST_REVERT_TO_REPORTITEM = "revert-to-reportitem"; //$NON-NLS-1$
+	String REQUST_REVERT_TO_TEMPLATEITEM = "revert-to-templateitem"; //$NON-NLS-1$
 
 	/**
 	 * @deprecated

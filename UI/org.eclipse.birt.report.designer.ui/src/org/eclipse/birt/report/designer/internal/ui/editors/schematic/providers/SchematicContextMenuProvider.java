@@ -35,6 +35,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.In
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowBelowAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.MergeAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.RevertToReportItemPartAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.RevertToTemplatePartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SplitAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
@@ -81,6 +82,7 @@ import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
+import org.eclipse.gef.ui.actions.UpdateAction;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
@@ -149,6 +151,10 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	protected IAction getAction( String actionID )
 	{
 		IAction action = getActionRegistry( ).getAction( actionID );
+		if ( action instanceof UpdateAction )
+		{
+			( (UpdateAction) action ).update( );
+		}
 		return action;
 	}
 
@@ -262,6 +268,14 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				if ( firstSelectedElement instanceof ReportItemHandle )
 				{
 					IAction action = getAction( CreatePlaceHolderPartAction.ID );
+					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+							action );
+
+					action = getAction( RevertToReportItemPartAction.ID );
+					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+							action );
+
+					action = getAction( RevertToTemplatePartAction.ID );
 					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 							action );
 				}
@@ -428,9 +442,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	private boolean isMutilSelection( Object multiSelection )
 	{
 		return multiSelection != null && ( multiSelection == Object.class // report
-																			// design
-																			// and
-																			// slot
+				// design
+				// and
+				// slot
 				// multi ?
 				|| multiSelection == DesignElementHandle.class
 				// report design

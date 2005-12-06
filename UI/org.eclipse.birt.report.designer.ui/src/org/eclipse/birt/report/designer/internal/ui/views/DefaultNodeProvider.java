@@ -367,9 +367,33 @@ public class DefaultNodeProvider implements INodeProvider
 		{
 			return performTransferPlaceHolder( (TemplateElementHandle) model );
 		}
+		if ( request.getType( ).equals(
+				IRequestConstants.REQUST_REVERT_TO_REPORTITEM) )
+		{
+			return performRevertToReportItem( (DesignElementHandle) model );
+		}
+		if ( request.getType( ).equals(
+				IRequestConstants.REQUST_REVERT_TO_TEMPLATEITEM) )
+		{
+			return performRevertToTemplateItem( (DesignElementHandle) model );
+		}
 
 		return false;
 	}
+	
+	private boolean performRevertToTemplateItem( DesignElementHandle handle )
+	{
+		try
+		{	
+			handle.revertToTemplate(""); //$NON-NLS-1$
+		}
+		catch ( SemanticException e )
+		{
+			return false;
+		}
+		return true;
+	}
+	
 
 	private boolean performTransferPlaceHolder( TemplateElementHandle handle )
 	{
@@ -389,6 +413,19 @@ public class DefaultNodeProvider implements INodeProvider
 		return true;
 	}
 
+	private boolean performRevertToReportItem( DesignElementHandle handle )
+	{
+		try
+		{
+			 handle.revertToReportItem( );
+		}
+		catch ( SemanticException e )
+		{
+			return false;
+		}
+		return true;
+	}
+	
 	private boolean performCreatePlaceHolder( ReportElementHandle handle )
 	{
 		try
@@ -397,7 +434,7 @@ public class DefaultNodeProvider implements INodeProvider
 					.createTemplateElement( null );
 
 			String desc = template.getDescription( );
-			desc = desc == null ? "" : desc;
+			desc = desc == null ? "" : desc; //$NON-NLS-1$
 			TemplateReportItemPropertiesDialog dialog = new TemplateReportItemPropertiesDialog(
 					template.getDefaultElement( ).getDefn( ).getDisplayName( ),
 					desc );
