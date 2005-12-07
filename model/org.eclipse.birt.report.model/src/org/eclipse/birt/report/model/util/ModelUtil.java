@@ -36,12 +36,15 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.command.LibraryException;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
@@ -53,6 +56,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.xml.sax.SAXException;
@@ -734,4 +738,48 @@ public class ModelUtil
 		theme.setContainer( library, Library.THEMES_SLOT );
 	}
 
+	/**
+	 * Uses the new name space of the current module for reference property
+	 * values of the given element. This method checks the <code>content</code>
+	 * and nested elements in it.
+	 * 
+	 * @param module
+	 *            the module that <code>content</code> attaches.
+	 * @param content
+	 *            the element to revise
+	 * @param nameSpace
+	 *            the new name space
+	 */
+
+	public static void reviseNameSpace( Module module, DesignElement content,
+			String nameSpace )
+	{
+
+		List propDefns = content.getPropertyDefns( );
+		for ( int i = 0; i < propDefns.size( ); i++ )
+		{
+			ElementPropertyDefn propDefn = (ElementPropertyDefn) propDefns
+					.get( i );
+			if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
+				continue;
+
+			Object value = content.getLocalProperty( module, propDefn );
+			if ( value == null )
+				continue;
+
+			ReferenceValue refValue = (ReferenceValue) value;
+			refValue.setLibraryNamespace( nameSpace );
+		}
+
+		IElementDefn defn = content.getDefn( );
+
+		for ( int i = 0; i < defn.getSlotCount( ); i++ )
+		{
+			ContainerSlot slot = content.getSlot( i );
+
+			if ( slot != null )
+				for ( int pos = 0; pos < slot.getCount( ); pos++ )
+					reviseNameSpace( module, slot.getContent( pos ), nameSpace );
+		}
+	}
 }

@@ -20,15 +20,12 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
-import org.eclipse.birt.report.model.api.metadata.IElementDefn;
-import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.command.ContentCommand;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.ReferenceValue;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents a "slot" within an element. A slot holds a collection of report
@@ -208,7 +205,7 @@ public class SlotHandle extends ElementDetailHandle
 		add( content, newPos );
 
 		return Collections.EMPTY_LIST;
-//		return checkPostPasteErrors( content.getElement( ) );
+		// return checkPostPasteErrors( content.getElement( ) );
 	}
 
 	/**
@@ -253,54 +250,13 @@ public class SlotHandle extends ElementDetailHandle
 		if ( currentModule != null && currentModule instanceof Library )
 			nameSpace = ( (Library) currentModule ).getNamespace( );
 
-		reviseNameSpace( content, nameSpace );
+		ModelUtil.reviseNameSpace( getElementHandle( ).getEffectiveModule( ),
+				content, nameSpace );
 
 		List exceptionList = content.validateWithContents( getModule( ) );
 		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
 
 		return errorDetailList;
-	}
-
-	/**
-	 * Uses the new name space of the current module for reference property
-	 * values of the given element. This method checks the <code>content</code>
-	 * and nested elements in it.
-	 * 
-	 * @param content
-	 *            the element to revise
-	 * @param nameSpace
-	 *            the new name space
-	 */
-
-	private void reviseNameSpace( DesignElement content, String nameSpace )
-	{
-
-		List propDefns = content.getPropertyDefns( );
-		for ( int i = 0; i < propDefns.size( ); i++ )
-		{
-			ElementPropertyDefn propDefn = (ElementPropertyDefn) propDefns
-					.get( i );
-			if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
-				continue;
-
-			Object value = content.getLocalProperty( getModule( ), propDefn );
-			if ( value == null )
-				continue;
-
-			ReferenceValue refValue = (ReferenceValue) value;
-			refValue.setLibraryNamespace( nameSpace );
-		}
-
-		IElementDefn defn = content.getDefn( );
-
-		for ( int i = 0; i < defn.getSlotCount( ); i++ )
-		{
-			ContainerSlot slot = elementHandle.getElement( ).getSlot( i );
-
-			if ( slot != null )
-				for ( int pos = 0; pos < slot.getCount( ); pos++ )
-					reviseNameSpace( slot.getContent( pos ), nameSpace );
-		}
 	}
 
 	/**
