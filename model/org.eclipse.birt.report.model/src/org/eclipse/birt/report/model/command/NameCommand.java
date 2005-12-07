@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ReferenceValue;
 
 /**
  * Renames a design element.
@@ -119,6 +120,12 @@ public class NameCommand extends AbstractElementCommand
 			if ( metaData.getNameOption( ) == MetaDataConstants.NO_NAME )
 				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN );
+
+			if ( name.indexOf( ReferenceValue.NAMESPACE_DELIMITER ) != -1 )
+			{
+				throw new NameException( element, name,
+						NameException.DESIGN_EXCEPTION_DOT_FORBIDDEN );
+			}
 
 			// if the element is a pending node and not in any module, or it is
 			// in a slot that is not managed by namespace, then we need not

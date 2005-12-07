@@ -59,6 +59,11 @@ public class NameException extends SemanticException
 
 	public static final String DESIGN_EXCEPTION_HAS_REFERENCES = MessageConstants.NAME_EXCEPTION_HAS_REFERENCES;
 
+	/**
+	 * The character "." is forbidden to NamePropertyType.
+	 */
+
+	public static final String DESIGN_EXCEPTION_DOT_FORBIDDEN = MessageConstants.NAME_EXCEPTION_DOT_FORBIDDEN;
 
 	/**
 	 * Constructor.
@@ -109,6 +114,10 @@ public class NameException extends SemanticException
 		{
 			return ModelMessages.getMessage( sResourceKey,
 					new String[]{getElementName( element )} );
+		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_DOT_FORBIDDEN )
+		{
+			return ModelMessages.getMessage( sResourceKey, new String[]{name} );
 		}
 
 		return ModelMessages.getMessage( sResourceKey );

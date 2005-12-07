@@ -93,7 +93,7 @@ public class NamePropertyType extends TextualPropertyType
 							NAME_TYPE );
 				return null;
 			}
-			else if ( stringValue.indexOf( "." ) != -1 ) //$NON-NLS-1$
+			else if ( stringValue.indexOf( ReferenceValue.NAMESPACE_DELIMITER ) != -1 ) //$NON-NLS-1$
 			{
 				if ( !EmbeddedImage.EMBEDDED_IMAGE_STRUCT
 						.equalsIgnoreCase( defn.definedBy( ).getName( ) ) )

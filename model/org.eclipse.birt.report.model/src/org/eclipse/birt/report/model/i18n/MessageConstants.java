@@ -104,7 +104,8 @@ public interface MessageConstants
 	public static final String NAME_EXCEPTION_NAME_FORBIDDEN = "Error.NameException.NAME_FORBIDDEN"; //$NON-NLS-1$
 	public static final String NAME_EXCEPTION_DUPLICATE = "Error.NameException.DUPLICATE"; //$NON-NLS-1$
 	public static final String NAME_EXCEPTION_HAS_REFERENCES = "Error.NameException.HAS_REFERENCES"; //$NON-NLS-1$
-
+	public static final String NAME_EXCEPTION_DOT_FORBIDDEN = "Error.NameException.DOT_FORBIDDEN"; //$NON-NLS-1$
+	
 	// PropertyNameException
 	public static final String PROPERTY_NAME_EXCEPTION_PROPERTY_NOT_VALID = "Error.PropertyNameException.PROPERTY_NOT_VALID"; //$NON-NLS-1$
 	public static final String PROPERTY_NAME_EXCEPTION_MEMBER_NOT_VALID = "Error.PropertyNameException.MEMBER_NOT_VALID"; //$NON-NLS-1$
@@ -263,6 +264,6 @@ public interface MessageConstants
 	public static final String TEMPLATE_EXCEPTION_CREATE_TEMPLATE_ELEMENT_FORBIDDEN = "Error.TemplateException.CREATE_TEMPLATE_ELEMENT_FORBIDDEN"; //$NON-NLS-1$
 	public static final String TEMPLATE_EXCEPTION_TEMPLATE_ELEMENT_NOT_SUPPORTED = "Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED"; //$NON-NLS-1$
 	public static final String TEMPLATE_EXCEPTION_REVERT_TO_TEMPLATE_FORBIDDEN = "Error.TemplateException.REVERT_TO_TEMPLATE_FORBIDDEN"; //$NON-NLS-1$
+
 		
-	
 }
