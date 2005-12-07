@@ -2106,7 +2106,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		final boolean bFirstInSequence = ( iSeriesIndex == 0 );
 		final boolean bLastInSequence = ( iSeriesIndex == iSeriesCount - 1 );
 
-		final Bounds boPlot = getPlotBounds( );
+		final PlotWithAxes pwa = (PlotWithAxes) getComputations( );
 
 		if ( bFirstInSequence )
 		{
@@ -2129,7 +2129,15 @@ public abstract class AxesRenderer extends BaseRenderer
 
 		try
 		{
-			Bounds boClipping = getPlotBounds( );
+			Bounds boClipping = (Bounds) EcoreUtil.copy( pwa.getPlotBounds( ) );
+
+			if ( pwa.getDimension( ) == IConstants.TWO_5_D )
+			{
+				boClipping.setLeft( boClipping.getLeft( )
+						- pwa.getSeriesThickness( ) );
+				boClipping.setHeight( boClipping.getHeight( )
+						+ pwa.getSeriesThickness( ) );
+			}
 
 			Location[] loaClipping = new Location[4];
 			loaClipping[0] = LocationImpl.create( boClipping.getLeft( ),
@@ -2164,6 +2172,8 @@ public abstract class AxesRenderer extends BaseRenderer
 
 			if ( bLastInSequence )
 			{
+				final Bounds boPlot = getPlotBounds( );
+
 				try
 				{
 					if ( isDimension3D( ) )
@@ -2183,7 +2193,6 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 
 				// SETUP AXIS ARRAY
-				final PlotWithAxes pwa = (PlotWithAxes) getComputations( );
 				final AllAxes aax = pwa.getAxes( );
 				final OneAxis[] oaxa = new OneAxis[2
 						+ aax.getOverlayCount( )

@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.device.swing;
 import java.awt.Polygon;
 import java.awt.Shape;
 import java.awt.geom.Arc2D;
+import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -40,12 +41,105 @@ public final class ShapedAction
 	 * @param loa
 	 * @param ac
 	 */
-	ShapedAction( Object oSource, Location[] loa, Action ac )
+	ShapedAction( Object oSource, Location[] loa, Action ac, Shape clipping )
 	{
 		_oSource = oSource;
 		final int[][] i2a = SwingRendererImpl.getCoordinatesAsInts( loa );
-		_sh = new Polygon( i2a[0], i2a[1], loa.length );
+		if ( clipping != null )
+		{
+			Area ar1 = new Area( clipping );
+			Area ar2 = new Area( new Polygon( i2a[0], i2a[1], loa.length ) );
+			ar2.intersect( ar1 );
+			_sh = ar2;
+		}
+		else
+		{
+			_sh = new Polygon( i2a[0], i2a[1], loa.length );
+		}
 		_ac = ac;
+	}
+
+	/**
+	 * This constructor supports shape definition via an ellipse
+	 * 
+	 * @param oSource
+	 * @param boEllipse
+	 * @param ac
+	 */
+	ShapedAction( Object oSource, Bounds boEllipse, Action ac, Shape clipping )
+	{
+		_oSource = oSource;
+		if ( clipping != null )
+		{
+			Area ar1 = new Area( clipping );
+			Area ar2 = new Area( new Ellipse2D.Double( boEllipse.getLeft( ),
+					boEllipse.getTop( ),
+					boEllipse.getWidth( ),
+					boEllipse.getHeight( ) ) );
+			ar2.intersect( ar1 );
+			_sh = ar2;
+		}
+		else
+		{
+			_sh = new Ellipse2D.Double( boEllipse.getLeft( ),
+					boEllipse.getTop( ),
+					boEllipse.getWidth( ),
+					boEllipse.getHeight( ) );
+		}
+		_ac = ac;
+	}
+
+	/**
+	 * This constructor supports shape definition via an elliptical arc
+	 * 
+	 * @param oSource
+	 * @param boEllipse
+	 * @param dStart
+	 * @param dExtent
+	 * @param iArcType
+	 * @param ac
+	 */
+	ShapedAction( Object oSource, Bounds boEllipse, double dStart,
+			double dExtent, int iArcType, Action ac, Shape clipping )
+	{
+		_oSource = oSource;
+		if ( clipping != null )
+		{
+			Area ar1 = new Area( clipping );
+			Area ar2 = new Area( new Arc2D.Double( boEllipse.getLeft( ),
+					boEllipse.getTop( ),
+					boEllipse.getWidth( ),
+					boEllipse.getHeight( ),
+					dStart,
+					dExtent,
+					iArcType ) );
+			ar2.intersect( ar1 );
+			_sh = ar2;
+		}
+		else
+		{
+			_sh = new Arc2D.Double( boEllipse.getLeft( ),
+					boEllipse.getTop( ),
+					boEllipse.getWidth( ),
+					boEllipse.getHeight( ),
+					dStart,
+					dExtent,
+					iArcType );
+		}
+		_ac = ac;
+	}
+
+	/**
+	 * This constructor supports polygon shapes Future shapes (and corresponding
+	 * constructors) will be added later
+	 * 
+	 * @param loa
+	 * @param ac
+	 * 
+	 */
+	ShapedAction( Object oSource, Location[] loa, Action ac )
+	{
+		this( oSource, loa, ac, null );
 	}
 
 	/**
@@ -57,12 +151,7 @@ public final class ShapedAction
 	 */
 	ShapedAction( Object oSource, Bounds boEllipse, Action ac )
 	{
-		_oSource = oSource;
-		_sh = new Ellipse2D.Double( boEllipse.getLeft( ),
-				boEllipse.getTop( ),
-				boEllipse.getWidth( ),
-				boEllipse.getHeight( ) );
-		_ac = ac;
+		this( oSource, boEllipse, ac, null );
 	}
 
 	/**
@@ -78,15 +167,7 @@ public final class ShapedAction
 	ShapedAction( Object oSource, Bounds boEllipse, double dStart,
 			double dExtent, int iArcType, Action ac )
 	{
-		_oSource = oSource;
-		_sh = new Arc2D.Double( boEllipse.getLeft( ),
-				boEllipse.getTop( ),
-				boEllipse.getWidth( ),
-				boEllipse.getHeight( ),
-				dStart,
-				dExtent,
-				iArcType );
-		_ac = ac;
+		this( oSource, boEllipse, dStart, dExtent, iArcType, ac, null );
 	}
 
 	/**

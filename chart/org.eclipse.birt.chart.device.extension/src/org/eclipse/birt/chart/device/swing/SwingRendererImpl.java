@@ -1364,6 +1364,8 @@ public class SwingRendererImpl extends DeviceAdapter
 			return;
 		}
 
+		Shape clipping = _g2d.getClip( );
+
 		// CREATE AND SETUP THE SHAPES FOR INTERACTION
 		TriggerCondition tc;
 		ArrayList al;
@@ -1383,7 +1385,8 @@ public class SwingRendererImpl extends DeviceAdapter
 				}
 				al.add( new ShapedAction( iev.getSource( ),
 						loa,
-						tga[i].getAction( ) ) );
+						tga[i].getAction( ),
+						clipping ) );
 			}
 		}
 		else if ( pre instanceof RectangleRenderEvent )
@@ -1410,7 +1413,8 @@ public class SwingRendererImpl extends DeviceAdapter
 				}
 				al.add( new ShapedAction( iev.getSource( ),
 						loa,
-						tga[i].getAction( ) ) );
+						tga[i].getAction( ),
+						clipping ) );
 			}
 		}
 		else if ( pre instanceof OvalRenderEvent )
@@ -1428,7 +1432,8 @@ public class SwingRendererImpl extends DeviceAdapter
 				}
 				al.add( new ShapedAction( iev.getSource( ),
 						boEllipse,
-						tga[i].getAction( ) ) );
+						tga[i].getAction( ),
+						clipping ) );
 			}
 		}
 		else if ( pre instanceof ArcRenderEvent )
@@ -1453,7 +1458,8 @@ public class SwingRendererImpl extends DeviceAdapter
 						dStart,
 						dExtent,
 						iArcType,
-						tga[i].getAction( ) ) );
+						tga[i].getAction( ),
+						clipping ) );
 			}
 		}
 

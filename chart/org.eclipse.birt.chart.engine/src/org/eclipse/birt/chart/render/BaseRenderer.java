@@ -2776,7 +2776,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				c = '&';
 			}
-			if ( uv.getBaseParameterName( ) != null )
+			if ( uv.getBaseParameterName( ) != null
+					&& uv.getBaseParameterName( ).length( ) > 0 )
 			{
 				sb.append( c );
 				c = '&';
@@ -2785,7 +2786,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				sb.append( URLValueImpl.encode( dph.getBaseDisplayValue( ) ) );
 			}
 
-			if ( uv.getValueParameterName( ) != null )
+			if ( uv.getValueParameterName( ) != null
+					&& uv.getValueParameterName( ).length( ) > 0 )
 			{
 				sb.append( c );
 				c = '&';
