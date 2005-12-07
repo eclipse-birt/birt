@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.parts;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -104,7 +105,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.18 $ $Date: 2005/10/09 07:21:03 $
+ * @version $Revision: 1.19 $ $Date: 2005/10/10 09:38:22 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
 		EditorSelectionProvider,
@@ -114,7 +115,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	private PaletteViewerProvider provider;
 	private FlyoutPaletteComposite splitter;
 	private CustomPalettePage page;
-	//private ButtonPaneComposite bPane;
+	// private ButtonPaneComposite bPane;
 
 	/**
 	 * the list of action ids that are to CommandStack actions
@@ -368,11 +369,10 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	/**
 	 * @return button pane that provides function to change pages.
 	 */
-//	public ButtonPaneComposite getButtonPane( )
-//	{
-//		return bPane;
-//	}
-
+	// public ButtonPaneComposite getButtonPane( )
+	// {
+	// return bPane;
+	// }
 	protected boolean hasRuler( )
 	{
 		return false;
@@ -388,11 +388,11 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	 */
 	public void createPartControl( Composite parent )
 	{
-//		if ( hasButtonPane( ) )
-//		{
-//			bPane = new ButtonPaneComposite( parent, 0, hasRuler( ) );
-//			parent = bPane;
-//		}
+		// if ( hasButtonPane( ) )
+		// {
+		// bPane = new ButtonPaneComposite( parent, 0, hasRuler( ) );
+		// parent = bPane;
+		// }
 
 		splitter = new FlyoutPaletteComposite( parent,
 				SWT.NONE,
@@ -405,10 +405,10 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 
 		splitter.setGraphicalControl( ctrl );
 
-//		if ( hasButtonPane( ) )
-//		{
-//			bPane.setGraphicalControl( splitter );
-//		}
+		// if ( hasButtonPane( ) )
+		// {
+		// bPane.setGraphicalControl( splitter );
+		// }
 
 		if ( page != null )
 		{
@@ -459,9 +459,8 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 
 		if ( type == DataViewPage.class )
 		{
-			DataViewTreeViewerPage page = new DataViewTreeViewerPage( 
-					(ModuleHandle) ( (AbstractMultiPageEditor) getMultiPageEditor( ) )
-										.getInputContext().getModel() );
+			DataViewTreeViewerPage page = new DataViewTreeViewerPage( (ModuleHandle) ( (AbstractMultiPageEditor) getMultiPageEditor( ) ).getInputContext( )
+					.getModel( ) );
 			return page;
 		}
 
@@ -805,24 +804,68 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		List list = event.getSelectionModelList( );
 		int size = list.size( );
 
-		if ( size == 1 && list.get( 0 ) instanceof RowHandle )
+		if ( size != 0 && list.get( 0 ) instanceof RowHandle )
 		{
-			//Fix Bugzilla Bug 109571
-			RowHandle handle = (RowHandle)list.get( 0 );
-			if (handle.getRoot() == null)
+			// Fix Bugzilla Bug 109571
+			RowHandle handle = (RowHandle) list.get( 0 );
+
+			RowHandleAdapter adapter = HandleAdapterFactory.getInstance( )
+					.getRowHandleAdapter( handle );
+
+			Object tableParent = adapter.getTableParent( );
+			TableEditPart part = (TableEditPart) getGraphicalViewer( ).getEditPartRegistry( )
+					.get( tableParent );
+			int[] selectRows = new int[]{
+				adapter.getRowNumber( )
+			};
+			for ( int i = 1; i < size; i++ )
+			{
+				Object o = list.get( i );
+				if ( o instanceof RowHandle )
+				{
+					handle = (RowHandle) o;
+					adapter = HandleAdapterFactory.getInstance( )
+							.getRowHandleAdapter( handle );
+					// not sample table, return null
+					if ( tableParent != adapter.getTableParent( ) )
+					{
+						return null;
+					}
+
+					int len = selectRows.length;
+					int temp[] = new int[len + 1];
+					System.arraycopy( selectRows, 0, temp, 0, len );
+					temp[len] = adapter.getRowNumber( );
+					selectRows = temp;
+				}
+				else
+				// not suport this kind of selection
+				{
+					return null;
+				}
+			}
+
+			if ( handle.getRoot( ) == null )
 			{
 				return null;
 			}
-			//end
-			RowHandleAdapter adapter = HandleAdapterFactory.getInstance( )
-					.getRowHandleAdapter( handle );
-			TableEditPart part = (TableEditPart) getGraphicalViewer( ).getEditPartRegistry( )
-					.get( adapter.getTableParent( ) );
+			// end
+
 			if ( part != null )
 			{
-				part.selectRow( new int[]{
-					adapter.getRowNumber( )
-				} );
+				Arrays.sort( selectRows );
+				int len = selectRows.length;
+				if ( len > 1 )
+				{
+					for ( int i = 0; i < len - 1; i++ )
+					{
+						if ( selectRows[i + 1] - selectRows[i] != 1 )
+						{
+							return null;
+						}
+					}
+				}
+				part.selectRow( selectRows );
 			}
 			return null;
 		}
