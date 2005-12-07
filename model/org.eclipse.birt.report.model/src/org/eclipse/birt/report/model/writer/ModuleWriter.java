@@ -900,6 +900,13 @@ public abstract class ModuleWriter extends ElementVisitor
 			resourceKey( propDefn, UserPropertyDefn.DISPLAY_NAME_ID_MEMBER,
 					UserPropertyDefn.DISPLAY_NAME_MEMBER );
 
+			// write default value
+
+			if ( propDefn.getDefault( ) != null )
+				writeEntry( DesignSchemaConstants.PROPERTY_TAG,
+						UserPropertyDefn.DEFAULT_MEMBER, propDefn.getXmlValue(
+								null, propDefn.getDefault( ) ), false );
+
 			IChoiceSet choiceSet = propDefn.getChoices( );
 
 			if ( choiceSet != null && choiceSet.getChoices( ) != null

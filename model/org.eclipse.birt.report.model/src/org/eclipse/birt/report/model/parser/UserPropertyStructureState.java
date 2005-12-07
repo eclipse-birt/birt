@@ -91,7 +91,8 @@ public class UserPropertyStructureState extends StructureState
 	{
 		try
 		{
-			( (UserPropertyDefn) struct ).checkUserPropertyDefn( handler.getModule( ), element );
+			( (UserPropertyDefn) struct ).checkUserPropertyDefn( handler
+					.getModule( ), element );
 			element.addUserPropertyDefn( (UserPropertyDefn) struct );
 		}
 		catch ( UserPropertyException e )
@@ -100,10 +101,14 @@ public class UserPropertyStructureState extends StructureState
 		}
 		catch ( MetaDataException e )
 		{
-			handler.getErrorHandler( ).semanticError( new UserPropertyException( element,
-					( (UserPropertyDefn) struct ).getName( ),
-					UserPropertyException.DESIGN_EXCEPTION_INVALID_DEFINITION,
-					e ) );
+			handler
+					.getErrorHandler( )
+					.semanticError(
+							new UserPropertyException(
+									element,
+									( (UserPropertyDefn) struct ).getName( ),
+									UserPropertyException.DESIGN_EXCEPTION_INVALID_DEFINITION,
+									e ) );
 		}
 	}
 
@@ -129,6 +134,17 @@ public class UserPropertyStructureState extends StructureState
 	class ChoiceStructureListState extends PropertyListState
 	{
 
+		/**
+		 * Constructs the choice structure list state with the parser handler,
+		 * element that holds the user property definition, property definition
+		 * of user properties and the current handled user property definition.
+		 * 
+		 * @param theHandler
+		 * @param element
+		 * @param propDefn
+		 * @param struct
+		 */
+		
 		ChoiceStructureListState( ModuleParserHandler theHandler,
 				DesignElement element, PropertyDefn propDefn, IStructure struct )
 		{
@@ -146,8 +162,11 @@ public class UserPropertyStructureState extends StructureState
 			String name = attrs.getValue( DesignSchemaConstants.NAME_ATTRIB );
 			if ( StringUtil.isBlank( name ) )
 			{
-				handler.getErrorHandler( ).semanticError( new DesignParserException(
-						DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+				handler
+						.getErrorHandler( )
+						.semanticError(
+								new DesignParserException(
+										DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				valid = false;
 				return;
 			}
@@ -198,10 +217,23 @@ public class UserPropertyStructureState extends StructureState
 
 	class ChoiceStructureState extends InnerParseState
 	{
-
+		/**
+		 * Choice list.
+		 */
+		
 		ArrayList choices = null;
+		
+		/**
+		 * User choice to handle.
+		 */
+		
 		UserChoice choice = new UserChoice( null, null );
 
+		/**
+		 * Constructor.
+		 * @param theChoices
+		 */
+		
 		ChoiceStructureState( ArrayList theChoices )
 		{
 			this.choices = theChoices;
@@ -290,10 +322,12 @@ public class UserPropertyStructureState extends StructureState
 					catch ( PropertyValueException e )
 					{
 						handler
-								.getErrorHandler( ).semanticError( new UserPropertyException(
-										element,
-										name,
-										UserPropertyException.DESIGN_EXCEPTION_INVALID_CHOICE_VALUE ) );
+								.getErrorHandler( )
+								.semanticError(
+										new UserPropertyException(
+												element,
+												name,
+												UserPropertyException.DESIGN_EXCEPTION_INVALID_CHOICE_VALUE ) );
 						return;
 					}
 				}
@@ -393,14 +427,45 @@ public class UserPropertyStructureState extends StructureState
 				if ( typeDefn == null )
 				{
 					handler
-							.getErrorHandler( ).semanticError( new UserPropertyException(
-									element,
-									( (UserPropertyDefn) struct ).getName( ),
-									UserPropertyException.DESIGN_EXCEPTION_INVALID_TYPE ) );
+							.getErrorHandler( )
+							.semanticError(
+									new UserPropertyException(
+											element,
+											( (UserPropertyDefn) struct )
+													.getName( ),
+											UserPropertyException.DESIGN_EXCEPTION_INVALID_TYPE ) );
 					return;
 				}
 
 				( (UserPropertyDefn) struct ).setType( typeDefn );
+			}
+			else if ( UserPropertyDefn.DEFAULT_MEMBER.equalsIgnoreCase( name ) )
+			{
+				try
+				{
+					Object defaultValue = ( (UserPropertyDefn) struct )
+							.validateValue( handler.getModule( ), value );
+
+					( (UserPropertyDefn) struct ).setDefault( defaultValue );
+
+				}
+				catch ( PropertyValueException e )
+				{
+					handler
+							.getErrorHandler( )
+							.semanticError(
+									new UserPropertyException(
+											element,
+											name,
+											UserPropertyException.DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE,
+											e,
+											new String[]{
+													value,
+													( (UserPropertyDefn) struct )
+															.getType( )
+															.getName( )} ) );
+				}
+
 			}
 			else
 			{
