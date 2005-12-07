@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 /**
  * base class of all elements in the report design.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/11 06:26:41 $
+ * @version $Revision: 1.8 $ $Date: 2005/12/07 02:23:22 $
  */
 public abstract class ReportElementDesign
 {
@@ -55,7 +55,7 @@ public abstract class ReportElementDesign
 	/**
 	 * map a prepared expression to a name
 	 */
-	protected Map namedExpressions = new HashMap( );
+	protected Map namedExpressions;
 	
 	/**
 	 * return named expression map
@@ -63,6 +63,9 @@ public abstract class ReportElementDesign
 	 */
 	public Map getNamedExpressions ( )
 	{
+		if( namedExpressions == null )
+			namedExpressions = new HashMap( );
+		
 		return namedExpressions;
 	}
 	/**

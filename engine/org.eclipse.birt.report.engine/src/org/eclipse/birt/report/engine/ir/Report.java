@@ -32,7 +32,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.23 $ $Date: 2005/12/06 06:39:31 $
+ * @version $Revision: 1.24 $ $Date: 2005/12/07 02:23:22 $
  */
 public class Report
 {
@@ -100,7 +100,7 @@ public class Report
 	 */
 	protected ArrayList contents = new ArrayList( );
 
-	protected Map namedExpressions = new HashMap( );
+	protected Map namedExpressions;
 	
 	/**
 	 * The base directory of the relative links. By default it is where design
@@ -122,6 +122,9 @@ public class Report
 
 	public Map getNamedExpressions( )
 	{
+		if( namedExpressions == null )
+			namedExpressions = new HashMap( );
+		
 		return namedExpressions;
 	}
 	/**
