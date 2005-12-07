@@ -10,6 +10,7 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IRegistrationLi
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.birt.core.ui.i18n.Messages;
+import org.eclipse.birt.core.ui.utils.UIHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ControlEvent;
@@ -34,12 +35,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
-public class WizardBase
-		implements
-			IRegistrationListener,
-			SelectionListener,
-			ControlListener,
-			DisposeListener
+public class WizardBase implements
+		IRegistrationListener,
+		SelectionListener,
+		ControlListener,
+		DisposeListener
 {
 
 	// HOLDS ALL TASKS ADDED TO THIS INVOCATION...THIS IS NOT A CACHE
@@ -111,17 +111,19 @@ public class WizardBase
 		glShell.verticalSpacing = 0;
 
 		display = Display.getDefault( );
-		if ( PlatformUI.isWorkbenchRunning( ) )
+		if ( UIHelper.isEclipseMode( ) )
 		{
 			shell = new Shell( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getActiveShell( ), SWT.DIALOG_TRIM
-					| SWT.RESIZE | SWT.APPLICATION_MODAL );
+					| SWT.RESIZE
+					| SWT.APPLICATION_MODAL );
 		}
 		else
 		{
 			shell = new Shell( display, SWT.DIALOG_TRIM
-					| SWT.RESIZE | SWT.APPLICATION_MODAL );
+					| SWT.RESIZE
+					| SWT.APPLICATION_MODAL );
 		}
 		// Set shell properties
 		shell.setLayout( glShell );
@@ -172,19 +174,16 @@ public class WizardBase
 			}
 		}
 
-		// Check task existence
-		if ( vTaskIDs.size( ) == 0 )
-		{
-			return null;
-		}
-
 		// Open the specified task
 		if ( topTaskId == null )
 		{
-			sCurrentActiveTask = vTaskIDs.get( 0 ).toString( );
-			if ( vTaskIDs.size( ) > 1 )
+			if ( vTaskIDs.size( ) > 0 )
 			{
-				buttonpanel.setButtonEnabled( ButtonPanel.NEXT, true );
+				sCurrentActiveTask = vTaskIDs.get( 0 ).toString( );
+				if ( vTaskIDs.size( ) > 1 )
+				{
+					buttonpanel.setButtonEnabled( ButtonPanel.NEXT, true );
+				}
 			}
 		}
 		else
@@ -201,8 +200,13 @@ public class WizardBase
 				buttonpanel.setButtonEnabled( ButtonPanel.NEXT, true );
 			}
 		}
-		getCurrentTask( ).setContext( initialContext );
-		switchTo( sCurrentActiveTask );
+
+		ITask currentTask = getCurrentTask( );
+		if ( currentTask != null )
+		{
+			getCurrentTask( ).setContext( initialContext );
+			switchTo( sCurrentActiveTask );
+		}
 
 		shell.setLocation( ( display.getClientArea( ).width / 2 - ( shell.getSize( ).x / 2 ) ),
 				( display.getClientArea( ).height / 2 )
@@ -612,8 +616,8 @@ public class WizardBase
 				int i = vTaskIDs.indexOf( this.sCurrentActiveTask );
 				buttonpanel.setButtonEnabled( ButtonPanel.NEXT,
 						( i < vTaskIDs.size( ) - 1 ) ? true : false );
-				buttonpanel.setButtonEnabled( ButtonPanel.BACK, ( i > 0 )
-						? true : false );
+				buttonpanel.setButtonEnabled( ButtonPanel.BACK,
+						( i > 0 ) ? true : false );
 			}
 		}
 	}
@@ -788,8 +792,9 @@ class TaskList extends Composite implements DisposeListener
 		btnTask.setBackground( Display.getDefault( )
 				.getSystemColor( SWT.COLOR_WHITE ) );
 		btnTask.addSelectionListener( wb );
-		btnTask.setLayoutData( new RowData( taskText.length( ) > 15
-				? SWT.DEFAULT : 100, 30 ) );
+		btnTask.setLayoutData( new RowData( taskText.length( ) > 15 ? SWT.DEFAULT
+				: 100,
+				30 ) );
 	}
 
 	private void placeComponents( )
@@ -860,8 +865,8 @@ class ButtonPanel extends Composite
 		btnPrevious = new Button( this, SWT.NONE );
 		btnPrevious.setText( Messages.getString( "WizardBase.Back" ) ); //$NON-NLS-1$
 		btnPrevious.addSelectionListener( wb );
-		btnPrevious.setLayoutData( new RowData( btnPrevious.getText( ).length( ) < 8
-				? BUTTON_WIDTH : SWT.DEFAULT,
+		btnPrevious.setLayoutData( new RowData( btnPrevious.getText( ).length( ) < 8 ? BUTTON_WIDTH
+				: SWT.DEFAULT,
 				BUTTON_HEIGHT ) );
 		// DISABLED INITIALLY
 		btnPrevious.setEnabled( false );
@@ -869,16 +874,17 @@ class ButtonPanel extends Composite
 		btnNext = new Button( this, SWT.NONE );
 		btnNext.setText( Messages.getString( "WizardBase.Next" ) ); //$NON-NLS-1$
 		btnNext.addSelectionListener( wb );
-		btnNext.setLayoutData( new RowData( btnNext.getText( ).length( ) < 8
-				? BUTTON_WIDTH : SWT.DEFAULT, BUTTON_HEIGHT ) );
+		btnNext.setLayoutData( new RowData( btnNext.getText( ).length( ) < 8 ? BUTTON_WIDTH
+				: SWT.DEFAULT,
+				BUTTON_HEIGHT ) );
 		// DISABLED INITIALLY
 		btnNext.setEnabled( false );
 
 		btnAccept = new Button( this, SWT.NONE );
 		btnAccept.setText( Messages.getString( "WizardBase.Finish" ) ); //$NON-NLS-1$
 		btnAccept.addSelectionListener( wb );
-		btnAccept.setLayoutData( new RowData( btnAccept.getText( ).length( ) < 8
-				? BUTTON_WIDTH : SWT.DEFAULT,
+		btnAccept.setLayoutData( new RowData( btnAccept.getText( ).length( ) < 8 ? BUTTON_WIDTH
+				: SWT.DEFAULT,
 				BUTTON_HEIGHT ) );
 		// Gains focus by default
 		btnAccept.setFocus( );
@@ -886,8 +892,8 @@ class ButtonPanel extends Composite
 		btnCancel = new Button( this, SWT.NONE );
 		btnCancel.setText( Messages.getString( "WizardBase.Cancel" ) ); //$NON-NLS-1$
 		btnCancel.addSelectionListener( wb );
-		btnCancel.setLayoutData( new RowData( btnCancel.getText( ).length( ) < 8
-				? BUTTON_WIDTH : SWT.DEFAULT,
+		btnCancel.setLayoutData( new RowData( btnCancel.getText( ).length( ) < 8 ? BUTTON_WIDTH
+				: SWT.DEFAULT,
 				BUTTON_HEIGHT ) );
 	}
 

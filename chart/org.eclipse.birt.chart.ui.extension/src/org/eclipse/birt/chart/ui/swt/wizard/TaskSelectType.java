@@ -34,7 +34,6 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.UIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
@@ -345,7 +344,7 @@ public class TaskSelectType extends SimpleTask
 	 */
 	private void populateTypesTable( )
 	{
-		Collection cTypes = UIExtensionsImpl.instance( )
+		Collection cTypes = ChartUIExtensionsImpl.instance( )
 				.getUIChartTypeExtensions( );
 		Iterator iterTypes = cTypes.iterator( );
 		while ( iterTypes.hasNext( ) )

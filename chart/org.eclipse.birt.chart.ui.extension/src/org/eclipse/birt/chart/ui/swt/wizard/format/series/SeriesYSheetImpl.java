@@ -24,8 +24,8 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.UIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.InteractivitySheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.MoreOptionsSeriesYSheet;
@@ -171,7 +171,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 	private void getSeriesAttributeUIProviders( )
 	{
 		// Get collection of registered UI Providers
-		Collection cRegisteredEntries = UIExtensionsImpl.instance( )
+		Collection cRegisteredEntries = ChartUIExtensionsImpl.instance( )
 				.getSeriesUIComponents( );
 		Iterator iterEntries = cRegisteredEntries.iterator( );
 		while ( iterEntries.hasNext( ) )

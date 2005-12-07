@@ -24,11 +24,11 @@ import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.UIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -133,7 +133,7 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 	private void initSeriesDataUIProviders( )
 	{
 		// Get collection of registered UI Providers
-		Collection cRegisteredEntries = UIExtensionsImpl.instance( )
+		Collection cRegisteredEntries = ChartUIExtensionsImpl.instance( )
 				.getSeriesUIComponents( );
 		Iterator iterEntries = cRegisteredEntries.iterator( );
 		while ( iterEntries.hasNext( ) )

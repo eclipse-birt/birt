@@ -33,6 +33,8 @@ import org.eclipse.swt.widgets.Shell;
 public final class UIHelper
 {
 
+	private static boolean STANDALONE_MODE = System.getProperty( "STANDALONE" ) != null; //$NON-NLS-1$
+
 	/**
 	 * This is a helper method created to get the location on screen of a
 	 * composite. It does not take into account multiple monitors.
@@ -74,10 +76,12 @@ public final class UIHelper
 		shell.setLocation( Display.getCurrent( )
 				.getPrimaryMonitor( )
 				.getClientArea( ).width
-				/ 2 - ( shell.getSize( ).x / 2 ), Display.getCurrent( )
+				/ 2
+				- ( shell.getSize( ).x / 2 ), Display.getCurrent( )
 				.getPrimaryMonitor( )
 				.getClientArea( ).height
-				/ 2 - ( shell.getSize( ).y / 2 ) );
+				/ 2
+				- ( shell.getSize( ).y / 2 ) );
 	}
 
 	/**
@@ -158,5 +162,15 @@ public final class UIHelper
 			img = new Image( Display.getCurrent( ), 1, 1 );
 		}
 		return img;
+	}
+
+	/**
+	 * Returns if running in eclipse mode or stand-alone mode currently.
+	 * 
+	 * @return
+	 */
+	public static boolean isEclipseMode( )
+	{
+		return ( !STANDALONE_MODE && Platform.getExtensionRegistry( ) != null );
 	}
 }

@@ -8,10 +8,10 @@ import java.util.Vector;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IRegistrationListener;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.birt.core.ui.i18n.Messages;
+import org.eclipse.birt.core.ui.utils.UIHelper;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.ui.PlatformUI;
 
 public class TasksManager
 {
@@ -55,8 +55,8 @@ public class TasksManager
 
 	private void processExtensions( )
 	{
-		// TODO: Actually process extensions
-		if ( PlatformUI.isWorkbenchRunning( ) )
+		// Actually process extensions
+		if ( UIHelper.isEclipseMode( ) )
 		{
 			// PROCESS 'tasks' EXTENSIONS
 			IConfigurationElement[] elements = Platform.getExtensionRegistry( )

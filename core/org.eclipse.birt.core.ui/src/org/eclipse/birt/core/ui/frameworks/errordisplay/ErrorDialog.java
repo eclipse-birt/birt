@@ -13,6 +13,7 @@ package org.eclipse.birt.core.ui.frameworks.errordisplay;
 
 import org.eclipse.birt.core.ui.frameworks.taskwizard.composites.MessageComposite;
 import org.eclipse.birt.core.ui.i18n.Messages;
+import org.eclipse.birt.core.ui.utils.UIHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
@@ -30,8 +31,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * @author Actuate Corporation
- * 
+ * ErrorDialog
  */
 public class ErrorDialog implements SelectionListener
 {
@@ -96,17 +96,19 @@ public class ErrorDialog implements SelectionListener
 	private void init( String sTitle )
 	{
 		display = Display.getDefault( );
-		if ( PlatformUI.isWorkbenchRunning( ) )
+		if ( UIHelper.isEclipseMode( ) )
 		{
 			shell = new Shell( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getActiveShell( ), SWT.DIALOG_TRIM
-					| SWT.RESIZE | SWT.APPLICATION_MODAL );
+					| SWT.RESIZE
+					| SWT.APPLICATION_MODAL );
 		}
 		else
 		{
 			shell = new Shell( display, SWT.DIALOG_TRIM
-					| SWT.RESIZE | SWT.APPLICATION_MODAL );
+					| SWT.RESIZE
+					| SWT.APPLICATION_MODAL );
 		}
 		shell.setText( sTitle );
 		shell.setSize( DEFAULT_WIDTH, DEFAULT_HEIGHT );
@@ -361,7 +363,8 @@ public class ErrorDialog implements SelectionListener
 					t = t.getCause( );
 				}
 				sbTrace.append( Messages.getString( "ErrorDialog.text.CausedBy" ) //$NON-NLS-1$
-						+ t.getLocalizedMessage( ) + "\n" ); //$NON-NLS-1$
+						+ t.getLocalizedMessage( )
+						+ "\n" ); //$NON-NLS-1$
 			}
 			StackTraceElement[] se = t.getStackTrace( );
 			for ( int i = 0; i < se.length; i++ )
