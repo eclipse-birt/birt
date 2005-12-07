@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.css.engine.value.css;
 
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
 import org.eclipse.birt.report.engine.css.engine.value.AbstractLengthManager;
@@ -69,7 +70,7 @@ public class BorderWidthManager extends AbstractLengthManager
 
 	public Value getDefaultValue( )
 	{
-		return CSSValueConstants.NUMBER_0;
+		return CSSValueConstants.MIDDLE_VALUE;
 	}
 
 	public Value createValue( LexicalUnit lu, CSSEngine engine )
@@ -93,6 +94,28 @@ public class BorderWidthManager extends AbstractLengthManager
 	public Value computeValue( CSSStylableElement elt, CSSEngine engine,
 			int idx, Value value )
 	{
+		IStyle cs = elt.getComputedStyle( );
+		CSSValue borderStyle = null;
+		switch ( idx )
+		{
+			case IStyle.STYLE_BORDER_TOP_WIDTH :
+				borderStyle = cs.getProperty( IStyle.STYLE_BORDER_TOP_STYLE );
+				break;
+			case IStyle.STYLE_BORDER_BOTTOM_WIDTH :
+				borderStyle = cs.getProperty( IStyle.STYLE_BORDER_BOTTOM_STYLE );
+				break;
+			case IStyle.STYLE_BORDER_LEFT_WIDTH :
+				borderStyle = cs.getProperty( IStyle.STYLE_BORDER_LEFT_STYLE );
+				break;
+			case IStyle.STYLE_BORDER_RIGHT_WIDTH :
+				borderStyle = cs.getProperty( IStyle.STYLE_BORDER_RIGHT_STYLE );
+				break;
+		}
+		if ( borderStyle == CSSValueConstants.NONE_VALUE
+				|| borderStyle == CSSValueConstants.HIDDEN_VALUE )
+		{
+			return CSSValueConstants.NUMBER_0;
+		}
 		if ( value.getCssValueType( ) == CSSValue.CSS_PRIMITIVE_VALUE )
 		{
 			if ( value.getPrimitiveType( ) == CSSPrimitiveValue.CSS_IDENT )
