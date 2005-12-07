@@ -149,11 +149,11 @@ public class UIUtilUITest extends BirtUITestCase
 			assertTrue( UIUtil.containElement( dataTreeViewer, paramGroup ) );
 			assertTrue( UIUtil.containElement( dataTreeViewer, param2 ) );
 
-			assertFalse( UIUtil.containElement( outlineTreeViewer, dataSource ) );
-			assertFalse( UIUtil.containElement( outlineTreeViewer, dataSet ) );
-			assertFalse( UIUtil.containElement( outlineTreeViewer, param1 ) );
-			assertFalse( UIUtil.containElement( outlineTreeViewer, paramGroup ) );
-			assertFalse( UIUtil.containElement( outlineTreeViewer, param2 ) );
+			assertTrue( UIUtil.containElement( outlineTreeViewer, dataSource ) );
+			assertTrue( UIUtil.containElement( outlineTreeViewer, dataSet ) );
+			assertTrue( UIUtil.containElement( outlineTreeViewer, param1 ) );
+			assertTrue( UIUtil.containElement( outlineTreeViewer, paramGroup ) );
+			assertTrue( UIUtil.containElement( outlineTreeViewer, param2 ) );
 
 			assertFalse( UIUtil.containElement( dataTreeViewer, label1 ) );
 			assertFalse( UIUtil.containElement( dataTreeViewer, label2 ) );
