@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.xml.sax.Attributes;
@@ -267,10 +268,14 @@ public abstract class ReportElementState extends DesignParseState
 						new NameException( element, null,
 								NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 		}
-		else
+		else if ( name.indexOf( ReferenceValue.NAMESPACE_DELIMITER ) != -1 )
 		{
-			element.setName( name );
+			handler.getErrorHandler( ).semanticError(
+					new NameException( element, name,
+							NameException.DESIGN_EXCEPTION_DOT_FORBIDDEN ) );
 		}
+		else
+			element.setName( name );
 
 		if ( element.getDefn( ).canExtend( ) )
 		{
