@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IRowContent;
 
@@ -18,15 +22,12 @@ import org.eclipse.birt.report.engine.content.IRowContent;
  * 
  * the row content object which contains cell content objects
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/17 01:40:45 $
+ * @version $Revision: 1.8 $ $Date: 2005/11/17 16:50:43 $
  */
 public class RowContent extends AbstractContent implements IRowContent
 {
-	protected int rowID;
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1589981537143935173L;
+	
+	protected int rowID = -1;	
 
 	/**
 	 * constructor. use by serialize and deserialize
@@ -34,6 +35,11 @@ public class RowContent extends AbstractContent implements IRowContent
 	public RowContent( )
 	{
 
+	}
+
+	public int getContentType( )
+	{
+		return ROW_CONTENT;
 	}
 
 	/**
@@ -60,5 +66,31 @@ public class RowContent extends AbstractContent implements IRowContent
 	public void setRowID(int rowID)
 	{
 		this.rowID = rowID;
+	}	
+
+	static final protected int FIELD_ROWID = 800;
+	
+
+	protected void writeFields( ObjectOutputStream out ) throws IOException
+	{
+		super.writeFields( out );
+		if ( rowID != -1 )
+		{
+			out.writeInt( FIELD_ROWID );
+			out.writeInt( rowID );
+		}
+	}
+
+	protected void readField( int version, int filedId, ObjectInputStream in )
+			throws IOException, ClassNotFoundException
+	{
+		switch ( filedId )
+		{
+			case FIELD_ROWID :
+				rowID = in.readInt( );
+				break;
+			default :
+				super.readField( version, filedId, in );
+		}
 	}
 }

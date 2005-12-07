@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.ILabelContent;
@@ -18,11 +22,6 @@ import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 
 public class LabelContent extends TextContent implements ILabelContent
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7432225225256258289L;
 	protected String helpTextKey;
 	protected String labelText;
 	protected String labelTextKey;
@@ -33,6 +32,11 @@ public class LabelContent extends TextContent implements ILabelContent
 	public LabelContent( )
 	{
 
+	}
+
+	public int getContentType( )
+	{
+		return LABEL_CONTENT;
 	}
 
 	public LabelContent( ReportContent report )
@@ -64,7 +68,7 @@ public class LabelContent extends TextContent implements ILabelContent
 
 	public void setHelpKey( String helpKey )
 	{
-		this.helpText = helpKey;
+		this.helpTextKey = helpKey;
 	}
 
 	public String getHelpKey( )
@@ -121,5 +125,48 @@ public class LabelContent extends TextContent implements ILabelContent
 	public void accept( IContentVisitor visitor, Object value )
 	{
 		visitor.visitLabel( this, value );
+	}
+
+	static final protected int FIELD_HELPTEXTKEY = 600;
+	static final protected int FIELD_LABELTEXT = 601;
+	static final protected int FIELD_LABELTEXTKEY = 602;
+
+	protected void writeFields( ObjectOutputStream out ) throws IOException
+	{
+		super.writeFields( out );
+		if ( helpTextKey != null )
+		{
+			out.writeInt( FIELD_HELPTEXTKEY );
+			out.writeUTF( helpTextKey );
+		}
+		if ( labelText != null )
+		{
+			out.writeInt( FIELD_LABELTEXT );
+			out.writeUTF( labelText );
+		}
+		if ( labelTextKey != null )
+		{
+			out.writeInt( FIELD_LABELTEXTKEY );
+			out.writeUTF( labelTextKey );
+		}
+	}
+
+	protected void readField( int version, int filedId, ObjectInputStream in )
+			throws IOException, ClassNotFoundException
+	{
+		switch ( filedId )
+		{
+			case FIELD_HELPTEXTKEY :
+				helpTextKey = in.readUTF( );
+				break;
+			case FIELD_LABELTEXT :
+				labelText = in.readUTF( );
+				break;
+			case FIELD_LABELTEXTKEY :
+				labelTextKey = in.readUTF( );
+				break;
+			default :
+				super.readField( version, filedId, in );
+		}
 	}
 }

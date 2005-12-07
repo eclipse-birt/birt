@@ -13,6 +13,9 @@ package org.eclipse.birt.report.engine.content.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
@@ -27,10 +30,6 @@ import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 public class PageContent extends AbstractContent implements IPageContent
 {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7435083876405858204L;
 	protected String orientation;
 	protected String pageType;
 	protected DimensionType pageHeight;
@@ -47,13 +46,18 @@ public class PageContent extends AbstractContent implements IPageContent
 	transient protected ArrayList footer;
 	transient protected IImageContent waterMark;
 	transient protected IContent body;
-	protected long pageNumber;
+	protected long pageNumber = -1;
 
 	/**
 	 * constructor. use by serialize and deserialize
 	 */
 	public PageContent( )
 	{
+	}
+
+	public int getContentType( )
+	{
+		return PAGE_CONTENT;
 	}
 
 	public PageContent( ReportContent report )
@@ -265,4 +269,149 @@ public class PageContent extends AbstractContent implements IPageContent
 	{
 		return this.pageNumber;
 	}
+	
+	static final protected int FIELD_ORIENTATION = 700;
+	static final protected int FIELD_PAGETYPE = 701;
+	static final protected int FIELD_PAGEHEIGHT = 702;
+	static final protected int FIELD_PAGEWIDTH = 703;
+	static final protected int FIELD_HEADERHEIGHT = 704;
+	static final protected int FIELD_FOOTERHEIGHT = 705;
+	static final protected int FIELD_LEFTWIDTH = 706;
+	static final protected int FIELD_RIGHTWIDTH = 707;
+	static final protected int FIELD_MARGINTOP = 708;
+	static final protected int FIELD_MARGINLEFT = 709;
+	static final protected int FIELD_MARGINRIGHT = 710;
+	static final protected int FIELD_MARGINBUTTOM = 711;
+	static final protected int FIELD_PAGENUMBER = 712;
+	
+
+	protected void writeFields( ObjectOutputStream out ) throws IOException
+	{
+		super.writeFields( out );
+		if ( orientation != null )
+		{
+			out.writeInt( FIELD_ORIENTATION );
+			out.writeUTF( orientation );
+		}
+		if ( pageType != null )
+		{
+			out.writeInt( FIELD_PAGETYPE );
+			out.writeUTF( pageType );
+		}		
+		if ( pageHeight != null )
+		{
+			out.writeInt( FIELD_PAGEHEIGHT );
+			out.writeUTF( pageHeight.toString() );
+		}				
+		if ( pageWidth != null )
+		{
+			out.writeInt( FIELD_PAGEWIDTH );
+			out.writeUTF( pageWidth.toString() );
+		}			
+		if ( headerHeight != null )
+		{
+			out.writeInt( FIELD_HEADERHEIGHT );
+			out.writeUTF( headerHeight.toString() );
+		}			
+		if ( footerHeight != null )
+		{
+			out.writeInt( FIELD_FOOTERHEIGHT );
+			out.writeUTF( footerHeight.toString() );
+		}			
+		if ( leftWidth != null )
+		{
+			out.writeInt( FIELD_LEFTWIDTH );
+			out.writeUTF( leftWidth.toString() );
+		}			
+		if ( rightWidth != null )
+		{
+			out.writeInt( FIELD_RIGHTWIDTH );
+			out.writeUTF( rightWidth.toString() );
+		}			
+		if ( marginTop != null )
+		{
+			out.writeInt( FIELD_MARGINTOP );
+			out.writeUTF( marginTop.toString() );
+		}			
+		if ( marginLeft != null )
+		{
+			out.writeInt( FIELD_MARGINLEFT );
+			out.writeUTF( marginLeft.toString() );
+		}			
+		if ( marginRight != null )
+		{
+			out.writeInt( FIELD_MARGINRIGHT );
+			out.writeUTF( marginRight.toString() );
+		}			
+		if ( marginBottom != null )
+		{
+			out.writeInt( FIELD_MARGINBUTTOM );
+			out.writeUTF( marginBottom.toString() );
+		}	
+		if ( pageNumber != -1 )
+		{
+			out.writeInt( FIELD_PAGENUMBER );
+			out.writeLong( pageNumber );
+		}
+	}
+
+	protected void readField( int version, int filedId, ObjectInputStream in )
+			throws IOException, ClassNotFoundException
+	{
+		switch ( filedId )
+		{
+			case FIELD_ORIENTATION :
+				orientation = in.readUTF( );
+				break;
+			case FIELD_PAGETYPE :
+				pageType = in.readUTF( );
+				break;
+			case FIELD_PAGEHEIGHT :
+				String value = in.readUTF( );
+				pageHeight = new DimensionType( value );
+				break;	
+			case FIELD_PAGEWIDTH :
+				value = in.readUTF( );
+				pageWidth = new DimensionType( value );
+				break;	
+			case FIELD_HEADERHEIGHT :
+				value = in.readUTF( );
+				headerHeight = new DimensionType( value );
+				break;	
+			case FIELD_FOOTERHEIGHT :
+				value = in.readUTF( );
+				footerHeight = new DimensionType( value );
+				break;	
+			case FIELD_LEFTWIDTH :
+				value = in.readUTF( );
+				leftWidth = new DimensionType( value );
+				break;	
+			case FIELD_RIGHTWIDTH :
+				value = in.readUTF( );
+				rightWidth = new DimensionType( value );
+				break;	
+			case FIELD_MARGINTOP :
+				value = in.readUTF( );
+				marginTop = new DimensionType( value );
+				break;	
+			case FIELD_MARGINLEFT :
+				value = in.readUTF( );
+				marginLeft = new DimensionType( value );
+				break;	
+			case FIELD_MARGINRIGHT :
+				value = in.readUTF( );
+				marginRight = new DimensionType( value );
+				break;	
+			case FIELD_MARGINBUTTOM :
+				value = in.readUTF( );
+				marginBottom = new DimensionType( value );
+				break;						
+			case FIELD_PAGENUMBER :
+				pageNumber = in.readLong( );
+				break;
+			default :
+				super.readField( version, filedId, in );
+		}
+	}
+	
 }

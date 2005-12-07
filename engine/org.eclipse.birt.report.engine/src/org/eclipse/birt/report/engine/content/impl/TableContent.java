@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import org.eclipse.birt.report.engine.content.IColumn;
@@ -23,12 +26,11 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * 
  * the table content object which contains columns object and row objects
  * 
- * @version $Revision: 1.9 $ $Date: 2005/11/22 19:25:39 $
+ * @version $Revision: 1.10 $ $Date: 2005/11/25 02:14:05 $
  */
 public class TableContent extends AbstractContent implements ITableContent
 {
 
-	private static final long serialVersionUID = 2267750727901854517L;
 	protected ArrayList columns = new ArrayList( );
 	protected String caption;
 	protected String captionKey;
@@ -40,6 +42,11 @@ public class TableContent extends AbstractContent implements ITableContent
 	 */
 	public TableContent( )
 	{
+	}
+
+	public int getContentType( )
+	{
+		return TABLE_CONTENT;
 	}
 
 	public void setHeaderRepeat( boolean headerRepeat )
@@ -153,5 +160,66 @@ public class TableContent extends AbstractContent implements ITableContent
 			}
 		}
 		return null;
+	}
+	
+	static final protected int FIELD_COLUMNS = 1000;
+	static final protected int FIELD_CAPTION = 1001;
+	static final protected int FIELD_CAPTIONKEY = 1002;
+	static final protected int FIELD_HEADERREPEAT = 1003;
+	
+	
+	protected void writeFields( ObjectOutputStream out ) throws IOException
+	{
+		super.writeFields( out );
+		if ( columns != null )
+		{
+			out.writeInt( FIELD_COLUMNS );
+			Column column;
+			out.writeInt( columns.size() );
+			for ( int i=0;i<columns.size();i++ )
+			{
+				column = ( Column ) columns.get( i );
+				column.writeContent( out );
+			}
+		}
+		if ( caption != null )
+		{
+			out.writeInt( FIELD_CAPTION );
+			out.writeUTF( caption );
+		}
+		if ( captionKey != null )
+		{
+			out.writeInt( FIELD_CAPTIONKEY );
+			out.writeUTF( captionKey );
+		}
+		out.writeInt( FIELD_HEADERREPEAT );
+		out.writeBoolean( headerRepeat );
+	}
+
+	protected void readField( int version, int filedId, ObjectInputStream in )
+			throws IOException, ClassNotFoundException
+	{
+		switch ( filedId )
+		{
+			case FIELD_COLUMNS :
+				int columnsSize = in.readInt( );
+				for ( int i=0;i<columnsSize;i++ ) {
+					Column column = new Column();
+					column.readContent( in );
+					addColumn( column );
+				}
+				break;
+			case FIELD_CAPTION :
+				caption = in.readUTF( );
+				break;
+			case FIELD_CAPTIONKEY :
+				captionKey = in.readUTF( );
+				break;
+			case FIELD_HEADERREPEAT :
+				headerRepeat = in.readBoolean( );
+				break;
+			default :
+				super.readField( version, filedId, in );
+		}
 	}
 }

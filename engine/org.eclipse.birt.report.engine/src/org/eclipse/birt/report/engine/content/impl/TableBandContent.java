@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 
@@ -19,18 +23,14 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
  * table band content object There are three type: table header, table footer,
  * table body
  * 
- * @version $Revision: 1.4 $ $Date: 2005/11/11 06:26:46 $
+ * @version $Revision: 1.5 $ $Date: 2005/11/17 16:50:44 $
  */
 public class TableBandContent extends AbstractContent
 		implements
 			ITableBandContent
 {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1289181945575289281L;
-	protected int type;
+	protected int type = BAND_HEADER;
 
 	/**
 	 * constructor. use by serialize and deserialize
@@ -38,6 +38,11 @@ public class TableBandContent extends AbstractContent
 	public TableBandContent( )
 	{
 
+	}
+
+	public int getContentType( )
+	{
+		return TABLE_BAND_CONTENT;
 	}
 
 	public TableBandContent( ReportContent report )
@@ -69,5 +74,31 @@ public class TableBandContent extends AbstractContent
 	public void setType( int type )
 	{
 		this.type = type;
+	}
+	
+	
+	static final protected int FIELD_TYPE = 900;
+	
+	protected void writeFields( ObjectOutputStream out ) throws IOException
+	{
+		super.writeFields( out );
+		if ( type != BAND_HEADER )
+		{
+			out.writeInt( FIELD_TYPE );
+			out.writeInt( type );
+		}
+	}
+
+	protected void readField( int version, int filedId, ObjectInputStream in )
+			throws IOException, ClassNotFoundException
+	{
+		switch ( filedId )
+		{
+			case FIELD_TYPE :
+				type = in.readInt( );
+				break;
+			default :
+				super.readField( version, filedId, in );
+		}
 	}
 }

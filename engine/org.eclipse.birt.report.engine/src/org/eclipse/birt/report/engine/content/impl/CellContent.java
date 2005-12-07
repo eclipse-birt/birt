@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IRowContent;
@@ -21,15 +25,10 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.8 $ $Date: 2005/11/17 01:40:45 $
+ * @version $Revision: 1.9 $ $Date: 2005/11/17 16:50:44 $
  */
 public class CellContent extends AbstractContent implements ICellContent
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2900450585025938785L;
 
 	/**
 	 * row span
@@ -47,22 +46,26 @@ public class CellContent extends AbstractContent implements ICellContent
 	protected int column = -1;
 
 	/**
-	 * constructor
-	 * use by serialize and deserialize
+	 * constructor use by serialize and deserialize
 	 */
-	public CellContent()
+	public CellContent( )
 	{
 	}
 	
+	public int getContentType( )
+	{
+		return CELL_CONTENT;
+	}
+
 	/**
 	 * constructor
 	 * 
 	 * @param item
 	 *            cell design item
 	 */
-	public CellContent( ReportContent report)
+	public CellContent( ReportContent report )
 	{
-		super(report);
+		super( report );
 	}
 
 	/**
@@ -91,24 +94,24 @@ public class CellContent extends AbstractContent implements ICellContent
 		return column;
 	}
 	
-	public int getRow()
+	public int getRow( )
 	{
-		if(parent!=null && parent instanceof IRowContent)
+		if ( parent != null && parent instanceof IRowContent )
 		{
-			return ((IRowContent)parent).getRowID();
+			return ( (IRowContent) parent ).getRowID( );
 		}
 		return 0;
 	}
 
 	public void setDrop( String drop )
 	{
-		if ( generateBy instanceof CellDesign)
-			( (CellDesign)generateBy ).setDrop( drop );
+		if ( generateBy instanceof CellDesign )
+			( (CellDesign) generateBy ).setDrop( drop );
 	}
 
-	public void accept( IContentVisitor visitor , Object value)
+	public void accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitCell( this , value);
+		visitor.visitCell( this, value );
 	}
 
 	/**
@@ -125,9 +128,52 @@ public class CellContent extends AbstractContent implements ICellContent
 		this.colSpan = colSpan;
 	}
 	
-	public void setColumn(int column)
+	public void setColumn( int column )
 	{
 		this.column = column;
 	}
 	
+	static final protected int FIELD_ROW_SPAN = 100;
+	static final protected int FIELD_COL_SPAN = 101;
+	static final protected int FIELD_COLUMN = 102;
+		
+	protected void writeFields( ObjectOutputStream out ) throws IOException
+	{
+		super.writeFields( out );
+		if ( rowSpan != -1 )
+		{
+			out.writeInt( FIELD_ROW_SPAN );
+			out.writeInt( rowSpan );
+		}
+		if ( colSpan != -1 )
+		{
+			out.writeInt( FIELD_COL_SPAN );
+			out.writeInt( colSpan );
+		}
+		if ( column != -1 )
+		{
+			out.writeInt( FIELD_COLUMN );
+			out.writeInt( column );
+		}
+	}
+
+	protected void readField( int version, int filedId, ObjectInputStream in )
+			throws IOException, ClassNotFoundException
+	{
+		switch ( filedId )
+		{
+			case FIELD_ROW_SPAN :
+				rowSpan = in.readInt( );
+				break;
+			case FIELD_COL_SPAN :
+				colSpan = in.readInt( );
+				break;
+			case FIELD_COLUMN :
+				column = in.readInt( );
+				break;
+			default :
+				super.readField( version, filedId, in );
+		}
+	}
+
 }

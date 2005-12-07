@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IForeignContent;
@@ -19,10 +23,6 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
 public class ForeignContent extends AbstractContent implements IForeignContent
 {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7041526628380142925L;
 	protected String rawType;
 	protected Object rawValue;
 
@@ -33,6 +33,11 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 	public ForeignContent( )
 	{
 
+	}
+
+	public int getContentType( )
+	{
+		return FOREIGN_CONTENT;
 	}
 
 	public ForeignContent( ReportContent report )
@@ -111,4 +116,40 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 		}
 		return IForeignContent.TEXT_TYPE;
 	}
+	
+	static final protected int FIELD_ROW_TYPE = 400;
+	static final protected int FIELD_ROWVALUE = 401;		
+	
+
+	protected void writeFields( ObjectOutputStream out ) throws IOException
+	{
+		super.writeFields( out );
+		if ( rawType != null )
+		{
+			out.writeInt( FIELD_ROW_TYPE );
+			out.writeUTF( rawType );
+		}
+		if ( rawValue != null )
+		{
+			out.writeInt( FIELD_ROWVALUE );
+			out.writeObject( rawValue );
+		}
+	}
+
+	protected void readField( int version, int filedId, ObjectInputStream in )
+			throws IOException, ClassNotFoundException
+	{
+		switch ( filedId )
+		{
+			case FIELD_ROW_TYPE :
+				rawType = in.readUTF( );
+				break;
+			case FIELD_ROWVALUE :
+				rawValue = in.readObject( );
+				break;
+			default :
+				super.readField( version, filedId, in );
+		}
+	}
+
 }

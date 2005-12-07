@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.engine.content;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
 import org.eclipse.birt.report.engine.ir.DimensionType;
@@ -20,11 +24,24 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * the content of report document.
  * 
- * @version $Revision: 1.2 $ $Date: 2005/11/17 16:50:48 $
+ * @version $Revision: 1.3 $ $Date: 2005/11/18 08:01:39 $
  */
 public interface IContent extends IElement, CSSStylableElement
 {
+	final static int SERIALIZE_CONTENT = -1;
+	final static int CELL_CONTENT = 1;
+	final static int CONTAINER_CONTENT = 2;
+	final static int DATA_CONTENT = 3;
+	final static int FOREIGN_CONTENT = 4;
+	final static int IMAGE_CONTENT = 5;
+	final static int LABEL_CONTENT = 6;
+	final static int PAGE_CONTENT = 7;
+	final static int ROW_CONTENT = 8;
+	final static int TABLE_BAND_CONTENT = 9;
+	final static int TABLE_CONTENT = 10;
+	final static int TEXT_CONTENT = 11;	
 
+	int getContentType();
 	InstanceID getInstanceID();
 	
 	void setInstanceID(InstanceID id);
@@ -138,4 +155,7 @@ public interface IContent extends IElement, CSSStylableElement
 	
 	String getTOC();
 	void setTOC(String toc);
+	
+	void writeContent( ObjectOutputStream out ) throws IOException;
+	void readContent( ObjectInputStream in ) throws IOException, ClassNotFoundException;
 }

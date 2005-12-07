@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IImageContent;
@@ -23,16 +27,12 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 public class ImageContent extends AbstractContent implements IImageContent
 {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1509174600180440369L;
 	protected String altText;
 	protected String altTextKey;
 	protected String helpTextKey;
 	protected String extension;
 	protected String uri;
-	protected int sourceType;
+	protected int sourceType = -1;
 	transient protected byte[] data;
 	/**
 	 * The image map object (if any). Null means there's no image map. For HTML
@@ -49,6 +49,11 @@ public class ImageContent extends AbstractContent implements IImageContent
 	public ImageContent( )
 	{
 
+	}
+
+	public int getContentType( )
+	{
+		return IMAGE_CONTENT;
 	}
 
 	public ImageContent( ReportContent report )
@@ -264,6 +269,85 @@ public class ImageContent extends AbstractContent implements IImageContent
 			return ( (ImageItemDesign) generateBy ).getImageExpression( );
 		}
 		return null;
+	}	
+		
+	static final protected int FIELD_ALTTEXT = 500;
+	static final protected int FIELD_ALTTEXTKEY = 501;
+	static final protected int FIELD_EXTENSEION = 502;
+	static final protected int FIELD_URI = 503;
+	static final protected int FIELD_SOURCETYPE = 504;
+	static final protected int FIELD_IMAGEMAP = 505;
+	static final protected int FIELD_MIMETYPE = 506;
+	
+	protected void writeFields( ObjectOutputStream out ) throws IOException
+	{
+		super.writeFields( out );
+		if ( altText != null )
+		{
+			out.writeInt( FIELD_ALTTEXT );
+			out.writeUTF( altText );
+		}
+		if ( altTextKey != null )
+		{
+			out.writeInt( FIELD_ALTTEXTKEY );
+			out.writeUTF( altTextKey );
+		}
+		if ( extension != null )
+		{
+			out.writeInt( FIELD_EXTENSEION );
+			out.writeUTF( extension );
+		}
+		if ( uri != null )
+		{
+			out.writeInt( FIELD_URI );
+			out.writeUTF( uri );
+		}
+		if ( sourceType != -1 )
+		{
+			out.writeInt( FIELD_SOURCETYPE );
+			out.writeInt( sourceType );
+		}
+		if ( imageMap != null )
+		{
+			out.writeInt( FIELD_IMAGEMAP );
+			out.writeObject( imageMap );
+		}
+		if ( MIMEType != null )
+		{
+			out.writeInt( FIELD_MIMETYPE );
+			out.writeUTF( MIMEType );
+		}
+	}
+
+	protected void readField( int version, int filedId, ObjectInputStream in )
+			throws IOException, ClassNotFoundException
+	{
+		switch ( filedId )
+		{
+			case FIELD_ALTTEXT :
+				altText = in.readUTF( );
+				break;
+			case FIELD_ALTTEXTKEY :
+				altTextKey = in.readUTF( );
+				break;
+			case FIELD_EXTENSEION :
+				extension = in.readUTF( );
+				break;
+			case FIELD_URI :
+				uri = in.readUTF( );
+				break;
+			case FIELD_SOURCETYPE :
+				sourceType = in.readInt( );
+				break;
+			case FIELD_IMAGEMAP :
+				imageMap = in.readObject( );
+				break;
+			case FIELD_MIMETYPE :
+				MIMEType = in.readUTF( );
+				break;
+			default :
+				super.readField( version, filedId, in );
+		}
 	}
 
 }

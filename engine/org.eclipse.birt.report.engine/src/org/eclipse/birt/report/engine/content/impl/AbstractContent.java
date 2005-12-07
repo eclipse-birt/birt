@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
-import java.io.Serializable;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IBounds;
@@ -22,14 +24,13 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.CompositeStyle;
 import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
+import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 abstract public class AbstractContent extends AbstractElement
 		implements
-			IContent,
-			Serializable
+			IContent
 {
-
 	transient protected IReportContent report;
 
 	protected String name;
@@ -347,4 +348,151 @@ abstract public class AbstractContent extends AbstractElement
 	{
 		return toc;
 	}
+
+	/**
+	 * object document version
+	 */
+	static final protected int VERSION = 0;
+
+	final static int FIELD_NONE = -1;
+	final static int FIELD_NAME = 0;
+	final static int FIELD_X = 1;
+	final static int FIELD_Y = 2;
+	final static int FIELD_WIDTH = 3;
+	final static int FIELD_HEIGHT = 4;
+	final static int FIELD_HYPERLINK = 5;
+	final static int FIELD_BOOKMARK = 6;
+	final static int FIELD_HELPTEXT = 7;
+	final static int FIELD_INLINESTYLE = 8;
+	final static int FIELD_INSTANCE_ID = 9;
+	final static int FIELD_TOC = 10;
+
+	protected void writeFields( ObjectOutputStream out ) throws IOException
+	{
+		if ( name != null )
+		{
+			out.writeInt( FIELD_NAME );
+			out.writeUTF( name );
+		}
+		if ( x != null )
+		{
+			out.writeInt( FIELD_X );
+			out.writeUTF( x.toString() );
+		}
+		if ( y != null )
+		{
+			out.writeInt( FIELD_Y );
+			out.writeUTF( y.toString() );
+		}
+		if ( width != null )
+		{
+			out.writeInt( FIELD_WIDTH );
+			out.writeUTF( width.toString() );
+		}
+		if ( height != null )
+		{
+			out.writeInt( FIELD_HEIGHT );
+			out.writeUTF( height.toString() );
+		}
+		if ( hyperlink != null )
+		{
+			out.writeInt( FIELD_HYPERLINK );
+			hyperlink.writeContent( out );
+		}
+		if ( bookmark != null )
+		{
+			out.writeInt( FIELD_BOOKMARK );
+			out.writeUTF( bookmark );
+		}
+		if ( helpText != null )
+		{
+			out.writeInt( FIELD_HELPTEXT );
+			out.writeUTF( helpText );
+		}
+		if ( inlineStyle != null )
+		{
+			out.writeInt( FIELD_INLINESTYLE );
+			out.writeUTF( inlineStyle.getCssText( ) );
+		}
+		if ( instanceId != null )
+		{
+			out.writeInt( FIELD_INSTANCE_ID );
+			out.writeUTF( instanceId.toString( ) );
+		}
+		if ( toc != null )
+		{
+			out.writeInt( FIELD_TOC );
+			out.writeUTF( toc );
+		}
+	}
+
+	protected void readField( int version, int filedId, ObjectInputStream in )
+			throws IOException, ClassNotFoundException
+	{
+		switch ( filedId )
+		{
+			case FIELD_NAME :
+				name = in.readUTF( );
+				break;
+			case FIELD_X :
+				String value = in.readUTF( );
+				x = new DimensionType( value );
+				break;
+			case FIELD_Y :
+				value = in.readUTF( );
+				y = new DimensionType( value );
+				break;
+			case FIELD_WIDTH :
+				value = in.readUTF( );
+				width = new DimensionType( value );
+				break;
+			case FIELD_HEIGHT :
+				value = in.readUTF( );
+				height = new DimensionType( value );
+				break;
+			case FIELD_HYPERLINK :
+				hyperlink = new ActionContent( );
+				hyperlink.readContent( in );
+				break;
+			case FIELD_BOOKMARK :
+				bookmark = in.readUTF( );
+				break;
+			case FIELD_HELPTEXT :
+				helpText = in.readUTF( );
+				break;
+			case FIELD_INLINESTYLE :
+				inlineStyle = new StyleDeclaration( );
+				String style = in.readUTF( );
+				inlineStyle.setCssText( style );
+				break;
+			case FIELD_INSTANCE_ID :
+				value = in.readUTF( );
+				instanceId = InstanceID.parse( value );
+				break;
+			case FIELD_TOC :
+				toc = in.readUTF( );
+				break;
+		}
+	}
+	
+	public void readContent( ObjectInputStream in ) throws IOException, ClassNotFoundException
+	{
+		int version = in.readInt( );
+		int filedId = in.readInt( );
+		while ( filedId != FIELD_NONE )
+		{
+			readField( version, filedId, in );
+			filedId = in.readInt( );
+		}
+	}
+
+	public void writeContent( ObjectOutputStream out ) throws IOException
+	{
+		out.writeInt( VERSION );
+		writeFields( out );
+		out.writeInt( FIELD_NONE );
+	}
+	
+
+
 }

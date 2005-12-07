@@ -11,8 +11,9 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
-import java.io.Serializable;
-
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.ir.DimensionType;
@@ -21,15 +22,10 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * column content object
  * 
- * @version $Revision: 1.1 $ $Date: 2005/11/11 06:26:46 $
+ * @version $Revision: 1.2 $ $Date: 2005/11/17 16:50:44 $
  */
-public class Column implements IColumn, Serializable
+public class Column implements IColumn
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 591656342008905721L;
 
 	protected DimensionType width;
 
@@ -75,5 +71,61 @@ public class Column implements IColumn, Serializable
 	public void setStyleClass( String styleClass )
 	{
 		this.styleClass = styleClass;
+	}
+	
+	/**
+	 * object document column version
+	 */
+	static final protected int VERSION = 0;
+
+	final static int FIELD_NONE = -1;
+	final static int FIELD_WIDTH = 0;
+	final static int FIELD_STYLECLASS = 1;
+	
+	protected void writeFields( ObjectOutputStream out ) throws IOException
+	{		
+		if ( width != null )
+		{
+			out.writeInt( FIELD_WIDTH );
+			out.writeUTF( width.toString() );
+		}
+		if ( styleClass != null )
+		{
+			out.writeInt( FIELD_STYLECLASS );
+			out.writeUTF( styleClass );
+		}
+	}
+
+	protected void readField( int version, int filedId, ObjectInputStream in )
+			throws IOException, ClassNotFoundException
+	{
+		switch ( filedId )
+		{
+			case FIELD_WIDTH :
+				String value = in.readUTF( );
+				width = new DimensionType( value );
+				break;
+			case FIELD_STYLECLASS :
+				styleClass = in.readUTF( );
+				break;
+		}
+	}
+	
+	public void readContent( ObjectInputStream in ) throws IOException, ClassNotFoundException
+	{
+		int version = in.readInt( );
+		int filedId = in.readInt( );
+		while ( filedId != FIELD_NONE )
+		{
+			readField( version, filedId, in );
+			filedId = in.readInt( );
+		}
+	}
+
+	public void writeContent( ObjectOutputStream out ) throws IOException
+	{
+		out.writeInt( VERSION );
+		writeFields( out );
+		out.writeInt( FIELD_NONE );
 	}
 }

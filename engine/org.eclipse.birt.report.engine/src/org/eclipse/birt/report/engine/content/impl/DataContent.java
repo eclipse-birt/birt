@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IDataContent;
@@ -18,11 +22,6 @@ import org.eclipse.birt.report.engine.ir.DataItemDesign;
 
 public class DataContent extends TextContent implements IDataContent
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6575007426044738170L;
 
 	protected Object value;
 
@@ -38,6 +37,11 @@ public class DataContent extends TextContent implements IDataContent
 	public DataContent( )
 	{
 
+	}
+
+	public int getContentType( )
+	{
+		return DATA_CONTENT;
 	}
 
 	public DataContent( ReportContent report )
@@ -112,6 +116,58 @@ public class DataContent extends TextContent implements IDataContent
 	public void accept( IContentVisitor visitor, Object value )
 	{
 		visitor.visitData( this, value );
+	}
+	
+	static final protected int FIELD_VALUE = 300;
+	static final protected int FIELD_LAVELTEXT = 301;
+	static final protected int FIELD_LABELKEY = 302;
+	static final protected int FIELD_HELPKEY = 303;
+
+	protected void writeFields( ObjectOutputStream out ) throws IOException
+	{
+		super.writeFields( out );
+		if ( value != null )
+		{
+			out.writeInt( FIELD_VALUE );
+			out.writeObject( value );
+		}
+		if ( labelText != null )
+		{
+			out.writeInt( FIELD_LAVELTEXT );
+			out.writeUTF( labelText );
+		}
+		if ( labelKey != null )
+		{
+			out.writeInt( FIELD_LABELKEY );
+			out.writeUTF( labelKey );
+		}
+		if ( helpKey != null )
+		{
+			out.writeInt( FIELD_HELPKEY );
+			out.writeUTF( helpKey );
+		}
+	}
+
+	protected void readField( int version, int filedId, ObjectInputStream in )
+			throws IOException, ClassNotFoundException
+	{
+		switch ( filedId )
+		{
+			case FIELD_VALUE :
+				value = in.readObject( );
+				break;
+			case FIELD_LAVELTEXT :
+				labelText = in.readUTF( );
+				break;
+			case FIELD_LABELKEY :
+				labelKey = in.readUTF( );
+				break;
+			case FIELD_HELPKEY :
+				helpKey = in.readUTF( );
+				break;
+			default :
+				super.readField( version, filedId, in );
+		}
 	}
 
 }

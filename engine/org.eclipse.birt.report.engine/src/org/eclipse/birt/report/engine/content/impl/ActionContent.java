@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
-import java.io.Serializable;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Map;
 
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
@@ -20,18 +22,12 @@ import org.eclipse.birt.report.engine.content.IHyperlinkAction;
  * Implements the <code>IHyperlinkAction</code> interface for passing action
  * informaiton to emitters
  */
-public class ActionContent implements IHyperlinkAction, Serializable
+public class ActionContent implements IHyperlinkAction
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 838392998260798057L;
-
 	/**
 	 * action type
 	 */
-	protected int type;
+	protected int type = -1;
 
 	/**
 	 * bookmark string
@@ -192,7 +188,105 @@ public class ActionContent implements IHyperlinkAction, Serializable
 		return hyperlink;
 	}
 	
+	/**
+	 * object document version
+	 */
+	static final protected int VERSION = 0;
 	
+	final static int FIELD_NONE = -1;
+	final static int FIELD_TYPE = 0;
+	final static int FIELD_BOOKMARK = 1;
+	final static int FIELD_HYPERLINK = 2;
+	final static int FIELD_REPORTNAME = 3;
+	final static int FIELD_PARAMETERBINDINGS = 4;
+	final static int FIELD_SEARCHCRITERIA = 5;
+	final static int FIELD_TARGET = 6;	
 	
+	protected void writeFields( ObjectOutputStream out ) throws IOException
+	{
+		if ( type != -1 )
+		{
+			out.writeInt( FIELD_TYPE );
+			out.writeInt( type );
+		}
+		if ( bookmark != null )
+		{
+			out.writeInt( FIELD_BOOKMARK );
+			out.writeUTF( bookmark );
+		}
+		if ( hyperlink != null )
+		{
+			out.writeInt( FIELD_HYPERLINK );
+			out.writeUTF( hyperlink );
+		}
+		if ( reportName != null )
+		{
+			out.writeInt( FIELD_REPORTNAME );
+			out.writeUTF( reportName );
+		}
+		if ( parameterBindings != null )
+		{
+			out.writeInt( FIELD_PARAMETERBINDINGS );
+			out.writeObject( parameterBindings );
+		}
+		if ( searchCriteria != null )
+		{
+			out.writeInt( FIELD_SEARCHCRITERIA );
+			out.writeObject( searchCriteria );
+		}			
+		if ( target != null )
+		{
+			out.writeInt( FIELD_TARGET );
+			out.writeUTF( target );
+		}
+		
+	}
+
+	protected void readField( int version, int filedId, ObjectInputStream in )
+			throws IOException, ClassNotFoundException
+	{
+		switch ( filedId )
+		{
+			case FIELD_TYPE :
+				type = in.readInt( );
+				break;
+			case FIELD_BOOKMARK :
+				bookmark = in.readUTF();
+				break;
+			case FIELD_HYPERLINK :
+				hyperlink = in.readUTF();
+				break;
+			case FIELD_REPORTNAME :
+				reportName = in.readUTF();
+				break;
+			case FIELD_PARAMETERBINDINGS :
+				parameterBindings = ( Map )in.readObject();
+				break;
+			case FIELD_SEARCHCRITERIA :
+				searchCriteria = ( Map )in.readObject();
+				break;
+			case FIELD_TARGET :
+				target = in.readUTF();
+				break;
+		}
+	}
+	
+	public void readContent( ObjectInputStream in ) throws IOException, ClassNotFoundException
+	{
+		int version = in.readInt( );
+		int filedId = in.readInt( );
+		while ( filedId != FIELD_NONE )
+		{
+			readField( version, filedId, in );
+			filedId = in.readInt( );
+		}
+	}
+	
+	public void writeContent( ObjectOutputStream out ) throws IOException
+	{
+		out.writeInt( VERSION );
+		writeFields( out );
+		out.writeInt( FIELD_NONE );
+	}		
 	
 }

@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.engine.content;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Map;
 
 /**
@@ -89,4 +92,8 @@ public interface IHyperlinkAction
 
 	public void setDrillThrough( String bookmark, String reportName,
 			Map parameterBindings, Map searchCriteria, String target );
+
+	void readContent( ObjectInputStream in ) throws IOException, ClassNotFoundException;
+
+	void writeContent( ObjectOutputStream out ) throws IOException;
 }
