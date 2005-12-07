@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui;
 
+import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerView;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeView;
 import org.eclipse.birt.report.designer.ui.views.data.DataView;
 import org.eclipse.gef.ui.views.palette.PaletteView;
@@ -69,6 +70,7 @@ public class ReportRCPPerspective implements IPerspectiveFactory
 		layout.addShowViewShortcut( PaletteView.ID );
 		layout.addShowViewShortcut( AttributeView.ID );
 		layout.addShowViewShortcut( DataView.ID );
+		layout.addShowViewShortcut( LibraryExplorerView.ID );
 		layout.addShowViewShortcut( IPageLayout.ID_PROP_SHEET );
 
 		layout.addPerspectiveShortcut( BIRT_REPORT_RCP_PERSPECTIVE );
@@ -87,6 +89,7 @@ public class ReportRCPPerspective implements IPerspectiveFactory
 		IFolderLayout topLeft = layout.createFolder( "topLeft", IPageLayout.LEFT, (float) 0.26, editorArea );//$NON-NLS-1$
 		topLeft.addView( PaletteView.ID );
 		topLeft.addView( DataView.ID );
+		topLeft.addView( LibraryExplorerView.ID );
 
 		// Bottom left.
 		IFolderLayout bottomLeft = layout.createFolder( "bottomLeft", IPageLayout.BOTTOM, (float) 0.50,//$NON-NLS-1$
