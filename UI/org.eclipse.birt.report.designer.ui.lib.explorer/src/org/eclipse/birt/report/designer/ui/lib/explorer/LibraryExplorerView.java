@@ -43,7 +43,7 @@ public class LibraryExplorerView extends PageBookView
 	/**
 	 * the ID
 	 */
-	public static final String ID = "org.eclipse.birt.report.designer.ui.views.lib.LibraryExplorerView"; //$NON-NLS-1$
+	public static final String ID = "org.eclipse.birt.report.designer.ui.lib.explorer.view"; //$NON-NLS-1$
 
 	private String defaultText = Messages.getString( "LibraryExplorerView.defaultText.notAvailable" ); //$NON-NLS-1$
 
