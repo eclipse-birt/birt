@@ -15,13 +15,11 @@ package org.eclipse.birt.data.engine.script;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
-import org.eclipse.birt.data.engine.api.script.IDataSourceEventHandler;
+import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstance;
-import org.eclipse.birt.data.engine.core.DataException;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
-public class DataSourceJSEventHandler implements IDataSourceEventHandler
+public class DataSourceJSEventHandler implements IBaseDataSourceEventHandler
 {
 	private IBaseDataSourceDesign design;
 	private JSMethodRunner runner;
@@ -47,7 +45,7 @@ public class DataSourceJSEventHandler implements IDataSourceEventHandler
 		return runner;
 	}
 	
-	public void beforeOpen(IDataSourceInstance dataSource) throws BirtException
+	public void handleBeforeOpen(IDataSourceInstance dataSource) throws BirtException
 	{
 		String script = getBaseDesign().getBeforeOpenScript();
 		if ( script != null && script.length() > 0 )
@@ -57,7 +55,7 @@ public class DataSourceJSEventHandler implements IDataSourceEventHandler
 		}
 	}
 
-	public void beforeClose(IDataSourceInstance dataSource) throws BirtException
+	public void handleBeforeClose(IDataSourceInstance dataSource) throws BirtException
 	{
 		String script = getBaseDesign().getBeforeCloseScript();
 		if ( script != null && script.length() > 0 )
@@ -67,7 +65,7 @@ public class DataSourceJSEventHandler implements IDataSourceEventHandler
 		}
 	}
 
-	public void afterOpen(IDataSourceInstance dataSource) throws BirtException
+	public void handleAfterOpen(IDataSourceInstance dataSource) throws BirtException
 	{
 		String script = getBaseDesign().getAfterOpenScript();
 		if ( script != null && script.length() > 0 )
@@ -77,7 +75,7 @@ public class DataSourceJSEventHandler implements IDataSourceEventHandler
 		}
 	}
 
-	public void afterClose(IDataSourceInstance dataSource) throws BirtException
+	public void handleAfterClose(IDataSourceInstance dataSource) throws BirtException
 	{
 		String script = getBaseDesign().getAfterCloseScript();
 		if ( script != null && script.length() > 0 )

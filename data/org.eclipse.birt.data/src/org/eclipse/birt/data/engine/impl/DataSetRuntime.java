@@ -24,7 +24,7 @@ import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
-import org.eclipse.birt.data.engine.api.script.IDataSetEventHandler;
+import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IDataSetInstance;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstance;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -83,7 +83,7 @@ public abstract class DataSetRuntime implements IDataSetInstance
     /** Scriptable object implementing the internal "_aggr_value" property */
     private Scriptable jsAggrValueObject;
     
-    private IDataSetEventHandler eventHandler;
+    private IBaseDataSetEventHandler eventHandler;
     protected boolean isOpen;
 
 	protected DataSetRuntime( IBaseDataSetDesign dataSetDesign, PreparedQuery.Executor queryExecutor)
@@ -180,7 +180,7 @@ public abstract class DataSetRuntime implements IDataSetInstance
 	/**
 	 * @return Event handler for this data set 
 	 */
-	protected IDataSetEventHandler getEventHandler()
+	protected IBaseDataSetEventHandler getEventHandler()
 	{
 		return eventHandler;
 	}
@@ -341,7 +341,7 @@ public abstract class DataSetRuntime implements IDataSetInstance
 		{
 			try
 			{
-				getEventHandler().beforeOpen( this );
+				getEventHandler().handleBeforeOpen( this );
 			}
 			catch ( BirtException e )
 			{
@@ -357,7 +357,7 @@ public abstract class DataSetRuntime implements IDataSetInstance
 		{
 			try
 			{
-				getEventHandler().beforeClose( this );
+				getEventHandler().handleBeforeClose( this );
 			}
 			catch ( BirtException e )
 			{
@@ -373,7 +373,7 @@ public abstract class DataSetRuntime implements IDataSetInstance
 		{
 			try
 			{
-				getEventHandler().afterOpen( this );
+				getEventHandler().handleAfterOpen( this );
 			}
 			catch ( BirtException e )
 			{
@@ -389,7 +389,7 @@ public abstract class DataSetRuntime implements IDataSetInstance
 		{
 			try
 			{
-				getEventHandler().afterClose( this );
+				getEventHandler().handleAfterClose( this );
 			}
 			catch ( BirtException e )
 			{
@@ -405,7 +405,7 @@ public abstract class DataSetRuntime implements IDataSetInstance
 		{
 			try
 			{
-				getEventHandler().onFetch( this, getDataRow() );
+				getEventHandler().handleOnFetch( this, getDataRow() );
 			}
 			catch ( BirtException e )
 			{

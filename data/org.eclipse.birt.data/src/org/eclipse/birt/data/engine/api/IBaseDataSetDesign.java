@@ -17,7 +17,7 @@ package org.eclipse.birt.data.engine.api;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.birt.data.engine.api.script.IDataSetEventHandler;
+import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 
 /**
  * Describes the static design of any data set to be used by 
@@ -122,6 +122,6 @@ public interface IBaseDataSetDesign
 	/**
 	 * Returns the event handler for the data set
 	 */ 
-	public abstract IDataSetEventHandler getEventHandler( );
+	public abstract IBaseDataSetEventHandler getEventHandler( );
 
 }

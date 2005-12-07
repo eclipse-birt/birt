@@ -51,7 +51,7 @@ public class ScriptDataSourceRuntime extends DataSourceRuntime
 		{
 			try
 			{
-				scriptEventHandler.open( this );
+				scriptEventHandler.handleOpen( this );
 			}
 			catch (BirtException e)
 			{
@@ -67,7 +67,7 @@ public class ScriptDataSourceRuntime extends DataSourceRuntime
 		{
 			try
 			{
-				scriptEventHandler.close( this );
+				scriptEventHandler.handleClose( this );
 			}
 			catch (BirtException e)
 			{

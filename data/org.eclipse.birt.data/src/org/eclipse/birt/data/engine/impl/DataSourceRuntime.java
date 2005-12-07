@@ -20,7 +20,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
-import org.eclipse.birt.data.engine.api.script.IDataSourceEventHandler;
+import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstance;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -51,7 +51,7 @@ public abstract class  DataSourceRuntime implements IDataSourceInstance
 	
 	protected static Logger logger = Logger.getLogger( DataSourceRuntime.class.getName( ) );
 	
-	private IDataSourceEventHandler eventHandler;
+	private IBaseDataSourceEventHandler eventHandler;
 	
 	protected DataSourceRuntime( IBaseDataSourceDesign dataSourceDesign, DataEngineImpl dataEngine )
 	{
@@ -77,7 +77,7 @@ public abstract class  DataSourceRuntime implements IDataSourceInstance
 		 */
 	}
 	
-	protected IDataSourceEventHandler getEventHandler()
+	protected IBaseDataSourceEventHandler getEventHandler()
 	{
 		return eventHandler;
 	}
@@ -199,7 +199,7 @@ public abstract class  DataSourceRuntime implements IDataSourceInstance
 		{
 			try
 			{
-				eventHandler.beforeOpen( this );
+				eventHandler.handleBeforeOpen( this );
 			}
 			catch (BirtException e)
 			{
@@ -215,7 +215,7 @@ public abstract class  DataSourceRuntime implements IDataSourceInstance
 		{
 			try
 			{
-				eventHandler.beforeClose( this );
+				eventHandler.handleBeforeClose( this );
 			}
 			catch (BirtException e)
 			{
@@ -231,7 +231,7 @@ public abstract class  DataSourceRuntime implements IDataSourceInstance
 		{
 			try
 			{
-				eventHandler.afterOpen( this );
+				eventHandler.handleAfterOpen( this );
 			}
 			catch (BirtException e)
 			{
@@ -247,7 +247,7 @@ public abstract class  DataSourceRuntime implements IDataSourceInstance
 		{
 			try
 			{
-				eventHandler.afterClose( this );
+				eventHandler.handleAfterClose( this );
 			}
 			catch (BirtException e)
 			{

@@ -41,7 +41,7 @@ public class ScriptDataSetJSEventHandler extends DataSetJSEventHandler implement
 		return (IScriptDataSetDesign) getBaseDesign();
 	}
 	
-	public void open(IDataSetInstance dataSet) throws BirtException
+	public void handleOpen(IDataSetInstance dataSet) throws BirtException
 	{
 		String script = getScriptDataSetDesign().getOpenScript();
 		if ( script != null && script.length() > 0 )
@@ -51,7 +51,7 @@ public class ScriptDataSetJSEventHandler extends DataSetJSEventHandler implement
 		}
 	}
 
-	public void close(IDataSetInstance dataSet) throws BirtException
+	public void handleClose(IDataSetInstance dataSet) throws BirtException
 	{
 		String script = getScriptDataSetDesign().getCloseScript();
 		if ( script != null && script.length() > 0 )
@@ -61,7 +61,7 @@ public class ScriptDataSetJSEventHandler extends DataSetJSEventHandler implement
 		}
 	}
 
-	public boolean fetch(IDataSetInstance dataSet, IDataRow row) throws BirtException
+	public boolean handleFetch(IDataSetInstance dataSet, IDataRow row) throws BirtException
 	{
 		String script = getScriptDataSetDesign().getFetchScript();
 		if ( script != null && script.length() > 0 )
@@ -77,7 +77,7 @@ public class ScriptDataSetJSEventHandler extends DataSetJSEventHandler implement
 		return false;
 	}
 
-	public IScriptDataSetColumnMetaData[] describe(IDataSetInstance dataSet) throws BirtException
+	public IScriptDataSetColumnMetaData[] handleDescribe(IDataSetInstance dataSet) throws BirtException
 	{
 		// TODO: not implemented yet
 		return null;

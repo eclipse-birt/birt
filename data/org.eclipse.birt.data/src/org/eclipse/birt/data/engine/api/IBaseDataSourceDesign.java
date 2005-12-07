@@ -13,7 +13,7 @@
  */
 package org.eclipse.birt.data.engine.api;
 
-import org.eclipse.birt.data.engine.api.script.IDataSourceEventHandler;
+import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 
 /**
  * Describes the static design of any data source (connection)
@@ -56,5 +56,5 @@ public interface IBaseDataSourceDesign
     /**
      * Gets the event handler for the data source
      */
-    public abstract IDataSourceEventHandler getEventHandler(); 
+    public abstract IBaseDataSourceEventHandler getEventHandler(); 
 }

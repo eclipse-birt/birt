@@ -14,7 +14,7 @@
 package org.eclipse.birt.data.engine.api.querydefn;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
-import org.eclipse.birt.data.engine.api.script.IDataSourceEventHandler;
+import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 
 
 /**
@@ -31,7 +31,7 @@ public class BaseDataSourceDesign implements IBaseDataSourceDesign
     private String 	afterOpenScript;
     private String 	beforeCloseScript;
     private String 	afterCloseScript;
-    private IDataSourceEventHandler eventHandler;
+    private IBaseDataSourceEventHandler eventHandler;
     
 	/**
 	 * Constructor: Creates a data source with specified name
@@ -117,7 +117,7 @@ public class BaseDataSourceDesign implements IBaseDataSourceDesign
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSourceDesign#getEventHandler()
 	 */
-	public IDataSourceEventHandler getEventHandler()
+	public IBaseDataSourceEventHandler getEventHandler()
 	{
 		return eventHandler;
 	}
@@ -125,7 +125,7 @@ public class BaseDataSourceDesign implements IBaseDataSourceDesign
 	/**
 	 * Sets the event handler for this data source
 	 */
-	public void setEventHanlder( IDataSourceEventHandler handler)
+	public void setEventHanlder( IBaseDataSourceEventHandler handler)
 	{
 		this.eventHandler = handler;
 	}

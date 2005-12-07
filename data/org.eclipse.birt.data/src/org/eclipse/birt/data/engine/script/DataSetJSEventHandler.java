@@ -16,7 +16,7 @@ package org.eclipse.birt.data.engine.script;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
-import org.eclipse.birt.data.engine.api.script.IDataSetEventHandler;
+import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IDataSetInstance;
 import org.mozilla.javascript.Scriptable;
 
@@ -26,7 +26,7 @@ import org.mozilla.javascript.Scriptable;
  * NOTE: functionality of this class will be moved to Engine. This class
  * is temporary 
  */
-public class DataSetJSEventHandler implements IDataSetEventHandler
+public class DataSetJSEventHandler implements IBaseDataSetEventHandler
 {
 	protected IBaseDataSetDesign design;
 	protected JSMethodRunner runner;
@@ -51,7 +51,7 @@ public class DataSetJSEventHandler implements IDataSetEventHandler
 		return runner;
 	}
 	
-	public void beforeOpen(IDataSetInstance dataSet) throws BirtException
+	public void handleBeforeOpen(IDataSetInstance dataSet) throws BirtException
 	{
 		String script = getBaseDesign().getBeforeOpenScript();
 		if ( script != null && script.length() > 0 )
@@ -61,7 +61,7 @@ public class DataSetJSEventHandler implements IDataSetEventHandler
 		}
 	}
 
-	public void beforeClose(IDataSetInstance dataSet) throws BirtException
+	public void handleBeforeClose(IDataSetInstance dataSet) throws BirtException
 	{
 		String script = getBaseDesign().getBeforeCloseScript();
 		if ( script != null && script.length() > 0 )
@@ -71,7 +71,7 @@ public class DataSetJSEventHandler implements IDataSetEventHandler
 		}
 	}
 
-	public void afterOpen(IDataSetInstance dataSet) throws BirtException
+	public void handleAfterOpen(IDataSetInstance dataSet) throws BirtException
 	{
 		String script = getBaseDesign().getAfterOpenScript();
 		if ( script != null && script.length() > 0 )
@@ -81,7 +81,7 @@ public class DataSetJSEventHandler implements IDataSetEventHandler
 		}
 	}
 
-	public void afterClose(IDataSetInstance dataSet) throws BirtException
+	public void handleAfterClose(IDataSetInstance dataSet) throws BirtException
 	{
 		String script = getBaseDesign().getAfterCloseScript();
 		if ( script != null && script.length() > 0 )
@@ -91,7 +91,7 @@ public class DataSetJSEventHandler implements IDataSetEventHandler
 		}
 	}
 
-	public void onFetch(IDataSetInstance dataSet, IDataRow row) throws BirtException
+	public void handleOnFetch(IDataSetInstance dataSet, IDataRow row) throws BirtException
 	{
 		String script = getBaseDesign().getOnFetchScript();
 		if ( script != null && script.length() > 0 )

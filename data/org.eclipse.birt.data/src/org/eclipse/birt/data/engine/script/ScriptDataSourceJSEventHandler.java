@@ -23,7 +23,7 @@ import org.eclipse.birt.data.engine.api.script.IScriptDataSourceEventHandler;
  * event code.
  * NOTE: functionality of this class will be moved to Engine. This class
  * is temporary 
- */
+ */ 
 public class ScriptDataSourceJSEventHandler extends DataSourceJSEventHandler 
 	implements IScriptDataSourceEventHandler
 {
@@ -38,7 +38,7 @@ public class ScriptDataSourceJSEventHandler extends DataSourceJSEventHandler
 		return (IScriptDataSourceDesign) getBaseDesign();
 	}
 	
-	public void open(IDataSourceInstance dataSource) throws BirtException
+	public void handleOpen(IDataSourceInstance dataSource) throws BirtException
 	{
 		String script = getScriptDataSourceDesign().getOpenScript();
 		if ( script != null && script.length() > 0 )
@@ -48,7 +48,7 @@ public class ScriptDataSourceJSEventHandler extends DataSourceJSEventHandler
 		}
 	}
 
-	public void close(IDataSourceInstance dataSource) throws BirtException
+	public void handleClose(IDataSourceInstance dataSource) throws BirtException
 	{
 		String script = getScriptDataSourceDesign().getCloseScript();
 		if ( script != null && script.length() > 0 )

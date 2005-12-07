@@ -16,11 +16,14 @@ package org.eclipse.birt.data.engine.api.script;
 import org.eclipse.birt.core.exception.BirtException;
 
 /**
- * Event handler for a script data source
- *
+ * Handler for data set events
  */
-public interface IScriptDataSourceEventHandler extends IBaseDataSourceEventHandler
+public interface IBaseDataSetEventHandler
 {
-	public void handleOpen( IDataSourceInstance dataSource ) throws BirtException;
-	public void handleClose( IDataSourceInstance dataSource ) throws BirtException;
+	public void handleBeforeOpen( IDataSetInstance dataSet ) throws BirtException;
+	public void handleBeforeClose( IDataSetInstance dataSet ) throws BirtException;
+	public void handleAfterOpen( IDataSetInstance dataSet ) throws BirtException;
+	public void handleAfterClose( IDataSetInstance dataSet ) throws BirtException;
+	
+	public void handleOnFetch( IDataSetInstance dataSet, IDataRow row) throws BirtException;
 }

@@ -62,7 +62,7 @@ public class ScriptDataSetRuntime extends DataSetRuntime
 		{
 			try
 			{
-				scriptEventHandler.open( this );
+				scriptEventHandler.handleOpen( this );
 			}
 			catch (BirtException e)
 			{
@@ -78,7 +78,7 @@ public class ScriptDataSetRuntime extends DataSetRuntime
 		{
 			try
 			{
-				return scriptEventHandler.fetch( this, this.getDataRow() );
+				return scriptEventHandler.handleFetch( this, this.getDataRow() );
 			}
 			catch (BirtException e)
 			{
@@ -96,7 +96,7 @@ public class ScriptDataSetRuntime extends DataSetRuntime
 		{
 			try
 			{
-				scriptEventHandler.close(this );
+				scriptEventHandler.handleClose(this );
 			}
 			catch (BirtException e)
 			{
@@ -113,7 +113,7 @@ public class ScriptDataSetRuntime extends DataSetRuntime
 		{
 			try
 			{
-				return scriptEventHandler.describe(this );
+				return scriptEventHandler.handleDescribe(this );
 			}
 			catch (BirtException e)
 			{

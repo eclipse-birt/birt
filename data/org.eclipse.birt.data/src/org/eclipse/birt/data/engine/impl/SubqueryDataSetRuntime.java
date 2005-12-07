@@ -15,7 +15,7 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.Map;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.script.IDataSetEventHandler;
+import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 
 /**
  * A data set runtime for subquery. While a subquery doesn't have its own data set,
@@ -35,7 +35,7 @@ public class SubqueryDataSetRuntime extends DataSetRuntime
 		super( null, executor );
 	}
 
-	protected IDataSetEventHandler getEventHandler()
+	protected IBaseDataSetEventHandler getEventHandler()
 	{
 		return null;
 	}
