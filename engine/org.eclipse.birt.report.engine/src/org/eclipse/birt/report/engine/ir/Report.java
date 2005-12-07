@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
@@ -31,7 +32,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.22 $ $Date: 2005/11/15 09:38:08 $
+ * @version $Revision: 1.23 $ $Date: 2005/12/06 06:39:31 $
  */
 public class Report
 {
@@ -99,6 +100,8 @@ public class Report
 	 */
 	protected ArrayList contents = new ArrayList( );
 
+	protected Map namedExpressions = new HashMap( );
+	
 	/**
 	 * The base directory of the relative links. By default it is where design
 	 * file (XML) resides
@@ -117,6 +120,10 @@ public class Report
 	{
 	}
 
+	public Map getNamedExpressions( )
+	{
+		return namedExpressions;
+	}
 	/**
 	 * set the report's page setup
 	 * 

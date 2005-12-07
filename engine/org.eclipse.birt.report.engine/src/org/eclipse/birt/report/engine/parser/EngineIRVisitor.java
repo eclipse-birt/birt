@@ -115,6 +115,7 @@ import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.elements.Style;
 
 /**
@@ -137,7 +138,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.63 $ $Date: 2005/11/25 03:30:23 $
+ * @version $Revision: 1.64 $ $Date: 2005/11/25 06:27:24 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -222,7 +223,11 @@ class EngineIRVisitor extends DesignVisitor
 			report.setBasePath( handle.getBase( ) );
 		}
 		defaultUnit = report.getUnit( );
-
+		
+		
+		setupNamedExpressions( handle.getUserProperties(), 
+				report.getNamedExpressions( ) );
+		
 		// INCLUDE LIBRARY
 		// INCLUDE SCRIPT
 		// CODE MODULES
@@ -283,6 +288,32 @@ class EngineIRVisitor extends DesignVisitor
 		// CUSTOM
 	}
 
+	/**
+	 * setup the named expression map
+	 * @param userProperties
+	 * 			user defined named expressions in design file
+	 * @param namedExpressions
+	 *  		the data structure that hold named expressions
+	 */
+	private void setupNamedExpressions( List userProperties, Map namedExpressions )
+	{
+		if( userProperties == null || namedExpressions == null )
+			return ;
+		for(int i=0; i<userProperties.size(); i++)
+		{
+			UserPropertyDefn userDef = (UserPropertyDefn)userProperties.get( i );
+			if( userDef.getTypeCode() == IPropertyType.EXPRESSION_TYPE)
+			{
+				String name = userDef.getName( );
+				String exprString = handle.getStringProperty ( name );
+				if( exprString != null && !exprString.equals( "" ) )
+				{
+					Expression expression = new Expression( exprString );
+					namedExpressions.put( name, expression );
+				}
+			}
+		}
+	}
 	/**
 	 * setup the master page object from the base master page handle.
 	 * 
@@ -1178,6 +1209,9 @@ class EngineIRVisitor extends DesignVisitor
 				properties.put( name, value );
 			}
 		}
+		
+		setupNamedExpressions( handle.getUserProperties( ), 
+				element.getNamedExpressions( ) );
 	}
 
 	protected Expression createExpression( String expr )

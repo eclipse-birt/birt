@@ -91,7 +91,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.40 $ $Date: 2005/11/24 07:25:15 $
+ * @version $Revision: 1.41 $ $Date: 2005/12/06 06:39:31 $
  */
 public class ReportQueryBuilder
 {
@@ -572,8 +572,23 @@ public class ReportQueryBuilder
 			// handleStyle( item.getStyle( ) );
 			handleHighlightExpressions( item.getHighlight( ) );
 			handleMapExpressions( item.getMap( ) );
+			handleNamedExpressions ( item.getNamedExpressions( ) );
 		}
-
+		
+		/**
+		 * handle named expression
+		 * @param namedExpressions a map of of named expression
+		 */
+		protected void handleNamedExpressions( Map namedExpressions )
+		{
+			Collection exprs = namedExpressions.values();
+			Iterator exprIter = exprs.iterator();
+			while( exprIter.hasNext( ) )
+			{
+				addExpression( (Expression)exprIter.next() );
+			}
+		}
+		
 		/**
 		 * @param band
 		 *            the list band
