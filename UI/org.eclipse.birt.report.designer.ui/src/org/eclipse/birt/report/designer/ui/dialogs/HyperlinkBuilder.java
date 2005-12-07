@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -39,7 +40,7 @@ import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.core.runtime.Path;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
@@ -395,6 +396,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 			public void modifyText( ModifyEvent e )
 			{
+				closeReport( );
 				initParamterBindings( );
 				updateButtons( );
 			}
@@ -530,7 +532,12 @@ public class HyperlinkBuilder extends BaseDialog
 
 					if ( filename != null )
 					{
-						//filename = new Path( filename ).toPortableString( );
+						if ( needFilter )
+						{
+							filename = URIUtil.getRelativePath( getBasePath( ),
+									filename );
+						}
+						// filename = new Path( filename ).toPortableString( );
 						if ( needQuote )
 						{
 							filename = "\"" + filename + "\""; //$NON-NLS-1$ //$NON-NLS-2$
@@ -743,7 +750,7 @@ public class HyperlinkBuilder extends BaseDialog
 	}
 
 	private void initParamterBindings( )
-	{
+	{		
 		bindingList.clear( );
 		parameterList.clear( );
 
@@ -760,6 +767,23 @@ public class HyperlinkBuilder extends BaseDialog
 				reportHandle = SessionHandleAdapter.getInstance( )
 						.getSessionHandle( )
 						.openDesign( newFilename );
+			}
+			catch ( DesignFileException e )
+			{
+				try
+				{
+					reportHandle = SessionHandleAdapter.getInstance( )
+							.getSessionHandle( )
+							.openDesign( URIUtil.resolveAbsolutePath( getBasePath( ),
+									newFilename ) );
+				}
+				catch ( DesignFileException e1 )
+				{
+					errorMessage = ERROR_MSG_INVALID_REPORT;
+				}
+			}
+			if ( reportHandle != null )
+			{
 				for ( Iterator iter = reportHandle.getAllParameters( )
 						.iterator( ); iter.hasNext( ); )
 				{
@@ -782,10 +806,6 @@ public class HyperlinkBuilder extends BaseDialog
 						bindingList.add( handle.getStructure( ) );
 					}
 				}
-			}
-			catch ( DesignFileException e )
-			{
-				errorMessage = ERROR_MSG_INVALID_REPORT;
 			}
 		}
 		if ( errorMessage != null )
@@ -886,6 +906,14 @@ public class HyperlinkBuilder extends BaseDialog
 		}
 	}
 
+	private String getBasePath( )
+	{
+		String baseFile = inputHandle.getElementHandle( )
+				.getModuleHandle( )
+				.getFileName( );
+		return new File( baseFile ).getParent( );
+	}
+
 	/**
 	 * Serializes an action.
 	 * 
@@ -895,7 +923,7 @@ public class HyperlinkBuilder extends BaseDialog
 	 * @return The serialize result.
 	 */
 	public static String serialize( ActionHandle action )
-	{
+	{		
 		return null;
 	}
 
