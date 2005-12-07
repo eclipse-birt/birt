@@ -26,6 +26,7 @@
       <import plugin="org.eclipse.ui.cheatsheets"/>
       <import plugin="org.eclipse.birt.report.data.oda.flatfile"/>
       <import plugin="org.eclipse.ui.forms"/>
+      <import plugin="org.eclipse.birt.report.designer.ui.lib.explorer"/>
    </requires>
  
    <extension
