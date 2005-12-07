@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui;
 
+import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerView;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeView;
 import org.eclipse.birt.report.designer.ui.views.data.DataView;
 import org.eclipse.gef.ui.views.palette.PaletteView;
@@ -79,13 +80,11 @@ public class ReportPerspective implements IPerspectiveFactory
 		layout.addShowViewShortcut(PaletteView.ID);
 		layout.addShowViewShortcut(AttributeView.ID);
 		layout.addShowViewShortcut(DataView.ID);
+		layout.addShowViewShortcut(LibraryExplorerView.ID);
 		layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
 		layout.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);
-		
-		layout.addPerspectiveShortcut(BIRT_REPORT_PERSPECTIVE);
-		
 
-		
+		layout.addPerspectiveShortcut(BIRT_REPORT_PERSPECTIVE);
 	}
 
 	/**
@@ -95,22 +94,19 @@ public class ReportPerspective implements IPerspectiveFactory
 	{
 		// Editors are placed for free.
 		String editorArea = layout.getEditorArea( );
-
 		// Top left.
 		IFolderLayout topLeft = layout.createFolder( "topLeft", IPageLayout.LEFT, (float) 0.26, editorArea );//$NON-NLS-1$
 		topLeft.addView( PaletteView.ID );
 		topLeft.addView( DataView.ID );
-
+		topLeft.addView( LibraryExplorerView.ID );
 		// Bottom left.
 		IFolderLayout bottomLeft = layout.createFolder( "bottomLeft", IPageLayout.BOTTOM, (float) 0.50,//$NON-NLS-1$
 				"topLeft" );//$NON-NLS-1$
 		bottomLeft.addView( IPageLayout.ID_RES_NAV );
 		bottomLeft.addView( IPageLayout.ID_OUTLINE );
-
 		// Bottom right.
 		IFolderLayout bootomRight = layout.createFolder( "bootomRight", IPageLayout.BOTTOM, (float) 0.66, editorArea );//$NON-NLS-1$
 		bootomRight.addView( AttributeView.ID );
 		bootomRight.addView( IPageLayout.ID_PROBLEM_VIEW );
-
 	}
 }
