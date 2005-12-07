@@ -281,7 +281,7 @@ public class ParameterDialog extends BaseDialog
 		}
 
 		public Object[] getElements( Object inputElement )
-		{			
+		{
 			ArrayList list = ( (ArrayList) inputElement );
 			ArrayList elementsList = (ArrayList) list.clone( );
 			elementsList.add( dummyChoice );
@@ -327,12 +327,16 @@ public class ParameterDialog extends BaseDialog
 				}
 				else
 				{
-					text = format( choice.getValue( ) );
+					text = choice.getValue( );
 				}
 			}
 			else if ( columnIndex == valueIndex + 1 )
 			{
 				text = choice.getLabel( );
+				if ( text == null )
+				{
+					text = format( choice.getValue( ) );
+				}
 			}
 			if ( text == null )
 			{
