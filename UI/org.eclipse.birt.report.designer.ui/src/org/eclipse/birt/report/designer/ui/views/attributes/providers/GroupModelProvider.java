@@ -74,10 +74,14 @@ public class GroupModelProvider
 	 * 
 	 * @param input
 	 *            The input object.
-	 * @return Groups array.
+	 * @return Groups array. Return null if the list if empty.
 	 */
 	public Object[] getElements( List input )
 	{
+		if(input.isEmpty())
+		{
+			return null;
+		}
 		Object obj = input.get( 0 );
 		if ( !( obj instanceof DesignElementHandle ) )
 			return EMPTY;

@@ -26,7 +26,7 @@ import org.eclipse.ui.ISharedImages;
 /**
  * This class provides the UI images for JRP platform.
  * 
- *  
+ * 
  */
 public class ReportPlatformUIImages
 {
@@ -38,7 +38,7 @@ public class ReportPlatformUIImages
 	 */
 
 	public final static String ICONS_PATH = "icons/";//$NON-NLS-1$
-	
+
 	public final static String DOBJ16_PATH = "dobj16/";//$NON-NLS-1$
 	public final static String DTOOL16_PATH = "dtool16/";//$NON-NLS-1$
 	public final static String ETOOL16_PATH = "etool16/";//$NON-NLS-1$
@@ -92,15 +92,20 @@ public class ReportPlatformUIImages
 		// common icons
 		declareImage( ISharedImages.IMG_OBJS_ERROR_TSK, ICONS_PATH
 				+ PROGRESS_PATH + "error_tsk.gif" ); //$NON-NLS-1$
-		declareImage( ISharedImages.IMG_OBJ_FOLDER, ICONS_PATH + OBJ16_PATH + "fldr_obj.gif" ); //$NON-NLS-1$
-		declareImage( ISharedImages.IMG_TOOL_COPY, ICONS_PATH + ETOOL16_PATH + "copy_edit.gif" ); //$NON-NLS-1$
-		declareImage( ISharedImages.IMG_TOOL_CUT, ICONS_PATH + ETOOL16_PATH + "cut_edit.gif" ); //$NON-NLS-1$
-		declareImage( ISharedImages.IMG_TOOL_UNDO, ICONS_PATH + ETOOL16_PATH + "undo_edit.gif" ); //$NON-NLS-1$
-		declareImage( ISharedImages.IMG_TOOL_REDO, ICONS_PATH + ETOOL16_PATH + "redo_edit.gif" ); //$NON-NLS-1$
-		declareImage( ISharedImages.IMG_TOOL_PASTE, ICONS_PATH 
-				+ ETOOL16_PATH + "paste_edit.gif" ); //$NON-NLS-1$
-		declareImage( ISharedImages.IMG_TOOL_DELETE, ICONS_PATH
-				+ ETOOL16_PATH + "delete_edit.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_OBJ_FOLDER, ICONS_PATH + OBJ16_PATH
+				+ "fldr_obj.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_TOOL_COPY, ICONS_PATH + ETOOL16_PATH
+				+ "copy_edit.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_TOOL_CUT, ICONS_PATH + ETOOL16_PATH
+				+ "cut_edit.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_TOOL_UNDO, ICONS_PATH + ETOOL16_PATH
+				+ "undo_edit.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_TOOL_REDO, ICONS_PATH + ETOOL16_PATH
+				+ "redo_edit.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_TOOL_PASTE, ICONS_PATH + ETOOL16_PATH
+				+ "paste_edit.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_TOOL_DELETE, ICONS_PATH + ETOOL16_PATH
+				+ "delete_edit.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_NEW_REPORT, ICONS_PATH
 				+ OBJ16_PATH + "new_report.gif" ); //$NON-NLS-1$
@@ -117,7 +122,7 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_REPORT_PROJECT, ICONS_PATH
 				+ OBJ16_PATH + "report_project.gif" ); //$NON-NLS-1$
 
-		//element icons
+		// element icons
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_CELL, ICONS_PATH
 				+ OBJ16_PATH + "cell.gif" ); //$NON-NLS-1$
 
@@ -144,7 +149,7 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_GRID, ICONS_PATH
 				+ PAL_PATH + "grid.gif" ); //$NON-NLS-1$
-		
+
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_TEXTDATA, ICONS_PATH
 				+ PAL_PATH + "textdata.gif" ); //$NON-NLS-1$
 
@@ -168,8 +173,7 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_ELEMNET_MASTERPAGE,
 				ICONS_PATH + OBJ16_PATH + "master_page.gif" ); //$NON-NLS-1$
-		
-		
+
 		declareImage( IReportGraphicConstants.ICON_ELEMNET_GRAPHICMASTERPAGE,
 				ICONS_PATH + EVIEW16_PATH + "master_page.gif" ); //$NON-NLS-1$
 
@@ -178,10 +182,11 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_PARAMETER_GROUP,
 				ICONS_PATH + OBJ16_PATH + "parameter_group.gif" ); //$NON-NLS-1$
-		
-		declareImage( IReportGraphicConstants.ICON_ELEMENT_CASCADING_PARAMETER_GROUP,
+
+		declareImage(
+				IReportGraphicConstants.ICON_ELEMENT_CASCADING_PARAMETER_GROUP,
 				ICONS_PATH + OBJ16_PATH + "parameter_group.gif" ); //$NON-NLS-1$
-		
+
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_ROW, ICONS_PATH
 				+ OBJ16_PATH + "row.gif" ); //$NON-NLS-1$
 
@@ -206,14 +211,13 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_LIBRARY, ICONS_PATH
 				+ OBJ16_PATH + "library.gif" ); //$NON-NLS-1$		
 
-		declareImage( IReportGraphicConstants.ICON_ELEMENT_LIBRARY_REFERENCED, ICONS_PATH
-				+ OBJ16_PATH + "library_referenced.gif" ); //$NON-NLS-1$		
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_LIBRARY_REFERENCED,
+				ICONS_PATH + OBJ16_PATH + "library_referenced.gif" ); //$NON-NLS-1$		
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_THEME, ICONS_PATH
 				+ OBJ16_PATH + "theme.gif" ); //$NON-NLS-1$		
 
-		
-		//outline icons
+		// outline icons
 		declareImage( IReportGraphicConstants.ICON_NODE_BODY, ICONS_PATH
 				+ OBJ16_PATH + "body_icon.gif" ); //$NON-NLS-1$
 
@@ -240,12 +244,12 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_NODE_GROUP_FOOTER,
 				ICONS_PATH + OBJ16_PATH + "group_footer.gif" ); //$NON-NLS-1$
-		
-		declareImage( IReportGraphicConstants.ICON_NODE_LIBRARIES,
-				ICONS_PATH + OBJ16_PATH + "library_folder.gif" ); //$NON-NLS-1$
 
-		declareImage( IReportGraphicConstants.ICON_NODE_THEMES,
-				ICONS_PATH + OBJ16_PATH + "theme.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_NODE_LIBRARIES, ICONS_PATH
+				+ OBJ16_PATH + "library_folder.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_NODE_THEMES, ICONS_PATH
+				+ OBJ16_PATH + "theme.gif" ); //$NON-NLS-1$
 
 		// layout icons
 		declareImage( IReportGraphicConstants.ICON_LAYOUT_NORMAL, ICONS_PATH
@@ -293,15 +297,15 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_NODE_PARAMETERS, ICONS_PATH
 				+ OBJ16_PATH + "parameter_folder.gif" ); //$NON-NLS-1$
 
-		//**********************************************************
-		//expression icons
+		// **********************************************************
+		// expression icons
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_DATA_TABLE,
 				ICONS_PATH + OBJ16_PATH + "data_table.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_DATA_COLUMN, ICONS_PATH
 				+ OBJ16_PATH + "data_column.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_OPERATOR,
 				ICONS_PATH + OBJ16_PATH + "operator.gif" ); //$NON-NLS-1$
-		
+
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_GLOBAL,
 				ICONS_PATH + OBJ16_PATH + "global.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_METHOD,
@@ -315,7 +319,7 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_BUILDER,
 				ICONS_PATH + OBJ16_PATH + "expression.gif" ); //$NON-NLS-1$
 
-		//data wizards
+		// data wizards
 		declareImage( IReportGraphicConstants.ICON_WIZARD_DATASOURCE,
 				ICONS_PATH + WIZBAN_PATH + "datasource_wizard.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_WIZARD_DATASET, ICONS_PATH
@@ -324,26 +328,27 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_WIZARDPAGE_DATASETSELECTION,
 				ICONS_PATH + WIZBAN_PATH + "dataset_wizard_table.gif" ); //$NON-NLS-1$
 
-		/////////////////////attribute image
+		// ///////////////////attribute image
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_FONT_WIDTH,
 				ICONS_PATH + OBJ16_PATH + "bold.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_FONT_WIDTH
-				+ IReportGraphicConstants.DIS, ICONS_PATH + DOBJ16_PATH + "bold_disabled.gif" ); //$NON-NLS-1$
+				+ IReportGraphicConstants.DIS, ICONS_PATH + DOBJ16_PATH
+				+ "bold_disabled.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_FONT_STYLE,
 				ICONS_PATH + OBJ16_PATH + "italic.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_FONT_STYLE
-				+ IReportGraphicConstants.DIS, ICONS_PATH
-				+ DOBJ16_PATH + "italic_disabled.gif" ); //$NON-NLS-1$
+				+ IReportGraphicConstants.DIS, ICONS_PATH + DOBJ16_PATH
+				+ "italic_disabled.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_UNDERLINE,
 				ICONS_PATH + OBJ16_PATH + "underline.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_UNDERLINE
-				+ IReportGraphicConstants.DIS, ICONS_PATH
-				+ DOBJ16_PATH + "underline_disabled.gif" ); //$NON-NLS-1$
+				+ IReportGraphicConstants.DIS, ICONS_PATH + DOBJ16_PATH
+				+ "underline_disabled.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_LINE_THROUGH,
 				ICONS_PATH + OBJ16_PATH + "lineSthrough.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_LINE_THROUGH
-				+ IReportGraphicConstants.DIS, ICONS_PATH
-				+ DOBJ16_PATH + "lineSthrough_disabled.gif" ); //$NON-NLS-1$
+				+ IReportGraphicConstants.DIS, ICONS_PATH + DOBJ16_PATH
+				+ "lineSthrough_disabled.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_NONE,
 				ICONS_PATH + OBJ16_PATH + "border_none.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_FRAME,
@@ -359,24 +364,24 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_CENTER,
 				ICONS_PATH + OBJ16_PATH + "center_align.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_CENTER
-				+ IReportGraphicConstants.DIS, ICONS_PATH
-				+ DOBJ16_PATH + "center_align_disabled.gif" ); //$NON-NLS-1$
+				+ IReportGraphicConstants.DIS, ICONS_PATH + DOBJ16_PATH
+				+ "center_align_disabled.gif" ); //$NON-NLS-1$
 		declareImage(
 				IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_JUSTIFY,
 				ICONS_PATH + OBJ16_PATH + "justified_align.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_JUSTIFY
-				+ IReportGraphicConstants.DIS, ICONS_PATH
-				+ DOBJ16_PATH + "justified_align_disabled.gif" ); //$NON-NLS-1$
+				+ IReportGraphicConstants.DIS, ICONS_PATH + DOBJ16_PATH
+				+ "justified_align_disabled.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_LEFT,
 				ICONS_PATH + OBJ16_PATH + "left_align.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_LEFT
-				+ IReportGraphicConstants.DIS, ICONS_PATH
-				+ DOBJ16_PATH + "left_align_disabled.gif" );//$NON-NLS-1$
+				+ IReportGraphicConstants.DIS, ICONS_PATH + DOBJ16_PATH
+				+ "left_align_disabled.gif" );//$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_RIGHT,
 				ICONS_PATH + OBJ16_PATH + "right_align.gif" );//$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_RIGHT
-				+ IReportGraphicConstants.DIS, ICONS_PATH
-				+ DOBJ16_PATH + "right_align_disabled.gif" );//$NON-NLS-1$
+				+ IReportGraphicConstants.DIS, ICONS_PATH + DOBJ16_PATH
+				+ "right_align_disabled.gif" );//$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TOP_MARGIN,
 				ICONS_PATH + MISC_PATH + "top_margin.gif" ); //$NON-NLS-1$
@@ -387,8 +392,8 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_RIGHT_MARGIN,
 				ICONS_PATH + MISC_PATH + "right_margin.gif" ); //$NON-NLS-1$
 
-		//**********************************************************
-		//Preview icons
+		// **********************************************************
+		// Preview icons
 		declareImage( IReportGraphicConstants.ICON_PREVIEW_PARAMETERS,
 				ICONS_PATH + PROGRESS_PATH + "params_ecl_show.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_PREVIEW_PARAMETERS_HIDE,
@@ -396,23 +401,27 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_PREVIEW_REFRESH, ICONS_PATH
 				+ ETOOL16_PATH + "refresh.gif" ); //$NON-NLS-1$
 
-		//Auto Text Icon
+		// Auto Text Icon
 		declareImage( IReportGraphicConstants.ICON_AUTOTEXT, ICONS_PATH
 				+ OBJ16_PATH + "autotext.gif" ); //$NON-NLS-1$
 
-		//Parameter dialog icon
+		// Parameter dialog icon
 		declareImage( IReportGraphicConstants.ICON_DEFAULT, ICONS_PATH
 				+ OBJ16_PATH + "default.gif" ); //$NON-NLS-1$
-		
-		//Data editor dialog icons
-		declareImage(IReportGraphicConstants.ICON_DATAEDIT_DLG_TITLE_BANNER, ICONS_PATH
-				+ OBJ16_PATH + "prop_dialog_title.gif" ); //$NON-NLS-1$
-				
-				//Open file icon
-		declareImage( IReportGraphicConstants.ICON_OPEN_FILE,
-				ICONS_PATH + ETOOL16_PATH + "open_file.gif" ); //$NON-NLS-1$
-		
-		declareImage("TableRowSelector", ICONS_PATH + OBJ16_PATH + "tablerowselector.gif" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		// Data editor dialog icons
+		declareImage( IReportGraphicConstants.ICON_DATAEDIT_DLG_TITLE_BANNER,
+				ICONS_PATH + OBJ16_PATH + "prop_dialog_title.gif" ); //$NON-NLS-1$
+
+		// Open file icon
+		declareImage( IReportGraphicConstants.ICON_OPEN_FILE, ICONS_PATH
+				+ ETOOL16_PATH + "open_file.gif" ); //$NON-NLS-1$
+
+		declareImage(
+				"TableRowSelector", ICONS_PATH + OBJ16_PATH + "tablerowselector.gif" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		declareImage( IReportGraphicConstants.ICON_ENABLE_LOCAL_PROPERTIES,
+				ICONS_PATH + OBJ16_PATH + "property_reference.gif" );
 	}
 
 	/**
@@ -490,14 +499,15 @@ public class ReportPlatformUIImages
 		if ( model instanceof ExtendedItemHandle )
 		{
 			image = getImage( getIconSymbolName( ( (ExtendedItemHandle) model )
-					.getExtensionName( ), IExtensionConstants.ATTRIBUTE_KEY_OUTLINE_ICON ) );
+					.getExtensionName( ),
+					IExtensionConstants.ATTRIBUTE_KEY_OUTLINE_ICON ) );
 			if ( image == null )
 			{
 				image = getImage( IReportGraphicConstants.ICON_ELEMENT_EXTENDED_ITEM );
 			}
 		}
 		else if ( model instanceof DesignElementHandle )
-		{//the icon name for elements is just the same as the element name
+		{// the icon name for elements is just the same as the element name
 			image = getImage( ( (DesignElementHandle) model ).getElement( )
 					.getDefn( ).getName( ) );
 		}
@@ -527,7 +537,7 @@ public class ReportPlatformUIImages
 			}
 		}
 		else if ( model instanceof DesignElementHandle )
-		{//the icon name for elements is just the same as the element name
+		{// the icon name for elements is just the same as the element name
 			imageDescriptor = getImageDescriptor( ( (DesignElementHandle) model )
 					.getElement( ).getDefn( ).getName( ) );
 		}
@@ -558,7 +568,7 @@ public class ReportPlatformUIImages
 	 * location as this plug-in class. This may mean the same package directory
 	 * as the package holding this class. The images are declared using
 	 * this.getClass() to ensure they are looked up via this plug-in class.
-	 *  
+	 * 
 	 */
 	public static ImageRegistry initializeImageRegistry( )
 	{

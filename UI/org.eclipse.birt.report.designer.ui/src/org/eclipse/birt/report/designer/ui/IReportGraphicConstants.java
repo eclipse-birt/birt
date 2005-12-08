@@ -254,5 +254,7 @@ public interface IReportGraphicConstants
 
 	// Open file flag image
 	public static final String ICON_OPEN_FILE = "Open file";//$NON-NLS-1$
+	
+	public static final String ICON_ENABLE_LOCAL_PROPERTIES = "Enable Local Properties";//$NON-NLS-1$
 
 }
