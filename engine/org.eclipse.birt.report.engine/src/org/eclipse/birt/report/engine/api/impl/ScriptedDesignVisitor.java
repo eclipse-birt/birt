@@ -95,51 +95,51 @@ class ScriptedDesignVisitor extends DesignVisitor
 		if ( !hasJavaScript && !hasJavaCode )
 			return;
 
-		try
+		if ( handle instanceof DataItemHandle )
 		{
-			executionContext.newScope( handle );
+			DataItemScriptExecutor.handleOnPrepare( ( DataItemHandle ) handle,
+					executionContext );
+		} else if ( handle instanceof GridHandle )
+		{
+			GridScriptExecutor.handleOnPrepare( ( GridHandle ) handle,
+					executionContext );
+		} else if ( handle instanceof ImageHandle )
+		{
+			ImageScriptExecutor.handleOnPrepare( ( ImageHandle ) handle,
+					executionContext );
+		} else if ( handle instanceof LabelHandle )
+		{
+			LabelScriptExecutor.handleOnPrepare( ( LabelHandle ) handle,
+					executionContext );
+		} else if ( handle instanceof ListHandle )
+		{
+			ListScriptExecutor.handleOnPrepare( ( ListHandle ) handle,
+					executionContext );
+		} else if ( handle instanceof TableHandle )
+		{
+			TableScriptExecutor.handleOnPrepare( ( TableHandle ) handle,
+					executionContext );
+		} else if ( handle instanceof TextItemHandle )
+		{
+			TextItemScriptExecutor.handleOnPrepare( ( TextItemHandle ) handle,
+					executionContext );
 
-			if ( handle instanceof DataItemHandle )
+		} else if ( handle instanceof TextDataHandle )
+		{
+			MultiLineScriptExecutor.handleOnPrepare( ( TextDataHandle ) handle,
+					executionContext );
+		} else
+			// if there's no ScriptExecutor available, execute javascript
+			// only
+			try
 			{
-				DataItemScriptExecutor.handleOnPrepare(
-						( DataItemHandle ) handle, executionContext );
-			} else if ( handle instanceof GridHandle )
-			{
-				GridScriptExecutor.handleOnPrepare( ( GridHandle ) handle,
-						executionContext );
-			} else if ( handle instanceof ImageHandle )
-			{
-				ImageScriptExecutor.handleOnPrepare( ( ImageHandle ) handle,
-						executionContext );
-			} else if ( handle instanceof LabelHandle )
-			{
-				LabelScriptExecutor.handleOnPrepare( ( LabelHandle ) handle,
-						executionContext );
-			} else if ( handle instanceof ListHandle )
-			{
-				ListScriptExecutor.handleOnPrepare( ( ListHandle ) handle,
-						executionContext );
-			} else if ( handle instanceof TableHandle )
-			{
-				TableScriptExecutor.handleOnPrepare( ( TableHandle ) handle,
-						executionContext );
-			} else if ( handle instanceof TextItemHandle )
-			{
-				TextItemScriptExecutor.handleOnPrepare(
-						( TextItemHandle ) handle, executionContext );
-
-			} else if ( handle instanceof TextDataHandle )
-			{
-				MultiLineScriptExecutor.handleOnPrepare(
-						( TextDataHandle ) handle, executionContext );
-			} else
-				// if there's no ScriptExecutor available, execute javascript
-				// only
+				executionContext.newScope( handle );
 				executionContext.execute( handle.getOnPrepare( ) );
-		} finally
-		{
-			executionContext.exitScope( );
-		}
+			} finally
+			{
+				executionContext.exitScope( );
+			}
+
 	}
 
 	// TODO: Merge this function with the above one when DE add onPrepare to
@@ -153,14 +153,7 @@ class ScriptedDesignVisitor extends DesignVisitor
 		if ( !hasJavaScript && !hasJavaCode )
 			return;
 
-		try
-		{
-			executionContext.newScope( handle );
-			CellScriptExecutor.handleOnPrepare( handle, executionContext );
-		} finally
-		{
-			executionContext.exitScope( );
-		}
+		CellScriptExecutor.handleOnPrepare( handle, executionContext );
 	}
 
 	// TODO: Merge this function with the above one when DE add onPrepare to
@@ -200,7 +193,8 @@ class ScriptedDesignVisitor extends DesignVisitor
 		try
 		{
 			executionContext.newScope( handle );
-			TableDetailRowScriptExecutor.handleOnPrepare( handle, executionContext );
+			TableDetailRowScriptExecutor.handleOnPrepare( handle,
+					executionContext );
 		} finally
 		{
 			executionContext.exitScope( );

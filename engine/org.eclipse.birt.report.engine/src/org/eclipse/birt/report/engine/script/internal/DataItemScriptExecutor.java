@@ -13,7 +13,9 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import java.util.logging.Level;
 
+import org.eclipse.birt.report.engine.api.script.element.IDataItem;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDataItemEventHandler;
+import org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance;
 import org.eclipse.birt.report.engine.content.impl.DataContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -23,17 +25,17 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 
 public class DataItemScriptExecutor extends ScriptExecutor
 {
-	public static void handleOnPrepare( DataItemHandle dataItem,
+	public static void handleOnPrepare( DataItemHandle dataItemHandle,
 			ExecutionContext context )
 	{
 		try
 		{
-			if ( handleJS( dataItem.getOnPrepare( ), context ) )
+			IDataItem dataItem = new DataItem( dataItemHandle );
+			if ( handleJS( dataItem, dataItemHandle.getOnPrepare( ), context ) )
 				return;
-			IDataItemEventHandler eh = ( IDataItemEventHandler ) getInstance( dataItem );
+			IDataItemEventHandler eh = ( IDataItemEventHandler ) getInstance( dataItemHandle );
 			if ( eh != null )
-				eh.onPrepare( new DataItem( dataItem ), context
-						.getReportContext( ) );
+				eh.onPrepare( dataItem, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );
@@ -47,13 +49,13 @@ public class DataItemScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign dataItemDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			if ( handleJS( dataItemDesign.getOnCreate( ), context ) )
+			IDataItemInstance dataItem = new DataItemInstance( content );
+			if ( handleJS( dataItem, dataItemDesign.getOnCreate( ), context ) )
 				return;
 			IDataItemEventHandler eh = ( IDataItemEventHandler ) getInstance( ( DataItemHandle ) dataItemDesign
 					.getHandle( ) );
 			if ( eh != null )
-				eh.onCreate( new DataItemInstance( content ), context
-						.getReportContext( ) );
+				eh.onCreate( dataItem, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );
@@ -67,13 +69,13 @@ public class DataItemScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign dataItemDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			if ( handleJS( dataItemDesign.getOnRender( ), context ) )
+			IDataItemInstance dataItem = new DataItemInstance( content );
+			if ( handleJS( dataItem, dataItemDesign.getOnRender( ), context ) )
 				return;
 			IDataItemEventHandler eh = ( IDataItemEventHandler ) getInstance( ( DataItemHandle ) dataItemDesign
 					.getHandle( ) );
 			if ( eh != null )
-				eh.onRender( new DataItemInstance( content ), context
-						.getReportContext( ) );
+				eh.onRender( dataItem, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );

@@ -13,7 +13,9 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import java.util.logging.Level;
 
+import org.eclipse.birt.report.engine.api.script.element.ILabel;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ILabelEventHandler;
+import org.eclipse.birt.report.engine.api.script.instance.ILabelInstance;
 import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -23,16 +25,17 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 
 public class LabelScriptExecutor extends ScriptExecutor
 {
-	public static void handleOnPrepare( LabelHandle label,
+	public static void handleOnPrepare( LabelHandle labelHandle,
 			ExecutionContext context )
 	{
 		try
 		{
-			if ( handleJS( label.getOnPrepare( ), context ) )
+			ILabel label = new Label( labelHandle );
+			if ( handleJS( label, labelHandle.getOnPrepare( ), context ) )
 				return;
-			ILabelEventHandler eh = ( ILabelEventHandler ) getInstance( label );
+			ILabelEventHandler eh = ( ILabelEventHandler ) getInstance( labelHandle );
 			if ( eh != null )
-				eh.onPrepare( new Label( label ), context.getReportContext( ) );
+				eh.onPrepare( label, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );
@@ -46,13 +49,13 @@ public class LabelScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign labelDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			if ( handleJS( labelDesign.getOnCreate( ), context ) )
+			ILabelInstance label = new LabelInstance( content );
+			if ( handleJS( label, labelDesign.getOnCreate( ), context ) )
 				return;
 			ILabelEventHandler eh = ( ILabelEventHandler ) getInstance( ( LabelHandle ) labelDesign
 					.getHandle( ) );
 			if ( eh != null )
-				eh.onCreate( new LabelInstance( content ), context
-						.getReportContext( ) );
+				eh.onCreate( label, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );
@@ -66,13 +69,13 @@ public class LabelScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign labelDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			if ( handleJS( labelDesign.getOnRender( ), context ) )
+			ILabelInstance label = new LabelInstance( content );
+			if ( handleJS( label, labelDesign.getOnRender( ), context ) )
 				return;
 			ILabelEventHandler eh = ( ILabelEventHandler ) getInstance( ( LabelHandle ) labelDesign
 					.getHandle( ) );
 			if ( eh != null )
-				eh.onRender( new LabelInstance( content ), context
-						.getReportContext( ) );
+				eh.onRender( label, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );

@@ -13,7 +13,9 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import java.util.logging.Level;
 
+import org.eclipse.birt.report.engine.api.script.element.ITextItem;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ITextItemEventHandler;
+import org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance;
 import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.content.impl.AbstractContent;
 import org.eclipse.birt.report.engine.content.impl.TextContent;
@@ -25,17 +27,17 @@ import org.eclipse.birt.report.model.api.TextItemHandle;
 
 public class TextItemScriptExecutor extends ScriptExecutor
 {
-	public static void handleOnPrepare( TextItemHandle textItem,
+	public static void handleOnPrepare( TextItemHandle textItemHandle,
 			ExecutionContext context )
 	{
 		try
 		{
-			if ( handleJS( textItem.getOnPrepare( ), context ) )
+			ITextItem textItem = new TextItem( textItemHandle );
+			if ( handleJS( textItem, textItemHandle.getOnPrepare( ), context ) )
 				return;
-			ITextItemEventHandler eh = ( ITextItemEventHandler ) getInstance( textItem );
+			ITextItemEventHandler eh = ( ITextItemEventHandler ) getInstance( textItemHandle );
 			if ( eh != null )
-				eh.onPrepare( new TextItem( textItem ), context
-						.getReportContext( ) );
+				eh.onPrepare( textItem, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );
@@ -73,20 +75,19 @@ public class TextItemScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign textItemDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			if ( handleJS( textItemDesign.getOnCreate( ), context ) )
+			ITextItemInstance textItem = null;
+			if ( content instanceof TextContent )
+				textItem = new TextItemInstance( ( TextContent ) content );
+			else if ( content instanceof ForeignContent )
+				textItem = new TextItemInstance( ( ForeignContent ) content );
+
+			if ( handleJS( textItem, textItemDesign.getOnCreate( ), context ) )
 				return;
 			ITextItemEventHandler eh = ( ITextItemEventHandler ) getInstance( ( TextItemHandle ) textItemDesign
 					.getHandle( ) );
 			if ( eh != null )
 			{
-				if ( content instanceof TextContent )
-					eh.onCreate(
-							new TextItemInstance( ( TextContent ) content ),
-							context.getReportContext( ) );
-				else if ( content instanceof ForeignContent )
-					eh.onCreate( new TextItemInstance(
-							( ForeignContent ) content ), context
-							.getReportContext( ) );
+				eh.onCreate( textItem, context.getReportContext( ) );
 			}
 		} catch ( Exception e )
 		{
@@ -101,20 +102,18 @@ public class TextItemScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign textItemDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			if ( handleJS( textItemDesign.getOnRender( ), context ) )
+			ITextItemInstance textItem = null;
+			if ( content instanceof TextContent )
+				textItem = new TextItemInstance( ( TextContent ) content );
+			else if ( content instanceof ForeignContent )
+				textItem = new TextItemInstance( ( ForeignContent ) content );
+			if ( handleJS( textItem, textItemDesign.getOnRender( ), context ) )
 				return;
 			ITextItemEventHandler eh = ( ITextItemEventHandler ) getInstance( ( TextItemHandle ) textItemDesign
 					.getHandle( ) );
 			if ( eh != null )
 			{
-				if ( content instanceof TextContent )
-					eh.onRender(
-							new TextItemInstance( ( TextContent ) content ),
-							context.getReportContext( ) );
-				else if ( content instanceof ForeignContent )
-					eh.onRender( new TextItemInstance(
-							( ForeignContent ) content ), context
-							.getReportContext( ) );
+				eh.onRender( textItem, context.getReportContext( ) );
 			}
 		} catch ( Exception e )
 		{

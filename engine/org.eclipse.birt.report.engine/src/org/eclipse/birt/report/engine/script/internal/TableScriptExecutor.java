@@ -13,7 +13,9 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import java.util.logging.Level;
 
+import org.eclipse.birt.report.engine.api.script.element.ITable;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ITableEventHandler;
+import org.eclipse.birt.report.engine.api.script.instance.ITableInstance;
 import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -23,16 +25,17 @@ import org.eclipse.birt.report.model.api.TableHandle;
 
 public class TableScriptExecutor extends ScriptExecutor
 {
-	public static void handleOnPrepare( TableHandle table,
+	public static void handleOnPrepare( TableHandle tableHandle,
 			ExecutionContext context )
 	{
 		try
 		{
-			if ( handleJS( table.getOnPrepare( ), context ) )
+			ITable table = new Table( tableHandle );
+			if ( handleJS( table, tableHandle.getOnPrepare( ), context ) )
 				return;
-			ITableEventHandler eh = ( ITableEventHandler ) getInstance( table );
+			ITableEventHandler eh = ( ITableEventHandler ) getInstance( tableHandle );
 			if ( eh != null )
-				eh.onPrepare( new Table( table ), context.getReportContext( ) );
+				eh.onPrepare( table, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );
@@ -46,13 +49,13 @@ public class TableScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign tableDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			if ( handleJS( tableDesign.getOnCreate( ), context ) )
+			ITableInstance table = new TableInstance( content );
+			if ( handleJS( table, tableDesign.getOnCreate( ), context ) )
 				return;
 			ITableEventHandler eh = ( ITableEventHandler ) getInstance( ( TableHandle ) tableDesign
 					.getHandle( ) );
 			if ( eh != null )
-				eh.onCreate( new TableInstance( content ), context
-						.getReportContext( ) );
+				eh.onCreate( table, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );
@@ -66,13 +69,13 @@ public class TableScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign tableDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			if ( handleJS( tableDesign.getOnRender( ), context ) )
+			ITableInstance table = new TableInstance( content );
+			if ( handleJS( table, tableDesign.getOnRender( ), context ) )
 				return;
 			ITableEventHandler eh = ( ITableEventHandler ) getInstance( ( TableHandle ) tableDesign
 					.getHandle( ) );
 			if ( eh != null )
-				eh.onRender( new TableInstance( content ), context
-						.getReportContext( ) );
+				eh.onRender( table, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );

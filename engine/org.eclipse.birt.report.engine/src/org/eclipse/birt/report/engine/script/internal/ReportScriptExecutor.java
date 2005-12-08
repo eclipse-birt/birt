@@ -25,7 +25,7 @@ public class ReportScriptExecutor extends ScriptExecutor
 	{
 		try
 		{
-			if ( handleJS( report.getInitialize( ), context ) )
+			if ( handleJS( null, report.getInitialize( ), context ) )
 				return;
 			IReportEventHandler eh = ( IReportEventHandler ) getInstance( report );
 			if ( eh != null )
@@ -41,7 +41,8 @@ public class ReportScriptExecutor extends ScriptExecutor
 	{
 		try
 		{
-			if ( handleJS( report.getBeforeFactory( ), context ) )
+			// TODO: Wrap report
+			if ( handleJS( report, report.getBeforeFactory( ), context ) )
 				return;
 			IReportEventHandler eh = ( IReportEventHandler ) getInstance( report );
 			if ( eh != null )
@@ -57,7 +58,7 @@ public class ReportScriptExecutor extends ScriptExecutor
 	{
 		try
 		{
-			if ( handleJS( report.getAfterFactory( ), context ) )
+			if ( handleJS( null, report.getAfterFactory( ), context ) )
 				return;
 			IReportEventHandler eh = ( IReportEventHandler ) getInstance( report );
 			if ( eh != null )
@@ -73,7 +74,7 @@ public class ReportScriptExecutor extends ScriptExecutor
 	{
 		try
 		{
-			if ( handleJS( report.getBeforeOpenDoc( ), context ) )
+			if ( handleJS( null, report.getBeforeOpenDoc( ), context ) )
 				return;
 			IReportEventHandler eh = ( IReportEventHandler ) getInstance( report );
 			if ( eh != null )
@@ -89,7 +90,7 @@ public class ReportScriptExecutor extends ScriptExecutor
 	{
 		try
 		{
-			if ( handleJS( report.getAfterOpenDoc( ), context ) )
+			if ( handleJS( null, report.getAfterOpenDoc( ), context ) )
 				return;
 			IReportEventHandler eh = ( IReportEventHandler ) getInstance( report );
 			if ( eh != null )
@@ -105,7 +106,7 @@ public class ReportScriptExecutor extends ScriptExecutor
 	{
 		try
 		{
-			if ( handleJS( report.getBeforeCloseDoc( ), context ) )
+			if ( handleJS( null, report.getBeforeCloseDoc( ), context ) )
 				return;
 			IReportEventHandler eh = ( IReportEventHandler ) getInstance( report );
 			if ( eh != null )
@@ -121,7 +122,7 @@ public class ReportScriptExecutor extends ScriptExecutor
 	{
 		try
 		{
-			if ( handleJS( report.getAfterCloseDoc( ), context ) )
+			if ( handleJS( null, report.getAfterCloseDoc( ), context ) )
 				return;
 			IReportEventHandler eh = ( IReportEventHandler ) getInstance( report );
 			if ( eh != null )
@@ -137,7 +138,7 @@ public class ReportScriptExecutor extends ScriptExecutor
 	{
 		try
 		{
-			if ( handleJS( report.getBeforeRender( ), context ) )
+			if ( handleJS( null, report.getBeforeRender( ), context ) )
 				return;
 			IReportEventHandler eh = ( IReportEventHandler ) getInstance( report );
 			if ( eh != null )
@@ -153,7 +154,7 @@ public class ReportScriptExecutor extends ScriptExecutor
 	{
 		try
 		{
-			if ( handleJS( report.getAfterRender( ), context ) )
+			if ( handleJS( null, report.getAfterRender( ), context ) )
 				return;
 			IReportEventHandler eh = ( IReportEventHandler ) getInstance( report );
 			if ( eh != null )

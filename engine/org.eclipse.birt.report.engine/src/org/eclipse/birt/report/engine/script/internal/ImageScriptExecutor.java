@@ -13,7 +13,9 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import java.util.logging.Level;
 
+import org.eclipse.birt.report.engine.api.script.element.IImage;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IImageEventHandler;
+import org.eclipse.birt.report.engine.api.script.instance.IImageInstance;
 import org.eclipse.birt.report.engine.content.impl.ImageContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -23,16 +25,17 @@ import org.eclipse.birt.report.model.api.ImageHandle;
 
 public class ImageScriptExecutor extends ScriptExecutor
 {
-	public static void handleOnPrepare( ImageHandle image,
+	public static void handleOnPrepare( ImageHandle imageHandle,
 			ExecutionContext context )
 	{
 		try
 		{
-			if ( handleJS( image.getOnPrepare( ), context ) )
+			IImage image = new Image( imageHandle );
+			if ( handleJS( image, imageHandle.getOnPrepare( ), context ) )
 				return;
-			IImageEventHandler eh = ( IImageEventHandler ) getInstance( image );
+			IImageEventHandler eh = ( IImageEventHandler ) getInstance( imageHandle );
 			if ( eh != null )
-				eh.onPrepare( new Image( image ), context.getReportContext( ) );
+				eh.onPrepare( image, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );
@@ -46,13 +49,13 @@ public class ImageScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign imageDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			if ( handleJS( imageDesign.getOnCreate( ), context ) )
+			IImageInstance image = new ImageInstance( content );
+			if ( handleJS( image, imageDesign.getOnCreate( ), context ) )
 				return;
 			IImageEventHandler eh = ( IImageEventHandler ) getInstance( ( ImageHandle ) imageDesign
 					.getHandle( ) );
 			if ( eh != null )
-				eh.onCreate( new ImageInstance( content ), context
-						.getReportContext( ) );
+				eh.onCreate( image, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );
@@ -66,13 +69,13 @@ public class ImageScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign imageDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			if ( handleJS( imageDesign.getOnRender( ), context ) )
+			IImageInstance image = new ImageInstance( content );
+			if ( handleJS( image, imageDesign.getOnRender( ), context ) )
 				return;
 			IImageEventHandler eh = ( IImageEventHandler ) getInstance( ( ImageHandle ) imageDesign
 					.getHandle( ) );
 			if ( eh != null )
-				eh.onRender( new ImageInstance( content ), context
-						.getReportContext( ) );
+				eh.onRender( image, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );

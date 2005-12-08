@@ -14,7 +14,9 @@ package org.eclipse.birt.report.engine.script.internal;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.script.IRowData;
+import org.eclipse.birt.report.engine.api.script.element.IGrid;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IGridEventHandler;
+import org.eclipse.birt.report.engine.api.script.instance.IGridInstance;
 import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -24,16 +26,17 @@ import org.eclipse.birt.report.model.api.GridHandle;
 
 public class GridScriptExecutor extends ScriptExecutor
 {
-	public static void handleOnPrepare( GridHandle grid,
+	public static void handleOnPrepare( GridHandle gridHandle,
 			ExecutionContext context )
 	{
 		try
 		{
-			if ( handleJS( grid.getOnPrepare( ), context ) )
+			IGrid grid = new Grid( gridHandle );
+			if ( handleJS( grid, gridHandle.getOnPrepare( ), context ) )
 				return;
-			IGridEventHandler eh = ( IGridEventHandler ) getInstance( grid );
+			IGridEventHandler eh = ( IGridEventHandler ) getInstance( gridHandle );
 			if ( eh != null )
-				eh.onPrepare( new Grid( grid ), context.getReportContext( ) );
+				eh.onPrepare( grid, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );
@@ -47,13 +50,13 @@ public class GridScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign gridDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			if ( handleJS( gridDesign.getOnCreate( ), context ) )
+			IGridInstance grid = new GridInstance( content );
+			if ( handleJS( grid, gridDesign.getOnCreate( ), context ) )
 				return;
 			IGridEventHandler eh = ( IGridEventHandler ) getInstance( ( GridHandle ) gridDesign
 					.getHandle( ) );
 			if ( eh != null )
-				eh.onCreate( new GridInstance( content ), context
-						.getReportContext( ) );
+				eh.onCreate( grid, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );
@@ -67,13 +70,13 @@ public class GridScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign gridDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			if ( handleJS( gridDesign.getOnRender( ), context ) )
+			IGridInstance grid = new GridInstance( content );
+			if ( handleJS( grid, gridDesign.getOnRender( ), context ) )
 				return;
 			IGridEventHandler eh = ( IGridEventHandler ) getInstance( ( GridHandle ) gridDesign
 					.getHandle( ) );
 			if ( eh != null )
-				eh.onRender( new GridInstance( content ), context
-						.getReportContext( ) );
+				eh.onRender( grid, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );

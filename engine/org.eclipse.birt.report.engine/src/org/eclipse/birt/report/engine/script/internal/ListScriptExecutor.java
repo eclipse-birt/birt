@@ -13,7 +13,9 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import java.util.logging.Level;
 
+import org.eclipse.birt.report.engine.api.script.element.IList;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IListEventHandler;
+import org.eclipse.birt.report.engine.api.script.instance.IListInstance;
 import org.eclipse.birt.report.engine.content.impl.ContainerContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -23,16 +25,17 @@ import org.eclipse.birt.report.model.api.ListHandle;
 
 public class ListScriptExecutor extends ScriptExecutor
 {
-	public static void handleOnPrepare( ListHandle list,
+	public static void handleOnPrepare( ListHandle listHandle,
 			ExecutionContext context )
 	{
 		try
 		{
-			if ( handleJS( list.getOnPrepare( ), context ) )
+			IList list = new List( listHandle );
+			if ( handleJS( list, listHandle.getOnPrepare( ), context ) )
 				return;
-			IListEventHandler eh = ( IListEventHandler ) getInstance( list );
+			IListEventHandler eh = ( IListEventHandler ) getInstance( listHandle );
 			if ( eh != null )
-				eh.onPrepare( new List( list ), context.getReportContext( ) );
+				eh.onPrepare( list, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );
@@ -46,13 +49,13 @@ public class ListScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign listDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			if ( handleJS( listDesign.getOnCreate( ), context ) )
+			IListInstance list = new ListInstance( content );
+			if ( handleJS( list, listDesign.getOnCreate( ), context ) )
 				return;
 			IListEventHandler eh = ( IListEventHandler ) getInstance( ( ListHandle ) listDesign
 					.getHandle( ) );
 			if ( eh != null )
-				eh.onCreate( new ListInstance( content ), context
-						.getReportContext( ) );
+				eh.onCreate( list, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );
@@ -66,13 +69,13 @@ public class ListScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign listDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			if ( handleJS( listDesign.getOnRender( ), context ) )
+			IListInstance list = new ListInstance( content );
+			if ( handleJS( list, listDesign.getOnRender( ), context ) )
 				return;
 			IListEventHandler eh = ( IListEventHandler ) getInstance( ( ListHandle ) listDesign
 					.getHandle( ) );
 			if ( eh != null )
-				eh.onRender( new ListInstance( content ), context
-						.getReportContext( ) );
+				eh.onRender( list, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );

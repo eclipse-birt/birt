@@ -45,22 +45,39 @@ public class ScriptExecutor
 	protected static Logger log = Logger.getLogger( ExecutionContext.class
 			.getName( ) );
 
-	protected static boolean handleJS( Expression js, ExecutionContext context )
+	protected static boolean handleJS( Object scope, Expression js,
+			ExecutionContext context )
 	{
-		if ( js != null )
-		{
-			context.evaluate( js );
-			return true;
-		}
-		return false;
+		return handleJSInternal( scope, js, context );
 	}
 
-	protected static boolean handleJS( String js, ExecutionContext context )
+	protected static boolean handleJS( Object scope, String js,
+			ExecutionContext context )
+	{
+		return handleJSInternal( scope, js, context );
+	}
+
+	private static boolean handleJSInternal( Object scope, Object js,
+			ExecutionContext context )
 	{
 		if ( js != null )
 		{
-			context.evaluate( js );
-			return true;
+			if ( !( js instanceof String || js instanceof Expression ) )
+				return false;
+			try
+			{
+				if ( scope != null )
+					context.newScope( scope );
+				if ( js instanceof String )
+					context.evaluate( ( String ) js );
+				else if ( js instanceof Expression )
+					context.evaluate( ( Expression ) js );
+				return true;
+			} finally
+			{
+				if ( scope != null )
+					context.exitScope( );
+			}
 		}
 		return false;
 	}
@@ -68,6 +85,11 @@ public class ScriptExecutor
 	protected static Object getInstance( DesignElementHandle element )
 	{
 		String className = element.getEventHandlerClass( );
+		return getInstance( className );
+	}
+
+	protected static Object getInstance( String className )
+	{
 		if ( className == null )
 			return null;
 		// First, try looking in the cache
@@ -88,13 +110,13 @@ public class ScriptExecutor
 				// Try using the user.projectclasspath property to load it
 				// using the classpath specified. This would be the case
 				// when debugging is used
-				c = getClassUsingCustomClassPath( className, element,
+				c = getClassUsingCustomClassPath( className,
 						PROJECT_CLASSPATH_KEY );
 				if ( c == null )
 				{
 					// The class is not on the current classpath.
 					// Try using the workspace.projectclasspath property
-					c = getClassUsingCustomClassPath( className, element,
+					c = getClassUsingCustomClassPath( className,
 							WORKSPACE_CLASSPATH_KEY );
 				}
 			}
@@ -105,7 +127,7 @@ public class ScriptExecutor
 				// Do not use cache for now. Need up-to-date classes in
 				// designer, we only want to use the cache in the deployed
 				// environment.
-				//TODO: Figure out if to use cache or not
+				// TODO: Figure out if to use cache or not
 				// handlerCache.put( className, o );
 			}
 		} catch ( Exception e )
@@ -116,7 +138,7 @@ public class ScriptExecutor
 	}
 
 	private static Class getClassUsingCustomClassPath( String className,
-			DesignElementHandle element, String classPathKey )
+			String classPathKey )
 	{
 		String classPath = System.getProperty( classPathKey );
 		if ( classPath == null || classPath.length( ) == 0 || className == null )

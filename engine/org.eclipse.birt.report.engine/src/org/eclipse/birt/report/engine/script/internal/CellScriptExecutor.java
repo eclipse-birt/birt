@@ -14,7 +14,9 @@ package org.eclipse.birt.report.engine.script.internal;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.script.IRowData;
+import org.eclipse.birt.report.engine.api.script.element.ICell;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ICellEventHandler;
+import org.eclipse.birt.report.engine.api.script.instance.ICellInstance;
 import org.eclipse.birt.report.engine.script.element.Cell;
 import org.eclipse.birt.report.engine.script.element.RowData;
 import org.eclipse.birt.report.engine.script.internal.instance.CellInstance;
@@ -26,30 +28,32 @@ import org.eclipse.birt.report.model.api.CellHandle;
 public class CellScriptExecutor extends ScriptExecutor
 {
 
-	public static void handleOnPrepare( CellHandle cell,
+	public static void handleOnPrepare( CellHandle cellHandle,
 			ExecutionContext context )
 	{
 		try
 		{
-			if ( handleJS( cell.getOnPrepare( ), context ) )
+			ICell cell = new Cell( cellHandle );
+			if ( handleJS( cell, cellHandle.getOnPrepare( ), context ) )
 				return;
-			ICellEventHandler eh = ( ICellEventHandler ) getInstance( cell );
+			ICellEventHandler eh = ( ICellEventHandler ) getInstance( cellHandle );
 			if ( eh != null )
-				eh.onPrepare( new Cell( cell ), context.getReportContext( ) );
+				eh.onPrepare( cell, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );
 		}
 	}
 
-	public static void handleOnCreate( CellContent content,
-			IRowData rowData, ExecutionContext context )
+	public static void handleOnCreate( CellContent content, IRowData rowData,
+			ExecutionContext context )
 	{
 		try
 		{
 			ReportItemDesign cellDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			if ( handleJS( cellDesign.getOnCreate( ), context ) )
+			ICellInstance cell = new CellInstance( content );
+			if ( handleJS( cell, cellDesign.getOnCreate( ), context ) )
 				return;
 			CellHandle handle = ( CellHandle ) cellDesign.getHandle( );
 			if ( handle != null )
@@ -57,8 +61,7 @@ public class CellScriptExecutor extends ScriptExecutor
 				ICellEventHandler eh = ( ICellEventHandler ) getInstance( ( CellHandle ) cellDesign
 						.getHandle( ) );
 				if ( eh != null )
-					eh.onCreate( new CellInstance( content ),
-							rowData, context.getReportContext( ) );
+					eh.onCreate( cell, rowData, context.getReportContext( ) );
 			}
 		} catch ( Exception e )
 		{
@@ -66,20 +69,20 @@ public class CellScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnRender( CellContent content,
-			RowData rowData, ExecutionContext context )
+	public static void handleOnRender( CellContent content, RowData rowData,
+			ExecutionContext context )
 	{
 		try
 		{
 			ReportItemDesign cellDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			if ( handleJS( cellDesign.getOnRender( ), context ) )
+			ICellInstance cell = new CellInstance( content );
+			if ( handleJS( cell, cellDesign.getOnRender( ), context ) )
 				return;
 			ICellEventHandler eh = ( ICellEventHandler ) getInstance( ( CellHandle ) cellDesign
 					.getHandle( ) );
 			if ( eh != null )
-				eh.onRender( new CellInstance( content ), context
-						.getReportContext( ) );
+				eh.onRender( cell, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );
