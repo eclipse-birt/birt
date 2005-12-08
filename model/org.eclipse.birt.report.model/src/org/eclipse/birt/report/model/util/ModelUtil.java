@@ -48,6 +48,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -345,23 +346,31 @@ public class ModelUtil
 
 			ElementPropertyDefn propDefn = destination.getElement( )
 					.getPropertyDefn( propName );
-			if ( propDefn != null )
-			{
-				Object value = null;
 
-				if ( onlyFactoryProperty )
-					value = propHandle.getElement( ).getFactoryProperty(
-							propHandle.getModule( ), propDefn );
-				else
-					value = propHandle.getElement( )
-							.getPropertyExceptRomDefault(
-									propHandle.getModule( ), propDefn );
+			if ( propDefn == null )
+				continue;
 
-				Object valueToSet = ModelUtil.copyValue( propHandle.getDefn( ),
-						value );
+			Object value = null;
 
-				destination.getElement( ).setProperty( propName, valueToSet );
-			}
+			// the special case for the toc property on the group element since
+			// the default toc is the group expression.
+
+			if ( propHandle.getElement( ) instanceof GroupElement
+					&& GroupElement.TOC_PROP.equals( propName ) )
+				value = propHandle.getElement( ).getLocalProperty(
+						propHandle.getModule( ), propDefn );
+			else if ( onlyFactoryProperty )
+				value = propHandle.getElement( ).getFactoryProperty(
+						propHandle.getModule( ), propDefn );
+			else
+				value = propHandle.getElement( ).getPropertyExceptRomDefault(
+						propHandle.getModule( ), propDefn );
+
+			Object valueToSet = ModelUtil.copyValue( propHandle.getDefn( ),
+					value );
+
+			destination.getElement( ).setProperty( propName, valueToSet );
+
 		}
 	}
 

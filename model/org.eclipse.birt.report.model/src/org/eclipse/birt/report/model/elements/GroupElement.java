@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 
 /**
@@ -177,5 +178,29 @@ public abstract class GroupElement extends DesignElement
 		// This getting is not relative to design.
 
 		return (String) getLocalProperty( null, GROUP_NAME_PROP );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyFromSelf(org.eclipse.birt.report.model.core.Module,
+	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+
+	protected Object getPropertyFromSelf( Module module,
+			ElementPropertyDefn prop )
+	{
+		Object value = super.getPropertyFromSelf( module, prop );
+
+		if ( !TOC_PROP.equals( prop.getName( ) ) )
+			return value;
+
+		// if it is TOC property and the value is not null
+
+		if ( value != null )
+			return value;
+
+		ElementPropertyDefn propDefn = getPropertyDefn( KEY_EXPR_PROP );
+		return super.getPropertyFromSelf( module, propDefn );
 	}
 }
