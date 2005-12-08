@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,6 +30,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
@@ -494,9 +496,7 @@ public class HyperlinkBuilder extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				ExpressionBuilder builder = new ExpressionBuilder( text.getText( ) );
-				builder.setExpressionProvier( new ExpressionProvider( inputHandle.getElementHandle( )
-						.getModuleHandle( ),
-						dataSetList ) );
+				builder.setExpressionProvier( new ExpressionProvider( dataSetList ) );
 				if ( builder.open( ) == Dialog.OK )
 				{
 					text.setText( builder.getResult( ) );
@@ -658,6 +658,12 @@ public class HyperlinkBuilder extends BaseDialog
 		return super.close( );
 	}
 
+	/**
+	 * Set the action to edit.
+	 * 
+	 * @param input
+	 *            the action to edit.
+	 */
 	public void setInput( ActionHandle input )
 	{
 		inputHandle = input;
@@ -750,7 +756,7 @@ public class HyperlinkBuilder extends BaseDialog
 	}
 
 	private void initParamterBindings( )
-	{		
+	{
 		bindingList.clear( );
 		parameterList.clear( );
 
@@ -908,35 +914,32 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private String getBasePath( )
 	{
-		String baseFile = inputHandle.getElementHandle( )
-				.getModuleHandle( )
+		String baseFile = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
 				.getFileName( );
 		return new File( baseFile ).getParent( );
 	}
 
 	/**
-	 * Serializes an action.
+	 * Set the action to edit with a serialized string
 	 * 
-	 * @param action
-	 *            the action to serialize
-	 * 
-	 * @return The serialize result.
+	 * @param input
+	 *            the serialized string
+	 * @throws DesignFileException
 	 */
-	public static String serialize( ActionHandle action )
-	{		
-		return null;
+	public void setInputString( String input ) throws DesignFileException
+	{
+		setInput( ModuleUtil.deserializeAction( input ) );
 	}
 
 	/**
-	 * Deserializes an action.
+	 * Returns the serialized result action.
 	 * 
-	 * @param serialize
-	 *            the serialize of action
-	 * 
-	 * @return the action deserialized.
+	 * @return the serialized result action
+	 * @throws IOException
 	 */
-	public static ActionHandle deseriaize( String serialize )
+	public String getResultString( ) throws IOException
 	{
-		return null;
+		return ModuleUtil.serializeAction( (ActionHandle) getResult( ) );
 	}
 }
