@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
@@ -92,6 +93,14 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 					.getItemType( )
 					.getName( ) ) );
 			cmbColorBy.addSelectionListener( this );
+		}
+
+		Label separator = new Label( cmpContent, SWT.SEPARATOR | SWT.HORIZONTAL );
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			// gd.horizontalIndent = -5;
+			gd.horizontalSpan = COLUMN_NUMBER;
+			separator.setLayoutData( gd );
 		}
 
 		Label lblSeries = new Label( cmpContent, SWT.NONE );
@@ -252,6 +261,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 				gd.horizontalAlignment = SWT.CENTER;
 				btnVisible.setLayoutData( gd );
 				btnVisible.setSelection( series.isVisible( ) );
+				btnVisible.setEnabled( !series.getClass( )
+						.isAssignableFrom( SeriesImpl.class ) );
 				btnVisible.addSelectionListener( this );
 			}
 
@@ -430,11 +441,6 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 				TreeItem[] children = currentItem.getItems( );
 				if ( index < children.length )
 				{
-					// Set selection of navigator tree
-					compoundTask.getNavigatorTree( )
-							.setSelection( new TreeItem[]{
-								children[index]
-							} );
 					// Switch to specified subtask
 					compoundTask.switchToTreeItem( children[index] );
 				}

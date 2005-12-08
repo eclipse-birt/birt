@@ -11,13 +11,13 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart;
 
-import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -51,9 +51,9 @@ public class BlockPropertiesSheet extends AbstractPopupSheet
 
 	private transient InsetsComposite ic;
 
-	public BlockPropertiesSheet( Composite parent, Chart chart )
+	public BlockPropertiesSheet( Composite parent, ChartWizardContext context )
 	{
-		super( parent, chart, true );
+		super( parent, context, true );
 		cmpTop = getComponent( parent );
 	}
 

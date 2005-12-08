@@ -121,46 +121,29 @@ public class PieSeriesAttributeComposite extends Composite
 
 	private void placeComponents( )
 	{
-		// Layout for content composite
-		GridLayout glContent = new GridLayout( );
-		glContent.numColumns = 4;
-		glContent.marginHeight = 2;
-		glContent.marginWidth = 4;
-
-		// Layout for content composite
-		GridLayout glLeaderLine = new GridLayout( );
-		glLeaderLine.numColumns = 4;
-		glLeaderLine.marginHeight = 0;
-		glLeaderLine.marginWidth = 2;
-
-		// Main content composite
-		this.setLayout( glContent );
-
-		// // Pie Slice Explosion composite
-		// Label lblExplosion = new Label( this, SWT.NONE );
-		// GridData gdLBLExplosion = new GridData( );
-		// lblExplosion.setLayoutData( gdLBLExplosion );
-		// lblExplosion.setText( Messages.getString(
-		// "PieSeriesAttributeComposite.Lbl.Explosion" ) ); //$NON-NLS-1$
-		//
-		// iscExplosion = new IntegerSpinControl( this,
-		// SWT.NONE,
-		// series.getExplosion( ) );
-		// GridData gdISCExplosion = new GridData( GridData.FILL_HORIZONTAL );
-		// iscExplosion.setLayoutData( gdISCExplosion );
-		// iscExplosion.setMinimum( 0 );
-		// iscExplosion.setMaximum( 100 );
-		// iscExplosion.addListener( this );
-
-		createSeriesDetail( this );
+		{
+			// Layout for content composite
+			GridLayout glContent = new GridLayout( );
+			glContent.numColumns = 2;
+			glContent.marginHeight = 2;
+			glContent.marginWidth = 4;
+			// Main content composite
+			this.setLayout( glContent );
+		}
 
 		// LeaderLine group
 		grpLeaderLine = new Group( this, SWT.NONE );
-		GridData gdGRPLeaderLine = new GridData( GridData.FILL_HORIZONTAL );
-		gdGRPLeaderLine.horizontalSpan = 4;
-		grpLeaderLine.setLayoutData( gdGRPLeaderLine );
-		grpLeaderLine.setLayout( glLeaderLine );
-		grpLeaderLine.setText( Messages.getString( "PieSeriesAttributeComposite.Lbl.LeaderLine" ) ); //$NON-NLS-1$
+		{
+			GridData gdGRPLeaderLine = new GridData( GridData.FILL_BOTH );
+			grpLeaderLine.setLayoutData( gdGRPLeaderLine );
+			// Layout for content composite
+			GridLayout glLeaderLine = new GridLayout( );
+			glLeaderLine.numColumns = 2;
+			glLeaderLine.marginHeight = 0;
+			glLeaderLine.marginWidth = 2;
+			grpLeaderLine.setLayout( glLeaderLine );
+			grpLeaderLine.setText( Messages.getString( "PieSeriesAttributeComposite.Lbl.LeaderLine" ) ); //$NON-NLS-1$
+		}
 
 		// LeaderLine Attributes composite
 		liacLeaderLine = new LineAttributesComposite( grpLeaderLine,
@@ -171,7 +154,6 @@ public class PieSeriesAttributeComposite extends Composite
 				true );
 		GridData gdLIACLeaderLine = new GridData( GridData.FILL_HORIZONTAL );
 		gdLIACLeaderLine.horizontalSpan = 2;
-		gdLIACLeaderLine.verticalSpan = 4;
 		liacLeaderLine.setLayoutData( gdLIACLeaderLine );
 		liacLeaderLine.addListener( this );
 
@@ -199,6 +181,17 @@ public class PieSeriesAttributeComposite extends Composite
 		iscLeaderLength.setLayoutData( gdISCLeaderLength );
 		iscLeaderLength.setMinimum( 0 );
 		iscLeaderLength.setMaximum( MAX_LEADER_LENGTH );
+		iscLeaderLength.addListener( this );
+
+		Composite cmpRight = new Composite( this, SWT.NONE );
+		{
+			GridLayout gridLayout = new GridLayout( 3, false );
+			gridLayout.marginWidth = 0;
+			cmpRight.setLayout( gridLayout );
+			cmpRight.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		}
+
+		createSeriesDetail( cmpRight );
 
 		populateLists( );
 	}
@@ -217,7 +210,7 @@ public class PieSeriesAttributeComposite extends Composite
 				false,
 				false );
 		GridData gdFCCSliceOutline = new GridData( GridData.FILL_HORIZONTAL );
-		gdFCCSliceOutline.horizontalSpan = 3;
+		gdFCCSliceOutline.horizontalSpan = 2;
 		fccSliceOutline.setLayoutData( gdFCCSliceOutline );
 		fccSliceOutline.addListener( this );
 
@@ -231,7 +224,6 @@ public class PieSeriesAttributeComposite extends Composite
 				| SWT.SINGLE );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.horizontalSpan = 2;
 			txtExplode.setLayoutData( gd );
 			if ( series.getExplosionExpression( ) != null )
 			{
@@ -267,8 +259,8 @@ public class PieSeriesAttributeComposite extends Composite
 				SWT.NONE,
 				series.getExplosion( ) );
 		{
-			GridData gdISCExplosion = new GridData( );
-			gdISCExplosion.widthHint = 50;
+			GridData gdISCExplosion = new GridData( GridData.FILL_HORIZONTAL );
+			gdISCExplosion.horizontalSpan = 2;
 			iscExplosion.setLayoutData( gdISCExplosion );
 			iscExplosion.setMinimum( 0 );
 			iscExplosion.setMaximum( 100 );
@@ -277,8 +269,6 @@ public class PieSeriesAttributeComposite extends Composite
 
 		lblRatio = new Label( cmpBottomBindingArea, SWT.NONE );
 		{
-			GridData gridData = new GridData( GridData.HORIZONTAL_ALIGN_END );
-			lblRatio.setLayoutData( gridData );
 			lblRatio.setText( Messages.getString( "PieBottomAreaComponent.Label.Ratio" ) ); //$NON-NLS-1$
 			lblRatio.setToolTipText( TOOLTIP_RATIO );
 		}
@@ -286,6 +276,7 @@ public class PieSeriesAttributeComposite extends Composite
 		txtRatio = new TextEditorComposite( cmpBottomBindingArea, SWT.BORDER );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			gridData.horizontalSpan = 2;
 			txtRatio.setLayoutData( gridData );
 			txtRatio.setToolTipText( TOOLTIP_RATIO );
 			txtRatio.setText( String.valueOf( series.getRatio( ) ) );

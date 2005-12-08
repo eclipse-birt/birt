@@ -72,7 +72,7 @@ public class DefaultBaseSeriesComponent implements ISelectDataComponent
 		Composite cmpBottom = new Composite( parent, SWT.NONE );
 		{
 			GridLayout gridLayout = new GridLayout( 5, false );
-			gridLayout.marginWidth = 0;
+			gridLayout.marginWidth = 10;
 			gridLayout.marginHeight = 0;
 			cmpBottom.setLayout( gridLayout );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
@@ -96,12 +96,7 @@ public class DefaultBaseSeriesComponent implements ISelectDataComponent
 				serviceprovider,
 				oContext,
 				sTitle );
-		{
-			Composite cmpData = comData.createArea( cmpBottom );
-			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-			gridData.widthHint = 150;
-			cmpData.setLayoutData( gridData );
-		}
+		comData.createArea( cmpBottom );
 
 		Label rightAngle = new Label( cmpBottom, SWT.NONE );
 		rightAngle.setImage( UIHelper.getImage( ChartUIConstancts.IMAGE_RA_RIGHTUP ) );

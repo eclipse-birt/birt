@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis;
 
-import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
@@ -21,6 +20,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.GridAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.type.ScatterChart;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
@@ -72,9 +72,10 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 
 	private transient Axis axis;
 
-	public AxisGridLinesSheet( Composite parent, Chart chart, Axis axis )
+	public AxisGridLinesSheet( Composite parent, ChartWizardContext context,
+			Axis axis )
 	{
-		super( parent, chart, false );
+		super( parent, context, false );
 		this.axis = axis;
 		cmpTop = getComponent( parent );
 	}

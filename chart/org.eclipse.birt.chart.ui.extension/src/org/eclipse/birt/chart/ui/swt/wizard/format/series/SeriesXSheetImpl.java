@@ -9,16 +9,21 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.series;
 
+import java.util.List;
+
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.SeriesGroupingComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
-import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.MoreOptionsSeriesXSheet;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesPaletteSheet;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -49,6 +54,19 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 
 	private transient Button btnSeriesPal;
 
+	private transient Label lblMinSlice;
+	private transient Label lblBottomPercent;
+	private transient Label lblLabel;
+	private transient Combo cmbMinSlice;
+	private transient TextEditorComposite txtMinSlice;
+	private transient ExternalizedTextEditorComposite txtLabel = null;
+
+	private final static String TOOLTIP_MINIMUM_SLICE = Messages.getString( "PieBottomAreaComponent.Label.AnySliceWithASize" ); //$NON-NLS-1$
+
+	private final static String[] MINMUM_SLICE_ITEMS = new String[]{
+			Messages.getString( "PieBottomAreaComponent.Label.Percentage" ), Messages.getString( "PieBottomAreaComponent.Label.Value" ) //$NON-NLS-1$ //$NON-NLS-2$
+	};
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -69,6 +87,12 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 			cmpBasic.setLayout( new GridLayout( 2, false ) );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			cmpBasic.setLayoutData( gd );
+		}
+
+		if ( getChart( ) instanceof ChartWithoutAxes
+				&& !( getChart( ) instanceof DialChart ) )
+		{
+			createPieAxisArea( cmpBasic );
 		}
 
 		Label lblSorting = new Label( cmpBasic, SWT.NONE );
@@ -110,6 +134,73 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 		btnSeriesPal = createToggleButton( cmp,
 				Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette" ) ); //$NON-NLS-1$
 		btnSeriesPal.addSelectionListener( this );
+	}
+
+	private void createPieAxisArea( Composite parent )
+	{
+		lblMinSlice = new Label( parent, SWT.NONE );
+		{
+			lblMinSlice.setText( Messages.getString( "PieBottomAreaComponent.Label.MinimumSlice" ) ); //$NON-NLS-1$
+			lblMinSlice.setToolTipText( TOOLTIP_MINIMUM_SLICE );
+		}
+
+		Composite cmpMinSlice = new Composite( parent, SWT.NONE );
+		{
+			GridLayout gridLayout = new GridLayout( 3, false );
+			gridLayout.marginWidth = 0;
+			gridLayout.marginHeight = 0;
+			cmpMinSlice.setLayout( gridLayout );
+			cmpMinSlice.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		}
+
+		cmbMinSlice = new Combo( cmpMinSlice, SWT.DROP_DOWN | SWT.READ_ONLY );
+		{
+			cmbMinSlice.setToolTipText( TOOLTIP_MINIMUM_SLICE );
+			cmbMinSlice.setItems( MINMUM_SLICE_ITEMS );
+			cmbMinSlice.setText( ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( )
+					? MINMUM_SLICE_ITEMS[0] : MINMUM_SLICE_ITEMS[1] );
+			cmbMinSlice.addSelectionListener( this );
+		}
+
+		txtMinSlice = new TextEditorComposite( cmpMinSlice, SWT.BORDER );
+		{
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			txtMinSlice.setLayoutData( gridData );
+			txtMinSlice.setToolTipText( TOOLTIP_MINIMUM_SLICE );
+			txtMinSlice.setText( String.valueOf( ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) ) );
+			txtMinSlice.addListener( this );
+		}
+
+		lblBottomPercent = new Label( cmpMinSlice, SWT.NONE );
+		lblBottomPercent.setText( "%" ); //$NON-NLS-1$
+		lblBottomPercent.setVisible( ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( ) );
+
+		lblLabel = new Label( parent, SWT.NONE );
+		{
+			lblLabel.setText( Messages.getString( "PieBottomAreaComponent.Label.MinSliceLabel" ) ); //$NON-NLS-1$
+			lblLabel.setToolTipText( TOOLTIP_MINIMUM_SLICE );
+		}
+
+		List keys = null;
+		if ( getContext( ).getUIServiceProvider( ) != null )
+		{
+			keys = getContext( ).getUIServiceProvider( ).getRegisteredKeys( );
+		}
+		txtLabel = new ExternalizedTextEditorComposite( parent,
+				SWT.BORDER,
+				-1,
+				-1,
+				keys,
+				getContext( ).getUIServiceProvider( ),
+				( (ChartWithoutAxes) getChart( ) ).getMinSliceLabel( ) != null
+						? ( (ChartWithoutAxes) getChart( ) ).getMinSliceLabel( )
+						: "" ); //$NON-NLS-1$
+		{
+			GridData gdTXTTitle = new GridData( GridData.FILL_HORIZONTAL );
+			txtLabel.setLayoutData( gdTXTTitle );
+			txtLabel.setEnabled( ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) != 0 );
+			txtLabel.addListener( this );
+		}
 	}
 
 	private void populateLists( )
@@ -160,7 +251,25 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 	 */
 	public void handleEvent( Event event )
 	{
-
+		if ( getChart( ) instanceof ChartWithoutAxes )
+		{
+			if ( event.widget.equals( txtLabel ) )
+			{
+				( (ChartWithoutAxes) getChart( ) ).setMinSliceLabel( txtLabel.getText( ) );
+			}
+			else if ( event.widget.equals( txtMinSlice ) )
+			{
+				try
+				{
+					( (ChartWithoutAxes) getChart( ) ).setMinSlice( Double.parseDouble( txtMinSlice.getText( ) ) );
+				}
+				catch ( Exception ex )
+				{
+					( (ChartWithoutAxes) getChart( ) ).setMinSlice( 0 );
+				}
+				txtLabel.setEnabled( ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) != 0 );
+			}
+		}
 	}
 
 	public void widgetSelected( SelectionEvent e )
@@ -181,8 +290,8 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 		if ( e.widget.equals( btnSeriesPal ) )
 		{
 			popupShell = createPopupShell( );
-			popupSheet = new MoreOptionsSeriesXSheet( popupShell,
-					getChart( ),
+			popupSheet = new SeriesPaletteSheet( popupShell,
+					getContext( ),
 					getSeriesDefinitionForProcessing( ) );
 			getWizard( ).attachPopup( btnSeriesPal.getText( ), -1, -1 );
 		}
@@ -196,6 +305,15 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 			else
 			{
 				getSeriesDefinitionForProcessing( ).setSorting( SortOption.get( LiteralHelper.sortOptionSet.getNameByDisplayName( cmbSorting.getText( ) ) ) );
+			}
+		}
+
+		if ( getChart( ) instanceof ChartWithoutAxes )
+		{
+			if ( e.widget.equals( cmbMinSlice ) )
+			{
+				( (ChartWithoutAxes) getChart( ) ).setMinSlicePercent( cmbMinSlice.getSelectionIndex( ) == 0 );
+				lblBottomPercent.setVisible( ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( ) );
 			}
 		}
 

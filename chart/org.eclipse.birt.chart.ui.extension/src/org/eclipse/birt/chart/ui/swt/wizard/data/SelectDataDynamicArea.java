@@ -35,7 +35,6 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.util.Assert;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
@@ -150,7 +149,8 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 		Composite cmpContainer = cmpLeftArea.getParent( );
 		cmpLeftArea.dispose( );
 		createLeftBindingArea( cmpContainer );
-		cmpLeftArea.pack( );
+
+		cmpContainer.layout( );
 	}
 
 	public void refreshRightBindingArea( )
@@ -159,7 +159,8 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 		Composite cmpContainer = cmpRightArea.getParent( );
 		cmpRightArea.dispose( );
 		createRightBindingArea( cmpContainer );
-		cmpRightArea.pack( );
+
+		cmpContainer.layout( );
 	}
 
 	public void refreshBottomBindingArea( )
@@ -167,16 +168,16 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 		Composite cmpContainer = cmpBottomArea.getParent( );
 		cmpBottomArea.dispose( );
 		createBottomBindingArea( cmpContainer );
-		cmpBottomArea.pack( );
+
+		cmpContainer.layout( );
 	}
 
 	public void createLeftBindingArea( Composite parent )
 	{
 		cmpLeftArea = ChartUIUtil.createCompositeWrapper( parent );
 		{
-			GridData gd = new GridData( GridData.VERTICAL_ALIGN_CENTER );
-			gd.horizontalAlignment = SWT.END;
-			cmpLeftArea.setLayoutData( gd );
+			cmpLeftArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
+					| GridData.VERTICAL_ALIGN_CENTER ) );
 		}
 
 		if ( getChartModel( ) instanceof ChartWithAxes )
@@ -224,7 +225,8 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 	public void createRightBindingArea( Composite parent )
 	{
 		cmpRightArea = ChartUIUtil.createCompositeWrapper( parent );
-		cmpRightArea.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_CENTER ) );
+		cmpRightArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
+				| GridData.VERTICAL_ALIGN_CENTER ) );
 
 		if ( getChartModel( ) instanceof ChartWithAxes )
 		{
@@ -254,7 +256,6 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 			subRightAreas.add( component );
 			component.createArea( cmpRightArea );
 		}
-
 	}
 
 	private EList getYAxisListForProcessing( )

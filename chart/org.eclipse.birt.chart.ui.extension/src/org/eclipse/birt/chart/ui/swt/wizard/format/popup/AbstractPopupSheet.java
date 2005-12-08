@@ -12,10 +12,10 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup;
 
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.ui.swt.DefaultUIServiceProviderImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -25,7 +25,9 @@ import org.eclipse.swt.widgets.Composite;
 public abstract class AbstractPopupSheet implements ITaskPopupSheet
 {
 
-	protected transient IUIServiceProvider serviceprovider = null;
+	private transient ChartWizardContext context;
+
+	protected transient IUIServiceProvider serviceprovider;
 
 	protected transient Chart chart = null;
 
@@ -33,12 +35,13 @@ public abstract class AbstractPopupSheet implements ITaskPopupSheet
 
 	private boolean needRefresh = false;
 
-	public AbstractPopupSheet( Composite parent, Chart chart,
+	public AbstractPopupSheet( Composite parent, ChartWizardContext context,
 			boolean needRefresh )
 	{
 		super( );
-		this.chart = chart;
-		serviceprovider = new DefaultUIServiceProviderImpl( );
+		this.context = context;
+		this.chart = context.getModel( );
+		serviceprovider = context.getUIServiceProvider( );
 		this.needRefresh = needRefresh;
 	}
 
@@ -61,9 +64,14 @@ public abstract class AbstractPopupSheet implements ITaskPopupSheet
 			parent.layout( );
 		}
 	}
-	
-    protected void setIgnoreNotifications(boolean bIgnoreNotifications)
-    {
-        ChartAdapter.ignoreNotifications(bIgnoreNotifications);
-    }
+
+	protected void setIgnoreNotifications( boolean bIgnoreNotifications )
+	{
+		ChartAdapter.ignoreNotifications( bIgnoreNotifications );
+	}
+
+	protected ChartWizardContext getContext( )
+	{
+		return context;
+	}
 }

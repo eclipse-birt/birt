@@ -22,14 +22,17 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.DialSeries;
+import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.DialLabelSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.InteractivitySheet;
-import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.MoreOptionsSeriesYSheet;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.PieTitleSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesLabelSheet;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesPaletteSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesRegionSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesTrendlineSheet;
 import org.eclipse.swt.SWT;
@@ -56,13 +59,20 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 
 	private transient Button btnShowLine;
 
+	// Toggle button group
 	private transient Button btnLabel;
+
+	private transient Button btnDialRegion;
+
+	private transient Button btnDialLabel;
+
+	private transient Button btnPieTitle;
 
 	private transient Button btnInteractivity;
 
 	private transient Button btnTrendline;
 
-	private transient Button btnDataPoint;
+	private transient Button btnPalette;
 
 	private transient Hashtable htSeriesAttributeUIProviders = null;
 
@@ -122,16 +132,35 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		// Label or Region
 		if ( !( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof StockSeries ) )
 		{
-			btnLabel = createToggleButton( cmp,
-					isMeterSeries( )
-							? Messages.getString( "SeriesYSheetImpl.Label.Region" ) : Messages.getString( "SeriesYSheetImpl.Label.Labels" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-			btnLabel.addSelectionListener( this );
+			if ( isMeterSeries( ) )
+			{
+				btnDialLabel = createToggleButton( cmp,
+						Messages.getString( "SeriesYSheetImpl.Label.Labels" ) ); //$NON-NLS-1$ 
+				btnDialLabel.addSelectionListener( this );
+
+				btnDialRegion = createToggleButton( cmp,
+						Messages.getString( "SeriesYSheetImpl.Label.Region" ) ); //$NON-NLS-1$ 
+				btnDialRegion.addSelectionListener( this );
+			}
+			else
+			{
+				btnLabel = createToggleButton( cmp,
+						Messages.getString( "SeriesYSheetImpl.Label.Labels" ) ); //$NON-NLS-1$ 
+				btnLabel.addSelectionListener( this );
+			}
 		}
 		else
 		{
 			// Disable Label properties for Stock series
 			btnLabel = new Button( cmp, SWT.NONE );
 			btnLabel.setVisible( false );
+		}
+
+		if ( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof PieSeries )
+		{
+			btnPieTitle = createToggleButton( cmp,
+					Messages.getString( "SeriesYSheetImpl.Label.Titles" ) ); //$NON-NLS-1$
+			btnPieTitle.addSelectionListener( this );
 		}
 
 		// Interactivity
@@ -149,9 +178,9 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		}
 
 		// DataPoint
-		btnDataPoint = createToggleButton( cmp,
-				Messages.getString( "SeriesYSheetImpl.Label.DataPoint" ) ); //$NON-NLS-1$
-		btnDataPoint.addSelectionListener( this );
+		btnPalette = createToggleButton( cmp,
+				Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette" ) ); //$NON-NLS-1$
+		btnPalette.addSelectionListener( this );
 	}
 
 	private void getSeriesAttributeUI( Series series, Composite parent )
@@ -210,25 +239,40 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		if ( e.widget.equals( btnLabel ) )
 		{
 			popupShell = createPopupShell( );
-			if ( isMeterSeries( ) )
-			{
-				popupSheet = new SeriesRegionSheet( popupShell,
-						getChart( ),
-						getSeriesDefinitionForProcessing( ) );
-			}
-			else
-			{
-				popupSheet = new SeriesLabelSheet( popupShell,
-						getChart( ),
-						getSeriesDefinitionForProcessing( ) );
-			}
+			popupSheet = new SeriesLabelSheet( popupShell,
+					getContext( ),
+					getSeriesDefinitionForProcessing( ) );
 			getWizard( ).attachPopup( btnLabel.getText( ), -1, -1 );
+		}
+		else if ( e.widget.equals( btnDialRegion ) )
+		{
+			popupShell = createPopupShell( );
+			popupSheet = new SeriesRegionSheet( popupShell,
+					getContext( ),
+					getSeriesDefinitionForProcessing( ) );
+			getWizard( ).attachPopup( btnDialRegion.getText( ), -1, -1 );
+		}
+		else if ( e.widget.equals( btnDialLabel ) )
+		{
+			popupShell = createPopupShell( );
+			popupSheet = new DialLabelSheet( popupShell,
+					getContext( ),
+					getSeriesDefinitionForProcessing( ) );
+			getWizard( ).attachPopup( btnDialLabel.getText( ), -1, -1 );
+		}
+		else if ( e.widget.equals( btnPieTitle ) )
+		{
+			popupShell = createPopupShell( );
+			popupSheet = new PieTitleSheet( popupShell,
+					getContext( ),
+					getSeriesDefinitionForProcessing( ) );
+			getWizard( ).attachPopup( btnPieTitle.getText( ), -1, -1 );
 		}
 		else if ( e.widget.equals( btnInteractivity ) )
 		{
 			popupShell = createPopupShell( );
 			popupSheet = new InteractivitySheet( popupShell,
-					getChart( ),
+					getContext( ),
 					getSeriesDefinitionForProcessing( ) );
 			getWizard( ).attachPopup( btnInteractivity.getText( ), -1, -1 );
 		}
@@ -236,18 +280,17 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		{
 			popupShell = createPopupShell( );
 			popupSheet = new SeriesTrendlineSheet( popupShell,
-					getChart( ),
+					getContext( ),
 					getSeriesDefinitionForProcessing( ) );
 			getWizard( ).attachPopup( btnTrendline.getText( ), -1, -1 );
 		}
-		else if ( e.widget.equals( btnDataPoint ) )
+		else if ( e.widget.equals( btnPalette ) )
 		{
 			popupShell = createPopupShell( );
-			popupSheet = new MoreOptionsSeriesYSheet( popupShell,
-					getChart( ),
-					getSeriesDefinitionForProcessing( ),
-					getIndex( ) );
-			getWizard( ).attachPopup( btnDataPoint.getText( ), -1, -1 );
+			popupSheet = new SeriesPaletteSheet( popupShell,
+					getContext( ),
+					getSeriesDefinitionForProcessing( ) );
+			getWizard( ).attachPopup( btnPalette.getText( ), -1, -1 );
 		}
 
 		if ( e.widget.equals( btnShowLine ) )

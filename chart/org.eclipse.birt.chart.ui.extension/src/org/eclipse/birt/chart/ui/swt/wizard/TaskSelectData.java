@@ -134,7 +134,7 @@ public class TaskSelectData extends SimpleTask
 		refreshLeftArea( );
 		refreshRightArea( );
 		refreshBottomArea( );
-		cmpTask.layout( );
+		getCustomizeUI( ).layoutAll( );
 	}
 
 	private void refreshLeftArea( )
@@ -191,47 +191,34 @@ public class TaskSelectData extends SimpleTask
 	private void createHeadArea( )
 	{
 		{
-			Composite cmpLeftContainer = createCompositeWrapper( cmpTask );
-			GridData gridData = new GridData( );
+			Composite cmpLeftContainer = ChartUIUtil.createCompositeWrapper( cmpTask );
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
+					| GridData.VERTICAL_ALIGN_CENTER );
 			gridData.verticalSpan = 2;
-			gridData.verticalAlignment = SWT.CENTER;
-			gridData.horizontalAlignment = SWT.END;
 			cmpLeftContainer.setLayoutData( gridData );
 			getCustomizeUI( ).createLeftBindingArea( cmpLeftContainer );
 		}
 		createPreviewArea( );
 		{
-			Composite cmpRightContainer = createCompositeWrapper( cmpTask );
-			GridData gridData = new GridData( );
+			Composite cmpRightContainer = ChartUIUtil.createCompositeWrapper( cmpTask );
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
+					| GridData.VERTICAL_ALIGN_CENTER );
 			gridData.verticalSpan = 2;
-			gridData.verticalAlignment = SWT.CENTER;
-			gridData.horizontalAlignment = SWT.BEGINNING;
 			cmpRightContainer.setLayoutData( gridData );
 			getCustomizeUI( ).createRightBindingArea( cmpRightContainer );
 		}
 		{
-			Composite cmpBottomContainer = createCompositeWrapper( cmpTask );
-			GridData gridData = new GridData( );
-			gridData.verticalAlignment = SWT.BEGINNING;
-			gridData.horizontalAlignment = SWT.CENTER;
+			Composite cmpBottomContainer = ChartUIUtil.createCompositeWrapper( cmpTask );
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
+					| GridData.VERTICAL_ALIGN_BEGINNING );
 			cmpBottomContainer.setLayoutData( gridData );
 			getCustomizeUI( ).createBottomBindingArea( cmpBottomContainer );
 		}
 	}
 
-	private Composite createCompositeWrapper( Composite parent )
-	{
-		Composite cmp = new Composite( parent, SWT.NONE );
-		GridLayout gridLayout = new GridLayout( );
-		gridLayout.marginWidth = 0;
-		gridLayout.marginHeight = 0;
-		cmp.setLayout( gridLayout );
-		return cmp;
-	}
-
 	private void createPreviewArea( )
 	{
-		cmpPreview = createCompositeWrapper( cmpTask );
+		cmpPreview = ChartUIUtil.createCompositeWrapper( cmpTask );
 		{
 			GridData gridData = new GridData( GridData.FILL_BOTH );
 			gridData.widthHint = CENTER_WIDTH_HINT;
@@ -267,13 +254,14 @@ public class TaskSelectData extends SimpleTask
 		Label label = new Label( cmpDataSet, SWT.NONE );
 		{
 			GridData gd = new GridData( );
+			gd.horizontalAlignment = SWT.CENTER;
 			gd.horizontalSpan = 3;
 			label.setLayoutData( gd );
 			label.setText( Messages.getString( "TaskSelectData.Label.SelectDataSet" ) ); //$NON-NLS-1$
 			label.setFont( JFaceResources.getBannerFont( ) );
 		}
 
-		Composite comp = createCompositeWrapper( cmpDataSet );
+		Composite comp = ChartUIUtil.createCompositeWrapper( cmpDataSet );
 
 		btnUseReportData = new Button( comp, SWT.RADIO );
 		btnUseReportData.setText( Messages.getString( "TaskSelectData.Label.UseReportData" ) ); //$NON-NLS-1$
@@ -299,7 +287,7 @@ public class TaskSelectData extends SimpleTask
 
 	private void createDataPreviewTableArea( Composite parent )
 	{
-		Composite composite = createCompositeWrapper( parent );
+		Composite composite = ChartUIUtil.createCompositeWrapper( parent );
 		{
 			composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
@@ -325,7 +313,7 @@ public class TaskSelectData extends SimpleTask
 
 	private void createDataPreviewButtonArea( Composite parent )
 	{
-		Composite composite = createCompositeWrapper( parent );
+		Composite composite = ChartUIUtil.createCompositeWrapper( parent );
 		{
 			composite.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_END ) );
 		}

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -390,7 +391,7 @@ public class TextImpl extends EObjectImpl implements Text
 		( (TextImpl) tx ).initialize( );
 		if ( sValue == null )
 		{
-			sValue = "<undefined>"; //$NON-NLS-1$
+			sValue = IConstants.UNDEFINED_STRING;
 		}
 		tx.setValue( sValue );
 		return tx;

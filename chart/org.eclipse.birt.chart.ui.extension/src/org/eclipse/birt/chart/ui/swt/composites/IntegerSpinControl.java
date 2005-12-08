@@ -298,4 +298,9 @@ public class IntegerSpinControl extends Composite implements SelectionListener, 
         {
         }
     }
+    
+    public void setToolTipText( String string )
+	{
+		txtValue.setToolTipText( string );
+	}
 }

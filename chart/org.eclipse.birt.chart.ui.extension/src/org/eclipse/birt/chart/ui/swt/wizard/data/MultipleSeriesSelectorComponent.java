@@ -88,7 +88,7 @@ public class MultipleSeriesSelectorComponent implements ISelectDataComponent
 			gridLayout.marginWidth = 0;
 			gridLayout.marginHeight = 0;
 			cmpLeft.setLayout( gridLayout );
-			cmpLeft.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
+			cmpLeft.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			cmpLeft.setText( areaTitle );
 		}
 

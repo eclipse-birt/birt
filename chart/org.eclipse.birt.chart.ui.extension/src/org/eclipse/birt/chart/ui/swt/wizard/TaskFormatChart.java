@@ -406,7 +406,9 @@ public class TaskFormatChart extends TreeCompoundTask
 	{
 		cmpTask = new Composite( parent, SWT.NONE );
 		{
-			cmpTask.setLayout( new GridLayout( ) );
+			GridLayout layout = new GridLayout( );
+			layout.marginWidth = 10;
+			cmpTask.setLayout( layout );
 			GridData gridData = new GridData( GridData.FILL_BOTH );
 			cmpTask.setLayoutData( gridData );
 		}
@@ -415,6 +417,13 @@ public class TaskFormatChart extends TreeCompoundTask
 		lblNodeTitle = new Label( cmpTask, SWT.NONE );
 		{
 			lblNodeTitle.setFont( JFaceResources.getBannerFont( ) );
+		}
+
+		Label separator = new Label( cmpTask, SWT.SEPARATOR | SWT.HORIZONTAL );
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+//			gd.horizontalIndent = -10;
+			separator.setLayoutData( gd );
 		}
 
 		return cmpTask;
@@ -432,7 +441,6 @@ public class TaskFormatChart extends TreeCompoundTask
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.heightHint = 250;
-			gridData.horizontalIndent = 10;
 			previewCanvas.setLayoutData( gridData );
 			previewCanvas.setBackground( Display.getDefault( )
 					.getSystemColor( SWT.COLOR_WHITE ) );

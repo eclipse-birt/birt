@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
@@ -76,6 +77,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 	private transient Button btnChartAreaTriggers;
 
+	private transient Label lblLegendBehavior;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -87,7 +90,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
-			GridLayout glContent = new GridLayout( 3, false );
+			GridLayout glContent = new GridLayout( );
 			cmpContent.setLayout( glContent );
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			cmpContent.setLayoutData( gd );
@@ -97,7 +100,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		{
 			cmpBasic.setLayout( new GridLayout( 3, false ) );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.horizontalSpan = 2;
 			cmpBasic.setLayoutData( gd );
 		}
 
@@ -164,33 +166,29 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			btnEnablePreview.addSelectionListener( this );
 		}
 
-		Composite cmpInteractivity = new Composite( cmpBasic, SWT.NONE );
+		Group cmpInteractivity = new Group( cmpBasic, SWT.NONE );
 		{
-			GridLayout gl = new GridLayout( 4, false );
-			gl.marginHeight = 0;
-			gl.marginWidth = 0;
+			GridLayout gl = new GridLayout( 2, false );
 			cmpInteractivity.setLayout( gl );
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL
-					| GridData.HORIZONTAL_ALIGN_BEGINNING );
-			gd.horizontalSpan = 3;
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
 			cmpInteractivity.setLayoutData( gd );
+			cmpInteractivity.setText( Messages.getString( "ChartSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
 		}
-
-		new Label( cmpInteractivity, SWT.NONE ).setText( Messages.getString( "ChartSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
 
 		btnEnable = new Button( cmpInteractivity, SWT.CHECK );
 		{
+			GridData gridData = new GridData( );
+			gridData.horizontalSpan = 2;
+			btnEnable.setLayoutData( gridData );
 			btnEnable.setText( Messages.getString( "ChartSheetImpl.Label.InteractivityEnable" ) ); //$NON-NLS-1$
 			btnEnable.setSelection( getChart( ).getInteractivity( ).isEnable( ) );
 			btnEnable.addSelectionListener( this );
 		}
 
-		Label lblType = new Label( cmpInteractivity, SWT.NONE );
+		lblLegendBehavior = new Label( cmpInteractivity, SWT.NONE );
 		{
-			GridData gridData = new GridData( );
-			gridData.horizontalIndent = 10;
-			lblType.setLayoutData( gridData );
-			lblType.setText( Messages.getString( "ChartSheetImpl.Label.LegendBehaviorType" ) ); //$NON-NLS-1$
+			lblLegendBehavior.setText( Messages.getString( "ChartSheetImpl.Label.LegendBehaviorType" ) ); //$NON-NLS-1$
 		}
 
 		cmbInteractivity = new Combo( cmpInteractivity, SWT.DROP_DOWN
@@ -201,21 +199,14 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			cmbInteractivity.addSelectionListener( this );
 		}
 
-		new Label( cmpInteractivity, SWT.NONE );
-
 		btnTitleTriggers = new Button( cmpInteractivity, SWT.PUSH );
 		{
-			GridData gd = new GridData( );
-			btnTitleTriggers.setLayoutData( gd );
 			btnTitleTriggers.setText( Messages.getString( "ChartSheetImpl.Text.TitleInteractivity" ) ); //$NON-NLS-1$
 			btnTitleTriggers.addSelectionListener( this );
 		}
 
 		btnChartAreaTriggers = new Button( cmpInteractivity, SWT.PUSH );
 		{
-			GridData gd = new GridData( );
-			gd.horizontalSpan = 2;
-			btnChartAreaTriggers.setLayoutData( gd );
 			btnChartAreaTriggers.setText( Messages.getString( "ChartSheetImpl.Text.ChartAreaInteractivity" ) ); //$NON-NLS-1$
 			btnChartAreaTriggers.addSelectionListener( this );
 		}
@@ -270,7 +261,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		{
 			cmp.setLayout( new GridLayout( 4, false ) );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-			gridData.horizontalSpan = 3;
 			gridData.grabExcessVerticalSpace = true;
 			gridData.verticalAlignment = SWT.END;
 			cmp.setLayoutData( gridData );
@@ -333,25 +323,25 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		if ( e.widget.equals( btnTitleProp ) )
 		{
 			popupShell = createPopupShell( );
-			popupSheet = new TitlePropertiesSheet( popupShell, getChart( ) );
+			popupSheet = new TitlePropertiesSheet( popupShell, getContext( ) );
 			getWizard( ).attachPopup( btnTitleProp.getText( ), -1, -1 );
 		}
 		else if ( e.widget.equals( btnBlockProp ) )
 		{
 			popupShell = createPopupShell( );
-			popupSheet = new BlockPropertiesSheet( popupShell, getChart( ) );
+			popupSheet = new BlockPropertiesSheet( popupShell, getContext( ) );
 			getWizard( ).attachPopup( btnBlockProp.getText( ), -1, -1 );
 		}
 		else if ( e.widget.equals( btnGeneralProp ) )
 		{
 			popupShell = createPopupShell( );
-			popupSheet = new MoreOptionsChartSheet( popupShell, getChart( ) );
+			popupSheet = new MoreOptionsChartSheet( popupShell, getContext( ) );
 			getWizard( ).attachPopup( btnGeneralProp.getText( ), -1, -1 );
 		}
 		else if ( e.widget.equals( btnCustomProp ) )
 		{
 			popupShell = createPopupShell( );
-			popupSheet = new CustomPropertiesSheet( popupShell, getChart( ) );
+			popupSheet = new CustomPropertiesSheet( popupShell, getContext( ) );
 			getWizard( ).attachPopup( btnCustomProp.getText( ), -1, -1 );
 		}
 
@@ -409,6 +399,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 	private void enableInteractivity( boolean isEnabled )
 	{
+		lblLegendBehavior.setEnabled( isEnabled );
 		cmbInteractivity.setEnabled( isEnabled );
 		btnChartAreaTriggers.setEnabled( isEnabled );
 		btnTitleTriggers.setEnabled( isEnabled );

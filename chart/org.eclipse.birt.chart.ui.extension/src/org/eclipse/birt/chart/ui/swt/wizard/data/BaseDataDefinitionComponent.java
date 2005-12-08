@@ -109,7 +109,7 @@ public class BaseDataDefinitionComponent
 			glContent.marginWidth = 0;
 			glContent.horizontalSpacing = 2;
 			cmpTop.setLayout( glContent );
-			GridData gd = new GridData( GridData.HORIZONTAL_ALIGN_FILL );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			cmpTop.setLayoutData( gd );
 		}
 

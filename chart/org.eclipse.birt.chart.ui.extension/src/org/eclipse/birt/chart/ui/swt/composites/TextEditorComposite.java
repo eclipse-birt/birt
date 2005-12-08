@@ -100,6 +100,11 @@ public class TextEditorComposite extends Composite
 	{
 		return txtValue.getText( );
 	}
+	
+	public void setToolTipText( String string )
+	{
+		txtValue.setToolTipText( string );
+	}
 
 	public void addListener( Listener listener )
 	{

@@ -232,13 +232,13 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		{
 			popupShell = createPopupShell( );
 			popupSheet = new MoreOptionsChartLegendSheet( popupShell,
-					getChart( ) );
+					getContext( ) );
 			getWizard( ).attachPopup( Messages.getString( "ChartLegendSheetImpl.Title.LayoutLegend" ), -1, -1 ); //$NON-NLS-1$
 		}
 		else if ( e.widget.equals( btnLegendText ) )
 		{
 			popupShell = createPopupShell( );
-			popupSheet = new LegendTextSheet( popupShell, getChart( ) );
+			popupSheet = new LegendTextSheet( popupShell, getContext( ) );
 			getWizard( ).attachPopup( Messages.getString( "ChartLegendSheetImpl.Title.FormatLegendText" ), -1, -1 ); //$NON-NLS-1$
 		}
 

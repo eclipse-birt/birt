@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.popup.series;
 
 import java.util.List;
 
-import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
@@ -28,6 +27,7 @@ import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
@@ -75,10 +75,10 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet
 	private transient Label lblValue;
 	private transient Label lblAnchor;
 
-	public SeriesTrendlineSheet( Composite parent, Chart chart,
+	public SeriesTrendlineSheet( Composite parent, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
-		super( parent, chart, false );
+		super( parent, context, false );
 		this.seriesDefn = seriesDefn;
 		cmpTop = getComponent( parent );
 	}

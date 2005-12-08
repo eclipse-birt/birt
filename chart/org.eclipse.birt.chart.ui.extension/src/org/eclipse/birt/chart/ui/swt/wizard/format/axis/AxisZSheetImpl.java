@@ -118,7 +118,7 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 		}
 
 		btnAxisTitle = createToggleButton( cmp,
-				Messages.getString( "AxisZSheetImpl.Label.AxisText" ) );//$NON-NLS-1$
+				Messages.getString( "AxisZSheetImpl.Label.TextFormat" ) );//$NON-NLS-1$
 		btnAxisTitle.addSelectionListener( this );
 
 		btnGridlines = createToggleButton( cmp,
@@ -160,7 +160,7 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 		{
 			popupShell = createPopupShell( );
 			popupSheet = new AxisTextSheet( popupShell,
-					getChart( ),
+					getContext( ),
 					getAxisForProcessing( ),
 					AngleType.Z );
 			getWizard( ).attachPopup( btnAxisTitle.getText( ), -1, -1 );
@@ -169,7 +169,7 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 		{
 			popupShell = createPopupShell( );
 			popupSheet = new AxisGridLinesSheet( popupShell,
-					getChart( ),
+					getContext( ),
 					getAxisForProcessing( ) );
 			getWizard( ).attachPopup( btnGridlines.getText( ), -1, -1 );
 		}

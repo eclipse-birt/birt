@@ -413,11 +413,6 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				TreeItem[] children = currentItem.getItems( );
 				if ( index < children.length )
 				{
-					// Set selection of navigator tree
-					compoundTask.getNavigatorTree( )
-							.setSelection( new TreeItem[]{
-								children[index]
-							} );
 					// Switch to specified subtask
 					compoundTask.switchToTreeItem( children[index] );
 				}

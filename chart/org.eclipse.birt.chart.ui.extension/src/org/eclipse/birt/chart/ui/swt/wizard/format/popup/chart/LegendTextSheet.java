@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart;
 
-import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
@@ -25,6 +24,7 @@ import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -60,9 +60,9 @@ public class LegendTextSheet extends AbstractPopupSheet
 
 	private transient InsetsComposite icText;
 
-	public LegendTextSheet( Composite parent, Chart chart )
+	public LegendTextSheet( Composite parent, ChartWizardContext context )
 	{
-		super( parent, chart, true );
+		super( parent, context, true );
 		cmpTop = getComponent( parent );
 	}
 
@@ -89,9 +89,7 @@ public class LegendTextSheet extends AbstractPopupSheet
 				serviceprovider,
 				LabelAttributesComposite.ALLOW_ALL_POSITION );
 		{
-			GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL );
-			gdLACTitle.widthHint = 200;
-			gdLACTitle.verticalSpan = 2;
+			GridData gdLACTitle = new GridData( GridData.FILL_BOTH );
 			lacTitle.setLayoutData( gdLACTitle );
 			lacTitle.addListener( this );
 			lacTitle.setEnabled( getLegend( ).getTitle( ).isVisible( ) );
@@ -99,8 +97,11 @@ public class LegendTextSheet extends AbstractPopupSheet
 
 		Group grpTxtArea = new Group( cmpContent, SWT.NONE );
 		{
-			grpTxtArea.setLayout( new GridLayout( 2, false ) );
-			grpTxtArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			GridLayout layout = new GridLayout( 2, false );
+			layout.marginHeight = 7;
+			layout.marginWidth = 7;
+			grpTxtArea.setLayout( layout );
+			grpTxtArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 			grpTxtArea.setText( Messages.getString( "MoreOptionsChartLegendSheet.Label.TextArea" ) ); //$NON-NLS-1$
 		}
 
@@ -110,7 +111,7 @@ public class LegendTextSheet extends AbstractPopupSheet
 				SWT.NONE,
 				getLegend( ).getText( ).getFont( ),
 				getLegend( ).getText( ).getColor( ) );
-		GridData gdFDCFont = new GridData( GridData.FILL_BOTH );
+		GridData gdFDCFont = new GridData( GridData.FILL_HORIZONTAL );
 		gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
 		gdFDCFont.grabExcessVerticalSpace = false;
 		fdcFont.setLayoutData( gdFDCFont );
@@ -130,6 +131,8 @@ public class LegendTextSheet extends AbstractPopupSheet
 		fccShadow.setLayoutData( gdFCCShadow );
 		fccShadow.setEnabled( getLegend( ).isVisible( ) );
 		fccShadow.addListener( this );
+
+		new Label( grpTxtArea, SWT.NONE ).setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		Group grpOutline = new Group( grpTxtArea, SWT.NONE );
 		GridData gdGRPOutline = new GridData( GridData.FILL_HORIZONTAL );

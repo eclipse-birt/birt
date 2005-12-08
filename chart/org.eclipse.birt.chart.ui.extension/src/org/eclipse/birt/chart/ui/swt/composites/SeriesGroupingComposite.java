@@ -40,9 +40,10 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class SeriesGroupingComposite extends Composite implements
-		SelectionListener,
-		Listener
+public class SeriesGroupingComposite extends Composite
+		implements
+			SelectionListener,
+			Listener
 {
 
 	private transient Group grpContent = null;
@@ -158,10 +159,10 @@ public class SeriesGroupingComposite extends Composite implements
 		iscInterval = new IntegerSpinControl( grpContent,
 				SWT.NONE,
 				iGroupInterval );
-		GridData gdISCInterval = new GridData( );
-		gdISCInterval.widthHint = 80;
+		GridData gdISCInterval = new GridData( GridData.FILL_HORIZONTAL );
 		iscInterval.setLayoutData( gdISCInterval );
 		iscInterval.setMinimum( 0 );
+		iscInterval.setToolTipText( Messages.getString( "SeriesGroupingComposite.Tooltip.SelectIntervalForGrouping" ) ); //$NON-NLS-1$
 		iscInterval.addListener( this );
 
 		Label lblDummy = new Label( grpContent, SWT.NONE );
@@ -178,8 +179,8 @@ public class SeriesGroupingComposite extends Composite implements
 		glAggregate.verticalSpacing = 5;
 
 		Composite cmpAggregate = new Composite( grpContent, SWT.NONE );
-		GridData gdCMPAggregate = new GridData( );
-		gdCMPAggregate.horizontalSpan = 4;
+		GridData gdCMPAggregate = new GridData( GridData.FILL_HORIZONTAL );
+		gdCMPAggregate.horizontalSpan = 2;
 		cmpAggregate.setLayoutData( gdCMPAggregate );
 		cmpAggregate.setLayout( glAggregate );
 
@@ -189,8 +190,7 @@ public class SeriesGroupingComposite extends Composite implements
 		lblAggregate.setText( Messages.getString( "SeriesGroupingComposite.Lbl.AggregateExpression" ) ); //$NON-NLS-1$
 
 		cmbAggregate = new Combo( cmpAggregate, SWT.DROP_DOWN | SWT.READ_ONLY );
-		GridData gdCMBAggregate = new GridData( );
-		cmbAggregate.setLayoutData( gdCMBAggregate );
+		cmbAggregate.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		cmbAggregate.addSelectionListener( this );
 
 		populateLists( );
@@ -252,9 +252,9 @@ public class SeriesGroupingComposite extends Composite implements
 		}
 		catch ( ChartException e )
 		{
-			e.printStackTrace();
+			e.printStackTrace( );
 		}
-		
+
 		if ( bEnableUI && grouping.getAggregateExpression( ) != null )
 		{
 			cmbAggregate.setText( grouping.getAggregateExpression( ) );

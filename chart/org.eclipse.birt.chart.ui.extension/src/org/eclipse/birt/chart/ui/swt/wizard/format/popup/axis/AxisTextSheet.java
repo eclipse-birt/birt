@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis;
 
-import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
@@ -22,6 +21,7 @@ import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -56,9 +56,10 @@ public class AxisTextSheet extends AbstractPopupSheet
 
 	private transient int axisType;
 
-	public AxisTextSheet( Composite parent, Chart chart, Axis axis, int axisType )
+	public AxisTextSheet( Composite parent, ChartWizardContext context,
+			Axis axis, int axisType )
 	{
-		super( parent, chart, true );
+		super( parent, context, true );
 		this.axis = axis;
 		this.axisType = axisType;
 		cmpTop = getComponent( parent );

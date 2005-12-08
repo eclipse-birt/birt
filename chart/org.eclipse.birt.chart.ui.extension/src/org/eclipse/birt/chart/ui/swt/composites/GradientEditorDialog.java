@@ -73,7 +73,7 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
     /**
      *  
      */
-    public GradientEditorDialog(Shell shellParent, Gradient gSelected)
+    public GradientEditorDialog(Shell shellParent, Gradient gSelected, ColorDefinition endColor)
     {
         this.gCurrent = gSelected;
         if (gCurrent != null)
@@ -83,8 +83,8 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
         else
         {
             gCurrent = AttributeFactory.eINSTANCE.createGradient();
-            gCurrent.setStartColor(ColorDefinitionImpl.create(254, 0, 0));
-            gCurrent.setEndColor(ColorDefinitionImpl.create(0, 0, 254));
+            gCurrent.setStartColor(ColorDefinitionImpl.create(254, 254, 254));
+            gCurrent.setEndColor( endColor );
         }
         shell = new Shell(shellParent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
         shell.setLayout(new FillLayout());
@@ -103,6 +103,11 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
             }
         }
     }
+    
+    public GradientEditorDialog( Shell shellParent, Gradient gSelected )
+	{
+		this( shellParent, gSelected, ColorDefinitionImpl.create( 0, 0, 254 ) );
+	}
 
     private void placeComponents()
     {

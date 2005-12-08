@@ -567,10 +567,17 @@ public class FillChooserComposite extends Composite implements
 		{
 			GradientEditorDialog ged = null;
 			cmpDropDown.getParent( ).dispose( );
+			
 			if ( fCurrent instanceof Gradient )
 			{
 				ged = new GradientEditorDialog( this.getShell( ),
 						(Gradient) fCurrent );
+			}
+			else if ( fCurrent instanceof ColorDefinition )
+			{
+				ged = new GradientEditorDialog( this.getShell( ),
+						null,
+						(ColorDefinition) fCurrent );
 			}
 			else
 			{
@@ -863,7 +870,6 @@ class ColorSelectionCanvas extends Canvas implements PaintListener
 	 * 
 	 * @param x
 	 * @param y
-	 * @return
 	 */
 	public Color getColorAt( int x, int y )
 	{

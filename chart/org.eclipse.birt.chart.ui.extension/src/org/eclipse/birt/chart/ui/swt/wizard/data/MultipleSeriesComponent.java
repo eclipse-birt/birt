@@ -84,7 +84,7 @@ public class MultipleSeriesComponent implements ISelectDataComponent
 			gridLayout.marginWidth = 0;
 			gridLayout.marginHeight = 0;
 			cmp.setLayout( gridLayout );
-			cmp.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
+			cmp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
 
 		Label topAngle = new Label( cmp, SWT.NONE );
@@ -117,6 +117,7 @@ public class MultipleSeriesComponent implements ISelectDataComponent
 			public Composite createArea( Composite parent )
 			{
 				cmpGroup = ChartUIUtil.createCompositeWrapper( parent );
+				cmpGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 				lblRightYGrouping = new Label( cmpGroup, SWT.WRAP );
 				{

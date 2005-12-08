@@ -11,46 +11,119 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.series;
 
-import org.eclipse.birt.chart.model.Chart;
+import java.text.MessageFormat;
+
+import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.DataPoint;
+import org.eclipse.birt.chart.model.attribute.DataPointComponent;
+import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
+import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
+import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
+import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
+import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
 
 /**
  * @author Actuate Corporation
  * 
  */
-public class SeriesLabelSheet extends AbstractPopupSheet implements Listener
+public class SeriesLabelSheet extends AbstractPopupSheet
+		implements
+			SelectionListener,
+			Listener
 {
 
 	private transient Composite cmpContent = null;
 
-	private transient LabelAttributesComposite lacTitle = null;
+	private transient Group grpDataPoint = null;
 
-	private transient LabelAttributesComposite lacLabel = null;
+	private transient List lstComponents = null;
+
+	private transient Combo cmbComponentTypes = null;
+
+	private transient Button btnAddComponent = null;
+
+	private transient Button btnRemoveComponent = null;
+
+	private transient Button btnFormatSpecifier = null;
+
+	private transient TextEditorComposite txtPrefix = null;
+
+	private transient TextEditorComposite txtSuffix = null;
+
+	private transient TextEditorComposite txtSeparator = null;
+
+	private transient LineAttributesComposite liacOutline = null;
+
+	private transient InsetsComposite icInsets = null;
 
 	private transient SeriesDefinition seriesDefn = null;
 
-	public SeriesLabelSheet( Composite parent, Chart chart,
+	private transient Label lblPosition;
+
+	private transient Combo cmbPosition;
+
+	private transient Label lblFont;
+
+	private transient FontDefinitionComposite fdcFont;
+
+	private transient Label lblFill;
+
+	private transient FillChooserComposite fccBackground;
+
+	private transient Label lblShadow;
+
+	private transient FillChooserComposite fccShadow;
+
+	private transient Button cbVisible;
+
+	private transient Group grpAttributes;
+
+	private transient Label lblPrefix;
+
+	private transient Label lblSuffix;
+
+	private transient Label lblSeparator;
+
+	private transient Group grpOutline;
+
+	public SeriesLabelSheet( Composite parent, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
-		super( parent, chart, false );
+		super( parent, context, false );
 		this.seriesDefn = seriesDefn;
 		cmpTop = getComponent( parent );
 	}
@@ -62,64 +135,363 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements Listener
 	 */
 	public Composite getComponent( Composite parent )
 	{
-		// Layout for the content composite
-		GridLayout glContent = new GridLayout( );
-		glContent.numColumns = 2;
-		glContent.horizontalSpacing = 5;
-		glContent.verticalSpacing = 5;
-		glContent.marginHeight = 7;
-		glContent.marginWidth = 7;
-
 		cmpContent = new Composite( parent, SWT.NONE );
-		cmpContent.setLayout( glContent );
-
-		// The axis from the model for convenient access
-		Series series = null;
-		try
 		{
-			series = getSeriesForProcessing( );
-		}
-		catch ( ClassCastException cce )
-		{
-			cce.printStackTrace( );
+			// Layout for the content composite
+			GridLayout glContent = new GridLayout( );
+			glContent.numColumns = 2;
+			cmpContent.setLayout( glContent );
 		}
 
-		lacLabel = new LabelAttributesComposite( cmpContent,
+		Composite cmpTop = new Composite( cmpContent, SWT.NONE );
+		{
+			GridLayout layout = new GridLayout( 2, false );
+			layout.horizontalSpacing = 0;
+			cmpTop.setLayout( layout );
+			cmpTop.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		}
+
+		cbVisible = new Button( cmpTop, SWT.CHECK );
+		{
+			GridData gdCBVisible = new GridData( GridData.FILL_HORIZONTAL );
+			gdCBVisible.horizontalSpan = 2;
+			gdCBVisible.horizontalIndent = 5;
+			cbVisible.setLayoutData( gdCBVisible );
+			cbVisible.setSelection( getSeriesForProcessing( ).getLabel( )
+					.isVisible( ) );
+			cbVisible.setText( Messages.getString( "LabelAttributesComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
+			cbVisible.addSelectionListener( this );
+		}
+
+		Composite cmpLeft = new Composite( cmpTop, SWT.NONE );
+		{
+			cmpLeft.setLayout( new GridLayout( ) );
+			cmpLeft.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		}
+
+		Composite cmpRight = new Composite( cmpTop, SWT.NONE );
+		{
+			cmpRight.setLayout( new GridLayout( ) );
+			cmpRight.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		}
+
+		createAttributeArea( cmpLeft );
+
+		grpOutline = new Group( cmpLeft, SWT.NONE );
+		GridData gdGOutline = new GridData( GridData.FILL_HORIZONTAL );
+		gdGOutline.heightHint = 110;
+		grpOutline.setLayoutData( gdGOutline );
+		grpOutline.setText( Messages.getString( "LabelAttributesComposite.Lbl.Outline" ) ); //$NON-NLS-1$
+		grpOutline.setLayout( new FillLayout( ) );
+		// grpOutline.setEnabled(bEnableUI);
+
+		liacOutline = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
-				Messages.getString( "OrthogonalSeriesLabelAttributeSheetImpl.Lbl.Label" ), series.getLabelPosition( ), series //$NON-NLS-1$
-						.getLabel( ),
-				chart.getUnits( ),
+				getSeriesForProcessing( ).getLabel( ).getOutline( ),
 				true,
 				true,
-				serviceprovider,
-				( series instanceof PieSeries || series instanceof BarSeries )
-						? LabelAttributesComposite.ALLOW_INOUT_POSITION
-						: ( LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION | LabelAttributesComposite.ALLOW_VERTICAL_POSITION ) );
-		GridData gdLACLabel = new GridData( GridData.FILL_HORIZONTAL );
-		gdLACLabel.widthHint = 200;
-		lacLabel.setLayoutData( gdLACLabel );
-		lacLabel.addListener( this );
-
-		if ( series instanceof PieSeries )
+				true );
 		{
-			lacTitle = new LabelAttributesComposite( cmpContent,
-					SWT.NONE,
-					Messages.getString( "OrthogonalSeriesLabelAttributeSheetImpl.Lbl.Title" ), ( (PieSeries) series ) //$NON-NLS-1$
-							.getTitlePosition( ),
-					( (PieSeries) series ).getTitle( ),
-					chart.getUnits( ),
-					true,
-					true,
-					serviceprovider,
-					LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION
-							| LabelAttributesComposite.ALLOW_VERTICAL_POSITION );
-			GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL );
-			gdLACTitle.widthHint = 200;
-			lacTitle.setLayoutData( gdLACTitle );
-			lacTitle.addListener( this );
+			liacOutline.addListener( this );
 		}
+
+		createDataPointArea( cmpRight );
+
+		icInsets = new InsetsComposite( cmpRight,
+				SWT.NONE,
+				getSeriesForProcessing( ).getLabel( ).getInsets( ),
+				chart.getUnits( ),
+				serviceprovider );
+		{
+			GridData gdICInsets = new GridData( GridData.FILL_HORIZONTAL );
+			gdICInsets.heightHint = icInsets.getPreferredSize( ).y;
+			gdICInsets.grabExcessVerticalSpace = false;
+			icInsets.setLayoutData( gdICInsets );
+			icInsets.addListener( this );
+		}
+
+		// Populate lists
+		populateLists( getSeriesForProcessing( ) );
+
+		setEnabled( cbVisible.getSelection( ) );
+
+		refreshDataPointButtons( );
 
 		return cmpContent;
+	}
+
+	private void populateLists( Series series )
+	{
+		// Populate DataPoint Components List
+		cmbComponentTypes.setItems( LiteralHelper.dataPointComponentTypeSet.getDisplayNames( ) );
+		cmbComponentTypes.select( 0 );
+
+		// Populate Current list of DataPointComponents
+		this.lstComponents.setItems( getDataPointComponents( series.getDataPoint( ) ) );
+
+		String str = series.getDataPoint( ).getPrefix( );
+		this.txtPrefix.setText( ( str == null ) ? "" : str ); //$NON-NLS-1$
+		str = series.getDataPoint( ).getSuffix( );
+		this.txtSuffix.setText( ( str == null ) ? "" : str ); //$NON-NLS-1$
+		str = series.getDataPoint( ).getSeparator( );
+		this.txtSeparator.setText( ( str == null ) ? "" : str ); //$NON-NLS-1$
+
+		// Position
+		int positionScope = ( getSeriesForProcessing( ) instanceof PieSeries || getSeriesForProcessing( ) instanceof BarSeries )
+				? LabelAttributesComposite.ALLOW_INOUT_POSITION
+				: ( LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION | LabelAttributesComposite.ALLOW_VERTICAL_POSITION );
+		Position lpCurrent = getSeriesForProcessing( ).getLabelPosition( );
+		if ( positionScope == LabelAttributesComposite.ALLOW_ALL_POSITION )
+		{
+			cmbPosition.setItems( LiteralHelper.fullPositionSet.getDisplayNames( ) );
+			if ( lpCurrent != null )
+			{
+				cmbPosition.select( LiteralHelper.fullPositionSet.getSafeNameIndex( lpCurrent.getName( ) ) );
+			}
+		}
+		else
+		{
+			// check vertical
+			if ( ( positionScope & LabelAttributesComposite.ALLOW_VERTICAL_POSITION ) != 0 )
+			{
+				String[] ns = LiteralHelper.verticalPositionSet.getDisplayNames( );
+				for ( int i = 0; i < ns.length; i++ )
+				{
+					cmbPosition.add( ns[i] );
+				}
+			}
+			// check horizontal
+			if ( ( positionScope & LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION ) != 0 )
+			{
+				String[] ns = LiteralHelper.horizontalPositionSet.getDisplayNames( );
+				for ( int i = 0; i < ns.length; i++ )
+				{
+					cmbPosition.add( ns[i] );
+				}
+			}
+			// check inout
+			if ( ( positionScope & LabelAttributesComposite.ALLOW_INOUT_POSITION ) != 0 )
+			{
+				String[] ns = LiteralHelper.inoutPositionSet.getDisplayNames( );
+				for ( int i = 0; i < ns.length; i++ )
+				{
+					cmbPosition.add( ns[i] );
+				}
+			}
+
+			if ( lpCurrent != null )
+			{
+				for ( int i = 0; i < cmbPosition.getItemCount( ); i++ )
+				{
+					if ( lpCurrent.getName( )
+							.equals( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getItem( i ) ) ) )
+					{
+						cmbPosition.select( i );
+					}
+				}
+			}
+		}
+	}
+
+	private String[] getDataPointComponents( DataPoint datapoint )
+	{
+		Object[] oArr = datapoint.getComponents( ).toArray( );
+		String[] sArr = new String[oArr.length];
+		for ( int i = 0; i < oArr.length; i++ )
+		{
+			sArr[i] = LiteralHelper.dataPointComponentTypeSet.getDisplayNameByName( ( (DataPointComponent) oArr[i] ).getType( )
+					.getName( ) );
+		}
+		return sArr;
+	}
+
+	private void createAttributeArea( Composite parent )
+	{
+		grpAttributes = new Group( parent, SWT.NONE );
+		{
+			grpAttributes.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+			grpAttributes.setLayout( new GridLayout( 2, false ) );
+			grpAttributes.setText( Messages.getString( "SeriesLabelSheet.Label.Format" ) ); //$NON-NLS-1$
+		}
+
+		lblPosition = new Label( grpAttributes, SWT.NONE );
+		GridData gdLBLPosition = new GridData( );
+		lblPosition.setLayoutData( gdLBLPosition );
+		lblPosition.setText( Messages.getString( "LabelAttributesComposite.Lbl.Position" ) ); //$NON-NLS-1$
+
+		cmbPosition = new Combo( grpAttributes, SWT.DROP_DOWN | SWT.READ_ONLY );
+		GridData gdCMBPosition = new GridData( GridData.FILL_BOTH );
+		cmbPosition.setLayoutData( gdCMBPosition );
+		cmbPosition.addSelectionListener( this );
+
+		lblFont = new Label( grpAttributes, SWT.NONE );
+		GridData gdLFont = new GridData( );
+		lblFont.setLayoutData( gdLFont );
+		lblFont.setText( Messages.getString( "LabelAttributesComposite.Lbl.Font" ) ); //$NON-NLS-1$
+
+		fdcFont = new FontDefinitionComposite( grpAttributes,
+				SWT.NONE,
+				getSeriesForProcessing( ).getLabel( ).getCaption( ).getFont( ),
+				getSeriesForProcessing( ).getLabel( ).getCaption( ).getColor( ) );
+		GridData gdFDCFont = new GridData( GridData.FILL_BOTH );
+		gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
+		gdFDCFont.widthHint = 96;
+		gdFDCFont.grabExcessVerticalSpace = false;
+		fdcFont.setLayoutData( gdFDCFont );
+		fdcFont.addListener( this );
+
+		lblFill = new Label( grpAttributes, SWT.NONE );
+		GridData gdLFill = new GridData( );
+		lblFill.setLayoutData( gdLFill );
+		lblFill.setText( Messages.getString( "LabelAttributesComposite.Lbl.Background" ) ); //$NON-NLS-1$
+
+		fccBackground = new FillChooserComposite( grpAttributes,
+				SWT.NONE,
+				getSeriesForProcessing( ).getLabel( ).getBackground( ),
+				false,
+				false );
+		GridData gdFCCBackground = new GridData( GridData.FILL_BOTH );
+		gdFCCBackground.heightHint = fccBackground.getPreferredSize( ).y;
+		fccBackground.setLayoutData( gdFCCBackground );
+		fccBackground.addListener( this );
+
+		lblShadow = new Label( grpAttributes, SWT.NONE );
+		GridData gdLBLShadow = new GridData( );
+		lblShadow.setLayoutData( gdLBLShadow );
+		lblShadow.setText( Messages.getString( "LabelAttributesComposite.Lbl.Shadow" ) ); //$NON-NLS-1$
+
+		fccShadow = new FillChooserComposite( grpAttributes,
+				SWT.NONE,
+				getSeriesForProcessing( ).getLabel( ).getShadowColor( ),
+				false,
+				false );
+		GridData gdFCCShadow = new GridData( GridData.FILL_BOTH );
+		fccShadow.setLayoutData( gdFCCShadow );
+		fccShadow.addListener( this );
+
+	}
+
+	private void setEnabled( boolean bEnableUI )
+	{
+		grpOutline.setEnabled( bEnableUI );
+		liacOutline.setEnabled( bEnableUI );
+		icInsets.setEnabled( bEnableUI );
+
+		grpAttributes.setEnabled( bEnableUI );
+		lblPosition.setEnabled( bEnableUI );
+		cmbPosition.setEnabled( bEnableUI );
+		lblFont.setEnabled( bEnableUI );
+		fdcFont.setEnabled( bEnableUI );
+		lblFill.setEnabled( bEnableUI );
+		fccBackground.setEnabled( bEnableUI );
+		lblShadow.setEnabled( bEnableUI );
+		fccShadow.setEnabled( bEnableUI );
+
+		grpDataPoint.setEnabled( bEnableUI );
+		lstComponents.setEnabled( bEnableUI );
+		btnFormatSpecifier.setEnabled( bEnableUI );
+		btnRemoveComponent.setEnabled( bEnableUI );
+		btnAddComponent.setEnabled( bEnableUI );
+		cmbComponentTypes.setEnabled( bEnableUI );
+		lblPrefix.setEnabled( bEnableUI );
+		lblSuffix.setEnabled( bEnableUI );
+		lblSeparator.setEnabled( bEnableUI );
+		txtPrefix.setEnabled( bEnableUI );
+		txtSuffix.setEnabled( bEnableUI );
+		txtSeparator.setEnabled( bEnableUI );
+	}
+
+	private void createDataPointArea( Composite parent )
+	{
+		// DataPoint composite
+		grpDataPoint = new Group( parent, SWT.NONE );
+		{
+			GridData gdCMPDataPoint = new GridData( GridData.FILL_BOTH );
+			gdCMPDataPoint.heightHint = 160;
+			grpDataPoint.setLayoutData( gdCMPDataPoint );
+			GridLayout glCMPDataPoint = new GridLayout( );
+			glCMPDataPoint.numColumns = 4;
+			glCMPDataPoint.horizontalSpacing = 4;
+			glCMPDataPoint.marginHeight = 2;
+			glCMPDataPoint.marginWidth = 2;
+			grpDataPoint.setLayout( glCMPDataPoint );
+			grpDataPoint.setText( Messages.getString( "SeriesLabelSheet.Label.Values" ) ); //$NON-NLS-1$
+		}
+
+		// Selected DataPoint components list
+		lstComponents = new List( grpDataPoint, SWT.BORDER | SWT.SINGLE );
+		GridData gdLSTComponents = new GridData( GridData.FILL_BOTH );
+		gdLSTComponents.horizontalSpan = 4;
+		lstComponents.setLayoutData( gdLSTComponents );
+		lstComponents.addSelectionListener( this );
+
+		// Remove DataPoint component button
+		btnFormatSpecifier = new Button( grpDataPoint, SWT.PUSH );
+		GridData gdBTNFormatSpecifier = new GridData( );
+		btnFormatSpecifier.setLayoutData( gdBTNFormatSpecifier );
+		btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
+		btnFormatSpecifier.getImage( )
+				.setBackground( btnFormatSpecifier.getBackground( ) );
+		btnFormatSpecifier.addSelectionListener( this );
+
+		btnRemoveComponent = new Button( grpDataPoint, SWT.PUSH );
+		GridData gdBTNRemoveComponent = new GridData( );
+		btnRemoveComponent.setLayoutData( gdBTNRemoveComponent );
+		btnRemoveComponent.setText( Messages.getString( "OrthogonalSeriesAttributeSheetImpl.Lbl.Remove" ) ); //$NON-NLS-1$
+		btnRemoveComponent.addSelectionListener( this );
+
+		// Add DataPoint component button
+		btnAddComponent = new Button( grpDataPoint, SWT.PUSH );
+		GridData gdBTNAddComponent = new GridData( );
+		btnAddComponent.setLayoutData( gdBTNAddComponent );
+		btnAddComponent.setText( Messages.getString( "OrthogonalSeriesAttributeSheetImpl.Lbl.Add" ) ); //$NON-NLS-1$
+		btnAddComponent.addSelectionListener( this );
+
+		// Available DataPoint components
+		cmbComponentTypes = new Combo( grpDataPoint, SWT.DROP_DOWN
+				| SWT.READ_ONLY );
+		GridData gdCMBComponentTypes = new GridData( GridData.FILL_HORIZONTAL );
+		gdCMBComponentTypes.grabExcessHorizontalSpace = true;
+		cmbComponentTypes.setLayoutData( gdCMBComponentTypes );
+
+		// Format prefix composite
+		lblPrefix = new Label( grpDataPoint, SWT.NONE );
+		GridData gdLBLPrefix = new GridData( );
+		lblPrefix.setLayoutData( gdLBLPrefix );
+		lblPrefix.setText( Messages.getString( "OrthogonalSeriesAttributeSheetImpl.Lbl.Prefix" ) ); //$NON-NLS-1$
+
+		txtPrefix = new TextEditorComposite( grpDataPoint, SWT.BORDER
+				| SWT.SINGLE );
+		GridData gdTXTPrefix = new GridData( GridData.FILL_HORIZONTAL );
+		gdTXTPrefix.horizontalSpan = 3;
+		txtPrefix.setLayoutData( gdTXTPrefix );
+		txtPrefix.addListener( this );
+
+		// Format suffix composite
+		lblSuffix = new Label( grpDataPoint, SWT.NONE );
+		GridData gdLBLSuffix = new GridData( );
+		lblSuffix.setLayoutData( gdLBLSuffix );
+		lblSuffix.setText( Messages.getString( "OrthogonalSeriesAttributeSheetImpl.Lbl.Suffix" ) ); //$NON-NLS-1$
+
+		txtSuffix = new TextEditorComposite( grpDataPoint, SWT.BORDER
+				| SWT.SINGLE );
+		GridData gdTXTSuffix = new GridData( GridData.FILL_HORIZONTAL );
+		gdTXTSuffix.horizontalSpan = 3;
+		txtSuffix.setLayoutData( gdTXTSuffix );
+		txtSuffix.addListener( this );
+
+		// Format separator composite
+		lblSeparator = new Label( grpDataPoint, SWT.NONE );
+		GridData gdLBLSeparator = new GridData( );
+		lblSeparator.setLayoutData( gdLBLSeparator );
+		lblSeparator.setText( Messages.getString( "OrthogonalSeriesAttributeSheetImpl.Lbl.Separator" ) ); //$NON-NLS-1$
+
+		txtSeparator = new TextEditorComposite( grpDataPoint, SWT.BORDER
+				| SWT.SINGLE );
+		GridData gdTXTSeparator = new GridData( GridData.FILL_HORIZONTAL );
+		gdTXTSeparator.horizontalSpan = 3;
+		txtSeparator.setLayoutData( gdTXTSeparator );
+		txtSeparator.addListener( this );
 	}
 
 	private Series getSeriesForProcessing( )
@@ -134,111 +506,185 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements Listener
 	 */
 	public void handleEvent( Event event )
 	{
-		if ( event.widget.equals( lacTitle ) )
+		if ( event.widget.equals( fdcFont ) )
+		{
+			getSeriesForProcessing( ).getLabel( )
+					.getCaption( )
+					.setFont( (FontDefinition) ( (Object[]) event.data )[0] );
+			getSeriesForProcessing( ).getLabel( )
+					.getCaption( )
+					.setColor( (ColorDefinition) ( (Object[]) event.data )[1] );
+		}
+		else if ( event.widget.equals( liacOutline ) )
 		{
 			switch ( event.type )
 			{
-				case LabelAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					( (PieSeries) getSeriesForProcessing( ) ).getTitle( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-					break;
-				case LabelAttributesComposite.POSITION_CHANGED_EVENT :
-					( (PieSeries) getSeriesForProcessing( ) ).setTitlePosition( (Position) event.data );
-					break;
-				case LabelAttributesComposite.FONT_CHANGED_EVENT :
-					( (PieSeries) getSeriesForProcessing( ) ).getTitle( )
-							.getCaption( )
-							.setFont( (FontDefinition) ( (Object[]) event.data )[0] );
-					( (PieSeries) getSeriesForProcessing( ) ).getTitle( )
-							.getCaption( )
-							.setColor( (ColorDefinition) ( (Object[]) event.data )[1] );
-					break;
-				case LabelAttributesComposite.BACKGROUND_CHANGED_EVENT :
-					( (PieSeries) getSeriesForProcessing( ) ).getTitle( )
-							.setBackground( (Fill) event.data );
-					break;
-				case LabelAttributesComposite.SHADOW_CHANGED_EVENT :
-					( (PieSeries) getSeriesForProcessing( ) ).getTitle( )
-							.setShadowColor( (ColorDefinition) event.data );
-					break;
-				case LabelAttributesComposite.OUTLINE_STYLE_CHANGED_EVENT :
-					( (PieSeries) getSeriesForProcessing( ) ).getTitle( )
+				case LineAttributesComposite.STYLE_CHANGED_EVENT :
+					getSeriesForProcessing( ).getLabel( )
 							.getOutline( )
 							.setStyle( (LineStyle) event.data );
 					break;
-				case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :
-					( (PieSeries) getSeriesForProcessing( ) ).getTitle( )
+				case LineAttributesComposite.WIDTH_CHANGED_EVENT :
+					getSeriesForProcessing( ).getLabel( )
 							.getOutline( )
 							.setThickness( ( (Integer) event.data ).intValue( ) );
 					break;
-				case LabelAttributesComposite.OUTLINE_COLOR_CHANGED_EVENT :
-					( (PieSeries) getSeriesForProcessing( ) ).getTitle( )
+				case LineAttributesComposite.COLOR_CHANGED_EVENT :
+					getSeriesForProcessing( ).getLabel( )
 							.getOutline( )
 							.setColor( (ColorDefinition) event.data );
 					break;
-				case LabelAttributesComposite.OUTLINE_VISIBILITY_CHANGED_EVENT :
-					( (PieSeries) getSeriesForProcessing( ) ).getTitle( )
+				case LineAttributesComposite.VISIBILITY_CHANGED_EVENT :
+					getSeriesForProcessing( ).getLabel( )
 							.getOutline( )
 							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-					break;
-				case LabelAttributesComposite.INSETS_CHANGED_EVENT :
-					( (PieSeries) getSeriesForProcessing( ) ).getTitle( )
-							.setInsets( (Insets) event.data );
 					break;
 			}
 		}
-		else if ( event.widget.equals( lacLabel ) )
+		else if ( event.widget.equals( fccBackground ) )
 		{
-			switch ( event.type )
-			{
-				case LabelAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					getSeriesForProcessing( ).getLabel( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-					break;
-				case LabelAttributesComposite.POSITION_CHANGED_EVENT :
-					getSeriesForProcessing( ).setLabelPosition( (Position) event.data );
-					break;
-				case LabelAttributesComposite.FONT_CHANGED_EVENT :
-					getSeriesForProcessing( ).getLabel( )
-							.getCaption( )
-							.setFont( (FontDefinition) ( (Object[]) event.data )[0] );
-					getSeriesForProcessing( ).getLabel( )
-							.getCaption( )
-							.setColor( (ColorDefinition) ( (Object[]) event.data )[1] );
-					break;
-				case LabelAttributesComposite.BACKGROUND_CHANGED_EVENT :
-					getSeriesForProcessing( ).getLabel( )
-							.setBackground( (Fill) event.data );
-					break;
-				case LabelAttributesComposite.SHADOW_CHANGED_EVENT :
-					getSeriesForProcessing( ).getLabel( )
-							.setShadowColor( (ColorDefinition) event.data );
-					break;
-				case LabelAttributesComposite.OUTLINE_STYLE_CHANGED_EVENT :
-					getSeriesForProcessing( ).getLabel( )
-							.getOutline( )
-							.setStyle( (LineStyle) event.data );
-					break;
-				case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :
-					getSeriesForProcessing( ).getLabel( )
-							.getOutline( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
-					break;
-				case LabelAttributesComposite.OUTLINE_COLOR_CHANGED_EVENT :
-					getSeriesForProcessing( ).getLabel( )
-							.getOutline( )
-							.setColor( (ColorDefinition) event.data );
-					break;
-				case LabelAttributesComposite.OUTLINE_VISIBILITY_CHANGED_EVENT :
-					getSeriesForProcessing( ).getLabel( )
-							.getOutline( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-					break;
-				case LabelAttributesComposite.INSETS_CHANGED_EVENT :
-					getSeriesForProcessing( ).getLabel( )
-							.setInsets( (Insets) event.data );
-					break;
-			}
+			getSeriesForProcessing( ).getLabel( )
+					.setBackground( (Fill) event.data );
+		}
+		else if ( event.widget.equals( fccShadow ) )
+		{
+			getSeriesForProcessing( ).getLabel( )
+					.setShadowColor( (ColorDefinition) event.data );
+		}
+		else if ( event.widget.equals( icInsets ) )
+		{
+			getSeriesForProcessing( ).getLabel( )
+					.setInsets( (Insets) event.data );
+		}
+		else if ( event.widget.equals( this.txtPrefix ) )
+		{
+			getSeriesForProcessing( ).getDataPoint( )
+					.setPrefix( txtPrefix.getText( ) );
+		}
+		else if ( event.widget.equals( this.txtSuffix ) )
+		{
+			getSeriesForProcessing( ).getDataPoint( )
+					.setSuffix( txtSuffix.getText( ) );
+		}
+		else if ( event.widget.equals( this.txtSeparator ) )
+		{
+			getSeriesForProcessing( ).getDataPoint( )
+					.setSeparator( txtSeparator.getText( ) );
 		}
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 */
+	public void widgetSelected( SelectionEvent e )
+	{
+		if ( e.getSource( ).equals( cmbPosition ) )
+		{
+			getSeriesForProcessing( ).setLabelPosition( Position.get( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) ) );
+		}
+		else if ( e.getSource( ).equals( cbVisible ) )
+		{
+			getSeriesForProcessing( ).getLabel( )
+					.setVisible( cbVisible.getSelection( ) );
+			setEnabled( cbVisible.getSelection( ) );
+		}
+		else if ( e.getSource( ).equals( btnAddComponent ) )
+		{
+			lstComponents.add( this.cmbComponentTypes.getText( ) );
+			addDataPointComponent( lstComponents.getItemCount( ) - 1 );
+			refreshDataPointButtons( );
+		}
+		else if ( e.getSource( ).equals( btnRemoveComponent ) )
+		{
+			if ( lstComponents.getSelectionCount( ) == 0 )
+			{
+				return;
+			}
+			int iSelected = lstComponents.getSelectionIndices( )[0];
+			if ( iSelected != -1 )
+			{
+				removeDataPointComponent( iSelected );
+				lstComponents.remove( iSelected );
+			}
+			refreshDataPointButtons( );
+		}
+		else if ( e.getSource( ).equals( btnFormatSpecifier ) )
+		{
+			if ( lstComponents.getSelectionCount( ) == 0 )
+			{
+				return;
+			}
+			int iSelected = lstComponents.getSelectionIndices( )[0];
+			if ( iSelected != -1 )
+			{
+				setDataPointComponentFormatSpecifier( iSelected );
+			}
+		}
+		else if ( e.getSource( ).equals( lstComponents ) )
+		{
+			refreshDataPointButtons( );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 */
+	public void widgetDefaultSelected( SelectionEvent e )
+	{
+	}
+
+	private void refreshDataPointButtons( )
+	{
+		btnFormatSpecifier.setEnabled( lstComponents.getSelectionIndex( ) != -1 );
+		btnRemoveComponent.setEnabled( lstComponents.getSelectionIndex( ) != -1 );
+	}
+
+	private void addDataPointComponent( int iComponentIndex )
+	{
+		DataPoint dp = getSeriesForProcessing( ).getDataPoint( );
+		DataPointComponent dpc = DataPointComponentImpl.create( DataPointComponentType.get( LiteralHelper.dataPointComponentTypeSet.getNameByDisplayName( lstComponents.getItem( iComponentIndex ) ) ),
+				null );
+		dpc.eAdapters( ).addAll( dp.eAdapters( ) );
+		dp.getComponents( ).add( dpc );
+	}
+
+	private void setDataPointComponentFormatSpecifier( int iComponentIndex )
+	{
+		DataPointComponent dpc = (DataPointComponent) getSeriesForProcessing( ).getDataPoint( )
+				.getComponents( )
+				.get( iComponentIndex );
+		FormatSpecifier formatspecifier = formatspecifier = dpc.getFormatSpecifier( );
+
+		String sContext = new MessageFormat( Messages.getString( "OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesDataPointComponent" ) ).format( new Object[]{dpc.getType( ).getName( )} ); //$NON-NLS-1$
+		if ( sContext == null )
+		{
+			sContext = Messages.getString( "OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesDataPoint" ); //$NON-NLS-1$
+		}
+
+		FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
+				formatspecifier,
+				sContext );
+		if ( !editor.wasCancelled( ) )
+		{
+			if ( editor.getFormatSpecifier( ) == null )
+			{
+				dpc.eUnset( AttributePackage.eINSTANCE.getDataPointComponent_FormatSpecifier( ) );
+				return;
+			}
+			dpc.setFormatSpecifier( editor.getFormatSpecifier( ) );
+		}
+	}
+
+	private void removeDataPointComponent( int iComponentIndex )
+	{
+		getSeriesForProcessing( ).getDataPoint( )
+				.getComponents( )
+				.remove( iComponentIndex );
+		;
+	}
+
 }

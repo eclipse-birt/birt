@@ -20,7 +20,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -50,6 +49,7 @@ import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
@@ -147,9 +147,10 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 
 	private transient Axis axis;
 
-	public AxisMarkersSheet( Composite parent, Chart chart, Axis axis )
+	public AxisMarkersSheet( Composite parent, ChartWizardContext context,
+			Axis axis )
 	{
-		super( parent, chart, false );
+		super( parent, context, false );
 		this.axis = axis;
 		cmpTop = getComponent( parent );
 	}

@@ -214,7 +214,8 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 		else if ( e.widget.equals( btnArea ) )
 		{
 			popupShell = createPopupShell( );
-			popupSheet = new MoreOptionsChartPlotSheet( popupShell, getChart( ) );
+			popupSheet = new MoreOptionsChartPlotSheet( popupShell,
+					getContext( ) );
 			getWizard( ).attachPopup( btnArea.getText( ), -1, -1 );
 		}
 
