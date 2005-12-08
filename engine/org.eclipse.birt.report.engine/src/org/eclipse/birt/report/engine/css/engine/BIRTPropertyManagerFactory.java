@@ -63,12 +63,14 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory
 		vms = new ValueManager[PerfectHash.TOTAL_KEYWORDS];
 
 		vms[StyleConstants.STYLE_TEXT_ALIGN] = new TextAlignManager(
-				CSSConstants.CSS_TEXT_ALIGN_PROPERTY );
+				CSSConstants.CSS_TEXT_ALIGN_PROPERTY,
+				CSSValueConstants.LEFT_VALUE );
 		vms[StyleConstants.STYLE_TEXT_INDENT] = new LengthManager(
 				CSSConstants.CSS_TEXT_INDENT_PROPERTY, true,
 				CSSValueConstants.NUMBER_0 );
 		vms[StyleConstants.STYLE_NUMBER_ALIGN] = new TextAlignManager(
-				BIRTConstants.BIRT_NUMBER_ALIGN_PROPERTY );
+				BIRTConstants.BIRT_NUMBER_ALIGN_PROPERTY,
+				CSSValueConstants.NONE_VALUE );
 
 		vms[StyleConstants.STYLE_NUMBER_FORMAT] = new RawStringManager(
 				BIRTConstants.BIRT_NUMBER_FORMAT_PROPERTY, true,

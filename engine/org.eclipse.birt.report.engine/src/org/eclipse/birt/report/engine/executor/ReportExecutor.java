@@ -52,7 +52,7 @@ import org.eclipse.birt.report.engine.toc.TOCBuilder;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.28 $ $Date: 2005/12/02 11:57:05 $
+ * @version $Revision: 1.29 $ $Date: 2005/12/03 02:01:49 $
  */
 public class ReportExecutor
 {
@@ -195,6 +195,9 @@ public class ReportExecutor
 
 		if ( masterPage instanceof SimpleMasterPageDesign )
 		{
+			// disable the tocBuilder
+			TOCBuilder tocBuilder = context.getTOCBuilder( );
+			context.setTOCBuilder( null );
 			SimpleMasterPageDesign pageDesign = (SimpleMasterPageDesign) masterPage;
 			InstanceID iid = new InstanceID( null, pageDesign.getID( ), null );
 			pageContent.setInstanceID( iid );
@@ -209,6 +212,8 @@ public class ReportExecutor
 				pageDesign.getFooter( i ).accept( builder,
 						new PageContentBuilder( pageContent.getFooter( ) ) );
 			}
+			// reenable the TOC
+			context.setTOCBuilder( tocBuilder );
 		}
 		return pageContent;
 	}

@@ -94,7 +94,8 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		}
 		else
 		{
-			IResultIterator rsIterator = ( ( DteResultSet ) rset ).getResultIterator( );
+			IResultIterator rsIterator = ( (DteResultSet) rset )
+					.getResultIterator( );
 			IBaseQueryDefinition query = listing.getQuery( );
 			Collection rowExpressions = ( query == null ? null : query
 					.getRowExpressions( ) );
@@ -124,7 +125,8 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 						}
 					}
 				} while ( rset.next( ) );
-			} else
+			}
+			else
 			{
 				do
 				{
@@ -141,7 +143,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 						}
 						while ( groupIndex < groupCount )
 						{
-							startTOCEntry( null );// open the group
+							startGroupTOCEntry( );// open the group
 							startTOCEntry( null );// open the group header
 							accessGroupHeader( listing, groupIndex,
 									outputEmitter );
@@ -149,9 +151,9 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 							groupIndex++;
 						}
 					}
-					startTOCEntry( null );
+					startGroupTOCEntry( );
 					accessDetail( listing, outputEmitter, rowData );
-					finishTOCEntry( );
+					finishGroupTOCEntry( );
 					int endGroup = rset.getEndingGroupLevel( );
 					if ( endGroup != NONE_GROUP )
 					{
@@ -171,7 +173,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 							accessGroupFooter( listing, groupIndex,
 									outputEmitter );
 							finishTOCEntry( ); // close the group footer
-							finishTOCEntry( ); // close the group
+							finishGroupTOCEntry( ); // close the group
 							groupIndex--;
 						}
 					}

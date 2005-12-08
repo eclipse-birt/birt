@@ -39,12 +39,15 @@ public class TextAlignManager extends IdentifierManager
 		return values;
 	}
 
-	public TextAlignManager( String propertyName )
+	public TextAlignManager( String propertyName, Value defaultValue )
 	{
 		this.propertyName = propertyName;
+		this.defaultValue = defaultValue;
 	}
 
-	String propertyName;
+	protected String propertyName;
+
+	protected Value defaultValue;
 
 	public String getPropertyName( )
 	{
@@ -58,6 +61,6 @@ public class TextAlignManager extends IdentifierManager
 
 	public Value getDefaultValue( )
 	{
-		return CSSValueConstants.LEFT_VALUE;
+		return defaultValue;
 	}
 }

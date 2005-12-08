@@ -265,27 +265,24 @@ public abstract class ReportItemExecutor
 	 */
 	protected void startTOCEntry( IContent content )
 	{
-		if ( tocBuilder == null )
+		if ( tocBuilder != null )
 		{
-			return;
-		}
-		if ( content != null )
-		{
-			InstanceID iid = content.getInstanceID( );
-			String tocLabel = content.getTOC( );
-			if ( tocLabel != null && iid != null )
+			if ( content != null )
 			{
-				String tocId = iid.toString( );
-				String bookmark = content.getBookmark( );
-				if ( bookmark == null )
+				String tocLabel = content.getTOC( );
+				if ( tocLabel != null )
 				{
-					bookmark = "TOC_" + tocId;
+					String bookmark = content.getBookmark( );
+					String tocId = tocBuilder.startEntry( tocLabel, bookmark );
+					if ( bookmark == null )
+					{
+						content.setBookmark( tocId );
+					}
+					return;
 				}
-				tocBuilder.startEntry( tocId, tocLabel, bookmark );
-				return;
 			}
+			tocBuilder.startEntry( null, null ); // starts a TOC entry
 		}
-		tocBuilder.startEntry( ); // starts a TOC entry
 	}
 
 	/**
@@ -300,6 +297,22 @@ public abstract class ReportItemExecutor
 		if ( tocBuilder != null )
 		{
 			tocBuilder.closeEntry( );
+		}
+	}
+
+	protected void startGroupTOCEntry( )
+	{
+		if ( tocBuilder != null )
+		{
+			tocBuilder.startGroupEntry( );
+		}
+	}
+
+	protected void finishGroupTOCEntry( )
+	{
+		if ( tocBuilder != null )
+		{
+			tocBuilder.closeGroupEntry( );
 		}
 	}
 }

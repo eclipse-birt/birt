@@ -85,8 +85,15 @@ abstract public class AbstractStyle implements IStyle
 
 	public void setCssText( String cssText ) throws DOMException
 	{
-
-		throw new DOMException( DOMException.NOT_SUPPORTED_ERR, "setCssText" );
+		IStyle style = (IStyle) engine.parseStyleDeclaration( cssText );
+		for ( int i = 0; i < IStyle.NUMBER_OF_STYLE; i++ )
+		{
+			CSSValue value = style.getProperty( i );
+			if ( value != null )
+			{
+				setProperty( i, value );
+			}
+		}
 	}
 
 	protected int getPropertyIndex( String propertyName )

@@ -31,6 +31,7 @@ abstract public class AbstractContent extends AbstractElement
 		implements
 			IContent
 {
+
 	transient protected IReportContent report;
 
 	protected String name;
@@ -377,22 +378,22 @@ abstract public class AbstractContent extends AbstractElement
 		if ( x != null )
 		{
 			out.writeInt( FIELD_X );
-			out.writeUTF( x.toString() );
+			out.writeUTF( x.toString( ) );
 		}
 		if ( y != null )
 		{
 			out.writeInt( FIELD_Y );
-			out.writeUTF( y.toString() );
+			out.writeUTF( y.toString( ) );
 		}
 		if ( width != null )
 		{
 			out.writeInt( FIELD_WIDTH );
-			out.writeUTF( width.toString() );
+			out.writeUTF( width.toString( ) );
 		}
 		if ( height != null )
 		{
 			out.writeInt( FIELD_HEIGHT );
-			out.writeUTF( height.toString() );
+			out.writeUTF( height.toString( ) );
 		}
 		if ( hyperlink != null )
 		{
@@ -411,8 +412,12 @@ abstract public class AbstractContent extends AbstractElement
 		}
 		if ( inlineStyle != null )
 		{
-			out.writeInt( FIELD_INLINESTYLE );
-			out.writeUTF( inlineStyle.getCssText( ) );
+			String cssText = inlineStyle.getCssText( );
+			if ( cssText != null && cssText.length( ) != 0 )
+			{
+				out.writeInt( FIELD_INLINESTYLE );
+				out.writeUTF( cssText );
+			}
 		}
 		if ( instanceId != null )
 		{
@@ -461,9 +466,12 @@ abstract public class AbstractContent extends AbstractElement
 				helpText = in.readUTF( );
 				break;
 			case FIELD_INLINESTYLE :
-				inlineStyle = new StyleDeclaration( );
 				String style = in.readUTF( );
-				inlineStyle.setCssText( style );
+				if ( style != null && style.length( ) != 0 )
+				{
+					inlineStyle = new StyleDeclaration( );
+					inlineStyle.setCssText( style );
+				}
 				break;
 			case FIELD_INSTANCE_ID :
 				value = in.readUTF( );
@@ -474,8 +482,9 @@ abstract public class AbstractContent extends AbstractElement
 				break;
 		}
 	}
-	
-	public void readContent( ObjectInputStream in ) throws IOException, ClassNotFoundException
+
+	public void readContent( ObjectInputStream in ) throws IOException,
+			ClassNotFoundException
 	{
 		int version = in.readInt( );
 		int filedId = in.readInt( );
@@ -492,7 +501,5 @@ abstract public class AbstractContent extends AbstractElement
 		writeFields( out );
 		out.writeInt( FIELD_NONE );
 	}
-	
-
 
 }
