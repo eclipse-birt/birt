@@ -13,6 +13,7 @@ import java.util.TreeSet;
 import org.eclipse.birt.report.debug.internal.ui.launcher.IReportLauncherSettings;
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.DebugUtil;
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.ReportLauncherUtils;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -56,7 +57,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 			IReportLauncherSettings
 {
 
-	private static final String REPORTPROJECTKID = "org.eclipse.birt.report.designer.ui.reportprojectnature";
+	private static final String REPORTPROJECTKID = "org.eclipse.birt.report.designer.ui.reportprojectnature"; //$NON-NLS-1$
 	private Label fUseListRadio;
 	private CheckboxTreeViewer fPluginTreeViewer;
 	private Label fVisibleLabel;
@@ -176,13 +177,13 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		composite.setLayout( new GridLayout( ) );
 		fUseListRadio = new Label( composite, 16 );
 		fUseListRadio
-				.setText( "Choose project to launch from the list, the selection project will be import launch" );
+				.setText( Messages.getString("ReportAdvancedLauncherTab.UseListRadioText") ); //$NON-NLS-1$
 		createPluginList( composite );
 		hookListeners( );
 		setControl( composite );
 		Dialog.applyDialogFont( composite );
 		WorkbenchHelp.setHelp( composite,
-				"org.eclipse.pde.doc.user.launcher_advanced" );
+				"org.eclipse.pde.doc.user.launcher_advanced" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -271,7 +272,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		GridData gd = new GridData( );
 		gd.horizontalSpan = 2;
 		fVisibleLabel.setLayoutData( gd );
-		fVisibleLabel.setText( "Availiable project" );
+		fVisibleLabel.setText( Messages.getString("ReportAdvancedLauncherTab.VisibleLabelText") ); //$NON-NLS-1$
 		createPluginViewer( composite );
 		createButtonContainer( composite );
 	}
@@ -376,8 +377,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		fPluginTreeViewer.getTree( ).setLayoutData( new GridData( 1808 ) );
 		Image pluginsImage = PDEPlugin.getDefault( ).getLabelProvider( ).get(
 				PDEPluginImages.DESC_REQ_PLUGINS_OBJ );
-		fWorkspacePlugins = new NamedElement( DebugUtil
-				.getResourceString( "workspace report projects" ), pluginsImage );
+		fWorkspacePlugins = new NamedElement( Messages.getString("ReportAdvancedLauncherTab.WorkspaceReportProjects"), pluginsImage ); //$NON-NLS-1$
 	}
 
 	/**
@@ -391,16 +391,15 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		composite.setLayout( layout );
 		composite.setLayoutData( new GridData( 1040 ) );
 		fSelectAllButton = new Button( composite, 8 );
-		fSelectAllButton.setText( DebugUtil.getResourceString( "Select All" ) );
+		fSelectAllButton.setText( Messages.getString("ReportAdvancedLauncherTab.SelectAllButtonText") ); //$NON-NLS-1$
 		fSelectAllButton.setLayoutData( new GridData( 770 ) );
 		SWTUtil.setButtonDimensionHint( fSelectAllButton );
 		fDeselectButton = new Button( composite, 8 );
-		fDeselectButton.setText( DebugUtil.getResourceString( "Deselect All" ) );
+		fDeselectButton.setText( Messages.getString("ReportAdvancedLauncherTab.DeselectButtonText") ); //$NON-NLS-1$
 		fDeselectButton.setLayoutData( new GridData( 768 ) );
 		SWTUtil.setButtonDimensionHint( fDeselectButton );
 		fDefaultsButton = new Button( composite, 8 );
-		fDefaultsButton.setText( DebugUtil
-				.getResourceString( "Restore Defaults" ) );
+		fDefaultsButton.setText( Messages.getString("ReportAdvancedLauncherTab.DefaultsButtonText") ); //$NON-NLS-1$
 		fDefaultsButton.setLayoutData( new GridData( 768 ) );
 		SWTUtil.setButtonDimensionHint( fDefaultsButton );
 	}
@@ -536,12 +535,12 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 	{
 		if ( fShowFeatures )
 		{
-			config.setAttribute( "default", true );
-			config.setAttribute( "usefeatures", false );
+			config.setAttribute( "default", true ); //$NON-NLS-1$
+			config.setAttribute( "usefeatures", false ); //$NON-NLS-1$
 		}
 		else
 		{
-			config.setAttribute( "default", true );
+			config.setAttribute( "default", true ); //$NON-NLS-1$
 		}
 	}
 
@@ -566,10 +565,10 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 
 		config.setAttribute( IMPORTPROJECT, wbuf.toString( ) );
 		//config.setAttribute( IMPORTPROJECTNAMES, namesWbuf.toString( ) );
-		config.setAttribute( "clearws", true );
+		config.setAttribute( "clearws", true ); //$NON-NLS-1$
 
-		config.setAttribute( "askclear", false );
-		config.setAttribute( "location0", WORKESPACENAME );
+		config.setAttribute( "askclear", false ); //$NON-NLS-1$
+		config.setAttribute( "location0", WORKESPACENAME ); //$NON-NLS-1$
 	}
 
 	private void updateStatus( )
@@ -579,7 +578,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 
 	private IStatus validate( )
 	{
-		return AbstractLauncherTab.createStatus( 0, "" );
+		return AbstractLauncherTab.createStatus( 0, "" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -589,7 +588,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 	 */
 	public String getName( )
 	{
-		return "Report Projects";
+		return Messages.getString("ReportAdvancedLauncherTab.Name"); //$NON-NLS-1$
 	}
 
 	/*

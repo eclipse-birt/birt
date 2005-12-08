@@ -33,7 +33,7 @@ import org.eclipse.jdt.core.JavaCore;
 public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 {
 
-	private static final String PROPERTYSEPARATOR = ";";
+	private static final String PROPERTYSEPARATOR = ";"; //$NON-NLS-1$
 
 	public WorkspaceClassPathFinder( )
 	{
@@ -80,7 +80,7 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 		IProject[] projects = ResourcesPlugin.getWorkspace( ).getRoot( )
 				.getProjects( );
 
-		String projectString = "";
+		String projectString = ""; //$NON-NLS-1$
 		for ( int i = 0; i < projects.length; i++ )
 		{
 			IProject proj = projects[i];

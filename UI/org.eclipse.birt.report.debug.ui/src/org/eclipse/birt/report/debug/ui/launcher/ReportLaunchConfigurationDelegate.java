@@ -24,6 +24,7 @@ import org.eclipse.birt.report.debug.internal.ui.launcher.IReportLauncherSetting
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.DebugUtil;
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.ReportLauncherUtils;
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.WorkspaceClassPathFinder;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -61,9 +62,9 @@ public class ReportLaunchConfigurationDelegate extends
 	/**
 	 * It is roperty key.
 	 */
-	private static final String PROJECT_NAMES_KEY = "user.projectname";
+	private static final String PROJECT_NAMES_KEY = "user.projectname"; //$NON-NLS-1$
 
-	private static final String PROJECT_CLASSPATH_KEY = "user.projectclasspath";
+	private static final String PROJECT_CLASSPATH_KEY = "user.projectclasspath"; //$NON-NLS-1$
 
 	private static WorkspaceClassPathFinder finder = new WorkspaceClassPathFinder( );
 
@@ -85,8 +86,8 @@ public class ReportLaunchConfigurationDelegate extends
 		try
 		{
 			fConfigDir = null;
-			monitor.beginTask( "", 5 );
-			String workspace = configuration.getAttribute( "location0",
+			monitor.beginTask( "", 5 ); //$NON-NLS-1$
+			String workspace = configuration.getAttribute( "location0", //$NON-NLS-1$
 					LauncherUtils.getDefaultPath( ).append( WORKESPACENAME )
 							.toOSString( ) );
 			if ( !LauncherUtils.clearWorkspace( configuration, workspace,
@@ -95,10 +96,10 @@ public class ReportLaunchConfigurationDelegate extends
 				monitor.setCanceled( true );
 				return;
 			}
-			if ( configuration.getAttribute( "clearConfig", false ) )
+			if ( configuration.getAttribute( "clearConfig", false ) ) //$NON-NLS-1$
 				LauncherUtils.clearConfigArea( getConfigDir( configuration ),
 						new SubProgressMonitor( monitor, 1 ) );
-			launch.setAttribute( "configLocation", getConfigDir( configuration )
+			launch.setAttribute( "configLocation", getConfigDir( configuration ) //$NON-NLS-1$
 					.toString( ) );
 			IVMInstall launcher = LauncherUtils.createLauncher( configuration );
 			monitor.worked( 1 );
@@ -146,7 +147,7 @@ public class ReportLaunchConfigurationDelegate extends
 			try
 			{
 				List sourcePaths = getAllProjectSourcePaths( configuration
-						.getAttribute( IMPORTPROJECTNAMES, "" ) );
+						.getAttribute( IMPORTPROJECTNAMES, "" ) ); //$NON-NLS-1$
 				for ( int i = 0; i < sourcePaths.size( ); i++ )
 				{
 //					String source = ( String ) sourcePaths.get( i );
@@ -181,8 +182,7 @@ public class ReportLaunchConfigurationDelegate extends
 		String classpath[] = LauncherUtils.constructClasspath( configuration );
 		if ( classpath == null )
 		{
-			String message = DebugUtil
-					.getResourceString( "WorkbenchLauncherConfigurationDelegate.noStartup" );
+			String message = Messages.getString("ReportLaunchConfigurationDelegate.noStartup"); //$NON-NLS-1$
 			throw new CoreException( LauncherUtils.createErrorStatus( message ) );
 		}
 		String programArgs[] = getProgramArguments( configuration );
@@ -194,7 +194,7 @@ public class ReportLaunchConfigurationDelegate extends
 			String envp[] = DebugPlugin.getDefault( ).getLaunchManager( )
 					.getEnvironment( configuration );
 			VMRunnerConfiguration runnerConfig = new VMRunnerConfiguration(
-					"org.eclipse.core.launcher.Main", classpath );
+					"org.eclipse.core.launcher.Main", classpath ); //$NON-NLS-1$
 			runnerConfig.setVMArguments( getVMArguments( configuration ) );
 			runnerConfig.setProgramArguments( programArgs );
 			runnerConfig.setEnvironment( envp );
@@ -334,19 +334,19 @@ public class ReportLaunchConfigurationDelegate extends
 			throws CoreException
 	{
 		String temp[] = ( new ExecutionArguments( configuration.getAttribute(
-				"vmargs", "" ), "" ) ).getVMArgumentsArray( );
-		String path = configuration.getAttribute( IMPORTPROJECT, "" );
+				"vmargs", "" ), "" ) ).getVMArgumentsArray( ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		String path = configuration.getAttribute( IMPORTPROJECT, "" ); //$NON-NLS-1$
 
-		String append = "-D" + PROJECT_NAMES_KEY + "=" + path;
+		String append = "-D" + PROJECT_NAMES_KEY + "=" + path; //$NON-NLS-1$ //$NON-NLS-2$
 
 		String projectClassPaths = finder.getClassPath( configuration
-				.getAttribute( IMPORTPROJECTNAMES, "" ) );
+				.getAttribute( IMPORTPROJECTNAMES, "" ) ); //$NON-NLS-1$
 
-		String classPath = "";
+		String classPath = ""; //$NON-NLS-1$
 		// String sourcePath = "";
 		if ( projectClassPaths != null && projectClassPaths.length( ) != 0 )
 		{
-			classPath = "-D" + PROJECT_CLASSPATH_KEY + "=" + projectClassPaths;
+			classPath = "-D" + PROJECT_CLASSPATH_KEY + "=" + projectClassPaths; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		if ( temp == null )
@@ -480,16 +480,15 @@ public class ReportLaunchConfigurationDelegate extends
 		if ( !badStructure )
 		{
 			IPath featuresPath = installPath.removeLastSegments( 1 ).append(
-					"features" );
-			badStructure = !lastSegment.equalsIgnoreCase( "plugins" )
+					"features" ); //$NON-NLS-1$
+			badStructure = !lastSegment.equalsIgnoreCase( "plugins" ) //$NON-NLS-1$
 					|| !featuresPath.toFile( ).exists( );
 		}
 		if ( badStructure )
 		{
 			throw new CoreException(
 					LauncherUtils
-							.createErrorStatus( DebugUtil
-									.getResourceString( "WorkbenchLauncherConfigurationDelegate.badFeatureSetup" ) ) );
+							.createErrorStatus( Messages.getString("ReportLaunchConfigurationDelegate.badFeatureSetup") ) ); //$NON-NLS-1$
 		} else
 		{
 			ensureProductFilesExist( getProductPath( ) );
@@ -510,31 +509,31 @@ public class ReportLaunchConfigurationDelegate extends
 	private String computeShowsplashArgument( )
 	{
 		IPath eclipseHome = ExternalModelManager.getEclipseHome( );
-		IPath fullPath = eclipseHome.append( "eclipse" );
-		return fullPath.toOSString( ) + " -showsplash 600";
+		IPath fullPath = eclipseHome.append( "eclipse" ); //$NON-NLS-1$
+		return fullPath.toOSString( ) + " -showsplash 600"; //$NON-NLS-1$
 	}
 
 	private void ensureProductFilesExist( IPath productArea )
 	{
 		File productDir = productArea.toFile( );
-		File marker = new File( productDir, ".eclipseproduct" );
+		File marker = new File( productDir, ".eclipseproduct" ); //$NON-NLS-1$
 		IPath eclipsePath = ExternalModelManager.getEclipseHome( );
 		if ( !marker.exists( ) )
-			copyFile( eclipsePath, ".eclipseproduct", marker );
+			copyFile( eclipsePath, ".eclipseproduct", marker ); //$NON-NLS-1$
 		if ( PDECore.getDefault( ).getModelManager( ).isOSGiRuntime( ) )
 		{
-			File configDir = new File( productDir, "configuration" );
+			File configDir = new File( productDir, "configuration" ); //$NON-NLS-1$
 			if ( !configDir.exists( ) )
 				configDir.mkdirs( );
-			File ini = new File( configDir, "config.ini" );
+			File ini = new File( configDir, "config.ini" ); //$NON-NLS-1$
 			if ( !ini.exists( ) )
-				copyFile( eclipsePath.append( "configuration" ), "config.ini",
+				copyFile( eclipsePath.append( "configuration" ), "config.ini", //$NON-NLS-1$ //$NON-NLS-2$
 						ini );
 		} else
 		{
-			File ini = new File( productDir, "install.ini" );
+			File ini = new File( productDir, "install.ini" ); //$NON-NLS-1$
 			if ( !ini.exists( ) )
-				copyFile( eclipsePath, "install.ini", ini );
+				copyFile( eclipsePath, "install.ini", ini ); //$NON-NLS-1$
 		}
 	}
 
@@ -593,12 +592,12 @@ public class ReportLaunchConfigurationDelegate extends
 		if ( fConfigDir == null )
 			try
 			{
-				if ( config.getAttribute( "usefeatures", false ) )
+				if ( config.getAttribute( "usefeatures", false ) ) //$NON-NLS-1$
 				{
 					String root = getProductPath( ).toString( );
 					if ( PDECore.getDefault( ).getModelManager( )
 							.isOSGiRuntime( ) )
-						root = root + "/configuration";
+						root = root + "/configuration"; //$NON-NLS-1$
 					fConfigDir = new File( root );
 				} else
 				{
@@ -615,9 +614,9 @@ public class ReportLaunchConfigurationDelegate extends
 		return fConfigDir;
 	}
 
-	private static final String KEY_BAD_FEATURE_SETUP = "WorkbenchLauncherConfigurationDelegate.badFeatureSetup";
+	private static final String KEY_BAD_FEATURE_SETUP = Messages.getString("ReportLaunchConfigurationDelegate.badFeatureSetup"); //$NON-NLS-1$
 
-	private static final String KEY_NO_STARTUP = "WorkbenchLauncherConfigurationDelegate.noStartup";
+	private static final String KEY_NO_STARTUP = Messages.getString("ReportLaunchConfigurationDelegate.noStartup"); //$NON-NLS-1$
 
 	private File fConfigDir;
 }

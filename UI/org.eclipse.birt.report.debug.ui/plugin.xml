@@ -26,13 +26,14 @@
       <import plugin="org.eclipse.birt.core"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.birt.report.viewer"/>
+      <import plugin="org.eclipse.birt.report.designer.core"/>
    </requires>
    
    
 	<extension
 	         point="org.eclipse.debug.core.launchConfigurationTypes">
 	      <launchConfigurationType
-	            name="org.eclipse.birt.report.debug.Report"
+	            name="%report.debug"
 	            delegate="org.eclipse.birt.report.debug.ui.launcher.ReportLaunchConfigurationDelegate"
 	            modes="debug"
 	            id="org.eclipse.birt.report.debug.ui.ReportRuntimeWorkbench"

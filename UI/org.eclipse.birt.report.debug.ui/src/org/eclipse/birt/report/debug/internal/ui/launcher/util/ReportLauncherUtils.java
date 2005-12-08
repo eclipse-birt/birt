@@ -201,7 +201,7 @@ public class ReportLauncherUtils
 				IReportLauncherSettings.IMPORTPROJECT, (String) null );
 		if ( ids != null && ids.length( ) > 0 )
 		{
-			StringTokenizer token = new StringTokenizer( ids, ";" );
+			StringTokenizer token = new StringTokenizer( ids, ";" ); //$NON-NLS-1$
 			while ( token.hasMoreTokens( ) )
 			{
 				String str = token.nextToken( );
@@ -224,7 +224,7 @@ public class ReportLauncherUtils
 				IReportLauncherSettings.IMPORTPROJECTNAMES, (String) null );
 		if ( ids != null && ids.length( ) > 0 )
 		{
-			StringTokenizer token = new StringTokenizer( ids, ";" );
+			StringTokenizer token = new StringTokenizer( ids, ";" ); //$NON-NLS-1$
 			while ( token.hasMoreTokens( ) )
 			{
 				String str = token.nextToken( );

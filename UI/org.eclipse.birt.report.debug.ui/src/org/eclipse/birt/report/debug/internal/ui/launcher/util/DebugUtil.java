@@ -63,7 +63,7 @@ public class DebugUtil
 	 */
 	public static void importProject( String prjFilePath ) throws Exception
 	{
-		IPath path = new Path( prjFilePath + File.separator + ".project" );
+		IPath path = new Path( prjFilePath + File.separator + ".project" ); //$NON-NLS-1$
 		final IProjectDescription newDescription = loadProjectDescription( path );
 		final IProject project = ResourcesPlugin.getWorkspace( ).getRoot( )
 				.getProject( newDescription.getName( ) );
@@ -185,7 +185,7 @@ public class DebugUtil
 		Method method = null;
 		try
 		{
-			method = PDEPlugin.class.getDeclaredMethod( "getLaunchesListener",
+			method = PDEPlugin.class.getDeclaredMethod( "getLaunchesListener", //$NON-NLS-1$
 					new Class[]{} );
 			return (LaunchListener) ( method.invoke( in, new Object[]{} ) );
 		}
@@ -196,7 +196,7 @@ public class DebugUtil
 				try
 				{
 					method = PDEPlugin.class.getDeclaredMethod(
-							"getLaunchListener", new Class[]{} );
+							"getLaunchListener", new Class[]{} ); //$NON-NLS-1$
 					return (LaunchListener) ( method
 							.invoke( in, new Object[]{} ) );
 				}
@@ -219,7 +219,7 @@ public class DebugUtil
 		try
 		{
 			method = TargetPlatform.class.getDeclaredMethod(
-					"createPlatformConfigurationArea", new Class[]{
+					"createPlatformConfigurationArea", new Class[]{ //$NON-NLS-1$
 							TreeMap.class, File.class, String.class,
 							HashMap.class} );
 			method.invoke( TargetPlatform.class, new Object[]{pluginMap,
@@ -236,7 +236,7 @@ public class DebugUtil
 			try
 			{
 				method = TargetPlatform.class.getDeclaredMethod(
-						"createPlatformConfigurationArea", new Class[]{
+						"createPlatformConfigurationArea", new Class[]{ //$NON-NLS-1$
 								TreeMap.class, File.class, String.class} );
 				method.invoke( TargetPlatform.class, new Object[]{pluginMap,
 						configDir, primaryFeatureId} );
@@ -293,7 +293,7 @@ public class DebugUtil
 	{
 		try
 		{
-			Method method = WorkspaceModelManager.class.getDeclaredMethod("getAllModels", new Class[]{});
+			Method method = WorkspaceModelManager.class.getDeclaredMethod("getAllModels", new Class[]{}); //$NON-NLS-1$
 			method.setAccessible(true);
 			return (IPluginModelBase[])method.invoke(manager, new Object[]{});
 		}

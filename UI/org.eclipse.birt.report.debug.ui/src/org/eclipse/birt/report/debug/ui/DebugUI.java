@@ -27,7 +27,7 @@ public class DebugUI extends AbstractUIPlugin
 		try
 		{
 			resourceBundle = ResourceBundle
-					.getBundle( "org.eclipse.bird.report.debug.ui.DebugUIResources" );
+					.getBundle( "org.eclipse.bird.report.debug.ui.DebugUIResources" ); //$NON-NLS-1$
 		}
 		catch ( MissingResourceException _ex )
 		{
@@ -44,7 +44,7 @@ public class DebugUI extends AbstractUIPlugin
 		try
 		{
 			resourceBundle = ResourceBundle
-					.getBundle( "org.eclipse.bird.report.debug.ui.DebugUIResources" );
+					.getBundle( "org.eclipse.bird.report.debug.ui.DebugUIResources" ); //$NON-NLS-1$
 		}
 		catch ( MissingResourceException _ex )
 		{

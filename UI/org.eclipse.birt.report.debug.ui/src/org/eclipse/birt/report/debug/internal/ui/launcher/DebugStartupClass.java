@@ -38,12 +38,12 @@ public class DebugStartupClass implements IStartup
 		WorkspaceClasspathManager
 				.registerClassPathFinder( new WorkspaceClassPathFinder( ) );
 
-		String value = System.getProperty( "user.projectname" );
+		String value = System.getProperty( "user.projectname" ); //$NON-NLS-1$
 		if ( value == null || value.length( ) == 0 )
 		{
 			return;
 		}
-		StringTokenizer token = new StringTokenizer( value, ";" );
+		StringTokenizer token = new StringTokenizer( value, ";" ); //$NON-NLS-1$
 		while ( token.hasMoreTokens( ) )
 		{
 			String str = token.nextToken( );
