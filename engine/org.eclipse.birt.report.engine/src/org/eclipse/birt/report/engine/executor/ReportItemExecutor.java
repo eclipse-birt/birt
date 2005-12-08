@@ -42,7 +42,7 @@ import org.eclipse.birt.report.engine.toc.TOCBuilder;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.18 $ $Date: 2005/12/02 11:57:05 $
+ * @version $Revision: 1.19 $ $Date: 2005/12/03 05:34:28 $
  */
 public abstract class ReportItemExecutor
 {
@@ -258,12 +258,17 @@ public abstract class ReportItemExecutor
 
 	/**
 	 * starts a TOC entry, mostly used for non-leaf TOC entry, which can not be
-	 * closed until its children have been written. 
+	 * closed until its children have been written.
 	 * 
-	 * @param content report item content object
+	 * @param content
+	 *            report item content object
 	 */
 	protected void startTOCEntry( IContent content )
 	{
+		if ( tocBuilder == null )
+		{
+			return;
+		}
 		if ( content != null )
 		{
 			InstanceID iid = content.getInstanceID( );
@@ -280,17 +285,21 @@ public abstract class ReportItemExecutor
 				return;
 			}
 		}
-		tocBuilder.startEntry( );	// starts a TOC entry
+		tocBuilder.startEntry( ); // starts a TOC entry
 	}
 
 	/**
-	 * finishes a TOC entry, mostly used for non-leaf TOC entry, which can not be
-	 * closed until its children have been written. 
+	 * finishes a TOC entry, mostly used for non-leaf TOC entry, which can not
+	 * be closed until its children have been written.
 	 * 
-	 * @param content report item content object
+	 * @param content
+	 *            report item content object
 	 */
 	protected void finishTOCEntry( )
 	{
-		tocBuilder.closeEntry( );
+		if ( tocBuilder != null )
+		{
+			tocBuilder.closeEntry( );
+		}
 	}
 }

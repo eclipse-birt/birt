@@ -70,7 +70,7 @@ public class BorderWidthManager extends AbstractLengthManager
 
 	public Value getDefaultValue( )
 	{
-		return CSSValueConstants.MIDDLE_VALUE;
+		return CSSValueConstants.MEDIUM_VALUE;
 	}
 
 	public Value createValue( LexicalUnit lu, CSSEngine engine )
