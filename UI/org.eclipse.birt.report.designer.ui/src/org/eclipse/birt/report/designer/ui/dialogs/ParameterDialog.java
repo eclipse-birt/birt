@@ -673,10 +673,9 @@ public class ParameterDialog extends BaseDialog
 
 			public void verifyText( VerifyEvent e )
 			{
-				e.doit = ( "1234567890\0\b\0x7f".indexOf( e.character ) != -1 ); //$NON-NLS-1$
+				e.doit = ( "0123456789\0\b\u007f".indexOf( e.character ) != -1 );
 			}
 		} );
-
 		Label values = new Label( limitArea, SWT.NULL );
 		values.setText( Messages.getString( "CascadingParametersDialog.label.values" ) ); //$NON-NLS-1$
 		values.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -722,9 +721,9 @@ public class ParameterDialog extends BaseDialog
 	{
 		Assert.isNotNull( inputParameter );
 		nameEditor.setText( inputParameter.getName( ) );
-		if ( inputParameter.getDisplayName( ) != null )
+		if ( !StringUtil.isBlank( inputParameter.getPromptText( ) ) )
 		{
-			promptTextEditor.setText( inputParameter.getDisplayName( ) );
+			promptTextEditor.setText( inputParameter.getPromptText( ) );
 		}
 		helpTextEditor.setText( UIUtil.convertToGUIString( inputParameter.getHelpText( ) ) );
 		if ( inputParameter.getValueType( )
@@ -1001,7 +1000,7 @@ public class ParameterDialog extends BaseDialog
 		if ( !onlyFilter )
 		{
 			cachedColumns = DataSetManager.getCurrentInstance( )
-					.getColumns( dataSetChooser.getText( ), false );
+					.getColumns( dataSetChooser.getText( ), true );
 
 			displayTextChooser.removeAll( );
 			displayTextChooser.add( NONE_DISPLAY_TEXT );
@@ -1554,31 +1553,11 @@ public class ParameterDialog extends BaseDialog
 	{
 		try
 		{
+			// Save the name and display name
 			inputParameter.setName( nameEditor.getText( ) );
-			inputParameter.setDisplayName( UIUtil.convertToModelString( promptTextEditor.getText( ),
+			inputParameter.setPromptText( UIUtil.convertToModelString( promptTextEditor.getText( ),
 					true ) );
 
-			if ( !isStatic( ) && !StringUtil.isBlank( listLimit.getText( ) ) )
-			{
-				try
-				{
-
-					inputParameter.setListlimit( Integer.parseInt( listLimit.getText( ) ) );
-				}
-				catch ( NumberFormatException ex )
-				{
-					ExceptionHandler.openErrorMessageBox( ERROR_TITLE_INVALID_LIST_LIMIT,
-							MessageFormat.format( ERROR_MSG_INVALID_LIST_LIMIT,
-									new Object[]{
-										Integer.toString( Integer.MAX_VALUE )
-									} ) );
-				}
-			}
-			else
-			{
-				inputParameter.setProperty( ScalarParameterHandle.LIST_LIMIT_PROP,
-						null );
-			}
 			String newControlType = getSelectedControlType( );
 			if ( PARAM_CONTROL_COMBO.equals( newControlType ) )
 			{
@@ -1595,7 +1574,64 @@ public class ParameterDialog extends BaseDialog
 				inputParameter.setProperty( ScalarParameterHandle.MUCH_MATCH_PROP,
 						null );
 			}
+
+			// Save control type
 			inputParameter.setControlType( newControlType );
+
+			// Save default value
+			if ( ( isStatic( ) && !getSelectedControlType( ).equals( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX ) )
+					&& ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) || DesignChoiceConstants.PARAM_TYPE_STRING.equals( getSelectedDataType( ) ) )
+					&& defaultValue != null )
+			{
+				inputParameter.setDefaultValue( "\"" + defaultValue + "\"" );//$NON-NLS-1$//$NON-NLS-2$
+			}
+			else
+			{
+				inputParameter.setDefaultValue( defaultValue );
+			}
+
+			// Set data type
+			inputParameter.setDataType( dataType.findChoiceByDisplayName( dataTypeChooser.getText( ) )
+					.getName( ) );
+
+			// Clear original choices list
+			PropertyHandle selectionChioceList = inputParameter.getPropertyHandle( ScalarParameterHandle.SELECTION_LIST_PROP );
+			selectionChioceList.setValue( null );
+
+			if ( isStatic( ) )
+			{
+				// Save static choices list
+				inputParameter.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC );
+				if ( !DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( newControlType )
+						&& !DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( newControlType ) )
+				{
+					for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
+					{
+						SelectionChoice choice = (SelectionChoice) iter.next( );
+						if ( isValidValue( choice.getValue( ) ) == null )
+						{
+							selectionChioceList.addItem( choice );
+						}
+					}
+				}
+				inputParameter.setDataSetName( null );
+				inputParameter.setValueExpr( null );
+				inputParameter.setLabelExpr( null );
+			}
+			else
+			{
+				// Save dynamic settings
+				inputParameter.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
+				inputParameter.setDataSetName( dataSetChooser.getText( ) );
+				inputParameter.setValueExpr( getExpression( columnChooser.getText( ) ) );
+				inputParameter.setLabelExpr( getExpression( displayTextChooser.getText( ) ) );
+			}
+
+			// Save help text
+			inputParameter.setHelpText( UIUtil.convertToModelString( helpTextEditor.getText( ),
+					false ) );
+
+			// Save format
 			String format = formatCategroy;
 			if ( formatPattern != null )
 			{
@@ -1609,23 +1645,11 @@ public class ParameterDialog extends BaseDialog
 				defaultValue = null;
 			}
 
-			if ( ( isStatic( ) && !getSelectedControlType( ).equals( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX ) )
-					&& ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) || DesignChoiceConstants.PARAM_TYPE_STRING.equals( getSelectedDataType( ) ) )
-					&& defaultValue != null )
-			{
-				inputParameter.setDefaultValue( "\"" + defaultValue + "\"" );//$NON-NLS-1$//$NON-NLS-2$
-			}
-			else
-			{
-				inputParameter.setDefaultValue( defaultValue );
-			}
-
+			// Save options
 			if ( dirtyProperties.containsKey( CHECKBOX_HIDDEN ) )
 			{
 				inputParameter.setHidden( getProperty( CHECKBOX_HIDDEN ) );
 			}
-			inputParameter.setHelpText( UIUtil.convertToModelString( helpTextEditor.getText( ),
-					false ) );
 			if ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) )
 					|| DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
 			{
@@ -1674,37 +1698,27 @@ public class ParameterDialog extends BaseDialog
 
 			}
 
-			PropertyHandle selectionChioceList = inputParameter.getPropertyHandle( ScalarParameterHandle.SELECTION_LIST_PROP );
-			selectionChioceList.setValue( null );
-
-			inputParameter.setDataType( dataType.findChoiceByDisplayName( dataTypeChooser.getText( ) )
-					.getName( ) );
-
-			if ( isStatic( ) )
+			// Save limits
+			if ( !isStatic( ) && !StringUtil.isBlank( listLimit.getText( ) ) )
 			{
-				inputParameter.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC );
-				if ( !DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( newControlType )
-						&& !DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( newControlType ) )
+				try
 				{
-					for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
-					{
-						SelectionChoice choice = (SelectionChoice) iter.next( );
-						if ( isValidValue( choice.getValue( ) ) == null )
-						{
-							selectionChioceList.addItem( choice );
-						}
-					}
+
+					inputParameter.setListlimit( Integer.parseInt( listLimit.getText( ) ) );
 				}
-				inputParameter.setDataSetName( null );
-				inputParameter.setValueExpr( null );
-				inputParameter.setLabelExpr( null );
+				catch ( NumberFormatException ex )
+				{
+					ExceptionHandler.openErrorMessageBox( ERROR_TITLE_INVALID_LIST_LIMIT,
+							MessageFormat.format( ERROR_MSG_INVALID_LIST_LIMIT,
+									new Object[]{
+										Integer.toString( Integer.MAX_VALUE )
+									} ) );
+				}
 			}
 			else
 			{
-				inputParameter.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
-				inputParameter.setDataSetName( dataSetChooser.getText( ) );
-				inputParameter.setValueExpr( getExpression( columnChooser.getText( ) ) );
-				inputParameter.setLabelExpr( getExpression( displayTextChooser.getText( ) ) );
+				inputParameter.setProperty( ScalarParameterHandle.LIST_LIMIT_PROP,
+						null );
 			}
 		}
 		catch ( Exception e )
