@@ -31,7 +31,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
  * used to parse the design file, and get the IR of design.
  * 
  * 
- * @version $Revision: 1.10 $ $Date: 2005/05/08 06:59:46 $
+ * @version $Revision: 1.11 $ $Date: 2005/10/31 05:49:31 $
  */
 public class ReportParser
 {
@@ -162,10 +162,10 @@ public class ReportParser
 		for ( int n = 0; n < params.size( ); n++ )
 		{
 			param = (IParameterDefnBase) params.get( n );
-			if ( param.getParameterType() == IParameterDefnBase.PARAMETER_GROUP )
+			if ( param.getParameterType() == IParameterDefnBase.PARAMETER_GROUP ||
+				 param.getParameterType() == IParameterDefnBase.CASCADING_PARAMETER_GROUP )
 			{
-				flattenParameter( ( (IParameterGroupDefn) param )
-						.getContents() );
+				allParameters.addAll( flattenParameter(( (IParameterGroupDefn) param ).getContents()) );
 			}
 			else
 			{
