@@ -13,14 +13,12 @@ package org.eclipse.birt.report.model.parser;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.command.LibraryException;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -85,7 +83,7 @@ public class IncludedLibrariesStructureListState extends PropertyListState
 			}
 
 			String namespace = includeLibrary.getNamespace( );
-			if ( isDuplicateNamespace( namespace ) )
+			if ( handler.getModule( ).isDuplicateNamespace( namespace ) )
 			{
 				LibraryException ex = new LibraryException(
 						handler.module,
@@ -94,18 +92,21 @@ public class IncludedLibrariesStructureListState extends PropertyListState
 				handler.getErrorHandler( ).semanticError( ex );
 				return;
 			}
-			
+
 			// the library has already been included.
-			
-			URL url = handler.module.findResource( includeLibrary.getFileName(), IResourceLocator.LIBRARY );
-			if ( url != null && handler.module.getLibraryByLocation( url.toString( ) ) != null )
+
+			URL url = handler.module.findResource(
+					includeLibrary.getFileName( ), IResourceLocator.LIBRARY );
+			if ( url != null
+					&& handler.module.getLibraryByLocation( url.toString( ) ) != null )
 			{
-				LibraryException ex = new LibraryException( handler.module, new String[]{url.toString( )},
+				LibraryException ex = new LibraryException(
+						handler.module,
+						new String[]{url.toString( )},
 						LibraryException.DESIGN_EXCEPTION_LIBRARY_ALREADY_INCLUDED );
-				handler.getErrorHandler().semanticWarning( ex );
+				handler.getErrorHandler( ).semanticWarning( ex );
 				return;
 			}
-			
 
 			if ( handler.module instanceof Library
 					&& ( (Library) handler.module )
@@ -121,26 +122,6 @@ public class IncludedLibrariesStructureListState extends PropertyListState
 			}
 
 			handler.module.loadLibrarySilently( includeLibrary );
-		}
-
-		private boolean isDuplicateNamespace( String namespace )
-		{
-			Module rootHost = handler.module;
-			while ( rootHost instanceof Library
-					&& ( (Library) rootHost ).getHost( ) != null )
-			{
-				rootHost = ( (Library) rootHost ).getHost( );
-			}
-
-			Iterator iter = rootHost.getAllLibraries( ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				Library library = (Library) iter.next( );
-				if ( library.getNamespace( ).equals( namespace ) )
-					return true;
-			}
-
-			return false;
 		}
 	}
 }

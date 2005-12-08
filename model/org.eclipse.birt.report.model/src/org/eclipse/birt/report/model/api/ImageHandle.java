@@ -11,13 +11,17 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
+import org.eclipse.birt.report.model.metadata.StructRefValue;
 
 /**
  * Represents an image report item. The image can come from a number of sources:
@@ -233,6 +237,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	 * @return the embedded image name, if the image source type is
 	 *         <code>IMAGE_REF_TYPE_EMBED</code>. Otherwise, return
 	 *         <code>null</code>.
+	 * @deprecated
 	 */
 
 	public String getImageName( )
@@ -240,9 +245,84 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		if ( !DesignChoiceConstants.IMAGE_REF_TYPE_EMBED
 				.equalsIgnoreCase( getStringProperty( ImageItem.SOURCE_PROP ) ) )
 			return null;
-		
+
 		return getStringProperty( IImageItemModel.IMAGE_NAME_PROP );
 
+	}
+
+	/**
+	 * Returns the embedded image handle that this image refers, if the image
+	 * source type is <code>IMAGE_REF_TYPE_EMBED</code>.
+	 * 
+	 * @return the embedded image handle, if the image source type is
+	 *         <code>IMAGE_REF_TYPE_EMBED</code> and the referred embedded
+	 *         image is found. Otherwise, return <code>null</code>.
+	 */
+
+	public EmbeddedImageHandle getEmbeddedImage( )
+	{
+		if ( !DesignChoiceConstants.IMAGE_REF_TYPE_EMBED
+				.equals( getStringProperty( ImageItem.SOURCE_PROP ) ) )
+			return null;
+
+		StructRefValue imageRef = (StructRefValue) getElement( ).getProperty(
+				getModule( ), IImageItemModel.IMAGE_NAME_PROP );
+		if ( imageRef == null )
+			return null;
+
+		// the structure is resolve, then find the owner module and construct
+		// the embedded image handle
+
+		if ( imageRef.isResolved( ) )
+		{
+			EmbeddedImage image = (EmbeddedImage) imageRef.getTargetStructure( );
+			DesignElement owner = getElement( );
+			while ( owner != null )
+			{
+				if ( owner.getLocalProperty( module,
+						IImageItemModel.IMAGE_NAME_PROP ) == imageRef )
+				{
+					Module targetModule = null;
+
+					// if find the image in this parent or virtual parent, then
+					// getRoot must not be null
+
+					if ( owner != getElement( ) )
+						targetModule = owner.getRoot( );
+
+					// if find the image in element itself, the element maybe
+					// not in any tree
+
+					else
+						targetModule = getEffectiveModule( );
+
+					assert targetModule != null;
+
+					// find the position of the image in the target module and
+					// construct the handle
+
+					List images = targetModule.getListProperty( targetModule,
+							Module.IMAGES_PROP );
+					int posn = images.indexOf( image );
+					PropertyHandle propHandle = targetModule.getHandle(
+							targetModule ).getPropertyHandle(
+							Module.IMAGES_PROP );
+					assert posn != -1;
+					EmbeddedImageHandle imageHandle = new EmbeddedImageHandle(
+							propHandle, posn );
+					return imageHandle;
+				}
+
+				// recursively find the image and construct the handle if it has
+				// parent or virtual parent
+				
+				owner = owner.isVirtualElement( )
+						? owner.getVirtualParent( )
+						: owner.getExtendsElement( );
+			}
+		}
+
+		return null;
 	}
 
 	/**
