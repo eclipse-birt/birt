@@ -346,7 +346,7 @@ public class ReportDocumentReader implements IReportDocument
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api.IReportDocument#getGlobalVariables()
 	 */
-	public Map getGlobalVariables() {
+	public Map getGlobalVariables( String option ) {
 		// TODO deserialize global variables and return in a Map
 		return null;
 	}

@@ -8,10 +8,9 @@ package org.eclipse.birt.report.engine.api;
 public interface IPageHandler
 {
 	/**
-	 * @param doc the report document
 	 * @param pageNumber page indexed by pageNumber has finished generation
 	 * @param checkpoint whether the page indexed by pageNumber is ready for 
 	 * viewing
 	 */
-	public void onPage(IReportDocument doc, int pageNumber, boolean checkpoint);
+	public void onPage( int pageNumber, boolean checkpoint );
 }

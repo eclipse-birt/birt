@@ -16,6 +16,9 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
  */
 public interface IReportDocument
 {
+	public static int GLOBAL_VARIABLE_OPTION_ALL = 0;
+	public static int GLOBAL_VARIABLE_OPTION_JAVA_ONLY = 1;
+	public static int GLOBAL_VARIABLE_OPTION_JS_ONLY = 2;
 
 	public abstract IDocArchiveReader getArchive( );
 	
@@ -105,5 +108,5 @@ public interface IReportDocument
 	/**
 	 * @return a map for all the global variables defined in JavaScript or Java
 	 */
-	public abstract Map getGlobalVariables( );
+	public abstract Map getGlobalVariables( String option);
 }
