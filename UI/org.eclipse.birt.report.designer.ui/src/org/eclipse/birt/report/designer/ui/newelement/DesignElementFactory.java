@@ -412,7 +412,7 @@ public class DesignElementFactory extends ElementFactory
 
 	public TextDataHandle newTextData( String name )
 	{
-		String newName = getNewName( ReportDesignConstants.TEXT_ITEM, name );
+		String newName = getNewName( ReportDesignConstants.TEXT_DATA_ITEM, name );
 		return factory.newTextData( newName );
 	}
 
