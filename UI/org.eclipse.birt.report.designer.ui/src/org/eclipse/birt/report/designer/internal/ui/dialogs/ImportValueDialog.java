@@ -174,7 +174,6 @@ public class ImportValueDialog extends BaseDialog
 			public void modifyText( ModifyEvent e )
 			{
 				filteValues( );
-
 			}
 		} );
 
@@ -303,7 +302,7 @@ public class ImportValueDialog extends BaseDialog
 			{
 				selectedList.add( selected[i] );
 			}
-		}
+		}		
 		filteValues( );
 
 		if ( selected.length == 1 )
@@ -318,7 +317,6 @@ public class ImportValueDialog extends BaseDialog
 		}
 
 		updateButtons( );
-
 	}
 
 	private void addAll( )
@@ -336,12 +334,26 @@ public class ImportValueDialog extends BaseDialog
 
 	private void removeSelected( )
 	{
+		int selectedIndex = selectedList.getSelectionIndex( );
+		int oldListSize = selectedList.getItemCount( );
+
 		String[] selected = selectedList.getSelection( );
 		for ( int i = 0; i < selected.length; i++ )
 		{
 			selectedList.remove( selected[i] );
 		}
 		filteValues( );
+		if ( selected.length == 1 )
+		{
+			int nextSelected = ( ( selectedIndex + 1 ) < oldListSize ) ? selectedIndex
+					: ( selectedIndex - 1 );
+			selectedList.select( nextSelected );
+		}
+		else if ( ( selected.length > 1 ) && ( valueList.getItemCount( ) > 0 ) )
+		{
+			selectedList.select( 0 );
+		}
+		updateButtons( );
 	}
 
 	private void removeAll( )
