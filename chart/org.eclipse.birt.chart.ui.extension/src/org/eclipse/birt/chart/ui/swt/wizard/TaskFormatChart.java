@@ -91,13 +91,13 @@ public class TaskFormatChart extends TreeCompoundTask
 		"Series.Y Series"}; //$NON-NLS-1$
 
 	private static final String[] BASE_AXIS_SHEETS = new String[]{
-			"Axis", "Axis.X Axis"}; //$NON-NLS-1$ //$NON-NLS-2$
+			"Chart.Axis", "Chart.Axis.X Axis"}; //$NON-NLS-1$ //$NON-NLS-2$
 
 	private static final String[] ORTHOGONAL_AXIS_SHEETS = new String[]{
-		"Axis.Y Axis"};//$NON-NLS-1$
+		"Chart.Axis.Y Axis"};//$NON-NLS-1$
 
 	private static final String[] ANCILLARY_AXIS_SHEETS = new String[]{
-		"Axis.Z Axis"};//$NON-NLS-1$
+		"Chart.Axis.Z Axis"};//$NON-NLS-1$
 
 	private static final String[] BASE_SERIES_SHEETS_FOR_CHARTS_WITHOUT_AXES = new String[]{
 		"Series.Base Series"}; //$NON-NLS-1$ 
@@ -164,6 +164,7 @@ public class TaskFormatChart extends TreeCompoundTask
 
 			// Initially ALL registered sheets are visible
 			htVisibleSheets.put( sNodePath, sheet );
+			htVisibleDisplayName.put( sNodePath, entry.getDisplayName( ) );
 
 			addSubtask( sNodePath, sheet );
 		}
@@ -203,13 +204,24 @@ public class TaskFormatChart extends TreeCompoundTask
 					}
 					else
 					{
-						getNavigatorTree( ).addNode( sKey + sSuffix );
+						String displayName = (String) htVisibleDisplayName.get( sKey );
+						if ( displayName != null
+								&& displayName.trim( ).length( ) > 0 )
+						{
+							getNavigatorTree( ).addNode( sKey + sSuffix,
+									displayName + sSuffix );
+						}
+						else
+						{
+							getNavigatorTree( ).addNode( sKey + sSuffix );
+						}
 					}
 				}
 			}
 			else
 			{
-				getNavigatorTree( ).addNode( sKey );
+				getNavigatorTree( ).addNode( sKey,
+						(String) htVisibleDisplayName.get( sKey ) );
 			}
 		}
 	}
@@ -422,7 +434,7 @@ public class TaskFormatChart extends TreeCompoundTask
 		Label separator = new Label( cmpTask, SWT.SEPARATOR | SWT.HORIZONTAL );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-//			gd.horizontalIndent = -10;
+			// gd.horizontalIndent = -10;
 			separator.setLayoutData( gd );
 		}
 
@@ -449,7 +461,10 @@ public class TaskFormatChart extends TreeCompoundTask
 
 	protected void createSubtaskArea( Composite parent, ISubtaskSheet subtask )
 	{
-		lblNodeTitle.setText( getNodeName( false ) );
+		if ( getNavigatorTree( ).getSelection( ).length > 0 )
+		{
+			lblNodeTitle.setText( getNavigatorTree( ).getSelection( )[0].getText( ) );
+		}
 		super.createSubtaskArea( parent, subtask );
 	}
 

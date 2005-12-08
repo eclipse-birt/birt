@@ -55,53 +55,65 @@
    <extension
          point="org.eclipse.birt.chart.ui.uisheets">
       <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesSheetImpl"
+            displayName="%Series"
+            nodeIndex="10"
+            nodePath="Series"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesXSheetImpl"
+            displayName="%CategoryXSeries"
+            nodeIndex="11"
+            nodePath="Series.X Series"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl"
+            displayName="%ValueYSeries"
+            nodeIndex="12"
+            nodePath="Series.Y Series"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesXSheetImpl"
+            displayName="%BaseSeries"
+            nodeIndex="13"
+            nodePath="Series.Base Series"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl"
+            displayName="%OrthogonalSeries"
+            nodeIndex="14"
+            nodePath="Series.Orthogonal Series"/>
+      <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartSheetImpl"
-			nodePath="Chart"
-            nodeIndex="10"/>
-      <propertySheet
-            classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartPlotSheetImpl"
-			nodePath="Chart.Plot"
-            nodeIndex="11"/>
-      <propertySheet
-            classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartLegendSheetImpl"
-			nodePath="Chart.Legend"
-            nodeIndex="12"/>
+            displayName="%ChartArea"
+            nodeIndex="20"
+            nodePath="Chart"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisSheetImpl"
-			nodePath="Axis"
-            nodeIndex="20"/>
+            displayName="%Axis"
+            nodeIndex="21"
+            nodePath="Chart.Axis"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisXSheetImpl"
-			nodePath="Axis.X Axis"
-            nodeIndex="21"/>
+            displayName="%XAxis"
+            nodeIndex="22"
+            nodePath="Chart.Axis.X Axis"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisYSheetImpl"
-			nodePath="Axis.Y Axis"
-            nodeIndex="22"/>
+            displayName="%YAxis"
+            nodeIndex="23"
+            nodePath="Chart.Axis.Y Axis"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisZSheetImpl"
-			nodePath="Axis.Z Axis"
-            nodeIndex="23"/>
+            displayName="%ZAxis"
+            nodeIndex="24"
+            nodePath="Chart.Axis.Z Axis"/>
       <propertySheet
-            classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesSheetImpl"
-			nodePath="Series"
-            nodeIndex="30"/>
+            classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartPlotSheetImpl"
+            displayName="%Plot"
+            nodeIndex="25"
+            nodePath="Chart.Plot"/>
       <propertySheet
-            classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesXSheetImpl"
-			nodePath="Series.X Series"
-            nodeIndex="31"/>
-      <propertySheet
-            classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl"
-			nodePath="Series.Y Series"
-            nodeIndex="32"/>
-      <propertySheet
-            classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesXSheetImpl"
-			nodePath="Series.Base Series"
-            nodeIndex="33"/>
-      <propertySheet
-            classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl"
-			nodePath="Series.Orthogonal Series"
-            nodeIndex="34"/>
+            classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartLegendSheetImpl"
+            displayName="%Legend"
+            nodeIndex="26"
+            nodePath="Chart.Legend"/>
 
    </extension>
    <extension

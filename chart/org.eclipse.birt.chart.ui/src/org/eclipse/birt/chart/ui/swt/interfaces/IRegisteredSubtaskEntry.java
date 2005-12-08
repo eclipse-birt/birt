@@ -8,19 +8,23 @@
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
+
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
 
 /**
  * @author Actuate Corporation
- *  
+ * 
  */
 public interface IRegisteredSubtaskEntry
 {
-    public int getNodeIndex();
 
-    public String getNodePath();
+	public int getNodeIndex( );
 
-    public ISubtaskSheet getSheet();
+	public String getNodePath( );
+
+	public ISubtaskSheet getSheet( );
+
+	public String getDisplayName( );
 }

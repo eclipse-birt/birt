@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.wizard;
 
 import java.util.Collection;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.log.ILogger;
@@ -24,6 +25,7 @@ import org.eclipse.birt.core.framework.IExtensionPoint;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
+import org.eclipse.birt.core.ui.utils.UIHelper;
 
 /**
  * @author Actuate Corporation
@@ -41,18 +43,18 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 	private Collection cSeriesUI = null;
 
 	private static final String[] saSheets = new String[]{
-			"10/Chart/org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartSheetImpl", //$NON-NLS-1$
-			"11/Chart.Plot/org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartPlotSheetImpl", //$NON-NLS-1$
-			"12/Chart.Legend/org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartLegendSheetImpl", //$NON-NLS-1$
-			"20/Axis/org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisSheetImpl", //$NON-NLS-1$
-			"21/Axis.X Axis/org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisXSheetImpl", //$NON-NLS-1$
-			"22/Axis.Y Axis/org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisYSheetImpl", //$NON-NLS-1$
-			"23/Axis.Z Axis/org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisZSheetImpl", //$NON-NLS-1$
-			"30/Series/org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesSheetImpl", //$NON-NLS-1$
-			"31/Series.X Series/org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesXSheetImpl", //$NON-NLS-1$
-			"32/Series.Y Series/org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl", //$NON-NLS-1$
-			"33/Series.Base Series/org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesXSheetImpl", //$NON-NLS-1$
-			"34/Series.Orthogonal Series/org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl", //$NON-NLS-1$
+			"10/Series/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesSheetImpl", //$NON-NLS-1$
+			"11/Series.X Series/Category (X) Series/org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesXSheetImpl", //$NON-NLS-1$
+			"12/Series.Y Series/Value (Y) Series/org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl", //$NON-NLS-1$
+			"13/Series.Base Series/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesXSheetImpl", //$NON-NLS-1$
+			"14/Series.Orthogonal Series/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl", //$NON-NLS-1$
+			"20/Chart/Chart Area/org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartSheetImpl", //$NON-NLS-1$
+			"21/Chart.Axis/ /org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisSheetImpl", //$NON-NLS-1$
+			"22/Chart.Axis.X Axis/ /org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisXSheetImpl", //$NON-NLS-1$
+			"23/Chart.Axis.Y Axis/ /org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisYSheetImpl", //$NON-NLS-1$
+			"24/Chart.Axis.Z Axis/ /org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisZSheetImpl", //$NON-NLS-1$
+			"25/Chart.Plot/ /org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartPlotSheetImpl", //$NON-NLS-1$
+			"26/Chart.Legend/ /org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartLegendSheetImpl", //$NON-NLS-1$			
 	};
 
 	private static final String[] saTypes = new String[]{
@@ -108,8 +110,7 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 		if ( cSheets == null )
 		{
 			cSheets = new Vector( );
-			if ( Platform.getExtensionRegistry( ) != null
-					&& System.getProperty( "STANDALONE" ) == null ) //$NON-NLS-1$
+			if ( UIHelper.isEclipseMode( ) )
 			{
 				IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
 				IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint( "org.eclipse.birt.chart.ui",//$NON-NLS-1$
@@ -129,7 +130,7 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 							try
 							{
 								cSheets.add( new DefaultRegisteredSubtaskEntryImpl( currentTag.getAttribute( "nodeIndex" ),//$NON-NLS-1$
-										currentTag.getAttribute( "nodePath" ),//$NON-NLS-1$
+										currentTag.getAttribute( "nodePath" ), currentTag.getAttribute( "displayName" ),//$NON-NLS-1$ //$NON-NLS-2$
 										(ISubtaskSheet) currentTag.createExecutableExtension( "classDefinition" ) ) ); //$NON-NLS-1$
 							}
 							catch ( FrameworkException e )
@@ -146,15 +147,26 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 				{
 					try
 					{
-						int iFirstSeparator = saSheets[iC].indexOf( "/" ); //$NON-NLS-1$
-						int iSecondSeparator = saSheets[iC].indexOf( "/", iFirstSeparator + 1 ); //$NON-NLS-1$
-						String sNodeIndex = saSheets[iC].substring( 0,
-								iFirstSeparator );
-						String sNodePath = saSheets[iC].substring( iFirstSeparator + 1,
-								iSecondSeparator );
-						String sSheetClass = saSheets[iC].substring( iSecondSeparator + 1 );
+						StringTokenizer tokens = new StringTokenizer( saSheets[iC],
+								"/" ); //$NON-NLS-1$
+						String sNodeIndex = tokens.nextToken( );
+						String sNodePath = tokens.nextToken( );
+						String sDisplayName = tokens.nextToken( );
+						String sSheetClass = tokens.nextToken( );
+						// int iFirstSeparator = saSheets[iC].indexOf( "/" );
+						// //$NON-NLS-1$
+						// int iSecondSeparator = saSheets[iC].indexOf( "/",
+						// iFirstSeparator + 1 ); //$NON-NLS-1$
+						// String sNodeIndex = saSheets[iC].substring( 0,
+						// iFirstSeparator );
+						// String sNodePath = saSheets[iC].substring(
+						// iFirstSeparator + 1,
+						// iSecondSeparator );
+						// String sSheetClass = saSheets[iC].substring(
+						// iSecondSeparator + 1 );
 						DefaultRegisteredSubtaskEntryImpl entry = new DefaultRegisteredSubtaskEntryImpl( sNodeIndex,
 								sNodePath,
+								sDisplayName,
 								(ISubtaskSheet) Class.forName( sSheetClass )
 										.newInstance( ) );
 						cSheets.add( entry );
@@ -188,8 +200,7 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 		if ( cChartTypes == null )
 		{
 			cChartTypes = new Vector( );
-			if ( Platform.getExtensionRegistry( ) != null
-					&& System.getProperty( "STANDALONE" ) == null ) //$NON-NLS-1$
+			if ( UIHelper.isEclipseMode( ) )
 			{
 				IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
 				IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint( "org.eclipse.birt.chart.ui", "types" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -248,8 +259,7 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 		if ( cListeners == null )
 		{
 			cListeners = new Vector( );
-			if ( Platform.getExtensionRegistry( ) != null
-					&& System.getProperty( "STANDALONE" ) == null ) //$NON-NLS-1$
+			if ( UIHelper.isEclipseMode( ) )
 			{
 				IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
 				IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint( "org.eclipse.birt.chart.ui", //$NON-NLS-1$
@@ -308,8 +318,7 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 		if ( cSeriesUI == null )
 		{
 			cSeriesUI = new Vector( );
-			if ( Platform.getExtensionRegistry( ) != null
-					&& System.getProperty( "STANDALONE" ) == null ) //$NON-NLS-1$
+			if ( UIHelper.isEclipseMode( ) )
 			{
 				IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
 				IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint( "org.eclipse.birt.chart.ui", //$NON-NLS-1$

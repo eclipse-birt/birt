@@ -27,10 +27,12 @@ public class DefaultRegisteredSubtaskEntryImpl
 
 	private transient String sNodePath = ""; //$NON-NLS-1$
 
+	private transient String sDisplayName = null;
+
 	private transient ISubtaskSheet sheetImpl = null;
 
 	public DefaultRegisteredSubtaskEntryImpl( String sNodeIndex,
-			String sNodePath, ISubtaskSheet sheet )
+			String sNodePath, String sDisplayName, ISubtaskSheet sheet )
 	{
 		try
 		{
@@ -41,6 +43,7 @@ public class DefaultRegisteredSubtaskEntryImpl
 			sNodeIndex = "100"; //$NON-NLS-1$
 		}
 		this.sNodePath = sNodePath;
+		this.sDisplayName = sDisplayName;
 		this.sheetImpl = sheet;
 	}
 
@@ -72,6 +75,11 @@ public class DefaultRegisteredSubtaskEntryImpl
 	public ISubtaskSheet getSheet( )
 	{
 		return sheetImpl;
+	}
+
+	public String getDisplayName( )
+	{
+		return sDisplayName;
 	}
 
 }
