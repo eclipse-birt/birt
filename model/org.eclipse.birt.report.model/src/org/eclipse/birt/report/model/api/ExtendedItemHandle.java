@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -23,6 +24,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
  * Represents an extended element. An extended item represents a custom element
@@ -146,6 +148,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 	 * 
 	 * @return the list of methods
 	 */
+
 	public List getMethods( )
 	{
 		return ( (ExtendedItem) getElement( ) ).getMethods( );
@@ -166,5 +169,35 @@ public class ExtendedItemHandle extends ReportItemHandle
 		PropertyHandle propHandle = getPropertyHandle( ExtendedItem.FILTER_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
+	}
+
+	/**
+	 * Returns the scripts.
+	 * 
+	 * @param scriptPropName
+	 *            the script property name
+	 * @return the script
+	 */
+
+	public String getScript( String scriptPropName )
+	{
+		return getStringProperty( scriptPropName );
+	}
+
+	/**
+	 * Sets the scripts on the extension element.
+	 * 
+	 * @param scriptPropName 
+	 *            the script property name
+	 * @param theScript
+	 *            the script to be set
+	 * @throws SemanticException
+	 *             if fail to set the scripts
+	 */
+
+	public void setScript( String scriptPropName, String theScript )
+			throws SemanticException
+	{
+		setStringProperty( scriptPropName, theScript );
 	}
 }
