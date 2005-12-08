@@ -73,7 +73,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 *            name of the module file
 	 */
 
-	public ModuleParserHandler( DesignSession theSession, String fileName )
+	protected ModuleParserHandler( DesignSession theSession, String fileName )
 	{
 		super( new ModuleParserErrorHandler( ) );
 		this.session = theSession;

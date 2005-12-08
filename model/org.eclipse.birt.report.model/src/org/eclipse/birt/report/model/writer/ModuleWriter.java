@@ -2165,12 +2165,25 @@ public abstract class ModuleWriter extends ElementVisitor
 	 *            the property name of action structure
 	 */
 
-	private void writeAction( DesignElement obj, String propName )
+	protected void writeAction( DesignElement obj, String propName )
 	{
 		Action action = (Action) obj.getLocalProperty( getModule( ), propName );
 		if ( action == null )
 			return;
+		writeAction( action, propName );
+	}
 
+	/**
+	 * Write the action structure.
+	 * 
+	 * @param action
+	 *            action structure instance.
+	 * @param propName
+	 *            the property name of action structure on the element.
+	 */
+	
+	protected void writeAction( Action action, String propName )
+	{
 		String linkType = (String) action.getProperty( getModule( ),
 				Action.LINK_TYPE_MEMBER );
 

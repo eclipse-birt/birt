@@ -96,6 +96,10 @@ public class IndentableXMLWriter extends XMLWriter
 	 * @see org.eclipse.birt.report.model.util.XMLWriter#emitStartTag(java.lang.String)
 	 */
 
+	protected IndentableXMLWriter( )
+	{}
+	
+
 	protected void emitStartTag( String tagName )
 	{
 		// Record the current tag name for endDocument()

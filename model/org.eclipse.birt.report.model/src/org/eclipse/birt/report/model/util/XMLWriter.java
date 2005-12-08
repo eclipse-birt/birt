@@ -38,13 +38,13 @@ public class XMLWriter
 	 * The default output encoding is UTF-8.
 	 */
 
-	private final static String OUTPUT_ENCODING = "UTF-8"; //$NON-NLS-1$
+	protected final static String OUTPUT_ENCODING = "UTF-8"; //$NON-NLS-1$
 
 	/**
 	 * The output stream.
 	 */
 
-	private PrintStream out = null;
+	protected PrintStream out = null;
 
 	/**
 	 * The stack of open tags.
@@ -73,6 +73,14 @@ public class XMLWriter
 
 	private Stack pendingElementStack = new Stack( );
 
+	/**
+	 * Protected constructor
+	 *
+	 */
+	
+	protected XMLWriter()
+	{}
+	
 	/**
 	 * Constructor.
 	 * 
@@ -132,7 +140,7 @@ public class XMLWriter
 	 *            the unicode signature in the design file.
 	 */
 
-	private void writeUTFSignature( String signature )
+	protected void writeUTFSignature( String signature )
 	{
 		if ( UnicodeUtil.SIGNATURE_UTF_8.equals( signature ) ) 
 		{

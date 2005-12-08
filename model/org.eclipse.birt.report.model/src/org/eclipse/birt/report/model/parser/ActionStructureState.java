@@ -67,7 +67,7 @@ public class ActionStructureState extends StructureState
 	final static String DRILLTHROUGH_SEARCH_MEMBER = "drillThroughSearch"; //$NON-NLS-1$
 	final static String DRILLTHROUGH_PARAM_BINDINGS_MEMBER = "drillThroughParamBindings"; //$NON-NLS-1$
 
-	ActionStructureState( ModuleParserHandler theHandler, DesignElement element )
+	public ActionStructureState( ModuleParserHandler theHandler, DesignElement element )
 	{
 		super( theHandler, element );
 		struct = new Action( );

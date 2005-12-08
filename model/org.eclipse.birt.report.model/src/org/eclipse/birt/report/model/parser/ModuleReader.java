@@ -186,7 +186,7 @@ public abstract class ModuleReader
 	 *             if the stream has unexpected encoding signature
 	 */
 
-	protected String checkUTFSignature( InputStream inputStream, String fileName )
+	protected static String checkUTFSignature( InputStream inputStream, String fileName )
 			throws IOException, SAXException
 	{
 		// This may fail if there are a lot of space characters before the end
