@@ -377,7 +377,7 @@ public abstract class EngineTask implements IEngineTask
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api.IEngineTask#setParameterValues(java.util.HashMap)
 	 */
-	public void setParameterValues(HashMap params)
+	public void setParameterValues(Map params)
 	{
 		parameterChanged = true;
 		inputValues.putAll( params );
@@ -421,7 +421,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.23 $ $Date: 2005/11/21 22:34:21 $
+	 * @version $Revision: 1.24 $ $Date: 2005/12/02 11:57:06 $
 	 */
 	static abstract class ParameterVisitor
 	{

@@ -2,8 +2,8 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 
@@ -53,7 +53,7 @@ public interface IReportDocument
 	 * @return parameter name/value pairs for generating the current report
 	 *         document.
 	 */
-	public abstract HashMap getParameterValues( );
+	public abstract Map getParameterValues( );
 
 	/**
 	 * @return the page count in the report. Used for supporting page-based
@@ -101,4 +101,9 @@ public interface IReportDocument
 	 * @return TOCNode with sucn an Id. NULL if not founded.
 	 */
 	public abstract TOCNode findTOC( String tocNodeId );
+	
+	/**
+	 * @return a map for all the global variables defined in JavaScript or Java
+	 */
+	public abstract Map getGlobalVariables( );
 }

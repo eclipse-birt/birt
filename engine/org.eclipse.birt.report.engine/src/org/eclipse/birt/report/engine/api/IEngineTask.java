@@ -74,7 +74,7 @@ public interface IEngineTask {
 	 * set all parameter valuess
 	 * @param params a hash map with all parameters
 	 */
-	public abstract void setParameterValues(HashMap params);
+	public abstract void setParameterValues(Map params);
 	
 	/**
 	 * sets one parameter value

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -112,7 +113,7 @@ public class ReportDocumentReader implements IReportDocument
 		return reportRunnable;
 	}
 
-	public HashMap getParameterValues( )
+	public Map getParameterValues( )
 	{
 		if ( parameters == null )
 		{
@@ -340,6 +341,14 @@ public class ReportDocumentReader implements IReportDocument
 	public String getName( )
 	{
 		return archive.getName( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IReportDocument#getGlobalVariables()
+	 */
+	public Map getGlobalVariables() {
+		// TODO deserialize global variables and return in a Map
+		return null;
 	}
 
 }
