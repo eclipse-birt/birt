@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -29,6 +32,8 @@ import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
+import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
  * Abstract class, Represents a report item executor. Report item executor
@@ -42,7 +47,7 @@ import org.eclipse.birt.report.engine.toc.TOCBuilder;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.19 $ $Date: 2005/12/03 05:34:28 $
+ * @version $Revision: 1.21 $ $Date: 2005/12/08 06:53:50 $
  */
 public abstract class ReportItemExecutor
 {
@@ -220,12 +225,31 @@ public abstract class ReportItemExecutor
 							}
 						}
 					}
-					// XXX Do not support Search criteria
-					IHyperlinkAction obj = report.
 
-					createActionContent( );
-					obj.setDrillThrough( bookmark, drill.getReportName( ),
-							paramsVal, null, action.getTargetWindow( ) );
+					String reportName = drill.getReportName( );
+					ReportDesignHandle design = context.getDesign( );
+					if ( design != null )
+					{
+						URL reportURL = design.findResource( reportName,
+								IResourceLocator.LIBRARY );
+						if ( reportURL != null )
+						{
+							try
+							{
+								URI reportURI = new URI( reportURL.toString( ) );
+								File reportFile = new File( reportURI );
+								reportName = reportFile.getAbsolutePath( );
+							}
+							catch ( Exception ex )
+							{
+							}
+						}
+					}
+
+					// XXX Do not support Search criteria
+					IHyperlinkAction obj = report.createActionContent( );
+					obj.setDrillThrough( bookmark, reportName, paramsVal, null,
+							action.getTargetWindow( ) );
 
 					itemContent.setHyperlinkAction( obj );
 					break;
