@@ -98,6 +98,7 @@ public class WebViewer
 	private static String createURL( String servletName, String report, String format )
 	{
 		String encodedReportName = null;
+		String encodedDocumentName = null;
 		
 		try
 		{
@@ -106,6 +107,11 @@ public class WebViewer
 		catch ( UnsupportedEncodingException e )
 		{
 			// Do nothing
+		}
+		
+		if ( encodedReportName != null && encodedReportName.length( ) > 0 )
+		{
+			encodedDocumentName = encodedReportName.substring( 0, encodedReportName.indexOf( ".") ) + ".rptdocument"; //$NON-NLS-1$
 		}
 		
 		String locale = ViewerPlugin.getDefault( ).getPluginPreferences( ).getString( USER_LOCALE );
@@ -119,7 +125,8 @@ public class WebViewer
 		// So far, only report name is encoded as utf-8 format 
 		return getBaseURL( )
 			+ servletName + "?" //$NON-NLS-1$
-			+ "__report=" + encodedReportName //$NON-NLS-1$
+			+ "__document=" + encodedDocumentName //$NON-NLS-1$
+			+ "&__report=" + encodedReportName //$NON-NLS-1$
 			+ "&__format=" + format //$NON-NLS-1$
 			+ "&__usetestconfig=true" //$NON-NLS-1$
 			+ "&__svg=" +  String.valueOf( bSVGFlag )//$NON-NLS-1$
