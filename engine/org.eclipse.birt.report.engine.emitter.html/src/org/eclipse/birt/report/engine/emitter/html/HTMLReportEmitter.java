@@ -82,7 +82,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.53 $ $Date: 2005/11/24 13:35:39 $
+ * @version $Revision: 1.54 $ $Date: 2005/12/02 11:55:42 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -775,6 +775,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			StringBuffer styleBuffer = new StringBuffer( );
 			AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_WIDTH,
 					column.getWidth( ) );
+			if ( isEmbeddable )
+			{
+				// output in-line style
+				String styleName = column.getStyleClass( );
+				if ( styleName != null )
+				{
+					IStyle style = report.findStyle( styleName );
+					if ( style != null )
+					{
+						AttributeBuilder.buildStyle( styleBuffer, style, this );
+					}
+				}
+			}
 			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
 			writer.closeNoEndTag( );
