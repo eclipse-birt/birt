@@ -21,6 +21,6 @@ import org.eclipse.birt.core.exception.BirtException;
  */
 public interface IScriptDataSourceEventHandler extends IBaseDataSourceEventHandler
 {
-	public void handleOpen( IDataSourceInstance dataSource ) throws BirtException;
-	public void handleClose( IDataSourceInstance dataSource ) throws BirtException;
+	public void handleOpen( IDataSourceInstanceHandle dataSource ) throws BirtException;
+	public void handleClose( IDataSourceInstanceHandle dataSource ) throws BirtException;
 }

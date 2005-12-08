@@ -20,10 +20,10 @@ import org.eclipse.birt.core.exception.BirtException;
  */
 public interface IBaseDataSetEventHandler
 {
-	public void handleBeforeOpen( IDataSetInstance dataSet ) throws BirtException;
-	public void handleBeforeClose( IDataSetInstance dataSet ) throws BirtException;
-	public void handleAfterOpen( IDataSetInstance dataSet ) throws BirtException;
-	public void handleAfterClose( IDataSetInstance dataSet ) throws BirtException;
+	public void handleBeforeOpen( IDataSetInstanceHandle dataSet ) throws BirtException;
+	public void handleBeforeClose( IDataSetInstanceHandle dataSet ) throws BirtException;
+	public void handleAfterOpen( IDataSetInstanceHandle dataSet ) throws BirtException;
+	public void handleAfterClose( IDataSetInstanceHandle dataSet ) throws BirtException;
 	
-	public void handleOnFetch( IDataSetInstance dataSet, IDataRow row) throws BirtException;
+	public void handleOnFetch( IDataSetInstanceHandle dataSet, IDataRow row) throws BirtException;
 }

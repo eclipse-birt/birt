@@ -107,7 +107,7 @@ public class ScriptDataSourceRuntime extends DataSourceRuntime
 	}
 
 	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstance#getPublicProperties()
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#getPublicProperties()
 	 */
 	public Map getPublicProperties()
 	{

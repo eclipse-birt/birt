@@ -18,7 +18,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
-import org.eclipse.birt.data.engine.api.script.IDataSetInstance;
+import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
@@ -47,7 +47,7 @@ public class DataRow implements IDataRow
 	/**
 	 * @see org.eclipse.birt.data.engine.api.script.IDataRow#getDataSet()
 	 */
-	public IDataSetInstance getDataSet()
+	public IDataSetInstanceHandle getDataSet()
 	{
 		return dataSet;
 	}

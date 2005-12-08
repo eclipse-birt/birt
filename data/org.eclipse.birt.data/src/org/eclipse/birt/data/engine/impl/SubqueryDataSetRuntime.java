@@ -41,7 +41,7 @@ public class SubqueryDataSetRuntime extends DataSetRuntime
 	}
 	
 	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstance#getExtensionID()
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getExtensionID()
 	 */
 	public String getExtensionID()
 	{
@@ -49,7 +49,7 @@ public class SubqueryDataSetRuntime extends DataSetRuntime
 	}
 
 	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstance#getPublicProperties()
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getPublicProperties()
 	 */
 	public Map getPublicProperties()
 	{
@@ -57,7 +57,7 @@ public class SubqueryDataSetRuntime extends DataSetRuntime
 	}
 
 	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstance#getQueryText()
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getQueryText()
 	 */
 	public String getQueryText() throws BirtException
 	{
@@ -65,7 +65,7 @@ public class SubqueryDataSetRuntime extends DataSetRuntime
 	}
 
 	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstance#setQueryText(java.lang.String)
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#setQueryText(java.lang.String)
 	 */
 	public void setQueryText(String queryText) throws BirtException
 	{

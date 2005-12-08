@@ -17,7 +17,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
-import org.eclipse.birt.data.engine.api.script.IDataSetInstance;
+import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -51,7 +51,7 @@ public class DataSetJSEventHandler implements IBaseDataSetEventHandler
 		return runner;
 	}
 	
-	public void handleBeforeOpen(IDataSetInstance dataSet) throws BirtException
+	public void handleBeforeOpen(IDataSetInstanceHandle dataSet) throws BirtException
 	{
 		String script = getBaseDesign().getBeforeOpenScript();
 		if ( script != null && script.length() > 0 )
@@ -61,7 +61,7 @@ public class DataSetJSEventHandler implements IBaseDataSetEventHandler
 		}
 	}
 
-	public void handleBeforeClose(IDataSetInstance dataSet) throws BirtException
+	public void handleBeforeClose(IDataSetInstanceHandle dataSet) throws BirtException
 	{
 		String script = getBaseDesign().getBeforeCloseScript();
 		if ( script != null && script.length() > 0 )
@@ -71,7 +71,7 @@ public class DataSetJSEventHandler implements IBaseDataSetEventHandler
 		}
 	}
 
-	public void handleAfterOpen(IDataSetInstance dataSet) throws BirtException
+	public void handleAfterOpen(IDataSetInstanceHandle dataSet) throws BirtException
 	{
 		String script = getBaseDesign().getAfterOpenScript();
 		if ( script != null && script.length() > 0 )
@@ -81,7 +81,7 @@ public class DataSetJSEventHandler implements IBaseDataSetEventHandler
 		}
 	}
 
-	public void handleAfterClose(IDataSetInstance dataSet) throws BirtException
+	public void handleAfterClose(IDataSetInstanceHandle dataSet) throws BirtException
 	{
 		String script = getBaseDesign().getAfterCloseScript();
 		if ( script != null && script.length() > 0 )
@@ -91,7 +91,7 @@ public class DataSetJSEventHandler implements IBaseDataSetEventHandler
 		}
 	}
 
-	public void handleOnFetch(IDataSetInstance dataSet, IDataRow row) throws BirtException
+	public void handleOnFetch(IDataSetInstanceHandle dataSet, IDataRow row) throws BirtException
 	{
 		String script = getBaseDesign().getOnFetchScript();
 		if ( script != null && script.length() > 0 )

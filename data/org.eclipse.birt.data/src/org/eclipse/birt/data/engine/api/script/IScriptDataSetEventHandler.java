@@ -20,8 +20,8 @@ import org.eclipse.birt.core.exception.BirtException;
  */
 public interface IScriptDataSetEventHandler extends IBaseDataSetEventHandler
 {
-	public void handleOpen( IDataSetInstance dataSet ) throws BirtException;
-	public void handleClose( IDataSetInstance dataSet ) throws BirtException;
+	public void handleOpen( IDataSetInstanceHandle dataSet ) throws BirtException;
+	public void handleClose( IDataSetInstanceHandle dataSet ) throws BirtException;
 	
 	/**
 	 * Called by data engine to obtain the next data row. Implementation should
@@ -29,7 +29,7 @@ public interface IScriptDataSetEventHandler extends IBaseDataSetEventHandler
 	 * @return true if current data row is available and has been populated;
 	 * false if no more data row is unavailable; row has not been populated
 	 */
-	public boolean handleFetch( IDataSetInstance dataSet, IDataRow row ) 
+	public boolean handleFetch( IDataSetInstanceHandle dataSet, IDataRow row ) 
 			throws BirtException;
 	
 	/**
@@ -38,6 +38,6 @@ public interface IScriptDataSetEventHandler extends IBaseDataSetEventHandler
 	 * defines its metadata statically (i.e., in the report design), this method should
 	 * return null.
 	 */
-	public IScriptDataSetColumnMetaData[] handleDescribe( IDataSetInstance dataSet ) 
+	public IScriptDataSetColumnMetaData[] handleDescribe( IDataSetInstanceHandle dataSet ) 
 			throws BirtException;
 }

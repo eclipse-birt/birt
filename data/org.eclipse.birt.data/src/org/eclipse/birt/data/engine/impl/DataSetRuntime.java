@@ -25,8 +25,8 @@ import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
-import org.eclipse.birt.data.engine.api.script.IDataSetInstance;
-import org.eclipse.birt.data.engine.api.script.IDataSourceInstance;
+import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
+import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
@@ -50,7 +50,7 @@ import org.mozilla.javascript.Scriptable;
  * or from a IResultObject (during data set processing).
  */
 
-public abstract class DataSetRuntime implements IDataSetInstance
+public abstract class DataSetRuntime implements IDataSetInstanceHandle
 {
 	/** Static design of data set */
 	private IBaseDataSetDesign	dataSetDesign;
@@ -217,7 +217,7 @@ public abstract class DataSetRuntime implements IDataSetInstance
 	/**
 	 * Gets the runtime Data Source definition for this data set
 	 */
-	public IDataSourceInstance getDataSource()
+	public IDataSourceInstanceHandle getDataSource()
 	{
 		return this.queryExecutor.dataSource;
 	}
@@ -285,7 +285,7 @@ public abstract class DataSetRuntime implements IDataSetInstance
 	}
 	
 	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstance#getResultMetaData()
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getResultMetaData()
 	 */
 	public IResultMetaData getResultMetaData() throws DataException
 	{

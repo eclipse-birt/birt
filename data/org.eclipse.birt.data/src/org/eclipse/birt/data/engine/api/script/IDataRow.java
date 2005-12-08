@@ -25,7 +25,7 @@ public interface IDataRow
 	/**
 	 * Gets the data set runtime instance which contains this row
 	 */
-	public abstract IDataSetInstance getDataSet();
+	public abstract IDataSetInstanceHandle getDataSet();
 	
 	/**
 	 * Gets the metadata of the data row. This is a shortcut to 

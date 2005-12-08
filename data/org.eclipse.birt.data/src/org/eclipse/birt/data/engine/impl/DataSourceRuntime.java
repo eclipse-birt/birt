@@ -21,7 +21,7 @@ import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
-import org.eclipse.birt.data.engine.api.script.IDataSourceInstance;
+import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -35,7 +35,7 @@ import org.mozilla.javascript.Scriptable;
  * properties are updatable by scripts at runtime. Value of those properties are retained
  * by this class. Value for non-modifiable properties are delegated to the design object
  */
-public abstract class  DataSourceRuntime implements IDataSourceInstance
+public abstract class  DataSourceRuntime implements IDataSourceInstanceHandle
 {
 	/** Associated data source design */
 	private IBaseDataSourceDesign	design;

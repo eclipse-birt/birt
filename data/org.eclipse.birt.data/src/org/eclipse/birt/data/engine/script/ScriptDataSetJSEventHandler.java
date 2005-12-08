@@ -16,7 +16,7 @@ package org.eclipse.birt.data.engine.script;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
-import org.eclipse.birt.data.engine.api.script.IDataSetInstance;
+import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSetColumnMetaData;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSetEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -41,7 +41,7 @@ public class ScriptDataSetJSEventHandler extends DataSetJSEventHandler implement
 		return (IScriptDataSetDesign) getBaseDesign();
 	}
 	
-	public void handleOpen(IDataSetInstance dataSet) throws BirtException
+	public void handleOpen(IDataSetInstanceHandle dataSet) throws BirtException
 	{
 		String script = getScriptDataSetDesign().getOpenScript();
 		if ( script != null && script.length() > 0 )
@@ -51,7 +51,7 @@ public class ScriptDataSetJSEventHandler extends DataSetJSEventHandler implement
 		}
 	}
 
-	public void handleClose(IDataSetInstance dataSet) throws BirtException
+	public void handleClose(IDataSetInstanceHandle dataSet) throws BirtException
 	{
 		String script = getScriptDataSetDesign().getCloseScript();
 		if ( script != null && script.length() > 0 )
@@ -61,7 +61,7 @@ public class ScriptDataSetJSEventHandler extends DataSetJSEventHandler implement
 		}
 	}
 
-	public boolean handleFetch(IDataSetInstance dataSet, IDataRow row) throws BirtException
+	public boolean handleFetch(IDataSetInstanceHandle dataSet, IDataRow row) throws BirtException
 	{
 		String script = getScriptDataSetDesign().getFetchScript();
 		if ( script != null && script.length() > 0 )
@@ -77,7 +77,7 @@ public class ScriptDataSetJSEventHandler extends DataSetJSEventHandler implement
 		return false;
 	}
 
-	public IScriptDataSetColumnMetaData[] handleDescribe(IDataSetInstance dataSet) throws BirtException
+	public IScriptDataSetColumnMetaData[] handleDescribe(IDataSetInstanceHandle dataSet) throws BirtException
 	{
 		// TODO: not implemented yet
 		return null;

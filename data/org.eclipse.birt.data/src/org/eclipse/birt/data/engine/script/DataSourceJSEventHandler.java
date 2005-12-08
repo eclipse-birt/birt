@@ -16,7 +16,7 @@ package org.eclipse.birt.data.engine.script;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
-import org.eclipse.birt.data.engine.api.script.IDataSourceInstance;
+import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.mozilla.javascript.Scriptable;
 
 public class DataSourceJSEventHandler implements IBaseDataSourceEventHandler
@@ -45,7 +45,7 @@ public class DataSourceJSEventHandler implements IBaseDataSourceEventHandler
 		return runner;
 	}
 	
-	public void handleBeforeOpen(IDataSourceInstance dataSource) throws BirtException
+	public void handleBeforeOpen(IDataSourceInstanceHandle dataSource) throws BirtException
 	{
 		String script = getBaseDesign().getBeforeOpenScript();
 		if ( script != null && script.length() > 0 )
@@ -55,7 +55,7 @@ public class DataSourceJSEventHandler implements IBaseDataSourceEventHandler
 		}
 	}
 
-	public void handleBeforeClose(IDataSourceInstance dataSource) throws BirtException
+	public void handleBeforeClose(IDataSourceInstanceHandle dataSource) throws BirtException
 	{
 		String script = getBaseDesign().getBeforeCloseScript();
 		if ( script != null && script.length() > 0 )
@@ -65,7 +65,7 @@ public class DataSourceJSEventHandler implements IBaseDataSourceEventHandler
 		}
 	}
 
-	public void handleAfterOpen(IDataSourceInstance dataSource) throws BirtException
+	public void handleAfterOpen(IDataSourceInstanceHandle dataSource) throws BirtException
 	{
 		String script = getBaseDesign().getAfterOpenScript();
 		if ( script != null && script.length() > 0 )
@@ -75,7 +75,7 @@ public class DataSourceJSEventHandler implements IBaseDataSourceEventHandler
 		}
 	}
 
-	public void handleAfterClose(IDataSourceInstance dataSource) throws BirtException
+	public void handleAfterClose(IDataSourceInstanceHandle dataSource) throws BirtException
 	{
 		String script = getBaseDesign().getAfterCloseScript();
 		if ( script != null && script.length() > 0 )

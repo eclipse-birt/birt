@@ -20,8 +20,8 @@ import org.eclipse.birt.core.exception.BirtException;
  */
 public interface IBaseDataSourceEventHandler
 {
-	public void handleBeforeOpen( IDataSourceInstance dataSource ) throws BirtException;
-	public void handleBeforeClose( IDataSourceInstance dataSource ) throws BirtException;
-	public void handleAfterOpen( IDataSourceInstance dataSource ) throws BirtException;
-	public void handleAfterClose( IDataSourceInstance dataSource ) throws BirtException;
+	public void handleBeforeOpen( IDataSourceInstanceHandle dataSource ) throws BirtException;
+	public void handleBeforeClose( IDataSourceInstanceHandle dataSource ) throws BirtException;
+	public void handleAfterOpen( IDataSourceInstanceHandle dataSource ) throws BirtException;
+	public void handleAfterClose( IDataSourceInstanceHandle dataSource ) throws BirtException;
 }

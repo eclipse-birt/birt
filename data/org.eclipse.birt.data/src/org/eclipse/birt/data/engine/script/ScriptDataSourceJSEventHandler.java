@@ -15,7 +15,7 @@ package org.eclipse.birt.data.engine.script;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
-import org.eclipse.birt.data.engine.api.script.IDataSourceInstance;
+import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSourceEventHandler;
 
 /**
@@ -38,7 +38,7 @@ public class ScriptDataSourceJSEventHandler extends DataSourceJSEventHandler
 		return (IScriptDataSourceDesign) getBaseDesign();
 	}
 	
-	public void handleOpen(IDataSourceInstance dataSource) throws BirtException
+	public void handleOpen(IDataSourceInstanceHandle dataSource) throws BirtException
 	{
 		String script = getScriptDataSourceDesign().getOpenScript();
 		if ( script != null && script.length() > 0 )
@@ -48,7 +48,7 @@ public class ScriptDataSourceJSEventHandler extends DataSourceJSEventHandler
 		}
 	}
 
-	public void handleClose(IDataSourceInstance dataSource) throws BirtException
+	public void handleClose(IDataSourceInstanceHandle dataSource) throws BirtException
 	{
 		String script = getScriptDataSourceDesign().getCloseScript();
 		if ( script != null && script.length() > 0 )
