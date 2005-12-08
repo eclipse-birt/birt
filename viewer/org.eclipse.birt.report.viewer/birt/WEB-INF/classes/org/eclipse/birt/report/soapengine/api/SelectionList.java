@@ -1,5 +1,5 @@
 /**
- * CascadeParameter.java
+ * SelectionList.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis WSDL2Java emitter.
@@ -7,32 +7,33 @@
 
 package org.eclipse.birt.report.soapengine.api;
 
-public class CascadeParameter  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.SelectionList[] selectionList;
+public class SelectionList  implements java.io.Serializable {
+    private java.lang.String name;
+    private org.eclipse.birt.report.soapengine.api.Vector selections;
 
-    public CascadeParameter() {
+    public SelectionList() {
     }
 
-    public org.eclipse.birt.report.soapengine.api.SelectionList[] getSelectionList() {
-        return selectionList;
+    public java.lang.String getName() {
+        return name;
     }
 
-    public void setSelectionList(org.eclipse.birt.report.soapengine.api.SelectionList[] selectionList) {
-        this.selectionList = selectionList;
+    public void setName(java.lang.String name) {
+        this.name = name;
     }
 
-    public org.eclipse.birt.report.soapengine.api.SelectionList getSelectionList(int i) {
-        return selectionList[i];
+    public org.eclipse.birt.report.soapengine.api.Vector getSelections() {
+        return selections;
     }
 
-    public void setSelectionList(int i, org.eclipse.birt.report.soapengine.api.SelectionList value) {
-        this.selectionList[i] = value;
+    public void setSelections(org.eclipse.birt.report.soapengine.api.Vector selections) {
+        this.selections = selections;
     }
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof CascadeParameter)) return false;
-        CascadeParameter other = (CascadeParameter) obj;
+        if (!(obj instanceof SelectionList)) return false;
+        SelectionList other = (SelectionList) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -41,9 +42,12 @@ public class CascadeParameter  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
-            ((this.selectionList==null && other.getSelectionList()==null) || 
-             (this.selectionList!=null &&
-              java.util.Arrays.equals(this.selectionList, other.getSelectionList())));
+            ((this.name==null && other.getName()==null) || 
+             (this.name!=null &&
+              this.name.equals(other.getName()))) &&
+            ((this.selections==null && other.getSelections()==null) || 
+             (this.selections!=null &&
+              this.selections.equals(other.getSelections())));
         __equalsCalc = null;
         return _equals;
     }
@@ -55,16 +59,11 @@ public class CascadeParameter  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        if (getSelectionList() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getSelectionList());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getSelectionList(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+        if (getName() != null) {
+            _hashCode += getName().hashCode();
+        }
+        if (getSelections() != null) {
+            _hashCode += getSelections().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -72,14 +71,19 @@ public class CascadeParameter  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(CascadeParameter.class);
+        new org.apache.axis.description.TypeDesc(SelectionList.class);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CascadeParameter"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SelectionList"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("selectionList");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SelectionList"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SelectionList"));
+        elemField.setFieldName("name");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Name"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("selections");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Selections"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Vector"));
         typeDesc.addFieldDesc(elemField);
     }
 

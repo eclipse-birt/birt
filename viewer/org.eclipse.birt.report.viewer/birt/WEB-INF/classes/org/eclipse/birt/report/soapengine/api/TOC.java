@@ -10,6 +10,7 @@ package org.eclipse.birt.report.soapengine.api;
 public class TOC  implements java.io.Serializable {
     private java.lang.String id;
     private java.lang.String displayName;
+    private java.lang.String bookmark;
     private boolean isLeaf;
     private org.eclipse.birt.report.soapengine.api.TOC[] child;
 
@@ -30,6 +31,14 @@ public class TOC  implements java.io.Serializable {
 
     public void setDisplayName(java.lang.String displayName) {
         this.displayName = displayName;
+    }
+
+    public java.lang.String getBookmark() {
+        return bookmark;
+    }
+
+    public void setBookmark(java.lang.String bookmark) {
+        this.bookmark = bookmark;
     }
 
     public boolean isIsLeaf() {
@@ -74,6 +83,9 @@ public class TOC  implements java.io.Serializable {
             ((this.displayName==null && other.getDisplayName()==null) || 
              (this.displayName!=null &&
               this.displayName.equals(other.getDisplayName()))) &&
+            ((this.bookmark==null && other.getBookmark()==null) || 
+             (this.bookmark!=null &&
+              this.bookmark.equals(other.getBookmark()))) &&
             this.isLeaf == other.isIsLeaf() &&
             ((this.child==null && other.getChild()==null) || 
              (this.child!=null &&
@@ -94,6 +106,9 @@ public class TOC  implements java.io.Serializable {
         }
         if (getDisplayName() != null) {
             _hashCode += getDisplayName().hashCode();
+        }
+        if (getBookmark() != null) {
+            _hashCode += getBookmark().hashCode();
         }
         _hashCode += new Boolean(isIsLeaf()).hashCode();
         if (getChild() != null) {
@@ -125,6 +140,11 @@ public class TOC  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("displayName");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DisplayName"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("bookmark");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Bookmark"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
