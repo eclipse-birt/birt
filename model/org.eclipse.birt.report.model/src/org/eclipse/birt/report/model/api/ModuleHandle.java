@@ -2133,7 +2133,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the location information of the module
 	 */
 
-	String getLocation( )
+	public String getLocation( )
 	{
 		return getModule( ).getLocation( );
 	}

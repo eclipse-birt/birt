@@ -437,6 +437,27 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 		return super.getPropertyHandle( propName );
 	}
+	
+	/**
+	 * sets the cached row count property value.
+	 * 
+	 *  @throws SemanticException
+	 */
+	public void setCachedRowCount( int count ) throws SemanticException
+	{
+		setIntProperty( CACHED_ROW_COUNT_PROP, count );
+	}
+	
+	/**
+	 * Returns the value of cached row count property.
+	 * 
+	 * @return
+	 * 		the row count.
+	 */
+	public int getCachedRowCount(){
+		
+		return getIntProperty(CACHED_ROW_COUNT_PROP);
+	}
 
 	/**
 	 * Represents the property handle which handles the structure list of data

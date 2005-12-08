@@ -1588,10 +1588,6 @@
     <Property canInherit="false" detailType="IncludedLibrary" displayNameID="Element.Module.libraries" isList="true" name="libraries" runtimeSettable="false" since="reserved" type="structure"/>
     <Property canInherit="false" detailType="IncludeScript" displayNameID="Element.Module.includeScripts" isList="true" name="includeScripts" runtimeSettable="false" since="1.0" type="structure"/>
     <Property canInherit="false" detailType="Theme" displayNameID="Element.Module.theme" isIntrinsic="true" name="theme" runtimeSettable="false" since="2.0" type="element" />	  	  
-    <Method context="startup" displayNameID="Element.Module.initialize" name="initialize" since="1.0" toolTipID="Element.Module.initialize.toolTip">
-		<Argument name="reportContext" tagID="Element.Module.initialize.reportContext" type="IReportContext"/>
-	    <Argument name="object" tagID="Element.Module.initialize.object" type="Object"/>
-    </Method>  
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Library" extends="Module" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Library" name="Library" nameSpace="none" selector="library" since="2.0" xmlName="library">
     <Slot displayNameID="Element.Library.slot.themes" multipleCardinality="true" name="themes" since="2.0" xmlName="themes">
@@ -1630,6 +1626,10 @@
     </Property>
     <Property displayNameID="Element.ReportDesign.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
     <Property detailType="DataSourceParamBinding" displayNameID="Element.ReportDesign.dataSourceBindings" name="dataSourceBindings" isList="true" runtimeSettable="false" since="2.0" type="structure"/>
+    <Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip">
+		<Argument name="reportContext" tagID="Element.ReportDesign.initialize.reportContext" type="IReportContext"/>
+	    <Argument name="object" tagID="Element.ReportDesign.initialize.object" type="Object"/>
+    </Method>  
     <Method context="startup" displayNameID="Element.ReportDesign.beforeFactory" name="beforeFactory" since="1.0" toolTipID="Element.ReportDesign.beforeFactory.toolTip">
       <Argument name="handle" tagID="Element.ReportDesign.beforeFactory.handle" type="ReportDesignHandle"/>
       <Argument name="reportContext" tagID="Element.ReportDesign.beforeFactory.reportContext" type="IReportContext"/>
@@ -1812,6 +1812,7 @@
       <Argument name="reportContext" tagID="Element.DataSet.afterClose.reportContext" type="IReportContext"/>
       <Argument name="object" tagID="Element.DataSet.afterClose.object" type="Object"/>
 	</Method>	 
+	<Property displayNameID="Element.DataSet.cachedRowCount" name="cachedRowCount" since="2.0" type="integer"/>
     <Property detailType="DataSource" displayNameID="Element.DataSet.dataSource" name="dataSource" since="1.0" type="element" valueRequired="true"/>    
     <Property detailType="DataSetParam" displayNameID="Element.DataSet.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
     <Property detailType="ParamBinding" displayNameID="Element.DataSet.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>
@@ -1847,7 +1848,6 @@
     <Property displayNameID="Element.OdaDataSet.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string"/>
     <Property displayNameID="Element.OdaDataSet.queryText" name="queryText" since="1.0" type="string"/>
     <Property displayNameID="Element.OdaDataSet.resultSetName" name="resultSetName" since="reserved" type="string"/>
-    <Property displayNameID="Element.OdaDataSet.cachedRowCount" name="cachedRowCount" since="2.0" type="integer"/>
     <Property detailType="ExtendedProperty" displayNameID="Element.OdaDataSet.privateDriverProperties" isList="true" name="privateDriverProperties" since="1.0" type="structure"/>
     <PropertyVisibility name="extensionID" visibility="hide"/>
     <PropertyVisibility name="resultSetName" visibility="hide"/>

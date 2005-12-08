@@ -94,5 +94,11 @@ public interface IDataSetModel
 	 */
 
 	public static final String CACHED_METADATA_PROP = "cachedMetaData"; //$NON-NLS-1$
+	
+	/**
+	 * The property name of cached row count.
+	 */
+	public static final String CACHED_ROW_COUNT_PROP = "cachedRowCount"; //$NON-NLS-1$
+
 
 }

@@ -2272,6 +2272,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, DataSet.AFTER_OPEN_METHOD );
 		property( obj, DataSet.AFTER_CLOSE_METHOD );
 		property( obj, DataSet.REF_TEMPLATE_PARAMETER_PROP );
+		property( obj, DataSet.CACHED_ROW_COUNT_PROP );
 
 		writeStructureList( obj, DataSet.PARAMETERS_PROP );
 		writeStructureList( obj, DataSet.PARAM_BINDINGS_PROP );
@@ -2485,7 +2486,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		}
 
 		property( obj, OdaDataSet.RESULT_SET_NAME_PROP );
-		property( obj, OdaDataSet.CACHED_ROW_COUNT_PROP );
 
 		List properties = (List) obj.getLocalProperty( getModule( ),
 				OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP );
