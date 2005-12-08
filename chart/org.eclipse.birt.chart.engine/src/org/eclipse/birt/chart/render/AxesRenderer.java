@@ -2092,7 +2092,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	 * This method renders the bar graphic elements superimposed over the plot
 	 * background and any previously rendered series' graphic elements.
 	 */
-	public final void renderPlot( IPrimitiveRenderer ipr, Plot p )
+public final void renderPlot( IPrimitiveRenderer ipr, Plot p )
 			throws ChartException
 	{
 		if ( !p.isVisible( ) ) // CHECK VISIBILITY
@@ -2129,15 +2129,9 @@ public abstract class AxesRenderer extends BaseRenderer
 
 		try
 		{
-			Bounds boClipping = (Bounds) EcoreUtil.copy( pwa.getPlotBounds( ) );
-
-			if ( pwa.getDimension( ) == IConstants.TWO_5_D )
-			{
-				boClipping.setLeft( boClipping.getLeft( )
-						- pwa.getSeriesThickness( ) );
-				boClipping.setHeight( boClipping.getHeight( )
-						+ pwa.getSeriesThickness( ) );
-			}
+			Bounds boClipping = p.getBounds( )
+					.scaledInstance( getDevice( ).getDisplayServer( )
+							.getDpiResolution( ) / 72d );
 
 			Location[] loaClipping = new Location[4];
 			loaClipping[0] = LocationImpl.create( boClipping.getLeft( ),
@@ -2246,7 +2240,6 @@ public abstract class AxesRenderer extends BaseRenderer
 			getDevice( ).setClip( cre );
 		}
 	}
-
 	/**
 	 * Renders all marker lines (and labels at requested positions) associated
 	 * with every axis in the plot Note that marker lines are drawn immediately
