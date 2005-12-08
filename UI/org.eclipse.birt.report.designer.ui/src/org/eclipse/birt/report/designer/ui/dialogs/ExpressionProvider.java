@@ -180,11 +180,6 @@ public class ExpressionProvider implements IExpressionProvider
 
 	/**
 	 * Create a new expression provider with the current module
-	 * 
-	 * @param moduleHandle
-	 *            the handle of the module
-	 * @param dataSetList
-	 *            the list of the data set
 	 */
 	public ExpressionProvider( )
 	{
@@ -275,8 +270,7 @@ public class ExpressionProvider implements IExpressionProvider
 			if ( PARAMETERS.equals( parent ) )
 			{
 				childrenList.add( ALL );
-				for ( Iterator iter = moduleHandle.getParameters( )
-						.iterator( ); iter.hasNext( ); )
+				for ( Iterator iter = moduleHandle.getParameters( ).iterator( ); iter.hasNext( ); )
 				{
 					Object obj = iter.next( );
 					if ( obj instanceof ParameterGroupHandle )
@@ -287,8 +281,7 @@ public class ExpressionProvider implements IExpressionProvider
 			}
 			else if ( ALL.equals( parent ) )
 			{
-				for ( Iterator iter = moduleHandle.getParameters( )
-						.iterator( ); iter.hasNext( ); )
+				for ( Iterator iter = moduleHandle.getParameters( ).iterator( ); iter.hasNext( ); )
 				{
 					Object obj = iter.next( );
 					if ( obj instanceof ParameterHandle )
@@ -448,7 +441,7 @@ public class ExpressionProvider implements IExpressionProvider
 		}
 		else if ( element instanceof DataSetItemModel )
 		{
-			return ( (DataSetItemModel) element ).getName( );
+			return ( (DataSetItemModel) element ).getDisplayName( );
 		}
 		return element.toString( );
 	}
