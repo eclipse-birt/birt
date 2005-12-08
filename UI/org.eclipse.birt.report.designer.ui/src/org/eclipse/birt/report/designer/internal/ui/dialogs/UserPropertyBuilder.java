@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
@@ -51,17 +52,19 @@ public class UserPropertyBuilder extends BaseDialog
 
 	public static final int NAMED_EXPRESSION = 1;
 
-	private static final String PROPERTY_TITLE = "New User Property";
-	private static final String EXPRESSION_TITLE = "New Named Expression";
+	private static final String PROPERTY_TITLE = Messages.getString( "UserPropertyBuilder.0" ); //$NON-NLS-1$
+	private static final String EXPRESSION_TITLE = Messages.getString( "UserPropertyBuilder.Title.NamedExpression" ); //$NON-NLS-1$
 
-	private static final String ERROR_MSG_NAME_IS_REQUIRED = "Name is required.";
-	private static final String ERROR_MSG_NAME_DUPLICATED = "The name has been used.";
+	private static final String ERROR_MSG_NAME_IS_REQUIRED = Messages.getString( "UserPropertyBuilder.ErrorMessage.NoName" ); //$NON-NLS-1$
+	private static final String ERROR_MSG_NAME_DUPLICATED = Messages.getString( "UserPropertyBuilder.ErrorMessage.DuplicatedName" ); //$NON-NLS-1$
 
-	private static final String LABEL_NAME = "Property Name:";
+	private static final String LABEL_PROPERTY_NAME = Messages.getString( "UserPropertyBuilder.Label.PropertyName" ); //$NON-NLS-1$
 
-	private static final String LABEL_TYPE = "Property Type:";
+	private static final String LABEL_EXPRESSION_NAME = Messages.getString( "UserPropertyBuilder.Label.ExpressionName" ); //$NON-NLS-1$
 
-	private static final String LABEL_DEFAULT_VALUE = "Default Value:";
+	private static final String LABEL_TYPE = Messages.getString( "UserPropertyBuilder.Label.PropertyType" ); //$NON-NLS-1$
+
+	private static final String LABEL_DEFAULT_VALUE = Messages.getString( "UserPropertyBuilder.Label.DefaultValue" ); //$NON-NLS-1$
 
 	private static final Image ERROR_ICON = ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 
@@ -73,7 +76,7 @@ public class UserPropertyBuilder extends BaseDialog
 	{
 		List typeList = new ArrayList( UserPropertyDefn.getAllowedTypes( ) );
 		EXPRESSION_TYPE = DesignEngine.getMetaDataDictionary( )
-				.getPropertyType( PropertyType.EXPRESSION_TYPE );		
+				.getPropertyType( PropertyType.EXPRESSION_TYPE );
 		typeList.remove( EXPRESSION_TYPE );
 		PROPERTY_TYPES = (PropertyType[]) typeList.toArray( new PropertyType[0] );
 	}
@@ -88,7 +91,7 @@ public class UserPropertyBuilder extends BaseDialog
 
 	public UserPropertyBuilder( int style )
 	{
-		super( UIUtil.getDefaultShell( ), "" );
+		super( UIUtil.getDefaultShell( ), "" ); //$NON-NLS-1$
 		switch ( this.style = style )
 		{
 			case USER_PROPERTY :
@@ -121,7 +124,15 @@ public class UserPropertyBuilder extends BaseDialog
 		layout.marginHeight = layout.marginWidth = 10;
 		composite.setLayout( layout );
 
-		new Label( composite, SWT.NONE ).setText( LABEL_NAME );
+		switch ( style )
+		{
+			case USER_PROPERTY :
+				new Label( composite, SWT.NONE ).setText( LABEL_PROPERTY_NAME );
+				break;
+			case NAMED_EXPRESSION :
+				new Label( composite, SWT.NONE ).setText( LABEL_EXPRESSION_NAME );
+				break;
+		}
 		nameEditor = new Text( composite, SWT.BORDER | SWT.SINGLE );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.widthHint = 200;
@@ -161,7 +172,7 @@ public class UserPropertyBuilder extends BaseDialog
 						| SWT.SINGLE );
 				defaultValueEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 				Button button = new Button( subComposite, SWT.PUSH );
-				button.setText( "..." );
+				button.setText( "..." ); //$NON-NLS-1$
 				button.setLayoutData( new GridData( ) );
 
 				button.addSelectionListener( new SelectionAdapter( ) {
@@ -228,7 +239,7 @@ public class UserPropertyBuilder extends BaseDialog
 		}
 		else
 		{
-			messageLine.setText( "" );
+			messageLine.setText( "" ); //$NON-NLS-1$
 			messageLine.setImage( null );
 		}
 		getOkButton( ).setEnabled( errorMessage == null );
