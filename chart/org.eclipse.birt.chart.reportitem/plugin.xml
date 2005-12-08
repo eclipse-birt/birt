@@ -100,4 +100,10 @@
             name="Chart"
             supportedFormats="jpeg; png; gif; bmp"/>
    </extension>
+   <extension
+         point="org.eclipse.birt.report.engine.reportitemGeneration">
+      <reportItem
+            class="org.eclipse.birt.chart.reportitem.ChartReportItemGenerationImpl"
+            name="Chart"/>
+   </extension>
 </plugin>
