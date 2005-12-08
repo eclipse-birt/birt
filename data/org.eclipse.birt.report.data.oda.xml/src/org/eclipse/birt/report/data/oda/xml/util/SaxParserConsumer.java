@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.xml.util;
 
-import java.util.HashMap;
-import java.util.Iterator;
-
 import org.eclipse.birt.report.data.oda.xml.Constants;
 import org.eclipse.birt.report.data.oda.xml.ResultSet;
 import org.eclipse.datatools.connectivity.oda.OdaException;
@@ -99,7 +96,7 @@ public class SaxParserConsumer implements ISaxParserConsumer
 		if( !isNotNestedXMLTable )
 		{
 			spNestedQueryHelper = new SaxParserNestedQueryHelper(rinfo, fileName, tName);
-			while ( spNestedQueryHelper.isPrepared( ) )
+			while ( !spNestedQueryHelper.isPrepared( ) )
 			{
 				try
 				{

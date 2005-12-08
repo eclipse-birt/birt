@@ -393,7 +393,7 @@ class TableInfo
 		String[] paths = new String[columnNames.length];
 		for ( int i = 0; i < paths.length; i++ )
 		{
-			paths[i] = getPath( columnNames[i] );
+			paths[i] = getPath( columnNames[i] ).replaceFirst("\\Q\\[@\\E.*\\Q\\]\\E","");
 		}
 
 		String theLongestPath = "";

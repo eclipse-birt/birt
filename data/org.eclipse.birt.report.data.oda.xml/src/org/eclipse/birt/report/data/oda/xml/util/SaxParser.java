@@ -12,10 +12,11 @@
 package org.eclipse.birt.report.data.oda.xml.util;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
@@ -74,8 +75,6 @@ public class SaxParser extends DefaultHandler implements Runnable
 	 */
 	public void run( )
 	{
-		//System.setProperty( "org.xml.sax.parser",
-		//		"org.apache.xerces.parsers.SAXParser" );
 		XMLReader xr;
 		try
 		{
@@ -86,28 +85,47 @@ public class SaxParser extends DefaultHandler implements Runnable
 			xr.setContentHandler( this );
 			xr.setErrorHandler( this );
 
-			Reader file = new InputStreamReader( new File(xmlFile).toURL().openStream() );
+			URL url = null;
+			Reader file = null;
+			//First try to parse the input string as file name.
+			try 
+			{
+				File f = new File(xmlFile);
+				url = f.toURL();
+				file = new InputStreamReader( url.openStream() );
+			}
+			catch ( IOException e )
+			{
+				url = null;
+			} 
+			
+			//Then try to parse the input string as a url in web.
+			if ( url == null )
+			{
+				url = new URL( xmlFile );
+			}
+			
+			file = new InputStreamReader( url.openStream() );
 		
 			xr.parse( new InputSource( file ) );
-			//this.alive = false;
-			//spConsumer.wakeup( );
+
 		}
 		catch ( SAXException e )
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
-		catch ( FileNotFoundException e )
+		catch ( MalformedURLException e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			e.printStackTrace();
 		}
 		catch ( IOException e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			e.printStackTrace();
 		}
-	
+		
 		finally
 		{
 			this.alive = false;
