@@ -131,7 +131,13 @@ public final class SwingEventHandler implements
 		return null;
 	}
 
-	private synchronized void handleAction( List al, Object event )
+	private void handleAction( List al, Object event )
+	{
+		handleAction( al, event, true );
+	}
+
+	private synchronized void handleAction( List al, Object event,
+			boolean cleanState )
 	{
 		if ( al == null || event == null )
 		{
@@ -258,7 +264,7 @@ public final class SwingEventHandler implements
 			saTooltip = null;
 		}
 
-		if ( !bFound && saHighlighted != null )
+		if ( cleanState || ( !bFound && saHighlighted != null ) )
 		{
 			saHighlighted = null;
 		}
@@ -615,7 +621,7 @@ public final class SwingEventHandler implements
 				TriggerCondition.ONMOUSEOVER_LITERAL
 		} );
 
-		handleAction( al, e );
+		handleAction( al, e, false );
 	}
 
 	/*
