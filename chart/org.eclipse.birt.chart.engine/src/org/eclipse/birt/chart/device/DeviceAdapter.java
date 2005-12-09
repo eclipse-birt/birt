@@ -120,6 +120,16 @@ public abstract class DeviceAdapter extends EventObjectCache implements
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#dispose()
+	 */
+	public void dispose( )
+	{
+		// DO NOTHING IN NO-OP IMPL
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.device.IPrimitiveRenderer#setClip(org.eclipse.birt.chart.event.ClipRenderEvent)
 	 */
 	public void setClip( ClipRenderEvent cre )

@@ -135,6 +135,11 @@ public interface IDeviceRenderer extends
 	void after( ) throws ChartException;
 
 	/**
+	 * A notification sent to the device to free all allocated system resources.
+	 */
+	void dispose( );
+
+	/**
 	 * Notifies a device renderer to present an exception in its context
 	 * 
 	 * @param ex

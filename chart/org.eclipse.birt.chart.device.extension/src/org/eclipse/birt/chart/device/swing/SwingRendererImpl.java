@@ -94,8 +94,6 @@ public class SwingRendererImpl extends DeviceAdapter
 
 	protected Graphics2D _g2d;
 
-	// private FontRenderContext _frc = null;
-
 	protected IDisplayServer _ids;
 
 	private IUpdateNotifier _iun = null;
@@ -117,6 +115,33 @@ public class SwingRendererImpl extends DeviceAdapter
 		catch ( ChartException pex )
 		{
 			logger.log( pex );
+		}
+	}
+
+	/**
+	 * Free all allocated system resources.
+	 */
+	public void dispose( )
+	{
+		_lhmAllTriggers.clear( );
+
+		if ( _iun != null )
+		{
+			Object obj = _iun.peerInstance( );
+
+			if ( obj instanceof JComponent )
+			{
+				JComponent jc = (JComponent) obj;
+
+				if ( _eh != null )
+				{
+					jc.removeMouseListener( _eh );
+					jc.removeMouseMotionListener( _eh );
+					jc.removeKeyListener( _eh );
+
+					_eh = null;
+				}
+			}
 		}
 	}
 
