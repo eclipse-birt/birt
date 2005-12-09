@@ -98,6 +98,21 @@ public class ModelDteApiAdapter
         return null;
     }
     
+    /**
+	 * Generate a data set ID according to the DataSetHandle , which will be
+	 * presently used to identify a data set when data set cache is used.
+	 * 
+	 * @param dataSet
+	 * @return cache id for data set
+	 */
+    public String getDataSetID( DataSetHandle dataSet )
+	{
+    	if ( dataSet == null )
+			return null;
+    	
+		return dataSet.getModule( ).getLocation( ) + "/" + dataSet.getID( );
+	}
+    
     public IBaseDataSetDesign createDataSetDesign( DataSetHandle dataSet ) 
     	throws EngineException
     {
@@ -271,6 +286,10 @@ public class ModelDteApiAdapter
         dteDataSet.setBeforeCloseScript( modelDataSet.getBeforeClose() );
         dteDataSet.setAfterCloseScript( modelDataSet.getAfterClose() );
 
+        // cache property
+        dteDataSet.setID( getDataSetID( modelDataSet ) );
+		dteDataSet.setCacheRowCount( modelDataSet.getCachedRowCount( ) );
+        
         // dataset parameters definition
         HashMap paramBindingCandidates = new HashMap();
         
