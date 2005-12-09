@@ -1,5 +1,4 @@
-/*
- *************************************************************************
+/*************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,12 +8,12 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *  
- *************************************************************************
- */ 
+ *************************************************************************/ 
 package org.eclipse.birt.data.engine.executor;
 
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.executor2.DataSource2;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IDataSourceFactory;
 
@@ -23,9 +22,12 @@ import org.eclipse.birt.data.engine.odi.IDataSourceFactory;
  */
 public class DataSourceFactory implements IDataSourceFactory
 {
+	/** */
 	private static DataSourceFactory instance = null;
 	
-	
+	/**
+	 * @return
+	 */
 	public static IDataSourceFactory getFactory()
 	{
 		if ( instance == null )
@@ -33,26 +35,32 @@ public class DataSourceFactory implements IDataSourceFactory
 		return instance;
 	}
 	
+	/**
+	 *
+	 */
 	private DataSourceFactory()
 	{
 	}
-	
-	/**
-	 * @see org.eclipse.birt.data.engine.odi.IDataSourceFactory#newDataSource(java.lang.String)
-	 */
-	public IDataSource newDataSource(String driverName)
-	{
-		// TODO: connection pooling
-		return new DataSource( driverName );
-	}
 
-	/**
+	/*
 	 * @see org.eclipse.birt.data.engine.odi.IDataSourceFactory#getDataSource(java.lang.String, java.util.Map)
 	 */
-	public IDataSource getDataSource(String driverName, Map connProperties)
+	public IDataSource getDataSource( String driverName, Map connProperties,
+			String dataSetID, int cacheCount )
 	{
-		// TODO: connection pooling
-		return new DataSource( driverName, connProperties );
+		DataSetCacheManager cacheManager = DataSetCacheManager.getInstance( );
+		cacheManager.setDataSetID( dataSetID );
+		cacheManager.setCacheRowCount( cacheCount );
+		
+		if ( cacheManager.doesLoadFromCache( ) == false )
+		{
+			// TODO: connection pooling
+			return new DataSource( driverName, connProperties );
+		}
+		else
+		{
+			return new DataSource2( );
+		}
 	}
 
 }

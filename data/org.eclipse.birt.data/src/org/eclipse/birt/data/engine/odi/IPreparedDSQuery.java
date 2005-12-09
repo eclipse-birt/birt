@@ -36,7 +36,7 @@ public interface IPreparedDSQuery
      * @return	The IResultClass instance that represents the
      * 			expected metadata of the query result objects.
      */
-    public IResultClass getResultClass();
+    public IResultClass getResultClass( ) throws DataException;
     
     /**
      * Returns a collection of <code>IParameterMetaData</code> that 
@@ -51,8 +51,7 @@ public interface IPreparedDSQuery
      * 			prepared query.  Returns null if no parameters
      * 			are defined, or no parameter metadata is available.
      */
-    public Collection getParameterMetaData()
-    					throws DataException;
+    public Collection getParameterMetaData( ) throws DataException;
     
     /**
 	 * Retrieve utput parameters value.This method corresponds to the
@@ -92,7 +91,7 @@ public interface IPreparedDSQuery
      * @throws DataException	if given input parameter name or value is invalid.
      */
     public void setInputParamValue( String inputParamName, Object paramValue )
-    					throws DataException;
+			throws DataException;
     
     /** 
      * Binds an input value to the query's input parameter.
@@ -104,7 +103,7 @@ public interface IPreparedDSQuery
      * @throws DataException	if given input parameter name or value is invalid.
      */
     public void setInputParamValue( int inputParamPos, Object paramValue )
-    					throws DataException;
+			throws DataException;
     
 	/**
 	 * Executes this prepared query applying the specified transforms,  
@@ -121,6 +120,6 @@ public interface IPreparedDSQuery
      * whose resources can be safely released as appropriate.
      * This instance can no longer be executed after it is closed.
      */
-    public void close();
+    public void close( );
 
 }

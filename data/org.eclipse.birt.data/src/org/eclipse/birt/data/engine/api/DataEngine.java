@@ -36,7 +36,17 @@ import org.eclipse.birt.data.engine.impl.DataEngineImpl;
  */
 abstract public class DataEngine
 {
-
+	
+	/**
+	 * Indicates whether data set cache function needs to be used. If yes, put a
+	 * true value of this property to appContext and set it by the method of
+	 * prepare.
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.DataEngine.prepare(
+	 *      IQueryDefinition querySpec, Map appContext)
+	 */
+	public static String DATASET_CACHE_OPTION = "org.eclipse.birt.data.engine.dataset.cache.option";
+	
     /**
 	 * Creates a new instance of DataEngine, using the specified
 	 * DataEngineContext as its running environment
@@ -90,7 +100,7 @@ abstract public class DataEngine
 			return null;
 		}
 	}
-	    
+	
     /**
      * @deprecated Use newDataEngine(Scriptable) instead. Home Dir is no longer used.
      */
@@ -130,6 +140,17 @@ abstract public class DataEngine
 	 * been defined, its definition will be updated with the content of the provided definition object.
 	 */
 	abstract public void defineDataSet( IBaseDataSetDesign dataSet ) 
+			throws BirtException;
+	
+	/**
+	 * If user wants to use the latest data from data set to update local cache,
+	 * user needs to call this clearCache method. After it is done, the latest
+	 * data will be stored and it will be available for later use.
+	 * 
+	 * @param dataSet
+	 * @throws BirtException
+	 */
+	abstract public void clearCache( IBaseDataSetDesign dataSet )
 			throws BirtException;
 	
 	/**

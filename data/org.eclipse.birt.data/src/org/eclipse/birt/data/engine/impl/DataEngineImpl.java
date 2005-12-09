@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -31,6 +32,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.rd.QueryResults2;
 import org.eclipse.birt.data.engine.script.JSDataSources;
@@ -303,6 +305,17 @@ public class DataEngineImpl extends DataEngine
 		logger.exiting( DataEngineImpl.class.getName( ), "defineDataSet" );
 	}
 
+	/*
+	 * @see org.eclipse.birt.data.engine.api.DataEngine#clearCache(org.eclipse.birt.data.engine.api.IBaseDataSetDesign)
+	 */
+	public void clearCache( IBaseDataSetDesign dataSet ) throws BirtException
+	{
+		if ( dataSet == null )
+			return;
+		
+		DataSetCacheManager.getInstance( ).clearCache( dataSet.getID( ) );
+	}
+	
 	/**
 	 * Returns the runtime defn of a data source. If data source is not found,
 	 * returns null.
@@ -352,11 +365,16 @@ public class DataEngineImpl extends DataEngine
 	public IPreparedQuery prepare( IQueryDefinition querySpec )
 		throws DataException
 	{
+		DataSetCacheManager.getInstance( ).setCacheOption( false );
 	    return prepare( querySpec, null );
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.api.DataEngine#prepare(org.eclipse.birt.data.engine.api.IQueryDefinition, java.util.Map)
+	 * If user wants to use data set cache option, this method should be called
+	 * to pass cache option information from the upper layer.
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.DataEngine#prepare(org.eclipse.birt.data.engine.api.IQueryDefinition,
+	 *      java.util.Map)
 	 */
 	public IPreparedQuery prepare( IQueryDefinition querySpec,
 	        						Map appContext )
@@ -384,6 +402,15 @@ public class DataEngineImpl extends DataEngine
 		IPreparedQuery result = PreparedDataSourceQuery.newInstance( this,
 				querySpec, appContext );
 
+		if ( appContext != null )
+		{
+			Object option = appContext.get( DataEngine.DATASET_CACHE_OPTION );
+			if ( option != null && option.equals( "true" ) )
+				DataSetCacheManager.getInstance( ).setCacheOption( true );
+			else
+				DataSetCacheManager.getInstance( ).setCacheOption( false );
+		}
+		
 		logger.fine( "Finished preparing query." );
 		logger.exiting( DataEngineImpl.class.getName( ), "prepare" );
 		return result;

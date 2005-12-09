@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.OrderingInfo;
 import org.eclipse.birt.data.engine.executor.ResultObject;
+import org.eclipse.birt.data.engine.executor2.OdaCacheResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
@@ -73,6 +74,26 @@ public class SmartCache implements ResultSetCache
 		assert rsMeta != null;
 
 		OdiAdapter odiAdpater = new OdiAdapter( odaResultSet );
+		initInstance( odiAdpater, query, rsMeta, sortSpec );
+	}
+	
+	/**
+	 * Retrieve data from ODA cahce, used in normal query
+	 * 
+	 * @param odaResultSet
+	 * @param query
+	 * @param rsMeta
+	 * @param sortSpec
+	 * @throws DataException
+	 */
+	public SmartCache( BaseQuery query, OdaCacheResultSet odaCacheResultSet,
+			IResultClass rsMeta, SortSpec sortSpec ) throws DataException
+	{
+		assert odaCacheResultSet != null;
+		assert query != null;
+		assert rsMeta != null;
+
+		OdiAdapter odiAdpater = new OdiAdapter( odaCacheResultSet );
 		initInstance( odiAdpater, query, rsMeta, sortSpec );
 	}
 

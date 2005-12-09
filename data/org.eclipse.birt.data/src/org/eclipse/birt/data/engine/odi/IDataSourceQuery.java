@@ -47,7 +47,7 @@ public interface IDataSourceQuery extends IQuery
 	 * Gets the data source associated with this query instance.
      * @return	The associated IDataSource instance
      */
-	public IDataSource getDataSource();
+	//public IDataSource getDataSource();
 	
 	/**
 	 * Gets the query text defined in this query, specified
@@ -55,13 +55,13 @@ public interface IDataSourceQuery extends IQuery
 	 * @return	The query text to be prepared and executed 
      * 			by the data source driver.
 	 */
-	public String getQueryText();
+	//public String getQueryText();
 
 	/**
 	 * Gets the type of this query text.
 	 * @return	The type of query text. 
 	 */
-	public String getQueryType();
+	//public String getQueryType();
 	
 	/**
      * Specifies one or more field definition hints to the
@@ -80,7 +80,7 @@ public interface IDataSourceQuery extends IQuery
      * @return	A collection of one or more ResultFieldHint objects
      * 			provided to assist in data access.
      */
-	public Collection getResultHints();
+	//public Collection getResultHints();
 
 	/**
 	 * Specifies the result specification to project what the query 
@@ -105,7 +105,7 @@ public interface IDataSourceQuery extends IQuery
 	 * @return	An array of projected field names.
 	 * 			Null if none is defined.
 	 */
-	public String[] getResultProjection();
+	//public String[] getResultProjection();
 	
     /**
      * Specify one or more input/output parameter definition hints to the
@@ -124,7 +124,7 @@ public interface IDataSourceQuery extends IQuery
      * @return	A collection of one or more IParameterDefinition objects
      * 			to assist in data access.
      */
-	public Collection getParameterHints();	
+	//public Collection getParameterHints();	
 
 	/**
 	 * Adds the specified value to the named property. 

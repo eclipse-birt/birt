@@ -58,14 +58,12 @@ class DataSource implements IDataSource
     protected Properties	connectionProps = new Properties();
     private Map appContext;
 
-    DataSource( String driverName )
-    {
-        this.driverName = driverName;
-    }
-    
+    /**
+     * @param driverName
+     * @param connProperties
+     */
     DataSource( String driverName, Map connProperties )
 	{
-    	assert driverName != null;
     	this.driverName = driverName;
     	if ( connProperties != null )
     		this.connectionProps.putAll( connProperties );

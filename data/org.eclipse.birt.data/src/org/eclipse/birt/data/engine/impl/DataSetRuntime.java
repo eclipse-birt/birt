@@ -206,6 +206,26 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 			return null;
 	}
 	
+    /**
+     * @return cache row count
+     */
+    public String getID( )
+    {
+    	if ( dataSetDesign != null )
+			return dataSetDesign.getID( );
+		return null;
+    }
+    
+    /**
+     * @return cache row count
+     */
+    public int getCacheRowCount( )
+    {
+    	if ( dataSetDesign != null )
+			return dataSetDesign.getCacheRowCount( );
+		return 0;
+    }
+    
 	public String getDataSourceName()
 	{
 		if ( dataSetDesign != null)

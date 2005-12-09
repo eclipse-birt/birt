@@ -38,6 +38,7 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ExpressionProcessorManager;
+import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -719,7 +720,9 @@ abstract class PreparedQuery
 		    // dataSource = findDataSource( );
 			if ( dataSource != null  )
 			{
-				if ( ! dataSource.isOpen() )
+				// TODO: potential bug
+				if ( !dataSource.isOpen( )
+						|| DataSetCacheManager.getInstance( ).doesLoadFromCache( ) == true )
 				{
 					// Data source is not open; create an Odi Data Source and open it
 					// We should run the beforeOpen script now to give it a chance to modify

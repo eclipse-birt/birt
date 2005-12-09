@@ -118,8 +118,10 @@ class PreparedSubquery extends PreparedQuery
 		protected IQuery createOdiQuery( ) throws DataException
 		{
 			// An empty odi data source is used for sub query data set
-			return DataSourceFactory.getFactory().newDataSource( null ).
-					newCandidateQuery();
+			return DataSourceFactory.getFactory( ).getDataSource( null,
+					null,
+					this.dataSet.getID( ),
+					this.dataSet.getCacheRowCount( ) ).newCandidateQuery( );
 		}
 		
 		protected IResultIterator executeOdiQuery( ) 

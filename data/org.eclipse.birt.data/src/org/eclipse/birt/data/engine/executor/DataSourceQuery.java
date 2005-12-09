@@ -22,6 +22,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor2.OdaCacheResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
@@ -487,8 +488,8 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 
     	this.setInputParameterBinding();
 		// Execute the prepared statement
-		if ( ! odaStatement.execute() )
-			throw new DataException(ResourceConstants.NO_RESULT_SET);
+		if ( !odaStatement.execute( ) )
+			throw new DataException( ResourceConstants.NO_RESULT_SET );
 		ResultSet rs = odaStatement.getResultSet();
 		
 		// If we did not get a result set metadata at prepare() time, get it now
@@ -500,7 +501,12 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 		}
 		
 		// Initialize CachedResultSet using the ODA result set
-		return new CachedResultSet( this, resultMetadata, rs );
+		if ( DataSetCacheManager.getInstance( ).doesSaveToCache( ) == false )
+			return new CachedResultSet( this, resultMetadata, rs );
+		else
+			return new CachedResultSet( this,
+					resultMetadata,
+					new OdaCacheResultSet( rs, resultMetadata ) );
     }
     
 	/*

@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.executor.cache;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor2.OdaCacheResultSet;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
@@ -25,6 +26,9 @@ class OdiAdapter
 {
 	// from Oda
 	private ResultSet odaResultSet;
+	
+	// from oda cache
+	private OdaCacheResultSet odaCacheResultSet;
 
 	// from odi
 	private ICustomDataSet customDataSet;
@@ -46,12 +50,23 @@ class OdiAdapter
 	/**
 	 * Construction
 	 * 
-	 * @param resultSet
+	 * @param odaResultSet
 	 */
 	OdiAdapter( ResultSet odaResultSet )
 	{
 		assert odaResultSet != null;
 		this.odaResultSet = odaResultSet;
+	}
+	
+	/**
+	 * Construction
+	 * 
+	 * @param odaCacheResultSet
+	 */
+	OdiAdapter( OdaCacheResultSet odaCacheResultSet )
+	{
+		assert odaCacheResultSet != null;
+		this.odaCacheResultSet = odaCacheResultSet;
 	}
 
 	/**
@@ -110,6 +125,10 @@ class OdiAdapter
 		if ( odaResultSet != null )
 		{
 			return odaResultSet.fetch( );
+		}
+		if ( odaCacheResultSet != null )
+		{
+			return odaCacheResultSet.fetch( );
 		}
 		else if ( customDataSet != null )
 		{

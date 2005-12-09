@@ -37,13 +37,13 @@ public interface IDataSource
      * Gets the name of the underlying data source driver.
      * @param driverName	The driver name of this data source.
      */
-    public String getDriverName();
+    //public String getDriverName();
 
     /**
      * Gets the connection properties defined in this data source.
      * @return	The connection properties as a Map of name-set pairs.
      */
-    public Map getProperties();
+    ///public Map getProperties();
     
 	/**
 	 * Adds the specified value to the named property. 
@@ -104,7 +104,7 @@ public interface IDataSource
      * Indicates whether this data source is already opened.
      * @return	true if this is already opened
      */
-    public boolean isOpen();
+    //public boolean isOpen();
     
 	/**
 	 * Opens the data source connection. <br>

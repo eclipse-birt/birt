@@ -30,7 +30,7 @@ public interface IDataSourceFactory
      * @param driverName	 The name of a data source driver.
      * @return	A new instance of IDataSource.
      */
-    public IDataSource newDataSource( String driverName );
+    //public IDataSource newDataSource( String driverName );
 
     /**
      * Obtains a dedicated data source instance with the
@@ -48,6 +48,7 @@ public interface IDataSourceFactory
      * 					a Map of name-set pairs.
      * @return			An instance of IDataSource.
      */
-    public IDataSource getDataSource( String driverName, Map connProperties );
+    public IDataSource getDataSource( String driverName, Map connProperties,
+			String id, int cacheCount );
     
 }

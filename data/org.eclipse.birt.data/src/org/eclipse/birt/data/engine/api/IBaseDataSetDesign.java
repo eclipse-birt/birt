@@ -31,6 +31,21 @@ public interface IBaseDataSetDesign
      * @return Name of data set.
      */
     public abstract String getName();
+    
+    /**
+	 * Every data set has an id. Currently this id is used for cache id.
+	 * 
+	 * @return id of this data set design
+	 */
+    public abstract String getID( );
+    
+    /**
+	 * When cache option is true, user needs to specify how many rows will be
+	 * retrieved into cache for use.
+	 * 
+	 * @return cache row count
+	 */
+    public abstract int getCacheRowCount( );
 
     /**
      * Returns the data source (connection) name for this data set. 

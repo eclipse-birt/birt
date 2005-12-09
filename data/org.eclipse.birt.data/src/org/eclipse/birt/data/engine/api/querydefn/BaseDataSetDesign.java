@@ -48,6 +48,9 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
     private String 	afterCloseScript;
     private IBaseDataSetEventHandler eventHandler;
 	
+    private String ID;
+	private int cacheRowCount;
+    
 	/**
 	 * Instantiates a data set with given name.
 	 * @param name Name of data set
@@ -56,7 +59,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	{
 		this.name = name;
 	}
-	
+    
 	/**
 	 * Instantiates a data set with given name and data source name.
 	 * @param name Name of data set
@@ -78,6 +81,38 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 		return name;
 	}
 	
+    /**
+     * @return data set id
+     */
+    public String getID( )
+    {
+    	return ID;
+    }
+    
+    /**
+     * @param ID
+     */
+    public void setID( String ID )
+    {
+    	this.ID = ID;
+    }
+    
+    /**
+     * @return cache row count
+     */
+    public int getCacheRowCount( )
+    {
+    	return cacheRowCount;
+    }
+    
+    /**
+     * @param cacheRowCount
+     */
+    public void setCacheRowCount( int cacheRowCount )
+    {
+    	this.cacheRowCount = cacheRowCount;
+    }
+
     /**
      * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getDataSourceName()
      */	
@@ -292,5 +327,5 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	{
 		this.eventHandler = handler;
 	}
-
+    
 }
