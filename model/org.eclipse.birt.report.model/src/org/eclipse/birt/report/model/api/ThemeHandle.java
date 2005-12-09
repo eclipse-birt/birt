@@ -14,9 +14,11 @@ package org.eclipse.birt.report.model.api;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 
@@ -86,11 +88,11 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 *            the style name
 	 * @return the new unique style name
 	 */
-	
+
 	String makeUniqueStyleName( String name )
 	{
 		assert this != null;
-	
+
 		SlotHandle styles = getStyles( );
 		Set set = new HashSet( );
 		for ( int i = 0; i < styles.getCount( ); i++ )
@@ -98,9 +100,9 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 			StyleHandle style = (StyleHandle) styles.get( i );
 			set.add( style.getName( ) );
 		}
-	
+
 		// Add a numeric suffix that makes the name unique.
-	
+
 		int index = 0;
 		String baseName = name;
 		while ( set.contains( name ) )
@@ -108,5 +110,25 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 			name = baseName + ++index; //$NON-NLS-1$
 		}
 		return name;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getDisplayLabel(int)
+	 */
+
+	public String getDisplayLabel( int level )
+	{
+
+		String displayLabel = super.getDisplayLabel( level );
+
+		Module rootModule = getEffectiveModule( );
+		if ( rootModule instanceof Library )
+			displayLabel = StringUtil.buildQualifiedReference(
+					( (Library) rootModule ).getNamespace( ), displayLabel );
+
+		return displayLabel;
+
 	}
 }
