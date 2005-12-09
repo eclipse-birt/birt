@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.jface.action.Action;
@@ -84,27 +85,46 @@ public class ImportLibraryAction extends Action
 			}
 
 			String defaultName = new File( filename ).getName( ).split( "\\." )[0];
-			ImportLibraryDialog importDialog = new ImportLibraryDialog( defaultName ); //$NON-NLS-1$
-			if ( importDialog.open( ) == Dialog.OK )
+
+			ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( );
+			try
 			{
-				ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( );
-				try
+				if ( SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.getLibrary( defaultName ) != null )
 				{
-					moduleHandle.includeLibrary( getRelativedPath( moduleHandle.getFileName( ),
+					ImportLibraryDialog importDialog = new ImportLibraryDialog( defaultName );
+					if ( importDialog.open( ) == Dialog.OK )
+					{
+						moduleHandle.includeLibrary( DEUtil.getRelativedPath( moduleHandle.getFileName( ),
+								filename ),
+								(String) importDialog.getResult( ) );
+						ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
+								MessageFormat.format( MSG_DIALOG_MSG, new String[]{
+										filename
+								} ),
+								SWT.ICON_INFORMATION );
+					}
+				}
+				else
+				{
+					moduleHandle.includeLibrary( DEUtil.getRelativedPath( moduleHandle.getFileName( ),
 							filename ),
-							(String) importDialog.getResult( ) );
+							defaultName );
 					ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
 							MessageFormat.format( MSG_DIALOG_MSG, new String[]{
-								filename
+									filename
 							} ),
 							SWT.ICON_INFORMATION );
 				}
-				catch ( Exception e )
-				{
-					ExceptionHandler.handle( e );
-				}
 			}
+			catch ( Exception e )
+			{
+				ExceptionHandler.handle( e );
+			}
+			
+			
 		}
 	}
 
@@ -137,12 +157,12 @@ public class ImportLibraryAction extends Action
 		ReportPlugin.getDefault( ).setLibraryPreference( newLibraries );
 	}
 
-	// copy from
-	// org.eclipse.birt.report.designer.ui.lib.explorer.action.ImportLibraryAction
-	private static String getRelativedPath( String base, String child )
-	{
-		URI baseUri = new File( base ).getParentFile( ).toURI( );
-		URI childUri = new File( child ).toURI( );
-		return baseUri.relativize( childUri ).getPath( );
-	}
+//	// copy from
+//	// org.eclipse.birt.report.designer.ui.lib.explorer.action.ImportLibraryAction
+//	private static String getRelativedPath( String base, String child )
+//	{
+//		URI baseUri = new File( base ).getParentFile( ).toURI( );
+//		URI childUri = new File( child ).toURI( );
+//		return baseUri.relativize( childUri ).getPath( );
+//	}
 }

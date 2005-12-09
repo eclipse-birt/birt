@@ -15,7 +15,9 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.gef.commands.Command;
@@ -75,6 +77,11 @@ public class CreateCommand extends Command
 					( (SlotHandle) parent ).add( newObject );
 				}
 
+			}
+			else if( newObject instanceof DataSourceHandle)//simply add to datasource slot.
+			{
+				( (DesignElementHandle) parent ).addElement( newObject,
+						ReportDesignHandle.DATA_SOURCE_SLOT );
 			}
 			else
 			{

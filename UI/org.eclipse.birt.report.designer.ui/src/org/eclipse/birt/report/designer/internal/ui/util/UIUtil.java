@@ -977,16 +977,34 @@ public class UIUtil
 			LibraryHandle libraryHandle ) throws DesignFileException,
 			SemanticException
 	{
-		if ( !moduleHandle.isInclude( libraryHandle ) )
+		if ( moduleHandle!=libraryHandle && !moduleHandle.isInclude( libraryHandle ) )
 		{
 			String defaultName = new File( libraryHandle.getFileName( ) ).getName( )
 					.split( File.separator + "." )[0];
-			ImportLibraryDialog dialog = new ImportLibraryDialog( defaultName );
-			if ( dialog.open( ) == Dialog.OK )
+			if ( SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.getLibrary( defaultName ) != null )
+			{
+				ImportLibraryDialog dialog = new ImportLibraryDialog( defaultName );
+				if ( dialog.open( ) == Dialog.OK )
+				{
+					moduleHandle.includeLibrary( DEUtil.getRelativedPath( moduleHandle.getFileName( ),
+							libraryHandle.getFileName( ) ),
+							(String) dialog.getResult( ) );
+					ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
+							MessageFormat.format( MSG_DIALOG_MSG, new String[]{
+								libraryHandle.getFileName( )
+							} ),
+							SWT.ICON_INFORMATION );
+					return true;
+				}
+				return false;
+			}
+			else
 			{
 				moduleHandle.includeLibrary( DEUtil.getRelativedPath( moduleHandle.getFileName( ),
 						libraryHandle.getFileName( ) ),
-						(String) dialog.getResult( ) );
+						defaultName );
 				ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
 						MessageFormat.format( MSG_DIALOG_MSG, new String[]{
 							libraryHandle.getFileName( )
@@ -994,7 +1012,6 @@ public class UIUtil
 						SWT.ICON_INFORMATION );
 				return true;
 			}
-			return false;
 		}
 		return true;
 	}

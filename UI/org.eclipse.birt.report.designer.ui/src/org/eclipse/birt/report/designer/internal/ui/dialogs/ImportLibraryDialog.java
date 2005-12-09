@@ -37,7 +37,7 @@ public class ImportLibraryDialog extends BaseDialog
 	private static final Image ERROR_ICON = ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 	private static final String MSG_DIALOG_TITLE = Messages.getString( "ImportLibraryDialog.Title" ); //$NON-NLS-1$
 	private static final String MSG_DIALOG_MESSAGE = Messages.getString( "ImportLibraryAction.Message" ); //$NON-NLS-1$
-	private static final String MSG_DIALOG_NAMESPACE = Messages.getString( "ImportLibraryAction.Namespace" ); //$NON-NLS-1$
+	private static final String MSG_DIALOG_NAMESPACE = Messages.getString( "ImportLibraryAction.Prefix" ); //$NON-NLS-1$
 	private static final String MSG_DIALOG_ERROR_CANNOT_BE_EMPTY = Messages.getString( "ImportLibraryAction.Error.CannotBeEmpty" ); //$NON-NLS-1$
 	private static final String MSG_DIALOG_ERROR_HAS_BEEN_USED = Messages.getString( "ImportLibraryAction.Error.HasBeenUsed" ); //$NON-NLS-1$
 

@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -43,6 +44,7 @@ import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
@@ -315,6 +317,13 @@ public class DNDUtil
 			Object[] array = (Object[]) transferData;
 			for ( int i = 0; i < array.length; i++ )
 			{
+				if ( array[i] instanceof EmbeddedImageHandle )
+				{
+					if(((EmbeddedImageHandle)array[i]).getElementHandle().getRoot() instanceof  LibraryHandle)
+					{
+						array[i] = StructureFactory.createEmbeddedImage( (EmbeddedImageHandle)array[i] );
+					}
+				}
 				addCommandToCompound( array[i],
 						targetObj,
 						position,
@@ -344,6 +353,11 @@ public class DNDUtil
 		else if ( transferData instanceof IStructure )
 		{
 			commands.add( new PasteStructureCommand( (IStructure) transferData,
+					targetObj ) );
+		}
+		else if( transferData instanceof StructureHandle )
+		{
+			commands.add( new PasteStructureCommand( ((StructureHandle) transferData).getStructure(),
 					targetObj ) );
 		}
 	}
@@ -939,6 +953,10 @@ public class DNDUtil
 			{
 				return handleValidateTargetCanContainStructure( targetObj,
 						(IStructure) transferData ) ? CONTAIN_THIS : CONTAIN_NO;
+			}
+			else if( transferData instanceof EmbeddedImageHandle)
+			{
+				return targetObj instanceof EmbeddedImageNode?CONTAIN_THIS:CONTAIN_NO;
 			}
 			else
 			{

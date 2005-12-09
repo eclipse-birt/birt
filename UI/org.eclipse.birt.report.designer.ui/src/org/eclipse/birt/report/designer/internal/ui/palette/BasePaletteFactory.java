@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -616,13 +617,43 @@ public class BasePaletteFactory
 		{
 			if ( getRequest( ).getNewObjectType( ) instanceof DataSetHandle )
 			{
+				
 				try
 				{
+					//insert table grid into layout
 					Object newHandle = InsertInLayoutUtil.performInsert( getRequest( ).getNewObject( ),
 							getTargetEditPart( ) );
 					if ( newHandle == null )
 						return false;
 					setModel( newHandle );
+					
+					//add extended dataset element.
+					Object newObj = getRequest( ).getNewObject();
+					if( newObj instanceof Object[] && (( Object[])newObj).length>0)
+					{
+						newObj = (( Object[])newObj)[0];
+					}
+					DesignElementHandle elementHandle = (DesignElementHandle) newObj;
+					if ( elementHandle.getRoot( ) instanceof LibraryHandle )
+					{
+						ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+								.getReportDesignHandle( );
+						LibraryHandle library = (LibraryHandle) elementHandle.getRoot( );
+						try
+						{
+							if ( UIUtil.includeLibrary( moduleHandle, library ) )
+							{
+								moduleHandle.addElement(moduleHandle.getElementFactory( )
+										.newElementFrom( elementHandle, null ),moduleHandle.getDataSets().getSlotID());
+								
+							}
+						}
+						catch ( Exception e )
+						{
+							ExceptionHandler.handle( e );
+						}
+					}
+					
 					return super.preHandleMouseUp( );
 				}
 				catch ( SemanticException e )
@@ -713,6 +744,32 @@ public class BasePaletteFactory
 						return false;
 
 					setModel( newHandle );
+					
+					Object newObj = getRequest( ).getNewObject();
+					if( newObj instanceof Object[] && (( Object[])newObj).length>0)
+					{
+						newObj = (( Object[])newObj)[0];
+					}
+					DesignElementHandle elementHandle = (DesignElementHandle) newObj;
+					if ( elementHandle.getRoot( ) instanceof LibraryHandle )
+					{
+						ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+								.getReportDesignHandle( );
+						LibraryHandle library = (LibraryHandle) elementHandle.getRoot( );
+						try
+						{
+							if ( UIUtil.includeLibrary( moduleHandle, library ) )
+							{
+								moduleHandle.addElement(moduleHandle.getElementFactory( )
+										.newElementFrom( elementHandle, null ),ModuleHandle.PARAMETER_SLOT);
+							}
+						}
+						catch ( Exception e )
+						{
+							ExceptionHandler.handle( e );
+						}
+					}
+					
 					return super.preHandleMouseUp( );
 				}
 				catch ( SemanticException e )

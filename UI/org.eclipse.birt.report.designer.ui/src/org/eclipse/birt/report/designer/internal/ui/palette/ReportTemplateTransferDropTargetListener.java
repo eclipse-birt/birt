@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.gef.EditPart;
@@ -226,6 +227,10 @@ public class ReportTemplateTransferDropTargetListener
 				{
 					if ( ( (ReportElementHandle) dragObj ).getRoot( ) instanceof LibraryHandle )
 					{
+						//enable DataSetHandle,ParameterHandle to drag in lib explorer view.
+						if ( dragObj instanceof DataSetHandle
+								|| dragObj instanceof ParameterHandle )
+							return true;
 						if ( !DNDUtil.handleValidateTargetCanContain( targetEditPart.getModel( ),
 								dragObj )
 								|| !DNDUtil.handleValidateTargetCanContainMore( targetEditPart.getModel( ),
