@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import java.io.File;
-import java.net.URI;
 import java.text.MessageFormat;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;

@@ -87,10 +87,10 @@ public class LibraryDropListener extends DesignerDropListener
 	 */
 	protected boolean validateTarget( Object target, Object transfer )
 	{
-		if (!validateSameParent(target, transfer))
-		{
-			return false;
-		}
+//		if (!validateSameParent(target, transfer))
+//		{
+//			return false;
+//		}
 		
 		boolean retValue = super.validateTarget( target, transfer );
 		if ( !retValue )
