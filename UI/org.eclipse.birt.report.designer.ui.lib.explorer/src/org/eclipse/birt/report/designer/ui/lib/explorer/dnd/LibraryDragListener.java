@@ -12,10 +12,12 @@
 package org.eclipse.birt.report.designer.ui.lib.explorer.dnd;
 
 import org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDragAdapter;
-import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.MasterPageHandle;
+import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
+import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.jface.viewers.StructuredViewer;
 
 /**
@@ -37,15 +39,22 @@ public class LibraryDragListener extends DesignElementDragAdapter
 	 */
 	protected boolean validateTransfer( Object transfer )
 	{
-		if ( transfer instanceof ReportElementHandle )
+		if ( transfer instanceof ReportElementHandle || transfer instanceof EmbeddedImageHandle)
 		{
-			if ( transfer instanceof DataSetHandle
-					|| transfer instanceof DataSourceHandle
-					|| transfer instanceof MasterPageHandle )
+			if ( transfer instanceof ScalarParameterHandle
+					&& ( (ScalarParameterHandle) transfer ).getContainer( ) instanceof CascadingParameterGroupHandle )
 			{
 				return false;
 			}
-			return true;
+			else if ( transfer instanceof StyleHandle
+					&& ( (StyleHandle) transfer ).getContainer( ) instanceof ThemeHandle )
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
 		}
 		return false;
 	}
