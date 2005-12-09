@@ -111,7 +111,7 @@ public class DataSetCacheManager
 		if ( useCache == false )
 			return false;
 		
-		if ( datasetID != null && Integer.valueOf( cacheRowCount ).intValue( ) != 0 )
+		if ( datasetID != null && cacheRowCount != 0 )
 		{
 			if ( this.cacheMap.get( datasetID ) != null )
 				return false;
@@ -131,7 +131,7 @@ public class DataSetCacheManager
 		if ( useCache == false )
 			return false;
 
-		if ( datasetID != null && Integer.valueOf( cacheRowCount ).intValue( ) != 0 )
+		if ( datasetID != null &&  cacheRowCount != 0 )
 			return this.cacheMap.get( datasetID ) != null;
 
 		return false;
