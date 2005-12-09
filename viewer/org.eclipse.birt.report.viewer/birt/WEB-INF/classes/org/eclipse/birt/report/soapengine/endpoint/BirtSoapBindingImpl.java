@@ -10,6 +10,7 @@ package org.eclipse.birt.report.soapengine.endpoint;
 import javax.xml.namespace.QName;
 
 import org.apache.axis.AxisFault;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjects;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
@@ -33,10 +34,13 @@ public class BirtSoapBindingImpl implements BirtSoapPort
 			throw fault;
     	}
     	
-    	for( int i = 0; i < ops.length; i ++ )
+    	IReportRunnable runnable = context.getBean( ).getReportRunnable( );
+    	assert runnable != null;
+		
+		for( int i = 0; i < ops.length; i ++ )
     	{
     		Operation  op = ops[i];
-    		IComponentProcessor processor = ComponentProcessorFactory.createProcessor( op.getTarget( ) );
+    		IComponentProcessor processor = ComponentProcessorFactory.createProcessor( runnable, op.getTarget( ) );
     		
     		if ( processor == null )
     		{
