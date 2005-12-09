@@ -606,7 +606,8 @@ public class ScriptEvalUtil
 		Object result = null;
 		try
 		{
-			Script compiledScript = ScriptUtil.getCompiledScript( scriptText,
+			Script compiledScript = ScriptUtil.getCompiledScript( scope,
+					scriptText,
 					source,
 					lineNo );
 			result = compiledScript.exec( cx, scope );
