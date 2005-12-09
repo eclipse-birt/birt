@@ -37,7 +37,7 @@ public class NewTemplateWizard extends NewReportWizard
 	private static final String CREATING = Messages.getString( "NewTemplateWizard.text.Creating" ); //$NON-NLS-1$
 	private static final String NEW_TEMPLATE_FILE_NAME_PREFIX = Messages.getString( "NewTemplateWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
 	private static final String NEW_TEMPLATE_DESCRIPTION = Messages.getString( "NewTemplateWizard.pageDescription.createNewTemplate" ); //$NON-NLS-1$
-	private static final String NEW_TEMPLATE_TITLE = Messages.getString( "NewTemplateWizard.title.Report" ); //$NON-NLS-1$
+	private static final String NEW_TEMPLATE_TITLE = Messages.getString( "NewTemplateWizard.title.Template" ); //$NON-NLS-1$
 	
 	public NewTemplateWizard()
 	{
