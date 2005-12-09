@@ -55,6 +55,11 @@ public class EditAction extends AbstractElementAction
 	{
 		super( selectedObject, text );
 	}
+	
+	public boolean isEnabled( )
+	{
+		return getSelectedElement().canEdit();
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -63,7 +68,7 @@ public class EditAction extends AbstractElementAction
 	 */
 	protected boolean doAction( ) throws Exception
 	{
-		if ( getSelectedElement( ) == null )
+		if ( getSelectedElement( ) == null)
 		{
 			return false;
 		}

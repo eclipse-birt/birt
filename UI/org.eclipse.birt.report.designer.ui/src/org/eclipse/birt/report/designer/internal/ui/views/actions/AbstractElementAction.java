@@ -46,6 +46,10 @@ public abstract class AbstractElementAction extends AbstractViewAction
 	 */
 	public void run( )
 	{
+		if(!isEnabled())
+		{
+			return;
+		}
 		CommandStack stack = getCommandStack( );
 		stack.startTrans( getTransactionLabel( ) );
 		try
@@ -127,5 +131,4 @@ public abstract class AbstractElementAction extends AbstractViewAction
 	{
 		ExceptionHandler.handle( e );
 	}
-
 }
