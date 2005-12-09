@@ -54,6 +54,10 @@ public class MultipleSeriesComponent implements ISelectDataComponent
 
 	private transient boolean isSingle = false;
 
+	// THIS FLAG TO INDICATE ONLY FIRST SERIES GROUPING IS VALID. CHART ENGINE
+	// NOT SUPPORT MULIPLE GROUPING.
+	private transient boolean useFirstOnly = true;
+
 	public MultipleSeriesComponent( EList[] seriesDefnsArray,
 			IUIServiceProvider builder, Object oContext, String sTitle,
 			ISelectDataCustomizeUI selectDataUI )
@@ -95,6 +99,10 @@ public class MultipleSeriesComponent implements ISelectDataComponent
 		for ( int i = 0; i < seriesDefnsArray.length; i++ )
 		{
 			createRightGroupArea( cmp, i, seriesDefnsArray[i] );
+			if ( useFirstOnly )
+			{
+				break;
+			}
 		}
 
 		Label bottomAngle = new Label( cmp, SWT.NONE );
@@ -127,7 +135,12 @@ public class MultipleSeriesComponent implements ISelectDataComponent
 					lblRightYGrouping.setText( strDesc );
 				}
 
-				int selectedSeriesIndex = selectDataUI.getSeriesIndex( )[axisIndex];
+				int selectedSeriesIndex = 0;
+				if ( !useFirstOnly )
+				{
+					selectedSeriesIndex = selectDataUI.getSeriesIndex( )[axisIndex];
+				}
+
 				if ( seriesDefn != null && !seriesDefn.isEmpty( ) )
 				{
 					// Only display current selected series
@@ -136,6 +149,11 @@ public class MultipleSeriesComponent implements ISelectDataComponent
 							serviceprovider,
 							oContext,
 							sTitle );
+					if ( subUI instanceof BaseDataDefinitionComponent )
+					{
+						// Remove the format specifier
+						( (BaseDataDefinitionComponent) subUI ).setFormatSpecifierEnabled( false );
+					}
 					subUI.createArea( cmpGroup );
 					components.add( subUI );
 				}

@@ -459,7 +459,7 @@ public class TaskSelectType extends SimpleTask
 		}
 		catch ( ChartException e )
 		{
-			container.displayException( e );
+			ChartWizard.displayException( e );
 		}
 		return new String[0];
 	}
@@ -512,7 +512,7 @@ public class TaskSelectType extends SimpleTask
 			}
 			catch ( Exception e )
 			{
-				container.displayException( e );
+				ChartWizard.displayException( e );
 			}
 		}
 	}
@@ -825,7 +825,7 @@ public class TaskSelectType extends SimpleTask
 		}
 		catch ( Exception e )
 		{
-			container.displayException( e );
+			ChartWizard.displayException( e );
 		}
 		finally
 		{
@@ -848,7 +848,7 @@ public class TaskSelectType extends SimpleTask
 			}
 			catch ( ChartException e )
 			{
-				container.displayException( e );
+				ChartWizard.displayException( e );
 			}
 		}
 		else
@@ -1014,7 +1014,7 @@ public class TaskSelectType extends SimpleTask
 		}
 		catch ( Exception e )
 		{
-			container.displayException( e );
+			ChartWizard.displayException( e );
 		}
 
 		// RE-ENABLE PREVIEW REFRESH

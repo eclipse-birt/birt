@@ -299,7 +299,8 @@ public class DataDefinitionSelector
 			// Sets current series index and update bottom component if needed
 			setSelectedSeriesIndex( );
 
-			selectDataUI.refreshRightBindingArea( );
+			// CHART ENGINE NOT SUPPORT MULTI-GROUPING, NO NEED TO REFRESH UI
+			// selectDataUI.refreshRightBindingArea( );
 			selectDataUI.layoutAll( );
 
 		}
@@ -324,7 +325,8 @@ public class DataDefinitionSelector
 			// Sets current series index and update bottom component if needed
 			setSelectedSeriesIndex( );
 
-			selectDataUI.refreshRightBindingArea( );
+			// CHART ENGINE NOT SUPPORT MULTI-GROUPING, NO NEED TO REFRESH UI
+			// selectDataUI.refreshRightBindingArea( );
 			selectDataUI.layoutAll( );
 		}
 	}

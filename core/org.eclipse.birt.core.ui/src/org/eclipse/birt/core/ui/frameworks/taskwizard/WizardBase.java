@@ -228,6 +228,19 @@ public class WizardBase
 		return null;
 	}
 
+	/**
+	 * Launches the wizard with the first tasks in 'Available' state. Ensure the
+	 * task is registered at first.
+	 * 
+	 * @param initialContext
+	 *            Initial Context for the wizard
+	 * @return Wizard Context
+	 */
+	public IWizardContext open( IWizardContext initialContext )
+	{
+		return open( null, null, initialContext );
+	}
+
 	public void enable( String sTaskID )
 	{
 		// TODO: Handle enabling of a task
@@ -446,7 +459,7 @@ public class WizardBase
 	 * @param t
 	 *            exception to be displayed to the user
 	 */
-	public void displayException( Throwable t )
+	public static void displayException( Throwable t )
 	{
 		// TODO: Implement linkage with the ErrorDialog
 		new ErrorDialog( Messages.getString( "WizardBase.error.ErrorsEncountered" ), //$NON-NLS-1$

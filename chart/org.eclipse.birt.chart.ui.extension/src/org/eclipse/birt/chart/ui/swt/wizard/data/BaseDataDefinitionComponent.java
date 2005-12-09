@@ -85,6 +85,8 @@ public class BaseDataDefinitionComponent
 
 	private transient boolean isQueryModified;
 
+	private transient boolean isFormatSpecifiedEnabled = true;
+
 	public BaseDataDefinitionComponent( SeriesDefinition seriesdefinition,
 			Query query, IUIServiceProvider builder, Object oContext,
 			String sTitle )
@@ -159,16 +161,19 @@ public class BaseDataDefinitionComponent
 			btnBuilder.setEnabled( false );
 		}
 
-		btnFormatEditor = new Button( cmpTop, SWT.PUSH );
-		GridData gdBTNFormatEditor = new GridData( );
-		gdBTNFormatEditor.heightHint = 20;
-		gdBTNFormatEditor.widthHint = 20;
-		btnFormatEditor.setLayoutData( gdBTNFormatEditor );
-		btnFormatEditor.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
-		btnFormatEditor.addSelectionListener( this );
-		btnFormatEditor.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
-		btnFormatEditor.getImage( )
-				.setBackground( btnFormatEditor.getBackground( ) );
+		if ( isFormatSpecifiedEnabled )
+		{
+			btnFormatEditor = new Button( cmpTop, SWT.PUSH );
+			GridData gdBTNFormatEditor = new GridData( );
+			gdBTNFormatEditor.heightHint = 20;
+			gdBTNFormatEditor.widthHint = 20;
+			btnFormatEditor.setLayoutData( gdBTNFormatEditor );
+			btnFormatEditor.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
+			btnFormatEditor.addSelectionListener( this );
+			btnFormatEditor.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
+			btnFormatEditor.getImage( )
+					.setBackground( btnFormatEditor.getBackground( ) );
+		}
 
 		// Updatas color setting
 		setColor( );
@@ -339,5 +344,16 @@ public class BaseDataDefinitionComponent
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	/**
+	 * Enables or disables the format specifier. Default value is enabled.
+	 * 
+	 * @param isEnabled
+	 *            The flag to enable or disable the format specifier.
+	 */
+	public void setFormatSpecifierEnabled( boolean isEnabled )
+	{
+		this.isFormatSpecifiedEnabled = isEnabled;
 	}
 }

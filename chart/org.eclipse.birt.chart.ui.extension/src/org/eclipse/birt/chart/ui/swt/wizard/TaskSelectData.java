@@ -413,7 +413,7 @@ public class TaskSelectData extends SimpleTask
 		}
 		catch ( ChartException e )
 		{
-			container.displayException( e );
+			ChartWizard.displayException( e );
 		}
 
 	}
@@ -487,7 +487,7 @@ public class TaskSelectData extends SimpleTask
 			}
 			catch ( ChartException e1 )
 			{
-				container.displayException( e1 );
+				ChartWizard.displayException( e1 );
 			}
 			cmbDataSet.setEnabled( false );
 			btnNewData.setEnabled( false );
@@ -515,7 +515,7 @@ public class TaskSelectData extends SimpleTask
 				}
 				catch ( ChartException e1 )
 				{
-					container.displayException( e1 );
+					ChartWizard.displayException( e1 );
 				}
 			}
 			cmbDataSet.setEnabled( true );
@@ -532,7 +532,7 @@ public class TaskSelectData extends SimpleTask
 			}
 			catch ( ChartException e1 )
 			{
-				container.displayException( e1 );
+				ChartWizard.displayException( e1 );
 			}
 		}
 		else if ( e.getSource( ).equals( btnNewData ) )
@@ -568,7 +568,7 @@ public class TaskSelectData extends SimpleTask
 				}
 				catch ( ChartException e1 )
 				{
-					container.displayException( e1 );
+					ChartWizard.displayException( e1 );
 				}
 			}
 		}
@@ -827,15 +827,16 @@ public class TaskSelectData extends SimpleTask
 			{
 				SeriesDefinition sd = (SeriesDefinition) sds.get( i );
 				IAction action = new GroupYSeriesAction( sd.getQuery( ) );
-				if ( axisNum == 1 && sds.size( ) == 1 )
+				// ONLY USE FIRST GROUPING SERIES FOR CHART ENGINE SUPPORT
+				// if ( axisNum == 1 && sds.size( ) == 1 )
 				{
 					// Simply cascade menu
 					return action;
 				}
-				action.setText( getSecondMenuText( axisIndex,
-						i,
-						sd.getDesignTimeSeries( ) ) );
-				topManager.add( action );
+				// action.setText( getSecondMenuText( axisIndex,
+				// i,
+				// sd.getDesignTimeSeries( ) ) );
+				// topManager.add( action );
 			}
 		}
 		return topManager;
