@@ -368,7 +368,7 @@ public class ReportEngine
 	 */
 	public IDataExtractionTask createDataExtractionTask( IReportDocument reportDocument )
 	{
-		return null;
+		return helper.createDataExtractionTask( reportDocument );
 	}
 
 	/**

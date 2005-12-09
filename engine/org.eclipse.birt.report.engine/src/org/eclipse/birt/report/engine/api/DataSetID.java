@@ -26,7 +26,22 @@ public class DataSetID
 		this.rowId = rowId;
 		this.queryName = queryName;
 	}
-
+	public DataSetID getParentID( )
+	{
+		return parent;
+	}
+	public String getDataSetName( )
+	{
+		return dataSetName;
+	}
+	public String getQueryName( )
+	{
+		return queryName;
+	}
+	public long getRowID( )
+	{
+		return rowId;
+	}
 	public DataSetID( String dataSetName )
 	{
 		this.dataSetName = dataSetName;

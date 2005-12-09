@@ -22,7 +22,11 @@ public class DataID
 		this.dataSet = dataSet;
 		this.rowId = rowId;
 	}
-
+	public DataSetID getDataSetID( )
+	{
+		return dataSet;
+	}
+	
 	public void append( StringBuffer buffer )
 	{
 		dataSet.append( buffer );

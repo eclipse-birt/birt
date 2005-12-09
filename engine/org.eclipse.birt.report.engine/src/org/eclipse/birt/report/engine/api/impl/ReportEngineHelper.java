@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.archive.FileArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IDataPreviewTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IRenderTask;
@@ -298,6 +299,20 @@ public class ReportEngineHelper
 			return new RenderTask( engine, runnable, (ReportDocumentReader) reportDoc );
 		}
 		catch ( EngineException ex )
+		{
+			ex.printStackTrace( );
+		}
+		return null;
+	}
+	
+	public IDataExtractionTask createDataExtractionTask( IReportDocument reportDoc )
+	{
+		try
+		{
+			IReportRunnable runnable = engine.openReportDesign( reportDoc.getDesignStream( ) );
+			return new DataExtractionTask( engine, runnable, (ReportDocumentReader)reportDoc );
+		}
+		catch( EngineException ex )
 		{
 			ex.printStackTrace( );
 		}
