@@ -3025,7 +3025,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * 
 	 * @return
 	 */
-	protected boolean isInteractivityEnabled( )
+	public boolean isInteractivityEnabled( )
 	{
 		return ( cm.getInteractivity( ) == null || cm.getInteractivity( )
 				.isEnable( ) );
