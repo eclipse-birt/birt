@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Listener;
 
 /**
  * 
@@ -20,9 +21,11 @@ import org.eclipse.swt.widgets.Composite;
 public interface ISelectDataComponent
 {
 
-	public Composite createArea( Composite parent );
+	Composite createArea( Composite parent );
 
-	public void selectArea( boolean selected, Object data );
+	void selectArea( boolean selected, Object data );
 
-	public void dispose( );
+	void dispose( );
+
+	void addListener( Listener listener );
 }

@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.wizard.data;
 
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
@@ -28,7 +29,7 @@ import org.eclipse.swt.widgets.Label;
  * 
  */
 
-public class DefaultBaseSeriesComponent implements ISelectDataComponent
+public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent
 {
 
 	private transient Label lblBottomXSeries;
@@ -113,5 +114,6 @@ public class DefaultBaseSeriesComponent implements ISelectDataComponent
 	public void dispose( )
 	{
 		comData.dispose( );
+		super.dispose( );
 	}
 }

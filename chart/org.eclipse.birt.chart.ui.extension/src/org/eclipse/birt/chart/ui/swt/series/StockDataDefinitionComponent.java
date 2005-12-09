@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.series;
 
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
@@ -26,7 +27,7 @@ import org.eclipse.swt.widgets.Label;
  * 
  */
 
-public class StockDataDefinitionComponent implements ISelectDataComponent
+public class StockDataDefinitionComponent extends DefaultSelectDataComponent
 {
 
 	public static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.StockSeriesImpl"; //$NON-NLS-1$
@@ -131,5 +132,6 @@ public class StockDataDefinitionComponent implements ISelectDataComponent
 		{
 			dataComArray[i].dispose( );
 		}
+		super.dispose( );
 	}
 }

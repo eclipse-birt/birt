@@ -14,7 +14,7 @@ package org.eclipse.birt.chart.ui.swt.wizard.data;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
+import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Label;
  * 
  */
 
-public class MultipleSeriesSelectorComponent implements ISelectDataComponent
+public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 {
 
 	private transient EList[] seriesDefnsArray;
@@ -134,6 +134,7 @@ public class MultipleSeriesSelectorComponent implements ISelectDataComponent
 		{
 			selectors[i].dispose( );
 		}
+		super.dispose( );
 	}
 
 	public void setAreaTitle( String areaTitle )

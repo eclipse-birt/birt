@@ -18,9 +18,9 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.RuleEditorDialog;
-import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
@@ -47,6 +47,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
@@ -54,12 +55,12 @@ import org.eclipse.swt.widgets.Text;
  * 
  */
 
-public class BaseDataDefinitionComponent implements
-		ISelectDataComponent,
-		SelectionListener,
-		ModifyListener,
-		FocusListener,
-		KeyListener
+public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
+		implements
+			SelectionListener,
+			ModifyListener,
+			FocusListener,
+			KeyListener
 {
 
 	private transient Composite cmpTop;
@@ -97,7 +98,8 @@ public class BaseDataDefinitionComponent implements
 		this.seriesdefinition = seriesdefinition;
 		this.serviceprovider = builder;
 		this.oContext = oContext;
-		this.sTitle = ( sTitle == null || sTitle.length( ) == 0 ) ? Messages.getString( "BaseDataDefinitionComponent.Text.SpecifyDataDefinition" ) //$NON-NLS-1$
+		this.sTitle = ( sTitle == null || sTitle.length( ) == 0 )
+				? Messages.getString( "BaseDataDefinitionComponent.Text.SpecifyDataDefinition" ) //$NON-NLS-1$
 				: sTitle;
 	}
 
@@ -207,6 +209,7 @@ public class BaseDataDefinitionComponent implements
 	{
 		DataDefinitionTextManager.getInstance( )
 				.removeDataDefinitionText( txtDefinition );
+		super.dispose( );
 	}
 
 	/*
@@ -328,6 +331,13 @@ public class BaseDataDefinitionComponent implements
 			setColor( );
 			txtDefinition.getParent( ).layout( );
 			isQueryModified = false;
+
+			Event e = new Event( );
+			e.text = txtDefinition.getText( );
+			e.data = txtDefinition.getText( );
+			e.widget = txtDefinition;
+			e.type = 0;
+			fireEvent( e );
 		}
 	}
 

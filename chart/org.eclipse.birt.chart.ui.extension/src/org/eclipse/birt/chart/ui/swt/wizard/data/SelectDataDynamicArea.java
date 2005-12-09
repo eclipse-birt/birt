@@ -37,12 +37,14 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 
 /**
  * 
  */
 
-public class SelectDataDynamicArea implements ISelectDataCustomizeUI
+public class SelectDataDynamicArea implements ISelectDataCustomizeUI, Listener
 {
 
 	private transient ITask task = null;
@@ -244,6 +246,7 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 					getContext( ).getUIServiceProvider( ),
 					getContext( ).getExtendedItem( ),
 					Messages.getString( "AbstractSelectDataCustomizeUI.Label.SeriesGrouping" ), this ); //$NON-NLS-1$
+			component.addListener( this );
 			subRightAreas.add( component );
 			component.createArea( cmpRightArea );
 		}
@@ -253,6 +256,7 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 					getContext( ).getUIServiceProvider( ),
 					getContext( ).getExtendedItem( ),
 					Messages.getString( "AbstractSelectDataCustomizeUI.Label.SeriesGrouping" ), this ); //$NON-NLS-1$
+			component.addListener( this );
 			subRightAreas.add( component );
 			component.createArea( cmpRightArea );
 		}
@@ -317,5 +321,11 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 	{
 		// Reset selected series index to 0
 		seriesIndex = new int[ChartUIUtil.getOrthogonalAxisNumber( getChartModel( ) )];
+	}
+
+	public void handleEvent( Event event )
+	{
+		// Copy the group query to all
+		ChartUIUtil.setAllGroupingQuery( getChartModel( ), event.text );
 	}
 }

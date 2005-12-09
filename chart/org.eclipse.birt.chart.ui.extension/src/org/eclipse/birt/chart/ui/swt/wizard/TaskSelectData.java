@@ -686,6 +686,10 @@ public class TaskSelectData extends SimpleTask
 			refreshRightArea( );
 			// Refresh all data definitino text
 			DataDefinitionTextManager.getInstance( ).refreshAll( );
+
+			// Use the first group, and copy to the all groups
+			ChartUIUtil.setAllGroupingQuery( getChartModel( ),
+					query.getDefinition( ) );
 		}
 	}
 

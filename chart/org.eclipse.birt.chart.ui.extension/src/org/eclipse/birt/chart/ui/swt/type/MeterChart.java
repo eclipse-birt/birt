@@ -42,6 +42,7 @@ import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
+import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
@@ -601,14 +602,7 @@ public class MeterChart extends DefaultChartTypeImpl
 			ISelectDataCustomizeUI selectDataUI, IUIServiceProvider builder,
 			Object oContext, String sTitle )
 	{
-		// return new DialBaseSeriesComponent( chart,
-		// (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
-		// .get( 0 ),
-		// builder,
-		// oContext,
-		// sTitle,
-		// selectDataUI );
-		return new ISelectDataComponent( ) {
+		return new DefaultSelectDataComponent( ) {
 
 			public Composite createArea( Composite parent )
 			{
@@ -616,18 +610,6 @@ public class MeterChart extends DefaultChartTypeImpl
 				cmp.setLayout( new FillLayout( ) );
 				new Label( cmp, SWT.NONE );
 				return cmp;
-			}
-
-			public void selectArea( boolean selected, Object data )
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			public void dispose( )
-			{
-				// TODO Auto-generated method stub
-
 			}
 		};
 	}

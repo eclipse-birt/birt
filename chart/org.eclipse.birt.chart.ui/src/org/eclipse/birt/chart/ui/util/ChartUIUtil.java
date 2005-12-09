@@ -570,4 +570,27 @@ public class ChartUIUtil
 				sbNewRepresentation.length( ) - 1 );
 	}
 
+	/**
+	 * Sets the query to all series grouping
+	 * 
+	 * @param chart
+	 *            chart model
+	 * @param queryDefinition
+	 *            group query definition
+	 */
+	public static void setAllGroupingQuery( Chart chart, String queryDefinition )
+	{
+		int axisNum = ChartUIUtil.getOrthogonalAxisNumber( chart );
+		for ( int axisIndex = 0; axisIndex < axisNum; axisIndex++ )
+		{
+			List sds = ChartUIUtil.getOrthogonalSeriesDefinitions( chart,
+					axisIndex );
+			for ( int i = 0; i < sds.size( ); i++ )
+			{
+				SeriesDefinition sd = (SeriesDefinition) sds.get( i );
+				sd.getQuery( ).setDefinition( queryDefinition );
+			}
+		}
+	}
+
 }

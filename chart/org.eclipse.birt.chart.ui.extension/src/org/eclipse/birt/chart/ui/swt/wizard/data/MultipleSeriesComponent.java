@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
@@ -26,14 +27,18 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 
 /**
  * This UI component is made up of data text fields for grouping series of each
  * axis.
  */
 
-public class MultipleSeriesComponent implements ISelectDataComponent
+public class MultipleSeriesComponent extends DefaultSelectDataComponent
+		implements
+			Listener
 {
 
 	private transient EList[] seriesDefnsArray;
@@ -117,7 +122,7 @@ public class MultipleSeriesComponent implements ISelectDataComponent
 			final EList seriesDefn )
 	{
 		final String strDesc = getGroupingDescription( axisIndex );
-		ISelectDataComponent subUIGroupY = new ISelectDataComponent( ) {
+		ISelectDataComponent subUIGroupY = new DefaultSelectDataComponent( ) {
 
 			private transient Composite cmpGroup;
 			private transient Label lblRightYGrouping;
@@ -149,27 +154,13 @@ public class MultipleSeriesComponent implements ISelectDataComponent
 							serviceprovider,
 							oContext,
 							sTitle );
-					if ( subUI instanceof BaseDataDefinitionComponent )
-					{
-						// Remove the format specifier
-						( (BaseDataDefinitionComponent) subUI ).setFormatSpecifierEnabled( false );
-					}
+					subUI.addListener( MultipleSeriesComponent.this );
 					subUI.createArea( cmpGroup );
 					components.add( subUI );
 				}
 				return cmpGroup;
 			}
 
-			public void selectArea( boolean selected, Object data )
-			{
-
-			}
-
-			public void dispose( )
-			{
-				// TODO Auto-generated method stub
-
-			}
 		};
 		subUIGroupY.createArea( parent );
 		components.add( subUIGroupY );
@@ -190,6 +181,7 @@ public class MultipleSeriesComponent implements ISelectDataComponent
 		{
 			( (ISelectDataComponent) components.get( i ) ).dispose( );
 		}
+		super.dispose( );
 	}
 
 	private String getGroupingDescription( int axisIndex )
@@ -203,6 +195,11 @@ public class MultipleSeriesComponent implements ISelectDataComponent
 			return LABEL_GROUPING_YSERIES;
 		}
 		return LABEL_GROUPING_OVERLAY;
+	}
+
+	public void handleEvent( Event event )
+	{
+		fireEvent( event );
 	}
 
 }

@@ -22,7 +22,6 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
-import org.eclipse.birt.chart.ui.swt.wizard.BlankSelectDataComponent;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -143,7 +142,7 @@ public class DefaultChartTypeImpl implements IChartType
 			ISelectDataCustomizeUI selectDataUI, IUIServiceProvider builder,
 			Object oContext, String sTitle )
 	{
-		return new BlankSelectDataComponent( );
+		return new DefaultSelectDataComponent( );
 	}
 
 }

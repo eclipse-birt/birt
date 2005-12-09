@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
@@ -49,9 +50,8 @@ import org.eclipse.swt.widgets.Group;
  * instance. Series adding is embedded in Combo selector.
  */
 
-public class DataDefinitionSelector
+public class DataDefinitionSelector extends DefaultSelectDataComponent
 		implements
-			ISelectDataComponent,
 			SelectionListener
 {
 
@@ -418,7 +418,7 @@ public class DataDefinitionSelector
 	public void dispose( )
 	{
 		dateComponent.dispose( );
-
+		super.dispose( );
 	}
 
 	/**

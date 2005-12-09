@@ -13,12 +13,12 @@ package org.eclipse.birt.chart.ui.swt.series;
 
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.composites.StockSeriesDataDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
-import org.eclipse.birt.chart.ui.swt.wizard.BlankSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -85,12 +85,14 @@ public class StockSeriesUIProvider extends DefaultSeriesUIProvider
 		}
 		else if ( seriesType == ISelectDataCustomizeUI.GROUPING_SERIES )
 		{
-			return new BaseDataDefinitionComponent( seriesDefn,
+			BaseDataDefinitionComponent ddc = new BaseDataDefinitionComponent( seriesDefn,
 					seriesDefn.getQuery( ),
 					builder,
 					oContext,
 					sTitle );
+			ddc.setFormatSpecifierEnabled( false );
+			return ddc;
 		}
-		return new BlankSelectDataComponent( );
+		return new DefaultSelectDataComponent( );
 	}
 }
