@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
@@ -270,7 +271,6 @@ public class GroupElementHandle
 
 	public Iterator propertyIterator( )
 	{
-
 		return new GroupPropertyIterator( getCommonProperties( ) );
 	}
 
@@ -332,6 +332,98 @@ public class GroupElementHandle
 		}
 
 		return isVisible;
+	}
+
+	/**
+	 * Clears values of all common properties for the given collection of
+	 * elements. Clearing a property removes any value set for the property on
+	 * this element. After this, the element will now inherit the property from
+	 * its parent element, style, or from the default value for the property.
+	 * 
+	 * @throws SemanticException
+	 *             if the property is not defined on this element
+	 */
+	public void clearAllProperties( ) throws SemanticException
+	{
+		ActivityStack stack = module.getActivityStack( );
+		stack.startTrans( );
+
+		try
+		{
+			Iterator iter = propertyIterator( );
+			while ( iter.hasNext( ) )
+			{
+				GroupPropertyHandle propHandle = (GroupPropertyHandle) iter
+						.next( );
+				propHandle.clearValue( );
+			}
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+		
+		stack.commit();
+	}
+
+	/**
+	 * Returns <code>true</code> if each of the given collection of element
+	 * extends has a parent. Returns <code>false</code> otherwise. If the
+	 * collection has no elements, also return <code>false</code>
+	 * 
+	 * @return <code>true</code> if each of the given collection of element
+	 *         extends has a parent. Returns <code>false</code> otherwise. If
+	 *         the collection has no elements, also return <code>false</code>
+	 */
+
+	public boolean isExtendedElements( )
+	{
+		if ( elements.isEmpty( ) )
+			return false;
+
+		for ( Iterator iter = this.elements.iterator( ); iter.hasNext( ); )
+		{
+			DesignElementHandle element = (DesignElementHandle) iter.next( );
+			if ( element.getExtends( ) == null )
+				return false;
+		}
+
+		// Each element has a parent.
+
+		return true;
+	}
+
+	/**
+	 * This method returnt <code>true</code> in following condition:
+	 * <p>
+	 * 1. The multi selected elements are same type.
+	 * <p>
+	 * 2. And the multi selected elements have extends.
+	 * <p>
+	 * 3. If any of the given elements has local properties.
+	 * <p>
+	 * 
+	 * @return <code>true</code> if the conditions is met.
+	 */
+
+	public boolean hasLocalPropertiesForExtendedElements( )
+	{
+		if ( !isSameType( ) )
+			return false;
+
+		if ( !isExtendedElements( ) )
+			return false;
+
+		for ( Iterator iter = elements.iterator( ); iter.hasNext( ); )
+		{
+			DesignElementHandle elementHandle = (DesignElementHandle) iter
+					.next( );
+			if ( elementHandle.getElement( ).hasLocalPropertyValues( ) )
+				return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -466,10 +558,11 @@ public class GroupElementHandle
 	}
 
 	/**
-	 * Clears the value of a property on the given collection of elements.
-	 * Clearing a property removes any value set for the property on this
-	 * element. After this, the element will now inherit the property from its
-	 * parent element, style, or from the default value for the property.
+	 * Clears the value of a property on the given collection of elements if the
+	 * property is a common property shared by each element. Clearing a property
+	 * removes any value set for the property on this element. After this, the
+	 * element will now inherit the property from its parent element, style, or
+	 * from the default value for the property.
 	 * <p>
 	 * If the property provided is not a common property then this method simply
 	 * return, else, the value will be cleared on the group of elements.
@@ -527,17 +620,19 @@ public class GroupElementHandle
 
 	class GroupPropertyIterator implements Iterator
 	{
+
 		/**
 		 * The property iterator to traverse the properties.
 		 */
-		
+
 		Iterator propIterator;
 
 		/**
 		 * Constructs the group property iterator with the common property list.
+		 * 
 		 * @param list
 		 */
-		
+
 		GroupPropertyIterator( List list )
 		{
 			propIterator = list.iterator( );
