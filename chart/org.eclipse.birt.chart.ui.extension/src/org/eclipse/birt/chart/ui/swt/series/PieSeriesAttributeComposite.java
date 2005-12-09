@@ -29,6 +29,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -46,10 +47,9 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class PieSeriesAttributeComposite extends Composite
-		implements
-			Listener,
-			SelectionListener
+public class PieSeriesAttributeComposite extends Composite implements
+		Listener,
+		SelectionListener
 {
 
 	private transient Group grpLeaderLine = null;
@@ -365,13 +365,21 @@ public class PieSeriesAttributeComposite extends Composite
 		}
 		else if ( e.widget.equals( btnBuilder ) )
 		{
-			String sExpr = serviceprovider.invoke( txtExplode.getText( ),
-					oContext,
-					Messages.getString( "PieBaseSeriesComponent.Text.SpecifyExplodeSlice" ), //$NON-NLS-1$
-					true );
-			txtExplode.setText( sExpr );
-			txtExplode.setToolTipText( sExpr );
-			series.setExplosionExpression( sExpr );
+			try
+			{
+				String sExpr = serviceprovider.invoke( IUIServiceProvider.COMMAND_CHART_EXPRESSION,
+						txtExplode.getText( ),
+						oContext,
+						Messages.getString( "PieBaseSeriesComponent.Text.SpecifyExplodeSlice" ) //$NON-NLS-1$
+						);
+				txtExplode.setText( sExpr );
+				txtExplode.setToolTipText( sExpr );
+				series.setExplosionExpression( sExpr );
+			}
+			catch ( ChartException e1 )
+			{
+				WizardBase.displayException( e1 );
+			}
 		}
 	}
 

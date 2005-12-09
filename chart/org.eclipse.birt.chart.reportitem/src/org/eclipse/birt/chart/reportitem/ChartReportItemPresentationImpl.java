@@ -379,8 +379,8 @@ public final class ChartReportItemPresentationImpl extends
 			GeneratedChartState gcs = null;
 			gcs = gr.build( idr.getDisplayServer( ),
 					cm,
-					null,
 					bo,
+					null,
 					rtc,
 					new ChartReportStyleProcessor( handle ) );
 

@@ -768,7 +768,8 @@ public final class Generator
 				{
 					sh.init( null );
 				}
-
+				sh.setRunTimeModel( cmRunTime );
+				
 				if ( sScriptContent != null )
 				{
 					sh.register( sScriptContent );

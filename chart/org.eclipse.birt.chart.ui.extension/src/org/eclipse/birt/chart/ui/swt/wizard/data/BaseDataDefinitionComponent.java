@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.data;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
@@ -27,6 +28,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.DataTextDropListener;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.SimpleTextTransfer;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
@@ -52,13 +54,12 @@ import org.eclipse.swt.widgets.Text;
  * 
  */
 
-public class BaseDataDefinitionComponent
-		implements
-			ISelectDataComponent,
-			SelectionListener,
-			ModifyListener,
-			FocusListener,
-			KeyListener
+public class BaseDataDefinitionComponent implements
+		ISelectDataComponent,
+		SelectionListener,
+		ModifyListener,
+		FocusListener,
+		KeyListener
 {
 
 	private transient Composite cmpTop;
@@ -96,8 +97,7 @@ public class BaseDataDefinitionComponent
 		this.seriesdefinition = seriesdefinition;
 		this.serviceprovider = builder;
 		this.oContext = oContext;
-		this.sTitle = ( sTitle == null || sTitle.length( ) == 0 )
-				? Messages.getString( "BaseDataDefinitionComponent.Text.SpecifyDataDefinition" ) //$NON-NLS-1$
+		this.sTitle = ( sTitle == null || sTitle.length( ) == 0 ) ? Messages.getString( "BaseDataDefinitionComponent.Text.SpecifyDataDefinition" ) //$NON-NLS-1$
 				: sTitle;
 	}
 
@@ -218,11 +218,19 @@ public class BaseDataDefinitionComponent
 	{
 		if ( e.getSource( ).equals( btnBuilder ) )
 		{
-			String sExpr = serviceprovider.invoke( txtDefinition.getText( ),
-					oContext,
-					sTitle );
-			txtDefinition.setText( sExpr );
-			query.setDefinition( sExpr );
+			try
+			{
+				String sExpr = serviceprovider.invoke( IUIServiceProvider.COMMAND_EXPRESSION,
+						txtDefinition.getText( ),
+						oContext,
+						sTitle );
+				txtDefinition.setText( sExpr );
+				query.setDefinition( sExpr );
+			}
+			catch ( ChartException e1 )
+			{
+				WizardBase.displayException( e1 );
+			}
 		}
 		else if ( e.getSource( ).equals( btnRuleEditor ) )
 		{
