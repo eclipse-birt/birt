@@ -33,8 +33,8 @@ public class ScriptExecutor
 
 	public static final String PROPERTYSEPARATOR = ";";
 
+	public static final String WEBAPP_CLASSPATH_KEY = "webapplication.projectclasspath";
 	public static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath";
-
 	public static final String PROJECT_CLASSPATH_KEY = "user.projectclasspath";
 
 	protected static Logger log = Logger.getLogger( ScriptExecutor.class
@@ -104,19 +104,26 @@ public class ScriptExecutor
 				c = Class.forName( className );
 			} catch ( ClassNotFoundException e )
 			{
-				// Try using the user.projectclasspath property to load it
-				// using the classpath specified. This would be the case
-				// when debugging is used
-				c = getClassUsingCustomClassPath( className,
-						PROJECT_CLASSPATH_KEY );
+				// Try using web application's webapplication.projectclasspath to load it. 
+				// This would be the case where the application is deployed on web server.
+				c = getClassUsingCustomClassPath( className, WEBAPP_CLASSPATH_KEY );
 				if ( c == null )
 				{
-					// The class is not on the current classpath.
-					// Try using the workspace.projectclasspath property
+					// Try using the user.projectclasspath property to load it
+					// using the classpath specified. This would be the case
+					// when debugging is used
 					c = getClassUsingCustomClassPath( className,
-							WORKSPACE_CLASSPATH_KEY );
+							PROJECT_CLASSPATH_KEY );
+					if ( c == null )
+					{
+						// The class is not on the current classpath.
+						// Try using the workspace.projectclasspath property
+						c = getClassUsingCustomClassPath( className,
+								WORKSPACE_CLASSPATH_KEY );
+					}
 				}
 			}
+			
 			if ( c != null )
 			{
 				o = c.newInstance( );
