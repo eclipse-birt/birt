@@ -92,32 +92,15 @@ public class ResultObject implements IResultObject
 	 */
 	private String getClobValue( IClob clob ) throws DataException
 	{
-		BufferedReader in = null;
 		try
 		{
-			in = new BufferedReader( clob.getCharacterStream( ) );
+			int len = (int)clob.length();
+			return clob.getSubString( 1, len );
 		}
 		catch ( OdaException e )
 		{
 			throw new DataException( ResourceConstants.CLOB_OPEN_ERROR, e );
 		}
-
-		StringBuffer buffer = new StringBuffer( );
-		try
-		{
-			String str;
-			while ( ( str = in.readLine( ) ) != null )
-			{
-				buffer.append( str );
-			}
-			in.close( );
-		}
-		catch ( IOException e )
-		{
-			throw new DataException( ResourceConstants.CLOB_READ_ERROR, e );
-		}
-
-		return buffer.toString( );
 	}
 
 	/**
@@ -129,29 +112,15 @@ public class ResultObject implements IResultObject
 	 */
 	private byte[] getBlobValue( IBlob blob ) throws DataException
 	{
-		BufferedInputStream inputStream = null;
-		byte[] bytes = null;
 		try
 		{
-			inputStream = new BufferedInputStream( blob.getBinaryStream( ) );
-			bytes = new byte[ (int) blob.length( )]; // a potential bug ???
+			int len = (int) blob.length( ); 
+			return blob.getBytes( 1, len );		// index is 1-based
 		}
 		catch ( OdaException e )
 		{
 			throw new DataException( ResourceConstants.BLOB_OPEN_ERROR, e );
 		}
-
-		try
-		{
-			inputStream.read( bytes );
-			inputStream.close( );
-		}
-		catch ( IOException e )
-		{
-			throw new DataException( ResourceConstants.BLOB_READ_ERROR, e );
-		}
-
-		return bytes;
 	}
 	
 	/*
