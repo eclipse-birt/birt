@@ -29,7 +29,7 @@ public class BirtSoapBindingImpl implements BirtSoapPort
     	if ( context.getBean( ).getException( ) != null )
     	{
 			AxisFault fault = new AxisFault( );
-			fault.setFaultCode( new QName( "Birt Context" ) ); //$NON-NLS-1$
+			fault.setFaultCode( new QName( "BirtSoapBindingImpl.getUpdatedObjects( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( context.getBean( ).getException( ).getMessage( ) ); //$NON-NLS-1$
 			throw fault;
     	}
@@ -45,8 +45,8 @@ public class BirtSoapBindingImpl implements BirtSoapPort
     		if ( processor == null )
     		{
     			AxisFault fault = new AxisFault( );
-    			fault.setFaultCode( new QName( "Birt Processor" ) ); //$NON-NLS-1$
-    			fault.setFaultString( "No handler can be found for this component!!! Target: " + op.getTarget( ) ); //$NON-NLS-1$
+    			fault.setFaultCode( new QName( "BirtSoapBindingImpl.getUpdatedObjects( )" ) ); //$NON-NLS-1$
+    			fault.setFaultString( "No handler can be found for this target. Target: " + op.getTarget( ) ); //$NON-NLS-1$
     			throw fault;
     		}
     		
