@@ -26,6 +26,8 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.script.JSDataSource;
+import org.eclipse.birt.data.engine.script.DataSourceJSEventHandler;
+import org.eclipse.birt.data.engine.script.ScriptDataSourceJSEventHandler;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -57,6 +59,22 @@ public abstract class  DataSourceRuntime implements IDataSourceInstanceHandle
 		design = dataSourceDesign;
 		this.dataEngine = dataEngine;
 		eventHandler = dataSourceDesign.getEventHandler();
+		
+		/*
+		 * TODO: TEMPORARY the follow code is temporary. It will be removed once Engine takes over
+		 * script execution from DtE
+		 */
+		if ( eventHandler == null )
+		{
+			if ( dataSourceDesign instanceof IScriptDataSourceDesign )
+				eventHandler = new ScriptDataSourceJSEventHandler( 
+						(IScriptDataSourceDesign) dataSourceDesign );
+			else
+				eventHandler = new DataSourceJSEventHandler( dataSourceDesign );
+		}
+		/*
+		 * END Temporary 
+		 */
 	}
 	
 	protected IBaseDataSourceEventHandler getEventHandler()
