@@ -8,24 +8,29 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+package org.eclipse.birt.report.engine.script.internal.instance;
 
-package org.eclipse.birt.report.engine.api.script.eventhandler;
-
+import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance;
 
-/**
- * Script event handler interface for a scripted data source
- */
-public interface IScriptedDataSourceEventHandler
+public class DataSourceInstance implements IDataSourceInstance
 {
-	/**
-	 * Handle the open event
-	 */
-	void open( IDataSourceInstance dataSource );
 
-	/**
-	 * Handle the close event
-	 */
-	void close( IDataSourceInstance dataSource );
+	private IDataSourceInstanceHandle dataSource;
+
+	public DataSourceInstance( IDataSourceInstanceHandle dataSource )
+	{
+		this.dataSource = dataSource;
+	}
+
+	public String getName( )
+	{
+		return dataSource.getName( );
+	}
+
+	public String getExtensionID( )
+	{
+		return dataSource.getExtensionID( );
+	}
 
 }

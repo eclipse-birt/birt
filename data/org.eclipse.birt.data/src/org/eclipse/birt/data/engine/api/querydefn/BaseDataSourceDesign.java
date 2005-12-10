@@ -125,7 +125,7 @@ public class BaseDataSourceDesign implements IBaseDataSourceDesign
 	/**
 	 * Sets the event handler for this data source
 	 */
-	public void setEventHanlder( IBaseDataSourceEventHandler handler)
+	public void setEventHandler( IBaseDataSourceEventHandler handler)
 	{
 		this.eventHandler = handler;
 	}

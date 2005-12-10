@@ -47,7 +47,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.31 $ $Date: 2005/12/04 23:56:14 $
+ * @version $Revision: 1.32 $ $Date: 2005/12/05 07:11:04 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -101,8 +101,7 @@ public class DteDataEngine implements IDataEngine
 							.getSharedScope( ), null, null );
 
 			engine = DataEngine.newDataEngine( dteContext );
-		}
-		catch ( Exception ex )
+		} catch ( Exception ex )
 		{
 			ex.printStackTrace( );
 		}
@@ -127,15 +126,15 @@ public class DteDataEngine implements IDataEngine
 		List dataSourceList = handle.getAllDataSources( );
 		for ( int i = 0; i < dataSourceList.size( ); i++ )
 		{
-			DataSourceHandle dataSource = (DataSourceHandle) dataSourceList
+			DataSourceHandle dataSource = ( DataSourceHandle ) dataSourceList
 					.get( i );
 
 			try
 			{
 				engine.defineDataSource( ModelDteApiAdapter.getInstance( )
-						.createDataSourceDesign( dataSource ) );
-			}
-			catch ( BirtException e )
+						.createDataSourceDesign( dataSource,
+								context.getReportContext( ) ) );
+			} catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 				context.addException( dataSource, e );
@@ -146,13 +145,13 @@ public class DteDataEngine implements IDataEngine
 		List dataSetList = handle.getAllDataSets( );
 		for ( int i = 0; i < dataSetList.size( ); i++ )
 		{
-			DataSetHandle dataset = (DataSetHandle) dataSetList.get( i );
+			DataSetHandle dataset = ( DataSetHandle ) dataSetList.get( i );
 			try
 			{
 				engine.defineDataSet( ModelDteApiAdapter.getInstance( )
-						.createDataSetDesign( dataset ) );
-			}
-			catch ( BirtException e )
+						.createDataSetDesign( dataset,
+								context.getReportContext( ) ) );
+			} catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 				context.addException( dataset, e );
@@ -165,7 +164,7 @@ public class DteDataEngine implements IDataEngine
 		// prepare report queries
 		for ( int i = 0; i < report.getQueries( ).size( ); i++ )
 		{
-			IQueryDefinition query = (IQueryDefinition) report.getQueries( )
+			IQueryDefinition query = ( IQueryDefinition ) report.getQueries( )
 					.get( i );
 			try
 			{
@@ -173,8 +172,7 @@ public class DteDataEngine implements IDataEngine
 						appContext );
 				queryMap.put( query, preparedQuery );
 
-			}
-			catch ( BirtException e )
+			} catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 				context.addException( e );
@@ -195,7 +193,7 @@ public class DteDataEngine implements IDataEngine
 		if ( query instanceof IQueryDefinition )
 		{
 			Scriptable scope = context.getSharedScope( );
-			IPreparedQuery pQuery = (IPreparedQuery) queryMap.get( query );
+			IPreparedQuery pQuery = ( IPreparedQuery ) queryMap.get( query );
 			assert ( pQuery != null );
 			if ( pQuery != null )
 			{
@@ -205,8 +203,7 @@ public class DteDataEngine implements IDataEngine
 					if ( queryResults == null )
 					{
 						queryResults = pQuery.execute( scope );
-					}
-					else
+					} else
 					{
 						queryResults = pQuery.execute( queryResults, scope );
 					}
@@ -216,16 +213,14 @@ public class DteDataEngine implements IDataEngine
 							context );
 					rsStack.addLast( dRS );
 					return dRS;
-				}
-				catch ( BirtException e )
+				} catch ( BirtException e )
 				{
 					logger.log( Level.SEVERE, e.getMessage( ), e );
 					context.addException( e );
 					return null;
 				}
 			}
-		}
-		else if ( query instanceof ISubqueryDefinition )
+		} else if ( query instanceof ISubqueryDefinition )
 		{
 			// Extension Item may used to create the query stack, so we must do
 			// error handling.
@@ -238,8 +233,8 @@ public class DteDataEngine implements IDataEngine
 			try
 			{
 
-				DteResultSet parent = (DteResultSet) rsStack.getLast( );
-				ISubqueryDefinition subQuery = (ISubqueryDefinition) query;
+				DteResultSet parent = ( DteResultSet ) rsStack.getLast( );
+				ISubqueryDefinition subQuery = ( ISubqueryDefinition ) query;
 				String subQueryName = subQuery.getName( );
 				IResultIterator parentRI = parent.getResultIterator( );
 				IResultIterator ri = parentRI.getSecondaryIterator(
@@ -249,8 +244,7 @@ public class DteDataEngine implements IDataEngine
 						this, context );
 				rsStack.addLast( dRS );
 				return dRS;
-			}
-			catch ( BirtException e )
+			} catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 				context.addException( e );
@@ -296,25 +290,23 @@ public class DteDataEngine implements IDataEngine
 		}
 
 		if ( expr.getHandle( ) != null && !rsStack.isEmpty( ) ) // DtE handles
-																// evaluation
+		// evaluation
 		{
 			try
 			{
-				Object value = ( (DteResultSet) rsStack.getLast( ) )
+				Object value = ( ( DteResultSet ) rsStack.getLast( ) )
 						.getResultIterator( ).getValue( expr );
 				if ( value != null )
 				{
 					return context.jsToJava( value );
 				}
 				return null;
-			}
-			catch ( BirtException e )
+			} catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 				context.addException( e );
 				return null;
-			}
-			catch ( JavaScriptException ee )
+			} catch ( JavaScriptException ee )
 			{
 				logger.log( Level.SEVERE, ee.getMessage( ), ee );
 				context.addException( new EngineException(
@@ -326,11 +318,11 @@ public class DteDataEngine implements IDataEngine
 		// Rhino handles evaluation
 		if ( expr instanceof IScriptExpression )
 		{
-			return context.evaluate( ( (IScriptExpression) expr ).getText( ) );
+			return context.evaluate( ( ( IScriptExpression ) expr ).getText( ) );
 		}
 		if ( expr instanceof IConditionalExpression )
 		{
-			return context.evaluateCondExpr( (IConditionalExpression) expr );
+			return context.evaluateCondExpr( ( IConditionalExpression ) expr );
 		}
 
 		// unsupported expression type
@@ -342,7 +334,7 @@ public class DteDataEngine implements IDataEngine
 	{
 		for ( int i = rsStack.size( ) - 1; i >= 0; i-- )
 		{
-			DteResultSet rs = (DteResultSet) rsStack.get( i );
+			DteResultSet rs = ( DteResultSet ) rsStack.get( i );
 			if ( rs.getQueryResults( ) != null )
 			{
 				return rs.getQueryResults( );

@@ -31,7 +31,7 @@ public class ListScriptExecutor extends ScriptExecutor
 		try
 		{
 			IList list = new List( listHandle );
-			if ( handleJS( list, listHandle.getOnPrepare( ), context ) )
+			if ( handleJS( list, listHandle.getOnPrepare( ), context ).didRun( ) )
 				return;
 			IListEventHandler eh = ( IListEventHandler ) getInstance( listHandle );
 			if ( eh != null )
@@ -50,7 +50,7 @@ public class ListScriptExecutor extends ScriptExecutor
 			ReportItemDesign listDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
 			IListInstance list = new ListInstance( content );
-			if ( handleJS( list, listDesign.getOnCreate( ), context ) )
+			if ( handleJS( list, listDesign.getOnCreate( ), context ).didRun( ) )
 				return;
 			IListEventHandler eh = ( IListEventHandler ) getInstance( ( ListHandle ) listDesign
 					.getHandle( ) );
@@ -70,7 +70,7 @@ public class ListScriptExecutor extends ScriptExecutor
 			ReportItemDesign listDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
 			IListInstance list = new ListInstance( content );
-			if ( handleJS( list, listDesign.getOnRender( ), context ) )
+			if ( handleJS( list, listDesign.getOnRender( ), context ).didRun( ) )
 				return;
 			IListEventHandler eh = ( IListEventHandler ) getInstance( ( ListHandle ) listDesign
 					.getHandle( ) );

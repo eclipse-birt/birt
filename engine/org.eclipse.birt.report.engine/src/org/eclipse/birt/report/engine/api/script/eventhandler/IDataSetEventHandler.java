@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.engine.api.script.eventhandler;
 
-import org.eclipse.birt.report.engine.api.script.IRowData;
+import org.eclipse.birt.report.engine.api.script.IDataSetRow;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
-import org.eclipse.birt.report.engine.script.element.DataSet;
+import org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance;
 
 /**
  * Script event handler interface for a data set
@@ -24,23 +24,23 @@ public interface IDataSetEventHandler
 	/**
 	 * Handle the beforeOpen event
 	 */
-	void beforeOpen( DataSet dataSet, IReportContext reportContext );
+	void beforeOpen( IDataSetInstance dataSet, IReportContext reportContext );
 
 	/**
 	 * Handle the afterOpen event
 	 */
-	void afterOpen( IReportContext reportContext );
+	void afterOpen( IDataSetInstance dataSet, IReportContext reportContext );
 
 	/**
 	 * Handle the onFetch event
 	 */
-	void onFetch( IRowData rowData,
+	void onFetch( IDataSetInstance dataSet, IDataSetRow row,
 			IReportContext reportContext );
 
 	/**
 	 * Handle the beforeClose event
 	 */
-	void beforeClose( IReportContext reportContext );
+	void beforeClose( IDataSetInstance dataSet, IReportContext reportContext );
 
 	/**
 	 * Handle the afterClose event

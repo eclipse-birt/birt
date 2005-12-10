@@ -33,11 +33,9 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.script.DataRow;
 import org.eclipse.birt.data.engine.script.JSDataSet;
-import org.eclipse.birt.data.engine.script.DataSetJSEventHandler;
 import org.eclipse.birt.data.engine.script.JSOutputParams;
 import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.JSRows;
-import org.eclipse.birt.data.engine.script.ScriptDataSetJSEventHandler;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -91,22 +89,7 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 		this.dataSetDesign = dataSetDesign;
 		this.queryExecutor = queryExecutor;
 		isOpen = true;
-		
-		/*
-		 * TODO: TEMPORARY the follow code is temporary. It will be removed once Engine takes over
-		 * script execution from DtE
-		 */
-		if ( eventHandler == null )
-		{
-			if ( dataSetDesign instanceof IScriptDataSetDesign )
-				eventHandler = new ScriptDataSetJSEventHandler( 
-						(IScriptDataSetDesign) dataSetDesign );
-			else if ( dataSetDesign instanceof IOdaDataSetDesign)
-				eventHandler = new DataSetJSEventHandler( dataSetDesign );
-		}
-		/*
-		 * END Temporary 
-		 */
+		eventHandler = dataSetDesign.getEventHandler();
 	}
 
 	public PreparedQuery.Executor getQueryExecutor()

@@ -16,12 +16,19 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.mozilla.javascript.ScriptableObject;
 
 /**
  * Implementation of the IReportContext interface
  */
-public class ReportContextImpl implements IReportContext
+public class ReportContextImpl extends ScriptableObject implements
+		IReportContext
 {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6310095484480782798L;
 
 	private Map params;
 
@@ -61,7 +68,7 @@ public class ReportContextImpl implements IReportContext
 	{
 		this.appContext = appContext;
 	}
-	
+
 	public void addToTask( String name, Object obj )
 	{
 		runtimeMap.put( name, obj );
@@ -106,6 +113,11 @@ public class ReportContextImpl implements IReportContext
 	public void setRegisteredPersistantObjects( Map persistantMap )
 	{
 		this.persistantMap = persistantMap;
+	}
+
+	public String getClassName( )
+	{
+		return "ReportContext";
 	}
 
 }

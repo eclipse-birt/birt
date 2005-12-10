@@ -11,32 +11,27 @@
 
 package org.eclipse.birt.report.engine.api.script.eventhandler;
 
-import org.eclipse.birt.report.engine.api.script.IReportContext;
-
+import org.eclipse.birt.report.engine.api.script.IDataSetRow;
+import org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance;
 
 /**
-* Script event handler interface for a scripted data set
-*/
-public interface IScriptedDataSetEventHandler
+ * Script event handler interface for a scripted data set
+ */
+public interface IScriptedDataSetEventHandler extends IDataSetEventHandler
 {
 	/**
 	 * Handle the open event
 	 */
-	void open( IReportContext reportContext );
+	void open( IDataSetInstance dataSet );
 
 	/**
 	 * Handle the fetch event
 	 */
-	boolean fetch( IReportContext reportContext );
-
-	/**
-	 * Handle the describe event
-	 */
-	void describe( IReportContext reportContext );
+	boolean fetch( IDataSetInstance dataSet, IDataSetRow row );
 
 	/**
 	 * Handle the close event
 	 */
-	void close( IReportContext reportContext );
+	void close( IDataSetInstance dataSet );
 
 }

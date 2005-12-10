@@ -31,7 +31,8 @@ public class TableScriptExecutor extends ScriptExecutor
 		try
 		{
 			ITable table = new Table( tableHandle );
-			if ( handleJS( table, tableHandle.getOnPrepare( ), context ) )
+			if ( handleJS( table, tableHandle.getOnPrepare( ), context )
+					.didRun( ) )
 				return;
 			ITableEventHandler eh = ( ITableEventHandler ) getInstance( tableHandle );
 			if ( eh != null )
@@ -50,7 +51,8 @@ public class TableScriptExecutor extends ScriptExecutor
 			ReportItemDesign tableDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
 			ITableInstance table = new TableInstance( content );
-			if ( handleJS( table, tableDesign.getOnCreate( ), context ) )
+			if ( handleJS( table, tableDesign.getOnCreate( ), context )
+					.didRun( ) )
 				return;
 			ITableEventHandler eh = ( ITableEventHandler ) getInstance( ( TableHandle ) tableDesign
 					.getHandle( ) );
@@ -70,7 +72,8 @@ public class TableScriptExecutor extends ScriptExecutor
 			ReportItemDesign tableDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
 			ITableInstance table = new TableInstance( content );
-			if ( handleJS( table, tableDesign.getOnRender( ), context ) )
+			if ( handleJS( table, tableDesign.getOnRender( ), context )
+					.didRun( ) )
 				return;
 			ITableEventHandler eh = ( ITableEventHandler ) getInstance( ( TableHandle ) tableDesign
 					.getHandle( ) );

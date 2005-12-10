@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.engine.api.script.eventhandler;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
-import org.eclipse.birt.report.engine.script.element.DataSource;
+import org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance;
 
 /**
  * Script event handler interface for a data source
@@ -23,17 +23,19 @@ public interface IDataSourceEventHandler
 	/**
 	 * Handle the beforeOpen event
 	 */
-	void beforeOpen( DataSource dataSource, IReportContext reportContext );
+	void beforeOpen( IDataSourceInstance dataSource,
+			IReportContext reportContext );
 
 	/**
 	 * Handle the afterOpen event
 	 */
-	void afterOpen( IReportContext reportContext );
+	void afterOpen( IDataSourceInstance dataSource, IReportContext reportContext );
 
 	/**
 	 * Handle the beforeClose event
 	 */
-	void beforeClose( IReportContext reportContext );
+	void beforeClose( IDataSourceInstance dataSource,
+			IReportContext reportContext );
 
 	/**
 	 * Handle the afterClose event

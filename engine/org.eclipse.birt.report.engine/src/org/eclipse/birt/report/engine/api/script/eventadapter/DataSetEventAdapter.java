@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api.script.eventadapter;
 
+import org.eclipse.birt.report.engine.api.script.IDataSetRow;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
-import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDataSetEventHandler;
-import org.eclipse.birt.report.engine.script.element.DataSet;
+import org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance;
 
 /**
  * Default (empty) implementation of the IDataSetEventHandler interface
@@ -21,25 +21,33 @@ import org.eclipse.birt.report.engine.script.element.DataSet;
 public class DataSetEventAdapter implements IDataSetEventHandler
 {
 
-	public void beforeOpen( DataSet dataSet, IReportContext reportContext )
-	{
-	}
-
-	public void afterOpen( IReportContext reportContext )
-	{
-	}
-
-	public void onFetch( IRowData rowData,
+	public void beforeOpen( IDataSetInstance dataSet,
 			IReportContext reportContext )
 	{
+
 	}
 
-	public void beforeClose( IReportContext reportContext )
+	public void afterOpen( IDataSetInstance dataSet,
+			IReportContext reportContext )
 	{
+
+	}
+
+	public void onFetch( IDataSetInstance dataSet, IDataSetRow row,
+			IReportContext reportContext )
+	{
+
+	}
+
+	public void beforeClose( IDataSetInstance dataSet,
+			IReportContext reportContext )
+	{
+
 	}
 
 	public void afterClose( IReportContext reportContext )
 	{
+
 	}
 
 }

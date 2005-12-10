@@ -33,7 +33,8 @@ public class TextItemScriptExecutor extends ScriptExecutor
 		try
 		{
 			ITextItem textItem = new TextItem( textItemHandle );
-			if ( handleJS( textItem, textItemHandle.getOnPrepare( ), context ) )
+			if ( handleJS( textItem, textItemHandle.getOnPrepare( ), context )
+					.didRun( ) )
 				return;
 			ITextItemEventHandler eh = ( ITextItemEventHandler ) getInstance( textItemHandle );
 			if ( eh != null )
@@ -81,7 +82,8 @@ public class TextItemScriptExecutor extends ScriptExecutor
 			else if ( content instanceof ForeignContent )
 				textItem = new TextItemInstance( ( ForeignContent ) content );
 
-			if ( handleJS( textItem, textItemDesign.getOnCreate( ), context ) )
+			if ( handleJS( textItem, textItemDesign.getOnCreate( ), context )
+					.didRun( ) )
 				return;
 			ITextItemEventHandler eh = ( ITextItemEventHandler ) getInstance( ( TextItemHandle ) textItemDesign
 					.getHandle( ) );
@@ -107,7 +109,8 @@ public class TextItemScriptExecutor extends ScriptExecutor
 				textItem = new TextItemInstance( ( TextContent ) content );
 			else if ( content instanceof ForeignContent )
 				textItem = new TextItemInstance( ( ForeignContent ) content );
-			if ( handleJS( textItem, textItemDesign.getOnRender( ), context ) )
+			if ( handleJS( textItem, textItemDesign.getOnRender( ), context )
+					.didRun( ) )
 				return;
 			ITextItemEventHandler eh = ( ITextItemEventHandler ) getInstance( ( TextItemHandle ) textItemDesign
 					.getHandle( ) );

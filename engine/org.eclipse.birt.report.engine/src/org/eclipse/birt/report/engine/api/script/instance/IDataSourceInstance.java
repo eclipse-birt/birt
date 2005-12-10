@@ -8,24 +8,17 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+package org.eclipse.birt.report.engine.api.script.instance;
 
-package org.eclipse.birt.report.engine.api.script.eventhandler;
-
-import org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance;
-
-/**
- * Script event handler interface for a scripted data source
- */
-public interface IScriptedDataSourceEventHandler
+public interface IDataSourceInstance
 {
 	/**
-	 * Handle the open event
+	 * Gets the name of this data source
 	 */
-	void open( IDataSourceInstance dataSource );
+	String getName( );
 
 	/**
-	 * Handle the close event
+	 * Gets the ID of the ODA extension which defines this type of data source
 	 */
-	void close( IDataSourceInstance dataSource );
-
+	String getExtensionID( );
 }

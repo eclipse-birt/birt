@@ -34,7 +34,7 @@ public class CellScriptExecutor extends ScriptExecutor
 		try
 		{
 			ICell cell = new Cell( cellHandle );
-			if ( handleJS( cell, cellHandle.getOnPrepare( ), context ) )
+			if ( handleJS( cell, cellHandle.getOnPrepare( ), context ).didRun( ) )
 				return;
 			ICellEventHandler eh = ( ICellEventHandler ) getInstance( cellHandle );
 			if ( eh != null )
@@ -53,7 +53,7 @@ public class CellScriptExecutor extends ScriptExecutor
 			ReportItemDesign cellDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
 			ICellInstance cell = new CellInstance( content );
-			if ( handleJS( cell, cellDesign.getOnCreate( ), context ) )
+			if ( handleJS( cell, cellDesign.getOnCreate( ), context ).didRun( ) )
 				return;
 			CellHandle handle = ( CellHandle ) cellDesign.getHandle( );
 			if ( handle != null )
@@ -77,7 +77,7 @@ public class CellScriptExecutor extends ScriptExecutor
 			ReportItemDesign cellDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
 			ICellInstance cell = new CellInstance( content );
-			if ( handleJS( cell, cellDesign.getOnRender( ), context ) )
+			if ( handleJS( cell, cellDesign.getOnRender( ), context ).didRun( ) )
 				return;
 			ICellEventHandler eh = ( ICellEventHandler ) getInstance( ( CellHandle ) cellDesign
 					.getHandle( ) );

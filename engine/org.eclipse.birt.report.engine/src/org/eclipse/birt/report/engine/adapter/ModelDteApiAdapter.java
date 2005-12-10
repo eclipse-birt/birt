@@ -10,7 +10,7 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 
 package org.eclipse.birt.report.engine.adapter;
 
@@ -46,8 +46,17 @@ import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
+import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
+import org.eclipse.birt.data.engine.api.script.IScriptDataSetEventHandler;
+import org.eclipse.birt.data.engine.api.script.IScriptDataSourceEventHandler;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.script.internal.DataSetScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.DataSourceScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.ScriptDataSetScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.ScriptDataSourceScriptExecutor;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -66,239 +75,273 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 
 /**
- * A singleton adapter class that creates data engine API interface objects 
- * from the model.api objects for data set and data source definition.
+ * A singleton adapter class that creates data engine API interface objects from
+ * the model.api objects for data set and data source definition.
  */
 public class ModelDteApiAdapter
 {
-    private static ModelDteApiAdapter sm_instance;
+	private static ModelDteApiAdapter sm_instance;
 
-    public static ModelDteApiAdapter getInstance()
+	public static ModelDteApiAdapter getInstance( )
 	{
-        if ( sm_instance == null )
-            sm_instance = new ModelDteApiAdapter();
+		if ( sm_instance == null )
+			sm_instance = new ModelDteApiAdapter( );
 		return sm_instance;
 	}
-	
-	private ModelDteApiAdapter()
-    {
-    }
-    
-    public IBaseDataSourceDesign createDataSourceDesign( DataSourceHandle dataSource ) 
-    	throws EngineException
-    {
-        if ( dataSource instanceof OdaDataSourceHandle )
-            return newExtendedDataSource( (OdaDataSourceHandle) dataSource );
-        
-        if ( dataSource instanceof ScriptDataSourceHandle )
-            return newScriptDataSource( (ScriptDataSourceHandle) dataSource );
 
-        // any other types are not supported
-        assert false;
-        return null;
-    }
-    
-    /**
+	private ModelDteApiAdapter( )
+	{
+	}
+
+	public IBaseDataSourceDesign createDataSourceDesign(
+			DataSourceHandle dataSource, IReportContext reportContext )
+			throws EngineException
+	{
+		if ( dataSource instanceof OdaDataSourceHandle )
+			return newExtendedDataSource( ( OdaDataSourceHandle ) dataSource,
+					reportContext );
+
+		if ( dataSource instanceof ScriptDataSourceHandle )
+			return newScriptDataSource( ( ScriptDataSourceHandle ) dataSource,
+					reportContext );
+
+		// any other types are not supported
+		assert false;
+		return null;
+	}
+
+	/**
 	 * Generate a data set ID according to the DataSetHandle , which will be
 	 * presently used to identify a data set when data set cache is used.
 	 * 
 	 * @param dataSet
 	 * @return cache id for data set
 	 */
-    public String getDataSetID( DataSetHandle dataSet )
+	public String getDataSetID( DataSetHandle dataSet )
 	{
-    	if ( dataSet == null )
+		if ( dataSet == null )
 			return null;
-    	
+
 		return dataSet.getModule( ).getLocation( ) + "/" + dataSet.getID( );
 	}
-    
-    public IBaseDataSetDesign createDataSetDesign( DataSetHandle dataSet ) 
-    	throws EngineException
-    {
-        if ( dataSet instanceof OdaDataSetHandle )
-            return newExtendedDataSet( (OdaDataSetHandle) dataSet );       
-        
-        if ( dataSet instanceof ScriptDataSetHandle )
-            return newScriptDataSet( (ScriptDataSetHandle) dataSet );
 
-        // any other types are not supported
-        assert false;
-        return null;
-    }
-    
-    IOdaDataSourceDesign newExtendedDataSource( OdaDataSourceHandle source ) throws EngineException
-    {
-        OdaDataSourceDesign dteSource = new OdaDataSourceDesign( source.getQualifiedName() );
-        
-        // Adapt base class properties
-        adaptBaseDataSource( source, dteSource );
-        
-        // Adapt extended data source elements
-        
-        // validate that a required attribute is specified
-        String driverName = source.getExtensionID();
-        if ( driverName == null || driverName.length() == 0 )
-        {
-            throw new EngineException( "Missing extenion id in data source definition, " + source.getName() ); //$NON-NLS-1$
-        }
-        dteSource.setExtensionID( driverName );
+	public IBaseDataSetDesign createDataSetDesign( DataSetHandle dataSet,
+			IReportContext reportContext ) throws EngineException
+	{
+		if ( dataSet instanceof OdaDataSetHandle )
+			return newExtendedDataSet( ( OdaDataSetHandle ) dataSet,
+					reportContext );
 
-        // static ROM properties defined by the ODA driver extension
-        Map staticProps = getExtensionProperties( source, 
-			                	source.getExtensionPropertyDefinitionList() );
-	    if ( staticProps != null && ! staticProps.isEmpty() )
-	    {	    
-	        Iterator propNamesItr = staticProps.keySet().iterator();
-	        while ( propNamesItr.hasNext() )
-	        {
-	            Object propName = propNamesItr.next();
-	            assert ( propName != null && propName instanceof String );
-	        
-	            String propValue = (String) staticProps.get( propName );	        
-                try
-                {	
-                    dteSource.addPublicProperty( (String) propName, propValue );
-                }
-                catch ( BirtException e )
-                {
-                    throw new EngineException( e.getMessage() );
-                }
-	        }
-	    }
+		if ( dataSet instanceof ScriptDataSetHandle )
+			return newScriptDataSet( ( ScriptDataSetHandle ) dataSet,
+					reportContext );
 
-        // private driver properties / private runtime data
-        Iterator elmtIter = source.privateDriverPropertiesIterator();
-        if ( elmtIter != null )
-        {
-            while ( elmtIter.hasNext() )
-            {
-                ExtendedPropertyHandle modelProp = (ExtendedPropertyHandle) elmtIter.next();
-                try
-                {
-                    dteSource.addPrivateProperty( modelProp.getName(), modelProp.getValue() );
-                }
-                catch ( BirtException e )
-                {
-                    throw new EngineException( e.getMessage() );
-                }
-            }
-        }
-        
-        return dteSource;
-    }
-    
-    IScriptDataSourceDesign newScriptDataSource( ScriptDataSourceHandle source )
-    {
-        ScriptDataSourceDesign dteSource = new ScriptDataSourceDesign( source.getQualifiedName() );
-        
-        // Adapt base class properties
-        adaptBaseDataSource( source, dteSource );
-        
-        // Adapt script data source elements
-        dteSource.setOpenScript( source.getOpen() );
-        dteSource.setCloseScript( source.getClose() );
-        return dteSource;
-    }
+		// any other types are not supported
+		assert false;
+		return null;
+	}
 
-    void adaptBaseDataSource( DataSourceHandle source,
-            BaseDataSourceDesign dest )
-    {
-        dest.setBeforeOpenScript( source.getBeforeOpen() );
-        dest.setAfterOpenScript( source.getAfterOpen() );
-        dest.setBeforeCloseScript( source.getBeforeClose() );
-        dest.setAfterCloseScript( source.getAfterClose() );
-    }
-        
-    IOdaDataSetDesign newExtendedDataSet( OdaDataSetHandle modelDataSet ) throws EngineException
-    {
-        OdaDataSetDesign dteDataSet = new OdaDataSetDesign( modelDataSet.getQualifiedName());
-            
-        // Adapt base class properties
-        adaptBaseDataSet( modelDataSet, dteDataSet );
-            
-        // Adapt extended data set elements
-            
-        // static query text
-        dteDataSet.setQueryText( modelDataSet.getQueryText() );
-        
-        // type of extended data set
-        dteDataSet.setExtensionID( modelDataSet.getExtensionID() );
-        
-        // result set name
-        dteDataSet.setPrimaryResultSetName( modelDataSet.getResultSetName() );
-        
-        // static ROM properties defined by the ODA driver extension
-        Map staticProps = getExtensionProperties( modelDataSet, 
-				                modelDataSet.getExtensionPropertyDefinitionList() );
-	    if ( staticProps != null && ! staticProps.isEmpty() )
-	    {	    
-	        Iterator propNamesItr = staticProps.keySet().iterator();
-	        while ( propNamesItr.hasNext() )
-	        {
-	            Object propName = propNamesItr.next();
-	            assert ( propName != null && propName instanceof String );	        
-	            String propValue = (String) staticProps.get( propName );	        
-                dteDataSet.addPublicProperty( (String) propName, propValue );
-	        }
-	    }
+	IOdaDataSourceDesign newExtendedDataSource( OdaDataSourceHandle source,
+			IReportContext reportContext ) throws EngineException
+	{
+		OdaDataSourceDesign dteSource = new OdaDataSourceDesign( source
+				.getQualifiedName( ) );
+		IBaseDataSourceEventHandler eventHandler = new DataSourceScriptExecutor(
+				source, reportContext );
 
-        // private driver properties / private runtime data
-        Iterator elmtIter = modelDataSet.privateDriverPropertiesIterator();
-        if ( elmtIter != null )
-        {
-            while ( elmtIter.hasNext() )
-            {
-                ExtendedPropertyHandle modelProp = (ExtendedPropertyHandle) elmtIter.next();
-                dteDataSet.addPrivateProperty( modelProp.getName(), modelProp.getValue() );
-            }
-        }
+		dteSource.setEventHandler( eventHandler );
 
-        return dteDataSet;
-    }
-    
-    IScriptDataSetDesign newScriptDataSet( ScriptDataSetHandle modelDataSet ) throws EngineException
-    {
-        ScriptDataSetDesign dteDataSet = new ScriptDataSetDesign( modelDataSet.getQualifiedName() );
-                
-        // Adapt base class properties
-        adaptBaseDataSet( modelDataSet, dteDataSet );
-        
-        // Adapt script data set elements
-        dteDataSet.setOpenScript( modelDataSet.getOpen() );
-        dteDataSet.setFetchScript( modelDataSet.getFetch() );
-        dteDataSet.setCloseScript( modelDataSet.getClose() );
-        dteDataSet.setDescribeScript( modelDataSet.getDescribe() );
-        
-        return dteDataSet;
-    }
-    
-    void adaptBaseDataSet( DataSetHandle modelDataSet,
-            				BaseDataSetDesign dteDataSet ) throws EngineException
-    {
-    	if ( modelDataSet.getDataSource( ) == null )
-			throw new EngineException( "The data source of this data set can not be null." );
-    	
-        dteDataSet.setDataSource( modelDataSet.getDataSource().getQualifiedName() );
-        dteDataSet.setBeforeOpenScript( modelDataSet.getBeforeOpen() );
-        dteDataSet.setAfterOpenScript( modelDataSet.getAfterOpen() );
-        dteDataSet.setOnFetchScript( modelDataSet.getOnFetch() );
-        dteDataSet.setBeforeCloseScript( modelDataSet.getBeforeClose() );
-        dteDataSet.setAfterCloseScript( modelDataSet.getAfterClose() );
+		// Adapt base class properties
+		adaptBaseDataSource( source, dteSource );
 
-        // cache property
-        dteDataSet.setID( getDataSetID( modelDataSet ) );
+		// Adapt extended data source elements
+
+		// validate that a required attribute is specified
+		String driverName = source.getExtensionID( );
+		if ( driverName == null || driverName.length( ) == 0 )
+		{
+			throw new EngineException(
+					"Missing extenion id in data source definition, " + source.getName( ) ); //$NON-NLS-1$
+		}
+		dteSource.setExtensionID( driverName );
+
+		// static ROM properties defined by the ODA driver extension
+		Map staticProps = getExtensionProperties( source, source
+				.getExtensionPropertyDefinitionList( ) );
+		if ( staticProps != null && !staticProps.isEmpty( ) )
+		{
+			Iterator propNamesItr = staticProps.keySet( ).iterator( );
+			while ( propNamesItr.hasNext( ) )
+			{
+				Object propName = propNamesItr.next( );
+				assert ( propName != null && propName instanceof String );
+
+				String propValue = ( String ) staticProps.get( propName );
+				try
+				{
+					dteSource
+							.addPublicProperty( ( String ) propName, propValue );
+				} catch ( BirtException e )
+				{
+					throw new EngineException( e.getMessage( ) );
+				}
+			}
+		}
+
+		// private driver properties / private runtime data
+		Iterator elmtIter = source.privateDriverPropertiesIterator( );
+		if ( elmtIter != null )
+		{
+			while ( elmtIter.hasNext( ) )
+			{
+				ExtendedPropertyHandle modelProp = ( ExtendedPropertyHandle ) elmtIter
+						.next( );
+				try
+				{
+					dteSource.addPrivateProperty( modelProp.getName( ),
+							modelProp.getValue( ) );
+				} catch ( BirtException e )
+				{
+					throw new EngineException( e.getMessage( ) );
+				}
+			}
+		}
+
+		return dteSource;
+	}
+
+	IScriptDataSourceDesign newScriptDataSource( ScriptDataSourceHandle source,
+			IReportContext reportContext )
+	{
+		ScriptDataSourceDesign dteSource = new ScriptDataSourceDesign( source
+				.getQualifiedName( ) );
+		IScriptDataSourceEventHandler eventHandler = new ScriptDataSourceScriptExecutor(
+				source, reportContext );
+
+		dteSource.setEventHandler( eventHandler );
+		// Adapt base class properties
+		adaptBaseDataSource( source, dteSource );
+
+		// Adapt script data source elements
+		dteSource.setOpenScript( source.getOpen( ) );
+		dteSource.setCloseScript( source.getClose( ) );
+		return dteSource;
+	}
+
+	void adaptBaseDataSource( DataSourceHandle source, BaseDataSourceDesign dest )
+	{
+		dest.setBeforeOpenScript( source.getBeforeOpen( ) );
+		dest.setAfterOpenScript( source.getAfterOpen( ) );
+		dest.setBeforeCloseScript( source.getBeforeClose( ) );
+		dest.setAfterCloseScript( source.getAfterClose( ) );
+	}
+
+	IOdaDataSetDesign newExtendedDataSet( OdaDataSetHandle modelDataSet,
+			IReportContext reportContext ) throws EngineException
+	{
+		OdaDataSetDesign dteDataSet = new OdaDataSetDesign( modelDataSet
+				.getQualifiedName( ) );
+		IBaseDataSetEventHandler eventHandler = new DataSetScriptExecutor(
+				modelDataSet, reportContext );
+
+		dteDataSet.setEventHandler( eventHandler );
+		// Adapt base class properties
+		adaptBaseDataSet( modelDataSet, dteDataSet );
+
+		// Adapt extended data set elements
+
+		// static query text
+		dteDataSet.setQueryText( modelDataSet.getQueryText( ) );
+
+		// type of extended data set
+		dteDataSet.setExtensionID( modelDataSet.getExtensionID( ) );
+
+		// result set name
+		dteDataSet.setPrimaryResultSetName( modelDataSet.getResultSetName( ) );
+
+		// static ROM properties defined by the ODA driver extension
+		Map staticProps = getExtensionProperties( modelDataSet, modelDataSet
+				.getExtensionPropertyDefinitionList( ) );
+		if ( staticProps != null && !staticProps.isEmpty( ) )
+		{
+			Iterator propNamesItr = staticProps.keySet( ).iterator( );
+			while ( propNamesItr.hasNext( ) )
+			{
+				Object propName = propNamesItr.next( );
+				assert ( propName != null && propName instanceof String );
+				String propValue = ( String ) staticProps.get( propName );
+				dteDataSet.addPublicProperty( ( String ) propName, propValue );
+			}
+		}
+
+		// private driver properties / private runtime data
+		Iterator elmtIter = modelDataSet.privateDriverPropertiesIterator( );
+		if ( elmtIter != null )
+		{
+			while ( elmtIter.hasNext( ) )
+			{
+				ExtendedPropertyHandle modelProp = ( ExtendedPropertyHandle ) elmtIter
+						.next( );
+				dteDataSet.addPrivateProperty( modelProp.getName( ), modelProp
+						.getValue( ) );
+			}
+		}
+
+		return dteDataSet;
+	}
+
+	IScriptDataSetDesign newScriptDataSet( ScriptDataSetHandle modelDataSet,
+			IReportContext reportContext ) throws EngineException
+	{
+		ScriptDataSetDesign dteDataSet = new ScriptDataSetDesign( modelDataSet
+				.getQualifiedName( ) );
+
+		IScriptDataSetEventHandler eventHandler = new ScriptDataSetScriptExecutor(
+				modelDataSet, reportContext );
+
+		dteDataSet.setEventHandler( eventHandler );
+
+		// Adapt base class properties
+		adaptBaseDataSet( modelDataSet, dteDataSet );
+
+		// Adapt script data set elements
+		dteDataSet.setOpenScript( modelDataSet.getOpen( ) );
+		dteDataSet.setFetchScript( modelDataSet.getFetch( ) );
+		dteDataSet.setCloseScript( modelDataSet.getClose( ) );
+		dteDataSet.setDescribeScript( modelDataSet.getDescribe( ) );
+
+		return dteDataSet;
+	}
+
+	void adaptBaseDataSet( DataSetHandle modelDataSet,
+			BaseDataSetDesign dteDataSet ) throws EngineException
+	{
+		if ( modelDataSet.getDataSource( ) == null )
+			throw new EngineException(
+					"The data source of this data set can not be null." );
+
+		dteDataSet.setDataSource( modelDataSet.getDataSource( )
+				.getQualifiedName( ) );
+		dteDataSet.setBeforeOpenScript( modelDataSet.getBeforeOpen( ) );
+		dteDataSet.setAfterOpenScript( modelDataSet.getAfterOpen( ) );
+		dteDataSet.setOnFetchScript( modelDataSet.getOnFetch( ) );
+		dteDataSet.setBeforeCloseScript( modelDataSet.getBeforeClose( ) );
+		dteDataSet.setAfterCloseScript( modelDataSet.getAfterClose( ) );
+
+		// cache property
+		dteDataSet.setID( getDataSetID( modelDataSet ) );
 		dteDataSet.setCacheRowCount( modelDataSet.getCachedRowCount( ) );
-        
-        // dataset parameters definition
-        HashMap paramBindingCandidates = new HashMap();
-        
-        Iterator elmtIter = modelDataSet.parametersIterator();
-        if ( elmtIter != null )
-        {
-            while ( elmtIter.hasNext() )
-            {
-            	DataSetParameterHandle modelParam = (DataSetParameterHandle ) elmtIter.next();
+
+		// dataset parameters definition
+		HashMap paramBindingCandidates = new HashMap( );
+
+		Iterator elmtIter = modelDataSet.parametersIterator( );
+		if ( elmtIter != null )
+		{
+			while ( elmtIter.hasNext( ) )
+			{
+				DataSetParameterHandle modelParam = ( DataSetParameterHandle ) elmtIter
+						.next( );
 				dteDataSet.addParameter( newParam( modelParam ) );
 
 				// collect input parameter default values as
@@ -306,362 +349,405 @@ public class ModelDteApiAdapter
 				// defined for a parameter
 				if ( modelParam.isInput( ) )
 				{
-				    String defaultValueExpr = modelParam.getDefaultValue( );
-				    if ( defaultValueExpr != null )
-				        paramBindingCandidates.put( modelParam.getName(), defaultValueExpr );
+					String defaultValueExpr = modelParam.getDefaultValue( );
+					if ( defaultValueExpr != null )
+						paramBindingCandidates.put( modelParam.getName( ),
+								defaultValueExpr );
 				}
-            }
-        }
+			}
+		}
 
-        // input parameter bindings
-        elmtIter = modelDataSet.paramBindingsIterator();
-        if ( elmtIter != null )
-        {
-            while ( elmtIter.hasNext() )
-            {
-                ParamBindingHandle modelParamBinding = (ParamBindingHandle) elmtIter.next();
-                // replace default value of the same parameter, if defined
-		        paramBindingCandidates.put( modelParamBinding.getParamName(), modelParamBinding.getExpression() );
-            }
-        }
-        
-        // assign merged parameter bindings to the data set
-        if ( paramBindingCandidates.size() > 0 )
-        {
-            elmtIter = paramBindingCandidates.keySet().iterator();
-            while ( elmtIter.hasNext() )
-            {
-                Object paramName = elmtIter.next();
-                assert( paramName != null && paramName instanceof String );
-                String expression = (String) paramBindingCandidates.get( paramName );
-				dteDataSet.addInputParamBinding( 
-				        newInputParamBinding( (String) paramName, expression ) );
-            }
-        }
-        
-        // computed columns
-        elmtIter = modelDataSet.computedColumnsIterator();
-        if ( elmtIter != null )
-        {
-            while ( elmtIter.hasNext() )
-            {
-                ComputedColumnHandle modelCmptdColumn = 
-                    (ComputedColumnHandle) elmtIter.next();
-                IComputedColumn dteCmptdColumn = newComputedColumn( modelCmptdColumn );
-                dteDataSet.addComputedColumn( dteCmptdColumn );
-            }
-        }
+		// input parameter bindings
+		elmtIter = modelDataSet.paramBindingsIterator( );
+		if ( elmtIter != null )
+		{
+			while ( elmtIter.hasNext( ) )
+			{
+				ParamBindingHandle modelParamBinding = ( ParamBindingHandle ) elmtIter
+						.next( );
+				// replace default value of the same parameter, if defined
+				paramBindingCandidates.put( modelParamBinding.getParamName( ),
+						modelParamBinding.getExpression( ) );
+			}
+		}
 
-        // filter conditions
-        elmtIter = modelDataSet.filtersIterator();
-        if ( elmtIter != null )
-        {
-            while ( elmtIter.hasNext() )
-            {
-                FilterConditionHandle modelFilter = (FilterConditionHandle) elmtIter.next();
-                IFilterDefinition dteFilter = newFilter( modelFilter );
-                dteDataSet.addFilter( dteFilter );
-            }
-        }
+		// assign merged parameter bindings to the data set
+		if ( paramBindingCandidates.size( ) > 0 )
+		{
+			elmtIter = paramBindingCandidates.keySet( ).iterator( );
+			while ( elmtIter.hasNext( ) )
+			{
+				Object paramName = elmtIter.next( );
+				assert ( paramName != null && paramName instanceof String );
+				String expression = ( String ) paramBindingCandidates
+						.get( paramName );
+				dteDataSet.addInputParamBinding( newInputParamBinding(
+						( String ) paramName, expression ) );
+			}
+		}
 
-        // merge ResultSetHints and ColumnHints, the order is important.
-        // ResultSetHints will give each column a unique name, and 
-        // column hints should base on the result of ResultSet hint.
-        // So in ResultSetHint list, the order of items should be 
-        // ResultSetColumn and then ColumnHint.
-        
-        // now merge model's result set column info into existing columnDefn 
-        // with same column name, otherwise create new columnDefn
-        // based on the model's result set column        
-        elmtIter = modelDataSet.resultSetIterator();
-        if ( elmtIter != null )
-        {
-            while ( elmtIter.hasNext() )
-            {
-                ResultSetColumnHandle modelColumn = (ResultSetColumnHandle) elmtIter.next();
-                dteDataSet.addResultSetHint( newColumnDefn( modelColumn ) );
-            }
-        }
-        
-        // merging result set column and column hints into DtE columnDefn;
-        // first create new columnDefn based on model's column hints
-        elmtIter = modelDataSet.columnHintsIterator();
-        if ( elmtIter != null )
-        {
-        	List columnDefns = dteDataSet.getResultSetHints();
-            while ( elmtIter.hasNext() )
-            {
-                ColumnHintHandle modelColumnHint = (ColumnHintHandle) elmtIter.next();
-                ColumnDefinition existDefn = findColumnDefn( columnDefns, modelColumnHint.getColumnName() );
-                if ( existDefn != null )
-                    updateColumnDefn( existDefn, modelColumnHint );
-                else
-                    dteDataSet.addResultSetHint( newColumnDefn( modelColumnHint ) );
-            }
-        }
+		// computed columns
+		elmtIter = modelDataSet.computedColumnsIterator( );
+		if ( elmtIter != null )
+		{
+			while ( elmtIter.hasNext( ) )
+			{
+				ComputedColumnHandle modelCmptdColumn = ( ComputedColumnHandle ) elmtIter
+						.next( );
+				IComputedColumn dteCmptdColumn = newComputedColumn( modelCmptdColumn );
+				dteDataSet.addComputedColumn( dteCmptdColumn );
+			}
+		}
 
-    }
-    
-    /**
-     * Creates a new DtE API IParameterDefinition from a model's DataSetParameterHandle.
-     */
-    IParameterDefinition newParam( DataSetParameterHandle modelParam )
-    {
-        ParameterDefinition dteParam = new ParameterDefinition();
+		// filter conditions
+		elmtIter = modelDataSet.filtersIterator( );
+		if ( elmtIter != null )
+		{
+			while ( elmtIter.hasNext( ) )
+			{
+				FilterConditionHandle modelFilter = ( FilterConditionHandle ) elmtIter
+						.next( );
+				IFilterDefinition dteFilter = newFilter( modelFilter );
+				dteDataSet.addFilter( dteFilter );
+			}
+		}
 
-        dteParam.setName( modelParam.getName() );
-        if ( modelParam.getPosition() != null )
-            dteParam.setPosition( modelParam.getPosition().intValue() );
-        dteParam.setType( toDteDataType( modelParam.getDataType() ) );
-        dteParam.setInputMode( modelParam.isInput() );
-        dteParam.setOutputMode( modelParam.isOutput() );
-        dteParam.setNullable( modelParam.allowNull() );
-        dteParam.setInputOptional( modelParam.isOptional() );
-        dteParam.setDefaultInputValue( modelParam.getDefaultValue() );
-        
-        return dteParam;
-    }
+		// merge ResultSetHints and ColumnHints, the order is important.
+		// ResultSetHints will give each column a unique name, and
+		// column hints should base on the result of ResultSet hint.
+		// So in ResultSetHint list, the order of items should be
+		// ResultSetColumn and then ColumnHint.
 
-    /** Creates a new DtE API InputParamBinding from a model's binding.
-     * Could return null if no expression is bound.
-     */
-    IInputParameterBinding newInputParamBinding( ParamBindingHandle modelInputParamBndg )
-    {
+		// now merge model's result set column info into existing columnDefn
+		// with same column name, otherwise create new columnDefn
+		// based on the model's result set column
+		elmtIter = modelDataSet.resultSetIterator( );
+		if ( elmtIter != null )
+		{
+			while ( elmtIter.hasNext( ) )
+			{
+				ResultSetColumnHandle modelColumn = ( ResultSetColumnHandle ) elmtIter
+						.next( );
+				dteDataSet.addResultSetHint( newColumnDefn( modelColumn ) );
+			}
+		}
+
+		// merging result set column and column hints into DtE columnDefn;
+		// first create new columnDefn based on model's column hints
+		elmtIter = modelDataSet.columnHintsIterator( );
+		if ( elmtIter != null )
+		{
+			List columnDefns = dteDataSet.getResultSetHints( );
+			while ( elmtIter.hasNext( ) )
+			{
+				ColumnHintHandle modelColumnHint = ( ColumnHintHandle ) elmtIter
+						.next( );
+				ColumnDefinition existDefn = findColumnDefn( columnDefns,
+						modelColumnHint.getColumnName( ) );
+				if ( existDefn != null )
+					updateColumnDefn( existDefn, modelColumnHint );
+				else
+					dteDataSet
+							.addResultSetHint( newColumnDefn( modelColumnHint ) );
+			}
+		}
+
+	}
+
+	/**
+	 * Creates a new DtE API IParameterDefinition from a model's
+	 * DataSetParameterHandle.
+	 */
+	IParameterDefinition newParam( DataSetParameterHandle modelParam )
+	{
+		ParameterDefinition dteParam = new ParameterDefinition( );
+
+		dteParam.setName( modelParam.getName( ) );
+		if ( modelParam.getPosition( ) != null )
+			dteParam.setPosition( modelParam.getPosition( ).intValue( ) );
+		dteParam.setType( toDteDataType( modelParam.getDataType( ) ) );
+		dteParam.setInputMode( modelParam.isInput( ) );
+		dteParam.setOutputMode( modelParam.isOutput( ) );
+		dteParam.setNullable( modelParam.allowNull( ) );
+		dteParam.setInputOptional( modelParam.isOptional( ) );
+		dteParam.setDefaultInputValue( modelParam.getDefaultValue( ) );
+
+		return dteParam;
+	}
+
+	/**
+	 * Creates a new DtE API InputParamBinding from a model's binding. Could
+	 * return null if no expression is bound.
+	 */
+	IInputParameterBinding newInputParamBinding(
+			ParamBindingHandle modelInputParamBndg )
+	{
 		// model provides binding by name only
 		return newInputParamBinding( modelInputParamBndg.getParamName( ),
-									 modelInputParamBndg.getExpression( ) );
-    }
-    
-    private IInputParameterBinding newInputParamBinding( String paramName, String paramValue )
-    {
-        if ( paramValue == null )
+				modelInputParamBndg.getExpression( ) );
+	}
+
+	private IInputParameterBinding newInputParamBinding( String paramName,
+			String paramValue )
+	{
+		if ( paramValue == null )
 			return null; // no expression is bound
-    	ScriptExpression paramValueExpr = new ScriptExpression( paramValue );
+		ScriptExpression paramValueExpr = new ScriptExpression( paramValue );
 		return new InputParameterBinding( paramName, paramValueExpr );
-    }
-    
-    /** Creates a new DtE API Computed Column from a model computed column.
-     * Could return null if no expression is defined.
-     * @throws EngineException
-     */
-    IComputedColumn newComputedColumn( ComputedColumnHandle modelCmptdColumn ) throws EngineException
-    {
-        // no expression to define a computed column        
-        if ( modelCmptdColumn.getExpression() == null ) {
-        	throw new EngineException( MessageConstants.MISSING_COMPUTED_COLUMN_EXPRESSION_EXCEPTION,
+	}
+
+	/**
+	 * Creates a new DtE API Computed Column from a model computed column. Could
+	 * return null if no expression is defined.
+	 * 
+	 * @throws EngineException
+	 */
+	IComputedColumn newComputedColumn( ComputedColumnHandle modelCmptdColumn )
+			throws EngineException
+	{
+		// no expression to define a computed column
+		if ( modelCmptdColumn.getExpression( ) == null )
+		{
+			throw new EngineException(
+					MessageConstants.MISSING_COMPUTED_COLUMN_EXPRESSION_EXCEPTION,
 					modelCmptdColumn.getName( ) );
-        }
-        
-        return new ComputedColumn( modelCmptdColumn.getName( ),
+		}
+
+		return new ComputedColumn( modelCmptdColumn.getName( ),
 				modelCmptdColumn.getExpression( ),
 				toDteDataType( modelCmptdColumn.getDataType( ) ) );
-    }
-    
-    /** Creates a new DtE API IJSExprFilter or IColumnFilter from 
-     * a model's filter condition.
-     * Could return null if no expression nor column operator is defined.
-     */
-    IFilterDefinition newFilter( FilterConditionHandle modelFilter )
-    {
-        String filterExpr = modelFilter.getExpr();
-        if ( filterExpr == null || filterExpr.length() == 0 )
-               return null; 	// no filter defined
+	}
 
-        // converts to DtE exprFilter if there is no operator
-        String filterOpr = modelFilter.getOperator();
-        if ( filterOpr == null || filterOpr.length() == 0 )
-            return new FilterDefinition( new ScriptExpression( filterExpr ) );
-        
-        /* has operator defined, try to convert filter condition
-         * to operator/operand style column filter with 0 to 2 operands
-         */
+	/**
+	 * Creates a new DtE API IJSExprFilter or IColumnFilter from a model's
+	 * filter condition. Could return null if no expression nor column operator
+	 * is defined.
+	 */
+	IFilterDefinition newFilter( FilterConditionHandle modelFilter )
+	{
+		String filterExpr = modelFilter.getExpr( );
+		if ( filterExpr == null || filterExpr.length( ) == 0 )
+			return null; // no filter defined
 
-        String column = filterExpr;
-        int dteOpr = toDteFilterOperator( filterOpr );
-        String operand1 = modelFilter.getValue1();
-        String operand2 = modelFilter.getValue2();
-        return new FilterDefinition( new ConditionalExpression( 
-        			column, dteOpr, operand1, operand2 ));
-    }
-    
-    private IColumnDefinition newColumnDefn( ResultSetColumnHandle modelColumn )
-    {
-        ColumnDefinition newColumn = new ColumnDefinition( modelColumn.getColumnName( ) );
+		// converts to DtE exprFilter if there is no operator
+		String filterOpr = modelFilter.getOperator( );
+		if ( filterOpr == null || filterOpr.length( ) == 0 )
+			return new FilterDefinition( new ScriptExpression( filterExpr ) );
+
+		/*
+		 * has operator defined, try to convert filter condition to
+		 * operator/operand style column filter with 0 to 2 operands
+		 */
+
+		String column = filterExpr;
+		int dteOpr = toDteFilterOperator( filterOpr );
+		String operand1 = modelFilter.getValue1( );
+		String operand2 = modelFilter.getValue2( );
+		return new FilterDefinition( new ConditionalExpression( column, dteOpr,
+				operand1, operand2 ) );
+	}
+
+	private IColumnDefinition newColumnDefn( ResultSetColumnHandle modelColumn )
+	{
+		ColumnDefinition newColumn = new ColumnDefinition( modelColumn
+				.getColumnName( ) );
 		if ( modelColumn.getPosition( ) != null )
-			newColumn.setColumnPosition( modelColumn.getPosition( ).intValue( ) );
+			newColumn
+					.setColumnPosition( modelColumn.getPosition( ).intValue( ) );
 		newColumn.setDataType( toDteDataType( modelColumn.getDataType( ) ) );
 		return newColumn;
-    }
-        
-    private void updateColumnDefn( ColumnDefinition dteColumn, ColumnHintHandle modelColumnHint )
-    {
-        assert dteColumn.getColumnName().equals( modelColumnHint.getColumnName() );
-        dteColumn.setAlias( modelColumnHint.getAlias() );
-        
-        String exportConstant = modelColumnHint.getExport();
-        if ( exportConstant != null )
-        {
-            int exportHint = IColumnDefinition.DONOT_EXPORT;	// default value
-            if ( exportConstant.equals( DesignChoiceConstants.EXPORT_TYPE_IF_REALIZED ) )
-                exportHint = IColumnDefinition.EXPORT_IF_REALIZED;
-            else if ( exportConstant.equals( DesignChoiceConstants.EXPORT_TYPE_ALWAYS ) )
-                exportHint = IColumnDefinition.ALWAYS_EXPORT;
-            else 
-                assert exportConstant.equals( DesignChoiceConstants.EXPORT_TYPE_NONE );
+	}
 
-            dteColumn.setExportHint( exportHint );
-        }
-
-        String searchConstant = modelColumnHint.getSearching();
-        if ( searchConstant != null )
-        {
-        	int searchHint = IColumnDefinition.NOT_SEARCHABLE;
-        	if ( searchConstant.equals( DesignChoiceConstants.SEARCH_TYPE_INDEXED ) )
-        	    searchHint = IColumnDefinition.SEARCHABLE_IF_INDEXED;
-        	else if ( searchConstant.equals( DesignChoiceConstants.SEARCH_TYPE_ANY ) )
-        	    searchHint = IColumnDefinition.ALWAYS_SEARCHABLE;
-        	else
-        	    assert searchConstant.equals( DesignChoiceConstants.SEARCH_TYPE_NONE );
-
-        	dteColumn.setSearchHint( searchHint );
-        }
-
-        
-        }
-    
-    private IColumnDefinition newColumnDefn( ColumnHintHandle modelColumnHint )
+	private void updateColumnDefn( ColumnDefinition dteColumn,
+			ColumnHintHandle modelColumnHint )
 	{
-		ColumnDefinition newColumn = new ColumnDefinition( modelColumnHint.getColumnName( ) );
+		assert dteColumn.getColumnName( ).equals(
+				modelColumnHint.getColumnName( ) );
+		dteColumn.setAlias( modelColumnHint.getAlias( ) );
+
+		String exportConstant = modelColumnHint.getExport( );
+		if ( exportConstant != null )
+		{
+			int exportHint = IColumnDefinition.DONOT_EXPORT; // default value
+			if ( exportConstant
+					.equals( DesignChoiceConstants.EXPORT_TYPE_IF_REALIZED ) )
+				exportHint = IColumnDefinition.EXPORT_IF_REALIZED;
+			else if ( exportConstant
+					.equals( DesignChoiceConstants.EXPORT_TYPE_ALWAYS ) )
+				exportHint = IColumnDefinition.ALWAYS_EXPORT;
+			else
+				assert exportConstant
+						.equals( DesignChoiceConstants.EXPORT_TYPE_NONE );
+
+			dteColumn.setExportHint( exportHint );
+		}
+
+		String searchConstant = modelColumnHint.getSearching( );
+		if ( searchConstant != null )
+		{
+			int searchHint = IColumnDefinition.NOT_SEARCHABLE;
+			if ( searchConstant
+					.equals( DesignChoiceConstants.SEARCH_TYPE_INDEXED ) )
+				searchHint = IColumnDefinition.SEARCHABLE_IF_INDEXED;
+			else if ( searchConstant
+					.equals( DesignChoiceConstants.SEARCH_TYPE_ANY ) )
+				searchHint = IColumnDefinition.ALWAYS_SEARCHABLE;
+			else
+				assert searchConstant
+						.equals( DesignChoiceConstants.SEARCH_TYPE_NONE );
+
+			dteColumn.setSearchHint( searchHint );
+		}
+
+	}
+
+	private IColumnDefinition newColumnDefn( ColumnHintHandle modelColumnHint )
+	{
+		ColumnDefinition newColumn = new ColumnDefinition( modelColumnHint
+				.getColumnName( ) );
 		updateColumnDefn( newColumn, modelColumnHint );
 		return newColumn;
 	}
 
-    /**
+	/**
 	 * Find the DtE columnDefn from the given list of columnDefns that matches
 	 * the given columnName.
 	 */
-    private ColumnDefinition findColumnDefn( List columnDefns, String columnName )
-    {
-        assert columnName != null;
-        if ( columnDefns == null )
-            return null;	// no list to find from
-        Iterator iter = columnDefns.iterator();
-        if ( iter == null )
-            return null;
-        
-        // iterate thru each columnDefn, and looks for a match of
-        // specified column name
-        while( iter.hasNext() )
-        {
-            ColumnDefinition column = (ColumnDefinition) iter.next();
-            if ( columnName.equals( column.getColumnName() ) )
-                return column;
-        }
-        return null;
-    }
-    
-    int toDteDataType( String modelDataType )
-    {
-        if ( modelDataType == null )
-            return DataType.UNKNOWN_TYPE;
-        if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
-            return DataType.ANY_TYPE;
-        if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER ) )
-            return DataType.INTEGER_TYPE;
-        if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
-            return DataType.STRING_TYPE;
-        if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
-            return DataType.DATE_TYPE;
-        if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL ) )
-            return DataType.DECIMAL_TYPE;
-        if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT ) )
-            return DataType.DOUBLE_TYPE;
+	private ColumnDefinition findColumnDefn( List columnDefns, String columnName )
+	{
+		assert columnName != null;
+		if ( columnDefns == null )
+			return null; // no list to find from
+		Iterator iter = columnDefns.iterator( );
+		if ( iter == null )
+			return null;
 
-        // types that are not yet supported, model should have checked
-        if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRUCTURE ) ||
-             modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TABLE ) )
-        {
-            assert false;
-        }
-        return DataType.UNKNOWN_TYPE;
-    }
-    
-    // Convert model operator value to DtE IColumnFilter enum value
-    int toDteFilterOperator( String modelOpr )
-    {
-        if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_EQ ) )
-	        return IConditionalExpression.OP_EQ;
-        if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NE ) )
-            return IConditionalExpression.OP_NE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LT ) )
-		    return IConditionalExpression.OP_LT;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LE ) )
-		    return IConditionalExpression.OP_LE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_GE ) )
-		    return IConditionalExpression.OP_GE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_GT ) )
-		    return IConditionalExpression.OP_GT;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_BETWEEN ) )
-		    return IConditionalExpression.OP_BETWEEN;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_BETWEEN ) )
-		    return IConditionalExpression.OP_NOT_BETWEEN;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NULL ) )
-		    return IConditionalExpression.OP_NULL;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_NULL ) )
-		    return IConditionalExpression.OP_NOT_NULL;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_TRUE ) )
-		    return IConditionalExpression.OP_TRUE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_FALSE ) )
-		    return IConditionalExpression.OP_FALSE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LIKE ) )
-		    return IConditionalExpression.OP_LIKE;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_TOP_N ) )
-		    return IConditionalExpression.OP_TOP_N;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N ) )
-		    return IConditionalExpression.OP_BOTTOM_N;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT ) )
-		    return IConditionalExpression.OP_TOP_PERCENT;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT ) )
-		    return IConditionalExpression.OP_BOTTOM_PERCENT;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_ANY ) )
-		    return IConditionalExpression.OP_ANY;
-		
-		assert false;	// unknown filter operator
-		return IConditionalExpression.OP_NONE;
-    }
-
-    /* Gets the data handle's static ROM extension properties 
-     * name and value pairs in String values and returns them in a Map
-     */
-    private Map getExtensionProperties( ReportElementHandle dataHandle, 
-            							List driverPropList )
-    {
-        if ( driverPropList == null || driverPropList.isEmpty() )
-            return null;		// nothing to add
-
-		Map properties = new HashMap();
-        Iterator elmtIter =  driverPropList.iterator();
-		while ( elmtIter.hasNext() )
+		// iterate thru each columnDefn, and looks for a match of
+		// specified column name
+		while ( iter.hasNext( ) )
 		{
-		    IPropertyDefn modelExtProp = (IPropertyDefn) elmtIter.next();
-		
-		    // First get extension property's name
-		    String propName = modelExtProp.getName();
-		    assert( propName != null && propName.length() > 0 );
-		
-		    // Use property name to get property value
-		    Object propValueObj = dataHandle.getProperty( modelExtProp.getName() );	    
-
-		    /* An ODA consumer does not distinguish whether a property value
-		     * is not set or explicitly set to null.  
-		     * Its handling is pushed down to the underlying data provider.
-		     */
-		    String propValue = ( propValueObj == null ) ?
-								null : propValueObj.toString();
-		    properties.put( propName, propValue );
+			ColumnDefinition column = ( ColumnDefinition ) iter.next( );
+			if ( columnName.equals( column.getColumnName( ) ) )
+				return column;
 		}
-		
+		return null;
+	}
+
+	int toDteDataType( String modelDataType )
+	{
+		if ( modelDataType == null )
+			return DataType.UNKNOWN_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
+			return DataType.ANY_TYPE;
+		if ( modelDataType
+				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER ) )
+			return DataType.INTEGER_TYPE;
+		if ( modelDataType
+				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
+			return DataType.STRING_TYPE;
+		if ( modelDataType
+				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+			return DataType.DATE_TYPE;
+		if ( modelDataType
+				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL ) )
+			return DataType.DECIMAL_TYPE;
+		if ( modelDataType
+				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT ) )
+			return DataType.DOUBLE_TYPE;
+
+		// types that are not yet supported, model should have checked
+		if ( modelDataType
+				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRUCTURE )
+				|| modelDataType
+						.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TABLE ) )
+		{
+			assert false;
+		}
+		return DataType.UNKNOWN_TYPE;
+	}
+
+	// Convert model operator value to DtE IColumnFilter enum value
+	int toDteFilterOperator( String modelOpr )
+	{
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_EQ ) )
+			return IConditionalExpression.OP_EQ;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NE ) )
+			return IConditionalExpression.OP_NE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LT ) )
+			return IConditionalExpression.OP_LT;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LE ) )
+			return IConditionalExpression.OP_LE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_GE ) )
+			return IConditionalExpression.OP_GE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_GT ) )
+			return IConditionalExpression.OP_GT;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_BETWEEN ) )
+			return IConditionalExpression.OP_BETWEEN;
+		if ( modelOpr
+				.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_BETWEEN ) )
+			return IConditionalExpression.OP_NOT_BETWEEN;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NULL ) )
+			return IConditionalExpression.OP_NULL;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_NULL ) )
+			return IConditionalExpression.OP_NOT_NULL;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_TRUE ) )
+			return IConditionalExpression.OP_TRUE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_FALSE ) )
+			return IConditionalExpression.OP_FALSE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LIKE ) )
+			return IConditionalExpression.OP_LIKE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_TOP_N ) )
+			return IConditionalExpression.OP_TOP_N;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N ) )
+			return IConditionalExpression.OP_BOTTOM_N;
+		if ( modelOpr
+				.equals( DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT ) )
+			return IConditionalExpression.OP_TOP_PERCENT;
+		if ( modelOpr
+				.equals( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT ) )
+			return IConditionalExpression.OP_BOTTOM_PERCENT;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_ANY ) )
+			return IConditionalExpression.OP_ANY;
+
+		assert false; // unknown filter operator
+		return IConditionalExpression.OP_NONE;
+	}
+
+	/*
+	 * Gets the data handle's static ROM extension properties name and value
+	 * pairs in String values and returns them in a Map
+	 */
+	private Map getExtensionProperties( ReportElementHandle dataHandle,
+			List driverPropList )
+	{
+		if ( driverPropList == null || driverPropList.isEmpty( ) )
+			return null; // nothing to add
+
+		Map properties = new HashMap( );
+		Iterator elmtIter = driverPropList.iterator( );
+		while ( elmtIter.hasNext( ) )
+		{
+			IPropertyDefn modelExtProp = ( IPropertyDefn ) elmtIter.next( );
+
+			// First get extension property's name
+			String propName = modelExtProp.getName( );
+			assert ( propName != null && propName.length( ) > 0 );
+
+			// Use property name to get property value
+			Object propValueObj = dataHandle.getProperty( modelExtProp
+					.getName( ) );
+
+			/*
+			 * An ODA consumer does not distinguish whether a property value is
+			 * not set or explicitly set to null. Its handling is pushed down to
+			 * the underlying data provider.
+			 */
+			String propValue = ( propValueObj == null ) ? null : propValueObj
+					.toString( );
+			properties.put( propName, propValue );
+		}
+
 		return properties;
-    }
-    
+	}
+
 }

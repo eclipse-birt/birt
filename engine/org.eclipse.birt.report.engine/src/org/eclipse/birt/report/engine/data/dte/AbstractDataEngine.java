@@ -50,12 +50,14 @@ public abstract class AbstractDataEngine implements IDataEngine
 {
 
 	protected DataEngine dataEngine;
+
 	protected ExecutionContext context;
 
 	/*
 	 * need not be stored in report document.
 	 */
 	protected HashMap mapQueryToPreparedQuery = new HashMap( );
+
 	protected HashMap queryIDMap = new HashMap( );
 
 	protected HashMap mapQueryIDToResultSetIDs = new HashMap( );
@@ -71,6 +73,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	protected LinkedList queryResultStack = new LinkedList( );
 
 	protected String reportArchName = null;
+
 	protected static final String DATA_META_STREAM = "/Data/hierarchy";
 
 	/*
@@ -95,14 +98,14 @@ public abstract class AbstractDataEngine implements IDataEngine
 		List dataSourceList = rptHandle.getAllDataSources( );
 		for ( int i = 0; i < dataSourceList.size( ); i++ )
 		{
-			DataSourceHandle dataSource = (DataSourceHandle) dataSourceList
+			DataSourceHandle dataSource = ( DataSourceHandle ) dataSourceList
 					.get( i );
 			try
 			{
 				dataEngine.defineDataSource( ModelDteApiAdapter.getInstance( )
-						.createDataSourceDesign( dataSource ) );
-			}
-			catch ( BirtException be )
+						.createDataSourceDesign( dataSource,
+								context.getReportContext( ) ) );
+			} catch ( BirtException be )
 			{
 				logger.log( Level.SEVERE, be.getMessage( ), be );
 				context.addException( dataSource, be );
@@ -113,13 +116,13 @@ public abstract class AbstractDataEngine implements IDataEngine
 		List dataSetList = rptHandle.getAllDataSets( );
 		for ( int i = 0; i < dataSetList.size( ); i++ )
 		{
-			DataSetHandle dataset = (DataSetHandle) dataSetList.get( i );
+			DataSetHandle dataset = ( DataSetHandle ) dataSetList.get( i );
 			try
 			{
 				dataEngine.defineDataSet( ModelDteApiAdapter.getInstance( )
-						.createDataSetDesign( dataset ) );
-			}
-			catch ( BirtException be )
+						.createDataSetDesign( dataset,
+								context.getReportContext( ) ) );
+			} catch ( BirtException be )
 			{
 				logger.log( Level.SEVERE, be.getMessage( ), be );
 				context.addException( dataset, be );
@@ -139,8 +142,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 		if ( query instanceof IQueryDefinition )
 		{
 			return doExecute( query );
-		}
-		else if ( query instanceof ISubqueryDefinition )
+		} else if ( query instanceof ISubqueryDefinition )
 		{
 			return getSubqueryResult( query );
 		}
@@ -153,7 +155,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	{
 		for ( int i = queryResultStack.size( ) - 1; i >= 0; i-- )
 		{
-			DteResultSet rs = (DteResultSet) queryResultStack.get( i );
+			DteResultSet rs = ( DteResultSet ) queryResultStack.get( i );
 			if ( rs.getQueryResults( ) != null )
 				return rs;
 		}
@@ -179,8 +181,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 		DteResultSet resultSet;
 		try
 		{
-			DteResultSet parent = (DteResultSet) queryResultStack.getLast( );
-			ISubqueryDefinition subQuery = (ISubqueryDefinition) query;
+			DteResultSet parent = ( DteResultSet ) queryResultStack.getLast( );
+			ISubqueryDefinition subQuery = ( ISubqueryDefinition ) query;
 			String subQueryName = subQuery.getName( );
 			IResultIterator parentRI = parent.getResultIterator( );
 			IResultIterator ri = parentRI.getSecondaryIterator( subQueryName,
@@ -190,8 +192,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 					context );
 			queryResultStack.addLast( resultSet );
 			return resultSet;
-		}
-		catch ( BirtException e )
+		} catch ( BirtException e )
 		{
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 			context.addException( e );
@@ -215,21 +216,19 @@ public abstract class AbstractDataEngine implements IDataEngine
 		{
 			try
 			{
-				Object value = ( (DteResultSet) queryResultStack.getLast( ) )
+				Object value = ( ( DteResultSet ) queryResultStack.getLast( ) )
 						.getResultIterator( ).getValue( expr );
 				if ( value != null )
 				{
 					return context.jsToJava( value );
 				}
 				return null;
-			}
-			catch ( BirtException e )
+			} catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 				context.addException( e );
 				return null;
-			}
-			catch ( JavaScriptException ee )
+			} catch ( JavaScriptException ee )
 			{
 				logger.log( Level.SEVERE, ee.getMessage( ), ee );
 				context.addException( new EngineException(
@@ -241,11 +240,11 @@ public abstract class AbstractDataEngine implements IDataEngine
 		// Rhino handles evaluation
 		if ( expr instanceof IScriptExpression )
 		{
-			return context.evaluate( ( (IScriptExpression) expr ).getText( ) );
+			return context.evaluate( ( ( IScriptExpression ) expr ).getText( ) );
 		}
 		if ( expr instanceof IConditionalExpression )
 		{
-			return context.evaluateCondExpr( (IConditionalExpression) expr );
+			return context.evaluateCondExpr( ( IConditionalExpression ) expr );
 		}
 
 		// unsupported expression type
@@ -262,8 +261,11 @@ public abstract class AbstractDataEngine implements IDataEngine
 	{
 
 		private static final long serialVersionUID = 42L;
+
 		public String parentRSID = null;
+
 		public String rowid = null;
+
 		public String resultSetID = null;
 
 		public Key( String parentid, String rid, String resultID )
@@ -283,9 +285,9 @@ public abstract class AbstractDataEngine implements IDataEngine
 		private void readObject( ObjectInputStream in ) throws IOException,
 				ClassNotFoundException
 		{
-			parentRSID = (String) in.readObject( );
-			rowid = (String) in.readObject( );
-			resultSetID = (String) in.readObject( );
+			parentRSID = ( String ) in.readObject( );
+			rowid = ( String ) in.readObject( );
+			resultSetID = ( String ) in.readObject( );
 		}
 
 		public boolean equalTo( String parentID, String rid )
@@ -302,11 +304,15 @@ public abstract class AbstractDataEngine implements IDataEngine
 	{
 
 		private static final long serialVersionUID = 5750799978535272737L;
+
 		public ArrayList beforeExpressionIDs;
+
 		public ArrayList afterExpressionIDs;
+
 		public ArrayList rowExpressionIDs;
 
 		public ArrayList subqueryIDs;
+
 		public ArrayList groupIDs;
 
 		public QueryID( )
@@ -330,11 +336,11 @@ public abstract class AbstractDataEngine implements IDataEngine
 		private void readObject( ObjectInputStream in ) throws IOException,
 				ClassNotFoundException
 		{
-			beforeExpressionIDs = (ArrayList) in.readObject( );
-			afterExpressionIDs = (ArrayList) in.readObject( );
-			rowExpressionIDs = (ArrayList) in.readObject( );
-			groupIDs = (ArrayList) in.readObject( );
-			subqueryIDs = (ArrayList) in.readObject( );
+			beforeExpressionIDs = ( ArrayList ) in.readObject( );
+			afterExpressionIDs = ( ArrayList ) in.readObject( );
+			rowExpressionIDs = ( ArrayList ) in.readObject( );
+			groupIDs = ( ArrayList ) in.readObject( );
+			subqueryIDs = ( ArrayList ) in.readObject( );
 		}
 	}
 
@@ -343,7 +349,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 		Iterator iter = queryResultRelations.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			Key key = (Key) iter.next( );
+			Key key = ( Key ) iter.next( );
 			if ( key.equalTo( parentID, rowid ) )
 			{
 				return key.resultSetID;

@@ -16,10 +16,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.ir.Expression;
@@ -39,47 +37,45 @@ public class ScriptExecutor
 
 	public static final String PROJECT_CLASSPATH_KEY = "user.projectclasspath";
 
-	protected static Map handlerCache = Collections
-			.synchronizedMap( new HashMap( ) );
-
-	protected static Logger log = Logger.getLogger( ExecutionContext.class
+	protected static Logger log = Logger.getLogger( ScriptExecutor.class
 			.getName( ) );
 
-	protected static boolean handleJS( Object scope, Expression js,
+	protected static JSScriptStatus handleJS( Object scope, Expression js,
 			ExecutionContext context )
 	{
 		return handleJSInternal( scope, js, context );
 	}
 
-	protected static boolean handleJS( Object scope, String js,
+	protected static JSScriptStatus handleJS( Object scope, String js,
 			ExecutionContext context )
 	{
 		return handleJSInternal( scope, js, context );
 	}
 
-	private static boolean handleJSInternal( Object scope, Object js,
+	private static JSScriptStatus handleJSInternal( Object scope, Object js,
 			ExecutionContext context )
 	{
 		if ( js != null )
 		{
 			if ( !( js instanceof String || js instanceof Expression ) )
-				return false;
+				return JSScriptStatus.NO_RUN;
 			try
 			{
 				if ( scope != null )
 					context.newScope( scope );
+				Object result = null;
 				if ( js instanceof String )
-					context.evaluate( ( String ) js );
+					result = context.evaluate( ( String ) js );
 				else if ( js instanceof Expression )
-					context.evaluate( ( Expression ) js );
-				return true;
+					result = context.evaluate( ( Expression ) js );
+				return new JSScriptStatus( true, result );
 			} finally
 			{
 				if ( scope != null )
 					context.exitScope( );
 			}
 		}
-		return false;
+		return JSScriptStatus.NO_RUN;
 	}
 
 	protected static Object getInstance( DesignElementHandle element )
@@ -92,12 +88,13 @@ public class ScriptExecutor
 	{
 		if ( className == null )
 			return null;
-		// First, try looking in the cache
-		Object o = handlerCache.get( className );
-		if ( o != null )
-		{
-			return o;
-		}
+		// First, try looking in the cache. TODO: Maybe implement this
+		// Object o = handlerCache.get( className );
+		// if ( o != null )
+		// {
+		// return o;
+		// }
+		Object o = null;
 		try
 		{
 			Class c = null;
@@ -132,7 +129,7 @@ public class ScriptExecutor
 			}
 		} catch ( Exception e )
 		{
-			e.printStackTrace( );
+			log.log( Level.WARNING, e.getMessage( ), e );
 		}
 		return o;
 	}
@@ -175,10 +172,35 @@ public class ScriptExecutor
 				// loader either, null will be returned
 			} catch ( ClassNotFoundException e )
 			{
-				e.printStackTrace( );
-				return null;
+				log.log( Level.WARNING, e.getMessage( ), e );
 			}
 		}
 		return null;
+	}
+
+	protected static class JSScriptStatus
+	{
+		private boolean didRun;
+
+		private Object result;
+
+		public static final JSScriptStatus NO_RUN = new JSScriptStatus( false,
+				null );
+
+		public JSScriptStatus( boolean didRun, Object result )
+		{
+			this.didRun = didRun;
+			this.result = result;
+		}
+
+		public boolean didRun( )
+		{
+			return didRun;
+		}
+
+		public Object result( )
+		{
+			return result;
+		}
 	}
 }

@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api.script.eventadapter;
 
-import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IScriptedDataSourceEventHandler;
+import org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance;
 
 /**
  * Default (empty) implementation of the IScriptedDataSourceEventHandler
@@ -21,12 +21,12 @@ public class ScriptedDataSourceEventAdapter implements
 		IScriptedDataSourceEventHandler
 {
 
-	public void open( IReportContext reportContext )
+	public void open( IDataSourceInstance dataSource )
 	{
 
 	}
 
-	public void close( IReportContext reportContext )
+	public void close( IDataSourceInstance dataSource )
 	{
 
 	}

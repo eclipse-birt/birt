@@ -31,7 +31,8 @@ public class ImageScriptExecutor extends ScriptExecutor
 		try
 		{
 			IImage image = new Image( imageHandle );
-			if ( handleJS( image, imageHandle.getOnPrepare( ), context ) )
+			if ( handleJS( image, imageHandle.getOnPrepare( ), context )
+					.didRun( ) )
 				return;
 			IImageEventHandler eh = ( IImageEventHandler ) getInstance( imageHandle );
 			if ( eh != null )
@@ -50,7 +51,8 @@ public class ImageScriptExecutor extends ScriptExecutor
 			ReportItemDesign imageDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
 			IImageInstance image = new ImageInstance( content );
-			if ( handleJS( image, imageDesign.getOnCreate( ), context ) )
+			if ( handleJS( image, imageDesign.getOnCreate( ), context )
+					.didRun( ) )
 				return;
 			IImageEventHandler eh = ( IImageEventHandler ) getInstance( ( ImageHandle ) imageDesign
 					.getHandle( ) );
@@ -70,7 +72,8 @@ public class ImageScriptExecutor extends ScriptExecutor
 			ReportItemDesign imageDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
 			IImageInstance image = new ImageInstance( content );
-			if ( handleJS( image, imageDesign.getOnRender( ), context ) )
+			if ( handleJS( image, imageDesign.getOnRender( ), context )
+					.didRun( ) )
 				return;
 			IImageEventHandler eh = ( IImageEventHandler ) getInstance( ( ImageHandle ) imageDesign
 					.getHandle( ) );

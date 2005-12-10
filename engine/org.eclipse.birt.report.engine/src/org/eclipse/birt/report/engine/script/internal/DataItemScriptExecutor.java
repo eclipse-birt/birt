@@ -31,7 +31,8 @@ public class DataItemScriptExecutor extends ScriptExecutor
 		try
 		{
 			IDataItem dataItem = new DataItem( dataItemHandle );
-			if ( handleJS( dataItem, dataItemHandle.getOnPrepare( ), context ) )
+			if ( handleJS( dataItem, dataItemHandle.getOnPrepare( ), context )
+					.didRun( ) )
 				return;
 			IDataItemEventHandler eh = ( IDataItemEventHandler ) getInstance( dataItemHandle );
 			if ( eh != null )
@@ -50,7 +51,8 @@ public class DataItemScriptExecutor extends ScriptExecutor
 			ReportItemDesign dataItemDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
 			IDataItemInstance dataItem = new DataItemInstance( content );
-			if ( handleJS( dataItem, dataItemDesign.getOnCreate( ), context ) )
+			if ( handleJS( dataItem, dataItemDesign.getOnCreate( ), context )
+					.didRun( ) )
 				return;
 			IDataItemEventHandler eh = ( IDataItemEventHandler ) getInstance( ( DataItemHandle ) dataItemDesign
 					.getHandle( ) );
@@ -70,7 +72,8 @@ public class DataItemScriptExecutor extends ScriptExecutor
 			ReportItemDesign dataItemDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
 			IDataItemInstance dataItem = new DataItemInstance( content );
-			if ( handleJS( dataItem, dataItemDesign.getOnRender( ), context ) )
+			if ( handleJS( dataItem, dataItemDesign.getOnRender( ), context )
+					.didRun( ) )
 				return;
 			IDataItemEventHandler eh = ( IDataItemEventHandler ) getInstance( ( DataItemHandle ) dataItemDesign
 					.getHandle( ) );

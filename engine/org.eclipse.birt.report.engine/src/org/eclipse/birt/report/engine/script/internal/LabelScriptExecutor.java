@@ -31,7 +31,8 @@ public class LabelScriptExecutor extends ScriptExecutor
 		try
 		{
 			ILabel label = new Label( labelHandle );
-			if ( handleJS( label, labelHandle.getOnPrepare( ), context ) )
+			if ( handleJS( label, labelHandle.getOnPrepare( ), context )
+					.didRun( ) )
 				return;
 			ILabelEventHandler eh = ( ILabelEventHandler ) getInstance( labelHandle );
 			if ( eh != null )
@@ -50,7 +51,8 @@ public class LabelScriptExecutor extends ScriptExecutor
 			ReportItemDesign labelDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
 			ILabelInstance label = new LabelInstance( content );
-			if ( handleJS( label, labelDesign.getOnCreate( ), context ) )
+			if ( handleJS( label, labelDesign.getOnCreate( ), context )
+					.didRun( ) )
 				return;
 			ILabelEventHandler eh = ( ILabelEventHandler ) getInstance( ( LabelHandle ) labelDesign
 					.getHandle( ) );
@@ -70,7 +72,8 @@ public class LabelScriptExecutor extends ScriptExecutor
 			ReportItemDesign labelDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
 			ILabelInstance label = new LabelInstance( content );
-			if ( handleJS( label, labelDesign.getOnRender( ), context ) )
+			if ( handleJS( label, labelDesign.getOnRender( ), context )
+					.didRun( ) )
 				return;
 			ILabelEventHandler eh = ( ILabelEventHandler ) getInstance( ( LabelHandle ) labelDesign
 					.getHandle( ) );
