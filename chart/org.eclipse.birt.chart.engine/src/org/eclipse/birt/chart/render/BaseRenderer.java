@@ -369,7 +369,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					bl );
 			bge.updateBlock( bl );
 			renderChartBlock( idr, bl, StructureSource.createUnknown( bl ) );
-			ScriptHandler.callFunction( sh, ScriptHandler.AFTER_DRAW_BLOCK, bl );
+			ScriptHandler.callFunction( sh,
+					ScriptHandler.AFTER_DRAW_BLOCK,
+					bl,
+					getRunTimeContext( ).getScriptContext( ) );
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_BLOCK,
 					bl );
 		}
@@ -391,7 +394,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				renderPlot( ir, (Plot) bl );
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.AFTER_DRAW_BLOCK,
-						bl );
+						bl,
+						getRunTimeContext( ).getScriptContext( ) );
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_BLOCK,
 						bl );
 				if ( bFirstInSequence && !bLastInSequence )
@@ -415,7 +419,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				renderTitle( ir, (TitleBlock) bl );
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.AFTER_DRAW_BLOCK,
-						bl );
+						bl,
+						getRunTimeContext( ).getScriptContext( ) );
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_BLOCK,
 						bl );
 			}
@@ -430,7 +435,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				renderLabel( ir, bl, StructureSource.createUnknown( bl ) );
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.AFTER_DRAW_BLOCK,
-						bl );
+						bl,
+						getRunTimeContext( ).getScriptContext( ) );
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_BLOCK,
 						bl );
 			}
@@ -445,7 +451,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				renderLegend( idr, (Legend) bl, htRenderers );
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.AFTER_DRAW_BLOCK,
-						bl );
+						bl,
+						getRunTimeContext( ).getScriptContext( ) );
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_BLOCK,
 						bl );
 			}
@@ -460,7 +467,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				renderBlock( ir, bl, StructureSource.createUnknown( bl ) );
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.AFTER_DRAW_BLOCK,
-						bl );
+						bl,
+						getRunTimeContext( ).getScriptContext( ) );
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_BLOCK,
 						bl );
 			}
@@ -1905,7 +1913,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		ScriptHandler.callFunction( sh,
 				ScriptHandler.AFTER_DRAW_LEGEND_ENTRY,
-				la );
+				la,
+				getRunTimeContext( ).getScriptContext( ) );
 		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_LEGEND_ENTRY,
 				la );
 	}
@@ -1944,7 +1953,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.AFTER_DRAW_SERIES,
 				getSeries( ),
-				this );
+				this,
+				getRunTimeContext( ).getScriptContext( ) );
 		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_SERIES,
 				getSeries( ) );
 

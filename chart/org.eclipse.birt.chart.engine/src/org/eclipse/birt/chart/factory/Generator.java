@@ -574,18 +574,11 @@ public final class Generator
 					sx );
 		}
 
-		// Call the onPrepare script event funtion.
-		if ( externalContext == null )
-		{
-			ScriptHandler.callFunction( sh, ScriptHandler.ON_PREPARE, cmRunTime );
-		}
-		else
-		{
-			ScriptHandler.callFunction( sh,
-					ScriptHandler.ON_PREPARE,
-					cmRunTime,
-					rtc.getScriptContext( ) );
-		}
+		// Call the onPrepare script event function.
+		ScriptHandler.callFunction( sh,
+				ScriptHandler.ON_PREPARE,
+				cmRunTime,
+				rtc.getScriptContext( ) );
 
 		return rtc;
 	}
@@ -769,7 +762,7 @@ public final class Generator
 					sh.init( null );
 				}
 				sh.setRunTimeModel( cmRunTime );
-				
+
 				if ( sScriptContent != null )
 				{
 					sh.register( sScriptContent );
@@ -973,6 +966,10 @@ public final class Generator
 			ScriptHandler.callFunction( sh,
 					ScriptHandler.FINISH_GENERATION,
 					gcs );
+			ScriptHandler.callFunction( sh,
+					ScriptHandler.AFTER_GENERATION,
+					gcs,
+					rtc.getScriptContext( ) );
 		}
 
 		return gcs;
@@ -996,7 +993,8 @@ public final class Generator
 
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.BEFORE_COMPUTATIONS,
-				gcs );
+				cm,
+				gcs.getComputations( ) );
 
 		// COMPUTE THE PLOT AREA
 		long lTimer = System.currentTimeMillis( );
@@ -1046,7 +1044,8 @@ public final class Generator
 		}
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.AFTER_COMPUTATIONS,
-				gcs );
+				cm,
+				gcs.getComputations( ) );
 	}
 
 	/**
@@ -1071,6 +1070,7 @@ public final class Generator
 				gcs );
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.BEFORE_RENDERING,
+				gcs,
 				gcs.getRunTimeContext( ).getScriptContext( ) );
 		Legend lg = cm.getLegend( );
 		lg.updateLayout( cm ); // RE-ORGANIZE BLOCKS IF REQUIRED
@@ -1167,6 +1167,10 @@ public final class Generator
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.FINISH_RENDERING,
 				gcs );
+		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
+				ScriptHandler.AFTER_RENDERING,
+				gcs,
+				gcs.getRunTimeContext( ).getScriptContext( ) );
 	}
 
 	/**
