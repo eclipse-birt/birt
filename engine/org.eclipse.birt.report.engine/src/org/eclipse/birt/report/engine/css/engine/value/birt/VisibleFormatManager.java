@@ -32,7 +32,7 @@ public class VisibleFormatManager extends AbstractValueManager
 	 */
 	public final static ListValue DEFAULT_VALUE = new ListValue();
 	static {
-		DEFAULT_VALUE.append(BIRTValueConstants.ALL_VALUE);
+		//DEFAULT_VALUE.append(BIRTValueConstants.ALL_VALUE);
 	}
 
 	/**
