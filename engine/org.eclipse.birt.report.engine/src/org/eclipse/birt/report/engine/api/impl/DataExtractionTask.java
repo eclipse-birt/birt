@@ -78,25 +78,25 @@ public class DataExtractionTask extends EngineTask
 
 	public void selectColumns( String[] columnNames )
 	{
-		//TODO
-		throw new UnsupportedOperationException( );
+		//TODO  unsupported currently
+		// throw new UnsupportedOperationException( );
 	}
 
 	public void setFilters( Filter[] simpleFilterExpression )
 	{
-		//TODO
-		throw new UnsupportedOperationException( );
+		//TODO  unsupported currently
+		// throw new UnsupportedOperationException( );
 	}
 
 	public void setSortConditions( String[] columnNames, int[] directions )
 	{
-		//TODO
-		throw new UnsupportedOperationException( );
+		//TODO unsupported currently
+		// throw new UnsupportedOperationException( );
 	}
 
 	public void setQuery( String queryString )
 	{
-		// TODO Auto-generated method stub	
+		// TODO unsupported currently
 	}
 
 	public IExtractionResults extract( ) throws EngineException

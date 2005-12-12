@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -70,7 +71,10 @@ import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
+import org.eclipse.birt.report.engine.ir.ImageItemDesign;
+import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.engine.util.FileUtil;
 
@@ -82,7 +86,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.54 $ $Date: 2005/12/02 11:55:42 $
+ * @version $Revision: 1.55 $ $Date: 2005/12/08 14:52:05 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -210,6 +214,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	protected ContentEmitterVisitor contentVisitor;
 
+	protected Random random; 
 	/**
 	 * the constructor
 	 */
@@ -731,12 +736,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		writer.openTag( HTMLTags.TAG_TABLE );
 
-		// Instance ID
-		InstanceID iid = table.getInstanceID( );
-		if ( iid != null )
-		{
-			writer.attribute( "iid", iid.toString( ) );
-		}
 		// style string
 		setStyleName( table.getStyleClass( ) );
 		int display = checkElementType( x, y, mergedStyle, styleBuffer );
@@ -747,8 +746,21 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		handleStyle( table, styleBuffer );
 
 		// bookmark
-		setBookmark( null, table.getBookmark( ) );
+		String bookmark = table.getBookmark( );
+		if ( bookmark == null )
+		{
+			bookmark = generateUniqueID( );
+		}
+		setBookmark( null, bookmark );
 
+		exportElementID( table, bookmark );
+		// Instance ID
+		InstanceID iid = table.getInstanceID( );
+		if ( iid != null )
+		{
+			writer.attribute( "iid", iid.toString( ) );
+		}
+		
 		// table caption
 		String caption = table.getCaption( );
 		if ( caption != null && caption.length( ) > 0 )
@@ -1042,8 +1054,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		setStyleName( container.getStyleClass( ) );
 
 		// bookmark
-		setBookmark( tagName, container.getBookmark( ) );
-
+		String bookmark = container.getBookmark( );
+		if( bookmark == null )
+		{
+			bookmark = generateUniqueID( );
+		}
+		
+		setBookmark( tagName, bookmark );
+		exportElementID( container, bookmark );
+		
 		// output style
 		// if ( x == null && y == null )
 		// {
@@ -1299,7 +1318,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.openTag( HTMLTags.TAG_IMAGE ); //$NON-NLS-1$
 			setStyleName( image.getStyleClass( ) );
 			setDisplayProperty( display, 0, styleBuffer );
-			setBookmark( HTMLTags.ATTR_IMAGE, image.getBookmark( ) ); //$NON-NLS-1$
+			
+			// bookmark
+			String bookmark = image.getBookmark( );
+			if(bookmark == null)
+			{
+				bookmark = generateUniqueID( );
+			}
+			setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
+			exportElementID( image, bookmark );
 
 			String ext = image.getExtension( );
 			// FIXME special process, such as encoding etc
@@ -1887,5 +1914,31 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				sb.append( (char) b );
 		}
 		return sb.toString( );
+	}
+	
+	protected void exportElementID( IContent content, String bookmark )
+	{
+		Object generateBy = content.getGenerateBy(); 
+		if( generateBy instanceof TableItemDesign
+				|| generateBy instanceof ListItemDesign 
+				|| generateBy instanceof ImageItemDesign )
+		{
+			if( renderOption instanceof HTMLRenderOption ){
+				List htmlIds = ((HTMLRenderOption)renderOption).getInstanceIDs( );
+				if( htmlIds != null && bookmark != null )
+				{
+					htmlIds.add( bookmark );
+				}
+			}
+		}
+	}
+	
+	protected String generateUniqueID( )
+	{
+		if( random == null )
+		{
+			random = new Random( );
+		}
+		return "AUTOGEN_BOOKMARK_" + random.nextLong( );
 	}
 }
