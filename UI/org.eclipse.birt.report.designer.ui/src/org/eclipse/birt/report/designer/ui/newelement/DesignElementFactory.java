@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 
@@ -70,8 +71,8 @@ public class DesignElementFactory extends ElementFactory
 	 */
 	protected DesignElementFactory( ModuleHandle module )
 	{
-		super( module.getModule() );
-		factory = new ElementFactory( module.getModule() );
+		super( module.getModule( ) );
+		factory = new ElementFactory( module.getModule( ) );
 	}
 
 	/**
@@ -251,6 +252,21 @@ public class DesignElementFactory extends ElementFactory
 	{
 		String newName = getNewName( ReportDesignConstants.STYLE_ELEMENT, name );
 		return factory.newStyle( newName );
+	}
+
+	/**
+	 * Creates a new theme element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the required theme name
+	 * @return a handle to the theme
+	 */
+
+	public ThemeHandle newTheme( String name )
+	{
+		String newName = getNewName( ReportDesignConstants.THEME_ITEM, name );
+		return factory.newTheme( newName );
 	}
 
 	/**
