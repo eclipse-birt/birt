@@ -34,7 +34,7 @@ public class Library extends Module implements ILibraryModel
 	/**
 	 * Namespace of the library.
 	 */
-	
+
 	private String namespace;
 
 	/**
@@ -214,7 +214,7 @@ public class Library extends Module implements ILibraryModel
 		{
 			Library library = (Library) module;
 
-			if ( library.getNamespace( ).equals( namespace ) )
+			if ( namespace.equals( library.getNamespace( ) ) )
 				return true;
 
 			module = library.getHost( );
