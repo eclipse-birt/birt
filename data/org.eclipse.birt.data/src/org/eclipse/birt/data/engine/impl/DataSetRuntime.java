@@ -92,7 +92,8 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 		this.queryExecutor = queryExecutor;
 		isOpen = true;
 		
-		eventHandler = dataSetDesign.getEventHandler();
+		if ( dataSetDesign != null )
+			eventHandler = dataSetDesign.getEventHandler();
 		
 		/*
 		 * TODO: TEMPORARY the follow code is temporary. It will be removed once Engine takes over
