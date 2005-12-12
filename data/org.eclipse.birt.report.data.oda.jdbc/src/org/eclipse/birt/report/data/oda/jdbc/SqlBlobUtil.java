@@ -45,8 +45,8 @@ public class SqlBlobUtil
 		private InputStream inputStream;
 
 		private boolean isInit;
-		private int length = -1;
-		private byte[] bytes = null;
+		private int blobLength = -1;
+		private byte[] blobContent = null;
 		
 		/**
 		 * @param inputStream
@@ -81,11 +81,11 @@ public class SqlBlobUtil
 				throw new SQLException( "can not read from blob data" );
 			}
 
-			length = byteList.size( );
-			bytes = new byte[length];
+			blobLength = byteList.size( );
+			blobContent = new byte[blobLength];
 
-			for ( int i = 0; i < length; i++ )
-				bytes[i] = (byte) ( (Integer) byteList.get( i ) ).intValue( );
+			for ( int i = 0; i < blobLength; i++ )
+				blobContent[i] = (byte) ( (Integer) byteList.get( i ) ).intValue( );
 
 			byteList = null;
 			isInit = true;
@@ -98,7 +98,7 @@ public class SqlBlobUtil
 		{
 			init( );
 
-			return this.length;
+			return this.blobLength;
 		}
 
 		/*
@@ -114,7 +114,24 @@ public class SqlBlobUtil
 		 */
 		public byte[] getBytes( long pos, int length ) throws SQLException
 		{
-			throw new SQLException( "Unsupported in this database" );
+			init( );
+			
+			int destPos = (int) ( ( pos - 1 ) + length );
+			if ( destPos > this.blobLength ) // since pos is 1-based
+			{
+				throw new SQLException( "pos or length is not valid" );
+			}
+			else
+			{
+				int startPos = (int) ( pos - 1 );
+				byte[] content = new byte[length];
+				System.arraycopy( blobContent,
+						startPos,
+						content,
+						startPos,
+						length );
+				return content;
+			}
 		}
 
 		/*
@@ -149,7 +166,7 @@ public class SqlBlobUtil
 		{
 			init( );
 						
-			return new ByteArrayInputStream( this.bytes );
+			return new ByteArrayInputStream( this.blobContent );
 		}
 
 		/*
