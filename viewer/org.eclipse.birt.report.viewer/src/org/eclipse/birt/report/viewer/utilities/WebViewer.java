@@ -129,8 +129,9 @@ public class WebViewer
 			+  ( "run".equalsIgnoreCase( servletName )? "" : "&__document=" + encodedDocumentName )  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			+ "&__format=" + format //$NON-NLS-1$
 			+ "&__usetestconfig=true" //$NON-NLS-1$
-			+ "&__svg=" +  String.valueOf( bSVGFlag )//$NON-NLS-1$
-			+ "&__locale=" + LocaleTable.get(locale); //$NON-NLS-1$
+			+ "&__svg=" +  String.valueOf( bSVGFlag ) //$NON-NLS-1$
+			+ "&__locale=" + LocaleTable.get(locale) //$NON-NLS-1$
+			+ "&__designer=true"; //$NON-NLS-1$
 		
 	}
 
