@@ -35,13 +35,13 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.script.element.RowData;
 import org.eclipse.birt.report.engine.script.internal.CellScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.GridRowScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.GridScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
 
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.23 $ $Date: 2005/12/03 05:34:28 $
+ * @version $Revision: 1.24 $ $Date: 2005/12/05 03:45:59 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -210,7 +210,7 @@ public class GridItemExecutor extends QueryItemExecutor
 		}
 		if ( context.isInFactory( ) )
 		{
-			GridRowScriptExecutor.handleOnCreate( ( RowContent ) rowContent,
+			RowScriptExecutor.handleOnCreate( ( RowContent ) rowContent,
 					rowData, context );
 		}
 		

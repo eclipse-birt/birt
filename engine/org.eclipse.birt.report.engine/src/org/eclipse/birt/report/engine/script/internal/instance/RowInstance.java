@@ -11,19 +11,15 @@
 
 package org.eclipse.birt.report.engine.script.internal.instance;
 
-import org.eclipse.birt.report.engine.api.script.instance.IGridRowInstance;
+import org.eclipse.birt.report.engine.api.script.instance.IRowInstance;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
-import org.eclipse.birt.report.engine.api.script.instance.ITableDetailRowInstance;
-import org.eclipse.birt.report.engine.api.script.instance.ITableFooterRowInstance;
-import org.eclipse.birt.report.engine.api.script.instance.ITableHeaderRowInstance;
 import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
  * A class representing the runtime state of a detail row
  */
-public class RowInstance implements ITableDetailRowInstance,
-		ITableHeaderRowInstance, ITableFooterRowInstance, IGridRowInstance
+public class RowInstance implements IRowInstance
 {
 
 	private RowContent row;

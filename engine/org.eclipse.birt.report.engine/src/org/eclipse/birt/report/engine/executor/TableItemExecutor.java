@@ -42,9 +42,7 @@ import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableGroupDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.script.internal.CellScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.TableDetailRowScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.TableFooterRowScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.TableHeaderRowScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
 
 /**
@@ -58,20 +56,10 @@ import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.34 $ $Date: 2005/12/03 05:34:01 $
+ * @version $Revision: 1.35 $ $Date: 2005/12/08 07:36:16 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
-
-	private static final int DETAIL_ROW = 1;
-
-	private static final int HEADER_ROW = 2;
-
-	private static final int FOOTER_ROW = 3;
-
-	private static final int GROUP_HEADER_ROW = 2;
-
-	private static final int GROUP_FOOTER_ROW = 3;
 
 	protected static Logger logger = Logger.getLogger( TableItemExecutor.class
 			.getName( ) );
@@ -173,7 +161,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * structure used to cache the information of a table.
 	 * 
-	 * @version $Revision: 1.34 $ $Date: 2005/12/03 05:34:01 $
+	 * @version $Revision: 1.35 $ $Date: 2005/12/08 07:36:16 $
 	 */
 	private static class TABLEINFO
 	{
@@ -353,7 +341,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			{
 				emitter.startTableHeader( header );
 			}
-			accessTableBand( bandDesign, emitter, rowData, HEADER_ROW );
+			accessTableBand( bandDesign, emitter, rowData );
 			if ( emitter != null )
 			{
 				emitter.endTableHeader( header );
@@ -403,7 +391,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			{
 				emitter.startTableFooter( footer );
 			}
-			accessTableBand( bandDesign, emitter, rowData, FOOTER_ROW );
+			accessTableBand( bandDesign, emitter, rowData );
 			if ( emitter != null )
 			{
 				emitter.endTableFooter( footer );
@@ -420,7 +408,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			IRowData rowData )
 	{
 		accessTableBand( ( (TableItemDesign) list ).getDetail( ), emitter,
-				rowData, DETAIL_ROW );
+				rowData );
 	}
 
 	protected void accessGroupHeader( ListingDesign list, int index,
@@ -438,7 +426,7 @@ public class TableItemExecutor extends ListingElementExecutor
 						( TableItemDesign ) list, emitter );
 				outputEmitter = layoutEmitter;
 			}
-			accessTableBand( band, outputEmitter, null, GROUP_HEADER_ROW );
+			accessTableBand( band, outputEmitter, null );
 		}
 	}
 
@@ -454,8 +442,7 @@ public class TableItemExecutor extends ListingElementExecutor
 		TableGroupDesign group = ( (TableItemDesign) list ).getGroup( index );
 		if ( group != null )
 		{
-			accessTableBand( group.getFooter( ), emitter, null,
-					GROUP_FOOTER_ROW );
+			accessTableBand( group.getFooter( ), emitter, null );
 		}
 		// all cells with drop all can be resolved.
 		if ( layoutEmitter != null )
@@ -466,13 +453,13 @@ public class TableItemExecutor extends ListingElementExecutor
 	}
 
 	protected void accessTableBand( TableBandDesign band,
-			IContentEmitter emitter, IRowData rowData, int rowType )
+			IContentEmitter emitter, IRowData rowData )
 	{
 		if ( band != null )
 		{
 			for ( int i = 0; i < band.getRowCount( ); i++ )
 			{
-				accessRow( band.getRow( i ), emitter, rowData, rowType );
+				accessRow( band.getRow( i ), emitter, rowData );
 			}
 		}
 	}
@@ -495,7 +482,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	 *            output emitter
 	 */
 	protected void accessRow( RowDesign row, IContentEmitter emitter,
-			IRowData rowData, int rowType )
+			IRowData rowData )
 	{
 		if ( rowClosed )
 		{
@@ -520,24 +507,8 @@ public class TableItemExecutor extends ListingElementExecutor
 
 			if ( context.isInFactory( ) )
 			{
-				//TODO: Handle group header and group footer
-				switch ( rowType )
-				{
-				case DETAIL_ROW:
-					TableDetailRowScriptExecutor.handleOnCreate(
+				RowScriptExecutor.handleOnCreate(
 							( RowContent ) rowContent, rowData, context );
-					break;
-				case HEADER_ROW:
-					TableHeaderRowScriptExecutor.handleOnCreate(
-							( RowContent ) rowContent, rowData, context );
-					break;
-				case FOOTER_ROW:
-					TableFooterRowScriptExecutor.handleOnCreate(
-							( RowContent ) rowContent, rowData, context );
-					break;
-				default:
-					break;
-			}
 			}
 
 			startTOCEntry( rowContent );

@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.script.internal.ImageScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.LabelScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.MultiLineScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.TableDetailRowScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.TextItemScriptExecutor;
 
@@ -190,15 +190,8 @@ class ScriptedDesignVisitor extends DesignVisitor
 		if ( !hasJavaScript && !hasJavaCode )
 			return;
 
-		try
-		{
-			executionContext.newScope( handle );
-			TableDetailRowScriptExecutor.handleOnPrepare( handle,
+		RowScriptExecutor.handleOnPrepare( handle,
 					executionContext );
-		} finally
-		{
-			executionContext.exitScope( );
-		}
 	}
 
 	/*
