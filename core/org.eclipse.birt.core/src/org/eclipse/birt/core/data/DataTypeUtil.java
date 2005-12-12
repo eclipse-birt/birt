@@ -591,43 +591,37 @@ public final class DataTypeUtil
 	}
 	
 	/**
-	 * A utility method to convert an ODI data type class value to a BIRT data
-	 * type integer, as defined in org.eclipse.birt.core.data.DataType .
+	 * Converts a Java class to its corresponding data type constant
+	 * defined in DataType 
 	 */
-	public static int toApiDataType( Class odiDataType )
+	public static int toApiDataType( Class clazz )
 	{
-		if ( odiDataType == null )
+		if ( clazz == null )
 			return DataType.UNKNOWN_TYPE;
 
-		// maps odi data type to BIRT DataType
-		if ( odiDataType == DataType.AnyType.class )
+		if ( clazz == DataType.AnyType.class )
 			return DataType.ANY_TYPE;
-		if ( odiDataType == Integer.class )
+		else if ( Integer.class.isAssignableFrom(clazz) )
 			return DataType.INTEGER_TYPE;
-		if ( odiDataType == Double.class )
+		else if ( Double.class.isAssignableFrom(  clazz ))
 			return DataType.DOUBLE_TYPE;
-		if ( odiDataType == String.class )
+		else if ( String.class.isAssignableFrom( clazz ))
 			return DataType.STRING_TYPE;
-		if ( odiDataType == BigDecimal.class )
+		else if ( BigDecimal.class.isAssignableFrom( clazz ))
 			return DataType.DECIMAL_TYPE;
-		if ( odiDataType == Date.class || odiDataType == Time.class
-				|| odiDataType == Timestamp.class )
+		else if (Date.class.isAssignableFrom( clazz ))
 			return DataType.DATE_TYPE;
-		
+		else if ( byte[].class.isAssignableFrom( clazz))
+			return DataType.BINARY_TYPE;
 		// this is only a temporary solution for Clob type and Blob type
-		if ( odiDataType == byte[].class )
-			return DataType.BINARY_TYPE;
-		if ( odiDataType.getName( )
-				.equals( "org.eclipse.datatools.connectivity.oda.IClob" ) )
+		else if ( clazz.getName().equals( 
+				"org.eclipse.datatools.connectivity.oda.IClob" ) )
 			return DataType.STRING_TYPE;
-		if ( odiDataType.getName( )
-				.equals( "org.eclipse.datatools.connectivity.oda.IBlob" ) )
+		else if ( clazz.getName( ).equals( 
+				"org.eclipse.datatools.connectivity.oda.IBlob" ) )
 			return DataType.BINARY_TYPE;
-		
 
 		// any other types are not recognized nor supported;
-		// BOOLEAN_TYPE and BLOB_TYPE are not supported yet
-		assert false;
 		return DataType.UNKNOWN_TYPE;
 	}
 	

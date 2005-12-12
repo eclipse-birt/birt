@@ -12,6 +12,7 @@ package org.eclipse.birt.report.engine.api.script.eventadapter;
 
 import org.eclipse.birt.report.engine.api.script.IDataSetRow;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.IScriptedDataSetMetaData;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IScriptedDataSetEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance;
 
@@ -64,6 +65,11 @@ public class ScriptedDataSetEventAdapter implements
 	public void afterClose( IReportContext reportContext )
 	{
 
+	}
+
+	public boolean describe(IDataSetInstance dataSet, IScriptedDataSetMetaData metaData) 
+	{
+		return false;
 	}
 
 }

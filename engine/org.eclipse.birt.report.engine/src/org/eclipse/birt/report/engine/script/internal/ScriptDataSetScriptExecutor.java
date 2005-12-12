@@ -11,12 +11,11 @@
 package org.eclipse.birt.report.engine.script.internal;
 
 import java.util.logging.Level;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
 import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
-import org.eclipse.birt.data.engine.api.script.IScriptDataSetColumnMetaData;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSetEventHandler;
+import org.eclipse.birt.data.engine.api.script.IScriptDataSetMetaDataDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
@@ -33,6 +32,8 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 	private static final String CLOSE = "CLOSE";
 
 	private static final String FETCH = "FETCH";
+	
+	private static final String DESCRIBE = "DESCRIBE";
 
 	private IScriptedDataSetEventHandler scriptedEventHandler;
 
@@ -106,7 +107,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 					return ( ( Boolean ) result ).booleanValue( );
 				else
 					throw new DataException(
-							ResourceConstants.BAD_FETCH_RETURN_TYPE );
+							ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE, "Fetch" );
 			}
 			if ( scriptedEventHandler != null )
 				return scriptedEventHandler
@@ -118,11 +119,33 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 		return false;
 	}
 
-	public IScriptDataSetColumnMetaData[] handleDescribe(
-			IDataSetInstanceHandle dataSet )
+
+	public boolean handleDescribe(IDataSetInstanceHandle dataSet, IScriptDataSetMetaDataDefinition metaData) 
+			throws BirtException 
 	{
-		// TODO Implement
-		return null;
+		try
+		{
+			JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+					dataSet.getName( ), DESCRIBE,
+					( ( ScriptDataSetHandle ) dataSetHandle ).getDescribe() );
+			if ( status.didRun( ) )
+			{
+				Object result = status.result( );
+				if ( result instanceof Boolean )
+					return ( ( Boolean ) result ).booleanValue( );
+				else
+					throw new DataException(
+							ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE, "Describe" );
+			}
+			if ( scriptedEventHandler != null )
+				return scriptedEventHandler.describe( 
+						new DataSetInstance( dataSet ), 
+						new ScriptedDataSetMetaData( metaData ) );
+		} catch ( Exception e )
+		{
+			log.log( Level.WARNING, e.getMessage( ), e );
+		}
+		return false;
 	}
 
 }

@@ -17,8 +17,8 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
 import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
-import org.eclipse.birt.data.engine.api.script.IScriptDataSetColumnMetaData;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSetEventHandler;
+import org.eclipse.birt.data.engine.api.script.IScriptDataSetMetaDataDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
@@ -72,15 +72,25 @@ public class ScriptDataSetJSEventHandler extends DataSetJSEventHandler implement
 			if ( result instanceof Boolean )
 				return ((Boolean) result).booleanValue();
 			else
-				throw new DataException( ResourceConstants.BAD_FETCH_RETURN_TYPE );
+				throw new DataException( ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE, "Fetch" );
 		}
 		return false;
 	}
 
-	public IScriptDataSetColumnMetaData[] handleDescribe(IDataSetInstanceHandle dataSet) throws BirtException
+	public boolean handleDescribe(IDataSetInstanceHandle dataSet, IScriptDataSetMetaDataDefinition metaData) 
+		throws BirtException 
 	{
-		// TODO: not implemented yet
-		return null;
-	}
+		String script = getScriptDataSetDesign().getDescribeScript();
+		if ( script != null && script.length() > 0 )
+		{
+			Object result = getRunner( dataSet.getScriptScope() ).runScript(
+					"describe", script );
 
+			if ( result instanceof Boolean )
+				return ((Boolean) result).booleanValue();
+			else
+				throw new DataException( ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE, "Describe" );
+		}
+		return false;
+	}
 }

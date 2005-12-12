@@ -69,7 +69,7 @@ public class ResourceConstants
 	public final static String BAD_PARAM_COUNT = "data.engine.BadParameterCount";
 	public final static String BAD_PARAM_TYPE = "data.engine.BadParameterType";
 	public final static String NO_SOLUTION_FOUND = "data.engine.NoIrrSolution";
-	public final static String BAD_FETCH_RETURN_TYPE = "data.engine.BadFetchScriptReturnType";
+	public final static String EXPECT_BOOLEAN_RETURN_TYPE = "data.engine.BadFetchScriptReturnType";
 	public final static String BAD_INTERVAL_UNIT = "data.engine.BadIntervalUnit";
 	public final static String INVALID_FIELD_NAME = "data.engine.InvalidFieldName";
 	public final static String BAD_GROUP_KEY_TYPE = "data.engine.BadGroupKeyType";
@@ -134,6 +134,7 @@ public class ResourceConstants
 	public static final String INCONVERTIBLE_DATATYPE="data.engine.InconvertibleDatatype";
 	public static final String CONVERT_TO_DATATYPE_ERROR="data.engine.ConvertToDataTypeError";
 	public static final String NO_ROW_UPDATE="data.engine.NoRowUpdate";
+	public static final String BAD_DATA_TYPE= "data.engine.BadDataType";
 	
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";

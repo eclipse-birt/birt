@@ -33,11 +33,15 @@ public interface IScriptDataSetEventHandler extends IBaseDataSetEventHandler
 			throws BirtException;
 	
 	/**
-	 * Called by data engine before the open() event is fired. Implementation should
-	 * return the metadata of the script data set's data row. If the script data set
-	 * defines its metadata statically (i.e., in the report design), this method should
-	 * return null.
+	 * Method for Script Data Set to return dynamically generated data set 
+	 * metadata. This method is called by data engine before the open() event 
+	 * is fired. If the data set implementation has dynamically generated metadata,
+	 * it should call the addColumn method on the metaData object to add all
+	 * its column definition, then return true. If the data set implementation
+	 * uses the static metadata defined in the data set definition, it should
+	 * return false.
 	 */
-	public IScriptDataSetColumnMetaData[] handleDescribe( IDataSetInstanceHandle dataSet ) 
+	public boolean handleDescribe( IDataSetInstanceHandle dataSet,
+			IScriptDataSetMetaDataDefinition metaData ) 
 			throws BirtException;
 }

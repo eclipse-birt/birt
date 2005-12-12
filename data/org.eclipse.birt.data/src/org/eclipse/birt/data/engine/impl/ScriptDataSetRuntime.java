@@ -14,21 +14,31 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSetEventHandler;
+import org.eclipse.birt.data.engine.api.script.IScriptDataSetMetaDataDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
  * Encapulates the runtime definition of a scripted data set.
  */
-public class ScriptDataSetRuntime extends DataSetRuntime
+public class ScriptDataSetRuntime extends DataSetRuntime 
+	implements IScriptDataSetMetaDataDefinition
 {
 	private IScriptDataSetEventHandler scriptEventHandler;
+
+	/** Columns defined by the describe event handler. 
+	 * A list of ResultFieldMetadata objects*/
+	private List describedColumns;
 	
     ScriptDataSetRuntime( IScriptDataSetDesign dataSet, PreparedQuery.Executor executor )
     {
@@ -49,11 +59,6 @@ public class ScriptDataSetRuntime extends DataSetRuntime
         return (ScriptDataSourceRuntime) getDataSource();
     }
 
-    public String getOpenScript()
-    {
-        return getSubdesign().getOpenScript();
-    }
-    
     
 	/** Executes the open script */
 	public void open() throws DataException
@@ -106,21 +111,47 @@ public class ScriptDataSetRuntime extends DataSetRuntime
 		super.close();
 	}
 
+	/**
+	 * Adds a dynamically described script data set column
+	 * @see org.eclipse.birt.data.engine.api.script.IScriptDataSetMetaDataDefinition#addColumn(java.lang.String, java.lang.Class)
+	 */
+	public void addColumn( String name, Class dataType) throws BirtException 
+	{
+		if ( describedColumns == null )
+			describedColumns = new ArrayList();
+		if ( name == null || name.length() == 0 )
+		{
+			throw new DataException( ResourceConstants.CUSTOM_FIELD_EMPTY);
+		}
+		if ( dataType == null )
+		{
+			throw new DataException ( ResourceConstants.BAD_DATA_TYPE);
+		}
+		
+		int nextIndex = describedColumns.size() + 1;
+		// All script data set columns are "custom", to allow setting
+		// values later
+		ResultFieldMetadata c = new ResultFieldMetadata(
+				nextIndex,name, name, dataType, dataType.getName(), true );
+		describedColumns.add( c );
+	}
+	
 	/** Executes the describe script*/
-	public Object runDescribeScript() throws DataException
+	public boolean describe() throws DataException
 	{
 		if ( scriptEventHandler != null )
 		{
 			try
 			{
-				return scriptEventHandler.handleDescribe(this );
+				return scriptEventHandler.handleDescribe(this, 
+						this );
 			}
 			catch (BirtException e)
 			{
 				throw DataException.wrap(e);
 			}
 		}
-		return null;
+		return false;
 	}
 	
 	/**
@@ -156,5 +187,13 @@ public class ScriptDataSetRuntime extends DataSetRuntime
 	{
 		// Query text has no effect on script data set
 	}
-	
+
+	/** 
+	 * Gets columns defined by the describe event handler. 
+	 * @Returns A list of ResultFieldMetadata objects. 
+	 */
+	List getDescribedMetaData()
+	{
+		return this.describedColumns;
+	}
 }

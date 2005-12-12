@@ -98,29 +98,45 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			ICandidateQuery candidateQuery = (ICandidateQuery) odiQuery;
 			assert candidateQuery != null;
 			
+			ScriptDataSetRuntime scriptDataSet = (ScriptDataSetRuntime) dataSet;
 			List resultHints = dataSet.getResultSetHints( );
 			List computedColumns = dataSet.getComputedColumns();
 			List columnsList = new ArrayList( );
-			Iterator it = resultHints.iterator( );
-			for ( int j = 0; it.hasNext( ); j++ )
+			
+			// If a "describe" script or handler exists and it 
+			// returns true, use dynamic metadata; 
+			// otherwise use static columns defined in result hint
+			if ( scriptDataSet.describe() )
 			{
-				IColumnDefinition columnDefn = (IColumnDefinition) it.next( );
-				
-				// All columns are declared as custom to allow as to set column value
-				// at runtime
-				ResultFieldMetadata columnMetaData = new ResultFieldMetadata( j + 1,
-						columnDefn.getColumnName( ),
-						columnDefn.getColumnName( ),
-						DataType.getClass( columnDefn.getDataType( ) ),
-						null /* nativeTypeName */, 
-						true );
-				columnsList.add( columnMetaData );
+				columnsList.addAll( scriptDataSet.getDescribedMetaData());
 			}
-			it = computedColumns.iterator();
+			else
+			{
+				Iterator it = resultHints.iterator( );
+				for ( int j = 0; it.hasNext( ); j++ )
+				{
+					IColumnDefinition columnDefn = (IColumnDefinition) it.next( );
+					
+					// All columns are declared as custom to allow as to set column value
+					// at runtime
+					ResultFieldMetadata columnMetaData = new ResultFieldMetadata( j + 1,
+							columnDefn.getColumnName( ),
+							columnDefn.getColumnName( ),
+							DataType.getClass( columnDefn.getDataType( ) ),
+							null /* nativeTypeName */, 
+							true );
+					columnsList.add( columnMetaData );
+				}
+			}
+			
+			// Add computed columns
+			int count = columnsList.size();
+			Iterator it = computedColumns.iterator();
 			for ( int j = resultHints.size(); it.hasNext( ); j++ )
 			{
 			    IComputedColumn compColumn = (IComputedColumn)it.next();
-			    ResultFieldMetadata columnMetaData = new ResultFieldMetadata( j + 1,
+			    ResultFieldMetadata columnMetaData = new ResultFieldMetadata( 
+			    		++count,
 						compColumn.getName(),
 						compColumn.getName(),
 						DataType.getClass( DataType.UNKNOWN_TYPE ),
