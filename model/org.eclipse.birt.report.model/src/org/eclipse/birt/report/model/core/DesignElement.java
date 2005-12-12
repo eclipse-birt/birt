@@ -3562,7 +3562,7 @@ public abstract class DesignElement
 			if ( !current.isVirtualElement( ) && current.userProperties != null )
 			{
 				if ( element.userProperties == null )
-					element.userProperties = new HashMap( );
+					element.userProperties = new LinkedHashMap( );
 
 				iter = current.userProperties.keySet( ).iterator( );
 				while ( iter.hasNext( ) )
