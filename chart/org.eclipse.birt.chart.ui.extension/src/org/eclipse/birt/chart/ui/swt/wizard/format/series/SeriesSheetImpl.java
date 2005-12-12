@@ -192,7 +192,6 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 	{
 
 		private transient SeriesDefinition seriesDefn;
-		private transient Series series;
 		private transient String seriesName;
 
 		private transient Label lblSeries;
@@ -209,7 +208,6 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 				String seriesName, int iSeriesDefinitionIndex, int treeIndex )
 		{
 			this.seriesDefn = seriesDefn;
-			this.series = seriesDefn.getDesignTimeSeries( );
 			this.seriesName = seriesName;
 			this.iSeriesDefinitionIndex = iSeriesDefinitionIndex;
 			this.treeIndex = treeIndex;
@@ -217,6 +215,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 
 		public void placeComponents( Composite parent )
 		{
+			Series series = seriesDefn.getDesignTimeSeries();
+			
 			lblSeries = new Label( parent, SWT.NONE );
 			{
 				GridData gd = new GridData( );
@@ -281,6 +281,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 
 		public void widgetSelected( SelectionEvent e )
 		{
+			Series series = seriesDefn.getDesignTimeSeries();
+			
 			if ( e.getSource( ).equals( cmbTypes ) )
 			{
 				if ( seriesDefn.getDesignTimeSeries( )
