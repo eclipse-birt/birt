@@ -71,7 +71,7 @@ import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
-import org.eclipse.birt.report.engine.ir.ImageItemDesign;
+import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
@@ -86,7 +86,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.55 $ $Date: 2005/12/08 14:52:05 $
+ * @version $Revision: 1.56 $ $Date: 2005/12/12 08:44:22 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1921,7 +1921,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		Object generateBy = content.getGenerateBy(); 
 		if( generateBy instanceof TableItemDesign
 				|| generateBy instanceof ListItemDesign 
-				|| generateBy instanceof ImageItemDesign )
+				|| generateBy instanceof ExtendedItemDesign )
 		{
 			if( renderOption instanceof HTMLRenderOption ){
 				List htmlIds = ((HTMLRenderOption)renderOption).getInstanceIDs( );
