@@ -35,12 +35,12 @@ public class ReportDocumentReader implements IReportDocument
 
 	static private Logger logger = Logger.getLogger( ReportDocumentReader.class
 			.getName( ) );
-	protected static final String DESIGN_STREAM = "/design";		//$NON-NLS-1$
-	protected static final String PARAMTER_STREAM = "/paramter";	//$NON-NLS-1$
-	protected static final String BOOKMARK_STREAM = "/bookmark";	//$NON-NLS-1$
-	protected static final String PAGEHINT_STREAM = "/pages";		//$NON-NLS-1$
-	protected static final String TOC_STREAM = "/toc";				//$NON-NLS-1$
-	protected static final String CONTENT_FOLDER = "/content";		//$NON-NLS-1$
+	protected static final String DESIGN_STREAM = "/design"; //$NON-NLS-1$
+	protected static final String PARAMTER_STREAM = "/paramter"; //$NON-NLS-1$
+	protected static final String BOOKMARK_STREAM = "/bookmark"; //$NON-NLS-1$
+	protected static final String PAGEHINT_STREAM = "/pages"; //$NON-NLS-1$
+	protected static final String TOC_STREAM = "/toc"; //$NON-NLS-1$
+	protected static final String CONTENT_FOLDER = "/content"; //$NON-NLS-1$
 
 	private ReportEngine engine;
 	private IDocArchiveReader archive;
@@ -61,7 +61,7 @@ public class ReportDocumentReader implements IReportDocument
 		}
 		catch ( IOException e )
 		{
-			logger.log( Level.SEVERE, "Failed to open the archive", e );	//$NON-NLS-1$
+			logger.log( Level.SEVERE, "Failed to open the archive", e ); //$NON-NLS-1$
 		}
 
 	}
@@ -79,8 +79,8 @@ public class ReportDocumentReader implements IReportDocument
 		}
 		catch ( IOException e )
 		{
-			logger.log( Level.SEVERE, "Failed to close the archive", e );	//$NON-NLS-1$
-		}	
+			logger.log( Level.SEVERE, "Failed to close the archive", e ); //$NON-NLS-1$
+		}
 	}
 
 	public InputStream getDesignStream( )
@@ -91,7 +91,7 @@ public class ReportDocumentReader implements IReportDocument
 		}
 		catch ( Exception ex )
 		{
-			logger.log( Level.SEVERE, "Failed to open the design!", ex );	//$NON-NLS-1$
+			logger.log( Level.SEVERE, "Failed to open the design!", ex ); //$NON-NLS-1$
 			return null;
 		}
 	}
@@ -106,7 +106,7 @@ public class ReportDocumentReader implements IReportDocument
 			}
 			catch ( Exception ex )
 			{
-				logger.log( Level.SEVERE, "Failed to get the report runnable",	//$NON-NLS-1$
+				logger.log( Level.SEVERE, "Failed to get the report runnable", //$NON-NLS-1$
 						ex );
 			}
 		}
@@ -147,7 +147,9 @@ public class ReportDocumentReader implements IReportDocument
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IReportDocument#getPageNumber(java.lang.String)
 	 */
 	public long getPageNumber( String bookmark )
@@ -164,7 +166,9 @@ public class ReportDocumentReader implements IReportDocument
 		return -1;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IReportDocument#getBookmarks()
 	 */
 	public List getBookmarks( )
@@ -179,7 +183,8 @@ public class ReportDocumentReader implements IReportDocument
 	}
 
 	/**
-	 * @param bookmark the bookmark that a page number is to be retrieved upon
+	 * @param bookmark
+	 *            the bookmark that a page number is to be retrieved upon
 	 * @return the page number that the bookmark appears
 	 */
 	public long getBookmark( String bookmark )
@@ -196,7 +201,9 @@ public class ReportDocumentReader implements IReportDocument
 		return pageNumber.longValue( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IReportDocument#findTOC(java.lang.String)
 	 */
 	public TOCNode findTOC( String tocNodeId )
@@ -205,14 +212,16 @@ public class ReportDocumentReader implements IReportDocument
 		{
 			loadTOC( );
 		}
-		if ( tocNodeId == null || "/".equals( tocNodeId ) )	//$NON-NLS-1$
+		if ( tocNodeId == null || "/".equals( tocNodeId ) ) //$NON-NLS-1$
 		{
 			return tocRoot;
 		}
 		return (TOCNode) tocMap.get( tocNodeId );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IReportDocument#getChildren(java.lang.String)
 	 */
 	public List getChildren( String tocNodeId )
@@ -241,7 +250,7 @@ public class ReportDocumentReader implements IReportDocument
 		}
 		catch ( Exception ex )
 		{
-			logger.log( Level.SEVERE, "Failed to load the TOC", ex );	//$NON-NLS-1$
+			logger.log( Level.SEVERE, "Failed to load the TOC", ex ); //$NON-NLS-1$
 		}
 	}
 
@@ -303,7 +312,7 @@ public class ReportDocumentReader implements IReportDocument
 		}
 		catch ( Exception ex )
 		{
-			logger.log( Level.SEVERE, "failed to load the bookmarks", ex );	//$NON-NLS-1$
+			logger.log( Level.SEVERE, "failed to load the bookmarks", ex ); //$NON-NLS-1$
 		}
 	}
 
@@ -316,7 +325,7 @@ public class ReportDocumentReader implements IReportDocument
 		}
 		catch ( Exception ex )
 		{
-			logger.log( Level.SEVERE, "Failed to load the paramters", ex ); 	//$NON-NLS-1$
+			logger.log( Level.SEVERE, "Failed to load the paramters", ex ); //$NON-NLS-1$
 		}
 	}
 
@@ -329,7 +338,7 @@ public class ReportDocumentReader implements IReportDocument
 		}
 		catch ( Exception ex )
 		{
-			logger.log( Level.SEVERE, "Failed to load the page hints", ex );	//$NON-NLS-1$
+			logger.log( Level.SEVERE, "Failed to load the page hints", ex ); //$NON-NLS-1$
 		}
 	}
 
@@ -343,10 +352,13 @@ public class ReportDocumentReader implements IReportDocument
 		return archive.getName( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IReportDocument#getGlobalVariables()
 	 */
-	public Map getGlobalVariables( String option ) {
+	public Map getGlobalVariables( String option )
+	{
 		// TODO deserialize global variables and return in a Map
 		return null;
 	}

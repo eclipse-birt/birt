@@ -68,7 +68,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.44 $ $Date: 2005/12/02 11:57:05 $
+ * @version $Revision: 1.45 $ $Date: 2005/12/04 23:56:14 $
  */
 public class ExecutionContext
 {
@@ -144,7 +144,7 @@ public class ExecutionContext
 	 */
 	private Map params = new BirtHashMap( );
 
-	private ReportDocumentWriter	docWriter;
+	private ReportDocumentWriter docWriter;
 
 	/**
 	 * app context
@@ -936,7 +936,12 @@ public class ExecutionContext
 			{
 				return "report";
 			}
-			return element.getName( );
+			String name = element.getName( );
+			if ( name == null )
+			{
+				return String.valueOf( element.getID( ) );
+			}
+			return name;
 		}
 
 		public ArrayList getErrorList( )

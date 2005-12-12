@@ -102,10 +102,6 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 		}
 		finishTOCEntry( );
 
-		// close the rows sets defined in the content
-		ExtendedItemContent status = (ExtendedItemContent) content
-				.getRawValue( );
-		closeQueries( status.getRowSets( ) );
 		context.popContent( );
 	}
 
@@ -123,6 +119,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 		if ( itemGeneration != null )
 		{
 			itemGeneration.setModelObject( handle );
+			itemGeneration.setScriptContext( context.getReportContext( ) );
 			itemGeneration.setReportQueries( ( (ExtendedItemDesign) item )
 					.getQueries( ) );
 			IRowSet[] rowSets = executeQueries( item );
@@ -151,10 +148,8 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			closeQueries( rowSets );
 		}
 		content.setRawType( IForeignContent.EXTERNAL_TYPE );
-		IRowSet[] rowSets = executeQueries( item );
 		ExtendedItemContent status = new ExtendedItemContent( );
 		status.setValues( generationStatus );
-		status.setRowSets( rowSets );
 		content.setRawValue( status );
 	}
 

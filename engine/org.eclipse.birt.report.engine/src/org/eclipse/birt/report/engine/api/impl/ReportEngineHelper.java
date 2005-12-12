@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -216,7 +215,8 @@ public class ReportEngineHelper
 	 */
 	public String[] getSupportedFormats( )
 	{
-		return (String[])extensionMgr.getSupportedFormat().toArray(new String[0]);
+		return (String[]) extensionMgr.getSupportedFormat( ).toArray(
+				new String[0] );
 	}
 
 	/**
@@ -274,15 +274,7 @@ public class ReportEngineHelper
 	private IReportDocument openReportDocument( IDocArchiveReader archive )
 			throws EngineException
 	{
-		try
-		{
-			archive.open( );
-			return new ReportDocumentReader( engine, archive );
-		}
-		catch ( IOException ex )
-		{
-			throw new EngineException( "Can't open archive", ex );
-		}
+		return new ReportDocumentReader( engine, archive );
 	}
 
 	public IRunTask createRunTask( IReportRunnable runnable )
@@ -296,7 +288,8 @@ public class ReportEngineHelper
 		{
 			IReportRunnable runnable = engine.openReportDesign( reportDoc
 					.getDesignStream( ) );
-			return new RenderTask( engine, runnable, (ReportDocumentReader) reportDoc );
+			return new RenderTask( engine, runnable,
+					(ReportDocumentReader) reportDoc );
 		}
 		catch ( EngineException ex )
 		{

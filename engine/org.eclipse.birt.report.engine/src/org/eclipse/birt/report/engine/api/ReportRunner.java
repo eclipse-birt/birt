@@ -41,7 +41,7 @@ import org.eclipse.birt.core.framework.PlatformFileContext;
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
  * 
- * @version $Revision: 1.13 $ $Date: 2005/12/04 23:56:14 $
+ * @version $Revision: 1.14 $ $Date: 2005/12/06 09:26:25 $
  */
 public class ReportRunner
 {
@@ -736,7 +736,7 @@ public class ReportRunner
 		String fileExt = "." + format;
 		if ( "Run".equalsIgnoreCase( mode ) )
 		{
-			fileExt = ".zip";
+			fileExt = ".rptdocument";
 		}
 		File designFile = new File( new File( source ).getAbsolutePath( ) );
 
