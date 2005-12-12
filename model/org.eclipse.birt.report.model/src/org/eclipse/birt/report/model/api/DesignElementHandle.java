@@ -546,6 +546,18 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
+	 * Returns <code>true</code> if this element has any locally-defined
+	 * property values. Returns <code>false</code> otherwise.
+	 * 
+	 * @return True if the element has property values, false if not.
+	 */
+
+	public boolean hasLocalProperties( )
+	{
+		return getElement( ).hasLocalPropertyValues( );
+	}
+
+	/**
 	 * Adds a user-defined property definition. The property definition must
 	 * have a valid name and property type. The other attributes can be set
 	 * either before or after adding the property to the element. The
