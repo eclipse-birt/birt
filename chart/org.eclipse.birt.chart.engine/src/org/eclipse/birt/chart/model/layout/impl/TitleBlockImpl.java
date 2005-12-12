@@ -50,6 +50,28 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 	{
 		super( );
 	}
+	
+	/**
+	 * 
+	 * Note: Manually written
+	 * 
+	 * @return
+	 */
+	public boolean isTitle( )
+	{
+		return true;
+	}
+
+	/**
+	 * 
+	 * Note: Manually written
+	 * 
+	 * @return
+	 */
+	public boolean isCustom( )
+	{
+		return false;
+	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
