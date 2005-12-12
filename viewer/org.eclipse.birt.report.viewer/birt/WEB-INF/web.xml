@@ -48,4 +48,9 @@
 		<url-pattern>/run</url-pattern>
 	</servlet-mapping>
 
+	<servlet-mapping>
+		<servlet-name>ViewerServlet</servlet-name>
+		<url-pattern>/download</url-pattern>
+	</servlet-mapping>
+
 </web-app>
