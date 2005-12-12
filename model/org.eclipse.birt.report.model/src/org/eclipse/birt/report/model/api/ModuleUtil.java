@@ -26,8 +26,9 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
-import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Library;
@@ -57,17 +58,17 @@ public class ModuleUtil
 
 	private static class ActionParserHandler extends ModuleParserHandler
 	{
-
 		/**
 		 * A fake element with the given action. Used to reuse the existing
 		 * action parser logic.
 		 */
 		
-		ImageItem image = new ImageItem( );
-
-		public ActionParserHandler( DesignSession theSession, String fileName )
+		DesignElement element = null;
+		
+		public ActionParserHandler( DesignElement element )
 		{
-			super( theSession, fileName );
+			super( null, null );
+			this.element = element;
 			module = new ReportDesign( null );
 		}
 
@@ -88,7 +89,7 @@ public class ModuleUtil
 				if ( DesignSchemaConstants.STRUCTURE_TAG
 						.equalsIgnoreCase( tagName ) )
 					return new ActionStructureState( ActionParserHandler.this,
-							image );
+							element );
 				return super.startElement( tagName );
 			}
 		}
@@ -108,12 +109,26 @@ public class ModuleUtil
 	public static ActionHandle deserializeAction( InputStream streamData )
 			throws DesignFileException
 	{
+		
+		 // A fake element with the given action. Used to reuse the existing
+		 // action parser logic.
+		 
+		ImageItem image = new ImageItem( );
+		ActionParserHandler handler = new ActionParserHandler( image );
+		
+		if( streamData == null )
+		{
+			Action action = StructureFactory.createAction();
+			image.setProperty( ImageHandle.ACTION_PROP , action );
+			return ((ImageHandle)image.getHandle( handler.getModule() )).getActionHandle();
+		}
+		
+		
 		if ( !streamData.markSupported( ) )
 			streamData = new BufferedInputStream( streamData );
 
 		assert streamData.markSupported( );
 
-		ActionParserHandler handler = new ActionParserHandler( null, null );
 		try
 		{
 			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance( );
@@ -148,7 +163,7 @@ public class ModuleUtil
 					.getErrors( ), e );
 		}
 
-		ImageHandle imageHandle = (ImageHandle)handler.image.getHandle( handler.getModule() );
+		ImageHandle imageHandle = (ImageHandle)image.getHandle( handler.getModule() );
 		return imageHandle.getActionHandle();
 	}
 
@@ -167,10 +182,11 @@ public class ModuleUtil
 	public static ActionHandle deserializeAction( String strData )
 			throws DesignFileException
 	{
-		if ( strData == null )
-			return null;
-
-		InputStream is = new ByteArrayInputStream( strData.getBytes( ) );
+		InputStream is = null;
+		strData = StringUtil.trimString( strData );
+		if( strData != null )
+			is = new ByteArrayInputStream( strData.getBytes( ) );
+		
 		return deserializeAction( is );
 	}
 
