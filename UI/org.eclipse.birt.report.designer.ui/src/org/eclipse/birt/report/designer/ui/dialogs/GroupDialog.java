@@ -51,7 +51,6 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
@@ -104,7 +103,7 @@ public class GroupDialog extends BaseDialog
 	private static final String ERROR_MESSAGE_NO_DATA = Messages.getString( "GroupDialog.ErrorMessage.NoData" ); //$NON-NLS-1$
 
 	public static final String GROUP_DLG_TITLE_NEW = Messages.getString( "GroupDialog.Title.New" ); //$NON-NLS-1$
-	
+
 	public static final String GROUP_DLG_TITLE_EDIT = Messages.getString( "GroupDialog.Title.Edit" ); //$NON-NLS-1$
 
 	private List dataSetList = null, columnList;
@@ -133,9 +132,7 @@ public class GroupDialog extends BaseDialog
 	 */
 	private Button includeHeader, includeFooter, ascending, descending;
 
-	private Text exprEditor;
-
-	private String oldExpr;
+	private Text tocEditor;
 
 	final private static IChoice[] intervalChoices = DesignEngine.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_INTERVAL )
@@ -201,40 +198,27 @@ public class GroupDialog extends BaseDialog
 		// Creates TOC area
 		Composite tocArea = new Composite( composite, SWT.NONE );
 		tocArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		GridLayout layout = new GridLayout( 2, false );
-		layout.marginWidth = 0;
-		layout.marginHeight = 0;
-		tocArea.setLayout( layout );
+		tocArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 
 		// Creates expression editor
-		exprEditor = new Text( tocArea, SWT.SINGLE | SWT.BORDER );
-		exprEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		tocEditor = new Text( tocArea, SWT.SINGLE | SWT.BORDER );
+		tocEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		Button exprButton = new Button( tocArea, SWT.PUSH );
 		exprButton.setText( "..." ); //$NON-NLS-1$
-		exprButton.addSelectionListener( new SelectionListener( ) {
+		exprButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent event )
 			{
-				openExpression( );
+				ExpressionBuilder expressionBuilder = new ExpressionBuilder( tocEditor.getText( ) );
+				expressionBuilder.setExpressionProvier( new ExpressionProvider( dataSetList ) );
+
+				if ( expressionBuilder.open( ) == OK )
+				{
+					tocEditor.setText( expressionBuilder.getResult( ) );
+				}
 			}
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-
-			}
-
 		} );
-	}
-
-	private void openExpression( )
-	{
-		ExpressionBuilder expressionBuilder = new ExpressionBuilder( exprEditor.getText( ) );
-
-		if ( expressionBuilder.open( ) == OK )
-		{
-			exprEditor.setText( expressionBuilder.getResult( ) );
-		}
 	}
 
 	/**
@@ -531,11 +515,7 @@ public class GroupDialog extends BaseDialog
 		list.add( inputGroup );
 		// filterPage.setInput( list );
 
-		if ( inputGroup.getTocExpression( ) != null )
-		{
-			oldExpr = inputGroup.getTocExpression( );
-			exprEditor.setText( oldExpr );
-		}
+		tocEditor.setText( UIUtil.convertToGUIString( inputGroup.getTocExpression( ) ) );
 
 		return true;
 	}
@@ -571,12 +551,6 @@ public class GroupDialog extends BaseDialog
 		try
 		{
 			inputGroup.setName( nameEditor.getText( ) );
-
-			String newExpr = exprEditor.getText( );
-			if ( newExpr != null && !newExpr.equalsIgnoreCase( oldExpr ) )
-			{
-				inputGroup.setTocExpression( newExpr );
-			}
 
 			int index = keyChooser.getSelectionIndex( );
 			String oldKey = inputGroup.getKeyExpr( );
@@ -658,6 +632,10 @@ public class GroupDialog extends BaseDialog
 			{
 				inputGroup.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
 			}
+			
+			inputGroup.setTocExpression( UIUtil.convertToModelString( tocEditor.getText( ),
+					true ) );
+
 		}
 		catch ( SemanticException e )
 		{
