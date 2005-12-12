@@ -58,7 +58,11 @@ public class EditAction extends AbstractElementAction
 	
 	public boolean isEnabled( )
 	{
-		return getSelectedElement().canEdit();
+		if(getSelectedElement() !=null)
+		{
+			return getSelectedElement().canEdit();
+		}
+		return false;
 	}
 
 	/*
