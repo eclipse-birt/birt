@@ -10,6 +10,7 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.axis;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 
@@ -23,5 +24,10 @@ public class AxisXSheetImpl extends AbstractAxisSubtask
 	protected Axis getAxisForProcessing( )
 	{
 		return ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) getChart( ) );
+	}
+
+	protected int getAxisType( )
+	{
+		return AngleType.X;
 	}
 }

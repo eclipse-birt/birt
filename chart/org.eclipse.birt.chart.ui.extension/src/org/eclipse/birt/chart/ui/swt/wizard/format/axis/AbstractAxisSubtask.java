@@ -19,7 +19,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
@@ -95,6 +94,14 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 	}
 
 	abstract protected Axis getAxisForProcessing( );
+
+	/**
+	 * Returns the axis type
+	 * 
+	 * @return <code>AngleType.X</code>, <code>AngleType.Y</code> or
+	 *         <code>AngleType.Z</code>
+	 */
+	abstract protected int getAxisType( );
 
 	/*
 	 * (non-Javadoc)
@@ -363,7 +370,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 			popupSheet = new AxisTextSheet( popupShell,
 					getContext( ),
 					getAxisForProcessing( ),
-					AngleType.Y );
+					getAxisType( ) );
 			getWizard( ).attachPopup( btnAxisTitle.getText( ), -1, -1 );
 		}
 		else if ( e.widget.equals( btnGridlines ) )

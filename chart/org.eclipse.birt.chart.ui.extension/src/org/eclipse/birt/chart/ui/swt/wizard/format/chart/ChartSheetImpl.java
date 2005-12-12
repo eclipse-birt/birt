@@ -386,13 +386,15 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		{
 			new TriggerEditorDialog( cmpContent.getShell( ),
 					getChart( ).getTitle( ).getTriggers( ),
-					Messages.getString( "ChartSheetImpl.Title.ChartTitle" ) ); //$NON-NLS-1$
+					getContext( ),
+					Messages.getString( "ChartSheetImpl.Title.ChartTitle" ), false, true ); //$NON-NLS-1$
 		}
 		else if ( e.widget.equals( btnChartAreaTriggers ) )
 		{
 			new TriggerEditorDialog( cmpContent.getShell( ),
 					getChart( ).getBlock( ).getTriggers( ),
-					Messages.getString( "ChartSheetImpl.Title.ChartArea" ) ); //$NON-NLS-1$
+					getContext( ),
+					Messages.getString( "ChartSheetImpl.Title.ChartArea" ), false, true ); //$NON-NLS-1$
 		}
 
 	}

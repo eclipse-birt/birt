@@ -12,6 +12,8 @@
 package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.awt.GraphicsEnvironment;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -35,7 +37,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
@@ -102,13 +103,9 @@ public class FontDefinitionDialog
 
 	private transient Button cbWrap = null;
 
-	private transient Group grpRotation = null;
-
 	private transient AngleSelectorComposite ascRotation = null;
 
 	private transient IntegerSpinControl iscRotation = null;
-
-	private transient Group grpPreview = null;
 
 	private transient FontCanvas fcPreview = null;
 
@@ -119,6 +116,8 @@ public class FontDefinitionDialog
 	private transient Button btnCancel = null;
 
 	private transient boolean bCancelled = true;
+
+	private transient List listAlighmentButtons = new ArrayList( 9 );
 
 	public FontDefinitionDialog( Shell shellParent, FontDefinition fdCurrent,
 			ColorDefinition cdCurrent )
@@ -136,7 +135,7 @@ public class FontDefinitionDialog
 		placeComponents( );
 		populateLists( );
 		shell.setText( Messages.getString( "FontDefinitionDialog.Title.FontDescriptor" ) ); //$NON-NLS-1$
-		shell.setSize( 450, 480 );
+		shell.setSize( 450, 360 );
 		shell.setDefaultButton( btnAccept );
 		UIHelper.centerOnScreen( shell );
 		shell.layout( );
@@ -193,6 +192,7 @@ public class FontDefinitionDialog
 		Label lblForeground = new Label( cmpContent, SWT.NONE );
 		GridData gdLForeground = new GridData( );
 		gdLForeground.horizontalSpan = 2;
+		gdLForeground.horizontalIndent = 40;
 		lblForeground.setLayoutData( gdLForeground );
 		lblForeground.setText( Messages.getString( "FontDefinitionDialog.Lbl.Color" ) ); //$NON-NLS-1$
 
@@ -206,78 +206,53 @@ public class FontDefinitionDialog
 		fccColor.setLayoutData( gdFCCColor );
 		fccColor.addListener( this );
 
-		Label lblStyle = new Label( cmpContent, SWT.NONE );
-		GridData gdLStyle = new GridData( );
-		gdLStyle.heightHint = 22;
-		lblStyle.setLayoutData( gdLStyle );
-		lblStyle.setText( Messages.getString( "FontDefinitionDialog.Lbl.Style" ) ); //$NON-NLS-1$
-
-		btnBold = new Button( cmpContent, SWT.TOGGLE );
-		GridData gdBBold = new GridData( GridData.FILL_HORIZONTAL );
-		btnBold.setLayoutData( gdBBold );
-		btnBold.setImage( UIHelper.getImage( "icons/obj16/fnt_style_bold.gif" ) ); //$NON-NLS-1$
-		btnBold.addSelectionListener( this );
-		btnBold.setSelection( fdCurrent.isSetBold( ) && fdCurrent.isBold( ) );
-
-		btnItalic = new Button( cmpContent, SWT.TOGGLE );
-		GridData gdBItalic = new GridData( GridData.FILL_HORIZONTAL );
-		btnItalic.setLayoutData( gdBItalic );
-		btnItalic.setImage( UIHelper.getImage( "icons/obj16/fnt_style_italic.gif" ) ); //$NON-NLS-1$
-		btnItalic.addSelectionListener( this );
-		btnItalic.setSelection( fdCurrent.isSetItalic( )
-				&& fdCurrent.isItalic( ) );
-
-		btnUnderline = new Button( cmpContent, SWT.TOGGLE );
-		GridData gdBUnderline = new GridData( GridData.FILL_HORIZONTAL );
-		btnUnderline.setLayoutData( gdBUnderline );
-		btnUnderline.setImage( UIHelper.getImage( "icons/obj16/fnt_style_underline.gif" ) ); //$NON-NLS-1$
-		btnUnderline.addSelectionListener( this );
-		btnUnderline.setSelection( fdCurrent.isSetUnderline( )
-				&& fdCurrent.isUnderline( ) );
+		createFontStylePanel( );
 
 		Label lblFormat = new Label( cmpContent, SWT.NONE );
-		GridData gdLFormat = new GridData( GridData.VERTICAL_ALIGN_FILL );
+		GridData gdLFormat = new GridData( );
 		gdLFormat.horizontalSpan = 2;
-		gdLFormat.verticalSpan = 2;
+		gdLFormat.horizontalIndent = 40;
 		lblFormat.setLayoutData( gdLFormat );
 		lblFormat.setText( Messages.getString( "FontDefinitionDialog.Lbl.Format" ) ); //$NON-NLS-1$
 
-		cbStrikethru = new Button( cmpContent, SWT.CHECK );
-		GridData gdCBStrikethru = new GridData( GridData.FILL_HORIZONTAL );
-		gdCBStrikethru.horizontalSpan = 2;
-		gdCBStrikethru.heightHint = 20;
-		cbStrikethru.setLayoutData( gdCBStrikethru );
+		Composite cmpFormat = new Composite( cmpContent, SWT.NONE );
+		{
+			GridLayout layout = new GridLayout( 2, false );
+			layout.marginHeight = 0;
+			cmpFormat.setLayout( layout );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 3;
+			cmpFormat.setLayoutData( gd );
+		}
+
+		cbStrikethru = new Button( cmpFormat, SWT.CHECK );
 		cbStrikethru.addSelectionListener( this );
 		cbStrikethru.setText( Messages.getString( "FontDefinitionDialog.Lbl.Strikethrough" ) ); //$NON-NLS-1$
 		cbStrikethru.setSelection( fdCurrent.isSetStrikethrough( )
 				&& fdCurrent.isStrikethrough( ) );
 
-		Label lblDummy1 = new Label( cmpContent, SWT.NONE );
-		GridData gdLDummy1 = new GridData( );
-		gdLDummy1.horizontalSpan = 6;
-		lblDummy1.setLayoutData( gdLDummy1 );
-
-		cbWrap = new Button( cmpContent, SWT.CHECK );
-		GridData gdCBWrap = new GridData( GridData.FILL_HORIZONTAL );
-		gdCBWrap.horizontalSpan = 2;
-		gdCBWrap.heightHint = 20;
-		cbWrap.setLayoutData( gdCBWrap );
+		cbWrap = new Button( cmpFormat, SWT.CHECK );
 		cbWrap.addSelectionListener( this );
 		cbWrap.setText( Messages.getString( "FontDefinitionDialog.Lbl.Wrap" ) ); //$NON-NLS-1$
 		cbWrap.setSelection( fdCurrent.isSetWordWrap( )
 				&& fdCurrent.isWordWrap( ) );
 
+		createAlignmentPanel( );
+
 		createRotationPanel( );
 
-		createAlignmentPanel( );
+		Label lblPreview = new Label( cmpContent, SWT.NONE );
+		{
+			lblPreview.setText( Messages.getString( "FontDefinitionDialog.Lbl.Preview" ) ); //$NON-NLS-1$
+			lblPreview.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
+		}
 
 		FillLayout flPreview = new FillLayout( );
 		flPreview.marginHeight = 2;
 		flPreview.marginWidth = 3;
-		grpPreview = new Group( cmpContent, SWT.NONE );
-		grpPreview.setText( Messages.getString( "FontDefinitionDialog.Lbl.Preview" ) ); //$NON-NLS-1$
+		Composite grpPreview = new Composite( cmpContent, SWT.NONE );
 		GridData gdGRPPreview = new GridData( GridData.FILL_BOTH );
-		gdGRPPreview.horizontalSpan = 9;
+		gdGRPPreview.horizontalSpan = 4;
 		grpPreview.setLayoutData( gdGRPPreview );
 		grpPreview.setLayout( flPreview );
 
@@ -292,139 +267,189 @@ public class FontDefinitionDialog
 		createButtonPanel( );
 	}
 
+	private void createFontStylePanel( )
+	{
+		Label lblStyle = new Label( cmpContent, SWT.NONE );
+		lblStyle.setText( Messages.getString( "FontDefinitionDialog.Lbl.Style" ) ); //$NON-NLS-1$
+
+		Composite cmpFontStyle = new Composite( cmpContent, SWT.NONE );
+		{
+			GridLayout layout = new GridLayout( 3, false );
+			layout.marginWidth = 0;
+			layout.marginHeight = 0;
+			cmpFontStyle.setLayout( layout );
+			GridData gd = new GridData( );
+			gd.horizontalSpan = 3;
+			cmpFontStyle.setLayoutData( gd );
+		}
+
+		btnBold = new Button( cmpFontStyle, SWT.TOGGLE );
+		GridData gdBBold = new GridData( );
+		btnBold.setLayoutData( gdBBold );
+		btnBold.setImage( UIHelper.getImage( "icons/obj16/fnt_style_bold.gif" ) ); //$NON-NLS-1$
+		btnBold.addSelectionListener( this );
+		btnBold.setSelection( fdCurrent.isSetBold( ) && fdCurrent.isBold( ) );
+
+		btnItalic = new Button( cmpFontStyle, SWT.TOGGLE );
+		GridData gdBItalic = new GridData( );
+		btnItalic.setLayoutData( gdBItalic );
+		btnItalic.setImage( UIHelper.getImage( "icons/obj16/fnt_style_italic.gif" ) ); //$NON-NLS-1$
+		btnItalic.addSelectionListener( this );
+		btnItalic.setSelection( fdCurrent.isSetItalic( )
+				&& fdCurrent.isItalic( ) );
+
+		btnUnderline = new Button( cmpFontStyle, SWT.TOGGLE );
+		GridData gdBUnderline = new GridData( );
+		btnUnderline.setLayoutData( gdBUnderline );
+		btnUnderline.setImage( UIHelper.getImage( "icons/obj16/fnt_style_underline.gif" ) ); //$NON-NLS-1$
+		btnUnderline.addSelectionListener( this );
+		btnUnderline.setSelection( fdCurrent.isSetUnderline( )
+				&& fdCurrent.isUnderline( ) );
+
+	}
+
 	private void createAlignmentPanel( )
 	{
-		GridLayout glAlignment = new GridLayout( );
-		glAlignment.verticalSpacing = 30;
-		glAlignment.horizontalSpacing = 20;
-		glAlignment.marginHeight = 15;
-		glAlignment.marginWidth = 5;
-		glAlignment.numColumns = 3;
+		new Label( cmpContent, SWT.NONE ).setText( Messages.getString( "FontDefinitionDialog.Lbl.Alignment" ) ); //$NON-NLS-1$
 
-		Group cmpAlignment = new Group( cmpContent, SWT.NONE );
-		GridData gdCMPAlignment = new GridData( GridData.FILL_BOTH );
-		gdCMPAlignment.horizontalSpan = 3;
-		gdCMPAlignment.verticalSpan = 3;
-		cmpAlignment.setText( Messages.getString( "FontDefinitionDialog.Lbl.Alignment" ) ); //$NON-NLS-1$
-		cmpAlignment.setLayoutData( gdCMPAlignment );
-		cmpAlignment.setLayout( glAlignment );
+		Composite cmpAlignment = new Composite( cmpContent, SWT.NONE );
+		{
+			GridData gdCMPAlignment = new GridData( GridData.FILL_HORIZONTAL );
+			gdCMPAlignment.horizontalSpan = 8;
+			cmpAlignment.setLayoutData( gdCMPAlignment );
+			GridLayout glAlignment = new GridLayout( 11, false );
+			glAlignment.marginWidth = 2;
+			glAlignment.marginHeight = 0;
+			cmpAlignment.setLayout( glAlignment );
+		}
 
-		btnATopLeft = new Button( cmpAlignment, SWT.RADIO );
-		GridData gdBATopLeft = new GridData( GridData.FILL_BOTH );
+		btnATopLeft = createAlighmentButton( cmpAlignment );
 		btnATopLeft.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignTopLeft" ) ); //$NON-NLS-1$
 		btnATopLeft.setImage( UIHelper.getImage( "icons/obj28/alignmenttopleft.gif" ) ); //$NON-NLS-1$
-		btnATopLeft.setLayoutData( gdBATopLeft );
-		btnATopLeft.addSelectionListener( this );
 		btnATopLeft.getImage( ).setBackground( btnATopLeft.getBackground( ) );
 
-		btnATopCenter = new Button( cmpAlignment, SWT.RADIO );
-		GridData gdBATopCenter = new GridData( GridData.FILL_BOTH );
+		btnATopCenter = createAlighmentButton( cmpAlignment );
 		btnATopCenter.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignTopCenter" ) ); //$NON-NLS-1$
 		btnATopCenter.setImage( UIHelper.getImage( "icons/obj28/alignmenttopcenter.gif" ) ); //$NON-NLS-1$
-		btnATopCenter.setLayoutData( gdBATopCenter );
-		btnATopCenter.addSelectionListener( this );
 		btnATopCenter.getImage( )
 				.setBackground( btnATopCenter.getBackground( ) );
 
-		btnATopRight = new Button( cmpAlignment, SWT.RADIO );
-		GridData gdBATopRight = new GridData( GridData.FILL_BOTH );
+		btnATopRight = createAlighmentButton( cmpAlignment );
 		btnATopRight.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignTopRight" ) ); //$NON-NLS-1$
 		btnATopRight.setImage( UIHelper.getImage( "icons/obj28/alignmenttopright.gif" ) ); //$NON-NLS-1$
-		btnATopRight.setLayoutData( gdBATopRight );
-		btnATopRight.addSelectionListener( this );
 		btnATopRight.getImage( ).setBackground( btnATopRight.getBackground( ) );
 
-		btnACenterLeft = new Button( cmpAlignment, SWT.RADIO );
-		GridData gdBACenterLeft = new GridData( GridData.FILL_BOTH );
+		createSeparator( cmpAlignment );
+
+		btnACenterLeft = createAlighmentButton( cmpAlignment );
 		btnACenterLeft.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignCenterLeft" ) ); //$NON-NLS-1$
 		btnACenterLeft.setImage( UIHelper.getImage( "icons/obj28/alignmentcenterleft.gif" ) ); //$NON-NLS-1$
-		btnACenterLeft.setLayoutData( gdBACenterLeft );
-		btnACenterLeft.addSelectionListener( this );
 		btnACenterLeft.getImage( )
 				.setBackground( btnACenterLeft.getBackground( ) );
 
-		btnACenter = new Button( cmpAlignment, SWT.RADIO );
-		GridData gdBACenter = new GridData( GridData.FILL_BOTH );
+		btnACenter = createAlighmentButton( cmpAlignment );
 		btnACenter.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignCenter" ) ); //$NON-NLS-1$
 		btnACenter.setImage( UIHelper.getImage( "icons/obj28/alignmentcenter.gif" ) ); //$NON-NLS-1$
-		btnACenter.setLayoutData( gdBACenter );
-		btnACenter.addSelectionListener( this );
 		btnACenter.getImage( ).setBackground( btnACenter.getBackground( ) );
 
-		btnACenterRight = new Button( cmpAlignment, SWT.RADIO );
-		GridData gdBACenterRight = new GridData( GridData.FILL_BOTH );
+		btnACenterRight = createAlighmentButton( cmpAlignment );
 		btnACenterRight.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignCenterRight" ) ); //$NON-NLS-1$
 		btnACenterRight.setImage( UIHelper.getImage( "icons/obj28/alignmentcenterright.gif" ) ); //$NON-NLS-1$
-		btnACenterRight.setLayoutData( gdBACenterRight );
-		btnACenterRight.addSelectionListener( this );
 		btnACenterRight.getImage( )
 				.setBackground( btnACenterRight.getBackground( ) );
 
-		btnABottomLeft = new Button( cmpAlignment, SWT.RADIO );
-		GridData gdBABottomLeft = new GridData( GridData.FILL_BOTH );
+		createSeparator( cmpAlignment );
+
+		btnABottomLeft = createAlighmentButton( cmpAlignment );
 		btnABottomLeft.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignBottomLeft" ) ); //$NON-NLS-1$
 		btnABottomLeft.setImage( UIHelper.getImage( "icons/obj28/alignmentbottomleft.gif" ) ); //$NON-NLS-1$
-		btnABottomLeft.setLayoutData( gdBABottomLeft );
-		btnABottomLeft.addSelectionListener( this );
 		btnABottomLeft.getImage( )
 				.setBackground( btnABottomLeft.getBackground( ) );
 
-		btnABottomCenter = new Button( cmpAlignment, SWT.RADIO );
-		GridData gdBABottomCenter = new GridData( GridData.FILL_BOTH );
+		btnABottomCenter = createAlighmentButton( cmpAlignment );
 		btnABottomCenter.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignBottomCenter" ) ); //$NON-NLS-1$
 		btnABottomCenter.setImage( UIHelper.getImage( "icons/obj28/alignmentbottomcenter.gif" ) ); //$NON-NLS-1$
-		btnABottomCenter.setLayoutData( gdBABottomCenter );
-		btnABottomCenter.addSelectionListener( this );
 		btnABottomCenter.getImage( )
 				.setBackground( btnABottomCenter.getBackground( ) );
 
-		btnABottomRight = new Button( cmpAlignment, SWT.RADIO );
-		GridData gdBABottomRight = new GridData( GridData.FILL_BOTH );
+		btnABottomRight = createAlighmentButton( cmpAlignment );
 		btnABottomRight.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignBottomRight" ) ); //$NON-NLS-1$
 		btnABottomRight.setImage( UIHelper.getImage( "icons/obj28/alignmentbottomright.gif" ) ); //$NON-NLS-1$
-		btnABottomRight.setLayoutData( gdBABottomRight );
-		btnABottomRight.addSelectionListener( this );
 		btnABottomRight.getImage( )
 				.setBackground( btnABottomRight.getBackground( ) );
 	}
 
+	private Button createAlighmentButton( Composite parent )
+	{
+		Button button = new Button( parent, SWT.TOGGLE );
+		GridData gd = new GridData( );
+		gd.widthHint = 32;
+		gd.heightHint = 32;
+		button.setLayoutData( gd );
+		button.addSelectionListener( this );
+		listAlighmentButtons.add( button );
+		return button;
+	}
+
+	private void selectAllToggleButtons( boolean selection )
+	{
+		for ( int i = 0; i < listAlighmentButtons.size( ); i++ )
+		{
+			( (Button) listAlighmentButtons.get( i ) ).setSelection( selection );
+		}
+	}
+
+	private void createSeparator( Composite parent )
+	{
+		Label lable = new Label( parent, SWT.NONE );
+		lable.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+	}
+
 	private void createRotationPanel( )
 	{
+		Label lblRotation = new Label( cmpContent, SWT.NONE );
+		{
+			lblRotation.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
+			lblRotation.setText( Messages.getString( "FontDefinitionDialog.Lbl.Rotation" ) ); //$NON-NLS-1$
+		}
+
 		GridLayout glRotation = new GridLayout( );
-		glRotation.verticalSpacing = 2;
-		glRotation.marginHeight = 2;
+		glRotation.verticalSpacing = 10;
+		glRotation.marginHeight = 0;
 		glRotation.marginWidth = 2;
-		glRotation.numColumns = 3;
 
-		grpRotation = new Group( cmpContent, SWT.NONE );
-		GridData gdGRPRotation = new GridData( GridData.FILL_BOTH );
-		gdGRPRotation.horizontalSpan = 6;
-		gdGRPRotation.verticalSpan = 3;
-		gdGRPRotation.heightHint = 180;
-		grpRotation.setLayoutData( gdGRPRotation );
-		grpRotation.setLayout( glRotation );
-		grpRotation.setText( Messages.getString( "FontDefinitionDialog.Lbl.Rotation" ) ); //$NON-NLS-1$
+		Composite cmpRotation = new Composite( cmpContent, SWT.NONE );
+		GridData gdGRPRotation = new GridData( GridData.FILL_VERTICAL );
+		gdGRPRotation.horizontalSpan = 2;
+		gdGRPRotation.heightHint = 100;
+		cmpRotation.setLayoutData( gdGRPRotation );
+		cmpRotation.setLayout( glRotation );
 
-		ascRotation = new AngleSelectorComposite( grpRotation,
+		ascRotation = new AngleSelectorComposite( cmpRotation,
 				SWT.BORDER,
 				ChartUIUtil.getFontRotation( fdCurrent ),
 				Display.getCurrent( ).getSystemColor( SWT.COLOR_WHITE ) );
 		GridData gdASCRotation = new GridData( GridData.FILL_BOTH );
-		gdASCRotation.horizontalSpan = 1;
-		gdASCRotation.verticalSpan = 3;
 		ascRotation.setLayoutData( gdASCRotation );
 		ascRotation.setAngleChangeListener( this );
 
-		iscRotation = new IntegerSpinControl( grpRotation,
+		iscRotation = new IntegerSpinControl( cmpRotation,
 				SWT.NONE,
 				ChartUIUtil.getFontRotation( fdCurrent ) );
 		GridData gdISCRotation = new GridData( GridData.FILL_HORIZONTAL );
-		gdISCRotation.horizontalSpan = 2;
 		iscRotation.setLayoutData( gdISCRotation );
 		iscRotation.setMinimum( -90 );
 		iscRotation.setMaximum( 90 );
 		iscRotation.setIncrement( 1 );
 		iscRotation.addListener( this );
+
+		Label lblDegrees = new Label( cmpContent, SWT.NONE );
+		{
+			lblDegrees.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_END
+					| GridData.GRAB_VERTICAL ) );
+			lblDegrees.setText( Messages.getString( "FontDefinitionDialog.Label.Degrees" ) ); //$NON-NLS-1$
+		}
+
 	}
 
 	private void createButtonPanel( )
@@ -564,6 +589,20 @@ public class FontDefinitionDialog
 	public void widgetSelected( SelectionEvent e )
 	{
 		Object oSource = e.getSource( );
+
+		// Handle with alignment buttons
+		if ( listAlighmentButtons.contains( oSource ) )
+		{
+			if ( !( (Button) oSource ).getSelection( ) )
+			{
+				// Keep the selection to restrict at least one selection
+				( (Button) oSource ).setSelection( true );
+				return;
+			}
+			selectAllToggleButtons( false );
+			( (Button) oSource ).setSelection( true );
+		}
+
 		if ( oSource.equals( btnBold ) )
 		{
 			fdCurrent.setBold( btnBold.getSelection( ) );
