@@ -143,15 +143,17 @@ abstract public class DataEngine
 			throws BirtException;
 	
 	/**
-	 * If user wants to use the latest data from data set to update local cache,
-	 * user needs to call this clearCache method. After it is done, the latest
-	 * data will be stored and it will be available for later use.
+	 * If user wants to use the latest data from data set rather than local
+	 * cache, user needs to call this clearCache method to delete the cache
+	 * content from update local environment. After it is called, in the next
+	 * time the data will be retrieved again from data source to update cache.
 	 * 
-	 * @param dataSet
+	 * @param dataSource, which is associated with the data set
+	 * @param dataSet, which cache needs to be cleared
 	 * @throws BirtException
 	 */
-	abstract public void clearCache( IBaseDataSetDesign dataSet )
-			throws BirtException;
+	abstract public void clearCache( IBaseDataSourceDesign dataSource,
+			IBaseDataSetDesign dataSet ) throws BirtException;
 	
 	/**
 	 * Verifies the elements of a report query spec

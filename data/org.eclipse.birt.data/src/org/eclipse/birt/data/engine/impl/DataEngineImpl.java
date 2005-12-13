@@ -306,14 +306,16 @@ public class DataEngineImpl extends DataEngine
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.api.DataEngine#clearCache(org.eclipse.birt.data.engine.api.IBaseDataSetDesign)
+	 * @see org.eclipse.birt.data.engine.api.DataEngine#clearCache(org.eclipse.birt.data.engine.api.IBaseDataSourceDesign,
+	 *      org.eclipse.birt.data.engine.api.IBaseDataSetDesign)
 	 */
-	public void clearCache( IBaseDataSetDesign dataSet ) throws BirtException
+	public void clearCache( IBaseDataSourceDesign dataSource,
+			IBaseDataSetDesign dataSet ) throws BirtException
 	{
-		if ( dataSet == null )
+		if ( dataSource == null || dataSet == null )
 			return;
-		
-		DataSetCacheManager.getInstance( ).clearCache( dataSet.getID( ) );
+
+		DataSetCacheManager.getInstance( ).clearCache( dataSource, dataSet );
 	}
 	
 	/**

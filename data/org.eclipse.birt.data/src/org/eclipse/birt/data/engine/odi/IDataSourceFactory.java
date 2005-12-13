@@ -16,6 +16,9 @@ package org.eclipse.birt.data.engine.odi;
 
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+
 /**
  *	A factory for IDataSource instances that represent underlying
  *	data sources and corresponding connection properties.
@@ -49,6 +52,7 @@ public interface IDataSourceFactory
      * @return			An instance of IDataSource.
      */
     public IDataSource getDataSource( String driverName, Map connProperties,
-			String id, int cacheCount );
+			IBaseDataSourceDesign dataSourceDesign,
+			IBaseDataSetDesign dataSetDesign );
     
 }

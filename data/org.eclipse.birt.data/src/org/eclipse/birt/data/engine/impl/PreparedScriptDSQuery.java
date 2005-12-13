@@ -74,8 +74,8 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			// An empty odi data source is used for script data set
 			return DataSourceFactory.getFactory( ).getDataSource( null,
 					null,
-					this.dataSet.getID( ),
-					this.dataSet.getCacheRowCount( ) );
+					this.dataSource.getDesign( ),
+					this.dataSet.getDesign( ) );
 		}
 	
 		/*

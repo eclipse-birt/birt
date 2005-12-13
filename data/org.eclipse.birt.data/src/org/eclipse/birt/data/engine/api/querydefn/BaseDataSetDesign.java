@@ -48,7 +48,6 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
     private String 	afterCloseScript;
     private IBaseDataSetEventHandler eventHandler;
 	
-    private String ID;
 	private int cacheRowCount;
     
 	/**
@@ -81,23 +80,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 		return name;
 	}
 	
-    /**
-     * @return data set id
-     */
-    public String getID( )
-    {
-    	return ID;
-    }
-    
-    /**
-     * @param ID
-     */
-    public void setID( String ID )
-    {
-    	this.ID = ID;
-    }
-    
-    /**
+	/**
      * @return cache row count
      */
     public int getCacheRowCount( )

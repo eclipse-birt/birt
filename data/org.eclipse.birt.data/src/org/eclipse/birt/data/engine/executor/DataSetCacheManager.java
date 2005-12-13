@@ -17,6 +17,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+
 /**
  * Cache manager for ODA data set and Scripted data set. Since connection to
  * data set and retrieve data are expensive operations, it is unnecessary to do
@@ -47,19 +50,20 @@ public class DataSetCacheManager
 {
 	// map of cache relationship
 	private Map cacheMap;
-	
+
 	// use cache for design time?
 	private boolean useCache;
-	
+
 	// data set id and its cache count
-	private String datasetID;
+	private IBaseDataSourceDesign dataSourceDesign;
+	private IBaseDataSetDesign dataSetDesign;
 	private int cacheRowCount;
-	
+
 	// instance
 	private static DataSetCacheManager cacheManager;
-	
+
 	private FolderUtil folderUtil;
-	
+
 	/**
 	 * @return unique instance
 	 */
@@ -67,7 +71,7 @@ public class DataSetCacheManager
 	{
 		if ( cacheManager == null )
 			cacheManager = new DataSetCacheManager( );
-		
+
 		return cacheManager;
 	}
 
@@ -78,7 +82,7 @@ public class DataSetCacheManager
 	{
 		cacheMap = new HashMap( );
 	}
-	
+
 	/**
 	 * Enable cache on data set
 	 */
@@ -86,23 +90,25 @@ public class DataSetCacheManager
 	{
 		this.useCache = useCache;
 	}
-	
+
 	/**
-	 * @param datasetID
+	 * @param dataSourceDesign
 	 */
-	public void setDataSetID( String datasetID )
+	public void setDataSource( IBaseDataSourceDesign dataSourceDesign )
 	{
-		this.datasetID = datasetID;
+		this.dataSourceDesign = dataSourceDesign;
 	}
-	
+
 	/**
-	 * 
+	 * @param datasetDesign
 	 */
-	public void setCacheRowCount( int cacheRowCount )
+	public void setDataSet( IBaseDataSetDesign datasetDesign )
 	{
-		this.cacheRowCount = cacheRowCount;
+		this.dataSetDesign = datasetDesign;
+		if ( datasetDesign != null )
+			this.cacheRowCount = datasetDesign.getCacheRowCount( );
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -110,19 +116,23 @@ public class DataSetCacheManager
 	{
 		if ( useCache == false )
 			return false;
-		
-		if ( datasetID != null && cacheRowCount != 0 )
+
+		if ( dataSourceDesign != null
+				&& dataSetDesign != null
+				&& dataSetDesign.getCacheRowCount( ) != 0 )
 		{
-			if ( this.cacheMap.get( datasetID ) != null )
+			DataSourceAndDataSet ds = DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+					this.dataSetDesign );
+			if ( this.cacheMap.get( ds ) != null )
 				return false;
-			
-			this.cacheMap.put( datasetID, this.getCacheDirStr( ) );
+
+			this.cacheMap.put( ds, this.getCacheDirStr( ) );
 			return true;
 		}
 
 		return false;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -131,12 +141,15 @@ public class DataSetCacheManager
 		if ( useCache == false )
 			return false;
 
-		if ( datasetID != null &&  cacheRowCount != 0 )
-			return this.cacheMap.get( datasetID ) != null;
+		if ( dataSourceDesign != null
+				&& dataSetDesign != null
+				&& dataSetDesign.getCacheRowCount( ) != 0 )
+			return this.cacheMap.get( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+					this.dataSetDesign ) ) != null;
 
 		return false;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -144,41 +157,47 @@ public class DataSetCacheManager
 	{
 		if ( cacheRowCount == -1 )
 			return Integer.MAX_VALUE;
-		
+
 		return cacheRowCount;
 	}
-	
+
 	/**
 	 * clear cache
 	 */
-	public void clearCache( String cacheID )
+	public void clearCache( IBaseDataSourceDesign dataSourceDesign,
+			IBaseDataSetDesign dataSetDesign )
 	{
-		if ( cacheID == null )
-			return;
-		
-		Object cacheDir = cacheMap.get( cacheID );
+		DataSourceAndDataSet ds = DataSourceAndDataSet.newInstance( dataSourceDesign,
+				dataSetDesign );
+		Object cacheDir = cacheMap.get( ds );
 		if ( cacheDir != null )
 		{
-			cacheMap.remove( cacheID );
+			cacheMap.remove( ds );
 			getFolderUtil( ).deleteDir( (String) cacheDir );
 		}
+		this.dataSourceDesign = null;
+		this.dataSetDesign = null;
+		this.cacheRowCount = 0;
 	}
-	
+
 	/**
 	 * @return
 	 */
 	public String getSaveFolder( )
 	{
-		return (String) cacheMap.get( datasetID );
+		return (String) cacheMap.get( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+				this.dataSetDesign ) );
 	}
+
 	/**
 	 * @return
 	 */
 	public String getLoadFolder( )
 	{
-		return (String) cacheMap.get( datasetID );
+		return (String) cacheMap.get( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+				this.dataSetDesign ) );
 	}
-	
+
 	/**
 	 * @return temp directory string, this folder name is unique and then
 	 *         different session will not influence each other, which can
@@ -189,7 +208,7 @@ public class DataSetCacheManager
 		getFolderUtil( ).createTempRootDir( );
 		return getFolderUtil( ).createSessionTempDir( );
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -199,7 +218,7 @@ public class DataSetCacheManager
 			folderUtil = new FolderUtil( );
 		return folderUtil;
 	}
-	
+
 	/**
 	 * Notice, this method is only for test, it can not be called unless its use
 	 * is for test.
@@ -207,15 +226,17 @@ public class DataSetCacheManager
 	public void resetForTest( )
 	{
 		cacheMap = new HashMap( );
-		datasetID = null;
-		cacheRowCount = -1;
+		this.dataSourceDesign = null;
+		this.dataSetDesign = null;
+		this.cacheRowCount = 0;
 	}
-	
+
 	/**
 	 * Folder util class to manager temp folder
 	 */
 	private class FolderUtil
 	{
+
 		private String tempRootDirStr = null;
 
 		/**
@@ -336,5 +357,5 @@ public class DataSetCacheManager
 			sessionsFolder.delete( );
 		}
 	}
-	
+
 }

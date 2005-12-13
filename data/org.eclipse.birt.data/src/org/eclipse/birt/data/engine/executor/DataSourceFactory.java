@@ -13,6 +13,8 @@ package org.eclipse.birt.data.engine.executor;
 
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.executor2.DataSource2;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IDataSourceFactory;
@@ -46,12 +48,12 @@ public class DataSourceFactory implements IDataSourceFactory
 	 * @see org.eclipse.birt.data.engine.odi.IDataSourceFactory#getDataSource(java.lang.String, java.util.Map)
 	 */
 	public IDataSource getDataSource( String driverName, Map connProperties,
-			String dataSetID, int cacheCount )
+			IBaseDataSourceDesign dataSourceDesign, IBaseDataSetDesign dataSetDesign )
 	{
 		DataSetCacheManager cacheManager = DataSetCacheManager.getInstance( );
-		cacheManager.setDataSetID( dataSetID );
-		cacheManager.setCacheRowCount( cacheCount );
-		
+		cacheManager.setDataSource( dataSourceDesign );
+		cacheManager.setDataSet( dataSetDesign );
+
 		if ( cacheManager.doesLoadFromCache( ) == false )
 		{
 			// TODO: connection pooling
