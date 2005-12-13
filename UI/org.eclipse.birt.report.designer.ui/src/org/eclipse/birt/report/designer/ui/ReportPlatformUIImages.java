@@ -107,6 +107,9 @@ public class ReportPlatformUIImages
 		declareImage( ISharedImages.IMG_TOOL_DELETE, ICONS_PATH + ETOOL16_PATH
 				+ "delete_edit.gif" ); //$NON-NLS-1$
 
+		declareImage(IReportGraphicConstants.ICON_ELEMENT_TEMPLATEITEM,ICONS_PATH
+				+ OBJ16_PATH + "templatereportitem.gif");
+		
 		declareImage( IReportGraphicConstants.ICON_NEW_REPORT, ICONS_PATH
 				+ OBJ16_PATH + "new_report.gif" ); //$NON-NLS-1$
 

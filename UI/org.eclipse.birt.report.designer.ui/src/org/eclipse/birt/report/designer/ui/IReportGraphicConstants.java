@@ -98,6 +98,8 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_LIBRARY_REFERENCED = "Library Referenced"; //$NON-NLS-1$
 
 	public final static String ICON_ELEMENT_THEME = ReportDesignConstants.THEME_ITEM;
+	
+	public final static String ICON_ELEMENT_TEMPLATEITEM = ReportDesignConstants.TEMPLATE_REPORT_ITEM;
 
 	// outline view icons
 	public final static String ICON_NODE_BODY = "Body"; //$NON-NLS-1$
