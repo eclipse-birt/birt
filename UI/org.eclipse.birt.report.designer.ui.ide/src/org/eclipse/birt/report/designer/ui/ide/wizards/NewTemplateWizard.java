@@ -10,6 +10,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.editors.IDETemplateEditor;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -209,7 +210,7 @@ public class NewTemplateWizard extends NewReportWizard
 				IWorkbenchPage page = window.getActivePage( );
 				try
 				{
-					IDE.openEditor( page, file, true );
+					IDE.openEditor( page, file, IDETemplateEditor.ID,true );
 					BasicNewProjectResourceWizard.updatePerspective( getConfigElement() );
 				}
 				catch ( Exception e )
