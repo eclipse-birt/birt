@@ -17,12 +17,28 @@ import org.eclipse.birt.report.engine.content.impl.TextContent;
 /**
  * A class representing the runtime state of a data item
  */
-public class DataItemInstance extends AbstractTextInstance implements IDataItemInstance
+public class DataItemInstance extends ReportItemInstance implements IDataItemInstance
 {
 
 	public DataItemInstance( TextContent data )
 	{
 		super( data );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance#getText()
+	 */
+	public String getText( )
+	{
+		return ( ( TextContent ) content ).getText( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance#setText(java.lang.String)
+	 */
+	public void setText( String value )
+	{
+		( ( TextContent ) content ).setText( value );
 	}
 
 }

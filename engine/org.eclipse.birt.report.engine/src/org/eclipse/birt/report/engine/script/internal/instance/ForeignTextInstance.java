@@ -10,11 +10,11 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.script.internal.instance;
 
-import org.eclipse.birt.report.engine.api.script.instance.IForeignTextInstance;
+import org.eclipse.birt.report.engine.api.script.instance.IAbstractTextInstance;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 
-public abstract class ForeignTextInstance extends ReportItemInstance implements IForeignTextInstance
+public abstract class ForeignTextInstance extends ReportItemInstance implements IAbstractTextInstance
 {
 	public ForeignTextInstance( ForeignContent content )
 	{
