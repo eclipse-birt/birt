@@ -269,8 +269,8 @@ public class ImageContent extends AbstractContent implements IImageContent
 			return ( (ImageItemDesign) generateBy ).getImageExpression( );
 		}
 		return null;
-	}	
-		
+	}
+
 	static final protected int FIELD_ALTTEXT = 500;
 	static final protected int FIELD_ALTTEXTKEY = 501;
 	static final protected int FIELD_EXTENSEION = 502;
@@ -278,7 +278,8 @@ public class ImageContent extends AbstractContent implements IImageContent
 	static final protected int FIELD_SOURCETYPE = 504;
 	static final protected int FIELD_IMAGEMAP = 505;
 	static final protected int FIELD_MIMETYPE = 506;
-	
+	static final protected int FIELD_DATA = 507;
+
 	protected void writeFields( ObjectOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
@@ -297,20 +298,35 @@ public class ImageContent extends AbstractContent implements IImageContent
 			out.writeInt( FIELD_EXTENSEION );
 			out.writeUTF( extension );
 		}
-		if ( uri != null )
+		if ( imageMap != null )
 		{
-			out.writeInt( FIELD_URI );
-			out.writeUTF( uri );
+			out.writeInt( FIELD_IMAGEMAP );
+			out.writeObject( imageMap );
 		}
 		if ( sourceType != -1 )
 		{
 			out.writeInt( FIELD_SOURCETYPE );
 			out.writeInt( sourceType );
 		}
-		if ( imageMap != null )
+		switch ( sourceType )
 		{
-			out.writeInt( FIELD_IMAGEMAP );
-			out.writeObject( imageMap );
+			case IImageContent.IMAGE_FILE :
+			case IImageContent.IMAGE_NAME :
+			case IImageContent.IMAGE_URI :
+				if ( uri != null )
+				{
+					out.writeInt( FIELD_URI );
+					out.writeUTF( uri );
+				}
+				break;
+			case IImageContent.IMAGE_EXPRESSION :
+				if ( data != null )
+				{
+					out.writeInt( FIELD_DATA );
+					out.writeInt( data.length );
+					out.write( data, 0, data.length );
+				}
+				break;
 		}
 		if ( MIMEType != null )
 		{
@@ -344,6 +360,19 @@ public class ImageContent extends AbstractContent implements IImageContent
 				break;
 			case FIELD_MIMETYPE :
 				MIMEType = in.readUTF( );
+				break;
+			case FIELD_DATA :
+				data = new byte[in.readInt( )];
+				int length = 0;
+				do
+				{
+					int size = in.read( data, length, data.length - length );
+					if ( size == -1 )
+					{
+						break;
+					}
+					length += size;
+				} while ( length < data.length );
 				break;
 			default :
 				super.readField( version, filedId, in );
