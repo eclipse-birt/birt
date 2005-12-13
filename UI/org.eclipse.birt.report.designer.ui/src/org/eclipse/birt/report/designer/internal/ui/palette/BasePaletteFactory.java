@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
@@ -205,6 +206,29 @@ public class BasePaletteFactory
 		private List dataSetList = new ArrayList( );
 
 		/*
+		 * get target design element handle
+		 * 
+		 */
+		private DesignElementHandle getDesignElementHandle( )
+		{
+
+			Object model = getTargetEditPart( ).getModel( );
+			DesignElementHandle desginElementHandle = null;
+			if ( model instanceof DesignElementHandle )
+			{
+				desginElementHandle = (DesignElementHandle) ( model );
+			}
+			else if ( model instanceof ListBandProxy )
+			{
+				desginElementHandle = ( (ListBandProxy) ( model ) ).getSlotHandle( )
+						.getElementHandle( );
+
+			}
+
+			return desginElementHandle;
+		}
+
+		/*
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.IToolHandleExtends#preHandleMouseDown()
@@ -213,7 +237,7 @@ public class BasePaletteFactory
 		{
 			CreateRequest request = getRequest( );
 
-			DesignElementHandle desginElementHandle = (DesignElementHandle) ( getTargetEditPart( ).getModel( ) );
+			DesignElementHandle desginElementHandle = getDesignElementHandle( );
 			dataSetList = DEUtil.getDataSetList( desginElementHandle );
 
 			if ( IReportElementConstants.REPORT_ELEMENT_IMAGE.equalsIgnoreCase( (String) request.getNewObjectType( ) ) )
@@ -678,8 +702,9 @@ public class BasePaletteFactory
 	/**
 	 * Provides element building support for data set column.
 	 */
-	public static class DataSetColumnToolExtends extends
-			AbstractToolHandleExtends
+	public static class DataSetColumnToolExtends
+			extends
+				AbstractToolHandleExtends
 	{
 
 		/*
