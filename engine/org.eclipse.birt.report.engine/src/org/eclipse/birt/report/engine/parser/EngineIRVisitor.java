@@ -138,7 +138,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.64 $ $Date: 2005/11/25 06:27:24 $
+ * @version $Revision: 1.65 $ $Date: 2005/12/07 02:23:22 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -395,7 +395,8 @@ class EngineIRVisitor extends DesignVisitor
 
 		page.setHeaderHeight( createDimension( handle.getHeaderHeight( ) ) );
 		page.setFooterHeight( createDimension( handle.getFooterHeight( ) ) );
-
+		page.setShowFooterOnLast(handle.showFooterOnLast());
+		page.setShowHeaderOnFirst(handle.showFooterOnLast());
 		SlotHandle headerSlot = handle.getPageHeader( );
 		for ( int i = 0; i < headerSlot.getCount( ); i++ )
 		{
