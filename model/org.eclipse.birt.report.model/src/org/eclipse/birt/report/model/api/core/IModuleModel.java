@@ -154,6 +154,12 @@ public interface IModuleModel
 	 */
 
 	public static final String THEME_PROP = "theme"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the "propertyBindings" property.
+	 */
+	
+	public static final String PROPERTY_BINDINGS_PROP = "propertyBindings"; //$NON-NLS-1$
 
 	// Design slots
 	// See constants defined in the module class.

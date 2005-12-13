@@ -206,7 +206,7 @@ public class PropertyMask extends Structure
 		if ( StringUtil.isBlank( getName( ) ) )
 		{
 			list.add( new PropertyValueException( element,
-					 getDefn( ) .getMember( MASK_MEMBER ),
+					 getDefn( ) .getMember( NAME_MEMBER ),
 					null,
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}

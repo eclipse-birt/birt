@@ -2116,6 +2116,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * 
 	 * @param theme
 	 *            the theme instance
+	 * @param themeRoot
+	 *            the root element of the theme to set
 	 * @throws SemanticException
 	 */
 

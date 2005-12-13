@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.core;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -988,8 +990,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 	{
 		StructureDefn defn = (StructureDefn) MetaDataDictionary.getInstance( )
 				.getStructure( EmbeddedImage.EMBEDDED_IMAGE_STRUCT );
-		return (EmbeddedImage) StructureRefUtil.findNativeStructure( this, defn,
-				imageName );
+		return (EmbeddedImage) StructureRefUtil.findNativeStructure( this,
+				defn, imageName );
 	}
 
 	/**
@@ -2018,8 +2020,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public List getIncludeLibraries( )
 	{
-		return new ArrayList( (List) getLocalProperty( this,
-				LIBRARIES_PROP ) );
+		return new ArrayList( (List) getLocalProperty( this, LIBRARIES_PROP ) );
 	}
 
 	/**
@@ -2371,5 +2372,52 @@ public abstract class Module extends DesignElement implements IModuleModel
 		}
 
 		return false;
+	}
+
+	/**
+	 * Finds the property binding defined in this module, which has the same
+	 * property name with the given property name and has the same element id of
+	 * the given element.
+	 * 
+	 * @param element
+	 *            the element to find
+	 * @param propName
+	 *            the property name to find
+	 * @return the matched property binding defined in the module, otherwise
+	 *         null
+	 */
+
+	public PropertyBinding findPropertyBinding( DesignElement element,
+			String propName )
+	{
+		// if element or property name is null, return null
+
+		if ( element == null || propName == null )
+			return null;
+
+		// if the property with the given name is not defined on the element,
+		// return null
+
+		if ( element.getPropertyDefn( propName ) == null )
+			return null;
+
+		// find the property binding in the list, match the property name and
+		// element id
+
+		List propertyBindings = getListProperty( this, PROPERTY_BINDINGS_PROP );
+		if ( propertyBindings == null )
+			return null;
+		for ( int i = 0; i < propertyBindings.size( ); i++ )
+		{
+			PropertyBinding propBinding = (PropertyBinding) propertyBindings
+					.get( i );
+			BigDecimal id = propBinding.getID( );
+			if ( id != null
+					&& propName.equalsIgnoreCase( propBinding.getName( ) )
+					&& getElementByID( id.longValue( ) ) == element )
+				return propBinding;
+
+		}
+		return null;
 	}
 }

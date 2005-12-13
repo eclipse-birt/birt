@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
@@ -443,5 +444,7 @@ public class StructureState extends AbstractPropertyState
 
 		structDict.put( DataSourceParamBinding.STRUCT_NAME.toLowerCase( ),
 				DataSourceParamBinding.class );
+		structDict.put( PropertyBinding.PROPERTY_BINDING_STRUCT.toLowerCase( ),
+				PropertyBinding.class );
 	}
 }

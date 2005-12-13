@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -31,6 +32,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
@@ -44,7 +46,9 @@ import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.command.StyleCommand;
 import org.eclipse.birt.report.model.command.TemplateCommand;
 import org.eclipse.birt.report.model.command.UserPropertyCommand;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
@@ -1984,6 +1988,112 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			effectiveModule = getModule( );
 
 		return effectiveModule;
+	}
+
+	/**
+	 * Returns the overridden value of the specified property given its internal
+	 * name.
+	 * 
+	 * @param propName
+	 *            the name of the property to get. Can be a system-defined or
+	 *            user-defined property name.
+	 * 
+	 * @return the property binding, or null if the overridden value is not set
+	 */
+
+	public String getPropertyBinding( String propName )
+	{
+		PropertyBinding propBinding = module.findPropertyBinding(
+				getElement( ), propName );
+		if ( propBinding == null )
+			return null;
+
+		return propBinding.getValue( );
+	}
+
+	/**
+	 * Sets the mask of the specified property.
+	 * 
+	 * @param propName
+	 *            the property name to get. Can be a system-defined or
+	 *            user-defined property name.
+	 * 
+	 * @param value
+	 *            the overridden value
+	 * 
+	 * @throws SemanticException
+	 *             if the maskValue is not one of the above.
+	 */
+
+	public void setPropertyBinding( String propName, String value )
+			throws SemanticException
+	{
+		// check whether the property is defined on this element
+
+		ElementPropertyDefn defn = (ElementPropertyDefn) getPropertyDefn( propName );
+		if ( defn == null )
+			throw new SemanticError( getElement( ), new String[]{propName},
+					SemanticError.DESIGN_EXCEPTION_INVALID_PROPERTY_NAME );
+
+		// check the element is in the id-map of the root module
+
+		Module root = getElement( ).getRoot( );
+		if ( root == null )
+			throw new SemanticError( getElement( ),
+					SemanticError.DESIGN_EXCEPTION_PROPERTY_BINDING_FORBIDDEN );
+		assert root.getElementByID( getID( ) ) == getElement( );
+
+		ArrayList bindingList = (ArrayList) root.getLocalProperty( root,
+				Module.PROPERTY_BINDINGS_PROP );
+
+		PropertyBinding binding = root.findPropertyBinding( getElement( ),
+				propName );
+
+		if ( bindingList == null )
+		{
+			if ( value == null )
+				return;
+
+			bindingList = new ArrayList( );
+			root.setProperty( Module.PROPERTY_BINDINGS_PROP, bindingList );
+		}
+
+		defn = root.getPropertyDefn( Module.PROPERTY_BINDINGS_PROP );
+		assert defn != null;
+
+		PropertyCommand cmd = new PropertyCommand( module, root );
+
+		if ( value == null && binding != null )
+		{
+			// maskValue is null, remove the item from the structure list.
+
+			cmd.removeItem( new CachedMemberRef( defn ), bindingList
+					.indexOf( binding ) );
+		}
+		else
+		{
+			/*
+			 * If the property has no binding related to, adds a new binding
+			 * item into the structure list.
+			 */
+
+			if ( binding == null )
+			{
+				binding = new PropertyBinding( );
+				binding.setName( propName );
+				binding.setID( getID( ) );
+				binding.setValue( value );
+				cmd.addItem( new CachedMemberRef( defn ), binding );
+			}
+			else
+			{
+				// changes the binding value.
+
+				MemberRef memberRef = new CachedMemberRef( defn, bindingList
+						.indexOf( binding ), PropertyBinding.VALUE_MEMBER );
+				cmd.setMember( memberRef, value );
+			}
+		}
 	}
 
 }

@@ -231,8 +231,8 @@ public class SemanticError extends SemanticException
 	 * Error code indicating the structure referred is not found.
 	 */
 
-	public static final String DESIGN_EXCEPTION_INVALID_LIBRARY_REFERENCE = MessageConstants.SEMANTIC_ERROR_INVALID_LIBRARY_REFERENCE; 
-	
+	public static final String DESIGN_EXCEPTION_INVALID_LIBRARY_REFERENCE = MessageConstants.SEMANTIC_ERROR_INVALID_LIBRARY_REFERENCE;
+
 	/**
 	 * Error code indicating default element or value element of template
 	 * parameter definition is incompatible the "allowedType" property defined
@@ -242,6 +242,18 @@ public class SemanticError extends SemanticException
 
 	public static final String DESIGN_EXCEPTION_INCONSISTENT_TEMPLATE_PARAMETER_TYPE = MessageConstants.SEMANTIC_ERROR_INCONSISTENT_TEMPLATE_PARAMETER_TYPE;
 
+	/**
+	 * The property binding refers a non-existing element.
+	 */
+
+	public static final String DESIGN_EXCEPTION_INVALID_PROPERTY_BINDING_ID = MessageConstants.SEMANTIC_ERROR_INVALID_PROPERTY_BINDING_ID;
+
+	/**
+	 * The element is not in the design tree, so it is forbidden to set the property binding.
+	 */
+	
+	public static final String DESIGN_EXCEPTION_PROPERTY_BINDING_FORBIDDEN = MessageConstants.SEMANTIC_ERROR_PROPERTY_BINDING_FORBIDDEN;
+	
 	/**
 	 * The constant for the semantic error.
 	 */
@@ -418,9 +430,15 @@ public class SemanticError extends SemanticException
 			assert oaMessageArguments.length == 3;
 			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
 		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_PROPERTY_BINDING_ID )
+		{
+			assert oaMessageArguments.length == 1;
+			return ModelMessages.getMessage( sResourceKey, new String[]{
+					element.getIdentifier( ), (String) oaMessageArguments[0]} );
+		}
 
 		return ModelMessages.getMessage( sResourceKey, new String[]{element
-				.getName( )} );
+				.getIdentifier( )} );
 	}
 
 	/**

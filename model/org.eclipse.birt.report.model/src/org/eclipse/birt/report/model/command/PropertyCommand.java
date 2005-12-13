@@ -1000,9 +1000,10 @@ public class PropertyCommand extends AbstractElementCommand
 				.hasNext( ); )
 		{
 			PropertyDefn memberDefn = (PropertyDefn) iter.next( );
-
-			item.setProperty( memberDefn, memberDefn.validateValue( module,
-					item.getLocalProperty( module, memberDefn ) ) );
+			if ( !ReferencableStructure.LIB_REFERENCE_MEMBER.equals( memberDefn
+					.getName( ) ) )
+				item.setProperty( memberDefn, memberDefn.validateValue( module,
+						item.getLocalProperty( module, memberDefn ) ) );
 		}
 
 		if ( item instanceof Structure )

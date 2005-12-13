@@ -96,6 +96,7 @@ public class ReportDesign extends Module implements IReportDesignModel
 
 		list.addAll( validateStructureList( module, INCLUDE_SCRIPTS_PROP ) );
 		list.addAll( validateStructureList( module, LIBRARIES_PROP ) );
+		list.addAll( validateStructureList( module, PROPERTY_BINDINGS_PROP ) );
 
 		return list;
 	}
@@ -189,6 +190,6 @@ public class ReportDesign extends Module implements IReportDesignModel
 	public ModuleWriter getWriter( )
 	{
 		return new DesignWriter( this );
-	}	
-	
+	}
+
 }

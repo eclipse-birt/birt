@@ -3750,8 +3750,12 @@ public abstract class DesignElement
 	 * element. False will be returned if the element can not be dropped or the
 	 * container of the current element can not contain the template element.
 	 * 
+	 * @param module
+	 *            the root module of the element
+	 * 
 	 * @return true if it can be transformed, otherwise false.
 	 */
+
 	public boolean canTransformToTemplate( Module module )
 	{
 		if ( ( !canDrop( ) ) || ( isContainTamplateElement( ) ) )
@@ -3775,7 +3779,7 @@ public abstract class DesignElement
 	 * 
 	 * @return true if contain template element, otherwise return false.
 	 */
-	
+
 	private boolean isContainTamplateElement( )
 	{
 		boolean isFound = false;
