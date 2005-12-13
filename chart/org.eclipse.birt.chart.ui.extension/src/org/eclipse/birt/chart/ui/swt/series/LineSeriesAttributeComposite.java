@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -48,13 +49,14 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class LineSeriesAttributeComposite extends Composite implements
-		SelectionListener,
-		Listener
+public class LineSeriesAttributeComposite extends Composite
+		implements
+			SelectionListener,
+			Listener
 {
 
 	private transient Button btnCurve = null;
-	
+
 	private transient Button btnPalette = null;
 
 	private transient FillChooserComposite fccShadow = null;
@@ -118,30 +120,48 @@ public class LineSeriesAttributeComposite extends Composite implements
 		// Main content composite
 		this.setLayout( glContent );
 
-		Label lblShadow = new Label( this, SWT.NONE );
-		GridData gdLBLShadow = new GridData( );
-		lblShadow.setLayoutData( gdLBLShadow );
-		lblShadow.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ShadowColor" ) ); //$NON-NLS-1$
+		if ( isShadowNeeded( ) )
+		{
+			Label lblShadow = new Label( this, SWT.NONE );
+			GridData gdLBLShadow = new GridData( );
+			lblShadow.setLayoutData( gdLBLShadow );
+			lblShadow.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ShadowColor" ) ); //$NON-NLS-1$
 
-		fccShadow = new FillChooserComposite( this,
-				SWT.NONE,
-				( (LineSeries) series ).getShadowColor( ),
-				false,
-				false );
-		GridData gdFCCShadow = new GridData( GridData.FILL_HORIZONTAL );
-		gdFCCShadow.widthHint = 180;
-		fccShadow.setLayoutData( gdFCCShadow );
-		fccShadow.addListener( this );
+			fccShadow = new FillChooserComposite( this,
+					SWT.NONE,
+					( (LineSeries) series ).getShadowColor( ),
+					false,
+					false );
+			GridData gdFCCShadow = new GridData( GridData.FILL_HORIZONTAL );
+			gdFCCShadow.widthHint = 180;
+			fccShadow.setLayoutData( gdFCCShadow );
+			fccShadow.addListener( this );
+		}
 
 		btnCurve = new Button( this, SWT.CHECK );
-		btnCurve.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves" ) ); //$NON-NLS-1$
-		btnCurve.setSelection( ( (LineSeries) series ).isCurve( ) );
-		btnCurve.addSelectionListener( this );
-		
+		{
+			btnCurve.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves" ) ); //$NON-NLS-1$
+			btnCurve.setSelection( ( (LineSeries) series ).isCurve( ) );
+			btnCurve.addSelectionListener( this );
+		}
+
 		btnPalette = new Button( this, SWT.CHECK );
-		btnPalette.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
-		btnPalette.setSelection( ( (LineSeries) series ).isPaletteLineColor( ) );
-		btnPalette.addSelectionListener( this );
+		{
+			btnPalette.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
+			btnPalette.setSelection( ( (LineSeries) series ).isPaletteLineColor( ) );
+			btnPalette.addSelectionListener( this );
+		}
+
+		if ( !isShadowNeeded( ) )
+		{
+			GridData gd = new GridData( );
+			gd.horizontalSpan = 2;
+			btnCurve.setLayoutData( gd );
+
+			gd = new GridData( );
+			gd.horizontalSpan = 2;
+			btnPalette.setLayoutData( gd );
+		}
 
 		// Layout for the Marker group
 		GridLayout glMarker = new GridLayout( );
@@ -252,21 +272,20 @@ public class LineSeriesAttributeComposite extends Composite implements
 			if ( MarkerType.get( getSelectedMarkerName( ) ) == MarkerType.ICON_LITERAL )
 			{
 				MarkerIconDialog iconDialog = new MarkerIconDialog( this.getShell( ),
-						 getSeriesMarker( ).getIconPalette( ) );
+						getSeriesMarker( ).getIconPalette( ) );
 
 				if ( iconDialog.applyMarkerIcon( ) )
 				{
-					getSeriesMarker( )
-							.setIconPalette( iconDialog.getIconPalette( ) );
+					getSeriesMarker( ).setIconPalette( iconDialog.getIconPalette( ) );
 				}
 				else
 				{
-					cmbMarkerTypes.setText( LiteralHelper.markerTypeSet.getDisplayNameByName( getSeriesMarker( ).getType( ).getName( ) ) );
+					cmbMarkerTypes.setText( LiteralHelper.markerTypeSet.getDisplayNameByName( getSeriesMarker( ).getType( )
+							.getName( ) ) );
 				}
 			}
-			
-			getSeriesMarker( )
-					.setType( MarkerType.get( getSelectedMarkerName( ) ) );
+
+			getSeriesMarker( ).setType( MarkerType.get( getSelectedMarkerName( ) ) );
 		}
 	}
 
@@ -274,11 +293,12 @@ public class LineSeriesAttributeComposite extends Composite implements
 	{
 		return ( (LineSeries) series ).getMarker( );
 	}
-	
+
 	private String getSelectedMarkerName( )
 	{
 		return LiteralHelper.markerTypeSet.getNameByDisplayName( cmbMarkerTypes.getText( ) );
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -327,6 +347,11 @@ public class LineSeriesAttributeComposite extends Composite implements
 		{
 			( (LineSeries) series ).setShadowColor( (ColorDefinition) event.data );
 		}
+	}
+
+	private boolean isShadowNeeded( )
+	{
+		return !( series instanceof AreaSeries );
 	}
 
 }
