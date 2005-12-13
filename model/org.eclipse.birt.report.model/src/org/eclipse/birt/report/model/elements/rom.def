@@ -1627,40 +1627,40 @@
     <Property displayNameID="Element.ReportDesign.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
     <Property detailType="DataSourceParamBinding" displayNameID="Element.ReportDesign.dataSourceBindings" name="dataSourceBindings" isList="true" runtimeSettable="false" since="2.0" type="structure"/>
     <Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip">
-		<Argument name="reportContext" tagID="Element.ReportDesign.initialize.reportContext" type="IReportContext"/>
+		<Argument name="reportContext" tagID="Element.ReportDesign.initialize.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
 	    <Argument name="object" tagID="Element.ReportDesign.initialize.object" type="Object"/>
     </Method>  
     <Method context="startup" displayNameID="Element.ReportDesign.beforeFactory" name="beforeFactory" since="1.0" toolTipID="Element.ReportDesign.beforeFactory.toolTip">
-      <Argument name="handle" tagID="Element.ReportDesign.beforeFactory.handle" type="ReportDesignHandle"/>
-      <Argument name="reportContext" tagID="Element.ReportDesign.beforeFactory.reportContext" type="IReportContext"/>
+      <Argument name="handle" tagID="Element.ReportDesign.beforeFactory.handle" type="org.eclipse.birt.report.engine.api.script.element.IReportElement"/>
+      <Argument name="reportContext" tagID="Element.ReportDesign.beforeFactory.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ReportDesign.beforeFactory.object" type="Object"/>
     </Method>
     <Method context="factory" displayNameID="Element.ReportDesign.afterFactory" name="afterFactory" since="1.0" toolTipID="Element.ReportDesign.afterFactory.toolTip">
-      <Argument name="reportContext" tagID="Element.ReportDesign.afterFactory.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.ReportDesign.afterFactory.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ReportDesign.afterFactory.object" type="Object"/>
     </Method>
     <Method context="factory" displayNameID="Element.ReportDesign.beforeOpenDoc" name="beforeOpenDoc" since="2.0" toolTipID="Element.ReportDesign.beforeOpenDoc.toolTip">
-      <Argument name="reportContext" tagID="Element.ReportDesign.beforeOpenDoc.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.ReportDesign.beforeOpenDoc.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ReportDesign.beforeOpenDoc.object" type="Object"/>
     </Method>
     <Method context="factory" displayNameID="Element.ReportDesign.afterOpenDoc" name="afterOpenDoc" since="2.0" toolTipID="Element.ReportDesign.afterOpenDoc.toolTip">
-      <Argument name="reportContext" tagID="Element.ReportDesign.afterOpenDoc.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.ReportDesign.afterOpenDoc.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ReportDesign.afterOpenDoc.object" type="Object"/>
     </Method>
     <Method context="factory" displayNameID="Element.ReportDesign.beforeCloseDoc" name="beforeCloseDoc" since="2.0" toolTipID="Element.ReportDesign.beforeCloseDoc.toolTip">
-      <Argument name="reportContext" tagID="Element.ReportDesign.beforeCloseDoc.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.ReportDesign.beforeCloseDoc.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ReportDesign.beforeCloseDoc.object" type="Object"/>
     </Method>
     <Method context="factory" displayNameID="Element.ReportDesign.afterCloseDoc" name="afterCloseDoc" since="2.0" toolTipID="Element.ReportDesign.afterCloseDoc.toolTip">
-      <Argument name="reportContext" tagID="Element.ReportDesign.afterCloseDoc.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.ReportDesign.afterCloseDoc.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ReportDesign.afterCloseDoc.object" type="Object"/>
     </Method>
     <Method context="presentation" displayNameID="Element.ReportDesign.beforeRender" name="beforeRender" since="1.0" toolTipID="Element.ReportDesign.beforeRender.toolTip">
-      <Argument name="reportContext" tagID="Element.ReportDesign.beforeRender.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.ReportDesign.beforeRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ReportDesign.beforeRender.object" type="Object"/>
     </Method>
     <Method context="presentation" displayNameID="Element.ReportDesign.afterRender" name="afterRender" since="1.0" toolTipID="Element.ReportDesign.afterRender.toolTip">
-      <Argument name="reportContext" tagID="Element.ReportDesign.afterRender.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.ReportDesign.afterRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ReportDesign.afterRender.object" type="Object"/>
     </Method>
     <Property displayNameID="Element.ReportDesign.displayName" name="displayName" runtimeSettable="false" since="2.0" type="string"/>
@@ -1756,20 +1756,20 @@
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.DataSource" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="DataSource" nameSpace="dataSource" since="1.0" xmlName="data-source">
     <Method context="factory" displayNameID="Element.DataSource.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.DataSource.beforeOpen.toolTip" >
-      <Argument name="handle" tagID="Element.DataSource.beforeOpen.handle" type="DataSourceHandle"/>
-      <Argument name="reportContext" tagID="Element.DataSource.beforeOpen.reportContext" type="IReportContext"/>
+      <Argument name="handle" tagID="Element.DataSource.beforeOpen.handle" type="org.eclipse.birt.report.engine.api.script.element.IDataSource"/>
+      <Argument name="reportContext" tagID="Element.DataSource.beforeOpen.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.DataSource.beforeOpen.object" type="Object"/>
 	</Method>		
     <Method context="factory" displayNameID="Element.DataSource.beforeClose" name="beforeClose" since="1.0" toolTipID="Element.DataSource.beforeClose.toolTip" >
-      <Argument name="reportContext" tagID="Element.DataSource.beforeClose.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.DataSource.beforeClose.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.DataSource.beforeClose.object" type="Object"/>
 	</Method>			
     <Method context="factory" displayNameID="Element.DataSource.afterOpen" name="afterOpen" since="1.0" toolTipID="Element.DataSource.afterOpen.toolTip" >
-      <Argument name="reportContext" tagID="Element.DataSource.afterOpen.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.DataSource.afterOpen.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.DataSource.afterOpen.object" type="Object"/>
 	</Method>	
     <Method context="factory" displayNameID="Element.DataSource.afterClose" name="afterClose" since="1.0" toolTipID="Element.DataSource.afterClose.toolTip" >
-      <Argument name="reportContext" tagID="Element.DataSource.afterClose.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.DataSource.afterClose.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.DataSource.afterClose.object" type="Object"/>
 	</Method>		
   </Element>
@@ -1781,35 +1781,35 @@
   </Element>
   <Element canExtend="true" displayNameID="Element.ScriptDataSource" extends="DataSource" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSource" name="ScriptDataSource" since="1.0" xmlName="script-data-source">
     <Method context="factory" displayNameID="Element.ScriptDataSource.open" name="open" since="1.0" toolTipID="Element.ScriptDataSource.open.toolTip" >
-      <Argument name="reportContext" tagID="Element.ScriptDataSet.open.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.ScriptDataSet.open.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ScriptDataSet.open.object" type="Object"/>		
 	</Method>			
     <Method context="factory" displayNameID="Element.ScriptDataSource.close" name="close" since="1.0" toolTipID="Element.ScriptDataSource.close.toolTip" >
-      <Argument name="reportContext" tagID="Element.ScriptDataSet.close.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.ScriptDataSet.close.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ScriptDataSet.close.object" type="Object"/>		
 	</Method>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.DataSet" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="DataSet" nameSpace="dataSet" since="1.0" xmlName="data-set">
     <Method context="factory" displayNameID="Element.DataSet.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.DataSet.beforeOpen.toolTip" >
-      <Argument name="handle" tagID="Element.DataSet.beforeOpen.handle" type="DataSetHandle"/>
-      <Argument name="reportContext" tagID="Element.DataSet.beforeOpen.reportContext" type="IReportContext"/>
+      <Argument name="handle" tagID="Element.DataSet.beforeOpen.handle" type="org.eclipse.birt.report.engine.api.script.element.IDataSet"/>
+      <Argument name="reportContext" tagID="Element.DataSet.beforeOpen.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.DataSet.beforeOpen.object" type="Object"/>
 	</Method>
     <Method context="factory" displayNameID="Element.DataSet.beforeClose" name="beforeClose" since="1.0" toolTipID="Element.DataSet.beforeClose.toolTip" >
-      <Argument name="reportContext" tagID="Element.DataSet.beforeClose.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.DataSet.beforeClose.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.DataSet.beforeClose.object" type="Object"/>
 	</Method>				
     <Method context="factory" displayNameID="Element.DataSet.onFetch" name="onFetch" since="1.0" toolTipID="Element.DataSet.onFetch.toolTip" >
-	  <Argument name="dataRow" tagID="Element.DataSet.onFetch.reportContext" type="DataRow"/>
-      <Argument name="reportContext" tagID="Element.DataSet.onFetch.reportContext" type="IReportContext"/>
+	  <Argument name="dataRow" tagID="Element.DataSet.onFetch.reportContext" type="org.eclipse.birt.report.engine.api.script.IRow"/>
+      <Argument name="reportContext" tagID="Element.DataSet.onFetch.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.DataSet.onFetch.object" type="Object"/>
 	</Method>				  
     <Method context="factory" displayNameID="Element.DataSet.afterOpen" name="afterOpen" since="1.0" toolTipID="Element.DataSet.afterOpen.toolTip" >
-      <Argument name="reportContext" tagID="Element.DataSet.afterOpen.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.DataSet.afterOpen.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.DataSet.afterOpen.object" type="Object"/>
 	</Method>		
     <Method context="factory" displayNameID="Element.DataSet.afterClose" name="afterClose" since="1.0" toolTipID="Element.DataSet.afterClose.toolTip" >
-      <Argument name="reportContext" tagID="Element.DataSet.afterClose.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.DataSet.afterClose.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.DataSet.afterClose.object" type="Object"/>
 	</Method>	 
 	<Property displayNameID="Element.DataSet.cachedRowCount" name="cachedRowCount" since="2.0" type="integer"/>
@@ -1828,19 +1828,19 @@
   </Element>
   <Element canExtend="true" displayNameID="Element.ScriptDataSet" extends="DataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSet" name="ScriptDataSet" since="1.0" xmlName="script-data-set">
     <Method context="factory" displayNameID="Element.ScriptDataSet.open" name="open" since="1.0" toolTipID="Element.ScriptDataSet.open.toolTip" >
-      <Argument name="reportContext" tagID="Element.ScriptDataSet.open.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.ScriptDataSet.open.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ScriptDataSet.open.object" type="Object"/>		
 	</Method>		
     <Method context="factory" displayNameID="Element.ScriptDataSet.describe" name="describe" returnType="ColumnDefn[]" since="reserved" toolTipID="Element.ScriptDataSet.describe.toolTip" >
-      <Argument name="reportContext" tagID="Element.ScriptDataSet.describe.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.ScriptDataSet.describe.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ScriptDataSet.describe.object" type="Object"/>		
 	</Method>		  
     <Method context="factory" displayNameID="Element.ScriptDataSet.fetch" name="fetch" returnType="DataRow" since="1.0" toolTipID="Element.ScriptDataSet.fetch.toolTip" valueRequired="true" >
-      <Argument name="reportContext" tagID="Element.ScriptDataSet.fetch.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.ScriptDataSet.fetch.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ScriptDataSet.fetch.object" type="Object"/>		
 	</Method>		  		
     <Method context="factory" displayNameID="Element.ScriptDataSet.close" name="close" since="1.0" toolTipID="Element.ScriptDataSet.close.toolTip" >
-      <Argument name="reportContext" tagID="Element.ScriptDataSet.close.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.ScriptDataSet.close.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ScriptDataSet.close.object" type="Object"/>		
 	</Method>		  				
   </Element>
@@ -2226,22 +2226,7 @@
       <Property displayNameID="Element.ReportItem.width" name="width" since="1.0" type="dimension" validator="NonNegativeValueValidator" />
     </PropertyGroup>
     <Property detailType="HideRule" displayNameID="Element.ReportItem.visibility" isList="true" name="visibility" runtimeSettable="false" since="reserved" type="structure"/>
-    <Property detailType="ParamBinding" displayNameID="Element.ReportItem.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>               
-	<Method context="startup" displayNameID="Element.ReportItem.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.ReportItem.onPrepare.toolTip">
-      <Argument name="handle" tagID="Element.ReportItem.onPrepare.handle" type="ReportItemHandle"/>
-      <Argument name="reportContext" tagID="Element.ReportItem.onPrepare.reportContext" type="IReportContext"/>
-      <Argument name="object" tagID="Element.ReportItem.onPrepare.object" type="Object"/>
-    </Method>
-    <Method context="factory" displayNameID="Element.ReportItem.onCreate" name="onCreate" since="1.0" toolTipID="Element.ReportItem.onCreate.toolTip">
-      <Argument name="instance" tagID="Element.ReportItem.onCreate.instance" type="ReportItem"/>
-      <Argument name="reportContext" tagID="Element.ReportItem.onCreate.reportContext" type="IReportContext"/>
-      <Argument name="object" tagID="Element.ReportItem.onCreate.object" type="Object"/>
-    </Method>
-    <Method context="presentation" displayNameID="Element.ReportItem.onRender" name="onRender" since="1.0" toolTipID="Element.ReportItem.onRender.toolTip">
-      <Argument name="instance" tagID="Element.ReportItem.onRender.instance" type="ReportItem"/>
-      <Argument name="reportContext" tagID="Element.ReportItem.onRender.reportContext" type="IReportContext"/>
-      <Argument name="object" tagID="Element.ReportItem.onRender.object" type="Object"/>
-    </Method>    
+    <Property detailType="ParamBinding" displayNameID="Element.ReportItem.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>
 	<Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.ReportItem.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="element"/>
     <PropertyVisibility name="x" visibility="hide"/>         
     <PropertyVisibility name="y" visibility="hide"/> 
@@ -2252,6 +2237,21 @@
     <Property displayNameID="Element.Label.textID" name="textID" since="1.0" type="resourceKey"/>
     <Property displayNameID="Element.Label.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.Label.helpTextID" name="helpTextID" since="1.0" type="resourceKey"/>
+    <Method context="startup" displayNameID="Element.Label.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Label.onPrepare.toolTip">
+      <Argument name="handle" tagID="Element.Label.onPrepare.handle" type="org.eclipse.birt.report.engine.api.script.element.ILabel"/>
+      <Argument name="reportContext" tagID="Element.Label.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Label.onPrepare.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.Label.onCreate" name="onCreate" since="1.0" toolTipID="Element.Label.onCreate.toolTip">
+      <Argument name="instance" tagID="Element.Label.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.ILabel"/>
+      <Argument name="reportContext" tagID="Element.Label.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Label.onCreate.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.Label.onRender" name="onRender" since="1.0" toolTipID="Element.Label.onRender.toolTip">
+      <Argument name="instance" tagID="Element.Label.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.ILabel"/>
+      <Argument name="reportContext" tagID="Element.Label.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Label.onRender.object" type="Object"/>
+    </Method>
     <Property detailType="Action" displayNameID="Element.Label.action" isList="false" name="action" runtimeSettable="false" since="1.0" type="structure"/>
     <PropertyVisibility name="dataSet" visibility="hide"/>
     <StyleProperty name="backgroundColor"/>
@@ -2320,12 +2320,42 @@
       <Type name="TemplateReportItem"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
+	<Method context="startup" displayNameID="Element.FreeForm.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.FreeForm.onPrepare.toolTip">
+      <Argument name="handle" tagID="Element.FreeForm.onPrepare.handle" type="org.eclipse.birt.report.engine.api.script.element.IReportItem"/>
+      <Argument name="reportContext" tagID="Element.FreeForm.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.FreeForm.onPrepare.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.FreeForm.onCreate" name="onCreate" since="1.0" toolTipID="Element.FreeForm.onCreate.toolTip">
+      <Argument name="instance" tagID="Element.FreeForm.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IReportItem"/>
+      <Argument name="reportContext" tagID="Element.FreeForm.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.FreeForm.onCreate.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.FreeForm.onRender" name="onRender" since="1.0" toolTipID="Element.FreeForm.onRender.toolTip">
+      <Argument name="instance" tagID="Element.FreeForm.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IReportItem"/>
+      <Argument name="reportContext" tagID="Element.FreeForm.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.FreeForm.onRender.object" type="Object"/>
+    </Method>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Data" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.DataItem" name="Data" selector="number,string,date" since="1.0" xmlName="data">
     <Property context="element" displayNameID="Element.Data.valueExpr" name="valueExpr" returnType="any" since="1.0" type="expression"/>
     <Property displayNameID="Element.Data.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.Data.helpTextID" name="helpTextID" since="1.0" type="resourceKey"/>
     <Property detailType="Action" displayNameID="Element.Data.action" isList="false" name="action" runtimeSettable="false" since="1.0" type="structure"/>
+    <Method context="startup" displayNameID="Element.Data.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Data.onPrepare.toolTip">
+      <Argument name="handle" tagID="Element.Data.onPrepare.handle" type="org.eclipse.birt.report.engine.api.script.element.IDataItem"/>
+      <Argument name="reportContext" tagID="Element.Data.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Data.onPrepare.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.Data.onCreate" name="onCreate" since="1.0" toolTipID="Element.Data.onCreate.toolTip">
+      <Argument name="instance" tagID="Element.Data.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IDataItem"/>
+      <Argument name="reportContext" tagID="Element.Data.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Data.onCreate.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.Data.onRender" name="onRender" since="1.0" toolTipID="Element.Data.onRender.toolTip">
+      <Argument name="instance" tagID="Element.Data.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IDataItem"/>
+      <Argument name="reportContext" tagID="Element.Data.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Data.onRender.object" type="Object"/>
+    </Method>    
     <StyleProperty name="backgroundColor"/>
     <StyleProperty name="backgroundImage"/>
     <StyleProperty name="backgroundRepeat"/>
@@ -2387,6 +2417,21 @@
     <Property detailType="textContentType" displayNameID="Element.Text.contentType" name="contentType" runtimeSettable="false" since="1.0" type="choice">
       <Default>auto</Default>
     </Property>
+    <Method context="startup" displayNameID="Element.Text.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Text.onPrepare.toolTip">
+      <Argument name="handle" tagID="Element.Text.onPrepare.handle" type="org.eclipse.birt.report.engine.api.script.element.ITextItem"/>
+      <Argument name="reportContext" tagID="Element.Text.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Text.onPrepare.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.Text.onCreate" name="onCreate" since="1.0" toolTipID="Element.Text.onCreate.toolTip">
+      <Argument name="instance" tagID="Element.Text.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.ITextItem"/>
+      <Argument name="reportContext" tagID="Element.Text.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Text.onCreate.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.Text.onRender" name="onRender" since="1.0" toolTipID="Element.Text.onRender.toolTip">
+      <Argument name="instance" tagID="Element.Text.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.ITextItem"/>
+      <Argument name="reportContext" tagID="Element.Text.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Text.onRender.object" type="Object"/>
+    </Method>    
     <StyleProperty name="backgroundAttachment"/>
     <StyleProperty name="backgroundImage"/>
     <StyleProperty name="backgroundPositionX"/>
@@ -2462,18 +2507,18 @@
     </Property>
     <Property displayNameID="Element.ListingGroup.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
     <Method context="startup" displayNameID="Element.ListingGroup.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.ListingGroup.onPrepare.toolTip">
-      <Argument name="handle" tagID="Element.ListingGroup.onPrepare.handle" type="ListingGroupHandle"/>
-      <Argument name="reportContext" tagID="Element.ListingGroup.onPrepare.reportContext" type="IReportContext"/>
+      <Argument name="handle" tagID="Element.ListingGroup.onPrepare.handle" type="IListingGroup"/>
+      <Argument name="reportContext" tagID="Element.ListingGroup.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ListingGroup.onPrepare.object" type="Object"/>
     </Method>
     <Method context="factory" displayNameID="Element.ListingGroup.onCreate" name="onCreate" since="1.0" toolTipID="Element.ListingGroup.onCreate.toolTip">
-      <Argument name="instance" tagID="Element.ListingGroup.onCreate.instance" type="ListingGroup"/>
-      <Argument name="reportContext" tagID="Element.ListingGroup.onCreate.reportContext" type="IReportContext"/>
+      <Argument name="instance" tagID="Element.ListingGroup.onCreate.instance" type="IListingGroup"/>
+      <Argument name="reportContext" tagID="Element.ListingGroup.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ListingGroup.onCreate.object" type="Object"/>
     </Method>
     <Method context="presentation" displayNameID="Element.ListingGroup.onRender" name="onRender" since="1.0" toolTipID="Element.ListingGroup.onRender.toolTip">
-      <Argument name="instance" tagID="Element.ListingGroup.onRender.instance" type="ListingGroup"/>
-      <Argument name="reportContext" tagID="Element.ListingGroup.onRender.reportContext" type="IReportContext"/>
+      <Argument name="instance" tagID="Element.ListingGroup.onRender.instance" type="IListGroup"/>
+      <Argument name="reportContext" tagID="Element.ListingGroup.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ListingGroup.onRender.object" type="Object"/>
     </Method>
   </Element>
@@ -2482,7 +2527,7 @@
     <Property detailType="FilterCondition" displayNameID="Element.Listing.filter" isList="true" name="filter" runtimeSettable="false" since="1.0" type="structure"/>
     <Property displayNameID="Element.Listing.pageBreakInterval" name="pageBreakInterval" runtimeSettable="false" since="2.0" type="string">
       <Default>50</Default>
-    </Property>
+    </Property>  
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.List" extends="Listing" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ListItem" name="List" selector="list" since="1.0" xmlName="list">
     <Slot displayNameID="Element.List.slot.header" multipleCardinality="true" name="header" selector="list-header" since="1.0" xmlName="header">
@@ -2531,6 +2576,21 @@
       <Type name="TemplateReportItem"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
+    <Method context="startup" displayNameID="Element.List.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.List.onPrepare.toolTip">
+      <Argument name="handle" tagID="Element.List.onPrepare.handle" type="org.eclipse.birt.report.engine.api.script.element.IList"/>
+      <Argument name="reportContext" tagID="Element.List.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.List.onPrepare.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.List.onCreate" name="onCreate" since="1.0" toolTipID="Element.List.onCreate.toolTip">
+      <Argument name="instance" tagID="Element.List.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IList"/>
+      <Argument name="reportContext" tagID="Element.List.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.List.onCreate.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.List.onRender" name="onRender" since="1.0" toolTipID="Element.List.onRender.toolTip">
+      <Argument name="instance" tagID="Element.List.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IList"/>
+      <Argument name="reportContext" tagID="Element.List.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.List.onRender.object" type="Object"/>
+    </Method>  
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.ListGroup" extends="ListingGroup" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.ListGroup" name="ListGroup" nameSpace="none" since="1.0" xmlName="group">
     <Slot displayNameID="Element.ListGroup.slot.header" multipleCardinality="true" name="header" selector="list-group-header" since="1.0" xmlName="header">
@@ -2589,6 +2649,21 @@
       <Type name="Column"/>
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
+    <Method context="startup" displayNameID="Element.Table.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Table.onPrepare.toolTip">
+      <Argument name="handle" tagID="Element.Table.onPrepare.handle" type="org.eclipse.birt.report.engine.api.script.element.ITable"/>
+      <Argument name="reportContext" tagID="Element.Table.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Table.onPrepare.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.Table.onCreate" name="onCreate" since="1.0" toolTipID="Element.Table.onCreate.toolTip">
+      <Argument name="instance" tagID="Element.Table.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.ITable"/>
+      <Argument name="reportContext" tagID="Element.Table.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Table.onCreate.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.Table.onRender" name="onRender" since="1.0" toolTipID="Element.Table.onRender.toolTip">
+      <Argument name="instance" tagID="Element.Table.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.ITable"/>
+      <Argument name="reportContext" tagID="Element.Table.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Table.onRender.object" type="Object"/>
+    </Method>    
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.TableGroup" extends="ListingGroup" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableGroup" name="TableGroup" nameSpace="none" since="1.0" xmlName="group">
     <Slot displayNameID="Element.TableGroup.slot.header" multipleCardinality="true" name="header" selector="table-group-header" since="1.0" xmlName="header">
@@ -2659,19 +2734,19 @@
     <Property displayNameID="Element.Row.bookmark" name="bookmark" returnType="string" since="reserved" type="expression"/>    
     <Property displayNameID="Element.Row.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
     <Method context="startup" displayNameID="Element.Row.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Row.onPrepare.toolTip">
-      <Argument name="handle" tagID="Element.Row.onPrepare.handle" type="RowHandle"/>
-      <Argument name="reportContext" tagID="Element.Row.onPrepare.reportContext" type="IReportContext"/>
+      <Argument name="handle" tagID="Element.Row.onPrepare.handle" type="org.eclipse.birt.report.engine.api.script.element.IRow"/>
+      <Argument name="reportContext" tagID="Element.Row.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Row.onPrepare.object" type="Object"/>
     </Method>
     <Method context="factory" displayNameID="Element.Row.onCreate" name="onCreate" since="1.0" toolTipID="Element.Row.onCreate.toolTip">
-      <Argument name="instance" tagID="Element.Row.onCreate.instance" type="Row"/>
+      <Argument name="instance" tagID="Element.Row.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IRow"/>
       <Argument name="dataRow" tagID="Element.Row.onCreate.dataRow" type="DataRow"/>
-      <Argument name="reportContext" tagID="Element.Row.onCreate.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.Row.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Row.onCreate.object" type="Object"/>
     </Method>
     <Method context="presentation" displayNameID="Element.Row.onRender" name="onRender" since="1.0" toolTipID="Element.Row.onRender.toolTip">
-      <Argument name="instance" tagID="Element.Row.onRender.instance" type="Row"/>
-      <Argument name="reportContext" tagID="Element.Row.onRender.reportContext" type="IReportContext"/>
+      <Argument name="instance" tagID="Element.Row.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IRow"/>
+      <Argument name="reportContext" tagID="Element.Row.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Row.onRender.object" type="Object"/>
     </Method>
     <PropertyVisibility name="bookmark" visibility="hide"/>      
@@ -2714,19 +2789,19 @@
     <Property displayNameID="Element.Cell.width" name="width" runtimeSettable="false" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
     <Property displayNameID="Element.Cell.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
     <Method context="startup" displayNameID="Element.Cell.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Cell.onPrepare.toolTip">
-      <Argument name="handle" tagID="Element.Cell.onPrepare.handle" type="CellHandle"/>
-      <Argument name="reportContext" tagID="Element.Cell.onPrepare.reportContext" type="IReportContext"/>
+      <Argument name="handle" tagID="Element.Cell.onPrepare.handle" type="org.eclipse.birt.report.engine.api.script.element.ICell"/>
+      <Argument name="reportContext" tagID="Element.Cell.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Cell.onPrepare.object" type="Object"/>
     </Method>
     <Method context="factory" displayNameID="Element.Cell.onCreate" name="onCreate" since="1.0" toolTipID="Element.Cell.onCreate.toolTip">
-      <Argument name="instance" tagID="Element.Cell.onCreate.instance" type="Cell"/>
+      <Argument name="instance" tagID="Element.Cell.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.ICell"/>
       <Argument name="dataRow" tagID="Element.Cell.onCreate.dataRow" type="DataRow"/>
-      <Argument name="reportContext" tagID="Element.Cell.onCreate.reportContext" type="IReportContext"/>
+      <Argument name="reportContext" tagID="Element.Cell.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Cell.onCreate.object" type="Object"/>
     </Method>
     <Method context="presentation" displayNameID="Element.Cell.onRender" name="onRender" since="1.0" toolTipID="Element.Cell.onRender.toolTip">
-      <Argument name="instance" tagID="Element.Cell.onRender.instance" type="Cell"/>
-      <Argument name="reportContext" tagID="Element.Cell.onRender.reportContext" type="IReportContext"/>
+      <Argument name="instance" tagID="Element.Cell.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.ICell"/>
+      <Argument name="reportContext" tagID="Element.Cell.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Cell.onRender.object" type="Object"/>
     </Method>
     <PropertyVisibility name="column" visibility="hide"/>        
@@ -2767,6 +2842,21 @@
     <Property displayNameID="Element.Image.valueExpr" name="valueExpr" returnType="blob" since="2.0" type="expression"/>
     <Property displayNameID="Element.Image.typeExpr" name="typeExpr" returnType="string" runtimeSettable="false" since="2.0" type="expression"/>
     <Property detailType="Action" displayNameID="Element.Image.action" isList="false" name="action" runtimeSettable="false" since="1.0" type="structure"/>
+	<Method context="startup" displayNameID="Element.Image.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Image.onPrepare.toolTip">
+      <Argument name="handle" tagID="Element.Image.onPrepare.handle" type="org.eclipse.birt.report.engine.api.script.element.IImage"/>
+      <Argument name="reportContext" tagID="Element.Image.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Image.onPrepare.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.Image.onCreate" name="onCreate" since="1.0" toolTipID="Element.Image.onCreate.toolTip">
+      <Argument name="instance" tagID="Element.Image.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IImage"/>
+      <Argument name="reportContext" tagID="Element.Image.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Image.onCreate.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.Image.onRender" name="onRender" since="1.0" toolTipID="Element.Image.onRender.toolTip">
+      <Argument name="instance" tagID="Element.Image.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IImage"/>
+      <Argument name="reportContext" tagID="Element.Image.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Image.onRender.object" type="Object"/>
+    </Method>    
     <StyleProperty name="backgroundColor"/>
     <StyleProperty name="borderTopWidth"/>
     <StyleProperty name="borderTopStyle"/>
@@ -2814,6 +2904,21 @@
       <Type name="Row"/>
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
+	<Method context="startup" displayNameID="Element.Grid.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Grid.onPrepare.toolTip">
+      <Argument name="handle" tagID="Element.Grid.onPrepare.handle" type="org.eclipse.birt.report.engine.api.script.element.IGrid"/>
+      <Argument name="reportContext" tagID="Element.Grid.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Grid.onPrepare.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.Grid.onCreate" name="onCreate" since="1.0" toolTipID="Element.Grid.onCreate.toolTip">
+      <Argument name="instance" tagID="Element.Grid.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IGrid"/>
+      <Argument name="reportContext" tagID="Element.Grid.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Grid.onCreate.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.Grid.onRender" name="onRender" since="1.0" toolTipID="Element.Grid.onRender.toolTip">
+      <Argument name="instance" tagID="Element.Grid.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IGrid"/>
+      <Argument name="reportContext" tagID="Element.Grid.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Grid.onRender.object" type="Object"/>
+    </Method>    
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Line" extends="ReportItem" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.LineItem" name="Line" since="reserved" selector="line">
     <Property detailType="lineOrientation" displayNameID="Element.Line.orientation" name="orientation" since="reserved" type="choice">
@@ -2837,6 +2942,21 @@
     <StyleProperty name="borderRightStyle"/>
     <StyleProperty name="borderRightColor"/>
     <StyleProperty name="display"/>
+    <Method context="startup" displayNameID="Element.Line.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Line.onPrepare.toolTip">
+      <Argument name="handle" tagID="Element.Line.onPrepare.handle" type="org.eclipse.birt.report.engine.api.script.element.IReportItem"/>
+      <Argument name="reportContext" tagID="Element.Line.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Line.onPrepare.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.Line.onCreate" name="onCreate" since="1.0" toolTipID="Element.Line.onCreate.toolTip">
+      <Argument name="instance" tagID="Element.Line.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IReportItem"/>
+      <Argument name="reportContext" tagID="Element.Line.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Line.onCreate.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.Line.onRender" name="onRender" since="1.0" toolTipID="Element.Line.onRender.toolTip">
+      <Argument name="instance" tagID="Element.Line.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IReportItem"/>
+      <Argument name="reportContext" tagID="Element.Line.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Line.onRender.object" type="Object"/>
+    </Method>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Rectangle" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.RectangleItem" name="Rectangle" since="reserved" selector="rectangle">
     <StyleProperty name="paddingTop"/>
@@ -2857,10 +2977,40 @@
     <StyleProperty name="borderRightStyle"/>
     <StyleProperty name="borderRightColor"/>
     <StyleProperty name="display"/>
+    <Method context="startup" displayNameID="Element.Rectangle.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Rectangle.onPrepare.toolTip">
+      <Argument name="handle" tagID="Element.Rectangle.onPrepare.handle" type="org.eclipse.birt.report.engine.api.script.element.IReportItem"/>
+      <Argument name="reportContext" tagID="Element.Rectangle.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Rectangle.onPrepare.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.Rectangle.onCreate" name="onCreate" since="1.0" toolTipID="Element.Rectangle.onCreate.toolTip">
+      <Argument name="instance" tagID="Element.Rectangle.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IReportItem"/>
+      <Argument name="reportContext" tagID="Element.Rectangle.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Rectangle.onCreate.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.Rectangle.onRender" name="onRender" since="1.0" toolTipID="Element.Rectangle.onRender.toolTip">
+      <Argument name="instance" tagID="Element.Rectangle.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IReportItem"/>
+      <Argument name="reportContext" tagID="Element.Rectangle.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.Rectangle.onRender.object" type="Object"/>
+    </Method>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.TextData" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.TextDataItem" name="TextData" since="1.0" selector="text-data">
     <Property displayNameID="Element.TextData.valueExpr" name="valueExpr" returnType="string" since="1.0" type="expression" valueRequired="true"/>
     <Property detailType="textDataContentType" displayNameID="Element.TextData.contentType" name="contentType" since="1.0" type="choice"/>
+	<Method context="startup" displayNameID="Element.TextData.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.TextData.onPrepare.toolTip">
+      <Argument name="handle" tagID="Element.TextData.onPrepare.handle" type="org.eclipse.birt.report.engine.api.script.element.ITextData"/>
+      <Argument name="reportContext" tagID="Element.TextData.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.TextData.onPrepare.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.TextData.onCreate" name="onCreate" since="1.0" toolTipID="Element.TextData.onCreate.toolTip">
+      <Argument name="instance" tagID="Element.TextData.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.ITextData"/>
+      <Argument name="reportContext" tagID="Element.TextData.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.TextData.onCreate.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.TextData.onRender" name="onRender" since="1.0" toolTipID="Element.TextData.onRender.toolTip">
+      <Argument name="instance" tagID="Element.TextData.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.ITextData"/>
+      <Argument name="reportContext" tagID="Element.TextData.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.TextData.onRender.object" type="Object"/>
+    </Method>    
     <StyleProperty name="backgroundAttachment"/>
     <StyleProperty name="backgroundImage"/>
     <StyleProperty name="backgroundPositionX"/>
@@ -2917,6 +3067,21 @@
 	</Property>
     <Property detailType="FilterCondition" displayNameID="Element.ExtendedItem.filter" isList="true" name="filter" runtimeSettable="false" since="2.0" type="structure"/>	  
 	<PropertyVisibility name="extensionName" visibility="hide"/>
+	<Method context="startup" displayNameID="Element.ExtendedItem.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.ExtendedItem.onPrepare.toolTip">
+      <Argument name="handle" tagID="Element.ExtendedItem.onPrepare.handle" type="org.eclipse.birt.report.engine.api.script.element.IReportItem"/>
+      <Argument name="reportContext" tagID="Element.ExtendedItem.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.ExtendedItem.onPrepare.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.ExtendedItem.onCreate" name="onCreate" since="1.0" toolTipID="Element.ExtendedItem.onCreate.toolTip">
+      <Argument name="instance" tagID="Element.ExtendedItem.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IReportItem"/>
+      <Argument name="reportContext" tagID="Element.ExtendedItem.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.ExtendedItem.onCreate.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.ExtendedItem.onRender" name="onRender" since="1.0" toolTipID="Element.ExtendedItem.onRender.toolTip">
+      <Argument name="instance" tagID="Element.ExtendedItem.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IReportItem"/>
+      <Argument name="reportContext" tagID="Element.ExtendedItem.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.ExtendedItem.onRender.object" type="Object"/>
+    </Method>
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Theme" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.Theme" name="Theme" nameSpace="theme" since="2.0" xmlName="theme">
     <Slot displayNameID="Element.Theme.slot.styles" isManagedByNameSpace="false" multipleCardinality="true" name="styles" since="2.0" xmlName="styles">
