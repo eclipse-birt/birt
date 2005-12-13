@@ -86,7 +86,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.56 $ $Date: 2005/12/12 08:44:22 $
+ * @version $Revision: 1.57 $ $Date: 2005/12/12 08:48:31 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -749,11 +749,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		String bookmark = table.getBookmark( );
 		if ( bookmark == null )
 		{
-			bookmark = generateUniqueID( );
+			bookmark = generateUniqueID(  );
 		}
 		setBookmark( null, bookmark );
 
-		exportElementID( table, bookmark );
+		exportElementID( table, bookmark, "TABLE" );
 		// Instance ID
 		InstanceID iid = table.getInstanceID( );
 		if ( iid != null )
@@ -1055,13 +1055,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// bookmark
 		String bookmark = container.getBookmark( );
+		
 		if( bookmark == null )
 		{
 			bookmark = generateUniqueID( );
 		}
 		
+		
 		setBookmark( tagName, bookmark );
-		exportElementID( container, bookmark );
+		exportElementID( container, bookmark, "LIST" );
 		
 		// output style
 		// if ( x == null && y == null )
@@ -1326,7 +1328,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				bookmark = generateUniqueID( );
 			}
 			setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
-			exportElementID( image, bookmark );
+			exportElementID( image, bookmark, "EXTENDED");
 
 			String ext = image.getExtension( );
 			// FIXME special process, such as encoding etc
@@ -1916,7 +1918,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		return sb.toString( );
 	}
 	
-	protected void exportElementID( IContent content, String bookmark )
+	protected void exportElementID( IContent content, String bookmark, String type )
 	{
 		Object generateBy = content.getGenerateBy(); 
 		if( generateBy instanceof TableItemDesign
@@ -1927,7 +1929,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				List htmlIds = ((HTMLRenderOption)renderOption).getInstanceIDs( );
 				if( htmlIds != null && bookmark != null )
 				{
-					htmlIds.add( bookmark );
+					assert type != null;
+					String newBookmark = bookmark + "," + type;
+					htmlIds.add( newBookmark  );
 				}
 			}
 		}
@@ -1939,6 +1943,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			random = new Random( );
 		}
-		return "AUTOGEN_BOOKMARK_" + random.nextLong( );
+		String randLong = "" + random.nextLong();
+		randLong = randLong.replaceAll("-", "");
+		
+		return "AUTOGENBOOKMARK_" + randLong;
 	}
 }
