@@ -37,11 +37,11 @@
          <newDataSetWizard class="org.eclipse.birt.report.data.oda.xml.ui.wizards.XmlDataSetWizard"/>
          <dataSetEditorPage
                   class="org.eclipse.birt.report.data.oda.xml.ui.wizards.XmlDataSetSelectionPage"
-                  displayName="Xml DataSet"
+                  displayName="XML DataSet"
                   name="selectColumns"/>
          <dataSetEditorPage
                   class="org.eclipse.birt.report.data.oda.xml.ui.wizards.XPathChoosePage"
-                  displayName="XPath"
+                  displayName="Table Mapping"
                   name="selectColumns"/>
         <dataSetEditorPage
                   class="org.eclipse.birt.report.data.oda.xml.ui.wizards.ColumnMappingPage"
