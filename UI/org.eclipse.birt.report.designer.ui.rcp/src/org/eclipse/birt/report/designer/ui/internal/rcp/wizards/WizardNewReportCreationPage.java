@@ -131,10 +131,10 @@ public class WizardNewReportCreationPage extends WizardPage
 
 		IPath path;
 
-		if ( !getFileName( ).endsWith( IReportEditorInput.FILE_EXTENTION ) )
+		if ( !getFileName( ).endsWith( IReportEditorInput.DESIGN_FILE_EXTENTION ) )
 		{
 			path = getFileLocationFullPath( ).append( getFileName( )
-					+ IReportEditorInput.FILE_EXTENTION ); 
+					+ IReportEditorInput.DESIGN_FILE_EXTENTION ); 
 		}
 		else
 		{

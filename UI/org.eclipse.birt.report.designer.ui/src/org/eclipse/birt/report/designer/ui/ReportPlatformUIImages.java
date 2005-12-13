@@ -113,6 +113,12 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_NEW_REPORT, ICONS_PATH
 				+ OBJ16_PATH + "new_report.gif" ); //$NON-NLS-1$
 
+		declareImage( IReportGraphicConstants.ICON_NEW_LIBRARY, ICONS_PATH
+				+ OBJ16_PATH + "new_library.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_NEW_TEMPLATE, ICONS_PATH
+				+ OBJ16_PATH + "new_template.gif" ); //$NON-NLS-1$
+
 		declareImage( IReportGraphicConstants.ICON_REPORT_FILE, ICONS_PATH
 				+ EVIEW16_PATH + "report.gif" ); //$NON-NLS-1$
 

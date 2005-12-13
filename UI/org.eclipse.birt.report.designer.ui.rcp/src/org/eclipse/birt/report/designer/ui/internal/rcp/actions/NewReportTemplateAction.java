@@ -64,6 +64,6 @@ public class NewReportTemplateAction extends Action implements IWorkbenchAction
 	}
 	
 	public ImageDescriptor getImageDescriptor( ){
-		return ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_NEW_REPORT );
+		return ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_NEW_TEMPLATE );
 	}
 }

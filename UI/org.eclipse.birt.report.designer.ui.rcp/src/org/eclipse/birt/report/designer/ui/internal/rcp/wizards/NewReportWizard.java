@@ -304,7 +304,7 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 
 					// open the editor on the file
 					page.openEditor( new ReportEditorInput( file ),
-							ReportEditorInput.EDITOR_ID,
+							ReportEditorInput.REPORT_EDITOR_ID,
 							true );
 
 					if ( showCheatSheet && !cheatSheetId.equals( "" ) ) //$NON-NLS-1$

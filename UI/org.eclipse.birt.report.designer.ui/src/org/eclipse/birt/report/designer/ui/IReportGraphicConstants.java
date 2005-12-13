@@ -25,6 +25,10 @@ public interface IReportGraphicConstants
 
 	// common icons
 	public final static String ICON_NEW_REPORT = "New report"; //$NON-NLS-1$
+	
+	public final static String ICON_NEW_TEMPLATE = "New template"; //$NON-NLS-1$
+	
+	public final static String ICON_NEW_LIBRARY = "New library"; //$NON-NLS-1$
 
 	public final static String ICON_REPORT_FILE = "Report"; //$NON-NLS-1$
 

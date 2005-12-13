@@ -262,7 +262,7 @@ public class NewReportTemplateWizard extends Wizard implements INewWizard, IExec
 
 					// open the editor on the file
 					page.openEditor( new ReportEditorInput( file ),
-							ReportEditorInput.EDITOR_ID,
+							ReportEditorInput.TEMPLATE_EDITOR_ID,
 							true );
 
 				}

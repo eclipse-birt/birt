@@ -221,9 +221,9 @@ public class SaveAsDialog extends TitleAreaDialog
 		// If the user does not supply a file extension and if the save
 		// as dialog was provided a default file name append the extension
 		// of the default filename to the new name
-		if ( !path.toOSString( ).endsWith( IReportEditorInput.FILE_EXTENTION ) )
+		if ( !path.toOSString( ).endsWith( IReportEditorInput.DESIGN_FILE_EXTENTION ) )
 		{
-			path.addFileExtension( IReportEditorInput.FILE_EXTENTION );
+			path.addFileExtension( IReportEditorInput.DESIGN_FILE_EXTENTION );
 		}
 
 		// If the path already exists then confirm overwrite.
