@@ -67,7 +67,7 @@
 	<!-- ===== Default value for public properties ============= -->
 	<property name="utest.report.dir" location="utestreports" />
 	<property name="javadoc.dir" location="docs/api" />
-	<property name="plugin.version" value="1.0.1" />
+	<property name="plugin.version" value="2.0.0" />
 	<property name="export.dir" location="export" />
 
 	<property name="eclipse.home" location="." />
@@ -85,6 +85,8 @@
 	<property name="designerui.dir" value="../org.eclipse.birt.report.designer.ui" />
 	<property name="engine.dir" value="../org.eclipse.birt.report.engine" />
 	<property name="engine.javadoc.dir" value="engine/api" />
+	<property name="engine.script.dir" value="../org.eclipse.birt.report.engine.script" />
+	<property name="engine.script.javadoc.dir" value="enginescript/api" />
 	<property name="model.dir" value="../org.eclipse.birt.report.model" />
 	<property name="model.javadoc.dir" value="model/api" />
 	<property name="oda.dir" value="../org.eclipse.birt.data.oda" />
