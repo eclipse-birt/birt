@@ -47,7 +47,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.21 $ $Date: 2005/12/08 06:53:50 $
+ * @version $Revision: 1.22 $ $Date: 2005/12/08 13:49:36 $
  */
 public abstract class ReportItemExecutor
 {
@@ -73,10 +73,6 @@ public abstract class ReportItemExecutor
 	 */
 	protected IReportItemVisitor visitor;
 
-	/**
-	 * toc builder used to build the TOC of IReportContent
-	 */
-	protected TOCBuilder tocBuilder;
 
 	/**
 	 * construct a report item executor by giving execution context and report
@@ -94,7 +90,6 @@ public abstract class ReportItemExecutor
 		this.context = context;
 		this.visitor = visitor;
 		this.report = context.getReportContent( );
-		this.tocBuilder = context.getTOCBuilder( );
 	}
 
 	/**
@@ -289,6 +284,7 @@ public abstract class ReportItemExecutor
 	 */
 	protected void startTOCEntry( IContent content )
 	{
+		TOCBuilder tocBuilder = context.getTOCBuilder();
 		if ( tocBuilder != null )
 		{
 			if ( content != null )
@@ -318,6 +314,7 @@ public abstract class ReportItemExecutor
 	 */
 	protected void finishTOCEntry( )
 	{
+		TOCBuilder tocBuilder = context.getTOCBuilder();
 		if ( tocBuilder != null )
 		{
 			tocBuilder.closeEntry( );
@@ -326,6 +323,7 @@ public abstract class ReportItemExecutor
 
 	protected void startGroupTOCEntry( )
 	{
+		TOCBuilder tocBuilder = context.getTOCBuilder();
 		if ( tocBuilder != null )
 		{
 			tocBuilder.startGroupEntry( );
@@ -334,6 +332,7 @@ public abstract class ReportItemExecutor
 
 	protected void finishGroupTOCEntry( )
 	{
+		TOCBuilder tocBuilder = context.getTOCBuilder();
 		if ( tocBuilder != null )
 		{
 			tocBuilder.closeGroupEntry( );
