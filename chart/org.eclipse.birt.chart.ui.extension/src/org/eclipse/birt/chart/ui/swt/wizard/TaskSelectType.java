@@ -410,8 +410,7 @@ public class TaskSelectType extends SimpleTask
 			IChartSubType subType = (IChartSubType) vSubTypes.get( iC );
 			vSubTypeNames.add( subType.getName( ) );
 			Button btnType = new Button( cmpTypeButtons, SWT.TOGGLE );
-			btnType.setText( subType.getName( ) );
-			btnType.setData( subType.getDescription( ) );
+			btnType.setData( subType.getName( ) );
 			btnType.setImage( subType.getImage( ) );
 			btnType.setLayoutData( rowData );
 			btnType.addSelectionListener( this );
@@ -580,7 +579,7 @@ public class TaskSelectType extends SimpleTask
 		{
 			( (Query) dds.get( i ) ).setDefinition( "" ); //$NON-NLS-1$
 		}
-		sdOverlay.getSeriesPalette( ).update( 1 );
+		sdOverlay.getSeriesPalette( ).update( -1 );
 
 		// Update the chart model with the new Axis
 		( (Axis) ( (ChartWithAxes) chartModel ).getAxes( ).get( 0 ) ).getAssociatedAxes( )
@@ -675,7 +674,7 @@ public class TaskSelectType extends SimpleTask
 				if ( btn.getSelection( ) )
 				{
 					if ( this.sSubType != null
-							&& !btn.getText( ).equals( sSubType ) )
+							&& !getSubtypeFromButton( btn ).equals( sSubType ) )
 					{
 						int iTypeIndex = vSubTypeNames.indexOf( sSubType );
 						if ( iTypeIndex >= 0 )
@@ -684,12 +683,12 @@ public class TaskSelectType extends SimpleTask
 							cmpTypeButtons.redraw( );
 						}
 					}
-					sSubType = btn.getText( );
+					sSubType = getSubtypeFromButton( btn );
 				}
 				else
 				{
 					if ( this.sSubType != null
-							&& btn.getText( ).equals( sSubType ) )
+							&& getSubtypeFromButton( btn ).equals( sSubType ) )
 					{
 						// Clicking on the same button should not cause it to be
 						// unselected
@@ -794,12 +793,7 @@ public class TaskSelectType extends SimpleTask
 					.get( 0 );
 			int iSeriesDefinitionIndex = 0 + ( (Axis) XAxis.getAssociatedAxes( )
 					.get( 0 ) ).getSeriesDefinitions( ).size( ); // SINCE
-			// THIS IS
-			// FOR THE
-			// ORTHOGONAL
-			// OVERLAY
-			// SERIES
-			// DEFINITION
+			// THIS IS FOR THE ORTHOGONAL OVERLAY SERIES DEFINITION
 			int iOverlaySeriesCount = ( (Axis) XAxis.getAssociatedAxes( )
 					.get( 1 ) ).getSeriesDefinitions( ).size( );
 			// DISABLE NOTIFICATIONS WHILE MODEL UPDATE TAKES PLACE
@@ -934,7 +928,7 @@ public class TaskSelectType extends SimpleTask
 		if ( sSubType == null )
 		{
 			( (Button) cmpTypeButtons.getChildren( )[0] ).setSelection( true );
-			sSubType = ( (Button) cmpTypeButtons.getChildren( )[0] ).getText( );
+			sSubType = getSubtypeFromButton( cmpTypeButtons.getChildren( )[0] );
 		}
 		else
 		{
@@ -942,7 +936,7 @@ public class TaskSelectType extends SimpleTask
 			boolean bSelected = false;
 			for ( int iB = 0; iB < buttons.length; iB++ )
 			{
-				if ( ( (Button) buttons[iB] ).getText( ).equals( sSubType ) )
+				if ( getSubtypeFromButton( buttons[iB] ).equals( sSubType ) )
 				{
 					( (Button) buttons[iB] ).setSelection( true );
 					bSelected = true;
@@ -953,7 +947,7 @@ public class TaskSelectType extends SimpleTask
 			if ( !bSelected )
 			{
 				( (Button) cmpTypeButtons.getChildren( )[0] ).setSelection( true );
-				sSubType = ( (Button) cmpTypeButtons.getChildren( )[0] ).getText( );
+				sSubType = getSubtypeFromButton( cmpTypeButtons.getChildren( )[0] );
 			}
 		}
 		cmpTypeButtons.redraw( );
@@ -1184,6 +1178,11 @@ public class TaskSelectType extends SimpleTask
 		{
 			previewPainter.renderModel( chartModel );
 		}
+	}
+
+	private String getSubtypeFromButton( Control button )
+	{
+		return (String) button.getData( );
 	}
 
 }
