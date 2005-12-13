@@ -28,6 +28,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.CustomPreviewTable;
@@ -326,6 +327,8 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI, Listener
 	public void handleEvent( Event event )
 	{
 		// Copy the group query to all
+		ChartAdapter.ignoreNotifications( true );
 		ChartUIUtil.setAllGroupingQuery( getChartModel( ), event.text );
+		ChartAdapter.ignoreNotifications( false );
 	}
 }

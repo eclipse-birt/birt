@@ -77,4 +77,10 @@ public interface IDataServiceProvider
 	public Object[] getDataForColumns( String[] sExpressions, int iMaxRecords,
 			boolean byRow ) throws ChartException;
 
+	/**
+	 * Disposes all resources.
+	 * 
+	 */
+	public void dispose( );
+
 }

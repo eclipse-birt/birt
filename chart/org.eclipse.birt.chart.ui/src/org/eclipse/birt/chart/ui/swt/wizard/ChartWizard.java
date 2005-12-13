@@ -29,7 +29,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 
 /**
- * @author Actuate Corporation
+ * Chart builder for BIRT designer.
  * 
  */
 public class ChartWizard extends WizardBase
@@ -37,13 +37,13 @@ public class ChartWizard extends WizardBase
 
 	public static final String WIZARD_ID = "org.eclipse.birt.chart.ui.ChartWizard"; //$NON-NLS-1$
 
-	private static final double DEFAULT_CHART_HEIGHT = 130;// 250;
+	private static final double DEFAULT_CHART_HEIGHT = 130;
 
-	private static final double DEFAULT_CHART_WIDTH = 212;// 400;
+	private static final double DEFAULT_CHART_WIDTH = 212;
 
-	private static final double DEFAULT_CHART_WITHOUT_AXIS_HEIGHT = 130;// 250;
+	private static final double DEFAULT_CHART_WITHOUT_AXIS_HEIGHT = 130;
 
-	private static final double DEFAULT_CHART_WITHOUT_AXIS_WIDTH = 212;// 280;
+	private static final double DEFAULT_CHART_WITHOUT_AXIS_WIDTH = 212;
 
 	private ChartAdapter adapter = null;
 
@@ -114,9 +114,11 @@ public class ChartWizard extends WizardBase
 
 	public void widgetDisposed( DisposeEvent e )
 	{
-		super.widgetDisposed( e );
-		if ( context != null )
+		if ( getContext( ) != null )
 		{
+			// Dispose IDataServiceProvider
+			getContext( ).getDataServiceProvider( ).dispose( );
+
 			Chart chart = getContext( ).getModel( );
 			if ( chart != null )
 			{
@@ -130,6 +132,7 @@ public class ChartWizard extends WizardBase
 				removeAllAdapters( chart );
 			}
 		}
+		super.widgetDisposed( e );
 	}
 
 	public EContentAdapter getAdapter( )

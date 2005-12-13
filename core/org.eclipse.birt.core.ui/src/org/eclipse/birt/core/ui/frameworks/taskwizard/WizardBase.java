@@ -370,8 +370,6 @@ public class WizardBase
 		{
 			shellPopup = new Shell( shell, SWT.DIALOG_TRIM | SWT.RESIZE );
 			shellPopup.setLayout( new FillLayout( ) );
-			shellPopup.setLocation( ( shell.getLocation( ).x + shell.getSize( ).x ),
-					( shell.getLocation( ).y + 20 ) );
 		}
 		return shellPopup;
 	}
@@ -393,6 +391,7 @@ public class WizardBase
 		{
 			shellPopup.pack( );
 		}
+		setPopupLocation( );
 		shellPopup.open( );
 	}
 
@@ -619,8 +618,9 @@ public class WizardBase
 			}
 			else if ( sCmd.equals( Messages.getString( "WizardBase.Cancel" ) ) ) //$NON-NLS-1$
 			{
-				context = null;
+				// Ensure context is not null to dispose
 				shell.dispose( );
+				context = null;
 			}
 			else
 			{
@@ -664,6 +664,25 @@ public class WizardBase
 	{
 	}
 
+	private void setPopupLocation( )
+	{
+		if ( shellPopup != null && !shellPopup.isDisposed( ) )
+		{
+			int x = 0;
+			if ( shell.getLocation( ).x
+					+ shell.getSize( ).x + shellPopup.getSize( ).x > display.getClientArea( ).width )
+			{
+				// Avoid the popup exceeds the right border of the display area
+				x = display.getClientArea( ).width - shellPopup.getSize( ).x;
+			}
+			else
+			{
+				x = shell.getLocation( ).x + shell.getSize( ).x;
+			}
+			shellPopup.setLocation( x, shell.getLocation( ).y + 20 );
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -671,11 +690,7 @@ public class WizardBase
 	 */
 	public void controlMoved( ControlEvent e )
 	{
-		if ( shellPopup != null && !shellPopup.isDisposed( ) )
-		{
-			shellPopup.setLocation( ( shell.getLocation( ).x + shell.getSize( ).x ),
-					( shell.getLocation( ).y + 20 ) );
-		}
+		setPopupLocation( );
 	}
 
 	/*
@@ -685,11 +700,7 @@ public class WizardBase
 	 */
 	public void controlResized( ControlEvent e )
 	{
-		if ( shellPopup != null && !shellPopup.isDisposed( ) )
-		{
-			shellPopup.setLocation( ( shell.getLocation( ).x + shell.getSize( ).x ),
-					( shell.getLocation( ).y + 20 ) );
-		}
+		setPopupLocation( );
 	}
 
 	/*
