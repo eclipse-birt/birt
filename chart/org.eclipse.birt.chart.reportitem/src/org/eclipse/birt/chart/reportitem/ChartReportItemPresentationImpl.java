@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -191,7 +192,10 @@ public final class ChartReportItemPresentationImpl extends
 	 */
 	public final void setLocale( Locale lcl )
 	{
-		rtc = new RunTimeContext( );
+		if ( rtc == null )
+		{
+			rtc = new RunTimeContext( );
+		}
 		rtc.setLocale( lcl );
 	}
 
@@ -254,6 +258,29 @@ public final class ChartReportItemPresentationImpl extends
 	 */
 	public void deserialize( InputStream is )
 	{
+		try
+		{
+			ObjectInputStream ois = new ObjectInputStream( is );
+			Object o = ois.readObject( );
+
+			if ( o instanceof RunTimeContext )
+			{
+				RunTimeContext drtc = (RunTimeContext) o;
+
+				if ( rtc != null )
+				{
+					drtc.setLocale( rtc.getLocale( ) );
+				}
+
+				rtc = drtc;
+				cm = rtc.getScriptContext().getChartInstance();
+			}
+			ois.close( );
+		}
+		catch ( Exception e )
+		{
+			logger.log( e );
+		}
 	}
 
 	/*
@@ -343,10 +370,12 @@ public final class ChartReportItemPresentationImpl extends
 
 		try
 		{
-			BIRTDataRowEvaluator rowAdapter = new BIRTDataRowEvaluator(  irsa[0], ibqda[0]);
-			Generator.instance().bindData( rowAdapter, cm, rtc);
+			BIRTDataRowEvaluator rowAdapter = new BIRTDataRowEvaluator( irsa[0],
+					ibqda[0] );
+			Generator.instance( ).bindData( rowAdapter, cm, rtc );
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsBuilding" ) ); //$NON-NLS-1$
+
 			// SETUP A TEMP FILE FOR STREAMING
 			try
 			{
@@ -380,7 +409,7 @@ public final class ChartReportItemPresentationImpl extends
 			gcs = gr.build( idr.getDisplayServer( ),
 					cm,
 					bo,
-					null,
+					new BIRTExternalContext( context ),
 					rtc,
 					new ChartReportStyleProcessor( handle ) );
 

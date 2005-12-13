@@ -64,7 +64,7 @@ public final class RunTimeContext implements Serializable
 	/**
 	 * A map to store user defined state object.
 	 */
-	private transient HashMap stateStore = null;
+	private HashMap stateStore = null;
 
 	/**
 	 * A default zero-arg public constructor used for object creation.

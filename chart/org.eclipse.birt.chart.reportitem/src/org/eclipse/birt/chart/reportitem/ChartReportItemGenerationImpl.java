@@ -11,50 +11,146 @@
 
 package org.eclipse.birt.chart.reportitem;
 
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Locale;
 
+import org.eclipse.birt.chart.factory.Generator;
+import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.ReportItemGenerationBase;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 
 /**
  * ChartReportItemGenerationImpl
  */
 public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 {
+
+	private Chart cm = null;
+
+	private RunTimeContext rtc = null;
+
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#setModelObject(org.eclipse.birt.report.model.api.ExtendedItemHandle)
+	 */
+	public void setModelObject( ExtendedItemHandle eih )
+	{
+		super.setModelObject( modelHandle );
+
+		IReportItem item = null;
+		try
+		{
+			item = eih.getReportItem( );
+		}
+		catch ( ExtendedElementException e )
+		{
+			logger.log( e );
+		}
+		if ( item == null )
+		{
+			try
+			{
+				eih.loadExtendedElement( );
+			}
+			catch ( ExtendedElementException eeex )
+			{
+				logger.log( eeex );
+			}
+			item = ( (ExtendedItem) eih.getElement( ) ).getExtendedElement( );
+			if ( item == null )
+			{
+				logger.log( ILogger.ERROR,
+						Messages.getString( "ChartReportItemPresentationImpl.log.UnableToLocateWrapper" ) ); //$NON-NLS-1$
+				return;
+			}
+		}
+		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( "chart.instance" ); //$NON-NLS-1$
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#serialize(java.io.OutputStream)
+	 */
+	public void serialize( OutputStream ostream ) throws BirtException
+	{
+		try
+		{
+			ObjectOutputStream oos = new ObjectOutputStream( ostream );
+			oos.writeObject( rtc );
+			oos.flush( );
+			oos.close( );
+		}
+		catch ( Exception e )
+		{
+			logger.log( e );
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#needSerialization()
+	 */
+	public boolean needSerialization( )
+	{
+		return true;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#onRowSets(org.eclipse.birt.report.engine.extension.IRowSet[])
 	 */
-	public void onRowSets(IRowSet[] rowSets) throws BirtException
+	public void onRowSets( IRowSet[] rowSets ) throws BirtException
 	{
+		// prepare the chart model.
+		rtc = Generator.instance( ).prepare( cm,
+				new BIRTExternalContext( context ),
+				Locale.getDefault( ) );
+
 		// check
 		if ( rowSets == null
 				|| rowSets.length != 1
-				|| rowSets[0] == null 
+				|| rowSets[0] == null
 				|| queries == null
 				|| queries[0] == null )
 		{
 			// if the Data rows are null/empty, do nothing.
-			return ;
+			return;
 		}
 		else
 		{
-			// Evaluate the expressions so that they are registered by the DtE in the Report
+			// Evaluate the expressions so that they are registered by the DtE
+			// in the Report
 			// Document
 			IRowSet rowSet = rowSets[0];
-			Collection expressions = queries[0].getRowExpressions();
-			while (rowSet.next())
+			Collection expressions = queries[0].getRowExpressions( );
+			while ( rowSet.next( ) )
 			{
-				for (Iterator iter = expressions.iterator(); iter.hasNext();)
+				for ( Iterator iter = expressions.iterator( ); iter.hasNext( ); )
 				{
-					rowSet.evaluate((IBaseExpression)iter.next());
+					rowSet.evaluate( (IBaseExpression) iter.next( ) );
 				}
 			}
 		}
-		
+
 	}
 }
