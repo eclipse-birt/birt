@@ -3,7 +3,7 @@
 <plugin
    id="org.eclipse.birt.report.designer.tests"
    name="BIRT Test Plugin"
-   version="1.0.1"
+   version="2.0.0"
    provider-name="Eclipse.org"
    class="org.eclipse.birt.report.designer.tests.TestsPlugin">
 
