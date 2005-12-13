@@ -45,8 +45,6 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -97,10 +95,6 @@ public class GroupDialog extends BaseDialog
 	private static final String GROUP_DLG_HEADER_FOOTER_LABEL = Messages.getString( "GroupDialog.Label.HeaderFooter" ); //$NON-NLS-1$
 
 	private static final String GROUP_DLG_AREA_MSG = Messages.getString( "GroupDialog.Dialog.GroupDetail" ); //$NON-NLS-1$
-
-	private static final String ERROR_DLG_TITLE_NO_DATA = Messages.getString( "GroupDialog.DialogTitle.NoData" ); //$NON-NLS-1$
-
-	private static final String ERROR_MESSAGE_NO_DATA = Messages.getString( "GroupDialog.ErrorMessage.NoData" ); //$NON-NLS-1$
 
 	public static final String GROUP_DLG_TITLE_NEW = Messages.getString( "GroupDialog.Title.New" ); //$NON-NLS-1$
 
@@ -291,13 +285,6 @@ public class GroupDialog extends BaseDialog
 		// Creates group key chooser
 		keyChooser = new Combo( composite, SWT.DROP_DOWN );
 		keyChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		keyChooser.addModifyListener( new ModifyListener( ) {
-
-			public void modifyText( ModifyEvent e )
-			{
-				getOkButton( ).setEnabled( keyChooser.getText( ).length( ) > 0 );
-			}
-		} );
 
 		// Creates intervalRange area
 		Composite intervalArea = new Composite( composite, SWT.NONE );
@@ -445,13 +432,6 @@ public class GroupDialog extends BaseDialog
 		columnList = DataSetManager.getCurrentInstance( )
 				.getColumns( dataSetList );
 		Iterator itor = columnList.iterator( );
-		if ( !itor.hasNext( ) )
-		{// Data Set must be set
-			ExceptionHandler.openMessageBox( ERROR_DLG_TITLE_NO_DATA,
-					ERROR_MESSAGE_NO_DATA,
-					SWT.ICON_QUESTION );
-			return false;
-		}
 		while ( itor.hasNext( ) )
 		{
 			keyChooser.add( ( (DataSetItemModel) itor.next( ) ).getDisplayName( ) );
@@ -476,10 +456,6 @@ public class GroupDialog extends BaseDialog
 			{
 				keyChooser.setText( groupKey );
 			}
-		}
-		else
-		{
-			getOkButton( ).setEnabled( false );
 		}
 		index = getIntervalTypeIndex( inputGroup.getInterval( ) );
 		intervalType.select( index );

@@ -405,7 +405,7 @@ public class UIUtil
 		if ( groupHandle != null && slotHandle != null )
 		{
 			slotHandle.add( groupHandle, position );
-			if ( !DEUtil.getDataSetList( parent ).isEmpty( ) )
+			// if ( !DEUtil.getDataSetList( parent ).isEmpty( ) )
 			{// If data set can be found or a blank group will be inserted.
 				GroupDialog dialog = new GroupDialog( getDefaultShell( ),
 						GroupDialog.GROUP_DLG_TITLE_NEW );
@@ -977,7 +977,8 @@ public class UIUtil
 			LibraryHandle libraryHandle ) throws DesignFileException,
 			SemanticException
 	{
-		if ( moduleHandle!=libraryHandle && !moduleHandle.isInclude( libraryHandle ) )
+		if ( moduleHandle != libraryHandle
+				&& !moduleHandle.isInclude( libraryHandle ) )
 		{
 			String defaultName = new File( libraryHandle.getFileName( ) ).getName( )
 					.split( File.separator + "." )[0];
@@ -1000,18 +1001,16 @@ public class UIUtil
 				}
 				return false;
 			}
-			else
-			{
-				moduleHandle.includeLibrary( DEUtil.getRelativedPath( moduleHandle.getFileName( ),
-						libraryHandle.getFileName( ) ),
-						defaultName );
-				ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
-						MessageFormat.format( MSG_DIALOG_MSG, new String[]{
-							libraryHandle.getFileName( )
-						} ),
-						SWT.ICON_INFORMATION );
-				return true;
-			}
+			moduleHandle.includeLibrary( DEUtil.getRelativedPath( moduleHandle.getFileName( ),
+					libraryHandle.getFileName( ) ),
+					defaultName );
+			ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
+					MessageFormat.format( MSG_DIALOG_MSG, new String[]{
+						libraryHandle.getFileName( )
+					} ),
+					SWT.ICON_INFORMATION );
+			return true;
+
 		}
 		return true;
 	}
