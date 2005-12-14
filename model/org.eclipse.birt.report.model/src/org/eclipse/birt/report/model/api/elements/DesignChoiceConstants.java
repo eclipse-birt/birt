@@ -509,6 +509,7 @@ public interface DesignChoiceConstants
 	public static final String FILTER_OPERATOR_TOP_PERCENT = "top-percent"; //$NON-NLS-1$
 	public static final String FILTER_OPERATOR_BOTTOM_PERCENT = "bottom-percent"; //$NON-NLS-1$
 	public static final String FILTER_OPERATOR_ANY = "any"; //$NON-NLS-1$
+	public static final String FILTER_OPERATOR_MATCH = "match"; //$NON-NLS-1$
 
 	/**
 	 * columnAlign -- The column alignment The first constant is the name of
