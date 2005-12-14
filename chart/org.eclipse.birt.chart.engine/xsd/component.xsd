@@ -216,7 +216,7 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="DataSet" type="data:DataSet">
+			<xsd:element name="DataSets" type="data:DataSet" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Holds the runtime data for the series.
