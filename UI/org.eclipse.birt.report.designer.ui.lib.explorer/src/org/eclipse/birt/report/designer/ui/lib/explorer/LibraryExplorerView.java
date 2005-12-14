@@ -87,13 +87,16 @@ public class LibraryExplorerView extends PageBookView
 		{
 			LibraryExplorerTreeViewPage page = new LibraryExplorerTreeViewPage( );
 			IEditorPart editor = UIUtil.getActiveEditor( true );
-			ILibraryProvider provider = (ILibraryProvider) editor.getAdapter( ILibraryProvider.class );
-			if( provider != null )
+			if(editor !=null)
 			{
-				page.setLibraryProvider( provider );
-				initPage( page );
-				page.createControl( getPageBook( ) );
-				return new PageRec( part, page );
+				ILibraryProvider provider = (ILibraryProvider) editor.getAdapter( ILibraryProvider.class );
+				if( provider != null )
+				{
+					page.setLibraryProvider( provider );
+					initPage( page );
+					page.createControl( getPageBook( ) );
+					return new PageRec( part, page );
+				}
 			}
 		}
 		return null;
