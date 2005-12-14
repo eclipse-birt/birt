@@ -302,7 +302,8 @@ public class StructureFactory
 	}
 
 	/**
-	 * Creates an embedded image from another library embedded image.
+	 * Creates an embedded image from another library embedded image. The name
+	 * of the return embedded image fully depends on <code>name</code>.
 	 * 
 	 * @param baseImage
 	 *            the base image
@@ -346,5 +347,33 @@ public class StructureFactory
 		image.setName( name );
 
 		return image;
+	}
+
+	/**
+	 * Creates an embedded image from another library embedded image. This
+	 * method creates the embedded image name automatically.
+	 * 
+	 * @param baseImage
+	 *            the base image
+	 * @param targetModule
+	 *            the target module that is inserted to
+	 * 
+	 * @return the created embedded image
+	 * @throws LibraryException
+	 *             if the library has the <code>baseImage</code> is not
+	 *             included in the <code>targetModule</code>
+	 */
+
+	public static EmbeddedImage newEmbeddedImageFrom(
+			EmbeddedImageHandle baseImage, ModuleHandle targetModule )
+			throws LibraryException
+	{
+		if ( baseImage == null )
+			return null;
+
+		EmbeddedImage newImage = newEmbeddedImageFrom( baseImage, baseImage
+				.getName( ), targetModule );
+		targetModule.rename( newImage );
+		return newImage;
 	}
 }
