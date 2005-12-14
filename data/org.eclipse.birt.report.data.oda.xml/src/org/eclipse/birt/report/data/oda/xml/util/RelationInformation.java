@@ -462,10 +462,21 @@ class ColumnInfo
 		this.type = type;
 		if( !DataTypes.isValidType( type ) )
 			throw new OdaException( "The given data type name is invalid.");
-		this.path = buildPath( path );
+		this.path = fixTrailingAttr(buildPath( path ));
 		this.originalPath = originalPath;
 	}
-
+	/**
+	 * If the path is refer to an attribute, use syntax /elementName/@attributeName
+	 * then we change it to /elementName[@attributeName] to compliment the standard xpath syntax.
+	 * 
+	 */ 
+	private String fixTrailingAttr( String path )
+	{
+		if ( path.matches(".*/@.*"))
+			return path.replaceFirst("/@","[@")+"]";
+		else
+			return path;
+	}
 	/**
 	 * Dealing with ".." in a column path. Here the column path is the combination of root path
 	 * and the give column path expression.
