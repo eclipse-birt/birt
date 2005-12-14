@@ -10,7 +10,7 @@ package org.eclipse.birt.report.soapengine.api;
 public class UpdateContent  implements java.io.Serializable {
     private java.lang.String target;
     private java.lang.String content;
-    private java.lang.String[] initializationId;
+    private org.eclipse.birt.report.soapengine.api.ReportId[] initializationId;
 
     public UpdateContent() {
     }
@@ -31,19 +31,19 @@ public class UpdateContent  implements java.io.Serializable {
         this.content = content;
     }
 
-    public java.lang.String[] getInitializationId() {
+    public org.eclipse.birt.report.soapengine.api.ReportId[] getInitializationId() {
         return initializationId;
     }
 
-    public void setInitializationId(java.lang.String[] initializationId) {
+    public void setInitializationId(org.eclipse.birt.report.soapengine.api.ReportId[] initializationId) {
         this.initializationId = initializationId;
     }
 
-    public java.lang.String getInitializationId(int i) {
+    public org.eclipse.birt.report.soapengine.api.ReportId getInitializationId(int i) {
         return initializationId[i];
     }
 
-    public void setInitializationId(int i, java.lang.String value) {
+    public void setInitializationId(int i, org.eclipse.birt.report.soapengine.api.ReportId value) {
         this.initializationId[i] = value;
     }
 
@@ -119,7 +119,7 @@ public class UpdateContent  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("initializationId");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "InitializationId"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportId"));
         elemField.setMinOccurs(0);
         typeDesc.addFieldDesc(elemField);
     }

@@ -8,7 +8,7 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class Operation  implements java.io.Serializable {
-    private java.lang.String target;
+    private org.eclipse.birt.report.soapengine.api.ReportId target;
     private java.lang.String operator;
     private org.eclipse.birt.report.soapengine.api.Oprand[] oprand;
     private org.eclipse.birt.report.soapengine.api.Data data;
@@ -16,11 +16,11 @@ public class Operation  implements java.io.Serializable {
     public Operation() {
     }
 
-    public java.lang.String getTarget() {
+    public org.eclipse.birt.report.soapengine.api.ReportId getTarget() {
         return target;
     }
 
-    public void setTarget(java.lang.String target) {
+    public void setTarget(org.eclipse.birt.report.soapengine.api.ReportId target) {
         this.target = target;
     }
 
@@ -124,7 +124,7 @@ public class Operation  implements java.io.Serializable {
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("target");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Target"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportId"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("operator");

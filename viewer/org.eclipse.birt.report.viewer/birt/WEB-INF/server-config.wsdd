@@ -139,6 +139,22 @@
       />
       <typeMapping
         xmlns:ns="http://schemas.eclipse.org/birt"
+        qname="ns:ReportId"
+        type="java:org.eclipse.birt.report.soapengine.api.ReportId"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.eclipse.org/birt"
+        qname="ns:ReportId>Type"
+        type="java:org.eclipse.birt.report.soapengine.api.ReportId_Type"
+        serializer="org.apache.axis.encoding.ser.EnumSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.EnumDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.eclipse.org/birt"
         qname="ns:Data"
         type="java:org.eclipse.birt.report.soapengine.api.Data"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
