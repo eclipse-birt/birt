@@ -237,7 +237,6 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	 * @return the embedded image name, if the image source type is
 	 *         <code>IMAGE_REF_TYPE_EMBED</code>. Otherwise, return
 	 *         <code>null</code>.
-	 * @deprecated
 	 */
 
 	public String getImageName( )

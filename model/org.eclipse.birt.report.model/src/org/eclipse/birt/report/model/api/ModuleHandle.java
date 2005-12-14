@@ -1752,11 +1752,22 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public LibraryHandle getLibrary( String namespace )
 	{
-		Module library = module.getLibraryWithNamespace( namespace );
+		Module library = module.getVisibleLibraryWithNamespace( namespace );
 		if ( library == null )
 			return null;
 
 		return (LibraryHandle) library.getHandle( library );
+
+		// Iterator iter = getLibraries( ).iterator( );
+		// while ( iter.hasNext( ) )
+		// {
+		// LibraryHandle library = (LibraryHandle) iter.next( );
+		//
+		// if ( library.getNamespace( ).equals( namespace ) )
+		// return library;
+		// }
+		//
+		// return null;
 	}
 
 	/**
@@ -2105,7 +2116,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void setTheme( ThemeHandle theme ) throws SemanticException
 	{
 		if ( theme == null )
-			setThemeElement( null, theme.getEffectiveModule( ) );
+			setThemeElement( null, getModule( ) );
 		else
 			setThemeElement( (Theme) theme.getElement( ), theme
 					.getEffectiveModule( ) );

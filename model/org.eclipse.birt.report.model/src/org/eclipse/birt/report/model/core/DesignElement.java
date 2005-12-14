@@ -936,15 +936,55 @@ public abstract class DesignElement
 		Object value = null;
 
 		DesignElement e = getExtendsElement( );
+
 		while ( e != null )
 		{
+			Module currentRoot = e.getRoot( );
+			assert currentRoot != null;
+
 			// If we can find the value here, return it.
 
-			value = e.getPropertyFromSelf( module, prop );
+			value = e.getPropertyFromSelf( currentRoot, prop );
 			if ( value != null )
 				return value;
 
 			e = e.getExtendsElement( );
+		}
+
+		return value;
+	}
+
+	/**
+	 * Returns the property value from this element's parent, or any ancestor.
+	 * The value is only from local properties, or local style of its ancestor.
+	 * 
+	 * @param module
+	 *            module
+	 * @param prop
+	 *            definition of the property to get.
+	 * @return property value, or null if no value is set.
+	 */
+
+	protected Object getPropertyFromVirtualParent( Module module,
+			ElementPropertyDefn prop )
+	{
+		Object value = null;
+		assert getExtendsElement( ) == null;
+
+		DesignElement e = getVirtualParent( );
+
+		while ( e != null )
+		{
+			Module currentRoot = e.getRoot( );
+			assert currentRoot != null;
+
+			// If we can find the value here, return it.
+
+			value = e.getPropertyFromSelf( currentRoot, prop );
+			if ( value != null )
+				return value;
+
+			e = e.getVirtualParent( );
 		}
 
 		return value;
@@ -1032,10 +1072,9 @@ public abstract class DesignElement
 		{
 			if ( isVirtualElement( ) )
 			{
-				assert getExtendsElement( ) == null;
-				DesignElement virtualParent = getVirtualParent( );
-				if ( virtualParent != null )
-					value = virtualParent.getPropertyFromSelf( module, prop );
+				// Does the virtual parent provide the value of this property ?
+
+				value = getPropertyFromVirtualParent( module, prop );
 			}
 			else
 			{

@@ -147,8 +147,8 @@ public class StructRefPropertyType extends PropertyType
 		if ( value instanceof String )
 			return (String) value;
 
-		return ReferenceValueUtil.needTheNamespacePrefix( (StructRefValue) value, null,
-				module );
+		return ReferenceValueUtil.needTheNamespacePrefix(
+				(StructRefValue) value, module );
 	}
 
 	/**
@@ -175,7 +175,7 @@ public class StructRefPropertyType extends PropertyType
 				.equals( defn.getName( ) ) )
 		{
 			String namespace = ref.getLibraryNamespace( );
-			targetModule = module.getLibraryWithNamespace( namespace );
+			targetModule = module.getVisibleLibraryWithNamespace( namespace );
 			if ( targetModule != null )
 			{
 				target = StructureRefUtil.findNativeStructure( targetModule,
@@ -192,8 +192,8 @@ public class StructRefPropertyType extends PropertyType
 			String namespace = module instanceof Library ? ( (Library) module )
 					.getNamespace( ) : null;
 			assert StringUtil.isEqual( namespace, ref.getLibraryNamespace( ) );
-			target = StructureRefUtil.findNativeStructure( module, targetDefn, ref
-					.getName( ) );
+			target = StructureRefUtil.findNativeStructure( module, targetDefn,
+					ref.getName( ) );
 			if ( target != null )
 				ref.resolve( target );
 		}

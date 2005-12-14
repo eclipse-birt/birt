@@ -243,7 +243,7 @@ public class ElementRefPropertyType extends PropertyType
 		if ( !StyledElement.STYLE_PROP.equals( defn.getName( ) ) )
 		{
 			return ReferenceValueUtil.needTheNamespacePrefix(
-					(ReferenceValue) value, null, module );
+					(ReferenceValue) value, module );
 		}
 
 		return refValue.getName( );
@@ -282,8 +282,7 @@ public class ElementRefPropertyType extends PropertyType
 		// special case for theme property since it can be direcly referred.
 
 		DesignElement target = null;
-		target = elementResolver.resolve( name, defn )
-				.getElement( );
+		target = elementResolver.resolve( name, defn ).getElement( );
 
 		if ( target != null )
 			ref.resolve( target );

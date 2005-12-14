@@ -277,7 +277,7 @@ public class LibraryCommand extends AbstractElementCommand
 		assert fileName != null;
 		assert namespace != null;
 
-		List includeLibraries = module.getIncludeLibraries( );
+		List includeLibraries = module.getIncludedLibraries( );
 		Iterator iter = includeLibraries.iterator( );
 		while ( iter.hasNext( ) )
 		{

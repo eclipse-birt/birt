@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.util;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -100,18 +101,29 @@ public class StructureRefUtil
 		if ( StringUtil.isBlank( name ) || targetDefn == null || module == null )
 			return null;
 
-		String namespace = StringUtil.extractNamespace( name );
-		String structName = StringUtil.extractName( name );
-		Module moduleToSearch = module;
-		if ( namespace != null )
+		if ( EmbeddedImage.EMBEDDED_IMAGE_STRUCT.equalsIgnoreCase( targetDefn
+				.getName( ) ) )
 		{
-			moduleToSearch = module.getLibraryWithNamespace( namespace );
+			Structure emImage = StructureRefUtil.findNativeStructure( module,
+					targetDefn, name );
+			if ( emImage != null )
+				return emImage;
 		}
 
-		if ( moduleToSearch != null )
-			return findNativeStructure( moduleToSearch, targetDefn, structName );
-		return null;
+		String namespace = StringUtil.extractNamespace( name );
+		String structName = StringUtil.extractName( name );
 
+		Module moduleToSearch = module;
+		if ( namespace == null )
+			return StructureRefUtil.findNativeStructure( module, targetDefn,
+					name );
+		else
+			moduleToSearch = module.getLibraryWithNamespace( namespace );
+
+		if ( moduleToSearch != null )
+			return findStructure( moduleToSearch, targetDefn, structName );
+
+		return null;
 	}
 
 	/**
@@ -153,10 +165,11 @@ public class StructureRefUtil
 		{
 			String structName = StringUtil.extractName( name );
 			String namespace = StringUtil.extractNamespace( name );
-			targetModule = module.getLibraryWithNamespace( namespace );
+			targetModule = module.getVisibleLibraryWithNamespace( namespace );
 			if ( targetModule != null )
 			{
-				target = findNativeStructure( targetModule, targetDefn, structName );
+				target = findNativeStructure( targetModule, targetDefn,
+						structName );
 				if ( target != null )
 					return new StructRefValue( namespace, target );
 			}

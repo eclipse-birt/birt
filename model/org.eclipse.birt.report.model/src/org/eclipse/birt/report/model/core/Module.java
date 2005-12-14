@@ -375,6 +375,38 @@ public abstract class Module extends DesignElement implements IModuleModel
 	}
 
 	/**
+	 * Finds DataSet/DataSource in the self or included libraries. The name is
+	 * the full path for included libraries. For example, it can be one of
+	 * followings:
+	 * 
+	 * <ul>
+	 * <li>lib1.lib2.dataSet1
+	 * <li>lib1.dataSource1
+	 * </ul>
+	 * 
+	 * @param name
+	 *            the element name in full path.
+	 * @param namespaceId
+	 *            the name space id
+	 * @return the element that matches <code>name</code>.
+	 */
+
+	protected DesignElement findElementInLibraries( String name, int namespaceId )
+	{
+		String namespace = StringUtil.extractNamespace( name );
+		String elementName = StringUtil.extractName( name );
+
+		if ( namespace == null )
+			return resolveNativeElement( elementName, namespaceId );
+
+		Library lib = getVisibleLibraryWithNamespace( namespace );
+		if ( lib == null )
+			return null;
+
+		return lib.findElementInLibraries( elementName, namespaceId );
+	}
+
+	/**
 	 * Finds a data source by name in this module and the included modules.
 	 * 
 	 * @param name
@@ -384,7 +416,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public DesignElement findDataSource( String name )
 	{
-		return resolveNativeElement( name, DATA_SOURCE_NAME_SPACE );
+		return findElementInLibraries( name, DATA_SOURCE_NAME_SPACE );
 	}
 
 	/**
@@ -397,7 +429,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public DesignElement findDataSet( String name )
 	{
-		return resolveNativeElement( name, DATA_SET_NAME_SPACE );
+		return findElementInLibraries( name, DATA_SET_NAME_SPACE );
 	}
 
 	/**
@@ -990,8 +1022,9 @@ public abstract class Module extends DesignElement implements IModuleModel
 	{
 		StructureDefn defn = (StructureDefn) MetaDataDictionary.getInstance( )
 				.getStructure( EmbeddedImage.EMBEDDED_IMAGE_STRUCT );
-		return (EmbeddedImage) StructureRefUtil.findNativeStructure( this,
-				defn, imageName );
+
+		return (EmbeddedImage) StructureRefUtil.findStructure( this, defn,
+				imageName );
 	}
 
 	/**
@@ -1684,7 +1717,36 @@ public abstract class Module extends DesignElement implements IModuleModel
 	}
 
 	/**
-	 * Returns the module with the given namespace.
+	 * Returns the module with the given namespace. This method checks the
+	 * namespace in both directly and indirectly included libraries.
+	 * 
+	 * @param namespace
+	 *            the module namespace
+	 * @return the module with the given namespace
+	 */
+
+	public Library getVisibleLibraryWithNamespace( String namespace )
+	{
+		if ( libraries == null )
+			return null;
+
+		List list = getLibraries( );
+
+		Iterator iter = list.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			Library library = (Library) iter.next( );
+
+			if ( library.getNamespace( ).equals( namespace ) )
+				return library;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the module with the given namespace. This method checks the
+	 * namespace in both directly and indirectly included libraries.
 	 * 
 	 * @param namespace
 	 *            the module namespace
@@ -1696,7 +1758,9 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( libraries == null )
 			return null;
 
-		Iterator iter = getLibraries( ).iterator( );
+		List list = getAllLibraries( );
+
+		Iterator iter = list.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			Library library = (Library) iter.next( );
@@ -2018,9 +2082,10 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *         <code>null</code> if there were no include libraries defined.
 	 */
 
-	public List getIncludeLibraries( )
+	public List getIncludedLibraries( )
 	{
-		return new ArrayList( (List) getLocalProperty( this, LIBRARIES_PROP ) );
+		return Collections.unmodifiableList( (List) getLocalProperty( this,
+				LIBRARIES_PROP ) );
 	}
 
 	/**
@@ -2361,7 +2426,12 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public boolean isDuplicateNamespace( String namespaceToCheck )
 	{
-		List libraries = getLibraries( );
+		Module rootHost = this;
+		while ( rootHost instanceof Library
+				&& ( (Library) rootHost ).getHost( ) != null )
+			rootHost = ( (Library) rootHost ).getHost( );
+
+		List libraries = rootHost.getAllLibraries( );
 		Iterator iter = libraries.iterator( );
 		while ( iter.hasNext( ) )
 		{
