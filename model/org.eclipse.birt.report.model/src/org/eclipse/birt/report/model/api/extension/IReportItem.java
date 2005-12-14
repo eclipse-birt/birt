@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
  * <p>
  * 
  * <pre>
- *             BIRT Extended Item &lt;--&gt; ExtendedItem 
+ *              BIRT Extended Item &lt;--&gt; ExtendedItem 
  * </pre>
  * 
  * 
@@ -177,4 +177,13 @@ public interface IReportItem
 	 */
 
 	public IPropertyDefinition[] getMethods( );
+
+	/**
+	 * Gets the script property definition of this report item.
+	 * 
+	 * @return the script property definition of this report item
+	 */
+
+	public IPropertyDefinition getScriptPropertyDefinition( );
+
 }

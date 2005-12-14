@@ -437,4 +437,24 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	{
 		assert false;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#isReadOnly()
+	 */
+	
+	public boolean isReadOnly( )
+	{
+		return extProperty.isReadOnly( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#isVisible()
+	 */
+	
+	public boolean isVisible( )
+	{
+		return extProperty.isVisible( ); 
+	}
+	
+	
 }

@@ -144,4 +144,13 @@ public class ReportItem implements IReportItem, Cloneable
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getScriptPropertyDefinition()
+	 */
+	
+	public IPropertyDefinition getScriptPropertyDefinition( )
+	{
+		return null;
+	}
+
 }

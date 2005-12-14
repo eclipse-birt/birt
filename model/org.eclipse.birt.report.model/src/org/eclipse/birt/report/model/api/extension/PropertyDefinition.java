@@ -102,9 +102,39 @@ abstract public class PropertyDefinition implements IPropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getDefaultValue()
 	 */
+	
 	public Object getDefaultValue( )
 	{
 		return null;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.extension.IPropertyDefinition#getMembers()
+	 */
+	
+	public List getMembers( )
+	{
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.extension.IPropertyDefinition#isReadOnly()
+	 */
+	
+	public boolean isReadOnly( )
+	{
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.extension.IPropertyDefinition#isVisible()
+	 */
+	
+	public boolean isVisible( )
+	{
+		return true;
+	}
+	
+	
 
 }

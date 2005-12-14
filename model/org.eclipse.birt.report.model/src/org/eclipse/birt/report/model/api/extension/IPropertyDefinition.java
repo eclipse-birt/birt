@@ -113,4 +113,23 @@ public interface IPropertyDefinition
 	 */
 	
 	IMethodInfo getMethodInfo();
+	
+	/**
+	 * Determines whether this property is read-only or not. If this property is
+	 * read only and can not been edited, return true; otherwise return false.
+	 * 
+	 * @return true if this property is read-only, otherwise false
+	 */
+
+	public boolean isReadOnly( );
+
+	/**
+	 * Determines whether this property is visible in property viewer. If this
+	 * property is visible in the property viewer, return true; otherwise false.
+	 * 
+	 * @return true if this property is visible in the property viewer,
+	 *         otherwise false
+	 */
+
+	public boolean isVisible( );
 }

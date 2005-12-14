@@ -31,7 +31,8 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
  */
 
 public abstract class ExtensionLoader
-{	
+{
+
 	/**
 	 * Logger instance.
 	 */
@@ -72,14 +73,14 @@ public abstract class ExtensionLoader
 		}
 		catch ( ExtensionException e )
 		{
-			logger.log(Level.SEVERE, e.getMessage());
+			logger.log( Level.SEVERE, e.getMessage( ) );
 			MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
 			throw new MetaDataParserException( e,
 					MetaDataParserException.DESIGN_EXCEPTION_EXTENSION_ERROR );
 		}
 		catch ( MetaDataException e )
 		{
-			logger.log(Level.SEVERE, e.getMessage());
+			logger.log( Level.SEVERE, e.getMessage( ) );
 			MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
 			throw new MetaDataParserException( e,
 					MetaDataParserException.DESIGN_EXCEPTION_EXTENSION_ERROR );
@@ -219,6 +220,8 @@ public abstract class ExtensionLoader
 		 *            the choice tag
 		 * @param choice
 		 *            the extension choice set load
+		 * @param propDefn
+		 *            the property definition in which the choices are inserted
 		 * @throws ExtensionException
 		 *             if the class some attribute specifies can not be
 		 *             instanced.
@@ -249,8 +252,8 @@ public abstract class ExtensionLoader
 				catch ( PropertyValueException e )
 				{
 					throw new ExtensionException(
-							new String[]{value, propDefn.getName()},
-							ExtensionException.DESIGN_EXCEPTION_INVALID_CHOICE_VALUE);
+							new String[]{value, propDefn.getName( )},
+							ExtensionException.DESIGN_EXCEPTION_INVALID_CHOICE_VALUE );
 				}
 			}
 			else

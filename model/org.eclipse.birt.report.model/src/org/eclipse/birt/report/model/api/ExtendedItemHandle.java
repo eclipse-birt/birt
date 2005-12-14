@@ -24,7 +24,6 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
  * Represents an extended element. An extended item represents a custom element
@@ -172,32 +171,35 @@ public class ExtendedItemHandle extends ReportItemHandle
 	}
 
 	/**
-	 * Returns the scripts.
+	 * Returns the external script defined in the extended element model.
 	 * 
-	 * @param scriptPropName
-	 *            the script property name
 	 * @return the script
 	 */
 
-	public String getScript( String scriptPropName )
+	public String getExternalScript( )
 	{
-		return getStringProperty( scriptPropName );
+		String propName = ( (ExtendedItem) getElement( ) )
+				.getScriptPropertyName( );
+		if ( propName == null )
+			return null;
+		return getStringProperty( propName );
 	}
 
 	/**
-	 * Sets the scripts on the extension element.
+	 * Sets the scripts in the extension element model.
 	 * 
-	 * @param scriptPropName 
-	 *            the script property name
 	 * @param theScript
 	 *            the script to be set
 	 * @throws SemanticException
 	 *             if fail to set the scripts
 	 */
 
-	public void setScript( String scriptPropName, String theScript )
-			throws SemanticException
+	public void setExternalScript( String theScript ) throws SemanticException
 	{
-		setStringProperty( scriptPropName, theScript );
+		String propName = ( (ExtendedItem) getElement( ) )
+				.getScriptPropertyName( );
+		if ( propName == null )
+			return;
+		setStringProperty( propName, theScript );
 	}
 }

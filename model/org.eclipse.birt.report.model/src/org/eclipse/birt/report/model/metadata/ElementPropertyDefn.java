@@ -182,8 +182,6 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	 * Checks whether the property is visible to the property sheet.
 	 * 
 	 * @return <code>true</code>.
-	 * 
-	 * @deprecated by the method {@link ElementDefn#isPropertyVisible(String)}
 	 */
 
 	public boolean isVisible( )
@@ -195,8 +193,6 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	 * Checks whether the property value is read-only in the property sheet.
 	 * 
 	 * @return <code>false</code>.
-	 * 
-	 * @deprecated by the method {@link ElementDefn#isPropertyReadOnly(String)}
 	 */
 
 	public boolean isReadOnly( )

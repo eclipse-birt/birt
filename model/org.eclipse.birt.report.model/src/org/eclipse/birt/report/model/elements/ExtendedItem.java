@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
@@ -465,6 +466,21 @@ public class ExtendedItem extends ReportItem
 		// find the "extended-item" selector
 
 		return super.getPropertyFromSelfSelector( module, prop );
+	}
+	
+	/**
+	 * Returns the script property name of this extended item.
+	 * @return the script property name
+	 */
+	
+	public String getScriptPropertyName( )
+	{
+		if ( provider != null )
+		{
+			IPropertyDefinition defn = provider.getScriptPropertyDefinition( );
+			return defn == null ? null : defn.getName( );
+		}
+		return null;
 	}
 
 }

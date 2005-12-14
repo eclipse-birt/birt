@@ -140,8 +140,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 	 * extension element definition but also include those defined inside the
 	 * extension model.
 	 * 
-	 * @return
-	 * 		the method list
+	 * @return the method list
 	 */
 
 	public List getModelMethodDefns( )
@@ -540,6 +539,19 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 	public IReportItem getExtensionElement( )
 	{
 		return reportItem;
+	}
+
+	/**
+	 * Gets the script definition of this extended element.
+	 * 
+	 * @return the script definition
+	 */
+
+	public IPropertyDefinition getScriptPropertyDefinition( )
+	{
+		if ( reportItem != null )
+			return reportItem.getScriptPropertyDefinition( );
+		return null;
 	}
 
 }

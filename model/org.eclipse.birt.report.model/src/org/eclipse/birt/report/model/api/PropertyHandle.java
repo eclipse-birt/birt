@@ -223,15 +223,30 @@ public class PropertyHandle extends SimpleValueHandle
 
 	public boolean isReadOnly( )
 	{
-		IElementDefn elementDefn = getElementHandle( ).getDefn( );
-		if ( elementDefn.isPropertyReadOnly( propDefn.getName( ) )
-				&& ( propDefn.isSystemProperty( ) || ( propDefn.getValueType( ) == PropertyDefn.EXTENSION_PROPERTY ) ) )
-			return true;
+		boolean isReadOnly = false;
+
 		Module root = getElementHandle( ).getEffectiveModule( );
 		assert root != null;
 		if ( root.isReadOnly( ) )
-			return true;
-		return false;
+			isReadOnly = true;
+		else
+		{
+			switch ( propDefn.getValueType( ) )
+			{
+				case PropertyDefn.SYSTEM_PROPERTY :
+				case PropertyDefn.EXTENSION_PROPERTY :
+					IElementDefn elementDefn = getElementHandle( ).getDefn( );
+					if ( elementDefn.isPropertyReadOnly( propDefn.getName( ) ) )
+						isReadOnly = true;
+					break;
+				case PropertyDefn.EXTENSION_MODEL_PROPERTY :
+					if ( propDefn.isReadOnly( ) )
+						isReadOnly = true;
+					break;
+			}
+		}
+
+		return isReadOnly;
 	}
 
 	/*
@@ -242,10 +257,21 @@ public class PropertyHandle extends SimpleValueHandle
 
 	public boolean isVisible( )
 	{
-		IElementDefn elementDefn = getElementHandle( ).getDefn( );
-		if ( !elementDefn.isPropertyVisible( propDefn.getName( ) )
-				&& ( propDefn.isSystemProperty( ) || ( propDefn.getValueType( ) == PropertyDefn.EXTENSION_PROPERTY ) ) )
-			return false;
-		return true;
+		boolean isVisible = true;
+		switch ( propDefn.getValueType( ) )
+		{
+			case PropertyDefn.SYSTEM_PROPERTY :
+			case PropertyDefn.EXTENSION_PROPERTY :
+				IElementDefn elementDefn = getElementHandle( ).getDefn( );
+				if ( !elementDefn.isPropertyVisible( propDefn.getName( ) ) )
+					isVisible = false;
+				break;
+			case PropertyDefn.EXTENSION_MODEL_PROPERTY :
+				if ( !propDefn.isVisible( ) )
+					isVisible = false;
+				break;
+		}
+		
+		return isVisible;
 	}
 }
