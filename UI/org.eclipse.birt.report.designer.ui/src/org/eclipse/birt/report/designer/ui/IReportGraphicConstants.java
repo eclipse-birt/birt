@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui;
 
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -25,9 +26,9 @@ public interface IReportGraphicConstants
 
 	// common icons
 	public final static String ICON_NEW_REPORT = "New report"; //$NON-NLS-1$
-	
+
 	public final static String ICON_NEW_TEMPLATE = "New template"; //$NON-NLS-1$
-	
+
 	public final static String ICON_NEW_LIBRARY = "New library"; //$NON-NLS-1$
 
 	public final static String ICON_REPORT_FILE = "Report"; //$NON-NLS-1$
@@ -102,7 +103,7 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_LIBRARY_REFERENCED = "Library Referenced"; //$NON-NLS-1$
 
 	public final static String ICON_ELEMENT_THEME = ReportDesignConstants.THEME_ITEM;
-	
+
 	public final static String ICON_ELEMENT_TEMPLATEITEM = ReportDesignConstants.TEMPLATE_REPORT_ITEM;
 
 	// outline view icons
@@ -260,7 +261,26 @@ public interface IReportGraphicConstants
 
 	// Open file flag image
 	public static final String ICON_OPEN_FILE = "Open file";//$NON-NLS-1$
-	
+
 	public static final String ICON_ENABLE_LOCAL_PROPERTIES = "Enable Local Properties";//$NON-NLS-1$
 
+	public final static String[] IMAGE_FILTER_NAMES = {
+			Messages.getString("IReportGraphicConstants.ImageType.All"), //$NON-NLS-1$
+			Messages.getString("IReportGraphicConstants.ImageType.Bmp"), //$NON-NLS-1$
+			Messages.getString("IReportGraphicConstants.ImageType.Jpg"), //$NON-NLS-1$
+			Messages.getString("IReportGraphicConstants.ImageType.Tif"), //$NON-NLS-1$
+			Messages.getString("IReportGraphicConstants.ImageType.Gif"), //$NON-NLS-1$
+			Messages.getString("IReportGraphicConstants.ImageType.Png"), //$NON-NLS-1$
+			Messages.getString("IReportGraphicConstants.ImageType.Icon") //$NON-NLS-1$
+	};
+
+	public final static String[] IMAGE_FILTER_EXTS = {
+			"*.bmp;*.jpg;*.jpeg;*.gif;*.tif;*.png;*.ico", //$NON-NLS-1$
+			"*.bmp", //$NON-NLS-1$
+			"*.jpg;*.jpeg;", //$NON-NLS-1$
+			"*.tif", //$NON-NLS-1$
+			"*.gif", //$NON-NLS-1$
+			"*.png", //$NON-NLS-1$
+			"*.ico" //$NON-NLS-1$
+	};
 }
