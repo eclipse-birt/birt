@@ -55,6 +55,7 @@ import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.command.LibraryException;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -98,10 +99,8 @@ public class DNDUtil
 	public static boolean moveHandles( Object transferData, Object container,
 			int position )
 	{
-		return operateHandles( transferData,
-				container,
-				position,
-				Messages.getString( "DNDUtil.trans.cut" ), TYPE_CUT ); //$NON-NLS-1$
+		return operateHandles( transferData, container, position, Messages
+				.getString( "DNDUtil.trans.cut" ), TYPE_CUT ); //$NON-NLS-1$
 	}
 
 	/**
@@ -122,10 +121,8 @@ public class DNDUtil
 	public static boolean copyHandles( Object transferData, Object container,
 			int position )
 	{
-		return operateHandles( transferData,
-				container,
-				position,
-				Messages.getString( "DNDUtil.trans.copy" ), TYPE_COPY ); //$NON-NLS-1$
+		return operateHandles( transferData, container, position, Messages
+				.getString( "DNDUtil.trans.copy" ), TYPE_COPY ); //$NON-NLS-1$
 	}
 
 	/**
@@ -144,17 +141,16 @@ public class DNDUtil
 	{
 		if ( getColumnHandle( transferData ) != null )
 		{
-			return copyColumn( getColumnHandle( transferData ),
-					targetObj,
+			return copyColumn( getColumnHandle( transferData ), targetObj,
 					false );
 		}
 		int canContain = handleValidateTargetCanContain( targetObj,
-				transferData,
-				true );
+				transferData, true );
 		int position = calculateNextPosition( targetObj, canContain );
 		if ( position > -1 )
 		{
-			targetObj = getDesignElementHandle( targetObj ).getContainerSlotHandle( );
+			targetObj = getDesignElementHandle( targetObj )
+					.getContainerSlotHandle( );
 		}
 		return copyHandles( transferData, targetObj, position );
 	}
@@ -209,21 +205,19 @@ public class DNDUtil
 		try
 		{
 			int columnNumber = HandleAdapterFactory.getInstance( )
-					.getColumnHandleAdapter( targetObj )
-					.getColumnNumber( );
+					.getColumnHandleAdapter( targetObj ).getColumnNumber( );
 			Object parent = ( (ColumnHandle) targetObj ).getContainer( );
 			if ( parent instanceof TableHandle )
 			{
 				if ( isNew )
 				{
-					( (TableHandle) parent ).insertAndPasteColumn( transferData.copy( ),
-							columnNumber );
+					( (TableHandle) parent ).insertAndPasteColumn( transferData
+							.copy( ), columnNumber );
 				}
 				else
 				{
 					( (TableHandle) parent ).pasteColumn( transferData.copy( ),
-							columnNumber,
-							true );
+							columnNumber, true );
 				}
 			}
 
@@ -231,14 +225,13 @@ public class DNDUtil
 			{
 				if ( isNew )
 				{
-					( (GridHandle) parent ).insertAndPasteColumn( transferData.copy( ),
-							columnNumber );
+					( (GridHandle) parent ).insertAndPasteColumn( transferData
+							.copy( ), columnNumber );
 				}
 				else
 				{
 					( (GridHandle) parent ).pasteColumn( transferData.copy( ),
-							columnNumber,
-							true );
+							columnNumber, true );
 				}
 			}
 		}
@@ -285,12 +278,8 @@ public class DNDUtil
 				transferData = ( (StructuredSelection) transferData ).toArray( );
 			}
 
-			addCommandToCompound( transferData,
-					targetObj,
-					position,
-					commandName,
-					commandType,
-					commands );
+			addCommandToCompound( transferData, targetObj, position,
+					commandName, commandType, commands );
 
 			commands.execute( );
 			stack.commit( );
@@ -319,17 +308,24 @@ public class DNDUtil
 			{
 				if ( array[i] instanceof EmbeddedImageHandle )
 				{
-					if(((EmbeddedImageHandle)array[i]).getElementHandle().getRoot() instanceof  LibraryHandle)
+					if ( ( (EmbeddedImageHandle) array[i] ).getElementHandle( )
+							.getRoot( ) instanceof LibraryHandle )
 					{
-						array[i] = StructureFactory.createEmbeddedImage( (EmbeddedImageHandle)array[i] );
+						try
+						{
+							array[i] = StructureFactory.newEmbeddedImageFrom(
+									(EmbeddedImageHandle) array[i],
+									SessionHandleAdapter.getInstance( )
+											.getReportDesignHandle( ) );
+						}
+						catch ( LibraryException e )
+						{
+							
+						}
 					}
 				}
-				addCommandToCompound( array[i],
-						targetObj,
-						position,
-						commandName,
-						commandType,
-						commands );
+				addCommandToCompound( array[i], targetObj, position,
+						commandName, commandType, commands );
 				if ( position > -1 )
 				{
 					position++;
@@ -344,10 +340,8 @@ public class DNDUtil
 					|| targetObj instanceof DesignElementHandle
 					|| targetObj instanceof SlotHandle )
 			{
-				commands.add( getNewCommand( commandType,
-						transferData,
-						targetObj,
-						position ) );
+				commands.add( getNewCommand( commandType, transferData,
+						targetObj, position ) );
 			}
 		}
 		else if ( transferData instanceof IStructure )
@@ -355,9 +349,10 @@ public class DNDUtil
 			commands.add( new PasteStructureCommand( (IStructure) transferData,
 					targetObj ) );
 		}
-		else if( transferData instanceof StructureHandle )
+		else if ( transferData instanceof StructureHandle )
 		{
-			commands.add( new PasteStructureCommand( ((StructureHandle) transferData).getStructure(),
+			commands.add( new PasteStructureCommand(
+					( (StructureHandle) transferData ).getStructure( ),
 					targetObj ) );
 		}
 	}
@@ -382,24 +377,21 @@ public class DNDUtil
 		boolean isCut = TYPE_CUT.equals( commandType );
 
 		if ( newContainer instanceof ParameterGroupHandle
-				&& ( transferSource instanceof ParameterGroupHandle || DEUtil.isParameterGroup( transferSource ) ) )
+				&& ( transferSource instanceof ParameterGroupHandle || DEUtil
+						.isParameterGroup( transferSource ) ) )
 		{
-			return pasteParameterGroup( commandType,
-					transferSource,
+			return pasteParameterGroup( commandType, transferSource,
 					(ParameterGroupHandle) newContainer );
 		}
 		else if ( transferSource instanceof DesignElementHandle )
 		{
 			return new PasteCommand( (DesignElementHandle) transferSource,
-					newContainer,
-					position,
-					isCut );
+					newContainer, position, isCut );
 		}
 		else if ( transferSource instanceof IDesignElement )
 		{
 			return new PasteCommand( (IDesignElement) transferSource,
-					newContainer,
-					position );
+					newContainer, position );
 		}
 		return null;
 	}
@@ -415,9 +407,9 @@ public class DNDUtil
 		}
 		else if ( DEUtil.isParameterGroup( childGroup ) )
 		{
-			childHandle = (ParameterGroupHandle) ( (IDesignElement) childGroup ).getHandle( SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getModule( ) );
+			childHandle = (ParameterGroupHandle) ( (IDesignElement) childGroup )
+					.getHandle( SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( ).getModule( ) );
 		}
 
 		if ( childHandle != null )
@@ -425,10 +417,8 @@ public class DNDUtil
 			SlotHandle transferSlot = childHandle.getParameters( );
 			for ( Iterator i = transferSlot.iterator( ); i.hasNext( ); )
 			{
-				commands.add( getNewCommand( commandType,
-						i.next( ),
-						targetGroup,
-						-1 ) );
+				commands.add( getNewCommand( commandType, i.next( ),
+						targetGroup, -1 ) );
 			}
 		}
 		return commands;
@@ -456,7 +446,8 @@ public class DNDUtil
 	{
 		if ( selection instanceof StructuredSelection )
 		{
-			return handleValidateDragInOutline( ( (StructuredSelection) selection ).toArray( ) );
+			return handleValidateDragInOutline( ( (StructuredSelection) selection )
+					.toArray( ) );
 		}
 		if ( selection instanceof Object[] )
 		{
@@ -470,12 +461,12 @@ public class DNDUtil
 			{
 				boolean bool = false;
 				int columnNumber = HandleAdapterFactory.getInstance( )
-						.getColumnHandleAdapter( array[0] )
-						.getColumnNumber( );
+						.getColumnHandleAdapter( array[0] ).getColumnNumber( );
 				Object parent = ( (ColumnHandle) array[0] ).getContainer( );
 				if ( parent instanceof TableHandle )
 				{
-					bool = ( (TableHandle) parent ).canCopyColumn( columnNumber );
+					bool = ( (TableHandle) parent )
+							.canCopyColumn( columnNumber );
 				}
 				else if ( parent instanceof GridHandle )
 				{
@@ -500,10 +491,11 @@ public class DNDUtil
 					return false;
 			}
 			return true;
-		}		
+		}
 		if ( selection instanceof ReportElementModel )
 		{
-			return handleValidateDragInOutline( ( (ReportElementModel) selection ).getSlotHandle( ) );
+			return handleValidateDragInOutline( ( (ReportElementModel) selection )
+					.getSlotHandle( ) );
 		}
 		if ( selection instanceof SlotHandle )
 		{
@@ -515,8 +507,7 @@ public class DNDUtil
 		if ( selection instanceof ColumnHandle )
 		{
 			int columnNumber = HandleAdapterFactory.getInstance( )
-					.getColumnHandleAdapter( selection )
-					.getColumnNumber( );
+					.getColumnHandleAdapter( selection ).getColumnNumber( );
 			Object parent = ( (ColumnHandle) selection ).getContainer( );
 			if ( parent instanceof TableHandle )
 			{
@@ -585,8 +576,7 @@ public class DNDUtil
 			try
 			{
 				int columnNumber = HandleAdapterFactory.getInstance( )
-						.getColumnHandleAdapter( source )
-						.getColumnNumber( );
+						.getColumnHandleAdapter( source ).getColumnNumber( );
 				Object parent = ( (ColumnHandle) source ).getContainer( );
 				if ( parent instanceof TableHandle )
 				{
@@ -606,7 +596,8 @@ public class DNDUtil
 		}
 		if ( source instanceof DesignElementHandle )
 		{
-			IDesignElement copyElement = ( (DesignElementHandle) source ).copy( );
+			IDesignElement copyElement = ( (DesignElementHandle) source )
+					.copy( );
 			return copyElement;
 		}
 		if ( source instanceof IDesignElement )
@@ -755,9 +746,7 @@ public class DNDUtil
 					if ( child instanceof CellHandle
 							&& handles[i] instanceof ColumnHandle )
 					{
-						if ( isInSameColumn( new Object[]{
-								child, handles[i]
-						} ) )
+						if ( isInSameColumn( new Object[]{child, handles[i]} ) )
 						{
 							return true;
 						}
@@ -806,8 +795,8 @@ public class DNDUtil
 			DesignElementHandle afterHandle = getDesignElementHandle( targetObj );
 			if ( afterHandle != null )
 			{
-				position = afterHandle.getContainerSlotHandle( )
-						.findPosn( afterHandle );
+				position = afterHandle.getContainerSlotHandle( ).findPosn(
+						afterHandle );
 				position++;
 			}
 		}
@@ -834,8 +823,8 @@ public class DNDUtil
 		container = unwrapToModel( container );
 		if ( container instanceof DesignElementHandle )
 		{
-			( (DesignElementHandle) container ).addElement( handle,
-					DEUtil.getDefaultSlotID( container ) );
+			( (DesignElementHandle) container ).addElement( handle, DEUtil
+					.getDefaultSlotID( container ) );
 		}
 		else if ( container instanceof SlotHandle )
 		{
@@ -892,16 +881,14 @@ public class DNDUtil
 			Object[] array = (Object[]) transferData;
 			if ( array.length == 1 )
 			{
-				return handleValidateTargetCanContain( targetObj,
-						array[0],
+				return handleValidateTargetCanContain( targetObj, array[0],
 						validateContainer );
 			}
 			int canContainAll = CONTAIN_NO;
 			for ( int i = 0; i < array.length; i++ )
 			{
 				int canContain = handleValidateTargetCanContain( targetObj,
-						array[i],
-						validateContainer );
+						array[i], validateContainer );
 				if ( i == 0 )
 				{
 					canContainAll = canContain;
@@ -919,44 +906,45 @@ public class DNDUtil
 			if ( transferData instanceof DesignElementHandle )
 			{
 				return handleValidateTargetCanContainByContainer( targetObj,
-						(DesignElementHandle) transferData,
-						validateContainer );
+						(DesignElementHandle) transferData, validateContainer );
 			}
 			else if ( transferData instanceof ColumnBandData )
 			{
 				if ( targetObj instanceof ColumnHandle )
 				{
-					return handleValidateContainColumnPaste( (ColumnHandle) targetObj,
-							(ColumnBandData) transferData,
-							false ) ? CONTAIN_PARENT : CONTAIN_NO;
+					return handleValidateContainColumnPaste(
+							(ColumnHandle) targetObj,
+							(ColumnBandData) transferData, false )
+							? CONTAIN_PARENT
+							: CONTAIN_NO;
 				}
 				return CONTAIN_NO;
 			}
 			else if ( transferData instanceof IDesignElement )
 			{
-				DesignElementHandle childHandle = ( (IDesignElement) transferData ).getHandle( SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getModule( ) );
+				DesignElementHandle childHandle = ( (IDesignElement) transferData )
+						.getHandle( SessionHandleAdapter.getInstance( )
+								.getReportDesignHandle( ).getModule( ) );
 				return handleValidateTargetCanContainByContainer( targetObj,
-						childHandle,
-						validateContainer );
+						childHandle, validateContainer );
 			}
 			else if ( transferData instanceof SlotHandle )
 			{
 				SlotHandle slot = (SlotHandle) transferData;
 				Object[] childHandles = slot.getContents( ).toArray( );
 				return handleValidateTargetCanContainByContainer( targetObj,
-						childHandles,
-						validateContainer );
+						childHandles, validateContainer );
 			}
 			else if ( transferData instanceof IStructure )
 			{
 				return handleValidateTargetCanContainStructure( targetObj,
 						(IStructure) transferData ) ? CONTAIN_THIS : CONTAIN_NO;
 			}
-			else if( transferData instanceof EmbeddedImageHandle)
+			else if ( transferData instanceof EmbeddedImageHandle )
 			{
-				return targetObj instanceof EmbeddedImageNode?CONTAIN_THIS:CONTAIN_NO;
+				return targetObj instanceof EmbeddedImageNode
+						? CONTAIN_THIS
+						: CONTAIN_NO;
 			}
 			else
 			{
@@ -970,7 +958,8 @@ public class DNDUtil
 	{
 		if ( targetObj instanceof EmbeddedImageNode )
 		{
-			targetObj = ( (EmbeddedImageNode) targetObj ).getReportDesignHandle( );
+			targetObj = ( (EmbeddedImageNode) targetObj )
+					.getReportDesignHandle( );
 		}
 		if ( transferData instanceof EmbeddedImage
 				&& targetObj instanceof ModuleHandle )
@@ -997,30 +986,27 @@ public class DNDUtil
 			ColumnHandle targetObj, ColumnBandData transferData, boolean isNew )
 	{
 		int columnNumber = HandleAdapterFactory.getInstance( )
-				.getColumnHandleAdapter( targetObj )
-				.getColumnNumber( );
+				.getColumnHandleAdapter( targetObj ).getColumnNumber( );
 		Object parent = targetObj.getContainer( );
 		if ( parent instanceof TableHandle )
 		{
 			if ( isNew )
 			{
-				return ( (TableHandle) parent ).canInsertAndPasteColumn( transferData,
-						columnNumber );
+				return ( (TableHandle) parent ).canInsertAndPasteColumn(
+						transferData, columnNumber );
 			}
 			return ( (TableHandle) parent ).canPasteColumn( transferData,
-					columnNumber,
-					true );
+					columnNumber, true );
 		}
 		else if ( parent instanceof GridHandle )
 		{
 			if ( isNew )
 			{
-				return ( (GridHandle) parent ).canInsertAndPasteColumn( transferData,
-						columnNumber );
+				return ( (GridHandle) parent ).canInsertAndPasteColumn(
+						transferData, columnNumber );
 			}
 			return ( (GridHandle) parent ).canPasteColumn( transferData,
-					columnNumber,
-					true );
+					columnNumber, true );
 		}
 		return false;
 	}
@@ -1032,15 +1018,16 @@ public class DNDUtil
 		targetObj = unwrapToModel( targetObj );
 		if ( targetObj instanceof DesignElementHandle )
 		{
-			return handleValidateTargetCanContainElementHandle( (DesignElementHandle) targetObj,
-					childHandle,
+			return handleValidateTargetCanContainElementHandle(
+					(DesignElementHandle) targetObj, childHandle,
 					validateContainer );
 		}
 		if ( targetObj instanceof SlotHandle )
 		{
 			SlotHandle targetHandle = (SlotHandle) targetObj;
-			return targetHandle.getElementHandle( )
-					.canContain( targetHandle.getSlotID( ), childHandle ) ? CONTAIN_THIS
+			return targetHandle.getElementHandle( ).canContain(
+					targetHandle.getSlotID( ), childHandle )
+					? CONTAIN_THIS
 					: CONTAIN_NO;
 		}
 		return CONTAIN_NO;
@@ -1072,11 +1059,12 @@ public class DNDUtil
 	{
 		if ( targetHandle instanceof CascadingParameterGroupHandle )
 		{
-			return childHandle.getContainer( ) == targetHandle ? CONTAIN_THIS
+			return childHandle.getContainer( ) == targetHandle
+					? CONTAIN_THIS
 					: CONTAIN_NO;
 		}
-		else if ( targetHandle.canContain( DEUtil.getDefaultSlotID( targetHandle ),
-				childHandle ) )
+		else if ( targetHandle.canContain( DEUtil
+				.getDefaultSlotID( targetHandle ), childHandle ) )
 		{
 			return CONTAIN_THIS;
 		}
@@ -1100,10 +1088,8 @@ public class DNDUtil
 			{
 				return CONTAIN_NO;
 			}
-			if ( !targetHandle.getContainer( )
-					.getDefn( )
-					.getSlot( targetHandle.getContainerSlotHandle( )
-							.getSlotID( ) )
+			if ( !targetHandle.getContainer( ).getDefn( ).getSlot(
+					targetHandle.getContainerSlotHandle( ).getSlotID( ) )
 					.isMultipleCardinality( ) )
 			{
 				// If only can contain single
@@ -1114,10 +1100,9 @@ public class DNDUtil
 				// If class type is same
 				return CONTAIN_PARENT;
 			}
-			return targetHandle.getContainer( )
-					.canContain( targetHandle.getContainerSlotHandle( )
-							.getSlotID( ),
-							childHandle ) ? CONTAIN_PARENT : CONTAIN_NO;
+			return targetHandle.getContainer( ).canContain(
+					targetHandle.getContainerSlotHandle( ).getSlotID( ),
+					childHandle ) ? CONTAIN_PARENT : CONTAIN_NO;
 		}
 		return CONTAIN_NO;
 	}
@@ -1141,8 +1126,8 @@ public class DNDUtil
 		}
 		if ( targetObj instanceof StructuredSelection )
 		{
-			return handleValidateTargetCanContainMore( ( (StructuredSelection) targetObj ).toArray( ),
-					length );
+			return handleValidateTargetCanContainMore(
+					( (StructuredSelection) targetObj ).toArray( ), length );
 		}
 		if ( targetObj instanceof Object[] )
 		{
@@ -1160,12 +1145,9 @@ public class DNDUtil
 		if ( targetObj instanceof SlotHandle )
 		{
 			SlotHandle slot = (SlotHandle) targetObj;
-			return slot.getElementHandle( )
-					.getDefn( )
-					.getSlot( slot.getSlotID( ) )
-					.isMultipleCardinality( )
-					|| slot.getCount( ) < 1
-					&& length <= 1;
+			return slot.getElementHandle( ).getDefn( ).getSlot(
+					slot.getSlotID( ) ).isMultipleCardinality( )
+					|| slot.getCount( ) < 1 && length <= 1;
 		}
 		return targetObj instanceof DesignElementHandle
 				|| targetObj instanceof EmbeddedImageNode;
@@ -1246,15 +1228,15 @@ public class DNDUtil
 			{
 				if ( obj instanceof ColumnHandle )
 				{
-					ColumnHandleAdapter columnAdapter = HandleAdapterFactory.getInstance( )
-							.getColumnHandleAdapter( obj );
+					ColumnHandleAdapter columnAdapter = HandleAdapterFactory
+							.getInstance( ).getColumnHandleAdapter( obj );
 					columnNumber = columnAdapter.getColumnNumber( );
 					parent = getTableParent( (DesignElementHandle) obj );
 				}
 				else if ( obj instanceof CellHandle )
 				{
-					CellHandleAdapter cellAdapter = HandleAdapterFactory.getInstance( )
-							.getCellHandleAdapter( obj );
+					CellHandleAdapter cellAdapter = HandleAdapterFactory
+							.getInstance( ).getCellHandleAdapter( obj );
 					columnNumber = cellAdapter.getColumnNumber( );
 					parent = getTableParent( (DesignElementHandle) obj );
 				}
