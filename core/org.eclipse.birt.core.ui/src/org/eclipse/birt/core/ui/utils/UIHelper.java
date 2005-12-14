@@ -42,6 +42,11 @@ public final class UIHelper
 
 	private static boolean STANDALONE_MODE = System.getProperty( "STANDALONE" ) != null; //$NON-NLS-1$
 
+	private UIHelper( )
+	{
+		imageRegistry = new HashMap( );
+	}
+
 	private static UIHelper getInstance( )
 	{
 		return instance;
