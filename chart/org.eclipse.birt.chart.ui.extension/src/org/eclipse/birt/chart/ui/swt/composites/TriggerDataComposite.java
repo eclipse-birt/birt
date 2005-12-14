@@ -100,7 +100,7 @@ public class TriggerDataComposite extends Composite
 
 	private transient Button btnBaseURL;
 
-	private transient String sBaseURL;
+	private transient String sBaseURL = ""; //$NON-NLS-1$
 
 	private transient boolean bEnableURLParameters;
 
