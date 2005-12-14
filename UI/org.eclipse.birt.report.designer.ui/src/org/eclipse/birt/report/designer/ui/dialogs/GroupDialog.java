@@ -283,7 +283,7 @@ public class GroupDialog extends BaseDialog
 		new Label( composite, SWT.NONE ).setText( GROUP_DLG_GROUP_KEY_LABEL );
 
 		// Creates group key chooser
-		keyChooser = new Combo( composite, SWT.DROP_DOWN );
+		keyChooser = new Combo( composite, SWT.DROP_DOWN | SWT.READ_ONLY );
 		keyChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		// Creates intervalRange area
@@ -452,10 +452,6 @@ public class GroupDialog extends BaseDialog
 			{
 				keyChooser.select( index );
 			}
-			else
-			{
-				keyChooser.setText( groupKey );
-			}
 		}
 		index = getIntervalTypeIndex( inputGroup.getInterval( ) );
 		intervalType.select( index );
@@ -531,17 +527,13 @@ public class GroupDialog extends BaseDialog
 			int index = keyChooser.getSelectionIndex( );
 			String oldKey = inputGroup.getKeyExpr( );
 			String newKey = null;
-			if ( index == -1 )
-			{
-				newKey = keyChooser.getText( );
-			}
-			else
+			if ( index != -1 )
 			{
 				newKey = DEUtil.getExpression( columnList.get( index ) );
 			}
-			if ( !newKey.equals( oldKey ) )
+			inputGroup.setKeyExpr( newKey );
+			if ( newKey != null && !newKey.equals( oldKey ) )
 			{
-				inputGroup.setKeyExpr( newKey );
 				SlotHandle slotHandle = null;
 				if ( inputGroup instanceof ListGroupHandle )
 				{
@@ -560,9 +552,7 @@ public class GroupDialog extends BaseDialog
 				}
 				if ( slotHandle != null )
 				{
-					Object insertObj = index == -1 ? newKey
-							: columnList.get( index );
-					DesignElementHandle dataItemHandle = InsertInLayoutUtil.performInsert( insertObj,
+					DesignElementHandle dataItemHandle = InsertInLayoutUtil.performInsert( columnList.get( index ),
 							slotHandle,
 							inputGroup.getContainer( ) );
 					slotHandle.add( dataItemHandle );
@@ -608,7 +598,7 @@ public class GroupDialog extends BaseDialog
 			{
 				inputGroup.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
 			}
-			
+
 			inputGroup.setTocExpression( UIUtil.convertToModelString( tocEditor.getText( ),
 					true ) );
 
