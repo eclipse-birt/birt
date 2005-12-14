@@ -1,8 +1,8 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 
 /**
@@ -84,12 +84,12 @@ public interface IImage extends IReportItem
 	 * 
 	 * @param source
 	 *            the image source type.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the <code>source</code> is not one of the above.
 	 * 
 	 */
 
-	void setSource( String source ) throws SemanticException;
+	void setSource( String source ) throws ScriptException;
 
 	/**
 	 * Returns the image URI if the image source type is
@@ -146,11 +146,11 @@ public interface IImage extends IReportItem
 	 * 
 	 * @param name
 	 *            the embedded image name
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
 
-	void setImageName( String name ) throws SemanticException;
+	void setImageName( String name ) throws ScriptException;
 
 	/**
 	 * Sets the image uri property. The source type is automatically set in this
@@ -159,11 +159,11 @@ public interface IImage extends IReportItem
 	 * 
 	 * @param uri
 	 *            the uri to be set.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
 
-	void setURI( String uri ) throws SemanticException;
+	void setURI( String uri ) throws ScriptException;
 
 	/**
 	 * Sets the image scale property. The scale factor for the image given as a
@@ -171,11 +171,11 @@ public interface IImage extends IReportItem
 	 * 
 	 * @param scale
 	 *            the scale value to be set.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
 
-	void setScale( double scale ) throws SemanticException;
+	void setScale( double scale ) throws ScriptException;
 
 	/**
 	 * Sets the image size property. The input value is one of the followings
@@ -190,12 +190,12 @@ public interface IImage extends IReportItem
 	 * 
 	 * @param size
 	 *            the size value to be set.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the input size is not one of the above, or if the property
 	 *             is locked.
 	 */
 
-	void setSize( String size ) throws SemanticException;
+	void setSize( String size ) throws ScriptException;
 
 	/**
 	 * Sets the type expression value. The source type is automatically set to
@@ -203,11 +203,11 @@ public interface IImage extends IReportItem
 	 * 
 	 * @param value
 	 *            the type expression value.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
 
-	void setTypeExpression( String value ) throws SemanticException;
+	void setTypeExpression( String value ) throws ScriptException;
 
 	/**
 	 * Sets the value expression value. The source type is automatically set to
@@ -215,11 +215,11 @@ public interface IImage extends IReportItem
 	 * 
 	 * @param value
 	 *            the value expression.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
 
-	void setValueExpression( String value ) throws SemanticException;
+	void setValueExpression( String value ) throws ScriptException;
 
 	/**
 	 * Returns a handle to work with the action property, action is a structure
@@ -241,11 +241,11 @@ public interface IImage extends IReportItem
 	 * @return a handle to the action property, return <code>null</code> if
 	 *         the action has not been set on the image.
 	 * 
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if member of the action is not valid.
 	 */
 
-	ActionHandle setAction( Action action ) throws SemanticException;
+	ActionHandle setAction( Action action ) throws ScriptException;
 
 	/**
 	 * Returns the help text of this image item.
@@ -261,11 +261,11 @@ public interface IImage extends IReportItem
 	 * @param helpText
 	 *            the help text
 	 * 
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
 
-	void setHelpText( String helpText ) throws SemanticException;
+	void setHelpText( String helpText ) throws ScriptException;
 
 	/**
 	 * Returns the resource key of the help text of this image item.
@@ -281,10 +281,10 @@ public interface IImage extends IReportItem
 	 * @param helpTextKey
 	 *            the help text
 	 * 
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
 
-	void setHelpTextKey( String helpTextKey ) throws SemanticException;
+	void setHelpTextKey( String helpTextKey ) throws ScriptException;
 
 }

@@ -1,7 +1,7 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.model.api.ActionHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 
 /**
@@ -29,10 +29,10 @@ public interface IDataItem extends IReportItem
 	 * @return a handle to the action property, return <code>null</code> if
 	 *         the action has not been set on the image.
 	 * 
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if member of the action is not valid.
 	 */
-	ActionHandle setAction( Action action ) throws SemanticException;
+	ActionHandle setAction( Action action ) throws ScriptException;
 
 	/**
 	 * Returns the expression that gives the value that the data item displays.
@@ -46,10 +46,10 @@ public interface IDataItem extends IReportItem
 	 * 
 	 * @param expr
 	 *            the expression to set
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             If the property is locked.
 	 */
-	void setValueExpr( String expr ) throws SemanticException;
+	void setValueExpr( String expr ) throws ScriptException;
 
 	/**
 	 * Returns the help text of this data item.
@@ -64,10 +64,10 @@ public interface IDataItem extends IReportItem
 	 * @param value
 	 *            the help text
 	 * 
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
-	void setHelpText( String value ) throws SemanticException;
+	void setHelpText( String value ) throws ScriptException;
 
 	/**
 	 * Returns the help text resource key of this data item.
@@ -82,9 +82,9 @@ public interface IDataItem extends IReportItem
 	 * @param value
 	 *            the resource key of the help text
 	 * 
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
-	void setHelpTextKey( String value ) throws SemanticException;
+	void setHelpTextKey( String value ) throws ScriptException;
 
 }

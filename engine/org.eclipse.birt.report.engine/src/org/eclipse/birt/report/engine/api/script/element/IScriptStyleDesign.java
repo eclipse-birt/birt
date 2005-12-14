@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api.script.element;
 
-import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 
 /**
  * Represents the design time style for a report element in the scripting
@@ -42,11 +42,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new background attachment
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not one of the above.
 	 */
 
-	void setBackgroundAttachment( String value ) throws SemanticException;
+	void setBackgroundAttachment( String value ) throws ScriptException;
 
 	/**
 	 * Returns the address of the background image.
@@ -61,11 +61,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new background image address
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked
 	 */
 
-	void setBackgroundImage( String value ) throws SemanticException;
+	void setBackgroundImage( String value ) throws ScriptException;
 
 	/**
 	 * Returns the pattern of the repeat for a background image. The return
@@ -95,11 +95,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new repeat pattern
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not one of the above.
 	 */
 
-	void setBackgroundRepeat( String value ) throws SemanticException;
+	void setBackgroundRepeat( String value ) throws ScriptException;
 
 	/**
 	 * Returns the style of the bottom line of the border. The return value is
@@ -138,11 +138,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new style of the bottom line
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not one of the above.
 	 */
 
-	void setBorderBottomStyle( String value ) throws SemanticException;
+	void setBorderBottomStyle( String value ) throws ScriptException;
 
 	/**
 	 * Returns the style of the left line of the border. The return value is
@@ -181,11 +181,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new style of the left line
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not one of the above.
 	 */
 
-	void setBorderLeftStyle( String value ) throws SemanticException;
+	void setBorderLeftStyle( String value ) throws ScriptException;
 
 	/**
 	 * Returns the style of the right line of the border. The return value is
@@ -224,11 +224,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new style of the right line
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not one of the above.
 	 */
 
-	void setBorderRightStyle( String value ) throws SemanticException;
+	void setBorderRightStyle( String value ) throws ScriptException;
 
 	/**
 	 * Returns the style of the top line of the border. The return value is
@@ -267,11 +267,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new style of the right line
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not one of the above.
 	 */
 
-	void setBorderTopStyle( String value ) throws SemanticException;
+	void setBorderTopStyle( String value ) throws ScriptException;
 
 	/**
 	 * Tests whether the section can shrink if the actual content is smaller
@@ -289,12 +289,12 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            <code>true</code> if can shrink, <code>false</code> not.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked
 	 * @see #canShrink()
 	 */
 
-	void setCanShrink( boolean value ) throws SemanticException;
+	void setCanShrink( boolean value ) throws ScriptException;
 
 	/**
 	 * Returns the pattern of a string format.
@@ -317,11 +317,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param pattern
 	 *            the pattern of a string forma
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked
 	 */
 
-	void setStringFormat( String pattern ) throws SemanticException;
+	void setStringFormat( String pattern ) throws ScriptException;
 
 	/**
 	 * Sets the category of a string format. The <code>pattern</code> can be
@@ -341,11 +341,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param pattern
 	 *            the category of a string format
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if <code>pattern</code> is not one of the above values.
 	 */
 
-	void setStringFormatCategory( String pattern ) throws SemanticException;
+	void setStringFormatCategory( String pattern ) throws ScriptException;
 
 	/**
 	 * Returns the pattern of a number format for a style.
@@ -368,11 +368,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param pattern
 	 *            the pattern of a number format
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked
 	 */
 
-	void setNumberFormat( String pattern ) throws SemanticException;
+	void setNumberFormat( String pattern ) throws ScriptException;
 
 	/**
 	 * Sets the category of a number format for a highlight rule. The
@@ -391,11 +391,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param category
 	 *            the category of a number format
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if <code>category</code> is not one of the above values.
 	 */
 
-	void setNumberFormatCategory( String category ) throws SemanticException;
+	void setNumberFormatCategory( String category ) throws ScriptException;
 
 	/**
 	 * Returns the pattern of the date-time-format.
@@ -418,11 +418,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param pattern
 	 *            the pattern of a date time format
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked
 	 */
 
-	void setDateTimeFormat( String pattern ) throws SemanticException;
+	void setDateTimeFormat( String pattern ) throws ScriptException;
 
 	/**
 	 * Sets the category of a number format. The <code>pattern</code> can be
@@ -442,11 +442,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param pattern
 	 *            the category of a date-time format
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if <code>pattern</code> is not one of the above values.
 	 */
 
-	void setDateTimeFormatCategory( String pattern ) throws SemanticException;
+	void setDateTimeFormatCategory( String pattern ) throws ScriptException;
 
 	/**
 	 * Returns the value that specifies if a top-level element should be a block
@@ -475,11 +475,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new display value
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not one of the above.
 	 */
 
-	void setDisplay( String value ) throws SemanticException;
+	void setDisplay( String value ) throws ScriptException;
 
 	/**
 	 * Returns the name of the master page on which to start this section.
@@ -498,12 +498,12 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new master page name
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked
 	 * @see #getMasterPage()
 	 */
 
-	void setMasterPage( String value ) throws SemanticException;
+	void setMasterPage( String value ) throws ScriptException;
 
 	/**
 	 * Returns the value of orphans. The return value is either an integer as as
@@ -529,12 +529,12 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new orphans property
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not an integer or one of the above constants.
 	 * @see #getOrphans()
 	 */
 
-	void setOrphans( String value ) throws SemanticException;
+	void setOrphans( String value ) throws ScriptException;
 
 	/**
 	 * Returns the page break after property for block-level elements. The
@@ -568,11 +568,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new page break after property
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not pre-defined.
 	 */
 
-	void setPageBreakAfter( String value ) throws SemanticException;
+	void setPageBreakAfter( String value ) throws ScriptException;
 
 	/**
 	 * Returns the page break before property for block-level elements. The
@@ -606,11 +606,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new page break before property
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not one of the above.
 	 */
 
-	void setPageBreakBefore( String value ) throws SemanticException;
+	void setPageBreakBefore( String value ) throws ScriptException;
 
 	/**
 	 * Returns the page break inside property for block-level elements. The
@@ -638,11 +638,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new page break inside property
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not one of the above.
 	 */
 
-	void setPageBreakInside( String value ) throws SemanticException;
+	void setPageBreakInside( String value ) throws ScriptException;
 
 	/**
 	 * Tests whether to show this frame even if it is empty, or all its data
@@ -663,12 +663,12 @@ public interface IScriptStyleDesign
 	 * @param value
 	 *            <code>true</code> if show the frame. <code>false</code>
 	 *            not.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked
 	 * @see #showIfBlank()
 	 */
 
-	void setShowIfBlank( boolean value ) throws SemanticException;
+	void setShowIfBlank( boolean value ) throws ScriptException;
 
 	/**
 	 * Returns one 'text-decoration' property to set underline styles. The
@@ -694,11 +694,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new text underline
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not pre-defined.
 	 */
 
-	void setTextUnderline( String value ) throws SemanticException;
+	void setTextUnderline( String value ) throws ScriptException;
 
 	/**
 	 * Returns one 'text-decoration' property to set overline styles. The return
@@ -723,11 +723,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new text overline value
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not one of the above.
 	 */
 
-	void setTextOverline( String value ) throws SemanticException;
+	void setTextOverline( String value ) throws ScriptException;
 
 	/**
 	 * Returns one 'text-decoration' property to set line-through styles. The
@@ -753,11 +753,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new text line-through value
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not one of the above.
 	 */
 
-	void setTextLineThrough( String value ) throws SemanticException;
+	void setTextLineThrough( String value ) throws ScriptException;
 
 	/**
 	 * Returns the text align for block-level elements. The return value is one
@@ -786,11 +786,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new text align
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not one of the above.
 	 */
 
-	void setTextAlign( String value ) throws SemanticException;
+	void setTextAlign( String value ) throws ScriptException;
 
 	/**
 	 * Returns the value to transform the text. The return value is one of
@@ -819,11 +819,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new text transform
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not one of the above.
 	 */
 
-	void setTextTransform( String value ) throws SemanticException;
+	void setTextTransform( String value ) throws ScriptException;
 
 	/**
 	 * Returns the value of the vertical align property for inline elements. The
@@ -862,11 +862,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new vertical align
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not one of the above.
 	 */
 
-	void setVerticalAlign( String value ) throws SemanticException;
+	void setVerticalAlign( String value ) throws ScriptException;
 
 	/**
 	 * Returns the white space for block elements. The return value is defined
@@ -893,11 +893,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new white space
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not one of the above.
 	 */
 
-	void setWhiteSpace( String value ) throws SemanticException;
+	void setWhiteSpace( String value ) throws ScriptException;
 
 	/**
 	 * Returns the value of widows. The return value is either an integer as as
@@ -923,12 +923,12 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param value
 	 *            the new windows property
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not an integer or one of the above constants.
 	 * @see #getWidows()
 	 */
 
-	void setWidows( String value ) throws SemanticException;
+	void setWidows( String value ) throws ScriptException;
 
 	/**
 	 * Gets a color handle to deal with the font color.
@@ -1264,11 +1264,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param fontWeight
 	 *            the new font weight
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the input value is not one of the above.
 	 */
 
-	void setFontWeight( String fontWeight ) throws SemanticException;
+	void setFontWeight( String fontWeight ) throws ScriptException;
 
 	/**
 	 * Returns the variant of the font. The return value is one of constants
@@ -1293,11 +1293,11 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param fontVariant
 	 *            the new font variant.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the input value is not one of the above.
 	 */
 
-	void setFontVariant( String fontVariant ) throws SemanticException;
+	void setFontVariant( String fontVariant ) throws ScriptException;
 
 	/**
 	 * Returns the style of the font. The return value is one of constants
@@ -1324,10 +1324,10 @@ public interface IScriptStyleDesign
 	 * 
 	 * @param fontStyle
 	 *            the new font style.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the input value is not one of the above.
 	 */
 
-	void setFontStyle( String fontStyle ) throws SemanticException;
+	void setFontStyle( String fontStyle ) throws ScriptException;
 
 }

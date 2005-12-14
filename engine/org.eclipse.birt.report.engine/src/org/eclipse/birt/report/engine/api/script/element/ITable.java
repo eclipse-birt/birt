@@ -1,6 +1,6 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
-import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 
 /**
  * Represents a the design of a Table in the scripting environment
@@ -33,11 +33,11 @@ public interface ITable extends IReportItem
 	 * @param value
 	 *            <code>true</code> if repeat the headings, otherwise
 	 *            <code>false</code>.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
 
-	void setRepeatHeader( boolean value ) throws SemanticException;
+	void setRepeatHeader( boolean value ) throws ScriptException;
 
 	/**
 	 * Returns the caption text of this table.
@@ -52,11 +52,11 @@ public interface ITable extends IReportItem
 	 * 
 	 * @param caption
 	 *            the caption text
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
 
-	void setCaption( String caption ) throws SemanticException;
+	void setCaption( String caption ) throws ScriptException;
 
 	/**
 	 * Returns the resource key of the caption.
@@ -71,10 +71,10 @@ public interface ITable extends IReportItem
 	 * 
 	 * @param captionKey
 	 *            the resource key of the caption
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the caption resource-key property is locked.
 	 */
 
-	void setCaptionKey( String captionKey ) throws SemanticException;
+	void setCaptionKey( String captionKey ) throws ScriptException;
 
 }

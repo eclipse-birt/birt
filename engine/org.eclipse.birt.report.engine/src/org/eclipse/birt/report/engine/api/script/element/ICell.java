@@ -1,6 +1,6 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
-import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 
 /**
  * Represents a the design of a Cell in the scripting environment
@@ -24,10 +24,10 @@ public interface ICell extends IReportElement
 	 * @param span
 	 *            the column span
 	 * 
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if this property is locked.
 	 */
-	void setColumnSpan( int span ) throws SemanticException;
+	void setColumnSpan( int span ) throws ScriptException;
 
 	/**
 	 * Returns the cell's row span. This is the number of table or grid rows
@@ -44,10 +44,10 @@ public interface ICell extends IReportElement
 	 * @param span
 	 *            the row span
 	 * 
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if this property is locked.
 	 */
-	void setRowSpan( int span ) throws SemanticException;
+	void setRowSpan( int span ) throws ScriptException;
 
 	/**
 	 * Returns the cell's drop property. This is how the cell should expand to
@@ -77,13 +77,13 @@ public interface ICell extends IReportElement
 	 * @param drop
 	 *            the string value of the drop property
 	 * 
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked or the input value is not one of
 	 *             the above.
 	 * 
 	 * @see #getDrop()
 	 */
-	void setDrop( String drop ) throws SemanticException;
+	void setDrop( String drop ) throws ScriptException;
 
 	/**
 	 * Returns the cell's column property. The return value gives the column in
@@ -100,10 +100,10 @@ public interface ICell extends IReportElement
 	 * @param column
 	 *            the column index, starting from 1.
 	 * 
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if this property is locked.
 	 */
-	void setColumn( int column ) throws SemanticException;
+	void setColumn( int column ) throws ScriptException;
 
 	/**
 	 * Returns the cell's height.

@@ -1,7 +1,6 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
-import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 
 /**
  * Represents a the design of a report element in the scripting environment
@@ -40,24 +39,24 @@ public interface IReportElement
 	 * 
 	 * @param name
 	 *            the new name
-	 * @throws NameException
+	 * @throws ScriptException
 	 *             if the name is duplicate, or if the name is <code>null</code>
 	 *             and this element requires a name.
 	 */
 
-	void setName( String name ) throws NameException;
+	void setName( String name ) throws ScriptException;
 
 	/**
 	 * Sets the resource key of the display name.
 	 * 
 	 * @param displayNameKey
 	 *            the resource key of the display name
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the display name resource-key property is locked or not
 	 *             defined on this element.
 	 */
 
-	void setDisplayNameKey( String displayNameKey ) throws SemanticException;
+	void setDisplayNameKey( String displayNameKey ) throws ScriptException;
 
 	/**
 	 * Gets the resource key of the display name.
@@ -72,12 +71,12 @@ public interface IReportElement
 	 * 
 	 * @param displayName
 	 *            the display name
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the display name property is locked or not defined on this
 	 *             element.
 	 */
 
-	void setDisplayName( String displayName ) throws SemanticException;
+	void setDisplayName( String displayName ) throws ScriptException;
 
 	/**
 	 * Gets the display name.
@@ -92,11 +91,11 @@ public interface IReportElement
 	 * 
 	 * @param customXml
 	 *            the custom XML to set
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the custom XML is locked or not defined on this element.
 	 */
 
-	void setCustomXml( String customXml ) throws SemanticException;
+	void setCustomXml( String customXml ) throws ScriptException;
 
 	/**
 	 * Gets the custom XML.
@@ -111,12 +110,12 @@ public interface IReportElement
 	 * 
 	 * @param theComments
 	 *            the comments to set
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the comments property is locked or not defined on this
 	 *             element.
 	 */
 
-	void setComments( String theComments ) throws SemanticException;
+	void setComments( String theComments ) throws ScriptException;
 
 	/**
 	 * Gets the comments of the report element.

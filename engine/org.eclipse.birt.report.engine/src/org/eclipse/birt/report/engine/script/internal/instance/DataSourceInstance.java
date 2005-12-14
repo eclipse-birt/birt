@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.script.internal.instance;
 
+import java.util.Map;
+
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance;
 
@@ -33,4 +35,24 @@ public class DataSourceInstance implements IDataSourceInstance
 		return dataSource.getExtensionID( );
 	}
 
+	public String getExtensionProperty( String name )
+	{
+		Map m = dataSource.getPublicProperties( );
+		if ( m == null )
+			return null;
+		return ( String ) m.get( name );
+	}
+
+	public void setExtensionProperty( String name, String value )
+	{
+		Map m = dataSource.getPublicProperties( );
+		if ( m == null )
+			return;
+		m.put( name, value );
+	}
+
+	public Map getExtensionProperties( )
+	{
+		return dataSource.getPublicProperties( );
+	}
 }

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api.script.instance;
 
+import java.util.Map;
+
 public interface IDataSourceInstance
 {
 	/**
@@ -21,4 +23,30 @@ public interface IDataSourceInstance
 	 * Gets the ID of the ODA extension which defines this type of data source
 	 */
 	String getExtensionID( );
+
+	/**
+	 * Get the extension property value
+	 * 
+	 * @param name
+	 * @return the extention property
+	 */
+	String getExtensionProperty( String name );
+
+	/**
+	 * Set the extension property value
+	 * 
+	 * @param name
+	 * @param value
+	 */
+	void setExtensionProperty( String name, String value );
+
+	/**
+	 * Gets the public connection property, in the form of a (name, value) pair.
+	 * The property name is of String type. The property value is of String
+	 * type.
+	 * 
+	 * @return Public properties as a Map of name-value pairs. Null if none is
+	 *         defined.
+	 */
+	Map getExtensionProperties( );
 }

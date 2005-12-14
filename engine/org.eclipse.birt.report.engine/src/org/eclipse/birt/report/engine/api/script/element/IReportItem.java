@@ -1,8 +1,8 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
  * Represents a the design of a report item in the scripting environment
@@ -24,11 +24,11 @@ public interface IReportItem extends IReportElement
 	 * @param handle
 	 *            the handle of the data set
 	 * 
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
 
-	void setDataSet( DataSetHandle dataSet ) throws SemanticException;
+	void setDataSet( DataSetHandle dataSet ) throws ScriptException;
 
 	/**
 	 * Gets a handle to deal with the item's x (horizontal) position.
@@ -54,11 +54,11 @@ public interface IReportItem extends IReportElement
 	 * 
 	 * @param dimension
 	 *            dimension string with optional unit suffix.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the string is not valid
 	 */
 
-	void setX( String dimension ) throws SemanticException;
+	void setX( String dimension ) throws ScriptException;
 
 	/**
 	 * Sets the item's x position to a value in default units. The default unit
@@ -67,11 +67,11 @@ public interface IReportItem extends IReportElement
 	 * 
 	 * @param dimension
 	 *            the new value in application units.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
 
-	void setX( double dimension ) throws SemanticException;
+	void setX( double dimension ) throws ScriptException;
 
 	/**
 	 * Sets the item's y position using a dimension string with optional unit
@@ -81,11 +81,11 @@ public interface IReportItem extends IReportElement
 	 * 
 	 * @param dimension
 	 *            dimension string with optional unit suffix.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the string is not valid
 	 */
 
-	void setY( String dimension ) throws SemanticException;
+	void setY( String dimension ) throws ScriptException;
 
 	/**
 	 * Sets the item's y position to a value in default units. The default unit
@@ -94,11 +94,11 @@ public interface IReportItem extends IReportElement
 	 * 
 	 * @param dimension
 	 *            the new value in application units.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
 
-	void setY( double dimension ) throws SemanticException;
+	void setY( double dimension ) throws ScriptException;
 
 	/**
 	 * Sets the item's height using a dimension string with optional unit suffix
@@ -108,11 +108,11 @@ public interface IReportItem extends IReportElement
 	 * 
 	 * @param dimension
 	 *            dimension string with optional unit suffix.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the string is not valid
 	 */
 
-	void setHeight( String dimension ) throws SemanticException;
+	void setHeight( String dimension ) throws ScriptException;
 
 	/**
 	 * Sets the item's height to a value in default units. The default unit may
@@ -121,11 +121,11 @@ public interface IReportItem extends IReportElement
 	 * 
 	 * @param dimension
 	 *            the new value in application units.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
 
-	void setHeight( double dimension ) throws SemanticException;
+	void setHeight( double dimension ) throws ScriptException;
 
 	/**
 	 * Sets the item's width using a dimension string with optional unit suffix
@@ -135,11 +135,11 @@ public interface IReportItem extends IReportElement
 	 * 
 	 * @param dimension
 	 *            dimension string with optional unit suffix.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the string is not valid
 	 */
 
-	void setWidth( String dimension ) throws SemanticException;
+	void setWidth( String dimension ) throws ScriptException;
 
 	/**
 	 * Sets the item's width to a value in default units. The default unit may
@@ -148,11 +148,11 @@ public interface IReportItem extends IReportElement
 	 * 
 	 * @param dimension
 	 *            the new value in application units.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
 
-	void setWidth( double dimension ) throws SemanticException;
+	void setWidth( double dimension ) throws ScriptException;
 
 	/**
 	 * Gets a handle to deal with the item's width.
@@ -182,11 +182,11 @@ public interface IReportItem extends IReportElement
 	 * 
 	 * @param value
 	 *            the property value to be set.
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
 
-	void setBookmark( String value ) throws SemanticException;
+	void setBookmark( String value ) throws ScriptException;
 
 	/**
 	 * Sets a table of contents entry for this item. The TOC property defines an
@@ -195,13 +195,13 @@ public interface IReportItem extends IReportElement
 	 * 
 	 * @param expression
 	 *            the expression that returns a string
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the TOC property is locked by the property mask.
 	 * 
 	 * @see #getTocExpression()
 	 */
 
-	void setTocExpression( String expression ) throws SemanticException;
+	void setTocExpression( String expression ) throws ScriptException;
 
 	/**
 	 * Returns the expression evalueated as a table of contents entry for this

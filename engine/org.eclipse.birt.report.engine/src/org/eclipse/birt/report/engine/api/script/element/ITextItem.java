@@ -1,6 +1,6 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
-import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 
 /**
  * Represents a the design of a TextItem in the scripting environment
@@ -32,11 +32,11 @@ public interface ITextItem extends IReportItem
 	 * 
 	 * @param value
 	 *            the new content of the text item
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
 
-	void setContent( String value ) throws SemanticException;
+	void setContent( String value ) throws ScriptException;
 
 	/**
 	 * Returns the content type of this text item. The content type will one of
@@ -71,13 +71,13 @@ public interface ITextItem extends IReportItem
 	 * @param contentType
 	 *            the content type of this text item.
 	 * 
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the value is not a valid choice item.
 	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 * 
 	 */
 
-	void setContentType( String contentType ) throws SemanticException;
+	void setContentType( String contentType ) throws ScriptException;
 
 	/**
 	 * Gets the resource key of the text for the item.
@@ -92,10 +92,10 @@ public interface ITextItem extends IReportItem
 	 * 
 	 * @param resourceKey
 	 *            the resource key of the text
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
 
-	void setContentKey( String resourceKey ) throws SemanticException;
+	void setContentKey( String resourceKey ) throws ScriptException;
 
 }

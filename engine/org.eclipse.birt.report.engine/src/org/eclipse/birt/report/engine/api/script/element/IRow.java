@@ -1,7 +1,7 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.model.api.DimensionHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
  * Represents a row in the scripting environment
@@ -30,10 +30,10 @@ public interface IRow extends IReportElement
 	 * 
 	 * @param value
 	 *            the bookmark to set
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked.
 	 */
 
-	void setBookmark( String value ) throws SemanticException;
+	void setBookmark( String value ) throws ScriptException;
 
 }
