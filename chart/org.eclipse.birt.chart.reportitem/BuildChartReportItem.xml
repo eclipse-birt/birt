@@ -129,7 +129,9 @@
 		
 		<pathelement path="${core.dir}/core.jar"/>
 		<pathelement path="${model.dir}/model.jar"/>
-		<pathelement path="${engine.dir}/engine.jar"/>
+		<fileset dir="${engine.dir}">
+				<include name="*.jar"/>
+		</fileset>
 		<pathelement path="${designer.core.dir}/core.jar"/>
 		<pathelement path="${designer.ui.dir}/ui.jar"/>
 		<fileset dir="${designer.ui.dir}/lib">
@@ -168,7 +170,9 @@
 		</fileset>
 		<pathelement path="${core.dir}/core.jar"/>
 		<pathelement path="${model.dir}/model.jar"/>
-		<pathelement path="${engine.dir}/engine.jar"/>
+		<fileset dir="${engine.dir}">
+				<include name="*.jar"/>
+		</fileset>
 		<pathelement path="${designer.core.dir}/core.jar"/>
 		<pathelement path="${data.dir}/dte.jar"/>
 		<pathelement path="${chart.engine.dir}/engine.jar"/>
