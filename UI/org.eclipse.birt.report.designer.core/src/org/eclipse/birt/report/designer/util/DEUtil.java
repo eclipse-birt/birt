@@ -1537,6 +1537,26 @@ public class DEUtil
 		return Arrays.asList( themesArray ).iterator( );
 	}
 
+	
+	/**
+	 * Generates GroupElementHandle for given model list.
+	 * @param modelList
+	 * @return
+	 */
+	public static GroupElementHandle getGroupElementHandle(List modelList)
+	{
+		if(SessionHandleAdapter.getInstance().getReportDesignHandle() == null)
+		{
+			return null;
+		}
+		return new GroupElementHandle(SessionHandleAdapter.getInstance().getReportDesignHandle(),modelList);
+	}
+
+	/**
+	 * Checks if the library is included.
+	 * @param handle
+	 * @return
+	 */
 	public static boolean isIncluded( LibraryHandle handle )
 	{
 		return handle.getNamespace( ) != null;
