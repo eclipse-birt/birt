@@ -193,15 +193,15 @@ public class BarChart extends DefaultChartTypeImpl
 				imgPercentStackedWithDepth = UIHelper.getImage( "icons/wizban/horizontalpercentstackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
 				imgSideBySideWithDepth = UIHelper.getImage( "icons/wizban/horizontalsidebysidebarchartwithdepthimage.gif" ); //$NON-NLS-1$
 			}
+			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL,
+					imgSideBySideWithDepth,
+					sSideBySideDescription ) );
 			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
 					imgStackedWithDepth,
 					sStackedDescription ) );
 			vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
 					imgPercentStackedWithDepth,
 					sPercentStackedDescription ) );
-			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL,
-					imgSideBySideWithDepth,
-					sSideBySideDescription ) );
 		}
 		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )

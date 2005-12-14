@@ -104,6 +104,7 @@ public class TaskSelectType extends SimpleTask
 
 	private transient String sType = null;
 
+	// Stored in IChartType
 	private transient String sDimension = null;
 
 	private transient Table table = null;
@@ -139,7 +140,8 @@ public class TaskSelectType extends SimpleTask
 		{
 			this.sType = chartModel.getType( );
 			this.sSubType = chartModel.getSubType( );
-			this.sDimension = chartModel.getDimension( ).getName( );
+			this.sDimension = translateDimensionString( chartModel.getDimension( )
+					.getName( ) );
 			if ( chartModel instanceof ChartWithAxes )
 			{
 				this.orientation = ( (ChartWithAxes) chartModel ).getOrientation( );
@@ -471,10 +473,9 @@ public class TaskSelectType extends SimpleTask
 		cbDimension.removeAll( );
 		String[] strArr = ( (IChartType) htTypes.get( sSelectedType ) ).getSupportedDimensions( );
 		cbDimension.setItems( strArr );
-		translateDimensionString( );
 		for ( int iD = 0; iD < strArr.length; iD++ )
 		{
-			if ( ( sDimension != null && strArr[iD].equals( sDimension ) )
+			if ( ( strArr[iD].equals( sDimension ) )
 					|| ( strArr[iD].equals( ( (IChartType) htTypes.get( this.sType ) ).getDefaultDimension( ) ) ) )
 			{
 				cbDimension.select( iD );
@@ -520,20 +521,22 @@ public class TaskSelectType extends SimpleTask
 	 * This method translates the dimension string from the model to that
 	 * maintained by the UI (for readability).
 	 */
-	private void translateDimensionString( )
+	private String translateDimensionString( String sDimensionValue )
 	{
-		if ( sDimension.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) )
+		String dimensionName = ""; //$NON-NLS-1$
+		if ( sDimensionValue.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
-			sDimension = IChartType.TWO_DIMENSION_TYPE;
+			dimensionName = IChartType.TWO_DIMENSION_TYPE;
 		}
-		else if ( sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
+		else if ( sDimensionValue.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
 		{
-			sDimension = IChartType.TWO_DIMENSION_WITH_DEPTH_TYPE;
+			dimensionName = IChartType.TWO_DIMENSION_WITH_DEPTH_TYPE;
 		}
-		else if ( sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
+		else if ( sDimensionValue.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
-			sDimension = IChartType.THREE_DIMENSION_TYPE;
+			dimensionName = IChartType.THREE_DIMENSION_TYPE;
 		}
+		return dimensionName;
 	}
 
 	private void addOverlayAxis( )
@@ -776,11 +779,7 @@ public class TaskSelectType extends SimpleTask
 
 	private boolean is3D( )
 	{
-		if ( this.chartModel != null )
-		{
-			return chartModel.getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL;
-		}
-		return false;
+		return IChartType.THREE_DIMENSION_TYPE.equals( sDimension );
 	}
 
 	private void changeOverlaySeriesType( )
@@ -1107,7 +1106,8 @@ public class TaskSelectType extends SimpleTask
 		{
 			this.sType = chartModel.getType( );
 			this.sSubType = chartModel.getSubType( );
-			this.sDimension = chartModel.getDimension( ).getName( );
+			this.sDimension = translateDimensionString( chartModel.getDimension( )
+					.getName( ) );
 			if ( chartModel instanceof ChartWithAxes )
 			{
 				this.orientation = ( (ChartWithAxes) chartModel ).getOrientation( );
@@ -1127,12 +1127,7 @@ public class TaskSelectType extends SimpleTask
 					// second Y axis
 				}
 			}
-			// IF THE UI HAS BEEN INITIALIZED...I.E. IF setContext() IS CALLED
-			// AFTER getUI()
-			if ( table != null && !table.isDisposed( ) )
-			{
-				setDefaultTypeSelection( );
-			}
+
 		}
 	}
 

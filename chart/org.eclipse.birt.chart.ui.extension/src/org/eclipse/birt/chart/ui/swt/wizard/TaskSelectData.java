@@ -121,8 +121,11 @@ public class TaskSelectData extends SimpleTask
 			createPreviewPainter( );
 			init( );
 		}
-		doLivePreview( );
-		customizeUI( );
+		else
+		{
+			customizeUI( );
+		}
+		doLivePreview( );		
 		// Refresh all data definitino text
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
 		return cmpTask;
@@ -342,8 +345,6 @@ public class TaskSelectData extends SimpleTask
 	protected void init( )
 	{
 		// Create data set list
-		getWizardContext( ).getDataServiceProvider( )
-				.setContext( getWizardContext( ).getExtendedItem( ) );
 		String currentDataSet = getWizardContext( ).getDataServiceProvider( )
 				.getBoundDataSet( );
 		if ( currentDataSet != null )
