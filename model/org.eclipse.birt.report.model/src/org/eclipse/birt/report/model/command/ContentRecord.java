@@ -25,6 +25,9 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
+import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.Parameter;
+import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
@@ -336,14 +339,19 @@ public class ContentRecord extends SimpleRecord
 			return retValue;
 		}
 
-		// Broadcast to the content element of the deleted event.
+		// Broadcast to the content element of the deleted event if this content
+		// is parameter or parameter group.
 
-		event = new ElementDeletedEvent( container, content );
-		if ( state == DONE_STATE )
-			event.setSender( sender );
+		if ( content instanceof Parameter || content instanceof ParameterGroup
+				|| content instanceof DataSet )
+		{
+			event = new ElementDeletedEvent( container, content );
+			if ( state == DONE_STATE )
+				event.setSender( sender );
 
-		retValue.add( new NotificationRecordTask( content, event, container
-				.getRoot( ) ) );
+			retValue.add( new NotificationRecordTask( content, event, container
+					.getRoot( ) ) );
+		}
 
 		return retValue;
 	}
