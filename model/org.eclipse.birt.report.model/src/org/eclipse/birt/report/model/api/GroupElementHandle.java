@@ -363,8 +363,8 @@ public class GroupElementHandle
 			stack.rollback( );
 			throw e;
 		}
-		
-		stack.commit();
+
+		stack.commit( );
 	}
 
 	/**
@@ -384,8 +384,11 @@ public class GroupElementHandle
 
 		for ( Iterator iter = this.elements.iterator( ); iter.hasNext( ); )
 		{
-			DesignElementHandle element = (DesignElementHandle) iter.next( );
-			if ( element.getExtends( ) == null )
+			Object next = iter.next( );
+			if ( !( next instanceof DesignElementHandle ) )
+				return false;
+
+			if ( ( (DesignElementHandle) next ).getExtends( ) == null )
 				return false;
 		}
 
