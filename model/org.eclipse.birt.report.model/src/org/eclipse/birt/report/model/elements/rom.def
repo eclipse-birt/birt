@@ -1807,7 +1807,7 @@
       <Argument name="object" tagID="Element.DataSet.beforeClose.object" type="Object"/>
 	</Method>				
     <Method context="factory" displayNameID="Element.DataSet.onFetch" name="onFetch" since="1.0" toolTipID="Element.DataSet.onFetch.toolTip" >
-	  <Argument name="dataRow" tagID="Element.DataSet.onFetch.reportContext" type="org.eclipse.birt.report.engine.api.script.IRow"/>
+	  <Argument name="dataRow" tagID="Element.DataSet.onFetch.reportContext" type="org.eclipse.birt.report.engine.api.script.IDataSet"/>
       <Argument name="reportContext" tagID="Element.DataSet.onFetch.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.DataSet.onFetch.object" type="Object"/>
 	</Method>				  
@@ -2250,12 +2250,12 @@
       <Argument name="object" tagID="Element.Label.onPrepare.object" type="Object"/>
     </Method>
     <Method context="factory" displayNameID="Element.Label.onCreate" name="onCreate" since="1.0" toolTipID="Element.Label.onCreate.toolTip">
-      <Argument name="instance" tagID="Element.Label.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.ILabel"/>
+      <Argument name="instance" tagID="Element.Label.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.ILabelInstance"/>
       <Argument name="reportContext" tagID="Element.Label.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Label.onCreate.object" type="Object"/>
     </Method>
     <Method context="presentation" displayNameID="Element.Label.onRender" name="onRender" since="1.0" toolTipID="Element.Label.onRender.toolTip">
-      <Argument name="instance" tagID="Element.Label.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.ILabel"/>
+      <Argument name="instance" tagID="Element.Label.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.ILabelInstance"/>
       <Argument name="reportContext" tagID="Element.Label.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Label.onRender.object" type="Object"/>
     </Method>
@@ -2354,12 +2354,12 @@
       <Argument name="object" tagID="Element.Data.onPrepare.object" type="Object"/>
     </Method>
     <Method context="factory" displayNameID="Element.Data.onCreate" name="onCreate" since="1.0" toolTipID="Element.Data.onCreate.toolTip">
-      <Argument name="instance" tagID="Element.Data.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IDataItem"/>
+      <Argument name="instance" tagID="Element.Data.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IDataItemInstance"/>
       <Argument name="reportContext" tagID="Element.Data.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Data.onCreate.object" type="Object"/>
     </Method>
     <Method context="presentation" displayNameID="Element.Data.onRender" name="onRender" since="1.0" toolTipID="Element.Data.onRender.toolTip">
-      <Argument name="instance" tagID="Element.Data.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IDataItem"/>
+      <Argument name="instance" tagID="Element.Data.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IDataItemInstance"/>
       <Argument name="reportContext" tagID="Element.Data.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Data.onRender.object" type="Object"/>
     </Method>    
@@ -2430,12 +2430,12 @@
       <Argument name="object" tagID="Element.Text.onPrepare.object" type="Object"/>
     </Method>
     <Method context="factory" displayNameID="Element.Text.onCreate" name="onCreate" since="1.0" toolTipID="Element.Text.onCreate.toolTip">
-      <Argument name="instance" tagID="Element.Text.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.ITextItem"/>
+      <Argument name="instance" tagID="Element.Text.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.ITextItemInstance"/>
       <Argument name="reportContext" tagID="Element.Text.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Text.onCreate.object" type="Object"/>
     </Method>
     <Method context="presentation" displayNameID="Element.Text.onRender" name="onRender" since="1.0" toolTipID="Element.Text.onRender.toolTip">
-      <Argument name="instance" tagID="Element.Text.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.ITextItem"/>
+      <Argument name="instance" tagID="Element.Text.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.ITextItemInstance"/>
       <Argument name="reportContext" tagID="Element.Text.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Text.onRender.object" type="Object"/>
     </Method>    
@@ -2589,12 +2589,12 @@
       <Argument name="object" tagID="Element.List.onPrepare.object" type="Object"/>
     </Method>
     <Method context="factory" displayNameID="Element.List.onCreate" name="onCreate" since="1.0" toolTipID="Element.List.onCreate.toolTip">
-      <Argument name="instance" tagID="Element.List.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IList"/>
+      <Argument name="instance" tagID="Element.List.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IListInstance"/>
       <Argument name="reportContext" tagID="Element.List.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.List.onCreate.object" type="Object"/>
     </Method>
     <Method context="presentation" displayNameID="Element.List.onRender" name="onRender" since="1.0" toolTipID="Element.List.onRender.toolTip">
-      <Argument name="instance" tagID="Element.List.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IList"/>
+      <Argument name="instance" tagID="Element.List.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IListInstance"/>
       <Argument name="reportContext" tagID="Element.List.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.List.onRender.object" type="Object"/>
     </Method>  
@@ -2662,12 +2662,12 @@
       <Argument name="object" tagID="Element.Table.onPrepare.object" type="Object"/>
     </Method>
     <Method context="factory" displayNameID="Element.Table.onCreate" name="onCreate" since="1.0" toolTipID="Element.Table.onCreate.toolTip">
-      <Argument name="instance" tagID="Element.Table.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.ITable"/>
+      <Argument name="instance" tagID="Element.Table.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.ITableInstance"/>
       <Argument name="reportContext" tagID="Element.Table.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Table.onCreate.object" type="Object"/>
     </Method>
     <Method context="presentation" displayNameID="Element.Table.onRender" name="onRender" since="1.0" toolTipID="Element.Table.onRender.toolTip">
-      <Argument name="instance" tagID="Element.Table.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.ITable"/>
+      <Argument name="instance" tagID="Element.Table.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.ITableInstance"/>
       <Argument name="reportContext" tagID="Element.Table.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Table.onRender.object" type="Object"/>
     </Method>    
@@ -2746,13 +2746,13 @@
       <Argument name="object" tagID="Element.Row.onPrepare.object" type="Object"/>
     </Method>
     <Method context="factory" displayNameID="Element.Row.onCreate" name="onCreate" since="1.0" toolTipID="Element.Row.onCreate.toolTip">
-      <Argument name="instance" tagID="Element.Row.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IRow"/>
+      <Argument name="instance" tagID="Element.Row.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IRowInstance"/>
       <Argument name="dataRow" tagID="Element.Row.onCreate.dataRow" type="DataRow"/>
       <Argument name="reportContext" tagID="Element.Row.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Row.onCreate.object" type="Object"/>
     </Method>
     <Method context="presentation" displayNameID="Element.Row.onRender" name="onRender" since="1.0" toolTipID="Element.Row.onRender.toolTip">
-      <Argument name="instance" tagID="Element.Row.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IRow"/>
+      <Argument name="instance" tagID="Element.Row.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IRowInstance"/>
       <Argument name="reportContext" tagID="Element.Row.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Row.onRender.object" type="Object"/>
     </Method>
@@ -2801,13 +2801,13 @@
       <Argument name="object" tagID="Element.Cell.onPrepare.object" type="Object"/>
     </Method>
     <Method context="factory" displayNameID="Element.Cell.onCreate" name="onCreate" since="1.0" toolTipID="Element.Cell.onCreate.toolTip">
-      <Argument name="instance" tagID="Element.Cell.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.ICell"/>
+      <Argument name="instance" tagID="Element.Cell.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.ICellInstance"/>
       <Argument name="dataRow" tagID="Element.Cell.onCreate.dataRow" type="DataRow"/>
       <Argument name="reportContext" tagID="Element.Cell.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Cell.onCreate.object" type="Object"/>
     </Method>
     <Method context="presentation" displayNameID="Element.Cell.onRender" name="onRender" since="1.0" toolTipID="Element.Cell.onRender.toolTip">
-      <Argument name="instance" tagID="Element.Cell.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.ICell"/>
+      <Argument name="instance" tagID="Element.Cell.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.ICellInstance"/>
       <Argument name="reportContext" tagID="Element.Cell.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Cell.onRender.object" type="Object"/>
     </Method>
@@ -2855,12 +2855,12 @@
       <Argument name="object" tagID="Element.Image.onPrepare.object" type="Object"/>
     </Method>
     <Method context="factory" displayNameID="Element.Image.onCreate" name="onCreate" since="1.0" toolTipID="Element.Image.onCreate.toolTip">
-      <Argument name="instance" tagID="Element.Image.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IImage"/>
+      <Argument name="instance" tagID="Element.Image.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IImageInstance"/>
       <Argument name="reportContext" tagID="Element.Image.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Image.onCreate.object" type="Object"/>
     </Method>
     <Method context="presentation" displayNameID="Element.Image.onRender" name="onRender" since="1.0" toolTipID="Element.Image.onRender.toolTip">
-      <Argument name="instance" tagID="Element.Image.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IImage"/>
+      <Argument name="instance" tagID="Element.Image.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IImageInstance"/>
       <Argument name="reportContext" tagID="Element.Image.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Image.onRender.object" type="Object"/>
     </Method>    
@@ -2917,12 +2917,12 @@
       <Argument name="object" tagID="Element.Grid.onPrepare.object" type="Object"/>
     </Method>
     <Method context="factory" displayNameID="Element.Grid.onCreate" name="onCreate" since="1.0" toolTipID="Element.Grid.onCreate.toolTip">
-      <Argument name="instance" tagID="Element.Grid.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IGrid"/>
+      <Argument name="instance" tagID="Element.Grid.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.IGridInstance"/>
       <Argument name="reportContext" tagID="Element.Grid.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Grid.onCreate.object" type="Object"/>
     </Method>
     <Method context="presentation" displayNameID="Element.Grid.onRender" name="onRender" since="1.0" toolTipID="Element.Grid.onRender.toolTip">
-      <Argument name="instance" tagID="Element.Grid.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IGrid"/>
+      <Argument name="instance" tagID="Element.Grid.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.IGridInstance"/>
       <Argument name="reportContext" tagID="Element.Grid.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.Grid.onRender.object" type="Object"/>
     </Method>    
