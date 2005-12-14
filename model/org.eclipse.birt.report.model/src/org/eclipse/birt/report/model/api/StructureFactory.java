@@ -23,8 +23,8 @@ import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
-import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
@@ -32,8 +32,10 @@ import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
+import org.eclipse.birt.report.model.command.LibraryException;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 
 /**
@@ -279,6 +281,9 @@ public class StructureFactory
 	 * 
 	 * @param baseImage
 	 * @return the created embedded image
+	 * 
+	 * @deprecated by
+	 *             {@link #newEmbeddedImageFrom(EmbeddedImageHandle, String, ModuleHandle)}
 	 */
 
 	public static EmbeddedImage createEmbeddedImage(
@@ -293,6 +298,53 @@ public class StructureFactory
 		StructRefValue libReference = new StructRefValue( namespace, baseImage
 				.getName( ) );
 		image.setProperty( EmbeddedImage.LIB_REFERENCE_MEMBER, libReference );
+		return image;
+	}
+
+	/**
+	 * Creates an embedded image from another library embedded image.
+	 * 
+	 * @param baseImage
+	 *            the base image
+	 * @param name
+	 *            the name of the return embedded image
+	 * @param targetModule
+	 *            the target module that is inserted to
+	 * 
+	 * @return the created embedded image
+	 * @throws LibraryException
+	 *             if the library has the <code>baseImage</code> is not
+	 *             included in the <code>targetModule</code>
+	 */
+
+	public static EmbeddedImage newEmbeddedImageFrom(
+			EmbeddedImageHandle baseImage, String name,
+			ModuleHandle targetModule ) throws LibraryException
+	{
+		if ( baseImage == null || targetModule == null )
+			return null;
+		EmbeddedImage image = new EmbeddedImage( );
+		Module baseModule = baseImage.getModule( );
+
+		if ( baseModule instanceof ReportDesign )
+			return null;
+
+		// the library with the location path is never included
+
+		Library lib = targetModule.getModule( ).getLibraryByLocation(
+				baseModule.getLocation( ) );
+		if ( lib == null )
+		{
+			throw new LibraryException( baseModule,
+					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
+		}
+
+		String namespace = lib.getNamespace( );
+		StructRefValue libReference = new StructRefValue( namespace, baseImage
+				.getName( ) );
+		image.setProperty( EmbeddedImage.LIB_REFERENCE_MEMBER, libReference );
+		image.setName( name );
+
 		return image;
 	}
 }
