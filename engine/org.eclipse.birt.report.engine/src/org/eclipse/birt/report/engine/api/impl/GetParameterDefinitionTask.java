@@ -303,7 +303,7 @@ public class GetParameterDefinitionTask extends EngineTask implements
 				.findParameter( name );
 		if ( parameter == null )
 		{
-			return null;
+			return Collections.EMPTY_LIST;
 		}
 		String selectionType = parameter.getValueType( );
 		String dataType = parameter.getDataType( );
@@ -344,7 +344,7 @@ public class GetParameterDefinitionTask extends EngineTask implements
 			return choices;
 
 		}
-		return null;
+		return Collections.EMPTY_LIST;
 	}
 
 	/**
@@ -613,12 +613,12 @@ public class GetParameterDefinitionTask extends EngineTask implements
 	{
 		CascadingParameterGroupHandle parameterGroup = getCascadingParameterGroup( parameterGroupName );
 		if ( parameterGroup == null )
-			return null;
+			return Collections.EMPTY_LIST;
 
 		IResultIterator iter = ( IResultIterator ) dataCache
 				.get( parameterGroup.getName( ) );
 		if ( iter == null )
-			return null;
+			return Collections.EMPTY_LIST;
 
 		SlotHandle slotHandle = parameterGroup.getParameters( );
 		assert ( groupKeyValues.length < slotHandle.getCount( ) );
