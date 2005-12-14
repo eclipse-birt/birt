@@ -75,6 +75,54 @@ public class RAFileOutputStream extends RAOutputStream
 		cur++; // since we write a byte, the pointer (in bytes) should be increased by 1
 	}
 
+    /**
+     * Writes <code>b.length</code> bytes from the specified byte array 
+     * to this output stream. The general contract for <code>write(b)</code> 
+     * is that it should have exactly the same effect as the call 
+     * <code>write(b, 0, b.length)</code>.
+     *
+     * @param      b   the data.
+     * @exception  IOException  if an I/O error occurs.
+     * @see        java.io.OutputStream#write(byte[], int, int)
+     */
+	public void write(byte b[]) throws IOException
+    {
+		seekParent( cur );
+		parent.write( b );
+		
+		long tmp = parent.getFilePointer();
+		if ( tmp > endPos )
+			endPos = tmp;
+		
+		cur += b.length; // since we write a byte, the pointer (in bytes) should be increased by 1    	
+    }
+
+    /**
+     * Writes <code>len</code> bytes from the specified byte array 
+     * starting at offset <code>off</code> to this output stream. 
+     * The general contract for <code>write(b, off, len)</code> is that 
+     * some of the bytes in the array <code>b</code> are written to the 
+     * output stream in order; element <code>b[off]</code> is the first 
+     * byte written and <code>b[off+len-1]</code> is the last byte written 
+     * by this operation.
+     *
+     * @param      b     the data.
+     * @param      off   the start offset in the data.
+     * @param      len   the number of bytes to write.
+     * @exception  IOException  if an I/O error occurs.
+     */
+    public void write(byte b[], int off, int len) throws IOException 
+    {
+		seekParent( cur );
+		parent.write( b, off, len );
+		
+		long tmp = parent.getFilePointer();
+		if ( tmp > endPos )
+			endPos = tmp;
+		
+		cur += len; // since we write a byte, the pointer (in bytes) should be increased by 1    	
+    }
+
 	/**
 	 * Same behavior as the seek in RandomAccessFile. <br>
 	 * Sets the file-pointer offset, measured from the beginning of this 
