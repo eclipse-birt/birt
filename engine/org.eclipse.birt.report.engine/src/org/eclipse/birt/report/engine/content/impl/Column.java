@@ -22,7 +22,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * column content object
  * 
- * @version $Revision: 1.2 $ $Date: 2005/11/17 16:50:44 $
+ * @version $Revision: 1.3 $ $Date: 2005/12/07 07:21:33 $
  */
 public class Column implements IColumn
 {
@@ -87,7 +87,7 @@ public class Column implements IColumn
 		if ( width != null )
 		{
 			out.writeInt( FIELD_WIDTH );
-			out.writeUTF( width.toString() );
+			width.writeContent( out );
 		}
 		if ( styleClass != null )
 		{
@@ -102,8 +102,8 @@ public class Column implements IColumn
 		switch ( filedId )
 		{
 			case FIELD_WIDTH :
-				String value = in.readUTF( );
-				width = new DimensionType( value );
+				width = new DimensionType( );
+				width.readContent( in );
 				break;
 			case FIELD_STYLECLASS :
 				styleClass = in.readUTF( );

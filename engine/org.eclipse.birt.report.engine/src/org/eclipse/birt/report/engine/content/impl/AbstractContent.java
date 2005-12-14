@@ -378,22 +378,22 @@ abstract public class AbstractContent extends AbstractElement
 		if ( x != null )
 		{
 			out.writeInt( FIELD_X );
-			out.writeUTF( x.toString( ) );
+			x.writeContent( out );
 		}
 		if ( y != null )
 		{
 			out.writeInt( FIELD_Y );
-			out.writeUTF( y.toString( ) );
+			y.writeContent( out );
 		}
 		if ( width != null )
 		{
 			out.writeInt( FIELD_WIDTH );
-			out.writeUTF( width.toString( ) );
+			width.writeContent( out );
 		}
 		if ( height != null )
 		{
 			out.writeInt( FIELD_HEIGHT );
-			out.writeUTF( height.toString( ) );
+			height.writeContent( out );
 		}
 		if ( hyperlink != null )
 		{
@@ -440,20 +440,20 @@ abstract public class AbstractContent extends AbstractElement
 				name = in.readUTF( );
 				break;
 			case FIELD_X :
-				String value = in.readUTF( );
-				x = new DimensionType( value );
+				x = new DimensionType( );
+				x.readContent( in );
 				break;
 			case FIELD_Y :
-				value = in.readUTF( );
-				y = new DimensionType( value );
+				y = new DimensionType( );
+				y.readContent( in );
 				break;
 			case FIELD_WIDTH :
-				value = in.readUTF( );
-				width = new DimensionType( value );
+				width = new DimensionType( );
+				width.readContent( in );
 				break;
 			case FIELD_HEIGHT :
-				value = in.readUTF( );
-				height = new DimensionType( value );
+				height = new DimensionType( );
+				height.readContent( in );				
 				break;
 			case FIELD_HYPERLINK :
 				hyperlink = new ActionContent( );
@@ -474,7 +474,7 @@ abstract public class AbstractContent extends AbstractElement
 				}
 				break;
 			case FIELD_INSTANCE_ID :
-				value = in.readUTF( );
+				String value = in.readUTF( );
 				instanceId = InstanceID.parse( value );
 				break;
 			case FIELD_TOC :

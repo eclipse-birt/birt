@@ -301,52 +301,52 @@ public class PageContent extends AbstractContent implements IPageContent
 		if ( pageHeight != null )
 		{
 			out.writeInt( FIELD_PAGEHEIGHT );
-			out.writeUTF( pageHeight.toString() );
+			pageHeight.writeContent( out );
 		}				
 		if ( pageWidth != null )
 		{
 			out.writeInt( FIELD_PAGEWIDTH );
-			out.writeUTF( pageWidth.toString() );
+			pageWidth.writeContent( out );
 		}			
 		if ( headerHeight != null )
 		{
 			out.writeInt( FIELD_HEADERHEIGHT );
-			out.writeUTF( headerHeight.toString() );
+			headerHeight.writeContent( out );
 		}			
 		if ( footerHeight != null )
 		{
 			out.writeInt( FIELD_FOOTERHEIGHT );
-			out.writeUTF( footerHeight.toString() );
+			footerHeight.writeContent( out );
 		}			
 		if ( leftWidth != null )
 		{
 			out.writeInt( FIELD_LEFTWIDTH );
-			out.writeUTF( leftWidth.toString() );
+			leftWidth.writeContent( out );
 		}			
 		if ( rightWidth != null )
 		{
 			out.writeInt( FIELD_RIGHTWIDTH );
-			out.writeUTF( rightWidth.toString() );
+			rightWidth.writeContent( out );
 		}			
 		if ( marginTop != null )
 		{
 			out.writeInt( FIELD_MARGINTOP );
-			out.writeUTF( marginTop.toString() );
+			marginTop.writeContent( out );
 		}			
 		if ( marginLeft != null )
 		{
 			out.writeInt( FIELD_MARGINLEFT );
-			out.writeUTF( marginLeft.toString() );
+			marginLeft.writeContent( out );
 		}			
 		if ( marginRight != null )
 		{
 			out.writeInt( FIELD_MARGINRIGHT );
-			out.writeUTF( marginRight.toString() );
+			marginRight.writeContent( out );
 		}			
 		if ( marginBottom != null )
 		{
 			out.writeInt( FIELD_MARGINBUTTOM );
-			out.writeUTF( marginBottom.toString() );
+			marginBottom.writeContent( out );
 		}	
 		if ( pageNumber != -1 )
 		{
@@ -367,44 +367,44 @@ public class PageContent extends AbstractContent implements IPageContent
 				pageType = in.readUTF( );
 				break;
 			case FIELD_PAGEHEIGHT :
-				String value = in.readUTF( );
-				pageHeight = new DimensionType( value );
+				pageHeight = new DimensionType( );
+				pageHeight.readContent( in );
 				break;	
 			case FIELD_PAGEWIDTH :
-				value = in.readUTF( );
-				pageWidth = new DimensionType( value );
+				pageWidth = new DimensionType( );
+				pageWidth.readContent( in );
 				break;	
 			case FIELD_HEADERHEIGHT :
-				value = in.readUTF( );
-				headerHeight = new DimensionType( value );
+				headerHeight = new DimensionType( );
+				headerHeight.readContent( in );
 				break;	
 			case FIELD_FOOTERHEIGHT :
-				value = in.readUTF( );
-				footerHeight = new DimensionType( value );
+				footerHeight = new DimensionType( );
+				footerHeight.readContent( in );
 				break;	
 			case FIELD_LEFTWIDTH :
-				value = in.readUTF( );
-				leftWidth = new DimensionType( value );
+				leftWidth = new DimensionType( );
+				leftWidth.readContent( in );
 				break;	
 			case FIELD_RIGHTWIDTH :
-				value = in.readUTF( );
-				rightWidth = new DimensionType( value );
+				rightWidth = new DimensionType( );
+				rightWidth.readContent( in );
 				break;	
 			case FIELD_MARGINTOP :
-				value = in.readUTF( );
-				marginTop = new DimensionType( value );
+				marginTop = new DimensionType( );
+				marginTop.readContent( in );
 				break;	
 			case FIELD_MARGINLEFT :
-				value = in.readUTF( );
-				marginLeft = new DimensionType( value );
+				marginLeft = new DimensionType( );
+				marginLeft.readContent( in );
 				break;	
 			case FIELD_MARGINRIGHT :
-				value = in.readUTF( );
-				marginRight = new DimensionType( value );
+				marginRight = new DimensionType( );
+				marginRight.readContent( in );
 				break;	
 			case FIELD_MARGINBUTTOM :
-				value = in.readUTF( );
-				marginBottom = new DimensionType( value );
+				marginBottom = new DimensionType( );
+				marginBottom.readContent( in );
 				break;						
 			case FIELD_PAGENUMBER :
 				pageNumber = in.readLong( );
