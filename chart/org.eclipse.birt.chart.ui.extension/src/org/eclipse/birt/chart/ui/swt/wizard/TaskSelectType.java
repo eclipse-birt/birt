@@ -659,6 +659,8 @@ public class TaskSelectType extends SimpleTask
 			{
 				lblSeriesType.setEnabled( cbMultipleY.getSelection( ) );
 				cbSeriesType.setEnabled( cbMultipleY.getSelection( ) );
+
+				ChartAdapter.ignoreNotifications( true );
 				if ( cbMultipleY.getSelection( ) )
 				{
 					addOverlayAxis( );
@@ -667,6 +669,8 @@ public class TaskSelectType extends SimpleTask
 				{
 					removeOverlayAxis( );
 				}
+				ChartAdapter.ignoreNotifications( false );
+				changeTask( null );
 			}
 			else
 			{

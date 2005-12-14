@@ -17,7 +17,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
 
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.plugin.CoreUIPlugin;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.graphics.Image;
@@ -33,7 +36,16 @@ import org.eclipse.swt.widgets.Shell;
 public final class UIHelper
 {
 
+	private HashMap imageRegistry;
+
+	private static UIHelper instance;
+
 	private static boolean STANDALONE_MODE = System.getProperty( "STANDALONE" ) != null; //$NON-NLS-1$
+
+	private static UIHelper getInstance( )
+	{
+		return instance;
+	}
 
 	/**
 	 * This is a helper method created to get the location on screen of a
@@ -58,7 +70,7 @@ public final class UIHelper
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( );
+			WizardBase.displayException( e );
 		}
 		return cmpTarget.getShell( ).toDisplay( ptScreen );
 	}
@@ -76,12 +88,10 @@ public final class UIHelper
 		shell.setLocation( Display.getCurrent( )
 				.getPrimaryMonitor( )
 				.getClientArea( ).width
-				/ 2
-				- ( shell.getSize( ).x / 2 ), Display.getCurrent( )
+				/ 2 - ( shell.getSize( ).x / 2 ), Display.getCurrent( )
 				.getPrimaryMonitor( )
 				.getClientArea( ).height
-				/ 2
-				- ( shell.getSize( ).y / 2 ) );
+				/ 2 - ( shell.getSize( ).y / 2 ) );
 	}
 
 	/**
@@ -106,7 +116,7 @@ public final class UIHelper
 			}
 			catch ( MalformedURLException e )
 			{
-				e.printStackTrace( );
+				WizardBase.displayException( e );
 			}
 		}
 		else
@@ -117,43 +127,36 @@ public final class UIHelper
 			}
 			catch ( MalformedURLException e )
 			{
-				e.printStackTrace( );
+				WizardBase.displayException( e );
 			}
 		}
 
 		return url;
 	}
 
-	/**
-	 * This is a convenience method to get an imgIcon from a URL.
-	 * 
-	 * @param sPluginRelativePath
-	 *            The URL for the imgIcon.
-	 * @return The imgIcon represented by the given URL.
-	 */
-	public static Image getImage( String sPluginRelativePath )
+	private static Image createImage( String sPluginRelativePath )
 	{
-		org.eclipse.swt.graphics.Image img = null;
+		Image img = null;
 		try
 		{
 			try
 			{
-				img = new org.eclipse.swt.graphics.Image( Display.getCurrent( ),
+				img = new Image( Display.getCurrent( ),
 						getURL( sPluginRelativePath ).openStream( ) );
 			}
 			catch ( MalformedURLException e1 )
 			{
-				img = new org.eclipse.swt.graphics.Image( Display.getCurrent( ),
+				img = new Image( Display.getCurrent( ),
 						new FileInputStream( getURL( sPluginRelativePath ).toString( ) ) );
 			}
 		}
 		catch ( FileNotFoundException e )
 		{
-			e.printStackTrace( );
+			WizardBase.displayException( e );
 		}
 		catch ( IOException e )
 		{
-			e.printStackTrace( );
+			WizardBase.displayException( e );
 		}
 
 		// If still can't load, return a dummy image.
@@ -165,9 +168,75 @@ public final class UIHelper
 	}
 
 	/**
+	 * This is a convenience method to get an imgIcon from a URL. If cache
+	 * mechanism enabled, the Image will be cached into a registry and be
+	 * cleaned up <code>setImageCached( boolean )</code>. Or users need to
+	 * dispose the Image.
+	 * 
+	 * @param sPluginRelativePath
+	 *            The URL for the imgIcon.
+	 * @return The imgIcon represented by the given URL.
+	 * @see #setImageCached( boolean )
+	 */
+	public static Image getImage( String sPluginRelativePath )
+	{
+		if ( getInstance( ) == null )
+		{
+			return createImage( sPluginRelativePath );
+		}
+		if ( !getInstance( ).imageRegistry.containsKey( sPluginRelativePath ) )
+		{
+
+			getInstance( ).imageRegistry.put( sPluginRelativePath,
+					createImage( sPluginRelativePath ) );
+		}
+
+		return (Image) getInstance( ).imageRegistry.get( sPluginRelativePath );
+	}
+
+	/**
+	 * Enables or disables the Image cache mechanism.
+	 * 
+	 * @param isEnabled
+	 *            true: enable cache; false disable cache and clean up all
+	 *            registered Image resource
+	 */
+	public synchronized static void setImageCached( boolean isEnabled )
+	{
+		if ( isEnabled )
+		{
+			if ( instance == null )
+			{
+				instance = new UIHelper( );
+			}
+		}
+		else
+		{
+			cleanup( );
+			instance = null;
+		}
+	}
+
+	private static void cleanup( )
+	{
+		if ( getInstance( ) != null )
+		{
+			for ( Iterator iterator = getInstance( ).imageRegistry.values( )
+					.iterator( ); iterator.hasNext( ); )
+			{
+				Image image = (Image) iterator.next( );
+				if ( !image.isDisposed( ) )
+				{
+					image.dispose( );
+				}
+			}
+			getInstance( ).imageRegistry.clear( );
+		}
+	}
+
+	/**
 	 * Returns if running in eclipse mode or stand-alone mode currently.
 	 * 
-	 * @return
 	 */
 	public static boolean isEclipseMode( )
 	{

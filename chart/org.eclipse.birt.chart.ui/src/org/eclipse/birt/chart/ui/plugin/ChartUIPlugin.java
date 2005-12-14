@@ -4,6 +4,7 @@ package org.eclipse.birt.chart.ui.plugin;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -17,7 +18,7 @@ public class ChartUIPlugin extends AbstractUIPlugin
 	 * Plugin ID.
 	 */
 	public static final String ID = "org.eclipse.birt.chart.ui"; //$NON-NLS-1$
-	
+
 	// The shared instance.
 	private static ChartUIPlugin plugin;
 
@@ -47,6 +48,7 @@ public class ChartUIPlugin extends AbstractUIPlugin
 	public void start( BundleContext context ) throws Exception
 	{
 		super.start( context );
+		UIHelper.setImageCached( true );
 	}
 
 	/**
@@ -54,6 +56,7 @@ public class ChartUIPlugin extends AbstractUIPlugin
 	 */
 	public void stop( BundleContext context ) throws Exception
 	{
+		UIHelper.setImageCached( false );
 		super.stop( context );
 	}
 

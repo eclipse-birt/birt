@@ -136,6 +136,13 @@ public class LineSeriesAttributeComposite extends Composite
 			gdFCCShadow.widthHint = 180;
 			fccShadow.setLayoutData( gdFCCShadow );
 			fccShadow.addListener( this );
+
+			btnPalette = new Button( this, SWT.CHECK );
+			{
+				btnPalette.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
+				btnPalette.setSelection( ( (LineSeries) series ).isPaletteLineColor( ) );
+				btnPalette.addSelectionListener( this );
+			}
 		}
 
 		btnCurve = new Button( this, SWT.CHECK );
@@ -145,22 +152,12 @@ public class LineSeriesAttributeComposite extends Composite
 			btnCurve.addSelectionListener( this );
 		}
 
-		btnPalette = new Button( this, SWT.CHECK );
-		{
-			btnPalette.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
-			btnPalette.setSelection( ( (LineSeries) series ).isPaletteLineColor( ) );
-			btnPalette.addSelectionListener( this );
-		}
-
 		if ( !isShadowNeeded( ) )
 		{
 			GridData gd = new GridData( );
-			gd.horizontalSpan = 2;
+			gd.horizontalSpan = 4;
+			gd.horizontalIndent = 5;
 			btnCurve.setLayoutData( gd );
-
-			gd = new GridData( );
-			gd.horizontalSpan = 2;
-			btnPalette.setLayoutData( gd );
 		}
 
 		// Layout for the Marker group
@@ -227,6 +224,9 @@ public class LineSeriesAttributeComposite extends Composite
 				true,
 				true );
 		liacLine.addListener( this );
+
+		enableLineSettings( ( (LineSeries) series ).getLineAttributes( )
+				.isVisible( ) );
 
 		populateLists( );
 	}
@@ -326,6 +326,8 @@ public class LineSeriesAttributeComposite extends Composite
 			{
 				( (LineSeries) series ).getLineAttributes( )
 						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+				enableLineSettings( ( (LineSeries) series ).getLineAttributes( )
+						.isVisible( ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
@@ -352,6 +354,19 @@ public class LineSeriesAttributeComposite extends Composite
 	private boolean isShadowNeeded( )
 	{
 		return !( series instanceof AreaSeries );
+	}
+
+	private void enableLineSettings( boolean isEnabled )
+	{
+		if ( fccShadow != null )
+		{
+			fccShadow.setEnabled( isEnabled );
+		}
+		if ( btnPalette != null )
+		{
+			btnPalette.setEnabled( isEnabled );
+		}
+		btnCurve.setEnabled( isEnabled );
 	}
 
 }

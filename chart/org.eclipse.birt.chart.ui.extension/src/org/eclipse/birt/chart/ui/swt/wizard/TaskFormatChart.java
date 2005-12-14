@@ -12,7 +12,9 @@
 package org.eclipse.birt.chart.ui.swt.wizard;
 
 import java.util.Collection;
+import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -59,6 +61,18 @@ public class TaskFormatChart extends TreeCompoundTask
 	private transient Canvas previewCanvas;
 
 	private transient Label lblNodeTitle;
+
+	// registered collections of sheets.
+	// Key:collectionName; Value:nodePath array
+	private transient Hashtable htSheetCollections = null;
+
+	// visible UI Sheets (Order IS important)
+	// Key: nodePath; Value: subtask
+	private transient LinkedHashMap htVisibleSheets = null;
+
+	// visible UI node name (Order IS important)
+	// Key: nodePath; Value: node name
+	private transient LinkedHashMap htVisibleDisplayName = null;
 
 	private transient int iBaseSeriesCount = 0;
 
@@ -113,6 +127,10 @@ public class TaskFormatChart extends TreeCompoundTask
 	protected void populateSubtasks( )
 	{
 		super.populateSubtasks( );
+
+		htVisibleSheets = new LinkedHashMap( 12 );
+		htVisibleDisplayName = new LinkedHashMap( 12 );
+		htSheetCollections = new Hashtable( );
 
 		// Get collection of registered Sheets
 		Collection cRegisteredEntries = ChartUIExtensionsImpl.instance( )
@@ -177,6 +195,8 @@ public class TaskFormatChart extends TreeCompoundTask
 
 	protected void updateTreeItem( )
 	{
+		super.updateTreeItem( );
+
 		getNavigatorTree( ).removeAll( );
 		Iterator itKeys = htVisibleSheets.keySet( ).iterator( );
 		while ( itKeys.hasNext( ) )
@@ -646,6 +666,11 @@ public class TaskFormatChart extends TreeCompoundTask
 	public void widgetDisposed( DisposeEvent e )
 	{
 		super.widgetDisposed( e );
+
+		htVisibleSheets.clear( );
+		htVisibleDisplayName.clear( );
+		htSheetCollections.clear( );
+
 		cmpTask = null;
 		previewCanvas = null;
 		if ( previewPainter != null )
