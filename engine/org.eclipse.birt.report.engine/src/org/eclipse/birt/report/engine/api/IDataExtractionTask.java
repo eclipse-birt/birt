@@ -15,8 +15,8 @@ import java.util.List;
  */
 public interface IDataExtractionTask extends IEngineTask
 {
-	public static int SORT_DIRECTION_ASCENDING = 0;
-	public static int SORT_DIRECTION_DESCENDING = 1;	
+	// public static int SORT_DIRECTION_ASCENDING = 0;
+	// public static int SORT_DIRECTION_DESCENDING = 1;	
 	
 	/**
 	 * sets the report item identifier that data extraction will happen on
@@ -24,7 +24,7 @@ public interface IDataExtractionTask extends IEngineTask
 	 * @param cid
 	 *            report item identifier
 	 */
-	public void setItemID( ComponentID cid );
+	// public void setItemID( ComponentID cid );
 	
 	/**	 
 	 * * @param iid
@@ -46,18 +46,21 @@ public interface IDataExtractionTask extends IEngineTask
 	 *         whole report
 	 */
 	public List getMetaData( );	
+	
 	/**
 	 * @param columnName
 	 *            name of the column to be included in the data set
 	 */
 	public void selectColumns( String[] columnNames );
+	
 	/**
 	 * @param simpleFilterExpression
 	 *            add one filter condition to the extraction. Only simple filter
 	 *            expressions are supported for now, i.e., LHS must be a column
 	 *            name, only <, >, = and startWith is supported.
 	 */
-	public void setFilters( Filter[] simpleFilterExpression );
+	// public void setFilters( Filter[] simpleFilterExpression );
+	
 	/**
 	 * @param columnNames
 	 *            names of the columns to sort on
@@ -65,14 +68,15 @@ public interface IDataExtractionTask extends IEngineTask
 	 *            the directions for sorting the data based on the specified
 	 *            columns
 	 */
-	public void setSortConditions(String[] columnNames, int[] directions);
+	// public void setSortConditions(String[] columnNames, int[] directions);
+	
 	/**
 	 * sets query string for data extraction. Not suppoted now.
 	 * 
 	 * @param queryString
 	 *            a query string that acts as extraction criterion
 	 */
-	public void setQuery(String queryString);
+	// public void setQuery(String queryString);
 	
 	
 	/**

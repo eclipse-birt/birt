@@ -11,7 +11,6 @@ import org.eclipse.birt.report.engine.api.ComponentID;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.Filter;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -46,12 +45,6 @@ public class DataExtractionTask extends EngineTask
 		setParameterValues( reportDocReader.getParameterValues( ) );
 	}
 	
-	
-	public void setItemID( ComponentID cid )
-	{
-		componentId = cid;
-	}
-
 	public void setInstanceID( InstanceID iid )
 	{
 		instanceId = iid;
@@ -82,23 +75,6 @@ public class DataExtractionTask extends EngineTask
 		// throw new UnsupportedOperationException( );
 	}
 
-	public void setFilters( Filter[] simpleFilterExpression )
-	{
-		//TODO  unsupported currently
-		// throw new UnsupportedOperationException( );
-	}
-
-	public void setSortConditions( String[] columnNames, int[] directions )
-	{
-		//TODO unsupported currently
-		// throw new UnsupportedOperationException( );
-	}
-
-	public void setQuery( String queryString )
-	{
-		// TODO unsupported currently
-	}
-
 	public IExtractionResults extract( ) throws EngineException
 	{
 		if( instanceId == null ) 
@@ -110,7 +86,6 @@ public class DataExtractionTask extends EngineTask
 		while( instId != null && (dataId = instId.getDataID( )) == null ){
 			instId = instId.getParentID( );
 		}
-		
 		
 		if(dataId == null)
 			return null;
