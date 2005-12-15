@@ -11,13 +11,16 @@
 
 package org.eclipse.birt.report.model.api.validators;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -47,10 +50,11 @@ import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
 
 public class StructureListValidator extends AbstractPropertyValidator
 {
+
 	/**
 	 * Name of this validator.
 	 */
-	
+
 	public final static String NAME = "StructureListValidator"; //$NON-NLS-1$
 
 	private static StructureListValidator instance = new StructureListValidator( );
@@ -100,6 +104,7 @@ public class StructureListValidator extends AbstractPropertyValidator
 	/**
 	 * Validates whether the list property specified by <code>propName</code>
 	 * is invalid.
+	 * 
 	 * @param module
 	 *            the module
 	 * @param element
@@ -111,8 +116,7 @@ public class StructureListValidator extends AbstractPropertyValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element,
-			String propName )
+	public List validate( Module module, DesignElement element, String propName )
 	{
 		ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
 
@@ -128,6 +132,7 @@ public class StructureListValidator extends AbstractPropertyValidator
 	/**
 	 * Checks all structures in the specific property whose type is structure
 	 * list property type.
+	 * 
 	 * @param module
 	 *            the module
 	 * @param element
@@ -143,9 +148,8 @@ public class StructureListValidator extends AbstractPropertyValidator
 	 * @return the error list
 	 */
 
-	private List doCheckStructureList( Module module,
-			DesignElement element, IPropertyDefn propDefn, List list,
-			IStructure toAdd )
+	private List doCheckStructureList( Module module, DesignElement element,
+			IPropertyDefn propDefn, List list, IStructure toAdd )
 	{
 		boolean checkList = toAdd == null;
 
@@ -157,70 +161,146 @@ public class StructureListValidator extends AbstractPropertyValidator
 		assert propDefn != null;
 		assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
 
-		// Get the unique member whose value should be unique in the
-		// structure list.
-		// The type of unique member is name property type.
-		// Note: The first unique member is considered.
+		boolean checkID = propDefn.getStructDefn( ).getName( ).equals(
+				PropertyBinding.PROPERTY_BINDING_STRUCT );
 
-		PropertyDefn uniqueMember = null;
-
-		Iterator iter = propDefn.getStructDefn( ).getPropertyIterator( );
-		while ( iter.hasNext( ) )
+		if ( !checkID )
 		{
-			PropertyDefn memberDefn = (PropertyDefn) iter.next( );
+			// Get the unique member whose value should be unique in the
+			// structure list.
+			// The type of unique member is name property type.
+			// Note: The first unique member is considered.
 
-			if ( memberDefn.getTypeCode( ) == PropertyType.NAME_TYPE )
+			PropertyDefn uniqueMember = null;
+
+			Iterator iter = propDefn.getStructDefn( ).getPropertyIterator( );
+			while ( iter.hasNext( ) )
 			{
-				uniqueMember = memberDefn;
-				break;
+				PropertyDefn memberDefn = (PropertyDefn) iter.next( );
+
+				if ( memberDefn.getTypeCode( ) == PropertyType.NAME_TYPE )
+				{
+					uniqueMember = memberDefn;
+					break;
+				}
 			}
-		}
 
-		HashSet values = new HashSet( );
+			HashSet values = new HashSet( );
 
-		// Check whether there two structure has the same value of
-		// the unique member.
+			// Check whether there two structure has the same value of
+			// the unique member.
 
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			Structure struct = (Structure) list.get( i );
-
-			if ( checkList )
-				errorList.addAll( struct.validate( module, element ) );
-
-			if ( uniqueMember != null )
+			for ( int i = 0; i < list.size( ); i++ )
 			{
-				String value = (String) struct.getProperty( module,
-						uniqueMember );
+				Structure struct = (Structure) list.get( i );
+
+				if ( checkList )
+					errorList.addAll( struct.validate( module, element ) );
+
+				if ( uniqueMember != null )
+				{
+					String value = (String) struct.getProperty( module,
+							uniqueMember );
+					if ( values.contains( value ) )
+					{
+						if ( checkList )
+							errorList
+									.add( new PropertyValueException(
+											element,
+											propDefn,
+											value,
+											PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS ) );
+					}
+					else
+					{
+						values.add( value );
+					}
+				}
+			}
+
+			// If the toAdd structure is added the structure list, check whether
+			// there is a structure in the list has the same value of the unique
+			// member.
+
+			if ( uniqueMember != null && toAdd != null )
+			{
+				String value = (String) toAdd
+						.getProperty( module, uniqueMember );
 				if ( values.contains( value ) )
 				{
-					if ( checkList )
-						errorList
-								.add( new PropertyValueException(
-										element,
-										propDefn,
-										value,
-										PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS ) );
+					errorList
+							.add( new PropertyValueException(
+									element,
+									propDefn.getName( ),
+									value,
+									PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS ) );
+				}
+			}
+		}
+		// the list is property binding list, we check them by both name and id
+		else
+		{
+			HashMap values = new HashMap( );
+
+			// Check whether there two property binding have the same name and
+			// element id.
+
+			for ( int i = 0; i < list.size( ); i++ )
+			{
+				PropertyBinding struct = (PropertyBinding) list.get( i );
+
+				if ( checkList )
+					errorList.addAll( struct.validate( module, element ) );
+
+				String name = struct.getName( );
+				BigDecimal id = struct.getID( );
+				List names = (List) values.get( id );
+				if ( names != null )
+				{
+					if ( names.contains( name ) )
+					{
+						if ( checkList )
+							errorList
+									.add( new PropertyValueException(
+											element,
+											propDefn,
+											name,
+											PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS ) );
+					}
+					else
+					{
+						names.add( name );
+					}
 				}
 				else
 				{
-					values.add( value );
+					names = new ArrayList( );
+					names.add( name );
+					values.put( id, names );
 				}
+
 			}
-		}
 
-		// If the toAdd structure is added the structure list, check whether
-		// there is a structure in the list has the same value of the unique
-		// member.
+			// If the toAdd property bindding is added the structure list, check
+			// whether there is a structure in the list has the same name and
+			// element id.
 
-		if ( uniqueMember != null && toAdd != null )
-		{
-			String value = (String) toAdd.getProperty( module, uniqueMember );
-			if ( values.contains( value ) )
+			if ( toAdd != null )
 			{
-				errorList.add( new PropertyValueException( element, propDefn
-						.getName( ), value,
-						PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS ) );
+				assert toAdd instanceof PropertyBinding;
+
+				String name = ( (PropertyBinding) toAdd ).getName( );
+				BigDecimal id = ( (PropertyBinding) toAdd ).getID( );
+				List names = (List) values.get( id );
+				if ( names != null && names.contains( name ) )
+				{
+					errorList
+							.add( new PropertyValueException(
+									element,
+									propDefn,
+									name,
+									PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS ) );
+				}
 			}
 		}
 
