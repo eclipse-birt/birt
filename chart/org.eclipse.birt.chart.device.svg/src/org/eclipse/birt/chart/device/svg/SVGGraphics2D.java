@@ -78,6 +78,7 @@ public class SVGGraphics2D extends Graphics2D
 	protected StringBuffer styleBuffer = new StringBuffer();
 	protected Element deferStrokColor = null;	
 	protected String primitiveId = null;
+	private RenderingHints renderingHints = new RenderingHints(null);
 
 
 	protected static final String defaultStyles = "fill:none;stroke:none"; //$NON-NLS-1$
@@ -314,6 +315,7 @@ public class SVGGraphics2D extends Graphics2D
 	 */
 	public void setRenderingHint( Key arg0, Object arg1 )
 	{
+		renderingHints.put(arg0, arg1);
 	}
 
 	/*
@@ -323,8 +325,7 @@ public class SVGGraphics2D extends Graphics2D
 	 */
 	public Object getRenderingHint( Key arg0 )
 	{
-		logger.log( new Exception( Messages.getString( "SVGGraphics2D.getRenderingHint.Key" ) ) ); //$NON-NLS-1$
-		return null;
+		return renderingHints.get(arg0);
 	}
 
 	/*
@@ -334,7 +335,7 @@ public class SVGGraphics2D extends Graphics2D
 	 */
 	public void setRenderingHints( Map arg0 )
 	{
-		logger.log( new Exception( Messages.getString( "SVGGraphics2D.setRenderingHints.Map" ) ) ); //$NON-NLS-1$
+		renderingHints = new RenderingHints(arg0);
 	}
 
 	/*
@@ -344,7 +345,7 @@ public class SVGGraphics2D extends Graphics2D
 	 */
 	public void addRenderingHints( Map arg0 )
 	{
-		logger.log( new Exception( Messages.getString( "SVGGraphics2D.ddRenderingHints.Map" ) ) ); //$NON-NLS-1$
+		renderingHints.add(new RenderingHints(arg0));
 	}
 
 	/*
@@ -354,8 +355,7 @@ public class SVGGraphics2D extends Graphics2D
 	 */
 	public RenderingHints getRenderingHints( )
 	{
-		logger.log( new Exception( Messages.getString( "SVGGraphics2D.getRenderingHints" ) ) ); //$NON-NLS-1$
-		return null;
+		return renderingHints;
 	}
 
 	/*
@@ -1292,13 +1292,14 @@ public class SVGGraphics2D extends Graphics2D
 		elem.appendChild( dom.createTextNode( text ) );
 		elem.setAttribute( "font-family", getFont().getFamily()); //$NON-NLS-1$
 		elem.setAttribute( "font-size", Integer.toString(getFont().getSize())); //$NON-NLS-1$
+		String style = getRenderingStyle(RenderingHints.KEY_TEXT_ANTIALIASING);
 		if ( color != null ){
 			String alpha = alphaToString( color );
-			String style = "";
 			if ( alpha != null )
 				style += "fill-opacity:" + alpha + ";"; //$NON-NLS-1$ //$NON-NLS-2$
-			elem.setAttribute( "style", style + "fill:" + serializeToString( color ) + ";" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			style += "fill:" + serializeToString( color ) + ";"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
+		elem.setAttribute("style", style);
 		if ( transforms.getType( ) != AffineTransform.TYPE_IDENTITY )
 		{
 			double[] matrix = new double[6];
@@ -1307,6 +1308,18 @@ public class SVGGraphics2D extends Graphics2D
 		}
 		
 		return elem;
+	}
+	
+	protected String getRenderingStyle(Object key){
+		Object value = renderingHints.get(key);
+		if (key.equals(RenderingHints.KEY_TEXT_ANTIALIASING)){
+			if (value.equals(RenderingHints.VALUE_TEXT_ANTIALIAS_OFF))
+				return "text-rendering:optimizeSpeed;";//$NON-NLS-1$ 
+			else
+				//SVG always turns on antialias
+				return "";  //$NON-NLS-1$ 
+		}
+		return "";//$NON-NLS-1$ 	
 	}
 
 	protected Element createRect( double arg0, double arg1, double arg2,
