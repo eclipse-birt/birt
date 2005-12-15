@@ -21,6 +21,7 @@ import java.util.HashMap;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
@@ -73,45 +74,108 @@ import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.elements.OdaDataSet;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
 
 /**
- * A singleton adapter class that creates data engine API interface objects from
+ * An adapter class that creates data engine API interface objects from
  * the model.api objects for data set and data source definition.
+ * 
+ * The user of this adaptor can optionally provide an associated IReportContext
+ * object and a Javascript scope. IReportContext is used to provide a context
+ * for executing data source and data set event handlers. The Javascript
+ * scope is used to evaluate data source and data set binding expressions. If a scope
+ * is not provided, data source and data set bindings will not take effect. 
  */
 public class ModelDteApiAdapter
 {
-	private static ModelDteApiAdapter sm_instance;
-
+	private IReportContext reportContext;
+	private Scriptable jsScope;
+	
+	/**
+	 * @deprecated Construct an instance of this class directly
+	 */
 	public static ModelDteApiAdapter getInstance( )
 	{
-		if ( sm_instance == null )
-			sm_instance = new ModelDteApiAdapter( );
-		return sm_instance;
+		return new ModelDteApiAdapter();
 	}
 
-	private ModelDteApiAdapter( )
+	/**
+	 * @deprecated use createDataSourceDesign( dataSource )
+	 */
+	public IBaseDataSourceDesign createDataSourceDesign( DataSourceHandle dataSource, IReportContext context )
+		throws EngineException
+	{
+		try
+		{
+			ModelDteApiAdapter tmpAdaptor = new ModelDteApiAdapter( context, null );
+			return tmpAdaptor.createDataSourceDesign( dataSource );
+		}
+		catch (BirtException  e) 
+		{
+			throw new EngineException( e.getLocalizedMessage() );
+		}
+	}
+
+	/**
+	 * @deprecated use createDataSetDesign( dataSource )
+	 */
+	public IBaseDataSetDesign createDataSetDesign( DataSetHandle dataSet, IReportContext context )
+		throws EngineException
+	{
+		try
+		{
+			ModelDteApiAdapter tmpAdaptor = new ModelDteApiAdapter( context, null );
+			return tmpAdaptor.createDataSetDesign( dataSet );
+		}
+		catch (BirtException  e) 
+		{
+			throw new EngineException( e.getLocalizedMessage() );
+		}
+	}
+	
+	/**
+	 * Default constructor. Constructs an adaptor which uses no associated
+	 * Javascript scope and no report context.
+	 */
+	public ModelDteApiAdapter( )
 	{
 	}
+	
+	/**
+	 * Constructs an instance with the given report context and scope
+	 * @param reportContext Context for event handlers. May be null
+	 * @param jsScope Scope for evaluting property binding expressions. If null, property bindings have no effect
+	 */
+	public ModelDteApiAdapter( IReportContext reportContext, Scriptable jsScope )
+	{
+		this.reportContext = reportContext;
+		this.jsScope = jsScope;
+	}
 
-	public IBaseDataSourceDesign createDataSourceDesign(
-			DataSourceHandle dataSource, IReportContext reportContext )
-			throws EngineException
+	/**
+	 * Adapts the specified Model Data Source to a Data Engine API data source design object
+	 */
+	public IBaseDataSourceDesign createDataSourceDesign( DataSourceHandle dataSource )
+			throws BirtException
 	{
 		if ( dataSource instanceof OdaDataSourceHandle )
-			return newExtendedDataSource( ( OdaDataSourceHandle ) dataSource,
-					reportContext );
+			return newExtendedDataSource( ( OdaDataSourceHandle ) dataSource);
 
 		if ( dataSource instanceof ScriptDataSourceHandle )
-			return newScriptDataSource( ( ScriptDataSourceHandle ) dataSource,
-					reportContext );
+			return newScriptDataSource( ( ScriptDataSourceHandle ) dataSource);
 
 		// any other types are not supported
 		assert false;
 		return null;
 	}
 
-	public IBaseDataSetDesign createDataSetDesign( DataSetHandle dataSet,
-			IReportContext reportContext ) throws EngineException
+	/**
+	 * Adapts the specified Model Data Set to a Data Engine API data set design object
+	 */
+	public IBaseDataSetDesign createDataSetDesign( DataSetHandle dataSet ) 
+			throws BirtException
 	{
 		if ( dataSet instanceof OdaDataSetHandle )
 			return newExtendedDataSet( ( OdaDataSetHandle ) dataSet,
@@ -126,8 +190,18 @@ public class ModelDteApiAdapter
 		return null;
 	}
 
-	IOdaDataSourceDesign newExtendedDataSource( OdaDataSourceHandle source,
-			IReportContext reportContext ) throws EngineException
+	/**
+	 * Evaluates a property binding Javascript expression
+	 */
+	String evaluatePropertyBindingExpr( String expr ) throws BirtException
+	{
+		Object result = JavascriptEvalUtil.evaluateScript( null, jsScope, 
+					expr, "property binding", 0 );
+		return result.toString();
+	}
+	
+	IOdaDataSourceDesign newExtendedDataSource( OdaDataSourceHandle source ) 
+			throws BirtException
 	{
 		OdaDataSourceDesign dteSource = new OdaDataSourceDesign( source
 				.getQualifiedName( ) );
@@ -158,18 +232,22 @@ public class ModelDteApiAdapter
 			Iterator propNamesItr = staticProps.keySet( ).iterator( );
 			while ( propNamesItr.hasNext( ) )
 			{
-				Object propName = propNamesItr.next( );
-				assert ( propName != null && propName instanceof String );
+				String propName = (String)propNamesItr.next( );
+				assert ( propName != null );
 
-				String propValue = ( String ) staticProps.get( propName );
-				try
+				String propValue;
+				// If property binding expression exists, use its evaluation result
+				String bindingExpr =source.getPropertyBinding( propName );
+				if ( bindingExpr != null && bindingExpr.length() > 0 )
 				{
-					dteSource
-							.addPublicProperty( ( String ) propName, propValue );
-				} catch ( BirtException e )
-				{
-					throw new EngineException( e.getMessage( ) );
+					propValue = evaluatePropertyBindingExpr( bindingExpr );
 				}
+				else
+				{
+					propValue = ( String ) staticProps.get( propName );
+				}
+				
+				dteSource.addPublicProperty( ( String ) propName, propValue );
 			}
 		}
 
@@ -181,22 +259,15 @@ public class ModelDteApiAdapter
 			{
 				ExtendedPropertyHandle modelProp = ( ExtendedPropertyHandle ) elmtIter
 						.next( );
-				try
-				{
-					dteSource.addPrivateProperty( modelProp.getName( ),
+				dteSource.addPrivateProperty( modelProp.getName( ),
 							modelProp.getValue( ) );
-				} catch ( BirtException e )
-				{
-					throw new EngineException( e.getMessage( ) );
-				}
 			}
 		}
 
 		return dteSource;
 	}
 
-	IScriptDataSourceDesign newScriptDataSource( ScriptDataSourceHandle source,
-			IReportContext reportContext )
+	IScriptDataSourceDesign newScriptDataSource( ScriptDataSourceHandle source )
 	{
 		ScriptDataSourceDesign dteSource = new ScriptDataSourceDesign( source
 				.getQualifiedName( ) );
@@ -222,7 +293,7 @@ public class ModelDteApiAdapter
 	}
 
 	IOdaDataSetDesign newExtendedDataSet( OdaDataSetHandle modelDataSet,
-			IReportContext reportContext ) throws EngineException
+			IReportContext reportContext ) throws BirtException
 	{
 		OdaDataSetDesign dteDataSet = new OdaDataSetDesign( modelDataSet
 				.getQualifiedName( ) );
@@ -235,8 +306,19 @@ public class ModelDteApiAdapter
 
 		// Adapt extended data set elements
 
-		// static query text
-		dteDataSet.setQueryText( modelDataSet.getQueryText( ) );
+		// Set query text; if binding exists, use its result; otherwise 
+		// use static design
+		String queryTextBinding = modelDataSet.getPropertyBinding( 
+				OdaDataSet.QUERY_TEXT_PROP );
+		if ( queryTextBinding != null && queryTextBinding.length() > 0 )
+		{
+			dteDataSet.setQueryText( 
+					evaluatePropertyBindingExpr( queryTextBinding ) );
+		}
+		else
+		{
+			dteDataSet.setQueryText( modelDataSet.getQueryText( ) );
+		}
 
 		// type of extended data set
 		dteDataSet.setExtensionID( modelDataSet.getExtensionID( ) );
@@ -252,9 +334,18 @@ public class ModelDteApiAdapter
 			Iterator propNamesItr = staticProps.keySet( ).iterator( );
 			while ( propNamesItr.hasNext( ) )
 			{
-				Object propName = propNamesItr.next( );
-				assert ( propName != null && propName instanceof String );
-				String propValue = ( String ) staticProps.get( propName );
+				String propName = (String)propNamesItr.next( );
+				assert ( propName != null  );
+				String propValue;
+				String bindingExpr = modelDataSet.getPropertyBinding( propName );
+				if ( bindingExpr != null && bindingExpr.length() > 0 )
+				{
+					propValue = this.evaluatePropertyBindingExpr( bindingExpr );
+				}
+				else
+				{
+					propValue = ( String ) staticProps.get( propName );
+				}
 				dteDataSet.addPublicProperty( ( String ) propName, propValue );
 			}
 		}
@@ -276,7 +367,7 @@ public class ModelDteApiAdapter
 	}
 
 	IScriptDataSetDesign newScriptDataSet( ScriptDataSetHandle modelDataSet,
-			IReportContext reportContext ) throws EngineException
+			IReportContext reportContext ) throws BirtException
 	{
 		ScriptDataSetDesign dteDataSet = new ScriptDataSetDesign( modelDataSet
 				.getQualifiedName( ) );
@@ -299,7 +390,7 @@ public class ModelDteApiAdapter
 	}
 
 	void adaptBaseDataSet( DataSetHandle modelDataSet,
-			BaseDataSetDesign dteDataSet ) throws EngineException
+			BaseDataSetDesign dteDataSet ) throws BirtException
 	{
 		if ( modelDataSet.getDataSource( ) == null )
 			throw new EngineException(

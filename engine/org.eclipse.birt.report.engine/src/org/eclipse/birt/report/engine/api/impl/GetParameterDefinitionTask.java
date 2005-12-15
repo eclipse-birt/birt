@@ -405,14 +405,13 @@ public class GetParameterDefinitionTask extends EngineTask implements
 
 				// Define data source and data set
 				DataSourceHandle dataSource = dataSet.getDataSource( );
+				ModelDteApiAdapter adaptor = new ModelDteApiAdapter(
+						executionContext.getReportContext(), 
+						executionContext.getSharedScope() );
 				try
 				{
-					dataEngine.defineDataSource( ModelDteApiAdapter
-							.getInstance( ).createDataSourceDesign( dataSource,
-									executionContext.getReportContext( ) ) );
-					dataEngine.defineDataSet( ModelDteApiAdapter.getInstance( )
-							.createDataSetDesign( dataSet,
-									executionContext.getReportContext( ) ) );
+					dataEngine.defineDataSource( adaptor.createDataSourceDesign( dataSource));
+					dataEngine.defineDataSet( adaptor.createDataSetDesign( dataSet));
 				} catch ( BirtException e )
 				{
 					log.log( Level.SEVERE, e.getMessage( ) );
@@ -511,14 +510,13 @@ public class GetParameterDefinitionTask extends EngineTask implements
 				// Handle data source and data set
 				DataEngine dataEngine = getDataEngine( );
 				DataSourceHandle dataSource = dataSet.getDataSource( );
+				ModelDteApiAdapter adaptor = new ModelDteApiAdapter(
+						executionContext.getReportContext(), 
+						executionContext.getSharedScope() );
 				try
 				{
-					dataEngine.defineDataSource( ModelDteApiAdapter
-							.getInstance( ).createDataSourceDesign( dataSource,
-									executionContext.getReportContext( ) ) );
-					dataEngine.defineDataSet( ModelDteApiAdapter.getInstance( )
-							.createDataSetDesign( dataSet,
-									executionContext.getReportContext( ) ) );
+					dataEngine.defineDataSource( adaptor.createDataSourceDesign( dataSource));
+					dataEngine.defineDataSet( adaptor.createDataSetDesign( dataSet ));
 				} catch ( BirtException e )
 				{
 					log.log( Level.SEVERE, e.getMessage( ) );
