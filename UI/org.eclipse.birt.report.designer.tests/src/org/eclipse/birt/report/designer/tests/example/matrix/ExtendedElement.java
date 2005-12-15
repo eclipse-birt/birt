@@ -524,4 +524,10 @@ public class ExtendedElement implements IReportItem
 		return null;
 	}
 
+	public IPropertyDefinition getScriptPropertyDefinition( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -183,4 +183,16 @@ public class ExtensionPropertyDefn implements IPropertyDefinition
 		return null;
 	}
 
+	public boolean isReadOnly( )
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean isVisible( )
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
