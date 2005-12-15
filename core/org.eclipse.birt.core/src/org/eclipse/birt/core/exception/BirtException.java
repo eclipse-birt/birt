@@ -474,6 +474,11 @@ public class BirtException extends Exception
 	{
 		return getLocalizedMessage( sResourceKey );
 	}
+	
+	public String getMessage()
+	{
+		return getLocalizedMessage( sResourceKey );
+	}
 
 	/**
 	 * Returns a localized message based on an error code. Overwrite this method
