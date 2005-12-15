@@ -1,8 +1,6 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
-import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DimensionHandle;
 
 /**
  * Represents a the design of a report item in the scripting environment
@@ -11,40 +9,20 @@ public interface IReportItem extends IReportElement
 {
 
 	/**
-	 * Returns the data set of the report item.
-	 * 
-	 * @return the handle to the data set
-	 */
-
-	DataSetHandle getDataSet( );
-
-	/**
-	 * Sets the data set of the report item.
-	 * 
-	 * @param handle
-	 *            the handle of the data set
-	 * 
-	 * @throws ScriptException
-	 *             if the property is locked.
-	 */
-
-	void setDataSet( DataSetHandle dataSet ) throws ScriptException;
-
-	/**
 	 * Gets a handle to deal with the item's x (horizontal) position.
 	 * 
-	 * @return a DimensionHandle for the item's x position.
+	 * @return The item's x position.
 	 */
 
-	DimensionHandle getX( );
+	String getX( );
 
 	/**
 	 * Gets a handle to deal with the item's y (vertical) position.
 	 * 
-	 * @return a DimensionHandle for the item's y position.
+	 * @return The item's y position.
 	 */
 
-	DimensionHandle getY( );
+	String getY( );
 
 	/**
 	 * Sets the item's x position using a dimension string with optional unit

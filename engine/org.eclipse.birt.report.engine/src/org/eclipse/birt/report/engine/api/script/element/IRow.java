@@ -1,7 +1,6 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
-import org.eclipse.birt.report.model.api.DimensionHandle;
 
 /**
  * Represents a row in the scripting environment
@@ -15,7 +14,7 @@ public interface IRow extends IReportElement
 	 * @return a DimensionHandle for the row's height.
 	 */
 
-	DimensionHandle getHeight( );
+	String getHeight( );
 
 	/**
 	 * Returns the bookmark of this row.

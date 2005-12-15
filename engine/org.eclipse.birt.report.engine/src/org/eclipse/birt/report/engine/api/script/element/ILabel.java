@@ -1,8 +1,6 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
-import org.eclipse.birt.report.model.api.ActionHandle;
-import org.eclipse.birt.report.model.api.elements.structures.Action;
 
 /**
  * Represents a the design of a Label in the scripting environment
@@ -69,22 +67,7 @@ public interface ILabel extends IReportItem
 	 * @see ActionHandle
 	 */
 
-	ActionHandle getActionHandle( );
-
-	/**
-	 * Set an action on the image.
-	 * 
-	 * @param action
-	 *            new action to be set on the image, it represents a bookmark
-	 *            link, hyperlink, and drill through etc.
-	 * @return a handle to the action property, return <code>null</code> if
-	 *         the action has not been set on the image.
-	 * 
-	 * @throws ScriptException
-	 *             if member of the action is not valid.
-	 */
-
-	ActionHandle setAction( Action action ) throws ScriptException;
+	IAction getAction( );
 
 	/**
 	 * Returns the help text of this label item.

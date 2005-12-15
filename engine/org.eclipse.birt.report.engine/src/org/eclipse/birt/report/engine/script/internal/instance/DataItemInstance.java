@@ -12,33 +12,38 @@
 package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance;
-import org.eclipse.birt.report.engine.content.impl.TextContent;
+import org.eclipse.birt.report.engine.content.impl.DataContent;
 
 /**
  * A class representing the runtime state of a data item
  */
-public class DataItemInstance extends ReportItemInstance implements IDataItemInstance
+public class DataItemInstance extends ReportItemInstance implements
+		IDataItemInstance
 {
 
-	public DataItemInstance( TextContent data )
+	public DataItemInstance( DataContent data )
 	{
 		super( data );
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance#getText()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance#getValue()
 	 */
-	public String getText( )
+	public Object getValue( )
 	{
-		return ( ( TextContent ) content ).getText( );
+		return ( ( DataContent ) content ).getValue( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance#setText(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance#setValue(java.lang.Object)
 	 */
-	public void setText( String value )
+	public void setValue( Object value )
 	{
-		( ( TextContent ) content ).setText( value );
+		( ( DataContent ) content ).setValue( value );
 	}
 
 }
