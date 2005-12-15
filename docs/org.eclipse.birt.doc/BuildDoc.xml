@@ -96,7 +96,7 @@
 		 Input parameters:
 		 	eclipse.home
 	-->
-	<target name="Jar" depends="Javadoc,Schemadoc">
+	<target name="Jar" depends="Javadoc">
 		<zip destfile="./doc.zip"
       basedir="."
 			includes="birt/**,chart/**,chartui/**,data/**,engine/**,enginescript/**,oda/**,model/**,ref/**"
@@ -106,7 +106,7 @@
 	<target name="ZipOnly">
 		<zip destfile="./doc.zip"
       basedir="."
-			includes="birt/**,chart/**,chartui/**,data/**,engine/**,oda/**,model/**,ref/**"
+			includes="birt/**,chart/**,chartui/**,data/**,engine/**,enginescript/**,oda/**,model/**,ref/**"
 		/>
 	</target>
 	
@@ -229,32 +229,6 @@
 		 	<property name="eclipse.home" value="${eclipse.home}" />
       <property name="api.javadoc.dir" value="../${module.name}/${chartui.javadoc.dir}" />
 		</ant>
-  </target>
-	
-	<!-- Copy the BIRT Schema HTML files.
-	 -->
-	<target name="Schemadoc">
-    <copy todir="./ref/ext" failonerror="false">
-      <fileset dir="${data.dir}/schema/doc"/>
-    </copy>
-    <copy todir="./ref/ext" failonerror="false">
-      <fileset dir="${oda.dir}/schema/doc"/>
-    </copy>
-    <copy todir="./ref/ext" failonerror="false">
-      <fileset dir="${designerui.dir}/schema/doc"/>
-    </copy>
-    <copy todir="./ref/ext" failonerror="false">
-      <fileset dir="${engine.dir}/schema/doc"/>
-    </copy>
-    <copy todir="./ref/ext" failonerror="false">
-      <fileset dir="${model.dir}/schema/doc"/>
-    </copy>
-    <copy todir="./ref/ext" failonerror="false">
-      <fileset dir="${chartengine.dir}/schema/doc"/>
-    </copy>
-    <copy todir="./ref/ext" failonerror="false">
-      <fileset dir="${chartui.dir}/schema/doc"/>
-    </copy>
   </target>
 	
 </project>
