@@ -39,6 +39,11 @@
 	
 	<servlet-mapping>
 		<servlet-name>ViewerServlet</servlet-name>
+		<url-pattern>/preview</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>ViewerServlet</servlet-name>
 		<url-pattern>/run</url-pattern>
 	</servlet-mapping>
 

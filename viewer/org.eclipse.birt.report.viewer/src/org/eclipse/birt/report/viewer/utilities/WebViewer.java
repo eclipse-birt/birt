@@ -200,7 +200,7 @@ public class WebViewer
 	public static void display( String report, String format, Browser browser )
 	{
 		startWebApp( );
-		browser.setUrl( createURL( "run", report, format ) ); //$NON-NLS-1$
+		browser.setUrl( createURL( "preview", report, format ) ); //$NON-NLS-1$
 	}
 
 }
