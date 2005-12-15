@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.core;
 
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
@@ -19,17 +20,13 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
  * Implementation of BirtException in DtE project.
- * Currently BirtException's methods are all overrided to avoid
- * mistake in test, but this way will be changed to not overridding
- * its main methods like getErrorCode and getLocalizedMessage.
  */
 
 public class DataException extends BirtException
 {
-	private Object argv[];
-
 	/** static ResourceHandle */
-	private static DataResourceHandle resourceHandle = new DataResourceHandle( Locale.getDefault( ) );
+	private static ResourceBundle resourceBundle = 
+		new DataResourceHandle( Locale.getDefault( ) ).getResourceBundle();
 	
 	/** pluginId, probably this value should be obtained externally */
 	private final static String _pluginId = "org.eclipse.birt.data";
@@ -39,7 +36,7 @@ public class DataException extends BirtException
 	 */
 	public DataException( String errorCode )
 	{
-		super( _pluginId, errorCode, resourceHandle.getResourceBundle( ) );
+		super( _pluginId, errorCode, resourceBundle );
 	}
 	
 	/**
@@ -49,10 +46,7 @@ public class DataException extends BirtException
 	 */
 	public DataException( String errorCode, Object argv )
 	{
-		super( _pluginId, errorCode, argv, resourceHandle.getResourceBundle( ) );
-		this.argv = new Object[]{
-			argv
-		};
+		super( _pluginId, errorCode, argv, resourceBundle );
 	}
 	
 	/**
@@ -62,8 +56,7 @@ public class DataException extends BirtException
 	 */
 	public DataException( String errorCode, Object argv[] )
 	{
-		super( _pluginId, errorCode, argv, resourceHandle.getResourceBundle( ) );
-		this.argv = argv;
+		super( _pluginId, errorCode, argv, resourceBundle );
 	}
     
     /*
@@ -71,23 +64,18 @@ public class DataException extends BirtException
      */
     public DataException( String errorCode, Throwable cause )
     {
-    	super( _pluginId, errorCode, resourceHandle.getResourceBundle( ), cause );
+    	super( _pluginId, errorCode, resourceBundle, cause );
     }
     
     public DataException( String errorCode, Throwable cause, Object argv )
     {
-    	super( _pluginId, errorCode, argv, resourceHandle.getResourceBundle( ), cause);
-		this.argv = new Object[]{
-				argv
-			};
+    	super( _pluginId, errorCode, argv, resourceBundle, cause);
     }
     
     public DataException( String errorCode, Throwable cause, Object argv[] )
     {
-    	super( _pluginId, errorCode, argv, resourceHandle.getResourceBundle( ), cause );
-    	this.argv = argv;
+    	super( _pluginId, errorCode, argv, resourceBundle, cause );
     }
-    
     /*
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
@@ -101,16 +89,9 @@ public class DataException extends BirtException
 	 */
 	public String getMessage( )
 	{
-		String msg;
-		if ( argv == null )
-		{
-			msg = resourceHandle.getMessage( getErrorCode() );
-		}
-		else
-		{
-			msg = resourceHandle.getMessage( getErrorCode(), argv );
-		}
+		String msg = super.getMessage();
 		
+		// Dte frequently wraps exceptions
 		// Concatenate error from initCause if available
 		if ( this.getCause() != null )
 		{
@@ -120,14 +101,7 @@ public class DataException extends BirtException
 		}
 		return msg;
 	}
-	
-	/*
-	 * @see org.eclipse.birt.core.exception.BirtException#getPluginId()
-	 */
-	public String getPluginId( )
-	{
-		return _pluginId;
-	}
+    
 	
 	/**
 	 * Wraps a BirtException in a DataException

@@ -125,7 +125,6 @@ public class ResourceConstants
 	public final static String INVALID_SORT_EXPR = "data.engine.BadSortKeyExpr";
 	public final static String PARAMETER_METADATA_NOT_SUPPORTED = "data.engine.NoParamMetaForDataSource";
 	public final static String UNEXPECTED_ERROR = "data.engine.UnexpectedError";
-	public final static String JSSCRIPT_INVALID = "data.engine.JSScriptInvalid";
 	public final static String CANNOT_CONVERT_PARAMETER_TYPE = "data.engine.ConvertDataTypeError";
 	public static final String CANNOT_INSTANTIATE_AGGREGATION_FACTORY = "data.engine.CannotInstantiateAggregationFactory";
 	public static final String DUPLICATE_AGGREGATION_NAME = "date.engine.DuplicateAggregationName";

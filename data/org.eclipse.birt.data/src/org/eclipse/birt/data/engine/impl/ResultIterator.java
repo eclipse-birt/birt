@@ -201,48 +201,40 @@ public class ResultIterator implements IResultIterator
 			org.eclipse.birt.data.engine.odi.IResultIterator odiResult,
 			Context cx, Scriptable scope ) throws DataException
 	{
-		try
+		// Special case for DirectColRefExpr: it's faster to directly access
+		// column value using the Odi IResultIterator.
+		if ( expr instanceof ColumnReferenceExpression )
 		{
-			// Special case for DirectColRefExpr: it's faster to directly access
-			// column value using the Odi IResultIterator.
-			if ( expr instanceof ColumnReferenceExpression )
+			// Direct column reference
+			ColumnReferenceExpression colref = (ColumnReferenceExpression) expr;
+			if ( colref.isIndexed( ) )
 			{
-				// Direct column reference
-				ColumnReferenceExpression colref = (ColumnReferenceExpression) expr;
-				if ( colref.isIndexed( ) )
-				{
-					int idx = colref.getColumnindex( );
-					// Special case: row[0] refers to internal rowID
-					if ( idx == 0 )
-						return new Integer( odiResult.getCurrentResultIndex( ) );
-					else if ( odiResult.getCurrentResult( ) != null )
-						return odiResult.getCurrentResult( )
-								.getFieldValue( idx );
-					else
-						return null;
-				}
+				int idx = colref.getColumnindex( );
+				// Special case: row[0] refers to internal rowID
+				if ( idx == 0 )
+					return new Integer( odiResult.getCurrentResultIndex( ) );
+				else if ( odiResult.getCurrentResult( ) != null )
+					return odiResult.getCurrentResult( )
+							.getFieldValue( idx );
 				else
-				{
-					String name = colref.getColumnName( );
-					// Special case: row._rowPosition refers to internal rowID
-					if ( JSRowObject.ROW_POSITION.equals( name ) )
-						return new Integer( odiResult.getCurrentResultIndex( ) );
-					else if ( odiResult.getCurrentResult( ) != null )
-						return odiResult.getCurrentResult( )
-								.getFieldValue( name );
-					else
-						return null;
-				}
+					return null;
 			}
 			else
 			{
-				return ScriptEvalUtil.convertNativeObjToJavaObj( expr.evaluate( cx,
-						scope ) );
+				String name = colref.getColumnName( );
+				// Special case: row._rowPosition refers to internal rowID
+				if ( JSRowObject.ROW_POSITION.equals( name ) )
+					return new Integer( odiResult.getCurrentResultIndex( ) );
+				else if ( odiResult.getCurrentResult( ) != null )
+					return odiResult.getCurrentResult( )
+							.getFieldValue( name );
+				else
+					return null;
 			}
 		}
-		catch ( DataException e )
+		else
 		{
-			throw e;
+			return  expr.evaluate( cx, scope );
 		}
 
 	}

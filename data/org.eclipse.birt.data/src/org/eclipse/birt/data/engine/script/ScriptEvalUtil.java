@@ -19,6 +19,7 @@ import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
@@ -29,12 +30,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.CompiledExpression;
 import org.eclipse.birt.data.engine.impl.LogUtil;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.IdScriptableObject;
-import org.mozilla.javascript.NativeJavaObject;
-import org.mozilla.javascript.RhinoException;
-import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.Undefined;
 
 
 /**
@@ -511,13 +507,10 @@ public class ScriptEvalUtil
 				"evalExpr() expr="
 						+ LogUtil.toString( expr ) + ", source=" + source
 						+ ", lineNo=" + lineNo );
+		Object result;
 		if ( expr == null )
 		{
-			if ( logger.isLoggable( Level.FINER ) )
-				logger.exiting( ScriptEvalUtil.class.getName( ),
-						"evalExpr",
-						null );
-			return null;
+			result = null;
 		}
 		else if ( expr instanceof IConditionalExpression)
 		{
@@ -525,35 +518,30 @@ public class ScriptEvalUtil
 			Object expression = evalExpr( ConditionalExpr.getExpression( ), cx, scope, source, lineNo );
 			Object Op1 = evalExpr( MiscUtil.constructValidScriptExpression ( ConditionalExpr.getOperand1() ), cx, scope, source, lineNo );
 			Object Op2 = evalExpr( MiscUtil.constructValidScriptExpression ( ConditionalExpr.getOperand2() ), cx, scope, source, lineNo );
-			if ( logger.isLoggable( Level.FINER ) )
-				logger.exiting( ScriptEvalUtil.class.getName( ),
-						"evalExpr",
-						evalConditionalExpr2( expression,
-								ConditionalExpr.getOperator( ),
-								Op1,
-								Op2 ) );
-			return evalConditionalExpr2( expression, ConditionalExpr.getOperator( ), Op1, Op2 );
+			result = evalConditionalExpr2( expression, ConditionalExpr.getOperator( ), Op1, Op2 ); 
 		}
 		else
 		{
 			IScriptExpression jsExpr = (IScriptExpression) expr;
-			if ( logger.isLoggable( Level.FINER ) )
-				logger.exiting( ScriptEvalUtil.class.getName( ),
-						"evalExpr",
-						evaluateJSAsExpr( cx,
-								scope,
-								jsExpr.getText( ),
-								source,
-								lineNo ) );
 			if ( jsExpr.getText( ) != null && jsExpr.getHandle( ) != null )
-				return convertNativeObjToJavaObj( ( (CompiledExpression) jsExpr.getHandle( ) ).evaluate( cx,
-						scope ) );
-			return evaluateJSAsExpr( cx,
-					scope,
-					jsExpr.getText( ),
-					source,
-					lineNo );
+			{
+				result = ((CompiledExpression) jsExpr.getHandle( ) ).evaluate( cx, scope );
+			}
+			else
+			{
+				result = evaluateJSAsExpr( cx,
+						scope,
+						jsExpr.getText( ),
+						source,
+						lineNo );
+			}
 		}
+		
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.exiting( ScriptEvalUtil.class.getName( ),
+					"evalExpr",
+					result );
+		return result;
 	}	
 	
 	/**
@@ -581,155 +569,25 @@ public class ScriptEvalUtil
 				+ ", source=" + source 
 				+ ", lineNo=" + lineNo);
 		
-		Object result = evaluateJSScript( cx, scope, scriptText, source, lineNo);
-		
-		if ( logger.isLoggable( Level.FINER ) )
-			logger.exiting( ScriptEvalUtil.class.getName( ),
-					"evaluateJSExpr",
-					convertNativeObjToJavaObj( result ) );
-		return convertNativeObjToJavaObj(result);
-	}
-	
-	/**
-	 * @param cx
-	 * @param scope
-	 * @param scriptText
-	 * @param source
-	 * @param lineNo
-	 * @return
-	 * @throws DataException
-	 */
-	private static Object evaluateJSScript(Context cx, Scriptable scope,
-			String scriptText, String source, int lineNo)
-			throws DataException 
-	{
-		Object result = null;
+		Object result;
 		try
 		{
-			Script compiledScript = ScriptUtil.getCompiledScript( scope,
-					scriptText,
-					source,
-					lineNo );
-			result = compiledScript.exec( cx, scope );
-			
-			// the result might be a DataExceptionMocker.
-			if ( result instanceof DataExceptionMocker )
-			{
-				throw DataException.wrap( ((DataExceptionMocker) result ).getCause( ));
-			}
-			// It seems Rhino 1.6 has changed its way to process incorrect expression.
-			// When there is an error, exception will not be thrown, but rather an Undefined
-			// instance will be returned. Here its return value is changed to null.
-			if ( result instanceof Undefined )
-			{
-				//throw new Exception( scriptText + " is not valid expression." );
-				return null;
-		
-			}
+			result = JavascriptEvalUtil.evaluateScript( cx, scope, scriptText, source, lineNo );
 		}
-		catch ( RhinoException e)
+		catch (BirtException e)
 		{
-			RethrowJSEvalException( e, scriptText, source, lineNo );
+			throw DataException.wrap(e);
 		}
-		return convertNativeObjToJavaObj(result);
+		
+		// the result might be a DataExceptionMocker.
+		if ( result instanceof DataExceptionMocker )
+		{
+			throw DataException.wrap( ((DataExceptionMocker) result ).getCause( ));
+		}
+		
+		return result;
 	}
 	
-	/**
-	 * Converts the result type into one accepted by BIRT: Double (for all
-	 * numeric types), java.util.Date, String, Boolean.
-	 * 
-	 * @param inputObj
-	 * @return
-	 */
-	public static Object convertNativeObjToJavaObj(Object inputObj){
-		if ( logger.isLoggable( Level.FINER ) )
-			logger.entering( ScriptEvalUtil.class.getName( ),
-					"convertNativeObjToJavaObj",
-					LogUtil.toString( inputObj ) );
-		
-		if ( inputObj instanceof IdScriptableObject ) 
-		{
-			// Return type is possibly a Javascript native object
-			// Convert to Java object with same value
-			String jsClass = ((Scriptable) inputObj).getClassName();
-			if ( "Date".equals(jsClass) ) 
-			{
-				if ( logger.isLoggable( Level.FINER ) )
-					logger.exiting( ScriptEvalUtil.class.getName( ),
-							"convertNativeObjToJavaObj",
-							new Date( (long) Context.toNumber( inputObj ) ) );
-					return new Date( (long) Context.toNumber( inputObj ) );
-			} 
-			else if ( "Boolean".equals(jsClass)) 
-			{
-				if ( logger.isLoggable( Level.FINER ) )
-					logger.exiting( ScriptEvalUtil.class.getName( ),
-							"convertNativeObjToJavaObj",
-							new Boolean( Context.toBoolean( inputObj ) ) );
-				return new Boolean(Context.toBoolean(inputObj));
-			} 
-			else if ( "Number".equals(jsClass)) 
-			{
-				if ( logger.isLoggable( Level.FINER ) )
-					logger.exiting( ScriptEvalUtil.class.getName( ),
-							"convertNativeObjToJavaObj",
-							new Double( Context.toNumber( inputObj ) ) );
-				return new Double(Context.toNumber(inputObj));
-			} 
-			else if( "String".equals(jsClass) )
-			{
-				if ( logger.isLoggable( Level.FINER ) )
-					logger.exiting( ScriptEvalUtil.class.getName( ),
-							"convertNativeObjToJavaObj",
-							inputObj.toString( ).trim() );
-				return inputObj.toString();
-			}
-		}
-		else if ( inputObj instanceof NativeJavaObject )
-		{
-		    return ( (NativeJavaObject) inputObj ).unwrap( );
-		}
-		
-		if ( logger.isLoggable( Level.FINER ) )
-			logger.exiting( ScriptEvalUtil.class.getName( ),
-					"convertNativeObjToJavaObj",
-					inputObj );
-		return inputObj;
-	}
-	
-	/**
-	 * Converts an exception which occurred in the evaluation of a ROM script to
-	 * a DataException, and rethrows such exception. This method never returns.
-	 * 
-	 * @param e
-	 * @param scriptText
-	 * @param source
-	 * @param lineNo
-	 * @throws DataException
-	 */
-	public static void RethrowJSEvalException( RhinoException e, String scriptText, 
-			String source, int lineNo ) 
-		throws DataException
-	{
-		if ( source == null )
-		{
-			// Note that sourceName from RhinoException sometimes get truncated (need to find out why)
-			// Better some than nothing
-			source = e.sourceName();
-			lineNo = e.lineNumber();
-		}
-		
-		if ( logger.isLoggable( Level.FINE ) )
-			logger.log( Level.FINE, 
-					"Unexpected RhinoException. Source=" + source + ", line=" + lineNo+ ", Script=\n"
-					+ scriptText + "\n",
-					e );
-
-        throw new DataException( ResourceConstants.JSSCRIPT_INVALID,
-				new Object[]{
-						scriptText, source, new Integer( lineNo ), e.getLocalizedMessage()
-				} );
-	}
 	
 	/**
 	 * Wrap the text and value of the operand
