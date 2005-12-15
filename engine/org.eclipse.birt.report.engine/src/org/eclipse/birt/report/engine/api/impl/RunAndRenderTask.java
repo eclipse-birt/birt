@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.presentation.HTMLPaginationEmitter;
 import org.eclipse.birt.report.engine.presentation.LocalizedEmitter;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
  * an engine task that runs a report and renders it to one of the output formats
@@ -85,20 +86,13 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	 */
 	public void run( ) throws EngineException
 	{
-		// Make a deep copy of the design element and recreate the
-		// IReportRunnable
-		// This should be moved to a common place of RunTask, RunderTask and
-		// InteractiveTask.
+		// Make a deep copy of the design element and recreate the IReportRunnable
 		ReportDesignHandle designHandle = (ReportDesignHandle) runnable
 				.getDesignHandle( );
-		ReportDesignHandle copiedDesignHandle = designHandle;
-		/*
-		 * TODO: uncomment the following part when the deep copy in DE is ready.
-		 * ReportDesign copiedReportDesign = (ReportDesign)designHandle.copy();
-		 * ReportDesignHandle copiedDesignHandle =
-		 * (ReportDesignHandle)copiedReportDesign.getHandle( null ); // null
-		 * will create a new report design handle
-		 */
+	
+		ReportDesign copiedReportDesign = (ReportDesign)designHandle.copy();
+		ReportDesignHandle copiedDesignHandle = (ReportDesignHandle)copiedReportDesign.getHandle( null ); // null will create a new report design handle
+		runnable = new ReportRunnable( copiedDesignHandle );
 
 		if ( !validateParameters( ) )
 		{

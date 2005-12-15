@@ -27,6 +27,9 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.presentation.HTMLPaginationEmitter;
 import org.eclipse.birt.report.engine.presentation.ReportDocumentEmitter;
+import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
  * A task for running a report design to get a report document
@@ -106,6 +109,12 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	 */
 	protected void doRun( ) throws EngineException
 	{
+		// Make a deep copy of the design element and recreate the IReportRunnable
+		ReportDesignHandle designHandle = (ReportDesignHandle)runnable.getDesignHandle();		 
+		ReportDesign copiedReportDesign = (ReportDesign)designHandle.copy();
+		ReportDesignHandle copiedDesignHandle = (ReportDesignHandle)copiedReportDesign.getHandle( null ); // null will create a new report design handle
+		runnable = new ReportRunnable( copiedDesignHandle );
+
 		if ( !validateParameters( ) )
 			throw new EngineException(
 					MessageConstants.INVALID_PARAMETER_EXCEPTION ); //$NON-NLS-1$
@@ -113,6 +122,17 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		setupExecutionContext( );
 
 		executionContext.setReportDocWriter( writer );
+
+		// After setting up the parameter values and before executing the
+		// report, we need to call onPrepare on all items.
+		// Create IReportContext and set it to execution context
+		ReportContextImpl reportContext = new ReportContextImpl(
+				executionContext.getParams( ), executionContext.getConfigs(),
+				executionContext.getAppContext( ) );
+		executionContext.setReportContext( reportContext );
+		// Call onPrepare in the design tree
+		ScriptedDesignVisitor visitor = new ScriptedDesignVisitor( copiedDesignHandle, executionContext );
+		visitor.apply( copiedDesignHandle.getRoot( ) );
 
 		setupEmitterService( );
 		IContentEmitter emitter = new HTMLPaginationEmitter( executor,
