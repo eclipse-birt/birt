@@ -49,6 +49,7 @@ import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.oda.ODAManifestUtil;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -114,7 +115,7 @@ public class ElementFactory
 		{
 			return newExtensionElement( elementTypeName, name );
 		}
-		
+
 		String javaClass = elemDefn.getJavaClass( );
 		if ( javaClass == null )
 			return null;
@@ -147,7 +148,7 @@ public class ElementFactory
 
 			assert false;
 		}
-		
+
 		return null;
 	}
 
@@ -728,11 +729,11 @@ public class ElementFactory
 			IMessages msgs = peerFactory.getMessages( );
 			if ( msgs != null )
 				extensionDefaultName = msgs.getMessage( (String) extDefn
-					.getDisplayNameKey( ), ThreadResources.getLocale( ) );
+						.getDisplayNameKey( ), ThreadResources.getLocale( ) );
 
-			if (StringUtil.isBlank(extensionDefaultName))
+			if ( StringUtil.isBlank( extensionDefaultName ) )
 				extensionDefaultName = extensionName;
-			
+
 			defaultName = ModelMessages
 					.getMessage( MessageConstants.NAME_PREFIX_NEW_MESSAGE );
 
@@ -909,26 +910,7 @@ public class ElementFactory
 		// if the base element is in the module, just generate a child element
 
 		if ( baseElement.getRoot( ).getElement( ) == module )
-		{
-			DesignElementHandle childElement = null;
-			if ( baseElement instanceof ExtendedItemHandle )
-			{
-				String extensionName = baseElement
-						.getStringProperty( ExtendedItem.EXTENSION_NAME_PROP );
-				childElement = this.newExtendedItem( name, extensionName,
-						(ExtendedItemHandle) baseElement );
-				childElement.getElement( ).refreshStructureFromParent( module );
-			}
-			else
-			{
-				childElement = newElement( baseElement.getElement( )
-						.getElementName( ), name );
-				childElement.setExtends( baseElement );
-				childElement.getElement( ).refreshStructureFromParent( module );
-			}
-
-			return childElement;
-		}
+			return newElementFrom( name, baseElement );
 
 		// the base element is not in the module, check whether the root module
 		// of the base element is included
@@ -957,29 +939,63 @@ public class ElementFactory
 						ExtendsException.DESIGN_EXCEPTION_NOT_FOUND );
 			}
 
-			DesignElementHandle childElement = null;
-			if ( baseElement instanceof ExtendedItemHandle )
-			{
-				String extensionName = baseElement
-						.getStringProperty( ExtendedItem.EXTENSION_NAME_PROP );
-				childElement = this.newExtendedItem( name, extensionName,
-						(ExtendedItemHandle) base.getHandle( lib ) );
-				childElement.getElement( ).refreshStructureFromParent( module );
-			}
-			else
-			{
-				childElement = newElement( base.getElementName( ), name );
-				childElement.setExtends( base.getHandle( lib ) );
-				childElement.getElement( ).refreshStructureFromParent( module );
-			}
-
-			return childElement;
+			return newElementFrom( name, base.getHandle( lib ) );
 		}
 
 		// if the root element is report design, return null
 
 		return null;
 
+	}
+
+	/**
+	 * Creates one new element based on the given element. The new element will
+	 * extends the given one. The element must be extendable.
+	 * 
+	 * @param name
+	 *            the optional new element name
+	 * @param baseElement
+	 *            the base element
+	 * @return the handle to the new element.
+	 * @throws ExtendsException
+	 *             if the "extends" relationship is illegal
+	 */
+
+	private DesignElementHandle newElementFrom( String name,
+			DesignElementHandle baseElement ) throws ExtendsException
+	{
+		DesignElementHandle childElement = null;
+
+		if ( baseElement instanceof ExtendedItemHandle )
+		{
+			String extensionName = baseElement
+					.getStringProperty( ExtendedItem.EXTENSION_NAME_PROP );
+			childElement = newExtendedItem( name, extensionName,
+					(ExtendedItemHandle) baseElement );
+			childElement.getElement( ).refreshStructureFromParent( module );
+		}
+		else
+		{
+			childElement = newElement( baseElement.getElement( )
+					.getElementName( ), name );
+
+			// for the special oda cases, the extension id must be set before
+			// setExtends
+
+			if ( childElement.getElement( ) instanceof IOdaExtendableElementModel )
+			{
+				String extensionId = (String) baseElement
+						.getProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP );
+
+				childElement.getElement( ).setProperty(
+						IOdaExtendableElementModel.EXTENSION_ID_PROP,
+						extensionId );
+			}
+			childElement.setExtends( baseElement );
+			childElement.getElement( ).refreshStructureFromParent( module );
+		}
+
+		return childElement;
 	}
 
 	/**

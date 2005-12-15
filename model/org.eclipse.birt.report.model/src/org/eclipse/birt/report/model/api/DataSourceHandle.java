@@ -32,9 +32,6 @@ public abstract class DataSourceHandle extends ReportElementHandle
 		implements
 			IDataSourceModel
 {
-
-	public Object get;
-
 	/**
 	 * Constructs a handle of DataSource with the given design and element. The
 	 * application generally does not create handles directly. Instead, it uses

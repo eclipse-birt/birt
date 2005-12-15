@@ -217,6 +217,20 @@ public class OdaDataSet extends DataSet
 
 		if ( provider != null )
 			provider.checkExtends( parent );
+		else
+		{
+			OdaDataSet odaParent = (OdaDataSet) parent;
+
+			if ( odaParent.extensionID != null
+					&& !odaParent.extensionID.equals( extensionID ) )
+				throw new ExtendsException( this, parent,
+						ExtendsException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
+
+			if ( extensionID != null
+					&& !extensionID.equals( odaParent.extensionID ) )
+				throw new ExtendsException( this, parent,
+						ExtendsException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
+		}
 	}
 
 	/*
