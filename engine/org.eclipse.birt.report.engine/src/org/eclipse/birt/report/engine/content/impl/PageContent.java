@@ -71,10 +71,19 @@ public class PageContent extends AbstractContent implements IPageContent
 		if ( design instanceof MasterPageDesign )
 		{
 			MasterPageDesign page = (MasterPageDesign) design;
+			
 			orientation = page.getOrientation( );
 			pageType = page.getPageType( );
-			pageHeight = page.getPageHeight( );
-			pageWidth = page.getPageWidth( );
+			if(EngineIRConstants.PAGE_ORIENTATION_LANDSCAPE.equals(page.getOrientation()))
+			{
+				pageHeight = page.getPageWidth();
+				pageWidth = page.getPageHeight();
+			}
+			else
+			{
+				pageHeight = page.getPageHeight( );
+				pageWidth = page.getPageWidth( );
+			}
 			marginTop = page.getTopMargin( );
 			marginLeft = page.getLeftMargin( );
 			marginRight = page.getRightMargin( );
