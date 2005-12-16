@@ -27,5 +27,6 @@
    
    <requires>
       <import plugin="org.eclipse.core.runtime" export="true"/>
+      <import plugin="org.junit" export="true" optional="true"/>
    </requires>
 </plugin>
