@@ -53,7 +53,6 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.script.ModelJavaScriptInitializer;
 import org.eclipse.birt.report.model.script.ModelJavaScriptWrapper;
 import org.eclipse.birt.report.model.script.ReportDefinition;
@@ -68,7 +67,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.45 $ $Date: 2005/12/04 23:56:14 $
+ * @version $Revision: 1.46 $ $Date: 2005/12/12 09:19:55 $
  */
 public class ExecutionContext
 {
@@ -128,11 +127,6 @@ public class ExecutionContext
 	 * the report design contained in the report runnable
 	 */
 	private Report report;
-
-	/**
-	 * the current executed design object.
-	 */
-	private Object designObj;
 
 	/**
 	 * Global configuration variables
@@ -802,7 +796,7 @@ public class ExecutionContext
 		 */
 		public Object getDesign( )
 		{
-			return designObj;
+			return scriptContext.eval( "design" );
 		}
 
 		/**
@@ -824,21 +818,20 @@ public class ExecutionContext
 			return params;
 		}
 
-		// TODO DTE should return the datasets and datasources.
 		/**
 		 * @return a set of data sets
 		 */
-		public SlotHandle getDataSets( )
+		public Object getDataSets( )
 		{
-			return null;
+			return scriptContext.eval( "design.dataSets" );
 		}
 
 		/**
 		 * @return a set of data sources
 		 */
-		public SlotHandle getDataSources( )
+		public Object getDataSources( )
 		{
-			return null;
+			return scriptContext.eval( "design.dataSources" );
 		}
 
 		/**
@@ -868,7 +861,6 @@ public class ExecutionContext
 		ReportDefinition designDefn = new ReportDefinition(
 				(ReportDesignHandle) runnable.getDesignHandle( ) );
 		scriptContext.registerBean( "design", designDefn );
-		this.designObj = scriptContext.eval( "design" );
 	}
 
 	/**
