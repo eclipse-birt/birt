@@ -107,7 +107,6 @@ public final class SwingInteractivityViewer extends JPanel implements
 		{
 			ex.printStackTrace( );
 		}
-		// The default chart displayed in the container is the simple bar chart.
 		cm = InteractivityCharts.createHSChart( );
 	}
 

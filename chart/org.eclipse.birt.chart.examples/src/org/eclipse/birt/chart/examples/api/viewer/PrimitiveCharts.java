@@ -1160,8 +1160,8 @@ public final class PrimitiveCharts
 		lg.getClientArea( ).getOutline( ).setVisible( true );
 		lg.getTitle( ).getCaption( ).getFont( ).setSize( 20 );
 		lg.getTitle( ).setInsets( InsetsImpl.create( 10, 10, 10, 10 ) );
-		lg.getTitle( ).getCaption( ).setValue("Weather");//$NON-NLS-1$
-		lg.getTitle( ).setVisible(true);
+		lg.getTitle( ).getCaption( ).setValue( "Weather" );//$NON-NLS-1$
+		lg.getTitle( ).setVisible( true );
 		lg.setTitlePosition( Position.ABOVE_LITERAL );
 
 		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{

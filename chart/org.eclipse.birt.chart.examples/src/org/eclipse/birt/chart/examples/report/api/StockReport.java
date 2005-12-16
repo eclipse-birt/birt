@@ -68,7 +68,8 @@ import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
-public class StockReport {
+public class StockReport
+{
 
 	ReportDesignHandle reportDesignHandle = null;
 
@@ -78,699 +79,726 @@ public class StockReport {
 
 	MetaDataDictionary dict = null;
 
-	public static void main(String[] args) throws SemanticException,
-			IOException {
-		new StockReport().createReport();
+	public static void main( String[] args ) throws SemanticException,
+			IOException
+	{
+		new StockReport( ).createReport( );
 	}
 
-	void createReport() throws SemanticException, IOException {
-		//A session handle for all open reports
-		SessionHandle session = DesignEngine.newSession(null);
+	void createReport( ) throws SemanticException, IOException
+	{
+		// A session handle for all open reports
+		SessionHandle session = DesignEngine.newSession( null );
 
-		//Create a new report
-		reportDesignHandle = session.createDesign();
+		// Create a new report
+		reportDesignHandle = session.createDesign( );
 
-		//Element factory is used to create instances of BIRT elements.
-		elementFactory = reportDesignHandle.getElementFactory();
+		// Element factory is used to create instances of BIRT elements.
+		elementFactory = reportDesignHandle.getElementFactory( );
 
-		structFactory = new StructureFactory();
+		structFactory = new StructureFactory( );
 
-		dict = MetaDataDictionary.getInstance();
+		dict = MetaDataDictionary.getInstance( );
 
-		createMasterPages();
-		createDataSources();
-		createDataSets();
-		createStyles();
-		createBody();
+		createMasterPages( );
+		createDataSources( );
+		createDataSets( );
+		createStyles( );
+		createBody( );
 
 		String outputPath = "output";//$NON-NLS-1$
-		File outputFolder = new File(outputPath);
-		if (!outputFolder.exists() && !outputFolder.mkdir()) {
-			throw new IOException("Can not create the output folder");//$NON-NLS-1$
+		File outputFolder = new File( outputPath );
+		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
+		{
+			throw new IOException( "Can not create the output folder" );//$NON-NLS-1$
 		}
-		reportDesignHandle.saveAs(outputPath + "/" + "StockAnalysis.rptdesign");//$NON-NLS-1$//$NON-NLS-2$
+		reportDesignHandle.saveAs( outputPath + "/" + "StockAnalysis.rptdesign" );//$NON-NLS-1$//$NON-NLS-2$
 	}
 
-	private void createDataSources() throws SemanticException {
-		ScriptDataSourceHandle dataSourceHandle = elementFactory
-				.newScriptDataSource("Data Source");//$NON-NLS-1$
-		reportDesignHandle.getDataSources().add(dataSourceHandle);
+	private void createDataSources( ) throws SemanticException
+	{
+		ScriptDataSourceHandle dataSourceHandle = elementFactory.newScriptDataSource( "Data Source" );//$NON-NLS-1$
+		reportDesignHandle.getDataSources( ).add( dataSourceHandle );
 	}
 
-	private void createDataSets() throws SemanticException {
-		//Data Set
-		ScriptDataSetHandle dataSetHandle = elementFactory
-				.newScriptDataSet("Data Set");//$NON-NLS-1$
-		dataSetHandle.setDataSource("Data Source");//$NON-NLS-1$
+	private void createDataSets( ) throws SemanticException
+	{
+		// Data Set
+		ScriptDataSetHandle dataSetHandle = elementFactory.newScriptDataSet( "Data Set" );//$NON-NLS-1$
+		dataSetHandle.setDataSource( "Data Source" );//$NON-NLS-1$
 
-		//Set open( ) in code
-		dataSetHandle
-				.setOpen("i=0;"//$NON-NLS-1$
-						+ "sourcedata = new Array( new Array(6), new Array(6), new Array(6), new Array(6),"//$NON-NLS-1$
-						+ "new Array(6), new Array(6), new Array(6), new Array(6));"//$NON-NLS-1$
-						+ "sourcedata[0][0] = \"3/1/2005\"; "//$NON-NLS-1$
-						+ "sourcedata[0][1] = 2.77;"//$NON-NLS-1$
-						+ "sourcedata[0][2] = 2.73;"//$NON-NLS-1$
-						+ "sourcedata[0][3] = 2.69; "//$NON-NLS-1$
-						+ "sourcedata[0][4] = 2.71;"//$NON-NLS-1$
-						+ "sourcedata[0][5] = 341900;"//$NON-NLS-1$
+		// Set open( ) in code
+		dataSetHandle.setOpen( "i=0;"//$NON-NLS-1$
+				+ "sourcedata = new Array( new Array(6), new Array(6), new Array(6), new Array(6),"//$NON-NLS-1$
+				+ "new Array(6), new Array(6), new Array(6), new Array(6));"//$NON-NLS-1$
+				+ "sourcedata[0][0] = \"3/1/2005\"; "//$NON-NLS-1$
+				+ "sourcedata[0][1] = 2.77;"//$NON-NLS-1$
+				+ "sourcedata[0][2] = 2.73;"//$NON-NLS-1$
+				+ "sourcedata[0][3] = 2.69; "//$NON-NLS-1$
+				+ "sourcedata[0][4] = 2.71;"//$NON-NLS-1$
+				+ "sourcedata[0][5] = 341900;"//$NON-NLS-1$
 
-						+ "sourcedata[1][0] = \"3/2/2005\"; "//$NON-NLS-1$
-						+ "sourcedata[1][1] = 2.8;"//$NON-NLS-1$
-						+ "sourcedata[1][2] = 2.64;"//$NON-NLS-1$
-						+ "sourcedata[1][3] = 2.6; "//$NON-NLS-1$
-						+ "sourcedata[1][4] = 2.71;"//$NON-NLS-1$
-						+ "sourcedata[1][5] = 249900;"//$NON-NLS-1$
+				+ "sourcedata[1][0] = \"3/2/2005\"; "//$NON-NLS-1$
+				+ "sourcedata[1][1] = 2.8;"//$NON-NLS-1$
+				+ "sourcedata[1][2] = 2.64;"//$NON-NLS-1$
+				+ "sourcedata[1][3] = 2.6; "//$NON-NLS-1$
+				+ "sourcedata[1][4] = 2.71;"//$NON-NLS-1$
+				+ "sourcedata[1][5] = 249900;"//$NON-NLS-1$
 
-						+ "sourcedata[2][0] = \"3/3/2005\"; "//$NON-NLS-1$
-						+ "sourcedata[2][1] = 2.6;"//$NON-NLS-1$
-						+ "sourcedata[2][2] = 2.28;"//$NON-NLS-1$
-						+ "sourcedata[2][3] = 2.13; "//$NON-NLS-1$
-						+ "sourcedata[2][4] = 2.59;"//$NON-NLS-1$
-						+ "sourcedata[2][5] = 394800;"//$NON-NLS-1$
+				+ "sourcedata[2][0] = \"3/3/2005\"; "//$NON-NLS-1$
+				+ "sourcedata[2][1] = 2.6;"//$NON-NLS-1$
+				+ "sourcedata[2][2] = 2.28;"//$NON-NLS-1$
+				+ "sourcedata[2][3] = 2.13; "//$NON-NLS-1$
+				+ "sourcedata[2][4] = 2.59;"//$NON-NLS-1$
+				+ "sourcedata[2][5] = 394800;"//$NON-NLS-1$
 
-						+ "sourcedata[3][0] = \"3/4/2005\"; "//$NON-NLS-1$
-						+ "sourcedata[3][1] = 2.87;"//$NON-NLS-1$
-						+ "sourcedata[3][2] = 2.87;"//$NON-NLS-1$
-						+ "sourcedata[3][3] = 2.03; "//$NON-NLS-1$
-						+ "sourcedata[3][4] = 2.21;"//$NON-NLS-1$
-						+ "sourcedata[3][5] = 358200;"//$NON-NLS-1$
+				+ "sourcedata[3][0] = \"3/4/2005\"; "//$NON-NLS-1$
+				+ "sourcedata[3][1] = 2.87;"//$NON-NLS-1$
+				+ "sourcedata[3][2] = 2.87;"//$NON-NLS-1$
+				+ "sourcedata[3][3] = 2.03; "//$NON-NLS-1$
+				+ "sourcedata[3][4] = 2.21;"//$NON-NLS-1$
+				+ "sourcedata[3][5] = 358200;"//$NON-NLS-1$
 
-						+ "sourcedata[4][0] = \"3/5/2005\"; "//$NON-NLS-1$
-						+ "sourcedata[4][1] = 2.48;"//$NON-NLS-1$
-						+ "sourcedata[4][2] = 2.26;"//$NON-NLS-1$
-						+ "sourcedata[4][3] = 2.16; "//$NON-NLS-1$
-						+ "sourcedata[4][4] = 2.39;"//$NON-NLS-1$
-						+ "sourcedata[4][5] = 339000;"//$NON-NLS-1$
+				+ "sourcedata[4][0] = \"3/5/2005\"; "//$NON-NLS-1$
+				+ "sourcedata[4][1] = 2.48;"//$NON-NLS-1$
+				+ "sourcedata[4][2] = 2.26;"//$NON-NLS-1$
+				+ "sourcedata[4][3] = 2.16; "//$NON-NLS-1$
+				+ "sourcedata[4][4] = 2.39;"//$NON-NLS-1$
+				+ "sourcedata[4][5] = 339000;"//$NON-NLS-1$
 
-						+ "sourcedata[5][0] = \"3/6/2005\"; "//$NON-NLS-1$
-						+ "sourcedata[5][1] = 2.98;"//$NON-NLS-1$
-						+ "sourcedata[5][2] = 2.86;"//$NON-NLS-1$
-						+ "sourcedata[5][3] = 2.04; "//$NON-NLS-1$
-						+ "sourcedata[5][4] = 2.19;"//$NON-NLS-1$
-						+ "sourcedata[5][5] = 221000;"//$NON-NLS-1$
+				+ "sourcedata[5][0] = \"3/6/2005\"; "//$NON-NLS-1$
+				+ "sourcedata[5][1] = 2.98;"//$NON-NLS-1$
+				+ "sourcedata[5][2] = 2.86;"//$NON-NLS-1$
+				+ "sourcedata[5][3] = 2.04; "//$NON-NLS-1$
+				+ "sourcedata[5][4] = 2.19;"//$NON-NLS-1$
+				+ "sourcedata[5][5] = 221000;"//$NON-NLS-1$
 
-						+ "sourcedata[6][0] = \"3/7/2005\"; "//$NON-NLS-1$
-						+ "sourcedata[6][1] = 2.87;"//$NON-NLS-1$
-						+ "sourcedata[6][2] = 2.17;"//$NON-NLS-1$
-						+ "sourcedata[6][3] = 2.14; "//$NON-NLS-1$
-						+ "sourcedata[6][4] = 2.62;"//$NON-NLS-1$
-						+ "sourcedata[6][5] = 183600;"//$NON-NLS-1$
+				+ "sourcedata[6][0] = \"3/7/2005\"; "//$NON-NLS-1$
+				+ "sourcedata[6][1] = 2.87;"//$NON-NLS-1$
+				+ "sourcedata[6][2] = 2.17;"//$NON-NLS-1$
+				+ "sourcedata[6][3] = 2.14; "//$NON-NLS-1$
+				+ "sourcedata[6][4] = 2.62;"//$NON-NLS-1$
+				+ "sourcedata[6][5] = 183600;"//$NON-NLS-1$
 
-						+ "sourcedata[7][0] = \"3/8/2005\"; "//$NON-NLS-1$
-						+ "sourcedata[7][1] = 2.8;"//$NON-NLS-1$
-						+ "sourcedata[7][2] = 2.78;"//$NON-NLS-1$
-						+ "sourcedata[7][3] = 2.65; "//$NON-NLS-1$
-						+ "sourcedata[7][4] = 2.66;"//$NON-NLS-1$
-						+ "sourcedata[7][5] = 194800;");//$NON-NLS-1$
+				+ "sourcedata[7][0] = \"3/8/2005\"; "//$NON-NLS-1$
+				+ "sourcedata[7][1] = 2.8;"//$NON-NLS-1$
+				+ "sourcedata[7][2] = 2.78;"//$NON-NLS-1$
+				+ "sourcedata[7][3] = 2.65; "//$NON-NLS-1$
+				+ "sourcedata[7][4] = 2.66;"//$NON-NLS-1$
+				+ "sourcedata[7][5] = 194800;" );//$NON-NLS-1$
 
-		//Set fetch( ) in code
-		dataSetHandle.setFetch("if ( i < 8 ){"//$NON-NLS-1$
+		// Set fetch( ) in code
+		dataSetHandle.setFetch( "if ( i < 8 ){"//$NON-NLS-1$
 				+ "row[\"Date\"] = sourcedata[i][0];"//$NON-NLS-1$
 				+ "row[\"High\"] = sourcedata[i][1];"//$NON-NLS-1$
 				+ "row[\"Close\"] = sourcedata[i][2];"//$NON-NLS-1$
 				+ "row[\"Low\"] = sourcedata[i][3];"//$NON-NLS-1$
 				+ "row[\"Open\"] = sourcedata[i][4];"//$NON-NLS-1$
 				+ "row[\"Volume\"] = sourcedata[i][5];" + "i++;"//$NON-NLS-1$//$NON-NLS-2$
-				+ "return true;}" + "else return false;");//$NON-NLS-1$//$NON-NLS-2$
+				+ "return true;}" + "else return false;" );//$NON-NLS-1$//$NON-NLS-2$
 
-		//Set Output Columns in Data Set
-		ColumnHint ch1 = StructureFactory.createColumnHint();
-		ch1.setProperty("columnName", "Date");//$NON-NLS-1$//$NON-NLS-2$
+		// Set Output Columns in Data Set
+		ColumnHint ch1 = StructureFactory.createColumnHint( );
+		ch1.setProperty( "columnName", "Date" );//$NON-NLS-1$//$NON-NLS-2$
 
-		ColumnHint ch2 = StructureFactory.createColumnHint();
-		ch2.setProperty("columnName", "High");//$NON-NLS-1$//$NON-NLS-2$
+		ColumnHint ch2 = StructureFactory.createColumnHint( );
+		ch2.setProperty( "columnName", "High" );//$NON-NLS-1$//$NON-NLS-2$
 
-		ColumnHint ch3 = StructureFactory.createColumnHint();
-		ch3.setProperty("columnName", "Close");//$NON-NLS-1$//$NON-NLS-2$
+		ColumnHint ch3 = StructureFactory.createColumnHint( );
+		ch3.setProperty( "columnName", "Close" );//$NON-NLS-1$//$NON-NLS-2$
 
-		ColumnHint ch4 = StructureFactory.createColumnHint();
-		ch4.setProperty("columnName", "Low");//$NON-NLS-1$//$NON-NLS-2$
+		ColumnHint ch4 = StructureFactory.createColumnHint( );
+		ch4.setProperty( "columnName", "Low" );//$NON-NLS-1$//$NON-NLS-2$
 
-		ColumnHint ch5 = StructureFactory.createColumnHint();
-		ch5.setProperty("columnName", "Open");//$NON-NLS-1$//$NON-NLS-2$
+		ColumnHint ch5 = StructureFactory.createColumnHint( );
+		ch5.setProperty( "columnName", "Open" );//$NON-NLS-1$//$NON-NLS-2$
 
-		ColumnHint ch6 = StructureFactory.createColumnHint();
-		ch6.setProperty("columnName", "Volume");//$NON-NLS-1$//$NON-NLS-2$
+		ColumnHint ch6 = StructureFactory.createColumnHint( );
+		ch6.setProperty( "columnName", "Volume" );//$NON-NLS-1$//$NON-NLS-2$
 
-		PropertyHandle columnHint = dataSetHandle
-				.getPropertyHandle(ScriptDataSetHandle.COLUMN_HINTS_PROP);
-		columnHint.addItem(ch1);
-		columnHint.addItem(ch2);
-		columnHint.addItem(ch3);
-		columnHint.addItem(ch4);
-		columnHint.addItem(ch5);
-		columnHint.addItem(ch6);
+		PropertyHandle columnHint = dataSetHandle.getPropertyHandle( ScriptDataSetHandle.COLUMN_HINTS_PROP );
+		columnHint.addItem( ch1 );
+		columnHint.addItem( ch2 );
+		columnHint.addItem( ch3 );
+		columnHint.addItem( ch4 );
+		columnHint.addItem( ch5 );
+		columnHint.addItem( ch6 );
 
-		//Set Preview Results columns in Data Set
-		ResultSetColumn rs1 = StructureFactory.createResultSetColumn();
-		rs1.setColumnName("Date");//$NON-NLS-1$
-		rs1.setPosition(new Integer(1));
-		rs1.setDataType("date-time");//$NON-NLS-1$
+		// Set Preview Results columns in Data Set
+		ResultSetColumn rs1 = StructureFactory.createResultSetColumn( );
+		rs1.setColumnName( "Date" );//$NON-NLS-1$
+		rs1.setPosition( new Integer( 1 ) );
+		rs1.setDataType( "date-time" );//$NON-NLS-1$
 
-		ResultSetColumn rs2 = StructureFactory.createResultSetColumn();
-		rs2.setColumnName("High");//$NON-NLS-1$
-		rs2.setPosition(new Integer(2));
-		rs2.setDataType("float");//$NON-NLS-1$
+		ResultSetColumn rs2 = StructureFactory.createResultSetColumn( );
+		rs2.setColumnName( "High" );//$NON-NLS-1$
+		rs2.setPosition( new Integer( 2 ) );
+		rs2.setDataType( "float" );//$NON-NLS-1$
 
-		ResultSetColumn rs3 = StructureFactory.createResultSetColumn();
-		rs3.setColumnName("Close");//$NON-NLS-1$
-		rs3.setPosition(new Integer(3));
-		rs3.setDataType("float");//$NON-NLS-1$
+		ResultSetColumn rs3 = StructureFactory.createResultSetColumn( );
+		rs3.setColumnName( "Close" );//$NON-NLS-1$
+		rs3.setPosition( new Integer( 3 ) );
+		rs3.setDataType( "float" );//$NON-NLS-1$
 
-		ResultSetColumn rs4 = StructureFactory.createResultSetColumn();
-		rs4.setColumnName("Low");//$NON-NLS-1$
-		rs4.setPosition(new Integer(4));
-		rs4.setDataType("float");//$NON-NLS-1$
+		ResultSetColumn rs4 = StructureFactory.createResultSetColumn( );
+		rs4.setColumnName( "Low" );//$NON-NLS-1$
+		rs4.setPosition( new Integer( 4 ) );
+		rs4.setDataType( "float" );//$NON-NLS-1$
 
-		ResultSetColumn rs5 = StructureFactory.createResultSetColumn();
-		rs5.setColumnName("Open");//$NON-NLS-1$
-		rs5.setPosition(new Integer(5));
-		rs5.setDataType("float");//$NON-NLS-1$
+		ResultSetColumn rs5 = StructureFactory.createResultSetColumn( );
+		rs5.setColumnName( "Open" );//$NON-NLS-1$
+		rs5.setPosition( new Integer( 5 ) );
+		rs5.setDataType( "float" );//$NON-NLS-1$
 
-		ResultSetColumn rs6 = StructureFactory.createResultSetColumn();
-		rs6.setColumnName("Volume");//$NON-NLS-1$
-		rs6.setPosition(new Integer(6));
-		rs6.setDataType("integer");//$NON-NLS-1$
+		ResultSetColumn rs6 = StructureFactory.createResultSetColumn( );
+		rs6.setColumnName( "Volume" );//$NON-NLS-1$
+		rs6.setPosition( new Integer( 6 ) );
+		rs6.setDataType( "integer" );//$NON-NLS-1$
 
-		PropertyHandle resultSet = dataSetHandle
-				.getPropertyHandle(ScriptDataSetHandle.RESULT_SET_PROP);
-		resultSet.addItem(rs1);
-		resultSet.addItem(rs2);
-		resultSet.addItem(rs3);
-		resultSet.addItem(rs4);
-		resultSet.addItem(rs5);
-		resultSet.addItem(rs6);
+		PropertyHandle resultSet = dataSetHandle.getPropertyHandle( ScriptDataSetHandle.RESULT_SET_PROP );
+		resultSet.addItem( rs1 );
+		resultSet.addItem( rs2 );
+		resultSet.addItem( rs3 );
+		resultSet.addItem( rs4 );
+		resultSet.addItem( rs5 );
+		resultSet.addItem( rs6 );
 
-		reportDesignHandle.getDataSets().add(dataSetHandle);
+		reportDesignHandle.getDataSets( ).add( dataSetHandle );
 	}
 
-	private void createMasterPages() throws ContentException, NameException {
-		DesignElementHandle simpleMasterPage = elementFactory
-				.newSimpleMasterPage("Master Page");//$NON-NLS-1$
-		try {
-			simpleMasterPage.setProperty(MasterPageHandle.LEFT_MARGIN_PROP,
-					"0.2in");//$NON-NLS-1$
-			simpleMasterPage.setProperty(MasterPageHandle.RIGHT_MARGIN_PROP,
-					"0.2in");//$NON-NLS-1$
-		} catch (SemanticException e) {
-			e.printStackTrace();
+	private void createMasterPages( ) throws ContentException, NameException
+	{
+		DesignElementHandle simpleMasterPage = elementFactory.newSimpleMasterPage( "Master Page" );//$NON-NLS-1$
+		try
+		{
+			simpleMasterPage.setProperty( MasterPageHandle.LEFT_MARGIN_PROP,
+					"0.2in" );//$NON-NLS-1$
+			simpleMasterPage.setProperty( MasterPageHandle.RIGHT_MARGIN_PROP,
+					"0.2in" );//$NON-NLS-1$
 		}
-		reportDesignHandle.getMasterPages().add(simpleMasterPage);
+		catch ( SemanticException e )
+		{
+			e.printStackTrace( );
+		}
+		reportDesignHandle.getMasterPages( ).add( simpleMasterPage );
 	}
 
-	private void createStyles() throws SemanticException {
-		StyleHandle borderStyle = elementFactory.newStyle("Border");//$NON-NLS-1$
-		borderStyle.setProperty(StyleHandle.BORDER_BOTTOM_STYLE_PROP,
-				DesignChoiceConstants.LINE_STYLE_SOLID);
-		borderStyle.setProperty(StyleHandle.BORDER_LEFT_STYLE_PROP,
-				DesignChoiceConstants.LINE_STYLE_SOLID);
-		borderStyle.setProperty(StyleHandle.BORDER_TOP_STYLE_PROP,
-				DesignChoiceConstants.LINE_STYLE_SOLID);
-		borderStyle.setProperty(StyleHandle.BORDER_RIGHT_STYLE_PROP,
-				DesignChoiceConstants.LINE_STYLE_SOLID);
-		borderStyle.setProperty(StyleHandle.BORDER_BOTTOM_WIDTH_PROP, "1px");//$NON-NLS-1$
-		borderStyle.setProperty(StyleHandle.BORDER_LEFT_WIDTH_PROP, "1px");//$NON-NLS-1$
-		borderStyle.setProperty(StyleHandle.BORDER_TOP_WIDTH_PROP, "1px");//$NON-NLS-1$
-		borderStyle.setProperty(StyleHandle.BORDER_RIGHT_WIDTH_PROP, "1px");//$NON-NLS-1$
-		borderStyle
-				.setProperty(StyleHandle.BORDER_BOTTOM_COLOR_PROP, "#808080");//$NON-NLS-1$
-		borderStyle.setProperty(StyleHandle.BORDER_LEFT_COLOR_PROP, "#808080");//$NON-NLS-1$
-		borderStyle.setProperty(StyleHandle.BORDER_RIGHT_COLOR_PROP, "#808080");//$NON-NLS-1$
-		borderStyle.setProperty(StyleHandle.BORDER_TOP_COLOR_PROP, "#808080");//$NON-NLS-1$
+	private void createStyles( ) throws SemanticException
+	{
+		StyleHandle borderStyle = elementFactory.newStyle( "Border" );//$NON-NLS-1$
+		borderStyle.setProperty( StyleHandle.BORDER_BOTTOM_STYLE_PROP,
+				DesignChoiceConstants.LINE_STYLE_SOLID );
+		borderStyle.setProperty( StyleHandle.BORDER_LEFT_STYLE_PROP,
+				DesignChoiceConstants.LINE_STYLE_SOLID );
+		borderStyle.setProperty( StyleHandle.BORDER_TOP_STYLE_PROP,
+				DesignChoiceConstants.LINE_STYLE_SOLID );
+		borderStyle.setProperty( StyleHandle.BORDER_RIGHT_STYLE_PROP,
+				DesignChoiceConstants.LINE_STYLE_SOLID );
+		borderStyle.setProperty( StyleHandle.BORDER_BOTTOM_WIDTH_PROP, "1px" );//$NON-NLS-1$
+		borderStyle.setProperty( StyleHandle.BORDER_LEFT_WIDTH_PROP, "1px" );//$NON-NLS-1$
+		borderStyle.setProperty( StyleHandle.BORDER_TOP_WIDTH_PROP, "1px" );//$NON-NLS-1$
+		borderStyle.setProperty( StyleHandle.BORDER_RIGHT_WIDTH_PROP, "1px" );//$NON-NLS-1$
+		borderStyle.setProperty( StyleHandle.BORDER_BOTTOM_COLOR_PROP,
+				"#808080" );//$NON-NLS-1$
+		borderStyle.setProperty( StyleHandle.BORDER_LEFT_COLOR_PROP, "#808080" );//$NON-NLS-1$
+		borderStyle.setProperty( StyleHandle.BORDER_RIGHT_COLOR_PROP, "#808080" );//$NON-NLS-1$
+		borderStyle.setProperty( StyleHandle.BORDER_TOP_COLOR_PROP, "#808080" );//$NON-NLS-1$
 
-		StyleHandle textStyle = elementFactory.newStyle("Text");//$NON-NLS-1$
-		textStyle.setProperty(StyleHandle.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_BOLD);
-		textStyle.setProperty(StyleHandle.FONT_SIZE_PROP,
-				DesignChoiceConstants.FONT_SIZE_SMALL);
-		textStyle.setProperty(StyleHandle.COLOR_PROP, "#808080");//$NON-NLS-1$
-		textStyle.setProperty(StyleHandle.TEXT_ALIGN_PROP,
-				DesignChoiceConstants.TEXT_ALIGN_CENTER);
+		StyleHandle textStyle = elementFactory.newStyle( "Text" );//$NON-NLS-1$
+		textStyle.setProperty( StyleHandle.FONT_WEIGHT_PROP,
+				DesignChoiceConstants.FONT_WEIGHT_BOLD );
+		textStyle.setProperty( StyleHandle.FONT_SIZE_PROP,
+				DesignChoiceConstants.FONT_SIZE_SMALL );
+		textStyle.setProperty( StyleHandle.COLOR_PROP, "#808080" );//$NON-NLS-1$
+		textStyle.setProperty( StyleHandle.TEXT_ALIGN_PROP,
+				DesignChoiceConstants.TEXT_ALIGN_CENTER );
 
-		reportDesignHandle.getStyles().add(borderStyle);
-		reportDesignHandle.getStyles().add(textStyle);
+		reportDesignHandle.getStyles( ).add( borderStyle );
+		reportDesignHandle.getStyles( ).add( textStyle );
 	}
 
-	private void createBody() throws SemanticException {
-		GridHandle mainGrid = elementFactory.newGridItem("main", 2, 3);//$NON-NLS-1$
-		mainGrid.setWidth("100%");//$NON-NLS-1$
-		reportDesignHandle.getBody().add(mainGrid);
+	private void createBody( ) throws SemanticException
+	{
+		GridHandle mainGrid = elementFactory.newGridItem( "main", 2, 3 );//$NON-NLS-1$
+		mainGrid.setWidth( "100%" );//$NON-NLS-1$
+		reportDesignHandle.getBody( ).add( mainGrid );
 
-		//First Grid Row
-		RowHandle row1 = (RowHandle) mainGrid.getRows().get(0);
-		row1.setProperty(StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9");//$NON-NLS-1$
+		// First Grid Row
+		RowHandle row1 = (RowHandle) mainGrid.getRows( ).get( 0 );
+		row1.setProperty( StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9" );//$NON-NLS-1$
 
-		//Cell (1st Row)
-		CellHandle row1Cell = (CellHandle) row1.getCells().get(0);
-		row1Cell.setColumnSpan(2);
+		// Cell (1st Row)
+		CellHandle row1Cell = (CellHandle) row1.getCells( ).get( 0 );
+		row1Cell.setColumnSpan( 2 );
 
-		//Title label
-		LabelHandle label = elementFactory.newLabel(null);
-		label.setText("Corporation Stock");//$NON-NLS-1$
-		label.setProperty(StyleHandle.FONT_SIZE_PROP,
-				DesignChoiceConstants.FONT_SIZE_X_LARGE);
-		label.setProperty(StyleHandle.FONT_FAMILY_PROP, "Arial Black");//$NON-NLS-1$
-		label.setProperty(StyleHandle.COLOR_PROP, "#6E6E6E");//$NON-NLS-1$
-		label.setProperty(StyleHandle.PADDING_BOTTOM_PROP, "0.5in");//$NON-NLS-1$
-		label.setProperty(StyleHandle.TEXT_ALIGN_PROP,
-				DesignChoiceConstants.TEXT_ALIGN_CENTER);
+		// Title label
+		LabelHandle label = elementFactory.newLabel( null );
+		label.setText( "Corporation Stock" );//$NON-NLS-1$
+		label.setProperty( StyleHandle.FONT_SIZE_PROP,
+				DesignChoiceConstants.FONT_SIZE_X_LARGE );
+		label.setProperty( StyleHandle.FONT_FAMILY_PROP, "Arial Black" );//$NON-NLS-1$
+		label.setProperty( StyleHandle.COLOR_PROP, "#6E6E6E" );//$NON-NLS-1$
+		label.setProperty( StyleHandle.PADDING_BOTTOM_PROP, "0.5in" );//$NON-NLS-1$
+		label.setProperty( StyleHandle.TEXT_ALIGN_PROP,
+				DesignChoiceConstants.TEXT_ALIGN_CENTER );
 
-		row1Cell.getContent().add(label);
+		row1Cell.getContent( ).add( label );
 
-		row1.getCells().drop(1);
+		row1.getCells( ).drop( 1 );
 
-		//Second Grid Row
-		RowHandle row2 = (RowHandle) mainGrid.getRows().get(1);
+		// Second Grid Row
+		RowHandle row2 = (RowHandle) mainGrid.getRows( ).get( 1 );
 
-		//1st Cell (2nd Row)
-		CellHandle row2Cell1 = (CellHandle) row2.getCells().get(0);
-		row2Cell1.getContent().add(createStockChart());
+		// 1st Cell (2nd Row)
+		CellHandle row2Cell1 = (CellHandle) row2.getCells( ).get( 0 );
+		row2Cell1.getContent( ).add( createStockChart( ) );
 
-		//2nd Cell (2nd Row)
-		CellHandle row2Cell2 = (CellHandle) row2.getCells().get(1);
-		row2Cell2.setProperty(StyleHandle.VERTICAL_ALIGN_PROP, 
-				DesignChoiceConstants.VERTICAL_ALIGN_TOP);
-		
-		//Stock Grid
-		GridHandle grid1 = elementFactory.newGridItem("stock", 2, 5);//$NON-NLS-1$
-		grid1.setWidth("100%");//$NON-NLS-1$
+		// 2nd Cell (2nd Row)
+		CellHandle row2Cell2 = (CellHandle) row2.getCells( ).get( 1 );
+		row2Cell2.setProperty( StyleHandle.VERTICAL_ALIGN_PROP,
+				DesignChoiceConstants.VERTICAL_ALIGN_TOP );
 
-		RowHandle grid1Row = (RowHandle) grid1.getRows().get(0);
-		CellHandle cell = (CellHandle) grid1Row.getCells().get(0);
-		cell.setColumnSpan(2);
+		// Stock Grid
+		GridHandle grid1 = elementFactory.newGridItem( "stock", 2, 5 );//$NON-NLS-1$
+		grid1.setWidth( "100%" );//$NON-NLS-1$
 
-		label = elementFactory.newLabel(null);
-		label.setText("Weekly Price Summary");//$NON-NLS-1$
-		label.setStyleName("Text");//$NON-NLS-1$
-		label.setProperty(StyleHandle.FONT_SIZE_PROP,
-				DesignChoiceConstants.FONT_SIZE_MEDIUM);
+		RowHandle grid1Row = (RowHandle) grid1.getRows( ).get( 0 );
+		CellHandle cell = (CellHandle) grid1Row.getCells( ).get( 0 );
+		cell.setColumnSpan( 2 );
 
-		cell.getContent().add(label);
-		grid1Row.getCells().drop(1);
+		label = elementFactory.newLabel( null );
+		label.setText( "Weekly Price Summary" );//$NON-NLS-1$
+		label.setStyleName( "Text" );//$NON-NLS-1$
+		label.setProperty( StyleHandle.FONT_SIZE_PROP,
+				DesignChoiceConstants.FONT_SIZE_MEDIUM );
 
-		grid1Row = (RowHandle) grid1.getRows().get(1);
+		cell.getContent( ).add( label );
+		grid1Row.getCells( ).drop( 1 );
 
-		cell = (CellHandle) grid1Row.getCells().get(0);
-		cell.setStyleName("Border");//$NON-NLS-1$
-		label = elementFactory.newLabel(null);
-		label.setText("High:");//$NON-NLS-1$
-		label.setStyleName("Text");//$NON-NLS-1$
-		label.setProperty(StyleHandle.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_LIGHTER);
-		cell.getContent().add(label);
+		grid1Row = (RowHandle) grid1.getRows( ).get( 1 );
 
-		cell = (CellHandle) grid1Row.getCells().get(1);
-		cell.setStyleName("Border");//$NON-NLS-1$
-		cell.setProperty(StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9");//$NON-NLS-1$
-		DataItemHandle data = elementFactory.newDataItem(null);
-		data.setProperty(DataItemHandle.DATA_SET_PROP, "Data Set");//$NON-NLS-1$
-		data.setValueExpr("Total.max(row[\"High\"])");//$NON-NLS-1$
-		data.setStyleName("Text");//$NON-NLS-1$
-		data.getPrivateStyle().setNumberFormatCategory(
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM);
-		data.getPrivateStyle().setNumberFormat("$###,##0.00");//$NON-NLS-1$
-		cell.getContent().add(data);
+		cell = (CellHandle) grid1Row.getCells( ).get( 0 );
+		cell.setStyleName( "Border" );//$NON-NLS-1$
+		label = elementFactory.newLabel( null );
+		label.setText( "High:" );//$NON-NLS-1$
+		label.setStyleName( "Text" );//$NON-NLS-1$
+		label.setProperty( StyleHandle.FONT_WEIGHT_PROP,
+				DesignChoiceConstants.FONT_WEIGHT_LIGHTER );
+		cell.getContent( ).add( label );
 
-		grid1Row = (RowHandle) grid1.getRows().get(2);
+		cell = (CellHandle) grid1Row.getCells( ).get( 1 );
+		cell.setStyleName( "Border" );//$NON-NLS-1$
+		cell.setProperty( StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9" );//$NON-NLS-1$
+		DataItemHandle data = elementFactory.newDataItem( null );
+		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
+		data.setValueExpr( "Total.max(row[\"High\"])" );//$NON-NLS-1$
+		data.setStyleName( "Text" );//$NON-NLS-1$
+		data.getPrivateStyle( )
+				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
+		data.getPrivateStyle( ).setNumberFormat( "$###,##0.00" );//$NON-NLS-1$
+		cell.getContent( ).add( data );
 
-		cell = (CellHandle) grid1Row.getCells().get(0);
-		cell.setStyleName("Border");//$NON-NLS-1$
-		label = elementFactory.newLabel(null);
-		label.setText("Low:");//$NON-NLS-1$
-		label.setStyleName("Text");//$NON-NLS-1$
-		label.setProperty(StyleHandle.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_LIGHTER);
-		cell.getContent().add(label);
+		grid1Row = (RowHandle) grid1.getRows( ).get( 2 );
 
-		cell = (CellHandle) grid1Row.getCells().get(1);
-		cell.setStyleName("Border");//$NON-NLS-1$
-		cell.setProperty(StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9");//$NON-NLS-1$
-		data = elementFactory.newDataItem(null);
-		data.setValueExpr("Total.min(row[\"Low\"])");//$NON-NLS-1$
-		data.setStyleName("Text");//$NON-NLS-1$
-		data.getPrivateStyle().setNumberFormatCategory(
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM);
-		data.getPrivateStyle().setNumberFormat("$###,##0.00");//$NON-NLS-1$
-		data.setProperty(DataItemHandle.DATA_SET_PROP, "Data Set");//$NON-NLS-1$
-		cell.getContent().add(data);
+		cell = (CellHandle) grid1Row.getCells( ).get( 0 );
+		cell.setStyleName( "Border" );//$NON-NLS-1$
+		label = elementFactory.newLabel( null );
+		label.setText( "Low:" );//$NON-NLS-1$
+		label.setStyleName( "Text" );//$NON-NLS-1$
+		label.setProperty( StyleHandle.FONT_WEIGHT_PROP,
+				DesignChoiceConstants.FONT_WEIGHT_LIGHTER );
+		cell.getContent( ).add( label );
 
-		grid1Row = (RowHandle) grid1.getRows().get(3);
+		cell = (CellHandle) grid1Row.getCells( ).get( 1 );
+		cell.setStyleName( "Border" );//$NON-NLS-1$
+		cell.setProperty( StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9" );//$NON-NLS-1$
+		data = elementFactory.newDataItem( null );
+		data.setValueExpr( "Total.min(row[\"Low\"])" );//$NON-NLS-1$
+		data.setStyleName( "Text" );//$NON-NLS-1$
+		data.getPrivateStyle( )
+				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
+		data.getPrivateStyle( ).setNumberFormat( "$###,##0.00" );//$NON-NLS-1$
+		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
+		cell.getContent( ).add( data );
 
-		cell = (CellHandle) grid1Row.getCells().get(0);
-		cell.setStyleName("Border");//$NON-NLS-1$
-		label = elementFactory.newLabel(null);
-		label.setText("Ave. Open");//$NON-NLS-1$
-		label.setStyleName("Text");//$NON-NLS-1$
-		label.setProperty(StyleHandle.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_LIGHTER);
-		cell.getContent().add(label);
+		grid1Row = (RowHandle) grid1.getRows( ).get( 3 );
 
-		cell = (CellHandle) grid1Row.getCells().get(1);
-		cell.setStyleName("Border");//$NON-NLS-1$
-		cell.setProperty(StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9");//$NON-NLS-1$
-		data = elementFactory.newDataItem(null);
-		data.setValueExpr("Total.Ave(row[\"Open\"])");//$NON-NLS-1$
-		data.setStyleName("Text");//$NON-NLS-1$
-		data.getPrivateStyle().setNumberFormatCategory(
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM);
-		data.getPrivateStyle().setNumberFormat("$###,##0.00");//$NON-NLS-1$
-		data.setProperty(DataItemHandle.DATA_SET_PROP, "Data Set");//$NON-NLS-1$
-		cell.getContent().add(data);
+		cell = (CellHandle) grid1Row.getCells( ).get( 0 );
+		cell.setStyleName( "Border" );//$NON-NLS-1$
+		label = elementFactory.newLabel( null );
+		label.setText( "Ave. Open" );//$NON-NLS-1$
+		label.setStyleName( "Text" );//$NON-NLS-1$
+		label.setProperty( StyleHandle.FONT_WEIGHT_PROP,
+				DesignChoiceConstants.FONT_WEIGHT_LIGHTER );
+		cell.getContent( ).add( label );
 
-		grid1Row = (RowHandle) grid1.getRows().get(4);
+		cell = (CellHandle) grid1Row.getCells( ).get( 1 );
+		cell.setStyleName( "Border" );//$NON-NLS-1$
+		cell.setProperty( StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9" );//$NON-NLS-1$
+		data = elementFactory.newDataItem( null );
+		data.setValueExpr( "Total.Ave(row[\"Open\"])" );//$NON-NLS-1$
+		data.setStyleName( "Text" );//$NON-NLS-1$
+		data.getPrivateStyle( )
+				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
+		data.getPrivateStyle( ).setNumberFormat( "$###,##0.00" );//$NON-NLS-1$
+		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
+		cell.getContent( ).add( data );
 
-		cell = (CellHandle) grid1Row.getCells().get(0);
-		cell.setStyleName("Border");//$NON-NLS-1$
-		label = elementFactory.newLabel(null);
-		label.setText("Ave. Close");//$NON-NLS-1$
-		label.setStyleName("Text");//$NON-NLS-1$
-		label.setProperty(StyleHandle.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_LIGHTER);
-		cell.getContent().add(label);
+		grid1Row = (RowHandle) grid1.getRows( ).get( 4 );
 
-		cell = (CellHandle) grid1Row.getCells().get(1);
-		cell.setStyleName("Border");//$NON-NLS-1$
-		cell.setProperty(StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9");//$NON-NLS-1$
-		data = elementFactory.newDataItem(null);
-		data.setValueExpr("Total.Ave(row[\"Close\"])");//$NON-NLS-1$
-		data.setStyleName("Text");//$NON-NLS-1$
-		data.getPrivateStyle().setNumberFormatCategory(
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM);
-		data.getPrivateStyle().setNumberFormat("$###,##0.00");//$NON-NLS-1$
-		data.setProperty(DataItemHandle.DATA_SET_PROP, "Data Set");//$NON-NLS-1$
-		cell.getContent().add(data);
+		cell = (CellHandle) grid1Row.getCells( ).get( 0 );
+		cell.setStyleName( "Border" );//$NON-NLS-1$
+		label = elementFactory.newLabel( null );
+		label.setText( "Ave. Close" );//$NON-NLS-1$
+		label.setStyleName( "Text" );//$NON-NLS-1$
+		label.setProperty( StyleHandle.FONT_WEIGHT_PROP,
+				DesignChoiceConstants.FONT_WEIGHT_LIGHTER );
+		cell.getContent( ).add( label );
 
-		row2Cell2.getContent().add(grid1);
+		cell = (CellHandle) grid1Row.getCells( ).get( 1 );
+		cell.setStyleName( "Border" );//$NON-NLS-1$
+		cell.setProperty( StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9" );//$NON-NLS-1$
+		data = elementFactory.newDataItem( null );
+		data.setValueExpr( "Total.Ave(row[\"Close\"])" );//$NON-NLS-1$
+		data.setStyleName( "Text" );//$NON-NLS-1$
+		data.getPrivateStyle( )
+				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
+		data.getPrivateStyle( ).setNumberFormat( "$###,##0.00" );//$NON-NLS-1$
+		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
+		cell.getContent( ).add( data );
 
-		//Third Grid Row
-		RowHandle row3 = (RowHandle) mainGrid.getRows().get(2);
+		row2Cell2.getContent( ).add( grid1 );
 
-		//1st Cell (3nd Row)
-		CellHandle row3Cell1 = (CellHandle) row3.getCells().get(0);
-		row3Cell1.getContent().add(createVolumeChart());
+		// Third Grid Row
+		RowHandle row3 = (RowHandle) mainGrid.getRows( ).get( 2 );
 
-		//2nd Cell (3nd Row)
-		CellHandle row3Cell2 = (CellHandle) row3.getCells().get(1);
-		row3Cell2.setProperty(StyleHandle.VERTICAL_ALIGN_PROP, 
-				DesignChoiceConstants.VERTICAL_ALIGN_TOP);
+		// 1st Cell (3nd Row)
+		CellHandle row3Cell1 = (CellHandle) row3.getCells( ).get( 0 );
+		row3Cell1.getContent( ).add( createVolumeChart( ) );
 
-		//Volume Grid
-		GridHandle grid2 = elementFactory.newGridItem("volume", 2, 5);//$NON-NLS-1$
-		grid2.setWidth("100%");//$NON-NLS-1$
+		// 2nd Cell (3nd Row)
+		CellHandle row3Cell2 = (CellHandle) row3.getCells( ).get( 1 );
+		row3Cell2.setProperty( StyleHandle.VERTICAL_ALIGN_PROP,
+				DesignChoiceConstants.VERTICAL_ALIGN_TOP );
 
-		RowHandle grid2Row = (RowHandle) grid2.getRows().get(0);
-		cell = (CellHandle) grid2Row.getCells().get(0);
-		cell.setColumnSpan(2);
-		label = elementFactory.newLabel(null);
-		label.setText("Weekly Volume Summary");//$NON-NLS-1$
-		label.setStyleName("Text");//$NON-NLS-1$
-		label.setProperty(StyleHandle.FONT_SIZE_PROP,
-				DesignChoiceConstants.FONT_SIZE_MEDIUM);
-		cell.getContent().add(label);
-		grid2Row.getCells().drop(1);	
-		
-		grid2Row = (RowHandle) grid2.getRows().get(1);
+		// Volume Grid
+		GridHandle grid2 = elementFactory.newGridItem( "volume", 2, 5 );//$NON-NLS-1$
+		grid2.setWidth( "100%" );//$NON-NLS-1$
 
-		cell = (CellHandle) grid2Row.getCells().get(0);
-		cell.setStyleName("Border");//$NON-NLS-1$
-		label = elementFactory.newLabel(null);
-		label.setText("High:");//$NON-NLS-1$
-		label.setStyleName("Text");//$NON-NLS-1$
-		label.setProperty(StyleHandle.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_LIGHTER);
-		cell.getContent().add(label);
+		RowHandle grid2Row = (RowHandle) grid2.getRows( ).get( 0 );
+		cell = (CellHandle) grid2Row.getCells( ).get( 0 );
+		cell.setColumnSpan( 2 );
+		label = elementFactory.newLabel( null );
+		label.setText( "Weekly Volume Summary" );//$NON-NLS-1$
+		label.setStyleName( "Text" );//$NON-NLS-1$
+		label.setProperty( StyleHandle.FONT_SIZE_PROP,
+				DesignChoiceConstants.FONT_SIZE_MEDIUM );
+		cell.getContent( ).add( label );
+		grid2Row.getCells( ).drop( 1 );
 
-		cell = (CellHandle) grid2Row.getCells().get(1);
-		cell.setStyleName("Border");//$NON-NLS-1$
-		cell.setProperty(StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9");//$NON-NLS-1$
-		data = elementFactory.newDataItem(null);
-		data.setValueExpr("Total.max(row[\"Volume\"])");//$NON-NLS-1$
-		data.setStyleName("Text");//$NON-NLS-1$
-		data.getPrivateStyle().setNumberFormatCategory(
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM);
-		data.getPrivateStyle().setNumberFormat("###,###");//$NON-NLS-1$
-		data.setProperty(DataItemHandle.DATA_SET_PROP, "Data Set");//$NON-NLS-1$
-		cell.getContent().add(data);
+		grid2Row = (RowHandle) grid2.getRows( ).get( 1 );
 
-		grid2Row = (RowHandle) grid2.getRows().get(2);
+		cell = (CellHandle) grid2Row.getCells( ).get( 0 );
+		cell.setStyleName( "Border" );//$NON-NLS-1$
+		label = elementFactory.newLabel( null );
+		label.setText( "High:" );//$NON-NLS-1$
+		label.setStyleName( "Text" );//$NON-NLS-1$
+		label.setProperty( StyleHandle.FONT_WEIGHT_PROP,
+				DesignChoiceConstants.FONT_WEIGHT_LIGHTER );
+		cell.getContent( ).add( label );
 
-		cell = (CellHandle) grid2Row.getCells().get(0);
-		cell.setStyleName("Border");//$NON-NLS-1$
-		label = elementFactory.newLabel(null);
-		label.setText("Low:");//$NON-NLS-1$
-		label.setStyleName("Text");//$NON-NLS-1$
-		label.setProperty(StyleHandle.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_LIGHTER);
-		cell.getContent().add(label);
+		cell = (CellHandle) grid2Row.getCells( ).get( 1 );
+		cell.setStyleName( "Border" );//$NON-NLS-1$
+		cell.setProperty( StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9" );//$NON-NLS-1$
+		data = elementFactory.newDataItem( null );
+		data.setValueExpr( "Total.max(row[\"Volume\"])" );//$NON-NLS-1$
+		data.setStyleName( "Text" );//$NON-NLS-1$
+		data.getPrivateStyle( )
+				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
+		data.getPrivateStyle( ).setNumberFormat( "###,###" );//$NON-NLS-1$
+		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
+		cell.getContent( ).add( data );
 
-		cell = (CellHandle) grid2Row.getCells().get(1);
-		cell.setStyleName("Border");//$NON-NLS-1$
-		cell.setProperty(StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9");//$NON-NLS-1$
-		data = elementFactory.newDataItem(null);
-		data.setValueExpr("Total.min(row[\"Volume\"])");//$NON-NLS-1$
-		data.setStyleName("Text");//$NON-NLS-1$
-		data.getPrivateStyle().setNumberFormatCategory(
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM);
-		data.getPrivateStyle().setNumberFormat("###,###");//$NON-NLS-1$
-		data.setProperty(DataItemHandle.DATA_SET_PROP, "Data Set");//$NON-NLS-1$
-		cell.getContent().add(data);
+		grid2Row = (RowHandle) grid2.getRows( ).get( 2 );
 
-		grid2Row = (RowHandle) grid2.getRows().get(3);
+		cell = (CellHandle) grid2Row.getCells( ).get( 0 );
+		cell.setStyleName( "Border" );//$NON-NLS-1$
+		label = elementFactory.newLabel( null );
+		label.setText( "Low:" );//$NON-NLS-1$
+		label.setStyleName( "Text" );//$NON-NLS-1$
+		label.setProperty( StyleHandle.FONT_WEIGHT_PROP,
+				DesignChoiceConstants.FONT_WEIGHT_LIGHTER );
+		cell.getContent( ).add( label );
 
-		cell = (CellHandle) grid2Row.getCells().get(0);
-		cell.setStyleName("Border");//$NON-NLS-1$
-		label = elementFactory.newLabel(null);
-		label.setText("Total Volume:");//$NON-NLS-1$
-		label.setStyleName("Text");//$NON-NLS-1$
-		label.setProperty(StyleHandle.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_LIGHTER);
-		cell.getContent().add(label);
+		cell = (CellHandle) grid2Row.getCells( ).get( 1 );
+		cell.setStyleName( "Border" );//$NON-NLS-1$
+		cell.setProperty( StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9" );//$NON-NLS-1$
+		data = elementFactory.newDataItem( null );
+		data.setValueExpr( "Total.min(row[\"Volume\"])" );//$NON-NLS-1$
+		data.setStyleName( "Text" );//$NON-NLS-1$
+		data.getPrivateStyle( )
+				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
+		data.getPrivateStyle( ).setNumberFormat( "###,###" );//$NON-NLS-1$
+		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
+		cell.getContent( ).add( data );
 
-		cell = (CellHandle) grid2Row.getCells().get(1);
-		cell.setStyleName("Border");//$NON-NLS-1$
-		cell.setProperty(StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9");//$NON-NLS-1$
-		data = elementFactory.newDataItem(null);
-		data.setValueExpr("Total.sum(row[\"Volume\"])");//$NON-NLS-1$
-		data.setStyleName("Text");//$NON-NLS-1$
-		data.getPrivateStyle().setNumberFormatCategory(
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM);
-		data.getPrivateStyle().setNumberFormat("###,###");//$NON-NLS-1$
-		data.setProperty(DataItemHandle.DATA_SET_PROP, "Data Set");//$NON-NLS-1$
-		cell.getContent().add(data);
+		grid2Row = (RowHandle) grid2.getRows( ).get( 3 );
 
-		grid2Row = (RowHandle) grid2.getRows().get(4);
+		cell = (CellHandle) grid2Row.getCells( ).get( 0 );
+		cell.setStyleName( "Border" );//$NON-NLS-1$
+		label = elementFactory.newLabel( null );
+		label.setText( "Total Volume:" );//$NON-NLS-1$
+		label.setStyleName( "Text" );//$NON-NLS-1$
+		label.setProperty( StyleHandle.FONT_WEIGHT_PROP,
+				DesignChoiceConstants.FONT_WEIGHT_LIGHTER );
+		cell.getContent( ).add( label );
 
-		cell = (CellHandle) grid2Row.getCells().get(0);
-		cell.setStyleName("Border");//$NON-NLS-1$
-		label = elementFactory.newLabel(null);
-		label.setText("Ave Volume:");//$NON-NLS-1$
-		label.setStyleName("Text");//$NON-NLS-1$
-		label.setProperty(StyleHandle.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_LIGHTER);
-		cell.getContent().add(label);
+		cell = (CellHandle) grid2Row.getCells( ).get( 1 );
+		cell.setStyleName( "Border" );//$NON-NLS-1$
+		cell.setProperty( StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9" );//$NON-NLS-1$
+		data = elementFactory.newDataItem( null );
+		data.setValueExpr( "Total.sum(row[\"Volume\"])" );//$NON-NLS-1$
+		data.setStyleName( "Text" );//$NON-NLS-1$
+		data.getPrivateStyle( )
+				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
+		data.getPrivateStyle( ).setNumberFormat( "###,###" );//$NON-NLS-1$
+		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
+		cell.getContent( ).add( data );
 
-		cell = (CellHandle) grid2Row.getCells().get(1);
-		cell.setStyleName("Border");//$NON-NLS-1$
-		cell.setProperty(StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9");//$NON-NLS-1$
-		data = elementFactory.newDataItem(null);
-		data.setValueExpr("Total.ave(row[\"Volume\"])");//$NON-NLS-1$
-		data.setStyleName("Text");//$NON-NLS-1$
-		data.getPrivateStyle().setNumberFormatCategory(
-				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM);
-		data.getPrivateStyle().setNumberFormat("###,###");//$NON-NLS-1$
-		data.setProperty(DataItemHandle.DATA_SET_PROP, "Data Set");//$NON-NLS-1$
-		cell.getContent().add(data);
+		grid2Row = (RowHandle) grid2.getRows( ).get( 4 );
 
-		row3Cell2.getContent().add(grid2);
+		cell = (CellHandle) grid2Row.getCells( ).get( 0 );
+		cell.setStyleName( "Border" );//$NON-NLS-1$
+		label = elementFactory.newLabel( null );
+		label.setText( "Ave Volume:" );//$NON-NLS-1$
+		label.setStyleName( "Text" );//$NON-NLS-1$
+		label.setProperty( StyleHandle.FONT_WEIGHT_PROP,
+				DesignChoiceConstants.FONT_WEIGHT_LIGHTER );
+		cell.getContent( ).add( label );
+
+		cell = (CellHandle) grid2Row.getCells( ).get( 1 );
+		cell.setStyleName( "Border" );//$NON-NLS-1$
+		cell.setProperty( StyleHandle.BACKGROUND_COLOR_PROP, "#FEFBE9" );//$NON-NLS-1$
+		data = elementFactory.newDataItem( null );
+		data.setValueExpr( "Total.ave(row[\"Volume\"])" );//$NON-NLS-1$
+		data.setStyleName( "Text" );//$NON-NLS-1$
+		data.getPrivateStyle( )
+				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
+		data.getPrivateStyle( ).setNumberFormat( "###,###" );//$NON-NLS-1$
+		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
+		cell.getContent( ).add( data );
+
+		row3Cell2.getContent( ).add( grid2 );
 
 	}
 
-	private ExtendedItemHandle createStockChart() {
-		ExtendedItemHandle eih = elementFactory.newExtendedItem(null, "Chart");//$NON-NLS-1$
+	private ExtendedItemHandle createStockChart( )
+	{
+		ExtendedItemHandle eih = elementFactory.newExtendedItem( null, "Chart" );//$NON-NLS-1$
 
-		try {
-			eih.setHeight("175pt");//$NON-NLS-1$
-			eih.setWidth("450pt");//$NON-NLS-1$
-			eih.setProperty(ExtendedItemHandle.DATA_SET_PROP, "Data Set");//$NON-NLS-1$
-		} catch (SemanticException e) {
-			e.printStackTrace();
+		try
+		{
+			eih.setHeight( "175pt" );//$NON-NLS-1$
+			eih.setWidth( "450pt" );//$NON-NLS-1$
+			eih.setProperty( ExtendedItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
+		}
+		catch ( SemanticException e )
+		{
+			e.printStackTrace( );
 		}
 
-		ChartWithAxes cwaStock = ChartWithAxesImpl.create();
-		cwaStock.setType("Stock Chart");//$NON-NLS-1$
-		cwaStock.setSubType("Standard Stock Chart");//$NON-NLS-1$
-		cwaStock.getTitle().setVisible(false);
-		cwaStock.getLegend().setVisible(false);
-		cwaStock.setOrientation(Orientation.VERTICAL_LITERAL);
-		cwaStock.getBlock().setBounds(BoundsImpl.create(0, 0, 450, 175));
-		cwaStock.getPlot().getClientArea().getOutline().setVisible(true);
-		cwaStock.getPlot().getClientArea().setBackground(
-				ColorDefinitionImpl.create(254, 251, 233));
+		ChartWithAxes cwaStock = ChartWithAxesImpl.create( );
+		cwaStock.setType( "Stock Chart" );//$NON-NLS-1$
+		cwaStock.setSubType( "Standard Stock Chart" );//$NON-NLS-1$
+		cwaStock.getTitle( ).setVisible( false );
+		cwaStock.getLegend( ).setVisible( false );
+		cwaStock.setOrientation( Orientation.VERTICAL_LITERAL );
+		cwaStock.getBlock( ).setBounds( BoundsImpl.create( 0, 0, 450, 175 ) );
+		cwaStock.getPlot( ).getClientArea( ).getOutline( ).setVisible( true );
+		cwaStock.getPlot( )
+				.getClientArea( )
+				.setBackground( ColorDefinitionImpl.create( 254, 251, 233 ) );
 
-		Axis xAxisPrimary = cwaStock.getPrimaryBaseAxes()[0];
-		xAxisPrimary.setCategoryAxis(true);
-		xAxisPrimary.getTitle().getCaption().setValue("Trading Date");//$NON-NLS-1$
-		xAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
-				LineStyle.DOTTED_LITERAL);
-		xAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
-		xAxisPrimary.getMajorGrid().getLineAttributes().setColor(
-				ColorDefinitionImpl.GREY());
-		xAxisPrimary.setType(AxisType.DATE_TIME_LITERAL);
-		xAxisPrimary.setFormatSpecifier(JavaDateFormatSpecifierImpl
-				.create("MM/dd/yyyy"));//$NON-NLS-1$
+		Axis xAxisPrimary = cwaStock.getPrimaryBaseAxes( )[0];
+		xAxisPrimary.setCategoryAxis( true );
+		xAxisPrimary.getTitle( ).getCaption( ).setValue( "Trading Date" );//$NON-NLS-1$
+		xAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setStyle( LineStyle.DOTTED_LITERAL );
+		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
+		xAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setColor( ColorDefinitionImpl.GREY( ) );
+		xAxisPrimary.setType( AxisType.DATE_TIME_LITERAL );
+		xAxisPrimary.setFormatSpecifier( JavaDateFormatSpecifierImpl.create( "MM/dd/yyyy" ) );//$NON-NLS-1$
 
-		Axis yAxisPrimary = cwaStock.getPrimaryOrthogonalAxis(xAxisPrimary);
-		yAxisPrimary.getTitle().getCaption().setValue("Price");//$NON-NLS-1$
-		yAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
-				LineStyle.DOTTED_LITERAL);
-		yAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
-		yAxisPrimary.getMajorGrid().getLineAttributes().setColor(
-				ColorDefinitionImpl.GREY());
-		yAxisPrimary.getScale().setMin(NumberDataElementImpl.create(2.0));
-		yAxisPrimary.getScale().setMax(NumberDataElementImpl.create(3.0));
-		yAxisPrimary.getScale().setStep(0.2);
+		Axis yAxisPrimary = cwaStock.getPrimaryOrthogonalAxis( xAxisPrimary );
+		yAxisPrimary.getTitle( ).getCaption( ).setValue( "Price" );//$NON-NLS-1$
+		yAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setStyle( LineStyle.DOTTED_LITERAL );
+		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
+		yAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setColor( ColorDefinitionImpl.GREY( ) );
+		yAxisPrimary.getScale( ).setMin( NumberDataElementImpl.create( 2.0 ) );
+		yAxisPrimary.getScale( ).setMax( NumberDataElementImpl.create( 3.0 ) );
+		yAxisPrimary.getScale( ).setStep( 0.2 );
 
-		SampleData sd = DataFactory.eINSTANCE.createSampleData();
-		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
-		sdBase.setDataSetRepresentation("01/25/2005");//$NON-NLS-1$
-		sd.getBaseSampleData().add(sdBase);
+		SampleData sd = DataFactory.eINSTANCE.createSampleData( );
+		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
+		sdBase.setDataSetRepresentation( "01/25/2005" );//$NON-NLS-1$
+		sd.getBaseSampleData( ).add( sdBase );
 
-		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE
-				.createOrthogonalSampleData();
-		sdOrthogonal.setDataSetRepresentation("H5.3 L1.3 O4.5 C3.4");//$NON-NLS-1$
-		sdOrthogonal.setSeriesDefinitionIndex(0);
-		sd.getOrthogonalSampleData().add(sdOrthogonal);
+		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE.createOrthogonalSampleData( );
+		sdOrthogonal.setDataSetRepresentation( "H5.3 L1.3 O4.5 C3.4" );//$NON-NLS-1$
+		sdOrthogonal.setSeriesDefinitionIndex( 0 );
+		sd.getOrthogonalSampleData( ).add( sdOrthogonal );
 
-		cwaStock.setSampleData(sd);
+		cwaStock.setSampleData( sd );
 
-		Series seCategory = SeriesImpl.create();
-		Query query = QueryImpl.create("row[\"Date\"]");//$NON-NLS-1$
-		seCategory.getDataDefinition().add(query);
+		Series seCategory = SeriesImpl.create( );
+		Query query = QueryImpl.create( "row[\"Date\"]" );//$NON-NLS-1$
+		seCategory.getDataDefinition( ).add( query );
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create();
-		sdX.getSeries().add(seCategory);
-		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
+		sdX.getSeries( ).add( seCategory );
+		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 
-		StockSeries ss = (StockSeries) StockSeriesImpl.create();
-		ss.setSeriesIdentifier("Stock Price");//$NON-NLS-1$
-		Query query1 = QueryImpl.create("row[\"High\"]");//$NON-NLS-1$
-		Query query2 = QueryImpl.create("row[\"Low\"]");//$NON-NLS-1$
-		Query query3 = QueryImpl.create("row[\"Open\"]");//$NON-NLS-1$
-		Query query4 = QueryImpl.create("row[\"Close\"]");//$NON-NLS-1$
-		ArrayList list = new ArrayList();
-		list.add(query1);
-		list.add(query2);
-		list.add(query3);
-		list.add(query4);
-		ss.getDataDefinition().addAll(list);
+		StockSeries ss = (StockSeries) StockSeriesImpl.create( );
+		ss.setSeriesIdentifier( "Stock Price" );//$NON-NLS-1$
+		Query query1 = QueryImpl.create( "row[\"High\"]" );//$NON-NLS-1$
+		Query query2 = QueryImpl.create( "row[\"Low\"]" );//$NON-NLS-1$
+		Query query3 = QueryImpl.create( "row[\"Open\"]" );//$NON-NLS-1$
+		Query query4 = QueryImpl.create( "row[\"Close\"]" );//$NON-NLS-1$
+		ArrayList list = new ArrayList( );
+		list.add( query1 );
+		list.add( query2 );
+		list.add( query3 );
+		list.add( query4 );
+		ss.getDataDefinition( ).addAll( list );
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create();
-		sdY.getSeriesPalette()
-				.update(ColorDefinitionImpl.create(168, 225, 253));
-		yAxisPrimary.getSeriesDefinitions().add(sdY);
-		sdY.getSeries().add(ss);
+		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
+		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.create( 168,
+				225,
+				253 ) );
+		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
+		sdY.getSeries( ).add( ss );
 
 		ChartReportItemImpl crii;
-		try {
-			//Add ChartReportItemImpl to ExtendedItemHandle
-			crii = (ChartReportItemImpl) eih.getReportItem();
-			//Add chart instance to ChartReportItemImpl
-			crii.setProperty("chart.instance", cwaStock);//$NON-NLS-1$
-		} catch (ExtendedElementException e) {
-			e.printStackTrace();
+		try
+		{
+			// Add ChartReportItemImpl to ExtendedItemHandle
+			crii = (ChartReportItemImpl) eih.getReportItem( );
+			// Add chart instance to ChartReportItemImpl
+			crii.setProperty( "chart.instance", cwaStock );//$NON-NLS-1$
+		}
+		catch ( ExtendedElementException e )
+		{
+			e.printStackTrace( );
 		}
 
 		return eih;
 	}
 
-	private ExtendedItemHandle createVolumeChart() {
-		ExtendedItemHandle eih = elementFactory.newExtendedItem(null, "Chart");//$NON-NLS-1$
+	private ExtendedItemHandle createVolumeChart( )
+	{
+		ExtendedItemHandle eih = elementFactory.newExtendedItem( null, "Chart" );//$NON-NLS-1$
 
-		try {
-			eih.setHeight("175pt");//$NON-NLS-1$
-			eih.setWidth("450pt");//$NON-NLS-1$
-			eih.setProperty(ExtendedItemHandle.DATA_SET_PROP, "Data Set");//$NON-NLS-1$
-		} catch (SemanticException e) {
-			e.printStackTrace();
+		try
+		{
+			eih.setHeight( "175pt" );//$NON-NLS-1$
+			eih.setWidth( "450pt" );//$NON-NLS-1$
+			eih.setProperty( ExtendedItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
+		}
+		catch ( SemanticException e )
+		{
+			e.printStackTrace( );
 		}
 
-		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
-		cwaBar.setType("Bar Chart");//$NON-NLS-1$
-		cwaBar.setSubType("Side-by-side");//$NON-NLS-1$
-		cwaBar.getTitle().setVisible(false);
-		cwaBar.getLegend().setVisible(false);
-		cwaBar.setOrientation(Orientation.VERTICAL_LITERAL);
-		cwaBar.getBlock().setBounds(BoundsImpl.create(0, 0, 450, 175));
-		cwaBar.getPlot().getClientArea().getOutline().setVisible(true);
-		cwaBar.getPlot().getClientArea().setBackground(
-				ColorDefinitionImpl.create(254, 251, 233));
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+		cwaBar.setType( "Bar Chart" );//$NON-NLS-1$
+		cwaBar.setSubType( "Side-by-side" );//$NON-NLS-1$
+		cwaBar.getTitle( ).setVisible( false );
+		cwaBar.getLegend( ).setVisible( false );
+		cwaBar.setOrientation( Orientation.VERTICAL_LITERAL );
+		cwaBar.getBlock( ).setBounds( BoundsImpl.create( 0, 0, 450, 175 ) );
+		cwaBar.getPlot( ).getClientArea( ).getOutline( ).setVisible( true );
+		cwaBar.getPlot( )
+				.getClientArea( )
+				.setBackground( ColorDefinitionImpl.create( 254, 251, 233 ) );
 
-		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes()[0];
-		xAxisPrimary.setCategoryAxis(true);
-		xAxisPrimary.getTitle().getCaption().setValue("Trading Date");//$NON-NLS-1$
-		xAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
-				LineStyle.DOTTED_LITERAL);
-		xAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
-		xAxisPrimary.getMajorGrid().getLineAttributes().setColor(
-				ColorDefinitionImpl.GREY());
-		xAxisPrimary.setType(AxisType.DATE_TIME_LITERAL);
-		xAxisPrimary.setFormatSpecifier(JavaDateFormatSpecifierImpl
-				.create("MM/dd/yyyy"));//$NON-NLS-1$
+		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
+		xAxisPrimary.setCategoryAxis( true );
+		xAxisPrimary.getTitle( ).getCaption( ).setValue( "Trading Date" );//$NON-NLS-1$
+		xAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setStyle( LineStyle.DOTTED_LITERAL );
+		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
+		xAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setColor( ColorDefinitionImpl.GREY( ) );
+		xAxisPrimary.setType( AxisType.DATE_TIME_LITERAL );
+		xAxisPrimary.setFormatSpecifier( JavaDateFormatSpecifierImpl.create( "MM/dd/yyyy" ) );//$NON-NLS-1$
 
-		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis(xAxisPrimary);
-		yAxisPrimary.getTitle().getCaption().setValue("Volume");//$NON-NLS-1$
-		yAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
-				LineStyle.DOTTED_LITERAL);
-		yAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
-		yAxisPrimary.getMajorGrid().getLineAttributes().setColor(
-				ColorDefinitionImpl.GREY());
+		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
+		yAxisPrimary.getTitle( ).getCaption( ).setValue( "Volume" );//$NON-NLS-1$
+		yAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setStyle( LineStyle.DOTTED_LITERAL );
+		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
+		yAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setColor( ColorDefinitionImpl.GREY( ) );
 
-		SampleData sd = DataFactory.eINSTANCE.createSampleData();
-		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
-		sdBase.setDataSetRepresentation("01/25/2005");//$NON-NLS-1$
-		sd.getBaseSampleData().add(sdBase);
+		SampleData sd = DataFactory.eINSTANCE.createSampleData( );
+		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
+		sdBase.setDataSetRepresentation( "01/25/2005" );//$NON-NLS-1$
+		sd.getBaseSampleData( ).add( sdBase );
 
-		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE
-				.createOrthogonalSampleData();
-		sdOrthogonal.setDataSetRepresentation("5");//$NON-NLS-1$
-		sdOrthogonal.setSeriesDefinitionIndex(0);
-		sd.getOrthogonalSampleData().add(sdOrthogonal);
+		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE.createOrthogonalSampleData( );
+		sdOrthogonal.setDataSetRepresentation( "5" );//$NON-NLS-1$
+		sdOrthogonal.setSeriesDefinitionIndex( 0 );
+		sd.getOrthogonalSampleData( ).add( sdOrthogonal );
 
-		cwaBar.setSampleData(sd);
+		cwaBar.setSampleData( sd );
 
-		Series seCategory = SeriesImpl.create();
-		Query query = QueryImpl.create("row[\"Date\"]");//$NON-NLS-1$
-		seCategory.getDataDefinition().add(query);
+		Series seCategory = SeriesImpl.create( );
+		Query query = QueryImpl.create( "row[\"Date\"]" );//$NON-NLS-1$
+		seCategory.getDataDefinition( ).add( query );
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create();
-		sdX.getSeries().add(seCategory);
-		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
+		sdX.getSeries( ).add( seCategory );
+		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 
-		BarSeries bs = (BarSeries) BarSeriesImpl.create();
-		Query query2 = QueryImpl.create("row[\"Volume\"]");//$NON-NLS-1$
-		bs.getDataDefinition().add(query2);
+		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
+		Query query2 = QueryImpl.create( "row[\"Volume\"]" );//$NON-NLS-1$
+		bs.getDataDefinition( ).add( query2 );
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create();
-		sdY.getSeriesPalette()
-				.update(ColorDefinitionImpl.create(168, 225, 253));
-		sdY.getSeries().add(bs);
-		yAxisPrimary.getSeriesDefinitions().add(sdY);
-		
+		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
+		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.create( 168,
+				225,
+				253 ) );
+		sdY.getSeries( ).add( bs );
+		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
+
 		DataPointComponent dpc = DataPointComponentImpl.create( DataPointComponentType.ORTHOGONAL_VALUE_LITERAL,
-				JavaNumberFormatSpecifierImpl.create("###,###") );//$NON-NLS-1$
-		bs.getDataPoint().getComponents().clear();
-		bs.getDataPoint().getComponents().add(dpc);
-		bs.getLabel().setVisible(true);
+				JavaNumberFormatSpecifierImpl.create( "###,###" ) );//$NON-NLS-1$
+		bs.getDataPoint( ).getComponents( ).clear( );
+		bs.getDataPoint( ).getComponents( ).add( dpc );
+		bs.getLabel( ).setVisible( true );
 
 		ChartReportItemImpl crii;
-		try {
+		try
+		{
 			//Add ChartReportItemImpl to ExtendedItemHandle
-			crii = (ChartReportItemImpl) eih.getReportItem();
+			crii = (ChartReportItemImpl) eih.getReportItem( );
 			//Add chart instance to ChartReportItemImpl
-			crii.setProperty("chart.instance", cwaBar);//$NON-NLS-1$
-		} catch (ExtendedElementException e) {
-			e.printStackTrace();
+			crii.setProperty( "chart.instance", cwaBar );//$NON-NLS-1$
+		}
+		catch ( ExtendedElementException e )
+		{
+			e.printStackTrace( );
 		}
 
 		return eih;

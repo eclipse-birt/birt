@@ -50,10 +50,12 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * The selector of charts in SWT.
- *  
+ * 
  */
-public final class SwtChartViewerSelector implements PaintListener,
-		SelectionListener {
+public final class SwtChartViewerSelector implements
+		PaintListener,
+		SelectionListener
+{
 
 	private IDeviceRenderer idr = null;
 
@@ -72,61 +74,62 @@ public final class SwtChartViewerSelector implements PaintListener,
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		SwtChartViewerSelector scv = new SwtChartViewerSelector();
+	public static void main( String[] args )
+	{
+		SwtChartViewerSelector scv = new SwtChartViewerSelector( );
 
-		GridLayout gl = new GridLayout();
-		//gl.numColumns = 1;
-		Display d = Display.getDefault();
-		Shell sh = new Shell(d);
-		sh.setSize(900, 700);
-		sh.setLayout(gl);
-		sh.setText(scv.getClass().getName() + " [device="//$NON-NLS-1$
-				+ scv.idr.getClass().getName() + "]");//$NON-NLS-1$
+		GridLayout gl = new GridLayout( );
+		// gl.numColumns = 1;
+		Display d = Display.getDefault( );
+		Shell sh = new Shell( d );
+		sh.setSize( 900, 700 );
+		sh.setLayout( gl );
+		sh.setText( scv.getClass( ).getName( ) + " [device="//$NON-NLS-1$
+				+ scv.idr.getClass( ).getName( ) + "]" );//$NON-NLS-1$
 
-		GridData gd = new GridData(GridData.FILL_BOTH);
-		Canvas cCenter = new Canvas(sh, SWT.NONE);
-		cCenter.setLayoutData(gd);
-		cCenter.addPaintListener(scv);
+		GridData gd = new GridData( GridData.FILL_BOTH );
+		Canvas cCenter = new Canvas( sh, SWT.NONE );
+		cCenter.setLayoutData( gd );
+		cCenter.addPaintListener( scv );
 
-		Composite cBottom = new Composite(sh, SWT.NONE);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		cBottom.setLayoutData(gd);
-		cBottom.setLayout(new RowLayout());
+		Composite cBottom = new Composite( sh, SWT.NONE );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		cBottom.setLayoutData( gd );
+		cBottom.setLayout( new RowLayout( ) );
 
-		Label la = new Label(cBottom, SWT.NONE);
+		Label la = new Label( cBottom, SWT.NONE );
 
-		la.setText("Choose: ");//$NON-NLS-1$
-		Combo cbType = new Combo(cBottom, SWT.DROP_DOWN | SWT.READ_ONLY);
-		cbType.add("Bar Chart");//$NON-NLS-1$
-		cbType.add("Bar Chart(2 Series)");//$NON-NLS-1$
-		cbType.add("Pie Chart");//$NON-NLS-1$
-		cbType.add("Pie Chart(4 Series)");//$NON-NLS-1$
-		cbType.add("Line Chart");//$NON-NLS-1$
-		cbType.add("Bar/Line Stacked Chart");//$NON-NLS-1$
-		cbType.add("Scatter Chart");//$NON-NLS-1$
-		cbType.add("Stock Chart");//$NON-NLS-1$
-		cbType.add("Area Chart");//$NON-NLS-1$
+		la.setText( "Choose: " );//$NON-NLS-1$
+		Combo cbType = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cbType.add( "Bar Chart" );//$NON-NLS-1$
+		cbType.add( "Bar Chart(2 Series)" );//$NON-NLS-1$
+		cbType.add( "Pie Chart" );//$NON-NLS-1$
+		cbType.add( "Pie Chart(4 Series)" );//$NON-NLS-1$
+		cbType.add( "Line Chart" );//$NON-NLS-1$
+		cbType.add( "Bar/Line Stacked Chart" );//$NON-NLS-1$
+		cbType.add( "Scatter Chart" );//$NON-NLS-1$
+		cbType.add( "Stock Chart" );//$NON-NLS-1$
+		cbType.add( "Area Chart" );//$NON-NLS-1$
 
-		cbType.select(0);
+		cbType.select( 0 );
 
-		Combo cbDimension = new Combo(cBottom, SWT.DROP_DOWN | SWT.READ_ONLY);
-		cbDimension.add("2D");//$NON-NLS-1$
-		cbDimension.add("2D with Depth");//$NON-NLS-1$
-		cbDimension.select(0);
+		Combo cbDimension = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cbDimension.add( "2D" );//$NON-NLS-1$
+		cbDimension.add( "2D with Depth" );//$NON-NLS-1$
+		cbDimension.select( 0 );
 
-		Button cbTransposed = new Button(cBottom, SWT.CHECK);
-		cbTransposed.setText("Transposed");//$NON-NLS-1$
+		Button cbTransposed = new Button( cBottom, SWT.CHECK );
+		cbTransposed.setText( "Transposed" );//$NON-NLS-1$
 
-		Button cbPercent = new Button(cBottom, SWT.CHECK);
-		cbPercent.setText("Percent");//$NON-NLS-1$
+		Button cbPercent = new Button( cBottom, SWT.CHECK );
+		cbPercent.setText( "Percent" );//$NON-NLS-1$
 
-		Button cbLogarithmic = new Button(cBottom, SWT.CHECK);
-		cbLogarithmic.setText("Logarithmic");//$NON-NLS-1$
+		Button cbLogarithmic = new Button( cBottom, SWT.CHECK );
+		cbLogarithmic.setText( "Logarithmic" );//$NON-NLS-1$
 
-		Button btn = new Button(cBottom, SWT.NONE);
-		btn.setText("Update");//$NON-NLS-1$
-		btn.addSelectionListener(scv);
+		Button btn = new Button( cBottom, SWT.NONE );
+		btn.setText( "Update" );//$NON-NLS-1$
+		btn.addSelectionListener( scv );
 
 		scv.cb = cbType;
 		scv.ca = cCenter;
@@ -136,11 +139,13 @@ public final class SwtChartViewerSelector implements PaintListener,
 		scv.cbPercent = cbPercent;
 		scv.cbLogarithmic = cbLogarithmic;
 
-		sh.open();
+		sh.open( );
 
-		while (!sh.isDisposed()) {
-			if (!d.readAndDispatch()) {
-				d.sleep();
+		while ( !sh.isDisposed( ) )
+		{
+			if ( !d.readAndDispatch( ) )
+			{
+				d.sleep( );
 			}
 		}
 	}
@@ -148,14 +153,18 @@ public final class SwtChartViewerSelector implements PaintListener,
 	/**
 	 * Get the connection with SWT device to render the graphics.
 	 */
-	SwtChartViewerSelector() {
-		final PluginSettings ps = PluginSettings.instance();
-		try {
-			idr = ps.getDevice("dv.SWT");//$NON-NLS-1$
-		} catch (ChartException ex) {
-			ex.printStackTrace();
+	SwtChartViewerSelector( )
+	{
+		final PluginSettings ps = PluginSettings.instance( );
+		try
+		{
+			idr = ps.getDevice( "dv.SWT" );//$NON-NLS-1$
 		}
-		cm = PrimitiveCharts.createBarChart();
+		catch ( ChartException ex )
+		{
+			ex.printStackTrace( );
+		}
+		cm = PrimitiveCharts.createBarChart( );
 
 	}
 
@@ -164,21 +173,28 @@ public final class SwtChartViewerSelector implements PaintListener,
 	 * 
 	 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.PaintEvent)
 	 */
-	public final void paintControl(PaintEvent pe) {
-		idr.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, pe.gc);
+	public final void paintControl( PaintEvent pe )
+	{
+		idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, pe.gc );
 
-		Composite co = (Composite) pe.getSource();
-		Rectangle re = co.getClientArea();
-		Bounds bo = BoundsImpl.create(re.x, re.y, re.width, re.height);
-		bo.scale(72d / idr.getDisplayServer().getDpiResolution());
+		Composite co = (Composite) pe.getSource( );
+		Rectangle re = co.getClientArea( );
+		Bounds bo = BoundsImpl.create( re.x, re.y, re.width, re.height );
+		bo.scale( 72d / idr.getDisplayServer( ).getDpiResolution( ) );
 
-		Generator gr = Generator.instance();
-		try {
-			gr
-					.render(idr, gr.build(idr.getDisplayServer(), cm, null, bo,
-							null));
-		} catch (ChartException ex) {
-			showException(pe.gc, ex);
+		Generator gr = Generator.instance( );
+		try
+		{
+			gr.render( idr, gr.build( idr.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null ) );
+		}
+		catch ( ChartException ex )
+		{
+			showException( pe.gc, ex );
 		}
 	}
 
@@ -187,87 +203,102 @@ public final class SwtChartViewerSelector implements PaintListener,
 	 * 
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 	 */
-	public void widgetSelected(SelectionEvent e) {
-		int iSelection = cb.getSelectionIndex();
-		switch (iSelection) {
-		case 0:
-			cm = PrimitiveCharts.createBarChart();
-			break;
-		case 1:
-			cm = PrimitiveCharts.createMultiBarChart();
-			break;
-		case 2:
-			cm = PrimitiveCharts.createPieChart();
-			break;
-		case 3:
-			cm = PrimitiveCharts.createMultiPieChart();
-			break;
-		case 4:
-			cm = PrimitiveCharts.createLineChart();
-			break;
-		case 5:
-			cm = PrimitiveCharts.createStackedChart();
-			break;
-		case 6:
-			cm = PrimitiveCharts.createScatterChart();
-			break;
-		case 7:
-			cm = PrimitiveCharts.createStockChart();
-			break;
-		case 8:
-			cm = PrimitiveCharts.createAreaChart();
-			break;
-		}
-
-		if (cm instanceof ChartWithAxes) {
-			
-			cbTransposed.setEnabled(true);
-			cbLogarithmic.setEnabled(true);
-			cbPercent.setEnabled(true);
-
-			ChartWithAxes cwa = ((ChartWithAxes) cm);
-			cwa.setTransposed(cbTransposed.getSelection());
-			Axis ax = cwa.getPrimaryOrthogonalAxis(cwa.getPrimaryBaseAxes()[0]);
-
-			if (cbLogarithmic.getSelection()) {
-				if (ax.getType() == AxisType.LINEAR_LITERAL) {
-					ax.setType(AxisType.LOGARITHMIC_LITERAL);
-				}
-			} else {
-				if (ax.getType() == AxisType.LOGARITHMIC_LITERAL) {
-					ax.setType(AxisType.LINEAR_LITERAL);
-				}
-			}
-			
-			if (cbPercent.getSelection()== true) {
-					ax.setFormatSpecifier(JavaNumberFormatSpecifierImpl
-							.create("0'%'"));//$NON-NLS-1$
-			} else {
-				ax.setFormatSpecifier(null);
-			}
-			
-		} else if (cm instanceof ChartWithoutAxes) {
-			cbTransposed.setEnabled(false);
-			cbLogarithmic.setEnabled(false);
-			cbPercent.setEnabled(false);
-		}
-
-		if (cb.getSelectionIndex() == 7){
-			cm.setDimension(ChartDimension.TWO_DIMENSIONAL_LITERAL);
-		}
-		else {
-			switch (cbDimension.getSelectionIndex()) {
-	
-			case 0:
-				cm.setDimension(ChartDimension.TWO_DIMENSIONAL_LITERAL);
+	public void widgetSelected( SelectionEvent e )
+	{
+		int iSelection = cb.getSelectionIndex( );
+		switch ( iSelection )
+		{
+			case 0 :
+				cm = PrimitiveCharts.createBarChart( );
 				break;
-			case 1:
-				cm.setDimension(ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL);
-				break;	
+			case 1 :
+				cm = PrimitiveCharts.createMultiBarChart( );
+				break;
+			case 2 :
+				cm = PrimitiveCharts.createPieChart( );
+				break;
+			case 3 :
+				cm = PrimitiveCharts.createMultiPieChart( );
+				break;
+			case 4 :
+				cm = PrimitiveCharts.createLineChart( );
+				break;
+			case 5 :
+				cm = PrimitiveCharts.createStackedChart( );
+				break;
+			case 6 :
+				cm = PrimitiveCharts.createScatterChart( );
+				break;
+			case 7 :
+				cm = PrimitiveCharts.createStockChart( );
+				break;
+			case 8 :
+				cm = PrimitiveCharts.createAreaChart( );
+				break;
+		}
+
+		if ( cm instanceof ChartWithAxes )
+		{
+
+			cbTransposed.setEnabled( true );
+			cbLogarithmic.setEnabled( true );
+			cbPercent.setEnabled( true );
+
+			ChartWithAxes cwa = ( (ChartWithAxes) cm );
+			cwa.setTransposed( cbTransposed.getSelection( ) );
+			Axis ax = cwa.getPrimaryOrthogonalAxis( cwa.getPrimaryBaseAxes( )[0] );
+
+			if ( cbLogarithmic.getSelection( ) )
+			{
+				if ( ax.getType( ) == AxisType.LINEAR_LITERAL )
+				{
+					ax.setType( AxisType.LOGARITHMIC_LITERAL );
+				}
+			}
+			else
+			{
+				if ( ax.getType( ) == AxisType.LOGARITHMIC_LITERAL )
+				{
+					ax.setType( AxisType.LINEAR_LITERAL );
+				}
+			}
+
+			if ( cbPercent.getSelection( ) == true )
+			{
+				ax.setFormatSpecifier( JavaNumberFormatSpecifierImpl.create( "0'%'" ) );//$NON-NLS-1$
+			}
+			else
+			{
+				ax.setFormatSpecifier( null );
+			}
+
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			cbTransposed.setEnabled( false );
+			cbLogarithmic.setEnabled( false );
+			cbPercent.setEnabled( false );
+		}
+
+		if ( cb.getSelectionIndex( ) == 7 )
+		{
+			cm.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
+		}
+		else
+		{
+			switch ( cbDimension.getSelectionIndex( ) )
+			{
+
+				case 0 :
+					cm.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
+					break;
+				case 1 :
+					cm.setDimension( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL );
+					break;
 			}
 		}
 
-		ca.redraw();
+		ca.redraw( );
 	}
 
 	/*
@@ -275,81 +306,91 @@ public final class SwtChartViewerSelector implements PaintListener,
 	 * 
 	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
 	 */
-	public void widgetDefaultSelected(SelectionEvent e) {
+	public void widgetDefaultSelected( SelectionEvent e )
+	{
 		// TODO Auto-generated method stub
 
 	}
 
-	private final void showException(GC g2d, Exception ex) {
-		String sWrappedException = ex.getClass().getName();
+	private final void showException( GC g2d, Exception ex )
+	{
+		String sWrappedException = ex.getClass( ).getName( );
 		Throwable th = ex;
-		while (ex.getCause() != null) {
-			ex = (Exception) ex.getCause();
+		while ( ex.getCause( ) != null )
+		{
+			ex = (Exception) ex.getCause( );
 		}
-		String sException = ex.getClass().getName();
-		if (sWrappedException.equals(sException)) {
+		String sException = ex.getClass( ).getName( );
+		if ( sWrappedException.equals( sException ) )
+		{
 			sWrappedException = null;
 		}
 
 		String sMessage = null;
-		if (th instanceof BirtException) {
-			sMessage = ((BirtException) th).getLocalizedMessage();
-		} else {
-			sMessage = ex.getMessage();
+		if ( th instanceof BirtException )
+		{
+			sMessage = ( (BirtException) th ).getLocalizedMessage( );
+		}
+		else
+		{
+			sMessage = ex.getMessage( );
 		}
 
-		if (sMessage == null) {
+		if ( sMessage == null )
+		{
 			sMessage = "<null>";//$NON-NLS-1$
 		}
-		StackTraceElement[] stea = ex.getStackTrace();
-		Point d = ca.getSize();
+		StackTraceElement[] stea = ex.getStackTrace( );
+		Point d = ca.getSize( );
 
-		Device dv = Display.getCurrent();
-		Font fo = new Font(dv, "Courier", SWT.BOLD, 16);//$NON-NLS-1$
-		g2d.setFont(fo);
-		FontMetrics fm = g2d.getFontMetrics();
-		g2d.setBackground(dv.getSystemColor(SWT.COLOR_WHITE));
-		g2d.fillRectangle(20, 20, d.x - 40, d.y - 40);
-		g2d.setForeground(dv.getSystemColor(SWT.COLOR_BLACK));
-		g2d.drawRectangle(20, 20, d.x - 40, d.y - 40);
-		g2d.setClipping(20, 20, d.x - 40, d.y - 40);
-		int x = 25, y = 20 + fm.getHeight();
-		g2d.drawString("Exception:", x, y);//$NON-NLS-1$
-		x += g2d.textExtent("Exception:").x + 5;//$NON-NLS-1$
-		g2d.setForeground(dv.getSystemColor(SWT.COLOR_RED));
-		g2d.drawString(sException, x, y);
+		Device dv = Display.getCurrent( );
+		Font fo = new Font( dv, "Courier", SWT.BOLD, 16 );//$NON-NLS-1$
+		g2d.setFont( fo );
+		FontMetrics fm = g2d.getFontMetrics( );
+		g2d.setBackground( dv.getSystemColor( SWT.COLOR_WHITE ) );
+		g2d.fillRectangle( 20, 20, d.x - 40, d.y - 40 );
+		g2d.setForeground( dv.getSystemColor( SWT.COLOR_BLACK ) );
+		g2d.drawRectangle( 20, 20, d.x - 40, d.y - 40 );
+		g2d.setClipping( 20, 20, d.x - 40, d.y - 40 );
+		int x = 25, y = 20 + fm.getHeight( );
+		g2d.drawString( "Exception:", x, y );//$NON-NLS-1$
+		x += g2d.textExtent( "Exception:" ).x + 5;//$NON-NLS-1$
+		g2d.setForeground( dv.getSystemColor( SWT.COLOR_RED ) );
+		g2d.drawString( sException, x, y );
 		x = 25;
-		y += fm.getHeight();
-		if (sWrappedException != null) {
-			g2d.setForeground(dv.getSystemColor(SWT.COLOR_BLACK));
-			g2d.drawString("Wrapped In:", x, y);//$NON-NLS-1$
-			x += g2d.textExtent("Wrapped In:").x + 5;//$NON-NLS-1$
-			g2d.setForeground(dv.getSystemColor(SWT.COLOR_RED));
-			g2d.drawString(sWrappedException, x, y);
+		y += fm.getHeight( );
+		if ( sWrappedException != null )
+		{
+			g2d.setForeground( dv.getSystemColor( SWT.COLOR_BLACK ) );
+			g2d.drawString( "Wrapped In:", x, y );//$NON-NLS-1$
+			x += g2d.textExtent( "Wrapped In:" ).x + 5;//$NON-NLS-1$
+			g2d.setForeground( dv.getSystemColor( SWT.COLOR_RED ) );
+			g2d.drawString( sWrappedException, x, y );
 			x = 25;
-			y += fm.getHeight();
+			y += fm.getHeight( );
 		}
-		g2d.setForeground(dv.getSystemColor(SWT.COLOR_BLACK));
+		g2d.setForeground( dv.getSystemColor( SWT.COLOR_BLACK ) );
 		y += 10;
-		g2d.drawString("Message:", x, y);//$NON-NLS-1$
-		x += g2d.textExtent("Message:").x + 5;//$NON-NLS-1$
-		g2d.setForeground(dv.getSystemColor(SWT.COLOR_BLUE));
-		g2d.drawString(sMessage, x, y);
+		g2d.drawString( "Message:", x, y );//$NON-NLS-1$
+		x += g2d.textExtent( "Message:" ).x + 5;//$NON-NLS-1$
+		g2d.setForeground( dv.getSystemColor( SWT.COLOR_BLUE ) );
+		g2d.drawString( sMessage, x, y );
 		x = 25;
-		y += fm.getHeight();
-		g2d.setForeground(dv.getSystemColor(SWT.COLOR_BLACK));
+		y += fm.getHeight( );
+		g2d.setForeground( dv.getSystemColor( SWT.COLOR_BLACK ) );
 		y += 10;
-		g2d.drawString("Trace:", x, y);//$NON-NLS-1$
+		g2d.drawString( "Trace:", x, y );//$NON-NLS-1$
 		x = 40;
-		y += fm.getHeight();
-		g2d.setForeground(dv.getSystemColor(SWT.COLOR_DARK_GREEN));
-		for (int i = 0; i < stea.length; i++) {
-			g2d.drawString(stea[i].getClassName() + ":"//$NON-NLS-1$
-					+ stea[i].getMethodName() + "(...):"//$NON-NLS-1$
-					+ stea[i].getLineNumber(), x, y);
+		y += fm.getHeight( );
+		g2d.setForeground( dv.getSystemColor( SWT.COLOR_DARK_GREEN ) );
+		for ( int i = 0; i < stea.length; i++ )
+		{
+			g2d.drawString( stea[i].getClassName( ) + ":"//$NON-NLS-1$
+					+ stea[i].getMethodName( ) + "(...):"//$NON-NLS-1$
+					+ stea[i].getLineNumber( ), x, y );
 			x = 40;
-			y += fm.getHeight();
+			y += fm.getHeight( );
 		}
-		fo.dispose();
+		fo.dispose( );
 	}
 }

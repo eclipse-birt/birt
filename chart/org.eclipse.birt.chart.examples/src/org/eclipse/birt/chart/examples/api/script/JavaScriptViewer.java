@@ -9,7 +9,7 @@
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
 
-package org.eclipse.birt.chart.examples.api.viewer;
+package org.eclipse.birt.chart.examples.api.script;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -18,11 +18,14 @@ import org.eclipse.birt.chart.log.impl.DefaultLoggerImpl;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.script.IExternalContext;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontMetrics;
@@ -39,59 +42,64 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.events.SelectionListener;
 
-public class Chart3DViewer implements PaintListener, SelectionListener
+public class JavaScriptViewer implements PaintListener, SelectionListener
 {
 	private IDeviceRenderer idr = null;
 	private Chart cm = null;
 	private Canvas ca = null;
 	private Combo cb = null;
+	private IExternalContext ec = null;
+	private transient static Label description = null;
 
 	/**
-	 * execute application
+	 * Execute application
 	 * 
 	 * @param args
 	 */
 	public static void main( String[] args )
 	{
 
-		Chart3DViewer c3dViewer = new Chart3DViewer( );
-		GridLayout gl = new GridLayout( );
-		gl.numColumns = 1;
+		JavaScriptViewer jsViewer = new JavaScriptViewer( );
 		Display d = Display.getDefault( );
-		Shell sh = new Shell( d );
-		sh.setSize( 600, 400 );
-		sh.setLayout( gl );
-		sh.setText( c3dViewer.getClass( ).getName( ) + " [device="//$NON-NLS-1$
-				+ c3dViewer.idr.getClass( ).getName( ) + "]" );//$NON-NLS-1$
+		Shell sh = new Shell( Display.getDefault( ) );
+		sh.setSize( 500, 400 );
+		sh.setLayout( new GridLayout( ) );
+		sh.setText( jsViewer.getClass( ).getName( ) + " [device="//$NON-NLS-1$
+				+ jsViewer.idr.getClass( ).getName( ) + "]" );//$NON-NLS-1$
 
-		GridData gd = new GridData( GridData.FILL_BOTH );
 		Canvas cCenter = new Canvas( sh, SWT.NONE );
-		cCenter.setLayoutData( gd );
-		cCenter.addPaintListener( c3dViewer );
+		cCenter.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		cCenter.addPaintListener( jsViewer );
+
+		description = new Label( sh, SWT.NONE );
+		description.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		description.setText( "beforeDrawAxisLabel( Axis, Label, IChartScriptContext )" //$NON-NLS-1$
+				+ "\nbeforeDrawAxisTitle( Axis, Label, IChartScriptContext )" ); //$NON-NLS-1$
 
 		Composite choicePanel = new Composite( sh, SWT.NONE );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		choicePanel.setLayoutData( gd );
+		choicePanel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		choicePanel.setLayout( new RowLayout( ) );
 
 		Label la = new Label( choicePanel, SWT.NONE );
-		la.setText( "Choose: " ); //$NON-NLS-1$
+		la.setText( "Choose Scope: " );//$NON-NLS-1$
 
 		Combo cbType = new Combo( choicePanel, SWT.DROP_DOWN | SWT.READ_ONLY );
-		cbType.add( "3D Bar Chart" ); //$NON-NLS-1$
-		cbType.add( "3D Line Chart" );//$NON-NLS-1$
-		cbType.add( "3D Area Chart" );//$NON-NLS-1$
+		cbType.add( "Axis" );//$NON-NLS-1$
+		cbType.add( "DataPoints" );//$NON-NLS-1$
+		cbType.add( "Marker" );//$NON-NLS-1$
+		cbType.add( "Series" );//$NON-NLS-1$
+		cbType.add( "Series Title" ); //$NON-NLS-1$
+		cbType.add( "Block" );//$NON-NLS-1$
+		cbType.add( "Legend" ); //$NON-NLS-1$
 		cbType.select( 0 );
 
 		Button btn = new Button( choicePanel, SWT.NONE );
 		btn.setText( "Update" );//$NON-NLS-1$
-		btn.addSelectionListener( c3dViewer );
+		btn.addSelectionListener( jsViewer );
 
-		c3dViewer.cb = cbType;
-		c3dViewer.ca = cCenter;
+		jsViewer.cb = cbType;
+		jsViewer.ca = cCenter;
 
 		sh.open( );
 
@@ -107,7 +115,7 @@ public class Chart3DViewer implements PaintListener, SelectionListener
 	/**
 	 * Constructor
 	 */
-	Chart3DViewer( )
+	JavaScriptViewer( )
 	{
 		final PluginSettings ps = PluginSettings.instance( );
 		try
@@ -118,7 +126,7 @@ public class Chart3DViewer implements PaintListener, SelectionListener
 		{
 			DefaultLoggerImpl.instance( ).log( pex );
 		}
-		cm = PrimitiveCharts.create3DBarChart( );
+		cm = ScriptCharts.createChart_Axis( );
 	}
 
 	/*
@@ -141,7 +149,7 @@ public class Chart3DViewer implements PaintListener, SelectionListener
 			gr.render( idr, gr.build( idr.getDisplayServer( ),
 					cm,
 					bo,
-					null,
+					ec,
 					null,
 					null ) );
 		}
@@ -162,13 +170,34 @@ public class Chart3DViewer implements PaintListener, SelectionListener
 		switch ( iSelection )
 		{
 			case 0 :
-				cm = PrimitiveCharts.create3DBarChart( );
+				cm = ScriptCharts.createChart_Axis( );
+				description.setText( "beforeDrawAxisLabel( Axis, Label, IChartScriptContext )" //$NON-NLS-1$
+						+ "\nbeforeDrawAxisTitle( Axis, Label, IChartScriptContext )" ); //$NON-NLS-1$
 				break;
 			case 1 :
-				cm = PrimitiveCharts.create3DLineChart( );
+				cm = ScriptCharts.createChart_DataPoints( );
+				description.setText( "beforeDrawDataPointLabel( DataPointHint, Label, IChartScriptContext )" ); //$NON-NLS-1$
 				break;
 			case 2 :
-				cm = PrimitiveCharts.create3DAreaChart( );
+				cm = ScriptCharts.createChart_Marker( );
+				description.setText( "beforeDrawMarkerLine( Axis, MarkerLine, IChartScriptContext )" //$NON-NLS-1$
+						+ "\nbeforeDrawMarkerRange( Axis, MarkerRange, IChartScriptContext )" ); //$NON-NLS-1$
+				break;
+			case 3 :
+				cm = ScriptCharts.createChart_Series( );
+				description.setText( "beforeDrawSeries( Series, ISeriesRenderer, IChartScriptContext )" ); //$NON-NLS-1$
+				break;
+			case 4 :
+				cm = ScriptCharts.createChart_SeriesTitle( );
+				description.setText( "beforeDrawSeriesTitle( Series, Label, IChartScriptContext )" ); //$NON-NLS-1$
+				break;
+			case 5 :
+				cm = ScriptCharts.createChart_Block( );
+				description.setText( "beforeDrawBlock( Block, IChartScriptContext )" ); //$NON-NLS-1$
+				break;
+			case 6 :
+				cm = ScriptCharts.createChart_Legend( );
+				description.setText( "beforeDrawLegendEntry( Label, IChartScriptContext )" ); //$NON-NLS-1$
 				break;
 		}
 		ca.redraw( );
@@ -182,7 +211,6 @@ public class Chart3DViewer implements PaintListener, SelectionListener
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
 		// TODO Auto-generated method stub
-
 	}
 
 	private final void showException( GC g2d, Exception ex )

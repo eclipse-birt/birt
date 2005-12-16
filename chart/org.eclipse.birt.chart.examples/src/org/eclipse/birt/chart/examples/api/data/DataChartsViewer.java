@@ -9,7 +9,7 @@
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
 
-package org.eclipse.birt.chart.examples.api.viewer;
+package org.eclipse.birt.chart.examples.api.data;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -27,39 +27,31 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.ChartWithoutAxes;
-import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
-import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
-import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 
 /**
- * The selector of charts in Swing JPanel.
+ * The selector of interactivity charts in Swing JPanel.
  * 
  */
-public final class SwingChartViewerSelector extends JPanel implements
+public final class DataChartsViewer extends JPanel implements
 		IUpdateNotifier,
 		ComponentListener
 {
+
 	private boolean bNeedsGeneration = true;
 
 	private GeneratedChartState gcs = null;
@@ -70,21 +62,21 @@ public final class SwingChartViewerSelector extends JPanel implements
 
 	/**
 	 * Contructs the layout with a container for displaying chart and a control
-	 * panel for selecting chart attributes.
+	 * panel for selecting interactivity.
 	 * 
 	 * @param args
 	 */
 	public static void main( String[] args )
 	{
-		SwingChartViewerSelector scv = new SwingChartViewerSelector( );
+		DataChartsViewer dcv = new DataChartsViewer( );
 
 		JFrame jf = new JFrame( );
 		jf.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
-		jf.addComponentListener( scv );
+		jf.addComponentListener( dcv );
 
 		Container co = jf.getContentPane( );
 		co.setLayout( new BorderLayout( ) );
-		co.add( scv, BorderLayout.CENTER );
+		co.add( dcv, BorderLayout.CENTER );
 
 		Dimension dScreen = Toolkit.getDefaultToolkit( ).getScreenSize( );
 		Dimension dApp = new Dimension( 600, 400 );
@@ -92,10 +84,10 @@ public final class SwingChartViewerSelector extends JPanel implements
 		jf.setLocation( ( dScreen.width - dApp.width ) / 2,
 				( dScreen.height - dApp.height ) / 2 );
 
-		jf.setTitle( scv.getClass( ).getName( ) + " [device=" //$NON-NLS-1$
-				+ scv.idr.getClass( ).getName( ) + "]" );//$NON-NLS-1$
+		jf.setTitle( dcv.getClass( ).getName( ) + " [device=" //$NON-NLS-1$
+				+ dcv.idr.getClass( ).getName( ) + "]" );//$NON-NLS-1$
 
-		ControlPanel cp = scv.new ControlPanel( scv );
+		ControlPanel cp = dcv.new ControlPanel( dcv );
 		co.add( cp, BorderLayout.SOUTH );
 
 		jf.show( );
@@ -104,7 +96,7 @@ public final class SwingChartViewerSelector extends JPanel implements
 	/**
 	 * Get the connection with SWING device to render the graphics.
 	 */
-	SwingChartViewerSelector( )
+	DataChartsViewer( )
 	{
 		final PluginSettings ps = PluginSettings.instance( );
 		try
@@ -115,8 +107,7 @@ public final class SwingChartViewerSelector extends JPanel implements
 		{
 			ex.printStackTrace( );
 		}
-		// The default chart displayed in the container is the simple bar chart.
-		cm = PrimitiveCharts.createBarChart( );
+		cm = DataCharts.createMinSliceChart( );
 	}
 
 	/*
@@ -355,60 +346,32 @@ public final class SwingChartViewerSelector extends JPanel implements
 
 		private JButton jbUpdate = null;
 
-		private JComboBox jcbDimensions = null;
+		private final DataChartsViewer dcv;
 
-		private JCheckBox jcbTransposed = null;
-
-		private JCheckBox jcbPercent = null;
-
-		private JCheckBox jcbLogarithmic = null;
-
-		private final SwingChartViewerSelector scv;
-
-		ControlPanel( SwingChartViewerSelector scv )
+		ControlPanel( DataChartsViewer dcv )
 		{
-			this.scv = scv;
+			this.dcv = dcv;
 
 			setLayout( new GridLayout( 0, 1, 0, 0 ) );
 
-			JPanel jp1 = new JPanel( );
-			jp1.setLayout( new FlowLayout( FlowLayout.LEFT, 5, 5 ) );
+			JPanel jp = new JPanel( );
+			jp.setLayout( new FlowLayout( FlowLayout.LEFT, 3, 3 ) );
 
-			jp1.add( new JLabel( "Choose:" ) );//$NON-NLS-1$
+			jp.add( new JLabel( "Choose:" ) );//$NON-NLS-1$
 			jcbModels = new JComboBox( );
 
-			jcbModels.addItem( "Bar Chart" );//$NON-NLS-1$
-			jcbModels.addItem( "Bar Chart(2 Series)" );//$NON-NLS-1$
-			jcbModels.addItem( "Pie Chart" );//$NON-NLS-1$
-			jcbModels.addItem( "Pie Chart(4 Series)" );//$NON-NLS-1$
-			jcbModels.addItem( "Line Chart" );//$NON-NLS-1$
-			jcbModels.addItem( "Bar/Line Stacked Chart" );//$NON-NLS-1$
-			jcbModels.addItem( "Scatter Chart" );//$NON-NLS-1$
-			jcbModels.addItem( "Stock Chart" );//$NON-NLS-1$
-			jcbModels.addItem( "Area Chart" );//$NON-NLS-1$
+			jcbModels.addItem( "Min Slice" );//$NON-NLS-1$
+			jcbModels.addItem( "Multiple Y Axis" );//$NON-NLS-1$
+			jcbModels.addItem( "Multiple Y Series" );//$NON-NLS-1$
 
 			jcbModels.setSelectedIndex( 0 );
-			jp1.add( jcbModels );
-
-			jcbDimensions = new JComboBox( );
-			jcbDimensions.addItem( "2D" );//$NON-NLS-1$
-			jcbDimensions.addItem( "2D with Depth" );//$NON-NLS-1$
-			jp1.add( jcbDimensions );
-
-			jcbTransposed = new JCheckBox( "Transposed", false );//$NON-NLS-1$
-			jp1.add( jcbTransposed );
-
-			jcbPercent = new JCheckBox( "Percent", false );//$NON-NLS-1$
-			jp1.add( jcbPercent );
-
-			jcbLogarithmic = new JCheckBox( "Logarithmic", false );//$NON-NLS-1$
-			jp1.add( jcbLogarithmic );
+			jp.add( jcbModels );
 
 			jbUpdate = new JButton( "Update" );//$NON-NLS-1$
 			jbUpdate.addActionListener( this );
-			jp1.add( jbUpdate );
+			jp.add( jbUpdate );
 
-			add( jp1 );
+			add( jp );
 		}
 
 		/*
@@ -473,94 +436,18 @@ public final class SwingChartViewerSelector extends JPanel implements
 			switch ( i )
 			{
 				case 0 :
-					cm = PrimitiveCharts.createBarChart( );
+					cm = DataCharts.createMinSliceChart( );
 					break;
 				case 1 :
-					cm = PrimitiveCharts.createMultiBarChart( );
+					cm = DataCharts.createMulitYSeriesChart( );
 					break;
 				case 2 :
-					cm = PrimitiveCharts.createPieChart( );
+					cm = DataCharts.createMultiYAxisChart( );
 					break;
-				case 3 :
-					cm = PrimitiveCharts.createMultiPieChart( );
-					break;
-				case 4 :
-					cm = PrimitiveCharts.createLineChart( );
-					break;
-				case 5 :
-					cm = PrimitiveCharts.createStackedChart( );
-					break;
-				case 6 :
-					cm = PrimitiveCharts.createScatterChart( );
-					break;
-				case 7 :
-					cm = PrimitiveCharts.createStockChart( );
-					break;
-				case 8 :
-					cm = PrimitiveCharts.createAreaChart( );
-					break;
-			}
-
-			if ( cm instanceof ChartWithAxes )
-			{
-				jcbTransposed.setEnabled( true );
-				jcbLogarithmic.setEnabled( true );
-				jcbPercent.setEnabled( true );
-
-				ChartWithAxes cwa = ( (ChartWithAxes) cm );
-				cwa.setTransposed( jcbTransposed.isSelected( ) );
-				Axis ax = cwa.getPrimaryOrthogonalAxis( cwa.getPrimaryBaseAxes( )[0] );
-
-				if ( jcbLogarithmic.isSelected( ) )
-				{
-					if ( ax.getType( ) == AxisType.LINEAR_LITERAL )
-					{
-						ax.setType( AxisType.LOGARITHMIC_LITERAL );
-					}
-				}
-				else
-				{
-					if ( ax.getType( ) == AxisType.LOGARITHMIC_LITERAL )
-					{
-						ax.setType( AxisType.LINEAR_LITERAL );
-					}
-				}
-
-				if ( jcbPercent.isSelected( ) == true )
-				{
-					ax.setFormatSpecifier( JavaNumberFormatSpecifierImpl.create( "0'%'" ) );//$NON-NLS-1$
-				}
-				else
-				{
-					ax.setFormatSpecifier( null );
-				}
-			}
-			else if ( cm instanceof ChartWithoutAxes )
-			{
-				jcbTransposed.setEnabled( false );
-				jcbLogarithmic.setEnabled( false );
-				jcbPercent.setEnabled( false );
-			}
-
-			if ( jcbModels.getSelectedIndex( ) == 7 )
-			{
-				cm.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
-			}
-			else
-			{
-				switch ( jcbDimensions.getSelectedIndex( ) )
-				{
-					case 0 :
-						cm.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
-						break;
-					case 1 :
-						cm.setDimension( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL );
-						break;
-				}
 			}
 
 			bNeedsGeneration = true;
-			scv.repaint( );
+			dcv.repaint( );
 		}
 	}
 }
