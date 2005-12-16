@@ -77,10 +77,10 @@ public class DesignWriter extends ModuleWriter
 		property( obj, Module.INITIALIZE_METHOD );
 		property( obj, ReportDesign.BEFORE_FACTORY_METHOD );
 		property( obj, ReportDesign.AFTER_FACTORY_METHOD );
-		property( obj, ReportDesign.BEFORE_OPEN_DOC_METHOD );
-		property( obj, ReportDesign.AFTER_OPEN_DOC_METHOD );
-		property( obj, ReportDesign.BEFORE_CLOSE_DOC_METHOD );
-		property( obj, ReportDesign.AFTER_CLOSE_DOC_METHOD );
+//		property( obj, ReportDesign.BEFORE_OPEN_DOC_METHOD );
+//		property( obj, ReportDesign.AFTER_OPEN_DOC_METHOD );
+//		property( obj, ReportDesign.BEFORE_CLOSE_DOC_METHOD );
+//		property( obj, ReportDesign.AFTER_CLOSE_DOC_METHOD );
 		property( obj, ReportDesign.BEFORE_RENDER_METHOD );
 		property( obj, ReportDesign.AFTER_RENDER_METHOD );
 		property( obj, IModuleModel.THEME_PROP );

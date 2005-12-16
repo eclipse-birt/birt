@@ -160,11 +160,13 @@ public class ReportDesignHandle extends ModuleHandle
 	 * the Factory.
 	 * 
 	 * @return the script
+	 * @deprecated
 	 */
 
 	public String getAfterCloseDoc( )
 	{
-		return getStringProperty( AFTER_CLOSE_DOC_METHOD );
+		return "";
+//		return getStringProperty( AFTER_CLOSE_DOC_METHOD );
 	}
 
 	/**
@@ -184,11 +186,13 @@ public class ReportDesignHandle extends ModuleHandle
 	 * Factory.
 	 * 
 	 * @return the script
+	 * @deprecated
 	 */
 
 	public String getAfterOpenDoc( )
 	{
-		return getStringProperty( AFTER_OPEN_DOC_METHOD );
+		return "";
+//		return getStringProperty( AFTER_OPEN_DOC_METHOD );
 	}
 
 	/**
@@ -219,11 +223,13 @@ public class ReportDesignHandle extends ModuleHandle
 	 * the Factory.
 	 * 
 	 * @return the script
+	 * @deprecated
 	 */
 
 	public String getBeforeCloseDoc( )
 	{
-		return getStringProperty( BEFORE_CLOSE_DOC_METHOD );
+		return "";
+//		return getStringProperty( BEFORE_CLOSE_DOC_METHOD );
 	}
 
 	/**
@@ -243,11 +249,13 @@ public class ReportDesignHandle extends ModuleHandle
 	 * Factory.
 	 * 
 	 * @return the script
+	 * @deprecated
 	 */
 
 	public String getBeforeOpenDoc( )
 	{
-		return getStringProperty( BEFORE_OPEN_DOC_METHOD );
+		return "";
+//		return getStringProperty( BEFORE_OPEN_DOC_METHOD );
 	}
 
 	/**
@@ -333,18 +341,19 @@ public class ReportDesignHandle extends ModuleHandle
 	 * 
 	 * @param value
 	 *            the script to set.
+	 * @deprecated
 	 */
 
 	public void setAfterCloseDoc( String value )
 	{
-		try
-		{
-			setStringProperty( AFTER_CLOSE_DOC_METHOD, value );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
+//		try
+//		{
+//			setStringProperty( AFTER_CLOSE_DOC_METHOD, value );
+//		}
+//		catch ( SemanticException e )
+//		{
+//			assert false;
+//		}
 	}
 
 	/**
@@ -373,18 +382,19 @@ public class ReportDesignHandle extends ModuleHandle
 	 * 
 	 * @param value
 	 *            the script to set.
+	 * @deprecated
 	 */
 
 	public void setAfterOpenDoc( String value )
 	{
-		try
-		{
-			setStringProperty( AFTER_OPEN_DOC_METHOD, value );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
+//		try
+//		{
+//			setStringProperty( AFTER_OPEN_DOC_METHOD, value );
+//		}
+//		catch ( SemanticException e )
+//		{
+//			assert false;
+//		}
 	}
 
 	/**
@@ -432,18 +442,19 @@ public class ReportDesignHandle extends ModuleHandle
 	 * 
 	 * @param value
 	 *            the script to set.
+	 * @deprecated
 	 */
 
 	public void setBeforeCloseDoc( String value )
 	{
-		try
-		{
-			setStringProperty( BEFORE_CLOSE_DOC_METHOD, value );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
+//		try
+//		{
+//			setStringProperty( BEFORE_CLOSE_DOC_METHOD, value );
+//		}
+//		catch ( SemanticException e )
+//		{
+//			assert false;
+//		}
 	}
 
 	/**
@@ -472,18 +483,19 @@ public class ReportDesignHandle extends ModuleHandle
 	 * 
 	 * @param value
 	 *            the script to set.
+	 * @deprecated
 	 */
 
 	public void setBeforeOpenDoc( String value )
 	{
-		try
-		{
-			setStringProperty( BEFORE_OPEN_DOC_METHOD, value );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
+//		try
+//		{
+//			setStringProperty( BEFORE_OPEN_DOC_METHOD, value );
+//		}
+//		catch ( SemanticException e )
+//		{
+//			assert false;
+//		}
 	}
 
 	/**

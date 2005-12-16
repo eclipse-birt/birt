@@ -41,6 +41,7 @@ public interface IReportDesignModel
 	/**
 	 * Name of the method called just before opening the report document in the
 	 * Factory.
+	 * @deprecated
 	 */
 
 	public static final String BEFORE_OPEN_DOC_METHOD = "beforeOpenDoc"; //$NON-NLS-1$
@@ -48,6 +49,7 @@ public interface IReportDesignModel
 	/**
 	 * Name of the method called just after opening the report document in the
 	 * Factory.
+	 * @deprecated
 	 */
 
 	public static final String AFTER_OPEN_DOC_METHOD = "afterOpenDoc"; //$NON-NLS-1$
@@ -55,6 +57,7 @@ public interface IReportDesignModel
 	/**
 	 * Name of the method called just before closing the report document file in
 	 * the Factory.
+	 * @deprecated
 	 */
 
 	public static final String BEFORE_CLOSE_DOC_METHOD = "beforeCloseDoc"; //$NON-NLS-1$
@@ -62,6 +65,7 @@ public interface IReportDesignModel
 	/**
 	 * Name of the method called just after closing the report document file in
 	 * the Factory.
+	 * @deprecated
 	 */
 
 	public static final String AFTER_CLOSE_DOC_METHOD = "afterCloseDoc"; //$NON-NLS-1$

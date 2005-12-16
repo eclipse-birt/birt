@@ -1647,6 +1647,7 @@
       <Argument name="reportContext" tagID="Element.ReportDesign.afterFactory.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ReportDesign.afterFactory.object" type="Object"/>
     </Method>
+    <!--
     <Method context="factory" displayNameID="Element.ReportDesign.beforeOpenDoc" name="beforeOpenDoc" since="2.0" toolTipID="Element.ReportDesign.beforeOpenDoc.toolTip">
       <Argument name="reportContext" tagID="Element.ReportDesign.beforeOpenDoc.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ReportDesign.beforeOpenDoc.object" type="Object"/>
@@ -1663,6 +1664,7 @@
       <Argument name="reportContext" tagID="Element.ReportDesign.afterCloseDoc.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ReportDesign.afterCloseDoc.object" type="Object"/>
     </Method>
+    -->
     <Method context="presentation" displayNameID="Element.ReportDesign.beforeRender" name="beforeRender" since="1.0" toolTipID="Element.ReportDesign.beforeRender.toolTip">
       <Argument name="reportContext" tagID="Element.ReportDesign.beforeRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ReportDesign.beforeRender.object" type="Object"/>
@@ -1677,10 +1679,12 @@
     <Property displayNameID="Element.ReportDesign.cheetSheet" name="cheetSheet" runtimeSettable="false" since="2.0" type="string"/>
     <PropertyVisibility name="refreshRate" visibility="hide"/>	    
 	<PropertyVisibility name="includeResource" visibility="hide"/>	
+	<!--
 	<PropertyVisibility name="beforeOpenDoc" visibility="hide"/>
     <PropertyVisibility name="afterOpenDoc" visibility="hide"/>
 	<PropertyVisibility name="beforeCloseDoc" visibility="hide"/>
     <PropertyVisibility name="afterCloseDoc" visibility="hide"/>
+    -->
     <Slot displayNameID="Element.ReportDesign.slot.styles" multipleCardinality="true" name="styles" since="1.0" xmlName="styles">
       <Type name="Style"/>
     </Slot>
