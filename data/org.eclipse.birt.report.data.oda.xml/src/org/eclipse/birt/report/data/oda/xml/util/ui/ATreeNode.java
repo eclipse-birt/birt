@@ -21,6 +21,7 @@ public class ATreeNode
 	//
 	public static final int ELEMENT_TYPE = 1;
 	public static final int ATTRIBUTE_TYPE = 2;
+	public static final int OTHER_TYPE = 0;
 	
 	//The value of certain tree node.
 	private Object value;
@@ -34,6 +35,9 @@ public class ATreeNode
 	//The type of the tree node, may either attribute or element.
 	private int type;
 	
+	//The data type is the complex type that defined in an xsd file.
+	private String dataType;
+
 	/**
 	 * 
 	 *
@@ -143,5 +147,25 @@ public class ATreeNode
 	public void setType( int type )
 	{
 		this.type = type;
+	}
+	
+	/**
+	 * Return the data type of tree node. The data type is the complex type that defined in an xsd file.
+	 * 
+	 * @return
+	 */
+	public String getDataType()
+	{
+		return dataType;
+	}
+	
+	/**
+	 * Set the data type of tree node ( either attribute or element)
+	 * 
+	 * @param type
+	 */
+	public void setDataType( String type )
+	{
+		this.dataType = type;
 	}
 }

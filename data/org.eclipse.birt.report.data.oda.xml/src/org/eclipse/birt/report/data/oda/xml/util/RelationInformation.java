@@ -28,7 +28,7 @@ public class RelationInformation
 {
 	//
 	public static final String CONST_TABLE_DELIMITER = "#-#";
-	public static final String CONST_TABLE_COLUMN_DELIMITER = ":";
+	public static final String CONST_TABLE_COLUMN_DELIMITER = "#:#";
 	public static final String CONST_COLUMN_METAINFO_DELIMITER = ";";
 	public static final String CONST_COLUMN_DELIMITER = ",";
 	
@@ -156,6 +156,19 @@ public class RelationInformation
 	{
 		return ( (TableInfo) this.tableInfos.get( tableName ) ).getOriginalPath( columnName );
 	}
+	
+	/**
+	 * Return the path of a column in certain table.
+	 * 
+	 * @param tableName
+	 * @param columnName
+	 * @return
+	 */
+	public int getTableNestedColumnBackRefNumber( String tableName, String columnName )
+	{
+		return ( (TableInfo) this.tableInfos.get( tableName ) ).getBackRefNumber( columnName );
+	}
+	
 	/**
 	 * Return the type of a column in certain table.
 	 * 
@@ -282,6 +295,16 @@ class TableInfo
 		return ( (ColumnInfo) this.columnInfos.get( columnName ) ).getColumnOriginalPath();
 	}
 
+	/**
+	 * Return the back reference number of the column, this only applys to nested xml columns.
+	 * 
+	 * @param columnName
+	 * @return
+	 */
+	public int getBackRefNumber( String columnName )
+	{
+		return ( (ColumnInfo) this.columnInfos.get( columnName ) ).getBackRefNumber();
+	}
 	/**
 	 * Return the defined data type of certain column.
 	 * 
@@ -445,6 +468,7 @@ class ColumnInfo
 	private String type;
 	private String path;
 	private String originalPath;
+	private int backRefNumber;
 	
 	/**
 	 * 
@@ -464,7 +488,27 @@ class ColumnInfo
 			throw new OdaException( "The given data type name is invalid.");
 		this.path = fixTrailingAttr(buildPath( path ));
 		this.originalPath = originalPath;
+		String[] originalPathFrags = originalPath.split("/");
+		int lastTwoDotAbbrevationPosition = 0;
+		int numberOfConcretePathFragsBefore2DotAbb = 0;
+		
+		for (int i = 0; i < originalPathFrags.length; i++)
+		{
+			if( originalPathFrags[i].equals(".."))
+				lastTwoDotAbbrevationPosition = i;
+		}
+		for ( int i = 0; i < lastTwoDotAbbrevationPosition; i ++)
+		{
+			if( !originalPathFrags[i].equals(".."))
+				numberOfConcretePathFragsBefore2DotAbb ++;
+		}
+		
+		int numberOf2DotAbb = lastTwoDotAbbrevationPosition - numberOfConcretePathFragsBefore2DotAbb + 1;
+		backRefNumber = numberOf2DotAbb - numberOfConcretePathFragsBefore2DotAbb;
+		if (backRefNumber < 0)
+			backRefNumber = 0;
 	}
+	
 	/**
 	 * If the path is refer to an attribute, use syntax /elementName/@attributeName
 	 * then we change it to /elementName[@attributeName] to compliment the standard xpath syntax.
@@ -576,5 +620,15 @@ class ColumnInfo
 	public String getColumnOriginalPath()
 	{
 		return this.originalPath;
+	}
+	
+	/**
+	 * Return the colum index.
+	 * 
+	 * @return
+	 */
+	public int getBackRefNumber( )
+	{
+		return this.backRefNumber;
 	}
 }

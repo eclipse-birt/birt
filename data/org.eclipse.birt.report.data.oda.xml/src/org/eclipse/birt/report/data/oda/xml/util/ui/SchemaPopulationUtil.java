@@ -11,74 +11,95 @@
 
 package org.eclipse.birt.report.data.oda.xml.util.ui;
 
-import java.io.IOException;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.xerces.impl.xs.XSAttributeGroupDecl;
+import org.apache.xerces.impl.xs.XSAttributeUseImpl;
+import org.apache.xerces.impl.xs.XSComplexTypeDecl;
+import org.apache.xerces.impl.xs.XSElementDecl;
+import org.apache.xerces.impl.xs.XSLoaderImpl;
+import org.apache.xerces.impl.xs.XSModelGroupImpl;
+import org.apache.xerces.impl.xs.XSParticleDecl;
+import org.apache.xerces.xs.XSConstants;
+import org.apache.xerces.xs.XSLoader;
+import org.apache.xerces.xs.XSModel;
+import org.apache.xerces.xs.XSNamedMap;
+import org.apache.xerces.xs.XSObjectList;
+import org.apache.xerces.xs.XSParticle;
+import org.apache.xerces.xs.XSTypeDefinition;
 import org.eclipse.birt.report.data.oda.xml.util.ISaxParserConsumer;
 import org.eclipse.birt.report.data.oda.xml.util.SaxParser;
 import org.eclipse.datatools.connectivity.oda.OdaException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 /**
- * This class is used to offer GUI a utility to get an tree from certain xml/xsd file.
+ * This class is used to offer GUI a utility to get an tree from certain xml/xsd
+ * file.
  */
-public class SchemaPopulationUtil 
+public class SchemaPopulationUtil
 {
+
 	/**
 	 * @param fileName
+	 * @throws MalformedURLException 
+	 * @throws URISyntaxException 
 	 */
 	public static ATreeNode getSchemaTree( String fileName )
-			throws OdaException
+			throws OdaException, MalformedURLException, URISyntaxException
 	{
-		if( fileName.toUpperCase().endsWith(".XSD"))
+		if ( fileName.toUpperCase( ).endsWith( ".XSD" ) )
 			return XSDFileSchemaTreePopulator.getSchemaTree( fileName );
 		else
-			return new XMLFileSchemaTreePopulator().getSchemaTree( fileName );
+			return new XMLFileSchemaTreePopulator( ).getSchemaTree( fileName );
 	}
 }
+
 /**
  * This class is used to populate an XML schema tree from an xml file.
- *
+ * 
  */
 final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 {
+
 	//
 	private int rowCount;
 	private ATreeNode root;
-	private SaxParser sp; 
+	private SaxParser sp;
 	Thread spThread;
+
 	/**
 	 * 
-	 *
+	 * 
 	 */
 	XMLFileSchemaTreePopulator( )
 	{
 		rowCount = 0;
-		root = new ATreeNode();
-		root.setValue("ROOT");
+		root = new ATreeNode( );
+		root.setValue( "ROOT" );
 	}
 
 	/*
-	 *  (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.oda.xml.util.ISaxParserConsumer#manipulateData(java.lang.String, java.lang.String)
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.data.oda.xml.util.ISaxParserConsumer#manipulateData(java.lang.String,
+	 *      java.lang.String)
 	 */
 	public void manipulateData( String path, String value )
 	{
-		String treamedPath = path.replaceAll( "\\Q[\\E\\d+\\Q]\\E", "" ).trim();
+		String treamedPath = path.replaceAll( "\\Q[\\E\\d+\\Q]\\E", "" ).trim( );
 		this.insertNode( treamedPath );
-		
+
 	}
 
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.data.oda.xml.util.ISaxParserConsumer#detectNewRow(java.lang.String)
 	 */
 	public void detectNewRow( String path )
@@ -88,19 +109,20 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 		{
 			rowCount++;
 		}
-		
-		//Only parser the first 10000 elements
+
+		// Only parser the first 10000 elements
 		if ( rowCount > 10000 )
 		{
 			assert sp != null;
 			sp.setStart( false );
-			spThread.stop();
+			spThread.stop( );
 		}
 
 	}
 
 	/**
 	 * Exam whether given path specified an attribute
+	 * 
 	 * @param path
 	 * @return
 	 */
@@ -110,7 +132,8 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 	}
 
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.data.oda.xml.util.ISaxParserConsumer#wakeup()
 	 */
 	public synchronized void wakeup( )
@@ -129,7 +152,7 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 		sp = new SaxParser( fileName, this );
 		spThread = new Thread( sp );
 		spThread.start( );
-		while( sp.isAlive() && !sp.isSuspended())
+		while ( sp.isAlive( ) && !sp.isSuspended( ) )
 		{
 			try
 			{
@@ -146,71 +169,76 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 		}
 		return root;
 	}
-	
+
 	/**
 	 * Insert a node specified by the path.
 	 * 
 	 * @param treatedPath
-	 */	
+	 */
 	private void insertNode( String treatedPath )
 	{
-		boolean isAttribute = isAttribute(treatedPath);
-		
-		//Remove the leading "/" then split the path.
-		String[] path = treatedPath.replaceFirst("/","").split("/");
-		
-		//If the path specified an attribute then re-build the path array so that it can divid element and 
-		//its attribute to two array items.
-		if( isAttribute )
+		boolean isAttribute = isAttribute( treatedPath );
+
+		// Remove the leading "/" then split the path.
+		String[] path = treatedPath.replaceFirst( "/", "" ).split( "/" );
+
+		// If the path specified an attribute then re-build the path array so
+		// that it can divid element and
+		// its attribute to two array items.
+		if ( isAttribute )
 		{
-			String[] temp = path[path.length - 1].split("\\Q[@\\E");
-			
+			String[] temp = path[path.length - 1].split( "\\Q[@\\E" );
+
 			assert temp.length == 2;
-			
-			String[] temp1 = new String[ path.length + 1];
-			for( int i = 0; i < path.length - 1; i ++)
+
+			String[] temp1 = new String[path.length + 1];
+			for ( int i = 0; i < path.length - 1; i++ )
 			{
 				temp1[i] = path[i];
 			}
 			temp1[temp1.length - 2] = temp[0];
-			temp1[temp1.length - 1] = temp[1].replaceAll("\\Q]\\E","");
+			temp1[temp1.length - 1] = temp[1].replaceAll( "\\Q]\\E", "" );
 			path = temp1;
 		}
-		
-		//The parentNode 
+
+		// The parentNode
 		ATreeNode parentNode = root;
-		
-		//Iterate each path array element, find or create its countpart node instance. 
-		for( int i = 0; i < path.length; i ++)
+
+		// Iterate each path array element, find or create its countpart node
+		// instance.
+		for ( int i = 0; i < path.length; i++ )
 		{
-			//This variable hosts the node instance that matches the given path array item value.
+			// This variable hosts the node instance that matches the given path
+			// array item value.
 			ATreeNode matchedNode = null;
-			
-			for( int j = 0; j < parentNode.getChildren().length; j++)
+
+			for ( int j = 0; j < parentNode.getChildren( ).length; j++ )
 			{
-				if( ((ATreeNode)parentNode.getChildren()[j]).getValue().equals( path[i] ))
+				if ( ( (ATreeNode) parentNode.getChildren( )[j] ).getValue( )
+						.equals( path[i] ) )
 				{
-					matchedNode = (ATreeNode)parentNode.getChildren()[j];
+					matchedNode = (ATreeNode) parentNode.getChildren( )[j];
 					break;
 				}
 			}
-			if( matchedNode != null )
+			if ( matchedNode != null )
 			{
 				parentNode = matchedNode;
-			}else
+			}
+			else
 			{
-				matchedNode = new ATreeNode();
-				
-				if((i == path.length - 1) && isAttribute)
+				matchedNode = new ATreeNode( );
+
+				if ( ( i == path.length - 1 ) && isAttribute )
 				{
 					matchedNode.setType( ATreeNode.ATTRIBUTE_TYPE );
 				}
 				else
 				{
-					matchedNode.setType( ATreeNode.ELEMENT_TYPE);
+					matchedNode.setType( ATreeNode.ELEMENT_TYPE );
 				}
-				
-				matchedNode.setValue( path[i]);
+
+				matchedNode.setValue( path[i] );
 				matchedNode.setParent( parentNode );
 				parentNode = matchedNode;
 			}
@@ -220,74 +248,10 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 
 /**
  * This class is used to populate an XML schema tree from an xml file.
- *
+ * 
  */
 final class XSDFileSchemaTreePopulator
 {
-
-	/**
-	 * Populate the node list of a tree node in certain level. TODO add comments
-	 * 
-	 * @param nodeList
-	 * @param root
-	 * @param level
-	 * @throws XPathExpressionException
-	 */
-	private static void populateNodeList( NodeList nodeList, ATreeNode root,
-			int level ) 
-	{
-
-		for ( int i = 0; i < nodeList.getLength( ); i++ )
-		{
-			boolean goToNextLevel = false;
-			String space = "";
-			for ( int t = 0; t < level; t++ )
-			{
-				space += "   ";
-			}
-			Node item = nodeList.item( i );
-
-			if ( item.getLocalName( ) != null )
-			{
-				ATreeNode node = new ATreeNode( );
-
-				if ( item.getLocalName( ).equals( "element" )
-						|| item.getLocalName( ).equals( "attribute" ) )
-				{
-					String name = "<NULL>";
-					//String type = "<NULL>";
-					if ( item.getAttributes( ).getNamedItem( "name" ) != null )
-					{
-						name = item.getAttributes( )
-								.getNamedItem( "name" )
-								.getNodeValue( );
-						//type = "name";
-					}
-					else
-					{
-						name = item.getAttributes( )
-								.getNamedItem( "ref" )
-								.getNodeValue( );
-						//type = "ref";
-					}
-					node.setParent( root );
-					node.setValue( name );
-
-					if ( item.getLocalName( ).equals( "element" ) )
-						node.setType( ATreeNode.ELEMENT_TYPE );
-					else
-						node.setType( ATreeNode.ATTRIBUTE_TYPE );
-					goToNextLevel = true;
-				}
-				if ( item.getChildNodes( ).getLength( ) != 0 )
-				{
-					populateNodeList( item.getChildNodes( ), goToNextLevel
-							? node : root, goToNextLevel ? level + 1 : level );
-				}
-			}
-
-		}
-	}
 
 	/**
 	 * Populate the whole tree until all the leaves have no child.
@@ -299,14 +263,21 @@ final class XSDFileSchemaTreePopulator
 		Object[] toBeIterated = root.getChildren( );
 		for ( int i = 0; i < toBeIterated.length; i++ )
 		{
-			Object value = ( (ATreeNode) toBeIterated[i] ).getValue( );
+			Object value = ( (ATreeNode) toBeIterated[i] ).getDataType( );// .getValue(
+																			// );
 			List container = new ArrayList( );
 			findNodeWithValue( root, value.toString( ), container );
 			for ( int j = 0; j < container.size( ); j++ )
 			{
 				if ( ( (ATreeNode) container.get( j ) ).getChildren( ).length == 0 )
 				{
-					( (ATreeNode) container.get( j ) ).addChild( ( (ATreeNode) toBeIterated[i] ).getChildren( ) );
+					Object[] os = ( (ATreeNode) toBeIterated[i] ).getChildren( );
+					for ( int k = 0; k < os.length; k++)
+					{
+						if( !(((ATreeNode)os[k]).getDataType()!= null && ((ATreeNode)os[k]).getDataType().equals(((ATreeNode) container.get( j )).getDataType())))
+							( (ATreeNode) container.get( j ) ).addChild( os[k]);
+					}
+			
 				}
 			}
 		}
@@ -323,7 +294,7 @@ final class XSDFileSchemaTreePopulator
 	private static void findNodeWithValue( ATreeNode root, String value,
 			List container )
 	{
-		if ( root.getValue( ).toString( ).equals( value ) )
+		if ( root.getDataType( ) != null && root.getDataType( ).equals( value ) )
 			container.add( root );
 		Object[] children = root.getChildren( );
 		for ( int i = 0; i < children.length; i++ )
@@ -338,38 +309,207 @@ final class XSDFileSchemaTreePopulator
 	 * @param fileName
 	 * @return
 	 * @throws OdaException
+	 * @throws MalformedURLException 
+	 * @throws URISyntaxException 
 	 */
 	public static ATreeNode getSchemaTree( String fileName )
-			throws OdaException
+			throws OdaException, MalformedURLException, URISyntaxException
 	{
-		try
-		{
-		    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance( );
-			factory.setNamespaceAware( true );
-			DocumentBuilder builder = factory.newDocumentBuilder( );
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance( );
+		factory.setNamespaceAware( true );
 
-			Document document = builder.parse( fileName );
+		URI uri = null;
+		File f = new File(fileName);
+		uri = f.toURI(); 
+		
+		//Then try to parse the input string as a url in web.
+		if ( uri == null )
+		{
+			uri = new URI( fileName );
+		}
+		
+		XSLoader xsLoader = new XSLoaderImpl( );
+		XSModel xsModel = xsLoader.loadURI( uri.toString( ) );
+		ATreeNode complexTypesRoot = populateComplexTypeTree( xsModel );
 
-			NodeList nodes = document.getChildNodes( );
-			ATreeNode root = new ATreeNode( );
-			root.setValue( "ROOT" );
-			populateNodeList( nodes, root, 0 );
-			populateRoot( root );
-			return root;
-		}
-		catch ( ParserConfigurationException e )
+		XSNamedMap map = xsModel.getComponents( XSConstants.ELEMENT_DECLARATION );
+
+		ATreeNode root = new ATreeNode( );
+
+		root.setValue( "ROOT" );
+		for ( int i = 0; i < map.getLength( ); i++ )
 		{
-			throw new OdaException( e.getMessage( ) );
+			ATreeNode node = new ATreeNode( );
+			XSElementDecl element = (XSElementDecl) map.item( i );
+
+			node.setValue( element.getName( ) );
+			node.setType( ATreeNode.ELEMENT_TYPE );
+			node.setDataType( element.getName( ) );
+			if ( element.getTypeDefinition( ) instanceof XSComplexTypeDecl )
+			{
+				XSComplexTypeDecl complexType = (XSComplexTypeDecl) element.getTypeDefinition( );
+				//If the complex type is explicitly defined, that is, it has name.
+				if ( complexType.getName( ) != null )
+				{
+					node.setDataType( complexType.getName( ) );
+					node.addChild( findComplexElement( complexTypesRoot,
+							complexType.getName( ) ).getChildren( ) );
+				}
+				//If the complex type is implicitly defined, that is, it has no name.
+				else
+				{
+					
+					addParticleAndAttributeInfo( node, complexType );
+				}
+			}
+			root.addChild( node );
 		}
-		catch ( SAXException e )
+
+		populateRoot( root );
+		return root;
+
+	}
+
+	/**
+	 * Add the particles and attributes that defined in an implicitly defined ComplexType to the node.
+	 * 
+	 * @param node
+	 * @param complexType
+	 */
+	private static void addParticleAndAttributeInfo( ATreeNode node,
+			XSComplexTypeDecl complexType )
+	{
+		XSParticle particle = complexType.getParticle( );
+		if ( particle != null )
 		{
-			throw new OdaException( e.getMessage( ) );
+			XSObjectList list = ( (XSModelGroupImpl) particle.getTerm( ) ).getParticles( );
+			for ( int j = 0; j < list.getLength( ); j++ )
+			{
+				ATreeNode childNode = new ATreeNode( );
+				childNode.setValue( ( (XSParticleDecl) list.item( j ) ).getTerm( )
+						.getName( ) );
+				String dataType = ( (XSElementDecl) ( (XSParticleDecl) list.item( j ) ).getTerm( ) ).getTypeDefinition( )
+						.getName( );
+				if ( dataType == null || dataType.length( ) == 0 )
+					dataType = childNode.getValue( ).toString( );
+				childNode.setDataType( dataType );
+				childNode.setType( ATreeNode.ELEMENT_TYPE );
+				node.addChild( childNode );
+			}
 		}
-		catch ( IOException e )
+		XSAttributeGroupDecl group = complexType.getAttrGrp( );
+		if ( group != null )
 		{
-			throw new OdaException( e.getMessage( ) );
+			XSObjectList list = group.getAttributeUses( );
+			for ( int j = 0; j < list.getLength( ); j++ )
+			{
+				ATreeNode childNode = new ATreeNode( );
+				childNode.setValue( ( (XSAttributeUseImpl) list.item( j ) ).getAttrDeclaration( )
+						.getName( ) );
+				childNode.setType( ATreeNode.ATTRIBUTE_TYPE );
+				node.addChild( childNode );
+			}
+		}
+	}
+
+	/**
+	 * Return the tree node instance that represents to the ComplexElement that featured by the given value.
+	 * 
+	 * @param root the tree node from which the search begin
+	 * @param value the name of the ComplexElement
+	 * @return
+	 */
+	private static ATreeNode findComplexElement( ATreeNode root, String value )
+	{
+		Object[] os = root.getChildren( );
+		for ( int i = 0; i < os.length; i++ )
+		{
+			if ( ( (ATreeNode) os[i] ).getValue( ).equals( value ) )
+				return (ATreeNode) os[i];
+		}
+		return null;
+	}
+
+	/**
+	 * Populate a tree of ComplexTypes defined in an XSD file.
+	 * 
+	 * @param xsModel
+	 * @return	the root node of the tree.
+	 */
+	private static ATreeNode populateComplexTypeTree( XSModel xsModel )
+	{
+		XSNamedMap map = xsModel.getComponents( XSTypeDefinition.COMPLEX_TYPE );
+
+		ATreeNode root = new ATreeNode( );
+
+		root.setValue( "ROOT" );
+		root.setDataType( "" );
+		for ( int i = 0; i < map.getLength( ); i++ )
+		{
+			ATreeNode node = new ATreeNode( );
+			XSComplexTypeDecl element = (XSComplexTypeDecl) map.item( i );
+			if ( element.getName( ).equals( "anyType" ) )
+				continue;
+			node.setValue( element.getName( ) );
+			node.setType( ATreeNode.ELEMENT_TYPE );
+			node.setDataType( element.getTypeName( ) );
+			root.addChild( node );
+
+			XSParticle particle = element.getParticle( );
+			if ( particle != null )
+			{
+				XSObjectList list = ( (XSModelGroupImpl) particle.getTerm( ) ).getParticles( );
+				populateTreeNodeWithParticles( node, list );
+			}
+			XSAttributeGroupDecl group = element.getAttrGrp( );
+			if ( group != null )
+			{
+				XSObjectList list = group.getAttributeUses( );
+				for ( int j = 0; j < list.getLength( ); j++ )
+				{
+					ATreeNode childNode = new ATreeNode( );
+					childNode.setValue( ( (XSAttributeUseImpl) list.item( j ) ).getAttrDeclaration( )
+							.getName( ) );
+					childNode.setType( ATreeNode.ATTRIBUTE_TYPE );
+					node.addChild( childNode );
+				}
+			}
+
+		}
+
+		populateRoot( root );
+		return root;
+	}
+
+	/**
+	 * 
+	 * @param node the node to which the elements defined in particles should be populated into
+	 * @param list the XSObjectList which lists all particles.
+	 */
+	private static void populateTreeNodeWithParticles( ATreeNode node, XSObjectList list )
+	{
+		for ( int j = 0; j < list.getLength( ); j++ )
+		{
+			ATreeNode childNode = new ATreeNode( );
+			childNode.setValue( ( (XSParticleDecl) list.item( j ) ).getTerm( )
+					.getName( ) );
+			if ( ( (XSParticleDecl) list.item( j ) ).getTerm( ) instanceof XSElementDecl)
+			{
+				String dataType = ( (XSElementDecl) ( (XSParticleDecl) list.item( j ) ).getTerm( ) ).getTypeDefinition( ).getName( );
+				if ( dataType == null || dataType.length( ) == 0 )
+					dataType = childNode.getValue( ).toString( );
+				childNode.setDataType( dataType );
+				childNode.setType( ATreeNode.ELEMENT_TYPE );
+				node.addChild( childNode );
+			}
+			//If the particle itself is of XSModelGroupImpl type, which means that they have child types, then do recursive job
+			//until all the children are added to the node.
+			else if ( ( (XSParticleDecl) list.item( j ) ).getTerm( ) instanceof XSModelGroupImpl)
+			{
+				XSModelGroupImpl mGroup = (XSModelGroupImpl)( (XSParticleDecl) list.item( j ) ).getTerm( );
+				XSObjectList obs = mGroup.getParticles();
+				populateTreeNodeWithParticles( node, obs );
+			}
 		}
 	}
 }
-
-
