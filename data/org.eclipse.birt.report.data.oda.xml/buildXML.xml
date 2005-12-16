@@ -108,6 +108,11 @@
 			<include name="xml-apis.jar"/>
 		</fileset>
 		
+		<!-- dependend on eclipse due to Plugin class -->
+		<fileset dir="${eclipse.home}/plugins">
+			<include name="org.junit_*/*.jar"/>
+		</fileset>
+		
 	</path>
 	
 

@@ -117,6 +117,7 @@
 			<include name="org.eclipse.osgi_*/*.jar"/>
 			<include name="org.eclipse.core.runtime*.jar"/>
 			<include name="org.eclipse.osgi*.jar"/>
+			<include name="org.junit_*/*.jar"/>
 		</fileset>
 		
 	</path>
