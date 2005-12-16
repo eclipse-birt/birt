@@ -26,7 +26,6 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
@@ -318,13 +317,13 @@ public class ExpressionProvider implements IExpressionProvider
 		else if ( parent instanceof IClassInfo )
 		{
 			IClassInfo classInfo = (IClassInfo) parent;
-			for ( Iterator iter = classInfo.getMembers( ).iterator( ); iter.hasNext( ); )
+			for ( Iterator iter = DEUtil.getMembers(classInfo).iterator( ); iter.hasNext( ); )
 			{
 				childrenList.add( new ILocalizableInfo[]{
 						classInfo, (IMemberInfo) iter.next( )
 				} );
 			}
-			for ( Iterator iter = classInfo.getMethods( ).iterator( ); iter.hasNext( ); )
+			for ( Iterator iter = DEUtil.getMethods(classInfo).iterator( ); iter.hasNext( ); )
 			{
 				childrenList.add( new ILocalizableInfo[]{
 						classInfo, (IMethodInfo) iter.next( )
@@ -558,7 +557,7 @@ public class ExpressionProvider implements IExpressionProvider
 
 	private List getClassList( boolean isNative )
 	{
-		List list = DesignEngine.getMetaDataDictionary( ).getClasses( );
+		List list = DEUtil.getClasses();
 		ArrayList resultList = new ArrayList( );
 		for ( Iterator iter = list.iterator( ); iter.hasNext( ); )
 		{

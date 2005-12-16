@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.ListHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
@@ -34,7 +35,10 @@ import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -43,12 +47,13 @@ import org.eclipse.gef.RequestConstants;
 
 /**
  * List element edit part.
- *  
+ * 
  */
 public class ListEditPart extends ReportElementEditPart
 {
 
-	private static final String GUIDEHANDLE_TEXT = Messages.getString( "ListEditPart.GUIDEHANDLE_TEXT" ); //$NON-NLS-1$
+	private static final String GUIDEHANDLE_TEXT = Messages
+			.getString( "ListEditPart.GUIDEHANDLE_TEXT" ); //$NON-NLS-1$
 
 	/**
 	 * Constructor.
@@ -69,7 +74,8 @@ public class ListEditPart extends ReportElementEditPart
 	{
 		TableGuideHandle handle = new TableGuideHandle( this );
 		handle.setIndicatorLabel( GUIDEHANDLE_TEXT );
-		handle.setIndicatorIcon( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_LIST ) );
+		handle.setIndicatorIcon( ReportPlatformUIImages
+				.getImage( IReportGraphicConstants.ICON_ELEMENT_LIST ) );
 		return handle;
 	}
 
@@ -84,15 +90,35 @@ public class ListEditPart extends ReportElementEditPart
 		switch ( ev.getEventType( ) )
 		{
 			case NotificationEvent.CONTENT_EVENT :
-			case NotificationEvent.TEMPLATE_TRANSFORM_EVENT:
+			case NotificationEvent.TEMPLATE_TRANSFORM_EVENT :
 			{
-				if ( focus instanceof ListHandle )
+				if ( ev instanceof ContentEvent
+						&& ( (ContentEvent) ev ).getAction( ) == ContentEvent.REMOVE
+						&& ( ReportDesignConstants.LIST_GROUP_ELEMENT
+								.equals( ( (ContentEvent) ev ).getContent( )
+										.getDefn( ).getName( ) ) ) )
 				{
-					addListBandEditPart( );
-				}
-				markDirty( true );
-				refreshChildren( );
+					DesignElementHandle handle = ( (IDesignElement) ( (ContentEvent) ev )
+							.getContent( ) )
+							.getHandle( SessionHandleAdapter
+									.getInstance( )
+									.getReportDesignHandle( )
+									.getModule( ) );
+					handle.removeListener( this );
+					markDirty( true );
 
+					getListHandleAdapt( ).remove( handle );
+					refresh( );
+				}
+				else
+				{
+					if ( focus instanceof ListHandle )
+					{
+						addListBandEditPart( );
+					}
+					markDirty( true );
+					refreshChildren( );
+				}
 				break;
 			}
 			case NotificationEvent.ELEMENT_DELETE_EVENT :
@@ -117,13 +143,14 @@ public class ListEditPart extends ReportElementEditPart
 				{
 					refreshVisuals( );
 				}
-				if ( event.getPropertyName( ).equals( StyleHandle.PADDING_TOP_PROP )
-						|| event.getPropertyName( )
-								.equals( StyleHandle.PADDING_BOTTOM_PROP )
-						|| event.getPropertyName( )
-								.equals( StyleHandle.PADDING_LEFT_PROP )
-						|| event.getPropertyName( )
-								.equals( StyleHandle.PADDING_RIGHT_PROP ) )
+				if ( event.getPropertyName( ).equals(
+						StyleHandle.PADDING_TOP_PROP )
+						|| event.getPropertyName( ).equals(
+								StyleHandle.PADDING_BOTTOM_PROP )
+						|| event.getPropertyName( ).equals(
+								StyleHandle.PADDING_LEFT_PROP )
+						|| event.getPropertyName( ).equals(
+								StyleHandle.PADDING_RIGHT_PROP ) )
 				{
 					getFigure( ).getParent( ).revalidate( );
 				}
@@ -141,7 +168,7 @@ public class ListEditPart extends ReportElementEditPart
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private void addListBandEditPart( )
 	{
@@ -163,7 +190,7 @@ public class ListEditPart extends ReportElementEditPart
 	{
 
 		super.activate( );
-		addListBandEditPart( );
+		// addListBandEditPart( );
 	}
 
 	/**
@@ -200,9 +227,11 @@ public class ListEditPart extends ReportElementEditPart
 		refreshBorder( getListHandleAdapt( ).getHandle( ),
 				(BaseBorder) getFigure( ).getBorder( ) );
 
-		( (SectionBorder) ( getFigure( ).getBorder( ) ) ).setPaddingInsets( getListHandleAdapt( ).getPadding( getFigure( ).getInsets( ) ) );
-		
-		refreshMargin();
+		( (SectionBorder) ( getFigure( ).getBorder( ) ) )
+				.setPaddingInsets( getListHandleAdapt( ).getPadding(
+						getFigure( ).getInsets( ) ) );
+
+		refreshMargin( );
 
 		refreshBackground( (DesignElementHandle) getModel( ) );
 	}
@@ -258,7 +287,7 @@ public class ListEditPart extends ReportElementEditPart
 	{
 		return UIUtil.createGroup( getListHandleAdapt( ).getHandle( ) );
 	}
-	
+
 	/**
 	 * Insert group in list element
 	 * 
@@ -267,7 +296,8 @@ public class ListEditPart extends ReportElementEditPart
 	 */
 	public boolean insertGroup( int position )
 	{
-		return UIUtil.createGroup( getListHandleAdapt( ).getHandle( ), position );
+		return UIUtil
+				.createGroup( getListHandleAdapt( ).getHandle( ), position );
 	}
 
 	/**
@@ -310,8 +340,8 @@ public class ListEditPart extends ReportElementEditPart
 	public void includeSlotHandle( boolean bool, int id )
 	{
 		Object model = getListHandleAdapt( ).getChild( id );
-		ListBandEditPart part = (ListBandEditPart) getViewer( ).getEditPartRegistry( )
-				.get( model );
+		ListBandEditPart part = (ListBandEditPart) getViewer( )
+				.getEditPartRegistry( ).get( model );
 		if ( part == null )
 		{
 			return;
@@ -327,8 +357,8 @@ public class ListEditPart extends ReportElementEditPart
 	public boolean isIncludeSlotHandle( int id )
 	{
 		Object model = getListHandleAdapt( ).getChild( id );
-		ListBandEditPart part = (ListBandEditPart) getViewer( ).getEditPartRegistry( )
-				.get( model );
+		ListBandEditPart part = (ListBandEditPart) getViewer( )
+				.getEditPartRegistry( ).get( model );
 		if ( part == null )
 		{
 			return false;
@@ -338,19 +368,18 @@ public class ListEditPart extends ReportElementEditPart
 
 	public void showTargetFeedback( Request request )
 	{
-		if ( this.getSelected( ) == 0
-				&& isActive( )
+		if ( this.getSelected( ) == 0 && isActive( )
 				&& request.getType( ) == RequestConstants.REQ_SELECTION )
 		{
 			if ( isFigureLeft( request ) )
 			{
-				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
-						.getLeftCellCursor( ) );
+				this.getViewer( ).setCursor(
+						ReportPlugin.getDefault( ).getLeftCellCursor( ) );
 			}
 			else
 			{
-				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
-						.getRightCellCursor( ) );
+				this.getViewer( ).setCursor(
+						ReportPlugin.getDefault( ).getRightCellCursor( ) );
 			}
 		}
 		super.showTargetFeedback( request );

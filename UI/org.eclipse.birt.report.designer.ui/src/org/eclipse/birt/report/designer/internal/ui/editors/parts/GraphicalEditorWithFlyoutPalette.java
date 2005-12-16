@@ -105,7 +105,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.20 $ $Date: 2005/12/07 07:25:12 $
+ * @version $Revision: 1.21 $ $Date: 2005/12/09 03:01:01 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
 		EditorSelectionProvider,
@@ -422,7 +422,6 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	 */
 	public void dispose( )
 	{
-
 		// remove the mediator listener
 		SessionHandleAdapter.getInstance( )
 				.getMediator( )
@@ -434,6 +433,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 				.getSelectionService( )
 				.removeSelectionListener( getSelectionListener( ) );
 		// dispose the ActionRegistry (will dispose all actions)
+		super.dispose();
 		getActionRegistry( ).dispose( );
 	}
 

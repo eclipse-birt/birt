@@ -15,6 +15,7 @@ import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -55,6 +56,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
@@ -1560,5 +1562,46 @@ public class DEUtil
 	public static boolean isIncluded( LibraryHandle handle )
 	{
 		return handle.getNamespace( ) != null;
+	}
+
+	public static List getClasses( )
+	{
+		
+		return getClasses(new AlphabeticallyComparator());
+	}
+	
+	public static List getClasses(Comparator comp)
+	{
+		List classes= DesignEngine.getMetaDataDictionary( ).getClasses( );
+		Collections.sort(classes,comp);
+		
+		return classes;
+	}
+	
+	public static List getMethods(IClassInfo classInfo )
+	{
+		return getMethods(classInfo,new AlphabeticallyComparator());
+	}
+	
+	public static List getMethods(IClassInfo classInfo,Comparator comp)
+	{
+		List methods=classInfo.getMethods();
+		Collections.sort(methods,comp);
+		
+		return methods;
+	}
+	
+	public static List getMembers(IClassInfo classInfo)
+	{
+		return getMembers(classInfo,new AlphabeticallyComparator());
+	}
+	
+	public static List getMembers(IClassInfo classInfo,Comparator comp)
+	{
+		List members = classInfo.getMembers();
+		Collections.sort(members,comp);
+		
+		return members;
+		
 	}
 }
