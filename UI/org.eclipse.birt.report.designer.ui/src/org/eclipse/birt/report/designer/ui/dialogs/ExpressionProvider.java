@@ -29,6 +29,8 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
+import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.ILocalizableInfo;
 import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
@@ -394,33 +396,38 @@ public class ExpressionProvider implements IExpressionProvider
 				{
 					IMethodInfo method = (IMethodInfo) info;
 					displayText.append( "(" ); //$NON-NLS-1$
-					// boolean isFirst = true;
-					// IArgumentInfoList arguments = (IArgumentInfoList)
-					// method.argumentListIterator( )
-					// .next( );
-					// for ( Iterator iter = arguments.argumentsIterator( );
-					// iter.hasNext( ); )
-					// {
-					// IArgumentInfo argInfo = (IArgumentInfo) iter.next( );
-					// if ( !isFirst )
-					// {
-					// displayText.append( ", " );
-					// }
-					// isFirst = false;
-					// if ( IArgumentInfo.OPTIONAL_ARGUMENT_NAME.equals(
-					// argInfo.getName( ) ) )
-					// {
-					// displayText.append( argInfo.getDisplayName( ) );
-					// }
-					// else
-					// {
-					// displayText.append( argInfo.getType( )
-					// + " "
-					// + argInfo.getDisplayName( ) );
-					// }
-					// }
-					displayText.append( ") " ); //$NON-NLS-1$
-					displayText.append( method.getReturnType( ) );
+					boolean isFirst = true;
+					IArgumentInfoList arguments = (IArgumentInfoList) method.argumentListIterator( )
+							.next( );
+					for ( Iterator iter = arguments.argumentsIterator( ); iter.hasNext( ); )
+					{
+						IArgumentInfo argInfo = (IArgumentInfo) iter.next( );
+						if ( !isFirst )
+						{
+							displayText.append( ", " );
+						}
+						isFirst = false;
+						if ( IArgumentInfo.OPTIONAL_ARGUMENT_NAME.equals( argInfo.getName( ) ) )
+						{
+							displayText.append( argInfo.getDisplayName( ) );
+						}
+						else
+						{
+							displayText.append( argInfo.getType( ) );
+						}
+					}
+					displayText.append( ") : " ); //$NON-NLS-1$
+					String returnType = method.getReturnType( );
+					if ( returnType == null )
+					{
+						returnType = "void"; //$NON-NLS-1$
+					}
+					displayText.append( returnType );
+				}
+				else if ( info instanceof IMemberInfo )
+				{
+					displayText.append( " : " );
+					displayText.append( ( (IMemberInfo) info ).getDataType( ) );
 				}
 				return displayText.toString( );
 			}
