@@ -15,14 +15,14 @@ import java.util.Locale;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.component.MarkerRange;
-import org.eclipse.birt.chart.script.ChartItemScriptHandlerAdapter;
+import org.eclipse.birt.chart.script.ChartEventHandlerAdapter;
 import org.eclipse.birt.chart.script.IChartScriptContext;
 
 /**
  * 
  */
 
-public class MarkerScript extends ChartItemScriptHandlerAdapter
+public class MarkerScript extends ChartEventHandlerAdapter
 {
 
 	/*

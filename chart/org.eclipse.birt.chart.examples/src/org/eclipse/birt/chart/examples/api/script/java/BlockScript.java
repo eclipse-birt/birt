@@ -13,10 +13,10 @@ package org.eclipse.birt.chart.examples.api.script.java;
 
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.script.ChartItemScriptHandlerAdapter;
+import org.eclipse.birt.chart.script.ChartEventHandlerAdapter;
 import org.eclipse.birt.chart.script.IChartScriptContext;
 
-public class BlockScript extends ChartItemScriptHandlerAdapter
+public class BlockScript extends ChartEventHandlerAdapter
 {
 
 	/*

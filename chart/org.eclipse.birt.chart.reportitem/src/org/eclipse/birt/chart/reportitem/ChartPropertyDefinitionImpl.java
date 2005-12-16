@@ -54,6 +54,8 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
      */
     private List liMembers = null;
 
+	private boolean isVisible;
+
     /**
      *  
      */
@@ -71,7 +73,7 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
      * @param oDefaultValue
      */
     ChartPropertyDefinitionImpl(String sGroupNameID, String sName, String sDisplayNameID, boolean bList, int iType,
-        List liChoices, List liMembers, Object oDefaultValue)
+        List liChoices, List liMembers, Object oDefaultValue, boolean isVisible)
     {
         this.sGroupNameID = sGroupNameID;
         this.sName = sName;
@@ -80,6 +82,7 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
         this.iType = iType;
         this.liChoices = liChoices;
         this.liMembers = liMembers;
+        this.isVisible = isVisible;
         //this.oDefaultValue = oDefaultValue;
     }
 
@@ -161,6 +164,11 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
     public Object getDefaultValue()
     {
         return null;
+    }
+    
+    public boolean isVisible()
+    {
+    	return isVisible;
     }
 
 }

@@ -13,10 +13,10 @@ package org.eclipse.birt.chart.examples.api.script.java;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.model.component.Label;
-import org.eclipse.birt.chart.script.ChartItemScriptHandlerAdapter;
+import org.eclipse.birt.chart.script.ChartEventHandlerAdapter;
 import org.eclipse.birt.chart.script.IChartScriptContext;
 
-public class DataPointsScript extends ChartItemScriptHandlerAdapter
+public class DataPointsScript extends ChartEventHandlerAdapter
 {
 
 	/*

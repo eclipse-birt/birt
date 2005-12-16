@@ -258,7 +258,9 @@ public final class ChartReportItemImpl extends ReportItem
 						PropertyType.STRING_TYPE,
 						null,
 						null,
-						cm.getTitle( ).getLabel( ).getCaption( ).getValue( ) ),
+						cm.getTitle( ).getLabel( ).getCaption( ).getValue( ),
+						false
+						),
 
 				new ChartPropertyDefinitionImpl( null,
 						"title.font.rotation", "property.label.title.font.rotation", false, //$NON-NLS-1$ //$NON-NLS-2$
@@ -269,36 +271,48 @@ public final class ChartReportItemImpl extends ReportItem
 								.getLabel( )
 								.getCaption( )
 								.getFont( )
-								.getRotation( ) ) ),
+								.getRotation( ) ),
+								false),
 
 				new ChartPropertyDefinitionImpl( null,
 						"legend.position", "property.label.legend.position", false, //$NON-NLS-1$ //$NON-NLS-2$
 						PropertyType.CHOICE_TYPE,
 						liLegendPositions,
 						null,
-						null ),
+						null,
+						false),
 
 				new ChartPropertyDefinitionImpl( null,
 						"legend.anchor", "property.label.legend.anchor", false, //$NON-NLS-1$ //$NON-NLS-2$
 						PropertyType.CHOICE_TYPE,
 						liLegendAnchors,
 						null,
-						null ),
+						null,
+						false),
 
 				new ChartPropertyDefinitionImpl( null,
 						"chart.dimension", "property.label.chart.dimension", false, //$NON-NLS-1$ //$NON-NLS-2$
 						PropertyType.CHOICE_TYPE,
 						liChartDimensions,
 						null,
-						null ),
+						null,
+						false),
 
 				new ChartPropertyDefinitionImpl( null,
 						"plot.transposed", "property.label.chart.plot.transposed", false, //$NON-NLS-1$ //$NON-NLS-2$
 						PropertyType.BOOLEAN_TYPE,
 						null,
 						null,
-						new Boolean( bTransposed ) ),
-		};
+						new Boolean( bTransposed ),
+						false),
+				new ChartPropertyDefinitionImpl( null,
+						"script.value", "property.script.value", false, //$NON-NLS-1$ //$NON-NLS-2$
+						PropertyType.STRING_TYPE,
+						null,
+						null,
+						"",
+						false)
+			};
 	}
 
 	/*
@@ -343,6 +357,10 @@ public final class ChartReportItemImpl extends ReportItem
 		else if ( propName.equals( "chart.instance" ) ) //$NON-NLS-1$
 		{
 			return cm;
+		}
+		else if ( propName.equals( "script.value" ) )  //$NON-NLS-1$
+		{
+			return cm.getScript();
 		}
 		return null;
 	}
@@ -424,6 +442,10 @@ public final class ChartReportItemImpl extends ReportItem
 		{
 			this.cm = (Chart) value;
 		}
+		else if ( propName.equals( "script.value" ) ) // $NON-NLS-1$
+		{
+			this.cm.setScript( (String) value );
+		}
 
 	}
 
@@ -457,6 +479,17 @@ public final class ChartReportItemImpl extends ReportItem
 	public boolean refreshPropertyDefinition( )
 	{
 		return false;
+	}
+	
+	public IPropertyDefinition getScriptPropertyDefinition( )
+	{
+		return new ChartPropertyDefinitionImpl( null,
+				"script.value", "property.script.value", false, //$NON-NLS-1$ //$NON-NLS-2$
+				PropertyType.STRING_TYPE,
+				null,
+				null,
+				"",
+				false);
 	}
 
 }

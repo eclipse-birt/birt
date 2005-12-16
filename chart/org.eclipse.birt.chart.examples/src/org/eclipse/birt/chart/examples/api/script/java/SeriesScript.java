@@ -14,10 +14,10 @@ package org.eclipse.birt.chart.examples.api.script.java;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
 import org.eclipse.birt.chart.render.ISeriesRenderer;
-import org.eclipse.birt.chart.script.ChartItemScriptHandlerAdapter;
+import org.eclipse.birt.chart.script.ChartEventHandlerAdapter;
 import org.eclipse.birt.chart.script.IChartScriptContext;
 
-public class SeriesScript extends ChartItemScriptHandlerAdapter
+public class SeriesScript extends ChartEventHandlerAdapter
 {
 
 	/*

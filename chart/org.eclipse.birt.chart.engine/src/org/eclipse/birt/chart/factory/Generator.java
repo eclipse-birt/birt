@@ -575,10 +575,11 @@ public final class Generator
 		}
 
 		// Call the onPrepare script event function.
-		ScriptHandler.callFunction( sh,
+		// not supported yet
+		/*ScriptHandler.callFunction( sh,
 				ScriptHandler.ON_PREPARE,
 				cmRunTime,
-				rtc.getScriptContext( ) );
+				rtc.getScriptContext( ) );*/
 
 		return rtc;
 	}

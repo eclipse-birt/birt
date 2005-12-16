@@ -14,14 +14,14 @@ package org.eclipse.birt.chart.examples.api.script.java;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
-import org.eclipse.birt.chart.script.ChartItemScriptHandlerAdapter;
+import org.eclipse.birt.chart.script.ChartEventHandlerAdapter;
 import org.eclipse.birt.chart.script.IChartScriptContext;
 
 /**
  * 
  */
 
-public class AxisScript extends ChartItemScriptHandlerAdapter
+public class AxisScript extends ChartEventHandlerAdapter
 {
 	/*
 	 * (non-Javadoc)
