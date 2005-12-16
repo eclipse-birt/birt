@@ -215,8 +215,9 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		btnRemove.addSelectionListener( this );
 
 		lstMarkers = new List( cmpList, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL );
-		GridData gdLSTMarkers = new GridData( GridData.FILL_BOTH );
+		GridData gdLSTMarkers = new GridData( GridData.FILL_HORIZONTAL );
 		gdLSTMarkers.horizontalSpan = 3;
+		gdLSTMarkers.heightHint = 100;
 		lstMarkers.setLayoutData( gdLSTMarkers );
 		lstMarkers.addSelectionListener( this );
 
