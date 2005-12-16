@@ -238,6 +238,12 @@ public class ReportEngine
 		return helper.openReportDesign( designStream );
 	}
 
+	public IReportRunnable openReportDesign( String name,
+			InputStream designStream ) throws EngineException
+	{
+		return helper.openReportDesign( name, designStream );
+	}
+
 	/**
 	 * creates an engine task for running and rendering report directly to
 	 * output format
@@ -366,7 +372,8 @@ public class ReportEngine
 	 *            a handle to an IReportDocument object
 	 * @return a task that renders a report to an output format
 	 */
-	public IDataExtractionTask createDataExtractionTask( IReportDocument reportDocument )
+	public IDataExtractionTask createDataExtractionTask(
+			IReportDocument reportDocument )
 	{
 		return helper.createDataExtractionTask( reportDocument );
 	}

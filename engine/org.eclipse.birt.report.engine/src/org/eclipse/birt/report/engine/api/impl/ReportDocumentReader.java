@@ -36,6 +36,7 @@ public class ReportDocumentReader implements IReportDocument
 	static private Logger logger = Logger.getLogger( ReportDocumentReader.class
 			.getName( ) );
 	protected static final String DESIGN_STREAM = "/design"; //$NON-NLS-1$
+	protected static final String DESIGN_NAME_STREAM = "/designName";
 	protected static final String PARAMTER_STREAM = "/paramter"; //$NON-NLS-1$
 	protected static final String BOOKMARK_STREAM = "/bookmark"; //$NON-NLS-1$
 	protected static final String PAGEHINT_STREAM = "/pages"; //$NON-NLS-1$
@@ -83,6 +84,30 @@ public class ReportDocumentReader implements IReportDocument
 		}
 	}
 
+	protected String getDesignName( )
+	{
+		try
+		{
+			if ( archive.exists( DESIGN_NAME_STREAM ) )
+			{
+				InputStream in = archive.getStream( DESIGN_NAME_STREAM );
+				if ( in != null )
+				{
+					ObjectInputStream oi = new ObjectInputStream( in );
+					String designName = oi.readUTF( );
+					oi.close( );
+					return designName;
+				}
+			}
+		}
+		catch ( Exception ex )
+		{
+			logger.log( Level.SEVERE,
+					"Failed to open the design name stream!", ex ); //$NON-NLS-1$
+		}
+		return null;
+	}
+
 	public InputStream getDesignStream( )
 	{
 		try
@@ -102,7 +127,13 @@ public class ReportDocumentReader implements IReportDocument
 		{
 			try
 			{
-				reportRunnable = engine.openReportDesign( getDesignStream( ) );
+				String name = this.getDesignName( );
+				InputStream stream = getDesignStream( );
+				if (name == null)
+				{
+					name = getName();
+				}
+				reportRunnable = engine.openReportDesign( name, stream );
 			}
 			catch ( Exception ex )
 			{

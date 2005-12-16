@@ -35,6 +35,7 @@ public class ReportDocumentWriter
 			.getName( ) );
 
 	protected static final String DESIGN_STREAM = "/design";
+	protected static final String DESIGN_NAME_STREAM = "/designName";
 	protected static final String PARAMTER_STREAM = "/paramter";
 	protected static final String BOOKMARK_STREAM = "/bookmark";
 	protected static final String PAGEHINT_STREAM = "/pages";
@@ -149,6 +150,15 @@ public class ReportDocumentWriter
 					.createRandomAccessStream( DESIGN_STREAM );
 			design.serialize( out );
 			out.close( );
+			String designName = design.getFileName( );
+			if ( designName != null )
+			{
+				out = archive.createRandomAccessStream( DESIGN_NAME_STREAM );
+				ObjectOutputStream oo = new ObjectOutputStream( out );
+				oo.writeUTF( designName );
+				oo.close( );
+				out.close( );
+			}
 		}
 		catch ( Exception ex )
 		{

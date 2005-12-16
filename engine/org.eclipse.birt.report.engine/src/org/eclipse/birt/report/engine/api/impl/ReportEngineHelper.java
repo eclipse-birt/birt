@@ -133,8 +133,28 @@ public class ReportEngineHelper
 	public IReportRunnable openReportDesign( InputStream designStream )
 			throws EngineException
 	{
+		return openReportDesign( "<stream>", designStream );
+	}
+
+	/**
+	 * opens a report design stream and creates a report design runnable. From
+	 * the ReportRunnable object, embedded images and parameter definitions can
+	 * be retrieved. Constructing an engine task requires a report design
+	 * runnableobject.
+	 * 
+	 * @param designName
+	 *            the stream's name
+	 * @param designStream
+	 *            the report design input stream
+	 * @return a report design runnable object
+	 * @throws EngineException
+	 *             throwed when the input stream is null, or the stream does not
+	 *             yield a valid report design
+	 */
+	public IReportRunnable openReportDesign( String designName,
+			InputStream designStream ) throws EngineException
+	{
 		ReportDesignHandle designHandle;
-		String designName = "<stream>"; //$NON-NLS-1$
 		try
 		{
 			designHandle = new ReportParser( ).getDesignHandle( designName,
@@ -284,28 +304,23 @@ public class ReportEngineHelper
 
 	public IRenderTask createRenderTask( IReportDocument reportDoc )
 	{
+		IReportRunnable runnable = reportDoc.getReportRunnable( );
+
+		return new RenderTask( engine, runnable,
+				(ReportDocumentReader) reportDoc );
+	}
+
+	public IDataExtractionTask createDataExtractionTask(
+			IReportDocument reportDoc )
+	{
 		try
 		{
 			IReportRunnable runnable = engine.openReportDesign( reportDoc
 					.getDesignStream( ) );
-			return new RenderTask( engine, runnable,
+			return new DataExtractionTask( engine, runnable,
 					(ReportDocumentReader) reportDoc );
 		}
 		catch ( EngineException ex )
-		{
-			ex.printStackTrace( );
-		}
-		return null;
-	}
-	
-	public IDataExtractionTask createDataExtractionTask( IReportDocument reportDoc )
-	{
-		try
-		{
-			IReportRunnable runnable = engine.openReportDesign( reportDoc.getDesignStream( ) );
-			return new DataExtractionTask( engine, runnable, (ReportDocumentReader)reportDoc );
-		}
-		catch( EngineException ex )
 		{
 			ex.printStackTrace( );
 		}
