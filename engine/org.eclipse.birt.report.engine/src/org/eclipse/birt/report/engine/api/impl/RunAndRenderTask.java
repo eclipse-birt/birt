@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.FORenderOption;
+import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
@@ -144,8 +145,13 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		executionContext.getConfigs( ).putAll( runnable.getTestConfig( ) );
 		executionContext.getConfigs( ).putAll( System.getProperties( ) );
 
+		if (format.equalsIgnoreCase("html"))
+		{
+			HTMLEmitterConfig tmp = (HTMLEmitterConfig) config.getEmitterConfigs().get("html");
+			if (tmp != null)
+				executionContext.setActionHandler(tmp.getActionHandler());
+		}
 		
-
 		if ( !ExtensionManager.getInstance( ).getSupportedFormat()
 				.contains( format ) )
 		{

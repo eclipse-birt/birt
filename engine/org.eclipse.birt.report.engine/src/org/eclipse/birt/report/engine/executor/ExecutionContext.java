@@ -37,6 +37,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -67,7 +68,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.46 $ $Date: 2005/12/12 09:19:55 $
+ * @version $Revision: 1.47 $ $Date: 2005/12/16 08:26:17 $
  */
 public class ExecutionContext
 {
@@ -193,6 +194,8 @@ public class ExecutionContext
 	private HashMap numberFormatters = new HashMap( );
 	private HashMap dateFormatters = new HashMap( );
 
+	private IHTMLActionHandler ah = null;
+	
 	/**
 	 * create a new context. Call close to finish using the execution context
 	 */
@@ -1167,5 +1170,17 @@ public class ExecutionContext
 	public ReportDocumentWriter getReportDocWriter( )
 	{
 		return docWriter;
+	}
+	/**
+	 * @return Returns the action handler.
+	 */
+	public IHTMLActionHandler getActionHandler() {
+		return ah;
+	}
+	/**
+	 * @param ah The action handler to set.
+	 */
+	public void setActionHandler(IHTMLActionHandler ah) {
+		this.ah = ah;
 	}
 }

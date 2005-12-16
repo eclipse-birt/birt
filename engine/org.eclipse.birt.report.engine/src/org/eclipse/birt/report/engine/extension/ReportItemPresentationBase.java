@@ -16,6 +16,7 @@ import java.util.Locale;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
@@ -32,6 +33,7 @@ public class ReportItemPresentationBase implements IReportItemPresentation
 	protected String supportedImageFormats;
 	protected Locale locale;
 	protected IBaseQueryDefinition[] queries;
+	protected IHTMLActionHandler ah = null;
 
 	/**
 	 * Constructor that does nothing
@@ -155,5 +157,12 @@ public class ReportItemPresentationBase implements IReportItemPresentation
 	public String getImageMIMEType( )
 	{
 		return ""; //$NON-NLS-1$
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setActionHandler(org.eclipse.birt.report.engine.api.IHTMLActionHandler)
+	 */
+	public void setActionHandler(IHTMLActionHandler ah) {
+		this.ah = ah;
 	}
 }

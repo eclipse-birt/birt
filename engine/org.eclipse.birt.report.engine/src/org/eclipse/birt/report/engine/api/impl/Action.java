@@ -17,11 +17,10 @@ import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 
 /**
- *
+ * An Action class that implements IAction interface
  */
-public class Action extends ReportPart implements IAction
+public class Action implements IAction
 {
-
 	protected IHyperlinkAction content;
 	protected String actionString;
 	

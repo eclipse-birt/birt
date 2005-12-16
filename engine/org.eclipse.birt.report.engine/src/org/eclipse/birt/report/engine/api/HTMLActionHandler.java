@@ -23,8 +23,7 @@ import java.util.logging.Logger;
 public class HTMLActionHandler implements IHTMLActionHandler {
 	
 	/** logger */
-	protected Logger log = Logger.getLogger( HTMLActionHandler.class
-			.getName( ) );
+	protected Logger log = Logger.getLogger( HTMLActionHandler.class.getName( ) );
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLActionHandler#getURL(org.eclipse.birt.report.engine.api2.IAction, java.lang.Object)

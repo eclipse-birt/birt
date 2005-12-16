@@ -16,6 +16,7 @@ import java.util.Locale;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
@@ -93,6 +94,11 @@ public interface IReportItemPresentation
 	 *            the output format, i.e., html, pdf, etc.
 	 */
 	public abstract void setOutputFormat( String outputFormat );
+	
+	/**
+	 * @param ah the HTML action handler used to create a URL based on an action
+	 */
+	public abstract void setActionHandler( IHTMLActionHandler ah );
 
 	/**
 	 * @return the image MIME type (e.g. "image/svg+xml")

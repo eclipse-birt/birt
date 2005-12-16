@@ -19,14 +19,6 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 public interface IRowSet {
 	
 	/**
-	 * returns the next row in the row set, or null if no more rows.
-	 * 
-	 * @return the next row in the row set, or null if no more rows.
-	 * @throws BIRTException
-	 */
-	//public abstract Object[] nextRow() throws BirtException;
-	
-	/**
 	 * returns the definition for the data row
 	 * 
 	 * @return the definition for the data row
@@ -81,5 +73,8 @@ public interface IRowSet {
 	 */
 	Object evaluate(IBaseExpression expr);
 	
+	/**
+	 * clse the row set
+	 */
 	void close();
 }

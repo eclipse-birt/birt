@@ -23,9 +23,8 @@ import java.util.Map;
  * added later if it deems necessary.
  *  
  */
-public interface IAction extends IReportPart
+public interface IAction 
 {
-
 	/**
 	 * hyperlink action
 	 */
@@ -44,7 +43,11 @@ public interface IAction extends IReportPart
 	 */
 	public int getType( );
 
+	/**
+	 * @return the bookmark string
+	 */
 	public String getBookmark();
+	
 	/**
 	 * @return the action string that is calculated using the engine's default
 	 *         algorithm. valid for all three action types.

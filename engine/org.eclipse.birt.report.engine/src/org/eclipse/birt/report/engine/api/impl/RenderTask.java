@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.FORenderOption;
+import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -119,15 +120,13 @@ public class RenderTask extends EngineTask implements IRenderTask
 		EngineConfig config = engine.getConfig( );
 		if ( config != null )
 			services
-					.setEmitterConfig( engine.getConfig( ).getEmitterConfigs( ) );
+					.setEmitterConfig( config.getEmitterConfigs( ) );
 		services.setRenderContext( context );
 
 		services.setReportRunnable( runnable );
 
 		// register default parameters
 		usingParameterValues( );
-
-		
 
 		// setup runtime configurations
 		// user defined configs are overload using system properties.
@@ -164,6 +163,13 @@ public class RenderTask extends EngineTask implements IRenderTask
 				executionContext.getParams( ), config.getConfigMap( ),
 				executionContext.getAppContext( ), executionContext.getLocale(), format );
 		executionContext.setReportContext( reportContext );
+		
+		if (format.equalsIgnoreCase("html"))
+		{
+			HTMLEmitterConfig tmp = (HTMLEmitterConfig) config.getEmitterConfigs().get("html");
+			if (tmp != null)
+				executionContext.setActionHandler(tmp.getActionHandler());
+		}
 		
 		IContentEmitter emitter = ExtensionManager.getInstance( )
 				.createEmitter( format, emitterID );
