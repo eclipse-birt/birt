@@ -642,9 +642,13 @@ public class TaskSelectType extends SimpleTask
 
 	public void widgetSelected( SelectionEvent e )
 	{
+		// Indicates whether need to update chart model
+		boolean needUpdateModel = false;
 		Object oSelected = e.getSource( );
 		if ( oSelected.getClass( ).equals( Button.class ) )
 		{
+			needUpdateModel = true;
+
 			if ( oSelected.equals( cbOrientation ) )
 			{
 				if ( cbOrientation.getSelection( ) )
@@ -673,7 +677,6 @@ public class TaskSelectType extends SimpleTask
 					removeOverlayAxis( );
 				}
 				ChartAdapter.ignoreNotifications( false );
-				changeTask( null );
 			}
 			else
 			{
@@ -700,62 +703,82 @@ public class TaskSelectType extends SimpleTask
 						// Clicking on the same button should not cause it to be
 						// unselected
 						btn.setSelection( true );
+						needUpdateModel = false;
 					}
 				}
 			}
 		}
 		else if ( oSelected.getClass( ).equals( Table.class ) )
 		{
-			sSubType = null;
 			sType = ( (TableItem) e.item ).getText( ).trim( );
-			createAndDisplayTypesSheet( sType );
-			setDefaultSubtypeSelection( );
+			if ( !chartModel.getType( ).equals( sType ) )
+			{
+				sSubType = null;
+				createAndDisplayTypesSheet( sType );
+				setDefaultSubtypeSelection( );
 
-			// Pack to display enough space for different chart
-			container.packWizard( );
-			cmpMisc.layout( );
+				// Pack to display enough space for different chart
+				container.packWizard( );
+				cmpMisc.layout( );
+
+				needUpdateModel = true;
+			}
 		}
 		else if ( oSelected.equals( cbDimension ) )
 		{
-			this.sDimension = cbDimension.getItem( cbDimension.getSelectionIndex( ) );
-			createAndDisplayTypesSheet( this.sType );
-			setDefaultSubtypeSelection( );
+			String newDimension = cbDimension.getItem( cbDimension.getSelectionIndex( ) );
+			if ( !newDimension.equals( sDimension ) )
+			{
+				sDimension = newDimension;
+				createAndDisplayTypesSheet( this.sType );
+				setDefaultSubtypeSelection( );
+
+				needUpdateModel = true;
+			}
 		}
 		else if ( oSelected.equals( cbSeriesType ) )
 		{
-			changeOverlaySeriesType( );
+			String oldSeriesName = ( (SeriesDefinition) ChartUIUtil.getOrthogonalSeriesDefinitions( chartModel,
+					1 )
+					.get( 0 ) ).getDesignTimeSeries( ).getDisplayName( );
+			if ( !cbSeriesType.getText( ).equals( oldSeriesName ) )
+			{
+				needUpdateModel = true;
+				changeOverlaySeriesType( );
+			}
 		}
 		else if ( oSelected.equals( cbOutput ) )
 		{
 			( (ChartWizardContext) getContext( ) ).setOutputFormat( cbOutput.getText( ) );
 		}
 
-		refreshChart( );
-		if ( oSelected.getClass( ).equals( Table.class ) )
+		// Following operations need new model
+		if ( needUpdateModel )
 		{
-			updateAdapters( );
-			// Ensure populate list after chart model generated
-			populateSeriesTypesList( );
-		}
-		else if ( oSelected.equals( cbDimension ) )
-		{
-			updateAdapters( );
-		}
+			// Update chart model
+			refreshChart( );
 
-		if ( chartModel != null && chartModel instanceof ChartWithAxes )
-		{
-			if ( ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( ).get( 0 ) ).getAssociatedAxes( )
-					.size( ) > 1 )
+			if ( oSelected.getClass( ).equals( Table.class ) )
 			{
-				Axis overlayAxis = (Axis) ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
-						.get( 0 ) ).getAssociatedAxes( ).get( 1 );
-				cbMultipleY.setSelection( true );
-				String sDisplayName = PluginSettings.instance( )
-						.getSeriesDisplayName( ( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
-								.get( 0 ) ).getDesignTimeSeries( )
-								.getClass( )
-								.getName( ) );
-				cbSeriesType.select( cbSeriesType.indexOf( sDisplayName ) );
+				// Ensure populate list after chart model generated
+				populateSeriesTypesList( );
+			}
+			else if ( oSelected.equals( cbMultipleY ) )
+			{
+				if ( chartModel != null && chartModel instanceof ChartWithAxes )
+				{
+					if ( ChartUIUtil.getOrthogonalAxisNumber( chartModel ) > 1 )
+					{
+						Axis overlayAxis = ChartUIUtil.getAxisYForProcessing( (ChartWithAxes) chartModel,
+								1 );
+						String sDisplayName = PluginSettings.instance( )
+								.getSeriesDisplayName( ( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
+										.get( 0 ) ).getDesignTimeSeries( )
+										.getClass( )
+										.getName( ) );
+						cbSeriesType.select( cbSeriesType.indexOf( sDisplayName ) );
+					}
+				}
 			}
 		}
 	}
@@ -1008,6 +1031,7 @@ public class TaskSelectType extends SimpleTask
 					this.orientation,
 					this.sDimension,
 					this.chartModel );
+			updateAdapters( );
 		}
 		catch ( Exception e )
 		{
@@ -1173,10 +1197,7 @@ public class TaskSelectType extends SimpleTask
 			// Disable live preview
 			ChartPreviewPainter.setEnableLivePreview( false );
 		}
-		if ( chartModel != null && previewPainter != null )
-		{
-			previewPainter.renderModel( chartModel );
-		}
+		changeTask( null );
 	}
 
 	private String getSubtypeFromButton( Control button )

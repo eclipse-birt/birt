@@ -1,3 +1,4 @@
+
 package org.eclipse.birt.core.ui.frameworks.taskwizard.composites;
 
 import org.eclipse.birt.core.ui.utils.UIHelper;
@@ -21,200 +22,215 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
 /**
- *  
+ * 
  */
-public final class MessageComposite extends Composite implements PaintListener, DisposeListener
+public final class MessageComposite extends Composite
+		implements
+			PaintListener,
+			DisposeListener
 {
-    /**
-     *  
-     */
-    transient Image img = null;
 
-    transient boolean bDisableImage = false;
+	/**
+	 * 
+	 */
+	transient Image img = null;
 
-    /**
-     *  
-     */
-    private String sTitle;
+	transient boolean bDisableImage = false;
 
-    /**
-     *  
-     */
-    private String sDescription;
+	/**
+	 * 
+	 */
+	private String sTitle;
 
-    /**
-     *  
-     */
-    private Font foTitle = null;
+	/**
+	 * 
+	 */
+	private String sDescription;
 
-    /**
-     *  
-     */
-    private Composite co = null;
+	/**
+	 * 
+	 */
+	private Font foTitle = null;
 
-    /**
-     *  
-     */
-    private Label laTitle = null, laDescription = null;
+	/**
+	 * 
+	 */
+	private Composite co = null;
 
-    /**
-     *  
-     */
-    private ImageCanvas ic = null;
+	/**
+	 * 
+	 */
+	private Label laTitle = null, laDescription = null;
 
-    /**
-     *  
-     */
-    public MessageComposite(Composite coParent, String sImagePath, String sTitle, String sDescription, boolean bDisableImage)
-    {
-        super(coParent, SWT.NONE);
-        this.sTitle = sTitle;
-        this.sDescription = sDescription;
-        this.bDisableImage = bDisableImage;
-        if (!bDisableImage)
-        {
-            img = UIHelper.getImage(sImagePath);
-        }
-        setup();
-    }
+	/**
+	 * 
+	 */
+	private ImageCanvas ic = null;
 
-    /**
-     * 
-     * @param sTitle
-     * @param sDescription
-     */
-    final void update(String sTitle, String sDescription)
-    {
-        this.sTitle = sTitle;
-        this.sDescription = sDescription;
-        laTitle.setText(sTitle);
-        laDescription.setText(sDescription);
-    }
+	/**
+	 * 
+	 */
+	public MessageComposite( Composite coParent, String sImagePath,
+			String sTitle, String sDescription, boolean bDisableImage )
+	{
+		super( coParent, SWT.NONE );
+		this.sTitle = sTitle;
+		this.sDescription = sDescription;
+		this.bDisableImage = bDisableImage;
+		if ( !bDisableImage )
+		{
+			img = UIHelper.getImage( sImagePath );
+		}
+		setup( );
+	}
 
-    /**
-     *  
-     */
-    public final void setBackground(Color cBG)
-    {
-        super.setBackground(cBG);
-        co.setBackground(cBG);
-        laTitle.setBackground(cBG);
-        laDescription.setBackground(cBG);
-        if (!bDisableImage)
-        {
-            ic.setBackground(cBG);
-        }
-    }
+	/**
+	 * 
+	 * @param sTitle
+	 * @param sDescription
+	 */
+	final void update( String sTitle, String sDescription )
+	{
+		this.sTitle = sTitle;
+		this.sDescription = sDescription;
+		laTitle.setText( sTitle );
+		laDescription.setText( sDescription );
+	}
 
-    /**
-     *  
-     */
-    private final void setup()
-    {
-        setLayout(new FillLayout());
+	/**
+	 * 
+	 */
+	public final void setBackground( Color cBG )
+	{
+		super.setBackground( cBG );
+		co.setBackground( cBG );
+		laTitle.setBackground( cBG );
+		laDescription.setBackground( cBG );
+		if ( !bDisableImage )
+		{
+			ic.setBackground( cBG );
+		}
+	}
 
-        co = new Composite(this, SWT.NONE);
-        co.addPaintListener(this);
-        GridLayout gl = new GridLayout();
-        if (!bDisableImage)
-        {
-            gl.numColumns = 2;
-        }
-        co.setLayout(gl);
+	/**
+	 * 
+	 */
+	private final void setup( )
+	{
+		setLayout( new FillLayout( ) );
 
-        laTitle = new Label(co, SWT.WRAP);
-        final FontData fd = laTitle.getFont().getFontData()[0];
-        foTitle = new Font(Display.getCurrent(), fd.getName(), fd.getHeight(), SWT.BOLD);
-        laTitle.setFont(foTitle);
-        laTitle.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_CYAN));
+		co = new Composite( this, SWT.NONE );
+		co.addPaintListener( this );
+		GridLayout gl = new GridLayout( );
+		if ( !bDisableImage )
+		{
+			gl.numColumns = 2;
+		}
+		co.setLayout( gl );
 
-        laTitle.setText(sTitle);
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        laTitle.setLayoutData(gd);
-        laTitle.setAlignment(SWT.CENTER);
+		laTitle = new Label( co, SWT.WRAP );
+		final FontData fd = laTitle.getFont( ).getFontData( )[0];
+		foTitle = new Font( Display.getCurrent( ),
+				fd.getName( ),
+				fd.getHeight( ),
+				SWT.BOLD );
+		laTitle.setFont( foTitle );
+		laTitle.setBackground( Display.getCurrent( )
+				.getSystemColor( SWT.COLOR_CYAN ) );
 
-        if (!bDisableImage)
-        {
-            ic = new ImageCanvas(co);
-            gd = new GridData();
-            gd.verticalSpan = 2;
-            gd.verticalAlignment = GridData.BEGINNING;
-            gd.horizontalIndent = 10;
-            ic.setLayoutData(gd);
-        }
+		laTitle.setText( sTitle );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		laTitle.setLayoutData( gd );
+		laTitle.setAlignment( SWT.CENTER );
 
-        laDescription = new Label(co, SWT.LEFT | SWT.WRAP | SWT.DRAW_TRANSPARENT);
-        laDescription.setText(sDescription);
-        gd = new GridData(GridData.FILL_BOTH);
-        gd.horizontalIndent = 10;
-        laDescription.setLayoutData(gd);
+		if ( !bDisableImage )
+		{
+			ic = new ImageCanvas( co );
+			gd = new GridData( );
+			gd.verticalSpan = 2;
+			gd.verticalAlignment = GridData.BEGINNING;
+			gd.horizontalIndent = 10;
+			ic.setLayoutData( gd );
+		}
 
-    }
+		laDescription = new Label( co, SWT.LEFT
+				| SWT.WRAP | SWT.DRAW_TRANSPARENT );
+		laDescription.setText( sDescription );
+		gd = new GridData( GridData.FILL_BOTH );
+		gd.horizontalIndent = 10;
+		laDescription.setLayoutData( gd );
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.PaintEvent)
-     */
-    public void paintControl(PaintEvent pev)
-    {
-        Rectangle rCA = getClientArea();
-        rCA.width--;
-        rCA.height--;
-        GC gc = pev.gc;
-        gc.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_GRAY));
-        gc.drawRectangle(rCA);
-    }
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.swt.events.DisposeListener#widgetDisposed(org.eclipse.swt.events.DisposeEvent)
-     */
-    public void widgetDisposed(DisposeEvent dev)
-    {
-        if (!bDisableImage)
-        {
-            img.dispose();
-        }
-        foTitle.dispose();
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.PaintEvent)
+	 */
+	public void paintControl( PaintEvent pev )
+	{
+		Rectangle rCA = getClientArea( );
+		rCA.width--;
+		rCA.height--;
+		GC gc = pev.gc;
+		gc.setForeground( Display.getCurrent( ).getSystemColor( SWT.COLOR_GRAY ) );
+		gc.drawRectangle( rCA );
+	}
 
-    /**
-     *  
-     */
-    private final class ImageCanvas extends Canvas implements PaintListener
-    {
-        /**
-         *  
-         */
-        private final Rectangle rSize;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.DisposeListener#widgetDisposed(org.eclipse.swt.events.DisposeEvent)
+	 */
+	public void widgetDisposed( DisposeEvent dev )
+	{
+		// Disposed by UIHelper
+		// if (!bDisableImage)
+		// {
+		// img.dispose();
+		// }
+		foTitle.dispose( );
+	}
 
-        /**
-         * 
-         * @param coParent
-         */
-        private ImageCanvas(Composite coParent)
-        {
-            super(coParent, SWT.NONE);
-            addPaintListener(this);
-            rSize = new Rectangle(0, 0, img.getImageData().width, img.getImageData().height);
-        }
+	/**
+	 * 
+	 */
+	private final class ImageCanvas extends Canvas implements PaintListener
+	{
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.PaintEvent)
-         */
-        public void paintControl(PaintEvent pev)
-        {
-            GC gc = pev.gc;
-            gc.drawImage(img, 0, 0);
-        }
+		/**
+		 * 
+		 */
+		private final Rectangle rSize;
 
-        public final Rectangle getPreferredBounds()
-        {
-            return rSize;
-        }
-    }
+		/**
+		 * 
+		 * @param coParent
+		 */
+		private ImageCanvas( Composite coParent )
+		{
+			super( coParent, SWT.NONE );
+			addPaintListener( this );
+			rSize = new Rectangle( 0,
+					0,
+					img.getImageData( ).width,
+					img.getImageData( ).height );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.PaintEvent)
+		 */
+		public void paintControl( PaintEvent pev )
+		{
+			GC gc = pev.gc;
+			gc.drawImage( img, 0, 0 );
+		}
+
+		public final Rectangle getPreferredBounds( )
+		{
+			return rSize;
+		}
+	}
 }

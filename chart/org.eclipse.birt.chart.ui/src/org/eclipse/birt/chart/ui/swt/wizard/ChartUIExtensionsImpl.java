@@ -46,8 +46,8 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 			"10/Series/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesSheetImpl", //$NON-NLS-1$
 			"11/Series.X Series/Category (X) Series/org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesXSheetImpl", //$NON-NLS-1$
 			"12/Series.Y Series/Value (Y) Series/org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl", //$NON-NLS-1$
-			"13/Series.Base Series/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesXSheetImpl", //$NON-NLS-1$
-			"14/Series.Orthogonal Series/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl", //$NON-NLS-1$
+			"13/Series.Category Series/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesXSheetImpl", //$NON-NLS-1$
+			"14/Series.Value Series/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl", //$NON-NLS-1$
 			"20/Chart/Chart Area/org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartSheetImpl", //$NON-NLS-1$
 			"21/Chart.Axis/ /org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisSheetImpl", //$NON-NLS-1$
 			"22/Chart.Axis.X Axis/ /org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisXSheetImpl", //$NON-NLS-1$
@@ -58,9 +58,9 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 	};
 
 	private static final String[] saTypes = new String[]{
-			"org.eclipse.birt.chart.ui.swt.type.AreaChart", "org.eclipse.birt.chart.ui.swt.type.BarChart", //$NON-NLS-1$ //$NON-NLS-2$
-			"org.eclipse.birt.chart.ui.swt.type.LineChart", "org.eclipse.birt.chart.ui.swt.type.MeterChart",//$NON-NLS-1$ //$NON-NLS-2$
-			"org.eclipse.birt.chart.ui.swt.type.PieChart", "org.eclipse.birt.chart.ui.swt.type.ScatterChart",//$NON-NLS-1$ //$NON-NLS-2$ 
+			"org.eclipse.birt.chart.ui.swt.type.BarChart", "org.eclipse.birt.chart.ui.swt.type.LineChart", //$NON-NLS-1$ //$NON-NLS-2$
+			"org.eclipse.birt.chart.ui.swt.type.AreaChart", "org.eclipse.birt.chart.ui.swt.type.PieChart",//$NON-NLS-1$ //$NON-NLS-2$
+			"org.eclipse.birt.chart.ui.swt.type.MeterChart", "org.eclipse.birt.chart.ui.swt.type.ScatterChart",//$NON-NLS-1$ //$NON-NLS-2$ 
 			"org.eclipse.birt.chart.ui.swt.type.StockChart" //$NON-NLS-1$      
 	};
 
@@ -153,17 +153,6 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 						String sNodePath = tokens.nextToken( );
 						String sDisplayName = tokens.nextToken( );
 						String sSheetClass = tokens.nextToken( );
-						// int iFirstSeparator = saSheets[iC].indexOf( "/" );
-						// //$NON-NLS-1$
-						// int iSecondSeparator = saSheets[iC].indexOf( "/",
-						// iFirstSeparator + 1 ); //$NON-NLS-1$
-						// String sNodeIndex = saSheets[iC].substring( 0,
-						// iFirstSeparator );
-						// String sNodePath = saSheets[iC].substring(
-						// iFirstSeparator + 1,
-						// iSecondSeparator );
-						// String sSheetClass = saSheets[iC].substring(
-						// iSecondSeparator + 1 );
 						DefaultRegisteredSubtaskEntryImpl entry = new DefaultRegisteredSubtaskEntryImpl( sNodeIndex,
 								sNodePath,
 								sDisplayName,

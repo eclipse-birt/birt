@@ -125,7 +125,7 @@ public class TaskSelectData extends SimpleTask
 		{
 			customizeUI( );
 		}
-		doLivePreview( );		
+		doLivePreview( );
 		// Refresh all data definitino text
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
 		return cmpTask;
@@ -863,7 +863,7 @@ public class TaskSelectData extends SimpleTask
 		{
 			return Messages.getString( "TaskSelectData.Label.UseAsCategoryXAxis" ); //$NON-NLS-1$
 		}
-		return Messages.getString( "TaskSelectData.Label.UseAsCategoryBaseAxis" ); //$NON-NLS-1$
+		return Messages.getString( "TaskSelectData.Label.UseAsCategorySeries" ); //$NON-NLS-1$
 	}
 
 	private String getOrthogonalSeriesTitle( Chart chart )
@@ -876,7 +876,7 @@ public class TaskSelectData extends SimpleTask
 		{
 			return Messages.getString( "TaskSelectData.Label.PlotAsGaugeValue" ); //$NON-NLS-1$
 		}
-		return Messages.getString( "TaskSelectData.Label.PlotAsValueOrthogonalSeries" ); //$NON-NLS-1$
+		return Messages.getString( "TaskSelectData.Label.PlotAsValueSeries" ); //$NON-NLS-1$
 	}
 
 	private String getGroupSeriesTitle( Chart chart )
@@ -885,7 +885,7 @@ public class TaskSelectData extends SimpleTask
 		{
 			return Messages.getString( "TaskSelectData.Label.UseToGroupYSeries" ); //$NON-NLS-1$
 		}
-		return Messages.getString( "TaskSelectData.Label.UseToGroupOrthogonalSeries" ); //$NON-NLS-1$
+		return Messages.getString( "TaskSelectData.Label.UseToGroupValueSeries" ); //$NON-NLS-1$
 	}
 
 	public void changeTask( Notification notification )
@@ -904,8 +904,9 @@ public class TaskSelectData extends SimpleTask
 				ChartAdapter.ignoreNotifications( true );
 				ChartUIUtil.syncRuntimeSeries( getChartModel( ) );
 				ChartAdapter.ignoreNotifications( false );
+
+				previewPainter.renderModel( getChartModel( ) );
 			}
-			previewPainter.renderModel( getChartModel( ) );
 		}
 	}
 

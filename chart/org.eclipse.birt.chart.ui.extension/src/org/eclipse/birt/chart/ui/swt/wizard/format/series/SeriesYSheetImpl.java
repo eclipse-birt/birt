@@ -167,6 +167,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		btnInteractivity = createToggleButton( cmp,
 				Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
 		btnInteractivity.addSelectionListener( this );
+		btnInteractivity.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
 
 		// Trendline
 		if ( isTrendlineAvailable( ) )

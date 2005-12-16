@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TriggerEditorDialog;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.BlockPropertiesSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.CustomPropertiesSheet;
@@ -413,8 +414,11 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 	 */
 	private void refreshPreview( )
 	{
+		// Populate a model changed event to refresh the preview canvas.
 		boolean currentValue = btnVisible.getSelection( );
-		getChart( ).getTitle( ).setVisible( true );
+		ChartAdapter.ignoreNotifications( true );
+		getChart( ).getTitle( ).setVisible( !currentValue );
+		ChartAdapter.ignoreNotifications( false );
 		getChart( ).getTitle( ).setVisible( currentValue );
 	}
 

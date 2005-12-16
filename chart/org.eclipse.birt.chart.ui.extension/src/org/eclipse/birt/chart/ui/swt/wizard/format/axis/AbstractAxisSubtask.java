@@ -256,6 +256,8 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		btnMarkers = createToggleButton( cmp,
 				Messages.getString( "AxisYSheetImpl.Label.Markers" ) ); //$NON-NLS-1$
 		btnMarkers.addSelectionListener( this );
+		// Marker is not supported for 3D
+		btnMarkers.setEnabled( !ChartUIUtil.is3DType( getChart( ) ) );
 	}
 
 	private void populateLists( )

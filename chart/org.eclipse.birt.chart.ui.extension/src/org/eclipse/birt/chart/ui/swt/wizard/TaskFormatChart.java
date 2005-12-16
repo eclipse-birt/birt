@@ -114,10 +114,10 @@ public class TaskFormatChart extends TreeCompoundTask
 		"Chart.Axis.Z Axis"};//$NON-NLS-1$
 
 	private static final String[] BASE_SERIES_SHEETS_FOR_CHARTS_WITHOUT_AXES = new String[]{
-		"Series.Base Series"}; //$NON-NLS-1$ 
+		"Series.Category Series"}; //$NON-NLS-1$ 
 
 	private static final String[] ORTHOGONAL_SERIES_SHEETS_FOR_CHARTS_WITHOUT_AXES = new String[]{
-		"Series.Orthogonal Series"}; //$NON-NLS-1$
+		"Series.Value Series"}; //$NON-NLS-1$
 
 	public TaskFormatChart( )
 	{
