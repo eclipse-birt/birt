@@ -442,7 +442,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public String getBorderRightWidth( )
 	{
-		return style.getBorderBottomWidth( );
+		return style.getBorderRightWidth( );
 	}
 
 	/**
