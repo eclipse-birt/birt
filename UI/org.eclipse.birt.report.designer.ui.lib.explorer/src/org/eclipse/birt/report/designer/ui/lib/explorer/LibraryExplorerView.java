@@ -11,10 +11,14 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.AbstractMultiPageLayoutEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -46,6 +50,8 @@ public class LibraryExplorerView extends PageBookView
 	public static final String ID = "org.eclipse.birt.report.designer.ui.lib.explorer.view"; //$NON-NLS-1$
 
 	private String defaultText = Messages.getString( "LibraryExplorerView.defaultText.notAvailable" ); //$NON-NLS-1$
+
+	private Map pageMap = new HashMap();
 
 	/**
 	 * default constructor
@@ -85,21 +91,40 @@ public class LibraryExplorerView extends PageBookView
 	{
 		if ( part instanceof AbstractMultiPageLayoutEditor )
 		{
-			LibraryExplorerTreeViewPage page = new LibraryExplorerTreeViewPage( );
 			IEditorPart editor = UIUtil.getActiveEditor( true );
-			if(editor !=null)
+			Object fileAdapter = editor.getEditorInput( )
+					.getAdapter( IFile.class );
+			LibraryExplorerTreeViewPage page = getPage( fileAdapter, editor );
+			initPage( page );
+			page.createControl( getPageBook( ) );
+			return new PageRec( part, page );
+		}
+		return null;
+	}
+	
+	private LibraryExplorerTreeViewPage getPage( Object fileAdapter,
+			IEditorPart editor )
+	{
+		LibraryExplorerTreeViewPage page;
+		if ( fileAdapter != null
+				&& pageMap.containsKey( ( (IFile) fileAdapter ).getProject( ) ) )
+		{
+			page = (LibraryExplorerTreeViewPage) pageMap.get( ( (IFile) fileAdapter ).getProject( ) );
+		}
+		else
+		{
+			page = new LibraryExplorerTreeViewPage( );
+			ILibraryProvider provider = (ILibraryProvider) editor.getAdapter( ILibraryProvider.class );
+			if ( provider != null )
 			{
-				ILibraryProvider provider = (ILibraryProvider) editor.getAdapter( ILibraryProvider.class );
-				if( provider != null )
+				page.setLibraryProvider( provider );
+				if ( fileAdapter != null )
 				{
-					page.setLibraryProvider( provider );
-					initPage( page );
-					page.createControl( getPageBook( ) );
-					return new PageRec( part, page );
+					pageMap.put( ( (IFile) fileAdapter ).getProject( ), page );
 				}
 			}
 		}
-		return null;
+		return page;
 	}
 
 	/**

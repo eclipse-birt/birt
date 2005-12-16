@@ -84,12 +84,19 @@ public class TemplateReportItemPropertiesDialog extends BaseDialog
 
 		new Label( groupContainer, SWT.NONE ).setText( LABEL_OBJECT_TYPE );
 		new Label( groupContainer, SWT.NONE ).setText( objectType );
-		new Label( groupContainer, SWT.NONE ).setText( LABEL_PROMPT_TEXT );
+		Label promptLable = new Label( groupContainer, SWT.NONE );
+		promptLable.setText( LABEL_PROMPT_TEXT );
+		promptLable.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 
-		promptText = new Text( groupContainer, SWT.BORDER | SWT.SINGLE );
+		promptText = new Text( groupContainer, SWT.BORDER | SWT.MULTI );
 		promptText.setText( defaultPromptText );
-		promptText.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		
+		gridData = new GridData( GridData.FILL_HORIZONTAL
+				| GridData.GRAB_HORIZONTAL );
 
+		gridData.heightHint = 60;
+		promptText.setLayoutData( gridData );
+		
 		return container;
 	}
 

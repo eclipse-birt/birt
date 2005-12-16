@@ -82,7 +82,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 {
 
 	private static final String LABEL_DOUBLE_CLICK = Messages.getString( "DataViewTreeViewerPage.tooltip.DoubleClickToEdit" ); //$NON-NLS-1$
-	private ListenerElementVisitor visitor = new ListenerElementVisitor( this );
+	private ListenerElementVisitor visitor ;
 	private List dataSetsToRefresh = new ArrayList( );
 	private ILibraryProvider libraryProvider;
 	private IEclipsePreferences reportPreferenceNode;
@@ -419,7 +419,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			{
 				if ( libs[i] instanceof LibraryHandle )
 				{
-					visitor.addListener( (LibraryHandle) libs[i] );
+					getListenerElementVisitor().addListener( (LibraryHandle) libs[i] );
 				}
 			}
 		}
@@ -434,7 +434,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			{
 				if ( libs[i] instanceof LibraryHandle )
 				{
-					visitor.addListener( (LibraryHandle) libs[i] );
+					getListenerElementVisitor().addListener( (LibraryHandle) libs[i] );
 				}
 			}
 		}
@@ -451,5 +451,4 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 				}
 			} );
 	}
-
 }

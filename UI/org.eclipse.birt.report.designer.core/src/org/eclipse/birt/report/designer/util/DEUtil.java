@@ -28,6 +28,8 @@ import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DimensionHandle;
@@ -56,14 +58,18 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
+import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.graphics.Font;
@@ -88,19 +94,20 @@ public class DEUtil
 
 	static
 	{
-		propertiesMap.put( LabelHandle.TEXT_PROP, ELEMENT_LABELCONTENT_PROPERTY );
+		propertiesMap
+				.put( LabelHandle.TEXT_PROP, ELEMENT_LABELCONTENT_PROPERTY );
 		propertiesMap.put( TextItemHandle.CONTENT_PROP,
 				ELEMENT_LABELCONTENT_PROPERTY );
 
 		// do not support following element in release 2
-		notSupportList.add( DesignEngine.getMetaDataDictionary( )
-				.getElement( ReportDesignConstants.LINE_ITEM ) );
-		notSupportList.add( DesignEngine.getMetaDataDictionary( )
-				.getElement( ReportDesignConstants.TEMPLATE_REPORT_ITEM ) );
-		notSupportList.add( DesignEngine.getMetaDataDictionary( )
-				.getElement( ReportDesignConstants.FREE_FORM_ITEM ) );
-		notSupportList.add( DesignEngine.getMetaDataDictionary( )
-				.getElement( ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT ) );
+		notSupportList.add( DesignEngine.getMetaDataDictionary( ).getElement(
+				ReportDesignConstants.LINE_ITEM ) );
+		notSupportList.add( DesignEngine.getMetaDataDictionary( ).getElement(
+				ReportDesignConstants.TEMPLATE_REPORT_ITEM ) );
+		notSupportList.add( DesignEngine.getMetaDataDictionary( ).getElement(
+				ReportDesignConstants.FREE_FORM_ITEM ) );
+		notSupportList.add( DesignEngine.getMetaDataDictionary( ).getElement(
+				ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT ) );
 
 	}
 
@@ -129,8 +136,8 @@ public class DEUtil
 		List availableList = new ArrayList( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			if ( parent.canContain( slotId,
-					( (IElementDefn) list.get( i ) ).getName( ) ) )
+			if ( parent.canContain( slotId, ( (IElementDefn) list.get( i ) )
+					.getName( ) ) )
 			{
 				availableList.add( list.get( i ) );
 			}
@@ -226,8 +233,8 @@ public class DEUtil
 		{
 			obj = ( (Class) obj ).getName( );
 		}
-		return obj.toString( )
-				.substring( obj.toString( ).lastIndexOf( "." ) + 1 ); //$NON-NLS-1$
+		return obj.toString( ).substring(
+				obj.toString( ).lastIndexOf( "." ) + 1 ); //$NON-NLS-1$
 	}
 
 	/**
@@ -240,12 +247,12 @@ public class DEUtil
 	 */
 	public static IElementDefn getElementDefn( String elementName )
 	{
-		IElementDefn defn = DesignEngine.getMetaDataDictionary( )
-				.getElement( elementName );
+		IElementDefn defn = DesignEngine.getMetaDataDictionary( ).getElement(
+				elementName );
 		if ( defn == null )
 		{
-			defn = DesignEngine.getMetaDataDictionary( )
-					.getExtension( elementName );
+			defn = DesignEngine.getMetaDataDictionary( ).getExtension(
+					elementName );
 		}
 		return defn;
 	}
@@ -279,7 +286,8 @@ public class DEUtil
 			}
 			else
 			{
-				displayName = handle.getDisplayLabel( DesignElementHandle.USER_LABEL );
+				displayName = handle
+						.getDisplayLabel( DesignElementHandle.USER_LABEL );
 			}
 			if ( !StringUtil.isBlank( displayName ) )
 			{
@@ -302,8 +310,7 @@ public class DEUtil
 	public static int getMasterPageAccount( )
 	{
 		SlotHandle slotHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getMasterPages( );
+				.getReportDesignHandle( ).getMasterPages( );
 
 		Iterator itor = slotHandle.iterator( );
 
@@ -374,7 +381,8 @@ public class DEUtil
 		assert parent instanceof DesignElementHandle;
 		assert child instanceof DesignElementHandle;
 
-		int slotID = ( (DesignElementHandle) parent ).findContentSlot( (DesignElementHandle) child );
+		int slotID = ( (DesignElementHandle) parent )
+				.findContentSlot( (DesignElementHandle) child );
 
 		return slotID;
 	}
@@ -419,7 +427,8 @@ public class DEUtil
 		// if after is null, insert at last
 		if ( element == null )
 		{
-			SlotHandle slotHandle = parent.getSlot( DEUtil.getDefaultSlotID( parent ) );
+			SlotHandle slotHandle = parent.getSlot( DEUtil
+					.getDefaultSlotID( parent ) );
 			if ( slotHandle != null )
 			{
 				return slotHandle.getCount( );
@@ -524,11 +533,9 @@ public class DEUtil
 		// added by gao if unit is "", set the unit is Design default unit
 		else if ( "".equals( units ) )//$NON-NLS-1$ 
 		{
-			units = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
+			units = SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
 					.getDefaultUnits( );
-			px = DimensionUtil.convertTo( measure,
-					units,
+			px = DimensionUtil.convertTo( measure, units,
 					DesignChoiceConstants.UNITS_IN ).getMeasure( );
 		}
 		else if ( units == null )//$NON-NLS-1$
@@ -537,8 +544,7 @@ public class DEUtil
 		}
 		else
 		{
-			px = DimensionUtil.convertTo( measure,
-					units,
+			px = DimensionUtil.convertTo( measure, units,
 					DesignChoiceConstants.UNITS_IN ).getMeasure( );
 		}
 
@@ -560,8 +566,7 @@ public class DEUtil
 		if ( handle.isSet( ) )
 		{
 			retValue = DimensionUtil.convertTo( handle.getMeasure( ),
-					handle.getUnits( ),
-					targetUnit ).getMeasure( );
+					handle.getUnits( ), targetUnit ).getMeasure( );
 		}
 		return retValue;
 	}
@@ -732,8 +737,7 @@ public class DEUtil
 			return null;
 		}
 
-		return new RGB( ( rgbValue >> 16 ) & 0xff,
-				( rgbValue >> 8 ) & 0xff,
+		return new RGB( ( rgbValue >> 16 ) & 0xff, ( rgbValue >> 8 ) & 0xff,
 				rgbValue & 0xff );
 	}
 
@@ -752,8 +756,7 @@ public class DEUtil
 			return -1;
 		}
 
-		return ( ( rgb.red & 0xff ) << 16 )
-				| ( ( rgb.green & 0xff ) << 8 )
+		return ( ( rgb.red & 0xff ) << 16 ) | ( ( rgb.green & 0xff ) << 8 )
 				| ( rgb.blue & 0xff );
 	}
 
@@ -771,13 +774,15 @@ public class DEUtil
 		{
 			if ( handle instanceof ReportItemHandle )
 			{
-				DesignElementHandle dataSet = ( (ReportItemHandle) handle ).getDataSet( );
+				DesignElementHandle dataSet = ( (ReportItemHandle) handle )
+						.getDataSet( );
 				if ( dataSet != null && !dataSetList.contains( dataSet ) )
 				{
 					dataSetList.add( dataSet );
 				}
 			}
-			for ( Iterator itor = getDataSetList( handle.getContainer( ) ).iterator( ); itor.hasNext( ); )
+			for ( Iterator itor = getDataSetList( handle.getContainer( ) )
+					.iterator( ); itor.hasNext( ); )
 			{
 				DesignElementHandle dataSet = (DesignElementHandle) itor.next( );
 				if ( !dataSetList.contains( dataSet ) )
@@ -867,8 +872,8 @@ public class DEUtil
 
 		if ( sp[0] != null && DEUtil.isValidNumber( sp[0] ) )
 		{
-			return (int) CSSUtil.convertToPoint( new DimensionValue( Double.parseDouble( sp[0] ),
-					sp[1] ) );
+			return (int) CSSUtil.convertToPoint( new DimensionValue( Double
+					.parseDouble( sp[0] ), sp[1] ) );
 		}
 
 		return 10;// as medium size.
@@ -933,7 +938,8 @@ public class DEUtil
 			{
 				for ( int i = 0; i < DesignerConstants.fontSizes.length - 1; i++ )
 				{
-					if ( DesignChoiceConstants.FONT_SIZE_MEDIUM.equals( DesignerConstants.fontSizes[i][0] ) )
+					if ( DesignChoiceConstants.FONT_SIZE_MEDIUM
+							.equals( DesignerConstants.fontSizes[i][0] ) )
 					{
 						return DesignerConstants.fontSizes[i + 1][0];
 					}
@@ -993,7 +999,8 @@ public class DEUtil
 			{
 				for ( int i = DesignerConstants.fontSizes.length - 1; i > 0; i-- )
 				{
-					if ( DesignChoiceConstants.FONT_SIZE_MEDIUM.equals( DesignerConstants.fontSizes[i][0] ) )
+					if ( DesignChoiceConstants.FONT_SIZE_MEDIUM
+							.equals( DesignerConstants.fontSizes[i][0] ) )
 					{
 						return DesignerConstants.fontSizes[i - 1][0];
 					}
@@ -1063,7 +1070,8 @@ public class DEUtil
 			if ( handle instanceof ModuleHandle )
 			{
 				// return 10.
-				String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+				String size = (String) DesignerConstants.fontMap
+						.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
 				return Integer.parseInt( size );
 			}
 			if ( handle instanceof GroupHandle )
@@ -1102,7 +1110,8 @@ public class DEUtil
 		else
 		{
 			// return 10.
-			String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+			String size = (String) DesignerConstants.fontMap
+					.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
 			return Integer.parseInt( size );
 		}
 	}
@@ -1114,7 +1123,8 @@ public class DEUtil
 			if ( handle instanceof ModuleHandle )
 			{
 				// return 10.
-				String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+				String size = (String) DesignerConstants.fontMap
+						.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
 				return Integer.parseInt( size ) + 1;
 			}
 			if ( handle instanceof GroupHandle )
@@ -1147,16 +1157,19 @@ public class DEUtil
 				{
 					if ( fontSize.equals( DesignerConstants.fontSizes[i][0] ) )
 					{
-						return Integer.parseInt( DesignerConstants.fontSizes[i + 1][1] );
+						return Integer
+								.parseInt( DesignerConstants.fontSizes[i + 1][1] );
 					}
 				}
-				return Integer.parseInt( DesignerConstants.fontSizes[DesignerConstants.fontSizes.length - 1][1] );
+				return Integer
+						.parseInt( DesignerConstants.fontSizes[DesignerConstants.fontSizes.length - 1][1] );
 			}
 		}
 		else
 		{
 			// return 10 + 1.
-			String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+			String size = (String) DesignerConstants.fontMap
+					.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
 			return Integer.parseInt( size ) + 1;
 		}
 	}
@@ -1168,7 +1181,8 @@ public class DEUtil
 			if ( handle instanceof ModuleHandle )
 			{
 				// return 10.
-				String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+				String size = (String) DesignerConstants.fontMap
+						.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
 				return Integer.parseInt( size ) - 1;
 			}
 			if ( handle instanceof GroupHandle )
@@ -1208,7 +1222,8 @@ public class DEUtil
 				{
 					if ( fontSize.equals( DesignerConstants.fontSizes[i][0] ) )
 					{
-						return Integer.parseInt( DesignerConstants.fontSizes[i - 1][1] );
+						return Integer
+								.parseInt( DesignerConstants.fontSizes[i - 1][1] );
 					}
 				}
 				return Integer.parseInt( DesignerConstants.fontSizes[0][1] );
@@ -1217,7 +1232,8 @@ public class DEUtil
 		else
 		{
 			// return 10 -1.
-			String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+			String size = (String) DesignerConstants.fontMap
+					.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
 			return Integer.parseInt( size ) - 1;
 		}
 	}
@@ -1262,7 +1278,8 @@ public class DEUtil
 	 */
 	public static String[] getSystemFontNames( Comparator comparator )
 	{
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment( );
+		GraphicsEnvironment ge = GraphicsEnvironment
+				.getLocalGraphicsEnvironment( );
 
 		String[] fontNames = ge.getAvailableFontFamilyNames( );
 
@@ -1297,13 +1314,9 @@ public class DEUtil
 	 */
 	public static String escape( String str )
 	{
-		String[][] chars = {
-				{
-						"\\\\", "\"", "\'", //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-				}, {
-						"\\\\\\\\", "\\\\\"", "\\\\\'", //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-				}
-		};
+		String[][] chars = {{"\\\\", "\"", "\'", //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+		}, {"\\\\\\\\", "\\\\\"", "\\\\\'", //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+		}};
 		String result = str;
 		for ( int i = 0; i < chars[0].length; i++ )
 		{
@@ -1351,9 +1364,9 @@ public class DEUtil
 	 */
 	public static boolean isParameterGroup( Object transferSource )
 	{
-		return ( transferSource instanceof IDesignElement && ( (IDesignElement) transferSource ).getDefn( )
-				.getName( )
-				.equals( ReportDesignConstants.PARAMETER_GROUP_ELEMENT ) );
+		return ( transferSource instanceof IDesignElement && ( (IDesignElement) transferSource )
+				.getDefn( ).getName( ).equals(
+						ReportDesignConstants.PARAMETER_GROUP_ELEMENT ) );
 	}
 
 	/**
@@ -1371,8 +1384,7 @@ public class DEUtil
 	public static Iterator getStyles( Comparator comparator )
 	{
 		List styles = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getAllStyles( );
+				.getReportDesignHandle( ).getAllStyles( );
 
 		Object[] stylesArray = styles.toArray( );
 
@@ -1514,8 +1526,7 @@ public class DEUtil
 
 	public static List getDataSets( )
 	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
+		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
 				.getAllDataSets( );
 	}
 
@@ -1527,8 +1538,7 @@ public class DEUtil
 	private static Iterator getThemes( AlphabeticallyComparator comparator )
 	{
 		List themes = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getAllThemes( );
+				.getReportDesignHandle( ).getAllThemes( );
 
 		Object[] themesArray = themes.toArray( );
 
@@ -1539,23 +1549,26 @@ public class DEUtil
 		return Arrays.asList( themesArray ).iterator( );
 	}
 
-	
 	/**
 	 * Generates GroupElementHandle for given model list.
+	 * 
 	 * @param modelList
 	 * @return
 	 */
-	public static GroupElementHandle getGroupElementHandle(List modelList)
+	public static GroupElementHandle getGroupElementHandle( List modelList )
 	{
-		if(SessionHandleAdapter.getInstance().getReportDesignHandle() == null)
+		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null )
 		{
-			return null;
+			return new GroupElementHandle( SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( ), Collections.EMPTY_LIST );
 		}
-		return new GroupElementHandle(SessionHandleAdapter.getInstance().getReportDesignHandle(),modelList);
+		return new GroupElementHandle( SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( ), modelList );
 	}
 
 	/**
 	 * Checks if the library is included.
+	 * 
 	 * @param handle
 	 * @return
 	 */
@@ -1566,42 +1579,91 @@ public class DEUtil
 
 	public static List getClasses( )
 	{
-		
-		return getClasses(new AlphabeticallyComparator());
+
+		return getClasses( new AlphabeticallyComparator( ) );
 	}
-	
-	public static List getClasses(Comparator comp)
+
+	public static List getClasses( Comparator comp )
 	{
-		List classes= DesignEngine.getMetaDataDictionary( ).getClasses( );
-		Collections.sort(classes,comp);
-		
+		List classes = DesignEngine.getMetaDataDictionary( ).getClasses( );
+		Collections.sort( classes, comp );
+
 		return classes;
 	}
-	
-	public static List getMethods(IClassInfo classInfo )
+
+	public static List getMethods( IClassInfo classInfo )
 	{
-		return getMethods(classInfo,new AlphabeticallyComparator());
+		return getMethods( classInfo, new AlphabeticallyComparator( ) );
 	}
-	
-	public static List getMethods(IClassInfo classInfo,Comparator comp)
+
+	public static List getMethods( IClassInfo classInfo, Comparator comp )
 	{
-		List methods=classInfo.getMethods();
-		Collections.sort(methods,comp);
-		
+		List methods = classInfo.getMethods( );
+		Collections.sort( methods, comp );
+
 		return methods;
 	}
-	
-	public static List getMembers(IClassInfo classInfo)
+
+	public static List getMembers( IClassInfo classInfo )
 	{
-		return getMembers(classInfo,new AlphabeticallyComparator());
+		return getMembers( classInfo, new AlphabeticallyComparator( ) );
 	}
-	
-	public static List getMembers(IClassInfo classInfo,Comparator comp)
+
+	public static List getMembers( IClassInfo classInfo, Comparator comp )
 	{
-		List members = classInfo.getMembers();
-		Collections.sort(members,comp);
-		
+		List members = classInfo.getMembers( );
+		Collections.sort( members, comp );
+
 		return members;
-		
+
+	}
+
+	/**
+	 * 
+	 * Return DesignElementHandle avaliable method's argument type name.
+	 * 
+	 * @param handle
+	 *            DesignElementHandle.
+	 * @param methodName
+	 * @param argIdex
+	 *            starts from 0.
+	 * @return
+	 */
+	public static String getMethodArgumentType( DesignElementHandle handle,
+			String methodName, int argIndex )
+	{
+		if ( handle instanceof DataSetHandle )
+			return "DataSet";
+		if ( handle instanceof DataSourceHandle )
+			return "DataSource";
+
+		List methods = handle.getDefn( ).getLocalMethods( );
+		for ( Iterator iter = methods.iterator( ); iter.hasNext( ); )
+		{
+			IMethodInfo method = ( (ElementPropertyDefn) iter.next( ) )
+					.getMethodInfo( );
+			if ( method.getName( ).equals( methodName ) )
+			{
+				Iterator argumentListIterator = method.argumentListIterator( );
+				if ( argumentListIterator.hasNext( ) )
+				{
+					IArgumentInfoList argumentInfoList = (IArgumentInfoList) argumentListIterator
+							.next( );
+					int i = 0;
+					for ( Iterator iterator = argumentInfoList
+							.argumentsIterator( ); iterator.hasNext( ); i++ )
+					{
+						Object arg = iterator.next( );
+						if ( argIndex == i )
+						{
+							return ( (IArgumentInfo) arg ).getType( );
+						}
+					}
+
+				}
+				return null;
+			}
+		}
+		return null;
 	}
 }

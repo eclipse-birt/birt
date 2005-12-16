@@ -19,6 +19,7 @@ import java.io.IOException;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -79,7 +80,8 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 	public void run( IAction action )
 	{
 		WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
-				new PublishTemplateWizard( ) );
+				new PublishTemplateWizard( (ReportDesignHandle) SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( ) ) );
 		dialog.setPageSize( 500, 250 );
 		dialog.open( );
 	}
@@ -100,8 +102,7 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 		IEditorPart editor = UIUtil.getActiveEditor( true );
 		if ( editor != null )
 		{
-			return ( editor.getEditorInput( ).getName( )
-					.endsWith( ".rpttemplate" ) ); //$NON-NLS-1$
+			return ( editor.getEditorInput( ).getName( ).endsWith( ".rpttemplate" ) ); //$NON-NLS-1$
 		}
 		return false;
 
@@ -115,14 +116,17 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 class PublishTemplateWizard extends Wizard
 {
 
-	private static final String windowTitle = Messages
-			.getString( "PublishTemplateAction.wizard.title" ); //$NON-NLS-1$
+	private static final String windowTitle = Messages.getString( "PublishTemplateAction.wizard.title" ); //$NON-NLS-1$
+	private static final String PAGE_TITLE = Messages.getString( "PublishTemplateAction.wizard.page.title" ); //$NON-NLS-1$
+	private static final String PAGE_DESC = Messages.getString( "PublishTemplateAction.wizard.page.desc" ); //$NON-NLS-1$
 
-	private PublishPage page;
+	private WizardReportSettingPage page;
+	private ReportDesignHandle handle;
 
-	public PublishTemplateWizard( )
+	public PublishTemplateWizard( ReportDesignHandle handle )
 	{
 		setWindowTitle( windowTitle );
+		this.handle = handle;
 	}
 
 	/*
@@ -132,7 +136,9 @@ class PublishTemplateWizard extends Wizard
 	 */
 	public void addPages( )
 	{
-		page = new PublishPage( );
+		page = new WizardReportSettingPage( handle );
+		page.setTitle( PAGE_TITLE );
+		page.setMessage( PAGE_DESC );
 		addPage( page );
 	}
 
@@ -144,13 +150,13 @@ class PublishTemplateWizard extends Wizard
 	public boolean performFinish( )
 	{
 		// copy to template folder
-		String templateFolderPath = ReportPlugin.getDefault( ).getTemplatePreference();
-				
+		String templateFolderPath = ReportPlugin.getDefault( )
+				.getTemplatePreference( );
 
 		String filePath = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( ).getFileName( );
-		String fileName = filePath.substring( filePath
-				.lastIndexOf( File.separator ) );
+				.getReportDesignHandle( )
+				.getFileName( );
+		String fileName = filePath.substring( filePath.lastIndexOf( File.separator ) );
 		try
 		{
 			copyFile( filePath, templateFolderPath + fileName );
@@ -195,16 +201,17 @@ class PublishTemplateWizard extends Wizard
 			SemanticException, IOException
 	{
 		ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
-				.getSessionHandle( ).openDesign( fileName );
+				.getSessionHandle( )
+				.openDesign( fileName );
 		if ( !page.getDisplayName( ).equals( "" ) ) //$NON-NLS-1$
 			handle.setDisplayName( page.getDisplayName( ) );
 		if ( !page.getDescription( ).equals( "" ) ) //$NON-NLS-1$
-			handle.setProperty( ModuleHandle.DESCRIPTION_PROP, page
-					.getDescription( ) );
+			handle.setProperty( ModuleHandle.DESCRIPTION_PROP,
+					page.getDescription( ) );
 		if ( !page.getPreviewImagePath( ).equals( "" ) ) //$NON-NLS-1$
 			handle.setIconFile( page.getPreviewImagePath( ) );
-//		if ( !page.getCheetSheetPath( ).equals( "" ) ) //$NON-NLS-1$
-//			handle.setCheetSheet( page.getCheetSheetPath( ) );
+		// if ( !page.getCheetSheetPath( ).equals( "" ) ) //$NON-NLS-1$
+		// handle.setCheetSheet( page.getCheetSheetPath( ) );
 
 		handle.save( );
 		handle.close( );
@@ -227,30 +234,29 @@ class PublishTemplateWizard extends Wizard
 
 /**
  * PublishPage
+ * 
+ * @deprecated change to
+ *             org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage
  */
 class PublishPage extends WizardPage
 {
 
-	private static final String PAGE_TITLE = Messages
-			.getString( "PublishTemplateAction.wizard.page.title" ); //$NON-NLS-1$
-	private static final String PAGE_DESC = Messages
-			.getString( "PublishTemplateAction.wizard.page.desc" ); //$NON-NLS-1$
-	private static final String LABEL_DISPLAY_NAME = Messages
-			.getString( "PublishTemplateAction.wizard.page.label.dispalyName" ); //$NON-NLS-1$
-	private static final String LABEL_DESCRIPTION = Messages
-			.getString( "PublishTemplateAction.wizard.page.label.description" ); //$NON-NLS-1$
-	private static final String LABEL_IMAGE = Messages
-			.getString( "PublishTemplateAction.wizard.page.label.image" ); //$NON-NLS-1$
-	private static final String BTN_CHOOSE = Messages
-			.getString( "PublishTemplateAction.wizard.page.btn.browse" ); //$NON-NLS-1$
-	private static final String BROWSE_TITLE = Messages
-			.getString( "PublishTemplateAction.wizard.page.browse.title" ); //$NON-NLS-1$
+	private static final String PAGE_TITLE = Messages.getString( "PublishTemplateAction.wizard.page.title" ); //$NON-NLS-1$
+	private static final String PAGE_DESC = Messages.getString( "PublishTemplateAction.wizard.page.desc" ); //$NON-NLS-1$
+	private static final String LABEL_DISPLAY_NAME = Messages.getString( "PublishTemplateAction.wizard.page.label.dispalyName" ); //$NON-NLS-1$
+	private static final String LABEL_DESCRIPTION = Messages.getString( "PublishTemplateAction.wizard.page.label.description" ); //$NON-NLS-1$
+	private static final String LABEL_IMAGE = Messages.getString( "PublishTemplateAction.wizard.page.label.image" ); //$NON-NLS-1$
+	private static final String BTN_CHOOSE = Messages.getString( "PublishTemplateAction.wizard.page.btn.browse" ); //$NON-NLS-1$
+	private static final String BROWSE_TITLE = Messages.getString( "PublishTemplateAction.wizard.page.browse.title" ); //$NON-NLS-1$
 	private static final String IMAGE_ERROR = "PublishTemplateAction.wizard.page.imageError"; //$NON-NLS-1$
-//	private static final String LABEL_CHEATSHEET = Messages
-//			.getString( "PublishTemplateAction.wizard.page.label.cheatsheet" ); //$NON-NLS-1$
-//	private static final String BROWSE_CS_TITLE = Messages
-//			.getString( "PublishTemplateAction.wizard.page.browse.cheatsheet.title" ); //$NON-NLS-1$
-//	private static final String CHEATSHEET_ERROR = "PublishTemplateAction.wizard.page.cheatsheetError"; //$NON-NLS-1$
+	// private static final String LABEL_CHEATSHEET = Messages
+	// .getString( "PublishTemplateAction.wizard.page.label.cheatsheet" );
+	// //$NON-NLS-1$
+	// private static final String BROWSE_CS_TITLE = Messages
+	// .getString( "PublishTemplateAction.wizard.page.browse.cheatsheet.title"
+	// ); //$NON-NLS-1$
+	// private static final String CHEATSHEET_ERROR =
+	// "PublishTemplateAction.wizard.page.cheatsheetError"; //$NON-NLS-1$
 
 	private static final String STR_EMPTY = ""; //$NON-NLS-1$
 
@@ -258,7 +264,8 @@ class PublishPage extends WizardPage
 	private Text previewImageText;
 	private Text descText;
 	private Text nameText;
-	//private Text cheatSheetText;
+
+	// private Text cheatSheetText;
 
 	public PublishPage( )
 	{
@@ -293,8 +300,7 @@ class PublishPage extends WizardPage
 		new Label( container, SWT.NONE ).setText( LABEL_DESCRIPTION );
 		descText = createText( container, 2, 5 );
 		if ( module.getProperty( ModuleHandle.DESCRIPTION_PROP ) != null )
-			descText.setText( (String) module
-					.getProperty( ModuleHandle.DESCRIPTION_PROP ) );
+			descText.setText( (String) module.getProperty( ModuleHandle.DESCRIPTION_PROP ) );
 
 		new Label( container, SWT.NONE ).setText( LABEL_IMAGE );
 		previewImageText = createText( container, 1, 1 );
@@ -315,7 +321,8 @@ class PublishPage extends WizardPage
 			public void widgetSelected( SelectionEvent e )
 			{
 				FileDialog dialog = new FileDialog( PlatformUI.getWorkbench( )
-						.getDisplay( ).getActiveShell( ) );
+						.getDisplay( )
+						.getActiveShell( ) );
 				dialog.setText( BROWSE_TITLE );
 				dialog.setFilterExtensions( new String[]{
 						"*.gif", "*.jpg", "*.png", "*.ico", "*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
@@ -334,40 +341,40 @@ class PublishPage extends WizardPage
 			}
 		} );
 
-//		new Label( container, SWT.NONE ).setText( LABEL_CHEATSHEET );
-//		cheatSheetText = createText( container, 1, 1 );
-//		if ( module.getCheetSheet( ) != null )
-//			cheatSheetText.setText( module.getCheetSheet( ) );
-//		cheatSheetText.addModifyListener( new ModifyListener( ) {
-//
-//			public void modifyText( ModifyEvent e )
-//			{
-//				validate( );
-//			}
-//		} );
-//
-//		Button chooseBtn2 = new Button( container, SWT.NONE );
-//		chooseBtn2.setText( BTN_CHOOSE );
-//		chooseBtn2.addSelectionListener( new SelectionListener( ) {
-//
-//			public void widgetSelected( SelectionEvent e )
-//			{
-//				FileDialog dialog = new FileDialog( PlatformUI.getWorkbench( )
-//						.getDisplay( ).getActiveShell( ) );
-//				dialog.setText( BROWSE_CS_TITLE );
-//				String fileName = dialog.open( );
-//				if ( fileName == null )
-//				{
-//					return;
-//				}
-//				cheatSheetText.setText( fileName );
-//			}
-//
-//			public void widgetDefaultSelected( SelectionEvent e )
-//			{
-//
-//			}
-//		} );
+		// new Label( container, SWT.NONE ).setText( LABEL_CHEATSHEET );
+		// cheatSheetText = createText( container, 1, 1 );
+		// if ( module.getCheetSheet( ) != null )
+		// cheatSheetText.setText( module.getCheetSheet( ) );
+		// cheatSheetText.addModifyListener( new ModifyListener( ) {
+		//
+		// public void modifyText( ModifyEvent e )
+		// {
+		// validate( );
+		// }
+		// } );
+		//
+		// Button chooseBtn2 = new Button( container, SWT.NONE );
+		// chooseBtn2.setText( BTN_CHOOSE );
+		// chooseBtn2.addSelectionListener( new SelectionListener( ) {
+		//
+		// public void widgetSelected( SelectionEvent e )
+		// {
+		// FileDialog dialog = new FileDialog( PlatformUI.getWorkbench( )
+		// .getDisplay( ).getActiveShell( ) );
+		// dialog.setText( BROWSE_CS_TITLE );
+		// String fileName = dialog.open( );
+		// if ( fileName == null )
+		// {
+		// return;
+		// }
+		// cheatSheetText.setText( fileName );
+		// }
+		//
+		// public void widgetDefaultSelected( SelectionEvent e )
+		// {
+		//
+		// }
+		// } );
 
 		nameText.forceFocus( );
 		setControl( container );
@@ -387,16 +394,15 @@ class PublishPage extends WizardPage
 
 	public String getPreviewImagePath( )
 	{
-		return previewImageText.getText( ) == null
-				? STR_EMPTY
+		return previewImageText.getText( ) == null ? STR_EMPTY
 				: previewImageText.getText( ).trim( );
 	}
 
-//	public String getCheetSheetPath( )
-//	{
-//		return cheatSheetText.getText( ) == null ? STR_EMPTY : cheatSheetText
-//				.getText( ).trim( );
-//	}
+	// public String getCheetSheetPath( )
+	// {
+	// return cheatSheetText.getText( ) == null ? STR_EMPTY : cheatSheetText
+	// .getText( ).trim( );
+	// }
 
 	private Text createText( Composite container, int column, int row )
 	{
@@ -426,7 +432,9 @@ class PublishPage extends WizardPage
 		else if ( !new File( previewImageText.getText( ) ).exists( ) )
 		{
 			setErrorMessage( Messages.getFormattedString( IMAGE_ERROR,
-					new String[]{previewImageText.getText( )} ) );
+					new String[]{
+						previewImageText.getText( )
+					} ) );
 			setPageComplete( false );
 			return;
 		}
@@ -436,22 +444,22 @@ class PublishPage extends WizardPage
 			setPageComplete( true );
 		}
 
-//		if ( cheatSheetText.getText( ).trim( ).length( ) == 0 )
-//		{
-//			setErrorMessage( null );
-//			setPageComplete( true );
-//		}
-//		else if ( !new File( cheatSheetText.getText( ) ).exists( ) )
-//		{
-//			setErrorMessage( Messages.getFormattedString( CHEATSHEET_ERROR,
-//					new String[]{cheatSheetText.getText( )} ) );
-//			setPageComplete( false );
-//			return;
-//		}
-//		else
+		// if ( cheatSheetText.getText( ).trim( ).length( ) == 0 )
+		// {
+		// setErrorMessage( null );
+		// setPageComplete( true );
+		// }
+		// else if ( !new File( cheatSheetText.getText( ) ).exists( ) )
+		// {
+		// setErrorMessage( Messages.getFormattedString( CHEATSHEET_ERROR,
+		// new String[]{cheatSheetText.getText( )} ) );
+		// setPageComplete( false );
+		// return;
+		// }
+		// else
 		{
 			setErrorMessage( null );
 			setPageComplete( true );
 		}
 	}
-};
+}
