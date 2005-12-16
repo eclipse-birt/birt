@@ -17,7 +17,7 @@ import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.api.script.element.ICell;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ICellEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.ICellInstance;
-import org.eclipse.birt.report.engine.script.element.Cell;
+import org.eclipse.birt.report.engine.script.internal.element.Cell;
 import org.eclipse.birt.report.engine.script.internal.instance.CellInstance;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;

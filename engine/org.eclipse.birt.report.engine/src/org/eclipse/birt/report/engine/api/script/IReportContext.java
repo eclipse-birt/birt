@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.api.script;
 
+import java.util.Locale;
 import java.util.Map;
 import java.io.Serializable;
 
@@ -22,16 +23,40 @@ import java.io.Serializable;
  */
 public interface IReportContext
 {
+	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	Object getParameterValue(String name);
+	
+	/**
+	 * 
+	 * @param name
+	 * @param value
+	 */
+	void setParameterValue(String name, Object value);
 
 	/**
-	 * Get the report parameter map
+	 * 
+	 * @param varName
+	 * @return
 	 */
-	Map getParams( );
-
+	Object getConfigVariableValue(String varName);
+	
 	/**
-	 * Get the config map
+	 * 
+	 * @return
 	 */
-	Map getConfig( );
+	Locale getLocale();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	String getOutputFormat();
+
 
 	/** 
 	 * Get the application context

@@ -12,7 +12,10 @@
 package org.eclipse.birt.report.engine.script.internal.instance;
 
 import java.lang.String;
+import java.util.Map;
+
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.api.script.instance.IReportItemInstance;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.content.impl.AbstractContent;
@@ -141,6 +144,13 @@ public class ReportItemInstance implements IReportItemInstance
 
 	public Object getNamedExpressionValue( String name )
 	{
+		Object generatedBy = content.getGenerateBy( );
+		if ( generatedBy instanceof ReportElementDesign )
+		{
+			ReportElementDesign design = ( ReportElementDesign ) generatedBy;
+			Map m = design.getNamedExpressions( );
+			return m.get( name );
+		}
 		// TODO Implement
 		return null;
 	}

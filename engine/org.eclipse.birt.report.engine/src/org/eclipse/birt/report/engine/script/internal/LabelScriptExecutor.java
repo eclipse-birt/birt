@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.api.script.instance.ILabelInstance;
 import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.script.element.Label;
+import org.eclipse.birt.report.engine.script.internal.element.Label;
 import org.eclipse.birt.report.engine.script.internal.instance.LabelInstance;
 import org.eclipse.birt.report.model.api.LabelHandle;
 

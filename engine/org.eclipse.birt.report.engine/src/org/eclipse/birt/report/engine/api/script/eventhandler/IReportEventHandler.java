@@ -12,11 +12,11 @@
 package org.eclipse.birt.report.engine.api.script.eventhandler;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 
 /**
-* Script event handler interface for a report
-*/
+ * Script event handler interface for a report
+ */
 public interface IReportEventHandler
 {
 	/**
@@ -27,8 +27,7 @@ public interface IReportEventHandler
 	/**
 	 * Handle the beforeFactory event
 	 */
-	void beforeFactory( ReportDesignHandle report,
-			IReportContext reportContext );
+	void beforeFactory( IReportDesign report, IReportContext reportContext );
 
 	/**
 	 * Handle the afterFactory event
@@ -44,7 +43,7 @@ public interface IReportEventHandler
 	 * Handle the afterOpenDoc event
 	 */
 	void afterOpenDoc( IReportContext reportContext );
-	
+
 	/**
 	 * Handle the beforeCloseDoc event
 	 */

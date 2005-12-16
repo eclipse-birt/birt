@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance;
 import org.eclipse.birt.report.engine.content.impl.DataContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.script.element.DataItem;
+import org.eclipse.birt.report.engine.script.internal.element.DataItem;
 import org.eclipse.birt.report.engine.script.internal.instance.DataItemInstance;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 

@@ -5,86 +5,8 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 /**
  * Represents a the design of a report element in the scripting environment
  */
-public interface IReportElement
+public interface IReportElement extends IDesignElement
 {
-
-	IScriptStyleDesign getStyle( );
-
-	/**
-	 * Returns the name of this element. Returns <code>null</code> if the
-	 * element does not have a name. Many elements do not require a name. The
-	 * name does not inherit. If this element does not have a name, it will not
-	 * inherit the name of its parent element.
-	 * 
-	 * @return the element name, or null if the name is not set
-	 */
-
-	String getName( );
-
-	/**
-	 * Gets the name of this element. The returned element name will be the same
-	 * as <CODE>getName()</CODE>, plus the namespace of the module that the
-	 * elment is contained, if any. If the element is existed in the current
-	 * module,this method and <CODE>getName()</CODE> will return identical
-	 * results.
-	 * 
-	 * @return the qualified name of thie element.
-	 */
-
-	String getQualifiedName( );
-
-	/**
-	 * Sets the name of this element. If the name is <code>null</code>, then
-	 * the name is cleared if this element does not require a name.
-	 * 
-	 * @param name
-	 *            the new name
-	 * @throws ScriptException
-	 *             if the name is duplicate, or if the name is <code>null</code>
-	 *             and this element requires a name.
-	 */
-
-	void setName( String name ) throws ScriptException;
-
-	/**
-	 * Sets the resource key of the display name.
-	 * 
-	 * @param displayNameKey
-	 *            the resource key of the display name
-	 * @throws ScriptException
-	 *             if the display name resource-key property is locked or not
-	 *             defined on this element.
-	 */
-
-	void setDisplayNameKey( String displayNameKey ) throws ScriptException;
-
-	/**
-	 * Gets the resource key of the display name.
-	 * 
-	 * @return the resource key of the display name
-	 */
-
-	String getDisplayNameKey( );
-
-	/**
-	 * Sets the display name.
-	 * 
-	 * @param displayName
-	 *            the display name
-	 * @throws ScriptException
-	 *             if the display name property is locked or not defined on this
-	 *             element.
-	 */
-
-	void setDisplayName( String displayName ) throws ScriptException;
-
-	/**
-	 * Gets the display name.
-	 * 
-	 * @return the display name
-	 */
-
-	String getDisplayName( );
 
 	/**
 	 * Sets the custom XML.
@@ -125,12 +47,44 @@ public interface IReportElement
 
 	String getComments( );
 
-	String getNamedExpression( String name );
+	/**
+	 * Sets the resource key of the display name.
+	 * 
+	 * @param displayNameKey
+	 *            the resource key of the display name
+	 * @throws ScriptException
+	 *             if the display name resource-key property is locked or not
+	 *             defined on this element.
+	 */
 
-	void setNamedExpression( String name, String exp );
+	void setDisplayNameKey( String displayNameKey ) throws ScriptException;
 
-	Object getUserProperty( String name );
+	/**
+	 * Gets the resource key of the display name.
+	 * 
+	 * @return the resource key of the display name
+	 */
 
-	void setUserProperty( String name, Object value );
+	String getDisplayNameKey( );
+
+	/**
+	 * Sets the display name.
+	 * 
+	 * @param displayName
+	 *            the display name
+	 * @throws ScriptException
+	 *             if the display name property is locked or not defined on this
+	 *             element.
+	 */
+
+	void setDisplayName( String displayName ) throws ScriptException;
+
+	/**
+	 * Gets the display name.
+	 * 
+	 * @return the display name
+	 */
+
+	String getDisplayName( );
 
 }

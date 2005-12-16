@@ -20,7 +20,7 @@ import org.eclipse.birt.report.engine.api.script.instance.IRowInstance;
 import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.script.element.Row;
+import org.eclipse.birt.report.engine.script.internal.element.Row;
 import org.eclipse.birt.report.engine.script.internal.instance.RowInstance;
 import org.eclipse.birt.report.model.api.RowHandle;
 

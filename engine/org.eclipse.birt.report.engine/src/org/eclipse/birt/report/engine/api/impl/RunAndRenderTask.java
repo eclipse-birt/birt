@@ -113,25 +113,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 
 		// register default parameters
 		usingParameterValues( );
-
-		// After setting up the parameter values and before executing the
-		// report, we need to call onPrepare on all items.
-		// Create IReportContext and set it to execution context
-		ReportContextImpl reportContext = new ReportContextImpl(
-				executionContext.getParams( ), config.getConfigMap( ),
-				executionContext.getAppContext( ) );
-		executionContext.setReportContext( reportContext );
-		// Call onPrepare in the design tree
-		ScriptedDesignVisitor visitor = new ScriptedDesignVisitor(
-				copiedDesignHandle, executionContext );
-		visitor.apply( copiedDesignHandle.getRoot( ) );
-
-		// setup runtime configurations
-		// user defined configs are overload using system properties.
-		executionContext.getConfigs( ).putAll( runnable.getTestConfig( ) );
-		executionContext.getConfigs( ).putAll( System.getProperties( ) );
-
-		// Set up rendering environment and check for supported format
+		//		 Set up rendering environment and check for supported format
 		executionContext.setRenderOption( renderOption );
 		String format = renderOption.getOutputFormat( );
 		if ( format == null || format.length( ) == 0 ) // $NON-NLS-1
@@ -144,6 +126,25 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		{
 			format = "fop"; // $NON-NLS-1
 		}
+		// After setting up the parameter values and before executing the
+		// report, we need to call onPrepare on all items.
+		// Create IReportContext and set it to execution context
+		ReportContextImpl reportContext = new ReportContextImpl(
+				executionContext.getParams( ), config.getConfigMap( ),
+				executionContext.getAppContext( ), executionContext.getLocale(), 
+				format );
+		executionContext.setReportContext( reportContext );
+		// Call onPrepare in the design tree
+		ScriptedDesignVisitor visitor = new ScriptedDesignVisitor(
+				copiedDesignHandle, executionContext );
+		visitor.apply( copiedDesignHandle.getRoot( ) );
+
+		// setup runtime configurations
+		// user defined configs are overload using system properties.
+		executionContext.getConfigs( ).putAll( runnable.getTestConfig( ) );
+		executionContext.getConfigs( ).putAll( System.getProperties( ) );
+
+		
 
 		if ( !ExtensionManager.getInstance( ).getSupportedFormat()
 				.contains( format ) )

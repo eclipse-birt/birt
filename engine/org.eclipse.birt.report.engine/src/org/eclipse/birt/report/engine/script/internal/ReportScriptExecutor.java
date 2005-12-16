@@ -14,8 +14,10 @@ package org.eclipse.birt.report.engine.script.internal;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IReportEventHandler;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.script.internal.element.ReportDesign;
 
 public class ReportScriptExecutor extends ScriptExecutor
 {
@@ -41,13 +43,14 @@ public class ReportScriptExecutor extends ScriptExecutor
 	{
 		try
 		{
+			IReportDesign reportDesign = new ReportDesign( report );
 			// TODO: Wrap report
-			if ( handleJS( report, report.getBeforeFactory( ), context )
+			if ( handleJS( reportDesign, report.getBeforeFactory( ), context )
 					.didRun( ) )
 				return;
 			IReportEventHandler eh = ( IReportEventHandler ) getInstance( report );
 			if ( eh != null )
-				eh.beforeFactory( report, context.getReportContext( ) );
+				eh.beforeFactory( reportDesign, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );

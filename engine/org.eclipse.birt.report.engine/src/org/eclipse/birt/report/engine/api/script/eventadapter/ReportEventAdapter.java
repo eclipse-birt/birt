@@ -11,8 +11,8 @@
 package org.eclipse.birt.report.engine.api.script.eventadapter;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IReportEventHandler;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
  * Default (empty) implementation of the IReportEventHandler interface
@@ -25,7 +25,7 @@ public class ReportEventAdapter implements IReportEventHandler
 
 	}
 
-	public void beforeFactory( ReportDesignHandle report,
+	public void beforeFactory( IReportDesign report,
 			IReportContext reportContext )
 	{
 

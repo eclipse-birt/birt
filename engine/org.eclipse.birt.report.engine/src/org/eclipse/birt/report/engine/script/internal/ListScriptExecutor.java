@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.api.script.instance.IListInstance;
 import org.eclipse.birt.report.engine.content.impl.ContainerContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.script.element.List;
+import org.eclipse.birt.report.engine.script.internal.element.List;
 import org.eclipse.birt.report.engine.script.internal.instance.ListInstance;
 import org.eclipse.birt.report.model.api.ListHandle;
 

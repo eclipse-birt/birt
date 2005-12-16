@@ -20,7 +20,7 @@ import org.eclipse.birt.report.engine.api.script.instance.IGridInstance;
 import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.script.element.Grid;
+import org.eclipse.birt.report.engine.script.internal.element.Grid;
 import org.eclipse.birt.report.engine.script.internal.instance.GridInstance;
 import org.eclipse.birt.report.model.api.GridHandle;
 

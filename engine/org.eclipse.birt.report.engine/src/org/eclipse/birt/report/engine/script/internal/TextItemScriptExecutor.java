@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.content.impl.AbstractContent;
 import org.eclipse.birt.report.engine.content.impl.TextContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.script.element.TextItem;
+import org.eclipse.birt.report.engine.script.internal.element.TextItem;
 import org.eclipse.birt.report.engine.script.internal.instance.TextItemInstance;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.script.internal;
 
 import java.io.Serializable;
+import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -33,23 +34,20 @@ public class ReportContextImpl implements IReportContext
 
 	private Map persistantMap;
 
-	public ReportContextImpl( Map params, Map config, Map appContext )
+	private Locale locale;
+
+	private String outputFormat;
+
+	public ReportContextImpl( Map params, Map config, Map appContext,
+			Locale locale, String outputFormat )
 	{
 		this.params = params;
 		this.config = config;
 		this.appContext = appContext;
+		this.locale = locale;
+		this.outputFormat = outputFormat;
 		runtimeMap = new HashMap( );
 		persistantMap = new HashMap( );
-	}
-
-	public Map getParams( )
-	{
-		return params;
-	}
-
-	public Map getConfig( )
-	{
-		return config;
 	}
 
 	public Map getAppContext( )
@@ -106,5 +104,30 @@ public class ReportContextImpl implements IReportContext
 	public void setRegisteredPersistantObjects( Map persistantMap )
 	{
 		this.persistantMap = persistantMap;
+	}
+
+	public Object getParameterValue( String name )
+	{
+		return params.get( name );
+	}
+
+	public void setParameterValue( String name, Object value )
+	{
+		params.put( name, value );
+	}
+
+	public Object getConfigVariableValue( String varName )
+	{
+		return config.get( varName );
+	}
+
+	public Locale getLocale( )
+	{
+		return locale;
+	}
+
+	public String getOutputFormat( )
+	{
+		return outputFormat;
 	}
 }

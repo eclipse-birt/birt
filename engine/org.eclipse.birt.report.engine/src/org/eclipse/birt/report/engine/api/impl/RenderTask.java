@@ -127,13 +127,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		// register default parameters
 		usingParameterValues( );
 
-		// After setting up the parameter values and before executing the
-		// report, we need to call onPrepare on all items.
-		// Create IReportContext and set it to execution context
-		ReportContextImpl reportContext = new ReportContextImpl(
-				executionContext.getParams( ), config.getConfigMap( ),
-				executionContext.getAppContext( ) );
-		executionContext.setReportContext( reportContext );
+		
 
 		// setup runtime configurations
 		// user defined configs are overload using system properties.
@@ -163,6 +157,14 @@ public class RenderTask extends EngineTask implements IRenderTask
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
 		}
 
+		//After setting up the parameter values and before executing the
+		// report, we need to call onPrepare on all items.
+		// Create IReportContext and set it to execution context
+		ReportContextImpl reportContext = new ReportContextImpl(
+				executionContext.getParams( ), config.getConfigMap( ),
+				executionContext.getAppContext( ), executionContext.getLocale(), format );
+		executionContext.setReportContext( reportContext );
+		
 		IContentEmitter emitter = ExtensionManager.getInstance( )
 				.createEmitter( format, emitterID );
 		if ( emitter == null )

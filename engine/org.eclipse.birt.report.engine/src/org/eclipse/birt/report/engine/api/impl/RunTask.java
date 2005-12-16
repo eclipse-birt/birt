@@ -128,7 +128,8 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		// Create IReportContext and set it to execution context
 		ReportContextImpl reportContext = new ReportContextImpl(
 				executionContext.getParams( ), executionContext.getConfigs(),
-				executionContext.getAppContext( ) );
+				executionContext.getAppContext( ), executionContext.getLocale(), 
+				null );
 		executionContext.setReportContext( reportContext );
 		// Call onPrepare in the design tree
 		ScriptedDesignVisitor visitor = new ScriptedDesignVisitor( copiedDesignHandle, executionContext );
