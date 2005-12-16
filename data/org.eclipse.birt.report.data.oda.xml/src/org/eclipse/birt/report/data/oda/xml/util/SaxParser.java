@@ -13,6 +13,7 @@ package org.eclipse.birt.report.data.oda.xml.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.MalformedURLException;
@@ -104,9 +105,10 @@ public class SaxParser extends DefaultHandler implements Runnable
 			{
 				url = new URL( xmlFile );
 			}
-			
-			file = new InputStreamReader( url.openStream() );
 		
+			InputStream is = getInputStream( url );
+			file = new InputStreamReader( is );
+				
 			xr.parse( new InputSource( file ) );
 
 		}
@@ -131,6 +133,36 @@ public class SaxParser extends DefaultHandler implements Runnable
 			this.alive = false;
 			spConsumer.wakeup( );
 		}
+	}
+
+	/**
+	 * This method remove the microsoft utf bom from the input stream, if any.
+	 * 
+	 * @param is
+	 * @return 
+	 * @throws IOException
+	 */
+	private InputStream getInputStream( URL url ) throws IOException
+	{
+		InputStream is = url.openStream();
+		byte[] buff = new byte[3];
+		is.read( buff );
+		//The UTF8BOM will add three bytes, -17,-69,-65 to the header of a file.
+		boolean isUTF8BOM = (buff[0] == -17 && buff[1] == -69 && buff[2]== -65);
+	//	boolean isUTF16BOM = (buff[0] == -1 && buff[1] == -2)||(buff[0] == -2&&buff[1] == -1);
+	//	if(isUTF16BOM)
+	//	{
+	//		is = url.openStream();
+	//		byte[] b = new byte[10];
+	//		
+	//		is.read( b );
+	//		b = null;
+	//	}else 
+		if ( !isUTF8BOM )
+		{
+			is = url.openStream();
+		}
+		return is;
 	}
 
 	/*
