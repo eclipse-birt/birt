@@ -604,14 +604,19 @@ public final class DataSetIterator implements Iterator
 			cdta[i++] = ( cValue == null ) ? null : new CDateTime( cValue );
 		}
 
-		final int iUnit = CDateTime.computeUnit( cdta ); // CDateTime.getDifference(
+		// Fix bugzilla: 120919
+		// !Don't alter original data here, use format specifier to get expected
+		// values instead.
+		//
+		// final int iUnit = CDateTime.computeUnit( cdta ); //
+		// CDateTime.getDifference(
 		// new CDateTime( caMin
 		// ), new
 		// CDateTime( caMax ) );
-		for ( i = 0; i < cdta.length; i++ )
-		{
-			cdta[i].clearBelow( iUnit );
-		}
+		// for ( i = 0; i < cdta.length; i++ )
+		// {
+		// cdta[i].clearBelow( iUnit );
+		// }
 
 		clear( );
 		ca = cdta;
