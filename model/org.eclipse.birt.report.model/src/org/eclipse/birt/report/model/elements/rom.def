@@ -919,6 +919,7 @@
     <Member dataType="Object[]" displayNameID="Class.GlobalBirt.params" name="params" toolTipID="Class.GlobalBirt.params.toolTip" />    
     <Member dataType="Object[]" displayNameID="Class.GlobalBirt.config" name="config" toolTipID="Class.GlobalBirt.config.toolTip" />
     <Member dataType="Report" displayNameID="Class.GlobalBirt.report" name="report" toolTipID="Class.GlobalBirt.report.toolTip" />
+    <Member dataType="Object" displayNameID="Class.GlobalBirt.this" name="this" toolTipID="Class.GlobalBirt.this.toolTip" />
   </Class>  	  
   <!--
   <Class displayNameID="Class.ResultSetDefn" name="ResultSetDefn" toolTipID="Class.ResultSetDefn.toolTip">	
@@ -1763,7 +1764,7 @@
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.DataSource" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="DataSource" nameSpace="dataSource" since="1.0" xmlName="data-source">
     <Method context="factory" displayNameID="Element.DataSource.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.DataSource.beforeOpen.toolTip" >
-      <Argument name="handle" tagID="Element.DataSource.beforeOpen.handle" type="org.eclipse.birt.report.engine.api.script.element.IDataSource"/>
+      <Argument name="handle" tagID="Element.DataSource.beforeOpen.handle" type="DataSource"/>
       <Argument name="reportContext" tagID="Element.DataSource.beforeOpen.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.DataSource.beforeOpen.object" type="Object"/>
 	</Method>		
@@ -1798,7 +1799,7 @@
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.DataSet" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="DataSet" nameSpace="dataSet" since="1.0" xmlName="data-set">
     <Method context="factory" displayNameID="Element.DataSet.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.DataSet.beforeOpen.toolTip" >
-      <Argument name="handle" tagID="Element.DataSet.beforeOpen.handle" type="org.eclipse.birt.report.engine.api.script.element.IDataSet"/>
+      <Argument name="handle" tagID="Element.DataSet.beforeOpen.handle" type="DataSet"/>
       <Argument name="reportContext" tagID="Element.DataSet.beforeOpen.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.DataSet.beforeOpen.object" type="Object"/>
 	</Method>
