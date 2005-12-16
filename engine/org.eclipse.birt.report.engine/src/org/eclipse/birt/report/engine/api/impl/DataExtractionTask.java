@@ -1,12 +1,27 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.report.engine.api.ComponentID;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
@@ -16,7 +31,9 @@ import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.ReportEngine;
+import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 
 
@@ -27,6 +44,10 @@ public class DataExtractionTask extends EngineTask
 	protected ReportDocumentReader reportDocReader;
 	protected ComponentID componentId;
 	protected InstanceID instanceId;
+	protected String[] selectedColumns;
+	protected Report report;
+	protected List resultMetaList;
+	protected HashMap contentMap;
 	
 	
 	public DataExtractionTask( ReportEngine engine, IReportRunnable runnable,
@@ -39,10 +60,14 @@ public class DataExtractionTask extends EngineTask
 		executionContext.setReportDocument( reportDocReader );
 		executionContext.setFactoryMode( false );
 		executionContext.setPresentationMode( true );
-		Report report = new ReportParser( ).parse( ( (ReportRunnable) runnable )
+		report = new ReportParser( ).parse( ( (ReportRunnable) runnable )
 				.getReport( ) );
+		
+		populateContent( );
 		executionContext.setReport( report );
 		setParameterValues( reportDocReader.getParameterValues( ) );
+		IDataEngine dataEngine = executionContext.getDataEngine();
+		dataEngine.prepare( report, context );
 	}
 	
 	public void setInstanceID( InstanceID iid )
@@ -52,39 +77,69 @@ public class DataExtractionTask extends EngineTask
 
 	public List getMetaData( )
 	{
-		try
+		if ( resultMetaList == null )
 		{
-			IExtractionResults result = extract( );
-			if ( result == null )
-				return null;
+			resultMetaList = new ArrayList( );
+			ResultMetaData metaData = null;
+			if ( selectedColumns == null && instanceId != null )
+			{
+				try
+				{
+					ReportItemDesign rptItem = getDesignItem( instanceId
+							.getComponentID( ) );
+					assert rptItem != null;
 
-			List listMeta = new ArrayList( );
-			listMeta.add( result.getResultMetaData( ) );
-			return listMeta;
+					IBaseQueryDefinition query = rptItem.getQuery( );
+					validateSelectedColumns( query );		
+				}
+				catch ( EngineException e )
+				{
+					e.printStackTrace( );
+				}
+			}
+			
+			if( selectedColumns == null )
+			{
+				return null;
+			}
+			else
+			{
+				metaData = new ResultMetaData( null,
+						selectedColumns );
+				resultMetaList.add( metaData );
+			}
 		}
-		catch ( BirtException be )
-		{
-			be.printStackTrace( );
-		}
-		return null;
+		return resultMetaList;
 	}
 
 	public void selectColumns( String[] columnNames )
 	{
-		//TODO  unsupported currently
-		// throw new UnsupportedOperationException( );
+		selectedColumns = columnNames;
 	}
 
 	public IExtractionResults extract( ) throws EngineException
 	{
 		if( instanceId == null ) 
 			return null;
+		
+		assert executionContext.getDataEngine() != null;
 		DataEngine dataEngine = executionContext.getDataEngine().getDataEngine();
+		
+		ReportItemDesign rptItem = getDesignItem( instanceId.getComponentID() );
+		assert rptItem != null;
+		
+		IBaseQueryDefinition query = rptItem.getQuery();
+		validateSelectedColumns( query );
+		
 		
 		DataID dataId = instanceId.getDataID();
 		InstanceID instId = instanceId;
-		while( instId != null && (dataId = instId.getDataID( )) == null ){
+		while( instId != null && dataId == null ){
 			instId = instId.getParentID( );
+			if( instId != null )
+			{
+				dataId = instId.getDataID();
+			}
 		}
 		
 		if(dataId == null)
@@ -92,19 +147,30 @@ public class DataExtractionTask extends EngineTask
 		
 		DataSetID dataSetId = dataId.getDataSetID( );
 		assert dataSetId != null;
+		
 		String queryResultName = dataSetId.getDataSetName( );
+		
+		if( resultMetaList == null )
+		{
+			resultMetaList = new ArrayList( );
+		}
+		else
+		{
+			resultMetaList.clear();
+		}
 		
 		if ( queryResultName != null )
 		{
 			try
 			{
-				IQueryResults queryResults = executionContext.getDataEngine( ).getDataEngine( )
-						.getQueryResults( queryResultName );
+				IQueryResults queryResults = dataEngine.getQueryResults( queryResultName );
 				
-				if( queryResults.getResultIterator() == null )
-					return null;
+				assert queryResults.getResultIterator() != null;
 				
-				return new ExtractionResults( queryResults.getResultIterator() );
+				ExtractionResults results = new ExtractionResults( queryResults.getResultIterator() 
+						, selectedColumns, query.getRowExpressions() );
+				resultMetaList.add( results.getResultMetaData() );
+				return results;
 				
 			}
 			catch ( BirtException e )
@@ -119,18 +185,33 @@ public class DataExtractionTask extends EngineTask
 			try
 			{
 				queryResultName = parentId.getDataSetName( );
+				DataSetID parId = parentId;
+				while( queryResultName == null && parId != null )
+				{
+					parId = parId.getParentID();
+					if( parId != null )
+						queryResultName = parId.getDataSetName();
+				}
 				assert queryResultName != null;
+				
 				IQueryResults parentQueryResult = dataEngine
 						.getQueryResults( queryResultName );
+				assert parentQueryResult != null;
+				
 				IResultIterator iter = parentQueryResult.getResultIterator( );
 				long rowid = dataSetId.getRowID( );
-
+				
 				int i = 0;
 				while ( iter.next( ) && i++ < rowid ) 		;
 				
 				IResultIterator subIter = iter.getSecondaryIterator( dataSetId
 						.getQueryName( ), executionContext.getScope( ) );
-				return new ExtractionResults( subIter );
+				
+				ExtractionResults results = new ExtractionResults( subIter, 
+						selectedColumns, query.getRowExpressions() );
+				
+				resultMetaList.add( results.getResultMetaData());
+				return results;
 			}
 			catch( BirtException be )
 			{
@@ -140,5 +221,64 @@ public class DataExtractionTask extends EngineTask
 		
 		return null;
 	}
+	
+	private void populateContent( )
+	{
+		if( contentMap == null )
+			contentMap = new HashMap( );
+		
+		for( int i=0; i<report.getContentCount(); i++)
+		{
+			ReportItemDesign rptItem = report.getContent( i );
+			contentMap.put(new Long( rptItem.getID()), rptItem);
+		}
+	}
+	
+	private ReportItemDesign getDesignItem( long componentId )
+	{
+		assert contentMap != null;
+		return (ReportItemDesign)contentMap.get(new Long( componentId ));
+	}
+	
+	private void validateSelectedColumns( IBaseQueryDefinition query )
+			throws EngineException
+	{
+		assert query != null;
+
+		Collection exprs = query.getRowExpressions( );
+
+		if ( selectedColumns != null )
+		{
+			for ( int i = 0; i < selectedColumns.length; i++ )
+			{
+				boolean findColumn = false;
+				Iterator iter = exprs.iterator( );
+				while ( iter.hasNext( ) )
+				{
+					IScriptExpression expr = (IScriptExpression) iter.next( );
+					if ( expr.getText( ).equalsIgnoreCase( selectedColumns[i] ) )
+					{
+						findColumn = true;
+						break;
+					}
+				}
+				if ( findColumn == false )
+				{
+					throw new EngineException( "Invalid Columns" );
+				}
+			}
+		}
+		else
+		{
+			selectedColumns = new String[exprs.size( )];
+			Iterator iter = exprs.iterator( );
+			
+			for ( int i = 0; i < selectedColumns.length; i++ )
+			{
+				IScriptExpression expr = (IScriptExpression) iter.next( );
+				selectedColumns[i] = expr.getText( );
+			}
+		}
+ 	}
 
 }
