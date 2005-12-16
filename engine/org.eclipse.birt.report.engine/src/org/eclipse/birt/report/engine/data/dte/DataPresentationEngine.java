@@ -93,19 +93,8 @@ public class DataPresentationEngine extends AbstractDataEngine
 		{
 			IQueryDefinition queryDef = (IQueryDefinition) report.getQueries( )
 					.get( i );
-			try
-			{
-				IPreparedQuery preparedQuery = dataEngine.prepare( queryDef,
-						appContext );
-				mapQueryToPreparedQuery.put( queryDef, preparedQuery );
-				QueryID queryID = (QueryID) queryExpressionIDs.get( i );
-				setQueryIDs( queryDef, queryID );
-			}
-			catch ( BirtException be )
-			{
-				logger.log( Level.SEVERE, be.getMessage( ) );
-				context.addException( be );
-			}
+			QueryID queryID = (QueryID) queryExpressionIDs.get( i );
+			setQueryIDs( queryDef, queryID );
 		}
 	}
 
