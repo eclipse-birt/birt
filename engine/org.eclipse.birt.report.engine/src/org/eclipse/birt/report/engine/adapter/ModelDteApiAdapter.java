@@ -141,17 +141,29 @@ public class ModelDteApiAdapter
 	 */
 	public ModelDteApiAdapter( )
 	{
+		Context context = Context.enter( );
+		jsScope = context.initStandardObjects( );
 	}
 	
 	/**
 	 * Constructs an instance with the given report context and scope
-	 * @param reportContext Context for event handlers. May be null
-	 * @param jsScope Scope for evaluting property binding expressions. If null, property bindings have no effect
+	 * 
+	 * @param reportContext
+	 *            Context for event handlers. May be null
+	 * @param jsScope
+	 *            Scope for evaluting property binding expressions. If null,
+	 *            property bindings have no effect
 	 */
 	public ModelDteApiAdapter( IReportContext reportContext, Scriptable jsScope )
 	{
 		this.reportContext = reportContext;
-		this.jsScope = jsScope;
+		if ( jsScope == null )
+		{
+			Context context = Context.enter( );
+			jsScope = context.initStandardObjects( );
+		}
+		else
+			this.jsScope = jsScope;
 	}
 
 	/**
@@ -195,9 +207,30 @@ public class ModelDteApiAdapter
 	 */
 	String evaluatePropertyBindingExpr( String expr ) throws BirtException
 	{
-		Object result = JavascriptEvalUtil.evaluateScript( null, jsScope, 
-					expr, "property binding", 0 );
-		return result.toString();
+		expr = formatText( expr );
+		Object result = JavascriptEvalUtil.evaluateScript( null,
+				jsScope,
+				expr,
+				"property binding",
+				0 );
+		return result.toString( );
+	}
+	
+	/**
+	 * Format Query Text Simply replace all LF(10) with " "
+	 * 
+	 * @param source
+	 * @return
+	 */
+	private String formatText( String source )
+	{
+		if ( source != null )
+		{
+			source = source.replaceAll( "\r", " " );
+			return source.replaceAll( "\n", " " );
+		}
+		else
+			return "";
 	}
 	
 	IOdaDataSourceDesign newExtendedDataSource( OdaDataSourceHandle source ) 
@@ -238,7 +271,8 @@ public class ModelDteApiAdapter
 				String propValue;
 				// If property binding expression exists, use its evaluation result
 				String bindingExpr =source.getPropertyBinding( propName );
-				if ( bindingExpr != null && bindingExpr.length() > 0 )
+				if ( needPropertyBinding( )
+						&& bindingExpr != null && bindingExpr.length( ) > 0 )
 				{
 					propValue = evaluatePropertyBindingExpr( bindingExpr );
 				}
@@ -310,10 +344,10 @@ public class ModelDteApiAdapter
 		// use static design
 		String queryTextBinding = modelDataSet.getPropertyBinding( 
 				OdaDataSet.QUERY_TEXT_PROP );
-		if ( queryTextBinding != null && queryTextBinding.length() > 0 )
+		if ( needPropertyBinding( )
+				&& queryTextBinding != null && queryTextBinding.length( ) > 0 )
 		{
-			dteDataSet.setQueryText( 
-					evaluatePropertyBindingExpr( queryTextBinding ) );
+			dteDataSet.setQueryText( evaluatePropertyBindingExpr( queryTextBinding ) );
 		}
 		else
 		{
@@ -338,7 +372,8 @@ public class ModelDteApiAdapter
 				assert ( propName != null  );
 				String propValue;
 				String bindingExpr = modelDataSet.getPropertyBinding( propName );
-				if ( bindingExpr != null && bindingExpr.length() > 0 )
+				if ( needPropertyBinding( )
+						&& bindingExpr != null && bindingExpr.length( ) > 0 )
 				{
 					propValue = this.evaluatePropertyBindingExpr( bindingExpr );
 				}
@@ -825,4 +860,16 @@ public class ModelDteApiAdapter
 		return properties;
 	}
 
+	/**
+	 * temp method to decide whether need property binding
+	 * 
+	 * @return
+	 */
+	private boolean needPropertyBinding( )
+	{
+		if ( this.reportContext == null )
+			return false;
+		else
+			return true;
+	}
 }
