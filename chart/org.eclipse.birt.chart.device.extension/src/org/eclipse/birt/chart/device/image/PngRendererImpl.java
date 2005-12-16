@@ -11,7 +11,6 @@
 package org.eclipse.birt.chart.device.image;
 
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageWriteParam;
 
 /**
  *
@@ -43,11 +42,5 @@ public final class PngRendererImpl extends JavaxImageIOWriter
         return BufferedImage.TYPE_INT_ARGB; // SUPPORT ALPHA
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.chart.device.image.JavaxImageIOWriter#updateWriterParameters(javax.imageio.ImageWriteParam)
-     */
-    public final void updateWriterParameters(ImageWriteParam iwp)
-    {
-        // NONE YET
-    }
+
 }

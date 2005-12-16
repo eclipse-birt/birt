@@ -28,7 +28,8 @@ import org.eclipse.birt.chart.log.Logger;
 public final class GifRendererImpl extends JavaxImageIOWriter
 {
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/image" ); //$NON-NLS-1$
+	private static ILogger logger = Logger
+			.getLogger( "org.eclipse.birt.chart.device.extension/image" ); //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -55,7 +56,7 @@ public final class GifRendererImpl extends JavaxImageIOWriter
 	 */
 	protected final int getImageType( )
 	{
-		return BufferedImage.TYPE_BYTE_INDEXED; // 8-BIT GIFs ARE INDEXED
+		return BufferedImage.TYPE_INT_ARGB;
 	}
 
 	/*
@@ -65,72 +66,60 @@ public final class GifRendererImpl extends JavaxImageIOWriter
 	 */
 	public final void after( ) throws ChartException
 	{
-		try
+		if ( isSupportedByJavaxImageIO() )
 		{
-			super.after( );
+			super.after();
 		}
-		catch ( ChartException e )
+		else
 		{
-			if ( isSupportedByJavaxImageIO( ) )
+			logger.log( ILogger.INFORMATION, Messages.getString(
+					"info.use.custom.image.writer", //$NON-NLS-1$
+					new Object[]
+					{ getFormat(), GifWriter.class.getName() }, getLocale() ) );
+
+			// If not supported by JavaxImageIO, use our own.
+			GifWriter gw = null;
+
+			if ( _oOutputIdentifier instanceof OutputStream )
 			{
-				throw e;
+				gw = new GifWriter( (OutputStream) _oOutputIdentifier );
+				try
+				{
+					
+					gw.write( _img, GifWriter.ORIGINAL_COLOR);
+				}
+				catch ( Exception ex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING, ex );
+				}
+			}
+			else if ( _oOutputIdentifier instanceof String )
+			{
+				FileOutputStream fos = null;
+				try
+				{
+					fos = new FileOutputStream( (String) _oOutputIdentifier );
+					gw = new GifWriter( fos );
+					gw.write( _img, GifWriter.ORIGINAL_COLOR);
+					fos.close();
+				}
+				catch ( Exception ex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING, ex );
+				}
 			}
 			else
 			{
-				logger.log( ILogger.INFORMATION,
-						Messages.getString( "info.use.custom.image.writer", //$NON-NLS-1$
-								new Object[]{
-										getFormat( ), GifWriter.class.getName( )
-								},
-								getLocale( ) ) );
-
-				// If not supported by JavaxImageIO, use our own.
-				GifWriter gw = null;
-
-				if ( _oOutputIdentifier instanceof OutputStream )
-				{
-					gw = new GifWriter( (OutputStream) _oOutputIdentifier );
-					try
-					{
-						gw.write( _img, GifWriter.STANDARD_256_COLORS );
-					}
-					catch ( Exception ex )
-					{
-						throw new ChartException( ChartDeviceExtensionPlugin.ID,
-								ChartException.RENDERING,
-								ex );
-					}
-				}
-				else if ( _oOutputIdentifier instanceof String )
-				{
-					FileOutputStream fos = null;
-					try
-					{
-						fos = new FileOutputStream( (String) _oOutputIdentifier );
-						gw = new GifWriter( fos );
-						gw.write( _img, GifWriter.STANDARD_256_COLORS );
-						fos.close( );
-					}
-					catch ( Exception ex )
-					{
-						throw new ChartException( ChartDeviceExtensionPlugin.ID,
-								ChartException.RENDERING,
-								ex );
-					}
-				}
-				else
-				{
-					throw new ChartException( ChartDeviceExtensionPlugin.ID,
-							ChartException.RENDERING,
-							"exception.unable.write.gif.identifier", //$NON-NLS-1$
-							new Object[]{
-								_oOutputIdentifier
-							},
-							ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-									getLocale( ) ) );
-				}
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
+						"exception.unable.write.gif.identifier", //$NON-NLS-1$
+						new Object[]
+						{ _oOutputIdentifier }, ResourceBundle.getBundle(
+								Messages.DEVICE_EXTENSION, getLocale() ) );
 			}
 		}
-
 	}
+
 }

@@ -17,7 +17,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
-import org.eclipse.birt.chart.device.image.PngRendererImplOld;
+import org.eclipse.birt.chart.device.image.PngRendererImpl;
 import org.eclipse.birt.chart.event.ArcRenderEvent;
 import org.eclipse.birt.chart.event.AreaRenderEvent;
 import org.eclipse.birt.chart.event.ClipRenderEvent;
@@ -57,7 +57,7 @@ import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 public class Png24PrimitiveGen
 {
 
-	protected PngRendererImplOld renderer;
+	protected PngRendererImpl renderer;
 	protected InputStream fileName;
 	protected String outFile;
 	protected Fill fillColor;
@@ -75,10 +75,9 @@ public class Png24PrimitiveGen
 
 	protected void startup( )
 	{
-		renderer = new PngRendererImplOld( );
+		renderer = new PngRendererImpl( );
 		renderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, outFile );
-		renderer.setProperty( IDeviceRenderer.EXPECTED_BOUNDS,
-				BoundsImpl.create( 0, 0, 500, 500 ) );
+
 	}
 
 	/**
@@ -139,6 +138,8 @@ public class Png24PrimitiveGen
 								Double.parseDouble( st.nextToken( ) ),
 								Double.parseDouble( st.nextToken( ) ),
 								Double.parseDouble( st.nextToken( ) ) ) );
+				// size must be the first property in the input file
+				renderer.before();
 			}
 			else if ( type.equals( "fill" ) )//$NON-NLS-1$
 			{

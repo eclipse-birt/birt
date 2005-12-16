@@ -81,6 +81,13 @@ public interface IDeviceRenderer extends
 	public static final String COMPRESSED_OUTPUT = "output.compressed"; //$NON-NLS-1$
 
 	/**
+	 * A property name that indicates the dpi (dots/pixels per inch) resolution to use 
+	 * when rendering to the device. This is used to convert 'points' in pixels
+	 * (a point is 1/72 inch). If not indicated, it will use the default dpi resolution 
+	 * of the corresponding display server (typically 96dpi)
+	 */
+	public static final String DPI_RESOLUTION = "device.resolution"; //$NON-NLS-1$
+	/**
 	 * Device-specific write-only properties that may be set for each device
 	 * renderer
 	 * 

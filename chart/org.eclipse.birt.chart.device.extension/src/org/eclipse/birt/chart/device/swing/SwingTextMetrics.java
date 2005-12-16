@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.TextAdapter;
+import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.component.Label;
 
@@ -66,10 +67,11 @@ public final class SwingTextMetrics extends TextAdapter
 		{
 			bi = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_RGB );
 			g2d = (Graphics2D) ( (BufferedImage) bi ).getGraphics( );
-			g2d.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING,
-					RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
+			
 			g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
 					RenderingHints.VALUE_FRACTIONALMETRICS_ON );
+			g2d.setRenderingHint( RenderingHints.KEY_RENDERING,
+					RenderingHints.VALUE_RENDER_QUALITY );
 		}
 		else
 		{
@@ -77,7 +79,29 @@ public final class SwingTextMetrics extends TextAdapter
 		}
 		xs = _xs;
 		la = _la;
+		computeTextAntialiasing( );
 		reuse( la );
+	}
+
+	/**
+	 * Only antialias rotated, bold text, and font size > 13
+	 *
+	 */
+	private void computeTextAntialiasing( )
+	{
+		FontDefinition font = la.getCaption().getFont();
+		
+		if ( font.isBold() || ( font.getRotation() % 90 != 0 ) || font.getSize() > 13 )
+		{
+			g2d.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING,
+					RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
+		}
+		else
+		{
+			g2d.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING,
+					RenderingHints.VALUE_TEXT_ANTIALIAS_OFF );
+		}
+		
 	}
 
 	/**

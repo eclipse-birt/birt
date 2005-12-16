@@ -58,15 +58,13 @@ public class SwingDisplayServer extends DisplayAdapter
 	 */
 	private transient SwingImageCache _simc = null;
 
-	/**
-	 * 
-	 */
-	private double dScale = 1;
+
 
 	/**
-	 * 
+	 * dpi resolution 
 	 */
 	private int iDpiResolution = 0;
+
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swing" ); //$NON-NLS-1$
 
@@ -84,8 +82,7 @@ public class SwingDisplayServer extends DisplayAdapter
 				RenderingHints.VALUE_ANTIALIAS_ON );
 		_g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
 				RenderingHints.VALUE_FRACTIONALMETRICS_ON );
-		dScale = getDpiResolution( ) / 72d;
-		_g2d.scale( dScale, dScale );
+		
 		
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "info.display.server", //$NON-NLS-1$ 
@@ -104,7 +101,7 @@ public class SwingDisplayServer extends DisplayAdapter
 	{
 		final Map m = new HashMap( );
 		m.put( TextAttribute.FAMILY, fd.getName( ) );
-		m.put( TextAttribute.SIZE, new Float( fd.getSize( ) ) );
+		m.put( TextAttribute.SIZE, new Float( pointsToPixels( fd.getSize( ) ) ) );
 		if ( fd.isItalic( ) )
 		{
 			m.put( TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE );
@@ -169,6 +166,12 @@ public class SwingDisplayServer extends DisplayAdapter
 		return iDpiResolution;
 	}
 
+	
+	public final void setDpiResolution( int dpi )
+	{
+		iDpiResolution = dpi;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -218,5 +221,10 @@ public class SwingDisplayServer extends DisplayAdapter
 	final SwingImageCache getImageCache( )
 	{
 		return _simc;
+	}
+	
+	final double pointsToPixels( double dPoints )
+	{
+		return dPoints * getDpiResolution( ) / 72d;
 	}
 }

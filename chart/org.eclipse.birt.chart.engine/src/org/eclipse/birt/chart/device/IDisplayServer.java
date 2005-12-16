@@ -77,6 +77,15 @@ public interface IDisplayServer
 	int getDpiResolution( );
 
 	/**
+	 * Sets the dpi resolution. This defines how many dots per inch to use for
+	 * rendering the chart. This is optional, the display server will compute the 
+	 * default dpi resolution of the display where the chart is rendered. It is mostly 
+	 * intended to be used for creating high resolution images.
+	 * 
+	 * @param dpi The number of dots per inch
+	 */
+	void setDpiResolution( int dpi );
+	/**
 	 * Attempts to use device specific libraries to load an image for use with
 	 * the device renderer
 	 * 

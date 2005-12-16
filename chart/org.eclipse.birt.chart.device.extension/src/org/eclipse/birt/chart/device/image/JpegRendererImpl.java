@@ -13,12 +13,16 @@ package org.eclipse.birt.chart.device.image;
 
 import java.awt.image.BufferedImage;
 
+import javax.imageio.ImageWriteParam;
+
 /**
  * 
  */
 public final class JpegRendererImpl extends JavaxImageIOWriter
 {
 
+	private boolean isQualitySet = false;;
+	private int jpegQuality;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -45,5 +49,33 @@ public final class JpegRendererImpl extends JavaxImageIOWriter
 	public String getMimeType( )
 	{
 		return "image/jpeg"; //$NON-NLS-1$
+	}
+	
+	protected void updateWriterParameters( ImageWriteParam iwp )
+	{
+		if ( isQualitySet )
+		{
+			iwp.setCompressionMode( ImageWriteParam.MODE_EXPLICIT );
+			iwp.setCompressionQuality( jpegQuality );
+		}
+
+	}
+	/**
+	 * Set the Jpeg compression quality into the renderer. The value must be 
+	 * between 0 (better compression) and 1 (better quality).
+	 * The default value is 0.75 (no visual loss)
+	 * @param jpegQuality
+	 */
+	public void setCompressionQuality( final int jpegQuality )
+	{
+		if (jpegQuality < 0 || jpegQuality > 1 )
+		{
+			throw new IllegalArgumentException( "Jpeg quality must be within the [0-1] range" ); //$NON-NLS-1$
+		}
+		else
+		{
+			isQualitySet = true;
+			this.jpegQuality = jpegQuality;
+		}
 	}
 }

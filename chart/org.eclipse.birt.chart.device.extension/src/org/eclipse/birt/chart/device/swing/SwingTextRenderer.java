@@ -80,8 +80,8 @@ final class SwingTextRenderer implements IConstants
 		if ( _tr == null )
 		{
 			_tr = new SwingTextRenderer( );
-			_tr._sxs = sxs;
 		}
+		_tr._sxs = sxs;
 		return _tr;
 	}
 

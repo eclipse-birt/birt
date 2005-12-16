@@ -116,6 +116,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		{
 			logger.log( pex );
 		}
+
 	}
 
 	/**
@@ -205,6 +206,9 @@ public class SwingRendererImpl extends DeviceAdapter
 					RenderingHints.VALUE_ANTIALIAS_ON );
 			_g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
 					RenderingHints.VALUE_FRACTIONALMETRICS_ON );
+			_g2d.setRenderingHint( RenderingHints.KEY_RENDERING,
+					RenderingHints.VALUE_RENDER_QUALITY );
+			
 			// _frc = new FontRenderContext(new AffineTransform(), true, false);
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "info.using.graphics.context", //$NON-NLS-1$
@@ -212,6 +216,11 @@ public class SwingRendererImpl extends DeviceAdapter
 								_g2d
 							}, getLocale( ) ) );
 		}
+		else if ( sProperty.equals(IDeviceRenderer.DPI_RESOLUTION ) ) 
+		{
+			getDisplayServer().setDpiResolution( ((Integer)oValue).intValue());
+		}
+
 	}
 
 	/**

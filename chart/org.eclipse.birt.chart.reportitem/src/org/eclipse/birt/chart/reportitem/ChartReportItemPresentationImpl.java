@@ -16,6 +16,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -73,6 +75,8 @@ public final class ChartReportItemPresentationImpl extends
 	private RunTimeContext rtc = null;
 
 	private IBaseQueryDefinition[] ibqda = null;
+	
+	private List registeredDevices = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
@@ -81,8 +85,24 @@ public final class ChartReportItemPresentationImpl extends
 	 */
 	public ChartReportItemPresentationImpl( )
 	{
+		registeredDevices = new ArrayList( );
+		try
+		{
+			String[][] formats = PluginSettings.instance().getRegisteredOutputFormats();
+			for (int i = 0; i < formats.length; i++ )
+			{
+				registeredDevices.add( formats[i][0] );
+			}
+		}
+		catch ( ChartException e)
+		{
+			logger.log(e);
+		}
 	}
 
+	/**
+	 *  check if the format is supported by the browser and device renderer.
+	 */
 	private boolean isOutputRendererSupported( String format )
 	{
 		if ( format != null )
@@ -90,33 +110,20 @@ public final class ChartReportItemPresentationImpl extends
 			if ( sSupportedFormats != null
 					&& ( sSupportedFormats.indexOf( format ) != -1 ) )
 			{
-				IDeviceRenderer renderer = null;
-
-				try
-				{
-					renderer = PluginSettings.instance( )
-							.getDevice( "dv." + format ); //$NON-NLS-1$
-				}
-				catch ( Exception e )
-				{
-					renderer = null;
-				}
-
-				return ( renderer != null );
+				return registeredDevices.contains( format );
 			}
 		}
-
 		return false;
 	}
 
-	private String getFirstNonSVGFormat( String formats )
+	private String getFirstSupportedFormat( String formats )
 	{
 		if ( formats != null && formats.length( ) > 0 )
 		{
 			int idx = formats.indexOf( ';' );
 			if ( idx == -1 )
 			{
-				if ( !"SVG".equals( formats ) ) //$NON-NLS-1$
+				if ( isOutputRendererSupported( formats ) ) //$NON-NLS-1$
 				{
 					return formats;
 				}
@@ -125,19 +132,19 @@ public final class ChartReportItemPresentationImpl extends
 			{
 				String ext = formats.substring( 0, idx );
 
-				if ( !"SVG".equals( ext ) ) //$NON-NLS-1$
+				if ( isOutputRendererSupported( ext ) ) //$NON-NLS-1$
 				{
 					return ext;
 				}
 				else
 				{
-					return getFirstNonSVGFormat( formats.substring( idx + 1 ) );
+					return getFirstSupportedFormat( formats.substring( idx + 1 ) );
 				}
 			}
 		}
 
-		// JPG as default.
-		return "JPG"; //$NON-NLS-1$
+		// GIF as default.
+		return "GIF"; //$NON-NLS-1$
 	}
 
 	/*
@@ -206,7 +213,8 @@ public final class ChartReportItemPresentationImpl extends
 	 */
 	public void setResolution( int iDPI )
 	{
-		// UNUSED BY CHART EXTENSION
+		this.dpi = iDPI;
+		
 	}
 
 	/*
@@ -224,16 +232,31 @@ public final class ChartReportItemPresentationImpl extends
 			}
 			else if ( isOutputRendererSupported( "SVG" ) ) //$NON-NLS-1$
 			{
+				// SVG is the preferred output for HTML
 				sExtension = "SVG"; //$NON-NLS-1$
 			}
 			else
 			{
-				sExtension = getFirstNonSVGFormat( sSupportedFormats );
+				sExtension = getFirstSupportedFormat( sSupportedFormats );
 			}
 		}
 		else if ( sOutputFormat.equalsIgnoreCase( "PDF" ) ) //$NON-NLS-1$
 		{
-			sExtension = "JPEG"; //$NON-NLS-1$
+			if ( isOutputRendererSupported( outputFormat ) )
+			{
+				sExtension = outputFormat;
+			}
+			else if ( isOutputRendererSupported( "PNG" ) ) //$NON-NLS-1$
+			{
+				// PNG is the preferred output for PDF
+				sExtension = "PNG"; //$NON-NLS-1$
+			}
+			else
+			{
+				sExtension = getFirstSupportedFormat( sSupportedFormats );
+			}
+			// TODO remove when Report Engine passes correct resolution for PDF.
+			this.dpi = 192;
 		}
 		else
 		{
@@ -397,11 +420,15 @@ public final class ChartReportItemPresentationImpl extends
 			idr = PluginSettings.instance( ).getDevice( "dv." //$NON-NLS-1$
 					+ sExtension.toUpperCase( Locale.US ) );
 
+			idr.setProperty( IDeviceRenderer.DPI_RESOLUTION, Integer.valueOf(dpi) );
 			// BUILD THE CHART
+			final Bounds originalBounds = cm.getBlock( ).getBounds( );
+
 			// we must copy the bounds to avoid that setting it on one object
 			// unsets it on its precedent container
-			final Bounds bo = (Bounds) EcoreUtil.copy( cm.getBlock( )
-					.getBounds( ) );
+
+			final Bounds bo = (Bounds) EcoreUtil.copy( originalBounds );
+			
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "ChartReportItemPresentationImpl.log.PresentationUsesBoundsBo", bo ) ); //$NON-NLS-1$
 			final Generator gr = Generator.instance( );

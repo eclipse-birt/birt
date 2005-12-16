@@ -85,6 +85,10 @@ public abstract class DisplayAdapter implements IDisplayServer
 		return 96;
 	}
 
+	public void setDpiResolution( int dpi )
+	{
+		// NO-OP ADAPTER DEFAULT IMPLEMENTATION
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
