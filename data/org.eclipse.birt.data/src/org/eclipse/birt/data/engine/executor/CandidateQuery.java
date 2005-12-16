@@ -16,6 +16,7 @@ import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor2.DataSetResultCache;
 
 /**
  * Implementation of ICandidateQuery
@@ -78,7 +79,13 @@ class CandidateQuery extends BaseQuery implements ICandidateQuery
 		}
 		else
 		{
-			return new CachedResultSet( this, customDataSet );
+			if ( DataSetCacheManager.getInstance( ).doesSaveToCache( ) == false )
+				return new CachedResultSet( this, customDataSet );
+			else
+				return new CachedResultSet( this,
+						resultMetadata,
+						new DataSetResultCache( customDataSet, resultMetadata ) );
+			
 		}
 	}
 

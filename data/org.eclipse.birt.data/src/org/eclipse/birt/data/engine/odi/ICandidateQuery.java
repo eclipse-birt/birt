@@ -43,7 +43,7 @@ public interface ICandidateQuery extends IQuery
      * 						or if given grouping level is invalid.
      */
     public void setCandidates( IResultIterator resultObjsIterator,
-            		int groupingLevel ) throws DataException;
+			int groupingLevel ) throws DataException;
     
     /**
 	 * Binds the given custom data set to this query.
@@ -57,7 +57,7 @@ public interface ICandidateQuery extends IQuery
      * @throws DataException
      */
     public void setCandidates( ICustomDataSet customDataSet )
-    									throws DataException;
+			throws DataException;
     
     /**
      * Gets the metadata of the candidate result instances.
@@ -65,7 +65,7 @@ public interface ICandidateQuery extends IQuery
      * 			metadata of the query result instances.
      * 			Null if no candidates are specified yet.
      */
-    public IResultClass getResultClass();
+    public IResultClass getResultClass( ) throws DataException;
     
     /**
 	 * Executes this query applying the specified transforms on the 

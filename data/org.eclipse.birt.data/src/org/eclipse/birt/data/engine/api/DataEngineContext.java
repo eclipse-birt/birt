@@ -33,11 +33,32 @@ public class DataEngineContext
 	public final static int MODE_PRESENTATION = 2;
 	public final static int DIRECT_PRESENTATION  = 3;
 	
+	/**
+	 * AppContext and Data Set cache count setting decide whether cache is used,
+	 * which is default value for data engine context.
+	 */
+	public final static int CACHE_USE_DEFAULT = 1;
+	
+	/**
+	 * Do not use cache, regardless of data set cache setting
+	 */
+	public final static int CACHE_USE_DISABLE = 2;
+	
+	/**
+	 * Always use cached data if available, disregard data set cache setting and
+	 * AppContext. cachRowCount parameter decides cache count.
+	 */
+	public final static int CACHE_USE_ALWAYS = 3;
+	
 	/** some fields */
 	private int mode;
 	private Scriptable scope;	
 	private IDocArchiveReader reader;
 	private IDocArchiveWriter writer;
+	
+	/** cacheCount field */
+	private int cacheOption;
+	private int cacheCount;
 	
 	/** stream id for internal use, don't use it externally */
 	public final static int EXPR_VALUE_STREAM = 11;
@@ -87,6 +108,7 @@ public class DataEngineContext
 		this.scope = scope;
 		this.reader = reader;
 		this.writer = writer;
+		this.cacheOption = CACHE_USE_DEFAULT;
 	}
 
 	/** 
@@ -105,6 +127,48 @@ public class DataEngineContext
 		return scope;
 	}
 
+	/**
+	 * @return cacheCount
+	 */
+	public int getCacheOption( )
+	{
+		return this.cacheOption;
+	}
+	
+	/**
+	 * @return cacheCount
+	 */
+	public int getCacheCount( )
+	{
+		return this.cacheCount;
+	}
+
+	/**
+	 * This method is used to set the cache option for current data engine
+	 * instance. These option values will override the values defined in
+	 * individual data set and its application context. The option value has
+	 * three posible values, CACHE_USE_DEFAULT, CACHE_USE_DISABLE,
+	 * CACHE_USE_ALWAYS. The cacheCount values can be larger than 0, which
+	 * indicates the count of how many rows will be ccached, equal to 0, which
+	 * indicates cache will not be used, less than 0, which indicates the entire
+	 * data set will be cached.
+	 * 
+	 * Please notice, this cache function only available for
+	 * DIRECT_PRESENTATION. In other cases, exception will be thrown.
+	 * 
+	 * @param option
+	 * @param cacheCount
+	 */
+	public void setCacheOption( int option, int cacheCount )
+			throws BirtException
+	{
+		if ( this.mode != DIRECT_PRESENTATION )
+			throw new DataException( "cache function only works for DIRECT_PRESENTATION mode." );
+
+		this.cacheOption = option;
+		this.cacheCount = cacheCount;
+	}
+	
 	/**
 	 * According to the paramters of streamID, subStreamID and streamType, an
 	 * output stream will be created for it. To make stream close simply, the

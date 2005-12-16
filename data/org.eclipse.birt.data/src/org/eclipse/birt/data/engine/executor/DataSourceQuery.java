@@ -22,7 +22,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor2.OdaCacheResultSet;
+import org.eclipse.birt.data.engine.executor2.DataSetResultCache;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
@@ -506,7 +506,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 		else
 			return new CachedResultSet( this,
 					resultMetadata,
-					new OdaCacheResultSet( rs, resultMetadata ) );
+					new DataSetResultCache( rs, resultMetadata ) );
     }
     
 	/*

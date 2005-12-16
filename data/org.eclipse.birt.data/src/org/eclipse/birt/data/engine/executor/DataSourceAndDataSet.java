@@ -43,6 +43,7 @@ public class DataSourceAndDataSet
 	/** current data source and data set for cache*/
 	private IBaseDataSourceDesign dataSourceDesign;
 	private IBaseDataSetDesign dataSetDesign;
+	private Collection parameterBindings;
 
 	/**
 	 * @param dataSourceDesign
@@ -51,11 +52,13 @@ public class DataSourceAndDataSet
 	 */
 	public static DataSourceAndDataSet newInstance(
 			IBaseDataSourceDesign dataSourceDesign,
-			IBaseDataSetDesign dataSetDesign )
+			IBaseDataSetDesign dataSetDesign, Collection parameterBindings )
 	{
 		DataSourceAndDataSet dataSourceAndSet = new DataSourceAndDataSet( );
 		dataSourceAndSet.dataSourceDesign = dataSourceDesign;
 		dataSourceAndSet.dataSetDesign = dataSetDesign;
+		dataSourceAndSet.parameterBindings = parameterBindings;
+		
 		return dataSourceAndSet;
 	}
 
@@ -83,11 +86,18 @@ public class DataSourceAndDataSet
 
 		IBaseDataSourceDesign dataSourceDesign2 = ( (DataSourceAndDataSet) obj ).dataSourceDesign;
 		IBaseDataSetDesign dataSetDesign2 = ( (DataSourceAndDataSet) obj ).dataSetDesign;
-
+		Collection parameterBindings2 = ( (DataSourceAndDataSet) obj ).parameterBindings;
+		
 		if ( this.dataSourceDesign == dataSourceDesign2 )
 		{
 			if ( this.dataSetDesign == dataSetDesign2 )
-				return true;
+			{
+				if ( this.parameterBindings == parameterBindings2 )
+					return true;
+				else if ( this.parameterBindings == null
+						|| parameterBindings2 == null )
+					return false;
+			}
 			else if ( this.dataSetDesign == null || dataSetDesign2 == null )
 				return false;
 		}
@@ -124,8 +134,8 @@ public class DataSourceAndDataSet
 				return false;
 
 			if ( isEqualProps( dataSource.getPublicProperties( ),
-					dataSource2.getPublicProperties( ) )
-					&& isEqualProps( dataSource.getPrivateProperties( ),
+					dataSource2.getPublicProperties( ) ) == false
+					|| isEqualProps( dataSource.getPrivateProperties( ),
 							dataSource2.getPrivateProperties( ) ) == false )
 				return false;
 		}
@@ -136,8 +146,8 @@ public class DataSourceAndDataSet
 			IScriptDataSourceDesign dataSource2 = (IScriptDataSourceDesign) dataSourceDesign2;
 
 			if ( isEqualString( dataSource.getOpenScript( ),
-					dataSource2.getOpenScript( ) )
-					&& isEqualString( dataSource.getCloseScript( ),
+					dataSource2.getOpenScript( ) ) == false
+					|| isEqualString( dataSource.getCloseScript( ),
 							dataSource2.getCloseScript( ) ) == false )
 				return false;
 		}
@@ -172,18 +182,18 @@ public class DataSourceAndDataSet
 			IOdaDataSetDesign dataSet2 = (IOdaDataSetDesign) dataSetDesign2;
 
 			if ( isEqualString( dataSet.getQueryText( ),
-					dataSet2.getQueryText( ) )
-					&& isEqualString( dataSet.getQueryScript( ),
-							dataSet2.getQueryScript( ) )
-					&& isEqualString( dataSet.getExtensionID( ),
-							dataSet2.getExtensionID( ) )
-					&& isEqualString( dataSet.getPrimaryResultSetName( ),
-							dataSet2.getPrimaryResultSetName( ) )
-					&& isEqualProps( dataSet.getPublicProperties( ),
-							dataSet2.getPublicProperties( ) )
-					&& isEqualProps( dataSet.getPrivateProperties( ),
-							dataSet2.getPrivateProperties( ) ) )
-				return true;
+					dataSet2.getQueryText( ) ) == false
+					|| isEqualString( dataSet.getQueryScript( ),
+							dataSet2.getQueryScript( ) ) == false
+					|| isEqualString( dataSet.getExtensionID( ),
+							dataSet2.getExtensionID( ) ) == false
+					|| isEqualString( dataSet.getPrimaryResultSetName( ),
+							dataSet2.getPrimaryResultSetName( ) ) == false
+					|| isEqualProps( dataSet.getPublicProperties( ),
+							dataSet2.getPublicProperties( ) ) == false
+					|| isEqualProps( dataSet.getPrivateProperties( ),
+							dataSet2.getPrivateProperties( ) ) == false )
+				return false;
 		}
 		else if ( dataSetDesign instanceof IScriptDataSetDesign
 				&& dataSetDesign2 instanceof IScriptDataSetDesign )
@@ -191,16 +201,27 @@ public class DataSourceAndDataSet
 			IScriptDataSetDesign dataSet = (IScriptDataSetDesign) dataSetDesign;
 			IScriptDataSetDesign dataSet2 = (IScriptDataSetDesign) dataSetDesign2;
 
-			return isEqualString( dataSet.getOpenScript( ),
-					dataSet2.getOpenScript( ) )
-					&& isEqualString( dataSet.getFetchScript( ),
-							dataSet2.getFetchScript( ) )
-					&& isEqualString( dataSet.getCloseScript( ),
-							dataSet2.getCloseScript( ) )
-					&& isEqualString( dataSet.getDescribeScript( ),
-							dataSet2.getDescribeScript( ) );
+			if ( isEqualString( dataSet.getOpenScript( ),
+					dataSet2.getOpenScript( ) ) == false
+					|| isEqualString( dataSet.getFetchScript( ),
+							dataSet2.getFetchScript( ) ) == false
+					|| isEqualString( dataSet.getCloseScript( ),
+							dataSet2.getCloseScript( ) ) == false
+					|| isEqualString( dataSet.getDescribeScript( ),
+							dataSet2.getDescribeScript( ) ) == false )
+				return false;
 		}
-		return false;
+		else
+		{
+			return false;
+		}
+		
+		// parameter bindings compare
+		if ( this.isEqualParameterBindings( this.parameterBindings,
+				parameterBindings2 ) == false )
+			return false;
+		
+		return true;
 	}
 
 	/**

@@ -50,11 +50,7 @@ public class DataSourceFactory implements IDataSourceFactory
 	public IDataSource getDataSource( String driverName, Map connProperties,
 			IBaseDataSourceDesign dataSourceDesign, IBaseDataSetDesign dataSetDesign )
 	{
-		DataSetCacheManager cacheManager = DataSetCacheManager.getInstance( );
-		cacheManager.setDataSource( dataSourceDesign );
-		cacheManager.setDataSet( dataSetDesign );
-
-		if ( cacheManager.doesLoadFromCache( ) == false )
+		if ( DataSetCacheManager.getInstance( ).doesLoadFromCache( ) == false )
 		{
 			// TODO: connection pooling
 			return new DataSource( driverName, connProperties );

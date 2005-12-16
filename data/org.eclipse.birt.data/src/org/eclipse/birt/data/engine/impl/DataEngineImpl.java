@@ -367,7 +367,8 @@ public class DataEngineImpl extends DataEngine
 	public IPreparedQuery prepare( IQueryDefinition querySpec )
 		throws DataException
 	{
-		DataSetCacheManager.getInstance( ).setCacheOption( false );
+		configureDataSetCache( querySpec, null );
+		
 	    return prepare( querySpec, null );
 	}
 
@@ -404,20 +405,60 @@ public class DataEngineImpl extends DataEngine
 		IPreparedQuery result = PreparedDataSourceQuery.newInstance( this,
 				querySpec, appContext );
 
-		if ( appContext != null )
-		{
-			Object option = appContext.get( DataEngine.DATASET_CACHE_OPTION );
-			if ( option != null && option.equals( "true" ) )
-				DataSetCacheManager.getInstance( ).setCacheOption( true );
-			else
-				DataSetCacheManager.getInstance( ).setCacheOption( false );
-		}
+		configureDataSetCache( querySpec, appContext );
 		
 		logger.fine( "Finished preparing query." );
 		logger.exiting( DataEngineImpl.class.getName( ), "prepare" );
 		return result;
 	}
 
+	/**
+	 * @param appContext
+	 */
+	private void configureDataSetCache( IQueryDefinition querySpec, Map appContext )
+	{
+		if ( querySpec == null )
+			return;
+		
+		String dataSetName = querySpec.getDataSetName( );
+		IBaseDataSetDesign dataSetDesign = this.getDataSetDesign( dataSetName );
+		IBaseDataSourceDesign dataSourceDesign = this.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) )
+				.getDesign( );
+		DataSetCacheManager.getInstance( )
+				.setDataSourceAndDataSet( dataSourceDesign,
+						dataSetDesign,
+						querySpec.getInputParamBindings( ) );
+		
+		int cacheOption = context.getCacheOption( );
+		if ( cacheOption == DataEngineContext.CACHE_USE_ALWAYS )
+		{
+			DataSetCacheManager.getInstance( )
+					.setCacheOption( DataSetCacheManager.ALWAYS );
+			DataSetCacheManager.getInstance( )
+					.setAlwaysCacheRowCount( context.getCacheCount( ) );
+		}
+		else if ( cacheOption == DataEngineContext.CACHE_USE_DISABLE )
+		{
+			DataSetCacheManager.getInstance( )
+					.setCacheOption( DataSetCacheManager.DISABLE );
+		}
+		else if ( appContext != null )
+		{
+			Object option = appContext.get( DataEngine.DATASET_CACHE_OPTION );
+			if ( option != null && option.equals( "true" ) )
+				DataSetCacheManager.getInstance( )
+						.setCacheOption( DataSetCacheManager.DEFAULT );
+			else
+				DataSetCacheManager.getInstance( )
+						.setCacheOption( DataSetCacheManager.DISABLE );
+		}
+		else
+		{
+			DataSetCacheManager.getInstance( )
+					.setCacheOption( DataSetCacheManager.DISABLE );
+		}
+	}
+	
 	/**
 	 * Provides a hint to DtE that the consumer is done with the given 
 	 * data source connection, and 
