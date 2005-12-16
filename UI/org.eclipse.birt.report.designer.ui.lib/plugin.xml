@@ -2,7 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin id="org.eclipse.birt.report.designer.ui.lib"
    name="BIRT Designer UI for Library"
-   version="1.0.0"
+   version="2.0.0"
    provider-name="Eclipse.org">
 
    <runtime>
