@@ -47,14 +47,22 @@ public interface IImageInstance extends IReportItemInstance
 	void setURI( String uri );
 
 	/**
-	 * Returns the type of image source
+	 * Returns the type of image source Can be one of the following:
+	 * org.eclipse.birt.report.engine.ir.ImageItemDesign.IMAGE_URI
+	 * org.eclipse.birt.report.engine.ir.ImageItemDesign.IMAGE_NAME
+	 * org.eclipse.birt.report.engine.ir.ImageItemDesign.IMAGE_EXPRESSION
+	 * org.eclipse.birt.report.engine.ir.ImageItemDesign.IMAGE_FILE
 	 */
 	int getImageSource( );
 
 	/**
 	 * Set the image source
 	 * 
-	 * @param source
+	 * Can be one of the following:
+	 * org.eclipse.birt.report.engine.ir.ImageItemDesign.IMAGE_URI
+	 * org.eclipse.birt.report.engine.ir.ImageItemDesign.IMAGE_NAME
+	 * org.eclipse.birt.report.engine.ir.ImageItemDesign.IMAGE_EXPRESSION
+	 * org.eclipse.birt.report.engine.ir.ImageItemDesign.IMAGE_FILE
 	 */
 	void setImageSource( int source );
 
@@ -67,5 +75,15 @@ public interface IImageInstance extends IReportItemInstance
 	 * Set the image name
 	 */
 	void setImageName( String imageName );
+	
+	/**
+	 * Returns the data for a named image
+	 */
+	byte[] getData( );
+
+	/**
+	 * Set the data for a named image
+	 */
+	void setData( byte[] data );
 
 }

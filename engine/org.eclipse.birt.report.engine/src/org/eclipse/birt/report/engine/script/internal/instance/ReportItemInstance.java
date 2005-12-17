@@ -12,25 +12,21 @@
 package org.eclipse.birt.report.engine.script.internal.instance;
 
 import java.lang.String;
-import java.util.Map;
 
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.api.script.instance.IReportItemInstance;
-import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.content.impl.AbstractContent;
 
 /**
  * A class representing the runtime state of a report item
  */
-public class ReportItemInstance implements IReportItemInstance
+public class ReportItemInstance extends ReportElementInstance implements
+		IReportItemInstance
 {
-
-	protected AbstractContent content;
 
 	public ReportItemInstance( AbstractContent content )
 	{
-		this.content = content;
+		super(content);
 	}
 
 	protected void setContent( AbstractContent content )
@@ -40,16 +36,6 @@ public class ReportItemInstance implements IReportItemInstance
 
 	protected ReportItemInstance( )
 	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#getStyle()
-	 */
-	public IScriptStyle getStyle( )
-	{
-		return new StyleInstance( content.getStyle( ) );
 	}
 
 	/*
@@ -142,35 +128,5 @@ public class ReportItemInstance implements IReportItemInstance
 		content.setY( DimensionType.parserUnit( position ) );
 	}
 
-	public Object getNamedExpressionValue( String name )
-	{
-		Object generatedBy = content.getGenerateBy( );
-		if ( generatedBy instanceof ReportElementDesign )
-		{
-			ReportElementDesign design = ( ReportElementDesign ) generatedBy;
-			Map m = design.getNamedExpressions( );
-			return m.get( name );
-		}
-		// TODO Implement
-		return null;
-	}
-
-	public void setNamedExpressionValue( String name, Object value )
-	{
-		// TODO Implement
-
-	}
-
-	public Object getUserProperty( String name )
-	{
-		// TODO Implement
-		return null;
-	}
-
-	public void setUserProperty( String name, Object value )
-	{
-		// TODO Implement
-
-	}
-
+	
 }

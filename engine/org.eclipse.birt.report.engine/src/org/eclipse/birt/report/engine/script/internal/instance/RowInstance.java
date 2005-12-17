@@ -12,31 +12,21 @@
 package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.IRowInstance;
-import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
  * A class representing the runtime state of a detail row
  */
-public class RowInstance implements IRowInstance
+public class RowInstance extends ReportElementInstance implements IRowInstance
 {
 
 	private RowContent row;
 
 	public RowInstance( RowContent row )
 	{
-		this.row = row;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IRowInstance#getStyle()
-	 */
-	public IScriptStyle getStyle( )
-	{
-		return new StyleInstance( row.getStyle( ) );
+		super( row );
+		this.row = ( RowContent ) content;
 	}
 
 	/*

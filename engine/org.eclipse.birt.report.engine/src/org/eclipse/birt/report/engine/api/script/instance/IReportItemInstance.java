@@ -1,10 +1,8 @@
 package org.eclipse.birt.report.engine.api.script.instance;
 
 
-public interface IReportItemInstance
+public interface IReportItemInstance extends IReportElementInstance
 {
-
-	IScriptStyle getStyle( );
 
 	/**
 	 * Get the hyperlink
@@ -47,18 +45,11 @@ public interface IReportItemInstance
 	 * Get the vertical position
 	 */
 	String getVerticalPosition( );
-
+	
 	/**
 	 * Set the vertical position
 	 */
 	void setVerticalPosition( String position );
 
-	Object getNamedExpressionValue( String name );
-
-	void setNamedExpressionValue( String name, Object value );
-
-	Object getUserProperty( String name );
-
-	void setUserProperty( String name, Object value );
 
 }

@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.api.script.element.IRow;
 import org.eclipse.birt.report.engine.api.script.element.ITable;
 import org.eclipse.birt.report.engine.api.script.element.ITextData;
 import org.eclipse.birt.report.engine.api.script.element.ITextItem;
+import org.eclipse.birt.report.engine.script.internal.ElementUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;

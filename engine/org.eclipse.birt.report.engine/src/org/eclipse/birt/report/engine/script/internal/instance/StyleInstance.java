@@ -27,14 +27,14 @@ public class StyleInstance implements IScriptStyle
 		this.style = style;
 	}
 
-	public String getVisibility( )
+	public String getVisibleFormat( )
 	{
-		return style.getVisibility( );
+		return style.getVisibleFormat( );
 	}
 
-	public void setVisibility( String visibility )
+	public void setVisibleFormat( String format )
 	{
-		style.setVisibility( visibility );
+		style.setVisibleFormat( format );
 	}
 
 	/**
@@ -751,5 +751,55 @@ public class StyleInstance implements IScriptStyle
 	public void setStringFormat( String stringFormat )
 	{
 		style.setStringFormat( stringFormat );
+	}
+
+	public String getFontFamily( )
+	{
+		return style.getFontFamily( );
+	}
+
+	public void setFontFamily( String fontFamily )
+	{
+		style.setFontFamily( fontFamily );
+	}
+
+	public String getFontStyle( )
+	{
+		return style.getFontStyle( );
+	}
+
+	public void setFontStyle( String fontStyle )
+	{
+		style.setFontStyle( fontStyle );
+	}
+
+	public String getFontVariant( )
+	{
+		return style.getFontVariant( );
+	}
+
+	public void setFontVariant( String fontVariant )
+	{
+		style.setFontVariant( fontVariant );
+	}
+
+	public String getFontWeight( )
+	{
+		return style.getFontWeight( );
+	}
+
+	public void setFontWeight( String fontWeight )
+	{
+		style.setFontWeight( fontWeight );
+	}
+
+	public String getFontSize( )
+	{
+		return style.getFontSize( );
+	}
+
+	public void setFontSize( String fontSize )
+	{
+		style.setFontSize( fontSize );
 	}
 }

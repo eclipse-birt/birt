@@ -1,15 +1,8 @@
 package org.eclipse.birt.report.engine.api.script.instance;
 
 
-public interface ICellInstance
+public interface ICellInstance extends IReportElementInstance
 {
-
-	/**
-	 * Get the style
-	 * 
-	 * @return the style
-	 */
-	IScriptStyle getStyle( );
 
 	/**
 	 * Get the column span

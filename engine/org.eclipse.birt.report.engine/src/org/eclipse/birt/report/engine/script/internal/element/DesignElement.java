@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.script.internal.element;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IDesignElement;
 import org.eclipse.birt.report.engine.api.script.element.IScriptStyleDesign;
+import org.eclipse.birt.report.engine.script.internal.ElementUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;

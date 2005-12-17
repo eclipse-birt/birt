@@ -594,7 +594,7 @@ public class StyleDesign implements IScriptStyleDesign
 	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#showIfBlank()
 	 */
 
-	public boolean showIfBlank( )
+	public boolean getShowIfBlank( )
 	{
 		return style.showIfBlank( );
 	}
@@ -854,12 +854,44 @@ public class StyleDesign implements IScriptStyleDesign
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setColor(java.lang.String)
+	 */
+	public void setColor( String color ) throws ScriptException
+	{
+		try
+		{
+			style.getColor( ).setValue( color );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getBackgroundColor()
 	 */
 
 	public String getBackgroundColor( )
 	{
 		return style.getBackgroundColor( ).getStringValue( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setBackgroundColor(java.lang.String)
+	 */
+	public void setBackgroundColor( String color ) throws ScriptException
+	{
+		try
+		{
+			style.getBackgroundColor( ).setValue( color );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	/*
@@ -876,12 +908,43 @@ public class StyleDesign implements IScriptStyleDesign
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setBorderTopColor(java.lang.String)
+	 */
+	public void setBorderTopColor( String color ) throws ScriptException
+	{
+		try
+		{
+			style.getBorderTopColor( ).setValue( color );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getBorderLeftColor()
 	 */
-
 	public String getBorderLeftColor( )
 	{
 		return style.getBorderLeftColor( ).getStringValue( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setBorderLeftColor(java.lang.String)
+	 */
+	public void setBorderLeftColor( String color ) throws ScriptException
+	{
+		try
+		{
+			style.getBorderLeftColor( ).setValue( color );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	/*
@@ -898,12 +961,44 @@ public class StyleDesign implements IScriptStyleDesign
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setBorderRightColor(java.lang.String)
+	 */
+	public void setBorderRightColor( String color ) throws ScriptException
+	{
+		try
+		{
+			style.getBorderRightColor( ).setValue( color );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getBorderBottomColor()
 	 */
 
 	public String getBorderBottomColor( )
 	{
 		return style.getBorderBottomColor( ).getStringValue( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setBorderBottomColor(java.lang.String)
+	 */
+	public void setBorderBottomColor( String color ) throws ScriptException
+	{
+		try
+		{
+			style.getBorderBottomColor( ).setValue( color );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	/*
@@ -920,12 +1015,44 @@ public class StyleDesign implements IScriptStyleDesign
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setBackGroundPositionX(java.lang.String)
+	 */
+	public void setBackGroundPositionX( String x ) throws ScriptException
+	{
+		try
+		{
+			style.getBackGroundPositionX( ).setValue( x );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getBackGroundPositionY()
 	 */
 
 	public String getBackGroundPositionY( )
 	{
 		return style.getBackGroundPositionY( ).getStringValue( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setBackGroundPositionY(java.lang.String)
+	 */
+	public void setBackGroundPositionY( String y ) throws ScriptException
+	{
+		try
+		{
+			style.getBackGroundPositionY( ).setValue( y );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	/*
@@ -942,6 +1069,22 @@ public class StyleDesign implements IScriptStyleDesign
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setLetterSpacing(java.lang.String)
+	 */
+	public void setLetterSpacing( String spacing ) throws ScriptException
+	{
+		try
+		{
+			style.getLetterSpacing( ).setValue( spacing );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getLineHeight()
 	 */
 
@@ -953,12 +1096,39 @@ public class StyleDesign implements IScriptStyleDesign
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setLineHeight(java.lang.String)
+	 */
+	public void setLineHeight( String height ) throws ScriptException
+	{
+		try
+		{
+			style.getLineHeight( ).setValue( height );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getTextIndent()
 	 */
 
 	public String getTextIndent( )
 	{
 		return style.getTextIndent( ).getStringValue( );
+	}
+
+	public void setTextIndent( String indent ) throws ScriptException
+	{
+		try
+		{
+			style.getTextIndent( ).setValue( indent );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	/*
@@ -975,12 +1145,44 @@ public class StyleDesign implements IScriptStyleDesign
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setWordSpacing(java.lang.String)
+	 */
+	public void setWordSpacing( String spacing ) throws ScriptException
+	{
+		try
+		{
+			style.getWordSpacing( ).setValue( spacing );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getBorderTopWidth()
 	 */
 
 	public String getBorderTopWidth( )
 	{
 		return style.getBorderTopWidth( ).getStringValue( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setBorderTopWidth(java.lang.String)
+	 */
+	public void setBorderTopWidth( String width ) throws ScriptException
+	{
+		try
+		{
+			style.getBorderTopWidth( ).setValue( width );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	/*
@@ -997,12 +1199,44 @@ public class StyleDesign implements IScriptStyleDesign
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setBorderLeftWidth(java.lang.String)
+	 */
+	public void setBorderLeftWidth( String width ) throws ScriptException
+	{
+		try
+		{
+			style.getBorderLeftWidth( ).setValue( width );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getBorderRightWidth()
 	 */
 
 	public String getBorderRightWidth( )
 	{
 		return style.getBorderRightWidth( ).getStringValue( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setBorderRightWidth(java.lang.String)
+	 */
+	public void setBorderRightWidth( String width ) throws ScriptException
+	{
+		try
+		{
+			style.getBorderRightWidth( ).setValue( width );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	/*
@@ -1019,6 +1253,22 @@ public class StyleDesign implements IScriptStyleDesign
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setBorderBottomWidth(java.lang.String)
+	 */
+	public void setBorderBottomWidth( String width ) throws ScriptException
+	{
+		try
+		{
+			style.getBorderBottomWidth( ).setValue( width );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getMarginTop()
 	 */
 
@@ -1030,12 +1280,38 @@ public class StyleDesign implements IScriptStyleDesign
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getMarginRight()
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setMarginTop(java.lang.String)
 	 */
+	public void setMarginTop( String margin ) throws ScriptException
+	{
+		try
+		{
+			style.getMarginTop( ).setValue( margin );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
 
 	public String getMarginRight( )
 	{
 		return style.getMarginRight( ).getStringValue( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setMarginRight(java.lang.String)
+	 */
+	public void setMarginRight( String margin ) throws ScriptException
+	{
+		try
+		{
+			style.getMarginRight( ).setValue( margin );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	/*
@@ -1052,12 +1328,44 @@ public class StyleDesign implements IScriptStyleDesign
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setMarginLeft(margin)
+	 */
+	public void setMarginLeft( String margin ) throws ScriptException
+	{
+		try
+		{
+			style.getMarginLeft( ).setValue( margin );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getMarginBottom()
 	 */
 
 	public String getMarginBottom( )
 	{
 		return style.getMarginBottom( ).getStringValue( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setMarginBottom(java.lang.String)
+	 */
+	public void setMarginBottom( String margin ) throws ScriptException
+	{
+		try
+		{
+			style.getMarginBottom( ).setValue( margin );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	/*
@@ -1074,12 +1382,44 @@ public class StyleDesign implements IScriptStyleDesign
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setPaddingTop(java.lang.String)
+	 */
+	public void setPaddingTop( String padding ) throws ScriptException
+	{
+		try
+		{
+			style.getPaddingTop( ).setValue( padding );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getPaddingRight()
 	 */
 
 	public String getPaddingRight( )
 	{
 		return style.getPaddingRight( ).getStringValue( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setPaddingRight(java.lang.String)
+	 */
+	public void setPaddingRight( String padding ) throws ScriptException
+	{
+		try
+		{
+			style.getPaddingRight( ).setValue( padding );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	/*
@@ -1096,12 +1436,45 @@ public class StyleDesign implements IScriptStyleDesign
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setPaddingLeft(java.lang.String)
+	 */
+	public void setPaddingLeft( String padding ) throws ScriptException
+	{
+		try
+		{
+			style.getPaddingLeft( ).setValue( padding );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getPaddingBottom()
 	 */
 
 	public String getPaddingBottom( )
 	{
 		return style.getPaddingBottom( ).getStringValue( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setPaddingBottom(java.lang.String)
+	 */
+	public void setPaddingBottom( String padding ) throws ScriptException
+	{
+		try
+		{
+			style.getPaddingBottom( ).setValue( padding );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+
 	}
 
 	/*
@@ -1114,6 +1487,23 @@ public class StyleDesign implements IScriptStyleDesign
 	{
 		return style.getFontSize( ).getStringValue( );
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setFontSize(java.lang.String)
+	 */
+	public void setFontSize( String fontSize ) throws ScriptException
+	{
+		try
+		{
+			style.getFontSize().setValue(fontSize);
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException(e.getLocalizedMessage());
+		}
+	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -1124,6 +1514,22 @@ public class StyleDesign implements IScriptStyleDesign
 	public String getFontFamily( )
 	{
 		return style.getFontFamilyHandle( ).getStringValue( );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setFontFamily(java.lang.String)
+	 */
+	public void setFontFamily( String fontFamily ) throws ScriptException
+	{
+		try
+		{
+			style.getFontFamilyHandle().setValue(fontFamily);
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException(e.getLocalizedMessage());
+		}
 	}
 
 	/*
@@ -1209,4 +1615,7 @@ public class StyleDesign implements IScriptStyleDesign
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
 	}
+
+	
+	
 }

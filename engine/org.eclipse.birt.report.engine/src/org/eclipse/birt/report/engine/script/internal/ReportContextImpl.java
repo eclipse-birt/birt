@@ -96,7 +96,7 @@ public class ReportContextImpl implements IReportContext
 		return runtimeMap;
 	}
 
-	public Map getPersistantObjects( )
+	public Map getPersistentObjects( )
 	{
 		return persistantMap;
 	}

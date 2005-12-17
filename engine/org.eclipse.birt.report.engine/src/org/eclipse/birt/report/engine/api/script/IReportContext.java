@@ -106,6 +106,6 @@ public interface IReportContext
 	 * Return a map of the persistant registered objects
 	 * 
 	 */
-	Map getPersistantObjects( );
+	Map getPersistentObjects( );
 
 }

@@ -305,14 +305,6 @@ public interface IScriptStyleDesign
 	String getStringFormat( );
 
 	/**
-	 * Returns the category of a string format.
-	 * 
-	 * @return the category of a string format
-	 */
-
-	String getStringFormatCategory( );
-
-	/**
 	 * Sets the pattern of a string format.
 	 * 
 	 * @param pattern
@@ -322,6 +314,14 @@ public interface IScriptStyleDesign
 	 */
 
 	void setStringFormat( String pattern ) throws ScriptException;
+
+	/**
+	 * Returns the category of a string format.
+	 * 
+	 * @return the category of a string format
+	 */
+
+	String getStringFormatCategory( );
 
 	/**
 	 * Sets the category of a string format. The <code>pattern</code> can be
@@ -356,14 +356,6 @@ public interface IScriptStyleDesign
 	String getNumberFormat( );
 
 	/**
-	 * Returns the category of a number format for a style.
-	 * 
-	 * @return the category of a number format
-	 */
-
-	String getNumberFormatCategory( );
-
-	/**
 	 * Sets the pattern of a number format.
 	 * 
 	 * @param pattern
@@ -373,6 +365,14 @@ public interface IScriptStyleDesign
 	 */
 
 	void setNumberFormat( String pattern ) throws ScriptException;
+
+	/**
+	 * Returns the category of a number format for a style.
+	 * 
+	 * @return the category of a number format
+	 */
+
+	String getNumberFormatCategory( );
 
 	/**
 	 * Sets the category of a number format for a highlight rule. The
@@ -406,14 +406,6 @@ public interface IScriptStyleDesign
 	String getDateTimeFormat( );
 
 	/**
-	 * Returns the category of the date-time-format.
-	 * 
-	 * @return the category of the date-time-format
-	 */
-
-	String getDateTimeFormatCategory( );
-
-	/**
 	 * Sets the pattern of a date time format for a highlight rule.
 	 * 
 	 * @param pattern
@@ -423,6 +415,14 @@ public interface IScriptStyleDesign
 	 */
 
 	void setDateTimeFormat( String pattern ) throws ScriptException;
+
+	/**
+	 * Returns the category of the date-time-format.
+	 * 
+	 * @return the category of the date-time-format
+	 */
+
+	String getDateTimeFormatCategory( );
 
 	/**
 	 * Sets the category of a number format. The <code>pattern</code> can be
@@ -654,7 +654,7 @@ public interface IScriptStyleDesign
 	 * @see #setShowIfBlank(boolean)
 	 */
 
-	boolean showIfBlank( );
+	boolean getShowIfBlank( );
 
 	/**
 	 * Sets whether to show this frame even if it is empty, or all its data
@@ -665,7 +665,7 @@ public interface IScriptStyleDesign
 	 *            not.
 	 * @throws ScriptException
 	 *             if the property is locked
-	 * @see #showIfBlank()
+	 * @see #getShowIfBlank()
 	 */
 
 	void setShowIfBlank( boolean value ) throws ScriptException;
@@ -931,316 +931,302 @@ public interface IScriptStyleDesign
 	void setWidows( String value ) throws ScriptException;
 
 	/**
-	 * Gets a color handle to deal with the font color.
+	 * Get the font color.
 	 * 
-	 * @return a ColorHandle to for the font color
 	 */
-
 	String getColor( );
 
 	/**
-	 * Gets a color handle to deal with the background color.
+	 * Set the font color.
+	 * @throws ScriptException 
 	 * 
-	 * @return a ColorHandle for the background color.
 	 */
+	void setColor( String color ) throws ScriptException;
 
+	/**
+	 * Get the background color.
+	 * 
+	 */
 	String getBackgroundColor( );
 
 	/**
-	 * Gets a color handle to deal with the color of the top side of the border.
+	 * Set the background color.
+	 * @throws ScriptException 
 	 * 
-	 * @return a ColorHandle to for the color of the top side of the border
 	 */
+	void setBackgroundColor( String color ) throws ScriptException;
 
+	/**
+	 * Get the color of the top side of the border.
+	 * 
+	 */
 	String getBorderTopColor( );
 
 	/**
-	 * Gets a color handle to deal with the color of the left side of the
-	 * border.
+	 * Set the color of the top side of the border.
+	 * @throws ScriptException 
 	 * 
-	 * @return a ColorHandle to for the color of the left side of the border
 	 */
+	void setBorderTopColor( String color ) throws ScriptException;
 
+	/**
+	 * Get the color of the left side of the border.
+	 * 
+	 */
 	String getBorderLeftColor( );
 
 	/**
-	 * Gets a color handle to deal with the color of the right side of the
-	 * border.
+	 * Set the color of the left side of the border.
+	 * @throws ScriptException 
 	 * 
-	 * @return a ColorHandle to for the color of the right side of the border
 	 */
+	void setBorderLeftColor( String color ) throws ScriptException;
 
+	/**
+	 * Get the color of the right side of the border.
+	 */
 	String getBorderRightColor( );
 
 	/**
-	 * Gets a color handle to deal with the color of the bottom side of the
-	 * border.
-	 * 
-	 * @return a ColorHandle to for the color of the bottom side of the border
+	 * Set the color of the right side of the border.
+	 * @throws ScriptException 
 	 */
+	void setBorderRightColor( String color ) throws ScriptException;
 
+	/**
+	 * Get the color of the bottom side of the border.
+	 */
 	String getBorderBottomColor( );
 
 	/**
-	 * Gets a dimension handle to deal with the x position for the background.
-	 * Besides the dimension value, the dimension handle may return one of
-	 * constants defined in <code>DesignChoiceConstatns</code>:
-	 * <ul>
-	 * <li><code>SECTION_ALIGN_LEFT</code>
-	 * <li><code>SECTION_ALIGN_CENTER</code>
-	 * <li><code>SECTION_ALIGN_RIGHT</code>
-	 * </ul>
-	 * 
-	 * @return a DimensionHandle for the x position
+	 * Set the color of the bottom side of the border.
+	 * @throws ScriptException 
 	 */
+	void setBorderBottomColor( String color ) throws ScriptException;
 
+	/**
+	 * Get the x position for the background.
+	 */
 	String getBackGroundPositionX( );
 
 	/**
-	 * Gets a dimension handle to deal with the y position for the background.
-	 * Besides the dimension value, the dimension handle may return one of
-	 * constants defined in <code>DesignChoiceConstatns</code>:
-	 * <ul>
-	 * <li><code>BACKGROUND_POSITION_TOP</code>
-	 * <li><code>BACKGROUND_POSITION_CENTER</code>
-	 * <li><code>BACKGROUND_POSITION_BOTTOM</code>
-	 * </ul>
-	 * 
-	 * @return a DimensionHandle for the y position
+	 * Set the x position for the background.
+	 * @throws ScriptException 
 	 */
+	void setBackGroundPositionX( String x ) throws ScriptException;
 
+	/**
+	 * Get the y position for the background.
+	 */
 	String getBackGroundPositionY( );
 
 	/**
-	 * Gets a dimension handle to deal with the spacing between individual
-	 * letters. Besides the dimension value, the dimension handle may return one
-	 * of constants defined in <code>DesignChoiceConstatns</code>:
-	 * <ul>
-	 * <li><code>NORMAL_NORMAL</code>
-	 * </ul>
-	 * 
-	 * @return a DimensionHandle for the spacing between individual letters
+	 * Set the y position for the background.
+	 * @throws ScriptException 
 	 */
+	void setBackGroundPositionY( String y ) throws ScriptException;
 
+	/**
+	 * Get the spacing between individual letters.
+	 */
 	String getLetterSpacing( );
 
 	/**
-	 * Gets a dimension handle to deal with the height of a line. Implies
-	 * spacing between lines. Besides the dimension value, the dimension handle
-	 * may return one of constants defined in <code>DesignChoiceConstatns</code>:
-	 * <ul>
-	 * <li><code>NORMAL_NORMAL</code>
-	 * </ul>
-	 * 
-	 * @return a DimensionHandle for the line height.
+	 * Set the spacing between individual letters.
+	 * @throws ScriptException 
 	 */
+	void setLetterSpacing( String spacing ) throws ScriptException;
 
+	/**
+	 * Get the height of a line. Implies spacing between lines.
+	 */
 	String getLineHeight( );
 
 	/**
-	 * Gets a dimension handle to deal with the text indent.
-	 * 
-	 * @return a DimensionHandle for the text indent.
+	 * Set the height of a line. Implies spacing between lines.
+	 * @throws ScriptException 
 	 */
+	void setLineHeight( String height ) throws ScriptException;
 
+	/**
+	 * Get the text indent.
+	 */
 	String getTextIndent( );
 
 	/**
-	 * Gets a dimension handle to deal with the spacing between two words.
-	 * Besides the dimension value, the dimension handle may return one of
-	 * constants defined in <code>DesignChoiceConstatns</code>:
-	 * <ul>
-	 * <li><code>NORMAL_NORMAL</code>
-	 * </ul>
-	 * 
-	 * @return a DimensionHandle to deal with the spacing among words.
+	 * Set the text indent.
+	 * @throws ScriptException 
 	 */
+	void setTextIndent( String indent ) throws ScriptException;
 
+	/**
+	 * Get the spacing between two words.
+	 */
 	String getWordSpacing( );
 
 	/**
-	 * Gets a dimension handle to deal with the width of the top side of the
-	 * border. Besides the dimension value, the dimension handle may return one
-	 * of constants defined in <code>DesignChoiceConstatns</code>:
-	 * <ul>
-	 * <li><code>LINE_WIDTH_THIN</code>
-	 * <li><code>LINE_WIDTH_MEDIUM</code>
-	 * <li><code>LINE_WIDTH_THICK</code>
-	 * </ul>
-	 * 
-	 * @return a DimensionHandle for the width of the top side of the border
+	 * Set the spacing between two words.
+	 * @throws ScriptException 
 	 */
+	void setWordSpacing( String spacing ) throws ScriptException;
 
+	/**
+	 * Get the width of the top side of the border.
+	 */
 	String getBorderTopWidth( );
 
 	/**
-	 * Gets a dimension handle to deal with the width of the left side of the
-	 * border. Besides the dimension value, the dimension handle may return one
-	 * of constants defined in <code>DesignChoiceConstatns</code>:
-	 * <ul>
-	 * <li><code>LINE_WIDTH_THIN</code>
-	 * <li><code>LINE_WIDTH_MEDIUM</code>
-	 * <li><code>LINE_WIDTH_THICK</code>
-	 * </ul>
-	 * 
-	 * @return a DimensionHandle for the width of the left side of the border
+	 * Set the width of the top side of the border.
+	 * @throws ScriptException 
 	 */
+	void setBorderTopWidth( String width ) throws ScriptException;
 
+	/**
+	 * Get the width of left side of the border.
+	 */
 	String getBorderLeftWidth( );
 
 	/**
-	 * Gets a dimension handle to deal with the width of the right side of the
-	 * border. Besides the dimension value, the dimension handle may return one
-	 * of constants defined in <code>DesignChoiceConstatns</code>:
-	 * <ul>
-	 * <li><code>LINE_WIDTH_THIN</code>
-	 * <li><code>LINE_WIDTH_MEDIUM</code>
-	 * <li><code>LINE_WIDTH_THICK</code>
-	 * </ul>
-	 * 
-	 * @return a DimensionHandle for the width of the right side of the border
+	 * Set the width of left side of the border.
+	 * @throws ScriptException 
 	 */
+	void setBorderLeftWidth( String width ) throws ScriptException;
 
+	/**
+	 * Get the width of right side of the border.
+	 */
 	String getBorderRightWidth( );
 
 	/**
-	 * Gets a dimension handle to deal with the width of the bottom side of the
-	 * border. Besides the dimension value, the dimension handle may return one
-	 * of constants defined in <code>DesignChoiceConstatns</code>:
-	 * <ul>
-	 * <li><code>LINE_WIDTH_THIN</code>
-	 * <li><code>LINE_WIDTH_MEDIUM</code>
-	 * <li><code>LINE_WIDTH_THICK</code>
-	 * </ul>
-	 * 
-	 * @return a DimensionHandle for the width of the bottom side of the border
+	 * Set the width of the right side of the border.
+	 * @throws ScriptException 
 	 */
+	void setBorderRightWidth( String width ) throws ScriptException;
 
+	/**
+	 * Get the width of the bottom side of the border.
+	 */
 	String getBorderBottomWidth( );
 
 	/**
-	 * Gets a handle to deal with the margin of the top side. Besides the
-	 * dimension value, the dimension handle may return one of constants defined
-	 * in <code>DesignChoiceConstatns</code>:
-	 * <ul>
-	 * <li><code>MARGIN_AUTO</code>
-	 * </ul>
-	 * 
-	 * @return a DimensionHandle for the margin of the top side
+	 * Set the width of the bottom side of the border.
+	 * @throws ScriptException 
 	 */
+	void setBorderBottomWidth( String width ) throws ScriptException;
 
+	/**
+	 * Get the margin of the top side.
+	 */
 	String getMarginTop( );
 
 	/**
-	 * Gets a handle to deal with the margin of the right side. Besides the
-	 * dimension value, the dimension handle may return one of constants defined
-	 * in <code>DesignChoiceConstatns</code>:
-	 * <ul>
-	 * <li><code>MARGIN_AUTO</code>
-	 * </ul>
-	 * 
-	 * @return a DimensionHandle for the margin of the right side
+	 * Set the margin of the top side.
+	 * @throws ScriptException 
 	 */
+	void setMarginTop( String margin ) throws ScriptException;
 
+	/**
+	 * Get the margin of the right side.
+	 */
 	String getMarginRight( );
 
 	/**
-	 * Gets a handle to deal with the margin of the left side. Besides the
-	 * dimension value, the dimension handle may return one of constants defined
-	 * in <code>DesignChoiceConstatns</code>:
-	 * <ul>
-	 * <li><code>MARGIN_AUTO</code>
-	 * </ul>
-	 * 
-	 * @return a DimensionHandle for the margin of the left side
+	 * Set the margin of the right side.
+	 * @throws ScriptException 
 	 */
+	void setMarginRight( String margin ) throws ScriptException;
 
+	/**
+	 * Get the margin of the left side.
+	 */
 	String getMarginLeft( );
 
 	/**
-	 * Gets a handle to deal with the margin of the bottom side. Besides the
-	 * dimension value, the dimension handle may return one of constants defined
-	 * in <code>DesignChoiceConstatns</code>:
-	 * <ul>
-	 * <li><code>MARGIN_AUTO</code>
-	 * </ul>
-	 * 
-	 * @return a DimensionHandle for the margin of the bottom side
+	 * Set the margin of the left side.
+	 * @throws ScriptException 
 	 */
+	void setMarginLeft( String margin ) throws ScriptException;
 
+	/**
+	 * Get the margin of the bottom side.
+	 */
 	String getMarginBottom( );
 
 	/**
-	 * Gets a dimension handle to deal with the padding of the top side.
-	 * 
-	 * @return a DimensionHandle for the padding of the top side
+	 * Set the margin of the bottom side.
+	 * @throws ScriptException 
 	 */
+	void setMarginBottom( String margin ) throws ScriptException;
 
+	/**
+	 * Get the padding of the top side.
+	 */
 	String getPaddingTop( );
 
 	/**
-	 * Gets a dimension handle to deal with the padding of the right side.
-	 * 
-	 * @return a DimensionHandle for the padding of the right side
+	 * Set the padding of the top side.
+	 * @throws ScriptException 
 	 */
+	void setPaddingTop( String padding ) throws ScriptException;
 
+	/**
+	 * Get the padding of the right side.
+	 */
 	String getPaddingRight( );
 
 	/**
-	 * Gets a dimension handle to deal with the padding of the left side.
-	 * 
-	 * @return a DimensionHandle for the padding of the left side
+	 * Set the padding of the right side.
+	 * @throws ScriptException 
 	 */
+	void setPaddingRight( String padding ) throws ScriptException;
 
+	/**
+	 * Get the padding of the left side.
+	 */
 	String getPaddingLeft( );
 
 	/**
-	 * Gets a dimension handle to deal with the padding of the bottom side.
-	 * 
-	 * @return a DimensionHandle for the padding of the bottom side
+	 * Set the padding of the left side.
+	 * @throws ScriptException 
 	 */
+	void setPaddingLeft( String padding ) throws ScriptException;
 
+	/**
+	 * Get the padding of the bottom side.
+	 */
 	String getPaddingBottom( );
 
 	/**
-	 * Gets a dimension handle to deal with the font size.
-	 * 
-	 * @return a DimensionHandle for the font size.
+	 * Set the padding of the bottom side.
+	 * @throws ScriptException 
 	 */
+	void setPaddingBottom( String padding ) throws ScriptException;
 
+	/**
+	 * Get the font size.
+	 */
 	String getFontSize( );
 
 	/**
-	 * Returns the font handle to deal with the font family.
-	 * 
-	 * @return a FontHandle for the font family.
-	 * @see FontHandle
+	 * Set the font size.
+	 * @throws ScriptException 
 	 */
+	void setFontSize( String fontSize ) throws ScriptException;
 
+	/**
+	 * Get the font family.
+	 */
 	String getFontFamily( );
 
 	/**
-	 * Returns the weight of the font. The return value is one of constants
-	 * defined in <code>DesignChoiceConstants</code>:
-	 * <ul>
-	 * <li><code>FONT_WEIGHT_NORMAL</code>
-	 * <li><code>FONT_WEIGHT_BOLD</code>
-	 * <li><code>FONT_WEIGHT_BOLDER</code>
-	 * <li><code>FONT_WEIGHT_LIGHTER</code>
-	 * <li><code>FONT_WEIGHT_100</code>
-	 * <li><code>FONT_WEIGHT_200</code>
-	 * <li><code>FONT_WEIGHT_300</code>
-	 * <li><code>FONT_WEIGHT_400</code>
-	 * <li><code>FONT_WEIGHT_500</code>
-	 * <li><code>FONT_WEIGHT_600</code>
-	 * <li><code>FONT_WEIGHT_700</code>
-	 * <li><code>FONT_WEIGHT_800</code>
-	 * <li><code>FONT_WEIGHT_900</code>
-	 * </ul>
-	 * 
-	 * @return the font weight in a string
+	 * Set the font family.
+	 * @throws ScriptException 
 	 */
+	void setFontFamily( String fontFamily ) throws ScriptException;
 
+	/**
+	 * Get the weight of the font.
+	 */
 	String getFontWeight( );
 
 	/**
@@ -1280,7 +1266,6 @@ public interface IScriptStyleDesign
 	 * 
 	 * @return the font variant in a string.
 	 */
-
 	String getFontVariant( );
 
 	/**
@@ -1296,7 +1281,6 @@ public interface IScriptStyleDesign
 	 * @throws ScriptException
 	 *             if the input value is not one of the above.
 	 */
-
 	void setFontVariant( String fontVariant ) throws ScriptException;
 
 	/**
@@ -1310,7 +1294,6 @@ public interface IScriptStyleDesign
 	 * 
 	 * @return the font style in string.
 	 */
-
 	String getFontStyle( );
 
 	/**
@@ -1327,7 +1310,6 @@ public interface IScriptStyleDesign
 	 * @throws ScriptException
 	 *             if the input value is not one of the above.
 	 */
-
 	void setFontStyle( String fontStyle ) throws ScriptException;
 
 }

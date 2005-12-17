@@ -12,28 +12,20 @@
 package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.ICellInstance;
-import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 
 /**
  * A class representing the runtime state of a cell
  */
-public class CellInstance implements ICellInstance
+public class CellInstance extends ReportElementInstance implements ICellInstance
 {
 
 	private CellContent cell;
 
 	public CellInstance( CellContent cell )
 	{
-		this.cell = cell;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.script.instance.ICellInstance#getStyle()
-	 */
-	public IScriptStyle getStyle( )
-	{
-		return new StyleInstance( cell.getStyle( ) );
+		super(cell);
+		this.cell = (CellContent)content;
 	}
 
 	/* (non-Javadoc)

@@ -25,7 +25,9 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 		super( image );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#getAltText()
 	 */
 	public String getAltText( )
@@ -33,7 +35,9 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 		return ( ( ImageContent ) content ).getAltText( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#setAltText(java.lang.String)
 	 */
 	public void setAltText( String altText )
@@ -41,7 +45,9 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 		( ( ImageContent ) content ).setAltText( altText );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#getAltTextKey()
 	 */
 	public String getAltTextKey( )
@@ -49,7 +55,9 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 		return ( ( ImageContent ) content ).getAltTextKey( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#setAltTextKey(java.lang.String)
 	 */
 	public void setAltTextKey( String altTextKey )
@@ -57,7 +65,9 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 		( ( ImageContent ) content ).setAltTextKey( altTextKey );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#getExtension()
 	 */
 	public String getExtension( )
@@ -65,7 +75,9 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 		return ( ( ImageContent ) content ).getExtension( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#getURI()
 	 */
 	public String getURI( )
@@ -73,7 +85,9 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 		return ( ( ImageContent ) content ).getURI( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#setURI(java.lang.String)
 	 */
 	public void setURI( String uri )
@@ -81,7 +95,9 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 		( ( ImageContent ) content ).setURI( uri );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#getImageSource()
 	 */
 	public int getImageSource( )
@@ -89,7 +105,9 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 		return ( ( ImageContent ) content ).getImageSource( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#setImageSource(int)
 	 */
 	public void setImageSource( int source )
@@ -97,7 +115,9 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 		( ( ImageContent ) content ).setImageSource( source );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#getImageName()
 	 */
 	public String getImageName( )
@@ -105,12 +125,34 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 		return ( ( ImageContent ) content ).getImageName( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#setImageName(java.lang.String)
 	 */
 	public void setImageName( String imageName )
 	{
 		( ( ImageContent ) content ).setImageName( imageName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#getData( )
+	 */
+	public byte[] getData( )
+	{
+		return ( ( ImageContent ) content ).getData( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#setData( byte[])
+	 */
+	public void setData( byte[] data )
+	{
+		( ( ImageContent ) content ).setData( data );
 	}
 
 }
