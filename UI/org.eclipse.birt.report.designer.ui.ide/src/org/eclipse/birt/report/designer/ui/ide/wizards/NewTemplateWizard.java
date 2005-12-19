@@ -8,8 +8,10 @@ import java.net.URL;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.editors.IDEReportEditor;
 import org.eclipse.birt.report.designer.ui.editors.IDETemplateEditor;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -23,6 +25,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -39,7 +42,7 @@ public class NewTemplateWizard extends NewReportWizard
 	private static final String NEW_TEMPLATE_FILE_NAME_PREFIX = Messages.getString( "NewTemplateWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
 	private static final String NEW_TEMPLATE_DESCRIPTION = Messages.getString( "NewTemplateWizard.pageDescription.createNewTemplate" ); //$NON-NLS-1$
 	private static final String NEW_TEMPLATE_TITLE = Messages.getString( "NewTemplateWizard.title.Template" ); //$NON-NLS-1$
-	
+
 	public NewTemplateWizard()
 	{
 		super( "." + IReportElementConstants.TEMPLATE_FILE_EXTENSION ); //$NON-NLS-1$
@@ -67,6 +70,12 @@ public class NewTemplateWizard extends NewReportWizard
 		newReportFileWizardPage.setContainerFullPath( getDefaultContainerPath( ) );
 		newReportFileWizardPage.setDescription( NEW_TEMPLATE_DESCRIPTION );
 		newReportFileWizardPage.setTitle(NEW_TEMPLATE_TITLE);
+		
+
+		settingPage = new WizardReportSettingPage( null );
+		settingPage.setTitle( Messages.getString( "SaveReportAsWizard.SettingPage.title" ) );
+
+		addPage( settingPage );
 	}
 	
 	/*
@@ -210,7 +219,9 @@ public class NewTemplateWizard extends NewReportWizard
 				IWorkbenchPage page = window.getActivePage( );
 				try
 				{
-					IDE.openEditor( page, file, IDETemplateEditor.ID,true );
+					IEditorPart editorPart = IDE.openEditor( page, file, IDETemplateEditor.ID,true );
+					setReportSettings(((IDEReportEditor)editorPart).getModel());
+					editorPart.doSave(null);
 					BasicNewProjectResourceWizard.updatePerspective( getConfigElement() );
 				}
 				catch ( Exception e )

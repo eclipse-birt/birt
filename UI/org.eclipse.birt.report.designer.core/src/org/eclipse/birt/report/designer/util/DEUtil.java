@@ -1666,4 +1666,10 @@ public class DEUtil
 		}
 		return null;
 	}
+
+	public static List getDataSources( )
+	{
+		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
+				.getAllDataSources( );
+	}
 }

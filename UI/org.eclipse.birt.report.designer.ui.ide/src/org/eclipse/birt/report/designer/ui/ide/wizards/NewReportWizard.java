@@ -23,9 +23,13 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.editors.IDEReportEditor;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -88,6 +92,8 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 	private IStructuredSelection selection;
 
 	WizardNewReportCreationPage newReportFileWizardPage;
+	
+	WizardReportSettingPage settingPage;
 
 	private WizardTemplateChoicePage templateChoicePage;
 
@@ -343,6 +349,11 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		resetUniqueCount( );
 		newReportFileWizardPage.setFileName( getUniqueReportName(NEW_REPORT_FILE_NAME_PREFIX,NEW_REPORT_FILE_EXTENSION) );//$NON-NLS-1$
 		newReportFileWizardPage.setContainerFullPath( getDefaultContainerPath( ) );
+		
+		settingPage = new WizardReportSettingPage( null );
+		settingPage.setTitle( Messages.getString( "SaveReportAsWizard.SettingPage.title" ) );
+
+		addPage( settingPage );
 	}
 
 	void resetUniqueCount( )
@@ -591,7 +602,11 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 				IWorkbenchPage page = window.getActivePage( );
 				try
 				{
-					IDE.openEditor( page, file, true );
+					IEditorPart editorPart = IDE.openEditor( page, file, true );
+
+					setReportSettings(((IDEReportEditor)editorPart).getModel());
+					editorPart.doSave(null);
+					
 					BasicNewProjectResourceWizard.updatePerspective( configElement );
 					if ( showCheat && !cheatId.equals( "" ) ) //$NON-NLS-1$
 					{
@@ -725,5 +740,25 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 	public IConfigurationElement getConfigElement( )
 	{
 		return configElement;
+	}
+
+	/**
+	 * Set report basic settings.
+	 * @param model
+	 * @throws IOException
+	 */
+	void setReportSettings( Object model ) throws IOException
+	{
+		ReportDesignHandle handle = (ReportDesignHandle)model;
+		try
+		{
+			handle.setDisplayName( settingPage.getDisplayName( ) );
+			handle.setDescription( settingPage.getDescription( ) );
+			handle.setIconFile( settingPage.getPreviewImagePath( ) );
+		}
+		catch ( SemanticException e )
+		{
+		}
+		handle.save();
 	}
 }
