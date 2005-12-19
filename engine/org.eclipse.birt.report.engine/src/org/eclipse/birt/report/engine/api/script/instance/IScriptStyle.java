@@ -1,5 +1,7 @@
 package org.eclipse.birt.report.engine.api.script.instance;
 
+import org.eclipse.birt.report.engine.api.script.ScriptException;
+
 public interface IScriptStyle
 {
 
@@ -167,13 +169,13 @@ public interface IScriptStyle
 	 * Get the background repeat type (valid types are REPEAT, REPEAT_X,
 	 * REPEAT_Y and NO_REPEAT)
 	 */
-	String getRepeat( );
+	String getBackgroundRepeat( );
 
 	/**
 	 * Set the background repeat type (valid types are REPEAT, REPEAT_X,
 	 * REPEAT_Y and NO_REPEAT)
 	 */
-	void setRepeat( String repeat );
+	void setBackgroundRepeat( String repeat );
 
 	/**
 	 * Get the bottom border color
@@ -554,5 +556,35 @@ public interface IScriptStyle
 	 * 
 	 */
 	void setFontSize( String fontSize );
+
+	/**
+	 * Get the text underline
+	 */
+	public String getTextUnderline( );
+
+	/**
+	 * Set the text underline
+	 */
+	public void setTextUnderline( String underline ) throws ScriptException;
+
+	/**
+	 * Get the text overline
+	 */
+	public String getTextOverline( );
+
+	/**
+	 * Set the text overline
+	 */
+	public void setTextOverline( String overline ) throws ScriptException;
+
+	/**
+	 * Get the text line through
+	 */
+	public String getTextLineThrough( );
+
+	/**
+	 * Set the text line through
+	 */
+	public void setTextLineThrough( String through ) throws ScriptException;
 
 }

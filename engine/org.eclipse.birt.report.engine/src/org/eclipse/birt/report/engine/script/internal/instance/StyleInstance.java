@@ -12,7 +12,9 @@
 package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
+import org.w3c.dom.DOMException;
 
 /**
  * A class representing the style of a report item in the scripting environment
@@ -239,7 +241,7 @@ public class StyleInstance implements IScriptStyle
 	 * Get the background repeat type (valid types are REPEAT, REPEAT_X,
 	 * REPEAT_Y and NO_REPEAT)
 	 */
-	public String getRepeat( )
+	public String getBackgroundRepeat( )
 	{
 		return style.getBackgroundRepeat( );
 	}
@@ -248,7 +250,7 @@ public class StyleInstance implements IScriptStyle
 	 * Set the background repeat type (valid types are REPEAT, REPEAT_X,
 	 * REPEAT_Y and NO_REPEAT)
 	 */
-	public void setRepeat( String repeat )
+	public void setBackgroundRepeat( String repeat )
 	{
 		style.setBackgroundRepeat( repeat );
 	}
@@ -801,5 +803,53 @@ public class StyleInstance implements IScriptStyle
 	public void setFontSize( String fontSize )
 	{
 		style.setFontSize( fontSize );
+	}
+
+	public String getTextUnderline( )
+	{
+		return style.getTextUnderline( );
+	}
+
+	public void setTextUnderline( String underline ) throws ScriptException
+	{
+		try
+		{
+			style.setTextUnderline( underline );
+		} catch ( DOMException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	public String getTextOverline( )
+	{
+		return style.getTextOverline( );
+	}
+
+	public void setTextOverline( String overline ) throws ScriptException
+	{
+		try
+		{
+			style.setTextOverline( overline );
+		} catch ( DOMException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	public String getTextLineThrough( )
+	{
+		return style.getTextLineThrough( );
+	}
+
+	public void setTextLineThrough( String through ) throws ScriptException
+	{
+		try
+		{
+			style.setTextLineThrough( through );
+		} catch ( DOMException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
 	}
 }

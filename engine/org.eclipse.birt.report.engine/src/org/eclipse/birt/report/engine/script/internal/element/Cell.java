@@ -43,7 +43,7 @@ public class Cell extends ReportElement implements ICell
 	 * @param span
 	 *            the column span
 	 * 
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if this property is locked.
 	 */
 
@@ -77,7 +77,7 @@ public class Cell extends ReportElement implements ICell
 	 * @param span
 	 *            the row span
 	 * 
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if this property is locked.
 	 */
 
@@ -124,7 +124,7 @@ public class Cell extends ReportElement implements ICell
 	 * @param drop
 	 *            the string value of the drop property
 	 * 
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if the property is locked or the input value is not one of
 	 *             the above.
 	 * 
@@ -161,7 +161,7 @@ public class Cell extends ReportElement implements ICell
 	 * @param column
 	 *            the column index, starting from 1.
 	 * 
-	 * @throws SemanticException
+	 * @throws ScriptException
 	 *             if this property is locked.
 	 */
 
