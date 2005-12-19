@@ -48,11 +48,6 @@
                   name="odaURL"/>
                <property
                   type="string"
-                  defaultDisplayName="Data Source"
-                  canInherit="true"
-                  name="odaDataSource"/>
-               <property
-                  type="string"
                   defaultDisplayName="User Name"
                   canInherit="true"
                   name="odaUser"/>

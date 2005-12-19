@@ -57,6 +57,9 @@
                   canInherit="true"
                   name="TABLENAME"/>
          </propertyGroup>
+         <propertyVisibility name="queryText" visibility="hide"/>
+         <propertyVisibility name="TABLENAME" visibility="hide"/>
+         <propertyVisibility name="MAX_ROW" visibility="hide"/>
          </properties>
             <dataTypeMapping
                   nativeDataType="BIT"
