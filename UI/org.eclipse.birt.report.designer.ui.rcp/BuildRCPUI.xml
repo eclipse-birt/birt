@@ -68,7 +68,7 @@
 
 	<property name="eclipse.home" location="." />
 	
-	<property name="plugin.version" value="1.0.1" />
+	<property name="plugin.version" value="2.0.0" />
 	<property name="export.dir" location="export" />
 	<property name="javadoc.dir" location="docs/api" />
 	<property name="utest.report.dir" location="utestreports" />
