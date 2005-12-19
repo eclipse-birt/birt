@@ -138,7 +138,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.65 $ $Date: 2005/12/07 02:23:22 $
+ * @version $Revision: 1.66 $ $Date: 2005/12/13 02:19:22 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -225,7 +225,7 @@ class EngineIRVisitor extends DesignVisitor
 		defaultUnit = report.getUnit( );
 		
 		
-		setupNamedExpressions( handle.getUserProperties(), 
+		setupNamedExpressions( handle, 
 				report.getNamedExpressions( ) );
 		
 		// INCLUDE LIBRARY
@@ -295,8 +295,9 @@ class EngineIRVisitor extends DesignVisitor
 	 * @param namedExpressions
 	 *  		the data structure that hold named expressions
 	 */
-	private void setupNamedExpressions( List userProperties, Map namedExpressions )
+	private void setupNamedExpressions( DesignElementHandle handle, Map namedExpressions )
 	{
+		List userProperties = handle.getUserProperties( );
 		if( userProperties == null || namedExpressions == null )
 			return ;
 		for(int i=0; i<userProperties.size(); i++)
@@ -1211,7 +1212,7 @@ class EngineIRVisitor extends DesignVisitor
 			}
 		}
 		
-		setupNamedExpressions( handle.getUserProperties( ), 
+		setupNamedExpressions( handle, 
 				element.getNamedExpressions( ) );
 	}
 
