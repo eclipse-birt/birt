@@ -16,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Driver;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -35,6 +36,7 @@ public class JdbcToolKit
 
 	// A map from driverClass (String) to JDBCDriverInformation
 	private static HashMap driverNameMap = null;
+	private static Hashtable file2Drivers = null;
 	
 	private static final Class DriverClass = Driver.class;
 
@@ -46,6 +48,7 @@ public class JdbcToolKit
 	{
 		jdbcDriverInfos = null;
 		driverNameMap = null;
+		file2Drivers = null;
 	}
 	 
 	 /**
@@ -53,18 +56,18 @@ public class JdbcToolKit
 	  * @param file
 	  * @return a List of JDBCDriverInformation
 	  */
-	public static List getJdbcDriverFromFile( List fileList )
+	public static void getJdbcDriverFromFile( List fileList )
 	{
 		URLClassLoader urlClassLoader = createClassLoader( fileList );
-		return getJDBCDriverInfoList( fileList, urlClassLoader );
+		jdbcDriverInfos.addAll( getJDBCDriverInfoList( fileList, urlClassLoader ) );
 	}
 
-
-	
 	/**
 	 * Returns a List jdbc Drivers. The Drivers are searched from predefined
 	 * directories in the DTE plug-in. Currently it is expected that the jdbc
 	 * drivers are in the "drivers" directory of the DTE oda.jdbc plug-in.
+	 * @param driverName
+	 * @return
 	 */
 	public static List getJdbcDriversFromODADir( String driverName )
 	{
@@ -73,6 +76,7 @@ public class JdbcToolKit
 		
 		jdbcDriverInfos = new ArrayList( );
 		driverNameMap = new HashMap();
+		file2Drivers = new Hashtable( );
 
 		// Get drivers from drivers subdirectory
 		addDriversFromFiles( );
@@ -140,7 +144,6 @@ public class JdbcToolKit
 		return jdbcDriverInfos;
 	}
 
-	
 	/**
 	 * Get a List of JDBCDriverInformations loaded from the given fileList
 	 * @param fileList the File List
@@ -153,6 +156,7 @@ public class JdbcToolKit
 		for ( int i = 0; i < fileList.size( ); i++ )
 		{
 			String[] resourceNames = getAllResouceNames( (File) fileList.get( i ) );
+			List subDriverList = new ArrayList( );
 			for ( int j = 0; j < resourceNames.length; j++ )
 			{
 				String resourceName = resourceNames[j];
@@ -167,16 +171,55 @@ public class JdbcToolKit
 					{
 						JDBCDriverInformation info = JDBCDriverInformation.newInstance( aClass );
 						if ( info != null )
+						{
 							driverList.add( info );
+							subDriverList.add( info );
+						}
 					}
 				}
 			}
+			file2Drivers.put(((File)fileList.get(i)).getName(),subDriverList);
 		}
 		return driverList;
 	}
 
 	/**
+	 * add new found driver(s) to runtime driver list
+	 * @param fileList
+	 */
+	public static void addToDriverList( List fileList )
+	{
+		if ( fileList != null && fileList.size( ) != 0 )
+			getJdbcDriverFromFile( fileList );
+	}
+
+	/**
+	 * remove driver(s) from runtime driver list
+	 * @param fileList
+	 */
+	public static void removeFromDriverList( List fileList )
+	{
+		for ( int i = 0; i < fileList.size( ); i++ )
+		{
+			String fileName = ( (File) fileList.get( i ) ).getName( );
+			jdbcDriverInfos.removeAll( (List) file2Drivers.get( fileName ) );
+			file2Drivers.remove( fileName );
+		}
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static List getDriverList( )
+	{
+		return jdbcDriverInfos;
+	}
+	
+	/**
 	 * modify resourceName,perpare for loadClass()
+	 * @param resourceName
+	 * @return
 	 */
 	private static String modifyResourceName( String resourceName )
 	{
@@ -232,6 +275,9 @@ public class JdbcToolKit
 
 	/**
 	 * Load a Class using the given ClassLoader
+	 * @param urlClassLoader
+	 * @param resourceName
+	 * @return
 	 */
 	private static Class loadClass( URLClassLoader urlClassLoader, String resourceName )
 	{
