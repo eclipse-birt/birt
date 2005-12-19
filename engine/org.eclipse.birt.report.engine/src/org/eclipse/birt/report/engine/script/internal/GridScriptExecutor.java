@@ -63,7 +63,7 @@ public class GridScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnRender( TableContent content, IRowData rowData,
+	public static void handleOnRender( TableContent content,
 			ExecutionContext context )
 	{
 		try
