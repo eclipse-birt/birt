@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.reportitem;
 
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.script.IExternalContext;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.mozilla.javascript.Context;
@@ -27,6 +29,8 @@ public class BIRTExternalContext implements IExternalContext
 
 	private transient IReportContext context;
 	private transient Scriptable scriptableContext;
+
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	/**
 	 * The constructor.
@@ -55,6 +59,10 @@ public class BIRTExternalContext implements IExternalContext
 					scope,
 					context,
 					null );
+		}
+		catch ( Exception e )
+		{
+			logger.log( e );
 		}
 		finally
 		{
