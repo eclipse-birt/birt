@@ -993,6 +993,7 @@ public class ElementFactory
 			}
 			childElement.setExtends( baseElement );
 			childElement.getElement( ).refreshStructureFromParent( module );
+			module.getModuleHandle().rename( childElement );
 		}
 
 		return childElement;

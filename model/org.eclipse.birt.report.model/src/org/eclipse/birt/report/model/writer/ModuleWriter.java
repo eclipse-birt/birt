@@ -1697,7 +1697,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writeContents( obj, CascadingParameterGroup.PARAMETERS_SLOT,
 				DesignSchemaConstants.PARAMETERS_TAG );
-
+		writeOverridenPropertyValues( obj );
+		
 		writer.endElement( );
 	}
 
@@ -2021,7 +2022,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( list.isEmpty( ) )
 			return;
 
-		// if there is "extneds" element, do not write out the conent.
+		// if there is "extends" element, do not write out the conent.
 
 		if ( obj.getExtendsElement( ) != null )
 			return;
@@ -2397,6 +2398,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, MasterPage.RIGHT_MARGIN_PROP );
 
 		writeStyle( obj );
+		writeOverridenPropertyValues( obj );
 	}
 
 	/*

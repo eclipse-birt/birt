@@ -40,6 +40,7 @@ import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
 import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.core.INameManager;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -294,6 +295,12 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 */
 
 	protected Exception fatalException;
+	
+	/**
+	 * The registered name manager of this module.
+	 */
+	
+	protected INameManager nameManager = null;
 
 	/**
 	 * Default constructor.
@@ -317,7 +324,10 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		setID( getNextID( ) );
 		addElementID( this );
-
+		
+		// initialize the name manager
+		
+		nameManager = new NameManager( this );
 	}
 
 	/**
@@ -658,6 +668,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		module.idMap = new HashMap( );
 		module.moduleNameSpaces = new IModuleNameSpace[NAME_SPACE_COUNT];
 		module.nameSpaces = new NameSpace[NAME_SPACE_COUNT];
+		module.nameManager = new NameManager( module );
 		module.referencableProperties = null;
 		module.saveState = 0;
 		module.systemId = null;
@@ -1173,53 +1184,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public void makeUniqueName( DesignElement element )
 	{
-		ElementDefn eDefn = (ElementDefn) element.getDefn( );
-		String name = StringUtil.trimString( element.getName( ) );
-
-		// Some elements can have a blank name.
-
-		if ( eDefn.getNameOption( ) == MetaDataConstants.NO_NAME )
-			return;
-
-		if ( eDefn.getNameOption( ) == MetaDataConstants.OPTIONAL_NAME
-				&& name == null && this instanceof ReportDesign )
-			return;
-
-		// If the element already has a unique name, us it.
-
-		NameSpace nameSpace = getNameSpace( eDefn.getNameSpaceID( ) );
-		if ( name != null && !nameSpace.contains( name ) )
-			return;
-
-		// If the element has no name, create it as "New<new name>" where
-		// "<new name>" is the new element display name for the element. Both
-		// "New" and the new element display name are localized to the user's
-		// locale.
-
-		if ( name == null )
-		{
-			// When creating a new report element which requires a name, the
-			// default name will be "New" followed by the element name, such as
-			// "New Label"; also, if "NewLabel" already exists, then a number
-			// will be appended, such as "NewLabel1", etc.
-
-			name = ModelMessages
-					.getMessage( MessageConstants.NAME_PREFIX_NEW_MESSAGE );
-
-			name += ModelMessages.getMessage( "New." //$NON-NLS-1$
-					+ element.getDefn( ).getName( ) );
-			name = name.trim( );
-		}
-
-		// Add a numeric suffix that makes the name unique.
-
-		int index = 0;
-		String baseName = name;
-		while ( nameSpace.contains( name ) )
-		{
-			name = baseName + ++index; //$NON-NLS-1$
-		}
-		element.setName( name.trim( ) );
+		nameManager.makeUniqueName( element );
 	}
 
 	/**
@@ -1397,6 +1362,10 @@ public abstract class Module extends DesignElement implements IModuleModel
 				}
 			}
 		}
+		
+		// clear the name manager
+		
+		this.nameManager.clear( );
 	}
 
 	/**

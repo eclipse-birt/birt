@@ -1330,11 +1330,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 		IElementDefn defn = elementHandle.getElement( ).getDefn( );
 
 		if ( defn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME
-				|| elementHandle.getModuleHandle( ) instanceof LibraryHandle )
+				|| elementHandle.getModuleHandle( ) instanceof LibraryHandle
+				|| elementHandle.getName( ) != null )
 			module.makeUniqueName( elementHandle.getElement( ) );
-		else
-			elementHandle.getElement( ).setName( null );
-
+		
 		for ( int i = 0; i < defn.getSlotCount( ); i++ )
 		{
 			ContainerSlot slot = elementHandle.getElement( ).getSlot( i );

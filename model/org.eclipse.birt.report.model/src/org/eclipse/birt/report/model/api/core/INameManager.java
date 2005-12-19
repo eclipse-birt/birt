@@ -1,0 +1,49 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.model.api.core;
+
+import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
+
+/**
+ * Interface to do all managements about the element names.
+ */
+
+public interface INameManager
+{
+
+	/**
+	 * Gets the host module of this name manager. The host module is what adapts
+	 * all the managements for element names to assure that all the child
+	 * elements have a unqiue name.
+	 * 
+	 * @return the host module of this name manager
+	 */
+	
+	Module getHostModule( );
+
+	/**
+	 * Makes a unqiue name for the given element.
+	 * 
+	 * @param element
+	 *            the element to make a unique name
+	 */
+
+	void makeUniqueName( DesignElement element );
+
+	/**
+	 * Clears the data in name manage and re-initialize it.
+	 * 
+	 */
+
+	void clear( );
+}
