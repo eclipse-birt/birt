@@ -97,7 +97,11 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 					public String getActionString( )
 					{
-						return (String) dph.getUserValue( handle.getURI( ) );
+						if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
+							return (String) dph.getUserValue( handle.getURI( ) );
+						if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
+							return (String) dph.getUserValue( handle.getTargetBookmark( ) );
+						return null;
 					}
 
 					public String getReportName( )
