@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.component.util;
 
+import java.util.Map;
+
 import org.eclipse.birt.chart.model.component.*;
 
 import org.eclipse.birt.chart.model.component.Axis;
@@ -142,6 +144,11 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 		public Object caseSeries( Series object )
 		{
 			return createSeriesAdapter( );
+		}
+
+		public Object caseEStringToDataSetMapEntry( Map.Entry object )
+		{
+			return createEStringToDataSetMapEntryAdapter( );
 		}
 
 		public Object defaultCase( EObject object )
@@ -328,6 +335,21 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createSeriesAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>EString To Data Set Map Entry</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see java.util.Map.Entry
+	 * @generated
+	 */
+	public Adapter createEStringToDataSetMapEntryAdapter( )
 	{
 		return null;
 	}

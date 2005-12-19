@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.computation;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -44,6 +46,8 @@ public final class DataPointHints
 
 	private Object oSeriesValue;
 
+	private Map userValueMap;
+
 	private final Location lo;
 
 	private final double[] dSize;
@@ -55,6 +59,7 @@ public final class DataPointHints
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation" ); //$NON-NLS-1$
 
 	/**
+	 * The constructor.
 	 * 
 	 * @param _oBaseValue
 	 * @param _oOrthogonalValue
@@ -96,6 +101,8 @@ public final class DataPointHints
 	}
 
 	/**
+	 * The constructor.
+	 * 
 	 * @param _oBaseValue
 	 * @param _oOrthogonalValue
 	 * @param _oSeriesValue
@@ -151,6 +158,8 @@ public final class DataPointHints
 	}
 
 	/**
+	 * Accumulates values to current DataPointHintes.
+	 * 
 	 * @param _oBaseValue
 	 * @param _oOrthogonalValue
 	 * @param _oSeriesValue
@@ -242,6 +251,7 @@ public final class DataPointHints
 	}
 
 	/**
+	 * Returns the base value of current DataPointHintes.
 	 * 
 	 * @return
 	 */
@@ -251,6 +261,7 @@ public final class DataPointHints
 	}
 
 	/**
+	 * Returns the orthogonal value of current DataPointHintes.
 	 * 
 	 * @return
 	 */
@@ -260,6 +271,7 @@ public final class DataPointHints
 	}
 
 	/**
+	 * Returns the series value of current DataPointHintes.
 	 * 
 	 * @return
 	 */
@@ -269,6 +281,7 @@ public final class DataPointHints
 	}
 
 	/**
+	 * Returns the location value of current DataPointHintes.
 	 * 
 	 * @return
 	 */
@@ -278,6 +291,9 @@ public final class DataPointHints
 	}
 
 	/**
+	 * Returns the 3d location value of current DataPointHintes(only available
+	 * in 3d mode).
+	 * 
 	 * @return
 	 */
 	public final Location3D getLocation3D( )
@@ -291,6 +307,7 @@ public final class DataPointHints
 	}
 
 	/**
+	 * Returns the size value of current DataPointHintes.
 	 * 
 	 * @return
 	 */
@@ -300,6 +317,9 @@ public final class DataPointHints
 	}
 
 	/**
+	 * Returns the size value of current DataPointHintes(only available in 3d
+	 * mode).
+	 * 
 	 * @return
 	 */
 	public final Size getSize2D( )
@@ -308,6 +328,39 @@ public final class DataPointHints
 	}
 
 	/**
+	 * Returns the user value of current DataPointHintes.
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public final Object getUserValue( String key )
+	{
+		if ( userValueMap == null )
+		{
+			return null;
+		}
+
+		return userValueMap.get( key );
+	}
+
+	/**
+	 * Sets the user value of current DataPointHintes.
+	 * 
+	 * @param key
+	 * @param value
+	 */
+	public final void setUserValue( String key, Object value )
+	{
+		if ( userValueMap == null )
+		{
+			userValueMap = new HashMap( );
+		}
+
+		userValueMap.put( key, value );
+	}
+
+	/**
+	 * Returns the orthogonal display value of current DataPointHintes.
 	 * 
 	 * @return
 	 */
@@ -317,6 +370,7 @@ public final class DataPointHints
 	}
 
 	/**
+	 * Returns the base display value of current DataPointHintes.
 	 * 
 	 * @return
 	 */
@@ -326,6 +380,7 @@ public final class DataPointHints
 	}
 
 	/**
+	 * Returns the series display value of current DataPointHintes.
 	 * 
 	 * @return
 	 */
@@ -335,6 +390,8 @@ public final class DataPointHints
 	}
 
 	/**
+	 * Returns the base display value of current DataPointHintes using given
+	 * format specifier.
 	 * 
 	 * @return
 	 */
@@ -364,6 +421,8 @@ public final class DataPointHints
 	}
 
 	/**
+	 * Returns the orthogonal display value of current DataPointHintes using
+	 * given format specifier.
 	 * 
 	 * @return
 	 */
@@ -393,6 +452,8 @@ public final class DataPointHints
 	}
 
 	/**
+	 * Returns the series display value of current DataPointHintes using given
+	 * format specifier.
 	 * 
 	 * @return
 	 */
@@ -422,6 +483,7 @@ public final class DataPointHints
 	}
 
 	/**
+	 * Returns the display value of current DataPointHintes.
 	 * 
 	 * @return
 	 */
@@ -466,14 +528,16 @@ public final class DataPointHints
 		return sb.toString( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public final String toString( )
 	{
 		return Messages.getString( "info.datapoint.to.string", //$NON-NLS-1$
 				new Object[]{
-					this, getDisplayValue( )
+						this, getDisplayValue( )
 				}, rtc.getLocale( ) );
 	}
 }

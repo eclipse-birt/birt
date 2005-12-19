@@ -44,6 +44,7 @@ import org.eclipse.birt.chart.event.PolygonRenderEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.RectangleRenderEvent;
 import org.eclipse.birt.chart.event.StructureSource;
+import org.eclipse.birt.chart.event.StructureType;
 import org.eclipse.birt.chart.event.TextRenderEvent;
 import org.eclipse.birt.chart.event.WrappedInstruction;
 import org.eclipse.birt.chart.event.WrappedStructureSource;
@@ -1895,11 +1896,15 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
 					tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+					processTrigger( tg,
+							WrappedStructureSource.createLegendEntry( lg, la ) );
 					iev.addTrigger( tg );
 				}
 
 				if ( buildinTg != null )
 				{
+					processTrigger( buildinTg,
+							WrappedStructureSource.createLegendEntry( lg, la ) );
 					iev.addTrigger( buildinTg );
 				}
 
@@ -2117,6 +2122,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
 					tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+					processTrigger( tg, StructureSource.createChartBlock( b ) );
 					iev.addTrigger( tg );
 				}
 
@@ -2194,6 +2200,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
 					tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+					processTrigger( tg, StructureSource.createTitle( b ) );
 					iev.addTrigger( tg );
 				}
 
@@ -2762,50 +2769,64 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
+	 * post-process the triggers.
 	 * 
 	 * @param tg
 	 * @param dph
 	 */
-	public void processTrigger( Trigger tg, DataPointHints dph )
+	public void processTrigger( Trigger tg, StructureSource source )
 	{
-		if ( tg.getAction( ).getType( ) == ActionType.SHOW_TOOLTIP_LITERAL ) // BUILD
-		// THE
-		// VALUE
+		// use user action renderer first.
+		IActionRenderer iar = getRunTimeContext( ).getActionRenderer( );
+		if ( iar != null )
 		{
-			( (TooltipValue) tg.getAction( ).getValue( ) ).setText( dph.getDisplayValue( ) );
+			iar.processAction( tg.getAction( ), source );
 		}
-		else if ( tg.getAction( ).getType( ) == ActionType.URL_REDIRECT_LITERAL ) // BUILD
-		// A
-		// URI
-		{
-			final URLValue uv = (URLValue) tg.getAction( ).getValue( );
-			final String sBaseURL = uv.getBaseUrl( );
-			final StringBuffer sb = new StringBuffer( sBaseURL );
-			char c = '?';
-			if ( sBaseURL.indexOf( c ) != -1 )
-			{
-				c = '&';
-			}
-			if ( uv.getBaseParameterName( ) != null
-					&& uv.getBaseParameterName( ).length( ) > 0 )
-			{
-				sb.append( c );
-				c = '&';
-				sb.append( URLValueImpl.encode( uv.getBaseParameterName( ) ) );
-				sb.append( '=' );
-				sb.append( URLValueImpl.encode( dph.getBaseDisplayValue( ) ) );
-			}
 
-			if ( uv.getValueParameterName( ) != null
-					&& uv.getValueParameterName( ).length( ) > 0 )
+		// internal processing.
+		if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
+		{
+			DataPointHints dph = (DataPointHints) source.getSource( );
+
+			if ( tg.getAction( ).getType( ) == ActionType.SHOW_TOOLTIP_LITERAL ) // BUILD
+			// THE
+			// VALUE
 			{
-				sb.append( c );
-				c = '&';
-				sb.append( URLValueImpl.encode( uv.getValueParameterName( ) ) );
-				sb.append( '=' );
-				sb.append( URLValueImpl.encode( dph.getOrthogonalDisplayValue( ) ) );
+				( (TooltipValue) tg.getAction( ).getValue( ) ).setText( dph.getDisplayValue( ) );
 			}
-			uv.setBaseUrl( sb.toString( ) );
+			else if ( tg.getAction( ).getType( ) == ActionType.URL_REDIRECT_LITERAL ) // BUILD
+			// A
+			// URI
+			{
+				final URLValue uv = (URLValue) tg.getAction( ).getValue( );
+				final String sBaseURL = uv.getBaseUrl( );
+				final StringBuffer sb = new StringBuffer( sBaseURL );
+				char c = '?';
+				if ( sBaseURL.indexOf( c ) != -1 )
+				{
+					c = '&';
+				}
+				if ( uv.getBaseParameterName( ) != null
+						&& uv.getBaseParameterName( ).length( ) > 0 )
+				{
+					sb.append( c );
+					c = '&';
+					sb.append( URLValueImpl.encode( uv.getBaseParameterName( ) ) );
+					sb.append( '=' );
+					sb.append( URLValueImpl.encode( dph.getBaseDisplayValue( ) ) );
+				}
+
+				if ( uv.getValueParameterName( ) != null
+						&& uv.getValueParameterName( ).length( ) > 0 )
+				{
+					sb.append( c );
+					c = '&';
+					sb.append( URLValueImpl.encode( uv.getValueParameterName( ) ) );
+					sb.append( '=' );
+					sb.append( URLValueImpl.encode( dph.getOrthogonalDisplayValue( ) ) );
+				}
+				uv.setBaseUrl( sb.toString( ) );
+			}
 		}
 	}
 

@@ -22,13 +22,12 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
-import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
+import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
-import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.type.BarSeries;
@@ -255,8 +254,9 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 							msgs );
 				case TypePackage.BAR_SERIES__DATA_POINT :
 					return basicSetDataPoint( null, msgs );
-				case TypePackage.BAR_SERIES__DATA_SET :
-					return basicSetDataSet( null, msgs );
+				case TypePackage.BAR_SERIES__DATA_SETS :
+					return ( (InternalEList) getDataSets( ) ).basicRemove( otherEnd,
+							msgs );
 				case TypePackage.BAR_SERIES__TRIGGERS :
 					return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
 							msgs );
@@ -292,8 +292,8 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 				return getSeriesIdentifier( );
 			case TypePackage.BAR_SERIES__DATA_POINT :
 				return getDataPoint( );
-			case TypePackage.BAR_SERIES__DATA_SET :
-				return getDataSet( );
+			case TypePackage.BAR_SERIES__DATA_SETS :
+				return getDataSets( );
 			case TypePackage.BAR_SERIES__LABEL_POSITION :
 				return getLabelPosition( );
 			case TypePackage.BAR_SERIES__STACKED :
@@ -336,8 +336,9 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 			case TypePackage.BAR_SERIES__DATA_POINT :
 				setDataPoint( (DataPoint) newValue );
 				return;
-			case TypePackage.BAR_SERIES__DATA_SET :
-				setDataSet( (DataSet) newValue );
+			case TypePackage.BAR_SERIES__DATA_SETS :
+				getDataSets( ).clear( );
+				getDataSets( ).addAll( (Collection) newValue );
 				return;
 			case TypePackage.BAR_SERIES__LABEL_POSITION :
 				setLabelPosition( (Position) newValue );
@@ -388,8 +389,8 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 			case TypePackage.BAR_SERIES__DATA_POINT :
 				setDataPoint( (DataPoint) null );
 				return;
-			case TypePackage.BAR_SERIES__DATA_SET :
-				setDataSet( (DataSet) null );
+			case TypePackage.BAR_SERIES__DATA_SETS :
+				getDataSets( ).clear( );
 				return;
 			case TypePackage.BAR_SERIES__LABEL_POSITION :
 				unsetLabelPosition( );
@@ -435,8 +436,8 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 						: !SERIES_IDENTIFIER_EDEFAULT.equals( seriesIdentifier );
 			case TypePackage.BAR_SERIES__DATA_POINT :
 				return dataPoint != null;
-			case TypePackage.BAR_SERIES__DATA_SET :
-				return dataSet != null;
+			case TypePackage.BAR_SERIES__DATA_SETS :
+				return dataSets != null && !dataSets.isEmpty( );
 			case TypePackage.BAR_SERIES__LABEL_POSITION :
 				return isSetLabelPosition( );
 			case TypePackage.BAR_SERIES__STACKED :

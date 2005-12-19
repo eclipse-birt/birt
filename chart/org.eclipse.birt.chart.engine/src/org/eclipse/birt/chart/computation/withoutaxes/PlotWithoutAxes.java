@@ -16,6 +16,7 @@ import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
+import org.eclipse.birt.chart.computation.UserDataSetHints;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -38,7 +39,11 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * PlotWithoutAxes
+ * This class is capable of computing the content of a chart (without axes)
+ * based on preferred sizes, text rotation, fit ability, scaling, etc and
+ * prepares it for rendering.
+ * 
+ * WARNING: This is an internal class and subject to change
  */
 public final class PlotWithoutAxes
 {
@@ -75,8 +80,7 @@ public final class PlotWithoutAxes
 	}
 
 	/**
-	 * 
-	 * @param boPlot
+	 * @param bo
 	 */
 	public final void compute( Bounds bo )
 	{
@@ -250,6 +254,9 @@ public final class PlotWithoutAxes
 				}
 			}
 
+			UserDataSetHints udsh = new UserDataSetHints( seOrthogonal.getDataSets( ) );
+			udsh.reset( );
+
 			for ( int i = 0; i < iCount; i++ )
 			{
 				dpha[i] = new DataPointHints( dsiBaseValues.next( ),
@@ -262,6 +269,8 @@ public final class PlotWithoutAxes
 						null,
 						-1,
 						rtc );
+
+				udsh.next( dpha[i] );
 			}
 		}
 

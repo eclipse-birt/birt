@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.component.impl;
 
+import java.util.Map;
+
 import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl;
@@ -126,6 +128,13 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EClass seriesEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass eStringToDataSetMapEntryEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package </b>, registered with
@@ -1049,10 +1058,11 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSeries_DataSet( )
+	public EReference getSeries_DataSets( )
 	{
 		return (EReference) seriesEClass.getEStructuralFeatures( ).get( 5 );
 	}
@@ -1100,6 +1110,38 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	public EReference getSeries_CurveFitting( )
 	{
 		return (EReference) seriesEClass.getEStructuralFeatures( ).get( 10 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getEStringToDataSetMapEntry( )
+	{
+		return eStringToDataSetMapEntryEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getEStringToDataSetMapEntry_Key( )
+	{
+		return (EAttribute) eStringToDataSetMapEntryEClass.getEStructuralFeatures( )
+				.get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getEStringToDataSetMapEntry_Value( )
+	{
+		return (EReference) eStringToDataSetMapEntryEClass.getEStructuralFeatures( )
+				.get( 1 );
 	}
 
 	/**
@@ -1231,12 +1273,18 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEReference( seriesEClass, SERIES__DATA_DEFINITION );
 		createEAttribute( seriesEClass, SERIES__SERIES_IDENTIFIER );
 		createEReference( seriesEClass, SERIES__DATA_POINT );
-		createEReference( seriesEClass, SERIES__DATA_SET );
+		createEReference( seriesEClass, SERIES__DATA_SETS );
 		createEAttribute( seriesEClass, SERIES__LABEL_POSITION );
 		createEAttribute( seriesEClass, SERIES__STACKED );
 		createEReference( seriesEClass, SERIES__TRIGGERS );
 		createEAttribute( seriesEClass, SERIES__TRANSLUCENT );
 		createEReference( seriesEClass, SERIES__CURVE_FITTING );
+
+		eStringToDataSetMapEntryEClass = createEClass( ESTRING_TO_DATA_SET_MAP_ENTRY );
+		createEAttribute( eStringToDataSetMapEntryEClass,
+				ESTRING_TO_DATA_SET_MAP_ENTRY__KEY );
+		createEReference( eStringToDataSetMapEntryEClass,
+				ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE );
 	}
 
 	/**
@@ -1600,10 +1648,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				theAttributePackage.getDataPoint( ),
 				null,
 				"dataPoint", null, 1, 1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
-		initEReference( getSeries_DataSet( ),
-				theDataPackage.getDataSet( ),
+		initEReference( getSeries_DataSets( ),
+				this.getEStringToDataSetMapEntry( ),
 				null,
-				"dataSet", null, 1, 1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"dataSets", null, 0, -1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getSeries_LabelPosition( ),
 				theAttributePackage.getPosition( ),
 				"labelPosition", "Above", 0, 1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1621,6 +1669,17 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				this.getCurveFitting( ),
 				null,
 				"curveFitting", null, 0, 1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
+		initEClass( eStringToDataSetMapEntryEClass,
+				Map.Entry.class,
+				"EStringToDataSetMapEntry", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEAttribute( getEStringToDataSetMapEntry_Key( ),
+				ecorePackage.getEString( ),
+				"key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getEStringToDataSetMapEntry_Value( ),
+				theDataPackage.getDataSet( ),
+				null,
+				"value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		// Create resource
 		createResource( eNS_URI );
@@ -1996,9 +2055,9 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "DataPoint" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
-		addAnnotation( getSeries_DataSet( ), source, new String[]{
+		addAnnotation( getSeries_DataSets( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-				"name", "DataSet" //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "DataSets" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeries_LabelPosition( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$

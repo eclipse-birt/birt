@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.model.component.util;
 
 import java.util.List;
 
+import java.util.Map;
+
 import org.eclipse.birt.chart.model.component.*;
 
 import org.eclipse.birt.chart.model.component.Axis;
@@ -193,6 +195,14 @@ public class ComponentSwitch
 			{
 				Series series = (Series) theEObject;
 				Object result = caseSeries( series );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
+			case ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY :
+			{
+				Map.Entry eStringToDataSetMapEntry = (Map.Entry) theEObject;
+				Object result = caseEStringToDataSetMapEntry( eStringToDataSetMapEntry );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -380,6 +390,22 @@ public class ComponentSwitch
 	 * @generated
 	 */
 	public Object caseSeries( Series object )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>EString To Data Set Map Entry</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>EString To Data Set Map Entry</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseEStringToDataSetMapEntry( Map.Entry object )
 	{
 		return null;
 	}

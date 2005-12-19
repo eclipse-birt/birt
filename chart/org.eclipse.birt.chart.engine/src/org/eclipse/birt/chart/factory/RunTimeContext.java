@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.StructureChangeEvent;
 import org.eclipse.birt.chart.model.ScriptHandler;
 import org.eclipse.birt.core.i18n.ResourceHandle;
+import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.script.IChartScriptContext;
 
 /**
@@ -60,6 +61,11 @@ public final class RunTimeContext implements Serializable
 	 * A structure definition listener associated with this runtime context.
 	 */
 	private transient IStructureDefinitionListener isdl = null;
+
+	/**
+	 * An action renderer associated with this runtime context.
+	 */
+	private transient IActionRenderer iar = null;
 
 	/**
 	 * A map to store user defined state object.
@@ -141,6 +147,26 @@ public final class RunTimeContext implements Serializable
 	public IStructureDefinitionListener getStructureDefinitionListener( )
 	{
 		return isdl;
+	}
+
+	/**
+	 * Sets an IActionRenderer instance to current runtime context.
+	 * 
+	 * @param iar
+	 */
+	public void setActionRenderer( IActionRenderer iar )
+	{
+		this.iar = iar;
+	}
+
+	/**
+	 * Returns the IActionRenderer of current runtime context.
+	 * 
+	 * @return
+	 */
+	public IActionRenderer getActionRenderer( )
+	{
+		return this.iar;
 	}
 
 	/**

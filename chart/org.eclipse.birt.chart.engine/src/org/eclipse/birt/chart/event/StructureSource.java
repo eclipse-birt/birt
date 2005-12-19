@@ -15,12 +15,13 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 
 /**
- * StructureSource
+ * This class defines a structure source object for chart rendering event.
  */
 public class StructureSource
 {
@@ -106,6 +107,17 @@ public class StructureSource
 	public static StructureSource createTitle( TitleBlock tb )
 	{
 		return new StructureSource( tb, StructureType.TITLE );
+	}
+
+	/**
+	 * Creates a Structure Source for type Chart Block.
+	 * 
+	 * @param pt
+	 * @return
+	 */
+	public static StructureSource createChartBlock( Block block )
+	{
+		return new StructureSource( block, StructureType.CHART_BLOCK );
 	}
 
 	/**

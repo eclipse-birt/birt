@@ -982,12 +982,13 @@ public interface ComponentPackage extends EPackage
 	int SERIES__DATA_POINT = 4;
 
 	/**
-	 * The feature id for the '<em><b>Data Set</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Data Sets</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERIES__DATA_SET = 5;
+	int SERIES__DATA_SETS = 5;
 
 	/**
 	 * The feature id for the '<em><b>Label Position</b></em>' attribute.
@@ -1039,6 +1040,43 @@ public interface ComponentPackage extends EPackage
 	 * @ordered
 	 */
 	int SERIES_FEATURE_COUNT = 11;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.EStringToDataSetMapEntryImpl <em>EString To Data Set Map Entry</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.component.impl.EStringToDataSetMapEntryImpl
+	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getEStringToDataSetMapEntry()
+	 * @generated
+	 */
+	int ESTRING_TO_DATA_SET_MAP_ENTRY = 12;
+
+	/**
+	 * The feature id for the '<em><b>Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ESTRING_TO_DATA_SET_MAP_ENTRY__KEY = 0;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE = 1;
+
+	/**
+	 * The number of structural features of the the '<em>EString To Data Set Map Entry</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ESTRING_TO_DATA_SET_MAP_ENTRY_FEATURE_COUNT = 2;
 
 	/**
 	 * Returns the meta object for class '
@@ -1947,14 +1985,15 @@ public interface ComponentPackage extends EPackage
 	EReference getSeries_DataPoint( );
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Series#getDataSet <em>Data Set</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Data Set</em>'.
-	 * @see org.eclipse.birt.chart.model.component.Series#getDataSet()
+	 * Returns the meta object for the map '{@link org.eclipse.birt.chart.model.component.Series#getDataSets <em>Data Sets</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the map '<em>Data Sets</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Series#getDataSets()
 	 * @see #getSeries()
 	 * @generated
 	 */
-	EReference getSeries_DataSet( );
+	EReference getSeries_DataSets( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Series#getLabelPosition <em>Label Position</em>}'.
@@ -2006,6 +2045,40 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 */
 	EReference getSeries_CurveFitting( );
+
+	/**
+	 * Returns the meta object for class '{@link java.util.Map.Entry <em>EString To Data Set Map Entry</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>EString To Data Set Map Entry</em>'.
+	 * @see java.util.Map.Entry
+	 * @model keyType="java.lang.String"
+	 *        valueType="org.eclipse.birt.chart.model.data.DataSet"
+	 * @generated
+	 */
+	EClass getEStringToDataSetMapEntry( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Key</em>'.
+	 * @see java.util.Map.Entry
+	 * @see #getEStringToDataSetMapEntry()
+	 * @generated
+	 */
+	EAttribute getEStringToDataSetMapEntry_Key( );
+
+	/**
+	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Value</em>'.
+	 * @see java.util.Map.Entry
+	 * @see #getEStringToDataSetMapEntry()
+	 * @generated
+	 */
+	EReference getEStringToDataSetMapEntry_Value( );
 
 	/**
 	 * Returns the factory that creates the instances of the model. <!--

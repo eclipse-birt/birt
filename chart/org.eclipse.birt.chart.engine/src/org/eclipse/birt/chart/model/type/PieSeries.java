@@ -370,7 +370,7 @@ public interface PieSeries extends Series
 
 	/**
 	 * Returns the value of the '<em><b>Ratio</b></em>' attribute.
-	 * The default value is <code>"0"</code>.
+	 * The default value is <code>"1"</code>.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -381,7 +381,7 @@ public interface PieSeries extends Series
 	 * @see #unsetRatio()
 	 * @see #setRatio(double)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getPieSeries_Ratio()
-	 * @model default="0" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+	 * @model default="1" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
 	 *        extendedMetaData="kind='element' name='Ratio'"
 	 * @generated
 	 */

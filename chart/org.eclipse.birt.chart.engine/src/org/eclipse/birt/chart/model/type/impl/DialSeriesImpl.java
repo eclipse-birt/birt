@@ -24,7 +24,6 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.DialImpl;
 import org.eclipse.birt.chart.model.component.impl.NeedleImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
-import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
@@ -235,8 +234,9 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 							msgs );
 				case TypePackage.DIAL_SERIES__DATA_POINT :
 					return basicSetDataPoint( null, msgs );
-				case TypePackage.DIAL_SERIES__DATA_SET :
-					return basicSetDataSet( null, msgs );
+				case TypePackage.DIAL_SERIES__DATA_SETS :
+					return ( (InternalEList) getDataSets( ) ).basicRemove( otherEnd,
+							msgs );
 				case TypePackage.DIAL_SERIES__TRIGGERS :
 					return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
 							msgs );
@@ -274,8 +274,8 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 				return getSeriesIdentifier( );
 			case TypePackage.DIAL_SERIES__DATA_POINT :
 				return getDataPoint( );
-			case TypePackage.DIAL_SERIES__DATA_SET :
-				return getDataSet( );
+			case TypePackage.DIAL_SERIES__DATA_SETS :
+				return getDataSets( );
 			case TypePackage.DIAL_SERIES__LABEL_POSITION :
 				return getLabelPosition( );
 			case TypePackage.DIAL_SERIES__STACKED :
@@ -318,8 +318,9 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 			case TypePackage.DIAL_SERIES__DATA_POINT :
 				setDataPoint( (DataPoint) newValue );
 				return;
-			case TypePackage.DIAL_SERIES__DATA_SET :
-				setDataSet( (DataSet) newValue );
+			case TypePackage.DIAL_SERIES__DATA_SETS :
+				getDataSets( ).clear( );
+				getDataSets( ).addAll( (Collection) newValue );
 				return;
 			case TypePackage.DIAL_SERIES__LABEL_POSITION :
 				setLabelPosition( (Position) newValue );
@@ -370,8 +371,8 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 			case TypePackage.DIAL_SERIES__DATA_POINT :
 				setDataPoint( (DataPoint) null );
 				return;
-			case TypePackage.DIAL_SERIES__DATA_SET :
-				setDataSet( (DataSet) null );
+			case TypePackage.DIAL_SERIES__DATA_SETS :
+				getDataSets( ).clear( );
 				return;
 			case TypePackage.DIAL_SERIES__LABEL_POSITION :
 				unsetLabelPosition( );
@@ -417,8 +418,8 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 						: !SERIES_IDENTIFIER_EDEFAULT.equals( seriesIdentifier );
 			case TypePackage.DIAL_SERIES__DATA_POINT :
 				return dataPoint != null;
-			case TypePackage.DIAL_SERIES__DATA_SET :
-				return dataSet != null;
+			case TypePackage.DIAL_SERIES__DATA_SETS :
+				return dataSets != null && !dataSets.isEmpty( );
 			case TypePackage.DIAL_SERIES__LABEL_POSITION :
 				return isSetLabelPosition( );
 			case TypePackage.DIAL_SERIES__STACKED :

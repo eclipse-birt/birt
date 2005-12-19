@@ -23,7 +23,6 @@ import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
@@ -80,8 +79,9 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 							msgs );
 				case TypePackage.SCATTER_SERIES__DATA_POINT :
 					return basicSetDataPoint( null, msgs );
-				case TypePackage.SCATTER_SERIES__DATA_SET :
-					return basicSetDataSet( null, msgs );
+				case TypePackage.SCATTER_SERIES__DATA_SETS :
+					return ( (InternalEList) getDataSets( ) ).basicRemove( otherEnd,
+							msgs );
 				case TypePackage.SCATTER_SERIES__TRIGGERS :
 					return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
 							msgs );
@@ -121,8 +121,8 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 				return getSeriesIdentifier( );
 			case TypePackage.SCATTER_SERIES__DATA_POINT :
 				return getDataPoint( );
-			case TypePackage.SCATTER_SERIES__DATA_SET :
-				return getDataSet( );
+			case TypePackage.SCATTER_SERIES__DATA_SETS :
+				return getDataSets( );
 			case TypePackage.SCATTER_SERIES__LABEL_POSITION :
 				return getLabelPosition( );
 			case TypePackage.SCATTER_SERIES__STACKED :
@@ -171,8 +171,9 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 			case TypePackage.SCATTER_SERIES__DATA_POINT :
 				setDataPoint( (DataPoint) newValue );
 				return;
-			case TypePackage.SCATTER_SERIES__DATA_SET :
-				setDataSet( (DataSet) newValue );
+			case TypePackage.SCATTER_SERIES__DATA_SETS :
+				getDataSets( ).clear( );
+				getDataSets( ).addAll( (Collection) newValue );
 				return;
 			case TypePackage.SCATTER_SERIES__LABEL_POSITION :
 				setLabelPosition( (Position) newValue );
@@ -232,8 +233,8 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 			case TypePackage.SCATTER_SERIES__DATA_POINT :
 				setDataPoint( (DataPoint) null );
 				return;
-			case TypePackage.SCATTER_SERIES__DATA_SET :
-				setDataSet( (DataSet) null );
+			case TypePackage.SCATTER_SERIES__DATA_SETS :
+				getDataSets( ).clear( );
 				return;
 			case TypePackage.SCATTER_SERIES__LABEL_POSITION :
 				unsetLabelPosition( );
@@ -288,8 +289,8 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 						: !SERIES_IDENTIFIER_EDEFAULT.equals( seriesIdentifier );
 			case TypePackage.SCATTER_SERIES__DATA_POINT :
 				return dataPoint != null;
-			case TypePackage.SCATTER_SERIES__DATA_SET :
-				return dataSet != null;
+			case TypePackage.SCATTER_SERIES__DATA_SETS :
+				return dataSets != null && !dataSets.isEmpty( );
 			case TypePackage.SCATTER_SERIES__LABEL_POSITION :
 				return isSetLabelPosition( );
 			case TypePackage.SCATTER_SERIES__STACKED :

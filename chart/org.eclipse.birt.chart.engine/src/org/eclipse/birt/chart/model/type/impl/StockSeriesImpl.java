@@ -30,16 +30,15 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
+import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
-import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
@@ -256,8 +255,9 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 							msgs );
 				case TypePackage.STOCK_SERIES__DATA_POINT :
 					return basicSetDataPoint( null, msgs );
-				case TypePackage.STOCK_SERIES__DATA_SET :
-					return basicSetDataSet( null, msgs );
+				case TypePackage.STOCK_SERIES__DATA_SETS :
+					return ( (InternalEList) getDataSets( ) ).basicRemove( otherEnd,
+							msgs );
 				case TypePackage.STOCK_SERIES__TRIGGERS :
 					return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
 							msgs );
@@ -295,8 +295,8 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 				return getSeriesIdentifier( );
 			case TypePackage.STOCK_SERIES__DATA_POINT :
 				return getDataPoint( );
-			case TypePackage.STOCK_SERIES__DATA_SET :
-				return getDataSet( );
+			case TypePackage.STOCK_SERIES__DATA_SETS :
+				return getDataSets( );
 			case TypePackage.STOCK_SERIES__LABEL_POSITION :
 				return getLabelPosition( );
 			case TypePackage.STOCK_SERIES__STACKED :
@@ -339,8 +339,9 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 			case TypePackage.STOCK_SERIES__DATA_POINT :
 				setDataPoint( (DataPoint) newValue );
 				return;
-			case TypePackage.STOCK_SERIES__DATA_SET :
-				setDataSet( (DataSet) newValue );
+			case TypePackage.STOCK_SERIES__DATA_SETS :
+				getDataSets( ).clear( );
+				getDataSets( ).addAll( (Collection) newValue );
 				return;
 			case TypePackage.STOCK_SERIES__LABEL_POSITION :
 				setLabelPosition( (Position) newValue );
@@ -391,8 +392,8 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 			case TypePackage.STOCK_SERIES__DATA_POINT :
 				setDataPoint( (DataPoint) null );
 				return;
-			case TypePackage.STOCK_SERIES__DATA_SET :
-				setDataSet( (DataSet) null );
+			case TypePackage.STOCK_SERIES__DATA_SETS :
+				getDataSets( ).clear( );
 				return;
 			case TypePackage.STOCK_SERIES__LABEL_POSITION :
 				unsetLabelPosition( );
@@ -438,8 +439,8 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 						: !SERIES_IDENTIFIER_EDEFAULT.equals( seriesIdentifier );
 			case TypePackage.STOCK_SERIES__DATA_POINT :
 				return dataPoint != null;
-			case TypePackage.STOCK_SERIES__DATA_SET :
-				return dataSet != null;
+			case TypePackage.STOCK_SERIES__DATA_SETS :
+				return dataSets != null && !dataSets.isEmpty( );
 			case TypePackage.STOCK_SERIES__LABEL_POSITION :
 				return isSetLabelPosition( );
 			case TypePackage.STOCK_SERIES__STACKED :

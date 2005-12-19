@@ -620,7 +620,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 				"sliceOutline", null, 0, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getPieSeries_Ratio( ),
 				theXMLTypePackage.getDouble( ),
-				"ratio", "0", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"ratio", "1", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( scatterSeriesEClass,
 				ScatterSeries.class,

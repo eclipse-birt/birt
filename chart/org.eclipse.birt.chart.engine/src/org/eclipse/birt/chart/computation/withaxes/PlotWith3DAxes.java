@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.UserDataSetHints;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -1441,6 +1442,10 @@ public class PlotWith3DAxes extends PlotWithAxes
 
 			dsiDataBase.reset( );
 			dsiDataOrthogonal.reset( );
+
+			UserDataSetHints udsh = new UserDataSetHints( seOrthogonal.getDataSets( ) );
+			udsh.reset( );
+
 			for ( int i = 0; i < iBaseCount; i++ )
 			{
 				oDataBase = dsiDataBase.next( );
@@ -1562,6 +1567,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 								dXLength, dZLength
 						},
 						rtc );
+
+				udsh.next( dpa[i] );
 			}
 		}
 

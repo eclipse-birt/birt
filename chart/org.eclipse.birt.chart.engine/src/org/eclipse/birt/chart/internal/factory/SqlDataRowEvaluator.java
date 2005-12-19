@@ -14,23 +14,34 @@ package org.eclipse.birt.chart.internal.factory;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
+import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
 
-public class SqlDataRowEvaluator implements IDataRowExpressionEvaluator
+/**
+ * A java.sql.ResultSet implementation for IDataRowExpressionEvaluator.
+ */
+public class SqlDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 {
-	
 
 	private ResultSet set;
 
+	/**
+	 * The constructor.
+	 * 
+	 * @param resultSet
+	 */
 	public SqlDataRowEvaluator( ResultSet resultSet )
 	{
-		if (resultSet == null )
-			throw new IllegalArgumentException();
+		if ( resultSet == null )
+			throw new IllegalArgumentException( );
 		this.set = resultSet;
-	
-		
+
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang.String)
+	 */
 	public Object evaluate( String expression )
 	{
 		try
@@ -42,14 +53,18 @@ public class SqlDataRowEvaluator implements IDataRowExpressionEvaluator
 			return null;
 		}
 
-
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#next()
+	 */
 	public boolean next( )
 	{
 		try
 		{
-			return set.next();
+			return set.next( );
 		}
 		catch ( SQLException e )
 		{
@@ -57,30 +72,40 @@ public class SqlDataRowEvaluator implements IDataRowExpressionEvaluator
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#close()
+	 */
 	public void close( )
 	{
 		try
 		{
-			set.close();
+			set.close( );
 		}
 		catch ( SQLException e )
 		{
-			e.printStackTrace();
+			e.printStackTrace( );
 		}
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#first()
+	 */
 	public void first( )
 	{
 		try
 		{
-			set.first();
+			set.first( );
 		}
 		catch ( SQLException e )
 		{
-			e.printStackTrace();
+			e.printStackTrace( );
 		}
-		
+
 	}
 
 }

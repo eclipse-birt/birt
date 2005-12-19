@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
@@ -437,7 +438,7 @@ public class ChartUIUtil
 	{
 		final List expressions;
 		final Object[] columnData;
-		expressions = Generator.instance( ).getRowExpressions( chart );
+		expressions = Generator.instance( ).getRowExpressions( chart, null );
 		columnData = dataProvider.getDataForColumns( (String[]) expressions.toArray( new String[0] ),
 				-1,
 				false );
@@ -447,7 +448,7 @@ public class ChartUIUtil
 		{
 			map.put( expressions.get( i ), columnData[i] );
 		}
-		IDataRowExpressionEvaluator evaluator = new IDataRowExpressionEvaluator( ) {
+		IDataRowExpressionEvaluator evaluator = new DataRowExpressionEvaluatorAdapter( ) {
 
 			private int i;
 			private Object[] column;

@@ -127,12 +127,13 @@ public interface TypePackage extends EPackage
 	int LINE_SERIES__DATA_POINT = ComponentPackage.SERIES__DATA_POINT;
 
 	/**
-	 * The feature id for the '<em><b>Data Set</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Data Sets</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LINE_SERIES__DATA_SET = ComponentPackage.SERIES__DATA_SET;
+	int LINE_SERIES__DATA_SETS = ComponentPackage.SERIES__DATA_SETS;
 
 	/**
 	 * The feature id for the '<em><b>Label Position</b></em>' attribute.
@@ -283,13 +284,13 @@ public interface TypePackage extends EPackage
 	int AREA_SERIES__DATA_POINT = LINE_SERIES__DATA_POINT;
 
 	/**
-	 * The feature id for the '<em><b>Data Set</b></em>' containment reference.
+	 * The feature id for the '<em><b>Data Sets</b></em>' map.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AREA_SERIES__DATA_SET = LINE_SERIES__DATA_SET;
+	int AREA_SERIES__DATA_SETS = LINE_SERIES__DATA_SETS;
 
 	/**
 	 * The feature id for the '<em><b>Label Position</b></em>' attribute.
@@ -432,12 +433,13 @@ public interface TypePackage extends EPackage
 	int BAR_SERIES__DATA_POINT = ComponentPackage.SERIES__DATA_POINT;
 
 	/**
-	 * The feature id for the '<em><b>Data Set</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Data Sets</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BAR_SERIES__DATA_SET = ComponentPackage.SERIES__DATA_SET;
+	int BAR_SERIES__DATA_SETS = ComponentPackage.SERIES__DATA_SETS;
 
 	/**
 	 * The feature id for the '<em><b>Label Position</b></em>' attribute.
@@ -563,13 +565,13 @@ public interface TypePackage extends EPackage
 	int DIAL_SERIES__DATA_POINT = ComponentPackage.SERIES__DATA_POINT;
 
 	/**
-	 * The feature id for the '<em><b>Data Set</b></em>' containment reference.
+	 * The feature id for the '<em><b>Data Sets</b></em>' map.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DIAL_SERIES__DATA_SET = ComponentPackage.SERIES__DATA_SET;
+	int DIAL_SERIES__DATA_SETS = ComponentPackage.SERIES__DATA_SETS;
 
 	/**
 	 * The feature id for the '<em><b>Label Position</b></em>' attribute.
@@ -694,12 +696,13 @@ public interface TypePackage extends EPackage
 	int PIE_SERIES__DATA_POINT = ComponentPackage.SERIES__DATA_POINT;
 
 	/**
-	 * The feature id for the '<em><b>Data Set</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Data Sets</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PIE_SERIES__DATA_SET = ComponentPackage.SERIES__DATA_SET;
+	int PIE_SERIES__DATA_SETS = ComponentPackage.SERIES__DATA_SETS;
 
 	/**
 	 * The feature id for the '<em><b>Label Position</b></em>' attribute.
@@ -878,12 +881,13 @@ public interface TypePackage extends EPackage
 	int SCATTER_SERIES__DATA_POINT = LINE_SERIES__DATA_POINT;
 
 	/**
-	 * The feature id for the '<em><b>Data Set</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Data Sets</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCATTER_SERIES__DATA_SET = LINE_SERIES__DATA_SET;
+	int SCATTER_SERIES__DATA_SETS = LINE_SERIES__DATA_SETS;
 
 	/**
 	 * The feature id for the '<em><b>Label Position</b></em>' attribute.
@@ -1029,12 +1033,13 @@ public interface TypePackage extends EPackage
 	int STOCK_SERIES__DATA_POINT = ComponentPackage.SERIES__DATA_POINT;
 
 	/**
-	 * The feature id for the '<em><b>Data Set</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Data Sets</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STOCK_SERIES__DATA_SET = ComponentPackage.SERIES__DATA_SET;
+	int STOCK_SERIES__DATA_SETS = ComponentPackage.SERIES__DATA_SETS;
 
 	/**
 	 * The feature id for the '<em><b>Label Position</b></em>' attribute.

@@ -453,8 +453,8 @@ public final class Generator
 	 * This retrieves all the row expressions stored in the chart model. This is
 	 * useful to prepare a specific query for the chart.
 	 * 
-	 * @param The
-	 *            Chart model
+	 * @param cm
+	 *            The Chart model
 	 * @return All row expressions in a list of String instances.
 	 * @throws ChartException
 	 * 
@@ -462,7 +462,28 @@ public final class Generator
 	 */
 	public List getRowExpressions( Chart cm ) throws ChartException
 	{
-		return DataProcessor.getRowExpressions( cm );
+		return getRowExpressions( cm, null );
+	}
+
+	/**
+	 * This retrieves all the row expressions stored in the chart model. This is
+	 * useful to prepare a specific query for the chart. If the given
+	 * IActionEvaluator is not null, then it will also search available
+	 * expressions within the action.
+	 * 
+	 * @param cm
+	 *            The Chart model
+	 * @param iae
+	 *            An IActionEvaluator instance
+	 * @return All row expressions in a list of String instances.
+	 * @throws ChartException
+	 * 
+	 * @since 2.0
+	 */
+	public List getRowExpressions( Chart cm, IActionEvaluator iae )
+			throws ChartException
+	{
+		return DataProcessor.getRowExpressions( cm, iae );
 	}
 
 	/**
@@ -507,7 +528,33 @@ public final class Generator
 	public void bindData( IDataRowExpressionEvaluator expressionEvaluator,
 			Chart chart, RunTimeContext rtc ) throws ChartException
 	{
-		DataProcessor helper = new DataProcessor( rtc );
+		bindData( expressionEvaluator, null, chart, rtc );
+	}
+
+	/**
+	 * Binds data to the chart model using a row expression evaluator. The
+	 * evaluator provides the ability to evaluate the expressions set in the
+	 * chart on a row context.If the given IActionEvaluator is not null, then it
+	 * will also search available expressions within the action and bind it as
+	 * the user dataSets.
+	 * 
+	 * @param expressionEvaluator
+	 *            The data row expression evaluator implementation
+	 * @param iae
+	 *            An IActionEvaluator instance.
+	 * @param chart
+	 *            The chart model
+	 * @param rtc
+	 *            The runtime context
+	 * @throws ChartException
+	 * 
+	 * @since 2.0
+	 */
+	public void bindData( IDataRowExpressionEvaluator expressionEvaluator,
+			IActionEvaluator iae, Chart chart, RunTimeContext rtc )
+			throws ChartException
+	{
+		DataProcessor helper = new DataProcessor( rtc, iae );
 		ResultSetWrapper wrapper = helper.mapToChartResultSet( expressionEvaluator,
 				chart );
 		helper.generateRuntimeSeries( chart, wrapper );
@@ -1154,7 +1201,6 @@ public final class Generator
 			}
 			catch ( Exception ex )
 			{
-				ex.printStackTrace( );
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.RENDERING,
 						ex );

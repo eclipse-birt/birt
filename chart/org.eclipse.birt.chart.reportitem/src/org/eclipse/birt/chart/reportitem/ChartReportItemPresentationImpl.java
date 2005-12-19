@@ -210,17 +210,6 @@ public final class ChartReportItemPresentationImpl extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setResolution(int)
-	 */
-	public void setResolution( int iDPI )
-	{
-		this.dpi = iDPI;
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setOutputFormat(java.lang.String)
 	 */
 	public void setOutputFormat( String sOutputFormat )
@@ -256,8 +245,6 @@ public final class ChartReportItemPresentationImpl extends
 			{
 				sExtension = getFirstSupportedFormat( sSupportedFormats );
 			}
-			// TODO remove when Report Engine passes correct resolution for PDF.
-			this.dpi = 192;
 		}
 		else
 		{
@@ -445,7 +432,8 @@ public final class ChartReportItemPresentationImpl extends
 
 			final Generator gr = Generator.instance( );
 			GeneratedChartState gcs = null;
-			rtc.setActionRenderer( new BIRTActionRenderer( ) );
+			rtc.setActionRenderer( new BIRTActionRenderer( this.ah,
+					this.context ) );
 
 			gcs = gr.build( idr.getDisplayServer( ),
 					cm,

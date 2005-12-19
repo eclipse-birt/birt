@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.component.impl;
 
+import java.util.Map;
+
 import org.eclipse.birt.chart.model.component.*;
 
 import org.eclipse.birt.chart.model.component.Axis;
@@ -80,6 +82,8 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 				return createScale( );
 			case ComponentPackage.SERIES :
 				return createSeries( );
+			case ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY :
+				return (EObject) createEStringToDataSetMapEntry( );
 			default :
 				throw new IllegalArgumentException( "The class '" + eClass.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -206,6 +210,17 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	{
 		SeriesImpl series = new SeriesImpl( );
 		return series;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Map.Entry createEStringToDataSetMapEntry( )
+	{
+		EStringToDataSetMapEntryImpl eStringToDataSetMapEntry = new EStringToDataSetMapEntryImpl( );
+		return eStringToDataSetMapEntry;
 	}
 
 	/**
