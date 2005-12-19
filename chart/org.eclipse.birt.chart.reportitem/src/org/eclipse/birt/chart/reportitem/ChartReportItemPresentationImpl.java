@@ -75,7 +75,7 @@ public final class ChartReportItemPresentationImpl extends
 	private RunTimeContext rtc = null;
 
 	private IBaseQueryDefinition[] ibqda = null;
-	
+
 	private List registeredDevices = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
@@ -88,20 +88,21 @@ public final class ChartReportItemPresentationImpl extends
 		registeredDevices = new ArrayList( );
 		try
 		{
-			String[][] formats = PluginSettings.instance().getRegisteredOutputFormats();
-			for (int i = 0; i < formats.length; i++ )
+			String[][] formats = PluginSettings.instance( )
+					.getRegisteredOutputFormats( );
+			for ( int i = 0; i < formats.length; i++ )
 			{
 				registeredDevices.add( formats[i][0] );
 			}
 		}
-		catch ( ChartException e)
+		catch ( ChartException e )
 		{
-			logger.log(e);
+			logger.log( e );
 		}
 	}
 
 	/**
-	 *  check if the format is supported by the browser and device renderer.
+	 * check if the format is supported by the browser and device renderer.
 	 */
 	private boolean isOutputRendererSupported( String format )
 	{
@@ -214,7 +215,7 @@ public final class ChartReportItemPresentationImpl extends
 	public void setResolution( int iDPI )
 	{
 		this.dpi = iDPI;
-		
+
 	}
 
 	/*
@@ -296,7 +297,7 @@ public final class ChartReportItemPresentationImpl extends
 				}
 
 				rtc = drtc;
-				cm = rtc.getScriptContext().getChartInstance();
+				cm = rtc.getScriptContext( ).getChartInstance( );
 			}
 			ois.close( );
 		}
@@ -393,9 +394,19 @@ public final class ChartReportItemPresentationImpl extends
 
 		try
 		{
+			String javaHandlerClass = handle.getEventHandlerClass( );
+			if ( javaHandlerClass != null && javaHandlerClass.length( ) > 0 )
+			{
+				// use java handler if available.
+				cm.setScript( javaHandlerClass );
+			}
+
 			BIRTDataRowEvaluator rowAdapter = new BIRTDataRowEvaluator( irsa[0],
 					ibqda[0] );
-			Generator.instance( ).bindData( rowAdapter, cm, rtc );
+			Generator.instance( ).bindData( rowAdapter,
+					new BIRTActionEvaluator( ),
+					cm,
+					rtc );
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsBuilding" ) ); //$NON-NLS-1$
 
@@ -420,7 +431,7 @@ public final class ChartReportItemPresentationImpl extends
 			idr = PluginSettings.instance( ).getDevice( "dv." //$NON-NLS-1$
 					+ sExtension.toUpperCase( Locale.US ) );
 
-			idr.setProperty( IDeviceRenderer.DPI_RESOLUTION, Integer.valueOf(dpi) );
+			idr.setProperty( IDeviceRenderer.DPI_RESOLUTION, new Integer( dpi ) );
 			// BUILD THE CHART
 			final Bounds originalBounds = cm.getBlock( ).getBounds( );
 
@@ -428,11 +439,14 @@ public final class ChartReportItemPresentationImpl extends
 			// unsets it on its precedent container
 
 			final Bounds bo = (Bounds) EcoreUtil.copy( originalBounds );
-			
+
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "ChartReportItemPresentationImpl.log.PresentationUsesBoundsBo", bo ) ); //$NON-NLS-1$
+
 			final Generator gr = Generator.instance( );
 			GeneratedChartState gcs = null;
+			rtc.setActionRenderer( new BIRTActionRenderer( ) );
+
 			gcs = gr.build( idr.getDisplayServer( ),
 					cm,
 					bo,
