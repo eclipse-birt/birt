@@ -55,4 +55,12 @@ public class DesignerWorkbenchMessages extends NLS
 	public static String Workbench_help;
 	
 	public static String Dialog_openFile;
+
+	public static String SaveAsWizardWindowTitle;
+	public static String SaveAsWizardPageTitle;
+	public static String SaveAsWizardPageDesc;
+	public static String ReportSettingPageTitle;
+	public static String ReportSettingPageDesc;
+	
+	
 }
