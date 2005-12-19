@@ -138,13 +138,16 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 			int type = propType.getTypeCode( );
 			switch ( type )
 			{
-				case PropertyType.STRUCT_TYPE :
-				case PropertyType.STRUCT_REF_TYPE :
-				case PropertyType.ELEMENT_REF_TYPE :
-				case PropertyType.EXTENDS_TYPE :
+				case PropertyType.STRING_TYPE :
+				case PropertyType.BOOLEAN_TYPE :
+				case PropertyType.DATE_TIME_TYPE :
+				case PropertyType.FLOAT_TYPE :
+				case PropertyType.INTEGER_TYPE :
+				case PropertyType.EXPRESSION_TYPE :
+					allowedTypes.add( propType );
 					break;
 				default :
-					allowedTypes.add( propType );
+					break;
 			}
 		}
 
