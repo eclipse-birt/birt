@@ -183,8 +183,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			emitter = new HTMLPaginationEmitter( executor, emitter );
 		}
 		else if ( format.equalsIgnoreCase( "fo" )
-				|| format.equalsIgnoreCase( "fop" )
-				|| ((format.equalsIgnoreCase( "pdf" )) && ! "org.eclipse.birt.report.engine.pdf".equals(emitterID)))
+				|| format.equalsIgnoreCase( "fop" ))
 		{
 			emitter = new DefaultPaginationEmitter( executor, emitter );
 		}
