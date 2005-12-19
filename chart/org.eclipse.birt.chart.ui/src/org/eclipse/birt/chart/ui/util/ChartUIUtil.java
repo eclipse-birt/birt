@@ -572,24 +572,34 @@ public class ChartUIUtil
 	}
 
 	/**
-	 * Sets the query to all series grouping
+	 * Sets the query to all series grouping, except for the first which should be set
+	 * manually
 	 * 
 	 * @param chart
 	 *            chart model
 	 * @param queryDefinition
 	 *            group query definition
 	 */
-	public static void setAllGroupingQuery( Chart chart, String queryDefinition )
+	public static void setAllGroupingQueryExceptFirst( Chart chart,
+			String queryDefinition )
 	{
-		int axisNum = ChartUIUtil.getOrthogonalAxisNumber( chart );
-		for ( int axisIndex = 0; axisIndex < axisNum; axisIndex++ )
+		List sds = ChartUIUtil.getOrthogonalSeriesDefinitions( chart, -1 );
+		for ( int i = 0; i < sds.size( ); i++ )
 		{
-			List sds = ChartUIUtil.getOrthogonalSeriesDefinitions( chart,
-					axisIndex );
-			for ( int i = 0; i < sds.size( ); i++ )
+			if ( i != 0 )
 			{
+				// Except for the first, which is changed manually.
 				SeriesDefinition sd = (SeriesDefinition) sds.get( i );
-				sd.getQuery( ).setDefinition( queryDefinition );
+				if ( sd.getQuery( ) != null )
+				{
+					sd.getQuery( ).setDefinition( queryDefinition );
+				}
+				else
+				{
+					Query query = QueryImpl.create( queryDefinition );
+					query.eAdapters( ).addAll( sd.eAdapters( ) );
+					sd.setQuery( query );
+				}
 			}
 		}
 	}

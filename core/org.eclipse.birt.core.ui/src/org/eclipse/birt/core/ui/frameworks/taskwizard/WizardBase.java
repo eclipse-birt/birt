@@ -750,6 +750,7 @@ class TaskList extends Composite implements DisposeListener
 
 	private transient Vector vTasks = null;
 	private transient WizardBase wb = null;
+	private transient Composite cmpTasks = null;
 
 	public TaskList( Composite parent, int iStyle, WizardBase wb )
 	{
@@ -779,7 +780,7 @@ class TaskList extends Composite implements DisposeListener
 	public void setActive( String sTaskLabel )
 	{
 		// Disable the button with current task
-		Control[] c = this.getChildren( );
+		Control[] c = cmpTasks.getChildren( );
 		for ( int i = 0; i < c.length; i++ )
 		{
 			if ( c[i] instanceof Button )
@@ -798,7 +799,7 @@ class TaskList extends Composite implements DisposeListener
 
 	private int findButton( String sTaskLabel, boolean bRemove )
 	{
-		Control[] c = this.getChildren( );
+		Control[] c = cmpTasks.getChildren( );
 		for ( int i = 0; i < c.length; i++ )
 		{
 			if ( c[i] instanceof Button )
@@ -819,7 +820,7 @@ class TaskList extends Composite implements DisposeListener
 
 	private void addButton( )
 	{
-		Button btnTask = new Button( this, SWT.FLAT | SWT.TOGGLE );
+		Button btnTask = new Button( cmpTasks, SWT.FLAT | SWT.TOGGLE );
 		String taskText = (String) vTasks.get( vTasks.size( ) - 1 );
 		btnTask.setText( taskText );
 		btnTask.setBackground( Display.getDefault( )
@@ -832,15 +833,28 @@ class TaskList extends Composite implements DisposeListener
 	private void placeComponents( )
 	{
 		setBackground( Display.getDefault( ).getSystemColor( SWT.COLOR_WHITE ) );
+		GridLayout layout = new GridLayout( 2, false );
+		layout.marginHeight = 0;
+		layout.marginWidth = 0;
+		setLayout( layout );
+		setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		RowLayout rlTasks = new RowLayout( SWT.HORIZONTAL );
-		rlTasks.marginHeight = 10;
-		rlTasks.marginWidth = 10;
-		rlTasks.spacing = 5;
+		cmpTasks = new Composite( this, SWT.NONE );
+		{
+			RowLayout rlTasks = new RowLayout( SWT.HORIZONTAL );
+			rlTasks.marginHeight = 10;
+			rlTasks.marginWidth = 10;
+			rlTasks.spacing = 5;
+			cmpTasks.setLayout( rlTasks );
+			cmpTasks.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			cmpTasks.setBackground( Display.getDefault( )
+					.getSystemColor( SWT.COLOR_WHITE ) );
+		}
 
-		this.setLayout( rlTasks );
-
-		this.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		Label titleImage = new Label( this, SWT.NONE );
+		{
+			titleImage.setImage( UIHelper.getImage( "icons/create_report_wizard.gif" ) ); //$NON-NLS-1$
+		}
 	}
 
 	/*

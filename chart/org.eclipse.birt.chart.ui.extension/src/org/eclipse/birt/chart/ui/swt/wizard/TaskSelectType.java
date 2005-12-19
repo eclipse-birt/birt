@@ -573,10 +573,9 @@ public class TaskSelectType extends SimpleTask
 		// Add the notification listeners from the old axis to the new one
 		overlayAxis.eAdapters( ).addAll( yAxis.eAdapters( ) );
 
-		// Update overlay series definition
+		// Update overlay series definition(retain the group query, clean the data query)
 		SeriesDefinition sdOverlay = (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
 				.get( 0 );
-		sdOverlay.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
 		EList dds = sdOverlay.getDesignTimeSeries( ).getDataDefinition( );
 		for ( int i = 0; i < dds.size( ); i++ )
 		{

@@ -683,14 +683,16 @@ public class TaskSelectData extends SimpleTask
 
 		public void run( )
 		{
+			// Use the first group, and copy to the all groups
+			ChartAdapter.ignoreNotifications( true );
+			ChartUIUtil.setAllGroupingQueryExceptFirst( getChartModel( ),
+					ChartUIUtil.getExpressionString( tablePreview.getCurrentColumnHeading( ) ) );
+			ChartAdapter.ignoreNotifications( false );
+
 			manageColorAndQuery( query );
 			refreshRightArea( );
 			// Refresh all data definitino text
 			DataDefinitionTextManager.getInstance( ).refreshAll( );
-
-			// Use the first group, and copy to the all groups
-			ChartUIUtil.setAllGroupingQuery( getChartModel( ),
-					query.getDefinition( ) );
 		}
 	}
 
@@ -905,6 +907,10 @@ public class TaskSelectData extends SimpleTask
 				ChartUIUtil.syncRuntimeSeries( getChartModel( ) );
 				ChartAdapter.ignoreNotifications( false );
 
+				previewPainter.renderModel( getChartModel( ) );
+			}
+			else
+			{
 				previewPainter.renderModel( getChartModel( ) );
 			}
 		}

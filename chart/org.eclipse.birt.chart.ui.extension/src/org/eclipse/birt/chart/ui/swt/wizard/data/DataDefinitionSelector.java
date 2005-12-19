@@ -207,6 +207,8 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 		sdTmp.getSeriesPalette( ).update( -seriesDefns.size( ) );
 		sdTmp.getSeries( )
 				.add( EcoreUtil.copy( ( (SeriesDefinition) seriesDefns.get( 0 ) ).getDesignTimeSeries( ) ) );
+		// Add grouping query of the first series definition
+		sdTmp.setQuery( (Query) EcoreUtil.copy( ( (SeriesDefinition) seriesDefns.get( 0 ) ).getQuery( ) ) );
 		cleanDataDefinition( sdTmp );
 		sdTmp.eAdapters( )
 				.addAll( ( (SeriesDefinition) seriesDefns.get( 0 ) ).eAdapters( ) );
@@ -219,9 +221,11 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 		sdOrthogonal.setSeriesDefinitionIndex( list.size( ) );
 		sdOrthogonal.eAdapters( ).addAll( chart.getSampleData( ).eAdapters( ) );
 
-		seriesDefns.add( sdTmp );
-		// Update the SampleData. Must do this after add series definition.
+		// Update the SampleData. (Not required to do this after adding series
+		// definition.)
 		list.add( sdOrthogonal );
+
+		seriesDefns.add( sdTmp );
 	}
 
 	private void cleanDataDefinition( SeriesDefinition sd )

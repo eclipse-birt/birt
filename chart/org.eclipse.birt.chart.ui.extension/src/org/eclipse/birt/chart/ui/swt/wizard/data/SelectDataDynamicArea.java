@@ -326,9 +326,10 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI, Listener
 
 	public void handleEvent( Event event )
 	{
-		// Copy the group query to all
+		// Copy the group query to other query definitions.
 		ChartAdapter.ignoreNotifications( true );
-		ChartUIUtil.setAllGroupingQuery( getChartModel( ), event.text );
+		ChartUIUtil.setAllGroupingQueryExceptFirst( getChartModel( ),
+				event.text );
 		ChartAdapter.ignoreNotifications( false );
 	}
 }

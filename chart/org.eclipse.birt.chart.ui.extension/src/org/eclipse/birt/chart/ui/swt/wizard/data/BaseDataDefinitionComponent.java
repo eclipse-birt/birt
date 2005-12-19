@@ -94,6 +94,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			String sTitle )
 	{
 		super( );
+		assert query != null;
 		this.query = query;
 		this.seriesdefinition = seriesdefinition;
 		this.serviceprovider = builder;
@@ -318,6 +319,13 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	{
 		if ( isQueryModified )
 		{
+			Event e = new Event( );
+			e.text = txtDefinition.getText( );
+			e.data = txtDefinition.getText( );
+			e.widget = txtDefinition;
+			e.type = 0;
+			fireEvent( e );
+
 			if ( query != null )
 			{
 				query.setDefinition( txtDefinition.getText( ) );
@@ -326,18 +334,16 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			{
 				query = QueryImpl.create( txtDefinition.getText( ) );
 				query.eAdapters( ).addAll( seriesdefinition.eAdapters( ) );
+				// Since the data query must be non-null, it's created in
+				// ChartUIUtil.getDataQuery(), assume current null is a grouping
+				// query
+				seriesdefinition.setQuery( query );
 			}
+
 			// Refresh color from ColorPalette
 			setColor( );
 			txtDefinition.getParent( ).layout( );
 			isQueryModified = false;
-
-			Event e = new Event( );
-			e.text = txtDefinition.getText( );
-			e.data = txtDefinition.getText( );
-			e.widget = txtDefinition;
-			e.type = 0;
-			fireEvent( e );
 		}
 	}
 
