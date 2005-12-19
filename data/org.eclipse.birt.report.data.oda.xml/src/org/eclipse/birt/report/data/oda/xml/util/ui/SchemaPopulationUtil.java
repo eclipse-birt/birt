@@ -20,11 +20,11 @@ import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.xerces.impl.xs.XMLSchemaLoader;
 import org.apache.xerces.impl.xs.XSAttributeGroupDecl;
 import org.apache.xerces.impl.xs.XSAttributeUseImpl;
 import org.apache.xerces.impl.xs.XSComplexTypeDecl;
 import org.apache.xerces.impl.xs.XSElementDecl;
-import org.apache.xerces.impl.xs.XSLoaderImpl;
 import org.apache.xerces.impl.xs.XSModelGroupImpl;
 import org.apache.xerces.impl.xs.XSParticleDecl;
 import org.apache.xerces.xs.XSConstants;
@@ -328,7 +328,7 @@ final class XSDFileSchemaTreePopulator
 			uri = new URI( fileName );
 		}
 		
-		XSLoader xsLoader = new XSLoaderImpl( );
+		XSLoader xsLoader = new XMLSchemaLoader( );
 		XSModel xsModel = xsLoader.loadURI( uri.toString( ) );
 		ATreeNode complexTypesRoot = populateComplexTypeTree( xsModel );
 
