@@ -91,7 +91,7 @@ public class RelationInformation
 				}
 				for ( int m = 0; m < columnInfos.length; m++ )
 					columnInfos[m] = columnInfos[m].trim( );
-				
+				String originalColumnXpath = columnXpath;
 				//if it is a filter expression
 				if ( columnXpath.matches( ".*\\Q[@\\E.*\\Q=\\E.*" ) )
 				{
@@ -110,7 +110,7 @@ public class RelationInformation
 				tableInfo.addColumn( new ColumnInfo( j + 1,
 						columnInfos[0],
 						columnInfos[1],
-						combineColumnPath(tableInfo.getRootPath( ),columnXpath), columnXpath));
+						combineColumnPath(tableInfo.getRootPath( ),columnXpath), originalColumnXpath));
 			}
 			this.tableInfos.put( temp[0].trim( ), tableInfo );
 		}
