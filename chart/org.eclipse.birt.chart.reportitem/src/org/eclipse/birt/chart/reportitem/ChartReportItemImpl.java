@@ -237,6 +237,28 @@ public final class ChartReportItemImpl extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getScriptPropertyDefinition()
+	 */
+	public IPropertyDefinition getScriptPropertyDefinition( )
+	{
+		if ( cm == null )
+		{
+			logger.log( ILogger.WARNING,
+					Messages.getString( "ChartReportItemImpl.log.RequestForScriptPropertyDefn" ) ); //$NON-NLS-1$
+			return null;
+		}
+
+		return new ChartPropertyDefinitionImpl( null,
+				"script", "property.script", false, //$NON-NLS-1$ //$NON-NLS-2$
+				PropertyType.STRING_TYPE,
+				null,
+				null,
+				null );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElement#getPropertyDefinitions()
 	 */
 	public IPropertyDefinition[] getPropertyDefinitions( )
@@ -248,9 +270,6 @@ public final class ChartReportItemImpl extends ReportItem
 			return null;
 		}
 
-		final boolean bTransposed = ( cm instanceof ChartWithAxes ) ? ( (ChartWithAxes) cm ).isTransposed( )
-				: false;
-
 		return new IPropertyDefinition[]{
 
 				new ChartPropertyDefinitionImpl( null,
@@ -258,61 +277,50 @@ public final class ChartReportItemImpl extends ReportItem
 						PropertyType.STRING_TYPE,
 						null,
 						null,
-						cm.getTitle( ).getLabel( ).getCaption( ).getValue( ),
-						false
-						),
+						null ),
 
 				new ChartPropertyDefinitionImpl( null,
 						"title.font.rotation", "property.label.title.font.rotation", false, //$NON-NLS-1$ //$NON-NLS-2$
 						PropertyType.FLOAT_TYPE,
 						null,
 						null,
-						new Double( cm.getTitle( )
-								.getLabel( )
-								.getCaption( )
-								.getFont( )
-								.getRotation( ) ),
-								false),
+						null ),
 
 				new ChartPropertyDefinitionImpl( null,
 						"legend.position", "property.label.legend.position", false, //$NON-NLS-1$ //$NON-NLS-2$
 						PropertyType.CHOICE_TYPE,
 						liLegendPositions,
 						null,
-						null,
-						false),
+						null ),
 
 				new ChartPropertyDefinitionImpl( null,
 						"legend.anchor", "property.label.legend.anchor", false, //$NON-NLS-1$ //$NON-NLS-2$
 						PropertyType.CHOICE_TYPE,
 						liLegendAnchors,
 						null,
-						null,
-						false),
+						null ),
 
 				new ChartPropertyDefinitionImpl( null,
 						"chart.dimension", "property.label.chart.dimension", false, //$NON-NLS-1$ //$NON-NLS-2$
 						PropertyType.CHOICE_TYPE,
 						liChartDimensions,
 						null,
-						null,
-						false),
+						null ),
 
 				new ChartPropertyDefinitionImpl( null,
 						"plot.transposed", "property.label.chart.plot.transposed", false, //$NON-NLS-1$ //$NON-NLS-2$
 						PropertyType.BOOLEAN_TYPE,
 						null,
 						null,
-						new Boolean( bTransposed ),
-						false),
+						null ),
+
 				new ChartPropertyDefinitionImpl( null,
-						"script.value", "property.script.value", false, //$NON-NLS-1$ //$NON-NLS-2$
+						"script", "property.script", false, //$NON-NLS-1$ //$NON-NLS-2$
 						PropertyType.STRING_TYPE,
 						null,
 						null,
-						"",
-						false)
-			};
+						null ),
+		};
 	}
 
 	/*
@@ -324,7 +332,7 @@ public final class ChartReportItemImpl extends ReportItem
 	{
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemImpl.log.getProperty", propName ) ); //$NON-NLS-1$
-		
+
 		if ( propName.equals( "title.value" ) ) //$NON-NLS-1$
 		{
 			return cm.getTitle( ).getLabel( ).getCaption( ).getValue( );
@@ -354,13 +362,13 @@ public final class ChartReportItemImpl extends ReportItem
 			return new Boolean( ( cm instanceof ChartWithAxes ) ? ( (ChartWithAxes) cm ).isTransposed( )
 					: false );
 		}
+		else if ( propName.equals( "script" ) ) //$NON-NLS-1$
+		{
+			return cm.getScript( );
+		}
 		else if ( propName.equals( "chart.instance" ) ) //$NON-NLS-1$
 		{
 			return cm;
-		}
-		else if ( propName.equals( "script.value" ) )  //$NON-NLS-1$
-		{
-			return cm.getScript();
 		}
 		return null;
 	}
@@ -438,13 +446,13 @@ public final class ChartReportItemImpl extends ReportItem
 						Messages.getString( "ChartReportItemImpl.log.CannotSetState" ) ); //$NON-NLS-1$
 			}
 		}
+		else if ( propName.equals( "script" ) ) //$NON-NLS-1$
+		{
+			cm.setScript( (String) value );
+		}
 		else if ( propName.equals( "chart.instance" ) ) //$NON-NLS-1$
 		{
 			this.cm = (Chart) value;
-		}
-		else if ( propName.equals( "script.value" ) ) // $NON-NLS-1$
-		{
-			this.cm.setScript( (String) value );
 		}
 
 	}
@@ -456,7 +464,8 @@ public final class ChartReportItemImpl extends ReportItem
 	 */
 	public void validate( ) throws ExtendedElementException
 	{
-
+		logger.log( ILogger.INFORMATION,
+				Messages.getString( "ChartReportItemImpl.log.validate" ) ); //$NON-NLS-1$ 
 	}
 
 	/*
@@ -479,17 +488,6 @@ public final class ChartReportItemImpl extends ReportItem
 	public boolean refreshPropertyDefinition( )
 	{
 		return false;
-	}
-	
-	public IPropertyDefinition getScriptPropertyDefinition( )
-	{
-		return new ChartPropertyDefinitionImpl( null,
-				"script.value", "property.script.value", false, //$NON-NLS-1$ //$NON-NLS-2$
-				PropertyType.STRING_TYPE,
-				null,
-				null,
-				"",
-				false);
 	}
 
 }
