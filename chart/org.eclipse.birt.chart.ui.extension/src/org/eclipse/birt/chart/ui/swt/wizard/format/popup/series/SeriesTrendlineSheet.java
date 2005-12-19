@@ -104,9 +104,8 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet
 		lblValue = new Label( cmpLeft, SWT.NONE );
 		{
 			GridData gd = new GridData( );
-			gd.verticalAlignment = SWT.BEGINNING;
 			lblValue.setLayoutData( gd );
-			lblValue.setText( Messages.getString( "SeriesTrendlineSheet.Label.Value" ) ); //$NON-NLS-1$
+			lblValue.setText( Messages.getString( "SeriesTrendlineSheet.Label.Label" ) + ":" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		List keys = null;
@@ -124,7 +123,6 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet
 				getTrendline( ).getLabel( ).getCaption( ).getValue( ) );
 		{
 			GridData gd = new GridData( );
-			gd.verticalAlignment = SWT.BEGINNING;
 			gd.widthHint = 125;
 			txtValue.setLayoutData( gd );
 			txtValue.addListener( this );

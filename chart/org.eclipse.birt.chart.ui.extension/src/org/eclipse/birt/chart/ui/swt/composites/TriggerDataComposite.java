@@ -60,7 +60,7 @@ public class TriggerDataComposite extends Composite
 
 	// private transient Text txtBaseURL = null;
 
-	private transient Text txtTarget = null;
+	// private transient Text txtTarget = null;
 
 	private transient Group grpParameters = null;
 
@@ -308,16 +308,28 @@ public class TriggerDataComposite extends Composite
 			btnBaseURL.addSelectionListener( this );
 		}
 
-		Label lblTarget = new Label( cmpURL, SWT.NONE );
-		GridData gdLBLTarget = new GridData( );
-		gdLBLTarget.horizontalIndent = 2;
-		lblTarget.setLayoutData( gdLBLTarget );
-		lblTarget.setText( Messages.getString( "TriggerDataComposite.Lbl.Target" ) ); //$NON-NLS-1$
+		Label lblDefine = new Label( cmpURL, SWT.WRAP );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalIndent = 2;
+			gd.horizontalSpan = 3;
+			gd.widthHint = 200;
+			lblDefine.setLayoutData( gd );
+			lblDefine.setText( Messages.getString( "TriggerDataComposite.Label.DefineTheParametersNames" ) ); //$NON-NLS-1$
+			lblDefine.setEnabled( bEnableURLParameters );
+		}
 
-		txtTarget = new Text( cmpURL, SWT.BORDER );
-		GridData gdTXTTarget = new GridData( GridData.FILL_HORIZONTAL );
-		gdTXTTarget.horizontalSpan = 2;
-		txtTarget.setLayoutData( gdTXTTarget );
+		// Label lblTarget = new Label( cmpURL, SWT.NONE );
+		// GridData gdLBLTarget = new GridData( );
+		// gdLBLTarget.horizontalIndent = 2;
+		// lblTarget.setLayoutData( gdLBLTarget );
+		// lblTarget.setText( Messages.getString(
+		// "TriggerDataComposite.Lbl.Target" ) ); //$NON-NLS-1$
+		//
+		// txtTarget = new Text( cmpURL, SWT.BORDER );
+		// GridData gdTXTTarget = new GridData( GridData.FILL_HORIZONTAL );
+		// gdTXTTarget.horizontalSpan = 2;
+		// txtTarget.setLayoutData( gdTXTTarget );
 
 		grpParameters = new Group( cmpURL, SWT.NONE );
 		GridData gdGRPParameters = new GridData( GridData.FILL_HORIZONTAL );
@@ -327,12 +339,26 @@ public class TriggerDataComposite extends Composite
 		grpParameters.setText( Messages.getString( "TriggerDataComposite.Lbl.ParameterNames" ) ); //$NON-NLS-1$
 		grpParameters.setEnabled( bEnableURLParameters );
 
+		Label lblParameters = new Label( grpParameters, SWT.WRAP );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalIndent = 2;
+			gd.horizontalSpan = 3;
+			gd.widthHint = 200;
+			lblParameters.setLayoutData( gd );
+			lblParameters.setText( Messages.getString( "TriggerDataComposite.Label.GiveANameForParameters" ) ); //$NON-NLS-1$
+			lblParameters.setEnabled( bEnableURLParameters );
+		}
+
 		Label lblBaseParm = new Label( grpParameters, SWT.NONE );
-		GridData gdLBLBaseParm = new GridData( );
-		gdLBLBaseParm.horizontalIndent = 2;
-		lblBaseParm.setLayoutData( gdLBLBaseParm );
-		lblBaseParm.setText( Messages.getString( "TriggerDataComposite.Lbl.BaseParameter" ) ); //$NON-NLS-1$
-		lblBaseParm.setEnabled( bEnableURLParameters );
+		{
+			GridData gdLBLBaseParm = new GridData( );
+			gdLBLBaseParm.horizontalIndent = 2;
+			lblBaseParm.setLayoutData( gdLBLBaseParm );
+			lblBaseParm.setText( Messages.getString( "TriggerDataComposite.Lbl.CategorySeries" ) ); //$NON-NLS-1$
+			lblBaseParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterCategory" ) ); //$NON-NLS-1$
+			lblBaseParm.setEnabled( bEnableURLParameters );
+		}
 
 		txtBaseParm = new Text( grpParameters, SWT.BORDER );
 		GridData gdTXTBaseParm = new GridData( GridData.FILL_HORIZONTAL );
@@ -342,11 +368,14 @@ public class TriggerDataComposite extends Composite
 		txtBaseParm.setEnabled( bEnableURLParameters );
 
 		Label lblValueParm = new Label( grpParameters, SWT.NONE );
-		GridData gdLBLValueParm = new GridData( );
-		gdLBLValueParm.horizontalIndent = 2;
-		lblValueParm.setLayoutData( gdLBLValueParm );
-		lblValueParm.setText( Messages.getString( "TriggerDataComposite.Lbl.ValueParameter" ) ); //$NON-NLS-1$
-		lblValueParm.setEnabled( bEnableURLParameters );
+		{
+			GridData gdLBLValueParm = new GridData( );
+			gdLBLValueParm.horizontalIndent = 2;
+			lblValueParm.setLayoutData( gdLBLValueParm );
+			lblValueParm.setText( Messages.getString( "TriggerDataComposite.Lbl.ValueSeries" ) ); //$NON-NLS-1$
+			lblValueParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterValue" ) ); //$NON-NLS-1$
+			lblValueParm.setEnabled( bEnableURLParameters );
+		}
 
 		txtValueParm = new Text( grpParameters, SWT.BORDER );
 		GridData gdTXTValueParm = new GridData( GridData.FILL_HORIZONTAL );
@@ -356,11 +385,14 @@ public class TriggerDataComposite extends Composite
 		txtValueParm.setEnabled( bEnableURLParameters );
 
 		Label lblSeriesParm = new Label( grpParameters, SWT.NONE );
-		GridData gdLBLSeriesParm = new GridData( );
-		gdLBLSeriesParm.horizontalIndent = 2;
-		lblSeriesParm.setLayoutData( gdLBLSeriesParm );
-		lblSeriesParm.setText( Messages.getString( "TriggerDataComposite.Lbl.SeriesParameter" ) ); //$NON-NLS-1$
-		lblSeriesParm.setEnabled( bEnableURLParameters );
+		{
+			GridData gdLBLSeriesParm = new GridData( );
+			gdLBLSeriesParm.horizontalIndent = 2;
+			lblSeriesParm.setLayoutData( gdLBLSeriesParm );
+			lblSeriesParm.setText( Messages.getString( "TriggerDataComposite.Lbl.ValueSeriesName" ) ); //$NON-NLS-1$
+			lblSeriesParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterSeries" ) ); //$NON-NLS-1$
+			lblSeriesParm.setEnabled( bEnableURLParameters );
+		}
 
 		txtSeriesParm = new Text( grpParameters, SWT.BORDER );
 		GridData gdTXTSeriesParm = new GridData( GridData.FILL_HORIZONTAL );
@@ -421,8 +453,8 @@ public class TriggerDataComposite extends Composite
 				sBaseURL = ( urlValue.getBaseUrl( ).length( ) > 0 )
 						? urlValue.getBaseUrl( ) : ""; //$NON-NLS-1$
 				// txtBaseURL.setText( sBaseURL );
-				txtTarget.setText( ( urlValue.getTarget( ).length( ) > 0 )
-						? urlValue.getTarget( ) : "" ); //$NON-NLS-1$
+				// txtTarget.setText( ( urlValue.getTarget( ).length( ) > 0 )
+				// ? urlValue.getTarget( ) : "" ); //$NON-NLS-1$
 				txtBaseParm.setText( ( urlValue.getBaseParameterName( )
 						.length( ) > 0 ) ? urlValue.getBaseParameterName( )
 						: "" ); //$NON-NLS-1$
@@ -486,7 +518,7 @@ public class TriggerDataComposite extends Composite
 		{
 			case 0 :
 				value = URLValueImpl.create( sBaseURL,
-						txtTarget.getText( ),
+						null,// txtTarget.getText( ),
 						txtBaseParm.getText( ),
 						txtValueParm.getText( ),
 						txtSeriesParm.getText( ) );
