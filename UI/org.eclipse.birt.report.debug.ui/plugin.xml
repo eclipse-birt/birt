@@ -54,7 +54,7 @@
    
 	<extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
 	    <launchConfigurationTypeImage
-	        icon="icons/full/ctool16/java_applet.gif"
+	        icon="icons/full/ctool16/birtdebugger.gif"
 	        configTypeID="org.eclipse.birt.report.debug.ui.ReportRuntimeWorkbench"
 	        id="org.eclipse.birt.report.debug.ui.launchConfigurationTypeImage.report">
 	    </launchConfigurationTypeImage>
