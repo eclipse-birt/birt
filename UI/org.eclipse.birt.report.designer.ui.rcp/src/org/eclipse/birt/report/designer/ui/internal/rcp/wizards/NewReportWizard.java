@@ -21,10 +21,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.editors.RCPReportEditor;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditorInput;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
@@ -36,6 +40,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -74,6 +79,8 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 	private WizardNewReportCreationPage newReportFileWizardPage;
 
 	private WizardTemplateChoicePage templateChoicePage;
+	
+	private WizardReportSettingPage settingPage;
 
 	public NewReportWizard( )
 	{
@@ -109,6 +116,11 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		newReportFileWizardPage.setDescription( CREATE_A_NEW_REPORT );
 		templateChoicePage.setTitle( REPORT );
 		templateChoicePage.setDescription( SELECT_A_REPORT_TEMPLATE );
+
+		settingPage = new WizardReportSettingPage( null );
+		settingPage.setTitle( Messages.getString( "SaveReportAsWizard.SettingPage.title" ) );
+
+		addPage( settingPage );
 
 		// initialize new report file page.
 		newReportFileWizardPage.setInitialFileName( getNewFileFullName( NEW_REPORT_FILE_NAME_PREFIX ) );
@@ -303,9 +315,11 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 					}
 
 					// open the editor on the file
-					page.openEditor( new ReportEditorInput( file ),
+					IEditorPart editorPart = page.openEditor( new ReportEditorInput( file ),
 							ReportEditorInput.REPORT_EDITOR_ID,
 							true );
+					setReportSettings(((RCPReportEditor)editorPart).getModel());
+					editorPart.doSave(null);
 
 					if ( showCheatSheet && !cheatSheetId.equals( "" ) ) //$NON-NLS-1$
 					{
@@ -344,5 +358,25 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	
+	/**
+	 * Set report basic settings.
+	 * @param model
+	 * @throws IOException
+	 */
+	void setReportSettings( Object model ) throws IOException
+	{
+		ReportDesignHandle handle = (ReportDesignHandle)model;
+		try
+		{
+			handle.setDisplayName( settingPage.getDisplayName( ) );
+			handle.setDescription( settingPage.getDescription( ) );
+			handle.setIconFile( settingPage.getPreviewImagePath( ) );
+		}
+		catch ( SemanticException e )
+		{
+		}
+		handle.save();
 	}
 }
