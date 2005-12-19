@@ -1026,7 +1026,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 				property( image, EmbeddedImage.NAME_MEMBER );
 				property( image, EmbeddedImage.TYPE_MEMBER );
-
+				property( image, EmbeddedImage.LIB_REFERENCE_MEMBER );
+				
 				try
 				{
 					if ( image.getLocalProperty( getModule( ),

@@ -77,10 +77,12 @@ public class DesignWriter extends ModuleWriter
 		property( obj, Module.INITIALIZE_METHOD );
 		property( obj, ReportDesign.BEFORE_FACTORY_METHOD );
 		property( obj, ReportDesign.AFTER_FACTORY_METHOD );
-//		property( obj, ReportDesign.BEFORE_OPEN_DOC_METHOD );
-//		property( obj, ReportDesign.AFTER_OPEN_DOC_METHOD );
-//		property( obj, ReportDesign.BEFORE_CLOSE_DOC_METHOD );
-//		property( obj, ReportDesign.AFTER_CLOSE_DOC_METHOD );
+
+		// property( obj, ReportDesign.BEFORE_OPEN_DOC_METHOD );
+		// property( obj, ReportDesign.AFTER_OPEN_DOC_METHOD );
+		// property( obj, ReportDesign.BEFORE_CLOSE_DOC_METHOD );
+		// property( obj, ReportDesign.AFTER_CLOSE_DOC_METHOD );
+
 		property( obj, ReportDesign.BEFORE_RENDER_METHOD );
 		property( obj, ReportDesign.AFTER_RENDER_METHOD );
 		property( obj, IModuleModel.THEME_PROP );
@@ -89,7 +91,7 @@ public class DesignWriter extends ModuleWriter
 		property( obj, ReportDesign.ICON_FILE_PROP );
 		property( obj, ReportDesign.CHEET_SHEET_PROP );
 		property( obj, ReportDesign.EVENT_HANDLER_CLASS_PROP );
-		
+
 		// include libraries and scripts
 
 		writeStructureList( obj, ReportDesign.LIBRARIES_PROP );
@@ -114,7 +116,7 @@ public class DesignWriter extends ModuleWriter
 		writeCustomColors( obj );
 
 		// Data bindings property
-		
+
 		writeDataSourceBinding( obj );
 
 		// Translations. ( Custom-defined messages )
@@ -173,8 +175,9 @@ public class DesignWriter extends ModuleWriter
 				DataSourceParamBinding dataSourceBinding = (DataSourceParamBinding) list
 						.get( i );
 
-				writer.conditionalStartElement( DesignSchemaConstants.STRUCTURE_TAG );
-				
+				writer
+						.conditionalStartElement( DesignSchemaConstants.STRUCTURE_TAG );
+
 				property( dataSourceBinding,
 						DataSourceParamBinding.DATASOURCE_NAME_MEMBER );
 
@@ -183,7 +186,7 @@ public class DesignWriter extends ModuleWriter
 
 				writer.endElement( );
 			}
-			
+
 			writer.endElement( );
 		}
 	}
