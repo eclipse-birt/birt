@@ -641,21 +641,16 @@ public class BasePaletteFactory
 		{
 			if ( getRequest( ).getNewObjectType( ) instanceof DataSetHandle )
 			{
-				
+
 				try
 				{
-					//insert table grid into layout
-					Object newHandle = InsertInLayoutUtil.performInsert( getRequest( ).getNewObject( ),
-							getTargetEditPart( ) );
-					if ( newHandle == null )
-						return false;
-					setModel( newHandle );
-					
-					//add extended dataset element.
-					Object newObj = getRequest( ).getNewObject();
-					if( newObj instanceof Object[] && (( Object[])newObj).length>0)
+
+					// add extended dataset element.
+					Object newObj = getRequest( ).getNewObject( );
+					if ( newObj instanceof Object[]
+							&& ( (Object[]) newObj ).length > 0 )
 					{
-						newObj = (( Object[])newObj)[0];
+						newObj = ( (Object[]) newObj )[0];
 					}
 					DesignElementHandle elementHandle = (DesignElementHandle) newObj;
 					if ( elementHandle.getRoot( ) instanceof LibraryHandle )
@@ -667,9 +662,10 @@ public class BasePaletteFactory
 						{
 							if ( UIUtil.includeLibrary( moduleHandle, library ) )
 							{
-								moduleHandle.addElement(moduleHandle.getElementFactory( )
-										.newElementFrom( elementHandle, null ),moduleHandle.getDataSets().getSlotID());
-								
+								elementHandle = moduleHandle.getElementFactory( )
+										.newElementFrom( elementHandle, null );
+								moduleHandle.addElement( elementHandle,
+										moduleHandle.getDataSets( ).getSlotID( ) );
 							}
 						}
 						catch ( Exception e )
@@ -677,7 +673,12 @@ public class BasePaletteFactory
 							ExceptionHandler.handle( e );
 						}
 					}
-					
+					Object newHandle = InsertInLayoutUtil.performInsert( elementHandle,
+							getTargetEditPart( ) );
+					if ( newHandle == null )
+						return false;
+					setModel( newHandle );
+
 					return super.preHandleMouseUp( );
 				}
 				catch ( SemanticException e )
@@ -702,9 +703,8 @@ public class BasePaletteFactory
 	/**
 	 * Provides element building support for data set column.
 	 */
-	public static class DataSetColumnToolExtends
-			extends
-				AbstractToolHandleExtends
+	public static class DataSetColumnToolExtends extends
+			AbstractToolHandleExtends
 	{
 
 		/*
@@ -763,17 +763,12 @@ public class BasePaletteFactory
 			{
 				try
 				{
-					Object newHandle = InsertInLayoutUtil.performInsert( getRequest( ).getNewObject( ),
-							getTargetEditPart( ) );
-					if ( newHandle == null )
-						return false;
 
-					setModel( newHandle );
-					
-					Object newObj = getRequest( ).getNewObject();
-					if( newObj instanceof Object[] && (( Object[])newObj).length>0)
+					Object newObj = getRequest( ).getNewObject( );
+					if ( newObj instanceof Object[]
+							&& ( (Object[]) newObj ).length > 0 )
 					{
-						newObj = (( Object[])newObj)[0];
+						newObj = ( (Object[]) newObj )[0];
 					}
 					DesignElementHandle elementHandle = (DesignElementHandle) newObj;
 					if ( elementHandle.getRoot( ) instanceof LibraryHandle )
@@ -785,8 +780,10 @@ public class BasePaletteFactory
 						{
 							if ( UIUtil.includeLibrary( moduleHandle, library ) )
 							{
-								moduleHandle.addElement(moduleHandle.getElementFactory( )
-										.newElementFrom( elementHandle, null ),ModuleHandle.PARAMETER_SLOT);
+								elementHandle = moduleHandle.getElementFactory( )
+										.newElementFrom( elementHandle, null );
+								moduleHandle.addElement( elementHandle,
+										ModuleHandle.PARAMETER_SLOT );
 							}
 						}
 						catch ( Exception e )
@@ -794,7 +791,14 @@ public class BasePaletteFactory
 							ExceptionHandler.handle( e );
 						}
 					}
-					
+
+					Object newHandle = InsertInLayoutUtil.performInsert( elementHandle,
+							getTargetEditPart( ) );
+					if ( newHandle == null )
+						return false;
+
+					setModel( newHandle );
+
 					return super.preHandleMouseUp( );
 				}
 				catch ( SemanticException e )
