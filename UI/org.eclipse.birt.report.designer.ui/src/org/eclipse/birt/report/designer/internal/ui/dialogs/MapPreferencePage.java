@@ -324,23 +324,23 @@ public class MapPreferencePage extends BaseStylePreferencePage
 	private void add( )
 	{
 		MapRuleBuilder builder = new MapRuleBuilder( getShell( ),
-				Messages.getString( "MapPreferencePage.text.Title" ), //$NON-NLS-1$
+				MapRuleBuilder.DLG_TITLE_NEW,
 				provider );
 
 		builder.updateHandle( null, fTableViewer.getTable( ).getItemCount( ) );
-	
+
 		builder.setDesignHandle( (DesignElementHandle) model );
 
 		if ( builder.open( ) == Window.OK )
 		{
 			fTableViewer.add( builder.getHandle( ) );
 
-			int itemCount = fTableViewer.getTable().getItemCount();
-			
-			fTableViewer.getTable().deselectAll();
+			int itemCount = fTableViewer.getTable( ).getItemCount( );
 
-			fTableViewer.getTable().select(itemCount -1);
-			
+			fTableViewer.getTable( ).deselectAll( );
+
+			fTableViewer.getTable( ).select( itemCount - 1 );
+
 			fTableViewer.getTable( ).setFocus( );
 
 			updateButtons( );
@@ -356,7 +356,7 @@ public class MapPreferencePage extends BaseStylePreferencePage
 						.getItemCount( ) )
 		{
 			MapRuleBuilder builder = new MapRuleBuilder( getShell( ),
-					Messages.getString( "MapPreferencePage.text.Title" ), //$NON-NLS-1$
+					MapRuleBuilder.DLG_TITLE_EDIT,
 					provider );
 
 			MapRuleHandle handle = (MapRuleHandle) fTableViewer.getTable( )

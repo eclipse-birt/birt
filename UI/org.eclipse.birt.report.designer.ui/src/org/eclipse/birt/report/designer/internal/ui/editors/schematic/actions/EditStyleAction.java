@@ -61,10 +61,9 @@ public class EditStyleAction extends DynamicItemAction
 		{
 			System.out.println( "Edit style action >> Run ..." ); //$NON-NLS-1$
 		}
-		StyleBuilder d = new StyleBuilder( PlatformUI.getWorkbench( )
+		StyleBuilder builder = new StyleBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
-				.getActiveShell( ),
-				handle );
-		d.open( );
+				.getActiveShell( ), handle, StyleBuilder.DLG_TITLE_EDIT );
+		builder.open( );
 	}
 }

@@ -29,7 +29,6 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.MapPreferencePage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.PageBreakPreferencePage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
@@ -50,7 +49,10 @@ import org.eclipse.swt.widgets.Shell;
 public class StyleBuilder extends PreferenceDialog
 {
 
-	private ReportElementHandle handle;
+	public static final String DLG_TITLE_NEW = Messages.getString( "SytleBuilder.DialogTitle.New" ); //$NON-NLS-1$
+	public static final String DLG_TITLE_EDIT = Messages.getString( "SytleBuilder.DialogTitle.Edit" ); //$NON-NLS-1$
+
+	protected String title;
 
 	/**
 	 * Constructor
@@ -58,10 +60,11 @@ public class StyleBuilder extends PreferenceDialog
 	 * @param parentShell
 	 * @param handle
 	 */
-	public StyleBuilder( Shell parentShell, ReportElementHandle handle )
+	public StyleBuilder( Shell parentShell, ReportElementHandle handle,
+			String title )
 	{
-		super( parentShell, createPreferenceManager( handle ) );
-		this.handle = handle;
+		super( parentShell, createPreferenceManager( handle ) );		
+		this.title = title;
 	}
 
 	/*
@@ -84,7 +87,7 @@ public class StyleBuilder extends PreferenceDialog
 	protected void configureShell( Shell newShell )
 	{
 		super.configureShell( newShell );
-		newShell.setText( Messages.getString( "StyleBuilderDialog.displayname.Title" ) + " - " + ( (StyleHandle) handle ).getName( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		newShell.setText( title ); 
 	}
 
 	private static PreferenceManager createPreferenceManager(
@@ -92,7 +95,7 @@ public class StyleBuilder extends PreferenceDialog
 	{
 		PreferenceManager preferenceManager = new PreferenceManager( '/' );
 
-		//Get the pages from the registry
+		// Get the pages from the registry
 		List pageContributions = new ArrayList( );
 
 		// adds preference pages into page contributions.
@@ -121,7 +124,7 @@ public class StyleBuilder extends PreferenceDialog
 		pageContributions.add( new PreferenceNode( "Highlights", //$NON-NLS-1$
 				new HighlightsPreferencePage( handle ) ) );
 
-		//Add the contributions to the manager
+		// Add the contributions to the manager
 		Iterator it = pageContributions.iterator( );
 		while ( it.hasNext( ) )
 		{

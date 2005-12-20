@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleRuleAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreatePlaceHolderPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteColumnAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteListGroupAction;
@@ -637,7 +637,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		menu.add( subMenu );
 		menu.add( new Separator( ) );
 		menu.add( getAction( ImportCSSStyleAction.ID ) );
-		menu.add( getAction( AddStyleRuleAction.ID ) );
+		menu.add( getAction( AddStyleAction.ID ) );
 		menuManager.appendToGroup( group_name, menu );
 	}
 

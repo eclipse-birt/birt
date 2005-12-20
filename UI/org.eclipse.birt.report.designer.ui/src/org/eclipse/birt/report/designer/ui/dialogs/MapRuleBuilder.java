@@ -56,6 +56,9 @@ import org.eclipse.swt.widgets.Text;
 public class MapRuleBuilder extends BaseDialog
 {
 
+	public static final String DLG_TITLE_NEW = Messages.getString( "MapRuleBuilder.DialogTitle.New" ); //$NON-NLS-1$
+	public static final String DLG_TITLE_EDIT = Messages.getString( "MapRuleBuilder.DialogTitle.Edit" ); //$NON-NLS-1$
+
 	/**
 	 * Usable operators for building map rule conditions.
 	 */
@@ -440,7 +443,7 @@ public class MapRuleBuilder extends BaseDialog
 		label.setFont( FontManager.getFont( label.getFont( ).toString( ),
 				10,
 				SWT.BOLD ) );
-		label.setText( Messages.getString( "MapRuleBuilderDialog.text.Title" ) ); //$NON-NLS-1$
+		label.setText( getTitle() ); //$NON-NLS-1$
 
 		return titleArea;
 	}
