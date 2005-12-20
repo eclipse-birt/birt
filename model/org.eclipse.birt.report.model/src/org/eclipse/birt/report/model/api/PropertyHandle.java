@@ -235,6 +235,7 @@ public class PropertyHandle extends SimpleValueHandle
 			{
 				case PropertyDefn.SYSTEM_PROPERTY :
 				case PropertyDefn.EXTENSION_PROPERTY :
+				case PropertyDefn.ODA_PROPERTY:
 					IElementDefn elementDefn = getElementHandle( ).getDefn( );
 					if ( elementDefn.isPropertyReadOnly( propDefn.getName( ) ) )
 						isReadOnly = true;
@@ -262,6 +263,7 @@ public class PropertyHandle extends SimpleValueHandle
 		{
 			case PropertyDefn.SYSTEM_PROPERTY :
 			case PropertyDefn.EXTENSION_PROPERTY :
+			case PropertyDefn.ODA_PROPERTY:
 				IElementDefn elementDefn = getElementHandle( ).getDefn( );
 				if ( !elementDefn.isPropertyVisible( propDefn.getName( ) ) )
 					isVisible = false;

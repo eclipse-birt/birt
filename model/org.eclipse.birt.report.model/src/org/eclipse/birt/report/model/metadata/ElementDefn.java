@@ -1489,7 +1489,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            the level that how to show the property in the property sheet.
 	 */
 
-	protected void addPropertyVisibility( String propName, String propVisibility )
+	public void addPropertyVisibility( String propName, String propVisibility )
 	{
 		if ( propVisibilites == null )
 			propVisibilites = new HashMap( );
