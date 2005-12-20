@@ -17,4 +17,5 @@ package org.eclipse.birt.report.engine.api;
 public class EngineConstants {
 	public final static String APPCONTEXT_HTML_RENDER_CONTEXT = "HTML_RENDER_CONTEXT";
 	public final static String APPCONTEXT_CHART_PRINT_RESOLUTION = "CHART_PRINT_RESOLUTION";	
+	public final static String APPCONTEXT_DATASET_CACHE_OPTION = "DATASET_CACHE_OPTION";
 }
