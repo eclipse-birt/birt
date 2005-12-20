@@ -601,11 +601,12 @@ public class PieChart extends DefaultChartTypeImpl
 			ISelectDataCustomizeUI selectDataUI, IUIServiceProvider builder,
 			Object oContext, String sTitle )
 	{
-		return new DefaultBaseSeriesComponent( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
+		DefaultBaseSeriesComponent component = new DefaultBaseSeriesComponent( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
 				.get( 0 ),
 				builder,
 				oContext,
-				sTitle,
-				Messages.getString( "PieBaseSeriesComponent.Label.CategoryDefinition" ) ); //$NON-NLS-1$
+				sTitle );
+		component.setLabelText( Messages.getString( "PieBaseSeriesComponent.Label.CategoryDefinition" ) ); //$NON-NLS-1$
+		return component;
 	}
 }

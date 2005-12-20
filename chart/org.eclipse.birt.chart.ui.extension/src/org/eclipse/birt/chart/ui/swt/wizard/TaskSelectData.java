@@ -740,11 +740,7 @@ public class TaskSelectData extends SimpleTask
 				public void menuAboutToShow( IMenuManager manager )
 				{
 					addMenu( manager, new HeaderShowAction( ) );
-					// No need to configure base series of Dial chart
-					if ( !( getChartModel( ) instanceof DialChart ) )
-					{
-						addMenu( manager, getBaseSeriesMenu( getChartModel( ) ) );
-					}
+					addMenu( manager, getBaseSeriesMenu( getChartModel( ) ) );
 					addMenu( manager,
 							getOrthogonalSeriesMenu( getChartModel( ) ) );
 					addMenu( manager, getGroupSeriesMenu( getChartModel( ) ) );

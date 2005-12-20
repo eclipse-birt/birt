@@ -32,15 +32,15 @@ import org.eclipse.swt.widgets.Label;
 public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent
 {
 
-	private transient Label lblBottomXSeries;
-
 	private transient SeriesDefinition seriesDefn;
 
 	private transient IUIServiceProvider serviceprovider = null;
 
 	private transient String sTitle = null;
 
-	private transient String labelText = null;
+	private transient String labelText = Messages.getString( "BarBottomAreaComponent.Label.CategoryXSeries" ); //$NON-NLS-1$
+
+	private transient String tooltipWhenBlank = null;
 
 	private transient Object oContext = null;
 
@@ -49,30 +49,18 @@ public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent
 	public DefaultBaseSeriesComponent( SeriesDefinition seriesDefn,
 			IUIServiceProvider builder, Object oContext, String sTitle )
 	{
-		this( seriesDefn,
-				builder,
-				oContext,
-				sTitle,
-				Messages.getString( "BarBottomAreaComponent.Label.CategoryXSeries" ) ); //$NON-NLS-1$
-	}
-
-	public DefaultBaseSeriesComponent( SeriesDefinition seriesDefn,
-			IUIServiceProvider builder, Object oContext, String sTitle,
-			String labelText )
-	{
 		super( );
 		this.seriesDefn = seriesDefn;
 		this.serviceprovider = builder;
 		this.oContext = oContext;
 		this.sTitle = sTitle;
-		this.labelText = labelText;
 	}
 
 	public Composite createArea( Composite parent )
 	{
 		Composite cmpBottom = new Composite( parent, SWT.NONE );
 		{
-			GridLayout gridLayout = new GridLayout( 5, false );
+			GridLayout gridLayout = new GridLayout( 3, false );
 			gridLayout.marginWidth = 10;
 			gridLayout.marginHeight = 0;
 			cmpBottom.setLayout( gridLayout );
@@ -89,14 +77,16 @@ public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent
 			leftAngle.getImage( ).setBackground( leftAngle.getBackground( ) );
 		}
 
-		lblBottomXSeries = new Label( cmpBottom, SWT.NONE );
-		lblBottomXSeries.setText( labelText );
-
 		comData = new BaseDataDefinitionComponent( seriesDefn,
 				ChartUIUtil.getDataQuery( seriesDefn, 0 ),
 				serviceprovider,
 				oContext,
 				sTitle );
+		( (BaseDataDefinitionComponent) comData ).setDescription( labelText );
+		if ( tooltipWhenBlank != null )
+		{
+			( (BaseDataDefinitionComponent) comData ).setTooltipWhenBlank( tooltipWhenBlank );
+		}
 		comData.createArea( cmpBottom );
 
 		Label rightAngle = new Label( cmpBottom, SWT.NONE );
@@ -115,5 +105,15 @@ public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent
 	{
 		comData.dispose( );
 		super.dispose( );
+	}
+
+	public void setLabelText( String labelText )
+	{
+		this.labelText = labelText;
+	}
+
+	public void setTooltipWhenBlank( String tootipWhenBlank )
+	{
+		this.tooltipWhenBlank = tootipWhenBlank;
 	}
 }

@@ -29,10 +29,8 @@ import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
-import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.DialChartImpl;
 import org.eclipse.birt.chart.model.type.DialSeries;
@@ -42,20 +40,17 @@ import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
-import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.data.DefaultBaseSeriesComponent;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 
 /**
  * MeterChart
@@ -83,8 +78,6 @@ public class MeterChart extends DefaultChartTypeImpl
 	private transient Image imgStandard = null;
 
 	private transient Image imgSuperimposed = null;
-
-	private static final String BLANK_QUERY = "\"base\""; //$NON-NLS-1$
 
 	private static final String[] saDimensions = new String[]{
 		TWO_DIMENSION_TYPE
@@ -189,11 +182,6 @@ public class MeterChart extends DefaultChartTypeImpl
 		sdX.getSeriesPalette( ).update( 0 );
 		Series categorySeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( categorySeries );
-
-		// Add a blank query to base series
-		Query baseQuery = QueryImpl.create( BLANK_QUERY );
-		categorySeries.getDataDefinition( ).add( baseQuery );
-
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
 
 		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
@@ -266,10 +254,6 @@ public class MeterChart extends DefaultChartTypeImpl
 			{
 				currentChart.setSampleData( getConvertedSampleData( helperModel.getSampleData( ) ) );
 			}
-			currentChart.getTitle( )
-					.getLabel( )
-					.getCaption( )
-					.setValue( CHART_TITLE );
 			currentChart.setScript( helperModel.getScript( ) );
 			currentChart.setUnits( helperModel.getUnits( ) );
 			if ( helperModel.getGridColumnCount( ) > 0 )
@@ -307,23 +291,10 @@ public class MeterChart extends DefaultChartTypeImpl
 
 			currentChart.getLegend( )
 					.setItemType( LegendItemType.SERIES_LITERAL );
-
-			// Ensure base query is not null
-			EList dataDefinitions = ( (SeriesDefinition) ( (DialChart) currentChart ).getSeriesDefinitions( )
-					.get( 0 ) ).getDesignTimeSeries( ).getDataDefinition( );
-			if ( dataDefinitions.size( ) == 0 )
-			{
-				dataDefinitions.add( QueryImpl.create( BLANK_QUERY ) );
-			}
-			else
-			{
-				Query query = ( (Query) dataDefinitions.get( 0 ) );
-				if ( query.getDefinition( ) == null
-						|| query.getDefinition( ).trim( ).length( ) == 0 )
-				{
-					query.setDefinition( BLANK_QUERY );
-				}
-			}
+			currentChart.getTitle( )
+					.getLabel( )
+					.getCaption( )
+					.setValue( CHART_TITLE );
 		}
 		else if ( currentChart instanceof ChartWithoutAxes )
 		{
@@ -400,23 +371,6 @@ public class MeterChart extends DefaultChartTypeImpl
 						.getLabel( )
 						.getCaption( )
 						.setValue( CHART_TITLE );
-			}
-
-			// Ensure base query is not null
-			EList dataDefinitions = ( (SeriesDefinition) ( (DialChart) currentChart ).getSeriesDefinitions( )
-					.get( 0 ) ).getDesignTimeSeries( ).getDataDefinition( );
-			if ( dataDefinitions.size( ) == 0 )
-			{
-				dataDefinitions.add( QueryImpl.create( BLANK_QUERY ) );
-			}
-			else
-			{
-				Query query = ( (Query) dataDefinitions.get( 0 ) );
-				if ( query.getDefinition( ) == null
-						|| query.getDefinition( ).trim( ).length( ) == 0 )
-				{
-					query.setDefinition( BLANK_QUERY );
-				}
 			}
 		}
 		else
@@ -602,15 +556,13 @@ public class MeterChart extends DefaultChartTypeImpl
 			ISelectDataCustomizeUI selectDataUI, IUIServiceProvider builder,
 			Object oContext, String sTitle )
 	{
-		return new DefaultSelectDataComponent( ) {
-
-			public Composite createArea( Composite parent )
-			{
-				Composite cmp = new Composite( parent, SWT.NONE );
-				cmp.setLayout( new FillLayout( ) );
-				new Label( cmp, SWT.NONE );
-				return cmp;
-			}
-		};
+		DefaultBaseSeriesComponent component = new DefaultBaseSeriesComponent( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
+				.get( 0 ),
+				builder,
+				oContext,
+				sTitle );
+		component.setLabelText( Messages.getString( "PieBaseSeriesComponent.Label.CategoryDefinition" ) ); //$NON-NLS-1$
+		component.setTooltipWhenBlank( Messages.getString( "MeterChart.Tooltip.InputExpression" ) ); //$NON-NLS-1$
+		return component;
 	}
 }

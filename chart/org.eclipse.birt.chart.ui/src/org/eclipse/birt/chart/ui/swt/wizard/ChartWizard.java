@@ -25,7 +25,6 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 
 /**
@@ -37,21 +36,25 @@ public class ChartWizard extends WizardBase
 
 	public static final String WIZARD_ID = "org.eclipse.birt.chart.ui.ChartWizard"; //$NON-NLS-1$
 
-	private static final double DEFAULT_CHART_HEIGHT = 130;
+	private static final int CHART_WIZARD_WIDTH_MINMUM = 680;
 
-	private static final double DEFAULT_CHART_WIDTH = 212;
+	private static final int CHART_WIZARD_HEIGHT_MINMUM = 670;
 
-	private static final double DEFAULT_CHART_WITHOUT_AXIS_HEIGHT = 130;
+	private static final double DEFAULT_CHART_BLOCK_HEIGHT = 130;
 
-	private static final double DEFAULT_CHART_WITHOUT_AXIS_WIDTH = 212;
+	private static final double DEFAULT_CHART_BLOCK_WIDTH = 212;
+
+	private static final double DEFAULT_CHART_WITHOUT_AXIS_BLOCK_HEIGHT = 130;
+
+	private static final double DEFAULT_CHART_WITHOUT_AXIS_BLOCK_WIDTH = 212;
 
 	private ChartAdapter adapter = null;
 
 	public ChartWizard( )
 	{
 		super( WIZARD_ID,
-				SWT.DEFAULT,
-				SWT.DEFAULT,
+				CHART_WIZARD_WIDTH_MINMUM,
+				CHART_WIZARD_HEIGHT_MINMUM,
 				Messages.getString( "ChartWizard.Title.ChartBuilder" ), //$NON-NLS-1$
 				UIHelper.getImage( "icons/obj16/chartselector.gif" ) ); //$NON-NLS-1$
 		adapter = new ChartAdapter( this );
@@ -77,15 +80,15 @@ public class ChartWizard extends WizardBase
 			{
 				chartModelCurrent.getBlock( ).setBounds( BoundsImpl.create( 0,
 						0,
-						DEFAULT_CHART_WITHOUT_AXIS_WIDTH,
-						DEFAULT_CHART_WITHOUT_AXIS_HEIGHT ) );
+						DEFAULT_CHART_WITHOUT_AXIS_BLOCK_WIDTH,
+						DEFAULT_CHART_WITHOUT_AXIS_BLOCK_HEIGHT ) );
 			}
 			else
 			{
 				chartModelCurrent.getBlock( ).setBounds( BoundsImpl.create( 0,
 						0,
-						DEFAULT_CHART_WIDTH,
-						DEFAULT_CHART_HEIGHT ) );
+						DEFAULT_CHART_BLOCK_WIDTH,
+						DEFAULT_CHART_BLOCK_HEIGHT ) );
 			}
 		}
 	}

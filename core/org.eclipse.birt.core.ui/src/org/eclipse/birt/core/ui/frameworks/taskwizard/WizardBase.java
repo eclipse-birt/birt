@@ -73,9 +73,9 @@ public class WizardBase
 
 	private transient String sWizardID = "org.eclipse.birt.framework.taskwizard.prototype.SampleWizard"; //$NON-NLS-1$
 
-	private transient int iWizardHeight = 400;
+	private transient int iWizardHeightMinimum = 100;
 
-	private transient int iWizardWidth = 500;
+	private transient int iWizardWidthMinimum = 100;
 
 	private transient String wizardTitle = "Task Wizard"; //$NON-NLS-1$
 
@@ -126,7 +126,7 @@ public class WizardBase
 		}
 		// Set shell properties
 		shell.setLayout( glShell );
-		shell.setSize( iWizardWidth, iWizardHeight );
+		shell.setSize( iWizardWidthMinimum, iWizardHeightMinimum );
 		shell.setText( wizardTitle );
 		if ( wizardImage != null )
 		{
@@ -417,12 +417,27 @@ public class WizardBase
 		vTaskIDs = new Vector( );
 	}
 
+	/**
+	 * Creates an instance of the wizard. Needs to invoke <code>open</code>
+	 * method to create the wizard dialog.
+	 * 
+	 * @param sID
+	 *            wizard id
+	 * @param iInitialWidth
+	 *            width minimum
+	 * @param iInitialHeight
+	 *            height minimum
+	 * @param wizardTitle
+	 *            wizard title
+	 * @param wizardImage
+	 *            wizard image
+	 */
 	public WizardBase( String sID, int iInitialWidth, int iInitialHeight,
 			String wizardTitle, Image wizardImage )
 	{
 		this( sID );
-		this.iWizardWidth = iInitialWidth;
-		this.iWizardHeight = iInitialHeight;
+		this.iWizardWidthMinimum = iInitialWidth;
+		this.iWizardHeightMinimum = iInitialHeight;
 		this.wizardTitle = wizardTitle;
 		this.wizardImage = wizardImage;
 	}
@@ -509,10 +524,18 @@ public class WizardBase
 		}
 	}
 
-	public void setSize( int iWidth, int iHeight )
+	/**
+	 * Sets the minimum size of the wizard
+	 * 
+	 * @param iWidth
+	 *            width minimum
+	 * @param iHeight
+	 *            height minimum
+	 */
+	public void setMinimumSize( int iWidth, int iHeight )
 	{
-		iWizardWidth = iWidth;
-		iWizardHeight = iHeight;
+		iWizardWidthMinimum = iWidth;
+		iWizardHeightMinimum = iHeight;
 	}
 
 	private void placeComponents( )
@@ -726,15 +749,17 @@ public class WizardBase
 	{
 		boolean changed = false;
 		Point wizardSize = shell.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		int iWizardWidth = Math.max( wizardSize.x, iWizardWidthMinimum );
+		int iWizardHeight = Math.max( wizardSize.y, iWizardHeightMinimum );
 		Point oldSize = shell.getSize( );
-		if ( oldSize.x < wizardSize.x )
+		if ( oldSize.x < iWizardWidth )
 		{
-			oldSize.x = wizardSize.x;
+			oldSize.x = iWizardWidth;
 			changed = true;
 		}
-		if ( oldSize.y < wizardSize.y )
+		if ( oldSize.y < iWizardHeight )
 		{
-			oldSize.y = wizardSize.y;
+			oldSize.y = iWizardHeight;
 			changed = true;
 		}
 		if ( changed )
@@ -750,7 +775,7 @@ class TaskList extends Composite implements DisposeListener
 
 	private transient Vector vTasks = null;
 	private transient WizardBase wb = null;
-	private transient Composite cmpTasks = null;
+	private transient Composite tbTasks = null;
 
 	public TaskList( Composite parent, int iStyle, WizardBase wb )
 	{
@@ -780,7 +805,7 @@ class TaskList extends Composite implements DisposeListener
 	public void setActive( String sTaskLabel )
 	{
 		// Disable the button with current task
-		Control[] c = cmpTasks.getChildren( );
+		Control[] c = tbTasks.getChildren( );
 		for ( int i = 0; i < c.length; i++ )
 		{
 			if ( c[i] instanceof Button )
@@ -799,7 +824,7 @@ class TaskList extends Composite implements DisposeListener
 
 	private int findButton( String sTaskLabel, boolean bRemove )
 	{
-		Control[] c = cmpTasks.getChildren( );
+		Control[] c = tbTasks.getChildren( );
 		for ( int i = 0; i < c.length; i++ )
 		{
 			if ( c[i] instanceof Button )
@@ -820,7 +845,7 @@ class TaskList extends Composite implements DisposeListener
 
 	private void addButton( )
 	{
-		Button btnTask = new Button( cmpTasks, SWT.FLAT | SWT.TOGGLE );
+		Button btnTask = new Button( tbTasks, SWT.FLAT | SWT.TOGGLE );
 		String taskText = (String) vTasks.get( vTasks.size( ) - 1 );
 		btnTask.setText( taskText );
 		btnTask.setBackground( Display.getDefault( )
@@ -839,15 +864,15 @@ class TaskList extends Composite implements DisposeListener
 		setLayout( layout );
 		setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		cmpTasks = new Composite( this, SWT.NONE );
+		tbTasks = new Composite( this, SWT.NONE );
 		{
 			RowLayout rlTasks = new RowLayout( SWT.HORIZONTAL );
 			rlTasks.marginHeight = 10;
 			rlTasks.marginWidth = 10;
 			rlTasks.spacing = 5;
-			cmpTasks.setLayout( rlTasks );
-			cmpTasks.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			cmpTasks.setBackground( Display.getDefault( )
+			tbTasks.setLayout( rlTasks );
+			tbTasks.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			tbTasks.setBackground( Display.getDefault( )
 					.getSystemColor( SWT.COLOR_WHITE ) );
 		}
 

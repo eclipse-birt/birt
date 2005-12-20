@@ -85,6 +85,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 	private transient String description = ""; //$NON-NLS-1$
 
+	private transient String tooltipWhenBlank = Messages.getString( "BaseDataDefinitionComponent.Tooltip.InputValueExpression" ); //$NON-NLS-1$
+
 	private transient boolean isQueryModified;
 
 	private transient boolean isFormatSpecifiedEnabled = true;
@@ -120,7 +122,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 		if ( description != null )
 		{
-			new Label( cmpTop, SWT.NONE ).setText( description );
+			Label lblDesc = new Label( cmpTop, SWT.NONE );
+			lblDesc.setText( description );
+			lblDesc.setToolTipText( tooltipWhenBlank );
 		}
 
 		txtDefinition = new Text( cmpTop, SWT.BORDER | SWT.SINGLE );
@@ -351,7 +355,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	{
 		if ( queryText.trim( ).length( ) == 0 )
 		{
-			return Messages.getString( "BaseDataDefinitionComponent.Tooltip.InputValueExpression" ); //$NON-NLS-1$
+			return tooltipWhenBlank;
 		}
 		return queryText;
 	}
@@ -379,5 +383,10 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	public void setFormatSpecifierEnabled( boolean isEnabled )
 	{
 		this.isFormatSpecifiedEnabled = isEnabled;
+	}
+
+	public void setTooltipWhenBlank( String tootipWhenBlank )
+	{
+		this.tooltipWhenBlank = tootipWhenBlank;
 	}
 }
