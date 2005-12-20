@@ -2825,6 +2825,15 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					sb.append( '=' );
 					sb.append( URLValueImpl.encode( dph.getOrthogonalDisplayValue( ) ) );
 				}
+				if ( uv.getSeriesParameterName( ) != null 
+						&& uv.getSeriesParameterName( ).length( ) > 0 )
+				{
+					sb.append( c );
+					c = '&';
+					sb.append( URLValueImpl.encode( uv.getSeriesParameterName( ) ) );
+					sb.append( '=' );
+					sb.append( URLValueImpl.encode( dph.getSeriesDisplayValue( ) ) );
+				}
 				uv.setBaseUrl( sb.toString( ) );
 			}
 		}

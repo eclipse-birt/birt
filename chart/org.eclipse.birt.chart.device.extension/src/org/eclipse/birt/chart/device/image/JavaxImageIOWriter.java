@@ -39,6 +39,8 @@ import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.swing.ShapedAction;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
+import org.eclipse.birt.chart.device.util.HTMLAttribute;
+import org.eclipse.birt.chart.device.util.HTMLTag;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -69,6 +71,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/image" ); //$NON-NLS-1$
 
+	private final static String NO_OP_JAVASCRIPT = "javascript:void(0);"; //$NON-NLS-1$
+	private final static String POLY_SHAPE = "poly"; // //$NON-NLS-1$
+	
 	/**
 	 * Returns the output format string for this writer.
 	 * 
@@ -137,6 +142,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		{
 			for ( int i = al.size() - 1; i >= 0; i -- )
 			{
+				HTMLTag tag = new HTMLTag( "AREA" ); //$NON-NLS-1$
 				ShapedAction sa = (ShapedAction) al.get( i );
 				Action ac = sa.getAction( );
 				String coords = shape2polyCoords( sa.getShape( ) );
@@ -149,21 +155,22 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 						{
 							case ActionType.URL_REDIRECT :
 								URLValue uv = (URLValue) ac.getValue( );
-								sb.append( "<AREA href=\"javascript:void(0)\" onfocus=\"" ); //$NON-NLS-1$
-								sb.append( "window.location.href='" ); //$NON-NLS-1$
-								sb.append( eval( uv.getBaseUrl( ) ) );
-								sb.append( "'\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
-								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
+								tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT); 
+								tag.addAttribute( HTMLAttribute.ONFOCUS, getJsURLRedirect( uv ) );
+								tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE );
+								tag.addAttribute( HTMLAttribute.COORDS, coords );
+								sb.append( tag.toString( ) );
 								break;
 							case ActionType.SHOW_TOOLTIP :
 								// for onmouseover only.
 								break;
 							case ActionType.INVOKE_SCRIPT :
 								ScriptValue sv = (ScriptValue) ac.getValue( );
-								sb.append( "<AREA href=\"javascript:void(0)\" onfocus=\"" ); //$NON-NLS-1$
-								sb.append( eval( sv.getScript( ) ) );
-								sb.append( "\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
-								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
+								tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT); 
+								tag.addAttribute( HTMLAttribute.ONFOCUS, eval( sv.getScript( ) ) );
+								tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE );
+								tag.addAttribute( HTMLAttribute.COORDS, coords );
+								sb.append( tag.toString( ) );
 								break;
 						}
 					}
@@ -181,6 +188,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		{
 			for ( int i = al.size() - 1; i >= 0; i -- )
 			{
+				HTMLTag tag = new HTMLTag( "AREA" ); //$NON-NLS-1$
 				ShapedAction sa = (ShapedAction) al.get( i );
 				Action ac = sa.getAction( );
 				String coords = shape2polyCoords( sa.getShape( ) );
@@ -193,21 +201,22 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 						{
 							case ActionType.URL_REDIRECT :
 								URLValue uv = (URLValue) ac.getValue( );
-								sb.append( "<AREA href=\"javascript:void(0)\"  onblur=\"" ); //$NON-NLS-1$
-								sb.append( "window.location.href='" ); //$NON-NLS-1$
-								sb.append( eval( uv.getBaseUrl( ) ) );
-								sb.append( "'\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
-								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
+								tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
+								tag.addAttribute( HTMLAttribute.ONBLUR, getJsURLRedirect( uv ) ); 
+								tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE); //$NON-NLS-1$
+								tag.addAttribute( HTMLAttribute.COORDS, coords );
+								sb.append( tag.toString( ) );
 								break;
 							case ActionType.SHOW_TOOLTIP :
 								// for onmouseover only.
 								break;
 							case ActionType.INVOKE_SCRIPT :
 								ScriptValue sv = (ScriptValue) ac.getValue( );
-								sb.append( "<AREA href=\"javascript:void(0)\"  onblur=\"" ); //$NON-NLS-1$
-								sb.append( eval( sv.getScript( ) ) );
-								sb.append( "\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
-								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
+								tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
+								tag.addAttribute( HTMLAttribute.ONBLUR, eval( sv.getScript( ) ) ); 
+								tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE); //$NON-NLS-1$
+								tag.addAttribute( HTMLAttribute.COORDS, coords );
+								sb.append( tag.toString( ) );
 								break;
 						}
 					}
@@ -225,6 +234,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		{
 			for ( int i = al.size() - 1; i >= 0; i -- )
 			{
+				HTMLTag tag = new HTMLTag( "AREA" ); //$NON-NLS-1$
 				ShapedAction sa = (ShapedAction) al.get( i );
 				Action ac = sa.getAction( );
 				String coords = shape2polyCoords( sa.getShape( ) );
@@ -237,20 +247,22 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 						{
 							case ActionType.URL_REDIRECT :
 								URLValue uv = (URLValue) ac.getValue( );
-								sb.append( "<AREA href=\"" ); //$NON-NLS-1$
-								sb.append( eval( uv.getBaseUrl( ) ) );
-								sb.append( "\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
-								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
+								tag.addAttribute( HTMLAttribute.HREF, eval( uv.getBaseUrl( ) )) ;
+								tag.addAttribute( HTMLAttribute.TARGET, eval( uv.getTarget( ) ) ); 
+								tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE); 
+								tag.addAttribute( HTMLAttribute.COORDS, coords );
+								sb.append( tag.toString( ) );
 								break;
 							case ActionType.SHOW_TOOLTIP :
 								// for onmouseover only.
 								break;
 							case ActionType.INVOKE_SCRIPT :
-								ScriptValue sv = (ScriptValue) ac.getValue( );
-								sb.append( "<AREA href=\"javascript:void(0)\" onclick=\"" ); //$NON-NLS-1$
-								sb.append( eval( sv.getScript( ) ) );
-								sb.append( "\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
-								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
+								ScriptValue sv = (ScriptValue)ac.getValue( );
+								tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
+								tag.addAttribute( HTMLAttribute.ONCLICK, eval( sv.getScript( ) ) ); 
+								tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE); 
+								tag.addAttribute( HTMLAttribute.COORDS, coords );
+								sb.append( tag.toString( ) );
 								break;
 						}
 					}
@@ -268,6 +280,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		{
 			for ( int i = al.size() - 1; i >= 0; i -- )
 			{
+				HTMLTag tag = new HTMLTag( "AREA" ); //$NON-NLS-1$
 				ShapedAction sa = (ShapedAction) al.get( i );
 				Action ac = sa.getAction( );
 				String coords = shape2polyCoords( sa.getShape( ) );
@@ -283,10 +296,10 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 								break;
 							case ActionType.SHOW_TOOLTIP :
 								TooltipValue tv = (TooltipValue) ac.getValue( );
-								sb.append( "<AREA alt=\"" ); //$NON-NLS-1$
-								sb.append( eval( tv.getText( ) ) );
-								sb.append( "\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
-								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
+								tag.addAttribute( HTMLAttribute.ALT,  eval( tv.getText( ) ) ); 
+								tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE); 
+								tag.addAttribute( HTMLAttribute.COORDS, coords );
+								sb.append( tag.toString( ) );
 								break;
 							case ActionType.INVOKE_SCRIPT :
 								// not for onmouseover.
@@ -304,16 +317,16 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		return sb.toString( );
 	}
 
-	private String eval( String expr )
+
+
+	protected String getJsURLRedirect( URLValue uv )
 	{
-		if ( expr == null )
-		{
-			return ""; //$NON-NLS-1$
-		}
-		else
-		{
-			return expr;
-		}
+		StringBuffer js = new StringBuffer( "window.open('" ); //$NON-NLS-1$
+		js.append( eval( uv.getBaseUrl( ) ) );
+		js.append( "','");
+		js.append( uv.getTarget() == null ? "self" : uv.getTarget() ); //$NON-NLS-1$
+		js.append( "');");//$NON-NLS-1$
+		return js.toString();
 	}
 
 	/**
@@ -688,4 +701,18 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		}
 
 	}
+
+	protected String eval( String expr )
+	{
+		if ( expr == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		else
+		{
+			return expr;
+		}
+	}
+	
+	
 }

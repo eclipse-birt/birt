@@ -24,8 +24,10 @@ import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.render.ActionRendererAdapter;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
@@ -51,7 +53,8 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 	public BIRTActionRenderer( IHTMLActionHandler handler, Object context )
 	{
 		this.handler = handler;
-		this.context = context;
+		this.context = ( (IReportContext) context ).getAppContext().get(
+				EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
 	}
 
 	/*
@@ -67,6 +70,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 			URLValue uv = (URLValue) action.getValue( );
 
 			String sa = uv.getBaseUrl( );
+			String target = null;
 
 			if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
 			{
@@ -76,6 +80,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 				{
 					final ActionHandle handle = ModuleUtil.deserializeAction( sa );
 
+					target = handle.getTargetWindow( ) ;
 					// use engine api to convert actionHandle to a final url
 					// value.
 					sa = handler.getURL( new IAction( ) {
@@ -164,6 +169,8 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 				{
 					final ActionHandle handle = ModuleUtil.deserializeAction( sa );
 
+					target = handle.getTargetWindow( ) ;
+					
 					// use engine api to convert actionHandle to a final url
 					// value.
 					sa = handler.getURL( new IAction( ) {
@@ -248,6 +255,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 			}
 
 			uv.setBaseUrl( sa );
+			uv.setTarget( target );
 		}
 	}
 }
