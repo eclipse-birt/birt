@@ -62,99 +62,189 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 	 */
 	public void processAction( Action action, StructureSource source )
 	{
-		if ( ActionType.URL_REDIRECT_LITERAL.equals( action.getType( ) )
-				&& StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
+		if ( ActionType.URL_REDIRECT_LITERAL.equals( action.getType( ) ) )
 		{
 			URLValue uv = (URLValue) action.getValue( );
 
 			String sa = uv.getBaseUrl( );
 
-			final DataPointHints dph = (DataPointHints) source.getSource( );
-
-			try
+			if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
 			{
-				final ActionHandle handle = ModuleUtil.deserializeAction( sa );
+				final DataPointHints dph = (DataPointHints) source.getSource( );
 
-				// use engine api to convert actionHandle to a final url
-				// value.
-				sa = handler.getURL( new IAction( ) {
+				try
+				{
+					final ActionHandle handle = ModuleUtil.deserializeAction( sa );
 
-					public int getType( )
-					{
-						if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
-							return IAction.ACTION_HYPERLINK;
-						if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
-							return IAction.ACTION_BOOKMARK;
-						if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( handle.getLinkType( ) ) )
-							return IAction.ACTION_DRILLTHROUGH;
-						return 0;
-					}
+					// use engine api to convert actionHandle to a final url
+					// value.
+					sa = handler.getURL( new IAction( ) {
 
-					public String getBookmark( )
-					{
-						return (String) dph.getUserValue( handle.getTargetBookmark( ) );
-					}
+						public int getType( )
+						{
+							if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
+								return IAction.ACTION_HYPERLINK;
+							if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
+								return IAction.ACTION_BOOKMARK;
+							if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( handle.getLinkType( ) ) )
+								return IAction.ACTION_DRILLTHROUGH;
+							return 0;
+						}
 
-					public String getActionString( )
-					{
-						if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
-							return (String) dph.getUserValue( handle.getURI( ) );
-						if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
+						public String getBookmark( )
+						{
 							return (String) dph.getUserValue( handle.getTargetBookmark( ) );
-						return null;
-					}
-
-					public String getReportName( )
-					{
-						return handle.getReportName( );
-					}
-
-					public Map getParameterBindings( )
-					{
-						Map map = new HashMap( );
-
-						for ( Iterator itr = handle.getParamBindings( )
-								.iterator( ); itr.hasNext( ); )
-						{
-							ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
-							map.put( pbh.getParamName( ),
-									(String) dph.getUserValue( pbh.getExpression( ) ) );
 						}
 
-						return map;
-					}
-
-					public Map getSearchCriteria( )
-					{
-						Map map = new HashMap( );
-
-						for ( Iterator itr = handle.getSearch( ).iterator( ); itr.hasNext( ); )
+						public String getActionString( )
 						{
-							SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
-							map.put( skh.getExpression( ),
-									(String) dph.getUserValue( skh.getExpression( ) ) );
+							if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
+								return (String) dph.getUserValue( handle.getURI( ) );
+							if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
+								return (String) dph.getUserValue( handle.getTargetBookmark( ) );
+							return null;
 						}
 
-						return map;
-					}
+						public String getReportName( )
+						{
+							return handle.getReportName( );
+						}
 
-					public String getTargetWindow( )
-					{
-						return handle.getTargetWindow( );
-					}
-					
-					public String getFormat()
-					{
-						return handle.getFormatType();
-					}
+						public Map getParameterBindings( )
+						{
+							Map map = new HashMap( );
 
-				},
-						context );
+							for ( Iterator itr = handle.getParamBindings( )
+									.iterator( ); itr.hasNext( ); )
+							{
+								ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
+								map.put( pbh.getParamName( ),
+										(String) dph.getUserValue( pbh.getExpression( ) ) );
+							}
+
+							return map;
+						}
+
+						public Map getSearchCriteria( )
+						{
+							Map map = new HashMap( );
+
+							for ( Iterator itr = handle.getSearch( ).iterator( ); itr.hasNext( ); )
+							{
+								SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
+								map.put( skh.getExpression( ),
+										(String) dph.getUserValue( skh.getExpression( ) ) );
+							}
+
+							return map;
+						}
+
+						public String getTargetWindow( )
+						{
+							return handle.getTargetWindow( );
+						}
+
+						public String getFormat( )
+						{
+							return handle.getFormatType( );
+						}
+
+					},
+							context );
+				}
+				catch ( Exception e )
+				{
+					sa = ""; //$NON-NLS-1$
+					logger.log( e );
+				}
 			}
-			catch ( Exception e )
+			else
 			{
-				sa = ""; //$NON-NLS-1$
-				logger.log( e );
+				try
+				{
+					final ActionHandle handle = ModuleUtil.deserializeAction( sa );
+
+					// use engine api to convert actionHandle to a final url
+					// value.
+					sa = handler.getURL( new IAction( ) {
+
+						public int getType( )
+						{
+							if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
+								return IAction.ACTION_HYPERLINK;
+							if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
+								return IAction.ACTION_BOOKMARK;
+							if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( handle.getLinkType( ) ) )
+								return IAction.ACTION_DRILLTHROUGH;
+							return 0;
+						}
+
+						public String getBookmark( )
+						{
+							return handle.getTargetBookmark( );
+						}
+
+						public String getActionString( )
+						{
+							if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
+								return handle.getURI( );
+							if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
+								return handle.getTargetBookmark( );
+							return null;
+						}
+
+						public String getReportName( )
+						{
+							return handle.getReportName( );
+						}
+
+						public Map getParameterBindings( )
+						{
+							Map map = new HashMap( );
+
+							for ( Iterator itr = handle.getParamBindings( )
+									.iterator( ); itr.hasNext( ); )
+							{
+								ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
+								map.put( pbh.getParamName( ),
+										pbh.getExpression( ) );
+							}
+
+							return map;
+						}
+
+						public Map getSearchCriteria( )
+						{
+							Map map = new HashMap( );
+
+							for ( Iterator itr = handle.getSearch( ).iterator( ); itr.hasNext( ); )
+							{
+								SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
+								map.put( skh.getExpression( ),
+										skh.getExpression( ) );
+							}
+
+							return map;
+						}
+
+						public String getTargetWindow( )
+						{
+							return handle.getTargetWindow( );
+						}
+
+						public String getFormat( )
+						{
+							return handle.getFormatType( );
+						}
+
+					},
+							context );
+				}
+				catch ( Exception e )
+				{
+					sa = ""; //$NON-NLS-1$
+					logger.log( e );
+				}
 			}
 
 			uv.setBaseUrl( sa );
