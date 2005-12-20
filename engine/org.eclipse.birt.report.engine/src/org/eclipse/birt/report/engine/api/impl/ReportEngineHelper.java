@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -288,7 +289,17 @@ public class ReportEngineHelper
 	public IReportDocument openReportDocument( String docArchiveName )
 			throws EngineException
 	{
-		return openReportDocument( new FileArchiveReader( docArchiveName ) );
+		FileArchiveReader reader = null;
+		try 
+		{
+			reader = new FileArchiveReader( docArchiveName );
+		} 
+		catch (IOException e) 
+		{
+			throw new EngineException( e.getLocalizedMessage() );
+		}
+		
+		return openReportDocument( reader );
 	}
 
 	private IReportDocument openReportDocument( IDocArchiveReader archive )

@@ -13,7 +13,6 @@ package org.eclipse.birt.core.archive;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
@@ -28,18 +27,14 @@ public class FileArchiveWriter implements IDocArchiveWriter
 	/**
 	 * @param absolute fileName the archive file name
 	 */
-	public FileArchiveWriter( String fileName )
+	public FileArchiveWriter( String fileName ) throws IOException
 	{
+		if ( fileName == null ||
+			 fileName.length() == 0 )
+			throw new IOException("The file name is null or empty string.");
+		
 		File fd = new File( fileName );
-		try 
-		{
-			fileName = fd.getCanonicalPath();   // make sure the file name is an absolute path
-		} 
-		catch (IOException e) 
-		{
-			// TODO: hanlde IOException
-			e.printStackTrace();
-		}
+		fileName = fd.getCanonicalPath();   // make sure the file name is an absolute path
 		this.fileName = fileName;
 		
 		SimpleDateFormat df = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss"); //$NON-NLS-1$
@@ -80,16 +75,7 @@ public class FileArchiveWriter implements IDocArchiveWriter
 		}
 		
 		RandomAccessFile file = null;
-		try 
-		{
-			file = new RandomAccessFile( fd, "rw" ); //$NON-NLS-1$
-		} 
-		catch (FileNotFoundException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
+		file = new RandomAccessFile( fd, "rw" ); //$NON-NLS-1$
 		
 		RAFileOutputStream out = new RAFileOutputStream( file, 0 ); 
 		return out;
@@ -134,75 +120,51 @@ public class FileArchiveWriter implements IDocArchiveWriter
 	 * @param fileName
 	 * @return Whether the compound file was created successfully.
 	 */
-	private boolean createFileFromFolder( )
+	private void createFileFromFolder( ) throws IOException
 	{
 		// Create the file
 		File targetFile = new File( fileName );
 		ArchiveUtil.DeleteAllFiles( targetFile );	
 		RandomAccessFile compoundFile = null;
-		try 
+		compoundFile = new RandomAccessFile( targetFile, "rw" );  //$NON-NLS-1$
+
+		compoundFile.writeLong(0); 	// reserve a spot for writing the start position of the stream data section in the file
+		compoundFile.writeLong(0);	// reserve a sopt for writing the entry number of the lookup map.
+
+		ArrayList fileList = new ArrayList();
+		getAllFiles( new File( tempFolder ), fileList );
+
+		// Generate the in-memory lookup map and serialize it to the compound file.
+		long streamRelativePosition = 0;
+		long entryNum = 0;
+		for ( int i=0; i<fileList.size(); i++ )
 		{
-			compoundFile = new RandomAccessFile( targetFile, "rw" );  //$NON-NLS-1$
-		} 
-		catch (FileNotFoundException e) 
-		{
-			e.printStackTrace();
-			return false;
-		}
-
-		try 
-		{
-			compoundFile.writeLong(0); 	// reserve a spot for writing the start position of the stream data section in the file
-			compoundFile.writeLong(0);	// reserve a sopt for writing the entry number of the lookup map.
-
-			ArrayList fileList = new ArrayList();
-			getAllFiles( new File( tempFolder ), fileList );
-
-			// Generate the in-memory lookup map and serialize it to the compound file.
-			long streamRelativePosition = 0;
-			long entryNum = 0;
-			for ( int i=0; i<fileList.size(); i++ )
-			{
-				File file = (File)fileList.get(i);				
-				String relativePath = ArchiveUtil.generateRelativePath( tempFolder, file.getAbsolutePath() );
-				
-				compoundFile.writeUTF( relativePath );
-				compoundFile.writeLong( streamRelativePosition );
-				compoundFile.writeLong( file.length() );
-				
-				streamRelativePosition += file.length();
-				entryNum++;
-			}
-
-			// Write the all of the streams to the stream data section in the compound file
-			long streamSectionPos = compoundFile.getFilePointer();
-			for ( int i=0; i<fileList.size(); i++ )
-			{
-				File file = (File)fileList.get(i);
-				copyFileIntoTheArchive( file, compoundFile );
-			}			
+			File file = (File)fileList.get(i);				
+			String relativePath = ArchiveUtil.generateRelativePath( tempFolder, file.getAbsolutePath() );
 			
-			// go back and write the start position of the stream data section and the entry number of the lookup map 
-			compoundFile.seek( 0 );						 
-			compoundFile.writeLong( streamSectionPos );	
-			compoundFile.writeLong( entryNum );
-
-			// close the file
-			compoundFile.close();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-			return false;
-		} 
-		catch (Exception e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
+			compoundFile.writeUTF( relativePath );
+			compoundFile.writeLong( streamRelativePosition );
+			compoundFile.writeLong( file.length() );
+			
+			streamRelativePosition += file.length();
+			entryNum++;
 		}
+
+		// Write the all of the streams to the stream data section in the compound file
+		long streamSectionPos = compoundFile.getFilePointer();
+		for ( int i=0; i<fileList.size(); i++ )
+		{
+			File file = (File)fileList.get(i);
+			copyFileIntoTheArchive( file, compoundFile );
+		}			
 		
-		return true; // successful
+		// go back and write the start position of the stream data section and the entry number of the lookup map 
+		compoundFile.seek( 0 );						 
+		compoundFile.writeLong( streamSectionPos );	
+		compoundFile.writeLong( entryNum );
+
+		// close the file
+		compoundFile.close();		
 	}
 
 	/**

@@ -72,7 +72,16 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		if ( reportDocName == null || reportDocName.length( ) == 0 )
 			throw new EngineException(
 					"Report document name is not specified when running a report." ); //$NON-NLS-1$
-		IDocArchiveWriter archive = new FileArchiveWriter( reportDocName );
+		IDocArchiveWriter archive = null;
+		try 
+		{
+			archive = new FileArchiveWriter( reportDocName );
+		} 
+		catch (IOException e) 
+		{
+			throw new EngineException( e.getLocalizedMessage() );
+		}
+		
 		run( archive );
 	}
 

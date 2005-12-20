@@ -41,7 +41,7 @@ import org.eclipse.birt.core.framework.PlatformFileContext;
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
  * 
- * @version $Revision: 1.14 $ $Date: 2005/12/06 09:26:25 $
+ * @version $Revision: 1.15 $ $Date: 2005/12/12 09:19:54 $
  */
 public class ReportRunner
 {
@@ -259,7 +259,16 @@ public class ReportRunner
 			task.setAppContext( new HashMap( ) );
 
 			// open the output archive
-			IDocArchiveWriter archive = new FileArchiveWriter( targetFile );
+			IDocArchiveWriter archive = null;
+			try 
+			{
+				archive = new FileArchiveWriter( targetFile );
+			}
+			catch ( IOException e )
+			{
+				logger.log( Level.SEVERE, "Can't open file: " + targetFile ); //$NON-NLS-1
+				return -1;
+			}
 
 			// run the task to create the report document
 			task.run( archive );

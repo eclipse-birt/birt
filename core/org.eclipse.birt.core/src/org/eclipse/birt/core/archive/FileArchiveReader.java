@@ -12,7 +12,6 @@
 package org.eclipse.birt.core.archive;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
@@ -32,19 +31,14 @@ public class FileArchiveReader implements IDocArchiveReader
 	 * @param absolute
 	 *            fileName the name of the archive
 	 */
-	public FileArchiveReader( String fileName )
+	public FileArchiveReader( String fileName ) throws IOException
 	{
+		if ( fileName == null ||
+			 fileName.length() == 0 )
+			throw new IOException("The file name is null or empty string.");
+
 		File fd = new File( fileName );
-		try
-		{
-			fileName = fd.getCanonicalPath( ); // make sure the file name is an
-			// absolute path
-		}
-		catch ( IOException e )
-		{
-			// TODO: hanlde IOException
-			e.printStackTrace( );
-		}
+		fileName = fd.getCanonicalPath( ); // make sure the file name is an absolute path
 		this.fileName = fileName;
 	}
 
@@ -70,37 +64,24 @@ public class FileArchiveReader implements IDocArchiveReader
 			// has been opend
 			return;
 		}
+		
 		// restore the in-memory lookup map
-		try
-		{
-			file = new RandomAccessFile( new File( fileName ), "r" ); //$NON-NLS-1$
+		file = new RandomAccessFile( new File( fileName ), "r" ); //$NON-NLS-1$
 
-			// TODO: there will be file header before these fields
-			long streamSectionPos = file.readLong( );
-			long entryNumber = file.readLong( );
+		long streamSectionPos = file.readLong( );
+		long entryNumber = file.readLong( );
 
-			// read lookup map
-			for ( long i = 0; i < entryNumber; i++ )
-			{
-				String relativeFilePath = file.readUTF( );
-				long[] positionAndLength = new long[2];
-				// stream position (and convert it to absolute position)
-				positionAndLength[0] = file.readLong( ) + streamSectionPos; 
-				 // stream length
-				positionAndLength[1] = file.readLong( );
-				// generate map entry
-				lookupMap.put( relativeFilePath, positionAndLength ); 
-			}
-		}
-		catch ( FileNotFoundException e )
+		// read lookup map
+		for ( long i = 0; i < entryNumber; i++ )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
-		}
-		catch ( IOException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			String relativeFilePath = file.readUTF( );
+			long[] positionAndLength = new long[2];
+			// stream position (and convert it to absolute position)
+			positionAndLength[0] = file.readLong( ) + streamSectionPos; 
+			 // stream length
+			positionAndLength[1] = file.readLong( );
+			// generate map entry
+			lookupMap.put( relativeFilePath, positionAndLength ); 
 		}
 	}
 
