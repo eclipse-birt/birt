@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.parser.ActionStructureState;
 import org.eclipse.birt.report.model.parser.DesignReader;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
+import org.eclipse.birt.report.model.parser.GenericModuleReader;
 import org.eclipse.birt.report.model.parser.LibraryReader;
 import org.eclipse.birt.report.model.parser.ModuleParserHandler;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -52,19 +53,35 @@ public class ModuleUtil
 {
 
 	/**
+	 * library type
+	 */
+	public final static int LIBRARY = 0;
+
+	/**
+	 * report design type
+	 */
+	public final static int REPORT_DESIGN = 1;
+
+	/**
+	 * invalid module
+	 */
+	public final static int INVALID_MODULE = 2;
+
+	/**
 	 * Parser handler used to parse only the Action part of the design. The
 	 * existing action state and property validating is reused.
 	 */
 
 	private static class ActionParserHandler extends ModuleParserHandler
 	{
+
 		/**
 		 * A fake element with the given action. Used to reuse the existing
 		 * action parser logic.
 		 */
-		
+
 		DesignElement element = null;
-		
+
 		public ActionParserHandler( DesignElement element )
 		{
 			super( null, null );
@@ -109,21 +126,21 @@ public class ModuleUtil
 	public static ActionHandle deserializeAction( InputStream streamData )
 			throws DesignFileException
 	{
-		
-		 // A fake element with the given action. Used to reuse the existing
-		 // action parser logic.
-		 
+
+		// A fake element with the given action. Used to reuse the existing
+		// action parser logic.
+
 		ImageItem image = new ImageItem( );
 		ActionParserHandler handler = new ActionParserHandler( image );
-		
-		if( streamData == null )
+
+		if ( streamData == null )
 		{
-			Action action = StructureFactory.createAction();
-			image.setProperty( ImageHandle.ACTION_PROP , action );
-			return ((ImageHandle)image.getHandle( handler.getModule() )).getActionHandle();
+			Action action = StructureFactory.createAction( );
+			image.setProperty( ImageHandle.ACTION_PROP, action );
+			return ( (ImageHandle) image.getHandle( handler.getModule( ) ) )
+					.getActionHandle( );
 		}
-		
-		
+
 		if ( !streamData.markSupported( ) )
 			streamData = new BufferedInputStream( streamData );
 
@@ -163,14 +180,15 @@ public class ModuleUtil
 					.getErrors( ), e );
 		}
 
-		ImageHandle imageHandle = (ImageHandle)image.getHandle( handler.getModule() );
-		return imageHandle.getActionHandle();
+		ImageHandle imageHandle = (ImageHandle) image.getHandle( handler
+				.getModule( ) );
+		return imageHandle.getActionHandle( );
 	}
 
 	/**
-	 * Deserialize a string into an ActionHandle, notice that the handle is faked, 
-	 * the action is not in the design tree, the operation to the handle is not
-	 * able to be undoned.
+	 * Deserialize a string into an ActionHandle, notice that the handle is
+	 * faked, the action is not in the design tree, the operation to the handle
+	 * is not able to be undoned.
 	 * 
 	 * @param strData
 	 *            a string represent an action.
@@ -184,9 +202,9 @@ public class ModuleUtil
 	{
 		InputStream is = null;
 		strData = StringUtil.trimString( strData );
-		if( strData != null )
+		if ( strData != null )
 			is = new ByteArrayInputStream( strData.getBytes( ) );
-		
+
 		return deserializeAction( is );
 	}
 
@@ -200,11 +218,12 @@ public class ModuleUtil
 	 *             if I/O exception occur when writing the stream.
 	 */
 
-	public static String serializeAction( ActionHandle action ) throws IOException
+	public static String serializeAction( ActionHandle action )
+			throws IOException
 	{
 		ByteArrayOutputStream os = new ByteArrayOutputStream( );
 		ActionWriter writer = new ActionWriter( );
-		writer.write( os, (Action)action.getStructure() );
+		writer.write( os, (Action) action.getStructure( ) );
 		try
 		{
 			return os.toString( UnicodeUtil.SIGNATURE_UTF_8 );
@@ -219,6 +238,7 @@ public class ModuleUtil
 
 	private static class SectionXMLWriter extends IndentableXMLWriter
 	{
+
 		public SectionXMLWriter( OutputStream os, String signature )
 				throws IOException
 		{
@@ -309,5 +329,42 @@ public class ModuleUtil
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Checks the input stream with given file name. If it is a valid
+	 * design/library, return <code>ModuleUtil.REPORT_DESIGN</code>/<code>ModuleUtil.LIBRARY</code>,
+	 * otherwise, <code>ModuleUtil.INVALID</code> is return.
+	 * 
+	 * @param sessionHandle
+	 *            the current session of the library
+	 * @param fileName
+	 *            the file name of the library
+	 * @param is
+	 *            the input stream of the library
+	 * @return <code>ModuleUtil.REPORT_DESIGN</code> if the input stream is a
+	 *         report design, <code>ModuleUtil.LIBRARY</code> if the input
+	 *         stream is a library, <code>ModuleUtil.INVALID</code> otherwise.
+	 */
+
+	public static int checkModule( SessionHandle sessionHandle,
+			String fileName, InputStream is )
+	{
+		Module rtnModule = null;
+		try
+		{
+			rtnModule = GenericModuleReader.getInstance( ).read(
+					sessionHandle.getSession( ), fileName, is );
+		}
+		catch ( DesignFileException e )
+		{
+			return INVALID_MODULE;
+		}
+
+		return rtnModule instanceof Library
+				? LIBRARY
+				: rtnModule instanceof ReportDesign
+						? REPORT_DESIGN
+						: INVALID_MODULE;
 	}
 }
