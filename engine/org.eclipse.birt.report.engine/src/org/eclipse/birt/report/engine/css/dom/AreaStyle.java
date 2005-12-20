@@ -20,7 +20,7 @@ public class AreaStyle extends AbstractStyle
 	public AreaStyle(AreaStyle style)
 	{
 		super(style.engine);
-		this.parent = style;
+		this.parent = style.parent;
 	}
 	
 	public AreaStyle()
