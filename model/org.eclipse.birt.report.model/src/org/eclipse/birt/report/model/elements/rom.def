@@ -2604,7 +2604,7 @@
       <Argument name="object" tagID="Element.List.onRender.object" type="Object"/>
     </Method>  
   </Element>
-  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.ListGroup" extends="ListingGroup" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.ListGroup" name="ListGroup" nameSpace="none" since="1.0" xmlName="group">
+  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.ListGroup" extends="ListingGroup" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.ListGroup" name="ListGroup" nameSpace="none" since="1.0" xmlName="group">
     <Slot displayNameID="Element.ListGroup.slot.header" multipleCardinality="true" name="header" selector="list-group-header" since="1.0" xmlName="header">
       <Type name="FreeForm"/>
       <Type name="Text"/>
@@ -2677,7 +2677,7 @@
       <Argument name="object" tagID="Element.Table.onRender.object" type="Object"/>
     </Method>    
   </Element>
-  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.TableGroup" extends="ListingGroup" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableGroup" name="TableGroup" nameSpace="none" since="1.0" xmlName="group">
+  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.TableGroup" extends="ListingGroup" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableGroup" name="TableGroup" nameSpace="none" since="1.0" xmlName="group">
     <Slot displayNameID="Element.TableGroup.slot.header" multipleCardinality="true" name="header" selector="table-group-header" since="1.0" xmlName="header">
       <Type name="Row"/>
       <Trigger targetElement="Table" validator="InconsistentColumnsValidator"/>
@@ -2740,7 +2740,7 @@
     <StyleProperty name="marginLeft"/>
     <StyleProperty name="marginRight"/>
   </Element>
-  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Row" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableRow" name="Row" nameSpace="none" since="1.0" xmlName="row">
+  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Row" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableRow" name="Row" nameSpace="none" since="1.0" xmlName="row">
     <Property detailType="HideRule" displayNameID="Element.Row.visibility" isList="true" name="visibility" since="1.0" type="structure"/>
     <Property displayNameID="Element.Row.height" name="height" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
     <Property displayNameID="Element.Row.bookmark" name="bookmark" returnType="string" since="reserved" type="expression"/>    

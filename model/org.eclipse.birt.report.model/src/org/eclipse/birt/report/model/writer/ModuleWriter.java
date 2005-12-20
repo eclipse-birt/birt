@@ -1531,6 +1531,11 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, TableRow.ON_PREPARE_METHOD );
 		property( obj, TableRow.ON_CREATE_METHOD );
 		property( obj, TableRow.ON_RENDER_METHOD );
+		
+		// write user property definitions and values
+		
+		writeUserPropertyDefns( obj );
+		writeUserPropertyValues( obj );
 
 		writeStyle( obj );
 		writeStructureList( obj, TableRow.VISIBILITY_PROP );
@@ -2467,6 +2472,11 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, GroupElement.ON_PREPARE_METHOD );
 		property( obj, GroupElement.ON_CREATE_METHOD );
 		property( obj, GroupElement.ON_RENDER_METHOD );
+		
+		// write user property definitions and values
+		
+		writeUserPropertyDefns( obj );
+		writeUserPropertyValues( obj );
 
 		writeStructureList( obj, GroupElement.SORT_PROP );
 		writeStructureList( obj, GroupElement.FILTER_PROP );
