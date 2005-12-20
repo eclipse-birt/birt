@@ -17,6 +17,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
@@ -250,8 +251,26 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_INT_VALUE,
-					e );
+			// check if it's postgresql boolean dataType
+			try
+			{
+				if ( rs.getMetaData( ).getColumnType( index ) == Types.BIT )
+				{
+					if ( rs.getString( index ).equals( "t" ) )
+						return 1;
+					else if ( rs.getString( index ).equals( "f" ) )
+						return 0;
+				}
+
+				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_INT_VALUE,
+						e );
+
+			}
+			catch ( SQLException ex )
+			{
+				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_INT_VALUE,
+						e );
+			}
 		}
 	}
 
