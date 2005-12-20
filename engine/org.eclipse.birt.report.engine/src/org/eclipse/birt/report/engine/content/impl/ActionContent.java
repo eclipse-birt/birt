@@ -43,6 +43,8 @@ public class ActionContent implements IHyperlinkAction
 	 * report name
 	 */
 	protected String reportName;
+	
+	protected String format;
 
 	/**
 	 * parameters and their values for running drillthrough reports
@@ -105,7 +107,7 @@ public class ActionContent implements IHyperlinkAction
 	 *            the target window
 	 */
 	public void setDrillThrough( String bookmark, String reportName,
-			Map parameterBindings, Map searchCriteria, String target )
+			Map parameterBindings, Map searchCriteria, String target, String format )
 	{
 		this.bookmark = bookmark;
 		this.reportName = reportName;
@@ -113,6 +115,7 @@ public class ActionContent implements IHyperlinkAction
 		this.searchCriteria = searchCriteria;
 		this.target = target;
 		this.type = IHyperlinkAction.ACTION_DRILLTHROUGH;
+		this.format = format;
 	}
 
 	/*
@@ -201,6 +204,7 @@ public class ActionContent implements IHyperlinkAction
 	final static int FIELD_PARAMETERBINDINGS = 4;
 	final static int FIELD_SEARCHCRITERIA = 5;
 	final static int FIELD_TARGET = 6;	
+	final static int FIELD_FORMAT = 7;
 	
 	protected void writeFields( ObjectOutputStream out ) throws IOException
 	{
@@ -239,6 +243,11 @@ public class ActionContent implements IHyperlinkAction
 			out.writeInt( FIELD_TARGET );
 			out.writeUTF( target );
 		}
+		if(format != null)
+		{
+			out.writeInt(FIELD_FORMAT);
+			out.writeUTF( format );
+		}
 		
 	}
 
@@ -268,6 +277,9 @@ public class ActionContent implements IHyperlinkAction
 			case FIELD_TARGET :
 				target = in.readUTF();
 				break;
+			case FIELD_FORMAT :
+				format = in.readUTF();
+				break;
 		}
 	}
 	
@@ -287,6 +299,11 @@ public class ActionContent implements IHyperlinkAction
 		out.writeInt( VERSION );
 		writeFields( out );
 		out.writeInt( FIELD_NONE );
+	}
+
+	public String getFormat( )
+	{
+		return format;
 	}		
 	
 }

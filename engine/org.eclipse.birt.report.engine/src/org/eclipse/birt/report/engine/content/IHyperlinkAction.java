@@ -80,6 +80,8 @@ public interface IHyperlinkAction
 	 *         or no search criteria is used
 	 */
 	public Map getSearchCriteria( );
+	
+	public String getFormat();
 
 	/**
 	 * @return The name of a frame where a document is to be opened.
@@ -91,7 +93,7 @@ public interface IHyperlinkAction
 	public void setBookmark( String bookmark );
 
 	public void setDrillThrough( String bookmark, String reportName,
-			Map parameterBindings, Map searchCriteria, String target );
+			Map parameterBindings, Map searchCriteria, String target, String format );
 
 	void readContent( ObjectInputStream in ) throws IOException, ClassNotFoundException;
 

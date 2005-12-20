@@ -94,4 +94,8 @@ public class Action implements IAction
 	{
 		return content.getTargetWindow();
 	}
+	public String getFormat( )
+	{
+		return content.getFormat();
+	}
 }

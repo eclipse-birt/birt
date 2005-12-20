@@ -81,6 +81,12 @@ public class HTMLActionHandler implements IHTMLActionHandler {
 				//It should not happen. Does nothing
 			}
 		
+			//add format
+			String format = action.getFormat();
+			if(format!=null && format.length()>0)
+			{
+				link.append( "&__format=" + format );//$NON-NLS-1$
+			}
 
 			//Adds the parameters
 			if ( action.getParameterBindings( ) != null )

@@ -142,6 +142,11 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 					{
 						return handle.getTargetWindow( );
 					}
+					
+					public String getFormat()
+					{
+						return handle.getFormatType();
+					}
 
 				},
 						context );

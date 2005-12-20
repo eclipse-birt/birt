@@ -15,12 +15,13 @@ import java.util.Map;
 
 /**
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.6 $ $Date: 2005/05/08 06:59:45 $
  */
 public class DrillThroughActionDesign
 {
 	protected String reportName;
 	protected Expression bookmark;
+	protected String format;
 
 	protected Map parameters;
 	protected Map search;
@@ -92,5 +93,17 @@ public class DrillThroughActionDesign
 	public void setSearch( Map search )
 	{
 		this.search = search;
+	}
+
+	
+	public String getFormat( )
+	{
+		return format;
+	}
+
+	
+	public void setFormat( String format )
+	{
+		this.format = format;
 	}
 }

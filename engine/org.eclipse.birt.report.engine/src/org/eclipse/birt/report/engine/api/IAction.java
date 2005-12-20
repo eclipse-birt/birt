@@ -79,4 +79,10 @@ public interface IAction
 	 * @return The name of a frame where a document is to be opened.
 	 */
 	public String getTargetWindow( );
+	
+	/**
+	 * return fomat of drillthrough report
+	 * @return
+	 */
+	public String getFormat();
 }

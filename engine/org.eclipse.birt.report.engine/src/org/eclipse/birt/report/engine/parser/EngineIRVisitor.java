@@ -138,7 +138,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.66 $ $Date: 2005/12/13 02:19:22 $
+ * @version $Revision: 1.67 $ $Date: 2005/12/19 05:40:50 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1252,11 +1252,11 @@ class EngineIRVisitor extends DesignVisitor
 				.equals( linkType ) )
 		{
 			action.setTargetWindow( handle.getTargetWindow( ) );
-
 			DrillThroughActionDesign drillThrough = new DrillThroughActionDesign( );
 			action.setDrillThrough( drillThrough );
 
 			drillThrough.setReportName( handle.getReportName( ) );
+			drillThrough.setFormat(handle.getFormatType());
 			drillThrough.setBookmark( createExpression( handle
 					.getTargetBookmark( ) ) );
 			Map params = new HashMap( );
