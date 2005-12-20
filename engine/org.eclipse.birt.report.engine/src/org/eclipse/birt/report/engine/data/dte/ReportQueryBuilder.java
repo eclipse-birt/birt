@@ -24,7 +24,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseTransform;
-import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
@@ -40,6 +39,7 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
+import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -91,7 +91,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.41 $ $Date: 2005/12/06 06:39:31 $
+ * @version $Revision: 1.42 $ $Date: 2005/12/07 02:23:22 $
  */
 public class ReportQueryBuilder
 {
@@ -1075,7 +1075,7 @@ public class ReportQueryBuilder
 			 */
 
 			String column = filterExpr;
-			int dteOpr = toDteFilterOperator( filterOpr );
+			int dteOpr = ModelDteApiAdapter.toDteFilterOperator( filterOpr );
 			String operand1 = handle.getValue1( );
 			String operand2 = handle.getValue2( );
 			return new FilterDefinition( new ConditionalExpression( column,
@@ -1312,57 +1312,6 @@ public class ReportQueryBuilder
 				return ISortDefinition.SORT_DESC;
 			assert false;
 			return 0;
-		}
-
-		/**
-		 * converts model operator values to DtE IColumnFilter enum values
-		 */
-		protected int toDteFilterOperator( String modelOpr )
-		{
-			if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_EQ ) )
-				return IConditionalExpression.OP_EQ;
-			if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NE ) )
-				return IConditionalExpression.OP_NE;
-			if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LT ) )
-				return IConditionalExpression.OP_LT;
-			if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LE ) )
-				return IConditionalExpression.OP_LE;
-			if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_GE ) )
-				return IConditionalExpression.OP_GE;
-			if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_GT ) )
-				return IConditionalExpression.OP_GT;
-			if ( modelOpr
-					.equals( DesignChoiceConstants.FILTER_OPERATOR_BETWEEN ) )
-				return IConditionalExpression.OP_BETWEEN;
-			if ( modelOpr
-					.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_BETWEEN ) )
-				return IConditionalExpression.OP_NOT_BETWEEN;
-			if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NULL ) )
-				return IConditionalExpression.OP_NULL;
-			if ( modelOpr
-					.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_NULL ) )
-				return IConditionalExpression.OP_NOT_NULL;
-			if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_TRUE ) )
-				return IConditionalExpression.OP_TRUE;
-			if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_FALSE ) )
-				return IConditionalExpression.OP_FALSE;
-			if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LIKE ) )
-				return IConditionalExpression.OP_LIKE;
-			if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_TOP_N ) )
-				return IConditionalExpression.OP_TOP_N;
-			if ( modelOpr
-					.equals( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N ) )
-				return IConditionalExpression.OP_BOTTOM_N;
-			if ( modelOpr
-					.equals( DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT ) )
-				return IConditionalExpression.OP_TOP_PERCENT;
-			if ( modelOpr
-					.equals( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT ) )
-				return IConditionalExpression.OP_BOTTOM_PERCENT;
-			if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_ANY ) )
-				return IConditionalExpression.OP_ANY;
-
-			return IConditionalExpression.OP_NONE;
 		}
 	}
 }

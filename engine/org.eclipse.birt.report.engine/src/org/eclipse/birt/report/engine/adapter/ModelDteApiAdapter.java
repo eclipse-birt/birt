@@ -777,7 +777,7 @@ public class ModelDteApiAdapter
 	}
 
 	// Convert model operator value to DtE IColumnFilter enum value
-	int toDteFilterOperator( String modelOpr )
+	public static int toDteFilterOperator( String modelOpr )
 	{
 		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_EQ ) )
 			return IConditionalExpression.OP_EQ;
@@ -818,7 +818,8 @@ public class ModelDteApiAdapter
 			return IConditionalExpression.OP_BOTTOM_PERCENT;
 		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_ANY ) )
 			return IConditionalExpression.OP_ANY;
-
+		if( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_MATCH ) )
+			return IConditionalExpression.OP_MATCH;
 		assert false; // unknown filter operator
 		return IConditionalExpression.OP_NONE;
 	}
