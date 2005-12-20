@@ -19,8 +19,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.ui.internal.ide.IDEInternalWorkbenchImages;
-import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;
 
 /**
  * a Save as wizard with a page set basic report properties.
@@ -37,7 +35,7 @@ public class SaveReportAsWizard extends Wizard
 
 	public SaveReportAsWizard( ReportDesignHandle model, IFile orginalFile )
 	{
-		setWindowTitle( IDEWorkbenchMessages.SaveAsDialog_title );
+		setWindowTitle( Messages.getString("SaveReportAsWizard.SaveAsPageTitle") ); //$NON-NLS-1$
 		this.model = model;
 		this.orginalFile = orginalFile;
 	}
@@ -52,13 +50,13 @@ public class SaveReportAsWizard extends Wizard
 
 		saveAsPage = new WizardSaveAsPage( "WizardSaveAsPage" ); //$NON-NLS-1$
 		saveAsPage.setOriginalFile( orginalFile );
-		saveAsPage.setTitle( IDEWorkbenchMessages.SaveAsDialog_title );
-		saveAsPage.setDescription( IDEWorkbenchMessages.SaveAsDialog_message );
-		saveAsPage.setImageDescriptor( IDEInternalWorkbenchImages.getImageDescriptor( IDEInternalWorkbenchImages.IMG_DLGBAN_SAVEAS_DLG ) );
+		saveAsPage.setTitle( Messages.getString("SaveReportAsWizard.SaveAsPageTitle") ); //$NON-NLS-1$
+		saveAsPage.setDescription( Messages.getString("SaveReportAsWizard.SaveAsPageMessage") ); //$NON-NLS-1$
+//		saveAsPage.setImageDescriptor( IDEInternalWorkbenchImages.getImageDescriptor( IDEInternalWorkbenchImages.IMG_DLGBAN_SAVEAS_DLG ) );
 		addPage( saveAsPage );
 
 		settingPage = new WizardReportSettingPage( model );
-		settingPage.setTitle( Messages.getString( "SaveReportAsWizard.SettingPage.title" ) );
+		settingPage.setTitle( Messages.getString( Messages.getString("SaveReportAsWizard.SettingPageTitle") ) ); //$NON-NLS-1$
 
 		addPage( settingPage );
 	}
