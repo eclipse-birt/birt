@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -335,15 +336,16 @@ public class GroupElementHandle
 	}
 
 	/**
-	 * Clears values of all common properties for the given collection of
-	 * elements. Clearing a property removes any value set for the property on
-	 * this element. After this, the element will now inherit the property from
-	 * its parent element, style, or from the default value for the property.
+	 * Clears values of all common properties(except the extends property) for
+	 * the given collection of elements. Clearing a property removes any value
+	 * set for the property on this element. After this, the element will now
+	 * inherit the property from its parent element, style, or from the default
+	 * value for the property.
 	 * 
 	 * @throws SemanticException
 	 *             if the property is not defined on this element
 	 */
-	public void clearAllProperties( ) throws SemanticException
+	public void clearLocalProperties( ) throws SemanticException
 	{
 		ActivityStack stack = module.getActivityStack( );
 		stack.startTrans( );
@@ -355,6 +357,14 @@ public class GroupElementHandle
 			{
 				GroupPropertyHandle propHandle = (GroupPropertyHandle) iter
 						.next( );
+				
+				String propName = propHandle.getPropertyDefn().getName();
+				if ( DesignElement.EXTENDS_PROP.equals( propName ) )
+				{
+					// ignore extends property.
+					continue;
+				}
+				
 				propHandle.clearValue( );
 			}
 		}
