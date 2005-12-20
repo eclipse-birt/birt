@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
@@ -71,10 +72,8 @@ public class SetConstraintCommand extends Command
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
 				System.out.println( "SetConstraintCommand >>  Starts. Target: " //$NON-NLS-1$
-						+ DEUtil.getDisplayLabel( model )
-						+ ",New size: " //$NON-NLS-1$
-						+ newSize.width
-						+ "," //$NON-NLS-1$
+						+ DEUtil.getDisplayLabel( model ) + ",New size: " //$NON-NLS-1$
+						+ newSize.width + "," //$NON-NLS-1$
 						+ newSize.height );
 			}
 			if ( model instanceof TableHandle || model instanceof GridHandle )
@@ -96,11 +95,12 @@ public class SetConstraintCommand extends Command
 				{
 					height = 1;
 				}
-				model.setWidth( String.valueOf( width )
-						+ DesignChoiceConstants.UNITS_PX );
-				model.setHeight( String.valueOf( height )
-						+ DesignChoiceConstants.UNITS_PX );
-
+				DimensionValue dimensionValue = new DimensionValue( width,
+						DesignChoiceConstants.UNITS_PX );
+				model.getWidth( ).setValue( dimensionValue );
+				dimensionValue = new DimensionValue( height,
+						DesignChoiceConstants.UNITS_PX );
+				model.getHeight( ).setValue( dimensionValue );
 			}
 			else
 			{
@@ -115,10 +115,12 @@ public class SetConstraintCommand extends Command
 				{
 					height = 0.1;
 				}
-				model.setWidth( String.valueOf( width )
-						+ DesignChoiceConstants.UNITS_IN );
-				model.setHeight( String.valueOf( height )
-						+ DesignChoiceConstants.UNITS_IN );
+				DimensionValue dimensionValue = new DimensionValue( width,
+						DesignChoiceConstants.UNITS_IN );
+				model.getWidth( ).setValue( dimensionValue );
+				dimensionValue = new DimensionValue( height,
+						DesignChoiceConstants.UNITS_IN );
+				model.getHeight( ).setValue( dimensionValue );
 			}
 			stack.commit( );
 			if ( DesignerConstants.TRACING_COMMANDS )

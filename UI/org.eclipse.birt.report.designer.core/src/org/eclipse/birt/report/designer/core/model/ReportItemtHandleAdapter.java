@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -56,7 +57,8 @@ public abstract class ReportItemtHandleAdapter extends
 			x = (int) handle.getMeasure( );
 		}
 
-		double px = DEUtil.convertToValue( handle, DesignChoiceConstants.UNITS_IN );
+		double px = DEUtil.convertToValue( handle,
+				DesignChoiceConstants.UNITS_IN );
 
 		handle = getReportItemHandle( ).getY( );
 
@@ -65,7 +67,8 @@ public abstract class ReportItemtHandleAdapter extends
 		{
 			y = (int) handle.getMeasure( );
 		}
-		double py = DEUtil.convertToValue( handle, DesignChoiceConstants.UNITS_IN );
+		double py = DEUtil.convertToValue( handle,
+				DesignChoiceConstants.UNITS_IN );
 		Point p = MetricUtility.inchToPixel( px, py );
 		if ( x != 0 )
 		{
@@ -123,13 +126,14 @@ public abstract class ReportItemtHandleAdapter extends
 	public void setSize( Dimension size ) throws SemanticException
 	{
 		double width = MetricUtility.pixelToPixelInch( size.width );
+		DimensionValue dimensionValue = new DimensionValue( width,
+				DesignChoiceConstants.UNITS_IN );
+		getReportItemHandle( ).getWidth( ).setValue( dimensionValue );
+
 		double height = MetricUtility.pixelToPixelInch( size.height );
-		getReportItemHandle( ).getWidth( )
-				.setStringValue( String.valueOf( width )
-						+ DesignChoiceConstants.UNITS_IN );
-		getReportItemHandle( ).getHeight( )
-				.setStringValue( String.valueOf( height )
-						+ DesignChoiceConstants.UNITS_IN );
+		dimensionValue = new DimensionValue( height,
+				DesignChoiceConstants.UNITS_IN );
+		getReportItemHandle( ).getHeight( ).setValue( dimensionValue );
 	}
 
 	/**

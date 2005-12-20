@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 
 /**
  * Adapter class to adapt model handle. This adapter provides convenience
@@ -224,7 +225,7 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 			String key = handle.getDefn( ).getName( );
 			if ( handle.isLocal( ) )
 			{
-				//retValue.setProperty( key, getRowHandle( ).getProperty( key )
+				// retValue.setProperty( key, getRowHandle( ).getProperty( key )
 				// );
 				getRowHandle( ).copyPropertyTo( key, retValue );
 			}
@@ -255,7 +256,8 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 	public void setHeight( int rowHeight ) throws SemanticException
 	{
 		double value = MetricUtility.pixelToPixelInch( rowHeight );
-		getRowHandle( ).getHeight( ).setStringValue( String.valueOf( value )
-				+ DesignChoiceConstants.UNITS_IN );
+		DimensionValue dimensionValue = new DimensionValue( value,
+				DesignChoiceConstants.UNITS_IN );
+		getRowHandle( ).getHeight( ).setValue( dimensionValue );
 	}
 }
