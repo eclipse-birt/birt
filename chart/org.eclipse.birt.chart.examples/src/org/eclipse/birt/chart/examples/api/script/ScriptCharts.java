@@ -47,14 +47,15 @@ public class ScriptCharts
 	protected static final Chart createChart_Axis( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
-		cwaBar.setScript( "importPackage(Packages.org.eclipse.birt.chart.model.attribute);" //$NON-NLS-1$
-				+ "function beforeDrawAxisLabel(axis, label, scriptContext)" //$NON-NLS-1$
-				+ "{ if (axis.getType() == AxisType.TEXT_LITERAL)" //$NON-NLS-1$
+		cwaBar.setScript( "function beforeDrawAxisLabel(axis, label, scriptContext)" //$NON-NLS-1$
+				+ "{importPackage(Packages.org.eclipse.birt.chart.model.attribute); " //$NON-NLS-1$
+				+ "if (axis.getType() == AxisType.TEXT_LITERAL)" //$NON-NLS-1$
 				+ "label.getCaption( ).getColor( ).set( 140, 198, 62 );" //$NON-NLS-1$
 				+ "else label.getCaption().getColor( ).set( 208, 32, 0);}" //$NON-NLS-1$
 
 				+ "function beforeDrawAxisTitle(axis, title, scriptContext)" //$NON-NLS-1$
-				+ "{{ if (axis.getType() == AxisType.LINEAR_LITERAL)" //$NON-NLS-1$
+				+ "{importPackage(Packages.org.eclipse.birt.chart.model.attribute);" //$NON-NLS-1$
+				+ "{ if (axis.getType() == AxisType.LINEAR_LITERAL)" //$NON-NLS-1$
 				+ "title.getCaption( ).setValue( \"Y-Axis Title By JavaScript\");}" //$NON-NLS-1$
 				+ "title.getCaption( ).getColor( ).set( 32, 168, 255 );}" //$NON-NLS-1$
 		);
@@ -150,9 +151,9 @@ public class ScriptCharts
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
 		Locale.setDefault( Locale.US );
-		cwaBar.setScript( "importPackage(Packages.java.util);" //$NON-NLS-1$
-				+ "function beforeDrawMarkerLine(axis, line, scriptContext)" //$NON-NLS-1$
-				+ "{if (scriptContext.getLocale().equals(Locale.US))" //$NON-NLS-1$
+		cwaBar.setScript( "function beforeDrawMarkerLine(axis, line, scriptContext)" //$NON-NLS-1$
+				+ "{ importPackage(Packages.java.util);" //$NON-NLS-1$
+				+ "if (scriptContext.getLocale().equals(Locale.US))" //$NON-NLS-1$
 				+ "{line.getLabel().getCaption( ).getColor().set( 165, 184, 55 );" //$NON-NLS-1$
 				+ "line.getLineAttributes().getColor().set( 165, 184, 55 );}}" //$NON-NLS-1$
 
@@ -210,9 +211,9 @@ public class ScriptCharts
 	protected static final Chart createChart_Series( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
-		cwaBar.setScript( "importPackage(Packages.org.eclipse.birt.chart.model.component.impl);" //$NON-NLS-1$
-				+ "function beforeDrawSeries(series, renderer, scriptContext)" //$NON-NLS-1$
-				+ "{series.setCurveFitting(CurveFittingImpl.create());" //$NON-NLS-1$
+		cwaBar.setScript( "function beforeDrawSeries(series, renderer, scriptContext)" //$NON-NLS-1$
+				+ "{importPackage(Packages.org.eclipse.birt.chart.model.component.impl);" //$NON-NLS-1$
+				+ "series.setCurveFitting(CurveFittingImpl.create());" //$NON-NLS-1$
 				+ "series.getLabel().getCaption().getColor().set(12, 232, 182);}" //$NON-NLS-1$
 		);
 
@@ -295,9 +296,9 @@ public class ScriptCharts
 	protected static final Chart createChart_Block( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
-		cwaBar.setScript( "importPackage(Packages.org.eclipse.birt.chart.model.attribute.impl);" //$NON-NLS-1$
-				+ "function beforeDrawBlock(block, scriptContext)" //$NON-NLS-1$
-				+ "{if (block.isLegend())" //$NON-NLS-1$
+		cwaBar.setScript( "function beforeDrawBlock(block, scriptContext)" //$NON-NLS-1$
+				+ "{importPackage(Packages.org.eclipse.birt.chart.model.attribute.impl);" //$NON-NLS-1$
+				+ "if (block.isLegend())" //$NON-NLS-1$
 				+ "{block.getOutline().setVisible( true );" //$NON-NLS-1$
 				+ "block.getOutline().getColor().set(21,244,231);}" //$NON-NLS-1$
 
