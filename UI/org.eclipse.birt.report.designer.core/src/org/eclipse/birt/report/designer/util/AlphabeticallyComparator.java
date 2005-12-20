@@ -30,8 +30,8 @@ public class AlphabeticallyComparator implements Comparator
 
 	public int compare( Object o1, Object o2 )
 	{
-		String name1;
-		String name2;
+		String name1=null;
+		String name2=null;
 
 		if ( o1 instanceof DesignElementHandle
 				&& o2 instanceof DesignElementHandle )
@@ -63,9 +63,12 @@ public class AlphabeticallyComparator implements Comparator
 			}
 
 		}
-		else
+		if(name1 == null)
 		{
 			name1 = o1.toString( );
+		}
+		if(name2==null)
+		{
 			name2 = o2.toString( );
 		}
 

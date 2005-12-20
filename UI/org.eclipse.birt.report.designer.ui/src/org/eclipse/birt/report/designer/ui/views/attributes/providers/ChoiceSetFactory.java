@@ -600,7 +600,7 @@ public class ChoiceSetFactory
 			while ( iterator.hasNext( ) )
 			{
 				ReportElementHandle elementHandle = (ReportElementHandle) iterator.next( );
-				list.add( elementHandle.getQualifiedName() );
+				list.add( elementHandle.getDisplayLabel() );
 			}
 		}
 		return (String[]) list.toArray( new String[0] );
