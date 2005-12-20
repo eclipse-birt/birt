@@ -13,22 +13,14 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
-import org.eclipse.birt.data.engine.api.IPreparedQuery;
-import org.eclipse.birt.data.engine.api.IQueryDefinition;
-import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.BaseTransform;
-import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
-import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
@@ -49,13 +41,11 @@ import org.eclipse.ui.PlatformUI;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.13 $ $Date: 2005/07/06 09:14:31 $
+ * @version $Revision: 1.14 $ $Date: 2005/09/21 07:35:25 $
  */
 public class SelectValueDialog extends BaseDialog
 {
 
-	private DataSetHandle dataSetHandle = null;
-	private String expression = null;
 	private boolean multipleSelection = false;
 
 	private List selectValueList = null;
@@ -75,23 +65,6 @@ public class SelectValueDialog extends BaseDialog
 	}
 
 	/**
-	 * @return Returns the dataSetHandle.
-	 */
-	public DataSetHandle getDataSetHandle( )
-	{
-		return dataSetHandle;
-	}
-
-	/**
-	 * @param dataSetHandle
-	 *            The dataSetHandle to set.
-	 */
-	public void setDataSetHandle( DataSetHandle dataSetHandle )
-	{
-		this.dataSetHandle = dataSetHandle;
-	}
-
-	/**
 	 * @return Returns the paramBindingHandles.
 	 */
 	public ParamBindingHandle[] getBindingParams( )
@@ -108,20 +81,13 @@ public class SelectValueDialog extends BaseDialog
 	}
 
 	/**
-	 * @return Returns the expression.
-	 */
-	public String getExpression( )
-	{
-		return expression;
-	}
-
-	/**
 	 * @param expression
 	 *            The expression to set.
 	 */
-	public void setExpression( String expression )
+	public void setSelectedValueList( Collection valueList )
 	{
-		this.expression = expression;
+		modelValueList.clear( );
+		modelValueList.addAll( valueList );
 	}
 
 	/**
@@ -251,62 +217,25 @@ public class SelectValueDialog extends BaseDialog
 		try
 		{
 			this.okButton.setEnabled( false );
-			if ( getExpression( ) != null
-					&& getExpression( ).trim( ).length( ) > 0 )
+			selectValueList.removeAll( );
+			viewerValueList.clear();
+			if ( modelValueList != null && modelValueList.size( ) > 0 )
 			{
-				//Execute the query and populate this list
-				//                BaseQueryDefinition query = (BaseQueryDefinition)
-				// DataSetManager.getCurrentInstance( )
-				//                        .getPreparedQuery( getDataSetHandle(
-				// ),true, false)
-				//                        .getReportQueryDefn( );
-				BaseQueryDefinition query = (BaseQueryDefinition) DataSetManager.getCurrentInstance( )
-						.getPreparedQuery( getDataSetHandle( ),
-								getBindingParams( ),
-								true,
-								false )
-						.getReportQueryDefn( );
-				ScriptExpression expression = new ScriptExpression( getExpression( ) );
-				GroupDefinition defn = new GroupDefinition( );
-				defn.setKeyExpression( getExpression( ) );
-				query.setUsesDetails( false );
-				query.addGroup( defn );
-				query.addExpression( expression, BaseTransform.BEFORE_FIRST_ROW );
-
-				IPreparedQuery preparedQuery = DataSetManager.getCurrentInstance( )
-						.getEngine( )
-						.prepare( (IQueryDefinition) query );
-				IQueryResults results = preparedQuery.execute( null );
-				selectValueList.removeAll( );
-				modelValueList.clear();
-				viewerValueList.clear();
-				
-				if ( results != null )
+				Iterator iter = modelValueList.iterator();
+				while( iter.hasNext()){
+				Object candiateValue = iter.next();
+				if ( candiateValue != null )
 				{
-					IResultIterator iter = results.getResultIterator( );
-					if ( iter != null )
-					{
-						while ( iter.next( ) )
-						{
-							Object candiateValue = iter.getValue( expression );
-							if ( candiateValue != null )
-							{
-								modelValueList.add( candiateValue );
-								String displayCandiateValue;
-								if ( candiateValue instanceof Date )
-									displayCandiateValue = ParameterValidationUtil.getDisplayValue( DesignChoiceConstants.PARAM_TYPE_DATETIME,
-											null,
-											candiateValue );
-								else
-									displayCandiateValue = DataTypeUtil.toString( candiateValue );
-								viewerValueList.add( displayCandiateValue );
-								selectValueList.add( displayCandiateValue );
-							}
-						}
-					}
-
-					results.close( );
-				}
+					String displayCandiateValue;
+					if ( candiateValue instanceof Date )
+						displayCandiateValue = ParameterValidationUtil.getDisplayValue( DesignChoiceConstants.PARAM_TYPE_DATETIME,
+								null,
+								candiateValue );
+					else
+						displayCandiateValue = DataTypeUtil.toString( candiateValue );
+					viewerValueList.add( displayCandiateValue );
+					selectValueList.add( displayCandiateValue );
+				}}
 			}
 			else
 			{
