@@ -16,33 +16,28 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.lib.commands.SetCurrentEditModelCommand;
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportDesignEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportRootFigure;
 import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.EditPartViewer;
-import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.gef.EditPart;
 import org.eclipse.swt.widgets.Display;
 
 /**
  * This is the content edit part for Library. All other library elements puts on
  * to it
  */
-public class LibraryReportDesignEditPart extends ReportDesignEditPart
-		implements
-			PropertyChangeListener
+public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
+		PropertyChangeListener
 {
 
 	private static final Insets INSETS = new Insets( 30, 30, 30, 30 );
@@ -92,8 +87,9 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart
 	 */
 	protected List getModelChildren( )
 	{
-		
-		return HandleAdapterFactory.getInstance( ).getLibraryHandleAdapter( getModel())
+
+		return HandleAdapterFactory.getInstance( )
+				.getLibraryHandleAdapter( getModel( ) )
 				.getChildren( );
 	}
 
@@ -111,8 +107,7 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart
 
 		Rectangle bounds = new Rectangle( 0, 0, size.width - 1, size.height - 1 );
 
-		( (AbstractPageFlowLayout) getFigure( ).getLayoutManager( ) )
-				.setInitSize( bounds );
+		( (AbstractPageFlowLayout) getFigure( ).getLayoutManager( ) ).setInitSize( bounds );
 
 	}
 
@@ -123,8 +118,9 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart
 	 */
 	public void activate( )
 	{
-		HandleAdapterFactory.getInstance( ).getLibraryHandleAdapter(
-				(LibraryHandle) getModel( ) ).addPropertyChangeListener( this );
+		HandleAdapterFactory.getInstance( )
+				.getLibraryHandleAdapter( getModel( ) )
+				.addPropertyChangeListener( this );
 		super.activate( );
 	}
 
@@ -135,9 +131,9 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart
 	 */
 	public void deactivate( )
 	{
-		HandleAdapterFactory.getInstance( ).getLibraryHandleAdapter(
-				(LibraryHandle) getModel( ) ).removePropertyChangeListener(
-				this );
+		HandleAdapterFactory.getInstance( )
+				.getLibraryHandleAdapter( getModel( ) )
+				.removePropertyChangeListener( this );
 		super.deactivate( );
 	}
 
@@ -146,34 +142,47 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart
 	 * 
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
-	public void propertyChange( PropertyChangeEvent evt )
+	public void propertyChange( final PropertyChangeEvent evt )
 	{
 		if ( evt.getPropertyName( ).equals( LibraryHandleAdapter.CURRENTMODEL ) )
 		{
-			
+
 			refresh( );
-			Display.getCurrent( ).asyncExec( new Runnable( )
-			{
+			Display.getCurrent( ).asyncExec( new Runnable( ) {
 
 				public void run( )
 				{
-					final List mediatorSelection = SessionHandleAdapter.getInstance( )
-					.getMediator( ).getCurrentState( )
-					.getSelectionObject( );
-					if ( mediatorSelection.size( ) == 1
-							&& mediatorSelection.get( 0 ) instanceof LibraryHandle )
+					Object model = evt.getNewValue( );
+					Object editpart = getViewer( ).getEditPartRegistry( )
+							.get( model );
+					if ( editpart instanceof EditPart )
 					{
-						return;
+						getViewer( ).flush( );
+						getViewer( ).select( (EditPart) editpart );
 					}
-					List list =getChildren( );
-
-					EditPartViewer viewer = getViewer( );
-					if ( viewer instanceof DeferredGraphicalViewer )
+					if ( editpart != null )
 					{
-						( (DeferredGraphicalViewer) viewer ).setSelection(
-								new StructuredSelection( list ), false );
+						getViewer( ).reveal( (EditPart) editpart );
 					}
-					//getViewer().setSelection(new StructuredSelection(list));
+					// final List mediatorSelection =
+					// SessionHandleAdapter.getInstance( )
+					// .getMediator( ).getCurrentState( )
+					// .getSelectionObject( );
+					// if ( mediatorSelection.size( ) == 1
+					// && mediatorSelection.get( 0 ) instanceof LibraryHandle )
+					// {
+					// return;
+					// }
+					// List list =getChildren( );
+					//
+					// EditPartViewer viewer = getViewer( );
+					// if ( viewer instanceof DeferredGraphicalViewer )
+					// {
+					// ( (DeferredGraphicalViewer) viewer ).setSelection(
+					// new StructuredSelection( list ), false );
+					// }
+					// // getViewer().setSelection(new
+					// StructuredSelection(list));
 				}
 			} );
 		}
@@ -188,25 +197,25 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart
 	 */
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
-		if (!isModelInModuleHandle())
+		if ( !isModelInModuleHandle( ) )
 		{
-			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand(null);
-			command.execute();
+			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand( null );
+			command.execute( );
 		}
 
 	}
-	
-	private boolean isModelInModuleHandle()
+
+	private boolean isModelInModuleHandle( )
 	{
-		List list = getModelChildren();
-		int size = list.size();
-		for (int i=0; i<size; i++)
+		List list = getModelChildren( );
+		int size = list.size( );
+		for ( int i = 0; i < size; i++ )
 		{
-			Object obj = list.get(i);
-			if (obj instanceof DesignElementHandle)
+			Object obj = list.get( i );
+			if ( obj instanceof DesignElementHandle )
 			{
-				DesignElementHandle handle = (DesignElementHandle)obj;
-				if (handle.getRoot() == null)
+				DesignElementHandle handle = (DesignElementHandle) obj;
+				if ( handle.getRoot( ) == null )
 				{
 					return false;
 				}
