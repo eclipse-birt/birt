@@ -15,7 +15,7 @@ import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 /**
  * Define BIRT constants, such as tag names, attribute names and URI
  *
- * @version $Id: BIRTConstants.java,v 1.1 2005/11/11 06:26:42 wyan Exp $
+ * @version $Id: BIRTConstants.java,v 1.2 2005/11/22 09:59:57 wyan Exp $
  */
 public interface BIRTConstants extends CSSConstants {
 
@@ -34,7 +34,7 @@ public interface BIRTConstants extends CSSConstants {
 	String BIRT_TEXT_UNDERLINE_PROPERTY = "text-underline"; //$NON-NLS-1$
 	String BIRT_TEXT_OVERLINE_PROPERTY = "text-overline"; //$NON-NLS-1$
 	String BIRT_TEXT_LINETHROUGH_PROPERTY = "text-linethrough"; //$NON-NLS-1$
-	String BIRT_VISIBLE_FORMAT_PROPERTY = "visible-formats";
+	String BIRT_VISIBLE_FORMAT_PROPERTY = "visible-format";
 	
     /////////////////////////////////////////////////////////////////////////
     // BIRT attribute value

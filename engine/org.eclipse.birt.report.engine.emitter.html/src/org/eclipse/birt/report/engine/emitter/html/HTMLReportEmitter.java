@@ -86,7 +86,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.57 $ $Date: 2005/12/12 08:48:31 $
+ * @version $Revision: 1.58 $ $Date: 2005/12/13 06:55:19 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -214,7 +214,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	protected ContentEmitterVisitor contentVisitor;
 
-	protected Random random; 
+	protected Random random;
+
 	/**
 	 * the constructor
 	 */
@@ -477,6 +478,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		if ( isEmbeddable )
 		{
 			fixTransparentPNG( );
+			
+			writer.openTag( HTMLTags.TAG_DIV );
+			
+			String reportStyleName = report == null ? null : report.getDesign( )
+					.getRootStyleName( );
+			if ( reportStyleName != null )
+			{
+				StringBuffer styleBuffer = new StringBuffer( );
+				AttributeBuilder.buildStyle( styleBuffer, report
+						.findStyle( reportStyleName ), this );
+				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+			}
+
 			return;
 		}
 
@@ -524,23 +538,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		String reportStyleName = report == null ? null : report.getDesign( )
 				.getRootStyleName( );
-		if ( !isEmbeddable )
+		writer.openTag( HTMLTags.TAG_BODY );
+		if ( reportStyleName != null )
 		{
-			writer.openTag( HTMLTags.TAG_BODY );
-			if ( reportStyleName != null )
-			{
-				writer.attribute( HTMLTags.ATTR_CLASS, reportStyleName );
-			}
-		}
-		else
-		{
-			writer.openTag( HTMLTags.TAG_DIV );
-			if ( reportStyleName != null )
-			{
-				AttributeBuilder.buildStyle( styleBuffer, report
-						.findStyle( reportStyleName ), this );
-				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-			}
+			writer.attribute( HTMLTags.ATTR_CLASS, reportStyleName );
 		}
 	}
 
@@ -749,7 +750,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		String bookmark = table.getBookmark( );
 		if ( bookmark == null )
 		{
-			bookmark = generateUniqueID(  );
+			bookmark = generateUniqueID( );
 		}
 		setBookmark( null, bookmark );
 
@@ -760,7 +761,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			writer.attribute( "iid", iid.toString( ) );
 		}
-		
+
 		// table caption
 		String caption = table.getCaption( );
 		if ( caption != null && caption.length( ) > 0 )
@@ -1055,16 +1056,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// bookmark
 		String bookmark = container.getBookmark( );
-		
-		if( bookmark == null )
+
+		if ( bookmark == null )
 		{
 			bookmark = generateUniqueID( );
 		}
-		
-		
+
 		setBookmark( tagName, bookmark );
 		exportElementID( container, bookmark, "LIST" );
-		
+
 		// output style
 		// if ( x == null && y == null )
 		// {
@@ -1320,15 +1320,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.openTag( HTMLTags.TAG_IMAGE ); //$NON-NLS-1$
 			setStyleName( image.getStyleClass( ) );
 			setDisplayProperty( display, 0, styleBuffer );
-			
+
 			// bookmark
 			String bookmark = image.getBookmark( );
-			if(bookmark == null)
+			if ( bookmark == null )
 			{
 				bookmark = generateUniqueID( );
 			}
 			setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
-			exportElementID( image, bookmark, "EXTENDED");
+			exportElementID( image, bookmark, "EXTENDED" );
 
 			String ext = image.getExtension( );
 			// FIXME special process, such as encoding etc
@@ -1917,35 +1917,38 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		return sb.toString( );
 	}
-	
-	protected void exportElementID( IContent content, String bookmark, String type )
+
+	protected void exportElementID( IContent content, String bookmark,
+			String type )
 	{
-		Object generateBy = content.getGenerateBy(); 
-		if( generateBy instanceof TableItemDesign
-				|| generateBy instanceof ListItemDesign 
+		Object generateBy = content.getGenerateBy( );
+		if ( generateBy instanceof TableItemDesign
+				|| generateBy instanceof ListItemDesign
 				|| generateBy instanceof ExtendedItemDesign )
 		{
-			if( renderOption instanceof HTMLRenderOption ){
-				List htmlIds = ((HTMLRenderOption)renderOption).getInstanceIDs( );
-				if( htmlIds != null && bookmark != null )
+			if ( renderOption instanceof HTMLRenderOption )
+			{
+				List htmlIds = ( (HTMLRenderOption) renderOption )
+						.getInstanceIDs( );
+				if ( htmlIds != null && bookmark != null )
 				{
 					assert type != null;
 					String newBookmark = bookmark + "," + type;
-					htmlIds.add( newBookmark  );
+					htmlIds.add( newBookmark );
 				}
 			}
 		}
 	}
-	
+
 	protected String generateUniqueID( )
 	{
-		if( random == null )
+		if ( random == null )
 		{
 			random = new Random( );
 		}
-		String randLong = "" + random.nextLong();
-		randLong = randLong.replaceAll("-", "");
-		
+		String randLong = "" + random.nextLong( );
+		randLong = randLong.replaceAll( "-", "" );
+
 		return "AUTOGENBOOKMARK_" + randLong;
 	}
 }
