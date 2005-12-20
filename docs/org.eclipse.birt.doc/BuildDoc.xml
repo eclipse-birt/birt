@@ -88,8 +88,10 @@
 	<property name="engine.script.javadoc.dir" value="enginescript/api" />
 	<property name="model.dir" value="../org.eclipse.birt.report.model" />
 	<property name="model.javadoc.dir" value="model/api" />
-	<property name="oda.dir" value="../org.eclipse.birt.data.oda" />
+	<property name="oda.dir" value="../org.eclipse.datatools.connectivity.oda" />
 	<property name="oda.javadoc.dir" value="oda/api" />
+	<property name="oda.old.dir" value="../org.eclipse.birt.data.oda" />
+	<property name="oda.old.javadoc.dir" value="odaold/api" />
 	<property name="rotatedtextitem.dir" value="../org.eclipse.birt.sample.reportitem.rotatedtext" />
 
 	<!-- Generate zip for this project.
@@ -99,14 +101,14 @@
 	<target name="Jar" depends="Javadoc">
 		<zip destfile="./doc.zip"
       basedir="."
-			includes="birt/**,chart/**,chartui/**,data/**,engine/**,enginescript/**,oda/**,model/**,ref/**"
+			includes="birt/**,chart/**,chartui/**,data/**,engine/**,enginescript/**,oda/**,odaold/**,model/**,ref/**"
 		/>
 	</target>
 
 	<target name="ZipOnly">
 		<zip destfile="./doc.zip"
       basedir="."
-			includes="birt/**,chart/**,chartui/**,data/**,engine/**,enginescript/**,oda/**,model/**,ref/**"
+			includes="birt/**,chart/**,chartui/**,data/**,engine/**,enginescript/**,oda/**,odaold/**,model/**,ref/**"
 		/>
 	</target>
 	
@@ -151,6 +153,7 @@
 	    <antcall target = "engineScriptJavadoc"/>
     	<antcall target = "modelJavadoc"/>
 	    <antcall target = "odaJavadoc"/>
+	    <antcall target = "odaoldJavadoc"/>
     	<antcall target = "dataJavadoc"/>
     	<antcall target = "chartJavadoc"/>
     	<antcall target = "chartuiJavadoc"/>
@@ -165,6 +168,7 @@
 		<delete dir="${model.javadoc.dir}"/>
 		<delete dir="${data.javadoc.dir}"/>
 		<delete dir="${oda.javadoc.dir}"/>
+		<delete dir="${oda.old.javadoc.dir}"/>
 		<delete dir="${chartengine.javadoc.dir}"/>
 		<delete dir="${chartui.javadoc.dir}"/>
 		<delete file="doc.zip" />
@@ -179,7 +183,7 @@
 		<delete dir="${engine.javadoc.dir}"/>
 		<ant dir="${engine.dir}" antfile="BuildEngine.xml" target="APIJavaDoc" inheritall="false" inheritrefs="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
-      <property name="api.javadoc.dir" value="../${module.name}/${engine.javadoc.dir}" />
+      		<property name="api.javadoc.dir" value="../${module.name}/${engine.javadoc.dir}" />
 		</ant>
   </target>
 	
@@ -187,7 +191,7 @@
 		<delete dir="${engine.script.javadoc.dir}"/>
 		<ant dir="${engine.dir}" antfile="BuildEngine.xml" target="ScriptAPIJavaDoc" inheritall="false" inheritrefs="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
-      <property name="script.api.javadoc.dir" value="../${module.name}/${engine.script.javadoc.dir}" />
+      		<property name="script.api.javadoc.dir" value="../${module.name}/${engine.script.javadoc.dir}" />
 		</ant>
   </target>
 	
@@ -195,7 +199,7 @@
 		<delete dir="${model.javadoc.dir}"/>
 		<ant dir="${model.dir}" antfile="BuildModel.xml" target="APIJavadoc" inheritall="false" inheritrefs="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
-      <property name="api.javadoc.dir" value="../${module.name}/${model.javadoc.dir}" />
+    		<property name="api.javadoc.dir" value="../${module.name}/${model.javadoc.dir}" />
 		</ant>
   </target>
 	
@@ -203,15 +207,24 @@
 		<delete dir="${data.javadoc.dir}"/>
 		<ant dir="${data.dir}" antfile="BuildData.xml" target="apiJavaDoc" inheritall="false" inheritrefs="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
-      <property name="api.javadoc.dir" value="../${module.name}/${data.javadoc.dir}" />
+     		<property name="api.javadoc.dir" value="../${module.name}/${data.javadoc.dir}" />
 		</ant>
   </target>
 	
 	<target name="odaJavadoc">
 		<delete dir="${oda.javadoc.dir}"/>
-		<ant dir="${oda.dir}" antfile="BuildOda.xml" target="apiJavaDoc" inheritall="false" inheritrefs="false">
+		<ant dir="${oda.dir}" antfile="build.xml" target="javadoc" inheritall="false" inheritrefs="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
-      <property name="api.javadoc.dir" value="../${module.name}/${oda.javadoc.dir}" />
+	    	<property name="build.result.dir" value="../${module.name}" />
+	    	<property name="javadoc.dir" value="${oda.javadoc.dir}" />
+		</ant>
+  </target>
+	
+	<target name="odaoldJavadoc">
+		<delete dir="${oda.old.javadoc.dir}"/>
+		<ant dir="${oda.old.dir}" antfile="BuildOda.xml" target="apiJavaDoc" inheritall="false" inheritrefs="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+ 	    	<property name="api.javadoc.dir" value="../${module.name}/${oda.old.javadoc.dir}" />
 		</ant>
   </target>
 	
@@ -219,7 +232,7 @@
 		<delete dir="${chartengine.javadoc.dir}"/>
 		<ant dir="${chartengine.dir}" antfile="BuildChartEngine.xml" target="Javadoc" inheritall="false" inheritrefs="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
-      <property name="javadoc.dir" value="../${module.name}/${chartengine.javadoc.dir}" />
+      		<property name="javadoc.dir" value="../${module.name}/${chartengine.javadoc.dir}" />
 		</ant>
   </target>
 
@@ -227,7 +240,7 @@
 		<delete dir="${chartui.javadoc.dir}"/>
 		<ant dir="${chartui.dir}" antfile="BuildChartUI.xml" target="apiJavadoc" inheritall="false" inheritrefs="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
-      <property name="api.javadoc.dir" value="../${module.name}/${chartui.javadoc.dir}" />
+			<property name="api.javadoc.dir" value="../${module.name}/${chartui.javadoc.dir}" />
 		</ant>
   </target>
 	
