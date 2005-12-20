@@ -53,18 +53,21 @@ public class ModuleUtil
 {
 
 	/**
-	 * library type
+	 * The library type.
 	 */
+	
 	public final static int LIBRARY = 0;
 
 	/**
-	 * report design type
+	 * The report design type.
 	 */
+	
 	public final static int REPORT_DESIGN = 1;
 
 	/**
-	 * invalid module
+	 * The invalid module.
 	 */
+	
 	public final static int INVALID_MODULE = 2;
 
 	/**
@@ -363,8 +366,6 @@ public class ModuleUtil
 
 		return rtnModule instanceof Library
 				? LIBRARY
-				: rtnModule instanceof ReportDesign
-						? REPORT_DESIGN
-						: INVALID_MODULE;
+				: REPORT_DESIGN;
 	}
 }
