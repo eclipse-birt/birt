@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.GroupElementFactory;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -1301,8 +1302,8 @@ public class DEUtil
 	{
 		ModuleHandle designHandle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
-		GroupElementHandle handle = new GroupElementHandle( designHandle,
-				modelList );
+		GroupElementHandle handle = GroupElementFactory.newGroupElement(
+				designHandle, modelList );
 		return handle;
 	}
 
@@ -1559,11 +1560,12 @@ public class DEUtil
 	{
 		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null )
 		{
-			return new GroupElementHandle( SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ), Collections.EMPTY_LIST );
+			return GroupElementFactory.newGroupElement( SessionHandleAdapter
+					.getInstance( ).getReportDesignHandle( ),
+					Collections.EMPTY_LIST );
 		}
-		return new GroupElementHandle( SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( ), modelList );
+		return GroupElementFactory.newGroupElement( SessionHandleAdapter
+				.getInstance( ).getReportDesignHandle( ), modelList );
 	}
 
 	/**

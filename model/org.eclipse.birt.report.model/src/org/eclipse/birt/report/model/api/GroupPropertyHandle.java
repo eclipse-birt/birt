@@ -60,6 +60,7 @@ public class GroupPropertyHandle
 	GroupPropertyHandle( GroupElementHandle handle, ElementPropertyDefn propDefn )
 	{
 		assert propDefn != null;
+		assert handle instanceof SimpleGroupElementHandle;
 
 		this.handle = handle;
 		this.propDefn = propDefn;
@@ -173,6 +174,7 @@ public class GroupPropertyHandle
 
 	public void setValue( Object value ) throws SemanticException
 	{
+		assert handle.getModule( ) != null;
 		ActivityStack actStack = handle.getModule( ).getActivityStack( );
 		actStack.startTrans( );
 
@@ -253,6 +255,7 @@ public class GroupPropertyHandle
 		assert elementDefn != null;
 
 		List elementList = null;
+		assert handle.getModuleHandle() != null;
 		if ( ReportDesignConstants.DATA_SET_ELEMENT.equals( elementDefn
 				.getName( ) ) )
 		{

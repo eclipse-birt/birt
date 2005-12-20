@@ -11,20 +11,12 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.metadata.IElementDefn;
-import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * This class provides services to deal with a group of elements. It is mostly
@@ -54,40 +46,15 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * same. (User-defined properties may differ.)
  */
 
-public class GroupElementHandle
+abstract public class GroupElementHandle
 {
 
 	/**
-	 * The module that provides overall information, especially the command
-	 * stack.
+	 * Default constructor.
 	 */
 
-	protected final Module module;
-
-	/**
-	 * List of handles to design elements.
-	 */
-
-	protected List elements = null;
-
-	/**
-	 * Constructs a handle to deal with a list of report elements. The contents
-	 * of the given list should be design element handles.
-	 * 
-	 * @param moduleHandle
-	 *            the handle of module
-	 * @param elements
-	 *            a list of handles of design elements. If a item is not
-	 *            <code>DesignElementHandle</code>, it is ignored.
-	 * @see DesignElementHandle
-	 */
-
-	public GroupElementHandle( ModuleHandle moduleHandle, List elements )
+	public GroupElementHandle( )
 	{
-		module = moduleHandle.getModule( );
-		assert elements != null;
-
-		this.elements = elements;
 	}
 
 	/**
@@ -97,36 +64,23 @@ public class GroupElementHandle
 	 * @return the list that contains the group of design elements.
 	 */
 
-	public List getElements( )
-	{
-		return this.elements;
-	}
+	abstract public List getElements( );
 
 	/**
-	 * Finds common properties from two set of property definitions. Two
-	 * property definitions are considered identical if they are same instances
-	 * or they are equal.
+	 * Returns the module.
 	 * 
-	 * @param list1
-	 *            storing a list of <code>PropertyDefn</code>
-	 * @param list2
-	 *            storing a list of <code>PropertyDefn</code>
-	 * @return A set containing all the common properties from the two lists.
+	 * @return the module
 	 */
 
-	private List findInCommon( List list1, List list2 )
-	{
-		List retList = new ArrayList( );
+	abstract public Module getModule( );
 
-		for ( Iterator iter = list1.iterator( ); iter.hasNext( ); )
-		{
-			PropertyDefn propDefn = (PropertyDefn) iter.next( );
-			if ( list2.contains( propDefn ) )
-				retList.add( propDefn );
-		}
+	/**
+	 * Returns the handle of module.
+	 * 
+	 * @return the handle of module
+	 */
 
-		return retList;
-	}
+	abstract public ModuleHandle getModuleHandle( );
 
 	/**
 	 * Indicates that if the given elements are of the same definition. Elements
@@ -144,30 +98,7 @@ public class GroupElementHandle
 	 *         <code>DesignElementHandle</code>.
 	 */
 
-	public boolean isSameType( )
-	{
-		if ( elements.size( ) == 0 )
-			return false;
-
-		IElementDefn baseDefn = null;
-
-		for ( int i = 0; i < elements.size( ); i++ )
-		{
-			Object item = elements.get( i );
-			if ( !( item instanceof DesignElementHandle ) )
-				return false;
-
-			IElementDefn elemDefn = ( (DesignElementHandle) item ).getDefn( );
-
-			if ( baseDefn == null )
-				baseDefn = elemDefn;
-
-			if ( elemDefn != baseDefn )
-				return false;
-		}
-
-		return true;
-	}
+	abstract public boolean isSameType( );
 
 	/**
 	 * Returns the common properties shared by the given group of
@@ -181,83 +112,7 @@ public class GroupElementHandle
 	 *         <code>DesignElementHandle</code>, return an empty list.
 	 */
 
-	public final List getCommonProperties( )
-	{
-		List commonProps = Collections.EMPTY_LIST;
-
-		for ( int i = 0; i < elements.size( ); i++ )
-		{
-			Object item = elements.get( i );
-
-			if ( !( item instanceof DesignElementHandle ) )
-				return Collections.EMPTY_LIST;
-
-			List elemProps = ( (DesignElementHandle) item ).getElement( )
-					.getPropertyDefns( );
-
-			if ( i == 0 )
-				commonProps = elemProps;
-			else
-				commonProps = findInCommon( commonProps, elemProps );
-
-			if ( commonProps.isEmpty( ) )
-				return Collections.EMPTY_LIST;
-		}
-
-		return commonProps;
-	}
-
-	/**
-	 * Returns the report design.
-	 * 
-	 * @return the report design
-	 * @deprecated replaced by getModule( )
-	 */
-
-	public ReportDesign getDesign( )
-	{
-		if ( module instanceof ReportDesign )
-			return (ReportDesign) module;
-
-		return null;
-	}
-
-	/**
-	 * Returns the handle of report design.
-	 * 
-	 * @return the handle of report design
-	 * @deprecated replaced by getModuleHandle( )
-	 */
-
-	public ReportDesignHandle getDesignHandle( )
-	{
-		if ( module instanceof ReportDesign )
-			return (ReportDesignHandle) module.getHandle( module );
-
-		return null;
-	}
-
-	/**
-	 * Returns the module.
-	 * 
-	 * @return the module
-	 */
-
-	public Module getModule( )
-	{
-		return module;
-	}
-
-	/**
-	 * Returns the handle of module.
-	 * 
-	 * @return the handle of module
-	 */
-
-	public ModuleHandle getModuleHandle( )
-	{
-		return (ModuleHandle) module.getHandle( module );
-	}
+	abstract public List getCommonProperties( );
 
 	/**
 	 * Returns an iterator over the common properties. Contents of the iterator
@@ -270,7 +125,7 @@ public class GroupElementHandle
 	 *         <code>GroupPropertyHandle</code>
 	 */
 
-	public Iterator propertyIterator( )
+	public final Iterator propertyIterator( )
 	{
 		return new GroupPropertyIterator( getCommonProperties( ) );
 	}
@@ -286,20 +141,7 @@ public class GroupElementHandle
 	 *         <code>GroupPropertyHandle</code>
 	 */
 
-	public Iterator visiblePropertyIterator( )
-	{
-		List list = getCommonProperties( );
-		final List visibleList = new ArrayList( );
-
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			IElementPropertyDefn propDefn = (IElementPropertyDefn) list.get( i );
-			if ( isPropertyVisible( propDefn.getName( ) ) )
-				visibleList.add( propDefn );
-		}
-
-		return new GroupPropertyIterator( visibleList );
-	}
+	abstract public Iterator visiblePropertyIterator( );
 
 	/**
 	 * Checks whether a property is visible in the property sheet. The visible
@@ -311,29 +153,7 @@ public class GroupElementHandle
 	 *         <code>false</code>.
 	 */
 
-	protected boolean isPropertyVisible( String propName )
-	{
-		boolean isVisible = true;
-
-		for ( int i = 0; i < elements.size( ); i++ )
-		{
-			PropertyHandle propertyHandle = ( (DesignElementHandle) elements
-					.get( i ) ).getPropertyHandle( propName );
-
-			// if the property is not defined, then it is invisible; if the
-			// property exsits and set to invisible in ROM, then it is invisible
-			// too.
-
-			if ( propertyHandle != null && !propertyHandle.isVisible( )
-					|| propertyHandle == null )
-			{
-				isVisible = false;
-				break;
-			}
-		}
-
-		return isVisible;
-	}
+	abstract protected boolean isPropertyVisible( String propName );
 
 	/**
 	 * Clears values of all common properties(except the extends property) for
@@ -345,37 +165,7 @@ public class GroupElementHandle
 	 * @throws SemanticException
 	 *             if the property is not defined on this element
 	 */
-	public void clearLocalProperties( ) throws SemanticException
-	{
-		ActivityStack stack = module.getActivityStack( );
-		stack.startTrans( );
-
-		try
-		{
-			Iterator iter = propertyIterator( );
-			while ( iter.hasNext( ) )
-			{
-				GroupPropertyHandle propHandle = (GroupPropertyHandle) iter
-						.next( );
-				
-				String propName = propHandle.getPropertyDefn().getName();
-				if ( DesignElement.EXTENDS_PROP.equals( propName ) )
-				{
-					// ignore extends property.
-					continue;
-				}
-				
-				propHandle.clearValue( );
-			}
-		}
-		catch ( SemanticException e )
-		{
-			stack.rollback( );
-			throw e;
-		}
-
-		stack.commit( );
-	}
+	abstract public void clearLocalProperties( ) throws SemanticException;
 
 	/**
 	 * Returns <code>true</code> if each of the given collection of element
@@ -387,26 +177,8 @@ public class GroupElementHandle
 	 *         the collection has no elements, also return <code>false</code>
 	 */
 
-	public boolean isExtendedElements( )
-	{
-		if ( elements.isEmpty( ) )
-			return false;
-
-		for ( Iterator iter = this.elements.iterator( ); iter.hasNext( ); )
-		{
-			Object next = iter.next( );
-			if ( !( next instanceof DesignElementHandle ) )
-				return false;
-
-			if ( ( (DesignElementHandle) next ).getExtends( ) == null )
-				return false;
-		}
-
-		// Each element has a parent.
-
-		return true;
-	}
-
+	abstract public boolean isExtendedElements( );
+	
 	/**
 	 * This method returnt <code>true</code> in following condition:
 	 * <p>
@@ -420,7 +192,7 @@ public class GroupElementHandle
 	 * @return <code>true</code> if the conditions is met.
 	 */
 
-	public boolean hasLocalPropertiesForExtendedElements( )
+	public final boolean hasLocalPropertiesForExtendedElements( )
 	{
 		if ( !isSameType( ) )
 			return false;
@@ -428,6 +200,7 @@ public class GroupElementHandle
 		if ( !isExtendedElements( ) )
 			return false;
 
+		List elements = getElements( );
 		for ( Iterator iter = elements.iterator( ); iter.hasNext( ); )
 		{
 			DesignElementHandle elementHandle = (DesignElementHandle) iter
@@ -449,29 +222,8 @@ public class GroupElementHandle
 	 *         <code>false</code>.
 	 */
 
-	protected boolean isPropertyReadOnly( String propName )
-	{
-		boolean isReadOnly = false;
-
-		for ( int i = 0; i < elements.size( ); i++ )
-		{
-			PropertyHandle propertyHandle = ( (DesignElementHandle) elements
-					.get( i ) ).getPropertyHandle( propName );
-
-			// if the property is not defined, then it is read-only; if it
-			// exsits and set to read-only in ROM, then it is read-only too.
-
-			if ( propertyHandle != null && propertyHandle.isReadOnly( )
-					|| propertyHandle == null )
-			{
-				isReadOnly = true;
-				break;
-			}
-		}
-
-		return isReadOnly;
-	}
-
+	abstract protected boolean isPropertyReadOnly( String propName );
+	
 	/**
 	 * If property is shared by the group of elements, return the corresponding
 	 * <code>GroupPropertyHandle</code>, otherwise, return <code>null</code>.
@@ -483,22 +235,8 @@ public class GroupElementHandle
 	 *         return <code>null</code>.
 	 */
 
-	public final GroupPropertyHandle getPropertyHandle( String propName )
-	{
-		List commProps = this.getCommonProperties( );
-		for ( int i = 0; i < commProps.size( ); i++ )
-		{
-			ElementPropertyDefn propDefn = (ElementPropertyDefn) commProps
-					.get( i );
-			if ( propDefn.getName( ).equalsIgnoreCase( propName ) )
-			{
-				return new GroupPropertyHandle( this, propDefn );
-			}
-		}
-
-		return null;
-	}
-
+	abstract public GroupPropertyHandle getPropertyHandle( String propName );
+	
 	/**
 	 * If the given property is a common property, value will be returned as a
 	 * string if all values within the group of elements are equal. If the
@@ -513,7 +251,7 @@ public class GroupElementHandle
 	 * @see GroupPropertyHandle#getStringValue()
 	 */
 
-	public String getStringProperty( String propName )
+	public final String getStringProperty( String propName )
 	{
 		GroupPropertyHandle propHandle = getPropertyHandle( propName );
 		if ( propHandle == null )
@@ -560,7 +298,7 @@ public class GroupElementHandle
 	 * @see GroupPropertyHandle#setValue(Object)
 	 */
 
-	public void setProperty( String propName, Object value )
+	public final void setProperty( String propName, Object value )
 			throws SemanticException
 	{
 		GroupPropertyHandle propHandle = getPropertyHandle( propName );
@@ -586,7 +324,7 @@ public class GroupElementHandle
 	 *             if the property is not defined on this element
 	 */
 
-	public void clearProperty( String propName ) throws SemanticException
+	public final void clearProperty( String propName ) throws SemanticException
 	{
 		setProperty( propName, null );
 	}
@@ -605,7 +343,7 @@ public class GroupElementHandle
 	 *             undefined on the elements.
 	 */
 
-	public void setStringProperty( String propName, String value )
+	public final void setStringProperty( String propName, String value )
 			throws SemanticException
 	{
 		setProperty( propName, value );
@@ -621,11 +359,8 @@ public class GroupElementHandle
 	 *         <code>false</code>.
 	 */
 
-	protected boolean isInGroup( DesignElementHandle element )
-	{
-		return elements.contains( element );
-	}
-
+	abstract protected boolean isInGroup( DesignElementHandle element );
+	
 	/**
 	 * An iterator over the properties defined for elements that in the group
 	 * element.
