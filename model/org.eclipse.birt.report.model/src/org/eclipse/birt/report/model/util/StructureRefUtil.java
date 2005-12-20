@@ -98,8 +98,37 @@ public class StructureRefUtil
 	public static Structure findStructure( Module module,
 			StructureDefn targetDefn, String name )
 	{
+		Object retValue = resolveStructureWithName( module, targetDefn, name );
+
+		if ( retValue instanceof StructRefValue )
+			return ( (StructRefValue) retValue ).getStructure( );
+
+		return (Structure) retValue;
+	}
+
+	/**
+	 * Resolves a reference structure with the given name and the module scope.
+	 * <p>
+	 * For example, if "image.gif" is the name and lib1 is not included by the
+	 * <code>module</code>, "image" is treated as the namespace and "gif" is
+	 * treated as the name.
+	 * 
+	 * @param module
+	 *            the module where to start to find
+	 * @param targetDefn
+	 *            the definition for the target structure
+	 * @param name
+	 *            the name of the target structure to search
+	 * @return the structure reference value
+	 */
+
+	private static Object resolveStructureWithName( Module module,
+			StructureDefn targetDefn, String name )
+	{
 		if ( StringUtil.isBlank( name ) || targetDefn == null || module == null )
 			return null;
+
+		// try to find it locally first.
 
 		if ( EmbeddedImage.EMBEDDED_IMAGE_STRUCT.equalsIgnoreCase( targetDefn
 				.getName( ) ) )
@@ -107,23 +136,94 @@ public class StructureRefUtil
 			Structure emImage = StructureRefUtil.findNativeStructure( module,
 					targetDefn, name );
 			if ( emImage != null )
-				return emImage;
+			{
+				String namespace = null;
+				if ( module instanceof Library )
+					namespace = ( (Library) module ).getNamespace( );
+
+				StructRefValue refValue = new StructRefValue( namespace,
+						emImage );
+				return refValue;
+			}
 		}
+
+		// if not find locally, uses namespace
 
 		String namespace = StringUtil.extractNamespace( name );
 		String structName = StringUtil.extractName( name );
 
-		Module moduleToSearch = module;
-		if ( namespace == null )
-			return StructureRefUtil.findNativeStructure( module, targetDefn,
-					name );
-		else
+		Module moduleToSearch = null;
+
+		// for the embedded image, there is no need to search again.
+
+		if ( !EmbeddedImage.EMBEDDED_IMAGE_STRUCT.equalsIgnoreCase( targetDefn
+				.getName( ) ) )
+			moduleToSearch = module;
+
+		if ( namespace != null )
 			moduleToSearch = module.getLibraryWithNamespace( namespace );
 
+		// find it in the library.
+
 		if ( moduleToSearch != null )
-			return findStructure( moduleToSearch, targetDefn, structName );
+		{
+			Structure retValue = findNativeStructure( moduleToSearch,
+					targetDefn, structName );
+			if ( retValue != null )
+			{
+				if ( EmbeddedImage.EMBEDDED_IMAGE_STRUCT
+						.equalsIgnoreCase( targetDefn.getName( ) ) )
+					return new StructRefValue( namespace, retValue );
+
+				return retValue;
+			}
+		}
+
+		// not find such library, so treat as the local image
+
+		else
+		{
+			if ( module instanceof Library )
+			{
+				namespace = ( (Library) module ).getNamespace( );
+				structName = stripNamespace( name, namespace );
+			}
+			else
+			{
+				namespace = null;
+				structName = name;
+			}
+		}
+
+		if ( EmbeddedImage.EMBEDDED_IMAGE_STRUCT.equalsIgnoreCase( targetDefn
+				.getName( ) ) )
+			return new StructRefValue( namespace, structName );
 
 		return null;
+
+	}
+
+	/**
+	 * Removes the namespace from the name if appliable.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param namespace
+	 *            the name space
+	 * 
+	 * @return the name without namespace
+	 */
+
+	private static String stripNamespace( String name, String namespace )
+	{
+		if ( name == null || namespace == null )
+			return name;
+
+		int index = name.indexOf( namespace );
+		if ( index == -1 )
+			return name;
+
+		return StringUtil.extractName( name );
 	}
 
 	/**
@@ -165,11 +265,10 @@ public class StructureRefUtil
 		{
 			String structName = StringUtil.extractName( name );
 			String namespace = StringUtil.extractNamespace( name );
-			targetModule = module.getVisibleLibraryWithNamespace( namespace );
+			targetModule = module.getLibraryWithNamespace( namespace );
 			if ( targetModule != null )
 			{
-				target = findNativeStructure( targetModule, targetDefn,
-						structName );
+				target = findStructure( targetModule, targetDefn, structName );
 				if ( target != null )
 					return new StructRefValue( namespace, target );
 			}
@@ -181,23 +280,9 @@ public class StructureRefUtil
 		}
 		else
 		{
-			// for now, "imageName" can only refer a local embedded image
-
-			targetModule = module;
-			target = findNativeStructure( targetModule, targetDefn, name );
-			String namespace = targetModule instanceof Library
-					? ( (Library) targetModule ).getNamespace( )
-					: null;
-
-			// resolved status
-
-			if ( target != null )
-				return new StructRefValue( namespace, target );
-
-			// unresolved status
-
-			return new StructRefValue( namespace, name );
-
+			StructRefValue refValue = (StructRefValue) resolveStructureWithName(
+					module, targetDefn, name );
+			return refValue;
 		}
 	}
 

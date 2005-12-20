@@ -293,7 +293,15 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 					// not in any tree
 
 					else
-						targetModule = getEffectiveModule( );
+					{
+						if ( imageRef.getLibraryNamespace( ) != null )
+							targetModule = getEffectiveModule( )
+									.getLibraryWithNamespace(
+											imageRef.getLibraryNamespace( ) );
+						else
+							targetModule = getEffectiveModule( );
+
+					}
 
 					assert targetModule != null;
 
@@ -302,6 +310,9 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 					List images = targetModule.getListProperty( targetModule,
 							Module.IMAGES_PROP );
+					if ( images == null || images.isEmpty( ) )
+						continue;
+
 					int posn = images.indexOf( image );
 					PropertyHandle propHandle = targetModule.getHandle(
 							targetModule ).getPropertyHandle(
@@ -314,7 +325,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 				// recursively find the image and construct the handle if it has
 				// parent or virtual parent
-				
+
 				owner = owner.isVirtualElement( )
 						? owner.getVirtualParent( )
 						: owner.getExtendsElement( );

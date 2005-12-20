@@ -654,7 +654,7 @@ public class ImageBuilder extends BaseDialog
 				previewButton.setEnabled( false );
 				if ( SessionHandleAdapter.getInstance( )
 						.getReportDesignHandle( )
-						.getAllDataSets( )
+						.getVisibleDataSets( )
 						.isEmpty( ) )
 				{
 					bindingButton.setEnabled( false );

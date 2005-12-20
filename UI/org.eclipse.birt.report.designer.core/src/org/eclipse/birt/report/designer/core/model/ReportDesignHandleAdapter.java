@@ -70,7 +70,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	 */
 	public List getDataSources( )
 	{
-		return getModuleHandle( ).getAllDataSources();
+		return getModuleHandle( ).getVisibleDataSources();
 	}
 
 	/**

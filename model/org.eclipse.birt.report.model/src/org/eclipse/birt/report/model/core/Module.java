@@ -383,38 +383,6 @@ public abstract class Module extends DesignElement implements IModuleModel
 	}
 
 	/**
-	 * Finds DataSet/DataSource in the self or included libraries. The name is
-	 * the full path for included libraries. For example, it can be one of
-	 * followings:
-	 * 
-	 * <ul>
-	 * <li>lib1.lib2.dataSet1
-	 * <li>lib1.dataSource1
-	 * </ul>
-	 * 
-	 * @param name
-	 *            the element name in full path.
-	 * @param namespaceId
-	 *            the name space id
-	 * @return the element that matches <code>name</code>.
-	 */
-
-	protected DesignElement findElementInLibraries( String name, int namespaceId )
-	{
-		String namespace = StringUtil.extractNamespace( name );
-		String elementName = StringUtil.extractName( name );
-
-		if ( namespace == null )
-			return resolveNativeElement( elementName, namespaceId );
-
-		Library lib = getVisibleLibraryWithNamespace( namespace );
-		if ( lib == null )
-			return null;
-
-		return lib.findElementInLibraries( elementName, namespaceId );
-	}
-
-	/**
 	 * Finds a data source by name in this module and the included modules.
 	 * 
 	 * @param name
@@ -424,7 +392,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public DesignElement findDataSource( String name )
 	{
-		return findElementInLibraries( name, DATA_SOURCE_NAME_SPACE );
+		return resolveElement( name, DATA_SOURCE_NAME_SPACE, null );
 	}
 
 	/**
@@ -437,7 +405,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public DesignElement findDataSet( String name )
 	{
-		return findElementInLibraries( name, DATA_SET_NAME_SPACE );
+		return resolveElement( name, DATA_SET_NAME_SPACE, null );
 	}
 
 	/**
@@ -1430,9 +1398,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 	private DesignElement resolveNativeElement( String elementName,
 			int nameSpace )
 	{
-		ElementRefValue refValue = moduleNameSpaces[nameSpace].resolve(
-				elementName, null );
-		return refValue.getElement( );
+		NameSpace namespace = nameSpaces[nameSpace];
+		return namespace.getElement( elementName );
 	}
 
 	/**
@@ -1789,6 +1756,23 @@ public abstract class Module extends DesignElement implements IModuleModel
 				value.unresolved( value.getName( ) );
 				image.dropClientStructure( client );
 				sendEvent = true;
+			}
+
+			clients = image.getClientList( );
+			if ( clients == null || clients.isEmpty( ) )
+				continue;
+			for ( int j = 0; j < clients.size( ); j++ )
+			{
+				BackRef client = (BackRef) clients.get( j );
+				DesignElement element = client.getElement( );
+
+				StructRefValue value = (StructRefValue) element
+						.getLocalProperty( this, client.getPropertyName( ) );
+				assert value != null;
+				value.unresolved( value.getName( ) );
+				image.dropClient( element );
+				element.broadcast( new PropertyEvent( this, client
+						.getPropertyName( ) ) );
 			}
 		}
 

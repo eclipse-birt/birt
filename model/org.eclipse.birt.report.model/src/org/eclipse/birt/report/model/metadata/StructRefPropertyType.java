@@ -19,7 +19,6 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 import org.eclipse.birt.report.model.util.StructureRefUtil;
 
@@ -175,10 +174,10 @@ public class StructRefPropertyType extends PropertyType
 				.equals( defn.getName( ) ) )
 		{
 			String namespace = ref.getLibraryNamespace( );
-			targetModule = module.getVisibleLibraryWithNamespace( namespace );
+			targetModule = module.getLibraryWithNamespace( namespace );
 			if ( targetModule != null )
 			{
-				target = StructureRefUtil.findNativeStructure( targetModule,
+				target = StructureRefUtil.findStructure( targetModule,
 						targetDefn, ref.getName( ) );
 				if ( target != null )
 					ref.resolve( target );
@@ -186,14 +185,11 @@ public class StructRefPropertyType extends PropertyType
 		}
 		else
 		{
-			// for now, "imageName" can only refer a local embedded image except
-			// that extended from the parent
-
-			String namespace = module instanceof Library ? ( (Library) module )
-					.getNamespace( ) : null;
-			assert StringUtil.isEqual( namespace, ref.getLibraryNamespace( ) );
-			target = StructureRefUtil.findNativeStructure( module, targetDefn,
-					ref.getName( ) );
+			StructRefValue retValue = StructureRefUtil.resolve( module, defn,
+					ReferenceValueUtil.needTheNamespacePrefix( ref, module ) );
+			target = retValue.getStructure( );
+			ref.libraryNamespace = retValue.getLibraryNamespace( );
+			ref.name = retValue.getName( );
 			if ( target != null )
 				ref.resolve( target );
 		}

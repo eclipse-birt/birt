@@ -49,7 +49,7 @@ public class EditBindingAction extends InsertRowAction
 	{
 		return !SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.getAllDataSets( )
+				.getVisibleDataSets( )
 				.isEmpty( );
 	}
 

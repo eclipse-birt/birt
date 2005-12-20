@@ -965,7 +965,7 @@ public class ParameterDialog extends BaseDialog
 		ArrayList avaiableList = new ArrayList( );
 		for ( Iterator iter = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.getAllDataSets( )
+				.getVisibleDataSets( )
 				.iterator( ); iter.hasNext( ); )
 		{
 			DataSetHandle dataSet = (DataSetHandle) iter.next( );
@@ -1400,7 +1400,7 @@ public class ParameterDialog extends BaseDialog
 		setButtonLayoutData( importValue );
 		// Disabled when no date set defined
 		importValue.setEnabled( !inputParameter.getModuleHandle( )
-				.getAllDataSets( )
+				.getVisibleDataSets( )
 				.isEmpty( ) );
 		importValue.addSelectionListener( new SelectionAdapter( ) {
 

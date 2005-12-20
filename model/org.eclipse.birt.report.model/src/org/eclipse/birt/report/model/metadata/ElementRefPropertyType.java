@@ -276,8 +276,7 @@ public class ElementRefPropertyType extends PropertyType
 		IModuleNameSpace elementResolver = module
 				.getModuleNameSpace( targetDefn.getNameSpaceID( ) );
 
-		String name = ReferenceValueUtil.needTheNamespacePrefix( ref, null,
-				module );
+		String name = ReferenceValueUtil.needTheNamespacePrefix( ref, module );
 
 		// special case for theme property since it can be direcly referred.
 

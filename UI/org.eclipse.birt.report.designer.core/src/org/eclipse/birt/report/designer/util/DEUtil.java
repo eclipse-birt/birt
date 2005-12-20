@@ -1528,7 +1528,7 @@ public class DEUtil
 	public static List getDataSets( )
 	{
 		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
-				.getAllDataSets( );
+				.getVisibleDataSets( );
 	}
 
 	public static Iterator getThemes( )
@@ -1672,6 +1672,6 @@ public class DEUtil
 	public static List getDataSources( )
 	{
 		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
-				.getAllDataSources( );
+				.getVisibleDataSources( );
 	}
 }

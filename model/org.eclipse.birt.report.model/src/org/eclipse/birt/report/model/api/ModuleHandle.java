@@ -54,6 +54,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
+import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 import org.eclipse.birt.report.model.css.StyleSheetLoader;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.DataSet;
@@ -1333,7 +1334,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 				|| elementHandle.getModuleHandle( ) instanceof LibraryHandle
 				|| elementHandle.getName( ) != null )
 			module.makeUniqueName( elementHandle.getElement( ) );
-		
+
 		for ( int i = 0; i < defn.getSlotCount( ); i++ )
 		{
 			ContainerSlot slot = elementHandle.getElement( ).getSlot( i );
@@ -1616,9 +1617,24 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllDataSources( )
 	{
+		IModuleNameSpace namescope = module
+				.getModuleNameSpace( Module.DATA_SOURCE_NAME_SPACE );
+
+		List elementList = namescope.getElements( );
+		return generateHandleList( elementList );
+
+	}
+
+	/**
+	 * Returns data source handles that are visible to this modules.
+	 * 
+	 * @return data source handles that are visible to this modules.
+	 */
+
+	public List getVisibleDataSources( )
+	{
 		List elementList = module.getNameSpace( Module.DATA_SOURCE_NAME_SPACE )
 				.getElements( );
-
 		return generateHandleList( elementList );
 	}
 
@@ -1632,9 +1648,23 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllDataSets( )
 	{
+		IModuleNameSpace namescope = module
+				.getModuleNameSpace( Module.DATA_SET_NAME_SPACE );
+
+		List elementList = namescope.getElements( );
+		return generateHandleList( elementList );
+	}
+
+	/**
+	 * Returns data set handles that are visible to this modules.
+	 * 
+	 * @return data set handles that are visible to this modules.
+	 */
+
+	public List getVisibleDataSets( )
+	{
 		List elementList = module.getNameSpace( Module.DATA_SET_NAME_SPACE )
 				.getElements( );
-
 		return generateHandleList( elementList );
 	}
 

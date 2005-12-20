@@ -551,7 +551,7 @@ public class ChoiceSetFactory
 		ModuleHandle handle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 
-		for ( Iterator iterator = handle.getAllDataSets( ).iterator( ); iterator.hasNext( ); )
+		for ( Iterator iterator = handle.getVisibleDataSets( ).iterator( ); iterator.hasNext( ); )
 		{
 			DataSetHandle DataSetHandle = (DataSetHandle) iterator.next( );
 			list.add( DataSetHandle.getQualifiedName( ) );

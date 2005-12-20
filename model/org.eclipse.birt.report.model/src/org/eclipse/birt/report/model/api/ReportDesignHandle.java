@@ -165,8 +165,7 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public String getAfterCloseDoc( )
 	{
-		return "";
-//		return getStringProperty( AFTER_CLOSE_DOC_METHOD );
+		return ""; //$NON-NLS-1$
 	}
 
 	/**
@@ -191,8 +190,7 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public String getAfterOpenDoc( )
 	{
-		return "";
-//		return getStringProperty( AFTER_OPEN_DOC_METHOD );
+		return ""; //$NON-NLS-1$
 	}
 
 	/**
@@ -228,8 +226,7 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public String getBeforeCloseDoc( )
 	{
-		return "";
-//		return getStringProperty( BEFORE_CLOSE_DOC_METHOD );
+		return ""; //$NON-NLS-1$
 	}
 
 	/**
@@ -254,8 +251,7 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public String getBeforeOpenDoc( )
 	{
-		return "";
-//		return getStringProperty( BEFORE_OPEN_DOC_METHOD );
+		return ""; //$NON-NLS-1$
 	}
 
 	/**
