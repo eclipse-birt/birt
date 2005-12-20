@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.birt.report.data.oda.xml.DataTypes;
+import org.eclipse.birt.report.data.oda.xml.i18n.Messages;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
@@ -54,7 +55,7 @@ public class RelationInformation
 	private void initialize( String relationString ) throws OdaException
 	{
 		if( relationString == null|| relationString.length() == 0)
-			throw new OdaException( " The input string cannot be null/blank. ");
+			throw new OdaException( Messages.getString("RelationInformation.InputStringCannotBeNull"));
 		
 		String[] tables = relationString.split( CONST_TABLE_DELIMITER );
 		for ( int i = 0; i < tables.length; i++ )
@@ -485,7 +486,7 @@ class ColumnInfo
 		this.name = name;
 		this.type = type;
 		if( !DataTypes.isValidType( type ) )
-			throw new OdaException( "The given data type name is invalid.");
+			throw new OdaException( Messages.getString("RelationInformation.InvalidDataTypeName"));
 		this.path = fixTrailingAttr(buildPath( path ));
 		this.originalPath = originalPath;
 		String[] originalPathFrags = originalPath.split("/");
