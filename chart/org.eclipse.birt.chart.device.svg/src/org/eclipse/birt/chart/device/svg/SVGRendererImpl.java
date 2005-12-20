@@ -533,11 +533,13 @@ public class SVGRendererImpl extends SwingRendererImpl
 					elm.setAttribute("onmouseover", "TM.show(evt)"); //$NON-NLS-1$ //$NON-NLS-2$		
 					break;
 				case ActionType.URL_REDIRECT:
-					elm.setAttribute("onmousedown", //$NON-NLS-1$
-							"parent.location='" //$NON-NLS-1$
-									+ ((URLValue) tg.getAction().getValue())
-											.getBaseUrl() + "'"); //$NON-NLS-1$
-					setCursor(elm);
+					URLValue urlValue = ((URLValue) tg.getAction().getValue());
+					Element aLink = ((SVGGraphics2D)_g2d).createElement("a"); //$NON-NLS-1$
+					aLink.setAttribute("xlink:href", urlValue.getBaseUrl()); //$NON-NLS-1$
+					if (urlValue.getTarget() != null)
+						aLink.setAttribute("target", urlValue.getTarget()); //$NON-NLS-1$ 
+					aLink.appendChild(elm);
+					elm = aLink;
 					break;
 
 				case ActionType.TOGGLE_VISIBILITY :
