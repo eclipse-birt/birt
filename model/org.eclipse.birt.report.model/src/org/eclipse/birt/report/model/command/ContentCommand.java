@@ -24,9 +24,11 @@ import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.BackRef;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -416,42 +418,7 @@ public class ContentCommand extends AbstractElementCommand
 		stack.startFilterEventTrans( dropRecord.getLabel( ) );
 		try
 		{
-			// Remove contents.
-
-			removeContents( content );
-
-			// Clean up references to or from the element.
-
-			dropUserProperties( content );
-			if ( content.hasReferences( ) )
-				adjustReferenceClients( (ReferenceableElement) content,
-						unresolveReference );
-			adjustReferredClients( content );
-			adjustDerived( content );
-
-			// Drop the style...
-
-			if ( content.getStyle( module ) != null )
-			{
-				StyleCommand styleCmd = new StyleCommand( module, content );
-				styleCmd.setStyle( null );
-			}
-
-			// Drop the extends...
-
-			if ( content.getExtendsElement( ) != null )
-			{
-				ExtendsCommand extendsCmd = new ExtendsCommand( module, content );
-				extendsCmd.setExtendsName( null );
-			}
-
-			// Remove from name space...
-
-			if ( content.getName( ) != null )
-			{
-				NameCommand nameCmd = new NameCommand( module, content );
-				nameCmd.dropElement( );
-			}
+			doDelectAction( content, unresolveReference );
 		}
 		catch ( SemanticException ex )
 		{
@@ -1116,43 +1083,7 @@ public class ContentCommand extends AbstractElementCommand
 		stack.startFilterEventTrans( replaceRecord.getLabel( ) );
 		try
 		{
-			// Remove contents of old element.
-
-			removeContents( oldElement );
-
-			// Clean up references to or from the element.
-
-			dropUserProperties( oldElement );
-			if ( oldElement.hasReferences( ) )
-				adjustReferenceClients( (ReferenceableElement) oldElement,
-						unresolveReference );
-			adjustReferredClients( oldElement );
-			adjustDerived( oldElement );
-
-			// Drop the style...
-
-			if ( oldElement.getStyle( module ) != null )
-			{
-				StyleCommand styleCmd = new StyleCommand( module, oldElement );
-				styleCmd.setStyle( null );
-			}
-
-			// Drop the extends...
-
-			if ( oldElement.getExtendsElement( ) != null )
-			{
-				ExtendsCommand extendsCmd = new ExtendsCommand( module,
-						oldElement );
-				extendsCmd.setExtendsName( null );
-			}
-
-			// Remove from name space...
-
-			if ( oldElement.getName( ) != null )
-			{
-				NameCommand nameCmd = new NameCommand( module, oldElement );
-				nameCmd.dropElement( );
-			}
+			doDelectAction( oldElement, unresolveReference );
 		}
 		catch ( SemanticException ex )
 		{
@@ -1177,5 +1108,70 @@ public class ContentCommand extends AbstractElementCommand
 		}
 
 		stack.commit( );
+	}
+
+	/**
+	 * Does some actions when the content is removed from the design tree.
+	 * 
+	 * @param content
+	 *            the content to remove
+	 * @param unresolveReference
+	 *            status whether to un-resolve the references
+	 * @throws SemanticException
+	 */
+
+	private void doDelectAction( DesignElement content,
+			boolean unresolveReference ) throws SemanticException
+	{
+		// Remove contents.
+
+		removeContents( content );
+
+		// Clean up references to or from the element.
+
+		dropUserProperties( content );
+		if ( content.hasReferences( ) )
+			adjustReferenceClients( (ReferenceableElement) content,
+					unresolveReference );
+		adjustReferredClients( content );
+		adjustDerived( content );
+
+		// Drop the style...
+
+		if ( content.getStyle( module ) != null )
+		{
+			StyleCommand styleCmd = new StyleCommand( module, content );
+			styleCmd.setStyle( null );
+		}
+
+		// Drop the extends...
+
+		if ( content.getExtendsElement( ) != null )
+		{
+			ExtendsCommand extendsCmd = new ExtendsCommand( module, content );
+			extendsCmd.setExtendsName( null );
+		}
+
+		// Remove from name space...
+
+		if ( content.getName( ) != null )
+		{
+			NameCommand nameCmd = new NameCommand( module, content );
+			nameCmd.dropElement( );
+		}
+
+		// Drop the property binding
+
+		List propertyBindings = module.getPropertyBindings( content );
+		for ( int i = 0; i < propertyBindings.size( ); i++ )
+		{
+			PropertyBinding propBinding = (PropertyBinding) propertyBindings
+					.get( i );
+			ElementPropertyDefn propDefn = module
+					.getPropertyDefn( Module.PROPERTY_BINDINGS_PROP );
+			PropertyCommand propCommand = new PropertyCommand( module, module );
+			propCommand.removeItem( new CachedMemberRef( propDefn ),
+					propBinding );
+		}
 	}
 }

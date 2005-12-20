@@ -61,8 +61,6 @@ import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.TranslationTable;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
-import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -295,11 +293,11 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 */
 
 	protected Exception fatalException;
-	
+
 	/**
 	 * The registered name manager of this module.
 	 */
-	
+
 	protected INameManager nameManager = null;
 
 	/**
@@ -324,9 +322,9 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		setID( getNextID( ) );
 		addElementID( this );
-		
+
 		// initialize the name manager
-		
+
 		nameManager = new NameManager( this );
 	}
 
@@ -1362,9 +1360,9 @@ public abstract class Module extends DesignElement implements IModuleModel
 				}
 			}
 		}
-		
+
 		// clear the name manager
-		
+
 		this.nameManager.clear( );
 	}
 
@@ -2458,5 +2456,36 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		}
 		return null;
+	}
+
+	/**
+	 * Gets all the defined property bindings for the given element. Each one in
+	 * the list is instance of <code>PropertyBinding</code>.
+	 * 
+	 * @param element
+	 *            the element to find
+	 * @return the property binding list defined for the element
+	 */
+
+	public List getPropertyBindings( DesignElement element )
+	{
+		if ( element == null )
+			return Collections.EMPTY_LIST;
+
+		List propertyBindings = getListProperty( this, PROPERTY_BINDINGS_PROP );
+		if ( propertyBindings == null )
+			return Collections.EMPTY_LIST;
+
+		List result = new ArrayList( );
+		for ( int i = 0; i < propertyBindings.size( ); i++ )
+		{
+			PropertyBinding propBinding = (PropertyBinding) propertyBindings
+					.get( i );
+			BigDecimal id = propBinding.getID( );
+			if ( id != null && getElementByID( id.longValue( ) ) == element )
+				result.add( propBinding );
+
+		}
+		return result;
 	}
 }

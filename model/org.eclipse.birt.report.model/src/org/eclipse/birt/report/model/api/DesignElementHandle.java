@@ -2034,6 +2034,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( defn == null )
 			throw new SemanticError( getElement( ), new String[]{propName},
 					SemanticError.DESIGN_EXCEPTION_INVALID_PROPERTY_NAME );
+		if ( Module.PROPERTY_BINDINGS_PROP.equals( defn.getName( ) ) )
+			return;
 
 		// check the element is in the id-map of the root module
 
