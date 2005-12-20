@@ -41,7 +41,7 @@ import org.xml.sax.SAXException;
  * with the returned module.
  */
 
-public class ModuleReader
+public abstract class ModuleReader
 {
 
 	/**
