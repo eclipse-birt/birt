@@ -2886,48 +2886,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 									la );
 							itmText.reuse( la ); // RECYCLED
-							dH = itmText.getFullHeight( );
-							dW = itmText.getFullWidth( );
-							dHCosTheta = dH * dCosTheta;
-							if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-							{
-								if ( iLabelLocation == IConstants.LEFT )
-								{
-									dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
-											/ 2
-											- dW
-											* dSineTheta;
-								}
-								else if ( iLabelLocation == IConstants.RIGHT )
-								{
-									dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
-											/ 2
-											- dHCosTheta;
-								}
-							}
-							else if ( dAngleInDegrees < 0
-									&& dAngleInDegrees > -90 )
-							{
-								if ( iLabelLocation == IConstants.LEFT )
-								{
-									dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
-											/ 2
-											- dHCosTheta;
-								}
-								else if ( iLabelLocation == IConstants.RIGHT )
-								{
-									dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
-											/ 2
-											- dW
-											* dSineTheta;
-								}
-							}
-							else if ( dAngleInDegrees == 0
-									|| dAngleInDegrees == 90
-									|| dAngleInDegrees == -90 )
-							{
-								dOffset = -dUnitSize / 2;
-							}
+							dOffset = -dUnitSize / 2;
 						}
 					}
 
@@ -3983,53 +3942,9 @@ public abstract class AxesRenderer extends BaseRenderer
 									getRunTimeContext( ).getScriptContext( ) );
 							getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 									la );
-							itmText.reuse( la );// RECYCLED
-							dH = itmText.getFullHeight( );
-							dW = itmText.getFullWidth( );
-							dHSineTheta = dH * dSineTheta;
-							if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-							{
-								if ( iLabelLocation == IConstants.ABOVE )
-								{
-									dOffset = dUnitSize
-											/ 2
-											- ( dW * dCosTheta + dHSineTheta )
-											/ 2
-											+ dHSineTheta;
-								}
-								else if ( iLabelLocation == IConstants.BELOW )
-								{
-									dOffset = dUnitSize
-											+ dHSineTheta
-											- ( dUnitSize - dW * dCosTheta + dHSineTheta )
-											/ 2
-											- dHSineTheta;
-								}
-							}
-							else if ( dAngleInDegrees < 0
-									&& dAngleInDegrees > -90 )
-							{
-								if ( iLabelLocation == IConstants.ABOVE )
-								{
-									dOffset = dUnitSize
-											/ 2
-											- dHSineTheta
-											/ 2
-											+ ( dW * dCosTheta + dHSineTheta )
-											/ 2;
-								}
-								else if ( iLabelLocation == IConstants.BELOW )
-								{
-									dOffset = ( dUnitSize - dW * dCosTheta + dHSineTheta ) / 2;
-								}
-							}
-							else if ( dAngleInDegrees == 0
-									|| dAngleInDegrees == 90
-									|| dAngleInDegrees == -90 )
-							{
-								dOffset = dUnitSize / 2;
-							}
-
+							itmText.reuse( la );// RECYCLED		
+							
+							dOffset = dUnitSize / 2;
 							double sy = y;
 							if ( bAxisLabelStaggered && i % 2 == 1 )
 							{
