@@ -332,7 +332,8 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 		fdcFont = new FontDefinitionComposite( grpAttributes,
 				SWT.NONE,
 				getSeriesForProcessing( ).getLabel( ).getCaption( ).getFont( ),
-				getSeriesForProcessing( ).getLabel( ).getCaption( ).getColor( ) );
+				getSeriesForProcessing( ).getLabel( ).getCaption( ).getColor( ),
+				false );
 		GridData gdFDCFont = new GridData( GridData.FILL_BOTH );
 		gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
 		gdFDCFont.widthHint = 96;

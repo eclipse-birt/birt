@@ -208,7 +208,8 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet
 		fdcFont = new FontDefinitionComposite( cmpLabelInner,
 				SWT.NONE,
 				getTrendline( ).getLabel( ).getCaption( ).getFont( ),
-				getTrendline( ).getLabel( ).getCaption( ).getColor( ) );
+				getTrendline( ).getLabel( ).getCaption( ).getColor( ),
+				false );
 		GridData gdFDCFont = new GridData( GridData.FILL_BOTH );
 		gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
 		gdFDCFont.widthHint = 96;

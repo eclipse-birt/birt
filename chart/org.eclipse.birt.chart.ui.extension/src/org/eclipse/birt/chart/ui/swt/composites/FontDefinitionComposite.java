@@ -32,8 +32,9 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class FontDefinitionComposite extends Composite implements
-		SelectionListener
+public class FontDefinitionComposite extends Composite
+		implements
+			SelectionListener
 {
 
 	private transient Composite cmpContent = null;
@@ -58,16 +59,22 @@ public class FontDefinitionComposite extends Composite implements
 
 	private transient boolean bEnabled = true;
 
-	/**
-	 * @param parent
-	 * @param style
-	 */
+	private transient boolean isAlignmentEnabled = true;
+
 	public FontDefinitionComposite( Composite parent, int style,
 			FontDefinition fdSelected, ColorDefinition cdSelected )
+	{
+		this( parent, style, fdSelected, cdSelected, true );
+	}
+
+	public FontDefinitionComposite( Composite parent, int style,
+			FontDefinition fdSelected, ColorDefinition cdSelected,
+			boolean isAlignmentEnabled )
 	{
 		super( parent, style );
 		this.fdCurrent = fdSelected;
 		this.cdCurrent = cdSelected;
+		this.isAlignmentEnabled = isAlignmentEnabled;
 		init( );
 		placeComponents( );
 	}
@@ -177,7 +184,8 @@ public class FontDefinitionComposite extends Composite implements
 			// Launch the font selection dialog
 			FontDefinitionDialog fontDlg = new FontDefinitionDialog( this.getShell( ),
 					fdCurrent,
-					cdCurrent );
+					cdCurrent,
+					isAlignmentEnabled );
 			if ( !fontDlg.wasCancelled( ) )
 			{
 				fdCurrent = fontDlg.getFontDefinition( );

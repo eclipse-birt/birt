@@ -111,7 +111,8 @@ public class LegendTextSheet extends AbstractPopupSheet
 		fdcFont = new FontDefinitionComposite( grpTxtArea,
 				SWT.NONE,
 				getLegend( ).getText( ).getFont( ),
-				getLegend( ).getText( ).getColor( ) );
+				getLegend( ).getText( ).getColor( ),
+				false );
 		GridData gdFDCFont = new GridData( GridData.FILL_HORIZONTAL );
 		gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
 		gdFDCFont.grabExcessVerticalSpace = false;

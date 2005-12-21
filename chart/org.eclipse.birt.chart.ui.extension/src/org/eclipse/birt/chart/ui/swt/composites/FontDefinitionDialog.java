@@ -117,11 +117,20 @@ public class FontDefinitionDialog
 
 	private transient boolean bCancelled = true;
 
+	private transient boolean isAlignmentEnabled = true;
+
 	private transient List listAlighmentButtons = new ArrayList( 9 );
 
 	public FontDefinitionDialog( Shell shellParent, FontDefinition fdCurrent,
 			ColorDefinition cdCurrent )
 	{
+		this( shellParent, fdCurrent, cdCurrent, true );
+	}
+
+	public FontDefinitionDialog( Shell shellParent, FontDefinition fdCurrent,
+			ColorDefinition cdCurrent, boolean isAlignmentEnabled )
+	{
+		this.isAlignmentEnabled = isAlignmentEnabled;
 		this.fdCurrent = fdCurrent == null ? FontDefinitionImpl.createEmpty( )
 				: (FontDefinition) EcoreUtil.copy( fdCurrent );
 		this.cdCurrent = cdCurrent == null ? ColorDefinitionImpl.create( 0,
@@ -135,7 +144,7 @@ public class FontDefinitionDialog
 		placeComponents( );
 		populateLists( );
 		shell.setText( Messages.getString( "FontDefinitionDialog.Title.FontDescriptor" ) ); //$NON-NLS-1$
-		shell.setSize( 450, 360 );
+		shell.setSize( 450, isAlignmentEnabled ? 360 : 320 );
 		shell.setDefaultButton( btnAccept );
 		UIHelper.centerOnScreen( shell );
 		shell.layout( );
@@ -237,7 +246,10 @@ public class FontDefinitionDialog
 		cbWrap.setSelection( fdCurrent.isSetWordWrap( )
 				&& fdCurrent.isWordWrap( ) );
 
-		createAlignmentPanel( );
+		if ( isAlignmentEnabled )
+		{
+			createAlignmentPanel( );
+		}
 
 		createRotationPanel( );
 
@@ -502,7 +514,7 @@ public class FontDefinitionDialog
 		}
 
 		// Select alignment button
-		if ( fdCurrent.getAlignment( ) != null )
+		if ( isAlignmentEnabled && fdCurrent.getAlignment( ) != null )
 		{
 			HorizontalAlignment ha = fdCurrent.getAlignment( )
 					.getHorizontalAlignment( );

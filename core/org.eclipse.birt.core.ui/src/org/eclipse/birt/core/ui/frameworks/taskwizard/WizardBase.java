@@ -79,7 +79,9 @@ public class WizardBase
 
 	private transient String wizardTitle = "Task Wizard"; //$NON-NLS-1$
 
-	private transient Image wizardImage = null;
+	private transient Image imgShell = null;
+
+	transient Image imgTitle = null;
 
 	// TRANSIENT STORAGE FOR ERRORS REPORTED BY TASKS USING 'errorDisplay()'
 	private transient Object[] errorHints = null;
@@ -128,9 +130,9 @@ public class WizardBase
 		shell.setLayout( glShell );
 		shell.setSize( iWizardWidthMinimum, iWizardHeightMinimum );
 		shell.setText( wizardTitle );
-		if ( wizardImage != null )
+		if ( imgShell != null )
 		{
-			shell.setImage( wizardImage );
+			shell.setImage( imgShell );
 		}
 		shell.addControlListener( this );
 
@@ -431,15 +433,18 @@ public class WizardBase
 	 *            wizard title
 	 * @param wizardImage
 	 *            wizard image
+	 * @param imgTaskbar
+	 *            image displayed in the task bar. If null, leave blank.
 	 */
 	public WizardBase( String sID, int iInitialWidth, int iInitialHeight,
-			String wizardTitle, Image wizardImage )
+			String wizardTitle, Image wizardImage, Image imgTaskbar )
 	{
 		this( sID );
 		this.iWizardWidthMinimum = iInitialWidth;
 		this.iWizardHeightMinimum = iInitialHeight;
 		this.wizardTitle = wizardTitle;
-		this.wizardImage = wizardImage;
+		this.imgShell = wizardImage;
+		this.imgTitle = imgTaskbar;
 	}
 
 	public WizardBase( )
@@ -788,13 +793,13 @@ class TaskList extends Composite implements DisposeListener
 	public void addTask( String sTaskLabel )
 	{
 		vTasks.add( sTaskLabel );
-		addButton( );
+		addItem( );
 	}
 
 	public void removeTask( String sTaskLabel )
 	{
 		vTasks.remove( sTaskLabel );
-		findButton( sTaskLabel, true );
+		findItem( sTaskLabel, true );
 	}
 
 	public void insertTask( int iTaskIndex, String sTaskLabel )
@@ -810,19 +815,13 @@ class TaskList extends Composite implements DisposeListener
 		{
 			if ( c[i] instanceof Button )
 			{
-				if ( ( (Button) c[i] ).getText( ).equals( sTaskLabel ) )
-				{
-					( (Button) c[i] ).setSelection( false );
-				}
-				else
-				{
-					( (Button) c[i] ).setSelection( true );
-				}
+				( (Button) c[i] ).setSelection( ( (Button) c[i] ).getText( )
+						.equals( sTaskLabel ) );
 			}
 		}
 	}
 
-	private int findButton( String sTaskLabel, boolean bRemove )
+	private int findItem( String sTaskLabel, boolean bRemove )
 	{
 		Control[] c = tbTasks.getChildren( );
 		for ( int i = 0; i < c.length; i++ )
@@ -843,7 +842,7 @@ class TaskList extends Composite implements DisposeListener
 		return -1;
 	}
 
-	private void addButton( )
+	private void addItem( )
 	{
 		Button btnTask = new Button( tbTasks, SWT.FLAT | SWT.TOGGLE );
 		String taskText = (String) vTasks.get( vTasks.size( ) - 1 );
@@ -876,9 +875,9 @@ class TaskList extends Composite implements DisposeListener
 					.getSystemColor( SWT.COLOR_WHITE ) );
 		}
 
-		Label titleImage = new Label( this, SWT.NONE );
+		if ( wb.imgTitle != null )
 		{
-			titleImage.setImage( UIHelper.getImage( "icons/create_report_wizard.gif" ) ); //$NON-NLS-1$
+			new Label( this, SWT.NONE ).setImage( wb.imgTitle );
 		}
 	}
 
