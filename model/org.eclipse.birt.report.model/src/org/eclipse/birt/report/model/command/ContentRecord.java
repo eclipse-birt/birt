@@ -343,7 +343,7 @@ public class ContentRecord extends SimpleRecord
 		// is parameter or parameter group.
 
 		if ( content instanceof Parameter || content instanceof ParameterGroup
-				|| content instanceof DataSet )
+				|| content instanceof DataSet || content instanceof StyleElement )
 		{
 			event = new ElementDeletedEvent( container, content );
 			if ( state == DONE_STATE )

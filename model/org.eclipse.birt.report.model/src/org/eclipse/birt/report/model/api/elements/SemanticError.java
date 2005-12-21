@@ -37,7 +37,7 @@ public class SemanticError extends SemanticException
 	 * slots.
 	 */
 
-	public static final String DESIGN_EXCEPTION_INCONSITENT_TABLE_COL_COUNT = MessageConstants.SEMANTIC_ERROR_INCONSITENT_TABLE_COL_COUNT;
+	public static final String DESIGN_EXCEPTION_INCONSITENT_TABLE_COL_COUNT = MessageConstants.SEMANTIC_ERROR_INCONSISTENT_TABLE_COL_COUNT;
 
 	/**
 	 * Error code indicating the table has inconsistent column count because of
@@ -45,14 +45,14 @@ public class SemanticError extends SemanticException
 	 * cell count in header, detail, and foot slots.
 	 */
 
-	public static final String DESIGN_EXCEPTION_INCONSITENT_TABLE_COL_COUNT_WITH_DROP = MessageConstants.SEMANTIC_ERROR_INCONSITENT_TABLE_COL_COUNT_COZ_DROP;
+	public static final String DESIGN_EXCEPTION_INCONSITENT_TABLE_COL_COUNT_WITH_DROP = MessageConstants.SEMANTIC_ERROR_INCONSISTENT_TABLE_COL_COUNT_COZ_DROP;
 
 	/**
 	 * Error code indicating the grid has inconsistent column count. The column
 	 * count should match the maximum cell count in rows.
 	 */
 
-	public static final String DESIGN_EXCEPTION_INCONSITENT_GRID_COL_COUNT = MessageConstants.SEMANTIC_ERROR_INCONSITENT_GRID_COL_COUNT;
+	public static final String DESIGN_EXCEPTION_INCONSITENT_GRID_COL_COUNT = MessageConstants.SEMANTIC_ERROR_INCONSISTENT_GRID_COL_COUNT;
 
 	/**
 	 * Error code indicating the table has overlapping cells. Cell is forbidden
@@ -66,7 +66,7 @@ public class SemanticError extends SemanticException
 	 * group header of the table.
 	 */
 
-	public static final String DESIGN_EXCEPTION_INCONSITENT_DROP_HEADINGS = MessageConstants.SEMANTIC_ERROR_INCONSITENT_DROP_HEADINGS;
+	public static final String DESIGN_EXCEPTION_INCONSITENT_DROP_HEADINGS = MessageConstants.SEMANTIC_ERROR_INCONSISTENT_DROP_HEADINGS;
 
 	/**
 	 * Error code indicating the master page size is invalid. The size should be

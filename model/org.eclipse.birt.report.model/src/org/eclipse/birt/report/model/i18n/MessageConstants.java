@@ -130,16 +130,16 @@ public interface MessageConstants
 	public static final String PROPERTY_VALUE_EXCEPTION_DOT_FORBIDDEN = "Error.PropertyValueException.DOT_FORBIDDEN"; //$NON-NLS-1$
 	
 	// SemanticError
-	public static final String SEMANTIC_ERROR_INCONSITENT_TABLE_COL_COUNT = "Error.SemanticError.INCONSITENT_TABLE_COL_COUNT"; //$NON-NLS-1$
-	public static final String SEMANTIC_ERROR_INCONSITENT_TABLE_COL_COUNT_COZ_DROP = "Error.SemanticError.INCONSITENT_TABLE_COL_COUNT_COZ_DROP"; //$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_INCONSISTENT_TABLE_COL_COUNT = "Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT"; //$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_INCONSISTENT_TABLE_COL_COUNT_COZ_DROP = "Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT_COZ_DROP"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_OVERLAPPING_CELLS = "Error.SemanticError.OVERLAPPING_CELLS"; //$NON-NLS-1$
-	public static final String SEMANTIC_ERROR_INCONSITENT_DROP_HEADINGS = "Error.SemanticError.INCONSITENT_TABLE_DROP_HEADINGS"; //$NON-NLS-1$	
+	public static final String SEMANTIC_ERROR_INCONSISTENT_DROP_HEADINGS = "Error.SemanticError.INCONSISTENT_TABLE_DROP_HEADINGS"; //$NON-NLS-1$	
 	public static final String SEMANTIC_ERROR_INVALID_PAGE_SIZE = "Error.SemanticError.INVALID_PAGE_SIZE"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INVALID_PAGE_MARGINS = "Error.SemanticError.INVALID_PAGE_MARGINS"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_MISSING_PAGE_SIZE = "Error.SemanticError.MISSING_PAGE_SIZE"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_MISSING_MASTER_PAGE = "Error.SemanticError.MISSING_MASTER_PAGE"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INVALID_MULTI_COLUMN = "Error.SemanticError.INVALID_MULTI_COLUMN"; //$NON-NLS-1$
-	public static final String SEMANTIC_ERROR_INCONSITENT_GRID_COL_COUNT = "Error.SemanticError.INCONSITENT_GRID_COL_COUNT"; //$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_INCONSISTENT_GRID_COL_COUNT = "Error.SemanticError.INCONSISTENT_GRID_COL_COUNT"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INVALID_ELEMENT_REF = "Error.SemanticError.INVALID_ELEMENT_REF"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_MISSING_SQL_STMT = "Error.SemanticError.MISSING_SQL_STMT"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INVALID_IMAGE_SCALE_VALUE = "Error.SemanticError.INVALID_IMAGE_SCALE_VALUE"; //$NON-NLS-1$

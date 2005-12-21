@@ -318,6 +318,13 @@ public abstract class StyledElement extends DesignElement
 			value = getPropertyFromSelfSelector( module, prop );
 			if ( value != null )
 				return value;
+			
+			// Check if the container/slot predefined style provides
+			// the value
+
+			value = getPropertyFromSlotSelector( module, prop );
+			if ( value != null )
+				return value;
 		}
 		return null;
 	}
