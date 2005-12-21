@@ -86,6 +86,8 @@ final public class XPathPopulationUtil
 			String[] rootPathFrags = rootPath.split("/");
 			String[] columnPathFrags = columnPath.replaceAll("\\Q[@\\E","/@").split("/");
 			
+			if( rootPathFrags.length < 2 || columnPathFrags.length < 2 )
+				return result;
 			int startingIndex = 0;
 			int endingIndex = 0;
 			
