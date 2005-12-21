@@ -641,7 +641,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 		module.translations = (TranslationTable) translations.clone( );
 		module.validationExecutor = new ValidationExecutor( module );
 		module.validationListeners = null;
-		module.setID( module.getNextID( ) );
+		assert module.getID( ) > NO_ID;
+		assert module.getElementByID( module.getID( ) ) == null;
 		module.addElementID( module );
 
 		// clone module name space and name space
@@ -721,8 +722,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		ElementDefn defn = (ElementDefn) element.getDefn( );
 
-		element.setID( module.getNextID( ) );
 		assert module.getElementByID( element.getID( ) ) == null;
+		assert element.getID( ) > NO_ID;
 		module.addElementID( element );
 
 		// The name should not be null if it is required. The parser state
@@ -1320,7 +1321,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 					// Remove the element from the ID map if we are using
 					// IDs.
 
-					module.manageId( templateParam, false, false );
+					module.manageId( templateParam, false );
 
 					// Clear the inverse relationship.
 
@@ -2255,15 +2256,9 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            the element to add
 	 * @param isAdd
 	 *            whether to add or remove the element id
-	 * @param forceReSet
-	 *            status identifying whether to force to create an id for the
-	 *            element and its contents, if true, generate a new id for them
-	 *            even though they already have a non-zero and unique one,
-	 *            otherwise false
 	 */
 
-	public void manageId( DesignElement element, boolean isAdd,
-			boolean forceReSet )
+	public void manageId( DesignElement element, boolean isAdd )
 	{
 		if ( element == null )
 			return;
@@ -2276,12 +2271,18 @@ public abstract class Module extends DesignElement implements IModuleModel
 		IElementDefn defn = element.getDefn( );
 		if ( isAdd )
 		{
-			if ( forceReSet || element.getID( ) == 0 )
+			// the element has no id or a duplicate id, re-allocate another one
+
+			if ( element.getID( ) <= NO_ID
+					|| ( getElementByID( element.getID( ) ) != null && getElementByID( element
+							.getID( ) ) != element ) )
 			{
 				element.setID( getNextID( ) );
 				assert getElementByID( element.getID( ) ) == null;
-				addElementID( element );
 			}
+
+			if ( getElementByID( element.getID( ) ) == null )
+				addElementID( element );
 		}
 		else
 		{
@@ -2298,7 +2299,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 			for ( int pos = 0; pos < slot.getCount( ); pos++ )
 			{
 				DesignElement innerElement = slot.getContent( pos );
-				manageId( innerElement, isAdd, forceReSet );
+				manageId( innerElement, isAdd );
 			}
 		}
 	}

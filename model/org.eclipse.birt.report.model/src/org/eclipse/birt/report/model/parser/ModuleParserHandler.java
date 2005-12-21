@@ -230,7 +230,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		
 		// the module is ok, then allocate the id for it and its contents
 		
-		module.manageId( module, true, false );
+		module.manageId( module, true );
 
 		// Perform semantic check. The semantic error is recoverable.
 

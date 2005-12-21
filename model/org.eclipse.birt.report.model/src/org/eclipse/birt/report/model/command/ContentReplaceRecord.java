@@ -154,7 +154,7 @@ public class ContentReplaceRecord extends SimpleRecord
 
 		slot.remove( oldElement );
 		if ( oldElement.getRoot( ) != null )
-			module.manageId( oldElement, false, false );
+			module.manageId( oldElement, false );
 		oldElement.setContainer( null, DesignElement.NO_SLOT );
 
 		// add new one
@@ -162,7 +162,7 @@ public class ContentReplaceRecord extends SimpleRecord
 		slot.insert( newElement, posn );
 		newElement.setContainer( container, slotID );
 		if ( newElement.getRoot( ) != null )
-			module.manageId( newElement, true, true );
+			module.manageId( newElement, true );
 	}
 
 	/*

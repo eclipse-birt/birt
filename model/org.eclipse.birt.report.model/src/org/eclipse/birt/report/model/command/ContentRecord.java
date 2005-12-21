@@ -229,7 +229,7 @@ public class ContentRecord extends SimpleRecord
 			// element IDs.
 
 			if ( content.getRoot( ) != null )
-				module.manageId( content, true, true );
+				module.manageId( content, true );
 		}
 		else
 		{
@@ -239,7 +239,7 @@ public class ContentRecord extends SimpleRecord
 			// IDs.
 
 			if ( content.getRoot( ) != null )
-				module.manageId( content, false, false );
+				module.manageId( content, false );
 
 			// Clear the inverse relationship.
 

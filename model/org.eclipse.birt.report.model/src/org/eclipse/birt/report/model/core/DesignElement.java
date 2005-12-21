@@ -578,7 +578,7 @@ public abstract class DesignElement
 	 * Allows web applications to refer to the element by ID.
 	 */
 
-	protected long id = 0;
+	protected long id = NO_ID;
 
 	/**
 	 * Cached element definition. Cached for speed since the definition cannot
@@ -611,6 +611,12 @@ public abstract class DesignElement
 	 */
 
 	public final static long NO_BASE_ID = -1;
+	
+	/**
+	 * Constant indicate that the element has no id.
+	 */
+	
+	public final static long NO_ID = 0;
 
 	/**
 	 * Support for id inheritance. If it is set, base id must be larger than
@@ -3627,9 +3633,12 @@ public abstract class DesignElement
 		element.extendsRef = null;
 		element.cachedDefn = null;
 		element.handle = null;
-		element.id = 0;
 		element.baseId = NO_BASE_ID;
 		element.propValues = new HashMap( );
+
+		// the element id is the same as the matrix, then if we add the copy to
+		// the design tree, we will check the id and re-allocate a unique name
+		// for it. This is the same issue as the name does.
 
 		DesignElement current = this;
 		Iterator iter = null;
