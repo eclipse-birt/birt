@@ -127,6 +127,7 @@
 		 		- ${plugin.version} the version of plugin exported
 	 -->
 	<target name="Export">
+	  	<xmlproperty file="plugin.xml" collapseAttributes="true"/>
 		<property name="plugin.name" value="${module.name}_${plugin.version}" />
 		<copy todir="${export.dir}\${plugin.name}">
 			<fileset dir=".">
