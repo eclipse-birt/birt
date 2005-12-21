@@ -452,7 +452,7 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 			FileDialog fileChooser = new FileDialog( shell, SWT.OPEN );
 			fileChooser.setText( Messages.getString( "MarkerIconDialog.Chooser.Title" ) ); //$NON-NLS-1$
 			fileChooser.setFilterExtensions( new String[]{
-					"*.gif", "*.jpg", "*.png", "*.ico", "*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+					"*.gif", "*.jpg", "*.png" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			} );
 			
 			try

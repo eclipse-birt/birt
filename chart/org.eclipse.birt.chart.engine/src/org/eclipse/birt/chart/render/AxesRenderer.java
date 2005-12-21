@@ -2658,7 +2658,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		int iMinorTickStyle = ax.getGrid( ).getTickStyle( IConstants.MINOR );
 		int iLabelLocation = ax.getLabelPosition( );
 		int iOrientation = ax.getOrientation( );
-		Label la = ax.getLabel( );
+		Label la = (Label) EcoreUtil.copy( ax.getLabel( ) );
 		final IDisplayServer xs = this.getDevice( ).getDisplayServer( );
 
 		double[] daEndPoints = sc.getEndPoints( );
@@ -3600,7 +3600,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 			}
 
-			la = ax.getTitle( ); // TEMPORARILY USE FOR AXIS TITLE
+			la = (Label) EcoreUtil.copy( ax.getTitle( ) ); // TEMPORARILY USE
+			// FOR AXIS TITLE
 			if ( la.isVisible( ) && bRenderAxisTitle )
 			{
 				ScriptHandler.callFunction( sh,
@@ -3688,7 +3689,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_AXIS_TITLE,
 						la );
 			}
-			la = ax.getLabel( );
+			la = (Label) EcoreUtil.copy( ax.getLabel( ) );
 
 			if ( iv != null
 					&& iv.getType( ) == IntersectionValue.MAX
@@ -4657,7 +4658,8 @@ public abstract class AxesRenderer extends BaseRenderer
 			}
 
 			// RENDER THE AXIS TITLE
-			la = ax.getTitle( ); // TEMPORARILY USE FOR AXIS TITLE
+			la = (Label) EcoreUtil.copy( ax.getTitle( ) ); // TEMPORARILY USE
+			// FOR AXIS TITLE
 			if ( la.isVisible( ) && bRenderAxisTitle )
 			{
 				ScriptHandler.callFunction( sh,
@@ -4753,7 +4755,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_AXIS_TITLE,
 						la );
 			}
-			la = ax.getLabel( ); // RESTORE BACK TO AXIS LABEL
+			la = (Label) EcoreUtil.copy( ax.getLabel( ) ); // RESTORE BACK TO
+															// AXIS LABEL
 
 			if ( iv != null
 					&& iv.getType( ) == IntersectionValue.MAX

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -20,10 +21,12 @@ import java.net.URL;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.util.Base64;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -190,15 +193,25 @@ class FillCanvas extends Canvas implements PaintListener
 		org.eclipse.swt.graphics.Image img = null;
 		try
 		{
-			try
+			if ( modelImage instanceof EmbeddedImage )
 			{
-				img = new org.eclipse.swt.graphics.Image( Display.getCurrent( ),
-						new URL( modelImage.getURL( ) ).openStream( ) );
+				ByteArrayInputStream bis = new ByteArrayInputStream( Base64.decode( ( (EmbeddedImage) modelImage ).getData( ) ) );
+
+				img = new org.eclipse.swt.graphics.Image( Display.getDefault( ),
+						bis );
 			}
-			catch ( MalformedURLException e1 )
+			else
 			{
-				img = new org.eclipse.swt.graphics.Image( Display.getCurrent( ),
-						new FileInputStream( modelImage.getURL( ) ) );
+				try
+				{
+					img = new org.eclipse.swt.graphics.Image( Display.getCurrent( ),
+							new URL( modelImage.getURL( ) ).openStream( ) );
+				}
+				catch ( MalformedURLException e1 )
+				{
+					img = new org.eclipse.swt.graphics.Image( Display.getCurrent( ),
+							new FileInputStream( modelImage.getURL( ) ) );
+				}
 			}
 		}
 		catch ( FileNotFoundException ex )

@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Vector;
 
@@ -21,10 +18,10 @@ import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
-import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -52,7 +49,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
@@ -92,10 +88,6 @@ public class FillChooserComposite extends Composite implements
 	private transient Button btnImage = null;
 
 	private static Color[] colorArray = null;
-
-	private final String[] saImageTypes = new String[]{
-			"*.gif", "*.jpg", "*.png" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-	};
 
 	private transient boolean bGradientEnabled = true;
 
@@ -491,46 +483,21 @@ public class FillChooserComposite extends Composite implements
 		}
 		else if ( oSource.equals( this.btnImage ) )
 		{
-			FileDialog fDlg = new FileDialog( this.getShell( ), SWT.OPEN );
+			ImageDialog idlg = new ImageDialog( this.getShell( ), fCurrent );
 			cmpDropDown.getParent( ).dispose( );
-			fDlg.setFilterExtensions( saImageTypes );
-			String sStartFolder = System.getProperty( "user.dir" ); //$NON-NLS-1$
-			String sImageFile = ""; //$NON-NLS-1$
-			if ( fCurrent instanceof Image )
+			if ( idlg.open( ) == Window.OK )
 			{
-				String sFullPath = ( (Image) fCurrent ).getURL( ).toString( );
-				sImageFile = sFullPath.substring( sFullPath.lastIndexOf( "/" ) + 1 ); //$NON-NLS-1$
-				sStartFolder = sFullPath.substring( 0,
-						sFullPath.lastIndexOf( "/" ) ); //$NON-NLS-1$
-			}
-			fDlg.setFilterPath( sStartFolder );
-			fDlg.setFileName( sImageFile );
-			String sImgPath = fDlg.open( );
+				Fill imgFill = idlg.getResult( );
 
-			// Do nothing if dialog was cancelled
-			if ( sImgPath == null )
-			{
-				return;
-			}
-
-			try
-			{
-				new URL( sImgPath );
-			}
-			catch ( MalformedURLException e1 )
-			{
-				sImgPath = "file:///" + fDlg.getFilterPath( ) + File.separator + fDlg.getFileName( ); //$NON-NLS-1$
-			}
-			if ( sImgPath != null && sImgPath.trim( ).length( ) > 0 )
-			{
-				Image imgFill = AttributeFactory.eINSTANCE.createImage( );
-				imgFill.setURL( sImgPath );
-				if ( fCurrent != null )
+				if ( imgFill != null )
 				{
-					imgFill.eAdapters( ).addAll( fCurrent.eAdapters( ) );
+					if ( fCurrent != null )
+					{
+						imgFill.eAdapters( ).addAll( fCurrent.eAdapters( ) );
+					}
+					this.setFill( imgFill );
+					fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
 				}
-				this.setFill( imgFill );
-				fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
 			}
 		}
 		else if ( oSource.equals( this.btnCustom ) )
@@ -567,7 +534,7 @@ public class FillChooserComposite extends Composite implements
 		{
 			GradientEditorDialog ged = null;
 			cmpDropDown.getParent( ).dispose( );
-			
+
 			if ( fCurrent instanceof Gradient )
 			{
 				ged = new GradientEditorDialog( this.getShell( ),
@@ -770,7 +737,7 @@ public class FillChooserComposite extends Composite implements
 		{
 			// Condition added to handle behavior under Linux
 			Control cTmp = Display.getCurrent( ).getCursorControl( );
-			if (cTmp != null)
+			if ( cTmp != null )
 			{
 				if ( cTmp.equals( btnGradient )
 						|| cTmp.equals( btnCustom )
@@ -787,7 +754,7 @@ public class FillChooserComposite extends Composite implements
 			}
 
 			cmpDropDown.getShell( ).dispose( );
-			return;					
+			return;
 		}
 	}
 }

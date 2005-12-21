@@ -7,7 +7,6 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
-
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Call Back Value</b></em>'.
  * <!-- end-user-doc -->

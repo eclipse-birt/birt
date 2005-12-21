@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.awt.geom.AffineTransform;
+import java.io.InputStream;
 import java.net.URL;
 
 import org.eclipse.birt.chart.ui.util.TransformUtil;
@@ -27,10 +28,11 @@ import org.eclipse.swt.widgets.ScrollBar;
 
 /**
  * Special Canvas class used to display the image.
- *  
+ * 
  */
 public class IconCanvas extends Canvas
 {
+
 	private Image sourceImage;
 
 	private Image screenImage;
@@ -52,12 +54,12 @@ public class IconCanvas extends Canvas
 	 * 
 	 * @param parent
 	 * @param style
-	 *  
+	 * 
 	 */
 	public IconCanvas( final Composite parent, int style )
 	{
 		super( parent, style );
-		
+
 		addPaintListener( new PaintListener( ) {
 
 			public void paintControl( final PaintEvent event )
@@ -66,7 +68,6 @@ public class IconCanvas extends Canvas
 			}
 		} );
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -131,7 +132,6 @@ public class IconCanvas extends Canvas
 			gc.fillRectangle( clientRect );
 		}
 	}
-
 
 	/**
 	 * SYNC the scroll-bars with the image.
@@ -220,7 +220,7 @@ public class IconCanvas extends Canvas
 			sourceImage = null;
 		}
 		sourceImage = new Image( getDisplay( ), filename );
-		
+
 		if ( sourceImage.getBounds( ).width > this.getBounds( ).width
 				|| sourceImage.getBounds( ).height > this.getBounds( ).height )
 		{
@@ -232,7 +232,6 @@ public class IconCanvas extends Canvas
 		}
 		return sourceImage;
 	}
-
 
 	/**
 	 * Load the image from a URL.
@@ -249,6 +248,34 @@ public class IconCanvas extends Canvas
 		}
 
 		sourceImage = ImageDescriptor.createFromURL( url ).createImage( );
+
+		if ( sourceImage.getBounds( ).width > this.getBounds( ).width
+				|| sourceImage.getBounds( ).height > this.getBounds( ).height )
+		{
+			fitCanvas( );
+		}
+		else
+		{
+			showOriginal( );
+		}
+		return sourceImage;
+	}
+
+	/**
+	 * Load the image from a file
+	 * 
+	 * @param filename
+	 * 
+	 * @return
+	 */
+	public Image loadImage( InputStream is )
+	{
+		if ( sourceImage != null && !sourceImage.isDisposed( ) )
+		{
+			sourceImage.dispose( );
+			sourceImage = null;
+		}
+		sourceImage = new Image( getDisplay( ), is );
 
 		if ( sourceImage.getBounds( ).width > this.getBounds( ).width
 				|| sourceImage.getBounds( ).height > this.getBounds( ).height )
@@ -289,7 +316,7 @@ public class IconCanvas extends Canvas
 		transform = new AffineTransform( );
 		syncScrollBars( );
 	}
-	
+
 	/**
 	 * Clear the canvas
 	 */

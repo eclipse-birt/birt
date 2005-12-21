@@ -204,6 +204,18 @@ public class AttributeSwitch
 					result = defaultCase( theEObject );
 				return result;
 			}
+			case AttributePackage.EMBEDDED_IMAGE :
+			{
+				EmbeddedImage embeddedImage = (EmbeddedImage) theEObject;
+				Object result = caseEmbeddedImage( embeddedImage );
+				if ( result == null )
+					result = caseImage( embeddedImage );
+				if ( result == null )
+					result = caseFill( embeddedImage );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
 			case AttributePackage.EXTENDED_PROPERTY :
 			{
 				ExtendedProperty extendedProperty = (ExtendedProperty) theEObject;
@@ -571,6 +583,22 @@ public class AttributeSwitch
 	 * @generated
 	 */
 	public Object caseDateFormatSpecifier( DateFormatSpecifier object )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Embedded Image</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Embedded Image</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseEmbeddedImage( EmbeddedImage object )
 	{
 		return null;
 	}

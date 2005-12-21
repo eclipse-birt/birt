@@ -133,6 +133,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return createDataPointComponent( );
 			case AttributePackage.DATE_FORMAT_SPECIFIER :
 				return createDateFormatSpecifier( );
+			case AttributePackage.EMBEDDED_IMAGE :
+				return createEmbeddedImage( );
 			case AttributePackage.EXTENDED_PROPERTY :
 				return createExtendedProperty( );
 			case AttributePackage.FILL :
@@ -801,6 +803,17 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	{
 		DateFormatSpecifierImpl dateFormatSpecifier = new DateFormatSpecifierImpl( );
 		return dateFormatSpecifier;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EmbeddedImage createEmbeddedImage( )
+	{
+		EmbeddedImageImpl embeddedImage = new EmbeddedImageImpl( );
+		return embeddedImage;
 	}
 
 	/**

@@ -104,6 +104,15 @@ public interface AttributeFactory extends EFactory
 	DateFormatSpecifier createDateFormatSpecifier( );
 
 	/**
+	 * Returns a new object of class '<em>Embedded Image</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Embedded Image</em>'.
+	 * @generated
+	 */
+	EmbeddedImage createEmbeddedImage( );
+
+	/**
 	 * Returns a new object of class '<em>Extended Property</em>'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return a new object of class '<em>Extended Property</em>'.

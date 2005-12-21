@@ -153,6 +153,11 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 			return createDateFormatSpecifierAdapter( );
 		}
 
+		public Object caseEmbeddedImage( EmbeddedImage object )
+		{
+			return createEmbeddedImageAdapter( );
+		}
+
 		public Object caseExtendedProperty( ExtendedProperty object )
 		{
 			return createExtendedPropertyAdapter( );
@@ -433,6 +438,21 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createDateFormatSpecifierAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.attribute.EmbeddedImage <em>Embedded Image</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.attribute.EmbeddedImage
+	 * @generated
+	 */
+	public Adapter createEmbeddedImageAdapter( )
 	{
 		return null;
 	}

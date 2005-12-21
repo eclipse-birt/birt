@@ -1007,6 +1007,24 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+	<xsd:complexType name="EmbeddedImage">
+		<xsd:annotation>
+			<xsd:documentation>
+			This type represents an embedded image.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="Image">
+				<xsd:sequence>
+					<xsd:element name="Data" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>Specifies the encoded image data for the image.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
 	<xsd:complexType name="FontDefinition">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">

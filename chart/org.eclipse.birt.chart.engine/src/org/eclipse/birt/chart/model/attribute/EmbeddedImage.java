@@ -1,0 +1,61 @@
+/**
+ * <copyright>
+ * </copyright>
+ *
+ * $Id$
+ */
+
+package org.eclipse.birt.chart.model.attribute;
+
+/**
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Embedded Image</b></em>'.
+ * <!-- end-user-doc -->
+ *
+ * <!-- begin-model-doc -->
+ * 
+ * 			This type represents an embedded image.
+ * 			
+ * <!-- end-model-doc -->
+ *
+ * <p>
+ * The following features are supported:
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.EmbeddedImage#getData <em>Data</em>}</li>
+ * </ul>
+ * </p>
+ *
+ * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getEmbeddedImage()
+ * @model extendedMetaData="name='EmbeddedImage' kind='elementOnly'"
+ * @generated
+ */
+public interface EmbeddedImage extends Image
+{
+
+	/**
+	 * Returns the value of the '<em><b>Data</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies the encoded image data for the image.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Data</em>' attribute.
+	 * @see #setData(String)
+	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getEmbeddedImage_Data()
+	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 *        extendedMetaData="kind='element' name='Data'"
+	 * @generated
+	 */
+	String getData( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.EmbeddedImage#getData <em>Data</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Data</em>' attribute.
+	 * @see #getData()
+	 * @generated
+	 */
+	void setData( String value );
+
+} // EmbeddedImage

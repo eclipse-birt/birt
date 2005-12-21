@@ -204,6 +204,10 @@ public class AttributeValidator extends EObjectValidator
 				return validateDateFormatSpecifier( (DateFormatSpecifier) value,
 						diagnostics,
 						context );
+			case AttributePackage.EMBEDDED_IMAGE :
+				return validateEmbeddedImage( (EmbeddedImage) value,
+						diagnostics,
+						context );
 			case AttributePackage.EXTENDED_PROPERTY :
 				return validateExtendedProperty( (ExtendedProperty) value,
 						diagnostics,
@@ -644,6 +648,19 @@ public class AttributeValidator extends EObjectValidator
 			DiagnosticChain diagnostics, Map context )
 	{
 		return validate_EveryDefaultConstraint( dateFormatSpecifier,
+				diagnostics,
+				context );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateEmbeddedImage( EmbeddedImage embeddedImage,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return validate_EveryDefaultConstraint( embeddedImage,
 				diagnostics,
 				context );
 	}

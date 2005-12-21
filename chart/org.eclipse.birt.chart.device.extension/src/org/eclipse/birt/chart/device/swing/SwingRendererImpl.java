@@ -15,6 +15,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Paint;
 import java.awt.Polygon;
 import java.awt.RenderingHints;
@@ -39,6 +40,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 import org.eclipse.birt.chart.computation.IConstants;
@@ -65,6 +67,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -76,6 +79,7 @@ import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.render.BaseRenderer;
+import org.eclipse.birt.chart.util.Base64;
 import org.eclipse.birt.chart.util.PluginSettings;
 
 /**
@@ -208,7 +212,7 @@ public class SwingRendererImpl extends DeviceAdapter
 					RenderingHints.VALUE_FRACTIONALMETRICS_ON );
 			_g2d.setRenderingHint( RenderingHints.KEY_RENDERING,
 					RenderingHints.VALUE_RENDER_QUALITY );
-			
+
 			// _frc = new FontRenderContext(new AffineTransform(), true, false);
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "info.using.graphics.context", //$NON-NLS-1$
@@ -216,9 +220,9 @@ public class SwingRendererImpl extends DeviceAdapter
 								_g2d
 							}, getLocale( ) ) );
 		}
-		else if ( sProperty.equals(IDeviceRenderer.DPI_RESOLUTION ) ) 
+		else if ( sProperty.equals( IDeviceRenderer.DPI_RESOLUTION ) )
 		{
-			getDisplayServer().setDpiResolution( ((Integer)oValue).intValue());
+			getDisplayServer( ).setDpiResolution( ( (Integer) oValue ).intValue( ) );
 		}
 
 	}
@@ -264,23 +268,42 @@ public class SwingRendererImpl extends DeviceAdapter
 			return;
 		}
 
-		final String sUrl = pre.getImage( ).getURL( );
 		java.awt.Image img = null;
-		try
+
+		if ( pre.getImage( ) instanceof EmbeddedImage )
 		{
-			img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+			try
+			{
+				byte[] data = Base64.decode( ( (EmbeddedImage) pre.getImage( ) ).getData( ) );
+
+				img = createImage( data );
+			}
+			catch ( Exception ilex )
+			{
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
+						ilex );
+			}
 		}
-		catch ( ChartException ilex )
+		else
 		{
-			throw new ChartException( ChartDeviceExtensionPlugin.ID,
-					ChartException.RENDERING,
-					ilex );
-		}
-		catch ( MalformedURLException muex )
-		{
-			throw new ChartException( ChartDeviceExtensionPlugin.ID,
-					ChartException.RENDERING,
-					muex );
+			try
+			{
+				final String sUrl = pre.getImage( ).getURL( );
+				img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+			}
+			catch ( ChartException ilex )
+			{
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
+						ilex );
+			}
+			catch ( MalformedURLException muex )
+			{
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
+						muex );
+			}
 		}
 
 		if ( img == null )
@@ -498,29 +521,51 @@ public class SwingRendererImpl extends DeviceAdapter
 		}
 		else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
 		{
-			final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
 			java.awt.Image img = null;
-			try
+
+			if ( flBackground instanceof EmbeddedImage )
 			{
-				img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+				try
+				{
+					byte[] data = Base64.decode( ( (EmbeddedImage) flBackground ).getData( ) );
+
+					img = createImage( data );
+				}
+				catch ( Exception ilex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							ilex );
+				}
 			}
-			catch ( ChartException ilex )
+			else
 			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.RENDERING,
-						ilex );
-			}
-			catch ( MalformedURLException muex )
-			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.RENDERING,
-						muex );
+				try
+				{
+					final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
+					img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+				}
+				catch ( ChartException ilex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							ilex );
+				}
+				catch ( MalformedURLException muex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							muex );
+				}
 			}
 
 			final Shape shClip = _g2d.getClip( );
-			Area ar1 = new Area( shClip );
 			Area ar2 = new Area( r2d );
-			ar2.intersect( ar1 );
+			if ( shClip != null )
+			{
+				Area ar1 = new Area( shClip );
+				ar2.intersect( ar1 );
+			}
 			_g2d.setClip( ar2 );
 
 			final Size szImage = _ids.getSize( img );
@@ -698,28 +743,50 @@ public class SwingRendererImpl extends DeviceAdapter
 		}
 		else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
 		{
-			final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
 			java.awt.Image img = null;
-			try
+			if ( flBackground instanceof EmbeddedImage )
 			{
-				img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+				try
+				{
+					byte[] data = Base64.decode( ( (EmbeddedImage) flBackground ).getData( ) );
+
+					img = createImage( data );
+				}
+				catch ( Exception ilex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							ilex );
+				}
 			}
-			catch ( ChartException ilex )
+			else
 			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.RENDERING,
-						ilex );
+				try
+				{
+					final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
+					img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+				}
+				catch ( ChartException ilex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							ilex );
+				}
+				catch ( MalformedURLException muex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							muex );
+				}
 			}
-			catch ( MalformedURLException muex )
-			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.RENDERING,
-						muex );
-			}
+
 			final Shape shClip = _g2d.getClip( );
-			Area ar1 = new Area( shClip );
 			Area ar2 = new Area( new Polygon( i2a[0], i2a[1], loa.length ) );
-			ar2.intersect( ar1 );
+			if ( shClip != null )
+			{
+				Area ar1 = new Area( shClip );
+				ar2.intersect( ar1 );
+			}
 			_g2d.setClip( ar2 );
 
 			final double dMinX = BaseRenderer.getX( loa, IConstants.MIN );
@@ -822,9 +889,12 @@ public class SwingRendererImpl extends DeviceAdapter
 			fArea.exclusiveOr( new Area( innerArc ) );
 
 			Shape prevClip = _g2d.getClip( );
-			Area ar1 = new Area( prevClip );
 			Area ar2 = new Area( fArea );
-			ar2.intersect( ar1 );
+			if ( prevClip != null )
+			{
+				Area ar1 = new Area( prevClip );
+				ar2.intersect( ar1 );
+			}
 			_g2d.setClip( ar2 );
 			_g2d.draw( fArea );
 			_g2d.setClip( prevClip );
@@ -910,9 +980,12 @@ public class SwingRendererImpl extends DeviceAdapter
 				fArea.exclusiveOr( new Area( innerArc ) );
 
 				Shape prevClip = _g2d.getClip( );
-				Area ar1 = new Area( prevClip );
 				Area ar2 = new Area( fArea );
-				ar2.intersect( ar1 );
+				if ( prevClip != null )
+				{
+					Area ar1 = new Area( prevClip );
+					ar2.intersect( ar1 );
+				}
 				_g2d.setClip( ar2 );
 				_g2d.fill( fArea );
 				_g2d.setClip( prevClip );
@@ -1026,9 +1099,12 @@ public class SwingRendererImpl extends DeviceAdapter
 				fArea.exclusiveOr( new Area( innerArc ) );
 
 				Shape prevClip = _g2d.getClip( );
-				Area ar1 = new Area( prevClip );
 				Area ar2 = new Area( fArea );
-				ar2.intersect( ar1 );
+				if ( prevClip != null )
+				{
+					Area ar1 = new Area( prevClip );
+					ar2.intersect( ar1 );
+				}
 				_g2d.setClip( ar2 );
 				_g2d.fill( fArea );
 				_g2d.setClip( prevClip );
@@ -1086,8 +1162,11 @@ public class SwingRendererImpl extends DeviceAdapter
 				Area fArea = new Area( outerArc );
 				fArea.exclusiveOr( new Area( innerArc ) );
 
-				Area ar1 = new Area( shPreviousClip );
-				fArea.intersect( ar1 );
+				if ( shPreviousClip != null )
+				{
+					Area ar1 = new Area( shPreviousClip );
+					fArea.intersect( ar1 );
+				}
 				_g2d.setClip( fArea );
 			}
 			else
@@ -1100,30 +1179,52 @@ public class SwingRendererImpl extends DeviceAdapter
 						are.getStartAngle( ),
 						are.getAngleExtent( ),
 						toSwingArcType( are.getStyle( ) ) );
-				Area ar1 = new Area( shPreviousClip );
+
 				Area ar2 = new Area( shArc );
-				ar2.intersect( ar1 );
+				if ( shPreviousClip != null )
+				{
+					Area ar1 = new Area( shPreviousClip );
+					ar2.intersect( ar1 );
+				}
 				_g2d.setClip( ar2 );
 			}
 
 			// LOAD THE IMAGE
-			final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
 			java.awt.Image img = null;
-			try
+			if ( flBackground instanceof EmbeddedImage )
 			{
-				img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+				try
+				{
+					byte[] data = Base64.decode( ( (EmbeddedImage) flBackground ).getData( ) );
+
+					img = createImage( data );
+				}
+				catch ( Exception ilex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							ilex );
+				}
 			}
-			catch ( ChartException ilex )
+			else
 			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.RENDERING,
-						ilex );
-			}
-			catch ( MalformedURLException muex )
-			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.RENDERING,
-						muex );
+				try
+				{
+					final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
+					img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+				}
+				catch ( ChartException ilex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							ilex );
+				}
+				catch ( MalformedURLException muex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							muex );
+				}
 			}
 
 			// REPLICATE THE IMAGE AS NEEDED
@@ -1727,29 +1828,50 @@ public class SwingRendererImpl extends DeviceAdapter
 		}
 		else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
 		{
-			final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
 			java.awt.Image img = null;
-			try
+			if ( flBackground instanceof EmbeddedImage )
 			{
-				img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+				try
+				{
+					byte[] data = Base64.decode( ( (EmbeddedImage) flBackground ).getData( ) );
+
+					img = createImage( data );
+				}
+				catch ( Exception ilex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							ilex );
+				}
 			}
-			catch ( ChartException ilex )
+			else
 			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.RENDERING,
-						ilex );
-			}
-			catch ( MalformedURLException muex )
-			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.RENDERING,
-						muex );
+				try
+				{
+					final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
+					img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+				}
+				catch ( ChartException ilex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							ilex );
+				}
+				catch ( MalformedURLException muex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							muex );
+				}
 			}
 
 			final Shape shClip = _g2d.getClip( );
-			Area ar1 = new Area( shClip );
 			Area ar2 = new Area( e2d );
-			ar2.intersect( ar1 );
+			if ( shClip != null )
+			{
+				Area ar1 = new Area( shClip );
+				ar2.intersect( ar1 );
+			}
 			_g2d.setClip( ar2 );
 
 			final Size szImage = _ids.getSize( img );
@@ -1781,6 +1903,13 @@ public class SwingRendererImpl extends DeviceAdapter
 	public IDisplayServer getDisplayServer( )
 	{
 		return _ids;
+	}
+
+	private Image createImage( byte[] data )
+	{
+		ImageIcon ii = new ImageIcon( data );
+
+		return ii.getImage( );
 	}
 
 	/**

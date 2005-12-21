@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
 import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.DateFormatType;
 import org.eclipse.birt.chart.model.attribute.Direction;
+import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
@@ -168,6 +169,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EClass dateFormatSpecifierEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass embeddedImageEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1175,6 +1183,27 @@ public class AttributePackageImpl extends EPackageImpl implements
 	{
 		return (EAttribute) dateFormatSpecifierEClass.getEStructuralFeatures( )
 				.get( 1 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getEmbeddedImage( )
+	{
+		return embeddedImageEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getEmbeddedImage_Data( )
+	{
+		return (EAttribute) embeddedImageEClass.getEStructuralFeatures( )
+				.get( 0 );
 	}
 
 	/**
@@ -2803,6 +2832,9 @@ public class AttributePackageImpl extends EPackageImpl implements
 		createEAttribute( dateFormatSpecifierEClass,
 				DATE_FORMAT_SPECIFIER__DETAIL );
 
+		embeddedImageEClass = createEClass( EMBEDDED_IMAGE );
+		createEAttribute( embeddedImageEClass, EMBEDDED_IMAGE__DATA );
+
 		extendedPropertyEClass = createEClass( EXTENDED_PROPERTY );
 		createEAttribute( extendedPropertyEClass, EXTENDED_PROPERTY__NAME );
 		createEAttribute( extendedPropertyEClass, EXTENDED_PROPERTY__VALUE );
@@ -3044,6 +3076,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		colorDefinitionEClass.getESuperTypes( ).add( this.getFill( ) );
 		dateFormatSpecifierEClass.getESuperTypes( )
 				.add( this.getFormatSpecifier( ) );
+		embeddedImageEClass.getESuperTypes( ).add( this.getImage( ) );
 		gradientEClass.getESuperTypes( ).add( this.getFill( ) );
 		imageEClass.getESuperTypes( ).add( this.getFill( ) );
 		javaDateFormatSpecifierEClass.getESuperTypes( )
@@ -3166,6 +3199,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEAttribute( getDateFormatSpecifier_Detail( ),
 				this.getDateFormatDetail( ),
 				"detail", "Date", 1, 1, DateFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		initEClass( embeddedImageEClass,
+				EmbeddedImage.class,
+				"EmbeddedImage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEAttribute( getEmbeddedImage_Data( ),
+				theXMLTypePackage.getString( ),
+				"data", null, 1, 1, EmbeddedImage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( extendedPropertyEClass,
 				ExtendedProperty.class,
@@ -4121,6 +4161,14 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addAnnotation( directionObjectEDataType, source, new String[]{
 				"name", "Direction:Object", //$NON-NLS-1$ //$NON-NLS-2$
 				"baseType", "Direction" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( embeddedImageEClass, source, new String[]{
+				"name", "EmbeddedImage", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getEmbeddedImage_Data( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Data" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( extendedPropertyEClass, source, new String[]{
 				"name", "ExtendedProperty", //$NON-NLS-1$ //$NON-NLS-2$
