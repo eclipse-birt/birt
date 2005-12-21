@@ -161,6 +161,7 @@
                      canInherit="true"
                      name="queryTimeOut"/>
             </propertyGroup>
+            <propertyVisibility name="queryTimeOut" visibility="hide"/>
          </properties>
       </dataSet>
       <dataSet
@@ -264,6 +265,7 @@
                      canInherit="true"
                      name="queryTimeOut"/>
             </propertyGroup>
+            <propertyVisibility name="queryTimeOut" visibility="hide"/>
          </properties>
       </dataSet>
    </extension>
