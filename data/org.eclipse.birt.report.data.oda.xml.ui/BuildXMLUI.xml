@@ -132,6 +132,7 @@
 		 		- ${plugin.version} the version of plugin exported
 	 -->
 	<target name="Export">
+		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
 		<antcall target="i18n"/>
 	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
 	        <fileset
