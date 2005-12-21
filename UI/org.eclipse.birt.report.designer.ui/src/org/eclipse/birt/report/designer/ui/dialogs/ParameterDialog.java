@@ -1733,18 +1733,26 @@ public class ParameterDialog extends BaseDialog
 	private void createLabel( Composite parent, String content )
 	{
 		Label label = new Label( parent, SWT.NONE );
-		setLabelLayoutData( label );
 		if ( content != null )
 		{
 			label.setText( content );
 		}
+		setLabelLayoutData( label );
 	}
 
-	private void setLabelLayoutData( Control control )
+	private void setLabelLayoutData( Label label )
 	{
-		GridData gd = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
+		GridData gd = new GridData( );
+		if ( label.getText( ).equals( LABEL_VALUES ) )
+		{
+			gd.verticalAlignment = GridData.BEGINNING;
+		}
 		gd.widthHint = 100;
-		control.setLayoutData( gd );
+		if ( Locale.getDefault( ).getLanguage( ).equals( "es" ) ) //$NON-NLS-1$
+		{
+			gd.widthHint += 15;
+		}
+		label.setLayoutData( gd );
 	}
 
 	private void addCheckBoxListener( final Button checkBox, final String key )
