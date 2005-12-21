@@ -71,7 +71,6 @@
 
 	<property name="utest.report.dir" location="utestreports" />
 	<property name="javadoc.dir" location="docs/api" />
-	<property name="plugin.version" value="2.0.0" />
 	<property name="export.dir" location="export" />
 	
 	<property name="dir.src" location="src" />
