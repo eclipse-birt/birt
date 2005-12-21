@@ -23,7 +23,6 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
-import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
@@ -294,48 +293,14 @@ public class DataSourceAndDataSet
 	}
 	
 	/**
+	 * Filter does not affect the raw data and metadata
 	 * @param filter1
 	 * @param filter2
 	 * @return
 	 */
 	private boolean isEqualFilters( List filter1, List filter2 )
 	{
-		if ( filter1 == filter2 )
-			return true;
-
-		if ( isEqualBasicCol( filter1, filter2 ) == false )
-			return false;
-
-		Iterator it = filter1.iterator( );
-		Iterator it2 = filter2.iterator( );
-		while ( it.hasNext( ) )
-		{
-			IFilterDefinition fd = (IFilterDefinition) it.next( );
-			IFilterDefinition fd2 = (IFilterDefinition) it2.next( );
-			if ( isEqualFitlerDefn( fd, fd2 ) == false )
-				return false;
-		}
-
 		return true;
-	}
-
-	/**
-	 * @param fd
-	 * @param fd2
-	 * @return
-	 */
-	private boolean isEqualFitlerDefn( IFilterDefinition fd,
-			IFilterDefinition fd2 )
-	{
-		if ( fd == fd2 )
-			return true;
-		else if ( fd == null || fd2 == null )
-			return false;
-		
-		IBaseExpression be = fd.getExpression( );
-		IBaseExpression be2 = fd2.getExpression( );
-
-		return isEqualExpression( be, be2 );
 	}
 
 	/**

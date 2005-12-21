@@ -141,7 +141,8 @@ public class DataSetCacheManager
 		DataSourceAndDataSet ds = DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
 				this.parameterBindings );
-		if ( this.cacheMap.get( ds ) != null )
+		String cacheDirStr = (String) this.cacheMap.get( ds );
+		if ( cacheDirStr != null && new File( cacheDirStr ).exists( ) == true )
 		{
 			return false;
 		}
@@ -157,14 +158,19 @@ public class DataSetCacheManager
 	 */
 	public boolean doesLoadFromCache( )
 	{
-		if ( basicCache() == false )
+		if ( basicCache( ) == false )
 			return false;
 
-		return this.cacheMap.get( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+		DataSourceAndDataSet ds = DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterBindings ) ) != null;
+				this.parameterBindings );
+		String cacheDirStr = (String) this.cacheMap.get( ds );
+		if ( cacheDirStr != null && new File( cacheDirStr ).exists( ) == true )
+			return true;
+		else
+			return false;
 	}
-
+	
 	/**
 	 * @return
 	 */

@@ -445,7 +445,7 @@ public class DataEngineImpl extends DataEngine
 		else if ( appContext != null )
 		{
 			Object option = appContext.get( DataEngine.DATASET_CACHE_OPTION );
-			if ( option != null && option.equals( "true" ) )
+			if ( option != null && option.toString( ).equals( "true" ) )
 				DataSetCacheManager.getInstance( )
 						.setCacheOption( DataSetCacheManager.DEFAULT );
 			else
