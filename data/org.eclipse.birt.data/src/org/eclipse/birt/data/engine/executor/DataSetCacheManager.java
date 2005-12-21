@@ -138,9 +138,7 @@ public class DataSetCacheManager
 		if ( basicCache( ) == false )
 			return false;
 
-		DataSourceAndDataSet ds = DataSourceAndDataSet.newInstance( this.dataSourceDesign,
-				this.dataSetDesign,
-				this.parameterBindings );
+		DataSourceAndDataSet ds = getDataSourceAndDataSet( false );
 		String cacheDirStr = (String) this.cacheMap.get( ds );
 		if ( cacheDirStr != null && new File( cacheDirStr ).exists( ) == true )
 		{
@@ -161,9 +159,7 @@ public class DataSetCacheManager
 		if ( basicCache( ) == false )
 			return false;
 
-		DataSourceAndDataSet ds = DataSourceAndDataSet.newInstance( this.dataSourceDesign,
-				this.dataSetDesign,
-				this.parameterBindings );
+		DataSourceAndDataSet ds = getDataSourceAndDataSet( false );
 		String cacheDirStr = (String) this.cacheMap.get( ds );
 		if ( cacheDirStr != null && new File( cacheDirStr ).exists( ) == true )
 			return true;
@@ -227,9 +223,7 @@ public class DataSetCacheManager
 	public void clearCache( IBaseDataSourceDesign dataSourceDesign,
 			IBaseDataSetDesign dataSetDesign )
 	{
-		DataSourceAndDataSet ds = DataSourceAndDataSet.newInstance( dataSourceDesign,
-				dataSetDesign,
-				null );
+		DataSourceAndDataSet ds = getDataSourceAndDataSet( true );
 		Object cacheDir = cacheMap.get( ds );
 		if ( cacheDir != null )
 		{
@@ -246,9 +240,7 @@ public class DataSetCacheManager
 	 */
 	public String getSaveFolder( )
 	{
-		return (String) cacheMap.get( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
-				this.dataSetDesign,
-				this.parameterBindings ) );
+		return (String) cacheMap.get( getDataSourceAndDataSet( false ) );
 	}
 
 	/**
@@ -256,11 +248,31 @@ public class DataSetCacheManager
 	 */
 	public String getLoadFolder( )
 	{
-		return (String) cacheMap.get( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
-				this.dataSetDesign,
-				this.parameterBindings ) );
+		return (String) cacheMap.get( getDataSourceAndDataSet( false ) );
 	}
 
+	/**
+	 * @param useParameterBindings
+	 * @return
+	 */
+	private DataSourceAndDataSet getDataSourceAndDataSet(
+			boolean onlyDataSourceAndDataSet )
+	{
+		int cacheCount = 0;
+		if ( this.cacheOption == ALWAYS )
+			cacheCount = this.alwaysCacheRowCount;
+		else if ( this.cacheOption == DISABLE )
+			assert false;
+		else
+			cacheCount = this.cacheRowCount;
+
+		return DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+				this.dataSetDesign,
+				this.parameterBindings,
+				cacheCount,
+				onlyDataSourceAndDataSet );
+	}
+	
 	/**
 	 * @return temp directory string, this folder name is unique and then
 	 *         different session will not influence each other, which can
