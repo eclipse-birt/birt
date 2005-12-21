@@ -1645,7 +1645,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public boolean canDrop( )
 	{
-		return getElement( ).canDrop( );
+		boolean flag = getElement( ).canDrop( );
+		if ( !flag )
+			return false;
+
+		return !getEffectiveModule( ).isReadOnly( );
 	}
 
 	/**
@@ -1657,8 +1661,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public boolean canEdit( )
 	{
-		return !getEffectiveModule( ).isReadOnly( );
+		boolean flag = getElement( ).canEdit( );
+		if ( !flag )
+			return false;
 
+		return !getEffectiveModule( ).isReadOnly( );
 	}
 
 	/**
@@ -1671,7 +1678,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public boolean canTransformToTemplate( )
 	{
-		return getElement( ).canTransformToTemplate( getModule( ) );
+		boolean flag = getElement( ).canTransformToTemplate( getModule( ) );
+		if ( !flag )
+			return false;
+
+		return !getEffectiveModule( ).isReadOnly( );
 	}
 
 	/**
@@ -1700,7 +1711,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( defn == null )
 			return false;
 
-		return getElement( ).canContain( getModule( ), slotId, defn );
+		boolean flag = getElement( ).canContain( getModule( ), slotId, defn );
+		if ( !flag )
+			return false;
+
+		return !getEffectiveModule( ).isReadOnly( );
 	}
 
 	/**
@@ -1723,8 +1738,12 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( content == null )
 			return false;
 
-		return getElement( ).canContain( getModule( ), slotId,
+		boolean flag = getElement( ).canContain( getModule( ), slotId,
 				content.getElement( ) );
+		if ( !flag )
+			return false;
+
+		return !getEffectiveModule( ).isReadOnly( );
 	}
 
 	/**

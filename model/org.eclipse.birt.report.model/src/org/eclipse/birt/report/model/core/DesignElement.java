@@ -2854,6 +2854,18 @@ public abstract class DesignElement
 	}
 
 	/**
+	 * Checks whether the property of current element is editable.
+	 * 
+	 * @return <code>true</code> if the property of current element is
+	 *         editable. Otherwise <code>false</code>.
+	 */
+
+	public boolean canEdit( )
+	{
+		return !isRootIncludedByModule( );
+	}
+
+	/**
 	 * Determines if this element can be dropped from its container.
 	 * 
 	 * @return <code>true</code> if it can be dropped. Returns
@@ -2862,6 +2874,12 @@ public abstract class DesignElement
 
 	public boolean canDrop( )
 	{
+		// if the root of element is included by report/library. Do not allow
+		// drop.
+
+		if ( isRootIncludedByModule( ) )
+			return false;
+
 		// Can not change the structure of child element or a virtual element(
 		// inside the child ).
 
@@ -2922,6 +2940,12 @@ public abstract class DesignElement
 		if ( !canContainTemplateElement( module, slotId, element ) )
 			return false;
 
+		// if the root of element is included by report/library. Do not allow
+		// drop.
+
+		if ( isRootIncludedByModule( ) )
+			return false;
+
 		// Can not change the structure of child element or a virtual element(
 		// inside the child ).
 
@@ -2948,6 +2972,26 @@ public abstract class DesignElement
 	}
 
 	/**
+	 * Checks whether the root of the current element is included by
+	 * report/library.
+	 * 
+	 * @return <code>true</code> if the root of the current element is
+	 *         included by report/library. Otherwise <code>false</code>.
+	 */
+
+	private boolean isRootIncludedByModule( )
+	{
+		DesignElement tmpContainer = getRoot( );
+		if ( tmpContainer instanceof Library
+				&& ( (Library) tmpContainer ).getHost( ) != null )
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Determines if the current element can contain an element with the
 	 * definition of <code>elementType</code> on context containment.
 	 * 
@@ -2968,6 +3012,12 @@ public abstract class DesignElement
 
 		boolean retValue = canContainInRom( slotId, defn );
 		if ( !retValue )
+			return false;
+
+		// if the root of element is included by report/library. Do not allow
+		// drop.
+
+		if ( isRootIncludedByModule( ) )
 			return false;
 
 		if ( !canContainTemplateElement( module, slotId, defn ) )
