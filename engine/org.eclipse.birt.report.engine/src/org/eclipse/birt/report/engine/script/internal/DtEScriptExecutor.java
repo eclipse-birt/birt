@@ -41,11 +41,8 @@ public abstract class DtEScriptExecutor extends ScriptExecutor
 	protected JSMethodRunner getRunner( Scriptable scope, String type,
 			String name )
 	{
-		if ( runner == null )
-		{
-			String scopeName = type + "[" + name + "]";
-			runner = new JSMethodRunner( scope, scopeName );
-		}
+		String scopeName = type + "[" + name + "]";
+		runner = new JSMethodRunner( scope, scopeName );
 		return runner;
 	}
 
