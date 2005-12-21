@@ -72,56 +72,82 @@ final public class XPathPopulationUtil
 	 * @param columnPath the absolute column path.
 	 * @return
 	 */
-	public static List populateColumnPath( String rootPath, String columnPath )
+	public static String populateColumnPath( String rootPath, String columnPath )
 	{	
 		assert rootPath != null;
 		assert columnPath != null;
-		List result = new ArrayList();
+		String result = null;
 		if( columnPath.startsWith( rootPath ))
 		{
-			columnPath = columnPath.replaceFirst("\\Q"+rootPath+"/\\E", "");
-			result.add( columnPath );
+			columnPath = columnPath.replaceFirst("\\Q"+rootPath+"\\E", "");
+			result = columnPath;
 		}else
 		{
 			String[] rootPathFrags = rootPath.split("/");
-			String[] columnPathFrags = columnPath.split("/");
+			String[] columnPathFrags = columnPath.replaceAll("\\Q[@\\E","/@").split("/");
 			
-			int indexOfFirstDifferentElement = findFirstDifferentItem( rootPathFrags, columnPathFrags );
+			int startingIndex = 0;
+			int endingIndex = 0;
 			
+	
+			if( !rootPath.startsWith("//"))
+			{
+				if( !twoFragmentsEqual(columnPathFrags[1],rootPathFrags[1]))
+					return result;
+				else
+				{
+					rootPathFrags = ("/"+rootPath).split("/");
+				}
+			}
+			assert rootPathFrags.length >= 3;
+			String commonRoot = rootPathFrags[2];
+			for( int i = 1; i < columnPathFrags.length; i++)
+			{
+				if( twoFragmentsEqual(commonRoot,columnPathFrags[i]))
+				{
+					startingIndex = i;
+					break;
+				}
+			}
+			//If startingIndex == 0, that means the given column path do not have common
+			if( columnPathFrags.length < startingIndex+1 || startingIndex == 0)
+				return result;
 		
+			int t = startingIndex;
+			for( int i = startingIndex+1; i < columnPathFrags.length && i - startingIndex + 2< rootPathFrags.length; i++ )
+			{
+				if( !twoFragmentsEqual(columnPathFrags[i],rootPathFrags[i - startingIndex + 2]))
+				{
+					endingIndex = i - 1;
+					break;
+				}
+				t = i;
+			}
+
+			if( endingIndex == 0 && startingIndex!= 0)
+			{
+				endingIndex = t;
+			}
 			
 			String temp = "";
-			for( int i = 0; i < rootPathFrags.length - 1 - indexOfFirstDifferentElement; i ++)
+			int fetchBackLevel = rootPathFrags.length - 3 - (endingIndex - startingIndex);
+			for( int i = 0; i < fetchBackLevel; i ++)
 			{
 				temp += "../";
 			}
 			
-			temp = addXPathFragsToAString( columnPathFrags, indexOfFirstDifferentElement+1, temp);
-			result.add( temp );
+			temp = addXPathFragsToAString( columnPath.replaceAll("\\Q[@\\E","/@").split("/"), endingIndex+1, temp);
+			result = temp;
 		}
 		
-		return result;
+		return result.matches(".*\\Q]\\E")?result.replaceAll("\\Q/@\\E","/[@"):result;
 	}
-
-	/**
-	 * @param rootPathFrags
-	 * @param columnPathFrags
-	 * @param k
-	 * @return
-	 */
-	private static int findFirstDifferentItem( String[] rootPathFrags, String[] columnPathFrags )
+	
+	private static boolean twoFragmentsEqual(String frag1, String frag2)
 	{
-		int result = 0;
-		
-		//Start from 1 because the  XPathFrags[] always start with a "" item.
-		for( int i = 1; i < rootPathFrags.length && i < columnPathFrags.length ; i++)
-		{
-			if( rootPathFrags[i].equals( columnPathFrags[i]))
-			{
-				result = i;
-				break;
-			}
-		}
-		return result;
+		if( frag1.equals("*")||frag2.equals("*"))
+			return true;
+		else
+			return frag1.equals(frag2);
 	}
 }

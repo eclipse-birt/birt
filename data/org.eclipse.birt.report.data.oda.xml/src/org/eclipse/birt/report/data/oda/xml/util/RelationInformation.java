@@ -480,34 +480,44 @@ class ColumnInfo
 	 * @param originalPath
 	 * @throws OdaException
 	 */
-	public ColumnInfo( int index, String name, String type, String path, String originalPath ) throws OdaException
+	public ColumnInfo( int index, String name, String type, String path,
+			String originalPath ) throws OdaException
 	{
 		this.index = index;
 		this.name = name;
 		this.type = type;
-		if( !DataTypes.isValidType( type ) )
-			throw new OdaException( Messages.getString("RelationInformation.InvalidDataTypeName"));
-		this.path = fixTrailingAttr(buildPath( path ));
+		if ( !DataTypes.isValidType( type ) )
+			throw new OdaException( Messages.getString( "RelationInformation.InvalidDataTypeName" ) );
+		this.path = fixTrailingAttr( buildPath( path ) );
 		this.originalPath = originalPath;
-		String[] originalPathFrags = originalPath.split("/");
-		int lastTwoDotAbbrevationPosition = 0;
-		int numberOfConcretePathFragsBefore2DotAbb = 0;
-		
-		for (int i = 0; i < originalPathFrags.length; i++)
+		if ( originalPath.matches( ".*\\Q..\\E.*" ) )
 		{
-			if( originalPathFrags[i].equals(".."))
-				lastTwoDotAbbrevationPosition = i;
+			String[] originalPathFrags = originalPath.split( "/" );
+			int lastTwoDotAbbrevationPosition = 0;
+			int numberOfConcretePathFragsBefore2DotAbb = 0;
+
+			for ( int i = 0; i < originalPathFrags.length; i++ )
+			{
+				if ( originalPathFrags[i].equals( ".." ) )
+					lastTwoDotAbbrevationPosition = i;
+			}
+			for ( int i = 0; i < lastTwoDotAbbrevationPosition; i++ )
+			{
+				if ( !originalPathFrags[i].equals( ".." ) )
+					numberOfConcretePathFragsBefore2DotAbb++;
+			}
+
+			int numberOf2DotAbb = lastTwoDotAbbrevationPosition
+					- numberOfConcretePathFragsBefore2DotAbb + 1;
+			backRefNumber = numberOf2DotAbb
+					- numberOfConcretePathFragsBefore2DotAbb;
+			if ( backRefNumber < 0 )
+				backRefNumber = 0;
 		}
-		for ( int i = 0; i < lastTwoDotAbbrevationPosition; i ++)
+		else
 		{
-			if( !originalPathFrags[i].equals(".."))
-				numberOfConcretePathFragsBefore2DotAbb ++;
-		}
-		
-		int numberOf2DotAbb = lastTwoDotAbbrevationPosition - numberOfConcretePathFragsBefore2DotAbb + 1;
-		backRefNumber = numberOf2DotAbb - numberOfConcretePathFragsBefore2DotAbb;
-		if (backRefNumber < 0)
 			backRefNumber = 0;
+		}
 	}
 	
 	/**
