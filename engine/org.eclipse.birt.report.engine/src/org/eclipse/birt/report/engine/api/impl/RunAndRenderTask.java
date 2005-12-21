@@ -35,7 +35,6 @@ import org.eclipse.birt.report.engine.presentation.HTMLPaginationEmitter;
 import org.eclipse.birt.report.engine.presentation.LocalizedEmitter;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
  * an engine task that runs a report and renders it to one of the output formats
@@ -63,7 +62,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	 * full path for the output file name
 	 */
 	protected String outputFileName;
-	
+
 	/**
 	 * specifies the emitter ID used for rendering the report
 	 */
@@ -87,12 +86,16 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	 */
 	public void run( ) throws EngineException
 	{
-		// Make a deep copy of the design element and recreate the IReportRunnable
+		// Make a deep copy of the design element and recreate the
+		// IReportRunnable
 		ReportDesignHandle designHandle = (ReportDesignHandle) runnable
 				.getDesignHandle( );
-	
-		ReportDesign copiedReportDesign = (ReportDesign)designHandle.copy();
-		ReportDesignHandle copiedDesignHandle = (ReportDesignHandle)copiedReportDesign.getHandle( null ); // null will create a new report design handle
+
+		// ReportDesign copiedReportDesign = (ReportDesign)designHandle.copy();
+		// ReportDesignHandle copiedDesignHandle =
+		// (ReportDesignHandle)copiedReportDesign.getHandle( null ); // null
+		// will create a new report design handle
+		ReportDesignHandle copiedDesignHandle = designHandle;
 		runnable = new ReportRunnable( copiedDesignHandle );
 
 		if ( !validateParameters( ) )
@@ -114,7 +117,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 
 		// register default parameters
 		usingParameterValues( );
-		//		 Set up rendering environment and check for supported format
+		// Set up rendering environment and check for supported format
 		executionContext.setRenderOption( renderOption );
 		String format = renderOption.getOutputFormat( );
 		if ( format == null || format.length( ) == 0 ) // $NON-NLS-1
@@ -132,8 +135,8 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		// Create IReportContext and set it to execution context
 		ReportContextImpl reportContext = new ReportContextImpl(
 				executionContext.getParams( ), config.getConfigMap( ),
-				executionContext.getAppContext( ), executionContext.getLocale(), 
-				format );
+				executionContext.getAppContext( ),
+				executionContext.getLocale( ), format );
 		executionContext.setReportContext( reportContext );
 		// Call onPrepare in the design tree
 		ScriptedDesignVisitor visitor = new ScriptedDesignVisitor(
@@ -145,15 +148,16 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		executionContext.getConfigs( ).putAll( runnable.getTestConfig( ) );
 		executionContext.getConfigs( ).putAll( System.getProperties( ) );
 
-		if (format.equalsIgnoreCase("html"))
+		if ( format.equalsIgnoreCase( "html" ) )
 		{
-			HTMLEmitterConfig tmp = (HTMLEmitterConfig) config.getEmitterConfigs().get("html");
-			if (tmp != null)
-				executionContext.setActionHandler(tmp.getActionHandler());
+			HTMLEmitterConfig tmp = (HTMLEmitterConfig) config
+					.getEmitterConfigs( ).get( "html" );
+			if ( tmp != null )
+				executionContext.setActionHandler( tmp.getActionHandler( ) );
 		}
-		
-		if ( !ExtensionManager.getInstance( ).getSupportedFormat()
-				.contains( format ) )
+
+		if ( !ExtensionManager.getInstance( ).getSupportedFormat( ).contains(
+				format ) )
 		{
 			log.log( Level.SEVERE,
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
@@ -183,11 +187,10 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			emitter = new HTMLPaginationEmitter( executor, emitter );
 		}
 		else if ( format.equalsIgnoreCase( "fo" )
-				|| format.equalsIgnoreCase( "fop" ))
+				|| format.equalsIgnoreCase( "fop" ) )
 		{
 			emitter = new DefaultPaginationEmitter( executor, emitter );
 		}
-		
 
 		// emitter is not null
 		emitter.initialize( services );
@@ -242,6 +245,6 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	public void setEmitterID( String id )
 	{
 		this.emitterID = id;
-		
+
 	}
 }

@@ -29,7 +29,6 @@ import org.eclipse.birt.report.engine.presentation.HTMLPaginationEmitter;
 import org.eclipse.birt.report.engine.presentation.ReportDocumentEmitter;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
  * A task for running a report design to get a report document
@@ -73,15 +72,15 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			throw new EngineException(
 					"Report document name is not specified when running a report." ); //$NON-NLS-1$
 		IDocArchiveWriter archive = null;
-		try 
+		try
 		{
 			archive = new FileArchiveWriter( reportDocName );
-		} 
-		catch (IOException e) 
-		{
-			throw new EngineException( e.getLocalizedMessage() );
 		}
-		
+		catch ( IOException e )
+		{
+			throw new EngineException( e.getLocalizedMessage( ) );
+		}
+
 		run( archive );
 	}
 
@@ -118,10 +117,15 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	 */
 	protected void doRun( ) throws EngineException
 	{
-		// Make a deep copy of the design element and recreate the IReportRunnable
-		ReportDesignHandle designHandle = (ReportDesignHandle)runnable.getDesignHandle();		 
-		ReportDesign copiedReportDesign = (ReportDesign)designHandle.copy();
-		ReportDesignHandle copiedDesignHandle = (ReportDesignHandle)copiedReportDesign.getHandle( null ); // null will create a new report design handle
+		// Make a deep copy of the design element and recreate the
+		// IReportRunnable
+		ReportDesignHandle designHandle = (ReportDesignHandle) runnable
+				.getDesignHandle( );
+		// ReportDesign copiedReportDesign = (ReportDesign)designHandle.copy();
+		// ReportDesignHandle copiedDesignHandle =
+		// (ReportDesignHandle)copiedReportDesign.getHandle( null ); // null
+		// will create a new report design handle
+		ReportDesignHandle copiedDesignHandle = designHandle;
 		runnable = new ReportRunnable( copiedDesignHandle );
 
 		if ( !validateParameters( ) )
@@ -136,12 +140,13 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		// report, we need to call onPrepare on all items.
 		// Create IReportContext and set it to execution context
 		ReportContextImpl reportContext = new ReportContextImpl(
-				executionContext.getParams( ), executionContext.getConfigs(),
-				executionContext.getAppContext( ), executionContext.getLocale(), 
-				null );
+				executionContext.getParams( ), executionContext.getConfigs( ),
+				executionContext.getAppContext( ),
+				executionContext.getLocale( ), null );
 		executionContext.setReportContext( reportContext );
 		// Call onPrepare in the design tree
-		ScriptedDesignVisitor visitor = new ScriptedDesignVisitor( copiedDesignHandle, executionContext );
+		ScriptedDesignVisitor visitor = new ScriptedDesignVisitor(
+				copiedDesignHandle, executionContext );
 		visitor.apply( copiedDesignHandle.getRoot( ) );
 
 		setupEmitterService( );
