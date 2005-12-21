@@ -32,7 +32,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.24 $ $Date: 2005/12/07 02:23:22 $
+ * @version $Revision: 1.25 $ $Date: 2005/12/07 02:36:08 $
  */
 public class Report
 {
@@ -102,6 +102,8 @@ public class Report
 
 	protected Map namedExpressions;
 	
+	protected Map mapReportItemIDtoInstance;
+	
 	/**
 	 * The base directory of the relative links. By default it is where design
 	 * file (XML) resides
@@ -119,7 +121,37 @@ public class Report
 	public Report( )
 	{
 	}
+	
+	/**
+	 * set report item id to report item instance
+	 * 
+	 * @param id the report item component id
+	 * @param rptItem the report item
+	 */
+	public void setReportItemInstanceID( long id, ReportElementDesign rptElement )
+	{
+		if( mapReportItemIDtoInstance == null )
+		{
+			mapReportItemIDtoInstance = new HashMap( );
+		}
+		mapReportItemIDtoInstance.put( new Long( id ), rptElement );
+	}
+	
+	/**
+	 * return the report item with the specific component ID
+	 * @param id the component id
+	 * @return the report item instance
+	 */
+	public ReportElementDesign getReportItemByID( long id )
+	{
+		assert mapReportItemIDtoInstance != null;
+		return (ReportElementDesign) mapReportItemIDtoInstance.get( new Long( id ) );
+	}
 
+	/**
+	 * return the named expression defined on the report
+	 * @return
+	 */
 	public Map getNamedExpressions( )
 	{
 		if( namedExpressions == null )

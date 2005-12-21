@@ -47,7 +47,6 @@ public class DataExtractionTask extends EngineTask
 	protected String[] selectedColumns;
 	protected Report report;
 	protected List resultMetaList;
-	protected HashMap contentMap;
 	
 	
 	public DataExtractionTask( ReportEngine engine, IReportRunnable runnable,
@@ -63,7 +62,6 @@ public class DataExtractionTask extends EngineTask
 		report = new ReportParser( ).parse( ( (ReportRunnable) runnable )
 				.getReport( ) );
 		
-		populateContent( );
 		executionContext.setReport( report );
 		setParameterValues( reportDocReader.getParameterValues( ) );
 		IDataEngine dataEngine = executionContext.getDataEngine();
@@ -85,8 +83,8 @@ public class DataExtractionTask extends EngineTask
 			{
 				try
 				{
-					ReportItemDesign rptItem = getDesignItem( instanceId
-							.getComponentID( ) );
+					ReportItemDesign rptItem = (ReportItemDesign) report.getReportItemByID( 
+							instanceId.getComponentID( ) );
 					assert rptItem != null;
 
 					IBaseQueryDefinition query = rptItem.getQuery( );
@@ -125,7 +123,8 @@ public class DataExtractionTask extends EngineTask
 		assert executionContext.getDataEngine() != null;
 		DataEngine dataEngine = executionContext.getDataEngine().getDataEngine();
 		
-		ReportItemDesign rptItem = getDesignItem( instanceId.getComponentID() );
+		ReportItemDesign rptItem = (ReportItemDesign) report
+				.getReportItemByID( instanceId.getComponentID( ) );
 		assert rptItem != null;
 		
 		IBaseQueryDefinition query = rptItem.getQuery();
@@ -220,24 +219,6 @@ public class DataExtractionTask extends EngineTask
 		}
 		
 		return null;
-	}
-	
-	private void populateContent( )
-	{
-		if( contentMap == null )
-			contentMap = new HashMap( );
-		
-		for( int i=0; i<report.getContentCount(); i++)
-		{
-			ReportItemDesign rptItem = report.getContent( i );
-			contentMap.put(new Long( rptItem.getID()), rptItem);
-		}
-	}
-	
-	private ReportItemDesign getDesignItem( long componentId )
-	{
-		assert contentMap != null;
-		return (ReportItemDesign)contentMap.get(new Long( componentId ));
 	}
 	
 	private void validateSelectedColumns( IBaseQueryDefinition query )
