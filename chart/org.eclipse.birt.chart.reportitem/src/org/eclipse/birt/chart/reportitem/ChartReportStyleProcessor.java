@@ -263,6 +263,12 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 	 */
 	private static int getFontSizeIntValue( DesignElementHandle handle )
 	{
+		if ( handle == null )
+		{
+			// defulat Medium size.
+			return 10;
+		}
+
 		if ( !( handle instanceof ReportItemHandle ) )
 		{
 			if ( handle instanceof ModuleHandle )
@@ -316,6 +322,12 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 
 	private static int getLargerFontSizeIntValue( DesignElementHandle handle )
 	{
+		if ( handle == null )
+		{
+			// defulat Medium size + 1.
+			return 10 + 1;
+		}
+
 		if ( !( handle instanceof ReportItemHandle ) )
 		{
 			if ( handle instanceof ModuleHandle )
@@ -369,6 +381,12 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 
 	private static int getSmallerFontSizeIntValue( DesignElementHandle handle )
 	{
+		if ( handle == null )
+		{
+			// defulat Medium size - 1.
+			return 10 - 1;
+		}
+
 		if ( !( handle instanceof ReportItemHandle ) )
 		{
 			if ( handle instanceof ModuleHandle )
