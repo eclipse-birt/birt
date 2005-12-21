@@ -5,13 +5,14 @@ import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.Vector;
 
+import org.eclipse.birt.core.framework.FrameworkException;
+import org.eclipse.birt.core.framework.IConfigurationElement;
+import org.eclipse.birt.core.framework.IExtension;
+import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IRegistrationListener;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.birt.core.ui.i18n.Messages;
 import org.eclipse.birt.core.ui.utils.UIHelper;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
 
 public class TasksManager
 {
@@ -59,62 +60,73 @@ public class TasksManager
 		if ( UIHelper.isEclipseMode( ) )
 		{
 			// PROCESS 'tasks' EXTENSIONS
-			IConfigurationElement[] elements = Platform.getExtensionRegistry( )
-					.getConfigurationElementsFor( "org.eclipse.birt.core.ui.tasks" ); //$NON-NLS-1$
-			for ( int i = 0; i < elements.length; i++ )
+			IExtension[] extensions = Platform.getExtensionRegistry( )
+					.getExtensionPoint( "org.eclipse.birt.core.ui",//$NON-NLS-1$
+							"tasks" ).getExtensions( ); //$NON-NLS-1$
+			for ( int iC = 0; iC < extensions.length; iC++ )
 			{
-				try
+				IConfigurationElement[] elements = extensions[iC].getConfigurationElements( );
+				for ( int i = 0; i < elements.length; i++ )
 				{
-					String sID = elements[i].getAttribute( "taskID" ); //$NON-NLS-1$
-					ITask task = (ITask) elements[i].createExecutableExtension( "classDefinition" ); //$NON-NLS-1$
-					registeredTasks.put( sID, task );
-				}
-				catch ( CoreException e )
-				{
-					e.printStackTrace( );
+					try
+					{
+						String sID = elements[i].getAttribute( "taskID" ); //$NON-NLS-1$
+						ITask task = (ITask) elements[i].createExecutableExtension( "classDefinition" ); //$NON-NLS-1$
+						registeredTasks.put( sID, task );
+					}
+					catch ( FrameworkException e )
+					{
+						WizardBase.displayException( e );
+					}
 				}
 			}
 			// PROCESS 'taskWizards' EXTENSIONS
-			elements = Platform.getExtensionRegistry( )
-					.getConfigurationElementsFor( "org.eclipse.birt.core.ui.taskWizards" ); //$NON-NLS-1$
-			for ( int i = 0; i < elements.length; i++ )
+			extensions = Platform.getExtensionRegistry( )
+					.getExtensionPoint( "org.eclipse.birt.core.ui",//$NON-NLS-1$
+							"taskWizards" ).getExtensions( ); //$NON-NLS-1$
+			for ( int iC = 0; iC < extensions.length; iC++ )
 			{
-				String sID = elements[i].getAttribute( "wizardID" ); //$NON-NLS-1$
-				String sTaskList = elements[i].getAttribute( "tasklist" ); //$NON-NLS-1$
-				String[] sTasks = sTaskList.split( "," ); //$NON-NLS-1$
-				if ( registeredWizards.containsKey( sID ) )
+				IConfigurationElement[] elements = extensions[iC].getConfigurationElements( );
+				for ( int i = 0; i < elements.length; i++ )
 				{
-					String sInsertionKey = elements[i].getAttribute( "positionBefore" ); //$NON-NLS-1$
-					Vector vTemp = (Vector) registeredWizards.get( sID );
-					// IF INSERTION KEY IS SPECIFIED
-					if ( sInsertionKey != null
-							&& sInsertionKey.trim( ).length( ) > 0 )
+					String sID = elements[i].getAttribute( "wizardID" ); //$NON-NLS-1$
+					String sTaskList = elements[i].getAttribute( "tasklist" ); //$NON-NLS-1$
+					String[] sTasks = sTaskList.split( "," ); //$NON-NLS-1$
+					if ( registeredWizards.containsKey( sID ) )
 					{
-						int iInsertionPosition = ( (Vector) registeredWizards.get( sID ) ).indexOf( sInsertionKey );
-						// IF INSERTION KEY MATCHES A LOCATION IN WIZARD'S
-						// EXISTING TASK LIST
-						if ( iInsertionPosition != -1 )
+						String sInsertionKey = elements[i].getAttribute( "positionBefore" ); //$NON-NLS-1$
+						Vector vTemp = (Vector) registeredWizards.get( sID );
+						// IF INSERTION KEY IS SPECIFIED
+						if ( sInsertionKey != null
+								&& sInsertionKey.trim( ).length( ) > 0 )
 						{
-							for ( int iTaskIndex = 0; iTaskIndex < sTasks.length; iTaskIndex++ )
+							int iInsertionPosition = ( (Vector) registeredWizards.get( sID ) ).indexOf( sInsertionKey );
+							// IF INSERTION KEY MATCHES A LOCATION IN WIZARD'S
+							// EXISTING TASK LIST
+							if ( iInsertionPosition != -1 )
 							{
-								vTemp.add( iInsertionPosition + iTaskIndex,
-										sTasks[iTaskIndex].trim( ) );
+								for ( int iTaskIndex = 0; iTaskIndex < sTasks.length; iTaskIndex++ )
+								{
+									vTemp.add( iInsertionPosition + iTaskIndex,
+											sTasks[iTaskIndex].trim( ) );
+								}
+								continue;
 							}
-							continue;
 						}
-					}
-					registeredWizards.put( sID, addAllTasks( vTemp, sTasks ) );
-				}
-				else
-				{
-					if ( sTaskList != null && sTaskList.trim( ).length( ) > 0 )
-					{
-						registeredWizards.put( sID, addAllTasks( new Vector( ),
-								sTasks ) );
+						registeredWizards.put( sID, addAllTasks( vTemp, sTasks ) );
 					}
 					else
 					{
-						registeredWizards.put( sID, new Vector( ) );
+						if ( sTaskList != null
+								&& sTaskList.trim( ).length( ) > 0 )
+						{
+							registeredWizards.put( sID,
+									addAllTasks( new Vector( ), sTasks ) );
+						}
+						else
+						{
+							registeredWizards.put( sID, new Vector( ) );
+						}
 					}
 				}
 			}

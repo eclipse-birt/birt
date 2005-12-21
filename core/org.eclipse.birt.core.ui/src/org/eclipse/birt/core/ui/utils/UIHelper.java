@@ -20,9 +20,9 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.plugin.CoreUIPlugin;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
@@ -111,7 +111,7 @@ public final class UIHelper
 	public static URL getURL( String sPluginRelativePath )
 	{
 		URL url = null;
-		if ( Platform.getExtensionRegistry( ) != null )
+		if ( isEclipseMode( ) )
 		{
 			try
 			{

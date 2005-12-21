@@ -24,6 +24,9 @@
       <import plugin="org.eclipse.birt.report.model"/>
       <import plugin="org.eclipse.birt.chart.reportitem"/>
       <import plugin="org.eclipse.birt.report.engine"/>
+      <import plugin="org.eclipse.birt.core.ui"/>
+      <import plugin="org.eclipse.birt.chart.ui.extension"/>
+      <import plugin="org.eclipse.birt.chart.ui"/>
    </requires>
    <extension
          point="org.eclipse.birt.chart.engine.displayservers">

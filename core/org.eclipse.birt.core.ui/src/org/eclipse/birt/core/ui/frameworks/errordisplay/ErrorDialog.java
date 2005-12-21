@@ -13,7 +13,6 @@ package org.eclipse.birt.core.ui.frameworks.errordisplay;
 
 import org.eclipse.birt.core.ui.frameworks.taskwizard.composites.MessageComposite;
 import org.eclipse.birt.core.ui.i18n.Messages;
-import org.eclipse.birt.core.ui.utils.UIHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
@@ -28,7 +27,6 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * ErrorDialog
@@ -46,7 +44,7 @@ public class ErrorDialog implements SelectionListener
 
 	// UI COMPONENTS
 	private transient Display display = Display.getDefault( );
-	private transient Shell shell = new Shell( display, SWT.DIALOG_TRIM );
+	private transient Shell shell = null;
 	private transient Label lblImage = null;
 	private transient Composite cmpContainer = null;
 	private transient Composite cmpDetails = null;
@@ -73,42 +71,20 @@ public class ErrorDialog implements SelectionListener
 	// EXCEPTION DIALOG DATA FIELDS
 	private transient String sExceptionMessage = null;
 	private transient String sTrace = null;
-
-	/**
-	 * @param args
-	 */
-	public static void main( String[] args )
-	{
-		ErrorDialog err = new ErrorDialog( "Test Error Dialog", //$NON-NLS-1$
-				"An error has occurred!", //$NON-NLS-1$
-				new String[]{
-					"No data has been associated with this object." //$NON-NLS-1$
-				},
-				new String[]{
-					"Each object needs to have data associated with it. This data can be associated in the 'X' tab of the dialg. This data can be associated in the 'X' tab of the dialg. This data can be associated in the 'X' tab of the dialg. This data can be associated in the 'X' tab of the dialg." //$NON-NLS-1$
-				} );
-		// Throwable t = new RuntimeException("This is a test exception!");
-		// ErrorDialog err = new ErrorDialog("Test Exception Dialog", "An
-		// exception has occurred!", t);
-		System.out.println( "Dialog Selection - " + err.getOption( ) ); //$NON-NLS-1$
-	}
+	private transient Shell shellParent = null;
 
 	private void init( String sTitle )
 	{
 		display = Display.getDefault( );
-		if ( UIHelper.isEclipseMode( ) )
+		if ( shellParent == null )
 		{
-			shell = new Shell( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ), SWT.DIALOG_TRIM
-					| SWT.RESIZE
-					| SWT.APPLICATION_MODAL );
+			shell = new Shell( display, SWT.DIALOG_TRIM
+					| SWT.RESIZE | SWT.APPLICATION_MODAL );
 		}
 		else
 		{
-			shell = new Shell( display, SWT.DIALOG_TRIM
-					| SWT.RESIZE
-					| SWT.APPLICATION_MODAL );
+			shell = new Shell( shellParent, SWT.DIALOG_TRIM
+					| SWT.RESIZE | SWT.APPLICATION_MODAL );
 		}
 		shell.setText( sTitle );
 		shell.setSize( DEFAULT_WIDTH, DEFAULT_HEIGHT );
@@ -130,9 +106,10 @@ public class ErrorDialog implements SelectionListener
 		}
 	}
 
-	public ErrorDialog( String sTitle, String sMessage, String[] sErrors,
-			String[] sFixes )
+	public ErrorDialog( Shell shellParent, String sTitle, String sMessage,
+			String[] sErrors, String[] sFixes )
 	{
+		this.shellParent = shellParent;
 		this.sMessage = sMessage;
 		this.sErrors = getOrganizedErrors( sErrors );
 		this.sFixes = getOrganizedFixes( sFixes );
@@ -140,8 +117,10 @@ public class ErrorDialog implements SelectionListener
 		init( sTitle );
 	}
 
-	public ErrorDialog( String sTitle, String sMessage, Throwable t )
+	public ErrorDialog( Shell shellParent, String sTitle, String sMessage,
+			Throwable t )
 	{
+		this.shellParent = shellParent;
 		this.sMessage = sMessage;
 		this.sExceptionMessage = t.getLocalizedMessage( );
 		if ( sExceptionMessage == null )
@@ -363,8 +342,7 @@ public class ErrorDialog implements SelectionListener
 					t = t.getCause( );
 				}
 				sbTrace.append( Messages.getString( "ErrorDialog.text.CausedBy" ) //$NON-NLS-1$
-						+ t.getLocalizedMessage( )
-						+ "\n" ); //$NON-NLS-1$
+						+ t.getLocalizedMessage( ) + "\n" ); //$NON-NLS-1$
 			}
 			StackTraceElement[] se = t.getStackTrace( );
 			for ( int i = 0; i < se.length; i++ )

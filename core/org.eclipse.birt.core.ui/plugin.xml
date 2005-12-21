@@ -15,7 +15,6 @@
       <import plugin="org.eclipse.swt"/>
       <import plugin="org.eclipse.jface"/>
       <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.ui.workbench"/>
    </requires>
 
    <extension-point id="tasks" name="Task to be used in a Task-oriented Wizard" schema="schema/tasks.exsd"/>

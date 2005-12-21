@@ -10,7 +10,6 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IRegistrationLi
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.birt.core.ui.i18n.Messages;
-import org.eclipse.birt.core.ui.utils.UIHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ControlEvent;
@@ -33,7 +32,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
 
 public class WizardBase
 		implements
@@ -83,6 +81,8 @@ public class WizardBase
 
 	transient Image imgTitle = null;
 
+	private transient Shell shellParent = null;
+
 	// TRANSIENT STORAGE FOR ERRORS REPORTED BY TASKS USING 'errorDisplay()'
 	private transient Object[] errorHints = null;
 
@@ -114,18 +114,17 @@ public class WizardBase
 		glShell.verticalSpacing = 0;
 
 		display = Display.getDefault( );
-		if ( UIHelper.isEclipseMode( ) )
-		{
-			shell = new Shell( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ), SWT.DIALOG_TRIM
-					| SWT.RESIZE | SWT.APPLICATION_MODAL );
-		}
-		else
+		if ( shellParent == null )
 		{
 			shell = new Shell( display, SWT.DIALOG_TRIM
 					| SWT.RESIZE | SWT.APPLICATION_MODAL );
 		}
+		else
+		{
+			shell = new Shell( shellParent, SWT.DIALOG_TRIM
+					| SWT.RESIZE | SWT.APPLICATION_MODAL );
+		}
+
 		// Set shell properties
 		shell.setLayout( glShell );
 		shell.setSize( iWizardWidthMinimum, iWizardHeightMinimum );
@@ -319,7 +318,8 @@ public class WizardBase
 			String[] sErrors = getCurrentTask( ).getErrors( );
 			if ( sErrors != null && sErrors.length > 0 )
 			{
-				ErrorDialog ed = new ErrorDialog( Messages.getString( "WizardBase.error.ErrorsEncountered" ), //$NON-NLS-1$
+				ErrorDialog ed = new ErrorDialog( shellParent,
+						Messages.getString( "WizardBase.error.ErrorsEncountered" ), //$NON-NLS-1$
 						Messages.getString( "WizardBase.error.FollowingErrorsReportedByTask" ), //$NON-NLS-1$
 						sErrors,
 						new String[]{} );
@@ -480,8 +480,8 @@ public class WizardBase
 	 */
 	public static void displayException( Throwable t )
 	{
-		// TODO: Implement linkage with the ErrorDialog
-		new ErrorDialog( Messages.getString( "WizardBase.error.ErrorsEncountered" ), //$NON-NLS-1$
+		new ErrorDialog( null,
+				Messages.getString( "WizardBase.error.ErrorsEncountered" ), //$NON-NLS-1$
 				Messages.getString( "WizardBase.error.FollowingErrorEncountered" ), //$NON-NLS-1$
 				t );
 	}
@@ -514,7 +514,8 @@ public class WizardBase
 		if ( sErrors != null && sErrors.length > 0 )
 		{
 			this.errorHints = hints;
-			ErrorDialog dlg = new ErrorDialog( Messages.getString( "WizardBase.error.ErrorsEncountered" ), //$NON-NLS-1$
+			ErrorDialog dlg = new ErrorDialog( shellParent,
+					Messages.getString( "WizardBase.error.ErrorsEncountered" ), //$NON-NLS-1$
 					Messages.getString( "WizardBase.error.FollowingErrorEncountered" ), //$NON-NLS-1$
 					sErrors,
 					sFixes/* , currentContext, errorHints */);
@@ -541,6 +542,18 @@ public class WizardBase
 	{
 		iWizardWidthMinimum = iWidth;
 		iWizardHeightMinimum = iHeight;
+	}
+
+	/**
+	 * Sets the parent shell
+	 * 
+	 * @param parentShell
+	 *            parent shell. Null indicates current Display is used.
+	 * 
+	 */
+	public void setParentShell( Shell parentShell )
+	{
+		this.shellParent = parentShell;
 	}
 
 	private void placeComponents( )
@@ -631,7 +644,8 @@ public class WizardBase
 				final String[] saMessages = validate( );
 				if ( saMessages != null && saMessages.length > 0 )
 				{
-					ErrorDialog ed = new ErrorDialog( Messages.getString( "WizardBase.error.ErrorsEncountered" ), //$NON-NLS-1$
+					ErrorDialog ed = new ErrorDialog( shellParent,
+							Messages.getString( "WizardBase.error.ErrorsEncountered" ), //$NON-NLS-1$
 							Messages.getString( "WizardBase.error.FollowingErrorsReportedWhileVerifying" ), //$NON-NLS-1$
 							saMessages,
 							new String[]{} );
