@@ -58,7 +58,6 @@
 	<!-- ===== Default value for public properties ============= -->
 	<property name="utest.report.dir" location="utestreports" />
 	<property name="javadoc.dir" location="docs/api" />
-	<property name="plugin.version" value="2.0.0" />
 	<property name="export.dir" location="export" />
 
 	<property name="dir.utest" value="utest" />
@@ -137,6 +136,7 @@
 				 		- ${plugin.version} the version of plugin exported
 	-->
 	<target name="Export">
+		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
 		<copy todir="${export.dir}/${module.name}_${plugin.version}">
 			<fileset dir="." includes="device-svg.jar,about.html,plugin.xml,.options,dir.lib/**,schema/**" />
 		</copy>

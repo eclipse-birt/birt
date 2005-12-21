@@ -70,7 +70,6 @@
 	
 	<property name="module.name" value="org.eclipse.birt.chart.reportitem"/>
 
-	<property name="plugin.version" value="2.0.0" />
 	<property name="core.dir" location="../org.eclipse.birt.core"/>
 	<property name="model.dir" location="../org.eclipse.birt.report.model"/>
 	<property name="engine.dir" location="../org.eclipse.birt.report.engine"/>
@@ -203,6 +202,7 @@
 					 		- ${plugin.version} the version of plugin exported
 	-->
 	<target name="Export">
+		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
 	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
 	        <fileset dir="." includes="reportitem.jar,about.html,plugin.xml,.options,lib/**,icons/**"/>
 	    </copy>
