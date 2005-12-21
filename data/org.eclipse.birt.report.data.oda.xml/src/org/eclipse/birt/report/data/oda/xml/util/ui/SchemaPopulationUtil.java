@@ -50,13 +50,13 @@ public class SchemaPopulationUtil
 	 * @throws MalformedURLException 
 	 * @throws URISyntaxException 
 	 */
-	public static ATreeNode getSchemaTree( String fileName )
+	public static ATreeNode getSchemaTree( String fileName, boolean includeAttribute )
 			throws OdaException, MalformedURLException, URISyntaxException
 	{
 		if ( fileName.toUpperCase( ).endsWith( ".XSD" ) )
-			return XSDFileSchemaTreePopulator.getSchemaTree( fileName );
+			return XSDFileSchemaTreePopulator.getSchemaTree( fileName,includeAttribute );
 		else
-			return new XMLFileSchemaTreePopulator( ).getSchemaTree( fileName );
+			return new XMLFileSchemaTreePopulator( ).getSchemaTree( fileName,includeAttribute );
 	}
 }
 
@@ -71,6 +71,7 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 	private int rowCount;
 	private ATreeNode root;
 	private SaxParser sp;
+	private boolean includeAttribute = true;
 	Thread spThread;
 
 	/**
@@ -147,8 +148,9 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 	 * @param fileName
 	 * @return
 	 */
-	public ATreeNode getSchemaTree( String fileName )
+	public ATreeNode getSchemaTree( String fileName, boolean includeAttribute )
 	{
+		this.includeAttribute = includeAttribute;
 		sp = new SaxParser( fileName, this );
 		spThread = new Thread( sp );
 		spThread.start( );
@@ -178,7 +180,7 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 	private void insertNode( String treatedPath )
 	{
 		boolean isAttribute = isAttribute( treatedPath );
-
+		
 		// Remove the leading "/" then split the path.
 		String[] path = treatedPath.replaceFirst( "/", "" ).split( "/" );
 
@@ -231,6 +233,8 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 
 				if ( ( i == path.length - 1 ) && isAttribute )
 				{
+					if ( isAttribute && !this.includeAttribute )
+						continue;
 					matchedNode.setType( ATreeNode.ATTRIBUTE_TYPE );
 				}
 				else
@@ -252,7 +256,7 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
  */
 final class XSDFileSchemaTreePopulator
 {
-
+	private static boolean includeAttribute = true;
 	/**
 	 * Populate the whole tree until all the leaves have no child.
 	 * 
@@ -312,9 +316,10 @@ final class XSDFileSchemaTreePopulator
 	 * @throws MalformedURLException 
 	 * @throws URISyntaxException 
 	 */
-	public static ATreeNode getSchemaTree( String fileName )
+	public static ATreeNode getSchemaTree( String fileName, boolean incAttr )
 			throws OdaException, MalformedURLException, URISyntaxException
 	{
+		includeAttribute = incAttr;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance( );
 		factory.setNamespaceAware( true );
 
@@ -397,6 +402,8 @@ final class XSDFileSchemaTreePopulator
 				node.addChild( childNode );
 			}
 		}
+		if(!includeAttribute)
+			return;
 		XSAttributeGroupDecl group = complexType.getAttrGrp( );
 		if ( group != null )
 		{
@@ -461,6 +468,9 @@ final class XSDFileSchemaTreePopulator
 				XSObjectList list = ( (XSModelGroupImpl) particle.getTerm( ) ).getParticles( );
 				populateTreeNodeWithParticles( node, list );
 			}
+			
+			if(!includeAttribute)
+				continue;
 			XSAttributeGroupDecl group = element.getAttrGrp( );
 			if ( group != null )
 			{
