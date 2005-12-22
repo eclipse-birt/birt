@@ -251,14 +251,20 @@ public class SVGGraphics2D extends Graphics2D
 	public void drawGlyphVector( GlyphVector glyph, float x, float y )
 	{
 		translate( x, y );
-		currentElement = createElement( "g" ); //$NON-NLS-1$
-
-		setFillColor( currentElement );
+		Element currentElement = dom.createElement( "g" );//$NON-NLS-1$
+		Element transElement = createElement( "g" ); //$NON-NLS-1$
+		currentElement.appendChild(transElement);
+		//need to defer clipping for each glyph
+		setFillColor( transElement, true );
 		for ( int idx = 0; idx < glyph.getNumGlyphs( ); idx++ )
 		{
 			Element glyphElem = createShape( glyph.getGlyphOutline( idx ) );
-			currentElement.appendChild( glyphElem );
+			
+			transElement.appendChild( glyphElem );
 		}
+		//should add clipping to the group element that is not transformed
+		if ( clip != null )
+			currentElement.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		appendChild( currentElement );
 		translate( -x, -y );
 	}
@@ -736,8 +742,19 @@ public class SVGGraphics2D extends Graphics2D
 		appendChild( currentElement );
 		setStrokeStyle( currentElement );
 	}
-
+	
 	protected void setStrokeStyle( Element currentElement )
+	{
+		setStrokeStyle(currentElement, false);
+	}
+	/**
+	 * Adds stroke color and style information to the element passed in.
+	 * 
+	 * @param currentElement the element to add style information to.
+	 * @param isClipped boolean that determines whether to defer the clipping of the element
+	 */
+	protected void setStrokeStyle( Element currentElement, boolean deferClipped)
+
 	{
 		Element element = currentElement;
 		if (deferStrokColor != null){
@@ -793,13 +810,22 @@ public class SVGGraphics2D extends Graphics2D
 			element.setAttribute("class", styleClass); //$NON-NLS-1$
 		if (id != null)
 			element.setAttribute("id", id); //$NON-NLS-1$
-		if ( clip != null )
+		if (( clip != null ) && (!deferClipped))
 			element.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		
 	}
 	
-
-	protected void setFillColor( Element currentElement )
+	protected void setFillColor( Element currentElement){
+		setFillColor(currentElement, false);	
+	}
+	
+	/**
+	 * Adds fill color and style information to the element passed in.
+	 * 
+	 * @param currentElement the element to add style information to.
+	 * @param isClipped boolean that determines whether to defer the clipping of the element
+	 */
+	protected void setFillColor( Element currentElement, boolean deferClipped)
 	{
 		Element element = currentElement;
 		if (deferStrokColor != null){
@@ -827,7 +853,7 @@ public class SVGGraphics2D extends Graphics2D
 			element.setAttribute("class", styleClass); //$NON-NLS-1$
 		if (id != null)
 			element.setAttribute("id", id); //$NON-NLS-1$
-		if ( clip != null )
+		if (( clip != null ) && (!deferClipped))
 			element.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		
 	}
