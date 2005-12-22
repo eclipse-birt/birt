@@ -53,6 +53,7 @@ public class DataSetCacheManager
 	private IBaseDataSetDesign dataSetDesign;
 	private Collection parameterBindings;
 	
+	// current cache row count, its value is not possible be 0.
 	private int cacheRowCount;
 
 	//
@@ -138,7 +139,7 @@ public class DataSetCacheManager
 		if ( basicCache( ) == false )
 			return false;
 
-		DataSourceAndDataSet ds = getDataSourceAndDataSet( false );
+		DataSourceAndDataSet ds = getDataSourceAndDataSet( );
 		String cacheDirStr = (String) this.cacheMap.get( ds );
 		if ( cacheDirStr != null && new File( cacheDirStr ).exists( ) == true )
 		{
@@ -159,7 +160,7 @@ public class DataSetCacheManager
 		if ( basicCache( ) == false )
 			return false;
 
-		DataSourceAndDataSet ds = getDataSourceAndDataSet( false );
+		DataSourceAndDataSet ds = getDataSourceAndDataSet( );
 		String cacheDirStr = (String) this.cacheMap.get( ds );
 		if ( cacheDirStr != null && new File( cacheDirStr ).exists( ) == true )
 			return true;
@@ -218,21 +219,27 @@ public class DataSetCacheManager
 	}
 
 	/**
-	 * clear cache
+	 * Clear cache
+	 * 
+	 * @param dataSourceDesign2
+	 * @param dataSetDesign2
 	 */
-	public void clearCache( IBaseDataSourceDesign dataSourceDesign,
-			IBaseDataSetDesign dataSetDesign )
+	public void clearCache( IBaseDataSourceDesign dataSourceDesign2,
+			IBaseDataSetDesign dataSetDesign2 )
 	{
-		DataSourceAndDataSet ds = getDataSourceAndDataSet( true );
+		if ( dataSourceDesign2 == null || dataSetDesign2 == null )
+			return;
+
+		DataSourceAndDataSet ds = getDataSourceAndDataSet( dataSourceDesign2,
+				dataSetDesign2,
+				null,
+				dataSetDesign2.getCacheRowCount( ) );
 		Object cacheDir = cacheMap.get( ds );
 		if ( cacheDir != null )
 		{
 			cacheMap.remove( ds );
 			folderUtil.deleteDir( (String) cacheDir );
 		}
-		this.dataSourceDesign = null;
-		this.dataSetDesign = null;
-		this.cacheRowCount = 0;
 	}
 
 	/**
@@ -240,7 +247,7 @@ public class DataSetCacheManager
 	 */
 	public String getSaveFolder( )
 	{
-		return (String) cacheMap.get( getDataSourceAndDataSet( false ) );
+		return (String) cacheMap.get( getDataSourceAndDataSet( ) );
 	}
 
 	/**
@@ -248,15 +255,13 @@ public class DataSetCacheManager
 	 */
 	public String getLoadFolder( )
 	{
-		return (String) cacheMap.get( getDataSourceAndDataSet( false ) );
+		return (String) cacheMap.get( getDataSourceAndDataSet( ) );
 	}
 
 	/**
-	 * @param useParameterBindings
 	 * @return
 	 */
-	private DataSourceAndDataSet getDataSourceAndDataSet(
-			boolean onlyDataSourceAndDataSet )
+	private DataSourceAndDataSet getDataSourceAndDataSet( )
 	{
 		int cacheCount = 0;
 		if ( this.cacheOption == ALWAYS )
@@ -266,11 +271,28 @@ public class DataSetCacheManager
 		else
 			cacheCount = this.cacheRowCount;
 
-		return DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+		return getDataSourceAndDataSet( this.dataSourceDesign,
 				this.dataSetDesign,
 				this.parameterBindings,
-				cacheCount,
-				onlyDataSourceAndDataSet );
+				cacheCount );
+	}
+		
+	/**
+	 * @param dataSourceDesign2
+	 * @param dataSetDesign2
+	 * @param paramBinds
+	 * @param cacheCount
+	 * @return
+	 */
+	private static DataSourceAndDataSet getDataSourceAndDataSet(
+			IBaseDataSourceDesign dataSourceDesign2,
+			IBaseDataSetDesign dataSetDesign2, Collection paramBinds,
+			int cacheCount )
+	{
+		return DataSourceAndDataSet.newInstance( dataSourceDesign2,
+				dataSetDesign2,
+				paramBinds,
+				cacheCount );
 	}
 	
 	/**

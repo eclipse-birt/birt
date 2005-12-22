@@ -45,9 +45,6 @@ public class DataSourceAndDataSet
 	private Collection parameterBindings;
 	private int cacheCount;
 	
-	// only compare data source and data set
-	private boolean onlyDataSourceAndDataSet;
-	
 	/**
 	 * @param dataSourceDesign
 	 * @param dataSetDesign
@@ -56,14 +53,13 @@ public class DataSourceAndDataSet
 	public static DataSourceAndDataSet newInstance(
 			IBaseDataSourceDesign dataSourceDesign,
 			IBaseDataSetDesign dataSetDesign, Collection parameterBindings,
-			int cacheCount, boolean onlyDataSourceAndDataSet )
+			int cacheCount )
 	{
 		DataSourceAndDataSet dataSourceAndSet = new DataSourceAndDataSet( );
 		dataSourceAndSet.dataSourceDesign = dataSourceDesign;
 		dataSourceAndSet.dataSetDesign = dataSetDesign;
 		dataSourceAndSet.parameterBindings = parameterBindings;
 		dataSourceAndSet.cacheCount = cacheCount;
-		dataSourceAndSet.onlyDataSourceAndDataSet = onlyDataSourceAndDataSet;
 		
 		return dataSourceAndSet;
 	}
@@ -222,10 +218,7 @@ public class DataSourceAndDataSet
 		{
 			return false;
 		}
-		
-		if ( onlyDataSourceAndDataSet == true )
-			return true;
-		
+				
 		// parameter bindings compare
 		if ( this.isEqualParameterBindings( this.parameterBindings,
 				parameterBindings2 ) == false )
