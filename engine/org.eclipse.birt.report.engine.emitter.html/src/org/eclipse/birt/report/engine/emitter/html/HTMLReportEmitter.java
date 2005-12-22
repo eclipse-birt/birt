@@ -86,7 +86,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.58 $ $Date: 2005/12/13 06:55:19 $
+ * @version $Revision: 1.59 $ $Date: 2005/12/20 10:20:44 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -125,6 +125,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * the render options
 	 */
 	protected IRenderOption renderOption;
+
+	/**
+	 * should output the page header & footer
+	 */
+	protected boolean outputMasterPageContent;
 
 	/**
 	 * specifies if the HTML output is embeddable
@@ -316,10 +321,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		runnable = services.getReportRunnable( );
 		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
 		{
-			isEmbeddable = ( (HTMLRenderOption) renderOption ).getEmbeddable( );
+			HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
+			isEmbeddable = htmlOption.getEmbeddable( );
 			HashMap options = renderOption.getOutputSetting( );
-			assert options != null;
-			urlEncoding = (String) options.get( HTMLRenderOption.URL_ENCODING );
+			if ( options != null )
+			{
+				urlEncoding = (String) options
+						.get( HTMLRenderOption.URL_ENCODING );
+			}
+			outputMasterPageContent = htmlOption.getMasterPageContent( );
 		}
 
 		writer = new HTMLWriter( );
@@ -478,9 +488,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		if ( isEmbeddable )
 		{
 			fixTransparentPNG( );
-			
+
 			writer.openTag( HTMLTags.TAG_DIV );
-			
+
 			String reportStyleName = report == null ? null : report.getDesign( )
 					.getRootStyleName( );
 			if ( reportStyleName != null )
@@ -670,6 +680,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void startPage( IPageContent page )
 	{
+		if (pageNo > 1 && outputMasterPageContent == false)
+		{
+			writer.openTag("hr");
+			writer.closeTag("hr");
+		}
+
 		writer.openTag( HTMLTags.TAG_DIV );
 		IStyle contentStyle = page == null ? null : page.getContentStyle( );
 		pageNo++;
@@ -689,10 +705,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					.attribute( HTMLTags.ATTR_STYLE,
 							"page-break-before: always;" );
 		}
-
+		
 		if ( page != null )
 		{
-			contentVisitor.visitList( page.getHeader( ), null );
+			if ( outputMasterPageContent )
+			{
+				contentVisitor.visitList( page.getHeader( ), null );
+			}
 		}
 	}
 
@@ -707,7 +726,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( page != null )
 		{
-			contentVisitor.visitList( page.getFooter( ), null );
+			if ( outputMasterPageContent )
+			{
+				contentVisitor.visitList( page.getFooter( ), null );
+			}
 		}
 		writer.closeTag( HTMLTags.TAG_DIV );
 	}

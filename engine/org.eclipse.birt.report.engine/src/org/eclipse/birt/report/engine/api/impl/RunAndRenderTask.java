@@ -15,6 +15,7 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.ReportEngine;
@@ -96,7 +97,16 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		// if we need do the paginate, do the paginate.
 		if ( format.equalsIgnoreCase( "html" ) )
 		{
-			emitter = new HTMLPaginationEmitter( executor, null, emitter );
+			boolean paginate = true;
+			if ( renderOptions instanceof HTMLRenderOption )
+			{
+				HTMLRenderOption htmlOption = (HTMLRenderOption) renderOptions;
+				paginate = htmlOption.getHtmlPagination( );
+			}
+			if ( paginate )
+			{
+				emitter = new HTMLPaginationEmitter( executor, null, emitter );
+			}
 		}
 		else if ( format.equalsIgnoreCase( "fo" )
 				|| format.equalsIgnoreCase( "fop" ) )
