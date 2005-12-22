@@ -11,6 +11,7 @@ public class UpdateContent  implements java.io.Serializable {
     private java.lang.String target;
     private java.lang.String content;
     private org.eclipse.birt.report.soapengine.api.ReportId[] initializationId;
+    private java.lang.String bookmark;
 
     public UpdateContent() {
     }
@@ -47,6 +48,14 @@ public class UpdateContent  implements java.io.Serializable {
         this.initializationId[i] = value;
     }
 
+    public java.lang.String getBookmark() {
+        return bookmark;
+    }
+
+    public void setBookmark(java.lang.String bookmark) {
+        this.bookmark = bookmark;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof UpdateContent)) return false;
@@ -67,7 +76,10 @@ public class UpdateContent  implements java.io.Serializable {
               this.content.equals(other.getContent()))) &&
             ((this.initializationId==null && other.getInitializationId()==null) || 
              (this.initializationId!=null &&
-              java.util.Arrays.equals(this.initializationId, other.getInitializationId())));
+              java.util.Arrays.equals(this.initializationId, other.getInitializationId()))) &&
+            ((this.bookmark==null && other.getBookmark()==null) || 
+             (this.bookmark!=null &&
+              this.bookmark.equals(other.getBookmark())));
         __equalsCalc = null;
         return _equals;
     }
@@ -96,6 +108,9 @@ public class UpdateContent  implements java.io.Serializable {
                 }
             }
         }
+        if (getBookmark() != null) {
+            _hashCode += getBookmark().hashCode();
+        }
         __hashCodeCalc = false;
         return _hashCode;
     }
@@ -120,6 +135,12 @@ public class UpdateContent  implements java.io.Serializable {
         elemField.setFieldName("initializationId");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "InitializationId"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportId"));
+        elemField.setMinOccurs(0);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("bookmark");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Bookmark"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         typeDesc.addFieldDesc(elemField);
     }

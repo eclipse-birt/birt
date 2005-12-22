@@ -70,16 +70,16 @@ public class BirtSoapBindingStub extends org.apache.axis.client.Stub implements 
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
-            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Oprand");
+            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Format");
             cachedSerQNames.add(qName);
-            cls = org.eclipse.birt.report.soapengine.api.Oprand.class;
+            cls = org.eclipse.birt.report.soapengine.api.Format.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
-            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Format");
+            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Oprand");
             cachedSerQNames.add(qName);
-            cls = org.eclipse.birt.report.soapengine.api.Format.class;
+            cls = org.eclipse.birt.report.soapengine.api.Oprand.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
