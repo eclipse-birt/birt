@@ -1196,28 +1196,40 @@ public class CallStatement implements IAdvancedQuery
 			DatabaseMetaData metaData = conn.getMetaData( );
 			String cataLog = conn.getCatalog( );
 			ArrayList schemaList = createSchemaList( metaData.getSchemas( ) );
-
-			if ( schemaList != null && schemaList.size( ) > 0 )
+			String columnNamePattern = null;
+			String procedureNamePattern = procedureName;
+			
+			if ( procedureName.indexOf( "." ) > 0 )
 			{
-				for ( int i = 0; i < schemaList.size( ); i++ )
+				cataLog = procedureName.substring( 0,
+						procedureName.indexOf( "." ) );
+				procedureNamePattern = procedureName.substring( procedureName.indexOf( "." ) + 1 );
+			}
+			
+			if ( schemaList == null || schemaList.size( ) == 0 )
+			{
+				schemaList.add( "" );
+				columnNamePattern = "";
+			}
+
+			for ( int i = 0; i < schemaList.size( ); i++ )
+			{
+				java.sql.ResultSet rs = metaData.getProcedureColumns( cataLog,
+						schemaList.get( i ).toString( ),
+						procedureNamePattern,
+						columnNamePattern );
+				while ( rs.next( ) )
 				{
-					java.sql.ResultSet rs = metaData.getProcedureColumns( cataLog,
-							schemaList.get( i ).toString( ),
-							procedureName,
-							null );
-					while ( rs.next( ) )
-					{
-						ParameterDefn p = new ParameterDefn( );
-						p.setParamName( rs.getString( "COLUMN_NAME" ) );
-						p.setParamInOutType( rs.getInt( "COLUMN_TYPE" ) );
-						p.setParamType( rs.getInt( "DATA_TYPE" ) );
-						p.setParamTypeName( rs.getString( "TYPE_NAME" ) );
-						p.setPrecision( rs.getInt( "PRECISION" ) );
-						p.setScale( rs.getInt( "SCALE" ) );
-						p.setIsNullable( rs.getInt( "NULLABLE" ) );
-						if ( p.getParamInOutType( ) != 5 )
-							paramMetaDataList.add( p );
-					}
+					ParameterDefn p = new ParameterDefn( );
+					p.setParamName( rs.getString( "COLUMN_NAME" ) );
+					p.setParamInOutType( rs.getInt( "COLUMN_TYPE" ) );
+					p.setParamType( rs.getInt( "DATA_TYPE" ) );
+					p.setParamTypeName( rs.getString( "TYPE_NAME" ) );
+					p.setPrecision( rs.getInt( "PRECISION" ) );
+					p.setScale( rs.getInt( "SCALE" ) );
+					p.setIsNullable( rs.getInt( "NULLABLE" ) );
+					if ( p.getParamInOutType( ) != 5 )
+						paramMetaDataList.add( p );
 				}
 			}
 		}

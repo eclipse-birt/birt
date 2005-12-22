@@ -104,6 +104,9 @@ public class ResultSet
 	 */
 	public IResultObject fetch( ) throws DataException
 	{
+		if ( m_resultSet == null )
+			return null;
+
 	    final String methodName = "fetch";
 		try
 		{
