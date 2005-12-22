@@ -8,9 +8,18 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-package org.eclipse.birt.report.engine.api.script.instance;
+package org.eclipse.birt.report.engine.script.internal.instance;
 
-public interface IDynamicTextInstance extends IAbstractTextInstance
+import org.eclipse.birt.report.engine.api.script.instance.IDynamicTextInstance;
+import org.eclipse.birt.report.engine.content.impl.ForeignContent;
+
+public class DynamicTextInstance extends ForeignTextInstance implements
+		IDynamicTextInstance
 {
+
+	public DynamicTextInstance( ForeignContent content )
+	{
+		super( content );
+	}
 
 }

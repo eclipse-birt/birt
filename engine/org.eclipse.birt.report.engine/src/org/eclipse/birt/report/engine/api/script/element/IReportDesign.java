@@ -66,7 +66,7 @@ public interface IReportDesign extends IDesignElement
 	 * method to get a dynamic text data item by name.
 	 * 
 	 */
-	ITextData getTextData( String name );
+	IDynamicText getDynamicText( String name );
 
 	/**
 	 * Sets the resource key of the display name.

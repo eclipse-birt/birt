@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 import org.eclipse.birt.report.engine.api.script.element.IReportElement;
 import org.eclipse.birt.report.engine.api.script.element.IRow;
 import org.eclipse.birt.report.engine.api.script.element.ITable;
-import org.eclipse.birt.report.engine.api.script.element.ITextData;
+import org.eclipse.birt.report.engine.api.script.element.IDynamicText;
 import org.eclipse.birt.report.engine.api.script.element.ITextItem;
 import org.eclipse.birt.report.engine.script.internal.ElementUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -134,11 +134,11 @@ public class ReportDesign extends DesignElement implements IReportDesign
 		return null;
 	}
 
-	public ITextData getTextData( String name )
+	public IDynamicText getDynamicText( String name )
 	{
 		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof ITextData )
-			return ( ITextData ) element;
+		if ( element != null && element instanceof IDynamicText )
+			return ( IDynamicText ) element;
 		return null;
 	}
 

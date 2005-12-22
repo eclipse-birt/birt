@@ -35,7 +35,7 @@ import org.eclipse.birt.report.engine.script.internal.element.ReportDesign;
 import org.eclipse.birt.report.engine.script.internal.element.ReportElement;
 import org.eclipse.birt.report.engine.script.internal.element.Row;
 import org.eclipse.birt.report.engine.script.internal.element.Table;
-import org.eclipse.birt.report.engine.script.internal.element.TextData;
+import org.eclipse.birt.report.engine.script.internal.element.DynamicText;
 import org.eclipse.birt.report.engine.script.internal.element.TextItem;
 import org.eclipse.birt.report.engine.script.internal.instance.CellInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.DataItemInstance;
@@ -145,7 +145,7 @@ public class ElementUtil
 			return new Table( ( TableHandle ) element );
 
 		if ( element instanceof TextDataHandle )
-			return new TextData( ( TextDataHandle ) element );
+			return new DynamicText( ( TextDataHandle ) element );
 
 		if ( element instanceof TextItemHandle )
 			return new TextItem( ( TextItemHandle ) element );

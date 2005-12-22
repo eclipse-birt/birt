@@ -19,9 +19,11 @@ import org.eclipse.birt.report.engine.script.internal.DataItemScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.GridScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.ImageScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.LabelScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.ListGroupScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.MultiLineScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.DynamicTextScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.TableGroupScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.TextItemScriptExecutor;
 
@@ -126,7 +128,7 @@ class ScriptedDesignVisitor extends DesignVisitor
 
 		} else if ( handle instanceof TextDataHandle )
 		{
-			MultiLineScriptExecutor.handleOnPrepare( ( TextDataHandle ) handle,
+			DynamicTextScriptExecutor.handleOnPrepare( ( TextDataHandle ) handle,
 					executionContext );
 		} else
 			// if there's no ScriptExecutor available, execute javascript
@@ -167,16 +169,12 @@ class ScriptedDesignVisitor extends DesignVisitor
 		if ( !hasJavaScript && !hasJavaCode )
 			return;
 
-		try
-		{
-			executionContext.newScope( handle );
-			// Since there's no ScriptHandler available, call
-			// exectionContext.execute to execute the javascript only.
-			executionContext.execute( handle.getOnPrepare( ) );
-		} finally
-		{
-			executionContext.exitScope( );
-		}
+		if ( handle instanceof TableGroupHandle )
+			TableGroupScriptExecutor.handleOnPrepare(
+					( TableGroupHandle ) handle, executionContext );
+		if ( handle instanceof ListGroupHandle )
+			ListGroupScriptExecutor.handleOnPrepare(
+					( ListGroupHandle ) handle, executionContext );
 	}
 
 	// TODO: Merge this function with the above one when DE add onPrepare to
@@ -190,8 +188,7 @@ class ScriptedDesignVisitor extends DesignVisitor
 		if ( !hasJavaScript && !hasJavaCode )
 			return;
 
-		RowScriptExecutor.handleOnPrepare( handle,
-					executionContext );
+		RowScriptExecutor.handleOnPrepare( handle, executionContext );
 	}
 
 	/*

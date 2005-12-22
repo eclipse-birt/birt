@@ -8,9 +8,17 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-package org.eclipse.birt.report.engine.api.script.instance;
+package org.eclipse.birt.report.engine.script.internal.element;
 
-public interface IDynamicTextInstance extends IAbstractTextInstance
+import org.eclipse.birt.report.engine.api.script.element.ITableGroup;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
+
+public class TableGroup extends Group implements ITableGroup
 {
+
+	public TableGroup( TableGroupHandle group )
+	{
+		super( group );
+	}
 
 }
