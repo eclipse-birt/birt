@@ -295,7 +295,7 @@ public class TableEditPart extends ReportElementEditPart implements
 				break;
 			}
 			case NotificationEvent.ELEMENT_DELETE_EVENT :
-			case NotificationEvent.TABLE_MODEL_EVENT :
+			case NotificationEvent.LAYOUT_CHANGED_EVENT :
 			{
 				markDirty( true );
 				refresh( );

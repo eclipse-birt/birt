@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.model.activity.LayoutActivityTask;
+import org.eclipse.birt.report.model.activity.LayoutRecordTask;
 import org.eclipse.birt.report.model.activity.NotificationRecordTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -27,9 +27,9 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.GridItem;
-import org.eclipse.birt.report.model.elements.ListItem;
 import org.eclipse.birt.report.model.elements.Parameter;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
+import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
@@ -303,13 +303,16 @@ public class ContentRecord extends SimpleRecord
 		List retValue = new ArrayList( );
 		retValue.addAll( super.getPostTasks( ) );
 
-		if ( container instanceof TableItem || container instanceof TableGroup
+		if ( container instanceof TableItem || container instanceof GridItem
+				|| container instanceof TableGroup
 				|| container instanceof TableRow )
 		{
-
-			TableItem table = LayoutUtil.getTableContainer( container );
-			if ( table != null )
-				retValue.add( new LayoutActivityTask( module, table ) );
+			ReportItem compoundElement = LayoutUtil
+					.getCompoundContainer( container );
+			if ( compoundElement != null )
+			{
+				retValue.add( new LayoutRecordTask( module, compoundElement ) );
+			}
 		}
 
 		// Send the content changed event to the container.
@@ -346,8 +349,7 @@ public class ContentRecord extends SimpleRecord
 
 		if ( content instanceof Parameter || content instanceof ParameterGroup
 				|| content instanceof DataSet
-				|| content instanceof StyleElement
-				|| content instanceof GridItem || content instanceof ListItem )
+				|| content instanceof StyleElement )
 		{
 			event = new ElementDeletedEvent( container, content );
 			if ( state == DONE_STATE )

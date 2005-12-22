@@ -18,6 +18,8 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
+import org.eclipse.birt.report.model.elements.GridItem;
+import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 
@@ -105,10 +107,11 @@ public class LayoutUtil
 
 	private static LayoutSlot getLayoutSlotOfCell( CellHandle cell )
 	{
-		TableItem table = getTableContainer( cell.getElement( ) );
-		if ( table == null )
+		ReportItem compoundElement = getCompoundContainer( cell.getElement( ) );
+		if ( !( compoundElement instanceof TableItem ) )
 			return null;
 
+		TableItem table = (TableItem) compoundElement;
 		LayoutTable layoutTable = table.getLayoutModel( cell.getModule( ) );
 
 		LayoutSlot layoutSlot = null;
@@ -185,7 +188,7 @@ public class LayoutUtil
 
 		if ( layoutSlot == null )
 			return cell.getColumnSpan( );
-		
+
 		int rowId = cell.getContainer( ).getContainerSlotHandle( ).findPosn(
 				cell.getContainer( ) );
 
@@ -210,7 +213,7 @@ public class LayoutUtil
 	}
 
 	/**
-	 * Returns a nearest <code>TableItem</code> container for
+	 * Returns a nearest <code>TableItem/GridItem</code> container for
 	 * <code>TableRow</code>, <code>TableGroup</code> and
 	 * <code>TableItem</code> if applicable.
 	 * <p>
@@ -219,10 +222,10 @@ public class LayoutUtil
 	 * 
 	 * @param element
 	 *            the element where the search begins
-	 * @return a nearest <code>TableItem</code> container
+	 * @return a nearest <code>TableItem/GridItem</code> container
 	 */
 
-	public static TableItem getTableContainer( IDesignElement element )
+	public static ReportItem getCompoundContainer( IDesignElement element )
 	{
 
 		DesignElement tmpElement = (DesignElement) element;
@@ -233,8 +236,9 @@ public class LayoutUtil
 
 		for ( int i = 0; i < maxLevel; i++ )
 		{
-			if ( tmpElement == null || tmpElement instanceof TableItem )
-				return (TableItem) tmpElement;
+			if ( tmpElement == null || tmpElement instanceof TableItem
+					|| tmpElement instanceof GridItem )
+				return (ReportItem) tmpElement;
 
 			tmpElement = tmpElement.getContainer( );
 		}

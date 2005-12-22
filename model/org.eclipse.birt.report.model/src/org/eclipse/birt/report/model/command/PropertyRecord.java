@@ -12,7 +12,7 @@ package org.eclipse.birt.report.model.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.model.activity.LayoutActivityTask;
+import org.eclipse.birt.report.model.activity.LayoutRecordTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ExtensionPropertyDefinitionEvent;
@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
-import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -209,11 +209,12 @@ public class PropertyRecord extends SimpleRecord
 				&& !Cell.DROP_PROP.equalsIgnoreCase( propName ) )
 			return retValue;
 
-		TableItem table = LayoutUtil.getTableContainer( element );
-		if ( table == null )
+		ReportItem compoundElement = LayoutUtil.getCompoundContainer( element );
+		if ( compoundElement == null )
 			return retValue;
 
-		retValue.add( new LayoutActivityTask( table.getRoot( ), table ) );
+		retValue.add( new LayoutRecordTask( compoundElement.getRoot( ),
+				compoundElement ) );	
 		return retValue;
 	}
 }

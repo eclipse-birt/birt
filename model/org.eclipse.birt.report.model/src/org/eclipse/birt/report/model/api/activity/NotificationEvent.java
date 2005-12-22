@@ -120,10 +120,10 @@ public abstract class NotificationEvent
 	public static final int DISPOSE_EVENT = 13;
 
 	/**
-	 * The event type of TABLE_MODEL_EVENT.
+	 * The event type of LAYOUT_CHANGED_EVENT.
 	 */
 
-	public static final int TABLE_MODEL_EVENT = 14;
+	public static final int LAYOUT_CHANGED_EVENT = 14;
 	
 	/**
 	 * The event type of THEME_EVENT.

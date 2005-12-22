@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.model.activity.LayoutActivityTask;
+import org.eclipse.birt.report.model.activity.LayoutRecordTask;
 import org.eclipse.birt.report.model.activity.NotificationRecordTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
+import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
@@ -252,9 +253,12 @@ public class ContentReplaceRecord extends SimpleRecord
 				|| container instanceof TableRow )
 		{
 
-			TableItem table = LayoutUtil.getTableContainer( container );
-			if ( table != null )
-				retValue.add( new LayoutActivityTask( module, table ) );
+			ReportItem compoundElement = LayoutUtil
+					.getCompoundContainer( container );
+			if ( compoundElement != null )
+			{
+				retValue.add( new LayoutRecordTask( module, compoundElement ) );
+			}
 		}
 
 		NotificationEvent event = null;

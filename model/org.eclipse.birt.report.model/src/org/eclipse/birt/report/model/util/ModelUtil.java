@@ -26,7 +26,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.birt.report.model.activity.LayoutActivityTask;
+import org.eclipse.birt.report.model.activity.LayoutRecordTask;
 import org.eclipse.birt.report.model.activity.NotificationRecordTask;
 import org.eclipse.birt.report.model.activity.RecordTask;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -484,23 +484,23 @@ public class ModelUtil
 	 * @return a list contained filtrated table layout tasks
 	 */
 
-	public static List filterTableLayoutTasks( List tasks )
+	public static List filterLayoutTasks( List tasks )
 	{
 		List retList = new ArrayList( );
-		Set tables = new LinkedHashSet( );
+		Set elements = new LinkedHashSet( );
 
 		for ( int i = 0; i < tasks.size( ); i++ )
 		{
 			RecordTask task = (RecordTask) tasks.get( i );
 
-			if ( task instanceof LayoutActivityTask )
+			if ( task instanceof LayoutRecordTask )
 			{
-				DesignElement table = (DesignElement) ( (LayoutActivityTask) task )
+				DesignElement compoundElement = (DesignElement) ( (LayoutRecordTask) task )
 						.getTarget( );
-				if ( !tables.contains( table ) )
+				if ( !elements.contains( compoundElement ) )
 				{
 					retList.add( task );
-					tables.add( table );
+					elements.add( compoundElement );
 				}
 			}
 		}

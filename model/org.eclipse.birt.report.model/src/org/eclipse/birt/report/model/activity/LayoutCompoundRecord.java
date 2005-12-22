@@ -48,7 +48,7 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord
 		if ( !isOutermostFilterTrans( ) )
 			return;
 
-		List tasks = ModelUtil.filterTableLayoutTasks( getPostTasks( ) );
+		List tasks = ModelUtil.filterLayoutTasks( getPostTasks( ) );
 
 		for ( int i = 0; i < tasks.size( ); i++ )
 		{
