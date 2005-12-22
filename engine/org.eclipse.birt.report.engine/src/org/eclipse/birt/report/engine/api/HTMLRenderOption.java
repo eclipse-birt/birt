@@ -110,7 +110,7 @@ public class HTMLRenderOption extends RenderOptionBase
 		{
 			return value.booleanValue( );
 		}
-		return false;
+		return true;
 	}
 
 	public void setHtmlPagination( boolean paginate )

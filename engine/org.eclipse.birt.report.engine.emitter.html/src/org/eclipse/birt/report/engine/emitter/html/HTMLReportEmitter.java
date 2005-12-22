@@ -86,7 +86,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.59 $ $Date: 2005/12/20 10:20:44 $
+ * @version $Revision: 1.60 $ $Date: 2005/12/22 15:22:32 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -129,7 +129,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	/**
 	 * should output the page header & footer
 	 */
-	protected boolean outputMasterPageContent;
+	protected boolean outputMasterPageContent = true;
 
 	/**
 	 * specifies if the HTML output is embeddable
