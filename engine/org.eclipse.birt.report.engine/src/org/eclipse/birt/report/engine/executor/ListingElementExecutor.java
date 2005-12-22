@@ -91,107 +91,118 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			startTOCEntry( null );
 			accessFooter( listing, outputEmitter, null );
 			finishTOCEntry( );
+			return;
 		}
-		else
+
+		IResultIterator rsIterator = ( (DteResultSet) rset )
+				.getResultIterator( );
+		IBaseQueryDefinition query = listing.getQuery( );
+		Collection rowExpressions = ( query == null ? null : query
+				.getRowExpressions( ) );
+		Collection beforeExpressions = ( query == null ? null : query
+				.getBeforeExpressions( ) );
+		Collection afterExpressions = ( query == null ? null : query
+				.getAfterExpressions( ) );
+		IRowData rowData = new RowData( rsIterator, rowExpressions );
+		IRowData headerData = new RowData( rsIterator, beforeExpressions );
+		IRowData footerData = new RowData( rsIterator, afterExpressions );
+		startTOCEntry( null );
+		accessHeader( listing, outputEmitter, headerData );
+		finishTOCEntry( );
+		if ( groupCount == 0 )
 		{
-			IResultIterator rsIterator = ( (DteResultSet) rset )
-					.getResultIterator( );
-			IBaseQueryDefinition query = listing.getQuery( );
-			Collection rowExpressions = ( query == null ? null : query
-					.getRowExpressions( ) );
-			Collection beforeExpressions = ( query == null ? null : query
-					.getBeforeExpressions( ) );
-			Collection afterExpressions = ( query == null ? null : query
-					.getAfterExpressions( ) );
-			IRowData rowData = new RowData( rsIterator, rowExpressions );
-			IRowData headerData = new RowData( rsIterator, beforeExpressions );
-			IRowData footerData = new RowData( rsIterator, afterExpressions );
-			startTOCEntry( null );
-			accessHeader( listing, outputEmitter, headerData );
-			finishTOCEntry( );
-			if ( groupCount == 0 )
+			// no group tables
+			do
 			{
-				do
+				rsetCursor++;
+				startTOCEntry( null );
+				accessDetail( listing, outputEmitter, rowData );
+				finishTOCEntry( );
+				if ( pageBreakInterval > 0 )
 				{
-					rsetCursor++;
+					if ( ( rsetCursor + 1 ) % pageBreakInterval == 0 )
+					{
+						needPageBreak = true;
+					}
+				}
+				if ( rset.getEndingGroupLevel( ) == 0 )
+				{
+					// we never add page break before the table header and
+					// the last row
+					needPageBreak = false;
 					startTOCEntry( null );
-					accessDetail( listing, outputEmitter, rowData );
+					accessFooter( listing, outputEmitter, footerData );
 					finishTOCEntry( );
-					if ( pageBreakInterval > 0 )
-					{
-						if ( ( rsetCursor + 1 ) % pageBreakInterval == 0 )
-						{
-							needPageBreak = true;
-						}
-					}
-				} while ( rset.next( ) );
-			}
-			else
-			{
-				do
-				{
-					rsetCursor++;
-					int startGroup = rset.getStartingGroupLevel( );
-					if ( startGroup != NONE_GROUP )
-					{
-						// It start the group startGroup. It also start the
-						// groups from startGroup to groupCount.
-						groupIndex = startGroup - 1;
-						if ( groupIndex < 0 )
-						{
-							groupIndex = 0;
-						}
-						while ( groupIndex < groupCount )
-						{
-							startGroupTOCEntry( );// open the group
-							startTOCEntry( null );// open the group header
-							accessGroupHeader( listing, groupIndex,
-									outputEmitter );
-							finishTOCEntry( );// close the group header
-							groupIndex++;
-						}
-					}
-					startGroupTOCEntry( );
-					accessDetail( listing, outputEmitter, rowData );
-					finishGroupTOCEntry( );
-					int endGroup = rset.getEndingGroupLevel( );
-					if ( endGroup != NONE_GROUP )
-					{
-						// the endGroup has terminate, it also termiate the
-						// groups
-						// from endGroup-1
-						// to groupCount-1.
-						endGroup = endGroup - 1;
-						if ( endGroup < 0 )
-						{
-							endGroup = 0;
-						}
-						groupIndex = groupCount - 1;
-						while ( groupIndex >= endGroup )
-						{
-							startTOCEntry( null ); // open the group footer
-							accessGroupFooter( listing, groupIndex,
-									outputEmitter );
-							finishTOCEntry( ); // close the group footer
-							finishGroupTOCEntry( ); // close the group
-							groupIndex--;
-						}
-					}
-					if ( pageBreakInterval > 0 )
-					{
-						if ( ( rsetCursor + 1 ) % pageBreakInterval == 0 )
-						{
-							needPageBreak = true;
-						}
-					}
-				} while ( rset.next( ) );
-			}
-			// we never add page break before the table header and the last row
-			needPageBreak = false;
-			startTOCEntry( null );
-			accessFooter( listing, outputEmitter, footerData );
-			finishTOCEntry( );
+				}
+			} while ( rset.next( ) );
+			return;
 		}
+		// multiple group tables
+		do
+		{
+			rsetCursor++;
+			int startGroup = rset.getStartingGroupLevel( );
+			if ( startGroup != NONE_GROUP )
+			{
+				// It start the group startGroup. It also start the
+				// groups from startGroup to groupCount.
+				groupIndex = startGroup - 1;
+				if ( groupIndex < 0 )
+				{
+					groupIndex = 0;
+				}
+				while ( groupIndex < groupCount )
+				{
+					startGroupTOCEntry( );// open the group
+					startTOCEntry( null );// open the group header
+					accessGroupHeader( listing, groupIndex, outputEmitter );
+					finishTOCEntry( );// close the group header
+					groupIndex++;
+				}
+			}
+			startGroupTOCEntry( );
+			accessDetail( listing, outputEmitter, rowData );
+			finishGroupTOCEntry( );
+			int endGroup = rset.getEndingGroupLevel( );
+			if ( endGroup != NONE_GROUP )
+			{
+				// the endGroup has terminate, it also termiate the
+				// groups
+				// from endGroup-1
+				// to groupCount-1.
+				endGroup = endGroup - 1;
+				if ( endGroup < 0 )
+				{
+					endGroup = 0;
+				}
+				groupIndex = groupCount - 1;
+				while ( groupIndex >= endGroup )
+				{
+					startTOCEntry( null ); // open the group footer
+					accessGroupFooter( listing, groupIndex, outputEmitter );
+					finishTOCEntry( ); // close the group footer
+					finishGroupTOCEntry( ); // close the group
+					groupIndex--;
+				}
+			}
+			if ( pageBreakInterval > 0 )
+			{
+				if ( ( rsetCursor + 1 ) % pageBreakInterval == 0 )
+				{
+					needPageBreak = true;
+				}
+			}
+			if ( rset.getEndingGroupLevel( ) == 0 )
+			{
+				// we never add page break before the table header and
+				// the last row
+				needPageBreak = false;
+				startTOCEntry( null );
+				accessFooter( listing, outputEmitter, footerData );
+				finishTOCEntry( );
+			}
+		} while ( rset.next( ) );
+
 	}
 
 	/**
