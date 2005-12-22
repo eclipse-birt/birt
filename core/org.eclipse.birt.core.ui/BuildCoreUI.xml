@@ -74,6 +74,8 @@
  	<property name="dir.bin" value="bin" />
  	<property name="dir.lib" value="lib" />
 	
+	<property name="core.dir" location="../org.eclipse.birt.core"/>
+	
  	<property name="module.name" value="org.eclipse.birt.core.ui" />
 	<property name="jar.name" value="coreui.jar" />	
 	
@@ -91,9 +93,13 @@
 			<include name="org.eclipse.core.runtime*.jar"/>
 			<include name="org.eclipse.osgi*.jar"/>
 			<include name="org.eclipse.swt*.jar"/>
-			<include name="org.eclipse.ui.workbench*.jar"/>
 			<include name="org.eclipse.jface*.jar"/>
 		</fileset>
+		
+		<fileset dir="${core.dir}/lib">
+				<include name="**/*.jar"/>
+		</fileset>		
+		<pathelement path="${core.dir}/core.jar"/>
 	</path>
 	
 
@@ -115,7 +121,7 @@
 
 	
 	<!-- compile the source code -->
-	<target name="compileSource" depends="init" description="compile the source ">
+	<target name="compileSource" depends="init, buildDependents" description="compile the source ">
 		<mkdir dir="${dir.bin}"/>
 
 		<!-- copy any resource file we needed into the bin directory-->
@@ -225,7 +231,14 @@
 		<fail unless="eclipse.home.isset" message="Property eclipse.home should be set, build failed!"/>
 	</target>
 
-	
+	<!-- Build the dependent projects -->
+	<target name="buildDependents" description="Build all the projects it depends on">
+		<echo message="start call Jar task in ${core.dir}" level="info"/>
+		<ant dir="${core.dir}" antfile="BuildCore.xml" target="Jar" inheritall="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>
+		<echo message="end call Jar task in ${core.dir}" level="info" />
+	</target>
 	
 	<!-- private task, compile source and test code and run unit test-->
 	<target name="utest" depends="compileSource, UnitTest" />
