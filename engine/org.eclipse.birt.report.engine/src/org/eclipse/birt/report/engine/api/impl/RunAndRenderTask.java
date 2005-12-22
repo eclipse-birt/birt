@@ -182,12 +182,12 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		// if we need do the paginate, do the paginate.
 		if ( format.equalsIgnoreCase( "html" ) )
 		{
-			emitter = new HTMLPaginationEmitter( executor, emitter );
+			emitter = new HTMLPaginationEmitter( executor, null, emitter );
 		}
 		else if ( format.equalsIgnoreCase( "fo" )
 				|| format.equalsIgnoreCase( "fop" ) )
 		{
-			emitter = new DefaultPaginationEmitter( executor, emitter );
+			emitter = new DefaultPaginationEmitter( executor, null, emitter );
 		}
 
 		// emitter is not null

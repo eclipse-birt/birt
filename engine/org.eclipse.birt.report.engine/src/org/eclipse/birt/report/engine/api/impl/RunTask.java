@@ -149,7 +149,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 
 		setupEmitterService( );
 		IContentEmitter emitter = new HTMLPaginationEmitter( executor,
-				new ReportDocumentEmitter( writer ) );
+				pageHandler, new ReportDocumentEmitter( writer ) );
 
 		// emitter is not null
 		emitter.initialize( services );
