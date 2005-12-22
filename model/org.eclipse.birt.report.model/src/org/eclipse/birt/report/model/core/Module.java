@@ -665,7 +665,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 		// clone theme property
 
 		if ( theme != null )
-			module.theme = new ElementRefValue( null, theme.getName( ) );
+			module.theme = new ElementRefValue( theme.getLibraryNamespace( ),
+					theme.getName( ) );
 		else
 			module.theme = null;
 
