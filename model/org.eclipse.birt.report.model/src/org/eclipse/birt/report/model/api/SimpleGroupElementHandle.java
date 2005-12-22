@@ -100,32 +100,6 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 		return (ModuleHandle) module.getHandle( module );
 	}
 
-	/**
-	 * Finds common properties from two set of property definitions. Two
-	 * property definitions are considered identical if they are same instances
-	 * or they are equal.
-	 * 
-	 * @param list1
-	 *            storing a list of <code>PropertyDefn</code>
-	 * @param list2
-	 *            storing a list of <code>PropertyDefn</code>
-	 * @return A set containing all the common properties from the two lists.
-	 */
-
-	private List findInCommon( List list1, List list2 )
-	{
-		List retList = new ArrayList( );
-
-		for ( Iterator iter = list1.iterator( ); iter.hasNext( ); )
-		{
-			PropertyDefn propDefn = (PropertyDefn) iter.next( );
-			if ( list2.contains( propDefn ) )
-				retList.add( propDefn );
-		}
-
-		return retList;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -135,27 +109,57 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	public List getCommonProperties( )
 	{
 		List commonProps = Collections.EMPTY_LIST;
+		List minProps = Collections.EMPTY_LIST;
 
-		for ( int i = 0; i < elements.size( ); i++ )
+		minProps = getMinPropDefns( );
+		commonProps = new ArrayList( minProps );
+
+		Iterator iter = minProps.iterator( );
+		while ( iter.hasNext( ) )
 		{
-			Object item = elements.get( i );
+			PropertyDefn propDefn = (PropertyDefn) iter.next( );
+			for ( int i = 0; i < elements.size( ); i++ )
+			{
+				if ( !( (DesignElementHandle) elements.get( i ) ).getElement( )
+						.getPropertyDefns( ).contains( propDefn ) )
+				{
+					commonProps.remove( propDefn );
+					break;
+				}
+			}
+		}
 
+		return Collections.unmodifiableList(commonProps);
+	}
+
+	/**
+	 * Returns the property definition list that has the minimum size.
+	 * 
+	 * @return the property definition list that has the minimum size.
+	 */
+
+	private List getMinPropDefns( )
+	{
+		int min = Integer.MAX_VALUE;
+		List rtnPropDefns = Collections.EMPTY_LIST;
+
+		for ( int j = 0; j < elements.size( ); j++ )
+		{
+			Object item = elements.get( j );
 			if ( !( item instanceof DesignElementHandle ) )
 				return Collections.EMPTY_LIST;
 
-			List elemProps = ( (DesignElementHandle) item ).getElement( )
+			List propDefns = ( (DesignElementHandle) item ).getElement( )
 					.getPropertyDefns( );
 
-			if ( i == 0 )
-				commonProps = elemProps;
-			else
-				commonProps = findInCommon( commonProps, elemProps );
-
-			if ( commonProps.isEmpty( ) )
-				return Collections.EMPTY_LIST;
+			if ( propDefns.size( ) < min )
+			{
+				min = propDefns.size( );
+				rtnPropDefns = propDefns;
+			}
 		}
 
-		return commonProps;
+		return rtnPropDefns;
 	}
 
 	/*
@@ -204,7 +208,9 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 		{
 			IElementPropertyDefn propDefn = (IElementPropertyDefn) list.get( i );
 			if ( isPropertyVisible( propDefn.getName( ) ) )
+			{
 				visibleList.add( propDefn );
+			}
 		}
 
 		return new GroupPropertyIterator( visibleList );
@@ -218,8 +224,6 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 
 	protected boolean isPropertyVisible( String propName )
 	{
-		boolean isVisible = true;
-
 		List elements = getElements( );
 		for ( int i = 0; i < elements.size( ); i++ )
 		{
@@ -232,13 +236,13 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 
 			if ( propertyHandle != null && !propertyHandle.isVisible( )
 					|| propertyHandle == null )
-			{
-				isVisible = false;
-				break;
-			}
+				return false;
 		}
 
-		return isVisible;
+		// if the group is in master page, property toc, bookmark, pagebreak
+		// should be set invisible.
+
+		return !isInvalidInMasterPage( propName );
 	}
 
 	/*
@@ -280,10 +284,12 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#isExtendedElements()
 	 */
-	
+
 	public boolean isExtendedElements( )
 	{
 		if ( elements.isEmpty( ) )
@@ -304,15 +310,14 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#isPropertyReadOnly(java.lang.String)
 	 */
-	
+
 	protected boolean isPropertyReadOnly( String propName )
 	{
-		boolean isReadOnly = false;
-
-		List elements = getElements( );
 		for ( int i = 0; i < elements.size( ); i++ )
 		{
 			PropertyHandle propertyHandle = ( (DesignElementHandle) elements
@@ -323,19 +328,50 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 
 			if ( propertyHandle != null && propertyHandle.isReadOnly( )
 					|| propertyHandle == null )
+				return true;
+		}
+
+		// if the group is in master page, property toc, bookmark, pagebreak
+		// should be set readonly.
+
+		return isInvalidInMasterPage( propName );
+	}
+
+	/**
+	 * Returns if the property is invalid in Masterpage.
+	 * 
+	 * @return true if the property is invalid in Masterpage, false otherwise.
+	 */
+
+	private boolean isInvalidInMasterPage( String propName )
+	{
+		for ( int i = 0; i < elements.size( ); i++ )
+		{
+			DesignElementHandle container = ( (DesignElementHandle) elements
+					.get( i ) ).getContainer( );
+			while ( container != null )
 			{
-				isReadOnly = true;
-				break;
+				if ( container instanceof MasterPageHandle )
+					if ( ReportItemHandle.BOOKMARK_PROP.equals( propName )
+							|| ReportItemHandle.TOC_PROP.equals( propName )
+							|| StyleHandle.PAGE_BREAK_AFTER_PROP
+									.equals( propName )
+							|| StyleHandle.PAGE_BREAK_BEFORE_PROP
+									.equals( propName ) )
+						return true;
+				container = container.getContainer( );
 			}
 		}
 
-		return isReadOnly;
+		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#getPropertyHandle(java.lang.String)
 	 */
-	
+
 	public GroupPropertyHandle getPropertyHandle( String propName )
 	{
 		List commProps = getCommonProperties( );
@@ -352,10 +388,12 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#isInGroup(org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
-	
+
 	protected boolean isInGroup( DesignElementHandle element )
 	{
 		return elements.contains( element );
