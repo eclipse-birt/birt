@@ -65,6 +65,10 @@ public class GridEditPart extends TableEditPart
 	 */
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
+		if ( !isActive( ) )
+		{
+			return;
+		}
 		super.elementChanged( focus, ev );
 		switch ( ev.getEventType( ) )
 		{
