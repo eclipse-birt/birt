@@ -125,6 +125,8 @@ public class SimpleMasterPageState extends MasterPageState
 				return new ImageState( handler, element, page );
 			else if( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_TAG ) )
 				return new DataItemState( handler, element, page );
+			else if( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
+				return new TextDataItemState( handler, element, page );
 			return super.startElement( tagName );
 		}
 	}
