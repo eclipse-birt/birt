@@ -63,6 +63,7 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	private int currentRowNo;
 	
 	private SaxParserNestedQueryHelper spNestedQueryHelper;
+	
 	/**
 	 * 
 	 * @param rs
@@ -107,15 +108,13 @@ public class SaxParserConsumer implements ISaxParserConsumer
 				}
 				catch ( InterruptedException e )
 				{
-					// TODO Auto-generated catch block
-					e.printStackTrace( );
+					throw new OdaException( e.getLocalizedMessage() );
 				}
 			}
 		}
 		sp = new SaxParser( fileName , this );
 		spThread = new Thread( sp );
 		spThread.start();
-	
 	}
 	
 	/*
@@ -139,7 +138,6 @@ public class SaxParserConsumer implements ISaxParserConsumer
 					//populate the column value.
 					cachedResultSet[cachedResultSetRowNo][i] = value;
 				}
-
 			}
 		}
 	}
@@ -167,8 +165,6 @@ public class SaxParserConsumer implements ISaxParserConsumer
 			}
 		}
 	}
-
-	
 
 	/**
 	 * Populate all the columns that come from Nested XML data in certain row.
@@ -217,8 +213,7 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	}
 
 	/**
-	 * @param i
-	 *            Column Index
+	 * @param i Column Index
 	 * @return
 	 */
 	private boolean isCurrentColumnValueNotMatchFilterValue( int i )
@@ -271,8 +266,7 @@ public class SaxParserConsumer implements ISaxParserConsumer
 			}
 			catch ( InterruptedException e )
 			{
-				// TODO Auto-generated catch block
-				e.printStackTrace( );
+				throw new OdaException( e.getLocalizedMessage() );
 			}
 		}
 
@@ -341,8 +335,7 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	 */
 	public int getRowPosition( )
 	{
-		return currentRowNo
-		- this.cachedTimes * Constants.CACHED_RESULT_SET_LENGTH - 1;
+		return currentRowNo - this.cachedTimes * Constants.CACHED_RESULT_SET_LENGTH - 1;
 	}
 
 	/**

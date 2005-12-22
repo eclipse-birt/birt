@@ -21,8 +21,8 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 /**
  * This class is used to dealing with the strings which are parsed as arguments to 
  * create an XML data source connection.The structure of string must follow the given rule:
- * TableName1:[TableRootPath]:{columnName1;Type;RelativeXPath},{columnName2;Type;RelativeXPath}...
- * #-#TableName2:[TableRootPath]:{columnName1;Type;RelativeXpath}.....
+ * TableName1#:#[TableRootPath]#:#{columnName1;Type;RelativeXPath},{columnName2;Type;RelativeXPath}...
+ * #-#TableName2#:#[TableRootPath]#:#{columnName1;Type;RelativeXpath}.....
  * 
  */
 public class RelationInformation
@@ -463,12 +463,16 @@ class TableInfo
  */
 class ColumnInfo
 {
-
+	//
 	private int index;
 	private String name;
 	private String type;
 	private String path;
 	private String originalPath;
+	
+	//The backRefNumber is the number of parent element should a nested xml column
+	//retrieve back from its root XPath to find itself.This is only used in nest xml column
+	//mapping.
 	private int backRefNumber;
 	
 	/**
@@ -490,9 +494,17 @@ class ColumnInfo
 			throw new OdaException( Messages.getString( "RelationInformation.InvalidDataTypeName" ) );
 		this.path = fixTrailingAttr( buildPath( path ) );
 		this.originalPath = originalPath;
-		if ( originalPath.matches( ".*\\Q..\\E.*" ) )
+		generateBackRefNumber( originalPath );
+	}
+
+	/**
+	 * @param originalPath
+	 */
+	private void generateBackRefNumber( String originalPath )
+	{
+		if ( this.originalPath.matches( ".*\\Q..\\E.*" ) )
 		{
-			String[] originalPathFrags = originalPath.split( "/" );
+			String[] originalPathFrags = originalPath.split( Constants.XPATH_SLASH );
 			int lastTwoDotAbbrevationPosition = 0;
 			int numberOfConcretePathFragsBefore2DotAbb = 0;
 
@@ -532,6 +544,7 @@ class ColumnInfo
 		else
 			return path;
 	}
+	
 	/**
 	 * Dealing with ".." in a column path. Here the column path is the combination of root path
 	 * and the give column path expression.
@@ -544,17 +557,17 @@ class ColumnInfo
 		String prefix = "";
 		
 		//First remove the leading "//" or "/"
-		if ( path.startsWith( "//" ) )
+		if ( path.startsWith( Constants.XPATH_DOUBLE_SLASH ) )
 		{
-			path = path.replaceFirst( "//", "" );
-			prefix = "//";
+			path = path.replaceFirst( Constants.XPATH_DOUBLE_SLASH, "" );
+			prefix = Constants.XPATH_DOUBLE_SLASH;
 		}
-		else if ( path.startsWith( "/" ) )
+		else if ( path.startsWith( Constants.XPATH_SLASH ) )
 		{
-			path = path.replaceFirst( "/", "" );
-			prefix = "/";
+			path = path.replaceFirst( Constants.XPATH_SLASH, "" );
+			prefix = Constants.XPATH_SLASH;
 		}
-		String[] temp = path.split( "/" );
+		String[] temp = path.split( Constants.XPATH_SLASH );
 		for ( int i = 0; i < temp.length; i++ )
 		{
 			if ( temp[i].equals( ".." ) )
@@ -576,7 +589,7 @@ class ColumnInfo
 		for ( int i = 0; i < temp.length; i++ )
 		{
 			if ( temp[i] != null )
-				path = i == 0 ? path + temp[i] : path + (temp[i].startsWith("[")?"":"/") + temp[i];
+				path = i == 0 ? path + temp[i] : path + (temp[i].startsWith("[")?"":Constants.XPATH_SLASH) + temp[i];
 		}
 		return path;
 	}

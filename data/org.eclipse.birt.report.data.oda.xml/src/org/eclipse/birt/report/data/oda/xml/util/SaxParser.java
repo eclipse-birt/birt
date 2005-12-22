@@ -53,7 +53,7 @@ public class SaxParser extends DefaultHandler implements Runnable
 	//The boolean indicates that whether the parsing has started.
 	boolean start;
 	
-	//The boolean indicates that 
+	//The boolean indicates that whether the parsing thread is alive or not.
 	boolean alive;
 
 	/**
@@ -114,17 +114,14 @@ public class SaxParser extends DefaultHandler implements Runnable
 		}
 		catch ( SAXException e )
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
 		catch ( MalformedURLException e )
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch ( IOException e )
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -196,14 +193,14 @@ public class SaxParser extends DefaultHandler implements Runnable
 		String elementName = getElementName( uri, qName, name );
 		String parentPath = pathHolder.getPath();
 		//Record the occurance of elements
-		if(this.currentElementRecoder.get(parentPath+"/"+elementName)==null)
+		if(this.currentElementRecoder.get(parentPath+Constants.XPATH_SLASH+elementName)==null)
 		{
-			this.currentElementRecoder.put(parentPath+"/"+elementName,new Integer(1));
+			this.currentElementRecoder.put(parentPath+Constants.XPATH_SLASH+elementName,new Integer(1));
 		}else
 		{
-			this.currentElementRecoder.put(parentPath+"/"+elementName, new Integer(((Integer)this.currentElementRecoder.get(parentPath+"/"+elementName)).intValue()+1 )); 
+			this.currentElementRecoder.put(parentPath+Constants.XPATH_SLASH+elementName, new Integer(((Integer)this.currentElementRecoder.get(parentPath+Constants.XPATH_SLASH+elementName)).intValue()+1 )); 
 		}
-		pathHolder.push( elementName+"["+((Integer)this.currentElementRecoder.get(parentPath+"/"+elementName)).intValue()+"]" );
+		pathHolder.push( elementName+"["+((Integer)this.currentElementRecoder.get(parentPath+Constants.XPATH_SLASH+elementName)).intValue()+"]" );
 		
 		for ( int i = 0; i < atts.getLength( ); i++ )
 		{
@@ -235,7 +232,6 @@ public class SaxParser extends DefaultHandler implements Runnable
 	public void endElement( String uri, String localName, String qName )
 			throws SAXException
 	{
-		
 		spConsumer.detectNewRow( pathHolder.getPath( ) );
 		//	this.currentElementRecoder.clear();
 		
@@ -247,7 +243,6 @@ public class SaxParser extends DefaultHandler implements Runnable
 			{
 				this.currentElementRecoder.remove(keys[i]);
 			}
-			
 		}
 		pathHolder.pop( );
 	}
@@ -262,7 +257,6 @@ public class SaxParser extends DefaultHandler implements Runnable
 	 */
 	private String getElementName( String uri, String qName, String name )
 	{
-		//TODO add support to namespace.
 		//if ( "".equals( uri ) )
 			return qName;
 		//else
@@ -308,7 +302,6 @@ public class SaxParser extends DefaultHandler implements Runnable
 				}
 				catch ( InterruptedException e )
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			
@@ -343,7 +336,6 @@ public class SaxParser extends DefaultHandler implements Runnable
  */
 class XPathHolder
 {
-
 	private Vector holder;
 
 	public XPathHolder( )
