@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,8 +26,9 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
-import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
+import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
  * Captures the (report design to) report instance creation logic, by combining
@@ -52,7 +51,7 @@ import org.eclipse.birt.report.engine.toc.TOCBuilder;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.29 $ $Date: 2005/12/03 02:01:49 $
+ * @version $Revision: 1.30 $ $Date: 2005/12/08 06:53:50 $
  */
 public class ReportExecutor
 {
@@ -81,13 +80,11 @@ public class ReportExecutor
 		builder = new ReportExecutorVisitor( context );
 	}
 
-	/**
-	 * @param paramValues
-	 *            values for all the report parameters used for report genration
-	 */
-	public void setParameters( HashMap paramValues )
+	public void execute( ReportDesignHandle reportDesign,
+			IContentEmitter emitter )
 	{
-		context.getParams( ).putAll( paramValues );
+		Report report = new ReportParser( ).parse( reportDesign );
+		execute( report, emitter );
 	}
 
 	/**
@@ -96,44 +93,12 @@ public class ReportExecutor
 	public void execute( Report report, IContentEmitter emitter )
 	{
 		BirtTimer timer = new BirtTimer( );
-		timer.start( );
-
 		context.setReport( report );
-
 		IReportContent reportContent = ContentFactory
 				.createReportContent( report );
-
-		context.setTOCBuilder( new TOCBuilder( reportContent.getTOC( ) ) );
 		context.setReportContent( reportContent );
-
-		// Exceute scripts defined in included libraries. For each library,
-		// executes
-		// first the included scripts, then the initialize method.
-		// The current release does not supported externally included library
-		// files
-		// handle global libraries in the future
-
-		// execute scripts defined in include-script element of this report
-		Iterator iter = report.getIncludeScripts( ).iterator( );
-		while ( iter.hasNext( ) )
-		{
-			String fileName = (String) iter.next( );
-			context.loadScript( fileName );
-		}
-
-		// DE needs to support getInitialize() method
-		ReportScriptExecutor.handleInitialize( report.getReportDesign( ),
-				context );
-
-		// call methods associated with report
-		ReportScriptExecutor.handleBeforeFactory( report.getReportDesign( ),
-				context );
-
-		// beforeRender is not supported for now
-
-		timer.stop( );
-		timer.logTimeTaken( logger, Level.FINE, context.getTaskIDString( ),
-				"Prepare to run report" ); // $NON-NLS-1$
+		TOCBuilder tocBuilder = new TOCBuilder( reportContent.getTOC( ) );
+		context.setTOCBuilder( tocBuilder );
 
 		// Prepare necessary data for this report
 		timer.restart( );
@@ -142,16 +107,11 @@ public class ReportExecutor
 		timer.logTimeTaken( logger, Level.FINE, context.getTaskIDString( ),
 				"Prepare report queries" ); // $NON-NLS-1$
 
-		// Report documents are not supported for now
-		// context.execute(report.getBeforeOpenDoc());
-
 		timer.restart( );
 		if ( emitter != null )
 		{
 			emitter.start( reportContent );
 		}
-
-		// assert ( report.getContentCount( ) >= 1 );
 
 		// only top-level elements maybe have the master page reference for now
 		if ( report.getContentCount( ) > 0 )
@@ -162,25 +122,13 @@ public class ReportExecutor
 			}
 		}
 
-		// Report document is not supported
-		// ReportScriptExecutor.handleBeforeCloseDoc( report.getReportDesign( ),
-		// context );
-
 		if ( emitter != null )
 		{
 			emitter.end( reportContent );
 		}
-		// Report document is not supported
-		// ReportScriptExecutor.handleAfterCloseDoc( report.getReportDesign( ),
-		// context );
-
-		ReportScriptExecutor.handleAfterFactory( report.getReportDesign( ),
-				context );
-
 		timer.stop( );
 		timer.logTimeTaken( logger, Level.FINE, context.getTaskIDString( ),
 				"Running and rendering report" ); // $NON-NLS-1$
-
 	}
 
 	public IPageContent executeMasterPage( int pageNo,

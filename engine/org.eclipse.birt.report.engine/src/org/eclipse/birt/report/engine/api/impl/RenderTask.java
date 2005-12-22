@@ -15,9 +15,6 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.FORenderOption;
-import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
-import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportEngine;
@@ -26,16 +23,16 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.parser.ReportParser;
+import org.eclipse.birt.report.engine.presentation.DefaultPaginationEmitter;
+import org.eclipse.birt.report.engine.presentation.HTMLPaginationEmitter;
 import org.eclipse.birt.report.engine.presentation.LocalizedEmitter;
 import org.eclipse.birt.report.engine.presentation.ReportContentLoader;
-import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
+import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class RenderTask extends EngineTask implements IRenderTask
 {
 
-	IRenderOption renderOptions;
 	ReportDocumentReader reportDoc;
 	String emitterID;
 
@@ -51,37 +48,43 @@ public class RenderTask extends EngineTask implements IRenderTask
 			ReportDocumentReader reportDoc )
 	{
 		super( engine, runnable );
-		// load the reportR
-		this.reportDoc = reportDoc;
-		executionContext.setReportDocument( reportDoc );
+
 		executionContext.setFactoryMode( false );
 		executionContext.setPresentationMode( true );
-		Report report = new ReportParser( ).parse( ( (ReportRunnable) runnable )
-				.getReport( ) );
-		executionContext.setReport( report );
+
+		// load report design
+		loadDesign( );
+
+		// open the report document
+		openReportDocument( reportDoc );
+	}
+
+	protected void openReportDocument( ReportDocumentReader reportDoc )
+	{
+		ReportDesignHandle reportDesign = executionContext.getDesign( );
+		ReportScriptExecutor.handleBeforeOpenDoc( reportDesign,
+				executionContext );
+
+		this.reportDoc = reportDoc;
+		executionContext.setReportDocument( reportDoc );
+
+		// load the informationf rom the report document
 		setParameterValues( reportDoc.getParameterValues( ) );
 		executionContext.registerGlobalBeans( reportDoc
 				.getGlobalVariables( null ) );
+
+		ReportScriptExecutor
+				.handleAfterOpenDoc( reportDesign, executionContext );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setRenderOption(org.eclipse.birt.report.engine.api.IRenderOption)
-	 */
-	public void setRenderOption( IRenderOption options )
+	protected void closeReportDocument( )
 	{
-		this.renderOptions = options;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.IRenderTask#getRenderOption()
-	 */
-	public IRenderOption getRenderOption( )
-	{
-		return renderOptions;
+		ReportDesignHandle reportDesign = executionContext.getDesign( );
+		ReportScriptExecutor.handleBeforeCloseDoc( reportDesign,
+				executionContext );
+		reportDoc.close( );
+		ReportScriptExecutor.handleAfterCloseDoc( reportDesign,
+				executionContext );
 	}
 
 	/*
@@ -107,49 +110,29 @@ public class RenderTask extends EngineTask implements IRenderTask
 		doRender( pageNumber );
 	}
 
-	/**
-	 * @param pageNumber
-	 *            the page to be rendered
-	 * @throws EngineException
-	 *             throws exception if there is a rendering error
-	 */
-	protected void doRender( long pageNumber ) throws EngineException
+	protected IContentEmitter createContentEmitter( ReportExecutor executor )
+			throws EngineException
 	{
 		// create the emitter services object that is needed in the emitters.
 		EngineEmitterServices services = new EngineEmitterServices( this );
-		services.setRenderOption( renderOptions );
 
 		EngineConfig config = engine.getConfig( );
 		if ( config != null )
+		{
 			services.setEmitterConfig( config.getEmitterConfigs( ) );
-		services.setRenderContext( context );
-
+		}
+		services.setRenderOption( renderOptions );
+		services.setExecutor( executor );
+		services.setRenderContext( appContext );
 		services.setReportRunnable( runnable );
 
-		// register default parameters
-		usingParameterValues( );
-
-		// setup runtime configurations
-		// user defined configs are overload using system properties.
-		executionContext.getConfigs( ).putAll( runnable.getTestConfig( ) );
-		executionContext.getConfigs( ).putAll( System.getProperties( ) );
-
-		// Set up rendering environment and check for supported format
-		executionContext.setRenderOption( renderOptions );
-		String format = renderOptions.getOutputFormat( );
-		if ( format == null || format.length( ) == 0 ) // $NON-NLS-1
+		String format = executionContext.getOutputFormat( );
+		if ( format == null )
 		{
-			renderOptions.setOutputFormat( "html" ); // $NON-NLS-1
-			format = "html"; // $NON-NLS-1
+			format = "html";
 		}
-		else if ( renderOptions != null && format.equalsIgnoreCase( "fo" ) // $NON-NLS-1
-				&& ( (FORenderOption) renderOptions ).getTailoredForFOP( ) )
-		{
-			format = "fop"; // $NON-NLS-1
-		}
-
-		if ( !ExtensionManager.getInstance( ).getSupportedFormat( ).contains(
-				format ) )
+		ExtensionManager extManager = ExtensionManager.getInstance( );
+		if ( !extManager.getSupportedFormat( ).contains( format ) )
 		{
 			log.log( Level.SEVERE,
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
@@ -157,23 +140,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
 		}
 
-		// After setting up the parameter values and before executing the
-		// report, we need to call onPrepare on all items.
-		// Create IReportContext and set it to execution context
-		ReportContextImpl reportContext = new ReportContextImpl(
-				executionContext, format );
-		executionContext.setReportContext( reportContext );
-
-		if ( format.equalsIgnoreCase( "html" ) )
-		{
-			HTMLEmitterConfig tmp = (HTMLEmitterConfig) config
-					.getEmitterConfigs( ).get( "html" );
-			if ( tmp != null )
-				executionContext.setActionHandler( tmp.getActionHandler( ) );
-		}
-
-		IContentEmitter emitter = ExtensionManager.getInstance( )
-				.createEmitter( format, emitterID );
+		IContentEmitter emitter = extManager.createEmitter( format, emitterID );
 		if ( emitter == null )
 		{
 			log.log( Level.SEVERE, "Report engine can not create {0} emitter.",
@@ -182,20 +149,46 @@ public class RenderTask extends EngineTask implements IRenderTask
 					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION );
 		}
 
-		ReportExecutor executor = new ReportExecutor( executionContext );
-		services.setExecutor( executor );
-
 		// localized emitter
 		emitter = new LocalizedEmitter( executionContext, emitter );
+
+		// if we need do the paginate, do the paginate.
+		if ( format.equalsIgnoreCase( "html" ) )
+		{
+			emitter = new HTMLPaginationEmitter( executor, null, emitter );
+		}
+		else if ( format.equalsIgnoreCase( "fo" )
+				|| format.equalsIgnoreCase( "fop" ) )
+		{
+			emitter = new DefaultPaginationEmitter( executor, null, emitter );
+		}
 
 		// emitter is not null
 		emitter.initialize( services );
 
+		return emitter;
+	}
+
+	/**
+	 * @param pageNumber
+	 *            the page to be rendered
+	 * @throws EngineException
+	 *             throws exception if there is a rendering error
+	 */
+	protected void doRender( long pageNumber ) throws EngineException
+	{
 		try
 		{
+			// start the render
+
 			ReportContentLoader loader = new ReportContentLoader(
 					executionContext );
+			ReportExecutor executor = new ReportExecutor( executionContext );
+			executionContext.setExecutor( executor );
+			IContentEmitter emitter = createContentEmitter( executor );
+			startRender( );
 			loader.loadPage( pageNumber, emitter );
+			closeRender( );
 		}
 		catch ( Exception ex )
 		{
@@ -232,7 +225,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	public void close( )
 	{
-		reportDoc.close( );
+		closeReportDocument( );
 		super.close( );
 	}
 }

@@ -26,12 +26,9 @@ public class ReportContextImpl implements IReportContext
 
 	private ExecutionContext context;
 
-	private String outputFormat;
-
-	public ReportContextImpl( ExecutionContext context, String outputFormat )
+	public ReportContextImpl( ExecutionContext context )
 	{
 		this.context = context;
-		this.outputFormat = outputFormat;
 	}
 
 	public Map getAppContext( )
@@ -111,6 +108,6 @@ public class ReportContextImpl implements IReportContext
 
 	public String getOutputFormat( )
 	{
-		return outputFormat;
+		return context.getOutputFormat( );
 	}
 }

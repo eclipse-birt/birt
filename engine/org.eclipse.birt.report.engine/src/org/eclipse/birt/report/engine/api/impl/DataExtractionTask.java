@@ -67,7 +67,7 @@ public class DataExtractionTask extends EngineTask
 		executionContext.setReport( report );
 		setParameterValues( reportDocReader.getParameterValues( ) );
 		IDataEngine dataEngine = executionContext.getDataEngine();
-		dataEngine.prepare( report, context );
+		dataEngine.prepare( report, appContext );
 	}
 	
 	public void setInstanceID( InstanceID iid )

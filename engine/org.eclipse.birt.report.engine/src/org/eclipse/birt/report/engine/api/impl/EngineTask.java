@@ -24,10 +24,17 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.FORenderOption;
+import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
+import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
+import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
@@ -51,7 +58,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * the contexts for running this task
 	 */
-	protected Map context;
+	protected Map appContext;
 
 	/**
 	 * a reference to the report engine
@@ -76,6 +83,11 @@ public abstract class EngineTask implements IEngineTask
 	protected IReportRunnable runnable;
 
 	/**
+	 * options used to render the report design.
+	 */
+	protected IRenderOption renderOptions;
+
+	/**
 	 * does the parameter has been changed by the user.
 	 */
 	protected boolean parameterChanged = true;
@@ -93,7 +105,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * @param engine
 	 *            reference to report engine
-	 * @param context
+	 * @param appContext
 	 *            a user-defined object that capsulates the context for running
 	 *            a task. The context object is passed to callback functions
 	 *            (i.e., functions in image handlers, action handlers, etc. )
@@ -102,13 +114,17 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	protected EngineTask( ReportEngine engine, IReportRunnable runnable )
 	{
-		this.runnable = runnable;
-		this.engine = engine;
 		taskID = id++;
 
+		// create execution context used by java-script
 		executionContext = new ExecutionContext( engine, taskID );
-		executionContext.setRunnable( runnable );
-		executionContext.registerBeans( runnable.getTestConfig( ) );
+		// Create IReportContext used by java-based script
+		executionContext.setReportContext( new ReportContextImpl(
+				executionContext ) );
+
+		setReportEngine( engine );
+
+		setReportRunnable( runnable );
 		// set the default app context
 		setAppContext( new HashMap( ) );
 	}
@@ -141,7 +157,7 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public void setAppContext( Map context )
 	{
-		this.context = context;
+		this.appContext = context;
 		executionContext.setAppContext( context );
 
 		// add the contexts into ScriptableJavaObject
@@ -175,7 +191,28 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public Map getAppContext( )
 	{
-		return context;
+		return appContext;
+	}
+
+	protected void setReportEngine( ReportEngine engine )
+	{
+		this.engine = engine;
+		EngineConfig config = engine.getConfig( );
+		if ( config != null )
+		{
+			HashMap emitterConfigs = config.getEmitterConfigs( );
+			if ( emitterConfigs != null )
+			{
+				Object htmlEmitterConfig = emitterConfigs.get( "html" );
+				if ( htmlEmitterConfig instanceof HTMLEmitterConfig )
+				{
+					HTMLEmitterConfig htmlConfig = (HTMLEmitterConfig) htmlEmitterConfig;
+					IHTMLActionHandler actionHandler = htmlConfig
+							.getActionHandler( );
+					executionContext.setActionHandler( actionHandler );
+				}
+			}
+		}
 	}
 
 	/*
@@ -186,6 +223,65 @@ public abstract class EngineTask implements IEngineTask
 	public ReportEngine getEngine( )
 	{
 		return engine;
+	}
+
+	public void setReportRunnable( IReportRunnable runnable )
+	{
+		this.runnable = runnable;
+		executionContext.setRunnable( runnable );
+		executionContext.registerBeans( runnable.getTestConfig( ) );
+		executionContext.registerBeans( System.getProperties( ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api2.IEngineTask#getReportRunnable()
+	 */
+	public IReportRunnable getReportRunnable( )
+	{
+		return runnable;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setRenderOption(org.eclipse.birt.report.engine.api.IRenderOption)
+	 */
+	public void setRenderOption( IRenderOption options )
+	{
+		if ( options != null )
+		{
+			String format = options.getOutputFormat( );
+			if ( format == null || format.length( ) == 0 ) // $NON-NLS-1
+			{
+				options.setOutputFormat( "html" ); // $NON-NLS-1
+			}
+			if ( "fo".equalsIgnoreCase( format ) )
+			{
+				if ( options instanceof FORenderOption )
+				{
+					FORenderOption foOptions = (FORenderOption) options;
+					if ( foOptions.getTailoredForFOP( ) )
+					{
+						options.setOutputFormat( "fop" );
+					}
+				}
+			}
+		}
+		renderOptions = options;
+		// Set up rendering environment and check for supported format
+		executionContext.setRenderOption( renderOptions );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.IRenderTask#getRenderOption()
+	 */
+	public IRenderOption getRenderOption( )
+	{
+		return renderOptions;
 	}
 
 	public DataEngine getDataEngine( )
@@ -212,16 +308,6 @@ public abstract class EngineTask implements IEngineTask
 	public int getID( )
 	{
 		return taskID;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api2.IEngineTask#getReportRunnable()
-	 */
-	public IReportRunnable getReportRunnable( )
-	{
-		return this.runnable;
 	}
 
 	protected Object convertToType( Object value, String type )
@@ -438,7 +524,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.25 $ $Date: 2005/12/08 19:31:39 $
+	 * @version $Revision: 1.26 $ $Date: 2005/12/21 09:47:02 $
 	 */
 	static abstract class ParameterVisitor
 	{
@@ -590,5 +676,56 @@ public abstract class EngineTask implements IEngineTask
 	public void close( )
 	{
 		executionContext.close( );
+	}
+
+	protected void loadDesign( )
+	{
+		ReportDesignHandle reportDesign = executionContext.getDesign( );
+		// execute scripts defined in include-script element of this report
+		Iterator iter = reportDesign.includeScriptsIterator( );
+		while ( iter.hasNext( ) )
+		{
+			String fileName = (String) iter.next( );
+			executionContext.loadScript( fileName );
+		}
+
+		// Intialize the report
+		ReportScriptExecutor.handleInitialize( reportDesign, executionContext );
+	}
+
+	protected void prepareDesign( )
+	{
+		ReportDesignHandle reportDesign = executionContext.getDesign( );
+		ScriptedDesignVisitor visitor = new ScriptedDesignVisitor(
+				reportDesign, executionContext );
+		visitor.apply( reportDesign.getRoot( ) );
+	}
+
+	protected void startFactory( )
+	{
+		ReportDesignHandle reportDesign = executionContext.getDesign( );
+		ReportScriptExecutor.handleBeforeFactory( reportDesign,
+				executionContext );
+	}
+
+	protected void closeFactory( )
+	{
+		ReportDesignHandle reportDesign = executionContext.getDesign( );
+		ReportScriptExecutor
+				.handleAfterFactory( reportDesign, executionContext );
+
+	}
+
+	protected void startRender( )
+	{
+		ReportDesignHandle reportDesign = executionContext.getDesign( );
+		ReportScriptExecutor
+				.handleBeforeRender( reportDesign, executionContext );
+	}
+
+	protected void closeRender( )
+	{
+		ReportDesignHandle reportDesign = executionContext.getDesign( );
+		ReportScriptExecutor.handleAfterRender( reportDesign, executionContext );
 	}
 }

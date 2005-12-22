@@ -69,7 +69,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.48 $ $Date: 2005/12/16 18:51:46 $
+ * @version $Revision: 1.49 $ $Date: 2005/12/22 06:43:56 $
  */
 public class ExecutionContext
 {
@@ -712,7 +712,7 @@ public class ExecutionContext
 	 */
 	public ReportDesignHandle getDesign( )
 	{
-		return report.getReportDesign( );
+		return (ReportDesignHandle) runnable.getDesignHandle( );
 	}
 
 	/**
@@ -954,6 +954,15 @@ public class ExecutionContext
 	public void setRenderOption( IRenderOption renderOption )
 	{
 		this.renderOption = renderOption;
+	}
+
+	public String getOutputFormat( )
+	{
+		if ( renderOption != null )
+		{
+			return renderOption.getOutputFormat( );
+		}
+		return null;
 	}
 
 	public class ElementExceptionInfo

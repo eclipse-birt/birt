@@ -11,15 +11,10 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
-import java.io.OutputStream;
-import java.util.HashMap;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.FORenderOption;
-import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
-import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.ReportEngine;
@@ -28,12 +23,9 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.presentation.DefaultPaginationEmitter;
 import org.eclipse.birt.report.engine.presentation.HTMLPaginationEmitter;
 import org.eclipse.birt.report.engine.presentation.LocalizedEmitter;
-import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
@@ -42,26 +34,6 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  */
 public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 {
-
-	/**
-	 * options for rendering the report
-	 */
-	protected IRenderOption renderOption;
-
-	/**
-	 * options for runninging the report
-	 */
-	protected HashMap runOptions = new HashMap( );
-
-	/**
-	 * the output stream for writing the output to
-	 */
-	protected OutputStream ostream;
-
-	/**
-	 * full path for the output file name
-	 */
-	protected String outputFileName;
 
 	/**
 	 * specifies the emitter ID used for rendering the report
@@ -79,83 +51,29 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		super( engine, runnable );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api2.IRunAndRenderTask#run()
-	 */
-	public void run( ) throws EngineException
+	private IContentEmitter createContentEmitter( ReportExecutor executor )
+			throws EngineException
 	{
-		// Make a deep copy of the design element and recreate the
-		// IReportRunnable
-		ReportDesignHandle designHandle = (ReportDesignHandle) runnable
-				.getDesignHandle( );
-
-		// ReportDesign copiedReportDesign = (ReportDesign)designHandle.copy();
-		// ReportDesignHandle copiedDesignHandle =
-		// (ReportDesignHandle)copiedReportDesign.getHandle( null ); // null
-		// will create a new report design handle
-		ReportDesignHandle copiedDesignHandle = designHandle;
-		runnable = new ReportRunnable( copiedDesignHandle );
-
-		if ( !validateParameters( ) )
-		{
-			throw new EngineException(
-					MessageConstants.INVALID_PARAMETER_EXCEPTION ); //$NON-NLS-1$
-		}
-
 		// create the emitter services object that is needed in the emitters.
 		EngineEmitterServices services = new EngineEmitterServices( this );
-		services.setRenderOption( renderOption );
 
 		EngineConfig config = engine.getConfig( );
 		if ( config != null )
-			services
-					.setEmitterConfig( engine.getConfig( ).getEmitterConfigs( ) );
-		services.setRenderContext( context );
+		{
+			services.setEmitterConfig( config.getEmitterConfigs( ) );
+		}
+		services.setRenderOption( renderOptions );
+		services.setExecutor( executor );
+		services.setRenderContext( appContext );
 		services.setReportRunnable( runnable );
 
-		// register default parameters
-		usingParameterValues( );
-		// Set up rendering environment and check for supported format
-		executionContext.setRenderOption( renderOption );
-		String format = renderOption.getOutputFormat( );
-		if ( format == null || format.length( ) == 0 ) // $NON-NLS-1
+		String format = executionContext.getOutputFormat( );
+		if ( format == null )
 		{
-			renderOption.setOutputFormat( "html" ); // $NON-NLS-1
-			format = "html"; // $NON-NLS-1
+			format = "html";
 		}
-		else if ( renderOption != null && format.equalsIgnoreCase( "fo" ) // $NON-NLS-1
-				&& ( (FORenderOption) renderOption ).getTailoredForFOP( ) )
-		{
-			format = "fop"; // $NON-NLS-1
-		}
-		// After setting up the parameter values and before executing the
-		// report, we need to call onPrepare on all items.
-		// Create IReportContext and set it to execution context
-		ReportContextImpl reportContext = new ReportContextImpl(
-				executionContext, format );
-		executionContext.setReportContext( reportContext );
-		// Call onPrepare in the design tree
-		ScriptedDesignVisitor visitor = new ScriptedDesignVisitor(
-				copiedDesignHandle, executionContext );
-		visitor.apply( copiedDesignHandle.getRoot( ) );
-
-		// setup runtime configurations
-		// user defined configs are overload using system properties.
-		executionContext.getConfigs( ).putAll( runnable.getTestConfig( ) );
-		executionContext.getConfigs( ).putAll( System.getProperties( ) );
-
-		if ( format.equalsIgnoreCase( "html" ) )
-		{
-			HTMLEmitterConfig tmp = (HTMLEmitterConfig) config
-					.getEmitterConfigs( ).get( "html" );
-			if ( tmp != null )
-				executionContext.setActionHandler( tmp.getActionHandler( ) );
-		}
-
-		if ( !ExtensionManager.getInstance( ).getSupportedFormat( ).contains(
-				format ) )
+		ExtensionManager extManager = ExtensionManager.getInstance( );
+		if ( !extManager.getSupportedFormat( ).contains( format ) )
 		{
 			log.log( Level.SEVERE,
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
@@ -163,8 +81,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
 		}
 
-		IContentEmitter emitter = ExtensionManager.getInstance( )
-				.createEmitter( format, emitterID );
+		IContentEmitter emitter = extManager.createEmitter( format, emitterID );
 		if ( emitter == null )
 		{
 			log.log( Level.SEVERE, "Report engine can not create {0} emitter.",
@@ -172,9 +89,6 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			throw new EngineException(
 					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION );
 		}
-
-		ReportExecutor executor = new ReportExecutor( executionContext );
-		services.setExecutor( executor );
 
 		// localized emitter
 		emitter = new LocalizedEmitter( executionContext, emitter );
@@ -193,11 +107,39 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		// emitter is not null
 		emitter.initialize( services );
 
+		return emitter;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api2.IRunAndRenderTask#run()
+	 */
+	public void run( ) throws EngineException
+	{
+		ReportDesignHandle reportDesign = executionContext.getDesign( );
+
+		// register default parameters and validate
+		if ( !validateParameters( ) )
+		{
+			throw new EngineException(
+					MessageConstants.INVALID_PARAMETER_EXCEPTION ); //$NON-NLS-1$
+		}
+
+		loadDesign( );
+		prepareDesign( );
+		startFactory( );
+		startRender( );
 		try
 		{
-			Report report = new ReportParser( )
-					.parse( ( (ReportRunnable) runnable ).getReport( ) );
-			executor.execute( report, emitter );
+			ReportExecutor executor = new ReportExecutor( executionContext );
+			executionContext.setExecutor( executor );
+			IContentEmitter emitter = createContentEmitter( executor );
+			executor.execute( reportDesign, emitter );
+
+			closeRender( );
+			closeFactory( );
+
 		}
 		catch ( Exception ex )
 		{
@@ -218,26 +160,6 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 					"Error happened while running the report.", t ); //$NON-NLS-1$
 			new EngineException( "Error happened while running the report", t );
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api2.IRunAndRenderTask#setRenderOption(org.eclipse.birt.report.engine.api2.IRenderOption)
-	 */
-	public void setRenderOption( IRenderOption options )
-	{
-		renderOption = options;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api2.IRunAndRenderTask#getRenderOption()
-	 */
-	public IRenderOption getRenderOption( )
-	{
-		return renderOption;
 	}
 
 	public void setEmitterID( String id )
