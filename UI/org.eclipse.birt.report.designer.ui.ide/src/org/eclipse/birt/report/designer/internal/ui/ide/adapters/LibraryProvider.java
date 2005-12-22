@@ -35,8 +35,8 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 
 /**
- * Implement of ILibraryProvider Return libraries defined in preference
- * and libraries in the same project with the report file.
+ * Implement of ILibraryProvider Return libraries defined in preference and
+ * libraries in the same project with the report file.
  */
 
 public class LibraryProvider implements ILibraryProvider
@@ -45,7 +45,8 @@ public class LibraryProvider implements ILibraryProvider
 	private static final String MSG_OPEN_DEFINED_LIBRARY_ERROR_TITLE = Messages.getString( "LibraryProvider.openDefinedLibrary.error.dialog.title" ); //$NON-NLS-1$
 	private static final String MSG_OPEN_DEFINED_LIBRARY_ERROR_MSG = Messages.getString( "LibraryProvider.openDefinedLibrary.error.dialog.message" ); //$NON-NLS-1$
 
-	private List projectLibrarys = new ArrayList();
+	private List projectLibrarys;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -53,6 +54,7 @@ public class LibraryProvider implements ILibraryProvider
 	 */
 	public LibraryHandle[] getLibraries( )
 	{
+		projectLibrarys = new ArrayList( );
 		ArrayList libList = new ArrayList( );
 		try
 		{
@@ -61,7 +63,7 @@ public class LibraryProvider implements ILibraryProvider
 		catch ( CoreException e1 )
 		{
 		}
-		libList.addAll( getPreferenceLibraries( ) );
+		libList.addAll( getPreferenceLibraries( libList ) );
 		return (LibraryHandle[]) libList.toArray( new LibraryHandle[libList.size( )] );
 	}
 
@@ -73,7 +75,7 @@ public class LibraryProvider implements ILibraryProvider
 			IFile file = ( (IFileEditorInput) editor.getEditorInput( ) ).getFile( );
 			IProject project = file.getProject( );
 			IResource[] resources = project.members( );
-			return buildLibraryList(resources);
+			return buildLibraryList( resources );
 		}
 		return null;
 	}
@@ -98,7 +100,7 @@ public class LibraryProvider implements ILibraryProvider
 					continue;
 				}
 				libList.add( handle );
-				projectLibrarys.add( handle.getFileName());
+				projectLibrarys.add( handle.getFileName( ) );
 			}
 			else if ( resource.getType( ) == IResource.FOLDER )
 			{
@@ -114,7 +116,7 @@ public class LibraryProvider implements ILibraryProvider
 		return libList;
 	}
 
-	private ArrayList getPreferenceLibraries( )
+	private ArrayList getPreferenceLibraries( ArrayList existList )
 	{
 		String[] predefinedLibrarys = ReportPlugin.getDefault( )
 				.getLibraryPreference( );
@@ -127,7 +129,7 @@ public class LibraryProvider implements ILibraryProvider
 				LibraryHandle handle = SessionHandleAdapter.getInstance( )
 						.getSessionHandle( )
 						.openLibrary( predefinedLibrarys[i] );
-				if ( !isLibExist( libList, handle ) )
+				if ( !isLibExist( existList, handle ) )
 					libList.add( handle );
 			}
 			catch ( DesignFileException e )
@@ -140,56 +142,57 @@ public class LibraryProvider implements ILibraryProvider
 		return libList;
 	}
 
-//	private ArrayList getFolderLibraries( File folder )
-//	{
-//		ArrayList libList = new ArrayList( );
-//		File[] libs = folder.listFiles( new FileFilter( ) {
-//
-//			public boolean accept( File pathname )
-//			{
-//				return pathname.getPath( ).indexOf( ".rptlibrary" ) == pathname.getPath( ) //$NON-NLS-1$
-//						.length( ) - 11;
-//			}
-//
-//		} );
-//		for ( int i = 0; i < libs.length; i++ )
-//		{
-//			File lib = libs[i];
-//			if ( lib.isFile( ) )
-//			{
-//				LibraryHandle handle = null;
-//				try
-//				{
-//					handle = SessionHandleAdapter.getInstance( )
-//							.getSessionHandle( )
-//							.openLibrary( lib.getAbsolutePath( ) );
-//				}
-//				catch ( DesignFileException e )
-//				{
-//					continue;
-//				}
-//				if ( !isLibExist( libList, handle ) )
-//					libList.add( handle );
-//			}
-//			else
-//			{
-//				libList.addAll( getFolderLibraries( lib ) );
-//			}
-//		}
-//		return libList;
-//	}
-//
-//	private File getInputForlder( )
-//	{
-//		IEditorPart editor = UIUtil.getActiveEditor( true );
-//		if ( editor != null )
-//		{
-//			IFile file = ( (IFileEditorInput) editor.getEditorInput( ) ).getFile( );
-//			IProject project = file.getProject( );
-//			return project.getProjectRelativePath( ).toFile( );
-//		}
-//		return null;
-//	}
+	// private ArrayList getFolderLibraries( File folder )
+	// {
+	// ArrayList libList = new ArrayList( );
+	// File[] libs = folder.listFiles( new FileFilter( ) {
+	//
+	// public boolean accept( File pathname )
+	// {
+	// return pathname.getPath( ).indexOf( ".rptlibrary" ) == pathname.getPath(
+	// ) //$NON-NLS-1$
+	// .length( ) - 11;
+	// }
+	//
+	// } );
+	// for ( int i = 0; i < libs.length; i++ )
+	// {
+	// File lib = libs[i];
+	// if ( lib.isFile( ) )
+	// {
+	// LibraryHandle handle = null;
+	// try
+	// {
+	// handle = SessionHandleAdapter.getInstance( )
+	// .getSessionHandle( )
+	// .openLibrary( lib.getAbsolutePath( ) );
+	// }
+	// catch ( DesignFileException e )
+	// {
+	// continue;
+	// }
+	// if ( !isLibExist( libList, handle ) )
+	// libList.add( handle );
+	// }
+	// else
+	// {
+	// libList.addAll( getFolderLibraries( lib ) );
+	// }
+	// }
+	// return libList;
+	// }
+	//
+	// private File getInputForlder( )
+	// {
+	// IEditorPart editor = UIUtil.getActiveEditor( true );
+	// if ( editor != null )
+	// {
+	// IFile file = ( (IFileEditorInput) editor.getEditorInput( ) ).getFile( );
+	// IProject project = file.getProject( );
+	// return project.getProjectRelativePath( ).toFile( );
+	// }
+	// return null;
+	// }
 
 	private boolean isLibExist( List list, LibraryHandle handle )
 	{
@@ -204,7 +207,11 @@ public class LibraryProvider implements ILibraryProvider
 
 	private boolean isInProjectFolder( final LibraryHandle handle )
 	{
-		return projectLibrarys.contains(handle.getFileName());
+		if ( projectLibrarys == null )
+		{
+			return false;
+		}
+		return projectLibrarys.contains( handle.getFileName( ) );
 	}
 
 	public Image getDisplayIcon( LibraryHandle handle )
