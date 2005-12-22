@@ -75,7 +75,6 @@ import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -141,8 +140,6 @@ public class ModelDteApiAdapter
 	 */
 	public ModelDteApiAdapter( )
 	{
-		Context context = Context.enter( );
-		jsScope = context.initStandardObjects( );
 	}
 	
 	/**
@@ -157,13 +154,7 @@ public class ModelDteApiAdapter
 	public ModelDteApiAdapter( IReportContext reportContext, Scriptable jsScope )
 	{
 		this.reportContext = reportContext;
-		if ( jsScope == null )
-		{
-			Context context = Context.enter( );
-			jsScope = context.initStandardObjects( );
-		}
-		else
-			this.jsScope = jsScope;
+		this.jsScope = jsScope;
 	}
 
 	/**
@@ -207,7 +198,6 @@ public class ModelDteApiAdapter
 	 */
 	String evaluatePropertyBindingExpr( String expr ) throws BirtException
 	{
-		expr = formatText( expr );
 		Object result = JavascriptEvalUtil.evaluateScript( null,
 				jsScope,
 				expr,
@@ -216,22 +206,6 @@ public class ModelDteApiAdapter
 		return result.toString( );
 	}
 	
-	/**
-	 * Format Query Text Simply replace all LF(10) with " "
-	 * 
-	 * @param source
-	 * @return
-	 */
-	private String formatText( String source )
-	{
-		if ( source != null )
-		{
-			source = source.replaceAll( "\r", " " );
-			return source.replaceAll( "\n", " " );
-		}
-		else
-			return "";
-	}
 	
 	IOdaDataSourceDesign newExtendedDataSource( OdaDataSourceHandle source ) 
 			throws BirtException
@@ -868,7 +842,7 @@ public class ModelDteApiAdapter
 	 */
 	private boolean needPropertyBinding( )
 	{
-		if ( this.reportContext == null )
+		if ( this.reportContext == null || this.jsScope == null )
 			return false;
 		else
 			return true;
