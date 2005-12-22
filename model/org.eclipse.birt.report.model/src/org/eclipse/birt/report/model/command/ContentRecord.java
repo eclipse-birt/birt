@@ -26,6 +26,8 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.GridItem;
+import org.eclipse.birt.report.model.elements.ListItem;
 import org.eclipse.birt.report.model.elements.Parameter;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.elements.TableGroup;
@@ -343,7 +345,9 @@ public class ContentRecord extends SimpleRecord
 		// is parameter or parameter group.
 
 		if ( content instanceof Parameter || content instanceof ParameterGroup
-				|| content instanceof DataSet || content instanceof StyleElement )
+				|| content instanceof DataSet
+				|| content instanceof StyleElement
+				|| content instanceof GridItem || content instanceof ListItem )
 		{
 			event = new ElementDeletedEvent( container, content );
 			if ( state == DONE_STATE )
