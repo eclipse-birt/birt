@@ -11,7 +11,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.eclipse.birt.report.debug.internal.ui.launcher.IReportLauncherSettings;
-import org.eclipse.birt.report.debug.internal.ui.launcher.util.DebugUtil;
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.ReportLauncherUtils;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.core.resources.IProject;
@@ -21,6 +20,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
@@ -48,32 +48,33 @@ import org.eclipse.ui.help.WorkbenchHelp;
 
 /**
  * add comment here
- *  
+ * 
  */
 
-public class ReportAdvancedLauncherTab extends AbstractLauncherTab
-		implements
-			ILaunchConfigurationTab,
-			IReportLauncherSettings
+public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
+		ILaunchConfigurationTab,
+		IReportLauncherSettings
 {
 
 	private static final String REPORTPROJECTKID = "org.eclipse.birt.report.designer.ui.reportprojectnature"; //$NON-NLS-1$
 	private Label fUseListRadio;
 	private CheckboxTreeViewer fPluginTreeViewer;
 	private Label fVisibleLabel;
-	private NamedElement fWorkspacePlugins;
-	private IProject fWorkspaceModels[];
+	private NamedElement[] fWorkspacePlugins;
+	private IProject fWorkspaceBIRTModels[];
+	private IProject fWorkspaceJavaModels[];
 	private Button fDefaultsButton;
 	private int fNumExternalChecked;
 	private int fNumWorkspaceChecked;
+	private int fNumWorkspaceBIRTChecked;
+	private int fNumWorkspaceJavaChecked;
 	private Image fImage;
 	private boolean fShowFeatures;
 	private Button fSelectAllButton;
 	private Button fDeselectButton;
 
-	class PluginContentProvider extends DefaultContentProvider
-			implements
-				ITreeContentProvider
+	class PluginContentProvider extends DefaultContentProvider implements
+			ITreeContentProvider
 	{
 
 		PluginContentProvider( )
@@ -88,8 +89,10 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 
 		public Object[] getChildren( Object parent )
 		{
-			if ( parent == fWorkspacePlugins )
-				return fWorkspaceModels;
+			if ( parent == fWorkspacePlugins[0] )
+				return fWorkspaceBIRTModels;
+			else if ( parent == fWorkspacePlugins[1] )
+				return fWorkspaceJavaModels;
 			else
 				return new Object[0];
 		}
@@ -101,7 +104,8 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 
 		public Object[] getElements( Object input )
 		{
-			return ( new Object[]{fWorkspacePlugins} );
+			// return ( new Object[]{fWorkspacePlugins} );
+			return fWorkspacePlugins;
 		}
 
 	}
@@ -122,13 +126,15 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		fShowFeatures = showFeatures;
 		PDEPlugin.getDefault( ).getLabelProvider( ).connect( this );
 		fImage = PDEPluginImages.DESC_REQ_PLUGINS_OBJ.createImage( );
-		fWorkspaceModels = getInterestProject( );
+		fWorkspaceBIRTModels = getInterestProject( REPORTPROJECTKID );
+		fWorkspaceJavaModels = getInterestProject( JavaCore.NATURE_ID );
 	}
 
-	private IProject[] getInterestProject( )
+	private IProject[] getInterestProject( String type )
 	{
 		List retValue = new ArrayList( );
-		IProject[] allProjects = ResourcesPlugin.getWorkspace( ).getRoot( )
+		IProject[] allProjects = ResourcesPlugin.getWorkspace( )
+				.getRoot( )
 				.getProjects( );
 		if ( allProjects == null )
 		{
@@ -140,7 +146,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 			IProject project = allProjects[i];
 			try
 			{
-				if ( project.hasNature( REPORTPROJECTKID ))
+				if ( project.hasNature( type ) )
 				{
 					retValue.add( project );
 				}
@@ -176,8 +182,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		Composite composite = new Composite( parent, 0 );
 		composite.setLayout( new GridLayout( ) );
 		fUseListRadio = new Label( composite, 16 );
-		fUseListRadio
-				.setText( Messages.getString("ReportAdvancedLauncherTab.UseListRadioText") ); //$NON-NLS-1$
+		fUseListRadio.setText( Messages.getString( "ReportAdvancedLauncherTab.UseListRadioText" ) ); //$NON-NLS-1$
 		createPluginList( composite );
 		hookListeners( );
 		setControl( composite );
@@ -187,12 +192,11 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private void hookListeners( )
 	{
-		SelectionAdapter adapter = new SelectionAdapter( )
-		{
+		SelectionAdapter adapter = new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
@@ -200,8 +204,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 			}
 		};
 
-		fDefaultsButton.addSelectionListener( new SelectionAdapter( )
-		{
+		fDefaultsButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
@@ -210,8 +213,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 			}
 		} );
 
-		fSelectAllButton.addSelectionListener( new SelectionAdapter( )
-		{
+		fSelectAllButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
@@ -220,8 +222,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 			}
 		} );
 
-		fDeselectButton.addSelectionListener( new SelectionAdapter( )
-		{
+		fDeselectButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
@@ -237,7 +238,11 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 	 */
 	protected void toggleGroups( boolean select )
 	{
-		handleGroupStateChanged( fWorkspacePlugins, select );
+		for ( int i = 0; i < fWorkspacePlugins.length; i++ )
+		{
+			handleGroupStateChanged( fWorkspacePlugins[i], select );
+		}
+
 	}
 
 	private void useDefaultChanged( )
@@ -272,7 +277,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		GridData gd = new GridData( );
 		gd.horizontalSpan = 2;
 		fVisibleLabel.setLayoutData( gd );
-		fVisibleLabel.setText( Messages.getString("ReportAdvancedLauncherTab.VisibleLabelText") ); //$NON-NLS-1$
+		fVisibleLabel.setText( Messages.getString( "ReportAdvancedLauncherTab.VisibleLabelText" ) ); //$NON-NLS-1$
 		createPluginViewer( composite );
 		createButtonContainer( composite );
 	}
@@ -291,13 +296,39 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		checked = map.values( ).toArray( );
 		fPluginTreeViewer.setCheckedElements( map.values( ).toArray( ) );
 		fNumExternalChecked = 0;
+		fNumWorkspaceBIRTChecked = 0;
+		fNumWorkspaceJavaChecked = 0;
 		fNumWorkspaceChecked = 0;
 		for ( int i = 0; i < checked.length; i++ )
 			if ( checked[i] instanceof WorkspacePluginModelBase )
-				fNumWorkspaceChecked++;
-			else
-				fNumExternalChecked++;
+			{
+				if ( checked[i] instanceof IProject )
+				{
+					try
+					{
+						if ( ( (IProject) checked[i] ).hasNature( REPORTPROJECTKID ) )
+						{
+							fNumWorkspaceBIRTChecked++;
+						}
+						else if ( ( (IProject) checked[i] ).hasNature( JavaCore.NATURE_ID ) )
+						{
+							fNumWorkspaceJavaChecked++;
+						}
+					}
+					catch ( CoreException e )
+					{
+						e.printStackTrace( );
+					}
 
+				}
+			}
+			else
+			{
+				fNumExternalChecked++;
+			}
+
+		fNumWorkspaceChecked = fNumWorkspaceBIRTChecked
+				+ fNumWorkspaceJavaChecked;
 		adjustGroupState( );
 	}
 
@@ -319,11 +350,20 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 
 	private void adjustGroupState( )
 	{
-		fPluginTreeViewer.setChecked( fWorkspacePlugins,
-				fNumWorkspaceChecked > 0 );
-		fPluginTreeViewer.setGrayed( fWorkspacePlugins,
-				fNumWorkspaceChecked > 0
-						&& fNumWorkspaceChecked < fWorkspaceModels.length );
+
+		fPluginTreeViewer.setChecked( fWorkspacePlugins[0],
+				fNumWorkspaceBIRTChecked > 0 );
+
+		fPluginTreeViewer.setChecked( fWorkspacePlugins[1],
+				fNumWorkspaceJavaChecked > 0 );
+
+		fPluginTreeViewer.setGrayed( fWorkspacePlugins[0],
+				fNumWorkspaceBIRTChecked > 0
+						&& fNumWorkspaceBIRTChecked < fWorkspaceBIRTModels.length );
+
+		fPluginTreeViewer.setGrayed( fWorkspacePlugins[1],
+				fNumWorkspaceJavaChecked > 0
+						&& fNumWorkspaceJavaChecked < fWorkspaceJavaModels.length );
 	}
 
 	/**
@@ -333,8 +373,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 	{
 		fPluginTreeViewer = new CheckboxTreeViewer( composite, 2048 );
 		fPluginTreeViewer.setContentProvider( new PluginContentProvider( ) );
-		fPluginTreeViewer.setLabelProvider( new PDELabelProvider( )
-		{
+		fPluginTreeViewer.setLabelProvider( new PDELabelProvider( ) {
 
 			public String getText( Object obj )
 			{
@@ -346,16 +385,15 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 			}
 		} );
 		fPluginTreeViewer.setAutoExpandLevel( 2 );
-		fPluginTreeViewer.addCheckStateListener( new ICheckStateListener( )
-		{
+		fPluginTreeViewer.addCheckStateListener( new ICheckStateListener( ) {
 
 			public void checkStateChanged( final CheckStateChangedEvent event )
 			{
 				Object element = event.getElement( );
 				if ( element instanceof IPluginModelBase )
 				{
-					handleCheckStateChanged( (IPluginModelBase) element, event
-							.getChecked( ) );
+					handleCheckStateChanged( (IPluginModelBase) element,
+							event.getChecked( ) );
 				}
 				else
 				{
@@ -364,20 +402,30 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 				updateLaunchConfigurationDialog( );
 			}
 		} );
-		fPluginTreeViewer.setSorter( new ListUtil.PluginSorter( )
-		{
+		fPluginTreeViewer.setSorter( new ListUtil.PluginSorter( ) {
 
 			public int category( Object obj )
 			{
-				if ( obj == fWorkspacePlugins )
-					return -1;
+				for ( int i = 0; i < fWorkspacePlugins.length; i++ )
+				{
+
+					if ( obj == fWorkspacePlugins[i] )
+						return -1;
+				}
 				return 0;
 			}
 		} );
 		fPluginTreeViewer.getTree( ).setLayoutData( new GridData( 1808 ) );
-		Image pluginsImage = PDEPlugin.getDefault( ).getLabelProvider( ).get(
-				PDEPluginImages.DESC_REQ_PLUGINS_OBJ );
-		fWorkspacePlugins = new NamedElement( Messages.getString("ReportAdvancedLauncherTab.WorkspaceReportProjects"), pluginsImage ); //$NON-NLS-1$
+		Image pluginsImage = PDEPlugin.getDefault( )
+				.getLabelProvider( )
+				.get( PDEPluginImages.DESC_REQ_PLUGINS_OBJ );
+
+		fWorkspacePlugins = new NamedElement[]{
+				new NamedElement( Messages.getString( "ReportAdvancedLauncherTab.WorkspaceReportProjects" ),
+						pluginsImage ),
+				new NamedElement( Messages.getString( "ReportClasspathLaucnTab.WorkspaceJavaProjects" ),
+						pluginsImage )
+		};
 	}
 
 	/**
@@ -391,15 +439,15 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		composite.setLayout( layout );
 		composite.setLayoutData( new GridData( 1040 ) );
 		fSelectAllButton = new Button( composite, 8 );
-		fSelectAllButton.setText( Messages.getString("ReportAdvancedLauncherTab.SelectAllButtonText") ); //$NON-NLS-1$
+		fSelectAllButton.setText( Messages.getString( "ReportAdvancedLauncherTab.SelectAllButtonText" ) ); //$NON-NLS-1$
 		fSelectAllButton.setLayoutData( new GridData( 770 ) );
 		SWTUtil.setButtonDimensionHint( fSelectAllButton );
 		fDeselectButton = new Button( composite, 8 );
-		fDeselectButton.setText( Messages.getString("ReportAdvancedLauncherTab.DeselectButtonText") ); //$NON-NLS-1$
+		fDeselectButton.setText( Messages.getString( "ReportAdvancedLauncherTab.DeselectButtonText" ) ); //$NON-NLS-1$
 		fDeselectButton.setLayoutData( new GridData( 768 ) );
 		SWTUtil.setButtonDimensionHint( fDeselectButton );
 		fDefaultsButton = new Button( composite, 8 );
-		fDefaultsButton.setText( Messages.getString("ReportAdvancedLauncherTab.DefaultsButtonText") ); //$NON-NLS-1$
+		fDefaultsButton.setText( Messages.getString( "ReportAdvancedLauncherTab.DefaultsButtonText" ) ); //$NON-NLS-1$
 		fDefaultsButton.setLayoutData( new GridData( 768 ) );
 		SWTUtil.setButtonDimensionHint( fDefaultsButton );
 	}
@@ -407,25 +455,57 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 	private void initWorkspacePluginsState( ILaunchConfiguration config )
 			throws CoreException
 	{
-		fNumWorkspaceChecked = fWorkspaceModels.length;
-		fPluginTreeViewer.setSubtreeChecked( fWorkspacePlugins, true );
-		TreeSet deselected = ReportLauncherUtils.parseDeselectedWSIds( config );
-		for ( int i = 0; i < fWorkspaceModels.length; i++ )
+		fNumWorkspaceBIRTChecked = fWorkspaceBIRTModels.length;
+		fNumWorkspaceJavaChecked = fWorkspaceJavaModels.length;
+
+		for ( int i = 0; i < fWorkspacePlugins.length; i++ )
 		{
-			if (!deselected.contains( fWorkspaceModels[i].getName( ) ) )
+			fPluginTreeViewer.setSubtreeChecked( fWorkspacePlugins[i], true );
+		}
+
+		TreeSet deselected = ReportLauncherUtils.parseDeselectedWSIds( config );
+		for ( int i = 0; i < fWorkspaceBIRTModels.length; i++ )
+		{
+			if ( !deselected.contains( fWorkspaceBIRTModels[i].getName( ) ) )
 			{
-				if (fPluginTreeViewer.setChecked( fWorkspaceModels[i], false ))
+				if ( fPluginTreeViewer.setChecked( fWorkspaceBIRTModels[i],
+						false ) )
 				{
-					fNumWorkspaceChecked--;
+					fNumWorkspaceBIRTChecked--;
 				}
 			}
 		}
 
-		if ( fNumWorkspaceChecked == 0 )
-			fPluginTreeViewer.setChecked( fWorkspacePlugins, false );
-		fPluginTreeViewer.setGrayed( fWorkspacePlugins,
-				fNumWorkspaceChecked > 0
-						&& fNumWorkspaceChecked < fWorkspaceModels.length );
+		for ( int i = 0; i < fWorkspaceJavaModels.length; i++ )
+		{
+			if ( !deselected.contains( fWorkspaceJavaModels[i].getName( ) ) )
+			{
+				if ( fPluginTreeViewer.setChecked( fWorkspaceJavaModels[i],
+						false ) )
+				{
+					fNumWorkspaceJavaChecked--;
+				}
+			}
+		}
+
+		fNumWorkspaceChecked = fNumWorkspaceBIRTChecked
+				+ fNumWorkspaceJavaChecked;
+		int[] checked = new int[]{
+				fNumWorkspaceBIRTChecked, fNumWorkspaceJavaChecked
+		};
+		int[] length = new int[]{
+				fWorkspaceBIRTModels.length, fWorkspaceJavaModels.length
+		};
+		for ( int i = 0; i < fWorkspacePlugins.length; i++ )
+		{
+			if ( checked[i] == 0 )
+			{
+				fPluginTreeViewer.setChecked( fWorkspacePlugins[i], false );
+			}
+			fPluginTreeViewer.setGrayed( fWorkspacePlugins[i], checked[i] > 0
+					&& checked[i] < length[i] );
+		}
+
 	}
 
 	/**
@@ -469,16 +549,36 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		TreeSet wtable = new TreeSet( );
 		fNumWorkspaceChecked = 0;
 		fNumExternalChecked = 0;
-		for ( int i = 0; i < fWorkspaceModels.length; i++ )
+
+		fNumWorkspaceBIRTChecked = 0;
+		fNumWorkspaceJavaChecked = 0;
+
+		for ( int i = 0; i < fWorkspaceBIRTModels.length; i++ )
 		{
-			IProject model = fWorkspaceModels[i];
-			fNumWorkspaceChecked++;
+			IProject model = fWorkspaceBIRTModels[i];
+			fNumWorkspaceBIRTChecked++;
 			String id = model.getName( );
 			if ( id != null )
 				wtable.add( model.getName( ) );
 		}
 
-		fPluginTreeViewer.setSubtreeChecked( fWorkspacePlugins, true );
+		for ( int i = 0; i < fWorkspaceJavaModels.length; i++ )
+		{
+			IProject model = fWorkspaceJavaModels[i];
+			fNumWorkspaceJavaChecked++;
+			String id = model.getName( );
+			if ( id != null )
+				wtable.add( model.getName( ) );
+		}
+
+		fNumWorkspaceChecked = fNumWorkspaceBIRTChecked
+				+ fNumWorkspaceJavaChecked;
+
+		for ( int i = 0; i < fWorkspacePlugins.length; i++ )
+		{
+			fPluginTreeViewer.setSubtreeChecked( fWorkspacePlugins[i], true );
+		}
+
 		adjustGroupState( );
 	}
 
@@ -486,6 +586,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 	 * @param model
 	 * @param checked
 	 */
+	// should update later
 	private void handleCheckStateChanged( IPluginModelBase model,
 			boolean checked )
 	{
@@ -502,13 +603,27 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 		}
 		else
 		{
-			if ( checked )
+			if ( model instanceof IProject )
 			{
-				fNumWorkspaceChecked += 1;
-			}
-			else
-			{
-				fNumWorkspaceChecked -= 1;
+				try
+				{
+					if ( ( (IProject) model ).hasNature( REPORTPROJECTKID ) )
+					{
+						fNumWorkspaceBIRTChecked += checked ? 1 : -1;
+					}
+					else if ( ( (IProject) model ).hasNature( JavaCore.NATURE_ID ) )
+					{
+						fNumWorkspaceJavaChecked += checked ? 1 : -1;
+					}
+				}
+				catch ( CoreException e )
+				{
+					e.printStackTrace( );
+				}
+
+				fNumWorkspaceChecked = fNumWorkspaceBIRTChecked
+						+ fNumWorkspaceJavaChecked;
+
 			}
 		}
 		adjustGroupState( );
@@ -522,8 +637,40 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 	{
 		fPluginTreeViewer.setSubtreeChecked( group, checked );
 		fPluginTreeViewer.setGrayed( group, false );
-		if ( group == fWorkspacePlugins )
-			fNumWorkspaceChecked = checked ? fWorkspaceModels.length : 0;
+		if ( group == fWorkspacePlugins[0] )
+		{
+			fNumWorkspaceBIRTChecked = checked ? fWorkspaceBIRTModels.length
+					: 0;
+
+		}
+		if ( group == fWorkspacePlugins[1] )
+		{
+			fNumWorkspaceJavaChecked = checked ? fWorkspaceJavaModels.length
+					: 0;
+		}
+		if ( group instanceof IProject )
+		{
+			try
+			{
+				if ( ( (IProject) group ).hasNature( REPORTPROJECTKID ) )
+				{
+					fNumWorkspaceBIRTChecked += checked ? 1 : -1;
+				}
+				else if ( ( (IProject) group ).hasNature( JavaCore.NATURE_ID ) )
+				{
+					fNumWorkspaceJavaChecked += checked ? 1 : -1;
+				}
+			}
+			catch ( CoreException e )
+			{
+				e.printStackTrace( );
+			}
+
+			fNumWorkspaceChecked = fNumWorkspaceBIRTChecked
+					+ fNumWorkspaceJavaChecked;
+
+		}
+		adjustGroupState( );
 	}
 
 	/*
@@ -549,26 +696,36 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 	 * 
 	 * @see org.eclipse.debug.ui.ILaunchConfigurationTab#performApply(org.eclipse.debug.core.ILaunchConfigurationWorkingCopy)
 	 */
+	// here should be updated later
 	public void performApply( ILaunchConfigurationWorkingCopy config )
 	{
 		StringBuffer wbuf = new StringBuffer( );
-		//StringBuffer namesWbuf = new StringBuffer( );
-		for ( int i = 0; i < fWorkspaceModels.length; i++ )
+
+		for ( int i = 0; i < fWorkspaceBIRTModels.length; i++ )
 		{
-			IProject model = fWorkspaceModels[i];
+			IProject model = fWorkspaceBIRTModels[i];
 			String path = model.getLocation( ).toOSString( );
 			if ( fPluginTreeViewer.getChecked( model ) )
 				wbuf.append( PROPERTYSEPARATOR + path );
 
-			//namesWbuf.append( PROPERTYSEPARATOR + model.getName( ) );
+		}
+
+		for ( int i = 0; i < fWorkspaceJavaModels.length; i++ )
+		{
+			IProject model = fWorkspaceJavaModels[i];
+			String path = model.getLocation( ).toOSString( );
+			if ( fPluginTreeViewer.getChecked( model ) )
+				wbuf.append( PROPERTYSEPARATOR + path );
+
 		}
 
 		config.setAttribute( IMPORTPROJECT, wbuf.toString( ) );
-		//config.setAttribute( IMPORTPROJECTNAMES, namesWbuf.toString( ) );
+
 		config.setAttribute( "clearws", true ); //$NON-NLS-1$
 
 		config.setAttribute( "askclear", false ); //$NON-NLS-1$
 		config.setAttribute( "location0", WORKESPACENAME ); //$NON-NLS-1$
+
 	}
 
 	private void updateStatus( )
@@ -588,7 +745,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 	 */
 	public String getName( )
 	{
-		return Messages.getString("ReportAdvancedLauncherTab.Name"); //$NON-NLS-1$
+		return Messages.getString( "ReportAdvancedLauncherTab.Name" ); //$NON-NLS-1$
 	}
 
 	/*

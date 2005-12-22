@@ -88,9 +88,11 @@ public class ReportLaunchConfigurationDelegate extends
 			fConfigDir = null;
 			monitor.beginTask( "", 5 ); //$NON-NLS-1$
 			String workspace = configuration.getAttribute( "location0", //$NON-NLS-1$
-					LauncherUtils.getDefaultPath( ).append( WORKESPACENAME )
+					LauncherUtils.getDefaultPath( )
+							.append( WORKESPACENAME )
 							.toOSString( ) );
-			if ( !LauncherUtils.clearWorkspace( configuration, workspace,
+			if ( !LauncherUtils.clearWorkspace( configuration,
+					workspace,
 					new SubProgressMonitor( monitor, 1 ) ) )
 			{
 				monitor.setCanceled( true );
@@ -117,7 +119,8 @@ public class ReportLaunchConfigurationDelegate extends
 			launcher.getVMRunner( mode ).run( runnerConfig, launch, monitor );
 			monitor.worked( 1 );
 
-		} catch ( CoreException e )
+		}
+		catch ( CoreException e )
 		{
 			monitor.setCanceled( true );
 			throw e;
@@ -131,8 +134,7 @@ public class ReportLaunchConfigurationDelegate extends
 	{
 		if ( launch.getSourceLocator( ) instanceof JavaSourceLookupDirector )
 		{
-			JavaSourceLookupDirector director = ( JavaSourceLookupDirector ) launch
-					.getSourceLocator( );
+			JavaSourceLookupDirector director = (JavaSourceLookupDirector) launch.getSourceLocator( );
 			ISourceContainer[] contains = director.getSourceContainers( );
 			List list = new ArrayList( );
 
@@ -146,27 +148,27 @@ public class ReportLaunchConfigurationDelegate extends
 
 			try
 			{
-				List sourcePaths = getAllProjectSourcePaths( configuration
-						.getAttribute( IMPORTPROJECTNAMES, "" ) ); //$NON-NLS-1$
+				List sourcePaths = getAllProjectSourcePaths( configuration.getAttribute( IMPORTPROJECTNAMES,
+						"" ) ); //$NON-NLS-1$
 				for ( int i = 0; i < sourcePaths.size( ); i++ )
 				{
-//					String source = ( String ) sourcePaths.get( i );
-//					ISourceContainer temp = new DirectorySourceContainer(
-//							new Path( source ), true );
-//					list.add( temp );
-					
-					IJavaProject source = ( IJavaProject ) sourcePaths.get( i );
-					ISourceContainer temp = new JavaProjectSourceContainer(
-							source);
-					list.add(i, temp );
+					// String source = ( String ) sourcePaths.get( i );
+					// ISourceContainer temp = new DirectorySourceContainer(
+					// new Path( source ), true );
+					// list.add( temp );
+
+					IJavaProject source = (IJavaProject) sourcePaths.get( i );
+					ISourceContainer temp = new JavaProjectSourceContainer( source );
+					list.add( i, temp );
 				}
-			} catch ( CoreException e )
+			}
+			catch ( CoreException e )
 			{
 
 			}
 
 			ISourceContainer[] retValue = new ISourceContainer[list.size( )];
-			retValue = ( ISourceContainer[] ) list.toArray( retValue );
+			retValue = (ISourceContainer[]) list.toArray( retValue );
 			director.setSourceContainers( retValue );
 		}
 	}
@@ -182,19 +184,20 @@ public class ReportLaunchConfigurationDelegate extends
 		String classpath[] = LauncherUtils.constructClasspath( configuration );
 		if ( classpath == null )
 		{
-			String message = Messages.getString("ReportLaunchConfigurationDelegate.noStartup"); //$NON-NLS-1$
+			String message = Messages.getString( "ReportLaunchConfigurationDelegate.noStartup" ); //$NON-NLS-1$
 			throw new CoreException( LauncherUtils.createErrorStatus( message ) );
 		}
 		String programArgs[] = getProgramArguments( configuration );
 		if ( programArgs == null )
 		{
 			return null;
-		} else
+		}
+		else
 		{
-			String envp[] = DebugPlugin.getDefault( ).getLaunchManager( )
+			String envp[] = DebugPlugin.getDefault( )
+					.getLaunchManager( )
 					.getEnvironment( configuration );
-			VMRunnerConfiguration runnerConfig = new VMRunnerConfiguration(
-					"org.eclipse.core.launcher.Main", classpath ); //$NON-NLS-1$
+			VMRunnerConfiguration runnerConfig = new VMRunnerConfiguration( "org.eclipse.core.launcher.Main", classpath ); //$NON-NLS-1$
 			runnerConfig.setVMArguments( getVMArguments( configuration ) );
 			runnerConfig.setProgramArguments( programArgs );
 			runnerConfig.setEnvironment( envp );
@@ -212,7 +215,8 @@ public class ReportLaunchConfigurationDelegate extends
 		{
 			programArgs.add( "-product" ); //$NON-NLS-1$
 			programArgs.add( configuration.getAttribute( PRODUCT, "" ) ); //$NON-NLS-1$
-		} else
+		}
+		else
 		{
 			// specify the application to launch
 			programArgs.add( "-application" ); //$NON-NLS-1$
@@ -221,24 +225,24 @@ public class ReportLaunchConfigurationDelegate extends
 		}
 
 		// specify the workspace location for the runtime workbench
-		String targetWorkspace = configuration
-				.getAttribute(
-						LOCATION + "0", LauncherUtils.getDefaultPath( ).append( WORKESPACENAME ).toOSString( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		String targetWorkspace = configuration.getAttribute( LOCATION + "0", LauncherUtils.getDefaultPath( ).append( WORKESPACENAME ).toOSString( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		programArgs.add( "-data" ); //$NON-NLS-1$
 		programArgs.add( targetWorkspace );
 
-		boolean isOSGI = PDECore.getDefault( ).getModelManager( )
+		boolean isOSGI = PDECore.getDefault( )
+				.getModelManager( )
 				.isOSGiRuntime( );
 		if ( configuration.getAttribute( USEFEATURES, false ) )
 		{
 			validateFeatures( );
-			IPath installPath = PDEPlugin.getWorkspace( ).getRoot( )
+			IPath installPath = PDEPlugin.getWorkspace( )
+					.getRoot( )
 					.getLocation( );
 			programArgs.add( "-install" ); //$NON-NLS-1$
-			programArgs
-					.add( "file:" + installPath.removeLastSegments( 1 ).addTrailingSeparator( ).toString( ) ); //$NON-NLS-1$
+			programArgs.add( "file:" + installPath.removeLastSegments( 1 ).addTrailingSeparator( ).toString( ) ); //$NON-NLS-1$
 			programArgs.add( "-update" ); //$NON-NLS-1$
-		} else
+		}
+		else
 		{
 			TreeMap pluginMap = LauncherUtils.getPluginsToRun( configuration );
 			if ( pluginMap == null )
@@ -246,15 +250,14 @@ public class ReportLaunchConfigurationDelegate extends
 
 			String primaryFeatureId = ReportLauncherUtils.getPrimaryFeatureId( );
 			DebugUtil.runCreatePlatformConfigurationArea( pluginMap,
-					getConfigDir( configuration ), primaryFeatureId,
+					getConfigDir( configuration ),
+					primaryFeatureId,
 					ReportLauncherUtils.getAutoStartPlugins( configuration ) );
 			programArgs.add( "-configuration" ); //$NON-NLS-1$
 			if ( isOSGI )
-				programArgs
-						.add( "file:" + new Path( getConfigDir( configuration ).getPath( ) ).addTrailingSeparator( ).toString( ) ); //$NON-NLS-1$
+				programArgs.add( "file:" + new Path( getConfigDir( configuration ).getPath( ) ).addTrailingSeparator( ).toString( ) ); //$NON-NLS-1$
 			else
-				programArgs
-						.add( "file:" + new Path( getConfigDir( configuration ).getPath( ) ).append( "platform.cfg" ).toString( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				programArgs.add( "file:" + new Path( getConfigDir( configuration ).getPath( ) ).append( "platform.cfg" ).toString( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 			if ( !isOSGI )
 			{
@@ -263,8 +266,7 @@ public class ReportLaunchConfigurationDelegate extends
 					programArgs.add( "-feature" ); //$NON-NLS-1$
 					programArgs.add( primaryFeatureId );
 				}
-				IPluginModelBase bootModel = ( IPluginModelBase ) pluginMap
-						.get( "org.eclipse.core.boot" ); //$NON-NLS-1$
+				IPluginModelBase bootModel = (IPluginModelBase) pluginMap.get( "org.eclipse.core.boot" ); //$NON-NLS-1$
 				String bootPath = LauncherUtils.getBootPath( bootModel );
 				if ( bootPath != null && !bootPath.endsWith( ".jar" ) ) { //$NON-NLS-1$
 					programArgs.add( "-boot" ); //$NON-NLS-1$
@@ -276,8 +278,7 @@ public class ReportLaunchConfigurationDelegate extends
 		// add the output folder names
 		programArgs.add( "-dev" ); //$NON-NLS-1$
 		if ( PDECore.getDefault( ).getModelManager( ).isOSGiRuntime( ) )
-			programArgs.add( DebugUtil.getDevEntriesProperties( getConfigDir(
-					configuration ).toString( )
+			programArgs.add( DebugUtil.getDevEntriesProperties( getConfigDir( configuration ).toString( )
 					+ "/dev.properties", true ) ); //$NON-NLS-1$
 		else
 			programArgs.add( DebugUtil.getDevEntries( true ) );
@@ -289,18 +290,19 @@ public class ReportLaunchConfigurationDelegate extends
 
 		// add tracing, if turned on
 		if ( configuration.getAttribute( TRACING, false )
-				&& !TRACING_NONE.equals( configuration.getAttribute(
-						TRACING_CHECKED, ( String ) null ) ) )
+				&& !TRACING_NONE.equals( configuration.getAttribute( TRACING_CHECKED,
+						(String) null ) ) )
 		{
 			programArgs.add( "-debug" ); //$NON-NLS-1$
-			programArgs.add( LauncherUtils.getTracingFileArgument(
-					configuration, getConfigDir( configuration ).toString( )
-							+ Path.SEPARATOR + ".options" ) ); //$NON-NLS-1$
+			programArgs.add( LauncherUtils.getTracingFileArgument( configuration,
+					getConfigDir( configuration ).toString( )
+							+ Path.SEPARATOR
+							+ ".options" ) ); //$NON-NLS-1$
 		}
 
 		// add the program args specified by the user
-		StringTokenizer tokenizer = new StringTokenizer( configuration
-				.getAttribute( PROGARGS, "" ) ); //$NON-NLS-1$
+		StringTokenizer tokenizer = new StringTokenizer( configuration.getAttribute( PROGARGS,
+				"" ) ); //$NON-NLS-1$
 		while ( tokenizer.hasMoreTokens( ) )
 		{
 			programArgs.add( tokenizer.nextToken( ) );
@@ -311,8 +313,8 @@ public class ReportLaunchConfigurationDelegate extends
 		int index = programArgs.indexOf( "-application" ); //$NON-NLS-1$
 		if ( index != -1 && index <= programArgs.size( ) - 2 )
 		{
-			if ( !programArgs.get( index + 1 ).equals(
-					LauncherUtils.getDefaultApplicationName( ) ) )
+			if ( !programArgs.get( index + 1 )
+					.equals( LauncherUtils.getDefaultApplicationName( ) ) )
 			{
 				showSplash = false;
 			}
@@ -321,8 +323,7 @@ public class ReportLaunchConfigurationDelegate extends
 			programArgs.add( 0, "-showsplash" ); //$NON-NLS-1$
 			programArgs.add( 1, computeShowsplashArgument( ) );
 		}
-		return ( String[] ) programArgs
-				.toArray( new String[programArgs.size( )] );
+		return (String[]) programArgs.toArray( new String[programArgs.size( )] );
 	}
 
 	/**
@@ -333,14 +334,13 @@ public class ReportLaunchConfigurationDelegate extends
 	private String[] getVMArguments( ILaunchConfiguration configuration )
 			throws CoreException
 	{
-		String temp[] = ( new ExecutionArguments( configuration.getAttribute(
-				"vmargs", "" ), "" ) ).getVMArgumentsArray( ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		String temp[] = ( new ExecutionArguments( configuration.getAttribute( "vmargs", "" ), "" ) ).getVMArgumentsArray( ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		String path = configuration.getAttribute( IMPORTPROJECT, "" ); //$NON-NLS-1$
 
 		String append = "-D" + PROJECT_NAMES_KEY + "=" + path; //$NON-NLS-1$ //$NON-NLS-2$
 
-		String projectClassPaths = finder.getClassPath( configuration
-				.getAttribute( IMPORTPROJECTNAMES, "" ) ); //$NON-NLS-1$
+		String projectClassPaths = finder.getClassPath( configuration.getAttribute( IMPORTPROJECTNAMES,
+				"" ) ); //$NON-NLS-1$
 
 		String classPath = ""; //$NON-NLS-1$
 		// String sourcePath = "";
@@ -351,8 +351,11 @@ public class ReportLaunchConfigurationDelegate extends
 
 		if ( temp == null )
 		{
-			temp = ( new String[] { append, classPath } );
-		} else
+			temp = ( new String[]{
+					append, classPath
+			} );
+		}
+		else
 		{
 			List list = new ArrayList( );
 			int size = temp.length;
@@ -361,34 +364,34 @@ public class ReportLaunchConfigurationDelegate extends
 
 			list.add( append );
 			list.add( classPath );
-			temp = ( String[] ) list.toArray( temp );
+			temp = (String[]) list.toArray( temp );
 		}
 		return temp;
 	}
 
+	/**
+	 * @param path
+	 *            no use now
+	 * @return
+	 */
 	private List getAllProjectSourcePaths( String path )
 	{
 		List retValue = new ArrayList( );
-		if ( path == null || path.length( ) == 0 )
+		IProject[] projects = ResourcesPlugin.getWorkspace( )
+				.getRoot( )
+				.getProjects( );
+		if ( projects == null || projects.length == 0 )
 		{
 			return retValue;
 		}
-		StringTokenizer token = new StringTokenizer( path, PROPERTYSEPARATOR );
-		while ( token.hasMoreTokens( ) )
+		for ( int i = 0; i < projects.length; i++ )
 		{
-			String projectName = token.nextToken( );
-			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-			if (project != null && hasJavaNature( project ))
+			IProject project = projects[i];
+			if ( project != null && hasJavaNature( project ) )
 			{
-				retValue.add( JavaCore.create( project ));
+				retValue.add( JavaCore.create( project ) );
 			}
-			//List paths = getProjectSourcePaths( projectName );
-//			for ( int i = 0; i < paths.size( ); i++ )
-//			{
-//				retValue.add( paths.get( i ) );
-//			}
 		}
-
 		return retValue;
 	}
 
@@ -400,7 +403,8 @@ public class ReportLaunchConfigurationDelegate extends
 	{
 		List retValue = new ArrayList( );
 
-		IProject project = ResourcesPlugin.getWorkspace( ).getRoot( )
+		IProject project = ResourcesPlugin.getWorkspace( )
+				.getRoot( )
 				.getProject( projectName );
 
 		if ( projectName == null )
@@ -411,7 +415,7 @@ public class ReportLaunchConfigurationDelegate extends
 		List list = getProjectSourcePath( project );
 		for ( int j = 0; j < list.size( ); j++ )
 		{
-			String url = ( String ) list.get( j );
+			String url = (String) list.get( j );
 			if ( url != null )
 			{
 				retValue.add( url );
@@ -465,7 +469,8 @@ public class ReportLaunchConfigurationDelegate extends
 		try
 		{
 			return project.hasNature( JavaCore.NATURE_ID );
-		} catch ( CoreException e )
+		}
+		catch ( CoreException e )
 		{
 			// project does not exist or is not open
 		}
@@ -479,17 +484,16 @@ public class ReportLaunchConfigurationDelegate extends
 		boolean badStructure = lastSegment == null;
 		if ( !badStructure )
 		{
-			IPath featuresPath = installPath.removeLastSegments( 1 ).append(
-					"features" ); //$NON-NLS-1$
+			IPath featuresPath = installPath.removeLastSegments( 1 )
+					.append( "features" ); //$NON-NLS-1$
 			badStructure = !lastSegment.equalsIgnoreCase( "plugins" ) //$NON-NLS-1$
 					|| !featuresPath.toFile( ).exists( );
 		}
 		if ( badStructure )
 		{
-			throw new CoreException(
-					LauncherUtils
-							.createErrorStatus( Messages.getString("ReportLaunchConfigurationDelegate.badFeatureSetup") ) ); //$NON-NLS-1$
-		} else
+			throw new CoreException( LauncherUtils.createErrorStatus( Messages.getString( "ReportLaunchConfigurationDelegate.badFeatureSetup" ) ) ); //$NON-NLS-1$
+		}
+		else
 		{
 			ensureProductFilesExist( getProductPath( ) );
 			return;
@@ -529,7 +533,8 @@ public class ReportLaunchConfigurationDelegate extends
 			if ( !ini.exists( ) )
 				copyFile( eclipsePath.append( "configuration" ), "config.ini", //$NON-NLS-1$ //$NON-NLS-2$
 						ini );
-		} else
+		}
+		else
 		{
 			File ini = new File( productDir, "install.ini" ); //$NON-NLS-1$
 			if ( !ini.exists( ) )
@@ -556,9 +561,11 @@ public class ReportLaunchConfigurationDelegate extends
 				os.write( buf, 0, len );
 			}
 
-		} catch ( IOException _ex )
+		}
+		catch ( IOException _ex )
 		{
-		} finally
+		}
+		finally
 		{
 			try
 			{
@@ -566,7 +573,8 @@ public class ReportLaunchConfigurationDelegate extends
 					is.close( );
 				if ( os != null )
 					os.close( );
-			} catch ( IOException _ex )
+			}
+			catch ( IOException _ex )
 			{
 			}
 		}
@@ -576,8 +584,7 @@ public class ReportLaunchConfigurationDelegate extends
 	protected IProject[] getBuildOrder( ILaunchConfiguration configuration,
 			String mode ) throws CoreException
 	{
-		return computeBuildOrder( LauncherUtils
-				.getAffectedProjects( configuration ) );
+		return computeBuildOrder( LauncherUtils.getAffectedProjects( configuration ) );
 	}
 
 	protected IProject[] getProjectsForProblemSearch(
@@ -595,28 +602,29 @@ public class ReportLaunchConfigurationDelegate extends
 				if ( config.getAttribute( "usefeatures", false ) ) //$NON-NLS-1$
 				{
 					String root = getProductPath( ).toString( );
-					if ( PDECore.getDefault( ).getModelManager( )
+					if ( PDECore.getDefault( )
+							.getModelManager( )
 							.isOSGiRuntime( ) )
 						root = root + "/configuration"; //$NON-NLS-1$
 					fConfigDir = new File( root );
-				} else
-				{
-					fConfigDir = ReportLauncherUtils.createConfigArea( config
-							.getName( ) );
 				}
-			} catch ( CoreException _ex )
+				else
+				{
+					fConfigDir = ReportLauncherUtils.createConfigArea( config.getName( ) );
+				}
+			}
+			catch ( CoreException _ex )
 			{
-				fConfigDir = ReportLauncherUtils.createConfigArea( config
-						.getName( ) );
+				fConfigDir = ReportLauncherUtils.createConfigArea( config.getName( ) );
 			}
 		if ( !fConfigDir.exists( ) )
 			fConfigDir.mkdirs( );
 		return fConfigDir;
 	}
 
-	private static final String KEY_BAD_FEATURE_SETUP = Messages.getString("ReportLaunchConfigurationDelegate.badFeatureSetup"); //$NON-NLS-1$
+	private static final String KEY_BAD_FEATURE_SETUP = Messages.getString( "ReportLaunchConfigurationDelegate.badFeatureSetup" ); //$NON-NLS-1$
 
-	private static final String KEY_NO_STARTUP = Messages.getString("ReportLaunchConfigurationDelegate.noStartup"); //$NON-NLS-1$
+	private static final String KEY_NO_STARTUP = Messages.getString( "ReportLaunchConfigurationDelegate.noStartup" ); //$NON-NLS-1$
 
 	private File fConfigDir;
 }

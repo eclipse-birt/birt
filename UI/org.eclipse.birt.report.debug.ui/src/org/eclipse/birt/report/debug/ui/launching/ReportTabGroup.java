@@ -22,13 +22,13 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * Class for report Debug tab group
- *  
+ * 
  */
 public class ReportTabGroup extends AbstractLaunchConfigurationTabGroup
 {
 
 	/**
-	 *  
+	 * 
 	 */
 	public ReportTabGroup( )
 	{
@@ -44,7 +44,8 @@ public class ReportTabGroup extends AbstractLaunchConfigurationTabGroup
 	{
 		ILaunchConfigurationTab tabs[] = (ILaunchConfigurationTab[]) null;
 		tabs = ( new ILaunchConfigurationTab[]{
-				new ReportAdvancedLauncherTab( ), new ReportClasspathLaucnTab(), new AdvancedLauncherTab( )} );
+				new ReportAdvancedLauncherTab( ), new AdvancedLauncherTab( )
+		} );
 		setTabs( tabs );
 	}
 
@@ -63,25 +64,20 @@ public class ReportTabGroup extends AbstractLaunchConfigurationTabGroup
 	{
 		final ILaunchConfiguration config = configuration;
 		final ILaunchConfigurationTab[] tabs = getTabs( );
-		BusyIndicator.showWhile( Display.getCurrent( ), new Runnable( )
-		{
+		BusyIndicator.showWhile( Display.getCurrent( ), new Runnable( ) {
 
 			public void run( )
 			{
 				try
 				{
-					String id = config
-							.getAttribute(
-									IJavaLaunchConfigurationConstants.ATTR_SOURCE_PATH_PROVIDER,
-									(String) null );
+					String id = config.getAttribute( IJavaLaunchConfigurationConstants.ATTR_SOURCE_PATH_PROVIDER,
+							(String) null );
 					if ( id == null
 							&& config instanceof ILaunchConfigurationWorkingCopy )
 					{
 						ILaunchConfigurationWorkingCopy wc = (ILaunchConfigurationWorkingCopy) config;
-						wc
-								.setAttribute(
-										IJavaLaunchConfigurationConstants.ATTR_SOURCE_PATH_PROVIDER,
-										"org.eclipse.pde.ui.workbenchClasspathProvider" ); //$NON-NLS-1$
+						wc.setAttribute( IJavaLaunchConfigurationConstants.ATTR_SOURCE_PATH_PROVIDER,
+								"org.eclipse.pde.ui.workbenchClasspathProvider" ); //$NON-NLS-1$
 					}
 				}
 				catch ( CoreException e )
