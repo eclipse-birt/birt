@@ -16,6 +16,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
@@ -60,8 +61,18 @@ public class DataIterator implements IDataIterator
 		Iterator iter = expressions.iterator();
 		while( iter.hasNext() )
 		{
-			IScriptExpression expr = (IScriptExpression)iter.next();
-			exprMap.put( expr.getText(), expr );
+			IBaseExpression expr = (IBaseExpression)iter.next();
+			IScriptExpression scriptExpr = null;
+			if ( expr instanceof IConditionalExpression )
+			{
+				IConditionalExpression condExpr = ( IConditionalExpression )expr;
+				scriptExpr = condExpr.getExpression( );
+			}
+			else
+			{
+				scriptExpr = (IScriptExpression)expr;
+			}
+			exprMap.put( scriptExpr.getText(), scriptExpr );
 		}
 	}
 	

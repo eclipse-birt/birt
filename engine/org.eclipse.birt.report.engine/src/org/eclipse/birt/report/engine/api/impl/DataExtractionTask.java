@@ -48,6 +48,7 @@ public class DataExtractionTask extends EngineTask
 	protected String[] selectedColumns;
 	protected Report report;
 	protected List resultMetaList;
+	protected IExtractionResults currentResult = null;
 	
 	
 	public DataExtractionTask( ReportEngine engine, IReportRunnable runnable,
@@ -72,6 +73,7 @@ public class DataExtractionTask extends EngineTask
 	public void setInstanceID( InstanceID iid )
 	{
 		instanceId = iid;
+		currentResult = null;
 	}
 
 	public List getMetaData( )
@@ -84,14 +86,10 @@ public class DataExtractionTask extends EngineTask
 			{
 				try
 				{
-					ReportItemDesign rptItem = (ReportItemDesign) report.getReportItemByID( 
-							instanceId.getComponentID( ) );
-					assert rptItem != null;
-
-					IBaseQueryDefinition query = rptItem.getQuery( );
-					validateSelectedColumns( query );		
+					currentResult = extract( );
+					resultMetaList.add( currentResult.getResultMetaData( ) );
 				}
-				catch ( EngineException e )
+				catch ( BirtException e )
 				{
 					e.printStackTrace( );
 				}
@@ -114,12 +112,16 @@ public class DataExtractionTask extends EngineTask
 	public void selectColumns( String[] columnNames )
 	{
 		selectedColumns = columnNames;
+		currentResult = null;
 	}
 
 	public IExtractionResults extract( ) throws EngineException
 	{
 		if( instanceId == null ) 
 			return null;
+		
+		if ( currentResult != null )
+			return currentResult;
 		
 		assert executionContext.getDataEngine() != null;
 		DataEngine dataEngine = executionContext.getDataEngine().getDataEngine();
@@ -167,10 +169,10 @@ public class DataExtractionTask extends EngineTask
 				
 				assert queryResults.getResultIterator() != null;
 				
-				ExtractionResults results = new ExtractionResults( queryResults.getResultIterator() 
+				currentResult = new ExtractionResults( queryResults.getResultIterator() 
 						, selectedColumns, query.getRowExpressions() );
-				resultMetaList.add( results.getResultMetaData() );
-				return results;
+				resultMetaList.add( currentResult.getResultMetaData() );
+				return currentResult;
 				
 			}
 			catch ( BirtException e )
@@ -207,11 +209,11 @@ public class DataExtractionTask extends EngineTask
 				IResultIterator subIter = iter.getSecondaryIterator( dataSetId
 						.getQueryName( ), executionContext.getScope( ) );
 				
-				ExtractionResults results = new ExtractionResults( subIter, 
+				currentResult = new ExtractionResults( subIter, 
 						selectedColumns, query.getRowExpressions() );
 				
-				resultMetaList.add( results.getResultMetaData());
-				return results;
+				resultMetaList.add( currentResult.getResultMetaData());
+				return currentResult;
 			}
 			catch( BirtException be )
 			{
