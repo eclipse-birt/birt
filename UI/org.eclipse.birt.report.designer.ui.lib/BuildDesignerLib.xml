@@ -151,8 +151,8 @@
 	 -->
 	<target name="Export">
 	  	<xmlproperty file="plugin.xml" collapseAttributes="true"/>
-		<property name="plugin.name" value="${module.name}_${plugin.version}" />
-		<copy todir="${export.dir}\${plugin.name}">
+		<property name="plugin.package" value="${module.name}_${plugin.version}" />
+		<copy todir="${export.dir}\${plugin.package}">
 			<fileset dir=".">
 				<exclude name="plugin*.properties"/>
 	 			<include name="${jar.name}"/>
@@ -167,7 +167,7 @@
 				<include name="nl\**\*"/> 
 			</fileset>
 		</copy>
-		<copy todir="${export.dir}\${plugin.name}" overwrite="true">
+		<copy todir="${export.dir}\${plugin.package}" overwrite="true">
 			<fileset dir=".">
 				<include name="plugin*.properties"/>
 			</fileset>

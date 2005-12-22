@@ -125,8 +125,8 @@
 	 -->
 	<target name="Export">
 	  	<xmlproperty file="plugin.xml" collapseAttributes="true"/>
-		<property name="plugin.name" value="${module.name}_${plugin.version}" />
-		<copy todir="${export.dir}\${plugin.name}">
+		<property name="plugin.package" value="${module.name}_${plugin.version}" />
+		<copy todir="${export.dir}\${plugin.package}">
 			<fileset dir="." includes="${jar.name},About.html,plugin.xml,.options" />
 		</copy>
 	</target>
