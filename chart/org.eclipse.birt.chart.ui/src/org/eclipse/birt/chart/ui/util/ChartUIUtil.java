@@ -95,13 +95,41 @@ public class ChartUIUtil
 				.get( queryIndex );
 	}
 
-	public static String getExpressionString( Object colName )
+	/**
+	 * Create a row expression base on column name.
+	 * 
+	 * @param colName
+	 */
+	public static String getExpressionString( String colName )
 	{
 		if ( colName == null )
 		{
 			return ""; //$NON-NLS-1$
 		}
-		return "row[\"" + colName + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
+		return "row[\"" + escape( colName ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	/**
+	 * Escapes \ and " following standard of Javascript
+	 * 
+	 * @param str
+	 * @return new string after escape special character
+	 */
+	public static String escape( String str )
+	{
+		String[][] chars = {
+				{
+						"\\\\", "\"", "\'", //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+				}, {
+						"\\\\\\\\", "\\\\\"", "\\\\\'", //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+				}
+		};
+		String result = str;
+		for ( int i = 0; i < chars[0].length; i++ )
+		{
+			result = result.replaceAll( chars[0][i], chars[1][i] );
+		}
+		return result;
 	}
 
 	/**
@@ -572,8 +600,8 @@ public class ChartUIUtil
 	}
 
 	/**
-	 * Sets the query to all series grouping, except for the first which should be set
-	 * manually
+	 * Sets the query to all series grouping, except for the first which should
+	 * be set manually
 	 * 
 	 * @param chart
 	 *            chart model
