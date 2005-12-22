@@ -14,8 +14,11 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,18 +31,11 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 /**
  * 
  */
-public class ReportDocumentWriter
+public class ReportDocumentWriter implements ReportDocumentConstants
 {
 
 	static private Logger logger = Logger.getLogger( ReportDocumentReader.class
 			.getName( ) );
-
-	protected static final String DESIGN_STREAM = "/design";
-	protected static final String DESIGN_NAME_STREAM = "/designName";
-	protected static final String PARAMTER_STREAM = "/paramter";
-	protected static final String BOOKMARK_STREAM = "/bookmark";
-	protected static final String PAGEHINT_STREAM = "/pages";
-	protected static final String TOC_STREAM = "/toc";
 
 	private IDocArchiveWriter archive;
 
@@ -49,10 +45,32 @@ public class ReportDocumentWriter
 		try
 		{
 			archive.initialize( );
+			writeVersion( );
 		}
 		catch ( IOException e )
 		{
 			logger.log( Level.SEVERE, "Failed in initializing the archive", e );
+		}
+	}
+
+	protected void writeVersion( ) throws IOException
+	{
+		RAOutputStream out = archive.createRandomAccessStream( VERSION_STREAM );
+		try
+		{
+			PrintWriter writer = new PrintWriter( new OutputStreamWriter( out,
+					"UTF-8" ) );
+			writer.println( REPORT_DOCUMENT_TAG );
+			writer.println( REPORT_DOCUMENT_VERSION_1_0_0 );
+			writer.flush( );
+			writer.close( );
+		}
+		finally
+		{
+			if ( out != null )
+			{
+				out.close( );
+			}
 		}
 	}
 
@@ -182,6 +200,20 @@ public class ReportDocumentWriter
 		catch ( Exception ex )
 		{
 			logger.log( Level.SEVERE, "failed to save the paramters", ex );
+		}
+	}
+
+	public void savePersistentObjects( Map map )
+	{
+		try
+		{
+			saveObject( archive
+					.createRandomAccessStream( PERSISTENT_OBJECTS_STREAM ), map );
+		}
+		catch ( Exception ex )
+		{
+			logger.log( Level.SEVERE, "failed to save the persistent objects",
+					ex );
 		}
 	}
 

@@ -60,6 +60,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 				.getReport( ) );
 		executionContext.setReport( report );
 		setParameterValues( reportDoc.getParameterValues( ) );
+		executionContext.registerGlobalBeans( reportDoc
+				.getGlobalVariables( null ) );
 	}
 
 	/*
@@ -119,8 +121,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 		EngineConfig config = engine.getConfig( );
 		if ( config != null )
-			services
-					.setEmitterConfig( config.getEmitterConfigs( ) );
+			services.setEmitterConfig( config.getEmitterConfigs( ) );
 		services.setRenderContext( context );
 
 		services.setReportRunnable( runnable );
@@ -156,21 +157,21 @@ public class RenderTask extends EngineTask implements IRenderTask
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
 		}
 
-		//After setting up the parameter values and before executing the
+		// After setting up the parameter values and before executing the
 		// report, we need to call onPrepare on all items.
 		// Create IReportContext and set it to execution context
 		ReportContextImpl reportContext = new ReportContextImpl(
-				executionContext.getParams( ), config.getConfigMap( ),
-				executionContext.getAppContext( ), executionContext.getLocale(), format );
+				executionContext, format );
 		executionContext.setReportContext( reportContext );
-		
-		if (format.equalsIgnoreCase("html"))
+
+		if ( format.equalsIgnoreCase( "html" ) )
 		{
-			HTMLEmitterConfig tmp = (HTMLEmitterConfig) config.getEmitterConfigs().get("html");
-			if (tmp != null)
-				executionContext.setActionHandler(tmp.getActionHandler());
+			HTMLEmitterConfig tmp = (HTMLEmitterConfig) config
+					.getEmitterConfigs( ).get( "html" );
+			if ( tmp != null )
+				executionContext.setActionHandler( tmp.getActionHandler( ) );
 		}
-		
+
 		IContentEmitter emitter = ExtensionManager.getInstance( )
 				.createEmitter( format, emitterID );
 		if ( emitter == null )

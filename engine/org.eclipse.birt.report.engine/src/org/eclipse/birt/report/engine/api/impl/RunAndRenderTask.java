@@ -134,9 +134,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		// report, we need to call onPrepare on all items.
 		// Create IReportContext and set it to execution context
 		ReportContextImpl reportContext = new ReportContextImpl(
-				executionContext.getParams( ), config.getConfigMap( ),
-				executionContext.getAppContext( ),
-				executionContext.getLocale( ), format );
+				executionContext, format );
 		executionContext.setReportContext( reportContext );
 		// Call onPrepare in the design tree
 		ScriptedDesignVisitor visitor = new ScriptedDesignVisitor(

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.executor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -68,7 +69,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.47 $ $Date: 2005/12/16 08:26:17 $
+ * @version $Revision: 1.48 $ $Date: 2005/12/16 18:51:46 $
  */
 public class ExecutionContext
 {
@@ -139,6 +140,10 @@ public class ExecutionContext
 	 */
 	private Map params = new BirtHashMap( );
 
+	private Map persistentBeans = new HashMap( );
+
+	private Map transientBeans = new HashMap( );
+
 	private ReportDocumentWriter docWriter;
 
 	/**
@@ -195,7 +200,7 @@ public class ExecutionContext
 	private HashMap dateFormatters = new HashMap( );
 
 	private IHTMLActionHandler ah = null;
-	
+
 	/**
 	 * create a new context. Call close to finish using the execution context
 	 */
@@ -234,6 +239,11 @@ public class ExecutionContext
 		scriptContext.registerBean( "config", configs ); //$NON-NLS-1$
 		scriptContext.registerBean( "currentPage", new Long( pageNumber ) );
 		scriptContext.registerBean( "totalPage", new Long( totalPage ) );
+		scriptContext.registerBean( "_jsContext", this );
+		scriptContext
+				.eval( "function registerGlobal( name, value) { _jsContext.registerGlobalBean(name, value); }" );
+		scriptContext
+				.eval( "function unregisterGlobal(name) { _jsContext.unregisterGlobalBean(name); }" );
 	}
 
 	protected void initailizeScriptContext( Context cx, Scriptable scope )
@@ -341,15 +351,22 @@ public class ExecutionContext
 	 * @param map
 	 *            name value pair.
 	 */
-	public void registerBeans( HashMap map )
+	public void registerBeans( Map map )
 	{
 		if ( map != null )
 		{
-			Iterator iter = map.keySet( ).iterator( );
+
+			Iterator iter = map.entrySet( ).iterator( );
 			while ( iter.hasNext( ) )
 			{
-				String key = (String) iter.next( );
-				registerBean( key, map.get( key ) );
+				Map.Entry entry = (Map.Entry) iter.next( );
+				Object keyObj = entry.getKey( );
+				Object value = entry.getValue( );
+				if ( keyObj != null )
+				{
+					String key = keyObj.toString( );
+					registerBean( key, value );
+				}
 			}
 
 		}
@@ -366,7 +383,63 @@ public class ExecutionContext
 	 */
 	public void registerBean( String name, Object value )
 	{
+		transientBeans.put( name, value );
 		scriptContext.registerBean( name, value );
+	}
+
+	public void unregisterBean( String name )
+	{
+		transientBeans.remove( name );
+		scriptContext.registerBean( name, null );
+	}
+
+	public Map getBeans( )
+	{
+		return transientBeans;
+	}
+
+	public void registerGlobalBeans( Map map )
+	{
+		if ( map != null )
+		{
+
+			Iterator iter = map.entrySet( ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Map.Entry entry = (Map.Entry) iter.next( );
+				Object keyObj = entry.getKey( );
+				Object value = entry.getValue( );
+				if ( keyObj != null && value instanceof Serializable )
+				{
+					String key = keyObj.toString( );
+					registerGlobalBean( key, (Serializable) value );
+				}
+			}
+		}
+	}
+
+	public void registerGlobalBean( String name, Serializable value )
+	{
+		persistentBeans.put( name, value );
+		registerInRoot( name, value );
+	}
+
+	public void unregisterGlobalBean( String name )
+	{
+		persistentBeans.remove( name );
+		registerInRoot( name, null );
+	}
+
+	public Map getGlobalBeans( )
+	{
+		return persistentBeans;
+	}
+
+	private void registerInRoot( String name, Object value )
+	{
+		Scriptable root = scriptContext.getRootScope( );
+		Object sObj = Context.javaToJS( value, root );
+		root.put( name, root, sObj );
 	}
 
 	/**
@@ -1171,16 +1244,21 @@ public class ExecutionContext
 	{
 		return docWriter;
 	}
+
 	/**
 	 * @return Returns the action handler.
 	 */
-	public IHTMLActionHandler getActionHandler() {
+	public IHTMLActionHandler getActionHandler( )
+	{
 		return ah;
 	}
+
 	/**
-	 * @param ah The action handler to set.
+	 * @param ah
+	 *            The action handler to set.
 	 */
-	public void setActionHandler(IHTMLActionHandler ah) {
+	public void setActionHandler( IHTMLActionHandler ah )
+	{
 		this.ah = ah;
 	}
 }

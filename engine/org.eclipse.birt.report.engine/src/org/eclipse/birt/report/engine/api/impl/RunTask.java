@@ -140,9 +140,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		// report, we need to call onPrepare on all items.
 		// Create IReportContext and set it to execution context
 		ReportContextImpl reportContext = new ReportContextImpl(
-				executionContext.getParams( ), executionContext.getConfigs( ),
-				executionContext.getAppContext( ),
-				executionContext.getLocale( ), null );
+				executionContext, null );
 		executionContext.setReportContext( reportContext );
 		// Call onPrepare in the design tree
 		ScriptedDesignVisitor visitor = new ScriptedDesignVisitor(
@@ -165,6 +163,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			executionContext.openDataEngine( );
 			executor.execute( report, emitter );
 			executionContext.closeDataEngine( );
+			writer.savePersistentObjects( executionContext.getGlobalBeans( ) );
 		}
 		catch ( Exception ex )
 		{

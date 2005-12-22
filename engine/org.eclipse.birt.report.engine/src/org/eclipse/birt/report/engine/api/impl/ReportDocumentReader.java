@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportEngine;
@@ -30,18 +33,14 @@ import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.presentation.PageHint;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 
-public class ReportDocumentReader implements IReportDocument
+public class ReportDocumentReader
+		implements
+			IReportDocument,
+			ReportDocumentConstants
 {
 
 	static private Logger logger = Logger.getLogger( ReportDocumentReader.class
 			.getName( ) );
-	protected static final String DESIGN_STREAM = "/design"; //$NON-NLS-1$
-	protected static final String DESIGN_NAME_STREAM = "/designName";
-	protected static final String PARAMTER_STREAM = "/paramter"; //$NON-NLS-1$
-	protected static final String BOOKMARK_STREAM = "/bookmark"; //$NON-NLS-1$
-	protected static final String PAGEHINT_STREAM = "/pages"; //$NON-NLS-1$
-	protected static final String TOC_STREAM = "/toc"; //$NON-NLS-1$
-	protected static final String CONTENT_FOLDER = "/content"; //$NON-NLS-1$
 
 	private ReportEngine engine;
 	private IDocArchiveReader archive;
@@ -59,17 +58,45 @@ public class ReportDocumentReader implements IReportDocument
 		try
 		{
 			archive.open( );
+			checkVersion( );
 		}
 		catch ( IOException e )
 		{
 			logger.log( Level.SEVERE, "Failed to open the archive", e ); //$NON-NLS-1$
 		}
-
 	}
 
 	public IDocArchiveReader getArchive( )
 	{
 		return this.archive;
+	}
+
+	protected void checkVersion( ) throws IOException
+	{
+		RAInputStream in = archive.getStream( VERSION_STREAM );
+		try
+		{
+			BufferedReader reader = new BufferedReader( new InputStreamReader(
+					in, "UTF-8" ) );
+			String tag = reader.readLine( );
+			String version = reader.readLine( );
+			if ( !REPORT_DOCUMENT_TAG.equals( tag )
+					|| !REPORT_DOCUMENT_VERSION_1_0_0.equals( version ) )
+			{
+				logger
+						.log(
+								Level.SEVERE,
+								"unsupport report document tag" + tag + " version " + version ); //$NON-NLS-1$
+			}
+			reader.close( );
+		}
+		finally
+		{
+			if ( in != null )
+			{
+				in.close( );
+			}
+		}
 	}
 
 	public void close( )
@@ -129,9 +156,9 @@ public class ReportDocumentReader implements IReportDocument
 			{
 				String name = this.getDesignName( );
 				InputStream stream = getDesignStream( );
-				if (name == null)
+				if ( name == null )
 				{
-					name = getName();
+					name = getName( );
 				}
 				reportRunnable = engine.openReportDesign( name, stream );
 			}
@@ -390,8 +417,20 @@ public class ReportDocumentReader implements IReportDocument
 	 */
 	public Map getGlobalVariables( String option )
 	{
-		// TODO deserialize global variables and return in a Map
-		return null;
+		try
+		{
+			Object map = loadObject( archive
+					.getStream( PERSISTENT_OBJECTS_STREAM ) );
+			if ( map instanceof Map )
+			{
+				return (Map) map;
+			}
+		}
+		catch ( Exception ex )
+		{
+			logger.log( Level.SEVERE, "Failed to load the page hints", ex ); //$NON-NLS-1$
+		}
+		return new HashMap( );
 	}
 
 }
