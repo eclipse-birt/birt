@@ -12,13 +12,14 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
@@ -236,8 +237,21 @@ public class DataExtractionTask extends EngineTask
 				Iterator iter = exprs.iterator( );
 				while ( iter.hasNext( ) )
 				{
-					IScriptExpression expr = (IScriptExpression) iter.next( );
-					if ( expr.getText( ).equalsIgnoreCase( selectedColumns[i] ) )
+					IBaseExpression expr = (IBaseExpression) iter.next( );
+					IScriptExpression scriptExpr = null;
+					if ( expr instanceof IConditionalExpression )
+					{
+						IConditionalExpression condExpr = ( IConditionalExpression ) expr;
+						scriptExpr = condExpr.getExpression( );
+					}
+					else if ( expr instanceof IScriptExpression )
+					{
+						scriptExpr = ( IScriptExpression ) expr;
+					}
+					
+					assert scriptExpr != null;
+					
+					if ( scriptExpr.getText( ).equalsIgnoreCase( selectedColumns[i] ) )
 					{
 						findColumn = true;
 						break;
@@ -256,8 +270,17 @@ public class DataExtractionTask extends EngineTask
 			
 			for ( int i = 0; i < selectedColumns.length; i++ )
 			{
-				IScriptExpression expr = (IScriptExpression) iter.next( );
-				selectedColumns[i] = expr.getText( );
+				IBaseExpression expr = (IBaseExpression) iter.next( );
+				if ( expr instanceof IConditionalExpression )
+				{
+					IConditionalExpression condExpr = (IConditionalExpression) expr;
+					selectedColumns[i] = condExpr.getExpression( ).getText( );
+				}
+				else if ( expr instanceof IScriptExpression )
+				{
+					IScriptExpression scriptExpr = (IScriptExpression) expr;
+					selectedColumns[i] = scriptExpr.getText( );
+				}
 			}
 		}
  	}
