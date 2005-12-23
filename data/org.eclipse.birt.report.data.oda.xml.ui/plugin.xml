@@ -32,9 +32,8 @@
                path="/"/>
       </odaDataSourceUI>
       
-      <odaDataSetUI id="org.eclipse.birt.report.data.oda.xml.dataSet">
-	     <addsDataSetParametersPage>false</addsDataSetParametersPage>
-         <newDataSetWizard class="org.eclipse.birt.report.data.oda.xml.ui.wizards.XmlDataSetWizard"/>
+      <odaDataSetUI id="org.eclipse.birt.report.data.oda.xml.dataSet" addsDataSetParametersPage = "false">
+	     <newDataSetWizard class="org.eclipse.birt.report.data.oda.xml.ui.wizards.XmlDataSetWizard"/>
          <dataSetEditorPage
                   class="org.eclipse.birt.report.data.oda.xml.ui.wizards.XmlDataSetSelectionPage"
                   displayName="XML DataSet"
