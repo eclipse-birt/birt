@@ -339,8 +339,9 @@ public class ReportLaunchConfigurationDelegate extends
 
 		String append = "-D" + PROJECT_NAMES_KEY + "=" + path; //$NON-NLS-1$ //$NON-NLS-2$
 
-		String projectClassPaths = finder.getClassPath( configuration.getAttribute( IMPORTPROJECTNAMES,
-				"" ) ); //$NON-NLS-1$
+//		String projectClassPaths = finder.getClassPath( configuration.getAttribute( IMPORTPROJECTNAMES,
+//				"" ) ); //$NON-NLS-1$
+		String projectClassPaths = finder.getClassPath(  ); //$NON-NLS-1$
 
 		String classPath = ""; //$NON-NLS-1$
 		// String sourcePath = "";
