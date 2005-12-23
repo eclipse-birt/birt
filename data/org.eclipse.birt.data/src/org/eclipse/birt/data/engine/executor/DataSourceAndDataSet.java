@@ -99,7 +99,8 @@ public class DataSourceAndDataSet
 		{
 			if ( this.dataSetDesign == dataSetDesign2 )
 			{
-				if ( this.parameterBindings == parameterBindings2 )
+				if ( isEqualParameterBindings( this.parameterBindings,
+						parameterBindings2 ) )
 					return true;
 			}
 			else if ( this.dataSetDesign == null || dataSetDesign2 == null )
