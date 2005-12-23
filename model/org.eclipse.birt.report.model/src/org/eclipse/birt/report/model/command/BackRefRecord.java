@@ -13,8 +13,11 @@ package org.eclipse.birt.report.model.command;
 
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.command.PropertyEvent;
+import org.eclipse.birt.report.model.api.command.StyleEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StyledElement;
 
 /**
  * Records a change to the back reference of an element.
@@ -74,6 +77,8 @@ abstract public class BackRefRecord extends SimpleRecord
 
 	public NotificationEvent getEvent( )
 	{
-		return null;
+		if ( StyledElement.STYLE_PROP.equals( propName ) )
+			return new StyleEvent( reference );
+		return new PropertyEvent( reference, propName );
 	}
 }

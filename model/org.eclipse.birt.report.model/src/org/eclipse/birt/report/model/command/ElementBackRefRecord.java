@@ -92,7 +92,7 @@ public class ElementBackRefRecord extends BackRefRecord
 
 	public DesignElement getTarget( )
 	{
-		return referred;
+		return reference;
 	}
 
 }
