@@ -52,8 +52,15 @@ public class ResultIterator implements IResultIterator
 	protected org.eclipse.birt.data.engine.odi.IResultIterator odiResult;
 	protected IQueryResults queryResults;
 	protected Scriptable scope;
-	protected boolean started = false;
-	protected boolean beforeFirstRow;
+	
+	protected static final int NOT_STARTED = 0;
+	protected static final int BEFORE_FIRST_ROW = 1;
+	protected static final int ON_ROW = 2;
+	protected static final int AFTER_LAST_ROW = 3;
+	protected static final int CLOSED = -1;
+	
+	protected int state = NOT_STARTED;
+	
 	protected PreparedQuery query;
 
 	// used in (usesDetails == false)
@@ -109,11 +116,11 @@ public class ResultIterator implements IResultIterator
 	 */
 	protected void start( ) throws DataException
 	{
-		started = true;
+		assert state == NOT_STARTED;
 
 		// Note that the odiResultIterator currently has its cursor located AT
 		// its first row. This iterator starts out with cursor BEFORE first row.
-		beforeFirstRow = true;
+		state = BEFORE_FIRST_ROW;
 	}
 
 	/**
@@ -130,7 +137,7 @@ public class ResultIterator implements IResultIterator
 	 */
 	private void checkStarted( ) throws DataException
 	{
-		if ( !started )
+		if ( state == NOT_STARTED || state == CLOSED )
 		{
 			DataException e = new DataException( ResourceConstants.RESULT_CLOSED );
 			logger.logp( Level.FINE,
@@ -160,46 +167,45 @@ public class ResultIterator implements IResultIterator
 	 * 
 	 * @return true if next element exists and has not reached the limit on the
 	 *         maximum number of rows that can be accessed.
-	 * @throws DataException
+	 * @throws BirtException
 	 *             if error occurs in Data Engine
 	 */
-	public boolean next( ) throws DataException
+	public boolean next( ) throws BirtException
 	{
 		checkStarted( );
 
 		boolean hasNext = false;
-		try
+		
+		if ( state == BEFORE_FIRST_ROW )
 		{
-			if ( beforeFirstRow )
-			{
-				beforeFirstRow = false;
-				hasNext = odiResult.getCurrentResult( ) != null;
-			}
-			else
-			{
-				hasNext = odiResult.next( );
-			}
-			if ( useDetails == false && hasNext )
-			{
-				savedStartingGroupLevel = odiResult.getStartingGroupLevel( );
-				odiResult.last( lowestGroupLevel );
-			}
+			state = ON_ROW;
+			hasNext = odiResult.getCurrentResult( ) != null;
 		}
-		catch ( DataException e )
+		else
 		{
-			throw e;
+			hasNext = odiResult.next( );
+		}
+		
+		if ( useDetails == false && hasNext )
+		{
+			savedStartingGroupLevel = odiResult.getStartingGroupLevel( );
+			odiResult.last( lowestGroupLevel );
 		}
 
 		logger.logp( Level.FINE,
 				ResultIterator.class.getName( ),
 				"next",
 				"Moves down to the next element" );
+		
+		if ( ! hasNext )
+			state = AFTER_LAST_ROW;
+		
 		return hasNext;
 	}
 
 	static Object evaluateCompiledExpression( CompiledExpression expr,
 			org.eclipse.birt.data.engine.odi.IResultIterator odiResult,
-			Context cx, Scriptable scope ) throws DataException
+			Scriptable scope ) throws DataException
 	{
 		// Special case for DirectColRefExpr: it's faster to directly access
 		// column value using the Odi IResultIterator.
@@ -234,7 +240,15 @@ public class ResultIterator implements IResultIterator
 		}
 		else
 		{
-			return  expr.evaluate( cx, scope );
+			Context cx = Context.enter();
+			try
+			{
+				return  expr.evaluate( cx, scope );
+			}
+			finally
+			{
+				Context.exit();
+			}
 		}
 
 	}
@@ -258,10 +272,10 @@ public class ResultIterator implements IResultIterator
 	 *            An IBaseExpression object provided in the ReportQueryDefn at
 	 *            the time of prepare.
 	 * @return The value of the given expression. It could be null.
-	 * @throws DataException
+	 * @throws BirtException
 	 *             if error occurs in Data Engine
 	 */
-	public Object getValue( IBaseExpression dataExpr ) throws DataException
+	public Object getValue( IBaseExpression dataExpr ) throws BirtException
 	{
 		logger.logp( Level.FINE,
 				ResultIterator.class.getName( ),
@@ -269,34 +283,14 @@ public class ResultIterator implements IResultIterator
 				"get of value IBaseExpression: " + LogUtil.toString( dataExpr ) );
 		checkStarted( );
 
-		// Must advance to first row before calling getValue
-		if ( beforeFirstRow )
-		{
-			DataException e = new DataException( ResourceConstants.NO_CURRENT_ROW );
-			logger.logp( Level.FINE,
-					ResultIterator.class.getName( ),
-					"getValue",
-					"Cursor has no current row.",
-					e );
-			throw e;
-		}
-
 		Object exprValue = null;
 		
 		Object handle = dataExpr.getHandle( );
 		if ( handle instanceof CompiledExpression )
 		{
 			CompiledExpression expr = (CompiledExpression) handle;
-			Context cx = Context.enter( );
-			Object value = null;
-			try
-			{
-				value = evaluateCompiledExpression( expr, odiResult, cx, scope );
-			}
-			finally
-			{
-				Context.exit( );
-			}
+			Object value = evaluateCompiledExpression( expr, odiResult, scope );
+			
 			try
 			{
 				exprValue = DataTypeUtil.convert( value, dataExpr.getDataType( ) );
@@ -404,26 +398,12 @@ public class ResultIterator implements IResultIterator
 	 *            the time of prepare.
 	 * @return The value of the given expression as an Integer. It could be
 	 *         null.
-	 * @throws DataException
+	 * @throws BirtException
 	 *             if error occurs in Data Engine
 	 */
-	public Integer getInteger( IBaseExpression dataExpr ) throws DataException
+	public Integer getInteger( IBaseExpression dataExpr ) throws BirtException
 	{
-		try
-		{
-			return DataTypeUtil.toInteger( getValue( dataExpr ) );
-		}
-		catch ( BirtException e )
-		{
-			DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
-					e );
-			logger.logp( Level.FINE,
-					ResultIterator.class.getName( ),
-					"getInteger",
-					"An error is thrown by DataTypeUtil.",
-					e1 );
-			throw e1;
-		}
+		return DataTypeUtil.toInteger( getValue( dataExpr ) );
 	}
 
 	/**
@@ -437,26 +417,12 @@ public class ResultIterator implements IResultIterator
 	 *            An IBaseExpression object provided in the ReportQueryDefn at
 	 *            the time of prepare.
 	 * @return The value of the given expression as a Double. It could be null.
-	 * @throws DataException
+	 * @throws BirtException
 	 *             if error occurs in Data Engine
 	 */
-	public Double getDouble( IBaseExpression dataExpr ) throws DataException
+	public Double getDouble( IBaseExpression dataExpr ) throws BirtException
 	{
-		try
-		{
 			return DataTypeUtil.toDouble( getValue( dataExpr ) );
-		}
-		catch ( BirtException e )
-		{
-			DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
-					e );
-			logger.logp( Level.FINE,
-					ResultIterator.class.getName( ),
-					"getDouble",
-					"An error is thrown by DataTypeUtil.",
-					e1 );
-			throw e1;
-		}
 	}
 
 	/**
@@ -470,26 +436,12 @@ public class ResultIterator implements IResultIterator
 	 *            An IBaseExpression object provided in the ReportQueryDefn at
 	 *            the time of prepare.
 	 * @return The value of the given expression as a String. It could be null.
-	 * @throws DataException
+	 * @throws BirtException
 	 *             if error occurs in Data Engine
 	 */
-	public String getString( IBaseExpression dataExpr ) throws DataException
+	public String getString( IBaseExpression dataExpr ) throws BirtException
 	{
-		try
-		{
-			return DataTypeUtil.toString( getValue( dataExpr ) );
-		}
-		catch ( BirtException e )
-		{
-			DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
-					e );
-			logger.logp( Level.FINE,
-					ResultIterator.class.getName( ),
-					"getString",
-					"An error is thrown by DataTypeUtil.",
-					e1 );
-			throw e1;
-		}
+		return DataTypeUtil.toString( getValue( dataExpr ) );
 	}
 
 	/**
@@ -504,27 +456,13 @@ public class ResultIterator implements IResultIterator
 	 *            the time of prepare.
 	 * @return The value of the given expression as a BigDecimal. It could be
 	 *         null.
-	 * @throws DataException
+	 * @throws BirtException
 	 *             if error occurs in Data Engine
 	 */
 	public BigDecimal getBigDecimal( IBaseExpression dataExpr )
-			throws DataException
+			throws BirtException
 	{
-		try
-		{
-			return DataTypeUtil.toBigDecimal( getValue( dataExpr ) );
-		}
-		catch ( BirtException e )
-		{
-			DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
-					e );
-			logger.logp( Level.FINE,
-					ResultIterator.class.getName( ),
-					"getBigDecimal",
-					"An error is thrown by DataTypeUtil.",
-					e1 );
-			throw e1;
-		}
+		return DataTypeUtil.toBigDecimal( getValue( dataExpr ) );
 	}
 
 	/**
@@ -538,26 +476,12 @@ public class ResultIterator implements IResultIterator
 	 *            An IBaseExpression object provided in the ReportQueryDefn at
 	 *            the time of prepare.
 	 * @return The value of the given expression as a Date. It could be null.
-	 * @throws DataException
+	 * @throws BirtException
 	 *             if error occurs in Data Engine
 	 */
-	public Date getDate( IBaseExpression dataExpr ) throws DataException
+	public Date getDate( IBaseExpression dataExpr ) throws BirtException
 	{
-		try
-		{
-			return DataTypeUtil.toDate( getValue( dataExpr ) );
-		}
-		catch ( BirtException e )
-		{
-			DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
-					e );
-			logger.logp( Level.FINE,
-					ResultIterator.class.getName( ),
-					"getDate",
-					"An error is thrown by DataTypeUtil.",
-					e1 );
-			throw e1;
-		}
+		return DataTypeUtil.toDate( getValue( dataExpr ) );
 	}
 
 	/**
@@ -570,26 +494,12 @@ public class ResultIterator implements IResultIterator
 	 *            An IBaseExpression object provided in the ReportQueryDefn at
 	 *            the time of prepare.
 	 * @return The value of the given Blob expression. It could be null.
-	 * @throws DataException
+	 * @throws BirtException
 	 *             if error occurs in Data Engine
 	 */
-	public Blob getBlob( IBaseExpression dataExpr ) throws DataException
+	public Blob getBlob( IBaseExpression dataExpr ) throws BirtException
 	{
-		try
-		{
-			return DataTypeUtil.toBlob( getValue( dataExpr ) );
-		}
-		catch ( BirtException e )
-		{
-			DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
-					e );
-			logger.logp( Level.FINE,
-					ResultIterator.class.getName( ),
-					"getBlob",
-					"An error is thrown by DataTypeUtil.",
-					e1 );
-			throw e1;
-		}
+		return DataTypeUtil.toBlob( getValue( dataExpr ) );
 	}
 
 	/*
@@ -599,21 +509,7 @@ public class ResultIterator implements IResultIterator
 	 */
 	public byte[] getBytes( IBaseExpression dataExpr ) throws BirtException
 	{
-		try
-		{
-			return DataTypeUtil.toBytes( getValue( dataExpr ) );
-		}
-		catch ( BirtException e )
-		{
-			DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
-					e );
-			logger.logp( Level.FINE,
-					ResultIterator.class.getName( ),
-					"getBytes",
-					"An error is thrown by DataTypeUtil.",
-					e1 );
-			throw e1;
-		}
+		return DataTypeUtil.toBytes( getValue( dataExpr ) );
 	}
 
 	/**
@@ -631,14 +527,7 @@ public class ResultIterator implements IResultIterator
 	public void skipToEnd( int groupLevel ) throws DataException
 	{
 		checkStarted( );
-		try
-		{
-			odiResult.last( groupLevel );
-		}
-		catch ( DataException e )
-		{
-			throw e;
-		}
+		odiResult.last( groupLevel );
 		logger.logp( Level.FINER,
 				ResultIterator.class.getName( ),
 				"skipToEnd",
@@ -667,18 +556,11 @@ public class ResultIterator implements IResultIterator
 			return savedStartingGroupLevel;
 		}
 
-		try
-		{
-			logger.logp( Level.FINE,
-					ResultIterator.class.getName( ),
-					"getStartingGroupLevel",
-					"return the starting group level" );
-			return odiResult.getStartingGroupLevel( );
-		}
-		catch ( DataException e )
-		{
-			throw e;
-		}
+		logger.logp( Level.FINE,
+				ResultIterator.class.getName( ),
+				"getStartingGroupLevel",
+				"return the starting group level" );
+		return odiResult.getStartingGroupLevel( );
 	}
 
 	/**
@@ -694,18 +576,11 @@ public class ResultIterator implements IResultIterator
 	 */
 	public int getEndingGroupLevel( ) throws DataException
 	{
-		try
-		{
-			logger.logp( Level.FINE,
+		logger.logp( Level.FINE,
 					ResultIterator.class.getName( ),
 					"getEndingGroupLevel",
 					"return the ending group level" );
-			return odiResult.getEndingGroupLevel( );
-		}
-		catch ( DataException e )
-		{
-			throw e;
-		}
+		return odiResult.getEndingGroupLevel( );
 	}
 	
 	/**
@@ -749,10 +624,6 @@ public class ResultIterator implements IResultIterator
 		{
 			return new ResultMetaData( odiResult.getResultClass( ) );
 		}
-		catch ( DataException e )
-		{
-			throw e;
-		}
 		finally
 		{
 			logger.logp( Level.FINE,
@@ -772,28 +643,14 @@ public class ResultIterator implements IResultIterator
 	public void close( ) throws BirtException
 	{
 		// save results when neededs
-		try
-		{
-			this.getRdSaveUtil( ).doSaveFinish( );
-		}
-		catch ( DataException e )
-		{
-			throw new IllegalArgumentException( e.getMessage( ) );
-		}
+		this.getRdSaveUtil( ).doSaveFinish( );
 
-		try
-		{
-			if ( odiResult != null )
+		if ( odiResult != null )
 				odiResult.close( );
-		}
-		catch ( Exception e )
-		{
-			// TODO: exception handling
-		}
 
 		odiResult = null;
 		queryResults = null;
-		started = false;
+		state = CLOSED;
 		logger.logp( Level.FINE,
 				ResultIterator.class.getName( ),
 				"close",
@@ -1027,7 +884,7 @@ public class ResultIterator implements IResultIterator
 		void doSaveExpr( IBaseExpression dataExpr, Object value )
 				throws DataException
 		{
-			if ( isNeedsToSave( ) == false )
+			if ( needsSaveToDoc( ) == false )
 				return;
 
 			this.getRdSave( )
@@ -1041,7 +898,7 @@ public class ResultIterator implements IResultIterator
 		 */
 		void doSaveFinish( ) throws DataException
 		{
-			if ( isNeedsToSave( ) == false )
+			if ( needsSaveToDoc( ) == false )
 				return;
 
 			this.getRdSave( )
@@ -1061,7 +918,7 @@ public class ResultIterator implements IResultIterator
 				ResultIterator resultIt, String subQueryName )
 				throws DataException
 		{			
-			if ( isNeedsToSave( ) == false )
+			if ( needsSaveToDoc( ) == false )
 				return;
 			
 			QueryResults results = (QueryResults) resultIt.getQueryResults( );
@@ -1085,9 +942,9 @@ public class ResultIterator implements IResultIterator
 		/**
 		 * @return
 		 */
-		private boolean isNeedsToSave( )
+		private boolean needsSaveToDoc( )
 		{
-			if ( started == false
+			if ( state == NOT_STARTED || state == CLOSED
 					|| context == null
 					|| context.getMode( ) != DataEngineContext.MODE_GENERATION )
 				return false;

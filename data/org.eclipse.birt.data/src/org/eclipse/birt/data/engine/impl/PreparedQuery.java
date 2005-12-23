@@ -610,16 +610,8 @@ abstract class PreparedQuery
 		    // Calculate aggregate values
 		    aggregates = new AggregateCalculator( aggrTable, odiResult );
 			    
-			Context cx = Context.enter();
-			try
-			{
-			    // Calculate aggregate values
-			    aggregates.calculate(cx, getQueryScope() );
-			}
-			finally
-			{
-				Context.exit();
-			}
+		    // Calculate aggregate values
+		    aggregates.calculate( getQueryScope() );
 			
 			this.isExecuted = true;
 			
