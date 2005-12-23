@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.ITableInstance;
 import org.eclipse.birt.report.engine.content.impl.TableContent;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
  * A class representing the runtime state of a table
@@ -20,9 +21,9 @@ import org.eclipse.birt.report.engine.content.impl.TableContent;
 public class TableInstance extends ReportItemInstance implements ITableInstance
 {
 
-	public TableInstance( TableContent table )
+	public TableInstance( TableContent table, ExecutionContext context )
 	{
-		super( table );
+		super( table, context );
 	}
 
 	/* (non-Javadoc)

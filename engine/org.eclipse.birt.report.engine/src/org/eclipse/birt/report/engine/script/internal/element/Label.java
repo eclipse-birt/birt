@@ -180,7 +180,8 @@ public class Label extends ReportItem implements ILabel
 
 	public IAction getAction( )
 	{
-		return new ActionImpl( ( ( LabelHandle ) handle ).getActionHandle( ) );
+		return new ActionImpl( ( ( LabelHandle ) handle ).getActionHandle( ),
+				( LabelHandle ) handle );
 	}
 
 }

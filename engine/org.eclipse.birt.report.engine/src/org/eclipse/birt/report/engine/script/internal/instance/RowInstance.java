@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.IRowInstance;
 import org.eclipse.birt.report.engine.content.impl.RowContent;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
@@ -23,9 +24,9 @@ public class RowInstance extends ReportElementInstance implements IRowInstance
 
 	private RowContent row;
 
-	public RowInstance( RowContent row )
+	public RowInstance( RowContent row, ExecutionContext context  )
 	{
-		super( row );
+		super( row, context );
 		this.row = ( RowContent ) content;
 	}
 

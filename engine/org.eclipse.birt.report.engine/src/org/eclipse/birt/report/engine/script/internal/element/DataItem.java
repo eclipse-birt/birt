@@ -111,6 +111,8 @@ public class DataItem extends ReportItem implements IDataItem
 
 	public IAction getAction( )
 	{
-		return new ActionImpl( ( ( DataItemHandle ) handle ).getActionHandle( ) );
+		return new ActionImpl(
+				( ( DataItemHandle ) handle ).getActionHandle( ),
+				( DataItemHandle ) handle );
 	}
 }

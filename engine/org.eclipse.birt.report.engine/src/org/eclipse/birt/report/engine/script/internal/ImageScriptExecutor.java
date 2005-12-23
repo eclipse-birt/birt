@@ -50,7 +50,7 @@ public class ImageScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign imageDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			IImageInstance image = new ImageInstance( content );
+			IImageInstance image = new ImageInstance( content, context );
 			if ( handleJS( image, imageDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
@@ -71,7 +71,7 @@ public class ImageScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign imageDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			IImageInstance image = new ImageInstance( content );
+			IImageInstance image = new ImageInstance( content, context );
 			if ( handleJS( image, imageDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;

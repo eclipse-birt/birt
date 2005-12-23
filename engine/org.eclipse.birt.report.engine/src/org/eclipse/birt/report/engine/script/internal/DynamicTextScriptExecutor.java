@@ -50,7 +50,8 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign textItemDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			IDynamicTextInstance text = new DynamicTextInstance( content );
+			IDynamicTextInstance text = new DynamicTextInstance( content,
+					context );
 			if ( handleJS( text, textItemDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
@@ -71,7 +72,8 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign textItemDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			IDynamicTextInstance text = new DynamicTextInstance( content );
+			IDynamicTextInstance text = new DynamicTextInstance( content,
+					context );
 			if ( handleJS( text, textItemDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;

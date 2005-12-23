@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.ILabelInstance;
 import org.eclipse.birt.report.engine.content.impl.LabelContent;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
  * A class representing the runtime state of a label
@@ -20,9 +21,9 @@ import org.eclipse.birt.report.engine.content.impl.LabelContent;
 public class LabelInstance extends ReportItemInstance implements ILabelInstance
 {
 
-	public LabelInstance( LabelContent label )
+	public LabelInstance( LabelContent label, ExecutionContext context  )
 	{
-		super( label );
+		super( label, context );
 	}
 
 	/* (non-Javadoc)

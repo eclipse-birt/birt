@@ -49,7 +49,7 @@ public class ListScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign listDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			IListInstance list = new ListInstance( content );
+			IListInstance list = new ListInstance( content, context );
 			if ( handleJS( list, listDesign.getOnCreate( ), context ).didRun( ) )
 				return;
 			IListEventHandler eh = ( IListEventHandler ) getInstance( ( ListHandle ) listDesign
@@ -69,7 +69,7 @@ public class ListScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign listDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			IListInstance list = new ListInstance( content );
+			IListInstance list = new ListInstance( content, context );
 			if ( handleJS( list, listDesign.getOnRender( ), context ).didRun( ) )
 				return;
 			IListEventHandler eh = ( IListEventHandler ) getInstance( ( ListHandle ) listDesign

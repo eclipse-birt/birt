@@ -51,7 +51,7 @@ public class CellScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign cellDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			ICellInstance cell = new CellInstance( content );
+			ICellInstance cell = new CellInstance( content, context );
 			if ( handleJS( cell, cellDesign.getOnCreate( ), context ).didRun( ) )
 				return;
 			CellHandle handle = ( CellHandle ) cellDesign.getHandle( );
@@ -75,7 +75,7 @@ public class CellScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign cellDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			ICellInstance cell = new CellInstance( content );
+			ICellInstance cell = new CellInstance( content, context );
 			if ( handleJS( cell, cellDesign.getOnRender( ), context ).didRun( ) )
 				return;
 			ICellEventHandler eh = ( ICellEventHandler ) getInstance( ( CellHandle ) cellDesign

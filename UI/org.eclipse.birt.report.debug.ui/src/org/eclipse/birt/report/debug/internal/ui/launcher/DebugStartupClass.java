@@ -27,6 +27,8 @@ import org.eclipse.birt.report.debug.internal.ui.launcher.util.WorkspaceClassPat
 public class DebugStartupClass implements IStartup
 {
 
+	private static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath";
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -34,9 +36,19 @@ public class DebugStartupClass implements IStartup
 	 */
 	public void earlyStartup( )
 	{
+		WorkspaceClassPathFinder finder = new WorkspaceClassPathFinder( );
 		// Register a classpath finder class to the viewer
-		WorkspaceClasspathManager
-				.registerClassPathFinder( new WorkspaceClassPathFinder( ) );
+		WorkspaceClasspathManager.registerClassPathFinder( finder );
+
+		// Set the classpath property (used in Java scripting)
+		String projectClassPaths = finder.getClassPath( );
+
+		// HashTable doesn't accept null value
+		if ( projectClassPaths == null )
+		{
+			projectClassPaths = ""; //$NON-NLS-1$
+		}
+		System.setProperty( WORKSPACE_CLASSPATH_KEY, projectClassPaths );
 
 		String value = System.getProperty( "user.projectname" ); //$NON-NLS-1$
 		if ( value == null || value.length( ) == 0 )

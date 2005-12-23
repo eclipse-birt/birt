@@ -50,7 +50,7 @@ public class TableScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign tableDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			ITableInstance table = new TableInstance( content );
+			ITableInstance table = new TableInstance( content, context );
 			if ( handleJS( table, tableDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
@@ -71,7 +71,7 @@ public class TableScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign tableDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			ITableInstance table = new TableInstance( content );
+			ITableInstance table = new TableInstance( content, context );
 			if ( handleJS( table, tableDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;

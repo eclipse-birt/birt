@@ -78,9 +78,11 @@ public class TextItemScriptExecutor extends ScriptExecutor
 					.getGenerateBy( );
 			ITextItemInstance textItem = null;
 			if ( content instanceof TextContent )
-				textItem = new TextItemInstance( ( TextContent ) content );
+				textItem = new TextItemInstance( ( TextContent ) content,
+						context );
 			else if ( content instanceof ForeignContent )
-				textItem = new TextItemInstance( ( ForeignContent ) content );
+				textItem = new TextItemInstance( ( ForeignContent ) content,
+						context );
 
 			if ( handleJS( textItem, textItemDesign.getOnCreate( ), context )
 					.didRun( ) )
@@ -106,9 +108,11 @@ public class TextItemScriptExecutor extends ScriptExecutor
 					.getGenerateBy( );
 			ITextItemInstance textItem = null;
 			if ( content instanceof TextContent )
-				textItem = new TextItemInstance( ( TextContent ) content );
+				textItem = new TextItemInstance( ( TextContent ) content,
+						context );
 			else if ( content instanceof ForeignContent )
-				textItem = new TextItemInstance( ( ForeignContent ) content );
+				textItem = new TextItemInstance( ( ForeignContent ) content,
+						context );
 			if ( handleJS( textItem, textItemDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;

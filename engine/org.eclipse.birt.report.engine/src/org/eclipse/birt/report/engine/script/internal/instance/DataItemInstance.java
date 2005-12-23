@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance;
 import org.eclipse.birt.report.engine.content.impl.DataContent;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
  * A class representing the runtime state of a data item
@@ -21,9 +22,9 @@ public class DataItemInstance extends ReportItemInstance implements
 		IDataItemInstance
 {
 
-	public DataItemInstance( DataContent data )
+	public DataItemInstance( DataContent data, ExecutionContext context )
 	{
-		super( data );
+		super( data, context );
 	}
 
 	/*

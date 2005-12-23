@@ -334,7 +334,7 @@ public class Image extends ReportItem implements IImage
 
 	public IAction getAction( )
 	{
-		return new ActionImpl( ( ( ImageHandle ) handle ).getActionHandle( ) );
+		return new ActionImpl( ( ( ImageHandle ) handle ).getActionHandle( ),
+				( ImageHandle ) handle );
 	}
-
 }

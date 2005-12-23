@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.ICellInstance;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
  * A class representing the runtime state of a cell
@@ -22,9 +23,9 @@ public class CellInstance extends ReportElementInstance implements ICellInstance
 
 	private CellContent cell;
 
-	public CellInstance( CellContent cell )
+	public CellInstance( CellContent cell, ExecutionContext context )
 	{
-		super(cell);
+		super(cell, context);
 		this.cell = (CellContent)content;
 	}
 

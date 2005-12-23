@@ -50,7 +50,7 @@ public class DataItemScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign dataItemDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			IDataItemInstance dataItem = new DataItemInstance( content );
+			IDataItemInstance dataItem = new DataItemInstance( content, context );
 			if ( handleJS( dataItem, dataItemDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
@@ -71,7 +71,7 @@ public class DataItemScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign dataItemDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			IDataItemInstance dataItem = new DataItemInstance( content );
+			IDataItemInstance dataItem = new DataItemInstance( content, context );
 			if ( handleJS( dataItem, dataItemDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;

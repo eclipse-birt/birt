@@ -23,45 +23,50 @@ import java.io.Serializable;
  */
 public interface IReportContext
 {
-	
+
 	/**
 	 * 
 	 * @param name
 	 * @return
 	 */
-	Object getParameterValue(String name);
-	
+	Object getParameterValue( String name );
+
 	/**
 	 * 
 	 * @param name
 	 * @param value
 	 */
-	void setParameterValue(String name, Object value);
+	void setParameterValue( String name, Object value );
 
 	/**
 	 * 
 	 * @param varName
 	 * @return
 	 */
-	Object getConfigVariableValue(String varName);
-	
+	Object getConfigVariableValue( String varName );
+
 	/**
 	 * 
 	 * @return
 	 */
-	Locale getLocale();
-	
+	Locale getLocale( );
+
 	/**
 	 * 
 	 * @return
 	 */
-	String getOutputFormat();
+	String getOutputFormat( );
 
-
-	/** 
+	/**
 	 * Get the application context
 	 */
 	Map getAppContext( );
+
+	/**
+	 * Get the http servlet request object
+	 * 
+	 */
+	Object getHttpServletRequest( );
 
 	/**
 	 * Add the object to runtime scope. This object can only be retrieved in the

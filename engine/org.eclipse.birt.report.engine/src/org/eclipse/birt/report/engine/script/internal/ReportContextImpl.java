@@ -110,4 +110,9 @@ public class ReportContextImpl implements IReportContext
 	{
 		return context.getOutputFormat( );
 	}
+
+	public Object getHttpServletRequest( )
+	{
+		return getAppContext( ).get( "BIRT_VIEWER_HTTPSERVLET_REQUEST" );
+	}
 }

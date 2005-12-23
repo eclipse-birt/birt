@@ -12,24 +12,35 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 
 import java.util.Map;
 
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IReportElementInstance;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.content.impl.AbstractContent;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.script.internal.ElementUtil;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.UserPropertyDefnHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 public class ReportElementInstance implements IReportElementInstance
 {
 
 	protected AbstractContent content;
 
-	public ReportElementInstance( AbstractContent content )
+	private ExecutionContext context;
+
+	public ReportElementInstance( AbstractContent content,
+			ExecutionContext context )
 	{
 		this.content = content;
+		this.context = context;
 	}
 
-	protected ReportElementInstance( )
+	protected ReportElementInstance( ExecutionContext context )
 	{
+		this.context = context;
 	}
 
 	/*
@@ -49,33 +60,62 @@ public class ReportElementInstance implements IReportElementInstance
 		{
 			ReportElementDesign design = ( ReportElementDesign ) generatedBy;
 			Map m = design.getNamedExpressions( );
-			return m.get( name );
+			Expression expr = ( Expression ) m.get( name );
+			if (expr == null)
+				return null;
+			context.newScope( this );
+			try
+			{
+				return context.evaluate( expr );
+			} finally
+			{
+				context.exitScope( );
+			}
 		}
-		// TODO Implement
 		return null;
 	}
 
-	public void setNamedExpressionValue( String name, Object value )
+	public Object getUserPropertyValue( String name )
 	{
-		// TODO Implement
-
-	}
-
-	public Object getUserProperty( String name )
-	{
-		// TODO Implement
+		Object generatedBy = content.getGenerateBy( );
+		if ( generatedBy instanceof ReportElementDesign )
+		{
+			ReportElementDesign design = ( ReportElementDesign ) generatedBy;
+			DesignElementHandle handle = design.getHandle( );
+			UserPropertyDefnHandle prop = handle
+					.getUserPropertyDefnHandle( name );
+			if ( prop != null )
+				return handle.getProperty( prop.getName( ) );
+		}
 		return null;
 	}
 
-	public void setUserProperty( String name, Object value )
+	public void setUserPropertyValue( String name, Object value )
+			throws ScriptException
 	{
-		// TODO Implement
-
+		Object generatedBy = content.getGenerateBy( );
+		if ( generatedBy instanceof ReportElementDesign )
+		{
+			ReportElementDesign design = ( ReportElementDesign ) generatedBy;
+			DesignElementHandle handle = design.getHandle( );
+			UserPropertyDefnHandle prop = handle
+					.getUserPropertyDefnHandle( name );
+			if ( prop != null )
+			{
+				try
+				{
+					handle.setProperty( prop.getName( ), value );
+				} catch ( SemanticException e )
+				{
+					throw new ScriptException( e.getLocalizedMessage( ) );
+				}
+			}
+		}
 	}
 
 	public IReportElementInstance getParent( )
 	{
-		return ElementUtil.getInstance( content.getParent( ) );
+		return ElementUtil.getInstance( content.getParent( ), context );
 	}
 
 }

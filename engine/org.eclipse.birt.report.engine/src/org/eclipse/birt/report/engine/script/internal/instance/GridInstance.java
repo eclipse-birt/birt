@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.IGridInstance;
 import org.eclipse.birt.report.engine.content.impl.TableContent;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
  * A class representing the runtime state of a grid 
@@ -20,9 +21,9 @@ import org.eclipse.birt.report.engine.content.impl.TableContent;
 public class GridInstance extends ReportItemInstance implements IGridInstance
 {
 
-	public GridInstance( TableContent grid )
+	public GridInstance( TableContent grid, ExecutionContext context )
 	{
-		super( grid );
+		super( grid, context );
 	}
 
 }

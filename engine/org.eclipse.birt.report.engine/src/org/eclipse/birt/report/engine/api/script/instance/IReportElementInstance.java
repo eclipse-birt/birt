@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api.script.instance;
 
+import org.eclipse.birt.report.engine.api.script.ScriptException;
+
 public interface IReportElementInstance
 {
 
@@ -17,11 +19,10 @@ public interface IReportElementInstance
 
 	Object getNamedExpressionValue( String name );
 
-	void setNamedExpressionValue( String name, Object value );
+	Object getUserPropertyValue( String name );
 
-	Object getUserProperty( String name );
-
-	void setUserProperty( String name, Object value );
+	void setUserPropertyValue( String name, Object value )
+			throws ScriptException;
 
 	IReportElementInstance getParent( );
 

@@ -12,14 +12,15 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.IDynamicTextInstance;
 import org.eclipse.birt.report.engine.content.impl.ForeignContent;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 public class DynamicTextInstance extends ForeignTextInstance implements
 		IDynamicTextInstance
 {
 
-	public DynamicTextInstance( ForeignContent content )
+	public DynamicTextInstance( ForeignContent content, ExecutionContext context )
 	{
-		super( content );
+		super( content, context );
 	}
 
 }

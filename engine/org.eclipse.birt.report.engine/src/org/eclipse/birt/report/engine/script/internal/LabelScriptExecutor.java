@@ -50,7 +50,7 @@ public class LabelScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign labelDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			ILabelInstance label = new LabelInstance( content );
+			ILabelInstance label = new LabelInstance( content, context );
 			if ( handleJS( label, labelDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
@@ -71,7 +71,7 @@ public class LabelScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign labelDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			ILabelInstance label = new LabelInstance( content );
+			ILabelInstance label = new LabelInstance( content, context );
 			if ( handleJS( label, labelDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;

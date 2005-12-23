@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.IListInstance;
 import org.eclipse.birt.report.engine.content.impl.ContainerContent;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
  * A class representing the runtime state of a list
@@ -20,9 +21,9 @@ import org.eclipse.birt.report.engine.content.impl.ContainerContent;
 public class ListInstance extends ReportItemInstance implements IListInstance
 {
 
-	public ListInstance( ContainerContent list )
+	public ListInstance( ContainerContent list, ExecutionContext context )
 	{
-		super( list );
+		super( list, context );
 	}
 
 }

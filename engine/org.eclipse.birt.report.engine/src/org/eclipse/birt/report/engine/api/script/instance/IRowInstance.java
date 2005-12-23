@@ -2,7 +2,7 @@ package org.eclipse.birt.report.engine.api.script.instance;
 
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
-public interface IRowInstance
+public interface IRowInstance extends IReportElementInstance
 {
 
 	IScriptStyle getStyle( );

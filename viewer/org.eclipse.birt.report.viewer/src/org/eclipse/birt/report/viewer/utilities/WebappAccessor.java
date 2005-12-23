@@ -63,17 +63,17 @@ public class WebappAccessor
 	public synchronized static void start( String webappName, String pluginId,
 			IPath path ) throws CoreException
 	{
+		// Set the classpath property (used in Java scripting)
+		String projectClassPaths = WorkspaceClasspathManager.getClassPath( );
+
+		// HashTable doesn't accept null value
+		if ( projectClassPaths == null )
+		{
+			projectClassPaths = ""; //$NON-NLS-1$
+		}
+		System.setProperty( WORKSPACE_CLASSPATH_KEY, projectClassPaths );
 		if ( !applicationsStarted )
 		{
-			// Set the classpath property (used in Java scripting)
-			String projectClassPaths = WorkspaceClasspathManager.getClassPath( );
-			
-			//HashTable doesn't accept null value
-			if(projectClassPaths == null)
-			{
-				projectClassPaths = ""; //$NON-NLS-1$
-			}
-			System.setProperty( WORKSPACE_CLASSPATH_KEY, projectClassPaths );
 
 			IPath webappPath = getWebappPath( pluginId, path );
 
@@ -183,8 +183,7 @@ public class WebappAccessor
 					Platform.resolve( webappURL ) ).getFile( );
 			webappLocation += "birt/"; //$NON-NLS-1$
 			return new Path( webappLocation );
-		}
-		catch ( IOException ioe )
+		} catch ( IOException ioe )
 		{
 			throw new CoreException( new Status( IStatus.ERROR,
 					ViewerPlugin.PLUGIN_ID, IStatus.OK,

@@ -16,6 +16,7 @@ import java.lang.String;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.api.script.instance.IReportItemInstance;
 import org.eclipse.birt.report.engine.content.impl.AbstractContent;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
  * A class representing the runtime state of a report item
@@ -24,9 +25,9 @@ public class ReportItemInstance extends ReportElementInstance implements
 		IReportItemInstance
 {
 
-	public ReportItemInstance( AbstractContent content )
+	public ReportItemInstance( AbstractContent content, ExecutionContext context )
 	{
-		super(content);
+		super( content, context );
 	}
 
 	protected void setContent( AbstractContent content )
@@ -34,8 +35,9 @@ public class ReportItemInstance extends ReportElementInstance implements
 		this.content = content;
 	}
 
-	protected ReportItemInstance( )
+	protected ReportItemInstance( ExecutionContext context )
 	{
+		super( context );
 	}
 
 	/*
@@ -128,5 +130,4 @@ public class ReportItemInstance extends ReportElementInstance implements
 		content.setY( DimensionType.parserUnit( position ) );
 	}
 
-	
 }

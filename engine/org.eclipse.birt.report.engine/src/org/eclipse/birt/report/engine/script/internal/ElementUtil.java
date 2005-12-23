@@ -21,8 +21,10 @@ import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.content.impl.ImageContent;
 import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.content.impl.RowContent;
+import org.eclipse.birt.report.engine.content.impl.TableBandContent;
 import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.content.impl.TextContent;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.Cell;
@@ -63,40 +65,41 @@ import org.eclipse.birt.report.model.api.TextItemHandle;
 public class ElementUtil
 {
 
-	public static IReportElementInstance getInstance( IElement element )
+	public static IReportElementInstance getInstance( IElement element,
+			ExecutionContext context )
 	{
 		if ( element == null )
 			return null;
 
 		if ( element instanceof CellContent )
-			return new CellInstance( ( CellContent ) element );
+			return new CellInstance( ( CellContent ) element, context );
 
 		if ( element instanceof DataContent )
-			return new DataItemInstance( ( DataContent ) element );
+			return new DataItemInstance( ( DataContent ) element, context );
 
 		if ( element instanceof ImageContent )
-			return new ImageInstance( ( ImageContent ) element );
+			return new ImageInstance( ( ImageContent ) element, context );
 
 		if ( element instanceof LabelContent )
-			return new LabelInstance( ( LabelContent ) element );
+			return new LabelInstance( ( LabelContent ) element, context );
 
 		if ( element instanceof ContainerContent )
-			return new ListInstance( ( ContainerContent ) element );
+			return new ListInstance( ( ContainerContent ) element, context );
 
 		if ( element instanceof RowContent )
-			return new RowInstance( ( RowContent ) element );
+			return new RowInstance( ( RowContent ) element, context );
 
 		if ( element instanceof TableContent )
 		{
 			Object genBy = ( ( TableContent ) element ).getGenerateBy( );
 			if ( genBy instanceof TableItemDesign )
-				return new TableInstance( ( TableContent ) element );
+				return new TableInstance( ( TableContent ) element, context );
 			else if ( genBy instanceof GridItemDesign )
-				return new GridInstance( ( TableContent ) element );
+				return new GridInstance( ( TableContent ) element, context );
 		}
 
 		if ( element instanceof TextContent )
-			return new TextItemInstance( ( TextContent ) element );
+			return new TextItemInstance( ( TextContent ) element, context );
 
 		if ( element instanceof ForeignContent )
 		{
@@ -104,7 +107,10 @@ public class ElementUtil
 			if ( IForeignContent.HTML_TYPE.equals( fc.getRawType( ) )
 					|| IForeignContent.TEXT_TYPE.equals( fc.getRawType( ) )
 					|| IForeignContent.TEMPLATE_TYPE.equals( fc.getRawType( ) ) )
-				return new TextItemInstance( fc );
+				return new TextItemInstance( fc, context );
+		}
+		if ( element instanceof TableBandContent) {
+			return getInstance(element.getParent(), context);
 		}
 
 		return null;

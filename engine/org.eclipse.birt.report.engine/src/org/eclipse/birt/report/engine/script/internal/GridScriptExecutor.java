@@ -50,7 +50,7 @@ public class GridScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign gridDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			IGridInstance grid = new GridInstance( content );
+			IGridInstance grid = new GridInstance( content, context );
 			if ( handleJS( grid, gridDesign.getOnCreate( ), context ).didRun( ) )
 				return;
 			IGridEventHandler eh = ( IGridEventHandler ) getInstance( ( GridHandle ) gridDesign
@@ -70,7 +70,7 @@ public class GridScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign gridDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			IGridInstance grid = new GridInstance( content );
+			IGridInstance grid = new GridInstance( content, context );
 			if ( handleJS( grid, gridDesign.getOnRender( ), context ).didRun( ) )
 				return;
 			IGridEventHandler eh = ( IGridEventHandler ) getInstance( ( GridHandle ) gridDesign

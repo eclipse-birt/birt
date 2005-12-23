@@ -85,5 +85,15 @@ public interface IImageInstance extends IReportItemInstance
 	 * Set the data for a named image
 	 */
 	void setData( byte[] data );
+	
+	/**
+	 * Get the MIME Type
+	 */
+	String getMimeType();
+	
+	/**
+	 * Set the MIME Type
+	 */
+	void setMimeType(String type);
 
 }

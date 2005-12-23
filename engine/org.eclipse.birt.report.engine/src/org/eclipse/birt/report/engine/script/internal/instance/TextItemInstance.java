@@ -14,24 +14,29 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 import org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance;
 import org.eclipse.birt.report.engine.content.impl.TextContent;
 import org.eclipse.birt.report.engine.content.impl.ForeignContent;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
  * A class representing the runtime state of a text item
  */
-public class TextItemInstance extends ForeignTextInstance implements ITextItemInstance
+public class TextItemInstance extends ForeignTextInstance implements
+		ITextItemInstance
 {
 
-	public TextItemInstance( TextContent content )
+	public TextItemInstance( TextContent content, ExecutionContext context )
 	{
+		super( context );
 		setContent( content );
 	}
 
-	public TextItemInstance( ForeignContent content )
+	public TextItemInstance( ForeignContent content, ExecutionContext context )
 	{
-		super( content );
+		super( content, context );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance#getText()
 	 */
 	public String getText( )
@@ -41,7 +46,9 @@ public class TextItemInstance extends ForeignTextInstance implements ITextItemIn
 		return super.getText( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance#setText(java.lang.String)
 	 */
 	public void setText( String value )

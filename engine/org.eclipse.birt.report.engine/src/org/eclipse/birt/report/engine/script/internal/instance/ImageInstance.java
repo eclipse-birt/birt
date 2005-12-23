@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.IImageInstance;
 import org.eclipse.birt.report.engine.content.impl.ImageContent;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
  * A class representing the runtime state of an image
@@ -20,9 +21,9 @@ import org.eclipse.birt.report.engine.content.impl.ImageContent;
 public class ImageInstance extends ReportItemInstance implements IImageInstance
 {
 
-	public ImageInstance( ImageContent image )
+	public ImageInstance( ImageContent image, ExecutionContext context )
 	{
-		super( image );
+		super( image, context );
 	}
 
 	/*
@@ -148,11 +149,32 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#setData( byte[])
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#setData(
+	 *      byte[])
 	 */
 	public void setData( byte[] data )
 	{
 		( ( ImageContent ) content ).setData( data );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#getMimeType()
+	 */
+	public String getMimeType( )
+	{
+		return ( ( ImageContent ) content ).getMIMEType( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#setMimeType(java.lang.String)
+	 */
+	public void setMimeType( String type )
+	{
+		( ( ImageContent ) content ).setMIMEType( type );
 	}
 
 }

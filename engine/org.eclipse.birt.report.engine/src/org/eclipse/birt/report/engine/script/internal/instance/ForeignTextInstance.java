@@ -13,18 +13,24 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 import org.eclipse.birt.report.engine.api.script.instance.IAbstractTextInstance;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.impl.ForeignContent;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
-public abstract class ForeignTextInstance extends ReportItemInstance implements IAbstractTextInstance
+public abstract class ForeignTextInstance extends ReportItemInstance implements
+		IAbstractTextInstance
 {
-	public ForeignTextInstance( ForeignContent content )
+	public ForeignTextInstance( ForeignContent content, ExecutionContext context )
 	{
-		super( content );
-	}
-	
-	protected ForeignTextInstance() {
+		super( content, context );
 	}
 
-	/* (non-Javadoc)
+	protected ForeignTextInstance( ExecutionContext context )
+	{
+		super( context );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.script.IForeignTextInstance#getText()
 	 */
 	public String getText( )
@@ -35,14 +41,16 @@ public abstract class ForeignTextInstance extends ReportItemInstance implements 
 				|| IForeignContent.HTML_TYPE.equals( type )
 				|| IForeignContent.TEXT_TYPE.equals( type ) )
 		{
-			return ( fc.getRawType( ) == null ? null : fc.getRawType( )
+			return ( fc.getRawValue( ) == null ? null : fc.getRawValue( )
 					.toString( ) );
 		}
 
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.script.IForeignTextInstance#setText(java.lang.String)
 	 */
 	public void setText( String value )
