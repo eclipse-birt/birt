@@ -1262,7 +1262,7 @@
 	<Member dataType="String" displayNameID="Class.DataSet.queryText" name="queryText" toolTipID="Class.DataSet.queryText.toolTip"/>					
 	<Member dataType="ColumnDefn[]" displayNameID="Class.DataSet.columnDefns" name="columnDefns" toolTipID="Class.DataSet.columnDefns.toolTip"/>					
 	<Member dataType="Object[]" displayNameID="Class.DataSet.extensionProperties" name="extensionProperties" toolTipID="Class.DataSet.extensionProperties.toolTip"/>
-	<Member dataType="DataSource" displayNameID="Class.DataSet.DataSource" name="DataSource" toolTipID="Class.DataSet.DataSource.toolTip"/>														
+	<Member dataType="DataSource" displayNameID="Class.DataSet.dataSource" name="dataSource" toolTipID="Class.DataSet.dataSource.toolTip"/>														
   </Class>
   <Class displayNameID="Class.DataSource" name="DataSource" toolTipID="Class.DataSource.toolTip">	
 	<Member dataType="String" displayNameID="Class.DataSource.extensionID" name="extensionID" toolTipID="Class.DataSource.extensionID.toolTip"/>					
