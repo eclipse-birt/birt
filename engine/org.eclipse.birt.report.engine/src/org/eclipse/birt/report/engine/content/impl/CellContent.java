@@ -18,6 +18,8 @@ import java.io.ObjectOutputStream;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.dom.CellComputedStyle;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 
 /**
@@ -25,7 +27,7 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.9 $ $Date: 2005/11/17 16:50:44 $
+ * @version $Revision: 1.10 $ $Date: 2005/12/07 07:21:33 $
  */
 public class CellContent extends AbstractContent implements ICellContent
 {
@@ -39,7 +41,7 @@ public class CellContent extends AbstractContent implements ICellContent
 	 * col span, if equals to 1, then get it from the design.
 	 */
 	protected int colSpan = -1;
-	
+
 	/**
 	 * column id, if equals to 0, get it from the design
 	 */
@@ -51,7 +53,7 @@ public class CellContent extends AbstractContent implements ICellContent
 	public CellContent( )
 	{
 	}
-	
+
 	public int getContentType( )
 	{
 		return CELL_CONTENT;
@@ -93,7 +95,7 @@ public class CellContent extends AbstractContent implements ICellContent
 	{
 		return column;
 	}
-	
+
 	public int getRow( )
 	{
 		if ( parent != null && parent instanceof IRowContent )
@@ -127,16 +129,25 @@ public class CellContent extends AbstractContent implements ICellContent
 	{
 		this.colSpan = colSpan;
 	}
-	
+
 	public void setColumn( int column )
 	{
 		this.column = column;
 	}
-	
+
+	public IStyle getComputedStyle( )
+	{
+		if ( computedStyle == null )
+		{
+			computedStyle = new CellComputedStyle( this );
+		}
+		return computedStyle;
+	}
+
 	static final protected int FIELD_ROW_SPAN = 100;
 	static final protected int FIELD_COL_SPAN = 101;
 	static final protected int FIELD_COLUMN = 102;
-		
+
 	protected void writeFields( ObjectOutputStream out ) throws IOException
 	{
 		super.writeFields( out );

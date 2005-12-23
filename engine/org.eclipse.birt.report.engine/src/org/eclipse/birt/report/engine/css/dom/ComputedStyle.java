@@ -1,10 +1,8 @@
 
 package org.eclipse.birt.report.engine.css.dom;
 
-import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.content.impl.AbstractContent;
-import org.eclipse.birt.report.engine.content.impl.ReportContent;
+import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
 import org.w3c.dom.css.CSSValue;
 
@@ -12,12 +10,12 @@ public class ComputedStyle extends AbstractStyle implements IStyle
 {
 
 	boolean[] caculated;
-	IContent elt;
+	CSSStylableElement elt;
 	CSSValue[] values;
 
-	public ComputedStyle( IContent elt )
+	public ComputedStyle( CSSStylableElement elt )
 	{
-		super( ( (ReportContent) elt.getReportContent( ) ).getCSSEngine( ) );
+		super( );
 		this.elt = elt;
 	}
 
@@ -33,7 +31,17 @@ public class ComputedStyle extends AbstractStyle implements IStyle
 			return values[index];
 		}
 
-		IContent parent = (IContent) elt.getParent( );
+		Value cv = resolveProperty( index );
+
+		values[index] = cv;
+		caculated[index] = true;
+
+		return cv;
+	}
+
+	protected Value resolveProperty( int index )
+	{
+		CSSStylableElement parent = (CSSStylableElement) elt.getParent( );
 		IStyle pcs = null;
 		if ( parent != null )
 		{
@@ -41,13 +49,10 @@ public class ComputedStyle extends AbstractStyle implements IStyle
 		}
 
 		// get the specified style
-		IStyle s = ( (AbstractContent) elt ).getStyle( );
+		IStyle s = elt.getStyle( );
 
-		Value sv = (Value) s.getProperty( index );
+		Value sv = s != null ? (Value) s.getProperty( index ) : null;
 		Value cv = engine.resolveStyle( elt, index, sv, pcs );
-
-		values[index] = cv;
-		caculated[index] = true;
 
 		return cv;
 	}
@@ -59,8 +64,8 @@ public class ComputedStyle extends AbstractStyle implements IStyle
 
 	public void setProperty( int index, CSSValue value )
 	{
-		values[index] = value;
+		caculated[index] = false;
+		values[index] = null;
 		elt.getStyle( ).setProperty( index, value );
-		elt.getInlineStyle( ).setProperty( index, value );
 	}
 }
