@@ -16,7 +16,6 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
@@ -124,7 +123,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 
 	public String getOnPrepare( )
 	{
-		return getStringProperty( GroupElement.ON_PREPARE_METHOD );
+		return getStringProperty( ITableRowModel.ON_PREPARE_METHOD );
 	}
 
 	/**
@@ -136,7 +135,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 
 	public String getOnCreate( )
 	{
-		return getStringProperty( GroupElement.ON_CREATE_METHOD );
+		return getStringProperty( ITableRowModel.ON_CREATE_METHOD );
 	}
 
 	/**
@@ -148,7 +147,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 
 	public String getOnRender( )
 	{
-		return getStringProperty( GroupElement.ON_RENDER_METHOD );
+		return getStringProperty( ITableRowModel.ON_RENDER_METHOD );
 	}
 
 	/**
@@ -164,7 +163,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 
 	public void setOnPrepare( String script ) throws SemanticException
 	{
-		setProperty( GroupElement.ON_PREPARE_METHOD, script );
+		setProperty( ITableRowModel.ON_PREPARE_METHOD, script );
 	}
 
 	/**
@@ -181,7 +180,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 
 	public void setOnCreate( String script ) throws SemanticException
 	{
-		setProperty( GroupElement.ON_CREATE_METHOD, script );
+		setProperty( ITableRowModel.ON_CREATE_METHOD, script );
 	}
 
 	/**
@@ -197,7 +196,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 
 	public void setOnRender( String script ) throws SemanticException
 	{
-		setProperty( GroupElement.ON_RENDER_METHOD, script );
+		setProperty( ITableRowModel.ON_RENDER_METHOD, script );
 	}
 
 	/**
@@ -210,7 +209,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 
 	public String getEventHandleClass( )
 	{
-		return getStringProperty( GroupElement.EVENT_HANDLER_CLASS_PROP );
+		return getStringProperty( TableRow.EVENT_HANDLER_CLASS_PROP );
 	}
 	
 	/**
@@ -226,7 +225,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 
 	public void setEventHandleClass( String expr ) throws SemanticException
 	{
-		setProperty( GroupElement.EVENT_HANDLER_CLASS_PROP, expr );
+		setProperty( TableRow.EVENT_HANDLER_CLASS_PROP, expr );
 	}
 	
 }

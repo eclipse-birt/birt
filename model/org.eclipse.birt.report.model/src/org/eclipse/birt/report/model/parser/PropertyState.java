@@ -192,9 +192,16 @@ class PropertyState extends AbstractPropertyState
 			if ( "onRow".equalsIgnoreCase( name ) //$NON-NLS-1$
 					&& !( element instanceof TableItem ) )
 				return new CompatibleIgnorePropertyState( handler, element );
-			
+
 			if ( "onRow".equalsIgnoreCase( name ) )//$NON-NLS-1$
 				return new CompatibleOnRowPropertyState( handler, element );
+		}
+
+		if ( ( element instanceof GroupElement ) )
+		{
+			if ( name.equalsIgnoreCase( "onCreate" ) || name //$NON-NLS-1$
+					.equalsIgnoreCase( "onRender" ) ) //$NON-NLS-1$
+				return new CompatibleIgnorePropertyState( handler, element );
 		}
 
 		return super.jumpTo( );

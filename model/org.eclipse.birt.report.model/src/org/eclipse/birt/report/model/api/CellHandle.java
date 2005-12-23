@@ -15,7 +15,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Cell;
-import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 
 /**
@@ -223,7 +222,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public String getOnPrepare( )
 	{
-		return getStringProperty( GroupElement.ON_PREPARE_METHOD );
+		return getStringProperty( ICellModel.ON_PREPARE_METHOD );
 	}
 
 	/**
@@ -235,7 +234,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public String getOnCreate( )
 	{
-		return getStringProperty( GroupElement.ON_CREATE_METHOD );
+		return getStringProperty( ICellModel.ON_CREATE_METHOD );
 	}
 
 	/**
@@ -247,7 +246,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public String getOnRender( )
 	{
-		return getStringProperty( GroupElement.ON_RENDER_METHOD );
+		return getStringProperty( ICellModel.ON_RENDER_METHOD );
 	}
 
 	/**
@@ -263,7 +262,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public void setOnPrepare( String script ) throws SemanticException
 	{
-		setProperty( GroupElement.ON_PREPARE_METHOD, script );
+		setProperty( ICellModel.ON_PREPARE_METHOD, script );
 	}
 
 	/**
@@ -280,7 +279,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public void setOnCreate( String script ) throws SemanticException
 	{
-		setProperty( GroupElement.ON_CREATE_METHOD, script );
+		setProperty( ICellModel.ON_CREATE_METHOD, script );
 	}
 
 	/**
@@ -296,7 +295,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public void setOnRender( String script ) throws SemanticException
 	{
-		setProperty( GroupElement.ON_RENDER_METHOD, script );
+		setProperty( ICellModel.ON_RENDER_METHOD, script );
 	}
 
 	/**
@@ -309,7 +308,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public String getEventHandleClass( )
 	{
-		return getStringProperty( GroupElement.EVENT_HANDLER_CLASS_PROP );
+		return getStringProperty( Cell.EVENT_HANDLER_CLASS_PROP );
 	}
 	
 	/**
@@ -325,6 +324,6 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public void setEventHandleClass( String expr ) throws SemanticException
 	{
-		setProperty( GroupElement.EVENT_HANDLER_CLASS_PROP, expr );
+		setProperty( Cell.EVENT_HANDLER_CLASS_PROP, expr );
 	}
 }

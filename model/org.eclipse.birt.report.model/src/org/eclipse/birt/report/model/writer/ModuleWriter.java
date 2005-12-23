@@ -997,9 +997,9 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writeUserPropertyDefns( obj );
 		writeUserPropertyValues( obj );
-		
+
 		// write property bindings
-		
+
 		writeStructureList( obj, Module.PROPERTY_BINDINGS_PROP );
 	}
 
@@ -1027,7 +1027,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				property( image, EmbeddedImage.NAME_MEMBER );
 				property( image, EmbeddedImage.TYPE_MEMBER );
 				property( image, EmbeddedImage.LIB_REFERENCE_MEMBER );
-				
+
 				try
 				{
 					if ( image.getLocalProperty( getModule( ),
@@ -1531,9 +1531,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, TableRow.ON_PREPARE_METHOD );
 		property( obj, TableRow.ON_CREATE_METHOD );
 		property( obj, TableRow.ON_RENDER_METHOD );
-		
+
 		// write user property definitions and values
-		
+
 		writeUserPropertyDefns( obj );
 		writeUserPropertyValues( obj );
 
@@ -1703,7 +1703,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeContents( obj, CascadingParameterGroup.PARAMETERS_SLOT,
 				DesignSchemaConstants.PARAMETERS_TAG );
 		writeOverridenPropertyValues( obj );
-		
+
 		writer.endElement( );
 	}
 
@@ -2192,7 +2192,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * @param propName
 	 *            the property name of action structure on the element.
 	 */
-	
+
 	protected void writeAction( Action action, String propName )
 	{
 		String linkType = (String) action.getProperty( getModule( ),
@@ -2470,11 +2470,9 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, GroupElement.EVENT_HANDLER_CLASS_PROP );
 		property( obj, GroupElement.ON_PREPARE_METHOD );
-		property( obj, GroupElement.ON_CREATE_METHOD );
-		property( obj, GroupElement.ON_RENDER_METHOD );
-		
+
 		// write user property definitions and values
-		
+
 		writeUserPropertyDefns( obj );
 		writeUserPropertyValues( obj );
 

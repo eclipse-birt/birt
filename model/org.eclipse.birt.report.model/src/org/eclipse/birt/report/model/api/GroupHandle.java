@@ -103,42 +103,6 @@ public abstract class GroupHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Gets the on-start script of the group.
-	 * 
-	 * @return the on-start script of the group
-	 * @deprecated
-	 */
-
-	public String getOnStart( )
-	{
-		return null;
-	}
-
-	/**
-	 * Gets the on-row script of the group.
-	 * 
-	 * @return the on-row script of the group
-	 * @deprecated
-	 */
-
-	public String getOnRow( )
-	{
-		return null;
-	}
-
-	/**
-	 * Gets the on-finish script of the group.
-	 * 
-	 * @return the on-finish script of the group
-	 * @deprecated
-	 */
-
-	public String getOnFinish( )
-	{
-		return null;
-	}
-
-	/**
 	 * Sets the group name.
 	 * 
 	 * @param theName
@@ -161,54 +125,6 @@ public abstract class GroupHandle extends ReportElementHandle
 
 			assert false;
 		}
-	}
-
-	/**
-	 * Sets the on-start script of the group element.
-	 * 
-	 * @param script
-	 *            the script to set
-	 * @throws SemanticException
-	 *             if the method is locked.
-	 * 
-	 * @see #getOnStart()
-	 * @deprecated
-	 */
-
-	public void setOnStart( String script ) throws SemanticException
-	{
-	}
-
-	/**
-	 * Sets the on-row script of the group element.
-	 * 
-	 * @param script
-	 *            the script to set
-	 * @throws SemanticException
-	 *             if the method is locked.
-	 * 
-	 * @see #getOnRow()
-	 * @deprecated
-	 */
-
-	public void setOnRow( String script ) throws SemanticException
-	{
-	}
-
-	/**
-	 * Sets the on-finish script of the group element.
-	 * 
-	 * @param script
-	 *            the script to set
-	 * @throws SemanticException
-	 *             if the method is locked.
-	 * 
-	 * @see #getOnFinish()
-	 * @deprecated
-	 */
-
-	public void setOnFinish( String script ) throws SemanticException
-	{
 	}
 
 	/**
@@ -534,30 +450,6 @@ public abstract class GroupHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Gets the on-finish script of the group. Presentation phase. The report
-	 * item has been read from the report document, but not sent to emitter yet.
-	 * 
-	 * @return the on-finish script of the group
-	 */
-
-	public String getOnCreate( )
-	{
-		return getStringProperty( GroupElement.ON_CREATE_METHOD );
-	}
-
-	/**
-	 * Gets the on-finish script of the group. Presentation phase. The report
-	 * item has been read from the report document, but not sent to emitter yet.
-	 * 
-	 * @return the on-finish script of the group
-	 */
-
-	public String getOnRender( )
-	{
-		return getStringProperty( GroupElement.ON_RENDER_METHOD );
-	}
-
-	/**
 	 * Sets the on-prepare script of the group element.
 	 * 
 	 * @param script
@@ -571,38 +463,5 @@ public abstract class GroupHandle extends ReportElementHandle
 	public void setOnPrepare( String script ) throws SemanticException
 	{
 		setProperty( GroupElement.ON_PREPARE_METHOD, script );
-	}
-
-	/**
-	 * Sets the on-create script of the group element.
-	 * 
-	 * @param script
-	 *            the script to set
-	 * @throws SemanticException
-	 *             if the method is locked.
-	 * 
-	 * @see #getOnCreate()
-	 * 
-	 */
-
-	public void setOnCreate( String script ) throws SemanticException
-	{
-		setProperty( GroupElement.ON_CREATE_METHOD, script );
-	}
-
-	/**
-	 * Sets the on-render script of the group element.
-	 * 
-	 * @param script
-	 *            the script to set
-	 * @throws SemanticException
-	 *             if the method is locked.
-	 * 
-	 * @see #getOnRender()
-	 */
-
-	public void setOnRender( String script ) throws SemanticException
-	{
-		setProperty( GroupElement.ON_RENDER_METHOD, script );
 	}
 }

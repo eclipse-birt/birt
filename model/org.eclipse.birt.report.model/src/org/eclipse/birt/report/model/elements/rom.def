@@ -2520,21 +2520,6 @@
       <Default>none</Default>
     </Property>
     <Property displayNameID="Element.ListingGroup.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
-    <Method context="startup" displayNameID="Element.ListingGroup.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.ListingGroup.onPrepare.toolTip">
-      <Argument name="handle" tagID="Element.ListingGroup.onPrepare.handle" type="IListingGroup"/>
-      <Argument name="reportContext" tagID="Element.ListingGroup.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
-      <Argument name="object" tagID="Element.ListingGroup.onPrepare.object" type="Object"/>
-    </Method>
-    <Method context="factory" displayNameID="Element.ListingGroup.onCreate" name="onCreate" since="1.0" toolTipID="Element.ListingGroup.onCreate.toolTip">
-      <Argument name="instance" tagID="Element.ListingGroup.onCreate.instance" type="IListingGroup"/>
-      <Argument name="reportContext" tagID="Element.ListingGroup.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
-      <Argument name="object" tagID="Element.ListingGroup.onCreate.object" type="Object"/>
-    </Method>
-    <Method context="presentation" displayNameID="Element.ListingGroup.onRender" name="onRender" since="1.0" toolTipID="Element.ListingGroup.onRender.toolTip">
-      <Argument name="instance" tagID="Element.ListingGroup.onRender.instance" type="IListGroup"/>
-      <Argument name="reportContext" tagID="Element.ListingGroup.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
-      <Argument name="object" tagID="Element.ListingGroup.onRender.object" type="Object"/>
-    </Method>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Listing" extends="ReportItem" isAbstract="true" name="Listing" nameSpace="none" since="1.0">
     <Property detailType="SortKey" displayNameID="Element.Listing.sorting" isList="true" name="sort" runtimeSettable="false" since="1.0" type="structure"/>
@@ -2635,6 +2620,23 @@
       <Type name="TemplateReportItem"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
+    <Method context="startup" displayNameID="Element.ListGroup.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.ListGroup.onPrepare.toolTip">
+      <Argument name="handle" tagID="Element.ListGroup.onPrepare.handle" type="org.eclipse.birt.report.engine.api.script.element.IListGroup"/>
+      <Argument name="reportContext" tagID="Element.ListGroup.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.ListGroup.onPrepare.object" type="Object"/>
+    </Method>
+    <!--
+    <Method context="factory" displayNameID="Element.ListGroup.onCreate" name="onCreate" since="1.0" toolTipID="Element.ListGroup.onCreate.toolTip">
+      <Argument name="instance" tagID="Element.ListGroup.onCreate.instance" type="IListingGroup"/>
+      <Argument name="reportContext" tagID="Element.ListGroup.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.ListGroup.onCreate.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.ListGroup.onRender" name="onRender" since="1.0" toolTipID="Element.ListGroup.onRender.toolTip">
+      <Argument name="instance" tagID="Element.ListGroup.onRender.instance" type="IListGroup"/>
+      <Argument name="reportContext" tagID="Element.ListGroup.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.ListGroup.onRender.object" type="Object"/>
+    </Method>
+    -->
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Table" extends="Listing" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.TableItem" name="Table" selector="table" since="1.0" xmlName="table">
     <Property displayNameID="Element.Table.caption" name="caption" runtimeSettable="false" since="1.0" type="string"/>
@@ -2688,6 +2690,23 @@
       <Type name="Row"/>
       <Trigger targetElement="Table" validator="InconsistentColumnsValidator"/>
     </Slot>
+    <Method context="startup" displayNameID="Element.TableGroup.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.TableGroup.onPrepare.toolTip">
+      <Argument name="handle" tagID="Element.TableGroup.onPrepare.handle" type="org.eclipse.birt.report.engine.api.script.element.ITableGroup"/>
+      <Argument name="reportContext" tagID="Element.TableGroup.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.TableGroup.onPrepare.object" type="Object"/>
+    </Method>
+    <!--
+    <Method context="factory" displayNameID="Element.TableGroup.onCreate" name="onCreate" since="1.0" toolTipID="Element.TableGroup.onCreate.toolTip">
+      <Argument name="instance" tagID="Element.TableGroup.onCreate.instance" type="IListingGroup"/>
+      <Argument name="reportContext" tagID="Element.TableGroup.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.TableGroup.onCreate.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.TableGroup.onRender" name="onRender" since="1.0" toolTipID="Element.TableGroup.onRender.toolTip">
+      <Argument name="instance" tagID="Element.TableGroup.onRender.instance" type="IListGroup"/>
+      <Argument name="reportContext" tagID="Element.TableGroup.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="object" tagID="Element.TableGroup.onRender.object" type="Object"/>
+    </Method>
+    -->
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Column" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableColumn" name="Column" nameSpace="none" since="1.0" xmlName="column">
     <Property displayNameID="Element.Column.repeat" name="repeat" runtimeSettable="false" since="1.0" type="integer" validator="PositiveValueValidator">
@@ -3011,17 +3030,17 @@
     <Property displayNameID="Element.TextData.valueExpr" name="valueExpr" returnType="string" since="1.0" type="expression" valueRequired="true"/>
     <Property detailType="textDataContentType" displayNameID="Element.TextData.contentType" name="contentType" since="1.0" type="choice"/>
 	<Method context="startup" displayNameID="Element.TextData.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.TextData.onPrepare.toolTip">
-      <Argument name="handle" tagID="Element.TextData.onPrepare.handle" type="org.eclipse.birt.report.engine.api.script.element.ITextData"/>
+      <Argument name="handle" tagID="Element.TextData.onPrepare.handle" type="org.eclipse.birt.report.engine.api.script.element.IDynamicText"/>
       <Argument name="reportContext" tagID="Element.TextData.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.TextData.onPrepare.object" type="Object"/>
     </Method>
     <Method context="factory" displayNameID="Element.TextData.onCreate" name="onCreate" since="1.0" toolTipID="Element.TextData.onCreate.toolTip">
-      <Argument name="instance" tagID="Element.TextData.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.element.ITextData"/>
+      <Argument name="instance" tagID="Element.TextData.onCreate.instance" type="org.eclipse.birt.report.engine.api.script.instance.IDynamicTextInstance"/>
       <Argument name="reportContext" tagID="Element.TextData.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.TextData.onCreate.object" type="Object"/>
     </Method>
     <Method context="presentation" displayNameID="Element.TextData.onRender" name="onRender" since="1.0" toolTipID="Element.TextData.onRender.toolTip">
-      <Argument name="instance" tagID="Element.TextData.onRender.instance" type="org.eclipse.birt.report.engine.api.script.element.ITextData"/>
+      <Argument name="instance" tagID="Element.TextData.onRender.instance" type="org.eclipse.birt.report.engine.api.script.instance.IDynamicTextInstance"/>
       <Argument name="reportContext" tagID="Element.TextData.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.TextData.onRender.object" type="Object"/>
     </Method>    
