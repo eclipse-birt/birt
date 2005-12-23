@@ -22,7 +22,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.help.internal.appserver.IWebappServer;
-import org.eclipse.help.internal.appserver.PluginClassLoaderWrapper;
 import org.osgi.framework.Bundle;
 
 /**
@@ -81,9 +80,8 @@ public class WebappAccessor
 			// class loader exposed by the server is available to the webapps.
 			IWebappServer server = AppServerWrapper.getInstance( )
 					.getAppServer( );
-			server.start( webappName, webappPath, new PluginClassLoaderWrapper(
-					pluginId ) );
-
+			ViewerClassLoaderWrapper loader = new ViewerClassLoaderWrapper(pluginId);
+			server.start( webappName, webappPath, loader );
 			applicationsStarted = true;
 		}
 	}

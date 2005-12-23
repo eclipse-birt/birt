@@ -19,6 +19,7 @@ import org.eclipse.birt.report.viewer.utilities.WebappAccessor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -38,6 +39,8 @@ public class ViewerPlugin extends Plugin
 	 * Resource bundle.
 	 */
 	private ResourceBundle resourceBundle;
+	
+	private BundleContext bundleContext;
 	
 	/**
 	 * The constructor.
@@ -66,6 +69,7 @@ public class ViewerPlugin extends Plugin
 	public void start( BundleContext context ) throws Exception
 	{
 		super.start( context );
+		bundleContext = context;
 	}
 
 	/**
@@ -148,4 +152,16 @@ public class ViewerPlugin extends Plugin
 	{
 		return resourceBundle;
 	}
+	
+	/**
+     * Return an array of all bundles contained in this workbench.
+     * 
+     * @return an array of bundles in the workbench or an empty array if none
+     * @since 3.0
+     */
+    public Bundle[] getBundles() {
+        return bundleContext == null ? new Bundle[0] : bundleContext
+                .getBundles();
+    }
+    
 }
