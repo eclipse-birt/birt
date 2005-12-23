@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
-import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 
 /**
  * Provides a basic implementation for simulated data service. Used in launcher.
@@ -166,9 +165,9 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 			Object[] innerArray = new Object[sExpressions.length];// a row
 			for ( int j = 0; j < sExpressions.length; j++ )
 			{
-				String str = ChartUIUtil.getColumnName( sExpressions[j] );
-				int index = Integer.valueOf( str.substring( str.length( ) - 1 ) )
-						.intValue( ) - 1;
+				String str = sExpressions[j];
+				int index = Integer.valueOf( str.substring( 5,
+						str.length( ) - 3 ) ).intValue( ) - 1;
 				innerArray[j] = new Integer( ( (String[]) getPreviewData( ).get( i ) )[index] );
 			}
 			array[i] = innerArray;
@@ -179,7 +178,7 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	public void dispose( )
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

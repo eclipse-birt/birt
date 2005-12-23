@@ -275,8 +275,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 						.getNumberOfSameDataDefinition( expression ) == 1
 						&& !otherDfs.contains( expression ) )
 				{
-					ColorPalette.getInstance( )
-							.retrieveColor( ChartUIUtil.getColumnName( expression ) );
+					ColorPalette.getInstance( ).retrieveColor( expression );
 				}
 			}
 			// Refresh table color
@@ -284,7 +283,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 			{
 				getCustomTable( ).setColumnColor( i,
 						ColorPalette.getInstance( )
-								.getColor( getCustomTable( ).getColumnHeading( i ) ) );
+								.getColor( ChartUIUtil.getExpressionString( getCustomTable( ).getColumnHeading( i ) ) ) );
 			}
 
 			// Remove sample data and series

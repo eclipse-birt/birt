@@ -205,7 +205,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		if ( query != null )
 		{
 			Color cColor = ColorPalette.getInstance( )
-					.getColor( ChartUIUtil.getColumnName( query.getDefinition( ) ) );
+					.getColor( query.getDefinition( ) );
 			ChartUIUtil.setBackgroundColor( txtDefinition, true, cColor );
 		}
 	}

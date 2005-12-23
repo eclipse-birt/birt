@@ -88,7 +88,8 @@ public class LegendTextSheet extends AbstractPopupSheet
 				false,
 				serviceprovider,
 				LabelAttributesComposite.ALLOW_VERTICAL_POSITION
-						| LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION );
+						| LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION,
+				false );
 		{
 			GridData gdLACTitle = new GridData( GridData.FILL_BOTH );
 			lacTitle.setLayoutData( gdLACTitle );

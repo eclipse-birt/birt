@@ -132,25 +132,6 @@ public class ChartUIUtil
 		return result;
 	}
 
-	/**
-	 * Gets column name in the form of upper case
-	 * 
-	 * @param expression
-	 *            expression with "rows" prefix
-	 */
-	public static String getColumnName( String expression )
-	{
-		if ( expression != null && expression.length( ) > 0 )
-		{
-			int startPoint = expression.indexOf( "[\"" ); //$NON-NLS-1$
-			int endPoint = expression.indexOf( "\"]" ); //$NON-NLS-1$
-			if ( startPoint >= 0 && endPoint >= 0 )
-				return expression.substring( startPoint + 2, endPoint )
-						.toUpperCase( );
-		}
-		return null;
-	}
-
 	public static EList getBaseSeriesDefinitions( Chart chart )
 	{
 		if ( chart instanceof ChartWithAxes )

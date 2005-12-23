@@ -384,8 +384,9 @@ public class TaskSelectData extends SimpleTask
 		// Reset column color
 		for ( int i = 0; i < tablePreview.getColumnNumber( ); i++ )
 		{
-			tablePreview.setColumnColor( i, ColorPalette.getInstance( )
-					.getColor( tablePreview.getColumnHeading( i ) ) );
+			tablePreview.setColumnColor( i,
+					ColorPalette.getInstance( )
+							.getColor( ChartUIUtil.getExpressionString( tablePreview.getColumnHeading( i ) ) ) );
 		}
 	}
 
@@ -1014,12 +1015,10 @@ public class TaskSelectData extends SimpleTask
 		if ( DataDefinitionTextManager.getInstance( )
 				.getNumberOfSameDataDefinition( query.getDefinition( ) ) == 1 )
 		{
-			ColorPalette.getInstance( )
-					.retrieveColor( ChartUIUtil.getColumnName( query.getDefinition( ) ) );
+			ColorPalette.getInstance( ).retrieveColor( query.getDefinition( ) );
 		}
 		query.setDefinition( ChartUIUtil.getExpressionString( tablePreview.getCurrentColumnHeading( ) ) );
-		ColorPalette.getInstance( )
-				.putColor( tablePreview.getCurrentColumnHeading( ) );
+		ColorPalette.getInstance( ).putColor( query.getDefinition( ) );
 		// Reset table column color
 		refreshTableColor( );
 	}

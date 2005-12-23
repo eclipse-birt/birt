@@ -136,6 +136,8 @@ public class LabelAttributesComposite extends Composite implements
 	private transient boolean bInsetsEnabled = true;
 
 	private transient boolean bShadowEnabled = true;
+	
+	private transient boolean isAlignmentEnabled = true;
 
 	/**
 	 * @param parent
@@ -165,30 +167,51 @@ public class LabelAttributesComposite extends Composite implements
 		placeComponents();
 	}
 
-	public LabelAttributesComposite(Composite parent, int style,
+	public LabelAttributesComposite( Composite parent, int style,
 			String sGroupName, Position lpCurrent,
 			org.eclipse.birt.chart.model.component.Label lblCurrent,
 			String sUnits, boolean bPositionEnabled,
 			boolean bVisibilityEnabled, IUIServiceProvider serviceprovider,
-			int positionScope) 
+			int positionScope )
 	{
-		super(parent, style);
+		this( parent,
+				style,
+				sGroupName,
+				lpCurrent,
+				lblCurrent,
+				sUnits,
+				bPositionEnabled,
+				bVisibilityEnabled,
+				serviceprovider,
+				positionScope,
+				true );
+	}
+
+	public LabelAttributesComposite( Composite parent, int style,
+			String sGroupName, Position lpCurrent,
+			org.eclipse.birt.chart.model.component.Label lblCurrent,
+			String sUnits, boolean bPositionEnabled,
+			boolean bVisibilityEnabled, IUIServiceProvider serviceprovider,
+			int positionScope, boolean isAlignmentEnabled )
+	{
+		super( parent, style );
 		this.sGroupName = sGroupName;
 		this.lpCurrent = lpCurrent;
 		this.lblCurrent = lblCurrent;
 		this.sUnits = sUnits;
-		this.fdCurrent = lblCurrent.getCaption().getFont();
-		this.cdFont = lblCurrent.getCaption().getColor();
-		this.fBackground = lblCurrent.getBackground();
-		this.cdShadow = lblCurrent.getShadowColor();
-		this.laCurrent = lblCurrent.getOutline();
-		this.insets = lblCurrent.getInsets();
+		this.fdCurrent = lblCurrent.getCaption( ).getFont( );
+		this.cdFont = lblCurrent.getCaption( ).getColor( );
+		this.fBackground = lblCurrent.getBackground( );
+		this.cdShadow = lblCurrent.getShadowColor( );
+		this.laCurrent = lblCurrent.getOutline( );
+		this.insets = lblCurrent.getInsets( );
 		this.bPositionEnabled = bPositionEnabled;
 		this.bVisibilityEnabled = bVisibilityEnabled;
 		this.serviceprovider = serviceprovider;
 		this.positionScope = positionScope;
-		init();
-		placeComponents();
+		this.isAlignmentEnabled = isAlignmentEnabled;
+		init( );
+		placeComponents( );
 	}
 
 	public LabelAttributesComposite(Composite parent, int style,
@@ -301,7 +324,7 @@ public class LabelAttributesComposite extends Composite implements
 		lblFont.setEnabled(bEnableUI);
 
 		fdcFont = new FontDefinitionComposite(cmpGeneral, SWT.NONE,
-				this.fdCurrent, this.cdFont);
+				this.fdCurrent, this.cdFont, this.isAlignmentEnabled);
 		GridData gdFDCFont = new GridData(GridData.FILL_BOTH);
 		gdFDCFont.heightHint = fdcFont.getPreferredSize().y;
 		gdFDCFont.widthHint = 96;
