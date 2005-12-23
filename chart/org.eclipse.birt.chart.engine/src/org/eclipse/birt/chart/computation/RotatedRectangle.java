@@ -11,14 +11,13 @@
 
 package org.eclipse.birt.chart.computation;
 
-import org.eclipse.birt.chart.model.attribute.Location;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
-import org.eclipse.birt.chart.model.attribute.impl.PolygonImpl;
+import org.eclipse.birt.chart.internal.computations.Polygon;
+
 
 /**
  * RotatedRectangle
  */
-public final class RotatedRectangle extends PolygonImpl
+public final class RotatedRectangle extends Polygon
 {
 
 	private static final long serialVersionUID = 1L;
@@ -38,10 +37,10 @@ public final class RotatedRectangle extends PolygonImpl
 	{
 		super( );
 
-		getPoints( ).add( LocationImpl.create( dX0, dY0 ) );
-		getPoints( ).add( LocationImpl.create( dX1, dY1 ) );
-		getPoints( ).add( LocationImpl.create( dX2, dY2 ) );
-		getPoints( ).add( LocationImpl.create( dX3, dY3 ) );
+		add( dX0, dY0 );
+		add( dX1, dY1 );
+		add( dX2, dY2 );
+		add( dX3, dY3 );
 	}
 
 	/**
@@ -54,7 +53,7 @@ public final class RotatedRectangle extends PolygonImpl
 		int[] iaXY = new int[8];
 		for ( int i = 0; i < 4; i++ )
 		{
-			Location lo = (Location) getPoints( ).get( i );
+			Point lo = (Point) this.getPoint( i );
 			iaXY[2 * i] = (int) lo.getX( );
 			iaXY[2 * i + 1] = (int) lo.getY( );
 		}
@@ -70,7 +69,7 @@ public final class RotatedRectangle extends PolygonImpl
 	{
 		for ( int i = 0; i < 4; i++ )
 		{
-			Location lo = (Location) getPoints( ).get( i );
+			Point lo = (Point) getPoint( i );
 			lo.setX( lo.getX( ) + dOffset );
 		}
 	}
@@ -84,7 +83,7 @@ public final class RotatedRectangle extends PolygonImpl
 	{
 		for ( int i = 0; i < 4; i++ )
 		{
-			Location lo = (Location) getPoints( ).get( i );
+			Point lo = (Point) getPoint( i );
 			lo.setY( lo.getY( ) + dOffset );
 		}
 	}
@@ -98,18 +97,18 @@ public final class RotatedRectangle extends PolygonImpl
 	{
 		for ( int i = 0; i < 4; i++ )
 		{
-			Location lo = (Location) getPoints( ).get( i );
+			Point lo = (Point) getPoint( i );
 			lo.translate( dOffset, dOffset );
 		}
 	}
 
 	/**
-	 * Returns points as Location objects.
+	 * Returns points as Point objects.
 	 * 
 	 * @return
 	 */
-	public final Location[] asLocations( )
+	public final Point[] asPoints( )
 	{
-		return (Location[]) getPoints( ).toArray( new Location[0] );
+		return (Point[]) getPoints( ).toArray( new Point[0] );
 	}
 }

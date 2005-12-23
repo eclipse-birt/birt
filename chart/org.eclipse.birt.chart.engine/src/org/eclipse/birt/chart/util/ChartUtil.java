@@ -11,10 +11,11 @@
 
 package org.eclipse.birt.chart.util;
 
+import org.eclipse.birt.chart.computation.IPolygon;
 import org.eclipse.birt.chart.device.IDisplayServer;
+import org.eclipse.birt.chart.internal.computations.Clip;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
-import org.eclipse.birt.chart.model.attribute.Polygon;
 import org.eclipse.birt.chart.model.component.Label;
 
 /**
@@ -163,9 +164,9 @@ public class ChartUtil
 	 * @param pg2
 	 * @return
 	 */
-	public static boolean intersects( Polygon pg1, Polygon pg2 )
+	public static boolean intersects( IPolygon pg1, IPolygon pg2 )
 	{
-		Polygon result = Clip.intersection( pg1, pg2 );
+		IPolygon result = Clip.intersection( pg1, pg2 );
 
 		return !result.isEmpty( );
 	}

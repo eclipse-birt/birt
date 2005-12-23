@@ -839,7 +839,13 @@ public abstract class PlotWithAxes extends Methods
 	public final double transposeAngle( double dOriginalAngle )
 			throws IllegalArgumentException
 	{
-		if ( !cwa.isTransposed( ) )
+		return dOriginalAngle;
+		
+		/* It doesn't make sense to transpose the angle of rotation, since
+		 *  the angle is relative to the chart, not the axis.
+		 */
+		
+	/*	if ( !cwa.isTransposed( ) )
 		{
 			return dOriginalAngle;
 		}
@@ -854,6 +860,7 @@ public abstract class PlotWithAxes extends Methods
 		throw new IllegalArgumentException( ResourceBundle.getBundle( Messages.ENGINE,
 				rtc.getLocale( ) )
 				.getString( "exception.angle.range.transpose" ) ); //$NON-NLS-1$
+				*/
 	}
 
 	/**

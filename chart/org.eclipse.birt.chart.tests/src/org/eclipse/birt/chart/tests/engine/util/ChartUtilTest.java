@@ -13,12 +13,11 @@ package org.eclipse.birt.chart.tests.engine.util;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.chart.model.attribute.Polygon;
+import org.eclipse.birt.chart.internal.computations.Polygon;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.PolygonImpl;
-import org.eclipse.birt.chart.util.ChartUtil;
-import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
+import org.eclipse.birt.chart.util.ChartUtil;
 
 public class ChartUtilTest extends TestCase
 {
@@ -117,19 +116,19 @@ public class ChartUtilTest extends TestCase
 	 */
 	public void testIntersects( )
 	{
-		Polygon p1 = PolygonImpl.create( null );
+		Polygon p1 = new Polygon( );
 		p1.add( 0.0, 1.0 );
 		p1.add( 4.0, 1.0 );
 		p1.add( 4.0, 5.0 );
 		p1.add( 0.0, 5.0 );
 
-		Polygon p2 = PolygonImpl.create( null );
+		Polygon p2 = new Polygon( );
 		p2.add( -1.0, 2.0 );
 		p2.add( -2.0, 2.0 );
 		p2.add( -2.0, 4.0 );
 		p2.add( -1.0, 4.0 );
 		
-		Polygon p3 = PolygonImpl.create( null );
+		Polygon p3 = new Polygon( );
 		p2.add( -1.0, 2.0 );
 		p2.add( 1.0, 2.0 );
 		p2.add( 1.0, 4.0 );
