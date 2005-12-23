@@ -27,7 +27,7 @@
          <newDataSourceWizard class="org.eclipse.birt.report.data.oda.xml.ui.wizards.XmlDataSourceConnectionWizard"/>
          <dataSourceEditorPage
                class="org.eclipse.birt.report.data.oda.xml.ui.wizards.XmlDataSourcePage"
-               displayName="xml DataSource"
+               displayName="XML DataSource"
                name="selectFolder"
                path="/"/>
       </odaDataSourceUI>
