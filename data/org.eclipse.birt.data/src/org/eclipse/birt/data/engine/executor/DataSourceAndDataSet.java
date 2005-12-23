@@ -45,6 +45,10 @@ public class DataSourceAndDataSet
 	private Collection parameterBindings;
 	private int cacheCount;
 	
+	private final static int B_FALSE = 0;
+	private final static int B_UNKNOWN = 1;
+	private final static int B_TRUE = 2;
+	
 	/**
 	 * @param dataSourceDesign
 	 * @param dataSetDesign
@@ -97,12 +101,11 @@ public class DataSourceAndDataSet
 			{
 				if ( this.parameterBindings == parameterBindings2 )
 					return true;
-				else if ( this.parameterBindings == null
-						|| parameterBindings2 == null )
-					return false;
 			}
 			else if ( this.dataSetDesign == null || dataSetDesign2 == null )
+			{
 				return false;
+			}
 		}
 		else if ( this.dataSourceDesign == null || dataSourceDesign2 == null )
 		{
@@ -231,6 +234,8 @@ public class DataSourceAndDataSet
 	}
 
 	/**
+	 * Only for non-collection object
+	 * 
 	 * @param ob1
 	 * @param ob2
 	 * @return
@@ -263,11 +268,30 @@ public class DataSourceAndDataSet
 	private boolean isEqualProps( Map map1, Map map2 )
 	{
 		if ( map1 == map2 )
+		{
 			return true;
+		}
 		else if ( map1 == null || map2 == null )
-			return false;
+		{
+			if ( map1 == null )
+			{
+				if ( map2.size( ) != 0 )
+					return false;
+				else
+					return true;
+			}
+			else
+			{
+				if ( map1.size( ) != 0 )
+					return false;
+				else
+					return true;
+			}
+		}
 		else if ( map1.keySet( ).size( ) != map2.keySet( ).size( ) )
+		{
 			return false;
+		}
 
 		Set set = map1.keySet( );
 		Iterator it = set.iterator( );
@@ -289,14 +313,36 @@ public class DataSourceAndDataSet
 	 * @param col2
 	 * @return
 	 */
-	private boolean isEqualBasicCol( Collection col1, Collection col2 )
+	private int isEqualBasicCol( Collection col1, Collection col2 )
 	{
 		if ( col1 == col2 )
-			return true;
+		{
+			return B_TRUE;
+		}
 		else if ( col1 == null || col2 == null )
-			return false;
+		{
+			if ( col1 == null )
+			{
+				if ( col2.size( ) == 0 )
+					return B_TRUE;
+				else
+					return B_FALSE;
+			}
+			else
+			{
+				if ( col1.size( ) == 0 )
+					return B_TRUE;
+				else
+					return B_FALSE;
+			}
+		}
 		else
-			return col1.size( ) == col2.size( );
+		{
+			if ( col1.size( ) == col2.size( ) )
+				return B_UNKNOWN;
+			else
+				return B_FALSE;
+		}
 	}
 	
 	/**
@@ -373,7 +419,10 @@ public class DataSourceAndDataSet
 		if ( computedCol1 == computedCol2 )
 			return true;
 
-		if ( isEqualBasicCol( computedCol1, computedCol2 ) == false )
+		int basicCol = isEqualBasicCol( computedCol1, computedCol2 );
+		if ( basicCol == B_TRUE )
+			return true;
+		else if ( basicCol == B_FALSE )
 			return false;
 
 		Iterator it = computedCol1.iterator( );
@@ -411,9 +460,12 @@ public class DataSourceAndDataSet
 		if ( params1 == params2 )
 			return true;
 
-		if ( isEqualBasicCol( params1, params2 ) == false )
+		int basicCol = isEqualBasicCol( params1, params2 );
+		if ( basicCol == B_TRUE )
+			return true;
+		else if ( basicCol == B_FALSE )
 			return false;
-
+		
 		Iterator it = params1.iterator( );
 		Iterator it2 = params2.iterator( );
 		while ( it.hasNext( ) )
@@ -456,7 +508,10 @@ public class DataSourceAndDataSet
 		if ( paramsBinding1 == paramsBinding2 )
 			return true;
 
-		if ( isEqualBasicCol( paramsBinding1, paramsBinding2 ) == false )
+		int basicCol = isEqualBasicCol( paramsBinding1, paramsBinding2 );
+		if ( basicCol == B_TRUE )
+			return true;
+		else if ( basicCol == B_FALSE )
 			return false;
 
 		Iterator it = paramsBinding1.iterator( );
@@ -496,7 +551,10 @@ public class DataSourceAndDataSet
 		if ( resultHints1 == resultHints2 )
 			return true;
 
-		if ( isEqualBasicCol( resultHints1, resultHints2 ) == false )
+		int basicCol = isEqualBasicCol( resultHints1, resultHints2 );
+		if ( basicCol == B_TRUE )
+			return true;
+		else if ( basicCol == B_FALSE )
 			return false;
 
 		Iterator it = resultHints1.iterator( );
