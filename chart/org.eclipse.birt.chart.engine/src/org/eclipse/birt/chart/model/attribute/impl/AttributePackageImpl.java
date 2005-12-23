@@ -61,7 +61,6 @@ import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Palette;
-import org.eclipse.birt.chart.model.attribute.Polygon;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
 import org.eclipse.birt.chart.model.attribute.Rotation3D;
@@ -274,13 +273,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EClass paletteEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass polygonEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1781,26 +1773,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getPolygon( )
-	{
-		return polygonEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getPolygon_Points( )
-	{
-		return (EReference) polygonEClass.getEStructuralFeatures( ).get( 0 );
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getRotation3D( )
 	{
 		return rotation3DEClass;
@@ -2918,9 +2890,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 		createEAttribute( paletteEClass, PALETTE__NAME );
 		createEReference( paletteEClass, PALETTE__ENTRIES );
 
-		polygonEClass = createEClass( POLYGON );
-		createEReference( polygonEClass, POLYGON__POINTS );
-
 		rotation3DEClass = createEClass( ROTATION3_D );
 		createEReference( rotation3DEClass, ROTATION3_D__ANGLES );
 
@@ -3408,14 +3377,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 				this.getFill( ),
 				null,
 				"entries", null, 1, -1, Palette.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
-
-		initEClass( polygonEClass,
-				Polygon.class,
-				"Polygon", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
-		initEReference( getPolygon_Points( ),
-				this.getLocation( ),
-				null,
-				"points", null, 0, -1, Polygon.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( rotation3DEClass,
 				Rotation3D.class,
@@ -4514,14 +4475,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addAnnotation( percentageObjectEDataType, source, new String[]{
 				"name", "Percentage:Object", //$NON-NLS-1$ //$NON-NLS-2$
 				"baseType", "Percentage" //$NON-NLS-1$ //$NON-NLS-2$
-		} );
-		addAnnotation( polygonEClass, source, new String[]{
-				"name", "Polygon", //$NON-NLS-1$ //$NON-NLS-2$
-				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
-		} );
-		addAnnotation( getPolygon_Points( ), source, new String[]{
-				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-				"name", "Points" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( positionEEnum, source, new String[]{
 				"name", "Position" //$NON-NLS-1$ //$NON-NLS-2$

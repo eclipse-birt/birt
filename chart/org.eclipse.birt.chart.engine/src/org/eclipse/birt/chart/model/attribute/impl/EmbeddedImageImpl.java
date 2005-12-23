@@ -25,10 +25,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.EmbeddedImageImpl#getData <em>Data</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.EmbeddedImageImpl#getData <em>Data</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
@@ -37,7 +37,6 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 	/**
 	 * The default value of the '{@link #getData() <em>Data</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getData()
 	 * @generated
 	 * @ordered
@@ -47,7 +46,6 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 	/**
 	 * The cached value of the '{@link #getData() <em>Data</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getData()
 	 * @generated
 	 * @ordered
@@ -56,7 +54,6 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EmbeddedImageImpl( )
@@ -66,7 +63,6 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -76,7 +72,6 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getData( )
@@ -86,7 +81,6 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setData( String newData )
@@ -103,7 +97,6 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -122,7 +115,6 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -144,7 +136,6 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -166,7 +157,6 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -187,7 +177,6 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

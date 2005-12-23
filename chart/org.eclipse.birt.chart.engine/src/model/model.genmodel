@@ -553,9 +553,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Palette/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.attribute.ecore#//Palette/entries"/>
     </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//Polygon">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.attribute.ecore#//Polygon/points"/>
-    </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//Rotation3D">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.attribute.ecore#//Rotation3D/angles"/>
     </genClasses>

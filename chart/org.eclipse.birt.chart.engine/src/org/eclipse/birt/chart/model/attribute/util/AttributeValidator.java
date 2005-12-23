@@ -13,8 +13,6 @@ package org.eclipse.birt.chart.model.attribute.util;
 
 import java.util.Map;
 
-import org.eclipse.birt.chart.model.attribute.*;
-
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
@@ -24,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ChartType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -35,6 +34,7 @@ import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
 import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.DateFormatType;
 import org.eclipse.birt.chart.model.attribute.Direction;
+import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
@@ -61,7 +61,6 @@ import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Palette;
-import org.eclipse.birt.chart.model.attribute.Polygon;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
 import org.eclipse.birt.chart.model.attribute.Rotation3D;
@@ -258,8 +257,6 @@ public class AttributeValidator extends EObjectValidator
 						context );
 			case AttributePackage.PALETTE :
 				return validatePalette( (Palette) value, diagnostics, context );
-			case AttributePackage.POLYGON :
-				return validatePolygon( (Polygon) value, diagnostics, context );
 			case AttributePackage.ROTATION3_D :
 				return validateRotation3D( (Rotation3D) value,
 						diagnostics,
@@ -845,16 +842,6 @@ public class AttributeValidator extends EObjectValidator
 			DiagnosticChain diagnostics, Map context )
 	{
 		return validate_EveryDefaultConstraint( palette, diagnostics, context );
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validatePolygon( Polygon polygon,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return validate_EveryDefaultConstraint( polygon, diagnostics, context );
 	}
 
 	/**

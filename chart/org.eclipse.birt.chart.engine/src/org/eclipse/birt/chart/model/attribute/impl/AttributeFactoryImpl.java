@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
-import org.eclipse.birt.chart.model.attribute.*;
-
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
@@ -23,6 +21,7 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ChartType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -34,6 +33,7 @@ import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
 import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.DateFormatType;
 import org.eclipse.birt.chart.model.attribute.Direction;
+import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
@@ -43,10 +43,12 @@ import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Insets;
+import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
+import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
@@ -58,7 +60,6 @@ import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Palette;
-import org.eclipse.birt.chart.model.attribute.Polygon;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
 import org.eclipse.birt.chart.model.attribute.Rotation3D;
@@ -77,6 +78,7 @@ import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
+import org.eclipse.birt.chart.model.attribute.TriggerFlow;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.UnitsOfMeasurement;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
@@ -167,8 +169,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return createNumberFormatSpecifier( );
 			case AttributePackage.PALETTE :
 				return createPalette( );
-			case AttributePackage.POLYGON :
-				return createPolygon( );
 			case AttributePackage.ROTATION3_D :
 				return createRotation3D( );
 			case AttributePackage.SCRIPT_VALUE :
@@ -976,17 +976,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	{
 		PaletteImpl palette = new PaletteImpl( );
 		return palette;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Polygon createPolygon( )
-	{
-		PolygonImpl polygon = new PolygonImpl( );
-		return polygon;
 	}
 
 	/**
