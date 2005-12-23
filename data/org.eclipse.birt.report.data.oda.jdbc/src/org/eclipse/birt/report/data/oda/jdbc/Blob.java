@@ -60,8 +60,17 @@ public class Blob implements IBlob
      */
     public byte[] getBytes( long position, int length ) throws OdaException
     {
-        // TODO - replace with call to underlying JDBC driver
-	    throw new UnsupportedOperationException();
+		if ( blob == null )
+			return null;
+    	try
+    	{
+    		return blob.getBytes( position, length );
+    	}
+    	catch ( SQLException e )
+    	{
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
+					e );
+    	}
     }
 
 	/*
