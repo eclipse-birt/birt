@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.net.URL;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.content.IContent;
@@ -27,7 +28,8 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityRuleDesign;
-import org.eclipse.birt.report.engine.util.FileUtil;
+import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
  * Defines an abstract base class for all styled element executors, including
@@ -35,7 +37,7 @@ import org.eclipse.birt.report.engine.util.FileUtil;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.20 $ $Date: 2005/11/15 02:49:02 $
+ * @version $Revision: 1.21 $ $Date: 2005/11/22 03:03:05 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -171,13 +173,13 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 		if ( image == null )
 			return;
 
-		if ( FileUtil.isLocalResource( image ) )
+		ReportDesignHandle reportDesign = context.getDesign( );
+		if ( reportDesign != null )
 		{
-			image = FileUtil.getAbsolutePath( context.getReport( )
-					.getBasePath( ), image );
-			if ( image != null && image.length( ) > 0 )
+			URL url = reportDesign.findResource( image, IResourceLocator.IMAGE );
+			if ( url != null )
 			{
-				style.setBackgroundImage( image );
+				style.setBackgroundImage( url.toExternalForm( ) );
 			}
 		}
 	}

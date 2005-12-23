@@ -67,6 +67,7 @@ import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.executor.ExecutionContext.ElementExceptionInfo;
+import org.eclipse.birt.report.engine.executor.css.HTMLProcessor;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
@@ -75,8 +76,15 @@ import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
+import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.engine.util.FileUtil;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import sun.nio.cs.ThreadLocalCoders;
 import sun.text.Normalizer;
@@ -86,7 +94,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.60 $ $Date: 2005/12/22 15:22:32 $
+ * @version $Revision: 1.61 $ $Date: 2005/12/22 15:39:45 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -497,7 +505,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				StringBuffer styleBuffer = new StringBuffer( );
 				AttributeBuilder.buildStyle( styleBuffer, report
-						.findStyle( reportStyleName ), this );
+						.findStyle( reportStyleName ), this, false );
 				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 			}
 
@@ -516,11 +524,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.attribute( HTMLTags.ATTR_TYPE, "text/css" ); //$NON-NLS-1$
 
 		// output general styles
-		writer.style(
-				"*", "text-decoration: none; vertical-align: baseline;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
+		writer.style( "*", "vertical-align: baseline;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
 		writer.style(
 				"table", "border-collapse: collapse; empty-cells: show;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
-		writer.style( ":link, :visited", "text-decoration: underline;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
 
 		IStyle style;
 		StringBuffer styleBuffer = new StringBuffer( );
@@ -536,7 +542,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				styleBuffer.delete( 0, styleBuffer.capacity( ) );
 				style = (IStyle) reportDesign.getStyle( n );
-				AttributeBuilder.buildStyle( styleBuffer, style, this );
+				AttributeBuilder.buildStyle( styleBuffer, style, this , false);
 				writer.style( Report.PREFIX_STYLE_NAME + n, styleBuffer
 						.toString( ), false );
 			}
@@ -680,10 +686,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void startPage( IPageContent page )
 	{
-		if (pageNo > 1 && outputMasterPageContent == false)
+		if ( pageNo > 1 && outputMasterPageContent == false )
 		{
-			writer.openTag("hr");
-			writer.closeTag("hr");
+			writer.openTag( "hr" );
+			writer.closeTag( "hr" );
 		}
 
 		writer.openTag( HTMLTags.TAG_DIV );
@@ -705,7 +711,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					.attribute( HTMLTags.ATTR_STYLE,
 							"page-break-before: always;" );
 		}
-		
+
 		if ( page != null )
 		{
 			if ( outputMasterPageContent )
@@ -1178,7 +1184,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// check 'can-shrink' property
 		handleShrink( display, mergedStyle, height, width, styleBuffer );
-		handleStyle( text, styleBuffer );
+		handleStyle( text, styleBuffer, false );
 
 		writer.text( textValue );
 
@@ -1237,7 +1243,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// check 'can-shrink' property
 		handleShrink( display, mergedStyle, height, width, styleBuffer );
-		handleStyle( foreign, styleBuffer );
+		handleStyle( foreign, styleBuffer, false );
 
 		Object rawValue = foreign.getRawValue( );
 		String rawType = foreign.getRawType( );
@@ -1246,16 +1252,176 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( isHtml )
 		{
-			text = text.replaceAll( "<[H|h][T|t][M|m][L|l]>", "" );
-			text = text.replaceAll( "</[H|h][T|t][M|m][L|l]>", "" );
-			text = text.replaceAll( "<[B|b][O|o][D|d][Y|y]>", "" );
-			text = text.replaceAll( "</[B|b][O|o][D|d][Y|y]>", "" );
+			Document doc = new TextParser( ).parse( text,
+					TextParser.TEXT_TYPE_HTML );
+			ReportDesignHandle design = (ReportDesignHandle) runnable
+					.getDesignHandle( );
+			HTMLProcessor htmlProcessor = new HTMLProcessor( design );
+
+			HashMap styleMap = new HashMap( );
+
+			Element body = null;
+			if ( doc != null )
+			{
+				NodeList bodys = doc.getElementsByTagName( "body" );
+				if ( bodys.getLength( ) > 0 )
+				{
+					body = (Element) bodys.item( 0 );
+				}
+			}
+			if ( body != null )
+			{
+				htmlProcessor.execute( body, styleMap );
+				processNodes( body, checkEscapeSpace( doc ), styleMap );
+			}
 		}
 
-		writer.text( text, !isHtml, !isHtml );
+		// writer.text( text, !isHtml, !isHtml );
 
 		writer.closeTag( tagName );
 
+	}
+
+	/**
+	 * Visits the children nodes of the specific node
+	 * 
+	 * @param visitor
+	 *            the ITextNodeVisitor instance
+	 * @param ele
+	 *            the specific node
+	 * @param needEscape
+	 *            the flag indicating the content needs escaping
+	 */
+	private void processNodes( Element ele, boolean needEscape,
+			HashMap cssStyles )
+	{
+		for ( Node node = ele.getFirstChild( ); node != null; node = node
+				.getNextSibling( ) )
+		{
+
+			// At present we only deal with the text and element nodes
+			if ( node.getNodeType( ) == Node.TEXT_NODE
+					|| node.getNodeType( ) == Node.ELEMENT_NODE )
+			{
+				if ( !node.getNodeName( ).equals( "#text" ) )
+				{
+					startNode( node, cssStyles );
+				}
+				if ( node.getNodeType( ) == Node.TEXT_NODE )
+				{
+					writeText( node.getNodeValue( ), needEscape );
+				}
+				else
+				{
+					processNodes( (Element) node, needEscape, cssStyles );
+				}
+				if ( !node.getNodeName( ).equals( "#text" ) )
+				{
+					endNode( node );
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Checks if the content inside the DOM should be escaped.
+	 * 
+	 * @param doc
+	 *            the root of the DOM tree
+	 * @return true if the content needs escaping, otherwise false.
+	 */
+	private boolean checkEscapeSpace( Node doc )
+	{
+		String textType = null;
+		if ( doc != null && doc.getFirstChild( ) != null
+				&& doc.getFirstChild( ) instanceof Element )
+		{
+			textType = ( (Element) doc.getFirstChild( ) )
+					.getAttribute( "text-type" ); //$NON-NLS-1$
+			return ( !TextParser.TEXT_TYPE_HTML.equalsIgnoreCase( textType ) );
+		}
+		return true;
+	}
+
+	public void startNode( Node node, HashMap cssStyles )
+	{
+		String nodeName = node.getNodeName( );
+		HashMap cssStyle = (HashMap) cssStyles.get( node );
+		writer.openTag( nodeName );
+		NamedNodeMap attributes = node.getAttributes( );
+		if ( attributes != null )
+		{
+			for ( int i = 0; i < attributes.getLength( ); i++ )
+			{
+				Node attribute = attributes.item( i );
+				String attrName = attribute.getNodeName( );
+				String attrValue = attribute.getNodeValue( );
+
+				if ( attrValue != null )
+				{
+					if ( "img".equalsIgnoreCase( nodeName )
+							&& "src".equalsIgnoreCase( attrName ) )
+					{
+						String attrValueTrue = handleStyleImage( attrValue );
+						if ( attrValueTrue != null )
+						{
+							attrValue = attrValueTrue;
+						}
+					}
+					writer.attribute( attrName, attrValue );
+				}
+			}
+		}
+		if ( cssStyle != null )
+		{
+			StringBuffer buffer = new StringBuffer( );
+			Iterator ite = cssStyle.entrySet( ).iterator( );
+			while ( ite.hasNext( ) )
+			{
+				Map.Entry entry = (Map.Entry) ite.next( );
+				Object keyObj = entry.getKey( );
+				Object valueObj = entry.getValue( );
+				if ( keyObj == null || valueObj == null )
+				{
+					continue;
+				}
+				String key = keyObj.toString( );
+				String value = valueObj.toString( );
+				buffer.append( key );
+				buffer.append( ":" );
+				if ( "background-image".equalsIgnoreCase( key ) )
+				{
+					String valueTrue = handleStyleImage( value );
+					if ( valueTrue != null )
+					{
+						value = valueTrue;
+					}
+					buffer.append( "url(" );
+					buffer.append( value );
+					buffer.append( ")" );
+				}
+				else
+				{
+					buffer.append( value.replaceAll( " ", "" ) );
+				}
+				buffer.append( ";" );
+			}
+			if ( buffer.length( ) != 0 )
+			{
+				writer.attribute( "style", buffer.toString( ) );
+			}
+		}
+	}
+
+	public void endNode( Node node )
+	{
+		writer.closeTag( node.getNodeName( ) );
+	}
+
+	public void writeText( String text, boolean needEscape )
+	{
+		writer.text( text, needEscape );
 	}
 
 	/*
@@ -1371,7 +1537,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT,
 					image.getHeight( ) ); //$NON-NLS-1$
 			// handle style
-			handleStyle( image, styleBuffer );
+			handleStyle( image, styleBuffer, false );
 
 			if ( ".PNG".equalsIgnoreCase( ext ) && imageHandler != null ) //$NON-NLS-1$
 			{
@@ -1837,18 +2003,36 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * @param styleBuffer
 	 *            the StringBuffer instance
 	 */
-	protected void handleStyle( IContent element, StringBuffer styleBuffer )
+	protected void handleStyle( IContent element, StringBuffer styleBuffer,
+			boolean bContainer )
 	{
+		IStyle style;
 		if ( isEmbeddable )
 		{
-			AttributeBuilder
-					.buildStyle( styleBuffer, element.getStyle( ), this );
+			style = element.getStyle( );
 		}
 		else
 		{
-			AttributeBuilder.buildStyle( styleBuffer,
-					element.getInlineStyle( ), this );
+			style = element.getInlineStyle( );
 		}
+		AttributeBuilder.buildStyle( styleBuffer, style, this, bContainer );
+
+		// output in-line style
+		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+	}
+
+	protected void handleStyle( IContent element, StringBuffer styleBuffer )
+	{
+		IStyle style;
+		if ( isEmbeddable )
+		{
+			style = element.getStyle( );
+		}
+		else
+		{
+			style = element.getInlineStyle( );
+		}
+		AttributeBuilder.buildStyle( styleBuffer, style, this, true );
 
 		// output in-line style
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );

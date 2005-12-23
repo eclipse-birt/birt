@@ -25,14 +25,13 @@ import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
-import org.eclipse.birt.report.model.api.IncludeScriptHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.css.CSSStyleDeclaration;
 
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.25 $ $Date: 2005/12/07 02:36:08 $
+ * @version $Revision: 1.26 $ $Date: 2005/12/21 10:05:17 $
  */
 public class Report
 {
@@ -452,66 +451,6 @@ public class Report
 			}
 		}
 		return configs;
-	}
-
-	public String getAfterCloseDoc( )
-	{
-		return reportDesign.getAfterCloseDoc( );
-	}
-
-	public String getAfterFactory( )
-	{
-		return reportDesign.getAfterFactory( );
-	}
-
-	public String getAfterOpenDoc( )
-	{
-		return reportDesign.getAfterOpenDoc( );
-	}
-
-	public String getAfterRender( )
-	{
-		return reportDesign.getAfterRender( );
-	}
-
-	public String getBeforeCloseDoc( )
-	{
-		return reportDesign.getBeforeCloseDoc( );
-	}
-
-	public String getBeforeFactory( )
-	{
-		return reportDesign.getBeforeFactory( );
-	}
-
-	public String getBeforeOpenDoc( )
-	{
-		return reportDesign.getBeforeOpenDoc( );
-	}
-
-	public String getBeforeRender( )
-	{
-		return reportDesign.getBeforeRender( );
-	}
-
-	public List getIncludeScripts( )
-	{
-		ArrayList includes = new ArrayList( );
-		Iterator iter = reportDesign.includeScriptsIterator( );
-		if ( iter != null )
-		{
-			while ( iter.hasNext( ) )
-			{
-				IncludeScriptHandle handle = (IncludeScriptHandle) iter.next( );
-				includes.add( handle.getFileName( ) );
-			}
-		}
-		return includes;
-	}
-
-	public String getInitialize( )
-	{
-		return reportDesign.getInitialize( );
 	}
 
 	/**

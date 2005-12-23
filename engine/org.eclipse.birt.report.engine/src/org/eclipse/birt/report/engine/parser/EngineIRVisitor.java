@@ -138,7 +138,19 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.68 $ $Date: 2005/12/20 06:48:35 $
+ * <p>
+ * special consideration in styles
+ * <p>
+ * BIRT uses a simlar style mode with CSS, but not exactly the same. The main
+ * differences are:
+ * <li> text-decoration is not inheraible which simplify the CSS standard. This
+ * rules makes text-decroation are usless for all the containers. As the HTML
+ * treat the text-decoration inheritable in block-level element, the ENGINE must
+ * remove the text-decoration from the container's styles.
+ * <li> BIRT doesn't define the body style, it uses a predefined style "report"
+ * as the default style.
+ * 
+ * @version $Revision: 1.69 $ $Date: 2005/12/21 10:05:18 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -223,11 +235,9 @@ class EngineIRVisitor extends DesignVisitor
 			report.setBasePath( handle.getBase( ) );
 		}
 		defaultUnit = report.getUnit( );
-		
-		
-		setupNamedExpressions( handle, 
-				report.getNamedExpressions( ) );
-		
+
+		setupNamedExpressions( handle, report.getNamedExpressions( ) );
+
 		// INCLUDE LIBRARY
 		// INCLUDE SCRIPT
 		// CODE MODULES
@@ -290,24 +300,27 @@ class EngineIRVisitor extends DesignVisitor
 
 	/**
 	 * setup the named expression map
+	 * 
 	 * @param userProperties
-	 * 			user defined named expressions in design file
+	 *            user defined named expressions in design file
 	 * @param namedExpressions
-	 *  		the data structure that hold named expressions
+	 *            the data structure that hold named expressions
 	 */
-	private void setupNamedExpressions( DesignElementHandle handle, Map namedExpressions )
+	private void setupNamedExpressions( DesignElementHandle handle,
+			Map namedExpressions )
 	{
 		List userProperties = handle.getUserProperties( );
-		if( userProperties == null || namedExpressions == null )
-			return ;
-		for(int i=0; i<userProperties.size(); i++)
+		if ( userProperties == null || namedExpressions == null )
+			return;
+		for ( int i = 0; i < userProperties.size( ); i++ )
 		{
-			UserPropertyDefn userDef = (UserPropertyDefn)userProperties.get( i );
-			if( userDef.getTypeCode() == IPropertyType.EXPRESSION_TYPE)
+			UserPropertyDefn userDef = (UserPropertyDefn) userProperties
+					.get( i );
+			if ( userDef.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE )
 			{
 				String name = userDef.getName( );
-				String exprString = handle.getStringProperty ( name );
-				if( exprString != null && !exprString.equals( "" ) )
+				String exprString = handle.getStringProperty( name );
+				if ( exprString != null && !exprString.equals( "" ) )
 				{
 					Expression expression = new Expression( exprString );
 					namedExpressions.put( name, expression );
@@ -315,6 +328,7 @@ class EngineIRVisitor extends DesignVisitor
 			}
 		}
 	}
+
 	/**
 	 * setup the master page object from the base master page handle.
 	 * 
@@ -396,8 +410,8 @@ class EngineIRVisitor extends DesignVisitor
 
 		page.setHeaderHeight( createDimension( handle.getHeaderHeight( ) ) );
 		page.setFooterHeight( createDimension( handle.getFooterHeight( ) ) );
-		page.setShowFooterOnLast(handle.showFooterOnLast());
-		page.setShowHeaderOnFirst(handle.showFooterOnLast());
+		page.setShowFooterOnLast( handle.showFooterOnLast( ) );
+		page.setShowHeaderOnFirst( handle.showFooterOnLast( ) );
 		SlotHandle headerSlot = handle.getPageHeader( );
 		for ( int i = 0; i < headerSlot.getCount( ); i++ )
 		{
@@ -905,6 +919,36 @@ class EngineIRVisitor extends DesignVisitor
 		currentElement = row;
 	}
 
+	private boolean isContainer( ReportElementHandle handle )
+	{
+		if ( handle instanceof TextItemHandle )
+		{
+			return false;
+		}
+		if ( handle instanceof DataItemHandle )
+		{
+			return false;
+		}
+		if ( handle instanceof LabelHandle )
+		{
+			return false;
+		}
+		if ( handle instanceof TextDataHandle )
+		{
+			return false;
+		}
+		if ( handle instanceof ExtendedItemHandle )
+		{
+			return false;
+		}
+		if ( handle instanceof ImageHandle )
+		{
+			return false;
+		}
+		return true;
+
+	}
+
 	/**
 	 * Sets up cell element's style attribute.
 	 * 
@@ -919,7 +963,8 @@ class EngineIRVisitor extends DesignVisitor
 		// Styled element is a report element
 		setupReportElement( design, handle );
 
-		StyleDeclaration style = createPrivateStyle( handle );
+		StyleDeclaration style = createPrivateStyle( handle,
+				isContainer( handle ) );
 		if ( style != null && !style.isEmpty( ) )
 		{
 			design.setStyleName( assignStyleName( style ) );
@@ -1060,12 +1105,6 @@ class EngineIRVisitor extends DesignVisitor
 	{
 		// name
 		group.setName( handle.getName( ) );
-		// on-start
-		group.setOnStart( handle.getOnFinish( ) );
-		// on-row
-		group.setOnRow( handle.getOnRow( ) );
-		// on-finish
-		group.setOnFinish( handle.getOnFinish( ) );
 	}
 
 	/**
@@ -1211,10 +1250,9 @@ class EngineIRVisitor extends DesignVisitor
 				properties.put( name, value );
 			}
 		}
-		
-		setupNamedExpressions( handle, 
-				element.getNamedExpressions( ) );
-		
+
+		setupNamedExpressions( handle, element.getNamedExpressions( ) );
+
 		setupElementIDMap( element );
 	}
 
@@ -1258,7 +1296,7 @@ class EngineIRVisitor extends DesignVisitor
 			action.setDrillThrough( drillThrough );
 
 			drillThrough.setReportName( handle.getReportName( ) );
-			drillThrough.setFormat(handle.getFormatType());
+			drillThrough.setFormat( handle.getFormatType( ) );
 			drillThrough.setBookmark( createExpression( handle
 					.getTargetBookmark( ) ) );
 			Map params = new HashMap( );
@@ -1539,6 +1577,12 @@ class EngineIRVisitor extends DesignVisitor
 
 	protected StyleDeclaration createPrivateStyle( ReportElementHandle handle )
 	{
+		return createPrivateStyle( handle, true );
+	}
+
+	protected StyleDeclaration createPrivateStyle( ReportElementHandle handle,
+			boolean isContainer )
+	{
 		// Background
 		StyleDeclaration style = new StyleDeclaration( cssEngine );
 
@@ -1561,14 +1605,16 @@ class EngineIRVisitor extends DesignVisitor
 				.setTextIndent( getElementProperty( handle,
 						Style.TEXT_INDENT_PROP ) );
 
-		style.setTextUnderline( getElementProperty( handle,
-				Style.TEXT_UNDERLINE_PROP ) );
+		if ( !isContainer )
+		{
+			style.setTextUnderline( getElementProperty( handle,
+					Style.TEXT_UNDERLINE_PROP ) );
 
-		style.setTextLineThrough( getElementProperty( handle,
-				Style.TEXT_LINE_THROUGH_PROP ) );
-		style.setTextOverline( getElementProperty( handle,
-				Style.TEXT_OVERLINE_PROP ) );
-
+			style.setTextLineThrough( getElementProperty( handle,
+					Style.TEXT_LINE_THROUGH_PROP ) );
+			style.setTextOverline( getElementProperty( handle,
+					Style.TEXT_OVERLINE_PROP ) );
+		}
 		style.setLetterSpacing( getElementProperty( handle,
 				Style.LETTER_SPACING_PROP ) );
 		style
@@ -1712,7 +1758,7 @@ class EngineIRVisitor extends DesignVisitor
 				HighlightRule.TEXT_INDENT_MEMBER ) );
 		style.setTextUnderline( getMemberProperty( highlight,
 				Style.TEXT_UNDERLINE_PROP ) );
-		style.setTextLineThrough( getMemberProperty( highlight, 
+		style.setTextLineThrough( getMemberProperty( highlight,
 				Style.TEXT_LINE_THROUGH_PROP ) );
 		style.setTextOverline( getMemberProperty( highlight,
 				Style.TEXT_OVERLINE_PROP ) );
@@ -2065,9 +2111,9 @@ class EngineIRVisitor extends DesignVisitor
 
 		return contentStyle;
 	}
-	
+
 	private void setupElementIDMap( ReportElementDesign rptElement )
 	{
-		report.setReportItemInstanceID(rptElement.getID(), rptElement);
+		report.setReportItemInstanceID( rptElement.getID( ), rptElement );
 	}
 }

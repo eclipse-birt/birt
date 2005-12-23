@@ -36,7 +36,7 @@ import org.w3c.tidy.Tidy;
  * that need to be processed to output are the descendant nodes of "body" node.
  * <p>
  * 
- * @version $Revision: 1.6 $ $Date: 2005/05/12 07:18:53 $
+ * @version $Revision: 1.7 $ $Date: 2005/07/25 09:06:42 $
  */
 public class HTMLTextParser
 {
@@ -75,7 +75,6 @@ public class HTMLTextParser
 		//		supportedTags.add( "html" );
 		supportedTags.add( "hr" ); //$NON-NLS-1$
 		supportedTags.add( "i" ); //$NON-NLS-1$
-		supportedTags.add( "image" ); //$NON-NLS-1$
 		supportedTags.add( "img" ); //$NON-NLS-1$
 		supportedTags.add( "ins" ); //$NON-NLS-1$
 		supportedTags.add( "li" ); //$NON-NLS-1$
@@ -90,7 +89,6 @@ public class HTMLTextParser
 		supportedTags.add( "ul" ); //$NON-NLS-1$
 		supportedTags.add( "tt" ); //$NON-NLS-1$
 		supportedTags.add( "u" ); //$NON-NLS-1$
-		supportedTags.add( "value-of" ); //$NON-NLS-1$
 	}
 	/** For heading level */
 	private static Pattern hn = Pattern.compile( "h[\\d]" ); //$NON-NLS-1$
@@ -185,31 +183,6 @@ public class HTMLTextParser
 		return null;
 	}
 
-	private void copyValueOf(Node srcNode, Node destNode) {
-		assert "value-of".equals(srcNode.getNodeName());
-		assert "value-of".equals(destNode.getNodeName());
-
-		StringBuffer buffer = new StringBuffer();
-		extractTextValue(srcNode, buffer);
-		Text txtNode = destNode.getOwnerDocument().createTextNode(
-				buffer.toString());
-		destNode.appendChild(txtNode);
-	}
-
-	private void extractTextValue(Node srcNode, StringBuffer buffer) {
-		assert srcNode != null && buffer != null;
-
-		if (srcNode.getNodeType() == Node.TEXT_NODE
-				|| srcNode.getNodeType() == Node.CDATA_SECTION_NODE) {
-			buffer.append(srcNode.getNodeValue());
-		} else {
-			for (Node child = srcNode.getFirstChild(); child != null; child = child
-					.getNextSibling()) {
-				extractTextValue(child, buffer);
-			}
-		}
-	}
-
 	/**
 	 * Remove the unsupported tags and convert the JTidy DOM tree to W3C DOM
 	 * tree recursively.
@@ -269,11 +242,8 @@ public class HTMLTextParser
 					}
 
 					desNode.appendChild(ele);
-					if ("value-of".equals(child.getNodeName())) {
-						copyValueOf(child, ele);
-					} else {
+					
 						copyNode(child, ele);
-					}
 				} else {
 					copyNode(child, desNode);
 				}

@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -28,6 +30,8 @@ import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.ImageScriptExecutor;
 import org.eclipse.birt.report.engine.util.FileUtil;
+import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 
 /**
@@ -56,7 +60,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.28 $ $Date: 2005/12/03 02:01:49 $
+ * @version $Revision: 1.29 $ $Date: 2005/12/03 05:34:28 $
  */
 public class ImageItemExecutor extends QueryItemExecutor
 {
@@ -300,36 +304,32 @@ public class ImageItemExecutor extends QueryItemExecutor
 	{
 
 		// image file may be file: or a file path.
-		try
+		ReportDesignHandle reportDesign = context.getDesign( );
+		if ( reportDesign != null )
 		{
-			URL url = new URL( imageFile );
-			if ( url.getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
+			URL url = reportDesign.findResource( imageFile,
+					IResourceLocator.IMAGE );
+			if ( url != null )
 			{
 				try
 				{
-					imageFile = URLDecoder.decode( url.getFile( ), "UTF-8" );
+					URI uri = new URI( url.toExternalForm( ) );
+					File file = new File( uri );
+					imageFile = file.getAbsolutePath( );
 				}
-				catch ( Exception ex )
+				catch ( URISyntaxException x )
 				{
-					imageFile = url.getFile( );
 				}
 			}
 		}
-		catch ( MalformedURLException ex )
-		{
-			// imageFile is a file name
-		}
 
-		imageFile = FileUtil.getAbsolutePath( context.getReport( )
-				.getBasePath( ), imageFile );
-		imageContent.setExtension( FileUtil.getExtFromFileName( imageFile,
-				FileUtil.SEPARATOR_PATH ) );
 		// Here uses the absolute file name as the URI for the image
 		// resource. The content of the file is loaded lazily to
-		// improve
-		// the performance.
+		// improve the performance.
 		imageContent.setURI( imageFile );
 		imageContent.setImageSource( IImageContent.IMAGE_FILE );
+		imageContent.setExtension( FileUtil.getExtFromFileName( imageFile,
+				FileUtil.SEPARATOR_PATH ) );
 
 		if ( imageFile == null )
 		{

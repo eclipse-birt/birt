@@ -17,20 +17,14 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * used by ListItem and TableItem.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
  */
 public class GroupDesign
 {
-    
-
 	/**
 	 * group expression
 	 */
 	protected String name;
-
-	protected String onStart;
-	protected String onRow;
-	protected String onFinish;
 
 	/**
 	 * @return Returns the name.
@@ -46,48 +40,5 @@ public class GroupDesign
 	{
 		this.name = name;
 	}
-	/**
-	 * @return Returns the onFinish.
-	 */
-	public String getOnFinish( )
-	{
-		return onFinish;
-	}
-	/**
-	 * @param onFinish The onFinish to set.
-	 */
-	public void setOnFinish( String onFinish )
-	{
-		this.onFinish = onFinish;
-	}
-	/**
-	 * @return Returns the onRow.
-	 */
-	public String getOnRow( )
-	{
-		return onRow;
-	}
-	/**
-	 * @param onRow The onRow to set.
-	 */
-	public void setOnRow( String onRow )
-	{
-		this.onRow = onRow;
-	}
-	/**
-	 * @return Returns the onStart.
-	 */
-	public String getOnStart( )
-	{
-		return onStart;
-	}
-	/**
-	 * @param onStart The onStart to set.
-	 */
-	public void setOnStart( String onStart )
-	{
-		this.onStart = onStart;
-	}
-
 	
 }

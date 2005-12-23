@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.19 $ $Date: 2005/11/18 03:36:54 $
+ * @version $Revision: 1.20 $ $Date: 2005/11/18 06:11:27 $
  */
 public class AttributeBuilder
 {
@@ -56,16 +56,19 @@ public class AttributeBuilder
 	 *            The <code>HTMLReportEmitter</code> object which provides
 	 *            resource manager and hyperlink builder objects for
 	 *            background-image property.
+	 * @param bContainer
+	 *            true: it is the container, we shouldn't output the
+	 *            text-decoration.
 	 */
 	public static void buildStyle( StringBuffer content, IStyle style,
-			HTMLReportEmitter emitter )
+			HTMLReportEmitter emitter, boolean bContainer )
 	{
 		if ( style == null )
 		{
 			return;
 		}
 		buildFont( content, style );
-		buildText( content, style );
+		buildText( content, style, bContainer );
 		buildBox( content, style );
 		buildBackground( content, style, emitter );
 		buildPagedMedia( content, style );
@@ -74,6 +77,12 @@ public class AttributeBuilder
 		/*
 		 * style.getNumberAlign(); style.getID(); style.getName();
 		 */
+	}
+
+	public static void buildStyle( StringBuffer content, IStyle style,
+			HTMLReportEmitter emitter )
+	{
+		buildStyle( content, style, emitter, true );
 	}
 
 	/**
@@ -210,15 +219,21 @@ public class AttributeBuilder
 	 *            The <code>StringBuffer</code> to which the result is output.
 	 * @param style
 	 *            The style object.
+	 * @param bContainer
+	 *            true: shouldn't output the text-decoration.
 	 */
-	private static void buildText( StringBuffer content, IStyle style )
+	private static void buildText( StringBuffer content, IStyle style,
+			boolean bContainer )
 	{
 		buildProperty( content, HTMLTags.ATTR_TEXT_INDENT, style
 				.getTextIndent( ) );
 		buildProperty( content, HTMLTags.ATTR_TEXT_ALIGN, style.getTextAlign( ) );
 
-		buildTextDecoration( content, style.getTextLineThrough( ), style
-				.getTextUnderline( ), style.getTextOverline( ) );
+		if ( !bContainer )
+		{
+			buildTextDecoration( content, style.getTextLineThrough( ), style
+					.getTextUnderline( ), style.getTextOverline( ) );
+		}
 
 		buildProperty( content, HTMLTags.ATTR_LETTER_SPACING, style
 				.getLetterSpacing( ) );
