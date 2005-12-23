@@ -167,6 +167,18 @@ public class WebViewer
 	 */
 	public static void display( String report, String format )
 	{
+		display( report, format, true );
+	}
+
+	/**
+	 * Displays the specified url.
+	 * 
+	 * @param report
+	 * @param format
+	 * @param allowPage
+	 */
+	public static void display( String report, String format, boolean allowPage )
+	{
 		startWebApp( );
 		String root = null;
 
@@ -176,7 +188,7 @@ public class WebViewer
 		}
 		else
 		{
-			root = createURL( "frameset", report, format ); //$NON-NLS-1$
+			root = createURL( allowPage ? "frameset" : "run", report, format ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		try
