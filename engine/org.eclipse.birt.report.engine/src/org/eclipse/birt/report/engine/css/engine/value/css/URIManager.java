@@ -28,7 +28,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
  * Complete Class Desc
  * 
  * @author <a href="mailto:deweese@apache.org">l449433</a>
- * @version $Id: URIManager.java,v 1.2 2005/11/18 03:37:09 thuang Exp $
+ * @version $Id: URIManager.java,v 1.3 2005/11/22 09:59:56 wyan Exp $
  */
 public class URIManager extends IdentifierManager
 {
@@ -93,7 +93,8 @@ public class URIManager extends IdentifierManager
 					.getStringValue( ) );
 			return new URIValue( lu.getStringValue( ), uri );
 		}
-		return super.createValue( lu, engine );
+		return createStringValue( lu.getLexicalUnitType( ),
+				lu.getStringValue( ), engine );
 	}
 
 	/*
