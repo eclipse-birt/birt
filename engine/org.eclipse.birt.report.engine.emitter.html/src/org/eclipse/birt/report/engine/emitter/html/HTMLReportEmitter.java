@@ -94,7 +94,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.61 $ $Date: 2005/12/22 15:39:45 $
+ * @version $Revision: 1.62 $ $Date: 2005/12/23 06:37:47 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -542,7 +542,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				styleBuffer.delete( 0, styleBuffer.capacity( ) );
 				style = (IStyle) reportDesign.getStyle( n );
-				AttributeBuilder.buildStyle( styleBuffer, style, this , false);
+				AttributeBuilder.buildStyle( styleBuffer, style, this, false );
 				writer.style( Report.PREFIX_STYLE_NAME + n, styleBuffer
 						.toString( ), false );
 			}
@@ -1019,14 +1019,22 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				writer.attribute( HTMLTags.ATTR_ROWSPAN, cell.getRowSpan( ) );
 			}
 
-			IStyle mergedStyle = cell.getStyle( );
+			// vertical align can only be used with tabelCell/Inline Element
 			StringBuffer styleBuffer = new StringBuffer( );
-			if ( isEmbeddable
-					&& ( mergedStyle == null || mergedStyle.getVerticalAlign( ) == null ) )
+			IStyle mergedStyle = cell.getStyle( );
+			String vAlign = null;
+			if ( mergedStyle != null )
 			{
-				styleBuffer.append( "vertical-align: baseline;" ); //$NON-NLS-1$
+				vAlign = mergedStyle.getVerticalAlign( );
 			}
-
+			if ( vAlign == null )
+			{
+				IStyle cs = cell.getComputedStyle( );
+				vAlign = cs.getVerticalAlign( );
+				styleBuffer.append( "vertical-align: " );
+				styleBuffer.append( vAlign );
+				styleBuffer.append( ";" );
+			}
 			handleStyle( cell, styleBuffer );
 		}
 		else
