@@ -10,13 +10,11 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.script.internal;
 
-import java.util.logging.Level;
-
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
 import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
-import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDataSetEventHandler;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.script.internal.instance.DataSetInstance;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.mozilla.javascript.Scriptable;
@@ -32,9 +30,9 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 	protected IDataSetEventHandler eventHandler;
 
 	public DataSetScriptExecutor( DataSetHandle dataSetHandle,
-			IReportContext reportContext )
+			ExecutionContext context )
 	{
-		super( reportContext );
+		super( context );
 		this.dataSetHandle = dataSetHandle;
 		String className = dataSetHandle.getEventHandlerClass( );
 		initEventHandler( className );
@@ -46,10 +44,11 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 		{
 			try
 			{
-				eventHandler = ( IDataSetEventHandler ) getInstance( className );
+				eventHandler = ( IDataSetEventHandler ) getInstance( className,
+						context );
 			} catch ( Exception e )
 			{
-				log.log( Level.WARNING, e.getMessage( ), e );
+				addException( context, e );
 			}
 		}
 	}
@@ -70,7 +69,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 						reportContext );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -90,7 +89,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 						reportContext );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -110,8 +109,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 						reportContext );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
-
+			addException( context, e );
 		}
 	}
 
@@ -130,8 +128,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 				eventHandler.afterClose( reportContext );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
-
+			addException( context, e );
 		}
 	}
 
@@ -150,8 +147,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 						new DataSetRow( row ), reportContext );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
-
+			addException( context, e );
 		}
 	}
 

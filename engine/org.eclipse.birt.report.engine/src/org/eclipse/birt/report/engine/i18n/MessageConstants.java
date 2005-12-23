@@ -54,6 +54,13 @@ public class MessageConstants
 	public static final String	REPORT_ERROR_MESSAGE = "Error.ReportErrorMessage"; //$NON-NLS-1$
 	public static final String	REPORT_ERROR_ID = "Error.ReportErrorID";
 	public static final String	REPORT_ERROR_DETAIL = "Error.ReportErrorDetail";
+	
+	public static final String  SCRIPT_CLASS_CAST_ERROR = "Error.ScriptClassCastError";	//$NON-NLS-1$
+	public static final String  SCRIPT_CLASS_NOT_FOUND_ERROR = "Error.ScriptClassNotFoundError";//$NON-NLS-1$
+	public static final String  SCRIPT_CLASS_ILLEGAL_ACCESS_ERROR = "Error.ScriptClassIllegalAccessError";//$NON-NLS-1$
+	public static final String  SCRIPT_CLASS_INSTANTIATION_ERROR = "Error.ScriptClassInstantiationError";	//$NON-NLS-1$
+	public static final String  UNHANDLED_SCRIPT_ERROR = "Error.UnhandledScriptError";//$NON-NLS-1$
+
 }
 
 

@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
-import java.util.logging.Level;
-
 import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.api.script.element.ICell;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ICellEventHandler;
@@ -35,12 +33,12 @@ public class CellScriptExecutor extends ScriptExecutor
 			ICell cell = new Cell( cellHandle );
 			if ( handleJS( cell, cellHandle.getOnPrepare( ), context ).didRun( ) )
 				return;
-			ICellEventHandler eh = ( ICellEventHandler ) getInstance( cellHandle );
+			ICellEventHandler eh = getEventHandler( cellHandle, context );
 			if ( eh != null )
 				eh.onPrepare( cell, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -54,17 +52,13 @@ public class CellScriptExecutor extends ScriptExecutor
 			ICellInstance cell = new CellInstance( content, context );
 			if ( handleJS( cell, cellDesign.getOnCreate( ), context ).didRun( ) )
 				return;
-			CellHandle handle = ( CellHandle ) cellDesign.getHandle( );
-			if ( handle != null )
-			{
-				ICellEventHandler eh = ( ICellEventHandler ) getInstance( ( CellHandle ) cellDesign
-						.getHandle( ) );
-				if ( eh != null )
-					eh.onCreate( cell, rowData, context.getReportContext( ) );
-			}
+			ICellEventHandler eh = getEventHandler( cellDesign, context );
+			if ( eh != null )
+				eh.onCreate( cell, rowData, context.getReportContext( ) );
+
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -78,13 +72,35 @@ public class CellScriptExecutor extends ScriptExecutor
 			ICellInstance cell = new CellInstance( content, context );
 			if ( handleJS( cell, cellDesign.getOnRender( ), context ).didRun( ) )
 				return;
-			ICellEventHandler eh = ( ICellEventHandler ) getInstance( ( CellHandle ) cellDesign
-					.getHandle( ) );
+			ICellEventHandler eh = getEventHandler( cellDesign, context );
 			if ( eh != null )
 				eh.onRender( cell, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
+	}
+
+	private static ICellEventHandler getEventHandler( ReportItemDesign design,
+			ExecutionContext context )
+	{
+		CellHandle handle = ( CellHandle ) design.getHandle( );
+		if ( handle == null )
+			return null;
+		return getEventHandler( handle, context );
+	}
+
+	private static ICellEventHandler getEventHandler( CellHandle handle,
+			ExecutionContext context )
+	{
+		ICellEventHandler eh = null;
+		try
+		{
+			eh = ( ICellEventHandler ) getInstance( handle, context );
+		} catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, handle.getEventHandlerClass( ), ICellEventHandler.class );
+		}
+		return eh;
 	}
 }

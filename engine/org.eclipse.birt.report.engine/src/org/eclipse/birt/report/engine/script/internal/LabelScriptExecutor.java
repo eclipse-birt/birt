@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
-import java.util.logging.Level;
-
 import org.eclipse.birt.report.engine.api.script.element.ILabel;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ILabelEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.ILabelInstance;
@@ -34,12 +32,12 @@ public class LabelScriptExecutor extends ScriptExecutor
 			if ( handleJS( label, labelHandle.getOnPrepare( ), context )
 					.didRun( ) )
 				return;
-			ILabelEventHandler eh = ( ILabelEventHandler ) getInstance( labelHandle );
+			ILabelEventHandler eh = getEventHandler( labelHandle, context );
 			if ( eh != null )
 				eh.onPrepare( label, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -54,13 +52,12 @@ public class LabelScriptExecutor extends ScriptExecutor
 			if ( handleJS( label, labelDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
-			ILabelEventHandler eh = ( ILabelEventHandler ) getInstance( ( LabelHandle ) labelDesign
-					.getHandle( ) );
+			ILabelEventHandler eh = getEventHandler( labelDesign, context );
 			if ( eh != null )
 				eh.onCreate( label, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -75,13 +72,36 @@ public class LabelScriptExecutor extends ScriptExecutor
 			if ( handleJS( label, labelDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
-			ILabelEventHandler eh = ( ILabelEventHandler ) getInstance( ( LabelHandle ) labelDesign
-					.getHandle( ) );
+			ILabelEventHandler eh = getEventHandler( labelDesign, context );
 			if ( eh != null )
 				eh.onRender( label, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
+	}
+
+	private static ILabelEventHandler getEventHandler( ReportItemDesign design,
+			ExecutionContext context )
+	{
+		LabelHandle handle = ( LabelHandle ) design.getHandle( );
+		if ( handle == null )
+			return null;
+		return getEventHandler( handle, context );
+	}
+
+	private static ILabelEventHandler getEventHandler( LabelHandle handle,
+			ExecutionContext context )
+	{
+		ILabelEventHandler eh = null;
+		try
+		{
+			eh = ( ILabelEventHandler ) getInstance( handle, context );
+		} catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, handle.getEventHandlerClass( ),
+					ILabelEventHandler.class );
+		}
+		return eh;
 	}
 }

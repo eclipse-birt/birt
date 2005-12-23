@@ -52,7 +52,7 @@ import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSourceEventHandler;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.script.internal.DataSetScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.DataSourceScriptExecutor;
@@ -78,62 +78,64 @@ import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * An adapter class that creates data engine API interface objects from
- * the model.api objects for data set and data source definition.
+ * An adapter class that creates data engine API interface objects from the
+ * model.api objects for data set and data source definition.
  * 
- * The user of this adaptor can optionally provide an associated IReportContext
- * object and a Javascript scope. IReportContext is used to provide a context
- * for executing data source and data set event handlers. The Javascript
- * scope is used to evaluate data source and data set binding expressions. If a scope
- * is not provided, data source and data set bindings will not take effect. 
+ * The user of this adaptor can optionally provide an associated ExecutionContext
+ * object and a Javascript scope. ExecutionContext is used to provide a context
+ * for executing data source and data set event handlers. The Javascript scope
+ * is used to evaluate data source and data set binding expressions. If a scope
+ * is not provided, data source and data set bindings will not take effect.
  */
 public class ModelDteApiAdapter
 {
-	private IReportContext reportContext;
+	private ExecutionContext context;
+
 	private Scriptable jsScope;
-	
+
 	/**
 	 * @deprecated Construct an instance of this class directly
 	 */
 	public static ModelDteApiAdapter getInstance( )
 	{
-		return new ModelDteApiAdapter();
+		return new ModelDteApiAdapter( );
 	}
 
 	/**
 	 * @deprecated use createDataSourceDesign( dataSource )
 	 */
-	public IBaseDataSourceDesign createDataSourceDesign( DataSourceHandle dataSource, IReportContext context )
-		throws EngineException
+	public IBaseDataSourceDesign createDataSourceDesign(
+			DataSourceHandle dataSource, ExecutionContext context )
+			throws EngineException
 	{
 		try
 		{
-			ModelDteApiAdapter tmpAdaptor = new ModelDteApiAdapter( context, null );
+			ModelDteApiAdapter tmpAdaptor = new ModelDteApiAdapter( context,
+					null );
 			return tmpAdaptor.createDataSourceDesign( dataSource );
-		}
-		catch (BirtException  e) 
+		} catch ( BirtException e )
 		{
-			throw new EngineException( e.getLocalizedMessage() );
+			throw new EngineException( e.getLocalizedMessage( ) );
 		}
 	}
 
 	/**
 	 * @deprecated use createDataSetDesign( dataSource )
 	 */
-	public IBaseDataSetDesign createDataSetDesign( DataSetHandle dataSet, IReportContext context )
-		throws EngineException
+	public IBaseDataSetDesign createDataSetDesign( DataSetHandle dataSet,
+			ExecutionContext context ) throws EngineException
 	{
 		try
 		{
-			ModelDteApiAdapter tmpAdaptor = new ModelDteApiAdapter( context, null );
+			ModelDteApiAdapter tmpAdaptor = new ModelDteApiAdapter( context,
+					null );
 			return tmpAdaptor.createDataSetDesign( dataSet );
-		}
-		catch (BirtException  e) 
+		} catch ( BirtException e )
 		{
-			throw new EngineException( e.getLocalizedMessage() );
+			throw new EngineException( e.getLocalizedMessage( ) );
 		}
 	}
-	
+
 	/**
 	 * Default constructor. Constructs an adaptor which uses no associated
 	 * Javascript scope and no report context.
@@ -141,33 +143,34 @@ public class ModelDteApiAdapter
 	public ModelDteApiAdapter( )
 	{
 	}
-	
+
 	/**
 	 * Constructs an instance with the given report context and scope
 	 * 
-	 * @param reportContext
+	 * @param context
 	 *            Context for event handlers. May be null
 	 * @param jsScope
 	 *            Scope for evaluting property binding expressions. If null,
 	 *            property bindings have no effect
 	 */
-	public ModelDteApiAdapter( IReportContext reportContext, Scriptable jsScope )
+	public ModelDteApiAdapter( ExecutionContext context, Scriptable jsScope )
 	{
-		this.reportContext = reportContext;
+		this.context = context;
 		this.jsScope = jsScope;
 	}
 
 	/**
-	 * Adapts the specified Model Data Source to a Data Engine API data source design object
+	 * Adapts the specified Model Data Source to a Data Engine API data source
+	 * design object
 	 */
-	public IBaseDataSourceDesign createDataSourceDesign( DataSourceHandle dataSource )
-			throws BirtException
+	public IBaseDataSourceDesign createDataSourceDesign(
+			DataSourceHandle dataSource ) throws BirtException
 	{
 		if ( dataSource instanceof OdaDataSourceHandle )
-			return newExtendedDataSource( ( OdaDataSourceHandle ) dataSource);
+			return newExtendedDataSource( ( OdaDataSourceHandle ) dataSource );
 
 		if ( dataSource instanceof ScriptDataSourceHandle )
-			return newScriptDataSource( ( ScriptDataSourceHandle ) dataSource);
+			return newScriptDataSource( ( ScriptDataSourceHandle ) dataSource );
 
 		// any other types are not supported
 		assert false;
@@ -175,18 +178,19 @@ public class ModelDteApiAdapter
 	}
 
 	/**
-	 * Adapts the specified Model Data Set to a Data Engine API data set design object
+	 * Adapts the specified Model Data Set to a Data Engine API data set design
+	 * object
 	 */
-	public IBaseDataSetDesign createDataSetDesign( DataSetHandle dataSet ) 
+	public IBaseDataSetDesign createDataSetDesign( DataSetHandle dataSet )
 			throws BirtException
 	{
 		if ( dataSet instanceof OdaDataSetHandle )
 			return newExtendedDataSet( ( OdaDataSetHandle ) dataSet,
-					reportContext );
+					context );
 
 		if ( dataSet instanceof ScriptDataSetHandle )
 			return newScriptDataSet( ( ScriptDataSetHandle ) dataSet,
-					reportContext );
+					context );
 
 		// any other types are not supported
 		assert false;
@@ -198,22 +202,18 @@ public class ModelDteApiAdapter
 	 */
 	String evaluatePropertyBindingExpr( String expr ) throws BirtException
 	{
-		Object result = JavascriptEvalUtil.evaluateScript( null,
-				jsScope,
-				expr,
-				"property binding",
-				0 );
+		Object result = JavascriptEvalUtil.evaluateScript( null, jsScope, expr,
+				"property binding", 0 );
 		return result.toString( );
 	}
-	
-	
-	IOdaDataSourceDesign newExtendedDataSource( OdaDataSourceHandle source ) 
+
+	IOdaDataSourceDesign newExtendedDataSource( OdaDataSourceHandle source )
 			throws BirtException
 	{
 		OdaDataSourceDesign dteSource = new OdaDataSourceDesign( source
 				.getQualifiedName( ) );
 		IBaseDataSourceEventHandler eventHandler = new DataSourceScriptExecutor(
-				source, reportContext );
+				source, context );
 
 		dteSource.setEventHandler( eventHandler );
 
@@ -239,22 +239,22 @@ public class ModelDteApiAdapter
 			Iterator propNamesItr = staticProps.keySet( ).iterator( );
 			while ( propNamesItr.hasNext( ) )
 			{
-				String propName = (String)propNamesItr.next( );
+				String propName = ( String ) propNamesItr.next( );
 				assert ( propName != null );
 
 				String propValue;
-				// If property binding expression exists, use its evaluation result
-				String bindingExpr =source.getPropertyBinding( propName );
-				if ( needPropertyBinding( )
-						&& bindingExpr != null && bindingExpr.length( ) > 0 )
+				// If property binding expression exists, use its evaluation
+				// result
+				String bindingExpr = source.getPropertyBinding( propName );
+				if ( needPropertyBinding( ) && bindingExpr != null
+						&& bindingExpr.length( ) > 0 )
 				{
 					propValue = evaluatePropertyBindingExpr( bindingExpr );
-				}
-				else
+				} else
 				{
 					propValue = ( String ) staticProps.get( propName );
 				}
-				
+
 				dteSource.addPublicProperty( ( String ) propName, propValue );
 			}
 		}
@@ -267,8 +267,8 @@ public class ModelDteApiAdapter
 			{
 				ExtendedPropertyHandle modelProp = ( ExtendedPropertyHandle ) elmtIter
 						.next( );
-				dteSource.addPrivateProperty( modelProp.getName( ),
-							modelProp.getValue( ) );
+				dteSource.addPrivateProperty( modelProp.getName( ), modelProp
+						.getValue( ) );
 			}
 		}
 
@@ -280,7 +280,7 @@ public class ModelDteApiAdapter
 		ScriptDataSourceDesign dteSource = new ScriptDataSourceDesign( source
 				.getQualifiedName( ) );
 		IScriptDataSourceEventHandler eventHandler = new ScriptDataSourceScriptExecutor(
-				source, reportContext );
+				source, context );
 
 		dteSource.setEventHandler( eventHandler );
 		// Adapt base class properties
@@ -301,12 +301,12 @@ public class ModelDteApiAdapter
 	}
 
 	IOdaDataSetDesign newExtendedDataSet( OdaDataSetHandle modelDataSet,
-			IReportContext reportContext ) throws BirtException
+			ExecutionContext context ) throws BirtException
 	{
 		OdaDataSetDesign dteDataSet = new OdaDataSetDesign( modelDataSet
 				.getQualifiedName( ) );
 		IBaseDataSetEventHandler eventHandler = new DataSetScriptExecutor(
-				modelDataSet, reportContext );
+				modelDataSet, context );
 
 		dteDataSet.setEventHandler( eventHandler );
 		// Adapt base class properties
@@ -314,16 +314,16 @@ public class ModelDteApiAdapter
 
 		// Adapt extended data set elements
 
-		// Set query text; if binding exists, use its result; otherwise 
+		// Set query text; if binding exists, use its result; otherwise
 		// use static design
-		String queryTextBinding = modelDataSet.getPropertyBinding( 
-				OdaDataSet.QUERY_TEXT_PROP );
-		if ( needPropertyBinding( )
-				&& queryTextBinding != null && queryTextBinding.length( ) > 0 )
+		String queryTextBinding = modelDataSet
+				.getPropertyBinding( OdaDataSet.QUERY_TEXT_PROP );
+		if ( needPropertyBinding( ) && queryTextBinding != null
+				&& queryTextBinding.length( ) > 0 )
 		{
-			dteDataSet.setQueryText( evaluatePropertyBindingExpr( queryTextBinding ) );
-		}
-		else
+			dteDataSet
+					.setQueryText( evaluatePropertyBindingExpr( queryTextBinding ) );
+		} else
 		{
 			dteDataSet.setQueryText( modelDataSet.getQueryText( ) );
 		}
@@ -342,16 +342,15 @@ public class ModelDteApiAdapter
 			Iterator propNamesItr = staticProps.keySet( ).iterator( );
 			while ( propNamesItr.hasNext( ) )
 			{
-				String propName = (String)propNamesItr.next( );
-				assert ( propName != null  );
+				String propName = ( String ) propNamesItr.next( );
+				assert ( propName != null );
 				String propValue;
 				String bindingExpr = modelDataSet.getPropertyBinding( propName );
-				if ( needPropertyBinding( )
-						&& bindingExpr != null && bindingExpr.length( ) > 0 )
+				if ( needPropertyBinding( ) && bindingExpr != null
+						&& bindingExpr.length( ) > 0 )
 				{
 					propValue = this.evaluatePropertyBindingExpr( bindingExpr );
-				}
-				else
+				} else
 				{
 					propValue = ( String ) staticProps.get( propName );
 				}
@@ -376,13 +375,13 @@ public class ModelDteApiAdapter
 	}
 
 	IScriptDataSetDesign newScriptDataSet( ScriptDataSetHandle modelDataSet,
-			IReportContext reportContext ) throws BirtException
+			ExecutionContext context ) throws BirtException
 	{
 		ScriptDataSetDesign dteDataSet = new ScriptDataSetDesign( modelDataSet
 				.getQualifiedName( ) );
 
 		IScriptDataSetEventHandler eventHandler = new ScriptDataSetScriptExecutor(
-				modelDataSet, reportContext );
+				modelDataSet, context );
 
 		dteDataSet.setEventHandler( eventHandler );
 
@@ -792,7 +791,7 @@ public class ModelDteApiAdapter
 			return IConditionalExpression.OP_BOTTOM_PERCENT;
 		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_ANY ) )
 			return IConditionalExpression.OP_ANY;
-		if( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_MATCH ) )
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_MATCH ) )
 			return IConditionalExpression.OP_MATCH;
 		assert false; // unknown filter operator
 		return IConditionalExpression.OP_NONE;
@@ -842,7 +841,7 @@ public class ModelDteApiAdapter
 	 */
 	private boolean needPropertyBinding( )
 	{
-		if ( this.reportContext == null || this.jsScope == null )
+		if ( this.context == null || this.jsScope == null )
 			return false;
 		else
 			return true;

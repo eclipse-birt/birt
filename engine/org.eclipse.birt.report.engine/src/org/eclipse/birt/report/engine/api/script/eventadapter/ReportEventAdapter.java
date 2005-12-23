@@ -36,26 +36,6 @@ public class ReportEventAdapter implements IReportEventHandler
 
 	}
 
-	public void beforeOpenDoc( IReportContext reportContext )
-	{
-
-	}
-
-	public void afterOpenDoc( IReportContext reportContext )
-	{
-
-	}
-
-	public void beforeCloseDoc( IReportContext reportContext )
-	{
-
-	}
-
-	public void afterCloseDoc( IReportContext reportContext )
-	{
-
-	}
-
 	public void beforeRender( IReportContext reportContext )
 	{
 

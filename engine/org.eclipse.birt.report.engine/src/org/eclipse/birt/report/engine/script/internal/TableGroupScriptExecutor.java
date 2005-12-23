@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.script.internal;
 
-import java.util.logging.Level;
-
 import org.eclipse.birt.report.engine.api.script.element.ITableGroup;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ITableGroupEventHandler;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -30,13 +28,28 @@ public class TableGroupScriptExecutor extends ScriptExecutor
 			if ( handleJS( group, groupHandle.getOnPrepare( ), context )
 					.didRun( ) )
 				return;
-			ITableGroupEventHandler eh = ( ITableGroupEventHandler ) getInstance( groupHandle );
+			ITableGroupEventHandler eh = getEventHandler( groupHandle, context );
 			if ( eh != null )
 				eh.onPrepare( group, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
+	}
+
+	private static ITableGroupEventHandler getEventHandler(
+			TableGroupHandle handle, ExecutionContext context )
+	{
+		ITableGroupEventHandler eh = null;
+		try
+		{
+			eh = ( ITableGroupEventHandler ) getInstance( handle, context );
+		} catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, handle.getEventHandlerClass( ),
+					ITableGroupEventHandler.class );
+		}
+		return eh;
 	}
 
 }

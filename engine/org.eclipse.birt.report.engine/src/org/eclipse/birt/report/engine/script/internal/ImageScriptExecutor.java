@@ -34,7 +34,7 @@ public class ImageScriptExecutor extends ScriptExecutor
 			if ( handleJS( image, imageHandle.getOnPrepare( ), context )
 					.didRun( ) )
 				return;
-			IImageEventHandler eh = ( IImageEventHandler ) getInstance( imageHandle );
+			IImageEventHandler eh = getEventHandler( imageHandle, context );
 			if ( eh != null )
 				eh.onPrepare( image, context.getReportContext( ) );
 		} catch ( Exception e )
@@ -54,13 +54,12 @@ public class ImageScriptExecutor extends ScriptExecutor
 			if ( handleJS( image, imageDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
-			IImageEventHandler eh = ( IImageEventHandler ) getInstance( ( ImageHandle ) imageDesign
-					.getHandle( ) );
+			IImageEventHandler eh = getEventHandler( imageDesign, context );
 			if ( eh != null )
 				eh.onCreate( image, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -75,13 +74,36 @@ public class ImageScriptExecutor extends ScriptExecutor
 			if ( handleJS( image, imageDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
-			IImageEventHandler eh = ( IImageEventHandler ) getInstance( ( ImageHandle ) imageDesign
-					.getHandle( ) );
+			IImageEventHandler eh = getEventHandler( imageDesign, context );
 			if ( eh != null )
 				eh.onRender( image, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
+	}
+
+	private static IImageEventHandler getEventHandler( ReportItemDesign design,
+			ExecutionContext context )
+	{
+		ImageHandle handle = ( ImageHandle ) design.getHandle( );
+		if ( handle == null )
+			return null;
+		return getEventHandler( handle, context );
+	}
+
+	private static IImageEventHandler getEventHandler( ImageHandle handle,
+			ExecutionContext context )
+	{
+		IImageEventHandler eh = null;
+		try
+		{
+			eh = ( IImageEventHandler ) getInstance( handle, context );
+		} catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, handle.getEventHandlerClass( ),
+					IImageEventHandler.class );
+		}
+		return eh;
 	}
 }

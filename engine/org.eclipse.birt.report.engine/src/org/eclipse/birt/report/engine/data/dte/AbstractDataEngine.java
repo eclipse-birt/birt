@@ -93,10 +93,9 @@ public abstract class AbstractDataEngine implements IDataEngine
 	public void prepare( Report report, Map appContext )
 	{
 		ReportDesignHandle rptHandle = report.getReportDesign( );
-		
-		ModelDteApiAdapter adaptor = new ModelDteApiAdapter(
-				context.getReportContext(), 
-				context.getSharedScope() );
+
+		ModelDteApiAdapter adaptor = new ModelDteApiAdapter( context, context
+				.getSharedScope( ) );
 
 		// Handling data sources
 		List dataSourceList = rptHandle.getAllDataSources( );
@@ -106,7 +105,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 					.get( i );
 			try
 			{
-				dataEngine.defineDataSource( adaptor.createDataSourceDesign( dataSource));
+				dataEngine.defineDataSource( adaptor
+						.createDataSourceDesign( dataSource ) );
 			} catch ( BirtException be )
 			{
 				logger.log( Level.SEVERE, be.getMessage( ), be );
@@ -121,7 +121,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 			DataSetHandle dataset = ( DataSetHandle ) dataSetList.get( i );
 			try
 			{
-				dataEngine.defineDataSet( adaptor.createDataSetDesign( dataset));
+				dataEngine
+						.defineDataSet( adaptor.createDataSetDesign( dataset ) );
 			} catch ( BirtException be )
 			{
 				logger.log( Level.SEVERE, be.getMessage( ), be );

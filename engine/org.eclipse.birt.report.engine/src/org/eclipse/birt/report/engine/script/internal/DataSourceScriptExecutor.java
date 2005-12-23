@@ -10,12 +10,10 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.script.internal;
 
-import java.util.logging.Level;
-
 import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
-import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDataSourceEventHandler;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.script.internal.instance.DataSourceInstance;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.mozilla.javascript.Scriptable;
@@ -29,9 +27,9 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 	protected IDataSourceEventHandler eventHandler;
 
 	public DataSourceScriptExecutor( DataSourceHandle dataSourceHandle,
-			IReportContext reportContext )
+			ExecutionContext context )
 	{
-		super( reportContext );
+		super( context );
 		this.dataSourceHandle = dataSourceHandle;
 		String className = dataSourceHandle.getEventHandlerClass( );
 		initEventHandler( className );
@@ -43,10 +41,11 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 		{
 			try
 			{
-				eventHandler = ( IDataSourceEventHandler ) getInstance( className );
+				eventHandler = ( IDataSourceEventHandler ) getInstance(
+						className, context );
 			} catch ( Exception e )
 			{
-				log.log( Level.WARNING, e.getMessage( ), e );
+				addException( context, e );
 			}
 		}
 	}
@@ -67,7 +66,7 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 						reportContext );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -87,7 +86,7 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 						reportContext );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -107,7 +106,7 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 						reportContext );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -126,7 +125,7 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 				eventHandler.afterClose( reportContext );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 

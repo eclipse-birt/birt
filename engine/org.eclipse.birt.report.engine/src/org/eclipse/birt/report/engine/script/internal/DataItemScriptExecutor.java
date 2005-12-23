@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
-import java.util.logging.Level;
-
 import org.eclipse.birt.report.engine.api.script.element.IDataItem;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDataItemEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance;
@@ -34,12 +32,12 @@ public class DataItemScriptExecutor extends ScriptExecutor
 			if ( handleJS( dataItem, dataItemHandle.getOnPrepare( ), context )
 					.didRun( ) )
 				return;
-			IDataItemEventHandler eh = ( IDataItemEventHandler ) getInstance( dataItemHandle );
+			IDataItemEventHandler eh = getEventHandler( dataItemHandle, context );
 			if ( eh != null )
 				eh.onPrepare( dataItem, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -54,13 +52,12 @@ public class DataItemScriptExecutor extends ScriptExecutor
 			if ( handleJS( dataItem, dataItemDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
-			IDataItemEventHandler eh = ( IDataItemEventHandler ) getInstance( ( DataItemHandle ) dataItemDesign
-					.getHandle( ) );
+			IDataItemEventHandler eh = getEventHandler( dataItemDesign, context );
 			if ( eh != null )
 				eh.onCreate( dataItem, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -75,13 +72,35 @@ public class DataItemScriptExecutor extends ScriptExecutor
 			if ( handleJS( dataItem, dataItemDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
-			IDataItemEventHandler eh = ( IDataItemEventHandler ) getInstance( ( DataItemHandle ) dataItemDesign
-					.getHandle( ) );
+			IDataItemEventHandler eh = getEventHandler( dataItemDesign, context );
 			if ( eh != null )
 				eh.onRender( dataItem, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
+	}
+
+	private static IDataItemEventHandler getEventHandler(
+			ReportItemDesign design, ExecutionContext context )
+	{
+		DataItemHandle handle = ( DataItemHandle ) design.getHandle( );
+		if ( handle == null )
+			return null;
+		return getEventHandler( handle, context );
+	}
+
+	private static IDataItemEventHandler getEventHandler(
+			DataItemHandle handle, ExecutionContext context )
+	{
+		IDataItemEventHandler eh = null;
+		try
+		{
+			eh = ( IDataItemEventHandler ) getInstance( handle, context );
+		} catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, handle.getEventHandlerClass( ), IDataItemEventHandler.class );
+		}
+		return eh;
 	}
 }

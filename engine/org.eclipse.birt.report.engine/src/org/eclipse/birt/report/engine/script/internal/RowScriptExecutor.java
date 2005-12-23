@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
-import java.util.logging.Level;
-
 import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.api.script.element.IRow;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IRowEventHandler;
@@ -35,12 +33,12 @@ public class RowScriptExecutor extends ScriptExecutor
 			IRow row = new Row( rowHandle );
 			if ( handleJS( row, rowHandle.getOnPrepare( ), context ).didRun( ) )
 				return;
-			IRowEventHandler eh = ( IRowEventHandler ) getInstance( rowHandle );
+			IRowEventHandler eh = getEventHandler( rowHandle, context );
 			if ( eh != null )
 				eh.onPrepare( row, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -54,13 +52,12 @@ public class RowScriptExecutor extends ScriptExecutor
 			IRowInstance row = new RowInstance( content, context );
 			if ( handleJS( row, rowDesign.getOnCreate( ), context ).didRun( ) )
 				return;
-			IRowEventHandler eh = ( IRowEventHandler ) getInstance( ( RowHandle ) rowDesign
-					.getHandle( ) );
+			IRowEventHandler eh = getEventHandler( rowDesign, context );
 			if ( eh != null )
 				eh.onCreate( row, rowData, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -74,13 +71,36 @@ public class RowScriptExecutor extends ScriptExecutor
 			IRowInstance row = new RowInstance( content, context );
 			if ( handleJS( row, rowDesign.getOnRender( ), context ).didRun( ) )
 				return;
-			IRowEventHandler eh = ( IRowEventHandler ) getInstance( ( RowHandle ) rowDesign
-					.getHandle( ) );
+			IRowEventHandler eh = getEventHandler( rowDesign, context );
 			if ( eh != null )
 				eh.onRender( row, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
+	}
+
+	private static IRowEventHandler getEventHandler( ReportItemDesign design,
+			ExecutionContext context )
+	{
+		RowHandle handle = ( RowHandle ) design.getHandle( );
+		if ( handle == null )
+			return null;
+		return getEventHandler( handle, context );
+	}
+
+	private static IRowEventHandler getEventHandler( RowHandle handle,
+			ExecutionContext context )
+	{
+		IRowEventHandler eh = null;
+		try
+		{
+			eh = ( IRowEventHandler ) getInstance( handle, context );
+		} catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, handle.getEventHandlerClass( ),
+					IRowEventHandler.class );
+		}
+		return eh;
 	}
 }

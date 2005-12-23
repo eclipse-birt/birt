@@ -20,21 +20,24 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
  * A class used to create script event handlers
  */
 public class ScriptExecutor
-
 {
 
 	public static final String PROPERTYSEPARATOR = ";";
 
 	public static final String WEBAPP_CLASSPATH_KEY = "webapplication.projectclasspath";
+
 	public static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath";
+
 	public static final String PROJECT_CLASSPATH_KEY = "user.projectclasspath";
 
 	protected static Logger log = Logger.getLogger( ScriptExecutor.class
@@ -78,35 +81,37 @@ public class ScriptExecutor
 		return JSScriptStatus.NO_RUN;
 	}
 
-	protected static Object getInstance( DesignElementHandle element )
+	protected static Object getInstance( DesignElementHandle element,
+			ExecutionContext context )
 	{
 		String className = element.getEventHandlerClass( );
-		return getInstance( className );
+		return getInstance( className, context );
 	}
 
-	protected static Object getInstance( String className )
+	protected static Object getInstance( String className,
+			ExecutionContext context )
 	{
 		if ( className == null )
 			return null;
-		// First, try looking in the cache. TODO: Maybe implement this
-		// Object o = handlerCache.get( className );
-		// if ( o != null )
-		// {
-		// return o;
-		// }
 		Object o = null;
+
+		Class c = null;
+		ClassNotFoundException ex = null;
 		try
 		{
-			Class c = null;
 			try
 			{
 				// If not found in the cache, try creating one
 				c = Class.forName( className );
 			} catch ( ClassNotFoundException e )
 			{
-				// Try using web application's webapplication.projectclasspath to load it. 
-				// This would be the case where the application is deployed on web server.
-				c = getClassUsingCustomClassPath( className, WEBAPP_CLASSPATH_KEY );
+				ex = e;
+				// Try using web application's webapplication.projectclasspath
+				// to load it.
+				// This would be the case where the application is deployed on
+				// web server.
+				c = getClassUsingCustomClassPath( className,
+						WEBAPP_CLASSPATH_KEY );
 				if ( c == null )
 				{
 					// Try using the user.projectclasspath property to load it
@@ -123,20 +128,34 @@ public class ScriptExecutor
 					}
 				}
 			}
-			
-			if ( c != null )
-			{
-				o = c.newInstance( );
 
-				// Do not use cache for now. Need up-to-date classes in
-				// designer, we only want to use the cache in the deployed
-				// environment.
-				// TODO: Figure out if to use cache or not
-				// handlerCache.put( className, o );
-			}
-		} catch ( Exception e )
+			if ( c != null )
+				o = c.newInstance( );
+			else
+				// Didn't find the class using any method, so throw the
+				// exception
+				throw ex;
+		} catch ( ClassNotFoundException e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			log.log( Level.WARNING, ex.getMessage( ), ex );
+			if ( context != null )
+				context.addException( new EngineException(
+						MessageConstants.SCRIPT_CLASS_NOT_FOUND_ERROR,
+						new Object[] { className }, ex ) ); //$NON-NLS-1$
+		} catch ( IllegalAccessException e )
+		{
+			log.log( Level.WARNING, ex.getMessage( ), ex );
+			if ( context != null )
+				context.addException( new EngineException(
+						MessageConstants.SCRIPT_CLASS_ILLEGAL_ACCESS_ERROR,
+						new Object[] { className }, ex ) ); //$NON-NLS-1$
+		} catch ( InstantiationException e )
+		{
+			log.log( Level.WARNING, ex.getMessage( ), ex );
+			if ( context != null )
+				context.addException( new EngineException(
+						MessageConstants.SCRIPT_CLASS_INSTANTIATION_ERROR,
+						new Object[] { className }, ex ) ); //$NON-NLS-1$
 		}
 		return o;
 	}
@@ -179,10 +198,34 @@ public class ScriptExecutor
 				// loader either, null will be returned
 			} catch ( ClassNotFoundException e )
 			{
-				log.log( Level.WARNING, e.getMessage( ), e );
+				// Ignore
 			}
 		}
 		return null;
+	}
+
+	protected static void addClassCastException( ExecutionContext context,
+			ClassCastException e, String className, Class requiredInterface )
+	{
+		addException( context, e, MessageConstants.SCRIPT_CLASS_CAST_ERROR,
+				new Object[] { className, requiredInterface.getName( ) } );
+	}
+
+	protected static void addException( ExecutionContext context, Exception e )
+	{
+		addException( context, e, MessageConstants.UNHANDLED_SCRIPT_ERROR, null );
+	}
+
+	private static void addException( ExecutionContext context, Exception e,
+			String errorType, Object[] args )
+	{
+		log.log( Level.WARNING, e.getMessage( ), e );
+		if ( context == null )
+			return;
+		if ( args == null )
+			context.addException( new EngineException( errorType, e ) );
+		else
+			context.addException( new EngineException( errorType, args, e ) );
 	}
 
 	protected static class JSScriptStatus

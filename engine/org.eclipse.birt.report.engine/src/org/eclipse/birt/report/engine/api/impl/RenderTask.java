@@ -27,8 +27,6 @@ import org.eclipse.birt.report.engine.presentation.DefaultPaginationEmitter;
 import org.eclipse.birt.report.engine.presentation.HTMLPaginationEmitter;
 import org.eclipse.birt.report.engine.presentation.LocalizedEmitter;
 import org.eclipse.birt.report.engine.presentation.ReportContentLoader;
-import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class RenderTask extends EngineTask implements IRenderTask
 {
@@ -61,10 +59,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	protected void openReportDocument( ReportDocumentReader reportDoc )
 	{
-		ReportDesignHandle reportDesign = executionContext.getDesign( );
-		ReportScriptExecutor.handleBeforeOpenDoc( reportDesign,
-				executionContext );
-
 		this.reportDoc = reportDoc;
 		executionContext.setReportDocument( reportDoc );
 
@@ -72,19 +66,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 		setParameterValues( reportDoc.getParameterValues( ) );
 		executionContext.registerGlobalBeans( reportDoc
 				.getGlobalVariables( null ) );
-
-		ReportScriptExecutor
-				.handleAfterOpenDoc( reportDesign, executionContext );
 	}
 
 	protected void closeReportDocument( )
 	{
-		ReportDesignHandle reportDesign = executionContext.getDesign( );
-		ReportScriptExecutor.handleBeforeCloseDoc( reportDesign,
-				executionContext );
 		reportDoc.close( );
-		ReportScriptExecutor.handleAfterCloseDoc( reportDesign,
-				executionContext );
 	}
 
 	/*

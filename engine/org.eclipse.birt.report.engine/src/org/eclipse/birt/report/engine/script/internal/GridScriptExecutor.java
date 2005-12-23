@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
-import java.util.logging.Level;
-
 import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.api.script.element.IGrid;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IGridEventHandler;
@@ -34,12 +32,12 @@ public class GridScriptExecutor extends ScriptExecutor
 			IGrid grid = new Grid( gridHandle );
 			if ( handleJS( grid, gridHandle.getOnPrepare( ), context ).didRun( ) )
 				return;
-			IGridEventHandler eh = ( IGridEventHandler ) getInstance( gridHandle );
+			IGridEventHandler eh = getEventHandler( gridHandle, context );
 			if ( eh != null )
 				eh.onPrepare( grid, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -53,13 +51,12 @@ public class GridScriptExecutor extends ScriptExecutor
 			IGridInstance grid = new GridInstance( content, context );
 			if ( handleJS( grid, gridDesign.getOnCreate( ), context ).didRun( ) )
 				return;
-			IGridEventHandler eh = ( IGridEventHandler ) getInstance( ( GridHandle ) gridDesign
-					.getHandle( ) );
+			IGridEventHandler eh = getEventHandler( gridDesign, context );
 			if ( eh != null )
 				eh.onCreate( grid, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -73,13 +70,36 @@ public class GridScriptExecutor extends ScriptExecutor
 			IGridInstance grid = new GridInstance( content, context );
 			if ( handleJS( grid, gridDesign.getOnRender( ), context ).didRun( ) )
 				return;
-			IGridEventHandler eh = ( IGridEventHandler ) getInstance( ( GridHandle ) gridDesign
-					.getHandle( ) );
+			IGridEventHandler eh = getEventHandler( gridDesign, context );
 			if ( eh != null )
 				eh.onRender( grid, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
+	}
+
+	private static IGridEventHandler getEventHandler( ReportItemDesign design,
+			ExecutionContext context )
+	{
+		GridHandle handle = ( GridHandle ) design.getHandle( );
+		if ( handle == null )
+			return null;
+		return getEventHandler( handle, context );
+	}
+
+	private static IGridEventHandler getEventHandler( GridHandle handle,
+			ExecutionContext context )
+	{
+		IGridEventHandler eh = null;
+		try
+		{
+			eh = ( IGridEventHandler ) getInstance( handle, context );
+		} catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, handle.getEventHandlerClass( ),
+					IGridEventHandler.class );
+		}
+		return eh;
 	}
 }

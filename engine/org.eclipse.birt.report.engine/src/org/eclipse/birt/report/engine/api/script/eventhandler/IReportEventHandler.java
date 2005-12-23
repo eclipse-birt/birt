@@ -35,26 +35,6 @@ public interface IReportEventHandler
 	void afterFactory( IReportContext reportContext );
 
 	/**
-	 * Handle the beforeOpenDoc event
-	 */
-	void beforeOpenDoc( IReportContext reportContext );
-
-	/**
-	 * Handle the afterOpenDoc event
-	 */
-	void afterOpenDoc( IReportContext reportContext );
-
-	/**
-	 * Handle the beforeCloseDoc event
-	 */
-	void beforeCloseDoc( IReportContext reportContext );
-
-	/**
-	 * Handle the afterCloseDoc event
-	 */
-	void afterCloseDoc( IReportContext reportContext );
-
-	/**
 	 * Handle the beforeRender event
 	 */
 	void beforeRender( IReportContext reportContext );

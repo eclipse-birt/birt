@@ -97,7 +97,7 @@ public class GetParameterDefinitionTask extends EngineTask implements
 			{
 				parameterDefns.add( pBase.clone( ) );
 			} catch ( CloneNotSupportedException e ) // This is a Java
-														// exception
+			// exception
 			{
 				log.log( Level.SEVERE, e.getMessage( ), e );
 			}
@@ -406,12 +406,13 @@ public class GetParameterDefinitionTask extends EngineTask implements
 				// Define data source and data set
 				DataSourceHandle dataSource = dataSet.getDataSource( );
 				ModelDteApiAdapter adaptor = new ModelDteApiAdapter(
-						executionContext.getReportContext(), 
-						executionContext.getSharedScope() );
+						executionContext, executionContext.getSharedScope( ) );
 				try
 				{
-					dataEngine.defineDataSource( adaptor.createDataSourceDesign( dataSource));
-					dataEngine.defineDataSet( adaptor.createDataSetDesign( dataSet));
+					dataEngine.defineDataSource( adaptor
+							.createDataSourceDesign( dataSource ) );
+					dataEngine.defineDataSet( adaptor
+							.createDataSetDesign( dataSet ) );
 				} catch ( BirtException e )
 				{
 					log.log( Level.SEVERE, e.getMessage( ) );
@@ -511,12 +512,13 @@ public class GetParameterDefinitionTask extends EngineTask implements
 				DataEngine dataEngine = getDataEngine( );
 				DataSourceHandle dataSource = dataSet.getDataSource( );
 				ModelDteApiAdapter adaptor = new ModelDteApiAdapter(
-						executionContext.getReportContext(), 
-						executionContext.getSharedScope() );
+						executionContext, executionContext.getSharedScope( ) );
 				try
 				{
-					dataEngine.defineDataSource( adaptor.createDataSourceDesign( dataSource));
-					dataEngine.defineDataSet( adaptor.createDataSetDesign( dataSet ));
+					dataEngine.defineDataSource( adaptor
+							.createDataSourceDesign( dataSource ) );
+					dataEngine.defineDataSet( adaptor
+							.createDataSetDesign( dataSet ) );
 				} catch ( BirtException e )
 				{
 					log.log( Level.SEVERE, e.getMessage( ) );
@@ -624,8 +626,8 @@ public class GetParameterDefinitionTask extends EngineTask implements
 
 		ScalarParameterHandle requestedParam = ( ScalarParameterHandle ) slotHandle
 				.get( groupKeyValues.length ); // The parameters in
-												// parameterGroup must be scalar
-												// parameters.
+		// parameterGroup must be scalar
+		// parameters.
 		int listLimit = requestedParam.getListlimit( );
 		boolean fixedOrder = requestedParam.isFixedOrder( );
 		// String valueType = requestedParam.getDataType();

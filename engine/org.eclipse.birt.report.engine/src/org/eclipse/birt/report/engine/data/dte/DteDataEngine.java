@@ -47,7 +47,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.33 $ $Date: 2005/12/10 01:52:38 $
+ * @version $Revision: 1.34 $ $Date: 2005/12/15 06:45:06 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -121,10 +121,9 @@ public class DteDataEngine implements IDataEngine
 	{
 		assert ( report != null );
 
-		ModelDteApiAdapter adaptor = new ModelDteApiAdapter(
-				context.getReportContext(), 
-				context.getSharedScope() );
-		
+		ModelDteApiAdapter adaptor = new ModelDteApiAdapter( context, context
+				.getSharedScope( ) );
+
 		// Handle data sources
 		ReportDesignHandle handle = report.getReportDesign( );
 		List dataSourceList = handle.getAllDataSources( );
@@ -135,7 +134,8 @@ public class DteDataEngine implements IDataEngine
 
 			try
 			{
-				engine.defineDataSource( adaptor.createDataSourceDesign( dataSource));
+				engine.defineDataSource( adaptor
+						.createDataSourceDesign( dataSource ) );
 			} catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
@@ -150,7 +150,7 @@ public class DteDataEngine implements IDataEngine
 			DataSetHandle dataset = ( DataSetHandle ) dataSetList.get( i );
 			try
 			{
-				engine.defineDataSet( adaptor.createDataSetDesign( dataset));
+				engine.defineDataSet( adaptor.createDataSetDesign( dataset ) );
 			} catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );

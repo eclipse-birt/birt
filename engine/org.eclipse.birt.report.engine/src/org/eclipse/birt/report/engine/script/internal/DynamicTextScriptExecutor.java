@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.script.internal;
 
-import java.util.logging.Level;
-
 import org.eclipse.birt.report.engine.api.script.element.IDynamicText;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDynamicTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IDynamicTextInstance;
@@ -34,12 +32,13 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 			if ( handleJS( text, textDataHandle.getOnPrepare( ), context )
 					.didRun( ) )
 				return;
-			IDynamicTextEventHandler eh = ( IDynamicTextEventHandler ) getInstance( textDataHandle );
+			IDynamicTextEventHandler eh = getEventHandler( textDataHandle,
+					context );
 			if ( eh != null )
 				eh.onPrepare( text, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -55,13 +54,13 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 			if ( handleJS( text, textItemDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
-			IDynamicTextEventHandler eh = ( IDynamicTextEventHandler ) getInstance( ( TextDataHandle ) textItemDesign
-					.getHandle( ) );
+			IDynamicTextEventHandler eh = getEventHandler( textItemDesign,
+					context );
 			if ( eh != null )
 				eh.onCreate( text, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -77,13 +76,37 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 			if ( handleJS( text, textItemDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
-			IDynamicTextEventHandler eh = ( IDynamicTextEventHandler ) getInstance( ( TextDataHandle ) textItemDesign
-					.getHandle( ) );
+			IDynamicTextEventHandler eh = getEventHandler( textItemDesign,
+					context );
 			if ( eh != null )
 				eh.onRender( text, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
+	}
+
+	private static IDynamicTextEventHandler getEventHandler(
+			ReportItemDesign design, ExecutionContext context )
+	{
+		TextDataHandle handle = ( TextDataHandle ) design.getHandle( );
+		if ( handle == null )
+			return null;
+		return getEventHandler( handle, context );
+	}
+
+	private static IDynamicTextEventHandler getEventHandler(
+			TextDataHandle handle, ExecutionContext context )
+	{
+		IDynamicTextEventHandler eh = null;
+		try
+		{
+			eh = ( IDynamicTextEventHandler ) getInstance( handle, context );
+		} catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, handle.getEventHandlerClass( ),
+					IDynamicTextEventHandler.class );
+		}
+		return eh;
 	}
 }

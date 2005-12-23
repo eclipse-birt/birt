@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
-import java.util.logging.Level;
-
 import org.eclipse.birt.report.engine.api.script.element.ITable;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ITableEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.ITableInstance;
@@ -34,12 +32,12 @@ public class TableScriptExecutor extends ScriptExecutor
 			if ( handleJS( table, tableHandle.getOnPrepare( ), context )
 					.didRun( ) )
 				return;
-			ITableEventHandler eh = ( ITableEventHandler ) getInstance( tableHandle );
+			ITableEventHandler eh = getEventHandler( tableHandle, context );
 			if ( eh != null )
 				eh.onPrepare( table, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -54,13 +52,12 @@ public class TableScriptExecutor extends ScriptExecutor
 			if ( handleJS( table, tableDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
-			ITableEventHandler eh = ( ITableEventHandler ) getInstance( ( TableHandle ) tableDesign
-					.getHandle( ) );
+			ITableEventHandler eh = getEventHandler( tableDesign, context );
 			if ( eh != null )
 				eh.onCreate( table, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -75,13 +72,36 @@ public class TableScriptExecutor extends ScriptExecutor
 			if ( handleJS( table, tableDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
-			ITableEventHandler eh = ( ITableEventHandler ) getInstance( ( TableHandle ) tableDesign
-					.getHandle( ) );
+			ITableEventHandler eh = getEventHandler( tableDesign, context );
 			if ( eh != null )
 				eh.onRender( table, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
+	}
+
+	private static ITableEventHandler getEventHandler( ReportItemDesign design,
+			ExecutionContext context )
+	{
+		TableHandle handle = ( TableHandle ) design.getHandle( );
+		if ( handle == null )
+			return null;
+		return getEventHandler( handle, context );
+	}
+
+	private static ITableEventHandler getEventHandler( TableHandle handle,
+			ExecutionContext context )
+	{
+		ITableEventHandler eh = null;
+		try
+		{
+			eh = ( ITableEventHandler ) getInstance( handle, context );
+		} catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, handle.getEventHandlerClass( ),
+					ITableEventHandler.class );
+		}
+		return eh;
 	}
 }

@@ -29,7 +29,6 @@ import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.presentation.HTMLPaginationEmitter;
 import org.eclipse.birt.report.engine.presentation.ReportDocumentEmitter;
-import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
@@ -106,14 +105,9 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	{
 		try
 		{
-			ReportDesignHandle reportDesign = executionContext.getDesign( );
-			ReportScriptExecutor.handleBeforeOpenDoc( reportDesign,
-					executionContext );
 			archive.initialize( );
 			writer = new ReportDocumentWriter( archive );
 			executionContext.setReportDocWriter( writer );
-			ReportScriptExecutor.handleAfterOpenDoc( reportDesign,
-					executionContext );
 		}
 		catch ( IOException ex )
 		{
@@ -123,12 +117,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 
 	private void closeReportDocument( )
 	{
-		ReportDesignHandle reportDesign = executionContext.getDesign( );
-		ReportScriptExecutor.handleBeforeCloseDoc( reportDesign,
-				executionContext );
 		writer.close( );
-		ReportScriptExecutor.handleAfterCloseDoc( reportDesign,
-				executionContext );
 	}
 
 	private IContentEmitter createContentEmitter( ReportExecutor executor )

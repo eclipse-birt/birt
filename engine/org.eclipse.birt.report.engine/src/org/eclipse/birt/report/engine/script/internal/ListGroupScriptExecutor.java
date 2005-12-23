@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.script.internal;
 
-import java.util.logging.Level;
-
 import org.eclipse.birt.report.engine.api.script.element.IListGroup;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IListGroupEventHandler;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -30,13 +28,28 @@ public class ListGroupScriptExecutor extends ScriptExecutor
 			if ( handleJS( group, groupHandle.getOnPrepare( ), context )
 					.didRun( ) )
 				return;
-			IListGroupEventHandler eh = ( IListGroupEventHandler ) getInstance( groupHandle );
+			IListGroupEventHandler eh = getEventHandler( groupHandle, context );
 			if ( eh != null )
 				eh.onPrepare( group, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
+	}
+
+	private static IListGroupEventHandler getEventHandler(
+			ListGroupHandle handle, ExecutionContext context )
+	{
+		IListGroupEventHandler eh = null;
+		try
+		{
+			eh = ( IListGroupEventHandler ) getInstance( handle, context );
+		} catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, handle.getEventHandlerClass( ),
+					IListGroupEventHandler.class );
+		}
+		return eh;
 	}
 
 }

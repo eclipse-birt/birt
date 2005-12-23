@@ -12,6 +12,7 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import org.eclipse.birt.data.engine.script.JSMethodRunner;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.mozilla.javascript.Scriptable;
 
 public abstract class DtEScriptExecutor extends ScriptExecutor
@@ -29,13 +30,19 @@ public abstract class DtEScriptExecutor extends ScriptExecutor
 
 	protected static final String AFTER_CLOSE = "afterClose";
 
+	protected ExecutionContext context;
+
 	protected IReportContext reportContext;
 
 	private JSMethodRunner runner;
 
-	public DtEScriptExecutor( IReportContext reportContext )
+	public DtEScriptExecutor( ExecutionContext context )
 	{
-		this.reportContext = reportContext;
+		this.context = context;
+		if ( context != null )
+			this.reportContext = context.getReportContext( );
+		else
+			this.reportContext = null;
 	}
 
 	protected JSMethodRunner getRunner( Scriptable scope, String type,

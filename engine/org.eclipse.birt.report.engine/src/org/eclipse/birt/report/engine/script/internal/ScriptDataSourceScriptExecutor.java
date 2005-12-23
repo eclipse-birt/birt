@@ -10,12 +10,10 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.script.internal;
 
-import java.util.logging.Level;
-
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSourceEventHandler;
-import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IScriptedDataSourceEventHandler;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.script.internal.instance.DataSourceInstance;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 
@@ -30,10 +28,9 @@ public class ScriptDataSourceScriptExecutor extends DataSourceScriptExecutor
 	private IScriptedDataSourceEventHandler scriptedEventHandler;
 
 	public ScriptDataSourceScriptExecutor(
-			ScriptDataSourceHandle dataSourceHandle,
-			IReportContext reportContext )
+			ScriptDataSourceHandle dataSourceHandle, ExecutionContext context )
 	{
-		super( dataSourceHandle, reportContext );
+		super( dataSourceHandle, context );
 	}
 
 	protected void initEventHandler( String className )
@@ -46,7 +43,7 @@ public class ScriptDataSourceScriptExecutor extends DataSourceScriptExecutor
 				scriptedEventHandler = ( IScriptedDataSourceEventHandler ) eventHandler;
 			} catch ( ClassCastException e )
 			{
-				log.log( Level.WARNING, e.getMessage( ), e );
+				addException( context, e );
 			}
 		}
 	}
@@ -65,7 +62,7 @@ public class ScriptDataSourceScriptExecutor extends DataSourceScriptExecutor
 						.open( new DataSourceInstance( dataSource ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 
@@ -83,7 +80,7 @@ public class ScriptDataSourceScriptExecutor extends DataSourceScriptExecutor
 						.close( new DataSourceInstance( dataSource ) );
 		} catch ( Exception e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
+			addException( context, e );
 		}
 	}
 }
