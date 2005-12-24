@@ -24,7 +24,7 @@ public class RowInstance extends ReportElementInstance implements IRowInstance
 
 	private RowContent row;
 
-	public RowInstance( RowContent row, ExecutionContext context  )
+	public RowInstance( RowContent row, ExecutionContext context )
 	{
 		super( row, context );
 		this.row = ( RowContent ) content;
@@ -55,9 +55,11 @@ public class RowInstance extends ReportElementInstance implements IRowInstance
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IRowInstance#getHeight()
 	 */
-	public DimensionType getHeight( )
+	public String getHeight( )
 	{
-		return row.getHeight( );
+		if ( row.getHeight( ) != null )
+			return row.getHeight( ).toString( );
+		return null;
 	}
 
 	/*

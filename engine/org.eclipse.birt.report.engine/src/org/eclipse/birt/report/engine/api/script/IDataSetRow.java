@@ -25,8 +25,9 @@ public interface IDataSetRow
 	 * @param index
 	 *            1-based index of column. If value is 0, an internal index of
 	 *            the current row (if available) is returned
+	 * @throws ScriptException 
 	 */
-	Object getColumnValue( int index );
+	Object getColumnValue( int index ) throws ScriptException;
 
 	/**
 	 * Sets the column data by index. Column index starts from 1.
@@ -36,22 +37,25 @@ public interface IDataSetRow
 	 *            number of columns
 	 * @param value
 	 *            New value for column (can be null)
+	 * @throws ScriptException 
 	 */
-	void setColumnValue( int index, Object value );
+	void setColumnValue( int index, Object value ) throws ScriptException;
 
 	/**
 	 * Gets the column data by column name.
 	 * 
 	 * @param name
 	 *            of column
+	 * @throws ScriptException 
 	 */
-	Object getColumnValue( String name );
+	Object getColumnValue( String name ) throws ScriptException;
 
 	/**
 	 * Sets the column data by column name.
 	 * 
 	 * @param name
 	 *            of column
+	 * @throws ScriptException 
 	 */
-	void setColumnValue( String name, Object value );
+	void setColumnValue( String name, Object value ) throws ScriptException;
 }

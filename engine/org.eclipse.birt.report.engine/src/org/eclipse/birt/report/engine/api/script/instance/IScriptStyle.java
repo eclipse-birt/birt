@@ -69,7 +69,7 @@ public interface IScriptStyle
 	 * Set the text alignment. Valid return types are LEFT, RIGHT, CENTER and
 	 * JUSTIFY.
 	 */
-	void setAlign( String align );
+	void setTextAlign( String align );
 
 	/**
 	 * Get the text indent
@@ -85,7 +85,7 @@ public interface IScriptStyle
 	 * Get the text transform. Valid return values are NONE, CAPITALIZE,
 	 * UPPERCASE and LOWERCASE.
 	 */
-	String getTransform( );
+	String getTextTransform( );
 
 	/**
 	 * Set the text transform. Valid transform values are NONE, CAPITALIZE,

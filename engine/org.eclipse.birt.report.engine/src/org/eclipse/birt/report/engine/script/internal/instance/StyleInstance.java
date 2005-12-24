@@ -84,7 +84,7 @@ public class StyleInstance implements IScriptStyle
 	 * Set the text alignment. Valid return types are LEFT, RIGHT, CENTER and
 	 * JUSTIFY.
 	 */
-	public void setAlign( String align )
+	public void setTextAlign( String align )
 	{
 		style.setTextAlign( align );
 	}
@@ -109,7 +109,7 @@ public class StyleInstance implements IScriptStyle
 	 * Get the text transform. Valid return values are NONE, CAPITALIZE,
 	 * UPPERCASE and LOWERCASE.
 	 */
-	public String getTransform( )
+	public String getTextTransform( )
 	{
 		return style.getTextTransform( );
 	}

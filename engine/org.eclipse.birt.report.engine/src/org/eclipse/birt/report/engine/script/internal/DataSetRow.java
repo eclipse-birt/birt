@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.script.internal;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
 import org.eclipse.birt.report.engine.api.script.IDataSetRow;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.DataSetInstance;
 
@@ -31,49 +32,48 @@ public class DataSetRow implements IDataSetRow
 		return new DataSetInstance( row.getDataSet( ) );
 	}
 
-	public Object getColumnValue( int index )
+	public Object getColumnValue( int index ) throws ScriptException
 	{
 		try
 		{
 			return row.getColumnValue( index );
 		} catch ( BirtException e )
 		{
-			e.printStackTrace( );
+			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
-		return null;
 	}
 
 	public void setColumnValue( int index, Object value )
+			throws ScriptException
 	{
 		try
 		{
 			row.setColumnValue( index, value );
 		} catch ( BirtException e )
 		{
-			e.printStackTrace( );
+			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
 	}
 
-	public Object getColumnValue( String name )
+	public Object getColumnValue( String name ) throws ScriptException
 	{
 		try
 		{
 			return row.getColumnValue( name );
 		} catch ( BirtException e )
 		{
-			e.printStackTrace( );
+			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
-		return null;
 	}
 
-	public void setColumnValue( String name, Object value )
+	public void setColumnValue( String name, Object value ) throws ScriptException
 	{
 		try
 		{
 			row.setColumnValue( name, value );
 		} catch ( BirtException e )
 		{
-			e.printStackTrace( );
+			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
 	}
 
