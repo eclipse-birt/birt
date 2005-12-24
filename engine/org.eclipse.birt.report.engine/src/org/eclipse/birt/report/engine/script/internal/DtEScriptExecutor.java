@@ -10,9 +10,13 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.script.internal;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.data.engine.script.JSMethodRunner;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.mozilla.javascript.Scriptable;
 
 public abstract class DtEScriptExecutor extends ScriptExecutor
@@ -67,7 +71,10 @@ public abstract class DtEScriptExecutor extends ScriptExecutor
 			result = jsr.runScript( method, script );
 		} catch ( Exception e )
 		{
-			e.printStackTrace( );
+			log.log( Level.WARNING, e.getMessage( ), e );
+			if ( context != null )
+				context.addException( new EngineException(
+						MessageConstants.SCRIPT_EVALUATION_ERROR, script, e ) );
 		}
 		return new JSScriptStatus( true, result );
 	}
