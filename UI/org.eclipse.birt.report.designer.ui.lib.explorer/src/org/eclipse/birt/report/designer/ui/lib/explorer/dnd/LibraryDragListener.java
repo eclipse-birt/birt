@@ -51,6 +51,10 @@ public class LibraryDragListener extends DesignElementDragAdapter
 			{
 				return false;
 			}
+			else if (transfer instanceof ThemeHandle)
+			{
+				return false;
+			}
 			else
 			{
 				return true;
