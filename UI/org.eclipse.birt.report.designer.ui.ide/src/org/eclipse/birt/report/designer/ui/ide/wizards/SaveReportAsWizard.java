@@ -35,7 +35,8 @@ public class SaveReportAsWizard extends Wizard
 
 	public SaveReportAsWizard( ReportDesignHandle model, IFile orginalFile )
 	{
-		setWindowTitle( Messages.getString("SaveReportAsWizard.SaveAsPageTitle") ); //$NON-NLS-1$
+		setWindowTitle( Messages
+				.getString( "SaveReportAsWizard.SaveAsPageTitle" ) ); //$NON-NLS-1$
 		this.model = model;
 		this.orginalFile = orginalFile;
 	}
@@ -50,13 +51,20 @@ public class SaveReportAsWizard extends Wizard
 
 		saveAsPage = new WizardSaveAsPage( "WizardSaveAsPage" ); //$NON-NLS-1$
 		saveAsPage.setOriginalFile( orginalFile );
-		saveAsPage.setTitle( Messages.getString("SaveReportAsWizard.SaveAsPageTitle") ); //$NON-NLS-1$
-		saveAsPage.setDescription( Messages.getString("SaveReportAsWizard.SaveAsPageMessage") ); //$NON-NLS-1$
-//		saveAsPage.setImageDescriptor( IDEInternalWorkbenchImages.getImageDescriptor( IDEInternalWorkbenchImages.IMG_DLGBAN_SAVEAS_DLG ) );
+		saveAsPage.setTitle( Messages
+				.getString( "SaveReportAsWizard.SaveAsPageTitle" ) ); //$NON-NLS-1$
+		saveAsPage.setDescription( Messages
+				.getString( "SaveReportAsWizard.SaveAsPageMessage" ) ); //$NON-NLS-1$
+		// saveAsPage.setImageDescriptor(
+		// IDEInternalWorkbenchImages.getImageDescriptor(
+		// IDEInternalWorkbenchImages.IMG_DLGBAN_SAVEAS_DLG ) );
 		addPage( saveAsPage );
 
 		settingPage = new WizardReportSettingPage( model );
-		settingPage.setTitle( Messages.getString( Messages.getString("SaveReportAsWizard.SettingPageTitle") ) ); //$NON-NLS-1$
+		settingPage
+				.setTitle( Messages
+						.getFormattedString(
+								"SaveReportAsWizard.SettingPage.title", new Object[]{Messages.getString( "NewReportWizard.wizardPageTitle.report" )} ) ); //$NON-NLS-1$
 
 		addPage( settingPage );
 	}

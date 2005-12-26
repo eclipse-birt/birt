@@ -1029,4 +1029,15 @@ public class UIUtil
 		return includeLibrary( SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( ), libraryHandle );
 	}
+
+	public static String getSimpleFileName(String filePath )
+	{
+		File file = new File(filePath);
+		String fileName=null;
+		if(file!=null)
+		{
+			fileName = file.getName();
+		}
+		return fileName;
+	}
 }

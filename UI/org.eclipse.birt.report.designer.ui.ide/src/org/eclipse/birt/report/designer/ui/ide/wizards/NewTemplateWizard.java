@@ -1,3 +1,4 @@
+
 package org.eclipse.birt.report.designer.ui.ide.wizards;
 
 import java.io.IOException;
@@ -33,27 +34,33 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 
-
 public class NewTemplateWizard extends NewReportWizard
 {
-	private static final String WIZARDPAGE = Messages.getString( "NewTemplateWizard.title.WizardPage" ); //$NON-NLS-1$
-	private static final String OPENING_FILE_FOR_EDITING = Messages.getString( "NewTemplateWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
-	private static final String CREATING = Messages.getString( "NewTemplateWizard.text.Creating" ); //$NON-NLS-1$
-	private static final String NEW_TEMPLATE_FILE_NAME_PREFIX = Messages.getString( "NewTemplateWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
-	private static final String NEW_TEMPLATE_DESCRIPTION = Messages.getString( "NewTemplateWizard.pageDescription.createNewTemplate" ); //$NON-NLS-1$
-	private static final String NEW_TEMPLATE_TITLE = Messages.getString( "NewTemplateWizard.title.Template" ); //$NON-NLS-1$
 
-	public NewTemplateWizard()
+	private static final String WIZARDPAGE = Messages
+			.getString( "NewTemplateWizard.title.WizardPage" ); //$NON-NLS-1$
+	private static final String OPENING_FILE_FOR_EDITING = Messages
+			.getString( "NewTemplateWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
+	private static final String CREATING = Messages
+			.getString( "NewTemplateWizard.text.Creating" ); //$NON-NLS-1$
+	private static final String NEW_TEMPLATE_FILE_NAME_PREFIX = Messages
+			.getString( "NewTemplateWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
+	private static final String NEW_TEMPLATE_DESCRIPTION = Messages
+			.getString( "NewTemplateWizard.pageDescription.createNewTemplate" ); //$NON-NLS-1$
+	private static final String NEW_TEMPLATE_TITLE = Messages
+			.getString( "NewTemplateWizard.title.Template" ); //$NON-NLS-1$
+
+	public NewTemplateWizard( )
 	{
 		super( "." + IReportElementConstants.TEMPLATE_FILE_EXTENSION ); //$NON-NLS-1$
 	}
-	
+
 	public void init( IWorkbench workbench, IStructuredSelection selection )
 	{
-		super.init(workbench,selection);
+		super.init( workbench, selection );
 		setWindowTitle( Messages.getString( "NewTemplateWizard.title.New" ) ); //$NON-NLS-1$
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -62,22 +69,29 @@ public class NewTemplateWizard extends NewReportWizard
 	public void addPages( )
 	{
 		newReportFileWizardPage = new WizardNewReportCreationPage( WIZARDPAGE,
-				getSelection(),IReportElementConstants.TEMPLATE_FILE_EXTENSION );
+				getSelection( ),
+				IReportElementConstants.TEMPLATE_FILE_EXTENSION );
 		addPage( newReportFileWizardPage );
 
 		resetUniqueCount( );
-		newReportFileWizardPage.setFileName( getUniqueReportName(NEW_TEMPLATE_FILE_NAME_PREFIX, getFileExtension())); //$NON-NLS-1$ //$NON-NLS-2$
-		newReportFileWizardPage.setContainerFullPath( getDefaultContainerPath( ) );
+		newReportFileWizardPage.setFileName( getUniqueReportName(
+				NEW_TEMPLATE_FILE_NAME_PREFIX, getFileExtension( ) ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		newReportFileWizardPage
+				.setContainerFullPath( getDefaultContainerPath( ) );
 		newReportFileWizardPage.setDescription( NEW_TEMPLATE_DESCRIPTION );
-		newReportFileWizardPage.setTitle(NEW_TEMPLATE_TITLE);
-		
+		newReportFileWizardPage.setTitle( NEW_TEMPLATE_TITLE );
 
 		settingPage = new WizardReportSettingPage( null );
-		settingPage.setTitle( Messages.getString( "SaveReportAsWizard.SettingPage.title" ) );
+		settingPage
+				.setTitle( Messages
+						.getFormattedString(
+								"SaveReportAsWizard.SettingPage.title",//$NON-NLS-1$
+								new Object[]{Messages
+										.getString( "NewTemplateWizard.WizardPageTitle.Template" )} ) );//$NON-NLS-1$
 
 		addPage( settingPage );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -87,15 +101,16 @@ public class NewTemplateWizard extends NewReportWizard
 	{
 		return newReportFileWizardPage.isPageComplete( );
 	}
-	
+
 	public boolean performFinish( )
 	{
-		final IPath containerName = newReportFileWizardPage.getContainerFullPath( );
+		final IPath containerName = newReportFileWizardPage
+				.getContainerFullPath( );
 		String fn = newReportFileWizardPage.getFileName( );
 		final String fileName;
-		if ( !fn.endsWith( getFileExtension() ) ) //$NON-NLS-1$
+		if ( !fn.endsWith( getFileExtension( ) ) ) //$NON-NLS-1$
 		{
-			fileName = fn +  getFileExtension(); //$NON-NLS-1$
+			fileName = fn + getFileExtension( ); //$NON-NLS-1$
 		}
 		else
 		{
@@ -112,7 +127,7 @@ public class NewTemplateWizard extends NewReportWizard
 			}
 			catch ( IOException e1 )
 			{
-				//ignore.
+				// ignore.
 			}
 		}
 		final InputStream stream = streamFromPage;
@@ -123,10 +138,7 @@ public class NewTemplateWizard extends NewReportWizard
 			{
 				try
 				{
-					doFinish( containerName,
-							fileName,
-							stream,
-							monitor );
+					doFinish( containerName, fileName, stream, monitor );
 				}
 				catch ( CoreException e )
 				{
@@ -154,7 +166,7 @@ public class NewTemplateWizard extends NewReportWizard
 		}
 		return true;
 	}
-	
+
 	/**
 	 * The worker method. It will find the container, create the file if missing
 	 * or just replace its contents, and open the editor on the newly created
@@ -169,17 +181,15 @@ public class NewTemplateWizard extends NewReportWizard
 	 */
 
 	private void doFinish( IPath containerName, String fileName,
-			InputStream stream,
-			IProgressMonitor monitor ) throws CoreException
+			InputStream stream, IProgressMonitor monitor ) throws CoreException
 	{
 		// create a sample file
 		monitor.beginTask( CREATING + fileName, 2 );
 		IResource resource = (IContainer) ResourcesPlugin.getWorkspace( )
-				.getRoot( )
-				.findMember( containerName );
+				.getRoot( ).findMember( containerName );
 		IContainer container = null;
-		if ( resource == null
-				|| !resource.exists( ) || !( resource instanceof IContainer ) )
+		if ( resource == null || !resource.exists( )
+				|| !( resource instanceof IContainer ) )
 		{
 			// create folder if not exist
 			IFolder folder = createFolderHandle( containerName );
@@ -219,10 +229,13 @@ public class NewTemplateWizard extends NewReportWizard
 				IWorkbenchPage page = window.getActivePage( );
 				try
 				{
-					IEditorPart editorPart = IDE.openEditor( page, file, IDETemplateEditor.ID,true );
-					setReportSettings(((IDEReportEditor)editorPart).getModel());
-					editorPart.doSave(null);
-					BasicNewProjectResourceWizard.updatePerspective( getConfigElement() );
+					IEditorPart editorPart = IDE.openEditor( page, file,
+							IDETemplateEditor.ID, true );
+					setReportSettings( ( (IDEReportEditor) editorPart )
+							.getModel( ) );
+					editorPart.doSave( null );
+					BasicNewProjectResourceWizard
+							.updatePerspective( getConfigElement( ) );
 				}
 				catch ( Exception e )
 				{
@@ -233,5 +246,5 @@ public class NewTemplateWizard extends NewReportWizard
 
 		monitor.worked( 1 );
 	}
-	
+
 }

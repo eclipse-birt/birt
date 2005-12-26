@@ -63,59 +63,74 @@ import org.eclipse.ui.cheatsheets.OpenCheatSheetAction;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 
-
 /**
  * An implementation of <code>INewWizard</code>. Creates a new blank report
  * file.
  */
 
-public class NewReportWizard extends Wizard implements INewWizard, IExecutableExtension
+public class NewReportWizard extends Wizard
+		implements
+			INewWizard,
+			IExecutableExtension
 {
-//	private static final String REPORT_WIZARD = Messages.getString( "NewReportWizard.title.ReportWizard" ); //$NON-NLS-1$
-	private static final String OPENING_FILE_FOR_EDITING = Messages.getString( "NewReportWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
-//	private static final String DOES_NOT_EXIST = Messages.getString( "NewReportWizard.text.DoesNotExist" ); //$NON-NLS-1$
-//	private static final String CONTAINER = Messages.getString( "NewReportWizard.text.Container" ); //$NON-NLS-1$
-	private static final String CREATING = Messages.getString( "NewReportWizard.text.Creating" ); //$NON-NLS-1$
-	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages.getString( "NewReportWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
-	private static final String NEW_REPORT_FILE_EXTENSION = Messages.getString( "NewReportWizard.displayName.NewReportFileExtension" ); //$NON-NLS-1$
-//	private static final String NEW_REPORT_FILE_NAME = NEW_REPORT_FILE_NAME_PREFIX;
-	private static final String SELECT_A_REPORT_TEMPLATE = Messages.getString( "NewReportWizard.text.SelectTemplate" ); //$NON-NLS-1$
-	private static final String CREATE_A_NEW_REPORT = Messages.getString( "NewReportWizard.text.CreateReport" ); //$NON-NLS-1$
+
+	// private static final String REPORT_WIZARD = Messages.getString(
+	// "NewReportWizard.title.ReportWizard" ); //$NON-NLS-1$
+	private static final String OPENING_FILE_FOR_EDITING = Messages
+			.getString( "NewReportWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
+	// private static final String DOES_NOT_EXIST = Messages.getString(
+	// "NewReportWizard.text.DoesNotExist" ); //$NON-NLS-1$
+	// private static final String CONTAINER = Messages.getString(
+	// "NewReportWizard.text.Container" ); //$NON-NLS-1$
+	private static final String CREATING = Messages
+			.getString( "NewReportWizard.text.Creating" ); //$NON-NLS-1$
+	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages
+			.getString( "NewReportWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
+	private static final String NEW_REPORT_FILE_EXTENSION = Messages
+			.getString( "NewReportWizard.displayName.NewReportFileExtension" ); //$NON-NLS-1$
+	// private static final String NEW_REPORT_FILE_NAME =
+	// NEW_REPORT_FILE_NAME_PREFIX;
+	private static final String SELECT_A_REPORT_TEMPLATE = Messages
+			.getString( "NewReportWizard.text.SelectTemplate" ); //$NON-NLS-1$
+	private static final String CREATE_A_NEW_REPORT = Messages
+			.getString( "NewReportWizard.text.CreateReport" ); //$NON-NLS-1$
 	String REPORT = Messages.getString( "NewReportWizard.title.Report" ); //$NON-NLS-1$
-	private static final String TEMPLATECHOICEPAGE = Messages.getString( "NewReportWizard.title.Template" ); //$NON-NLS-1$
-	private static final String WIZARDPAGE = Messages.getString( "NewReportWizard.title.WizardPage" ); //$NON-NLS-1$
-	private static final String NEW = Messages.getString( "NewReportWizard.title.New" ); //$NON-NLS-1$
-	//	private static final String CHOOSE_FROM_TEMPLATE = Messages.getString(
+	private static final String TEMPLATECHOICEPAGE = Messages
+			.getString( "NewReportWizard.title.Template" ); //$NON-NLS-1$
+	private static final String WIZARDPAGE = Messages
+			.getString( "NewReportWizard.title.WizardPage" ); //$NON-NLS-1$
+	private static final String NEW = Messages
+			.getString( "NewReportWizard.title.New" ); //$NON-NLS-1$
+	// private static final String CHOOSE_FROM_TEMPLATE = Messages.getString(
 	// "NewReportWizard.title.Choose" ); //$NON-NLS-1$
 
 	/** Holds selected project resource for run method access */
 	private IStructuredSelection selection;
 
 	WizardNewReportCreationPage newReportFileWizardPage;
-	
+
 	WizardReportSettingPage settingPage;
 
 	private WizardTemplateChoicePage templateChoicePage;
 
 	private int UNIQUE_COUNTER = 0;
-	
+
 	private String fileExtension = IReportElementConstants.DESIGN_FILE_EXTENSION;
 
-	//	private WizardChoicePage choicePage;
-	//	private WizardCustomTemplatePage customTemplatePage;
+	// private WizardChoicePage choicePage;
+	// private WizardCustomTemplatePage customTemplatePage;
 
-	public NewReportWizard()
+	public NewReportWizard( )
 	{
 		super( );
 	}
-	
-	public NewReportWizard(String fileType )
+
+	public NewReportWizard( String fileType )
 	{
 		super( );
 		this.fileExtension = fileType;
 	}
 
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -123,7 +138,8 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 	 */
 	public boolean performFinish( )
 	{
-		final IPath containerName = newReportFileWizardPage.getContainerFullPath( );
+		final IPath containerName = newReportFileWizardPage
+				.getContainerFullPath( );
 		String fn = newReportFileWizardPage.getFileName( );
 		final String fileName;
 		if ( !fn.endsWith( "." + fileExtension ) ) //$NON-NLS-1$
@@ -138,35 +154,35 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		String cheatSheetIdFromPage = "";//$NON-NLS-1$
 		boolean showCheatSheetFromPage = false;
 
-		//Temporary remark the choice page for that feature is not supported in
+		// Temporary remark the choice page for that feature is not supported in
 		// R1
-		//		if ( choicePage.isBlank( ) )
-		//		{
-		//			// blank report
-		//			URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI
+		// if ( choicePage.isBlank( ) )
+		// {
+		// // blank report
+		// URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI
 		// ),
-		//					new Path( templateChoicePage.getBlankTemplate( ).reportPath ) );
-		//			if ( url != null )
-		//			{
-		//				try
-		//				{
-		//					streamFromPage = url.openStream( );
-		//				}
-		//				catch ( IOException e1 )
-		//				{
-		//					//ignore.
-		//				}
-		//			}
+		// new Path( templateChoicePage.getBlankTemplate( ).reportPath ) );
+		// if ( url != null )
+		// {
+		// try
+		// {
+		// streamFromPage = url.openStream( );
+		// }
+		// catch ( IOException e1 )
+		// {
+		// //ignore.
+		// }
+		// }
 		//
-		//			cheatSheetIdFromPage = templateChoicePage.getBlankTemplate(
+		// cheatSheetIdFromPage = templateChoicePage.getBlankTemplate(
 		// ).cheatSheetId;
-		//			showCheatSheetFromPage = false;
-		//		}
-		//		else if ( !choicePage.isCustom( ) )
-		//		{
+		// showCheatSheetFromPage = false;
+		// }
+		// else if ( !choicePage.isCustom( ) )
+		// {
 		// predefined template
 		URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI ),
-				new Path( templateChoicePage.getTemplate( ).getReportPath() ) );
+				new Path( templateChoicePage.getTemplate( ).getReportPath( ) ) );
 		if ( url != null )
 		{
 			try
@@ -175,52 +191,54 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 			}
 			catch ( IOException e1 )
 			{
-				//ignore.
+				// ignore.
 			}
 		}
 		else
 		{
 			try
 			{
-				streamFromPage = new FileInputStream(templateChoicePage.getTemplate( ).getReportPath() );
+				streamFromPage = new FileInputStream( templateChoicePage
+						.getTemplate( ).getReportPath( ) );
 			}
 			catch ( FileNotFoundException e )
 			{
 			}
 		}
 
-		cheatSheetIdFromPage = templateChoicePage.getTemplate( ).getCheatSheetId();
+		cheatSheetIdFromPage = templateChoicePage.getTemplate( )
+				.getCheatSheetId( );
 		showCheatSheetFromPage = templateChoicePage.getShowCheatSheet( );
-		//			Temporary remark the choice page for that feature is not supported in
+		// Temporary remark the choice page for that feature is not supported in
 		// R1
-		//		}
-		//		else
-		//		{
-		//			// custom template
-		//			try
-		//			{
-		//				streamFromPage = new FileInputStream(
+		// }
+		// else
+		// {
+		// // custom template
+		// try
+		// {
+		// streamFromPage = new FileInputStream(
 		// customTemplatePage.getReportPath( ) );
-		//				String xmlPath = customTemplatePage.getReportPath( )
-		//						.replaceFirst( ".rptdesign", ".xml" );
-		//				File f = new File( xmlPath );
-		//				if ( f.exists( ) )
-		//				{
-		//					cheatSheetIdFromPage = f.toURL( ).toString( );
-		//					// commented out until opencheatsheetaction bug is fixed in
-		//					// eclipse
-		//					// https://bugs.eclipse.org/bugs/show_bug.cgi?id=88481
-		//					// showCheatSheetFromPage =
-		//					// customTemplatePage.getShowCheatSheet( );
-		//				}
+		// String xmlPath = customTemplatePage.getReportPath( )
+		// .replaceFirst( ".rptdesign", ".xml" );
+		// File f = new File( xmlPath );
+		// if ( f.exists( ) )
+		// {
+		// cheatSheetIdFromPage = f.toURL( ).toString( );
+		// // commented out until opencheatsheetaction bug is fixed in
+		// // eclipse
+		// // https://bugs.eclipse.org/bugs/show_bug.cgi?id=88481
+		// // showCheatSheetFromPage =
+		// // customTemplatePage.getShowCheatSheet( );
+		// }
 		//
-		//			}
-		//			catch ( Exception e )
-		//			{
-		//				ExceptionHandler.handle( e );
-		//				return false;
-		//			}
-		//		}
+		// }
+		// catch ( Exception e )
+		// {
+		// ExceptionHandler.handle( e );
+		// return false;
+		// }
+		// }
 
 		final InputStream stream = streamFromPage;
 		final String cheatSheetId = cheatSheetIdFromPage;
@@ -232,12 +250,8 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 			{
 				try
 				{
-					doFinish( containerName,
-							fileName,
-							stream,
-							cheatSheetId,
-							showCheatSheet,
-							monitor );
+					doFinish( containerName, fileName, stream, cheatSheetId,
+							showCheatSheet, monitor );
 				}
 				catch ( CoreException e )
 				{
@@ -288,8 +302,8 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		}
 		if ( !foundOpenProject )
 		{
-			MessageDialog.openError( getShell( ),
-					Messages.getString( "NewReportWizard.title.Error" ), //$NON-NLS-1$
+			MessageDialog.openError( getShell( ), Messages
+					.getString( "NewReportWizard.title.Error" ), //$NON-NLS-1$
 					Messages.getString( "NewReportWizard.error.NoProject" ) ); //$NON-NLS-1$
 
 			// abort wizard. There is no clean way to do it.
@@ -297,7 +311,7 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 			 * Remove the exception here 'cause It's safe since the wizard won't
 			 * create any file without an open project.
 			 */
-			//throw new RuntimeException( );
+			// throw new RuntimeException( );
 		}
 		// OK
 		this.selection = selection;
@@ -322,15 +336,15 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 	public void addPages( )
 	{
 		newReportFileWizardPage = new WizardNewReportCreationPage( WIZARDPAGE,
-				selection,fileExtension );
+				selection, fileExtension );
 		addPage( newReportFileWizardPage );
-		//		Temporary remark the choice page for that feature is not supported in
+		// Temporary remark the choice page for that feature is not supported in
 		// R1
-		//		choicePage = new WizardChoicePage( TEMPLATECHOICEPAGE );
-		//		addPage( choicePage );
-		//		customTemplatePage = new WizardCustomTemplatePage( TEMPLATECHOICEPAGE
+		// choicePage = new WizardChoicePage( TEMPLATECHOICEPAGE );
+		// addPage( choicePage );
+		// customTemplatePage = new WizardCustomTemplatePage( TEMPLATECHOICEPAGE
 		// );
-		//		addPage( customTemplatePage );
+		// addPage( customTemplatePage );
 		templateChoicePage = new WizardTemplateChoicePage( TEMPLATECHOICEPAGE );
 		addPage( templateChoicePage );
 
@@ -339,19 +353,26 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		newReportFileWizardPage.setDescription( CREATE_A_NEW_REPORT );
 		templateChoicePage.setTitle( REPORT );
 		templateChoicePage.setDescription( SELECT_A_REPORT_TEMPLATE );
-		//		Temporary remark the choice page for that feature is not supported in
+		// Temporary remark the choice page for that feature is not supported in
 		// R1
-		//		customTemplatePage.setTitle( REPORT );
-		//		customTemplatePage.setDescription( SELECT_A_REPORT_TEMPLATE );
-		//		choicePage.setTitle( REPORT );
-		//		choicePage.setDescription( CHOOSE_FROM_TEMPLATE );
+		// customTemplatePage.setTitle( REPORT );
+		// customTemplatePage.setDescription( SELECT_A_REPORT_TEMPLATE );
+		// choicePage.setTitle( REPORT );
+		// choicePage.setDescription( CHOOSE_FROM_TEMPLATE );
 
 		resetUniqueCount( );
-		newReportFileWizardPage.setFileName( getUniqueReportName(NEW_REPORT_FILE_NAME_PREFIX,NEW_REPORT_FILE_EXTENSION) );//$NON-NLS-1$
-		newReportFileWizardPage.setContainerFullPath( getDefaultContainerPath( ) );
-		
+		newReportFileWizardPage.setFileName( getUniqueReportName(
+				NEW_REPORT_FILE_NAME_PREFIX, NEW_REPORT_FILE_EXTENSION ) );//$NON-NLS-1$
+		newReportFileWizardPage
+				.setContainerFullPath( getDefaultContainerPath( ) );
+
 		settingPage = new WizardReportSettingPage( null );
-		settingPage.setTitle( Messages.getString( "SaveReportAsWizard.SettingPage.title" ) );
+		settingPage
+				.setTitle( Messages
+						.getFormattedString(
+								"SaveReportAsWizard.SettingPage.title",//$NON-NLS-1$
+								new Object[]{Messages
+										.getString( "NewReportWizard.wizardPageTitle.report" )} ) );//$NON-NLS-1$
 
 		addPage( settingPage );
 	}
@@ -406,14 +427,14 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		IContainer ct = null;
 		if ( selection instanceof IAdaptable )
 		{
-			IResource resource = (IResource) ( (IAdaptable) selection ).getAdapter( IResource.class );
+			IResource resource = (IResource) ( (IAdaptable) selection )
+					.getAdapter( IResource.class );
 
 			if ( resource instanceof IContainer && resource.isAccessible( ) )
 			{
 				ct = (IContainer) resource;
 			}
-			else if ( resource != null
-					&& resource.getParent( ) != null
+			else if ( resource != null && resource.getParent( ) != null
 					&& resource.getParent( ).isAccessible( ) )
 			{
 				ct = resource.getParent( );
@@ -422,19 +443,18 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 
 		return ct;
 	}
-	
+
 	String getUniqueReportName( String prefix, String ext )
 	{
 		int counter = getCounter( prefix, ext );
 		return counter == 0 ? prefix + ext //$NON-NLS-1$
-				: prefix + "_" //$NON-NLS-1$
-						+ counter + ext; //$NON-NLS-1$
+		: prefix + "_" //$NON-NLS-1$
+				+ counter + ext; //$NON-NLS-1$
 	}
-	
+
 	int getCounter( String prefix, String ext )
 	{
-		IProject[] pjs = ResourcesPlugin.getWorkspace( )
-				.getRoot( )
+		IProject[] pjs = ResourcesPlugin.getWorkspace( ).getRoot( )
 				.getProjects( );
 
 		resetUniqueCount( );
@@ -449,10 +469,7 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 			{
 				if ( pjs[i].isAccessible( ) )
 				{
-					if ( !validDuplicate( prefix,
-							ext,
-							UNIQUE_COUNTER,
-							pjs[i] ) )
+					if ( !validDuplicate( prefix, ext, UNIQUE_COUNTER, pjs[i] ) )
 					{
 						UNIQUE_COUNTER++;
 
@@ -469,10 +486,9 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 	}
 
 	private static final List tmpList = new ArrayList( );
-    private IConfigurationElement configElement;
+	private IConfigurationElement configElement;
 
-	boolean validDuplicate( String prefix, String ext, int count,
-			IResource res )
+	boolean validDuplicate( String prefix, String ext, int count, IResource res )
 	{
 		if ( res != null && res.isAccessible( ) )
 		{
@@ -496,16 +512,15 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 							throws CoreException
 					{
 						if ( resource.getType( ) == IResource.FILE
-								&& name.equals( ( (IFile) resource ).getName( ) ) )
+								&& name
+										.equals( ( (IFile) resource ).getName( ) ) )
 						{
 							tmpList.add( Boolean.TRUE );
 						}
 
 						return true;
 					}
-				},
-						IResource.DEPTH_INFINITE,
-						true );
+				}, IResource.DEPTH_INFINITE, true );
 
 				if ( tmpList.size( ) > 0 )
 				{
@@ -520,16 +535,17 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 
 		return true;
 	}
-	
-    /**
-     * Creates a folder resource handle for the folder with the given workspace path.
-     * This method does not create the folder resource; this is the responsibility
-     * of <code>createFolder</code>.
-     *
-     * @param folderPath the path of the folder resource to create a handle for
-     * @return the new folder resource handle
-     */
-    protected IFolder createFolderHandle( IPath folderPath )
+
+	/**
+	 * Creates a folder resource handle for the folder with the given workspace
+	 * path. This method does not create the folder resource; this is the
+	 * responsibility of <code>createFolder</code>.
+	 * 
+	 * @param folderPath
+	 *            the path of the folder resource to create a handle for
+	 * @return the new folder resource handle
+	 */
+	protected IFolder createFolderHandle( IPath folderPath )
 	{
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace( )
 				.getRoot( );
@@ -556,11 +572,10 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		// create a sample file
 		monitor.beginTask( CREATING + fileName, 2 );
 		IResource resource = (IContainer) ResourcesPlugin.getWorkspace( )
-				.getRoot( )
-				.findMember( containerName );
+				.getRoot( ).findMember( containerName );
 		IContainer container = null;
-		if ( resource == null
-				|| !resource.exists( ) || !( resource instanceof IContainer ) )
+		if ( resource == null || !resource.exists( )
+				|| !( resource instanceof IContainer ) )
 		{
 			// create folder if not exist
 			IFolder folder = createFolderHandle( containerName );
@@ -604,25 +619,27 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 				{
 					IEditorPart editorPart = IDE.openEditor( page, file, true );
 
-					setReportSettings(((IDEReportEditor)editorPart).getModel());
-					editorPart.doSave(null);
-					
-					BasicNewProjectResourceWizard.updatePerspective( configElement );
+					setReportSettings( ( (IDEReportEditor) editorPart )
+							.getModel( ) );
+					editorPart.doSave( null );
+
+					BasicNewProjectResourceWizard
+							.updatePerspective( configElement );
 					if ( showCheat && !cheatId.equals( "" ) ) //$NON-NLS-1$
 					{
 						OpenCheatSheetAction action = null;
-						//						Temporary remark the choice page for that feature is
+						// Temporary remark the choice page for that feature is
 						// not supported in R1
-						//						if ( choicePage.isCustom( ) )
-						//						{
-						//							action = new OpenCheatSheetAction( file.getName( ),
-						//									file.getName( ),
-						//									new URL( cheatId ) ); //$NON-NLS-1$
-						//						}
-						//						else
-						//						{
+						// if ( choicePage.isCustom( ) )
+						// {
+						// action = new OpenCheatSheetAction( file.getName( ),
+						// file.getName( ),
+						// new URL( cheatId ) ); //$NON-NLS-1$
+						// }
+						// else
+						// {
 						action = new OpenCheatSheetAction( cheatId );
-						//						}
+						// }
 						action.run( );
 					}
 				}
@@ -637,55 +654,54 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 
 	}
 
-//	private void throwCoreException( String message ) throws CoreException
-//	{
-//		IStatus status = new Status( IStatus.ERROR,
-//				REPORT_WIZARD,
-//				IStatus.OK,
-//				message,
-//				null );
-//		throw new CoreException( status );
-//	}
-	
+	// private void throwCoreException( String message ) throws CoreException
+	// {
+	// IStatus status = new Status( IStatus.ERROR,
+	// REPORT_WIZARD,
+	// IStatus.OK,
+	// message,
+	// null );
+	// throw new CoreException( status );
+	// }
 
-	//	Temporary remark the choice page for that feature is not supported in R1
-	//	/*
-	//	 * (non-Javadoc)
-	//	 *
-	//	 * @see
+	// Temporary remark the choice page for that feature is not supported in R1
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see
 	// org.eclipse.jface.wizard.IWizard#getNextPage(org.eclipse.jface.wizard.IWizardPage)
-	//	 */
-	//	public IWizardPage getNextPage( IWizardPage page )
-	//	{
+	// */
+	// public IWizardPage getNextPage( IWizardPage page )
+	// {
 	//
-	//		if ( page instanceof WizardChoicePage )
-	//		{
-	//			if ( choicePage.isCustom( ) )
-	//			{
-	//				return customTemplatePage;
-	//			}
-	//			else if ( choicePage.isBlank( ) )
-	//			{
-	//				return null;
-	//			}
-	//			else
-	//			{
-	//				return templateChoicePage;
-	//			}
+	// if ( page instanceof WizardChoicePage )
+	// {
+	// if ( choicePage.isCustom( ) )
+	// {
+	// return customTemplatePage;
+	// }
+	// else if ( choicePage.isBlank( ) )
+	// {
+	// return null;
+	// }
+	// else
+	// {
+	// return templateChoicePage;
+	// }
 	//
-	//		}
-	//		else
-	//		{
-	//			if ( page instanceof WizardCustomTemplatePage )
-	//			{
-	//				return null;
-	//			}
-	//			else
-	//			{
-	//				return super.getNextPage( page );
-	//			}
-	//		}
-	//	}
+	// }
+	// else
+	// {
+	// if ( page instanceof WizardCustomTemplatePage )
+	// {
+	// return null;
+	// }
+	// else
+	// {
+	// return super.getNextPage( page );
+	// }
+	// }
+	// }
 
 	/*
 	 * (non-Javadoc)
@@ -694,32 +710,36 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 	 */
 	public boolean canFinish( )
 	{
-		//		Temporary remark the choice page for that feature is not supported in
+		// Temporary remark the choice page for that feature is not supported in
 		// R1
-		//		if ( choicePage.isBlank( ) )
-		//		{
-		//			return newReportFileWizardPage.isPageComplete( );
-		//		}
-		//		else if ( choicePage.isCustom( ) )
-		//		{
-		//			return customTemplatePage.isPageComplete( )
-		//					&& newReportFileWizardPage.isPageComplete( );
-		//		}
-		//		else
-		//		{
+		// if ( choicePage.isBlank( ) )
+		// {
+		// return newReportFileWizardPage.isPageComplete( );
+		// }
+		// else if ( choicePage.isCustom( ) )
+		// {
+		// return customTemplatePage.isPageComplete( )
+		// && newReportFileWizardPage.isPageComplete( );
+		// }
+		// else
+		// {
 		return templateChoicePage.isPageComplete( )
 				&& newReportFileWizardPage.isPageComplete( );
-		//		}
+		// }
 	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
-     */
-    public void setInitializationData( IConfigurationElement config, String propertyName, Object data ) throws CoreException
-    {
-       this.configElement = config;
-    }
-	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement,
+	 *      java.lang.String, java.lang.Object)
+	 */
+	public void setInitializationData( IConfigurationElement config,
+			String propertyName, Object data ) throws CoreException
+	{
+		this.configElement = config;
+	}
+
 	public String getFileExtension( )
 	{
 		return fileExtension;
@@ -730,13 +750,11 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		this.fileExtension = fileExtension;
 	}
 
-	
 	public IStructuredSelection getSelection( )
 	{
 		return selection;
 	}
 
-	
 	public IConfigurationElement getConfigElement( )
 	{
 		return configElement;
@@ -744,12 +762,13 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 
 	/**
 	 * Set report basic settings.
+	 * 
 	 * @param model
 	 * @throws IOException
 	 */
 	void setReportSettings( Object model ) throws IOException
 	{
-		ReportDesignHandle handle = (ReportDesignHandle)model;
+		ReportDesignHandle handle = (ReportDesignHandle) model;
 		try
 		{
 			handle.setDisplayName( settingPage.getDisplayName( ) );
@@ -759,6 +778,6 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		catch ( SemanticException e )
 		{
 		}
-		handle.save();
+		handle.save( );
 	}
 }
