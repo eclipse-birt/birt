@@ -13,9 +13,10 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.dialogs;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.text.Collator;
+import java.text.ParseException;
+import java.text.RuleBasedCollator;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -40,6 +41,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -544,20 +546,76 @@ public class JdbcDriverManagerDialog extends Dialog
 	 */	
 	private void sortDriver( final int columnIndex, final boolean asc )
 	{
-		TableItem[] tableItems = driverViewer.getTable( ).getItems( );
-
-		sort( columnIndex, asc, tableItems );
-		String[][] records = mapTableItemsTo2DArray( tableItems );
-
-		driverViewer.getTable( ).removeAll( );
-		TableItem tableItem;
-		for ( int i = 0; i < tableItems.length; i++ )
+		try
 		{
-			tableItem = new TableItem( driverViewer.getTable( ), SWT.NONE );
-			tableItem.setText( records[i] );
+			driverViewer.setSorter( new ViewerSorter( new RuleBasedCollator( ( (RuleBasedCollator) Collator.getInstance( ) ).getRules( ) ) {
+
+				public int compare( String source, String target )
+				{
+					int result = 0;
+					if ( columnIndex == 1 )
+						result = super.compare( getDriverClassName( source ),
+								getDriverClassName( target ) );
+					else if ( columnIndex == 2 )
+						result = super.compare( getDisplayName( source ),
+								getDisplayName( target ) );
+					else if ( columnIndex == 3 )
+						result = super.compare( getUrlTemplate( source ),
+								getUrlTemplate( target ) );
+
+					if ( !asc )
+						return result;
+					else
+						return result *= -1;
+				}
+			} ) );
 		}
+		catch ( ParseException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace( );
+		}
+
+		refreshDriver( );
 	}
 
+	/**
+	 * 
+	 * @param source
+	 * @return
+	 */
+	private String getDriverClassName( String source )
+	{
+		int index = source.lastIndexOf( "=" );
+		if ( index != -1
+				&& driverMap.containsKey( source.substring( 0, index ) ) )
+			return source.substring( 0, index );
+		else
+			return source;
+	}
+	
+	/**
+	 * 
+	 * @param source
+	 * @return
+	 */
+	private String getDisplayName( String source )
+	{
+		DriverInfo driverInfo = (DriverInfo) driverMap.get( getDriverClassName( source ) );
+		return driverInfo.getDisplayName( );
+	}
+	
+	/**
+	 * 
+	 * @param source
+	 * @return
+	 */
+	private String getUrlTemplate( String source )
+	{
+		DriverInfo driverInfo = (DriverInfo) driverMap.get( getDriverClassName( source ) );
+		return driverInfo.getUrlTemplate( );
+	}	
+	
 	/**
 	 * Carry out sort operation against certain jar column
 	 * @param columnIndex the column based on which the sort operation would be carried out 
@@ -565,69 +623,59 @@ public class JdbcDriverManagerDialog extends Dialog
 	 */	
 	private void sortJar( final int columnIndex, final boolean asc )
 	{
-		TableItem[] tableItems = jarViewer.getTable( ).getItems( );
-
-		sort( columnIndex, asc, tableItems );
-		String[][] records = mapTableItemsTo2DArray( tableItems );
-
-		jarViewer.getTable( ).removeAll( );
-		TableItem tableItem;
-		for ( int i = 0; i < tableItems.length; i++ )
+		try
 		{
-			tableItem = new TableItem( jarViewer.getTable( ), SWT.NONE );
-			tableItem.setText( records[i] );
+			jarViewer.setSorter( new ViewerSorter( new RuleBasedCollator( ( (RuleBasedCollator) Collator.getInstance( ) ).getRules( ) ) {
+
+				public int compare( String source, String target )
+				{
+					int result = 0;
+					if ( columnIndex == 1 )
+						result = super.compare( getFileName( source ),
+								getFileName( target ) );
+					else if ( columnIndex == 2 )
+						result = super.compare( getFilePath( source ),
+								getFilePath( target ) );
+
+					if ( !asc )
+						return result;
+					else
+						return result *= -1;
+				}
+			} ) );
 		}
+		catch ( ParseException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace( );
+		}
+
+		refreshJar( );
 	}
 	
 	/**
-	 * Carry out sort operation against certain column
-	 * @param columnIndex the column based on which the sort operation would be carried out 
-	 * @param asc the sort direction
-	 */	
-	private void sort( final int columnIndex, final boolean asc,
-			TableItem[] items )
-	{
-		TableItem[] tableItems = items;
-
-		Arrays.sort( tableItems, new Comparator( ) {
-
-			public int compare( Object o1, Object o2 )
-			{
-				TableItem it1 = (TableItem) o1;
-				TableItem it2 = (TableItem) o2;
-				int result = 0;
-				if ( asc )
-				{
-					result = it1.getText( columnIndex )
-							.compareTo( it2.getText( columnIndex ) );
-				}
-				else
-				{
-					result = it2.getText( columnIndex )
-							.compareTo( it1.getText( columnIndex ) );
-				}
-				return result;
-			}
-		} );
-	}
-	
-	/**
-	 * Map TableItems to a 2-dimension array
-	 * @param tableItems
+	 * 
+	 * @param source
 	 * @return
 	 */
-	private String[][] mapTableItemsTo2DArray( TableItem[] tableItems )
+	private String getFileName( String source )
 	{
-		String[][] records = new String[tableItems.length][driverViewer.getTable( ).getColumnCount( )];
-		
-		for ( int i = 0; i < tableItems.length; i++)
-		{	
-			for ( int j = 0; j < driverViewer.getTable( ).getColumnCount( ); j++ )
-			{
-				records[i][j] = tableItems[i].getText(j);
-			}
-		}
-		return records;
+		int index = source.lastIndexOf( "=" );
+		if ( index != -1 && jarMap.containsKey( source.substring( 0, index ) ) )
+			return source.substring( 0, index );
+		else
+			return source;
+	}
+	
+	/**
+	 * 
+	 * @param source
+	 * @return
+	 */
+	private String getFilePath( String source )
+	{
+		JarFile jarFile = (JarFile) jarMap.get( getFileName( source ) );
+		return jarFile.getFilePath( );
 	}
 	
 	/**
@@ -638,7 +686,16 @@ public class JdbcDriverManagerDialog extends Dialog
 		//TODO: a temporary solution for table refresh error
 		jarViewer.setInput( null );
 		jarViewer.setInput( jarMap );
-
+		
+		refreshJar( );
+	}
+	
+	/**
+	 * refresh jar
+	 *
+	 */
+	private void refreshJar( )
+	{
 		for ( int i = 0; i < jarViewer.getTable( ).getItemCount( ); i++ )
 		{
 			TableItem ti = jarViewer.getTable( ).getItem( i );
@@ -753,10 +810,19 @@ public class JdbcDriverManagerDialog extends Dialog
 	 */
 	private void refreshDriverViewer( )
 	{
-		//TODO: a temporary solution for table refresh error
+		// TODO: a temporary solution for table refresh error
 		driverViewer.setInput( null );
 		driverViewer.setInput( driverMap );
 
+		refreshDriver( );
+	}
+	
+	/**
+	 * refresh driver
+	 *
+	 */
+	private void refreshDriver( )
+	{
 		for ( int i = 0; i < driverViewer.getTable( ).getItemCount( ); i++ )
 		{
 			TableItem ti = driverViewer.getTable( ).getItem( i );
@@ -863,7 +929,11 @@ public class JdbcDriverManagerDialog extends Dialog
 				jarsToBeCopied.put( dlg.getFileName( ), jarInfo );
 			}
 			
-			jarsToBeCopiedRuntime.put( dlg.getFileName( ), jarInfo );
+			if ( jarsToBeDeletedRuntime.containsKey( dlg.getFileName( ) ) )
+				jarsToBeDeletedRuntime.remove( dlg.getFileName( ) );
+			else
+				jarsToBeCopiedRuntime.put( dlg.getFileName( ), jarInfo );
+			
 			jarMap.put( dlg.getFileName( ), jarInfo );
 
 			refreshJarViewer( );
@@ -890,7 +960,7 @@ public class JdbcDriverManagerDialog extends Dialog
 			jarsToBeCopied.put( ( (JarFile) fn.getValue( ) ).getFileName( ),
 					(JarFile) fn.getValue( ) );
 			
-			checkJarState( );
+			( (JarFile) fn.getValue( ) ).checkJarState( );
 
 			refreshJarViewer( );
 
@@ -922,10 +992,18 @@ public class JdbcDriverManagerDialog extends Dialog
 			}
 			else
 			{
-				jarsToBeDeleted.put( jarFile.getFileName( ), jarFile );
+				if ( jarFile.getState( ) != JarFile.ODA_FILE_NOT_EXIST_TOKEN )
+					jarsToBeDeleted.put( jarFile.getFileName( ), jarFile );
 			}
 			
-			jarsToBeDeletedRuntime.put( jarFile.getFileName( ), jarFile );
+			if ( jarsToBeCopiedRuntime.containsKey( jarFile.getFileName() ) )
+				jarsToBeCopiedRuntime.remove( jarFile.getFileName( ) );
+					
+			else
+			{
+				if ( jarFile.getState( ) != JarFile.ODA_FILE_NOT_EXIST_TOKEN )
+					jarsToBeDeletedRuntime.put( jarFile.getFileName( ), jarFile );
+			}
 			
 			jarMap.remove( fn.getKey( ) );
 
