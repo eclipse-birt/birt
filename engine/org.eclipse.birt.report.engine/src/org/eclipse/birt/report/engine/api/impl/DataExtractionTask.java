@@ -267,21 +267,28 @@ public class DataExtractionTask extends EngineTask
 		}
 		else
 		{
-			selectedColumns = new String[exprs.size( )];
-			Iterator iter = exprs.iterator( );
-			
-			for ( int i = 0; i < selectedColumns.length; i++ )
+			if ( exprs.size( ) <= 0 )
 			{
-				IBaseExpression expr = (IBaseExpression) iter.next( );
-				if ( expr instanceof IConditionalExpression )
+				throw new EngineException( "Can't exported data in groups" );
+			}
+			else
+			{
+				selectedColumns = new String[exprs.size( )];
+				Iterator iter = exprs.iterator( );
+				
+				for ( int i = 0; i < selectedColumns.length; i++ )
 				{
-					IConditionalExpression condExpr = (IConditionalExpression) expr;
-					selectedColumns[i] = condExpr.getExpression( ).getText( );
-				}
-				else if ( expr instanceof IScriptExpression )
-				{
-					IScriptExpression scriptExpr = (IScriptExpression) expr;
-					selectedColumns[i] = scriptExpr.getText( );
+					IBaseExpression expr = (IBaseExpression) iter.next( );
+					if ( expr instanceof IConditionalExpression )
+					{
+						IConditionalExpression condExpr = (IConditionalExpression) expr;
+						selectedColumns[i] = condExpr.getExpression( ).getText( );
+					}
+					else if ( expr instanceof IScriptExpression )
+					{
+						IScriptExpression scriptExpr = (IScriptExpression) expr;
+						selectedColumns[i] = scriptExpr.getText( );
+					}
 				}
 			}
 		}
