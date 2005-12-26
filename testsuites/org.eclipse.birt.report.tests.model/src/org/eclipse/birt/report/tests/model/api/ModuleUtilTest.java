@@ -18,7 +18,7 @@ public class ModuleUtilTest extends BaseTestCase {
 	private final String libraryName = "ModuleUtilTest_report.xml"; //$NON-NLS-1$
 	private final String invalidreportName = "ModuleUtilTest_report_invalid.xml"; //$NON-NLS-1$
 	private final String invalidlibraryName = "ModuleUtilTest_report_invalid.xml"; //$NON-NLS-1$
-	protected static final String pluginpath = System.getProperty("eclipse.home")+"/plugins/"+ PLUGIN_NAME +"/bin/";
+
 		public ModuleUtilTest(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
@@ -39,14 +39,14 @@ public class ModuleUtilTest extends BaseTestCase {
 		//test a valid report design
 		
 		openDesign( reportName );
-		File file = new File(pluginpath+getClassFolder( ) + INPUT_FOLDER + reportName );
+		File file = new File(PLUGIN_PATH +getClassFolder( ) + INPUT_FOLDER + reportName );
 		InputStream is = new FileInputStream( file );
 		SessionHandle session = DesignEngine.newSession( null );
 		designHandle = session.openDesign( file.toString() );
 		assertTrue(ModuleUtil.isValidDesign(session,reportName,is));
 		
 		//test a invalid report design
-		File file2 = new File(pluginpath+getClassFolder( ) + INPUT_FOLDER + invalidreportName );
+		File file2 = new File(PLUGIN_PATH +getClassFolder( ) + INPUT_FOLDER + invalidreportName );
 		InputStream is2 = new FileInputStream( file2 );
 		SessionHandle session2 = DesignEngine.newSession( null );
 		assertFalse(ModuleUtil.isValidDesign(session2,invalidreportName,is2));
@@ -56,14 +56,14 @@ public class ModuleUtilTest extends BaseTestCase {
 	{
 		//test a valid library 
 		openDesign( libraryName );
-		File file = new File(pluginpath+getClassFolder( ) + INPUT_FOLDER + libraryName );
+		File file = new File(PLUGIN_PATH +getClassFolder( ) + INPUT_FOLDER + libraryName );
 		InputStream is = new FileInputStream( file );
 		SessionHandle session = DesignEngine.newSession( null );
 		designHandle = session.openDesign(file.toString());
 		assertTrue(ModuleUtil.isValidDesign(session,libraryName,is));
 		
 		//test a invalid library
-		File file2 = new File(pluginpath+getClassFolder( ) + INPUT_FOLDER + invalidlibraryName );
+		File file2 = new File(PLUGIN_PATH +getClassFolder( ) + INPUT_FOLDER + invalidlibraryName );
 		InputStream is2 = new FileInputStream( file2 );
 		SessionHandle session2 = DesignEngine.newSession( null );
 		assertFalse(ModuleUtil.isValidDesign(session2,invalidlibraryName,is2));

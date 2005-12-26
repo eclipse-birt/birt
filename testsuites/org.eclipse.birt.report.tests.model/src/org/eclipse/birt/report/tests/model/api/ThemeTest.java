@@ -27,11 +27,10 @@ public class ThemeTest extends BaseTestCase
    private SharedStyleHandle style2 = null;
    private TableHandle table = null;
    private LabelHandle label = null;
-   protected static final String pluginpath = System.getProperty("eclipse.home")+"/plugins/"+ PLUGIN_NAME +"/bin";
-   private String LibA= pluginpath+ getFullQualifiedClassName() + INPUT_FOLDER + "LibraryAIncludeTheme.xml";
-   private String LibB= pluginpath+ getFullQualifiedClassName() + INPUT_FOLDER + "LibraryBIncludeTheme.xml";
-   private String LibC= pluginpath+ getFullQualifiedClassName() + INPUT_FOLDER + "LibraryCIncludeTheme.xml";
-   private String LibC1 = pluginpath+ getFullQualifiedClassName() + INPUT_FOLDER + "LibraryCIncludeTheme_1.xml";
+   private String LibA= PLUGIN_PATH + getFullQualifiedClassName() + INPUT_FOLDER + "LibraryAIncludeTheme.xml";
+   private String LibB= PLUGIN_PATH + getFullQualifiedClassName() + INPUT_FOLDER + "LibraryBIncludeTheme.xml";
+   private String LibC= PLUGIN_PATH + getFullQualifiedClassName() + INPUT_FOLDER + "LibraryCIncludeTheme.xml";
+   private String LibC1 = PLUGIN_PATH + getFullQualifiedClassName() + INPUT_FOLDER + "LibraryCIncludeTheme_1.xml";
    
 	public ThemeTest(String name) {
 		super(name);
@@ -152,7 +151,7 @@ public class ThemeTest extends BaseTestCase
 		   designHandle.getStyles().drop(RCS2);
 		   assertEquals("100%",table.getStringProperty(Style.FONT_SIZE_PROP));
 		   assertEquals("aqua",label.getStringProperty(Style.BACKGROUND_COLOR_PROP));
-		   designHandle.saveAs(pluginpath+ getFullQualifiedClassName() + INPUT_FOLDER+"ThemeTest2_1.xml");
+		   designHandle.saveAs(PLUGIN_PATH + getFullQualifiedClassName() + INPUT_FOLDER+"ThemeTest2_1.xml");
 		       
 	       //drop custom styles in library
 	       libraryHandle.findTheme("theme1").getStyles().drop(LCS1);

@@ -6,6 +6,8 @@ import junit.framework.TestSuite;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+
 import java.io.File;
 
 public class IncludeLibraryRuleTest extends BaseTestCase
@@ -97,7 +99,14 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 	{
 		openDesign(fileName);
 		designHandle.includeLibrary( LibA , "" );
+		try{
 		designHandle.includeLibrary( LibA , "LibB" );
+		fail();
+		}
+		catch(SemanticException e)
+		{
+		 assertNotNull(e);	
+		}
 	}
 	
 	

@@ -112,14 +112,17 @@ public abstract class BaseTestCase extends TestCase
 	/*
 	 *  The plugin location   
 	 */
-	protected static final String PLUGINLOC = 
-		Platform.getBundle(PLUGIN_NAME).getLocation();
+//	protected static final String PLUGINLOC = 
+//		Platform.getBundle(PLUGIN_NAME).getLocation();
 	
+	protected static final String PLUGINLOC = "/org.eclipse.birt.report.tests.model/";
+	
+//	protected static final String PLUGIN_PATH = System.getProperty("user.dir")
+//			+ "\\plugins\\"
+//			+ BaseTestCase.PLUGINLOC.substring(BaseTestCase.PLUGINLOC
+//					.indexOf("/") + 1) + "bin/";
+	protected static final String PLUGIN_PATH = System.getProperty("user.dir")+"/bin/";
 
-	protected static final String PLUGIN_PATH = System.getProperty("user.dir")
-			+ "\\plugins\\"
-			+ BaseTestCase.PLUGINLOC.substring(BaseTestCase.PLUGINLOC
-					.indexOf("/") + 1) + "bin/";
 	protected static final String TEST_FOLDER = ""; //$NON-NLS-1$
 	protected static final String OUTPUT_FOLDER = "/output/"; //$NON-NLS-1$
 	protected static final String INPUT_FOLDER = "/input/"; //$NON-NLS-1$

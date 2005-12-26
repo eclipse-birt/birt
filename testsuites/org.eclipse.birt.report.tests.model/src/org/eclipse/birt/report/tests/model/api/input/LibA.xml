@@ -184,13 +184,13 @@ from root.Account</property>
                 </row>
             </footer>
         </table>
-        <extended-item extensionName="Chart" name="chart1">
-            <property name="height">250pt</property>
-            <property name="width">400pt</property>
-            <property name="dataSet">sqldst1</property>
+      <extended-item extensionName="Chart" name="chart1" id="6">
+            <property name="height">130pt</property>
+            <property name="width">212pt</property>
+            <property name="dataSet">Data Set</property>
             <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
-  <SubType>Stacked</SubType>
+  <SubType>Side-by-side</SubType>
   <Block>
     <Children xsi:type="layout:TitleBlock">
       <Bounds>
@@ -225,17 +225,12 @@ from root.Account</property>
         <Caption>
           <Value>Bar Chart Title</Value>
           <Font>
-            <Name>serif</Name>
-            <Size>24.0</Size>
-            <Bold>false</Bold>
-            <Italic>false</Italic>
-            <Strikethrough>false</Strikethrough>
-            <Underline>false</Underline>
+            <Size>16.0</Size>
+            <Bold>true</Bold>
             <Alignment>
-              <horizontalAlignment>Left</horizontalAlignment>
-              <verticalAlignment>Top</verticalAlignment>
+              <horizontalAlignment>Center</horizontalAlignment>
+              <verticalAlignment>Center</verticalAlignment>
             </Alignment>
-            <Rotation>0.0</Rotation>
           </Font>
         </Caption>
         <Background xsi:type="attribute:ColorDefinition">
@@ -370,6 +365,9 @@ from root.Account</property>
       </ClientArea>
       <Text>
         <Value>&lt;undefined></Value>
+        <Font>
+          <Alignment/>
+        </Font>
       </Text>
       <Orientation>Vertical</Orientation>
       <Direction>Top_Bottom</Direction>
@@ -378,6 +376,9 @@ from root.Account</property>
       <Title>
         <Caption>
           <Value>&lt;undefined></Value>
+          <Font>
+            <Alignment/>
+          </Font>
         </Caption>
         <Background xsi:type="attribute:ColorDefinition">
           <Transparency>0</Transparency>
@@ -409,8 +410,8 @@ from root.Account</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>400.0</Width>
-      <Height>250.0</Height>
+      <Width>211.5</Width>
+      <Height>129.75</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -442,6 +443,177 @@ from root.Account</property>
     <Visible>true</Visible>
   </Block>
   <Dimension>Two_Dimensional</Dimension>
+  <Script>/**
+ * The chart script methods provide control on the chart databinding, generation and rendering.
+ *
+ * The methods have been commented in the following code, please uncomment and implement the
+ * ones you need. Note that for simplicity the &quot;after&quot; methods have not be included here.
+ *
+ * This script syntax follows JavaScript specifications, the Java classes that are referred to
+ * in the comments can be accessed as JavaScript classes. 
+ *
+ * Script examples are available in the org.eclipse.birt.chart.examples plugin
+ */
+
+
+/**
+ * Called before populating the series dataset using the DataSetProcessor.
+ * 
+ * @param series
+ *            Series
+ * @param dataSetProcessor
+ *            DataSetProcessor
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDataSetFilled( series, dataSetProcessor, context ){}
+
+/**
+ * Called before generation of chart model to GeneratedChartState.
+ * 
+ * @param chart
+ *            Chart Model
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeGeneration( chart, context ){}
+
+/**
+ * Called before the chart is rendered.
+ * 
+ * @param gcs
+ *            GeneratedChartState
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeRendering( gcs, context ){}
+
+/**
+ * Called before drawing each block.
+ * 
+ * @param block
+ *            Block
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawBlock( block, context ){}
+
+/**
+ * Called before drawing each entry the legend.
+ * 
+ * @param label
+ *            Label
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawLegendEntry( label, context ){}
+
+/**
+ * Called before rendering Series.
+ * 
+ * @param series
+ *            Series
+ * @param seriesRenderer
+ *            ISeriesRenderer
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawSeries( series, seriesRenderer, context ){}
+
+/**
+ * Called before rendering the title of a Series.
+ * 
+ * @param series
+ *            Series
+ * @param label
+ *            Label
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawSeriesTitle( series, label, context ){}
+
+/**
+ * Called before drawing each marker line in an Axis.
+ * 
+ * @param axis
+ *            Axis
+ * @param markerLine
+ *            MarkerLine
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawMarkerLine( axis, markerLine, context ){}
+
+/**
+ * Called before drawing each marker range in an Axis.
+ * 
+ * @param axis
+ *            Axis
+ * @param markerRange
+ *            MarkerRange
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawMarkerRange( axis, markerRange, context ){}
+
+/**
+ * Called before drawing each datapoint graphical representation or marker.
+ * 
+ * @param dph
+ *            DataPointHints
+ * @param fill
+ *            Fill
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawDataPoint( dph, fill, context ){}
+
+/**
+ * Called before rendering the label for each datapoint.
+ * 
+ * @param dph
+ *            DataPointHints
+ * @param label
+ *            Label
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawDataPointLabel( dph, label, context ){}
+
+/**
+ * Called before rendering curve fitting.
+ * 
+ * @param cf
+ *            CurveFitting
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawFittingCurve( cf, context ){}
+
+/**
+ * Called before rendering each label on a given Axis.
+ * 
+ * @param axis
+ *            Axis
+ * @param label
+ *            Label
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawAxisLabel( axis, label, context ){}
+
+/**
+ * Called before rendering the Title of an Axis.
+ * 
+ * @param axis
+ *            Axis
+ * @param label
+ *            Title Label
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawAxisTitle( axis, label, context ){}
+</Script>
   <Units>Points</Units>
   <SeriesThickness>10.0</SeriesThickness>
   <SampleData>
@@ -453,23 +625,19 @@ from root.Account</property>
       <SeriesDefinitionIndex>0</SeriesDefinitionIndex>
     </OrthogonalSampleData>
   </SampleData>
+  <Interactivity/>
   <Axes>
     <Type>Text</Type>
     <Title>
       <Caption>
         <Value>X-Axis Title</Value>
         <Font>
-          <Name>SansSerif</Name>
-          <Size>16.0</Size>
+          <Size>14.0</Size>
           <Bold>true</Bold>
-          <Italic>false</Italic>
-          <Strikethrough>false</Strikethrough>
-          <Underline>false</Underline>
           <Alignment>
-            <horizontalAlignment>Left</horizontalAlignment>
-            <verticalAlignment>Top</verticalAlignment>
+            <horizontalAlignment>Center</horizontalAlignment>
+            <verticalAlignment>Center</verticalAlignment>
           </Alignment>
-          <Rotation>0.0</Rotation>
         </Font>
       </Caption>
       <Background xsi:type="attribute:ColorDefinition">
@@ -494,7 +662,7 @@ from root.Account</property>
         <Bottom>0.0</Bottom>
         <Right>3.0</Right>
       </Insets>
-      <Visible>true</Visible>
+      <Visible>false</Visible>
     </Title>
     <TitlePosition>Below</TitlePosition>
     <AssociatedAxes>
@@ -503,15 +671,11 @@ from root.Account</property>
         <Caption>
           <Value>Y-Axis Title</Value>
           <Font>
-            <Name>SansSerif</Name>
-            <Size>16.0</Size>
+            <Size>14.0</Size>
             <Bold>true</Bold>
-            <Italic>false</Italic>
-            <Strikethrough>false</Strikethrough>
-            <Underline>false</Underline>
             <Alignment>
-              <horizontalAlignment>Left</horizontalAlignment>
-              <verticalAlignment>Top</verticalAlignment>
+              <horizontalAlignment>Center</horizontalAlignment>
+              <verticalAlignment>Center</verticalAlignment>
             </Alignment>
             <Rotation>90.0</Rotation>
           </Font>
@@ -538,7 +702,7 @@ from root.Account</property>
           <Bottom>0.0</Bottom>
           <Right>3.0</Right>
         </Insets>
-        <Visible>true</Visible>
+        <Visible>false</Visible>
       </Title>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
@@ -548,27 +712,27 @@ from root.Account</property>
         <SeriesPalette>
           <Entries xsi:type="attribute:ColorDefinition">
             <Transparency>255</Transparency>
-            <Red>0</Red>
-            <Green>128</Green>
-            <Blue>255</Blue>
+            <Red>80</Red>
+            <Green>166</Green>
+            <Blue>218</Blue>
           </Entries>
           <Entries xsi:type="attribute:ColorDefinition">
             <Transparency>255</Transparency>
-            <Red>255</Red>
-            <Green>128</Green>
-            <Blue>192</Blue>
+            <Red>242</Red>
+            <Green>88</Green>
+            <Blue>106</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>232</Red>
+            <Green>172</Green>
+            <Blue>57</Blue>
           </Entries>
           <Entries xsi:type="attribute:ColorDefinition">
             <Transparency>255</Transparency>
             <Red>128</Red>
             <Green>255</Green>
             <Blue>128</Blue>
-          </Entries>
-          <Entries xsi:type="attribute:ColorDefinition">
-            <Transparency>255</Transparency>
-            <Red>255</Red>
-            <Green>255</Green>
-            <Blue>0</Blue>
           </Entries>
           <Entries xsi:type="attribute:ColorDefinition">
             <Transparency>255</Transparency>
@@ -600,6 +764,9 @@ from root.Account</property>
           <Label>
             <Caption>
               <Value>&lt;undefined></Value>
+              <Font>
+                <Alignment/>
+              </Font>
             </Caption>
             <Background xsi:type="attribute:ColorDefinition">
               <Transparency>0</Transparency>
@@ -627,7 +794,7 @@ from root.Account</property>
             <Visible>true</Visible>
           </Label>
           <DataDefinition>
-            <Definition>row[&quot;account_id&quot;]</Definition>
+            <Definition>row[&quot;SALESREPEMPLOYEENUMBER&quot;]</Definition>
           </DataDefinition>
           <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
           <DataPoint>
@@ -637,7 +804,7 @@ from root.Account</property>
             <Separator>, </Separator>
           </DataPoint>
           <LabelPosition>Outside</LabelPosition>
-          <Stacked>true</Stacked>
+          <Stacked>false</Stacked>
           <Riser>Rectangle</Riser>
         </Series>
         <Grouping>
@@ -662,6 +829,9 @@ from root.Account</property>
       <Label>
         <Caption>
           <Value>&lt;undefined></Value>
+          <Font>
+            <Alignment/>
+          </Font>
         </Caption>
         <Background xsi:type="attribute:ColorDefinition">
           <Transparency>0</Transparency>
@@ -757,9 +927,51 @@ from root.Account</property>
       <SeriesPalette>
         <Entries xsi:type="attribute:ColorDefinition">
           <Transparency>255</Transparency>
-          <Red>127</Red>
-          <Green>127</Green>
-          <Blue>127</Blue>
+          <Red>80</Red>
+          <Green>166</Green>
+          <Blue>218</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>242</Red>
+          <Green>88</Green>
+          <Blue>106</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>232</Red>
+          <Green>172</Green>
+          <Blue>57</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>255</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>64</Red>
+          <Green>128</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>170</Red>
+          <Green>85</Green>
+          <Blue>85</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>0</Blue>
         </Entries>
       </SeriesPalette>
       <Series>
@@ -767,6 +979,9 @@ from root.Account</property>
         <Label>
           <Caption>
             <Value>&lt;undefined></Value>
+            <Font>
+              <Alignment/>
+            </Font>
           </Caption>
           <Background xsi:type="attribute:ColorDefinition">
             <Transparency>0</Transparency>
@@ -794,7 +1009,7 @@ from root.Account</property>
           <Visible>false</Visible>
         </Label>
         <DataDefinition>
-          <Definition>row[&quot;account_nm&quot;]</Definition>
+          <Definition>row[&quot;CUSTOMERNUMBER&quot;]</Definition>
         </DataDefinition>
         <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
         <DataPoint>
@@ -828,6 +1043,9 @@ from root.Account</property>
     <Label>
       <Caption>
         <Value>&lt;undefined></Value>
+        <Font>
+          <Alignment/>
+        </Font>
       </Caption>
       <Background xsi:type="attribute:ColorDefinition">
         <Transparency>0</Transparency>
@@ -919,7 +1137,9 @@ from root.Account</property>
   </Axes>
   <Orientation>Vertical</Orientation>
   <Rotation/>
-</model:ChartWithAxes>]]></xml-property>
+</model:ChartWithAxes>
+]]></xml-property>
+            <property name="outputFormat">SVG</property>
         </extended-item>
     </components>
     <page-setup>

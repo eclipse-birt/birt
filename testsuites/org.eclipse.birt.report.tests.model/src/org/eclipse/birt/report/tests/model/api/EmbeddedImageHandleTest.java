@@ -17,8 +17,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class EmbeddedImageHandleTest extends BaseTestCase
 {
     String filename = "Improved_test6.xml";
-    protected static final String pluginpath = System.getProperty("eclipse.home")+"/plugins/"+ PLUGIN_NAME +"/bin/";
-	public EmbeddedImageHandleTest(String name) {
+ 	public EmbeddedImageHandleTest(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
 	}
@@ -36,7 +35,7 @@ public class EmbeddedImageHandleTest extends BaseTestCase
 		{
 	
 			SessionHandle sessionHandle = DesignEngine.newSession( Locale.ENGLISH );
-			ReportDesignHandle designHandle = sessionHandle.openDesign(pluginpath+getFullQualifiedClassName( ) + INPUT_FOLDER+filename);
+			ReportDesignHandle designHandle = sessionHandle.openDesign(PLUGIN_PATH+getFullQualifiedClassName( ) + INPUT_FOLDER+filename);
 			
 			SimpleValueHandle propHandle = (SimpleValueHandle)designHandle.getPropertyHandle( ReportDesign.IMAGES_PROP );
 			

@@ -116,7 +116,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class ReportDesignHandleTest extends BaseTestCase
 {
 
-	protected static final String pluginpath = System.getProperty("eclipse.home")+"/plugins/"+ PLUGIN_NAME +"/bin/";
+//	protected static final String pluginpath = System.getProperty("eclipse.home")+"/plugins/"+ PLUGIN_NAME +"/bin/";
 	/**
 	 * @param name
 	 */
@@ -326,7 +326,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 		// get properties.
 
 		assertEquals( "c:\\", designHandle.getBase( ) ); //$NON-NLS-1$
-		assertEquals( pluginpath.replace('/','\\')+getClassFolder( ).replace('/','\\') + INPUT_FOLDER.replace('/','\\')
+		assertEquals( PLUGIN_PATH.replace('/','\\')+ getClassFolder( ).replace('/','\\') + INPUT_FOLDER.replace('/','\\')
 				+ "ReportDesignHandleTest.xml", designHandle.getFileName( ) ); //$NON-NLS-1$
 
 		// sets properties.
@@ -404,7 +404,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 	public void testNeedsSave( ) throws Exception
 	{
 
-		String outputPath = pluginpath+getClassFolder( ) + OUTPUT_FOLDER; //$NON-NLS-1$
+		String outputPath = PLUGIN_PATH +getClassFolder( ) + OUTPUT_FOLDER; //$NON-NLS-1$
 		File outputFolder = new File( outputPath );
 		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
 		{
@@ -646,7 +646,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		// uses the file path to find, file exists
 
-		String filePath = pluginpath+getClassFolder( ) + INPUT_FOLDER
+		String filePath = PLUGIN_PATH +getClassFolder( ) + INPUT_FOLDER
 				+ "ReportDesignHandleTest.xml"; //$NON-NLS-1$
 
 		designHandle.getModule( ).setSystemId( null );
@@ -662,7 +662,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		// resources with relative uri file path
 
-		designHandle.setFileName( pluginpath+getClassFolder( ) + INPUT_FOLDER
+		designHandle.setFileName( PLUGIN_PATH +getClassFolder( ) + INPUT_FOLDER
 				+ "NoExistedDesign.xml" ); //$NON-NLS-1$
 
 		url = designHandle.findResource( "ReportDesignHandleTest.xml", //$NON-NLS-1$

@@ -35,6 +35,6 @@
         <text name="myText" id="9" extends="LibA.myText"/>
         <label name="myLabel" id="10" extends="LibA.myLabel"/>
         <table name="myTable" id="11" extends="LibA.myTable"/>
-        <image name="myImage" id="12" extends="LibA.myImage"/>
+        <image name="myImage" id="33" extends="LibA.myImage"/>
     </body>
 </report>

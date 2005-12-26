@@ -26,9 +26,6 @@ public class DesignIncludeLibraryTest extends BaseTestCase
 	private String outFileName = "DesignIncludeLibraryDpt.xml";  //$NON-NLS-1$
 	private String goldenFileName = "DesignIncludeLibraryDpt_golden.xml";  //$NON-NLS-1$
 	
-	protected static final String PLUGIN_PATH =System.getProperty("user.dir")+ "\\plugins\\"+BaseTestCase.PLUGINLOC.substring(BaseTestCase.PLUGINLOC.indexOf("/")+1) + "bin/";  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-
-	String TempFile = PLUGIN_PATH + getClassFolder() + OUTPUT_FOLDER + outFileName;
 	String inputLibrary = PLUGIN_PATH + getClassFolder() + INPUT_FOLDER + inputLibraryName;
 		
 	public DesignIncludeLibraryTest(String name) 
@@ -49,7 +46,7 @@ public class DesignIncludeLibraryTest extends BaseTestCase
 		openDesign( fileName );
 		
 //		Inclued LibA
-		designHandle.includeLibrary( inputLibrary , "LibA" ); //$NON-NLS-1$
+		designHandle.includeLibrary( inputLibrary, "LibA" ); //$NON-NLS-1$
 		LibraryHandle libAHandle = designHandle.getLibrary( "LibA" ); //$NON-NLS-1$
 		
 //		Find element in LibA
@@ -155,7 +152,7 @@ public class DesignIncludeLibraryTest extends BaseTestCase
 		openDesign( fileName );
 		
 //		Inclued LibA
-		designHandle.includeLibrary( inputLibrary , "LibA" ); //$NON-NLS-1$
+		designHandle.includeLibrary( inputLibrary, "LibA" ); //$NON-NLS-1$
 		LibraryHandle libAHandle = designHandle.getLibrary( "LibA" ); //$NON-NLS-1$
 		
 //		Find element in LibA
@@ -209,7 +206,7 @@ public class DesignIncludeLibraryTest extends BaseTestCase
 		openDesign(fileName);
 		
 //		Inclued LibA
-		designHandle.includeLibrary( inputLibrary , "LibA" ); //$NON-NLS-1$
+		designHandle.includeLibrary( inputLibrary, "LibA" ); //$NON-NLS-1$
 		LibraryHandle libAHandle = designHandle.getLibrary( "LibA" ); //$NON-NLS-1$
 		
 		DataSourceHandle dataSourceLibA = (DataSourceHandle)libAHandle.findDataSource( "sqlds1" ); //$NON-NLS-1$
@@ -217,16 +214,17 @@ public class DesignIncludeLibraryTest extends BaseTestCase
 		DataSetHandle dataSetLibA = (DataSetHandle)libAHandle.findDataSet( "sqldst1" ); //$NON-NLS-1$
 		assertNotNull("Dataset should not be null", dataSetLibA); //$NON-NLS-1$
 		
-        DataSourceHandle dataSourceLibAHandle = (DataSourceHandle)designHandle.getElementFactory().newOdaDataSource( "sqlds1" ); //$NON-NLS-1$
+     //   DataSourceHandle dataSourceLibAHandle = (DataSourceHandle)designHandle.getElementFactory().newOdaDataSource( "sqlds1" ); //$NON-NLS-1$
 		DataSetHandle dataSetLibAHandle = (DataSetHandle)designHandle.getElementFactory().newOdaDataSet( "sqldst1" ); //$NON-NLS-1$
 		
-		designHandle.getDataSources().add( dataSourceLibAHandle );
+	//	designHandle.getDataSources().add( dataSourceLibAHandle );
 		designHandle.getDataSets().add( dataSetLibAHandle );
 		
 		TableHandle tableHandle = (TableHandle)designHandle.getElementFactory().newTableItem( "mytable1" ); //$NON-NLS-1$ 
 		designHandle.getBody().add( tableHandle );
 		
-		dataSetLibA.setDataSource( "LibA.sqlds1");
+		dataSetLibAHandle.setDataSource( "LibA.sqlds1");
+		tableHandle.setDataSet(dataSetLibA);
 	}
 	
 }

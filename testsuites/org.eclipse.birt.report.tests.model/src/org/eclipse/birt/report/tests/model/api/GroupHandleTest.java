@@ -110,12 +110,12 @@ public class GroupHandleTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.SORT_DIRECTION_DESC, group
 				.getSortDirection( ) );
 
-		group.setOnStart( "new start on the group" ); //$NON-NLS-1$
-		group.setOnRow( "new row on the group" ); //$NON-NLS-1$
-		group.setOnFinish( "new finish on the group" ); //$NON-NLS-1$
-		assertEquals( "new start on the group", group.getOnStart( ) ); //$NON-NLS-1$
-		assertEquals( "new row on the group", group.getOnRow( ) ); //$NON-NLS-1$
-		assertEquals( "new finish on the group", group.getOnFinish( ) ); //$NON-NLS-1$
+		group.setOnCreate( "new create on the group" ); //$NON-NLS-1$
+		group.setOnPrepare( "new prepare on the group" ); //$NON-NLS-1$
+		group.setOnRender( "new render on the group" ); //$NON-NLS-1$
+		assertEquals( "new create on the group", group.getOnCreate( ) ); //$NON-NLS-1$
+		assertEquals( "new prepare on the group", group.getOnPrepare( ) ); //$NON-NLS-1$
+		assertEquals( "new render on the group", group.getOnRender( ) ); //$NON-NLS-1$
 	}
 	
 	/**
