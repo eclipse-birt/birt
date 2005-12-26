@@ -143,7 +143,7 @@
 	<target name="Export">
 		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
 	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
-	        <fileset dir="." includes="*.jar,plugin.xml,plugin*.properties,About.html, .options"/>
+	        <fileset dir="." includes="*.jar,plugin.xml,plugin*.properties,about.html, .options, about_files/**"/>
 	    </copy>
 		<copy todir="${export.dir}/${module.name}_${plugin.version}/lib">
 			<fileset dir="./lib" includes="**/*.*"/>

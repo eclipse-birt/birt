@@ -163,7 +163,7 @@
 				<include name="templates\**"/>
 				<include name="schema\*.exsd"/>
 				<include name="schema\doc\*.*"/>
-				<include name="About.html"/>
+				<include name="about.html"/>
 				<include name="nl\**\*"/> 
 			</fileset>
 		</copy>

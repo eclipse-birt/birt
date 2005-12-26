@@ -132,7 +132,7 @@
 				<include name="plugin.xml" />
 				<include name="plugin*.properties" />
 				<include name="icons\**" />
-				<include name="About.html" />
+				<include name="about.html" />
 			</fileset>
 		</copy>
 	</target>

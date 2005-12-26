@@ -183,7 +183,7 @@
 		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
 	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
 	        <fileset dir="." 
-	        	includes="dte.jar, About.html, plugin.xml, .options, schema/**"
+	        	includes="dte.jar, about.html, plugin.xml, .options, schema/**"
 	        />
 	    </copy>
 	</target>
