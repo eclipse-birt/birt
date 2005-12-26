@@ -108,11 +108,8 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 
 	public List getCommonProperties( )
 	{
-		List commonProps = Collections.EMPTY_LIST;
-		List minProps = Collections.EMPTY_LIST;
-
-		minProps = getMinPropDefns( );
-		commonProps = new ArrayList( minProps );
+		List minProps = getMinPropDefns( );
+		List commonProps = new ArrayList( minProps );
 
 		Iterator iter = minProps.iterator( );
 		while ( iter.hasNext( ) )

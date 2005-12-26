@@ -1897,7 +1897,7 @@
     <Property detailType="scalarParamAlign" displayNameID="Element.ScalarParameter.alignment" name="alignment" runtimeSettable="false" since="1.0" type="choice">
       <Default>auto</Default>
     </Property>
-    <Property displayNameID="Element.ScalarParameter.defaultValue" name="defaultValue" returnType="any" runtimeSettable="true" since="1.0" type="expression"/>
+    <Property displayNameID="Element.ScalarParameter.defaultValue" name="defaultValue" runtimeSettable="true" since="1.0" type="string"/>
     <PropertyGroup displayNameID="Element.ScalarParameter.dynamicList">
       <Property detailType="DataSet" displayNameID="Element.ScalarParameter.dynamicList.dataSetName" name="dataSetName" runtimeSettable="false" since="2.0" type="element">
 		<Trigger validator="DataSetNameRequiredValidator"/>
