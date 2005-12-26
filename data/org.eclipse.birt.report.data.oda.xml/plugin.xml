@@ -161,12 +161,7 @@
                   type="string"
                   defaultDisplayName="Schema File List"
                   canInherit="true"
-                  name="SCHEMAFILELIST"/>
-            <property
-                  type="string"
-                  defaultDisplayName="relation information"
-                  canInherit="true"
-                  name="RELATIONINFORMATION"/>                  
+                  name="SCHEMAFILELIST"/>          
          </propertyGroup>
          </properties>
       </dataSource>

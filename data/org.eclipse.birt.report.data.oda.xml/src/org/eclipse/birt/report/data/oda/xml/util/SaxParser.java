@@ -108,8 +108,7 @@ public class SaxParser extends DefaultHandler implements Runnable
 			InputStream is = getInputStream( url );
 			file = new InputStreamReader( is );
 				
-			xr.parse( new InputSource( file ) );
-
+			xr.parse( new InputSource( file ) );				
 		}
 		catch ( Exception e )
 		{
