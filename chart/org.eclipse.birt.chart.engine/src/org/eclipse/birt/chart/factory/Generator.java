@@ -811,7 +811,9 @@ public final class Generator
 				}
 				sh.setRunTimeModel( cmRunTime );
 
-				if ( sScriptContent != null )
+				if ( sScriptContent != null
+						&& sScriptContent.length( ) > 0
+						&& rtc.isEnableScripting( ) )
 				{
 					sh.register( sScriptContent );
 				}

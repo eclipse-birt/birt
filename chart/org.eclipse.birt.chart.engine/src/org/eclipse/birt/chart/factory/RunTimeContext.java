@@ -73,6 +73,11 @@ public final class RunTimeContext implements Serializable
 	private HashMap stateStore = null;
 
 	/**
+	 * Specifies if enable scripting support in current context.
+	 */
+	private boolean enableScripting = true;
+
+	/**
 	 * A default zero-arg public constructor used for object creation.
 	 */
 	public RunTimeContext( )
@@ -119,6 +124,26 @@ public final class RunTimeContext implements Serializable
 	public final void clearState( )
 	{
 		stateStore.clear( );
+	}
+
+	/**
+	 * Returns if scriting is enabled in current context.
+	 * 
+	 * @return
+	 */
+	public final boolean isEnableScripting( )
+	{
+		return enableScripting;
+	}
+
+	/**
+	 * Sepcifies if to enable scripting in current context.
+	 * 
+	 * @param value
+	 */
+	public final void setEnableScripting( boolean value )
+	{
+		enableScripting = value;
 	}
 
 	/**
