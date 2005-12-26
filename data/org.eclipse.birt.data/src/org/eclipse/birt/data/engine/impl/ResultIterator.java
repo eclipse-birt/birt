@@ -806,6 +806,11 @@ public class ResultIterator implements IResultIterator
 					&& columnName.matches( "\\Q\"\\E.*\\Q\"\\E" ) )
 				columnName = columnName.substring( 1, columnName.length( ) - 1 );
 		}
+		//Dealing with columnNames enclosed by double quotation mark.
+		if( columnName.startsWith("\\\"") && columnName.endsWith("\\\""))
+		{
+			columnName = "\""+ columnName.substring(2, columnName.length() - 2) + "\"";
+		}
 		return columnName;
 	}
 
