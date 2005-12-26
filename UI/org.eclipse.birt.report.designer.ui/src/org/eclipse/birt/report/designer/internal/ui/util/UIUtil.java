@@ -948,7 +948,7 @@ public class UIUtil
 		{
 			e.printStackTrace( );
 		}
-		return home.substring( 1 );
+		return home;
 	}
 
 	/**
