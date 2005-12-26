@@ -23,8 +23,6 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 {
 
-	// TODO: This should be IWizardContext!
-	// private transient Object context = null;
 	private transient String sDataSetName = ""; //$NON-NLS-1$
 	private static final int COLUMN_COUNT = 8;
 	private static final int ROW_COUNT = 10;
@@ -158,17 +156,19 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	public Object[] getDataForColumns( String[] sExpressions, int iMaxRecords,
 			boolean byRow )
 	{
+		// Always provide data by column
 		byRow = false;
-		Object[] array = new Object[ROW_COUNT];
-		for ( int i = 0; i < array.length; i++ )// a column
+		Object[] array = new Object[sExpressions.length];
+		for ( int i = 0; i < sExpressions.length; i++ )// a column
 		{
-			Object[] innerArray = new Object[sExpressions.length];// a row
-			for ( int j = 0; j < sExpressions.length; j++ )
+			Object[] innerArray = new Object[ROW_COUNT];// a row
+			for ( int j = 0; j < ROW_COUNT; j++ )
 			{
-				String str = sExpressions[j];
-				int index = Integer.valueOf( str.substring( 5,
-						str.length( ) - 3 ) ).intValue( ) - 1;
-				innerArray[j] = new Integer( ( (String[]) getPreviewData( ).get( i ) )[index] );
+				String str = sExpressions[i];
+				int intStart = str.lastIndexOf( ' ' ) + 1;
+				int index = Integer.valueOf( str.substring( intStart,
+						intStart + 1 ) ).intValue( ) - 1;
+				innerArray[j] = new Integer( ( (String[]) getPreviewData( ).get( j ) )[index] );
 			}
 			array[i] = innerArray;
 		}
