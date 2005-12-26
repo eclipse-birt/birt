@@ -72,7 +72,13 @@ public class JdbcToolKit
 	public static List getJdbcDriversFromODADir( String driverName )
 	{
 		if ( jdbcDriverInfos != null )
+		{
+			// remove the forged driver if exists
+			if ( !driverNameMap.containsValue( jdbcDriverInfos.get( 0 ) ) )
+				jdbcDriverInfos.remove( 0 );
+
 			return jdbcDriverInfos;
+		}
 		
 		jdbcDriverInfos = new ArrayList( );
 		driverNameMap = new HashMap();
