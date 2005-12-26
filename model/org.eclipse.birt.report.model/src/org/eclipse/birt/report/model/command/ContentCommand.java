@@ -591,7 +591,7 @@ public class ContentCommand extends AbstractElementCommand
 	private void dropUserProperties( DesignElement obj )
 			throws UserPropertyException
 	{
-		Collection props = element.getUserProperties( );
+		Collection props = obj.getUserProperties( );
 		if ( props != null )
 		{
 			UserPropertyCommand propCmd = new UserPropertyCommand( module, obj );
