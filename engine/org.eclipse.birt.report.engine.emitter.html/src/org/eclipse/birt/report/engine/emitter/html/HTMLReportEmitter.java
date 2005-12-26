@@ -94,7 +94,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.62 $ $Date: 2005/12/23 06:37:47 $
+ * @version $Revision: 1.63 $ $Date: 2005/12/23 07:34:22 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1531,7 +1531,64 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.attribute( HTMLTags.ATTR_SRC, imgUri );
 
 			if ( hasImageMap )
+			{
+				// BUGZILLA 119245 request chart (without hyperlink) can't have
+				// borders, the BROWSER add blue-solid border to the image with maps. 
+				if ( !hasAction )
+				{
+					// disable the border, if the user defines border with the
+					// image, it will be overided by the following style setting
+					IStyle style = image.getStyle( );
+					if ( style.getBorderTopStyle( ) == null )
+					{
+						//user doesn't define the border, remove it.
+						styleBuffer.append( "border-top-style:none;" );
+					}
+					else
+					{
+						//use define the border-style, but not define the border color, use the default
+						//color.
+						if ( style.getBorderTopColor( ) == null )
+						{
+							styleBuffer.append( "border-top-color:black" );
+						}
+					}
+					if ( style.getBorderBottomStyle( ) == null )
+					{
+						styleBuffer.append( "border-bottom-style:none;" );
+					}
+					else
+					{
+						if ( style.getBorderBottomColor( ) == null )
+						{
+							styleBuffer.append( "border-bottom-color:black" );
+						}
+					}
+					if ( style.getBorderLeftStyle( ) == null )
+					{
+						styleBuffer.append( "border-left-style:none;" );
+					}
+					else
+					{
+						if ( style.getBorderLeftColor( ) == null )
+						{
+							styleBuffer.append( "border-left-color:black" );
+						}
+					}
+					if ( style.getBorderRightStyle( ) == null )
+					{
+						styleBuffer.append( "border-right-style:none;" );
+					}
+					else
+					{
+						if ( style.getBorderRightColor( ) == null )
+						{
+							styleBuffer.append( "border-right-color:black" );
+						}
+					}
+				}
 				writer.attribute( HTMLTags.ATTR_USEMAP, "#" + imageMapId ); //$NON-NLS-1$ //$NON-NLS-2$
+			}
 
 			// alternative text
 			writer.attribute( HTMLTags.ATTR_ALT, image.getAltText( ) );
