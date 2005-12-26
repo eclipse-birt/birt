@@ -18,6 +18,7 @@ import java.util.Map;
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.event.StructureType;
+import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
@@ -42,6 +43,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 	private IHTMLActionHandler handler;
 	private Object context;
+	private IDataRowExpressionEvaluator evaluator;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
@@ -50,11 +52,13 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 	 * 
 	 * @param handler
 	 */
-	public BIRTActionRenderer( IHTMLActionHandler handler, Object context )
+	public BIRTActionRenderer( IHTMLActionHandler handler,
+			IDataRowExpressionEvaluator evaluator, Object context )
 	{
 		this.handler = handler;
-		this.context = ( (IReportContext) context ).getAppContext().get(
-				EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
+		this.evaluator = evaluator;
+		this.context = ( (IReportContext) context ).getAppContext( )
+				.get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
 	}
 
 	/*
@@ -80,7 +84,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 				{
 					final ActionHandle handle = ModuleUtil.deserializeAction( sa );
 
-					target = handle.getTargetWindow( ) ;
+					target = handle.getTargetWindow( );
 					// use engine api to convert actionHandle to a final url
 					// value.
 					sa = handler.getURL( new IAction( ) {
@@ -169,8 +173,8 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 				{
 					final ActionHandle handle = ModuleUtil.deserializeAction( sa );
 
-					target = handle.getTargetWindow( ) ;
-					
+					target = handle.getTargetWindow( );
+
 					// use engine api to convert actionHandle to a final url
 					// value.
 					sa = handler.getURL( new IAction( ) {
@@ -188,15 +192,15 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 						public String getBookmark( )
 						{
-							return handle.getTargetBookmark( );
+							return String.valueOf( evaluator.evaluate( handle.getTargetBookmark( ) ) );
 						}
 
 						public String getActionString( )
 						{
 							if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
-								return handle.getURI( );
+								return String.valueOf( evaluator.evaluate( handle.getURI( ) ) );
 							if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
-								return handle.getTargetBookmark( );
+								return String.valueOf( evaluator.evaluate( handle.getTargetBookmark( ) ) );
 							return null;
 						}
 
@@ -214,7 +218,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 							{
 								ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
 								map.put( pbh.getParamName( ),
-										pbh.getExpression( ) );
+										String.valueOf( evaluator.evaluate( pbh.getExpression( ) ) ) );
 							}
 
 							return map;
@@ -228,7 +232,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 							{
 								SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
 								map.put( skh.getExpression( ),
-										skh.getExpression( ) );
+										String.valueOf( evaluator.evaluate( skh.getExpression( ) ) ) );
 							}
 
 							return map;

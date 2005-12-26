@@ -142,13 +142,25 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 			// in the Report
 			// Document
 			IRowSet rowSet = rowSets[0];
-			Collection expressions = queries[0].getRowExpressions( );
+			Collection expressions = queries[0].getBeforeExpressions( );
+			for ( Iterator iter = expressions.iterator( ); iter.hasNext( ); )
+			{
+				rowSet.evaluate( (IBaseExpression) iter.next( ) );
+			}
+
+			expressions = queries[0].getRowExpressions( );
 			while ( rowSet.next( ) )
 			{
 				for ( Iterator iter = expressions.iterator( ); iter.hasNext( ); )
 				{
 					rowSet.evaluate( (IBaseExpression) iter.next( ) );
 				}
+			}
+
+			expressions = queries[0].getAfterExpressions( );
+			for ( Iterator iter = expressions.iterator( ); iter.hasNext( ); )
+			{
+				rowSet.evaluate( (IBaseExpression) iter.next( ) );
 			}
 		}
 

@@ -450,8 +450,8 @@ public final class Generator
 	}
 
 	/**
-	 * This retrieves all the row expressions stored in the chart model. This is
-	 * useful to prepare a specific query for the chart.
+	 * This retrieves all the data row related expressions stored in the chart
+	 * model. This is useful to prepare a specific query for the chart.
 	 * 
 	 * @param cm
 	 *            The Chart model
@@ -623,10 +623,10 @@ public final class Generator
 
 		// Call the onPrepare script event function.
 		// not supported yet
-		/*ScriptHandler.callFunction( sh,
-				ScriptHandler.ON_PREPARE,
-				cmRunTime,
-				rtc.getScriptContext( ) );*/
+		/*
+		 * ScriptHandler.callFunction( sh, ScriptHandler.ON_PREPARE, cmRunTime,
+		 * rtc.getScriptContext( ) );
+		 */
 
 		return rtc;
 	}

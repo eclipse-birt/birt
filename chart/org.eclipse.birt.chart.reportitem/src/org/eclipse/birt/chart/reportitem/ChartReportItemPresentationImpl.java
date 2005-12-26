@@ -433,6 +433,7 @@ public final class ChartReportItemPresentationImpl extends
 			final Generator gr = Generator.instance( );
 			GeneratedChartState gcs = null;
 			rtc.setActionRenderer( new BIRTActionRenderer( this.ah,
+					rowAdapter,
 					this.context ) );
 
 			gcs = gr.build( idr.getDisplayServer( ),

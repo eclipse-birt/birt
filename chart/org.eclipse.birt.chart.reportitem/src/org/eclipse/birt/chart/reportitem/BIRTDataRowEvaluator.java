@@ -45,7 +45,16 @@ public class BIRTDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 		{
 			IScriptExpression exp = (IScriptExpression) iter.next( );
 			map.put( exp.getText( ), exp );
-
+		}
+		for ( Iterator iter = definition.getBeforeExpressions( ).iterator( ); iter.hasNext( ); )
+		{
+			IScriptExpression exp = (IScriptExpression) iter.next( );
+			map.put( exp.getText( ), exp );
+		}
+		for ( Iterator iter = definition.getAfterExpressions( ).iterator( ); iter.hasNext( ); )
+		{
+			IScriptExpression exp = (IScriptExpression) iter.next( );
+			map.put( exp.getText( ), exp );
 		}
 
 	}
