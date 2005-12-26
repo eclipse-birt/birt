@@ -21,6 +21,8 @@
       <import plugin="org.eclipse.jdt.debug"/>
       <import plugin="org.eclipse.birt.report.model"/>    
       <import plugin="org.eclipse.birt.core"/>
+      <import plugin="org.eclipse.birt.data.oda"/>
+	  <import plugin="org.eclipse.datatools.connectivity.oda"/>
    </requires>
    <extension
          id="org.eclipse.birt.report.tests.model.reportItem"
