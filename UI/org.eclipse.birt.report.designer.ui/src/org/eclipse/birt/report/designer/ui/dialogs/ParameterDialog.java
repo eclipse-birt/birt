@@ -742,16 +742,16 @@ public class ParameterDialog extends BaseDialog
 		{
 			dynamicRadio.setSelection( true );
 		}
-		if ( isStatic( )
-				&& !DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( inputParameter.getControlType( ) )
-				&& ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( inputParameter.getDataType( ) ) || DesignChoiceConstants.PARAM_TYPE_STRING.equals( inputParameter.getDataType( ) ) ) )
-		{
-			defaultValue = removeQuoteString( inputParameter.getDefaultValue( ) );
-		}
-		else
-		{
+//		if ( isStatic( )
+//				&& !DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( inputParameter.getControlType( ) )
+//				&& ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( inputParameter.getDataType( ) ) || DesignChoiceConstants.PARAM_TYPE_STRING.equals( inputParameter.getDataType( ) ) ) )
+//		{
+//			defaultValue = removeQuoteString( inputParameter.getDefaultValue( ) );
+//		}
+//		else
+//		{
 			defaultValue = inputParameter.getDefaultValue( );
-		}
+//		}
 		if ( inputParameter.getPropertyHandle( ScalarParameterHandle.LIST_LIMIT_PROP )
 				.isSet( ) )
 		{
@@ -1579,16 +1579,16 @@ public class ParameterDialog extends BaseDialog
 			inputParameter.setControlType( newControlType );
 
 			// Save default value
-			if ( ( isStatic( ) && !getSelectedControlType( ).equals( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX ) )
-					&& ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) || DesignChoiceConstants.PARAM_TYPE_STRING.equals( getSelectedDataType( ) ) )
-					&& defaultValue != null )
-			{
-				inputParameter.setDefaultValue( "\"" + defaultValue + "\"" );//$NON-NLS-1$//$NON-NLS-2$
-			}
-			else
-			{
+//			if ( ( isStatic( ) && !getSelectedControlType( ).equals( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX ) )
+//					&& ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) || DesignChoiceConstants.PARAM_TYPE_STRING.equals( getSelectedDataType( ) ) )
+//					&& defaultValue != null )
+//			{
+//				inputParameter.setDefaultValue( "\"" + defaultValue + "\"" );//$NON-NLS-1$//$NON-NLS-2$
+//			}
+//			else
+//			{
 				inputParameter.setDefaultValue( defaultValue );
-			}
+//			}
 
 			// Set data type
 			inputParameter.setDataType( dataType.findChoiceByDisplayName( dataTypeChooser.getText( ) )
