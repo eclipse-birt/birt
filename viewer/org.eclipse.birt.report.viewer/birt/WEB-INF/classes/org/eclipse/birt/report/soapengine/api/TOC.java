@@ -11,7 +11,7 @@ public class TOC  implements java.io.Serializable {
     private java.lang.String id;
     private java.lang.String displayName;
     private java.lang.String bookmark;
-    private boolean isLeaf;
+    private java.lang.Boolean isLeaf;
     private org.eclipse.birt.report.soapengine.api.TOC[] child;
 
     public TOC() {
@@ -21,7 +21,7 @@ public class TOC  implements java.io.Serializable {
            java.lang.String id,
            java.lang.String displayName,
            java.lang.String bookmark,
-           boolean isLeaf,
+           java.lang.Boolean isLeaf,
            org.eclipse.birt.report.soapengine.api.TOC[] child) {
            this.id = id;
            this.displayName = displayName;
@@ -96,7 +96,7 @@ public class TOC  implements java.io.Serializable {
      * 
      * @return isLeaf
      */
-    public boolean isIsLeaf() {
+    public java.lang.Boolean getIsLeaf() {
         return isLeaf;
     }
 
@@ -106,7 +106,7 @@ public class TOC  implements java.io.Serializable {
      * 
      * @param isLeaf
      */
-    public void setIsLeaf(boolean isLeaf) {
+    public void setIsLeaf(java.lang.Boolean isLeaf) {
         this.isLeaf = isLeaf;
     }
 
@@ -159,7 +159,9 @@ public class TOC  implements java.io.Serializable {
             ((this.bookmark==null && other.getBookmark()==null) || 
              (this.bookmark!=null &&
               this.bookmark.equals(other.getBookmark()))) &&
-            this.isLeaf == other.isIsLeaf() &&
+            ((this.isLeaf==null && other.getIsLeaf()==null) || 
+             (this.isLeaf!=null &&
+              this.isLeaf.equals(other.getIsLeaf()))) &&
             ((this.child==null && other.getChild()==null) || 
              (this.child!=null &&
               java.util.Arrays.equals(this.child, other.getChild())));
@@ -183,7 +185,9 @@ public class TOC  implements java.io.Serializable {
         if (getBookmark() != null) {
             _hashCode += getBookmark().hashCode();
         }
-        _hashCode += (isIsLeaf() ? Boolean.TRUE : Boolean.FALSE).hashCode();
+        if (getIsLeaf() != null) {
+            _hashCode += getIsLeaf().hashCode();
+        }
         if (getChild() != null) {
             for (int i=0;
                  i<java.lang.reflect.Array.getLength(getChild());
@@ -209,24 +213,28 @@ public class TOC  implements java.io.Serializable {
         elemField.setFieldName("id");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Id"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("displayName");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DisplayName"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("bookmark");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Bookmark"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("isLeaf");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IsLeaf"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
