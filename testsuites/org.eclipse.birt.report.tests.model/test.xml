@@ -24,19 +24,19 @@
 	<property name="plugin.version" value="2.0.0" />
 	<property name="export.dir" location="export" />
 	
-	<property name="eclipse.home" location="d:/eclipse" />
+	<property name="eclipse.home" location="." />
 	<property name="dtp.home" location=".." />
 	
-	<property name="core.dir" value="${eclipse.home}/plugins/org.eclipse.birt.core_2.0.0" />
-	<property name="data.oda.dir" value="${eclipse.home}/plugins/org.eclipse.birt.data.oda_2.0.2" />
-	<property name="data.oda.jdbc.dir" value="${eclipse.home}/plugins/org.eclipse.birt.report.data.oda.jdbc_2.0.0" />
-	<property name="datatools.connectivity.oda.dir" value="${eclipse.home}/plugins/org.eclipse.datatools.connectivity.oda_3.0.0" />	
-	<property name="module.dir" value = "${eclipse.home}/plugins/org.eclipse.birt.report.model_${plugin.version}" />
-	<property name="testmodule.name" value = "org.eclipse.birt.report.tests.model" />
+	<property name="core.dir" location="..\org.eclipse.birt.core" />
+	<property name="data.oda.dir" location="..\org.eclipse.birt.data.oda" />
+	<property name="data.oda.jdbc.dir" location="..\org.eclipse.birt.report.data.oda.jdbc" />
+	<property name="datatools.connectivity.oda.dir" location="..\org.eclipse.datatools.connectivity.oda" />	
+	<property name="module.dir" location = "..\org.eclipse.birt.report.model" />
+	<property name="testmodule.name" location = "org.eclipse.birt.report.tests.model" />
 	
-	<property name="test.src.dir" value="src" />
-	<property name="test.build.dir" value="bin" />
-	<property name="test.lib.dir" value="lib" />
+	<property name="test.src.dir" location="src" />
+	<property name="test.build.dir" location="bin" />
+	<property name="test.lib.dir" location="lib" />
 	
 	<!-- Class Path -->
 	<path id="class.path">
@@ -49,7 +49,7 @@
 		<pathelement path="${core.dir}\lib\junit.jar" />
 		<pathelement path="${data.oda.dir}\oda.jar" />
 		<pathelement path="${data.oda.jdbc.dir}\*.jar" />
-		<pathelement path="${datatools.connectivity.oda.dir}\*.jar" />
+		<pathelement path="${datatools.connectivity.oda.dir}\oda.jar" />
 
 		<fileset dir="${eclipse.home}/plugins">
 				<include name="org.eclipse.core.runtime_*/runtime.jar"/>
@@ -60,6 +60,7 @@
 		
 		<fileset dir="${module.dir}">
 			<include name="model.jar" />
+			<include name="lib/*.jar" />
 		</fileset>	
 	
 	</path>
