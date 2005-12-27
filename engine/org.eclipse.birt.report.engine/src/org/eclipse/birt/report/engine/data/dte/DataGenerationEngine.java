@@ -146,6 +146,10 @@ public class DataGenerationEngine extends AbstractDataEngine
 
 		IPreparedQuery preparedQuery = (IPreparedQuery) mapQueryToPreparedQuery
 				.get( query );
+		if (preparedQuery == null)
+		{
+			return null;
+		}
 		String queryID = (String) queryIDMap.get( query );
 		assert preparedQuery != null;
 		Scriptable queryScope = context.getSharedScope( );

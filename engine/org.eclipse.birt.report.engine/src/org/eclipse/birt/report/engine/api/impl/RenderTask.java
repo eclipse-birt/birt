@@ -23,8 +23,6 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.presentation.DefaultPaginationEmitter;
-import org.eclipse.birt.report.engine.presentation.HTMLPaginationEmitter;
 import org.eclipse.birt.report.engine.presentation.LocalizedEmitter;
 import org.eclipse.birt.report.engine.presentation.ReportContentLoader;
 
@@ -137,17 +135,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 		// localized emitter
 		emitter = new LocalizedEmitter( executionContext, emitter );
-
-		// if we need do the paginate, do the paginate.
-		if ( format.equalsIgnoreCase( "html" ) )
-		{
-			emitter = new HTMLPaginationEmitter( executor, null, emitter );
-		}
-		else if ( format.equalsIgnoreCase( "fo" )
-				|| format.equalsIgnoreCase( "fop" ) )
-		{
-			emitter = new DefaultPaginationEmitter( executor, null, emitter );
-		}
 
 		// emitter is not null
 		emitter.initialize( services );

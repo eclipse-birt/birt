@@ -28,10 +28,10 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
-import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -59,7 +59,8 @@ public class DataPresentationEngine extends AbstractDataEngine
 		}
 		catch ( BirtException ex )
 		{
-			ex.printStackTrace( );
+			context.addException( ex );
+			logger.log( Level.SEVERE, ex.getMessage( ), ex );
 		}
 	}
 
@@ -76,12 +77,15 @@ public class DataPresentationEngine extends AbstractDataEngine
 		}
 		catch ( IOException ioe )
 		{
-			// FIXME handling exception
-			ioe.printStackTrace( );
+			context.addException( new EngineException(
+					"Can't load the data in report document", ioe ) );
+			logger.log( Level.SEVERE, ioe.getMessage( ), ioe );
 		}
 		catch ( ClassNotFoundException cnfe )
 		{
-			cnfe.printStackTrace( );
+			context.addException( new EngineException(
+					"Can't load the data in report document", cnfe ) );
+			logger.log( Level.SEVERE, cnfe.getMessage( ), cnfe );
 		}
 	}
 
@@ -89,6 +93,14 @@ public class DataPresentationEngine extends AbstractDataEngine
 	{
 		// prepare report queries
 		queryIDMap.putAll( report.getQueryIDs( ) );
+		if ( queryExpressionIDs.size( ) != report.getQueries( ).size( ) )
+		{
+			EngineException ex = new EngineException(
+					"Data in report document is not couple with report design" );
+			context.addException( ex );
+			logger.log( Level.SEVERE, ex.getMessage( ), ex );
+			return;
+		}
 		for ( int i = 0; i < report.getQueries( ).size( ); i++ )
 		{
 			IQueryDefinition queryDef = (IQueryDefinition) report.getQueries( )
@@ -145,7 +157,10 @@ public class DataPresentationEngine extends AbstractDataEngine
 	{
 		if ( idArray.size( ) != exprArray.size( ) )
 		{
-			// FIXME ignore for now, we should throw BirtExpression here
+			EngineException ex = new EngineException(
+					"Data in report document is not couple with report design" );
+			context.addException( ex );
+			logger.log( Level.SEVERE, ex.getMessage( ), ex );
 			return;
 		}
 		Iterator idIter = idArray.iterator( );
@@ -173,18 +188,26 @@ public class DataPresentationEngine extends AbstractDataEngine
 				queryResults = parentResult.getQueryResults( );
 			}
 			DteResultSet resultSet = null;
-			String resultSetID;
+			String resultSetID = null;
 
 			if ( queryResults == null )
 			{
-				resultSetID = (String) ( (LinkedList) mapQueryIDToResultSetIDs
-						.get( queryID ) ).get( 0 );
-
+				LinkedList resultSetIDs = (LinkedList) mapQueryIDToResultSetIDs
+						.get( queryID );
+				if ( resultSetIDs != null && !resultSetIDs.isEmpty( ) )
+				{
+					resultSetID = (String) resultSetIDs.get( 0 );
+				}
 			}
 			else
 			{
 				String rowid = "" + parentResult.getCurrentPosition( );
 				resultSetID = getResultID( queryResults.getID( ), rowid );
+			}
+			if ( resultSetID == null )
+			{
+				logger.log( Level.SEVERE, "Can't load the report query" );
+				return null;
 			}
 			queryResults = dataEngine.getQueryResults( resultSetID );
 			validateQueryResult( queryResults );
