@@ -2,9 +2,9 @@
 <?eclipse version="3.0"?>
 <plugin
    id="org.eclipse.birt.report.debug.ui"
-   name="Ui Plug-in"
+   name="BIRT debug Plug-in"
    version="2.0.0"
-   provider-name="org.eclipse"
+   provider-name="Eclipse.org"
    class="org.eclipse.birt.report.debug.ui.DebugUI">
 
    <runtime>
