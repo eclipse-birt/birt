@@ -89,11 +89,11 @@ public interface IPreparedDSQuery
      * 					of the underlying data source parameter.
      * @param paramValue	The input value to the parameter.
      * @throws DataException	if given input parameter name or value is invalid.
-     */
+     *//*
     public void setInputParamValue( String inputParamName, Object paramValue )
 			throws DataException;
     
-    /** 
+    *//** 
      * Binds an input value to the query's input parameter.
      * <br>
      * These parameter values are used by the execute() method 
@@ -101,10 +101,10 @@ public interface IPreparedDSQuery
      * @param inputParamPos	The Position of an input parameter.
      * @param paramValue	The input value to the parameter.
      * @throws DataException	if given input parameter name or value is invalid.
-     */
+     *//*
     public void setInputParamValue( int inputParamPos, Object paramValue )
 			throws DataException;
-    
+    */
 	/**
 	 * Executes this prepared query applying the specified transforms,  
 	 * and returns an iterator of the result set. <p>

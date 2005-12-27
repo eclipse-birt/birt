@@ -402,7 +402,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	 *  (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#setInputParamValue(java.lang.String, java.lang.Object)
 	 */
-	public void setInputParamValue( String inputParamName, Object paramValue )
+	private void setInputParamValue( String inputParamName, Object paramValue )
 			throws DataException
 	{
 
@@ -414,7 +414,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	 *  (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#setInputParamValue(int, java.lang.Object)
 	 */
-	public void setInputParamValue( int inputParamPos, Object paramValue )
+	private void setInputParamValue( int inputParamPos, Object paramValue )
 			throws DataException
 	{
 		ParameterBinding pb = new ParameterBinding( inputParamPos, paramValue );
