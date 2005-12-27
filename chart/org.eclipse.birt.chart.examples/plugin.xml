@@ -5,13 +5,7 @@
    name="BIRT Chart Examples Plug-in"
    version="2.0.0"
    provider-name="Eclipse.org"
-   class="org.eclipse.birt.chart.examples.ExamplesPlugin">
-
-   <runtime>
-      <library name="examples.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
+   >
 
    <requires>
       <import plugin="org.eclipse.ui"/>
