@@ -2,7 +2,7 @@
  * Operation.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -16,42 +16,101 @@ public class Operation  implements java.io.Serializable {
     public Operation() {
     }
 
+    public Operation(
+           org.eclipse.birt.report.soapengine.api.ReportId target,
+           java.lang.String operator,
+           org.eclipse.birt.report.soapengine.api.Oprand[] oprand,
+           org.eclipse.birt.report.soapengine.api.Data data) {
+           this.target = target;
+           this.operator = operator;
+           this.oprand = oprand;
+           this.data = data;
+    }
+
+
+    /**
+     * Gets the target value for this Operation.
+     * 
+     * @return target
+     */
     public org.eclipse.birt.report.soapengine.api.ReportId getTarget() {
         return target;
     }
 
+
+    /**
+     * Sets the target value for this Operation.
+     * 
+     * @param target
+     */
     public void setTarget(org.eclipse.birt.report.soapengine.api.ReportId target) {
         this.target = target;
     }
 
+
+    /**
+     * Gets the operator value for this Operation.
+     * 
+     * @return operator
+     */
     public java.lang.String getOperator() {
         return operator;
     }
 
+
+    /**
+     * Sets the operator value for this Operation.
+     * 
+     * @param operator
+     */
     public void setOperator(java.lang.String operator) {
         this.operator = operator;
     }
 
+
+    /**
+     * Gets the oprand value for this Operation.
+     * 
+     * @return oprand
+     */
     public org.eclipse.birt.report.soapengine.api.Oprand[] getOprand() {
         return oprand;
     }
 
+
+    /**
+     * Sets the oprand value for this Operation.
+     * 
+     * @param oprand
+     */
     public void setOprand(org.eclipse.birt.report.soapengine.api.Oprand[] oprand) {
         this.oprand = oprand;
     }
 
     public org.eclipse.birt.report.soapengine.api.Oprand getOprand(int i) {
-        return oprand[i];
+        return this.oprand[i];
     }
 
-    public void setOprand(int i, org.eclipse.birt.report.soapengine.api.Oprand value) {
-        this.oprand[i] = value;
+    public void setOprand(int i, org.eclipse.birt.report.soapengine.api.Oprand _value) {
+        this.oprand[i] = _value;
     }
 
+
+    /**
+     * Gets the data value for this Operation.
+     * 
+     * @return data
+     */
     public org.eclipse.birt.report.soapengine.api.Data getData() {
         return data;
     }
 
+
+    /**
+     * Sets the data value for this Operation.
+     * 
+     * @param data
+     */
     public void setData(org.eclipse.birt.report.soapengine.api.Data data) {
         this.data = data;
     }
@@ -117,7 +176,7 @@ public class Operation  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(Operation.class);
+        new org.apache.axis.description.TypeDesc(Operation.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Operation"));
@@ -125,22 +184,27 @@ public class Operation  implements java.io.Serializable {
         elemField.setFieldName("target");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Target"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportId"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("operator");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Operator"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("oprand");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Oprand"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Oprand"));
         elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        elemField.setMaxOccursUnbounded(true);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("data");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Data"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Data"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
 

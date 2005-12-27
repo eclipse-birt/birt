@@ -2,7 +2,7 @@
  * Vector.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -13,20 +13,37 @@ public class Vector  implements java.io.Serializable {
     public Vector() {
     }
 
+    public Vector(
+           java.lang.String[] value) {
+           this.value = value;
+    }
+
+
+    /**
+     * Gets the value value for this Vector.
+     * 
+     * @return value
+     */
     public java.lang.String[] getValue() {
         return value;
     }
 
+
+    /**
+     * Sets the value value for this Vector.
+     * 
+     * @param value
+     */
     public void setValue(java.lang.String[] value) {
         this.value = value;
     }
 
     public java.lang.String getValue(int i) {
-        return value[i];
+        return this.value[i];
     }
 
-    public void setValue(int i, java.lang.String value) {
-        this.value[i] = value;
+    public void setValue(int i, java.lang.String _value) {
+        this.value[i] = _value;
     }
 
     private java.lang.Object __equalsCalc = null;
@@ -72,7 +89,7 @@ public class Vector  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(Vector.class);
+        new org.apache.axis.description.TypeDesc(Vector.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Vector"));
@@ -81,6 +98,8 @@ public class Vector  implements java.io.Serializable {
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Value"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        elemField.setMaxOccursUnbounded(true);
         typeDesc.addFieldDesc(elemField);
     }
 

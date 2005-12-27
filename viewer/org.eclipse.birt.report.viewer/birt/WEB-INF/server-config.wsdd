@@ -147,8 +147,8 @@
       />
       <typeMapping
         xmlns:ns="http://schemas.eclipse.org/birt"
-        qname="ns:ReportId>Type"
-        type="java:org.eclipse.birt.report.soapengine.api.ReportId_Type"
+        qname="ns:>ReportId>Type"
+        type="java:org.eclipse.birt.report.soapengine.api.ReportIdType"
         serializer="org.apache.axis.encoding.ser.EnumSerializerFactory"
         deserializer="org.apache.axis.encoding.ser.EnumDeserializerFactory"
         encodingStyle=""

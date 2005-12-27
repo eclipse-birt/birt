@@ -2,7 +2,7 @@
  * Font.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -17,42 +17,115 @@ public class Font  implements java.io.Serializable {
     public Font() {
     }
 
+    public Font(
+           java.lang.String family,
+           java.lang.String style,
+           java.lang.Integer size,
+           java.lang.String effect,
+           java.lang.String _super) {
+           this.family = family;
+           this.style = style;
+           this.size = size;
+           this.effect = effect;
+           this._super = _super;
+    }
+
+
+    /**
+     * Gets the family value for this Font.
+     * 
+     * @return family
+     */
     public java.lang.String getFamily() {
         return family;
     }
 
+
+    /**
+     * Sets the family value for this Font.
+     * 
+     * @param family
+     */
     public void setFamily(java.lang.String family) {
         this.family = family;
     }
 
+
+    /**
+     * Gets the style value for this Font.
+     * 
+     * @return style
+     */
     public java.lang.String getStyle() {
         return style;
     }
 
+
+    /**
+     * Sets the style value for this Font.
+     * 
+     * @param style
+     */
     public void setStyle(java.lang.String style) {
         this.style = style;
     }
 
+
+    /**
+     * Gets the size value for this Font.
+     * 
+     * @return size
+     */
     public java.lang.Integer getSize() {
         return size;
     }
 
+
+    /**
+     * Sets the size value for this Font.
+     * 
+     * @param size
+     */
     public void setSize(java.lang.Integer size) {
         this.size = size;
     }
 
+
+    /**
+     * Gets the effect value for this Font.
+     * 
+     * @return effect
+     */
     public java.lang.String getEffect() {
         return effect;
     }
 
+
+    /**
+     * Sets the effect value for this Font.
+     * 
+     * @param effect
+     */
     public void setEffect(java.lang.String effect) {
         this.effect = effect;
     }
 
+
+    /**
+     * Gets the _super value for this Font.
+     * 
+     * @return _super
+     */
     public java.lang.String get_super() {
         return _super;
     }
 
+
+    /**
+     * Sets the _super value for this Font.
+     * 
+     * @param _super
+     */
     public void set_super(java.lang.String _super) {
         this._super = _super;
     }
@@ -116,7 +189,7 @@ public class Font  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(Font.class);
+        new org.apache.axis.description.TypeDesc(Font.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Font"));
@@ -125,30 +198,35 @@ public class Font  implements java.io.Serializable {
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Family"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("style");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Style"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("size");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Size"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.xmlsoap.org/soap/encoding/", "int"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"));
         elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("effect");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Effect"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("_super");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Super"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
 

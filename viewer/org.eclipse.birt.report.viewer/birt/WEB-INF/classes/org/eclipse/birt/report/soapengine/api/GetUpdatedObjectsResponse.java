@@ -2,7 +2,7 @@
  * GetUpdatedObjectsResponse.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -13,20 +13,37 @@ public class GetUpdatedObjectsResponse  implements java.io.Serializable {
     public GetUpdatedObjectsResponse() {
     }
 
+    public GetUpdatedObjectsResponse(
+           org.eclipse.birt.report.soapengine.api.Update[] update) {
+           this.update = update;
+    }
+
+
+    /**
+     * Gets the update value for this GetUpdatedObjectsResponse.
+     * 
+     * @return update
+     */
     public org.eclipse.birt.report.soapengine.api.Update[] getUpdate() {
         return update;
     }
 
+
+    /**
+     * Sets the update value for this GetUpdatedObjectsResponse.
+     * 
+     * @param update
+     */
     public void setUpdate(org.eclipse.birt.report.soapengine.api.Update[] update) {
         this.update = update;
     }
 
     public org.eclipse.birt.report.soapengine.api.Update getUpdate(int i) {
-        return update[i];
+        return this.update[i];
     }
 
-    public void setUpdate(int i, org.eclipse.birt.report.soapengine.api.Update value) {
-        this.update[i] = value;
+    public void setUpdate(int i, org.eclipse.birt.report.soapengine.api.Update _value) {
+        this.update[i] = _value;
     }
 
     private java.lang.Object __equalsCalc = null;
@@ -72,7 +89,7 @@ public class GetUpdatedObjectsResponse  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(GetUpdatedObjectsResponse.class);
+        new org.apache.axis.description.TypeDesc(GetUpdatedObjectsResponse.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "GetUpdatedObjectsResponse"));
@@ -80,6 +97,8 @@ public class GetUpdatedObjectsResponse  implements java.io.Serializable {
         elemField.setFieldName("update");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Update"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Update"));
+        elemField.setNillable(false);
+        elemField.setMaxOccursUnbounded(true);
         typeDesc.addFieldDesc(elemField);
     }
 

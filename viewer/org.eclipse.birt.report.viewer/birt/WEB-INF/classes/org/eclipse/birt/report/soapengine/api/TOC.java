@@ -2,7 +2,7 @@
  * TOC.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -17,52 +17,125 @@ public class TOC  implements java.io.Serializable {
     public TOC() {
     }
 
+    public TOC(
+           java.lang.String id,
+           java.lang.String displayName,
+           java.lang.String bookmark,
+           boolean isLeaf,
+           org.eclipse.birt.report.soapengine.api.TOC[] child) {
+           this.id = id;
+           this.displayName = displayName;
+           this.bookmark = bookmark;
+           this.isLeaf = isLeaf;
+           this.child = child;
+    }
+
+
+    /**
+     * Gets the id value for this TOC.
+     * 
+     * @return id
+     */
     public java.lang.String getId() {
         return id;
     }
 
+
+    /**
+     * Sets the id value for this TOC.
+     * 
+     * @param id
+     */
     public void setId(java.lang.String id) {
         this.id = id;
     }
 
+
+    /**
+     * Gets the displayName value for this TOC.
+     * 
+     * @return displayName
+     */
     public java.lang.String getDisplayName() {
         return displayName;
     }
 
+
+    /**
+     * Sets the displayName value for this TOC.
+     * 
+     * @param displayName
+     */
     public void setDisplayName(java.lang.String displayName) {
         this.displayName = displayName;
     }
 
+
+    /**
+     * Gets the bookmark value for this TOC.
+     * 
+     * @return bookmark
+     */
     public java.lang.String getBookmark() {
         return bookmark;
     }
 
+
+    /**
+     * Sets the bookmark value for this TOC.
+     * 
+     * @param bookmark
+     */
     public void setBookmark(java.lang.String bookmark) {
         this.bookmark = bookmark;
     }
 
+
+    /**
+     * Gets the isLeaf value for this TOC.
+     * 
+     * @return isLeaf
+     */
     public boolean isIsLeaf() {
         return isLeaf;
     }
 
+
+    /**
+     * Sets the isLeaf value for this TOC.
+     * 
+     * @param isLeaf
+     */
     public void setIsLeaf(boolean isLeaf) {
         this.isLeaf = isLeaf;
     }
 
+
+    /**
+     * Gets the child value for this TOC.
+     * 
+     * @return child
+     */
     public org.eclipse.birt.report.soapengine.api.TOC[] getChild() {
         return child;
     }
 
+
+    /**
+     * Sets the child value for this TOC.
+     * 
+     * @param child
+     */
     public void setChild(org.eclipse.birt.report.soapengine.api.TOC[] child) {
         this.child = child;
     }
 
     public org.eclipse.birt.report.soapengine.api.TOC getChild(int i) {
-        return child[i];
+        return this.child[i];
     }
 
-    public void setChild(int i, org.eclipse.birt.report.soapengine.api.TOC value) {
-        this.child[i] = value;
+    public void setChild(int i, org.eclipse.birt.report.soapengine.api.TOC _value) {
+        this.child[i] = _value;
     }
 
     private java.lang.Object __equalsCalc = null;
@@ -110,7 +183,7 @@ public class TOC  implements java.io.Serializable {
         if (getBookmark() != null) {
             _hashCode += getBookmark().hashCode();
         }
-        _hashCode += new Boolean(isIsLeaf()).hashCode();
+        _hashCode += (isIsLeaf() ? Boolean.TRUE : Boolean.FALSE).hashCode();
         if (getChild() != null) {
             for (int i=0;
                  i<java.lang.reflect.Array.getLength(getChild());
@@ -128,7 +201,7 @@ public class TOC  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(TOC.class);
+        new org.apache.axis.description.TypeDesc(TOC.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TOC"));
@@ -136,27 +209,33 @@ public class TOC  implements java.io.Serializable {
         elemField.setFieldName("id");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Id"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("displayName");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DisplayName"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("bookmark");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Bookmark"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("isLeaf");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IsLeaf"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("child");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Child"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TOC"));
         elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        elemField.setMaxOccursUnbounded(true);
         typeDesc.addFieldDesc(elemField);
     }
 

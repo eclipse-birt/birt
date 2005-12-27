@@ -2,7 +2,7 @@
  * Column.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -14,18 +14,49 @@ public class Column  implements java.io.Serializable {
     public Column() {
     }
 
+    public Column(
+           java.lang.String name,
+           java.lang.Boolean visibility) {
+           this.name = name;
+           this.visibility = visibility;
+    }
+
+
+    /**
+     * Gets the name value for this Column.
+     * 
+     * @return name
+     */
     public java.lang.String getName() {
         return name;
     }
 
+
+    /**
+     * Sets the name value for this Column.
+     * 
+     * @param name
+     */
     public void setName(java.lang.String name) {
         this.name = name;
     }
 
+
+    /**
+     * Gets the visibility value for this Column.
+     * 
+     * @return visibility
+     */
     public java.lang.Boolean getVisibility() {
         return visibility;
     }
 
+
+    /**
+     * Sets the visibility value for this Column.
+     * 
+     * @param visibility
+     */
     public void setVisibility(java.lang.Boolean visibility) {
         this.visibility = visibility;
     }
@@ -71,7 +102,7 @@ public class Column  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(Column.class);
+        new org.apache.axis.description.TypeDesc(Column.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Column"));
@@ -79,12 +110,14 @@ public class Column  implements java.io.Serializable {
         elemField.setFieldName("name");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Name"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("visibility");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Visibility"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.xmlsoap.org/soap/encoding/", "boolean"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
         elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
 

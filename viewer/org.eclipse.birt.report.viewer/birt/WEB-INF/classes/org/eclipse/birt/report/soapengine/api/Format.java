@@ -2,7 +2,7 @@
  * Format.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -15,26 +15,71 @@ public class Format  implements java.io.Serializable {
     public Format() {
     }
 
+    public Format(
+           org.eclipse.birt.report.soapengine.api.Select stringFormat,
+           org.eclipse.birt.report.soapengine.api.Select dateTimeFormat,
+           org.eclipse.birt.report.soapengine.api.NumericFormat nunericFormat) {
+           this.stringFormat = stringFormat;
+           this.dateTimeFormat = dateTimeFormat;
+           this.nunericFormat = nunericFormat;
+    }
+
+
+    /**
+     * Gets the stringFormat value for this Format.
+     * 
+     * @return stringFormat
+     */
     public org.eclipse.birt.report.soapengine.api.Select getStringFormat() {
         return stringFormat;
     }
 
+
+    /**
+     * Sets the stringFormat value for this Format.
+     * 
+     * @param stringFormat
+     */
     public void setStringFormat(org.eclipse.birt.report.soapengine.api.Select stringFormat) {
         this.stringFormat = stringFormat;
     }
 
+
+    /**
+     * Gets the dateTimeFormat value for this Format.
+     * 
+     * @return dateTimeFormat
+     */
     public org.eclipse.birt.report.soapengine.api.Select getDateTimeFormat() {
         return dateTimeFormat;
     }
 
+
+    /**
+     * Sets the dateTimeFormat value for this Format.
+     * 
+     * @param dateTimeFormat
+     */
     public void setDateTimeFormat(org.eclipse.birt.report.soapengine.api.Select dateTimeFormat) {
         this.dateTimeFormat = dateTimeFormat;
     }
 
+
+    /**
+     * Gets the nunericFormat value for this Format.
+     * 
+     * @return nunericFormat
+     */
     public org.eclipse.birt.report.soapengine.api.NumericFormat getNunericFormat() {
         return nunericFormat;
     }
 
+
+    /**
+     * Sets the nunericFormat value for this Format.
+     * 
+     * @param nunericFormat
+     */
     public void setNunericFormat(org.eclipse.birt.report.soapengine.api.NumericFormat nunericFormat) {
         this.nunericFormat = nunericFormat;
     }
@@ -86,7 +131,7 @@ public class Format  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(Format.class);
+        new org.apache.axis.description.TypeDesc(Format.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Format"));
@@ -95,18 +140,21 @@ public class Format  implements java.io.Serializable {
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "StringFormat"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Select"));
         elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("dateTimeFormat");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DateTimeFormat"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Select"));
         elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("nunericFormat");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "NunericFormat"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "NumericFormat"));
         elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
 

@@ -2,7 +2,7 @@
  * CascadeParameter.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -13,20 +13,37 @@ public class CascadeParameter  implements java.io.Serializable {
     public CascadeParameter() {
     }
 
+    public CascadeParameter(
+           org.eclipse.birt.report.soapengine.api.SelectionList[] selectionList) {
+           this.selectionList = selectionList;
+    }
+
+
+    /**
+     * Gets the selectionList value for this CascadeParameter.
+     * 
+     * @return selectionList
+     */
     public org.eclipse.birt.report.soapengine.api.SelectionList[] getSelectionList() {
         return selectionList;
     }
 
+
+    /**
+     * Sets the selectionList value for this CascadeParameter.
+     * 
+     * @param selectionList
+     */
     public void setSelectionList(org.eclipse.birt.report.soapengine.api.SelectionList[] selectionList) {
         this.selectionList = selectionList;
     }
 
     public org.eclipse.birt.report.soapengine.api.SelectionList getSelectionList(int i) {
-        return selectionList[i];
+        return this.selectionList[i];
     }
 
-    public void setSelectionList(int i, org.eclipse.birt.report.soapengine.api.SelectionList value) {
-        this.selectionList[i] = value;
+    public void setSelectionList(int i, org.eclipse.birt.report.soapengine.api.SelectionList _value) {
+        this.selectionList[i] = _value;
     }
 
     private java.lang.Object __equalsCalc = null;
@@ -72,7 +89,7 @@ public class CascadeParameter  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(CascadeParameter.class);
+        new org.apache.axis.description.TypeDesc(CascadeParameter.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CascadeParameter"));
@@ -80,6 +97,8 @@ public class CascadeParameter  implements java.io.Serializable {
         elemField.setFieldName("selectionList");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SelectionList"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SelectionList"));
+        elemField.setNillable(false);
+        elemField.setMaxOccursUnbounded(true);
         typeDesc.addFieldDesc(elemField);
     }
 

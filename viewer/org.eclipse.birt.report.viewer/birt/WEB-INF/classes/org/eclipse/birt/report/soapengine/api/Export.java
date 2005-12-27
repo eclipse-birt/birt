@@ -2,7 +2,7 @@
  * Export.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -15,36 +15,81 @@ public class Export  implements java.io.Serializable {
     public Export() {
     }
 
+    public Export(
+           org.eclipse.birt.report.soapengine.api.Vector availableColumns,
+           org.eclipse.birt.report.soapengine.api.Vector selectedColumn,
+           org.eclipse.birt.report.soapengine.api.ExportCriteria[] criteria) {
+           this.availableColumns = availableColumns;
+           this.selectedColumn = selectedColumn;
+           this.criteria = criteria;
+    }
+
+
+    /**
+     * Gets the availableColumns value for this Export.
+     * 
+     * @return availableColumns
+     */
     public org.eclipse.birt.report.soapengine.api.Vector getAvailableColumns() {
         return availableColumns;
     }
 
+
+    /**
+     * Sets the availableColumns value for this Export.
+     * 
+     * @param availableColumns
+     */
     public void setAvailableColumns(org.eclipse.birt.report.soapengine.api.Vector availableColumns) {
         this.availableColumns = availableColumns;
     }
 
+
+    /**
+     * Gets the selectedColumn value for this Export.
+     * 
+     * @return selectedColumn
+     */
     public org.eclipse.birt.report.soapengine.api.Vector getSelectedColumn() {
         return selectedColumn;
     }
 
+
+    /**
+     * Sets the selectedColumn value for this Export.
+     * 
+     * @param selectedColumn
+     */
     public void setSelectedColumn(org.eclipse.birt.report.soapengine.api.Vector selectedColumn) {
         this.selectedColumn = selectedColumn;
     }
 
+
+    /**
+     * Gets the criteria value for this Export.
+     * 
+     * @return criteria
+     */
     public org.eclipse.birt.report.soapengine.api.ExportCriteria[] getCriteria() {
         return criteria;
     }
 
+
+    /**
+     * Sets the criteria value for this Export.
+     * 
+     * @param criteria
+     */
     public void setCriteria(org.eclipse.birt.report.soapengine.api.ExportCriteria[] criteria) {
         this.criteria = criteria;
     }
 
     public org.eclipse.birt.report.soapengine.api.ExportCriteria getCriteria(int i) {
-        return criteria[i];
+        return this.criteria[i];
     }
 
-    public void setCriteria(int i, org.eclipse.birt.report.soapengine.api.ExportCriteria value) {
-        this.criteria[i] = value;
+    public void setCriteria(int i, org.eclipse.birt.report.soapengine.api.ExportCriteria _value) {
+        this.criteria[i] = _value;
     }
 
     private java.lang.Object __equalsCalc = null;
@@ -102,7 +147,7 @@ public class Export  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(Export.class);
+        new org.apache.axis.description.TypeDesc(Export.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Export"));
@@ -110,17 +155,21 @@ public class Export  implements java.io.Serializable {
         elemField.setFieldName("availableColumns");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AvailableColumns"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Vector"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("selectedColumn");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SelectedColumn"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Vector"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("criteria");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Criteria"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ExportCriteria"));
         elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        elemField.setMaxOccursUnbounded(true);
         typeDesc.addFieldDesc(elemField);
     }
 

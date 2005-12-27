@@ -2,7 +2,7 @@
  * Page.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -14,18 +14,49 @@ public class Page  implements java.io.Serializable {
     public Page() {
     }
 
+    public Page(
+           java.lang.String pageNumber,
+           java.lang.String totalPage) {
+           this.pageNumber = pageNumber;
+           this.totalPage = totalPage;
+    }
+
+
+    /**
+     * Gets the pageNumber value for this Page.
+     * 
+     * @return pageNumber
+     */
     public java.lang.String getPageNumber() {
         return pageNumber;
     }
 
+
+    /**
+     * Sets the pageNumber value for this Page.
+     * 
+     * @param pageNumber
+     */
     public void setPageNumber(java.lang.String pageNumber) {
         this.pageNumber = pageNumber;
     }
 
+
+    /**
+     * Gets the totalPage value for this Page.
+     * 
+     * @return totalPage
+     */
     public java.lang.String getTotalPage() {
         return totalPage;
     }
 
+
+    /**
+     * Sets the totalPage value for this Page.
+     * 
+     * @param totalPage
+     */
     public void setTotalPage(java.lang.String totalPage) {
         this.totalPage = totalPage;
     }
@@ -71,7 +102,7 @@ public class Page  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(Page.class);
+        new org.apache.axis.description.TypeDesc(Page.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Page"));
@@ -79,11 +110,13 @@ public class Page  implements java.io.Serializable {
         elemField.setFieldName("pageNumber");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "PageNumber"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("totalPage");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TotalPage"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
 

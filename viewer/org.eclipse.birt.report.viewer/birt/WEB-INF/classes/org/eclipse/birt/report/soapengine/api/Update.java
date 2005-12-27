@@ -2,7 +2,7 @@
  * Update.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -14,18 +14,49 @@ public class Update  implements java.io.Serializable {
     public Update() {
     }
 
+    public Update(
+           org.eclipse.birt.report.soapengine.api.UpdateContent updateContent,
+           org.eclipse.birt.report.soapengine.api.UpdateData updateData) {
+           this.updateContent = updateContent;
+           this.updateData = updateData;
+    }
+
+
+    /**
+     * Gets the updateContent value for this Update.
+     * 
+     * @return updateContent
+     */
     public org.eclipse.birt.report.soapengine.api.UpdateContent getUpdateContent() {
         return updateContent;
     }
 
+
+    /**
+     * Sets the updateContent value for this Update.
+     * 
+     * @param updateContent
+     */
     public void setUpdateContent(org.eclipse.birt.report.soapengine.api.UpdateContent updateContent) {
         this.updateContent = updateContent;
     }
 
+
+    /**
+     * Gets the updateData value for this Update.
+     * 
+     * @return updateData
+     */
     public org.eclipse.birt.report.soapengine.api.UpdateData getUpdateData() {
         return updateData;
     }
 
+
+    /**
+     * Sets the updateData value for this Update.
+     * 
+     * @param updateData
+     */
     public void setUpdateData(org.eclipse.birt.report.soapengine.api.UpdateData updateData) {
         this.updateData = updateData;
     }
@@ -71,7 +102,7 @@ public class Update  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(Update.class);
+        new org.apache.axis.description.TypeDesc(Update.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Update"));
@@ -79,11 +110,15 @@ public class Update  implements java.io.Serializable {
         elemField.setFieldName("updateContent");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "UpdateContent"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "UpdateContent"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("updateData");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "UpdateData"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "UpdateData"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
 

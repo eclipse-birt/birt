@@ -2,31 +2,62 @@
  * ReportId.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
 
 public class ReportId  implements java.io.Serializable {
     private java.lang.String id;
-    private org.eclipse.birt.report.soapengine.api.ReportId_Type type;
+    private org.eclipse.birt.report.soapengine.api.ReportIdType type;
 
     public ReportId() {
     }
 
+    public ReportId(
+           java.lang.String id,
+           org.eclipse.birt.report.soapengine.api.ReportIdType type) {
+           this.id = id;
+           this.type = type;
+    }
+
+
+    /**
+     * Gets the id value for this ReportId.
+     * 
+     * @return id
+     */
     public java.lang.String getId() {
         return id;
     }
 
+
+    /**
+     * Sets the id value for this ReportId.
+     * 
+     * @param id
+     */
     public void setId(java.lang.String id) {
         this.id = id;
     }
 
-    public org.eclipse.birt.report.soapengine.api.ReportId_Type getType() {
+
+    /**
+     * Gets the type value for this ReportId.
+     * 
+     * @return type
+     */
+    public org.eclipse.birt.report.soapengine.api.ReportIdType getType() {
         return type;
     }
 
-    public void setType(org.eclipse.birt.report.soapengine.api.ReportId_Type type) {
+
+    /**
+     * Sets the type value for this ReportId.
+     * 
+     * @param type
+     */
+    public void setType(org.eclipse.birt.report.soapengine.api.ReportIdType type) {
         this.type = type;
     }
 
@@ -71,7 +102,7 @@ public class ReportId  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(ReportId.class);
+        new org.apache.axis.description.TypeDesc(ReportId.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportId"));
@@ -79,11 +110,13 @@ public class ReportId  implements java.io.Serializable {
         elemField.setFieldName("id");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Id"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("type");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Type"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportId>Type"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", ">ReportId>Type"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
 

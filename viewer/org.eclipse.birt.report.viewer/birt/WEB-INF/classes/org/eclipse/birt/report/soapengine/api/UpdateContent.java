@@ -2,7 +2,7 @@
  * UpdateContent.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -16,42 +16,101 @@ public class UpdateContent  implements java.io.Serializable {
     public UpdateContent() {
     }
 
+    public UpdateContent(
+           java.lang.String target,
+           java.lang.String content,
+           org.eclipse.birt.report.soapengine.api.ReportId[] initializationId,
+           java.lang.String bookmark) {
+           this.target = target;
+           this.content = content;
+           this.initializationId = initializationId;
+           this.bookmark = bookmark;
+    }
+
+
+    /**
+     * Gets the target value for this UpdateContent.
+     * 
+     * @return target
+     */
     public java.lang.String getTarget() {
         return target;
     }
 
+
+    /**
+     * Sets the target value for this UpdateContent.
+     * 
+     * @param target
+     */
     public void setTarget(java.lang.String target) {
         this.target = target;
     }
 
+
+    /**
+     * Gets the content value for this UpdateContent.
+     * 
+     * @return content
+     */
     public java.lang.String getContent() {
         return content;
     }
 
+
+    /**
+     * Sets the content value for this UpdateContent.
+     * 
+     * @param content
+     */
     public void setContent(java.lang.String content) {
         this.content = content;
     }
 
+
+    /**
+     * Gets the initializationId value for this UpdateContent.
+     * 
+     * @return initializationId
+     */
     public org.eclipse.birt.report.soapengine.api.ReportId[] getInitializationId() {
         return initializationId;
     }
 
+
+    /**
+     * Sets the initializationId value for this UpdateContent.
+     * 
+     * @param initializationId
+     */
     public void setInitializationId(org.eclipse.birt.report.soapengine.api.ReportId[] initializationId) {
         this.initializationId = initializationId;
     }
 
     public org.eclipse.birt.report.soapengine.api.ReportId getInitializationId(int i) {
-        return initializationId[i];
+        return this.initializationId[i];
     }
 
-    public void setInitializationId(int i, org.eclipse.birt.report.soapengine.api.ReportId value) {
-        this.initializationId[i] = value;
+    public void setInitializationId(int i, org.eclipse.birt.report.soapengine.api.ReportId _value) {
+        this.initializationId[i] = _value;
     }
 
+
+    /**
+     * Gets the bookmark value for this UpdateContent.
+     * 
+     * @return bookmark
+     */
     public java.lang.String getBookmark() {
         return bookmark;
     }
 
+
+    /**
+     * Sets the bookmark value for this UpdateContent.
+     * 
+     * @param bookmark
+     */
     public void setBookmark(java.lang.String bookmark) {
         this.bookmark = bookmark;
     }
@@ -117,7 +176,7 @@ public class UpdateContent  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(UpdateContent.class);
+        new org.apache.axis.description.TypeDesc(UpdateContent.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "UpdateContent"));
@@ -125,23 +184,28 @@ public class UpdateContent  implements java.io.Serializable {
         elemField.setFieldName("target");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Target"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("content");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Content"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("initializationId");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "InitializationId"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportId"));
         elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        elemField.setMaxOccursUnbounded(true);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("bookmark");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Bookmark"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
 

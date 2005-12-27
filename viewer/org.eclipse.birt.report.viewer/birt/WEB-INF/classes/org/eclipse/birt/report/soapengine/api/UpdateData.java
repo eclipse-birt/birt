@@ -2,7 +2,7 @@
  * UpdateData.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -14,18 +14,49 @@ public class UpdateData  implements java.io.Serializable {
     public UpdateData() {
     }
 
+    public UpdateData(
+           java.lang.String target,
+           org.eclipse.birt.report.soapengine.api.Data data) {
+           this.target = target;
+           this.data = data;
+    }
+
+
+    /**
+     * Gets the target value for this UpdateData.
+     * 
+     * @return target
+     */
     public java.lang.String getTarget() {
         return target;
     }
 
+
+    /**
+     * Sets the target value for this UpdateData.
+     * 
+     * @param target
+     */
     public void setTarget(java.lang.String target) {
         this.target = target;
     }
 
+
+    /**
+     * Gets the data value for this UpdateData.
+     * 
+     * @return data
+     */
     public org.eclipse.birt.report.soapengine.api.Data getData() {
         return data;
     }
 
+
+    /**
+     * Sets the data value for this UpdateData.
+     * 
+     * @param data
+     */
     public void setData(org.eclipse.birt.report.soapengine.api.Data data) {
         this.data = data;
     }
@@ -71,7 +102,7 @@ public class UpdateData  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(UpdateData.class);
+        new org.apache.axis.description.TypeDesc(UpdateData.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "UpdateData"));
@@ -79,11 +110,13 @@ public class UpdateData  implements java.io.Serializable {
         elemField.setFieldName("target");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Target"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("data");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Data"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Data"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
 

@@ -2,7 +2,7 @@
  * Oprand.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -14,18 +14,49 @@ public class Oprand  implements java.io.Serializable {
     public Oprand() {
     }
 
+    public Oprand(
+           java.lang.String name,
+           java.lang.String value) {
+           this.name = name;
+           this.value = value;
+    }
+
+
+    /**
+     * Gets the name value for this Oprand.
+     * 
+     * @return name
+     */
     public java.lang.String getName() {
         return name;
     }
 
+
+    /**
+     * Sets the name value for this Oprand.
+     * 
+     * @param name
+     */
     public void setName(java.lang.String name) {
         this.name = name;
     }
 
+
+    /**
+     * Gets the value value for this Oprand.
+     * 
+     * @return value
+     */
     public java.lang.String getValue() {
         return value;
     }
 
+
+    /**
+     * Sets the value value for this Oprand.
+     * 
+     * @param value
+     */
     public void setValue(java.lang.String value) {
         this.value = value;
     }
@@ -71,7 +102,7 @@ public class Oprand  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(Oprand.class);
+        new org.apache.axis.description.TypeDesc(Oprand.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Oprand"));
@@ -79,11 +110,13 @@ public class Oprand  implements java.io.Serializable {
         elemField.setFieldName("name");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Name"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("value");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Value"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
 

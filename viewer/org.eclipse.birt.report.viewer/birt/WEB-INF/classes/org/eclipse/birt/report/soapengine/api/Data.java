@@ -2,7 +2,7 @@
  * Data.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -21,74 +21,203 @@ public class Data  implements java.io.Serializable {
     public Data() {
     }
 
+    public Data(
+           org.eclipse.birt.report.soapengine.api.Font font,
+           org.eclipse.birt.report.soapengine.api.Columns columns,
+           org.eclipse.birt.report.soapengine.api.Format format,
+           org.eclipse.birt.report.soapengine.api.TOC TOC,
+           org.eclipse.birt.report.soapengine.api.Export export,
+           org.eclipse.birt.report.soapengine.api.CascadeParameter cascadeParameter,
+           org.eclipse.birt.report.soapengine.api.SimpleFilter simpleFilter,
+           org.eclipse.birt.report.soapengine.api.Vector columnValues,
+           org.eclipse.birt.report.soapengine.api.Page page) {
+           this.font = font;
+           this.columns = columns;
+           this.format = format;
+           this.TOC = TOC;
+           this.export = export;
+           this.cascadeParameter = cascadeParameter;
+           this.simpleFilter = simpleFilter;
+           this.columnValues = columnValues;
+           this.page = page;
+    }
+
+
+    /**
+     * Gets the font value for this Data.
+     * 
+     * @return font
+     */
     public org.eclipse.birt.report.soapengine.api.Font getFont() {
         return font;
     }
 
+
+    /**
+     * Sets the font value for this Data.
+     * 
+     * @param font
+     */
     public void setFont(org.eclipse.birt.report.soapengine.api.Font font) {
         this.font = font;
     }
 
+
+    /**
+     * Gets the columns value for this Data.
+     * 
+     * @return columns
+     */
     public org.eclipse.birt.report.soapengine.api.Columns getColumns() {
         return columns;
     }
 
+
+    /**
+     * Sets the columns value for this Data.
+     * 
+     * @param columns
+     */
     public void setColumns(org.eclipse.birt.report.soapengine.api.Columns columns) {
         this.columns = columns;
     }
 
+
+    /**
+     * Gets the format value for this Data.
+     * 
+     * @return format
+     */
     public org.eclipse.birt.report.soapengine.api.Format getFormat() {
         return format;
     }
 
+
+    /**
+     * Sets the format value for this Data.
+     * 
+     * @param format
+     */
     public void setFormat(org.eclipse.birt.report.soapengine.api.Format format) {
         this.format = format;
     }
 
+
+    /**
+     * Gets the TOC value for this Data.
+     * 
+     * @return TOC
+     */
     public org.eclipse.birt.report.soapengine.api.TOC getTOC() {
         return TOC;
     }
 
+
+    /**
+     * Sets the TOC value for this Data.
+     * 
+     * @param TOC
+     */
     public void setTOC(org.eclipse.birt.report.soapengine.api.TOC TOC) {
         this.TOC = TOC;
     }
 
+
+    /**
+     * Gets the export value for this Data.
+     * 
+     * @return export
+     */
     public org.eclipse.birt.report.soapengine.api.Export getExport() {
         return export;
     }
 
+
+    /**
+     * Sets the export value for this Data.
+     * 
+     * @param export
+     */
     public void setExport(org.eclipse.birt.report.soapengine.api.Export export) {
         this.export = export;
     }
 
+
+    /**
+     * Gets the cascadeParameter value for this Data.
+     * 
+     * @return cascadeParameter
+     */
     public org.eclipse.birt.report.soapengine.api.CascadeParameter getCascadeParameter() {
         return cascadeParameter;
     }
 
+
+    /**
+     * Sets the cascadeParameter value for this Data.
+     * 
+     * @param cascadeParameter
+     */
     public void setCascadeParameter(org.eclipse.birt.report.soapengine.api.CascadeParameter cascadeParameter) {
         this.cascadeParameter = cascadeParameter;
     }
 
+
+    /**
+     * Gets the simpleFilter value for this Data.
+     * 
+     * @return simpleFilter
+     */
     public org.eclipse.birt.report.soapengine.api.SimpleFilter getSimpleFilter() {
         return simpleFilter;
     }
 
+
+    /**
+     * Sets the simpleFilter value for this Data.
+     * 
+     * @param simpleFilter
+     */
     public void setSimpleFilter(org.eclipse.birt.report.soapengine.api.SimpleFilter simpleFilter) {
         this.simpleFilter = simpleFilter;
     }
 
+
+    /**
+     * Gets the columnValues value for this Data.
+     * 
+     * @return columnValues
+     */
     public org.eclipse.birt.report.soapengine.api.Vector getColumnValues() {
         return columnValues;
     }
 
+
+    /**
+     * Sets the columnValues value for this Data.
+     * 
+     * @param columnValues
+     */
     public void setColumnValues(org.eclipse.birt.report.soapengine.api.Vector columnValues) {
         this.columnValues = columnValues;
     }
 
+
+    /**
+     * Gets the page value for this Data.
+     * 
+     * @return page
+     */
     public org.eclipse.birt.report.soapengine.api.Page getPage() {
         return page;
     }
 
+
+    /**
+     * Sets the page value for this Data.
+     * 
+     * @param page
+     */
     public void setPage(org.eclipse.birt.report.soapengine.api.Page page) {
         this.page = page;
     }
@@ -176,7 +305,7 @@ public class Data  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(Data.class);
+        new org.apache.axis.description.TypeDesc(Data.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Data"));
@@ -184,46 +313,64 @@ public class Data  implements java.io.Serializable {
         elemField.setFieldName("font");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Font"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Font"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("columns");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Columns"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Columns"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("format");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Format"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Format"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("TOC");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TOC"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TOC"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("export");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Export"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Export"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("cascadeParameter");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CascadeParameter"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CascadeParameter"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("simpleFilter");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SimpleFilter"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SimpleFilter"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("columnValues");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ColumnValues"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Vector"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("page");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Page"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Page"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
 

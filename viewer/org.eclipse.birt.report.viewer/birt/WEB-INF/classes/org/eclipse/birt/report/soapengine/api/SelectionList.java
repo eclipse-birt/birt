@@ -2,7 +2,7 @@
  * SelectionList.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -14,18 +14,49 @@ public class SelectionList  implements java.io.Serializable {
     public SelectionList() {
     }
 
+    public SelectionList(
+           java.lang.String name,
+           org.eclipse.birt.report.soapengine.api.Vector selections) {
+           this.name = name;
+           this.selections = selections;
+    }
+
+
+    /**
+     * Gets the name value for this SelectionList.
+     * 
+     * @return name
+     */
     public java.lang.String getName() {
         return name;
     }
 
+
+    /**
+     * Sets the name value for this SelectionList.
+     * 
+     * @param name
+     */
     public void setName(java.lang.String name) {
         this.name = name;
     }
 
+
+    /**
+     * Gets the selections value for this SelectionList.
+     * 
+     * @return selections
+     */
     public org.eclipse.birt.report.soapengine.api.Vector getSelections() {
         return selections;
     }
 
+
+    /**
+     * Sets the selections value for this SelectionList.
+     * 
+     * @param selections
+     */
     public void setSelections(org.eclipse.birt.report.soapengine.api.Vector selections) {
         this.selections = selections;
     }
@@ -71,7 +102,7 @@ public class SelectionList  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(SelectionList.class);
+        new org.apache.axis.description.TypeDesc(SelectionList.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SelectionList"));
@@ -79,11 +110,13 @@ public class SelectionList  implements java.io.Serializable {
         elemField.setFieldName("name");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Name"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("selections");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Selections"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Vector"));
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
 
