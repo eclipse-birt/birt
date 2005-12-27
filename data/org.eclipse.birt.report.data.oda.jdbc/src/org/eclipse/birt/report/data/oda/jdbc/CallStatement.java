@@ -1195,19 +1195,33 @@ public class CallStatement implements IAdvancedQuery
 		{
 			DatabaseMetaData metaData = conn.getMetaData( );
 			String cataLog = conn.getCatalog( );
-			ArrayList schemaList = createSchemaList( metaData.getSchemas( ) );
+			String schemaPattern = null;
+			ArrayList schemaList = null;
 			String columnNamePattern = null;
 			String procedureNamePattern = procedureName;
 			
 			if ( procedureName.indexOf( "." ) > 0 )
 			{
-				cataLog = procedureName.substring( 0,
+				schemaPattern = procedureName.substring( 0,
 						procedureName.indexOf( "." ) );
 				procedureNamePattern = procedureName.substring( procedureName.indexOf( "." ) + 1 );
 			}
 			
+			if ( schemaPattern != null )
+			{
+				schemaList = new ArrayList( );
+				schemaList.add( schemaPattern );
+			}
+			else
+			{
+				schemaList = createSchemaList( metaData.getSchemas( ) );
+			}
+			
 			if ( schemaList == null || schemaList.size( ) == 0 )
 			{
+				if ( schemaList == null )
+					schemaList = new ArrayList( );
+				
 				schemaList.add( "" );
 				columnNamePattern = "";
 			}

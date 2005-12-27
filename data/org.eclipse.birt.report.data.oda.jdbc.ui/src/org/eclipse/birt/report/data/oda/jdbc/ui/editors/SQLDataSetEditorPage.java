@@ -97,7 +97,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.31 $ $Date: 2005/11/17 07:38:19 $
+ * @version $Revision: 1.32 $ $Date: 2005/11/29 06:53:53 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -1210,7 +1210,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 						}
 						else if ( obj instanceof Procedure )
 						{
-							event.data = ( (Procedure) obj ).getProcedureName( );
+							event.data = ( (Procedure) obj ).getProcedureNameWithSchema( );
 						}
 						else
 							event.data = selection[0].getData( );
