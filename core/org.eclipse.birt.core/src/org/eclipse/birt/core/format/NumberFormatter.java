@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.11 $ $Date: 2005/08/26 06:37:11 $
+ * @version $Revision: 1.12 $ $Date: 2005/10/19 11:00:37 $
  * 
  * Defines a number formatting class. It does the following:
  * 1. In constructor, convert format string to Java format string. 
@@ -210,6 +210,10 @@ public class NumberFormatter
 	{
 		try
 		{
+			if ( Double.isNaN( number.doubleValue( ) ) )
+			{
+				return "NaN";
+			}
 			if ( hexFlag == true )
 			{
 				return Long.toHexString( number.longValue());
@@ -295,7 +299,7 @@ public class NumberFormatter
 
 	private void handleNamedFormats( String patternStr )
 	{
-		if ( patternStr.equals( "General Number" ) || patternStr.equals("Unformatted") ) //$NON-NLS-1$ //$NON-NLS-2$
+		if ( patternStr.equals( "General Number" ) || patternStr.equals( "Unformatted" ) ) //$NON-NLS-1$ //$NON-NLS-2$
 		{
 			numberFormat = NumberFormat.getInstance( locale );
 			numberFormat.setGroupingUsed( false );
