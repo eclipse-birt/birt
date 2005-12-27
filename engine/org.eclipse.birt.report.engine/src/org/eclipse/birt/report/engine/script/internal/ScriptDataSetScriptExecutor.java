@@ -111,7 +111,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 			}
 			if ( scriptedEventHandler != null )
 				return scriptedEventHandler.fetch(
-						new DataSetInstance( dataSet ), new DataSetRow( row ) );
+						new DataSetInstance( dataSet ), new UpdatableDataSetRow( row ) );
 		} catch ( Exception e )
 		{
 			addException( context, e );

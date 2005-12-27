@@ -11,6 +11,7 @@
 package org.eclipse.birt.report.engine.api.script.eventadapter;
 
 import org.eclipse.birt.report.engine.api.script.IDataSetRow;
+import org.eclipse.birt.report.engine.api.script.IUpdatableDataSetRow;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.IScriptedDataSetMetaData;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IScriptedDataSetEventHandler;
@@ -28,7 +29,7 @@ public class ScriptedDataSetEventAdapter implements
 
 	}
 
-	public boolean fetch( IDataSetInstance dataSet, IDataSetRow row )
+	public boolean fetch( IDataSetInstance dataSet, IUpdatableDataSetRow row )
 	{
 		return false;
 	}

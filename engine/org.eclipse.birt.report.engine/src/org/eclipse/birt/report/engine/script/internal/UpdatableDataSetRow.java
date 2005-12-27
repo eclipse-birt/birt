@@ -1,4 +1,5 @@
-/*******************************************************************************
+/*
+ *************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -7,48 +8,40 @@
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
+ *  
+ *************************************************************************
+ */ 
 package org.eclipse.birt.report.engine.script.internal;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
-import org.eclipse.birt.report.engine.api.script.IDataSetRow;
+import org.eclipse.birt.report.engine.api.script.IUpdatableDataSetRow;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
-import org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance;
-import org.eclipse.birt.report.engine.script.internal.instance.DataSetInstance;
 
-public class DataSetRow implements IDataSetRow
+public class UpdatableDataSetRow extends DataSetRow implements IUpdatableDataSetRow
 {
-
-	protected IDataRow row;
-
-	public DataSetRow( IDataRow row )
+	UpdatableDataSetRow(IDataRow row)
 	{
-		this.row = row;
+		super(row);
 	}
-
-	public IDataSetInstance getDataSet( )
-	{
-		return new DataSetInstance( row.getDataSet( ) );
-	}
-
-	public Object getColumnValue( int index ) throws ScriptException
+	
+	public void setColumnValue( int index, Object value )
+		throws ScriptException
 	{
 		try
 		{
-			return row.getColumnValue( index );
+			row.setColumnValue( index, value );
 		} catch ( BirtException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
 	}
-
-
-	public Object getColumnValue( String name ) throws ScriptException
+	
+	public void setColumnValue( String name, Object value ) throws ScriptException
 	{
 		try
 		{
-			return row.getColumnValue( name );
+			row.setColumnValue( name, value );
 		} catch ( BirtException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );

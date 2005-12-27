@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.engine.api.script.eventhandler;
 
-import org.eclipse.birt.report.engine.api.script.IDataSetRow;
+import org.eclipse.birt.report.engine.api.script.IUpdatableDataSetRow;
 import org.eclipse.birt.report.engine.api.script.IScriptedDataSetMetaData;
 import org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance;
 
@@ -32,7 +32,7 @@ public interface IScriptedDataSetEventHandler extends IDataSetEventHandler
 	 * false if the last call to fetch has returned the last
 	 * data row, and no more data is available.   
 	 */
-	boolean fetch( IDataSetInstance dataSet, IDataSetRow row );
+	boolean fetch( IDataSetInstance dataSet, IUpdatableDataSetRow row );
 
 	/**
 	 * Handle the close event

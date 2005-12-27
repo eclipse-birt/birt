@@ -29,17 +29,6 @@ public interface IDataSetRow
 	 */
 	Object getColumnValue( int index ) throws ScriptException;
 
-	/**
-	 * Sets the column data by index. Column index starts from 1.
-	 * 
-	 * @param index
-	 *            1-based index of column. Value must be between 1 and the
-	 *            number of columns
-	 * @param value
-	 *            New value for column (can be null)
-	 * @throws ScriptException 
-	 */
-	void setColumnValue( int index, Object value ) throws ScriptException;
 
 	/**
 	 * Gets the column data by column name.
@@ -50,12 +39,4 @@ public interface IDataSetRow
 	 */
 	Object getColumnValue( String name ) throws ScriptException;
 
-	/**
-	 * Sets the column data by column name.
-	 * 
-	 * @param name
-	 *            of column
-	 * @throws ScriptException 
-	 */
-	void setColumnValue( String name, Object value ) throws ScriptException;
 }
