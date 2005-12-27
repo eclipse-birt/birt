@@ -37,7 +37,8 @@ public class EditBindingAction extends InsertRowAction
 	{
 		super( part );
 		setId( ID );
-		setText( Messages.getString( "DesignerActionBarContributor.menu.element.editDataBinding" ) ); //$NON-NLS-1$
+		setText( Messages
+				.getString( "DesignerActionBarContributor.menu.element.editDataBinding" ) ); //$NON-NLS-1$
 	}
 
 	/*
@@ -47,10 +48,21 @@ public class EditBindingAction extends InsertRowAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return !SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getVisibleDataSets( )
-				.isEmpty( );
+		return !SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
+				.getVisibleDataSets( ).isEmpty( )
+				|| ( getSelectedElement() != null && getSelectedElement( )
+						.getDataSet( ) != null );
+	}
+
+	private ReportItemHandle getSelectedElement( )
+	{
+		if ( getTableEditPart( ) != null
+				&& getTableEditPart( ).getModel( ) instanceof ReportItemHandle )
+		{
+			return (ReportItemHandle) getTableEditPart( ).getModel( );
+
+		}
+		return null;
 	}
 
 	/*
@@ -71,12 +83,13 @@ public class EditBindingAction extends InsertRowAction
 		{
 			CommandStack stack = SessionHandleAdapter.getInstance( )
 					.getCommandStack( );
-			ReportItemHandle handle = (ReportItemHandle) editPart.getModel( );
-			stack.startTrans( Messages.getString( "DesignerActionBarContributor.menu.element.editDataBinding" ) ); //$NON-NLS-1$
-			DataBindingDialog dialog = new DataBindingDialog( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ),
-					handle );
+
+			stack
+					.startTrans( Messages
+							.getString( "DesignerActionBarContributor.menu.element.editDataBinding" ) ); //$NON-NLS-1$
+			DataBindingDialog dialog = new DataBindingDialog( PlatformUI
+					.getWorkbench( ).getDisplay( ).getActiveShell( ),
+					getSelectedElement( ) );
 
 			if ( dialog.open( ) == Dialog.OK )
 			{
