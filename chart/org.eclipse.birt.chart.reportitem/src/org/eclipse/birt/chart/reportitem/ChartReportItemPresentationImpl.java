@@ -452,6 +452,9 @@ public final class ChartReportItemPresentationImpl extends
 					new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
 
 			gr.render( idr, gcs );
+			
+			// cleanup the dataRow evaluator.
+			rowAdapter.close();
 
 			// RETURN A STREAM HANDLE TO THE NEWLY CREATED IMAGE
 			try
