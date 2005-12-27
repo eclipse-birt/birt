@@ -18,6 +18,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -1242,6 +1243,8 @@ public class CallStatement implements IAdvancedQuery
 					p.setPrecision( rs.getInt( "PRECISION" ) );
 					p.setScale( rs.getInt( "SCALE" ) );
 					p.setIsNullable( rs.getInt( "NULLABLE" ) );
+					if ( p.getParamType( ) == Types.OTHER )
+						correctParamType( p );
 					if ( p.getParamInOutType( ) != 5 )
 						paramMetaDataList.add( p );
 				}
@@ -1251,6 +1254,22 @@ public class CallStatement implements IAdvancedQuery
 		{
 		}
 		return paramMetaDataList;
+	}
+	
+	/**
+	 * temporary solution for driver specific problem: Oracle
+	 * @param parameterDefn
+	 */
+	private void correctParamType( ParameterDefn parameterDefn )
+	{
+		String parameterName = parameterDefn.getParamTypeName( ).toUpperCase( );
+		if ( parameterName.equals( "FLOAT" ) )
+			parameterDefn.setParamType( Types.FLOAT );
+		else if ( parameterName.equals( "NCHAR" )
+				|| parameterName.equals( "NVARCHAR2" ) )
+			parameterDefn.setParamType( Types.VARCHAR );
+		else
+			parameterDefn.setParamType( Types.VARCHAR );
 	}
 
 	/**
