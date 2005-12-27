@@ -49,29 +49,39 @@ import org.eclipse.ui.PlatformUI;
  * 
  */
 
-public class NewReportTemplateWizard extends Wizard implements INewWizard, IExecutableExtension
+public class NewReportTemplateWizard extends Wizard
+		implements
+			INewWizard,
+			IExecutableExtension
 {
 
-	private static final String NEW = Messages.getString( "NewTemplateWizard.title.New" ); //$NON-NLS-1$
+	private static final String NEW = Messages
+			.getString( "NewTemplateWizard.title.New" ); //$NON-NLS-1$
 
-	private static final String REPORT = Messages.getString( "NewTemplateWizard.title.Template" ); //$NON-NLS-1$
+	private static final String REPORT = Messages
+			.getString( "NewTemplateWizard.title.Template" ); //$NON-NLS-1$
 
-	private static final String WIZARDPAGE = Messages.getString( "NewTemplateWizard.title.WizardPage" ); //$NON-NLS-1$
+	private static final String WIZARDPAGE = Messages
+			.getString( "NewTemplateWizard.title.WizardPage" ); //$NON-NLS-1$
 
-	private static final String CREATE_A_NEW_REPORT = Messages.getString( "NewTemplateWizard.text.CreateReport" ); //$NON-NLS-1$
+	private static final String CREATE_A_NEW_REPORT = Messages
+			.getString( "NewTemplateWizard.text.CreateReport" ); //$NON-NLS-1$
 
-	private static final String CREATING = Messages.getString( "NewTemplateWizard.text.Creating" ); //$NON-NLS-1$
+	private static final String CREATING = Messages
+			.getString( "NewTemplateWizard.text.Creating" ); //$NON-NLS-1$
 
-	private static final String OPENING_FILE_FOR_EDITING = Messages.getString( "NewTemplateWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
+	private static final String OPENING_FILE_FOR_EDITING = Messages
+			.getString( "NewTemplateWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
 
-	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages.getString( "NewTemplateWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
+	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages
+			.getString( "NewTemplateWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
 
 	private static final String NEW_REPORT_FILE_EXTENSION = ".rpttemplate"; //$NON-NLS-1$
 
 	private static final String TEMPLATE_FILE = "/templates/blank_report.rptdesign"; //$NON-NLS-1$
 
 	private WizardNewReportCreationPage newReportFileWizardPage;
-	
+
 	private WizardReportSettingPage settingPage;
 
 	public NewReportTemplateWizard( )
@@ -105,11 +115,17 @@ public class NewReportTemplateWizard extends Wizard implements INewWizard, IExec
 		newReportFileWizardPage.setDescription( CREATE_A_NEW_REPORT );
 
 		// initialize new report file page.
-		newReportFileWizardPage.setInitialFileName( getNewFileFullName( NEW_REPORT_FILE_NAME_PREFIX ) );
+		newReportFileWizardPage
+				.setInitialFileName( getNewFileFullName( NEW_REPORT_FILE_NAME_PREFIX ) );
 		newReportFileWizardPage.setInitialFileLocation( getDefaultLocation( ) );
-		
+
 		settingPage = new WizardReportSettingPage( null );
-		settingPage.setTitle( Messages.getString( "SaveReportAsWizard.SettingPage.title" ) );
+		settingPage
+				.setTitle( Messages
+						.getFormattedString(
+								"SaveReportAsWizard.SettingPage.title",//$NON-NLS-1$
+								new Object[]{Messages
+										.getString( "NewTemplateWizard.WizardPageTitle.Template" )} ) );//$NON-NLS-1$
 
 		addPage( settingPage );
 	}
@@ -273,11 +289,12 @@ public class NewReportTemplateWizard extends Wizard implements INewWizard, IExec
 					}
 
 					// open the editor on the file
-					IEditorPart editorPart = page.openEditor( new ReportEditorInput( file ),
-							ReportEditorInput.TEMPLATE_EDITOR_ID,
-							true );
-					setReportSettings(((RCPReportEditor)editorPart).getModel());
-					editorPart.doSave(null);
+					IEditorPart editorPart = page.openEditor(
+							new ReportEditorInput( file ),
+							ReportEditorInput.TEMPLATE_EDITOR_ID, true );
+					setReportSettings( ( (RCPReportEditor) editorPart )
+							.getModel( ) );
+					editorPart.doSave( null );
 
 				}
 				catch ( Exception e )
@@ -303,22 +320,25 @@ public class NewReportTemplateWizard extends Wizard implements INewWizard, IExec
 	public void init( IWorkbench workbench, IStructuredSelection selection )
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	public void setInitializationData( IConfigurationElement config, String propertyName, Object data ) throws CoreException
+	public void setInitializationData( IConfigurationElement config,
+			String propertyName, Object data ) throws CoreException
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	/**
 	 * Set report basic settings.
+	 * 
 	 * @param model
 	 * @throws IOException
 	 */
 	void setReportSettings( Object model ) throws IOException
 	{
-		ReportDesignHandle handle = (ReportDesignHandle)model;
+		ReportDesignHandle handle = (ReportDesignHandle) model;
 		try
 		{
 			handle.setDisplayName( settingPage.getDisplayName( ) );
@@ -328,6 +348,6 @@ public class NewReportTemplateWizard extends Wizard implements INewWizard, IExec
 		catch ( SemanticException e )
 		{
 		}
-		handle.save();
+		handle.save( );
 	}
 }
