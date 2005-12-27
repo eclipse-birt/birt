@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor2.DataSetResultCache;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.ParamDefnAndValBinding;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
@@ -134,7 +135,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     protected String[]			projectedFields;
 	
 	// input/output parameter hints
-	private Collection paramDefns;
+	private Collection paramDefnAndValBindings;
     
 	// input parameter values
 	private Collection inputParamValues;
@@ -215,24 +216,17 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     	return projectedFields;
     }
     
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#setParameterHints()
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#setParameterDefnAndDeftValBindings(java.util.Collection)
      */
-	public void setParameterDefns( Collection parameterDefns )
+	public void setParameterDefnAndValBindings( Collection collection )
 	{
-        if ( parameterDefns == null || parameterDefns.isEmpty() )
+        if ( collection == null || collection.isEmpty() )
 			return; 	// nothing to set
         
         // assign to placeholder, for use later during prepare()
-		this.paramDefns = parameterDefns;
-	}
-
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#getParameterHints()
-     */
-	public Collection getParameterDefns()
-	{
-	    return this.paramDefns;
+		this.paramDefnAndValBindings = collection;
 	}
 
     /* (non-Javadoc)
@@ -361,15 +355,16 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	 */
 	private void addParameterDefns() throws DataException
 	{
-		if ( this.paramDefns == null )
+		if ( this.paramDefnAndValBindings == null )
 		    return;	// nothing to add
 
 		// iterate thru the collection to add parameter hints
-		Iterator list = this.paramDefns.iterator( );
+		Iterator list = this.paramDefnAndValBindings.iterator( );
 		while ( list.hasNext( ) )
 		{
-		    IParameterDefinition parameterDefn = (IParameterDefinition) list.next( );
-		    ParameterHint parameterHint = new ParameterHint( parameterDefn.getName(), 
+			ParamDefnAndValBinding paramDefnAndValBinding = (ParamDefnAndValBinding) list.next( );
+		    IParameterDefinition parameterDefn = paramDefnAndValBinding.getParamDefn();
+			ParameterHint parameterHint = new ParameterHint( parameterDefn.getName(), 
 															 parameterDefn.isInputMode(),
 															 parameterDefn.isOutputMode() );
 			parameterHint.setPosition( parameterDefn.getPosition( ) );
@@ -382,15 +377,15 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 			}
 			parameterHint.setDataType( dataTypeClass );
 			parameterHint.setIsInputOptional( parameterDefn.isInputOptional( ) );
-			parameterHint.setDefaultInputValue( parameterDefn.getDefaultInputValue() );
+			parameterHint.setDefaultInputValue( paramDefnAndValBinding.getValue() );
 			parameterHint.setIsNullable( parameterDefn.isNullable() );
 			odaStatement.addParameterHint( parameterHint );
 			
 			//If the parameter is input parameter then add it to input value list.
 			if ( parameterHint.isInputMode( )
-					&& parameterDefn.getDefaultInputValue( ) != null )
+					&& parameterHint.getDefaultInputValue( ) != null )
 			{
-				Object inputValue = convertToValue( parameterDefn.getDefaultInputValue( ),
+				Object inputValue = convertToValue( parameterHint.getDefaultInputValue( ),
 						parameterDefn.getType( ) );
 				if ( parameterHint.getPosition( ) != -1 )
 					this.setInputParamValue( parameterHint.getPosition( ),
