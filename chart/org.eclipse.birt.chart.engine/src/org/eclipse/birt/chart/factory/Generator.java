@@ -68,6 +68,7 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.birt.chart.script.IChartScriptContext;
 import org.eclipse.birt.chart.script.IExternalContext;
+import org.eclipse.birt.chart.script.IScriptClassLoader;
 import org.eclipse.birt.chart.style.IStyle;
 import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.style.SimpleProcessor;
@@ -575,10 +576,11 @@ public final class Generator
 	 * @since 2.0
 	 */
 	public RunTimeContext prepare( Chart model,
-			IExternalContext externalContext, Locale locale )
-			throws ChartException
+			IExternalContext externalContext, IScriptClassLoader iscl,
+			Locale locale ) throws ChartException
 	{
 		RunTimeContext rtc = new RunTimeContext( );
+		rtc.setScriptClassLoader( iscl );
 
 		// Update the context with a locale if it is undefined.
 		final Chart cmRunTime = (Chart) EcoreUtil.copy( model );
@@ -593,6 +595,8 @@ public final class Generator
 
 		ScriptHandler sh = new ScriptHandler( );
 		rtc.setScriptHandler( sh );
+		
+		sh.setScriptClassLoader( iscl );
 
 		// initialize scripthandler.
 		try
@@ -796,6 +800,8 @@ public final class Generator
 		{
 			sh = new ScriptHandler( );
 			rtc.setScriptHandler( sh );
+
+			sh.setScriptClassLoader( rtc.getScriptClassLoader( ) );
 
 			try
 			{

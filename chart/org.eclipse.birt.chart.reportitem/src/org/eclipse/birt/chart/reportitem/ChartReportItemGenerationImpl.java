@@ -27,6 +27,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.ReportItemGenerationBase;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -39,6 +40,8 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 {
 
 	private Chart cm = null;
+
+	private DesignElementHandle handle = null;
 
 	private RunTimeContext rtc = null;
 
@@ -80,6 +83,7 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 				return;
 			}
 		}
+		handle = eih;
 		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( "chart.instance" ); //$NON-NLS-1$
 	}
 
@@ -121,9 +125,17 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 	 */
 	public void onRowSets( IRowSet[] rowSets ) throws BirtException
 	{
+		String javaHandlerClass = handle.getEventHandlerClass( );
+		if ( javaHandlerClass != null && javaHandlerClass.length( ) > 0 )
+		{
+			// use java handler if available.
+			cm.setScript( javaHandlerClass );
+		}
+
 		// prepare the chart model.
 		rtc = Generator.instance( ).prepare( cm,
 				new BIRTExternalContext( context ),
+				new BIRTScriptClassLoader( ),
 				Locale.getDefault( ) );
 
 		// check

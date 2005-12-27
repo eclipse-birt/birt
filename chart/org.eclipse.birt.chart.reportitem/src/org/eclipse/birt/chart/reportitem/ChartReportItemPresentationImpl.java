@@ -432,6 +432,7 @@ public final class ChartReportItemPresentationImpl extends
 
 			final Generator gr = Generator.instance( );
 			GeneratedChartState gcs = null;
+			rtc.setScriptClassLoader( new BIRTScriptClassLoader( ) );
 			rtc.setActionRenderer( new BIRTActionRenderer( this.ah,
 					rowAdapter,
 					this.context ) );
@@ -452,9 +453,9 @@ public final class ChartReportItemPresentationImpl extends
 					new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
 
 			gr.render( idr, gcs );
-			
+
 			// cleanup the dataRow evaluator.
-			rowAdapter.close();
+			rowAdapter.close( );
 
 			// RETURN A STREAM HANDLE TO THE NEWLY CREATED IMAGE
 			try

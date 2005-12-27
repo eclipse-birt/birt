@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.ScriptHandler;
 import org.eclipse.birt.core.i18n.ResourceHandle;
 import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.script.IChartScriptContext;
+import org.eclipse.birt.chart.script.IScriptClassLoader;
 
 /**
  * Encapsulates runtime information associated with each chart generation and
@@ -66,6 +67,11 @@ public final class RunTimeContext implements Serializable
 	 * An action renderer associated with this runtime context.
 	 */
 	private transient IActionRenderer iar = null;
+
+	/**
+	 * An script classLoader associated with this runtime context.
+	 */
+	private transient IScriptClassLoader iscl = null;
 
 	/**
 	 * A map to store user defined state object.
@@ -144,6 +150,26 @@ public final class RunTimeContext implements Serializable
 	public final void setEnableScripting( boolean value )
 	{
 		enableScripting = value;
+	}
+
+	/**
+	 * Returns the script classLoader if available.
+	 * 
+	 * @return
+	 */
+	public final IScriptClassLoader getScriptClassLoader( )
+	{
+		return iscl;
+	}
+
+	/**
+	 * Sets the script classLoader.
+	 * 
+	 * @param value
+	 */
+	public final void setScriptClassLoader( IScriptClassLoader value )
+	{
+		iscl = value;
 	}
 
 	/**
