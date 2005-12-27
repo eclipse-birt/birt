@@ -23,8 +23,6 @@ public class LibraryImportTest extends BaseTestCase
 	private String inputLibraryName = "LibraryCreatLib.xml";
     private String outputFileName = "Library_Import_Dpt.xml"; 
 	private String goldenFileName = "LibraryImportDpt_golden.xml"; 
-	
-	protected static final String PLUGIN_PATH =System.getProperty("user.dir")+ "\\plugins\\"+BaseTestCase.PLUGINLOC.substring(BaseTestCase.PLUGINLOC.indexOf("/")+1) + "bin/";
 	String LibFile= PLUGIN_PATH + getClassFolder() + INPUT_FOLDER + inputLibraryName;
 	
 	public LibraryImportTest(String name) 

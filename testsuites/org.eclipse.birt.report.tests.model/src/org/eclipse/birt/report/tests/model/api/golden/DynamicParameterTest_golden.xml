@@ -15,7 +15,7 @@
             <expression name="valueExpr">row["ORDERDATE"]</expression>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
-            <expression name="defaultValue">10/15/2005</expression>
+            <property name="defaultValue">10/15/2005</property>
         </scalar-parameter>
         <scalar-parameter name="Param 2" id="3">
             <property name="hidden">false</property>

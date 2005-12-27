@@ -16,8 +16,6 @@ public class OpenDesignTest extends BaseTestCase
 
 	private String nofileName = "NoExisting.xml"; //$NON-NLS-1$
 	
-	protected static final String PLUGIN_PATH =System.getProperty("user.dir")+ "\\plugins\\"+BaseTestCase.PLUGINLOC.substring(BaseTestCase.PLUGINLOC.indexOf("/")+1) + "bin/";   //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$
-	
 	String noexistingFileName= PLUGIN_PATH + getClassFolder() + INPUT_FOLDER + nofileName;
 
 	
@@ -61,7 +59,6 @@ public class OpenDesignTest extends BaseTestCase
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );
-		
 		String s2 = "../input/BlankReport.xml"; //$NON-NLS-1$
 		openDesign( s2 , is );
 	}
@@ -78,7 +75,6 @@ public class OpenDesignTest extends BaseTestCase
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );
-		
 		String s3 = "file:///" + PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER + fileName; //$NON-NLS-1$
 		openDesign( s3 , is );
 	}
@@ -108,9 +104,6 @@ public class OpenDesignTest extends BaseTestCase
 			assertEquals( DesignFileException.DESIGN_EXCEPTION_INVALID_XML , e.getErrorCode() );
 		}
 	}
-	
-	
-	
 	
 	
 	

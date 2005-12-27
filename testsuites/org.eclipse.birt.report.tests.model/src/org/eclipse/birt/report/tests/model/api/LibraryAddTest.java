@@ -15,9 +15,8 @@ public class LibraryAddTest extends BaseTestCase
 
     private String outFileName = "Library_Addin_Test_out.xml"; 
 	private String goldenFileName = "Library_Addin_Test_golden.xml"; 
-	protected static final String PLUGIN_PATH =System.getProperty("user.dir")+ "\\plugins\\"+BaseTestCase.PLUGINLOC.substring(BaseTestCase.PLUGINLOC.indexOf("/")+1) + "bin/";
-	String LibFile="plugins\\"+BaseTestCase.PLUGINLOC.substring(BaseTestCase.PLUGINLOC.indexOf("/")+1) + "bin/"+getClassFolder() + INPUT_FOLDER + inputLibraryName;
-	String LibFileError1 = "plugins\\"+BaseTestCase.PLUGINLOC.substring(BaseTestCase.PLUGINLOC.indexOf("/")+1) + "bin/"+getClassFolder() + INPUT_FOLDER + "LibY.xml";
+	String LibFile=PLUGIN_PATH +getClassFolder( ) + INPUT_FOLDER + inputLibraryName;
+	String LibFileError1 = PLUGIN_PATH +getClassFolder( ) + INPUT_FOLDER + "LibY.xml";
 
 	public LibraryAddTest(String name) 
 	{	
@@ -35,14 +34,14 @@ public class LibraryAddTest extends BaseTestCase
 	public void testAddinLibrary( ) throws Exception
 	{
 		openDesign( "../input/Library_Import_test.xml" );
-		designHandle.includeLibrary( System.getProperty("user.dir")+"\\"+LibFile, "LibB" );
+		designHandle.includeLibrary( LibFile, "LibB" );
 		designHandle.includeLibrary( "../input/LibA.xml" , "");
 	    super.saveAs( outFileName );
 	    assertTrue( compareTextFile( goldenFileName, outFileName ) );
 	    
 	    try
 	    {
-	    designHandle.includeLibrary( System.getProperty("user.dir")+"\\"+LibFileError1, "LibY" );
+	    designHandle.includeLibrary(LibFileError1, "LibY" );
 	    }
 	    catch(SemanticException e)
 	    {

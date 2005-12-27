@@ -2,12 +2,18 @@
 <!-- Written by Eclipse BIRT 1.0 -->
 <library xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
     <property name="theme">defaultTheme</property>
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">D:\workspace_eclipse\org.eclipse.birt.report.tests.model/bin/org\eclipse\birt\report\tests\model\api/input/Library_ElementID_Lib.xml</property>
+            <property name="namespace">LibA</property>
+        </structure>
+    </list-property>
     <parameters>
         <scalar-parameter name="Parameter1" id="4">
             <property name="dataType">string</property>
             <property name="format">Unformatted</property>
             <property name="controlType">text-box</property>
-            <expression name="defaultValue">"abc"</expression>
+            <property name="defaultValue">"abc"</property>
         </scalar-parameter>
     </parameters>
     <data-sources>

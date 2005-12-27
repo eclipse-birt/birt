@@ -7,7 +7,7 @@
             <property name="dataType">string</property>
             <property name="format">Unformatted</property>
             <property name="controlType">text-box</property>
-            <expression name="defaultValue">"abc"</expression>
+            <property name="defaultValue">"abc"</property>
         </scalar-parameter>
     </parameters>
     <data-sources>

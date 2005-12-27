@@ -22,6 +22,7 @@ public class TemplateElementHandleTest extends BaseTestCase
 	private ElementFactory factory = null;
 	private OdaDataSourceHandle datasource = null;
 	private OdaDataSetHandle dataset = null;
+	private OdaDataSetHandle dataset2 = null;
 	private LabelHandle label = null;
 	
 	public TemplateElementHandleTest(String name) {
@@ -57,21 +58,22 @@ public class TemplateElementHandleTest extends BaseTestCase
 		{
 		  assertNotNull(e);
 		}
-		
+	
 		//duplicated names
 		dataset = factory.newOdaDataSet("dset","org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet");
 		designHandle.getDataSets().add(dataset);
-		TemplateElementHandle tdataset = dataset.createTemplateElement("dset");
+		dataset2 = factory.newOdaDataSet("dset2","org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet");
+		designHandle.getDataSets().add(dataset2);
 		
 		try{
-			designHandle.getDataSets().add(tdataset);
+			TemplateElementHandle tdataset = dataset2.createTemplateElement("dset");
 			fail();
 			}
 			catch(NameException e)
 			{
 			  assertNotNull(e);
 			}
-	    tdataset.setName("T.dset");
+		TemplateElementHandle tdataset = dataset2.createTemplateElement("temdset");;
 		designHandle.getDataSets().add(tdataset);
 		
 		//Element which has no template definition can't be reverted to report element
