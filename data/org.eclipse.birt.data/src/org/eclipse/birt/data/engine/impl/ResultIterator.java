@@ -72,10 +72,20 @@ public class ResultIterator implements IResultIterator
 	private DataEngineContext context;
 	private RDSaveUtil rdSaveUtil;
 	
+	// util to findGroup
+	private GroupUtil groupUtil;
+	
 	protected static Logger logger = Logger.getLogger( ResultIterator.class.getName( ) );
 
 	/**
 	 * Constructor for report query (which produces a QueryResults)
+	 * 
+	 * @param context
+	 * @param queryResults
+	 * @param query
+	 * @param odiResult
+	 * @param scope
+	 * @throws DataException
 	 */
 	ResultIterator( DataEngineContext context, IQueryResults queryResults,
 			PreparedQuery query,
@@ -95,26 +105,26 @@ public class ResultIterator implements IResultIterator
 		assert queryDefn != null;
 		this.useDetails = queryDefn.usesDetails( );
 		this.lowestGroupLevel = queryDefn.getGroups( ).size( );
-		start( );
+		this.start( );
 		logger.logp( Level.FINER,
 				ResultIterator.class.getName( ),
 				"ResultIterator",
 				"ResultIterator starts up" );
 	}
 
-	/**
-	 * Construction
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getScope()
 	 */
-	protected ResultIterator( )
+	public Scriptable getScope( )
 	{
-
+		return scope;
 	}
 
 	/**
 	 * Internal method to start the iterator; must be called before any other
 	 * method can be used
 	 */
-	protected void start( ) throws DataException
+	private void start( ) throws DataException
 	{
 		assert state == NOT_STARTED;
 
@@ -122,15 +132,7 @@ public class ResultIterator implements IResultIterator
 		// its first row. This iterator starts out with cursor BEFORE first row.
 		state = BEFORE_FIRST_ROW;
 	}
-
-	/**
-	 * Returns the Rhinoe scope associated with this iterator
-	 */
-	public Scriptable getScope( )
-	{
-		return scope;
-	}
-
+	
 	/**
 	 * Checks to make sure the iterator has started. Throws exception if it has
 	 * not.
@@ -148,27 +150,20 @@ public class ResultIterator implements IResultIterator
 			throw e;
 		}
 	}
-
-	/**
+	
+	/*
 	 * Returns the QueryResults of this result iterator. A convenience method
 	 * for the API consumer.
 	 * 
-	 * @return The QueryResults that contains this result iterator.
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getQueryResults()
 	 */
 	public IQueryResults getQueryResults( )
 	{
 		return queryResults;
 	}
-
-	/**
-	 * Moves down one element from its current position of the iterator. This
-	 * method applies to a result whose ReportQuery is defined to use detail or
-	 * group rows.
-	 * 
-	 * @return true if next element exists and has not reached the limit on the
-	 *         maximum number of rows that can be accessed.
-	 * @throws BirtException
-	 *             if error occurs in Data Engine
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#next()
 	 */
 	public boolean next( ) throws BirtException
 	{
@@ -203,6 +198,13 @@ public class ResultIterator implements IResultIterator
 		return hasNext;
 	}
 
+	/**
+	 * @param expr
+	 * @param odiResult
+	 * @param scope
+	 * @return
+	 * @throws DataException
+	 */
 	static Object evaluateCompiledExpression( CompiledExpression expr,
 			org.eclipse.birt.data.engine.odi.IResultIterator odiResult,
 			Scriptable scope ) throws DataException
@@ -252,28 +254,9 @@ public class ResultIterator implements IResultIterator
 		}
 
 	}
-
-	/**
-	 * Returns the value of a query result expression. A given data expression
-	 * could be for one of the Selected Columns (if detail rows are used), or of
-	 * an Aggregation specified in the prepared ReportQueryDefn spec. When
-	 * requesting for the value of a Selected Column, its value in the current
-	 * row of the iterator will be returned.
-	 * <p>
-	 * Throws an exception if a result expression value is requested out of
-	 * sequence from the prepared ReportQueryDefn spec. E.g. A group aggregation
-	 * is defined to be after_last_row. It would be out of sequence if requested
-	 * before having iterated/skipped to the last row of the group. In future
-	 * release, this could have intelligence to auto recover and performs
-	 * dependent operations to properly evaluate any out-of-sequence result
-	 * values.
-	 * 
-	 * @param dataExpr
-	 *            An IBaseExpression object provided in the ReportQueryDefn at
-	 *            the time of prepare.
-	 * @return The value of the given expression. It could be null.
-	 * @throws BirtException
-	 *             if error occurs in Data Engine
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getValue(org.eclipse.birt.data.engine.api.IBaseExpression)
 	 */
 	public Object getValue( IBaseExpression dataExpr ) throws BirtException
 	{
@@ -339,7 +322,7 @@ public class ResultIterator implements IResultIterator
 	}
 	
 	/**
-	 * @return
+	 * @return save util used in report document GENERATION time
 	 */
 	private RDSaveUtil getRdSaveUtil( )
 	{
@@ -353,111 +336,40 @@ public class ResultIterator implements IResultIterator
 		return this.rdSaveUtil;
 	}
 	
-	/**
-	 * Returns the value of a query result expression as a Boolean, by type
-	 * casting the Object returned by getValue. <br>
-	 * A convenience method for the API consumer. <br>
-	 * If the expression value has an incompatible type, a ClassCastException is
-	 * thrown at runtime.
-	 * 
-	 * @param dataExpr
-	 *            An IBaseExpression object provided in the ReportQueryDefn at
-	 *            the time of prepare.
-	 * @return The value of the given expression as a Boolean. It could be null.
-	 * @throws DataException
-	 *             if error occurs in Data Engine
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getBoolean(org.eclipse.birt.data.engine.api.IBaseExpression)
 	 */
-	public Boolean getBoolean( IBaseExpression dataExpr ) throws DataException
+	public Boolean getBoolean( IBaseExpression dataExpr ) throws BirtException
 	{
-		try
-		{
-			return DataTypeUtil.toBoolean( getValue( dataExpr ) );
-		}
-		catch ( BirtException e )
-		{
-			DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
-					e );
-			logger.logp( Level.FINE,
-					ResultIterator.class.getName( ),
-					"getBoolean",
-					"An error is thrown by DataTypeUtil.",
-					e1 );
-			throw e1;
-		}
+		return DataTypeUtil.toBoolean( getValue( dataExpr ) );
 	}
 
-	/**
-	 * Returns the value of a query result expression as an Integer, by type
-	 * casting the Object returned by getValue. <br>
-	 * A convenience method for the API consumer. <br>
-	 * If the expression value has an incompatible type, a ClassCastException is
-	 * thrown at runtime.
-	 * 
-	 * @param dataExpr
-	 *            An IBaseExpression object provided in the ReportQueryDefn at
-	 *            the time of prepare.
-	 * @return The value of the given expression as an Integer. It could be
-	 *         null.
-	 * @throws BirtException
-	 *             if error occurs in Data Engine
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getInteger(org.eclipse.birt.data.engine.api.IBaseExpression)
 	 */
 	public Integer getInteger( IBaseExpression dataExpr ) throws BirtException
 	{
 		return DataTypeUtil.toInteger( getValue( dataExpr ) );
 	}
 
-	/**
-	 * Returns the value of a query result expression as a Double, by type
-	 * casting the Object returned by getValue. <br>
-	 * A convenience method for the API consumer. <br>
-	 * If the expression value has an incompatible type, a ClassCastException is
-	 * thrown at runtime.
-	 * 
-	 * @param dataExpr
-	 *            An IBaseExpression object provided in the ReportQueryDefn at
-	 *            the time of prepare.
-	 * @return The value of the given expression as a Double. It could be null.
-	 * @throws BirtException
-	 *             if error occurs in Data Engine
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getDouble(org.eclipse.birt.data.engine.api.IBaseExpression)
 	 */
 	public Double getDouble( IBaseExpression dataExpr ) throws BirtException
 	{
-			return DataTypeUtil.toDouble( getValue( dataExpr ) );
+		return DataTypeUtil.toDouble( getValue( dataExpr ) );
 	}
 
-	/**
-	 * Returns the value of a query result expression as a String, by type
-	 * casting the Object returned by getValue. <br>
-	 * A convenience method for the API consumer. <br>
-	 * If the expression value has an incompatible type, a ClassCastException is
-	 * thrown at runtime.
-	 * 
-	 * @param dataExpr
-	 *            An IBaseExpression object provided in the ReportQueryDefn at
-	 *            the time of prepare.
-	 * @return The value of the given expression as a String. It could be null.
-	 * @throws BirtException
-	 *             if error occurs in Data Engine
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getString(org.eclipse.birt.data.engine.api.IBaseExpression)
 	 */
 	public String getString( IBaseExpression dataExpr ) throws BirtException
 	{
 		return DataTypeUtil.toString( getValue( dataExpr ) );
 	}
 
-	/**
-	 * Returns the value of a query result expression as a BigDecimal, by type
-	 * casting the Object returned by getValue. <br>
-	 * A convenience method for the API consumer. <br>
-	 * If the expression value has an incompatible type, a ClassCastException is
-	 * thrown at runtime.
-	 * 
-	 * @param dataExpr
-	 *            An IBaseExpression object provided in the ReportQueryDefn at
-	 *            the time of prepare.
-	 * @return The value of the given expression as a BigDecimal. It could be
-	 *         null.
-	 * @throws BirtException
-	 *             if error occurs in Data Engine
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getBigDecimal(org.eclipse.birt.data.engine.api.IBaseExpression)
 	 */
 	public BigDecimal getBigDecimal( IBaseExpression dataExpr )
 			throws BirtException
@@ -465,37 +377,16 @@ public class ResultIterator implements IResultIterator
 		return DataTypeUtil.toBigDecimal( getValue( dataExpr ) );
 	}
 
-	/**
-	 * Returns the value of a query result expression as a Date, by type casting
-	 * the Object returned by getValue. <br>
-	 * A convenience method for the API consumer. <br>
-	 * If the expression value has an incompatible type, a ClassCastException is
-	 * thrown at runtime.
-	 * 
-	 * @param dataExpr
-	 *            An IBaseExpression object provided in the ReportQueryDefn at
-	 *            the time of prepare.
-	 * @return The value of the given expression as a Date. It could be null.
-	 * @throws BirtException
-	 *             if error occurs in Data Engine
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getDate(org.eclipse.birt.data.engine.api.IBaseExpression)
 	 */
 	public Date getDate( IBaseExpression dataExpr ) throws BirtException
 	{
 		return DataTypeUtil.toDate( getValue( dataExpr ) );
 	}
 
-	/**
-	 * Returns the value of a query result expression representing Blob data.
-	 * <br>
-	 * If the expression value has an incompatible type, a ClassCastException is
-	 * thrown at runtime.
-	 * 
-	 * @param dataExpr
-	 *            An IBaseExpression object provided in the ReportQueryDefn at
-	 *            the time of prepare.
-	 * @return The value of the given Blob expression. It could be null.
-	 * @throws BirtException
-	 *             if error occurs in Data Engine
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getBlob(org.eclipse.birt.data.engine.api.IBaseExpression)
 	 */
 	public Blob getBlob( IBaseExpression dataExpr ) throws BirtException
 	{
@@ -511,18 +402,9 @@ public class ResultIterator implements IResultIterator
 	{
 		return DataTypeUtil.toBytes( getValue( dataExpr ) );
 	}
-
-	/**
-	 * Advances the iterator, skipping rows to the last row in the current group
-	 * at the specified group level. This is for result sets that do not use
-	 * detail rows to advance to next group. Calling next() after skip() would
-	 * position the current row to the first row of the next group.
-	 * 
-	 * @param groupLevel
-	 *            An absolute value for group level. A value of 0 applies to the
-	 *            whole result set.
-	 * @throws DataException
-	 *             if error occurs in Data Engine
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#skipToEnd(int)
 	 */
 	public void skipToEnd( int groupLevel ) throws DataException
 	{
@@ -534,16 +416,8 @@ public class ResultIterator implements IResultIterator
 				"skipping rows to the last row in the current group" );
 	}
 
-	/**
-	 * Returns the 1-based index of the outermost group in which the current row
-	 * is the first row. For example, if a query contain N groups (group with
-	 * index 1 being the outermost group, and group with index N being the
-	 * innermost group), and this function returns a value M, it indicates that
-	 * the current row is the first row in groups with indexes (M, M+1, ..., N ).
-	 * 
-	 * @return 1-based index of the outermost group in which the current row is
-	 *         the first row; (N+1) if the current row is not at the start of
-	 *         any group; 0 if the result set has no groups.
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getStartingGroupLevel()
 	 */
 	public int getStartingGroupLevel( ) throws DataException
 	{
@@ -563,16 +437,8 @@ public class ResultIterator implements IResultIterator
 		return odiResult.getStartingGroupLevel( );
 	}
 
-	/**
-	 * Returns the 1-based index of the outermost group in which the current row
-	 * is the last row. For example, if a query contain N groups (group with
-	 * index 1 being the outermost group, and group with index N being the
-	 * innermost group), and this function returns a value M, it indicates that
-	 * the current row is the last row in groups with indexes (M, M+1, ..., N ).
-	 * 
-	 * @return 1-based index of the outermost group in which the current row is
-	 *         the last row; (N+1) if the current row is not at the end of any
-	 *         group; 0 if the result set has no groups.
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getEndingGroupLevel()
 	 */
 	public int getEndingGroupLevel( ) throws DataException
 	{
@@ -582,13 +448,10 @@ public class ResultIterator implements IResultIterator
 					"return the ending group level" );
 		return odiResult.getEndingGroupLevel( );
 	}
-	
-	/**
-	 * Returns the secondary result specified by a SubQuery that was defined in
-	 * the prepared ReportQueryDefn.
-	 * 
-	 * @throws DataException
-	 *             if error occurs in Data Engine
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getSecondaryIterator(java.lang.String,
+	 *      org.mozilla.javascript.Scriptable)
 	 */
 	public IResultIterator getSecondaryIterator( String subQueryName,
 			Scriptable subScope ) throws DataException
@@ -614,8 +477,6 @@ public class ResultIterator implements IResultIterator
 	}
 	
 	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getResultMetaData()
 	 */
 	public IResultMetaData getResultMetaData( ) throws DataException
@@ -632,13 +493,9 @@ public class ResultIterator implements IResultIterator
 					"Returns the result metadata" );
 		}
 	}
-
-	/**
-	 * Closes this result and any associated secondary result iterator(s),
-	 * providing a hint that the consumer is done with this result, whose
-	 * resources can be safely released as appropriate.
-	 * 
-	 * @throws DataException
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#close()
 	 */
 	public void close( ) throws BirtException
 	{
@@ -658,32 +515,6 @@ public class ResultIterator implements IResultIterator
 	}
 	
 	/**
-	 * Specifies the maximum number of rows that can be accessed from this
-	 * result iterator. Default is no limit.
-	 * 
-	 * @param maxLimit
-	 *            The new max row limit. This value must not be greater than the
-	 *            max limit specified in the ReportQueryDefn. A value of 0 means
-	 *            no limit.
-	 * @throws DataException
-	 *             if error occurs in Data Engine
-	 */
-	void setMaxRows( int maxLimit ) throws DataException
-	{
-	}
-
-	/**
-	 * Retrieves the maximum number of rows that can be accessed from this
-	 * result iterator.
-	 * 
-	 * @return the current max row limit; a value of 0 means no limit.
-	 */
-	int getMaxRows( )
-	{
-		return 0;
-	}
-
-	/**
 	 * Only for CachedResultSet test case
 	 * 
 	 * @return
@@ -694,128 +525,172 @@ public class ResultIterator implements IResultIterator
 	}
 
 	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#findGroup(java.lang.Object[])
 	 */
 	public boolean findGroup( Object[] groupKeyValues ) throws BirtException
 	{
-		List groups = query.getQueryDefn( ).getGroups( );
-		if ( groupKeyValues.length > groups.size( ) )
-			throw new DataException( ResourceConstants.INCORRECT_GROUP_KEY_VALUES );
+		if ( groupUtil == null )
+			groupUtil = new GroupUtil( this.query, this );
+		return groupUtil.findGroup( groupKeyValues );
+	}
 
-		GroupDefinition group = null;
-
-		String[] columnNames = new String[groupKeyValues.length];
-
-		for ( int i = 0; i < columnNames.length; i++ )
+	/**
+	 * Util class to findGroup
+	 */
+	private class GroupUtil
+	{
+		private PreparedQuery query;
+		private ResultIterator resultIterator;
+		
+		/**
+		 * @param query
+		 * @param resultIterator
+		 */
+		private GroupUtil(PreparedQuery query, ResultIterator resultIterator)
 		{
-			group = (GroupDefinition) groups.get( i );
-
-			columnNames[i] = getGroupKeyColumnName( group );
+			this.query = query;
+			this.resultIterator = resultIterator;
 		}
-
-		// Return to first row.
-		odiResult.first( 0 );
-		if( odiResult.getCurrentResult() == null )
-			return false;
-		do
+		
+		/**
+		 * @param query
+		 * @param resultIterator
+		 * @param groupKeyValues
+		 * @return
+		 * @throws BirtException
+		 */
+		public boolean findGroup( Object[] groupKeyValues )
+				throws BirtException
 		{
+			org.eclipse.birt.data.engine.odi.IResultIterator odiResult = resultIterator.getOdiResult( );
+			
+			List groups = query.getQueryDefn( ).getGroups( );
+			if ( groupKeyValues.length > groups.size( ) )
+				throw new DataException( ResourceConstants.INCORRECT_GROUP_KEY_VALUES );
+
+			GroupDefinition group = null;
+
+			String[] columnNames = new String[groupKeyValues.length];
+
 			for ( int i = 0; i < columnNames.length; i++ )
 			{
-				if ( groupKeyValuesEqual( groupKeyValues, columnNames, i ) )
+				group = (GroupDefinition) groups.get( i );
+
+				columnNames[i] = getGroupKeyColumnName( group );
+			}
+
+			// Return to first row.
+			odiResult.first( 0 );
+			if ( odiResult.getCurrentResult( ) == null )
+				return false;
+			do
+			{
+				for ( int i = 0; i < columnNames.length; i++ )
 				{
-					if ( i == columnNames.length - 1 )
-						return true;
+					if ( groupKeyValuesEqual( odiResult,
+							groupKeyValues,
+							columnNames,
+							i ) )
+					{
+						if ( i == columnNames.length - 1 )
+							return true;
+					}
+					else
+					{
+						// because group level is 1-based. We should use "i+1"
+						// to indicate current group.
+						resultIterator.skipToEnd( i + 1 );
+						break;
+					}
+				}
+			} while ( odiResult.next( ) );
+
+			return false;
+		}
+
+		/**
+		 * @param groupKeyValues
+		 * @param columnNames
+		 * @param i
+		 * @return
+		 * @throws BirtException
+		 */
+		private boolean groupKeyValuesEqual(
+				org.eclipse.birt.data.engine.odi.IResultIterator odiResult,
+				Object[] groupKeyValues, String[] columnNames, int i )
+				throws BirtException
+		{
+			Object fieldValue = odiResult.getCurrentResult( )
+					.getFieldValue( columnNames[i] );
+
+			boolean retValue = false;
+			if ( fieldValue == groupKeyValues[i] )
+			{
+				retValue = true;
+			}
+			else if ( fieldValue != null && groupKeyValues[i] != null )
+			{
+				if ( fieldValue.getClass( )
+						.equals( groupKeyValues[i].getClass( ) ) )
+				{
+					retValue = fieldValue.equals( groupKeyValues[i] );
 				}
 				else
 				{
-					// because group level is 1-based. We should use "i+1" to
-					// indicate current group.
-					this.skipToEnd( i + 1 );
-					break;
+					Object convertedOb = DataTypeUtil.convert( groupKeyValues[i],
+							fieldValue.getClass( ) );
+					retValue = fieldValue.equals( convertedOb );
 				}
 			}
-		} while ( odiResult.next( ) );
 
-		return false;
-	}
-
-	/**
-	 * @param groupKeyValues
-	 * @param columnNames
-	 * @param i
-	 * @return
-	 * @throws BirtException
-	 */
-	private boolean groupKeyValuesEqual( Object[] groupKeyValues,
-			String[] columnNames, int i ) throws BirtException
-	{
-		Object fieldValue = odiResult.getCurrentResult( )
-				.getFieldValue( columnNames[i] );
-
-		boolean retValue = false;
-		if ( fieldValue == groupKeyValues[i] )
-		{
-			retValue = true;
+			return retValue;
 		}
-		else if ( fieldValue != null && groupKeyValues[i] != null )
+
+		/**
+		 * The method which extracts column name from group definition.
+		 * 
+		 * @param group
+		 * @return
+		 */
+		private String getGroupKeyColumnName( GroupDefinition group )
 		{
-			if ( fieldValue.getClass( ).equals( groupKeyValues[i].getClass( ) ) )
+			String columnName;
+			if ( group.getKeyColumn( ) != null )
 			{
-				retValue = fieldValue.equals( groupKeyValues[i] );
+				columnName = group.getKeyColumn( );
 			}
 			else
 			{
-				Object convertedOb = DataTypeUtil.convert( groupKeyValues[i],
-						fieldValue.getClass( ) );
-				retValue = fieldValue.equals( convertedOb );
+				columnName = group.getKeyExpression( );
+				if ( columnName.toUpperCase( ).startsWith( "ROW." ) )
+					columnName = columnName.toUpperCase( )
+							.replaceFirst( "\\QROW.\\E", "" );
+				else if ( columnName.toUpperCase( ).startsWith( "ROW[" ) )
+				{
+					columnName = columnName.toUpperCase( )
+							.replaceFirst( "\\QROW\\E\\s*\\Q[\\E", "" );
+					columnName = columnName.trim( ).substring( 0,
+							columnName.length( ) - 1 ).trim( );
+				}
+				if ( columnName != null
+						&& columnName.matches( "\\Q\"\\E.*\\Q\"\\E" ) )
+					columnName = columnName.substring( 1,
+							columnName.length( ) - 1 );
 			}
-		}
-
-		return retValue;
-	}
-
-	/**
-	 * The method which extracts column name from group definition.
-	 * 
-	 * @param group
-	 * @return
-	 */
-	private String getGroupKeyColumnName( GroupDefinition group )
-	{
-		String columnName;
-		if ( group.getKeyColumn( ) != null )
-		{
-			columnName = group.getKeyColumn( );
-		}
-		else
-		{
-			columnName = group.getKeyExpression( );
-			if ( columnName.toUpperCase( ).startsWith( "ROW." ) )
-				columnName = columnName.toUpperCase( )
-						.replaceFirst( "\\QROW.\\E", "" );
-			else if ( columnName.toUpperCase( ).startsWith( "ROW[" ) )
+			// Dealing with columnNames enclosed by double quotation mark.
+			if ( columnName.startsWith( "\\\"" )
+					&& columnName.endsWith( "\\\"" ) )
 			{
-				columnName = columnName.toUpperCase( )
-						.replaceFirst( "\\QROW\\E\\s*\\Q[\\E", "" );
-				columnName = columnName.trim( ).substring( 0,
-						columnName.length( ) - 1 ).trim( );
+				columnName = "\""
+						+ columnName.substring( 2, columnName.length( ) - 2 )
+						+ "\"";
 			}
-			if ( columnName != null
-					&& columnName.matches( "\\Q\"\\E.*\\Q\"\\E" ) )
-				columnName = columnName.substring( 1, columnName.length( ) - 1 );
+			return columnName;
 		}
-		//Dealing with columnNames enclosed by double quotation mark.
-		if( columnName.startsWith("\\\"") && columnName.endsWith("\\\""))
-		{
-			columnName = "\""+ columnName.substring(2, columnName.length() - 2) + "\"";
-		}
-		return columnName;
 	}
-
+	
 	/**
-	 * Help resultiterator to save data
+	 * Util class to help ResultIterator to save data into report document
 	 */
 	private class RDSaveUtil
 	{
