@@ -94,7 +94,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.63 $ $Date: 2005/12/23 07:34:22 $
+ * @version $Revision: 1.64 $ $Date: 2005/12/26 03:51:18 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -568,10 +568,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.writeCode( "				<span id=\"error_icon" + index
 				+ "\"  style=\"cursor:pointer\" onclick=\"expand(" + index
 				+ ")\" > + </span>" );
-		writer.writeCode( "				<span  id=\"error_title\">"
-				+ rc.getMessage( MessageConstants.REPORT_ERROR_MESSAGE,
-						new Object[]{info.getType( ), info.getElementInfo( )} )
-				+ "</span>" );
+		writer.writeCode( "				<span  id=\"error_title\">" );
+		writer.text( rc.getMessage( MessageConstants.REPORT_ERROR_MESSAGE,
+				new Object[]{info.getType( ), info.getElementInfo( )} ), false );
+		writer.writeCode( "</span>" );
 		writer.writeCode( "				<pre id=\"error_detail" + index
 				+ "\" style=\"display:block\" >" );
 		ArrayList errorList = info.getErrorList( );
@@ -589,10 +589,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			String messageBody = getDetailMessage( ex );
 			boolean indent = writer.isIndent( );
 			writer.setIndent( false );
-			writer.writeCode( messageTitle );
+			writer.text( messageTitle, false );
 			writer.writeCode( "\r\n" );
-			writer.writeCode( detailTag );
-			writer.writeCode( messageBody );
+			writer.text( detailTag, false );
+			writer.text( messageBody, false );
 			writer.setIndent( indent );
 		}
 		writer.writeCode( "				</pre>" );
@@ -621,11 +621,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			writer.writeCode( "	<hr style=\"color:red\"/>" );
 			writer.writeCode( "	<div style=\"color:red\">" );
-			writer
-					.writeCode( "		<div>"
-							+ EngineResourceHandle.getInstance( ).getMessage(
-									MessageConstants.ERRORS_ON_REPORT_PAGE )
-							+ "</div>" );//$NON-NLS-1$
+			writer.writeCode( "		<div>" );
+			writer.text( EngineResourceHandle.getInstance( ).getMessage(
+					MessageConstants.ERRORS_ON_REPORT_PAGE ), false );
+			writer.writeCode( "</div>" );//$NON-NLS-1$
 
 			Iterator it = errors.iterator( );
 			int index = 0;
@@ -1533,7 +1532,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			if ( hasImageMap )
 			{
 				// BUGZILLA 119245 request chart (without hyperlink) can't have
-				// borders, the BROWSER add blue-solid border to the image with maps. 
+				// borders, the BROWSER add blue-solid border to the image with
+				// maps.
 				if ( !hasAction )
 				{
 					// disable the border, if the user defines border with the
@@ -1541,13 +1541,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					IStyle style = image.getStyle( );
 					if ( style.getBorderTopStyle( ) == null )
 					{
-						//user doesn't define the border, remove it.
+						// user doesn't define the border, remove it.
 						styleBuffer.append( "border-top-style:none;" );
 					}
 					else
 					{
-						//use define the border-style, but not define the border color, use the default
-						//color.
+						// use define the border-style, but not define the
+						// border color, use the default
+						// color.
 						if ( style.getBorderTopColor( ) == null )
 						{
 							styleBuffer.append( "border-top-color:black" );
