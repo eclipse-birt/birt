@@ -2,6 +2,7 @@
 org.eclipse.birt.chart.engine/debug=false
 
 org.eclipse.birt.chart.engine/trace=false
+
 org.eclipse.birt.chart.engine/aggregate=false
 org.eclipse.birt.chart.engine/computation=false
 org.eclipse.birt.chart.engine/computation.withaxes=false
@@ -12,7 +13,12 @@ org.eclipse.birt.chart.engine/engine.i18n=false
 org.eclipse.birt.chart.engine/event=false
 org.eclipse.birt.chart.engine/exception=false
 org.eclipse.birt.chart.engine/factory=false
+org.eclipse.birt.chart.engine/internal=false
+org.eclipse.birt.chart.engine/internal.computations=false
+org.eclipse.birt.chart.engine/internal.factory=false
+org.eclipse.birt.chart.engine/internal.script=false
 org.eclipse.birt.chart.engine/log=false
+org.eclipse.birt.chart.engine/log.impl=false
 org.eclipse.birt.chart.engine/model=false
 org.eclipse.birt.chart.engine/model.attribute=false
 org.eclipse.birt.chart.engine/model.attribute.impl=false
@@ -34,5 +40,7 @@ org.eclipse.birt.chart.engine/model.type.util=false
 org.eclipse.birt.chart.engine/model.util=false
 org.eclipse.birt.chart.engine/plugin=false
 org.eclipse.birt.chart.engine/render=false
+org.eclipse.birt.chart.engine/script=false
+org.eclipse.birt.chart.engine/style=false
 org.eclipse.birt.chart.engine/util=false
 
