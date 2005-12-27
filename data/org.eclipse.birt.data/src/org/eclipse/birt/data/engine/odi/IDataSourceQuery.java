@@ -117,7 +117,7 @@ public interface IDataSourceQuery extends IQuery
      * @param parameterDefns	One or more parameter hints as a collection
      * 				of birt.data.engine.api.IParameterDefinition objects.
      */
-	public void setParameterHints( Collection parameterDefns );
+	public void setParameterDefns( Collection parameterDefns );
   
     /**
      * Return a collection of input/output parameter hints associated with this query.

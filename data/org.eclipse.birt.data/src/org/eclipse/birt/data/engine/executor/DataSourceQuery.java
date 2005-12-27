@@ -35,7 +35,9 @@ import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 
-// Structure to hold definition of a custom column
+/**
+ *	Structure to hold info of a custom field. 
+ */
 final class CustomField
 {
     String 	name;
@@ -71,6 +73,11 @@ final class CustomField
     }
 }
 
+/**
+ * Structure to hold Parameter binding info
+ * @author lzhu
+ *
+ */
 class ParameterBinding
 {
 	private String name;
@@ -127,7 +134,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     protected String[]			projectedFields;
 	
 	// input/output parameter hints
-	private Collection paramHints;
+	private Collection paramDefns;
     
 	// input parameter values
 	private Collection inputParamValues;
@@ -136,6 +143,13 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	private ArrayList propNames;
 	private ArrayList propValues;
 	
+	/**
+	 * Constructor. 
+	 * 
+	 * @param dataSource
+	 * @param queryType
+	 * @param queryText
+	 */
     DataSourceQuery( DataSource dataSource, String queryType, String queryText )
     {
         this.dataSource = dataSource;
@@ -204,21 +218,21 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     /* (non-Javadoc)
      * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#setParameterHints()
      */
-	public void setParameterHints( Collection parameterDefns )
+	public void setParameterDefns( Collection parameterDefns )
 	{
         if ( parameterDefns == null || parameterDefns.isEmpty() )
 			return; 	// nothing to set
         
         // assign to placeholder, for use later during prepare()
-		paramHints = parameterDefns;
+		this.paramDefns = parameterDefns;
 	}
 
     /* (non-Javadoc)
      * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#getParameterHints()
      */
-	public Collection getParameterHints()
+	public Collection getParameterDefns()
 	{
-	    return paramHints;
+	    return this.paramDefns;
 	}
 
     /* (non-Javadoc)
@@ -294,10 +308,10 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         // Add custom properties
         addProperties();
         
-        // Add parameter hints. This step must be done before odaStatement.setColumnsProjection()
+        // Add parameter defns. This step must be done before odaStatement.setColumnsProjection()
         // for some jdbc driver need to carry out a query execution before the metadata can be achieved
         // and only when the Parameters are successfully set the query execution can succeed.
-        addParameterHints();
+        addParameterDefns();
         // Ordering is important for the following operations. Column hints should be defined
         // after custom fields are declared (since hints may be given to those custom fields).
         // Column projection comes last because it needs hints and custom column information
@@ -319,8 +333,125 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         
         return this;
     }
+
+    /** 
+     * Adds custom properties to oda statement being prepared 
+     */
+    private void addProperties() throws DataException
+	{
+    	assert odaStatement != null;
+    	if ( propNames != null )
+    	{
+    		assert propValues != null;
+    		
+    		Iterator it_name = propNames.iterator();
+    		Iterator it_val = propValues.iterator();
+    		while ( it_name.hasNext())
+    		{
+    			assert it_val.hasNext();
+    			String name = (String) it_name.next();
+    			String val = (String) it_val.next();
+    			odaStatement.setProperty( name, val );
+    		}
+    	}
+	}
+      
+	/** 
+	 * Adds input and output parameter hints to odaStatement
+	 */
+	private void addParameterDefns() throws DataException
+	{
+		if ( this.paramDefns == null )
+		    return;	// nothing to add
+
+		// iterate thru the collection to add parameter hints
+		Iterator list = this.paramDefns.iterator( );
+		while ( list.hasNext( ) )
+		{
+		    IParameterDefinition parameterDefn = (IParameterDefinition) list.next( );
+		    ParameterHint parameterHint = new ParameterHint( parameterDefn.getName(), 
+															 parameterDefn.isInputMode(),
+															 parameterDefn.isOutputMode() );
+			parameterHint.setPosition( parameterDefn.getPosition( ) );
+			// following data types is not supported by odaconsumer currently
+			Class dataTypeClass = DataType.getClass( parameterDefn.getType( ) );
+			if ( dataTypeClass == DataType.AnyType.class
+					|| dataTypeClass == Boolean.class || dataTypeClass == Blob.class )
+			{
+				dataTypeClass = null;
+			}
+			parameterHint.setDataType( dataTypeClass );
+			parameterHint.setIsInputOptional( parameterDefn.isInputOptional( ) );
+			parameterHint.setDefaultInputValue( parameterDefn.getDefaultInputValue() );
+			parameterHint.setIsNullable( parameterDefn.isNullable() );
+			odaStatement.addParameterHint( parameterHint );
+			
+			//If the parameter is input parameter then add it to input value list.
+			if ( parameterHint.isInputMode( )
+					&& parameterDefn.getDefaultInputValue( ) != null )
+			{
+				Object inputValue = convertToValue( parameterDefn.getDefaultInputValue( ),
+						parameterDefn.getType( ) );
+				if ( parameterHint.getPosition( ) != -1 )
+					this.setInputParamValue( parameterHint.getPosition( ),
+							inputValue );
+				else
+					this.setInputParamValue( parameterHint.getName( ),
+							inputValue );
+			}			
+		}
+		this.setInputParameterBinding();
+	}
+	
+	/*
+	 *  (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#setInputParamValue(java.lang.String, java.lang.Object)
+	 */
+	public void setInputParamValue( String inputParamName, Object paramValue )
+			throws DataException
+	{
+
+		ParameterBinding pb = new ParameterBinding( inputParamName, paramValue );
+		getInputParamValues().add( pb );
+	}
+
+	/*
+	 *  (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#setInputParamValue(int, java.lang.Object)
+	 */
+	public void setInputParamValue( int inputParamPos, Object paramValue )
+			throws DataException
+	{
+		ParameterBinding pb = new ParameterBinding( inputParamPos, paramValue );
+		getInputParamValues().add( pb );
+	}
+	
+	/**
+	 * Declares custom fields on Oda statement
+	 * 
+	 * @param stmt
+	 * @throws DataException
+	 */
+    private void addCustomFields( PreparedStatement stmt ) throws DataException
+	{
+    	if ( this.customFields != null )
+    	{
+    		Iterator it = this.customFields.iterator( );
+    		while ( it.hasNext( ) )
+    		{
+    			CustomField customField = (CustomField) it.next( );
+    			stmt.declareCustomColumn( customField.getName( ),
+    				DataType.getClass( customField.getDataType() ) );
+    		}
+    	}
+	}
     
-    // Adds Odi column hints to ODA statement 
+    /**
+     * Adds Odi column hints to ODA statement
+     *  
+     * @param stmt
+     * @throws DataException
+     */
     private void addColumnHints( PreparedStatement stmt ) throws DataException
 	{
     	assert stmt != null;
@@ -343,90 +474,11 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
    			stmt.addColumnHint( colHint );
     	}
 	}
-    
-    // Declares custom fields on Oda statement
-    private void addCustomFields( PreparedStatement stmt ) throws DataException
-	{
-    	if ( this.customFields != null )
-    	{
-    		Iterator it = this.customFields.iterator( );
-    		while ( it.hasNext( ) )
-    		{
-    			CustomField customField = (CustomField) it.next( );
-    			stmt.declareCustomColumn( customField.getName( ),
-    				DataType.getClass( customField.getDataType() ) );
-    		}
-    	}
-	}
-    
-    /** Adds custom properties to oda statement being prepared */
-    private void addProperties() throws DataException
-	{
-    	assert odaStatement != null;
-    	if ( propNames != null )
-    	{
-    		assert propValues != null;
-    		
-    		Iterator it_name = propNames.iterator();
-    		Iterator it_val = propValues.iterator();
-    		while ( it_name.hasNext())
-    		{
-    			assert it_val.hasNext();
-    			String name = (String) it_name.next();
-    			String val = (String) it_val.next();
-    			odaStatement.setProperty( name, val );
-    		}
-    	}
-	}
-    
-   
-	/** 
-	 * Adds input and output parameter hints to odaStatement
+       
+	/*
+	 *  (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#getResultClass()
 	 */
-	private void addParameterHints() throws DataException
-	{
-		if ( paramHints == null )
-		    return;	// nothing to add
-
-		// iterate thru the collection to add parameter hints
-		Iterator list = paramHints.iterator( );
-		while ( list.hasNext( ) )
-		{
-		    IParameterDefinition paramDef = (IParameterDefinition) list.next( );
-		    ParameterHint parameterHint = new ParameterHint( paramDef.getName(), 
-															 paramDef.isInputMode(),
-															 paramDef.isOutputMode() );
-			parameterHint.setPosition( paramDef.getPosition( ) );
-			// following data types is not supported by odaconsumer currently
-			Class dataTypeClass = DataType.getClass( paramDef.getType( ) );
-			if ( dataTypeClass == DataType.AnyType.class
-					|| dataTypeClass == Boolean.class || dataTypeClass == Blob.class )
-			{
-				dataTypeClass = null;
-			}
-			parameterHint.setDataType( dataTypeClass );
-			parameterHint.setIsInputOptional( paramDef.isInputOptional( ) );
-			parameterHint.setDefaultInputValue( paramDef.getDefaultInputValue() );
-			parameterHint.setIsNullable( paramDef.isNullable() );
-			odaStatement.addParameterHint( parameterHint );
-			
-			//If the parameter is input parameter then add it to input value list.
-			if ( parameterHint.isInputMode( )
-					&& paramDef.getDefaultInputValue( ) != null )
-			{
-				Object inputValue = convertToValue( paramDef.getDefaultInputValue( ),
-						paramDef.getType( ) );
-				if ( parameterHint.getPosition( ) != -1 )
-					this.setInputParamValue( parameterHint.getPosition( ),
-							inputValue );
-				else
-					this.setInputParamValue( parameterHint.getName( ),
-							inputValue );
-			}			
-		}
-		this.setInputParameterBinding();
-	}
-	
     public IResultClass getResultClass() 
     {
         // Note the return value can be null if resultMetadata was 
@@ -460,6 +512,11 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         return paramMetaDataList;
 	}
     
+    /**
+     * Return the input parameter value list
+     * 
+     * @return
+     */
 	private Collection getInputParamValues()
 	{
 	    if ( inputParamValues == null )
@@ -467,21 +524,10 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	    return inputParamValues;
 	}
 
-	public void setInputParamValue( String inputParamName, Object paramValue )
-			throws DataException
-	{
-
-		ParameterBinding pb = new ParameterBinding( inputParamName, paramValue );
-		getInputParamValues().add( pb );
-	}
-
-	public void setInputParamValue( int inputParamPos, Object paramValue )
-			throws DataException
-	{
-		ParameterBinding pb = new ParameterBinding( inputParamPos, paramValue );
-		getInputParamValues().add( pb );
-	}
-    
+	/*
+	 *  (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#execute()
+	 */
     public IResultIterator execute( ) throws DataException
     {
     	assert odaStatement != null;
@@ -625,6 +671,10 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         // TODO: close all CachedResultSets created by us
     }
     
+    /*
+     *  (non-Javadoc)
+     * @see java.lang.Object#finalize()
+     */
     public void finalize()
     {
     	// Makes sure no statement is leaked
@@ -634,7 +684,10 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     	}
     }
     
-    // set input parameter bindings
+    /**
+     *  set input parameter bindings
+     *  
+     */
     private void setInputParameterBinding() throws DataException{
 		//		 set input parameter bindings
 		Iterator inputParamValueslist = getInputParamValues().iterator( );
@@ -650,8 +703,15 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 		}
     }
     
-    // convert the String value to Object according to it's datatype.
-	private static Object convertToValue( String inputValue, int type )
+    /**
+     * convert the String value to Object according to it's datatype.
+     *  
+     * @param inputValue
+     * @param type
+     * @return
+     * @throws DataException
+     */
+    private static Object convertToValue( String inputValue, int type )
 			throws DataException
 	{
 		//dataType can be refered from DataType's class type.
