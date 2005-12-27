@@ -74,7 +74,6 @@ public class CreatePlaceHolderAction extends AbstractElementAction
 				&& getSelectedElement( ) instanceof ReportItemHandle
 				&& getSelectedElement( ).canTransformToTemplate()
 				// Can't create place holder in Simple Master Page
-				&& !( getSelectedElement( ).getContainer( ) instanceof SimpleMasterPageHandle) 
-					&& !( getSelectedElement( ).getRoot( ) instanceof LibraryHandle ) ;
+				&& !( getSelectedElement( ).getRoot( ) instanceof LibraryHandle ) ;
 	}
 }

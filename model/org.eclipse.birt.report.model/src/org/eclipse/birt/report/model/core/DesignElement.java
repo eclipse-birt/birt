@@ -611,11 +611,11 @@ public abstract class DesignElement
 	 */
 
 	public final static long NO_BASE_ID = -1;
-	
+
 	/**
 	 * Constant indicate that the element has no id.
 	 */
-	
+
 	public final static long NO_ID = 0;
 
 	/**
@@ -3078,6 +3078,16 @@ public abstract class DesignElement
 
 		if ( !slotDefn.canContain( defn ) )
 			return false;
+
+		// if the canContain is check for create template, then jump the slot
+		// count check for the operation won't change the content count, it is a
+		// replace operation.
+		
+		String name = defn.getName( );
+		if ( ReportDesignConstants.TEMPLATE_DATA_SET.equals( name )
+				|| ReportDesignConstants.TEMPLATE_REPORT_ITEM.equals( name )
+				|| ReportDesignConstants.TEMPLATE_ELEMENT.equals( name ) )
+			return true;
 
 		if ( getSlot( slotId ).getCount( ) > 0
 				&& !slotDefn.isMultipleCardinality( ) )

@@ -2217,6 +2217,7 @@
       <Type name="Image"/>
       <Type name="Label"/>
       <Type name="TextData"/>
+      <Type name="TemplateReportItem"/>
     </Slot>
     <Slot displayNameID="Element.SimpleMasterPage.slot.pageFooter" multipleCardinality="false" name="pageFooter" since="1.0" xmlName="page-footer">
       <Type name="FreeForm"/>
@@ -2226,6 +2227,7 @@
       <Type name="Image"/>
       <Type name="Label"/>
       <Type name="TextData"/>
+      <Type name="TemplateReportItem"/>
     </Slot>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.ReportItem" extends="ReportElement" hasStyle="true" isAbstract="true" isNameRequired="false" name="ReportItem" nameSpace="element" since="1.0">
