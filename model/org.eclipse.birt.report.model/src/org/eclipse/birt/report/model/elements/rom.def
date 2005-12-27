@@ -1254,9 +1254,10 @@
 	-->						 
   </Class>
   <Class displayNameID="Class.Report" name="Report" toolTipID="Class.Report.toolTip">	
-	<Member dataType="ReportDefn" displayNameID="Class.Report.design" name="design" toolTipID="Class.Report.design.toolTip"/>
-	<Member dataType="Object[]" displayNameID="Class.Report.params" name="params" toolTipID="Class.Report.params.toolTip"/>
+	<Member dataType="org.eclipse.birt.report.engine.api.script.element.IReport" displayNameID="Class.Report.design" name="design" toolTipID="Class.Report.design.toolTip"/>
+	<!-- Member dataType="Object[]" displayNameID="Class.Report.params" name="params" toolTipID="Class.Report.params.toolTip"/>
 	<Member dataType="Object[]" displayNameID="Class.Report.config" name="config" toolTipID="Class.Report.config.toolTip"/>		
+	 -->
   </Class>	
   <Class displayNameID="Class.DataSet" name="DataSet" toolTipID="Class.DataSet.toolTip">	
 	<Member dataType="String" displayNameID="Class.DataSet.queryText" name="queryText" toolTipID="Class.DataSet.queryText.toolTip"/>					

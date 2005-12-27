@@ -53,12 +53,11 @@ import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.script.internal.ReportJavaScriptInitializer;
+import org.eclipse.birt.report.engine.script.internal.ReportJavaScriptWrapper;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.script.ModelJavaScriptInitializer;
-import org.eclipse.birt.report.model.script.ModelJavaScriptWrapper;
-import org.eclipse.birt.report.model.script.ReportDefinition;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrapFactory;
@@ -70,7 +69,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.50 $ $Date: 2005/12/22 12:10:25 $
+ * @version $Revision: 1.51 $ $Date: 2005/12/23 23:58:12 $
  */
 public class ExecutionContext
 {
@@ -238,7 +237,8 @@ public class ExecutionContext
 		if ( engine != null )
 		{
 			scriptContext = new ScriptContext( engine.getRootScope( ) );
-		} else
+		}
+		else
 		{
 			scriptContext = new ScriptContext( );
 		}
@@ -262,10 +262,9 @@ public class ExecutionContext
 
 	protected void initailizeScriptContext( Context cx, Scriptable scope )
 	{
-		scriptContext.getContext( ).setWrapFactory( new WrapFactory( )
-		{
+		scriptContext.getContext( ).setWrapFactory( new WrapFactory( ) {
 
-			protected IJavascriptWrapper modelWrapper = new ModelJavaScriptWrapper( );
+			protected IJavascriptWrapper modelWrapper = new ReportJavaScriptWrapper( );
 
 			protected IJavascriptWrapper coreWrapper = new CoreJavaScriptWrapper( );
 
@@ -289,7 +288,7 @@ public class ExecutionContext
 			}
 		} );
 
-		new ModelJavaScriptInitializer( ).initialize( cx, scope );
+		new ReportJavaScriptInitializer( ).initialize( cx, scope );
 		new CoreJavaScriptInitializer( ).initialize( cx, scope );
 	}
 
@@ -345,8 +344,9 @@ public class ExecutionContext
 		Object jsObject = scriptContext.javaToJs( object );
 		if ( jsObject instanceof Scriptable )
 		{
-			scriptContext.enterScope( ( Scriptable ) jsObject );
-		} else
+			scriptContext.enterScope( (Scriptable) jsObject );
+		}
+		else
 		{
 			scriptContext.enterScope( );
 		}
@@ -374,7 +374,7 @@ public class ExecutionContext
 			Iterator iter = map.entrySet( ).iterator( );
 			while ( iter.hasNext( ) )
 			{
-				Map.Entry entry = ( Map.Entry ) iter.next( );
+				Map.Entry entry = (Map.Entry) iter.next( );
 				Object keyObj = entry.getKey( );
 				Object value = entry.getValue( );
 				if ( keyObj != null )
@@ -421,13 +421,13 @@ public class ExecutionContext
 			Iterator iter = map.entrySet( ).iterator( );
 			while ( iter.hasNext( ) )
 			{
-				Map.Entry entry = ( Map.Entry ) iter.next( );
+				Map.Entry entry = (Map.Entry) iter.next( );
 				Object keyObj = entry.getKey( );
 				Object value = entry.getValue( );
 				if ( keyObj != null && value instanceof Serializable )
 				{
 					String key = keyObj.toString( );
-					registerGlobalBean( key, ( Serializable ) value );
+					registerGlobalBean( key, (Serializable) value );
 				}
 			}
 		}
@@ -500,7 +500,8 @@ public class ExecutionContext
 			try
 			{
 				return scriptContext.eval( expr, name, lineNo );
-			} catch ( Exception e )
+			}
+			catch ( Exception e )
 			{
 				// TODO eval may throw RuntimeException, which may also need
 				// logging. May need to log more info.
@@ -523,7 +524,8 @@ public class ExecutionContext
 		try
 		{
 			return getDataEngine( ).evaluate( expr );
-		} catch ( Throwable t )
+		}
+		catch ( Throwable t )
 		{
 			// May throw the run-time exception etc.
 			log.log( Level.SEVERE, t.getMessage( ), t );
@@ -576,7 +578,8 @@ public class ExecutionContext
 
 			return ScriptEvalUtil.evalConditionalExpr2( testExprValue, expr
 					.getOperator( ), vv1, vv2 );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
 			log.log( Level.SEVERE, e.getMessage( ), e );
 			addException( new EngineException(
@@ -724,7 +727,7 @@ public class ExecutionContext
 	 */
 	public ReportDesignHandle getDesign( )
 	{
-		return ( ReportDesignHandle ) runnable.getDesignHandle( );
+		return (ReportDesignHandle) runnable.getDesignHandle( );
 	}
 
 	/**
@@ -772,7 +775,8 @@ public class ExecutionContext
 			in.read( buffer );
 			execute( new String( buffer, "UTF-8" ), fileName, 1 ); //$NON-NLS-1$
 			in.close( );
-		} catch ( IOException ex )
+		}
+		catch ( IOException ex )
 		{
 			log.log( Level.SEVERE,
 					"loading external script file " + fileName + " failed.", //$NON-NLS-1$ //$NON-NLS-2$
@@ -819,7 +823,7 @@ public class ExecutionContext
 	public IContent popContent( )
 	{
 		exitScope( );
-		return ( IContent ) reportContents.pop( );
+		return (IContent) reportContents.pop( );
 	}
 
 	/**
@@ -831,7 +835,7 @@ public class ExecutionContext
 		{
 			return null;
 		}
-		return ( IContent ) reportContents.peek( );
+		return (IContent) reportContents.peek( );
 	}
 
 	/**
@@ -847,7 +851,7 @@ public class ExecutionContext
 	 */
 	public DesignElementHandle popHandle( )
 	{
-		return ( DesignElementHandle ) reportHandles.pop( );
+		return (DesignElementHandle) reportHandles.pop( );
 	}
 
 	/**
@@ -859,7 +863,7 @@ public class ExecutionContext
 		{
 			return null;
 		}
-		return ( DesignElementHandle ) reportHandles.peek( );
+		return (DesignElementHandle) reportHandles.peek( );
 	}
 
 	/**
@@ -877,10 +881,11 @@ public class ExecutionContext
 
 			ReportItemDesign design = null;
 			if ( content != null )
-				design = ( ReportItemDesign ) content.getGenerateBy( );
+				design = (ReportItemDesign) content.getGenerateBy( );
 
 			handle = design == null ? null : design.getHandle( );
-		} else
+		}
+		else
 			handle = getHandle( );
 		addException( handle, ex );
 	}
@@ -889,7 +894,7 @@ public class ExecutionContext
 
 	public void addException( DesignElementHandle element, BirtException ex )
 	{
-		ElementExceptionInfo exInfo = ( ElementExceptionInfo ) elementExceptions
+		ElementExceptionInfo exInfo = (ElementExceptionInfo) elementExceptions
 				.get( element );
 		if ( exInfo == null )
 		{
@@ -982,8 +987,8 @@ public class ExecutionContext
 	public void setRunnable( IReportRunnable runnable )
 	{
 		this.runnable = runnable;
-		ReportDefinition designDefn = new ReportDefinition(
-				( ReportDesignHandle ) runnable.getDesignHandle( ) );
+		org.eclipse.birt.report.engine.script.internal.Report designDefn = new org.eclipse.birt.report.engine.script.internal.Report(
+				(ReportDesignHandle) runnable.getDesignHandle( ) );
 		scriptContext.registerBean( "design", designDefn );
 	}
 
@@ -1031,14 +1036,14 @@ public class ExecutionContext
 		{
 			for ( int i = 0; i < exList.size( ); i++ )
 			{
-				BirtException err = ( BirtException ) exList.get( i );
+				BirtException err = (BirtException) exList.get( i );
 				if ( e.getErrorCode( ) != null
 						&& e.getErrorCode( ).equals( err.getErrorCode( ) )
 						&& e.getLocalizedMessage( ) != null
 						&& e.getLocalizedMessage( ).equals(
 								err.getLocalizedMessage( ) ) )
 				{
-					countList.set( i, new Integer( ( ( Integer ) countList
+					countList.set( i, new Integer( ( (Integer) countList
 							.get( i ) ).intValue( ) + 1 ) );
 					return;
 				}
@@ -1199,7 +1204,7 @@ public class ExecutionContext
 	 */
 	public StringFormatter getStringFormatter( String value )
 	{
-		StringFormatter fmt = ( StringFormatter ) stringFormatters.get( value );
+		StringFormatter fmt = (StringFormatter) stringFormatters.get( value );
 		if ( fmt == null )
 		{
 			fmt = new StringFormatter( value, locale );
@@ -1217,7 +1222,7 @@ public class ExecutionContext
 	 */
 	public NumberFormatter getNumberFormatter( String value )
 	{
-		NumberFormatter fmt = ( NumberFormatter ) numberFormatters.get( value );
+		NumberFormatter fmt = (NumberFormatter) numberFormatters.get( value );
 		if ( fmt == null )
 		{
 			fmt = new NumberFormatter( value, locale );
@@ -1235,7 +1240,7 @@ public class ExecutionContext
 	 */
 	public DateFormatter getDateFormatter( String value )
 	{
-		DateFormatter fmt = ( DateFormatter ) dateFormatters.get( value );
+		DateFormatter fmt = (DateFormatter) dateFormatters.get( value );
 		if ( fmt == null )
 		{
 			fmt = new DateFormatter( value, locale );
