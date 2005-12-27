@@ -66,6 +66,11 @@ abstract class PreparedQuery
 	
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 
+	/**
+	 * @param engine
+	 * @param queryDefn
+	 * @throws DataException
+	 */
 	PreparedQuery( DataEngineImpl engine, IBaseQueryDefinition queryDefn )
 		throws DataException
 	{
@@ -83,38 +88,54 @@ abstract class PreparedQuery
 		logger.fine( "Finished preparing the PreparedQuery." );
 	}
 	
-	/** Gets the IBaseQueryDefn instance which defines this query */
+	/**
+	 * @return the IBaseQueryDefn instance which defines this query
+	 */	
 	protected IBaseQueryDefinition getQueryDefn( )
 	{
 		return queryDefn;
 	}
 	
-	/** Gets the registry of all aggregate expression */
+	/**
+	 * @return the registry of all aggregate expression
+	 */
 	AggregateTable getAggrTable()
 	{
 		return aggrTable;
 	}
 
+	/**
+	 * @return appContext
+	 */
 	protected Map getAppContext()
 	{
 	    return appContext;	    
 	}
 	
+	/**
+	 * @param context
+	 */
 	protected void setAppContext( Map context )
 	{
 	    appContext = context;
 	}
 	
-	/** Gets the appropriate subclass of the Executor */
+	/**
+	 * @return the appropriate subclass of the Executor
+	 */
 	protected abstract Executor newExecutor();
 	
 	/**
-	 * Gets the main data source query. For a SubQuery, this returns the top-level
-	 * data source query that contains the SubQuery. For other queries, "this"
-	 * is returned
+	 * For a SubQuery, this returns the top-level data source query that
+	 * contains the SubQuery. For other queries, "this" is returned
+	 * 
+	 * @return the main data source query
 	 */
 	abstract protected PreparedDataSourceQuery getDataSourceQuery();
 	
+	/**
+	 * @throws DataException
+	 */
 	private void prepare( )	throws DataException
 	{
 	    // TODO - validation of static queryDefn
@@ -171,11 +192,14 @@ abstract class PreparedQuery
 	} 
 
 	/**
-	 * Return the QueryResults. But the execution of query would be deferred 
-	 * @param outerResults If query is nested within another query, this is the outer query's query 
-	 *        result handle.
-	 * @param scope The ElementState object for the report item using the query; this acts as the 
-	 *    JS scope for evaluating script expressions.
+	 * Return the QueryResults. But the execution of query would be deferred
+	 * 
+	 * @param outerResults
+	 *            If query is nested within another query, this is the outer
+	 *            query's query result handle.
+	 * @param scope
+	 *            The ElementState object for the report item using the query;
+	 *            this acts as the JS scope for evaluating script expressions.
 	 */
 	protected QueryResults doPrepare( IQueryResults outerResults, Scriptable scope ) throws DataException
 	{
@@ -206,8 +230,15 @@ abstract class PreparedQuery
 				executor );
 	}
 	
-	// Common code to extract the name of a column from a JS expression which is 
-	// in the form of "row.col". If expression is not in expected format, returns null
+	/**
+	 * Common code to extract the name of a column from a JS expression which is
+	 * in the form of "row.col". If expression is not in expected format,
+	 * returns null
+	 * 
+	 * @param cx
+	 * @param expr
+	 * @return
+	 */
 	private ColumnInfo getColInfoFromJSExpr( Context cx, String expr )
 	{
 		int colIndex = -1;
@@ -223,6 +254,12 @@ abstract class PreparedQuery
 		return new ColumnInfo( colIndex, colName );
 	}
 	
+	/**
+	 * @param trans
+	 * @param groupLevel
+	 * @param cx
+	 * @throws DataException
+	 */
 	private void prepareGroup( IBaseTransform trans, int groupLevel, Context cx )
 		throws DataException
 	{
@@ -242,8 +279,15 @@ abstract class PreparedQuery
 		}
 	}
 	
-	/* Prepares all expressions in the given collection */
-	private void prepareExpressions( Collection expressions, int groupLevel, 
+	/**
+	 * Prepares all expressions in the given collection
+	 * 
+	 * @param expressions
+	 * @param groupLevel
+	 * @param afterGroup
+	 * @param cx
+	 */
+	private void prepareExpressions( Collection expressions, int groupLevel,
 			boolean afterGroup, Context cx )
 	{
 	    if ( expressions == null )
@@ -257,9 +301,16 @@ abstract class PreparedQuery
 	    }
 	}
 	
-	// Prepares one expression 
-	private void prepareExpression( IBaseExpression expr, int groupLevel, Context cx, 
-			AggregateRegistry reg )
+	/**
+	 * Prepares one expression
+	 * 
+	 * @param expr
+	 * @param groupLevel
+	 * @param cx
+	 * @param reg
+	 */
+	private void prepareExpression( IBaseExpression expr, int groupLevel,
+			Context cx, AggregateRegistry reg )
 	{
 	    ExpressionCompiler compiler = this.engine.getExpressionCompiler();
 	    
@@ -295,12 +346,15 @@ abstract class PreparedQuery
 	
 	/**
 	 * Convert IGroupDefn to IQuery.GroupSpec
+	 * 
 	 * @param cx
 	 * @param src
 	 * @return
 	 * @throws DataException
 	 */
-	protected IQuery.GroupSpec groupDefnToSpec( Context cx, IGroupDefinition src, String columnName, int index ) throws DataException
+	protected IQuery.GroupSpec groupDefnToSpec( Context cx,
+			IGroupDefinition src, String columnName, int index )
+			throws DataException
 	{
 		int groupIndex = -1;
 		String groupKey = src.getKeyColumn();
@@ -339,9 +393,15 @@ abstract class PreparedQuery
 	
 	/**
 	 * Executes a subquery
+	 * 
+	 * @param iterator
+	 * @param subQueryName
+	 * @param subScope
+	 * @return
+	 * @throws DataException
 	 */
-	QueryResults execSubquery( IResultIterator iterator,
-			String subQueryName, Scriptable subScope ) throws DataException
+	QueryResults execSubquery( IResultIterator iterator, String subQueryName,
+			Scriptable subScope ) throws DataException
 	{
 		assert subQueryName != null;
 
@@ -361,13 +421,18 @@ abstract class PreparedQuery
 		return subquery.execute( iterator, subScope );
 	}
 	
-	public DataEngineImpl getDataEngine()
+	/**
+	 * @return
+	 */
+	DataEngineImpl getDataEngine()
 	{
 		return engine;
 	}
 	
 	/**
-	 * Closes the prepared query. This instance can no longer be executed after it is closed
+	 * Closes the prepared query. This instance can no longer be executed after
+	 * it is closed 
+	 * 
 	 * TODO: expose this method in the IPreparedQuery interface
 	 */
 	public void close()
@@ -383,10 +448,16 @@ abstract class PreparedQuery
 		// TODO: close all open QueryResults obtained from this PreparedQuery
 	}
 	
+
 	/**
-	 * Finds a group given a text identifier of a group. Returns index of group found (1 = outermost
-	 * group, 2 = second level group etc.). The text identifier can be the group name, the group key
-	 * column name, or the group key expression text. Returns -1 if no matching group is found
+	 * 
+	 * Finds a group given a text identifier of a group. Returns index of group
+	 * found (1 = outermost group, 2 = second level group etc.). The text
+	 * identifier can be the group name, the group key column name, or the group
+	 * key expression text. Returns -1 if no matching group is found
+	 * 
+	 * @param groupText
+	 * @return
 	 */
 	int getGroupIndex( String groupText )
 	{
@@ -408,7 +479,7 @@ abstract class PreparedQuery
 	}
 	
 	/**
-	 * Gets the group count defined in report query
+	 * @return the group count defined in report query
 	 */
 	int getGroupCount()
 	{
@@ -453,35 +524,49 @@ abstract class PreparedQuery
 		protected	int				nestedLevel = 1;
 		
 		/**
-		 * Overridden by subclass to create a new unopened odiDataSource given the data 
-		 * source runtime definition
+		 * Create a new unopened odiDataSource given the data source runtime
+		 * definition
+		 * 
+		 * @return
 		 */
-		abstract protected IDataSource createOdiDataSource( ) throws DataException;
-		
-		/**
-		 * Overridden by subclass to provide the actual DataSourceRuntime used for the query.
-		 */
-		abstract protected DataSourceRuntime findDataSource( ) throws DataException;
-		
-		/**
-		 * Overridden by subclass to create a new instance of data set runtime
-		 */
-		abstract protected DataSetRuntime newDataSetRuntime( ) throws DataException;
+		abstract protected IDataSource createOdiDataSource( )
+				throws DataException;
 
 		/**
-		 * Overridden by sub class to create an emty instance of odi query
+		 * Provide the actual DataSourceRuntime used for the query.
+		 * 
+		 * @return
+		 */
+		abstract protected DataSourceRuntime findDataSource( )
+				throws DataException;
+
+		/**
+		 * Create a new instance of data set runtime
+		 * 
+		 * @return
+		 */
+		abstract protected DataSetRuntime newDataSetRuntime( )
+				throws DataException;
+
+		/**
+		 * Create an empty instance of odi query
+		 * 
+		 * @return
 		 */
 		abstract protected IQuery createOdiQuery( ) throws DataException;
 		
 		/**
 		 * Executes the ODI query to reproduce a ODI result set
+		 * 
+		 * @return
 		 */
-		abstract protected IResultIterator executeOdiQuery( ) throws DataException;
+		abstract protected IResultIterator executeOdiQuery( )
+				throws DataException;
 
 		/**
 		 * Prepares the ODI query
 		 */
-		protected void prepareOdiQuery(  ) throws DataException
+		protected void prepareOdiQuery( ) throws DataException
 		{
 		}
 		
@@ -492,30 +577,42 @@ abstract class PreparedQuery
 		{
 		}
 
+		/**
+		 * @return
+		 */
 		protected Map getAppContext()
 		{
 		    return queryAppContext;	    
 		}
 		
+		/**
+		 * @param context
+		 */
 		protected void setAppContext( Map context )
 		{
 		    queryAppContext = context;
 		}
 		
+		/**
+		 * @return
+		 */
 		public DataEngineImpl getDataEngine()
 		{
 			return engine;
 		}
 		
+		/**
+		 * @return
+		 */
 		public DataSetRuntime getDataSet()
 		{
 			return dataSet;
-		}
-		
-		/** Gets the outer result set's query executor; null if this 
+		} 
 		
 		/**
 		 * Gets the Javascript scope for evaluating expressions for this query
+		 * 
+		 * @return
 		 */
 		public Scriptable getQueryScope()
 		{
@@ -531,9 +628,12 @@ abstract class PreparedQuery
 			return queryScope;
 		}
 		
-		/*
+		/**
 		 * Prepare Executor so that it is ready to execute the query
 		 * 
+		 * @param outerRts
+		 * @param targetScope
+		 * @throws DataException
 		 */
 		private void prepareExecution( IQueryResults outerRts, Scriptable targetScope ) throws DataException
 		{
@@ -574,6 +674,10 @@ abstract class PreparedQuery
 			isPrepared = true;
 		}
 		
+		/**
+		 * @return
+		 * @throws DataException
+		 */
 		public IResultMetaData getResultMetaData( ) throws DataException
 		{
 			assert odiQuery instanceof IPreparedDSQuery
@@ -591,6 +695,9 @@ abstract class PreparedQuery
 			}
 		}
 		
+		/**
+		 * @throws DataException
+		 */
 		public void execute() throws DataException
 		{
 			logger.logp( Level.FINER,
@@ -699,11 +806,11 @@ abstract class PreparedQuery
 		}
 		
 		/**
-		 * Open the required DataSource. This method should be called after "dataSource"
-		 * is initialized by findDataSource() method.
+		 * Open the required DataSource. This method should be called after
+		 * "dataSource" is initialized by findDataSource() method.
+		 * 
 		 * @throws DataException
-		 */ 
-		 
+		 */
 		protected void openDataSource( ) throws DataException
 		{
 			assert odiDataSource == null;
@@ -864,26 +971,26 @@ abstract class PreparedQuery
 	}
 	
 	/**
-	 * Simple wrapper of colum information, including
-	 * column index and column name.
+	 * Simple wrapper of colum information, including column index and column
+	 * name.
 	 */
 	private static class ColumnInfo
 	{
 		private int columnIndex;
 		private String columnName;
-		
-		ColumnInfo(int columnIndex, String columnName)
+
+		ColumnInfo( int columnIndex, String columnName )
 		{
 			this.columnIndex = columnIndex;
 			this.columnName = columnName;
 		}
-		
-		public int getColumnIndex()
+
+		public int getColumnIndex( )
 		{
 			return columnIndex;
 		}
-		
-		public String getColumnName()
+
+		public String getColumnName( )
 		{
 			return columnName;
 		}

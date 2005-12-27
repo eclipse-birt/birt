@@ -56,6 +56,11 @@ class PreparedSubquery extends PreparedQuery
 	
 	/**
 	 * Executes this subquery
+	 * 
+	 * @param parentIterator
+	 * @param scope
+	 * @return
+	 * @throws DataException
 	 */
 	QueryResults execute( IResultIterator parentIterator, Scriptable scope ) 
 		throws DataException
@@ -78,7 +83,7 @@ class PreparedSubquery extends PreparedQuery
 		}
 	}
 	
-	/* (non-Javadoc)
+	/*
 	 * @see org.eclipse.birt.data.engine.impl.PreparedQuery#getReportQuery()
 	 */
 	protected PreparedDataSourceQuery getDataSourceQuery()
@@ -87,8 +92,7 @@ class PreparedSubquery extends PreparedQuery
 		return parentQuery.getDataSourceQuery();
 	}
 	
-	
-	/**
+	/*
 	 * @see org.eclipse.birt.data.engine.impl.PreparedQuery#newExecutor()
 	 */
 	protected Executor newExecutor()
@@ -96,25 +100,40 @@ class PreparedSubquery extends PreparedQuery
 		return new SubQueryExecutor();
 	}
 	
+	/**
+	 * Concrete class of PreparedQuery.Executor used in PreparedSubquery
+	 */
 	class SubQueryExecutor extends PreparedQuery.Executor
 	{
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiDataSource()
+		 */
 		protected IDataSource createOdiDataSource( )
 		{
 			// Subqueries don't have its own data source
 			return null;
 		}
 		
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#findDataSource()
+		 */
 		protected DataSourceRuntime findDataSource( )
 		{
 			// Subqueries don't have its own data source
 			return null;
 		}
 		
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#newDataSetRuntime()
+		 */
 		protected DataSetRuntime newDataSetRuntime()
 		{
 			return new SubqueryDataSetRuntime( this);
 		}
 		
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiQuery()
+		 */
 		protected IQuery createOdiQuery( ) throws DataException
 		{
 			// An empty odi data source is used for sub query data set
@@ -124,6 +143,9 @@ class PreparedSubquery extends PreparedQuery
 					null ).newCandidateQuery( );
 		}
 		
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
+		 */
 		protected IResultIterator executeOdiQuery( ) 
 				throws DataException
 		{
@@ -139,8 +161,8 @@ class PreparedSubquery extends PreparedQuery
 	}
 	
 	/**
-	*
-	*/
+	 * @return group level of current sub query
+	 */
 	public int getGroupLevel( )
 	{
 		return this.groupLevel;

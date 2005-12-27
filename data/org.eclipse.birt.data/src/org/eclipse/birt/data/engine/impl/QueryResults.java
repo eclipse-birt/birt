@@ -49,13 +49,11 @@ class QueryResults implements IQueryResults
 	private String queryResultID;
 	
 	/**
+	 * @param context Current data engine running context
 	 * @param reportQuery The associated report query.
 	 * @param query The actual query (either report query or subquery)
-	 * @param odiResult associated Odi result iterator.
-	 * @param aggrResult associated aggregate results
-	 * @param scope scope used for this result set
+	 * @param executor The executor in PreparedQuery
 	 */
-	
 	QueryResults( DataEngineContext context,
 			PreparedDataSourceQuery reportQuery, PreparedQuery query,
 			PreparedQuery.Executor executor )
@@ -75,23 +73,24 @@ class QueryResults implements IQueryResults
 				"QueryResults starts up" );
 	}
 	
-	/**
-	 * Returns the PreparedQuery that contains the execution plan
-	 * for producing this.
-	 * A convenience method for the API consumer.
-	 * @return	The PreparedQuery object used to produce this object. 
+	/*
+	 * Returns the PreparedQuery that contains the execution plan for producing
+	 * this. A convenience method for the API consumer.
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getPreparedQuery()
 	 */
 	public IPreparedQuery getPreparedQuery()
 	{ 
 		return reportQuery;
 	}
 	
-	/**
-	 * Returns the current result's iterator.  
-	 * Repeated call of this method without having advanced to the next
-	 * result would return the same iterator at its current state.
-	 * @return	The current result's iterator.
-	 * @throws 	DataException if error occurs in Data Engine
+	/*
+	 * 
+	 * Returns the current result's iterator. Repeated call of this method
+	 * without having advanced to the next result would return the same iterator
+	 * at its current state.
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getResultIterator()
 	 */
 	public IResultIterator getResultIterator()
 			throws DataException
@@ -122,8 +121,7 @@ class QueryResults implements IQueryResults
 		return iterator;
 	}
 	
-	
-	/* (non-Javadoc)
+	/*
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getResultMetaData()
 	 */
 	public IResultMetaData getResultMetaData() throws DataException
@@ -149,14 +147,13 @@ class QueryResults implements IQueryResults
 		}
 	}
 	
-	/**
-	 * Closes all query result set(s) associated with this object;  
-	 * provides a hint to the query that it can safely release
-	 * all associated resources. 
-	 * The query results might have iterators open on them. 
-	 * Iterators associated with the query result sets are invalidated
-	 * and can no longer be used.
-	 * @throws BirtException 
+	/*
+	 * Closes all query result set(s) associated with this object; provides a
+	 * hint to the query that it can safely release all associated resources.
+	 * The query results might have iterators open on them. Iterators associated
+	 * with the query result sets are invalidated and can no longer be used.
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.IQueryResults#close()
 	 */
 	public void close() throws BirtException
 	{

@@ -38,10 +38,16 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 /**
  * A prepared query which uses a Script Data Source.
  */
-
 class PreparedScriptDSQuery extends PreparedDataSourceQuery 
 	implements	IPreparedQuery
 {
+	
+	/** 
+	 * @param dataEngine
+	 * @param queryDefn
+	 * @param dataSetDesign
+	 * @throws DataException
+	 */
 	PreparedScriptDSQuery( DataEngineImpl dataEngine, IQueryDefinition queryDefn, 
 			IBaseDataSetDesign dataSetDesign ) throws DataException
 	{
@@ -52,7 +58,6 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 				"PreparedScriptDSQuery starts up." );
 	}
 
-	
 	/**
 	 * @see org.eclipse.birt.data.engine.impl.PreparedQuery#newExecutor()
 	 */
@@ -61,6 +66,9 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 		return new ScriptDSQueryExecutor();
 	}
 	
+	/**
+	 * Concrete class of DSQueryExecutor used in PreparedScriptDSQuery
+	 */
 	class ScriptDSQueryExecutor extends DSQueryExecutor
 	{
 		private ResultClass resultClass;
@@ -175,9 +183,12 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			return candidateQuery.execute( );
 		}
 	
+		/**
+		 * 
+		 */
 		private final class CustomDataSet implements ICustomDataSet
 		{
-			/* (non-Javadoc)
+			/*
 			 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#getResultClass()
 			 */
 			public IResultClass getResultClass( )
@@ -185,8 +196,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 				return resultClass;
 			}
 			
-			/* 
-			 * (non-Javadoc)
+			/*
 			 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#open()
 			 */
 			public void open( ) throws DataException
@@ -195,7 +205,6 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			}
 			
 			/*
-			 * (non-Javadoc)
 			 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#fetch()
 			 */
 			public IResultObject fetch( ) throws DataException
@@ -214,14 +223,13 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			}
 			
 			/*
-			 * (non-Javadoc)
 			 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#close()
 			 */
 			public void close( ) throws DataException
 			{
 				((ScriptDataSetRuntime) dataSet).close();
-			}
-	
+			}	
 		}
 	}
+	
 }
