@@ -28,58 +28,60 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.util.FileUtil;
 
 /**
- * Defines an image object that provides services for passing or writing image content
- * out. 
+ * Defines an image object that provides services for passing or writing image
+ * content out.
  */
 public class Image extends ReportPart implements IImage
 {
+
 	protected static Logger logger = Logger.getLogger( Image.class.getName( ) );
-	
+
 	/**
 	 * image ID
 	 */
 	protected String id = null;
-	
+
 	/**
 	 * postfix of image
 	 */
 	protected String extension = null;
-	
+
 	/**
 	 * image source
 	 */
 	protected int source = IImage.INVALID_IMAGE;
-	
+
 	/**
 	 * Comment for <code>data</code>
 	 */
 	protected byte[] data = null;
-	
+
 	protected InputStream in = null;
 
-	
 	/**
 	 * Constructor with an image uri
 	 * 
 	 * @param uri
 	 */
-	public Image(String uri)
+	public Image( String uri )
 	{
-		if( uri == null || uri.length( ) == 0 )
+		if ( uri == null || uri.length( ) == 0 )
 		{
 			return;
 		}
-		
+
 		id = uri;
-		if( !FileUtil.isLocalResource( uri ) )
+		if ( !FileUtil.isLocalResource( uri ) )
 		{
+			extension = FileUtil.getExtFromFileName( uri, FileUtil.SEPARATOR_URI );
 			this.source = IImage.URL_IMAGE;
 			return;
 		}
-		
+
 		try
 		{
 			URL url = new URL( uri );
+			extension = FileUtil.getExtFromFileName( uri, FileUtil.SEPARATOR_URI );
 			this.in = new BufferedInputStream( url.openStream( ) );
 			this.source = IImage.FILE_IMAGE;
 			return;
@@ -93,153 +95,169 @@ public class Image extends ReportPart implements IImage
 
 		try
 		{
-			this.in = new BufferedInputStream(new FileInputStream(new File(uri)));
+			this.in = new BufferedInputStream( new FileInputStream( new File(
+					uri ) ) );
+			extension = FileUtil.getExtFromFileName( uri, FileUtil.SEPARATOR_PATH );
 			this.source = IImage.FILE_IMAGE;
 		}
-		catch (FileNotFoundException e)
+		catch ( FileNotFoundException e )
 		{
-			logger.log(Level.SEVERE, e.getMessage(), e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param data
 	 * @param name
 	 */
-	public Image(byte[] data, String name)
+	public Image( byte[] data, String name )
 	{
-		if( data == null )
+		if ( data == null )
 		{
 			return;
 		}
-		
+
 		id = name;
 		this.data = data;
 		this.source = IImage.CUSTOM_IMAGE;
-		this.in = new ByteArrayInputStream(this.data);
+		this.in = new ByteArrayInputStream( this.data );
 	}
-	
 
-	public Image(IImageContent content)
+	public Image( IImageContent content )
 	{
 		String imgUri = content.getURI( );
 		byte[] imgData = content.getData( );
-		extension = content.getExtension();
-		switch(content.getImageSource())
+		extension = content.getExtension( );
+		if ( extension == null )
 		{
-		case IImageContent.IMAGE_FILE:
-			if( imgUri != null )
+			String mimeType = content.getMIMEType( );
+			if ( mimeType != null )
 			{
-				try
-				{
-					in = new BufferedInputStream(new FileInputStream(new File(imgUri)));
-					this.id = imgUri;
-					this.source = IImage.FILE_IMAGE;
-				}
-				catch (FileNotFoundException e)
-				{
-					logger.log(Level.SEVERE, e.getMessage(), e);
-				}
+				extension = FileUtil.getExtFromType( mimeType );
 			}
-			break;
-		case IImageContent.IMAGE_NAME:
-			if( imgData != null )
-			{
-				this.in = new ByteArrayInputStream(imgData);
-				this.data = imgData;
-				this.source = IImage.DESIGN_IMAGE;
-				this.id = imgUri;
-			}
-			break;
-		case IImageContent.IMAGE_EXPRESSION:
-			if( imgData != null )
-			{
-				this.in = new ByteArrayInputStream(imgData);
-				this.data = imgData;
-				this.source = IImage.CUSTOM_IMAGE;
-			}
-			break;
-		case IImageContent.IMAGE_URI:
-			if( imgUri != null )
-			{
-				this.id = imgUri;
-				this.source = IImage.URL_IMAGE;
-			}
-			break;
-		default:
-			assert(false);
 		}
-		
-	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IImage#getID()
-	 */
-	public String getID()
+		switch ( content.getImageSource( ) )
+		{
+			case IImageContent.IMAGE_FILE :
+				if ( imgUri != null )
+				{
+					try
+					{
+						in = new BufferedInputStream( new FileInputStream(
+								new File( imgUri ) ) );
+						this.id = imgUri;
+						this.source = IImage.FILE_IMAGE;
+					}
+					catch ( FileNotFoundException e )
+					{
+						logger.log( Level.SEVERE, e.getMessage( ), e );
+					}
+				}
+				break;
+			case IImageContent.IMAGE_NAME :
+				if ( imgData != null )
+				{
+					this.in = new ByteArrayInputStream( imgData );
+					this.data = imgData;
+					this.source = IImage.DESIGN_IMAGE;
+					this.id = imgUri;
+				}
+				break;
+			case IImageContent.IMAGE_EXPRESSION :
+				if ( imgData != null )
+				{
+					this.in = new ByteArrayInputStream( imgData );
+					this.data = imgData;
+					this.source = IImage.CUSTOM_IMAGE;
+				}
+				break;
+			case IImageContent.IMAGE_URI :
+				if ( imgUri != null )
+				{
+					this.id = imgUri;
+					this.source = IImage.URL_IMAGE;
+				}
+				break;
+			default :
+				assert ( false );
+		}
+
+	} /*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.engine.api2.IImage#getID()
+		 */
+
+	public String getID( )
 	{
 		return id;
 	}
-	
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IImage#getSource()
 	 */
-	public int getSource()
+	public int getSource( )
 	{
 		return source;
 	}
-	
-	public void setSource(int source)
+
+	public void setSource( int source )
 	{
 		this.source = source;
 	}
-	
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IImage#getImageData()
 	 */
-	public byte[] getImageData() throws OutOfMemoryError
+	public byte[] getImageData( ) throws OutOfMemoryError
 	{
 		return data;
 	}
-	
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IImage#getImageStream()
 	 */
-	public InputStream getImageStream()
+	public InputStream getImageStream( )
 	{
 		return in;
 	}
-	
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IImage#writeImage(java.io.File)
 	 */
-	public void writeImage(File dest) throws IOException
+	public void writeImage( File dest ) throws IOException
 	{
-		if( source == IImage.INVALID_IMAGE )
+		if ( source == IImage.INVALID_IMAGE )
 		{
-			logger.log(Level.SEVERE, "image source {0} is not valid!", id); //$NON-NLS-1$
+			logger.log( Level.SEVERE, "image source {0} is not valid!", id ); //$NON-NLS-1$
 			return;
 		}
-		
+
 		InputStream input = null;
-		if(in!=null)
+		if ( in != null )
 		{
 			input = in;
 		}
-		else if(data!=null)
+		else if ( data != null )
 		{
 			input = new ByteArrayInputStream( data );
 		}
 		else
 		{
-			logger.log(Level.SEVERE, "image source {0} is not found!", id); //$NON-NLS-1$
+			logger.log( Level.SEVERE, "image source {0} is not found!", id ); //$NON-NLS-1$
 		}
-//		if(!dest.exists())
-//		{
-			
+		// if(!dest.exists())
+		// {
+
 		String parent = new File( dest.getAbsolutePath( ) ).getParent( );
 		File parentDir = new File( parent );
 		if ( !parentDir.exists( ) )
@@ -261,10 +279,10 @@ public class Image extends ReportPart implements IImage
 			if ( output != null )
 				output.close( );
 		}
-//		}
-		
+		// }
+
 	}
-	
+
 	/**
 	 * Copies the stream from the source to the target
 	 * 
@@ -290,10 +308,12 @@ public class Image extends ReportPart implements IImage
 		} while ( size > 0 );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IImage#getExtension()
 	 */
-	public String getExtension()
+	public String getExtension( )
 	{
 		return extension;
 	}
