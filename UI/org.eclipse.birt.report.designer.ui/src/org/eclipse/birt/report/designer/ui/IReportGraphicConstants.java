@@ -283,4 +283,6 @@ public interface IReportGraphicConstants
 			"*.png", //$NON-NLS-1$
 			"*.ico" //$NON-NLS-1$
 	};
+	
+	public static final String REPORT_KEY_WORD="report";
 }
