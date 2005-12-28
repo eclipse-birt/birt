@@ -2072,7 +2072,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 		// if the binding is not set, and the new value is null, returns
 
-		if ( binding == null && StringUtil.isBlank( value ) )
+		if ( binding == null && value == null )
 			return;
 
 		if ( bindingList == null )
