@@ -1254,12 +1254,14 @@
 	-->						 
   </Class>
   <Class displayNameID="Class.Report" name="Report" toolTipID="Class.Report.toolTip">	
-	<Member dataType="org.eclipse.birt.report.engine.api.script.element.IReport" displayNameID="Class.Report.design" name="design" toolTipID="Class.Report.design.toolTip"/>
+	<Member dataType="org.eclipse.birt.report.engine.api.script.element.IReportDeign" displayNameID="Class.Report.design" name="design" toolTipID="Class.Report.design.toolTip"/>
+	<Member dataType="org.eclipse.birt.report.engine.api.script.IReportContext" displayNameID="Class.Report.reportContext" name="reportContext" toolTipID="Class.Report.reportContext.toolTip"/>
 	<!-- Member dataType="Object[]" displayNameID="Class.Report.params" name="params" toolTipID="Class.Report.params.toolTip"/>
 	<Member dataType="Object[]" displayNameID="Class.Report.config" name="config" toolTipID="Class.Report.config.toolTip"/>		
-	 -->
-  </Class>	
-  <Class displayNameID="Class.DataSet" name="DataSet" toolTipID="Class.DataSet.toolTip">	
+  -->
+  </Class>
+ 	
+  <!-- Class displayNameID="Class.DataSet" name="DataSet" toolTipID="Class.DataSet.toolTip">	
 	<Member dataType="String" displayNameID="Class.DataSet.queryText" name="queryText" toolTipID="Class.DataSet.queryText.toolTip"/>					
 	<Member dataType="ColumnDefn[]" displayNameID="Class.DataSet.columnDefns" name="columnDefns" toolTipID="Class.DataSet.columnDefns.toolTip"/>					
 	<Member dataType="Object[]" displayNameID="Class.DataSet.extensionProperties" name="extensionProperties" toolTipID="Class.DataSet.extensionProperties.toolTip"/>
@@ -1338,6 +1340,7 @@
 	<Member dataType="number" displayNameID="Class.Dimension.measure" name="measure" toolTipID="Class.Dimension.measure.toolTip"/>					
 	<Member dataType="String" displayNameID="Class.Dimension.units" name="units" toolTipID="Class.Dimension.units.toolTip"/>					
   </Class>  
+  -->
   <Validators>
 	<ValueValidator class="org.eclipse.birt.report.model.metadata.validators.NonNegativeValueValidator" name="NonNegativeValueValidator"/>
 	<ValueValidator class="org.eclipse.birt.report.model.metadata.validators.PositiveValueValidator" name="PositiveValueValidator"/>
