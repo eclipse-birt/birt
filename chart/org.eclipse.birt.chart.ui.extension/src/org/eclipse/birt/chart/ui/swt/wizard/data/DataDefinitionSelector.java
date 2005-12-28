@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
@@ -221,9 +222,11 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 		sdOrthogonal.setSeriesDefinitionIndex( list.size( ) );
 		sdOrthogonal.eAdapters( ).addAll( chart.getSampleData( ).eAdapters( ) );
 
-		// Update the SampleData. (Not required to do this after adding series
-		// definition.)
+		// Update the Sample Data without event fired.
+		boolean isNotificaionIgnored = ChartAdapter.isNotificationIgnored( );
+		ChartAdapter.ignoreNotifications( true );
 		list.add( sdOrthogonal );
+		ChartAdapter.ignoreNotifications( isNotificaionIgnored );
 
 		seriesDefns.add( sdTmp );
 	}

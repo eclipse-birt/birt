@@ -61,7 +61,7 @@ public class ChartAdapter extends EContentAdapter
 		for ( int iC = 0; iC < vListeners.size( ); iC++ )
 		{
 			ITaskChangeListener changeLs = (ITaskChangeListener) vListeners.elementAt( iC );
-			//Only change current task
+			// Only change current task
 			if ( wizardContainer.getCurrentTask( ) == changeLs )
 			{
 				changeLs.changeTask( notification );
@@ -73,6 +73,11 @@ public class ChartAdapter extends EContentAdapter
 	public static void ignoreNotifications( boolean bIgnoreNotifications )
 	{
 		ChartAdapter.bIgnoreNotifications = bIgnoreNotifications;
+	}
+
+	public static boolean isNotificationIgnored( )
+	{
+		return ChartAdapter.bIgnoreNotifications;
 	}
 
 	public void addListener( ITaskChangeListener listener )
