@@ -60,6 +60,8 @@
          <propertyVisibility name="queryText" visibility="hide"/>
          <propertyVisibility name="TABLENAME" visibility="hide"/>
          <propertyVisibility name="MAX_ROW" visibility="hide"/>
+         <propertyVisibility name="XML_FILE" visibility="hide"/>
+         <propertyVisibility name="XPATHTEXT" visibility="hide"/>
          </properties>
             <dataTypeMapping
                   nativeDataType="BIT"
@@ -154,12 +156,12 @@
                name="connectionProperties">
             <property
                   type="string"
-                  defaultDisplayName="File List"
+                  defaultDisplayName="XML Data Source File"
                   canInherit="true"
                   name="FILELIST"/>
             <property
                   type="string"
-                  defaultDisplayName="Schema File List"
+                  defaultDisplayName="XML Schema File"
                   canInherit="true"
                   name="SCHEMAFILELIST"/>          
          </propertyGroup>

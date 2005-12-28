@@ -73,13 +73,6 @@ This has to be the same as defined in the ODA extension for the same driver.
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="addsPropertyBindingPage" type="boolean" use="default" value="false">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
-            </annotation>
-         </attribute>
       </complexType>
    </element>
 
@@ -181,13 +174,6 @@ This has to be the same as the ODA Data Set extension name for the same driver.
             <annotation>
                <documentation>
                   The attribute indicates that whether the ui should include parameter definition page in data set editor dialog.
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="addsPropertyBindingPage" type="boolean" use="default" value="false">
-            <annotation>
-               <documentation>
-                  
                </documentation>
             </annotation>
          </attribute>

@@ -29,7 +29,7 @@
    </requires>
    <extension
          point="org.eclipse.birt.report.designer.ui.odadatasource">
-      <odaDataSourceUI id="org.eclipse.birt.report.data.oda.jdbc" addsPropertyBindingPage = "true" >
+      <odaDataSourceUI id="org.eclipse.birt.report.data.oda.jdbc">
          <newDataSourceWizard class="org.eclipse.birt.report.data.oda.jdbc.ui.wizards.JdbcDataSourceWizard"/>
          <dataSourceEditorPage
                class="org.eclipse.birt.report.data.oda.jdbc.ui.wizards.JdbcDataSourcePage"
@@ -38,8 +38,7 @@
                name="org.eclipse.birt.report.data.oda.jdbc.ui.data-source-editor.connection"/>
       </odaDataSourceUI>
       <odaDataSetUI id="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" 
-      				addsDataSetParametersPage = "true"
-      				addsPropertyBindingPage = "true">
+      				addsDataSetParametersPage = "true">
             <dataSetEditorPage
                   class="org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage"
                   path="/"
@@ -47,8 +46,7 @@
                   name="org.eclipse.birt.report.data.oda.jdbc.ui.data-set-editor-page1"/>
        </odaDataSetUI>
        <odaDataSetUI id="org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet"
-		       		addsDataSetParametersPage = "true"
-      				addsPropertyBindingPage = "true">
+		       		addsDataSetParametersPage = "true">
             <dataSetEditorPage
                   class="org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage"
                   path="/"
