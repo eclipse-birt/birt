@@ -2626,8 +2626,16 @@ public abstract class ModuleWriter extends ElementVisitor
 				boolean cdata = false;
 				if ( propDefn.getTypeCode( ) == PropertyType.SCRIPT_TYPE )
 					cdata = true;
-
-				writeProperty( virtualElement, null, propDefn.getName( ), cdata );
+				if ( propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
+				{
+					if ( propDefn.isList( ) )
+						writeStructureList( virtualElement, propDefn.getName( ) );
+					else
+						writeStructure( virtualElement, propDefn.getName( ) );
+				}
+				else
+					writeProperty( virtualElement, null, propDefn.getName( ),
+							cdata );
 			}
 
 			writer.endElement( ); // end ¡°ref-entry¡±
