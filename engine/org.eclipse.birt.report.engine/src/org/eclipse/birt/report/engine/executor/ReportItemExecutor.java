@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.io.File;
-import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -47,7 +45,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.23 $ $Date: 2005/12/13 07:04:26 $
+ * @version $Revision: 1.24 $ $Date: 2005/12/20 06:48:34 $
  */
 public abstract class ReportItemExecutor
 {
@@ -72,7 +70,6 @@ public abstract class ReportItemExecutor
 	 * the executor visitor
 	 */
 	protected IReportItemVisitor visitor;
-
 
 	/**
 	 * construct a report item executor by giving execution context and report
@@ -229,18 +226,14 @@ public abstract class ReportItemExecutor
 								IResourceLocator.LIBRARY );
 						if ( reportURL != null )
 						{
-							try
+							String reportFile = reportURL.getFile( );
+							if ( reportFile != null )
 							{
-								URI reportURI = new URI( reportURL.toString( ) );
-								File reportFile = new File( reportURI );
-								reportName = reportFile.getAbsolutePath( );
-							}
-							catch ( Exception ex )
-							{
+								reportName = reportFile;
 							}
 						}
 					}
-					String format = drill.getFormat();
+					String format = drill.getFormat( );
 					// XXX Do not support Search criteria
 					IHyperlinkAction obj = report.createActionContent( );
 					obj.setDrillThrough( bookmark, reportName, paramsVal, null,
@@ -284,7 +277,7 @@ public abstract class ReportItemExecutor
 	 */
 	protected void startTOCEntry( IContent content )
 	{
-		TOCBuilder tocBuilder = context.getTOCBuilder();
+		TOCBuilder tocBuilder = context.getTOCBuilder( );
 		if ( tocBuilder != null )
 		{
 			if ( content != null )
@@ -314,7 +307,7 @@ public abstract class ReportItemExecutor
 	 */
 	protected void finishTOCEntry( )
 	{
-		TOCBuilder tocBuilder = context.getTOCBuilder();
+		TOCBuilder tocBuilder = context.getTOCBuilder( );
 		if ( tocBuilder != null )
 		{
 			tocBuilder.closeEntry( );
@@ -323,7 +316,7 @@ public abstract class ReportItemExecutor
 
 	protected void startGroupTOCEntry( )
 	{
-		TOCBuilder tocBuilder = context.getTOCBuilder();
+		TOCBuilder tocBuilder = context.getTOCBuilder( );
 		if ( tocBuilder != null )
 		{
 			tocBuilder.startGroupEntry( );
@@ -332,7 +325,7 @@ public abstract class ReportItemExecutor
 
 	protected void finishGroupTOCEntry( )
 	{
-		TOCBuilder tocBuilder = context.getTOCBuilder();
+		TOCBuilder tocBuilder = context.getTOCBuilder( );
 		if ( tocBuilder != null )
 		{
 			tocBuilder.closeGroupEntry( );

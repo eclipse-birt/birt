@@ -20,15 +20,20 @@ import java.util.logging.Logger;
 /**
  * Defines a default action handler for HTML output format
  */
-public class HTMLActionHandler implements IHTMLActionHandler {
-	
+public class HTMLActionHandler implements IHTMLActionHandler
+{
+
 	/** logger */
-	protected Logger log = Logger.getLogger( HTMLActionHandler.class.getName( ) );
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IHTMLActionHandler#getURL(org.eclipse.birt.report.engine.api2.IAction, java.lang.Object)
+	protected Logger log = Logger
+			.getLogger( HTMLActionHandler.class.getName( ) );
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api2.IHTMLActionHandler#getURL(org.eclipse.birt.report.engine.api2.IAction,
+	 *      java.lang.Object)
 	 */
-	public String getURL(IAction actionDefn, Object context)
+	public String getURL( IAction actionDefn, Object context )
 	{
 		if ( actionDefn == null )
 		{
@@ -37,9 +42,9 @@ public class HTMLActionHandler implements IHTMLActionHandler {
 		switch ( actionDefn.getType( ) )
 		{
 			case IAction.ACTION_BOOKMARK :
-				return actionDefn.getActionString();
+				return "#" + actionDefn.getActionString( );
 			case IAction.ACTION_HYPERLINK :
-				return actionDefn.getActionString();
+				return actionDefn.getActionString( );
 
 			case IAction.ACTION_DRILLTHROUGH :
 				return buildDrillAction( actionDefn, context );
@@ -47,74 +52,111 @@ public class HTMLActionHandler implements IHTMLActionHandler {
 		}
 		assert false;
 		return null;
-		
+
 	}
 
 	/**
 	 * builds URL for drillthrough action
 	 * 
-	 * @param action instance of the IAction instance
-	 * @param context the context for building the action string
-	 * @return a URL 
+	 * @param action
+	 *            instance of the IAction instance
+	 * @param context
+	 *            the context for building the action string
+	 * @return a URL
 	 */
 	protected String buildDrillAction( IAction action, Object context )
 	{
 		String baseURL = null;
-		if(context!=null && context instanceof HTMLRenderContext)
+		if ( context != null && context instanceof HTMLRenderContext )
 		{
-			baseURL = ((HTMLRenderContext)context).getBaseURL();
+			baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
 		}
 		StringBuffer link = new StringBuffer( );
 
 		String reportName = action.getReportName( );
 		if ( reportName != null && !reportName.equals( "" ) )//$NON-NLS-1$
 		{
-
 			link.append( baseURL );
-			link.append( "?__report=" );	//$NON-NLS-1$
-			try
-			{
-				link.append( URLEncoder.encode( reportName, "UTF-8" ) ); 	//$NON-NLS-1$
-			}
-			catch ( UnsupportedEncodingException e1 )
-			{
-				//It should not happen. Does nothing
-			}
-		
+
+			appendReportDesignName( link, reportName );
+
 			//add format
-			String format = action.getFormat();
-			if(format!=null && format.length()>0)
-			{
-				link.append( "&__format=" + format );//$NON-NLS-1$
-			}
+			String format = action.getFormat( );
+			appendFormat( link, format );
 
 			//Adds the parameters
-			if ( action.getParameterBindings( ) != null )
+			Map params = action.getParameterBindings( );
+			if ( params != null )
 			{
-				Iterator paramsIte = action.getParameterBindings( ).entrySet( ).iterator( );
+				Iterator paramsIte = params.entrySet( ).iterator( );
 				while ( paramsIte.hasNext( ) )
 				{
 					Map.Entry entry = (Map.Entry) paramsIte.next( );
-					try
-					{
-						link.append( "&" + URLEncoder.encode( (String) entry.getKey( ), "UTF-8" ) + "=" + URLEncoder.encode( (String) entry.getValue( ), "UTF-8" ) );//$NON-NLS-1$				
-					}
-					catch ( UnsupportedEncodingException e )
-					{
-						//Does nothing
-					}
+					String key = (String) entry.getKey( );
+					Object valueObj = entry.getValue( );
+					appendParamter( link, key, valueObj );
 				}
 			}
 		}
 
 		//The search rules are not supported yet.
-		if ( action.getBookmark( ) != null )
-		{
-			link.append( "#" );//$NON-NLS-1$
-			link.append( action.getBookmark( ) );
-		}
+		String bookmark = action.getBookmark( );
+		appendBookmark( link, bookmark );
 
 		return link.toString( );
+	}
+
+	protected void appendReportDesignName( StringBuffer buffer,
+			String reportName )
+	{
+		buffer.append( "?__report=" ); //$NON-NLS-1$
+		try
+		{
+			buffer.append( URLEncoder.encode( reportName, "UTF-8" ) ); //$NON-NLS-1$
+		}
+		catch ( UnsupportedEncodingException e1 )
+		{
+			//It should not happen. Does nothing
+		}
+	}
+
+	protected void appendFormat( StringBuffer buffer, String format )
+	{
+		if ( format != null && format.length( ) > 0 )
+		{
+			buffer.append( "&__format=" + format );//$NON-NLS-1$
+		}
+	}
+
+	protected void appendParamter( StringBuffer buffer, String key,
+			Object valueObj )
+	{
+		if ( valueObj != null )
+		{
+			try
+			{
+				key = URLEncoder.encode( key, "UTF-8" );
+				String value = valueObj.toString( );
+				value = URLEncoder.encode( value, "UTF-8" );
+				buffer.append( "&" );
+				buffer.append( key );
+				buffer.append( "=" );
+				buffer.append( value );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				//Does nothing
+			}
+		}
+	}
+
+	protected void appendBookmark( StringBuffer buffer, String bookmark )
+	{
+		if ( bookmark != null && bookmark.length( ) != 0 )
+		{
+			buffer.append( "#" );//$NON-NLS-1$
+			buffer.append( bookmark );
+		}
 	}
 
 }

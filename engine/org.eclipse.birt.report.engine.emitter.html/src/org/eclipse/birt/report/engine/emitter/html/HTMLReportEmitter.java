@@ -30,14 +30,11 @@ import java.util.Random;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
-import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.IImage;
@@ -94,7 +91,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.64 $ $Date: 2005/12/26 03:51:18 $
+ * @version $Revision: 1.65 $ $Date: 2005/12/27 03:41:40 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1962,17 +1959,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( ret )
 		{
-			if ( action.getType( ) == IAction.ACTION_BOOKMARK )
-			{
-				link = "#" + link;
-			}
-			else
-			{
-				if ( urlEncoding != null )
-				{
-					link = URLEncoder.encode( link, urlEncoding );
-				}
-			}
 
 			writer.openTag( HTMLTags.TAG_A );
 
@@ -2116,26 +2102,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			styleBuffer
 					.append( "border-collapse: collapse; empty-cells: show;" ); //$NON-NLS-1$
 		}
-	}
-
-	/*
-	 * Determin if the browser is compatible with MSIE Those MSIE compatible
-	 * browser contain "MSIE" in the user agent field of http header. Those
-	 * browsers that doesn't compatible contains no such string. like firefox
-	 * 1.0.3
-	 */
-	protected boolean isBrowserMSIECompatible( String agent )
-	{
-		if ( agent == null || agent.equals( "" ) ) //$NON-NLS-1$
-			return true; // MSIE is deemed as default if not specified
-
-		String userAgent = " " + agent + " "; // padding blank //$NON-NLS-1$
-		// //$NON-NLS-2$
-		Pattern pattern = Pattern.compile( "\\sMSIE[\\s+|\\/|\\d]", //$NON-NLS-1$
-				Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE );
-		Matcher m = pattern.matcher( userAgent );
-
-		return m.find( );
 	}
 
 	// following code are copy from JDK src: java.net.URI.encode

@@ -11,10 +11,7 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.io.File;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.logging.Level;
 
@@ -60,7 +57,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.29 $ $Date: 2005/12/03 05:34:28 $
+ * @version $Revision: 1.30 $ $Date: 2005/12/23 06:37:24 $
  */
 public class ImageItemExecutor extends QueryItemExecutor
 {
@@ -311,14 +308,10 @@ public class ImageItemExecutor extends QueryItemExecutor
 					IResourceLocator.IMAGE );
 			if ( url != null )
 			{
-				try
+				String fileName = url.getFile( );
+				if ( fileName != null )
 				{
-					URI uri = new URI( url.toExternalForm( ) );
-					File file = new File( uri );
-					imageFile = file.getAbsolutePath( );
-				}
-				catch ( URISyntaxException x )
-				{
+					imageFile = fileName;
 				}
 			}
 		}
