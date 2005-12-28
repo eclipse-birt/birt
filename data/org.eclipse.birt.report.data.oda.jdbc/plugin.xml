@@ -38,29 +38,29 @@
                   name="connectionProperties">
                <property
                   type="string"
-                  defaultDisplayName="JDBC Driver Class"
+                  defaultDisplayName="%datasource.property.odaDriverClass"
                   canInherit="true"
                   name="odaDriverClass"/>
                <property
                   type="string"
-                  defaultDisplayName="JDBC Driver URL"
+                  defaultDisplayName="%datasource.property.odaURL"
                   canInherit="true"
                   name="odaURL"/>
                <property
                   type="string"
-                  defaultDisplayName="Data Source"
+                  defaultDisplayName="%datasource.property.odaDataSource"
                   canInherit="true"
                   name="odaDataSource"/>
                <property
                   type="string"
-                  defaultDisplayName="User Name"
+                  defaultDisplayName="%datasource.property.odaUser"
                   canInherit="true"
                   name="odaUser"/>
                <property
                      isEncryptable="true"
                      type="string"
                      canInherit="true"
-                     defaultDisplayName="Password"
+                     defaultDisplayName="datasource.property.odaPassword"
                      name="odaPassword"/>
             </propertyGroup>
             <propertyVisibility name="odaDataSource" visibility="hide"/>
@@ -163,11 +163,10 @@
                   name="queryProperties">
                <property
                      type="string"
-                     defaultDisplayName="Query Time Out (in seconds)"
+                     defaultDisplayName="%dataset.property.queryTimeOut"
                      canInherit="true"
                      name="queryTimeOut"/>
             </propertyGroup>
-            <propertyVisibility name="queryTimeOut" visibility="hide"/>
          </properties>
       </dataSet>
       <dataSet
@@ -267,11 +266,10 @@
                   name="queryProperties">
                <property
                      type="string"
-                     defaultDisplayName="Query Time Out (in seconds)"
+                     defaultDisplayName="%dataset.property.queryTimeOut"
                      canInherit="true"
                      name="queryTimeOut"/>
             </propertyGroup>
-            <propertyVisibility name="queryTimeOut" visibility="hide"/>
          </properties>
       </dataSet>
    </extension>

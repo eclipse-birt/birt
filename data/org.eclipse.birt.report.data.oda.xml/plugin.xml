@@ -156,12 +156,12 @@
                name="connectionProperties">
             <property
                   type="string"
-                  defaultDisplayName="XML Data Source File"
+                  defaultDisplayName="%datasource.property.xmlFile"
                   canInherit="true"
                   name="FILELIST"/>
             <property
                   type="string"
-                  defaultDisplayName="XML Schema File"
+                  defaultDisplayName="%datasource.property.schemaFile"
                   canInherit="true"
                   name="SCHEMAFILELIST"/>          
          </propertyGroup>
