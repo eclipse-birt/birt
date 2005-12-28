@@ -29,7 +29,7 @@ public class ReportRCPPerspective implements IPerspectiveFactory
 {
 
 	public static final String BIRT_REPORT_RCP_PERSPECTIVE = "org.eclipse.birt.report.designer.ui.ReportRCPPerspective"; //$NON-NLS-1$
-
+	
 	/**
 	 * Constructs a new Default layout engine.
 	 */
@@ -74,6 +74,8 @@ public class ReportRCPPerspective implements IPerspectiveFactory
 		layout.addShowViewShortcut( IPageLayout.ID_PROP_SHEET );
 
 		layout.addPerspectiveShortcut( BIRT_REPORT_RCP_PERSPECTIVE );
+		
+		layout.addActionSet(IReportGraphicConstants.BIRT_ACTION_SET);
 
 	}
 

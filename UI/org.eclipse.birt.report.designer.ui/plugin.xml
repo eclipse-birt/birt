@@ -67,8 +67,8 @@
    <extension
          point="org.eclipse.ui.actionSets">
       <actionSet
-            label="Preview"
-            visible="true"
+            label=""
+            visible="false"
             id="org.eclipse.birt.report.designer.ui.actionSet">
          <action
                disabledIcon="icons/dtool16/preview_disabled.gif"

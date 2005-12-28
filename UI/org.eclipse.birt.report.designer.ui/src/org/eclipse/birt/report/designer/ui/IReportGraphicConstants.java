@@ -285,4 +285,6 @@ public interface IReportGraphicConstants
 	};
 	
 	public static final String REPORT_KEY_WORD="report";
+	
+	public static final String BIRT_ACTION_SET= "org.eclipse.birt.report.designer.ui.actionSet"; //$NON-NLS-1$
 }
