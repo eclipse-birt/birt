@@ -84,9 +84,7 @@ public class ReportPerspective implements IPerspectiveFactory
 		layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
 		layout.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);
 
-		layout.addPerspectiveShortcut(BIRT_REPORT_PERSPECTIVE);
-		
-		layout.addActionSet(IReportGraphicConstants.BIRT_ACTION_SET);
+		layout.addPerspectiveShortcut(BIRT_REPORT_PERSPECTIVE);	
 	}
 
 	/**

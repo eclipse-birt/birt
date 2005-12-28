@@ -67,9 +67,9 @@
    <extension
          point="org.eclipse.ui.actionSets">
       <actionSet
-            label=""
+            label="%ActionSet.Preview"
             visible="false"
-            id="org.eclipse.birt.report.designer.ui.actionSet">
+            id="org.eclipse.birt.report.designer.ui.previewActionSet">
          <action
                disabledIcon="icons/dtool16/preview_disabled.gif"
                hoverIcon="icons/etool16/preview.gif"
@@ -81,14 +81,6 @@
                class="org.eclipse.birt.report.designer.ui.actions.PreviewToolbarMenuAction"
                style="pulldown"
                id="org.eclipse.birt.report.designer.ui.actions.PreviewToolbarMenu">
-            <enablement>
-               <and>
-                  <objectClass name="org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportDesignEditPart"/>
-                  <not>
-                     <objectClass name="org.eclipse.birt.report.designer.internal.lib.editparts.LibraryReportDesignEditPart"/>
-                  </not>
-               </and>
-            </enablement>
          </action>
          <action
                accelerator="Ctrl+I"
@@ -99,14 +91,6 @@
                label="%designer.preview.previewinpdfaction.label"
                menubarPath="file/preview"
                tooltip="%designer.preview.previewinpdfaction.label">
-            <enablement>
-               <and>
-                  <objectClass name="org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportDesignEditPart"/>
-                  <not>
-                     <objectClass name="org.eclipse.birt.report.designer.internal.lib.editparts.LibraryReportDesignEditPart"/>
-                  </not>
-               </and>
-            </enablement>
          </action>
          <action
                accelerator="Ctrl+T"
@@ -117,15 +101,11 @@
                label="%designer.preview.previewaction.label"
                menubarPath="file/preview"
                tooltip="%designer.preview.previewaction.label">
-            <enablement>
-               <and>
-                  <objectClass name="org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportDesignEditPart"/>
-                  <not>
-                     <objectClass name="org.eclipse.birt.report.designer.internal.lib.editparts.LibraryReportDesignEditPart"/>
-                  </not>
-               </and>
-            </enablement>
          </action>
+      </actionSet>
+      <actionSet
+            id="org.eclipse.birt.report.designer.ui.publishActionSet"
+            label="%ActionSet.Publish">
          <action
                class="org.eclipse.birt.report.designer.ui.actions.PublishTemplateAction"
                id="org.eclipse.birt.report.designer.ui.TemplatepublisAction"
@@ -240,5 +220,12 @@
       <fileTypes
             extension="rptdesign"
             type="text"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSetPartAssociations">
+      <actionSetPartAssociation targetID="org.eclipse.birt.report.designer.ui.previewActionSet">
+         <part id="org.eclipse.birt.report.designer.ui.editors.ReportEditor"/>
+         <part id="org.eclipse.birt.report.designer.ui.editors.TemplateEditor"/>
+      </actionSetPartAssociation>
    </extension>
 </plugin>
