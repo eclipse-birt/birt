@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
-import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
@@ -26,7 +25,7 @@ import org.mozilla.javascript.ScriptableObject;
 /**
  * Wraps around the Rhino Script context
  * 
- * @version $Revision: 1.17 $ $Date: 2005/07/04 09:06:11 $
+ * @version $Revision: 1.18 $ $Date: 2005/10/19 11:00:34 $
  */
 public class ScriptContext
 {
@@ -43,20 +42,19 @@ public class ScriptContext
 	protected Context context;
 
 	protected ImporterTopLevel global;
-	
+
 	protected Scriptable sharedScope;
 	/**
 	 * The JavaScript scope used for script execution
 	 */
 	protected Scriptable scope;
 
-
 	/**
-	 * a cache used to store the precompiled scripts
-	 * the key is the source code and the value is the compiled script.
+	 * a cache used to store the precompiled scripts the key is the source code
+	 * and the value is the compiled script.
 	 */
-	protected HashMap compiledScripts = new HashMap();
-	
+	protected HashMap compiledScripts = new HashMap( );
+
 	/**
 	 * for BIRT globel varible "params"
 	 */
@@ -75,15 +73,15 @@ public class ScriptContext
 		try
 		{
 			this.context = Context.enter( );
-			global = new ImporterTopLevel();
-			if (root != null)
+			global = new ImporterTopLevel( );
+			if ( root != null )
 			{
 				global.setPrototype( root );
 			}
-			global.initStandardObjects(context, true);
+			global.initStandardObjects( context, true );
 			this.scope = global;
-			sharedScope = context.newObject(scope);
-			
+			sharedScope = context.newObject( scope );
+
 		}
 		catch ( Exception ex )
 		{
@@ -119,7 +117,7 @@ public class ScriptContext
 		{
 			Context.exit( );
 			context = null;
-			compiledScripts.clear();
+			compiledScripts.clear( );
 		}
 	}
 
@@ -132,41 +130,36 @@ public class ScriptContext
 	}
 
 	/**
-	 * Use a new scope in the script context.
-	 * The following script is evaluated in the new scope. You must
-	 * call exitScope to return to the parent scope.
+	 * Use a new scope in the script context. The following script is evaluated
+	 * in the new scope. You must call exitScope to return to the parent scope.
 	 * The new scope is created automatically if the newScope is null.
-	 * @param newScope, scope used for following evaluation. null means create a scope automatically.
+	 * 
+	 * @param newScope,
+	 *            scope used for following evaluation. null means create a scope
+	 *            automatically.
 	 * @return the scope used for following evaluation.
 	 */
 	public Scriptable enterScope( Scriptable newScope )
 	{
-		if ( newScope == null)
+		if ( newScope == null )
 		{
 			newScope = context.newObject( scope );
 		}
-		else if (newScope instanceof NativeJavaObject)
-		{
-			Scriptable dynScope = context.newObject(scope);
-			dynScope.setPrototype(newScope);
-			newScope = dynScope;
-		}
-		newScope.setParentScope( scope );
+		newScope.setPrototype( scope );
 		scope = newScope;
-		sharedScope.setParentScope(scope);
+		sharedScope.setPrototype( scope );
 		return newScope;
 	}
 
 	/**
-	 * exits from the current scripting scope.
-	 * Must couple with the enterScope.
+	 * exits from the current scripting scope. Must couple with the enterScope.
 	 */
 	public void exitScope( )
 	{
-		Scriptable parentScope = scope.getParentScope( );
-		if ( parentScope != null )
-			scope = parentScope;
-		sharedScope.setParentScope(scope);
+		Scriptable protoScope = scope.getPrototype( );
+		if ( protoScope != null )
+			scope = protoScope;
+		sharedScope.setPrototype( scope );
 	}
 
 	/**
@@ -176,13 +169,13 @@ public class ScriptContext
 	{
 		return scope;
 	}
-	
-	public Scriptable getSharedScope()
+
+	public Scriptable getSharedScope( )
 	{
 		return sharedScope;
 	}
-	
-	public Scriptable getRootScope()
+
+	public Scriptable getRootScope( )
 	{
 		return global;
 	}
@@ -211,7 +204,7 @@ public class ScriptContext
 	 *            script to be evaluated
 	 * @return the evaluated value
 	 */
-	public Object eval( String source ) 
+	public Object eval( String source )
 	{
 		return eval( source, "<inline>", 1 );
 	}
@@ -219,16 +212,16 @@ public class ScriptContext
 	/**
 	 * evaluates a script
 	 */
-	public Object eval( String source, String name, int lineNo ) 
+	public Object eval( String source, String name, int lineNo )
 	{
 		assert ( this.context != null );
-		Script script = (Script)compiledScripts.get(source);
-		if (script == null)
+		Script script = (Script) compiledScripts.get( source );
+		if ( script == null )
 		{
-			script = context.compileString(source, name, lineNo, null);
-			compiledScripts.put(source, script);
+			script = context.compileString( source, name, lineNo, null );
+			compiledScripts.put( source, script );
 		}
-		Object value = script.exec(context, scope);
+		Object value = script.exec( context, scope );
 		return jsToJava( value );
 	}
 
@@ -257,16 +250,16 @@ public class ScriptContext
 				return Context.toString( jsValue );
 			}
 		}
-		if(jsValue instanceof Integer)
+		if ( jsValue instanceof Integer )
 		{
 			return jsValue;
 		}
 		return Context.toType( jsValue, Object.class );
 	}
-	
-	public Object javaToJs(Object value)
+
+	public Object javaToJs( Object value )
 	{
-		return Context.javaToJS(value, scope);
+		return Context.javaToJS( value, scope );
 	}
 
 	/**
@@ -317,5 +310,5 @@ public class ScriptContext
 			IJavascriptWrapper wrapper )
 	{
 	}
-	
+
 }
