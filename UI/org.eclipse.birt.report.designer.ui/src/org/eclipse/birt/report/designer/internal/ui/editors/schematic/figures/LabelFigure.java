@@ -268,6 +268,11 @@ public class LabelFigure extends ReportElementFigure
 	 */
 	public void setText( String newText )
 	{
+		if(newText==null)
+		{
+			newText="";//$NON-NLS-1$
+		}
+			
 		label.setText( newText );
 	}
 
