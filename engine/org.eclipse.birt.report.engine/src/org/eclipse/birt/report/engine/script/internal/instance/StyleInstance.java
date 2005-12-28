@@ -852,4 +852,36 @@ public class StyleInstance implements IScriptStyle
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
 	}
+
+	public String getBackgroundPositionX( )
+	{
+		return style.getBackgroundPositionX( );
+	}
+
+	public void setBackgroundPositionX( String x ) throws ScriptException
+	{
+		try
+		{
+			style.setBackgroundPositionX( x );
+		} catch ( DOMException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	public String getBackgroundPositionY( )
+	{
+		return style.getBackgroundPositionY( );
+	}
+
+	public void setBackgroundPositionY( String y ) throws ScriptException
+	{
+		try
+		{
+			style.setBackgroundPositionY( y );
+		} catch ( DOMException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
 }

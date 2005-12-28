@@ -58,7 +58,10 @@ public interface IDesignElement
 
 	Object getUserProperty( String name );
 
-	void setUserProperty( String name, Object value ) throws ScriptException;
+	void setUserProperty( String name, String value ) throws ScriptException;
+
+	void setUserProperty( String name, Object value, String type )
+			throws ScriptException;
 
 	/**
 	 * Return the parent of this element

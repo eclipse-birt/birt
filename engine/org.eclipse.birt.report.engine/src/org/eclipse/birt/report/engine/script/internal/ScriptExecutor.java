@@ -84,6 +84,8 @@ public class ScriptExecutor
 	protected static Object getInstance( DesignElementHandle element,
 			ExecutionContext context )
 	{
+		if (element == null)
+			return null;
 		String className = element.getEventHandlerClass( );
 		return getInstance( className, context );
 	}

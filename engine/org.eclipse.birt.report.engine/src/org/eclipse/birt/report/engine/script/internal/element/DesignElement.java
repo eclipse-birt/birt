@@ -15,8 +15,13 @@ import org.eclipse.birt.report.engine.api.script.element.IDesignElement;
 import org.eclipse.birt.report.engine.api.script.element.IScriptStyleDesign;
 import org.eclipse.birt.report.engine.script.internal.ElementUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.UserPropertyDefnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.command.UserPropertyException;
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 public class DesignElement implements IDesignElement
 {
@@ -80,18 +85,28 @@ public class DesignElement implements IDesignElement
 
 	public String getNamedExpression( String name )
 	{
-		// TODO: Shouldn't this be an instance of Expression?
-		Object prop = getUserProperty( name );
-		if ( prop == null || ( prop instanceof String ) )
+		UserPropertyDefnHandle propDefn = handle
+				.getUserPropertyDefnHandle( name );
+		if ( propDefn == null || propDefn.getDefn( ) == null
+				|| propDefn.getDefn( ).getDefault( ) == null
+				|| propDefn.getType( ) != IPropertyType.EXPRESSION_TYPE )
 			return null;
-		return ( String ) prop;
+
+		return propDefn.getDefn( ).getDefault( ).toString( );
 	}
 
 	public void setNamedExpression( String name, String exp )
 			throws ScriptException
 	{
-		// TODO: We need to keep named expressions and other user properties
-		// separate?
+		UserPropertyDefnHandle propDefn = handle
+				.getUserPropertyDefnHandle( name );
+
+		if ( propDefn == null )
+		{
+			addUserProperty( name, IPropertyType.EXPRESSION_TYPE_NAME );
+		} else if ( propDefn.getType( ) != IPropertyType.EXPRESSION_TYPE )
+			return;
+
 		setUserProperty( name, exp );
 	}
 
@@ -100,9 +115,25 @@ public class DesignElement implements IDesignElement
 		return handle.getProperty( name );
 	}
 
-	public void setUserProperty( String name, Object value )
+	public void setUserProperty( String name, String value )
 			throws ScriptException
 	{
+		if ( handle.getUserPropertyDefnHandle( name ) == null )
+			addUserProperty( name, IPropertyType.STRING_TYPE_NAME );
+		try
+		{
+			handle.setProperty( name, value );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	public void setUserProperty( String name, Object value, String type )
+			throws ScriptException
+	{
+		if ( handle.getUserPropertyDefnHandle( name ) == null )
+			addUserProperty( name, type );
 		try
 		{
 			handle.setProperty( name, value );
@@ -115,6 +146,22 @@ public class DesignElement implements IDesignElement
 	public IDesignElement getParent( )
 	{
 		return ElementUtil.getElement( handle.getContainer( ) );
+	}
+
+	private void addUserProperty( String name, String type )
+			throws ScriptException
+	{
+		UserPropertyDefn newProp = new UserPropertyDefn( );
+		newProp.setName( name );
+		newProp.setType( MetaDataDictionary.getInstance( ).getPropertyType(
+				type ) );
+		try
+		{
+			handle.addUserPropertyDefn( newProp );
+		} catch ( UserPropertyException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
 	}
 
 }

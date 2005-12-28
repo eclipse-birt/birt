@@ -69,16 +69,6 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#getExtension()
-	 */
-	public String getExtension( )
-	{
-		return ( ( ImageContent ) content ).getExtension( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#getURI()
 	 */
 	public String getURI( )

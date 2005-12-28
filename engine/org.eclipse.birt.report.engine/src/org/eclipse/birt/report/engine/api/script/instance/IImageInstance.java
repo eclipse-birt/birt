@@ -30,11 +30,6 @@ public interface IImageInstance extends IReportItemInstance
 	void setAltTextKey( String altTextKey );
 
 	/**
-	 * @return Returns the extension.
-	 */
-	String getExtension( );
-
-	/**
 	 * Get the image URI
 	 * 
 	 */

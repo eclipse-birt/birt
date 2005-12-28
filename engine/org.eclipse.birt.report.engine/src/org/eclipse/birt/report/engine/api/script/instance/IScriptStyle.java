@@ -587,4 +587,28 @@ public interface IScriptStyle
 	 */
 	public void setTextLineThrough( String through ) throws ScriptException;
 
+	/**
+	 * Get the X (horizontal) position of the background image
+	 * 
+	 */
+	public String getBackgroundPositionX( );
+
+	/**
+	 * Set the X (horizontal) position of the background image
+	 * 
+	 */
+	public void setBackgroundPositionX( String x ) throws ScriptException;
+
+	/**
+	 * Get the Y (vertical) position of the background image
+	 * 
+	 */
+	public String getBackgroundPositionY( );
+
+	/**
+	 * Set the Y (vertical) position of the background image
+	 * 
+	 */
+	public void setBackgroundPositionY( String y ) throws ScriptException;
+
 }
