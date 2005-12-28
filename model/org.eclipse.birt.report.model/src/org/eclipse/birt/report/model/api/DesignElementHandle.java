@@ -2070,10 +2070,14 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		PropertyBinding binding = root.findPropertyBinding( getElement( ),
 				propName );
 
+		// if the binding is not set, and the new value is null, returns
+
+		if ( binding == null && StringUtil.isBlank( value ) )
+			return;
+
 		if ( bindingList == null )
 		{
-			if ( value == null )
-				return;
+			assert value != null;
 
 			bindingList = new ArrayList( );
 			root.setProperty( Module.PROPERTY_BINDINGS_PROP, bindingList );
