@@ -83,7 +83,7 @@ public class AreaEditPart extends ReportElementEditPart
 		return list;
 	}
 
-	//TODO:move this code into util class?
+	// TODO:move this code into util class?
 	protected void insertIteratorToList( Iterator iterator, List list )
 	{
 		for ( Iterator it = iterator; it.hasNext( ); )
@@ -131,14 +131,14 @@ public class AreaEditPart extends ReportElementEditPart
 		rect.height = -1;
 		rect.width = region.width;
 
-		//Define the default height value of header and footer
+		// Define the default height value of header and footer
 		SimpleMasterPageHandle mphandle = ( (SimpleMasterPageHandle) ( (MasterPageEditPart) getParent( ) )
 				.getModel( ) );
 
 		if ( ( (ReportElementModel) getModel( ) ).getSlotId( ) == SimpleMasterPageHandle.PAGE_HEADER_SLOT )
 		{
-			if ( mphandle.getPropertyHandle( SimpleMasterPageHandle.HEADER_HEIGHT_PROP )
-					.isSet( ) )
+			if ( mphandle.getPropertyHandle(
+					SimpleMasterPageHandle.HEADER_HEIGHT_PROP ).isSet( ) )
 			{
 				DimensionHandle handle = mphandle.getHeaderHeight( );
 
@@ -147,8 +147,8 @@ public class AreaEditPart extends ReportElementEditPart
 		}
 		else
 		{
-			if ( mphandle.getPropertyHandle( SimpleMasterPageHandle.FOOTER_HEIGHT_PROP )
-					.isSet( ) )
+			if ( mphandle.getPropertyHandle(
+					SimpleMasterPageHandle.FOOTER_HEIGHT_PROP ).isSet( ) )
 			{
 				DimensionHandle handle = mphandle.getFooterHeight( );
 
@@ -168,4 +168,17 @@ public class AreaEditPart extends ReportElementEditPart
 		return rect;
 	}
 
+	/**
+	 * adds model listener
+	 */
+	protected void addModelListener( )
+	{
+		super.addModelListener( );
+		if ( getModel( ) instanceof ReportElementModel )
+		{
+			( (ReportElementModel) getModel( ) ).getElementHandle( )
+					.addListener( this );
+		}
+
+	}
 }

@@ -283,7 +283,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	/**
 	 * adds model listener
 	 */
-	private void addModelListener( )
+	protected void addModelListener( )
 	{
 		if ( getModel( ) instanceof DesignElementHandle )
 		{
