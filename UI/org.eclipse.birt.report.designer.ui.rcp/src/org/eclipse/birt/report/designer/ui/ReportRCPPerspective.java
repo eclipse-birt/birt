@@ -74,7 +74,7 @@ public class ReportRCPPerspective implements IPerspectiveFactory
 		layout.addShowViewShortcut( IPageLayout.ID_PROP_SHEET );
 
 		layout.addPerspectiveShortcut( BIRT_REPORT_RCP_PERSPECTIVE );
-			}
+	}
 
 	/**
 	 * Defines the initial layout for a page.
