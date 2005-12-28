@@ -476,7 +476,7 @@ public final class ChartReportItemImpl extends ReportItem
 	public final IReportItem copy( )
 	{
 		final ChartReportItemImpl crii = new ChartReportItemImpl( handle );
-		crii.setProperty( "chart.instance", EcoreUtil.copy( cm ) ); //$NON-NLS-1$
+		crii.cm = (Chart) EcoreUtil.copy( cm );
 		return crii;
 	}
 
