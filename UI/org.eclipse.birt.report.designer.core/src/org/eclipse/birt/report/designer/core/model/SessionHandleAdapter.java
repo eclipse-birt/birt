@@ -224,11 +224,19 @@ public class SessionHandleAdapter
 	 */
 	public MasterPageHandle getMasterPageHandle( )
 	{
-		SlotHandle slotHandle = getReportDesignHandle( ).getMasterPages( );
+		return getMasterPageHandle(getReportDesignHandle());
+	}
+
+	/**Gets the first MasterPageHandle
+	 * @param handle
+	 * @return
+	 */
+	public MasterPageHandle getMasterPageHandle(ModuleHandle handle )
+	{
+		SlotHandle slotHandle = handle.getMasterPages( );
 		Iterator iter = slotHandle.iterator( );
 		return (MasterPageHandle) iter.next( );
 	}
-
 	/**
 	 * 
 	 * @param handle
