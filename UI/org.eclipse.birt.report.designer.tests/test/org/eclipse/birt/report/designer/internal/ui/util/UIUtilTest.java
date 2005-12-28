@@ -75,20 +75,20 @@ public class UIUtilTest extends BaseTestCase
 		assertEquals( null, UIUtil.convertToModelString( null, true ) );
 	}
 
-	public void testCreateGroup( )
-	{
-		TableHandle table = getReportDesignHandle( ).getElementFactory( )
-				.newTableItem( null, 3 );
-		assertTrue( UIUtil.createGroup( table ) );
-		assertTrue( UIUtil.createGroup( table ) );
-		assertTrue( UIUtil.createGroup( table, 2 ) );
-		assertEquals( 3, table.getGroups( ).getCount( ) );
-
-		ListHandle list = getReportDesignHandle( ).getElementFactory( )
-				.newList( null );
-		assertTrue( UIUtil.createGroup( list ) );
-		assertTrue( UIUtil.createGroup( list ) );
-		assertTrue( UIUtil.createGroup( list, 1 ) );
-		assertEquals( 3, list.getGroups( ).getCount( ) );
-	}
+//	public void testCreateGroup( )
+//	{
+//		TableHandle table = getReportDesignHandle( ).getElementFactory( )
+//				.newTableItem( null, 3 );
+//		assertTrue( UIUtil.createGroup( table ) );
+//		assertTrue( UIUtil.createGroup( table ) );
+//		assertTrue( UIUtil.createGroup( table, 2 ) );
+//		assertEquals( 3, table.getGroups( ).getCount( ) );
+//
+//		ListHandle list = getReportDesignHandle( ).getElementFactory( )
+//				.newList( null );
+//		assertTrue( UIUtil.createGroup( list ) );
+//		assertTrue( UIUtil.createGroup( list ) );
+//		assertTrue( UIUtil.createGroup( list, 1 ) );
+//		assertEquals( 3, list.getGroups( ).getCount( ) );
+//	}
 }
