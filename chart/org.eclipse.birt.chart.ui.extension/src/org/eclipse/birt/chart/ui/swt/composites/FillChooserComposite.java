@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -544,7 +545,7 @@ public class FillChooserComposite extends Composite implements
 			{
 				ged = new GradientEditorDialog( this.getShell( ),
 						null,
-						(ColorDefinition) fCurrent );
+						(ColorDefinition) EcoreUtil.copy( fCurrent ) );
 			}
 			else
 			{
