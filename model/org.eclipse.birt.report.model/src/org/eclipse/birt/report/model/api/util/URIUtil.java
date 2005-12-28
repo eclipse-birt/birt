@@ -325,13 +325,15 @@ public class URIUtil
 	 * <li>C:\\hello\..\
 	 * <li>/C:/../hello/
 	 * </ul>
-	 * The spearator in the return path is platform-depedent.
+	 * The spearator in the return path is platform-depedent. Please note that
+	 * the <code>File.separator</code> in the end of directory will be striped
+	 * in the return value.
 	 * 
 	 * @param base
 	 *            the base directory
 	 * @param resource
 	 *            the full path
-	 * @return the relative path
+	 * @return the relative path.
 	 */
 
 	public static String getRelativePath( String base, String resource )
@@ -403,6 +405,16 @@ public class URIUtil
 
 		if ( samePrefixPos < resourceDir.length( ) )
 			sb.append( resourceDir.substring( samePrefixPos + 1 ) );
+
+		// remove the tail file.separatorChar
+
+		int len = sb.length( );
+		if ( len > 0 )
+		{
+			char lastChar = sb.charAt( len - 1 );
+			if ( lastChar == File.separatorChar )
+				sb.deleteCharAt( len - 1 );
+		}
 
 		return sb.toString( );
 	}

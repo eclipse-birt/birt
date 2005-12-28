@@ -1446,11 +1446,7 @@ public class DEUtil
 	 */
 	public static String getRelativedPath( String basePath, String path )
 	{
-		// URI baseUri = new File( basePath ).getAbsolutePath()
-		// URI childUri = new File( path ).getAbsolutePath()
-		return URIUtil.getRelativePath( new File( basePath ).getParent( ),
-				new File( path ).getParent( ) )
-				+ "/" + new File( path ).getName( );//$NON-NLS-1$
+		return URIUtil.getRelativePath( new File( basePath ).getParent( ), path );
 	}
 
 	/**
