@@ -32,7 +32,7 @@
 	<property name="data.oda.jdbc.dir" location="..\org.eclipse.birt.report.data.oda.jdbc" />
 	<property name="datatools.connectivity.oda.dir" location="..\org.eclipse.datatools.connectivity.oda" />	
 	<property name="module.dir" location = "..\org.eclipse.birt.report.model" />
-	<property name="testmodule.name" location = "org.eclipse.birt.report.tests.model" />
+	<property name="testmodule.name" value = "org.eclipse.birt.report.tests.model" />
 	
 	<property name="test.src.dir" location="src" />
 	<property name="test.build.dir" location="bin" />
