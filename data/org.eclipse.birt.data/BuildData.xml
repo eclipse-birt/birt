@@ -411,18 +411,21 @@
 		<echo message="${module.name} end call Jar task in ${oda.jdbc.dir}"/>
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.report.data.oda.jdbc/${oda.jdbc.jar}" file="${oda.jdbc.dir}/${oda.jdbc.jar}"/>
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.report.data.oda.jdbc/plugin.xml" file="${oda.jdbc.dir}/plugin.xml"/>
-		
+		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.report.data.oda.jdbc/plugin.properties" file="${oda.jdbc.dir}/plugin.properties"/>
 		<echo message="${module.name} start call Jar task in ${oda.flatfile.dir}"/>		
 		<ant dir="${oda.flatfile.dir}" antfile="BuildOdaFlatfile.xml" target="Jar" inheritall="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 			<property name="dtp.home" value="${dtp.home}" />
 		</ant>
+		
 		<echo message="${module.name} end call Jar task in ${oda.flatfile.dir}"/>
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.report.data.oda.flatfile/${oda.flatfile.jar}" file="${oda.flatfile.dir}/${oda.flatfile.jar}"/>
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.report.data.oda.flatfile/plugin.xml" file="${oda.flatfile.dir}/plugin.xml"/>
+		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.report.data.oda.flatfile/plugin.properties" file="${oda.flatfile.dir}/plugin.properties"/>
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.datatools.connectivity.oda.flatfile/${oda.flatfile.jar}" file="${dtp.oda-flatfile.dir}/${oda.flatfile.jar}"/>
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.datatools.connectivity.oda.flatfile/plugin.xml" file="${dtp.oda-flatfile.dir}/plugin.xml"/>
-		
+		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.datatools.connectivity.oda.flatfile/plugin.properties" file="${dtp.oda-flatfile.dir}/plugin.properties"/>
+	
 		<echo message="${module.name} start call Jar task in ${testOdaDriver.dir}"/>		
 		<ant dir="${testOdaDriver.dir}" antfile="build.xml" target="build.jars" inheritall="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
