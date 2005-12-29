@@ -95,17 +95,18 @@ public class SqlDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#first()
 	 */
-	public void first( )
+	public boolean first( )
 	{
 		try
 		{
-			set.first( );
+			return set.first( );
 		}
 		catch ( SQLException e )
 		{
 			e.printStackTrace( );
 		}
-
+		
+		return false;
 	}
 
 }

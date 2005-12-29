@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.factory;
 
-
 /**
  * This interface provide expression evaluations of any string expression based
  * on a row context. This is usually associated with an underlying resultset.
@@ -34,8 +33,11 @@ public interface IDataRowExpressionEvaluator
 	/**
 	 * Moves to the first row. Optional if already positioned on the first row
 	 * when passed to Generator.bindData()
+	 * 
+	 * @return <code>true</code> if the cursor is on a valid row;
+	 *         <code>false</code> if there are no rows in the result set
 	 */
-	void first( );
+	boolean first( );
 
 	/**
 	 * Moves to the next row.

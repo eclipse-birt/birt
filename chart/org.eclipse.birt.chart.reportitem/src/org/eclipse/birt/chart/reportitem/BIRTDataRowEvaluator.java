@@ -94,9 +94,9 @@ public class BIRTDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#first()
 	 */
-	public void first( )
+	public boolean first( )
 	{
-		set.next( );
+		return set.next( );
 	}
 
 }

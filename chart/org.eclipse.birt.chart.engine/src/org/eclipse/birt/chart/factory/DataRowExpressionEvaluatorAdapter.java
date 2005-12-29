@@ -33,9 +33,9 @@ public class DataRowExpressionEvaluatorAdapter implements
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#first()
 	 */
-	public void first( )
+	public boolean first( )
 	{
-		// Doing nothing.
+		return false;
 	}
 
 	/*

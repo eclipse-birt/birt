@@ -474,9 +474,21 @@ public class ChartUIUtil
 				return column[i];
 			}
 
-			public void first( )
+			public boolean first( )
 			{
 				i = 0;
+
+				if ( map.size( ) > 0 )
+				{
+					column = (Object[]) map.values( ).iterator( ).next( );
+
+					if ( column != null && i <= column.length - 1 )
+					{
+						return true;
+					}
+				}
+
+				return false;
 			}
 
 			public boolean next( )
