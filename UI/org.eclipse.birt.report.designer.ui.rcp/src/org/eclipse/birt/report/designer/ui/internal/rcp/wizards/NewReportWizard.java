@@ -53,7 +53,9 @@ import org.eclipse.ui.cheatsheets.OpenCheatSheetAction;
  * file.
  */
 
-public class NewReportWizard extends Wizard implements INewWizard, IExecutableExtension
+public class NewReportWizard extends Wizard implements
+		INewWizard,
+		IExecutableExtension
 {
 
 	private static final String NEW = Messages.getString( "NewReportWizard.title.New" ); //$NON-NLS-1$
@@ -79,7 +81,7 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 	private WizardNewReportCreationPage newReportFileWizardPage;
 
 	private WizardTemplateChoicePage templateChoicePage;
-	
+
 	private WizardReportSettingPage settingPage;
 
 	public NewReportWizard( )
@@ -118,7 +120,9 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		templateChoicePage.setDescription( SELECT_A_REPORT_TEMPLATE );
 
 		settingPage = new WizardReportSettingPage( null );
-		settingPage.setTitle( Messages.getString( "SaveReportAsWizard.SettingPage.title" ) );
+		settingPage.setTitle( Messages.getFormattedString( "SaveReportAsWizard.SettingPage.title",//$NON-NLS-1$
+				new Object[]{
+					Messages.getString( "NewReportWizard.wizardPageTitle.report" )} ) );//$NON-NLS-1$
 
 		addPage( settingPage );
 
@@ -187,7 +191,7 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		boolean showCheatSheetFromPage = false;
 
 		URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI ),
-				new Path( templateChoicePage.getTemplate( ).getReportPath() ) );
+				new Path( templateChoicePage.getTemplate( ).getReportPath( ) ) );
 		if ( url != null )
 		{
 			try
@@ -201,12 +205,13 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		}
 		else
 		{
-			File file = new File(templateChoicePage.getTemplate( ).getReportPath());
-			if(file.exists())
+			File file = new File( templateChoicePage.getTemplate( )
+					.getReportPath( ) );
+			if ( file.exists( ) )
 			{
 				try
 				{
-					inputData= new FileInputStream(file);
+					inputData = new FileInputStream( file );
 				}
 				catch ( FileNotFoundException e )
 				{
@@ -215,7 +220,8 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 			}
 		}
 
-		cheatSheetIdFromPage = templateChoicePage.getTemplate( ).getCheatSheetId();
+		cheatSheetIdFromPage = templateChoicePage.getTemplate( )
+				.getCheatSheetId( );
 		showCheatSheetFromPage = templateChoicePage.getShowCheatSheet( );
 		final InputStream stream = inputData;
 		final String cheatSheetId = cheatSheetIdFromPage;
@@ -318,8 +324,8 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 					IEditorPart editorPart = page.openEditor( new ReportEditorInput( file ),
 							ReportEditorInput.REPORT_EDITOR_ID,
 							true );
-					setReportSettings(((RCPReportEditor)editorPart).getModel());
-					editorPart.doSave(null);
+					setReportSettings( ( (RCPReportEditor) editorPart ).getModel( ) );
+					editorPart.doSave( null );
 
 					if ( showCheatSheet && !cheatSheetId.equals( "" ) ) //$NON-NLS-1$
 					{
@@ -351,23 +357,25 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 	public void init( IWorkbench workbench, IStructuredSelection selection )
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	public void setInitializationData( IConfigurationElement config, String propertyName, Object data ) throws CoreException
+	public void setInitializationData( IConfigurationElement config,
+			String propertyName, Object data ) throws CoreException
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	/**
 	 * Set report basic settings.
+	 * 
 	 * @param model
 	 * @throws IOException
 	 */
 	void setReportSettings( Object model ) throws IOException
 	{
-		ReportDesignHandle handle = (ReportDesignHandle)model;
+		ReportDesignHandle handle = (ReportDesignHandle) model;
 		try
 		{
 			handle.setDisplayName( settingPage.getDisplayName( ) );
@@ -377,6 +385,6 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		catch ( SemanticException e )
 		{
 		}
-		handle.save();
+		handle.save( );
 	}
 }
