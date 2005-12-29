@@ -51,7 +51,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.30 $ $Date: 2005/12/08 06:53:50 $
+ * @version $Revision: 1.31 $ $Date: 2005/12/22 12:10:25 $
  */
 public class ReportExecutor
 {
@@ -140,7 +140,7 @@ public class ReportExecutor
 		pageContent.setPageNumber( pageNo );
 
 		context.setPageNumber( pageNo );
-
+		context.pushContent(pageContent);
 		if ( masterPage instanceof SimpleMasterPageDesign )
 		{
 			// disable the tocBuilder
@@ -163,6 +163,7 @@ public class ReportExecutor
 			// reenable the TOC
 			context.setTOCBuilder( tocBuilder );
 		}
+		context.popContent();
 		return pageContent;
 	}
 
