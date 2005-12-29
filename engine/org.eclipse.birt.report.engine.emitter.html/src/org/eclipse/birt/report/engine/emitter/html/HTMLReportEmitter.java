@@ -91,7 +91,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.65 $ $Date: 2005/12/27 03:41:40 $
+ * @version $Revision: 1.66 $ $Date: 2005/12/28 07:24:49 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -416,31 +416,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	}
 
 	/**
-	 * add expandable error message at the end of HTML file
-	 */
-	protected void addExpandableErrorMsg( )
-	{
-		writer.writeCode( "<script>" ); //$NON-NLS-1$
-		writer.writeCode( "function expand(index)" ); //$NON-NLS-1$
-		writer
-				.writeCode( "{var icon = document.getElementById(\"error_icon\" + index);" ); //$NON-NLS-1$
-		writer
-				.writeCode( "var detail = document.getElementById(\"error_detail\" + index);" ); //$NON-NLS-1$
-		writer.writeCode( "if (icon != null && detail != null)" ); //$NON-NLS-1$
-		writer.writeCode( "{var display = detail.style.display;" ); //$NON-NLS-1$
-		writer.writeCode( "if (display == \"none\")" ); //$NON-NLS-1$
-		writer
-				.writeCode( "{icon.innerHTML = \" - \";detail.style.display = \"block\";}" ); //$NON-NLS-1$
-		writer
-				.writeCode( "else{icon.innerHTML = \" + \";detail.style.display = \"none\";}}}" ); //$NON-NLS-1$
-		writer
-				.writeCode( "for(var i=0; i<document.getElementsByName(\"error_title\").length; i++)" ); //$NON-NLS-1$
-		writer
-				.writeCode( "{document.getElementById(\"error_detail\" + i).style.display = \"none\";}" ); //$NON-NLS-1$
-		writer.writeCode( "</script>" ); //$NON-NLS-1$
-	}
-
-	/**
 	 * Fixes a PNG problem related to transparency. See
 	 * http://homepage.ntlworld.com/bobosola/ for detail.
 	 */
@@ -560,17 +535,22 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 	private void appendErrorMessage( int index, ElementExceptionInfo info )
 	{
+		String errorId = "document.getElementById('error_detail" + index + "')";
+		String errorIcon = "document.getElementById('error_icon" + index + "')";
+		String onClick = 
+		"if (" + errorId + ".style.display == 'none') { " + errorIcon + ".innerHTML = '-'; " + errorId + ".style.display = 'block'; }" +
+		"else { " + errorIcon + ".innerHTML = '+'; " + errorId + ".style.display = 'none'; }";
+		
 		EngineResourceHandle rc = EngineResourceHandle.getInstance( );
 		writer.writeCode( "			<div>" );
 		writer.writeCode( "				<span id=\"error_icon" + index
-				+ "\"  style=\"cursor:pointer\" onclick=\"expand(" + index
-				+ ")\" > + </span>" );
+				+ "\"  style=\"cursor:pointer\" onclick=\"" + onClick + "\" > + </span>" );
 		writer.writeCode( "				<span  id=\"error_title\">" );
 		writer.text( rc.getMessage( MessageConstants.REPORT_ERROR_MESSAGE,
 				new Object[]{info.getType( ), info.getElementInfo( )} ), false );
 		writer.writeCode( "</span>" );
 		writer.writeCode( "				<pre id=\"error_detail" + index
-				+ "\" style=\"display:block\" >" );
+				+ "\" style=\"display:none;\" >" );
 		ArrayList errorList = info.getErrorList( );
 		ArrayList countList = info.getCountList( );
 		for ( int i = 0; i < errorList.size( ); i++ )
@@ -645,9 +625,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		logger.log( Level.FINE, "[HTMLReportEmitter] End body." ); //$NON-NLS-1$
 		if ( report != null )
 		{
-			if ( outputErrors( report.getErrors( ) ) )
+			List errors = report.getErrors();
+			if (errors != null && !errors.isEmpty())
 			{
-				addExpandableErrorMsg( );
+				outputErrors( errors );
 			}
 		}
 		if ( !isEmbeddable )
@@ -1481,10 +1462,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.openTag( HTMLTags.TAG_EMBED );
 			writer.attribute( HTMLTags.ATTR_TYPE, "image/svg+xml" ); //$NON-NLS-1$
 			writer.attribute( HTMLTags.ATTR_SRC, imgUri );
+			setStyleName( image.getStyleClass( ) );
 			StringBuffer buffer = new StringBuffer( );
-			buffer.append( AttributeBuilder.buildPos( image.getX( ), image
-					.getY( ), image.getWidth( ), image.getHeight( ) ) );
-			writer.attribute( HTMLTags.ATTR_STYLE, buffer );
+			//build size
+			AttributeBuilder.buildSize( buffer, HTMLTags.ATTR_WIDTH, image
+					.getWidth( ) ); //$NON-NLS-1$
+			AttributeBuilder.buildSize( buffer, HTMLTags.ATTR_HEIGHT,
+					image.getHeight( ) ); //$NON-NLS-1$
+			// handle inline style
+			handleStyle( image, buffer, false );
 			writer.closeNoEndTag( );
 		}
 		else
