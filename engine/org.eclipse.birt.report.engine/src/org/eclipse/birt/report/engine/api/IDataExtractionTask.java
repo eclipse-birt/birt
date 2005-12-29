@@ -45,7 +45,7 @@ public interface IDataExtractionTask extends IEngineTask
 	 *         meta data, but could have more if data extraction is based on the
 	 *         whole report
 	 */
-	public List getMetaData( );	
+	public List getMetaData( ) throws EngineException;	
 	
 	/**
 	 * @param columnName

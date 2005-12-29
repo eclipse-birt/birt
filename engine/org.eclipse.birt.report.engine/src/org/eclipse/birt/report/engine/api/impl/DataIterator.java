@@ -62,17 +62,18 @@ public class DataIterator implements IDataIterator
 		while( iter.hasNext() )
 		{
 			IBaseExpression expr = (IBaseExpression)iter.next();
-			IScriptExpression scriptExpr = null;
+			String exprText = null;
 			if ( expr instanceof IConditionalExpression )
 			{
 				IConditionalExpression condExpr = ( IConditionalExpression )expr;
-				scriptExpr = condExpr.getExpression( );
+				exprText = getConditionalExpressionText( condExpr );
 			}
 			else
 			{
-				scriptExpr = (IScriptExpression)expr;
+				exprText = ((IScriptExpression)expr).getText( );
 			}
-			exprMap.put( scriptExpr.getText(), scriptExpr );
+			
+			exprMap.put( exprText, expr );
 		}
 	}
 	
@@ -141,5 +142,33 @@ public class DataIterator implements IDataIterator
 	boolean isAdvanced( )
 	{
 		return isAdvanced;
+	}
+	
+	static String getConditionalExpressionText( IConditionalExpression condExpr )
+	{
+		assert condExpr != null ;
+		
+		StringBuffer exprTextBuf = new StringBuffer( );
+		IScriptExpression expr = condExpr.getExpression();
+		if( expr != null )
+		{
+			exprTextBuf.append( expr.getText( ) );
+		}
+		
+		exprTextBuf.append( condExpr.getOperator() );
+		
+		expr = condExpr.getOperand1( );
+		if( expr != null )
+		{
+			exprTextBuf.append( expr.getText( ) );
+		}
+		
+		expr = condExpr.getOperand2( );
+		if( expr != null )
+		{
+			exprTextBuf.append( expr.getText( ) );
+		}
+		
+		return exprTextBuf.toString( );
 	}
 }

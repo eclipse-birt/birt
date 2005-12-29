@@ -76,7 +76,7 @@ public class DataExtractionTask extends EngineTask
 		currentResult = null;
 	}
 
-	public List getMetaData( )
+	public List getMetaData( ) throws EngineException
 	{
 		if ( resultMetaList == null )
 		{
@@ -84,14 +84,14 @@ public class DataExtractionTask extends EngineTask
 			ResultMetaData metaData = null;
 			if ( selectedColumns == null && instanceId != null )
 			{
+				currentResult = extract( );
 				try
 				{
-					currentResult = extract( );
 					resultMetaList.add( currentResult.getResultMetaData( ) );
 				}
-				catch ( BirtException e )
+				catch( BirtException be )
 				{
-					e.printStackTrace( );
+					be.printStackTrace();
 				}
 			}
 			
@@ -240,20 +240,20 @@ public class DataExtractionTask extends EngineTask
 				while ( iter.hasNext( ) )
 				{
 					IBaseExpression expr = (IBaseExpression) iter.next( );
-					IScriptExpression scriptExpr = null;
+					String exprText = null;
 					if ( expr instanceof IConditionalExpression )
 					{
 						IConditionalExpression condExpr = ( IConditionalExpression ) expr;
-						scriptExpr = condExpr.getExpression( );
+						exprText = DataIterator.getConditionalExpressionText( condExpr );
 					}
 					else if ( expr instanceof IScriptExpression )
 					{
-						scriptExpr = ( IScriptExpression ) expr;
+						exprText = (( IScriptExpression ) expr).getText( );
 					}
 					
-					assert scriptExpr != null;
+					assert exprText != null;
 					
-					if ( scriptExpr.getText( ).equalsIgnoreCase( selectedColumns[i] ) )
+					if ( exprText.equalsIgnoreCase( selectedColumns[i] ) )
 					{
 						findColumn = true;
 						break;
@@ -282,7 +282,7 @@ public class DataExtractionTask extends EngineTask
 					if ( expr instanceof IConditionalExpression )
 					{
 						IConditionalExpression condExpr = (IConditionalExpression) expr;
-						selectedColumns[i] = condExpr.getExpression( ).getText( );
+						selectedColumns[i] = DataIterator.getConditionalExpressionText( condExpr );
 					}
 					else if ( expr instanceof IScriptExpression )
 					{
