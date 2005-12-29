@@ -2130,6 +2130,10 @@ public final class AutoScale extends Methods implements Cloneable
 					new Integer( iUnit ),
 					new Integer( 1 ) );
 			sc.setAlwaysForward( forward );
+			sc.fs = fs; // FORMAT SPECIFIER
+			sc.rtc = rtc; // LOCALE
+			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
+
 			sc.computeTicks( xs,
 					la,
 					iLabelLocation,
@@ -2139,9 +2143,6 @@ public final class AutoScale extends Methods implements Cloneable
 					false,
 					null );
 
-			sc.fs = fs; // FORMAT SPECIFIER
-			sc.rtc = rtc; // LOCALE
-			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			dStart = sc.dStart;
 			dEnd = sc.dEnd;
 
