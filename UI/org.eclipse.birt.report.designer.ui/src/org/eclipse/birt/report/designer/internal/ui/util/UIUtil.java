@@ -1012,7 +1012,7 @@ public class UIUtil
 		{
 			return includeLibrary( moduleHandle, libraryHandle.getFileName( ) );
 		}
-		return false;
+		return true;
 	}
 
 	
