@@ -86,8 +86,14 @@ public class JdbcDriverManagerDialog extends Dialog
 	
 	/**
 	 * list of jars to be copied and deleted when okPressed
+	 * will be reset everytime after pressing ok button
 	 */
 	private Hashtable jarsToBeCopied,jarsToBeDeleted;
+	
+	/**
+	 * list of jars to be copied or deleted at runtime
+	 * will be reset everytime after hitting driver tab
+	 */
 	private Hashtable jarsToBeCopiedRuntime, jarsToBeDeletedRuntime;
 	
 	private static final int btnWidth = 90;
@@ -930,9 +936,13 @@ public class JdbcDriverManagerDialog extends Dialog
 			}
 			
 			if ( jarsToBeDeletedRuntime.containsKey( dlg.getFileName( ) ) )
+			{
 				jarsToBeDeletedRuntime.remove( dlg.getFileName( ) );
+			}
 			else
+			{
 				jarsToBeCopiedRuntime.put( dlg.getFileName( ), jarInfo );
+			}
 			
 			jarMap.put( dlg.getFileName( ), jarInfo );
 
@@ -959,6 +969,8 @@ public class JdbcDriverManagerDialog extends Dialog
 			( (JarFile) fn.getValue( ) ).setRestored( );
 			jarsToBeCopied.put( ( (JarFile) fn.getValue( ) ).getFileName( ),
 					(JarFile) fn.getValue( ) );
+			jarsToBeCopiedRuntime.put( ( (JarFile) fn.getValue( ) ).getFileName( ),
+					(JarFile) fn.getValue( ) );			
 			
 			( (JarFile) fn.getValue( ) ).checkJarState( );
 
@@ -990,19 +1002,26 @@ public class JdbcDriverManagerDialog extends Dialog
 			{
 				jarsToBeCopied.remove( jarFile.getFileName( ) );
 			}
-			else
+			// "" and "*" should be put into jarsToBeDeleted
+			// "+" should've been handled already in jarsToBeCopied
+			// "x" should be deleted from the viewer alone
+			else if ( !( jarFile.getState( )
+					.indexOf( JarFile.ODA_FILE_NOT_EXIST_TOKEN ) != -1 ) )
 			{
-				if ( jarFile.getState( ) != JarFile.ODA_FILE_NOT_EXIST_TOKEN )
-					jarsToBeDeleted.put( jarFile.getFileName( ), jarFile );
+				jarsToBeDeleted.put( jarFile.getFileName( ), jarFile );
 			}
 			
-			if ( jarsToBeCopiedRuntime.containsKey( jarFile.getFileName() ) )
-				jarsToBeCopiedRuntime.remove( jarFile.getFileName( ) );
-					
-			else
+			if ( jarsToBeCopiedRuntime.containsKey( jarFile.getFileName( ) ) )
 			{
-				if ( jarFile.getState( ) != JarFile.ODA_FILE_NOT_EXIST_TOKEN )
-					jarsToBeDeletedRuntime.put( jarFile.getFileName( ), jarFile );
+				jarsToBeCopiedRuntime.remove( jarFile.getFileName( ) );
+			}
+			// "" and "*" should be put into jarsToBeDeletedRuntime
+			// "+" should've been handled already in jarsToBeCopied
+			// "x" should be deleted from the viewer alone
+			else if ( !( jarFile.getState( )
+					.indexOf( JarFile.ODA_FILE_NOT_EXIST_TOKEN ) != -1 ) )
+			{
+				jarsToBeDeletedRuntime.put( jarFile.getFileName( ), jarFile );
 			}
 			
 			jarMap.remove( fn.getKey( ) );
@@ -1050,12 +1069,18 @@ public class JdbcDriverManagerDialog extends Dialog
 
 			if ( dlg.open( ) == Window.OK )
 			{
-				if ( obj instanceof Map.Entry )
+				if ( obj instanceof Map.Entry
+						&& ( !dlg.getDisplayName( )
+								.trim( )
+								.equals( driverInfo.getDisplayName( ).trim( ) ) || !dlg.getUrlTemplate( )
+								.trim( )
+								.equals( driverInfo.getUrlTemplate( ).trim( ) ) ) )
 				{
 					driverInfo.setDisplayName( dlg.getDisplayName( ) );
 					driverInfo.setUrlTemplate( dlg.getUrlTemplate( ) );
 
 					driverMap.put( ( (Map.Entry) obj ).getKey( ), driverInfo );
+					jarChanged = true;
 				}
 				refreshDriverViewer( );
 				updateDriverButtons( );
