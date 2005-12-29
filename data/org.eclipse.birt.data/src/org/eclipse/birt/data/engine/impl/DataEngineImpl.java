@@ -127,6 +127,7 @@ public class DataEngineImpl extends DataEngine
 		{
 			Scriptable scope = cx.newObject( parentScope );
 			scope.setParentScope( parentScope );
+			scope.setPrototype( parentScope );
 			return scope;
 		}
 		finally
