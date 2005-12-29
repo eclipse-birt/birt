@@ -363,8 +363,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public StyleElement findStyle( String name )
 	{
-		ElementRefValue refValue = moduleNameSpaces[STYLE_NAME_SPACE]
-				.resolve( name );
+		ElementRefValue refValue = moduleNameSpaces[STYLE_NAME_SPACE].resolve(
+				name, null );
 		return (StyleElement) refValue.getElement( );
 	}
 
@@ -1565,19 +1565,37 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public List getAllLibraries( )
 	{
-		if ( libraries == null )
+		return getLibraries( IModuleNameSpace.ARBITARY_LEVEL );
+	}
+
+	/**
+	 * Returns included libaries within the given depth.
+	 * 
+	 * @param level
+	 *            the given depth
+	 * @return list of libraries.
+	 * 
+	 * @see IModuleNameSpace
+	 */
+
+	public List getLibraries( int level )
+	{
+		if ( level <= IModuleNameSpace.NATIVE_LEVEL || libraries == null )
 			return Collections.EMPTY_LIST;
 
-		List allLibraries = new ArrayList( );
+		int newLevel = level - 1;
 
-		allLibraries.addAll( getLibraries( ) );
+		// if the new level is less than 0, then no need to do the iterator.
 
-		Iterator iter = getLibraries( ).iterator( );
+		if ( newLevel == IModuleNameSpace.NATIVE_LEVEL )
+			return Collections.unmodifiableList( libraries );
+
+		List allLibraries = new ArrayList( libraries );
+		Iterator iter = new ArrayList( allLibraries ).iterator( );
 		while ( iter.hasNext( ) )
 		{
 			Library library = (Library) iter.next( );
-
-			allLibraries.addAll( library.getAllLibraries( ) );
+			allLibraries.addAll( library.getLibraries( newLevel ) );
 		}
 
 		return allLibraries;
@@ -1591,10 +1609,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public List getLibraries( )
 	{
-		if ( libraries != null )
-			return new ArrayList( libraries );
-
-		return Collections.EMPTY_LIST;
+		return getLibraries( IModuleNameSpace.ONE_LEVEL );
 	}
 
 	/**
@@ -1661,46 +1676,36 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * @return the module with the given namespace
 	 */
 
-	public Library getVisibleLibraryWithNamespace( String namespace )
+	public Library getLibraryWithNamespace( String namespace )
 	{
-		if ( libraries == null )
-			return null;
-
-		List list = getLibraries( );
-
-		Iterator iter = list.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			Library library = (Library) iter.next( );
-
-			if ( library.getNamespace( ).equals( namespace ) )
-				return library;
-		}
-
-		return null;
+		return getLibraryWithNamespace( namespace,
+				IModuleNameSpace.ARBITARY_LEVEL );
 	}
 
 	/**
 	 * Returns the module with the given namespace. This method checks the
-	 * namespace in both directly and indirectly included libraries.
+	 * namespace in included libraries within the given depth.
 	 * 
 	 * @param namespace
 	 *            the module namespace
+	 * @param level
+	 *            the depth of the library
 	 * @return the module with the given namespace
+	 * 
+	 * @see IModuleNameSpace
 	 */
 
-	public Library getLibraryWithNamespace( String namespace )
+	public Library getLibraryWithNamespace( String namespace, int level )
 	{
 		if ( libraries == null )
 			return null;
 
-		List list = getAllLibraries( );
+		List list = getLibraries( level );
 
 		Iterator iter = list.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			Library library = (Library) iter.next( );
-
 			if ( library.getNamespace( ).equals( namespace ) )
 				return library;
 		}
@@ -2184,8 +2189,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public Theme findTheme( String name )
 	{
-		ElementRefValue refValue = moduleNameSpaces[THEME_NAME_SPACE]
-				.resolve( name );
+		ElementRefValue refValue = moduleNameSpaces[THEME_NAME_SPACE].resolve(
+				name, null );
 		return (Theme) refValue.getElement( );
 	}
 
@@ -2236,7 +2241,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 				.getModuleNameSpace( Module.THEME_NAME_SPACE );
 
 		ElementRefValue refValue = resolver.resolve( ReferenceValueUtil
-				.needTheNamespacePrefix( theme, this ) );
+				.needTheNamespacePrefix( theme, this ), null );
 
 		Theme target = null;
 		if ( refValue.isResolved( ) )
@@ -2384,7 +2389,10 @@ public abstract class Module extends DesignElement implements IModuleModel
 				&& ( (Library) rootHost ).getHost( ) != null )
 			rootHost = ( (Library) rootHost ).getHost( );
 
-		List libraries = rootHost.getAllLibraries( );
+		// List libraries = rootHost.getAllLibraries( );
+
+		List libraries = rootHost
+				.getLibraries( IModuleNameSpace.ARBITARY_LEVEL );
 		Iterator iter = libraries.iterator( );
 		while ( iter.hasNext( ) )
 		{

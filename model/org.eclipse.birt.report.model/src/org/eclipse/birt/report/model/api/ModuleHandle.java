@@ -1586,7 +1586,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public List getAllStyles( )
 	{
 		List elementList = module.getModuleNameSpace( Module.STYLE_NAME_SPACE )
-				.getElements( );
+				.getElements( IModuleNameSpace.ARBITARY_LEVEL );
 
 		return generateHandleList( elementList );
 	}
@@ -1602,7 +1602,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public List getAllThemes( )
 	{
 		List elementList = module.getModuleNameSpace( Module.THEME_NAME_SPACE )
-				.getElements( );
+				.getElements( IModuleNameSpace.ONE_LEVEL );
 
 		return generateHandleList( elementList );
 	}
@@ -1620,7 +1620,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 		IModuleNameSpace namescope = module
 				.getModuleNameSpace( Module.DATA_SOURCE_NAME_SPACE );
 
-		List elementList = namescope.getElements( );
+		List elementList = namescope
+				.getElements( IModuleNameSpace.ARBITARY_LEVEL );
 		return generateHandleList( elementList );
 
 	}
@@ -1633,8 +1634,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getVisibleDataSources( )
 	{
-		List elementList = module.getNameSpace( Module.DATA_SOURCE_NAME_SPACE )
-				.getElements( );
+		IModuleNameSpace namescope = module
+				.getModuleNameSpace( Module.DATA_SOURCE_NAME_SPACE );
+
+		List elementList = namescope
+				.getElements( IModuleNameSpace.NATIVE_LEVEL );
 		return generateHandleList( elementList );
 	}
 
@@ -1651,7 +1655,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 		IModuleNameSpace namescope = module
 				.getModuleNameSpace( Module.DATA_SET_NAME_SPACE );
 
-		List elementList = namescope.getElements( );
+		List elementList = namescope
+				.getElements( IModuleNameSpace.ARBITARY_LEVEL );
 		return generateHandleList( elementList );
 	}
 
@@ -1663,9 +1668,13 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getVisibleDataSets( )
 	{
-		List elementList = module.getNameSpace( Module.DATA_SET_NAME_SPACE )
-				.getElements( );
+		IModuleNameSpace namescope = module
+				.getModuleNameSpace( Module.DATA_SET_NAME_SPACE );
+
+		List elementList = namescope
+				.getElements( IModuleNameSpace.NATIVE_LEVEL );
 		return generateHandleList( elementList );
+
 	}
 
 	/**
@@ -1732,19 +1741,30 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllLibraries( )
 	{
-		if ( module.getLibraries( ) == null )
-			return Collections.EMPTY_LIST;
+		return getLibraries( IModuleNameSpace.ARBITARY_LEVEL );
+	}
 
-		List libraries = new ArrayList( );
+	/**
+	 * Returns included libaries this report design includes directly or
+	 * indirectly within the given depth.
+	 * 
+	 * @param level
+	 *            the given depth
+	 * @return list of libraries.
+	 */
 
-		Iterator iter = module.getAllLibraries( ).iterator( );
+	protected List getLibraries( int level )
+	{
+		List libraries = module.getLibraries( level );
+		List retLibs = new ArrayList( );
+
+		Iterator iter = libraries.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			Library library = (Library) iter.next( );
-
-			libraries.add( library.handle( ) );
+			retLibs.add( library.handle( ) );
 		}
-		return libraries;
+		return Collections.unmodifiableList( retLibs );
 	}
 
 	/**
@@ -1756,19 +1776,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getLibraries( )
 	{
-		if ( module.getLibraries( ) == null )
-			return Collections.EMPTY_LIST;
-
-		List libraries = new ArrayList( );
-
-		Iterator iter = module.getLibraries( ).iterator( );
-		while ( iter.hasNext( ) )
-		{
-			Library library = (Library) iter.next( );
-
-			libraries.add( library.handle( ) );
-		}
-		return libraries;
+		return getLibraries( IModuleNameSpace.ONE_LEVEL );
 	}
 
 	/**
@@ -1781,22 +1789,12 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public LibraryHandle getLibrary( String namespace )
 	{
-		Module library = module.getVisibleLibraryWithNamespace( namespace );
+		Module library = module.getLibraryWithNamespace( namespace,
+				IModuleNameSpace.ONE_LEVEL );
 		if ( library == null )
 			return null;
 
 		return (LibraryHandle) library.getHandle( library );
-
-		// Iterator iter = getLibraries( ).iterator( );
-		// while ( iter.hasNext( ) )
-		// {
-		// LibraryHandle library = (LibraryHandle) iter.next( );
-		//
-		// if ( library.getNamespace( ).equals( namespace ) )
-		// return library;
-		// }
-		//
-		// return null;
 	}
 
 	/**
@@ -2227,7 +2225,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	List getAllTemplateParameterDefinitions( )
 	{
 		List elementList = module.getModuleNameSpace(
-				Module.TEMPLATE_PARAMETER_NAME_SPACE ).getElements( );
+				Module.TEMPLATE_PARAMETER_NAME_SPACE ).getElements(
+				IModuleNameSpace.NATIVE_LEVEL );
 
 		return generateHandleList( elementList );
 	}
