@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.script.internal;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Map;
 
@@ -71,16 +72,6 @@ public class ReportContextImpl implements IReportContext
 		return context.getGlobalBeans( ).get( name );
 	}
 
-	public Map getTransientObjects( )
-	{
-		return context.getBeans( );
-	}
-
-	public Map getPersistentObjects( )
-	{
-		return context.getGlobalBeans( );
-	}
-
 	public void setRegisteredPersistantObjects( Map persistantMap )
 	{
 		context.registerBeans( persistantMap );
@@ -114,5 +105,31 @@ public class ReportContextImpl implements IReportContext
 	public Object getHttpServletRequest( )
 	{
 		return getAppContext( ).get( "BIRT_VIEWER_HTTPSERVLET_REQUEST" );
+	}
+
+	public String getMessage( String key )
+	{
+		return context.getDesign( ).getMessage( key );
+	}
+
+	public String getMessage( String key, Locale locale )
+	{
+		return context.getDesign( ).getMessage( key, locale );
+	}
+
+	public String getMessage( String key, Object[] params )
+	{
+		String msg = context.getDesign( ).getMessage( key );
+		if ( msg == null )
+			return "";
+		return MessageFormat.format( msg, params );
+	}
+
+	public String getMessage( String key, Locale locale, Object[] params )
+	{
+		String msg = context.getDesign( ).getMessage( key, locale );
+		if ( msg == null )
+			return "";
+		return MessageFormat.format( msg, params );
 	}
 }

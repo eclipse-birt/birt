@@ -102,15 +102,23 @@ public interface IReportContext
 	Object getFromDocument( String name );
 
 	/**
-	 * Return a map of the runtime registered objects
-	 * 
+	 * Finds user-defined messages for the current thread's locale.
 	 */
-	Map getTransientObjects( );
+	String getMessage( String key );
 
 	/**
-	 * Return a map of the persistant registered objects
-	 * 
+	 * Finds user-defined messages for the given locale.
 	 */
-	Map getPersistentObjects( );
+	String getMessage( String key, Locale locale );
+
+	/**
+	 * Finds user-defined messages for the current thread's locale
+	 */
+	String getMessage( String key, Object[] params );
+
+	/**
+	 * Finds user-defined messages for the given locale using parameters
+	 */
+	String getMessage( String key, Locale locale, Object[] params );
 
 }
