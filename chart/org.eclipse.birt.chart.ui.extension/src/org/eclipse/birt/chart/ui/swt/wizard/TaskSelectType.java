@@ -219,7 +219,7 @@ public class TaskSelectType extends SimpleTask
 	{
 		cmpType = new Composite( cmpTask, SWT.NONE );
 		cmpType.setLayout( new GridLayout( 2, false ) );
-		cmpType.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		cmpType.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		createHeader( );
 		createTable( );
 		addChartTypes( );
@@ -230,8 +230,7 @@ public class TaskSelectType extends SimpleTask
 	{
 		cmpMisc = new Composite( cmpTask, SWT.NONE );
 		cmpMisc.setLayout( new GridLayout( 4, false ) );
-		cmpMisc.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.FILL_VERTICAL ) );
+		cmpMisc.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		GridData gridData = null;
 
@@ -324,9 +323,9 @@ public class TaskSelectType extends SimpleTask
 	 */
 	private void createTable( )
 	{
-		GridData gdTable = new GridData( GridData.HORIZONTAL_ALIGN_FILL
-				| GridData.FILL_VERTICAL );
 		table = new Table( cmpType, SWT.BORDER );
+		GridData gdTable = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
+		gdTable.heightHint = 120;
 		table.setLayoutData( gdTable );
 		table.setToolTipText( Messages.getString( "ChartSelector.Lbl.ChartTypes2" ) ); //$NON-NLS-1$
 		table.addSelectionListener( this );
@@ -573,7 +572,8 @@ public class TaskSelectType extends SimpleTask
 		// Add the notification listeners from the old axis to the new one
 		overlayAxis.eAdapters( ).addAll( yAxis.eAdapters( ) );
 
-		// Update overlay series definition(retain the group query, clean the data query)
+		// Update overlay series definition(retain the group query, clean the
+		// data query)
 		SeriesDefinition sdOverlay = (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
 				.get( 0 );
 		EList dds = sdOverlay.getDesignTimeSeries( ).getDataDefinition( );
@@ -1172,10 +1172,11 @@ public class TaskSelectType extends SimpleTask
 
 	private void doLivePreview( )
 	{
-		if ( ChartUIUtil.checkDataBinding( chartModel ) && hasDataSet( ) )
+		if ( ChartPreviewPainter.isLivePreviewEnabled( )
+				&& ChartUIUtil.checkDataBinding( chartModel ) && hasDataSet( ) )
 		{
 			// Enable live preview
-			ChartPreviewPainter.setEnableLivePreview( true );
+			ChartPreviewPainter.activateLivePreview( true );
 			// Make sure not affect model changed
 			ChartAdapter.ignoreNotifications( true );
 			try
@@ -1187,14 +1188,14 @@ public class TaskSelectType extends SimpleTask
 			catch ( Exception e )
 			{
 				// Enable sample data instead
-				ChartPreviewPainter.setEnableLivePreview( false );
+				ChartPreviewPainter.activateLivePreview( false );
 			}
 			ChartAdapter.ignoreNotifications( false );
 		}
 		else
 		{
 			// Disable live preview
-			ChartPreviewPainter.setEnableLivePreview( false );
+			ChartPreviewPainter.activateLivePreview( false );
 		}
 		changeTask( null );
 	}

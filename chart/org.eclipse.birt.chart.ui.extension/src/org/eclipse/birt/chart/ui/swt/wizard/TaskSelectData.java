@@ -81,6 +81,7 @@ public class TaskSelectData extends SimpleTask
 	private transient Composite cmpTask = null;
 
 	private transient Composite cmpPreview = null;
+	private transient Button btnEnableLive = null;
 	private transient Canvas previewCanvas = null;
 
 	private transient Button btnUseReportData = null;
@@ -237,7 +238,8 @@ public class TaskSelectData extends SimpleTask
 
 		previewCanvas = new Canvas( cmpPreview, SWT.BORDER );
 		{
-			previewCanvas.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+			GridData gd = new GridData( GridData.FILL_BOTH );
+			previewCanvas.setLayoutData( gd );
 			previewCanvas.setBackground( Display.getDefault( )
 					.getSystemColor( SWT.COLOR_WHITE ) );
 		}
@@ -245,26 +247,27 @@ public class TaskSelectData extends SimpleTask
 
 	private void createDataSetArea( Composite parent )
 	{
-		Composite cmpDataSet = new Composite( parent, SWT.NONE );
+		Composite cmpDataSet = ChartUIUtil.createCompositeWrapper( parent );
 		{
-			GridLayout gridLayout = new GridLayout( 3, false );
-			gridLayout.marginWidth = 0;
-			gridLayout.marginHeight = 0;
-			cmpDataSet.setLayout( gridLayout );
 			cmpDataSet.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
 
 		Label label = new Label( cmpDataSet, SWT.NONE );
 		{
-			GridData gd = new GridData( );
-			gd.horizontalAlignment = SWT.CENTER;
-			gd.horizontalSpan = 3;
-			label.setLayoutData( gd );
 			label.setText( Messages.getString( "TaskSelectData.Label.SelectDataSet" ) ); //$NON-NLS-1$
 			label.setFont( JFaceResources.getBannerFont( ) );
 		}
 
-		Composite comp = ChartUIUtil.createCompositeWrapper( cmpDataSet );
+		Composite cmpDetail = new Composite( cmpDataSet, SWT.NONE );
+		{
+			GridLayout gridLayout = new GridLayout( 3, false );
+			gridLayout.marginWidth = 10;
+			gridLayout.marginHeight = 0;
+			cmpDetail.setLayout( gridLayout );
+			cmpDetail.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		}
+
+		Composite comp = ChartUIUtil.createCompositeWrapper( cmpDetail );
 
 		btnUseReportData = new Button( comp, SWT.RADIO );
 		btnUseReportData.setText( Messages.getString( "TaskSelectData.Label.UseReportData" ) ); //$NON-NLS-1$
@@ -274,17 +277,27 @@ public class TaskSelectData extends SimpleTask
 		btnUseDataSet.setText( Messages.getString( "TaskSelectData.Label.UseDataSet" ) ); //$NON-NLS-1$
 		btnUseDataSet.addSelectionListener( this );
 
-		cmbDataSet = new Combo( cmpDataSet, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbDataSet = new Combo( cmpDetail, SWT.DROP_DOWN | SWT.READ_ONLY );
 		cmbDataSet.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_END
 				| GridData.FILL_HORIZONTAL ) );
 		cmbDataSet.addSelectionListener( this );
 
-		btnNewData = new Button( cmpDataSet, SWT.NONE );
+		btnNewData = new Button( cmpDetail, SWT.NONE );
 		{
 			btnNewData.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_END ) );
 			btnNewData.setText( Messages.getString( "TaskSelectData.Label.CreateNew" ) ); //$NON-NLS-1$
 			btnNewData.setToolTipText( Messages.getString( "TaskSelectData.Tooltip.CreateNewDataset" ) ); //$NON-NLS-1$
 			btnNewData.addSelectionListener( this );
+		}
+
+		btnEnableLive = new Button( cmpDetail, SWT.CHECK );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalSpan = 3;
+			btnEnableLive.setLayoutData( gd );
+			btnEnableLive.setText( Messages.getString( "TaskSelectData.Label.EnableLivePreview" ) ); //$NON-NLS-1$
+			btnEnableLive.setSelection( ChartPreviewPainter.isLivePreviewEnabled( ) );
+			btnEnableLive.addSelectionListener( this );
 		}
 	}
 
@@ -305,7 +318,7 @@ public class TaskSelectData extends SimpleTask
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.widthHint = CENTER_WIDTH_HINT;
-			gridData.heightHint = 150;
+			gridData.heightHint = 130;
 			tablePreview.setLayoutData( gridData );
 			tablePreview.setHeaderAlignment( SWT.LEFT );
 			tablePreview.addListener( CustomPreviewTable.MOUSE_RIGHT_CLICK_TYPE,
@@ -591,6 +604,11 @@ public class TaskSelectData extends SimpleTask
 				refreshTablePreview( );
 				doLivePreview( );
 			}
+		}
+		else if ( e.getSource( ).equals( btnEnableLive ) )
+		{
+			ChartPreviewPainter.enableLivePreview( btnEnableLive.getSelection( ) );
+			doLivePreview( );
 		}
 		else if ( e.getSource( ) instanceof MenuItem )
 		{
@@ -898,7 +916,7 @@ public class TaskSelectData extends SimpleTask
 			{
 				doLivePreview( );
 			}
-			else if ( ChartPreviewPainter.isEnableLivePreview( ) )
+			else if ( ChartPreviewPainter.isLivePreviewActive( ) )
 			{
 				ChartAdapter.ignoreNotifications( true );
 				ChartUIUtil.syncRuntimeSeries( getChartModel( ) );
@@ -1025,10 +1043,12 @@ public class TaskSelectData extends SimpleTask
 
 	private void doLivePreview( )
 	{
-		if ( ChartUIUtil.checkDataBinding( getChartModel( ) ) && hasDataSet( ) )
+		if ( ChartPreviewPainter.isLivePreviewEnabled( )
+				&& ChartUIUtil.checkDataBinding( getChartModel( ) )
+				&& hasDataSet( ) )
 		{
 			// Enable live preview
-			ChartPreviewPainter.setEnableLivePreview( true );
+			ChartPreviewPainter.activateLivePreview( true );
 			// Make sure not affect model changed
 			ChartAdapter.ignoreNotifications( true );
 			try
@@ -1040,14 +1060,14 @@ public class TaskSelectData extends SimpleTask
 			catch ( Exception e )
 			{
 				// Enable sample data instead
-				ChartPreviewPainter.setEnableLivePreview( false );
+				ChartPreviewPainter.activateLivePreview( false );
 			}
 			ChartAdapter.ignoreNotifications( false );
 		}
 		else
 		{
 			// Disable live preview
-			ChartPreviewPainter.setEnableLivePreview( false );
+			ChartPreviewPainter.activateLivePreview( false );
 		}
 		previewPainter.renderModel( getChartModel( ) );
 	}

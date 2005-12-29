@@ -506,7 +506,7 @@ public class TaskFormatChart extends TreeCompoundTask
 			{
 				doLivePreviewWithoutRenderModel( );
 			}
-			else if ( ChartPreviewPainter.isEnableLivePreview( ) )
+			else if ( ChartPreviewPainter.isLivePreviewActive( ) )
 			{
 				ChartAdapter.ignoreNotifications( true );
 				ChartUIUtil.syncRuntimeSeries( getCurrentModelState( ) );
@@ -526,11 +526,12 @@ public class TaskFormatChart extends TreeCompoundTask
 
 	private void doLivePreviewWithoutRenderModel( )
 	{
-		if ( ChartUIUtil.checkDataBinding( getCurrentModelState( ) )
+		if ( ChartPreviewPainter.isLivePreviewEnabled( )
+				&& ChartUIUtil.checkDataBinding( getCurrentModelState( ) )
 				&& hasDataSet( ) )
 		{
 			// Enable live preview
-			ChartPreviewPainter.setEnableLivePreview( true );
+			ChartPreviewPainter.activateLivePreview( true );
 			// Make sure not affect model changed
 			ChartAdapter.ignoreNotifications( true );
 			try
@@ -542,14 +543,14 @@ public class TaskFormatChart extends TreeCompoundTask
 			catch ( Exception e )
 			{
 				// Enable sample data instead
-				ChartPreviewPainter.setEnableLivePreview( false );
+				ChartPreviewPainter.activateLivePreview( false );
 			}
 			ChartAdapter.ignoreNotifications( false );
 		}
 		else
 		{
 			// Disable live preview
-			ChartPreviewPainter.setEnableLivePreview( false );
+			ChartPreviewPainter.activateLivePreview( false );
 		}
 	}
 
