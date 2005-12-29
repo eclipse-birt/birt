@@ -908,20 +908,19 @@
       <Argument name="s" tagID="Class.Global.unescape.s" type="String"/>
     </Method>
   </Class>
-  <Class displayNameID="Class.GlobalBirt" name="GlobalBirt" toolTipID="Class.GlobalBirt.toolTip" >
-    <!--
+  <!-- Class displayNameID="Class.GlobalBirt" name="GlobalBirt" toolTipID="Class.GlobalBirt.toolTip" >
     <Member dataType="Datasets[]" displayNameID="Class.GlobalBirt.datasets" name="datasets" toolTipID="Class.GlobalBirt.datasets.toolTip" />
     <Member dataType="DataRow" displayNameID="Class.GlobalBirt.row" name="row" toolTipID="Class.GlobalBirt.row.toolTip" />
     <Member dataType="DataRow[]" displayNameID="Class.GlobalBirt.rows" name="rows" toolTipID="Class.GlobalBirt.rows.toolTip" />
-    -->
     <Member dataType="number" displayNameID="Class.GlobalBirt.CurrentPage" name="CurrentPage" toolTipID="Class.GlobalBirt.CurrentPage.toolTip"/>
     <Member dataType="number" displayNameID="Class.GlobalBirt.TotalPage" name="TotalPage" toolTipID="Class.GlobalBirt.TotalPage.toolTip"/>
     <Member dataType="Object[]" displayNameID="Class.GlobalBirt.params" name="params" toolTipID="Class.GlobalBirt.params.toolTip" />    
     <Member dataType="Object[]" displayNameID="Class.GlobalBirt.config" name="config" toolTipID="Class.GlobalBirt.config.toolTip" />
     <Member dataType="Report" displayNameID="Class.GlobalBirt.report" name="report" toolTipID="Class.GlobalBirt.report.toolTip" />
     <Member dataType="Object" displayNameID="Class.GlobalBirt.this" name="this" toolTipID="Class.GlobalBirt.this.toolTip" />
+    <Member dataType="Object[]" displayNameID="Class.GlobalBirt.appContext" name="appContext" toolTipID="Class.GlobalBirt.appContext" />
   </Class>  	  
-  <!--
+
   <Class displayNameID="Class.ResultSetDefn" name="ResultSetDefn" toolTipID="Class.ResultSetDefn.toolTip">	
 	<Member dataType="String" displayNameID="Class.ResultSetDefn.name" name="name" toolTipID="Class.ResultSetDefn.name.toolTip" />
 	<Member dataType="ResultSetColumn[]" displayNameID="Class.ResultSetDefn.columns" name="columns" toolTipID="Class.ResultSetDefn.columns.toolTip" />
@@ -1253,15 +1252,14 @@
 	</Method>						 
 	-->						 
   </Class>
-  <Class displayNameID="Class.Report" name="Report" toolTipID="Class.Report.toolTip">	
+  <!-- Class displayNameID="Class.Report" name="Report" toolTipID="Class.Report.toolTip">	
 	<Member dataType="org.eclipse.birt.report.engine.api.script.element.IReportDeign" displayNameID="Class.Report.design" name="design" toolTipID="Class.Report.design.toolTip"/>
 	<Member dataType="org.eclipse.birt.report.engine.api.script.IReportContext" displayNameID="Class.Report.reportContext" name="reportContext" toolTipID="Class.Report.reportContext.toolTip"/>
-	<!-- Member dataType="Object[]" displayNameID="Class.Report.params" name="params" toolTipID="Class.Report.params.toolTip"/>
+	<Member dataType="Object[]" displayNameID="Class.Report.params" name="params" toolTipID="Class.Report.params.toolTip"/>
 	<Member dataType="Object[]" displayNameID="Class.Report.config" name="config" toolTipID="Class.Report.config.toolTip"/>		
-  -->
   </Class>
  	
-  <!-- Class displayNameID="Class.DataSet" name="DataSet" toolTipID="Class.DataSet.toolTip">	
+  < Class displayNameID="Class.DataSet" name="DataSet" toolTipID="Class.DataSet.toolTip">	
 	<Member dataType="String" displayNameID="Class.DataSet.queryText" name="queryText" toolTipID="Class.DataSet.queryText.toolTip"/>					
 	<Member dataType="ColumnDefn[]" displayNameID="Class.DataSet.columnDefns" name="columnDefns" toolTipID="Class.DataSet.columnDefns.toolTip"/>					
 	<Member dataType="Object[]" displayNameID="Class.DataSet.extensionProperties" name="extensionProperties" toolTipID="Class.DataSet.extensionProperties.toolTip"/>
@@ -2806,7 +2804,7 @@
       <Trigger validator="CellOverlappingValidator"/>
     </Slot>
   </Element>
-  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Cell" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Cell" name="Cell" nameSpace="none" since="1.0" xmlName="cell">
+  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Cell" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Cell" name="Cell" nameSpace="none" since="1.0" xmlName="cell">
     <Property displayNameID="Element.Cell.column" name="column" runtimeSettable="false" since="1.0" type="integer" validator="NonNegativeValueValidator">
       <Default>0</Default>
       <Trigger targetElement="Row" validator="CellOverlappingValidator"/>

@@ -77,20 +77,21 @@ public class LibraryCommand extends AbstractElementCommand
 					LibraryException.DESIGN_EXCEPTION_DUPLICATE_LIBRARY_NAMESPACE );
 		}
 
-		//	the library has already been included.
-		
-		URL url = module.findResource( libraryFileName, IResourceLocator.LIBRARY );
-		if ( url != null && module.getLibraryByLocation( url.toString( ) ) != null )
+		// the library has already been included.
+
+		URL url = module.findResource( libraryFileName,
+				IResourceLocator.LIBRARY );
+		if ( url != null
+				&& module.getLibraryByLocation( url.toString( ) ) != null )
 		{
 			throw new LibraryException( module, new String[]{url.toString( )},
 					LibraryException.DESIGN_EXCEPTION_LIBRARY_ALREADY_INCLUDED );
 		}
-		
-		
+
 		Library library = module.loadLibrary( libraryFileName, namespace );
 		assert library != null;
 		library.setReadOnly( );
-	
+
 		getActivityStack( ).startTrans( );
 
 		LibraryRecord record = new LibraryRecord( module, library, true );
@@ -98,7 +99,8 @@ public class LibraryCommand extends AbstractElementCommand
 
 		// Add includedLibraries
 
-		IncludedLibrary includeLibrary = StructureFactory.createIncludeLibrary( );
+		IncludedLibrary includeLibrary = StructureFactory
+				.createIncludeLibrary( );
 		includeLibrary.setFileName( libraryFileName );
 		includeLibrary.setNamespace( namespace );
 
@@ -135,19 +137,25 @@ public class LibraryCommand extends AbstractElementCommand
 		stack.startTrans( );
 		try
 		{
-			for ( Iterator iter = library.getSlot( Library.COMPONENT_SLOT )
-					.iterator( ); iter.hasNext( ); )
+			for ( int slotID = 0; slotID < library.getDefn( ).getSlotCount( ); slotID++ )
 			{
-				DesignElement element = (DesignElement) iter.next( );
-				List derived = element.getDerived( );
-				for ( int i = 0; i < derived.size( ); i++ )
+				if ( slotID == Library.THEMES_SLOT )
+					continue;
+
+				for ( Iterator iter = library.getSlot( slotID ).iterator( ); iter
+						.hasNext( ); )
 				{
-					DesignElement child = (DesignElement) derived.get( i );
-					if ( child.getRoot( ) == getModule( ) )
+					DesignElement element = (DesignElement) iter.next( );
+					List derived = element.getDerived( );
+					for ( int i = 0; i < derived.size( ); i++ )
 					{
-						ExtendsCommand command = new ExtendsCommand(
-								getModule( ), child );
-						command.localizeElement( );
+						DesignElement child = (DesignElement) derived.get( i );
+						if ( child.getRoot( ) == getModule( ) )
+						{
+							ExtendsCommand command = new ExtendsCommand(
+									getModule( ), child );
+							command.localizeElement( );
+						}
 					}
 				}
 			}
@@ -159,7 +167,7 @@ public class LibraryCommand extends AbstractElementCommand
 
 			String libraryFileName = library.getFileName( );
 			assert libraryFileName != null;
-			removeIncludeLibrary( libraryFileName, library.getNamespace() );
+			removeIncludeLibrary( libraryFileName, library.getNamespace( ) );
 
 		}
 		catch ( SemanticException ex )
@@ -190,28 +198,35 @@ public class LibraryCommand extends AbstractElementCommand
 		}
 
 		// library has decendents in the current module.
-
-		for ( Iterator iter = library.getSlot( Library.COMPONENT_SLOT )
-				.iterator( ); iter.hasNext( ); )
+		for ( int slotID = 0; slotID < library.getDefn( ).getSlotCount( ); slotID++ )
 		{
-			DesignElement element = (DesignElement) iter.next( );
-			List allDescendents = new ArrayList();
-			getAllDescdents( element, allDescendents );
-			
-			for ( int i = 0; i < allDescendents.size( ); i++ )
-			{
-				DesignElement child = (DesignElement) allDescendents.get( i );
-				do
-				{
-					if ( child.getRoot( ) == getModule( ) )
-					{
-						throw new LibraryException(
-								library,
-								new String[]{child.getHandle( module ).getDisplayLabel() },
-								LibraryException.DESIGN_EXCEPTION_LIBRARY_HAS_DESCENDENTS );
-					}
+			if ( slotID == Library.THEMES_SLOT )
+				continue;
 
-				} while ( child.hasDerived( ) );
+			for ( Iterator iter = library.getSlot( slotID ).iterator( ); iter
+					.hasNext( ); )
+			{
+				DesignElement element = (DesignElement) iter.next( );
+				List allDescendents = new ArrayList( );
+				getAllDescdents( element, allDescendents );
+
+				for ( int i = 0; i < allDescendents.size( ); i++ )
+				{
+					DesignElement child = (DesignElement) allDescendents
+							.get( i );
+					do
+					{
+						if ( child.getRoot( ) == getModule( ) )
+						{
+							throw new LibraryException(
+									library,
+									new String[]{child.getHandle( module )
+											.getDisplayLabel( )},
+									LibraryException.DESIGN_EXCEPTION_LIBRARY_HAS_DESCENDENTS );
+						}
+
+					} while ( child.hasDerived( ) );
+				}
 			}
 		}
 
@@ -229,7 +244,7 @@ public class LibraryCommand extends AbstractElementCommand
 		{
 			String libFileName = library.getFileName( );
 			assert libFileName != null;
-			removeIncludeLibrary( libFileName, library.getNamespace() );
+			removeIncludeLibrary( libFileName, library.getNamespace( ) );
 		}
 		catch ( SemanticException ex )
 		{
@@ -264,10 +279,10 @@ public class LibraryCommand extends AbstractElementCommand
 	 * 
 	 * @param fileName
 	 *            file name of the library.
-	 *            
+	 * 
 	 * @param namespace
 	 *            namespace of the library.
-	 *            
+	 * 
 	 * @throws PropertyValueException
 	 */
 
@@ -282,10 +297,10 @@ public class LibraryCommand extends AbstractElementCommand
 		while ( iter.hasNext( ) )
 		{
 			IncludedLibrary includeLibrary = (IncludedLibrary) iter.next( );
-			
-			if ( !namespace.equals( includeLibrary.getNamespace() ) )
+
+			if ( !namespace.equals( includeLibrary.getNamespace( ) ) )
 				continue;
-			
+
 			if ( !fileName.endsWith( includeLibrary.getFileName( ) ) )
 				continue;
 
