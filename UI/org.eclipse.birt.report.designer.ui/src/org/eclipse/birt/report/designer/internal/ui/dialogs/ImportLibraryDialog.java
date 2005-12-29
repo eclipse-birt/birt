@@ -40,6 +40,7 @@ public class ImportLibraryDialog extends BaseDialog
 	private static final String MSG_DIALOG_NAMESPACE = Messages.getString( "ImportLibraryAction.Prefix" ); //$NON-NLS-1$
 	private static final String MSG_DIALOG_ERROR_CANNOT_BE_EMPTY = Messages.getString( "ImportLibraryAction.Error.CannotBeEmpty" ); //$NON-NLS-1$
 	private static final String MSG_DIALOG_ERROR_HAS_BEEN_USED = Messages.getString( "ImportLibraryAction.Error.HasBeenUsed" ); //$NON-NLS-1$
+	private static final String MSG_DIALOG_ERROR_HAS_DOT = Messages.getString( "ImportLibraryAction.Error.HasDot" ); //$NON-NLS-1$
 
 	private String namespace;
 	private Text namespaceEditor;
@@ -78,6 +79,10 @@ public class ImportLibraryDialog extends BaseDialog
 						.getLibrary( namespace ) != null )
 				{
 					messageLine.setText( MSG_DIALOG_ERROR_HAS_BEEN_USED );
+				}
+				else if ( namespace.indexOf( '.' ) != -1 )
+				{
+					messageLine.setText( MSG_DIALOG_ERROR_HAS_DOT );
 				}
 				else
 				{

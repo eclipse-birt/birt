@@ -963,6 +963,36 @@ public class UIUtil
 		return label;
 	}
 
+	
+	/**
+	 * Includes the library into within the given module.
+	 * 
+	 * @param moduleHandle
+	 *            the handle module
+	 * @param libraryPath
+	 *            the full path of the library
+	 * @return true if it included successfully, or false if the operation
+	 *         failed.
+	 */
+	public static boolean includeLibrary( ModuleHandle moduleHandle,
+			String libraryPath ) throws DesignFileException, SemanticException
+	{
+		String namespace = getLibraryNamespace( moduleHandle, libraryPath );
+		if ( namespace != null )
+		{
+			moduleHandle.includeLibrary( DEUtil.getRelativedPath( moduleHandle.getFileName( ),
+					libraryPath ),
+					namespace );
+			ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
+					MessageFormat.format( MSG_DIALOG_MSG, new String[]{
+						libraryPath
+					} ),
+					SWT.ICON_INFORMATION );
+			return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * Includes the library into within the given module.
 	 * 
@@ -980,40 +1010,12 @@ public class UIUtil
 		if ( moduleHandle != libraryHandle
 				&& !moduleHandle.isInclude( libraryHandle ) )
 		{
-			String defaultName = new File( libraryHandle.getFileName( ) ).getName( )
-					.split( File.separator + "." )[0];
-			if ( SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getLibrary( defaultName ) != null )
-			{
-				ImportLibraryDialog dialog = new ImportLibraryDialog( defaultName );
-				if ( dialog.open( ) == Dialog.OK )
-				{
-					moduleHandle.includeLibrary( DEUtil.getRelativedPath( moduleHandle.getFileName( ),
-							libraryHandle.getFileName( ) ),
-							(String) dialog.getResult( ) );
-					ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
-							MessageFormat.format( MSG_DIALOG_MSG, new String[]{
-								libraryHandle.getFileName( )
-							} ),
-							SWT.ICON_INFORMATION );
-					return true;
-				}
-				return false;
-			}
-			moduleHandle.includeLibrary( DEUtil.getRelativedPath( moduleHandle.getFileName( ),
-					libraryHandle.getFileName( ) ),
-					defaultName );
-			ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
-					MessageFormat.format( MSG_DIALOG_MSG, new String[]{
-						libraryHandle.getFileName( )
-					} ),
-					SWT.ICON_INFORMATION );
-			return true;
-
+			return includeLibrary( moduleHandle, libraryHandle.getFileName( ) );
 		}
-		return true;
+		return false;
 	}
+
+	
 
 	/**
 	 * Includes the library into within the current module.
@@ -1030,14 +1032,44 @@ public class UIUtil
 				.getReportDesignHandle( ), libraryHandle );
 	}
 
-	public static String getSimpleFileName(String filePath )
+	/**
+	 * Returns the name for the file
+	 * 
+	 * @param filePath
+	 *            the full path of the file
+	 * @return Returns the name of the file
+	 */
+	public static String getSimpleFileName( String filePath )
 	{
-		File file = new File(filePath);
-		String fileName=null;
-		if(file!=null)
+		return new File( filePath ).getName( );
+	}
+
+	/**
+	 * Returns the namespace of the library for inculde
+	 * 
+	 * @param handle
+	 *            the module handle to include the library
+	 * @param libraryPath
+	 *            the full path of the library file to include
+	 * @return the namespace used to include, or null if the user cancels this
+	 *         operator
+	 */
+	private static String getLibraryNamespace( ModuleHandle handle,
+			String libraryPath )
+	{
+		String namespace = getSimpleFileName( libraryPath ).split( "\\." )[0];
+		if ( handle.getLibrary( namespace ) != null )
 		{
-			fileName = file.getName();
+			ImportLibraryDialog dialog = new ImportLibraryDialog( namespace );
+			if ( dialog.open( ) == Dialog.OK )
+			{
+				namespace = (String) dialog.getResult( );
+			}
+			else
+			{
+				namespace = null;
+			}
 		}
-		return fileName;
+		return namespace;
 	}
 }
