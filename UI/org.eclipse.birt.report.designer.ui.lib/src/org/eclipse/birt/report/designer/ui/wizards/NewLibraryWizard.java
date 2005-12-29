@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.wizards;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,15 +53,19 @@ public class NewLibraryWizard extends Wizard implements
 		IExecutableExtension
 {
 
-//	private static final String OPENING_FILE_FOR_EDITING = Messages.getString( "NewLibraryWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
-//	private static final String CREATING = Messages.getString( "NewLibraryWizard.text.Creating" ); //$NON-NLS-1$
+	// private static final String OPENING_FILE_FOR_EDITING =
+	// Messages.getString( "NewLibraryWizard.text.OpenFileForEditing" );
+	// //$NON-NLS-1$
+	// private static final String CREATING = Messages.getString(
+	// "NewLibraryWizard.text.Creating" ); //$NON-NLS-1$
 	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages.getString( "NewLibraryWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
 	private static final String NEW_REPORT_FILE_EXTENSION = Messages.getString( "NewLibraryWizard.displayName.NewReportFileExtension" ); //$NON-NLS-1$
 	private static final String NEW_REPORT_FILE_NAME = NEW_REPORT_FILE_NAME_PREFIX
 			+ NEW_REPORT_FILE_EXTENSION;
 	private static final String CREATE_A_NEW_REPORT = Messages.getString( "NewLibraryWizard.text.CreateReport" ); //$NON-NLS-1$
 	private static final String REPORT = Messages.getString( "NewLibraryWizard.title.Report" ); //$NON-NLS-1$
-//	private static final String WIZARDPAGE = Messages.getString( "NewLibraryWizard.title.WizardPage" ); //$NON-NLS-1$
+	// private static final String WIZARDPAGE = Messages.getString(
+	// "NewLibraryWizard.title.WizardPage" ); //$NON-NLS-1$
 	private static final String NEW = Messages.getString( "NewLibraryWizard.title.New" ); //$NON-NLS-1$
 	// private static final String CHOOSE_FROM_TEMPLATE = Messages.getString(
 	// "NewReportWizard.title.Choose" ); //$NON-NLS-1$
@@ -82,7 +87,7 @@ public class NewLibraryWizard extends Wizard implements
 	 */
 	public boolean performFinish( )
 	{
-		return newLibraryFileWizardPage.performFinish();
+		return newLibraryFileWizardPage.performFinish( );
 	}
 
 	/*
@@ -94,30 +99,31 @@ public class NewLibraryWizard extends Wizard implements
 	public void init( IWorkbench workbench, IStructuredSelection selection )
 	{
 		// check existing open project
-//		IWorkspaceRoot root = ResourcesPlugin.getWorkspace( ).getRoot( );
-//		IProject projects[] = root.getProjects( );
-//		boolean foundOpenProject = false;
-//		for ( int i = 0; i < projects.length; i++ )
-//		{
-//			if ( projects[i].isOpen( ) )
-//			{
-//				foundOpenProject = true;
-//				break;
-//			}
-//		}
-//		if ( !foundOpenProject )
-//		{
-//			MessageDialog.openError( getShell( ),
-//					Messages.getString( "NewReportWizard.title.Error" ), //$NON-NLS-1$
-//					Messages.getString( "NewReportWizard.error.NoProject" ) ); //$NON-NLS-1$
-//
-//			// abort wizard. There is no clean way to do it.
-//			/**
-//			 * Remove the exception here 'cause It's safe since the wizard won't
-//			 * create any file without an open project.
-//			 */
-//			// throw new RuntimeException( );
-//		}
+		// IWorkspaceRoot root = ResourcesPlugin.getWorkspace( ).getRoot( );
+		// IProject projects[] = root.getProjects( );
+		// boolean foundOpenProject = false;
+		// for ( int i = 0; i < projects.length; i++ )
+		// {
+		// if ( projects[i].isOpen( ) )
+		// {
+		// foundOpenProject = true;
+		// break;
+		// }
+		// }
+		// if ( !foundOpenProject )
+		// {
+		// MessageDialog.openError( getShell( ),
+		// Messages.getString( "NewReportWizard.title.Error" ), //$NON-NLS-1$
+		// Messages.getString( "NewReportWizard.error.NoProject" ) );
+		// //$NON-NLS-1$
+		//
+		// // abort wizard. There is no clean way to do it.
+		// /**
+		// * Remove the exception here 'cause It's safe since the wizard won't
+		// * create any file without an open project.
+		// */
+		// // throw new RuntimeException( );
+		// }
 		// OK
 		this.selection = selection;
 		setWindowTitle( NEW );
@@ -228,41 +234,66 @@ public class NewLibraryWizard extends Wizard implements
 		IProject[] pjs = ResourcesPlugin.getWorkspace( )
 				.getRoot( )
 				.getProjects( );
-
-		resetUniqueCount( );
-
-		boolean goon = true;
-
-		while ( goon )
+		if ( pjs.length != 0 )
 		{
-			goon = false;
+			resetUniqueCount( );
 
-			for ( int i = 0; i < pjs.length; i++ )
+			boolean goon = true;
+
+			while ( goon )
 			{
-				if ( pjs[i].isAccessible( ) )
+				goon = false;
+
+				for ( int i = 0; i < pjs.length; i++ )
 				{
-					if ( !validDuplicate( NEW_REPORT_FILE_NAME_PREFIX,
-							NEW_REPORT_FILE_EXTENSION,
-							UNIQUE_COUNTER,
-							pjs[i] ) )
+					if ( pjs[i].isAccessible( ) )
 					{
-						UNIQUE_COUNTER++;
+						if ( !validDuplicate( NEW_REPORT_FILE_NAME_PREFIX,
+								NEW_REPORT_FILE_EXTENSION,
+								UNIQUE_COUNTER,
+								pjs[i] ) )
+						{
+							UNIQUE_COUNTER++;
 
-						goon = true;
+							goon = true;
 
-						break;
+							break;
+						}
 					}
 				}
 			}
-		}
 
-		if ( UNIQUE_COUNTER == 0 )
+			if ( UNIQUE_COUNTER == 0 )
+			{
+				return NEW_REPORT_FILE_NAME;
+			}
+			return NEW_REPORT_FILE_NAME_PREFIX + "_" //$NON-NLS-1$
+					+ UNIQUE_COUNTER + NEW_REPORT_FILE_EXTENSION; //$NON-NLS-1$
+		}
+		else
 		{
-			return NEW_REPORT_FILE_NAME;
-		}
-		return NEW_REPORT_FILE_NAME_PREFIX + "_" //$NON-NLS-1$
-				+ UNIQUE_COUNTER + NEW_REPORT_FILE_EXTENSION; //$NON-NLS-1$
+			String extension = NEW_REPORT_FILE_EXTENSION;
+			String path = Platform.getLocation( ).toOSString();
+			String name = NEW_REPORT_FILE_NAME_PREFIX + NEW_REPORT_FILE_EXTENSION;
 
+			int count = 0;
+
+			File file;
+
+			file = new File( path, name );
+
+			while ( file.exists( ) )
+			{
+				count++;
+				name = NEW_REPORT_FILE_NAME_PREFIX + "_" + count + NEW_REPORT_FILE_EXTENSION; //$NON-NLS-1$
+				file = null;
+				file = new File( path, name );
+			}
+
+			file = null;
+
+			return name;
+		}
 	}
 
 	private static final List tmpList = new ArrayList( );
@@ -350,7 +381,7 @@ public class NewLibraryWizard extends Wizard implements
 	{
 		return configElement;
 	}
-	
+
 	public IStructuredSelection getSelection( )
 	{
 		return selection;
