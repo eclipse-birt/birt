@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.CellHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
+import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.core.model.views.outline.EmbeddedImageNode;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -528,7 +529,8 @@ public class DNDUtil
 				|| selection instanceof StyleHandle
 				|| selection instanceof ThemeHandle
 				|| selection instanceof EmbeddedImageHandle
-				|| selection instanceof TemplateElementHandle;
+				|| selection instanceof TemplateElementHandle
+				|| selection instanceof DataSetItemModel;
 	}
 
 	/**
