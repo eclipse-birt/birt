@@ -1643,7 +1643,7 @@
 	    <Argument name="object" tagID="Element.ReportDesign.initialize.object" type="Object"/>
     </Method>  
     <Method context="startup" displayNameID="Element.ReportDesign.beforeFactory" name="beforeFactory" since="1.0" toolTipID="Element.ReportDesign.beforeFactory.toolTip">
-      <Argument name="handle" tagID="Element.ReportDesign.beforeFactory.handle" type="org.eclipse.birt.report.engine.api.script.element.IReportElement"/>
+      <Argument name="handle" tagID="Element.ReportDesign.beforeFactory.handle" type="org.eclipse.birt.report.engine.api.script.element.IReportDesign"/>
       <Argument name="reportContext" tagID="Element.ReportDesign.beforeFactory.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="object" tagID="Element.ReportDesign.beforeFactory.object" type="Object"/>
     </Method>
