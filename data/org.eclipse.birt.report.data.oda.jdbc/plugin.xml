@@ -60,7 +60,7 @@
                      isEncryptable="true"
                      type="string"
                      canInherit="true"
-                     defaultDisplayName="datasource.property.odaPassword"
+                     defaultDisplayName="%datasource.property.odaPassword"
                      name="odaPassword"/>
             </propertyGroup>
             <propertyVisibility name="odaDataSource" visibility="hide"/>
