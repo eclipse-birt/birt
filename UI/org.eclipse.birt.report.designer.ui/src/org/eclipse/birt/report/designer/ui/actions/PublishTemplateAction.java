@@ -27,6 +27,8 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -157,9 +159,34 @@ class PublishTemplateWizard extends Wizard
 				.getReportDesignHandle( )
 				.getFileName( );
 		String fileName = filePath.substring( filePath.lastIndexOf( File.separator ) );
+		String targetPath = templateFolderPath + fileName;
+		int overwrite = 0;
 		try
 		{
-			copyFile( filePath, templateFolderPath + fileName );
+			if ( new File( targetPath ).exists( ) )
+			{
+				String[] buttons = new String[]{
+						IDialogConstants.YES_LABEL,
+						IDialogConstants.NO_LABEL,
+						IDialogConstants.CANCEL_LABEL
+				};
+				String question = Messages.getFormattedString( "SaveAsDialog.overwriteQuestion", //$NON-NLS-1$
+						new Object[]{
+							targetPath
+						} );
+				MessageDialog d = new MessageDialog( getShell( ),
+						Messages.getString( "SaveAsDialog.Question" ), //$NON-NLS-1$
+						null,
+						question,
+						MessageDialog.QUESTION,
+						buttons,
+						0 );
+				overwrite = d.open( );
+			}
+			if ( overwrite == 0 )
+			{
+				copyFile( filePath, templateFolderPath + fileName );
+			}
 		}
 		catch ( IOException e )
 		{
@@ -185,7 +212,7 @@ class PublishTemplateWizard extends Wizard
 			ExceptionHandler.handle( e );
 			return false;
 		}
-		return true;
+		return overwrite != 1;
 	}
 
 	/**
