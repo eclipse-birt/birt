@@ -11,15 +11,19 @@
 
 package org.eclipse.birt.report.tests.engine;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
 import junit.framework.TestCase;
 
 import org.eclipse.birt.report.engine.api.*;
+import org.eclipse.core.runtime.Platform;	//keep it wei 2005-12-29
 
-
-import org.eclipse.core.runtime.Platform;
+//import org.eclipse.core.runtime.Platform;
 
 
 public abstract class EngineCase extends TestCase {
@@ -34,14 +38,25 @@ public abstract class EngineCase extends TestCase {
 	/*
 	 *  The plugin location   
 	 */
-	protected static final String PLUGINLOC = Platform.getBundle(PLUGIN_NAME).getLocation();
-	/* old
-	protected static final String PLUGIN_PATH = System.getProperty("user.dir")+ "\\plugins\\" 
-                                                    +PLUGINLOC.substring(
- 		                                                   PLUGINLOC.indexOf("/")+1);
-	*/
-	protected static final String PLUGIN_PATH =PLUGINLOC.substring(PLUGINLOC.indexOf("/")+1);
+//	protected static final String PLUGINLOC = Platform.getBundle(PLUGIN_NAME).getLocation();
+	protected static final String PLUGINLOC = "/org.eclipse.birt.report.tests.engine/";	
 	
+//	protected static final String PLUGIN_PATH = System.getProperty("user.dir")+ "/plugins/" 
+//                                                    +PLUGINLOC.substring(
+// 		                                                   PLUGINLOC.indexOf("/")+1);
+	protected static final String PLUGIN_PATH = System.getProperty("user.dir")+"/bin/";
+
+	
+//	protected static final String PLUGIN_PATH = "D:/BirtAPI/org.eclipse.birt.report.tests.engine/bin/";
+	
+	protected static final String OUTPUT_FOLDER = "output";
+	protected static final String INPUT_FOLDER = "input";
+	protected static final String GOLDEN_FOLDER = "golden";
+	
+	
+	/* 
+	protected static final String PLUGIN_PATH =PLUGINLOC.substring(PLUGINLOC.indexOf("/")+1);
+	*/
 	public static void main(String[] args) {
 		junit.awtui.TestRunner.run(EngineCase.class);
 	}
@@ -93,6 +108,71 @@ public abstract class EngineCase extends TestCase {
 		
 		args = (String[])runArgs.toArray(new String[runArgs.size()]);
 		ReportRunner.main(args);
+	}
+
+	/*
+	 * Add below three methods to test RunTask
+	 */
+	public void copyStream( String src, String tgt )
+	{
+		InputStream in = getClass( ).getClassLoader( )
+				.getResourceAsStream( src );
+		assertTrue( in != null );
+		try
+		{
+			int size = in.available( );
+			byte[] buffer = new byte[size];
+			in.read( buffer );
+			OutputStream out = new FileOutputStream( tgt );
+			out.write( buffer );
+			out.close( );
+			in.close( );
+		}
+		catch ( Exception ex )
+		{
+			ex.printStackTrace( );
+			fail( );
+		}
+	}
+
+	public void removeFile( File file )
+	{
+		if ( file.isDirectory( ) )
+		{
+			File[] children = file.listFiles( );
+			for ( int i = 0; i < children.length; i++ )
+			{
+				removeFile( children[i] );
+			}
+		}
+		if ( file.exists( ) )
+		{
+			if (!file.delete( ) )
+			{
+				System.out.println(file.toString()  + " can't be removed");
+			}
+		}
+	}
+
+	public void removeFile( String file )
+	{
+		removeFile( new File( file ) );
+	}
+	
+	/**
+	 * Locates the folder where the unit test java source file is saved.
+	 * 
+	 * @return the path where the test java source file locates.
+	 */
+	protected String getBaseFolder( )
+	{
+		
+		String className = getClass( ).getName( );
+		int lastDotIndex = className.lastIndexOf( "." );
+		className = className.substring( 0, lastDotIndex );
+		String path=PLUGIN_PATH+className.replace( '.', '/' );
+		//File folder = new File(className.replace( '.', '/' ), INPUT_FOLDER );
+		return path;
 	}
 	
 	
