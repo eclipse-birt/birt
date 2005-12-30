@@ -72,34 +72,34 @@ public interface IReportContext
 	 * Add the object to runtime scope. This object can only be retrieved in the
 	 * same phase, i.e. it is not persisted between generation and presentation.
 	 */
-	void addToTask( String name, Object obj );
+	void setGlobalVariable( String name, Object obj );
 
 	/**
 	 * Remove an object from runtime scope.
 	 */
-	void removeFromTask( String name );
+	void deleteGlobalVariable( String name );
 
 	/**
 	 * Retireve an object from runtime scope.
 	 */
-	Object getFromTask( String name );
+	Object getGlobalVariable( String name );
 
 	/**
 	 * Add the object to report document scope. This object can be retrieved
 	 * later. It is persisted between phases, i.e. between generation and
 	 * presentation.
 	 */
-	void addToDocument( String name, Serializable obj );
+	void setPersistentGlobalVariable( String name, Serializable obj );
 
 	/**
 	 * Remove an object from report document scope.
 	 */
-	void removeFromDocument( String name );
+	void deletePersistentGlobalVariable( String name );
 
 	/**
 	 * Retireve an object from report document scope.
 	 */
-	Object getFromDocument( String name );
+	Object getPersistentGlobalVariable( String name );
 
 	/**
 	 * Finds user-defined messages for the current thread's locale.

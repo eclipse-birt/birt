@@ -42,32 +42,32 @@ public class ReportContextImpl implements IReportContext
 		context.setAppContext( appContext );
 	}
 
-	public void addToTask( String name, Object obj )
+	public void setGlobalVariable( String name, Object obj )
 	{
 		context.registerBean( name, obj );
 	}
 
-	public void removeFromTask( String name )
+	public void deleteGlobalVariable( String name )
 	{
 		context.registerBean( name, null );
 	}
 
-	public Object getFromTask( String name )
+	public Object getGlobalVariable( String name )
 	{
 		return context.getBeans( ).get( name );
 	}
 
-	public void addToDocument( String name, Serializable obj )
+	public void setPersistentGlobalVariable( String name, Serializable obj )
 	{
 		context.registerGlobalBean( name, obj );
 	}
 
-	public void removeFromDocument( String name )
+	public void deletePersistentGlobalVariable( String name )
 	{
 		context.unregisterGlobalBean( name );
 	}
 
-	public Object getFromDocument( String name )
+	public Object getPersistentGlobalVariable( String name )
 	{
 		return context.getGlobalBeans( ).get( name );
 	}
