@@ -3082,7 +3082,7 @@ public abstract class DesignElement
 		// if the canContain is check for create template, then jump the slot
 		// count check for the operation won't change the content count, it is a
 		// replace operation.
-		
+
 		String name = defn.getName( );
 		if ( ReportDesignConstants.TEMPLATE_DATA_SET.equals( name )
 				|| ReportDesignConstants.TEMPLATE_REPORT_ITEM.equals( name )
@@ -3866,7 +3866,8 @@ public abstract class DesignElement
 
 	public boolean canTransformToTemplate( Module module )
 	{
-		if ( ( !canDrop( ) ) || ( isContainTamplateElement( ) ) )
+		if ( this instanceof TemplateElement || ( !canDrop( ) )
+				|| ( isContainTamplateElement( ) ) )
 			return false;
 
 		IElementDefn templateReportItem = MetaDataDictionary.getInstance( )

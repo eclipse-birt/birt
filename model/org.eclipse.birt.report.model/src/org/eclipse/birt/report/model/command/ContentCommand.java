@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -1047,7 +1048,8 @@ public class ContentCommand extends AbstractElementCommand
 					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_FOUND );
 
 		// Can not drop a virtual element.
-		if ( !oldElement.canTransformToTemplate( module ) )
+		if ( !( oldElement instanceof TemplateElement )
+				&& !oldElement.canTransformToTemplate( module ) )
 			throw new ContentException(
 					element,
 					slotID,
