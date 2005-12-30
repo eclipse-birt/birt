@@ -78,6 +78,8 @@ public class MasterPageEditPart extends ReportElementEditPart
 			case NotificationEvent.ELEMENT_DELETE_EVENT :
 			case NotificationEvent.PROPERTY_EVENT :
 			case NotificationEvent.STYLE_EVENT :
+			case NotificationEvent.THEME_EVENT:
+			case NotificationEvent.TEMPLATE_TRANSFORM_EVENT :
 			{
 				markDirty( true );
 				refresh( );
