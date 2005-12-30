@@ -56,21 +56,17 @@ public class RevertToReportItemAction extends AbstractElementAction
 		{
 			return false;
 		}
-
-		if ( getSelectedElement( ) instanceof TemplateReportItemHandle
-				&& ( (TemplateReportItemHandle) getSelectedElement( ) ).canTransformToTemplate( ) )
+		if ( getSelectedElement( ).isTemplateParameterValue( ) )
 		{
-			return ProviderFactory.createProvider( getSelectedElement( ) )
-					.performRequest( getSelectedElement( ),
-							new Request( IRequestConstants.REQUEST_TRANSFER_PLACEHOLDER ) );
-		}
-		// else revert
-		else if ( getSelectedElement( ).isTemplateParameterValue( ) )
-		{
+			if ( getSelectedElement( ) instanceof TemplateReportItemHandle )
+			{
+				return ProviderFactory.createProvider( getSelectedElement( ) )
+						.performRequest( getSelectedElement( ),
+								new Request( IRequestConstants.REQUEST_TRANSFER_PLACEHOLDER ) );
+			}
 			return ProviderFactory.createProvider( getSelectedElement( ) )
 					.performRequest( getSelectedElement( ),
 							new Request( IRequestConstants.REQUST_REVERT_TO_REPORTITEM ) );
-			
 		}
 		return false;
 	}
@@ -107,12 +103,7 @@ public class RevertToReportItemAction extends AbstractElementAction
 		{
 			return false;
 		}
-
 		return super.isEnabled( )
-				&& ( ( getSelectedElement( ) instanceof TemplateReportItemHandle && ( (TemplateReportItemHandle) getSelectedElement( ) ).canTransformToTemplate( ) ) 
-						|| ( getSelectedElement( ).isTemplateParameterValue( ) )
-
-				);
+				&& ( getSelectedElement( ).isTemplateParameterValue( ) );
 	}
-
 }
