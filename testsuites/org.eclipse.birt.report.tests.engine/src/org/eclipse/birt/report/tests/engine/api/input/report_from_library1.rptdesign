@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 1.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20051213-0749></property>
+    <property name="units">in</property>
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">/library1.rptlibrary</property>
+            <property name="namespace">library1</property>
+        </structure>
+    </list-property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="4" extends="library1.label1"/>
+        <data id="5" extends="library1.data1"/>
+        <text id="6" extends="library1.text1"/>
+        <text id="7" extends="library1.text2"/>
+        <image id="8" extends="library1.image1"/>
+        <text-data id="9" extends="library1.dtext">
+            <expression name="valueExpr">"new Date()"</expression>
+        </text-data>
+        <grid id="10" extends="library1.grid"/>
+    </body>
+</report>

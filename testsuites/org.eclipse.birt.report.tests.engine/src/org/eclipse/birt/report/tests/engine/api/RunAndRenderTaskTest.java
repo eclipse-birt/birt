@@ -45,8 +45,13 @@ public class RunAndRenderTaskTest extends EngineCase {
 		ReportEngine engine=new ReportEngine(config);
 		
 		//run reports
-		String input = PLUGIN_PATH + RESOURCE_BUNDLE.getString("CASE_INPUT");
+/*		String input = PLUGIN_PATH + RESOURCE_BUNDLE.getString("CASE_INPUT");
 		input += System.getProperty("file.separator") + "api.rptdesign";
+*/
+		String input=getBaseFolder()+System.getProperty("file.separator")
+						+ INPUT_FOLDER+System.getProperty("file.separator")
+						+"report_engine.rptdesign";
+
 		try{
 			IReportRunnable runnable=engine.openReportDesign(new FileInputStream(new File(input)));
 			RunAndRenderTask task=new RunAndRenderTask(engine,runnable);

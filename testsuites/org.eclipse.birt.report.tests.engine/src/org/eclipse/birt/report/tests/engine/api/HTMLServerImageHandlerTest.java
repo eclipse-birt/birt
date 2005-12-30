@@ -49,10 +49,15 @@ public class HTMLServerImageHandlerTest extends EngineCase {
 	public void testOnDesignImage(){
 		try{
 			//Get embedded image byte array
-			String plug_path=EngineCase.PLUGIN_PATH;
+/*			String plug_path=EngineCase.PLUGIN_PATH;
 			String file_path=EngineCase.RESOURCE_BUNDLE.getString("CASE_INPUT")
 						+System.getProperty("file.separator")+"EmbedImage.txt";
 			String path=plug_path+System.getProperty("file.separator")+file_path;
+*/
+			String path=getBaseFolder()+System.getProperty("file.separator")
+			+ INPUT_FOLDER+System.getProperty("file.separator")
+			+"EmbedImage.txt";
+			
 			File imageFile=new File(path);
 			long size=imageFile.length();
 			InputStream is = new BufferedInputStream(new FileInputStream(imageFile));		    
@@ -114,10 +119,15 @@ public class HTMLServerImageHandlerTest extends EngineCase {
 	public void testOnCustomImage(){
 		try{
 			//Get embedded image byte array
-			String plug_path=EngineCase.PLUGIN_PATH;
+/*			String plug_path=EngineCase.PLUGIN_PATH;
 			String file_path=EngineCase.RESOURCE_BUNDLE.getString("CASE_INPUT")
 						+System.getProperty("file.separator")+"EmbedImage.txt";
 			String path=plug_path+System.getProperty("file.separator")+file_path;
+*/
+			String path=getBaseFolder()+System.getProperty("file.separator")
+			+ INPUT_FOLDER+System.getProperty("file.separator")
+			+"EmbedImage.txt";
+			
 			File imageFile=new File(path);
 			long size=imageFile.length();
 			InputStream is = new BufferedInputStream(new FileInputStream(imageFile));		    

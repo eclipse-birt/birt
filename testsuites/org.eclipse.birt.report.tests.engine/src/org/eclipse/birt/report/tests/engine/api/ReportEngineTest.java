@@ -66,9 +66,14 @@ public class ReportEngineTest extends EngineCase {
 		IReportRunnable reportRunner;
 		config.setTempDir("tempdir");
 		ReportEngine engine=new ReportEngine(config);
-		String input = PLUGIN_PATH+System.getProperty("file.separator")+RESOURCE_BUNDLE.getString("CASE_INPUT");
+/*		String input = PLUGIN_PATH+System.getProperty("file.separator")+RESOURCE_BUNDLE.getString("CASE_INPUT");
 		input += System.getProperty("file.separator") ;
 		String designName=input+"report_engine.rptdesign";
+*/
+		String designName=getBaseFolder()+System.getProperty("file.separator")
+		+ INPUT_FOLDER+System.getProperty("file.separator")
+		+"report_engine.rptdesign";
+		
 		try{
 			reportRunner=engine.openReportDesign(designName);
 			assertEquals("openReportDesign(String) fail",designName, reportRunner.getReportName());
@@ -90,9 +95,14 @@ public class ReportEngineTest extends EngineCase {
 		IReportRunnable reportRunner;
 		config.setTempDir("tempdir");
 		ReportEngine engine=new ReportEngine(config);
-		String input = PLUGIN_PATH+System.getProperty("file.separator")+RESOURCE_BUNDLE.getString("CASE_INPUT");
+/*		String input = PLUGIN_PATH+System.getProperty("file.separator")+RESOURCE_BUNDLE.getString("CASE_INPUT");
 		input += System.getProperty("file.separator") ;
 		String designName=input+"report_engine.rptdesign";
+*/		
+
+		String designName=getBaseFolder()+System.getProperty("file.separator")
+		+ INPUT_FOLDER+System.getProperty("file.separator")
+		+"report_engine.rptdesign";
 		
 		try{
 			File file=new File(designName);
@@ -116,9 +126,15 @@ public class ReportEngineTest extends EngineCase {
 		EngineConfig config=new EngineConfig();
 		IReportRunnable reportRunner;
 		ReportEngine engine=new ReportEngine(config);
-		String input = PLUGIN_PATH+System.getProperty("file.separator")+RESOURCE_BUNDLE.getString("CASE_INPUT");
+/*		String input = PLUGIN_PATH+System.getProperty("file.separator")+RESOURCE_BUNDLE.getString("CASE_INPUT");
 		input += System.getProperty("file.separator") ;
 		String designName=input+"parameter.rptdesign";
+*/
+		String designName=getBaseFolder()+System.getProperty("file.separator")
+		+ INPUT_FOLDER+System.getProperty("file.separator")
+		+"parameter.rptdesign";
+		
+		
 		try{
 			reportRunner=engine.openReportDesign(designName);
 			IGetParameterDefinitionTask getParamTask=engine.createGetParameterDefinitionTask(reportRunner);
