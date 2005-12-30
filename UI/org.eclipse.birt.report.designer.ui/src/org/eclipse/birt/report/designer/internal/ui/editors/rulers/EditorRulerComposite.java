@@ -92,6 +92,7 @@ public class EditorRulerComposite extends Composite
 	private boolean layingOut = false;
 	private boolean isRulerVisible = true;
 	private boolean needToLayout = false;
+	private ModuleHandle handle;
 
 	private ZoomListener zoomListener = new ZoomListener( )
 	{
@@ -215,7 +216,7 @@ public class EditorRulerComposite extends Composite
 		( (GraphicalEditPart) viewer.getRootEditPart( ) ).getFigure( )
 				.setBorder( new RulerBorder( isHorizontal ) );
 		viewer.setProperty( GraphicalViewer.class.toString( ), diagramViewer );
-
+		
 		// Configure the viewer's control
 		FigureCanvas canvas = (FigureCanvas) viewer.getControl( );
 		canvas.setScrollBarVisibility( FigureCanvas.NEVER );
@@ -231,13 +232,13 @@ public class EditorRulerComposite extends Composite
 		canvas.setFont( font );
 		if ( isHorizontal )
 		{
-			canvas.getViewport( ).setHorizontalRangeModel(
-					editor.getViewport( ).getHorizontalRangeModel( ) );
+			canvas.getViewport( ).setHorizontalRangeModel(new RulerDefaultRangeModel(
+					editor.getViewport( ).getHorizontalRangeModel( ) ));
 		}
 		else
 		{
-			canvas.getViewport( ).setVerticalRangeModel(
-					editor.getViewport( ).getVerticalRangeModel( ) );
+			canvas.getViewport( ).setVerticalRangeModel(new RulerDefaultRangeModel(
+					editor.getViewport( ).getVerticalRangeModel( ) ));
 		}
 
 		// Add the viewer to the rulerEditDomain
@@ -254,8 +255,15 @@ public class EditorRulerComposite extends Composite
 
 	private void disposeResources( )
 	{
+		left = null;
+		top = null;
+		editor = null;
 		if ( diagramViewer != null )
+		{
 			diagramViewer.removePropertyChangeListener( propertyListener );
+			diagramViewer.setProperty(RulerProvider.PROPERTY_HORIZONTAL_RULER, null);
+			diagramViewer.setProperty(RulerProvider.PROPERTY_VERTICAL_RULER, null);
+		}
 		getZoomManager( ).removeZoomListener( zoomListener );
 		if ( font != null )
 			font.dispose( );
@@ -267,9 +275,7 @@ public class EditorRulerComposite extends Composite
 		{
 			getMasterPageHandle( ).removeListener( designListener );
 		}
-		// layoutListener is not being removed from the scroll bars because they
-		// are already
-		// disposed at this point.
+		rulerEditDomain = null;
 	}
 
 	private void disposeRulerViewer( GraphicalViewer viewer )
@@ -284,8 +290,8 @@ public class EditorRulerComposite extends Composite
 
 		RangeModel rModel = new DefaultRangeModel( );
 		Viewport port = ( (FigureCanvas) viewer.getControl( ) ).getViewport( );
-		port.setHorizontalRangeModel( rModel );
-		port.setVerticalRangeModel( rModel );
+		port.setHorizontalRangeModel( new RulerDefaultRangeModel(rModel) );
+		port.setVerticalRangeModel( new RulerDefaultRangeModel(rModel) );
 		rulerEditDomain.removeViewer( viewer );
 		viewer.getControl( ).dispose( );
 	}
@@ -835,12 +841,16 @@ public class EditorRulerComposite extends Composite
 
 	private MasterPageHandle getMasterPageHandle( )
 	{
-		return SessionHandleAdapter.getInstance( ).getMasterPageHandle( );
+		return SessionHandleAdapter.getInstance( ).getMasterPageHandle(getReportDesignHandle() );
 	}
 
 	private ModuleHandle getReportDesignHandle( )
 	{
-		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+		if (handle == null)
+		{
+			handle = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+		}
+		return handle;
 	}
 
 	private int getUnitFromDesign( String name )
@@ -939,7 +949,6 @@ public class EditorRulerComposite extends Composite
 		public RulerViewer( )
 		{
 			super( );
-			init( );
 		}
 
 		/**

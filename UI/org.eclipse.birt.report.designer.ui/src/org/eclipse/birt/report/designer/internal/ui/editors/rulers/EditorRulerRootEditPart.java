@@ -57,6 +57,14 @@ public class EditorRulerRootEditPart extends AbstractGraphicalEditPart
 		horizontal = isHorzontal;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.EditPart#deactivate()
+	 */
+	public void deactivate( )
+	{	
+		super.deactivate( );
+		((RulerViewport)getFigure()).dispose();
+	}
 	/**
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#addChildVisual(org.eclipse.gef.EditPart,
 	 *      int)
@@ -344,6 +352,21 @@ public class EditorRulerRootEditPart extends AbstractGraphicalEditPart
 		{
 			return true;
 		}
+		
+		/**
+		 * Dispose the RangeModel.
+		 */
+		public void dispose( )
+		{
+			if (getHorizontalRangeModel() instanceof RulerDefaultRangeModel)
+			{
+				((RulerDefaultRangeModel)getHorizontalRangeModel()).dispose();
+			}
+			if (getVerticalRangeModel() instanceof RulerDefaultRangeModel)
+			{
+				((RulerDefaultRangeModel)getVerticalRangeModel()).dispose();
+			}	
+		}	
 	}
 
 }
