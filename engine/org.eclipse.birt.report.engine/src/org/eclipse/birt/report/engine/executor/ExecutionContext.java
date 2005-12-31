@@ -46,8 +46,6 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
-import org.eclipse.birt.report.engine.api.script.element.IReport;
-import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.data.DataEngineFactory;
@@ -812,21 +810,15 @@ public class ExecutionContext {
 	 * 
 	 * 
 	 */
-	private class ReportObject implements IReport {
+	private class ReportObject {
 
 		/**
 		 * get the report design handle
 		 * 
 		 * @return report design object.
 		 */
-		public IReportDesign getDesign() 
-		{
-			Object design = scriptContext.eval("design");
-			if(design instanceof IReportDesign)
-			{
-				return (IReportDesign)design;
-			}
-			return null;
+		public Object getDesign() {
+			return scriptContext.eval("design");
 		}
 
 		/**
