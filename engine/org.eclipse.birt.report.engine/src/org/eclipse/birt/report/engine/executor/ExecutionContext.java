@@ -46,6 +46,8 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.element.IReport;
+import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.data.DataEngineFactory;
@@ -68,7 +70,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.52 $ $Date: 2005/12/27 03:21:50 $
+ * @version $Revision: 1.53 $ $Date: 2005/12/27 10:22:14 $
  */
 public class ExecutionContext {
 
@@ -810,15 +812,21 @@ public class ExecutionContext {
 	 * 
 	 * 
 	 */
-	private class ReportObject {
+	private class ReportObject implements IReport {
 
 		/**
 		 * get the report design handle
 		 * 
 		 * @return report design object.
 		 */
-		public Object getDesign() {
-			return scriptContext.eval("design");
+		public IReportDesign getDesign() 
+		{
+			Object design = scriptContext.eval("design");
+			if(design instanceof IReportDesign)
+			{
+				return (IReportDesign)design;
+			}
+			return null;
 		}
 
 		/**
