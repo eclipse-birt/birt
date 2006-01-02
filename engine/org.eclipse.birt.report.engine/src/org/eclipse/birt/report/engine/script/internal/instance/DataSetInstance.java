@@ -92,7 +92,7 @@ public class DataSetInstance implements IDataSetInstance
 		if ( s == null )
 			s = new HashSet( );
 		s.add( value );
-		m.put( name, value );
+		m.put( name, s );
 	}
 
 	public Map getExtensionProperties( )
