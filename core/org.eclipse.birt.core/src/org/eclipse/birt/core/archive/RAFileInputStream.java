@@ -80,7 +80,7 @@ public class RAFileInputStream extends RAInputStream
 	{
 		long parentPos = localPosToGlobalPos(cur);
 		long avaliableSize = endPos - parentPos;
-		if ( avaliableSize >= 0)
+		if ( avaliableSize > 0)
 		{
 			if (len > avaliableSize)
 			{
