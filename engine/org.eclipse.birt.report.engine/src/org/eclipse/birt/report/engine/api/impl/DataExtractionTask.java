@@ -170,7 +170,7 @@ public class DataExtractionTask extends EngineTask
 				assert queryResults.getResultIterator() != null;
 				
 				currentResult = new ExtractionResults( queryResults.getResultIterator() 
-						, selectedColumns, query.getRowExpressions() );
+						, selectedColumns, getScriptExpressions( query.getRowExpressions()) );
 				resultMetaList.add( currentResult.getResultMetaData() );
 				return currentResult;
 				
@@ -210,7 +210,7 @@ public class DataExtractionTask extends EngineTask
 						.getQueryName( ), executionContext.getScope( ) );
 				
 				currentResult = new ExtractionResults( subIter, 
-						selectedColumns, query.getRowExpressions() );
+						selectedColumns, getScriptExpressions (query.getRowExpressions( )) );
 				
 				resultMetaList.add( currentResult.getResultMetaData());
 				return currentResult;
@@ -229,7 +229,7 @@ public class DataExtractionTask extends EngineTask
 	{
 		assert query != null;
 
-		Collection exprs = query.getRowExpressions( );
+		Collection exprs = getScriptExpressions ( query.getRowExpressions( ) );
 
 		if ( selectedColumns != null )
 		{
@@ -239,21 +239,8 @@ public class DataExtractionTask extends EngineTask
 				Iterator iter = exprs.iterator( );
 				while ( iter.hasNext( ) )
 				{
-					IBaseExpression expr = (IBaseExpression) iter.next( );
-					String exprText = null;
-					if ( expr instanceof IConditionalExpression )
-					{
-						IConditionalExpression condExpr = ( IConditionalExpression ) expr;
-						exprText = DataIterator.getConditionalExpressionText( condExpr );
-					}
-					else if ( expr instanceof IScriptExpression )
-					{
-						exprText = (( IScriptExpression ) expr).getText( );
-					}
-					
-					assert exprText != null;
-					
-					if ( exprText.equalsIgnoreCase( selectedColumns[i] ) )
+					IScriptExpression expr = (IScriptExpression) iter.next( );
+					if ( expr.getText( ).equalsIgnoreCase( selectedColumns[i] ) )
 					{
 						findColumn = true;
 						break;
@@ -278,20 +265,38 @@ public class DataExtractionTask extends EngineTask
 				
 				for ( int i = 0; i < selectedColumns.length; i++ )
 				{
-					IBaseExpression expr = (IBaseExpression) iter.next( );
-					if ( expr instanceof IConditionalExpression )
-					{
-						IConditionalExpression condExpr = (IConditionalExpression) expr;
-						selectedColumns[i] = DataIterator.getConditionalExpressionText( condExpr );
-					}
-					else if ( expr instanceof IScriptExpression )
-					{
-						IScriptExpression scriptExpr = (IScriptExpression) expr;
-						selectedColumns[i] = scriptExpr.getText( );
-					}
+					IScriptExpression expr = (IScriptExpression) iter.next( );
+					selectedColumns[i] = expr.getText( );
 				}
 			}
 		}
  	}
 
+	/*
+	 * Only ISciptExpression is used as column meta data. 
+	 * The highlight expression will be translated into many 
+	 * duplicated IConditionalExpressions, which cause many duplicated 
+	 * column data be exported.
+	 * reference bugzilla 121863
+	 */
+	private Collection getScriptExpressions ( Collection expressions )
+	{
+		assert expressions != null;
+		if( expressions.size( ) <= 0 )
+		{
+			return null;
+		}
+		
+		ArrayList scriptedExpressions = new ArrayList ( );
+		Iterator iter = expressions.iterator( );
+		while( iter.hasNext( ) )
+		{
+			IBaseExpression baseExpr = ( IBaseExpression )iter.next( );
+			if( baseExpr instanceof IScriptExpression )
+			{
+				scriptedExpressions.add( baseExpr );
+			}
+		}
+		return scriptedExpressions;
+	}
 }

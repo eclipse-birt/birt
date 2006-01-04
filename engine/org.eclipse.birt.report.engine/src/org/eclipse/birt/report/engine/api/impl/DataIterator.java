@@ -61,19 +61,8 @@ public class DataIterator implements IDataIterator
 		Iterator iter = expressions.iterator();
 		while( iter.hasNext() )
 		{
-			IBaseExpression expr = (IBaseExpression)iter.next();
-			String exprText = null;
-			if ( expr instanceof IConditionalExpression )
-			{
-				IConditionalExpression condExpr = ( IConditionalExpression )expr;
-				exprText = getConditionalExpressionText( condExpr );
-			}
-			else
-			{
-				exprText = ((IScriptExpression)expr).getText( );
-			}
-			
-			exprMap.put( exprText, expr );
+			IScriptExpression expr = (IScriptExpression)iter.next();
+			exprMap.put( expr.getText( ), expr );
 		}
 	}
 	
