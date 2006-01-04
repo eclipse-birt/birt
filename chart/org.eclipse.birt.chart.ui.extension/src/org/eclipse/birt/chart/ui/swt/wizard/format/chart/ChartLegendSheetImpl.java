@@ -12,6 +12,7 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 import java.util.List;
 
 import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
@@ -123,17 +124,21 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			cmbBackgroundColor.addListener( this );
 		}
 
-		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartLegendSheetImpl.Label.Value" ) ); //$NON-NLS-1$
-
-		btnShowValue = new Button( cmpBasic, SWT.CHECK );
+		if ( getChart( ).getLegend( ).getItemType( ) == LegendItemType.SERIES_LITERAL )
 		{
-			GridData gridData = new GridData( );
-			gridData.horizontalSpan = 2;
-			btnShowValue.setLayoutData( gridData );
-			btnShowValue.setText( Messages.getString( "ChartLegendSheetImpl.Label.ShowValue" ) ); //$NON-NLS-1$
-			btnShowValue.setToolTipText( Messages.getString( "ChartLegendSheetImpl.Tooltip.ShowDataPointValue" ) ); //$NON-NLS-1$
-			btnShowValue.addSelectionListener( this );
-			btnShowValue.setSelection( getChart( ).getLegend( ).isShowValue( ) );
+			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartLegendSheetImpl.Label.Value" ) ); //$NON-NLS-1$
+			
+			btnShowValue = new Button( cmpBasic, SWT.CHECK );
+			{
+				GridData gridData = new GridData( );
+				gridData.horizontalSpan = 2;
+				btnShowValue.setLayoutData( gridData );
+				btnShowValue.setText( Messages.getString( "ChartLegendSheetImpl.Label.ShowValue" ) ); //$NON-NLS-1$
+				btnShowValue.setToolTipText( Messages.getString( "ChartLegendSheetImpl.Tooltip.ShowDataPointValue" ) ); //$NON-NLS-1$
+				btnShowValue.addSelectionListener( this );
+				btnShowValue.setSelection( getChart( ).getLegend( )
+						.isShowValue( ) );
+			}
 		}
 
 		createButtonGroup( cmpContent );

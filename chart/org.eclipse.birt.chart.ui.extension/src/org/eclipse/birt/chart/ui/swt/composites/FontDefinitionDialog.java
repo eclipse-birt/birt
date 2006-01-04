@@ -240,11 +240,11 @@ public class FontDefinitionDialog
 		cbStrikethru.setSelection( fdCurrent.isSetStrikethrough( )
 				&& fdCurrent.isStrikethrough( ) );
 
-		cbWrap = new Button( cmpFormat, SWT.CHECK );
-		cbWrap.addSelectionListener( this );
-		cbWrap.setText( Messages.getString( "FontDefinitionDialog.Lbl.Wrap" ) ); //$NON-NLS-1$
-		cbWrap.setSelection( fdCurrent.isSetWordWrap( )
-				&& fdCurrent.isWordWrap( ) );
+//		cbWrap = new Button( cmpFormat, SWT.CHECK );
+//		cbWrap.addSelectionListener( this );
+//		cbWrap.setText( Messages.getString( "FontDefinitionDialog.Lbl.Wrap" ) ); //$NON-NLS-1$
+//		cbWrap.setSelection( fdCurrent.isSetWordWrap( )
+//				&& fdCurrent.isWordWrap( ) );
 
 		if ( isAlignmentEnabled )
 		{
