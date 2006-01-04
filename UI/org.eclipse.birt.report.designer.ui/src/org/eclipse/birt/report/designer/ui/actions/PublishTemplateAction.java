@@ -26,6 +26,8 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -160,6 +162,16 @@ class PublishTemplateWizard extends Wizard
 				.getFileName( );
 		String fileName = filePath.substring( filePath.lastIndexOf( File.separator ) );
 		String targetPath = templateFolderPath + fileName;
+
+		if ( ResourcesPlugin.getWorkspace( )
+				.getRoot( )
+				.getFile( new Path( targetPath ) ) != null )
+		{
+			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishTemplateAction.wizard.errorTitle" ),
+					Messages.getString( "PublishTemplateAction.wizard.message" ) );
+			return true;
+		}
+
 		int overwrite = 0;
 		try
 		{
