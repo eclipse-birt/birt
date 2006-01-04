@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
@@ -283,8 +284,28 @@ public class GroupDialog extends BaseDialog
 		new Label( composite, SWT.NONE ).setText( GROUP_DLG_GROUP_KEY_LABEL );
 
 		// Creates group key chooser
-		keyChooser = new Combo( composite, SWT.DROP_DOWN | SWT.READ_ONLY );
+		Composite keyArea = new Composite( composite, SWT.NONE );
+		keyArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		keyArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
+
+		keyChooser = new Combo( keyArea, SWT.DROP_DOWN );
 		keyChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		Button exprButton = new Button( keyArea, SWT.PUSH );
+		exprButton.setText( "..." ); //$NON-NLS-1$
+		exprButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent event )
+			{
+
+				ExpressionBuilder expressionBuilder = new ExpressionBuilder( getKeyExpression( ) );
+				expressionBuilder.setExpressionProvier( new ExpressionProvider( dataSetList ) );
+
+				if ( expressionBuilder.open( ) == OK )
+				{
+					setKeyExpression( expressionBuilder.getResult( ).trim( ) );
+				}
+			}
+		} );
 
 		// Creates intervalRange area
 		Composite intervalArea = new Composite( composite, SWT.NONE );
@@ -436,24 +457,9 @@ public class GroupDialog extends BaseDialog
 		{
 			keyChooser.add( ( (DataSetItemModel) itor.next( ) ).getDisplayName( ) );
 		}
-		String groupKey = inputGroup.getKeyExpr( );
-		int index = -1;
-		if ( groupKey != null )
-		{
-			for ( int i = 0; i < columnList.size( ); i++ )
-			{
-				if ( groupKey.equals( DEUtil.getExpression( columnList.get( i ) ) ) )
-				{
-					index = i;
-					break;
-				}
-			}
-			if ( index != -1 )
-			{
-				keyChooser.select( index );
-			}
-		}
-		index = getIntervalTypeIndex( inputGroup.getInterval( ) );
+		setKeyExpression( inputGroup.getKeyExpr( ) );
+
+		int index = getIntervalTypeIndex( inputGroup.getInterval( ) );
 		intervalType.select( index );
 		if ( index == 0 )
 		{
@@ -524,13 +530,21 @@ public class GroupDialog extends BaseDialog
 		{
 			inputGroup.setName( nameEditor.getText( ) );
 
+			String newToc = UIUtil.convertToModelString( tocEditor.getText( ),
+					true );
+			if ( newToc != inputGroup.getTocExpression( ) )
+			{
+				if ( newToc == null
+						|| !newToc.equals( inputGroup.getTocExpression( ) ) )
+				{
+					inputGroup.setTocExpression( newToc );
+				}
+			}
+			
 			int index = keyChooser.getSelectionIndex( );
 			String oldKey = inputGroup.getKeyExpr( );
-			String newKey = null;
-			if ( index != -1 )
-			{
-				newKey = DEUtil.getExpression( columnList.get( index ) );
-			}
+			String newKey = getKeyExpression( );
+
 			inputGroup.setKeyExpr( newKey );
 			if ( newKey != null && !newKey.equals( oldKey ) )
 			{
@@ -599,9 +613,6 @@ public class GroupDialog extends BaseDialog
 				inputGroup.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
 			}
 
-			inputGroup.setTocExpression( UIUtil.convertToModelString( tocEditor.getText( ),
-					true ) );
-
 		}
 		catch ( SemanticException e )
 		{
@@ -647,5 +658,39 @@ public class GroupDialog extends BaseDialog
 					RowHandle.CONTENT_SLOT );
 		}
 		return handle;
+	}
+
+	private void setKeyExpression( String key )
+	{
+		keyChooser.deselectAll( );
+		if ( StringUtil.isBlank( key ) )
+		{
+			keyChooser.setText( "" );
+
+			return;
+		}
+		for ( int i = 0; i < columnList.size( ); i++ )
+		{
+			if ( key.equals( DEUtil.getExpression( columnList.get( i ) ) ) )
+			{
+				keyChooser.select( i );
+				return;
+			}
+		}
+		keyChooser.setText( key );
+	}
+
+	private String getKeyExpression( )
+	{
+		String exp = null;
+		if ( keyChooser.getSelectionIndex( ) != -1 )
+		{
+			exp = DEUtil.getExpression( columnList.get( keyChooser.getSelectionIndex( ) ) );
+		}
+		else
+		{
+			exp = keyChooser.getText( );
+		}
+		return exp;
 	}
 }
