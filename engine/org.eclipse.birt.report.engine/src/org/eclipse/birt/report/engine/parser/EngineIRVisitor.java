@@ -150,7 +150,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.71 $ $Date: 2005/12/24 02:46:42 $
+ * @version $Revision: 1.72 $ $Date: 2005/12/27 09:02:47 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1047,7 +1047,18 @@ class EngineIRVisitor extends DesignVisitor
 
 		ListBandDesign header = createListBand( handle.getHeader( ) );
 		listGroup.setHeader( header );
-
+		
+		//flatten TOC on group to the first report item in group header
+		String tocExpr = handle.getTocExpression();
+		if(null!=tocExpr && !"".equals(tocExpr)) //$NON-NLS-1$
+		{
+			if(header.getContentCount()>0)
+			{
+				ReportItemDesign item = (ReportItemDesign)header.getContent(0);
+				item.setTOC(new Expression(tocExpr));
+			}
+		}
+		
 		ListBandDesign footer = createListBand( handle.getFooter( ) );
 		listGroup.setFooter( footer );
 
@@ -1069,10 +1080,20 @@ class EngineIRVisitor extends DesignVisitor
 
 		TableBandDesign header = createTableBand( handle.getHeader( ) );
 		tableGroup.setHeader( header );
+		
+		//flatten TOC on group to the first report item in group header
+		String toc = handle.getTocExpression();
+		if(null!=toc && !"".equals(toc)) //$NON-NLS-1$
+		{
+			if(header.getRowCount()>0)
+			{
+				RowDesign row = header.getRow( 0 );
+				row.setTOC(new Expression(toc));
+			}
+		}
 
 		TableBandDesign footer = createTableBand( handle.getFooter( ) );
 		tableGroup.setFooter( footer );
-
 		currentElement = tableGroup;
 	}
 
