@@ -104,7 +104,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double STOP_ANGLE_EDEFAULT = 0.0;
+	protected static final double STOP_ANGLE_EDEFAULT = 180.0;
 
 	/**
 	 * The cached value of the '{@link #getStopAngle() <em>Stop Angle</em>}' attribute.

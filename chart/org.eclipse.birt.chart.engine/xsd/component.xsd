@@ -588,12 +588,12 @@
 			<xsd:documentation>			This type defines the basic elements that are expected in a dial chart. This can further be extended for special dial chart types.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="StartAngle" type="xsd:double" minOccurs="0">
+			<xsd:element name="StartAngle" type="xsd:double" default="0" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation>Specifies the start angle of the dial.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="StopAngle" type="xsd:double" minOccurs="0">
+			<xsd:element name="StopAngle" type="xsd:double" default="180" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation>Specifies the stop angle of the dial.</xsd:documentation>
 				</xsd:annotation>
