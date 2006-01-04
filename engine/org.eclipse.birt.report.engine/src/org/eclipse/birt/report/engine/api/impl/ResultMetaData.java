@@ -44,12 +44,18 @@ public class ResultMetaData implements IResultMetaData
 				try
 				{
 					String colName = resultMeta.getColumnName( j );
-					String newColName = "row[\"" + colName + "\"]"; 
+					if( colName.matches( "\"\\w+\"" ) )
+					{
+						colName = colName.replaceAll("\"", "\\\\\"");
+					}
+					
+					String newColName =  "row[\"" + colName + "\"]";
 					if( selectedColumns[i].equalsIgnoreCase( newColName ) )
 					{
 						if( columnsMap == null )
 							columnsMap = new HashMap( );
 						columnsMap.put( new Integer(i), new Integer(j));
+						break;
 					}
 				}
 				catch (BirtException be)
