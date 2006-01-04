@@ -21,6 +21,7 @@ public class AreaStyle extends AbstractStyle
 	{
 		super(style.engine);
 		this.parent = style.parent;
+		vs.putAll(style.vs);
 	}
 	
 	public AreaStyle()

@@ -71,7 +71,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		String format = executionContext.getOutputFormat( );
 		if ( format == null )
 		{
-			format = "html";
+			format = "html"; //$NON-NLS-1$
 		}
 		ExtensionManager extManager = ExtensionManager.getInstance( );
 		if ( !extManager.getSupportedFormat( ).contains( format ) )
@@ -81,11 +81,21 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			throw new EngineException(
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
 		}
-
-		IContentEmitter emitter = extManager.createEmitter( format, emitterID );
+		IContentEmitter emitter = null;
+		try
+		{
+			emitter = extManager.createEmitter( format, emitterID );
+		}
+		catch(Throwable t)
+		{
+			log.log( Level.SEVERE, "Report engine can not create {0} emitter.", //$NON-NLS-1$
+					format ); // $NON-NLS-1$
+			throw new EngineException(
+					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION, t );
+		}
 		if ( emitter == null )
 		{
-			log.log( Level.SEVERE, "Report engine can not create {0} emitter.",
+			log.log( Level.SEVERE, "Report engine can not create {0} emitter.", //$NON-NLS-1$
 					format ); // $NON-NLS-1$
 			throw new EngineException(
 					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION );
@@ -95,7 +105,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		emitter = new LocalizedEmitter( executionContext, emitter );
 
 		// if we need do the paginate, do the paginate.
-		if ( format.equalsIgnoreCase( "html" ) )
+		if ( format.equalsIgnoreCase( "html" ) ) //$NON-NLS-1$
 		{
 			boolean paginate = true;
 			if ( renderOptions instanceof HTMLRenderOption )
@@ -108,8 +118,8 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 				emitter = new HTMLPaginationEmitter( executor, null, emitter );
 			}
 		}
-		else if ( format.equalsIgnoreCase( "fo" )
-				|| format.equalsIgnoreCase( "fop" ) )
+		else if ( format.equalsIgnoreCase( "fo" ) //$NON-NLS-1$
+				|| format.equalsIgnoreCase( "fop" ) ) //$NON-NLS-1$
 		{
 			emitter = new DefaultPaginationEmitter( executor, null, emitter );
 		}
@@ -153,13 +163,15 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		}
 		catch ( Exception ex )
 		{
+			ex.printStackTrace();
 			log.log( Level.SEVERE,
 					"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
 			throw new EngineException(
-					"Error happened while running the report", ex );
+					"Error happened while running the report", ex ); //$NON-NLS-1$
 		}
 		catch ( OutOfMemoryError err )
 		{
+			err.printStackTrace();
 			log.log( Level.SEVERE,
 					"An OutOfMemory error happened while running the report." ); //$NON-NLS-1$
 			throw err;
@@ -168,7 +180,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		{
 			log.log( Level.SEVERE,
 					"Error happened while running the report.", t ); //$NON-NLS-1$
-			new EngineException( "Error happened while running the report", t );
+			new EngineException( "Error happened while running the report", t ); //$NON-NLS-1$
 		}
 	}
 

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineConfig;
@@ -81,14 +83,14 @@ public class RenderTask extends EngineTask implements IRenderTask
 		long totalPage = reportDoc.getPageCount( );
 		if ( pageNumber <= 0 || pageNumber > totalPage )
 		{
-			throw new EngineException( "Can't find page hints :{0}", new Long(
+			throw new EngineException( "Can't find page hints :{0}", new Long( //$NON-NLS-1$
 					pageNumber ) );
 		}
 
 		if ( renderOptions == null )
 		{
 			throw new EngineException(
-					"Render options have to be specified to render a report." );
+					"Render options have to be specified to render a report." ); //$NON-NLS-1$
 		}
 
 		doRender( pageNumber );
@@ -113,7 +115,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		String format = executionContext.getOutputFormat( );
 		if ( format == null )
 		{
-			format = "html";
+			format = "html"; //$NON-NLS-1$
 		}
 		ExtensionManager extManager = ExtensionManager.getInstance( );
 		if ( !extManager.getSupportedFormat( ).contains( format ) )
@@ -127,7 +129,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		IContentEmitter emitter = extManager.createEmitter( format, emitterID );
 		if ( emitter == null )
 		{
-			log.log( Level.SEVERE, "Report engine can not create {0} emitter.",
+			log.log( Level.SEVERE, "Report engine can not create {0} emitter.", //$NON-NLS-1$
 					format ); // $NON-NLS-1$
 			throw new EngineException(
 					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION );
@@ -153,7 +155,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 		try
 		{
 			// start the render
-
 			ReportContentLoader loader = new ReportContentLoader(
 					executionContext );
 			ReportExecutor executor = new ReportExecutor( executionContext );
@@ -161,6 +162,44 @@ public class RenderTask extends EngineTask implements IRenderTask
 			IContentEmitter emitter = createContentEmitter( executor );
 			startRender( );
 			loader.loadPage( pageNumber, emitter );
+			closeRender( );
+		}
+		catch ( Exception ex )
+		{
+			log.log( Level.SEVERE,
+					"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
+		}
+		catch ( OutOfMemoryError err )
+		{
+			log.log( Level.SEVERE,
+					"An OutOfMemory error happened while running the report." ); //$NON-NLS-1$
+			throw err;
+		}
+	}
+	
+	/**
+	 * @param pageNumber
+	 *            the page to be rendered
+	 * @throws EngineException
+	 *             throws exception if there is a rendering error
+	 */
+	protected void doRender( List pageSequences ) throws EngineException
+	{
+		if(pageSequences.size()==0)
+		{
+			return;
+		}
+		try
+		{
+			// start the render
+
+			ReportContentLoader loader = new ReportContentLoader(
+					executionContext );
+			ReportExecutor executor = new ReportExecutor( executionContext );
+			executionContext.setExecutor( executor );
+			IContentEmitter emitter = createContentEmitter( executor );
+			startRender( );
+			loader.loadPageRange( pageSequences, emitter );
 			closeRender( );
 		}
 		catch ( Exception ex )
@@ -200,5 +239,128 @@ public class RenderTask extends EngineTask implements IRenderTask
 	{
 		closeReportDocument( );
 		super.close( );
+	}
+
+	public void render( String pageRange ) throws EngineException
+	{
+		long totalPage = reportDoc.getPageCount( );
+		if ( renderOptions == null )
+		{
+			throw new EngineException(
+					"Render options have to be specified to render a report." ); //$NON-NLS-1$
+		}
+		List ps = parsePageSequence(pageRange, totalPage);
+		doRender( ps );
+		
+	}
+	
+	private List parsePageSequence(String pageRange, long totalPage)
+	{
+		ArrayList list = new ArrayList();
+		if(null==pageRange || "".equals(pageRange) || pageRange.toUpperCase().indexOf("ALL")>=0) //$NON-NLS-1$ //$NON-NLS-2$
+		{
+			list.add(new long[]{1, totalPage});
+			return list;
+		}
+		String[] ps = pageRange.split(","); //$NON-NLS-1$
+		for(int i=0; i<ps.length; i++)
+		{
+			try
+			{
+				if(ps[i].indexOf("-")>0) //$NON-NLS-1$
+				{
+					String[] psi = ps[i].split("-"); //$NON-NLS-1$
+					if(psi.length==2)
+					{
+						long start = Long.parseLong(psi[0].trim());
+						long end = Long.parseLong(psi[1].trim());
+						if(end>start)
+						{
+							list.add(new long[]{Math.max(start, 1), Math.min(end, totalPage)});
+						}
+					}
+					else
+					{
+						log.log( Level.SEVERE,
+								"error page number rang:", ps[i] );  //$NON-NLS-1$
+					}
+				}
+				else
+				{
+					long number = Long.parseLong(ps[i].trim());
+					if(number>0 && number<=totalPage)
+					{
+						list.add(new long[]{number, number});
+					}
+					else
+					{
+						log.log( Level.SEVERE,
+								"error page number rang:", ps[i] );  //$NON-NLS-1$
+					}
+					
+					
+				}
+			}
+			catch(NumberFormatException ex)
+			{
+				log.log( Level.SEVERE,
+						"error page number rang:", ps[i] );  //$NON-NLS-1$
+			}
+		}
+		return sort(list);
+	}
+	
+	private List sort(List list)
+	{
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			long[] currentI = (long[]) list.get( i );
+			int minIndex = i;
+			long[] min = currentI;
+			for ( int j = i + 1; j < list.size( ); j++ )
+			{
+				long[] currentJ = (long[]) list.get( j );
+				if ( currentJ[0] < min[0] )
+				{
+					minIndex = j;
+					min = currentJ;
+				}
+			}
+			if ( minIndex != i )
+			{
+				// swap
+				list.set( i, min );
+				list.set( minIndex, currentI );
+			}
+		}
+		long[] current = null;
+		long[] last = null;
+		ArrayList ret = new ArrayList();
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			current = (long[]) list.get( i );
+			if ( last != null )
+			{
+				if ( current[1] <= last[1] )
+				{
+					continue;
+				}
+				else
+				{
+					if ( current[0] <= last[1] )
+					{
+						current[0] = last[1];
+						
+					}
+					ret.add(current);
+				}
+			}
+			else
+			{
+				ret.add(current);
+			}
+			last = current;
+		}
+		return ret;
 	}
 }

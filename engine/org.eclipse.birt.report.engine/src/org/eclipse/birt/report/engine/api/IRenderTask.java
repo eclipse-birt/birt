@@ -69,7 +69,7 @@ public interface IRenderTask extends IEngineTask
 	 * 
 	 * @throws EngineException
 	 */
-	// public abstract void render(String pageRange) throws EngineException;
+	public abstract void render(String pageRange) throws EngineException;
 	/**
 	 * Render the ReportLet whose container is identified by iid. Useful for
 	 * Reportlet support
