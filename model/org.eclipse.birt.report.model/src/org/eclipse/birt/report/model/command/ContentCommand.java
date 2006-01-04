@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.command.TemplateException;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
@@ -1033,13 +1034,6 @@ public class ContentCommand extends AbstractElementCommand
 						ContentException.DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED );
 		}
 
-		if ( !element.canContain( module, slotID, newElement ) )
-			throw new ContentException(
-					element,
-					slotID,
-					newElement,
-					ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
-
 		// do some checks about the element to be replaced
 
 		ContainerSlot slot = element.getSlot( slotID );
@@ -1047,13 +1041,28 @@ public class ContentCommand extends AbstractElementCommand
 			throw new ContentException( element, slotID, oldElement,
 					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_FOUND );
 
-		// Can not drop a virtual element.
-		if ( !( oldElement instanceof TemplateElement )
-				&& !oldElement.canTransformToTemplate( module ) )
-			throw new ContentException(
-					element,
-					slotID,
-					ContentException.DESIGN_EXCEPTION_TEMPLATE_TRANSFORM_FORBIDDEN );
+		// do all checks about the transformation state
+
+		if ( oldElement instanceof TemplateElement )
+		{
+			if ( !oldElement.canDrop( )
+					|| !oldElement.isTemplateParameterValue( module )
+					|| !newElement.getDefn( ).isKindOf(
+							( (TemplateElement) oldElement ).getDefaultElement(
+									module ).getDefn( ) ) )
+				throw new TemplateException(
+						oldElement,
+						TemplateException.DESIGN_EXCEPTION_REVERT_TO_TEMPLATE_FORBIDDEN );
+		}
+		else
+		{
+			if ( !oldElement.canTransformToTemplate( module )
+					|| !( newElement instanceof TemplateElement ) )
+				throw new ContentException(
+						element,
+						slotID,
+						ContentException.DESIGN_EXCEPTION_TEMPLATE_TRANSFORM_FORBIDDEN );
+		}
 
 		// if the old element is in component slot of report design and it has
 		// children, then the operation is forbidden.

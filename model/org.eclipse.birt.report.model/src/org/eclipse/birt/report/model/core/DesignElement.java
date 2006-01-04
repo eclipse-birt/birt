@@ -3891,12 +3891,9 @@ public abstract class DesignElement
 
 	private boolean isContainTamplateElement( )
 	{
-		boolean isFound = false;
 		int slotCount = getDefn( ).getSlotCount( );
 		for ( int i = 0; i < slotCount; i++ )
 		{
-			if ( isFound )
-				break;
 			ContainerSlot contentSlot = getSlot( i );
 
 			Iterator iter = contentSlot.iterator( );
@@ -3904,12 +3901,28 @@ public abstract class DesignElement
 			{
 				Object content = iter.next( );
 				if ( content instanceof TemplateElement )
-					isFound = true;
-				else
-					isFound = ( (DesignElement) content )
-							.isContainTamplateElement( );
+					return true;
+				else if ( ( (DesignElement) content )
+						.isContainTamplateElement( ) )
+					return true;
 			}
 		}
-		return isFound;
+
+		return false;
+	}
+
+	/**
+	 * Checks whether this element is based on a template parameter definition
+	 * or not.
+	 * 
+	 * @param module
+	 *            the root module
+	 * @return true if this element is based on a template parameter definition,
+	 *         otherwise false
+	 */
+
+	public boolean isTemplateParameterValue( Module module )
+	{
+		return getTemplateParameterElement( module ) != null;
 	}
 }

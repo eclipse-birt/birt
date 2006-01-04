@@ -1973,7 +1973,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public boolean isTemplateParameterValue( )
 	{
-		return getElement( ).getTemplateParameterElement( getModule( ) ) != null;
+		return getElement().isTemplateParameterValue( getModule( ) );
 	}
 
 	/**
