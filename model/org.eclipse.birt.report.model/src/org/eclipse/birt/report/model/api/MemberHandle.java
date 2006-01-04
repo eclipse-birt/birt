@@ -28,7 +28,6 @@ import org.eclipse.birt.report.model.util.ReferenceValueUtil;
  * 
  * 
  * @see StructureHandle
- * @see PropertyIterator
  */
 
 public class MemberHandle extends SimpleValueHandle

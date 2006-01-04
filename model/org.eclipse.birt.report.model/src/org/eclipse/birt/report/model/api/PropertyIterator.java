@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
 
@@ -15,7 +15,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * An iterator over the properties defined for an element. Includes both user
@@ -31,7 +30,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
  * @see PropertyHandle
  */
 
-public class PropertyIterator implements Iterator
+class PropertyIterator implements Iterator
 {
 
 	/**
@@ -61,7 +60,7 @@ public class PropertyIterator implements Iterator
 		this.elementHandle = handle;
 
 		List propDefns = elementHandle.getElement( ).getPropertyDefns( );
-		this.iter = ModelUtil.sortPropertiesByLocalizedName( propDefns ).iterator( );
+		iter = propDefns.iterator( );
 	}
 
 	// Implementation of an interface method.

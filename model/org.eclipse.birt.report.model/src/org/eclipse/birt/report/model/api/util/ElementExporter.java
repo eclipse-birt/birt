@@ -249,7 +249,7 @@ class ElementExporter
 			}
 		}
 
-		Iterator iter = structToExport.getDefn( ).getPropertyIterator( );
+		Iterator iter = structToExport.getDefn( ).propertiesIterator( );
 		while ( iter.hasNext( ) )
 		{
 			PropertyDefn memberDefn = (PropertyDefn) iter.next( );
@@ -298,7 +298,7 @@ class ElementExporter
 			DesignElement duplicateElement = nameSpace
 					.getElement( elementToExport.getName( ) );
 			if ( duplicateElement != null )
-				duplicateElement.getHandle( targetLibraryHandle.getModule() )
+				duplicateElement.getHandle( targetLibraryHandle.getModule( ) )
 						.drop( );
 		}
 

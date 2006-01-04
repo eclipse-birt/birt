@@ -996,7 +996,7 @@ public class PropertyCommand extends AbstractElementCommand
 					PropertyValueException.DESIGN_EXCEPTION_WRONG_ITEM_TYPE );
 		}
 
-		for ( Iterator iter = item.getDefn( ).getPropertyIterator( ); iter
+		for ( Iterator iter = item.getDefn( ).propertiesIterator( ); iter
 				.hasNext( ); )
 		{
 			PropertyDefn memberDefn = (PropertyDefn) iter.next( );

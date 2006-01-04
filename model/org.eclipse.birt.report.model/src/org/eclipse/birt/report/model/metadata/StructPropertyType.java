@@ -98,7 +98,7 @@ public class StructPropertyType extends PropertyType
 		{
 			logger.log( Level.INFO, "Validate the structure value for each of its member " ); //$NON-NLS-1$
 			Iterator iter = ( (Structure) value ).getDefn( )
-					.getPropertyIterator( );
+					.propertiesIterator( );
 			while ( iter.hasNext( ) )
 			{
 				PropertyDefn memberDefn = (PropertyDefn) iter.next( );

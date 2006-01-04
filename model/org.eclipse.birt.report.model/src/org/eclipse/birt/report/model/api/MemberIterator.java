@@ -54,7 +54,7 @@ public class MemberIterator implements Iterator
 	{
 		structHandle = struct;
 		structDefn = (StructureDefn)struct.getDefn( );
-		iter = structDefn.getPropertyIterator( );
+		iter = structDefn.propertiesIterator( );
 	}
 
 	/**

@@ -26,7 +26,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 /**
  * Base class for attributes common to elements and structures. This base class
  * allows code to work generically with these two kinds of objects.
- *  
+ * 
  */
 
 public class ObjectDefn implements IObjectDefn
@@ -52,11 +52,11 @@ public class ObjectDefn implements IObjectDefn
 	 */
 
 	protected Map properties = new LinkedHashMap( );
-	
+
 	/**
 	 * The BIRT release when this object was introduced.
 	 */
-	
+
 	protected String since;
 
 	/**
@@ -64,7 +64,7 @@ public class ObjectDefn implements IObjectDefn
 	 */
 
 	public ObjectDefn( )
-	{	
+	{
 		since = "none"; //$NON-NLS-1$
 	}
 
@@ -190,6 +190,7 @@ public class ObjectDefn implements IObjectDefn
 		List propDefns = new ArrayList( properties.values( ) );
 
 		return ModelUtil.sortPropertiesByLocalizedName( propDefns ).iterator( );
+
 	}
 
 	/**
@@ -207,40 +208,45 @@ public class ObjectDefn implements IObjectDefn
 	/**
 	 * Builds information for this definition itself. Called during the build
 	 * step.
+	 * 
 	 * @throws MetaDataException
-	 *   if the definition is invalid
+	 *             if the definition is invalid
 	 */
 
 	protected void buildDefn( ) throws MetaDataException
 	{
 	}
-	
+
 	/**
 	 * Set the release in which this object was introduced.
 	 * 
-	 * @param value the release value
+	 * @param value
+	 *            the release value
 	 */
-	
+
 	public void setSince( String value )
 	{
-		if ( ! StringUtil.isBlank( value ) )
+		if ( !StringUtil.isBlank( value ) )
 			since = value;
 	}
-	
+
 	/**
-	 * @return the release in which this object was introduced. A value of "none"
-	 * means that the feature is experimental and is not yet released.
+	 * @return the release in which this object was introduced. A value of
+	 *         "none" means that the feature is experimental and is not yet
+	 *         released.
 	 */
-	
+
 	public String getSince( )
 	{
 		return since;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	
+
 	public String toString( )
 	{
 		if ( !StringUtil.isBlank( getName( ) ) )

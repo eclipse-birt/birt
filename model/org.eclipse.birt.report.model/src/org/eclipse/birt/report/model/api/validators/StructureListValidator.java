@@ -173,7 +173,7 @@ public class StructureListValidator extends AbstractPropertyValidator
 
 			PropertyDefn uniqueMember = null;
 
-			Iterator iter = propDefn.getStructDefn( ).getPropertyIterator( );
+			Iterator iter = propDefn.getStructDefn( ).propertiesIterator( );
 			while ( iter.hasNext( ) )
 			{
 				PropertyDefn memberDefn = (PropertyDefn) iter.next( );

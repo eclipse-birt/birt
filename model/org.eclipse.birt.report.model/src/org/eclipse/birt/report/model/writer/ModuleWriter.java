@@ -739,7 +739,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		IStructureDefn structDefn = prop.getStructDefn( );
 
-		Iterator iter = structDefn.getPropertyIterator( );
+		Iterator iter = structDefn.propertiesIterator( );
 		while ( iter.hasNext( ) )
 		{
 			StructPropertyDefn strcutPropDefn = (StructPropertyDefn) iter
@@ -773,7 +773,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.conditionalStartElement( DesignSchemaConstants.STRUCTURE_TAG );
 		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, memberName );
 
-		Iterator iter = structDefn.getPropertyIterator( );
+		Iterator iter = structDefn.propertiesIterator( );
 		while ( iter.hasNext( ) )
 		{
 			StructPropertyDefn strcutPropDefn = (StructPropertyDefn) iter
