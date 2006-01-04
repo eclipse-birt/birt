@@ -297,7 +297,10 @@ public class LineWidthChooserComposite extends Composite implements
 				this.cnvSelection.setLineWidth( iCurrentWidth );
 				this.cnvSelection.redraw( );
 				fireEvent( );
-				this.cmpDropDown.getShell( ).dispose( );
+				if ( !this.cmpDropDown.isDisposed( ) )
+				{
+					this.cmpDropDown.getShell( ).dispose( );
+				}
 			}
 		}
 	}

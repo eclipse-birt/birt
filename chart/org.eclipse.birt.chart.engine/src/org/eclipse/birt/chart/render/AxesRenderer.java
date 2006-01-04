@@ -40,7 +40,6 @@ import org.eclipse.birt.chart.device.IStructureDefinitionListener;
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.BlockGenerationEvent;
-import org.eclipse.birt.chart.event.ClipRenderEvent;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.Line3DRenderEvent;
 import org.eclipse.birt.chart.event.LineRenderEvent;
@@ -2118,8 +2117,9 @@ public abstract class AxesRenderer extends BaseRenderer
 			return;
 		}
 
-		final ClipRenderEvent cre = (ClipRenderEvent) ( (EventObjectCache) getDevice( ) ).getEventObject( StructureSource.createPlot( p ),
-				ClipRenderEvent.class );
+		// final ClipRenderEvent cre = (ClipRenderEvent) ( (EventObjectCache)
+		// getDevice( ) ).getEventObject( StructureSource.createPlot( p ),
+		// ClipRenderEvent.class );
 
 		final boolean bFirstInSequence = ( iSeriesIndex == 0 );
 		final boolean bLastInSequence = ( iSeriesIndex == iSeriesCount - 1 );
@@ -2145,119 +2145,119 @@ public abstract class AxesRenderer extends BaseRenderer
 					ex );
 		}
 
-		try
+		// try
+		// {
+		// Bounds boClipping = p.getBounds( )
+		// .scaledInstance( getDevice( ).getDisplayServer( )
+		// .getDpiResolution( ) / 72d );
+		//
+		// Location[] loaClipping = new Location[4];
+		// loaClipping[0] = LocationImpl.create( boClipping.getLeft( ),
+		// boClipping.getTop( ) );
+		// loaClipping[1] = LocationImpl.create( boClipping.getLeft( )
+		// + boClipping.getWidth( ), boClipping.getTop( ) );
+		// loaClipping[2] = LocationImpl.create( boClipping.getLeft( )
+		// + boClipping.getWidth( ), boClipping.getTop( )
+		// + boClipping.getHeight( ) );
+		// loaClipping[3] = LocationImpl.create( boClipping.getLeft( ),
+		// boClipping.getTop( ) + boClipping.getHeight( ) );
+		//
+		// cre.setVertices( loaClipping );
+		// getDevice( ).setClip( cre );
+
+		ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
+				ScriptHandler.BEFORE_DRAW_SERIES,
+				getSeries( ),
+				this,
+				getRunTimeContext( ).getScriptContext( ) );
+		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_SERIES,
+				getSeries( ) );
+		renderSeries( ipr, p, srh ); // CALLS THE APPROPRIATE SUBCLASS
+		// FOR
+		// GRAPHIC ELEMENT RENDERING
+		ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
+				ScriptHandler.AFTER_DRAW_SERIES,
+				getSeries( ),
+				this,
+				getRunTimeContext( ).getScriptContext( ) );
+		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_SERIES,
+				getSeries( ) );
+
+		if ( bLastInSequence )
 		{
-			Bounds boClipping = p.getBounds( )
-					.scaledInstance( getDevice( ).getDisplayServer( )
-							.getDpiResolution( ) / 72d );
+			final Bounds boPlot = getPlotBounds( );
 
-			Location[] loaClipping = new Location[4];
-			loaClipping[0] = LocationImpl.create( boClipping.getLeft( ),
-					boClipping.getTop( ) );
-			loaClipping[1] = LocationImpl.create( boClipping.getLeft( )
-					+ boClipping.getWidth( ), boClipping.getTop( ) );
-			loaClipping[2] = LocationImpl.create( boClipping.getLeft( )
-					+ boClipping.getWidth( ), boClipping.getTop( )
-					+ boClipping.getHeight( ) );
-			loaClipping[3] = LocationImpl.create( boClipping.getLeft( ),
-					boClipping.getTop( ) + boClipping.getHeight( ) );
-
-			cre.setVertices( loaClipping );
-			getDevice( ).setClip( cre );
-
-			ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
-					ScriptHandler.BEFORE_DRAW_SERIES,
-					getSeries( ),
-					this,
-					getRunTimeContext( ).getScriptContext( ) );
-			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_SERIES,
-					getSeries( ) );
-			renderSeries( ipr, p, srh ); // CALLS THE APPROPRIATE SUBCLASS
-			// FOR
-			// GRAPHIC ELEMENT RENDERING
-			ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
-					ScriptHandler.AFTER_DRAW_SERIES,
-					getSeries( ),
-					this,
-					getRunTimeContext( ).getScriptContext( ) );
-			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_SERIES,
-					getSeries( ) );
-
-			if ( bLastInSequence )
+			try
 			{
-				final Bounds boPlot = getPlotBounds( );
-
-				try
+				if ( isDimension3D( ) )
 				{
-					if ( isDimension3D( ) )
-					{
-						getDeferredCache( ).process3DEvent( get3DEngine( ),
-								boPlot.getLeft( ),
-								boPlot.getTop( ) );
-					}
-					getDeferredCache( ).flush( ); // FLUSH DEFERRED CACHE
+					getDeferredCache( ).process3DEvent( get3DEngine( ),
+							boPlot.getLeft( ),
+							boPlot.getTop( ) );
 				}
-				catch ( ChartException ex ) // NOTE: RENDERING EXCEPTION ALREADY
-				// BEING THROWN
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.RENDERING,
-							ex );
-				}
-
-				// SETUP AXIS ARRAY
-				final AllAxes aax = pwa.getAxes( );
-				final OneAxis[] oaxa = new OneAxis[2
-						+ aax.getOverlayCount( )
-						+ ( aax.getAncillaryBase( ) != null ? 1 : 0 )];
-				oaxa[0] = aax.getPrimaryBase( );
-				oaxa[1] = aax.getPrimaryOrthogonal( );
-				for ( int i = 0; i < aax.getOverlayCount( ); i++ )
-				{
-					oaxa[2 + i] = aax.getOverlay( i );
-				}
-				if ( aax.getAncillaryBase( ) != null )
-				{
-					oaxa[2 + aax.getOverlayCount( )] = aax.getAncillaryBase( );
-				}
-				Bounds bo = pwa.getPlotBounds( );
-
-				// RENDER MARKER LINES
-				renderMarkerLines( oaxa, bo );
-
-				// restore clipping.
-				cre.setVertices( null );
-				getDevice( ).setClip( cre );
-
-				// RENDER AXIS LABELS LAST
-				renderAxesLabels( ipr, p, oaxa );
-
-				try
-				{
-					if ( isDimension3D( ) )
-					{
-						getDeferredCache( ).process3DEvent( get3DEngine( ),
-								boPlot.getLeft( ),
-								boPlot.getTop( ) );
-					}
-					getDeferredCache( ).flush( ); // FLUSH DEFERRED CACHE
-				}
-				catch ( ChartException ex ) // NOTE: RENDERING EXCEPTION ALREADY
-				// BEING THROWN
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.RENDERING,
-							ex );
-				}
-
+				getDeferredCache( ).flush( ); // FLUSH DEFERRED CACHE
 			}
+			catch ( ChartException ex ) // NOTE: RENDERING EXCEPTION ALREADY
+			// BEING THROWN
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.RENDERING,
+						ex );
+			}
+
+			// SETUP AXIS ARRAY
+			final AllAxes aax = pwa.getAxes( );
+			final OneAxis[] oaxa = new OneAxis[2
+					+ aax.getOverlayCount( )
+					+ ( aax.getAncillaryBase( ) != null ? 1 : 0 )];
+			oaxa[0] = aax.getPrimaryBase( );
+			oaxa[1] = aax.getPrimaryOrthogonal( );
+			for ( int i = 0; i < aax.getOverlayCount( ); i++ )
+			{
+				oaxa[2 + i] = aax.getOverlay( i );
+			}
+			if ( aax.getAncillaryBase( ) != null )
+			{
+				oaxa[2 + aax.getOverlayCount( )] = aax.getAncillaryBase( );
+			}
+			Bounds bo = pwa.getPlotBounds( );
+
+			// RENDER MARKER LINES
+			renderMarkerLines( oaxa, bo );
+
+			// // restore clipping.
+			// cre.setVertices( null );
+			// getDevice( ).setClip( cre );
+
+			// RENDER AXIS LABELS LAST
+			renderAxesLabels( ipr, p, oaxa );
+
+			try
+			{
+				if ( isDimension3D( ) )
+				{
+					getDeferredCache( ).process3DEvent( get3DEngine( ),
+							boPlot.getLeft( ),
+							boPlot.getTop( ) );
+				}
+				getDeferredCache( ).flush( ); // FLUSH DEFERRED CACHE
+			}
+			catch ( ChartException ex ) // NOTE: RENDERING EXCEPTION ALREADY
+			// BEING THROWN
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.RENDERING,
+						ex );
+			}
+
 		}
-		finally
-		{
-			// restore clipping.
-			cre.setVertices( null );
-			getDevice( ).setClip( cre );
-		}
+		// }
+		// finally
+		// {
+		// // restore clipping.
+		// cre.setVertices( null );
+		// getDevice( ).setClip( cre );
+		// }
 	}
 
 	/**
@@ -3943,8 +3943,8 @@ public abstract class AxesRenderer extends BaseRenderer
 									getRunTimeContext( ).getScriptContext( ) );
 							getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 									la );
-							itmText.reuse( la );// RECYCLED		
-							
+							itmText.reuse( la );// RECYCLED
+
 							dOffset = dUnitSize / 2;
 							double sy = y;
 							if ( bAxisLabelStaggered && i % 2 == 1 )
@@ -4756,7 +4756,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						la );
 			}
 			la = (Label) EcoreUtil.copy( ax.getLabel( ) ); // RESTORE BACK TO
-															// AXIS LABEL
+			// AXIS LABEL
 
 			if ( iv != null
 					&& iv.getType( ) == IntersectionValue.MAX

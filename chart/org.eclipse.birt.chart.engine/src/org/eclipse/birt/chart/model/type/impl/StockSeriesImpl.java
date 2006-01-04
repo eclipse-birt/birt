@@ -13,12 +13,9 @@ package org.eclipse.birt.chart.model.type.impl;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.Chart;
@@ -38,7 +35,6 @@ import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
-import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
@@ -62,19 +58,20 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#getFill <em>Fill</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#getLineAttributes <em>Line Attributes</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#getFill <em>Fill</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#getLineAttributes <em>Line Attributes</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class StockSeriesImpl extends SeriesImpl implements StockSeries
 {
 
 	/**
-	 * The cached value of the '{@link #getFill() <em>Fill</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getFill() <em>Fill</em>}' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getFill()
 	 * @generated
 	 * @ordered
@@ -82,8 +79,9 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	protected Fill fill = null;
 
 	/**
-	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getLineAttributes()
 	 * @generated
 	 * @ordered
@@ -92,6 +90,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected StockSeriesImpl( )
@@ -101,6 +100,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -110,6 +110,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Fill getFill( )
@@ -119,6 +120,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFill( Fill newFill, NotificationChain msgs )
@@ -142,6 +144,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setFill( Fill newFill )
@@ -173,6 +176,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public LineAttributes getLineAttributes( )
@@ -182,6 +186,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLineAttributes(
@@ -206,6 +211,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setLineAttributes( LineAttributes newLineAttributes )
@@ -239,6 +245,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -279,6 +286,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -317,6 +325,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -371,6 +380,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -422,6 +432,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -526,7 +537,9 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 		// Update the base axis to type text if it isn't already
 		if ( chart instanceof ChartWithAxes )
 		{
-			( (Axis) ( (ChartWithAxes) chart ).getAxes( ).get( 0 ) ).setType( AxisType.DATE_TIME_LITERAL );
+			// !Don't change to dateTime type, keep the original setting.
+			// ( (Axis) ( (ChartWithAxes) chart ).getAxes( ).get( 0 ) ).setType(
+			// AxisType.DATE_TIME_LITERAL );
 			( (Axis) ( (ChartWithAxes) chart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
 			EList axes = ( (Axis) ( (ChartWithAxes) chart ).getAxes( ).get( 0 ) ).getAssociatedAxes( );
 			for ( int i = 0; i < axes.size( ); i++ )
@@ -552,17 +565,22 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	private SampleData getConvertedSampleData( SampleData currentSampleData,
 			int iSeriesDefinitionIndex )
 	{
+		// !Base sample data should NOT be converted since base Axis type is not
+		// being changed now.
+
 		// Convert base sample data
-		EList bsdList = currentSampleData.getBaseSampleData( );
-		Vector vNewBaseSampleData = new Vector( );
-		for ( int i = 0; i < bsdList.size( ); i++ )
-		{
-			BaseSampleData bsd = (BaseSampleData) bsdList.get( i );
-			bsd.setDataSetRepresentation( getConvertedBaseSampleDataRepresentation( bsd.getDataSetRepresentation( ) ) );
-			vNewBaseSampleData.add( bsd );
-		}
-		currentSampleData.getBaseSampleData( ).clear( );
-		currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
+		// EList bsdList = currentSampleData.getBaseSampleData( );
+		// Vector vNewBaseSampleData = new Vector( );
+		// for ( int i = 0; i < bsdList.size( ); i++ )
+		// {
+		// BaseSampleData bsd = (BaseSampleData) bsdList.get( i );
+		// bsd.setDataSetRepresentation(
+		// getConvertedBaseSampleDataRepresentation(
+		// bsd.getDataSetRepresentation( ) ) );
+		// vNewBaseSampleData.add( bsd );
+		// }
+		// currentSampleData.getBaseSampleData( ).clear( );
+		// currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
 
 		// Convert orthogonal sample data
 		EList osdList = currentSampleData.getOrthogonalSampleData( );
@@ -578,50 +596,51 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 		return currentSampleData;
 	}
 
-	private String getConvertedBaseSampleDataRepresentation(
-			String sOldRepresentation )
-	{
-		StringTokenizer strtok = new StringTokenizer( sOldRepresentation, "," ); //$NON-NLS-1$
-		StringBuffer sbNewRepresentation = new StringBuffer( "" ); //$NON-NLS-1$
-		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy", //$NON-NLS-1$
-				Locale.getDefault( ) );
-		int iValueCount = 0;
-		while ( strtok.hasMoreTokens( ) )
-		{
-			String sElement = strtok.nextToken( ).trim( );
-			if ( !sElement.startsWith( "'" ) ) //$NON-NLS-1$
-			{
-				Calendar cal = Calendar.getInstance( );
-				// Increment the date once for each entry so that you get a
-				// sequence of dates
-				cal.set( Calendar.DATE, cal.get( Calendar.DATE ) + iValueCount );
-				sbNewRepresentation.append( sdf.format( cal.getTime( ) ) );
-				iValueCount++;
-			}
-			else
-			{
-				sElement = sElement.substring( 1, sElement.length( ) - 1 );
-				try
-				{
-					sdf.parse( sElement );
-					sbNewRepresentation.append( sElement );
-				}
-				catch ( ParseException e )
-				{
-					Calendar cal = Calendar.getInstance( );
-					// Increment the date once for each entry so that you get a
-					// sequence of dates
-					cal.set( Calendar.DATE, cal.get( Calendar.DATE )
-							+ iValueCount );
-					sbNewRepresentation.append( sdf.format( cal.getTime( ) ) );
-					iValueCount++;
-				}
-			}
-			sbNewRepresentation.append( "," ); //$NON-NLS-1$
-		}
-		return sbNewRepresentation.toString( ).substring( 0,
-				sbNewRepresentation.length( ) - 1 );
-	}
+	// private String getConvertedBaseSampleDataRepresentation(
+	// String sOldRepresentation )
+	// {
+	// StringTokenizer strtok = new StringTokenizer( sOldRepresentation, "," );
+	// //$NON-NLS-1$
+	// StringBuffer sbNewRepresentation = new StringBuffer( "" ); //$NON-NLS-1$
+	// SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy", //$NON-NLS-1$
+	// Locale.getDefault( ) );
+	// int iValueCount = 0;
+	// while ( strtok.hasMoreTokens( ) )
+	// {
+	// String sElement = strtok.nextToken( ).trim( );
+	// if ( !sElement.startsWith( "'" ) ) //$NON-NLS-1$
+	// {
+	// Calendar cal = Calendar.getInstance( );
+	// // Increment the date once for each entry so that you get a
+	// // sequence of dates
+	// cal.set( Calendar.DATE, cal.get( Calendar.DATE ) + iValueCount );
+	// sbNewRepresentation.append( sdf.format( cal.getTime( ) ) );
+	// iValueCount++;
+	// }
+	// else
+	// {
+	// sElement = sElement.substring( 1, sElement.length( ) - 1 );
+	// try
+	// {
+	// sdf.parse( sElement );
+	// sbNewRepresentation.append( sElement );
+	// }
+	// catch ( ParseException e )
+	// {
+	// Calendar cal = Calendar.getInstance( );
+	// // Increment the date once for each entry so that you get a
+	// // sequence of dates
+	// cal.set( Calendar.DATE, cal.get( Calendar.DATE )
+	// + iValueCount );
+	// sbNewRepresentation.append( sdf.format( cal.getTime( ) ) );
+	// iValueCount++;
+	// }
+	// }
+	// sbNewRepresentation.append( "," ); //$NON-NLS-1$
+	// }
+	// return sbNewRepresentation.toString( ).substring( 0,
+	// sbNewRepresentation.length( ) - 1 );
+	// }
 
 	private String getConvertedOrthogonalSampleDataRepresentation(
 			String sOldRepresentation )

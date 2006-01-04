@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.eclipse.birt.chart.model.attribute.Image;
@@ -20,6 +19,7 @@ import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
 import org.eclipse.birt.chart.model.attribute.impl.PaletteImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -38,15 +38,16 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * MarkerIconDialog is invoked when the user chooses "icon" from Marker Type Combo box.
+ * MarkerIconDialog is invoked when the user chooses "icon" from Marker Type
+ * Combo box.
  */
 public class MarkerIconDialog implements SelectionListener, ModifyListener
 {
 
 	private transient Button btnURL;
-	
+
 	private transient Button btnLocal;
-	
+
 	private transient Button btnAdd;
 
 	private transient Button btnPreview;
@@ -82,10 +83,10 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 	/**
 	 * Constructor
 	 * 
-	 * @param parent 
-	 * 					shell of LineSeriesAttributeComposite
-	 * @param iconPalette 
-	 * 					retrieved from LineSeries
+	 * @param parent
+	 *            shell of LineSeriesAttributeComposite
+	 * @param iconPalette
+	 *            retrieved from LineSeries
 	 */
 	public MarkerIconDialog( Shell parent, Palette iconPalette )
 	{
@@ -94,7 +95,7 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 
 		shell = new Shell( parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL );
 		shell.setLayout( new GridLayout( ) );
-		shell.setSize( 600, 420 ); //Fixed dialog size, cannot be resized.
+		shell.setSize( 600, 420 ); // Fixed dialog size, cannot be resized.
 		UIHelper.centerOnScreen( shell );
 		createContents( shell );
 		shell.setText( Messages.getString( "MarkerIconDialog.Title.MarkerIconSelector" ) ); //$NON-NLS-1$
@@ -111,10 +112,10 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 	}
 
 	/**
-	 *  Place dialog composite.
+	 * Place dialog composite.
 	 * 
 	 * @param shell
-	 * 				shell of MarkerIconDialog
+	 *            shell of MarkerIconDialog
 	 */
 	protected void createContents( Shell shell )
 	{
@@ -153,7 +154,7 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 	 * Selection Area locates in the top of the dialog.
 	 * 
 	 * @param parent
-	 * 				dialog composite
+	 *            dialog composite
 	 */
 	private void createSelectionArea( Composite parent )
 	{
@@ -175,12 +176,12 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 		btnLocal.setText( Messages.getString( "MarkerIconDialog.Lbl.Local" ) ); //$NON-NLS-1$
 		btnLocal.addSelectionListener( this );
 	}
-	
+
 	/**
 	 * List Area locates in the left middle of the dialog.
 	 * 
 	 * @param parent
-	 * 				dialog composite
+	 *            dialog composite
 	 */
 	private void createListArea( Composite parent )
 	{
@@ -195,8 +196,8 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 		GridLayout gl = new GridLayout( );
 		gl.marginWidth = 0;
 		gl.marginHeight = 0;
-		
-		//Input Area is various depending on the selection (URI or Local).
+
+		// Input Area is various depending on the selection (URI or Local).
 		inputArea = new Composite( listArea, SWT.NONE );
 		GridData gdInputArea = new GridData( GridData.FILL_BOTH
 				| GridData.HORIZONTAL_ALIGN_BEGINNING );
@@ -209,28 +210,28 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 				| SWT.H_SCROLL );
 		GridData gdIconList = new GridData( GridData.FILL_HORIZONTAL );
 		gdIconList.heightHint = 120;
-		iconList.setLayoutData( gdIconList  );
+		iconList.setLayoutData( gdIconList );
 		iconList.addSelectionListener( this );
 
 		if ( iconPalette != null )
 		{
 			for ( int i = 0; i < iconPalette.getEntries( ).size( ); i++ )
 			{
-				iconList.add( ( (Image) iconPalette.getEntries( ).get( i ) ).getURL( ));
+				iconList.add( ( (Image) iconPalette.getEntries( ).get( i ) ).getURL( ) );
 			}
 		}
 
-		 btnRemove = new Button( listArea, SWT.NONE );
-		 btnRemove.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END) );
-		 btnRemove.setText( Messages.getString( "MarkerIconDialog.Lbl.Remove") ); //$NON-NLS-1$
-		 btnRemove.addSelectionListener( this );
+		btnRemove = new Button( listArea, SWT.NONE );
+		btnRemove.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
+		btnRemove.setText( Messages.getString( "MarkerIconDialog.Lbl.Remove" ) ); //$NON-NLS-1$
+		btnRemove.addSelectionListener( this );
 	}
 
 	/**
 	 * Preview Area locates in the right middle of the dialog.
 	 * 
 	 * @param composite
-	 * 					dialog composite
+	 *            dialog composite
 	 */
 	private void createPreviewArea( Composite composite )
 	{
@@ -248,26 +249,26 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 	 * Switch in the Selection Area (URI or Local).
 	 * 
 	 * @param type
-	 * 				0: URI_TYPE; 1: LOCAL_TYPE				
+	 *            0: URI_TYPE; 1: LOCAL_TYPE
 	 */
 	private void switchTo( int type )
 	{
 		if ( type == selectedType )
 		{
-			//If the selected type is same with the current type,
-			//Do nothing.
+			// If the selected type is same with the current type,
+			// Do nothing.
 			return;
 		}
-		
-		//Clear the current Input Area contents.
-		selectedType = type;		
+
+		// Clear the current Input Area contents.
+		selectedType = type;
 		Control[] controls = inputArea.getChildren( );
 		for ( int i = 0; i < controls.length; i++ )
 		{
 			controls[i].dispose( );
 		}
-		
-		//Rearrange the layout and contents of Input Area.
+
+		// Rearrange the layout and contents of Input Area.
 		switch ( type )
 		{
 			case URI_TYPE :
@@ -303,8 +304,8 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 		btnAdd.setText( Messages.getString( "MarkerIconDialog.Lbl.Add" ) ); //$NON-NLS-1$
 		btnAdd.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
 		btnAdd.setEnabled( false );
-		btnAdd.addSelectionListener( this ); 
-		
+		btnAdd.addSelectionListener( this );
+
 		btnPreview = new Button( innerComp, SWT.PUSH );
 		btnPreview.setText( Messages.getString( "MarkerIconDialog.Lbl.Preview" ) ); //$NON-NLS-1$
 		btnPreview.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
@@ -333,7 +334,7 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 		btnBrowse.setLayoutData( gd );
 		btnBrowse.addSelectionListener( this );
 	}
-	
+
 	private void updateButton( )
 	{
 		btnOK.setEnabled( iconList.getSelectionCount( ) != 0 );
@@ -341,47 +342,26 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 
 	/**
 	 * Preview the image when it is a local image file.
+	 * 
 	 * @param fullPath
-	 * 				Image absolute path without "file:///"
+	 *            Image absolute path without "file:///"
 	 */
-	private void preview( String fullPath )
+	private void preview( String uri )
 	{
-		previewCanvas.loadImage( fullPath );
-	}
-
-	/**
-	 * Preview the image when it is an external image file.
-	 * @param uri
-	 * 			Image uniform resource locator with "http://"
-	 */
-	private void preview( URL uri )
-	{
-		previewCanvas.loadImage( uri );
-
-	}
-	
-	/**
-	 * @param path 
-	 * @return Returns URL
-	 */
-	private URL convertStringToURL( String path )
-	{
-		URL url = null;
 		try
 		{
-			url = new URL( path );
+			previewCanvas.loadImage( new URL( uri ) );
 		}
-		catch ( MalformedURLException ex )
+		catch ( Exception e )
 		{
-			ex.printStackTrace( );
+			WizardBase.displayException( e );
 		}
-		return url;
 	}
-	
+
 	/**
 	 * If there is no palette associated with the marker, create a new palette.
 	 * Otherwise, add the icon into the palette.
-	 *
+	 * 
 	 */
 	private void addIconToPalette( )
 	{
@@ -391,7 +371,8 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 		}
 		else
 		{
-			iconPalette.getEntries( ).add( ImageImpl.create( iconList.getSelection( )[0] ) );
+			iconPalette.getEntries( )
+					.add( ImageImpl.create( iconList.getSelection( )[0] ) );
 		}
 	}
 
@@ -404,7 +385,7 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 	{
 		if ( e.widget.equals( btnOK ) )
 		{
-			applyMarkerIcon = true;		
+			applyMarkerIcon = true;
 			shell.dispose( );
 		}
 		else if ( e.widget.equals( btnCancel ) )
@@ -432,19 +413,12 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 		{
 			uriEditor.setText( uriEditor.getText( ).trim( ) );
 			String path = uriEditor.getText( );
-			preview( convertStringToURL( path ) );
+			preview( path );
 		}
 		else if ( e.widget.equals( iconList ) )
 		{
 			String path = iconList.getSelection( )[0];
-			if ( path.toLowerCase().startsWith( "h" ) ) //$NON-NLS-1$
-			{
-				preview( convertStringToURL( path ) );
-			}
-			else
-			{
-				preview( path.substring(6) );
-			}
+			preview( path );
 			updateButton( );
 		}
 		else if ( e.widget.equals( btnBrowse ) )
@@ -454,7 +428,7 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 			fileChooser.setFilterExtensions( new String[]{
 					"*.gif", "*.jpg", "*.png" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			} );
-			
+
 			try
 			{
 				String path = fileChooser.open( );
@@ -464,8 +438,8 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 					{
 						return;
 					}
+					path = new StringBuffer( "file:///" ).append( path ).toString( ); //$NON-NLS-1$
 					preview( path );
-					path = new StringBuffer("file:///").append(path).toString(); //$NON-NLS-1$
 					iconList.add( path );
 					iconList.select( iconList.indexOf( path ) );
 					addIconToPalette( );
@@ -497,10 +471,12 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 	 */
 	public void widgetDefaultSelected( SelectionEvent event )
 	{
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
 	 */
 	public void modifyText( ModifyEvent e )
@@ -508,10 +484,10 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 		if ( e.widget.equals( uriEditor ) )
 		{
 			btnAdd.setEnabled( trimString( uriEditor.getText( ) ) != null );
-			btnPreview.setEnabled( trimString( uriEditor.getText( ) ) != null );					
-		}		
+			btnPreview.setEnabled( trimString( uriEditor.getText( ) ) != null );
+		}
 	}
-	
+
 	/**
 	 * Trim a string. Removes leading and trailing blanks. If the resulting
 	 * string is empty, normalizes the string to an null string.
@@ -533,7 +509,7 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 
 	/**
 	 * 
-	 * @return If the user clicks "OK", returns true. Otherwise, returns false. 
+	 * @return If the user clicks "OK", returns true. Otherwise, returns false.
 	 */
 	public boolean applyMarkerIcon( )
 	{

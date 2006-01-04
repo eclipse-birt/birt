@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.reportitem;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -30,6 +31,9 @@ import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.model.api.ActionHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.SearchKeyHandle;
@@ -42,6 +46,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 {
 
 	private IHTMLActionHandler handler;
+	private DesignElementHandle eih;
 	private Object context;
 	private IDataRowExpressionEvaluator evaluator;
 
@@ -52,9 +57,11 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 	 * 
 	 * @param handler
 	 */
-	public BIRTActionRenderer( IHTMLActionHandler handler,
-			IDataRowExpressionEvaluator evaluator, Object context )
+	public BIRTActionRenderer( DesignElementHandle eih,
+			IHTMLActionHandler handler, IDataRowExpressionEvaluator evaluator,
+			Object context )
 	{
+		this.eih = eih;
 		this.handler = handler;
 		this.evaluator = evaluator;
 		this.context = ( (IReportContext) context ).getAppContext( )
@@ -116,7 +123,23 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 						public String getReportName( )
 						{
-							return handle.getReportName( );
+							String rptName = handle.getReportName( );
+							ModuleHandle mod = eih.getRoot( );
+							if ( mod != null )
+							{
+								URL reportURL = mod.findResource( rptName,
+										IResourceLocator.LIBRARY );
+								if ( reportURL != null )
+								{
+									String reportFile = reportURL.getFile( );
+									if ( reportFile != null )
+									{
+										rptName = reportFile;
+									}
+								}
+							}
+
+							return rptName;
 						}
 
 						public Map getParameterBindings( )
@@ -128,7 +151,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 							{
 								ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
 								map.put( pbh.getParamName( ),
-										(String) dph.getUserValue( pbh.getExpression( ) ) );
+										dph.getUserValue( pbh.getExpression( ) ) );
 							}
 
 							return map;
@@ -142,7 +165,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 							{
 								SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
 								map.put( skh.getExpression( ),
-										(String) dph.getUserValue( skh.getExpression( ) ) );
+										dph.getUserValue( skh.getExpression( ) ) );
 							}
 
 							return map;
@@ -192,21 +215,37 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 						public String getBookmark( )
 						{
-							return String.valueOf( evaluator.evaluate( handle.getTargetBookmark( ) ) );
+							return (String) evaluator.evaluateGlobal( handle.getTargetBookmark( ) );
 						}
 
 						public String getActionString( )
 						{
 							if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
-								return String.valueOf( evaluator.evaluate( handle.getURI( ) ) );
+								return (String) evaluator.evaluateGlobal( handle.getURI( ) );
 							if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
-								return String.valueOf( evaluator.evaluate( handle.getTargetBookmark( ) ) );
+								return (String) evaluator.evaluateGlobal( handle.getTargetBookmark( ) );
 							return null;
 						}
 
 						public String getReportName( )
 						{
-							return handle.getReportName( );
+							String rptName = handle.getReportName( );
+							ModuleHandle mod = eih.getRoot( );
+							if ( mod != null )
+							{
+								URL reportURL = mod.findResource( rptName,
+										IResourceLocator.LIBRARY );
+								if ( reportURL != null )
+								{
+									String reportFile = reportURL.getFile( );
+									if ( reportFile != null )
+									{
+										rptName = reportFile;
+									}
+								}
+							}
+
+							return rptName;
 						}
 
 						public Map getParameterBindings( )
@@ -218,7 +257,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 							{
 								ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
 								map.put( pbh.getParamName( ),
-										String.valueOf( evaluator.evaluate( pbh.getExpression( ) ) ) );
+										evaluator.evaluateGlobal( pbh.getExpression( ) ) );
 							}
 
 							return map;
@@ -232,7 +271,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 							{
 								SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
 								map.put( skh.getExpression( ),
-										String.valueOf( evaluator.evaluate( skh.getExpression( ) ) ) );
+										evaluator.evaluateGlobal( skh.getExpression( ) ) );
 							}
 
 							return map;

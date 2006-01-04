@@ -31,6 +31,16 @@ public class DataRowExpressionEvaluatorAdapter implements
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluateGlobal(java.lang.String)
+	 */
+	public Object evaluateGlobal( String expression )
+	{
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#first()
 	 */
 	public boolean first( )

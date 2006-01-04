@@ -433,7 +433,8 @@ public final class ChartReportItemPresentationImpl extends
 			final Generator gr = Generator.instance( );
 			GeneratedChartState gcs = null;
 			rtc.setScriptClassLoader( new BIRTScriptClassLoader( ) );
-			rtc.setActionRenderer( new BIRTActionRenderer( this.ah,
+			rtc.setActionRenderer( new BIRTActionRenderer( this.handle,
+					this.ah,
 					rowAdapter,
 					this.context ) );
 

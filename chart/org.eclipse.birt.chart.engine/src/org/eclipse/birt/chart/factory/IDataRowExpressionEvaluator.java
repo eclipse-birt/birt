@@ -31,6 +31,18 @@ public interface IDataRowExpressionEvaluator
 	Object evaluate( String expression );
 
 	/**
+	 * Evaluates the global expressions which are not associated with the data
+	 * rows.
+	 * 
+	 * @param A
+	 *            String expression
+	 * @return An Object representing the evaluated expression. The Object must
+	 *         be of a type String, Number, Date, Calendar, or it will be
+	 *         evaluated as a String using toString().
+	 */
+	Object evaluateGlobal( String expression );
+
+	/**
 	 * Moves to the first row. Optional if already positioned on the first row
 	 * when passed to Generator.bindData()
 	 * 

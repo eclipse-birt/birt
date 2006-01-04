@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -48,10 +49,9 @@ import org.eclipse.swt.widgets.Label;
  * 
  */
 
-public class TaskFormatChart extends TreeCompoundTask
-		implements
-			IUIManager,
-			ITaskChangeListener
+public class TaskFormatChart extends TreeCompoundTask implements
+		IUIManager,
+		ITaskChangeListener
 {
 
 	private transient ChartPreviewPainter previewPainter = null;
@@ -502,7 +502,8 @@ public class TaskFormatChart extends TreeCompoundTask
 		if ( previewPainter != null )
 		{
 			if ( notification.getNotifier( ) instanceof SeriesGrouping
-					|| ( notification.getNewValue( ) instanceof SortOption || notification.getOldValue( ) instanceof SortOption ) )
+					|| ( notification.getNewValue( ) instanceof SortOption || notification.getOldValue( ) instanceof SortOption )
+					|| ( notification.getNotifier( ) instanceof SeriesDefinition && notification.getNewValue( ) instanceof Series ) )
 			{
 				doLivePreviewWithoutRenderModel( );
 			}

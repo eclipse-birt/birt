@@ -269,14 +269,17 @@ public class StockChart extends DefaultChartTypeImpl
 			{
 				if ( !currentChart.getType( ).equals( TYPE_LITERAL ) )
 				{
-					currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ) ) );
+					currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
+							false ) );
 				}
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.getTitle( )
 						.getLabel( )
 						.getCaption( )
 						.setValue( CHART_TITLE );
-				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.DATE_TIME_LITERAL );
+				// !Keep the original axis type now.
+				// ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 )
+				// ).setType( AxisType.DATE_TIME_LITERAL );
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
 
 				currentChart.setSubType( sNewSubType );
@@ -328,7 +331,8 @@ public class StockChart extends DefaultChartTypeImpl
 			currentChart.setBlock( helperModel.getBlock( ) );
 			currentChart.setDescription( helperModel.getDescription( ) );
 			currentChart.setGridColumnCount( helperModel.getGridColumnCount( ) );
-			currentChart.setSampleData( getConvertedSampleData( helperModel.getSampleData( ) ) );
+			currentChart.setSampleData( getConvertedSampleData( helperModel.getSampleData( ),
+					true ) );
 			currentChart.setScript( helperModel.getScript( ) );
 			currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
 			currentChart.setUnits( helperModel.getUnits( ) );
@@ -498,19 +502,23 @@ public class StockChart extends DefaultChartTypeImpl
 		return stockseries;
 	}
 
-	private SampleData getConvertedSampleData( SampleData currentSampleData )
+	private SampleData getConvertedSampleData( SampleData currentSampleData,
+			boolean convertBaseToDate )
 	{
-		// Convert base sample data
-		EList bsdList = currentSampleData.getBaseSampleData( );
-		Vector vNewBaseSampleData = new Vector( );
-		for ( int i = 0; i < bsdList.size( ); i++ )
+		if ( convertBaseToDate )
 		{
-			BaseSampleData bsd = (BaseSampleData) bsdList.get( i );
-			bsd.setDataSetRepresentation( getConvertedBaseSampleDataRepresentation( bsd.getDataSetRepresentation( ) ) );
-			vNewBaseSampleData.add( bsd );
+			// Convert base sample data to dateTime type.
+			EList bsdList = currentSampleData.getBaseSampleData( );
+			Vector vNewBaseSampleData = new Vector( );
+			for ( int i = 0; i < bsdList.size( ); i++ )
+			{
+				BaseSampleData bsd = (BaseSampleData) bsdList.get( i );
+				bsd.setDataSetRepresentation( getConvertedBaseSampleDataRepresentation( bsd.getDataSetRepresentation( ) ) );
+				vNewBaseSampleData.add( bsd );
+			}
+			currentSampleData.getBaseSampleData( ).clear( );
+			currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
 		}
-		currentSampleData.getBaseSampleData( ).clear( );
-		currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
 
 		// Convert orthogonal sample data
 		EList osdList = currentSampleData.getOrthogonalSampleData( );

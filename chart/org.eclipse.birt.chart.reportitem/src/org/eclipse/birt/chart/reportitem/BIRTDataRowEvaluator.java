@@ -31,6 +31,8 @@ public class BIRTDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 
 	private HashMap map;
 
+	private HashMap globalMap;
+
 	/**
 	 * The constructor.
 	 * 
@@ -41,6 +43,7 @@ public class BIRTDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 	{
 		this.set = set;
 		this.map = new HashMap( );
+		this.globalMap = new HashMap( );
 		for ( Iterator iter = definition.getRowExpressions( ).iterator( ); iter.hasNext( ); )
 		{
 			IScriptExpression exp = (IScriptExpression) iter.next( );
@@ -49,12 +52,12 @@ public class BIRTDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 		for ( Iterator iter = definition.getBeforeExpressions( ).iterator( ); iter.hasNext( ); )
 		{
 			IScriptExpression exp = (IScriptExpression) iter.next( );
-			map.put( exp.getText( ), exp );
+			globalMap.put( exp.getText( ), exp );
 		}
 		for ( Iterator iter = definition.getAfterExpressions( ).iterator( ); iter.hasNext( ); )
 		{
 			IScriptExpression exp = (IScriptExpression) iter.next( );
-			map.put( exp.getText( ), exp );
+			globalMap.put( exp.getText( ), exp );
 		}
 
 	}
@@ -66,7 +69,27 @@ public class BIRTDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 	 */
 	public Object evaluate( String expression )
 	{
-		return set.evaluate( (IBaseExpression) map.get( expression ) );
+		IBaseExpression ibe = (IBaseExpression) map.get( expression );
+		if ( ibe == null )
+		{
+			return null;
+		}
+		return set.evaluate( ibe );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluateGlobal(java.lang.String)
+	 */
+	public Object evaluateGlobal( String expression )
+	{
+		IBaseExpression ibe = (IBaseExpression) globalMap.get( expression );
+		if ( ibe == null )
+		{
+			return null;
+		}
+		return set.evaluate( ibe );
 	}
 
 	/*
