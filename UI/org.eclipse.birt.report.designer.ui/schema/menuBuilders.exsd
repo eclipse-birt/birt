@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.birt.report.designer.ui">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.birt.report.designer.ui" id="menuBuilder" name="%design.ui.menuBuilder"/>
+         <meta.schema plugin="org.eclipse.birt.report.designer.ui" id="menuBuilder" name="Report Item UI Context Menu Extension Point"/>
       </appInfo>
       <documentation>
          The extension point is used in creating customized context menu on report elements.
