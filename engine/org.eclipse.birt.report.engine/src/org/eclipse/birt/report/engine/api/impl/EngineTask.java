@@ -343,25 +343,6 @@ public abstract class EngineTask implements IEngineTask
 		return null;
 	}
 
-	/**
-	 * evaluate a script and convert the value to specified type.
-	 * 
-	 * @param expr
-	 *            exprestion statement
-	 * @param type
-	 *            value type
-	 * @return result with the specified type.
-	 */
-	protected Object evaluate( String expr, String type )
-	{
-		if ( expr == null || expr.length( ) == 0 )
-		{
-			return null;
-		}
-		Object value = executionContext.evaluate( expr );
-		return convertToType( value, type );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -524,7 +505,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.26 $ $Date: 2005/12/21 09:47:02 $
+	 * @version $Revision: 1.27 $ $Date: 2005/12/22 12:10:26 $
 	 */
 	static abstract class ParameterVisitor
 	{
@@ -657,7 +638,7 @@ public abstract class EngineTask implements IEngineTask
 				String name = param.getName( );
 				if ( !inputValues.containsKey( name ) )
 				{
-					Object value = evaluate( param.getDefaultValue( ), param
+					Object value = convertToType( param.getDefaultValue( ), param
 							.getDataType( ) );
 					executionContext.getParams( ).put( name, value );
 					runValues.put( name, value );

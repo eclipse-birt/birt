@@ -39,11 +39,10 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 	
 	protected int selectionListType;
 
-	protected String valueExpr;
 	protected int dataType;
 	protected boolean allowNewValues;
 
-	protected String defaultValueExpr;
+	protected String defaultValue;
 	
 	
 	protected Logger log = Logger.getLogger( ScalarParameterDefn.class.getName( ) );
@@ -51,17 +50,17 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 	/**
 	 * @return
 	 */
-	public String getDefaultValueExpr()
+	public String getDefaultValue()
 	{
-		return defaultValueExpr;
+		return defaultValue;
 	}
 	
 	/**
 	 * @param value
 	 */
-	public void setDefaultValueExpr(String value)
+	public void setDefaultValue(String value)
 	{
-		this.defaultValueExpr = value;
+		this.defaultValue = value;
 	}
 
 	/* (non-Javadoc)

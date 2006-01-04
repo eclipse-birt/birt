@@ -242,7 +242,7 @@ public class GetParameterDefinitionTask extends EngineTask implements
 				String name = param.getName( );
 				String expr = param.getDefaultValue( );
 				String type = param.getDataType( );
-				Object value = evaluate( expr, type );
+				Object value = convertToType( expr, type );
 				values.put( name, value );
 				return true;
 			}
@@ -285,7 +285,7 @@ public class GetParameterDefinitionTask extends EngineTask implements
 		{
 			return null;
 		}
-		return evaluate( expr, parameter.getDataType( ) );
+		return convertToType( expr, parameter.getDataType( ) );
 	}
 
 	/*
