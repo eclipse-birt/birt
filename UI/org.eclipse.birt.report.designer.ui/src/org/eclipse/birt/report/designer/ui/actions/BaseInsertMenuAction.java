@@ -87,7 +87,7 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 
 	/**
 	 * Returns the container slotHandle.
-	 *  
+	 * 
 	 */
 	private SlotHandle getDefaultSlotHandle( String insertType )
 	{
@@ -131,10 +131,12 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 
 		request.setExtendedData( extendsData );
 
-		ProviderFactory.createProvider( slotHandle.getElementHandle( ) )
-				.performRequest( model, request );
-
-		return request;
+		if ( ProviderFactory.createProvider( slotHandle.getElementHandle( ) )
+				.performRequest( model, request ) )
+		{
+			return request;
+		}
+		return null;
 	}
 
 	protected void selectElement( final Object element, final boolean edit )
@@ -195,15 +197,18 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 		try
 		{
 			final Request req = insertElement( );
-			stack.commit( );
-
-			selectElement( req.getExtendedData( )
-					.get( IRequestConstants.REQUEST_KEY_RESULT ), true );
+			if ( req != null )
+			{
+				stack.commit( );
+				selectElement( req.getExtendedData( )
+						.get( IRequestConstants.REQUEST_KEY_RESULT ), true );
+				return;
+			}
 		}
 		catch ( Exception e )
 		{
-			stack.rollbackAll( );
 			ExceptionHandler.handle( e );
 		}
+		stack.rollback( );
 	}
 }
