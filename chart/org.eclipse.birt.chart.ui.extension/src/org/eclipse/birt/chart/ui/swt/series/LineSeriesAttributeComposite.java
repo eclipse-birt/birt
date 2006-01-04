@@ -136,13 +136,13 @@ public class LineSeriesAttributeComposite extends Composite
 			gdFCCShadow.widthHint = 180;
 			fccShadow.setLayoutData( gdFCCShadow );
 			fccShadow.addListener( this );
-
-			btnPalette = new Button( this, SWT.CHECK );
-			{
-				btnPalette.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
-				btnPalette.setSelection( ( (LineSeries) series ).isPaletteLineColor( ) );
-				btnPalette.addSelectionListener( this );
-			}
+		}
+		
+		btnPalette = new Button( this, SWT.CHECK );
+		{
+			btnPalette.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
+			btnPalette.setSelection( ( (LineSeries) series ).isPaletteLineColor( ) );
+			btnPalette.addSelectionListener( this );
 		}
 
 		btnCurve = new Button( this, SWT.CHECK );
@@ -155,7 +155,12 @@ public class LineSeriesAttributeComposite extends Composite
 		if ( !isShadowNeeded( ) )
 		{
 			GridData gd = new GridData( );
-			gd.horizontalSpan = 4;
+			gd.horizontalSpan = 2;
+			gd.horizontalIndent = 5;
+			btnPalette.setLayoutData( gd );
+			
+			gd = new GridData( );
+			gd.horizontalSpan = 2;
 			gd.horizontalIndent = 5;
 			btnCurve.setLayoutData( gd );
 		}

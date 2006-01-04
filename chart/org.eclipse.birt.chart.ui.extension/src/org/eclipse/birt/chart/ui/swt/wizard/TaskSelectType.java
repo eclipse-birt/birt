@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -186,8 +187,7 @@ public class TaskSelectType extends SimpleTask
 
 	private void createChartPainter( )
 	{
-		previewPainter = new ChartPreviewPainter( ( (ChartWizardContext) getContext( ) ).getProcessor( ),
-				container );
+		previewPainter = new ChartPreviewPainter( (ChartWizardContext) getContext( ) );
 		previewCanvas.addPaintListener( previewPainter );
 		previewCanvas.addControlListener( previewPainter );
 		previewPainter.setPreview( previewCanvas );
@@ -297,10 +297,6 @@ public class TaskSelectType extends SimpleTask
 		populateLists( );
 	}
 
-	/**
-	 * This method initializes msgComposite
-	 * 
-	 */
 	private void createHeader( )
 	{
 		Label lblTypes = new Label( cmpType, SWT.NO_FOCUS );
@@ -1162,17 +1158,20 @@ public class TaskSelectType extends SimpleTask
 		}
 	}
 
+	protected IDataServiceProvider getDataServiceProvider( )
+	{
+		return ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( );
+	}
+
 	private boolean hasDataSet( )
 	{
-		return ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( )
-				.getReportDataSet( ) != null
-				|| ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( )
-						.getBoundDataSet( ) != null;
+		return getDataServiceProvider( ).getReportDataSet( ) != null
+				|| getDataServiceProvider( ).getBoundDataSet( ) != null;
 	}
 
 	private void doLivePreview( )
 	{
-		if ( ChartPreviewPainter.isLivePreviewEnabled( )
+		if ( getDataServiceProvider( ).isLivePreviewEnabled( )
 				&& ChartUIUtil.checkDataBinding( chartModel ) && hasDataSet( ) )
 		{
 			// Enable live preview
@@ -1181,8 +1180,7 @@ public class TaskSelectType extends SimpleTask
 			ChartAdapter.ignoreNotifications( true );
 			try
 			{
-				ChartUIUtil.doLivePreview( chartModel,
-						( (ChartWizardContext) getContext( ) ).getDataServiceProvider( ) );
+				ChartUIUtil.doLivePreview( chartModel, getDataServiceProvider( ) );
 			}
 			// Includes RuntimeException
 			catch ( Exception e )

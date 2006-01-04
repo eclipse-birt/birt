@@ -26,7 +26,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * Chart builder for BIRT designer.
@@ -60,6 +60,19 @@ public class ChartWizard extends WizardBase
 				UIHelper.getImage( "icons/obj16/chartselector.gif" ), //$NON-NLS-1$
 				UIHelper.getImage( "icons/wizban/chartwizardtaskbar.gif" ) ); //$NON-NLS-1$
 		adapter = new ChartAdapter( this );
+	}
+
+	/**
+	 * Creates the chart wizard using a specified shell, such as a workbench
+	 * shell
+	 * 
+	 * @param parentShell
+	 *            parent shell. Null indicates using a new shell
+	 */
+	public ChartWizard( Shell parentShell )
+	{
+		this( );
+		setParentShell( parentShell );
 	}
 
 	public void addTask( String sTaskID )
@@ -170,12 +183,6 @@ public class ChartWizard extends WizardBase
 			setTitle( Messages.getString( "ChartWizard.Title.EditChart" ) ); //$NON-NLS-1$
 			// Add adapters to chart model
 			chart.eAdapters( ).add( adapter );
-		}
-		if ( PlatformUI.isWorkbenchRunning( ) )
-		{
-			setParentShell( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ) );
 		}
 		return super.open( sTasks, topTaskId, initialContext );
 	}

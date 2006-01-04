@@ -26,7 +26,7 @@ public class AxisXSheetImpl extends AbstractAxisSubtask
 		return ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) getChart( ) );
 	}
 
-	protected int getAxisType( )
+	protected int getAxisAngleType( )
 	{
 		return AngleType.X;
 	}

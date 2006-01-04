@@ -68,7 +68,8 @@ public interface IDataServiceProvider
 	 *            column expression array in the form of javascript. Null will
 	 *            return all columns of dataset.
 	 * @param iMaxRecords
-	 *            max row count. -1 returns default count.
+	 *            max row count. -1 returns default count or the preference
+	 *            value.
 	 * @param byRow
 	 *            true: by row first, false: by column first
 	 * @return Data array. if type is by row, array length is row length; if
@@ -82,5 +83,7 @@ public interface IDataServiceProvider
 	 * 
 	 */
 	public void dispose( );
+
+	public boolean isLivePreviewEnabled( );
 
 }

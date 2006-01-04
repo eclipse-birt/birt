@@ -21,12 +21,15 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.SortOption;
+import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSheetEntry;
 import org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSubtaskEntry;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
@@ -427,7 +430,9 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		Composite cmp = super.getUI( parent );
 		if ( previewPainter == null )
 		{
+			// Invoke this only once
 			createPreviewPainter( );
+			manipulateCompatible( );
 		}
 		doLivePreviewWithoutRenderModel( );
 		previewPainter.renderModel( getCurrentModelState( ) );
@@ -490,8 +495,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 
 	private void createPreviewPainter( )
 	{
-		previewPainter = new ChartPreviewPainter( ( (ChartWizardContext) getContext( ) ).getProcessor( ),
-				container );
+		previewPainter = new ChartPreviewPainter( ( (ChartWizardContext) getContext( ) ) );
 		previewCanvas.addPaintListener( previewPainter );
 		previewCanvas.addControlListener( previewPainter );
 		previewPainter.setPreview( previewCanvas );
@@ -517,17 +521,20 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		}
 	}
 
+	protected IDataServiceProvider getDataServiceProvider( )
+	{
+		return ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( );
+	}
+
 	private boolean hasDataSet( )
 	{
-		return ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( )
-				.getReportDataSet( ) != null
-				|| ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( )
-						.getBoundDataSet( ) != null;
+		return getDataServiceProvider( ).getReportDataSet( ) != null
+				|| getDataServiceProvider( ).getBoundDataSet( ) != null;
 	}
 
 	private void doLivePreviewWithoutRenderModel( )
 	{
-		if ( ChartPreviewPainter.isLivePreviewEnabled( )
+		if ( getDataServiceProvider( ).isLivePreviewEnabled( )
 				&& ChartUIUtil.checkDataBinding( getCurrentModelState( ) )
 				&& hasDataSet( ) )
 		{
@@ -538,7 +545,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			try
 			{
 				ChartUIUtil.doLivePreview( getCurrentModelState( ),
-						( (ChartWizardContext) getContext( ) ).getDataServiceProvider( ) );
+						getDataServiceProvider( ) );
 			}
 			// Includes RuntimeException
 			catch ( Exception e )
@@ -662,6 +669,18 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			{
 				uiManager.addCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
 			}
+		}
+	}
+
+	private void manipulateCompatible( )
+	{
+		// Make it compatible with old model
+		if ( getCurrentModelState( ).getInteractivity( ) == null )
+		{
+			Interactivity interactivity = InteractivityImpl.create( );
+			interactivity.eAdapters( )
+					.addAll( getCurrentModelState( ).eAdapters( ) );
+			getCurrentModelState( ).setInteractivity( interactivity );
 		}
 	}
 

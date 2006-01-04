@@ -26,6 +26,7 @@
       <import plugin="org.eclipse.birt.data"/>
       <import plugin="org.eclipse.birt.core"/>
       <import plugin="org.eclipse.birt.core.ui"/>
+      <import plugin="org.eclipse.ui.workbench"/>
    </requires>
    <extension
          id="chart"
@@ -105,5 +106,15 @@
       <reportItem
             class="org.eclipse.birt.chart.reportitem.ChartReportItemGenerationImpl"
             name="Chart"/>
+   </extension>
+   
+      <!-- Preference pages --> 
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.eclipse.birt.chart.reportitem.ui.ChartPreferencePage"
+            category="org.eclipse.birt.report.designer.ui.preferences"
+            name="%preference.chart"
+            id="org.eclipse.birt.chart.reportitem.ui.ChartPreferencePage"/>
    </extension>
 </plugin>

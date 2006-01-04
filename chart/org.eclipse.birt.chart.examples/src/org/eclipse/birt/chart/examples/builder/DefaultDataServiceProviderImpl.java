@@ -23,7 +23,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 {
 
-	private transient String sDataSetName = ""; //$NON-NLS-1$
+	private transient String sDataSetName = "Dummy DataSet"; //$NON-NLS-1$
 	private static final int COLUMN_COUNT = 8;
 	private static final int ROW_COUNT = 10;
 
@@ -179,6 +179,11 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	public boolean isLivePreviewEnabled( )
+	{
+		return true;
 	}
 
 }

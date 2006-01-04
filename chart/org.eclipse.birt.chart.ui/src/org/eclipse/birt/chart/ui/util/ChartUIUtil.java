@@ -11,16 +11,15 @@
 
 package org.eclipse.birt.chart.ui.util;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
@@ -433,7 +432,7 @@ public class ChartUIUtil
 	}
 
 	/**
-	 * Does Live Priview. Need to check all series data binding complete before
+	 * Does Live Preview. Need to check all series data binding complete before
 	 * invoking
 	 * 
 	 * @param chart
@@ -521,75 +520,107 @@ public class ChartUIUtil
 	}
 
 	/**
-	 * Convers sample data according to AxisType
+	 * Converts sample data according to AxisType
 	 * 
 	 * @param axisType
 	 *            axis type
 	 * @param sOldRepresentation
-	 *            old sample data representatio
+	 *            old sample data representation
 	 * @return new sample data representation
 	 */
 	public static String getConvertedSampleDataRepresentation(
 			AxisType axisType, String sOldRepresentation )
 	{
-		StringTokenizer strtok = new StringTokenizer( sOldRepresentation, "," ); //$NON-NLS-1$
-		NumberFormat nf = NumberFormat.getNumberInstance( );
-		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy", Locale.getDefault( ) ); //$NON-NLS-1$
-		StringBuffer sbNewRepresentation = new StringBuffer( "" ); //$NON-NLS-1$
-		while ( strtok.hasMoreTokens( ) )
-		{
-			String sElement = strtok.nextToken( ).trim( );
-			if ( sElement.startsWith( "'" ) ) //$NON-NLS-1$
-			{
-				sElement = sElement.substring( 1, sElement.length( ) - 1 );
-			}
-			try
-			{
-				if ( axisType.equals( AxisType.DATE_TIME_LITERAL ) )
-				{
-					sdf.parse( sElement );
-				}
-				else if ( axisType.equals( AxisType.TEXT_LITERAL ) )
-				{
-					if ( !sElement.startsWith( "'" ) ) //$NON-NLS-1$
-					{
-						sElement = "'" + sElement + "'"; //$NON-NLS-1$ //$NON-NLS-2$
-					}
-				}
-				else
-				{
-					double dbl = nf.parse( sElement ).doubleValue( );
-					sElement = String.valueOf( dbl );
-				}
-			}
-			catch ( ParseException e )
-			{
-				// Use the orginal sample data if parse exception encountered
+		// StringTokenizer strtok = new StringTokenizer( sOldRepresentation, ","
+		// ); //$NON-NLS-1$
+		// NumberFormat nf = NumberFormat.getNumberInstance( );
+		// SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy",
+		// Locale.getDefault( ) ); //$NON-NLS-1$
+		// StringBuffer sbNewRepresentation = new StringBuffer( "" );
+		// //$NON-NLS-1$
+		// while ( strtok.hasMoreTokens( ) )
+		// {
+		// String sElement = strtok.nextToken( ).trim( );
+		// if ( sElement.startsWith( "'" ) ) //$NON-NLS-1$
+		// {
+		// sElement = sElement.substring( 1, sElement.length( ) - 1 );
+		// }
+		// try
+		// {
+		// if ( axisType.equals( AxisType.DATE_TIME_LITERAL ) )
+		// {
+		// sdf.parse( sElement );
+		// }
+		// else if ( axisType.equals( AxisType.TEXT_LITERAL ) )
+		// {
+		// if ( !sElement.startsWith( "'" ) ) //$NON-NLS-1$
+		// {
+		// sElement = "'" + sElement + "'"; //$NON-NLS-1$ //$NON-NLS-2$
+		// }
+		// }
+		// else
+		// {
+		// double dbl = nf.parse( sElement ).doubleValue( );
+		// sElement = String.valueOf( dbl );
+		// }
+		// }
+		// catch ( ParseException e )
+		// {
+		// // Use the orginal sample data if parse exception encountered
+		//
+		// // if ( axisType.equals( AxisType.DATE_TIME_LITERAL ) )
+		// // {
+		// // Calendar cal = Calendar.getInstance( Locale.getDefault( ) );
+		// // StringBuffer sbNewDate = new StringBuffer( "" );
+		// // //$NON-NLS-1$
+		// // sbNewDate.append( cal.get( Calendar.MONTH ) + 1 );
+		// // sbNewDate.append( "/" ); //$NON-NLS-1$
+		// // // Increasing the date beyond the last date for the month
+		// // // causes the month to roll over
+		// // sbNewDate.append( cal.get( Calendar.DATE ) + iValueCount );
+		// // sbNewDate.append( "/" ); //$NON-NLS-1$
+		// // sbNewDate.append( cal.get( Calendar.YEAR ) );
+		// // sElement = sbNewDate.toString( );
+		// // }
+		// // else
+		// // {
+		// // sElement = String.valueOf( 6.0 + iValueCount );
+		// // }
+		// }
+		// sbNewRepresentation.append( sElement );
+		// sbNewRepresentation.append( "," ); //$NON-NLS-1$
+		// }
+		// return sbNewRepresentation.toString( ).substring( 0,
+		// sbNewRepresentation.length( ) - 1 );
+		return getNewSampleData( axisType );
+	}
 
-				// if ( axisType.equals( AxisType.DATE_TIME_LITERAL ) )
-				// {
-				// Calendar cal = Calendar.getInstance( Locale.getDefault( ) );
-				// StringBuffer sbNewDate = new StringBuffer( "" );
-				// //$NON-NLS-1$
-				// sbNewDate.append( cal.get( Calendar.MONTH ) + 1 );
-				// sbNewDate.append( "/" ); //$NON-NLS-1$
-				// // Increasing the date beyond the last date for the month
-				// // causes the month to roll over
-				// sbNewDate.append( cal.get( Calendar.DATE ) + iValueCount );
-				// sbNewDate.append( "/" ); //$NON-NLS-1$
-				// sbNewDate.append( cal.get( Calendar.YEAR ) );
-				// sElement = sbNewDate.toString( );
-				// }
-				// else
-				// {
-				// sElement = String.valueOf( 6.0 + iValueCount );
-				// }
-			}
-			sbNewRepresentation.append( sElement );
-			sbNewRepresentation.append( "," ); //$NON-NLS-1$
+	/**
+	 * Creates new sample data according to specified axis type.
+	 * 
+	 * @param axisType
+	 *            axis type
+	 */
+	public static String getNewSampleData( AxisType axisType )
+	{
+		if ( axisType.equals( AxisType.DATE_TIME_LITERAL ) )
+		{
+			SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy", Locale.getDefault( ) ); //$NON-NLS-1$
+			Calendar today = new GregorianCalendar( );
+			Calendar firstDay = new GregorianCalendar( today.get( Calendar.YEAR ),
+					0,
+					1 );
+			Calendar lastDay = new GregorianCalendar( today.get( Calendar.YEAR ),
+					11,
+					31 );
+			return sdf.format( firstDay.getTime( ) )
+					+ "," + sdf.format( today.getTime( ) ) + "," + sdf.format( lastDay.getTime( ) ); //$NON-NLS-1$//$NON-NLS-2$
 		}
-		return sbNewRepresentation.toString( ).substring( 0,
-				sbNewRepresentation.length( ) - 1 );
+		else if ( axisType.equals( AxisType.TEXT_LITERAL ) )
+		{
+			return "'A','B','C'"; //$NON-NLS-1$
+		}
+		return "5,4,12"; //$NON-NLS-1$
 	}
 
 	/**

@@ -19,11 +19,13 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
@@ -35,6 +37,7 @@ import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisGridLinesSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisMarkersSheet;
@@ -96,12 +99,12 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 	abstract protected Axis getAxisForProcessing( );
 
 	/**
-	 * Returns the axis type
+	 * Returns the axis angle type
 	 * 
 	 * @return <code>AngleType.X</code>, <code>AngleType.Y</code> or
 	 *         <code>AngleType.Z</code>
 	 */
-	abstract protected int getAxisType( );
+	abstract protected int getAxisAngleType( );
 
 	/*
 	 * (non-Javadoc)
@@ -372,7 +375,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 			popupSheet = new AxisTextSheet( popupShell,
 					getContext( ),
 					getAxisForProcessing( ),
-					getAxisType( ) );
+					getAxisAngleType( ) );
 			getWizard( ).attachPopup( btnAxisTitle.getText( ), -1, -1 );
 		}
 		else if ( e.widget.equals( btnGridlines ) )
@@ -402,8 +405,16 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 		if ( e.widget.equals( cmbTypes ) )
 		{
-			getAxisForProcessing( ).setType( AxisType.get( LiteralHelper.axisTypeSet.getNameByDisplayName( cmbTypes.getText( ) ) ) );
-			convertSampleData( );
+			AxisType axisType = AxisType.get( LiteralHelper.axisTypeSet.getNameByDisplayName( cmbTypes.getText( ) ) );
+
+			// Update the Sample Data without event fired.
+			boolean isNotificaionIgnored = ChartAdapter.isNotificationIgnored( );
+			ChartAdapter.ignoreNotifications( true );
+			convertSampleData( axisType );
+			ChartAdapter.ignoreNotifications( isNotificaionIgnored );
+
+			// Set type and refresh the preview
+			getAxisForProcessing( ).setType( axisType );
 		}
 		else if ( e.widget.equals( cmbOrigin ) )
 		{
@@ -475,31 +486,43 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		// TODO Auto-generated method stub
 	}
 
-	private void convertSampleData( )
+	private void convertSampleData( AxisType axisType )
 	{
-		// Run the conversion routine for ALL orthogonal sample data entries
-		// related to series definitions for this axis
-		// Get the start and end index of series definitions that fall under
-		// this axis
-		int iStartIndex = getFirstSeriesDefinitionIndexForAxis( );
-		int iEndIndex = iStartIndex
-				+ getAxisForProcessing( ).getSeriesDefinitions( ).size( );
-		// for each entry in orthogonal sample data, if the series index for the
-		// entry is in this range...run conversion
-		// routine
-		int iOSDSize = getChart( ).getSampleData( )
-				.getOrthogonalSampleData( )
-				.size( );
-		for ( int i = 0; i < iOSDSize; i++ )
+		if ( getAxisAngleType( ) == AngleType.X )
 		{
-			OrthogonalSampleData osd = (OrthogonalSampleData) getChart( ).getSampleData( )
+			BaseSampleData bsd = (BaseSampleData) getChart( ).getSampleData( )
+					.getBaseSampleData( )
+					.get( 0 );
+			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
+					bsd.getDataSetRepresentation( ) ) );
+		}
+		else if ( getAxisAngleType( ) == AngleType.Y )
+		{
+			// Run the conversion routine for ALL orthogonal sample data entries
+			// related to series definitions for this axis
+			// Get the start and end index of series definitions that fall under
+			// this axis
+			int iStartIndex = getFirstSeriesDefinitionIndexForAxis( );
+			int iEndIndex = iStartIndex
+					+ getAxisForProcessing( ).getSeriesDefinitions( ).size( );
+			// for each entry in orthogonal sample data, if the series index for
+			// the
+			// entry is in this range...run conversion
+			// routine
+			int iOSDSize = getChart( ).getSampleData( )
 					.getOrthogonalSampleData( )
-					.get( i );
-			if ( osd.getSeriesDefinitionIndex( ) >= iStartIndex
-					&& osd.getSeriesDefinitionIndex( ) <= iEndIndex )
+					.size( );
+			for ( int i = 0; i < iOSDSize; i++ )
 			{
-				osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( getAxisForProcessing( ).getType( ),
-						osd.getDataSetRepresentation( ) ) );
+				OrthogonalSampleData osd = (OrthogonalSampleData) getChart( ).getSampleData( )
+						.getOrthogonalSampleData( )
+						.get( i );
+				if ( osd.getSeriesDefinitionIndex( ) >= iStartIndex
+						&& osd.getSeriesDefinitionIndex( ) <= iEndIndex )
+				{
+					osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
+							osd.getDataSetRepresentation( ) ) );
+				}
 			}
 		}
 	}

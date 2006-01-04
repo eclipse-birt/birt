@@ -27,7 +27,7 @@ public class AxisYSheetImpl extends AbstractAxisSubtask
 				getIndex( ) );
 	}
 
-	protected int getAxisType( )
+	protected int getAxisAngleType( )
 	{
 		return AngleType.Y;
 	}

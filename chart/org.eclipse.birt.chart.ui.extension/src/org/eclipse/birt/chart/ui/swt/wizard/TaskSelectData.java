@@ -81,7 +81,6 @@ public class TaskSelectData extends SimpleTask
 	private transient Composite cmpTask = null;
 
 	private transient Composite cmpPreview = null;
-	private transient Button btnEnableLive = null;
 	private transient Canvas previewCanvas = null;
 
 	private transient Button btnUseReportData = null;
@@ -289,16 +288,6 @@ public class TaskSelectData extends SimpleTask
 			btnNewData.setToolTipText( Messages.getString( "TaskSelectData.Tooltip.CreateNewDataset" ) ); //$NON-NLS-1$
 			btnNewData.addSelectionListener( this );
 		}
-
-		btnEnableLive = new Button( cmpDetail, SWT.CHECK );
-		{
-			GridData gd = new GridData( );
-			gd.horizontalSpan = 3;
-			btnEnableLive.setLayoutData( gd );
-			btnEnableLive.setText( Messages.getString( "TaskSelectData.Label.EnableLivePreview" ) ); //$NON-NLS-1$
-			btnEnableLive.setSelection( ChartPreviewPainter.isLivePreviewEnabled( ) );
-			btnEnableLive.addSelectionListener( this );
-		}
 	}
 
 	private void createDataPreviewTableArea( Composite parent )
@@ -318,7 +307,7 @@ public class TaskSelectData extends SimpleTask
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.widthHint = CENTER_WIDTH_HINT;
-			gridData.heightHint = 130;
+			gridData.heightHint = 150;
 			tablePreview.setLayoutData( gridData );
 			tablePreview.setHeaderAlignment( SWT.LEFT );
 			tablePreview.addListener( CustomPreviewTable.MOUSE_RIGHT_CLICK_TYPE,
@@ -358,12 +347,10 @@ public class TaskSelectData extends SimpleTask
 	protected void init( )
 	{
 		// Create data set list
-		String currentDataSet = getWizardContext( ).getDataServiceProvider( )
-				.getBoundDataSet( );
+		String currentDataSet = getDataServiceProvider( ).getBoundDataSet( );
 		if ( currentDataSet != null )
 		{
-			cmbDataSet.setItems( getWizardContext( ).getDataServiceProvider( )
-					.getAllDataSets( ) );
+			cmbDataSet.setItems( getDataServiceProvider( ).getAllDataSets( ) );
 			cmbDataSet.setText( currentDataSet );
 			useReportDataSet( false );
 			switchDataTable( cmbDataSet.getText( ) );
@@ -371,8 +358,7 @@ public class TaskSelectData extends SimpleTask
 		else
 		{
 			useReportDataSet( true );
-			String reportDataSet = getWizardContext( ).getDataServiceProvider( )
-					.getReportDataSet( );
+			String reportDataSet = getDataServiceProvider( ).getReportDataSet( );
 			if ( reportDataSet != null )
 			{
 				switchDataTable( reportDataSet );
@@ -408,15 +394,13 @@ public class TaskSelectData extends SimpleTask
 		try
 		{
 			// Add data header
-			String[] header = getWizardContext( ).getDataServiceProvider( )
-					.getPreviewHeader( );
+			String[] header = getDataServiceProvider( ).getPreviewHeader( );
 			tablePreview.setColumns( header );
 
 			refreshTableColor( );
 
 			// Add data value
-			List dataList = getWizardContext( ).getDataServiceProvider( )
-					.getPreviewData( );
+			List dataList = getDataServiceProvider( ).getPreviewData( );
 			for ( Iterator iterator = dataList.iterator( ); iterator.hasNext( ); )
 			{
 				String[] dataRow = (String[]) iterator.next( );
@@ -435,8 +419,7 @@ public class TaskSelectData extends SimpleTask
 
 	private void createPreviewPainter( )
 	{
-		previewPainter = new ChartPreviewPainter( getWizardContext( ).getProcessor( ),
-				container );
+		previewPainter = new ChartPreviewPainter( (ChartWizardContext) getContext( ) );
 		previewCanvas.addPaintListener( previewPainter );
 		previewCanvas.addControlListener( previewPainter );
 		previewPainter.setPreview( previewCanvas );
@@ -448,22 +431,20 @@ public class TaskSelectData extends SimpleTask
 		{
 			return null;
 		}
-		return getWizardContext( ).getModel( );
+		return ( (ChartWizardContext) getContext( ) ).getModel( );
 	}
 
 	private void switchDataSet( String datasetName ) throws ChartException
 	{
 		try
 		{
-			getWizardContext( ).getDataServiceProvider( )
-					.setDataSet( datasetName );
+			getDataServiceProvider( ).setDataSet( datasetName );
 			tablePreview.clearContents( );
 
 			// Try to get report data set
 			if ( datasetName == null )
 			{
-				datasetName = getWizardContext( ).getDataServiceProvider( )
-						.getReportDataSet( );
+				datasetName = getDataServiceProvider( ).getReportDataSet( );
 			}
 
 			if ( datasetName != null )
@@ -518,8 +499,7 @@ public class TaskSelectData extends SimpleTask
 			}
 			if ( cmbDataSet.getText( ).length( ) == 0 )
 			{
-				cmbDataSet.setItems( getWizardContext( ).getDataServiceProvider( )
-						.getAllDataSets( ) );
+				cmbDataSet.setItems( getDataServiceProvider( ).getAllDataSets( ) );
 				cmbDataSet.select( 0 );
 			}
 			if ( cmbDataSet.getText( ).length( ) != 0 )
@@ -552,16 +532,13 @@ public class TaskSelectData extends SimpleTask
 		}
 		else if ( e.getSource( ).equals( btnNewData ) )
 		{
-			String[] sAllDS = getWizardContext( ).getDataServiceProvider( )
-					.getAllDataSets( );
+			String[] sAllDS = getDataServiceProvider( ).getAllDataSets( );
 			String sCurrentDS = ""; //$NON-NLS-1$
 			if ( sAllDS.length > 0 )
 			{
-				sCurrentDS = getWizardContext( ).getDataServiceProvider( )
-						.getBoundDataSet( );
+				sCurrentDS = getDataServiceProvider( ).getBoundDataSet( );
 			}
-			getWizardContext( ).getDataServiceProvider( )
-					.invoke( IDataServiceProvider.COMMAND_NEW_DATASET );
+			getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_NEW_DATASET );
 			sAllDS = ( (ChartWizardContext) context ).getDataServiceProvider( )
 					.getAllDataSets( );
 			// Update UI with DS list
@@ -589,8 +566,7 @@ public class TaskSelectData extends SimpleTask
 		}
 		else if ( e.getSource( ).equals( btnFilters ) )
 		{
-			if ( getWizardContext( ).getDataServiceProvider( )
-					.invoke( IDataServiceProvider.COMMAND_EDIT_FILTER ) == Window.OK )
+			if ( getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_EDIT_FILTER ) == Window.OK )
 			{
 				refreshTablePreview( );
 				doLivePreview( );
@@ -598,17 +574,11 @@ public class TaskSelectData extends SimpleTask
 		}
 		else if ( e.getSource( ).equals( btnParameters ) )
 		{
-			if ( getWizardContext( ).getDataServiceProvider( )
-					.invoke( IDataServiceProvider.COMMAND_EDIT_PARAMETER ) == Window.OK )
+			if ( getDataServiceProvider( ).invoke( IDataServiceProvider.COMMAND_EDIT_PARAMETER ) == Window.OK )
 			{
 				refreshTablePreview( );
 				doLivePreview( );
 			}
-		}
-		else if ( e.getSource( ).equals( btnEnableLive ) )
-		{
-			ChartPreviewPainter.enableLivePreview( btnEnableLive.getSelection( ) );
-			doLivePreview( );
 		}
 		else if ( e.getSource( ) instanceof MenuItem )
 		{
@@ -629,9 +599,9 @@ public class TaskSelectData extends SimpleTask
 		tablePreview.layout( );
 	}
 
-	protected ChartWizardContext getWizardContext( )
+	protected IDataServiceProvider getDataServiceProvider( )
 	{
-		return (ChartWizardContext) getContext( );
+		return ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( );
 	}
 
 	public void widgetDefaultSelected( SelectionEvent e )
@@ -640,9 +610,8 @@ public class TaskSelectData extends SimpleTask
 
 	private boolean hasDataSet( )
 	{
-		return getWizardContext( ).getDataServiceProvider( ).getReportDataSet( ) != null
-				|| getWizardContext( ).getDataServiceProvider( )
-						.getBoundDataSet( ) != null;
+		return getDataServiceProvider( ).getReportDataSet( ) != null
+				|| getDataServiceProvider( ).getBoundDataSet( ) != null;
 	}
 
 	public void widgetDisposed( DisposeEvent e )
@@ -748,9 +717,7 @@ public class TaskSelectData extends SimpleTask
 	public void handleEvent( Event event )
 	{
 		if ( event.type == CustomPreviewTable.MOUSE_RIGHT_CLICK_TYPE
-				&& ( getWizardContext( ).getDataServiceProvider( )
-						.getBoundDataSet( ) != null || getWizardContext( ).getDataServiceProvider( )
-						.getReportDataSet( ) != null ) )
+				&& ( getDataServiceProvider( ).getBoundDataSet( ) != null || getDataServiceProvider( ).getReportDataSet( ) != null ) )
 		{
 			MenuManager menuManager = new MenuManager( );
 			menuManager.setRemoveAllWhenShown( true );
@@ -1022,7 +989,7 @@ public class TaskSelectData extends SimpleTask
 	// }
 	// exprArray[i] = sExpr;
 	// }
-	// Object[] columnData = getWizardContext( ).getDataServiceProvider( )
+	// Object[] columnData = getDataServiceProvider( )
 	// .getDataForColumns( exprArray, -1, true );
 	// return iDSP.toString( columnData );
 	// }
@@ -1043,7 +1010,7 @@ public class TaskSelectData extends SimpleTask
 
 	private void doLivePreview( )
 	{
-		if ( ChartPreviewPainter.isLivePreviewEnabled( )
+		if ( getDataServiceProvider( ).isLivePreviewEnabled( )
 				&& ChartUIUtil.checkDataBinding( getChartModel( ) )
 				&& hasDataSet( ) )
 		{
@@ -1054,7 +1021,7 @@ public class TaskSelectData extends SimpleTask
 			try
 			{
 				ChartUIUtil.doLivePreview( getChartModel( ),
-						getWizardContext( ).getDataServiceProvider( ) );
+						getDataServiceProvider( ) );
 			}
 			// Includes RuntimeException
 			catch ( Exception e )

@@ -16,10 +16,12 @@ import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.TreeCompoundTask;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -259,8 +261,16 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			}
 			else if ( e.widget.equals( cmbTypes ) )
 			{
-				axis.setType( AxisType.get( LiteralHelper.axisTypeSet.getNameByDisplayName( cmbTypes.getText( ) ) ) );
-				convertSampleData( );
+				AxisType axisType = AxisType.get( LiteralHelper.axisTypeSet.getNameByDisplayName( cmbTypes.getText( ) ) );
+
+				// Update the Sample Data without event fired.
+				boolean isNotificaionIgnored = ChartAdapter.isNotificationIgnored( );
+				ChartAdapter.ignoreNotifications( true );
+				convertSampleData( axisType );
+				ChartAdapter.ignoreNotifications( isNotificaionIgnored );
+
+				// Set type and refresh the preview
+				axis.setType( axisType );
 			}
 		}
 
@@ -331,29 +341,41 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 					.get( 0 );
 		}
 
-		private void convertSampleData( )
+		private void convertSampleData( AxisType axisType )
 		{
-			// Run the conversion routine for ALL orthogonal sample data entries
-			// related to series definitions for this axis
-			// Get the start and end index of series definitions that fall under
-			// this axis
-			int iStartIndex = getFirstSeriesDefinitionIndexForAxis( );
-			int iEndIndex = iStartIndex + axis.getSeriesDefinitions( ).size( );
-			// for each entry in orthogonal sample data, if the series index for
-			// the entry is in this range...run conversion routine
-			int iOSDSize = getChart( ).getSampleData( )
-					.getOrthogonalSampleData( )
-					.size( );
-			for ( int i = 0; i < iOSDSize; i++ )
+			if ( angleType == AngleType.X )
 			{
-				OrthogonalSampleData osd = (OrthogonalSampleData) getChart( ).getSampleData( )
+				BaseSampleData bsd = (BaseSampleData) getChart( ).getSampleData( )
+						.getBaseSampleData( )
+						.get( 0 );
+				bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
+						bsd.getDataSetRepresentation( ) ) );
+			}
+			else if ( angleType == AngleType.Y )
+			{
+				// Run the conversion routine for ALL orthogonal sample data
+				// entries related to series definitions for this axis
+				// Get the start and end index of series definitions that fall
+				// under this axis
+				int iStartIndex = getFirstSeriesDefinitionIndexForAxis( );
+				int iEndIndex = iStartIndex
+						+ axis.getSeriesDefinitions( ).size( );
+				// for each entry in orthogonal sample data, if the series index
+				// for the entry is in this range...run conversion routine
+				int iOSDSize = getChart( ).getSampleData( )
 						.getOrthogonalSampleData( )
-						.get( i );
-				if ( osd.getSeriesDefinitionIndex( ) >= iStartIndex
-						&& osd.getSeriesDefinitionIndex( ) <= iEndIndex )
+						.size( );
+				for ( int i = 0; i < iOSDSize; i++ )
 				{
-					osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axis.getType( ),
-							osd.getDataSetRepresentation( ) ) );
+					OrthogonalSampleData osd = (OrthogonalSampleData) getChart( ).getSampleData( )
+							.getOrthogonalSampleData( )
+							.get( i );
+					if ( osd.getSeriesDefinitionIndex( ) >= iStartIndex
+							&& osd.getSeriesDefinitionIndex( ) <= iEndIndex )
+					{
+						osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
+								osd.getDataSetRepresentation( ) ) );
+					}
 				}
 			}
 		}
