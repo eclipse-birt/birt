@@ -263,6 +263,9 @@ public interface IReportGraphicConstants
 	public static final String ICON_OPEN_FILE = "Open file";//$NON-NLS-1$
 
 	public static final String ICON_ENABLE_LOCAL_PROPERTIES = "Enable Local Properties";//$NON-NLS-1$
+	
+	//Template preview image
+	public static final String ICON_TEMPLATE_NO_PREVIEW = "no_preview";//$NON-NLS-1$
 
 	public final static String[] IMAGE_FILTER_NAMES = {
 			Messages.getString("IReportGraphicConstants.ImageType.All"), //$NON-NLS-1$

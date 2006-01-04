@@ -23,6 +23,8 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -453,13 +455,21 @@ public class WizardTemplateChoicePage extends WizardPage
 			previewPane.layout( );
 			String key = ( (Template) templates.get( selectedIndex ) )
 					.getPicturePath( );
-			Object img = imageMap.get( key );
-
-			if ( img == null )
+			Object img = null;
+			if ( key == null || "".equals( key.trim( ) ) )
 			{
-				img = ReportPlugin.getImage( key );
+				img = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_TEMPLATE_NO_PREVIEW );
+			}
+			else
+			{
+				img = imageMap.get( key );
 
-				imageMap.put( key, img );
+				if ( img == null )
+				{
+					img = ReportPlugin.getImage( key );
+
+					imageMap.put( key, img );
+				}
 			}
 
 			previewCanvas.clear( );

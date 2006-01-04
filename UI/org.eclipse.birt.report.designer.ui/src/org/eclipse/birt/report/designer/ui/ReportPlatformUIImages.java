@@ -430,7 +430,10 @@ public class ReportPlatformUIImages
 				"TableRowSelector", ICONS_PATH + OBJ16_PATH + "tablerowselector.gif" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		declareImage( IReportGraphicConstants.ICON_ENABLE_LOCAL_PROPERTIES,
-				ICONS_PATH + OBJ16_PATH + "property_reference.gif" );
+				ICONS_PATH + OBJ16_PATH + "property_reference.gif" );//$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_TEMPLATE_NO_PREVIEW, ICONS_PATH
+				+ MISC_PATH + "no_preview.gif" ); //$NON-NLS-1$
 	}
 
 	/**
