@@ -9,6 +9,7 @@ package org.eclipse.birt.report.soapengine.api;
 
 public class Column  implements java.io.Serializable {
     private java.lang.String name;
+    private java.lang.String label;
     private java.lang.Boolean visibility;
 
     public Column() {
@@ -16,8 +17,10 @@ public class Column  implements java.io.Serializable {
 
     public Column(
            java.lang.String name,
+           java.lang.String label,
            java.lang.Boolean visibility) {
            this.name = name;
+           this.label = label;
            this.visibility = visibility;
     }
 
@@ -39,6 +42,26 @@ public class Column  implements java.io.Serializable {
      */
     public void setName(java.lang.String name) {
         this.name = name;
+    }
+
+
+    /**
+     * Gets the label value for this Column.
+     * 
+     * @return label
+     */
+    public java.lang.String getLabel() {
+        return label;
+    }
+
+
+    /**
+     * Sets the label value for this Column.
+     * 
+     * @param label
+     */
+    public void setLabel(java.lang.String label) {
+        this.label = label;
     }
 
 
@@ -76,6 +99,9 @@ public class Column  implements java.io.Serializable {
             ((this.name==null && other.getName()==null) || 
              (this.name!=null &&
               this.name.equals(other.getName()))) &&
+            ((this.label==null && other.getLabel()==null) || 
+             (this.label!=null &&
+              this.label.equals(other.getLabel()))) &&
             ((this.visibility==null && other.getVisibility()==null) || 
              (this.visibility!=null &&
               this.visibility.equals(other.getVisibility())));
@@ -92,6 +118,9 @@ public class Column  implements java.io.Serializable {
         int _hashCode = 1;
         if (getName() != null) {
             _hashCode += getName().hashCode();
+        }
+        if (getLabel() != null) {
+            _hashCode += getLabel().hashCode();
         }
         if (getVisibility() != null) {
             _hashCode += getVisibility().hashCode();
@@ -110,6 +139,13 @@ public class Column  implements java.io.Serializable {
         elemField.setFieldName("name");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Name"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("label");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Label"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
