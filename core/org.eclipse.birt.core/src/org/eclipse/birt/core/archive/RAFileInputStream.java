@@ -75,6 +75,27 @@ public class RAFileInputStream extends RAInputStream
 			return -1;
 		}
 	}
+	
+	public int read( byte b[], int off, int len ) throws IOException
+	{
+		long parentPos = localPosToGlobalPos(cur);
+		long avaliableSize = endPos - parentPos;
+		if ( avaliableSize >= 0)
+		{
+			if (len > avaliableSize)
+			{
+				len = (int)avaliableSize;
+			}
+			seekParent( cur );
+			int size = parent.read( b, off, len );
+			if ( size > 0 )
+			{
+				cur += size;
+			}
+			return size;
+		}
+		return -1;
+	}
 
     /**
      * The same behavior as RandomAccessFile.readInt(). <br>
