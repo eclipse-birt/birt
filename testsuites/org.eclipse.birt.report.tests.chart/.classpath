@@ -7,7 +7,10 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.birt.chart.engine"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.birt.chart.engine.extension"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.birt.core"/>
-	<classpathentry kind="lib" path="D:/20051012/blank Eclipse3.1/plugins/org.eclipse.emf.ecore_2.0.1/runtime/ecore.jar"/>
-	<classpathentry kind="lib" path="D:/20051012/blank Eclipse3.1/plugins/org.eclipse.emf.common_2.0.1/runtime/common.jar"/>
+	<classpathentry kind="lib" path="D:/Eclipse3.1/plugins/org.eclipse.emf.ecore_2.1.0.jar"/>
+	<classpathentry kind="lib" path="D:/Eclipse3.1/plugins/org.eclipse.emf.common_2.1.0.jar"/>
+	<classpathentry kind="lib" path="D:/Eclipse3.1/plugins/org.eclipse.swt.win32.win32.x86_3.1.0.jar"/>
+	<classpathentry kind="lib" path="D:/Eclipse3.1/plugins/org.eclipse.swt_3.1.0.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.birt.chart.device.svg"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
