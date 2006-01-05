@@ -95,6 +95,8 @@ public class GroupDialog extends BaseDialog
 
 	private static final String GROUP_DLG_HEADER_FOOTER_LABEL = Messages.getString( "GroupDialog.Label.HeaderFooter" ); //$NON-NLS-1$
 
+	public static final String GROUP_DLG_INTERVAL_BASE_LABEL = Messages.getString( "GroupDialog.Label.IntervalBase" ); //$NON-NLS-1$
+
 	private static final String GROUP_DLG_AREA_MSG = Messages.getString( "GroupDialog.Dialog.GroupDetail" ); //$NON-NLS-1$
 
 	public static final String GROUP_DLG_TITLE_NEW = Messages.getString( "GroupDialog.Title.New" ); //$NON-NLS-1$
@@ -126,6 +128,10 @@ public class GroupDialog extends BaseDialog
 	 * The include check box and sorting direction radio box
 	 */
 	private Button includeHeader, includeFooter, ascending, descending;
+
+	private Button intervalBaseButton;
+
+	private Text intervalBaseText;
 
 	private Text tocEditor;
 
@@ -331,6 +337,9 @@ public class GroupDialog extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				intervalRange.setEnabled( intervalType.getSelectionIndex( ) != 0 );
+				intervalBaseButton.setEnabled( intervalType.getSelectionIndex( ) != 0 );
+				intervalBaseText.setEnabled( intervalBaseButton.getEnabled( )
+						&& intervalBaseButton.getSelection( ) );
 			}
 		} );
 		// Creates intervalRange range chooser
@@ -339,6 +348,21 @@ public class GroupDialog extends BaseDialog
 		intervalRange.setMinimum( 0 );
 		intervalRange.setMaximum( Integer.MAX_VALUE );
 		intervalRange.setStep( 1 );
+
+		// Creates interval base editor
+		intervalBaseButton = new Button( composite, SWT.CHECK );
+		intervalBaseButton.setText( GROUP_DLG_INTERVAL_BASE_LABEL ); //$NON-NLS-1$
+		intervalBaseButton.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		intervalBaseButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				intervalBaseText.setEnabled( intervalBaseButton.getSelection( ) );
+			}
+		} );
+
+		intervalBaseText = new Text( composite, SWT.SINGLE | SWT.BORDER );
+		intervalBaseText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 	}
 
 	/**
@@ -464,10 +488,19 @@ public class GroupDialog extends BaseDialog
 		if ( index == 0 )
 		{
 			intervalRange.setEnabled( false );
+			intervalBaseButton.setEnabled( false );
+			intervalBaseText.setEnabled( false );
 		}
 		else
 		{
 			intervalRange.setSelection( inputGroup.getIntervalRange( ) );
+			intervalBaseButton.setSelection( inputGroup.getIntervalBase( ) != null );
+			intervalBaseText.setEnabled( intervalBaseButton.getSelection( ) );
+			if ( inputGroup.getIntervalBase( ) != null )
+			{
+				intervalBaseText.setText( inputGroup.getIntervalBase( ) );
+			}
+
 		}
 
 		if ( inputGroup instanceof TableGroupHandle )
@@ -540,13 +573,13 @@ public class GroupDialog extends BaseDialog
 					inputGroup.setTocExpression( newToc );
 				}
 			}
-			
-			int index = keyChooser.getSelectionIndex( );
-			String oldKey = inputGroup.getKeyExpr( );
-			String newKey = getKeyExpression( );
 
-			inputGroup.setKeyExpr( newKey );
-			if ( newKey != null && !newKey.equals( oldKey ) )
+			int index = keyChooser.getSelectionIndex( );
+			String oldKeyExpr = inputGroup.getKeyExpr( );
+			String newKeyExpr = getKeyExpression( );
+
+			inputGroup.setKeyExpr( newKeyExpr );
+			if ( newKeyExpr != null && !newKeyExpr.equals( oldKeyExpr ) )
 			{
 				SlotHandle slotHandle = null;
 				if ( inputGroup instanceof ListGroupHandle )
@@ -566,7 +599,7 @@ public class GroupDialog extends BaseDialog
 				}
 				if ( slotHandle != null )
 				{
-					DesignElementHandle dataItemHandle = InsertInLayoutUtil.performInsert( columnList.get( index ),
+					DesignElementHandle dataItemHandle = InsertInLayoutUtil.performInsert( newKeyExpr.trim( ),
 							slotHandle,
 							inputGroup.getContainer( ) );
 					slotHandle.add( dataItemHandle );
@@ -579,6 +612,20 @@ public class GroupDialog extends BaseDialog
 			{
 				inputGroup.setIntervalRange( intervalRange.getSelection( ) );
 			}
+			else
+			{
+				inputGroup.setProperty( GroupHandle.INTERVAL_RANGE_PROP, null );
+			}
+			if ( intervalBaseText.getEnabled( ) )
+			{
+				inputGroup.setIntervalBase( UIUtil.convertToModelString( intervalBaseText.getText( ),
+						false ) );
+			}
+			else
+			{
+				inputGroup.setProperty( GroupHandle.INTERVAL_RANGE_PROP, null );
+			}
+
 			if ( inputGroup instanceof TableGroupHandle )
 			{
 				if ( includeHeader.getSelection( ) != inputGroup.hasHeader( ) )
