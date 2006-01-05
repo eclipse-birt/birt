@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ScriptHandler;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -364,7 +365,13 @@ public final class ChartReportItemImpl extends ReportItem
 		}
 		else if ( propName.equals( "script" ) ) //$NON-NLS-1$
 		{
-			return cm.getScript( );
+			String script = cm.getScript( );
+
+			if ( script == null || script.length( ) == 0 )
+			{
+				script = ScriptHandler.DEFAULT_JAVASCRIPT;
+			}
+			return script;
 		}
 		else if ( propName.equals( "chart.instance" ) ) //$NON-NLS-1$
 		{
@@ -448,7 +455,14 @@ public final class ChartReportItemImpl extends ReportItem
 		}
 		else if ( propName.equals( "script" ) ) //$NON-NLS-1$
 		{
-			cm.setScript( (String) value );
+			if ( ScriptHandler.DEFAULT_JAVASCRIPT.equals( value ) )
+			{
+				cm.setScript( null );
+			}
+			else
+			{
+				cm.setScript( (String) value );
+			}
 		}
 		else if ( propName.equals( "chart.instance" ) ) //$NON-NLS-1$
 		{

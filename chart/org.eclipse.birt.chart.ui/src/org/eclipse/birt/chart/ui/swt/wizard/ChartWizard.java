@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.ui.swt.wizard;
 
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.ScriptHandler;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
 import org.eclipse.birt.chart.ui.i18n.Messages;
@@ -108,14 +107,6 @@ public class ChartWizard extends WizardBase
 		}
 	}
 
-	private void updateDefaultScript( Chart chart )
-	{
-		if ( chart.getScript( ) == null || chart.getScript( ).length( ) == 0 )
-		{
-			chart.setScript( ScriptHandler.DEFAULT_JAVASCRIPT );
-		}
-	}
-
 	private void removeAllAdapters( Chart chart )
 	{
 		chart.eAdapters( ).remove( adapter );
@@ -142,9 +133,6 @@ public class ChartWizard extends WizardBase
 			{
 				// Set size if size is zero
 				resizeChart( chart );
-
-				// Update default script content.
-				updateDefaultScript( chart );
 
 				// Remove all adapters
 				removeAllAdapters( chart );
