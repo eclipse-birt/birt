@@ -120,15 +120,41 @@ public class RAFileInputStream extends RAInputStream
      */
 	public int readInt() throws IOException 
 	{
-    	int ch1 = this.read();
-    	int ch2 = this.read();
-    	int ch3 = this.read();
-    	int ch4 = this.read();
-    	if ((ch1 | ch2 | ch3 | ch4) < 0)
-    	    throw new EOFException();
-    	
-    	return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0));
+		byte ch[] = new byte[4];
+		this.readFully(ch, 0, 4);
+		
+		int ret = 0;
+		for ( int i = 0; i < ch.length; i++ )
+		    ret = ((ret << 8) & 0xFFFFFF00) | (ch[i] & 0x000000FF);
+		return ret;		
 	}
+	
+    /**
+     * The same behavior as RandomAccessFile.readFully(byte b[], int off, int len)
+     * Reads exactly <code>len</code> bytes from this file into the byte 
+     * array, starting at the current file pointer. This method reads 
+     * repeatedly from the file until the requested number of bytes are 
+     * read. This method blocks until the requested number of bytes are 
+     * read, the end of the stream is detected, or an exception is thrown. 
+     *
+     * @param      b     the buffer into which the data is read.
+     * @param      off   the start offset of the data.
+     * @param      len   the number of bytes to read.
+     * @exception  EOFException  if this file reaches the end before reading
+     *               all the bytes.
+     * @exception  IOException   if an I/O error occurs.
+     */
+    public final void readFully(byte b[], int off, int len) throws IOException 
+    {
+        int n = 0;
+		do 
+		{
+		    int count = this.read(b, off + n, len - n);
+		    if (count < 0)
+		    	throw new EOFException();
+		    n += count;
+		} while (n < len);
+    }
 
 	/**
 	 * @return the length of the stream
