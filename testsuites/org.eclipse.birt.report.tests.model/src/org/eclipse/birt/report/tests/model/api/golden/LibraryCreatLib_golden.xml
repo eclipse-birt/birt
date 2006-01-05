@@ -11,12 +11,7 @@
         </scalar-parameter>
     </parameters>
     <data-sources>
-        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="db2d" id="3">
-            <property name="odaDriverClass">com.ibm.db2.jcc.DB2Driver</property>
-            <property name="odaURL">jdbc:db2://spmdb:1527/gui</property>
-            <property name="odaUser">root</property>
-            <encrypted-property name="odaPassword">cm9vdA==</encrypted-property>
-        </oda-data-source>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="db2d" id="3"/>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="db2ds" id="4">

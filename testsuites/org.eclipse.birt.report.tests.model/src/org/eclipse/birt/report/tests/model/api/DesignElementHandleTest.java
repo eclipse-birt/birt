@@ -4,6 +4,7 @@ import java.util.Locale;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;

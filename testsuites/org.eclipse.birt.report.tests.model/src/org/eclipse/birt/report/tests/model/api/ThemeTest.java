@@ -93,12 +93,12 @@ public class ThemeTest extends BaseTestCase
        assertNotNull(label);
    
        //Specify theme1 for report design
-       designHandle.setThemeName("theme1");
+       designHandle.setThemeName("LibB.theme1");
        assertEquals("dashed",table.getProperty(Style.BORDER_LEFT_STYLE_PROP));
        assertEquals(ColorPropertyType.GREEN,label.getProperty(Style.COLOR_PROP));
 		
        //specify theme2 for report design
-       designHandle.setThemeName("theme2");
+       designHandle.setThemeName("LibA.theme2");
        assertEquals("10pt",table.getStringProperty(Style.FONT_SIZE_PROP));
        assertEquals("#808080",table.getStringProperty(Style.COLOR_PROP));
        assertEquals("10mm",label.getStringProperty(Style.MARGIN_TOP_PROP));
@@ -140,7 +140,7 @@ public class ThemeTest extends BaseTestCase
 		   designHandle.includeLibrary(LibC1, "LibC");
 			           
 		   //Specify theme1 for report design
-		   designHandle.setThemeName("theme1");
+		   designHandle.setThemeName("LibC.theme1");
 		   table.setStyleName("mytable");
 		   label.setStyleName("mylabel");
 		   assertEquals("large",table.getStringProperty(Style.FONT_SIZE_PROP));
@@ -180,7 +180,7 @@ public class ThemeTest extends BaseTestCase
 	       //drop theme in library
 	       openLibrary(LibC1);
 	       libraryHandle.findTheme("theme1").drop();
-	       assertNull(libraryHandle.findTheme("theme1"));
+	       assertNull(libraryHandle.findTheme("LibC1.theme1"));
 		  
 	  }
 	  public void testLibraryUseTheme() throws Exception
@@ -225,6 +225,7 @@ public class ThemeTest extends BaseTestCase
           
 		  //drop theme1
           libraryHandle.getTheme().drop();
+          libraryHandle.setThemeName("LibB.theme1");
           assertEquals("dashed",libraryHandle.findElement("mytable").getStringProperty(Style.BORDER_LEFT_STYLE_PROP));		  
           assertEquals("green",libraryHandle.findElement("mylabel").getStringProperty(Style.COLOR_PROP));		  
           

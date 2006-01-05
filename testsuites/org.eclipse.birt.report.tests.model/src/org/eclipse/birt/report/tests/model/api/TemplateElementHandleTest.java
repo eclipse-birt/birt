@@ -64,7 +64,7 @@ public class TemplateElementHandleTest extends BaseTestCase
 		designHandle.getDataSets().add(dataset);
 		dataset2 = factory.newOdaDataSet("dset2","org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet");
 		designHandle.getDataSets().add(dataset2);
-		
+	
 		try{
 			TemplateElementHandle tdataset = dataset2.createTemplateElement("dset");
 			fail();
