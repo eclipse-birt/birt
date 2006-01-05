@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.api.script.eventhandler;
 
-import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.element.ICell;
 import org.eclipse.birt.report.engine.api.script.instance.ICellInstance;
@@ -30,8 +29,7 @@ public interface ICellEventHandler
 	/**
 	 * Handle the onCreate event
 	 */
-	void onCreate( ICellInstance cellInstance,
-			IRowData rowData, IReportContext reportContext );
+	void onCreate( ICellInstance cellInstance, IReportContext reportContext );
 
 	/**
 	 * Handle the onRender event

@@ -49,12 +49,12 @@ public class CellScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign cellDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			ICellInstance cell = new CellInstance( content, context );
+			ICellInstance cell = new CellInstance( content, rowData, context );
 			if ( handleJS( cell, cellDesign.getOnCreate( ), context ).didRun( ) )
 				return;
 			ICellEventHandler eh = getEventHandler( cellDesign, context );
 			if ( eh != null )
-				eh.onCreate( cell, rowData, context.getReportContext( ) );
+				eh.onCreate( cell, context.getReportContext( ) );
 
 		} catch ( Exception e )
 		{
@@ -69,7 +69,7 @@ public class CellScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign cellDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			ICellInstance cell = new CellInstance( content, context );
+			ICellInstance cell = new CellInstance( content, rowData, context );
 			if ( handleJS( cell, cellDesign.getOnRender( ), context ).didRun( ) )
 				return;
 			ICellEventHandler eh = getEventHandler( cellDesign, context );
@@ -99,7 +99,8 @@ public class CellScriptExecutor extends ScriptExecutor
 			eh = ( ICellEventHandler ) getInstance( handle, context );
 		} catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, handle.getEventHandlerClass( ), ICellEventHandler.class );
+			addClassCastException( context, e, handle.getEventHandlerClass( ),
+					ICellEventHandler.class );
 		}
 		return eh;
 	}

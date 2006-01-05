@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.api.script.eventhandler;
 
-import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.element.IRow;
 import org.eclipse.birt.report.engine.api.script.instance.IRowInstance;
@@ -29,13 +28,11 @@ public interface IRowEventHandler
 	/**
 	 * Handle the onCreate event
 	 */
-	void onCreate( IRowInstance rowInstance, IRowData rowData,
-			IReportContext reportContext );
+	void onCreate( IRowInstance rowInstance, IReportContext reportContext );
 
 	/**
 	 * Handle the onRender event
 	 */
-	void onRender( IRowInstance rowInstance,
-			IReportContext reportContext );
+	void onRender( IRowInstance rowInstance, IReportContext reportContext );
 
 }

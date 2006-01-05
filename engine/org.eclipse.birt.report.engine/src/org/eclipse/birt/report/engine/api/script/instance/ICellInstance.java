@@ -1,5 +1,6 @@
 package org.eclipse.birt.report.engine.api.script.instance;
 
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 
 public interface ICellInstance extends IReportElementInstance
 {
@@ -38,5 +39,11 @@ public interface ICellInstance extends IReportElementInstance
 	 * @return the column number
 	 */
 	int getColumn( );
+
+	/**
+	 * Get the evaluated expression for this cell
+	 * @throws ScriptException 
+	 */
+	Object getData( ) throws ScriptException;
 
 }

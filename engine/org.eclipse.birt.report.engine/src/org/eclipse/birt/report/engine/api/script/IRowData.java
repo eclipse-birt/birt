@@ -21,14 +21,16 @@ public interface IRowData
 	/**
 	 * Return the value of the provided expression. The provided expression must
 	 * have been bound to the current row. Otherwise, it returns null.
+	 * @throws ScriptException 
 	 */
-	public Object getExpressionValue( String expression );
+	public Object getExpressionValue( String expression ) throws ScriptException;
 
 	/**
 	 * Return the value of the i:th expression in the current row. Null will be
 	 * return if the i:th expression doesn't exist.
+	 * @throws ScriptException 
 	 */
-	public Object getExpressionValue( int i );
+	public Object getExpressionValue( int i ) throws ScriptException;
 
 	/**
 	 * Return the number of expressions bound to the current row.

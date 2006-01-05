@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.script.internal.element.RowData;
+import org.eclipse.birt.report.engine.script.internal.RowData;
 
 /**
  * An abstract class that defines execution logic for a Listing element, which

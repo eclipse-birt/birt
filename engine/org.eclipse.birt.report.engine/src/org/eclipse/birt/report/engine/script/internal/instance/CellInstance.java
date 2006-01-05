@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.script.internal.instance;
 
+import org.eclipse.birt.report.engine.api.script.IRowData;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.ICellInstance;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -18,18 +20,25 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 /**
  * A class representing the runtime state of a cell
  */
-public class CellInstance extends ReportElementInstance implements ICellInstance
+public class CellInstance extends ReportElementInstance implements
+		ICellInstance
 {
 
 	private CellContent cell;
 
-	public CellInstance( CellContent cell, ExecutionContext context )
+	private IRowData data;
+
+	public CellInstance( CellContent cell, IRowData data,
+			ExecutionContext context )
 	{
-		super(cell, context);
-		this.cell = (CellContent)content;
+		super( cell, context );
+		this.data = data;
+		this.cell = ( CellContent ) content;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.ICellInstance#getColSpan()
 	 */
 	public int getColSpan( )
@@ -37,7 +46,9 @@ public class CellInstance extends ReportElementInstance implements ICellInstance
 		return cell.getColSpan( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.ICellInstance#setColSpan(int)
 	 */
 	public void setColSpan( int colSpan )
@@ -45,7 +56,9 @@ public class CellInstance extends ReportElementInstance implements ICellInstance
 		cell.setColSpan( colSpan );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.ICellInstance#getRowSpan()
 	 */
 	public int getRowSpan( )
@@ -53,7 +66,9 @@ public class CellInstance extends ReportElementInstance implements ICellInstance
 		return cell.getColSpan( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.ICellInstance#setRowSpan(int)
 	 */
 	public void setRowSpan( int rowSpan )
@@ -61,12 +76,24 @@ public class CellInstance extends ReportElementInstance implements ICellInstance
 		cell.setRowSpan( rowSpan );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.ICellInstance#getColumn()
 	 */
 	public int getColumn( )
 	{
 		return cell.getColumn( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.ICellInstance#getData()
+	 */
+	public Object getData( ) throws ScriptException
+	{
+		return data.getExpressionValue( getColumn( ) );
 	}
 
 }

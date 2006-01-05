@@ -11,12 +11,6 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -84,7 +78,7 @@ public class ScriptExecutor
 	protected static Object getInstance( DesignElementHandle element,
 			ExecutionContext context )
 	{
-		if (element == null)
+		if ( element == null )
 			return null;
 		String className = element.getEventHandlerClass( );
 		return getInstance( className, context );
@@ -95,8 +89,8 @@ public class ScriptExecutor
 	{
 		if ( className == null )
 			return null;
-		Object o = null;
 
+		Object o = null;
 		Class c = null;
 		ClassNotFoundException ex = null;
 		try
@@ -113,20 +107,20 @@ public class ScriptExecutor
 				// This would be the case where the application is deployed on
 				// web server.
 				c = getClassUsingCustomClassPath( className,
-						WEBAPP_CLASSPATH_KEY );
+						WEBAPP_CLASSPATH_KEY, context );
 				if ( c == null )
 				{
 					// Try using the user.projectclasspath property to load it
 					// using the classpath specified. This would be the case
 					// when debugging is used
 					c = getClassUsingCustomClassPath( className,
-							PROJECT_CLASSPATH_KEY );
+							PROJECT_CLASSPATH_KEY, context );
 					if ( c == null )
 					{
 						// The class is not on the current classpath.
 						// Try using the workspace.projectclasspath property
 						c = getClassUsingCustomClassPath( className,
-								WORKSPACE_CLASSPATH_KEY );
+								WORKSPACE_CLASSPATH_KEY, context );
 					}
 				}
 			}
@@ -163,45 +157,20 @@ public class ScriptExecutor
 	}
 
 	private static Class getClassUsingCustomClassPath( String className,
-			String classPathKey )
+			String classPathKey, ExecutionContext context )
 	{
-		String classPath = System.getProperty( classPathKey );
-		if ( classPath == null || classPath.length( ) == 0 || className == null )
+		ClassLoader cl = context.getCustomClassLoader( classPathKey );
+		if ( cl == null )
 			return null;
-		String[] classPathArray = classPath.split( PROPERTYSEPARATOR, -1 );
-		URL[] urls = null;
-		if ( classPathArray.length != 0 )
+		try
 		{
-			List l = new ArrayList( );
-			for ( int i = 0; i < classPathArray.length; i++ )
-			{
-				String cpValue = classPathArray[i];
-				File file = new File( cpValue );
-				try
-				{
-					l.add( file.toURL( ) );
-				} catch ( MalformedURLException e )
-				{
-					e.printStackTrace( );
-				}
-			}
-			urls = ( URL[] ) l.toArray( new URL[l.size( )] );
-		}
-
-		if ( urls != null )
+			return cl.loadClass( className );
+			// Note: If the class can
+			// not even be loadded by this
+			// loader either, null will be returned
+		} catch ( ClassNotFoundException e )
 		{
-			ClassLoader cl = new URLClassLoader( urls, ScriptExecutor.class
-					.getClassLoader( ) );
-			try
-			{
-				return cl.loadClass( className );
-				// Note: If the class can
-				// not even be loadded by this
-				// loader either, null will be returned
-			} catch ( ClassNotFoundException e )
-			{
-				// Ignore
-			}
+			// Ignore
 		}
 		return null;
 	}

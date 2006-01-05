@@ -71,8 +71,9 @@ public class ElementUtil
 		if ( element == null )
 			return null;
 
+		// No row data available
 		if ( element instanceof CellContent )
-			return new CellInstance( ( CellContent ) element, context );
+			return new CellInstance( ( CellContent ) element, null, context );
 
 		if ( element instanceof DataContent )
 			return new DataItemInstance( ( DataContent ) element, context );
@@ -86,8 +87,9 @@ public class ElementUtil
 		if ( element instanceof ContainerContent )
 			return new ListInstance( ( ContainerContent ) element, context );
 
+		// No row data available
 		if ( element instanceof RowContent )
-			return new RowInstance( ( RowContent ) element, context );
+			return new RowInstance( ( RowContent ) element, null, context );
 
 		if ( element instanceof TableContent )
 		{
@@ -109,8 +111,9 @@ public class ElementUtil
 					|| IForeignContent.TEMPLATE_TYPE.equals( fc.getRawType( ) ) )
 				return new TextItemInstance( fc, context );
 		}
-		if ( element instanceof TableBandContent) {
-			return getInstance(element.getParent(), context);
+		if ( element instanceof TableBandContent )
+		{
+			return getInstance( element.getParent( ), context );
 		}
 
 		return null;
