@@ -56,9 +56,12 @@ public class HTMLCompleteImageHandlerTest extends EngineCase {
 			String path=plug_path+System.getProperty("file.separator")+file_path;
 */			
 			String path=getBaseFolder()+System.getProperty("file.separator")
-			+ INPUT_FOLDER+System.getProperty("file.separator")
-			+"EmbedImage.txt";
+							+ INPUT_FOLDER+System.getProperty("file.separator")
+							+"EmbedImage.txt";
 
+			String outPath=getBaseFolder()+System.getProperty("file.separator")
+							+ OUTPUT_FOLDER+System.getProperty("file.separator");
+			
 			File imageFile=new File(path);
 			long size=imageFile.length();
 			InputStream is = new BufferedInputStream(new FileInputStream(imageFile));		    
@@ -72,6 +75,7 @@ public class HTMLCompleteImageHandlerTest extends EngineCase {
 			HTMLCompleteImageHandler imageHandler=new HTMLCompleteImageHandler();
 			Image image=new Image(imageBytes,"image1");
 			RenderOptionBase option=new RenderOptionBase();
+		
 			image.setRenderOption(option);
 			File f=null;
 			int count=0;
@@ -91,6 +95,7 @@ public class HTMLCompleteImageHandlerTest extends EngineCase {
 			String str=imageHandler.onDesignImage(image,context);
 			String strGet="./design1";
 			assertEquals("",str,strGet);
+			removeFile(str);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -158,6 +163,7 @@ public class HTMLCompleteImageHandlerTest extends EngineCase {
 			String str=imageHandler.onCustomImage(image,context);
 			String strGet="./custom2";
 			assertEquals("",str,strGet);
+			removeFile(str);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

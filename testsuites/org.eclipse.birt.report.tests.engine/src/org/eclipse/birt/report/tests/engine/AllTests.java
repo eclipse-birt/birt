@@ -46,7 +46,7 @@ import junit.framework.TestSuite;
 /**
  *  Put your comments  
  *
- * @ @version $Revision: 1.7 $Date: 2005-6-27 
+ * @ @version $Revision: 1.5 $Date: 2005-6-27 
  */
 public class AllTests extends TestCase{
 
@@ -87,10 +87,10 @@ public class AllTests extends TestCase{
 		suite.addTestSuite(ReportParameterConverterTest.class);
 		suite.addTestSuite(RunAndRenderTaskTest.class);
 		//added 12/27
-//		suite.addTestSuite(DataPreviewTaskTest.class);
-//		suite.addTestSuite(RunTaskTest.class);
-//		suite.addTestSuite(ReportDocumentTest.class);
-//		suite.addTestSuite(RenderTaskTest.class);
+		suite.addTestSuite(DataPreviewTaskTest.class);
+		suite.addTestSuite(RunTaskTest.class);
+		suite.addTestSuite(ReportDocumentTest.class);
+		suite.addTestSuite(RenderTaskTest.class);
 		//$JUnit-END$
 		return suite;
 	}

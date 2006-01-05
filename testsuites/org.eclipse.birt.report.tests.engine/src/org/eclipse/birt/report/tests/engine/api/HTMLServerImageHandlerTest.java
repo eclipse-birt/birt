@@ -92,6 +92,7 @@ public class HTMLServerImageHandlerTest extends EngineCase {
 			String str=imageHandler.onDesignImage(image,context);
 			String strGet="./design1";
 			assertEquals("",str,strGet);
+			removeFile(str);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -161,6 +162,7 @@ public class HTMLServerImageHandlerTest extends EngineCase {
 			String str=imageHandler.onCustomImage(image,context);
 			String strGet="./custom2";
 			assertEquals("",str,strGet);
+			removeFile(str);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

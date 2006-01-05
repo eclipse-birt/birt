@@ -41,13 +41,13 @@ public abstract class EngineCase extends TestCase {
 //	protected static final String PLUGINLOC = Platform.getBundle(PLUGIN_NAME).getLocation();
 	protected static final String PLUGINLOC = "/org.eclipse.birt.report.tests.engine/";	
 	
-//	protected static final String PLUGIN_PATH = System.getProperty("user.dir")+ "/plugins/" 
-//                                                    +PLUGINLOC.substring(
-// 		                                                   PLUGINLOC.indexOf("/")+1);
-	protected static final String PLUGIN_PATH = System.getProperty("user.dir")+"/bin/";
+	protected static final String PLUGIN_PATH = System.getProperty("user.dir")+ "/plugins/" 
+                                                    +PLUGINLOC.substring(
+ 		                                                   PLUGINLOC.indexOf("/")+1)+"bin/";
+	//protected static final String PLUGIN_PATH = System.getProperty("user.dir")+"/bin/";
 
 	
-//	protected static final String PLUGIN_PATH = "D:/BirtAPI/org.eclipse.birt.report.tests.engine/bin/";
+//	protected static final String PLUGIN_PATH = "D:/TEMP/workspace3.1/org.eclipse.birt.report.tests.engine/bin/";
 	
 	protected static final String OUTPUT_FOLDER = "output";
 	protected static final String INPUT_FOLDER = "input";

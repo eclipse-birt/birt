@@ -137,7 +137,7 @@
             <property name="borderTopColor">#000000</property>
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">thin</property>
-            <method name="onCreate"><![CDATA[style.backgroundImage="http://www.google.com/intl/zh-CN_ALL/images/logo.gif"]]></method>
+            <method name="onCreate"><![CDATA[style.backgroundImage="http://www.google.com/intl/zh-CN/logos/winter_holiday05_1.gif"]]></method>
             <text-property name="text">label-backgroundImage-http</text-property>
         </label>
         <label id="34">
@@ -153,7 +153,7 @@
             <property name="borderTopColor">#000000</property>
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">thin</property>
-            <method name="onCreate"><![CDATA[style.backgroundImage="http://images.google.com/images?q=tbn:f6ZpEl_5Rx4J:scout.wisc.edu/Projects/PastProjects/gimages/go_dark.gif"
+            <method name="onCreate"><![CDATA[style.backgroundImage="http://www.google.com/intl/zh-CN/logos/winter_holiday05_1.gif"
 style.backgroundRepeat="no-repeat"]]></method>
             <text-property name="text">label-backgroundImage-http
 label-backgroundRepeat-no-repeat</text-property>
@@ -171,7 +171,8 @@ label-backgroundRepeat-no-repeat</text-property>
             <property name="borderTopColor">#000000</property>
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">thin</property>
-            <method name="onCreate"><![CDATA[style.wordSpacing="1in"]]></method>
+            <method name="onCreate"><![CDATA[style.backgroundImage="http://www.google.com/intl/zh-CN/logos/winter_holiday05_1.gif"
+style.backgroundRepeat="repeat-x"]]></method>
             <text-property name="text">label-backgroundImage-http
 label-backgroundRepeat-repeat-x</text-property>
         </label>
@@ -188,7 +189,7 @@ label-backgroundRepeat-repeat-x</text-property>
             <property name="borderTopColor">#000000</property>
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">thin</property>
-            <method name="onCreate"><![CDATA[style.backgroundImage="http://images.google.com/images?q=tbn:f6ZpEl_5Rx4J:scout.wisc.edu/Projects/PastProjects/gimages/go_dark.gif";
+            <method name="onCreate"><![CDATA[style.backgroundImage="http://www.google.com/intl/zh-CN/logos/winter_holiday05_1.gif";
 style.backgroundPositionX="1cm";
 style.backgroundRepeat="no-repeat"]]></method>
             <text-property name="text">label-backgroundImage-http
@@ -208,7 +209,7 @@ style.backgroundRepeat="no-repeat"</text-property>
             <property name="borderTopColor">#000000</property>
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">thin</property>
-            <method name="onCreate"><![CDATA[style.backgroundImage="http://images.google.com/images?q=tbn:f6ZpEl_5Rx4J:scout.wisc.edu/Projects/PastProjects/gimages/go_dark.gif";
+            <method name="onCreate"><![CDATA[style.backgroundImage="http://www.google.com/intl/zh-CN/logos/winter_holiday05_1.gif";
 style.backgroundPositionY="1in";
 style.backgroundRepeat="no-repeat"]]></method>
             <text-property name="text">label-backgroundImage-http
@@ -228,12 +229,12 @@ style.backgroundRepeat="no-repeat"</text-property>
             <property name="borderTopColor">#000000</property>
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">thin</property>
-            <method name="onCreate"><![CDATA[style.backgroundImage="http://images.google.com/images?q=tbn:f6ZpEl_5Rx4J:scout.wisc.edu/Projects/PastProjects/gimages/go_dark.gif";
-style.backgroundPositionY="0.5in";
-style.backgroundPositionX="0.5in";
+            <method name="onCreate"><![CDATA[style.backgroundImage="http://www.google.com/intl/zh-CN/logos/winter_holiday05_1.gif";
+style.backgroundPositionY="0.2in";
+style.backgroundPositionX="0.2in";
 style.backgroundRepeat="no-repeat"]]></method>
             <text-property name="text">label-backgroundImage-http
-label-backgroundPositionY-0.5in-PositionX-0.5in
+label-backgroundPositionY-0.2in-PositionX-0.2in
 style.backgroundRepeat="no-repeat"</text-property>
         </label>
         <label id="38">

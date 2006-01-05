@@ -59,6 +59,7 @@ public class RenderTaskTest extends EngineCase {
 		String fileName;
 		try {
 			
+
 			 //test simple design file. fileName="case1";
 			fileName = "case1";
 			report_design = inputPath + fileName + ".rptdesign";
@@ -87,6 +88,7 @@ public class RenderTaskTest extends EngineCase {
 
 				assertTrue(htmlFile.exists());
 				assertTrue(htmlFile.length() != 0);
+				removeFile(htmlFile);
 				
 			}
 
@@ -101,7 +103,7 @@ public class RenderTaskTest extends EngineCase {
 				File pdfFile = new File(outputFileName);
 				assertTrue(pdfFile.exists());
 				assertTrue(pdfFile.length() != 0);
-				
+				removeFile(pdfFile);
 			}
 			task.close();
 			
@@ -135,7 +137,7 @@ public class RenderTaskTest extends EngineCase {
 
 				assertTrue(htmlFile.exists());
 				assertTrue(htmlFile.length() != 0);
-				
+				removeFile(htmlFile);
 			}
 
 			for (int i = 1; i <= pageNumber; i++) {
@@ -149,11 +151,10 @@ public class RenderTaskTest extends EngineCase {
 				File pdfFile = new File(outputFileName);
 				assertTrue(pdfFile.exists());
 				assertTrue(pdfFile.length() != 0);
-				
+				removeFile(pdfFile);
 			}
 			task.close();
-			removeFile(fileName); 
-
+			
 			
 			  //test long text item. 
 			  fileName="long_text";
@@ -168,11 +169,10 @@ public class RenderTaskTest extends EngineCase {
 			  report_document ); 
 			  //create an RenderTask using the report document 
 			  task = engine.createRenderTask( reportDoc ); 
+              task.setAppContext(new HashMap());
 			  //get the  page number 
-			  pageNumber = reportDoc.getPageCount( ); task =
-			  engine.createRenderTask( reportDoc );
-			  
-			  pageNumber = reportDoc.getPageCount( ); for(int i=1;i<=pageNumber;i++){
+			  pageNumber = reportDoc.getPageCount( ); 
+			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/html/page"+i+".html";
 			  IRenderOption renderOptions=new HTMLRenderOption( );
 			  renderOptions.setOutputFormat("html");
@@ -182,7 +182,7 @@ public class RenderTaskTest extends EngineCase {
 			  
 			  assertTrue( htmlFile.exists( ) ); 
 			  assertTrue( htmlFile.length( ) != 0 ); 
-			  
+			  removeFile(htmlFile);
 			  }
 			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/pdf/page"+i+".pdf";
@@ -192,11 +192,10 @@ public class RenderTaskTest extends EngineCase {
 			  task.setRenderOption(renderOptions); task.render(i); File pdfFile =
 			  new File( outputFileName ); assertTrue( pdfFile.exists( ) );
 			  assertTrue( pdfFile.length( ) != 0 ); 
-			   
+			  removeFile(pdfFile);
 			  } 
 			  task.close();
-			  removeFile(fileName);
-			 
+			  
 			
 			  //test multiple datasets. 
 			  fileName="multiple_datasets";
@@ -211,11 +210,11 @@ public class RenderTaskTest extends EngineCase {
 			  report_document ); 
 			  //create an RenderTask using the report document 
 			  task = engine.createRenderTask( reportDoc ); 
+              task.setAppContext(new HashMap());
 			  //get the  page number 
-			  pageNumber = reportDoc.getPageCount( ); task =
-			  engine.createRenderTask( reportDoc );
-			  
-			  pageNumber = reportDoc.getPageCount( ); for(int i=1;i<=pageNumber;i++){
+			  pageNumber = reportDoc.getPageCount( ); 
+
+			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/html/page"+i+".html";
 			  IRenderOption renderOptions=new HTMLRenderOption( );
 			  renderOptions.setOutputFormat("html");
@@ -225,7 +224,7 @@ public class RenderTaskTest extends EngineCase {
 			  
 			  assertTrue( htmlFile.exists( ) ); 
 			  assertTrue( htmlFile.length( ) != 0 ); 
-			  
+			  removeFile(htmlFile);
 			  }
 			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/pdf/page"+i+".pdf";
@@ -235,11 +234,10 @@ public class RenderTaskTest extends EngineCase {
 			  task.setRenderOption(renderOptions); task.render(i); File pdfFile =
 			  new File( outputFileName ); assertTrue( pdfFile.exists( ) );
 			  assertTrue( pdfFile.length( ) != 0 ); 
-			   
+			  removeFile(pdfFile);
 			  } 
 			  task.close();
-			  removeFile(fileName); 
-			
+			  
 			  //test table/list/grid nest. 
 			  fileName="table_nest_pages";
 			  report_design=inputPath+fileName+".rptdesign";
@@ -253,11 +251,11 @@ public class RenderTaskTest extends EngineCase {
 			  report_document ); 
 			  //create an RenderTask using the report document 
 			  task = engine.createRenderTask( reportDoc ); 
+              task.setAppContext(new HashMap());
 			  //get the  page number 
-			  pageNumber = reportDoc.getPageCount( ); task =
-			  engine.createRenderTask( reportDoc );
-			  
-			  pageNumber = reportDoc.getPageCount( ); for(int i=1;i<=pageNumber;i++){
+			  pageNumber = reportDoc.getPageCount( ); 
+
+			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/html/page"+i+".html";
 			  IRenderOption renderOptions=new HTMLRenderOption( );
 			  renderOptions.setOutputFormat("html");
@@ -267,7 +265,7 @@ public class RenderTaskTest extends EngineCase {
 			  
 			  assertTrue( htmlFile.exists( ) ); 
 			  assertTrue( htmlFile.length( ) != 0 ); 
-			  
+			  removeFile(htmlFile);
 			  }
 			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/pdf/page"+i+".pdf";
@@ -277,10 +275,9 @@ public class RenderTaskTest extends EngineCase {
 			  task.setRenderOption(renderOptions); task.render(i); File pdfFile =
 			  new File( outputFileName ); assertTrue( pdfFile.exists( ) );
 			  assertTrue( pdfFile.length( ) != 0 ); 
-			   
+			  removeFile(pdfFile);
 			  } 
 			  task.close();
-			  removeFile(fileName);
 			  
 			 
 /*				 //test simple script in onCreate method.
@@ -296,11 +293,11 @@ public class RenderTaskTest extends EngineCase {
 			  report_document ); 
 			  //create an RenderTask using the report document 
 			  task = engine.createRenderTask( reportDoc ); 
+              task.setAppContext(new HashMap());
 			  //get the  page number 
-			  pageNumber = reportDoc.getPageCount( ); task =
-			  engine.createRenderTask( reportDoc );
-			  
-			  pageNumber = reportDoc.getPageCount( ); for(int i=1;i<=pageNumber;i++){
+			  pageNumber = reportDoc.getPageCount( ); 
+
+			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/html/page"+i+".html";
 			  IRenderOption renderOptions=new HTMLRenderOption( );
 			  renderOptions.setOutputFormat("html");
@@ -337,11 +334,11 @@ public class RenderTaskTest extends EngineCase {
 			  report_document ); 
 			  //create an RenderTask using the report document 
 			  task = engine.createRenderTask( reportDoc ); 
+              task.setAppContext(new HashMap());
 			  //get the  page number 
-			  pageNumber = reportDoc.getPageCount( ); task =
-			  engine.createRenderTask( reportDoc );
-			  
-			  pageNumber = reportDoc.getPageCount( ); for(int i=1;i<=pageNumber;i++){
+			  pageNumber = reportDoc.getPageCount( ); 
+
+			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/html/page"+i+".html";
 			  IRenderOption renderOptions=new HTMLRenderOption( );
 			  renderOptions.setOutputFormat("html");
@@ -351,7 +348,7 @@ public class RenderTaskTest extends EngineCase {
 			  
 			  assertTrue( htmlFile.exists( ) ); 
 			  assertTrue( htmlFile.length( ) != 0 ); 
-			  
+			  removeFile(htmlFile);
 			  }
 			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/pdf/page"+i+".pdf";
@@ -361,10 +358,10 @@ public class RenderTaskTest extends EngineCase {
 			  task.setRenderOption(renderOptions); task.render(i); File pdfFile =
 			  new File( outputFileName ); assertTrue( pdfFile.exists( ) );
 			  assertTrue( pdfFile.length( ) != 0 ); 
-			   
+			  removeFile(pdfFile);
 			  } 
 			  task.close();
-			  removeFile(fileName);
+			  
 
 			
 			  //test master page. 
@@ -376,15 +373,14 @@ public class RenderTaskTest extends EngineCase {
 			  
 			  createReportDocument(report_design,report_document); 
 			  //open the  document in the archive. 
-			  reportDoc = engine.openReportDocument(
-			  report_document ); 
+			  reportDoc = engine.openReportDocument( report_document ); 
 			  //create an RenderTask using the report document 
 			  task = engine.createRenderTask( reportDoc ); 
+              task.setAppContext(new HashMap());
 			  //get the  page number 
-			  pageNumber = reportDoc.getPageCount( ); task =
-			  engine.createRenderTask( reportDoc );
-			  
-			  pageNumber = reportDoc.getPageCount( ); for(int i=1;i<=pageNumber;i++){
+			  pageNumber = reportDoc.getPageCount( ); 
+
+			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/html/page"+i+".html";
 			  IRenderOption renderOptions=new HTMLRenderOption( );
 			  renderOptions.setOutputFormat("html");
@@ -394,7 +390,7 @@ public class RenderTaskTest extends EngineCase {
 			  
 			  assertTrue( htmlFile.exists( ) ); 
 			  assertTrue( htmlFile.length( ) != 0 ); 
-			  
+			  removeFile(htmlFile);
 			  }
 			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/pdf/page"+i+".pdf";
@@ -404,7 +400,7 @@ public class RenderTaskTest extends EngineCase {
 			  task.setRenderOption(renderOptions); task.render(i); File pdfFile =
 			  new File( outputFileName ); assertTrue( pdfFile.exists( ) );
 			  assertTrue( pdfFile.length( ) != 0 ); 
-			   
+			  removeFile(pdfFile);
 			  } 
 			  task.close();
 			 
@@ -419,15 +415,14 @@ public class RenderTaskTest extends EngineCase {
 			  
 			  createReportDocument(report_design,report_document); 
 			  //open the  document in the archive. 
-			  reportDoc = engine.openReportDocument(
-			  report_document ); 
+			  reportDoc = engine.openReportDocument( report_document ); 
 			  //create an RenderTask using the report document 
 			  task = engine.createRenderTask( reportDoc ); 
+              task.setAppContext(new HashMap());
 			  //get the  page number 
-			  pageNumber = reportDoc.getPageCount( ); task =
-			  engine.createRenderTask( reportDoc );
-			  
-			  pageNumber = reportDoc.getPageCount( ); for(int i=1;i<=pageNumber;i++){
+			  pageNumber = reportDoc.getPageCount( ); 
+
+			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/html/page"+i+".html";
 			  IRenderOption renderOptions=new HTMLRenderOption( );
 			  renderOptions.setOutputFormat("html");
@@ -437,7 +432,7 @@ public class RenderTaskTest extends EngineCase {
 			  
 			  assertTrue( htmlFile.exists( ) ); 
 			  assertTrue( htmlFile.length( ) != 0 ); 
-			  
+			  removeFile(htmlFile);
 			  }
 			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/pdf/page"+i+".pdf";
@@ -447,14 +442,15 @@ public class RenderTaskTest extends EngineCase {
 			  task.setRenderOption(renderOptions); task.render(i); File pdfFile =
 			  new File( outputFileName ); assertTrue( pdfFile.exists( ) );
 			  assertTrue( pdfFile.length( ) != 0 ); 
-			   
+			  removeFile(pdfFile);
 			  } 
 			  task.close();
 			 
 
 			
 			  //test design file with toc,bookmark,table group.
-			  fileName="report_document";
+			  
+			  fileName="complex_report";
 			  report_design=inputPath+fileName+".rptdesign";
 			  report_document=outputPath+fileName+"_reportdocument"; 
 			  //create  directories to deposit output files 
@@ -462,15 +458,14 @@ public class RenderTaskTest extends EngineCase {
 			  
 			  createReportDocument(report_design,report_document); 
 			  //open the  document in the archive. 
-			  reportDoc = engine.openReportDocument(
-			  report_document ); 
+			  reportDoc = engine.openReportDocument(report_document ); 
 			  //create an RenderTask using the report document 
 			  task = engine.createRenderTask( reportDoc ); 
+              task.setAppContext(new HashMap());
 			  //get the  page number 
-			  pageNumber = reportDoc.getPageCount( ); task =
-			  engine.createRenderTask( reportDoc );
-			  
-			  pageNumber = reportDoc.getPageCount( ); for(int i=1;i<=pageNumber;i++){
+			  pageNumber = reportDoc.getPageCount( ); 
+
+			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/html/page"+i+".html";
 			  IRenderOption renderOptions=new HTMLRenderOption( );
 			  renderOptions.setOutputFormat("html");
@@ -480,7 +475,7 @@ public class RenderTaskTest extends EngineCase {
 			  
 			  assertTrue( htmlFile.exists( ) ); 
 			  assertTrue( htmlFile.length( ) != 0 ); 
-			  
+			  removeFile(htmlFile);
 			  }
 			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/pdf/page"+i+".pdf";
@@ -490,7 +485,7 @@ public class RenderTaskTest extends EngineCase {
 			  task.setRenderOption(renderOptions); task.render(i); File pdfFile =
 			  new File( outputFileName ); assertTrue( pdfFile.exists( ) );
 			  assertTrue( pdfFile.length( ) != 0 ); 
-			   
+			  removeFile(pdfFile);
 			  } 
 			  task.close();
 			  
@@ -510,11 +505,11 @@ public class RenderTaskTest extends EngineCase {
 			  report_document ); 
 			  //create an RenderTask using the report document 
 			  task = engine.createRenderTask( reportDoc ); 
+              task.setAppContext(new HashMap());
 			  //get the  page number 
-			  pageNumber = reportDoc.getPageCount( ); task =
-			  engine.createRenderTask( reportDoc );
-			  
-			  pageNumber = reportDoc.getPageCount( ); for(int i=1;i<=pageNumber;i++){
+			  pageNumber = reportDoc.getPageCount( ); 
+
+			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/html/page"+i+".html";
 			  IRenderOption renderOptions=new HTMLRenderOption( );
 			  renderOptions.setOutputFormat("html");
@@ -549,15 +544,14 @@ public class RenderTaskTest extends EngineCase {
 			  
 			  createReportDocument(report_design,report_document); 
 			  //open the  document in the archive. 
-			  reportDoc = engine.openReportDocument(
-			  report_document ); 
+			  reportDoc = engine.openReportDocument(report_document ); 
 			  //create an RenderTask using the report document 
 			  task = engine.createRenderTask( reportDoc ); 
+              task.setAppContext(new HashMap());
 			  //get the  page number 
-			  pageNumber = reportDoc.getPageCount( ); task =
-			  engine.createRenderTask( reportDoc );
-			  
-			  pageNumber = reportDoc.getPageCount( ); for(int i=1;i<=pageNumber;i++){
+			  pageNumber = reportDoc.getPageCount( ); 
+
+			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/html/page"+i+".html";
 			  IRenderOption renderOptions=new HTMLRenderOption( );
 			  renderOptions.setOutputFormat("html");
@@ -567,7 +561,7 @@ public class RenderTaskTest extends EngineCase {
 			  
 			  assertTrue( htmlFile.exists( ) ); 
 			  assertTrue( htmlFile.length( ) != 0 ); 
-			  
+			  removeFile(htmlFile);
 			  }
 			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/pdf/page"+i+".pdf";
@@ -577,7 +571,7 @@ public class RenderTaskTest extends EngineCase {
 			  task.setRenderOption(renderOptions); task.render(i); File pdfFile =
 			  new File( outputFileName ); assertTrue( pdfFile.exists( ) );
 			  assertTrue( pdfFile.length( ) != 0 ); 
-			   
+			  removeFile(pdfFile);
 			  } 
 			  task.close();
 			 
@@ -596,11 +590,11 @@ public class RenderTaskTest extends EngineCase {
 			  report_document ); 
 			  //create an RenderTask using the report document 
 			  task = engine.createRenderTask( reportDoc ); 
+              task.setAppContext(new HashMap());
 			  //get the  page number 
-			  pageNumber = reportDoc.getPageCount( ); task =
-			  engine.createRenderTask( reportDoc );
-			  
-			  pageNumber = reportDoc.getPageCount( ); for(int i=1;i<=pageNumber;i++){
+			  pageNumber = reportDoc.getPageCount( ); 
+
+			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/html/page"+i+".html";
 			  IRenderOption renderOptions=new HTMLRenderOption( );
 			  renderOptions.setOutputFormat("html");
@@ -610,7 +604,7 @@ public class RenderTaskTest extends EngineCase {
 			  
 			  assertTrue( htmlFile.exists( ) ); 
 			  assertTrue( htmlFile.length( ) != 0 ); 
-			  
+			  removeFile(htmlFile);
 			  }
 			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/pdf/page"+i+".pdf";
@@ -620,13 +614,13 @@ public class RenderTaskTest extends EngineCase {
 			  task.setRenderOption(renderOptions); task.render(i); File pdfFile =
 			  new File( outputFileName ); assertTrue( pdfFile.exists( ) );
 			  assertTrue( pdfFile.length( ) != 0 ); 
-			   
+			  removeFile(pdfFile);
 			  } 
 			  task.close();
 			 
 
-			/*
-			 * blocke by bug //test design file with meter chart.
+			
+			 //test design file with meter chart.
 			  fileName="MeterChart";
 			  report_design=inputPath+fileName+".rptdesign";
 			  report_document=outputPath+fileName+"_reportdocument"; 
@@ -635,15 +629,14 @@ public class RenderTaskTest extends EngineCase {
 			  
 			  createReportDocument(report_design,report_document); 
 			  //open the  document in the archive. 
-			  reportDoc = engine.openReportDocument(
-			  report_document ); 
+			  reportDoc = engine.openReportDocument(report_document ); 
 			  //create an RenderTask using the report document 
 			  task = engine.createRenderTask( reportDoc ); 
+              task.setAppContext(new HashMap());
 			  //get the  page number 
-			  pageNumber = reportDoc.getPageCount( ); task =
-			  engine.createRenderTask( reportDoc );
-			  
-			  pageNumber = reportDoc.getPageCount( ); for(int i=1;i<=pageNumber;i++){
+			  pageNumber = reportDoc.getPageCount( ); 
+
+			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/html/page"+i+".html";
 			  IRenderOption renderOptions=new HTMLRenderOption( );
 			  renderOptions.setOutputFormat("html");
@@ -651,9 +644,9 @@ public class RenderTaskTest extends EngineCase {
 			  task.setRenderOption(renderOptions); task.render(i); File
 			  htmlFile = new File( outputFileName );
 			  
-			  //assertTrue( htmlFile.exists( ) ); 
-			  //assertTrue( htmlFile.length( ) != 0 ); 
-			  //TODO: remove generated html files }
+			  assertTrue( htmlFile.exists( ) ); 
+			  assertTrue( htmlFile.length( ) != 0 ); 
+			  removeFile(htmlFile);
 			  }
 			  for(int i=1;i<=pageNumber;i++){
 			  outputFileName=outputPath+fileName+"/pdf/page"+i+".pdf";
@@ -663,10 +656,10 @@ public class RenderTaskTest extends EngineCase {
 			  task.setRenderOption(renderOptions); task.render(i); File pdfFile =
 			  new File( outputFileName ); assertTrue( pdfFile.exists( ) );
 			  assertTrue( pdfFile.length( ) != 0 ); 
-			  //TODO: remove generated  pdf files 
+			  removeFile(pdfFile); 
 			  } 
 			  task.close();
-			 */
+			 
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -725,17 +718,16 @@ public class RenderTaskTest extends EngineCase {
 	protected void createDir(String name) {
 		String out=OUTPUT_FOLDER;
 		File fdir = new File(path + out + "/" + name + "/");
-		if (fdir.mkdir()) {
-			fdir = new File(path + out + "/" + name + "/html/");
-			if (!fdir.mkdir()) {
-				System.err.println("Cannot create output html directories");
-			}
-			fdir = new File(path + out + "/" + name + "/pdf/");
-			if (!fdir.mkdir()) {
-				System.err.println("Cannot create output pdf directories");
-			}
-		} else {
+		if (!fdir.mkdir()){
 			System.err.println("Cannot create output directories");
+		}
+		fdir = new File(path + out + "/" + name + "/html/");
+		if (!fdir.mkdir()) {
+			System.err.println("Cannot create output html directories");
+		}
+		fdir = new File(path + out + "/" + name + "/pdf/");
+		if (!fdir.mkdir()) {
+			System.err.println("Cannot create output pdf directories");
 		}
 	}
 
