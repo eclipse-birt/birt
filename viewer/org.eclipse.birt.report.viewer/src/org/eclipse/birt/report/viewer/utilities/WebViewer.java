@@ -54,6 +54,11 @@ public class WebViewer
 	final public static String SVG_FLAG = "svg_flag"; //$NON-NLS-1$
 
 	/**
+	 * Preference key for master page content flag.
+	 */
+	final public static String MASTER_PAGE_CONTENT = "master_page_content"; //$NON-NLS-1$
+
+	/**
 	 * locale mapping. Save some time.
 	 */
 	public static TreeMap LocaleTable = null;
@@ -115,11 +120,19 @@ public class WebViewer
 		}
 		
 		String locale = ViewerPlugin.getDefault( ).getPluginPreferences( ).getString( USER_LOCALE );
+		
 		String svgFlag = ViewerPlugin.getDefault( ).getPluginPreferences( ).getString( SVG_FLAG );
 		boolean bSVGFlag = false;
-		if ( "true".equalsIgnoreCase( svgFlag ) )
+		if ( "true".equalsIgnoreCase( svgFlag ) ) //$NON-NLS-1$
 		{
 			bSVGFlag = true;
+		}
+
+		String masterPageContent = ViewerPlugin.getDefault( ).getPluginPreferences( ).getString( MASTER_PAGE_CONTENT );
+		boolean bMasterPageContent = true;
+		if ( "false".equalsIgnoreCase( masterPageContent ) ) //$NON-NLS-1$
+		{
+			bMasterPageContent = false;
 		}
 
 		// So far, only report name is encoded as utf-8 format 
@@ -130,7 +143,8 @@ public class WebViewer
 			+ "&__format=" + format //$NON-NLS-1$
 			+ "&__svg=" +  String.valueOf( bSVGFlag ) //$NON-NLS-1$
 			+ "&__locale=" + LocaleTable.get(locale) //$NON-NLS-1$
-			+ "&__designer=true"; //$NON-NLS-1$
+			+ "&__designer=true" //$NON-NLS-1$
+			+ "&__masterpage=" + String.valueOf( bMasterPageContent ); //$NON-NLS-1$
 		
 	}
 

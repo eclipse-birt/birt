@@ -15,6 +15,7 @@ import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.birt.report.viewer.utilities.WebappAccessor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
@@ -70,6 +71,7 @@ public class ViewerPlugin extends Plugin
 	{
 		super.start( context );
 		bundleContext = context;
+		plugin.getPluginPreferences( ).setDefault( WebViewer.MASTER_PAGE_CONTENT, true );
 	}
 
 	/**
