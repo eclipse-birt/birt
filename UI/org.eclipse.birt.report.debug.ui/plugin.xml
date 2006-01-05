@@ -73,13 +73,4 @@
             id="org.eclipse.jdt.launching.javaSourceLocator">
       </sourceLocator>
    </extension>
-   
-  <extension
-         point="org.eclipse.ui.actionSets">
-		 <actionSet
-            label="%LaunchActionSet.label"
-            visible="true"
-            id="org.eclipse.debug.ui.launchActionSet">
-      </actionSet>
-   </extension>         
 </plugin>
