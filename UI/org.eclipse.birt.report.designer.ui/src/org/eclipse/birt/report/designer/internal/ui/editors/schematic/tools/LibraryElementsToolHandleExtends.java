@@ -12,11 +12,14 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.runtime.GUIException;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.jface.util.Assert;
 
 /**
@@ -55,9 +58,16 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends
 		{
 			if ( UIUtil.includeLibrary( moduleHandle, library ) )
 			{
-				setModel( moduleHandle.getElementFactory( )
-						.newElementFrom( elementHandle, null ) );
+				setModel( moduleHandle.getElementFactory( ).newElementFrom(
+						elementHandle, null ) );
 			}
+		}
+		catch ( ExtendsException e )
+		{
+			GUIException exception = GUIException
+					.createGUIException( ReportPlugin.REPORT_UI, e,
+							"Library.DND.messages.outofsync" );//$NON-NLS-1$
+			ExceptionHandler.handle( exception );
 		}
 		catch ( Exception e )
 		{

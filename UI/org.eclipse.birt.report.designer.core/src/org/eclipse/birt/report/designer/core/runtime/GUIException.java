@@ -46,7 +46,7 @@ public class GUIException extends BirtException
 	public static final String GUI_ERROR_CODE_OUT_OF_MEMORY = "Error.GUIException.invokedByOutOfMemory"; //$NON-NLS-1$
 
 	public static final String GUI_ERROR_CODE_UNEXPECTED = "Error.GUIException.invokedByUnexpectedException"; //$NON-NLS-1$
-
+	
 	/**
 	 * Creates a new instance of GUI exception
 	 * 
@@ -80,6 +80,27 @@ public class GUIException extends BirtException
 		}
 		return ex;
 	}
+	
+	/**
+	 * Creates a new instance of GUI exception
+	 * 
+	 * @param pluginId
+	 *            the id of the plugin
+	 * @param cause
+	 *            the cause which invoked the exception
+	 * 
+	 * @return the GUIException created
+	 */
+	public static GUIException createGUIException( String pluginId,
+			Throwable cause,String errorCode )
+	{
+		GUIException ex = new GUIException( pluginId, errorCode, cause );
+		if ( errorCode != GUI_ERROR_CODE_UNEXPECTED )
+		{
+			ex.setSeverity( BirtException.INFO | BirtException.ERROR );
+		}
+		return ex;
+	}	
 
 	/**
 	 * Creates a new instance of GUI exception with the specified error code
@@ -104,24 +125,29 @@ public class GUIException extends BirtException
 	 */
 	public String getMessage( )
 	{
-		String message = getCause( ).getLocalizedMessage( );
-		if ( getCause( ) instanceof UnknownHostException )
+		String message = Messages.getString(getErrorCode());
+		
+		if(message.equalsIgnoreCase(getErrorCode()))
 		{
-			message = MSG_UNKNOWN_HOST + message;
-		}
-		else if ( getCause( ) instanceof FileNotFoundException )
-		{
-			message = MSG_FILE_NOT_FOUND + message;
-		}
-		else if ( getCause( ) instanceof OutOfMemoryError )
-		{
-			message = MSG_OUT_OF_MEMORY;
-		}
-		if ( StringUtil.isBlank( message ) )
-		{
-			message = MessageFormat.format( MSG_CAUSED_BY, new String[]{
-				getCause( ).getClass( ).getName( )
-			} );
+			message = getCause( ).getLocalizedMessage( );
+			if ( getCause( ) instanceof UnknownHostException )
+			{
+				message = MSG_UNKNOWN_HOST + message;
+			}
+			else if ( getCause( ) instanceof FileNotFoundException )
+			{
+				message = MSG_FILE_NOT_FOUND + message;
+			}
+			else if ( getCause( ) instanceof OutOfMemoryError )
+			{
+				message = MSG_OUT_OF_MEMORY;
+			}
+			if ( StringUtil.isBlank( message ) )
+			{
+				message = MessageFormat.format( MSG_CAUSED_BY, new String[]{
+					getCause( ).getClass( ).getName( )
+				} );
+			}
 		}
 		return message;
 	}
