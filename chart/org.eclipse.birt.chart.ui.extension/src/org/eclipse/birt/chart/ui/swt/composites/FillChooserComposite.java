@@ -647,6 +647,10 @@ public class FillChooserComposite extends Composite implements
 						: ( (ColorDefinition) fCurrent ).getTransparency( );
 			}
 			cTmp.setTransparency( iTransparency );
+			if ( fCurrent != null )
+			{
+				cTmp.eAdapters( ).addAll( fCurrent.eAdapters( ) );
+			}
 			setFill( cTmp );
 			fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
 			cmpDropDown.getShell( ).dispose( );
