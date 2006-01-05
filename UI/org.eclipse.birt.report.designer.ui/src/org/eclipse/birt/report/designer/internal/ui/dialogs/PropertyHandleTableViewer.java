@@ -49,6 +49,7 @@ public final class PropertyHandleTableViewer
     private Button btnDown;
     private MenuItem itmRemove;
     private MenuItem itmRemoveAll;
+    private Menu menu;
     
     /**
      * 
@@ -173,7 +174,7 @@ public final class PropertyHandleTableViewer
         
         if(showMenus)
         {
-            Menu menu = new Menu(viewer.getTable());
+            menu = new Menu(viewer.getTable());
             menu.addMenuListener(new MenuAdapter(){
                 public void menuShown(MenuEvent e)
                 {
@@ -245,6 +246,11 @@ public final class PropertyHandleTableViewer
     public Button getUpButton()
     {
         return btnUp;
+    }
+    
+    public Menu getMenu()
+    {
+        return menu;
     }
     
     public Button getDownButton()
