@@ -91,7 +91,7 @@ import sun.text.Normalizer;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.67 $ $Date: 2005/12/29 02:32:07 $
+ * @version $Revision: 1.68 $ $Date: 2006/01/04 07:06:42 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1455,6 +1455,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		if ( useSVG )
 		{ // use svg
 			writer.openTag( HTMLTags.TAG_EMBED );
+			
+			// bookmark
+			String bookmark = image.getBookmark( );
+			if ( bookmark == null )
+			{
+				bookmark = generateUniqueID( );
+			}
+			setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
+			exportElementID( image, bookmark, "EXTENDED" );
+			
 			writer.attribute( HTMLTags.ATTR_TYPE, "image/svg+xml" ); //$NON-NLS-1$
 			writer.attribute( HTMLTags.ATTR_SRC, imgUri );
 			setStyleName( image.getStyleClass( ) );
