@@ -89,7 +89,7 @@ public class ReportDocumentTest extends EngineCase {
 
 			assertEquals("table toc doesn't contain 6 nodes",6,tableNode.getChildren().size());
 			headerNode=(TOCNode)tableNode.getChildren().get(0);
-			groupNode=(TOCNode)tableNode.getChildren().get(1);
+			groupNode=(TOCNode)((TOCNode)tableNode.getChildren().get(1)).getChildren().get(0);
 			footerNode=(TOCNode)tableNode.getChildren().get(5);
 			assertNotNull("table header toc doesn't exist",headerNode);
 			assertNotNull("table group toc doesn't exist",groupNode);
@@ -99,8 +99,7 @@ public class ReportDocumentTest extends EngineCase {
 			assertEquals("footer toc expression isn't FooterSection","FooterSection",footerNode.getDisplayString() );
 			
 			assertNotNull("table group toc doesn't contain nodes",groupNode.getChildren());
-			assertEquals("table first group doesn't contain 1 detail nodes",1,groupNode.getChildren().size());
-			detailNode=(TOCNode)groupNode.getChildren().get(0);
+			detailNode=(TOCNode)((TOCNode)tableNode.getChildren().get(1)).getChildren().get(1);
 			assertEquals("detail toc expression isn't DetailSection","DetailSection",detailNode.getDisplayString() );
 			
 			

@@ -142,7 +142,7 @@ public class ReportEngineTest extends EngineCase {
 			IParameterDefnBase paramDefn=getParamTask.getParameterDefn("p1");
 			System.err.println(paramDefn.getTypeName());
 			System.err.println(paramDefn instanceof ScalarParameterDefn);
-			assertEquals("creatGetParameterDefinitionTask() fail","abc",getParamTask.getDefaultValue(paramDefn));
+			assertEquals("creatGetParameterDefinitionTask() fail","\"abc\"",getParamTask.getDefaultValue(paramDefn));
 		}catch(EngineException ee){
 			ee.printStackTrace();
 		}
