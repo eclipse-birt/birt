@@ -158,7 +158,10 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 					if ( editpart instanceof EditPart )
 					{
 						getViewer( ).flush( );
-						getViewer( ).select( (EditPart) editpart );
+						if(! (editpart instanceof EmptyEditPart))
+						{
+							getViewer( ).select( (EditPart) editpart );
+						}
 					}
 					if ( editpart != null )
 					{
