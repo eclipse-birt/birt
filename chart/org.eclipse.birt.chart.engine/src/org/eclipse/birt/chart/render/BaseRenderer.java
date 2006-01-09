@@ -106,6 +106,7 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -2539,17 +2540,20 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 				dI = getY( loaI, IConstants.AVERAGE );
 				dJ = getY( loaJ, IConstants.AVERAGE );
-				if ( dJ > dI ) // SWAP
+
+				// Use fuzzy comparison here due to possible precision loss
+				// during computation.
+				if ( ChartUtil.mathGT( dJ, dI ) ) // SWAP
 				{
 					loaa[i] = loaJ;
 					loaa[j] = loaI;
 					loaI = loaJ;
 				}
-				else if ( dJ == dI )
+				else if ( ChartUtil.mathEqual( dJ, dI ) )
 				{
 					dI = getX( loaI, IConstants.AVERAGE );
 					dJ = getX( loaJ, IConstants.AVERAGE );
-					if ( dI > dJ )
+					if ( ChartUtil.mathGT( dI, dJ ) )
 					{
 						loaa[i] = loaJ;
 						loaa[j] = loaI;
@@ -2664,7 +2668,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * Renders planes as 3D presentaion.
+	 * Renders planes as 3D presentation.
 	 * 
 	 * @param ipr
 	 * @param oSource
@@ -2825,7 +2829,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					sb.append( '=' );
 					sb.append( URLValueImpl.encode( dph.getOrthogonalDisplayValue( ) ) );
 				}
-				if ( uv.getSeriesParameterName( ) != null 
+				if ( uv.getSeriesParameterName( ) != null
 						&& uv.getSeriesParameterName( ).length( ) > 0 )
 				{
 					sb.append( c );
