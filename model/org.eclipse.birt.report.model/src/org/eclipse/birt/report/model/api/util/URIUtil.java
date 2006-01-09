@@ -292,6 +292,14 @@ public class URIUtil
 	private static URL getFileDirectory( String filePath )
 	{
 		File file = new File( filePath );
+
+		// get the absolute file in case of filePath is just
+		// "newReport.rptdesign".
+
+		file = file.getAbsoluteFile( );
+
+		// get the parent file when the absolute file is ready.
+
 		file = file.getParentFile( );
 
 		if ( file == null )

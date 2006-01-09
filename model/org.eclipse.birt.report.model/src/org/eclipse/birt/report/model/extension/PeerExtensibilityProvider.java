@@ -312,7 +312,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 					}
 					else
 						reportItem.deserialize( prop.getName( ),
-								new ByteArrayInputStream( null ) );
+								new ByteArrayInputStream( new byte[0] ) );
 				}
 				catch ( ExtendedElementException e )
 				{
