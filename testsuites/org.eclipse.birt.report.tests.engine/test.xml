@@ -133,7 +133,7 @@
 		 Notice: This public task UnitTest doesn't depend on complieSource, top level script 
 		 will ensure that compilation is successful before call this UnitTest.
 	-->
-	<target name="UnitTest" depends="compileTest,APIJavadoc">
+	<target name="UnitTest" >
 		<delete dir="${test.report.xml.dir}" />
 		<mkdir dir="${test.report.xml.dir}"/>
 		<junit printsummary="on" 
@@ -156,7 +156,7 @@
 		</junit>
 	</target>
 
-	<target name="Report" depends="compileTest">
+	<target name="Report" >
 		<junitreport todir="${test.report.dir}">
 			<fileset dir="${test.report.xml.dir}">
 				<include name="*.xml" />
