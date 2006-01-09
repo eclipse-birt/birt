@@ -80,34 +80,34 @@
 		
 		
 		  <fileset dir="..">
-		  	<include name="org.eclipse.birt.chart.device.extension_2.0.0/device-extension.jar" />
-		  	<include name="org.eclipse.birt.chart.device.svg_2.0.0/device-svg.jar" />
-		  	<include name="org.eclipse.birt.chart.engine.extension_2.0.0/engine-extension.jar" />
-		  	<include name="org.eclipse.birt.chart.engine_2.0.0/engine.jar" />
-		  	<include name="org.eclipse.birt.core_2.0.0/*.jar" />
+		  	<include name="org.eclipse.birt.chart.device.extension/device-extension.jar" />
+		  	<include name="org.eclipse.birt.chart.device.svg/device-svg.jar" />
+		  	<include name="org.eclipse.birt.chart.engine.extension/engine-extension.jar" />
+		  	<include name="org.eclipse.birt.chart.engine/engine.jar" />
+		  	<include name="org.eclipse.birt.core/*.jar" />
 		  	
-		  	<include name="org.eclipse.emf_2.1.0.jar" />
-		  	<include name="org.eclipse.emf.ecore_2.1.0.jar" />
-		  	<include name="org.eclipse.emf.common_2.1.0.jar" />
-		  	<include name="org.eclipse.emf.ecore.xmi_2.1.0.jar" />
-		  	<include name="org.eclipse.swt.win32.win32.x86_3.1.0.jar" />
-		  	<include name="org.eclipse.swt_3.1.0.jar" />
+		  	<include name="org.eclipse.emf.jar" />
+		  	<include name="org.eclipse.emf.ecore.jar" />
+		  	<include name="org.eclipse.emf.common.jar" />
+		  	<include name="org.eclipse.emf.ecore.xmi.jar" />
+		  	<include name="org.eclipse.swt.win32.win32.x86.jar" />
+		  	<include name="org.eclipse.swt.jar" />
 		  	
-		  	<include name="org.eclipse.birt.report.model_2.0.0/*.jar" />
-		  	<include name="org.eclipse.birt.report.model_2.0.0/lib/*.jar" />
-		  	<include name="org.eclipse.birt.chart.reportitem_2.0.0/reportitem.jar" />
+		  	<include name="org.eclipse.birt.report.model/*.jar" />
+		  	<include name="org.eclipse.birt.report.model/lib/*.jar" />
+		  	<include name="org.eclipse.birt.chart.reportitem/reportitem.jar" />
 		  	
 		  	
 		  	
-		    	<include name="org.eclipse.birt.core_2.0.0/*.jar" />
-		  		<include name="org.eclipse.birt.core_2.0.0/lib/*.jar" />
-		  		<include name="org.eclipse.birt.data.oda_2.0.2/*.jar" />			  	
-			    <include name="org.eclipse.birt.data.oda.adapter.dtp_2.0.0/*.jar" />
-			    <include name="org.eclipse.birt.report.data.oda.jdbc_2.0.0/*.jar" />
-			    <include name="org.eclipse.birt.report.data.oda.sampledb_2.0.0/*.jar" />		
-		    	<include name="org.eclipse.birt.data_2.0.0/*.jar" />
+		    	<include name="org.eclipse.birt.core/*.jar" />
+		  		<include name="org.eclipse.birt.core/lib/*.jar" />
+		  		<include name="org.eclipse.birt.data.oda/*.jar" />			  	
+			    <include name="org.eclipse.birt.data.oda.adapter.dtp/*.jar" />
+			    <include name="org.eclipse.birt.report.data.oda.jdbc/*.jar" />
+			    <include name="org.eclipse.birt.report.data.oda.sampledb/*.jar" />		
+		    	<include name="org.eclipse.birt.data/*.jar" />
 		  	
-			    <include name="org.eclipse.birt.report.engine_2.0.0/*.jar" />
+			    <include name="org.eclipse.birt.report.engine/*.jar" />
 		  </fileset>
 	
 	</path>
@@ -155,7 +155,7 @@
 		</javac>    	
     </target>
 
-	<target name="Test" depends="compileTest">
+	<target name="UnitTest" >
 		<jar destfile="chart.jar" >
 			<fileset dir="./bin">
 				<exclude name="**/*.class"/>
@@ -179,7 +179,7 @@
 		 Notice: This public task UnitTest doesn't depend on complieSource, top level script 
 		 will ensure that compilation is successful before call this UnitTest.
 	-->
-	<target name="UnitTest" depends="compileTest,APIJavadoc">
+	<target name="Test" depends="compileTest,APIJavadoc">
 		<delete dir="${test.report.xml.dir}" />
 		<mkdir dir="${test.report.xml.dir}"/>
 		<junit printsummary="on" 
@@ -202,7 +202,7 @@
 		</junit>
 	</target>
 
-	<target name="Report" depends="compileTest">
+	<target name="Report" >
 		<junitreport todir="${test.report.dir}">
 			<fileset dir="${test.report.xml.dir}">
 				<include name="*.xml" />
