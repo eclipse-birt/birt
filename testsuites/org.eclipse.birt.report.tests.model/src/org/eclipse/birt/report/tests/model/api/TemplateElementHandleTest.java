@@ -64,17 +64,9 @@ public class TemplateElementHandleTest extends BaseTestCase
 		designHandle.getDataSets().add(dataset);
 		dataset2 = factory.newOdaDataSet("dset2","org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet");
 		designHandle.getDataSets().add(dataset2);
+	    TemplateElementHandle tdataset = dataset2.createTemplateElement("dset");
+		assertEquals("dset1", tdataset.getName());
 	
-		try{
-			TemplateElementHandle tdataset = dataset2.createTemplateElement("dset");
-			fail();
-			}
-			catch(NameException e)
-			{
-			  assertNotNull(e);
-			}
-		TemplateElementHandle tdataset = dataset2.createTemplateElement("temdset");;
-		designHandle.getDataSets().add(tdataset);
 		
 		//Element which has no template definition can't be reverted to report element
 		label = factory.newLabel("label");
