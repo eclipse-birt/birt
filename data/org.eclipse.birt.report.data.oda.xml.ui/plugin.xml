@@ -27,7 +27,7 @@
          <newDataSourceWizard class="org.eclipse.birt.report.data.oda.xml.ui.wizards.XmlDataSourceConnectionWizard"/>
          <dataSourceEditorPage
                class="org.eclipse.birt.report.data.oda.xml.ui.wizards.XmlDataSourcePage"
-               displayName="XML DataSource"
+               displayName="%oda.xml.datasource"
                name="selectFolder"
                path="/"/>
       </odaDataSourceUI>
@@ -36,15 +36,15 @@
 	     <newDataSetWizard class="org.eclipse.birt.report.data.oda.xml.ui.wizards.XmlDataSetWizard"/>
          <dataSetEditorPage
                   class="org.eclipse.birt.report.data.oda.xml.ui.wizards.XmlDataSetSelectionPage"
-                  displayName="XML DataSet"
+                  displayName="%oda.xml.dataset"
                   name="selectColumns"/>
          <dataSetEditorPage
                   class="org.eclipse.birt.report.data.oda.xml.ui.wizards.XPathChoosePage"
-                  displayName="Table Mapping"
+                  displayName="%oda.xml.tablemapping"
                   name="selectColumns"/>
         <dataSetEditorPage
                   class="org.eclipse.birt.report.data.oda.xml.ui.wizards.ColumnMappingPage"
-                  displayName="Column Mapping"
+                  displayName="%oda.xml.columnmapping"
                   name="selectColumns"/>
       </odaDataSetUI>
    </extension>
