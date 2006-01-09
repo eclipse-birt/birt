@@ -68,41 +68,29 @@ import org.eclipse.ui.ISharedImages;
 public class ExpressionBuilder extends TitleAreaDialog
 {
 
-	private static final String DIALOG_TITLE = Messages
-			.getString( "ExpressionBuidler.Dialog.Title" ); //$NON-NLS-1$
+	private static final String DIALOG_TITLE = Messages.getString( "ExpressionBuidler.Dialog.Title" ); //$NON-NLS-1$
 
-	private static final String PROMRT_MESSAGE = Messages
-			.getString( "ExpressionBuilder.Message.Prompt" ); //$NON-NLS-1$
+	private static final String PROMRT_MESSAGE = Messages.getString( "ExpressionBuilder.Message.Prompt" ); //$NON-NLS-1$
 
-	private static final String LABEL_FUNCTIONS = Messages
-			.getString( "ExpressionBuilder.Label.Functions" ); //$NON-NLS-1$
+	private static final String LABEL_FUNCTIONS = Messages.getString( "ExpressionBuilder.Label.Functions" ); //$NON-NLS-1$
 
-	private static final String LABEL_SUB_CATEGORY = Messages
-			.getString( "ExpressionBuilder.Label.SubCategory" ); //$NON-NLS-1$
+	private static final String LABEL_SUB_CATEGORY = Messages.getString( "ExpressionBuilder.Label.SubCategory" ); //$NON-NLS-1$
 
-	private static final String LABEL_CATEGORY = Messages
-			.getString( "ExpressionBuilder.Label.Category" ); //$NON-NLS-1$
+	private static final String LABEL_CATEGORY = Messages.getString( "ExpressionBuilder.Label.Category" ); //$NON-NLS-1$
 
-	private static final String LABEL_OPERATORS = Messages
-			.getString( "ExpressionBuilder.Label.Operators" ); //$NON-NLS-1$
+	private static final String LABEL_OPERATORS = Messages.getString( "ExpressionBuilder.Label.Operators" ); //$NON-NLS-1$
 
-	private static final String TOOL_TIP_TEXT_REDO = Messages
-			.getString( "TextEditDialog.toolTipText.redo" ); //$NON-NLS-1$
+	private static final String TOOL_TIP_TEXT_REDO = Messages.getString( "TextEditDialog.toolTipText.redo" ); //$NON-NLS-1$
 
-	private static final String TOOL_TIP_TEXT_UNDO = Messages
-			.getString( "TextEditDialog.toolTipText.undo" ); //$NON-NLS-1$
+	private static final String TOOL_TIP_TEXT_UNDO = Messages.getString( "TextEditDialog.toolTipText.undo" ); //$NON-NLS-1$
 
-	private static final String TOOL_TIP_TEXT_DELETE = Messages
-			.getString( "TextEditDialog.toolTipText.delete" ); //$NON-NLS-1$
+	private static final String TOOL_TIP_TEXT_DELETE = Messages.getString( "TextEditDialog.toolTipText.delete" ); //$NON-NLS-1$
 
-	private static final String TOOL_TIP_TEXT_PASTE = Messages
-			.getString( "TextEditDialog.toolTipText.paste" ); //$NON-NLS-1$
+	private static final String TOOL_TIP_TEXT_PASTE = Messages.getString( "TextEditDialog.toolTipText.paste" ); //$NON-NLS-1$
 
-	private static final String TOOL_TIP_TEXT_CUT = Messages
-			.getString( "TextEditDialog.toolTipText.cut" ); //$NON-NLS-1$
+	private static final String TOOL_TIP_TEXT_CUT = Messages.getString( "TextEditDialog.toolTipText.cut" ); //$NON-NLS-1$
 
-	private static final String TOOL_TIP_TEXT_COPY = Messages
-			.getString( "TextEditDialog.toolTipText.copy" ); //$NON-NLS-1$
+	private static final String TOOL_TIP_TEXT_COPY = Messages.getString( "TextEditDialog.toolTipText.copy" ); //$NON-NLS-1$
 
 	private class TableContentProvider implements IStructuredContentProvider
 	{
@@ -141,8 +129,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 		public void selectionChanged( SelectionChangedEvent event )
 		{
-			IStructuredSelection selection = (IStructuredSelection) event
-					.getSelection( );
+			IStructuredSelection selection = (IStructuredSelection) event.getSelection( );
 			if ( selection.isEmpty( ) )
 			{
 				return;
@@ -159,6 +146,19 @@ public class ExpressionBuilder extends TitleAreaDialog
 			if ( target != null )
 			{
 				target.setInput( selection.getFirstElement( ) );
+			}
+
+			if ( event.getSource( ) == functionTable )
+			{
+				Table table = functionTable.getTable( );
+				if ( table.getSelectionCount( ) == 1 )
+				{
+					messageLine.setText( table.getSelection( )[0].getText( ) );
+				}
+				else
+				{
+					messageLine.setText( "" );//$NON-NLS-1$	
+				}
 			}
 		}
 
@@ -198,16 +198,14 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 		public void doubleClick( DoubleClickEvent event )
 		{
-			IStructuredSelection selection = (IStructuredSelection) event
-					.getSelection( );
+			IStructuredSelection selection = (IStructuredSelection) event.getSelection( );
 			if ( selection.isEmpty( ) )
 			{
 				return;
 			}
 			if ( event.getSource( ) == functionTable )
 			{
-				String insertText = provider.getInsertText( selection
-						.getFirstElement( ) );
+				String insertText = provider.getInsertText( selection.getFirstElement( ) );
 				if ( insertText != null )
 				{
 					insertText( insertText );
@@ -221,6 +219,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 	private IExpressionProvider provider;
 	private SourceViewer sourceViewer;
 	private String expression = null;
+	private Label messageLine;
 
 	private String title;
 
@@ -272,9 +271,19 @@ public class ExpressionBuilder extends TitleAreaDialog
 			provider = new ExpressionProvider( );
 		}
 		createOperatorsBar( composite );
+		createMessageLine( composite );
 		createListArea( composite );
 
 		return composite;
+
+	}
+
+	private void createMessageLine( Composite parent )
+	{
+		messageLine = new Label( parent, SWT.NONE );
+		GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+		gridData.horizontalIndent = 6;
+		messageLine.setLayoutData( gridData );
 
 	}
 
@@ -284,8 +293,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 		toolBar.setLayoutData( new GridData( ) );
 
 		ToolItem copy = new ToolItem( toolBar, SWT.NONE );
-		copy.setImage( ReportPlatformUIImages
-				.getImage( ISharedImages.IMG_TOOL_COPY ) );
+		copy.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_COPY ) );
 		copy.setToolTipText( TOOL_TIP_TEXT_COPY );
 		copy.addSelectionListener( new SelectionAdapter( ) {
 
@@ -296,8 +304,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 		} );
 
 		ToolItem cut = new ToolItem( toolBar, SWT.NONE );
-		cut.setImage( ReportPlatformUIImages
-				.getImage( ISharedImages.IMG_TOOL_CUT ) );
+		cut.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_CUT ) );
 		cut.setToolTipText( TOOL_TIP_TEXT_CUT );
 		cut.addSelectionListener( new SelectionAdapter( ) {
 
@@ -308,8 +315,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 		} );
 
 		ToolItem paste = new ToolItem( toolBar, SWT.NONE );
-		paste.setImage( ReportPlatformUIImages
-				.getImage( ISharedImages.IMG_TOOL_PASTE ) );
+		paste.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_PASTE ) );
 		paste.setToolTipText( TOOL_TIP_TEXT_PASTE );
 		paste.addSelectionListener( new SelectionAdapter( ) {
 
@@ -320,8 +326,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 		} );
 
 		ToolItem delete = new ToolItem( toolBar, SWT.NONE );
-		delete.setImage( ReportPlatformUIImages
-				.getImage( ISharedImages.IMG_TOOL_DELETE ) );
+		delete.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_DELETE ) );
 		delete.setToolTipText( TOOL_TIP_TEXT_DELETE );
 		delete.addSelectionListener( new SelectionAdapter( ) {
 
@@ -332,8 +337,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 		} );
 
 		ToolItem undo = new ToolItem( toolBar, SWT.NONE );
-		undo.setImage( ReportPlatformUIImages
-				.getImage( ISharedImages.IMG_TOOL_UNDO ) );
+		undo.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_UNDO ) );
 		undo.setToolTipText( TOOL_TIP_TEXT_UNDO );
 		undo.addSelectionListener( new SelectionAdapter( ) {
 
@@ -344,8 +348,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 		} );
 
 		ToolItem redo = new ToolItem( toolBar, SWT.NONE );
-		redo.setImage( ReportPlatformUIImages
-				.getImage( ISharedImages.IMG_TOOL_REDO ) );
+		redo.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_REDO ) );
 		redo.setToolTipText( TOOL_TIP_TEXT_REDO );
 		redo.addSelectionListener( new SelectionAdapter( ) {
 
@@ -448,8 +451,8 @@ public class ExpressionBuilder extends TitleAreaDialog
 		lable.setText( LABEL_OPERATORS );
 		lable.setLayoutData( new GridData( 70, SWT.DEFAULT ) );
 		Composite operatorsArea = new Composite( operatorsBar, SWT.NONE );
-		operatorsArea.setLayout( UIUtil.createGridLayoutWithoutMargin(
-				operators.length, true ) );
+		operatorsArea.setLayout( UIUtil.createGridLayoutWithoutMargin( operators.length,
+				true ) );
 		SelectionAdapter selectionAdapter = new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -528,16 +531,14 @@ public class ExpressionBuilder extends TitleAreaDialog
 					}
 					else
 					{
-						table.setToolTipText( provider.getTooltipText( item
-								.getData( ) ) );
+						table.setToolTipText( provider.getTooltipText( item.getData( ) ) );
 					}
 				}
 			}
 		} );
 
 		tableViewer.setLabelProvider( tableLabelProvider );
-		tableViewer
-				.setContentProvider( new TableContentProvider( tableViewer ) );
+		tableViewer.setContentProvider( new TableContentProvider( tableViewer ) );
 		tableViewer.addSelectionChangedListener( selectionListener );
 		tableViewer.addDoubleClickListener( doubleClickListener );
 	}
@@ -579,8 +580,8 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 		}
 		int widthHint = convertHorizontalDLUsToPixels( IDialogConstants.BUTTON_WIDTH );
-		gridData.widthHint = Math.max( widthHint, button.computeSize(
-				SWT.DEFAULT, SWT.DEFAULT, true ).x );
+		gridData.widthHint = Math.max( widthHint,
+				button.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		button.setLayoutData( gridData );
 	}
 
