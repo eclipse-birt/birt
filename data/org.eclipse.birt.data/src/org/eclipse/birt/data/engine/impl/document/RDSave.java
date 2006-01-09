@@ -11,10 +11,9 @@
 package org.eclipse.birt.data.engine.impl.document;
 
 import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -46,7 +45,7 @@ public class RDSave
 	//
 	private OutputStream outputStream;
 	private BufferedOutputStream bos;
-	private ObjectOutputStream oos;
+	private DataOutputStream dos;
 	
 	//
 	private Map exprValueMap = new HashMap( );
@@ -78,24 +77,17 @@ public class RDSave
 	 */
 	private void initSave( ) throws DataException
 	{
-		if ( oos == null )
+		if ( dos == null )
 		{
 			outputStream = context.getOutputStream( queryResultID,
 					subQueryID,
 					DataEngineContext.EXPR_VALUE_STREAM );
 			bos = new BufferedOutputStream( outputStream );
-			try
-			{
-				oos = new ObjectOutputStream( bos );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
-			}
+			dos = new DataOutputStream( bos );
 
 			try
 			{
-				oos.writeInt( rowCount );
+				dos.writeInt( rowCount );
 			}
 			catch ( IOException e )
 			{
@@ -144,7 +136,7 @@ public class RDSave
 		try
 		{
 			saveExprOfOneRow( this.lastRowIndex );
-			oos.close( );
+			dos.close( );
 			bos.close( );
 			outputStream.close( );
 		}
@@ -169,26 +161,14 @@ public class RDSave
 		if ( size == 0 )
 			return;
 
-		oos.writeInt( size );
+		dos.writeInt( size );
 		for ( int i = 0; i < size; i++ )
 		{
 			String exprID = exprIDs[i];
 			Object exprValue = exprValueMap.get( exprID );
 
-			oos.writeUTF( exprID );
-			if ( exprValue == null )
-			{
-				oos.writeInt( 0 );
-			}
-			else
-			{
-				if ( exprValue instanceof Serializable == false )
-					throw new IOException( exprValue.getClass( )
-							+ "can not be serialized" );
-
-				oos.writeInt( 1 );
-				IOUtil.writeObject( oos, exprValue );
-			}
+			dos.writeUTF( exprID );
+			IOUtil.writeObject( dos, exprValue );
 		}
 	}
 	

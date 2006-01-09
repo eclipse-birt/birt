@@ -12,9 +12,9 @@
 package org.eclipse.birt.data.engine.impl.document;
 
 import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,7 +52,7 @@ public class RDLoad
 
 	private InputStream is;
 	private BufferedInputStream bis;
-	private ObjectInputStream ois;
+	private DataInputStream dis;
 
 	// expression value map
 	private Map exprValueMap = new HashMap( );
@@ -106,7 +106,7 @@ public class RDLoad
 	 */
 	boolean next( ) throws DataException
 	{
-		if ( ois == null )
+		if ( dis == null )
 		{
 			is = context.getInputStream( queryResultID,
 					subQueryID,
@@ -114,8 +114,8 @@ public class RDLoad
 			bis = new BufferedInputStream( is );
 			try
 			{
-				ois = new ObjectInputStream( bis );
-				rowCount = ois.readInt( );
+				dis = new DataInputStream( bis );
+				rowCount = dis.readInt( );
 			}
 			catch ( IOException e )
 			{
@@ -174,13 +174,11 @@ public class RDLoad
 			if ( newColumn == true )
 			{
 				exprValueMap.clear( );
-				int exprCount = ois.readInt( );
+				int exprCount = dis.readInt( );
 				for ( int i = 0; i < exprCount; i++ )
 				{
-					String exprID = ois.readUTF( );
-					Object exprValue = null;
-					if ( ois.readInt( ) == 1 )
-						exprValue = IOUtil.readObject( ois );
+					String exprID = dis.readUTF( );
+					Object exprValue = IOUtil.readObject( dis );
 					exprValueMap.put( exprID, exprValue );
 				}
 				newColumn = false;
@@ -251,9 +249,9 @@ public class RDLoad
 	{
 		try
 		{
-			if ( ois != null )
+			if ( dis != null )
 			{
-				ois.close( );
+				dis.close( );
 				bis.close( );
 				is.close();
 			}
