@@ -10,16 +10,23 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
@@ -33,6 +40,9 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.data.IDataEngine;
+import org.eclipse.birt.report.engine.data.dte.AbstractDataEngine;
+import org.eclipse.birt.report.engine.data.dte.DteDataEngine;
+import org.eclipse.birt.report.engine.data.dte.ReportQueryBuilder;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.parser.ReportParser;
@@ -43,16 +53,69 @@ public class DataExtractionTask extends EngineTask
 			IDataExtractionTask
 {
 	protected ReportDocumentReader reportDocReader;
+	
 	protected ComponentID componentId;
+	
 	protected InstanceID instanceId;
+	
 	protected String[] selectedColumns;
+	
 	protected Report report;
+	
 	protected List resultMetaList;
+	
 	protected IExtractionResults currentResult = null;
 	
+	/*
+	 * map query id to result set name stored in DtE
+	 */
+	protected HashMap mapQueryIDToResultSetName;
+	/*
+	 * map query to query ID
+	 */
+	protected HashMap mapQueryToId;
+	/*
+	 * current result set name
+	 */
+	protected String resultSetName;
+	/*
+	 * map IBaseQueryDefinition to ReportItemDesign, namely TableItemDesign, ListItemDesign
+	 * and ExtendedItemDesign
+	 */
+	protected HashMap mapQueryToReportItem;
+	
+	/*
+	 * map result set display name to result set name stored by DtE.
+	 */
+	protected HashMap mapDispNameToResultSetName;
+	
+	/*
+	 * map String display name to IBaseQueryDefinition
+	 */
+	protected HashMap mapDispNameToQuery;
+	
+	/*
+	 * map resultset name to IBaseQueryDefinition
+	 */
+	protected HashMap mapResultSetToQuery;
+	
+	/*
+	 * have the metadata be prepared
+	 */
+	protected boolean isMetaDataPrepared = false;
+	
+	/*
+	 * map report item to display name
+	 */
+	protected HashMap mapReportItemToDisplayName;
+	/**
+	 * the logger
+	 */
+	protected static Logger logger = Logger.getLogger( DteDataEngine.class
+			.getName( ) );
 	
 	public DataExtractionTask( ReportEngine engine, IReportRunnable runnable,
-			ReportDocumentReader reader )
+			ReportDocumentReader reader ) throws EngineException
 	{
 		super( engine, runnable );
 		
@@ -66,8 +129,136 @@ public class DataExtractionTask extends EngineTask
 		
 		executionContext.setReport( report );
 		setParameterValues( reportDocReader.getParameterValues( ) );
+		
+		// prepareMetaData( );
+		
 		IDataEngine dataEngine = executionContext.getDataEngine();
 		dataEngine.prepare( report, appContext );
+	}
+	
+	/*
+	 * prepare the meta data of DataExtractionTask.
+	 */
+	private void prepareMetaData( ) throws EngineException
+	{
+		ReportQueryBuilder queryBuilder = new ReportQueryBuilder( );
+		// load query -> report item design
+		queryBuilder.build( report, executionContext );
+		mapQueryToReportItem = queryBuilder.getQueryToReportItemMap( );
+		
+		// load query -> result set name
+		loadResultSetMetaData( );
+		assert mapQueryIDToResultSetName != null;
+
+		// set query -> query id
+		if (mapQueryToId == null) {
+			mapQueryToId = new HashMap();
+		}
+		mapQueryToId.putAll(report.getQueryIDs());
+		 
+		// set displayName -> result set name
+		if (mapDispNameToResultSetName == null)
+		{
+			mapDispNameToResultSetName = new HashMap();
+		}
+		else
+		{
+			mapDispNameToResultSetName.clear( );
+		}
+		
+		// set displayName -> query
+		if( mapDispNameToQuery == null )
+		{
+			mapDispNameToQuery = new HashMap( );
+		}
+		else
+		{
+			mapDispNameToQuery.clear( );
+		}
+		
+		// set result set name -> query
+		if( mapResultSetToQuery == null )
+		{
+			mapResultSetToQuery = new HashMap( );
+		}
+		else
+		{
+			mapResultSetToQuery.clear( );
+		}
+		
+		if( mapReportItemToDisplayName == null )
+		{
+			mapReportItemToDisplayName = new HashMap( );
+		}
+		else
+		{
+			mapReportItemToDisplayName.clear( );
+		}
+		 
+		ArrayList queryList = report.getQueries();
+		int counter = 0;
+		for (int i = 0; i < queryList.size(); i++) {
+			IQueryDefinition query = (IQueryDefinition) queryList.get(i);
+			assert query != null;
+			
+			String queryId = (String) mapQueryToId.get(query);
+			List resultSetList = (List) mapQueryIDToResultSetName.get(queryId);
+			if (resultSetList == null) {
+				continue;
+			}
+
+			// create display name
+			ReportItemDesign reportItem = (ReportItemDesign) mapQueryToReportItem
+					.get(query);
+			String displayName = null;
+			if (reportItem.getName() != null) {
+				displayName = reportItem.getName() + "_" + counter;
+			} else {
+				displayName = "ELEMENT_" + reportItem.getID() + "_" + counter;
+			}
+			counter++;
+			
+			mapReportItemToDisplayName.put( reportItem, displayName );
+			// get result set name
+			Iterator resultSetIter = resultSetList.iterator();
+			while (resultSetIter.hasNext()) {
+				String resultSetName = (String) resultSetIter.next();
+				
+				mapDispNameToResultSetName.put(displayName, resultSetName);
+				mapDispNameToQuery.put( displayName, query );
+				mapResultSetToQuery.put( resultSetName, query );
+			}
+		}
+		
+		isMetaDataPrepared = true;
+	}
+	
+	/*
+	 * load map from query id to result set id from report document.
+	 */
+	private void loadResultSetMetaData( ) throws EngineException
+	{
+		IDocArchiveReader reader = reportDocReader.getArchive( );
+		try
+		{
+			ObjectInputStream ois = new ObjectInputStream( reader
+					.getStream( AbstractDataEngine.DATA_META_STREAM ) );
+			
+			mapQueryIDToResultSetName = (HashMap) ois.readObject( );
+			ois.close( );
+		}
+		catch ( IOException ioe )
+		{
+			executionContext.addException( new EngineException(
+					"Can't load the data in report document", ioe ) );
+			logger.log( Level.SEVERE, ioe.getMessage( ), ioe );
+		}
+		catch ( ClassNotFoundException cnfe )
+		{
+			executionContext.addException( new EngineException(
+					"Can't load the data in report document", cnfe ) );
+			logger.log( Level.SEVERE, cnfe.getMessage( ), cnfe );
+		}
 	}
 	
 	public void setInstanceID( InstanceID iid )
@@ -75,7 +266,15 @@ public class DataExtractionTask extends EngineTask
 		instanceId = iid;
 		currentResult = null;
 	}
-
+	
+	public void selectResultSet( String displayName )
+	{
+		assert displayName != null;
+		resultSetName = (String)mapDispNameToResultSetName.get( displayName );
+		selectedColumns = null;
+		currentResult = null;
+	}
+	
 	public List getMetaData( ) throws EngineException
 	{
 		if ( resultMetaList == null )
@@ -108,20 +307,121 @@ public class DataExtractionTask extends EngineTask
 		}
 		return resultMetaList;
 	}
+	
+	public List getResultSetList( ) throws EngineException
+	{	
+		if (resultMetaList == null) 
+		{
+			if( isMetaDataPrepared == false )
+			{
+				prepareMetaData( );
+			}
+			
+			resultMetaList = new ArrayList();
+			String dispName = null;
+			IBaseQueryDefinition query = null;
+			if( instanceId != null )
+			{
+				ReportItemDesign reportItem = (ReportItemDesign)report.getReportItemByID( 
+						instanceId.getComponentID( ) );
+				dispName = (String)mapReportItemToDisplayName.get( reportItem );
+				query = reportItem.getQuery( );
+				
+				addToResultSetList( query, dispName );
+			}
+			else
+			{
+				Set keySet = mapDispNameToQuery.keySet();
+				Iterator keyIter = keySet.iterator();
+				while (keyIter.hasNext()) {
+					dispName = (String) keyIter.next();
+					query = (IBaseQueryDefinition) mapDispNameToQuery
+							.get(dispName);
+					addToResultSetList( query, dispName );
+				}
+			}
+		}
+		return resultMetaList;
+	}
 
+	/*
+	 * create IResultSetItem using display name and IResultMetaData 
+	 */
+	private void addToResultSetList( IBaseQueryDefinition query, 
+			String displayName )
+	{
+		assert query != null;
+		assert displayName != null;
+		
+		ResultMetaData resultMeta = new ResultMetaData(
+				getScriptExpressions(query.getRowExpressions()));
+
+		IResultSetItem resultItem = new ResultSetItem(displayName, resultMeta);
+		
+		resultMetaList.add( resultItem );
+	}
+	
 	public void selectColumns( String[] columnNames )
 	{
 		selectedColumns = columnNames;
 		currentResult = null;
 	}
-
+	
 	public IExtractionResults extract( ) throws EngineException
 	{
-		if( instanceId == null ) 
-			return null;
-		
 		if ( currentResult != null )
 			return currentResult;
+		
+		if( instanceId != null )
+		{
+			return extractByInstanceId( );
+		}
+		else if( resultSetName != null )
+		{
+			return extractByResultSetName( );
+		}
+		return null;
+	}
+	
+	/*
+	 * export result directly from result set name
+	 */
+	private IExtractionResults extractByResultSetName( ) throws EngineException
+	{
+		assert resultSetName != null;
+		assert executionContext.getDataEngine() != null;
+		
+		if( isMetaDataPrepared == false )
+		{
+			prepareMetaData( );
+		}
+		DataEngine dataEngine = executionContext.getDataEngine().getDataEngine();
+		try
+		{
+			IQueryDefinition query = (IQueryDefinition)mapResultSetToQuery.get( resultSetName );
+			assert query != null;
+			validateSelectedColumns( query );
+			
+			IQueryResults queryResults = dataEngine.getQueryResults( resultSetName );
+			assert queryResults.getResultIterator() != null;
+			 
+			currentResult = new ExtractionResults( queryResults.getResultIterator() 
+					, selectedColumns, getScriptExpressions( query.getRowExpressions()) );
+			return currentResult;
+		}
+		catch ( BirtException e )
+		{
+			e.printStackTrace( );
+		}
+		return null;
+	}
+	
+	/*
+	 * data export by report item instance
+	 */
+	private IExtractionResults extractByInstanceId( ) throws EngineException
+	{
+		assert instanceId != null;
 		
 		assert executionContext.getDataEngine() != null;
 		DataEngine dataEngine = executionContext.getDataEngine().getDataEngine();
@@ -171,7 +471,6 @@ public class DataExtractionTask extends EngineTask
 				
 				currentResult = new ExtractionResults( queryResults.getResultIterator() 
 						, selectedColumns, getScriptExpressions( query.getRowExpressions()) );
-				resultMetaList.add( currentResult.getResultMetaData() );
 				return currentResult;
 				
 			}
@@ -211,8 +510,6 @@ public class DataExtractionTask extends EngineTask
 				
 				currentResult = new ExtractionResults( subIter, 
 						selectedColumns, getScriptExpressions (query.getRowExpressions( )) );
-				
-				resultMetaList.add( currentResult.getResultMetaData());
 				return currentResult;
 			}
 			catch( BirtException be )
@@ -220,10 +517,13 @@ public class DataExtractionTask extends EngineTask
 				be.printStackTrace( );
 			}
 		}
-		
 		return null;
 	}
 	
+	/*
+	 * check if the selected columns is valid, if no column is selected, then initialize the
+	 * selected column using row expression.
+	 */
 	private void validateSelectedColumns( IBaseQueryDefinition query )
 			throws EngineException
 	{

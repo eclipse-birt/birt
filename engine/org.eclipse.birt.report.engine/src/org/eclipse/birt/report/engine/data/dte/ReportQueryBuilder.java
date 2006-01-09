@@ -91,7 +91,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.43 $ $Date: 2005/12/20 09:51:02 $
+ * @version $Revision: 1.44 $ $Date: 2006/01/04 03:17:23 $
  */
 public class ReportQueryBuilder
 {
@@ -99,8 +99,23 @@ public class ReportQueryBuilder
 	protected static Logger logger = Logger.getLogger( ReportQueryBuilder.class
 			.getName( ) );
 
+	/**
+	 * map query to the report element.
+	 */
+	protected HashMap mapQueryToReportItem;
+	
 	public ReportQueryBuilder( )
 	{
+	}
+	
+	/**
+	 * return the map from query to report item design
+	 * 
+	 * @return the map from query to report item design
+	 */
+	public HashMap getQueryToReportItemMap( )
+	{
+		return mapQueryToReportItem;
 	}
 
 	/**
@@ -128,6 +143,8 @@ public class ReportQueryBuilder
 		 * a collection of all the queries
 		 */
 		protected Collection queries;
+		
+		
 
 		/**
 		 * the query stack. The top stores the query that is currently prepared.
@@ -380,7 +397,7 @@ public class ReportQueryBuilder
 											queries[i] );
 								}
 							}
-
+							registerQueryAndElement( queries[i], item );
 						}
 					}
 					if ( queries.length > 0 )
@@ -444,6 +461,7 @@ public class ReportQueryBuilder
 				popExpressions( );
 			}
 			finishVisit( query );
+			registerQueryAndElement( query, list );
 			return value;
 		}
 
@@ -517,9 +535,24 @@ public class ReportQueryBuilder
 				popExpressions( );
 			}
 			finishVisit( query );
+			registerQueryAndElement( query, table );
 			return value;
 		}
-
+		
+		/*
+		 * associate query with Table, List and Chart item design.
+		 */
+		private void registerQueryAndElement( IBaseQueryDefinition query, 
+				ReportItemDesign reportItem )
+		{
+			assert query!=null && reportItem != null;
+			if( mapQueryToReportItem == null )
+			{
+				mapQueryToReportItem = new HashMap( );
+			}
+			mapQueryToReportItem.put( query, reportItem );
+		}
+		
 		/*
 		 * (non-Javadoc)
 		 * 

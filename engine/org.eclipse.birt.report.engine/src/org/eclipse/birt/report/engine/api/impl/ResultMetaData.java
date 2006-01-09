@@ -10,11 +10,14 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 
 
 public class ResultMetaData implements IResultMetaData
@@ -30,6 +33,22 @@ public class ResultMetaData implements IResultMetaData
 		this.selectedColumns = selectedColumns;
 		resultMeta = metaData;
 		populateColumnsMap( );
+	}
+	
+	ResultMetaData( Collection rowExprs )
+	{
+		assert rowExprs != null && rowExprs instanceof ArrayList;
+		ArrayList exprs = (ArrayList)rowExprs;
+		if( selectedColumns == null )
+		{
+			selectedColumns = new String[ rowExprs.size( )];
+		}
+		
+		for( int i=0; i<rowExprs.size( ); i++ )
+		{
+			IScriptExpression scriptExpr = (IScriptExpression)exprs.get( i );
+			selectedColumns[ i ] = scriptExpr.getText( );
+		}
 	}
 	
 	private void populateColumnsMap( )

@@ -44,8 +44,26 @@ public interface IDataExtractionTask extends IEngineTask
 	 * @return a List of IResultMetaData. The list usually has one result set
 	 *         meta data, but could have more if data extraction is based on the
 	 *         whole report
+	 * @deprecated
 	 */
-	public List getMetaData( ) throws EngineException;	
+	public List getMetaData( ) throws EngineException;
+	
+	/**
+	 * returns the metadata corresponding to the data stored in the report
+	 * document, for the specific extraction level, i.e., report, daat set,
+	 * report item, or report item instance levels. To get the metadata for the
+	 * extracted data, use the getResultMetaData method from the IDataIterator
+	 * interface.
+	 * 
+	 * @return a List of IResultSetItem.
+	 */
+	public List getResultSetList( ) throws EngineException;	
+	
+	/**
+	 * select the result set from which to export data.
+	 * @param resultSetName the result set name
+	 */
+	public void selectResultSet( String resultSetName );
 	
 	/**
 	 * @param columnName
