@@ -1,0 +1,431 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.data.engine.impl.document;
+
+import java.math.BigDecimal;
+import java.sql.Blob;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.mozilla.javascript.Scriptable;
+
+/**
+ * Used in presentation
+ */
+public class ResultIterator implements IResultIterator
+{
+	// data engine context
+	private DataEngineContext context;
+	
+	// save and load util
+	private RDLoad valueLoader;
+	
+	// name of associated query results
+	private String queryResultID;
+
+	// sub query info
+	private String subQueryName;
+	private int subQueryIndex;
+	private IQueryResults queryResults;
+
+	// when sub query is used, its parent query index needs to be remembered
+	private int currParentIndex;
+	
+	//
+	protected org.eclipse.birt.data.engine.odi.IResultIterator odiResult;
+	
+	// logger
+	private static Logger logger = Logger.getLogger( ResultIterator.class.getName( ) );
+	
+	/**
+	 * @param context
+	 * @param queryResults
+	 * @param queryResultID
+	 * @throws DataException 
+	 */
+	ResultIterator( DataEngineContext context,
+			IQueryResults queryResults, String queryResultID )
+			throws DataException
+	{
+		this( context, queryResults, queryResultID, null, -1 );
+	}
+	
+	/**
+	 * @param context
+	 * @param queryResults
+	 * @param queryResultID
+	 * @param subQueryName
+	 * @param currParentIndex
+	 * @param rsCache
+	 * @throws DataException
+	 */
+	ResultIterator( DataEngineContext context,
+			IQueryResults queryResults, String queryResultID,
+			String subQueryName, int currParentIndex)
+			throws DataException
+	{
+		super( );
+
+		assert queryResultID != null && context != null && queryResults != null;
+
+		this.context = context;
+		this.queryResults = queryResults;
+		
+		this.queryResultID = queryResultID;
+		this.subQueryName = subQueryName;
+
+		this.currParentIndex = currParentIndex;
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getSecondaryIterator(java.lang.String,
+	 *      org.mozilla.javascript.Scriptable)
+	 */
+	public IResultIterator getSecondaryIterator( String subQueryName,
+			Scriptable scope ) throws DataException
+	{
+		String parentQueryResultsID = null;
+		if ( this.subQueryName == null )
+		{
+			parentQueryResultsID = queryResultID;
+		}
+		else
+		{
+			parentQueryResultsID = queryResultID
+					+ "/" + this.subQueryName + "/" + this.subQueryIndex;
+		}
+
+		QueryResults queryResults = null;
+		try
+		{
+			queryResults = new QueryResults( context,
+					parentQueryResultsID,
+					getQueryResults( ).getResultMetaData( ), 
+					subQueryName,
+					this.getValueLoader( ).getCurrentIndex( ) );
+		}
+		catch ( BirtException e )
+		{
+			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
+					e,
+					"Subquery" );
+		}
+
+		try
+		{
+			ResultIterator ri = (ResultIterator) queryResults.getResultIterator( );
+			ri.setSubQueryName( subQueryName );
+			return ri;
+		}
+		catch ( BirtException e )
+		{
+			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
+					e,
+					"Subquery" );
+		}
+	}
+	
+	void setSubQueryName( String subQueryName )
+	{
+		this.subQueryName = subQueryName;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#next()
+	 */
+    public boolean next( ) throws DataException
+	{
+    	return this.getValueLoader( ).next( );
+	}
+    
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getValue(java.lang.String)
+	 */
+	public Object getValue( IBaseExpression dataExpr ) throws DataException
+	{
+		if ( dataExpr == null )
+			throw new DataException( ResourceConstants.RD_EXPR_NULL_ERROR );
+
+		return this.getValueLoader( ).getValue( dataExpr );
+	}
+    
+	/**
+	 * 
+	 */
+    private RDLoad getValueLoader( ) throws DataException
+	{
+		if ( this.valueLoader == null )
+		{
+			valueLoader = RDUtil.newLoad( this.context,
+					this.queryResultID,
+					this.subQueryName,
+					this.currParentIndex );
+
+			if ( this.subQueryName != null )
+				subQueryIndex = valueLoader.getSubQueryIndex( currParentIndex );
+
+		}
+
+		return valueLoader;
+	}
+
+    /*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getQueryResults()
+	 */
+	public IQueryResults getQueryResults( )
+	{
+		return queryResults;
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getScope()
+	 */
+	public Scriptable getScope( )
+	{
+		return null;
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getResultMetaData()
+	 */
+	public IResultMetaData getResultMetaData( ) throws BirtException
+	{
+		return this.queryResults.getResultMetaData( );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#skipToEnd(int)
+	 */
+	public void skipToEnd( int groupLevel ) throws BirtException
+	{
+		this.getValueLoader( ).skipToEnd( groupLevel );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getStartingGroupLevel()
+	 */
+	public int getStartingGroupLevel( ) throws BirtException
+	{
+		return this.getValueLoader( ).getStartingGroupLevel( );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getEndingGroupLevel()
+	 */
+	public int getEndingGroupLevel( ) throws BirtException
+	{
+		return this.getValueLoader( ).getEndingGroupLevel( );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#close()
+	 */
+	public void close( ) throws BirtException
+	{
+		this.getValueLoader( ).close( );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#findGroup(java.lang.Object[])
+	 */
+	public boolean findGroup( Object[] groupKeyValues ) throws BirtException
+	{
+		throw new DataException( "Not supported in presentation" );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getBoolean(org.eclipse.birt.data.engine.api.IBaseExpression)
+	 */
+	public Boolean getBoolean( IBaseExpression dataExpr ) throws BirtException
+	{
+		try
+		{
+			return DataTypeUtil.toBoolean( getValue( dataExpr ) );
+		}
+		catch ( BirtException e )
+		{
+			DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
+					e );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"getBoolean",
+					"An error is thrown by DataTypeUtil.",
+					e1 );
+			throw e1;
+		}
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getInteger(org.eclipse.birt.data.engine.api.IBaseExpression)
+	 */
+	public Integer getInteger( IBaseExpression dataExpr ) throws BirtException
+	{
+		try
+		{
+			return DataTypeUtil.toInteger( getValue( dataExpr ) );
+		}
+		catch ( BirtException e )
+		{
+			DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
+					e );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"getInteger",
+					"An error is thrown by DataTypeUtil.",
+					e1 );
+			throw e1;
+		}
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getDouble(org.eclipse.birt.data.engine.api.IBaseExpression)
+	 */
+	public Double getDouble( IBaseExpression dataExpr ) throws BirtException
+	{
+		try
+		{
+			return DataTypeUtil.toDouble( getValue( dataExpr ) );
+		}
+		catch ( BirtException e )
+		{
+			DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
+					e );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"getDouble",
+					"An error is thrown by DataTypeUtil.",
+					e1 );
+			throw e1;
+		}
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getString(org.eclipse.birt.data.engine.api.IBaseExpression)
+	 */
+	public String getString( IBaseExpression dataExpr ) throws BirtException
+	{
+		try
+		{
+			return DataTypeUtil.toString( getValue( dataExpr ) );
+		}
+		catch ( BirtException e )
+		{
+			DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
+					e );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"getString",
+					"An error is thrown by DataTypeUtil.",
+					e1 );
+			throw e1;
+		}
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getBigDecimal(org.eclipse.birt.data.engine.api.IBaseExpression)
+	 */
+	public BigDecimal getBigDecimal( IBaseExpression dataExpr ) throws BirtException
+	{
+		try
+		{
+			return DataTypeUtil.toBigDecimal( getValue( dataExpr ) );
+		}
+		catch ( BirtException e )
+		{
+			DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
+					e );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"getBigDecimal",
+					"An error is thrown by DataTypeUtil.",
+					e1 );
+			throw e1;
+		}
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getDate(org.eclipse.birt.data.engine.api.IBaseExpression)
+	 */
+	public Date getDate( IBaseExpression dataExpr ) throws BirtException
+	{
+		try
+		{
+			return DataTypeUtil.toDate( getValue( dataExpr ) );
+		}
+		catch ( BirtException e )
+		{
+			DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
+					e );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"getDate",
+					"An error is thrown by DataTypeUtil.",
+					e1 );
+			throw e1;
+		}
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getBlob(org.eclipse.birt.data.engine.api.IBaseExpression)
+	 */
+	public Blob getBlob( IBaseExpression dataExpr ) throws BirtException
+	{
+		try
+		{
+			return DataTypeUtil.toBlob( getValue( dataExpr ) );
+		}
+		catch ( BirtException e )
+		{
+			DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
+					e );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"getBlob",
+					"An error is thrown by DataTypeUtil.",
+					e1 );
+			throw e1;
+		}
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getBytes(org.eclipse.birt.data.engine.api.IBaseExpression)
+	 */
+	public byte[] getBytes( IBaseExpression dataExpr ) throws BirtException
+	{
+		try
+		{
+			return DataTypeUtil.toBytes( getValue( dataExpr ) );
+		}
+		catch ( BirtException e )
+		{
+			DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
+					e );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"getBytes",
+					"An error is thrown by DataTypeUtil.",
+					e1 );
+			throw e1;
+		}
+	}
+
+}

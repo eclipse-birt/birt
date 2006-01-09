@@ -34,7 +34,7 @@ import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.rd.QueryResults2;
+import org.eclipse.birt.data.engine.impl.document.QueryResults;
 import org.eclipse.birt.data.engine.script.JSDataSources;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
@@ -110,7 +110,7 @@ public class DataEngineImpl extends DataEngine
 		if ( context.getMode( ) != DataEngineContext.MODE_PRESENTATION )
 			throw new DataException( "wrong status" );
 
-		return new QueryResults2( this.context, queryResultID );
+		return new QueryResults( this.context, queryResultID );
 	}
 	
 	/**
