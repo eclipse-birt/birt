@@ -77,7 +77,8 @@ public class PieTitleSheet extends AbstractPopupSheet implements Listener
 				true,
 				serviceprovider,
 				LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION
-						| LabelAttributesComposite.ALLOW_VERTICAL_POSITION );
+						| LabelAttributesComposite.ALLOW_VERTICAL_POSITION,
+				false );
 		GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL );
 		gdLACTitle.widthHint = 200;
 		lacTitle.setLayoutData( gdLACTitle );
