@@ -212,7 +212,7 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 
 	private ThemeHandle setupTheme( String themeName )
 	{
-		Library libElement = (Library) getElement( ).getRoot();
+		Library libElement = (Library) getElement( ).getRoot( );
 		Theme theme = libElement.findNativeTheme( themeName );
 
 		if ( theme == null )
@@ -266,9 +266,9 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 	public void importCssStyles( CssStyleSheetHandle stylesheet,
 			List selectedStyles, String themeName )
 	{
-		if (StringUtil.isBlank(themeName))
+		if ( StringUtil.isBlank( themeName ) )
 			return;
-			
+
 		ActivityStack stack = module.getActivityStack( );
 		stack.startTrans( );
 
@@ -302,5 +302,15 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 		}
 
 		stack.commit( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.ModuleHandle#getAllBookmarks()
+	 */
+	public List getAllBookmarks( )
+	{
+		return module.getBookmarksFrom( COMPONENT_SLOT );
 	}
 }

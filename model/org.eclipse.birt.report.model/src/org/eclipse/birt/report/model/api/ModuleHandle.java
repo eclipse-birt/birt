@@ -2309,4 +2309,12 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		setStringProperty( Module.DESCRIPTION_ID_PROP, resourceKey );
 	}
+
+	/**
+	 * Gets all bookmarks defined in this module.
+	 * 
+	 * @return All bookmarks defined in this module.
+	 */
+
+	abstract public List getAllBookmarks( );
 }

@@ -41,7 +41,7 @@ public class ContentIterator implements Iterator
 	 */
 
 	protected int posn = 0;
-	
+
 	/**
 	 * Constructs a iterator that will visit all the content element within the
 	 * given <code>element</code>
@@ -53,13 +53,29 @@ public class ContentIterator implements Iterator
 	public ContentIterator( DesignElement element )
 	{
 		assert element != null;
-		
-		this.elementContents = new ArrayList( );
-		this.buildContentsList( element );
+
+		elementContents = new ArrayList( );
+		buildContentsList( element );
 	}
 
 	/**
-	 * Add the content elements in the given container element into
+	 * Constructs a iterator that will visit all the content element within the
+	 * given slot id of the given <code>element</code>
+	 * 
+	 * @param element
+	 *            the element to visit.
+	 */
+
+	public ContentIterator( DesignElement element, int slotId )
+	{
+		assert element != null;
+
+		elementContents = new ArrayList( );
+		buildContentsList( element, slotId );
+	}
+
+	/**
+	 * Adds the content elements in the given container element into
 	 * <code>elementContents</code>
 	 * 
 	 * @param element
@@ -68,19 +84,33 @@ public class ContentIterator implements Iterator
 
 	private void buildContentsList( DesignElement element )
 	{
-		for ( int i = 0; i < element.getDefn().getSlotCount(); i++ )
+		for ( int i = 0; i < element.getDefn( ).getSlotCount( ); i++ )
 		{
-			ContainerSlot slot = element.getSlot( i );
-			assert slot != null;
+			buildContentsList( element, i );
+		}
+	}
 
-			for ( Iterator iter = slot.getContents( ).iterator( ); iter
-					.hasNext( ); )
-			{
-				DesignElement e = (DesignElement) iter.next( );
-				this.elementContents.add( e );
+	/**
+	 * Adds the content elements of the given slot in the given container
+	 * element into <code>elementContents</code>
+	 * 
+	 * @param element
+	 *            the next element to build.
+	 * @param slotId
+	 *            the slot id.
+	 */
 
-				buildContentsList( e );
-			}
+	private void buildContentsList( DesignElement element, int slotId )
+	{
+		ContainerSlot slot = element.getSlot( slotId );
+		assert slot != null;
+
+		for ( Iterator iter = slot.getContents( ).iterator( ); iter.hasNext( ); )
+		{
+			DesignElement e = (DesignElement) iter.next( );
+			elementContents.add( e );
+
+			buildContentsList( e );
 		}
 	}
 
@@ -93,26 +123,26 @@ public class ContentIterator implements Iterator
 		assert false;
 	}
 
-
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Iterator#hasNext()
 	 */
-	
+
 	public boolean hasNext( )
 	{
-		return posn < elementContents.size();
+		return posn < elementContents.size( );
 	}
-	
 
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Iterator#next()
 	 */
-	
+
 	public Object next( )
 	{
-		return this.elementContents.get( posn++ );
+		return elementContents.get( posn++ );
 	}
 
 }

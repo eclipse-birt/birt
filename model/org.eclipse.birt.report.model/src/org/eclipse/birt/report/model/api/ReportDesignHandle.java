@@ -16,10 +16,10 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 
@@ -116,21 +116,21 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
  * </ul>
  * 
  * <pre>
- *              // Include one library
- *              
- *              ReportDesignHandle designHandle = ...;
- *              designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
- *              LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *                // Include one library
+ *                
+ *                ReportDesignHandle designHandle = ...;
+ *                designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
+ *                LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *                 
+ *                // Create one label based on the one in library
  *               
- *              // Create one label based on the one in library
+ *                LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
+ *                LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
+ *               
+ *                // Add the new label into design file
+ *               
+ *                designHandle.getBody().add(myLabelHandle);
  *             
- *              LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
- *              LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
- *             
- *              // Add the new label into design file
- *             
- *              designHandle.getBody().add(myLabelHandle);
- *           
  * </pre>
  * 
  * @see org.eclipse.birt.report.model.elements.ReportDesign
@@ -342,14 +342,14 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public void setAfterCloseDoc( String value )
 	{
-//		try
-//		{
-//			setStringProperty( AFTER_CLOSE_DOC_METHOD, value );
-//		}
-//		catch ( SemanticException e )
-//		{
-//			assert false;
-//		}
+		// try
+		// {
+		// setStringProperty( AFTER_CLOSE_DOC_METHOD, value );
+		// }
+		// catch ( SemanticException e )
+		// {
+		// assert false;
+		// }
 	}
 
 	/**
@@ -383,14 +383,14 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public void setAfterOpenDoc( String value )
 	{
-//		try
-//		{
-//			setStringProperty( AFTER_OPEN_DOC_METHOD, value );
-//		}
-//		catch ( SemanticException e )
-//		{
-//			assert false;
-//		}
+		// try
+		// {
+		// setStringProperty( AFTER_OPEN_DOC_METHOD, value );
+		// }
+		// catch ( SemanticException e )
+		// {
+		// assert false;
+		// }
 	}
 
 	/**
@@ -443,14 +443,14 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public void setBeforeCloseDoc( String value )
 	{
-//		try
-//		{
-//			setStringProperty( BEFORE_CLOSE_DOC_METHOD, value );
-//		}
-//		catch ( SemanticException e )
-//		{
-//			assert false;
-//		}
+		// try
+		// {
+		// setStringProperty( BEFORE_CLOSE_DOC_METHOD, value );
+		// }
+		// catch ( SemanticException e )
+		// {
+		// assert false;
+		// }
 	}
 
 	/**
@@ -484,14 +484,14 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public void setBeforeOpenDoc( String value )
 	{
-//		try
-//		{
-//			setStringProperty( BEFORE_OPEN_DOC_METHOD, value );
-//		}
-//		catch ( SemanticException e )
-//		{
-//			assert false;
-//		}
+		// try
+		// {
+		// setStringProperty( BEFORE_OPEN_DOC_METHOD, value );
+		// }
+		// catch ( SemanticException e )
+		// {
+		// assert false;
+		// }
 	}
 
 	/**
@@ -542,7 +542,7 @@ public class ReportDesignHandle extends ModuleHandle
 	{
 		return getSlot( IReportDesignModel.STYLE_SLOT );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -632,15 +632,14 @@ public class ReportDesignHandle extends ModuleHandle
 	{
 		return getStringProperty( DesignElement.DISPLAY_NAME_PROP );
 	}
-	
+
 	/**
 	 * Sets the design icon/thumbnail file path.
 	 * 
 	 * @param iconFile
 	 *            the design icon/thumbnail file path to set
 	 * @throws SemanticException
-	 *             if the property is locked or not defined on this
-	 *             design.
+	 *             if the property is locked or not defined on this design.
 	 */
 
 	public void setIconFile( String iconFile ) throws SemanticException
@@ -658,15 +657,14 @@ public class ReportDesignHandle extends ModuleHandle
 	{
 		return getStringProperty( ReportDesign.ICON_FILE_PROP );
 	}
-	
+
 	/**
 	 * Sets the design cheet sheet file path.
 	 * 
 	 * @param cheetSheet
 	 *            the design cheet sheet file path to set
 	 * @throws SemanticException
-	 *             if the property is locked or not defined on this
-	 *             design.
+	 *             if the property is locked or not defined on this design.
 	 */
 
 	public void setCheetSheet( String cheetSheet ) throws SemanticException
@@ -684,4 +682,15 @@ public class ReportDesignHandle extends ModuleHandle
 	{
 		return getStringProperty( ReportDesign.CHEET_SHEET_PROP );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.ModuleHandle#getAllBookmarks()
+	 */
+	public List getAllBookmarks( )
+	{
+		return module.getBookmarksFrom( BODY_SLOT );
+	}
+
 }

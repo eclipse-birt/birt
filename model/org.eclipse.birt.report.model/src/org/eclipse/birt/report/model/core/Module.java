@@ -55,6 +55,8 @@ import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 import org.eclipse.birt.report.model.core.namespace.ModuleNameScopeFactory;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
@@ -71,6 +73,7 @@ import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.parser.LibraryReader;
+import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 import org.eclipse.birt.report.model.util.StructureRefUtil;
@@ -2481,5 +2484,29 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		}
 		return result;
+	}
+
+	/**
+	 * Gets all bookmarks defined in the slot of the module.
+	 * 
+	 * @param slotId
+	 *            slot id in which the items hold bookmarks.
+	 * @return all bookmarks defined in the slot of the module.
+	 */
+	public List getBookmarksFrom( int slotId )
+	{
+		List bookmarks = new ArrayList( );
+		ContentIterator contents = new ContentIterator( this, slotId );
+
+		while ( contents.hasNext( ) )
+		{
+			DesignElement ele = (DesignElement) contents.next( );
+			String bookmark = ele.getStringProperty( this,
+					ReportItem.BOOKMARK_PROP );
+			if ( bookmark != null )
+				bookmarks.add( bookmark );
+		}
+
+		return bookmarks;
 	}
 }
