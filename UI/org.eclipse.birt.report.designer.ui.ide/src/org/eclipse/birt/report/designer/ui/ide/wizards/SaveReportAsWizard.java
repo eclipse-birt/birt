@@ -65,6 +65,7 @@ public class SaveReportAsWizard extends Wizard
 				.setTitle( Messages
 						.getFormattedString(
 								"SaveReportAsWizard.SettingPage.title", new Object[]{Messages.getString( "NewReportWizard.wizardPageTitle.report" )} ) ); //$NON-NLS-1$
+		settingPage.setMessage( Messages.getString( "SaveReportAsWizard.SettingPage.message" ) ); //$NON-NLS-1$
 
 		addPage( settingPage );
 	}

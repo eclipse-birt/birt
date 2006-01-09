@@ -68,39 +68,29 @@ import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
  * file.
  */
 
-public class NewReportWizard extends Wizard
-		implements
-			INewWizard,
-			IExecutableExtension
+public class NewReportWizard extends Wizard implements
+		INewWizard,
+		IExecutableExtension
 {
 
 	// private static final String REPORT_WIZARD = Messages.getString(
 	// "NewReportWizard.title.ReportWizard" ); //$NON-NLS-1$
-	private static final String OPENING_FILE_FOR_EDITING = Messages
-			.getString( "NewReportWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
+	private static final String OPENING_FILE_FOR_EDITING = Messages.getString( "NewReportWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
 	// private static final String DOES_NOT_EXIST = Messages.getString(
 	// "NewReportWizard.text.DoesNotExist" ); //$NON-NLS-1$
 	// private static final String CONTAINER = Messages.getString(
 	// "NewReportWizard.text.Container" ); //$NON-NLS-1$
-	private static final String CREATING = Messages
-			.getString( "NewReportWizard.text.Creating" ); //$NON-NLS-1$
-	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages
-			.getString( "NewReportWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
-	private static final String NEW_REPORT_FILE_EXTENSION = Messages
-			.getString( "NewReportWizard.displayName.NewReportFileExtension" ); //$NON-NLS-1$
+	private static final String CREATING = Messages.getString( "NewReportWizard.text.Creating" ); //$NON-NLS-1$
+	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages.getString( "NewReportWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
+	private static final String NEW_REPORT_FILE_EXTENSION = Messages.getString( "NewReportWizard.displayName.NewReportFileExtension" ); //$NON-NLS-1$
 	// private static final String NEW_REPORT_FILE_NAME =
 	// NEW_REPORT_FILE_NAME_PREFIX;
-	private static final String SELECT_A_REPORT_TEMPLATE = Messages
-			.getString( "NewReportWizard.text.SelectTemplate" ); //$NON-NLS-1$
-	private static final String CREATE_A_NEW_REPORT = Messages
-			.getString( "NewReportWizard.text.CreateReport" ); //$NON-NLS-1$
+	private static final String SELECT_A_REPORT_TEMPLATE = Messages.getString( "NewReportWizard.text.SelectTemplate" ); //$NON-NLS-1$
+	private static final String CREATE_A_NEW_REPORT = Messages.getString( "NewReportWizard.text.CreateReport" ); //$NON-NLS-1$
 	String REPORT = Messages.getString( "NewReportWizard.title.Report" ); //$NON-NLS-1$
-	private static final String TEMPLATECHOICEPAGE = Messages
-			.getString( "NewReportWizard.title.Template" ); //$NON-NLS-1$
-	private static final String WIZARDPAGE = Messages
-			.getString( "NewReportWizard.title.WizardPage" ); //$NON-NLS-1$
-	private static final String NEW = Messages
-			.getString( "NewReportWizard.title.New" ); //$NON-NLS-1$
+	private static final String TEMPLATECHOICEPAGE = Messages.getString( "NewReportWizard.title.Template" ); //$NON-NLS-1$
+	private static final String WIZARDPAGE = Messages.getString( "NewReportWizard.title.WizardPage" ); //$NON-NLS-1$
+	private static final String NEW = Messages.getString( "NewReportWizard.title.New" ); //$NON-NLS-1$
 	// private static final String CHOOSE_FROM_TEMPLATE = Messages.getString(
 	// "NewReportWizard.title.Choose" ); //$NON-NLS-1$
 
@@ -138,8 +128,7 @@ public class NewReportWizard extends Wizard
 	 */
 	public boolean performFinish( )
 	{
-		final IPath containerName = newReportFileWizardPage
-				.getContainerFullPath( );
+		final IPath containerName = newReportFileWizardPage.getContainerFullPath( );
 		String fn = newReportFileWizardPage.getFileName( );
 		final String fileName;
 		if ( !fn.endsWith( "." + fileExtension ) ) //$NON-NLS-1$
@@ -198,8 +187,8 @@ public class NewReportWizard extends Wizard
 		{
 			try
 			{
-				streamFromPage = new FileInputStream( templateChoicePage
-						.getTemplate( ).getReportPath( ) );
+				streamFromPage = new FileInputStream( templateChoicePage.getTemplate( )
+						.getReportPath( ) );
 			}
 			catch ( FileNotFoundException e )
 			{
@@ -250,8 +239,12 @@ public class NewReportWizard extends Wizard
 			{
 				try
 				{
-					doFinish( containerName, fileName, stream, cheatSheetId,
-							showCheatSheet, monitor );
+					doFinish( containerName,
+							fileName,
+							stream,
+							cheatSheetId,
+							showCheatSheet,
+							monitor );
 				}
 				catch ( CoreException e )
 				{
@@ -302,8 +295,8 @@ public class NewReportWizard extends Wizard
 		}
 		if ( !foundOpenProject )
 		{
-			MessageDialog.openError( getShell( ), Messages
-					.getString( "NewReportWizard.title.Error" ), //$NON-NLS-1$
+			MessageDialog.openError( getShell( ),
+					Messages.getString( "NewReportWizard.title.Error" ), //$NON-NLS-1$
 					Messages.getString( "NewReportWizard.error.NoProject" ) ); //$NON-NLS-1$
 
 			// abort wizard. There is no clean way to do it.
@@ -336,7 +329,8 @@ public class NewReportWizard extends Wizard
 	public void addPages( )
 	{
 		newReportFileWizardPage = new WizardNewReportCreationPage( WIZARDPAGE,
-				selection, fileExtension );
+				selection,
+				fileExtension );
 		addPage( newReportFileWizardPage );
 		// Temporary remark the choice page for that feature is not supported in
 		// R1
@@ -361,19 +355,15 @@ public class NewReportWizard extends Wizard
 		// choicePage.setDescription( CHOOSE_FROM_TEMPLATE );
 
 		resetUniqueCount( );
-		newReportFileWizardPage.setFileName( getUniqueReportName(
-				NEW_REPORT_FILE_NAME_PREFIX, NEW_REPORT_FILE_EXTENSION ) );//$NON-NLS-1$
-		newReportFileWizardPage
-				.setContainerFullPath( getDefaultContainerPath( ) );
+		newReportFileWizardPage.setFileName( getUniqueReportName( NEW_REPORT_FILE_NAME_PREFIX,
+				NEW_REPORT_FILE_EXTENSION ) );//$NON-NLS-1$
+		newReportFileWizardPage.setContainerFullPath( getDefaultContainerPath( ) );
 
 		settingPage = new WizardReportSettingPage( null );
-		settingPage
-				.setTitle( Messages
-						.getFormattedString(
-								"SaveReportAsWizard.SettingPage.title",//$NON-NLS-1$
-								new Object[]{Messages
-										.getString( "NewReportWizard.wizardPageTitle.report" )} ) );//$NON-NLS-1$
-
+		settingPage.setTitle( Messages.getFormattedString( "SaveReportAsWizard.SettingPage.title",//$NON-NLS-1$
+				new Object[]{
+					Messages.getString( "NewReportWizard.wizardPageTitle.report" )} ) );//$NON-NLS-1$
+		settingPage.setMessage( Messages.getString( "SaveReportAsWizard.SettingPage.message" ) ); //$NON-NLS-1$
 		addPage( settingPage );
 	}
 
@@ -427,14 +417,14 @@ public class NewReportWizard extends Wizard
 		IContainer ct = null;
 		if ( selection instanceof IAdaptable )
 		{
-			IResource resource = (IResource) ( (IAdaptable) selection )
-					.getAdapter( IResource.class );
+			IResource resource = (IResource) ( (IAdaptable) selection ).getAdapter( IResource.class );
 
 			if ( resource instanceof IContainer && resource.isAccessible( ) )
 			{
 				ct = (IContainer) resource;
 			}
-			else if ( resource != null && resource.getParent( ) != null
+			else if ( resource != null
+					&& resource.getParent( ) != null
 					&& resource.getParent( ).isAccessible( ) )
 			{
 				ct = resource.getParent( );
@@ -454,7 +444,8 @@ public class NewReportWizard extends Wizard
 
 	int getCounter( String prefix, String ext )
 	{
-		IProject[] pjs = ResourcesPlugin.getWorkspace( ).getRoot( )
+		IProject[] pjs = ResourcesPlugin.getWorkspace( )
+				.getRoot( )
 				.getProjects( );
 
 		resetUniqueCount( );
@@ -512,15 +503,16 @@ public class NewReportWizard extends Wizard
 							throws CoreException
 					{
 						if ( resource.getType( ) == IResource.FILE
-								&& name
-										.equals( ( (IFile) resource ).getName( ) ) )
+								&& name.equals( ( (IFile) resource ).getName( ) ) )
 						{
 							tmpList.add( Boolean.TRUE );
 						}
 
 						return true;
 					}
-				}, IResource.DEPTH_INFINITE, true );
+				},
+						IResource.DEPTH_INFINITE,
+						true );
 
 				if ( tmpList.size( ) > 0 )
 				{
@@ -572,9 +564,11 @@ public class NewReportWizard extends Wizard
 		// create a sample file
 		monitor.beginTask( CREATING + fileName, 2 );
 		IResource resource = (IContainer) ResourcesPlugin.getWorkspace( )
-				.getRoot( ).findMember( containerName );
+				.getRoot( )
+				.findMember( containerName );
 		IContainer container = null;
-		if ( resource == null || !resource.exists( )
+		if ( resource == null
+				|| !resource.exists( )
 				|| !( resource instanceof IContainer ) )
 		{
 			// create folder if not exist
@@ -619,12 +613,10 @@ public class NewReportWizard extends Wizard
 				{
 					IEditorPart editorPart = IDE.openEditor( page, file, true );
 
-					setReportSettings( ( (IDEReportEditor) editorPart )
-							.getModel( ) );
+					setReportSettings( ( (IDEReportEditor) editorPart ).getModel( ) );
 					editorPart.doSave( null );
 
-					BasicNewProjectResourceWizard
-							.updatePerspective( configElement );
+					BasicNewProjectResourceWizard.updatePerspective( configElement );
 					if ( showCheat && !cheatId.equals( "" ) ) //$NON-NLS-1$
 					{
 						OpenCheatSheetAction action = null;

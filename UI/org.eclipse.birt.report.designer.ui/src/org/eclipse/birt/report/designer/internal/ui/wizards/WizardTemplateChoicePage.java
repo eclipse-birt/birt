@@ -431,8 +431,15 @@ public class WizardTemplateChoicePage extends WizardPage
 
 			for ( int i = 0; i < filesArray.length; i++ )
 			{
-				templates
-						.add( new Template( filesArray[i].getAbsolutePath( ) ) );
+				try
+				{
+					templates
+							.add( new Template( filesArray[i].getAbsolutePath( ) ) );
+				}
+				catch ( Exception e )
+				{
+					// ignore
+				}
 			}
 		}
 	}
