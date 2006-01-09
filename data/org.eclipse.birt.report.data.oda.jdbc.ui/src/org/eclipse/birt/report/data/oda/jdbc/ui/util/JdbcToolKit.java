@@ -27,6 +27,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
+import org.eclipse.birt.report.data.oda.jdbc.ui.dialogs.JdbcDriverManagerDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 
 public class JdbcToolKit
@@ -77,6 +78,12 @@ public class JdbcToolKit
 			if ( !driverNameMap.containsValue( jdbcDriverInfos.get( 0 ) ) )
 				jdbcDriverInfos.remove( 0 );
 
+			if ( JdbcDriverManagerDialog.needResetPreferences( ) )
+			{
+				resetPreferences( );
+				JdbcDriverManagerDialog.resetDriverChangedStatus( );
+			}
+			
 			return jdbcDriverInfos;
 		}
 		
@@ -123,7 +130,17 @@ public class JdbcToolKit
 			driverNameMap.put( ODBCJDBCInfo.getDriverClassName( ), ODBCJDBCInfo );
 		}
 		
-		// Read user setting from the preference store and update
+		resetPreferences( );
+		
+		return jdbcDriverInfos;
+	}
+
+	/**
+	 * Read user setting from the preference store and update
+	 * 
+	 */
+	private static void resetPreferences( )
+	{
 		Map preferenceMap = Utility.getPreferenceStoredMap( JdbcPlugin.DRIVER_MAP_PREFERENCE_KEY );
 
 		for ( Iterator itr = jdbcDriverInfos.iterator( ); itr.hasNext( ); )
@@ -135,19 +152,17 @@ public class JdbcToolKit
 			{
 				DriverInfo driverInfo = (DriverInfo) ob;
 				if ( driverInfo.getDisplayName( ) != null
-						&& driverInfo.getDisplayName( ).length( ) > 0 )
+						&& driverInfo.getDisplayName( ).length( ) >= 0 )
 				{
 					info.setDisplayName( driverInfo.getDisplayName( ) );
 				}
 				if ( driverInfo.getUrlTemplate( ) != null
-						&& driverInfo.getUrlTemplate( ).length( ) > 0 )
+						&& driverInfo.getUrlTemplate( ).length( ) >= 0 )
 				{
 					info.setUrlFormat( driverInfo.getUrlTemplate( ) );
 				}
 			}
 		}
-		
-		return jdbcDriverInfos;
 	}
 
 	/**

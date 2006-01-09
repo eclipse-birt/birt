@@ -83,6 +83,7 @@ public class JdbcDriverManagerDialog extends Dialog
 	 * a flag indicate whether the jar page has been changed
 	 */
 	private boolean jarChanged = false;
+	private static boolean driverChanged = false;
 	
 	/**
 	 * list of jars to be copied and deleted when okPressed
@@ -1080,7 +1081,9 @@ public class JdbcDriverManagerDialog extends Dialog
 					driverInfo.setUrlTemplate( dlg.getUrlTemplate( ) );
 
 					driverMap.put( ( (Map.Entry) obj ).getKey( ), driverInfo );
-					jarChanged = true;
+					Utility.setPreferenceStoredMap( JdbcPlugin.DRIVER_MAP_PREFERENCE_KEY,
+							driverMap );
+					driverChanged = true;
 				}
 				refreshDriverViewer( );
 				updateDriverButtons( );
@@ -1088,13 +1091,32 @@ public class JdbcDriverManagerDialog extends Dialog
 		}
 	}
 	
+	/**
+	 * check if reset preferences is needed
+	 * 
+	 * @return
+	 */
+	public static boolean needResetPreferences( )
+	{
+		return driverChanged;
+	}
+	
+	/**
+	 * reset DriverChanged Status back to false
+	 * 
+	 */
+	public static void resetDriverChangedStatus( )
+	{
+		driverChanged = false;
+	}
+	
+	
     /*
      *  (non-Javadoc)
      * @see org.eclipse.jface.dialogs.Dialog#cancelPressed()
      */
 	protected void cancelPressed( )
 	{
-		JdbcToolKit.resetJdbcDriverNames( );
 		super.cancelPressed( );
 	}
 
@@ -1155,7 +1177,6 @@ public class JdbcDriverManagerDialog extends Dialog
 		}
 
 		refreshDriverPage( );
-		JdbcToolKit.resetJdbcDriverNames( );
 		super.okPressed( );
 	}
 	
