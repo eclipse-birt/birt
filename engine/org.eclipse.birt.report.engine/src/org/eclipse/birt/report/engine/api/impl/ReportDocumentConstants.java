@@ -13,15 +13,12 @@ package org.eclipse.birt.report.engine.api.impl;
 
 public interface ReportDocumentConstants
 {
-	static final String VERSION_STREAM = "/version";
+	static final String CORE_STREAM = "/core";
 	static final String DESIGN_STREAM = "/design"; //$NON-NLS-1$
-	static final String DESIGN_NAME_STREAM = "/designName";
-	static final String PARAMTER_STREAM = "/paramter"; //$NON-NLS-1$
 	static final String BOOKMARK_STREAM = "/bookmark"; //$NON-NLS-1$
 	static final String PAGEHINT_STREAM = "/pages"; //$NON-NLS-1$
 	static final String TOC_STREAM = "/toc"; //$NON-NLS-1$
 	static final String CONTENT_FOLDER = "/content"; //$NON-NLS-1$
-	static final String PERSISTENT_OBJECTS_STREAM = "/persistent";
 	
 	static final String REPORT_DOCUMENT_TAG = "reportdocument";
 	static final String REPORT_DOCUMENT_VERSION_1_0_0 = "1.0.0";

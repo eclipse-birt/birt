@@ -11,10 +11,9 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
-import java.io.BufferedReader;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,8 +43,10 @@ public class ReportDocumentReader
 
 	private ReportEngine engine;
 	private IDocArchiveReader archive;
+	private String designName;
 	private IReportRunnable reportRunnable;
 	private HashMap parameters;
+	private HashMap globalVariables;
 	private HashMap bookmarks;
 	private List pageHints;
 	private TOCNode tocRoot;
@@ -58,9 +59,9 @@ public class ReportDocumentReader
 		try
 		{
 			archive.open( );
-			checkVersion( );
+			loadCoreStream( );
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
 			logger.log( Level.SEVERE, "Failed to open the archive", e ); //$NON-NLS-1$
 		}
@@ -71,24 +72,23 @@ public class ReportDocumentReader
 		return this.archive;
 	}
 
-	protected void checkVersion( ) throws IOException
+	protected void loadCoreStream( ) throws Exception
 	{
-		RAInputStream in = archive.getStream( VERSION_STREAM );
+		RAInputStream in = archive.getStream( CORE_STREAM );
 		try
 		{
-			BufferedReader reader = new BufferedReader( new InputStreamReader(
-					in, "UTF-8" ) );
-			String tag = reader.readLine( );
-			String version = reader.readLine( );
-			if ( !REPORT_DOCUMENT_TAG.equals( tag )
-					|| !REPORT_DOCUMENT_VERSION_1_0_0.equals( version ) )
-			{
-				logger
-						.log(
-								Level.SEVERE,
-								"unsupport report document tag" + tag + " version " + version ); //$NON-NLS-1$
-			}
-			reader.close( );
+			ObjectInputStream oi = new ObjectInputStream(
+					new BufferedInputStream( in ) );
+
+			// check the design name
+			checkVersion( oi );
+
+			// load the report design name
+			designName = oi.readUTF( );
+			// load the report paramters
+			parameters = (HashMap) oi.readObject( );;
+			// load the persistence object
+			globalVariables = (HashMap) oi.readObject( );
 		}
 		finally
 		{
@@ -96,6 +96,21 @@ public class ReportDocumentReader
 			{
 				in.close( );
 			}
+
+		}
+	}
+
+	protected void checkVersion( ObjectInputStream oi ) throws IOException
+	{
+		String tag = oi.readUTF( );
+		String version = oi.readUTF( );
+		if ( !REPORT_DOCUMENT_TAG.equals( tag )
+				|| !REPORT_DOCUMENT_VERSION_1_0_0.equals( version ) )
+		{
+			logger
+					.log(
+							Level.SEVERE,
+							"unsupport report document tag" + tag + " version " + version ); //$NON-NLS-1$
 		}
 	}
 
@@ -109,30 +124,6 @@ public class ReportDocumentReader
 		{
 			logger.log( Level.SEVERE, "Failed to close the archive", e ); //$NON-NLS-1$
 		}
-	}
-
-	protected String getDesignName( )
-	{
-		try
-		{
-			if ( archive.exists( DESIGN_NAME_STREAM ) )
-			{
-				InputStream in = archive.getStream( DESIGN_NAME_STREAM );
-				if ( in != null )
-				{
-					ObjectInputStream oi = new ObjectInputStream( in );
-					String designName = oi.readUTF( );
-					oi.close( );
-					return designName;
-				}
-			}
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE,
-					"Failed to open the design name stream!", ex ); //$NON-NLS-1$
-		}
-		return null;
 	}
 
 	public InputStream getDesignStream( )
@@ -154,7 +145,7 @@ public class ReportDocumentReader
 		{
 			try
 			{
-				String name = this.getDesignName( );
+				String name = designName;
 				InputStream stream = getDesignStream( );
 				if ( name == null )
 				{
@@ -173,10 +164,6 @@ public class ReportDocumentReader
 
 	public Map getParameterValues( )
 	{
-		if ( parameters == null )
-		{
-			loadParamters( );
-		}
 		return parameters;
 	}
 
@@ -374,19 +361,6 @@ public class ReportDocumentReader
 		}
 	}
 
-	private void loadParamters( )
-	{
-		try
-		{
-			parameters = (HashMap) loadObject( archive
-					.getStream( PARAMTER_STREAM ) );
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, "Failed to load the paramters", ex ); //$NON-NLS-1$
-		}
-	}
-
 	private void loadPageHintStream( )
 	{
 		try
@@ -417,20 +391,7 @@ public class ReportDocumentReader
 	 */
 	public Map getGlobalVariables( String option )
 	{
-		try
-		{
-			Object map = loadObject( archive
-					.getStream( PERSISTENT_OBJECTS_STREAM ) );
-			if ( map instanceof Map )
-			{
-				return (Map) map;
-			}
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, "Failed to load the page hints", ex ); //$NON-NLS-1$
-		}
-		return new HashMap( );
+		return globalVariables;
 	}
 
 }

@@ -11,11 +11,10 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +37,10 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			.getName( ) );
 
 	private IDocArchiveWriter archive;
+	private ObjectOutputStream coreStream;
+	private String designName;
+	private HashMap paramters;
+	private HashMap globalVariables;
 
 	public ReportDocumentWriter( IDocArchiveWriter archive )
 	{
@@ -45,6 +48,8 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		try
 		{
 			archive.initialize( );
+			RAOutputStream out = archive.createRandomAccessStream( CORE_STREAM );
+			coreStream = new ObjectOutputStream( new BufferedOutputStream( out ) );
 			writeVersion( );
 		}
 		catch ( IOException e )
@@ -55,23 +60,8 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 
 	protected void writeVersion( ) throws IOException
 	{
-		RAOutputStream out = archive.createRandomAccessStream( VERSION_STREAM );
-		try
-		{
-			PrintWriter writer = new PrintWriter( new OutputStreamWriter( out,
-					"UTF-8" ) );
-			writer.println( REPORT_DOCUMENT_TAG );
-			writer.println( REPORT_DOCUMENT_VERSION_1_0_0 );
-			writer.flush( );
-			writer.close( );
-		}
-		finally
-		{
-			if ( out != null )
-			{
-				out.close( );
-			}
-		}
+		coreStream.writeUTF( REPORT_DOCUMENT_TAG );
+		coreStream.writeUTF( REPORT_DOCUMENT_VERSION_1_0_0 );
 	}
 
 	public IDocArchiveWriter getArchive( )
@@ -83,6 +73,10 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	{
 		try
 		{
+			coreStream.writeUTF(designName);
+			coreStream.writeObject(paramters);
+			coreStream.writeObject(globalVariables);
+			coreStream.close();
 			archive.finish( );
 		}
 		catch ( IOException e )
@@ -168,15 +162,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 					.createRandomAccessStream( DESIGN_STREAM );
 			design.serialize( out );
 			out.close( );
-			String designName = design.getFileName( );
-			if ( designName != null )
-			{
-				out = archive.createRandomAccessStream( DESIGN_NAME_STREAM );
-				ObjectOutputStream oo = new ObjectOutputStream( out );
-				oo.writeUTF( designName );
-				oo.close( );
-				out.close( );
-			}
+			designName = design.getFileName( );
 		}
 		catch ( Exception ex )
 		{
@@ -190,31 +176,16 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	 * @param paramters
 	 *            HashMap cotains (name, value) pair.
 	 */
-	public void saveParamters( HashMap paramters )
+	public void saveParamters( HashMap map )
 	{
-		try
-		{
-			saveObject( archive.createRandomAccessStream( PARAMTER_STREAM ),
-					paramters );
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, "failed to save the paramters", ex );
-		}
+		paramters = new HashMap();
+		paramters.putAll(map);
 	}
 
 	public void savePersistentObjects( Map map )
 	{
-		try
-		{
-			saveObject( archive
-					.createRandomAccessStream( PERSISTENT_OBJECTS_STREAM ), map );
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, "failed to save the persistent objects",
-					ex );
-		}
+		globalVariables = new HashMap();
+		globalVariables.putAll(map);
 	}
 
 	/**
