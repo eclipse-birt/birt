@@ -11,11 +11,16 @@
 
 package org.eclipse.birt.core.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -27,6 +32,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.birt.core.exception.BirtException;
+
 /**
  * A util class to read or write primitive Java data type. Please notice, every
  * method has a stream which might be input stream or output stream as
@@ -34,7 +41,8 @@ import java.util.Set;
  * it.
  */
 public class IOUtil
-{	
+{
+
 	/**
 	 * Read an int value from an input stream
 	 * 
@@ -68,7 +76,7 @@ public class IOUtil
 		outputStream.write( ( value >>> 8 ) & 0xFF );
 		outputStream.write( ( value >>> 0 ) & 0xFF );
 	}
-	
+
 	/**
 	 * Read a bool value from an input stream
 	 * 
@@ -94,7 +102,7 @@ public class IOUtil
 	{
 		outputStream.write( bool == false ? 0 : 1 );
 	}
-	
+
 	/**
 	 * Read a float value from an input stream
 	 * 
@@ -201,61 +209,73 @@ public class IOUtil
 		if ( str != null )
 			outputStream.writeUTF( str );
 	}
-	
+
 	private static Map type2IndexMap;
-	private static Map index2TypeMap;
+
+	private static final int TYPE_INT = 0;
+	private static final int TYPE_FLOAT = 1;
+	private static final int TYPE_DOUBLE = 2;
+	private static final int TYPE_BIG_DECIMAL = 3;
+	private static final int TYPE_DATE = 4;
+	private static final int TYPE_TIME = 5;
+	private static final int TYPE_TIME_STAMP = 6;
+	private static final int TYPE_BOOLEAN = 7;
+	private static final int TYPE_STRING = 8;
+	private static final int TYPE_BYTES = 9;
+	private static final int TYPE_LIST = 10;
+	private static final int TYPE_MAP = 11;
+	private static final int TYPE_SERIALIZABLE = 12;
 
 	static
 	{
-		int i = 0;
 		type2IndexMap = new HashMap( );
-		type2IndexMap.put( Integer.class, new Integer( i++ ) );
-		type2IndexMap.put( Float.class, new Integer( i++ ) );
-		type2IndexMap.put( Double.class, new Integer( i++ ) );
-		type2IndexMap.put( BigDecimal.class, new Integer( i++ ) );
-		type2IndexMap.put( Date.class, new Integer( i++ ) );
-		type2IndexMap.put( Time.class, new Integer( i++ ) );
-		type2IndexMap.put( Timestamp.class, new Integer( i++ ) );
-		type2IndexMap.put( Boolean.class, new Integer( i++ ) );
-		type2IndexMap.put( String.class, new Integer( i++ ) );
-		type2IndexMap.put( byte[].class, new Integer( i++ ) );
-		type2IndexMap.put( List.class, new Integer( i++ ) );
-		type2IndexMap.put( Map.class, new Integer( i++ ) );
-		
-		i = 0;
-		index2TypeMap = new HashMap( );
-		index2TypeMap.put( new Integer( i++ ), Integer.class );
-		index2TypeMap.put( new Integer( i++ ), Float.class );
-		index2TypeMap.put( new Integer( i++ ), Double.class );
-		index2TypeMap.put( new Integer( i++ ), BigDecimal.class );
-		index2TypeMap.put( new Integer( i++ ), Date.class );
-		index2TypeMap.put( new Integer( i++ ), Time.class );
-		index2TypeMap.put( new Integer( i++ ), Timestamp.class );
-		index2TypeMap.put( new Integer( i++ ), Boolean.class );
-		index2TypeMap.put( new Integer( i++ ), String.class );
-		index2TypeMap.put( new Integer( i++ ), byte[].class );
-		index2TypeMap.put( new Integer( i++ ), List.class );
-		index2TypeMap.put( new Integer( i++ ), Map.class );
+		type2IndexMap.put( Integer.class, new Integer( TYPE_INT ) );
+		type2IndexMap.put( Float.class, new Integer( TYPE_FLOAT ) );
+		type2IndexMap.put( Double.class, new Integer( TYPE_DOUBLE ) );
+		type2IndexMap.put( BigDecimal.class, new Integer( TYPE_BIG_DECIMAL ) );
+		type2IndexMap.put( Date.class, new Integer( TYPE_DATE ) );
+		type2IndexMap.put( Time.class, new Integer( TYPE_TIME ) );
+		type2IndexMap.put( Timestamp.class, new Integer( TYPE_TIME_STAMP ) );
+		type2IndexMap.put( Boolean.class, new Integer( TYPE_BOOLEAN ) );
+		type2IndexMap.put( String.class, new Integer( TYPE_STRING ) );
+		type2IndexMap.put( byte[].class, new Integer( TYPE_BYTES ) );
+		type2IndexMap.put( List.class, new Integer( TYPE_LIST ) );
+		type2IndexMap.put( Map.class, new Integer( TYPE_MAP ) );
+		type2IndexMap.put( Serializable.class, new Integer( TYPE_MAP ) );
 	}
-	
+
+	private static int getTypeIndex( Object obValue )
+	{
+		assert obValue != null;
+		// write data type index first
+		Integer indexOb = (Integer) type2IndexMap.get( obValue.getClass( ) );
+		if ( indexOb == null )
+		{
+			if ( obValue instanceof Map )
+			{
+				return TYPE_MAP;
+			}
+			if ( obValue instanceof List )
+			{
+				return TYPE_LIST;
+			}
+			if ( obValue instanceof Serializable )
+			{
+				return TYPE_SERIALIZABLE;
+			}
+			return -1;
+		}
+		return indexOb.intValue( );
+	}
+
 	/**
 	 * Currently these data types are supported.
 	 * 
-	 * Integer
-	 * Float
-	 * Double
-	 * BigDecimal
-	 * Date
-	 * Time
-	 * Timestamp
-	 * Boolean
-	 * String
-	 * byte[]
-	 * List
-	 * Map
+	 * Integer Float Double BigDecimal Date Time Timestamp Boolean String byte[]
+	 * List Map
 	 * 
-	 * @return 
-	 * @throws IOException 
+	 * @return
+	 * @throws IOException
 	 */
 	public final static Object readObject( DataInputStream dis )
 			throws IOException
@@ -266,77 +286,76 @@ public class IOUtil
 
 		// read data type from its index value
 		int indexValue = readInt( dis );
-		Object type = index2TypeMap.get( new Integer( indexValue ) );
-		assert type != null;
-		
 		// read real data
-		Object obValue = null;		
-		if ( type.equals( Integer.class ) )
+		Object obValue = null;
+		switch ( indexValue )
 		{
-			obValue = new Integer( dis.readInt( ) );
+			case TYPE_INT :
+				obValue = new Integer( dis.readInt( ) );
+				break;
+			case TYPE_FLOAT :
+				obValue = new Float( dis.readFloat( ) );
+				break;
+			case TYPE_DOUBLE :
+				obValue = new Double( dis.readDouble( ) );
+				break;
+			case TYPE_BIG_DECIMAL :
+				obValue = new BigDecimal( dis.readUTF( ) );
+				break;
+			case TYPE_DATE :
+				obValue = new Date( dis.readLong( ) );
+				break;
+			case TYPE_TIME :
+				obValue = new Time( dis.readLong( ) );
+				break;
+			case TYPE_TIME_STAMP :
+				obValue = new Timestamp( dis.readLong( ) );
+				break;
+			case TYPE_BOOLEAN :
+				obValue = new Boolean( dis.readBoolean( ) );
+				break;
+			case TYPE_STRING :
+				obValue = dis.readUTF( );
+				break;
+			case TYPE_BYTES :
+				int len = readInt( dis );
+				if ( len != 0 )
+				{
+					byte[] bytes = new byte[len];
+					dis.read( bytes );
+					obValue = bytes;
+				}
+				break;
+			case TYPE_LIST :
+				obValue = readList( dis );
+				break;
+			case TYPE_MAP :
+				obValue = readMap( dis );
+				break;
+			case TYPE_SERIALIZABLE :
+				len = readInt( dis );
+				if ( len != 0 )
+				{
+					byte[] bytes = new byte[len];
+					dis.read( bytes );
+					try
+					{
+						ObjectInputStream oo = new ObjectInputStream(
+								new ByteArrayInputStream( bytes ) );
+						obValue = oo.readObject( );
+					}
+					catch ( Exception ex )
+					{
+					}
+				}
+				break;
+			default :
+				assert false;
 		}
-		else if ( type.equals( Float.class ) )
-		{
-			obValue = new Float( dis.readFloat( ) );
-		}
-		else if ( type.equals( Double.class ) )
-		{
-			obValue = new Double( dis.readDouble( ) );
-		}
-		else if ( type.equals( BigDecimal.class ) )
-		{
-			obValue = new BigDecimal( dis.readUTF( ) );
-		}
-		else if ( type.equals( Date.class ) )
-		{
-			obValue = new Date( dis.readLong( ) );
-		}
-		else if ( type.equals( Time.class ) )
-		{
-			obValue = new Time( dis.readLong( ) );
-		}
-		else if ( type.equals( Timestamp.class ) )
-		{
-			obValue = new Timestamp( dis.readLong( ) );
-		}
-		else if ( type.equals( Boolean.class ) )
-		{
-			obValue = new Boolean( dis.readBoolean( ) );
-		}
-		else if ( type.equals( String.class ) )
-		{
-			obValue = dis.readUTF( );
-		}
-		else if ( type.equals( byte[].class ) )
-		{
-			int len = readInt( dis );
-			if ( len == 0 )
-			{
-				obValue = null;
-			}
-			else
-			{
-				byte[] bytes = new byte[len];
-				dis.read( bytes );
-				obValue = bytes;
-			}
-		}
-		else if ( type.equals( List.class ) )
-		{
-			obValue = readList( dis );
-		}
-		else if ( type.equals( Map.class ) )
-		{
-			obValue = readMap( dis );
-		}
-		else
-		{
-			assert false;
-		}
-		
+
 		return obValue;
-	} 
-	
+	}
+
 	/**
 	 * When obValue is not supported te be serialized, an IOException will be
 	 * thrown.
@@ -360,78 +379,89 @@ public class IOUtil
 		}
 
 		// write data type index first
-		Object indexOb = type2IndexMap.get( obValue.getClass( ) );
-		if ( indexOb == null )
+		int indexValue = getTypeIndex( obValue );
+		if ( indexValue == -1 )
 		{
 			writeBool( dos, false );
 			throw new IOException( "Data type of "
 					+ obValue.getClass( ).toString( )
 					+ " is not supported to be serialized" );
 		}
-		int indexValue = ( (Integer) indexOb ).intValue( );
 		writeInt( dos, indexValue );
-		
+
 		// write real data
-		if ( obValue instanceof Integer )
+		switch ( indexValue )
 		{
-			dos.writeInt( ( (Integer) obValue ).intValue( ) );
-		}
-		else if ( obValue instanceof Float )
-		{
-			dos.writeFloat( ( (Float) obValue ).floatValue( ) );
-		}
-		else if ( obValue instanceof Double )
-		{
-			dos.writeDouble( ( (Double) obValue ).doubleValue( ) );
-		}
-		else if ( obValue instanceof BigDecimal )
-		{
-			dos.writeUTF( ( (BigDecimal) obValue ).toString( ) );
-		}
-		else if ( obValue instanceof Date )
-		{
-			dos.writeLong( ( (Date) obValue ).getTime( ) );
-		}
-		else if ( obValue instanceof Time )
-		{
-			dos.writeLong( ( (Time) obValue ).getTime( ) );
-		}
-		else if ( obValue instanceof Timestamp )
-		{
-			dos.writeLong( ( (Timestamp) obValue ).getTime( ) );
-		}
-		else if ( obValue instanceof Boolean )
-		{
-			dos.writeBoolean( ( (Boolean) obValue ).booleanValue( ) );
-		}
-		else if ( obValue instanceof String )
-		{
-			dos.writeUTF( obValue.toString( ) );
-		}
-		else if ( obValue instanceof byte[] )
-		{
-			byte[] bytes = (byte[]) obValue;
-			if ( bytes == null || bytes.length == 0 )
-			{
-				writeInt( dos, 0 );
-			}
-			else
-			{
-				writeInt( dos, bytes.length );
-				dos.write( (byte[]) obValue );
-			}
-		}
-		else if ( obValue instanceof List )
-		{
-			writeList( dos, (List) obValue );
-		}
-		else if ( obValue instanceof Map )
-		{
-			writeMap( dos, (Map) obValue );
-		}
-		else
-		{
-			assert false;
+			case TYPE_INT :
+				dos.writeInt( ( (Integer) obValue ).intValue( ) );
+				break;
+			case TYPE_FLOAT :
+				dos.writeFloat( ( (Float) obValue ).floatValue( ) );
+				break;
+			case TYPE_DOUBLE :
+				dos.writeDouble( ( (Double) obValue ).doubleValue( ) );
+				break;
+			case TYPE_BIG_DECIMAL :
+				dos.writeUTF( ( (BigDecimal) obValue ).toString( ) );
+				break;
+			case TYPE_DATE :
+				dos.writeLong( ( (Date) obValue ).getTime( ) );
+				break;
+			case TYPE_TIME :
+				dos.writeLong( ( (Time) obValue ).getTime( ) );
+				break;
+			case TYPE_TIME_STAMP :
+				dos.writeLong( ( (Timestamp) obValue ).getTime( ) );
+				break;
+			case TYPE_BOOLEAN :
+				dos.writeBoolean( ( (Boolean) obValue ).booleanValue( ) );
+				break;
+			case TYPE_STRING :
+				dos.writeUTF( obValue.toString( ) );
+				break;
+			case TYPE_BYTES :
+				byte[] bytes = (byte[]) obValue;
+				if ( bytes == null || bytes.length == 0 )
+				{
+					writeInt( dos, 0 );
+				}
+				else
+				{
+					writeInt( dos, bytes.length );
+					dos.write( bytes );
+				}
+				break;
+			case TYPE_LIST :
+				writeList( dos, (List) obValue );
+				break;
+			case TYPE_MAP :
+				writeMap( dos, (Map) obValue );
+				break;
+			case TYPE_SERIALIZABLE :
+				bytes = null;
+				try
+				{
+					ByteArrayOutputStream buff = new ByteArrayOutputStream( );
+					ObjectOutputStream oo = new ObjectOutputStream( buff );
+					oo.writeObject( obValue );
+					oo.close( );
+					bytes = buff.toByteArray( );
+				}
+				catch ( Exception ex )
+				{
+				}
+				if ( bytes == null || bytes.length == 0 )
+				{
+					writeInt( dos, 0 );
+				}
+				else
+				{
+					writeInt( dos, bytes.length );
+					dos.write( bytes );
+				}
+				break;
+			default :
+				assert false;
 		}
 	}
 
@@ -461,14 +491,14 @@ public class IOUtil
 
 		return dataList;
 	}
-	
+
 	/**
 	 * Write a list to an output stream
 	 * 
 	 * @param dos
 	 * @param dataMap
-	 * @throws IOException 
-	 * @throws BirtException 
+	 * @throws IOException
+	 * @throws BirtException
 	 */
 	public final static void writeList( DataOutputStream dos, List list )
 			throws IOException
@@ -494,7 +524,7 @@ public class IOUtil
 		for ( int i = 0; i < size; i++ )
 			writeObject( dos, list.get( i ) );
 	}
-	
+
 	/**
 	 * Read a Map from an input stream
 	 * 
@@ -525,14 +555,14 @@ public class IOUtil
 
 		return dataMap;
 	}
-	
+
 	/**
 	 * Write a Map to an output stream
 	 * 
 	 * @param dos
 	 * @param dataMap
-	 * @throws IOException 
-	 * @throws BirtException 
+	 * @throws IOException
+	 * @throws BirtException
 	 */
 	public final static void writeMap( DataOutputStream dos, Map dataMap )
 			throws IOException
@@ -547,13 +577,13 @@ public class IOUtil
 		{
 			writeBool( dos, true );
 		}
-		
+
 		// write map size
 		int size = dataMap.size( );
 		writeInt( dos, size );
 		if ( size == 0 )
 			return;
-		
+
 		// write real data
 		Set keySet = dataMap.keySet( );
 		Iterator it = keySet.iterator( );
@@ -565,5 +595,5 @@ public class IOUtil
 			writeObject( dos, value );
 		}
 	}
-	
+
 }
