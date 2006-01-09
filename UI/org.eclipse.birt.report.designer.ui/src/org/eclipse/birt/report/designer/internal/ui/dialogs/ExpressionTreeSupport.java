@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
@@ -23,6 +24,7 @@ import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
@@ -33,8 +35,13 @@ import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.ILocalizableInfo;
 import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.util.Assert;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.dnd.DND;
@@ -61,7 +68,7 @@ import org.eclipse.ui.ISharedImages;
  * to tree and corresponding source viewer.
  */
 
-public class ExpressionTreeSupport
+public class ExpressionTreeSupport implements ISelectionChangedListener
 {
 
 	// Tree item icon images
@@ -167,6 +174,8 @@ public class ExpressionTreeSupport
 			}
 	};
 
+	private static final String TREE_ITEM_CONTEXT = Messages.getString( "ExpressionProvider.Category.Context" ); //$NON-NLS-1$
+	
 	private static final String TREE_ITEM_OPERATORS = Messages.getString( "ExpressionProvider.Category.Operators" ); //$NON-NLS-1$
 
 	private static final String TREE_ITEM_BIRT_OBJECTS = Messages.getString( "ExpressionProvider.Category.BirtObjects" ); //$NON-NLS-1$ 
@@ -211,6 +220,11 @@ public class ExpressionTreeSupport
 	public static final String TREE_NAME_BIRT_OBJECTS = "Birt Objects"; //$NON-NLS-1$
 	public static final String TREE_NAME_DATASETS = "DataSets"; //$NON-NLS-1$
 	public static final String TREE_NAME_PARAMETERS = "Parameters"; //$NON-NLS-1$
+	public static final String TREE_NAME_CONTEXT = "Context"; //$NON-NLS-1$
+
+	private Object currentEditObject;
+	private String currentMethodName;
+	private TreeItem contextItem;
 
 	/**
 	 * Creates all expression trees in default order
@@ -233,9 +247,13 @@ public class ExpressionTreeSupport
 	 */
 	public void createFilteredExpressionTree( List dataSetList, List filterList )
 	{
-		if ( filter( TREE_NAME_DATASETS, filterList ) )
+//		if ( filter( TREE_NAME_DATASETS, filterList ) )
+//		{
+//			createDataSetsTree( dataSetList );
+//		}
+		if ( filter( TREE_NAME_CONTEXT, filterList ) )
 		{
-			createDataSetsTree( dataSetList );
+			createContextCatagory( );
 		}
 		if ( filter( TREE_NAME_PARAMETERS, filterList ) )
 		{
@@ -857,5 +875,75 @@ public class ExpressionTreeSupport
 				&& ( (IMethodInfo) info ).isStatic( )
 				|| info instanceof IMemberInfo
 				&& ( (IMemberInfo) info ).isStatic( );
+	}
+
+	public void createContextCatagory( )
+	{
+		Assert.isNotNull( tree );
+		contextItem = createTopTreeItem( tree, TREE_ITEM_CONTEXT );
+		createContextObjects( currentMethodName );
+	}
+
+	/**
+	 * Creates context objects tree. Context ojects tree is used in JS editor
+	 * palette, which displays current object method's arguments.
+	 */
+	public void createContextObjects( String methodName )
+	{
+		if ( contextItem != null
+				&& !contextItem.isDisposed( )
+				&& currentEditObject != null
+				&& methodName != null )
+		{
+			contextItem.removeAll( );
+			DesignElementHandle handle = (DesignElementHandle) currentEditObject;
+			Map argMap = DEUtil.getDesignElementMethodArguments( handle,
+					methodName );
+			for ( Iterator iter = argMap.keySet( ).iterator( ); iter.hasNext( ); )
+			{
+				String argName = (String) iter.next( );
+				createSubTreeItem( contextItem,
+						argName,
+						IMAGE_METHOD,
+						argName,
+						"", //$NON-NLS-1$
+						true );
+			}
+		}
+	}
+
+	public void setCurrentEditObject( Object obj )
+	{
+		this.currentEditObject = obj;
+		if ( contextItem != null && !contextItem.isDisposed( ) )
+		{
+			contextItem.removeAll( );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
+	 * 
+	 * Listen to JS editor method change.
+	 * 
+	 */
+	public void selectionChanged( SelectionChangedEvent event )
+	{
+		ISelection selection = event.getSelection( );
+		if ( selection != null )
+		{
+			Object[] sel = ( (IStructuredSelection) selection ).toArray( );
+			if ( sel.length == 1 )
+			{
+				if ( sel[0] instanceof IPropertyDefn )
+				{
+					IPropertyDefn elePropDefn = (IPropertyDefn) sel[0];
+					currentMethodName = elePropDefn.getName( );
+					createContextObjects( currentMethodName );
+				}
+			}
+		}
 	}
 }

@@ -776,19 +776,24 @@ public class BasePaletteFactory
 						ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
 								.getReportDesignHandle( );
 						LibraryHandle library = (LibraryHandle) elementHandle.getRoot( );
-						try
+						if ( moduleHandle != library )
 						{
-							if ( UIUtil.includeLibrary( moduleHandle, library ) )
+							try
 							{
-								elementHandle = moduleHandle.getElementFactory( )
-										.newElementFrom( elementHandle, null );
-								moduleHandle.addElement( elementHandle,
-										ModuleHandle.PARAMETER_SLOT );
+								if ( UIUtil.includeLibrary( moduleHandle,
+										library ) )
+								{
+									elementHandle = moduleHandle.getElementFactory( )
+											.newElementFrom( elementHandle,
+													null );
+									moduleHandle.addElement( elementHandle,
+											ModuleHandle.PARAMETER_SLOT );
+								}
 							}
-						}
-						catch ( Exception e )
-						{
-							ExceptionHandler.handle( e );
+							catch ( Exception e )
+							{
+								ExceptionHandler.handle( e );
+							}
 						}
 					}
 

@@ -14,13 +14,10 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import org.eclipse.birt.report.designer.internal.ui.editors.js.JSDocumentProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.js.JSEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.editors.js.JSSourceViewerConfiguration;
-import org.eclipse.birt.report.designer.internal.ui.editors.js.JSSyntaxContext;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
-import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -373,17 +370,17 @@ public class ExpressionBuilder extends TitleAreaDialog
 		ruler.addDecorator( 0, new LineNumberRulerColumn( ) );
 		sourceViewer = new SourceViewer( composite, ruler, SWT.H_SCROLL
 				| SWT.V_SCROLL );
-		JSSyntaxContext context = new JSSyntaxContext( );
-		try
-		{
-			context.setVariable( IReportGraphicConstants.REPORT_KEY_WORD,
-					IReportDesign.class ); //$NON-NLS-1$
-		}
-		catch ( ClassNotFoundException e )
-		{
-		}
-		sourceViewer.configure( new JSSourceViewerConfiguration( context ) );
-		// sourceViewer.configure( new SourceViewerConfiguration( ) );
+//		JSSyntaxContext context = new JSSyntaxContext( );
+//		try
+//		{
+//			context.setVariable( IReportGraphicConstants.REPORT_KEY_WORD,
+//					IReportDesign.class ); //$NON-NLS-1$
+//		}
+//		catch ( ClassNotFoundException e )
+//		{
+//		}
+//		sourceViewer.configure( new JSSourceViewerConfiguration( context ) );
+		sourceViewer.configure( new JSSourceViewerConfiguration( ) );
 		// Document doc = new Document( expression );
 		// sourceViewer.setDocument( doc );
 		if ( expression != null )
