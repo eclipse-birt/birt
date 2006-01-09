@@ -66,15 +66,15 @@
 -->		
 		
 		
-		  <fileset dir="${eclipse.home}/plugins/">
-		    	<include name="org.eclipse.birt.core_2.0.0/*.jar" />
-		  		<include name="org.eclipse.birt.data.oda_2.0.2/*.jar" />			  	
-			    <include name="org.eclipse.birt.data.oda.adapter.dtp_2.0.0/*.jar" />
-			    <include name="org.eclipse.birt.report.data.oda.jdbc_2.0.0/*.jar" />
-			    <include name="org.eclipse.birt.report.data.oda.sampledb_2.0.0/*.jar" />		
-		    	<include name="org.eclipse.birt.data_2.0.0/*.jar" />
-		  		<include name="org.eclipse.birt.report.model_2.0.0/*.jar" />
-			    <include name="org.eclipse.birt.report.engine_2.0.0/*.jar" />
+		  <fileset dir="..">
+		    	<include name="org.eclipse.birt.core/*.jar" />
+		  		<include name="org.eclipse.birt.data.oda/*.jar" />			  	
+			    <include name="org.eclipse.birt.data.oda.adapter.dtp/*.jar" />
+			    <include name="org.eclipse.birt.report.data.oda.jdbc/*.jar" />
+			    <include name="org.eclipse.birt.report.data.oda.sampledb/*.jar" />		
+		    	<include name="org.eclipse.birt.data/*.jar" />
+		  		<include name="org.eclipse.birt.report.model/*.jar" />
+			    <include name="org.eclipse.birt.report.engine/*.jar" />
 		  </fileset>
  	
 		
