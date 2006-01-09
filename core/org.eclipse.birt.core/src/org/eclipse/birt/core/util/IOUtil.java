@@ -363,6 +363,7 @@ public class IOUtil
 		Object indexOb = type2IndexMap.get( obValue.getClass( ) );
 		if ( indexOb == null )
 		{
+			writeBool( dos, false );
 			throw new IOException( "Data type of "
 					+ obValue.getClass( ).toString( )
 					+ " is not supported to be serialized" );
