@@ -269,7 +269,7 @@ public class FontDefinitionDialog
 		grpPreview.setLayout( flPreview );
 
 		fcPreview = new FontCanvas( grpPreview,
-				SWT.NONE,
+				SWT.BORDER,
 				fdCurrent,
 				cdCurrent,
 				true,

@@ -437,7 +437,7 @@ public final class ChartReportItemPresentationImpl extends
 					this.ah,
 					rowAdapter,
 					this.context ) );
-
+			rtc.setMessageLookup( new BIRTMessageLookup( context ) );
 			gcs = gr.build( idr.getDisplayServer( ),
 					cm,
 					bo,

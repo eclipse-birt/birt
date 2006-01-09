@@ -69,10 +69,9 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         this.iWidthHint = iWidthHint;
         this.keys = keys;
         this.serviceprovider = serviceprovider;
-        sKey = getKey(sText);
-        sCurrent = getValue(sText);
         init();
         placeComponents();
+        setText( sText );
     }
 
     private void init()
@@ -92,15 +91,6 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         this.setLayout(glContent);
 
         txtSelection = new TextEditorComposite(this, iStyle);
-        if (sKey == null || sKey.length() == 0)
-        {
-            txtSelection.setEnabled(true);
-        }
-        else
-        {
-            txtSelection.setEnabled(false);
-        }
-        txtSelection.setText(sCurrent);
 
         GridData gdTXTSelection = new GridData(GridData.FILL_HORIZONTAL);
         if (iHeightHint > 0)
@@ -126,7 +116,18 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 
     public void setEnabled(boolean bState)
     {
-        this.txtSelection.setEnabled(bState);
+    	if ( bState )
+    	{
+    		 // check compatibility with externalization
+    		 if (sKey == null || sKey.length() == 0)
+    	     {
+    	        txtSelection.setEnabled(true);
+    	     }
+    	}
+    	else
+    	{
+    		this.txtSelection.setEnabled(bState);
+    	}
         this.btnDown.setEnabled(bState);
         this.bEnabled = bState;
     }
@@ -140,7 +141,15 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
     {
         sKey = getKey(str);
         sCurrent = getValue(str);
-        txtSelection.setText(sCurrent);
+        txtSelection.setText(getLocalizedValue(str));
+        if (sKey == null || sKey.length() == 0)
+        {
+            txtSelection.setEnabled(true);
+        }
+        else
+        {
+            txtSelection.setEnabled(false);
+        }
     }
 
     public String getText()
@@ -150,7 +159,12 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 
     private String buildString()
     {
-        return sKey + ExternalizedTextEditorComposite.SEPARATOR + sCurrent;
+    	if ( sKey != null && !sKey.equals("") )
+    	{
+    		return sKey + ExternalizedTextEditorComposite.SEPARATOR + sCurrent;
+    	}
+    	else
+    		return sCurrent;
     }
 
     public String getKey(String str)
@@ -163,18 +177,22 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         return str.substring(0, iSeparator);
     }
 
-    public String getValue(String str)
+    public String getValue( String str )
+    {
+   	   int iSeparator = str.indexOf(SEPARATOR) + SEPARATOR.length();
+   	   if (iSeparator == (-1 + SEPARATOR.length()))
+   	   {
+   		   iSeparator = 0;
+   	   }
+   	   return str.substring(iSeparator);
+    }
+    public String getLocalizedValue(String str)
     {
         String sTmp = ""; //$NON-NLS-1$
         sTmp = getKey(str);
         if ("".equals(sTmp)) //$NON-NLS-1$
         {
-            int iSeparator = str.indexOf(SEPARATOR) + SEPARATOR.length();
-            if (iSeparator == (-1 + SEPARATOR.length()))
-            {
-                iSeparator = 0;
-            }
-            return str.substring(iSeparator);
+           return getValue( str );
         }
         sTmp = serviceprovider.getValue(sTmp);
         if (sTmp == null || "".equals(sTmp)) //$NON-NLS-1$
@@ -210,18 +228,10 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
     {
         ExternalizedTextEditorDialog editor = new ExternalizedTextEditorDialog(getShell(), SWT.APPLICATION_MODAL,
             buildString(), keys, serviceprovider);
-        String sTxt = editor.open();
+        String sTxt = editor.open( sCurrent );
         if (sTxt != null)
         {
             this.setText(sTxt);
-            if (sKey == null || sKey.length() == 0)
-            {
-                txtSelection.setEnabled(true);
-            }
-            else
-            {
-                txtSelection.setEnabled(false);
-            }
             fireEvent();
         }
     }

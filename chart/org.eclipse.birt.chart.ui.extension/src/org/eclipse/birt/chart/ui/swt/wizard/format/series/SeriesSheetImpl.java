@@ -339,7 +339,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 			if ( event.widget.equals( txtTitle ) )
 			{
 				seriesDefn.getDesignTimeSeries( )
-						.setSeriesIdentifier( txtTitle.getValue( txtTitle.getText() ) );
+						.setSeriesIdentifier( txtTitle.getText() );
 			}
 		}
 

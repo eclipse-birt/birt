@@ -124,7 +124,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		{
 			GridData gdTXTTitle = new GridData( GridData.FILL_HORIZONTAL );
 			txtTitle.setLayoutData( gdTXTTitle );
-			txtTitle.setEnabled( getChart( ).getTitle( ).isVisible( ) );
+			if ( !getChart( ).getTitle( ).isVisible( ) )
+				txtTitle.setEnabled( false );
 			txtTitle.addListener( this );
 		}
 

@@ -62,6 +62,8 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
 
     private transient IUIServiceProvider serviceprovider = null;
 
+	private String defaultValue;
+
     /**
      * @param parent
      */
@@ -87,12 +89,13 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
         this.serviceprovider = serviceprovider;
     }
 
-    public String open()
+    public String open( String defaultValue )
     {
         Shell parent = getParent();
         shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
         shell.setText(Messages.getString("ExternalizedTextEditorDialog.Title.ExternalizeText")); //$NON-NLS-1$
         shell.setLayout(new FillLayout());
+        this.defaultValue = defaultValue;
         placeComponents(shell);
         shell.pack();
         shell.setDefaultButton(btnAccept);
@@ -104,6 +107,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
             if (!display.readAndDispatch())
                 display.sleep();
         }
+        
         return sResult;
     }
 
@@ -296,11 +300,17 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
     {
         if (cbExternalize.getSelection())
         {
-            return new MessageFormat(Messages.getString("ExternalizedTextEditorDialog.Lbl.Value")).format(new Object[] { getKeyComponent(sResult)}); //$NON-NLS-1$
+        	if ( defaultValue == null || defaultValue.equals("" ) )
+        		return new MessageFormat(Messages.getString("ExternalizedTextEditorDialog.Lbl.Value")).format(new Object[] { getKeyComponent(sResult)}); //$NON-NLS-1$
+        	else
+        		return defaultValue;
         }
         return getValueComponent(sResult);
     }
 
+    /**
+     * @return "key=defaultValue"
+     */ 
     private String buildString()
     {
         StringBuffer sbText = new StringBuffer(""); //$NON-NLS-1$

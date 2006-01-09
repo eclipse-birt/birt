@@ -365,17 +365,55 @@ public final class RunTimeContext implements Serializable
 	 */
 	public final String externalizedMessage( String sChartKey )
 	{
+		// The key can be either alone, or with its default value: "key=defaultvalue"
+
+		/* Possible cases: 
+		 	chartkey	lookup	badkey	nolookup
+		 	-------------------------------------
+			a=b			get(a)	b		b
+			b			get(b)	b		b
+			=b			b		-		b
+		 */
+		String sKey = sChartKey;
+		String sDefaultValue = sChartKey;
+		final int iKeySeparator = sChartKey.indexOf( IMessageLookup.KEY_SEPARATOR );
+		
+		if ( iKeySeparator != -1 )
+		{
+			// VALUE ON RHS OF IMessageLookup.KEY_SEPARATOR
+			sDefaultValue = sChartKey.substring( iKeySeparator + 1 );
+			
+		}
+		
 		if ( iml == null )
 		{
-			final int iKeySeparator = sChartKey.indexOf( IMessageLookup.KEY_SEPARATOR );
-			if ( iKeySeparator != -1 )
-			{
-				// VALUE ON RHS OF IMessageLookup.KEY_SEPARATOR
-				return sChartKey.substring( iKeySeparator + 1 );
-			}
-			// FOR [BACKWARD COMPATIBILITY] OR [VALUES NOT CONTAINING A KEY]
-			return sChartKey;
+			// no lookup cases
+			return sDefaultValue;
 		}
-		return iml.getMessageValue( sChartKey, lcl );
+		else
+		{
+			// lookup cases
+			if ( iKeySeparator > 0  )
+			{
+				// a=b case
+				sKey = sChartKey.substring( 0, iKeySeparator  );
+			}
+			else  if ( iKeySeparator == 0)
+			{
+				// =b case
+				return sDefaultValue;
+			}
+			else
+			{
+				// b case
+				sKey = sDefaultValue;
+			}
+			String localizedValue = iml.getMessageValue( sKey, getLocale() );
+			if ( localizedValue == null || localizedValue.equals( "" ) )
+				return sDefaultValue;
+			else
+				return localizedValue;
+		}
+		
 	}
 }
