@@ -11,12 +11,10 @@
 
 package org.eclipse.birt.report.data.oda.xml.util;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
@@ -35,8 +33,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class SaxParser extends DefaultHandler implements Runnable
 {
-	//The xml file being proceed.
-	private String xmlFile;
+	private XMLDataInputStream inputStream;
 	
 	//The XPathHolder instance that hold the information of element currently
 	//being proceed
@@ -60,9 +57,9 @@ public class SaxParser extends DefaultHandler implements Runnable
 	 * @param fileName
 	 * @param consumer
 	 */
-	public SaxParser( String fileName, ISaxParserConsumer consumer )
+	public SaxParser( XMLDataInputStream stream, ISaxParserConsumer consumer )
 	{
-		xmlFile = fileName;
+		inputStream = stream;
 		spConsumer = consumer;
 		start = true;
 		alive = true;
@@ -78,37 +75,19 @@ public class SaxParser extends DefaultHandler implements Runnable
 		XMLReader xr;
 		try
 		{
-			// xr = XMLReaderFactory.createXMLReader(
-			// "org.apache.xerces.parsers.SAXParser" );
-		
 			xr = new SAXParser( );
 			xr.setContentHandler( this );
 			xr.setErrorHandler( this );
-
-			URL url = null;
 			Reader file = null;
-			//First try to parse the input string as file name.
-			try 
-			{
-				File f = new File(xmlFile);
-				url = f.toURL();
-				file = new InputStreamReader( url.openStream() );
-			}
-			catch ( IOException e )
-			{
-				url = null;
-			} 
-			
-			//Then try to parse the input string as a url in web.
-			if ( url == null )
-			{
-				url = new URL( xmlFile );
-			}
+			InputStream is = null;
 		
-			InputStream is = getInputStream( url );
+			is = getInputStream( this.inputStream );
+			
 			file = new InputStreamReader( is );
 				
-			xr.parse( new InputSource( file ) );				
+			xr.parse( new InputSource( file ) );
+			
+			this.inputStream.reStart();
 		}
 		catch ( Exception e )
 		{
@@ -128,9 +107,8 @@ public class SaxParser extends DefaultHandler implements Runnable
 	 * @return 
 	 * @throws IOException
 	 */
-	private InputStream getInputStream( URL url ) throws IOException
+	private InputStream getInputStream( XMLDataInputStream is ) throws IOException
 	{
-		InputStream is = url.openStream();
 		byte[] buff = new byte[3];
 		is.read( buff );
 		//The UTF8BOM will add three bytes, -17,-69,-65 to the header of a file.
@@ -146,7 +124,7 @@ public class SaxParser extends DefaultHandler implements Runnable
 	//	}else 
 		if ( !isUTF8BOM )
 		{
-			is = url.openStream();
+			is.reStart();
 		}
 		return is;
 	}
@@ -182,14 +160,14 @@ public class SaxParser extends DefaultHandler implements Runnable
 		String elementName = getElementName( uri, qName, name );
 		String parentPath = pathHolder.getPath();
 		//Record the occurance of elements
-		if(this.currentElementRecoder.get(parentPath+Constants.XPATH_SLASH+elementName)==null)
+		if(this.currentElementRecoder.get(parentPath+UtilConstants.XPATH_SLASH+elementName)==null)
 		{
-			this.currentElementRecoder.put(parentPath+Constants.XPATH_SLASH+elementName,new Integer(1));
+			this.currentElementRecoder.put(parentPath+UtilConstants.XPATH_SLASH+elementName,new Integer(1));
 		}else
 		{
-			this.currentElementRecoder.put(parentPath+Constants.XPATH_SLASH+elementName, new Integer(((Integer)this.currentElementRecoder.get(parentPath+Constants.XPATH_SLASH+elementName)).intValue()+1 )); 
+			this.currentElementRecoder.put(parentPath+UtilConstants.XPATH_SLASH+elementName, new Integer(((Integer)this.currentElementRecoder.get(parentPath+UtilConstants.XPATH_SLASH+elementName)).intValue()+1 )); 
 		}
-		pathHolder.push( elementName+"["+((Integer)this.currentElementRecoder.get(parentPath+Constants.XPATH_SLASH+elementName)).intValue()+"]" );
+		pathHolder.push( elementName+"["+((Integer)this.currentElementRecoder.get(parentPath+UtilConstants.XPATH_SLASH+elementName)).intValue()+"]" );
 		
 		for ( int i = 0; i < atts.getLength( ); i++ )
 		{

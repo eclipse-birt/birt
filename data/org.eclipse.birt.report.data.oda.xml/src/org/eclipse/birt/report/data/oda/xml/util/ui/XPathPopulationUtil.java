@@ -13,7 +13,7 @@ package org.eclipse.birt.report.data.oda.xml.util.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.data.oda.xml.util.Constants;
+import org.eclipse.birt.report.data.oda.xml.util.UtilConstants;
 
 /**
  * This class is a Utility class which is used to help UI to populate the list of possible 
@@ -37,13 +37,13 @@ final public class XPathPopulationUtil
 		
 		List result = new ArrayList();
 		result.add( absolutePath );
-		if( absolutePath.startsWith(Constants.XPATH_SLASH) )
-			absolutePath = absolutePath.replaceFirst(Constants.XPATH_SLASH,"");
-		String[] xPathFrags = absolutePath.split(Constants.XPATH_SLASH);
+		if( absolutePath.startsWith(UtilConstants.XPATH_SLASH) )
+			absolutePath = absolutePath.replaceFirst(UtilConstants.XPATH_SLASH,"");
+		String[] xPathFrags = absolutePath.split(UtilConstants.XPATH_SLASH);
 		
 		for ( int i = 1; i < xPathFrags.length;i++)
 		{
-			String temp = Constants.XPATH_DOUBLE_SLASH;
+			String temp = UtilConstants.XPATH_DOUBLE_SLASH;
 			temp = addXPathFragsToAString( xPathFrags, i, temp );
 			result.add( temp );
 		}
@@ -64,7 +64,7 @@ final public class XPathPopulationUtil
 		for( int j = i; j < xPathFrags.length;j++)
 		{
 			if( j < xPathFrags.length - 1 )
-				s += xPathFrags[j] + Constants.XPATH_SLASH;
+				s += xPathFrags[j] + UtilConstants.XPATH_SLASH;
 			else
 				s += xPathFrags[j];
 		}
@@ -99,8 +99,8 @@ final public class XPathPopulationUtil
 	 */
 	private static String getXPathExpression( String rootPath, String columnPath )
 	{
-		String[] rootPathFrags = rootPath.replaceAll(Constants.XPATH_ELEM_INDEX_PATTERN,"").split(Constants.XPATH_SLASH);
-		String[] columnPathFrags = columnPath.replaceAll(Constants.XPATH_ELEM_INDEX_PATTERN,"").split(Constants.XPATH_SLASH);
+		String[] rootPathFrags = rootPath.replaceAll(UtilConstants.XPATH_ELEM_INDEX_PATTERN,"").split(UtilConstants.XPATH_SLASH);
+		String[] columnPathFrags = columnPath.replaceAll(UtilConstants.XPATH_ELEM_INDEX_PATTERN,"").split(UtilConstants.XPATH_SLASH);
 		
 		//The length of rootPathFrags and columnPathFrags should larger than 2,
 		//for the simplest path would be /elementName, which, if being splitted by "/",
@@ -116,7 +116,7 @@ final public class XPathPopulationUtil
 		
 		//If rootPath starting with "//", then mean the rootPath is a relative path, else,
 		//the rootPath is an absolute path
-		if( !rootPath.startsWith(Constants.XPATH_DOUBLE_SLASH))
+		if( !rootPath.startsWith(UtilConstants.XPATH_DOUBLE_SLASH))
 		{
 			//If rootPath is absolute path, then the startingIndex must be 1.If not then
 			//the rootPath and columnPath has nothing in common.
@@ -124,7 +124,7 @@ final public class XPathPopulationUtil
 				return null;
 			else
 			{
-				rootPathFrags = (Constants.XPATH_SLASH+rootPath).split(Constants.XPATH_SLASH);
+				rootPathFrags = (UtilConstants.XPATH_SLASH+rootPath).split(UtilConstants.XPATH_SLASH);
 			}
 		}
 		
@@ -222,6 +222,6 @@ final public class XPathPopulationUtil
 			result += "../";
 		}
 		
-		return addXPathFragsToAString( columnPath.replaceAll(XPATH_ATTR_HEADER_WITH_SQUARE_PATTERN,XPATH_ATTR_HEADER_WITH_SLASH).split(Constants.XPATH_SLASH), endingIndex+1, result);
+		return addXPathFragsToAString( columnPath.replaceAll(XPATH_ATTR_HEADER_WITH_SQUARE_PATTERN,XPATH_ATTR_HEADER_WITH_SLASH).split(UtilConstants.XPATH_SLASH), endingIndex+1, result);
 	}
 }

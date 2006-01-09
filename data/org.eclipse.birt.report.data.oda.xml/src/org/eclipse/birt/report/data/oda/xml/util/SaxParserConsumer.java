@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.xml.util;
 
+import java.io.InputStream;
+
 import org.eclipse.birt.report.data.oda.xml.Constants;
 import org.eclipse.birt.report.data.oda.xml.ResultSet;
 import org.eclipse.datatools.connectivity.oda.OdaException;
@@ -72,7 +74,7 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	 * @param tName
 	 * @throws OdaException
 	 */
-	public SaxParserConsumer( ResultSet rs, RelationInformation rinfo, String fileName, String tName) throws OdaException
+	public SaxParserConsumer( ResultSet rs, RelationInformation rinfo, InputStream is, String tName) throws OdaException
 	{
 		this.resultSet = rs;
 		
@@ -94,9 +96,12 @@ public class SaxParserConsumer implements ISaxParserConsumer
 		
 		this.namesOfCachedColumns = relationInfo.getTableNestedXMLColumnNames( tableName );
 		this.namesOfColumns = relationInfo.getTableColumnNames( tableName );
+		
+		XMLDataInputStream xdis = (is instanceof XMLDataInputStream)?(XMLDataInputStream)is:new XMLDataInputStream(is);
+		
 		if( !isNotNestedXMLTable )
 		{
-			spNestedQueryHelper = new SaxParserNestedQueryHelper(rinfo, fileName, tName);
+			spNestedQueryHelper = new SaxParserNestedQueryHelper(rinfo, xdis, tName);
 			while ( !spNestedQueryHelper.isPrepared( ) )
 			{
 				try
@@ -112,7 +117,7 @@ public class SaxParserConsumer implements ISaxParserConsumer
 				}
 			}
 		}
-		sp = new SaxParser( fileName , this );
+		sp = new SaxParser( xdis , this );
 		spThread = new Thread( sp );
 		spThread.start();
 	}

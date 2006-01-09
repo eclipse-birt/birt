@@ -504,7 +504,7 @@ class ColumnInfo
 	{
 		if ( this.originalPath.matches( ".*\\Q..\\E.*" ) )
 		{
-			String[] originalPathFrags = originalPath.split( Constants.XPATH_SLASH );
+			String[] originalPathFrags = originalPath.split( UtilConstants.XPATH_SLASH );
 			int lastTwoDotAbbrevationPosition = 0;
 			int numberOfConcretePathFragsBefore2DotAbb = 0;
 
@@ -557,17 +557,17 @@ class ColumnInfo
 		String prefix = "";
 		
 		//First remove the leading "//" or "/"
-		if ( path.startsWith( Constants.XPATH_DOUBLE_SLASH ) )
+		if ( path.startsWith( UtilConstants.XPATH_DOUBLE_SLASH ) )
 		{
-			path = path.replaceFirst( Constants.XPATH_DOUBLE_SLASH, "" );
-			prefix = Constants.XPATH_DOUBLE_SLASH;
+			path = path.replaceFirst( UtilConstants.XPATH_DOUBLE_SLASH, "" );
+			prefix = UtilConstants.XPATH_DOUBLE_SLASH;
 		}
-		else if ( path.startsWith( Constants.XPATH_SLASH ) )
+		else if ( path.startsWith( UtilConstants.XPATH_SLASH ) )
 		{
-			path = path.replaceFirst( Constants.XPATH_SLASH, "" );
-			prefix = Constants.XPATH_SLASH;
+			path = path.replaceFirst( UtilConstants.XPATH_SLASH, "" );
+			prefix = UtilConstants.XPATH_SLASH;
 		}
-		String[] temp = path.split( Constants.XPATH_SLASH );
+		String[] temp = path.split( UtilConstants.XPATH_SLASH );
 		for ( int i = 0; i < temp.length; i++ )
 		{
 			if ( temp[i].equals( ".." ) )
@@ -589,7 +589,7 @@ class ColumnInfo
 		for ( int i = 0; i < temp.length; i++ )
 		{
 			if ( temp[i] != null )
-				path = i == 0 ? path + temp[i] : path + (temp[i].startsWith("[")?"":Constants.XPATH_SLASH) + temp[i];
+				path = i == 0 ? path + temp[i] : path + (temp[i].startsWith("[")?"":UtilConstants.XPATH_SLASH) + temp[i];
 		}
 		return path;
 	}
