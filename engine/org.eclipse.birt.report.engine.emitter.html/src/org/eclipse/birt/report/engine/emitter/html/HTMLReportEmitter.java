@@ -18,9 +18,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.CharacterCodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -83,15 +80,12 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import sun.nio.cs.ThreadLocalCoders;
-import sun.text.Normalizer;
-
 /**
  * <code>HTMLReportEmitter</code> is a subclass of
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.68 $ $Date: 2006/01/04 07:06:42 $
+ * @version $Revision: 1.69 $ $Date: 2006/01/05 03:57:00 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -335,6 +329,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 						.get( HTMLRenderOption.URL_ENCODING );
 			}
 			outputMasterPageContent = htmlOption.getMasterPageContent( );
+			IHTMLActionHandler actHandler = htmlOption.getActionHandle( );
+			if ( ac != null )
+			{
+				actionHandler = actHandler;
+			}
 		}
 
 		writer = new HTMLWriter( );
@@ -537,14 +536,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		String errorId = "document.getElementById('error_detail" + index + "')";
 		String errorIcon = "document.getElementById('error_icon" + index + "')";
-		String onClick = 
-		"if (" + errorId + ".style.display == 'none') { " + errorIcon + ".innerHTML = '-'; " + errorId + ".style.display = 'block'; }" +
-		"else { " + errorIcon + ".innerHTML = '+'; " + errorId + ".style.display = 'none'; }";
-		
+		String onClick = "if (" + errorId + ".style.display == 'none') { "
+				+ errorIcon + ".innerHTML = '-'; " + errorId
+				+ ".style.display = 'block'; }" + "else { " + errorIcon
+				+ ".innerHTML = '+'; " + errorId + ".style.display = 'none'; }";
+
 		EngineResourceHandle rc = EngineResourceHandle.getInstance( );
 		writer.writeCode( "			<div>" );
 		writer.writeCode( "				<span id=\"error_icon" + index
-				+ "\"  style=\"cursor:pointer\" onclick=\"" + onClick + "\" > + </span>" );
+				+ "\"  style=\"cursor:pointer\" onclick=\"" + onClick
+				+ "\" > + </span>" );
 		writer.writeCode( "				<span  id=\"error_title\">" );
 		writer.text( rc.getMessage( MessageConstants.REPORT_ERROR_MESSAGE,
 				new Object[]{info.getType( ), info.getElementInfo( )} ), false );
@@ -625,8 +626,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		logger.log( Level.FINE, "[HTMLReportEmitter] End body." ); //$NON-NLS-1$
 		if ( report != null )
 		{
-			List errors = report.getErrors();
-			if (errors != null && !errors.isEmpty())
+			List errors = report.getErrors( );
+			if ( errors != null && !errors.isEmpty( ) )
 			{
 				outputErrors( errors );
 			}
@@ -1257,7 +1258,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			if ( body != null )
 			{
 				htmlProcessor.execute( body, styleMap );
-				processNodes( body, checkEscapeSpace( doc ), styleMap );
+				processNodes( body, styleMap );
 			}
 		}
 
@@ -1274,11 +1275,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 *            the ITextNodeVisitor instance
 	 * @param ele
 	 *            the specific node
-	 * @param needEscape
-	 *            the flag indicating the content needs escaping
 	 */
-	private void processNodes( Element ele, boolean needEscape,
-			HashMap cssStyles )
+	private void processNodes( Element ele, HashMap cssStyles )
 	{
 		for ( Node node = ele.getFirstChild( ); node != null; node = node
 				.getNextSibling( ) )
@@ -1294,11 +1292,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 				if ( node.getNodeType( ) == Node.TEXT_NODE )
 				{
-					writer.text( node.getNodeValue( ), needEscape, true );
+					writer.text( node.getNodeValue( ), false, true );
 				}
 				else
 				{
-					processNodes( (Element) node, needEscape, cssStyles );
+					processNodes( (Element) node, cssStyles );
 				}
 				if ( !node.getNodeName( ).equals( "#text" ) )
 				{
@@ -1307,26 +1305,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 		}
 
-	}
-
-	/**
-	 * Checks if the content inside the DOM should be escaped.
-	 * 
-	 * @param doc
-	 *            the root of the DOM tree
-	 * @return true if the content needs escaping, otherwise false.
-	 */
-	private boolean checkEscapeSpace( Node doc )
-	{
-		String textType = null;
-		if ( doc != null && doc.getFirstChild( ) != null
-				&& doc.getFirstChild( ) instanceof Element )
-		{
-			textType = ( (Element) doc.getFirstChild( ) )
-					.getAttribute( "text-type" ); //$NON-NLS-1$
-			return ( !TextParser.TEXT_TYPE_HTML.equalsIgnoreCase( textType ) );
-		}
-		return true;
 	}
 
 	public void startNode( Node node, HashMap cssStyles )
@@ -1455,7 +1433,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		if ( useSVG )
 		{ // use svg
 			writer.openTag( HTMLTags.TAG_EMBED );
-			
+
 			// bookmark
 			String bookmark = image.getBookmark( );
 			if ( bookmark == null )
@@ -1464,16 +1442,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 			setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
 			exportElementID( image, bookmark, "EXTENDED" );
-			
+
 			writer.attribute( HTMLTags.ATTR_TYPE, "image/svg+xml" ); //$NON-NLS-1$
 			writer.attribute( HTMLTags.ATTR_SRC, imgUri );
 			setStyleName( image.getStyleClass( ) );
 			StringBuffer buffer = new StringBuffer( );
-			//build size
+			// build size
 			AttributeBuilder.buildSize( buffer, HTMLTags.ATTR_WIDTH, image
 					.getWidth( ) ); //$NON-NLS-1$
-			AttributeBuilder.buildSize( buffer, HTMLTags.ATTR_HEIGHT,
-					image.getHeight( ) ); //$NON-NLS-1$
+			AttributeBuilder.buildSize( buffer, HTMLTags.ATTR_HEIGHT, image
+					.getHeight( ) ); //$NON-NLS-1$
 			// handle inline style
 			handleStyle( image, buffer, false );
 			writer.closeNoEndTag( );
@@ -2093,58 +2071,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			styleBuffer
 					.append( "border-collapse: collapse; empty-cells: show;" ); //$NON-NLS-1$
 		}
-	}
-
-	// following code are copy from JDK src: java.net.URI.encode
-
-	private final static char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6',
-			'7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
-
-	private static void appendEscape( StringBuffer sb, byte b )
-	{
-		sb.append( '%' );
-		sb.append( hexDigits[( b >> 4 ) & 0x0f] );
-		sb.append( hexDigits[( b >> 0 ) & 0x0f] );
-	}
-
-	protected static String encodeURL( String s )
-	{
-
-		int n = s.length( );
-		if ( n == 0 )
-			return s;
-
-		// First check whether we actually need to encode
-		for ( int i = 0;; )
-		{
-			if ( s.charAt( i ) >= '\u0080' )
-				break;
-			if ( ++i >= n )
-				return s;
-		}
-
-		String ns = Normalizer.normalize( s, Normalizer.COMPOSE, 0 );
-		ByteBuffer bb = null;
-		try
-		{
-			bb = ThreadLocalCoders.encoderFor( "UTF-8" ).encode( //$NON-NLS-1$
-					CharBuffer.wrap( ns ) );
-		}
-		catch ( CharacterCodingException x )
-		{
-			assert false;
-		}
-
-		StringBuffer sb = new StringBuffer( );
-		while ( bb.hasRemaining( ) )
-		{
-			int b = bb.get( ) & 0xff;
-			if ( b >= 0x80 )
-				appendEscape( sb, (byte) b );
-			else
-				sb.append( (char) b );
-		}
-		return sb.toString( );
 	}
 
 	protected void exportElementID( IContent content, String bookmark,

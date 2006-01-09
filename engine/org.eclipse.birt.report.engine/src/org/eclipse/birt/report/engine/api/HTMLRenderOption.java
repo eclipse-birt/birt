@@ -128,4 +128,13 @@ public class HTMLRenderOption extends RenderOptionBase
 		return true;
 	}
 
+	public void setActionHandle( IHTMLActionHandler handler )
+	{
+		options.put( ACTION_HANDLER, handler );
+	}
+
+	public IHTMLActionHandler getActionHandle( )
+	{
+		return (IHTMLActionHandler) options.get( ACTION_HANDLER );
+	}
 }
