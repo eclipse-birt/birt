@@ -623,7 +623,7 @@ public class GroupDialog extends BaseDialog
 			}
 			else
 			{
-				inputGroup.setProperty( GroupHandle.INTERVAL_RANGE_PROP, null );
+				inputGroup.setIntervalBase( null );
 			}
 
 			if ( inputGroup instanceof TableGroupHandle )
