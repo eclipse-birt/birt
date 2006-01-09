@@ -395,18 +395,27 @@ public class TaskSelectData extends SimpleTask
 		{
 			// Add data header
 			String[] header = getDataServiceProvider( ).getPreviewHeader( );
-			tablePreview.setColumns( header );
-
-			refreshTableColor( );
-
-			// Add data value
-			List dataList = getDataServiceProvider( ).getPreviewData( );
-			for ( Iterator iterator = dataList.iterator( ); iterator.hasNext( ); )
+			if ( header == null )
 			{
-				String[] dataRow = (String[]) iterator.next( );
-				for ( int i = 0; i < dataRow.length; i++ )
+				tablePreview.setEnabled( false );
+				tablePreview.createDummyTable( );
+			}
+			else
+			{
+				tablePreview.setEnabled( true );
+				tablePreview.setColumns( header );
+
+				refreshTableColor( );
+
+				// Add data value
+				List dataList = getDataServiceProvider( ).getPreviewData( );
+				for ( Iterator iterator = dataList.iterator( ); iterator.hasNext( ); )
 				{
-					tablePreview.addEntry( dataRow[i], i );
+					String[] dataRow = (String[]) iterator.next( );
+					for ( int i = 0; i < dataRow.length; i++ )
+					{
+						tablePreview.addEntry( dataRow[i], i );
+					}
 				}
 			}
 		}
@@ -897,102 +906,6 @@ public class TaskSelectData extends SimpleTask
 			}
 		}
 	}
-
-	// private SampleData updateSampleData( SampleData sdOld )
-	// {
-	// SampleData sdNew = DataFactory.eINSTANCE.createSampleData( );
-	// Chart chart = getChartModel( );
-	// // CREATE BaseSampleData
-	// Series baseSeries = ( (SeriesDefinition)
-	// ChartUIUtil.getBaseSeriesDefinitions( chart )
-	// .get( 0 ) ).getDesignTimeSeries( );
-	// if ( baseSeries == null )
-	// {
-	// throw new IllegalStateException( "Chart does not have a Base Series!" );
-	// //$NON-NLS-1$
-	// }
-	// String sBaseData = ""; //$NON-NLS-1$
-	// try
-	// {
-	// sBaseData = getDataForSeries( baseSeries );
-	// BaseSampleData bsd = DataFactory.eINSTANCE.createBaseSampleData( );
-	// bsd.setDataSetRepresentation( sBaseData );
-	// sdNew.getBaseSampleData( ).add( bsd );
-	// }
-	// catch ( ChartException e )
-	// {
-	// container.displayException( e );
-	// return sdOld;
-	// }
-	//
-	// // CREATE OrthogonalSampleData
-	// Series orthogonalSeries = null;
-	// List orgSdList = ChartUIUtil.getOrthogonalSeriesDefinitions( chart, -1 );
-	// // FOR EACH SERIES
-	// for ( int i = 0; i < orgSdList.size( ); i++ )
-	// {
-	// orthogonalSeries = ( (SeriesDefinition) orgSdList.get( i )
-	// ).getDesignTimeSeries( );
-	// if ( orthogonalSeries == null )
-	// {
-	// throw new IllegalStateException( "Chart does not have an Orthogonal
-	// Series!" ); //$NON-NLS-1$
-	// }
-	// String sOrthogonalData = ""; //$NON-NLS-1$
-	// try
-	// {
-	// sOrthogonalData = getDataForSeries( orthogonalSeries );
-	// OrthogonalSampleData osd =
-	// DataFactory.eINSTANCE.createOrthogonalSampleData( );
-	// osd.setDataSetRepresentation( sOrthogonalData );
-	// osd.setSeriesDefinitionIndex( i );
-	// osd.eAdapters( ).addAll( sdOld.eAdapters( ) );
-	// sdNew.getOrthogonalSampleData( ).add( osd );
-	// }
-	// catch ( ChartException e )
-	// {
-	// container.displayException( e );
-	// return sdOld;
-	// }
-	// }
-	// // TODO CREATE AncillarySampleData
-	// // ADD ADAPTERS
-	// // SET SampleData INTO MODEL
-	// return sdNew;
-	// }
-	//
-	// private String getDataForSeries( Series series ) throws ChartException
-	// {
-	// Class clSeries = series.getClass( );
-	// IDataSetProcessor iDSP = PluginSettings.instance( )
-	// .getDataSetProcessor( clSeries );
-	// // String sFormat = iDSP.getExpectedStringFormat( );
-	// int iSeriesComponents = series.getDataDefinition( ).size( );
-	// // GET DATA FOR EACH COMPONENT...THE FIRST DIMENSION INDEX IN THE ARRAY
-	// // REPRESENTS THE COMPONENT FOR WHICH THE DATA IN THE SECOND DIMENSION
-	// // APPLIES
-	// String[] exprArray = new String[iSeriesComponents];
-	// for ( int i = 0; i < iSeriesComponents; i++ )
-	// {
-	// String sExpr = ""; //$NON-NLS-1$
-	// try
-	// {
-	// sExpr = ( (Query) series.getDataDefinition( ).get( i ) ).getDefinition(
-	// );
-	// }
-	// catch ( Exception e )
-	// {
-	// // IF DATA FOR ALL THE COMPONENTS HAS NOT BEEN SPECIFIED...USE
-	// // THE DATA FOR THE FIRST COMPONENT
-	// sExpr = ( (Query) series.getDataDefinition( ).get( 0 ) ).getDefinition(
-	// );
-	// }
-	// exprArray[i] = sExpr;
-	// }
-	// Object[] columnData = getDataServiceProvider( )
-	// .getDataForColumns( exprArray, -1, true );
-	// return iDSP.toString( columnData );
-	// }
 
 	private void manageColorAndQuery( Query query )
 	{
