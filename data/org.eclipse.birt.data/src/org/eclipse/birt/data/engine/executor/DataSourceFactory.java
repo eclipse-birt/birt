@@ -15,7 +15,6 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
-import org.eclipse.birt.data.engine.executor2.DataSource2;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IDataSourceFactory;
 
@@ -57,7 +56,7 @@ public class DataSourceFactory implements IDataSourceFactory
 		}
 		else
 		{
-			return new DataSource2( );
+			return new org.eclipse.birt.data.engine.executor.dscache.DataSource( );
 		}
 	}
 

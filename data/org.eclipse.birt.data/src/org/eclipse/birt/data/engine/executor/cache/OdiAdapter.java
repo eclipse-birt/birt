@@ -12,7 +12,7 @@
 package org.eclipse.birt.data.engine.executor.cache;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor2.DataSetResultCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
