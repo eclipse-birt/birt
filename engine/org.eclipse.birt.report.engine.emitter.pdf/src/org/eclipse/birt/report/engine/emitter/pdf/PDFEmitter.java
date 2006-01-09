@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.emitter.pdf;
 
 import java.awt.Color;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -216,7 +217,7 @@ public class PDFEmitter implements IAreaVisitor
 		doc = new Document();
 		try
 		{
-			writer = PdfWriter.getInstance( doc, output );
+			writer = PdfWriter.getInstance( doc, new BufferedOutputStream(output) );
 		}
 		catch( DocumentException de )
 		{
@@ -555,6 +556,11 @@ public class PDFEmitter implements IAreaVisitor
 		{
 			logger.log( Level.WARNING, de.getMessage( ), de );
 		}
+		catch (Throwable t)
+		{
+			logger.log( Level.WARNING, t.getMessage( ), t );
+		}
+		
 		cb.restoreState();
 		
 		//Check if itself is the destination of a bookmark.
