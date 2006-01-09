@@ -290,7 +290,7 @@ public abstract class StyledElement extends DesignElement
 
 		// Can we search the parent element ?
 
-		if ( isInheritableProperty( prop ) )
+		if ( isInheritableProperty( prop ) || prop.isStyleProperty( ) )
 		{
 			if ( isVirtualElement( ) )
 			{
@@ -318,7 +318,7 @@ public abstract class StyledElement extends DesignElement
 			value = getPropertyFromSelfSelector( module, prop );
 			if ( value != null )
 				return value;
-			
+
 			// Check if the container/slot predefined style provides
 			// the value
 

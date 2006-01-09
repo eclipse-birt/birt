@@ -1073,8 +1073,10 @@ public abstract class DesignElement
 			return value;
 
 		// Can we search the parent element ?
+		// search the parent element: (1) the property is not a style property
+		// and "canInherit" is true; (2) the property is a style property
 
-		if ( isInheritableProperty( prop ) )
+		if ( isInheritableProperty( prop ) || prop.isStyleProperty( ) )
 		{
 			if ( isVirtualElement( ) )
 			{
