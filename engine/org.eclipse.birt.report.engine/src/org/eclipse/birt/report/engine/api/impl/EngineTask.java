@@ -37,6 +37,7 @@ import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.IncludeScriptHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -505,7 +506,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.27 $ $Date: 2005/12/22 12:10:26 $
+	 * @version $Revision: 1.28 $ $Date: 2006/01/04 09:23:51 $
 	 */
 	static abstract class ParameterVisitor
 	{
@@ -638,8 +639,8 @@ public abstract class EngineTask implements IEngineTask
 				String name = param.getName( );
 				if ( !inputValues.containsKey( name ) )
 				{
-					Object value = convertToType( param.getDefaultValue( ), param
-							.getDataType( ) );
+					Object value = convertToType( param.getDefaultValue( ),
+							param.getDataType( ) );
 					executionContext.getParams( ).put( name, value );
 					runValues.put( name, value );
 				}
@@ -666,7 +667,9 @@ public abstract class EngineTask implements IEngineTask
 		Iterator iter = reportDesign.includeScriptsIterator( );
 		while ( iter.hasNext( ) )
 		{
-			String fileName = (String) iter.next( );
+			IncludeScriptHandle includeScript = (IncludeScriptHandle) iter
+					.next( );
+			String fileName = includeScript.getFileName( );
 			executionContext.loadScript( fileName );
 		}
 

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -60,6 +61,7 @@ import org.eclipse.birt.report.engine.script.internal.ScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.element.ReportDesign;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -72,7 +74,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.55 $ $Date: 2005/12/31 09:13:34 $
+ * @version $Revision: 1.56 $ $Date: 2006/01/05 21:19:32 $
  */
 public class ExecutionContext
 {
@@ -762,23 +764,41 @@ public class ExecutionContext
 	 */
 	public void loadScript( String fileName )
 	{
-		File script = new File( report.getBasePath( ), fileName );
+		ReportDesignHandle reportDesign = this.getDesign( );
+		if ( reportDesign != null )
+		{
+			URL url = reportDesign.findResource( fileName,
+					IResourceLocator.LIBRARY );
+			if ( url != null )
+			{
+				fileName = url.getFile( );
+			}
+		}
+		File scriptFile = new File( fileName );
 		// read the script in the file, and execution.
 		try
 		{
 
-			FileInputStream in = new FileInputStream( script );
-			byte[] buffer = new byte[in.available( )];
-			in.read( buffer );
-			execute( new String( buffer, "UTF-8" ), fileName, 1 ); //$NON-NLS-1$
+			FileInputStream in = new FileInputStream( scriptFile );
+			ByteArrayOutputStream out = new ByteArrayOutputStream( );
+			byte[] buffer = new byte[1024];
+			int size = in.read( buffer );
+			while ( size != -1 )
+			{
+				out.write( buffer, 0, size );
+				size = in.read( buffer );
+			}
+			byte[] script = out.toByteArray( );
+			execute( new String( script, "UTF-8" ), fileName, 1 ); //$NON-NLS-1$
 			in.close( );
-		} catch ( IOException ex )
+		}
+		catch ( IOException ex )
 		{
 			log.log( Level.SEVERE,
 					"loading external script file " + fileName + " failed.", //$NON-NLS-1$ //$NON-NLS-2$
 					ex );
 			addException( new EngineException(
-					MessageConstants.SCRIPT_FILE_LOAD_ERROR, script
+					MessageConstants.SCRIPT_FILE_LOAD_ERROR, scriptFile
 							.getAbsolutePath( ), ex ) ); //$NON-NLS-1$
 			// TODO This is a fatal error. Should throw an exception.
 		}
