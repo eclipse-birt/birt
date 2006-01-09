@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.Element;
@@ -26,7 +27,7 @@ import org.w3c.dom.Node;
  * Converts the deprecated element according to the HTML 4.0 specification and
  * parses the style attribute of the HTML element.
  * 
- * @version $Revision: 1.11 $ $Date: 2005/11/11 06:26:42 $
+ * @version $Revision: 1.12 $ $Date: 2005/12/23 06:37:25 $
  */
 public class HTMLProcessor
 {
@@ -36,7 +37,8 @@ public class HTMLProcessor
 			.getName( ) );
 
 	/** the execution context */
-	ReportDesignHandle design;
+	protected ReportDesignHandle design;
+	protected String rootPath;
 
 	/** the CSS2.0 Parser */
 	private CssParser cssParser;
@@ -62,6 +64,16 @@ public class HTMLProcessor
 	public HTMLProcessor( ReportDesignHandle design )
 	{
 		this.design = design;
+		this.rootPath = null;
+		// Takes the zero-length string as parameter just for keeping to the
+		// interface of constructor
+		cssParser = new CssParser( new StringReader( "" ) ); //$NON-NLS-1$
+	}
+
+	public HTMLProcessor( String rootPath )
+	{
+		this.design = null;
+		this.rootPath = rootPath;
 		// Takes the zero-length string as parameter just for keeping to the
 		// interface of constructor
 		cssParser = new CssParser( new StringReader( "" ) ); //$NON-NLS-1$
@@ -121,6 +133,14 @@ public class HTMLProcessor
 					if ( url != null )
 					{
 						src = url.toExternalForm( );
+					}
+				}
+				if (rootPath != null)
+				{
+					//Checks if the resource is local
+					if ( FileUtil.isLocalResource( src ) )
+					{
+						src = FileUtil.getAbsolutePath( rootPath, src );
 					}
 				}
 				if ( src != null )
@@ -212,6 +232,14 @@ public class HTMLProcessor
 					if ( url != null )
 					{
 						src = url.toExternalForm( );
+					}
+				}
+				if (rootPath != null)
+				{
+					//Checks if the resource is local
+					if ( FileUtil.isLocalResource( src ) )
+					{
+						src = FileUtil.getAbsolutePath( rootPath, src );
 					}
 				}
 				if ( src != null )
