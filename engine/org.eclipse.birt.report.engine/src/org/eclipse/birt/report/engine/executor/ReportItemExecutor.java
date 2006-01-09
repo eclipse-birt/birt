@@ -12,11 +12,14 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -45,7 +48,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.24 $ $Date: 2005/12/20 06:48:34 $
+ * @version $Revision: 1.25 $ $Date: 2005/12/28 07:25:07 $
  */
 public abstract class ReportItemExecutor
 {
@@ -139,7 +142,26 @@ public abstract class ReportItemExecutor
 			Object tmp = context.evaluate( toc );
 			if ( tmp != null )
 			{
-				itemContent.setTOC( tmp.toString( ) );
+				String tocLabel = "";
+				if (tmp instanceof Number)
+				{
+					NumberFormatter fmt = context.getNumberFormatter( null );
+					tocLabel = fmt.format( (Number) tmp );
+				}
+				else if (tmp instanceof Date)
+				{
+					DateFormatter fmt = context.getDateFormatter( null);
+					tocLabel = fmt.format( (Date) tmp );
+				}
+				else if (tmp instanceof String)
+				{
+					tocLabel = (String)tmp;
+				}
+				else
+				{
+					tocLabel = tmp.toString();
+				}
+				itemContent.setTOC( tocLabel );
 			}
 		}
 	}
