@@ -40,13 +40,14 @@ public class Generator
     ArrayList structs = new ArrayList( );
     PrintStream writer;
     PrintStream index;
-    private static final String PROPERTY_NAME = "Property";
-    private static final String METHOD_NAME = "Method";
-    private static final String SLOT_NAME = "Slot";
+    private static final String PROPERTY_NAME = "Property"; //$NON-NLS-1$
+    private static final String METHOD_NAME = "Method"; //$NON-NLS-1$
+    private static final String SLOT_NAME = "Slot"; //$NON-NLS-1$
     private String typeHeader;
     ArrayList propertyTypes = new ArrayList( );
     
-    private String outputDir = "romdoc/gen"; //$NON-NLS-1$
+    String outputDir = "romdoc/gen";  //$NON-NLS-1$
+    String templateDir = "romdoc/docs";  //$NON-NLS-1$
     
     public void generate( ) throws Exception
     {
@@ -63,11 +64,11 @@ public class Generator
     {
         try
         {
-            MetaDataReader.read( ReportDesign.class.getResourceAsStream( "rom.def" ) );
+            MetaDataReader.read( ReportDesign.class.getResourceAsStream( "rom.def" ) ); //$NON-NLS-1$
         }
         catch ( MetaDataParserException e )
         {
-            System.out.println( "rom.def load failed." );
+            System.out.println( "rom.def load failed." ); //$NON-NLS-1$
             throw e;
         }
     }
@@ -76,11 +77,25 @@ public class Generator
      * Sets the output folder for the generated rom documents. If not 
      * specified, rom documents will be generated under "gen" folder
      * in the current classpath.
+     * @param dir output foloder for the generated rom documents.
      */
     
     public void setOutputDir( String dir )
     {
     	this.outputDir = dir;
+    }
+    
+    /**
+	 * Sets the path of the folder that stores the template document. If not
+	 * specified, a relative path "/romdoc/docs" will be used instead.
+	 * 
+	 * @param dir
+	 *            folder that stores the template document
+	 */
+    
+    public void setTemplateDir( String dir )
+    {
+    	this.templateDir = dir;
     }
     
     private void createDocObjects( )

@@ -15,7 +15,8 @@ public class RomDoc
 {
     /**
      * 
-     * @param args
+     * @param args using args[0] to specify the rom doc output folder, using args[1]
+     * to specify the template doc folder. 
      */
     
 	public static void main( String[] args )
@@ -26,8 +27,10 @@ public class RomDoc
         {
             // Output folder is specified
             
-        	String arg0 = args[0];
-            generator.setOutputDir( arg0 );
+        	generator.setOutputDir( args[0] );
+            
+            if( args.length > 1 )
+            	generator.setTemplateDir( args[1] );
         }
         
 		

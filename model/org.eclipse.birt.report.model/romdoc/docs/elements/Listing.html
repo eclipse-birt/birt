@@ -50,57 +50,5 @@ your query.</p>
 
 <h3>See Also</h3>
 
-<h2 class="method">onStart</h2>
-
-<p>Called before the first row is retrieved from the data set for this element.</p>
-
-<h3>Description</h3>
-
-<p>Called before the first row is retrieved from the data 
-set for this element. Called after the data set is open but before the header 
-band is created. This script is a convenient place to initialize custom running 
-total variables.</p>
-
-<p>The scripts allow the 
-application to calculate custom running totals using code. Simply:</p>
-
-<ul>
-<li>initialize a global variable in the on-start method (optional),</li>
-<li>accumulate the running total by adding values to the global variable,</li>
-<li>finalize the running total prior to displaying it (optional).</li>
-</ul></p>
-
-<h3>See Also</h3>
-
-<p><code>onRow</code> method</p>
-<p><code>onFinish</code> method</p>
-
-<h2 class="method">onRow</h2>
-
-<p>Called for each row retrieved from the data set for this element, but before creating any content for that row.</p>
-
-<h3>Description</h3>
-
-<p>Called for each row retrieved from the data set for this 
-element, but before creating any content for that row.</p>
-
-<h3>See Also</h3>
-
-<p><code>onStart</code> method</p>
-<p><code>onFinish</code> method</p>
-
-<h2 class="method">onFinish</h2>
-
-<p>Called after the last row is read from the data set for this element, but before the footer band is created.</p>
-
-<h3>Description</h3>
-
-<p>Called after the last row is read from the data set for 
-this element, but before the footer band is created.</p>
-
-<h3>See Also</h3>
-<p><code>onStart</code> method</p>
-<p><code>onRow</code> method</p>
-
 </body>
 </html>

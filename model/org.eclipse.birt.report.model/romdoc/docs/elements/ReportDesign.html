@@ -33,37 +33,6 @@ cannot extend another design.</p>
 
 <p>Library element</p>
 
-<h2 class="property">base</h2>
-
-<p>A base directory to use when computing relative links from this report.</p>
-
-<h3>Description</h3>
-
-<p>A base directory to use when computing relative links 
-from this report. Most often used for reports created externally to the server 
-and submitted on the fly. Used when computing hyperlinks, library includes, 
-image includes and other relative file references.  See the W3C XML Base 
-standard for background:
-<a href="http://www.w3.org/TR/2001/REC-xmlbase-20010627/">http://www.w3.org/TR/2001/REC-xmlbase-20010627/</a>. 
-
-<h3>See Also</h3>
-
-<p>&nbsp;</p>
-
-<h2 class="property">includeResource</h2>
-
-<p>Resource file name which stores the externalized strings.</p>
-
-<h3>Description</h3>
-
-<p>Report designs support externalized strings by storing the resource keys;
-which are stored in the resource file. This property stores the resource file
-name. 
-
-<h3>See Also</h3>
-
-<p>&nbsp;</p>
-
 <h2 class="property">refreshRate</h2>
 
 <p>The refresh rate when viewing the report.</p>
@@ -294,7 +263,101 @@ styles, data sets, data sources, parameters and other elements cannot appear.</l
 definition allows. For example, a grid can contain other items.</li>
 </ul>
 
+<h2 class="slot">styles</h2>
+
+<p>List of user-defined styles used to format elements in the report.</p>
+
+<h3>Description</h3>
+
+<p>User-defined styles used to format elements in the 
+report. Each style must have a unique name within the set of styles for this 
+report.</p>
+
+<h2 class="slot">parameters</h2>
+
+<p>A list of Parameter elements that describe the data that the user can enter when running the report.</p>
+
+<h3>Description</h3>
+
+<p>A list of parameter elements that describe the data that 
+the user can enter when running the report. BIRT supports four kinds of 
+parameters identified above. The design can also include parameter groups that 
+organize parameters visually.</p>
+
+<p>The order of parameters within this slot in the design 
+file determines the order that they will appear in the requester UI.</p>
+
+<p>The parameters property provides a &quot;flattened&quot; list of 
+parameters. Each parameter identifies the group (if any) to which it belongs.</p>
+<p>Parameter values are also available using the
+<code>params</code> global variable.</p>
+
+
+<h2 class="slot">dataSources</h2>
+
+<p>The connections used by the report.</p>
+
+<h3>Description</h3>
+
+<p>This slot holds the list of data sources defined within 
+the report itself. Each data source must have a unique name. The order of items 
+within this slot is unimportant.</p>
+
 <h3>See Also</h3>
+
+<h2 class="slot">dataSets</h2>
+
+<p>Data sets (queries) defined in the design.</p>
+
+<h3>Description</h3>
+
+<p>This slot holds the list of data sets defined within the 
+report itself. Each data set must have a unique name. The order of items within 
+this slot is unimportant.</p>
+
+
+
+<h3>See Also</h3>
+
+<h2 class="slot">pageSetup</h2>
+
+<p>The layout of the master pages within the report.</p>
+
+<h3>Description</h3>
+
+<p>The page setup defines the way that the report will 
+appear when printed. It consists of a master page that defines the page size, 
+page &quot;decoration&quot;, margins and so on. Some reports need to use different master 
+pages, perhaps to have the first page of the report appear in letterhead, with 
+the remaining pages on plain paper. Other reports may be printed and bound, 
+requiring differing page layout for the left and right pages.</p>
+
+<p>A report can omit the page setup information. If so, page 
+setup is taken from a library, if provided. If the library is not provided, or 
+does not have a page setup, or the master page does not have page dimensions, 
+then the setup comes from BIRT preferences, or from locale-specific defaults.</p>
+
+<p>If the user lists multiple master pages, but no page 
+sequences, then BIRT uses the first master page by default. If the user defines 
+one or more page sequences, then BIRT uses the first page sequence by default. 
+Other than these two cases, the order of elements within the page setup slot is 
+unimportant.</p>
+
+<p>This slot defines a name space; the name of each master 
+page and page sequence must be unique across the set of other page setup 
+elements.</p>
+
+<p>Only the simple master page is available in the first 
+release, and the design can contain at most one simple master page in the first 
+release.</p>
+
+<p>The page setup can contain zero or more master pages (of 
+either type) and zero or more page sequences (of either type). The simplest 
+report provides no master page. It will appear with the default pages size and 
+margins, and with no page header or footer.</p>
+
+<h3>See Also</h3>
+
 
 <p>Library element</p>
 
