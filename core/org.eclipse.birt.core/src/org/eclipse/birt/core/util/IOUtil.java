@@ -212,19 +212,20 @@ public class IOUtil
 
 	private static Map type2IndexMap;
 
-	private static final int TYPE_INT = 0;
-	private static final int TYPE_FLOAT = 1;
-	private static final int TYPE_DOUBLE = 2;
-	private static final int TYPE_BIG_DECIMAL = 3;
-	private static final int TYPE_DATE = 4;
-	private static final int TYPE_TIME = 5;
-	private static final int TYPE_TIME_STAMP = 6;
-	private static final int TYPE_BOOLEAN = 7;
-	private static final int TYPE_STRING = 8;
-	private static final int TYPE_BYTES = 9;
-	private static final int TYPE_LIST = 10;
-	private static final int TYPE_MAP = 11;
-	private static final int TYPE_SERIALIZABLE = 12;
+	private static final int TYPE_NULL = 0;
+	private static final int TYPE_INT = 1;
+	private static final int TYPE_FLOAT = 2;
+	private static final int TYPE_DOUBLE = 3;
+	private static final int TYPE_BIG_DECIMAL = 4;
+	private static final int TYPE_DATE = 5;
+	private static final int TYPE_TIME = 6;
+	private static final int TYPE_TIME_STAMP = 7;
+	private static final int TYPE_BOOLEAN = 8;
+	private static final int TYPE_STRING = 9;
+	private static final int TYPE_BYTES = 10;
+	private static final int TYPE_LIST = 11;
+	private static final int TYPE_MAP = 12;
+	private static final int TYPE_SERIALIZABLE = 13;
 
 	static
 	{
@@ -241,13 +242,21 @@ public class IOUtil
 		type2IndexMap.put( byte[].class, new Integer( TYPE_BYTES ) );
 		type2IndexMap.put( List.class, new Integer( TYPE_LIST ) );
 		type2IndexMap.put( Map.class, new Integer( TYPE_MAP ) );
-		type2IndexMap.put( Serializable.class, new Integer( TYPE_MAP ) );
+		type2IndexMap.put( Serializable.class, new Integer( TYPE_SERIALIZABLE ) );
+		type2IndexMap.put( null, new Integer( TYPE_NULL ) );
 	}
 
+	/**
+	 * from object class to its type index value
+	 * 
+	 * @param obValue
+	 * @return
+	 */
 	private static int getTypeIndex( Object obValue )
 	{
-		assert obValue != null;
-		// write data type index first
+		if ( obValue == null )
+			return TYPE_NULL;
+		
 		Integer indexOb = (Integer) type2IndexMap.get( obValue.getClass( ) );
 		if ( indexOb == null )
 		{
@@ -280,16 +289,14 @@ public class IOUtil
 	public final static Object readObject( DataInputStream dis )
 			throws IOException
 	{
-		// check whether it is null
-		if ( readBool( dis ) == false )
-			return null;
-
 		// read data type from its index value
-		int indexValue = readInt( dis );
+		int typeIndex = readInt( dis );
 		// read real data
 		Object obValue = null;
-		switch ( indexValue )
+		switch ( typeIndex )
 		{
+			case TYPE_NULL :
+				break;		
 			case TYPE_INT :
 				obValue = new Integer( dis.readInt( ) );
 				break;
@@ -367,31 +374,23 @@ public class IOUtil
 	public final static void writeObject( DataOutputStream dos, Object obValue )
 			throws IOException
 	{
-		// check whether it is null
-		if ( obValue == null )
-		{
-			writeBool( dos, false );
-			return;
-		}
-		else
-		{
-			writeBool( dos, true );
-		}
-
 		// write data type index first
-		int indexValue = getTypeIndex( obValue );
-		if ( indexValue == -1 )
+		int typeIndex = getTypeIndex( obValue );
+		if ( typeIndex == -1 )
 		{
-			writeBool( dos, false );
+			writeInt( dos, TYPE_NULL );
 			throw new IOException( "Data type of "
 					+ obValue.getClass( ).toString( )
 					+ " is not supported to be serialized" );
 		}
-		writeInt( dos, indexValue );
+		
+		writeInt( dos, typeIndex );
 
 		// write real data
-		switch ( indexValue )
+		switch ( typeIndex )
 		{
+			case TYPE_NULL :
+				break;
 			case TYPE_INT :
 				dos.writeInt( ( (Integer) obValue ).intValue( ) );
 				break;
@@ -476,7 +475,7 @@ public class IOUtil
 	public final static List readList( DataInputStream dis ) throws IOException
 	{
 		// check null
-		if ( readBool( dis ) == false )
+		if ( readInt( dis ) == TYPE_NULL )
 			return null;
 
 		// read map size
@@ -502,16 +501,15 @@ public class IOUtil
 	 */
 	public final static void writeList( DataOutputStream dos, List list )
 			throws IOException
-	{
-		// check null
+	{	
 		if ( list == null )
 		{
-			writeBool( dos, false );
+			writeInt( dos, TYPE_NULL );
 			return;
 		}
 		else
 		{
-			writeBool( dos, true );
+			writeInt( dos, TYPE_MAP );
 		}
 
 		// write map size
@@ -536,7 +534,7 @@ public class IOUtil
 	public final static Map readMap( DataInputStream dis ) throws IOException
 	{
 		// check null
-		if ( readBool( dis ) == false )
+		if ( readInt( dis ) == TYPE_NULL )
 			return null;
 
 		// read map size
@@ -560,37 +558,37 @@ public class IOUtil
 	 * Write a Map to an output stream
 	 * 
 	 * @param dos
-	 * @param dataMap
+	 * @param map
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public final static void writeMap( DataOutputStream dos, Map dataMap )
+	public final static void writeMap( DataOutputStream dos, Map map )
 			throws IOException
 	{
 		// check null
-		if ( dataMap == null )
+		if ( map == null )
 		{
-			writeBool( dos, false );
+			writeInt( dos, TYPE_NULL );
 			return;
 		}
 		else
 		{
-			writeBool( dos, true );
+			writeInt( dos, TYPE_MAP );
 		}
-
+		
 		// write map size
-		int size = dataMap.size( );
+		int size = map.size( );
 		writeInt( dos, size );
 		if ( size == 0 )
 			return;
 
 		// write real data
-		Set keySet = dataMap.keySet( );
+		Set keySet = map.keySet( );
 		Iterator it = keySet.iterator( );
 		while ( it.hasNext( ) )
 		{
 			Object key = it.next( );
-			Object value = dataMap.get( key );
+			Object value = map.get( key );
 			writeObject( dos, key );
 			writeObject( dos, value );
 		}
