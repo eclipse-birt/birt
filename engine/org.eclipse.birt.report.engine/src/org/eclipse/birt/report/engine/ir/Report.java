@@ -31,7 +31,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.26 $ $Date: 2005/12/21 10:05:17 $
+ * @version $Revision: 1.27 $ $Date: 2005/12/23 06:37:24 $
  */
 public class Report
 {
@@ -114,6 +114,16 @@ public class Report
 	 */
 	public static final String PREFIX_STYLE_NAME = "style_"; //$NON-NLS-1$
 
+	/*
+	 * map report item to query
+	 */
+	protected HashMap mapReportItemToQuery;
+	
+	/*
+	 * map report item to "value" expressions
+	 */
+	protected HashMap mapReportItemToValueExpressions;
+	
 	/**
 	 * default constructor.
 	 */
@@ -121,6 +131,31 @@ public class Report
 	{
 	}
 	
+	/**
+	 * return the map from report item to query
+	 * @return the map from report item to query
+	 */
+	public HashMap getReportItemToQueryMap( )
+	{
+		if( mapReportItemToQuery == null )
+		{
+			mapReportItemToQuery = new HashMap( );
+		}
+		return mapReportItemToQuery;
+	}
+	
+	/**
+	 * return the map from report item to value expressions it contains.
+	 * @return the map from report item to value expressions
+	 */
+	public HashMap getReportItemToValueExprMap( )
+	{
+		if( mapReportItemToValueExpressions == null )
+		{
+			mapReportItemToValueExpressions = new HashMap( );
+		}
+		return mapReportItemToValueExpressions;
+	}
 	/**
 	 * set report item id to report item instance
 	 * 

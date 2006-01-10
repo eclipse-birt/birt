@@ -91,7 +91,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.44 $ $Date: 2006/01/04 03:17:23 $
+ * @version $Revision: 1.45 $ $Date: 2006/01/09 05:35:52 $
  */
 public class ReportQueryBuilder
 {
@@ -99,25 +99,21 @@ public class ReportQueryBuilder
 	protected static Logger logger = Logger.getLogger( ReportQueryBuilder.class
 			.getName( ) );
 
-	/**
+	/*
 	 * map query to the report element.
 	 */
-	protected HashMap mapQueryToReportItem;
+	// protected HashMap mapQueryToReportItem;
+	
+	/*
+	 * map report item to value expression, value expression is 
+	 * expression with "valueExpr" tag in design file. 
+	 */
+	// protected HashMap mapRptItemToValueExpr; 
 	
 	public ReportQueryBuilder( )
 	{
 	}
 	
-	/**
-	 * return the map from query to report item design
-	 * 
-	 * @return the map from query to report item design
-	 */
-	public HashMap getQueryToReportItemMap( )
-	{
-		return mapQueryToReportItem;
-	}
-
 	/**
 	 * @param report
 	 *            the entry point to the report design
@@ -168,6 +164,11 @@ public class ReportQueryBuilder
 		 */
 		protected LinkedList expressionStack = new LinkedList( );
 
+		/*
+		 * report item stack
+		 */
+		protected LinkedList reportItemStack; 
+		
 		/**
 		 * entry point to the report
 		 */
@@ -406,12 +407,14 @@ public class ReportQueryBuilder
 						if ( query != null )
 						{
 							item.setQuery( query );
+							pushReportItem( item );
 							pushQuery( query );
 							pushExpressions( query.getRowExpressions( ) );
 							handleReportItemExpressions( item );
 							// handleActionExpressions(item.getAction());
 							popExpressions( );
 							popQuery( );
+							popReportItem( );
 						}
 					}
 				}
@@ -452,9 +455,11 @@ public class ReportQueryBuilder
 					query.setUsesDetails( true );
 				}
 
+				pushReportItem( list );
 				pushExpressions( query.getRowExpressions( ) );
 				visitListBand( list.getDetail( ), value );
 				popExpressions( );
+				popReportItem( );
 
 				pushExpressions( query.getAfterExpressions( ) );
 				visitListBand( list.getFooter( ), value );
@@ -525,10 +530,11 @@ public class ReportQueryBuilder
 				{
 					query.setUsesDetails( true );
 				}
-
+				pushReportItem( table );
 				pushExpressions( query.getRowExpressions( ) );
 				handleTableBand( table.getDetail( ), value );
 				popExpressions( );
+				popReportItem( );
 
 				pushExpressions( query.getAfterExpressions( ) );
 				handleTableBand( table.getFooter( ), value );
@@ -546,11 +552,9 @@ public class ReportQueryBuilder
 				ReportItemDesign reportItem )
 		{
 			assert query!=null && reportItem != null;
-			if( mapQueryToReportItem == null )
-			{
-				mapQueryToReportItem = new HashMap( );
-			}
-			mapQueryToReportItem.put( query, reportItem );
+			HashMap map = report.getReportItemToQueryMap( );
+			assert map != null;
+			map.put( query, reportItem );
 		}
 		
 		/*
@@ -579,10 +583,38 @@ public class ReportQueryBuilder
 			handleReportItemExpressions( data );
 			handleAction( data.getAction( ) );
 			addExpression( data.getValue( ) );
+			addtoValueExpressions( data );
 			finishVisit( query );
 			return value;
 		}
 
+		private void addtoValueExpressions( DataItemDesign data )
+		{
+			if( reportItemStack == null || reportItemStack.isEmpty() == true )
+			{
+				return ;
+			}
+			
+			if( data.getValue( ) != null )
+			{
+				ReportItemDesign reportItem = (ReportItemDesign)reportItemStack.get( 0 );
+				HashMap map = report.getReportItemToValueExprMap( );
+				assert map != null;
+				
+				ArrayList valueExprs = (ArrayList) map.get( reportItem );
+				if( valueExprs == null )
+				{
+					valueExprs = new ArrayList( );
+				}
+				
+				// remove duplicate value expressions
+				if( valueExprs.contains( data.getValue( ) ) == false )
+				{
+					valueExprs.add( data.getValue( ) );
+				}
+				map.put( reportItem, valueExprs );
+			}
+		}
 		/**
 		 * handle expressions common to all report items
 		 * 
@@ -852,6 +884,20 @@ public class ReportQueryBuilder
 			this.expressions = (Collection) expressionStack.removeLast( );
 		}
 
+		protected void pushReportItem( ReportItemDesign reportItem )
+		{
+			if( reportItemStack == null )
+			{
+				reportItemStack = new LinkedList( );
+			}
+			this.reportItemStack.addLast( reportItem );
+		}
+		
+		protected void popReportItem( )
+		{
+			assert reportItemStack.isEmpty() == false;
+			reportItemStack.removeLast( );
+		}
 		/**
 		 * A helper function for adding a query to query stack
 		 */
