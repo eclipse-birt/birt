@@ -226,7 +226,7 @@
 		</ant>
 		<echo message="end call Jar task in ${core.dir}"/>
 		<echo message="start call Jar task in ${dtp.oda.dir}"/>
-		<ant dir="${dtp.oda.dir}" antfile="Build.xml" target="build.jars" inheritall="false">
+		<ant dir="${dtp.oda.dir}" antfile="build.xml" target="build.jars" inheritall="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>
 		<echo message="end call Jar task in ${dtp.oda.dir}"/>
