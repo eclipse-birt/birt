@@ -151,7 +151,7 @@ public class ModelUtil
 		}
 
 		// Parent element and the cloned one must have the same structures.
-		// Clear all childrens' properties and set base id reference.
+		// Clear all children's properties and set base id reference.
 
 		Iterator sourceIter = new ContentIterator( source );
 		Iterator clonedIter = new ContentIterator( cloned );
@@ -160,7 +160,12 @@ public class ModelUtil
 			DesignElement virtualParent = (DesignElement) sourceIter.next( );
 			DesignElement virtualChild = (DesignElement) clonedIter.next( );
 
+			String name = virtualChild.getName( );
 			virtualChild.clearAllProperties( );
+
+			if ( name != null )
+				virtualChild.setName( name );
+
 			virtualChild.setBaseId( virtualParent.getID( ) );
 		}
 
@@ -192,6 +197,7 @@ public class ModelUtil
 
 		return true;
 	}
+
 
 	/**
 	 * Break the relationship between the given element to its parent.Set all

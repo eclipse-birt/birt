@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.command.ContentException;
@@ -34,6 +35,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.ContentIterator;
 import org.xml.sax.Attributes;
 
 /**
@@ -156,56 +158,9 @@ public abstract class ReportElementState extends DesignParseState
 
 		// The name should not be null if it is required. The parser state
 		// should have already caught this case.
-
-		String name = content.getName( );
-		assert !StringUtil.isBlank( name )
-				|| contentDefn.getNameOption( ) != MetaDataConstants.REQUIRED_NAME;
-
-		// Disallow duplicate names.
+		addToNamespace( content );
 
 		Module module = handler.getModule( );
-
-		if ( name == null
-				&& contentDefn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
-		{
-			handler.getErrorHandler( ).semanticError(
-					new NameException( container, name,
-							NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
-			return false;
-		}
-
-		int id = contentDefn.getNameSpaceID( );
-		if ( name != null && id != MetaDataConstants.NO_NAME_SPACE
-				&& container.isManagedByNameSpace( slotID ) )
-		{
-			NameSpace ns = module.getNameSpace( id );
-
-			if ( module.getNameSpace( id ).contains( name ) )
-			{
-				handler.getErrorHandler( ).semanticError(
-						new NameException( container, name,
-								NameException.DESIGN_EXCEPTION_DUPLICATE ) );
-				return false;
-			}
-			DesignElement parent = content.getExtendsElement( );
-			if ( id == Module.ELEMENT_NAME_SPACE && parent != null )
-			{
-				if ( parent.getContainerSlot( ) != Module.COMPONENT_SLOT )
-				// if ( !module.getSlot( Module.COMPONENT_SLOT ).contains(
-				// parent ) )
-				{
-					handler
-							.getErrorHandler( )
-							.semanticError(
-									new ExtendsException(
-											content,
-											content.getElementName( ),
-											ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT ) );
-					return false;
-				}
-			}
-			ns.insert( content );
-		}
 
 		// Add the item to the element ID map, check whether the id is unique
 		// if the element has no ID, we will allocate it in the endDocument
@@ -413,6 +368,91 @@ public abstract class ReportElementState extends DesignParseState
 		// element.setExtendsElement( refValue.getElement( ) );
 		element.setExtendsElement( parent );
 		element.refreshStructureFromParent( module );
+		addTheVirualElementsToNamesapce( element );
+	}
+
+	/**
+	 * Add the element name into the module namespace.
+	 * 
+	 * @param element
+	 *            the element.
+	 */
+	private void addToNamespace( DesignElement content )
+	{
+		String name = content.getName( );
+		ElementDefn contentDefn = (ElementDefn) content.getDefn( );
+
+		assert !StringUtil.isBlank( name )
+				|| contentDefn.getNameOption( ) != MetaDataConstants.REQUIRED_NAME;
+
+		// Disallow duplicate names.
+
+		Module module = handler.getModule( );
+
+		if ( name == null
+				&& contentDefn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
+		{
+			handler.getErrorHandler( ).semanticError(
+					new NameException( container, name,
+							NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+			return;
+		}
+
+		int id = contentDefn.getNameSpaceID( );
+		if ( name != null && id != MetaDataConstants.NO_NAME_SPACE
+				&& container.isManagedByNameSpace( slotID ) )
+		{
+			NameSpace ns = module.getNameSpace( id );
+
+			if ( module.getNameSpace( id ).contains( name ) )
+			{
+				handler.getErrorHandler( ).semanticError(
+						new NameException( container, name,
+								NameException.DESIGN_EXCEPTION_DUPLICATE ) );
+				return;
+			}
+			DesignElement parent = content.getExtendsElement( );
+			if ( id == Module.ELEMENT_NAME_SPACE && parent != null )
+			{
+				if ( parent.getContainerSlot( ) != Module.COMPONENT_SLOT )
+				// if ( !module.getSlot( Module.COMPONENT_SLOT ).contains(
+				// parent ) )
+				{
+					handler
+							.getErrorHandler( )
+							.semanticError(
+									new ExtendsException(
+											content,
+											content.getElementName( ),
+											ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT ) );
+					return;
+				}
+			}
+			ns.insert( content );
+		}
+	}
+
+	/**
+	 * Add the virtual elements name into the module namespace.
+	 * 
+	 * @param element
+	 *            the element contains virtual elements inside.
+	 */
+
+	private void addTheVirualElementsToNamesapce( DesignElement element )
+	{
+		Iterator contentIter = new ContentIterator( element );
+		Module module = handler.getModule( );
+
+		while ( contentIter.hasNext( ) )
+		{
+			DesignElement virtualElement = (DesignElement) contentIter.next( );
+			if ( virtualElement.getName( ) != null )
+			{
+				module.makeUniqueName( virtualElement );
+				addToNamespace( virtualElement );
+			}
+		}
 	}
 
 	/**

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import java.lang.reflect.Constructor;
+import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -53,6 +54,7 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
+import org.eclipse.birt.report.model.util.ContentIterator;
 
 /**
  * Creates a new report elements and returns handles to it. Use this to create
@@ -964,10 +966,27 @@ public class ElementFactory
 			}
 			childElement.setExtends( baseElement );
 			childElement.getElement( ).refreshStructureFromParent( module );
-			module.getModuleHandle( ).rename( childElement );
+			renameForVirtualElements( childElement.getElement( ) );
 		}
 
 		return childElement;
+	}
+
+	/**
+	 * Rename for the virtual elements inside the new element. *
+	 * 
+	 * @param element
+	 *            the new created element.
+	 */
+	private void renameForVirtualElements( DesignElement element )
+	{
+
+		Iterator contentIter = new ContentIterator( element );
+		while ( contentIter.hasNext( ) )
+		{
+			DesignElement virtualElement = (DesignElement) contentIter.next( );
+			module.makeUniqueName( virtualElement );
+		}
 	}
 
 	/**
