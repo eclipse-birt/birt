@@ -87,7 +87,7 @@ public class ReportRCPPerspective implements IPerspectiveFactory
 		// Top left.
 		IFolderLayout topLeft = layout.createFolder( "topLeft", IPageLayout.LEFT, (float) 0.26, editorArea );//$NON-NLS-1$
 		topLeft.addView( PaletteView.ID );
-		topLeft.addView( DataView.ID );
+		//topLeft.addView( DataView.ID );
 		topLeft.addView( LibraryExplorerView.ID );
 
 		// Bottom left.
