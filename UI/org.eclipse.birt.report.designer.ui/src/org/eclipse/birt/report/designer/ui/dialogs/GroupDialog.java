@@ -599,7 +599,16 @@ public class GroupDialog extends BaseDialog
 				}
 				if ( slotHandle != null )
 				{
-					DesignElementHandle dataItemHandle = InsertInLayoutUtil.performInsert( newKeyExpr.trim( ),
+					Object insertObject;
+					if ( index == -1 )
+					{
+						insertObject = newKeyExpr.trim( );
+					}
+					else
+					{
+						insertObject = columnList.get( index );
+					}
+					DesignElementHandle dataItemHandle = InsertInLayoutUtil.performInsert( insertObject,
 							slotHandle,
 							inputGroup.getContainer( ) );
 					slotHandle.add( dataItemHandle );
