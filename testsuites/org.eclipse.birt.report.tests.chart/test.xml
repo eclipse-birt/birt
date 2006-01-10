@@ -28,10 +28,10 @@
 	<property name="dtp.home" location=".." />
 	
 	<property name="core.dir" location="../org.eclipse.birt.core" />
-	<property name="data.oda.dir" location="$../org.eclipse.birt.data.oda" />
+	<property name="data.oda.dir" location="../org.eclipse.birt.data.oda" />
 	<property name="data.oda.jdbc.dir" location="../org.eclipse.birt.report.data.oda.jdbc" />
 	<property name="datatools.connectivity.oda.dir" location="../org.eclipse.datatools.connectivity.oda" />	
-	<property name="module.dir" location = "..\org.eclipse.birt.report.chart.engine" />
+	<property name="module.dir" location = "../org.eclipse.birt.report.chart.engine" />
 	<property name="testmodule.name" value = "org.eclipse.birt.report.tests.chart" />
 	
 	<property name="test.src.dir" location="src" />
@@ -80,24 +80,23 @@
 		
 		
 		  <fileset dir="..">
-		  	<include name="org.eclipse.birt.chart.device.extension/device-extension.jar" />
-		  	<include name="org.eclipse.birt.chart.device.svg/device-svg.jar" />
-		  	<include name="org.eclipse.birt.chart.engine.extension/engine-extension.jar" />
-		  	<include name="org.eclipse.birt.chart.engine/engine.jar" />
-		  	<include name="org.eclipse.birt.core/*.jar" />
 		  	
-		  	<include name="org.eclipse.emf.jar" />
-		  	<include name="org.eclipse.emf.ecore.jar" />
-		  	<include name="org.eclipse.emf.common.jar" />
-		  	<include name="org.eclipse.emf.ecore.xmi.jar" />
-		  	<include name="org.eclipse.swt.win32.win32.x86.jar" />
-		  	<include name="org.eclipse.swt.jar" />
+		  	<include name="org.eclipse.emf_2.1.0.jar" />
+		  	<include name="org.eclipse.emf.ecore_2.1.0.jar" />
+		  	<include name="org.eclipse.emf.common_2.1.0.jar" />
+		  	<include name="org.eclipse.emf.ecore.xmi_2.1.0.jar" />
+		  	<include name="org.eclipse.swt.win32.win32.x86_3.1.0.jar" />
+		  	<include name="org.eclipse.swt_3.1.0.jar" />
 		  	
 		  	<include name="org.eclipse.birt.report.model/*.jar" />
 		  	<include name="org.eclipse.birt.report.model/lib/*.jar" />
 		  	<include name="org.eclipse.birt.chart.reportitem/reportitem.jar" />
 		  	
-		  	
+		  	<include name="org.eclipse.birt.chart.device.extension/device-extension.jar" />
+		  	<include name="org.eclipse.birt.chart.device.svg/device-svg.jar" />
+		  	<include name="org.eclipse.birt.chart.engine.extension/engine-extension.jar" />
+		  	<include name="org.eclipse.birt.chart.engine/engine.jar" />
+		  	<include name="org.eclipse.birt.core/*.jar" />		  	
 		  	
 		    	<include name="org.eclipse.birt.core/*.jar" />
 		  		<include name="org.eclipse.birt.core/lib/*.jar" />
