@@ -30,6 +30,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
@@ -90,6 +91,7 @@ public class HyperlinkBuilder extends BaseDialog
 	private static final String LABEL_LOCATION = Messages.getString( "HyperlinkBuilder.Label.Location" ); //$NON-NLS-1$
 	private static final String LABEL_TARGET = Messages.getString( "HyperlinkBuilder.Label.Target" ); //$NON-NLS-1$
 	private static final String LABEL_BOOKMARK = Messages.getString( "HyperlinkBuilder.Label.Bookmark" ); //$NON-NLS-1$
+	private static final String LABEL_LINKED_EXPRESSION = Messages.getString( "HyperlinkBuilder.Label.LinkedExpression" ); //$NON-NLS-1$
 	private static final String LABEL_REPORT = Messages.getString( "HyperlinkBuilder.Label.Report" ); //$NON-NLS-1$
 	private static final String LABEL_REPORT_PARAMETER = Messages.getString( "HyperlinkBuilder.Label.Parameters" ); //$NON-NLS-1$
 	private static final String LABEL_FORMAT = Messages.getString( "HyperlinkBuilder.Label.Format" ); //$NON-NLS-1$
@@ -131,7 +133,7 @@ public class HyperlinkBuilder extends BaseDialog
 	// Radios
 	private Button noneRadio, uriRadio, bookmarkRadio, drillRadio;
 
-	private Combo targetChooser, formatChooser;
+	private Combo bookmarkChooser, targetChooser, formatChooser;
 
 	private Text locationEditor, bookmarkEditor;
 
@@ -364,6 +366,7 @@ public class HyperlinkBuilder extends BaseDialog
 		{
 			switchToDrillthrough( );
 		}
+
 		initDisplayArea( );
 		displayArea.layout( );
 	}
@@ -405,8 +408,10 @@ public class HyperlinkBuilder extends BaseDialog
 			{
 				closeReport( );
 				initParamterBindings( );
+				initBookmarkList( reportHandle );
 				updateButtons( );
 			}
+
 		} );
 		createBrowerButton( displayArea, locationEditor, false, true );
 
@@ -586,15 +591,23 @@ public class HyperlinkBuilder extends BaseDialog
 			label = LABEL_BOOKMARK;
 		}
 		new Label( displayArea, SWT.NONE ).setText( label );
-		bookmarkEditor = new Text( displayArea, SWT.BORDER | SWT.SINGLE );
-		bookmarkEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		bookmarkEditor.addModifyListener( new ModifyListener( ) {
+		bookmarkChooser = new Combo( displayArea, SWT.BORDER | SWT.READ_ONLY );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		bookmarkChooser.setLayoutData( gd );
+		bookmarkChooser.addSelectionListener( new SelectionAdapter( ) {
 
-			public void modifyText( ModifyEvent e )
+			public void widgetSelected( SelectionEvent e )
 			{
+				bookmarkEditor.setText( bookmarkChooser.getText( ) );
 				updateButtons( );
 			}
+
 		} );
+
+		new Label( displayArea, SWT.NONE ).setText( LABEL_LINKED_EXPRESSION );
+		bookmarkEditor = new Text( displayArea, SWT.BORDER | SWT.READ_ONLY );
+		bookmarkEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		createExpressionButton( displayArea, bookmarkEditor );
 	}
 
@@ -723,9 +736,15 @@ public class HyperlinkBuilder extends BaseDialog
 			{
 				bookmarkEditor.setText( inputHandle.getTargetBookmark( ) );
 			}
+			initBookmarkList( SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( ) );
 		}
 		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( selectedType ) )
 		{
+			if ( inputHandle.getTargetBookmark( ) != null )
+			{
+				bookmarkEditor.setText( inputHandle.getTargetBookmark( ) );
+			}
 			if ( inputHandle.getReportName( ) != null )
 			{
 				locationEditor.setText( inputHandle.getReportName( ) );
@@ -733,10 +752,7 @@ public class HyperlinkBuilder extends BaseDialog
 			else
 			{
 				initParamterBindings( );
-			}
-			if ( inputHandle.getTargetBookmark( ) != null )
-			{
-				bookmarkEditor.setText( inputHandle.getTargetBookmark( ) );
+				initBookmarkList( null );
 			}
 			if ( inputHandle.getTargetWindow( ) != null )
 			{
@@ -834,6 +850,18 @@ public class HyperlinkBuilder extends BaseDialog
 		paramBindingTable.getTable( ).setEnabled( !parameterList.isEmpty( ) );
 
 		updateButtons( );
+	}
+
+	private void initBookmarkList( ModuleHandle handle )
+	{
+		bookmarkChooser.removeAll( );
+		if ( handle != null )
+		{
+			bookmarkChooser.setItems( (String[]) handle.getAllBookmarks( )
+					.toArray( new String[0] ) );
+			bookmarkChooser.setText( bookmarkEditor.getText( ) );
+		}
+		bookmarkChooser.setEnabled( bookmarkChooser.getItemCount( ) > 0 );
 	}
 
 	private void addRadioListener( Button radio, final String type )
