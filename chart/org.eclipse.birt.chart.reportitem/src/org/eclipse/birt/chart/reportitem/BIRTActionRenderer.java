@@ -109,15 +109,15 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 						public String getBookmark( )
 						{
-							return (String) dph.getUserValue( handle.getTargetBookmark( ) );
+							return stringValue( dph.getUserValue( handle.getTargetBookmark( ) ) );
 						}
 
 						public String getActionString( )
 						{
 							if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
-								return (String) dph.getUserValue( handle.getURI( ) );
+								return stringValue( dph.getUserValue( handle.getURI( ) ) );
 							if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
-								return (String) dph.getUserValue( handle.getTargetBookmark( ) );
+								return stringValue( dph.getUserValue( handle.getTargetBookmark( ) ) );
 							return null;
 						}
 
@@ -215,15 +215,15 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 						public String getBookmark( )
 						{
-							return (String) evaluator.evaluateGlobal( handle.getTargetBookmark( ) );
+							return stringValue( evaluator.evaluateGlobal( handle.getTargetBookmark( ) ) );
 						}
 
 						public String getActionString( )
 						{
 							if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
-								return (String) evaluator.evaluateGlobal( handle.getURI( ) );
+								return stringValue( evaluator.evaluateGlobal( handle.getURI( ) ) );
 							if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
-								return (String) evaluator.evaluateGlobal( handle.getTargetBookmark( ) );
+								return stringValue( evaluator.evaluateGlobal( handle.getTargetBookmark( ) ) );
 							return null;
 						}
 
@@ -300,5 +300,15 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 			uv.setBaseUrl( sa );
 			uv.setTarget( target );
 		}
+	}
+
+	private static String stringValue( Object value )
+	{
+		if ( value == null )
+		{
+			return null;
+		}
+
+		return String.valueOf( value );
 	}
 }
