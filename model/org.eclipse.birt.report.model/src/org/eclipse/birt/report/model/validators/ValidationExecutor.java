@@ -12,8 +12,10 @@
 package org.eclipse.birt.report.model.validators;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -143,34 +145,18 @@ public class ValidationExecutor
 	private List reorganize( List nodes )
 	{
 		List newList = new ArrayList( );
-
 		Iterator iter = nodes.iterator( );
+
+		Set validationIDs = new HashSet( );
 		while ( iter.hasNext( ) )
 		{
 			ValidationNode node = (ValidationNode) iter.next( );
+			String id = node.getTriggerDefn( ).getValidationID( );
 
-			boolean found = false;
-			int count = newList.size( );
-			for ( int i = 0; i < count; i++ )
+			if ( !validationIDs.contains( id ) )
 			{
-				ValidationNode nodeInList = (ValidationNode) newList.get( i );
+				validationIDs.add( id );
 
-				// The validation is just done once on the same element with the
-				// same validator.
-
-				String validationID1 = node.getTriggerDefn( ).getValidationID( );
-				String validationID2 = nodeInList.getTriggerDefn( )
-						.getValidationID( );
-
-				if ( StringUtil.isEqual( validationID1, validationID2 ) )
-				{
-					found = true;
-					break;
-				}
-			}
-
-			if ( !found )
-			{
 				if ( node.getTriggerDefn( ).isPreRequisite( ) )
 					newList.add( 0, node );
 				else
@@ -199,35 +185,31 @@ public class ValidationExecutor
 		List nodes = new ArrayList( );
 
 		List validatorDefns = triggers.getTriggerList( );
-		if ( validatorDefns != null && !validatorDefns.isEmpty( ) )
+
+		if ( validatorDefns == null || validatorDefns.isEmpty( ) )
+			return nodes;
+
+		Iterator iter = validatorDefns.iterator( );
+		while ( iter.hasNext( ) )
 		{
-			Iterator iter = validatorDefns.iterator( );
-			while ( iter.hasNext( ) )
+			SemanticTriggerDefn triggerDefn = (SemanticTriggerDefn) iter.next( );
+			String targetName = triggerDefn.getTargetElement( );
+
+			if ( StringUtil.isBlank( targetName ) )
 			{
-				SemanticTriggerDefn triggerDefn = (SemanticTriggerDefn) iter
-						.next( );
-				String targetName = triggerDefn.getTargetElement( );
-
-				if ( StringUtil.isBlank( targetName ) )
-				{
-					ValidationNode node = new ValidationNode( element,
-							triggerDefn );
-					nodes.add( node );
-				}
-				else
-				{
-					ElementDefn targetDefn = (ElementDefn) MetaDataDictionary
-							.getInstance( ).getElement( targetName );
-					ElementDefn elementDefn = (ElementDefn) element.getDefn( );
-
-					if ( targetDefn.isKindOf( elementDefn ) || !onlyOnSelf )
-					{
-						ValidationNode node = new ValidationNode( element,
-								triggerDefn );
-						nodes.add( node );
-					}
-				}
+				nodes.add( new ValidationNode( element, triggerDefn ) );
+				continue;
 			}
+
+			// if the target name is not empty, check its element definition
+
+			ElementDefn targetDefn = (ElementDefn) MetaDataDictionary
+					.getInstance( ).getElement( targetName );
+			ElementDefn elementDefn = (ElementDefn) element.getDefn( );
+
+			if ( targetDefn.isKindOf( elementDefn ) || !onlyOnSelf )
+				nodes.add( new ValidationNode( element, triggerDefn ) );
+
 		}
 
 		return nodes;

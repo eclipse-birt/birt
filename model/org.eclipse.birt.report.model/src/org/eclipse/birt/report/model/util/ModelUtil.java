@@ -51,6 +51,9 @@ import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
+import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -328,7 +331,11 @@ public class ModelUtil
 			}
 		}
 
+		if ( source.getElement( ) instanceof IExtendableElement )
+			duplicateExtensionIdentifier( source, destination );
+
 		Iterator iter = source.getPropertyIterator( );
+
 		while ( iter.hasNext( ) )
 		{
 			PropertyHandle propHandle = (PropertyHandle) iter.next( );
@@ -341,7 +348,10 @@ public class ModelUtil
 
 			if ( StyledElement.STYLE_PROP.equals( propName )
 					|| DesignElement.EXTENDS_PROP.equals( propName )
-					|| DesignElement.USER_PROPERTIES_PROP.equals( propName ) )
+					|| DesignElement.USER_PROPERTIES_PROP.equals( propName )
+					|| IOdaExtendableElementModel.EXTENSION_ID_PROP
+							.equals( propName )
+					|| IExtendedItemModel.EXTENSION_NAME_PROP.equals( propName ) )
 				continue;
 
 			ElementPropertyDefn propDefn = destination.getElement( )
@@ -372,6 +382,57 @@ public class ModelUtil
 			destination.getElement( ).setProperty( propName, valueToSet );
 
 		}
+	}
+
+	/**
+	 * Duplicates the extension identifier. The extension identifier must be set
+	 * before copy other property values. If the identifier is not set first,
+	 * extension property definitions cannot be found. Hence, duplicating
+	 * property values cannot be right.
+	 * <p>
+	 * The extension identifier is:
+	 * <ul>
+	 * <li>EXTENSION_ID_PROP for Oda elements.
+	 * <li>EXTENSION_NAME_PROP for extension elements like chart.
+	 * </ul>
+	 * 
+	 * @param source
+	 *            handle of the source element
+	 * @param destination
+	 *            handle of the destination element
+	 */
+
+	private static void duplicateExtensionIdentifier(
+			DesignElementHandle source, DesignElementHandle destination )
+	{
+
+		// for the special oda cases, the extension id must be set before
+		// copy properties. Otherwise, destination cannot find its ODA
+		// properties.
+
+		if ( source.getElement( ) instanceof IOdaExtendableElementModel )
+		{
+			String extensionId = (String) source
+					.getProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP );
+
+			destination.getElement( ).setProperty(
+					IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionId );
+		}
+		else
+
+		if ( source.getElement( ) instanceof IExtendedItemModel )
+		{
+			String extensionId = (String) source
+					.getProperty( IExtendedItemModel.EXTENSION_NAME_PROP );
+
+			destination.getElement( ).setProperty(
+					IExtendedItemModel.EXTENSION_NAME_PROP, extensionId );
+		}
+		else
+		{
+			assert false;
+		}
+
 	}
 
 	/**

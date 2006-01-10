@@ -916,4 +916,15 @@ public class ActivityStack implements CommandStack
 					.push( new FilterEventsCompoundRecord( label, outerMost ) );
 		}
 	}
+
+	/**
+	 * Removes all listeners on the ActivityStack.
+	 */
+
+	public void clearListeners( )
+	{
+		if ( listeners != null )
+			listeners.clear( );
+		listeners = null;
+	}
 }

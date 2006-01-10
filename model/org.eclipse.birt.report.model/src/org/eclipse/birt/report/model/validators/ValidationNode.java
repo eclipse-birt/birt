@@ -98,11 +98,12 @@ public class ValidationNode
 		// Locate the target element of validation.
 
 		DesignElement toValidate = element;
-		if ( !StringUtil.isBlank( triggerDefn.getTargetElement( ) ) )
+		String elementName = triggerDefn.getTargetElement( );
+		if ( !StringUtil.isBlank( elementName ) )
 		{
 			ElementDefn targetDefn = (ElementDefn) MetaDataDictionary
-					.getInstance( )
-					.getElement( triggerDefn.getTargetElement( ) );
+					.getInstance( ).getElement( elementName );
+
 			while ( toValidate != null )
 			{
 				ElementDefn elementDefn = (ElementDefn) toValidate.getDefn( );
@@ -135,27 +136,27 @@ public class ValidationNode
 
 		assert errors != null;
 
-		// Send validation event if it's needed
+		// Returns if validation events are not needed
 
-		if ( sendEvent )
+		if ( !sendEvent )
+			return errors;
+
+		List errorDetailList = new ArrayList( );
+
+		Iterator iter = errors.iterator( );
+		while ( iter.hasNext( ) )
 		{
-			List errorDetailList = new ArrayList( );
+			SemanticException e = (SemanticException) iter.next( );
 
-			Iterator iter = errors.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				SemanticException e = (SemanticException) iter.next( );
-
-				ErrorDetail errorDetail = new ErrorDetail( e );
-				errorDetail.setValidationID( triggerDefn.getValidationID( ) );
-				errorDetailList.add( errorDetail );
-			}
-
-			ValidationEvent event = new ValidationEvent( toValidate,
-					triggerDefn.getValidationID( ), errorDetailList );
-
-			module.broadcastValidationEvent( toValidate, event );
+			ErrorDetail errorDetail = new ErrorDetail( e );
+			errorDetail.setValidationID( triggerDefn.getValidationID( ) );
+			errorDetailList.add( errorDetail );
 		}
+
+		ValidationEvent event = new ValidationEvent( toValidate, triggerDefn
+				.getValidationID( ), errorDetailList );
+
+		module.broadcastValidationEvent( toValidate, event );
 
 		return errors;
 	}

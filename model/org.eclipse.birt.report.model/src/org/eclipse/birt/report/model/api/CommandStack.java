@@ -76,7 +76,7 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
  * once the transaction is committed, it will never be undone with all calls to
  * rollback( ) or rollbackAll( ) and the only way to make the transaction undone
  * is just to call undo( ).
- *  
+ * 
  */
 
 public interface CommandStack
@@ -224,7 +224,7 @@ public interface CommandStack
 	 */
 
 	public void execute( IElementCommand command );
-	
+
 	/**
 	 * Registers a listener. A listener can be registered any number of times,
 	 * but will receive each event only once.
@@ -254,4 +254,10 @@ public interface CommandStack
 	 */
 
 	void startPersistentTrans( String label );
+
+	/**
+	 * Removes all listeners on the ActivityStack.
+	 */
+
+	public void clearListeners( );
 }
