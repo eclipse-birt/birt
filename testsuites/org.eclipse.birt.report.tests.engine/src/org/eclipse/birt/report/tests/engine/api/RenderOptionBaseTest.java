@@ -67,7 +67,7 @@ public class RenderOptionBaseTest extends EngineCase {
 	public void testSetOutputFileName(){
 		String name="ofName",nameGet="";
 		optionBase.setOutputFileName(name);
-		nameGet=optionBase.getOption(TestRenderOptionBase.OUTPUT_FILE_NAME);
+		nameGet=(String)optionBase.getOption(TestRenderOptionBase.OUTPUT_FILE_NAME);
 		assertEquals("setOutputFileName() fail",name,nameGet);
 	}
 	

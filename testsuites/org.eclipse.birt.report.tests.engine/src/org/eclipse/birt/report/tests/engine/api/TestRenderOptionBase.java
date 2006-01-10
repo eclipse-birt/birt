@@ -28,7 +28,7 @@ public class TestRenderOptionBase extends RenderOptionBase {
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api.RenderOptionBase#getOption(java.lang.String)
 	 */
-	public String getOption(String name) {
+	public Object getOption(String name) {
 		// TODO Auto-generated method stub
 		return super.getOption(name);
 	}
