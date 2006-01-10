@@ -87,13 +87,6 @@ public class BirtSoapBindingStub extends org.apache.axis.client.Stub implements 
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
-            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Columns");
-            cachedSerQNames.add(qName);
-            cls = org.eclipse.birt.report.soapengine.api.Columns.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
             qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Data");
             cachedSerQNames.add(qName);
             cls = org.eclipse.birt.report.soapengine.api.Data.class;
@@ -181,6 +174,20 @@ public class BirtSoapBindingStub extends org.apache.axis.client.Stub implements 
             qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportId");
             cachedSerQNames.add(qName);
             cls = org.eclipse.birt.report.soapengine.api.ReportId.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ResultSet");
+            cachedSerQNames.add(qName);
+            cls = org.eclipse.birt.report.soapengine.api.ResultSet.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ResultSets");
+            cachedSerQNames.add(qName);
+            cls = org.eclipse.birt.report.soapengine.api.ResultSets.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);

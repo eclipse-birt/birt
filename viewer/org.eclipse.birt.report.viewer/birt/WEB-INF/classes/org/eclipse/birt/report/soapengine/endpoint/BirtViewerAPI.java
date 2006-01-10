@@ -7,7 +7,6 @@
 
 package org.eclipse.birt.report.soapengine.endpoint;
 
-
 public interface BirtViewerAPI extends javax.xml.rpc.Service {
     public java.lang.String getBirtSoapPortAddress();
 

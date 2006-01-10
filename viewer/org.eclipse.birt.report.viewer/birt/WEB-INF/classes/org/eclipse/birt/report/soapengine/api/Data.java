@@ -9,7 +9,7 @@ package org.eclipse.birt.report.soapengine.api;
 
 public class Data  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.Font font;
-    private org.eclipse.birt.report.soapengine.api.Columns columns;
+    private org.eclipse.birt.report.soapengine.api.ResultSets resultSets;
     private org.eclipse.birt.report.soapengine.api.Format format;
     private org.eclipse.birt.report.soapengine.api.TOC TOC;
     private org.eclipse.birt.report.soapengine.api.Export export;
@@ -23,7 +23,7 @@ public class Data  implements java.io.Serializable {
 
     public Data(
            org.eclipse.birt.report.soapengine.api.Font font,
-           org.eclipse.birt.report.soapengine.api.Columns columns,
+           org.eclipse.birt.report.soapengine.api.ResultSets resultSets,
            org.eclipse.birt.report.soapengine.api.Format format,
            org.eclipse.birt.report.soapengine.api.TOC TOC,
            org.eclipse.birt.report.soapengine.api.Export export,
@@ -32,7 +32,7 @@ public class Data  implements java.io.Serializable {
            org.eclipse.birt.report.soapengine.api.Vector columnValues,
            org.eclipse.birt.report.soapengine.api.Page page) {
            this.font = font;
-           this.columns = columns;
+           this.resultSets = resultSets;
            this.format = format;
            this.TOC = TOC;
            this.export = export;
@@ -64,22 +64,22 @@ public class Data  implements java.io.Serializable {
 
 
     /**
-     * Gets the columns value for this Data.
+     * Gets the resultSets value for this Data.
      * 
-     * @return columns
+     * @return resultSets
      */
-    public org.eclipse.birt.report.soapengine.api.Columns getColumns() {
-        return columns;
+    public org.eclipse.birt.report.soapengine.api.ResultSets getResultSets() {
+        return resultSets;
     }
 
 
     /**
-     * Sets the columns value for this Data.
+     * Sets the resultSets value for this Data.
      * 
-     * @param columns
+     * @param resultSets
      */
-    public void setColumns(org.eclipse.birt.report.soapengine.api.Columns columns) {
-        this.columns = columns;
+    public void setResultSets(org.eclipse.birt.report.soapengine.api.ResultSets resultSets) {
+        this.resultSets = resultSets;
     }
 
 
@@ -237,9 +237,9 @@ public class Data  implements java.io.Serializable {
             ((this.font==null && other.getFont()==null) || 
              (this.font!=null &&
               this.font.equals(other.getFont()))) &&
-            ((this.columns==null && other.getColumns()==null) || 
-             (this.columns!=null &&
-              this.columns.equals(other.getColumns()))) &&
+            ((this.resultSets==null && other.getResultSets()==null) || 
+             (this.resultSets!=null &&
+              this.resultSets.equals(other.getResultSets()))) &&
             ((this.format==null && other.getFormat()==null) || 
              (this.format!=null &&
               this.format.equals(other.getFormat()))) &&
@@ -275,8 +275,8 @@ public class Data  implements java.io.Serializable {
         if (getFont() != null) {
             _hashCode += getFont().hashCode();
         }
-        if (getColumns() != null) {
-            _hashCode += getColumns().hashCode();
+        if (getResultSets() != null) {
+            _hashCode += getResultSets().hashCode();
         }
         if (getFormat() != null) {
             _hashCode += getFormat().hashCode();
@@ -317,9 +317,9 @@ public class Data  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("columns");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Columns"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Columns"));
+        elemField.setFieldName("resultSets");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ResultSets"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ResultSets"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
