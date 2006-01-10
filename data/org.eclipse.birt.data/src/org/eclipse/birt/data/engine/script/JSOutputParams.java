@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.script;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.impl.PreparedExtendedDSQuery;
@@ -79,8 +80,10 @@ public class JSOutputParams extends ScriptableObject
 				// needs to log here. throw new IllegalArgumentException( e.getMessage( ) );
 			}
 		}
-
-		return paramValue;
+		
+		return  JavascriptEvalUtil.convertToJavascriptValue (
+				paramValue,
+				queryExecutor.getDataEngine().getSharedScope() );
 	}
 
 	/*
@@ -114,7 +117,9 @@ public class JSOutputParams extends ScriptableObject
 			}
 		}
 
-		return paramValue;
+		return  JavascriptEvalUtil.convertToJavascriptValue (
+				paramValue,
+				queryExecutor.getDataEngine().getSharedScope() );
 	}
 
 	/*

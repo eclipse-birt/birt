@@ -147,7 +147,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			    		++count,
 						compColumn.getName(),
 						compColumn.getName(),
-						DataType.getClass( DataType.UNKNOWN_TYPE ),
+						DataType.getClass( compColumn.getDataType() ),
 						null /* nativeTypeName */, 
 						true );
 			    columnsList.add( columnMetaData );

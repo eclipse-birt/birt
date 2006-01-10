@@ -261,6 +261,14 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 	}
 	
 	/**
+	 * Gets the Data Engine
+	 */
+	public DataEngineImpl getDataEngine()
+	{
+		return queryExecutor.getDataEngine();
+	}
+	
+	/**
 	 * Gets the Javascript object that wraps this data set runtime 
 	 */
 	public Scriptable getJSDataSetObject()

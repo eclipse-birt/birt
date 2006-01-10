@@ -17,10 +17,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.odi.IResultObject;
-import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -168,6 +168,7 @@ public class JSRowObject extends ScriptableObject
         return super.has( name, start );
     }
     
+    
     /**
      * Gets an indexed property
      */
@@ -181,7 +182,10 @@ public class JSRowObject extends ScriptableObject
        	// IResultObject handle it in such case)
     	try
 		{
-    		return dataSet.getDataRow().getColumnValue( index );
+    		Object value = dataSet.getDataRow().getColumnValue( index );
+    		return  JavascriptEvalUtil.convertToJavascriptValue (
+    					value,
+    					dataSet.getDataEngine().getSharedScope() );
 		}
     	catch ( BirtException e )
 		{
@@ -236,7 +240,10 @@ public class JSRowObject extends ScriptableObject
     	// Try column names
         try
 		{
-        	return dataSet.getDataRow().getColumnValue( name );
+        	Object value = dataSet.getDataRow().getColumnValue( name );
+    		return  JavascriptEvalUtil.convertToJavascriptValue (
+					value,
+					dataSet.getDataEngine().getSharedScope() );
 		}
 		catch ( BirtException e )
 		{
@@ -283,7 +290,7 @@ public class JSRowObject extends ScriptableObject
     		// these two are not updatable
     		return;
     	
-    	value = getRealValue( value );
+    	value = JavascriptEvalUtil.convertJavascriptValue( value );
         try
 		{
         	dataSet.getDataRow().setColumnValue( name, value );
@@ -309,7 +316,7 @@ public class JSRowObject extends ScriptableObject
 				"put",
 				new Integer( index ) );
 		
-		value = getRealValue( value );
+		value = JavascriptEvalUtil.convertJavascriptValue( value );
         try
 		{
         	dataSet.getDataRow().setColumnValue( index, value);
@@ -324,20 +331,5 @@ public class JSRowObject extends ScriptableObject
 		}
 		logger.exiting( JSRowObject.class.getName( ), "put" );
     }
-    
-    /**
-	 * Value may be wrapped by NativeJavaObject, if so, the real value
-	 * behind it needs to be unwrapped from it.
-	 * 
-	 * @param value
-	 * @return real value
-	 */
-    private static Object getRealValue( Object value )
-	{
-		if ( value instanceof NativeJavaObject )
-			return ( (NativeJavaObject) value ).unwrap( );
-		else
-			return value;
-	}
     
 }

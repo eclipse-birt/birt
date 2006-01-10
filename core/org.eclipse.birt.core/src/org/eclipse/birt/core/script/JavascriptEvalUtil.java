@@ -28,6 +28,7 @@ import org.mozilla.javascript.IdScriptableObject;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
+import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Undefined;
 
@@ -118,6 +119,36 @@ public class JavascriptEvalUtil
 		return compiledScript;
 	}
 	
+    /**
+     * Creates Javascript native wrapper for Java objects, if necessary.
+     * This method currently only wraps Date/time objects. Rhino engine
+     * natively handles wrapping String, Number and Boolean objects. 
+     * @param value Java object to convert from
+     * @scope A javascript scope with the proper native JS constructors defined
+     */
+    public static Object convertToJavascriptValue( Object value, Scriptable scope  )
+    {
+    	if ( value instanceof Date)
+    	{
+    		// Wrap in Javascript native Date class
+    		Context cx = Context.enter();
+    		try
+    		{
+    			// Javascript and Java Date has the same conversion to/from a Long value
+    			Long timeVal = new Long(((Date) value).getTime());
+    			return ScriptRuntime.newObject( cx, scope, 
+    					"Date", 
+    					new Object[]{ timeVal } );
+    		}
+    		finally
+    		{
+    			Context.exit();
+    		}
+    	}
+    	else
+    		return value;
+    }
+    
 	/**
 	 * Handles a Rhino script evaluation result, converting Javascript native objects
 	 * into equivalent Java objects if necessary.
