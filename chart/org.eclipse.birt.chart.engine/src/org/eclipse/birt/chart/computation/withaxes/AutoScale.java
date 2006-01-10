@@ -888,7 +888,7 @@ public final class AutoScale extends Methods implements Cloneable
 				double dMax = asDouble( oMaximum ).doubleValue( );
 				double dMin = asDouble( oMinimum ).doubleValue( );
 				double dStep = asDouble( oStep ).doubleValue( );
-				nTicks = (int) Math.round( ( dMax - dMin ) / dStep ) + 1;
+				nTicks = (int) Math.ceil( ( dMax - dMin ) / dStep ) + 1;
 				// ARTIFICIAL LIMIT TO TICK COUNT
 				if ( nTicks > 100 )
 				{
@@ -909,7 +909,7 @@ public final class AutoScale extends Methods implements Cloneable
 				double dMinLog = ( Math.log( dMin ) / LOG_10 );
 				double dStepLog = ( Math.log( dStep ) / LOG_10 );
 
-				nTicks = (int) Math.round( ( dMaxLog - dMinLog ) / dStepLog ) + 1;
+				nTicks = (int) Math.ceil( ( dMaxLog - dMinLog ) / dStepLog ) + 1;
 				if ( nTicks < 2 )
 				{
 					nTicks = 2;
@@ -1500,8 +1500,8 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @return
 	 * @throws ChartException
 	 */
-	final protected boolean[] checkTickLabelsVisibility( IDisplayServer xs, Label la,
-			int iLabelLocation ) throws ChartException
+	final protected boolean[] checkTickLabelsVisibility( IDisplayServer xs,
+			Label la, int iLabelLocation ) throws ChartException
 	{
 		boolean[] ba = new boolean[daTickCoordinates.length];
 
@@ -1525,42 +1525,36 @@ public final class AutoScale extends Methods implements Cloneable
 				.getRotation( );
 		double x = 0, y = 0;
 		int iNewPointToCheck = 0, iPrevPointToCheck = 0;
-		
+
 		/*
 		 * Rectangle points are layed out like this
-		 *
-		 *       0          1   
-		 *         NextLabel
-		 *       3          2  
-		 *       
-		 *       0              1    0          1
-		 *         PreviousLabel       NextLabel
-		 *       3              2    3          2
-		 *       
-	 
+		 * 
+		 * 0 1 NextLabel 3 2
+		 * 
+		 * 0 1 0 1 PreviousLabel NextLabel 3 2 3 2
+		 * 
+		 * 
 		 */
 		boolean isNegativeRotation = ( dAngleInDegrees < 0 && dAngleInDegrees > -90 );
 		switch ( iLabelLocation )
 		{
-			case ABOVE:
-				iNewPointToCheck =  isNegativeRotation ? 3 : 0;
-				iPrevPointToCheck = isNegativeRotation ? 1 : 3; 
+			case ABOVE :
+				iNewPointToCheck = isNegativeRotation ? 3 : 0;
+				iPrevPointToCheck = isNegativeRotation ? 1 : 3;
 				break;
-			case BELOW:
-				iNewPointToCheck =  isNegativeRotation ? 3 : 0;
-				iPrevPointToCheck = isNegativeRotation ? 0 : 2; 
+			case BELOW :
+				iNewPointToCheck = isNegativeRotation ? 3 : 0;
+				iPrevPointToCheck = isNegativeRotation ? 0 : 2;
 				break;
-			case LEFT:
-				iNewPointToCheck =  2;
-				iPrevPointToCheck = 1; 
+			case LEFT :
+				iNewPointToCheck = 2;
+				iPrevPointToCheck = 1;
 				break;
-			case RIGHT:
-				iNewPointToCheck =  3;
-				iPrevPointToCheck = 0; 
+			case RIGHT :
+				iNewPointToCheck = 3;
+				iPrevPointToCheck = 0;
 				break;
 		}
-	
-		
 
 		RotatedRectangle rrPrev[] = new RotatedRectangle[2];
 		DataSetIterator dsi = getData( );
@@ -1591,64 +1585,100 @@ public final class AutoScale extends Methods implements Cloneable
 			{
 				y = this.daTickCoordinates[i];
 			}
-			
+
 			la.getCaption( ).setValue( sText );
-			
-			
+
 			if ( isAxisLabelStaggered( ) && i % 2 == 1 )
 			{
-				
-				ba[i] = checkOneTickLabelVisibility( rrPrev, 1, iLabelLocation, x, y, iNewPointToCheck, iPrevPointToCheck, la, xs, i );
+
+				ba[i] = checkOneTickLabelVisibility( rrPrev,
+						1,
+						iLabelLocation,
+						x,
+						y,
+						iNewPointToCheck,
+						iPrevPointToCheck,
+						la,
+						xs,
+						i );
 			}
 			else
 			{
-				ba[i] = checkOneTickLabelVisibility( rrPrev, 0, iLabelLocation, x, y, iNewPointToCheck, iPrevPointToCheck, la, xs, i );
+				ba[i] = checkOneTickLabelVisibility( rrPrev,
+						0,
+						iLabelLocation,
+						x,
+						y,
+						iNewPointToCheck,
+						iPrevPointToCheck,
+						la,
+						xs,
+						i );
 			}
 		}
 
 		return ba;
 
 	}
+
 	/**
 	 * Check the label visibility for a given tick label
 	 * 
-	 * @param rrPrev The 2-array of RotatedRectangle, to keep the previous label rectangle
-	 * @param arrayIndex The index to use in rrPrev, 0 or 1, depending on staggering
-	 * @param iLabelLocation The location of the label (left/right, or above/below)
-	 * @param x The x location of the tick
-	 * @param y The y location of the tick
-	 * @param iNewPointToCheck the point to check for intersection in the new label
-	 * @param iPrevPointToCheck the point to check for intersection in the previous label
-	 * @param la The label
-	 * @param xs the Display Server
-	 * @param tickIndex The tick index
+	 * @param rrPrev
+	 *            The 2-array of RotatedRectangle, to keep the previous label
+	 *            rectangle
+	 * @param arrayIndex
+	 *            The index to use in rrPrev, 0 or 1, depending on staggering
+	 * @param iLabelLocation
+	 *            The location of the label (left/right, or above/below)
+	 * @param x
+	 *            The x location of the tick
+	 * @param y
+	 *            The y location of the tick
+	 * @param iNewPointToCheck
+	 *            the point to check for intersection in the new label
+	 * @param iPrevPointToCheck
+	 *            the point to check for intersection in the previous label
+	 * @param la
+	 *            The label
+	 * @param xs
+	 *            the Display Server
+	 * @param tickIndex
+	 *            The tick index
 	 * @return
 	 */
-	protected final boolean checkOneTickLabelVisibility( final RotatedRectangle[] rrPrev,
-			final int arrayIndex, final int iLabelLocation, final double x, final double y,
-			final int iNewPointToCheck, final int iPrevPointToCheck, final Label la, final IDisplayServer xs, final int tickIndex )
+	protected final boolean checkOneTickLabelVisibility(
+			final RotatedRectangle[] rrPrev, final int arrayIndex,
+			final int iLabelLocation, final double x, final double y,
+			final int iNewPointToCheck, final int iPrevPointToCheck,
+			final Label la, final IDisplayServer xs, final int tickIndex )
 	{
-		
+
 		if ( tickIndex == arrayIndex )
 		{
 			// Always show the first label.
-			rrPrev[arrayIndex] = computePolygon( xs, iLabelLocation, la, x, y );;
+			rrPrev[arrayIndex] = computePolygon( xs, iLabelLocation, la, x, y );
+			;
 			return true;
 		}
 		else
 		{
 			Point previousPoint = rrPrev[arrayIndex].getPoint( iPrevPointToCheck );
 			// quick check for false (fast)
-			if ( quickCheckVisibility(iLabelLocation, previousPoint, x, y ) )
+			if ( quickCheckVisibility( iLabelLocation, previousPoint, x, y ) )
 			{
 				// extensive check (expensive)
-				RotatedRectangle rr = computePolygon( xs, iLabelLocation, la, x, y );
+				RotatedRectangle rr = computePolygon( xs,
+						iLabelLocation,
+						la,
+						x,
+						y );
 				Point p = rr.getPoint( iNewPointToCheck );
 
-				boolean visible = !( rrPrev[arrayIndex].contains( p ) || ChartUtil.intersects(
-						rr, rrPrev[arrayIndex] ) );
+				boolean visible = !( rrPrev[arrayIndex].contains( p ) || ChartUtil.intersects( rr,
+						rrPrev[arrayIndex] ) );
 
-				if (visible )
+				if ( visible )
 				{
 					rrPrev[arrayIndex] = rr;
 					return true;
@@ -1658,24 +1688,23 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 	}
 
-	protected boolean quickCheckVisibility( int iLabelLocation, Point previousPoint,
-				double x, double y )
+	protected boolean quickCheckVisibility( int iLabelLocation,
+			Point previousPoint, double x, double y )
 	{
-		
 
 		// quick check first (fast)
 		if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
 		{
-			
-			if ( previousPoint.getX() > x )
+
+			if ( previousPoint.getX( ) > x )
 			{
 				return false;
 			}
 		}
 		else if ( iLabelLocation == LEFT || iLabelLocation == RIGHT )
 		{
-			
-			if ( previousPoint.getY() < y )
+
+			if ( previousPoint.getY( ) < y )
 			{
 				return false;
 			}
