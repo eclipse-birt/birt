@@ -39,20 +39,25 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		{
 			return null;
 		}
+		String url = null;
 		switch ( actionDefn.getType( ) )
 		{
 			case IAction.ACTION_BOOKMARK :
-				return "#" + actionDefn.getActionString( );
+				if ( actionDefn.getActionString( ) != null )
+				{
+					url = "#" + actionDefn.getActionString( );
+				}
+				break;
 			case IAction.ACTION_HYPERLINK :
-				return actionDefn.getActionString( );
-
+				url = actionDefn.getActionString( );
+				break;
 			case IAction.ACTION_DRILLTHROUGH :
-				return buildDrillAction( actionDefn, context );
-
+				url = buildDrillAction( actionDefn, context );
+				break;
+			default :
+				assert false;
 		}
-		assert false;
-		return null;
-
+		return url;
 	}
 
 	/**
@@ -80,11 +85,11 @@ public class HTMLActionHandler implements IHTMLActionHandler
 
 			appendReportDesignName( link, reportName );
 
-			//add format
+			// add format
 			String format = action.getFormat( );
 			appendFormat( link, format );
 
-			//Adds the parameters
+			// Adds the parameters
 			Map params = action.getParameterBindings( );
 			if ( params != null )
 			{
@@ -99,7 +104,7 @@ public class HTMLActionHandler implements IHTMLActionHandler
 			}
 		}
 
-		//The search rules are not supported yet.
+		// The search rules are not supported yet.
 		String bookmark = action.getBookmark( );
 		appendBookmark( link, bookmark );
 
@@ -116,7 +121,7 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		}
 		catch ( UnsupportedEncodingException e1 )
 		{
-			//It should not happen. Does nothing
+			// It should not happen. Does nothing
 		}
 	}
 
@@ -145,7 +150,7 @@ public class HTMLActionHandler implements IHTMLActionHandler
 			}
 			catch ( UnsupportedEncodingException e )
 			{
-				//Does nothing
+				// Does nothing
 			}
 		}
 	}
