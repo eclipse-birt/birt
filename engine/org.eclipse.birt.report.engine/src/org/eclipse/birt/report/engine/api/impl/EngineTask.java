@@ -24,11 +24,8 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.FORenderOption;
-import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.engine.api.IEngineTask;
-import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportEngine;
@@ -198,22 +195,6 @@ public abstract class EngineTask implements IEngineTask
 	protected void setReportEngine( ReportEngine engine )
 	{
 		this.engine = engine;
-		EngineConfig config = engine.getConfig( );
-		if ( config != null )
-		{
-			HashMap emitterConfigs = config.getEmitterConfigs( );
-			if ( emitterConfigs != null )
-			{
-				Object htmlEmitterConfig = emitterConfigs.get( "html" );
-				if ( htmlEmitterConfig instanceof HTMLEmitterConfig )
-				{
-					HTMLEmitterConfig htmlConfig = (HTMLEmitterConfig) htmlEmitterConfig;
-					IHTMLActionHandler actionHandler = htmlConfig
-							.getActionHandler( );
-					executionContext.setActionHandler( actionHandler );
-				}
-			}
-		}
 	}
 
 	/*
@@ -506,7 +487,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.28 $ $Date: 2006/01/04 09:23:51 $
+	 * @version $Revision: 1.29 $ $Date: 2006/01/09 10:40:42 $
 	 */
 	static abstract class ParameterVisitor
 	{

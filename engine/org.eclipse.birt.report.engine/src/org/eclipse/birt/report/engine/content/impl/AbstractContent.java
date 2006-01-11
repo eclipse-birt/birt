@@ -11,10 +11,11 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IBounds;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -368,105 +369,106 @@ abstract public class AbstractContent extends AbstractElement
 	final static int FIELD_INSTANCE_ID = 9;
 	final static int FIELD_TOC = 10;
 
-	protected void writeFields( ObjectOutputStream out ) throws IOException
+	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		if ( name != null )
 		{
-			out.writeInt( FIELD_NAME );
-			out.writeUTF( name );
+			IOUtil.writeInt( out, FIELD_NAME );
+			IOUtil.writeString( out, name );
 		}
 		if ( x != null )
 		{
-			out.writeInt( FIELD_X );
-			x.writeContent( out );
+			IOUtil.writeInt( out, FIELD_X );
+			x.writeObject( out );
 		}
 		if ( y != null )
 		{
-			out.writeInt( FIELD_Y );
-			y.writeContent( out );
+			IOUtil.writeInt( out, FIELD_Y );
+			y.writeObject( out );
 		}
 		if ( width != null )
 		{
-			out.writeInt( FIELD_WIDTH );
-			width.writeContent( out );
+			IOUtil.writeInt( out, FIELD_WIDTH );
+			width.writeObject( out );
 		}
 		if ( height != null )
 		{
-			out.writeInt( FIELD_HEIGHT );
-			height.writeContent( out );
+			IOUtil.writeInt( out, FIELD_HEIGHT );
+			height.writeObject( out );
 		}
 		if ( hyperlink != null )
 		{
-			out.writeInt( FIELD_HYPERLINK );
-			hyperlink.writeContent( out );
+			IOUtil.writeInt( out, FIELD_HYPERLINK );
+			( (ActionContent) hyperlink ).writeObject( out );
 		}
 		if ( bookmark != null )
 		{
-			out.writeInt( FIELD_BOOKMARK );
-			out.writeUTF( bookmark );
+			IOUtil.writeInt( out, FIELD_BOOKMARK );
+			IOUtil.writeString( out, bookmark );
 		}
 		if ( helpText != null )
 		{
-			out.writeInt( FIELD_HELPTEXT );
-			out.writeUTF( helpText );
+			IOUtil.writeInt( out, FIELD_HELPTEXT );
+			IOUtil.writeString( out, helpText );
 		}
 		if ( inlineStyle != null )
 		{
 			String cssText = inlineStyle.getCssText( );
 			if ( cssText != null && cssText.length( ) != 0 )
 			{
-				out.writeInt( FIELD_INLINESTYLE );
-				out.writeUTF( cssText );
+				IOUtil.writeInt( out, FIELD_INLINESTYLE );
+				IOUtil.writeString( out, cssText );
 			}
 		}
 		if ( instanceId != null )
 		{
-			out.writeInt( FIELD_INSTANCE_ID );
-			out.writeUTF( instanceId.toString( ) );
+			IOUtil.writeInt( out, FIELD_INSTANCE_ID );
+			IOUtil.writeString( out, instanceId.toString( ) );
 		}
 		if ( toc != null )
 		{
-			out.writeInt( FIELD_TOC );
-			out.writeUTF( toc );
+			IOUtil.writeInt( out, FIELD_TOC );
+			IOUtil.writeString( out, toc );
 		}
 	}
 
-	protected void readField( int version, int filedId, ObjectInputStream in )
-			throws IOException, ClassNotFoundException
+	protected void readField( int version, int filedId, DataInputStream in )
+			throws IOException
 	{
 		switch ( filedId )
 		{
 			case FIELD_NAME :
-				name = in.readUTF( );
+				name = IOUtil.readString( in );
 				break;
 			case FIELD_X :
 				x = new DimensionType( );
-				x.readContent( in );
+				x.readObject( in );
 				break;
 			case FIELD_Y :
 				y = new DimensionType( );
-				y.readContent( in );
+				y.readObject( in );
 				break;
 			case FIELD_WIDTH :
 				width = new DimensionType( );
-				width.readContent( in );
+				width.readObject( in );
 				break;
 			case FIELD_HEIGHT :
 				height = new DimensionType( );
-				height.readContent( in );				
+				height.readObject( in );
 				break;
 			case FIELD_HYPERLINK :
-				hyperlink = new ActionContent( );
-				hyperlink.readContent( in );
+				ActionContent action = new ActionContent( );
+				action.readObject( in );
+				hyperlink = action;
 				break;
 			case FIELD_BOOKMARK :
-				bookmark = in.readUTF( );
+				bookmark = IOUtil.readString( in );
 				break;
 			case FIELD_HELPTEXT :
-				helpText = in.readUTF( );
+				helpText = IOUtil.readString( in );
 				break;
 			case FIELD_INLINESTYLE :
-				String style = in.readUTF( );
+				String style = IOUtil.readString( in );
 				if ( style != null && style.length( ) != 0 )
 				{
 					inlineStyle = new StyleDeclaration( );
@@ -474,32 +476,31 @@ abstract public class AbstractContent extends AbstractElement
 				}
 				break;
 			case FIELD_INSTANCE_ID :
-				String value = in.readUTF( );
+				String value = IOUtil.readString( in );
 				instanceId = InstanceID.parse( value );
 				break;
 			case FIELD_TOC :
-				toc = in.readUTF( );
+				toc = IOUtil.readString( in );
 				break;
 		}
 	}
 
-	public void readContent( ObjectInputStream in ) throws IOException,
-			ClassNotFoundException
+	public void readContent( DataInputStream in ) throws IOException
 	{
-		int version = in.readInt( );
-		int filedId = in.readInt( );
+		int version = IOUtil.readInt( in );
+		int filedId = IOUtil.readInt( in );
 		while ( filedId != FIELD_NONE )
 		{
 			readField( version, filedId, in );
-			filedId = in.readInt( );
+			filedId = IOUtil.readInt( in );
 		}
 	}
 
-	public void writeContent( ObjectOutputStream out ) throws IOException
+	public void writeContent( DataOutputStream out ) throws IOException
 	{
-		out.writeInt( VERSION );
+		IOUtil.writeInt( out, VERSION );
 		writeFields( out );
-		out.writeInt( FIELD_NONE );
+		IOUtil.writeInt( out, FIELD_NONE );
 	}
 
 }

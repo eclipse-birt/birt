@@ -11,21 +11,16 @@
 
 package org.eclipse.birt.report.engine.api;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 
 /**
  * a class that wraps around an identifier for a report element instance
  */
-public class InstanceID implements Serializable
+public class InstanceID
 {
 
-	private static final long serialVersionUID = 7087928232937707787L;
-	InstanceID parentId;
-	long designId;
-	DataID dataId;
+	protected InstanceID parentId;
+	protected long designId;
+	protected DataID dataId;
 
 	public InstanceID( InstanceID parent, long designId, DataID dataId )
 	{
@@ -138,21 +133,4 @@ public class InstanceID implements Serializable
 		}
 		return null;
 	}
-
-	private void writeObject( ObjectOutputStream out ) throws IOException
-	{
-		String iid = toString( );
-		out.writeObject( iid );
-	}
-
-	private void readObject( ObjectInputStream in ) throws IOException,
-			ClassNotFoundException
-	{
-		String iid = (String) in.readObject( );
-		InstanceID id = parse( iid );
-		dataId = id.dataId;
-		designId = id.designId;
-		parentId = id.parentId;
-	}
-
 }

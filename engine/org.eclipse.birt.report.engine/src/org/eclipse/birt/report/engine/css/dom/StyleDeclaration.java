@@ -11,11 +11,6 @@
 
 package org.eclipse.birt.report.engine.css.dom;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
@@ -25,16 +20,8 @@ import org.w3c.dom.css.CSSValue;
  * @author yanwei
  * 
  */
-public class StyleDeclaration extends AbstractStyle
-		implements
-			IStyle,
-			Serializable
+public class StyleDeclaration extends AbstractStyle implements IStyle
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4603346317307704201L;
 	protected CSSValue[] values;
 	protected boolean shared;
 	protected int propertyCount = 0;
@@ -132,25 +119,5 @@ public class StyleDeclaration extends AbstractStyle
 			}
 		}
 		return false;
-	}
-
-	private void writeObject( ObjectOutputStream out ) throws IOException
-	{
-		for ( int i = 0; i < values.length; i++ )
-		{
-			String text = getCssText( i );
-			out.writeObject( text );
-		}
-	}
-
-	private void readObject( ObjectInputStream in ) throws IOException,
-			ClassNotFoundException
-	{
-		values = new CSSValue[NUMBER_OF_STYLE];
-		for ( int i = 0; i < values.length; i++ )
-		{
-			String value = (String) in.readObject( );
-			setCssText( i, value );
-		}
 	}
 }

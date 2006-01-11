@@ -27,4 +27,6 @@ public abstract class RAInputStream extends InputStream
      * @throws IOException
      */
     public abstract int readInt() throws IOException;    
+
+	public abstract void readFully( byte b[], int off, int len ) throws IOException;
 }

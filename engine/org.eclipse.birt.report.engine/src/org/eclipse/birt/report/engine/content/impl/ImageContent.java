@@ -11,10 +11,11 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IImageContent;
@@ -280,33 +281,33 @@ public class ImageContent extends AbstractContent implements IImageContent
 	static final protected int FIELD_MIMETYPE = 506;
 	static final protected int FIELD_DATA = 507;
 
-	protected void writeFields( ObjectOutputStream out ) throws IOException
+	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
 		if ( altText != null )
 		{
-			out.writeInt( FIELD_ALTTEXT );
-			out.writeUTF( altText );
+			IOUtil.writeInt( out, FIELD_ALTTEXT );
+			IOUtil.writeString( out, altText );
 		}
 		if ( altTextKey != null )
 		{
-			out.writeInt( FIELD_ALTTEXTKEY );
-			out.writeUTF( altTextKey );
+			IOUtil.writeInt( out, FIELD_ALTTEXTKEY );
+			IOUtil.writeString( out, altTextKey );
 		}
 		if ( extension != null )
 		{
-			out.writeInt( FIELD_EXTENSEION );
-			out.writeUTF( extension );
+			IOUtil.writeInt( out, FIELD_EXTENSEION );
+			IOUtil.writeString( out, extension );
 		}
 		if ( imageMap != null )
 		{
-			out.writeInt( FIELD_IMAGEMAP );
-			out.writeObject( imageMap );
+			IOUtil.writeInt( out, FIELD_IMAGEMAP );
+			IOUtil.writeObject( out, imageMap );
 		}
 		if ( sourceType != -1 )
 		{
-			out.writeInt( FIELD_SOURCETYPE );
-			out.writeInt( sourceType );
+			IOUtil.writeInt( out, FIELD_SOURCETYPE );
+			IOUtil.writeInt( out, sourceType );
 		}
 		switch ( sourceType )
 		{
@@ -315,64 +316,53 @@ public class ImageContent extends AbstractContent implements IImageContent
 			case IImageContent.IMAGE_URI :
 				if ( uri != null )
 				{
-					out.writeInt( FIELD_URI );
-					out.writeUTF( uri );
+					IOUtil.writeInt( out, FIELD_URI );
+					IOUtil.writeString( out, uri );
 				}
 				break;
 			case IImageContent.IMAGE_EXPRESSION :
 				if ( data != null )
 				{
-					out.writeInt( FIELD_DATA );
-					out.writeInt( data.length );
-					out.write( data, 0, data.length );
+					IOUtil.writeInt( out, FIELD_DATA );
+					IOUtil.writeBytes( out, data );
 				}
 				break;
 		}
 		if ( MIMEType != null )
 		{
-			out.writeInt( FIELD_MIMETYPE );
-			out.writeUTF( MIMEType );
+			IOUtil.writeInt( out, FIELD_MIMETYPE );
+			IOUtil.writeString( out, MIMEType );
 		}
 	}
 
-	protected void readField( int version, int filedId, ObjectInputStream in )
-			throws IOException, ClassNotFoundException
+	protected void readField( int version, int filedId, DataInputStream in )
+			throws IOException
 	{
 		switch ( filedId )
 		{
 			case FIELD_ALTTEXT :
-				altText = in.readUTF( );
+				altText = IOUtil.readString( in );
 				break;
 			case FIELD_ALTTEXTKEY :
-				altTextKey = in.readUTF( );
+				altTextKey = IOUtil.readString( in );
 				break;
 			case FIELD_EXTENSEION :
-				extension = in.readUTF( );
+				extension = IOUtil.readString( in );
 				break;
 			case FIELD_URI :
-				uri = in.readUTF( );
+				uri = IOUtil.readString( in );
 				break;
 			case FIELD_SOURCETYPE :
-				sourceType = in.readInt( );
+				sourceType = IOUtil.readInt( in );
 				break;
 			case FIELD_IMAGEMAP :
-				imageMap = in.readObject( );
+				imageMap = IOUtil.readObject( in );
 				break;
 			case FIELD_MIMETYPE :
-				MIMEType = in.readUTF( );
+				MIMEType = IOUtil.readString( in );
 				break;
 			case FIELD_DATA :
-				data = new byte[in.readInt( )];
-				int length = 0;
-				do
-				{
-					int size = in.read( data, length, data.length - length );
-					if ( size == -1 )
-					{
-						break;
-					}
-					length += size;
-				} while ( length < data.length );
+				data = IOUtil.readBytes( in );
 				break;
 			default :
 				super.readField( version, filedId, in );

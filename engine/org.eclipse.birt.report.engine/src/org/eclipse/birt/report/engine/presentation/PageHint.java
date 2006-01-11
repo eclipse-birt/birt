@@ -11,20 +11,27 @@
 
 package org.eclipse.birt.report.engine.presentation;
 
-import java.io.Serializable;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
-public class PageHint implements Serializable
+import org.eclipse.birt.core.util.IOUtil;
+
+public class PageHint
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7666468796696037741L;
 
 	protected long pageNumber;
 	protected long pageOffset;
 	protected long pageStart;
 	protected long pageEnd;
+
+	public PageHint( )
+	{
+		pageNumber = 0;
+		pageOffset = -1;
+		pageStart = -1;
+		pageEnd = -1;
+	}
 
 	public PageHint( long pageNumber, long pageOffset, long pageStart,
 			long pageEnd )
@@ -65,6 +72,22 @@ public class PageHint implements Serializable
 	public long getPageStart( )
 	{
 		return pageStart;
+	}
+
+	public void writeObject( DataOutputStream out ) throws IOException
+	{
+		IOUtil.writeLong( out, pageNumber );
+		IOUtil.writeLong( out, pageOffset );
+		IOUtil.writeLong( out, pageStart );
+		IOUtil.writeLong( out, pageEnd );
+	}
+
+	public void readObject( DataInputStream in ) throws IOException
+	{
+		pageNumber = IOUtil.readLong( in );
+		pageOffset = IOUtil.readLong( in );
+		pageStart = IOUtil.readLong( in );
+		pageEnd = IOUtil.readLong( in );
 	}
 
 }

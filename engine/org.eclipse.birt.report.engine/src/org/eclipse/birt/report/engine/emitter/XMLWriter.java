@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * Output the content following the XML specification. Only when the events of
  * endding the writer, the stream is flushed explictly.
  * 
- * @version $Revision: 1.19 $ $Date: 2005/11/03 23:55:58 $
+ * @version $Revision: 1.20 $ $Date: 2005/11/11 06:26:42 $
  */
 public class XMLWriter
 {
@@ -41,6 +41,9 @@ public class XMLWriter
 
 	/** whether or not the tag is paired */
 	protected boolean bPairedFlag = true;
+	
+	/** whether or not we have text before the end tag */
+	protected boolean bText = false;
 
 	/** whether or not the content is indented. */
 	protected boolean bIndent = true;
@@ -152,6 +155,7 @@ public class XMLWriter
 		bPairedFlag = false;
 		printWriter.print( '<' + tagName );
 		indentCount++;
+		bText = false;
 	}
 
 	/**
@@ -176,7 +180,7 @@ public class XMLWriter
 		}
 		else
 		{
-			if ( bIndent )
+			if ( bIndent && !bText )
 			{
 				printWriter.println( );
 				printWriter.print( indent( ) );
@@ -184,6 +188,7 @@ public class XMLWriter
 			printWriter.print( "</" + tagName + '>' ); //$NON-NLS-1$
 		}
 		bPairedFlag = true;
+		bText = false;
 	}
 
 	/**
@@ -302,18 +307,12 @@ public class XMLWriter
 		if ( !bPairedFlag )
 		{
 			printWriter.print( '>' );
-			if ( bIndent )
-			{
-				indentCount++;
-				printWriter.println( );
-				printWriter.print( indent( ) );
-				indentCount--;
-			}
 			bPairedFlag = true;
 		}
 		
 		String stringToPrint = escapeString ? getEscapedStr(value, whitespace) : value;
 		printWriter.print( stringToPrint );
+		bText = true;
 	}
 
 	/**

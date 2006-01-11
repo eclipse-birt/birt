@@ -11,10 +11,11 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IDataContent;
@@ -117,53 +118,53 @@ public class DataContent extends TextContent implements IDataContent
 	{
 		visitor.visitData( this, value );
 	}
-	
+
 	static final protected int FIELD_VALUE = 300;
 	static final protected int FIELD_LAVELTEXT = 301;
 	static final protected int FIELD_LABELKEY = 302;
 	static final protected int FIELD_HELPKEY = 303;
 
-	protected void writeFields( ObjectOutputStream out ) throws IOException
+	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
 		if ( value != null )
 		{
-			out.writeInt( FIELD_VALUE );
-			out.writeObject( value );
+			IOUtil.writeInt( out, FIELD_VALUE );
+			IOUtil.writeObject( out, value );
 		}
 		if ( labelText != null )
 		{
-			out.writeInt( FIELD_LAVELTEXT );
-			out.writeUTF( labelText );
+			IOUtil.writeInt( out, FIELD_LAVELTEXT );
+			IOUtil.writeString( out, labelText );
 		}
 		if ( labelKey != null )
 		{
-			out.writeInt( FIELD_LABELKEY );
-			out.writeUTF( labelKey );
+			IOUtil.writeInt( out, FIELD_LABELKEY );
+			IOUtil.writeString( out, labelKey );
 		}
 		if ( helpKey != null )
 		{
-			out.writeInt( FIELD_HELPKEY );
-			out.writeUTF( helpKey );
+			IOUtil.writeInt( out, FIELD_HELPKEY );
+			IOUtil.writeString( out, helpKey );
 		}
 	}
 
-	protected void readField( int version, int filedId, ObjectInputStream in )
-			throws IOException, ClassNotFoundException
+	protected void readField( int version, int filedId, DataInputStream in )
+			throws IOException
 	{
 		switch ( filedId )
 		{
 			case FIELD_VALUE :
-				value = in.readObject( );
+				value = IOUtil.readObject( in );
 				break;
 			case FIELD_LAVELTEXT :
-				labelText = in.readUTF( );
+				labelText = IOUtil.readString( in );
 				break;
 			case FIELD_LABELKEY :
-				labelKey = in.readUTF( );
+				labelKey = IOUtil.readString( in );
 				break;
 			case FIELD_HELPKEY :
-				helpKey = in.readUTF( );
+				helpKey = IOUtil.readString( in );
 				break;
 			default :
 				super.readField( version, filedId, in );

@@ -11,11 +11,12 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Map;
 
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 
 /**
@@ -24,6 +25,7 @@ import org.eclipse.birt.report.engine.content.IHyperlinkAction;
  */
 public class ActionContent implements IHyperlinkAction
 {
+
 	/**
 	 * action type
 	 */
@@ -43,7 +45,7 @@ public class ActionContent implements IHyperlinkAction
 	 * report name
 	 */
 	protected String reportName;
-	
+
 	protected String format;
 
 	/**
@@ -69,11 +71,11 @@ public class ActionContent implements IHyperlinkAction
 	 * @param target
 	 *            the target window
 	 */
-	public ActionContent(  )
+	public ActionContent( )
 	{
 	}
-	
-	public void setHyperlink(String hyperlink, String target)
+
+	public void setHyperlink( String hyperlink, String target )
 	{
 		this.type = IHyperlinkAction.ACTION_HYPERLINK;
 		this.hyperlink = hyperlink;
@@ -107,7 +109,8 @@ public class ActionContent implements IHyperlinkAction
 	 *            the target window
 	 */
 	public void setDrillThrough( String bookmark, String reportName,
-			Map parameterBindings, Map searchCriteria, String target, String format )
+			Map parameterBindings, Map searchCriteria, String target,
+			String format )
 	{
 		this.bookmark = bookmark;
 		this.reportName = reportName;
@@ -190,12 +193,12 @@ public class ActionContent implements IHyperlinkAction
 	{
 		return hyperlink;
 	}
-	
+
 	/**
 	 * object document version
 	 */
 	static final protected int VERSION = 0;
-	
+
 	final static int FIELD_NONE = -1;
 	final static int FIELD_TYPE = 0;
 	final static int FIELD_BOOKMARK = 1;
@@ -203,107 +206,107 @@ public class ActionContent implements IHyperlinkAction
 	final static int FIELD_REPORTNAME = 3;
 	final static int FIELD_PARAMETERBINDINGS = 4;
 	final static int FIELD_SEARCHCRITERIA = 5;
-	final static int FIELD_TARGET = 6;	
+	final static int FIELD_TARGET = 6;
 	final static int FIELD_FORMAT = 7;
-	
-	protected void writeFields( ObjectOutputStream out ) throws IOException
+
+	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		if ( type != -1 )
 		{
-			out.writeInt( FIELD_TYPE );
-			out.writeInt( type );
+			IOUtil.writeInt( out, FIELD_TYPE );
+			IOUtil.writeInt( out, type );
 		}
 		if ( bookmark != null )
 		{
-			out.writeInt( FIELD_BOOKMARK );
-			out.writeUTF( bookmark );
+			IOUtil.writeInt( out, FIELD_BOOKMARK );
+			IOUtil.writeString( out, bookmark );
 		}
 		if ( hyperlink != null )
 		{
-			out.writeInt( FIELD_HYPERLINK );
-			out.writeUTF( hyperlink );
+			IOUtil.writeInt( out, FIELD_HYPERLINK );
+			IOUtil.writeString( out, hyperlink );
 		}
 		if ( reportName != null )
 		{
-			out.writeInt( FIELD_REPORTNAME );
-			out.writeUTF( reportName );
+			IOUtil.writeInt( out, FIELD_REPORTNAME );
+			IOUtil.writeString( out, reportName );
 		}
 		if ( parameterBindings != null )
 		{
-			out.writeInt( FIELD_PARAMETERBINDINGS );
-			out.writeObject( parameterBindings );
+			IOUtil.writeInt( out, FIELD_PARAMETERBINDINGS );
+			IOUtil.writeMap( out, parameterBindings );
 		}
 		if ( searchCriteria != null )
 		{
-			out.writeInt( FIELD_SEARCHCRITERIA );
-			out.writeObject( searchCriteria );
-		}			
+			IOUtil.writeInt( out, FIELD_SEARCHCRITERIA );
+			IOUtil.writeMap( out, searchCriteria );
+		}
 		if ( target != null )
 		{
-			out.writeInt( FIELD_TARGET );
-			out.writeUTF( target );
+			IOUtil.writeInt( out, FIELD_TARGET );
+			IOUtil.writeString( out, target );
 		}
-		if(format != null)
+		if ( format != null )
 		{
-			out.writeInt(FIELD_FORMAT);
-			out.writeUTF( format );
+			IOUtil.writeInt( out, FIELD_FORMAT );
+			IOUtil.writeString( out, format );
 		}
-		
+
 	}
 
-	protected void readField( int version, int filedId, ObjectInputStream in )
-			throws IOException, ClassNotFoundException
+	protected void readField( int version, int filedId, DataInputStream in )
+			throws IOException
 	{
 		switch ( filedId )
 		{
 			case FIELD_TYPE :
-				type = in.readInt( );
+				type = IOUtil.readInt( in );
 				break;
 			case FIELD_BOOKMARK :
-				bookmark = in.readUTF();
+				bookmark = IOUtil.readString( in );
 				break;
 			case FIELD_HYPERLINK :
-				hyperlink = in.readUTF();
+				hyperlink = IOUtil.readString( in );
 				break;
 			case FIELD_REPORTNAME :
-				reportName = in.readUTF();
+				reportName = IOUtil.readString( in );
 				break;
 			case FIELD_PARAMETERBINDINGS :
-				parameterBindings = ( Map )in.readObject();
+				parameterBindings = IOUtil.readMap( in );
 				break;
 			case FIELD_SEARCHCRITERIA :
-				searchCriteria = ( Map )in.readObject();
+				searchCriteria = IOUtil.readMap( in );
 				break;
 			case FIELD_TARGET :
-				target = in.readUTF();
+				target = IOUtil.readString( in );
 				break;
 			case FIELD_FORMAT :
-				format = in.readUTF();
+				format = IOUtil.readString( in );
 				break;
 		}
 	}
-	
-	public void readContent( ObjectInputStream in ) throws IOException, ClassNotFoundException
+
+	public void readObject( DataInputStream in ) throws IOException
 	{
-		int version = in.readInt( );
-		int filedId = in.readInt( );
+		int version = IOUtil.readInt( in );
+		int filedId = IOUtil.readInt( in );
 		while ( filedId != FIELD_NONE )
 		{
 			readField( version, filedId, in );
-			filedId = in.readInt( );
+			filedId = IOUtil.readInt( in );
 		}
 	}
-	
-	public void writeContent( ObjectOutputStream out ) throws IOException
+
+	public void writeObject( DataOutputStream out ) throws IOException
 	{
-		out.writeInt( VERSION );
+		IOUtil.writeInt( out, VERSION );
 		writeFields( out );
-		out.writeInt( FIELD_NONE );
+		IOUtil.writeInt( out, FIELD_NONE );
 	}
 
 	public String getFormat( )
 	{
 		return format;
-	}		
-	
+	}
+
 }

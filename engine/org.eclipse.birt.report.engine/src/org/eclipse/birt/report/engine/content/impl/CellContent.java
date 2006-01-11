@@ -11,10 +11,11 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IRowContent;
@@ -27,7 +28,7 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.10 $ $Date: 2005/12/07 07:21:33 $
+ * @version $Revision: 1.11 $ $Date: 2005/12/23 10:26:06 $
  */
 public class CellContent extends AbstractContent implements ICellContent
 {
@@ -148,39 +149,39 @@ public class CellContent extends AbstractContent implements ICellContent
 	static final protected int FIELD_COL_SPAN = 101;
 	static final protected int FIELD_COLUMN = 102;
 
-	protected void writeFields( ObjectOutputStream out ) throws IOException
+	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
 		if ( rowSpan != -1 )
 		{
-			out.writeInt( FIELD_ROW_SPAN );
-			out.writeInt( rowSpan );
+			IOUtil.writeInt( out,  FIELD_ROW_SPAN );
+			IOUtil.writeInt( out,  rowSpan );
 		}
 		if ( colSpan != -1 )
 		{
-			out.writeInt( FIELD_COL_SPAN );
-			out.writeInt( colSpan );
+			IOUtil.writeInt( out,  FIELD_COL_SPAN );
+			IOUtil.writeInt( out,  colSpan );
 		}
 		if ( column != -1 )
 		{
-			out.writeInt( FIELD_COLUMN );
-			out.writeInt( column );
+			IOUtil.writeInt( out,  FIELD_COLUMN );
+			IOUtil.writeInt( out,  column );
 		}
 	}
 
-	protected void readField( int version, int filedId, ObjectInputStream in )
-			throws IOException, ClassNotFoundException
+	protected void readField( int version, int filedId, DataInputStream in )
+			throws IOException
 	{
 		switch ( filedId )
 		{
 			case FIELD_ROW_SPAN :
-				rowSpan = in.readInt( );
+				rowSpan = IOUtil.readInt( in  );
 				break;
 			case FIELD_COL_SPAN :
-				colSpan = in.readInt( );
+				colSpan = IOUtil.readInt( in  );
 				break;
 			case FIELD_COLUMN :
-				column = in.readInt( );
+				column = IOUtil.readInt( in  );
 				break;
 			default :
 				super.readField( version, filedId, in );

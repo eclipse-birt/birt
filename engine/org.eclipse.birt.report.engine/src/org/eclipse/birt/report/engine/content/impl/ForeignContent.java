@@ -11,10 +11,11 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IForeignContent;
@@ -27,8 +28,7 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 	protected Object rawValue;
 
 	/**
-	 * constructor.
-	 * use by serialize and deserialize
+	 * constructor. use by serialize and deserialize
 	 */
 	public ForeignContent( )
 	{
@@ -116,36 +116,35 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 		}
 		return IForeignContent.TEXT_TYPE;
 	}
-	
-	static final protected int FIELD_ROW_TYPE = 400;
-	static final protected int FIELD_ROWVALUE = 401;		
-	
 
-	protected void writeFields( ObjectOutputStream out ) throws IOException
+	static final protected int FIELD_ROW_TYPE = 400;
+	static final protected int FIELD_ROWVALUE = 401;
+
+	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
 		if ( rawType != null )
 		{
-			out.writeInt( FIELD_ROW_TYPE );
-			out.writeUTF( rawType );
+			IOUtil.writeInt( out,  FIELD_ROW_TYPE );
+			IOUtil.writeString( out, rawType );
 		}
 		if ( rawValue != null )
 		{
-			out.writeInt( FIELD_ROWVALUE );
-			out.writeObject( rawValue );
+			IOUtil.writeInt( out,  FIELD_ROWVALUE );
+			IOUtil.writeObject( out, rawValue );
 		}
 	}
 
-	protected void readField( int version, int filedId, ObjectInputStream in )
-			throws IOException, ClassNotFoundException
+	protected void readField( int version, int filedId, DataInputStream in )
+			throws IOException
 	{
 		switch ( filedId )
 		{
 			case FIELD_ROW_TYPE :
-				rawType = in.readUTF( );
+				rawType = IOUtil.readString( in  );
 				break;
 			case FIELD_ROWVALUE :
-				rawValue = in.readObject( );
+				rawValue = IOUtil.readObject( in );
 				break;
 			default :
 				super.readField( version, filedId, in );

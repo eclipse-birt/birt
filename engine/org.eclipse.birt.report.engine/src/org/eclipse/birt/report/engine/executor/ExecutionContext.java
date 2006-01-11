@@ -42,7 +42,10 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
+import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
+import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -74,7 +77,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.56 $ $Date: 2006/01/05 21:19:32 $
+ * @version $Revision: 1.57 $ $Date: 2006/01/09 10:40:42 $
  */
 public class ExecutionContext
 {
@@ -219,8 +222,6 @@ public class ExecutionContext
 	private HashMap numberFormatters = new HashMap( );
 
 	private HashMap dateFormatters = new HashMap( );
-
-	private IHTMLActionHandler ah = null;
 
 	//private Map eventHandlerCache = new HashMap( );
 
@@ -1336,16 +1337,31 @@ public class ExecutionContext
 	 */
 	public IHTMLActionHandler getActionHandler( )
 	{
-		return ah;
-	}
-
-	/**
-	 * @param ah
-	 *            The action handler to set.
-	 */
-	public void setActionHandler( IHTMLActionHandler ah )
-	{
-		this.ah = ah;
+		if (renderOption != null && renderOption instanceof HTMLRenderOption)
+		{
+			HTMLRenderOption htmlOption = (HTMLRenderOption)renderOption;
+			{
+				if (htmlOption.getActionHandle() != null)
+				{
+					return htmlOption.getActionHandle();
+				}
+			}
+		}
+		EngineConfig config = engine.getConfig();
+		if ( config != null )
+		{
+			HashMap emitterConfigs = config.getEmitterConfigs( );
+			if ( emitterConfigs != null )
+			{
+				Object htmlEmitterConfig = emitterConfigs.get( "html" );
+				if ( htmlEmitterConfig instanceof HTMLEmitterConfig )
+				{
+					HTMLEmitterConfig htmlConfig = (HTMLEmitterConfig) htmlEmitterConfig;
+					return htmlConfig.getActionHandler( );
+				}
+			}
+		}
+		return null;
 	}
 
 	public ClassLoader getCustomClassLoader( String classPathKey )

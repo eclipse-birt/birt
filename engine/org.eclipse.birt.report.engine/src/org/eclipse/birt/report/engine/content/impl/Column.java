@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.ir.DimensionType;
@@ -22,7 +24,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * column content object
  * 
- * @version $Revision: 1.3 $ $Date: 2005/12/07 07:21:33 $
+ * @version $Revision: 1.4 $ $Date: 2005/12/14 03:41:38 $
  */
 public class Column implements IColumn
 {
@@ -72,7 +74,7 @@ public class Column implements IColumn
 	{
 		this.styleClass = styleClass;
 	}
-	
+
 	/**
 	 * object document column version
 	 */
@@ -81,51 +83,51 @@ public class Column implements IColumn
 	final static int FIELD_NONE = -1;
 	final static int FIELD_WIDTH = 0;
 	final static int FIELD_STYLECLASS = 1;
-	
-	protected void writeFields( ObjectOutputStream out ) throws IOException
-	{		
+
+	protected void writeFields( DataOutputStream out ) throws IOException
+	{
 		if ( width != null )
 		{
-			out.writeInt( FIELD_WIDTH );
-			width.writeContent( out );
+			IOUtil.writeInt( out, FIELD_WIDTH );
+			width.writeObject( out );
 		}
 		if ( styleClass != null )
 		{
-			out.writeInt( FIELD_STYLECLASS );
-			out.writeUTF( styleClass );
+			IOUtil.writeInt( out, FIELD_STYLECLASS );
+			IOUtil.writeString( out, styleClass );
 		}
 	}
 
-	protected void readField( int version, int filedId, ObjectInputStream in )
-			throws IOException, ClassNotFoundException
+	protected void readField( int version, int filedId, DataInputStream in )
+			throws IOException
 	{
 		switch ( filedId )
 		{
 			case FIELD_WIDTH :
 				width = new DimensionType( );
-				width.readContent( in );
+				width.readObject( in );
 				break;
 			case FIELD_STYLECLASS :
-				styleClass = in.readUTF( );
+				styleClass = IOUtil.readString( in );
 				break;
-		}
-	}
-	
-	public void readContent( ObjectInputStream in ) throws IOException, ClassNotFoundException
-	{
-		int version = in.readInt( );
-		int filedId = in.readInt( );
-		while ( filedId != FIELD_NONE )
-		{
-			readField( version, filedId, in );
-			filedId = in.readInt( );
 		}
 	}
 
-	public void writeContent( ObjectOutputStream out ) throws IOException
+	public void readObject( DataInputStream in ) throws IOException
 	{
-		out.writeInt( VERSION );
+		int version = IOUtil.readInt( in );
+		int filedId = IOUtil.readInt( in );
+		while ( filedId != FIELD_NONE )
+		{
+			readField( version, filedId, in );
+			filedId = IOUtil.readInt( in );
+		}
+	}
+
+	public void writeObject( DataOutputStream out ) throws IOException
+	{
+		IOUtil.writeInt( out,  VERSION );
 		writeFields( out );
-		out.writeInt( FIELD_NONE );
+		IOUtil.writeInt( out,  FIELD_NONE );
 	}
 }

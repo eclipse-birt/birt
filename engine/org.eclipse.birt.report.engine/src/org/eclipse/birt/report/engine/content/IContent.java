@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.engine.content;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * the content of report document.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/11/18 08:01:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/12/07 07:21:33 $
  */
 public interface IContent extends IElement, CSSStylableElement
 {
@@ -156,6 +156,6 @@ public interface IContent extends IElement, CSSStylableElement
 	String getTOC();
 	void setTOC(String toc);
 	
-	void writeContent( ObjectOutputStream out ) throws IOException;
-	void readContent( ObjectInputStream in ) throws IOException, ClassNotFoundException;
+	void writeContent( DataOutputStream out ) throws IOException;
+	void readContent( DataInputStream in ) throws IOException;
 }

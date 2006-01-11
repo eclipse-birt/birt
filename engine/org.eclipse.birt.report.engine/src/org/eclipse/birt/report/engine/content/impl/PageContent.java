@@ -11,12 +11,13 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IImageContent;
@@ -71,13 +72,14 @@ public class PageContent extends AbstractContent implements IPageContent
 		if ( design instanceof MasterPageDesign )
 		{
 			MasterPageDesign page = (MasterPageDesign) design;
-			
+
 			orientation = page.getOrientation( );
 			pageType = page.getPageType( );
-			if(EngineIRConstants.PAGE_ORIENTATION_LANDSCAPE.equals(page.getOrientation()))
+			if ( EngineIRConstants.PAGE_ORIENTATION_LANDSCAPE.equals( page
+					.getOrientation( ) ) )
 			{
-				pageHeight = page.getPageWidth();
-				pageWidth = page.getPageHeight();
+				pageHeight = page.getPageWidth( );
+				pageWidth = page.getPageHeight( );
 			}
 			else
 			{
@@ -259,8 +261,8 @@ public class PageContent extends AbstractContent implements IPageContent
 		}
 		return body.getComputedStyle( );
 	}
-	
-	public IStyle getContentStyle()
+
+	public IStyle getContentStyle( )
 	{
 		if ( generateBy instanceof MasterPageDesign )
 		{
@@ -278,7 +280,7 @@ public class PageContent extends AbstractContent implements IPageContent
 	{
 		return this.pageNumber;
 	}
-	
+
 	static final protected int FIELD_ORIENTATION = 700;
 	static final protected int FIELD_PAGETYPE = 701;
 	static final protected int FIELD_PAGEHEIGHT = 702;
@@ -292,135 +294,134 @@ public class PageContent extends AbstractContent implements IPageContent
 	static final protected int FIELD_MARGINRIGHT = 710;
 	static final protected int FIELD_MARGINBUTTOM = 711;
 	static final protected int FIELD_PAGENUMBER = 712;
-	
 
-	protected void writeFields( ObjectOutputStream out ) throws IOException
+	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
 		if ( orientation != null )
 		{
-			out.writeInt( FIELD_ORIENTATION );
-			out.writeUTF( orientation );
+			IOUtil.writeInt( out, FIELD_ORIENTATION );
+			IOUtil.writeString( out, orientation );
 		}
 		if ( pageType != null )
 		{
-			out.writeInt( FIELD_PAGETYPE );
-			out.writeUTF( pageType );
-		}		
+			IOUtil.writeInt( out, FIELD_PAGETYPE );
+			IOUtil.writeString( out, pageType );
+		}
 		if ( pageHeight != null )
 		{
-			out.writeInt( FIELD_PAGEHEIGHT );
-			pageHeight.writeContent( out );
-		}				
+			IOUtil.writeInt( out, FIELD_PAGEHEIGHT );
+			pageHeight.writeObject( out );
+		}
 		if ( pageWidth != null )
 		{
-			out.writeInt( FIELD_PAGEWIDTH );
-			pageWidth.writeContent( out );
-		}			
+			IOUtil.writeInt( out, FIELD_PAGEWIDTH );
+			pageWidth.writeObject( out );
+		}
 		if ( headerHeight != null )
 		{
-			out.writeInt( FIELD_HEADERHEIGHT );
-			headerHeight.writeContent( out );
-		}			
+			IOUtil.writeInt( out, FIELD_HEADERHEIGHT );
+			headerHeight.writeObject( out );
+		}
 		if ( footerHeight != null )
 		{
-			out.writeInt( FIELD_FOOTERHEIGHT );
-			footerHeight.writeContent( out );
-		}			
+			IOUtil.writeInt( out, FIELD_FOOTERHEIGHT );
+			footerHeight.writeObject( out );
+		}
 		if ( leftWidth != null )
 		{
-			out.writeInt( FIELD_LEFTWIDTH );
-			leftWidth.writeContent( out );
-		}			
+			IOUtil.writeInt( out, FIELD_LEFTWIDTH );
+			leftWidth.writeObject( out );
+		}
 		if ( rightWidth != null )
 		{
-			out.writeInt( FIELD_RIGHTWIDTH );
-			rightWidth.writeContent( out );
-		}			
+			IOUtil.writeInt( out, FIELD_RIGHTWIDTH );
+			rightWidth.writeObject( out );
+		}
 		if ( marginTop != null )
 		{
-			out.writeInt( FIELD_MARGINTOP );
-			marginTop.writeContent( out );
-		}			
+			IOUtil.writeInt( out, FIELD_MARGINTOP );
+			marginTop.writeObject( out );
+		}
 		if ( marginLeft != null )
 		{
-			out.writeInt( FIELD_MARGINLEFT );
-			marginLeft.writeContent( out );
-		}			
+			IOUtil.writeInt( out, FIELD_MARGINLEFT );
+			marginLeft.writeObject( out );
+		}
 		if ( marginRight != null )
 		{
-			out.writeInt( FIELD_MARGINRIGHT );
-			marginRight.writeContent( out );
-		}			
+			IOUtil.writeInt( out, FIELD_MARGINRIGHT );
+			marginRight.writeObject( out );
+		}
 		if ( marginBottom != null )
 		{
-			out.writeInt( FIELD_MARGINBUTTOM );
-			marginBottom.writeContent( out );
-		}	
+			IOUtil.writeInt( out, FIELD_MARGINBUTTOM );
+			marginBottom.writeObject( out );
+		}
 		if ( pageNumber != -1 )
 		{
-			out.writeInt( FIELD_PAGENUMBER );
-			out.writeLong( pageNumber );
+			IOUtil.writeInt( out, FIELD_PAGENUMBER );
+			IOUtil.writeLong( out, pageNumber );
 		}
 	}
 
-	protected void readField( int version, int filedId, ObjectInputStream in )
-			throws IOException, ClassNotFoundException
+	protected void readField( int version, int filedId, DataInputStream in )
+			throws IOException
 	{
 		switch ( filedId )
 		{
 			case FIELD_ORIENTATION :
-				orientation = in.readUTF( );
+				orientation = IOUtil.readString( in );
 				break;
 			case FIELD_PAGETYPE :
-				pageType = in.readUTF( );
+				pageType = IOUtil.readString( in );
 				break;
 			case FIELD_PAGEHEIGHT :
 				pageHeight = new DimensionType( );
-				pageHeight.readContent( in );
-				break;	
+				pageHeight.readObject( in );
+				break;
 			case FIELD_PAGEWIDTH :
 				pageWidth = new DimensionType( );
-				pageWidth.readContent( in );
-				break;	
+				pageWidth.readObject( in );
+				break;
 			case FIELD_HEADERHEIGHT :
 				headerHeight = new DimensionType( );
-				headerHeight.readContent( in );
-				break;	
+				headerHeight.readObject( in );
+				break;
 			case FIELD_FOOTERHEIGHT :
 				footerHeight = new DimensionType( );
-				footerHeight.readContent( in );
-				break;	
+				footerHeight.readObject( in );
+				break;
 			case FIELD_LEFTWIDTH :
 				leftWidth = new DimensionType( );
-				leftWidth.readContent( in );
-				break;	
+				leftWidth.readObject( in );
+				break;
 			case FIELD_RIGHTWIDTH :
 				rightWidth = new DimensionType( );
-				rightWidth.readContent( in );
-				break;	
+				rightWidth.readObject( in );
+				break;
 			case FIELD_MARGINTOP :
 				marginTop = new DimensionType( );
-				marginTop.readContent( in );
-				break;	
+				marginTop.readObject( in );
+				break;
 			case FIELD_MARGINLEFT :
 				marginLeft = new DimensionType( );
-				marginLeft.readContent( in );
-				break;	
+				marginLeft.readObject( in );
+				break;
 			case FIELD_MARGINRIGHT :
 				marginRight = new DimensionType( );
-				marginRight.readContent( in );
-				break;	
+				marginRight.readObject( in );
+				break;
 			case FIELD_MARGINBUTTOM :
 				marginBottom = new DimensionType( );
-				marginBottom.readContent( in );
-				break;						
+				marginBottom.readObject( in );
+				break;
 			case FIELD_PAGENUMBER :
-				pageNumber = in.readLong( );
+				pageNumber = IOUtil.readLong( in );
 				break;
 			default :
 				super.readField( version, filedId, in );
 		}
 	}
-	
+
 }

@@ -11,10 +11,11 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 
@@ -23,7 +24,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
  * table band content object There are three type: table header, table footer,
  * table body
  * 
- * @version $Revision: 1.5 $ $Date: 2005/11/17 16:50:44 $
+ * @version $Revision: 1.6 $ $Date: 2005/12/07 07:21:33 $
  */
 public class TableBandContent extends AbstractContent
 		implements
@@ -75,27 +76,26 @@ public class TableBandContent extends AbstractContent
 	{
 		this.type = type;
 	}
-	
-	
+
 	static final protected int FIELD_TYPE = 900;
-	
-	protected void writeFields( ObjectOutputStream out ) throws IOException
+
+	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
 		if ( type != BAND_HEADER )
 		{
-			out.writeInt( FIELD_TYPE );
-			out.writeInt( type );
+			IOUtil.writeInt( out, FIELD_TYPE );
+			IOUtil.writeInt( out, type );
 		}
 	}
 
-	protected void readField( int version, int filedId, ObjectInputStream in )
-			throws IOException, ClassNotFoundException
+	protected void readField( int version, int filedId, DataInputStream in )
+			throws IOException
 	{
 		switch ( filedId )
 		{
 			case FIELD_TYPE :
-				type = in.readInt( );
+				type = IOUtil.readInt( in );
 				break;
 			default :
 				super.readField( version, filedId, in );

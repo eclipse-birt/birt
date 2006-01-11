@@ -11,21 +11,22 @@
 
 package org.eclipse.birt.report.engine.ir;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 
 /**
  * 
- * @version $Revision: 1.9 $ $Date: 2005/11/17 16:50:43 $
+ * @version $Revision: 1.10 $ $Date: 2005/12/14 03:41:38 $
  */
-public class DimensionType 
+public class DimensionType
 {
 
 	private static Logger log = Logger
@@ -179,7 +180,7 @@ public class DimensionType
 		}
 		return new DimensionType( 0, DimensionType.UNITS_CM );
 	}
-	
+
 	/**
 	 * object document dimension version
 	 */
@@ -189,67 +190,68 @@ public class DimensionType
 	final static int FIELD_TYPE = 0;
 	final static int FIELD_UNITTYPE = 1;
 	final static int FIELD_MEASURE = 2;
-	final static int FIELD_CHOICE = 3;	
-	
-	protected void writeFields( ObjectOutputStream out ) throws IOException
-	{		
+	final static int FIELD_CHOICE = 3;
+
+	protected void writeFields( DataOutputStream out ) throws IOException
+	{
 		if ( type != -1 )
 		{
-			out.writeInt( FIELD_TYPE );
-			out.writeInt( type );
+			IOUtil.writeInt( out, FIELD_TYPE );
+			IOUtil.writeInt( out, type );
 		}
 		if ( unitType != null )
 		{
-			out.writeInt( FIELD_UNITTYPE );
-			out.writeUTF( unitType );
+			IOUtil.writeInt( out, FIELD_UNITTYPE );
+			IOUtil.writeString( out, unitType );
 		}
 		if ( measure != -1 )
 		{
-			out.writeInt( FIELD_MEASURE );
-			out.writeDouble( measure );
+			IOUtil.writeInt( out, FIELD_MEASURE );
+			IOUtil.writeDouble( out, measure );
 		}
 		if ( choice != null )
 		{
-			out.writeInt( FIELD_CHOICE );
-			out.writeUTF( choice );
+			IOUtil.writeInt( out, FIELD_CHOICE );
+			IOUtil.writeString( out, choice );
 		}
 	}
 
-	protected void readField( int version, int filedId, ObjectInputStream in )
+	protected void readField( int version, int filedId, DataInputStream in )
 			throws IOException
 	{
 		switch ( filedId )
 		{
 			case FIELD_TYPE :
-				type = in.readInt( );
+				type = IOUtil.readInt( in );
 				break;
 			case FIELD_UNITTYPE :
-				unitType = in.readUTF( );
+				unitType = IOUtil.readString( in );
 				break;
 			case FIELD_MEASURE :
-				measure = in.readDouble( );
+				measure = IOUtil.readDouble( in );
+
 				break;
 			case FIELD_CHOICE :
-				choice = in.readUTF( );
+				choice = IOUtil.readString( in );
 				break;
-		}
-	}
-	
-	public void readContent( ObjectInputStream in ) throws IOException
-	{
-		int version = in.readInt( );
-		int filedId = in.readInt( );
-		while ( filedId != FIELD_NONE )
-		{
-			readField( version, filedId, in );
-			filedId = in.readInt( );
 		}
 	}
 
-	public void writeContent( ObjectOutputStream out ) throws IOException
+	public void readObject( DataInputStream in ) throws IOException
 	{
-		out.writeInt( VERSION );
+		int version = IOUtil.readInt( in );
+		int filedId = IOUtil.readInt( in );
+		while ( filedId != FIELD_NONE )
+		{
+			readField( version, filedId, in );
+			filedId = IOUtil.readInt( in );
+		}
+	}
+
+	public void writeObject( DataOutputStream out ) throws IOException
+	{
+		IOUtil.writeInt( out, VERSION );
 		writeFields( out );
-		out.writeInt( FIELD_NONE );
+		IOUtil.writeInt( out, FIELD_NONE );
 	}
 }

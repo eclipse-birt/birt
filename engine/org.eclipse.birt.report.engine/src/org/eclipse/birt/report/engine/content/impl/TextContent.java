@@ -11,10 +11,6 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.ITextContent;
@@ -92,21 +88,5 @@ public class TextContent extends AbstractContent implements ITextContent
 		if ( generateBy instanceof TextItemDesign )
 			return ( (TextItemDesign) generateBy ).getTextType( );
 		return null;
-	}
-	
-	
-	protected void writeFields( ObjectOutputStream out ) throws IOException
-	{
-		super.writeFields( out );		
-	}
-
-	protected void readField( int version, int filedId, ObjectInputStream in )
-			throws IOException, ClassNotFoundException
-	{
-		switch ( filedId )
-		{
-			default :
-				super.readField( version, filedId, in );
-		}
 	}
 }

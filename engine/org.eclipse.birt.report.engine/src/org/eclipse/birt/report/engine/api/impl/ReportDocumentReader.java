@@ -12,9 +12,9 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportEngine;
@@ -77,18 +78,18 @@ public class ReportDocumentReader
 		RAInputStream in = archive.getStream( CORE_STREAM );
 		try
 		{
-			ObjectInputStream oi = new ObjectInputStream(
-					new BufferedInputStream( in ) );
+			DataInputStream di = new DataInputStream( new BufferedInputStream(
+					in ) );
 
 			// check the design name
-			checkVersion( oi );
+			checkVersion( di );
 
 			// load the report design name
-			designName = oi.readUTF( );
+			designName = IOUtil.readString( di );
 			// load the report paramters
-			parameters = (HashMap) oi.readObject( );;
+			parameters = (HashMap) IOUtil.readMap( di );
 			// load the persistence object
-			globalVariables = (HashMap) oi.readObject( );
+			globalVariables = (HashMap) IOUtil.readMap( di );
 		}
 		finally
 		{
@@ -96,14 +97,13 @@ public class ReportDocumentReader
 			{
 				in.close( );
 			}
-
 		}
 	}
 
-	protected void checkVersion( ObjectInputStream oi ) throws IOException
+	protected void checkVersion( DataInputStream di ) throws IOException
 	{
-		String tag = oi.readUTF( );
-		String version = oi.readUTF( );
+		String tag = IOUtil.readString( di );
+		String version = IOUtil.readString( di );
 		if ( !REPORT_DOCUMENT_TAG.equals( tag )
 				|| !REPORT_DOCUMENT_VERSION_1_0_0.equals( version ) )
 		{
@@ -143,20 +143,31 @@ public class ReportDocumentReader
 	{
 		if ( reportRunnable == null )
 		{
-			try
+			String name = archive.getName( );
+			InputStream stream = getDesignStream( );
+			if ( stream != null )
 			{
-				String name = designName;
-				InputStream stream = getDesignStream( );
-				if ( name == null )
+				try
 				{
-					name = getName( );
+					reportRunnable = engine.openReportDesign( name, stream );
+
 				}
-				reportRunnable = engine.openReportDesign( name, stream );
-			}
-			catch ( Exception ex )
-			{
-				logger.log( Level.SEVERE, "Failed to get the report runnable", //$NON-NLS-1$
-						ex );
+				catch ( Exception ex )
+				{
+					logger.log( Level.SEVERE,
+							"Failed to get the report runnable", //$NON-NLS-1$
+							ex );
+				}
+				finally
+				{
+					try
+					{
+						stream.close( );
+					}
+					catch ( IOException ex )
+					{
+					}
+				}
 			}
 		}
 		return reportRunnable;
@@ -318,59 +329,76 @@ public class ReportDocumentReader
 		}
 	}
 
-	/**
-	 * load an object from the file. File is written using ObjectOuputStream and
-	 * contains at least one valid object.
-	 * 
-	 * @param file
-	 *            source file
-	 * @return the object read from the file.
-	 */
-	protected Object loadObject( InputStream istream ) throws Exception
-	{
-		try
-		{
-			ObjectInputStream di = new ObjectInputStream( istream );
-			return di.readObject( );
-		}
-		finally
-		{
-			if ( istream != null )
-			{
-				try
-				{
-					istream.close( );
-				}
-				catch ( IOException ex )
-				{
-				}
-			}
-		}
-	}
-
 	private void loadBookmarks( )
 	{
+		RAInputStream in = null;
 		try
 		{
-			bookmarks = (HashMap) loadObject( archive
-					.getStream( BOOKMARK_STREAM ) );
+			bookmarks = new HashMap( );
+			in = archive.getStream( BOOKMARK_STREAM );
+			DataInputStream di = new DataInputStream( new BufferedInputStream(
+					in ) );
+			long count = IOUtil.readLong( di );
+			for ( long i = 0; i < count; i++ )
+			{
+				String bookmark = IOUtil.readString( di );
+				long pageNumber = IOUtil.readLong( di );
+				bookmarks.put( bookmark, new Long( pageNumber ) );
+			}
 		}
 		catch ( Exception ex )
 		{
 			logger.log( Level.SEVERE, "failed to load the bookmarks", ex ); //$NON-NLS-1$
 		}
+		finally
+		{
+			if ( in != null )
+			{
+				try
+				{
+					in.close( );
+				}
+				catch ( Exception ex )
+				{
+				};
+			}
+		}
 	}
 
 	private void loadPageHintStream( )
 	{
+		RAInputStream in = null;
 		try
 		{
-			pageHints = (ArrayList) loadObject( archive
-					.getStream( PAGEHINT_STREAM ) );
+			pageHints = new ArrayList( );
+			in = archive.getStream( PAGEHINT_STREAM );
+			DataInputStream di = new DataInputStream( new BufferedInputStream(
+					in ) );
+			long pageCount = IOUtil.readLong( di );
+			for ( long i = 0; i < pageCount; i++ )
+			{
+				PageHint hint = new PageHint( );
+				hint.readObject( di );
+				pageHints.add( hint );
+			}
+			in.close( );
 		}
 		catch ( Exception ex )
 		{
 			logger.log( Level.SEVERE, "Failed to load the page hints", ex ); //$NON-NLS-1$
+		}
+		finally
+		{
+			if ( in != null )
+			{
+				try
+				{
+					in.close( );
+				}
+				catch ( Exception ex )
+				{
+				};
+			}
 		}
 	}
 
@@ -382,6 +410,11 @@ public class ReportDocumentReader
 	public String getName( )
 	{
 		return archive.getName( );
+	}
+
+	public String getDesignName( )
+	{
+		return designName;
 	}
 
 	/*
