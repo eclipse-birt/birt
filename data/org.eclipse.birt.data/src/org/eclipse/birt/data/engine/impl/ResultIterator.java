@@ -633,17 +633,31 @@ public class ResultIterator implements IResultIterator
 				if ( fieldValue.getClass( )
 						.equals( groupKeyValues[i].getClass( ) ) )
 				{
-					retValue = fieldValue.equals( groupKeyValues[i] );
+					retValue = isTwoObjectEqual( fieldValue, groupKeyValues[i] );
 				}
 				else
 				{
 					Object convertedOb = DataTypeUtil.convert( groupKeyValues[i],
 							fieldValue.getClass( ) );
-					retValue = fieldValue.equals( convertedOb );
+					retValue = isTwoObjectEqual( fieldValue, convertedOb );
 				}
 			}
 
 			return retValue;
+		}
+
+		/**
+		 * @param value1
+		 * @param value2
+		 * @return
+		 */
+		private boolean isTwoObjectEqual( Object value1, Object value2 )
+		{
+			//The Date object should be processed individually 
+			if( value1 instanceof Date && value2 instanceof Date)
+				return ((Date)value1).getTime() == ((Date)value2).getTime();
+			else
+			    return  value1.equals( value2 );
 		}
 
 		/**
