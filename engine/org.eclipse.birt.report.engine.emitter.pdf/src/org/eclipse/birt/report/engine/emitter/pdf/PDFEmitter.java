@@ -1225,21 +1225,23 @@ public class PDFEmitter implements IAreaVisitor
 	}
 	
 	/**
+	 * create a PdfAction
 	 * 
-	 * @param hyperlink
+	 * @param hyperlink			
 	 * @param bookmark
-	 * @param target
-	 * @return
+	 * @param target			if target equals "_blank", the target will be opened in a new window,
+	 * 							else the target will be opened in the current window.
+	 * @return					the created PdfAction.
 	 */
 	private PdfAction createPdfAction(String hyperlink, String bookmark, String target)
 	{
-		if ("_blank".equalsIgnoreCase(target))
-			//open the target in a new window
+		if ("_blank".equalsIgnoreCase(target)) //$NON-NLS-1$
+		//open the target in a new window
 		{
 			return new PdfAction(hyperlink);
 		}
 		else
-			//open the target in current window
+		//open the target in current window
 		{
 			if (null == hyperlink)
 			{
