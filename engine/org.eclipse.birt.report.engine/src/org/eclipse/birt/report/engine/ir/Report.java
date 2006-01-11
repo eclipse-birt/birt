@@ -31,7 +31,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.27 $ $Date: 2005/12/23 06:37:24 $
+ * @version $Revision: 1.28 $ $Date: 2006/01/10 08:46:38 $
  */
 public class Report
 {
@@ -120,9 +120,9 @@ public class Report
 	protected HashMap mapReportItemToQuery;
 	
 	/*
-	 * map report item to "value" expressions
+	 * map query to "value" expressions
 	 */
-	protected HashMap mapReportItemToValueExpressions;
+	protected HashMap mapQueryToValueExprs;
 	
 	/**
 	 * default constructor.
@@ -145,17 +145,18 @@ public class Report
 	}
 	
 	/**
-	 * return the map from report item to value expressions it contains.
-	 * @return the map from report item to value expressions
+	 * return the map from query to value expressions
+	 * @return the map from query to value expressions;
 	 */
-	public HashMap getReportItemToValueExprMap( )
+	public HashMap getQueryToValueExprMap( )
 	{
-		if( mapReportItemToValueExpressions == null )
+		if( mapQueryToValueExprs == null )
 		{
-			mapReportItemToValueExpressions = new HashMap( );
+			mapQueryToValueExprs = new HashMap( );
 		}
-		return mapReportItemToValueExpressions;
+		return mapQueryToValueExprs;
 	}
+	
 	/**
 	 * set report item id to report item instance
 	 * 

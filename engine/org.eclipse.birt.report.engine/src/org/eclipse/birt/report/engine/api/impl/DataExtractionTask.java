@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -89,19 +90,19 @@ public class DataExtractionTask extends EngineTask
 	protected boolean isMetaDataPrepared = false;
 	
 	/*
-	 * map report item to display name
+	 * map query to display name
 	 */
-	protected HashMap mapReportItemToDisplayName;
+	protected HashMap mapQueryToDispName;
 	
 	/*
-	 * map report item to value expressions 
+	 * map query to value expressions
 	 */
-	protected HashMap mapReportItemToValueExprs;
+	protected HashMap mapQueryToValueExprs;
 	
 	/*
-	 * map result set to report item
+	 * map result set name to query
 	 */
-	protected HashMap mapResultSetToReportItem;
+	protected HashMap mapResultSetNameToQuery;
 	
 	/**
 	 * the logger
@@ -138,7 +139,7 @@ public class DataExtractionTask extends EngineTask
 			return;
 			
 		mapQueryToReportItem = report.getReportItemToQueryMap( );
-		mapReportItemToValueExprs = report.getReportItemToValueExprMap( );
+		mapQueryToValueExprs = report.getQueryToValueExprMap( );
 		
 		// load query -> result set name
 		try
@@ -161,26 +162,26 @@ public class DataExtractionTask extends EngineTask
 			mapDispNameToResultSetName.clear( );
 		}
 		
-		// set report item -> display name
-		if( mapReportItemToDisplayName == null )
+		// set query -> display name
+		if( this.mapQueryToDispName == null )
 		{
-			mapReportItemToDisplayName = new HashMap( );
+			this.mapQueryToDispName = new HashMap( );
 		}
 		else
 		{
-			mapReportItemToDisplayName.clear( );
+			this.mapQueryToDispName.clear( );
 		}
 		
-		// set result set -> report item
-		if( this.mapResultSetToReportItem == null )
+		// set result set name -> query
+		if( this.mapResultSetNameToQuery == null )
 		{
-			this.mapResultSetToReportItem = new HashMap( );
+			this.mapResultSetNameToQuery  = new HashMap( );
 		}
 		else
 		{
-			this.mapResultSetToReportItem.clear( );
+			this.mapResultSetNameToQuery.clear( );
 		}
-		 
+		
 		ArrayList queryList = report.getQueries();
 		int counter = 0;
 		for (int i = 0; i < queryList.size(); i++) {
@@ -204,13 +205,13 @@ public class DataExtractionTask extends EngineTask
 			}
 			counter++;
 			
-			mapReportItemToDisplayName.put( reportItem, displayName );
+			this.mapQueryToDispName.put( query, displayName );
 			// get result set name
 			Iterator resultSetIter = resultSetList.iterator();
 			while (resultSetIter.hasNext()) {
 				String resultSetName = (String) resultSetIter.next();
 				mapDispNameToResultSetName.put(displayName, resultSetName);
-				this.mapResultSetToReportItem.put( resultSetName, reportItem );
+				this.mapResultSetNameToQuery.put( resultSetName, query );
 			}
 		}
 		
@@ -305,20 +306,20 @@ public class DataExtractionTask extends EngineTask
 			{
 				ReportItemDesign reportItem = (ReportItemDesign)report.getReportItemByID( 
 						instanceId.getComponentID( ) );
-				dispName = (String)mapReportItemToDisplayName.get( reportItem );
+				IBaseQueryDefinition query = reportItem.getQuery( );
+				dispName = (String)mapQueryToDispName.get( query ); 
 				
-				addToResultSetList( reportItem, dispName );
+				addToResultSetList( query, dispName );
 			}
 			else
 			{
-				Set keySet = mapDispNameToResultSetName.keySet();
-				Iterator keyIter = keySet.iterator();
-				while (keyIter.hasNext()) {
-					dispName = (String) keyIter.next();
-					String resultSetName = (String)mapDispNameToResultSetName.get( dispName );
-					ReportItemDesign reportItem = (ReportItemDesign)mapResultSetToReportItem
-												.get( resultSetName );
-					addToResultSetList( reportItem, dispName );
+				Set keySet = mapQueryToDispName.keySet( );
+				Iterator keyIter = keySet.iterator( );
+				while( keyIter.hasNext( ))
+				{
+					IBaseQueryDefinition query = (IBaseQueryDefinition)keyIter.next( );
+					dispName = (String)mapQueryToDispName.get( query );
+					addToResultSetList( query, dispName );
 				}
 			}
 		}
@@ -328,14 +329,14 @@ public class DataExtractionTask extends EngineTask
 	/*
 	 * create IResultSetItem using display name and IResultMetaData 
 	 */
-	private void addToResultSetList( ReportItemDesign reportItem, 
+	private void addToResultSetList( IBaseQueryDefinition query, 
 			String displayName )
 	{
-		assert reportItem != null;
+		assert query != null;
 		assert displayName != null;
 		
 		ResultMetaData resultMeta = new ResultMetaData(
-				getValueExpressions( reportItem ));
+				getValueExpressions( query ));
 
 		IResultSetItem resultItem = new ResultSetItem(displayName, resultMeta);
 		
@@ -377,16 +378,16 @@ public class DataExtractionTask extends EngineTask
 		DataEngine dataEngine = executionContext.getDataEngine().getDataEngine();
 		try
 		{
-			ReportItemDesign reportItem = (ReportItemDesign)mapResultSetToReportItem
+			IBaseQueryDefinition query = (IBaseQueryDefinition)mapResultSetNameToQuery
 									.get( resultSetName );
-			assert reportItem != null;
-			validateSelectedColumns( reportItem );
+			assert query != null;
+			validateSelectedColumns( query );
 			
 			IQueryResults queryResults = dataEngine.getQueryResults( resultSetName );
 			assert queryResults.getResultIterator() != null;
 			 
 			currentResult = new ExtractionResults( queryResults.getResultIterator() 
-					, selectedColumns, getValueExpressions( reportItem ) );
+					, selectedColumns, getValueExpressions( query ) );
 			return currentResult;
 		}
 		catch ( BirtException e )
@@ -410,7 +411,7 @@ public class DataExtractionTask extends EngineTask
 				.getReportItemByID( instanceId.getComponentID( ) );
 		assert rptItem != null;
 		
-		validateSelectedColumns( rptItem );
+		validateSelectedColumns( rptItem.getQuery( ) );
 		
 		
 		DataID dataId = instanceId.getDataID();
@@ -449,7 +450,7 @@ public class DataExtractionTask extends EngineTask
 				assert queryResults.getResultIterator() != null;
 				
 				currentResult = new ExtractionResults( queryResults.getResultIterator() 
-						, selectedColumns, getValueExpressions( rptItem ) );
+						, selectedColumns, getValueExpressions( rptItem.getQuery( ) ) );
 				return currentResult;
 				
 			}
@@ -488,7 +489,7 @@ public class DataExtractionTask extends EngineTask
 						.getQueryName( ), executionContext.getScope( ) );
 				
 				currentResult = new ExtractionResults( subIter, 
-						selectedColumns, getValueExpressions ( rptItem ) );
+						selectedColumns, getValueExpressions ( rptItem.getQuery( ) ) );
 				return currentResult;
 			}
 			catch( BirtException be )
@@ -503,12 +504,12 @@ public class DataExtractionTask extends EngineTask
 	 * check if the selected columns is valid, if no column is selected, then initialize the
 	 * selected column using row expression.
 	 */
-	private void validateSelectedColumns( ReportItemDesign reportItem)
+	private void validateSelectedColumns( IBaseQueryDefinition query )
 			throws EngineException
 	{
-		assert reportItem != null;
+		assert query != null;
 		
-		Collection exprs = getValueExpressions( reportItem );
+		Collection exprs = getValueExpressions( query );
 
 		if ( selectedColumns != null )
 		{
@@ -551,9 +552,9 @@ public class DataExtractionTask extends EngineTask
 		}
  	}
 
-	private Collection getValueExpressions( ReportItemDesign reportItem )
+	private Collection getValueExpressions( IBaseQueryDefinition query )
 	{
-		ArrayList valueExprs = (ArrayList)mapReportItemToValueExprs.get( reportItem );
+		ArrayList valueExprs = (ArrayList)mapQueryToValueExprs.get( query );
 		return valueExprs;
 	}
 }

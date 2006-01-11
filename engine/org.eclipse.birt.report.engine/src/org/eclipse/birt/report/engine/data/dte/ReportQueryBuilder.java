@@ -91,24 +91,13 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.45 $ $Date: 2006/01/09 05:35:52 $
+ * @version $Revision: 1.46 $ $Date: 2006/01/10 08:46:37 $
  */
 public class ReportQueryBuilder
 {
 
 	protected static Logger logger = Logger.getLogger( ReportQueryBuilder.class
 			.getName( ) );
-
-	/*
-	 * map query to the report element.
-	 */
-	// protected HashMap mapQueryToReportItem;
-	
-	/*
-	 * map report item to value expression, value expression is 
-	 * expression with "valueExpr" tag in design file. 
-	 */
-	// protected HashMap mapRptItemToValueExpr; 
 	
 	public ReportQueryBuilder( )
 	{
@@ -163,12 +152,11 @@ public class ReportQueryBuilder
 		 * link-list of individual expressions.
 		 */
 		protected LinkedList expressionStack = new LinkedList( );
-
-		/*
-		 * report item stack
-		 */
-		protected LinkedList reportItemStack; 
 		
+		/* report item query stack
+		 * 
+		 */
+		protected LinkedList reportItemQueryStack;
 		/**
 		 * entry point to the report
 		 */
@@ -399,6 +387,8 @@ public class ReportQueryBuilder
 								}
 							}
 							registerQueryAndElement( queries[i], item );
+							report.getQueryToValueExprMap( ).put( queries[i],  
+									queries[i].getRowExpressions( ) );
 						}
 					}
 					if ( queries.length > 0 )
@@ -407,14 +397,12 @@ public class ReportQueryBuilder
 						if ( query != null )
 						{
 							item.setQuery( query );
-							pushReportItem( item );
 							pushQuery( query );
 							pushExpressions( query.getRowExpressions( ) );
 							handleReportItemExpressions( item );
 							// handleActionExpressions(item.getAction());
 							popExpressions( );
 							popQuery( );
-							popReportItem( );
 						}
 					}
 				}
@@ -455,11 +443,11 @@ public class ReportQueryBuilder
 					query.setUsesDetails( true );
 				}
 
-				pushReportItem( list );
+				pushReportItemQuery( query ); 
 				pushExpressions( query.getRowExpressions( ) );
 				visitListBand( list.getDetail( ), value );
 				popExpressions( );
-				popReportItem( );
+				popReportItemQuery( );
 
 				pushExpressions( query.getAfterExpressions( ) );
 				visitListBand( list.getFooter( ), value );
@@ -520,21 +508,24 @@ public class ReportQueryBuilder
 				popExpressions( );
 				SlotHandle groupsSlot = ( (TableHandle) table.getHandle( ) )
 						.getGroups( );
+				
+				pushReportItemQuery( query );
 				for ( int i = 0; i < table.getGroupCount( ); i++ )
 				{
 					handleTableGroup( table.getGroup( i ),
 							(GroupHandle) groupsSlot.get( i ), value );
 				}
+				popReportItemQuery( );
 
 				if ( table.getDetail( ).getRowCount( ) != 0 )
 				{
 					query.setUsesDetails( true );
 				}
-				pushReportItem( table );
+				pushReportItemQuery( query );
 				pushExpressions( query.getRowExpressions( ) );
 				handleTableBand( table.getDetail( ), value );
 				popExpressions( );
-				popReportItem( );
+				popReportItemQuery( );
 
 				pushExpressions( query.getAfterExpressions( ) );
 				handleTableBand( table.getFooter( ), value );
@@ -590,29 +581,30 @@ public class ReportQueryBuilder
 
 		private void addtoValueExpressions( DataItemDesign data )
 		{
-			if( reportItemStack == null || reportItemStack.isEmpty() == true )
+			if( reportItemQueryStack == null || reportItemQueryStack.isEmpty() == true )
 			{
 				return ;
 			}
 			
 			if( data.getValue( ) != null )
-			{
-				ReportItemDesign reportItem = (ReportItemDesign)reportItemStack.get( 0 );
-				HashMap map = report.getReportItemToValueExprMap( );
-				assert map != null;
+			{					
+				IBaseQueryDefinition query = (IBaseQueryDefinition)reportItemQueryStack
+												.get( 0 );
+				assert query != null;
 				
-				ArrayList valueExprs = (ArrayList) map.get( reportItem );
+				HashMap queryMap = report.getQueryToValueExprMap( );
+				assert queryMap != null;
+				
+				ArrayList valueExprs = (ArrayList)queryMap.get( query );
 				if( valueExprs == null )
 				{
 					valueExprs = new ArrayList( );
 				}
-				
-				// remove duplicate value expressions
-				if( valueExprs.contains( data.getValue( ) ) == false )
+				if( valueExprs.contains( data.getValue( )) == false )
 				{
-					valueExprs.add( data.getValue( ) );
+					valueExprs.add( data.getValue( ));
 				}
-				map.put( reportItem, valueExprs );
+				queryMap.put( query, valueExprs );
 			}
 		}
 		/**
@@ -884,20 +876,21 @@ public class ReportQueryBuilder
 			this.expressions = (Collection) expressionStack.removeLast( );
 		}
 
-		protected void pushReportItem( ReportItemDesign reportItem )
+		protected void pushReportItemQuery( IBaseQueryDefinition query )
 		{
-			if( reportItemStack == null )
+			if( this.reportItemQueryStack == null )
 			{
-				reportItemStack = new LinkedList( );
+				this.reportItemQueryStack = new LinkedList( );
 			}
-			this.reportItemStack.addLast( reportItem );
+			this.reportItemQueryStack.addLast( query );
 		}
 		
-		protected void popReportItem( )
+		protected void popReportItemQuery( )
 		{
-			assert reportItemStack.isEmpty() == false;
-			reportItemStack.removeLast( );
+			assert this.reportItemQueryStack.isEmpty( ) == false;
+			this.reportItemQueryStack.removeLast( );
 		}
+		
 		/**
 		 * A helper function for adding a query to query stack
 		 */
