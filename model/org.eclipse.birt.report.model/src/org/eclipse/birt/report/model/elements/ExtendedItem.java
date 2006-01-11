@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.elements;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -30,6 +31,8 @@ import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.PropertyType;
 
 /**
  * This class represents an extended item element. The extended report item
@@ -152,6 +155,22 @@ public class ExtendedItem extends ReportItem
 		return (ExtendedItemHandle) handle;
 	}
 
+	/*
+	 *  (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#hasLocalPropertyValues()
+	 */
+	
+	public boolean hasLocalPropertyValues()
+	{
+		if( super.hasLocalPropertyValues() )
+			return true;
+		
+		if( provider != null )
+			return provider.hasLocalPropertyValues();
+		
+		return false;
+	}
+	
 	/**
 	 * Gets a property value given its definition. This version checks not only
 	 * this one object, but also the extended element this item has. That is, it

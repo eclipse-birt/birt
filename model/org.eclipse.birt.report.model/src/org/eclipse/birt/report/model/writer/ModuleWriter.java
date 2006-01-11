@@ -2615,7 +2615,18 @@ public abstract class ModuleWriter extends ElementVisitor
 					.getName( ) );
 
 			assert virtualElement.getExtendsElement( ) == null;
-			List propDefns = virtualElement.getPropertyDefns( );
+
+			List propDefns = null;
+			if ( virtualElement instanceof ExtendedItem )
+			{
+				propDefns = ( (ExtendedItem) virtualElement ).getExtDefn( )
+						.getProperties( );
+			}
+			else
+			{
+				propDefns = virtualElement.getPropertyDefns( );
+			}
+
 			for ( int i = 0; i < propDefns.size( ); i++ )
 			{
 				PropertyDefn propDefn = (PropertyDefn) propDefns.get( i );
@@ -2623,9 +2634,16 @@ public abstract class ModuleWriter extends ElementVisitor
 						.getName( ) ) )
 					continue;
 
+				if ( virtualElement instanceof ExtendedItem
+						&& ExtendedItem.EXTENSION_NAME_PROP
+								.equalsIgnoreCase( propDefn.getName( ) ) )
+					continue;
+
 				boolean cdata = false;
-				if ( propDefn.getTypeCode( ) == PropertyType.SCRIPT_TYPE )
+				if ( propDefn.getTypeCode( ) == PropertyType.SCRIPT_TYPE
+						|| propDefn.getTypeCode( ) == PropertyType.XML_TYPE )
 					cdata = true;
+
 				if ( propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
 				{
 					if ( propDefn.isList( ) )
@@ -2634,8 +2652,9 @@ public abstract class ModuleWriter extends ElementVisitor
 						writeStructure( virtualElement, propDefn.getName( ) );
 				}
 				else
-					writeProperty( virtualElement, null, propDefn.getName( ),
-							cdata );
+					writeProperty( virtualElement,
+							getTagByPropertyType( propDefn ), propDefn
+									.getName( ), cdata );
 			}
 
 			writer.endElement( ); // end ¡°ref-entry¡±

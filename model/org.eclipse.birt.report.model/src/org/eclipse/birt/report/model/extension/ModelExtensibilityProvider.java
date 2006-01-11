@@ -87,5 +87,4 @@ public abstract class ModelExtensibilityProvider extends ExtensibilityProvider
 			throw new ExtendsException( element, parent,
 					ExtendsException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
 	}
-	
 }

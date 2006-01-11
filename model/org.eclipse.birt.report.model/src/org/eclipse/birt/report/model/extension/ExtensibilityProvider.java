@@ -130,4 +130,17 @@ public abstract class ExtensibilityProvider implements IExtendableElement
 	 */
 	public abstract void checkExtends( DesignElement parent )  throws ExtendsException;
 
+	/**
+	 * Returns <code>true</code> if the extended item has local property, return <code>false</code>
+	 * otherwise;
+	 * 
+	 * @return <code>true</code> if the extended item has local property, return <code>false</code>
+	 * otherwise;
+	 */
+	
+	public boolean hasLocalPropertyValues()
+	{
+		return false;
+	}
+	
 }

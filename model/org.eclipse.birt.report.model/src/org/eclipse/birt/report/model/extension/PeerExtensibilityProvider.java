@@ -553,5 +553,17 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 			return reportItem.getScriptPropertyDefinition( );
 		return null;
 	}
-
+	
+	/*
+	 *  (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.extension.ExtensibilityProvider#hasLocalPropertyValues()
+	 */
+	
+	public boolean hasLocalPropertyValues()
+	{
+		if( !extensionPropValues.isEmpty() || reportItem != null )
+			return true;
+		
+		return false;
+	}
 }
