@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.presentation;
 
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 
@@ -48,8 +49,8 @@ public class Page
 		emitter.endPage( pageContent );
 	}
 
-	public PageRegion createRegion( PageFlow pageFlow )
+	public PageRegion createRegion( IContent content )
 	{
-		return new PageRegion( this, pageFlow );
+		return new PageRegion( this, content );
 	}
 }

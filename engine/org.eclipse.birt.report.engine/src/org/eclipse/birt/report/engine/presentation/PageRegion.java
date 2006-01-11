@@ -29,24 +29,23 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 
 public class PageRegion extends WrappedEmitter
 {
-
-	private PageFlow pageFlow;
+	private IContent rootContent;
 	private StartEmitterVisitor startEmitterVisitor;
 	private EndEmitterVisitor endEmitterVisitor;
-	private DOMBuildingEmitter domBuilderEmitter;
+	//private DOMBuildingEmitter domBuilderEmitter;
 
-	public PageRegion( Page page, PageFlow pageFlow )
+	public PageRegion( Page page, IContent content )
 	{
 		super( page.getEmitter( ) );
 
-		this.pageFlow = pageFlow;
+		this.rootContent = content;
 		startEmitterVisitor = new StartEmitterVisitor( emitter );
 		endEmitterVisitor = new EndEmitterVisitor( emitter );
 	}
 
 	public void open( )
 	{
-		if ( pageFlow != null )
+		if ( rootContent != null )
 		{
 			ArrayList contents = getAncestors( );
 			int size = contents.size( ) - 1;
@@ -59,7 +58,7 @@ public class PageRegion extends WrappedEmitter
 
 	public void close( )
 	{
-		if ( pageFlow != null )
+		if ( rootContent != null )
 		{
 			ArrayList contents = getAncestors( );
 			int size = contents.size( );
@@ -73,11 +72,11 @@ public class PageRegion extends WrappedEmitter
 	private ArrayList getAncestors( )
 	{
 		ArrayList list = new ArrayList( );
-		PageFlow flow = pageFlow;
-		while ( flow != null )
+		IContent content = rootContent;
+		while ( content != null )
 		{
-			list.add( flow.getContent( ) );
-			flow = flow.getParent( );
+			list.add( content );
+			content= (IContent)content.getParent( );
 		}
 		return list;
 	}
