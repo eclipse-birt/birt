@@ -108,17 +108,22 @@ public class IncludedLibrariesStructureListState extends PropertyListState
 				return;
 			}
 
-			if ( handler.module instanceof Library
-					&& ( (Library) handler.module )
-							.isRecursiveNamespace( includeLibrary
-									.getNamespace( ) ) )
+			if ( handler.module instanceof Library )
 			{
-				LibraryException ex = new LibraryException(
-						handler.module,
-						new String[]{namespace},
-						LibraryException.DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY );
-				handler.getErrorHandler( ).semanticError( ex );
-				return;
+				Library library = (Library) handler.module;
+
+				if ( url != null
+						&& library.isRecursiveFile( url.toString( ) )
+						|| library.isRecursiveNamespace( includeLibrary
+								.getNamespace( ) ) )
+				{
+					LibraryException ex = new LibraryException(
+							handler.module,
+							new String[]{namespace},
+							LibraryException.DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY );
+					handler.getErrorHandler( ).semanticError( ex );
+					return;
+				}
 			}
 
 			handler.module.loadLibrarySilently( includeLibrary );

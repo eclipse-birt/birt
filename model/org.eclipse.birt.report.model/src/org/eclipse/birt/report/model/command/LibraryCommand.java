@@ -88,6 +88,14 @@ public class LibraryCommand extends AbstractElementCommand
 					LibraryException.DESIGN_EXCEPTION_LIBRARY_ALREADY_INCLUDED );
 		}
 
+		// can not include itself.
+
+		if ( url != null && url.toString( ).equals( module.getLocation( ) ) )
+			throw new LibraryException(
+					module,
+					new String[]{namespace},
+					LibraryException.DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY );
+
 		Library library = module.loadLibrary( libraryFileName, namespace );
 		assert library != null;
 		library.setReadOnly( );

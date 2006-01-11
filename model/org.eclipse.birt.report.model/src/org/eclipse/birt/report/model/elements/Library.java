@@ -222,6 +222,31 @@ public class Library extends Module implements ILibraryModel
 
 		return false;
 	}
+	
+	/**
+	 * Returns whether the library with the given url can be included in
+	 * this module.
+	 * 
+	 * @param fileName
+	 *            the library file url
+	 * @return true, if the library with the given url can be included.
+	 */
+
+	public boolean isRecursiveFile( String fileName )
+	{
+		Module module = this;
+		while ( module instanceof Library )
+		{
+			Library library = (Library) module;
+
+			if ( fileName.equals( library.getLocation( ) ) )
+				return true;
+
+			module = library.getHost( );
+		}
+
+		return false;
+	}
 
 	/**
 	 * Finds a theme in this module itself.
