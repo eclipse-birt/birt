@@ -928,19 +928,19 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public String getQualifiedName( )
 	{
-
-		if ( getElement( ).getName( ) == null )
+		String name = getName();
+	
+		if ( name == null )
 			return null;
 
 		Module rootElement = getElement( ).getRoot( );
 		if ( rootElement instanceof Library )
 		{
 			String namespace = ( (Library) rootElement ).getNamespace( );
-			return StringUtil.buildQualifiedReference( namespace, getElement( )
-					.getName( ) );
+			return StringUtil.buildQualifiedReference( namespace, name );
 		}
 
-		return getElement( ).getName( );
+		return name;
 	}
 
 	/**
