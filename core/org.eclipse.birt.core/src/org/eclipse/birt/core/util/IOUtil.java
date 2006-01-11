@@ -329,7 +329,7 @@ public class IOUtil
 				if ( len != 0 )
 				{
 					byte[] bytes = new byte[len];
-					dis.read( bytes );
+					dis.readFully( bytes );
 					obValue = bytes;
 				}
 				break;
@@ -344,7 +344,7 @@ public class IOUtil
 				if ( len != 0 )
 				{
 					byte[] bytes = new byte[len];
-					dis.read( bytes );
+					dis.readFully( bytes );
 					try
 					{
 						ObjectInputStream oo = new ObjectInputStream(
