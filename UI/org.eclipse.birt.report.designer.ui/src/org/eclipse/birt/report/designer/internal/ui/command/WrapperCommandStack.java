@@ -132,4 +132,12 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 		this.ar = ar;
 	}
 
+	public void dispose( )
+	{
+		// TODO Auto-generated method stub
+		super.dispose( );
+		ar.flush();
+		ar.clearListeners();
+		ar = null;
+	}
 }

@@ -54,8 +54,8 @@ public class AreaEditPart extends ReportElementEditPart
 		figure.setLayoutManager( new ReportFlowLayout( ) );
 
 		return figure;
-	}
-
+	}	
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -180,5 +180,18 @@ public class AreaEditPart extends ReportElementEditPart
 					.addListener( this );
 		}
 
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#removeModelLister()
+	 */
+	protected void removeModelLister( )
+	{
+		super.removeModelLister( );
+		if ( getModel( ) instanceof ReportElementModel )
+		{
+			( (ReportElementModel) getModel( ) ).getElementHandle( )
+					.removeListener( this );
+		}
 	}
 }

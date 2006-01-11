@@ -105,7 +105,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.22 $ $Date: 2005/12/16 06:08:19 $
+ * @version $Revision: 1.23 $ $Date: 2005/12/28 07:32:11 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
 		EditorSelectionProvider,
@@ -437,6 +437,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		if ( splitter != null )
 			splitter.setExternalViewer( null );
 		splitter = null;
+		getSelectionActions().clear();
 		getActionRegistry( ).dispose( );
 		List list = new ArrayList();
 		Iterator actions = getActionRegistry( ).getActions();
@@ -449,6 +450,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		{
 			getActionRegistry( ).removeAction((IAction)list.get(i));
 		}
+		((ReportMultiPageEditorSite)getSite()).dispose();
 	}
 
 	/**

@@ -28,6 +28,8 @@ import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.core.DisposeEvent;
+import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 
 /**
@@ -45,6 +47,19 @@ public class SessionHandleAdapter
 	public static int TEMPLATEFILE = 2;
 	
 	private int type = DESIGNEFILE;
+	IDisposeListener disposeLitener =new IDisposeListener()
+	{
+		public void moduleDisposed( ModuleHandle targetElement, DisposeEvent ev )
+		{
+			ReportMediator media = (ReportMediator)mediatorMap.get(targetElement);
+			if (media != null)
+			{
+				media.dispose();
+				mediatorMap.remove(targetElement);
+			}
+			targetElement.removeDisposeListener(disposeLitener);
+		}	
+	};
 	
 	// add field support mediator
 	private Map mediatorMap = new WeakHashMap( );
@@ -245,6 +260,7 @@ public class SessionHandleAdapter
 	 */
 	public ReportMediator getMediator( ModuleHandle handle )
 	{
+		handle.addDisposeListener(disposeLitener);
 		ReportMediator mediator = (ReportMediator) mediatorMap.get( handle );
 		if ( mediator == null )
 		{

@@ -311,7 +311,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	/**
 	 * Removes the model listener.
 	 */
-	private void removeModelLister( )
+	protected void removeModelLister( )
 	{
 		if ( getModel( ) instanceof DesignElementHandle )
 		{
