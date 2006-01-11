@@ -56,7 +56,6 @@ import org.eclipse.birt.report.model.core.namespace.ModuleNameScopeFactory;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
-import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
@@ -1967,16 +1966,15 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public void broadcastDisposeEvent( DisposeEvent event )
 	{
-		if ( disposeListeners != null )
-		{
-			Iterator iter = disposeListeners.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				IDisposeListener listener = (IDisposeListener) iter.next( );
+		if ( disposeListeners == null || disposeListeners.isEmpty( ) )
+			return;
 
-				listener.moduleDisposed( (ModuleHandle) getHandle( this ),
-						event );
-			}
+		List temp = new ArrayList( disposeListeners );
+		Iterator iter = temp.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			IDisposeListener listener = (IDisposeListener) iter.next( );
+			listener.moduleDisposed( (ModuleHandle) getHandle( this ), event );
 		}
 	}
 
