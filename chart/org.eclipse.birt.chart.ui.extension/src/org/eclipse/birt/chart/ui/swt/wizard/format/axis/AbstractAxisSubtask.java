@@ -415,6 +415,8 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 			// Set type and refresh the preview
 			getAxisForProcessing( ).setType( axisType );
+			// Update popup UI
+			refreshPopupSheet( );
 		}
 		else if ( e.widget.equals( cmbOrigin ) )
 		{

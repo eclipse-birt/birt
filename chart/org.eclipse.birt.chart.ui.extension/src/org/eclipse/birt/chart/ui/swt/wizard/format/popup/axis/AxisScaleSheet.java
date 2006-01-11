@@ -103,7 +103,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 	public AxisScaleSheet( Composite parent, ChartWizardContext context,
 			Axis axis )
 	{
-		super( parent, context, false );
+		super( parent, context, true );
 		this.axis = axis;
 		cmpTop = getComponent( parent );
 	}
@@ -338,7 +338,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 			cmbTypes.setItems( ns.getDisplayNames( ) );
 			cmbTypes.select( ns.getSafeNameIndex( getAxisForProcessing( ).getType( )
 					.getName( ) ) );
-			setState( cmbTypes.getText( ) );
+			setState( LiteralHelper.axisTypeSet.getNameByDisplayName( cmbTypes.getText( ) ) );
 
 			// Populate origin types combo
 			ns = LiteralHelper.intersectionTypeSet;
@@ -353,6 +353,10 @@ public class AxisScaleSheet extends AbstractPopupSheet
 				txtValue.setText( getValue( getAxisForProcessing( ).getOrigin( )
 						.getValue( ) ) );
 			}
+		}
+		else
+		{
+			setState( getAxisForProcessing( ).getType( ).getName( ) );
 		}
 
 		// Populate origin types combo
@@ -469,7 +473,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 		{
 			getAxisForProcessing( ).setType( AxisType.get( LiteralHelper.axisTypeSet.getNameByDisplayName( cmbTypes.getText( ) ) ) );
 			convertSampleData( );
-			setState( cmbTypes.getText( ) );
+			setState( LiteralHelper.axisTypeSet.getNameByDisplayName( cmbTypes.getText( ) ) );
 		}
 		else if ( oSource.equals( cmbOrigin ) )
 		{
@@ -537,8 +541,6 @@ public class AxisScaleSheet extends AbstractPopupSheet
 
 	private void setState( String sType )
 	{
-		sType = LiteralHelper.axisTypeSet.getNameByDisplayName( sType );
-
 		// Bugzilla#103961 Marker line and range only work for non-category
 		// style X-axis,
 		boolean bEnabled = !( getAxisForProcessing( ).isCategoryAxis( ) || sType.equals( AxisType.TEXT_LITERAL.getName( ) ) );
@@ -548,9 +550,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 		txtScaleMax.setEnabled( bEnabled );
 		lblStep.setEnabled( bEnabled );
 		txtScaleStep.setEnabled( bEnabled );
-		lblGridCount.setEnabled( bEnabled );
-		iscGridCount.setEnabled( bEnabled );
-
+		
 		// lblUnit.setEnabled( sType.equals( "DateTime" ) ); //$NON-NLS-1$
 		// cmbScaleUnit.setEnabled( sType.equals( "DateTime" ) ); //$NON-NLS-1$
 		lblStep.setEnabled( bEnabled
