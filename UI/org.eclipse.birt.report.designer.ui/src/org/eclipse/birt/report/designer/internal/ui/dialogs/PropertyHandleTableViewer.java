@@ -154,7 +154,7 @@ public final class PropertyHandleTableViewer
                         viewer.cancelEditing();
                         try
                         {
-                            handle.moveItem( index, index + 2 );
+                            handle.moveItem( index, index + 1 );
                         }
                         catch ( PropertyValueException e1 )
                         {

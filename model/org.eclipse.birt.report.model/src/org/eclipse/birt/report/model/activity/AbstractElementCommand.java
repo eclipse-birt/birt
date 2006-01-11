@@ -63,7 +63,7 @@ public abstract class AbstractElementCommand extends Command
 		if ( newPosn < 0 )
 			newPosn = 0;
 		if ( newPosn > size - 1 )
-			newPosn = size;
+			newPosn = size - 1;
 
 		if ( oldPosn < 0 || oldPosn > size )
 			throw new IndexOutOfBoundsException(
@@ -73,14 +73,8 @@ public abstract class AbstractElementCommand extends Command
 			throw new IndexOutOfBoundsException(
 					"To: " + newPosn + ", List Size: " + size ); //$NON-NLS-1$//$NON-NLS-2$
 
-		if ( oldPosn == newPosn || oldPosn + 1 == newPosn )
+		if ( oldPosn == newPosn )
 			return oldPosn;
-
-		// adjust the position when move a item from a position with a small
-		// index to another position with a bigger index.
-
-		if ( oldPosn < newPosn )
-			return newPosn - 1;
 
 		return newPosn;
 	}
