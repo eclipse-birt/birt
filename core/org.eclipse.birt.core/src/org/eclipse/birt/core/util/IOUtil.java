@@ -326,12 +326,10 @@ public class IOUtil
 				break;
 			case TYPE_BYTES :
 				int len = readInt( dis );
-				if ( len != 0 )
-				{
-					byte[] bytes = new byte[len];
+				byte[] bytes = new byte[len];
+				if ( len > 0 )
 					dis.readFully( bytes );
-					obValue = bytes;
-				}
+				obValue = bytes;
 				break;
 			case TYPE_LIST :
 				obValue = readList( dis );
@@ -343,7 +341,7 @@ public class IOUtil
 				len = readInt( dis );
 				if ( len != 0 )
 				{
-					byte[] bytes = new byte[len];
+					bytes = new byte[len];
 					dis.readFully( bytes );
 					try
 					{
@@ -420,15 +418,10 @@ public class IOUtil
 				break;
 			case TYPE_BYTES :
 				byte[] bytes = (byte[]) obValue;
-				if ( bytes == null || bytes.length == 0 )
-				{
-					writeInt( dos, 0 );
-				}
-				else
-				{
-					writeInt( dos, bytes.length );
+				int length = bytes.length;
+				writeInt( dos, length );
+				if ( length > 0 )
 					dos.write( bytes );
-				}
 				break;
 			case TYPE_LIST :
 				writeList( dos, (List) obValue );
