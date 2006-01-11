@@ -15,6 +15,7 @@ import java.text.MessageFormat;
 
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
@@ -119,13 +120,16 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 	private transient Label lblSeparator;
 
 	private transient Group grpOutline;
+	
+	private transient ChartWizardContext context;
 
 	public SeriesLabelSheet( Composite parent, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
 		super( parent, context, false );
 		this.seriesDefn = seriesDefn;
-		cmpTop = getComponent( parent );
+		this.context = context;
+		cmpTop = getComponent( parent );		
 	}
 
 	/*
@@ -271,11 +275,20 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 			}
 			// check inout
 			if ( ( positionScope & LabelAttributesComposite.ALLOW_INOUT_POSITION ) != 0 )
-			{
-				String[] ns = LiteralHelper.inoutPositionSet.getDisplayNames( );
-				for ( int i = 0; i < ns.length; i++ )
+			{				
+				if ( ( getSeriesForProcessing( ) instanceof BarSeries )
+						&& ( context.getModel( ).getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL ) )
 				{
-					cmbPosition.add( ns[i] );
+					cmbPosition.add( LiteralHelper.inoutPositionSet.getDisplayNameByName( 
+							Position.OUTSIDE_LITERAL.getName( ) ) );
+				}
+				else
+				{
+					String[] ns = LiteralHelper.inoutPositionSet.getDisplayNames( );
+					for ( int i = 0; i < ns.length; i++ )
+					{
+						cmbPosition.add( ns[i] );
+					}
 				}
 			}
 

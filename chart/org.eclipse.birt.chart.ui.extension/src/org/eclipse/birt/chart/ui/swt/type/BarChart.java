@@ -643,7 +643,7 @@ public class BarChart extends DefaultChartTypeImpl
 			sdZ.getSeriesPalette( ).update( 0 );
 			sdZ.getSeries( ).add( SeriesImpl.create( ) );
 			zAxisAncillary.getSeriesDefinitions( ).add( sdZ );
-
+			
 			if ( currentChart.getSampleData( )
 					.getAncillarySampleData( )
 					.isEmpty( ) )
@@ -653,7 +653,20 @@ public class BarChart extends DefaultChartTypeImpl
 				currentChart.getSampleData( )
 						.getAncillarySampleData( )
 						.add( sdAncillary );
-			}
+			}		
+
+			Series series = null;
+			EList seriesdefinitions = ( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+					.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).getSeriesDefinitions( );
+			for ( int j = 0; j < seriesdefinitions.size( ); j++ )
+			{
+				series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
+				if ( ( series instanceof BarSeries) && 
+						( series.getLabelPosition( ) != Position.OUTSIDE_LITERAL ) )
+				{
+					series.setLabelPosition( Position.OUTSIDE_LITERAL );
+				}
+			}		
 		}
 
 		return currentChart;
