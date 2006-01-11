@@ -1,44 +1,33 @@
 <?xml version="1.0"?>
 
-<project name="Birt Model Project" basedir="." default="utest">
-
-	<!-- set global properties for this build -->
-	<!-- Public properties, used by public targets, top level build script
-		     will pass on the value at runtime. Properties will have there default
-		     value.
-
-		     eclipse.home
-		     dtp.home
-		     test.report.dir
-		     javadoc.dir
-		     plugin.version 
-	-->
-	<!--properties -->
-
-	<!-- ===== Default value for public properties ============= -->
-	<property name="test.report.dir" location="report" />
-	<property name="test.report.xml.dir" location="${test.report.dir}/xml" />
-	<property name="test.javadoc.dir" location="doc" />
+<project name="testsuite" default="run" basedir=".">
+	<!-- The property ${eclipse-home} should be passed into this script -->
+	<!-- Set a meaningful default value for when it is not. -->
+	<property name="eclipse-home" location="../.."/>
+	<property name="JAVA_HOME" value="C:/j2sdk1.4.2_10" />
+	<!--property name="axlan-home" value="C:/apps/apache-ant-1.6.2/lib"/-->
+	<!-- sets the properties eclipse-home, and library-file -->
+	<property name="plugin-name" value="org.eclipse.birt.report.tests.engine"/>
+	<property name="jar-name" value="EngineTest"/>
+	<property name="class-to-test" value="org.eclipse.birt.report.tests.engine.AllTests"/>
 	
-	<property name="romdoc.output.dir" location="romdoc/gen" />
-	<property name="plugin.version" value="2.0.0" />
-	<property name="export.dir" location="export" />
+	<property name="test.src.dir" value="./src" />
+	<property name="test.build.dir" value="./bin" />
+	<property name="test.doc.dir" value="./doc" />
+	<property name="test.report.dir" value="./report" />
+	<property name="test.lib.dir" value="./lib" />
 	
-	<property name="eclipse.home" location="." />
-	<property name="dtp.home" location=".." />
+	<property name="eclipse.plugin.tests" value="${eclipse-home}/plugins/${plugin-name}" />
 	
-	<property name="core.dir" location="../org.eclipse.birt.core" />
-	<property name="data.oda.dir" location="../org.eclipse.birt.data.oda" />
-	<property name="data.oda.jdbc.dir" location="../org.eclipse.birt.report.data.oda.jdbc" />
-	<property name="datatools.connectivity.oda.dir" location="../org.eclipse.datatools.connectivity.oda" />	
-	<property name="module.dir" location = "..\org.eclipse.birt.report.engine" />
-	<property name="testmodule.name" value = "org.eclipse.birt.report.tests.engine" />
+	<property name="library-file" value="${eclipse-home}/plugins/org.eclipse.test/library.xml"/>
 	
-	<property name="test.src.dir" location="src" />
-	<property name="test.build.dir" location="bin" />
-	<property name="test.lib.dir" location="lib" />
+	<!--class path for class/jar needed in tests -->
+	<property name="core.dir" location="${eclipse-home}/plugins/org.eclipse.birt.core" />
+	<property name="data.oda.dir" location="${eclipse-home}/plugins/org.eclipse.birt.data.oda" />
+	<property name="data.oda.jdbc.dir" location="${eclipse-home}/plugins/org.eclipse.birt.report.data.oda.jdbc" />
+	<property name="datatools.connectivity.oda.dir" location="${eclipse-home}/plugins/org.eclipse.datatools.connectivity.oda" />	
+	<property name="module.dir" location = "${eclipse-home}/plugins/org.eclipse.birt.report.engine" />
 	
-	<!-- Class Path -->
 	<path id="class.path">
 		<fileset dir="${test.lib.dir}">
 			<include name="*.jar" />
@@ -51,7 +40,7 @@
 		<pathelement path="${data.oda.jdbc.dir}\*.jar" />
 		<pathelement path="${datatools.connectivity.oda.dir}\oda.jar" />
 <!--
-		<fileset dir="${eclipse.home}/plugins">
+		<fileset dir="${eclipse-home}/plugins">
 				<include name="org.eclipse.core.runtime_*/runtime.jar"/>
 				<include name="org.eclipse.osgi_*/*.jar"/>
 				<include name="org.eclipse.core.runtime*.jar"/>
@@ -64,171 +53,143 @@
 		</fileset>	
 
 -->		
-		
-		
-		  <fileset dir="..">
-		    	<include name="org.eclipse.birt.core/*.jar" />
-		  		<include name="org.eclipse.birt.data.oda/*.jar" />			  	
-			    <include name="org.eclipse.birt.data.oda.adapter.dtp/*.jar" />
-			    <include name="org.eclipse.birt.report.data.oda.jdbc/*.jar" />
-			    <include name="org.eclipse.birt.report.data.oda.sampledb/*.jar" />		
-		    	<include name="org.eclipse.birt.data/*.jar" />
-		  		<include name="org.eclipse.birt.report.model/*.jar" />
-			    <include name="org.eclipse.birt.report.engine/*.jar" />
-		  </fileset>
- 	
-		
-		
-		
+		<fileset dir="${eclipse-home}/plugins/">
+			<include name="org.eclipse.birt.core/*.jar" />
+			<include name="org.eclipse.birt.data.oda/*.jar" />			  	
+			<include name="org.eclipse.birt.data.oda.adapter.dtp/*.jar" />
+			<include name="org.eclipse.birt.report.data.oda.jdbc/*.jar" />
+			<include name="org.eclipse.birt.report.data.oda.sampledb/*.jar" />		
+			<include name="org.eclipse.birt.data/*.jar" />
+			<include name="org.eclipse.birt.report.model/*.jar" />
+			<include name="org.eclipse.birt.report.engine/*.jar" />
+		</fileset>
 		
 	</path>
 
-	
-	<!-- Export the project, for instance, jar files are copied to a designated folder
-		 the dependency on Jar should implement in top level script by call sequence	
-		 Parameters:
-		 		- ${export.dir} target directory to put the plugin binaries
-		 		- ${plugin.version} the version of plugin exported
-	 -->
-	<target name="Export" >
-	  	<copy todir="${export.dir}/${module.name}_${plugin.version}" failonerror="false">
-	        <fileset dir="." includes="model.jar,plugin.xml,about.html,.options,lib/**,schema/**"/>
-	    </copy>
-		<copy todir="${export.dir}/${module.name}_${plugin.version}/romdoc" failonerror="false">
-			<fileset dir="./romdoc/gen" includes="**/*.*"/>
-		</copy>			    
+	<!-- set platform related properties-->
+	<property name="arch" value="x86" />
+  	<condition property="ws" value="win32">
+    	<os family="windows"/>
+	</condition>
+	<condition property="ws" value="gtk">
+		<not>
+			<os family="windows"/>
+		</not>
+	</condition>
+	<condition property="os" value="win32">
+		<os family="windows"/>
+	</condition>
+	<condition property="os" value="linux">
+		<not>
+			<os family="windows"/>
+		</not>
+	</condition>
+	<property name="nl" value="en_US" />   
+  
+	<!-- This target holds all initialization code that needs to be done for -->
+	<!-- all tests that are to be run. Initialization for individual tests -->
+	<!-- should be done within the body of the suite target. -->
+	<target name="init">
+		<tstamp/>
 	</target>
 
-	
-	<!-- Compile Model Test Files 
-		 javac.failonerror should be true.
-	-->
-    <target name="compileTest" description="Compile Data Test Files">
+	<!-- This target defines the tests that need to be run. -->
+	<target name="UnitTest">
+		<echo message="${library-file}"  />
+		<property name="birt-model-folder" value="${eclipse-home}/birt-model-folder"/>
+		<delete dir="${birt-model-folder}" quiet="true"/>
+		
+		<ant target="core-test" antfile="${library-file}" dir="${eclipse-home}">
+			<property name="data-dir" value="${birt-model-folder}"/>
+			<property name="plugin-name" value="${plugin-name}"/>
+			<property name="classname" value="${class-to-test}"/>
+			<property name="vmargs" value="-DBIRT_HOME='${eclipse-home}'"/>
+			<property name="vmargs" value="-Declipse.home='${eclipse-home}'"/>
+		</ant>
+	</target>
+
+	<target name="compileTest">
 		<delete dir="${test.build.dir}" />
-    	<mkdir dir="${test.build.dir}" />
-    	
-        <copy todir="${test.build.dir}">
+		<mkdir dir="${test.build.dir}" />
+		<!-- Copy resource files into build -->
+		<copy todir="${test.build.dir}">
 			<fileset dir="${test.src.dir}">
-				<include name="**/input/*.*"/>
-				<include name="**/golden/*.*"/>
-				<include name="**/*.properties" />	
+				<include name="**/input/*.*" />
+				<include name="**/golden/*.*" />
+				<include name="**/output/*.*" />
+				<include name="**/*.properties" />
+				<!--exclude name="org.eclipse.birt.report.tests.engine.smoke"/-->
+				<!--exclude name="org.eclipse.birt.report.tests.engine.emitter.*"/-->
 			</fileset>
 		</copy>
- 
-		<javac srcdir="${test.src.dir}" 
-			   destdir="${test.build.dir}" 
-			   source="1.4" 
-			   target="1.4"
-			   debug="true" 
-			   encoding="utf-8" 
-			   failonerror="true" >
-			   <classpath refid="class.path" />
-		</javac>    	
-    </target>
 
-	<!-- Run Unit test.
-			 Parameters:
-			 		- ${utest.report.dir} target directory to put the unit test report
-			 		
-		 Notice: This public task UnitTest doesn't depend on complieSource, top level script 
-		 will ensure that compilation is successful before call this UnitTest.
-	-->
-	<target name="UnitTest" >
-		<delete dir="${test.report.xml.dir}" />
-		<mkdir dir="${test.report.xml.dir}"/>
-		<junit printsummary="on" 
-			   fork="true" 
-			   dir="."
-			   haltonfailure="false" 
-			   failureproperty="test.failed"
-		       showoutput="true">
-
-			<jvmarg value="-DBIRT_HOME=${eclipse.home}" />
-			<jvmarg value="-ea"/>
+		<!-- Compile API Test Source Files -->
+		<echo message="${JAVA_HOME}" />
+		<javac srcdir="${test.src.dir}" destdir="${test.build.dir}" executable="${JAVA_HOME}/bin/javac"  source="1.4" target="1.4" debug="true" encoding="gb2312" failonerror="true">
 			<classpath refid="class.path" />
-			<formatter type="xml" usefile="true" />
-
-			<batchtest todir="${test.report.xml.dir}">
-				<fileset dir="${test.src.dir}">
-					<include name="**/AllTests.java" />				
-				</fileset>
-			</batchtest>
-		</junit>
+		</javac>
 	</target>
 
-	<target name="Report" >
+	<target name="APIJavadoc">
+		<!--EngineTest.jar   -->
+		<jar destfile="${jar-name}.jar" >
+			<fileset dir="${test.build.dir}">
+				<include name="**/*.class"/>
+			</fileset>
+		</jar>
+		
+    	<mkdir dir="${test.doc.dir}" />
+		<javadoc packagenames="${plugin-name}.*"
+			sourcepath="${test.src.dir}"
+			defaultexcludes="yes"
+			destdir="${test.doc.dir}"
+			author="true"
+			version="true"
+			use="true"
+			windowtitle="BIRT API Test---" >
+			<classpath>
+				<fileset dir="${test.lib.dir}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javadoc>
+		
+	</target>
+  
+	<target name="Report">
+		<delete dir="${test.report.dir}" />
+		<mkdir dir="${test.report.dir}" />
+		
 		<junitreport todir="${test.report.dir}">
-			<fileset dir="${test.report.xml.dir}">
-				<include name="*.xml" />
+			<fileset dir="${eclipse-home}">
+				<include name="${class-to-test}*.xml" />
 				<exclude name="*TestSuites.xml" />
 			</fileset>
 			
-			<report format="frames" todir="${test.report.dir}/" />
+			<report format="frames" todir="${test.report.dir}" />
 		</junitreport>
 	</target>
-	
-	<!-- Clean the build environment -->
+
+	<!-- This target holds code to cleanup the testing environment after -->
+	<!-- after all of the tests have been run. You can use this target to -->
+	<!-- delete temporary files that have been created. -->
 	<target name="Clean">
+		<delete>
+			<fileset dir="${eclipse-home}" includes="org*.xml"/>
+		</delete>
 		<delete dir="${test.build.dir}" />
-		<delete dir="${tes.report.dir}"/>
-		<delete dir="${test.javadoc.dir}"/>
-		<delete dir="${export.dir}"/>
-		<delete file="model.jar" />
+		<delete dir="${test.report.dir}"/>
+		<delete dir="${test.doc.dir}"/>
+		<delete file="${jar-name}.jar" />
 	</target>
 
-	
-	<!-- Generate the JavaDocs for public APIs. 
-			 Parameters:
-			 		- ${api.javadoc.dir} target directory to put the java document
-	 -->	
-	<target name="APIJavadoc">
-		<delete dir="${test.javadoc.dir}" failonerror="false"/>
-		<mkdir dir="${test.javadoc.dir}" />
-		
-		<javadoc destdir="${test.javadoc.dir}" 
-				 author="true" 
-				 version="true" 
-				 use="true" 
-				 windowtitle="BIRT Engine API Tester- Provisional" 
-			     doctitle="BIRT Engine API Tester(Provisional)" 
-				 source="1.4"
-				 packagenames="${testmodule.name}.*">
-
-				<packageset dir="src" defaultexcludes="yes">
-			      	<include name="org/eclipse/birt/report/tests/engine/**" />
-			    </packageset>
-				<classpath refid="class.path" />
-		</javadoc>
+	<!-- This target runs the test suite. Any actions that need to happen -->
+	<!-- after all the tests have been run should go here. -->
+	<target name="run" depends="init,compileTest,APIJavadoc,UnitTest,Report">
+		<!--ant target="collect" antfile="${library-file}" dir="${eclipse-home}">
+			<property name="includes" value="org*.xml"/>
+			<property name="output-file" value="${plugin-name}.xml"/>
+		</ant-->
 	</target>
 
-	<!-- Build the dependent projects -->
-	<target name="buildDependents" description="Build all the projects it depends on">
-		<echo message="start call Jar task in ${core.dir}" level="info"/>
-		<ant dir="${core.dir}" antfile="BuildCore.xml" target="Jar" inheritall="false">
-		 	<property name="eclipse.home" value="${eclipse.home}" />
-		</ant>
-		<echo message="end call Jar task in ${core.dir}" level="info" />
-		
-		<!-- Building BIRT ODA triggers building of DTP ODA jar -->
-		<echo message="start call Jar task in ${data.oda.dir}" level="info"/>
-		<echo message="dtp.home= ${dtp.home}"/>
-		<ant dir="${data.oda.dir}" antfile="BuildOda.xml" target="Jar" inheritall="false">
-		 	<property name="eclipse.home" value="${eclipse.home}" />
-			<property name="dtp.home" value="${dtp.home}" />
-		</ant>
-		<echo message="end call Jar task in ${data.oda.dir}" level="info" />
-	</target>
-		
-
-	<!-- Unzip the testing plug-in -->
-	<target name="unzipTestingPlugin">
-		<unzip src="org.eclipse.birt.report.model.tests.zip"
-		       dest="${eclipse.home}/plugins/org.eclipse.birt.report.model.tests">
-		</unzip>
-	</target>
-
-	<!-- private task, run unit test -->
-	<target name="utest" depends="compileTest,APIJavadoc,UnitTest,Report" >
-		<!--fail if="test.failed" message="One or more tests failed!  Check the output." /-->
-	</target>
 </project>
