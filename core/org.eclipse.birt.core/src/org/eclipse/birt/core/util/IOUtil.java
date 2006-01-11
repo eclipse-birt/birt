@@ -210,6 +210,62 @@ public class IOUtil
 			outputStream.writeUTF( str );
 	}
 
+	/**
+	 * Read a list from an input stream
+	 * 
+	 * @param dos
+	 * @return
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	public final static byte[] readBytes( DataInputStream dis ) throws IOException
+	{
+		// check null
+		if ( readBool( dis ) == false )
+			return null;
+
+		// read bytes size
+		int size = readInt( dis );
+		byte[] bytes = new byte[size];
+		
+		if ( size != 0 )
+		{
+			dis.readFully(bytes);
+		}
+		return bytes;
+	}
+
+	/**
+	 * Write a bytes to an output stream
+	 * 
+	 * @param dos
+	 * @param dataMap
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	public final static void writeBytes( DataOutputStream dos, byte[] bytes)
+			throws IOException
+	{
+		// check null
+		if ( bytes == null )
+		{
+			writeBool( dos, false );
+			return;
+		}
+		else
+		{
+			writeBool( dos, true );
+		}
+
+		// write map size
+		int size = bytes.length;
+		writeInt( dos, size );
+		if ( size == 0 )
+			return;
+		dos.write(bytes);
+	}
+	
+	
 	private static Map type2IndexMap;
 
 	private static final int TYPE_NULL = 0;
