@@ -282,7 +282,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 					else
 					{
 						log.log( Level.SEVERE,
-								"error page number rang:", ps[i] );  //$NON-NLS-1$
+								"error page number range: {0}", ps[i] );  //$NON-NLS-1$
 					}
 				}
 				else
@@ -295,7 +295,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 					else
 					{
 						log.log( Level.SEVERE,
-								"error page number rang:", ps[i] );  //$NON-NLS-1$
+								"error page number range: {0}", ps[i] );  //$NON-NLS-1$
 					}
 					
 					
