@@ -137,7 +137,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return
 	 */
-	public final boolean isEnableScripting( )
+	public final boolean isScriptingEnabled( )
 	{
 		return enableScripting;
 	}
@@ -147,7 +147,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @param value
 	 */
-	public final void setEnableScripting( boolean value )
+	public final void setScriptingEnabled( boolean value )
 	{
 		enableScripting = value;
 	}

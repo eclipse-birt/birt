@@ -819,7 +819,7 @@ public final class Generator
 
 				if ( sScriptContent != null
 						&& sScriptContent.length( ) > 0
-						&& rtc.isEnableScripting( ) )
+						&& rtc.isScriptingEnabled( ) )
 				{
 					sh.register( sScriptContent );
 				}

@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.render.ActionRendererAdapter;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
@@ -109,15 +110,15 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 						public String getBookmark( )
 						{
-							return stringValue( dph.getUserValue( handle.getTargetBookmark( ) ) );
+							return ChartUtil.stringValue( dph.getUserValue( handle.getTargetBookmark( ) ) );
 						}
 
 						public String getActionString( )
 						{
 							if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
-								return stringValue( dph.getUserValue( handle.getURI( ) ) );
+								return ChartUtil.stringValue( dph.getUserValue( handle.getURI( ) ) );
 							if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
-								return stringValue( dph.getUserValue( handle.getTargetBookmark( ) ) );
+								return ChartUtil.stringValue( dph.getUserValue( handle.getTargetBookmark( ) ) );
 							return null;
 						}
 
@@ -215,15 +216,15 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 						public String getBookmark( )
 						{
-							return stringValue( evaluator.evaluateGlobal( handle.getTargetBookmark( ) ) );
+							return ChartUtil.stringValue( evaluator.evaluateGlobal( handle.getTargetBookmark( ) ) );
 						}
 
 						public String getActionString( )
 						{
 							if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
-								return stringValue( evaluator.evaluateGlobal( handle.getURI( ) ) );
+								return ChartUtil.stringValue( evaluator.evaluateGlobal( handle.getURI( ) ) );
 							if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
-								return stringValue( evaluator.evaluateGlobal( handle.getTargetBookmark( ) ) );
+								return ChartUtil.stringValue( evaluator.evaluateGlobal( handle.getTargetBookmark( ) ) );
 							return null;
 						}
 
@@ -302,13 +303,4 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 		}
 	}
 
-	private static String stringValue( Object value )
-	{
-		if ( value == null )
-		{
-			return null;
-		}
-
-		return String.valueOf( value );
-	}
 }

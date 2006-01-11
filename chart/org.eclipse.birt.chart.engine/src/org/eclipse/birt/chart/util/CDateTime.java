@@ -470,12 +470,18 @@ public class CDateTime extends GregorianCalendar
 			while ( dsi.hasNext( ) )
 			{
 				cCurr = (Calendar) dsi.next( );
-				if ( cCurr.get( iaUnitTypes[k] ) != cPrev.get( iaUnitTypes[k] ) )
+				if ( cCurr != null
+						&& cPrev != null
+						&& cCurr.get( iaUnitTypes[k] ) != cPrev.get( iaUnitTypes[k] ) )
 				{
 					return iaUnitTypes[k]; // THE UNIT FOR WHICH A DIFFERENCE
 					// WAS NOTED
 				}
-				cPrev = cCurr;
+
+				if ( cCurr != null )
+				{
+					cPrev = cCurr;
+				}
 			}
 		}
 

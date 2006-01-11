@@ -220,4 +220,20 @@ public class ChartUtil
 			}
 		}
 	}
+
+	/**
+	 * Returns the string representation for given object. null for null object.
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static String stringValue( Object value )
+	{
+		if ( value == null )
+		{
+			return null;
+		}
+
+		return String.valueOf( value );
+	}
 }
