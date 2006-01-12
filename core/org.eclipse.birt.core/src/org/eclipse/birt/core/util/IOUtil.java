@@ -181,90 +181,7 @@ public class IOUtil
 		outputStream.writeLong( value );
 	}
 
-	/**
-	 * Read a String from an input stream
-	 * 
-	 * @param inputStream
-	 * @return an String
-	 * @throws IOException
-	 */
-	public final static String readString( DataInputStream inputStream )
-			throws IOException
-	{
-		return inputStream.read( ) == 0 ? null : inputStream.readUTF( );
-	}
-
-	/**
-	 * Write a String value to an output stream
-	 * 
-	 * @param outputStream
-	 * @param str
-	 * @throws IOException
-	 */
-	public final static void writeString( DataOutputStream outputStream,
-			String str ) throws IOException
-	{
-		outputStream.write( str == null ? 0 : 1 );
-
-		if ( str != null )
-			outputStream.writeUTF( str );
-	}
-
-	/**
-	 * Read a list from an input stream
-	 * 
-	 * @param dos
-	 * @return
-	 * @throws IOException
-	 * @throws BirtException
-	 */
-	public final static byte[] readBytes( DataInputStream dis ) throws IOException
-	{
-		// check null
-		if ( readBool( dis ) == false )
-			return null;
-
-		// read bytes size
-		int size = readInt( dis );
-		byte[] bytes = new byte[size];
-		
-		if ( size != 0 )
-		{
-			dis.readFully(bytes);
-		}
-		return bytes;
-	}
-
-	/**
-	 * Write a bytes to an output stream
-	 * 
-	 * @param dos
-	 * @param dataMap
-	 * @throws IOException
-	 * @throws BirtException
-	 */
-	public final static void writeBytes( DataOutputStream dos, byte[] bytes)
-			throws IOException
-	{
-		// check null
-		if ( bytes == null )
-		{
-			writeBool( dos, false );
-			return;
-		}
-		else
-		{
-			writeBool( dos, true );
-		}
-
-		// write map size
-		int size = bytes.length;
-		writeInt( dos, size );
-		if ( size == 0 )
-			return;
-		dos.write(bytes);
-	}
-	
+	//------------for object read/write-------------------
 	
 	private static Map type2IndexMap;
 
@@ -352,7 +269,7 @@ public class IOUtil
 		switch ( typeIndex )
 		{
 			case TYPE_NULL :
-				break;		
+				break;
 			case TYPE_INT :
 				obValue = new Integer( dis.readInt( ) );
 				break;
@@ -401,8 +318,7 @@ public class IOUtil
 					dis.readFully( bytes );
 					try
 					{
-						ObjectInputStream oo = new ObjectInputStream(
-								new ByteArrayInputStream( bytes ) );
+						ObjectInputStream oo = new ObjectInputStream( new ByteArrayInputStream( bytes ) );
 						obValue = oo.readObject( );
 					}
 					catch ( Exception ex )
@@ -514,6 +430,99 @@ public class IOUtil
 	}
 
 	/**
+	 * Read a String from an input stream
+	 * 
+	 * @param inputStream
+	 * @return an String
+	 * @throws IOException
+	 */
+	public final static String readString( DataInputStream dis )
+			throws IOException
+	{
+		if ( readInt( dis ) == TYPE_NULL )
+			return null;
+
+		return dis.readUTF( );
+	}
+
+	/**
+	 * Write a String value to an output stream
+	 * 
+	 * @param outputStream
+	 * @param str
+	 * @throws IOException
+	 */
+	public final static void writeString( DataOutputStream dos, String str )
+			throws IOException
+	{
+		if ( str == null )
+		{
+			writeInt( dos, TYPE_NULL );
+			return;
+		}
+		else
+		{
+			writeInt( dos, TYPE_STRING );
+		}
+
+		dos.writeUTF( str );
+	}
+
+	/**
+	 * Read a list from an input stream
+	 * 
+	 * @param dos
+	 * @return
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	public final static byte[] readBytes( DataInputStream dis )
+			throws IOException
+	{
+		// check null
+		if ( readInt( dis ) == TYPE_NULL )
+			return null;
+
+		// read bytes size
+		int size = readInt( dis );
+		byte[] bytes = new byte[size];
+		if ( size != 0 )
+			dis.readFully( bytes );
+
+		return bytes;
+	}
+
+	/**
+	 * Write a bytes to an output stream
+	 * 
+	 * @param dos
+	 * @param dataMap
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	public final static void writeBytes( DataOutputStream dos, byte[] bytes )
+			throws IOException
+	{
+		// check null
+		if ( bytes == null )
+		{
+			writeInt( dos, TYPE_NULL );
+			return;
+		}
+		else
+		{
+			writeInt( dos, TYPE_BYTES );
+		}
+
+		// write byte size and its content
+		int size = bytes.length;
+		writeInt( dos, size );
+		if ( size == 0 )
+			return;
+		dos.write( bytes );
+	}
+
+	/**
 	 * Read a list from an input stream
 	 * 
 	 * @param dos
@@ -550,7 +559,7 @@ public class IOUtil
 	 */
 	public final static void writeList( DataOutputStream dos, List list )
 			throws IOException
-	{	
+	{
 		if ( list == null )
 		{
 			writeInt( dos, TYPE_NULL );
