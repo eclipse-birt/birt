@@ -50,7 +50,9 @@ public class ReportDocumentReader
 	private HashMap globalVariables;
 	private HashMap bookmarks;
 	private List pageHints;
+	/** root TOC, id is "/" */
 	private TOCNode tocRoot;
+	/** tocId, TOCNode map */
 	private HashMap tocMap;
 
 	public ReportDocumentReader( ReportEngine engine, IDocArchiveReader archive )
@@ -295,9 +297,16 @@ public class ReportDocumentReader
 	 */
 	protected void loadTOC( )
 	{
+		if ( !archive.exists( TOC_STREAM ) )
+		{
+			tocRoot = new TOCNode( );
+			tocMap = new HashMap( );
+			return;
+		}
 		try
 		{
-			tocRoot = TOCBuilder.read( archive.getStream( TOC_STREAM ) );
+			InputStream in = archive.getStream( TOC_STREAM );
+			tocRoot = TOCBuilder.read( in );
 			tocMap = new HashMap( );
 			if ( tocRoot != null )
 			{
@@ -331,10 +340,14 @@ public class ReportDocumentReader
 
 	private void loadBookmarks( )
 	{
+		bookmarks = new HashMap( );
+		if ( !archive.exists( BOOKMARK_STREAM ) )
+		{
+			return;
+		}
 		RAInputStream in = null;
 		try
 		{
-			bookmarks = new HashMap( );
 			in = archive.getStream( BOOKMARK_STREAM );
 			DataInputStream di = new DataInputStream( new BufferedInputStream(
 					in ) );

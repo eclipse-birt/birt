@@ -115,6 +115,10 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	 */
 	public void saveTOC( TOCNode node )
 	{
+		if ( node.getChildren( ).isEmpty( ) )
+		{
+			return;
+		}
 		RAOutputStream out = null;
 		try
 		{
@@ -191,6 +195,10 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	 */
 	public void saveBookmarks( HashMap bookmarks )
 	{
+		if ( bookmarks.isEmpty( ) )
+		{
+			return;
+		}
 		RAOutputStream out = null;
 		try
 		{
