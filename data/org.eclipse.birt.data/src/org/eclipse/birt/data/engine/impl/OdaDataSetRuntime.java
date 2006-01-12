@@ -19,9 +19,6 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
-import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.mozilla.javascript.Context;
 
 /**
  * Encapulates the runtime definition of a generic extended (ODA) data set.
@@ -29,6 +26,8 @@ import org.mozilla.javascript.Context;
 public class OdaDataSetRuntime extends DataSetRuntime
 {
 	private String 	queryText;
+	
+	/** Public properties as a (String -> String) map */
 	private Map		publicProperties;
 	
     OdaDataSetRuntime( IOdaDataSetDesign dataSet, PreparedQuery.Executor executor )
@@ -63,10 +62,6 @@ public class OdaDataSetRuntime extends DataSetRuntime
     	this.queryText = queryText;
     }
 
-    public String getQueryScript()
-    {
-    	return getSubdesign().getQueryScript();
-    }
     
     public String getExtensionID()
     {
@@ -87,36 +82,29 @@ public class OdaDataSetRuntime extends DataSetRuntime
 	{
         return getSubdesign().getPrivateProperties();
 	}
-	
+
 	/**
-	 * Gets the effective queryText. If queryScript is defined and returns non-null, use its
-	 * result as query text. Otherwise use queryText.
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getExtensionProperties()
 	 */
-	public String getEffectiveQueryText() throws DataException
+	public Map getExtensionProperties()
 	{
-		String query = null;
-		
-		String queryScript = getQueryScript();
-		if ( queryScript != null && queryScript.length() > 0 )
-		{
-			Context cx = Context.enter();
-			try
-			{
-				Object result = ScriptEvalUtil.evaluateJSAsExpr( cx, this.getScriptScope(), queryScript, 
-						"DataSet(" +getName() + ").QueryScript",
-						1);
-				query = result.toString();
-			}
-			finally
-			{
-				Context.exit();
-			}
-		}
-		
-		if ( query == null || query.length() == 0 )
-			query = this.queryText;
-		
-		return query;
+		return this.publicProperties;
 	}
 
+	/**
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getExtensionProperty(java.lang.String)
+	 */
+	public String getExtensionProperty(String name)
+	{
+		return (String) this.publicProperties.get( name );
+	}
+
+	/**
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#setExtensionProperty(java.lang.String, java.lang.String)
+	 */
+	public void setExtensionProperty(String name, String value)
+	{
+		this.publicProperties.put( name, value );
+	}
+	
 }

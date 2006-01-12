@@ -256,9 +256,6 @@ public final class LogUtil
 		if ( !isEmpty( dataSet.getPrimaryResultSetName( ) ) )
 			stringBuffer.append( "PrimaryResultSetName : "+dataSet.getPrimaryResultSetName()+"\r\n" );
 		
-		if ( !isEmpty( dataSet.getQueryScript( ) ) )
-			stringBuffer.append( "QueryScript : "+dataSet.getQueryScript()+"\r\n" );
-		
 		if ( !isEmpty( dataSet.getQueryText( ) ) )
 			stringBuffer.append( "QueryText : "+dataSet.getQueryText()+"\r\n" );
 		

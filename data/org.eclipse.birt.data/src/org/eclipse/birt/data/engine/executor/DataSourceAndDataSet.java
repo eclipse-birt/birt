@@ -190,8 +190,6 @@ public class DataSourceAndDataSet
 
 			if ( isEqualString( dataSet.getQueryText( ),
 					dataSet2.getQueryText( ) ) == false
-					|| isEqualString( dataSet.getQueryScript( ),
-							dataSet2.getQueryScript( ) ) == false
 					|| isEqualString( dataSet.getExtensionID( ),
 							dataSet2.getExtensionID( ) ) == false
 					|| isEqualString( dataSet.getPrimaryResultSetName( ),

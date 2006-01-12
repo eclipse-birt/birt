@@ -10,9 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.script.internal.instance;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
@@ -67,37 +65,28 @@ public class DataSetInstance implements IDataSetInstance
 		}
 	}
 
-	public Set getExtensionProperty( String name )
+	/**
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance#getExtensionProperties()
+	 */
+	public Map getExtensionProperties()
 	{
-		Map m = dataSet.getPublicProperties( );
-		if ( m == null )
-			return null;
-		return ( Set ) m.get( name );
+		return dataSet.getExtensionProperties();
 	}
 
-	public void setExtensionProperty( String name, Set value )
+	/**
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance#getExtensionProperty(java.lang.String)
+	 */
+	public String getExtensionProperty(String name)
 	{
-		Map m = dataSet.getPublicProperties( );
-		if ( m == null )
-			return;
-		m.put( name, value );
+		return dataSet.getExtensionProperty(name);
 	}
 
-	public void setExtensionProperty( String name, String value )
+	/**
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance#setExtensionProperty(java.lang.String, java.lang.String)
+	 */
+	public void setExtensionProperty(String name, String value)
 	{
-		Map m = dataSet.getPublicProperties( );
-		if ( m == null )
-			return;
-		Set s = ( Set ) m.get( name );
-		if ( s == null )
-			s = new HashSet( );
-		s.add( value );
-		m.put( name, s );
-	}
-
-	public Map getExtensionProperties( )
-	{
-		return dataSet.getPublicProperties( );
+		dataSet.setExtensionProperty( name, value );
 	}
 
 }

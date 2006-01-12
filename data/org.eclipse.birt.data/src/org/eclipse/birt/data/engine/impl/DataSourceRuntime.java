@@ -25,9 +25,10 @@ import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IDataSource;
-import org.eclipse.birt.data.engine.script.JSDataSource;
 import org.eclipse.birt.data.engine.script.DataSourceJSEventHandler;
+import org.eclipse.birt.data.engine.script.JSDataSourceImpl;
 import org.eclipse.birt.data.engine.script.ScriptDataSourceJSEventHandler;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -113,7 +114,19 @@ public abstract class  DataSourceRuntime implements IDataSourceInstanceHandle
 		// Script object is created on demand
 		if ( jsDataSourceObject == null )
 		{
-			jsDataSourceObject = new JSDataSource(this, dataEngine.getSharedScope()); 
+			Scriptable topScope = this.dataEngine.getSharedScope();
+			Context.enter();
+			try
+			{
+				jsDataSourceObject = (Scriptable) Context.javaToJS( 
+							new JSDataSourceImpl( this ), topScope );
+				jsDataSourceObject.setParentScope( topScope );
+				jsDataSourceObject.setPrototype( topScope );
+			}
+			finally
+			{
+				Context.exit();
+			}
 		}
 
 		return jsDataSourceObject;

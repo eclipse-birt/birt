@@ -34,13 +34,6 @@ public interface IOdaDataSetDesign extends IBaseDataSetDesign
     public abstract String getQueryText();
       
     /**
-     * Gets the user-defined script, if defined, that dynamically generates a query text.
-     * @return	The script that generates a query text.  
-     * 			Null if no query script is defined.
-     */
-    public abstract String getQueryScript();
-
-    /**
      * Gets the unique id that identifies the type of the data set, assigned by the
      * extension providing the implementation of this data set.  
      * The id is required if the
@@ -61,21 +54,17 @@ public interface IOdaDataSetDesign extends IBaseDataSetDesign
     public abstract String getPrimaryResultSetName();
       
     /**
-	 * Gets the public data set property, in the form of a (name, set) pair.
-	 * A named property can be mapped to more than one values. 
-	 * The property name is of String type.
-	 * The property value is a Set interface of string values.
-	 * @return	Public properties as a Map of name-set pairs.
+	 * Gets the public data set property, in the form of a 
+	 *   ( name[String], value[String] ) map
+	 * @return	Public properties as a Map of String-String pairs.
 	 * 			Null if none is defined.
 	 */
 	public abstract Map getPublicProperties( );   
 
     /**
-	 * Gets the private data set property, in the form of a (name, set) pair.
-	 * A named property can be mapped to more than one values. 
-	 * The property name is of String type.
-	 * The property value is a Set interface of string values.
-	 * @return	Private properties as a Map of name-set pairs.
+	 * Gets the private data set property, in the form of a 
+	 *   ( name[String], value[String] ) map
+	 * @return	private properties as a Map of String-String pairs.
 	 * 			Null if none is defined.
 	 */
 	public abstract Map getPrivateProperties( );   

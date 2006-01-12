@@ -13,9 +13,6 @@
  */ 
 package org.eclipse.birt.data.engine.script;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +22,7 @@ import org.mozilla.javascript.ScriptableObject;
 
 /**
  * Javascript wrapper of a Map object which maps either String to String, or
- * String to Set of Strings.
+ * String to an array of Strings.
  * 
  * It is used to implement ROM script access to the public properties of 
  * extended data set and data source. 
@@ -33,7 +30,6 @@ import org.mozilla.javascript.ScriptableObject;
 public class JSStringMap extends ScriptableObject
 {
 	 private Map map;
-	 private boolean mapToSet;
 	
 	 private static Logger logger = Logger.getLogger( JSStringMap.class.getName( ) );
 
@@ -42,11 +38,11 @@ public class JSStringMap extends ScriptableObject
 	 * @param map Java Map to wrap
 	 * @param mapToSet If true, map is a mapping from String to Set
 	 */
-	public JSStringMap( Map map, boolean mapToSet )
+	public JSStringMap( Map map )
 	{
+		assert map != null;
 		logger.entering( JSStringMap.class.getName( ), "JSStringMap" );
 		this.map = map;
-		this.mapToSet = mapToSet;
 	}
 	
 	/**
@@ -79,24 +75,6 @@ public class JSStringMap extends ScriptableObject
 		if ( map.containsKey(name) )
 		{
 			Object result = map.get(name);
-			if ( mapToSet && result != null )
-			{
-				// For now, JS Script can only access the first value of this property 
-				// if it is duplicately defined
-				// TODO: add support for multiple definitions of the same 
-				// properties, perhaps return as array?
-				assert result instanceof Set;
-				Iterator it = ((Set) result).iterator();
-				if ( it.hasNext() ){
-					Object obj = it.next();
-					logger.exiting( JSStringMap.class.getName( ), "get", obj );
-					return obj;
-				}
-				else{
-					logger.exiting( JSStringMap.class.getName( ), "get", null );
-					return null;
-				}
-			}
 			logger.exiting( JSStringMap.class.getName( ), "get", result );			
 			return result;
 		}
@@ -137,20 +115,7 @@ public class JSStringMap extends ScriptableObject
 	{
 		logger.entering( JSStringMap.class.getName( ), "put", name );
 		String valStr = value.toString();
-		if ( mapToSet )
-		{
-			// For now, JS Script can only access the first value of this property 
-			// if it is duplicately defined
-			// TODO: allow multiple values to be assigned to the same property
-			// perhaps by allowing value to be a JS array?
-			HashSet valueSet = new HashSet();
-			valueSet.add( valStr);
-			map.put( name, valueSet );
-		}
-		else
-		{
-			map.put( name, valStr);
-		}
+		map.put( name, valStr);
 		logger.exiting( JSStringMap.class.getName( ), "put" );
 	}
 }

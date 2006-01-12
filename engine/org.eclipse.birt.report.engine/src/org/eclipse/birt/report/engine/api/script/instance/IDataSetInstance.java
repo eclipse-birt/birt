@@ -11,7 +11,6 @@
 package org.eclipse.birt.report.engine.api.script.instance;
 
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 
@@ -51,38 +50,27 @@ public interface IDataSetInstance
 	void setQueryText( String queryText ) throws ScriptException;
 
 	/**
-	 * Get the extension property value(s)
+	 * Get the value of a data set extension property. 
 	 * 
-	 * @param name
-	 * @return a Set of extention properties
+	 * @param name Name of property; must not be null or empty
+	 * @return Property value; null if property has not been defined 
 	 */
-	Set getExtensionProperty( String name );
+	String getExtensionProperty( String name );
 
 	/**
-	 * Set the extension property value(s)
+	 * Set the value of an extension property 
 	 * 
-	 * @param name
-	 * @param values
-	 */
-	void setExtensionProperty( String name, Set values );
-
-	/**
-	 * Set en extension property. This will add to the set of extension
-	 * properties with the provided name.
-	 * 
-	 * @param name
-	 * @param value
+	 * @param name Name of property; must not be null or empty
+	 * @param value Property value; may be null
 	 */
 	void setExtensionProperty( String name, String value );
-
+	
 	/**
-	 * Gets the data set extension properties, in the form of a (name, set)
-	 * pair. A named property can be mapped to more than one values. The
-	 * property name is of String type. The property value is a Set interface of
-	 * string values.
+	 * Gets the data set extension properties, in the form of a ( name [String], value [String] )
+	 * map. 
 	 * 
-	 * @return Public properties as a Map of name-set pairs. Null if none is
-	 *         defined.
+	 * @return Extension properties as a Map of String->String pairs. Null if no extension
+	 * property is defined
 	 */
 	Map getExtensionProperties( );
 

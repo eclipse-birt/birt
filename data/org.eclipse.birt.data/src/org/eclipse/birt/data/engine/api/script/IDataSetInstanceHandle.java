@@ -25,16 +25,15 @@ import org.eclipse.birt.data.engine.api.IResultMetaData;
 
 public interface IDataSetInstanceHandle extends IJavascriptContext
 {
-
 	/**
 	 * Gets the name of this data set
 	 */
-	public abstract String getName();
+	String getName( );
 	
 	/**
 	 * @return The runtime data source associated with this data set
 	 */
-	public abstract IDataSourceInstanceHandle getDataSource();
+	IDataSourceInstanceHandle getDataSource();
 	
     /**
      * Gets the unique id that identifies the type of the data set, assigned by the
@@ -42,37 +41,52 @@ public interface IDataSetInstanceHandle extends IJavascriptContext
      * @return	The id fo the type of data set type as referenced by an ODA driver.
      * 			Null if none is defined. 
      */
-    public abstract String getExtensionID();
-    
-    /**
-	 * Gets the public data set property, in the form of a (name, set) pair.
-	 * A named property can be mapped to more than one values. 
-	 * The property name is of String type.
-	 * The property value is a Set interface of string values.
-	 * The returned Map is modifiable by the caller. The effect of such modification 
-	 * depends on the event handler that make it.
-	 * @return	Public properties as a Map of name-set pairs.
-	 * 			Null if none is defined.
-	 */
-	public abstract Map getPublicProperties( );   
+    String getExtensionID();
 
-    /**
-     * Gets the query text of the data set.
-     * @return	The static query text for execution.  
-     */
-    public abstract String getQueryText() throws BirtException;
-	
-    /**
-     * Sets the query text of the data set.
-     * @return	The static query text for execution.  
-     */
-    public abstract void setQueryText( String queryText ) throws BirtException;
-    
     /**
      * Gets the current data set's column metadata, if available.
      * @return column metadata, or null if no metadata is available 
      * (e.g., data set is not yet open).
      */
-    public abstract IResultMetaData getResultMetaData() throws BirtException;
+    IResultMetaData getResultMetaData() throws BirtException;
+
+	/**
+	 * Gets the query text of the data set.
+	 * 
+	 * @return The static query text for execution.
+	 */
+	String getQueryText( ) throws BirtException;
+
+	/**
+	 * Sets the query text of the data set.
+	 * 
+	 * @return The static query text for execution.
+	 */
+	void setQueryText( String queryText ) throws BirtException;
+
+	/**
+	 * Get the value of a data set extension property. 
+	 * 
+	 * @param name Name of property; must not be null or empty
+	 * @return Property value; null if property has not been defined 
+	 */
+	String getExtensionProperty( String name );
+
+	/**
+	 * Set the value of an extension property 
+	 * 
+	 * @param name Name of property; must not be null or empty
+	 * @param value Property value; may be null
+	 */
+	void setExtensionProperty( String name, String value );
+	
+	/**
+	 * Gets the data set extension properties, in the form of a ( name [String], value [String] )
+	 * map. 
+	 * 
+	 * @return Extension properties as a Map of String->String pairs. Null if no extension
+	 * property is defined
+	 */
+	Map getExtensionProperties( );
     
 }

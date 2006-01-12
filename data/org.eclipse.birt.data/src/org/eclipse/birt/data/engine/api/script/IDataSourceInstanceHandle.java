@@ -31,8 +31,24 @@ public interface IDataSourceInstanceHandle extends IJavascriptContext
 	 */
 	public abstract String getExtensionID();
 	
+	/**
+	 * Get the extension property value
+	 * 
+	 * @param name
+	 * @return the extention property
+	 */
+	public abstract String getExtensionProperty( String name );
+
+	/**
+	 * Set the extension property value
+	 * 
+	 * @param name
+	 * @param value
+	 */
+	public abstract void setExtensionProperty( String name, String value );
+	
     /**
-	 * Gets the public connection property, in the form of a (name, value) pair.
+	 * Gets all public extension property, in the form of a (name, value) pair.
 	 * The property name is of String type.
 	 * The property value is of string values.
 	 * The caller may modify the returned property map. The effect of such modification
@@ -40,6 +56,6 @@ public interface IDataSourceInstanceHandle extends IJavascriptContext
 	 * @return	Public properties as a Map of name-set pairs.
 	 * 			Null if none is defined.
 	 */
-	public abstract Map getPublicProperties( );   
+	public abstract Map getExtensionProperties( );   
 
 }

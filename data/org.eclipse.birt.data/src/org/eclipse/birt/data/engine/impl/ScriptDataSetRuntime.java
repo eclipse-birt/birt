@@ -15,9 +15,7 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -163,30 +161,6 @@ public class ScriptDataSetRuntime extends DataSetRuntime
 		return "SCRIPT";
 	}
 
-	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getPublicProperties()
-	 */
-	public Map getPublicProperties()
-	{
-		// No public properties
-		return new HashMap();
-	}
-
-	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getQueryText()
-	 */
-	public String getQueryText() throws BirtException
-	{
-		return "";
-	}
-
-	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#setQueryText(java.lang.String)
-	 */
-	public void setQueryText(String queryText) throws BirtException
-	{
-		// Query text has no effect on script data set
-	}
 
 	/** 
 	 * Gets columns defined by the describe event handler. 

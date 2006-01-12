@@ -13,8 +13,6 @@
  */ 
 package org.eclipse.birt.data.engine.impl;
 
-import java.util.Map;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 
 /**
@@ -48,28 +46,5 @@ public class SubqueryDataSetRuntime extends DataSetRuntime
 		return "";
 	}
 
-	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getPublicProperties()
-	 */
-	public Map getPublicProperties()
-	{
-		return null;
-	}
 
-	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getQueryText()
-	 */
-	public String getQueryText() throws BirtException
-	{
-		return null;
-	}
-
-	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#setQueryText(java.lang.String)
-	 */
-	public void setQueryText(String queryText) throws BirtException
-	{
-		// No op
-	}
-	
 }

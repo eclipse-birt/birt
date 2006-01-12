@@ -107,13 +107,30 @@ public class ScriptDataSourceRuntime extends DataSourceRuntime
 	}
 
 	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#getPublicProperties()
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#getExtensionProperties()
 	 */
-	public Map getPublicProperties()
+	public Map getExtensionProperties()
 	{
-		// No public properties for Script data source
-		return new HashMap();
+		// Script data source has no extension property
+		return null;
 	}
-	
+
+	/**
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#getExtensionProperty(java.lang.String)
+	 */
+	public String getExtensionProperty(String name)
+	{
+		// Script data source has no extension property
+		return null;
+	}
+
+	/**
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#setExtensionProperty(java.lang.String, java.lang.String)
+	 */
+	public void setExtensionProperty(String name, String value)
+	{
+		// Script data source has no extension property
+	}
+
 	
 }

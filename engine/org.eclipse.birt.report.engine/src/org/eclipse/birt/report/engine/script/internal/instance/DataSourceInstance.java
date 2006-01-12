@@ -35,24 +35,28 @@ public class DataSourceInstance implements IDataSourceInstance
 		return dataSource.getExtensionID( );
 	}
 
-	public String getExtensionProperty( String name )
+	/**
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance#getExtensionProperties()
+	 */
+	public Map getExtensionProperties()
 	{
-		Map m = dataSource.getPublicProperties( );
-		if ( m == null )
-			return null;
-		return ( String ) m.get( name );
+		return dataSource.getExtensionProperties();
 	}
 
-	public void setExtensionProperty( String name, String value )
+	/**
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance#getExtensionProperty(java.lang.String)
+	 */
+	public String getExtensionProperty(String name)
 	{
-		Map m = dataSource.getPublicProperties( );
-		if ( m == null )
-			return;
-		m.put( name, value );
+		return dataSource.getExtensionProperty(name);
 	}
 
-	public Map getExtensionProperties( )
+	/**
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance#setExtensionProperty(java.lang.String, java.lang.String)
+	 */
+	public void setExtensionProperty(String name, String value)
 	{
-		return dataSource.getPublicProperties( );
+		dataSource.setExtensionProperty( name, value );
 	}
+
 }

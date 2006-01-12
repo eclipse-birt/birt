@@ -16,6 +16,7 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.List;
 import java.util.Collection;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -32,12 +33,13 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.script.DataRow;
-import org.eclipse.birt.data.engine.script.JSDataSet;
 import org.eclipse.birt.data.engine.script.DataSetJSEventHandler;
+import org.eclipse.birt.data.engine.script.JSDataSetImpl;
 import org.eclipse.birt.data.engine.script.JSOutputParams;
 import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.JSRows;
 import org.eclipse.birt.data.engine.script.ScriptDataSetJSEventHandler;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -82,7 +84,7 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
     private JSOutputParams jsOutputParamsObject;
     /** Scriptable object implementing the internal "_aggr_value" property */
     private Scriptable jsAggrValueObject;
-    
+    private Scriptable jsTempAggrValueObject;   
     private IBaseDataSetEventHandler eventHandler;
     protected boolean isOpen;
 
@@ -276,7 +278,19 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 		// JS wrapper is created on demand
 		if ( jsDataSetObject == null )
 		{
-			jsDataSetObject = new JSDataSet( this, queryExecutor.getDataEngine().getSharedScope() );
+			Scriptable topScope = queryExecutor.getDataEngine().getSharedScope();
+			Context.enter();
+			try
+			{
+				jsDataSetObject = (Scriptable) Context.javaToJS( 
+							new JSDataSetImpl( this ), topScope );
+				jsDataSetObject.setParentScope( topScope );
+				jsDataSetObject.setPrototype( topScope );
+			}
+			finally
+			{
+				Context.exit();
+			}
 		}
 		return jsDataSetObject;
 	}
@@ -293,6 +307,24 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 			jsAggrValueObject = queryExecutor.aggregates.getJSAggrValueObject();
 		}
 		return jsAggrValueObject;
+	}
+
+	/**
+	 * Gets the internal aggregate helper object
+	 * TODO: review the necessity of this object
+	 */
+	public Scriptable getJSTempAggrValueObject()
+	{
+		return jsTempAggrValueObject;
+	}
+	
+	/**
+	 * Sets the internal aggregate helper object
+	 * TODO: review the necessity of this object
+	 */
+	void setJSTempAggrValueObject( Scriptable obj)
+	{
+		jsTempAggrValueObject = obj;
 	}
 	
 	/**
@@ -528,4 +560,58 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 	{
 		return this.allowUpdateRowData;
 	}
+
+	/**
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getExtensionID()
+	 */
+	public String getExtensionID()
+	{
+		// Default implementation: no extension ID
+		return "";
+	}
+
+	/**
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getExtensionProperties()
+	 */
+	public Map getExtensionProperties()
+	{
+		// Default implementation: no extension properties
+		return null;
+	}
+
+	/**
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getExtensionProperty(java.lang.String)
+	 */
+	public String getExtensionProperty(String name)
+	{
+		// Default implementation: no extension properties
+		return null;
+	}
+
+	/**
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getQueryText()
+	 */
+	public String getQueryText() throws BirtException
+	{
+		// Default implementation: no queryText support
+		return null;
+	}
+
+	/**
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#setExtensionProperty(java.lang.String, java.lang.String)
+	 */
+	public void setExtensionProperty(String name, String value)
+	{
+		// Default implementation: no extension properties
+	}
+
+	/**
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#setQueryText(java.lang.String)
+	 */
+	public void setQueryText(String queryText) throws BirtException
+	{
+		// Default implementation: no queryText support
+	}
+	
+	
 }
