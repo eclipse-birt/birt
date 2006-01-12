@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -21,6 +22,7 @@ import java.util.StringTokenizer;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.preferences.TemplatePreferencePage;
+import org.eclipse.birt.report.designer.ui.views.attributes.AttributeView;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -31,12 +33,14 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.gef.ui.views.palette.PaletteView;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -47,7 +51,9 @@ import org.osgi.framework.BundleContext;
  */
 public class ReportPlugin extends AbstractUIPlugin
 {
-
+	
+	//Add the static String list, remeber thr ignore view for the selection
+	private List ignore = new ArrayList();
 	/**
 	 * The Report UI plugin ID.
 	 */
@@ -116,7 +122,12 @@ public class ReportPlugin extends AbstractUIPlugin
 		PlatformUI.getWorkbench( )
 				.getContextSupport( )
 				.setKeyFilterEnabled( true );
-
+		
+		addIgnoreViewID("org.eclipse.birt.report.designer.ui.editors.ReportEditor");
+		addIgnoreViewID("org.eclipse.birt.report.designer.ui.editors.TemplateEditor");
+		addIgnoreViewID(IPageLayout.ID_OUTLINE);
+		addIgnoreViewID(AttributeView.ID);
+		addIgnoreViewID(PaletteView.ID);
 	}
 
 	/**
@@ -746,4 +757,27 @@ public class ReportPlugin extends AbstractUIPlugin
 		getPreferenceStore( ).setValue( TEMPLATE_PREFERENCE, preference ); //$NON-NLS-1$
 	}
 
+	/**
+	 * @param str
+	 */
+	public void addIgnoreViewID(String str)
+	{
+		ignore.add(str);
+	}
+	
+	/**
+	 * @param str
+	 */
+	public void removeIgnoreViewID(String str)
+	{
+		ignore.remove(str);
+	}
+	/**
+	 * @param str
+	 * @return
+	 */
+	public boolean containIgnoreViewID(String str)
+	{
+		return ignore.contains(str);
+	}
 }
