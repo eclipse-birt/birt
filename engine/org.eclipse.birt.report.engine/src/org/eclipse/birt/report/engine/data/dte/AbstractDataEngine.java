@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.engine.data.dte;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -276,21 +273,6 @@ public abstract class AbstractDataEngine implements IDataEngine
 			resultSetID = resultID;
 		}
 
-		private void writeObject( ObjectOutputStream out ) throws IOException
-		{
-			out.writeObject( parentRSID );
-			out.writeObject( rowid );
-			out.writeObject( resultSetID );
-		}
-
-		private void readObject( ObjectInputStream in ) throws IOException,
-				ClassNotFoundException
-		{
-			parentRSID = ( String ) in.readObject( );
-			rowid = ( String ) in.readObject( );
-			resultSetID = ( String ) in.readObject( );
-		}
-
 		public boolean equalTo( String parentID, String rid )
 		{
 			if ( parentRSID.equals( parentID ) && rowid.equals( rid ) )
@@ -323,26 +305,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 			rowExpressionIDs = new ArrayList( );
 			groupIDs = new ArrayList( );
 			subqueryIDs = new ArrayList( );
-		}
-
-		private void writeObject( ObjectOutputStream out ) throws IOException
-		{
-			out.writeObject( beforeExpressionIDs );
-			out.writeObject( afterExpressionIDs );
-			out.writeObject( rowExpressionIDs );
-			out.writeObject( groupIDs );
-			out.writeObject( subqueryIDs );
-		}
-
-		private void readObject( ObjectInputStream in ) throws IOException,
-				ClassNotFoundException
-		{
-			beforeExpressionIDs = ( ArrayList ) in.readObject( );
-			afterExpressionIDs = ( ArrayList ) in.readObject( );
-			rowExpressionIDs = ( ArrayList ) in.readObject( );
-			groupIDs = ( ArrayList ) in.readObject( );
-			subqueryIDs = ( ArrayList ) in.readObject( );
-		}
+		}	
 	}
 
 	protected String getResultID( String parentID, String rowid )

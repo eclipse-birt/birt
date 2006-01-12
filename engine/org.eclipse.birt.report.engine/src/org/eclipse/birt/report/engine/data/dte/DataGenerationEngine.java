@@ -11,16 +11,19 @@
 
 package org.eclipse.birt.report.engine.data.dte;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -224,17 +227,77 @@ public class DataGenerationEngine extends AbstractDataEngine
 	{
 		try
 		{
-			ObjectOutputStream oos = new ObjectOutputStream( writer
+			DataOutputStream dos = new DataOutputStream( writer
 					.createRandomAccessStream( DATA_META_STREAM ) );
-			oos.writeObject( mapQueryIDToResultSetIDs );
-			oos.writeObject( queryResultRelations );
-			oos.writeObject( queryExpressionIDs );
-
-			oos.close( );
+			
+			int size = mapQueryIDToResultSetIDs.size( );
+			IOUtil.writeInt(dos, size );
+			Set keySet = mapQueryIDToResultSetIDs.keySet( );
+			Iterator keyIter = keySet.iterator( );
+			while( keyIter.hasNext( ))
+			{
+				String queryId = (String)keyIter.next( );
+				IOUtil.writeString( dos , queryId );
+				LinkedList resultList = (LinkedList)mapQueryIDToResultSetIDs
+									.get( queryId );
+				writeStringList( dos, resultList );
+			}
+			
+			size = queryResultRelations.size( );
+			IOUtil.writeInt( dos, size );
+			for( int i=0; i<size; i++ )
+			{
+				Key key = (Key)queryResultRelations.get( i );
+				IOUtil.writeString( dos, key.parentRSID );
+				IOUtil.writeString( dos, key.resultSetID );
+				IOUtil.writeString( dos, key.rowid );
+			}
+			
+			size = queryExpressionIDs.size( );
+			IOUtil.writeInt( dos, size );
+			for( int i=0; i<size; i++)
+			{
+				QueryID queryId = ( QueryID )queryExpressionIDs.get( i );
+				writeQueryID( dos, queryId );
+			}
+			dos.close( );
 		}
 		catch ( IOException e )
 		{
 			e.printStackTrace( );
+		}
+	}
+	private void writeQueryID( DataOutputStream dos, QueryID queryId ) throws IOException
+	{
+		writeStringList( dos, queryId.beforeExpressionIDs );
+		writeStringList( dos, queryId.afterExpressionIDs );
+		writeStringList( dos, queryId.rowExpressionIDs );
+		
+		int size = queryId.groupIDs.size( );
+		IOUtil.writeInt( dos, size );
+		for( int i=0; i<size; i++ )
+		{
+			QueryID qid = (QueryID)queryId.groupIDs.get( i );
+			writeQueryID( dos, qid );
+		}
+		
+		size = queryId.subqueryIDs.size( );
+		IOUtil.writeInt( dos, size );
+		for( int i=0; i<size; i++ )
+		{
+			QueryID subQid = (QueryID)queryId.subqueryIDs.get( i );
+			writeQueryID( dos, subQid );
+		}
+	}
+	
+	private void writeStringList( DataOutputStream dos, List list ) throws IOException
+	{
+		int size = list.size( );
+		IOUtil.writeInt( dos, size );
+		for( int i=0; i<size; i++ )
+		{
+			String str = (String)list.get( i );
+			IOUtil.writeObject( dos, str );
 		}
 	}
 }

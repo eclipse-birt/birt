@@ -11,18 +11,20 @@
 
 package org.eclipse.birt.report.engine.data.dte;
 
+import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -77,12 +79,38 @@ public class DataPresentationEngine extends AbstractDataEngine
 	{
 		try
 		{
-			ObjectInputStream ois = new ObjectInputStream( reader
-					.getStream( DATA_META_STREAM ) );
-			mapQueryIDToResultSetIDs = (HashMap) ois.readObject( );
-			queryResultRelations = (ArrayList) ois.readObject( );
-			queryExpressionIDs = (ArrayList) ois.readObject( );
-			ois.close( );
+			DataInputStream dis = new DataInputStream( reader
+					.getStream( DATA_META_STREAM ));
+			mapQueryIDToResultSetIDs = new HashMap( );
+			int size = IOUtil.readInt( dis );
+			for( int i=0; i<size; i++ )
+			{
+				String queryId = IOUtil.readString( dis );
+				LinkedList ridList = new LinkedList( );
+				readStringList( dis, ridList );
+				mapQueryIDToResultSetIDs.put( queryId, ridList );
+			}
+				
+			size = IOUtil.readInt( dis );
+			queryResultRelations = new ArrayList( );
+			for( int i=0; i<size; i++ )
+			{
+				String parentRSID = IOUtil.readString( dis );
+				String resultSetID = IOUtil.readString( dis );
+				String rowid = IOUtil.readString( dis );
+				Key key = new Key(parentRSID, rowid, resultSetID );
+				queryResultRelations.add( key );
+			}
+			
+			size = IOUtil.readInt( dis );
+			queryExpressionIDs = new ArrayList( );
+			for( int i=0; i<size; i++ )
+			{
+				QueryID queryId = new QueryID( );
+				readQueryID( dis, queryId );
+				queryExpressionIDs.add( queryId );
+			}
+			dis.close( );
 		}
 		catch ( IOException ioe )
 		{
@@ -90,11 +118,38 @@ public class DataPresentationEngine extends AbstractDataEngine
 					"Can't load the data in report document", ioe ) );
 			logger.log( Level.SEVERE, ioe.getMessage( ), ioe );
 		}
-		catch ( ClassNotFoundException cnfe )
+	}
+	
+	private void readQueryID( DataInputStream dis, QueryID queryId ) throws IOException
+	{
+		readStringList( dis, queryId.beforeExpressionIDs );
+		readStringList( dis, queryId.afterExpressionIDs );
+		readStringList( dis, queryId.rowExpressionIDs );
+		
+		int size = IOUtil.readInt( dis );
+		for( int i=0; i<size; i++ )
 		{
-			context.addException( new EngineException(
-					"Can't load the data in report document", cnfe ) );
-			logger.log( Level.SEVERE, cnfe.getMessage( ), cnfe );
+			QueryID qid = new QueryID( );
+			readQueryID( dis, qid );
+			queryId.groupIDs.add( qid );
+		}
+		
+		size = IOUtil.readInt( dis );
+		for( int i=0; i<size; i++ )
+		{
+			QueryID subQid = new QueryID( );
+			readQueryID( dis, subQid );
+			queryId.subqueryIDs.add( subQid );
+		}
+	}
+	
+	private void readStringList( DataInputStream dis, List list ) throws IOException
+	{
+		int size = IOUtil.readInt( dis );
+		for( int i=0; i<size; i++ )
+		{
+			String str = IOUtil.readString( dis );
+			list.add( str );
 		}
 	}
 
@@ -201,7 +256,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 
 			if ( queryResults == null )
 			{
-				LinkedList resultSetIDs = (LinkedList) mapQueryIDToResultSetIDs
+				List resultSetIDs = (List)mapQueryIDToResultSetIDs
 						.get( queryID );
 				if ( resultSetIDs != null && !resultSetIDs.isEmpty( ) )
 				{

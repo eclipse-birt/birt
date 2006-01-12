@@ -10,12 +10,13 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -23,6 +24,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -226,11 +228,19 @@ public class DataExtractionTask extends EngineTask
 		IDocArchiveReader reader = reportDocReader.getArchive( );
 		try
 		{
-			ObjectInputStream ois = new ObjectInputStream( reader
-					.getStream( AbstractDataEngine.DATA_META_STREAM ) );
+			DataInputStream dis = new DataInputStream( reader 
+					.getStream( AbstractDataEngine.DATA_META_STREAM ));
 			
-			mapQueryIDToResultSetName = (HashMap) ois.readObject( );
-			ois.close( );
+			mapQueryIDToResultSetName = new HashMap( );
+			int size = IOUtil.readInt( dis );
+			for( int i=0; i<size; i++ )
+			{
+				String queryId = IOUtil.readString( dis );
+				LinkedList ridList = new LinkedList( );
+				readStringList( dis, ridList );
+				mapQueryIDToResultSetName.put( queryId, ridList );
+			}
+			dis.close( );
 		}
 		catch ( IOException ioe )
 		{
@@ -238,11 +248,15 @@ public class DataExtractionTask extends EngineTask
 					"Can't load the data in report document", ioe ) );
 			logger.log( Level.SEVERE, ioe.getMessage( ), ioe );
 		}
-		catch ( ClassNotFoundException cnfe )
+	}
+	
+	private void readStringList( DataInputStream dis, List list ) throws IOException
+	{
+		int size = IOUtil.readInt( dis );
+		for( int i=0; i<size; i++ )
 		{
-			executionContext.addException( new EngineException(
-					"Can't load the data in report document", cnfe ) );
-			logger.log( Level.SEVERE, cnfe.getMessage( ), cnfe );
+			String str = IOUtil.readString( dis );
+			list.add( str );
 		}
 	}
 	
