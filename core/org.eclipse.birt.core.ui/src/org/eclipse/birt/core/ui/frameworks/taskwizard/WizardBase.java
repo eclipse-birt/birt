@@ -370,7 +370,13 @@ public class WizardBase
 		// CREATE AND DISPLAY THE NEW POPUP
 		if ( shellPopup == null || shellPopup.isDisposed( ) )
 		{
-			shellPopup = new Shell( shell, SWT.DIALOG_TRIM | SWT.RESIZE );
+			// Make the popup modal on the Linux platform. See bugzilla#123386
+			int shellStyle = SWT.DIALOG_TRIM | SWT.RESIZE;
+			if ( SWT.getPlatform( ).indexOf( "win32" ) < 0 ) //$NON-NLS-1$
+			{
+				shellStyle |= SWT.APPLICATION_MODAL;
+			}
+			shellPopup = new Shell( shell, shellStyle );
 			shellPopup.setLayout( new FillLayout( ) );
 		}
 		return shellPopup;
