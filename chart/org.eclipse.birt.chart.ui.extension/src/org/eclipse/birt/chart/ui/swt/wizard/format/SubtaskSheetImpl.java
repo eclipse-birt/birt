@@ -27,17 +27,26 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.events.ShellListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 
 /**
  * @author Actuate Corporation
  * 
  */
-public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
+public class SubtaskSheetImpl
+		implements
+			ISubtaskSheet,
+			DisposeListener,
+			ShellListener
 {
 
 	private transient String sNodePath = ""; //$NON-NLS-1$
@@ -171,6 +180,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
 		POPUP_ATTACHING = true;
 		Shell shell = getWizard( ).createPopupContainer( );
 		shell.addDisposeListener( this );
+		shell.addShellListener( this );
 		shell.setImage( UIHelper.getImage( "icons/obj16/chartbuilder.gif" ) ); //$NON-NLS-1$
 		POPUP_ATTACHING = false;
 		return shell;
@@ -280,5 +290,39 @@ public class SubtaskSheetImpl implements ISubtaskSheet, DisposeListener
 	protected String getNodePath( )
 	{
 		return sNodePath;
+	}
+
+	public void shellActivated( ShellEvent e )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public void shellClosed( ShellEvent e )
+	{
+		Control focusControl = Display.getDefault( ).getFocusControl( );
+		if ( focusControl instanceof Text )
+		{
+			// Focus saving the text by focus out
+			focusControl.notifyListeners( SWT.FocusOut, null );
+		}
+	}
+
+	public void shellDeactivated( ShellEvent e )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public void shellDeiconified( ShellEvent e )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public void shellIconified( ShellEvent e )
+	{
+		// TODO Auto-generated method stub
+
 	}
 }
