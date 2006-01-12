@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -82,12 +83,14 @@ public class DataEngineImpl extends DataEngine
 		
 		this.context = context;
 		this.sharedScope = context.getJavaScriptScope( );
+		Context cx = Context.enter( );
 		if ( this.sharedScope == null )
 		{
-			Context cx = Context.enter();
 			this.sharedScope = new ImporterTopLevel( cx );
-			Context.exit();
-		}		
+		}
+		new CoreJavaScriptInitializer( ).initialize( cx, sharedScope );
+		Context.exit( );
+				
 		compiler = new ExpressionCompiler( );
 		
 		logger.exiting( DataEngineImpl.class.getName( ), "DataEngineImpl" );
