@@ -15,11 +15,10 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 public interface IReportElementInstance
 {
 
+	/** Get the style of this element
+	 * 
+	 */
 	IScriptStyle getStyle( );
-
-	Object getNamedExpressionValue( String name );
-
-	Object getUserPropertyValue( String name );
 
 	/**
 	 * Get the horizontal position
@@ -41,13 +40,49 @@ public interface IReportElementInstance
 	 */
 	void setVerticalPosition( String position );
 
+	/**
+	 * Get the width of the element
+	 * 
+	 */
 	String getWidth( );
 
+	/**
+	 * Set the width of the element
+	 * 
+	 */
 	void setWidth( String width );
 
+	/**
+	 * Get the height of the element
+	 * 
+	 */
+	String getHeight( );
+
+	/**
+	 * Set the height of the element
+	 * 
+	 */
+	void setHeight( String height );
+
+	/** Get the value of a named expression
+	 * 
+	 */
+	Object getNamedExpressionValue( String name );
+
+	/** Get the value of a user property
+	 * 
+	 */
+	Object getUserPropertyValue( String name );
+
+	/** Set the value of a user property
+	 * 
+	 */
 	void setUserPropertyValue( String name, Object value )
 			throws ScriptException;
 
+	/** Get the parent (container) of this element
+	 * 
+	 */
 	IReportElementInstance getParent( );
 
 }

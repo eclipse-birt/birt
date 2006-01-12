@@ -168,5 +168,16 @@ public class ReportElementInstance implements IReportElementInstance
 	{
 		content.setWidth( DimensionType.parserUnit( width ) );
 	}
+	
+	public String getHeight( )
+	{
+		return content.getHeight( ).toString( );
+	}
+
+	public void setHeight( String height )
+	{
+		content.setHeight( DimensionType.parserUnit( height ) );
+	}
+
 
 }
