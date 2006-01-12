@@ -72,6 +72,6 @@ public interface IDataSetInstance
 	 * @return Extension properties as a Map of String->String pairs. Null if no extension
 	 * property is defined
 	 */
-	Map getExtensionProperties( );
+	Map getAllExtensionProperties( );
 
 }

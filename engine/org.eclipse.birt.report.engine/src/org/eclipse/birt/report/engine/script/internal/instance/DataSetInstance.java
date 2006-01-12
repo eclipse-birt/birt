@@ -66,11 +66,11 @@ public class DataSetInstance implements IDataSetInstance
 	}
 
 	/**
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance#getExtensionProperties()
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance#getAllExtensionProperties()
 	 */
-	public Map getExtensionProperties()
+	public Map getAllExtensionProperties()
 	{
-		return dataSet.getExtensionProperties();
+		return dataSet.getAllExtensionProperties();
 	}
 
 	/**

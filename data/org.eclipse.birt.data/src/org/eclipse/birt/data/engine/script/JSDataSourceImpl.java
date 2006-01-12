@@ -79,7 +79,7 @@ public class JSDataSourceImpl
 	 */
 	public Scriptable getExtensionProperties( )
 	{
-		Map props = dataSource.getExtensionProperties();
+		Map props = dataSource.getAllExtensionProperties();
 		
 		if ( props != null )
 		{
@@ -91,6 +91,11 @@ public class JSDataSourceImpl
 			return null;
 		}
 		
+	}
+
+	public Map getAllExtensionProperties()
+	{
+		return dataSource.getAllExtensionProperties();
 	}
 
 	/**

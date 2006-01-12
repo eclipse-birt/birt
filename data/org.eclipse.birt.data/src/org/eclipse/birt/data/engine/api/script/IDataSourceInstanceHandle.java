@@ -56,6 +56,6 @@ public interface IDataSourceInstanceHandle extends IJavascriptContext
 	 * @return	Public properties as a Map of name-set pairs.
 	 * 			Null if none is defined.
 	 */
-	public abstract Map getExtensionProperties( );   
+	public abstract Map getAllExtensionProperties( );   
 
 }

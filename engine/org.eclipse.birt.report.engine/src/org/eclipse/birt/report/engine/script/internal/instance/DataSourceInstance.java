@@ -36,11 +36,11 @@ public class DataSourceInstance implements IDataSourceInstance
 	}
 
 	/**
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance#getExtensionProperties()
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance#getAllExtensionProperties()
 	 */
-	public Map getExtensionProperties()
+	public Map getAllExtensionProperties()
 	{
-		return dataSource.getExtensionProperties();
+		return dataSource.getAllExtensionProperties();
 	}
 
 	/**

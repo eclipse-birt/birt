@@ -14,7 +14,6 @@
 
 package org.eclipse.birt.data.engine.impl;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -107,9 +106,9 @@ public class ScriptDataSourceRuntime extends DataSourceRuntime
 	}
 
 	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#getExtensionProperties()
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#getAllExtensionProperties()
 	 */
-	public Map getExtensionProperties()
+	public Map getAllExtensionProperties()
 	{
 		// Script data source has no extension property
 		return null;

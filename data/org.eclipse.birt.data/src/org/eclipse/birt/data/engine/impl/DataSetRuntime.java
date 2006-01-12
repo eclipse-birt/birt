@@ -571,9 +571,9 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 	}
 
 	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getExtensionProperties()
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getAllExtensionProperties()
 	 */
-	public Map getExtensionProperties()
+	public Map getAllExtensionProperties()
 	{
 		// Default implementation: no extension properties
 		return null;

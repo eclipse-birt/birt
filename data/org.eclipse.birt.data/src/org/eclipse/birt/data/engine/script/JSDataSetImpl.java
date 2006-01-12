@@ -73,7 +73,7 @@ public class JSDataSetImpl
 	 */
 	public Scriptable getExtensionProperties()
 	{
-		Map props = dataSet.getExtensionProperties();
+		Map props = dataSet.getAllExtensionProperties();
 		
 		if ( props != null )
 		{
@@ -86,6 +86,11 @@ public class JSDataSetImpl
 		}
 	}
 
+	public Map getAllExtensionProperties()
+	{
+		return dataSet.getAllExtensionProperties();
+	}
+	
 	/**
 	 * Implements DataSet.getExtensionProperty(name)
 	 */

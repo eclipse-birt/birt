@@ -41,12 +41,12 @@ public interface IDataSourceInstance
 	void setExtensionProperty( String name, String value );
 
 	/**
-	 * Gets the public connection property, in the form of a (name, value) pair.
+	 * Gets the public connection properties, in the form of a (name, value) pairs.
 	 * The property name is of String type. The property value is of String
 	 * type.
 	 * 
 	 * @return Public properties as a Map of name-value pairs. Null if none is
 	 *         defined.
 	 */
-	Map getExtensionProperties( );
+	Map getAllExtensionProperties( );
 }

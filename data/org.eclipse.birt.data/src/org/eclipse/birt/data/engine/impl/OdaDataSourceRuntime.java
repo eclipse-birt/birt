@@ -68,9 +68,9 @@ public class OdaDataSourceRuntime extends DataSourceRuntime
 	}
 
 	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#getExtensionProperties()
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#getAllExtensionProperties()
 	 */
-	public Map getExtensionProperties()
+	public Map getAllExtensionProperties()
 	{
 		return this.publicProperties;
 	}

@@ -84,9 +84,9 @@ public class OdaDataSetRuntime extends DataSetRuntime
 	}
 
 	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getExtensionProperties()
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getAllExtensionProperties()
 	 */
-	public Map getExtensionProperties()
+	public Map getAllExtensionProperties()
 	{
 		return this.publicProperties;
 	}
