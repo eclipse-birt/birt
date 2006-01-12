@@ -60,7 +60,6 @@ import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.script.internal.ScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.element.ReportDesign;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -77,7 +76,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.57 $ $Date: 2006/01/09 10:40:42 $
+ * @version $Revision: 1.58 $ $Date: 2006/01/11 06:29:03 $
  */
 public class ExecutionContext
 {
@@ -85,7 +84,7 @@ public class ExecutionContext
 	// for logging
 	private static Logger log = Logger.getLogger( ExecutionContext.class
 			.getName( ) );
-	
+
 	public static final String PROPERTYSEPARATOR = ";";
 
 	// engines used to create the context
@@ -222,8 +221,6 @@ public class ExecutionContext
 	private HashMap numberFormatters = new HashMap( );
 
 	private HashMap dateFormatters = new HashMap( );
-
-	//private Map eventHandlerCache = new HashMap( );
 
 	private Map classLoaderCache = new HashMap( );
 
@@ -792,8 +789,7 @@ public class ExecutionContext
 			byte[] script = out.toByteArray( );
 			execute( new String( script, "UTF-8" ), fileName, 1 ); //$NON-NLS-1$
 			in.close( );
-		}
-		catch ( IOException ex )
+		} catch ( IOException ex )
 		{
 			log.log( Level.SEVERE,
 					"loading external script file " + fileName + " failed.", //$NON-NLS-1$ //$NON-NLS-2$
@@ -1337,17 +1333,17 @@ public class ExecutionContext
 	 */
 	public IHTMLActionHandler getActionHandler( )
 	{
-		if (renderOption != null && renderOption instanceof HTMLRenderOption)
+		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
 		{
-			HTMLRenderOption htmlOption = (HTMLRenderOption)renderOption;
+			HTMLRenderOption htmlOption = ( HTMLRenderOption ) renderOption;
 			{
-				if (htmlOption.getActionHandle() != null)
+				if ( htmlOption.getActionHandle( ) != null )
 				{
-					return htmlOption.getActionHandle();
+					return htmlOption.getActionHandle( );
 				}
 			}
 		}
-		EngineConfig config = engine.getConfig();
+		EngineConfig config = engine.getConfig( );
 		if ( config != null )
 		{
 			HashMap emitterConfigs = config.getEmitterConfigs( );
@@ -1356,7 +1352,7 @@ public class ExecutionContext
 				Object htmlEmitterConfig = emitterConfigs.get( "html" );
 				if ( htmlEmitterConfig instanceof HTMLEmitterConfig )
 				{
-					HTMLEmitterConfig htmlConfig = (HTMLEmitterConfig) htmlEmitterConfig;
+					HTMLEmitterConfig htmlConfig = ( HTMLEmitterConfig ) htmlEmitterConfig;
 					return htmlConfig.getActionHandler( );
 				}
 			}
@@ -1364,12 +1360,14 @@ public class ExecutionContext
 		return null;
 	}
 
-	public ClassLoader getCustomClassLoader( String classPathKey )
+	public static ClassLoader getCustomClassLoader( String classPathKey,
+			Map cache )
 	{
-		Object o = classLoaderCache.get( classPathKey );
-		
+		Object o = null;
+		if ( cache != null )
+			o = cache.get( classPathKey );
 		if ( o != null )
-			return (ClassLoader)o;
+			return ( ClassLoader ) o;
 		String classPath = System.getProperty( classPathKey );
 		if ( classPath == null || classPath.length( ) == 0 )
 			return null;
@@ -1395,11 +1393,17 @@ public class ExecutionContext
 
 		if ( urls != null )
 		{
-			ClassLoader cl = new URLClassLoader( urls, ScriptExecutor.class
+			ClassLoader cl = new URLClassLoader( urls, ExecutionContext.class
 					.getClassLoader( ) );
-			classLoaderCache.put(classPathKey, cl);
+			if ( cache != null )
+				cache.put( classPathKey, cl );
 			return cl;
 		}
 		return null;
+	}
+
+	public ClassLoader getCustomClassLoader( String classPathKey )
+	{
+		return getCustomClassLoader( classPathKey, classLoaderCache );
 	}
 }

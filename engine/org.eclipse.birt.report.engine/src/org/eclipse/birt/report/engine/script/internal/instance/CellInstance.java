@@ -86,6 +86,7 @@ public class CellInstance extends ReportElementInstance implements
 		return cell.getColumn( );
 	}
 
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -95,5 +96,4 @@ public class CellInstance extends ReportElementInstance implements
 	{
 		return data.getExpressionValue( getColumn( ) );
 	}
-
 }

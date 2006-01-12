@@ -159,7 +159,14 @@ public class ScriptExecutor
 	private static Class getClassUsingCustomClassPath( String className,
 			String classPathKey, ExecutionContext context )
 	{
-		ClassLoader cl = context.getCustomClassLoader( classPathKey );
+		ClassLoader cl = null;
+		// If we have a context instance, we can use it to (enables caching of
+		// the class loaders)
+		if ( context != null )
+			cl = context.getCustomClassLoader( classPathKey );
+		//No context available, use the static method (no caching used)
+		else
+			cl = ExecutionContext.getCustomClassLoader( classPathKey, null );
 		if ( cl == null )
 			return null;
 		try

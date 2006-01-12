@@ -21,6 +21,30 @@ public interface IReportElementInstance
 
 	Object getUserPropertyValue( String name );
 
+	/**
+	 * Get the horizontal position
+	 */
+	String getHorizontalPosition( );
+
+	/**
+	 * Set the horizontal position
+	 */
+	void setHorizontalPosition( String position );
+
+	/**
+	 * Get the vertical position
+	 */
+	String getVerticalPosition( );
+
+	/**
+	 * Set the vertical position
+	 */
+	void setVerticalPosition( String position );
+
+	String getWidth( );
+
+	void setWidth( String width );
+
 	void setUserPropertyValue( String name, Object value )
 			throws ScriptException;
 

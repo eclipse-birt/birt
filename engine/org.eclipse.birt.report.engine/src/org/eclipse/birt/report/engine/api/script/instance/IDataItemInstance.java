@@ -5,5 +5,4 @@ public interface IDataItemInstance extends IReportItemInstance
 
 	Object getValue( );
 
-	void setValue( Object value );
 }

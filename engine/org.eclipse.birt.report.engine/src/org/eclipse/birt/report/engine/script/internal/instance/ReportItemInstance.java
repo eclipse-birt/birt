@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 
 import java.lang.String;
 
-import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.api.script.instance.IReportItemInstance;
 import org.eclipse.birt.report.engine.content.impl.AbstractContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -88,46 +87,6 @@ public class ReportItemInstance extends ReportElementInstance implements
 	public void setHelpText( String helpText )
 	{
 		content.setHelpText( helpText );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#getHorizontalPosition()
-	 */
-	public String getHorizontalPosition( )
-	{
-		return content.getX( ).toString( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#setHorizontalPosition(java.lang.String)
-	 */
-	public void setHorizontalPosition( String position )
-	{
-		content.setX( DimensionType.parserUnit( position ) );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#getVerticalPosition()
-	 */
-	public String getVerticalPosition( )
-	{
-		return content.getY( ).toString( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#setVerticalPosition(java.lang.String)
-	 */
-	public void setVerticalPosition( String position )
-	{
-		content.setY( DimensionType.parserUnit( position ) );
 	}
 
 }

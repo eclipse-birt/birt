@@ -39,7 +39,7 @@ public interface ICellInstance extends IReportElementInstance
 	 * @return the column number
 	 */
 	int getColumn( );
-
+	
 	/**
 	 * Get the evaluated expression for this cell
 	 * @throws ScriptException 

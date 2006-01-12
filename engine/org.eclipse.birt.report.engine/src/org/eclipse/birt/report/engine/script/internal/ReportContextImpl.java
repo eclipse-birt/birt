@@ -16,6 +16,7 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
@@ -104,7 +105,7 @@ public class ReportContextImpl implements IReportContext
 
 	public Object getHttpServletRequest( )
 	{
-		return getAppContext( ).get( "BIRT_VIEWER_HTTPSERVLET_REQUEST" );
+		return getAppContext( ).get( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST );
 	}
 
 	public String getMessage( String key )

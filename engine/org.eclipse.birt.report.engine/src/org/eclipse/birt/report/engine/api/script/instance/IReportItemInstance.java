@@ -31,25 +31,4 @@ public interface IReportItemInstance extends IReportElementInstance
 	 */
 	void setHelpText( String helpText );
 
-	/**
-	 * Get the horizontal position
-	 */
-	String getHorizontalPosition( );
-
-	/**
-	 * Set the horizontal position
-	 */
-	void setHorizontalPosition( String position );
-
-	/**
-	 * Get the vertical position
-	 */
-	String getVerticalPosition( );
-	
-	/**
-	 * Set the vertical position
-	 */
-	void setVerticalPosition( String position );
-
-
 }

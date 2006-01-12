@@ -16,7 +16,7 @@ import org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance;
 /**
  * Script event handler interface for a scripted data source
  */
-public interface IScriptedDataSourceEventHandler
+public interface IScriptedDataSourceEventHandler extends IDataSourceEventHandler
 {
 	/**
 	 * Handle the open event

@@ -17,8 +17,8 @@ import org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance;
  * Default (empty) implementation of the IScriptedDataSourceEventHandler
  * interface
  */
-public class ScriptedDataSourceEventAdapter implements
-		IScriptedDataSourceEventHandler
+public class ScriptedDataSourceEventAdapter extends DataSourceEventAdapter
+		implements IScriptedDataSourceEventHandler
 {
 
 	public void open( IDataSourceInstance dataSource )

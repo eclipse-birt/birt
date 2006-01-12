@@ -9,7 +9,7 @@ public interface IReportItem extends IReportElement
 {
 
 	/**
-	 * Gets a handle to deal with the item's x (horizontal) position.
+	 * Gets the item's x (horizontal) position.
 	 * 
 	 * @return The item's x position.
 	 */
@@ -17,7 +17,7 @@ public interface IReportItem extends IReportElement
 	String getX( );
 
 	/**
-	 * Gets a handle to deal with the item's y (vertical) position.
+	 * Gets the item's y (vertical) position.
 	 * 
 	 * @return The item's y position.
 	 */
@@ -133,22 +133,23 @@ public interface IReportItem extends IReportElement
 	void setWidth( double dimension ) throws ScriptException;
 
 	/**
-	 * Gets a handle to deal with the item's width.
+	 * Gets a the item's width.
 	 * 
-	 * @return a DimensionHandle for the item's width.
+	 * @return a the item's width.
 	 */
 
 	String getWidth( );
 
 	/**
-	 * Gets a handle to deal with the item's height.
+	 * Gets the item's height.
 	 * 
-	 * @return a DimensionHandle for the item's height.
+	 * @return the item's height.
 	 */
 	String getHeight( );
 
 	/**
-	 * Returns the bookmark of the report item.
+	 * Returns the bookmark of the report item. The bookmark value is evaluated
+	 * as an expression.
 	 * 
 	 * @return the book mark as a string
 	 */
@@ -156,10 +157,14 @@ public interface IReportItem extends IReportElement
 	String getBookmark( );
 
 	/**
-	 * Sets the bookmark of the report item.
+	 * Sets the bookmark of the report item. The bookmark value is evaluated as
+	 * an expression. If you want the bookmark to be the string "bookmark", you
+	 * need to use setBookmark("\"bookmark\"");
+	 * 
+	 * If bookmark is a JavaScript variable, use setBookmark("bookmark");
 	 * 
 	 * @param value
-	 *            the property value to be set.
+	 *            the bookmark expression
 	 * @throws ScriptException
 	 *             if the property is locked.
 	 */

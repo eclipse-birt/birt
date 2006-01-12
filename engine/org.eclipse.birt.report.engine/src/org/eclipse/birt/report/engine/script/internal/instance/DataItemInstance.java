@@ -37,14 +37,4 @@ public class DataItemInstance extends ReportItemInstance implements
 		return ( ( DataContent ) content ).getValue( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance#setValue(java.lang.Object)
-	 */
-	public void setValue( Object value )
-	{
-		( ( DataContent ) content ).setValue( value );
-	}
-
 }

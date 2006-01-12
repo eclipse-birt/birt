@@ -17,6 +17,7 @@ import org.eclipse.birt.report.engine.api.script.instance.IReportElementInstance
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.content.impl.AbstractContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.script.internal.ElementUtil;
@@ -61,7 +62,7 @@ public class ReportElementInstance implements IReportElementInstance
 			ReportElementDesign design = ( ReportElementDesign ) generatedBy;
 			Map m = design.getNamedExpressions( );
 			Expression expr = ( Expression ) m.get( name );
-			if (expr == null)
+			if ( expr == null )
 				return null;
 			context.newScope( this );
 			try
@@ -116,6 +117,56 @@ public class ReportElementInstance implements IReportElementInstance
 	public IReportElementInstance getParent( )
 	{
 		return ElementUtil.getInstance( content.getParent( ), context );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#getHorizontalPosition()
+	 */
+	public String getHorizontalPosition( )
+	{
+		return content.getX( ).toString( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#setHorizontalPosition(java.lang.String)
+	 */
+	public void setHorizontalPosition( String position )
+	{
+		content.setX( DimensionType.parserUnit( position ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#getVerticalPosition()
+	 */
+	public String getVerticalPosition( )
+	{
+		return content.getY( ).toString( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#setVerticalPosition(java.lang.String)
+	 */
+	public void setVerticalPosition( String position )
+	{
+		content.setY( DimensionType.parserUnit( position ) );
+	}
+
+	public String getWidth( )
+	{
+		return content.getWidth( ).toString( );
+	}
+
+	public void setWidth( String width )
+	{
+		content.setWidth( DimensionType.parserUnit( width ) );
 	}
 
 }

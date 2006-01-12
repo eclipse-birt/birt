@@ -10,9 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api.script.eventadapter;
 
-import org.eclipse.birt.report.engine.api.script.IDataSetRow;
 import org.eclipse.birt.report.engine.api.script.IUpdatableDataSetRow;
-import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.IScriptedDataSetMetaData;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IScriptedDataSetEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance;
@@ -20,7 +18,7 @@ import org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance;
 /**
  * Default (empty) implementation of the IScriptedDataSetEventHandler interface
  */
-public class ScriptedDataSetEventAdapter implements
+public class ScriptedDataSetEventAdapter extends DataSetEventAdapter implements
 		IScriptedDataSetEventHandler
 {
 
@@ -39,36 +37,8 @@ public class ScriptedDataSetEventAdapter implements
 
 	}
 
-	public void beforeOpen( IDataSetInstance dataSet,
-			IReportContext reportContext )
-	{
-
-	}
-
-	public void afterOpen( IDataSetInstance dataSet,
-			IReportContext reportContext )
-	{
-
-	}
-
-	public void onFetch( IDataSetInstance dataSet, IDataSetRow row,
-			IReportContext reportContext )
-	{
-
-	}
-
-	public void beforeClose( IDataSetInstance dataSet,
-			IReportContext reportContext )
-	{
-
-	}
-
-	public void afterClose( IReportContext reportContext )
-	{
-
-	}
-
-	public boolean describe(IDataSetInstance dataSet, IScriptedDataSetMetaData metaData) 
+	public boolean describe( IDataSetInstance dataSet,
+			IScriptedDataSetMetaData metaData )
 	{
 		return false;
 	}
