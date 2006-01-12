@@ -28,7 +28,8 @@ public class DataTypeParser extends HtmlDocReader
 	
 	public void parse( ) throws ParseException
 	{
-		String fileName = "docs/data-types.html";
+		String templateDir = generator.templateDir;
+		String fileName = templateDir + "/" + "data-types.html";
 		try
 		{
 			parser.open( fileName );
