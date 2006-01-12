@@ -64,6 +64,15 @@ public class DataPresentationEngine extends AbstractDataEngine
 		}
 	}
 
+	public void prepare( Report report, Map appContext )
+	{
+		// build report queries
+		new ReportQueryBuilder( ).build( report, context );
+
+		doPrepareQueryID( report, appContext );
+
+	}
+
 	private void loadDteMetaInfo( )
 	{
 		try
