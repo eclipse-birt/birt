@@ -150,7 +150,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.73 $ $Date: 2006/01/04 03:17:23 $
+ * @version $Revision: 1.74 $ $Date: 2006/01/04 09:23:52 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -2120,6 +2120,8 @@ class EngineIRVisitor extends DesignVisitor
 				.getProperty( IStyle.STYLE_BACKGROUND_IMAGE ) );
 		contentStyle.setProperty( IStyle.STYLE_BACKGROUND_POSITION_Y, style
 				.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ) );
+		contentStyle.setProperty( IStyle.STYLE_BACKGROUND_POSITION_X, style
+				.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ) );
 		contentStyle.setProperty( IStyle.STYLE_BACKGROUND_REPEAT, style
 				.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ) );
 
