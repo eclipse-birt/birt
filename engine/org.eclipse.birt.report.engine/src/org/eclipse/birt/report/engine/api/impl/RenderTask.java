@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -117,8 +119,23 @@ public class RenderTask extends EngineTask implements IRenderTask
 		{
 			format = "html"; //$NON-NLS-1$
 		}
+
 		ExtensionManager extManager = ExtensionManager.getInstance( );
-		if ( !extManager.getSupportedFormat( ).contains( format ) )
+		boolean supported = false;
+		Collection supportedFormats = extManager.getSupportedFormat( );
+		Iterator iter = supportedFormats.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			String supportedFormat = (String) iter.next( );
+			if ( supportedFormat != null
+					&& supportedFormat.equalsIgnoreCase( format ) )
+			{
+				supported = true;
+				break;
+			}
+		}
+
+		if ( !supported )
 		{
 			log.log( Level.SEVERE,
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
@@ -176,7 +193,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			throw err;
 		}
 	}
-	
+
 	/**
 	 * @param pageNumber
 	 *            the page to be rendered
@@ -185,7 +202,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 */
 	protected void doRender( List pageSequences ) throws EngineException
 	{
-		if(pageSequences.size()==0)
+		if ( pageSequences.size( ) == 0 )
 		{
 			return;
 		}
@@ -249,68 +266,68 @@ public class RenderTask extends EngineTask implements IRenderTask
 			throw new EngineException(
 					"Render options have to be specified to render a report." ); //$NON-NLS-1$
 		}
-		List ps = parsePageSequence(pageRange, totalPage);
+		List ps = parsePageSequence( pageRange, totalPage );
 		doRender( ps );
-		
+
 	}
-	
-	private List parsePageSequence(String pageRange, long totalPage)
+
+	private List parsePageSequence( String pageRange, long totalPage )
 	{
-		ArrayList list = new ArrayList();
-		if(null==pageRange || "".equals(pageRange) || pageRange.toUpperCase().indexOf("ALL")>=0) //$NON-NLS-1$ //$NON-NLS-2$
+		ArrayList list = new ArrayList( );
+		if ( null == pageRange
+				|| "".equals( pageRange ) || pageRange.toUpperCase( ).indexOf( "ALL" ) >= 0 ) //$NON-NLS-1$ //$NON-NLS-2$
 		{
-			list.add(new long[]{1, totalPage});
+			list.add( new long[]{1, totalPage} );
 			return list;
 		}
-		String[] ps = pageRange.split(","); //$NON-NLS-1$
-		for(int i=0; i<ps.length; i++)
+		String[] ps = pageRange.split( "," ); //$NON-NLS-1$
+		for ( int i = 0; i < ps.length; i++ )
 		{
 			try
 			{
-				if(ps[i].indexOf("-")>0) //$NON-NLS-1$
+				if ( ps[i].indexOf( "-" ) > 0 ) //$NON-NLS-1$
 				{
-					String[] psi = ps[i].split("-"); //$NON-NLS-1$
-					if(psi.length==2)
+					String[] psi = ps[i].split( "-" ); //$NON-NLS-1$
+					if ( psi.length == 2 )
 					{
-						long start = Long.parseLong(psi[0].trim());
-						long end = Long.parseLong(psi[1].trim());
-						if(end>start)
+						long start = Long.parseLong( psi[0].trim( ) );
+						long end = Long.parseLong( psi[1].trim( ) );
+						if ( end > start )
 						{
-							list.add(new long[]{Math.max(start, 1), Math.min(end, totalPage)});
+							list.add( new long[]{Math.max( start, 1 ),
+									Math.min( end, totalPage )} );
 						}
 					}
 					else
 					{
 						log.log( Level.SEVERE,
-								"error page number range: {0}", ps[i] );  //$NON-NLS-1$
+								"error page number range: {0}", ps[i] ); //$NON-NLS-1$
 					}
 				}
 				else
 				{
-					long number = Long.parseLong(ps[i].trim());
-					if(number>0 && number<=totalPage)
+					long number = Long.parseLong( ps[i].trim( ) );
+					if ( number > 0 && number <= totalPage )
 					{
-						list.add(new long[]{number, number});
+						list.add( new long[]{number, number} );
 					}
 					else
 					{
 						log.log( Level.SEVERE,
-								"error page number range: {0}", ps[i] );  //$NON-NLS-1$
+								"error page number range: {0}", ps[i] ); //$NON-NLS-1$
 					}
-					
-					
+
 				}
 			}
-			catch(NumberFormatException ex)
+			catch ( NumberFormatException ex )
 			{
-				log.log( Level.SEVERE,
-						"error page number rang:", ps[i] );  //$NON-NLS-1$
+				log.log( Level.SEVERE, "error page number rang:", ps[i] ); //$NON-NLS-1$
 			}
 		}
-		return sort(list);
+		return sort( list );
 	}
-	
-	private List sort(List list)
+
+	private List sort( List list )
 	{
 		for ( int i = 0; i < list.size( ); i++ )
 		{
@@ -335,7 +352,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		}
 		long[] current = null;
 		long[] last = null;
-		ArrayList ret = new ArrayList();
+		ArrayList ret = new ArrayList( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			current = (long[]) list.get( i );
@@ -350,14 +367,14 @@ public class RenderTask extends EngineTask implements IRenderTask
 					if ( current[0] <= last[1] )
 					{
 						current[0] = last[1];
-						
+
 					}
-					ret.add(current);
+					ret.add( current );
 				}
 			}
 			else
 			{
-				ret.add(current);
+				ret.add( current );
 			}
 			last = current;
 		}

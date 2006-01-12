@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineConfig;
@@ -73,20 +75,35 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		{
 			format = "html"; //$NON-NLS-1$
 		}
+		
 		ExtensionManager extManager = ExtensionManager.getInstance( );
-		if ( !extManager.getSupportedFormat( ).contains( format ) )
+		boolean supported = false;
+		Collection supportedFormats = extManager.getSupportedFormat( );
+		Iterator iter = supportedFormats.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			String supportedFormat = (String) iter.next( );
+			if ( supportedFormat != null
+					&& supportedFormat.equalsIgnoreCase( format ) )
+			{
+				supported = true;
+				break;
+			}
+		}
+		if ( !supported )
 		{
 			log.log( Level.SEVERE,
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
 			throw new EngineException(
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
 		}
+		
 		IContentEmitter emitter = null;
 		try
 		{
 			emitter = extManager.createEmitter( format, emitterID );
 		}
-		catch(Throwable t)
+		catch ( Throwable t )
 		{
 			log.log( Level.SEVERE, "Report engine can not create {0} emitter.", //$NON-NLS-1$
 					format ); // $NON-NLS-1$
@@ -163,7 +180,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		}
 		catch ( Exception ex )
 		{
-			ex.printStackTrace();
+			ex.printStackTrace( );
 			log.log( Level.SEVERE,
 					"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
 			throw new EngineException(
@@ -171,7 +188,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		}
 		catch ( OutOfMemoryError err )
 		{
-			err.printStackTrace();
+			err.printStackTrace( );
 			log.log( Level.SEVERE,
 					"An OutOfMemory error happened while running the report." ); //$NON-NLS-1$
 			throw err;
