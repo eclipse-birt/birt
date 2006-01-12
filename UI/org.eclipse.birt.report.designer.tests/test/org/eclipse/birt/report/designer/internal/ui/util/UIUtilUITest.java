@@ -12,11 +12,9 @@
 package org.eclipse.birt.report.designer.internal.ui.util;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.tests.ITestConstants;
 import org.eclipse.birt.report.designer.testutil.BirtUITestCase;
 import org.eclipse.birt.report.designer.testutil.PrivateAccessor;
-import org.eclipse.birt.report.designer.ui.views.data.DataView;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -27,7 +25,6 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
 /**
@@ -85,10 +82,6 @@ public class UIUtilUITest extends BirtUITestCase
 	{
 		showPerspective( );
 		openEditor( );
-		getView( DATA_EXPLORER_ID ).setFocus( );
-		DataViewPage dataViewPage = (DataViewPage) ( (DataView) getView( DATA_EXPLORER_ID ) ).getCurrentPage( );
-		TreeViewer dataTreeViewer = (TreeViewer) PrivateAccessor.getField( dataViewPage,
-				"treeViewer" );
 
 		ContentOutlinePage outlinePage = (ContentOutlinePage) PrivateAccessor.getField( UIUtil.getActiveReportEditor( ),
 				"outlinePage" );
@@ -130,8 +123,6 @@ public class UIUtilUITest extends BirtUITestCase
 		reportHandle.getBody( ).add( label1 );
 		reportHandle.getBody( ).add( list );
 
-		getView( DATA_EXPLORER_ID ).setFocus( );
-		dataTreeViewer.refresh( );
 		getView( OUTLINE_ID ).setFocus( );
 		outlineTreeViewer.refresh( );
 
@@ -143,24 +134,11 @@ public class UIUtilUITest extends BirtUITestCase
 			assertTrue( UIUtil.containElement( outlineTreeViewer, list ) );
 			assertTrue( UIUtil.containElement( outlineTreeViewer, listGroup ) );
 
-			assertTrue( UIUtil.containElement( dataTreeViewer, dataSource ) );
-			assertTrue( UIUtil.containElement( dataTreeViewer, dataSet ) );
-			assertTrue( UIUtil.containElement( dataTreeViewer, param1 ) );
-			assertTrue( UIUtil.containElement( dataTreeViewer, paramGroup ) );
-			assertTrue( UIUtil.containElement( dataTreeViewer, param2 ) );
-
 			assertTrue( UIUtil.containElement( outlineTreeViewer, dataSource ) );
 			assertTrue( UIUtil.containElement( outlineTreeViewer, dataSet ) );
 			assertTrue( UIUtil.containElement( outlineTreeViewer, param1 ) );
 			assertTrue( UIUtil.containElement( outlineTreeViewer, paramGroup ) );
 			assertTrue( UIUtil.containElement( outlineTreeViewer, param2 ) );
-
-			assertFalse( UIUtil.containElement( dataTreeViewer, label1 ) );
-			assertFalse( UIUtil.containElement( dataTreeViewer, label2 ) );
-			assertFalse( UIUtil.containElement( dataTreeViewer, text ) );
-			assertFalse( UIUtil.containElement( dataTreeViewer, list ) );
-			assertFalse( UIUtil.containElement( dataTreeViewer, listGroup ) );
-
 		}
 		catch ( Throwable e )
 		{

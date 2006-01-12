@@ -58,11 +58,4 @@ public class SimpleUITest extends BirtUITestCase
 			closeEditor( );
 		}
 	}
-
-	public void testGetView( )
-	{
-		assertEquals( DATA_EXPLORER_NAME,
-				getView( DATA_EXPLORER_ID ).getTitle( ) );
-	}
-
 }
