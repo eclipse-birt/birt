@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="333.0" width="533.0"><g style="fill:none;stroke:none"><defs/><script><![CDATA[function BuildHelper(tag, attrList, text) {
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="533.0" height="333.0"><g style="fill:none;stroke:none"><defs/><script><![CDATA[function BuildHelper(tag, attrList, text) {
 	this.tag = tag;
 	this.attrList = attrList;
 	this.text       = text;
