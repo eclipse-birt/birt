@@ -55,9 +55,9 @@ public class SessionHandleAdapter
 			if (media != null)
 			{
 				media.dispose();
-				mediatorMap.remove(targetElement);
 			}
-			targetElement.removeDisposeListener(disposeLitener);
+			mediatorMap.remove(targetElement);
+			targetElement.removeDisposeListener(this);
 		}	
 	};
 	
@@ -260,7 +260,10 @@ public class SessionHandleAdapter
 	 */
 	public ReportMediator getMediator( ModuleHandle handle )
 	{
-		handle.addDisposeListener(disposeLitener);
+		if (handle != null)
+		{
+			handle.addDisposeListener(disposeLitener);
+		}
 		ReportMediator mediator = (ReportMediator) mediatorMap.get( handle );
 		if ( mediator == null )
 		{

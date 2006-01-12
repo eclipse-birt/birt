@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.core.model.schematic;
 
+import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -520,7 +521,26 @@ public class HandleAdapterFactory
 	 */
 	public void remove( Object obj )
 	{
+		removeRelated(obj);
 		map.remove( obj );
+	}
+	
+	private void removeRelated( Object obj )
+	{
+		Object handleAdaot = map.get(obj);
+		if (handleAdaot instanceof TableHandleAdapter)
+		{
+			TableHandleAdapter adapt = (TableHandleAdapter)handleAdaot;
+			removeCollection(adapt.getRows());
+			removeCollection(adapt.getColumns());
+		}
+	}
+	private void removeCollection(List list)
+	{
+		for (int i=0; i<list.size(); i++)
+		{
+			map.remove(list.get(i));
+		}
 	}
 
 	/**
