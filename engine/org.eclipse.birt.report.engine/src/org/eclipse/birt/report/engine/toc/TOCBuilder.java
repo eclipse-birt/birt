@@ -11,23 +11,15 @@
 
 package org.eclipse.birt.report.engine.toc;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.TOCNode;
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * A class for building up TOC hierarchy
@@ -142,120 +134,41 @@ public class TOCBuilder
 		return rootEntry;
 	}
 
-	static public void write( TOCNode root, OutputStream out )
+	static public void write( TOCNode root, DataOutputStream out )
 			throws IOException
 	{
-		OutputStreamWriter writer = new OutputStreamWriter( out, "utf-8" );
-		writer.write( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" );
-
-		writeNode( root, writer );
-		writer.flush( );
-		return;
-	}
-
-	private static void writeNode( TOCNode node, Writer writer )
-			throws IOException
-	{
-		String id = node.getNodeID( );
-		String label = node.getDisplayString( );
-		String bookmark = node.getBookmark( );
-		writer.write( "<tocnode" );
-		if ( id != null )
-		{
-			writer.write( " id=\"" );
-			writer.write( node.getNodeID( ) );
-			writer.write( "\"" );
-		}
-		if ( bookmark != null )
-		{
-			writer.write( " href=\"" );
-			writer.write( node.getBookmark( ) );
-			writer.write( "\"" );
-		}
-		writer.write( ">" );
-		if ( label != null )
-		{
-			writer.write( label );
-		}
-		List children = node.getChildren( );
+		IOUtil.writeString( out, root.getNodeID( ) );
+		IOUtil.writeString( out, root.getDisplayString( ) );
+		IOUtil.writeString( out, root.getBookmark( ) );
+		List children = root.getChildren( );
+		IOUtil.writeInt( out, children.size( ) );
 		Iterator iter = children.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			TOCNode child = (TOCNode) iter.next( );
-			writeNode( child, writer );
+			write( child, out );
 		}
-		writer.write( "</tocnode>\n" );
+		out.flush( );
+		return;
 	}
 
-	static public TOCNode read( InputStream input )
+	static public void read( TOCNode node, DataInputStream input )
+			throws IOException
 	{
-		try
+		String nodeId = IOUtil.readString( input );
+		String displayString = IOUtil.readString( input );
+		String bookmark = IOUtil.readString( input );
+		node.setNodeID( nodeId );
+		node.setDisplayString( displayString );
+		node.setBookmark( bookmark );
+		int size = IOUtil.readInt( input );
+		for ( int i = 0; i < size; i++ )
 		{
-			SAXParser parser = SAXParserFactory.newInstance( ).newSAXParser( );
-			InputSource is = new InputSource( input );
-			TOCHandler handle = new TOCHandler( );
-			parser.parse( is, handle );
-			return handle.getRoot( );
-		}
-		catch ( Exception ex )
-		{
-			ex.printStackTrace( );
-		}
-		return null;
-	}
-
-	private static class TOCHandler extends DefaultHandler
-	{
-
-		public TOCHandler( )
-		{
-		}
-
-		private TOCNode root = null;
-		private TOCNode node;
-
-		public TOCNode getRoot( )
-		{
-			return this.root;
-		}
-
-		public void characters( char[] ch, int start, int length )
-				throws SAXException
-		{
-			StringBuffer buffer = new StringBuffer( );
-			if ( node.getDisplayString( ) != null )
-			{
-				buffer.append( node.getDisplayString( ) );
-			}
-			buffer.append( ch, start, length );
-			node.setDisplayString( buffer.toString( ).trim( ) );
-		}
-
-		public void startElement( String uri, String localName, String qName,
-				Attributes attributes ) throws SAXException
-		{
-			String id = attributes.getValue( "id" );
-			String href = attributes.getValue( "href" );
 			TOCNode child = new TOCNode( );
-			child.setNodeID( id );
-			child.setBookmark( href );
+			read( child, input );
 			child.setParent( node );
-			node = child;
+			node.getChildren( ).add( child );
 		}
-
-		public void endElement( String uri, String localName, String qName )
-				throws SAXException
-		{
-			if ( node.getParent( ) != null )
-			{
-				node.getParent( ).getChildren( ).add( node );
-			}
-			else
-			{
-				this.root = node;
-			}
-			node = node.getParent( );
-		}
-
 	}
+
 }

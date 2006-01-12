@@ -123,7 +123,8 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		try
 		{
 			out = archive.createRandomAccessStream( TOC_STREAM );
-			TOCBuilder.write( node, out );
+			DataOutputStream output = new DataOutputStream(out);
+			TOCBuilder.write(node, output );
 		}
 		catch ( Exception ex )
 		{

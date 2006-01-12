@@ -297,26 +297,36 @@ public class ReportDocumentReader
 	 */
 	protected void loadTOC( )
 	{
-		if ( !archive.exists( TOC_STREAM ) )
+		tocRoot = new TOCNode( );
+		if ( archive.exists( TOC_STREAM ) )
 		{
-			tocRoot = new TOCNode( );
-			tocMap = new HashMap( );
-			return;
-		}
-		try
-		{
-			InputStream in = archive.getStream( TOC_STREAM );
-			tocRoot = TOCBuilder.read( in );
-			tocMap = new HashMap( );
-			if ( tocRoot != null )
+			InputStream in = null;
+			try
 			{
-				addTOCEntry( tocRoot, tocMap );
+				in = archive.getStream( TOC_STREAM );
+				DataInputStream input = new DataInputStream( in );
+				TOCBuilder.read( tocRoot, input );
+			}
+			catch ( Exception ex )
+			{
+				logger.log( Level.SEVERE, "Failed to load the TOC", ex ); //$NON-NLS-1$
+			}
+			finally
+			{
+				if ( in != null )
+				{
+					try
+					{
+						in.close( );
+					}
+					catch ( IOException ex )
+					{
+					}
+				}
 			}
 		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, "Failed to load the TOC", ex ); //$NON-NLS-1$
-		}
+		tocMap = new HashMap( );
+		addTOCEntry( tocRoot, tocMap );
 	}
 
 	/**
