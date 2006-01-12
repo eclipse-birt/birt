@@ -178,7 +178,7 @@ abstract public class GroupElementHandle
 	 */
 
 	abstract public boolean isExtendedElements( );
-	
+
 	/**
 	 * This method returnt <code>true</code> in following condition:
 	 * <p>
@@ -223,7 +223,7 @@ abstract public class GroupElementHandle
 	 */
 
 	abstract protected boolean isPropertyReadOnly( String propName );
-	
+
 	/**
 	 * If property is shared by the group of elements, return the corresponding
 	 * <code>GroupPropertyHandle</code>, otherwise, return <code>null</code>.
@@ -236,7 +236,7 @@ abstract public class GroupElementHandle
 	 */
 
 	abstract public GroupPropertyHandle getPropertyHandle( String propName );
-	
+
 	/**
 	 * If the given property is a common property, value will be returned as a
 	 * string if all values within the group of elements are equal. If the
@@ -258,6 +258,31 @@ abstract public class GroupElementHandle
 			return null;
 
 		return propHandle.getStringValue( );
+	}
+
+	/**
+	 * If the given property is a common property, value will be returned as a
+	 * string if all values within the group of elements are equal and one of
+	 * them has a local value. If the property is not a common property or none
+	 * of them has a local value, return <code>null</code>.
+	 * 
+	 * @param propName
+	 *            name of the property.
+	 * @return the value as a string if the property is a common property, all
+	 *         the elements have the same value and one of them has a local
+	 *         value. Return null if the property is not a common property or
+	 *         elements have different values for this property or none of them
+	 *         has a local value.
+	 * @see GroupPropertyHandle#getLocalStringValue()
+	 */
+
+	public final String getLocalStringProperty( String propName )
+	{
+		GroupPropertyHandle propHandle = getPropertyHandle( propName );
+		if ( propHandle == null )
+			return null;
+
+		return propHandle.getLocalStringValue( );
 	}
 
 	/**
@@ -360,7 +385,7 @@ abstract public class GroupElementHandle
 	 */
 
 	abstract protected boolean isInGroup( DesignElementHandle element );
-	
+
 	/**
 	 * An iterator over the properties defined for elements that in the group
 	 * element.

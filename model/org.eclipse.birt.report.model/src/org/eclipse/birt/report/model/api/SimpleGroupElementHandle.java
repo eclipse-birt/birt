@@ -126,7 +126,7 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 			}
 		}
 
-		return Collections.unmodifiableList(commonProps);
+		return Collections.unmodifiableList( commonProps );
 	}
 
 	/**
@@ -336,6 +336,9 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 
 	/**
 	 * Returns if the property is invalid in Masterpage.
+	 * 
+	 * @param propName
+	 *            the property name to check
 	 * 
 	 * @return true if the property is invalid in Masterpage, false otherwise.
 	 */

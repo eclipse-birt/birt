@@ -137,6 +137,36 @@ public class GroupPropertyHandle
 
 	/**
 	 * Value will be returned as string only if all values of this property are
+	 * equal within the collection of elements and one of them has a local
+	 * value.
+	 * 
+	 * @return The value as string if all the element values for the property
+	 *         are equal and one of them has a local value. Return null, if
+	 *         elements have different value for the property or none of them
+	 *         has a local value.
+	 */
+
+	public String getLocalStringValue( )
+	{
+		if ( !shareSameValue( ) )
+			return null;
+		List elements = handle.getElements( );
+		for ( int i = 0; i < elements.size( ); i++ )
+		{
+			DesignElementHandle element = (DesignElementHandle) elements
+					.get( i );
+			Object value = element.getElement( ).getLocalProperty(
+					element.getEffectiveModule( ), propDefn );
+			String localValue = propDefn.getStringValue( element
+					.getEffectiveModule( ), value );
+			if ( localValue != null )
+				return localValue;
+		}
+		return null;
+	}
+
+	/**
+	 * Value will be returned as string only if all values of this property are
 	 * equal within the collection of elements. The value return are localized.
 	 * 
 	 * @return The localized value as string if all the element values for the
@@ -255,7 +285,7 @@ public class GroupPropertyHandle
 		assert elementDefn != null;
 
 		List elementList = null;
-		assert handle.getModuleHandle() != null;
+		assert handle.getModuleHandle( ) != null;
 		if ( ReportDesignConstants.DATA_SET_ELEMENT.equals( elementDefn
 				.getName( ) ) )
 		{
