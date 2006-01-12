@@ -199,6 +199,10 @@ public class DataExtractionTask extends EngineTask
 			// create display name
 			ReportItemDesign reportItem = (ReportItemDesign) mapQueryToReportItem
 					.get(query);
+			if( reportItem == null )
+			{
+				continue;
+			}
 			String displayName = null;
 			if (reportItem.getName() != null) {
 				displayName = reportItem.getName() + "_" + counter;
