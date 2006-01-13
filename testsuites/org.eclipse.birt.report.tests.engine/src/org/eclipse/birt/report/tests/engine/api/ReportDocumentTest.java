@@ -80,7 +80,7 @@ public class ReportDocumentTest extends EngineCase {
 			//checkTOC(done)
 			TOCNode root,tableNode,headerNode,groupNode,detailNode,footerNode;
 			root=reportDoc.findTOC("/");
-			assertNotNull("get null root toc",root);
+			assertNotNull("get root toc",root);
 			assertNotNull("root contain no children toc",root.getChildren());
 			tableNode=(TOCNode)root.getChildren().get(0);
 			assertNotNull("table toc doesn't exist.",tableNode);
@@ -155,7 +155,7 @@ public class ReportDocumentTest extends EngineCase {
 			
 
 			//check page count(done)
-			assertEquals("return wrong page count",3,reportDoc.getPageCount());
+			assertEquals("return wrong page count",2,reportDoc.getPageCount());
 			
 			//check getPageNumber(InstanceID)
 			//TODO:
@@ -224,7 +224,7 @@ public class ReportDocumentTest extends EngineCase {
 			//check findToc
 			TOCNode tocNode;
 			tocNode=(TOCNode)reportDoc.findTOC(null);
-			assertEquals("findToc should return root","",tocNode.getDisplayString());
+			assertEquals("findToc should return null",null,tocNode.getDisplayString());
 			tocNode=(TOCNode)reportDoc.findTOC("");
 			assertNull("1.findToc should return null toc node",tocNode);
 			tocNode=(TOCNode)reportDoc.findTOC("1");

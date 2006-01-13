@@ -555,8 +555,9 @@ public class RenderTaskTest extends EngineCase {
 			  IRenderOption renderOptions=new HTMLRenderOption( );
 			  renderOptions.setOutputFormat("html");
 			  renderOptions.setOutputFileName(outputFileName);
-			  task.setRenderOption(renderOptions); task.render(i); File
-			  htmlFile = new File( outputFileName );
+			  task.setRenderOption(renderOptions); 
+			  task.render(i); 
+			  File htmlFile = new File( outputFileName );
 			  
 			  assertTrue( htmlFile.exists( ) ); 
 			  assertTrue( htmlFile.length( ) != 0 ); 
@@ -567,8 +568,10 @@ public class RenderTaskTest extends EngineCase {
 			  IRenderOption renderOptions=new HTMLRenderOption( );
 			  renderOptions.setOutputFormat("pdf");
 			  renderOptions.setOutputFileName(outputFileName);
-			  task.setRenderOption(renderOptions); task.render(i); File pdfFile =
-			  new File( outputFileName ); assertTrue( pdfFile.exists( ) );
+			  task.setRenderOption(renderOptions); 
+			  task.render(i); 
+			  File pdfFile =  new File( outputFileName ); 
+			  assertTrue( pdfFile.exists( ) );
 			  assertTrue( pdfFile.length( ) != 0 ); 
 			  removeFile(pdfFile);
 			  } 
