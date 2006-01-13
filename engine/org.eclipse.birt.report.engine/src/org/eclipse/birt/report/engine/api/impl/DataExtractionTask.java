@@ -534,11 +534,13 @@ public class DataExtractionTask extends EngineTask
 			for ( int i = 0; i < selectedColumns.length; i++ )
 			{
 				boolean findColumn = false;
+				String selectColumn = selectedColumns[i].replaceAll( "\\s", "" );
 				Iterator iter = exprs.iterator( );
 				while ( iter.hasNext( ) )
 				{
 					IScriptExpression expr = (IScriptExpression) iter.next( );
-					if ( expr.getText( ).equalsIgnoreCase( selectedColumns[i] ) )
+					String exprText = expr.getText( ).replaceAll( "\\s", "" );
+					if( exprText.equalsIgnoreCase( selectColumn ))
 					{
 						findColumn = true;
 						break;
