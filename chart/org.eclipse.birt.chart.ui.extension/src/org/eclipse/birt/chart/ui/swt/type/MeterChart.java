@@ -21,7 +21,9 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
@@ -420,6 +422,19 @@ public class MeterChart extends DefaultChartTypeImpl
 			dialseries.getDial( )
 					.setLineAttributes( ( (StockSeries) series ).getLineAttributes( ) );
 		}
+		
+		if ( dialseries.getDial( ).getLineAttributes( ) == null )
+		{
+			dialseries.getDial( )
+					.getLineAttributes( )
+					.setColor( ColorDefinitionImpl.BLACK( ) );
+			dialseries.getDial( )
+					.getLineAttributes( )
+					.setStyle( LineStyle.SOLID_LITERAL );
+			dialseries.getDial( ).getLineAttributes( ).setThickness( 1 );
+		}
+		dialseries.getDial( ).getLineAttributes( ).setVisible( true );
+		
 		return dialseries;
 	}
 
