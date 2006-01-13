@@ -18,11 +18,11 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
-import org.eclipse.birt.data.engine.executor.cache.IOUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ResultMetaData;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -115,7 +115,7 @@ public class RDLoad
 			try
 			{
 				dis = new DataInputStream( bis );
-				rowCount = dis.readInt( );
+				rowCount = IOUtil.readInt( dis );
 			}
 			catch ( IOException e )
 			{
@@ -174,10 +174,10 @@ public class RDLoad
 			if ( newColumn == true )
 			{
 				exprValueMap.clear( );
-				int exprCount = dis.readInt( );
+				int exprCount = IOUtil.readInt( dis );
 				for ( int i = 0; i < exprCount; i++ )
 				{
-					String exprID = dis.readUTF( );
+					String exprID = IOUtil.readString( dis );
 					Object exprValue = IOUtil.readObject( dis );
 					exprValueMap.put( exprID, exprValue );
 				}
@@ -185,12 +185,6 @@ public class RDLoad
 			}
 		}
 		catch ( IOException e )
-		{
-			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
-					e,
-					"Result Data" );
-		}
-		catch ( ClassNotFoundException e )
 		{
 			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
 					e,

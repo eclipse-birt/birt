@@ -17,9 +17,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.cache.IOUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**

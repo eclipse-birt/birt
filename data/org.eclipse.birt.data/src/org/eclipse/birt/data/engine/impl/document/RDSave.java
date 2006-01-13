@@ -18,10 +18,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.CachedResultSet;
-import org.eclipse.birt.data.engine.executor.cache.IOUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
@@ -87,7 +87,7 @@ public class RDSave
 
 			try
 			{
-				dos.writeInt( rowCount );
+				IOUtil.writeInt( dos, rowCount );
 			}
 			catch ( IOException e )
 			{
@@ -161,13 +161,13 @@ public class RDSave
 		if ( size == 0 )
 			return;
 
-		dos.writeInt( size );
+		IOUtil.writeInt( dos, size );
 		for ( int i = 0; i < size; i++ )
 		{
 			String exprID = exprIDs[i];
 			Object exprValue = exprValueMap.get( exprID );
 
-			dos.writeUTF( exprID );
+			IOUtil.writeString( dos, exprID );
 			IOUtil.writeObject( dos, exprValue );
 		}
 	}

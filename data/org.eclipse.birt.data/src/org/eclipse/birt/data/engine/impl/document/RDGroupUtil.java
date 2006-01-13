@@ -1,4 +1,3 @@
-
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -16,8 +15,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.cache.IOUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**

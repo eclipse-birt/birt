@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.cache.IOUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
@@ -107,13 +107,13 @@ public class ResultClass implements IResultClass
 			for ( int i = 0; i < size; i++ )
 			{
 				int driverPos = IOUtil.readInt( dis );
-				String name = IOUtil.readStr( dis );
-				String lable = IOUtil.readStr( dis );
-				String alias = IOUtil.readStr( dis );
-				String dtName = IOUtil.readStr( dis );
-				String ntName = IOUtil.readStr( dis );
+				String name = IOUtil.readString( dis );
+				String lable = IOUtil.readString( dis );
+				String alias = IOUtil.readString( dis );
+				String dtName = IOUtil.readString( dis );
+				String ntName = IOUtil.readString( dis );
 				boolean bool = IOUtil.readBool( dis );
-				String dpdpName = IOUtil.readStr( dis );
+				String dpdpName = IOUtil.readString( dis );
 				
 				ResultFieldMetadata metaData = new ResultFieldMetadata( driverPos,
 						name,
@@ -165,16 +165,16 @@ public class ResultClass implements IResultClass
 				ResultFieldMetadata column = (ResultFieldMetadata) m_projectedColumns.get( i );
 
 				IOUtil.writeInt( dos, column.getDriverPosition( ) );
-				IOUtil.writeStr( dos, column.getName( ) );
-				IOUtil.writeStr( dos, column.getLabel( ) );
-				IOUtil.writeStr( dos, column.getAlias( ) );
-				IOUtil.writeStr( dos, column.getDataType( ).getName( ) );
-				IOUtil.writeStr( dos, column.getNativeTypeName( ) );
+				IOUtil.writeString( dos, column.getName( ) );
+				IOUtil.writeString( dos, column.getLabel( ) );
+				IOUtil.writeString( dos, column.getAlias( ) );
+				IOUtil.writeString( dos, column.getDataType( ).getName( ) );
+				IOUtil.writeString( dos, column.getNativeTypeName( ) );
 				IOUtil.writeBool( dos, column.isCustom( ) );
 				if ( column.getDriverProvidedDataType( ) == null )
-					IOUtil.writeStr( dos, null );
+					IOUtil.writeString( dos, null );
 				else
-					IOUtil.writeStr( dos, column.getDriverProvidedDataType( )
+					IOUtil.writeString( dos, column.getDriverProvidedDataType( )
 							.getName( ) );
 			}
 			

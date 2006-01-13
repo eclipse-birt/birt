@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.data.engine.executor.cache;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -594,42 +592,6 @@ public class SmartCache implements ResultSetCache
 		};
 
 		return comparator;
-	}
-
-	/**
-	 * @param inputStream
-	 * @throws DataException
-	 */
-	public SmartCache( IResultClass rsMeta, InputStream inputStream,
-			 boolean isSubQuery, ResultSetCache rsCache ) throws DataException
-	{
-		int count = 0;
-		try
-		{
-			count = IOUtil.readInt( inputStream );
-		}
-		catch ( IOException e )
-		{
-			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
-					e,
-					"Result Set" );
-		}
-
-		OdiAdapter odiAdpater = null;
-		ResultObjectReader roReader = ResultObjectReader.newInstance( rsMeta,
-				inputStream,
-				count );
-		odiAdpater = new OdiAdapter( roReader );
-
-		initInstance( odiAdpater, new BaseQuery( ) {
-			/*
-			 * @see org.eclipse.birt.data.engine.odi.IQuery#close()
-			 */
-			public void close( )
-			{
-			}
-		}, rsMeta, null );
-		
 	}
 	
 }
