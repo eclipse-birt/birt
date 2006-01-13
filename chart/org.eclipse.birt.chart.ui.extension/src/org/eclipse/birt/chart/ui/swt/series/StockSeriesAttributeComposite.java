@@ -15,13 +15,11 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
-import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -29,24 +27,22 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 /**
  * @author Actuate Corporation
  * 
  */
-public class StockSeriesAttributeComposite extends Composite implements
-		Listener
+public class StockSeriesAttributeComposite extends Composite
+		implements
+			Listener
 {
 
-	Composite cmpContent = null;
+	// FillChooserComposite fccCandle = null;
 
-	FillChooserComposite fccCandle = null;
+	private LineAttributesComposite liacStock = null;
 
-	LineAttributesComposite liacStock = null;
-
-	StockSeries series = null;
+	private StockSeries series = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -95,19 +91,21 @@ public class StockSeriesAttributeComposite extends Composite implements
 		this.setLayout( glContent );
 
 		// Candle Fill composite
-		Label lblRiserOutline = new Label( this, SWT.NONE );
-		GridData gdLBLRiserOutline = new GridData( );
-		lblRiserOutline.setLayoutData( gdLBLRiserOutline );
-		lblRiserOutline.setText( Messages.getString( "StockSeriesAttributeComposite.Lbl.CandleFill" ) ); //$NON-NLS-1$
-
-		this.fccCandle = new FillChooserComposite( this,
-				SWT.NONE,
-				series.getFill( ),
-				true,
-				true );
-		GridData gdFCCRiserOutline = new GridData( GridData.FILL_HORIZONTAL );
-		fccCandle.setLayoutData( gdFCCRiserOutline );
-		fccCandle.addListener( this );
+		// Label lblRiserOutline = new Label( this, SWT.NONE );
+		// GridData gdLBLRiserOutline = new GridData( );
+		// lblRiserOutline.setLayoutData( gdLBLRiserOutline );
+		// lblRiserOutline.setText( Messages.getString(
+		// "StockSeriesAttributeComposite.Lbl.CandleFill" ) ); //$NON-NLS-1$
+		//
+		// this.fccCandle = new FillChooserComposite( this,
+		// SWT.NONE,
+		// series.getFill( ),
+		// true,
+		// true );
+		// GridData gdFCCRiserOutline = new GridData( GridData.FILL_HORIZONTAL
+		// );
+		// fccCandle.setLayoutData( gdFCCRiserOutline );
+		// fccCandle.addListener( this );
 
 		// Line Attributes composite
 		liacStock = new LineAttributesComposite( this,
@@ -134,11 +132,11 @@ public class StockSeriesAttributeComposite extends Composite implements
 	 */
 	public void handleEvent( Event event )
 	{
-		if ( event.widget.equals( fccCandle ) )
-		{
-			series.setFill( (Fill) event.data );
-		}
-		else if ( event.widget.equals( liacStock ) )
+		// if ( event.widget.equals( fccCandle ) )
+		// {
+		// series.setFill( (Fill) event.data );
+		// }
+		if ( event.widget.equals( liacStock ) )
 		{
 			if ( event.type == LineAttributesComposite.VISIBILITY_CHANGED_EVENT )
 			{
