@@ -91,7 +91,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.46 $ $Date: 2006/01/10 08:46:37 $
+ * @version $Revision: 1.47 $ $Date: 2006/01/11 09:19:39 $
  */
 public class ReportQueryBuilder
 {
@@ -694,6 +694,8 @@ public class ReportQueryBuilder
 			}
 			// inter-range
 			groupDefn.setIntervalRange( handle.getIntervalRange( ) );
+			// inter-start-value
+			groupDefn.setIntervalStart( handle.getIntervalBase( ) );
 			// sort-direction
 			String direction = handle.getSortDirection( );
 			if ( direction != null )
