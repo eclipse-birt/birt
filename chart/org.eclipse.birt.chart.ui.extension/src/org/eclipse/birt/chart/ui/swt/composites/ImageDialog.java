@@ -66,6 +66,8 @@ public class ImageDialog extends Dialog
 	private Fill fCurrent;
 
 	private String imageData;
+	
+	private Label title;
 
 	/**
 	 * The constructor.
@@ -129,6 +131,7 @@ public class ImageDialog extends Dialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				selectedType = URI_TYPE;
+				title.setText( Messages.getString( "ImageDialog.label.EnterURL" ) ); //$NON-NLS-1$
 				updateButtons();
 			}
 
@@ -140,6 +143,7 @@ public class ImageDialog extends Dialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				selectedType = EMBEDDED_TYPE;
+				title.setText( Messages.getString( "ImageDialog.label.EnterEmbed" ) ); //$NON-NLS-1$
 				updateButtons();
 			}
 		} );
@@ -155,8 +159,8 @@ public class ImageDialog extends Dialog
 		inputArea.setLayoutData( gd );
 		inputArea.setLayout( new GridLayout( ) );
 
-		Label title = new Label( inputArea, SWT.NONE );
-		title.setText( Messages.getString( "ImageDialog.label.EnterURL" ) ); //$NON-NLS-1$
+		title = new Label( inputArea, SWT.NONE );
+		title.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		uriEditor = new Text( inputArea, SWT.SINGLE | SWT.BORDER );
 		uriEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -317,6 +321,15 @@ public class ImageDialog extends Dialog
 		{// initialize as URI mode by default
 			uri.setSelection( true );
 			selectedType = URI_TYPE;
+		}
+		
+		if ( selectedType == EMBEDDED_TYPE )
+		{
+			title.setText( Messages.getString( "ImageDialog.label.EnterEmbed" ) ); //$NON-NLS-1$
+		}
+		else
+		{
+			title.setText( Messages.getString( "ImageDialog.label.EnterURL" ) ); //$NON-NLS-1$
 		}
 
 		getButton( IDialogConstants.OK_ID ).setEnabled( false );
