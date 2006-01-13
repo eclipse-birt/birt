@@ -29,25 +29,25 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 
 public class PageRegion extends WrappedEmitter
 {
-	private IContent rootContent;
+
 	private StartEmitterVisitor startEmitterVisitor;
 	private EndEmitterVisitor endEmitterVisitor;
-	//private DOMBuildingEmitter domBuilderEmitter;
 
-	public PageRegion( Page page, IContent content )
+	// private DOMBuildingEmitter domBuilderEmitter;
+
+	public PageRegion( Page page )
 	{
 		super( page.getEmitter( ) );
 
-		this.rootContent = content;
 		startEmitterVisitor = new StartEmitterVisitor( emitter );
 		endEmitterVisitor = new EndEmitterVisitor( emitter );
 	}
 
-	public void open( )
+	public void open( IContent content )
 	{
-		if ( rootContent != null )
+		if ( content != null )
 		{
-			ArrayList contents = getAncestors( );
+			ArrayList contents = getAncestors( content );
 			int size = contents.size( ) - 1;
 			for ( int i = size; i >= 0; i-- )
 			{
@@ -56,11 +56,11 @@ public class PageRegion extends WrappedEmitter
 		}
 	}
 
-	public void close( )
+	public void close( IContent content )
 	{
-		if ( rootContent != null )
+		if ( content != null )
 		{
-			ArrayList contents = getAncestors( );
+			ArrayList contents = getAncestors( content );
 			int size = contents.size( );
 			for ( int i = 0; i < size; i++ )
 			{
@@ -69,14 +69,13 @@ public class PageRegion extends WrappedEmitter
 		}
 	}
 
-	private ArrayList getAncestors( )
+	private ArrayList getAncestors( IContent content )
 	{
 		ArrayList list = new ArrayList( );
-		IContent content = rootContent;
 		while ( content != null )
 		{
 			list.add( content );
-			content= (IContent)content.getParent( );
+			content = (IContent) content.getParent( );
 		}
 		return list;
 	}
