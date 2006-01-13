@@ -388,7 +388,6 @@ abstract class PreparedQuery
 		dest.setSorts( src.getSorts() );
 		dest.setIsComplexExpression( isComplexExpression );
 		return dest;
-		
 	}
 	
 	/**
@@ -879,7 +878,11 @@ abstract class PreparedQuery
 						groupSpecs[i] = dest;
 						
 						if( groupSpecs[i].isCompleteExpression() )
-							temporaryComputedColumns.add(new ComputedColumn( "_{$TEMP_GROUP_"+i+"$}_", src.getKeyExpression(), DataType.ANY_TYPE));
+						{
+							;
+						
+							temporaryComputedColumns.add(new ComputedColumn( "_{$TEMP_GROUP_"+i+"$}_", src.getKeyExpression(), getTempComputedColumnType( groupSpecs[i].getInterval() )));
+						}
 					}
 					odiQuery.setGrouping( Arrays.asList( groupSpecs));
 				}		
@@ -967,6 +970,31 @@ abstract class PreparedQuery
 			{
 				Context.exit();
 			}
+		}
+
+		/**
+		 * @param groupSpecs
+		 * @param i
+		 */
+		private int getTempComputedColumnType( int i )
+		{
+			int interval = i;
+			if( interval == IQuery.GroupSpec.DAY_INTERVAL 
+				|| interval == IQuery.GroupSpec.HOUR_INTERVAL
+				|| interval == IQuery.GroupSpec.MINUTE_INTERVAL
+				|| interval == IQuery.GroupSpec.SECOND_INTERVAL
+				|| interval == IQuery.GroupSpec.MONTH_INTERVAL
+				|| interval == IQuery.GroupSpec.QUARTER_INTERVAL
+				|| interval == IQuery.GroupSpec.YEAR_INTERVAL
+				|| interval == IQuery.GroupSpec.WEEK_INTERVAL )
+				interval = DataType.DATE_TYPE;
+			else if ( interval == IQuery.GroupSpec.NUMERIC_INTERVAL )
+				interval = DataType.DOUBLE_TYPE;
+			else if ( interval == IQuery.GroupSpec.STRING_PREFIX_INTERVAL )
+				interval = DataType.STRING_TYPE;
+			else
+				interval = DataType.ANY_TYPE;
+			return interval;
 		}
 	}
 	

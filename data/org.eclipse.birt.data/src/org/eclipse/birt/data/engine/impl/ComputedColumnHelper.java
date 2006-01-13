@@ -117,6 +117,16 @@ public class ComputedColumnHelper implements IResultObjectEvent
 					}
 					catch ( BirtException e )
 					{
+						String fieldName = resultClass.getFieldName( columnIndexArray[i] );
+						if( fieldName != null && fieldName.startsWith("_{$TEMP_"))
+						{
+//							 Data Type of computed column is not correct
+							throw new DataException( ResourceConstants.WRONG_DATA_TYPE_SCRIPT_RESULT,
+									new Object[]{
+										resultClass.getFieldValueClass( columnIndexArray[i] ).getName( ),
+											value.toString( ),
+									} );
+						}
 						// Data Type of computed column is not correct
 						throw new DataException( ResourceConstants.WRONG_DATA_TYPE_COMPUTED_COLUMN,
 								new Object[]{
