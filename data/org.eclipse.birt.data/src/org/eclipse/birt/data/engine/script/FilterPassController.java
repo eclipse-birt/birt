@@ -1,4 +1,3 @@
-
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -16,13 +15,13 @@ package org.eclipse.birt.data.engine.script;
  * Class would be inherited by other classes to do the actual
  * filter evaluation job.
  */
-
 public class FilterPassController
 {
 	public static final int FIRST_PASS = 1;
 	public static final int SECOND_PASS = 2;
 	public static final int DEFAULT_PASS = 0;
 	public static final int DEFAULT_ROW_COUNT = -1;
+	private static boolean forceReset = false;
 	private static int passLevel = DEFAULT_PASS;
 	
 	private static int rowCount = DEFAULT_ROW_COUNT;
@@ -44,5 +43,15 @@ public class FilterPassController
 	public static void setRowCount( int i )
 	{
 		rowCount = i;
+	}
+	
+	public static void setForceReset ( boolean b )
+	{
+		forceReset = b;
+	}
+	
+	public static boolean getForceReset( )
+	{
+		return forceReset;
 	}
 }

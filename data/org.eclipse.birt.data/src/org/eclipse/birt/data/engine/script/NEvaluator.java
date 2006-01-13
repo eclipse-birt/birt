@@ -54,6 +54,11 @@ abstract class NEvaluator extends FilterPassController
 	 */
 	public boolean evaluate(Object value, Object n, boolean calculatePercent) throws DataException
 	{
+		if( FilterPassController.getForceReset() )
+		{
+			doReset();
+			FilterPassController.setForceReset( false );
+		}
 		if( N == -1)
 		{
 			try{
@@ -185,15 +190,23 @@ abstract class NEvaluator extends FilterPassController
 	{
 		if ( firstPassRowNumberCounter  == secondPassRowNumberCounter )
 		{
-				firstPassRowNumberCounter = 0;
-				secondPassRowNumberCounter = 0;
-				qualifiedRowCounter = 0;
-				rowIdList = null;
-				valueList = null;
-				N = -1;
+			doReset();
 		}
 	}
 
+	/**
+	 * 
+	 *
+	 */
+	private void doReset()
+	{
+		firstPassRowNumberCounter = 0;
+		secondPassRowNumberCounter = 0;
+		qualifiedRowCounter = 0;
+		rowIdList = null;
+		valueList = null;
+		N = -1;
+	}
 	protected abstract Object doCompare( Object value1, Object value2 ) throws DataException;
 }
 
