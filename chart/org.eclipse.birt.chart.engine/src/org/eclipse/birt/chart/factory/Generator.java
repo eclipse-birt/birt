@@ -440,6 +440,8 @@ public final class Generator
 				&& fd.isSetItalic( )
 				&& fd.isSetRotation( )
 				&& fd.isSetWordWrap( )
+				&& fd.isSetUnderline( )
+				&& fd.isSetStrikethrough( )
 				&& fd.getAlignment( ) != null
 				&& fd.getAlignment( ).isSetHorizontalAlignment( )
 				&& currentStyle.getColor( ) != null )

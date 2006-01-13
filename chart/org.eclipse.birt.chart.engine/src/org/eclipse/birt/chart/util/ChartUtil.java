@@ -218,6 +218,14 @@ public class ChartUtil
 			{
 				original.setWordWrap( source.isWordWrap( ) );
 			}
+			if ( !original.isSetUnderline( ) )
+			{
+				original.setUnderline( source.isUnderline( ) );
+			}
+			if ( !original.isSetStrikethrough( ) )
+			{
+				original.setStrikethrough( source.isStrikethrough( ) );
+			}
 		}
 	}
 
