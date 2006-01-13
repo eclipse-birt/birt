@@ -94,6 +94,8 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 					}
 				}
 			}
+			
+			archive.setStreamSorter( new ReportDocumentStreamSorter() );
 			archive.finish( );
 		}
 		catch ( IOException e )

@@ -23,6 +23,7 @@ public class FileArchiveWriter implements IDocArchiveWriter
 {
 	private String fileName;
 	private String tempFolder; 			
+	private IStreamSorter streamSorter = null;
 
 	/**
 	 * @param absolute fileName the archive file name
@@ -98,6 +99,11 @@ public class FileArchiveWriter implements IDocArchiveWriter
 		return fd.exists();
 	}	
 
+	public void setStreamSorter( IStreamSorter streamSorter )
+	{
+		this.streamSorter = streamSorter;
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#finish()
 	 */
@@ -132,7 +138,29 @@ public class FileArchiveWriter implements IDocArchiveWriter
 		compoundFile.writeLong(0);	// reserve a sopt for writing the entry number of the lookup map.
 
 		ArrayList fileList = new ArrayList();
-		getAllFiles( new File( tempFolder ), fileList );
+		getAllFiles( new File( tempFolder ), fileList );	
+				
+		if ( streamSorter != null )
+		{
+			ArrayList streamNameList = new ArrayList();
+			for ( int i=0; i<fileList.size(); i++ )
+			{
+				File file = (File)fileList.get(i);
+				streamNameList.add( ArchiveUtil.generateRelativePath(tempFolder, file.getAbsolutePath()) );
+			}
+					
+			ArrayList sortedNameList = streamSorter.sortStream( streamNameList ); // Sort the streams by using the stream sorter (if any).
+			
+			if ( sortedNameList != null )
+			{
+				fileList.clear();			
+				for ( int i=0; i<sortedNameList.size(); i++ )
+				{
+					String fileName = ArchiveUtil.generateFullPath( tempFolder, (String)sortedNameList.get(i) );
+					fileList.add( new File(fileName) );
+				}
+			}			
+		}
 
 		// Generate the in-memory lookup map and serialize it to the compound file.
 		long streamRelativePosition = 0;

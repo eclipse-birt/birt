@@ -58,6 +58,12 @@ public interface IDocArchiveWriter {
 	public boolean exists( String relativePath );
 
 	/**
+	 * Set the stream sorter (if needed). The stream sorter will be used to sort the streams. If no stream sorter is set, the streams will be written in random order.
+	 * @param streamSorter - the stream sorter
+	 */
+	public void setStreamSorter( IStreamSorter streamSorter );
+	
+	/**
 	 * This function must be called after the writer is used.
 	 * finalizes the socument archive. This may involve compressing the archive
 	 * to a single file. This also closes and finishes using the archive.

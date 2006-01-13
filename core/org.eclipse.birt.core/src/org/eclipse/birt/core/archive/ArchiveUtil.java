@@ -74,7 +74,7 @@ public class ArchiveUtil
 		relativePath = convertToUnixString( relativePath );
 		
 		if ( !relativePath.startsWith(UNIX_SEPERATOR) )
-			relativePath = UNIX_SEPERATOR + relativePath.substring( 1 );
+			relativePath = UNIX_SEPERATOR + relativePath;
 
 		
 		return relativePath;
