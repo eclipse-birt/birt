@@ -59,6 +59,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.dnd.DND;
@@ -97,7 +98,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.32 $ $Date: 2005/11/29 06:53:53 $
+ * @version $Revision: 1.33 $ $Date: 2005/12/27 07:30:30 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -472,29 +473,88 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		setRefreshInfo();
 		if ( isSchemaSupported )
 		{
-			getAvailableSchema();
-			// If the schemaCombo have not be initialized yet.
-			if ( schemaCombo.getItemCount() < 1)
-			{
-				schemaCombo.add( JdbcPlugin.getResourceString("tablepage.text.All") );
-				schemaCombo.select( 0 );
-				if( schemaList != null){
-					Iterator it = schemaList.iterator( );
-					while ( it.hasNext( ) )
-						schemaCombo.add( it.next( ).toString( ) );
-				}
-			}
-			populateTableList();
+			populateSchemaList( );
 		}
 		else
 		{
-			populateTableList();
+			populateTableList( );
 		}
+		addFetchDbObjectListener( );  
 		
 		// Set the focus on the root node
 		if( rootNode != null )
 		{
 			selectNode(rootNode);
+		}
+	}
+	
+	/**
+	 * populate shema list if the schema is supported
+	 *
+	 */
+	protected void populateSchemaList()
+	{
+		if ( rootNode != null )
+		{
+			rootNode.removeAll( );
+		}
+		getAvailableSchema();
+		// If the schemaCombo have not be initialized yet.
+		if ( schemaCombo.getItemCount() < 1)
+		{
+			schemaCombo.add( JdbcPlugin.getResourceString("tablepage.text.All") );
+			schemaCombo.select( 0 );
+			if( schemaList != null){
+				Iterator it = schemaList.iterator( );
+				while ( it.hasNext( ) )
+					schemaCombo.add( it.next( ).toString( ) );
+			}
+		}
+		ArrayList targetSchemaList = new ArrayList();	
+		ArrayList schemaObjectList = new ArrayList();
+		if(schemaList!=null)
+		{
+			int numberOfSchema = 0;
+			Preferences preferences = ReportPlugin.getDefault( )
+					.getPluginPreferences( );
+			if ( preferences.contains( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA ) )
+			{
+				numberOfSchema = preferences.getInt( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA );
+			}
+			else
+			{
+				numberOfSchema = DateSetPreferencePage.DEFAULT_MAX_NUM_OF_SCHEMA;
+				preferences.setValue( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA,
+						numberOfSchema );
+			}
+			cachedSchemaComboIndex = schemaCombo.getSelectionIndex();
+			if ( schemaCombo.getSelectionIndex() == 0)
+			{
+				targetSchemaList = schemaList;
+			}
+			else
+			{
+				targetSchemaList.add( schemaCombo.getItem( schemaCombo.getSelectionIndex() ));
+				numberOfSchema = 1;
+			}
+
+			for ( int i = 0; i < targetSchemaList.size( ) && i < numberOfSchema; i++ )
+			{
+				String schemaName = (String) targetSchemaList.get( i );
+				DbObject schemaObj = new DbObject( schemaName,
+						schemaName,
+						DbObject.SCHEMA_TYPE,
+						schemaImage );
+				schemaObjectList.add( schemaObj );
+			}
+			TreeItem[] items = Utility.createTreeItems( rootNode,
+					schemaObjectList,
+					SWT.NONE,
+					schemaImage );
+			if ( items != null && items.length > 0 )
+			{
+				availableDbObjectsTree.showItem( items[0] );
+			}
 		}
 	}
 	
@@ -529,15 +589,10 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		}
 	}
 	
-	protected void populateTableList()
+	protected void populateTableList( String schemaName ,TreeItem schemaTreeItem )
 	{
-		 // Remove all the existing children of the root Node
-		if ( rootNode != null )
-		{
-			availableDbObjectsTree.removeAll( );
-			setRootElement( );
-		}
-
+		if(schemaTreeItem!=null)
+			schemaTreeItem.removeAll();
 		String namePattern = null;
 		String[] tableType = null;
 		cachedSearchTxt = searchTxt.getText();	
@@ -558,70 +613,28 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 
 	    String catalogName = metaDataProvider.getCatalog();
 		ArrayList tableList = new ArrayList();
-		ArrayList targetSchemaList = new ArrayList();		
+	
 		ResultSet tablesRs = null;
 		ArrayList procedureRs = null;
-		if (schemaList != null && schemaList.size() > 0)
+		if (schemaName != null && schemaName.trim().length() > 0)
 		{
-			int numberOfSchema = 0;
-			Preferences preferences = ReportPlugin.getDefault( )
-					.getPluginPreferences( );
-			if ( preferences.contains( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA ) )
-			{
-				numberOfSchema = preferences.getInt( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA );
-			}
-			else
-			{
-				numberOfSchema = DateSetPreferencePage.DEFAULT_MAX_NUM_OF_SCHEMA;
-				preferences.setValue( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA,
-						numberOfSchema );
-			}
-			cachedSchemaComboIndex = schemaCombo.getSelectionIndex();
-			if ( schemaCombo.getSelectionIndex() == 0)
-			{
-				targetSchemaList = schemaList;
-			}
-			else
-			{
-				targetSchemaList.add( schemaCombo.getItem( schemaCombo.getSelectionIndex() ));
-				numberOfSchema = 1;
-			}
+
 			
 			
 			// For each schema Get  the List of Tables
 			int numTables = 0;
-	
-			for( int i=0; i< targetSchemaList.size() && i < numberOfSchema; i++)
 			{
-				int count = 0;
-				String schemaName = (String)targetSchemaList.get(i);
 				if( metaDataProvider.isProcedureSupported() )
 					procedureRs = metaDataProvider.getAllProcedure( catalogName, schemaName, namePattern );
 				if( !DbType.PROCEDURE_STRING.equalsIgnoreCase(dbtype))
 					tablesRs = metaDataProvider.getAlltables(catalogName,schemaName,namePattern,tableType);	
 				tableList = new ArrayList();
-				if( tablesRs == null && procedureRs == null )
-				{
-					continue;
-				}
-	
+
 				try
 				{
 					// Create the schema Node
-
-					ArrayList schema = new ArrayList();
-					TreeItem schemaTreeItem[] = null;
 					Image image = tableImage;
-					
-					if( count == 0 )
-					{
-						schema.add(schemaName);
-						schemaTreeItem = Utility.createTreeItems(rootNode, schema, SWT.NONE, schemaImage);
-						//expand schema TreeItem
-						if( schemaTreeItem != null && schemaTreeItem.length > 0)
-							availableDbObjectsTree.showItem(schemaTreeItem[0]);
-					}
-					
+										
 					if ( tablesRs != null )
 					{
 						while ( tablesRs.next( ) )
@@ -640,7 +653,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 							String type = tablesRs.getString( "TABLE_TYPE" );
 							if ( type.equalsIgnoreCase( "SYSTEM TABLE" ) )
 								continue;
-							count++;
 
 							int dbType = DbObject.TABLE_TYPE;
 
@@ -684,10 +696,9 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 						tableList.add( dbObject );
 					}
 
-					if ( schemaTreeItem != null 
-							&& schemaTreeItem.length > 0 ) 
+					if ( schemaTreeItem != null ) 
 					{
-						TreeItem item[] = Utility.createTreeItems( schemaTreeItem[0],
+						TreeItem item[] = Utility.createTreeItems( schemaTreeItem,
 								tableList,
 								SWT.NONE,
 								null );
@@ -704,75 +715,104 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 				}
 			}
 		}
-		else
+	}
+	
+	/**
+	 * if the schema is not support, populate the table list
+	 *
+	 */
+	protected void populateTableList( )
+	{
+		if ( rootNode != null )
+			rootNode.removeAll( );
+		ResultSet tablesRs = null;
+		ArrayList procedureRs = null;
+		String catalogName = metaDataProvider.getCatalog( );
+
+		String namePattern = null;
+		String[] tableType = null;
+		cachedSearchTxt = searchTxt.getText( );
+		namePattern = getTailoredSearchText( searchTxt.getText( ) );
+
+		String dbtype = getSelectedDbType( );
+		cachedDbType = dbtype;
+
+		if ( metaDataProvider.isProcedureSupported( ) )
+			procedureRs = metaDataProvider.getAllProcedure( catalogName,
+					null,
+					namePattern );
+		if ( !DbType.PROCEDURE_STRING.equalsIgnoreCase( dbtype ) )
+			tablesRs = metaDataProvider.getAlltables( catalogName,
+					null,
+					namePattern,
+					tableType );
+
+		if ( tablesRs == null && procedureRs == null )
 		{
-			if( metaDataProvider.isProcedureSupported() )
-				procedureRs = metaDataProvider.getAllProcedure( catalogName, null, namePattern );
-			if( !DbType.PROCEDURE_STRING.equalsIgnoreCase(dbtype))
-				tablesRs = metaDataProvider.getAlltables(catalogName,null,namePattern,tableType);
-			
-			if( tablesRs == null && procedureRs == null )
+			return;
+		}
+		try
+		{
+			Image image = tableImage;
+			if ( tablesRs != null )
 			{
-				return;
-			}
-			try
-			{
-				Image image = tableImage;
-				if ( tablesRs != null )
+				tableList = new ArrayList( );
+				while ( tablesRs.next( ) )
 				{
-					while ( tablesRs.next( ) )
+					String tableName = tablesRs.getString( "TABLE_NAME" );
+					String type = tablesRs.getString( "TABLE_TYPE" );//$NON-NLS-1$
+					if ( type.equalsIgnoreCase( "SYSTEM TABLE" ) )
+						continue;
+					// String SchemaName =
+					// tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
+					int dbType = DbObject.TABLE_TYPE;
+
+					if ( type.equalsIgnoreCase( "TABLE" ) )
 					{
-						String tableName = tablesRs.getString( "TABLE_NAME" );
-						String type = tablesRs.getString( "TABLE_TYPE" );//$NON-NLS-1$
-						if ( type.equalsIgnoreCase( "SYSTEM TABLE" ) )
-							continue;
-						// String SchemaName =
-						// tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
-						int dbType = DbObject.TABLE_TYPE;
-
-						if ( type.equalsIgnoreCase( "TABLE" ) )
-						{
-							image = tableImage;
-							dbType = DbObject.TABLE_TYPE;
-						}
-						else if ( type.equalsIgnoreCase( "VIEW" ) )
-						{
-							image = viewImage;
-							dbType = DbObject.VIEW_TYPE;
-						}
-
-						DbObject dbObject = new DbObject( tableName,
-								tableName,
-								dbType,
-								image );
-						tableList.add( dbObject );
+						image = tableImage;
+						dbType = DbObject.TABLE_TYPE;
 					}
-				}
-				if ( needToCreateProcedureNode( dbtype, procedureRs ))
-				{
-					String fullyQualifiedTableName = "STORED PROCEDURES";
-		
-					DbObject dbObject = new DbObject( fullyQualifiedTableName,"STORED PROCEDURES", DbObject.PROCEDURE_TYPE, tableImage);
+					else if ( type.equalsIgnoreCase( "VIEW" ) )
+					{
+						image = viewImage;
+						dbType = DbObject.VIEW_TYPE;
+					}
 
+					DbObject dbObject = new DbObject( tableName,
+							tableName,
+							dbType,
+							image );
 					tableList.add( dbObject );
 				}
-				TreeItem item[] = Utility.createTreeItems(rootNode, tableList, SWT.NONE, null);
-				
-				//expand table TreeItem
-				if( item != null && item.length > 0)
-					availableDbObjectsTree.showItem(item[0]);
-				
-				// Add listener to display the column names when expanded
 			}
-			catch(Exception e)
+			if ( needToCreateProcedureNode( dbtype, procedureRs ) )
 			{
-				e.printStackTrace();
+				String fullyQualifiedTableName = "STORED PROCEDURES";
+
+				DbObject dbObject = new DbObject( fullyQualifiedTableName,
+						"STORED PROCEDURES",
+						DbObject.PROCEDURE_TYPE,
+						tableImage );
+
+				tableList.add( dbObject );
 			}
+			TreeItem item[] = Utility.createTreeItems( rootNode,
+					tableList,
+					SWT.NONE,
+					null );
+
+			// expand table TreeItem
+			if ( item != null && item.length > 0 )
+				availableDbObjectsTree.showItem( item[0] );
+
+			// Add listener to display the column names when expanded
 		}
-	
-		// Add a listener for fetching columns
-	   addFetchColumnListener();  
+		catch ( Exception e )
+		{
+			e.printStackTrace( );
+		}
 	}
+
 
 	/**
 	 * @param namePattern
@@ -1053,20 +1093,46 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		}
 	}	
 	
-	private void addFetchColumnListener()
+	/**
+	 *
+	 */
+	private void addFetchDbObjectListener()
 	{
 		
 		availableDbObjectsTree.addListener(SWT.Expand, new Listener(){
-
-			public void handleEvent(Event event) {
-
+			
+			/*
+			 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+			 */
+			public void handleEvent( final Event event )
+			{
+				TreeItem item = (TreeItem)event.item;
+				BusyIndicator.showWhile( item.getDisplay( ), new Runnable( ) {
+					/*
+					 * @see java.lang.Runnable#run()
+					 */
+					public void run( )
+					{
+						showTable( event );
+					}
+				} );
+			}
+			
+			/**
+			 * @param event
+			 */
+			private void showTable(Event event)
+			{
 				TreeItem item = (TreeItem)event.item;
 				if (item == null) return;
 				
-				if (isSchemaNode(item) || (item == rootNode))
+				if( item == rootNode )
+					return;				
+				if ( isSchemaNode( item ) )
 				{
+					populateTableList( item.getText( ), item );
 					return;
-				}
+				}//TODO
 				
 				String tableName = Utility.getTreeItemsName( item );
 
@@ -1679,6 +1745,9 @@ class DbType
 	public static final String PROCEDURE_STRING = "PROCEDURE";
 	public static final int MAX_ITEMS_DISPLAY_COUNT = 500;
 
+    private int type;
+    private String name;
+    
     public String getName()
     {
         return name;
@@ -1698,9 +1767,6 @@ class DbType
     {
         this.type = type;
     }
-
-    int type;
-    String name;
 
     public DbType(int type, String name)
     {
