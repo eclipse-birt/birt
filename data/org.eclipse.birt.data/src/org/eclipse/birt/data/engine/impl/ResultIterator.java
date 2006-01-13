@@ -676,15 +676,18 @@ public class ResultIterator implements IResultIterator
 			else
 			{
 				columnName = group.getKeyExpression( );
-				if ( columnName.toUpperCase( ).startsWith( "ROW." ) )
-					columnName = columnName.toUpperCase( )
-							.replaceFirst( "\\QROW.\\E", "" );
-				else if ( columnName.toUpperCase( ).startsWith( "ROW[" ) )
+
+				if ( columnName.trim( ).toUpperCase( ).startsWith( "ROW" ) )
 				{
-					columnName = columnName.toUpperCase( )
-							.replaceFirst( "\\QROW\\E\\s*\\Q[\\E", "" );
-					columnName = columnName.trim( ).substring( 0,
-							columnName.length( ) - 1 ).trim( );
+					String temp = columnName.trim( ).substring( 3 ).trim();
+					if ( temp.startsWith( "." ) )
+						columnName = temp.replaceFirst( "\\Q.\\E", "" );
+					else if ( temp.startsWith( "[" ) )
+					{
+						columnName = temp.replaceFirst( "\\Q[\\E", "" );
+						columnName = columnName.trim( ).substring( 0,
+								columnName.length( ) - 1 ).trim( );
+					}
 				}
 				if ( columnName != null
 						&& columnName.matches( "\\Q\"\\E.*\\Q\"\\E" ) )

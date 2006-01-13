@@ -57,8 +57,8 @@ public class ResultClass implements IResultClass
 			ResultFieldMetadata column = (ResultFieldMetadata) projectedColumns.get( i );
 
 			String upperCaseName = column.getName( );
-			if ( upperCaseName != null )
-				upperCaseName = upperCaseName.toUpperCase( );
+			//if ( upperCaseName != null )
+			//	upperCaseName = upperCaseName.toUpperCase( );
 
 			// need to add 1 to the 0-based array index, so we can put the
 			// 1-based index into the name-to-id mapping that will be used
@@ -76,8 +76,8 @@ public class ResultClass implements IResultClass
 			}
 
 			String upperCaseAlias = column.getAlias( );
-			if ( upperCaseAlias != null )
-				upperCaseAlias = upperCaseAlias.toUpperCase( );
+			//if ( upperCaseAlias != null )
+			//	upperCaseAlias = upperCaseAlias.toUpperCase( );
 			if ( upperCaseAlias != null
 					&& upperCaseAlias.length( ) > 0
 					&& !m_nameToIdMapping.containsKey( upperCaseAlias ) )
@@ -252,7 +252,7 @@ public class ResultClass implements IResultClass
 	public int getFieldIndex( String fieldName )
 	{
 		Integer i = 
-			(Integer) m_nameToIdMapping.get( fieldName.toUpperCase( ) );
+			(Integer) m_nameToIdMapping.get( fieldName );//.toUpperCase( ) );
 		return ( i == null ) ? -1 : i.intValue();
 	}
 	
