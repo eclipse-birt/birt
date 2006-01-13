@@ -15,38 +15,36 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ListingElement;
-import org.eclipse.birt.report.model.elements.TableItem;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
- * Validates the element is not allowed to appear in the specific slot of the
- * given container type in any level.
+ * Validates the table/list is not allowed to appear in header/footer/contents
+ * slot of master page in any level.
  * 
  * <h3>Rule</h3>
- * The rule is that whether the given element can recursively resides in the
- * specific slot of specific container type.
+ * The rule is that whether the table/list can recursively resides in the
+ * header/footer/contents slot of master page.
  * 
  * <h3>Applicability</h3>
- * This validator is only applied to <code>TableItem</code> and
- * <code>ListItem</code> currently.
+ * This validator is only applied to <code>MasterPage</code> currently.
  * 
  */
 
-public class TableHeaderContextContainmentValidator
+public class MasterPageContextContainmentValidator
 		extends
 			AbstractElementValidator
 {
 
-	private final static TableHeaderContextContainmentValidator instance = new TableHeaderContextContainmentValidator( );
+	private final static MasterPageContextContainmentValidator instance = new MasterPageContextContainmentValidator( );
 
 	/**
 	 * Returns the singleton validator instance.
@@ -54,7 +52,7 @@ public class TableHeaderContextContainmentValidator
 	 * @return the validator instance
 	 */
 
-	public static TableHeaderContextContainmentValidator getInstance( )
+	public static MasterPageContextContainmentValidator getInstance( )
 	{
 		return instance;
 	}
@@ -74,10 +72,10 @@ public class TableHeaderContextContainmentValidator
 
 	public List validate( Module module, DesignElement element )
 	{
-		if ( !( element instanceof ListingElement ) )
+		if ( !( element instanceof MasterPage ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( module, element, DesignElement.NO_SLOT );
+		return doValidate( module, element, false );
 	}
 
 	/**
@@ -88,45 +86,44 @@ public class TableHeaderContextContainmentValidator
 	 *            the module
 	 * @param toValidate
 	 *            the element to validate
-	 * @param slotId
-	 *            the slot id
-	 * @return <code>true</code> if <code>toValidate</code> is a table item
-	 *         or nested in the table item and the table slot is
-	 *         <code>TableItem.HEADER_SLOT</code>.
+	 * @param isAddListing
+	 *            true if adding a table/list or the adding element containing a
+	 *            table/list in any level to the validate element, otherwise
+	 *            false
+	 * @return an error list if <code>toValidate</code> is master page and one
+	 *         of its child is a listing element.
 	 */
 
-	private List doValidate( Module module, DesignElement toValidate, int slotId )
+	private List doValidate( Module module, DesignElement toValidate,
+			boolean isAddListing )
 	{
+		DesignElement container = toValidate;
+		MasterPage page = null;
+		while ( container != null )
+		{
+			if ( container instanceof MasterPage )
+			{
+				page = (MasterPage) container;
+				break;
+			}
+			container = container.getContainer( );
+		}
+
+		if ( page == null )
+			return Collections.EMPTY_LIST;
+
 		List list = new ArrayList( );
 
-		DesignElement curContainer = toValidate;
-		int curSlotID = slotId;
-
-		if ( slotId == DesignElement.NO_SLOT )
+		if ( ModelUtil
+				.containElement( page, ReportDesignConstants.LISTING_ITEM )
+				|| isAddListing )
 		{
-			curContainer = toValidate.getContainer( );
-			curSlotID = toValidate.getContainerSlot( );
+			list
+					.add( new SemanticError(
+							toValidate,
+							SemanticError.DESIGN_EXCEPTION_INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT ) );
 		}
 
-		while ( curContainer != null )
-		{
-			IElementDefn containerDefn = curContainer.getDefn( );
-
-			if ( ReportDesignConstants.TABLE_ITEM
-					.equalsIgnoreCase( containerDefn.getName( ) )
-					&& curSlotID == TableItem.HEADER_SLOT )
-			{
-				list
-						.add( new ContentException(
-								curContainer,
-								curSlotID,
-								toValidate,
-								ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT ) );
-			}
-
-			curSlotID = curContainer.getContainerSlot( );
-			curContainer = curContainer.getContainer( );
-		}
 		return list;
 	}
 
@@ -150,12 +147,13 @@ public class TableHeaderContextContainmentValidator
 	public List validateForAdding( Module module, DesignElement element,
 			int slotId, DesignElement toAdd )
 	{
-		if ( !( toAdd instanceof ListingElement )
-				&& !( ModelUtil.containElement( toAdd,
-						ReportDesignConstants.LISTING_ITEM ) ) )
-			return Collections.EMPTY_LIST;
+		boolean isAddListing = false;
+		if ( toAdd instanceof ListingElement
+				|| ModelUtil.containElement( toAdd,
+						ReportDesignConstants.LISTING_ITEM ) )
+			isAddListing = true;
 
-		return doValidate( module, element, slotId );
+		return doValidate( module, element, isAddListing );
 	}
 
 	/**
@@ -176,11 +174,9 @@ public class TableHeaderContextContainmentValidator
 	public List validateForAdding( Module module, DesignElement element,
 			IElementDefn toAdd )
 	{
-		ElementDefn listingDefn = (ElementDefn) MetaDataDictionary
-				.getInstance( ).getElement( ReportDesignConstants.LISTING_ITEM );
-		if ( !listingDefn.isKindOf( toAdd ) )
-			return Collections.EMPTY_LIST;
-
-		return doValidate( module, element, DesignElement.NO_SLOT );
+		IElementDefn defn = MetaDataDictionary.getInstance( ).getElement(
+				ReportDesignConstants.LISTING_ITEM );
+		boolean isAddListing = defn.isKindOf( toAdd );
+		return doValidate( module, element, isAddListing );
 	}
 }

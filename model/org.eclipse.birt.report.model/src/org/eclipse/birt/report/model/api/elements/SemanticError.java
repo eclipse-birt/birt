@@ -255,6 +255,12 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_PROPERTY_BINDING_FORBIDDEN = MessageConstants.SEMANTIC_ERROR_PROPERTY_BINDING_FORBIDDEN;
 	
 	/**
+	 * The master page can not contain table/list in any level.
+	 */
+	
+	public static final String DESIGN_EXCEPTION_INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT = MessageConstants.SEMANTIC_ERROR_INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT;
+	
+	/**
 	 * The constant for the semantic error.
 	 */
 

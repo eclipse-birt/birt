@@ -58,6 +58,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
@@ -857,5 +858,65 @@ public class ModelUtil
 				for ( int pos = 0; pos < slot.getCount( ); pos++ )
 					reviseNameSpace( module, slot.getContent( pos ), nameSpace );
 		}
+	}
+
+	/**
+	 * Determines whether there is a child in the given element, which is kind
+	 * of the given element definition.
+	 * 
+	 * @param element
+	 *            the element to find
+	 * @param defn
+	 *            the element definition type
+	 * @return true if there is a child in the element whose type is the given
+	 *         definition, otherwise false
+	 */
+
+	public static boolean containElement( DesignElement element,
+			IElementDefn defn )
+	{
+		if ( element == null || defn == null )
+			return false;
+
+		// Check contents.
+
+		int count = element.getDefn( ).getSlotCount( );
+		for ( int i = 0; i < count; i++ )
+		{
+			Iterator iter = element.getSlot( i ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				DesignElement e = (DesignElement) iter.next( );
+				IElementDefn targetDefn = e.getDefn( );
+
+				if ( defn.isKindOf( targetDefn ) )
+					return true;
+
+				if ( containElement( e, defn ) )
+					return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determines whether there is a child in the given element, which is kind
+	 * of the given element definition.
+	 * 
+	 * @param element
+	 *            the element to find
+	 * @param elementName
+	 *            the element definition type
+	 * @return true if there is a child in the element whose type is the given
+	 *         definition, otherwise false
+	 */
+
+	public static boolean containElement( DesignElement element,
+			String elementName )
+	{
+		IElementDefn defn = MetaDataDictionary.getInstance( ).getElement(
+				elementName );
+		return containElement( element, defn );		
 	}
 }

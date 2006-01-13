@@ -1369,6 +1369,7 @@
   	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.StyleReferenceValidator" modules="design, library" name="StyleReferenceValidator" />
    	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.CascadingParameterTypeValidator" modules="design, library" name="CascadingParameterTypeValidator" />
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator" modules="library" name="ThemeStyleNameValidator" />	
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageContextContainmentValidator" modules="design, library" name="MasterPageContextContainmentValidator"/>
   </Validators>
   <Structure displayNameID="Structure.NumberFormatValue" name="NumberFormatValue" since="1.0">
     <Member detailType="numberFormat" displayNameID="Structure.NumberFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
@@ -2184,6 +2185,7 @@
       <Type name="Grid"/>
       <Type name="Line"/>
       <Type name="ExtendedItem"/>
+      <Trigger targetElement="MasterPage" validator="MasterPageContextContainmentValidator"/>
     </Slot>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.SimpleMasterPage" extends="MasterPage" hasStyle="true" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.SimpleMasterPage" name="SimpleMasterPage" selector="page" since="1.0" xmlName="simple-master-page">
@@ -2208,6 +2210,7 @@
       <Type name="Label"/>
       <Type name="TextData"/>
       <Type name="TemplateReportItem"/>
+      <Trigger targetElement="MasterPage" validator="MasterPageContextContainmentValidator"/>
     </Slot>
     <Slot displayNameID="Element.SimpleMasterPage.slot.pageFooter" multipleCardinality="false" name="pageFooter" since="1.0" xmlName="page-footer">
       <Type name="FreeForm"/>
@@ -2218,6 +2221,7 @@
       <Type name="Label"/>
       <Type name="TextData"/>
       <Type name="TemplateReportItem"/>
+      <Trigger targetElement="MasterPage" validator="MasterPageContextContainmentValidator"/>
     </Slot>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.ReportItem" extends="ReportElement" hasStyle="true" isAbstract="true" isNameRequired="false" name="ReportItem" nameSpace="element" since="1.0">
@@ -2323,6 +2327,7 @@
       <Type name="TextData"/>
       <Type name="TemplateReportItem"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
+      <Trigger targetElement="MasterPage" validator="MasterPageContextContainmentValidator"/>
     </Slot>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Data" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.DataItem" name="Data" selector="number,string,date" since="1.0" xmlName="data">
@@ -2782,7 +2787,8 @@
       <Type name="ExtendedItem"/>
       <Type name="TextData"/>
       <Type name="TemplateReportItem"/>
-      <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
+      <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>      
+      <Trigger targetElement="MasterPage" validator="MasterPageContextContainmentValidator"/>
     </Slot>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Image" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ImageItem" name="Image" since="1.0" xmlName="image">

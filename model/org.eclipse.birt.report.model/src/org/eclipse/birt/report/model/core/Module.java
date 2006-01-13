@@ -945,15 +945,10 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	private File getModuleFolder( )
 	{
-		String designPath = getFileName( );
-		File designFile = new File( designPath );
-		if ( !designFile.exists( ) )
+		if ( systemId == null )
 			return null;
 
-		if ( designFile.isFile( ) )
-			return designFile.getParentFile( );
-
-		return null;
+		return new File( systemId.getFile( ) );
 	}
 
 	/**

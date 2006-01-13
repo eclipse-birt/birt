@@ -176,6 +176,7 @@ public interface MessageConstants
 	public static final String SEMANTIC_ERROR_INVALID_LIBRARY_REFERENCE = "Error.SemanticError.INVALID_LIBRARY_REFERENCE"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INVALID_PROPERTY_BINDING_ID = "Error.SemanticError.INVALID_PROPERTY_BINDING_ID"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_PROPERTY_BINDING_FORBIDDEN = "Error.SemanticError.PROPERTY_BINDING_FORBIDDEN"; //$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT = "Error.SemanticError.INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT"; //$NON-NLS-1$
 	
 	// ThemeException
 	public static final String THEME_EXCEPTION_NOT_FOUND = "Error.ThemeException.NOT_FOUND"; //$NON-NLS-1$

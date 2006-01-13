@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
+import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
@@ -2966,7 +2967,8 @@ public abstract class DesignElement
 		while ( tmpContainer != null )
 		{
 			if ( tmpContainer instanceof ListingElement
-					|| tmpContainer instanceof Theme )
+					|| tmpContainer instanceof Theme
+					|| tmpContainer instanceof MasterPage )
 			{
 				List errors = tmpContainer.checkContent( module, this, slotId,
 						element );
@@ -3042,7 +3044,8 @@ public abstract class DesignElement
 		DesignElement tmpContainer = this;
 		while ( tmpContainer != null )
 		{
-			if ( tmpContainer instanceof ListingElement )
+			if ( tmpContainer instanceof ListingElement
+					|| tmpContainer instanceof MasterPage )
 			{
 				List errors = tmpContainer.checkContent( module, this, slotId,
 						defn );
