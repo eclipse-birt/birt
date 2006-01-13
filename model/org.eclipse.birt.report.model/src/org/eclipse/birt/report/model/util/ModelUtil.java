@@ -269,7 +269,8 @@ public class ModelUtil
 
 			if ( StyledElement.STYLE_PROP.equals( propName )
 					|| DesignElement.EXTENDS_PROP.equals( propName )
-					|| DesignElement.USER_PROPERTIES_PROP.equals( propName ) )
+					|| DesignElement.USER_PROPERTIES_PROP.equals( propName ) 
+					|| DesignElement.REF_TEMPLATE_PARAMETER_PROP.equals( propName ) )
 				continue;
 
 			Object localValue = to.getLocalProperty( from.getRoot( ), propDefn );
@@ -358,7 +359,9 @@ public class ModelUtil
 					|| DesignElement.USER_PROPERTIES_PROP.equals( propName )
 					|| IOdaExtendableElementModel.EXTENSION_ID_PROP
 							.equals( propName )
-					|| IExtendedItemModel.EXTENSION_NAME_PROP.equals( propName ) )
+					|| IExtendedItemModel.EXTENSION_NAME_PROP.equals( propName ) 
+					|| DesignElement.REF_TEMPLATE_PARAMETER_PROP.equals( propName ) )
+				
 				continue;
 
 			ElementPropertyDefn propDefn = destination.getElement( )
