@@ -85,7 +85,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.69 $ $Date: 2006/01/05 03:57:00 $
+ * @version $Revision: 1.70 $ $Date: 2006/01/09 12:05:49 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -763,7 +763,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		exportElementID( table, bookmark, "TABLE" );
 		// Instance ID
 		InstanceID iid = table.getInstanceID( );
-		if ( iid != null )
+		Object generateBy = table.getGenerateBy( );
+		if( (generateBy instanceof TableItemDesign) && iid != null )
 		{
 			writer.attribute( "iid", iid.toString( ) );
 		}
