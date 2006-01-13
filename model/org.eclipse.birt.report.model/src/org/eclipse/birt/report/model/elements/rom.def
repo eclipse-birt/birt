@@ -233,10 +233,6 @@
     <Choice displayNameID="Choices.mapOperator.isTrue" name="is-true"/>
     <Choice displayNameID="Choices.mapOperator.isFalse" name="is-false"/>
     <Choice displayNameID="Choices.mapOperator.like" name="like"/>
-    <Choice displayNameID="Choices.mapOperator.top-n" name="top-n"/>
-    <Choice displayNameID="Choices.mapOperator.bottom-n" name="bottom-n"/>
-    <Choice displayNameID="Choices.mapOperator.top-percent" name="top-percent"/>
-    <Choice displayNameID="Choices.mapOperator.bottom-percent" name="bottom-percent"/>
     <Choice displayNameID="Choices.mapOperator.match" name="match"/>
     
 	<!-- DTE doesn't support the following operator
