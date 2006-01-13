@@ -103,11 +103,9 @@ public class HTMLActionHandler implements IHTMLActionHandler
 				}
 			}
 		}
-
-		// The search rules are not supported yet.
 		String bookmark = action.getBookmark( );
-		appendBookmark( link, bookmark );
-
+		appendBookmarkAsParamter( link, bookmark );
+		
 		return link.toString( );
 	}
 
@@ -155,12 +153,37 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		}
 	}
 
+	protected void appendBookmarkAsParamter( StringBuffer buffer,
+			String bookmark )
+	{
+		try
+		{
+			if ( bookmark != null && bookmark.length( ) != 0 )
+			{
+				bookmark = URLEncoder.encode( bookmark, "UTF-8" );
+				buffer.append( "&__bookmark=" );//$NON-NLS-1$
+				buffer.append( bookmark );
+			}
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+
+		}
+	}
+
 	protected void appendBookmark( StringBuffer buffer, String bookmark )
 	{
-		if ( bookmark != null && bookmark.length( ) != 0 )
+		try
 		{
-			buffer.append( "#" );//$NON-NLS-1$
-			buffer.append( bookmark );
+			if ( bookmark != null && bookmark.length( ) != 0 )
+			{
+				bookmark = URLEncoder.encode( bookmark, "UTF-8" );
+				buffer.append( "#" );//$NON-NLS-1$
+				buffer.append( bookmark );
+			}
+		}
+		catch ( UnsupportedEncodingException e )
+		{
 		}
 	}
 
