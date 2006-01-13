@@ -11,12 +11,9 @@
 
 package org.eclipse.birt.report.model.elements;
 
-import java.util.List;
-
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSetModel;
 
@@ -100,19 +97,4 @@ public class ScriptDataSet extends DataSet implements IScriptDataSetModel
 		return (ScriptDataSetHandle) handle;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#valdiate(org.eclipse.birt.report.model.elements.ReportDesign)
-	 */
-
-	public List validate( Module module )
-	{
-		List list = super.validate( module );
-
-		list.addAll( ValueRequiredValidator.getInstance( ).validate( module,
-				this, FETCH_METHOD ) );
-
-		return list;
-	}
 }

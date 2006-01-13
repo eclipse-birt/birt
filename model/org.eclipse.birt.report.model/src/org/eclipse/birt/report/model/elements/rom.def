@@ -1840,7 +1840,7 @@
       <Argument name="this" tagID="Element.ScriptDataSet.describe.this" type="org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance"/>
       <Argument name="dataSetMetaData" tagID="Element.ScriptDataSet.describe.dataSetMetaData" type="org.eclipse.birt.report.engine.api.script.IScriptedDataSetMetaData"/>
 	</Method>		  
-    <Method context="factory" displayNameID="Element.ScriptDataSet.fetch" name="fetch" returnType="DataRow" since="1.0" toolTipID="Element.ScriptDataSet.fetch.toolTip" valueRequired="true" >
+    <Method context="factory" displayNameID="Element.ScriptDataSet.fetch" name="fetch" returnType="DataRow" since="1.0" toolTipID="Element.ScriptDataSet.fetch.toolTip" >
       <Argument name="this" tagID="Element.ScriptDataSet.fetch.this" type="org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance"/>
       <Argument name="currentRow" tagID="Element.ScriptDataSet.fetch.currentRow" type="org.eclipse.birt.report.engine.api.script.IUpdatableDataSetRow"/>
 	</Method>		  		
