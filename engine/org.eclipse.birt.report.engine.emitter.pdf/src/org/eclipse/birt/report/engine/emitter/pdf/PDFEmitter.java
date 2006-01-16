@@ -1143,7 +1143,7 @@ public class PDFEmitter implements IAreaVisitor
 							createPdfAction(
 									hlAction.getHyperlink(), 
 									hlAction.getBookmark(), 
-									hlAction.getTargetWindow())) );
+									hlAction.getTargetWindow(), IHyperlinkAction.ACTION_BOOKMARK)) );
 					break;
 					
 				case IHyperlinkAction.ACTION_DRILLTHROUGH: 
@@ -1204,7 +1204,7 @@ public class PDFEmitter implements IAreaVisitor
 							layoutPointY2PDF(area.getAbsoluteY()+area.getHeight()),
 							layoutPointX2PDF(area.getAbsoluteX()+area.getWidth()),
 							layoutPointY2PDF(area.getAbsoluteY()),
-		            		createPdfAction(link.toString( ), null, hlAction.getTargetWindow())) );
+		            		createPdfAction(link.toString( ), null, hlAction.getTargetWindow(), IHyperlinkAction.ACTION_DRILLTHROUGH )));
 					break;
 					
 				case IHyperlinkAction.ACTION_HYPERLINK: 
@@ -1213,7 +1213,7 @@ public class PDFEmitter implements IAreaVisitor
 							layoutPointY2PDF(area.getAbsoluteY()+area.getHeight()),
 							layoutPointX2PDF(area.getAbsoluteX()+area.getWidth()),
 							layoutPointY2PDF(area.getAbsoluteY()),
-							createPdfAction(hlAction.getHyperlink(), null, hlAction.getTargetWindow())) );
+							createPdfAction(hlAction.getHyperlink(), null, hlAction.getTargetWindow(), IHyperlinkAction.ACTION_HYPERLINK)) );
 					break;
 				}
 			}
@@ -1233,23 +1233,31 @@ public class PDFEmitter implements IAreaVisitor
 	 * 							else the target will be opened in the current window.
 	 * @return					the created PdfAction.
 	 */
-	private PdfAction createPdfAction(String hyperlink, String bookmark, String target)
+	private PdfAction createPdfAction(String hyperlink, String bookmark, String target, int type)
 	{
 		if ("_blank".equalsIgnoreCase(target)) //$NON-NLS-1$
 		//open the target in a new window
 		{
 			return new PdfAction(hyperlink);
+			
 		}
 		else
 		//open the target in current window
 		{
-			if (null == hyperlink)
+			if (type==IHyperlinkAction.ACTION_BOOKMARK)
 			{
 				return PdfAction.gotoLocalPage(bookmark, false);
 			}
 			else
 			{
-				return PdfAction.gotoRemotePage(hyperlink, bookmark, false, false);
+				if(type==IHyperlinkAction.ACTION_HYPERLINK)
+				{
+					return PdfAction.gotoRemotePage(hyperlink, bookmark, false, false);
+				}
+				else
+				{
+					return new PdfAction(hyperlink);
+				}
 			}
 		}
 	}
