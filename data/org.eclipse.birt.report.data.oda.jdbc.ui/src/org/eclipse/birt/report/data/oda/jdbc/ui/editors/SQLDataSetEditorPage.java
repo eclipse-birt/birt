@@ -98,7 +98,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.33 $ $Date: 2005/12/27 07:30:30 $
+ * @version $Revision: 1.34 $ $Date: 2006/01/13 11:10:58 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -496,7 +496,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	{
 		if ( rootNode != null )
 		{
-			rootNode.removeAll( );
+			removeTreeItem( rootNode );
 		}
 		getAvailableSchema();
 		// If the schemaCombo have not be initialized yet.
@@ -592,7 +592,9 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	protected void populateTableList( String schemaName ,TreeItem schemaTreeItem )
 	{
 		if(schemaTreeItem!=null)
-			schemaTreeItem.removeAll();
+		{
+			removeTreeItem( schemaTreeItem );
+		}
 		String namePattern = null;
 		String[] tableType = null;
 		cachedSearchTxt = searchTxt.getText();	
@@ -724,7 +726,9 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	protected void populateTableList( )
 	{
 		if ( rootNode != null )
-			rootNode.removeAll( );
+		{
+			removeTreeItem( rootNode );
+		}
 		ResultSet tablesRs = null;
 		ArrayList procedureRs = null;
 		String catalogName = metaDataProvider.getCatalog( );
@@ -1649,6 +1653,24 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	public void setDatabaseObjectTreeExpansion( boolean expand )
 	{
 		this.expandDbObjectsTree = expand;
+	}
+	
+	/**
+	 * remove the tree item's direct child treeItem, cause since 3.1,
+	 * TreeItem.removeAll is supported.But in 3.0,this method is not supported.
+	 * 
+	 * @param treeItem
+	 */
+	private void removeTreeItem( TreeItem treeItem )
+	{
+		TreeItem[] items = treeItem.getItems( );
+		for ( int i = 0; i < items.length; i++ )
+		{
+			if ( items[i] != null && !items[i].isDisposed( ) )
+			{
+				items[i].dispose( );
+			}
+		}
 	}
 	
     /*
