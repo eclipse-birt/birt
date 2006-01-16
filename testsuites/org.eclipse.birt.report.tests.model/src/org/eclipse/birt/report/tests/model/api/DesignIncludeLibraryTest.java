@@ -24,7 +24,7 @@ public class DesignIncludeLibraryTest extends BaseTestCase {
 
 	private String inputLibraryName = "LibA.xml"; //$NON-NLS-1$
 
-	private String outFileName = "DesignIncludeLibraryDpt.xml"; //$NON-NLS-1$
+	private String outFileName = PLUGIN_PATH + getClassFolder() + OUTPUT_FOLDER + "DesignIncludeLibraryDpt.xml"; //$NON-NLS-1$
 
 	private String goldenFileName = "DesignIncludeLibraryDpt_golden.xml"; //$NON-NLS-1$
 

@@ -14,7 +14,7 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 {
 	String fileName = "BlankReport.xml";
 
-	private String outputFileName = "IncludeLibraryRuleTest10.xml";
+	private String outputFileName = PLUGIN_PATH + getClassFolder() + OUTPUT_FOLDER + "IncludeLibraryRuleTest10.xml";
 	
 	private String LibA = PLUGIN_PATH + getClassFolder() + INPUT_FOLDER + "LibA.xml";
 	private String LibB = PLUGIN_PATH + getClassFolder() + INPUT_FOLDER + "LibB.xml";
