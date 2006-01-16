@@ -98,7 +98,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.34 $ $Date: 2006/01/13 11:10:58 $
+ * @version $Revision: 1.35 $ $Date: 2006/01/16 09:29:20 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -1663,6 +1663,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	 */
 	private void removeTreeItem( TreeItem treeItem )
 	{
+		if ( treeItem.isDisposed( ) )
+			return;
 		TreeItem[] items = treeItem.getItems( );
 		for ( int i = 0; i < items.length; i++ )
 		{

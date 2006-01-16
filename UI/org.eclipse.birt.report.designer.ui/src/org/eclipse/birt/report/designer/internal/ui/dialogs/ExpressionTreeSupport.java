@@ -895,7 +895,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 				&& currentEditObject != null
 				&& methodName != null )
 		{
-			contextItem.removeAll( );
+			removeTreeItem( );
 			DesignElementHandle handle = (DesignElementHandle) currentEditObject;
 			Map argMap = DEUtil.getDesignElementMethodArguments( handle,
 					methodName );
@@ -915,9 +915,20 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	public void setCurrentEditObject( Object obj )
 	{
 		this.currentEditObject = obj;
-		if ( contextItem != null && !contextItem.isDisposed( ) )
+		removeTreeItem( );
+	}
+	
+	private void removeTreeItem( )
+	{
+		if ( contextItem == null || contextItem.isDisposed( ) )
+			return;
+		TreeItem[] items = contextItem.getItems( );
+		for ( int i = 0; i < items.length; i++ )
 		{
-			contextItem.removeAll( );
+			if ( items[i] != null && !items[i].isDisposed( ) )
+			{
+				items[i].dispose( );
+			}
 		}
 	}
 
