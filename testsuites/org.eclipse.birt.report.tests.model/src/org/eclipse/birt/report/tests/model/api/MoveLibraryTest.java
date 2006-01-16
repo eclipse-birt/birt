@@ -6,6 +6,7 @@ import junit.framework.TestSuite;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -60,27 +61,31 @@ public class MoveLibraryTest extends BaseTestCase
 		assertNotNull("Text should not be null", textLibHandle);
 		DataItemHandle dataLibHandle = (DataItemHandle)libHandle.findElement( "data1" );
 		assertNotNull("Data should not be null", dataLibHandle);
-		StyleHandle styleLibHandle = (StyleHandle)libHandle.findStyle( "style1" );
-		assertNotNull("Style should not be null", styleLibHandle);
+	//  SharedStyleHandle styleLibHandle = (SharedStyleHandle)libHandle.findStyle( "style1" );
+	//	assertNotNull("Style should not be null", styleLibHandle);
 		
 		TextItemHandle textHandle = (TextItemHandle)designHandle.getElementFactory().newElementFrom( textLibHandle, "text1" );
 		DataItemHandle dataHandle = (DataItemHandle)designHandle.getElementFactory().newElementFrom( dataLibHandle, "data1" );
-		StyleHandle styleHandle = (StyleHandle)designHandle.getElementFactory().newStyle( "style1" );
+	//	StyleHandle styleHandle = (StyleHandle)designHandle.getElementFactory().newStyle( "style1" );
 		
 		designHandle.getBody().add( dataHandle );
 		designHandle.getBody().add( textHandle );
-		designHandle.getStyles().add( styleHandle );
+		//designHandle.getStyles().add( styleHandle );
+
+		
 		
 		assertEquals( "yellow" , dataHandle.getExtends().getStringProperty("backgroundColor"));
 		assertEquals( "red" , textHandle.getExtends().getStringProperty("backgroundColor"));
 		
 		File deleteLibD = new File(LibD);
 		deleteLibD.delete();
+		designHandle.saveAs(PLUGIN_PATH + getClassFolder() + INPUT_FOLDER + "SavedReport.xml");
 		
-		assertNotNull( "Text has benn deleted!" , textHandle.getExtends() );
-		assertNotNull( "Data has benn deleted!" , dataHandle.getExtends() );
-		assertEquals( null , dataHandle.getStringProperty("backgroundColor"));
-		assertEquals( null , textHandle.getStringProperty("backgroundColor"));
+		openDesign("SavedReport.xml");
+		assertNotNull((TextItemHandle)designHandle.findElement("text1"));
+		assertNotNull((DataItemHandle)designHandle.findElement("data1"));
+	    assertEquals( null , ((TextItemHandle)designHandle.findElement("text1")).getStringProperty("backgroundColor"));
+		assertEquals( null , ((DataItemHandle)designHandle.findElement("data1")).getStringProperty("backgroundColor"));
 
 	}
 }
