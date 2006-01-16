@@ -76,36 +76,86 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		{
 			baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
 		}
+
 		StringBuffer link = new StringBuffer( );
-
 		String reportName = action.getReportName( );
-		if ( reportName != null && !reportName.equals( "" ) )//$NON-NLS-1$
+
+		if ( reportName != null && !reportName.equals( "" ) ) //$NON-NLS-1$
 		{
-			link.append( baseURL );
-
-			appendReportDesignName( link, reportName );
-
-			// add format
 			String format = action.getFormat( );
-			appendFormat( link, format );
+			if ( !"html".equalsIgnoreCase( format ) )
+			{
+				link.append( baseURL.replaceFirst( "frameset", "run" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			else
+			{
+				link.append( baseURL );
+			}
+
+			link
+					.append( reportName.toLowerCase( )
+							.endsWith( ".rptdocument" ) ? "?__document=" : "?__report=" ); //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$
+
+			try
+			{
+				link.append( URLEncoder.encode( reportName, "UTF-8" ) ); //$NON-NLS-1$
+			}
+			catch ( UnsupportedEncodingException e1 )
+			{
+				// It should not happen. Does nothing
+			}
+
+			// add format support
+			if ( format != null && format.length( ) > 0 )
+			{
+				link.append( "&__format=" + format ); //$NON-NLS-1$
+			}
 
 			// Adds the parameters
-			Map params = action.getParameterBindings( );
-			if ( params != null )
+			if ( action.getParameterBindings( ) != null )
 			{
-				Iterator paramsIte = params.entrySet( ).iterator( );
+				Iterator paramsIte = action.getParameterBindings( ).entrySet( )
+						.iterator( );
 				while ( paramsIte.hasNext( ) )
 				{
 					Map.Entry entry = (Map.Entry) paramsIte.next( );
-					String key = (String) entry.getKey( );
-					Object valueObj = entry.getValue( );
-					appendParamter( link, key, valueObj );
+					try
+					{
+						String key = (String) entry.getKey( );
+						Object valueObj = entry.getValue( );
+						if ( valueObj != null )
+						{
+							String value = valueObj.toString( );
+							link
+									.append( "&" + URLEncoder.encode( key, "UTF-8" ) //$NON-NLS-1$ //$NON-NLS-2$
+											+ "=" + URLEncoder.encode( value, "UTF-8" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+						}
+					}
+					catch ( UnsupportedEncodingException e )
+					{
+						// Does nothing
+					}
+				}
+			}
+
+			// The search rules are not supported yet.
+			if ( !"pdf".equalsIgnoreCase( format )
+					&& action.getBookmark( ) != null )
+			{
+
+				try
+				{
+					link.append( "&__bookmark=" ); //$NON-NLS-1$
+					link.append( URLEncoder.encode( action.getBookmark( ),
+							"UTF-8" ) ); //$NON-NLS-1$
+				}
+				catch ( UnsupportedEncodingException e )
+				{
+					// Does nothing
 				}
 			}
 		}
-		String bookmark = action.getBookmark( );
-		appendBookmarkAsParamter( link, bookmark );
-		
+
 		return link.toString( );
 	}
 
