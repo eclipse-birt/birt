@@ -126,6 +126,7 @@
 		       showoutput="true">
 
 			<jvmarg value="-DBIRT_HOME=${eclipse.home}" />
+			<jvmarg value="-Declipse.home=${eclipse.home}" />
 			<jvmarg value="-ea"/>
 			<classpath refid="class.path" />
 			<formatter type="xml" usefile="true" />
@@ -144,6 +145,7 @@
 		       showoutput="true">
 
 			<jvmarg value="-DBIRT_HOME=${eclipse.home}" />
+			<jvmarg value="-Declipse.home=${eclipse.home}" />
 			<jvmarg value="-ea"/>
 			<classpath refid="class.path" />
 			<formatter type="xml" usefile="true" />
