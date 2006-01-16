@@ -23,6 +23,7 @@ public class ThemeTest extends BaseTestCase
 {
    private ElementFactory factory = null;
    private ThemeHandle theme = null;
+   private ThemeHandle theme1 = null;
    private SharedStyleHandle style1 = null;
    private SharedStyleHandle style2 = null;
    private TableHandle table = null;
@@ -56,20 +57,14 @@ public class ThemeTest extends BaseTestCase
 		
 		//define theme without name
 		theme = factory.newTheme(null);
+		theme1 = factory.newTheme(null);
 		assertEquals("NewTheme",theme.getName());
 		libraryHandle.getThemes().add(theme);
 		
 		//define theme with duplicated names
-			try
-		{
-		    libraryHandle.getThemes().add(theme);
-	        fail();
-		}
-		catch(NameException e)
-		{
-			assertNotNull(e);
-		} 
-		
+	    libraryHandle.getThemes().add(theme1);
+	    assertEquals("NewTheme1",theme1.getName());
+	
 		//define theme with styles
 		style1 = factory.newStyle("Style1");
 		style2 = factory.newStyle("Style2");
@@ -270,7 +265,9 @@ public class ThemeTest extends BaseTestCase
     	    assertNotNull(defaulttheme);
     	    assertNotNull(theme1);
     	    ThemeHandle defaultcopy = ((Theme)defaulttheme.copy()).handle(libraryHandle.getModule());
+    	    ThemeHandle defaultcopy1 = ((Theme)defaulttheme.copy()).handle(libraryHandle.getModule());
     	    ThemeHandle theme1copy = ((Theme)theme1.copy()).handle(libraryHandle.getModule());
+    	    ThemeHandle theme1copy1 = ((Theme)theme1.copy()).handle(libraryHandle.getModule());
     	   
     	    try
     	    {
@@ -292,8 +289,10 @@ public class ThemeTest extends BaseTestCase
     	    
     	    //paste themes to another library
     	    openLibrary(LibB);
-    	    libraryHandle.getThemes().add(defaultcopy);
-    	    libraryHandle.getThemes().add(theme1copy);
+    	    defaultcopy1.setName("defaultTheme1");
+    	    theme1copy1.setName("theme11");
+    	    libraryHandle.getThemes().add(defaultcopy1);
+    	    libraryHandle.getThemes().add(theme1copy1);
     	    assertEquals("defaultTheme1",libraryHandle.getThemes().get(2).getName());
     	    assertEquals("theme11",libraryHandle.getThemes().get(3).getName());
     	    
