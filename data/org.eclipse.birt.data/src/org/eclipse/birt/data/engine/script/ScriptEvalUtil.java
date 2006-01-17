@@ -143,18 +143,15 @@ public class ScriptEvalUtil
 			case IConditionalExpression.OP_LIKE :
 				result = like( resultObject, resultOp1 );
 				break;
+				
 			case IConditionalExpression.OP_TOP_N :
-				result = isTopN( resultObject, resultOp1 );
-				break;
 			case IConditionalExpression.OP_BOTTOM_N :
-				result = isBottomN( resultObject, resultOp1 );
-				break;
 			case IConditionalExpression.OP_TOP_PERCENT :
-				result = isTopPercent( resultObject, resultOp1 );
-				break;
 			case IConditionalExpression.OP_BOTTOM_PERCENT :
-				result = isBottomPercent( resultObject, resultOp1 );
-				break;
+				// Top/Bottom expressions are only available in filters for now; direct evaluation is not supported
+				throw new DataException(
+						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "Top/Bottom(N) outside of row filters" );
+				
 			case IConditionalExpression.OP_ANY :
 				throw new DataException(
 						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "ANY" );
@@ -431,60 +428,6 @@ public class ScriptEvalUtil
 		}
 	}
 	
-	/**
-	 * @param resultObject
-	 * @param resultOp1
-	 * @return true if resultObject is Top N, false otherwise
-	 * @throws DataException
-	 */
-	private static boolean isTopN( Object resultObject, Object resultOp1 )
-			throws DataException
-	{
-		return NEvaluator.getInstance( NEvaluator.TOP_INSTANCE )
-				.evaluate( resultObject, resultOp1, false );
-	}
-	
-	/**
-	 * 
-	 * @param resultObject
-	 * @param resultOp1
-	 * @return true if resultObject is Bottom N, false otherwise 
-	 * @throws DataException
-	 */
-	private static boolean isBottomN( Object resultObject, Object resultOp1 )
-			throws DataException
-	{
-		return NEvaluator.getInstance( NEvaluator.BOTTOM_INSTANCE )
-				.evaluate( resultObject, resultOp1, false );
-	}
-	
-	/**
-	 * 
-	 * @param resultObject
-	 * @param resultOp1
-	 * @return true if resultObject is Top Percent, false otherwise
-	 * @throws DataException
-	 */
-	private static boolean isTopPercent( Object resultObject, Object resultOp1 )
-			throws DataException
-	{
-		return NEvaluator.getInstance( NEvaluator.TOP_INSTANCE )
-				.evaluate( resultObject, resultOp1, true );
-	}
-
-	/**
-	 * 
-	 * @param resultObject
-	 * @param resultOp1
-	 * @return true if resultObject is Bottom Percent,false otherwise
-	 * @throws DataException
-	 */
-	private static boolean isBottomPercent( Object resultObject,
-			Object resultOp1 ) throws DataException
-	{
-		return NEvaluator.getInstance( NEvaluator.BOTTOM_INSTANCE )
-				.evaluate( resultObject, resultOp1, true );
-	}
 
 	/**
 	 * Evaluates a IJSExpression or IConditionalExpression
@@ -514,11 +457,20 @@ public class ScriptEvalUtil
 		}
 		else if ( expr instanceof IConditionalExpression)
 		{
-			ConditionalExpression ConditionalExpr = (ConditionalExpression) expr;
-			Object expression = evalExpr( ConditionalExpr.getExpression( ), cx, scope, source, lineNo );
-			Object Op1 = evalExpr( MiscUtil.constructValidScriptExpression ( ConditionalExpr.getOperand1() ), cx, scope, source, lineNo );
-			Object Op2 = evalExpr( MiscUtil.constructValidScriptExpression ( ConditionalExpr.getOperand2() ), cx, scope, source, lineNo );
-			result = evalConditionalExpr2( expression, ConditionalExpr.getOperator( ), Op1, Op2 ); 
+			// If this is a prepared top(n)/bottom(n) expr, use its evaluator
+			Object handle = expr.getHandle();
+			if ( handle instanceof NEvaluator )
+			{
+				result =  Boolean.valueOf (((NEvaluator)handle).evaluate( cx, scope ));
+			}
+			else
+			{
+				ConditionalExpression ConditionalExpr = (ConditionalExpression) expr;
+				Object expression = evalExpr( ConditionalExpr.getExpression( ), cx, scope, source, lineNo );
+				Object Op1 = evalExpr( MiscUtil.constructValidScriptExpression ( ConditionalExpr.getOperand1() ), cx, scope, source, lineNo );
+				Object Op2 = evalExpr( MiscUtil.constructValidScriptExpression ( ConditionalExpr.getOperand2() ), cx, scope, source, lineNo );
+				result = evalConditionalExpr2( expression, ConditionalExpr.getOperator( ), Op1, Op2 ); 
+			}
 		}
 		else
 		{

@@ -3,47 +3,79 @@ package org.eclipse.birt.data.engine.script;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * The implementation of this class is used to evaluate TopN/BottomN expressions 
  * @author lzhu
  *
  */
-abstract class NEvaluator extends FilterPassController
+public abstract class NEvaluator
 {
-	public static final String BOTTOM_INSTANCE = "BOTTOM";
-	public static final String TOP_INSTANCE = "TOP";
-	private static String currentInstance = null;
-	private static Object[] valueList; 
-	private static int[] rowIdList;
-	private static int firstPassRowNumberCounter = 0;
-	private static int secondPassRowNumberCounter = 0;
-	private static int qualifiedRowCounter = 0;
-	//The "N" of topN/bottomN.
-	private static int N = -1;
-	private static NEvaluator instance = null;
+	private Object[] valueList; 
+	private int[] rowIdList;
+	private int firstPassRowNumberCounter = 0;
+	private int secondPassRowNumberCounter = 0;
+	private int qualifiedRowCounter = 0;
 	
+	//The "N" of topN/bottomN.
+	private int N = -1;
+	
+	// whether we are doing N percent
+	private boolean n_percent = false;
+	
+	// expression for operand (to be compared)
+	private IScriptExpression op_expr;
+	// expression for N 
+	private IScriptExpression n_expr;
+	
+	private FilterPassController filterPassController;
+
 	/**
-	 * Return the instance of NEvaluagor according to the given instanceName.
-	 * @param instanceName
+	 * Create a new instance to evaluate the top/bottom expression
+	 * @param operator 
+	 * @param op_expr operand expression
+	 * @param n_expr expression to yield N 
 	 * @return
 	 */
-	public static NEvaluator getInstance( String instanceName )
+	public static NEvaluator newInstance( int operator, IScriptExpression op_expr, 
+			IScriptExpression n_expr, FilterPassController filterPassController  )
+	 	throws DataException
 	{
-		if ( instance == null
-				|| ( currentInstance == null || !currentInstance.equalsIgnoreCase( instanceName ) ) )
+		NEvaluator instance = null;
+		switch ( operator )
 		{
-			if ( TOP_INSTANCE.equalsIgnoreCase( instanceName ) )
+			case IConditionalExpression.OP_TOP_N :
+				instance = new TopNEvaluator();
+				instance.n_percent = false;
+				break;
+			case IConditionalExpression.OP_TOP_PERCENT:
 				instance = new TopNEvaluator( );
-			else if ( BOTTOM_INSTANCE.equalsIgnoreCase( instanceName ) )
+				instance.n_percent = true;
+				break;
+			case IConditionalExpression.OP_BOTTOM_N:
 				instance = new BottomNEvaluator( );
-			else
-				throw new IllegalArgumentException( );
+				instance.n_percent = false;
+				break;
+			case IConditionalExpression.OP_BOTTOM_PERCENT:
+				instance = new BottomNEvaluator( );
+				instance.n_percent = true;
+				break;
+			default:
+				assert false;		// shouldn't get here
+				return null;
 		}
+		
+		instance.op_expr = op_expr;
+		instance.n_expr = n_expr;
+		instance.filterPassController = filterPassController;
 		return instance;
 	}
+	
 	
 	/**
 	 * Evaluate the given value
@@ -52,41 +84,53 @@ abstract class NEvaluator extends FilterPassController
 	 * @return
 	 * @throws DataException
 	 */
-	public boolean evaluate(Object value, Object n, boolean calculatePercent) throws DataException
+	public boolean evaluate( Context cx, Scriptable scope ) throws DataException
 	{
-		if( FilterPassController.getForceReset() )
+		if( filterPassController.getForceReset() )
 		{
 			doReset();
-			FilterPassController.setForceReset( false );
+			filterPassController.setForceReset( false );
 		}
-		if( N == -1)
+		
+		if ( N == -1 )
 		{
-			try{
-				if( calculatePercent )
-				{
-					double temp = Double.valueOf( n.toString() ).doubleValue()/100;
-					if( temp > 1 || temp < 0)
-						throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_PERCENT_ARGUMENT);
-					
-					N = (int)Math.round( temp*getRowCount() );
-				}else				
-					N = Double.valueOf( n.toString() ).intValue();
-			}catch (NumberFormatException e)
+			// Create a new evaluator
+			// Evaluate N (which is operand1) at this time
+			Object n_object = ScriptEvalUtil.evalExpr( n_expr, cx, scope, "Filter", 0 );
+			double n_value = -1;
+			try
 			{
-				
+				n_value = DataTypeUtil.toDouble( n_object ).doubleValue();
 			}
-			//If the exception is thrown in abrove code, then the value of N should
-			//remains "-1"
-			if( N < 0 )
-				throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_N_ARGUMENT);
+			catch ( BirtException e )
+			{
+				// conversion error
+				throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_PERCENT_ARGUMENT, e);
+			}
 			
-			
+			// First time; calculate N based on updated row count
+			if( n_percent )
+			{
+				if( n_value < 0 || n_value > 100)
+					throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_PERCENT_ARGUMENT);
+				N = (int)Math.round( n_value / 100 * filterPassController.getRowCount() );
+			}
+			else
+			{
+				if( n_value < 0 )
+					throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_PERCENT_ARGUMENT);
+				N = (int)n_value;
+			}
 		}
-		if ( getPassLevel( ) == FIRST_PASS )
+		
+		// Evaluate operand expression
+		Object value = ScriptEvalUtil.evalExpr( op_expr, cx, scope, "Filter", 0 );
+		
+		if ( filterPassController.getPassLevel( ) == FilterPassController.FIRST_PASS )
 		{
 			return doFirstPass( value );
 		}
-		else if ( getPassLevel( ) == SECOND_PASS )
+		else if ( filterPassController.getPassLevel( ) == FilterPassController.SECOND_PASS )
 		{
 			return doSecondPass( );
 		}
@@ -119,6 +163,7 @@ abstract class NEvaluator extends FilterPassController
 	 */
 	private void populateValueListAndRowIdList( Object value, int N ) throws DataException
 	{
+		assert N>=0;
 		for( int i = 0; i < N; i++ )
 		{
 			if( value == null )

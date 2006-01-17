@@ -11,9 +11,7 @@
 package org.eclipse.birt.data.engine.script;
 
 /**
- * This class control the current pass level of filter.This
- * Class would be inherited by other classes to do the actual
- * filter evaluation job.
+ * This class control the current pass level of filter.
  */
 public class FilterPassController
 {
@@ -21,36 +19,38 @@ public class FilterPassController
 	public static final int SECOND_PASS = 2;
 	public static final int DEFAULT_PASS = 0;
 	public static final int DEFAULT_ROW_COUNT = -1;
-	private static boolean forceReset = false;
-	private static int passLevel = DEFAULT_PASS;
 	
-	private static int rowCount = DEFAULT_ROW_COUNT;
-	public static int getPassLevel()
+	private boolean forceReset = false;
+	private int passLevel = DEFAULT_PASS;
+	
+	private int rowCount = DEFAULT_ROW_COUNT;
+	
+	public int getPassLevel()
 	{
 		return passLevel;
 	}
 	
-	public static void setPassLevel( int i )
+	public void setPassLevel( int i )
 	{
 		passLevel = i;
 	}
 	
-	public static int getRowCount( )
+	public int getRowCount( )
 	{
 		return rowCount;
 	}
 	
-	public static void setRowCount( int i )
+	public void setRowCount( int i )
 	{
 		rowCount = i;
 	}
 	
-	public static void setForceReset ( boolean b )
+	public void setForceReset ( boolean b )
 	{
 		forceReset = b;
 	}
 	
-	public static boolean getForceReset( )
+	public boolean getForceReset( )
 	{
 		return forceReset;
 	}
