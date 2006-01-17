@@ -80,31 +80,32 @@ public class DataPresentationEngine extends AbstractDataEngine
 		try
 		{
 			DataInputStream dis = new DataInputStream( reader
-					.getStream( DATA_META_STREAM ));
+					.getStream( DATA_META_STREAM ) );
 			mapQueryIDToResultSetIDs = new HashMap( );
 			int size = IOUtil.readInt( dis );
-			for( int i=0; i<size; i++ )
+			for ( int i = 0; i < size; i++ )
 			{
 				String queryId = IOUtil.readString( dis );
 				LinkedList ridList = new LinkedList( );
 				readStringList( dis, ridList );
 				mapQueryIDToResultSetIDs.put( queryId, ridList );
 			}
-				
+
 			size = IOUtil.readInt( dis );
 			queryResultRelations = new ArrayList( );
-			for( int i=0; i<size; i++ )
+			for ( int i = 0; i < size; i++ )
 			{
 				String parentRSID = IOUtil.readString( dis );
-				String resultSetID = IOUtil.readString( dis );
 				String rowid = IOUtil.readString( dis );
-				Key key = new Key(parentRSID, rowid, resultSetID );
+				String qid = IOUtil.readString( dis );
+				String resultSetID = IOUtil.readString( dis );
+				Key key = new Key( parentRSID, rowid, qid, resultSetID );
 				queryResultRelations.add( key );
 			}
-			
+
 			size = IOUtil.readInt( dis );
 			queryExpressionIDs = new ArrayList( );
-			for( int i=0; i<size; i++ )
+			for ( int i = 0; i < size; i++ )
 			{
 				QueryID queryId = new QueryID( );
 				readQueryID( dis, queryId );
@@ -119,34 +120,36 @@ public class DataPresentationEngine extends AbstractDataEngine
 			logger.log( Level.SEVERE, ioe.getMessage( ), ioe );
 		}
 	}
-	
-	private void readQueryID( DataInputStream dis, QueryID queryId ) throws IOException
+
+	private void readQueryID( DataInputStream dis, QueryID queryId )
+			throws IOException
 	{
 		readStringList( dis, queryId.beforeExpressionIDs );
 		readStringList( dis, queryId.afterExpressionIDs );
 		readStringList( dis, queryId.rowExpressionIDs );
-		
+
 		int size = IOUtil.readInt( dis );
-		for( int i=0; i<size; i++ )
+		for ( int i = 0; i < size; i++ )
 		{
 			QueryID qid = new QueryID( );
 			readQueryID( dis, qid );
 			queryId.groupIDs.add( qid );
 		}
-		
+
 		size = IOUtil.readInt( dis );
-		for( int i=0; i<size; i++ )
+		for ( int i = 0; i < size; i++ )
 		{
 			QueryID subQid = new QueryID( );
 			readQueryID( dis, subQid );
 			queryId.subqueryIDs.add( subQid );
 		}
 	}
-	
-	private void readStringList( DataInputStream dis, List list ) throws IOException
+
+	private void readStringList( DataInputStream dis, List list )
+			throws IOException
 	{
 		int size = IOUtil.readInt( dis );
-		for( int i=0; i<size; i++ )
+		for ( int i = 0; i < size; i++ )
 		{
 			String str = IOUtil.readString( dis );
 			list.add( str );
@@ -256,7 +259,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 
 			if ( queryResults == null )
 			{
-				List resultSetIDs = (List)mapQueryIDToResultSetIDs
+				List resultSetIDs = (List) mapQueryIDToResultSetIDs
 						.get( queryID );
 				if ( resultSetIDs != null && !resultSetIDs.isEmpty( ) )
 				{
@@ -265,8 +268,11 @@ public class DataPresentationEngine extends AbstractDataEngine
 			}
 			else
 			{
-				String rowid = "" + parentResult.getCurrentPosition( );
-				resultSetID = getResultID( queryResults.getID( ), rowid );
+				String rowid = Long.toString( parentResult
+						.getCurrentPosition( ) );
+
+				resultSetID = getResultID( queryResults.getID( ), rowid,
+						queryID );
 			}
 			if ( resultSetID == null )
 			{

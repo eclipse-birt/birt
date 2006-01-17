@@ -149,7 +149,7 @@ public class DataGenerationEngine extends AbstractDataEngine
 
 		IPreparedQuery preparedQuery = (IPreparedQuery) mapQueryToPreparedQuery
 				.get( query );
-		if (preparedQuery == null)
+		if ( preparedQuery == null )
 		{
 			return null;
 		}
@@ -177,13 +177,14 @@ public class DataGenerationEngine extends AbstractDataEngine
 			else
 			{ // the query is NestedQuery
 				String parentRSID = queryResults.getID( );
-				String rowid = "" + parentResult.getCurrentPosition( );
+				String rowid = Long
+						.toString( parentResult.getCurrentPosition( ) );
 
 				queryResults = preparedQuery.execute( queryResults, queryScope );
 				validateQueryResult( queryResults );
 
 				String childRSID = queryResults.getID( );
-				Key key = new Key( parentRSID, rowid, childRSID );
+				Key key = new Key( parentRSID, rowid, queryID, childRSID );
 				queryResultRelations.add( key );
 
 				resultSet = new DteResultSet( queryResults, this, context );
@@ -229,35 +230,36 @@ public class DataGenerationEngine extends AbstractDataEngine
 		{
 			DataOutputStream dos = new DataOutputStream( writer
 					.createRandomAccessStream( DATA_META_STREAM ) );
-			
+
 			int size = mapQueryIDToResultSetIDs.size( );
-			IOUtil.writeInt(dos, size );
+			IOUtil.writeInt( dos, size );
 			Set keySet = mapQueryIDToResultSetIDs.keySet( );
 			Iterator keyIter = keySet.iterator( );
-			while( keyIter.hasNext( ))
+			while ( keyIter.hasNext( ) )
 			{
-				String queryId = (String)keyIter.next( );
-				IOUtil.writeString( dos , queryId );
-				LinkedList resultList = (LinkedList)mapQueryIDToResultSetIDs
-									.get( queryId );
+				String queryId = (String) keyIter.next( );
+				IOUtil.writeString( dos, queryId );
+				LinkedList resultList = (LinkedList) mapQueryIDToResultSetIDs
+						.get( queryId );
 				writeStringList( dos, resultList );
 			}
-			
+
 			size = queryResultRelations.size( );
 			IOUtil.writeInt( dos, size );
-			for( int i=0; i<size; i++ )
+			for ( int i = 0; i < size; i++ )
 			{
-				Key key = (Key)queryResultRelations.get( i );
+				Key key = (Key) queryResultRelations.get( i );
 				IOUtil.writeString( dos, key.parentRSID );
-				IOUtil.writeString( dos, key.resultSetID );
 				IOUtil.writeString( dos, key.rowid );
+				IOUtil.writeString( dos, key.queryId );
+				IOUtil.writeString( dos, key.resultSetID );
 			}
-			
+
 			size = queryExpressionIDs.size( );
 			IOUtil.writeInt( dos, size );
-			for( int i=0; i<size; i++)
+			for ( int i = 0; i < size; i++ )
 			{
-				QueryID queryId = ( QueryID )queryExpressionIDs.get( i );
+				QueryID queryId = (QueryID) queryExpressionIDs.get( i );
 				writeQueryID( dos, queryId );
 			}
 			dos.close( );
@@ -267,36 +269,39 @@ public class DataGenerationEngine extends AbstractDataEngine
 			e.printStackTrace( );
 		}
 	}
-	private void writeQueryID( DataOutputStream dos, QueryID queryId ) throws IOException
+
+	private void writeQueryID( DataOutputStream dos, QueryID queryId )
+			throws IOException
 	{
 		writeStringList( dos, queryId.beforeExpressionIDs );
 		writeStringList( dos, queryId.afterExpressionIDs );
 		writeStringList( dos, queryId.rowExpressionIDs );
-		
+
 		int size = queryId.groupIDs.size( );
 		IOUtil.writeInt( dos, size );
-		for( int i=0; i<size; i++ )
+		for ( int i = 0; i < size; i++ )
 		{
-			QueryID qid = (QueryID)queryId.groupIDs.get( i );
+			QueryID qid = (QueryID) queryId.groupIDs.get( i );
 			writeQueryID( dos, qid );
 		}
-		
+
 		size = queryId.subqueryIDs.size( );
 		IOUtil.writeInt( dos, size );
-		for( int i=0; i<size; i++ )
+		for ( int i = 0; i < size; i++ )
 		{
-			QueryID subQid = (QueryID)queryId.subqueryIDs.get( i );
+			QueryID subQid = (QueryID) queryId.subqueryIDs.get( i );
 			writeQueryID( dos, subQid );
 		}
 	}
-	
-	private void writeStringList( DataOutputStream dos, List list ) throws IOException
+
+	private void writeStringList( DataOutputStream dos, List list )
+			throws IOException
 	{
 		int size = list.size( );
 		IOUtil.writeInt( dos, size );
-		for( int i=0; i<size; i++ )
+		for ( int i = 0; i < size; i++ )
 		{
-			String str = (String)list.get( i );
+			String str = (String) list.get( i );
 			IOUtil.writeObject( dos, str );
 		}
 	}
