@@ -28,12 +28,15 @@ public class CellInstance extends ReportElementInstance implements
 
 	private IRowData data;
 
+	private boolean fromGrid;
+
 	public CellInstance( CellContent cell, IRowData data,
-			ExecutionContext context )
+			ExecutionContext context, boolean fromGrid )
 	{
 		super( cell, context );
 		this.data = data;
 		this.cell = ( CellContent ) content;
+		this.fromGrid = fromGrid;
 	}
 
 	/*
@@ -86,7 +89,6 @@ public class CellInstance extends ReportElementInstance implements
 		return cell.getColumn( );
 	}
 
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -94,6 +96,12 @@ public class CellInstance extends ReportElementInstance implements
 	 */
 	public Object getData( ) throws ScriptException
 	{
+		if (data == null)
+			return null;
+		//TODO: This is beacuse getColumn from the first cell in a grid returns 0
+		//and getColumn in the first cell in a table returns 1
+		if ( fromGrid )
+			return data.getExpressionValue( getColumn( ) + 1 );
 		return data.getExpressionValue( getColumn( ) );
 	}
 }

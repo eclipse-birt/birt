@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.util.Collection;
-
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -41,7 +38,7 @@ import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.26 $ $Date: 2005/12/16 03:58:38 $
+ * @version $Revision: 1.27 $ $Date: 2006/01/05 21:19:32 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -101,23 +98,10 @@ public class GridItemExecutor extends QueryItemExecutor
 			tableObj.addColumn( column );
 		}
 
-		IBaseQueryDefinition query = item.getQuery( );
-		IRowData rowData = null;
-		if(query!=null)
-		{
-			Collection rowExpressions = ( query
-					.getRowExpressions( ) );
-			
-			IResultIterator rsIterator = ( ( DteResultSet ) rset )
-					.getResultIterator( );
-			rowData = new RowData( rsIterator, rowExpressions );
-		}
 		if ( context.isInFactory( ) )
 		{
-
 			GridScriptExecutor.handleOnCreate( ( TableContent ) tableObj,
-					rowData, context );
-
+					context );
 		}
 		startTOCEntry( tableObj );
 		if ( emitter != null )
@@ -196,24 +180,17 @@ public class GridItemExecutor extends QueryItemExecutor
 		processStyle( row, rowContent );
 		processVisibility( row, rowContent );
 
-		//TODO: Right now row.getQuery() will always return null
-		//This is filed as bug #119153 
+		IResultIterator rsIterator = ( ( DteResultSet ) rset )
+				.getResultIterator( );
+
 		IRowData rowData = null;
-		IBaseQueryDefinition query = row.getQuery( );
-		if(query!=null)
-		{
-			Collection rowExpressions = ( query
-					.getRowExpressions( ) );
-			IResultIterator rsIterator = ( ( DteResultSet ) rset )
-					.getResultIterator( );
-			rowData = new RowData( rsIterator, rowExpressions );
-		}
 		if ( context.isInFactory( ) )
 		{
+			rowData = new RowData( rsIterator, TableItemExecutor
+					.getValueExpressions( row ) );
 			RowScriptExecutor.handleOnCreate( ( RowContent ) rowContent,
 					rowData, context );
 		}
-		
 
 		startTOCEntry( rowContent );
 		if ( emitter != null )
@@ -277,7 +254,7 @@ public class GridItemExecutor extends QueryItemExecutor
 		if ( context.isInFactory( ) )
 		{
 			CellScriptExecutor.handleOnCreate( ( CellContent ) cellContent,
-					rowData, context );
+					rowData, context, true );
 		}
 
 		startTOCEntry( cellContent );

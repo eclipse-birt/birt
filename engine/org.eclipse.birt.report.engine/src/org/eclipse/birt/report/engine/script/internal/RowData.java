@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -38,7 +38,7 @@ public class RowData implements IRowData
 {
 	private IResultIterator rsIterator;
 
-	private Collection expressions;
+	private List valueExpressions;
 
 	private static final Pattern rowWithIndex = Pattern.compile(
 			"(row\\[\\d+\\])", Pattern.CASE_INSENSITIVE );
@@ -46,10 +46,10 @@ public class RowData implements IRowData
 	private static final Pattern rowWithWord = Pattern.compile(
 			"(row\\[\\w+\\])", Pattern.CASE_INSENSITIVE );
 
-	public RowData( IResultIterator rsIterator, Collection expressions )
+	public RowData( IResultIterator rsIterator, List valueExpressions )
 	{
 		this.rsIterator = rsIterator;
-		this.expressions = expressions;
+		this.valueExpressions = valueExpressions;
 	}
 
 	/**
@@ -74,26 +74,21 @@ public class RowData implements IRowData
 
 	public Object getExpressionValue( int index ) throws ScriptException
 	{
-		if ( expressions == null || index > getExpressionCount( ) )
-			return null;
-		Iterator it = expressions.iterator( );
-		int i = 1;
-
-		while ( it.hasNext( ) && i < index )
+		if ( index <= valueExpressions.size( ) )
 		{
-			it.next( );
-			i++;
+			IBaseExpression expr = ( IBaseExpression ) valueExpressions
+					.get( index - 1 );
+			if (expr == null)
+				return null;
+			try
+			{
+				return rsIterator.getValue( expr );
+			} catch ( BirtException e )
+			{
+				throw new ScriptException( e.getLocalizedMessage( ) );
+			}
 		}
-		if ( !it.hasNext( ) )
-			return null;
-		IBaseExpression expr = ( IBaseExpression ) it.next( );
-		try
-		{
-			return rsIterator.getValue( expr );
-		} catch ( BirtException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
+		return null;
 	}
 
 	// Process the expression (replace row[something] with row["something"])
@@ -124,9 +119,9 @@ public class RowData implements IRowData
 
 	private Object eval( String expression ) throws ScriptException
 	{
-		if ( expressions == null )
+		if ( valueExpressions == null )
 			return null;
-		Iterator exprIt = expressions.iterator( );
+		Iterator exprIt = valueExpressions.iterator( );
 		while ( exprIt.hasNext( ) )
 		{
 			IBaseExpression expr = ( IBaseExpression ) exprIt.next( );
@@ -149,9 +144,9 @@ public class RowData implements IRowData
 
 	public int getExpressionCount( )
 	{
-		if ( expressions == null )
+		if ( valueExpressions == null )
 			return 0;
-		return expressions.size( );
+		return valueExpressions.size( );
 	}
 
 }

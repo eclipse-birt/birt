@@ -43,13 +43,14 @@ public class CellScriptExecutor extends ScriptExecutor
 	}
 
 	public static void handleOnCreate( CellContent content, IRowData rowData,
-			ExecutionContext context )
+			ExecutionContext context, boolean fromGrid )
 	{
 		try
 		{
 			ReportItemDesign cellDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			ICellInstance cell = new CellInstance( content, rowData, context );
+			ICellInstance cell = new CellInstance( content, rowData, context,
+					fromGrid );
 			if ( handleJS( cell, cellDesign.getOnCreate( ), context ).didRun( ) )
 				return;
 			ICellEventHandler eh = getEventHandler( cellDesign, context );
@@ -62,14 +63,16 @@ public class CellScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnRender( CellContent content, IRowData rowData,
+	public static void handleOnRender( CellContent content,
 			ExecutionContext context )
 	{
 		try
 		{
 			ReportItemDesign cellDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
-			ICellInstance cell = new CellInstance( content, rowData, context );
+			//fromGrid doesn't matter here since row data is null
+			ICellInstance cell = new CellInstance( content, null, context,
+					false );
 			if ( handleJS( cell, cellDesign.getOnRender( ), context ).didRun( ) )
 				return;
 			ICellEventHandler eh = getEventHandler( cellDesign, context );

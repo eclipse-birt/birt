@@ -71,9 +71,9 @@ public class ElementUtil
 		if ( element == null )
 			return null;
 
-		// No row data available
+		// No row data available, fromGrid doesn't matter
 		if ( element instanceof CellContent )
-			return new CellInstance( ( CellContent ) element, null, context );
+			return new CellInstance( ( CellContent ) element, null, context, false );
 
 		if ( element instanceof DataContent )
 			return new DataItemInstance( ( DataContent ) element, context );

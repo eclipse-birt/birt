@@ -11,17 +11,12 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.util.Collection;
-
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.data.dte.DteResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.script.internal.RowData;
 
 /**
  * An abstract class that defines execution logic for a Listing element, which
@@ -34,6 +29,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 * the cursor position in the query result.
 	 */
 	protected int rsetCursor;
+
 	protected boolean needPageBreak;
 
 	/**
@@ -71,7 +67,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 */
 	protected void accessQuery( ReportItemDesign design, IContentEmitter emitter )
 	{
-		ListingDesign listing = (ListingDesign) design;
+		ListingDesign listing = ( ListingDesign ) design;
 
 		rsetCursor = -1;
 		outputEmitter = emitter;
@@ -94,20 +90,11 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			return;
 		}
 
-		IResultIterator rsIterator = ( (DteResultSet) rset )
+		IResultIterator rsIterator = ( ( DteResultSet ) rset )
 				.getResultIterator( );
-		IBaseQueryDefinition query = listing.getQuery( );
-		Collection rowExpressions = ( query == null ? null : query
-				.getRowExpressions( ) );
-		Collection beforeExpressions = ( query == null ? null : query
-				.getBeforeExpressions( ) );
-		Collection afterExpressions = ( query == null ? null : query
-				.getAfterExpressions( ) );
-		IRowData rowData = new RowData( rsIterator, rowExpressions );
-		IRowData headerData = new RowData( rsIterator, beforeExpressions );
-		IRowData footerData = new RowData( rsIterator, afterExpressions );
+
 		startTOCEntry( null );
-		accessHeader( listing, outputEmitter, headerData );
+		accessHeader( listing, outputEmitter, rsIterator );
 		finishTOCEntry( );
 		if ( groupCount == 0 )
 		{
@@ -116,7 +103,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			{
 				rsetCursor++;
 				startTOCEntry( null );
-				accessDetail( listing, outputEmitter, rowData );
+				accessDetail( listing, outputEmitter, rsIterator );
 				finishTOCEntry( );
 				if ( pageBreakInterval > 0 )
 				{
@@ -131,7 +118,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 					// the last row
 					needPageBreak = false;
 					startTOCEntry( null );
-					accessFooter( listing, outputEmitter, footerData );
+					accessFooter( listing, outputEmitter, rsIterator );
 					finishTOCEntry( );
 				}
 			} while ( rset.next( ) );
@@ -161,7 +148,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 				}
 			}
 			startGroupTOCEntry( );
-			accessDetail( listing, outputEmitter, rowData );
+			accessDetail( listing, outputEmitter, rsIterator );
 			finishGroupTOCEntry( );
 			int endGroup = rset.getEndingGroupLevel( );
 			if ( endGroup != NONE_GROUP )
@@ -198,7 +185,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 				// the last row
 				needPageBreak = false;
 				startTOCEntry( null );
-				accessFooter( listing, outputEmitter, footerData );
+				accessFooter( listing, outputEmitter, rsIterator );
 				finishTOCEntry( );
 			}
 		} while ( rset.next( ) );
@@ -240,7 +227,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 *            output emitter
 	 */
 	abstract protected void accessDetail( ListingDesign list,
-			IContentEmitter emitter, IRowData rowData );
+			IContentEmitter emitter, IResultIterator rsIterator );
 
 	/**
 	 * create the header band
@@ -251,7 +238,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 *            output emitter
 	 */
 	abstract protected void accessHeader( ListingDesign list,
-			IContentEmitter emitter, IRowData rowData );
+			IContentEmitter emitter, IResultIterator rsIterator );
 
 	/**
 	 * create the footer band.
@@ -262,7 +249,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 *            output emitter
 	 */
 	abstract protected void accessFooter( ListingDesign list,
-			IContentEmitter emitter, IRowData rowData );
+			IContentEmitter emitter, IResultIterator rsIterator );
 
 	public void reset( )
 	{
