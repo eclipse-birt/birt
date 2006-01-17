@@ -47,8 +47,8 @@ public class RDLoad
 
 	//
 	private int rowCount;
+	private int readPos = 0;
 	private int currPos = 0;
-	private boolean newColumn;
 
 	private InputStream is;
 	private BufferedInputStream bis;
@@ -140,7 +140,6 @@ public class RDLoad
 			}
 		}
 
-		newColumn = true;
 		boolean hasNext = currPos++ < rowCount;
 		this.rdGroupUtil.next( hasNext );
 		
@@ -171,18 +170,30 @@ public class RDLoad
 	{
 		try
 		{
-			if ( newColumn == true )
+			if ( readPos < currPos )
 			{
+				int exprCount;
+				int gapRows = currPos - readPos - 1;
+				for ( int j = 0; j < gapRows; j++ )
+				{
+					exprCount = IOUtil.readInt( dis );
+					for ( int i = 0; i < exprCount; i++ )
+					{
+						IOUtil.readString( dis );
+						IOUtil.readObject( dis );
+					}
+				}
+
 				exprValueMap.clear( );
-				int exprCount = IOUtil.readInt( dis );
+				exprCount = IOUtil.readInt( dis );
 				for ( int i = 0; i < exprCount; i++ )
 				{
 					String exprID = IOUtil.readString( dis );
 					Object exprValue = IOUtil.readObject( dis );
 					exprValueMap.put( exprID, exprValue );
 				}
-				newColumn = false;
 			}
+			readPos = currPos;
 		}
 		catch ( IOException e )
 		{

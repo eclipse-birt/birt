@@ -25,7 +25,12 @@ import org.eclipse.birt.data.engine.executor.CachedResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
+ * Save expression value of every row into report document. The output format in
+ * stream is, <expressCount, [expression id, expression value]*>.
  * 
+ * When no value of one row is saved, the expressionCount will automatically be
+ * ouptput as 0. It will happen when caller does not call getValue on this row
+ * or call skipToEnd method.
  */
 public class RDSave
 {
@@ -110,7 +115,7 @@ public class RDSave
 		{
 			try
 			{
-				saveExprOfOneRow( lastRowIndex );
+				saveExprOfCurrRow( lastRowIndex, currIndex );
 			}
 			catch ( IOException e )
 			{
@@ -129,13 +134,14 @@ public class RDSave
 	/**
 	 * Notify save needs to be finished
 	 */
-	public void saveFinish( ) throws DataException
+	public void saveFinish( int currIndex ) throws DataException
 	{
 		initSave( );
 		
 		try
 		{
-			saveExprOfOneRow( this.lastRowIndex );
+			saveExprOfCurrRow( lastRowIndex, currIndex );
+			
 			dos.close( );
 			bos.close( );
 			outputStream.close( );
@@ -147,20 +153,20 @@ public class RDSave
 					"Result Data" );
 		}
 	}
-
+		
 	/**
 	 * @param rowIndex
 	 * @throws IOException
 	 */
-	private void saveExprOfOneRow( int rowIndex ) throws IOException
+	private void saveExprOfCurrRow( int lastRowIndex, int currIndex )
+			throws IOException
 	{
+		saveNullRowsBetween( lastRowIndex, currIndex );
+		
 		Set keySet = exprValueMap.keySet( );
 		String[] exprIDs = (String[]) keySet.toArray( new String[0] );
 		
 		int size = exprIDs.length;
-		if ( size == 0 )
-			return;
-
 		IOUtil.writeInt( dos, size );
 		for ( int i = 0; i < size; i++ )
 		{
@@ -170,6 +176,18 @@ public class RDSave
 			IOUtil.writeString( dos, exprID );
 			IOUtil.writeObject( dos, exprValue );
 		}
+	}
+	/**
+	 * @param lastRowIndex
+	 * @param currIndex
+	 * @throws IOException
+	 */
+	private void saveNullRowsBetween( int lastRowIndex, int currIndex )
+			throws IOException
+	{
+		int gapRows = currIndex - lastRowIndex - 1;
+		for ( int i = 0; i < gapRows; i++ )
+			IOUtil.writeInt( dos, 0 );
 	}
 	
 	/**

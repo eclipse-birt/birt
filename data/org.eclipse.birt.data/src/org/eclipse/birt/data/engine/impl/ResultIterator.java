@@ -803,7 +803,7 @@ public class ResultIterator implements IResultIterator
 							this.groupLevel,
 							this.subQueryInfo );
 
-			this.getRdSave( ).saveFinish( );
+			this.getRdSave( ).saveFinish( odiResult.getCurrentResultIndex( ) );
 		}
 		
 		/**
