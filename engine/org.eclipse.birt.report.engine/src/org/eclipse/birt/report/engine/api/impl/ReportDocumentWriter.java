@@ -294,5 +294,35 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		globalVariables = new HashMap( );
 		globalVariables.putAll( map );
 	}
+	
+	public void saveReportlets(Map map)
+	{
+		
+		RAOutputStream out = null;
+		try
+		{
+			out = archive.createRandomAccessStream( REPORTLET_STREAM );
+			DataOutputStream output = new DataOutputStream(out);
+			IOUtil.writeMap(output, map);
+			output.flush();
+		}
+		catch ( Exception ex )
+		{
+			logger.log( Level.SEVERE, "Failed to save design!", ex );
+		}
+		finally
+		{
+			if ( out != null )
+			{
+				try
+				{
+					out.close( );
 
+				}
+				catch ( Exception ex )
+				{
+				}
+			}
+		}
+	}
 }

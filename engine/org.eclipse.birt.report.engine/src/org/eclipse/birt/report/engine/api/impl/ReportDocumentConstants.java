@@ -19,6 +19,7 @@ public interface ReportDocumentConstants
 	static final String PAGEHINT_STREAM = "/pages"; //$NON-NLS-1$
 	static final String TOC_STREAM = "/toc"; //$NON-NLS-1$
 	static final String CONTENT_FOLDER = "/content"; //$NON-NLS-1$
+	static final String REPORTLET_STREAM = "/reportlet"; //$NON-NLS-1$
 	
 	static final String REPORT_DOCUMENT_TAG = "reportdocument";
 	static final String REPORT_DOCUMENT_VERSION_1_0_0 = "1.0.0";
