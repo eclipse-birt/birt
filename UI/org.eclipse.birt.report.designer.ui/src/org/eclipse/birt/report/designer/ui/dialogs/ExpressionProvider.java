@@ -319,13 +319,13 @@ public class ExpressionProvider implements IExpressionProvider
 		else if ( parent instanceof IClassInfo )
 		{
 			IClassInfo classInfo = (IClassInfo) parent;
-			for ( Iterator iter = DEUtil.getMembers(classInfo).iterator( ); iter.hasNext( ); )
+			for ( Iterator iter = DEUtil.getMembers( classInfo ).iterator( ); iter.hasNext( ); )
 			{
 				childrenList.add( new ILocalizableInfo[]{
 						classInfo, (IMemberInfo) iter.next( )
 				} );
 			}
-			for ( Iterator iter = DEUtil.getMethods(classInfo).iterator( ); iter.hasNext( ); )
+			for ( Iterator iter = DEUtil.getMethods( classInfo ).iterator( ); iter.hasNext( ); )
 			{
 				childrenList.add( new ILocalizableInfo[]{
 						classInfo, (IMethodInfo) iter.next( )
@@ -397,36 +397,36 @@ public class ExpressionProvider implements IExpressionProvider
 					IMethodInfo method = (IMethodInfo) info;
 					displayText.append( "(" ); //$NON-NLS-1$
 					boolean isFirst = true;
-					IArgumentInfoList arguments = (IArgumentInfoList) method.argumentListIterator( )
-							.next( );
+
+					Iterator argumentListIter = method.argumentListIterator( );
+					IArgumentInfoList arguments = (IArgumentInfoList) argumentListIter.next( );
 					for ( Iterator iter = arguments.argumentsIterator( ); iter.hasNext( ); )
 					{
 						IArgumentInfo argInfo = (IArgumentInfo) iter.next( );
 						if ( !isFirst )
 						{
-							displayText.append( ", " );
+							displayText.append( ", " ); //$NON-NLS-1$
 						}
 						isFirst = false;
-						if ( IArgumentInfo.OPTIONAL_ARGUMENT_NAME.equals( argInfo.getName( ) ) )
-						{
-							displayText.append( argInfo.getDisplayName( ) );
-						}
-						else
-						{
-							displayText.append( argInfo.getType( ) );
-						}
+
+						displayText.append( argInfo.getDisplayName( ) );
 					}
-					displayText.append( ") : " ); //$NON-NLS-1$
-					String returnType = method.getReturnType( );
-					if ( returnType == null )
+					displayText.append( ")" ); //$NON-NLS-1$
+					if ( !argumentListIter.hasNext( ) )
 					{
-						returnType = "void"; //$NON-NLS-1$
+						displayText.append( " : " ); //$NON-NLS-1$
+						String returnType = method.getReturnType( );
+						if ( returnType == null )
+						{
+							returnType = "void"; //$NON-NLS-1$
+						}
+						displayText.append( returnType );
 					}
-					displayText.append( returnType );
+
 				}
 				else if ( info instanceof IMemberInfo )
 				{
-					displayText.append( " : " );
+					displayText.append( " : " ); //$NON-NLS-1$
 					displayText.append( ( (IMemberInfo) info ).getDataType( ) );
 				}
 				return displayText.toString( );
@@ -564,7 +564,7 @@ public class ExpressionProvider implements IExpressionProvider
 
 	private List getClassList( boolean isNative )
 	{
-		List list = DEUtil.getClasses();
+		List list = DEUtil.getClasses( );
 		ArrayList resultList = new ArrayList( );
 		for ( Iterator iter = list.iterator( ); iter.hasNext( ); )
 		{
