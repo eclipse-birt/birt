@@ -76,7 +76,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.59 $ $Date: 2006/01/12 22:39:44 $
+ * @version $Revision: 1.60 $ $Date: 2006/01/13 04:56:59 $
  */
 public class ExecutionContext
 {
@@ -1361,7 +1361,12 @@ public class ExecutionContext
 	}
 
 	public static ClassLoader getCustomClassLoader( String classPathKey,
-			Map cache )
+			Map cache)
+	{
+		return getCustomClassLoader(classPathKey, cache, null);
+	}
+	public static ClassLoader getCustomClassLoader( String classPathKey,
+			Map cache, ClassLoader parent)
 	{
 		Object o = null;
 		if ( cache != null )
@@ -1393,8 +1398,8 @@ public class ExecutionContext
 
 		if ( urls != null )
 		{
-			ClassLoader cl = new URLClassLoader( urls, ExecutionContext.class
-					.getClassLoader( ) );
+			ClassLoader cl = new URLClassLoader( urls, parent==null? ExecutionContext.class
+					.getClassLoader( ):parent );
 			if ( cache != null )
 				cache.put( classPathKey, cl );
 			return cl;
@@ -1402,8 +1407,8 @@ public class ExecutionContext
 		return null;
 	}
 
-	public ClassLoader getCustomClassLoader( String classPathKey )
+	public ClassLoader getCustomClassLoader( String classPathKey, ClassLoader parent )
 	{
-		return getCustomClassLoader( classPathKey, classLoaderCache );
+		return getCustomClassLoader( classPathKey, classLoaderCache,parent );
 	}
 }

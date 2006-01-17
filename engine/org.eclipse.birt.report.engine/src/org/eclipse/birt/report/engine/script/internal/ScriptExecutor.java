@@ -11,14 +11,16 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.api.EngineConstants;
+import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
  * A class used to create script event handlers
@@ -163,10 +165,14 @@ public class ScriptExecutor
 		// If we have a context instance, we can use it to (enables caching of
 		// the class loaders)
 		if ( context != null )
-			cl = context.getCustomClassLoader( classPathKey );
+		{
+			ClassLoader loader = (ClassLoader)context.getAppContext().get(EngineConstants.APPCONTEXT_CLASSLOADER_KEY);
+			
+			cl = context.getCustomClassLoader( classPathKey, loader);
+		}
 		//No context available, use the static method (no caching used)
 		else
-			cl = ExecutionContext.getCustomClassLoader( classPathKey, null );
+			cl = ExecutionContext.getCustomClassLoader( classPathKey, (Map)null );
 		if ( cl == null )
 			return null;
 		try
