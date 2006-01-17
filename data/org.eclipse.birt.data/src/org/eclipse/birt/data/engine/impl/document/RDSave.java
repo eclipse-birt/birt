@@ -161,8 +161,6 @@ public class RDSave
 	private void saveExprOfCurrRow( int lastRowIndex, int currIndex )
 			throws IOException
 	{
-		saveNullRowsBetween( lastRowIndex, currIndex );
-		
 		Set keySet = exprValueMap.keySet( );
 		String[] exprIDs = (String[]) keySet.toArray( new String[0] );
 		
@@ -176,6 +174,8 @@ public class RDSave
 			IOUtil.writeString( dos, exprID );
 			IOUtil.writeObject( dos, exprValue );
 		}
+		
+		saveNullRowsBetween( lastRowIndex, currIndex );
 	}
 	/**
 	 * @param lastRowIndex
