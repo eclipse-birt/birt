@@ -11,7 +11,7 @@
 	</context-param>
 
 	<context-param>
-		<param-name>BIRT_VIEWER_REPORT_ROOT</param-name>
+		<param-name>BIRT_VIEWER_WORKING_FOLDER</param-name>
 		<param-value></param-value>
 	</context-param>
 
