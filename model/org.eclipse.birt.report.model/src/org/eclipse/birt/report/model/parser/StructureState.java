@@ -341,10 +341,13 @@ public class StructureState extends AbstractPropertyState
 
 	static IStructure createStructure( StructureDefn structDefn )
 	{
+		synchronized ( StructureState.class )
+		{
+			if ( structDict == null )
+				populateStructDict( );
+		}
 		assert structDefn != null;
-
-		if ( structDict == null )
-			populateStructDict( );
+		assert structDict != null;
 
 		IStructure struct = null;
 
