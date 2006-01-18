@@ -38,7 +38,7 @@ import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.27 $ $Date: 2006/01/05 21:19:32 $
+ * @version $Revision: 1.28 $ $Date: 2006/01/17 20:10:42 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -180,14 +180,16 @@ public class GridItemExecutor extends QueryItemExecutor
 		processStyle( row, rowContent );
 		processVisibility( row, rowContent );
 
-		IResultIterator rsIterator = ( ( DteResultSet ) rset )
-				.getResultIterator( );
-
 		IRowData rowData = null;
 		if ( context.isInFactory( ) )
 		{
-			rowData = new RowData( rsIterator, TableItemExecutor
-					.getValueExpressions( row ) );
+			if ( rset != null )
+			{
+				IResultIterator rsIterator = ( ( DteResultSet ) rset )
+						.getResultIterator( );
+				rowData = new RowData( rsIterator, TableItemExecutor
+						.getValueExpressions( row ) );
+			}
 			RowScriptExecutor.handleOnCreate( ( RowContent ) rowContent,
 					rowData, context );
 		}

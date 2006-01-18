@@ -74,6 +74,8 @@ public class RowData implements IRowData
 
 	public Object getExpressionValue( int index ) throws ScriptException
 	{
+		if (valueExpressions == null || rsIterator == null)
+			return null;
 		if ( index <= valueExpressions.size( ) )
 		{
 			IBaseExpression expr = ( IBaseExpression ) valueExpressions
@@ -119,7 +121,7 @@ public class RowData implements IRowData
 
 	private Object eval( String expression ) throws ScriptException
 	{
-		if ( valueExpressions == null )
+		if ( valueExpressions == null || rsIterator == null)
 			return null;
 		Iterator exprIt = valueExpressions.iterator( );
 		while ( exprIt.hasNext( ) )
