@@ -603,7 +603,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				}
 				else
 				{
-					action.setText( point.getExtensionName( ) );
+					action.setText( displayName );
 				}
 				subMenu.add( action );
 			}

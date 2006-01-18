@@ -51,7 +51,7 @@ public class LibraryExplorerView extends PageBookView
 
 	private String defaultText = Messages.getString( "LibraryExplorerView.defaultText.notAvailable" ); //$NON-NLS-1$
 
-	private Map pageMap = new HashMap();
+	private Map pageMap = new HashMap( );
 
 	/**
 	 * default constructor
@@ -92,16 +92,23 @@ public class LibraryExplorerView extends PageBookView
 		if ( part instanceof AbstractMultiPageLayoutEditor )
 		{
 			IEditorPart editor = UIUtil.getActiveEditor( true );
-			Object fileAdapter = editor.getEditorInput( )
-					.getAdapter( IFile.class );
-			LibraryExplorerTreeViewPage page = getPage( fileAdapter, editor );
-			initPage( page );
-			page.createControl( getPageBook( ) );
-			return new PageRec( part, page );
+			if ( editor != null )
+			{
+				Object fileAdapter = editor.getEditorInput( )
+						.getAdapter( IFile.class );
+				if ( fileAdapter != null )
+				{
+					LibraryExplorerTreeViewPage page = getPage( fileAdapter,
+							editor );
+					initPage( page );
+					page.createControl( getPageBook( ) );
+					return new PageRec( part, page );
+				}
+			}
 		}
 		return null;
 	}
-	
+
 	private LibraryExplorerTreeViewPage getPage( Object fileAdapter,
 			IEditorPart editor )
 	{
