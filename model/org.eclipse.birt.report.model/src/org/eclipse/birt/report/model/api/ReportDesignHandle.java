@@ -116,21 +116,21 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
  * </ul>
  * 
  * <pre>
- *                // Include one library
- *                
- *                ReportDesignHandle designHandle = ...;
- *                designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
- *                LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *                    // Include one library
+ *                    
+ *                    ReportDesignHandle designHandle = ...;
+ *                    designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
+ *                    LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *                     
+ *                    // Create one label based on the one in library
+ *                   
+ *                    LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
+ *                    LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
+ *                   
+ *                    // Add the new label into design file
+ *                   
+ *                    designHandle.getBody().add(myLabelHandle);
  *                 
- *                // Create one label based on the one in library
- *               
- *                LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
- *                LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
- *               
- *                // Add the new label into design file
- *               
- *                designHandle.getBody().add(myLabelHandle);
- *             
  * </pre>
  * 
  * @see org.eclipse.birt.report.model.elements.ReportDesign
@@ -659,28 +659,57 @@ public class ReportDesignHandle extends ModuleHandle
 	}
 
 	/**
-	 * Sets the design cheet sheet file path.
+	 * Sets the design cheat sheet file path.
 	 * 
-	 * @param cheetSheet
-	 *            the design cheet sheet file path to set
+	 * @param cheatSheet
+	 *            the design cheat sheet file path to set
+	 * @throws SemanticException
+	 *             if the property is locked or not defined on this design.
+	 * 
+	 * @deprecated by {@link #setCheatSheet(String)}
+	 */
+
+	public void setCheetSheet( String cheatSheet ) throws SemanticException
+	{
+		setCheatSheet( cheatSheet );
+	}
+
+	/**
+	 * Sets the design cheat sheet file path.
+	 * 
+	 * @param cheatSheet
+	 *            the design cheat sheet file path to set
 	 * @throws SemanticException
 	 *             if the property is locked or not defined on this design.
 	 */
 
-	public void setCheetSheet( String cheetSheet ) throws SemanticException
+	public void setCheatSheet( String cheatSheet ) throws SemanticException
 	{
-		setStringProperty( ReportDesign.CHEET_SHEET_PROP, cheetSheet );
+		setStringProperty( ReportDesign.CHEAT_SHEET_PROP, cheatSheet );
 	}
 
 	/**
-	 * Gets the design cheet sheet file path.
+	 * Gets the design cheat sheet file path.
 	 * 
-	 * @return the design cheet sheet file path
+	 * @return the design cheat sheet file path
+	 * 
+	 * @deprecated by {@link #getCheatSheet()}
 	 */
 
 	public String getCheetSheet( )
 	{
-		return getStringProperty( ReportDesign.CHEET_SHEET_PROP );
+		return getCheatSheet( );
+	}
+
+	/**
+	 * Gets the design cheat sheet file path.
+	 * 
+	 * @return the design cheat sheet file path
+	 */
+
+	public String getCheatSheet( )
+	{
+		return getStringProperty( ReportDesign.CHEAT_SHEET_PROP );
 	}
 
 	/*

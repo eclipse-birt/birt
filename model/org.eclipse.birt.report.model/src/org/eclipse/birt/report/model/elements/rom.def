@@ -1672,7 +1672,7 @@
     <Property displayNameID="Element.ReportDesign.displayName" name="displayName" runtimeSettable="false" since="2.0" type="string"/>
     <Property displayNameID="Element.ReportDesign.displayNameID" name="displayNameID" since="2.0" type="resourceKey"/>
     <Property displayNameID="Element.ReportDesign.iconFile" name="iconFile" runtimeSettable="false" since="2.0" type="string"/>
-    <Property displayNameID="Element.ReportDesign.cheetSheet" name="cheetSheet" runtimeSettable="false" since="2.0" type="string"/>
+    <Property displayNameID="Element.ReportDesign.cheatSheet" name="cheatSheet" runtimeSettable="false" since="2.0" type="string"/>
     <PropertyVisibility name="refreshRate" visibility="hide"/>	    
 	<PropertyVisibility name="includeResource" visibility="hide"/>	
 	<!--

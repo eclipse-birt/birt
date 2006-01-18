@@ -98,7 +98,7 @@ public interface IReportDesignModel
 	 * Name of the property to store the cheet sheet file name.
 	 */
 	
-	public static final String CHEET_SHEET_PROP = "cheetSheet"; //$NON-NLS-1$
+	public static final String CHEAT_SHEET_PROP = "cheatSheet"; //$NON-NLS-1$
 
 	// Design slots
 	// See constants defined in the module class.

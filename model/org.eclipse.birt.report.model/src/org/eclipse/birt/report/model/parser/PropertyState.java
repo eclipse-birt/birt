@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListingElement;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -145,6 +146,15 @@ class PropertyState extends AbstractPropertyState
 			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
 					handler, element, ListGroup.GROUP_START_PROP );
 			state.setName( ListGroup.INTERVAL_BASE_PROP );
+			return state;
+		}
+
+		if ( element instanceof ReportDesign
+				&& "cheetSheet".equalsIgnoreCase( name ) ) //$NON-NLS-1$
+		{
+			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
+					handler, element, "cheetSheet"); //$NON-NLS-1$
+			state.setName( ReportDesign.CHEAT_SHEET_PROP );
 			return state;
 		}
 
