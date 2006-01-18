@@ -54,6 +54,9 @@ public class Statement implements IQuery
 	
 	private static Logger logger = Logger.getLogger( Statement.class.getName( ) );	
 
+	private IResultSetMetaData cachedResultMetaData;
+	private IResultSet cachedResultSet;
+	
 	/**
 	 * assertNull(Object o)
 	 * 
@@ -113,6 +116,11 @@ public class Statement implements IQuery
 						"Query text can not be null." );
 				throw new OdaException( "Query text can not be null." );
 			}
+			
+			// Clear any cached result set or metadata
+			this.cachedResultMetaData = null;
+			this.cachedResultSet = null;
+			
 			/*
 			 * call the JDBC Connection.prepareStatement(String) method to get
 			 * the preparedStatement
@@ -196,6 +204,8 @@ public class Statement implements IQuery
 		{
 			throw new JDBCException( ResourceConstants.PREPAREDSTATEMENT_CANNOT_CLOSE , e );
 		}
+		this.cachedResultMetaData = null;
+		this.cachedResultSet = null;
 	}
 
 	/*
@@ -238,6 +248,9 @@ public class Statement implements IQuery
 				"Statement.getMetaData( )" );		
 		assertNotNull( preStat );
 
+		if ( this.cachedResultMetaData != null )
+			return this.cachedResultMetaData;
+		
 	    java.sql.ResultSetMetaData resultmd = null;
 		try
 		{
@@ -255,13 +268,12 @@ public class Statement implements IQuery
 			// required to be executed first.
 			resultmd = null;
 		}
-		IResultSetMetaData pstmtResultMetaData = null;
 		if ( resultmd != null )
 		{
 			try
 			{
 				// in the case of oracle 8.1.7, even if ResultMetaData can be
-				// gotten prepare time, the getColumnCount function is
+				// gotten prepare time, the getColumnCount function is still
 				// unavailable.
 				resultmd.getColumnCount( );
 			}
@@ -272,20 +284,21 @@ public class Statement implements IQuery
 
 			if ( resultmd != null )
 			{
-				pstmtResultMetaData = new ResultSetMetaData( resultmd );
+				cachedResultMetaData = new ResultSetMetaData( resultmd );
 			}
 		}
 		
-		if ( pstmtResultMetaData == null )
+		if ( cachedResultMetaData == null )
 		{
-			// If Jdbc driver throw an SQLexception or return null, when we get
-			// MetaData from ResultSet
-			IResultSet mdRs = executeQuery( );
-			if ( mdRs != null )
-				pstmtResultMetaData = mdRs.getMetaData( );
+			// If Jdbc driver throw an SQLexception or return null for
+			// retrieving metadata from prepared statement, and then we have to
+			// get metaData from ResultSet by executing query.
+			this.cachedResultSet = executeQuery( );
+			if ( this.cachedResultSet != null )
+				cachedResultMetaData = this.cachedResultSet.getMetaData( );
 		}
 		
-		return pstmtResultMetaData;
+		return cachedResultMetaData;
 	}
 
 	/*
@@ -298,6 +311,16 @@ public class Statement implements IQuery
 				"executeQuery",
 				"Statement.executeQuery( )" );
 		assertNotNull( preStat );
+		
+		// If user has called getMetaData() and we executed the query as a result,
+		// return the last result set to avoid unnecessary double execution
+		if ( this.cachedResultSet != null )
+		{
+			IResultSet ret = this.cachedResultSet;
+			this.cachedResultSet = null;	// Clear this so subsequent executeQuery should run it again
+			return ret;
+		}
+		
 		try
 		{
 			if (!maxRowsUpToDate)
