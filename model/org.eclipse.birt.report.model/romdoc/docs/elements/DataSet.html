@@ -158,6 +158,33 @@ the expression can include any valid JavaScript expression.</p>
 <p><code>ParamBinding</span> structure</p>
 <p>Report Item <code>paramBindings</code> property</p>
 
+<h2 class="property">cachedRowCount</h2>
+
+<p>Number of rows that will be cached when the data rows are retrived from DB.</p>
+
+<h3>Description</h3>
+
+<p>Number of rows that will be cached when the data rows are first time retrieved from DB, 
+the cached data will be used after that unless user choose to flush the cache. This will 
+speed up the report developing.</p>
+
+<h2 class="property">dataSource</h2>
+
+<p>The database connection that the data set is used.</p>
+
+<h3>Description</h3>
+
+<p>Name of the data source, that is the database connection this data set is using.</p>
+
+<h2 class="property">refTemplateParameter</h2>
+
+<p>Name of the template parameter definition.
+
+<h3>Description</h3>
+
+<p>when a data set is created from an <i>template data set</i>,
+this property will reference to the base data set. </p>
+
 <h2 class="property">filter</h2>
 
 <p>An optional set of filters to apply to the result set before any other data transforms.&nbsp;</p>

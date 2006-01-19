@@ -50,6 +50,45 @@ report does not refresh)</span></p>
 
 <h3>See Also</h3>
 
+<h2 class="property">cheetSheet</h2>
+<p>Name of the property to store the cheet sheet file name</p>
+
+<h3>Description</h3>
+<p>Name of the property to store the cheet sheet file name</p>
+
+<h2 class="property">dataSourceBindings</h2>
+<p>List of bindings defined for report data sources.</p>
+
+<h3>Description</h3>
+<p>Defines all the bindings from data sources to a BIRT expression.</p>
+
+<h2 class="property">displayName</h2>
+<p>Display name of the report design</p>
+
+<h3>Description</h3>
+<p>The localized display name for the report design.</p>
+
+
+<h2 class="property">displayNameID</h2>
+<p>Resource key for the localizable display name property.</p>
+
+<h3>Description</h3>
+<p>Resource bundle key for the display name property, the localized display name value will
+be looked up from a resource file relating to the current locale.</p>
+
+<h2 class="property">eventHandlerClass</h2>
+<p>The full qulified name of the event handler class.</p>
+
+<h3>Description</h3>
+<p>Full quilified name of the event handler class, used to specify an external Java class
+which define the scripting behavior that will be executed at runtime.</p>
+
+<h2 class="property">iconFile</h2>
+<p>The design icon/thumbnail file path</p>
+
+<h3>Description</h3>
+<p>The design icon/thumbnail file path</p>
+
 <h2 class="method">beforeFactory</h2>
 
 <p>Perform initialization before opening the report document for writing.</p>
@@ -94,6 +133,14 @@ Code in this script will likely be specific to the deployment platform.</p>
 <h3>See Also</h3>
 
 <p><code>afterOpenDoc</code> method</p>
+
+<h2 class="method">initialize</h2>
+
+<p>Called when the report starts executing in the BIRT Report Engine.</p>
+
+<h3>Description</h3>
+
+<p>BIRT calls this method before calling any other method in the design. </p>
 
 <h2 class="method">afterOpenDoc</h2>
 
@@ -318,6 +365,24 @@ this slot is unimportant.</p>
 
 
 <h3>See Also</h3>
+
+<h2 class="slot">scratchPad</h2>
+
+<p>TBD</p>
+
+<h3>Description</h3>
+
+<p>TBD</p>
+
+
+<h2 class="slot">templateParameterDefinitions</h2>
+
+<p>Stores the reusable template definitions.</p>
+
+<h3>Description</h3>
+<p>Slot that stores the reusable template definitions, report items/data set/data source can
+be created from a template definition</p>
+
 
 <h2 class="slot">pageSetup</h2>
 

@@ -125,5 +125,28 @@ or other properties of each column.</p>
 
 The Column Definition structure in the <i>ROM Layout 
 Specification</i>.
+
+
+<h2 class="method">onCreate</h2>
+<p>Script executed when the element is created in the Factory.</p>
+
+<h3>Description</h3>
+<p>Executed when the element is created in the Factory. Called after the item is created, but before 
+the item is saved to the report document file. See the scripting spec for additional information 
+about this script. Applications should perform visual customization in the on-render script instead.</p>
+
+<h2 class="method">onPrepare</h2>
+<p>It is for a script startup phase. No data binding yet. The design of an element can be changed here.</p>
+
+<h3>Description</h3>
+<p>It is for a script startup phase. No data binding yet. The design of an element can be changed here.</p>
+
+<h2 class="method">onRender</h2>
+<p>Script executed when the element is prepared for rendering in the Presentation engine.</p>
+
+<h3>Description</h3>
+<p>Executed when the element is prepared for rendering in the Presentation engine. Changes made to the 
+element are written to the target output format, but not saved to the report document file. This is the
+preferred place for visual customizations.</p>
 </body>
 </html>

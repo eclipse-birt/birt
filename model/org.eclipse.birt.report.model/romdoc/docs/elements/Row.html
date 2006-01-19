@@ -60,9 +60,18 @@ is blank or null, then the item has no bookmark. Bookmarks should be unique. If
 there are duplicates, the behavior of the hyperlink is undefined: it may jump to 
 the first item with that name.</p></p>
 
+
 <h3>See Also</h3>
 <p>Action property on labels, data items, images and other 
 items.</p>
+
+<h2 class="property">eventHandlerClass</h2>
+<p>The full qulified name of the event handler class.</p>
+
+<h3>Description</h3>
+<p>Full quilified name of the event handler class, used to specify an external Java class
+which define the scripting behavior that will be executed at runtime.</p>
+
 <h2 class="property">height</h2>
 
 <p>Minimum height of the row.</p>
@@ -71,6 +80,28 @@ items.</p>
 <p><p>Minimum height of the row. Some items have a dynamic 
 size. The actual size of row is computed as the minimum of the tallest cell 
 within the row, or the row height.</p></p>
+
+<h2 class="method">onCreate</h2>
+<p>Script executed when the element is created in the Factory.</p>
+
+<h3>Description</h3>
+<p>Executed when the element is created in the Factory. Called after the item is created, but before 
+the item is saved to the report document file. See the scripting spec for additional information 
+about this script. Applications should perform visual customization in the on-render script instead.</p>
+
+<h2 class="method">onPrepare</h2>
+<p>It is for a script startup phase. No data binding yet. The design of an element can be changed here.</p>
+
+<h3>Description</h3>
+<p>It is for a script startup phase. No data binding yet. The design of an element can be changed here.</p>
+
+<h2 class="method">onRender</h2>
+<p>Script executed when the element is prepared for rendering in the Presentation engine.</p>
+
+<h3>Description</h3>
+<p>Executed when the element is prepared for rendering in the Presentation engine. Changes made to the 
+element are written to the target output format, but not saved to the report document file. This is the
+preferred place for visual customizations.</p>
 
 <h3>See Also</h3>
 <p>Dimension property type</p>
@@ -81,7 +112,6 @@ within the row, or the row height.</p></p>
 <h3>Description</h3>
 <p><p>Any number of Cell elements for the row.</p></p>
 
-</p>
 
 <h3>See Also</h3>
 </body>
