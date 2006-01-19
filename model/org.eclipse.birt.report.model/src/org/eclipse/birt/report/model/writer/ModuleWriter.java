@@ -1778,20 +1778,23 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitTemplateParameterDefinition(
 			TemplateParameterDefinition obj )
 	{
-		writer
-				.startElement( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITION_TAG );
-		attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
-				DesignElement.NAME_PROP );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
-				.getID( ) ).toString( ) );
+		if ( obj.hasReferences( ) )
+		{
+			writer
+					.startElement( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITION_TAG );
+			attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
+					DesignElement.NAME_PROP );
+			writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
+					.getID( ) ).toString( ) );
 
-		property( obj, TemplateParameterDefinition.ALLOWED_TYPE_PROP );
-		resourceKey( obj, TemplateParameterDefinition.DESCRIPTION_ID_PROP,
-				TemplateParameterDefinition.DESCRIPTION_PROP );
+			property( obj, TemplateParameterDefinition.ALLOWED_TYPE_PROP );
+			resourceKey( obj, TemplateParameterDefinition.DESCRIPTION_ID_PROP,
+					TemplateParameterDefinition.DESCRIPTION_PROP );
 
-		writeContents( obj, TemplateParameterDefinition.DEFAULT_SLOT,
-				DesignSchemaConstants.DEFAULT_TAG );
-		writer.endElement( );
+			writeContents( obj, TemplateParameterDefinition.DEFAULT_SLOT,
+					DesignSchemaConstants.DEFAULT_TAG );
+			writer.endElement( );
+		}
 	}
 
 	/*

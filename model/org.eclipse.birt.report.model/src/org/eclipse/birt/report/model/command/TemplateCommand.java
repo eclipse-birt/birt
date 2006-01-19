@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.TemplateFactory;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.TemplateReportItem;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -365,8 +366,30 @@ public class TemplateCommand extends AbstractElementCommand
 			defaultElement = (DesignElement) base.clone( );
 
 			assert defaultElement != null;
-
 			ContentCommand contentCmd = null;
+
+			// if the default element has a referred template definition, clear
+			// the value and delete the referred definition
+
+			TemplateParameterDefinition temp = defaultElement
+					.getTemplateParameterElement( module );
+			if ( temp != null )
+			{
+				propertyCmd = new PropertyCommand( module, defaultElement );
+				propertyCmd.setProperty(
+						IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP, null );
+				propertyCmd = new PropertyCommand( module, base );
+				propertyCmd.setProperty(
+						IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP, null );
+				
+				if ( !temp.hasReferences( ) )
+				{
+					contentCmd = new ContentCommand( module, module );
+					contentCmd.remove( temp,
+							ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
+				}
+
+			}
 
 			contentCmd = new ContentCommand( module, templateParam );
 			contentCmd.add( defaultElement,
