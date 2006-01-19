@@ -333,8 +333,8 @@ public class URIUtil
 	 * <li>C:\\hello\..\
 	 * <li>/C:/../hello/
 	 * </ul>
-	 * The spearator in the return path is platform-depedent. Please note that
-	 * the <code>File.separator</code> in the end of directory will be striped
+	 * The spearator in the return path is platform-indepedent "/". Please note that
+	 * the <code>/</code> in the end of directory will be striped
 	 * in the return value.
 	 * 
 	 * @param base
@@ -395,7 +395,7 @@ public class URIUtil
 
 		// calcualtes out the number of up directory should have.
 
-		while ( matchedPos < baseDir.length( ) && matchedPos > 0 )
+		while ( matchedPos < baseDir.length( ) && matchedPos >= 0 )
 		{
 			matchedPos = baseDir.indexOf( File.separator, matchedPos + 1 );
 			upDirs++;
@@ -406,13 +406,17 @@ public class URIUtil
 		StringBuffer sb = new StringBuffer( );
 		for ( int i = 0; i < upDirs; i++ )
 		{
-			sb.append( ".." + File.separator ); //$NON-NLS-1$
+			sb.append( "../" ); //$NON-NLS-1$
 		}
 
 		// appends the relative path.
 
 		if ( samePrefixPos < resourceDir.length( ) )
-			sb.append( resourceDir.substring( samePrefixPos + 1 ) );
+		{
+			String remainPath = resourceDir.substring( samePrefixPos + 1 );
+			remainPath = remainPath.replace( '\\', '/' );
+			sb.append( remainPath );
+		}
 
 		// remove the tail file.separatorChar
 
@@ -420,7 +424,7 @@ public class URIUtil
 		if ( len > 0 )
 		{
 			char lastChar = sb.charAt( len - 1 );
-			if ( lastChar == File.separatorChar )
+			if ( lastChar == '/' )
 				sb.deleteCharAt( len - 1 );
 		}
 
@@ -459,7 +463,7 @@ public class URIUtil
 			return relativePath;
 
 		File baseFile = new File( baseDir );
-		File resourceFile = new File( baseFile, relativePath );
+		File resourceFile = new File( baseFile, relativeDir );
 
 		return resourceFile.getPath( );
 	}
