@@ -222,10 +222,10 @@ public class Library extends Module implements ILibraryModel
 
 		return false;
 	}
-	
+
 	/**
-	 * Returns whether the library with the given url can be included in
-	 * this module.
+	 * Returns whether the library with the given url can be included in this
+	 * module.
 	 * 
 	 * @param fileName
 	 *            the library file url
@@ -259,6 +259,17 @@ public class Library extends Module implements ILibraryModel
 	public Theme findNativeTheme( String name )
 	{
 		return (Theme) nameSpaces[THEME_NAME_SPACE].getElement( name );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getNameForDisplayLabel()
+	 */
+
+	protected String getNameForDisplayLabel( )
+	{
+		return namespace;
 	}
 
 }
