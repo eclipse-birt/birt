@@ -72,10 +72,11 @@ public class PageRegion extends WrappedEmitter
 	private ArrayList getAncestors( IContent content )
 	{
 		ArrayList list = new ArrayList( );
-		while ( content != null )
+		//Top level content is a virtual element, not a real ancestor.
+		while ( content.getParent( ) != null )
 		{
 			list.add( content );
-			content = (IContent) content.getParent( );
+			content = (IContent)content.getParent( ) ;
 		}
 		return list;
 	}

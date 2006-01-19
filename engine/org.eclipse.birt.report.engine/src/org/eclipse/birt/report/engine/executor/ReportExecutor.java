@@ -21,6 +21,8 @@ import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.content.impl.LabelContent;
+import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
@@ -51,7 +53,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.31 $ $Date: 2005/12/22 12:10:25 $
+ * @version $Revision: 1.32 $ $Date: 2005/12/29 07:21:34 $
  */
 public class ReportExecutor
 {
@@ -112,7 +114,9 @@ public class ReportExecutor
 		{
 			emitter.start( reportContent );
 		}
-
+		IContent dummyReportContent = new LabelContent((ReportContent)reportContent);
+		dummyReportContent.setStyleClass(report.getRootStyleName());
+		context.pushContent(dummyReportContent);
 		// only top-level elements maybe have the master page reference for now
 		if ( report.getContentCount( ) > 0 )
 		{
@@ -121,6 +125,7 @@ public class ReportExecutor
 				report.getContent( i ).accept( builder, emitter );
 			}
 		}
+		context.popContent();
 
 		if ( emitter != null )
 		{
