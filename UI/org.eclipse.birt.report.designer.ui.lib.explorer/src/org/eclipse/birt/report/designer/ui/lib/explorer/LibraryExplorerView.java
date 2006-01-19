@@ -96,14 +96,10 @@ public class LibraryExplorerView extends PageBookView
 			{
 				Object fileAdapter = editor.getEditorInput( )
 						.getAdapter( IFile.class );
-				if ( fileAdapter != null )
-				{
-					LibraryExplorerTreeViewPage page = getPage( fileAdapter,
-							editor );
-					initPage( page );
-					page.createControl( getPageBook( ) );
-					return new PageRec( part, page );
-				}
+				LibraryExplorerTreeViewPage page = getPage( fileAdapter, editor );
+				initPage( page );
+				page.createControl( getPageBook( ) );
+				return new PageRec( part, page );
 			}
 		}
 		return null;
