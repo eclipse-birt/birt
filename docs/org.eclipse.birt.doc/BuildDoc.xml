@@ -91,6 +91,7 @@
 	<property name="oda.javadoc.dir" value="oda/api" />
 	<property name="oda.old.dir" value="../org.eclipse.birt.data.oda" />
 	<property name="oda.old.javadoc.dir" value="odaold/api" />
+	<property name="romdoc.dir" value="doc/rom" />
 	<property name="rotatedtextitem.dir" value="../org.eclipse.birt.sample.reportitem.rotatedtext" />
 
 	<!-- Generate zip for this project.
@@ -100,14 +101,14 @@
 	<target name="Jar" depends="Javadoc">
 		<zip destfile="./doc.zip"
       basedir="."
-			includes="birt/**,chart/**,chartui/**,data/**,engine/**,enginescript/**,oda/**,odaold/**,model/**,ref/**"
+			includes="birt/**,chart/**,chartui/**,data/**,doc/**,engine/**,enginescript/**,oda/**,odaold/**,model/**,ref/**"
 		/>
 	</target>
 
 	<target name="ZipOnly">
 		<zip destfile="./doc.zip"
       basedir="."
-			includes="birt/**,chart/**,chartui/**,data/**,engine/**,enginescript/**,oda/**,odaold/**,model/**,ref/**"
+			includes="birt/**,chart/**,chartui/**,data/**,doc/**,engine/**,enginescript/**,oda/**,odaold/**,model/**,ref/**"
 		/>
 	</target>
 	

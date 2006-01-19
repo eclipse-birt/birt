@@ -14,10 +14,9 @@
             primary="true"
             file="BIRTToc.xml"/>
       <toc
-            primary="true"
             file="UserToc.xml"/>
       <toc
-            file="RefToc.xml"/>
+            file="RefToc.xml" />
    </extension>
 
 </plugin>

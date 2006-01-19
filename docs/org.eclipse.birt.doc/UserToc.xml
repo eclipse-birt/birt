@@ -4,1016 +4,373 @@
 <toc label="Field Guide to BIRT" >
  <topic label="Field Guide to BIRT" >
 
-  <topic label="Introduction" href="birt/birt-02-1.html" >
-    <topic label="About Business Intelligence and Reporting Tools" href="birt/birt-02-2.html" />
-    <topic label="About BIRT reports" href="birt/birt-02-3.html" />
-    <topic label="About the BIRT documentation" href="birt/birt-02-4.html" >
-      <topic label="About product documentation" href="birt/birt-02-4.html#wp94575" />
-      <topic label="Online documentation" href="birt/birt-02-4.html#wp94980" />
-      <topic label="Typographical conventions" href="birt/birt-02-4.html#wp96744" />
-      <topic label="Syntax conventions" href="birt/birt-02-4.html#wp96796" />
-      </topic>
-      </topic>
-  <topic label="Learning the basics" href="birt/birt-03-1.html" >
-    <topic label="Overview of the report design process" href="birt/birt-03-2.html" >
-      <topic label="Planning the report" href="birt/birt-03-2.html#wp93936" />
-      <topic label="Starting a new report design" href="birt/birt-03-2.html#wp93941" />
-      <topic label="Specifying the data to use" href="birt/birt-03-2.html#wp93948" />
-      <topic label="Laying out the report" href="birt/birt-03-2.html#wp93962" />
-      <topic label="Formatting the report content" href="birt/birt-03-2.html#wp93967" />
-      <topic label="Designing a master page" href="birt/birt-03-2.html#wp93971" />
-      <topic label="Previewing and testing the report" href="birt/birt-03-2.html#wp93980" />
-      </topic>
-    <topic label="About the report design environment" href="birt/birt-03-3.html" >
-      <topic label="Starting BIRT Report Designer" href="birt/birt-03-3.html#wp94147" >
-        <topic label="How to start BIRT Report Designer" href="birt/birt-03-3.html#wp94160" />
+  <topic label="Learning the basics" href="birt/birt-02-1.html" >
+    <topic label="Tutorial 1:  Building a simple listing report" href="birt/birt-02-2.html" >
+      <topic label="Task 1:  Create a new project" href="birt/birt-02-2.html#wp138595" />
+      <topic label="Task 2:  Create a new report" href="birt/birt-02-2.html#wp138634" />
+      <topic label="Task 3:  Build a data source" href="birt/birt-02-2.html#wp138674" />
+      <topic label="Task 4:  Build a data set" href="birt/birt-02-2.html#wp138709" />
+      <topic label="Task 5:  Lay out the report" href="birt/birt-02-2.html#wp138757" />
+      <topic label="Task 6:  Sort the data" href="birt/birt-02-2.html#wp138831" />
+      <topic label="Task 7:  Format the report" href="birt/birt-02-2.html#wp147774" >
+        <topic label="Edit the column headings" href="birt/birt-02-2.html#wp138870" />
+        <topic label="Format the column headings" href="birt/birt-02-2.html#wp138890" />
+        <topic label="Display first and last names on the same line" href="birt/birt-02-2.html#wp138968" />
+        <topic label="Increase the space between rows" href="birt/birt-02-2.html#wp139006" />
         </topic>
-      <topic label="Report design views" href="birt/birt-03-3.html#wp94141" >
-        <topic label="Layout editor" href="birt/birt-03-3.html#wp101378" />
-        <topic label="Palette" href="birt/birt-03-3.html#wp101392" />
-        <topic label="Data Explorer" href="birt/birt-03-3.html#wp101383" />
-        <topic label="Property Editor" href="birt/birt-03-3.html#wp101481" />
-        <topic label="Navigator" href="birt/birt-03-3.html#wp101505" />
-        <topic label="Outline" href="birt/birt-03-3.html#wp101509" />
-        <topic label="Problems" href="birt/birt-03-3.html#wp112406" />
-        </topic>
-      <topic label="Report design files" href="birt/birt-03-3.html#wp115759" >
-        <topic label="How to open a report design" href="birt/birt-03-3.html#wp115996" />
-        </topic>
-      <topic label="Report output formats" href="birt/birt-03-3.html#wp115788" />
-      </topic>
-    <topic label="Tutorial 1:  Building a simple listing report" href="birt/birt-03-4.html" >
-      <topic label="Task 1:  Create a new project" href="birt/birt-03-4.html#wp94214" />
-      <topic label="Task 2:  Create a new report" href="birt/birt-03-4.html#wp94273" />
-      <topic label="Task 3:  Build a data source" href="birt/birt-03-4.html#wp94411" />
-      <topic label="Task 4:  Build a data set" href="birt/birt-03-4.html#wp94476" />
-      <topic label="Task 5:  Lay out the report" href="birt/birt-03-4.html#wp94686" />
-      <topic label="Task 6:  Sort the data" href="birt/birt-03-4.html#wp96068" />
-      <topic label="Task 7:  Format the report" href="birt/birt-03-4.html#wp95402" >
-        <topic label="Edit the column headings" href="birt/birt-03-4.html#wp95657" />
-        <topic label="Format the column headings" href="birt/birt-03-4.html#wp95510" />
-        <topic label="Display first and last names on the same line" href="birt/birt-03-4.html#wp95819" />
-        <topic label="Increase the space between rows" href="birt/birt-03-4.html#wp95985" />
-        </topic>
-      <topic label="Task 8:  Create a report title" href="birt/birt-03-4.html#wp96286" />
-      <topic label="Next steps" href="birt/birt-03-4.html#wp96056" />
+      <topic label="Task 8:  Create a report title" href="birt/birt-02-2.html#wp139037" />
+      <topic label="Next steps" href="birt/birt-02-2.html#wp139077" />
       </topic>
       </topic>
-  <topic label="Planning your report" href="birt/birt-04-1.html" >
-    <topic label="Identifying the content of the report" href="birt/birt-04-2.html" />
-    <topic label="Determining how the report will be viewed" href="birt/birt-04-3.html" />
-    <topic label="Deciding if the report will be used by international users" href="birt/birt-04-4.html" />
-    <topic label="Deciding the layout and format of the report" href="birt/birt-04-5.html" />
-    <topic label="Drawing a mock-up" href="birt/birt-04-6.html" />
-    <topic label="Deciding how the report will be deployed" href="birt/birt-04-7.html" />
+  <topic label="Connecting to a data source" href="birt/birt-03-1.html" >
+    <topic label="How to specify the connection information for a database or other JDBC data source" href="birt/birt-03-2.html" />
+    <topic label="How to modify an existing BIRT Report Designer data source" href="birt/birt-03-3.html" />
+    <topic label="How to delete a BIRT Report Designer data source" href="birt/birt-03-4.html" />
+    <topic label="How to specify an additional JDBC driver" href="birt/birt-03-5.html" />
+    <topic label="How to delete all JDBC drivers contained in a JAR file" href="birt/birt-03-6.html" />
     </topic>
-  <topic label="Accessing data using JDBC" href="birt/birt-05-1.html" >
-    <topic label="Preparing to access a database or other JDBC data source" href="birt/birt-05-2.html" />
-    <topic label="Specifying the connection information for a database or other JDBC data source" href="birt/birt-05-3.html" >
-      <topic label="How to specify the connection information for a database or other JDBC data source" href="birt/birt-05-3.html#wp95709" />
-      <topic label="How to modify an existing BIRT Report Designer data source" href="birt/birt-05-3.html#wp97164" />
-      <topic label="How to delete a BIRT Report Designer data source" href="birt/birt-05-3.html#wp97459" />
-      </topic>
-    <topic label="Specifying the data to retrieve from a database or other JDBC data source" href="birt/birt-05-4.html" >
-      <topic label="Specifying the data to retrieve from a database or other JDBC data source" href="birt/birt-05-4.html" >
-        <topic label="How to create a data set to access data from a database or other JDBC data source" href="birt/birt-05-4.html#wp95379" />
-        <topic label="How to change the data source for a data set" href="birt/birt-05-4.html#wp127545" />
-        </topic>
-      <topic label="Using a SQL query to retrieve data for a JDBC data set" href="birt/birt-05-4.html#wp119623" >
-        <topic label="How to specify a SQL query for a JDBC data set" href="birt/birt-05-4.html#wp118623" />
-        <topic label="How to change the number of rows displayed when previewing a data set" href="birt/birt-05-4.html#wp143572" />
-        </topic>
-      <topic label="Adding a computed field to a JDBC data set" href="birt/birt-05-4.html#wp143745" >
-        <topic label="How to add a computed field to a JDBC data set" href="birt/birt-05-4.html#wp102738" />
-        </topic>
-        </topic>
-    <topic label="Installing additional JDBC drivers" href="birt/birt-05-5.html" >
-      <topic label="How to specify an additional JDBC driver" href="birt/birt-05-5.html#wp106570" />
-      <topic label="How to delete all JDBC drivers contained in a JAR file" href="birt/birt-05-5.html#wp106625" />
-      </topic>
-      </topic>
-  <topic label="Laying out a report" href="birt/birt-06-1.html" >
-    <topic label="Understanding the layout model" href="birt/birt-06-2.html" >
-      <topic label="About the report layout elements" href="birt/birt-06-2.html#wp94094" />
-      <topic label="Overview of the layout process" href="birt/birt-06-2.html#wp94139" />
-      </topic>
-    <topic label="Creating the sections of your report" href="birt/birt-06-3.html" >
-      <topic label="Organizing elements in a grid" href="birt/birt-06-3.html#wp94156" >
-        <topic label="Adding rows and columns" href="birt/birt-06-3.html#wp94196" >
-          <topic label="How to add a row or column" href="birt/birt-06-3.html#wp113587" />
-          </topic>
-        <topic label="Deleting rows and columns" href="birt/birt-06-3.html#wp94209" >
-          <topic label="How to delete a row or column" href="birt/birt-06-3.html#wp94211" />
-          </topic>
-          </topic>
-      <topic label="Organizing elements in a table" href="birt/birt-06-3.html#wp94217" >
-        <topic label="Deciding where to place elements in a table" href="birt/birt-06-3.html#wp109814" />
-        <topic label="Binding a table with a data set" href="birt/birt-06-3.html#wp94252" >
-          <topic label="How to bind a data set to a table" href="birt/birt-06-3.html#wp110539" />
-          </topic>
-        <topic label="Adjusting table rows and columns" href="birt/birt-06-3.html#wp109677" />
-        </topic>
-      <topic label="Organizing elements in a list" href="birt/birt-06-3.html#wp109920" >
-        <topic label="Deciding where to place elements in a list" href="birt/birt-06-3.html#wp110347" />
-        <topic label="Binding a list with a data set" href="birt/birt-06-3.html#wp109802" >
-          <topic label="How to bind a data set to a list" href="birt/birt-06-3.html#wp110371" />
-          </topic>
-          </topic>
-          </topic>
-    <topic label="Placing report elements" href="birt/birt-06-4.html" >
-      <topic label="Inserting data set fields" href="birt/birt-06-4.html#wp94403" />
-      <topic label="Inserting computed fields" href="birt/birt-06-4.html#wp94427" >
-        <topic label="How to create a computed field in the report layout" href="birt/birt-06-4.html#wp95803" />
-        </topic>
-      <topic label="Inserting images" href="birt/birt-06-4.html#wp95640" >
-        <topic label="How to insert a linked image" href="birt/birt-06-4.html#wp94486" />
-        <topic label="How to insert an embedded image" href="birt/birt-06-4.html#wp94502" />
-        </topic>
-      <topic label="Inserting textual elements" href="birt/birt-06-4.html#wp94518" >
-        <topic label="Using a label element" href="birt/birt-06-4.html#wp106831" />
-        <topic label="Using a text element" href="birt/birt-06-4.html#wp94624" >
-          <topic label="Applying multiple style formats in a text element" href="birt/birt-06-4.html#wp94656" />
-          <topic label="Combining a JavaScript function value with literal text in a text element" href="birt/birt-06-4.html#wp94666" />
-          <topic label="Combining a field value with literal text in a text element" href="birt/birt-06-4.html#wp94672" />
-          <topic label="Formatting dynamic values in a text element" href="birt/birt-06-4.html#wp113203" />
-          </topic>
-          </topic>
-          </topic>
-    <topic label="Designing a master page" href="birt/birt-06-5.html" >
-      <topic label="Editing the contents of the master page" href="birt/birt-06-5.html#wp95925" />
-      <topic label="Specifying page size, orientation, and margins" href="birt/birt-06-5.html#wp95998" />
-      </topic>
-      </topic>
-  <topic label="Sorting, grouping, and aggregating data" href="birt/birt-07-1.html" >
-    <topic label="Sorting data" href="birt/birt-07-2.html" >
-      <topic label="How to sort data through the query" href="birt/birt-07-2.html#wp98526" />
-      <topic label="How to sort data in BIRT Report Designer" href="birt/birt-07-2.html#wp98387" />
-      </topic>
-    <topic label="Grouping data" href="birt/birt-07-3.html" >
-      <topic label="Grouping data" href="birt/birt-07-3.html" >
-        <topic label="How to group data" href="birt/birt-07-3.html#wp94051" />
-        </topic>
-      <topic label="Grouping data by intervals" href="birt/birt-07-3.html#wp94098" >
-        <topic label="Grouping string data by intervals" href="birt/birt-07-3.html#wp94154" >
-          <topic label="How to group string data by intervals" href="birt/birt-07-3.html#wp94219" />
-          </topic>
-        <topic label="Grouping numeric data by intervals" href="birt/birt-07-3.html#wp94229" >
-          <topic label="How to group numeric data by intervals" href="birt/birt-07-3.html#wp94437" />
-          </topic>
-        <topic label="Grouping date and time data by intervals" href="birt/birt-07-3.html#wp94297" >
-          <topic label="How to group date and time data by intervals" href="birt/birt-07-3.html#wp94474" />
-          </topic>
-          </topic>
-      <topic label="Creating multiple groups" href="birt/birt-07-3.html#wp95128" />
-      <topic label="Changing the order of groups" href="birt/birt-07-3.html#wp95265" >
-        <topic label="How to change the order of groups" href="birt/birt-07-3.html#wp95296" />
-        </topic>
-      <topic label="Adding group headings" href="birt/birt-07-3.html#wp95268" >
-        <topic label="Placing group headings" href="birt/birt-07-3.html#wp94540" />
-        <topic label="Specifying expressions for group headings" href="birt/birt-07-3.html#wp94591" />
-        </topic>
-        </topic>
-    <topic label="Aggregating data" href="birt/birt-07-4.html" >
-      <topic label="Placing aggregate data" href="birt/birt-07-4.html#wp94930" />
-      <topic label="Writing aggregate expressions" href="birt/birt-07-4.html#wp101810" />
-      <topic label="Accessing aggregate functions in Expression Builder" href="birt/birt-07-4.html#wp101889" />
-      </topic>
-    <topic label="Tutorial 2:  Grouping report data" href="birt/birt-07-5.html" >
-      <topic label="Task 1:  Open the report design" href="birt/birt-07-5.html#wp99966" />
-      <topic label="Task 2:  Add the credit limit field to the data set" href="birt/birt-07-5.html#wp99978" />
-      <topic label="Task 3:  Add credit limit data to the report" href="birt/birt-07-5.html#wp99994" />
-      <topic label="Task 4:  Group customer data by credit limit" href="birt/birt-07-5.html#wp100022" />
-      <topic label="Task 5:  Display credit limit ranges in the group header" href="birt/birt-07-5.html#wp100062" />
-      <topic label="Task 6:  Display aggregate information" href="birt/birt-07-5.html#wp100089" />
-      <topic label="Task 7:  Format the report" href="birt/birt-07-5.html#wp100140" >
-        <topic label="Remove credit limit data from the detail rows" href="birt/birt-07-5.html#wp100155" />
-        <topic label="Display group headings on the first row of each group" href="birt/birt-07-5.html#wp100166" />
-        <topic label="Separate each group with a line" href="birt/birt-07-5.html#wp100189" />
-        </topic>
-        </topic>
-        </topic>
-  <topic label="Formatting report content" href="birt/birt-08-01.html" >
-    <topic label="Formatting data" href="birt/birt-08-02.html" >
-      <topic label="Formatting numeric data" href="birt/birt-08-02.html#wp94043" />
-      <topic label="Formatting date and time data" href="birt/birt-08-02.html#wp94118" />
-      <topic label="Formatting text data" href="birt/birt-08-02.html#wp94191" />
-      </topic>
-    <topic label="Formatting with styles" href="birt/birt-08-03.html" >
-      <topic label="Creating styles" href="birt/birt-08-03.html#wp94263" >
-        <topic label="How to create a style" href="birt/birt-08-03.html#wp94431" />
-        </topic>
-      <topic label="Applying a style" href="birt/birt-08-03.html#wp94447" >
-        <topic label="How to apply a style" href="birt/birt-08-03.html#wp94452" />
-        </topic>
-      <topic label="Modifying a style" href="birt/birt-08-03.html#wp94457" />
-      <topic label="Deleting a style" href="birt/birt-08-03.html#wp94463" >
-        <topic label="How to delete a style" href="birt/birt-08-03.html#wp94468" />
-        </topic>
-        </topic>
-    <topic label="Formatting data based on conditions" href="birt/birt-08-04.html" >
-      <topic label="Creating a formatting rule" href="birt/birt-08-04.html#wp94488" >
-        <topic label="How to create a formatting rule" href="birt/birt-08-04.html#wp94493" />
-        </topic>
-      <topic label="Modifying a formatting rule" href="birt/birt-08-04.html#wp94550" >
-        <topic label="How to modify a formatting rule" href="birt/birt-08-04.html#wp94552" />
-        </topic>
-      <topic label="Deleting a formatting rule" href="birt/birt-08-04.html#wp96696" >
-        <topic label="How to delete a formatting rule" href="birt/birt-08-04.html#wp94569" />
-        </topic>
-        </topic>
-    <topic label="Specifying alignment of content in a table or grid" href="birt/birt-08-05.html" >
-      <topic label="Aligning text horizontally" href="birt/birt-08-05.html#wp94587" />
-      <topic label="Aligning content vertically" href="birt/birt-08-05.html#wp94624" />
-      </topic>
-    <topic label="Adjusting the spacing of content in a report" href="birt/birt-08-06.html" >
-      <topic label="Resizing rows and columns" href="birt/birt-08-06.html#wp94670" >
-        <topic label="How to resize a column or row by dragging its boundary" href="birt/birt-08-06.html#wp94674" />
-        <topic label="How to specify a row height" href="birt/birt-08-06.html#wp94703" />
-        <topic label="How to specify a column width" href="birt/birt-08-06.html#wp94714" />
-        </topic>
-      <topic label="Resizing margins, borders, and padding of elements" href="birt/birt-08-06.html#wp94720" />
-      </topic>
-    <topic label="Displaying content across multiple columns" href="birt/birt-08-07.html" >
-      <topic label="How to merge table or grid cells" href="birt/birt-08-07.html#wp96496" />
-      </topic>
-    <topic label="Specifying alternate values for display" href="birt/birt-08-08.html" >
-      <topic label="How to map data values to different display values" href="birt/birt-08-08.html#wp94768" />
-      </topic>
-    <topic label="Hiding elements based on conditions" href="birt/birt-08-09.html" >
-      <topic label="How to conditionally hide an element" href="birt/birt-08-09.html#wp94845" />
-      </topic>
-    <topic label="Creating hyperlinks" href="birt/birt-08-10.html" >
-      <topic label="How to create a hyperlink" href="birt/birt-08-10.html#wp94874" />
-      </topic>
-      </topic>
-  <topic label="Writing expressions" href="birt/birt-09-1.html" >
-    <topic label="Basic concepts" href="birt/birt-09-2.html" >
-      <topic label="Data types" href="birt/birt-09-2.html#wp114667" />
-      <topic label="Case sensitivity" href="birt/birt-09-2.html#wp114466" />
-      <topic label="Multi-line expressions" href="birt/birt-09-2.html#wp116168" />
-      </topic>
-    <topic label="Using Expression Builder" href="birt/birt-09-3.html" />
-    <topic label="Manipulating numeric data" href="birt/birt-09-4.html" >
-      <topic label="Computing values from multiple numeric fields" href="birt/birt-09-4.html#wp115151" />
-      <topic label="Converting a number to a string" href="birt/birt-09-4.html#wp115888" />
-      </topic>
-    <topic label="Manipulating string data" href="birt/birt-09-5.html" >
-      <topic label="Substituting string values" href="birt/birt-09-5.html#wp115062" />
-      <topic label="Combining values from multiple fields" href="birt/birt-09-5.html#wp113880" />
-      <topic label="Removing null values from combined fields" href="birt/birt-09-5.html#wp113815" />
-      <topic label="Getting parts of a string" href="birt/birt-09-5.html#wp113951" />
-      <topic label="Converting a string to a number" href="birt/birt-09-5.html#wp115545" />
-      </topic>
-    <topic label="Manipulating date and time data" href="birt/birt-09-6.html" >
-      <topic label="Displaying the current date" href="birt/birt-09-6.html#wp114973" />
-      <topic label="Getting parts of a date or time as a number" href="birt/birt-09-6.html#wp114732" />
-      <topic label="Calculating the time between two dates" href="birt/birt-09-6.html#wp114956" />
-      <topic label="Calculating a date" href="birt/birt-09-6.html#wp114798" />
-      </topic>
-    <topic label="Using Boolean expressions" href="birt/birt-09-7.html" />
+  <topic label="Retrieving data" href="birt/birt-04-01.html" >
+    <topic label="How to create a data set to access data" href="birt/birt-04-02.html" />
+    <topic label="How to change the data source for a data set" href="birt/birt-04-03.html" />
+    <topic label="How to specify a SQL query for a JDBC data set" href="birt/birt-04-04.html" />
+    <topic label="How to specify a stored procedure for a JDBC data set" href="birt/birt-04-05.html" />
+    <topic label="How to view and change output columns" href="birt/birt-04-06.html" />
+    <topic label="How to preview the results returned by a data set" href="birt/birt-04-07.html" />
+    <topic label="How to change the number of rows that appear in Preview Results" href="birt/birt-04-08.html" />
+    <topic label="How to set cache preferences" href="birt/birt-04-09.html" />
+    <topic label="How to add a computed field to a data set" href="birt/birt-04-10.html" />
     </topic>
-  <topic label="Accessing data from text files" href="birt/birt-10-1.html" >
-    <topic label="Preparing to access your text file" href="birt/birt-10-2.html" />
-    <topic label="Specifying the connection information to access data from a text file" href="birt/birt-10-3.html" >
-      <topic label="How to specify the connection information to access a text file" href="birt/birt-10-3.html#wp95709" />
-      <topic label="How to modify an existing BIRT Report Designer data source accessing a text file" href="birt/birt-10-3.html#wp97164" />
-      <topic label="How to delete a BIRT Report Designer data source" href="birt/birt-10-3.html#wp97459" />
-      </topic>
-    <topic label="Specifying the data to retrieve from a text file" href="birt/birt-10-4.html" >
-      <topic label="Specifying the data to retrieve from a text file" href="birt/birt-10-4.html" >
-        <topic label="How to create a data set to access data from a text file" href="birt/birt-10-4.html#wp95379" />
-        <topic label="How to change the data source for a data set accessing data from a text file" href="birt/birt-10-4.html#wp127545" />
-        </topic>
-      <topic label="Specifying columns to retrieve data from a text file" href="birt/birt-10-4.html#wp119623" >
-        <topic label="How to specify which columns to retrieve from a text file" href="birt/birt-10-4.html#wp118623" />
-        </topic>
-      <topic label="Adding a computed field to a data set that accesses data from a text file" href="birt/birt-10-4.html#wp117968" >
-        <topic label="How to add a computed field to a data set that accesses data from a text file" href="birt/birt-10-4.html#wp102738" />
-        </topic>
-        </topic>
-        </topic>
-  <topic label="Filtering data" href="birt/birt-11-1.html" >
-    <topic label="Specifying conditions on row retrieval" href="birt/birt-11-2.html" />
-    <topic label="Filtering data after row retrieval" href="birt/birt-11-3.html" >
-      <topic label="Designing filter conditions" href="birt/birt-11-3.html#wp126633" />
-      <topic label="Creating filter conditions" href="birt/birt-11-3.html#wp95721" >
-        <topic label="How to filter at the data set level" href="birt/birt-11-3.html#wp95739" />
-        <topic label="How to filter at the report element level" href="birt/birt-11-3.html#wp95744" />
-        </topic>
-        </topic>
-    <topic label="Enabling the user to filter data from a database or other JDBC data source" href="birt/birt-11-4.html" >
-      <topic label="Inserting a parameter marker in the SQL query" href="birt/birt-11-4.html#wp103358" >
-        <topic label="How to insert a parameter marker in the SQL query" href="birt/birt-11-4.html#wp103858" />
-        </topic>
-      <topic label="Creating a data set parameter to enable a user to filter data" href="birt/birt-11-4.html#wp103598" >
-        <topic label="How to specify a data set parameter to enable users to filter data" href="birt/birt-11-4.html#wp114732" />
-        </topic>
-      <topic label="Creating a report parameter to enable users to filter data" href="birt/birt-11-4.html#wp103965" />
-      <topic label="Binding a data set parameter to a report parameter" href="birt/birt-11-4.html#wp104117" >
-        <topic label="How to bind a data set parameter to a report parameter" href="birt/birt-11-4.html#wp104346" />
-        </topic>
-      <topic label="Testing the parameters enabling a user to filter data" href="birt/birt-11-4.html#wp96355" >
-        <topic label="How to preview a report to test enabling users to filter data" href="birt/birt-11-4.html#wp104354" />
-        </topic>
-        </topic>
-        </topic>
-  <topic label="Obtaining input from the user" href="birt/birt-12-1.html" >
-    <topic label="Creating a report parameter to enable a user to input values" href="birt/birt-12-2.html" >
-      <topic label="How to specify a report parameter to enable users to provide values" href="birt/birt-12-2.html#wp104153" />
-      <topic label="How to specify parameter values for users to select" href="birt/birt-12-2.html#wp108464" />
-      <topic label="How to specify a parameter value format pattern" href="birt/birt-12-2.html#wp108967" />
-      <topic label="How to specify a custom parameter value format pattern" href="birt/birt-12-2.html#wp123593" />
-      <topic label="How to edit an existing report parameter" href="birt/birt-12-2.html#wp119626" />
-      <topic label="How to delete a report parameter" href="birt/birt-12-2.html#wp120166" />
-      </topic>
-    <topic label="Using parameter groups to organize parameters" href="birt/birt-12-3.html" >
-      <topic label="How to create a parameter group" href="birt/birt-12-3.html#wp104038" />
-      <topic label="How to edit an existing parameter group" href="birt/birt-12-3.html#wp103112" />
-      <topic label="How to delete a parameter group" href="birt/birt-12-3.html#wp97650" />
-      </topic>
-      </topic>
-  <topic label="Building a report with parallel subreports" href="birt/birt-13-1.html" >
-    <topic label="Tutorial 3:  Building a report with side-by-side subreports" href="birt/birt-13-2.html" >
-      <topic label="Task 1:  Create a new report" href="birt/birt-13-2.html#wp101460" />
-      <topic label="Task 2:  Build a data source" href="birt/birt-13-2.html#wp101491" />
-      <topic label="Task 3:  Build a data set for the customer report" href="birt/birt-13-2.html#wp101515" />
-      <topic label="Task 4:  Build a data set for the orders subreport" href="birt/birt-13-2.html#wp102004" />
-      <topic label="Task 5:  Build a data set for the payments subreport" href="birt/birt-13-2.html#wp104225" />
-      <topic label="Task 6:  Create the customer (master) report" href="birt/birt-13-2.html#wp101885" />
-      <topic label="Task 7:  Create the orders subreport" href="birt/birt-13-2.html#wp102002" />
-      <topic label="Task 8:  Link the orders subreport to the master report" href="birt/birt-13-2.html#wp104504" />
-      <topic label="Task 9:  Create the payments subreport" href="birt/birt-13-2.html#wp102333" />
-      <topic label="Task 10:  Link the payments subreport to the master report" href="birt/birt-13-2.html#wp104705" />
-      <topic label="Task 11:  Display only customers that have orders or payments" href="birt/birt-13-2.html#wp104720" />
-      <topic label="Task 12:  Display the subreports side by side" href="birt/birt-13-2.html#wp102276" />
-      <topic label="Task 13:  Format the report" href="birt/birt-13-2.html#wp102669" >
-        <topic label="Highlight the customer names" href="birt/birt-13-2.html#wp102700" />
-        <topic label="Edit the column headings" href="birt/birt-13-2.html#wp102733" />
-        <topic label="Change the date formats" href="birt/birt-13-2.html#wp102876" />
-        <topic label="Change the number formats" href="birt/birt-13-2.html#wp103133" />
-        <topic label="Increase the vertical space between elements" href="birt/birt-13-2.html#wp103051" />
-        <topic label="Increase the horizontal space between the orders and payments tables" href="birt/birt-13-2.html#wp103533" />
-        <topic label="Add borders around the tables" href="birt/birt-13-2.html#wp103641" />
-        <topic label="Increase the space between the table borders and its contents" href="birt/birt-13-2.html#wp103738" />
-        <topic label="Align the tops of the tables" href="birt/birt-13-2.html#wp103770" />
-        </topic>
-        </topic>
-        </topic>
-  <topic label="Using a chart in a report" href="birt/birt-14-1.html" >
-    <topic label="Understanding chart data" href="birt/birt-14-2.html" />
-    <topic label="Recognizing the parts of a chart" href="birt/birt-14-3.html" />
-    <topic label="Understanding types of charts" href="birt/birt-14-4.html" >
-      <topic label="About bar charts" href="birt/birt-14-4.html#wp109399" />
-      <topic label="About line charts" href="birt/birt-14-4.html#wp94515" />
-      <topic label="About pie charts" href="birt/birt-14-4.html#wp94606" />
-      <topic label="About scatter charts" href="birt/birt-14-4.html#wp94630" />
-      <topic label="About stock charts" href="birt/birt-14-4.html#wp94689" />
-      </topic>
-    <topic label="Creating a basic chart" href="birt/birt-14-5.html" >
-      <topic label="Inserting a chart element" href="birt/birt-14-5.html#wp95335" />
-      <topic label="Opening Chart Dialog" href="birt/birt-14-5.html#wp95424" />
-      <topic label="Selecting the chart type" href="birt/birt-14-5.html#wp95432" >
-        <topic label="How to select the chart type" href="birt/birt-14-5.html#wp95479" />
-        </topic>
-      <topic label="Selecting a data set for the chart" href="birt/birt-14-5.html#wp94890" >
-        <topic label="How to select a chart data set" href="birt/birt-14-5.html#wp112095" />
-        </topic>
-      <topic label="Specifying data for chart series" href="birt/birt-14-5.html#wp112088" >
-        <topic label="How to specify data for a bar chart using a y series grouping key" href="birt/birt-14-5.html#wp99776" />
-        </topic>
-        </topic>
-    <topic label="Reviewing a sample chart" href="birt/birt-14-6.html" >
-      <topic label="How to see the chart sample" href="birt/birt-14-6.html#wp94900" />
-      <topic label="How to modify sample chart data" href="birt/birt-14-6.html#wp94911" />
-      </topic>
-    <topic label="Placing a chart in a report" href="birt/birt-14-7.html" />
-    <topic label="Tutorial 4:  Creating a report chart" href="birt/birt-14-8.html" >
-      <topic label="Task 1:  Create a new report" href="birt/birt-14-8.html#wp193866" />
-      <topic label="Task 2:  Build a data source" href="birt/birt-14-8.html#wp193892" />
-      <topic label="Task 3:  Build a data set" href="birt/birt-14-8.html#wp193911" />
-      <topic label="Task 4:  Insert a chart element" href="birt/birt-14-8.html#wp193959" />
-      <topic label="Task 5:  Select a chart type" href="birt/birt-14-8.html#wp193968" />
-      <topic label="Task 6:  Link the chart to a data set" href="birt/birt-14-8.html#wp193982" />
-      <topic label="Task 7:  Set up the chart data expressions" href="birt/birt-14-8.html#wp193993" />
-      <topic label="Task 8:  Preview the chart" href="birt/birt-14-8.html#wp194028" />
-      <topic label="Task 9:  Modify the chart title" href="birt/birt-14-8.html#wp194037" />
-      <topic label="Task 10:  Remove the pie title" href="birt/birt-14-8.html#wp194049" />
-      <topic label="Task 11:  Specify series colors" href="birt/birt-14-8.html#wp194070" />
-      <topic label="Task 12:  Remove the chart legend" href="birt/birt-14-8.html#wp194106" />
-      <topic label="Task 13:  Modify the sector labels" href="birt/birt-14-8.html#wp194125" />
-      <topic label="Task 14:  Add space between the labels and the label lines" href="birt/birt-14-8.html#wp194158" />
-      <topic label="Next steps" href="birt/birt-14-8.html#wp194174" />
-      </topic>
-      </topic>
-  <topic label="Working with chart data" href="birt/birt-15-1.html" >
-    <topic label="Defining chart series expressions" href="birt/birt-15-2.html" >
-      <topic label="About the data expressions you use in a chart" href="birt/birt-15-2.html#wp99323" />
-      <topic label="Formatting the data an expression returns" href="birt/birt-15-2.html#wp113197" >
-        <topic label="How to format a numeric data expression" href="birt/birt-15-2.html#wp113291" />
-        <topic label="How to format a date and time data expression" href="birt/birt-15-2.html#wp113479" />
-        </topic>
-      <topic label="Defining series in a bar or line chart" href="birt/birt-15-2.html#wp97082" >
-        <topic label="How to set up a bar or line chart using multiple y series definitions" href="birt/birt-15-2.html#wp97602" />
-        </topic>
-      <topic label="Defining series in a pie chart" href="birt/birt-15-2.html#wp97848" >
-        <topic label="How to specify data for a pie chart using one series or a series grouping key" href="birt/birt-15-2.html#wp99079" />
-        <topic label="How to specify data for a pie chart using multiple orthogonal series definitions" href="birt/birt-15-2.html#wp100346" />
-        </topic>
-      <topic label="Defining series in a scatter chart" href="birt/birt-15-2.html#wp99065" >
-        <topic label="How to specify data for a scatter chart" href="birt/birt-15-2.html#wp101583" />
-        </topic>
-      <topic label="Defining series in a stock chart" href="birt/birt-15-2.html#wp168353" >
-        <topic label="How to specify data for a stock chart using one series or a series grouping key" href="birt/birt-15-2.html#wp100841" />
-        <topic label="How to specify data for a stock chart using multiple y series definitions" href="birt/birt-15-2.html#wp100859" />
-        </topic>
-      <topic label="Defining series in a combination chart" href="birt/birt-15-2.html#wp97105" />
-      </topic>
-    <topic label="Sorting x series or base series data" href="birt/birt-15-3.html" >
-      <topic label="How to sort x series data" href="birt/birt-15-3.html#wp99463" />
-      </topic>
-    <topic label="Grouping x series or base series data" href="birt/birt-15-4.html" >
-      <topic label="How to group x series data" href="birt/birt-15-4.html#wp99525" />
-      </topic>
-    <topic label="Working with data on a chart axis" href="birt/birt-15-5.html" >
-      <topic label="Defining an x axis as a value or category axis" href="birt/birt-15-5.html#wp119831" >
-        <topic label="How to define an x axis as a value or category axis" href="birt/birt-15-5.html#wp119835" />
-        </topic>
-      <topic label="Defining the axis data type and number format" href="birt/birt-15-5.html#wp101925" >
-        <topic label="How to set the data type and format of an axis" href="birt/birt-15-5.html#wp102001" />
-        </topic>
-      <topic label="Defining the axis intersection" href="birt/birt-15-5.html#wp102008" >
-        <topic label="How to set the intersection of an axis" href="birt/birt-15-5.html#wp102454" />
-        </topic>
-      <topic label="Defining the scale of an axis" href="birt/birt-15-5.html#wp101903" >
-        <topic label="How to define the scale of an axis" href="birt/birt-15-5.html#wp102562" />
-        </topic>
-      <topic label="Using multiple y axes" href="birt/birt-15-5.html#wp101943" >
-        <topic label="How to create multiple y axes" href="birt/birt-15-5.html#wp102518" />
-        </topic>
-      <topic label="Transposing the chart axes" href="birt/birt-15-5.html#wp101963" >
-        <topic label="How to transpose the chart axes" href="birt/birt-15-5.html#wp102718" />
-        </topic>
-      <topic label="Working with axis markers" href="birt/birt-15-5.html#wp102022" >
-        <topic label="How to create an axis marker" href="birt/birt-15-5.html#wp102779" />
-        </topic>
-        </topic>
-        </topic>
-  <topic label="Laying out and formatting a chart" href="birt/birt-16-1.html" >
-    <topic label="Laying out and formatting the chart area" href="birt/birt-16-2.html" >
-      <topic label="Setting chart background color" href="birt/birt-16-2.html#wp165943" >
-        <topic label="How to set the chart background color" href="birt/birt-16-2.html#wp120026" />
-        </topic>
-      <topic label="Outlining a chart" href="birt/birt-16-2.html#wp94953" >
-        <topic label="How to add an outline to a chart" href="birt/birt-16-2.html#wp122238" />
-        </topic>
-      <topic label="Setting the wall or floor color in a chart with depth" href="birt/birt-16-2.html#wp121653" >
-        <topic label="How to set the wall or floor color in a chart with depth" href="birt/birt-16-2.html#wp121667" />
-        </topic>
-      <topic label="Adding padding around the chart" href="birt/birt-16-2.html#wp121654" >
-        <topic label="How to set a standard chart unit" href="birt/birt-16-2.html#wp122480" />
-        <topic label="How to set chart area insets" href="birt/birt-16-2.html#wp122317" />
-        </topic>
-      <topic label="Working with the chart plot, legend, and title areas" href="birt/birt-16-2.html#wp122593" >
-        <topic label="Setting the background color of a plot, legend, or title" href="birt/birt-16-2.html#wp123030" >
-          <topic label="How to set the background color of the plot, legend, or title" href="birt/birt-16-2.html#wp124287" />
-          </topic>
-        <topic label="Outlining a plot, legend, or title" href="birt/birt-16-2.html#wp123032" >
-          <topic label="How to add an outline to a plot, legend, or title" href="birt/birt-16-2.html#wp124465" />
-          </topic>
-        <topic label="Adding a shadow to a plot, legend, or title" href="birt/birt-16-2.html#wp123047" >
-          <topic label="How to add a shadow to a plot, legend, or title" href="birt/birt-16-2.html#wp123046" />
-          </topic>
-        <topic label="Formatting title text" href="birt/birt-16-2.html#wp162915" >
-          <topic label="How to format title text" href="birt/birt-16-2.html#wp162925" />
-          </topic>
-        <topic label="Arranging a chart plot, legend or title area" href="birt/birt-16-2.html#wp122611" >
-          <topic label="How to adjust the placement and padding of a chart title" href="birt/birt-16-2.html#wp124632" />
-          <topic label="How to adjust the placement and padding of a chart legend" href="birt/birt-16-2.html#wp124640" />
-          <topic label="How to adjust the placement and padding of a chart plot" href="birt/birt-16-2.html#wp124644" />
-          </topic>
-        <topic label="Showing legend items horizontally or vertically" href="birt/birt-16-2.html#wp122594" >
-          <topic label="How to arrange legend items" href="birt/birt-16-2.html#wp124887" />
-          </topic>
-        <topic label="Arranging multiple pies in a pie chart" href="birt/birt-16-2.html#wp122678" >
-          <topic label="How to arrange multiple pies in a pie chart" href="birt/birt-16-2.html#wp124911" />
-          </topic>
-          </topic>
-          </topic>
-    <topic label="Formatting an axis" href="birt/birt-16-3.html" >
-      <topic label="Working with an axis title" href="birt/birt-16-3.html#wp163090" >
-        <topic label="How to format an axis title" href="birt/birt-16-3.html#wp163112" />
-        </topic>
-      <topic label="Formatting axis markers" href="birt/birt-16-3.html#wp163456" >
-        <topic label="How to format a marker line" href="birt/birt-16-3.html#wp164022" />
-        <topic label="How to format a marker range" href="birt/birt-16-3.html#wp164024" />
-        <topic label="How to add a marker label" href="birt/birt-16-3.html#wp164262" />
-        </topic>
-      <topic label="Working with an axis line" href="birt/birt-16-3.html#wp163360" >
-        <topic label="How to modify an axis line" href="birt/birt-16-3.html#wp163477" />
-        <topic label="How to modify axis tick marks" href="birt/birt-16-3.html#wp163478" />
-        <topic label="How to add or modify gridlines" href="birt/birt-16-3.html#wp163703" />
-        </topic>
-        </topic>
-    <topic label="Formatting a series" href="birt/birt-16-4.html" >
-      <topic label="Setting the series type" href="birt/birt-16-4.html#wp164571" >
-        <topic label="How to change the type of a series" href="birt/birt-16-4.html#wp164651" />
-        </topic>
-      <topic label="Hiding a series" href="birt/birt-16-4.html#wp164572" >
-        <topic label="How to hide a chart series" href="birt/birt-16-4.html#wp164725" />
-        </topic>
-      <topic label="Setting the color palette for a series" href="birt/birt-16-4.html#wp164573" >
-        <topic label="How to specify the palette for a series" href="birt/birt-16-4.html#wp164804" />
-        </topic>
-      <topic label="Working with different series types" href="birt/birt-16-4.html#wp164574" >
-        <topic label="Setting the series width of a chart with depth" href="birt/birt-16-4.html#wp164890" >
-          <topic label="How to set the series width of a chart with depth" href="birt/birt-16-4.html#wp164939" />
-          </topic>
-        <topic label="Formatting a bar chart series" href="birt/birt-16-4.html#wp164895" >
-          <topic label="How to format a bar chart series" href="birt/birt-16-4.html#wp164989" />
-          </topic>
-        <topic label="Formatting a line or a scatter chart series" href="birt/birt-16-4.html#wp164897" >
-          <topic label="How to format a line or a scatter chart" href="birt/birt-16-4.html#wp165062" />
-          </topic>
-        <topic label="Formatting a pie chart series" href="birt/birt-16-4.html#wp164899" >
-          <topic label="How to format a pie chart series" href="birt/birt-16-4.html#wp165212" />
-          </topic>
-        <topic label="Formatting a stock chart series" href="birt/birt-16-4.html#wp164910" >
-          <topic label="How to format a stock chart series" href="birt/birt-16-4.html#wp164583" />
-          </topic>
-          </topic>
-      <topic label="Working with data points and data point labels" href="birt/birt-16-4.html#wp164584" >
-        <topic label="How to modify the data a data point label displays" href="birt/birt-16-4.html#wp165468" />
-        <topic label="How to format data point labels" href="birt/birt-16-4.html#wp165714" />
-        </topic>
-        </topic>
-        </topic>
-  <topic label="Localizing text" href="birt/birt-17-1.html" >
-    <topic label="Overview of the localization process" href="birt/birt-17-2.html" />
-    <topic label="Assigning a resource file to a report" href="birt/birt-17-3.html" >
-      <topic label="How to assign a resource file to a report" href="birt/birt-17-3.html#wp116450" />
-      </topic>
-    <topic label="Assigning a resource key to a label or text element" href="birt/birt-17-4.html" >
-      <topic label="How to assign an existing resource key to a label or text element" href="birt/birt-17-4.html#wp116569" />
-      <topic label="How to define a new resource key" href="birt/birt-17-4.html#wp116599" />
-      </topic>
-    <topic label="Assigning a resource key to chart text" href="birt/birt-17-5.html" >
-      <topic label="How to assign a resource key to chart text" href="birt/birt-17-5.html#wp117259" />
-      </topic>
-    <topic label="Editing a resource file" href="birt/birt-17-6.html" >
-      <topic label="How to edit a resource file" href="birt/birt-17-6.html#wp117661" />
-      </topic>
-    <topic label="Previewing a report in different locales" href="birt/birt-17-7.html" >
-      <topic label="How to preview a report in a different locale" href="birt/birt-17-7.html#wp117749" />
-      </topic>
-      </topic>
-  <topic label="Deploying a BIRT report to an application server" href="birt/birt-18-1.html" >
-    <topic label="Placing the BIRT report viewer on the application server" href="birt/birt-18-2.html" >
-      <topic label="Placing the viewer in an alternate location" href="birt/birt-18-2.html#wp94008" />
-      <topic label="Verifying that Apache Tomcat is running the BIRT report viewer" href="birt/birt-18-2.html#wp94014" />
-      </topic>
-    <topic label="Viewing a report using a browser" href="birt/birt-18-3.html" >
-      <topic label="Understanding the run servlet" href="birt/birt-18-3.html#wp94031" />
-      <topic label="Understanding the frameset servlet" href="birt/birt-18-3.html#wp94033" />
-      <topic label="Understanding the URL parameters" href="birt/birt-18-3.html#wp94037" >
-        <topic label="Understanding the __report parameter" href="birt/birt-18-3.html#wp94096" />
-        <topic label="Understanding the __format parameter" href="birt/birt-18-3.html#wp94116" />
-        <topic label="Understanding the __frame parameter" href="birt/birt-18-3.html#wp94118" />
-        <topic label="Understanding the __locale parameter" href="birt/birt-18-3.html#wp94120" />
-        <topic label="Understanding the __navigation parameter" href="birt/birt-18-3.html#wp94122" />
-        <topic label="Understanding the __toolbar parameter" href="birt/birt-18-3.html#wp94124" />
-        <topic label="Understanding the __isnull parameter" href="birt/birt-18-3.html#wp94126" />
-        <topic label="Understanding the reportParam parameter" href="birt/birt-18-3.html#wp94132" />
-        </topic>
-        </topic>
-    <topic label="Mapping the path to the report folder" href="birt/birt-18-4.html" />
+  <topic label="Laying out a report" href="birt/birt-05-1.html" >
+    <topic label="How to add a row or column" href="birt/birt-05-2.html" />
+    <topic label="How to delete a row or column" href="birt/birt-05-3.html" />
+    <topic label="How to bind a data set to a table" href="birt/birt-05-4.html" />
+    <topic label="How to bind a data set to a list" href="birt/birt-05-5.html" />
+    <topic label="How to create a computed field in the report layout" href="birt/birt-05-6.html" />
+    <topic label="How to insert a linked image" href="birt/birt-05-7.html" />
+    <topic label="How to insert an embedded image" href="birt/birt-05-8.html" />
+    <topic label="How to insert images stored in a data source" href="birt/birt-05-9.html" />
     </topic>
-  <topic label="Understanding a scripted data source" href="birt/birt-19-1.html" >
-    <topic label="Using the BIRT Report Designer to create a scripted data source" href="birt/birt-19-2.html" />
-    <topic label="Tutorial 5:  Creating and scripting a scripted data source" href="birt/birt-19-3.html" >
-      <topic label="Task 1:  Create a new report" href="birt/birt-19-3.html#wp118042" />
-      <topic label="Task 2:  Create and name a Scripted Data Source" href="birt/birt-19-3.html#wp118125" />
-      <topic label="Task 3:  Enter code for the open and close methods of the data source" href="birt/birt-19-3.html#wp118452" />
-      <topic label="Task 4:  Create and name a scripted data set" href="birt/birt-19-3.html#wp118248" />
-      <topic label="Task 5:  Enter code for the open and fetch methods of the data set" href="birt/birt-19-3.html#wp118275" />
-      <topic label="Task 6:  Define output columns" href="birt/birt-19-3.html#wp118294" />
-      <topic label="Task 7:  Place the columns on the report design" href="birt/birt-19-3.html#wp118303" />
-      <topic label="Task 8:  Add code to fetch method to generate output" href="birt/birt-19-3.html#wp118819" />
-      </topic>
-    <topic label="Using a Java object to access a data source" href="birt/birt-19-4.html" >
-      <topic label="Performing initialization in the data set open method" href="birt/birt-19-4.html#wp117800" />
-      <topic label="Getting a new row of data in the data set fetch method" href="birt/birt-19-4.html#wp117824" />
-      <topic label="Cleaning up in the data set close method" href="birt/birt-19-4.html#wp117826" />
-      </topic>
-      </topic>
-  <topic label="Using scripting in a report design" href="birt/birt-20-1.html" >
-    <topic label="Overview of BIRT scripting" href="birt/birt-20-2.html" >
-      <topic label="Expression scripts and method scripts" href="birt/birt-20-2.html#wp119436" >
-        <topic label="Expression scripts" href="birt/birt-20-2.html#wp119604" />
-        <topic label="Method scripts" href="birt/birt-20-2.html#wp119834" />
-        </topic>
-      <topic label="Functions available to BIRT scripts" href="birt/birt-20-2.html#wp117778" />
-      </topic>
-    <topic label="Understanding the scripting environment" href="birt/birt-20-3.html" >
-      <topic label="Where code appears in BIRT" href="birt/birt-20-3.html#wp121818" />
-      <topic label="Understanding the JavaScript scopes" href="birt/birt-20-3.html#wp117804" />
-      <topic label="Understanding report phases" href="birt/birt-20-3.html#wp117825" />
-      <topic label="Understanding element state objects" href="birt/birt-20-3.html#wp117865" >
-        <topic label="Understanding report item state objects" href="birt/birt-20-3.html#wp117881" />
-        <topic label="Understanding data set state objects" href="birt/birt-20-3.html#wp117885" />
-        </topic>
-      <topic label="Understanding script contexts" href="birt/birt-20-3.html#wp117887" >
-        <topic label="Understanding the data row context" href="birt/birt-20-3.html#wp117900" />
-        <topic label="Understanding the element expression context" href="birt/birt-20-3.html#wp117922" />
-        </topic>
-      <topic label="Resource availability" href="birt/birt-20-3.html#wp117930" />
-      </topic>
-    <topic label="Scripted control of report items" href="birt/birt-20-4.html" >
-      <topic label="The report item lifecycle" href="birt/birt-20-4.html#wp118170" />
-      <topic label="Changing properties of an element" href="birt/birt-20-4.html#wp118203" />
-      </topic>
-    <topic label="Wrapping a Java class in JavaScript" href="birt/birt-20-5.html" >
-      <topic label="Accessing a method of a Java class" href="birt/birt-20-5.html#wp118401" />
-      <topic label="Understanding the Packages variable" href="birt/birt-20-5.html#wp118923" />
-      <topic label="Avoiding fully qualified class references" href="birt/birt-20-5.html#wp119224" />
-      <topic label="Advanced Java scripting issues" href="birt/birt-20-5.html#wp118942" />
-      <topic label="Placing your Java classes where BIRT can find them" href="birt/birt-20-5.html#wp118990" />
-      </topic>
-    <topic label="Scripting a method" href="birt/birt-20-6.html" />
-    <topic label="Tutorial 6:  Writing an event-driven script" href="birt/birt-20-7.html" >
-      <topic label="Task 1:  Open the report design" href="birt/birt-20-7.html#wp116790" />
-      <topic label="Task 2:  Create and initialize a counter in the Table.onStart( ) method" href="birt/birt-20-7.html#wp116802" >
-        <topic label="How to enter a script into the Table.onStart( ) method, do the following:" href="birt/birt-20-7.html#wp120184" />
-        </topic>
-      <topic label="Task 3:  Conditionally increment the counter in the Table.onRow( ) method" href="birt/birt-20-7.html#wp117003" >
-        <topic label="How to enter code into the Table.onRow( ) method" href="birt/birt-20-7.html#wp120280" />
-        </topic>
-      <topic label="Task 4:  Display the result, using the Table.onFinish( ) method" href="birt/birt-20-7.html#wp117009" >
-        <topic label="How to write code to display the result, using the Table.onRow( ) method" href="birt/birt-20-7.html#wp120379" />
-        </topic>
-        </topic>
-        </topic>
-  <topic label="Scripting reference" href="birt/birt-21-01.html" >
-    <topic label="Overview of BIRT-defined variables and classes" href="birt/birt-21-02.html" >
-      <topic label="Global variables" href="birt/birt-21-02.html#wp122436" />
-      <topic label="Classes" href="birt/birt-21-02.html#wp122511" />
-      </topic>
-    <topic label="Understanding report state, design and document classes" href="birt/birt-21-03.html" >
-      <topic label="Class  ElementDefn" href="birt/birt-21-04.html" />
-      <topic label="Class  ElementState" href="birt/birt-21-05.html" />
-      <topic label="Class  PropertyDefn" href="birt/birt-21-06.html" />
-      <topic label="Class  Report" href="birt/birt-21-07.html" />
-      <topic label="Class  ReportDefn" href="birt/birt-21-08.html" />
-      <topic label="Class  ReportDoc" href="birt/birt-21-09.html" />
-      </topic>
-    <topic label="Understanding the data classes" href="birt/birt-21-10.html" >
-      <topic label="Class  ColumnDefn" href="birt/birt-21-11.html" />
-      <topic label="Class  DataSet" href="birt/birt-21-12.html" />
-      <topic label="Class  DataSource" href="birt/birt-21-13.html" />
-      <topic label="Class  DataRow" href="birt/birt-21-14.html" />
-      </topic>
-    <topic label="Working with aggregates" href="birt/birt-21-15.html" >
-      <topic label="About user-defined aggregations" href="birt/birt-21-15.html#wp125671" />
-      <topic label="Comparing one and two-pass aggregates" href="birt/birt-21-15.html#wp125678" />
-      <topic label="About grouping and filtering" href="birt/birt-21-15.html#wp125685" >
-        <topic label="About filter argument" href="birt/birt-21-15.html#wp125688" />
-        <topic label="About group argument" href="birt/birt-21-15.html#wp137633" />
-        </topic>
-      <topic label="About custom aggregates and running totals" href="birt/birt-21-15.html#wp125715" />
-      <topic label="Class  Total" href="birt/birt-21-16.html" >
-        <topic label="Total.ave" href="birt/birt-21-16.html#wp164702" />
-        <topic label="Total.count" href="birt/birt-21-16.html#wp125813" />
-        <topic label="Total.countDistinct" href="birt/birt-21-16.html#wp125833" />
-        <topic label="Total.first" href="birt/birt-21-16.html#wp167187" />
-        <topic label="Total.irr" href="birt/birt-21-16.html#wp168076" />
-        <topic label="Total.last" href="birt/birt-21-16.html#wp171193" />
-        <topic label="Total.max" href="birt/birt-21-16.html#wp125855" />
-        <topic label="Total.median" href="birt/birt-21-16.html#wp165489" />
-        <topic label="Total.min" href="birt/birt-21-16.html#wp125877" />
-        <topic label="Total.mirr" href="birt/birt-21-16.html#wp171590" />
-        <topic label="Total.mode" href="birt/birt-21-16.html#wp168760" />
-        <topic label="Total.movingAve" href="birt/birt-21-16.html#wp125951" />
-        <topic label="Total.npv" href="birt/birt-21-16.html#wp126135" />
-        <topic label="Total.runningNpv" href="birt/birt-21-16.html#wp126143" />
-        <topic label="Total.runningSum" href="birt/birt-21-16.html#wp163881" />
-        <topic label="Total.stdDev" href="birt/birt-21-16.html#wp169881" />
-        <topic label="Total.sum" href="birt/birt-21-16.html#wp163086" />
-        <topic label="Total.variance" href="birt/birt-21-16.html#wp170476" />
-        <topic label="Total.weightedAve" href="birt/birt-21-16.html#wp167877" />
-        </topic>
-      <topic label="Class  Finance" href="birt/birt-21-17.html" >
-        <topic label="Finance.ddb" href="birt/birt-21-17.html#wp126193" />
-        <topic label="Finance.fv" href="birt/birt-21-17.html#wp126271" />
-        <topic label="Finance.ipmt" href="birt/birt-21-17.html#wp126311" />
-        <topic label="Finance.irr" href="birt/birt-21-17.html#wp174445" />
-        <topic label="Finance.mirr" href="birt/birt-21-17.html#wp126607" />
-        <topic label="Finance.nper" href="birt/birt-21-17.html#wp175191" />
-        <topic label="Finance.npv" href="birt/birt-21-17.html#wp172063" />
-        <topic label="Finance.percent" href="birt/birt-21-17.html#wp126636" />
-        <topic label="Finance.pmt" href="birt/birt-21-17.html#wp172658" />
-        <topic label="Finance.ppmt" href="birt/birt-21-17.html#wp172709" />
-        <topic label="Finance.pv" href="birt/birt-21-17.html#wp172762" />
-        <topic label="Finance.rate" href="birt/birt-21-17.html#wp172818" />
-        <topic label="Finance.sln" href="birt/birt-21-17.html#wp173691" />
-        <topic label="Finance.syd" href="birt/birt-21-17.html#wp173715" />
-        </topic>
-      <topic label="Class  DateTimeSpan" href="birt/birt-21-18.html" >
-        <topic label="DateTimeSpan.addDate" href="birt/birt-21-18.html#wp175472" />
-        <topic label="DateTimeSpan.addTime" href="birt/birt-21-18.html#wp175507" />
-        <topic label="DateTimeSpan.days" href="birt/birt-21-18.html#wp175853" />
-        <topic label="DateTimeSpan.hours" href="birt/birt-21-18.html#wp175864" />
-        <topic label="DateTimeSpan.minutes" href="birt/birt-21-18.html#wp175986" />
-        <topic label="DateTimeSpan.months" href="birt/birt-21-18.html#wp126700" />
-        <topic label="DateTimeSpan.seconds" href="birt/birt-21-18.html#wp126756" />
-        <topic label="DateTimeSpan.subDate" href="birt/birt-21-18.html#wp126822" />
-        <topic label="DateTimeSpan.subTime" href="birt/birt-21-18.html#wp126846" />
-        <topic label="DateTimeSpan.years" href="birt/birt-21-18.html#wp175708" />
-        </topic>
-        </topic>
-    <topic label="Miscellaneous Classes" href="birt/birt-21-19.html" >
-      <topic label="Class  Color" href="birt/birt-21-20.html" />
-      <topic label="Class  Dimension" href="birt/birt-21-21.html" />
-      </topic>
-      </topic>
-  <topic label="Understanding the BIRT architecture" href="birt/birt-22-1.html" >
-    <topic label="Seeing the big picture" href="birt/birt-22-2.html" />
-    <topic label="Understanding the BIRT Report Designer" href="birt/birt-22-3.html" >
-      <topic label="Understanding a report item" href="birt/birt-22-3.html#wp98876" />
-      <topic label="Understanding a custom report item" href="birt/birt-22-3.html#wp98902" />
-      <topic label="Understanding a custom ODA extension" href="birt/birt-22-3.html#wp102546" />
-      </topic>
-    <topic label="Understanding a custom Java report designer" href="birt/birt-22-4.html" />
-    <topic label="Understanding the report design engine" href="birt/birt-22-5.html" >
-      <topic label="About the report design file" href="birt/birt-22-5.html#wp97736" />
-      <topic label="Understanding ROM" href="birt/birt-22-5.html#wp103467" />
-      </topic>
-    <topic label="Understanding the report viewer servlet" href="birt/birt-22-6.html" />
-    <topic label="Understanding a custom Java report generator" href="birt/birt-22-7.html" />
-    <topic label="Understanding the report generator" href="birt/birt-22-8.html" >
-      <topic label="Understanding the report engine" href="birt/birt-22-8.html#wp100208" />
-      <topic label="Understanding the data engine" href="birt/birt-22-8.html#wp100004" >
-        <topic label="Opening a data source" href="birt/birt-22-8.html#wp100010" />
-        <topic label="Executing a data set" href="birt/birt-22-8.html#wp102361" />
-        <topic label="Understanding a result set" href="birt/birt-22-8.html#wp102613" />
-        <topic label="Performing a data transform" href="birt/birt-22-8.html#wp102363" />
-        <topic label="Understanding a custom ODA extension" href="birt/birt-22-8.html#wp100017" />
-        </topic>
-        </topic>
-        </topic>
-  <topic label="Understanding the Report Object Model" href="birt/birt-23-1.html" >
-    <topic label="Understanding the ROM specification" href="birt/birt-23-2.html" >
-      <topic label="About the ROM schema" href="birt/birt-23-2.html#wp98483" />
-      <topic label="About rom.def" href="birt/birt-23-2.html#wp99098" />
-      </topic>
-    <topic label="Understanding the ROM elements" href="birt/birt-23-3.html" >
-      <topic label="About ROM name spaces" href="birt/birt-23-3.html#wp107863" />
-      <topic label="About ROM property elements" href="birt/birt-23-3.html#wp109780" />
-      </topic>
-    <topic label="Understanding the primary ROM elements" href="birt/birt-23-4.html" />
-    <topic label="Understanding the report item elements" href="birt/birt-23-5.html" >
-      <topic label="Understanding the report item element properties" href="birt/birt-23-5.html#wp111335" />
-      </topic>
-    <topic label="Understanding data elements" href="birt/birt-23-6.html" />
+  <topic label="Displaying text" href="birt/birt-06-1.html" >
+    <topic label="How to use a dynamic text element" href="birt/birt-06-2.html" />
     </topic>
-  <topic label="The Report Object Model reference" href="birt/birt-24-01.html" >
-    <topic label="ROM reference" href="birt/birt-24-02.html" >
-      <topic label="Cell" href="birt/birt-24-03.html" />
-      <topic label="Column" href="birt/birt-24-04.html" />
-      <topic label="Data" href="birt/birt-24-05.html" />
-      <topic label="DataSet" href="birt/birt-24-06.html" />
-      <topic label="DataSource" href="birt/birt-24-07.html" />
-      <topic label="DesignElement" href="birt/birt-24-08.html" />
-      <topic label="ExtendedItem" href="birt/birt-24-09.html" />
-      <topic label="Grid" href="birt/birt-24-10.html" />
-      <topic label="Image" href="birt/birt-24-11.html" />
-      <topic label="Label" href="birt/birt-24-12.html" />
-      <topic label="List" href="birt/birt-24-13.html" />
-      <topic label="ListGroup" href="birt/birt-24-14.html" />
-      <topic label="Listing" href="birt/birt-24-15.html" />
-      <topic label="ListingGroup" href="birt/birt-24-16.html" />
-      <topic label="MasterPage" href="birt/birt-24-17.html" />
-      <topic label="Module" href="birt/birt-24-18.html" />
-      <topic label="OdaDataSet" href="birt/birt-24-19.html" />
-      <topic label="OdaDataSource" href="birt/birt-24-20.html" />
-      <topic label="Parameter" href="birt/birt-24-21.html" />
-      <topic label="ParameterGroup" href="birt/birt-24-22.html" />
-      <topic label="ReportDesign" href="birt/birt-24-23.html" />
-      <topic label="ReportElement" href="birt/birt-24-24.html" />
-      <topic label="ReportItem" href="birt/birt-24-25.html" />
-      <topic label="Row" href="birt/birt-24-26.html" />
-      <topic label="ScalarParameter" href="birt/birt-24-27.html" />
-      <topic label="ScriptDataSet" href="birt/birt-24-28.html" />
-      <topic label="ScriptDataSource" href="birt/birt-24-29.html" />
-      <topic label="SimpleMasterPage" href="birt/birt-24-30.html" />
-      <topic label="Style Element" href="birt/birt-24-31.html" />
-      <topic label="Table" href="birt/birt-24-32.html" />
-      <topic label="TableGroup" href="birt/birt-24-33.html" />
-      <topic label="Text" href="birt/birt-24-34.html" />
-      <topic label="TextData" href="birt/birt-24-35.html" />
-      </topic>
-    <topic label="Understanding the ROM structures" href="birt/birt-24-36.html" >
-      <topic label="Action structure" href="birt/birt-24-37.html" />
-      <topic label="CachedMetaData structure" href="birt/birt-24-38.html" />
-      <topic label="ColumnHint structure" href="birt/birt-24-39.html" />
-      <topic label="ComputedColumn structure" href="birt/birt-24-40.html" />
-      <topic label="ConfigVar structure" href="birt/birt-24-41.html" />
-      <topic label="DataSetParam structure" href="birt/birt-24-42.html" />
-      <topic label="DateTimeFormatValue structure" href="birt/birt-24-43.html" />
-      <topic label="EmbeddedImage structure" href="birt/birt-24-44.html" />
-      <topic label="FilterCond structure" href="birt/birt-24-45.html" />
-      <topic label="HideRule structure" href="birt/birt-24-46.html" />
-      <topic label="HighlightRule structure" href="birt/birt-24-47.html" />
-      <topic label="IncludeLibrary structure" href="birt/birt-24-48.html" />
-      <topic label="IncludeScript structure" href="birt/birt-24-49.html" />
-      <topic label="MapRule structure" href="birt/birt-24-50.html" />
-      <topic label="NumberFormatValue structure" href="birt/birt-24-51.html" />
-      <topic label="ParamBinding structure" href="birt/birt-24-52.html" />
-      <topic label="PropertyMask structure" href="birt/birt-24-53.html" />
-      <topic label="ResultSetColumn structure" href="birt/birt-24-54.html" />
-      <topic label="SelectionChoice structure" href="birt/birt-24-55.html" />
-      <topic label="SortKey structure" href="birt/birt-24-56.html" />
-      <topic label="StringFormatValue structure" href="birt/birt-24-57.html" />
-      <topic label="UserProperty structure" href="birt/birt-24-58.html" />
-      </topic>
-      </topic>
-  <topic label="Understanding the BIRT plug-ins" href="birt/birt-25-1.html" >
-    <topic label="About the plug-in files" href="birt/birt-25-2.html" >
-      <topic label="About the manifest file" href="birt/birt-25-2.html#wp114172" />
-      <topic label="About additional plug-in files" href="birt/birt-25-2.html#wp94001" />
-      </topic>
-    <topic label="Understanding the individual BIRT plug-ins" href="birt/birt-25-3.html" >
-      <topic label="About org.eclipse.birt.chart.device.extension" href="birt/birt-25-3.html#wp109682" />
-      <topic label="About org.eclipse.birt.chart.device.svg" href="birt/birt-25-3.html#wp117296" />
-      <topic label="About org.eclipse.birt.chart.engine" href="birt/birt-25-3.html#wp94022" />
-      <topic label="About org.eclipse.birt.chart.engine.extension" href="birt/birt-25-3.html#wp116304" />
-      <topic label="About org.eclipse.birt.chart.engine.examples" href="birt/birt-25-3.html#wp116373" />
-      <topic label="About org.eclipse.birt.chart.reportitem" href="birt/birt-25-3.html#wp94172" />
-      <topic label="About org.eclipse.birt.chart.ui" href="birt/birt-25-3.html#wp94241" />
-      <topic label="About org.eclipse.birt.chart.ui.extension" href="birt/birt-25-3.html#wp116639" />
-      <topic label="About org.eclipse.birt.core" href="birt/birt-25-3.html#wp94284" />
-      <topic label="About org.eclipse.birt.data" href="birt/birt-25-3.html#wp94335" />
-      <topic label="About org.eclipse.birt.data.oda" href="birt/birt-25-3.html#wp116785" />
-      <topic label="About org.eclipse.birt.data.oda.flatfile.ui" href="birt/birt-25-3.html#wp103401" />
-      <topic label="About org.eclipse.birt.data.oda.flatfile" href="birt/birt-25-3.html#wp112940" />
-      <topic label="About org.eclipse.birt.report.data.oda.jdbc.ui" href="birt/birt-25-3.html#wp94422" />
-      <topic label="About org.eclipse.birt.report.data.oda.jdbc" href="birt/birt-25-3.html#wp94489" />
-      <topic label="About org.eclipse.birt.report.data.oda.sampledb" href="birt/birt-25-3.html#wp103723" />
-      <topic label="About org.eclipse.birt.report.data.oda.sampledb.ui" href="birt/birt-25-3.html#wp116915" />
-      <topic label="About org.eclipse.birt.report.designer.core" href="birt/birt-25-3.html#wp94524" />
-      <topic label="About org.eclipse.birt.report.designer.rcp.ui" href="birt/birt-25-3.html#wp117097" />
-      <topic label="About org.eclipse.birt.report.designer.ui" href="birt/birt-25-3.html#wp94559" />
-      <topic label="About org.eclipse.birt.report.engine.emitter.fo" href="birt/birt-25-3.html#wp94778" />
-      <topic label="About org.eclipse.birt.engine.emitter.html" href="birt/birt-25-3.html#wp94805" />
-      <topic label="About org.eclipse.birt.report.engine" href="birt/birt-25-3.html#wp94820" />
-      <topic label="About org.eclipse.birt.report.model" href="birt/birt-25-3.html#wp113683" />
-      <topic label="About org.eclipse.birt.report.viewer" href="birt/birt-25-3.html#wp94986" />
-      </topic>
-      </topic>
-  <topic label="Understanding the BIRT APIs" href="birt/birt-26-1.html" >
-    <topic label="About the design engine API" href="birt/birt-26-2.html" />
-    <topic label="About the BIRT report engine API" href="birt/birt-26-3.html" >
-      <topic label="Creating the BIRT report engine" href="birt/birt-26-3.html#wp139285" />
-      <topic label="Using the BIRT report engine API" href="birt/birt-26-3.html#wp138970" >
-        <topic label="EngineConfig class" href="birt/birt-26-3.html#wp139717" />
-        <topic label="ReportEngine class" href="birt/birt-26-3.html#wp140315" />
-        <topic label="IReportRunnable class" href="birt/birt-26-3.html#wp139943" />
-        <topic label="IEngineTask class" href="birt/birt-26-3.html#wp140113" />
-        <topic label="IGetParameterDefinitionTask class" href="birt/birt-26-3.html#wp140591" />
-        <topic label="IRunAndRenderReportTask" href="birt/birt-26-3.html#wp140593" />
-        </topic>
-        </topic>
-    <topic label="About the chart engine API" href="birt/birt-26-4.html" >
-      <topic label="Chart hierarchy diagrams" href="birt/birt-26-4.html#wp130696" />
-      </topic>
-      </topic>
-  <topic label="Programming with the BIRT reporting APIs" href="birt/birt-27-1.html" >
-    <topic label="Building a reporting application" href="birt/birt-27-2.html" >
-      <topic label="Modifying a report design with the API" href="birt/birt-27-2.html#wp95012" />
-      <topic label="About the environment for a reporting application" href="birt/birt-27-2.html#wp100283" >
-        <topic label="About the environment for a reporting application" href="birt/birt-27-2.html#wp100283" >
-          <topic label="How to set up a BIRT engine home" href="birt/birt-27-2.html#wp104641" />
-          </topic>
-        <topic label="About required BIRT plug-ins" href="birt/birt-27-2.html#wp104973" />
-        <topic label="About required drivers" href="birt/birt-27-2.html#wp100567" />
-        <topic label="About required libraries" href="birt/birt-27-2.html#wp100538" />
-        </topic>
-        </topic>
-    <topic label="Generating reports from an application" href="birt/birt-27-3.html" >
-      <topic label="Creating the report engine" href="birt/birt-27-3.html#wp96175" >
-        <topic label="How to set up a report engine" href="birt/birt-27-3.html#wp101614" />
-        </topic>
-      <topic label="Opening a report design" href="birt/birt-27-3.html#wp101493" >
-        <topic label="How to open a report design" href="birt/birt-27-3.html#wp96202" />
-        </topic>
-      <topic label="Preparing to generate the report" href="birt/birt-27-3.html#wp96446" >
-        <topic label="How to configure properties for a report in HTML format" href="birt/birt-27-3.html#wp101933" />
-        </topic>
-      <topic label="Generating the formatted output" href="birt/birt-27-3.html#wp101498" >
-        <topic label="How to generate a report" href="birt/birt-27-3.html#wp101600" />
-        </topic>
-      <topic label="Accessing the formatted output" href="birt/birt-27-3.html#wp101601" />
-      <topic label="Using a parameter" href="birt/birt-27-3.html#wp101478" >
-        <topic label="How to use parameters" href="birt/birt-27-3.html#wp101488" />
-        </topic>
-        </topic>
-    <topic label="About programming with a report design" href="birt/birt-27-4.html" >
-      <topic label="About BIRT model API capabilities" href="birt/birt-27-4.html#wp101246" />
-      <topic label="Adding a report item to a report design" href="birt/birt-27-4.html#wp105485" >
-        <topic label="How to add a grid item and label item to a report design" href="birt/birt-27-4.html#wp105493" />
-        </topic>
-      <topic label="Creating a report design programmatically" href="birt/birt-27-4.html#wp102153" >
-        <topic label="How to create a new report design" href="birt/birt-27-4.html#wp102160" />
-        </topic>
-      <topic label="Saving a report design" href="birt/birt-27-4.html#wp105519" >
-        <topic label="How to save a report design" href="birt/birt-27-4.html#wp101170" />
-        </topic>
-      <topic label="Generating a report from a newly created or modified design" href="birt/birt-27-4.html#wp102341" />
-      </topic>
-      </topic>
-  <topic label="Extending BIRT" href="birt/birt-28-1.html" >
-    <topic label="Overview of the extension framework" href="birt/birt-28-2.html" >
-      <topic label="About the BIRT Report Item Extension API" href="birt/birt-28-2.html#wp93998" />
-      <topic label="About the BIRT Open Data Access (ODA) Extension API" href="birt/birt-28-2.html#wp118606" />
-      <topic label="About the BIRT Report Rendering Extension API" href="birt/birt-28-2.html#wp118631" />
-      <topic label="About the BIRT Chart Extension API" href="birt/birt-28-2.html#wp118759" />
-      <topic label="About the BIRT Chart Device Rendering Extension API" href="birt/birt-28-2.html#wp124713" />
-      <topic label="Understanding a report item extension" href="birt/birt-28-2.html#wp104478" />
-      <topic label="Understanding an Open Data Access (ODA) extension" href="birt/birt-28-2.html#wp103560" />
-      <topic label="Understanding a rendering extension" href="birt/birt-28-2.html#wp105910" />
-      <topic label="Understanding a charting extension" href="birt/birt-28-2.html#wp123982" >
-        <topic label="Implementing the chart engine extension points" href="birt/birt-28-2.html#wp124123" />
-        <topic label="Implementing the chart builder user interface extension points" href="birt/birt-28-2.html#wp124426" />
-        </topic>
-      <topic label="Understanding a chart rendering extension" href="birt/birt-28-2.html#wp124008" />
-      </topic>
-    <topic label="Extending BIRT with the Eclipse Plug-in Development Environment" href="birt/birt-28-3.html" >
-      <topic label="Understanding the structure of a BIRT plug-in" href="birt/birt-28-3.html#wp113275" >
-        <topic label="Understanding an XML manifest file" href="birt/birt-28-3.html#wp102876" />
-        <topic label="Understanding a plug-in run-time class" href="birt/birt-28-3.html#wp107595" />
-        <topic label="Understanding an XML schema" href="birt/birt-28-3.html#wp97384" />
-        </topic>
-      <topic label="Working with the Eclipse Plug-in Development Environment" href="birt/birt-28-3.html#wp108262" >
-        <topic label="Working with the Eclipse Plug-in Development Environment" href="birt/birt-28-3.html#wp108262" >
-          <topic label="How to choose the Plug-in Development perspective" href="birt/birt-28-3.html#wp98186" />
-          <topic label="How to set up a new plug-in project" href="birt/birt-28-3.html#wp99205" />
-          </topic>
-        <topic label="Understanding the Eclipse PDE Workbench" href="birt/birt-28-3.html#wp99270" />
-        </topic>
-      <topic label="Creating the structure of a plug-in extension" href="birt/birt-28-3.html#wp99348" >
-        <topic label="How to specify the plug-in dependencies" href="birt/birt-28-3.html#wp94410" />
-        <topic label="How to verify the plug-in run-time archive" href="birt/birt-28-3.html#wp130368" />
-        <topic label="How to specify the plug-in extension" href="birt/birt-28-3.html#wp94463" />
-        </topic>
-      <topic label="Creating the plug-in extension content" href="birt/birt-28-3.html#wp130587" >
-        <topic label="How to search for and view extension point information" href="birt/birt-28-3.html#wp98872" />
-        <topic label="How to specify plug-in extension content" href="birt/birt-28-3.html#wp99497" />
-        <topic label="How to build a plug-in extension" href="birt/birt-28-3.html#wp130745" />
-        </topic>
-      <topic label="Testing and deploying a plug-in extension" href="birt/birt-28-3.html#wp130228" >
-        <topic label="How to launch a run-time workbench" href="birt/birt-28-3.html#wp130238" />
-        <topic label="How to deploy a plug-in extension" href="birt/birt-28-3.html#wp131396" />
-        </topic>
-        </topic>
-    <topic label="Understanding the sample report item extension" href="birt/birt-28-4.html" >
-      <topic label="About configuring a plug-in project" href="birt/birt-28-4.html#wp132179" />
-      <topic label="About adding a report item definition to the Report Object Model (ROM)" href="birt/birt-28-4.html#wp131864" />
-      <topic label="About adding a report item to the Report Designer UI" href="birt/birt-28-4.html#wp131872" />
-      <topic label="About adding rendering behavior to a report item extension" href="birt/birt-28-4.html#wp131879" />
-      <topic label="About deploying a report item extension to the Viewer application container" href="birt/birt-28-4.html#wp132032" />
-      </topic>
-      </topic>
-  <topic label="Building the BIRT project" href="birt/birt-29-1.html" >
-    <topic label="Building the BIRT project" href="birt/birt-29-2.html" >
-      <topic label="Configuring Eclipse to compile BIRT" href="birt/birt-29-2.html#wp94005" />
-      <topic label="Configuring your Eclipse workbench" href="birt/birt-29-2.html#wp94016" />
-      <topic label="Downloading the necessary BIRT source code" href="birt/birt-29-2.html#wp94035" />
-      </topic>
-    <topic label="Building the BIRT report viewer" href="birt/birt-29-3.html" />
+  <topic label="Formatting report content" href="birt/birt-07-01.html" >
+    <topic label="How to create a style" href="birt/birt-07-02.html" />
+    <topic label="How to import styles" href="birt/birt-07-03.html" />
+    <topic label="How to apply a style" href="birt/birt-07-04.html" />
+    <topic label="How to modify a style" href="birt/birt-07-05.html" />
+    <topic label="How to delete a style" href="birt/birt-07-06.html" />
+    <topic label="How to create a formatting rule" href="birt/birt-07-07.html" />
+    <topic label="How to modify a formatting rule" href="birt/birt-07-08.html" />
+    <topic label="How to delete a formatting rule" href="birt/birt-07-09.html" />
+    <topic label="How to resize a column or row by dragging its boundary" href="birt/birt-07-10.html" />
+    <topic label="How to specify a row height" href="birt/birt-07-11.html" />
+    <topic label="How to specify a column width" href="birt/birt-07-12.html" />
+    <topic label="How to merge table or grid cells" href="birt/birt-07-13.html" />
+    <topic label="How to conditionally hide an element" href="birt/birt-07-14.html" />
     </topic>
-  <topic label="Glossary" href="birt/birt-30-01.html" >
-    <topic label="A" href="birt/birt-30-02.html" />
-    <topic label="B" href="birt/birt-30-03.html" />
-    <topic label="C" href="birt/birt-30-04.html" />
-    <topic label="D" href="birt/birt-30-05.html" />
-    <topic label="E" href="birt/birt-30-06.html" />
-    <topic label="F" href="birt/birt-30-07.html" />
-    <topic label="G" href="birt/birt-30-08.html" />
-    <topic label="H" href="birt/birt-30-09.html" />
-    <topic label="I" href="birt/birt-30-10.html" />
-    <topic label="J" href="birt/birt-30-11.html" />
-    <topic label="K-L" href="birt/birt-30-12.html" />
-    <topic label="M" href="birt/birt-30-13.html" />
-    <topic label="N" href="birt/birt-30-14.html" />
-    <topic label="O" href="birt/birt-30-15.html" />
-    <topic label="P" href="birt/birt-30-16.html" />
-    <topic label="Q" href="birt/birt-30-17.html" />
-    <topic label="R" href="birt/birt-30-18.html" />
-    <topic label="S" href="birt/birt-30-19.html" />
-    <topic label="T" href="birt/birt-30-20.html" />
-    <topic label="U" href="birt/birt-30-21.html" />
-    <topic label="V" href="birt/birt-30-22.html" />
-    <topic label="W" href="birt/birt-30-23.html" />
-    <topic label="X-Z" href="birt/birt-30-24.html" />
+  <topic label="Designing a multi-page report" href="birt/birt-08-1.html" >
+    <topic label="How to display text in the header and footer" href="birt/birt-08-2.html" />
+    <topic label="How to exclude header content from the first page" href="birt/birt-08-3.html" />
+    <topic label="How to specify a header or footer size" href="birt/birt-08-4.html" />
     </topic>
+  <topic label="Sorting and grouping data" href="birt/birt-09-1.html" >
+    <topic label="Tutorial 2:  Grouping report data" href="birt/birt-09-2.html" >
+      <topic label="Task 1:  Open the report design" href="birt/birt-09-2.html#wp138858" />
+      <topic label="Task 2:  Save the report as a new file" href="birt/birt-09-2.html#wp138872" />
+      <topic label="Task 3:  Add the credit limit field to the data set" href="birt/birt-09-2.html#wp150811" />
+      <topic label="Task 4:  Add credit limit data to the report" href="birt/birt-09-2.html#wp138888" />
+      <topic label="Task 5:  Group customer data by credit limit" href="birt/birt-09-2.html#wp138916" />
+      <topic label="Task 6:  Display credit limit ranges in the group header" href="birt/birt-09-2.html#wp138956" />
+      <topic label="Task 7:  Display aggregate information" href="birt/birt-09-2.html#wp150725" />
+      <topic label="Task 8:  Format the report" href="birt/birt-09-2.html#wp139037" >
+        <topic label="Remove credit limit data from the detail rows" href="birt/birt-09-2.html#wp139052" />
+        <topic label="Display group headings on the first row of each group" href="birt/birt-09-2.html#wp139063" />
+        <topic label="Separate each group with a line" href="birt/birt-09-2.html#wp139086" />
+        </topic>
+        </topic>
+        </topic>
+  <topic label="Aggregating data" href="birt/birt-10-1.html" >
+    <topic label="How to construct an aggregate expression in Expression Builder" href="birt/birt-10-2.html" />
+    </topic>
+  <topic label="Writing expressions" href="birt/birt-11-1.html" />
+  <topic label="Filtering data" href="birt/birt-12-1.html" >
+    <topic label="How to filter the rows to retrieve from a JDBC data source" href="birt/birt-12-2.html" />
+    <topic label="How to filter at the data set level" href="birt/birt-12-3.html" />
+    <topic label="How to filter at the report element level" href="birt/birt-12-4.html" />
+    <topic label="How to filter at the group level" href="birt/birt-12-5.html" />
+    </topic>
+  <topic label="Enabling the user to filter data" href="birt/birt-13-1.html" >
+    <topic label="Steps for enabling the user to filter database data" href="birt/birt-13-2.html" />
+    <topic label="How to insert a parameter marker in the SQL query" href="birt/birt-13-3.html" />
+    <topic label="How to create a data set parameter" href="birt/birt-13-4.html" />
+    <topic label="How to create a simple report parameter" href="birt/birt-13-5.html" />
+    <topic label="How to bind a data set parameter to a report parameter" href="birt/birt-13-6.html" />
+    <topic label="How to dynamically update a filter condition at run time" href="birt/birt-13-7.html" />
+    </topic>
+  <topic label="Building a report with subreports" href="birt/birt-14-1.html" >
+    <topic label="Tutorial 3:  Building a report with side-by-side subreports" href="birt/birt-14-2.html" >
+      <topic label="Task 1:  Create a new report" href="birt/birt-14-2.html#wp138158" />
+      <topic label="Task 2:  Build a data source" href="birt/birt-14-2.html#wp138184" />
+      <topic label="Task 3:  Build a data set for the customer report" href="birt/birt-14-2.html#wp138206" />
+      <topic label="Task 4:  Build a data set for the orders subreport" href="birt/birt-14-2.html#wp138244" />
+      <topic label="Task 5:  Build a data set for the payments subreport" href="birt/birt-14-2.html#wp138289" />
+      <topic label="Task 6:  Create the customer master report" href="birt/birt-14-2.html#wp138325" />
+      <topic label="Task 7:  Create the orders subreport" href="birt/birt-14-2.html#wp138371" />
+      <topic label="Task 8:  Link the orders subreport to the master report" href="birt/birt-14-2.html#wp138407" />
+      <topic label="Task 9:  Create the payments subreport" href="birt/birt-14-2.html#wp138445" />
+      <topic label="Task 10:  Link the payments subreport to the master report" href="birt/birt-14-2.html#wp138483" />
+      <topic label="Task 11:  Display only customers that have orders or payments" href="birt/birt-14-2.html#wp138499" />
+      <topic label="Task 12:  Display the subreports side by side" href="birt/birt-14-2.html#wp138534" />
+      <topic label="Task 13:  Format the report" href="birt/birt-14-2.html#wp138560" >
+        <topic label="Highlight the customer names" href="birt/birt-14-2.html#wp138599" />
+        <topic label="Edit the column headings" href="birt/birt-14-2.html#wp138610" />
+        <topic label="Change the date formats" href="birt/birt-14-2.html#wp138637" />
+        <topic label="Change the number formats" href="birt/birt-14-2.html#wp138691" />
+        <topic label="Increase the vertical space between elements" href="birt/birt-14-2.html#wp138733" />
+        <topic label="Increase the horizontal space between the orders and payments tables" href="birt/birt-14-2.html#wp138793" />
+        <topic label="Add borders around the tables" href="birt/birt-14-2.html#wp138822" />
+        <topic label="Increase the space between the table borders and its contents" href="birt/birt-14-2.html#wp138851" />
+        <topic label="Align the tops of the tables" href="birt/birt-14-2.html#wp138883" />
+        </topic>
+        </topic>
+        </topic>
+  <topic label="Using a chart in a report" href="birt/birt-15-1.html" >
+    <topic label="Tutorial 4:  Creating a chart" href="birt/birt-15-2.html" >
+      <topic label="Task 1:  Set up the report design file" href="birt/birt-15-2.html#wp166986" />
+      <topic label="Task 2:  Add the chart to the report" href="birt/birt-15-2.html#wp167083" />
+      <topic label="Task 3:  Providing data for a chart" href="birt/birt-15-2.html#wp168342" />
+      <topic label="Task 4:  Review the chart" href="birt/birt-15-2.html#wp167161" />
+      <topic label="Task 5:  Updating chart titles" href="birt/birt-15-2.html#wp167173" />
+      <topic label="Task 6:  Refine the chart appearance" href="birt/birt-15-2.html#wp167257" />
+      </topic>
+      </topic>
+  <topic label="Working with chart data" href="birt/birt-16-01.html" >
+    <topic label="How to select a chart data set" href="birt/birt-16-02.html" />
+    <topic label="How to set up an area, bar, or line chart using one series or a value series grouping key" href="birt/birt-16-03.html" />
+    <topic label="How to specify data for a meter chart using one meter value series or a series grouping key" href="birt/birt-16-04.html" />
+    <topic label="How to specify data for a pie chart using one series or a series grouping key" href="birt/birt-16-05.html" />
+    <topic label="How to specify data for a scatter chart" href="birt/birt-16-06.html" />
+    <topic label="How to specify data for a stock chart using one value series or a series grouping key" href="birt/birt-16-07.html" />
+    <topic label="How to sort category series data" href="birt/birt-16-08.html" />
+    <topic label="How to group category series data" href="birt/birt-16-09.html" />
+    <topic label="How to define a scatter chart x axis as a value or category axis" href="birt/birt-16-10.html" />
+    <topic label="How to set the data type and format of an axis" href="birt/birt-16-11.html" />
+    <topic label="How to change chart preview preferences" href="birt/birt-16-12.html" />
+    </topic>
+  <topic label="Laying out and formatting a chart" href="birt/birt-17-01.html" >
+    <topic label="How to set the chart background color" href="birt/birt-17-02.html" />
+    <topic label="How to add an outline to a chart" href="birt/birt-17-03.html" />
+    <topic label="How to set the wall or floor color in a chart with depth or a three-dimensional chart" href="birt/birt-17-04.html" />
+    <topic label="How to set a standard chart unit" href="birt/birt-17-05.html" />
+    <topic label="How to set chart area insets" href="birt/birt-17-06.html" />
+    <topic label="How to set a background color for the plot" href="birt/birt-17-07.html" />
+    <topic label="How to outline the plot area" href="birt/birt-17-08.html" />
+    <topic label="How to shadow the plot area within the axes" href="birt/birt-17-09.html" />
+    <topic label="How to adjust the placement and padding of a chart plot" href="birt/birt-17-10.html" />
+    <topic label="How to specify the data the legend displays" href="birt/birt-17-11.html" />
+    <topic label="How to add an axis title" href="birt/birt-17-12.html" />
+    <topic label="How to format an axis title" href="birt/birt-17-13.html" />
+    <topic label="How to add a value series title in a meter or pie chart" href="birt/birt-17-14.html" />
+    <topic label="How to format a value series title in a meter or pie chart" href="birt/birt-17-15.html" />
+    <topic label="How to create an axis marker" href="birt/birt-17-16.html" />
+    <topic label="How to format a marker line" href="birt/birt-17-17.html" />
+    <topic label="How to format a marker range" href="birt/birt-17-18.html" />
+    <topic label="How to add a marker label" href="birt/birt-17-19.html" />
+    <topic label="How to modify an axis line" href="birt/birt-17-20.html" />
+    <topic label="How to modify axis tick marks" href="birt/birt-17-21.html" />
+    <topic label="How to add or modify gridlines" href="birt/birt-17-22.html" />
+    </topic>
+  <topic label="Adding interactive viewing features" href="birt/birt-18-1.html" >
+    <topic label="How to create a bookmark" href="birt/birt-18-2.html" />
+    <topic label="How to link two report sections" href="birt/birt-18-3.html" />
+    <topic label="How to link two reports" href="birt/birt-18-4.html" />
+    <topic label="How to create a table of contents entry" href="birt/birt-18-5.html" />
+    <topic label="How to export report data" href="birt/birt-18-6.html" />
+    <topic label="How to link a chart to a web page, document, or image" href="birt/birt-18-7.html" />
+    </topic>
+  <topic label="Building a shared report development framework" href="birt/birt-19-1.html" />
+  <topic label="Localizing text" href="birt/birt-20-1.html" >
+    <topic label="How to assign a resource file to a report" href="birt/birt-20-2.html" />
+    <topic label="How to assign an existing resource key to a label or text element" href="birt/birt-20-3.html" />
+    <topic label="How to preview a report in a different locale" href="birt/birt-20-4.html" />
+    </topic>
+  <topic label="Using scripting in a report design" href="birt/birt-21-1.html" >
+    <topic label="Using scripting in a report design" href="birt/birt-21-1.html" >
+      <topic label="Determining method execution sequence" href="birt/birt-21-1.html#wp181845" >
+        <topic label="Providing the ReportDesign.initialize code" href="birt/birt-21-1.html#wp181855" />
+        <topic label="Providing the code for the methods you want to track" href="birt/birt-21-1.html#wp181882" />
+        <topic label="Providing the ReportDesign.afterFactory code" href="birt/birt-21-1.html#wp181888" />
+        </topic>
+        </topic>
+    <topic label="How to use BIRT Report Designer to enter a JavaScript event handler" href="birt/birt-21-2.html" />
+    <topic label="Tutorial 5:  Writing an event handler in JavaScript" href="birt/birt-21-3.html" >
+      <topic label="Task 1:  Open the report design" href="birt/birt-21-3.html#wp152597" />
+      <topic label="Task 2:  Create and initialize a counter in the Table.onStart( ) method" href="birt/birt-21-3.html#wp138953" />
+      <topic label="Task 3:  Conditionally increment the counter in the Table.onRow( ) method" href="birt/birt-21-3.html#wp138983" />
+      <topic label="Task 4:  Display the result, using the Table.onFinish( ) method" href="birt/birt-21-3.html#wp139017" />
+      </topic>
+    <topic label="How to create a Java class and add it to the Java project" href="birt/birt-21-4.html" />
+    <topic label="How to associate a Java class with a report element" href="birt/birt-21-5.html" />
+    </topic>
+  <topic label="Scripting reference" href="birt/birt-22-1.html" >
+    <topic label="Class  DateTimeSpan" href="birt/birt-22-2.html" >
+      <topic label="DateTimeSpan.addDate" href="birt/birt-22-2.html#wp188223" />
+      <topic label="DateTimeSpan.addTime" href="birt/birt-22-2.html#wp188264" />
+      <topic label="DateTimeSpan.days" href="birt/birt-22-2.html#wp188296" />
+      <topic label="DateTimeSpan.hours" href="birt/birt-22-2.html#wp188311" />
+      <topic label="DateTimeSpan.minutes" href="birt/birt-22-2.html#wp188326" />
+      <topic label="DateTimeSpan.months" href="birt/birt-22-2.html#wp188341" />
+      <topic label="DateTimeSpan.seconds" href="birt/birt-22-2.html#wp188356" />
+      <topic label="DateTimeSpan.subDate" href="birt/birt-22-2.html#wp188372" />
+      <topic label="DateTimeSpan.subTime" href="birt/birt-22-2.html#wp188406" />
+      <topic label="DateTimeSpan.years" href="birt/birt-22-2.html#wp188439" />
+      </topic>
+    <topic label="Class  Finance" href="birt/birt-22-3.html" >
+      <topic label="Finance.ddb" href="birt/birt-22-3.html#wp188895" />
+      <topic label="Finance.fv" href="birt/birt-22-3.html#wp188935" />
+      <topic label="Finance.ipmt" href="birt/birt-22-3.html#wp188995" />
+      <topic label="Finance.irr" href="birt/birt-22-3.html#wp189056" />
+      <topic label="Finance.mirr" href="birt/birt-22-3.html#wp189095" />
+      <topic label="Finance.nper" href="birt/birt-22-3.html#wp189131" />
+      <topic label="Finance.npv" href="birt/birt-22-3.html#wp189190" />
+      <topic label="Finance.percent" href="birt/birt-22-3.html#wp189214" />
+      <topic label="Finance.pmt" href="birt/birt-22-3.html#wp189238" />
+      <topic label="Finance.ppmt" href="birt/birt-22-3.html#wp189296" />
+      <topic label="Finance.pv" href="birt/birt-22-3.html#wp189358" />
+      <topic label="Finance.rate" href="birt/birt-22-3.html#wp189421" />
+      <topic label="Finance.sln" href="birt/birt-22-3.html#wp189487" />
+      <topic label="Finance.syd" href="birt/birt-22-3.html#wp189516" />
+      </topic>
+    <topic label="Class  Total" href="birt/birt-22-4.html" >
+      <topic label="Total.ave" href="birt/birt-22-4.html#wp102101" />
+      <topic label="Total.count" href="birt/birt-22-4.html#wp102151" />
+      <topic label="Total.countDistinct" href="birt/birt-22-4.html#wp102183" />
+      <topic label="Total.first" href="birt/birt-22-4.html#wp102212" />
+      <topic label="Total.irr" href="birt/birt-22-4.html#wp102249" />
+      <topic label="Total.last" href="birt/birt-22-4.html#wp102261" />
+      <topic label="Total.max" href="birt/birt-22-4.html#wp102298" />
+      <topic label="Total.median" href="birt/birt-22-4.html#wp102335" />
+      <topic label="Total.min" href="birt/birt-22-4.html#wp102385" />
+      <topic label="Total.mirr" href="birt/birt-22-4.html#wp102421" />
+      <topic label="Total.mode" href="birt/birt-22-4.html#wp102434" />
+      <topic label="Total.movingAve" href="birt/birt-22-4.html#wp102482" />
+      <topic label="Total.npv" href="birt/birt-22-4.html#wp102534" />
+      <topic label="Total.runningNpv" href="birt/birt-22-4.html#wp102545" />
+      <topic label="Total.runningSum" href="birt/birt-22-4.html#wp102562" />
+      <topic label="Total.stdDev" href="birt/birt-22-4.html#wp102596" />
+      <topic label="Total.sum" href="birt/birt-22-4.html#wp102642" />
+      <topic label="Total.variance" href="birt/birt-22-4.html#wp102673" />
+      <topic label="Total.weightedAve" href="birt/birt-22-4.html#wp102719" />
+      </topic>
+      </topic>
+  <topic label="Report Object Model reference" href="birt/birt-23-01.html" >
+    <topic label="CascadingParameterGroup" href="birt/birt-23-02.html" />
+    <topic label="Cell" href="birt/birt-23-03.html" />
+    <topic label="Column" href="birt/birt-23-04.html" />
+    <topic label="Data" href="birt/birt-23-05.html" />
+    <topic label="DataSet" href="birt/birt-23-06.html" />
+    <topic label="DataSource" href="birt/birt-23-07.html" />
+    <topic label="DesignElement" href="birt/birt-23-08.html" />
+    <topic label="ExtendedItem" href="birt/birt-23-09.html" />
+    <topic label="Grid" href="birt/birt-23-10.html" />
+    <topic label="Image" href="birt/birt-23-11.html" />
+    <topic label="Label" href="birt/birt-23-12.html" />
+    <topic label="Library" href="birt/birt-23-13.html" />
+    <topic label="List" href="birt/birt-23-14.html" />
+    <topic label="ListGroup" href="birt/birt-23-15.html" />
+    <topic label="Listing" href="birt/birt-23-16.html" />
+    <topic label="ListingGroup" href="birt/birt-23-17.html" />
+    <topic label="MasterPage" href="birt/birt-23-18.html" />
+    <topic label="Module" href="birt/birt-23-19.html" />
+    <topic label="OdaDataSet" href="birt/birt-23-20.html" />
+    <topic label="OdaDataSource" href="birt/birt-23-21.html" />
+    <topic label="Parameter" href="birt/birt-23-22.html" />
+    <topic label="ParameterGroup" href="birt/birt-23-23.html" />
+    <topic label="ReportDesign" href="birt/birt-23-24.html" />
+    <topic label="ReportElement" href="birt/birt-23-25.html" />
+    <topic label="ReportItem" href="birt/birt-23-26.html" />
+    <topic label="Row" href="birt/birt-23-27.html" />
+    <topic label="ScalarParameter" href="birt/birt-23-28.html" />
+    <topic label="ScriptDataSet" href="birt/birt-23-29.html" />
+    <topic label="ScriptDataSource" href="birt/birt-23-30.html" />
+    <topic label="SimpleMasterPage" href="birt/birt-23-31.html" />
+    <topic label="Style" href="birt/birt-23-32.html" />
+    <topic label="Table" href="birt/birt-23-33.html" />
+    <topic label="TableGroup" href="birt/birt-23-34.html" />
+    <topic label="TemplateDataSet" href="birt/birt-23-35.html" />
+    <topic label="TemplateElement" href="birt/birt-23-36.html" />
+    <topic label="TemplateParameterDefinition" href="birt/birt-23-37.html" />
+    <topic label="TemplateReportItem" href="birt/birt-23-38.html" />
+    <topic label="Text" href="birt/birt-23-39.html" />
+    <topic label="TextData" href="birt/birt-23-40.html" />
+    <topic label="Understanding the ROM structures" href="birt/birt-23-41.html" />
+    <topic label="Action structure" href="birt/birt-23-42.html" />
+    <topic label="CachedMetaData structure" href="birt/birt-23-43.html" />
+    <topic label="ColumnHint structure" href="birt/birt-23-44.html" />
+    <topic label="ComputedColumn structure" href="birt/birt-23-45.html" />
+    <topic label="ConfigVar structure" href="birt/birt-23-46.html" />
+    <topic label="DataSetParam structure" href="birt/birt-23-47.html" />
+    <topic label="DataSetParamBinding structure" href="birt/birt-23-48.html" />
+    <topic label="DateTimeFormatValue structure" href="birt/birt-23-49.html" />
+    <topic label="EmbeddedImage structure" href="birt/birt-23-50.html" />
+    <topic label="ExtendedProperty structure" href="birt/birt-23-51.html" />
+    <topic label="FilterCondition structure" href="birt/birt-23-52.html" />
+    <topic label="HideRule structure" href="birt/birt-23-53.html" />
+    <topic label="HighlightRule structure" href="birt/birt-23-54.html" />
+    <topic label="IncludeScript structure" href="birt/birt-23-55.html" />
+    <topic label="MapRule structure" href="birt/birt-23-56.html" />
+    <topic label="NumberFormatValue structure" href="birt/birt-23-57.html" />
+    <topic label="ParamBinding structure" href="birt/birt-23-58.html" />
+    <topic label="PropertyMask structure" href="birt/birt-23-59.html" />
+    <topic label="ResultSetColumn structure" href="birt/birt-23-60.html" />
+    <topic label="SelectionChoice structure" href="birt/birt-23-61.html" />
+    <topic label="SortKey structure" href="birt/birt-23-62.html" />
+    <topic label="StringFormatValue structure" href="birt/birt-23-63.html" />
+    <topic label="UserProperty structure" href="birt/birt-23-64.html" />
+    </topic>
+  <topic label="Understanding the BIRT plug-ins" href="birt/birt-24-1.html" >
+    <topic label="About the plug-in files" href="birt/birt-24-2.html" >
+      <topic label="About the manifest file" href="birt/birt-24-2.html#wp138107" />
+      <topic label="About additional plug-in files" href="birt/birt-24-2.html#wp138115" />
+      </topic>
+    <topic label="Understanding the individual BIRT plug-ins" href="birt/birt-24-3.html" >
+      <topic label="About org.eclipse.birt.chart.device.extension" href="birt/birt-24-3.html#wp138140" />
+      <topic label="About org.eclipse.birt.chart.device.svg" href="birt/birt-24-3.html#wp138178" />
+      <topic label="About org.eclipse.birt.chart.engine" href="birt/birt-24-3.html#wp138212" />
+      <topic label="About org.eclipse.birt.chart.engine.extension" href="birt/birt-24-3.html#wp138385" />
+      <topic label="About org.eclipse.birt.chart.reportitem" href="birt/birt-24-3.html#wp138473" />
+      <topic label="About org.eclipse.birt.chart.ui" href="birt/birt-24-3.html#wp138524" />
+      <topic label="About org.eclipse.birt.chart.ui.extension" href="birt/birt-24-3.html#wp138592" />
+      <topic label="About org.eclipse.birt.core" href="birt/birt-24-3.html#wp138652" />
+      <topic label="About org.eclipse.birt.core.ui" href="birt/birt-24-3.html#wp141035" />
+      <topic label="About org.eclipse.birt.data" href="birt/birt-24-3.html#wp138714" />
+      <topic label="About org.eclipse.birt.data.oda" href="birt/birt-24-3.html#wp138786" />
+      <topic label="About org.eclipse.birt.data.oda.adapter.dtp" href="birt/birt-24-3.html#wp142094" />
+      <topic label="About org.eclipse.birt.doc" href="birt/birt-24-3.html#wp141900" />
+      <topic label="About org.eclipse.birt.report.data.oda.flatfile.ui" href="birt/birt-24-3.html#wp141883" />
+      <topic label="About org.eclipse.birt.report.data.oda.flatfile" href="birt/birt-24-3.html#wp138869" />
+      <topic label="About org.eclipse.birt.report.data.oda.jdbc.ui" href="birt/birt-24-3.html#wp138924" />
+      <topic label="About org.eclipse.birt.report.data.oda.jdbc" href="birt/birt-24-3.html#wp139026" />
+      <topic label="About org.eclipse.birt.report.data.oda.sampledb" href="birt/birt-24-3.html#wp139093" />
+      <topic label="About org.eclipse.birt.report.data.oda.sampledb.ui" href="birt/birt-24-3.html#wp139128" />
+      <topic label="About org.eclipse.birt.report.designer.core" href="birt/birt-24-3.html#wp139159" />
+      <topic label="About org.eclipse.birt.report.designer.rcp.ui" href="birt/birt-24-3.html#wp139232" />
+      <topic label="About org.eclipse.birt.report.designer.ui" href="birt/birt-24-3.html#wp139271" />
+      <topic label="About org.eclipse.birt.report.designer.ui.ide" href="birt/birt-24-3.html#wp141759" />
+      <topic label="About org.eclipse.birt.report.designer.ui.lib.explorer" href="birt/birt-24-3.html#wp142854" />
+      <topic label="About org.eclipse.birt.report.designer.ui.lib" href="birt/birt-24-3.html#wp141805" />
+      <topic label="About org.eclipse.birt.report.designer.ui.rcp" href="birt/birt-24-3.html#wp141830" />
+      <topic label="About org.eclipse.birt.report.engine.emitter.fo" href="birt/birt-24-3.html#wp139575" />
+      <topic label="About org.eclipse.birt.engine.emitter.html" href="birt/birt-24-3.html#wp139626" />
+      <topic label="About org.eclipse.birt.report.engine" href="birt/birt-24-3.html#wp139653" />
+      <topic label="About org.eclipse.birt.report.model" href="birt/birt-24-3.html#wp139789" />
+      <topic label="About org.eclipse.birt.report.viewer" href="birt/birt-24-3.html#wp139920" />
+      <topic label="About org.eclipse.birt.sample.reportitem.rotatedtext" href="birt/birt-24-3.html#wp142523" />
+      </topic>
+    <topic label="Plug-ins for optional samples download" href="birt/birt-24-4.html" >
+      <topic label="About org.eclipse.birt.chart.engine.examples" href="birt/birt-24-4.html#wp141524" />
+      </topic>
+      </topic>
 
  </topic>
 </toc>
