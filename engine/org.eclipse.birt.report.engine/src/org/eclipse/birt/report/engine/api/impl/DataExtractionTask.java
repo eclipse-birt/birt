@@ -46,6 +46,8 @@ import org.eclipse.birt.report.engine.data.dte.DteDataEngine;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.parser.ReportParser;
+import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 
 public class DataExtractionTask extends EngineTask
@@ -117,19 +119,30 @@ public class DataExtractionTask extends EngineTask
 	{
 		super( engine, runnable );
 		
-		// load the reportR
+		// load the report
 		this.reportDocReader = reader;
 		executionContext.setReportDocument( reportDocReader );
 		executionContext.setFactoryMode( false );
 		executionContext.setPresentationMode( true );
-		report = new ReportParser( ).parse( ( (ReportRunnable) runnable )
-				.getReport( ) );
+		
+		try
+		{
+			ReportParser parser = new ReportParser( );
+			
+			ReportDesignHandle reportDesign = parser.getDesignHandle( reader.getDesignName(), 
+					reader.getDesignStream() );
+			report = parser.parse( reportDesign );
+		}
+		catch ( DesignFileException e )
+		{
+			e.printStackTrace( );
+		}
 		
 		executionContext.setReport( report );
 		setParameterValues( reportDocReader.getParameterValues( ) );
 		
 		IDataEngine dataEngine = executionContext.getDataEngine();
-		dataEngine.prepare( report, appContext );
+		dataEngine.prepare( report, appContext );		
 	}
 	
 	/*
