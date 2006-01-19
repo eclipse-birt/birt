@@ -1,13 +1,14 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
@@ -15,10 +16,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
-import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
@@ -33,9 +31,8 @@ public class RevertToTemplateAction extends AbstractElementAction
 
 	public RevertToTemplateAction( Object selectedObject )
 	{
-		super( selectedObject ,DEFAULT_TEXT);
+		super( selectedObject, DEFAULT_TEXT );
 	}
-
 
 	/**
 	 * @param selectedObject
@@ -46,7 +43,9 @@ public class RevertToTemplateAction extends AbstractElementAction
 		super( selectedObject, text );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#doAction()
 	 */
 	protected boolean doAction( ) throws Exception
@@ -54,18 +53,17 @@ public class RevertToTemplateAction extends AbstractElementAction
 		if ( getSelectedElement( ) == null )
 		{
 			return false;
-		}		
-		
-		else if(getSelectedElement().isTemplateParameterValue())
+		}
+
+		else if ( getSelectedElement( ).isTemplateParameterValue( ) )
 		{
-		return ProviderFactory.createProvider( getSelectedElement( ) )
-		.performRequest( getSelectedElement( ),
-				new Request( IRequestConstants.REQUST_REVERT_TO_TEMPLATEITEM ) );
+			return ProviderFactory.createProvider( getSelectedElement( ) )
+					.performRequest( getSelectedElement( ),
+							new Request( IRequestConstants.REQUST_REVERT_TO_TEMPLATEITEM ) );
 		}
 		return false;
 	}
 
-	
 	/**
 	 * @return the model of selected GUI object.
 	 */
@@ -87,21 +85,20 @@ public class RevertToTemplateAction extends AbstractElementAction
 		}
 		return null;
 	}
-	
-	
+
 	public boolean isEnabled( )
 	{
 		if ( getSelectedElement( ) == null )
 		{
 			return false;
 		}
-		
+
 		return super.isEnabled( )
-		// && getSelectedElement( ).canTransformToTemplate()
-		&& getSelectedElement( ).isTemplateParameterValue()
-		// Can't create place holder in Simple Master Page
-		&& !( getSelectedElement( ).getContainer( ) instanceof SimpleMasterPageHandle) 
-			&& !( getSelectedElement( ).getRoot( ) instanceof LibraryHandle ) ;
+				&& getSelectedElement( ).canTransformToTemplate( )
+				&& getSelectedElement( ).isTemplateParameterValue( )
+				// Can't create place holder in Simple Master Page
+				&& !( getSelectedElement( ).getContainer( ) instanceof SimpleMasterPageHandle )
+				&& !( getSelectedElement( ).getRoot( ) instanceof LibraryHandle );
 	}
-	
+
 }
