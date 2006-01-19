@@ -45,7 +45,7 @@
 		</fileset>
 		<pathelement path="${test.build.dir}" />
 		<!--pathelement path="${core.dir}\core.jar" /-->
-		<pathelement path="${core.dir}\lib\js.jar" />
+		<pathelement path="${core.dir}/lib/js.jar" />
 		<!--pathelement path="${core.dir}\lib\junit.jar" /-->
 		<!--pathelement path="${data.oda.dir}\oda.jar" /-->
 		<!--pathelement path="${data.oda.jdbc.dir}\*.jar" /-->
@@ -85,9 +85,8 @@
 		  	<include name="org.eclipse.emf.ecore_2.1.0.jar" />
 		  	<include name="org.eclipse.emf.common_2.1.0.jar" />
 		  	<include name="org.eclipse.emf.ecore.xmi_2.1.0.jar" />
-		  	<include name="org.eclipse.swt.win32.win32.x86_3.1.0.jar" />
-		  	<include name="org.eclipse.swt_3.1.0.jar" />
-		  	
+		  	<include name="org.eclipse.swt*.jar" />
+		  
 		  	<include name="org.eclipse.birt.report.model/*.jar" />
 		  	<include name="org.eclipse.birt.report.model/lib/*.jar" />
 		  	<include name="org.eclipse.birt.chart.reportitem/reportitem.jar" />
@@ -155,15 +154,12 @@
     </target>
 
 	<target name="UnitTest" >
-		<jar destfile="chart.jar" >
+		<jar destfile="chartTest.jar" >
 			<fileset dir="./bin">
 				<exclude name="**/*.class"/>
 			</fileset>
 		</jar>
 		<java  fork="true" classname="org.eclipse.birt.report.tests.chart.AllTests">
-			<!--classpath>
-	    		<pathelement location="${eclipse-home}/startup.jar"/>
-	    	</classpath-->
 			<classpath refid="class.path" />
 	    	<!--jvmarg line="-jar"/-->
 			<!--sysproperty key="PLUGIN_PATH" value="${plugin-path}"/--> 
@@ -215,10 +211,10 @@
 	<!-- Clean the build environment -->
 	<target name="Clean">
 		<delete dir="${test.build.dir}" />
-		<delete dir="${tes.report.dir}"/>
+		<delete dir="${test.report.dir}"/>
 		<delete dir="${test.javadoc.dir}"/>
 		<delete dir="${export.dir}"/>
-		<delete file="model.jar" />
+		<delete file="chartTest.jar" />
 	</target>
 
 	
@@ -239,9 +235,8 @@
 				 source="1.4"
 				 packagenames="${testmodule.name}.*">
 
-				<packageset dir="src" defaultexcludes="yes">
-			      	<include name="org/eclipse/birt/report/tests/engine/**" />
-			    </packageset>
+				<packageset dir="src" defaultexcludes="yes"/>
+
 				<classpath refid="class.path" />
 		</javadoc>
 	</target>
@@ -273,7 +268,7 @@
 	</target>
 
 	<!-- private task, run unit test -->
-	<target name="utest" depends="compileTest,Test" >
+	<target name="utest" depends="compileTest,UnitTest" >
 		<!--fail if="test.failed" message="One or more tests failed!  Check the output." /-->
 	</target>
 </project>
