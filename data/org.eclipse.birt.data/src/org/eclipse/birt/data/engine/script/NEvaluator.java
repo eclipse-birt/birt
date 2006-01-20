@@ -153,7 +153,7 @@ public abstract class NEvaluator
 			rowIdList = new int[N];
 		}
 		populateValueListAndRowIdList( value, N );
-		return false;
+		return true;
 	}
 
 	/**
@@ -207,6 +207,11 @@ public abstract class NEvaluator
 	private boolean doSecondPass( )
 	{
 		secondPassRowNumberCounter++;
+		if( secondPassRowNumberCounter > this.filterPassController.getSecondPassRowCount() )
+			this.filterPassController.setSecondPassRowCount( secondPassRowNumberCounter );
+		else
+			this.secondPassRowNumberCounter = this.filterPassController.getSecondPassRowCount();
+		
 		if ( qualifiedRowCounter < N )
 		{
 			for ( int i = 0; i < N; i++ )

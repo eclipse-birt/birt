@@ -24,6 +24,7 @@ public class FilterPassController
 	private int passLevel = DEFAULT_PASS;
 	
 	private int rowCount = DEFAULT_ROW_COUNT;
+	private int secondPassRowCount = 0;
 	
 	public int getPassLevel()
 	{
@@ -53,5 +54,15 @@ public class FilterPassController
 	public boolean getForceReset( )
 	{
 		return forceReset;
+	}
+	
+	public int getSecondPassRowCount()
+	{
+		return secondPassRowCount;
+	}
+	
+	public void setSecondPassRowCount( int row )
+	{
+		secondPassRowCount = row;
 	}
 }
