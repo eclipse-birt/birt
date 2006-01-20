@@ -458,7 +458,7 @@ public class DNDUtil
 				return false;
 			}
 
-			if ( array[0] instanceof ColumnHandle )
+			if ( array[0] instanceof ColumnHandle && ((ColumnHandle)array[0]).getRoot() != null)
 			{
 				boolean bool = false;
 				int columnNumber = HandleAdapterFactory.getInstance( )
@@ -505,7 +505,7 @@ public class DNDUtil
 			return slot.getContents( ).size( ) > 0
 					&& ( handle instanceof ListHandle || handle instanceof ListGroupHandle );
 		}
-		if ( selection instanceof ColumnHandle )
+		if ( selection instanceof ColumnHandle && ((ColumnHandle)selection).getRoot()!=null )
 		{
 			int columnNumber = HandleAdapterFactory.getInstance( )
 					.getColumnHandleAdapter( selection ).getColumnNumber( );
