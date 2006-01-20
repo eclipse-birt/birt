@@ -51,4 +51,8 @@ public interface ReportColorConstants
 	public final static Color ShadowLineColor = ColorManager.getColor( 204,
 			204,
 			204 );//0xCCCCCC
+	
+	public final static Color RedWarning = ColorManager.getColor( 255,
+			0,
+			0 );
 }

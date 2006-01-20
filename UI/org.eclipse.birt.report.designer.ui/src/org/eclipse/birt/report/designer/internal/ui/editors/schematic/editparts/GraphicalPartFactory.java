@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateElementHandle;
@@ -54,19 +55,22 @@ public class GraphicalPartFactory implements EditPartFactory
 	 */
 	public EditPart createEditPart( EditPart context, Object model )
 	{
-		//default edit part
 		EditPart editPart = new DummyEditpart( model );
-		if ( model instanceof ReportDesignHandle )
+		if (model instanceof ReportItemHandle && !((ReportItemHandle)model).isValidReferenceForCompoundElement())
+		{
+			return new DestroyEditPart(model);
+		}
+		else if ( model instanceof ReportDesignHandle )
 		{
 			return new ReportDesignEditPart( model );
 		}
 
-		if ( model instanceof MasterPageHandle )
+		else if ( model instanceof MasterPageHandle )
 		{
 			return new MasterPageEditPart( model );
 		}
 
-		if ( model instanceof ImageHandle )
+		else if ( model instanceof ImageHandle )
 		{
 			return new ImageEditPart( model );
 		}
