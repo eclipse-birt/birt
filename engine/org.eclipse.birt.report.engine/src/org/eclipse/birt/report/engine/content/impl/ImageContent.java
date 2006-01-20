@@ -44,14 +44,6 @@ public class ImageContent extends AbstractContent implements IImageContent
 
 	protected String MIMEType;
 
-	/**
-	 * constructor. use by serialize and deserialize
-	 */
-	public ImageContent( )
-	{
-
-	}
-
 	public int getContentType( )
 	{
 		return IMAGE_CONTENT;

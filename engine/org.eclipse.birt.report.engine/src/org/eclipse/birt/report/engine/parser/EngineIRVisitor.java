@@ -150,7 +150,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.74 $ $Date: 2006/01/04 09:23:52 $
+ * @version $Revision: 1.75 $ $Date: 2006/01/12 10:18:00 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -184,7 +184,7 @@ class EngineIRVisitor extends DesignVisitor
 	/**
 	 * the CSSEngine
 	 */
-	protected static final CSSEngine cssEngine = BIRTCSSEngine.getInstance( );
+	protected CSSEngine cssEngine;
 
 	/**
 	 * the inheritable report style
@@ -217,6 +217,7 @@ class EngineIRVisitor extends DesignVisitor
 	public Report translate( )
 	{
 		report = new Report( );
+		cssEngine = report.getCSSEngine( );
 		report.setReportDesign( handle );
 		apply( handle );
 		return report;
@@ -263,7 +264,7 @@ class EngineIRVisitor extends DesignVisitor
 			apply( pageSlot.get( i ) );
 			if ( currentElement != null )
 			{
-				pageSetup.addMasterPage( ( MasterPageDesign ) currentElement );
+				pageSetup.addMasterPage( (MasterPageDesign) currentElement );
 			}
 		}
 		// FIXME: add page sequence support
@@ -287,7 +288,7 @@ class EngineIRVisitor extends DesignVisitor
 			apply( bodySlot.get( i ) );
 			if ( currentElement != null )
 			{
-				report.addContent( ( ReportItemDesign ) currentElement );
+				report.addContent( (ReportItemDesign) currentElement );
 			}
 		}
 
@@ -314,7 +315,7 @@ class EngineIRVisitor extends DesignVisitor
 			return;
 		for ( int i = 0; i < userProperties.size( ); i++ )
 		{
-			UserPropertyDefn userDef = ( UserPropertyDefn ) userProperties
+			UserPropertyDefn userDef = (UserPropertyDefn) userProperties
 					.get( i );
 			if ( userDef.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE )
 			{
@@ -394,7 +395,7 @@ class EngineIRVisitor extends DesignVisitor
 			apply( contentSlot.get( i ) );
 			if ( currentElement != null )
 			{
-				page.addContent( ( ReportItemDesign ) currentElement );
+				page.addContent( (ReportItemDesign) currentElement );
 			}
 		}
 
@@ -418,7 +419,7 @@ class EngineIRVisitor extends DesignVisitor
 			apply( headerSlot.get( i ) );
 			if ( currentElement != null )
 			{
-				page.addHeader( ( ReportItemDesign ) currentElement );
+				page.addHeader( (ReportItemDesign) currentElement );
 			}
 		}
 
@@ -428,7 +429,7 @@ class EngineIRVisitor extends DesignVisitor
 			apply( footerSlot.get( i ) );
 			if ( currentElement != null )
 			{
-				page.addFooter( ( ReportItemDesign ) currentElement );
+				page.addFooter( (ReportItemDesign) currentElement );
 			}
 		}
 
@@ -452,7 +453,7 @@ class EngineIRVisitor extends DesignVisitor
 			apply( groupsSlot.get( i ) );
 			if ( currentElement != null )
 			{
-				listItem.addGroup( ( ListGroupDesign ) currentElement );
+				listItem.addGroup( (ListGroupDesign) currentElement );
 			}
 		}
 
@@ -480,7 +481,7 @@ class EngineIRVisitor extends DesignVisitor
 			apply( slot.get( i ) );
 			if ( currentElement != null )
 			{
-				container.addItem( ( ReportItemDesign ) currentElement );
+				container.addItem( (ReportItemDesign) currentElement );
 			}
 		}
 
@@ -519,7 +520,7 @@ class EngineIRVisitor extends DesignVisitor
 		List properties = handle.getUserProperties( );
 		for ( int i = 0; i < properties.size( ); i++ )
 		{
-			UserPropertyDefn p = ( UserPropertyDefn ) properties.get( i );
+			UserPropertyDefn p = (UserPropertyDefn) properties.get( i );
 			paramGroup.addUserProperty( p.getName( ), handle.getProperty( p
 					.getName( ) ) );
 		}
@@ -530,7 +531,7 @@ class EngineIRVisitor extends DesignVisitor
 			apply( parameters.get( n ) );
 			if ( currentElement != null )
 			{
-				paramGroup.addParameter( ( IParameterDefnBase ) currentElement );
+				paramGroup.addParameter( (IParameterDefnBase) currentElement );
 			}
 		}
 
@@ -560,7 +561,7 @@ class EngineIRVisitor extends DesignVisitor
 		List properties = handle.getUserProperties( );
 		for ( int i = 0; i < properties.size( ); i++ )
 		{
-			UserPropertyDefn p = ( UserPropertyDefn ) properties.get( i );
+			UserPropertyDefn p = (UserPropertyDefn) properties.get( i );
 			paramGroup.addUserProperty( p.getName( ), handle.getProperty( p
 					.getName( ) ) );
 		}
@@ -571,7 +572,7 @@ class EngineIRVisitor extends DesignVisitor
 			apply( parameters.get( n ) );
 			if ( currentElement != null )
 			{
-				paramGroup.addParameter( ( IParameterDefnBase ) currentElement );
+				paramGroup.addParameter( (IParameterDefnBase) currentElement );
 			}
 		}
 
@@ -592,7 +593,7 @@ class EngineIRVisitor extends DesignVisitor
 		List properties = handle.getUserProperties( );
 		for ( int i = 0; i < properties.size( ); i++ )
 		{
-			UserPropertyDefn p = ( UserPropertyDefn ) properties.get( i );
+			UserPropertyDefn p = (UserPropertyDefn) properties.get( i );
 			scalarParameter.addUserProperty( p.getName( ), handle
 					.getProperty( p.getName( ) ) );
 		}
@@ -649,7 +650,7 @@ class EngineIRVisitor extends DesignVisitor
 		Iterator selectionIter = handle.choiceIterator( );
 		while ( selectionIter.hasNext( ) )
 		{
-			SelectionChoiceHandle selection = ( SelectionChoiceHandle ) selectionIter
+			SelectionChoiceHandle selection = (SelectionChoiceHandle) selectionIter
 					.next( );
 			ParameterSelectionChoice selectionChoice = new ParameterSelectionChoice(
 					this.handle );
@@ -733,11 +734,11 @@ class EngineIRVisitor extends DesignVisitor
 		SlotHandle columnSlot = handle.getColumns( );
 		for ( int i = 0; i < columnSlot.getCount( ); i++ )
 		{
-			ColumnHandle columnHandle = ( ColumnHandle ) columnSlot.get( i );
+			ColumnHandle columnHandle = (ColumnHandle) columnSlot.get( i );
 			apply( columnHandle );
 			if ( currentElement != null )
 			{
-				ColumnDesign columnDesign = ( ColumnDesign ) currentElement;
+				ColumnDesign columnDesign = (ColumnDesign) currentElement;
 				for ( int j = 0; j < columnHandle.getRepeatCount( ); j++ )
 				{
 					grid.addColumn( columnDesign );
@@ -752,7 +753,7 @@ class EngineIRVisitor extends DesignVisitor
 			apply( rowSlot.get( i ) );
 			if ( currentElement != null )
 			{
-				grid.addRow( ( RowDesign ) currentElement );
+				grid.addRow( (RowDesign) currentElement );
 			}
 		}
 
@@ -785,20 +786,24 @@ class EngineIRVisitor extends DesignVisitor
 		if ( EngineIRConstants.IMAGE_REF_TYPE_URL.equals( imageSrc ) )
 		{
 			image.setImageUri( createExpression( handle.getURI( ) ) );
-		} else if ( EngineIRConstants.IMAGE_REF_TYPE_EXPR.equals( imageSrc ) )
+		}
+		else if ( EngineIRConstants.IMAGE_REF_TYPE_EXPR.equals( imageSrc ) )
 		{
 			String valueExpr = handle.getValueExpression( );
 			String typeExpr = handle.getTypeExpression( );
 			Expression imageValue = createExpression( valueExpr );
 			Expression imageType = createExpression( typeExpr );
 			image.setImageExpression( imageValue, imageType );
-		} else if ( EngineIRConstants.IMAGE_REF_TYPE_EMBED.equals( imageSrc ) )
+		}
+		else if ( EngineIRConstants.IMAGE_REF_TYPE_EMBED.equals( imageSrc ) )
 		{
 			image.setImageName( handle.getImageName( ) );
-		} else if ( EngineIRConstants.IMAGE_REF_TYPE_FILE.equals( imageSrc ) )
+		}
+		else if ( EngineIRConstants.IMAGE_REF_TYPE_FILE.equals( imageSrc ) )
 		{
 			image.setImageFile( createExpression( handle.getURI( ) ) );
-		} else
+		}
+		else
 		{
 			assert false;
 		}
@@ -826,11 +831,11 @@ class EngineIRVisitor extends DesignVisitor
 		SlotHandle columnSlot = handle.getColumns( );
 		for ( int i = 0; i < columnSlot.getCount( ); i++ )
 		{
-			ColumnHandle columnHandle = ( ColumnHandle ) columnSlot.get( i );
+			ColumnHandle columnHandle = (ColumnHandle) columnSlot.get( i );
 			apply( columnHandle );
 			if ( currentElement != null )
 			{
-				ColumnDesign columnDesign = ( ColumnDesign ) currentElement;
+				ColumnDesign columnDesign = (ColumnDesign) currentElement;
 				for ( int j = 0; j < columnHandle.getRepeatCount( ); j++ )
 				{
 					table.addColumn( columnDesign );
@@ -850,7 +855,7 @@ class EngineIRVisitor extends DesignVisitor
 			apply( groupSlot.get( i ) );
 			if ( currentElement != null )
 			{
-				table.addGroup( ( TableGroupDesign ) currentElement );
+				table.addGroup( (TableGroupDesign) currentElement );
 			}
 		}
 
@@ -908,13 +913,13 @@ class EngineIRVisitor extends DesignVisitor
 			apply( cellSlot.get( i ) );
 			if ( currentElement != null )
 			{
-				row.addCell( ( CellDesign ) currentElement );
+				row.addCell( (CellDesign) currentElement );
 			}
 		}
 
 		String onCreate = handle.getOnCreate( );
 		row.setOnCreate( createExpression( onCreate ) );
-		row.setOnRender( ( ( RowHandle ) handle ).getOnRender( ) );
+		row.setOnRender( ( (RowHandle) handle ).getOnRender( ) );
 
 		currentElement = row;
 	}
@@ -984,7 +989,7 @@ class EngineIRVisitor extends DesignVisitor
 			apply( contentSlot.get( i ) );
 			if ( currentElement != null )
 			{
-				cell.addContent( ( ReportItemDesign ) currentElement );
+				cell.addContent( (ReportItemDesign) currentElement );
 			}
 		}
 
@@ -1025,7 +1030,7 @@ class EngineIRVisitor extends DesignVisitor
 			apply( elements.get( i ) );
 			if ( currentElement != null )
 			{
-				band.addContent( ( ReportItemDesign ) currentElement );
+				band.addContent( (ReportItemDesign) currentElement );
 			}
 		}
 
@@ -1047,18 +1052,19 @@ class EngineIRVisitor extends DesignVisitor
 
 		ListBandDesign header = createListBand( handle.getHeader( ) );
 		listGroup.setHeader( header );
-		
-		//flatten TOC on group to the first report item in group header
-		String tocExpr = handle.getTocExpression();
-		if(null!=tocExpr && !"".equals(tocExpr)) //$NON-NLS-1$
+
+		// flatten TOC on group to the first report item in group header
+		String tocExpr = handle.getTocExpression( );
+		if ( null != tocExpr && !"".equals( tocExpr ) ) //$NON-NLS-1$
 		{
-			if(header.getContentCount()>0)
+			if ( header.getContentCount( ) > 0 )
 			{
-				ReportItemDesign item = (ReportItemDesign)header.getContent(0);
-				item.setTOC(new Expression(tocExpr));
+				ReportItemDesign item = (ReportItemDesign) header
+						.getContent( 0 );
+				item.setTOC( new Expression( tocExpr ) );
 			}
 		}
-		
+
 		ListBandDesign footer = createListBand( handle.getFooter( ) );
 		listGroup.setFooter( footer );
 
@@ -1080,15 +1086,15 @@ class EngineIRVisitor extends DesignVisitor
 
 		TableBandDesign header = createTableBand( handle.getHeader( ) );
 		tableGroup.setHeader( header );
-		
-		//flatten TOC on group to the first report item in group header
-		String toc = handle.getTocExpression();
-		if(null!=toc && !"".equals(toc)) //$NON-NLS-1$
+
+		// flatten TOC on group to the first report item in group header
+		String toc = handle.getTocExpression( );
+		if ( null != toc && !"".equals( toc ) ) //$NON-NLS-1$
 		{
-			if(header.getRowCount()>0)
+			if ( header.getRowCount( ) > 0 )
 			{
 				RowDesign row = header.getRow( 0 );
-				row.setTOC(new Expression(toc));
+				row.setTOC( new Expression( toc ) );
 			}
 		}
 
@@ -1148,7 +1154,7 @@ class EngineIRVisitor extends DesignVisitor
 			apply( elements.get( i ) );
 			if ( currentElement != null )
 			{
-				band.addRow( ( RowDesign ) currentElement );
+				band.addRow( (RowDesign) currentElement );
 			}
 		}
 
@@ -1171,7 +1177,7 @@ class EngineIRVisitor extends DesignVisitor
 			VisibilityDesign visibility = new VisibilityDesign( );
 			while ( visibilityRulesIterator.hasNext( ) )
 			{
-				VisibilityRuleDesign hide = createHide( ( HideRuleHandle ) visibilityRulesIterator
+				VisibilityRuleDesign hide = createHide( (HideRuleHandle) visibilityRulesIterator
 						.next( ) );
 				visibility.addRule( hide );
 			}
@@ -1263,7 +1269,7 @@ class EngineIRVisitor extends DesignVisitor
 		Iterator iter = handle.getPropertyIterator( );
 		if ( iter != null )
 		{
-			PropertyHandle propHandle = ( PropertyHandle ) iter.next( );
+			PropertyHandle propHandle = (PropertyHandle) iter.next( );
 			if ( propHandle != null && propHandle.isSet( ) )
 			{
 				String name = propHandle.getDefn( ).getName( );
@@ -1275,7 +1281,7 @@ class EngineIRVisitor extends DesignVisitor
 				properties.put( name, value );
 			}
 		}
-		
+
 		setupNamedExpressions( handle, element.getNamedExpressions( ) );
 
 		setupElementIDMap( element );
@@ -1306,12 +1312,14 @@ class EngineIRVisitor extends DesignVisitor
 
 			action.setHyperlink( createExpression( handle.getURI( ) ) );
 			action.setTargetWindow( handle.getTargetWindow( ) );
-		} else if ( EngineIRConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
+		}
+		else if ( EngineIRConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
 				.equals( linkType ) )
 		{
 			action
 					.setBookmark( createExpression( handle.getTargetBookmark( ) ) );
-		} else if ( EngineIRConstants.ACTION_LINK_TYPE_DRILL_THROUGH
+		}
+		else if ( EngineIRConstants.ACTION_LINK_TYPE_DRILL_THROUGH
 				.equals( linkType ) )
 		{
 			action.setTargetWindow( handle.getTargetWindow( ) );
@@ -1326,7 +1334,7 @@ class EngineIRVisitor extends DesignVisitor
 			Iterator paramIte = handle.paramBindingsIterator( );
 			while ( paramIte.hasNext( ) )
 			{
-				ParamBindingHandle member = ( ParamBindingHandle ) paramIte
+				ParamBindingHandle member = (ParamBindingHandle) paramIte
 						.next( );
 				params.put( member.getParamName( ), createExpression( member
 						.getExpression( ) ) );
@@ -1344,7 +1352,8 @@ class EngineIRVisitor extends DesignVisitor
 			// }
 			// drillThrough.setSearch( search );
 
-		} else
+		}
+		else
 		{
 			assert ( false );
 		}
@@ -1382,10 +1391,12 @@ class EngineIRVisitor extends DesignVisitor
 		if ( testExpr != null && testExpr.length( ) > 0 )
 		{
 			rule.setTestExpression( testExpr );
-		} else if ( ( defaultStr != null ) && defaultStr.length( ) > 0 )
+		}
+		else if ( ( defaultStr != null ) && defaultStr.length( ) > 0 )
 		{
 			rule.setTestExpression( defaultStr );
-		} else
+		}
+		else
 		{
 			// test expression is null
 			return null;
@@ -1435,8 +1446,7 @@ class EngineIRVisitor extends DesignVisitor
 
 		while ( iter.hasNext( ) )
 		{
-			HighlightRuleHandle ruleHandle = ( HighlightRuleHandle ) iter
-					.next( );
+			HighlightRuleHandle ruleHandle = (HighlightRuleHandle) iter.next( );
 			HighlightRuleDesign rule = createHighlightRule( ruleHandle,
 					defaultStr );
 			if ( rule != null )
@@ -1473,7 +1483,7 @@ class EngineIRVisitor extends DesignVisitor
 
 		while ( iter.hasNext( ) )
 		{
-			MapRuleHandle ruleHandle = ( MapRuleHandle ) iter.next( );
+			MapRuleHandle ruleHandle = (MapRuleHandle) iter.next( );
 			MapRuleDesign rule = createMapRule( ruleHandle, defaultStr );
 			if ( rule != null )
 			{
@@ -1507,10 +1517,12 @@ class EngineIRVisitor extends DesignVisitor
 		if ( testExpr != null && testExpr.length( ) > 0 )
 		{
 			rule.setTestExpression( testExpr );
-		} else if ( ( defaultStr != null ) && defaultStr.length( ) > 0 )
+		}
+		else if ( ( defaultStr != null ) && defaultStr.length( ) > 0 )
 		{
 			rule.setTestExpression( defaultStr );
-		} else
+		}
+		else
 		{
 			// test expression is null
 			return null;
@@ -1544,7 +1556,7 @@ class EngineIRVisitor extends DesignVisitor
 		for ( int i = 0; i < report.getStyleCount( ); i++ )
 		{
 			// Cast the type mandatorily
-			StyleDeclaration cachedStyle = ( StyleDeclaration ) report
+			StyleDeclaration cachedStyle = (StyleDeclaration) report
 					.getStyle( i );
 			if ( cachedStyle.equals( style ) )
 			{
@@ -1987,7 +1999,8 @@ class EngineIRVisitor extends DesignVisitor
 				if ( isColorProperty )
 				{
 					value = handle.getColorProperty( name ).getStringValue( );
-				} else
+				}
+				else
 				{
 					value = handle.getProperty( name );
 				}
@@ -1997,12 +2010,15 @@ class EngineIRVisitor extends DesignVisitor
 				value = StylePropertyMapping.getDefaultValue( name );
 			}
 
-			inheritableReportStyle.setCssText( index, value == null ? null
+			inheritableReportStyle.setCssText( index, value == null
+					? null
 					: value.toString( ) );
-		} else
+		}
+		else
 		{
 			value = StylePropertyMapping.getDefaultValue( name );
-			nonInheritableReportStyle.setCssText( index, value == null ? null
+			nonInheritableReportStyle.setCssText( index, value == null
+					? null
 					: value.toString( ) );
 		}
 
@@ -2091,7 +2107,8 @@ class EngineIRVisitor extends DesignVisitor
 		if ( nonInheritableReportStyle.isEmpty( ) )
 		{
 			nonInheritableReportStyle = null;
-		} else
+		}
+		else
 		{
 			report.setDefaultStyle( nonInheritableReportStyle );
 		}

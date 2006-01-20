@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
  * table band content object There are three type: table header, table footer,
  * table body
  * 
- * @version $Revision: 1.6 $ $Date: 2005/12/07 07:21:33 $
+ * @version $Revision: 1.7 $ $Date: 2006/01/11 06:29:02 $
  */
 public class TableBandContent extends AbstractContent
 		implements
@@ -32,14 +32,6 @@ public class TableBandContent extends AbstractContent
 {
 
 	protected int type = BAND_HEADER;
-
-	/**
-	 * constructor. use by serialize and deserialize
-	 */
-	public TableBandContent( )
-	{
-
-	}
 
 	public int getContentType( )
 	{

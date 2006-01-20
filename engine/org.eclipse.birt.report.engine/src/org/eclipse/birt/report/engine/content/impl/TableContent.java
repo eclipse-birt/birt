@@ -27,7 +27,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * 
  * the table content object which contains columns object and row objects
  * 
- * @version $Revision: 1.11 $ $Date: 2005/12/07 07:21:33 $
+ * @version $Revision: 1.12 $ $Date: 2006/01/11 06:29:02 $
  */
 public class TableContent extends AbstractContent implements ITableContent
 {
@@ -37,13 +37,6 @@ public class TableContent extends AbstractContent implements ITableContent
 	protected String captionKey;
 
 	protected boolean headerRepeat;
-
-	/**
-	 * constructor. use by serialize and deserialize
-	 */
-	public TableContent( )
-	{
-	}
 
 	public int getContentType( )
 	{

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.css.dom;
 
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPrimitiveValue;
@@ -23,11 +22,6 @@ abstract public class AbstractStyle implements IStyle
 {
 
 	protected CSSEngine engine;
-
-	public AbstractStyle( )
-	{
-		engine = BIRTCSSEngine.getInstance( );
-	}
 
 	public AbstractStyle( CSSEngine engine )
 	{

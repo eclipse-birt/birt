@@ -28,7 +28,7 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.11 $ $Date: 2005/12/23 10:26:06 $
+ * @version $Revision: 1.12 $ $Date: 2006/01/11 06:29:02 $
  */
 public class CellContent extends AbstractContent implements ICellContent
 {
@@ -47,13 +47,6 @@ public class CellContent extends AbstractContent implements ICellContent
 	 * column id, if equals to 0, get it from the design
 	 */
 	protected int column = -1;
-
-	/**
-	 * constructor use by serialize and deserialize
-	 */
-	public CellContent( )
-	{
-	}
 
 	public int getContentType( )
 	{
@@ -154,18 +147,18 @@ public class CellContent extends AbstractContent implements ICellContent
 		super.writeFields( out );
 		if ( rowSpan != -1 )
 		{
-			IOUtil.writeInt( out,  FIELD_ROW_SPAN );
-			IOUtil.writeInt( out,  rowSpan );
+			IOUtil.writeInt( out, FIELD_ROW_SPAN );
+			IOUtil.writeInt( out, rowSpan );
 		}
 		if ( colSpan != -1 )
 		{
-			IOUtil.writeInt( out,  FIELD_COL_SPAN );
-			IOUtil.writeInt( out,  colSpan );
+			IOUtil.writeInt( out, FIELD_COL_SPAN );
+			IOUtil.writeInt( out, colSpan );
 		}
 		if ( column != -1 )
 		{
-			IOUtil.writeInt( out,  FIELD_COLUMN );
-			IOUtil.writeInt( out,  column );
+			IOUtil.writeInt( out, FIELD_COLUMN );
+			IOUtil.writeInt( out, column );
 		}
 	}
 
@@ -175,13 +168,13 @@ public class CellContent extends AbstractContent implements ICellContent
 		switch ( filedId )
 		{
 			case FIELD_ROW_SPAN :
-				rowSpan = IOUtil.readInt( in  );
+				rowSpan = IOUtil.readInt( in );
 				break;
 			case FIELD_COL_SPAN :
-				colSpan = IOUtil.readInt( in  );
+				colSpan = IOUtil.readInt( in );
 				break;
 			case FIELD_COLUMN :
-				column = IOUtil.readInt( in  );
+				column = IOUtil.readInt( in );
 				break;
 			default :
 				super.readField( version, filedId, in );

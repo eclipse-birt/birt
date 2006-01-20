@@ -11,6 +11,7 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
 
@@ -114,6 +115,11 @@ public class CellComputedStyle extends ComputedStyle
 		{
 			return row;
 		}
+		
+		public CSSEngine getCSSEngine()
+		{
+			return cellContent.getCSSEngine();
+		}
 	}
 
 	private static class StyledRow extends StyledElement
@@ -141,6 +147,10 @@ public class CellComputedStyle extends ComputedStyle
 		public IElement getParent( )
 		{
 			return column;
+		}
+		public CSSEngine getCSSEngine()
+		{
+			return rowContent.getCSSEngine();
 		}
 	}
 
@@ -176,6 +186,11 @@ public class CellComputedStyle extends ComputedStyle
 		public IElement getParent( )
 		{
 			return tableContent;
+		}
+		
+		public CSSEngine getCSSEngine()
+		{
+			return tableContent.getCSSEngine();
 		}
 	}
 }

@@ -32,21 +32,10 @@ public class BIRTCSSEngine extends CSSEngine
 	 * @param ctx
 	 *            The CSS context.
 	 */
-	protected BIRTCSSEngine( )
+	public BIRTCSSEngine( )
 	{
 		super( new Parser( ), new BIRTPropertyManagerFactory( ),
 				new BIRTContext( ) );
-	}
-
-	static CSSEngine engine;
-
-	static public CSSEngine getInstance( )
-	{
-		if ( engine == null )
-		{
-			engine = new BIRTCSSEngine( );
-		}
-		return engine;
 	}
 
 	static class BIRTContext implements CSSContext

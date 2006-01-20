@@ -49,13 +49,6 @@ public class PageContent extends AbstractContent implements IPageContent
 	transient protected IContent body;
 	protected long pageNumber = -1;
 
-	/**
-	 * constructor. use by serialize and deserialize
-	 */
-	public PageContent( )
-	{
-	}
-
 	public int getContentType( )
 	{
 		return PAGE_CONTENT;

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.css.dom;
 
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.w3c.dom.css.CSSValue;
 
@@ -57,11 +56,6 @@ public class StyleDeclaration extends AbstractStyle implements IStyle
 	{
 		assert index >= 0 && index < NUMBER_OF_STYLE;
 		return values[index];
-	}
-
-	public StyleDeclaration( )
-	{
-		this( BIRTCSSEngine.getInstance( ) );
 	}
 
 	public StyleDeclaration( StyleDeclaration style )

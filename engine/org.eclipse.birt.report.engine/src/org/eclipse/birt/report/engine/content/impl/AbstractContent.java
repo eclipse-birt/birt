@@ -26,6 +26,8 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.CompositeStyle;
 import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
+import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
+import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 abstract public class AbstractContent extends AbstractElement
@@ -34,6 +36,8 @@ abstract public class AbstractContent extends AbstractElement
 {
 
 	transient protected IReportContent report;
+
+	transient protected CSSEngine cssEngine;
 
 	protected String name;
 
@@ -67,21 +71,16 @@ abstract public class AbstractContent extends AbstractElement
 
 	protected String toc;
 
-	/**
-	 * default contructor, used by serialize and deserialize.
-	 */
-	public AbstractContent( )
-	{
-	}
-
 	public AbstractContent( IReportContent report )
 	{
 		this.report = report;
+		this.cssEngine = report.getCSSEngine( );
 	}
 
 	public void setReportContent( IReportContent report )
 	{
 		this.report = report;
+		this.cssEngine = report.getCSSEngine( );
 	}
 
 	public AbstractContent( IContent content )
@@ -106,6 +105,11 @@ abstract public class AbstractContent extends AbstractElement
 	public IReportContent getReportContent( )
 	{
 		return this.report;
+	}
+
+	public CSSEngine getCSSEngine( )
+	{
+		return this.cssEngine;
 	}
 
 	public String getName( )
@@ -183,6 +187,15 @@ abstract public class AbstractContent extends AbstractElement
 	{
 		if ( computedStyle == null )
 		{
+			CSSEngine cssEngine = null;
+			if ( report != null )
+			{
+				cssEngine = report.getCSSEngine( );
+			}
+			if ( cssEngine != null )
+			{
+				cssEngine = new BIRTCSSEngine( );
+			}
 			computedStyle = new ComputedStyle( this );
 		}
 		return computedStyle;
@@ -471,7 +484,7 @@ abstract public class AbstractContent extends AbstractElement
 				String style = IOUtil.readString( in );
 				if ( style != null && style.length( ) != 0 )
 				{
-					inlineStyle = new StyleDeclaration( );
+					inlineStyle = new StyleDeclaration( cssEngine );
 					inlineStyle.setCssText( style );
 				}
 				break;

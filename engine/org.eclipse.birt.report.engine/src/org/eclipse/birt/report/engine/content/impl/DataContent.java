@@ -33,14 +33,6 @@ public class DataContent extends TextContent implements IDataContent
 
 	protected String helpKey;
 
-	/**
-	 * constructor use by serialize and deserialize
-	 */
-	public DataContent( )
-	{
-
-	}
-
 	public int getContentType( )
 	{
 		return DATA_CONTENT;

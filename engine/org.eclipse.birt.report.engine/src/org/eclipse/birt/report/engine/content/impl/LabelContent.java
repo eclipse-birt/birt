@@ -28,14 +28,6 @@ public class LabelContent extends TextContent implements ILabelContent
 	protected String labelText;
 	protected String labelTextKey;
 
-	/**
-	 * constructor. use by serialize and deserialize
-	 */
-	public LabelContent( )
-	{
-
-	}
-
 	public int getContentType( )
 	{
 		return LABEL_CONTENT;

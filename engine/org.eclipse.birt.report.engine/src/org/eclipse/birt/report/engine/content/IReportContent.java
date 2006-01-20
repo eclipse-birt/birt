@@ -14,15 +14,23 @@ package org.eclipse.birt.report.engine.content;
 import java.util.List;
 
 import org.eclipse.birt.report.engine.api.TOCNode;
+import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.Report;
 
 /**
  * The object represents the report content as a whole.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/14 10:55:59 $
+ * @version $Revision: 1.8 $ $Date: 2005/12/02 11:57:06 $
  */
 public interface IReportContent
 {
+
+	/**
+	 * get the css engien used by this content
+	 * 
+	 * @return the css engine
+	 */
+	public CSSEngine getCSSEngine( );
 
 	/**
 	 * get the report design used to create this report content.
@@ -203,5 +211,5 @@ public interface IReportContent
 	 * @return the data content.
 	 */
 	public IDataContent createDataContent( IContent conent );
-	
+
 }

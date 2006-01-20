@@ -38,7 +38,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 /**
  * Report content is the result of report generation.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/11/22 19:25:39 $
+ * @version $Revision: 1.10 $ $Date: 2005/12/02 11:57:06 $
  */
 public class ReportContent implements IReportContent
 {
@@ -66,7 +66,7 @@ public class ReportContent implements IReportContent
 	 */
 	public ReportContent( Report report )
 	{
-		cssEngine = BIRTCSSEngine.getInstance( );
+		cssEngine = report.getCSSEngine( );
 		this.report = report;
 	}
 
@@ -75,7 +75,7 @@ public class ReportContent implements IReportContent
 	 */
 	public ReportContent( )
 	{
-		cssEngine = BIRTCSSEngine.getInstance( );
+		cssEngine = new BIRTCSSEngine( );
 	}
 
 	public Report getDesign( )

@@ -23,20 +23,12 @@ import org.eclipse.birt.report.engine.content.IRowContent;
  * 
  * the row content object which contains cell content objects
  * 
- * @version $Revision: 1.9 $ $Date: 2005/12/07 07:21:33 $
+ * @version $Revision: 1.10 $ $Date: 2006/01/11 06:29:02 $
  */
 public class RowContent extends AbstractContent implements IRowContent
 {
 	
 	protected int rowID = -1;	
-
-	/**
-	 * constructor. use by serialize and deserialize
-	 */
-	public RowContent( )
-	{
-
-	}
 
 	public int getContentType( )
 	{

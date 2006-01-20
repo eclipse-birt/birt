@@ -24,6 +24,8 @@ import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
+import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
+import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.css.CSSStyleDeclaration;
@@ -31,7 +33,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.28 $ $Date: 2006/01/10 08:46:38 $
+ * @version $Revision: 1.29 $ $Date: 2006/01/11 09:19:40 $
  */
 public class Report
 {
@@ -100,9 +102,9 @@ public class Report
 	protected ArrayList contents = new ArrayList( );
 
 	protected Map namedExpressions;
-	
+
 	protected Map mapReportItemIDtoInstance;
-	
+
 	/**
 	 * The base directory of the relative links. By default it is where design
 	 * file (XML) resides
@@ -118,82 +120,102 @@ public class Report
 	 * map report item to query
 	 */
 	protected HashMap mapReportItemToQuery;
-	
+
 	/*
 	 * map query to "value" expressions
 	 */
 	protected HashMap mapQueryToValueExprs;
-	
+
+	/**
+	 * css engine used in this
+	 */
+	protected CSSEngine cssEngine;
+
 	/**
 	 * default constructor.
 	 */
 	public Report( )
 	{
+		cssEngine = new BIRTCSSEngine( );
 	}
-	
+
+	public CSSEngine getCSSEngine( )
+	{
+		return cssEngine;
+	}
+
 	/**
 	 * return the map from report item to query
+	 * 
 	 * @return the map from report item to query
 	 */
 	public HashMap getReportItemToQueryMap( )
 	{
-		if( mapReportItemToQuery == null )
+		if ( mapReportItemToQuery == null )
 		{
 			mapReportItemToQuery = new HashMap( );
 		}
 		return mapReportItemToQuery;
 	}
-	
+
 	/**
 	 * return the map from query to value expressions
+	 * 
 	 * @return the map from query to value expressions;
 	 */
 	public HashMap getQueryToValueExprMap( )
 	{
-		if( mapQueryToValueExprs == null )
+		if ( mapQueryToValueExprs == null )
 		{
 			mapQueryToValueExprs = new HashMap( );
 		}
 		return mapQueryToValueExprs;
 	}
-	
+
 	/**
 	 * set report item id to report item instance
 	 * 
-	 * @param id the report item component id
-	 * @param rptItem the report item
+	 * @param id
+	 *            the report item component id
+	 * @param rptItem
+	 *            the report item
 	 */
 	public void setReportItemInstanceID( long id, ReportElementDesign rptElement )
 	{
-		if( mapReportItemIDtoInstance == null )
+		if ( mapReportItemIDtoInstance == null )
 		{
 			mapReportItemIDtoInstance = new HashMap( );
 		}
 		mapReportItemIDtoInstance.put( new Long( id ), rptElement );
 	}
-	
+
 	/**
 	 * return the report item with the specific component ID
-	 * @param id the component id
+	 * 
+	 * @param id
+	 *            the component id
 	 * @return the report item instance
 	 */
 	public ReportElementDesign getReportItemByID( long id )
 	{
 		assert mapReportItemIDtoInstance != null;
-		return (ReportElementDesign) mapReportItemIDtoInstance.get( new Long( id ) );
+		return (ReportElementDesign) mapReportItemIDtoInstance.get( new Long(
+				id ) );
 	}
 
 	/**
 	 * return the named expression defined on the report
+	 * 
 	 * @return
 	 */
 	public Map getNamedExpressions( )
 	{
-		if( namedExpressions == null )
+		if ( namedExpressions == null )
 			namedExpressions = new HashMap( );
-		
+
 		return namedExpressions;
 	}
+
 	/**
 	 * set the report's page setup
 	 * 

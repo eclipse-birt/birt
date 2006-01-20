@@ -27,14 +27,6 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 	protected String rawType;
 	protected Object rawValue;
 
-	/**
-	 * constructor. use by serialize and deserialize
-	 */
-	public ForeignContent( )
-	{
-
-	}
-
 	public int getContentType( )
 	{
 		return FOREIGN_CONTENT;

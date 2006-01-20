@@ -19,13 +19,6 @@ public class ContainerContent extends AbstractContent
 			IContainerContent
 {
 
-	/**
-	 * constructor use by serialize and deserialize
-	 */
-	public ContainerContent( )
-	{
-	}
-
 	public int getContentType( )
 	{
 		return CONTAINER_CONTENT;

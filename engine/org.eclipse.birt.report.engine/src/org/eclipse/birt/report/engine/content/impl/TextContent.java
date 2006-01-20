@@ -21,14 +21,6 @@ public class TextContent extends AbstractContent implements ITextContent
 
 	transient protected String text;
 
-	/**
-	 * constructor. use by serialize and deserialize
-	 */
-	public TextContent( )
-	{
-
-	}
-
 	public int getContentType( )
 	{
 		return TEXT_CONTENT;
