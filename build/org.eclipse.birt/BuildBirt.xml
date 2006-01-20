@@ -80,7 +80,7 @@
 
 	<target name="Export">
 		<tstamp>
-			<format property="TODAY" pattern="yyyyMMddhhmm" />
+			<format property="TODAY" pattern="yyyyMMddHHmm" />
 		</tstamp>
 		<copy todir="${export.dir}/${module.name}_${plugin.version}">
 			<fileset dir=".">
