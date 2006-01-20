@@ -116,7 +116,7 @@ public class WebViewer
 		
 		if ( encodedReportName != null && encodedReportName.length( ) > 0 )
 		{
-			encodedDocumentName = encodedReportName.substring( 0, encodedReportName.indexOf( ".") ) + ".rptdocument"; //$NON-NLS-1$
+			encodedDocumentName = encodedReportName.substring( 0, encodedReportName.lastIndexOf( "." ) ) + ".rptdocument"; //$NON-NLS-1$
 		}
 		
 		String locale = ViewerPlugin.getDefault( ).getPluginPreferences( ).getString( USER_LOCALE );
