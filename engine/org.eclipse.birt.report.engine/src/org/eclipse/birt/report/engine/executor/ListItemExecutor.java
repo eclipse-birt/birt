@@ -28,7 +28,7 @@ import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.32 $ $Date: 2006/01/17 20:10:42 $
+ * @version $Revision: 1.33 $ $Date: 2006/01/19 14:23:03 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -129,11 +129,6 @@ public class ListItemExecutor extends ListingElementExecutor
 	{
 		if ( band != null && band.getContentCount( ) > 0 )
 		{
-			IContainerContent bandContent = report.createContainerContent( );
-			assert ( bandContent instanceof ContainerContent );
-			IContent parent = context.getContent( );
-			context.pushContent( bandContent );
-			initializeContent( parent, band, bandContent );
 			for ( int i = 0; i < band.getContentCount( ); i++ )
 			{
 				ReportItemDesign item = band.getContent( i );
@@ -154,7 +149,6 @@ public class ListItemExecutor extends ListingElementExecutor
 					item.accept( this.visitor, emitter );
 				}
 			}
-			context.popContent();
 		}
 	}
 

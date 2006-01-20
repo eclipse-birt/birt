@@ -1163,6 +1163,11 @@ public class PDFEmitter implements IAreaVisitor
 			            {
 			    			link.append( baseURL.replaceFirst( "frameset", "run" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 			            }
+						else if ( "html".equalsIgnoreCase( format ) ) //$NON-NLS-1$
+			            {
+			    			link.append( baseURL ); //$NON-NLS-1$ //$NON-NLS-2$
+			            }
+							
 						link.append( "?__report=" );	//$NON-NLS-1$
 						try
 						{

@@ -331,4 +331,13 @@ public abstract class AbstractDataEngine implements IDataEngine
 		}
 		return null;
 	}
+
+	public IResultSet getCurrentRS() 
+	{
+		if(!queryResultStack.isEmpty())
+		{
+			return (IResultSet)queryResultStack.getLast();
+		}
+		return null;
+	}
 }

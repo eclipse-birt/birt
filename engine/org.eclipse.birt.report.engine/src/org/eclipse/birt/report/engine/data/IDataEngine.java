@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 /**
  * Defines a set of data-related functions that engine needs from a data engine 
  * 
- * @version $Revision: 1.10 $ $Date: 2005/11/11 06:26:46 $
+ * @version $Revision: 1.11 $ $Date: 2005/11/11 21:11:20 $
  */
 public interface IDataEngine
 {
@@ -82,4 +82,10 @@ public interface IDataEngine
 	 * @return retuan a dataEngine of DTE.
 	 */
 	DataEngine getDataEngine();
+	
+	/**
+	 * get current resultset
+	 * @return
+	 */
+	IResultSet getCurrentRS();
 }
