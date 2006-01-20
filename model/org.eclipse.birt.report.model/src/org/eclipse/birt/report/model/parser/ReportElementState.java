@@ -118,7 +118,6 @@ public abstract class ReportElementState extends DesignParseState
 			DesignElement content )
 	{
 		ElementDefn containerDefn = (ElementDefn) container.getDefn( );
-		ElementDefn contentDefn = (ElementDefn) content.getDefn( );
 
 		// The following conditions should not occur in the parser --
 		// they indicate parser design errors since they can be prevented
@@ -342,12 +341,10 @@ public abstract class ReportElementState extends DesignParseState
 
 		DesignElement parent = module.resolveElement( extendsName, id, element
 				.getPropertyDefn( IDesignElementModel.EXTENDS_PROP ) );
-		// IModuleNameSpace moduleNameSpace = module.getModuleNameSpace( id );
-		// ElementRefValue refValue = moduleNameSpace.resolve( extendsName );
 
 		if ( parent == null )
 		{
-			handler.getErrorHandler( ).semanticWarning(
+			handler.getErrorHandler( ).semanticError(
 					new ExtendsException( element, extendsName,
 							ExtendsException.DESIGN_EXCEPTION_NOT_FOUND ) );
 			return;
@@ -355,17 +352,14 @@ public abstract class ReportElementState extends DesignParseState
 
 		try
 		{
-			// DesignElement parent = refValue.getElement( );
 			assert parent != null;
 			element.checkExtends( parent );
-
 		}
 		catch ( ExtendsException ex )
 		{
 			handler.getErrorHandler( ).semanticError( ex );
 		}
 
-		// element.setExtendsElement( refValue.getElement( ) );
 		element.setExtendsElement( parent );
 		element.refreshStructureFromParent( module );
 		addTheVirualElementsToNamesapce( element );
