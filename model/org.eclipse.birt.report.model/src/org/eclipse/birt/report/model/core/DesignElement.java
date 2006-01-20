@@ -2958,7 +2958,7 @@ public abstract class DesignElement
 		// Can not change the structure of child element or a virtual element(
 		// inside the child ).
 
-		if ( isVirtualElement( ) || getExtendsElement( ) != null )
+		if ( isVirtualElement( ) || getExtendsName( ) != null )
 			return false;
 
 		// special cases check table header containment.
@@ -3036,7 +3036,7 @@ public abstract class DesignElement
 		// Can not change structure of child element or a virtual element(
 		// inside the child ).
 
-		if ( isVirtualElement( ) || getExtendsElement( ) != null )
+		if ( isVirtualElement( ) || getExtendsName( ) != null )
 			return false;
 
 		// special cases check table header containment.

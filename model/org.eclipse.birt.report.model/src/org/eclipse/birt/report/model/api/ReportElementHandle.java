@@ -22,7 +22,9 @@ import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 
 /**
@@ -203,7 +205,8 @@ public abstract class ReportElementHandle extends DesignElementHandle
 		{
 			// maskValue is null, remove the item from the structure list.
 
-			cmd.removeItem( new CachedMemberRef( maskProp ), masks.indexOf( mask ) );
+			cmd.removeItem( new CachedMemberRef( maskProp ), masks
+					.indexOf( mask ) );
 		}
 		else
 		{
@@ -364,5 +367,29 @@ public abstract class ReportElementHandle extends DesignElementHandle
 
 			assert false;
 		}
+	}
+
+	/**
+	 * Checks whether the compound element is valid if the element has no
+	 * extends property value or if the current element is compound elements and
+	 * extends value is unresovled.
+	 * 
+	 * @return <code>true</code> if the compound element is valid. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	public boolean isValidReferenceForCompoundElement( )
+	{
+		ElementRefValue refValue = (ElementRefValue) element.getLocalProperty(
+				getEffectiveModule( ), IDesignElementModel.EXTENDS_PROP );
+		if ( refValue == null )
+			return true;
+
+		// TODO resolve the element later. NO such case right now.
+
+		if ( element.getDefn( ).isContainer( ) && !refValue.isResolved( ) )
+			return false;
+
+		return true;
 	}
 }

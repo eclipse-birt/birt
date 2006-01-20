@@ -344,7 +344,7 @@ public abstract class ReportElementState extends DesignParseState
 
 		if ( parent == null )
 		{
-			handler.getErrorHandler( ).semanticError(
+			handler.getErrorHandler( ).semanticWarning(
 					new ExtendsException( element, extendsName,
 							ExtendsException.DESIGN_EXCEPTION_NOT_FOUND ) );
 			return;

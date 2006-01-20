@@ -172,7 +172,7 @@ public class ContentCommand extends AbstractElementCommand
 		// inside the child ).
 
 		if ( element.isVirtualElement( )
-				|| element.getExtendsElement( ) != null )
+				|| element.getExtendsName( ) != null )
 			throw new ContentException(
 					element,
 					slotID,
@@ -678,7 +678,7 @@ public class ContentCommand extends AbstractElementCommand
 		// inside the child ).
 
 		if ( content.isVirtualElement( )
-				|| content.getExtendsElement( ) != null )
+				|| content.getExtendsName( ) != null )
 			throw new ContentException(
 					element,
 					fromSlotID,
