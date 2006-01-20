@@ -192,7 +192,7 @@ abstract public class AbstractContent extends AbstractElement
 			{
 				cssEngine = report.getCSSEngine( );
 			}
-			if ( cssEngine != null )
+			if ( cssEngine == null )
 			{
 				cssEngine = new BIRTCSSEngine( );
 			}
