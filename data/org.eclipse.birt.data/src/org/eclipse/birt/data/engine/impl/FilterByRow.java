@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.odi.FilterUtil;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
@@ -44,8 +45,8 @@ public class FilterByRow implements IResultObjectEvent
 	{
 		assert filters!= null && dataSet != null;
 		isLegal( filters );
-		this.filters = filters;
 		this.dataSet = dataSet;
+		this.filters = FilterUtil.sortFilters( filters );
 		logger.log( Level.FINER, "FilterByRow starts up" );
 	}
 	

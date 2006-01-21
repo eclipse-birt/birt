@@ -383,14 +383,16 @@ public interface IQuery
         
         public void setFilters( List filters )
         {
-        	if( filters!= null )
-        		this.filters = filters;
+        	if ( filters != null )
+				this.filters = FilterUtil.sortFilters( filters );
         }
         
         public List getFilters( )
         {
         	return this.filters;
         }
+        
+        
     }
 
 }
