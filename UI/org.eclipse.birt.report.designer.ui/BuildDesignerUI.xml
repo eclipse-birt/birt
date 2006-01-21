@@ -182,7 +182,7 @@
 				<include name="plugin*.properties"/>
 			</fileset>
 			<filterset>
-		    	<filter token="BUILD" value="${TODAY}"/>
+		    	<filter token="BUILD" value="${BUILD_ID}"/>
 			</filterset>
 		</copy>
 	</target>
