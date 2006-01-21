@@ -264,111 +264,118 @@
       </topic>
       </topic>
   <topic label="Report Object Model reference" href="birt/birt-23-01.html" >
-    <topic label="CascadingParameterGroup" href="birt/birt-23-02.html" />
-    <topic label="Cell" href="birt/birt-23-03.html" />
-    <topic label="Column" href="birt/birt-23-04.html" />
-    <topic label="Data" href="birt/birt-23-05.html" />
-    <topic label="DataSet" href="birt/birt-23-06.html" />
-    <topic label="DataSource" href="birt/birt-23-07.html" />
-    <topic label="DesignElement" href="birt/birt-23-08.html" />
-    <topic label="ExtendedItem" href="birt/birt-23-09.html" />
-    <topic label="Grid" href="birt/birt-23-10.html" />
-    <topic label="Image" href="birt/birt-23-11.html" />
-    <topic label="Label" href="birt/birt-23-12.html" />
-    <topic label="Library" href="birt/birt-23-13.html" />
-    <topic label="List" href="birt/birt-23-14.html" />
-    <topic label="ListGroup" href="birt/birt-23-15.html" />
-    <topic label="Listing" href="birt/birt-23-16.html" />
-    <topic label="ListingGroup" href="birt/birt-23-17.html" />
-    <topic label="MasterPage" href="birt/birt-23-18.html" />
-    <topic label="Module" href="birt/birt-23-19.html" />
-    <topic label="OdaDataSet" href="birt/birt-23-20.html" />
-    <topic label="OdaDataSource" href="birt/birt-23-21.html" />
-    <topic label="Parameter" href="birt/birt-23-22.html" />
-    <topic label="ParameterGroup" href="birt/birt-23-23.html" />
-    <topic label="ReportDesign" href="birt/birt-23-24.html" />
-    <topic label="ReportElement" href="birt/birt-23-25.html" />
-    <topic label="ReportItem" href="birt/birt-23-26.html" />
-    <topic label="Row" href="birt/birt-23-27.html" />
-    <topic label="ScalarParameter" href="birt/birt-23-28.html" />
-    <topic label="ScriptDataSet" href="birt/birt-23-29.html" />
-    <topic label="ScriptDataSource" href="birt/birt-23-30.html" />
-    <topic label="SimpleMasterPage" href="birt/birt-23-31.html" />
-    <topic label="Style" href="birt/birt-23-32.html" />
-    <topic label="Table" href="birt/birt-23-33.html" />
-    <topic label="TableGroup" href="birt/birt-23-34.html" />
-    <topic label="TemplateDataSet" href="birt/birt-23-35.html" />
-    <topic label="TemplateElement" href="birt/birt-23-36.html" />
-    <topic label="TemplateParameterDefinition" href="birt/birt-23-37.html" />
-    <topic label="TemplateReportItem" href="birt/birt-23-38.html" />
-    <topic label="Text" href="birt/birt-23-39.html" />
-    <topic label="TextData" href="birt/birt-23-40.html" />
-    <topic label="Understanding the ROM structures" href="birt/birt-23-41.html" />
-    <topic label="Action structure" href="birt/birt-23-42.html" />
-    <topic label="CachedMetaData structure" href="birt/birt-23-43.html" />
-    <topic label="ColumnHint structure" href="birt/birt-23-44.html" />
-    <topic label="ComputedColumn structure" href="birt/birt-23-45.html" />
-    <topic label="ConfigVar structure" href="birt/birt-23-46.html" />
-    <topic label="DataSetParam structure" href="birt/birt-23-47.html" />
-    <topic label="DataSetParamBinding structure" href="birt/birt-23-48.html" />
-    <topic label="DateTimeFormatValue structure" href="birt/birt-23-49.html" />
-    <topic label="EmbeddedImage structure" href="birt/birt-23-50.html" />
-    <topic label="ExtendedProperty structure" href="birt/birt-23-51.html" />
-    <topic label="FilterCondition structure" href="birt/birt-23-52.html" />
-    <topic label="HideRule structure" href="birt/birt-23-53.html" />
-    <topic label="HighlightRule structure" href="birt/birt-23-54.html" />
-    <topic label="IncludeScript structure" href="birt/birt-23-55.html" />
-    <topic label="MapRule structure" href="birt/birt-23-56.html" />
-    <topic label="NumberFormatValue structure" href="birt/birt-23-57.html" />
-    <topic label="ParamBinding structure" href="birt/birt-23-58.html" />
-    <topic label="PropertyMask structure" href="birt/birt-23-59.html" />
-    <topic label="ResultSetColumn structure" href="birt/birt-23-60.html" />
-    <topic label="SelectionChoice structure" href="birt/birt-23-61.html" />
-    <topic label="SortKey structure" href="birt/birt-23-62.html" />
-    <topic label="StringFormatValue structure" href="birt/birt-23-63.html" />
-    <topic label="UserProperty structure" href="birt/birt-23-64.html" />
-    </topic>
-  <topic label="Understanding the BIRT plug-ins" href="birt/birt-24-1.html" >
-    <topic label="About the plug-in files" href="birt/birt-24-2.html" >
-      <topic label="About the manifest file" href="birt/birt-24-2.html#wp138107" />
-      <topic label="About additional plug-in files" href="birt/birt-24-2.html#wp138115" />
+    <topic label="Understanding the ROM elements" href="birt/birt-23-02.html" >
+      <topic label="CascadingParameterGroup" href="birt/birt-23-03.html" />
+      <topic label="Cell" href="birt/birt-23-04.html" />
+      <topic label="Column" href="birt/birt-23-05.html" />
+      <topic label="Data" href="birt/birt-23-06.html" />
+      <topic label="DataSet" href="birt/birt-23-07.html" />
+      <topic label="DataSource" href="birt/birt-23-08.html" />
+      <topic label="DesignElement" href="birt/birt-23-09.html" />
+      <topic label="ExtendedItem" href="birt/birt-23-10.html" />
+      <topic label="Grid" href="birt/birt-23-11.html" />
+      <topic label="Image" href="birt/birt-23-12.html" />
+      <topic label="Label" href="birt/birt-23-13.html" />
+      <topic label="Library" href="birt/birt-23-14.html" />
+      <topic label="List" href="birt/birt-23-15.html" />
+      <topic label="ListGroup" href="birt/birt-23-16.html" />
+      <topic label="Listing" href="birt/birt-23-17.html" />
+      <topic label="ListingGroup" href="birt/birt-23-18.html" />
+      <topic label="MasterPage" href="birt/birt-23-19.html" />
+      <topic label="Module" href="birt/birt-23-20.html" />
+      <topic label="OdaDataSet" href="birt/birt-23-21.html" />
+      <topic label="OdaDataSource" href="birt/birt-23-22.html" />
+      <topic label="Parameter" href="birt/birt-23-23.html" />
+      <topic label="ParameterGroup" href="birt/birt-23-24.html" />
+      <topic label="ReportDesign" href="birt/birt-23-25.html" />
+      <topic label="ReportElement" href="birt/birt-23-26.html" />
+      <topic label="ReportItem" href="birt/birt-23-27.html" />
+      <topic label="Row" href="birt/birt-23-28.html" />
+      <topic label="ScalarParameter" href="birt/birt-23-29.html" />
+      <topic label="ScriptDataSet" href="birt/birt-23-30.html" />
+      <topic label="ScriptDataSource" href="birt/birt-23-31.html" />
+      <topic label="SimpleMasterPage" href="birt/birt-23-32.html" />
+      <topic label="Style" href="birt/birt-23-33.html" />
+      <topic label="Table" href="birt/birt-23-34.html" />
+      <topic label="TableGroup" href="birt/birt-23-35.html" />
+      <topic label="TemplateDataSet" href="birt/birt-23-36.html" />
+      <topic label="TemplateElement" href="birt/birt-23-37.html" />
+      <topic label="TemplateParameterDefinition" href="birt/birt-23-38.html" />
+      <topic label="TemplateReportItem" href="birt/birt-23-39.html" />
+      <topic label="Text" href="birt/birt-23-40.html" />
+      <topic label="TextData" href="birt/birt-23-41.html" />
       </topic>
-    <topic label="Understanding the individual BIRT plug-ins" href="birt/birt-24-3.html" >
-      <topic label="About org.eclipse.birt.chart.device.extension" href="birt/birt-24-3.html#wp138140" />
-      <topic label="About org.eclipse.birt.chart.device.svg" href="birt/birt-24-3.html#wp138178" />
-      <topic label="About org.eclipse.birt.chart.engine" href="birt/birt-24-3.html#wp138212" />
-      <topic label="About org.eclipse.birt.chart.engine.extension" href="birt/birt-24-3.html#wp138385" />
-      <topic label="About org.eclipse.birt.chart.reportitem" href="birt/birt-24-3.html#wp138473" />
-      <topic label="About org.eclipse.birt.chart.ui" href="birt/birt-24-3.html#wp138524" />
-      <topic label="About org.eclipse.birt.chart.ui.extension" href="birt/birt-24-3.html#wp138592" />
-      <topic label="About org.eclipse.birt.core" href="birt/birt-24-3.html#wp138652" />
-      <topic label="About org.eclipse.birt.core.ui" href="birt/birt-24-3.html#wp141035" />
-      <topic label="About org.eclipse.birt.data" href="birt/birt-24-3.html#wp138714" />
-      <topic label="About org.eclipse.birt.data.oda" href="birt/birt-24-3.html#wp138786" />
-      <topic label="About org.eclipse.birt.data.oda.adapter.dtp" href="birt/birt-24-3.html#wp142094" />
-      <topic label="About org.eclipse.birt.doc" href="birt/birt-24-3.html#wp141900" />
-      <topic label="About org.eclipse.birt.report.data.oda.flatfile.ui" href="birt/birt-24-3.html#wp141883" />
-      <topic label="About org.eclipse.birt.report.data.oda.flatfile" href="birt/birt-24-3.html#wp138869" />
-      <topic label="About org.eclipse.birt.report.data.oda.jdbc.ui" href="birt/birt-24-3.html#wp138924" />
-      <topic label="About org.eclipse.birt.report.data.oda.jdbc" href="birt/birt-24-3.html#wp139026" />
-      <topic label="About org.eclipse.birt.report.data.oda.sampledb" href="birt/birt-24-3.html#wp139093" />
-      <topic label="About org.eclipse.birt.report.data.oda.sampledb.ui" href="birt/birt-24-3.html#wp139128" />
-      <topic label="About org.eclipse.birt.report.designer.core" href="birt/birt-24-3.html#wp139159" />
-      <topic label="About org.eclipse.birt.report.designer.rcp.ui" href="birt/birt-24-3.html#wp139232" />
-      <topic label="About org.eclipse.birt.report.designer.ui" href="birt/birt-24-3.html#wp139271" />
-      <topic label="About org.eclipse.birt.report.designer.ui.ide" href="birt/birt-24-3.html#wp141759" />
-      <topic label="About org.eclipse.birt.report.designer.ui.lib.explorer" href="birt/birt-24-3.html#wp142854" />
-      <topic label="About org.eclipse.birt.report.designer.ui.lib" href="birt/birt-24-3.html#wp141805" />
-      <topic label="About org.eclipse.birt.report.designer.ui.rcp" href="birt/birt-24-3.html#wp141830" />
-      <topic label="About org.eclipse.birt.report.engine.emitter.fo" href="birt/birt-24-3.html#wp139575" />
-      <topic label="About org.eclipse.birt.engine.emitter.html" href="birt/birt-24-3.html#wp139626" />
-      <topic label="About org.eclipse.birt.report.engine" href="birt/birt-24-3.html#wp139653" />
-      <topic label="About org.eclipse.birt.report.model" href="birt/birt-24-3.html#wp139789" />
-      <topic label="About org.eclipse.birt.report.viewer" href="birt/birt-24-3.html#wp139920" />
-      <topic label="About org.eclipse.birt.sample.reportitem.rotatedtext" href="birt/birt-24-3.html#wp142523" />
+    <topic label="Understanding the ROM structures" href="birt/birt-23-42.html" >
+      <topic label="Action structure" href="birt/birt-23-43.html" />
+      <topic label="CachedMetaData structure" href="birt/birt-23-44.html" />
+      <topic label="ColumnHint structure" href="birt/birt-23-45.html" />
+      <topic label="ComputedColumn structure" href="birt/birt-23-46.html" />
+      <topic label="ConfigVar structure" href="birt/birt-23-47.html" />
+      <topic label="DataSetParam structure" href="birt/birt-23-48.html" />
+      <topic label="DataSetParamBinding structure" href="birt/birt-23-49.html" />
+      <topic label="DateTimeFormatValue structure" href="birt/birt-23-50.html" />
+      <topic label="EmbeddedImage structure" href="birt/birt-23-51.html" />
+      <topic label="ExtendedProperty structure" href="birt/birt-23-52.html" />
+      <topic label="FilterCondition structure" href="birt/birt-23-53.html" />
+      <topic label="HideRule structure" href="birt/birt-23-54.html" />
+      <topic label="HighlightRule structure" href="birt/birt-23-55.html" />
+      <topic label="IncludeScript structure" href="birt/birt-23-56.html" />
+      <topic label="IncludedLibrary structure" href="birt/birt-23-57.html" />
+      <topic label="MapRule structure" href="birt/birt-23-58.html" />
+      <topic label="NumberFormatValue structure" href="birt/birt-23-59.html" />
+      <topic label="ParamBinding structure" href="birt/birt-23-60.html" />
+      <topic label="PropertyBinding structure" href="birt/birt-23-61.html" />
+      <topic label="PropertyMask structure" href="birt/birt-23-62.html" />
+      <topic label="ResultSetColumn structure" href="birt/birt-23-63.html" />
+      <topic label="SelectionChoice structure" href="birt/birt-23-64.html" />
+      <topic label="SortKey structure" href="birt/birt-23-65.html" />
+      <topic label="StringFormatValue structure" href="birt/birt-23-66.html" />
+      <topic label="UserProperty structure" href="birt/birt-23-67.html" />
       </topic>
-    <topic label="Plug-ins for optional samples download" href="birt/birt-24-4.html" >
-      <topic label="About org.eclipse.birt.chart.engine.examples" href="birt/birt-24-4.html#wp141524" />
+      </topic>
+  <topic label="Understanding the BIRT plug-ins" href="birt/birt-24-01.html" >
+    <topic label="About the plug-in files" href="birt/birt-24-02.html" >
+      <topic label="The manifest file" href="birt/birt-24-02.html#wp138107" />
+      <topic label="Additional plug-in files" href="birt/birt-24-02.html#wp138115" />
+      </topic>
+    <topic label="Understanding the individual BIRT plug-ins" href="birt/birt-24-03.html" >
+      <topic label="org.eclipse.birt.chart.device.extension" href="birt/birt-24-04.html" />
+      <topic label="org.eclipse.birt.chart.device.svg" href="birt/birt-24-05.html" />
+      <topic label="org.eclipse.birt.chart.engine" href="birt/birt-24-06.html" />
+      <topic label="org.eclipse.birt.chart.engine.extension" href="birt/birt-24-07.html" />
+      <topic label="org.eclipse.birt.chart.reportitem" href="birt/birt-24-08.html" />
+      <topic label="org.eclipse.birt.chart.ui" href="birt/birt-24-09.html" />
+      <topic label="org.eclipse.birt.chart.ui.extension" href="birt/birt-24-10.html" />
+      <topic label="org.eclipse.birt.core" href="birt/birt-24-11.html" />
+      <topic label="org.eclipse.birt.core.ui" href="birt/birt-24-12.html" />
+      <topic label="org.eclipse.birt.data" href="birt/birt-24-13.html" />
+      <topic label="org.eclipse.birt.data.oda" href="birt/birt-24-14.html" />
+      <topic label="org.eclipse.birt.data.oda.adapter.dtp" href="birt/birt-24-15.html" />
+      <topic label="org.eclipse.birt.doc" href="birt/birt-24-16.html" />
+      <topic label="org.eclipse.birt.report.data.oda.flatfile.ui" href="birt/birt-24-17.html" />
+      <topic label="org.eclipse.birt.report.data.oda.flatfile" href="birt/birt-24-18.html" />
+      <topic label="org.eclipse.birt.report.data.oda.jdbc.ui" href="birt/birt-24-19.html" />
+      <topic label="org.eclipse.birt.report.data.oda.jdbc" href="birt/birt-24-20.html" />
+      <topic label="org.eclipse.birt.report.data.oda.sampledb" href="birt/birt-24-21.html" />
+      <topic label="org.eclipse.birt.report.data.oda.sampledb.ui" href="birt/birt-24-22.html" />
+      <topic label="org.eclipse.birt.report.data.oda.xml" href="birt/birt-24-23.html" />
+      <topic label="org.eclipse.birt.report.data.oda.xml.ui" href="birt/birt-24-24.html" />
+      <topic label="org.eclipse.birt.report.designer.core" href="birt/birt-24-25.html" />
+      <topic label="org.eclipse.birt.report.designer.rcp.ui" href="birt/birt-24-26.html" />
+      <topic label="org.eclipse.birt.report.designer.ui" href="birt/birt-24-27.html" />
+      <topic label="org.eclipse.birt.report.designer.ui.ide" href="birt/birt-24-28.html" />
+      <topic label="org.eclipse.birt.report.designer.ui.lib.explorer" href="birt/birt-24-29.html" />
+      <topic label="org.eclipse.birt.report.designer.ui.lib" href="birt/birt-24-30.html" />
+      <topic label="org.eclipse.birt.report.designer.ui.rcp" href="birt/birt-24-31.html" />
+      <topic label="org.eclipse.birt.report.engine.emitter.pdf" href="birt/birt-24-32.html" />
+      <topic label="org.eclipse.birt.engine.emitter.html" href="birt/birt-24-33.html" />
+      <topic label="org.eclipse.birt.report.engine" href="birt/birt-24-34.html" />
+      <topic label="org.eclipse.birt.report.model" href="birt/birt-24-35.html" />
+      <topic label="org.eclipse.birt.report.viewer" href="birt/birt-24-36.html" />
+      </topic>
+    <topic label="Plug-ins for optional samples download" href="birt/birt-24-37.html" >
+      <topic label="org.eclipse.birt.chart.engine.examples" href="birt/birt-24-38.html" />
+      <topic label="org.eclipse.birt.sample.reportitem.rotatedtext" href="birt/birt-24-39.html" />
       </topic>
       </topic>
 

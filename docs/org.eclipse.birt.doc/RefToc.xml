@@ -6,7 +6,7 @@
     <topic label="API Reference">
        <topic label="Report Object Model API Reference" href="model/api/index.html"/>
        <topic label="Report Engine API Reference" href="engine/api/index.html"/>
-       <topic label="Report Engine Scripting API Reference" href="enginescript/api/index.html"/>
+       <topic label="BIRT Scripting API Reference" href="enginescript/api/index.html"/>
        <topic label="Open Data Access (ODA) 2.0.2 API Reference" href="odaold/api/index.html"/>
        <topic label="Open Data Access (ODA) 3.0.0 API Reference" href="oda/api/index.html"/>
        <topic label="Data Engine API Reference" href="data/api/index.html"/>
@@ -21,13 +21,10 @@
       <topic label="org_eclipse_birt_chart_engine_modelrenderers" href="ref/ext/org_eclipse_birt_chart_engine_modelrenderers.html" />
       <topic label="org_eclipse_birt_chart_ui_changelistener" href="ref/ext/org_eclipse_birt_chart_ui_changelistener.html" />
       <topic label="org_eclipse_birt_chart_ui_seriescomposites" href="ref/ext/org_eclipse_birt_chart_ui_seriescomposites.html" />
-      <topic label="org_eclipse_birt_core_ui_tasks" href="ref/ext/org_eclipse_birt_core_ui_tasks.html" />
-      <topic label="org_eclipse_birt_core_ui_taskWizards" href="ref/ext/org_eclipse_birt_core_ui_taskWizards.html" />
       <topic label="org_eclipse_birt_data_aggregation" href="ref/ext/org_eclipse_birt_data_aggregation.html" />
       <topic label="org_eclipse_birt_data_oda_dataSource" href="ref/ext/org_eclipse_birt_data_oda_datasource.html" />
       <topic label="org_eclipse_birt_report_data_oda_jdbc_driverinfo" href="ref/ext/org_eclipse_birt_report_data_oda_jdbc_driverinfo.html" />
       <topic label="org_eclipse_birt_report_designer_ui_datasource" href="ref/ext/org_eclipse_birt_report_designer_ui_datasource.html" />
-      <topic label="org_eclipse_birt_report_designer_ui_menuBuilders" href="ref/ext/org_eclipse_birt_report_designer_ui_menuBuilders.html" />
       <topic label="org_eclipse_birt_report_designer_ui_reportitemUI" href="ref/ext/org_eclipse_birt_report_designer_ui_reportitemUI.html" />
       <topic label="org_eclipse_birt_report_engine_emitters" href="ref/ext/org_eclipse_birt_report_engine_emitters.html" />
       <topic label="org_eclipse_birt_report_engine_reportitemGeneration" href="ref/ext/org_eclipse_birt_report_engine_reportitemGeneration.html" />
@@ -35,7 +32,6 @@
       <topic label="org_eclipse_birt_report_engine_reportitemQuery" href="ref/ext/org_eclipse_birt_report_engine_reportitemQuery.html" />
       <topic label="org_eclipse_birt_report_model_encryptionHelper" href="ref/ext/org_eclipse_birt_report_model_encryptionHelper.html" />
       <topic label="org_eclipse_birt_report_model_reportItemModel" href="ref/ext/org_eclipse_birt_report_model_reportItem.html" />
-      <topic label="org_eclipse_birt_report_viewer_browser" href="ref/ext/org_eclipse_birt_report_viewer_browser.html" />
       <topic label="org_eclipse_datatools_connectivity_oda_datasource" href="ref/ext/org_eclipse_datatools_connectivity_oda_datasource.html" />
     </topic>
     <topic label="Report Object Model (ROM) Defintions Reference" href="doc/rom/index.html" />
