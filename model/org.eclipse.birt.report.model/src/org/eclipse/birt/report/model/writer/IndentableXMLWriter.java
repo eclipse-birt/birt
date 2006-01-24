@@ -97,8 +97,8 @@ public class IndentableXMLWriter extends XMLWriter
 	 */
 
 	protected IndentableXMLWriter( )
-	{}
-	
+	{
+	}
 
 	protected void emitStartTag( String tagName )
 	{
@@ -123,17 +123,24 @@ public class IndentableXMLWriter extends XMLWriter
 
 		// Get the tag name from the top of stack
 
-		if ( elementStack.size( ) > 0 )
+		if ( !elementStack.isEmpty( ) )
 			tagName = (String) elementStack.get( elementStack.size( ) - 1 );
 
-		// No indent for the ending tag following the starting tag
+		// No indent for the leaf nodes on the desing tree. Like <property
+		// name="height">x</property>, <freeform name="freeform1"/>
 
-		if ( !tagName.equalsIgnoreCase( currentTagName ) )
-		{
-
+		if ( !elementStack.isEmpty( )
+				&& !tagName.equalsIgnoreCase( currentTagName ) )
 			literal( getIndent( elementStack.size( ) - 1 ) );
-		}
+
+		// currentTagName is the last tag that was written to the output stream.
+		// It is a trick to set the currentTagName before the
+		// super.endElement(). So that it can show all tabs correctly.
+
+		currentTagName = tagName;
+
 		super.endElement( );
+
 	}
 
 	/**
