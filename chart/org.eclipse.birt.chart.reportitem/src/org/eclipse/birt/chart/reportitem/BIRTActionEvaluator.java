@@ -76,6 +76,13 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 				}
 				else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( handle.getLinkType( ) ) )
 				{
+					exp = handle.getTargetBookmark( );
+
+					if ( exp!= null && !expList.contains( exp ) )
+					{
+						expList.add( exp );
+					}
+					
 					for ( Iterator itr = handle.getSearch( ).iterator( ); itr.hasNext( ); )
 					{
 						SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
