@@ -538,7 +538,7 @@ public class RenderTaskTest extends EngineCase {
 			 * pdf files } task.close();
 			 */
 
-			// test design file with library.
+/*			// test design file with library.
 			fileName = "report_from_library1";
 			report_design = inputPath + fileName + ".rptdesign";
 			report_document = outputPath + fileName + "_reportdocument";
@@ -582,7 +582,7 @@ public class RenderTaskTest extends EngineCase {
 				removeFile(pdfFile);
 			}
 			task.close();
-
+*/
 			// test design file with area chart.
 			fileName = "area3dChart";
 			report_design = inputPath + fileName + ".rptdesign";
