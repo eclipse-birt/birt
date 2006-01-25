@@ -71,6 +71,8 @@ import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.ir.RowDesign;
+import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
@@ -87,7 +89,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.72 $ $Date: 2006/01/25 05:59:26 $
+ * @version $Revision: 1.73 $ $Date: 2006/01/25 06:02:44 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -942,9 +944,39 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT, row
 				.getHeight( ) ); //$NON-NLS-1$
+		
+		setRowType( HTMLTags.ATTR_TYPE, row.getGenerateBy( ) );
 		handleStyle( row, styleBuffer );
 	}
-
+	
+	protected void setRowType( String tagName, Object value )
+	{
+		if( tagName != null && value != null )
+		{
+			if( value instanceof RowDesign )
+			{
+				RowDesign row = (RowDesign)value;
+				int bandType = row.getBandType( );
+				if( bandType == TableBandDesign.TABLE_HEADER )
+				{
+					writer.attribute( tagName, "wrth" );
+				}
+				else if( bandType == TableBandDesign.TABLE_FOOTER )
+				{
+					writer.attribute( tagName, "wrtf" );
+				}
+				else if( bandType == TableBandDesign.GROUP_HEADER )
+				{
+					writer.attribute( tagName, "wrgh" + row.getGroupLevel( ) );
+				}
+				else if( bandType == TableBandDesign.GROUP_FOOTER )
+				{
+					writer.attribute( tagName, "wrgf" + row.getGroupLevel( ) );
+				}
+			}		
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

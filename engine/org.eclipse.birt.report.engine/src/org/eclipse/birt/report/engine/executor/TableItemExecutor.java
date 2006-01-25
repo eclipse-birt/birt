@@ -63,7 +63,7 @@ import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.36 $ $Date: 2005/12/12 19:48:47 $
+ * @version $Revision: 1.37 $ $Date: 2006/01/17 20:10:42 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -169,7 +169,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * structure used to cache the information of a table.
 	 * 
-	 * @version $Revision: 1.36 $ $Date: 2005/12/12 19:48:47 $
+	 * @version $Revision: 1.37 $ $Date: 2006/01/17 20:10:42 $
 	 */
 	private static class TABLEINFO
 	{
@@ -349,6 +349,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			{
 				emitter.startTableHeader( header );
 			}
+			bandDesign.setBandType( TableBandDesign.TABLE_HEADER );
 			accessTableBand( bandDesign, emitter, rsIterator );
 			if ( emitter != null )
 			{
@@ -399,6 +400,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			{
 				emitter.startTableFooter( footer );
 			}
+			bandDesign.setBandType( TableBandDesign.TABLE_FOOTER );
 			accessTableBand( bandDesign, emitter, rsIterator );
 			if ( emitter != null )
 			{
@@ -434,6 +436,8 @@ public class TableItemExecutor extends ListingElementExecutor
 						( TableItemDesign ) list, emitter );
 				outputEmitter = layoutEmitter;
 			}
+			band.setBandType( TableBandDesign.GROUP_HEADER );
+			band.setBandLevel( index );
 			accessTableBand( band, outputEmitter, null );
 		}
 	}
@@ -450,7 +454,10 @@ public class TableItemExecutor extends ListingElementExecutor
 		TableGroupDesign group = ( ( TableItemDesign ) list ).getGroup( index );
 		if ( group != null )
 		{
-			accessTableBand( group.getFooter( ), emitter, null );
+			TableBandDesign band = group.getFooter( );
+			band.setBandType( TableBandDesign.GROUP_FOOTER );
+			band.setBandLevel( index );
+			accessTableBand( band, emitter, null );
 		}
 		// all cells with drop all can be resolved.
 		if ( layoutEmitter != null )
@@ -467,7 +474,10 @@ public class TableItemExecutor extends ListingElementExecutor
 		{
 			for ( int i = 0; i < band.getRowCount( ); i++ )
 			{
-				accessRow( band.getRow( i ), emitter, rsIterator );
+				RowDesign rowDesign = band.getRow( i );
+				rowDesign.setBandType( band.getBandType( ) );
+				rowDesign.setGroupLevel( band.getBandLevel( ) );
+				accessRow( rowDesign, emitter, rsIterator );
 			}
 		}
 	}
