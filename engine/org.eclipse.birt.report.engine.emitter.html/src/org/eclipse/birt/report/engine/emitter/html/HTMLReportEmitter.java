@@ -57,6 +57,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
@@ -67,6 +68,7 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
+import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
@@ -85,7 +87,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.70 $ $Date: 2006/01/09 12:05:49 $
+ * @version $Revision: 1.71 $ $Date: 2006/01/13 09:56:13 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1165,7 +1167,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// bookmark
 		setBookmark( tagName, text.getBookmark( ) );
-
+		
+		// check if the label is from Template, if so then output iid
+		setLabelInstanceId( text );
+		
 		// title
 		writer.attribute( HTMLTags.ATTR_TITLE, text.getHelpText( ) ); //$NON-NLS-1$
 
@@ -1174,7 +1179,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		handleStyle( text, styleBuffer, false );
 
 		writer.text( textValue );
-
+		
 		writer.closeTag( tagName );
 	}
 
@@ -1733,6 +1738,31 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		return canShrink;
 	}
 
+	/*
+	 * Output the label instance id if the label is from Template as <div type="iid" ...> 
+	 *  
+	 * @param tagName HTML tag as "type"
+	 * @param iidText the instance id text
+	 */
+	protected void setLabelInstanceId( ITextContent text )
+	{
+		if ( text instanceof LabelContent )
+		{
+			Object genBy = text.getGenerateBy( );
+			if( genBy != null && genBy instanceof LabelItemDesign )
+			{
+				boolean isTempValue = ((LabelItemDesign)genBy).getHandle( )
+										.isTemplateParameterValue( );
+				InstanceID iid = text.getInstanceID( );
+				if( isTempValue )
+				{
+					writer.attribute( HTMLTags.ATTR_TYPE, iid.toString( ) );
+					exportElementID( text, iid.toString( ), "EXTENDED" );
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Outputs the 'bookmark' property. Destination anchors in HTML documents
 	 * may be specified either by the A element (naming it with the 'name'
@@ -2080,7 +2110,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		Object generateBy = content.getGenerateBy( );
 		if ( generateBy instanceof TableItemDesign
 				|| generateBy instanceof ListItemDesign
-				|| generateBy instanceof ExtendedItemDesign )
+				|| generateBy instanceof ExtendedItemDesign
+				|| generateBy instanceof LabelItemDesign )
 		{
 			if ( renderOption instanceof HTMLRenderOption )
 			{
