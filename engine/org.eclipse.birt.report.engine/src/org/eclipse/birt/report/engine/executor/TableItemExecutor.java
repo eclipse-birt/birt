@@ -63,7 +63,7 @@ import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.37 $ $Date: 2006/01/17 20:10:42 $
+ * @version $Revision: 1.38 $ $Date: 2006/01/25 09:06:46 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -169,7 +169,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * structure used to cache the information of a table.
 	 * 
-	 * @version $Revision: 1.37 $ $Date: 2006/01/17 20:10:42 $
+	 * @version $Revision: 1.38 $ $Date: 2006/01/25 09:06:46 $
 	 */
 	private static class TABLEINFO
 	{
@@ -516,12 +516,13 @@ public class TableItemExecutor extends ListingElementExecutor
 			IContent parent = context.getContent( );
 			context.pushContent( rowContent );
 			initializeContent( parent, row, rowContent );
-
+			
 			processStyle( row, rowContent );
 			processVisibility( row, rowContent );
 			processBookmark( row, rowContent );
 			processAction( row, rowContent );
-
+			processRowType( row, rowContent );
+			
 			if ( needPageBreak )
 			{
 				rowContent.getStyle( ).setProperty(
@@ -609,6 +610,15 @@ public class TableItemExecutor extends ListingElementExecutor
 		}
 	}
 
+	private void processRowType( RowDesign row, IRowContent rowContent )
+	{
+		assert row != null && rowContent instanceof RowContent;
+		
+		RowContent rCont = (RowContent)rowContent;
+		rCont.setRowType( row.getBandType( ) );
+		rCont.setGroupLevel( row.getGroupLevel( ) );
+	}
+	
 	static List getValueExpressions( RowDesign row )
 	{
 		List ret = new ArrayList( );

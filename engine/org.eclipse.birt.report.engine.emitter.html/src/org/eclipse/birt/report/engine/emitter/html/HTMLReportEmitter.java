@@ -58,6 +58,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.LabelContent;
+import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
@@ -71,7 +72,6 @@ import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.parser.TextParser;
@@ -89,7 +89,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.73 $ $Date: 2006/01/25 06:02:44 $
+ * @version $Revision: 1.74 $ $Date: 2006/01/25 09:07:06 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -945,18 +945,18 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT, row
 				.getHeight( ) ); //$NON-NLS-1$
 		
-		setRowType( HTMLTags.ATTR_TYPE, row.getGenerateBy( ) );
+		setRowType( HTMLTags.ATTR_TYPE, row );
 		handleStyle( row, styleBuffer );
 	}
 	
-	protected void setRowType( String tagName, Object value )
+	protected void setRowType( String tagName, IRowContent rowContent )
 	{
-		if( tagName != null && value != null )
+		if( tagName != null && rowContent != null )
 		{
-			if( value instanceof RowDesign )
+			if( rowContent instanceof RowContent )
 			{
-				RowDesign row = (RowDesign)value;
-				int bandType = row.getBandType( );
+				RowContent rCont = (RowContent)rowContent;
+				int bandType = rCont.getRowType( );
 				if( bandType == TableBandDesign.TABLE_HEADER )
 				{
 					writer.attribute( tagName, "wrth" );
@@ -967,11 +967,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 				else if( bandType == TableBandDesign.GROUP_HEADER )
 				{
-					writer.attribute( tagName, "wrgh" + row.getGroupLevel( ) );
+					writer.attribute( tagName, "wrgh" + rCont.getGroupLevel( ) );
 				}
 				else if( bandType == TableBandDesign.GROUP_FOOTER )
 				{
-					writer.attribute( tagName, "wrgf" + row.getGroupLevel( ) );
+					writer.attribute( tagName, "wrgf" + rCont.getGroupLevel( ) );
 				}
 			}		
 		}
