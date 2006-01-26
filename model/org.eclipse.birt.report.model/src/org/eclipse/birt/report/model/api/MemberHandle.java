@@ -99,7 +99,7 @@ public class MemberHandle extends SimpleValueHandle
 		if ( value instanceof ReferenceValue )
 			return ReferenceValueUtil.needTheNamespacePrefix(
 					(ReferenceValue) value, getElementHandle( )
-							.getEffectiveModule( ) );
+							.getModule( ) );
 
 		return value;
 	}

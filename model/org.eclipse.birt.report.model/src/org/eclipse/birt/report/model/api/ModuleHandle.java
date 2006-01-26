@@ -57,9 +57,7 @@ import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 import org.eclipse.birt.report.model.css.StyleSheetLoader;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
-import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.TemplateDataSet;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
@@ -179,7 +177,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS );
 		}
 
-		PropertyCommand cmd = new PropertyCommand( module, getElement( ) );
+		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
 		cmd.addItem( new CachedMemberRef( propDefn ), configVar );
 	}
 
@@ -620,9 +618,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 		DesignElement element = module.findDataSet( name );
 		if ( element == null )
 			return null;
-		if ( element instanceof DataSet )
-			return (DataSetHandle) element.getHandle( module );
-		return null;
+
+		return (DataSetHandle) element.getHandle( element.getRoot( ) );
 	}
 
 	/**
@@ -640,9 +637,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		DesignElement element = module.findDataSet( name );
 		if ( element == null )
 			return null;
-		if ( element instanceof TemplateDataSet )
-			return (TemplateDataSetHandle) element.getHandle( module );
-		return null;
+		return (TemplateDataSetHandle) element.getHandle( element.getRoot( ) );
 	}
 
 	/**
@@ -659,7 +654,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		DesignElement element = module.findDataSource( name );
 		if ( element == null )
 			return null;
-		return (DataSourceHandle) element.getHandle( module );
+		return (DataSourceHandle) element.getHandle( element.getRoot( ) );
 	}
 
 	/**
@@ -677,7 +672,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		DesignElement element = module.findElement( name );
 		if ( element == null )
 			return null;
-		return element.getHandle( module );
+		return element.getHandle( element.getRoot( ) );
 	}
 
 	/**
@@ -764,7 +759,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		DesignElement element = module.findPage( name );
 		if ( element == null )
 			return null;
-		return (MasterPageHandle) element.getHandle( module );
+		return (MasterPageHandle) element.getHandle( element.getRoot( ) );
 	}
 
 	/**
@@ -781,7 +776,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		DesignElement element = module.findParameter( name );
 		if ( element == null )
 			return null;
-		return (ParameterHandle) element.getHandle( module );
+		return (ParameterHandle) element.getHandle( element.getRoot( ) );
 	}
 
 	/**
@@ -816,7 +811,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		StyleElement style = module.findStyle( name );
 		if ( style == null )
 			return null;
-		return (SharedStyleHandle) style.getHandle( module );
+		return (SharedStyleHandle) style.getHandle( style.getRoot( ) );
 	}
 
 	/**
@@ -833,7 +828,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		Theme theme = module.findTheme( name );
 		if ( theme == null )
 			return null;
-		return (ThemeHandle) theme.getHandle( getModule( ) );
+		return (ThemeHandle) theme.getHandle( theme.getRoot( ) );
 	}
 
 	/**
@@ -1144,7 +1139,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 		DesignElement element = module.findParameter( groupName );
 		if ( element == null || !( element instanceof CascadingParameterGroup ) )
 			return null;
-		return (CascadingParameterGroupHandle) element.getHandle( module );
+		return (CascadingParameterGroupHandle) element.getHandle( element
+				.getRoot( ) );
 
 	}
 
@@ -1727,7 +1723,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 		while ( iter.hasNext( ) )
 		{
 			DesignElement element = (DesignElement) iter.next( );
-			handleList.add( element.getHandle( module ) );
+
+			Module root = element.getRoot( );
+			assert root != null;
+
+			handleList.add( element.getHandle( root ) );
 		}
 		return handleList;
 	}
@@ -2112,8 +2112,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void setThemeName( String themeName ) throws SemanticException
 	{
-		ThemeCommand command = new ThemeCommand( getModule( ), null,
-				getElement( ) );
+		ThemeCommand command = new ThemeCommand( (Module) getElement( ) );
 		command.setTheme( themeName );
 	}
 
@@ -2142,28 +2141,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void setTheme( ThemeHandle theme ) throws SemanticException
 	{
-		if ( theme == null )
-			setThemeElement( null, getModule( ) );
-		else
-			setThemeElement( (Theme) theme.getElement( ), theme
-					.getEffectiveModule( ) );
-	}
-
-	/**
-	 * Sets the theme to a report.
-	 * 
-	 * @param theme
-	 *            the theme instance
-	 * @param themeRoot
-	 *            the root element of the theme to set
-	 * @throws SemanticException
-	 */
-
-	private void setThemeElement( Theme theme, Module themeRoot )
-			throws SemanticException
-	{
-		ThemeCommand command = new ThemeCommand( getModule( ), themeRoot,
-				getElement( ) );
+		ThemeCommand command = new ThemeCommand( (Module) getElement( ) );
 		command.setThemeElement( theme );
 	}
 
@@ -2211,7 +2189,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 				.findTemplateParameterDefinition( name );
 		if ( templateParam == null )
 			return null;
-		return templateParam.handle( module );
+		return templateParam.handle( templateParam.getRoot( ) );
 	}
 
 	/**

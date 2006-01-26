@@ -17,10 +17,12 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -57,7 +59,7 @@ public class PropertyCommand extends AbstractElementCommand
 	 * Constructor.
 	 * 
 	 * @param module
-	 *            the module
+	 *            the root of <code>obj</code>
 	 * @param obj
 	 *            the element to modify.
 	 */
@@ -254,16 +256,31 @@ public class PropertyCommand extends AbstractElementCommand
 	 */
 
 	private Object validateValue( ElementPropertyDefn prop, Object value )
-			throws PropertyValueException
+			throws SemanticException
 	{
 		// clear the property doesn't needs validation.
 
 		if ( value == null )
 			return null;
 
+		Object input = value;
+
+		// uses the name to resolve the element name
+
+		if ( value instanceof DesignElementHandle )
+		{
+			DesignElementHandle elementHandle = (DesignElementHandle) value;
+			Module root = elementHandle.getModule( );
+
+			input = ReferenceValueUtil.needTheNamespacePrefix( elementHandle
+					.getElement( ), root, module );
+		}
+
+		Object retValue = null;
+
 		try
 		{
-			return prop.validateValue( module, value );
+			retValue = prop.validateValue( module, input );
 		}
 		catch ( PropertyValueException ex )
 		{
@@ -271,6 +288,24 @@ public class PropertyCommand extends AbstractElementCommand
 			ex.setPropertyName( prop.getName( ) );
 			throw ex;
 		}
+
+		if ( !( retValue instanceof ElementRefValue ) )
+			return retValue;
+
+		// if the return element and the input element is not same, throws
+		// exception
+
+		ElementRefValue refValue = (ElementRefValue) retValue;
+		if ( refValue.isResolved( )
+				&& value instanceof DesignElementHandle
+				&& refValue.getElement( ) != ( (DesignElementHandle) value )
+						.getElement( ) )
+			throw new SemanticError( element, new String[]{prop.getName( ),
+					refValue.getName( )},
+					SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF );
+
+		return retValue;
+
 	}
 
 	/**
@@ -299,25 +334,14 @@ public class PropertyCommand extends AbstractElementCommand
 		else if ( DesignElement.EXTENDS_PROP.equals( propName ) )
 		{
 			ExtendsCommand cmd = new ExtendsCommand( module, element );
-			if ( value == null )
-				cmd.setExtendsName( null );
-			else
-			{
-				// TODO: the root here should not be module.
-
-				String name = ( (ElementRefValue) value ).getName( );
-				name = ReferenceValueUtil.needTheNamespacePrefix(
-						(ElementRefValue) value, module );
-				cmd.setExtendsName( name );
-			}
+			cmd.setExtendsRefValue( (ElementRefValue) value );
 		}
 		else if ( StyledElement.STYLE_PROP.equals( propName ) )
 		{
+			// the value must be a type of ElementRefValue or null
+
 			StyleCommand cmd = new StyleCommand( module, element );
-			if ( value == null )
-				cmd.setStyle( null );
-			else
-				cmd.setStyle( ( (ElementRefValue) value ).getName( ) );
+			cmd.setStyleRefValue( (ElementRefValue) value );
 		}
 		else if ( ReportDesign.UNITS_PROP.equals( propName ) )
 		{
@@ -329,7 +353,9 @@ public class PropertyCommand extends AbstractElementCommand
 		}
 		else if ( Module.THEME_PROP.equals( propName ) )
 		{
-			ThemeCommand cmd = new ThemeCommand( module, module, element );
+			assert module == element;
+
+			ThemeCommand cmd = new ThemeCommand( (Module) element );
 			cmd.setThemeRefValue( (ElementRefValue) value );
 		}
 		else

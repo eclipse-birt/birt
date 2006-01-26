@@ -510,7 +510,7 @@ public class ContentCommand extends AbstractElementCommand
 				if ( referred.isStyle( ) )
 				{
 					StyleCommand clientCmd = new StyleCommand( module, client );
-					clientCmd.setStyleElement( null );
+					clientCmd.setStyleElement( (DesignElement) null );
 				}
 				else
 				{

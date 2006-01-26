@@ -12,12 +12,17 @@
 package org.eclipse.birt.report.model.command;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.command.StyleException;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Sets the style property of an element.
@@ -31,9 +36,9 @@ public class StyleCommand extends AbstractElementCommand
 	 * Constructor.
 	 * 
 	 * @param module
-	 *            the module
+	 *            the root of <code>obj</code>
 	 * @param obj
-	 *            The element to modify.
+	 *            the element to modify.
 	 */
 
 	public StyleCommand( Module module, DesignElement obj )
@@ -63,37 +68,26 @@ public class StyleCommand extends AbstractElementCommand
 
 		// Ensure that the style exists.
 
-		StyleElement style = null;
-		StyleElement oldValue = obj.getStyle( );
-		if ( name != null )
+		ElementPropertyDefn propDefn = obj
+				.getPropertyDefn( IStyledElementModel.STYLE_PROP );
+
+		if ( name == null && obj.getStyleName( ) == null )
+			return;
+
+		Object retValue = null;
+
+		try
 		{
-			style = getModule( ).findStyle( name );
-			if ( style == null )
-			{
-				if ( !name.equals( obj.getStyleName( ) ) )
-					throw new StyleException( element, name,
-							StyleException.DESIGN_EXCEPTION_NOT_FOUND );
-				return;
-			}
-
-			// the style in the element is the same with the new set value
-
-			if ( style == oldValue )
-				return;
+			retValue = propDefn.validateValue( module, name );
 		}
-		else
+		catch ( PropertyValueException e )
 		{
-			// the new name is null and the style in the element is un-set
-
-			if ( obj.getStyleName( ) == null )
-				return;
-
+			assert false;
 		}
 
 		// Make the change.
 
-		StyleRecord record = new StyleRecord( obj, style );
-		getActivityStack( ).execute( record );
+		doSetStyleRefValue( (ElementRefValue) retValue );
 	}
 
 	/**
@@ -115,5 +109,74 @@ public class StyleCommand extends AbstractElementCommand
 		if ( style != null )
 			name = style.getName( );
 		setStyle( name );
+	}
+
+	/**
+	 * Sets the extends attribute for an element given the new parent element.
+	 * 
+	 * @param parent
+	 *            the new parent element.
+	 * @throws StyleException
+	 *             if the element can not be extended or the base element is not
+	 *             on component slot, or the base element has no name.
+	 */
+
+	public void setStyleElement( StyleHandle parent ) throws StyleException
+	{
+		if ( parent == null )
+		{
+			setStyle( null );
+			return;
+		}
+
+		setStyle( parent.getName( ) );
+	}
+
+	/**
+	 * Sets the theme with the given element reference value. Call this method
+	 * when the theme name or theme element has been validated. Otherwise, uses
+	 * {@link #setStyle(String)} or {@link #setStyleElement(Theme)}.
+	 * 
+	 * @param refValue
+	 *            the validated reference value
+	 * @throws StyleException
+	 *             if the style is not found.
+	 */
+
+	protected void setStyleRefValue( ElementRefValue refValue )
+			throws StyleException
+	{
+		if ( refValue == null && element.getStyle( ) == null )
+			return;
+
+		doSetStyleRefValue( refValue );
+	}
+
+	/**
+	 * Does the work to set the new style with the given
+	 * <code>newStyleValue</code>.
+	 * 
+	 * @param newStyleValue
+	 *            the validated <code>ElementRefValue</code>
+	 */
+
+	private void doSetStyleRefValue( ElementRefValue newStyleValue )
+			throws StyleException
+	{
+		if ( newStyleValue != null && !newStyleValue.isResolved( ) )
+			throw new StyleException( element, newStyleValue.getName( ),
+					StyleException.DESIGN_EXCEPTION_NOT_FOUND );
+
+		if ( newStyleValue != null && newStyleValue.isResolved( )
+				&& newStyleValue.getElement( ) == element.getStyle( ) )
+			return;
+
+		// Make the change.
+
+		StyledElement obj = (StyledElement) element;
+
+		StyleRecord record = new StyleRecord( obj, newStyleValue );
+		getActivityStack( ).execute( record );
+
 	}
 }

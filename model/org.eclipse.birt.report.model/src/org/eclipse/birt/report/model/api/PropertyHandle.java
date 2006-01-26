@@ -103,7 +103,7 @@ public class PropertyHandle extends SimpleValueHandle
 		if ( value instanceof ReferenceValue )
 			return ReferenceValueUtil.needTheNamespacePrefix(
 					(ReferenceValue) value, getElementHandle( )
-							.getEffectiveModule( ) );
+							.getModule( ) );
 
 		return value;
 	}
@@ -225,7 +225,7 @@ public class PropertyHandle extends SimpleValueHandle
 	{
 		boolean isReadOnly = false;
 
-		Module root = getElementHandle( ).getEffectiveModule( );
+		Module root = getElementHandle( ).getModule( );
 		assert root != null;
 		if ( root.isReadOnly( ) )
 			isReadOnly = true;

@@ -381,7 +381,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 	public boolean isValidReferenceForCompoundElement( )
 	{
 		ElementRefValue refValue = (ElementRefValue) element.getLocalProperty(
-				getEffectiveModule( ), IDesignElementModel.EXTENDS_PROP );
+				getModule( ), IDesignElementModel.EXTENDS_PROP );
 		if ( refValue == null )
 			return true;
 

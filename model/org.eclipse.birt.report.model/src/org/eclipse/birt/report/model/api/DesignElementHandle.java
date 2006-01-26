@@ -89,8 +89,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 {
 
 	/**
-	 * Provides overall information about the module, especially the command
-	 * stack.
+	 * Provides overall information about the root element. If the element is on
+	 * the design tree, the root is cooresponding library/design. If the element
+	 * is not on the tree, the root is the module of ElementFactory that creates
+	 * this <code>DesignElementHandle</code>.
 	 */
 
 	protected final Module module;
@@ -216,7 +218,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 		if ( value instanceof ReferenceValue )
 			return ReferenceValueUtil.needTheNamespacePrefix(
-					(ReferenceValue) value, getEffectiveModule( ) );
+					(ReferenceValue) value, getModule( ) );
 
 		return value;
 
@@ -726,7 +728,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		DesignElement parent = getElement( ).getExtendsElement( );
 		if ( parent == null )
 			return null;
-		return parent.getHandle( module );
+		return parent.getHandle( parent.getRoot() );	
 	}
 
 	/**
@@ -743,10 +745,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public void setExtends( DesignElementHandle parent )
 			throws ExtendsException
 	{
-		if ( parent == null )
-			setExtendsElement( null );
-		else
-			setExtendsElement( parent.getElement( ) );
+		ExtendsCommand cmd = new ExtendsCommand( module, getElement( ) );
+		cmd.setExtendsElement( parent );
 	}
 
 	/**
@@ -792,6 +792,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *            the element that this element is to extend
 	 * @throws ExtendsException
 	 *             If the parent element is of the wrong type as this element.
+	 * 
+	 * @deprecated by {@link #setExtends(DesignElementHandle)}
 	 */
 
 	public void setExtendsElement( DesignElement parent )
@@ -851,6 +853,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * @throws StyleException
 	 *             If this element does not support a style.
 	 * @see #getStyle()
+	 * 
+	 * @deprecated by {@link #setStyle(SharedStyleHandle)}
 	 */
 
 	public void setStyleElement( StyleElement obj ) throws StyleException
@@ -1577,7 +1581,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 				{
 					String name = refValue.getName( );
 					name = ReferenceValueUtil.needTheNamespacePrefix(
-							(ReferenceValue) value, getEffectiveModule( ) );
+							(ReferenceValue) value, getModule( ) );
 					targetHandle.setProperty( propDefn.getName( ), name );
 				}
 				break;
@@ -1649,7 +1653,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( !flag )
 			return false;
 
-		return !getEffectiveModule( ).isReadOnly( );
+		return !getModule( ).isReadOnly( );
 	}
 
 	/**
@@ -1665,7 +1669,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( !flag )
 			return false;
 
-		return !getEffectiveModule( ).isReadOnly( );
+		return !getModule( ).isReadOnly( );
 	}
 
 	/**
@@ -1682,7 +1686,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( !flag )
 			return false;
 
-		return !getEffectiveModule( ).isReadOnly( );
+		return !getModule( ).isReadOnly( );
 	}
 
 	/**
@@ -1715,7 +1719,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( !flag )
 			return false;
 
-		return !getEffectiveModule( ).isReadOnly( );
+		return !getModule( ).isReadOnly( );
 	}
 
 	/**
@@ -1743,7 +1747,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( !flag )
 			return false;
 
-		return !getEffectiveModule( ).isReadOnly( );
+		return !getModule( ).isReadOnly( );
 	}
 
 	/**
@@ -2002,11 +2006,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	protected Module getEffectiveModule( )
 	{
-		Module effectiveModule = getElement( ).getRoot( );
-		if ( effectiveModule == null )
-			effectiveModule = getModule( );
-
-		return effectiveModule;
+		return module;
 	}
 
 	/**

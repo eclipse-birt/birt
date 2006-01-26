@@ -123,7 +123,7 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 
 		String displayLabel = super.getDisplayLabel( level );
 
-		Module rootModule = getEffectiveModule( );
+		Module rootModule = getModule( );
 		if ( rootModule instanceof Library )
 			displayLabel = StringUtil.buildQualifiedReference(
 					( (Library) rootModule ).getNamespace( ), displayLabel );

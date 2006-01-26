@@ -17,10 +17,11 @@ import org.eclipse.birt.report.model.api.command.ExtendsEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Sets the extends attribute of an element.
- *  
+ * 
  */
 
 public class ExtendsRecord extends SimpleRecord
@@ -36,7 +37,7 @@ public class ExtendsRecord extends SimpleRecord
 	 * The new parent element. Can be null.
 	 */
 
-	private DesignElement newParent = null;
+	protected ElementRefValue newParent = null;
 
 	/**
 	 * The old parent element. Can be null.
@@ -59,17 +60,39 @@ public class ExtendsRecord extends SimpleRecord
 	 *            the new parent element.
 	 */
 
-	public ExtendsRecord( DesignElement obj, DesignElement parent )
+	// public ExtendsRecord( DesignElement obj, DesignElement parent )
+	// {
+	// element = obj;
+	// newParent = parent;
+	// oldParent = obj.getExtendsElement( );
+	// if ( oldParent == null )
+	// oldName = obj.getExtendsName( );
+	//
+	// assert element != null;
+	// assert parent == null || parent.getDefn( ) == element.getDefn( );
+	// assert parent == null || !parent.isKindOf( element );
+	//
+	// label = ModelMessages.getMessage( MessageConstants.SET_EXTENDS_MESSAGE );
+	//
+	// }
+	/**
+	 * Constructor.
+	 * 
+	 * @param obj
+	 *            the element to modify.
+	 * @param parent
+	 *            the style to set.
+	 */
+
+	public ExtendsRecord( DesignElement obj, ElementRefValue parent )
 	{
+		assert obj != null;
+
 		element = obj;
 		newParent = parent;
 		oldParent = obj.getExtendsElement( );
 		if ( oldParent == null )
 			oldName = obj.getExtendsName( );
-
-		assert element != null;
-		assert parent == null || parent.getDefn( ) == element.getDefn( );
-		assert parent == null || !parent.isKindOf( element );
 
 		label = ModelMessages.getMessage( MessageConstants.SET_EXTENDS_MESSAGE );
 
@@ -90,7 +113,9 @@ public class ExtendsRecord extends SimpleRecord
 		}
 		else
 		{
-			element.setExtendsElement( newParent );
+			DesignElement parent = newParent == null ? null : newParent
+					.getElement( );
+			element.setExtendsElement( parent );
 		}
 	}
 

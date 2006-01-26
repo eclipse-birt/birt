@@ -16,11 +16,13 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -30,10 +32,13 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
  * Sets the "extends" attribute of an element.
@@ -79,9 +84,12 @@ public class ExtendsCommand extends AbstractElementCommand
 			throw new ExtendsException( element, base,
 					ExtendsException.DESIGN_EXCEPTION_EXTENDS_FORBIDDEN );
 
-		DesignElement parent = null;
+		if ( base == null && element.getExtendsName( ) == null )
+			return;
+
 		ElementDefn metaData = (ElementDefn) element.getDefn( );
-		int ns = metaData.getNameSpaceID( );
+
+		ElementRefValue retValue = null;
 		if ( base == null )
 		{
 			if ( !metaData.canExtend( ) )
@@ -91,12 +99,76 @@ public class ExtendsCommand extends AbstractElementCommand
 		{
 			// Verify that the symbol exists and is the right type.
 
-			Module root = getModule( );
 			if ( !metaData.canExtend( ) )
 				throw new ExtendsException( element, base,
 						ExtendsException.DESIGN_EXCEPTION_CANT_EXTEND );
-			parent = root.resolveElement( base, ns, element
-					.getPropertyDefn( IDesignElementModel.EXTENDS_PROP ) );
+
+			ElementPropertyDefn propDefn = element
+					.getPropertyDefn( IDesignElementModel.EXTENDS_PROP );
+
+			try
+			{
+				retValue = (ElementRefValue) propDefn.validateValue( module,
+						base );
+			}
+			catch ( PropertyValueException e )
+			{
+				assert false;
+			}
+
+		}
+
+		// Make the change.
+
+		doSetExtendsRefValue( retValue );
+	}
+
+	/**
+	 * Does the work to set the new style with the given
+	 * <code>newStyleValue</code>.
+	 * 
+	 * @param newStyleValue
+	 *            the validated <code>ElementRefValue</code>
+	 */
+
+	private void doSetExtendsRefValue( ElementRefValue newExtendsValue )
+			throws ExtendsException
+	{
+		if ( newExtendsValue != null )
+		{
+			// the input value is unresovled, try to resolve it again.
+
+			ElementDefn metaData = (ElementDefn) element.getDefn( );
+			PropertyDefn propDefn = (PropertyDefn) metaData
+					.getProperty( IDesignElementModel.EXTENDS_PROP );
+			int ns = metaData.getNameSpaceID( );
+
+			DesignElement resolvedParent = null;
+			Module root = module;
+			if ( !metaData.canExtend( ) )
+				throw new ExtendsException( element,
+						newExtendsValue.getName( ),
+						ExtendsException.DESIGN_EXCEPTION_CANT_EXTEND );
+
+			if ( !newExtendsValue.isResolved( ) )
+				resolvedParent = root.resolveElement( ReferenceValueUtil
+						.needTheNamespacePrefix( newExtendsValue, module ), ns,
+						propDefn );
+			else
+				resolvedParent = root.resolveElement( newExtendsValue
+						.getElement( ), ns, propDefn );
+
+			DesignElement parent = newExtendsValue.getElement( );
+			if ( parent != null && parent != resolvedParent )
+				throw new ExtendsException( element,
+						newExtendsValue.getName( ),
+						ExtendsException.DESIGN_EXCEPTION_NOT_FOUND );
+
+			if ( parent == null && resolvedParent != null )
+			{
+				parent = resolvedParent;
+				newExtendsValue.resolve( parent );
+			}
 			element.checkExtends( parent );
 
 			if ( metaData.getNameSpaceID( ) == Module.ELEMENT_NAME_SPACE )
@@ -109,24 +181,25 @@ public class ExtendsCommand extends AbstractElementCommand
 				{
 					throw new ExtendsException(
 							element,
-							base,
+							newExtendsValue.getName( ),
 							ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT );
 				}
 			}
 		}
 
-		// Ignore if the setting is the same as current.
-
-		if ( parent == element.getExtendsElement( ) )
+		if ( newExtendsValue != null && newExtendsValue.isResolved( )
+				&& newExtendsValue.getElement( ) == element.getExtendsElement( ) )
 			return;
 
 		// Make the change.
 
 		ActivityStack stack = getActivityStack( );
-		ExtendsRecord record = new ExtendsRecord( element, parent );
+		ExtendsRecord record = new ExtendsRecord( element, newExtendsValue );
 		stack.startTrans( record.getLabel( ) );
 
-		adjustUserProperties( element, parent );
+		adjustUserProperties( element, newExtendsValue == null
+				? null
+				: newExtendsValue.getElement( ) );
 
 		stack.execute( record );
 		stack.commit( );
@@ -201,6 +274,34 @@ public class ExtendsCommand extends AbstractElementCommand
 			name = StringUtil.buildQualifiedReference( namespace, name );
 		}
 		setExtendsName( name );
+	}
+
+	/**
+	 * Sets the extends attribute for an element given the new parent element.
+	 * 
+	 * @param parent
+	 *            the new parent element.
+	 * @throws ExtendsException
+	 *             if the element can not be extended or the base element is not
+	 *             on component slot, or the base element has no name.
+	 */
+
+	public void setExtendsElement( DesignElementHandle parent )
+			throws ExtendsException
+	{
+		if ( parent == null )
+		{
+			setExtendsName( null );
+			return;
+		}
+
+		String name = parent.getName( );
+		if ( StringUtil.isBlank( name ) )
+			throw new ExtendsException( element, "", //$NON-NLS-1$
+					ExtendsException.DESIGN_EXCEPTION_UNNAMED_PARENT );
+
+		setExtendsName( ReferenceValueUtil.needTheNamespacePrefix( parent
+				.getElement( ), parent.getModule( ), module ) );
 	}
 
 	/**
@@ -304,7 +405,7 @@ public class ExtendsCommand extends AbstractElementCommand
 			// clear the extends, break the parent/child relationship.
 
 			ExtendsCommand command = new ExtendsCommand( module, element );
-			command.setExtendsElement( null );
+			command.setExtendsElement( (DesignElement) null );
 		}
 		catch ( SemanticException ex )
 		{
@@ -328,5 +429,24 @@ public class ExtendsCommand extends AbstractElementCommand
 		}
 
 		activityStack.commit( );
+	}
+
+	/**
+	 * Sets the theme with the given element reference value. Call this method
+	 * when the theme name or theme element has been validated.
+	 * 
+	 * @param refValue
+	 *            the validated reference value
+	 * @throws ExtendsException
+	 *             if the element can not have theme or the theme is not found.
+	 */
+
+	protected void setExtendsRefValue( ElementRefValue refValue )
+			throws ExtendsException
+	{
+		if ( refValue == null && element.getExtendsName( ) == null )
+			return;
+
+		doSetExtendsRefValue( refValue );
 	}
 }

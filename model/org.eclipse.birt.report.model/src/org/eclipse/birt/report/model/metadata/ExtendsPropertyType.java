@@ -18,7 +18,6 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 
 /**
  * Property type for the "extends" property of an element. The value is either
@@ -103,24 +102,16 @@ public class ExtendsPropertyType extends PropertyType
 				return null;
 			}
 
-			String namespace = StringUtil.extractNamespace( name );
-			name = StringUtil.extractName( name );
-
 			// Element is unresolved.
 
-			return new ElementRefValue( namespace, name );
+			return validateStringValue( module, defn, (String) value );
 		}
 		if ( value instanceof DesignElement )
 		{
-			DesignElement target = (DesignElement) value;
-			IModuleNameSpace elementResolver = module
-					.getModuleNameSpace( ( (ElementDefn) target.getDefn( ) )
-							.getNameSpaceID( ) );
-			ElementRefValue refValue = elementResolver.resolve( target, defn );
 
 			// Resolved reference.
 
-			return refValue;
+			return validateElementValue( module, defn, (DesignElement) value );
 		}
 
 		// Invalid property value.
@@ -145,6 +136,57 @@ public class ExtendsPropertyType extends PropertyType
 			return null;
 
 		return refValue.getQualifiedReference( );
+	}
+
+	/**
+	 * Validates the element value.
+	 * 
+	 * @param module
+	 *            report design
+	 * @param targetDefn
+	 *            definition of target element
+	 * @param target
+	 *            target element
+	 * @return the resolved element reference value
+	 * @throws PropertyValueException
+	 *             if the type of target element is not that target definition.
+	 */
+
+	private ElementRefValue validateElementValue( Module module,
+			PropertyDefn targetDefn, DesignElement target )
+			throws PropertyValueException
+	{	
+		// Element is unresolved.
+
+		return new ElementRefValue( null, target );
+
+	}
+
+	/**
+	 * Validates the element name.
+	 * 
+	 * @param module
+	 *            report design
+	 * @param targetDefn
+	 *            definition of target element
+	 * @param name
+	 *            element name
+	 * @return the resolved element reference value
+	 * @throws PropertyValueException
+	 *             if the type of target element is not that target definition,
+	 *             or the element with the given name is not in name space.
+	 */
+
+	private ElementRefValue validateStringValue( Module module,
+			PropertyDefn targetDefn, String name )
+			throws PropertyValueException
+	{
+		String namespace = StringUtil.extractNamespace( name );
+		name = StringUtil.extractName( name );
+
+		// Element is unresolved.
+
+		return new ElementRefValue( namespace, name );
 	}
 
 }

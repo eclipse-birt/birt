@@ -19,10 +19,11 @@ import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Records a change to the style of an element.
- *  
+ * 
  */
 
 public class StyleRecord extends SimpleRecord
@@ -40,29 +41,33 @@ public class StyleRecord extends SimpleRecord
 
 	protected Object oldStyle = null;
 
+
 	/**
 	 * The new style. Can be null.
 	 */
 
-	protected StyleElement newStyle = null;
+	// protected StyleElement newStyle = null;
+	protected ElementRefValue newStyle = null;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param obj
 	 *            the element to modify.
-	 * @param style
+	 * @param newStyle
 	 *            the style to set.
 	 */
 
-	public StyleRecord( StyledElement obj, StyleElement style )
+	public StyleRecord( StyledElement obj, ElementRefValue newStyle )
 	{
 		assert obj != null;
+
 		element = obj;
-		newStyle = style;
+		this.newStyle = newStyle;
+
 		if ( element.getStyle( ) != null )
-			oldStyle = element.getStyle();
-		else 
+			oldStyle = element.getStyle( );
+		else
 			oldStyle = element.getStyleName( );
 
 		label = ModelMessages.getMessage( MessageConstants.SET_STYLE_MESSAGE );
@@ -80,11 +85,16 @@ public class StyleRecord extends SimpleRecord
 		{
 			if ( oldStyle instanceof String )
 				element.setStyleName( (String) oldStyle );
-			else 
+			else
 				element.setStyle( (StyleElement) oldStyle );
 		}
 		else
-			element.setStyle( newStyle );
+		{
+			StyleElement tmpStyle = newStyle == null
+					? null
+					: (StyleElement) newStyle.getElement( );
+			element.setStyle( tmpStyle );
+		}
 	}
 
 	/*

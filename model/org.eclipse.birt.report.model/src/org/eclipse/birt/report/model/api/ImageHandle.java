@@ -295,11 +295,11 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 					else
 					{
 						if ( imageRef.getLibraryNamespace( ) != null )
-							targetModule = getEffectiveModule( )
+							targetModule = getModule( )
 									.getLibraryWithNamespace(
 											imageRef.getLibraryNamespace( ) );
 						else
-							targetModule = getEffectiveModule( );
+							targetModule = getModule( );
 
 					}
 

@@ -156,7 +156,7 @@ public class GroupPropertyHandle
 			DesignElementHandle element = (DesignElementHandle) elements
 					.get( i );
 			Object value = element.getElement( ).getLocalProperty(
-					element.getEffectiveModule( ), propDefn );
+					element.getModule( ), propDefn );
 			String localValue = propDefn.getStringValue( element
 					.getEffectiveModule( ), value );
 			if ( localValue != null )

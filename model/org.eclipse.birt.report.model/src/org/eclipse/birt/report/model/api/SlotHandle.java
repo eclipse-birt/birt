@@ -244,13 +244,13 @@ public class SlotHandle extends ElementDetailHandle
 
 	private List checkPostPasteErrors( DesignElement content )
 	{
-		Module currentModule = getElementHandle( ).getEffectiveModule( );
+		Module currentModule = getElementHandle( ).getModule( );
 		String nameSpace = null;
 
 		if ( currentModule != null && currentModule instanceof Library )
 			nameSpace = ( (Library) currentModule ).getNamespace( );
 
-		ModelUtil.reviseNameSpace( getElementHandle( ).getEffectiveModule( ),
+		ModelUtil.reviseNameSpace( getElementHandle( ).getModule( ),
 				content, nameSpace );
 
 		List exceptionList = content.validateWithContents( getModule( ) );
