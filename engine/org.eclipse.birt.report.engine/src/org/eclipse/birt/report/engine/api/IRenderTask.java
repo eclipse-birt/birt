@@ -17,7 +17,6 @@ package org.eclipse.birt.report.engine.api;
  */
 public interface IRenderTask extends IEngineTask
 {
-
 	/**
 	 * set the rendering options
 	 * 
@@ -26,6 +25,14 @@ public interface IRenderTask extends IEngineTask
 	 */
 	public abstract void setRenderOption( IRenderOption options );
 
+	/**
+	 * set the callback function that the engine calls to allow the caller 
+     * to have a final change on the report design before running the report
+     * @param dm design modifier, which allows the design to be modified 
+     * before running the report. Not supported now
+     */
+	public abstract void setDesignModifier(IDesignModifier dm);
+	
 	/**
 	 * @return the render option
 	 */
@@ -42,20 +49,11 @@ public interface IRenderTask extends IEngineTask
 	public abstract void setEmitterID(String id);
 
 	/**
-	 * set the callback function that the engine calls to allow the caller 
-     * to have a final change on the report design before running the report
-     * @param dm design modifier, which allows the design to be modified 
-     * before running the report. Not supported now
-     */
-	// public abstract void setDesignModifier(IDesignModifier dm);
-	
-	/**
 	 * render the whole report document or an output format
 	 * 
-	 * @throws EngineException
-	 *             if rendering fails
+	 * @throws EngineException if rendering fails
 	 */
-	// public abstract void render( ) throws EngineException;
+	public abstract void render( ) throws EngineException;
 
 	/**
 	 * @param pageNumber
@@ -70,13 +68,14 @@ public interface IRenderTask extends IEngineTask
 	 * @throws EngineException
 	 */
 	public abstract void render(String pageRange) throws EngineException;
+	
 	/**
-	 * Render the ReportLet whose container is identified by iid. Useful for
+	 * Render the Reportlet whose container is identified by iid. Useful for
 	 * Reportlet support
 	 * 
 	 * @param itemInstanceID
 	 *            the report iteminstance to be rendered
 	 * @throws EngineException
 	 */
-	// public abstract void render( InstanceID iid ) throws EngineException;
+	public abstract void render( InstanceID iid ) throws EngineException;
 }

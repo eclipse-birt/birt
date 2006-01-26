@@ -19,8 +19,10 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IDesignModifier;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -32,9 +34,9 @@ import org.eclipse.birt.report.engine.presentation.ReportContentLoader;
 
 public class RenderTask extends EngineTask implements IRenderTask
 {
-
 	ReportDocumentReader reportDoc;
 	String emitterID;
+	private IDesignModifier dm;
 
 	/**
 	 * @param engine
@@ -359,18 +361,10 @@ public class RenderTask extends EngineTask implements IRenderTask
 			if ( last != null )
 			{
 				if ( current[1] <= last[1] )
-				{
 					continue;
-				}
-				else
-				{
-					if ( current[0] <= last[1] )
-					{
-						current[0] = last[1];
-
-					}
+				if ( current[0] <= last[1] )
+					current[0] = last[1];
 					ret.add( current );
-				}
 			}
 			else
 			{
@@ -379,5 +373,36 @@ public class RenderTask extends EngineTask implements IRenderTask
 			last = current;
 		}
 		return ret;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IRenderTask#render(org.eclipse.birt.report.engine.api.InstanceID)
+	 */
+	public void render(InstanceID iid) throws EngineException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IRenderTask#render()
+	 */
+	public void render() throws EngineException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setDesignModifier(org.eclipse.birt.report.engine.api.IDesignModifier)
+	 */
+	public void setDesignModifier(IDesignModifier dm) {
+		this.dm = dm;
+	}
+	
+	/**
+	 * @return the design modifier object passed to the task 
+	 */
+	public IDesignModifier getDesignModifier()
+	{
+		return this.dm;
 	}
 }
