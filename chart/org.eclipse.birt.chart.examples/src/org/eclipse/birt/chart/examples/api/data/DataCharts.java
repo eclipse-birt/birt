@@ -120,7 +120,7 @@ public class DataCharts
 
 		// Explosion
 		sePie.setExplosion( 30 );
-		sePie.setExplosionExpression( "orthogonalValue<20 ||orthogonalValue>50" );//$NON-NLS-1$
+		sePie.setExplosionExpression( "valueData<20 ||valueData>50" );//$NON-NLS-1$
 
 		sdCity.getSeries( ).add( sePie );
 

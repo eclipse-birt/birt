@@ -154,10 +154,11 @@
   <p align="left"><font size="-1" face="Arial, Helvetica, sans-serif">The chart 
     examples could run by using SWT or Swing devices, the following shows how 
     to set the configuration in VM arguments:</font></p>
-  <p align="left"><font size="-1" face="Arial, Helvetica, sans-serif">For SWT 
-    devices:</font></p>
+    
+  <p align="left"><font size="-1" face="Arial, Helvetica, sans-serif"><strong>For SWT 
+    devices:</strong></font></p>
 </div>
-<blockquote> 
+
   <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">(Eclipse 
     3.0.1)<br>
     -DSTANDALONE<br>
@@ -175,13 +176,22 @@
       For Eclipse 3.1: org.eclipse.swt.&lt;windowing_system&gt;.&lt;processor_architecture&gt;_&lt;eclipse_version_number&gt;.jar</font></p>
   </div>
   <div align="left"> 
-    <p><font size="-1" face="Arial, Helvetica, sans-serif">For Swing devices:</font></p>
+    <p><font size="-1" face="Arial, Helvetica, sans-serif"><strong>For Swing devices:</strong></font></p>
     <p><font size="-1" face="Arial, Helvetica, sans-serif">(Eclipse 3.0 &amp; 
       Eclipse 3.1)<br>
       -DSTANDALONE<br>
       </font></p>
   </div>
-  </blockquote>
+  <div align="left"> 
+    <p><font size="-1" face="Arial, Helvetica, sans-serif"><strong>For BIRT Reports generation </strong>(org.eclipse.birt.chart.examples.report.api)</font></p>
+    <p><font size="-1" face="Arial, Helvetica, sans-serif">(Eclipse 3.0 &amp; 
+      Eclipse 3.1)<br>
+      -DBIRT_HOME=BIRTHomeFolder<br>
+      </font></p>
+      <font size="-1" face="Arial, Helvetica, sans-serif">Where BIRTHomeFolder is the path of the folder that contains the plugins folder with all BIRT report plugins. Note that you don't specify STANDALONE in that case, since it's not running in Standalone Mode but integrated mode with BIRT Report Engine.</font>
+  </div>
+  
+
 <div align="center">
   <hr>
   <p align="left"><font size="2" face="Arial, Helvetica, sans-serif"><strong><u><a name="111"></a>1.1.1 
