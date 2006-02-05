@@ -76,6 +76,7 @@ public class ResourceConstants
 	public final static String BAD_GROUP_INTERVAL_TYPE = "data.engine.group.interval";
 	public final static String BAD_GROUP_INTERVAL_TYPE_ROWID = "data.engine.group.interval.Rowid";
 	public final static String UNSUPPORTED_FILTER_ON_GROUP="data.engine.NoSupportFilterOnGroup";
+	public final static String INVALID_TOP_BOTTOM_ARGUMENT="data.engine.InvalidTopBottomArgument";
 	public final static String INVALID_TOP_BOTTOM_N_ARGUMENT="data.engine.InvalidTopBottomNArgument";
 	public final static String INVALID_TOP_BOTTOM_PERCENT_ARGUMENT="data.engine.InvalidTopBottomPercentArgument";
 	public final static String ILLEGAL_PARAMETER_FUN = "data.engine.BadAggrFuncParam";

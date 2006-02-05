@@ -105,7 +105,7 @@ public abstract class NEvaluator
 			catch ( BirtException e )
 			{
 				// conversion error
-				throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_PERCENT_ARGUMENT, e);
+				throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_ARGUMENT, e);
 			}
 			
 			// First time; calculate N based on updated row count
@@ -118,7 +118,7 @@ public abstract class NEvaluator
 			else
 			{
 				if( n_value < 0 )
-					throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_PERCENT_ARGUMENT);
+					throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_N_ARGUMENT);
 				N = (int)n_value;
 			}
 		}
