@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.attribute.impl.PaletteImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -91,7 +92,11 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 	public MarkerIconDialog( Shell parent, Palette iconPalette )
 	{
 		super( );
-		this.iconPalette = iconPalette;
+		if ( iconPalette != null )
+		{
+			this.iconPalette = (Palette) EcoreUtil.copy( iconPalette );
+			this.iconPalette.eAdapters( ).addAll( iconPalette.eAdapters( ) );
+		}
 
 		shell = new Shell( parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL );
 		shell.setLayout( new GridLayout( ) );
@@ -343,7 +348,7 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 	/**
 	 * Preview the image when it is a local image file.
 	 * 
-	 * @param fullPath
+	 * @param uri
 	 *            Image absolute path without "file:///"
 	 */
 	private void preview( String uri )

@@ -281,6 +281,13 @@ public class LineSeriesAttributeComposite extends Composite
 
 				if ( iconDialog.applyMarkerIcon( ) )
 				{
+					if ( iconDialog.getIconPalette( ).eAdapters( ).isEmpty( ) )
+					{
+						// Add adapters to new EObject
+						iconDialog.getIconPalette( )
+								.eAdapters( )
+								.addAll( getSeriesMarker( ).eAdapters( ) );
+					}
 					getSeriesMarker( ).setIconPalette( iconDialog.getIconPalette( ) );
 				}
 				else
