@@ -109,7 +109,7 @@
 		
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.core.runtime_*/runtime.jar"/>
-			<include name="org.eclipse.core.runtime*.jar"/>
+			<include name="org.eclipse.core*.jar"/>
 			<include name="${eclipse.ui.workbench.dir}_*/workbench.jar"/>
 			<include name="org.eclipse.ui.workbench*.jar"/>
 			<include name="${eclipse.osgi.dir}_*/*.jar"/>
