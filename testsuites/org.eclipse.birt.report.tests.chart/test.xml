@@ -81,10 +81,7 @@
 		
 		  <fileset dir="..">
 		  	
-		  	<include name="org.eclipse.emf_2.1.0.jar" />
-		  	<include name="org.eclipse.emf.ecore_2.1.0.jar" />
-		  	<include name="org.eclipse.emf.common_2.1.0.jar" />
-		  	<include name="org.eclipse.emf.ecore.xmi_2.1.0.jar" />
+		  	<include name="org.eclipse.emf*.jar" />
 		  	<include name="org.eclipse.swt*.jar" />
 		  
 		  	<include name="org.eclipse.birt.report.model/*.jar" />

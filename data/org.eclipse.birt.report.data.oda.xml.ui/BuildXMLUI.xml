@@ -102,6 +102,7 @@
 			<include name="org.eclipse.osgi*.jar"/>
 			<include name="org.eclipse.jface_*.jar"/>
 			<include name="org.eclipse.ui*.jar"/>
+			<include name="org.eclipse.equinox*.jar"/>
 		</fileset>
 		
 	</path>
