@@ -79,6 +79,7 @@ public class ResourceConstants
 	public final static String INVALID_TOP_BOTTOM_ARGUMENT="data.engine.InvalidTopBottomArgument";
 	public final static String INVALID_TOP_BOTTOM_N_ARGUMENT="data.engine.InvalidTopBottomNArgument";
 	public final static String INVALID_TOP_BOTTOM_PERCENT_ARGUMENT="data.engine.InvalidTopBottomPercentArgument";
+	public final static String INVALID_TOP_BOTTOM_N="data.engine.InvalidTopBottomN";
 	public final static String ILLEGAL_PARAMETER_FUN = "data.engine.BadAggrFuncParam";
 	public final static String RESET_RATE = "data.engine.ResetRateGuess";
 	public final static String UNSUPPORTTED_COND_OPERATOR = "data.engine.UnsupportedCondOp";

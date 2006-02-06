@@ -16,6 +16,7 @@ import org.mozilla.javascript.Scriptable;
  */
 public abstract class NEvaluator
 {
+	private static int MAX_N_VALUE = 1000000;
 	private Object[] valueList; 
 	private int[] rowIdList;
 	private int firstPassRowNumberCounter = 0;
@@ -35,6 +36,7 @@ public abstract class NEvaluator
 	
 	private FilterPassController filterPassController;
 
+	protected static final String nullValueReplacer = "{NULL_VALUE_!@#$%^&}";
 	/**
 	 * Create a new instance to evaluate the top/bottom expression
 	 * @param operator 
@@ -121,6 +123,9 @@ public abstract class NEvaluator
 					throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_N_ARGUMENT);
 				N = (int)n_value;
 			}
+			
+			if ( N > MAX_N_VALUE )
+				throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_N + MAX_N_VALUE);
 		}
 		
 		// Evaluate operand expression
@@ -167,15 +172,24 @@ public abstract class NEvaluator
 		for( int i = 0; i < N; i++ )
 		{
 			if( value == null )
-				value = "{NULL_VALUE_!@#$%^&}";
+				value = nullValueReplacer;
 			if( valueList[i] == null )
 			{
 				valueList[i] = value;
 				rowIdList[i] = firstPassRowNumberCounter;
 				break;
-			}else
+			}
+			else 
 			{
-				Object result = this.doCompare( value, valueList[i] );
+				Object result;
+				
+				if( value.equals(nullValueReplacer) )
+					result = this.doCompare( null, valueList[i]);
+				else if ( valueList[i].equals(nullValueReplacer))
+					result = this.doCompare( value, null );
+				else
+					result = this.doCompare( value, valueList[i] );
+				
 				try
 				{
 					// filter in
