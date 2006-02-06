@@ -254,9 +254,11 @@ class ElementExporter
 		{
 			PropertyDefn memberDefn = (PropertyDefn) iter.next( );
 			String memberName = memberDefn.getName( );
-
+			
+			if ( EmbeddedImage.LIB_REFERENCE_MEMBER.equals( memberName ) )
+				continue;
+				
 			Object value = structToExport.getMember( memberName ).getValue( );
-
 			Object valueToSet = ModelUtil.copyValue( memberDefn, value );
 
 			newStruct.setProperty( memberName, valueToSet );

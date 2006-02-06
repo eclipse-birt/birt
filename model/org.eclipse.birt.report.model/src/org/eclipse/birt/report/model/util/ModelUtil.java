@@ -34,11 +34,14 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.command.LibraryException;
@@ -198,7 +201,6 @@ public class ModelUtil
 
 		return true;
 	}
-
 
 	/**
 	 * Break the relationship between the given element to its parent.Set all
@@ -382,6 +384,26 @@ public class ModelUtil
 			else if ( onlyFactoryProperty )
 				value = propHandle.getElement( ).getFactoryProperty(
 						propHandle.getModule( ), propDefn );
+			else if ( Module.IMAGES_PROP.equals( propName ) )
+			{
+				// Copy the embedded images
+				Iterator images = source.getPropertyHandle( Module.IMAGES_PROP )
+						.iterator( );
+				while ( images.hasNext( ) )
+				{
+					StructureHandle image = (StructureHandle) images.next( );
+					try
+					{
+						ElementExportUtil.exportStructure( image,
+								(LibraryHandle) destination, false );
+					}
+					catch ( SemanticException e )
+					{
+						assert false;
+					}
+				}
+				continue;
+			}
 			else
 				value = propHandle.getElement( ).getPropertyExceptRomDefault(
 						propHandle.getModule( ), propDefn );
