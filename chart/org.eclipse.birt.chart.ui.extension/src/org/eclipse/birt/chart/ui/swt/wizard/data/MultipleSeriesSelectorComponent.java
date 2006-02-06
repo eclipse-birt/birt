@@ -11,12 +11,11 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.data;
 
-import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
-import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
@@ -36,11 +35,9 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 
 	private transient EList[] seriesDefnsArray;
 
-	private transient IUIServiceProvider serviceprovider = null;
+	private transient ChartWizardContext wizardContext = null;
 
 	private transient String sTitle = null;
-
-	private transient Object oContext = null;
 
 	private transient Group cmpLeft;
 
@@ -48,30 +45,17 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 
 	private transient ISelectDataCustomizeUI selectDataUI = null;
 
-	private transient Chart chart;
-
 	private transient String areaTitle = Messages.getString( "SelectDataChartWithAxisUI.Label.ValueYSeries" ); //$NON-NLS-1$
 
-	public MultipleSeriesSelectorComponent( Chart chart,
-			EList[] seriesDefnsArray, IUIServiceProvider builder,
-			Object oContext, String sTitle, ISelectDataCustomizeUI selectDataUI )
+	public MultipleSeriesSelectorComponent( EList[] seriesDefnsArray,
+			ChartWizardContext wizardContext, String sTitle,
+			ISelectDataCustomizeUI selectDataUI )
 	{
 		super( );
-		this.chart = chart;
 		this.seriesDefnsArray = seriesDefnsArray;
-		this.serviceprovider = builder;
-		this.oContext = oContext;
+		this.wizardContext = wizardContext;
 		this.sTitle = sTitle;
 		this.selectDataUI = selectDataUI;
-	}
-
-	public MultipleSeriesSelectorComponent( Chart chart, EList seriesDefns,
-			IUIServiceProvider builder, Object oContext, String sTitle,
-			ISelectDataCustomizeUI taskChangeListener )
-	{
-		this( chart, new EList[]{
-			seriesDefns
-		}, builder, oContext, sTitle, taskChangeListener );
 	}
 
 	public Composite createArea( Composite parent )
@@ -92,23 +76,36 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 			cmpLeft.setText( areaTitle );
 		}
 
-		selectors = new DataDefinitionSelector[seriesDefnsArray.length];
-		for ( int i = 0; i < seriesDefnsArray.length; i++ )
+		if ( wizardContext.isMoreAxesSupported( ) )
 		{
-			// Remove the title when only single series, i.e. axisIndex is 0
-			int axisIndex = seriesDefnsArray.length == 1 ? 0 : i + 1;
-			selectors[i] = new DataDefinitionSelector( chart,
-					axisIndex,
-					seriesDefnsArray[i],
-					serviceprovider,
-					oContext,
+			selectors = new DataDefinitionSelector[1];
+			selectors[0] = new DataDefinitionSelector( wizardContext,
 					sTitle,
 					selectDataUI );
-			if ( chart instanceof DialChart )
+			if ( wizardContext.getModel( ) instanceof DialChart )
 			{
-				selectors[i].setSelectionPrefix( Messages.getString( "DialBottomAreaComponent.Label.Dial" ) ); //$NON-NLS-1$
+				selectors[0].setSelectionPrefix( Messages.getString( "DialBottomAreaComponent.Label.Dial" ) ); //$NON-NLS-1$
 			}
-			selectors[i].createArea( cmpLeft );
+			selectors[0].createArea( cmpLeft );
+		}
+		else
+		{
+			selectors = new DataDefinitionSelector[seriesDefnsArray.length];
+			for ( int i = 0; i < seriesDefnsArray.length; i++ )
+			{
+				// Remove the title when only single series, i.e. axisIndex is -1
+				int axisIndex = seriesDefnsArray.length == 1 ? -1 : i;
+				selectors[i] = new DataDefinitionSelector( axisIndex,
+						seriesDefnsArray[i],
+						wizardContext,
+						sTitle,
+						selectDataUI );
+				if ( wizardContext.getModel( ) instanceof DialChart )
+				{
+					selectors[i].setSelectionPrefix( Messages.getString( "DialBottomAreaComponent.Label.Dial" ) ); //$NON-NLS-1$
+				}
+				selectors[i].createArea( cmpLeft );
+			}
 		}
 
 		Label bottomAngle = new Label( parent, SWT.NONE );

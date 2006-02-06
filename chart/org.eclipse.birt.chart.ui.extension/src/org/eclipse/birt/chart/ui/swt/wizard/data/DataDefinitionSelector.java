@@ -12,9 +12,13 @@
 package org.eclipse.birt.chart.ui.swt.wizard.data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -23,8 +27,8 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
-import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
@@ -43,6 +47,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 
 /**
  * This UI component is made up of a combo selector for series selection, a
@@ -58,17 +63,19 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 
 	private transient EList seriesDefns = null;
 
-	private transient IUIServiceProvider serviceprovider = null;
+	private transient ChartWizardContext wizardContext = null;
 
 	private transient String sTitle = null;
-
-	private transient Object oContext = null;
 
 	private transient Composite cmpTop = null;
 
 	private transient Composite cmpData = null;
 
 	private transient ISelectDataComponent dateComponent = null;
+
+	private transient Button btnAxisDelete;
+
+	private transient Combo cmbAxisSelect;
 
 	private transient Button btnSeriesDelete;
 
@@ -84,40 +91,42 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 
 	private transient ISelectDataCustomizeUI selectDataUI = null;
 
-	private transient Chart chart;
-
 	/**
 	 * 
-	 * @param chart
 	 * @param axisIndex
-	 *            0 means single axis; 1 means the first of multiple axes, 2
-	 *            means the second axis
+	 *            -1 means single axis; nonnegative number means the axis index
 	 * @param seriesDefns
-	 * @param builder
-	 * @param oContext
+	 * @param wizardContext
 	 * @param sTitle
 	 * @param selectDataUI
 	 */
-	public DataDefinitionSelector( Chart chart, int axisIndex,
-			EList seriesDefns, IUIServiceProvider builder, Object oContext,
-			String sTitle, ISelectDataCustomizeUI selectDataUI )
+	public DataDefinitionSelector( int axisIndex, EList seriesDefns,
+			ChartWizardContext wizardContext, String sTitle,
+			ISelectDataCustomizeUI selectDataUI )
 	{
-		this.chart = chart;
 		this.seriesDefns = seriesDefns;
-		this.serviceprovider = builder;
-		this.oContext = oContext;
+		this.wizardContext = wizardContext;
 		this.sTitle = sTitle;
 		this.axisIndex = axisIndex;
+		this.selectDataUI = selectDataUI;
+	}
+
+	public DataDefinitionSelector( ChartWizardContext wizardContext,
+			String sTitle, ISelectDataCustomizeUI selectDataUI )
+	{
+		this.wizardContext = wizardContext;
+		this.sTitle = sTitle;
+		this.axisIndex = -1;
 		this.selectDataUI = selectDataUI;
 	}
 
 	public Composite createArea( Composite parent )
 	{
 		{
-			if ( axisIndex > 0 )
+			if ( axisIndex >= 0 )
 			{
 				cmpTop = new Group( parent, SWT.NONE );
-				( (Group) cmpTop ).setText( Messages.getString( "DataDefinitionSelector.Label.YAxis" ) + axisIndex ); //$NON-NLS-1$
+				( (Group) cmpTop ).setText( Messages.getString( "DataDefinitionSelector.Label.YAxis" ) + ( axisIndex + 1 ) ); //$NON-NLS-1$
 			}
 			else
 			{
@@ -135,11 +144,48 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 			cmpTop.setLayoutData( gd );
 		}
 
+		if ( wizardContext.isMoreAxesSupported( ) )
+		{
+			cmbAxisSelect = new Combo( cmpTop, SWT.DROP_DOWN | SWT.READ_ONLY );
+			{
+				cmbAxisSelect.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+				cmbAxisSelect.addSelectionListener( this );
+				refreshAxisCombo( );
+				cmbAxisSelect.select( 0 );
+			}
+
+			btnAxisDelete = new Button( cmpTop, SWT.NONE );
+			{
+				GridData gridData = new GridData( );
+				gridData.heightHint = 20;
+				gridData.widthHint = 20;
+				btnAxisDelete.setLayoutData( gridData );
+				btnAxisDelete.setImage( UIHelper.getImage( ChartUIConstancts.IMAGE_DELETE ) );
+				btnAxisDelete.setToolTipText( Messages.getString( "DataDefinitionSelector.Tooltip.RemoveAxis" ) ); //$NON-NLS-1$
+				btnAxisDelete.addSelectionListener( this );
+				setAxisDeleteEnabled( );
+			}
+
+			Label lblSeparator = new Label( cmpTop, SWT.SEPARATOR
+					| SWT.HORIZONTAL );
+			{
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.horizontalSpan = 2;
+				lblSeparator.setLayoutData( gd );
+			}
+
+			axisIndex = cmbAxisSelect.getSelectionIndex( );
+
+			// Update series definition
+			seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
+					axisIndex );
+		}
+
 		cmbSeriesSelect = new Combo( cmpTop, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
 			cmbSeriesSelect.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			cmbSeriesSelect.addSelectionListener( this );
-			refreshCombo( );
+			refreshSeriesCombo( );
 			cmbSeriesSelect.select( 0 );
 		}
 
@@ -186,17 +232,15 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 
 	private SeriesDefinition getCurrentSeriesDefinition( )
 	{
-		int selectedIndex = cmbSeriesSelect.getSelectionIndex( );
-		return (SeriesDefinition) seriesDefns.get( selectedIndex < 0 ? 0
-				: selectedIndex );
+		return (SeriesDefinition) seriesDefns.get( cmbSeriesSelect.getSelectionIndex( ) );
 	}
 
 	private int getFirstIndexOfSameAxis( )
 	{
-		if ( axisIndex >= 2 )
+		if ( axisIndex > 0 )
 		{
-			return ChartUIUtil.getOrthogonalSeriesDefinitions( chart, 0 )
-					.size( );
+			return ChartUIUtil.getLastSeriesIndexWithinAxis( getChart( ),
+					axisIndex - 1 ) + 1;
 		}
 		return 0;
 	}
@@ -215,12 +259,13 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 				.addAll( ( (SeriesDefinition) seriesDefns.get( 0 ) ).eAdapters( ) );
 
 		int firstIndex = getFirstIndexOfSameAxis( );
-		EList list = chart.getSampleData( ).getOrthogonalSampleData( );
+		EList list = getChart( ).getSampleData( ).getOrthogonalSampleData( );
 
 		// Create a new OrthogonalSampleData instance from the existing one
 		OrthogonalSampleData sdOrthogonal = (OrthogonalSampleData) EcoreUtil.copy( (EObject) list.get( firstIndex ) );
 		sdOrthogonal.setSeriesDefinitionIndex( list.size( ) );
-		sdOrthogonal.eAdapters( ).addAll( chart.getSampleData( ).eAdapters( ) );
+		sdOrthogonal.eAdapters( ).addAll( getChart( ).getSampleData( )
+				.eAdapters( ) );
 
 		// Update the Sample Data without event fired.
 		boolean isNotificaionIgnored = ChartAdapter.isNotificationIgnored( );
@@ -240,10 +285,31 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 		}
 	}
 
+	/**
+	 * Updates series palette of series definition list without the series to be
+	 * moved
+	 * 
+	 * @param removedIndex
+	 *            the index of the series to be removed
+	 */
+	private void updateSeriesPalette( int removedIndex )
+	{
+		for ( int i = 0, j = 0; i < seriesDefns.size( ); i++ )
+		{
+			if ( i != removedIndex )
+			{
+				( (SeriesDefinition) seriesDefns.get( i ) ).getSeriesPalette( )
+						.update( -j++ );
+			}
+		}
+	}
+
 	protected void removeSeriesDefinition( )
 	{
+		boolean isNotificaionIgnored = ChartAdapter.isNotificationIgnored( );
+		ChartAdapter.ignoreNotifications( true );
 		int firstIndex = getFirstIndexOfSameAxis( );
-		EList list = chart.getSampleData( ).getOrthogonalSampleData( );
+		EList list = getChart( ).getSampleData( ).getOrthogonalSampleData( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			// Check each entry if it is associated with the series
@@ -255,10 +321,10 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 			}
 		}
 		// Reset index. If index is wrong, sample data can't display.
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			( (OrthogonalSampleData) list.get( i ) ).setSeriesDefinitionIndex( i );
-		}
+		ChartUIUtil.reorderOrthogonalSampleDataIndex( getChart( ) );
+		updateSeriesPalette( cmbSeriesSelect.getSelectionIndex( ) );
+		ChartAdapter.ignoreNotifications( isNotificaionIgnored );
+
 		seriesDefns.remove( cmbSeriesSelect.getSelectionIndex( ) );
 	}
 
@@ -266,37 +332,22 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 	{
 		if ( e.widget.equals( btnSeriesDelete ) )
 		{
-			// Remove color registry
-			EList removeDefns = ( (SeriesDefinition) seriesDefns.get( cmbSeriesSelect.getSelectionIndex( ) ) ).getDesignTimeSeries( )
-					.getDataDefinition( );
-			for ( int i = 0; i < removeDefns.size( ); i++ )
-			{
-				String expression = ( (Query) removeDefns.get( i ) ).getDefinition( );
-				// If it's last element, remove color binding
-				List otherDfs = getOtherQueryDefinitions( );
-				if ( DataDefinitionTextManager.getInstance( )
-						.getNumberOfSameDataDefinition( expression ) == 1
-						&& !otherDfs.contains( expression ) )
-				{
-					ColorPalette.getInstance( ).retrieveColor( expression );
-				}
-			}
-			// Refresh table color
-			for ( int i = 0; i < getCustomTable( ).getColumnNumber( ); i++ )
-			{
-				getCustomTable( ).setColumnColor( i,
-						ColorPalette.getInstance( )
-								.getColor( ChartUIUtil.getExpressionString( getCustomTable( ).getColumnHeading( i ) ) ) );
-			}
+			// Update color registry
+			updateColorRegistry( cmbSeriesSelect.getSelectionIndex( ) );
 
 			// Remove sample data and series
 			removeSeriesDefinition( );
 
 			setSeriesDeleteEnabled( );
 
-			refreshCombo( );
+			int oldSelectedIndex = cmbSeriesSelect.getSelectionIndex( );
+			refreshSeriesCombo( );
 			// Selects the new item or last item
-			cmbSeriesSelect.select( cmbSeriesSelect.getItemCount( ) - 2 );
+			if ( oldSelectedIndex > cmbSeriesSelect.getItemCount( ) - 2 )
+			{
+				oldSelectedIndex = cmbSeriesSelect.getItemCount( ) - 2;
+			}
+			cmbSeriesSelect.select( oldSelectedIndex );
 
 			// Update data definition component and refresh query in it
 			updateDataDefinition( );
@@ -319,7 +370,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 
 				setSeriesDeleteEnabled( );
 
-				refreshCombo( );
+				refreshSeriesCombo( );
 				// Selects the new item
 				cmbSeriesSelect.select( cmbSeriesSelect.getItemCount( ) - 2 );
 			}
@@ -335,14 +386,140 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 			// selectDataUI.refreshRightBindingArea( );
 			selectDataUI.layoutAll( );
 		}
+		else if ( e.widget.equals( cmbAxisSelect ) )
+		{
+			// Check if needing to add a new series
+			if ( cmbAxisSelect.getSelectionIndex( ) == cmbAxisSelect.getItemCount( ) - 1 )
+			{
+				// Update model
+				ChartUIUtil.addAxis( (ChartWithAxes) getChart( ) );
+
+				// Update UI
+				setAxisDeleteEnabled( );
+				refreshAxisCombo( );
+				cmbAxisSelect.select( cmbAxisSelect.getItemCount( ) - 2 );
+			}
+
+			axisIndex = cmbAxisSelect.getSelectionIndex( );
+
+			updateAllSeriesUnderAxis( );
+		}
+		else if ( e.widget.equals( btnAxisDelete ) )
+		{
+			// Update color registry
+			updateColorRegistry( -1 );
+
+			// Update model
+			ChartUIUtil.removeAxis( getChart( ), axisIndex );
+
+			// Update UI
+			setAxisDeleteEnabled( );
+			refreshAxisCombo( );
+			// Selects the new item or last item
+			if ( axisIndex > cmbAxisSelect.getItemCount( ) - 2 )
+			{
+				axisIndex = cmbAxisSelect.getItemCount( ) - 2;
+			}
+			cmbAxisSelect.select( axisIndex );
+
+			updateAllSeriesUnderAxis( );
+		}
+	}
+
+	private void updateAllSeriesUnderAxis( )
+	{
+		// Update series definition
+		seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
+				axisIndex );
+		setSeriesDeleteEnabled( );
+		refreshSeriesCombo( );
+		// Selects the new item or last item
+		cmbSeriesSelect.select( 0 );
+
+		// Update data definition component and refresh query in it
+		updateDataDefinition( );
+		refreshQuery( );
+
+		// Sets current series index and update bottom component if needed
+		setSelectedSeriesIndex( );
+
+		// CHART ENGINE NOT SUPPORT MULTI-GROUPING, NO NEED TO REFRESH UI
+		// selectDataUI.refreshRightBindingArea( );
+		selectDataUI.layoutAll( );
+	}
+
+	/**
+	 * Updates the color registry and refresh all background color of the text
+	 * field
+	 * 
+	 * @param seriesIndex
+	 *            -1 means all series under selected axis
+	 */
+	private void updateColorRegistry( int seriesIndex )
+	{
+		List dataDefinitions = null;
+		if ( seriesIndex > -1 )
+		{
+			dataDefinitions = ( (SeriesDefinition) seriesDefns.get( seriesIndex ) ).getDesignTimeSeries( )
+					.getDataDefinition( );
+		}
+		else
+		{
+			List allSeriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
+			dataDefinitions = new ArrayList( );
+			for ( int i = 0; i < allSeriesDefns.size( ); i++ )
+			{
+				dataDefinitions.addAll( ( (SeriesDefinition) allSeriesDefns.get( i ) ).getDesignTimeSeries( )
+						.getDataDefinition( ) );
+			}
+		}
+
+		// Count each expression
+		Map queryMap = new HashMap( );
+		for ( int i = 0; i < dataDefinitions.size( ); i++ )
+		{
+			String expression = ( (Query) dataDefinitions.get( i ) ).getDefinition( );
+			if ( queryMap.containsKey( expression ) )
+			{
+				int expCount = ( (Integer) queryMap.get( expression ) ).intValue( );
+				queryMap.put( expression, new Integer( expCount++ ) );
+			}
+			else
+			{
+				queryMap.put( expression, new Integer( 1 ) );
+			}
+		}
+		// If the expression count is the same to the count of all, delete this
+		// color registry of the expression
+		for ( Iterator iterator = queryMap.keySet( ).iterator( ); iterator.hasNext( ); )
+		{
+			String expression = (String) iterator.next( );
+			if ( DataDefinitionTextManager.getInstance( )
+					.getNumberOfSameDataDefinition( expression ) == ( (Integer) queryMap.get( expression ) ).intValue( ) )
+			{
+				ColorPalette.getInstance( ).retrieveColor( expression );
+			}
+		}
+
+		// Refresh table color
+		for ( int i = 0; i < getCustomTable( ).getColumnNumber( ); i++ )
+		{
+			getCustomTable( ).setColumnColor( i,
+					ColorPalette.getInstance( )
+							.getColor( ChartUIUtil.getExpressionString( getCustomTable( ).getColumnHeading( i ) ) ) );
+		}
 	}
 
 	private void setSelectedSeriesIndex( )
 	{
-		int axisNum = axisIndex == 0 ? axisIndex : axisIndex - 1;
-		int[] indexArray = selectDataUI.getSeriesIndex( );
-		indexArray[axisNum] = cmbSeriesSelect.getSelectionIndex( );
-		selectDataUI.setSeriesIndex( indexArray );
+		// Only standard type shows multiple series at the same time
+		if ( !wizardContext.isMoreAxesSupported( ) )
+		{
+			int axisNum = axisIndex < 0 ? 0 : axisIndex;
+			int[] indexArray = selectDataUI.getSeriesIndex( );
+			indexArray[axisNum] = cmbSeriesSelect.getSelectionIndex( );
+			selectDataUI.setSeriesIndex( indexArray );
+		}
 	}
 
 	private void setSeriesDeleteEnabled( )
@@ -350,28 +527,14 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 		btnSeriesDelete.setEnabled( seriesDefns.size( ) > 1 );
 	}
 
+	private void setAxisDeleteEnabled( )
+	{
+		btnAxisDelete.setEnabled( ChartUIUtil.getOrthogonalAxisNumber( getChart( ) ) > 1 );
+	}
+
 	private CustomPreviewTable getCustomTable( )
 	{
 		return (CustomPreviewTable) selectDataUI.getCustomPreviewTable( );
-	}
-
-	private List getOtherQueryDefinitions( )
-	{
-		int current = cmbSeriesSelect.getSelectionIndex( );
-		List list = new ArrayList( );
-		for ( int i = 0; i < seriesDefns.size( ); i++ )
-		{
-			if ( i != current )
-			{
-				EList dfs = ( (SeriesDefinition) seriesDefns.get( i ) ).getDesignTimeSeries( )
-						.getDataDefinition( );
-				for ( int j = 0; j < dfs.size( ); j++ )
-				{
-					list.add( ( (Query) dfs.get( j ) ).getDefinition( ) );
-				}
-			}
-		}
-		return list;
 	}
 
 	public void widgetDefaultSelected( SelectionEvent e )
@@ -388,7 +551,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 		dateComponent.selectArea( true, data );
 	}
 
-	private void refreshCombo( )
+	private void refreshSeriesCombo( )
 	{
 		ArrayList itemList = new ArrayList( );
 		int seriesSize = seriesDefns.size( );
@@ -401,13 +564,26 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 		cmbSeriesSelect.setItems( (String[]) itemList.toArray( new String[seriesSize] ) );
 	}
 
+	private void refreshAxisCombo( )
+	{
+		ArrayList itemList = new ArrayList( );
+		int axisNum = ChartUIUtil.getOrthogonalAxisNumber( getChart( ) );
+		for ( int i = 1; i <= axisNum; i++ )
+		{
+			itemList.add( Messages.getString( "DataDefinitionSelector.Label.Axis" ) + i ); //$NON-NLS-1$
+		}
+		itemList.add( Messages.getString( "DataDefinitionSelector.Text.NewAxis" ) ); //$NON-NLS-1$
+		cmbAxisSelect.removeAll( );
+		cmbAxisSelect.setItems( (String[]) itemList.toArray( new String[axisNum] ) );
+	}
+
 	private ISelectDataComponent getDataDefinitionComponent(
 			SeriesDefinition seriesDefn )
 	{
 		ISelectDataComponent sdc = selectDataUI.getAreaComponent( areaType,
 				seriesDefn,
-				serviceprovider,
-				oContext,
+				wizardContext.getUIServiceProvider( ),
+				wizardContext.getExtendedItem( ),
 				sTitle );
 		if ( sdc instanceof BaseDataDefinitionComponent )
 		{
@@ -450,6 +626,11 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 	public void setAreaType( int areaType )
 	{
 		this.areaType = areaType;
+	}
+
+	private Chart getChart( )
+	{
+		return wizardContext.getModel( );
 	}
 
 }

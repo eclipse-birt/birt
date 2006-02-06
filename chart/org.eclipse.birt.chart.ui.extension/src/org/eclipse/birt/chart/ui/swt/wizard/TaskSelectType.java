@@ -23,15 +23,9 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
-import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.impl.AxisOriginImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
-import org.eclipse.birt.chart.model.data.Query;
-import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
@@ -44,11 +38,9 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -118,7 +110,7 @@ public class TaskSelectType extends SimpleTask
 	private transient Button cbOrientation = null;
 
 	private transient Label lblMultipleY = null;
-	private transient Button cbMultipleY = null;
+	private transient Combo cbMultipleY = null;
 
 	private transient Label lblSeriesType = null;
 	private transient Combo cbSeriesType = null;
@@ -261,9 +253,18 @@ public class TaskSelectType extends SimpleTask
 		lblMultipleY.setText( Messages.getString( "TaskSelectType.Label.MultipleYAxis" ) ); //$NON-NLS-1$
 
 		// Add the checkBox for Multiple Y Axis
-		cbMultipleY = new Button( cmpMisc, SWT.CHECK );
-		cbMultipleY.setText( Messages.getString( "TaskSelectType.Label.AddSecondaryAxis" ) ); //$NON-NLS-1$
-		cbMultipleY.addSelectionListener( this );
+		cbMultipleY = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
+		{
+			cbMultipleY.setItems( new String[]{
+					Messages.getString( "TaskSelectType.Selection.None" ), //$NON-NLS-1$
+					Messages.getString( "TaskSelectType.Selection.SecondaryAxis" ), //$NON-NLS-1$
+					Messages.getString( "TaskSelectType.Selection.MoreAxes" ) //$NON-NLS-1$
+					} );
+			cbMultipleY.addSelectionListener( this );
+
+			int axisNum = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
+			selectMultipleAxis( axisNum );
+		}
 
 		lblSeriesType = new Label( cmpMisc, SWT.NONE );
 		{
@@ -534,103 +535,6 @@ public class TaskSelectType extends SimpleTask
 		return dimensionName;
 	}
 
-	private void addOverlayAxis( )
-	{
-		if ( chartModel instanceof ChartWithoutAxes )
-		{
-			throw new IllegalArgumentException( Messages.getString( "TaskSelectType.Exception.CannotSupportAxes" ) ); //$NON-NLS-1$
-		}
-		// Create a clone of the existing Y Axis
-		Axis yAxis = (Axis) ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
-				.get( 0 ) ).getAssociatedAxes( ).get( 0 );
-		Axis overlayAxis = (Axis) EcoreUtil.copy( yAxis );
-		// Now update overlay axis to set the properties that are different from
-		// the original
-		overlayAxis.setPrimaryAxis( false );
-		overlayAxis.setOrigin( AxisOriginImpl.create( IntersectionType.MAX_LITERAL,
-				null ) );
-		overlayAxis.setLabelPosition( Position.RIGHT_LITERAL );
-		overlayAxis.setTitlePosition( Position.RIGHT_LITERAL );
-		overlayAxis.getTitle( )
-				.getCaption( )
-				.setValue( Messages.getString( "TaskSelectType.Caption.OverlayAxis1" ) ); //$NON-NLS-1$
-
-		// Retain the first series of the axis. Remove others
-		if ( overlayAxis.getSeriesDefinitions( ).size( ) > 1 )
-		{
-			EList list = overlayAxis.getSeriesDefinitions( );
-			for ( int i = list.size( ) - 1; i > 0; i-- )
-			{
-				list.remove( i );
-			}
-		}
-
-		// Add the notification listeners from the old axis to the new one
-		overlayAxis.eAdapters( ).addAll( yAxis.eAdapters( ) );
-
-		// Update overlay series definition(retain the group query, clean the
-		// data query)
-		SeriesDefinition sdOverlay = (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
-				.get( 0 );
-		EList dds = sdOverlay.getDesignTimeSeries( ).getDataDefinition( );
-		for ( int i = 0; i < dds.size( ); i++ )
-		{
-			( (Query) dds.get( i ) ).setDefinition( "" ); //$NON-NLS-1$
-		}
-		sdOverlay.getSeriesPalette( ).update( -1 );
-
-		// Update the chart model with the new Axis
-		( (Axis) ( (ChartWithAxes) chartModel ).getAxes( ).get( 0 ) ).getAssociatedAxes( )
-				.add( overlayAxis );
-
-		// Update the sample values for the new overlay series
-		SampleData sd = chartModel.getSampleData( );
-
-		// Create a new OrthogonalSampleData instance from the existing one
-		int currentSize = sd.getOrthogonalSampleData( ).size( );
-		for ( int i = 0; i < currentSize; i++ )
-		{
-			OrthogonalSampleData sdOrthogonal = (OrthogonalSampleData) EcoreUtil.copy( (EObject) chartModel.getSampleData( )
-					.getOrthogonalSampleData( )
-					.get( i ) );
-			sdOrthogonal.setSeriesDefinitionIndex( currentSize + i );
-			sdOrthogonal.eAdapters( ).addAll( sd.eAdapters( ) );
-			sd.getOrthogonalSampleData( ).add( sdOrthogonal );
-		}
-	}
-
-	private void removeOverlayAxis( )
-	{
-		if ( chartModel instanceof ChartWithoutAxes )
-		{
-			throw new IllegalArgumentException( Messages.getString( "TaskSelectType.Exception.CannotSupportAxes" ) ); //$NON-NLS-1$
-		}
-		/*
-		 * // ASSUMPTIONS All Y series will only be added to the primary axis.
-		 * All Overlay series will only be added to the second axis.
-		 */
-		int iSDIndex = ( (Axis) ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
-				.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).getSeriesDefinitions( )
-				.size( );
-		// Remove the sample data for the overlay series
-		EList list = chartModel.getSampleData( ).getOrthogonalSampleData( );
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			// Check each entry if it is associated with the series definition
-			// to be removed
-			if ( ( (OrthogonalSampleData) list.get( i ) ).getSeriesDefinitionIndex( ) >= iSDIndex )
-			{
-				list.remove( i );
-				// Reset counter
-				i--;
-			}
-		}
-		// Remove the second (Overlay) Y Axis. (The primary Y axis is always the
-		// first axis in the list)
-		( (Axis) ( (ChartWithAxes) chartModel ).getAxes( ).get( 0 ) ).getAssociatedAxes( )
-				.remove( 1 );
-	}
-
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
 	}
@@ -656,22 +560,6 @@ public class TaskSelectType extends SimpleTask
 				}
 				createAndDisplayTypesSheet( sType );
 				setDefaultSubtypeSelection( );
-			}
-			else if ( oSelected.equals( cbMultipleY ) )
-			{
-				lblSeriesType.setEnabled( cbMultipleY.getSelection( ) );
-				cbSeriesType.setEnabled( cbMultipleY.getSelection( ) );
-
-				ChartAdapter.ignoreNotifications( true );
-				if ( cbMultipleY.getSelection( ) )
-				{
-					addOverlayAxis( );
-				}
-				else
-				{
-					removeOverlayAxis( );
-				}
-				ChartAdapter.ignoreNotifications( false );
 			}
 			else
 			{
@@ -719,6 +607,46 @@ public class TaskSelectType extends SimpleTask
 				needUpdateModel = true;
 			}
 		}
+		else if ( oSelected.equals( cbMultipleY ) )
+		{
+			needUpdateModel = true;
+			lblSeriesType.setEnabled( isTwoAxesEnabled( ) );
+			cbSeriesType.setEnabled( isTwoAxesEnabled( ) );
+			( (ChartWizardContext) getContext( ) ).setMoreAxesSupported( cbMultipleY.getSelectionIndex( ) == 2 );
+
+			int iAxisNumber = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
+			if ( chartModel instanceof ChartWithoutAxes )
+			{
+				throw new IllegalArgumentException( Messages.getString( "TaskSelectType.Exception.CannotSupportAxes" ) ); //$NON-NLS-1$
+			}
+
+			// Prevent notifications rendering preview
+			boolean isNotificaionIgnored = ChartAdapter.isNotificationIgnored( );
+			ChartAdapter.ignoreNotifications( true );
+			if ( cbMultipleY.getSelectionIndex( ) == 0 )
+			{
+				// Keeps one axis
+				if ( iAxisNumber > 1 )
+				{
+					ChartUIUtil.removeLastAxes( (ChartWithAxes) chartModel,
+							iAxisNumber - 1 );
+				}
+			}
+			else if ( cbMultipleY.getSelectionIndex( ) == 1 )
+			{
+				// Keeps two axes
+				if ( iAxisNumber == 1 )
+				{
+					ChartUIUtil.addAxis( (ChartWithAxes) chartModel );
+				}
+				else if ( iAxisNumber > 2 )
+				{
+					ChartUIUtil.removeLastAxes( (ChartWithAxes) chartModel,
+							iAxisNumber - 2 );
+				}
+			}
+			ChartAdapter.ignoreNotifications( isNotificaionIgnored );
+		}
 		else if ( oSelected.equals( cbDimension ) )
 		{
 			String newDimension = cbDimension.getItem( cbDimension.getSelectionIndex( ) );
@@ -758,7 +686,7 @@ public class TaskSelectType extends SimpleTask
 				// Ensure populate list after chart model generated
 				populateSeriesTypesList( );
 			}
-			else if ( oSelected.equals( cbMultipleY ) )
+			else if ( oSelected.equals( cbMultipleY ) && isTwoAxesEnabled( ) )
 			{
 				if ( chartModel != null && chartModel instanceof ChartWithAxes )
 				{
@@ -776,6 +704,11 @@ public class TaskSelectType extends SimpleTask
 				}
 			}
 		}
+	}
+
+	private boolean isTwoAxesEnabled( )
+	{
+		return cbMultipleY.getSelectionIndex( ) == 1;
 	}
 
 	private void updateAdapters( )
@@ -1080,12 +1013,14 @@ public class TaskSelectType extends SimpleTask
 		{
 			lblMultipleY.setEnabled( !is3D( ) );
 			cbMultipleY.setEnabled( !is3D( ) );
-			lblSeriesType.setEnabled( cbMultipleY.getSelection( ) );
-			cbSeriesType.setEnabled( cbMultipleY.getSelection( ) );
+			lblSeriesType.setEnabled( isTwoAxesEnabled( ) );
+			cbSeriesType.setEnabled( isTwoAxesEnabled( ) );
 		}
 		else
 		{
-			cbMultipleY.setSelection( false );
+			cbMultipleY.select( 0 );
+			( (ChartWizardContext) getContext( ) ).setMoreAxesSupported( false );
+			
 			lblMultipleY.setEnabled( false );
 			cbMultipleY.setEnabled( false );
 			lblSeriesType.setEnabled( false );
@@ -1130,8 +1065,7 @@ public class TaskSelectType extends SimpleTask
 			if ( chartModel instanceof ChartWithAxes )
 			{
 				this.orientation = ( (ChartWithAxes) chartModel ).getOrientation( );
-				int iYAxesCount = ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
-						.get( 0 ) ).getAssociatedAxes( ).size( );
+				int iYAxesCount = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
 				// IF THE UI HAS BEEN INITIALIZED...I.E. IF setContext() IS
 				// CALLED AFTER getUI()
 				if ( iYAxesCount > 1
@@ -1139,14 +1073,34 @@ public class TaskSelectType extends SimpleTask
 				{
 					lblMultipleY.setEnabled( !is3D( ) );
 					cbMultipleY.setEnabled( !is3D( ) );
-					lblSeriesType.setEnabled( !is3D( ) );
-					cbSeriesType.setEnabled( !is3D( ) );
-					cbMultipleY.setSelection( iYAxesCount > 1 );
+					lblSeriesType.setEnabled( !is3D( ) && isTwoAxesEnabled( ) );
+					cbSeriesType.setEnabled( !is3D( ) && isTwoAxesEnabled( ) );
+					selectMultipleAxis( iYAxesCount );
 					// TODO: Update the series type based on series type for the
 					// second Y axis
 				}
 			}
 
+		}
+	}
+
+	private void selectMultipleAxis( int yAxisNum )
+	{
+		if ( ( (ChartWizardContext) getContext( ) ).isMoreAxesSupported( ) )
+		{
+			cbMultipleY.select( 2 );
+		}
+		else
+		{
+			if ( yAxisNum > 2 )
+			{
+				cbMultipleY.select( 2 );
+				( (ChartWizardContext) getContext( ) ).setMoreAxesSupported( true );
+			}
+			else
+			{
+				cbMultipleY.select( yAxisNum - 1 );
+			}
 		}
 	}
 

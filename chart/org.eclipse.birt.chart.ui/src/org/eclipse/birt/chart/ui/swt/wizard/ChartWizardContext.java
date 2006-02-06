@@ -28,14 +28,15 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 public class ChartWizardContext implements IWizardContext
 {
 
-	private Chart chartModel = null;
-	private IChartType chartType = null;
-	private Object extendedItem = null;
-	private String sDefaultOutputFormat = "SVG"; //$NON-NLS-1$
-	private String sOutputFormat = sDefaultOutputFormat;
-	private IUIServiceProvider uiProvider;
-	private IDataServiceProvider dataProvider;
+	private transient Chart chartModel = null;
+	private transient IChartType chartType = null;
+	private transient Object extendedItem = null;
+	private transient String sDefaultOutputFormat = "SVG"; //$NON-NLS-1$
+	private transient String sOutputFormat = sDefaultOutputFormat;
+	private transient IUIServiceProvider uiProvider;
+	private transient IDataServiceProvider dataProvider;
 	private transient IStyleProcessor processor;
+	private transient boolean isMoreAxesSupported;
 
 	public ChartWizardContext( Chart chartModel )
 	{
@@ -151,5 +152,22 @@ public class ChartWizardContext implements IWizardContext
 	public IStyleProcessor getProcessor( )
 	{
 		return processor;
+	}
+
+	/**
+	 * @param isMoreAxesSupported
+	 *            The isMoreAxesSupported to set.
+	 */
+	public void setMoreAxesSupported( boolean isMoreAxesSupported )
+	{
+		this.isMoreAxesSupported = isMoreAxesSupported;
+	}
+
+	/**
+	 * @return Returns the isMoreAxesSupported.
+	 */
+	public boolean isMoreAxesSupported( )
+	{
+		return isMoreAxesSupported;
 	}
 }

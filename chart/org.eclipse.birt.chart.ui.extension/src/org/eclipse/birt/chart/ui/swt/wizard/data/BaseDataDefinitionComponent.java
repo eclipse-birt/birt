@@ -108,10 +108,20 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 	public Composite createArea( Composite parent )
 	{
+		int numColumns = 2;
+		if ( description != null && description.length( ) > 0 )
+		{
+			numColumns++;
+		}
+		if ( isFormatSpecifiedEnabled )
+		{
+			numColumns++;
+		}
+
 		cmpTop = new Composite( parent, SWT.NONE );
 		{
 			GridLayout glContent = new GridLayout( );
-			glContent.numColumns = 4;
+			glContent.numColumns = numColumns;
 			glContent.marginHeight = 0;
 			glContent.marginWidth = 0;
 			glContent.horizontalSpacing = 2;
@@ -120,7 +130,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			cmpTop.setLayoutData( gd );
 		}
 
-		if ( description != null )
+		if ( description != null && description.length( ) > 0 )
 		{
 			Label lblDesc = new Label( cmpTop, SWT.NONE );
 			lblDesc.setText( description );

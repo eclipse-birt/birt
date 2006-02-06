@@ -32,17 +32,24 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.IntersectionType;
+import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
+import org.eclipse.birt.chart.model.attribute.impl.AxisOriginImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIPlugin;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -160,32 +167,23 @@ public class ChartUIUtil
 	}
 
 	/**
-	 * Return specified axis definitions or all series definitions
+	 * Return specified axis definitions.
 	 * 
 	 * @param chart
 	 *            chart
 	 * @param axisIndex
-	 *            -1 means all. If chart is without axis type, it's useless.
+	 *            If chart is without axis type, it always return all orthogonal
+	 *            series definition.
 	 * @return specified axis definitions or all series definitions
 	 */
-	public static List getOrthogonalSeriesDefinitions( Chart chart,
+	public static EList getOrthogonalSeriesDefinitions( Chart chart,
 			int axisIndex )
 	{
 		if ( chart instanceof ChartWithAxes )
 		{
 			EList axisList = ( (Axis) ( (ChartWithAxes) chart ).getAxes( )
 					.get( 0 ) ).getAssociatedAxes( );
-			if ( axisIndex >= 0 )
-			{
-				return ( (Axis) axisList.get( axisIndex ) ).getSeriesDefinitions( );
-			}
-
-			List seriesList = new ArrayList( );
-			for ( int i = 0; i < axisList.size( ); i++ )
-			{
-				seriesList.addAll( ( (Axis) axisList.get( i ) ).getSeriesDefinitions( ) );
-			}
-			return seriesList;
+			return ( (Axis) axisList.get( axisIndex ) ).getSeriesDefinitions( );
 		}
 		else if ( chart instanceof ChartWithoutAxes )
 		{
@@ -193,6 +191,35 @@ public class ChartUIUtil
 					.get( 0 ) ).getSeriesDefinitions( );
 		}
 		return null;
+	}
+
+	/**
+	 * Return specified axis definitions or all series definitions. Remember
+	 * return type is ArrayList, not EList, no event is fired when adding or
+	 * removing an element.
+	 * 
+	 * @param chart
+	 *            chart
+	 * @return specified axis definitions or all series definitions
+	 */
+	public static List getAllOrthogonalSeriesDefinitions( Chart chart )
+	{
+		List seriesList = new ArrayList( );
+		if ( chart instanceof ChartWithAxes )
+		{
+			EList axisList = ( (Axis) ( (ChartWithAxes) chart ).getAxes( )
+					.get( 0 ) ).getAssociatedAxes( );
+			for ( int i = 0; i < axisList.size( ); i++ )
+			{
+				seriesList.addAll( ( (Axis) axisList.get( i ) ).getSeriesDefinitions( ) );
+			}
+		}
+		else if ( chart instanceof ChartWithoutAxes )
+		{
+			seriesList.addAll( ( (SeriesDefinition) ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
+					.get( 0 ) ).getSeriesDefinitions( ) );
+		}
+		return seriesList;
 	}
 
 	public static String getStockTitle( int index )
@@ -635,7 +662,7 @@ public class ChartUIUtil
 	public static void setAllGroupingQueryExceptFirst( Chart chart,
 			String queryDefinition )
 	{
-		List sds = ChartUIUtil.getOrthogonalSeriesDefinitions( chart, -1 );
+		List sds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( chart );
 		for ( int i = 0; i < sds.size( ); i++ )
 		{
 			if ( i != 0 )
@@ -653,6 +680,197 @@ public class ChartUIUtil
 					sd.setQuery( query );
 				}
 			}
+		}
+	}
+
+	/**
+	 * Adds an orthogonal axis. Ensures only one event is fired.
+	 * 
+	 * @param chartModel
+	 *            chart model
+	 */
+	public static void addAxis( ChartWithAxes chartModel )
+	{
+		// Prevent notifications rendering preview
+		boolean isNotificaionIgnored = ChartAdapter.isNotificationIgnored( );
+		ChartAdapter.ignoreNotifications( true );
+
+		// Create a clone of the existing Y Axis
+		Axis yAxis = (Axis) ( (Axis) chartModel.getAxes( ).get( 0 ) ).getAssociatedAxes( )
+				.get( 0 );
+		Axis overlayAxis = (Axis) EcoreUtil.copy( yAxis );
+		// Now update overlay axis to set the properties that are different from
+		// the original
+		overlayAxis.setPrimaryAxis( false );
+		overlayAxis.setOrigin( AxisOriginImpl.create( IntersectionType.MAX_LITERAL,
+				null ) );
+		overlayAxis.setLabelPosition( Position.RIGHT_LITERAL );
+		overlayAxis.setTitlePosition( Position.RIGHT_LITERAL );
+		overlayAxis.getTitle( )
+				.getCaption( )
+				.setValue( Messages.getString( "TaskSelectType.Caption.OverlayAxis1" ) ); //$NON-NLS-1$
+		overlayAxis.eAdapters( ).addAll( yAxis.eAdapters( ) );
+
+		// Retain the first series of the axis. Remove others
+		if ( overlayAxis.getSeriesDefinitions( ).size( ) > 1 )
+		{
+			EList list = overlayAxis.getSeriesDefinitions( );
+			for ( int i = list.size( ) - 1; i > 0; i-- )
+			{
+				list.remove( i );
+			}
+		}
+
+		// Update overlay series definition(retain the group query, clean the
+		// data query)
+		SeriesDefinition sdOverlay = (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
+				.get( 0 );
+		EList dds = sdOverlay.getDesignTimeSeries( ).getDataDefinition( );
+		for ( int i = 0; i < dds.size( ); i++ )
+		{
+			( (Query) dds.get( i ) ).setDefinition( "" ); //$NON-NLS-1$
+		}
+
+		// Update the sample values for the new overlay series
+		SampleData sd = chartModel.getSampleData( );
+		// Create a new OrthogonalSampleData instance from the existing one
+		int currentSize = sd.getOrthogonalSampleData( ).size( );
+		OrthogonalSampleData sdOrthogonal = (OrthogonalSampleData) EcoreUtil.copy( (EObject) chartModel.getSampleData( )
+				.getOrthogonalSampleData( )
+				.get( 0 ) );
+		sdOrthogonal.setDataSetRepresentation( ChartUIUtil.getNewSampleData( overlayAxis.getType( ) ) );
+		sdOrthogonal.setSeriesDefinitionIndex( currentSize );
+		sdOrthogonal.eAdapters( ).addAll( sd.eAdapters( ) );
+		sd.getOrthogonalSampleData( ).add( sdOrthogonal );
+
+		// Update the chart model and notify the change
+		ChartAdapter.ignoreNotifications( isNotificaionIgnored );
+		( (Axis) chartModel.getAxes( ).get( 0 ) ).getAssociatedAxes( )
+				.add( overlayAxis );
+	}
+
+	/**
+	 * Removes the last orthogonal axes. This is a batch operation.
+	 * 
+	 * @param chartModel
+	 *            chart model
+	 * @param removedAxisNumber
+	 *            the number of axes to be removed
+	 */
+	public static void removeLastAxes( ChartWithAxes chartModel,
+			int removedAxisNumber )
+	{
+		for ( int i = 0; i < removedAxisNumber; i++ )
+		{
+			removeLastAxis( chartModel );
+		}
+	}
+
+	/**
+	 * Removes the last orthogonal axis. Ensures only one event is fired.
+	 * 
+	 * @param chartModel
+	 *            chart model
+	 */
+	public static void removeLastAxis( ChartWithAxes chartModel )
+	{
+		removeAxis( chartModel, getOrthogonalAxisNumber( chartModel ) - 1 );
+	}
+
+	/**
+	 * Removes an orthogonal axis in the specified position. Ensures only one
+	 * event is fired.
+	 * 
+	 * @param chartModel
+	 *            chart model
+	 * @param axisIndex
+	 *            the index of the axis to be removed
+	 */
+	public static void removeAxis( Chart chartModel, int axisIndex )
+	{
+		if ( chartModel instanceof ChartWithoutAxes )
+		{
+			return;
+		}
+
+		// Ensure one primary axis existent
+		boolean isNotificaionIgnored = ChartAdapter.isNotificationIgnored( );
+		ChartAdapter.ignoreNotifications( true );
+		Axis oldPrimaryAxis = getAxisYForProcessing( (ChartWithAxes) chartModel,
+				axisIndex );
+		if ( oldPrimaryAxis.isPrimaryAxis( ) )
+		{
+			int yAxisSize = getOrthogonalAxisNumber( chartModel );
+			Axis newPrimaryAxis = null;
+			if ( axisIndex + 1 < yAxisSize )
+			{
+				newPrimaryAxis = getAxisYForProcessing( (ChartWithAxes) chartModel,
+						axisIndex + 1 );
+			}
+			else
+			{
+				newPrimaryAxis = getAxisYForProcessing( (ChartWithAxes) chartModel,
+						0 );
+			}
+			// Retain the properties of primary axis
+			newPrimaryAxis.setPrimaryAxis( true );
+			newPrimaryAxis.setOrigin( oldPrimaryAxis.getOrigin( ) );
+			newPrimaryAxis.setLabelPosition( oldPrimaryAxis.getLabelPosition( ) );
+			newPrimaryAxis.setTitlePosition( oldPrimaryAxis.getTitlePosition( ) );
+		}
+		ChartAdapter.ignoreNotifications( isNotificaionIgnored );
+
+		// Remove the orthogonal axis
+		getAxisXForProcessing( (ChartWithAxes) chartModel ).getAssociatedAxes( )
+				.remove( axisIndex );
+
+		// Remove the sample data of the axis
+		// int iSDIndexFirst = getLastSeriesIndexWithinAxis( chartModel,
+		// axisIndex - 1 ) + 1;
+		// int iSDIndexLast = getLastSeriesIndexWithinAxis( chartModel,
+		// axisIndex );
+		// EList list = chartModel.getSampleData( ).getOrthogonalSampleData( );
+		// for ( int i = 0; i < list.size( ); i++ )
+		// {
+		// if ( i >= iSDIndexFirst && i <= iSDIndexLast )
+		// {
+		// list.remove( i );
+		// i--;
+		// iSDIndexLast--;
+		// }
+		// }
+
+	}
+
+	public static int getLastSeriesIndexWithinAxis( Chart chartModel,
+			int axisIndex )
+	{
+		if ( chartModel instanceof ChartWithoutAxes
+				|| axisIndex < 0
+				|| axisIndex >= getOrthogonalAxisNumber( chartModel ) )
+		{
+			return -1;
+		}
+		int seriesIndex = -1;
+		for ( int i = 0; i <= axisIndex; i++ )
+		{
+			seriesIndex += getOrthogonalSeriesDefinitions( chartModel, i ).size( );
+		}
+		return seriesIndex;
+	}
+
+	/**
+	 * Reorder the index of the orthogonal sample data. If index is wrong,
+	 * sample data can't display correctly.
+	 * 
+	 * @param chartModel
+	 */
+	public static void reorderOrthogonalSampleDataIndex( Chart chartModel )
+	{
+		EList list = chartModel.getSampleData( ).getOrthogonalSampleData( );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			( (OrthogonalSampleData) list.get( i ) ).setSeriesDefinitionIndex( i );
 		}
 	}
 

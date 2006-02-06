@@ -159,8 +159,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 					treeIndex++ ).placeComponents( cmpContent );
 		}
 
-		seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
-				-1 );
+		seriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
 		for ( int i = 0; i < seriesDefns.size( ); i++ )
 		{
 			String text = getChart( ) instanceof ChartWithAxes

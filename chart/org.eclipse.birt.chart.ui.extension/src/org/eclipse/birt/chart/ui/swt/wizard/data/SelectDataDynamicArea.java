@@ -195,10 +195,8 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI, Listener
 					seriesDefnArray[i] = ( (Axis) axisList.get( i ) ).getSeriesDefinitions( );
 				}
 			}
-			ISelectDataComponent component = new MultipleSeriesSelectorComponent( getChartModel( ),
-					seriesDefnArray,
-					getContext( ).getUIServiceProvider( ),
-					getContext( ).getExtendedItem( ),
+			ISelectDataComponent component = new MultipleSeriesSelectorComponent( seriesDefnArray,
+					getContext( ),
 					"", //$NON-NLS-1$
 					this );
 			subLeftAreas.add( component );
@@ -206,10 +204,10 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI, Listener
 		}
 		else
 		{
-			MultipleSeriesSelectorComponent component = new MultipleSeriesSelectorComponent( getChartModel( ),
-					getValueSeriesDefinitionForProcessing( ),
-					getContext( ).getUIServiceProvider( ),
-					getContext( ).getExtendedItem( ),
+			MultipleSeriesSelectorComponent component = new MultipleSeriesSelectorComponent( new EList[]{
+				getValueSeriesDefinitionForProcessing( )
+			},
+					getContext( ),
 					"", //$NON-NLS-1$
 					this );
 			if ( getChartModel( ) instanceof DialChart )
