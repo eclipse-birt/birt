@@ -14,10 +14,8 @@ package org.eclipse.birt.report.engine.script.internal.element;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IAction;
 import org.eclipse.birt.report.engine.api.script.element.ILabel;
-import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.structures.Action;
 
 public class Label extends ReportItem implements ILabel
 {
@@ -88,34 +86,6 @@ public class Label extends ReportItem implements ILabel
 		try
 		{
 			( ( LabelHandle ) handle ).setTextKey( resourceKey );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ILabel#getActionHandle()
-	 */
-
-	public ActionHandle getActionHandle( )
-	{
-		return ( ( LabelHandle ) handle ).getActionHandle( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ILabel#setAction(org.eclipse.birt.report.model.api.elements.structures.Action)
-	 */
-
-	public ActionHandle setAction( Action action ) throws ScriptException
-	{
-		try
-		{
-			return ( ( LabelHandle ) handle ).setAction( action );
 		} catch ( SemanticException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
