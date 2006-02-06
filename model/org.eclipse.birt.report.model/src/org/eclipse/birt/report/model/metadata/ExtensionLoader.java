@@ -73,8 +73,7 @@ public abstract class ExtensionLoader
 		}
 		catch ( ExtensionException e )
 		{
-			logger.log( Level.SEVERE, e.getMessage( ) );
-			MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
+			logExtenstionException( e );
 			throw new MetaDataParserException( e,
 					MetaDataParserException.DESIGN_EXCEPTION_EXTENSION_ERROR );
 		}
@@ -85,6 +84,19 @@ public abstract class ExtensionLoader
 			throw new MetaDataParserException( e,
 					MetaDataParserException.DESIGN_EXCEPTION_EXTENSION_ERROR );
 		}
+	}
+
+	/**
+	 * Logs the exceptions when extension pointers can't be found.
+	 * 
+	 * @param e
+	 *            the extension exception.
+	 */
+
+	protected void logExtenstionException( ExtensionException e )
+	{
+		logger.log( Level.SEVERE, e.getMessage( ) );
+		MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
 	}
 
 	/**

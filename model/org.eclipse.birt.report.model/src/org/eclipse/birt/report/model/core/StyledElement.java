@@ -292,19 +292,7 @@ public abstract class StyledElement extends DesignElement
 
 		if ( isInheritableProperty( prop ) || prop.isStyleProperty( ) )
 		{
-			if ( isVirtualElement( ) )
-			{
-				assert getExtendsElement( ) == null;
-				DesignElement virtualParent = getVirtualParent( );
-				if ( virtualParent != null )
-					value = virtualParent.getPropertyFromSelf( module, prop );
-			}
-			else
-			{
-				// Does the parent provide the value of this property?
-
-				value = getPropertyFromParent( module, prop );
-			}
+			value = getPropertyFromParent( module, prop );
 
 			if ( value != null )
 				return value;
