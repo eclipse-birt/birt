@@ -99,7 +99,7 @@ public final class StyleSheetLoader
 
 	/**
 	 * Private constructor to do some reset work.
-	 *  
+	 * 
 	 */
 
 	public StyleSheetLoader( )
@@ -114,7 +114,7 @@ public final class StyleSheetLoader
 	 * Re-inits the loader. This method is called when the users want to use the
 	 * instance to load more than one external style sheet. Call this every
 	 * loading operation.
-	 *  
+	 * 
 	 */
 
 	public void Reinit( )
@@ -263,6 +263,7 @@ public final class StyleSheetLoader
 		}
 
 		styleSheet.addWarning( warnings );
+		styleSheet.setErrorHandler( parser.getErrorHandler( ) );
 		return styleSheet;
 	}
 
@@ -372,8 +373,8 @@ public final class StyleSheetLoader
 									CssUtil.toString( selector ),
 									StyleSheetParserException.DESIGN_EXCEPTION_STYLE_NOT_SUPPORTED );
 							semanticWarning( exception );
-							styleSheet.addUnsupportedStyle( CssUtil.toString( selector )
-									.toLowerCase( ), exception );
+							styleSheet.addUnsupportedStyle( CssUtil.toString(
+									selector ).toLowerCase( ), exception );
 							name = null;
 
 					}

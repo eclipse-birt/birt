@@ -122,4 +122,37 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 		return styleSheet.getWarnings( styleName );
 	}
 
+	/**
+	 * Gets the message list for the parser errors.
+	 * 
+	 * @return the message list for the parser errors
+	 */
+
+	public List getParserErrors( )
+	{
+		return styleSheet.getErrorHandler( ).getParserErrors( );
+	}
+
+	/**
+	 * Gets the message list for the parser fatal errors.
+	 * 
+	 * @return the message list for the parser fatal errors
+	 */
+
+	public List getParserFatalErrors( )
+	{
+		return styleSheet.getErrorHandler( ).getParserFatalErrors( );
+	}
+
+	/**
+	 * Gets the message list for the parser warnings.
+	 * 
+	 * @return the message list for the parser warnings
+	 */
+
+	public List getParserWarnings( )
+	{
+		return styleSheet.getErrorHandler( ).getParserWarnings( );
+	}
+
 }

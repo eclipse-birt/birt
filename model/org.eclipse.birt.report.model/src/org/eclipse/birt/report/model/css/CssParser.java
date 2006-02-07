@@ -17,7 +17,6 @@ import java.util.Stack;
 
 import org.w3c.css.sac.CSSException;
 import org.w3c.css.sac.DocumentHandler;
-import org.w3c.css.sac.ErrorHandler;
 import org.w3c.css.sac.InputSource;
 import org.w3c.css.sac.LexicalUnit;
 import org.w3c.css.sac.Parser;
@@ -35,18 +34,18 @@ public class CssParser
 	/**
 	 * The core implementation of the lexical analysis of CSS2 grammar.
 	 */
-	
+
 	private Parser parser = null;
-	
+
 	/**
 	 * The error handler of the parser of CSS2.
 	 */
-	
-	private ErrorHandler errorHandler = null;
+
+	private CssErrorHandler errorHandler = null;
 
 	/**
 	 * Default constructor.
-	 *  
+	 * 
 	 */
 
 	public CssParser( )
@@ -64,8 +63,8 @@ public class CssParser
 	 * @throws IOException
 	 *             if the resource is not well-located
 	 */
-	
-public CSSStyleSheet parseStyleSheet( InputSource source )
+
+	public CSSStyleSheet parseStyleSheet( InputSource source )
 			throws IOException
 	{
 		CssHandler handler = new CssHandler( );
@@ -74,6 +73,18 @@ public CSSStyleSheet parseStyleSheet( InputSource source )
 		parser.parseStyleSheet( source );
 		return (StyleSheet) handler.getRoot( );
 	}
+
+	/**
+	 * Gets the error handler.
+	 * 
+	 * @return the error handler
+	 */
+
+	public CssErrorHandler getErrorHandler( )
+	{
+		return this.errorHandler;
+	}
+
 	class CssHandler implements DocumentHandler
 	{
 

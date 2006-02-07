@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.core.StyleElement;
 
 /**
  * This class represents one include style sheet of the module.
- *  
+ * 
  */
 
 public final class CssStyleSheet
@@ -54,6 +54,12 @@ public final class CssStyleSheet
 	 */
 
 	private HashMap warningsForStyles = new HashMap( );
+
+	/**
+	 * The error handler for the CSS parser.
+	 */
+
+	private CssErrorHandler errorHandler = null;
 
 	/**
 	 * Return a handle to deal with the style sheet.
@@ -197,6 +203,29 @@ public final class CssStyleSheet
 	public List getWarnings( String styleName )
 	{
 		return (List) this.warningsForStyles.get( styleName );
+	}
+
+	/**
+	 * Gets the error handler for the css parser.
+	 * 
+	 * @return Returns the errorHandler.
+	 */
+
+	public CssErrorHandler getErrorHandler( )
+	{
+		return errorHandler;
+	}
+
+	/**
+	 * Sets the error handler for the css parser.
+	 * 
+	 * @param errorHandler
+	 *            The errorHandler to set.
+	 */
+
+	public void setErrorHandler( CssErrorHandler errorHandler )
+	{
+		this.errorHandler = errorHandler;
 	}
 
 }
