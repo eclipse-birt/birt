@@ -2494,7 +2494,7 @@
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Listing" extends="ReportItem" isAbstract="true" name="Listing" nameSpace="none" since="1.0">
     <Property detailType="SortKey" displayNameID="Element.Listing.sorting" isList="true" name="sort" runtimeSettable="false" since="1.0" type="structure"/>
     <Property detailType="FilterCondition" displayNameID="Element.Listing.filter" isList="true" name="filter" runtimeSettable="false" since="1.0" type="structure"/>
-    <Property displayNameID="Element.Listing.pageBreakInterval" name="pageBreakInterval" runtimeSettable="false" since="2.0" type="string">
+    <Property displayNameID="Element.Listing.pageBreakInterval" name="pageBreakInterval" runtimeSettable="false" since="2.0" type="integer">
       <Default>0</Default>
     </Property>  
   </Element>

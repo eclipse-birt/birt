@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
@@ -153,7 +154,7 @@ class PropertyState extends AbstractPropertyState
 				&& "cheetSheet".equalsIgnoreCase( name ) ) //$NON-NLS-1$
 		{
 			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
-					handler, element, "cheetSheet"); //$NON-NLS-1$
+					handler, element, "cheetSheet" ); //$NON-NLS-1$
 			state.setName( ReportDesign.CHEAT_SHEET_PROP );
 			return state;
 		}
@@ -195,6 +196,15 @@ class PropertyState extends AbstractPropertyState
 
 		if ( ( element instanceof ListingElement || element instanceof GroupElement ) )
 		{
+			if ( IListingElementModel.PAGE_BREAK_INTERVAL_PROP
+					.equalsIgnoreCase( name ) )
+			{
+				CompatiblePropertyTypeState state = new CompatiblePropertyTypeState(
+						handler, element );
+				state.setName( name );
+				return state;
+			}
+
 			if ( name.equalsIgnoreCase( "onStart" ) || name //$NON-NLS-1$
 					.equalsIgnoreCase( "onFinish" ) ) //$NON-NLS-1$
 				return new CompatibleIgnorePropertyState( handler, element );
@@ -209,8 +219,8 @@ class PropertyState extends AbstractPropertyState
 
 		if ( ( element instanceof GroupElement ) )
 		{
-			if ( name.equalsIgnoreCase( "onCreate" ) || name //$NON-NLS-1$
-					.equalsIgnoreCase( "onRender" ) ) //$NON-NLS-1$
+			if ( "onCreate".equalsIgnoreCase( name ) || //$NON-NLS-1$
+					"onRender".equalsIgnoreCase( name ) ) //$NON-NLS-1$
 				return new CompatibleIgnorePropertyState( handler, element );
 		}
 
