@@ -1099,7 +1099,7 @@ public class TaskSelectType extends SimpleTask
 			}
 			else
 			{
-				cbMultipleY.select( yAxisNum - 1 );
+				cbMultipleY.select( yAxisNum > 0 ? yAxisNum - 1 : 0 );
 			}
 		}
 	}
