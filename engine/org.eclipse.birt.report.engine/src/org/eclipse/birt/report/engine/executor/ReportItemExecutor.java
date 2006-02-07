@@ -48,7 +48,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.25 $ $Date: 2005/12/28 07:25:07 $
+ * @version $Revision: 1.26 $ $Date: 2006/01/09 10:51:59 $
  */
 public abstract class ReportItemExecutor
 {
@@ -214,7 +214,7 @@ public abstract class ReportItemExecutor
 					if ( bookmarkExpr != null )
 					{
 						value = context.evaluate( drill.getBookmark( ) );
-						if ( value != null && value instanceof String )
+						if ( value != null )
 						{
 							bookmark = value.toString( );
 						}
