@@ -52,11 +52,11 @@ public class ParameterValidationUtil
 	 */
 
 	private static Locale DEFAULT_LOCALE = Locale.US;
-	
+
 	/**
 	 * Default date-time format string.
 	 */
-	
+
 	public static final String DEFAULT_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss"; //$NON-NLS-1$
 
 	/**
@@ -467,8 +467,13 @@ public class ParameterValidationUtil
 
 	static private String getMessage( Locale locale, String key )
 	{
-		ResourceBundle resourceBundle = ResourceBundle.getBundle(
-				ModelMessages.class.getPackage( ).getName( ) + ".Messages", //$NON-NLS-1$
+		// works around bug in some J2EE server; see Bugzilla #126073
+
+		String packageName = ModelMessages.class.getName( ).substring( 0,
+				ModelMessages.class.getName( ).lastIndexOf( "." ) ); //$NON-NLS-1$
+
+		ResourceBundle resourceBundle = ResourceBundle.getBundle( packageName
+				+ ".Messages", //$NON-NLS-1$
 				locale, ModelMessages.class.getClassLoader( ) );
 		if ( resourceBundle != null )
 			return resourceBundle.getString( key );
@@ -688,7 +693,7 @@ public class ParameterValidationUtil
 	 * @param locale
 	 *            the locale information
 	 * @return the formatted string
-	 *  
+	 * 
 	 */
 
 	static private String getDisplayValue( String dataType, Object value,
