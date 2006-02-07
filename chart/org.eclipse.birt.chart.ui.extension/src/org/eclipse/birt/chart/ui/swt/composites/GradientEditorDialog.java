@@ -73,36 +73,38 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
     /**
      *  
      */
-    public GradientEditorDialog(Shell shellParent, Gradient gSelected, ColorDefinition endColor)
-    {
-        this.gCurrent = gSelected;
-        if (gCurrent != null)
-        {
-            gBackup = (Gradient) EcoreUtil.copy(gSelected);
-        }
-        else
-        {
-            gCurrent = AttributeFactory.eINSTANCE.createGradient();
-            gCurrent.setStartColor(ColorDefinitionImpl.create(254, 254, 254));
-            gCurrent.setEndColor( endColor );
-        }
-        shell = new Shell(shellParent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
-        shell.setLayout(new FillLayout());
-        placeComponents();
-        shell.setText(Messages.getString("GradientEditorDialog.Lbl.GradientEditor")); //$NON-NLS-1$
-        shell.setSize(400, 320);
-        shell.setDefaultButton(btnAccept);
-        UIHelper.centerOnScreen(shell);
-        shell.layout();
-        shell.open();
-        while (!shell.isDisposed())
-        {
-            if (!shell.getDisplay().readAndDispatch())
-            {
-                shell.getDisplay().sleep();
-            }
-        }
-    }
+    public GradientEditorDialog( Shell shellParent, Gradient gSelected,
+			ColorDefinition selectedColor )
+	{
+		this.gCurrent = gSelected;
+		if ( gCurrent != null )
+		{
+			gBackup = (Gradient) EcoreUtil.copy( gSelected );
+		}
+		else
+		{
+			gCurrent = AttributeFactory.eINSTANCE.createGradient( );
+
+			setGradientColor( gCurrent, selectedColor );
+		}
+		shell = new Shell( shellParent, SWT.DIALOG_TRIM
+				| SWT.RESIZE | SWT.APPLICATION_MODAL );
+		shell.setLayout( new FillLayout( ) );
+		placeComponents( );
+		shell.setText( Messages.getString( "GradientEditorDialog.Lbl.GradientEditor" ) ); //$NON-NLS-1$
+		shell.setSize( 400, 320 );
+		shell.setDefaultButton( btnAccept );
+		UIHelper.centerOnScreen( shell );
+		shell.layout( );
+		shell.open( );
+		while ( !shell.isDisposed( ) )
+		{
+			if ( !shell.getDisplay( ).readAndDispatch( ) )
+			{
+				shell.getDisplay( ).sleep( );
+			}
+		}
+	}
     
     public GradientEditorDialog( Shell shellParent, Gradient gSelected )
 	{
@@ -307,4 +309,49 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
         iscRotation.setValue(iNewAngle);
         gCurrent.setDirection(iNewAngle);
     }
+    
+    private int convertRGBToLuminance( int red, int green, int blue )
+	{
+		return (int) ( 0.3 * red + 0.59 * green + 0.11 * blue );
+	}
+
+	private int getNewColor( int lumDiff, int oldColor, double coefficient )
+	{
+		int newColor = (int) ( lumDiff * coefficient ) + oldColor;
+		return newColor < 255 ? newColor : 255;
+	}
+    
+    private void setGradientColor( Gradient gradient,
+			ColorDefinition selectedColor )
+	{
+		int currentLuminance = convertRGBToLuminance( selectedColor.getRed( ),
+				selectedColor.getGreen( ),
+				selectedColor.getBlue( ) );
+		if ( currentLuminance < 200 )
+		{
+			gradient.setStartColor( selectedColor );
+			ColorDefinition newColor = (ColorDefinition) EcoreUtil.copy( selectedColor );
+			newColor.eAdapters( ).addAll( selectedColor.eAdapters( ) );
+
+			int lumDiff = 240 - currentLuminance;
+			newColor.setRed( getNewColor( lumDiff, newColor.getRed( ), 0.3 ) );
+			newColor.setGreen( getNewColor( lumDiff, newColor.getGreen( ), 0.59 ) );
+			newColor.setBlue( getNewColor( lumDiff, newColor.getBlue( ), 0.11 ) );
+			gradient.setEndColor( newColor );
+		}
+		else
+		{
+			gradient.setEndColor( selectedColor );
+			ColorDefinition newColor = (ColorDefinition) EcoreUtil.copy( selectedColor );
+			newColor.eAdapters( ).addAll( selectedColor.eAdapters( ) );
+
+			int lumDiff = -100;
+			newColor.setRed( getNewColor( lumDiff, newColor.getRed( ), 0.3 ) );
+			newColor.setGreen( getNewColor( lumDiff, newColor.getGreen( ), 0.59 ) );
+			newColor.setBlue( getNewColor( lumDiff, newColor.getBlue( ), 0.11 ) );
+			gradient.setStartColor( newColor );
+		}		
+	}
+    
+    
 }

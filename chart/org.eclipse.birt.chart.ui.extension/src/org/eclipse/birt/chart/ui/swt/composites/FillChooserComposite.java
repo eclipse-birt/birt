@@ -543,9 +543,9 @@ public class FillChooserComposite extends Composite implements
 			}
 			else if ( fCurrent instanceof ColorDefinition )
 			{
-				ged = new GradientEditorDialog( this.getShell( ),
-						null,
-						(ColorDefinition) EcoreUtil.copy( fCurrent ) );
+				ColorDefinition newCD = (ColorDefinition) EcoreUtil.copy( fCurrent );
+				newCD.eAdapters( ).addAll( fCurrent.eAdapters( ) );
+				ged = new GradientEditorDialog( this.getShell( ), null, newCD );
 			}
 			else
 			{
