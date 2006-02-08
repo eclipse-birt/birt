@@ -225,7 +225,7 @@ final class SwingTextRenderer implements IConstants
 							_sxs.getLocale( ) ) );
 		}
 		IDisplayServer xs = idr.getDisplayServer( );
-		Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) idr ).getGraphicsContext( );
+		Graphics2D g2d = (Graphics2D) idr.getGraphicsContext( );
 		g2d.setFont( (java.awt.Font) xs.createFont( fd ) );
 
 		la.getCaption( ).setValue( sText );
@@ -763,8 +763,8 @@ final class SwingTextRenderer implements IConstants
 									+ dH
 									* ( i + 1 ) - dD )
 					// (float)(((dY - dD) - ((iLC - i) * dH - (iLC + 1) * dH/2))
-							// + ins.getTop())
-							);
+					// + ins.getTop())
+					);
 				}
 
 				// RENDER THE OUTLINE/BORDER
@@ -1787,7 +1787,7 @@ final class SwingTextRenderer implements IConstants
 	private final void renderOutline( IPrimitiveRenderer ipr,
 			LineAttributes lia, Rectangle2D.Double r2d )
 	{
-		if ( lia != null && lia.isVisible( ) )
+		if ( lia != null && lia.isVisible( ) && lia.getColor( ) != null )
 		{
 			Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
 			Stroke sPrevious = null;

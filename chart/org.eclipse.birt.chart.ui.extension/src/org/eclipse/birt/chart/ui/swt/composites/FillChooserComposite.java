@@ -88,6 +88,8 @@ public class FillChooserComposite extends Composite implements
 
 	private transient Button btnImage = null;
 
+	private transient Button btnReset = null;
+
 	private static Color[] colorArray = null;
 
 	private transient boolean bGradientEnabled = true;
@@ -364,12 +366,20 @@ public class FillChooserComposite extends Composite implements
 			}
 		}
 		lblTransparency.setText( new MessageFormat( Messages.getString( "FillChooserComposite.Lbl.Opacity" ) ) //$NON-NLS-1$
-				.format( new Object[]{
-					new Integer( srTransparency.getSelection( ) )
-				} ) );
+		.format( new Object[]{
+			new Integer( srTransparency.getSelection( ) )
+		} ) );
 		srTransparency.setToolTipText( String.valueOf( srTransparency.getSelection( ) ) );
 		srTransparency.addSelectionListener( this );
 		srTransparency.addFocusListener( this );
+
+		btnReset = new Button( cmpButtons, SWT.NONE );
+		GridData gdReset = new GridData( GridData.FILL_BOTH );
+		gdReset.heightHint = 26;
+		gdReset.horizontalSpan = 2;
+		btnReset.setLayoutData( gdReset );
+		btnReset.setText( Messages.getString( "FillChooserComposite.Lbl.Reset" ) ); //$NON-NLS-1$
+		btnReset.addSelectionListener( this );
 
 		if ( this.bGradientEnabled )
 		{
@@ -501,6 +511,12 @@ public class FillChooserComposite extends Composite implements
 				}
 			}
 		}
+		else if ( oSource.equals( this.btnReset ) )
+		{
+			this.setFill( null );
+			fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
+			cmpDropDown.getShell( ).dispose( );
+		}
 		else if ( oSource.equals( this.btnCustom ) )
 		{
 			ColorDialog cDlg = new ColorDialog( this.getShell( ), SWT.NONE );
@@ -569,9 +585,9 @@ public class FillChooserComposite extends Composite implements
 		{
 			iTransparency = srTransparency.getSelection( );
 			lblTransparency.setText( new MessageFormat( Messages.getString( "FillChooserComposite.Lbl.Opacity" ) ) //$NON-NLS-1$
-					.format( new Object[]{
-						new Integer( iTransparency )
-					} ) );
+			.format( new Object[]{
+				new Integer( iTransparency )
+			} ) );
 			srTransparency.setToolTipText( String.valueOf( srTransparency.getSelection( ) ) );
 
 			if ( fCurrent instanceof ColorDefinition )
@@ -746,6 +762,7 @@ public class FillChooserComposite extends Composite implements
 			{
 				if ( cTmp.equals( btnGradient )
 						|| cTmp.equals( btnCustom )
+						|| cTmp.equals( btnReset )
 						|| cTmp.equals( btnImage )
 						|| ( e.getSource( ).equals( cmpDropDown ) && cTmp.equals( srTransparency ) ) )
 				{

@@ -110,27 +110,26 @@ public final class PaletteEditorComposite extends Composite implements
 	private Button btnAdd, btnRemove, btnUp, btnDown;
 
 	/**
-	 *  
+	 * 
 	 */
 	private FillChooserComposite fccNewEntry = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private Composite coPaletteEntries = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private IDeviceRenderer idrSWT = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.composites" ); //$NON-NLS-1$
 
 	/**
-	 *  
+	 * 
 	 */
-	//private IDisplayServer idsSWT = null;
-
+	// private IDisplayServer idsSWT = null;
 	/**
 	 * The constructor expects a default palette
 	 * 
@@ -404,7 +403,14 @@ public final class PaletteEditorComposite extends Composite implements
 			final Button btn = (Button) sev.getSource( );
 			if ( btn == btnAdd )
 			{
-				append( (Fill) EcoreUtil.copy( fccNewEntry.getFill( ) ) );
+				if ( fccNewEntry.getFill( ) != null )
+				{
+					append( (Fill) EcoreUtil.copy( fccNewEntry.getFill( ) ) );
+				}
+				else
+				{
+					append( ColorDefinitionImpl.TRANSPARENT( ) );
+				}
 			}
 			else if ( btn == btnRemove )
 			{

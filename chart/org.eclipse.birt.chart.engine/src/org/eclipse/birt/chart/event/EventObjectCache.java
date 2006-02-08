@@ -144,7 +144,8 @@ public class EventObjectCache
 		Object cFG = null;
 		if ( cdEdge == null )
 		{
-			if ( !( fBackground instanceof ColorDefinition ) )
+			if ( !( fBackground instanceof ColorDefinition )
+					|| ( (ColorDefinition) fBackground ).getTransparency( ) == 0 )
 			{
 				/*
 				 * DefaultLoggerImpl.instance().log(ILogger.WARNING, "Cannot

@@ -410,7 +410,8 @@ public abstract class AxesRenderer extends BaseRenderer
 					Messages.getString( "info.elapsed.render.time", //$NON-NLS-1$
 							new Object[]{
 								new Long( lTimer )
-							}, getRunTimeContext( ).getLocale( ) ) );
+							},
+							getRunTimeContext( ).getLocale( ) ) );
 			htRenderers.remove( TIMER );
 		}
 	}
@@ -649,17 +650,20 @@ public abstract class AxesRenderer extends BaseRenderer
 				sort( baseArray, orthogonalArray, false );
 			}
 
-			CurveRenderer crdr = new CurveRenderer( (ChartWithAxes) getModel( ),
-					this,
-					curve.getLineAttributes( ),
-					LocationImpl.create( baseArray, orthogonalArray ),
-					bShowAsTape,
-					-1,
-					bDeferred,
-					false,
-					null,
-					false );
-			crdr.draw( ipr );
+			if ( curve.getLineAttributes( ).getColor( ) != null )
+			{
+				CurveRenderer crdr = new CurveRenderer( (ChartWithAxes) getModel( ),
+						this,
+						curve.getLineAttributes( ),
+						LocationImpl.create( baseArray, orthogonalArray ),
+						bShowAsTape,
+						-1,
+						bDeferred,
+						false,
+						null,
+						false );
+				crdr.draw( ipr );
+			}
 
 			// Render curve label.
 			if ( curve.getLabel( ).isSetVisible( )
@@ -937,8 +941,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_MARKER_RANGE,
 						mr );
 
-				deStart = (DataElement) mr.getStartValue( );
-				deEnd = (DataElement) mr.getEndValue( );
+				deStart = mr.getStartValue( );
+				deEnd = mr.getEndValue( );
 				try
 				{
 					iCompare = compare( deStart, deEnd );
@@ -2321,7 +2325,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_MARKER_LINE,
 						ml );
 
-				deValue = (DataElement) ml.getValue( );
+				deValue = ml.getValue( );
 				if ( deValue == null )
 				{
 					throw new ChartException( ChartEnginePlugin.ID,

@@ -45,11 +45,10 @@ import org.eclipse.swt.widgets.Shell;
  * @author Actuate Corporation
  * 
  */
-public class FontDefinitionDialog
-		implements
-			SelectionListener,
-			Listener,
-			IAngleChangeListener
+public class FontDefinitionDialog implements
+		SelectionListener,
+		Listener,
+		IAngleChangeListener
 {
 
 	public static final int MIN_FONT_SIZE = 1;
@@ -139,7 +138,8 @@ public class FontDefinitionDialog
 		this.fdBackup = (FontDefinition) EcoreUtil.copy( this.fdCurrent );
 		this.cdBackup = (ColorDefinition) EcoreUtil.copy( this.cdCurrent );
 		shell = new Shell( shellParent, SWT.DIALOG_TRIM
-				| SWT.RESIZE | SWT.APPLICATION_MODAL );
+				| SWT.RESIZE
+				| SWT.APPLICATION_MODAL );
 		shell.setLayout( new FillLayout( ) );
 		placeComponents( );
 		populateLists( );
@@ -240,11 +240,12 @@ public class FontDefinitionDialog
 		cbStrikethru.setSelection( fdCurrent.isSetStrikethrough( )
 				&& fdCurrent.isStrikethrough( ) );
 
-//		cbWrap = new Button( cmpFormat, SWT.CHECK );
-//		cbWrap.addSelectionListener( this );
-//		cbWrap.setText( Messages.getString( "FontDefinitionDialog.Lbl.Wrap" ) ); //$NON-NLS-1$
-//		cbWrap.setSelection( fdCurrent.isSetWordWrap( )
-//				&& fdCurrent.isWordWrap( ) );
+		// cbWrap = new Button( cmpFormat, SWT.CHECK );
+		// cbWrap.addSelectionListener( this );
+		// cbWrap.setText( Messages.getString( "FontDefinitionDialog.Lbl.Wrap" )
+		// ); //$NON-NLS-1$
+		// cbWrap.setSelection( fdCurrent.isSetWordWrap( )
+		// && fdCurrent.isWordWrap( ) );
 
 		if ( isAlignmentEnabled )
 		{
@@ -749,6 +750,10 @@ public class FontDefinitionDialog
 		else if ( e.widget.equals( fccColor ) )
 		{
 			cdCurrent = (ColorDefinition) fccColor.getFill( );
+			if ( cdCurrent == null )
+			{
+				cdCurrent = ColorDefinitionImpl.TRANSPARENT( );
+			}
 			fcPreview.setColor( cdCurrent );
 			fcPreview.redraw( );
 		}
