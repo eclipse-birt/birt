@@ -26,6 +26,8 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
  */
 public class JDBCException extends OdaException
 {
+	/** serial ID */
+	private static final long serialVersionUID = -3923215393730764306L;
 
 	/** Error code for all JDBCException instances. */
 	public final static int ERROR_JDBC = 101;

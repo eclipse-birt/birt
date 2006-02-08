@@ -594,7 +594,6 @@ public class JDBCDriverManager
 //	 DriverManager.getConnection(url, props). And the invoking of the very method
 //	 would success.
 
-
 	private static class WrappedDriver implements Driver
 	{
 		private Driver driver;
@@ -607,6 +606,9 @@ public class JDBCDriverManager
 			this.driverClass = driverClass;
 		}
 
+		/*
+		 * @see java.sql.Driver#acceptsURL(java.lang.String)
+		 */
 		public boolean acceptsURL( String u ) throws SQLException
 		{
 			boolean res = this.driver.acceptsURL( u );
@@ -616,34 +618,59 @@ public class JDBCDriverManager
 			return res;
 		}
 
+		/*
+		 * @see java.sql.Driver#connect(java.lang.String, java.util.Properties)
+		 */
 		public java.sql.Connection connect( String u, Properties p ) throws SQLException
 		{
 			logger.entering( WrappedDriver.class.getName() + ":" + driverClass, 
 					"connect", u );
-			return this.driver.connect( u, p );
+			try
+			{
+				return this.driver.connect( u, p );
+			}
+			catch ( RuntimeException e )
+			{
+				throw new SQLException( e.getMessage( ) );
+			}
 		}
 
+		/*
+		 * @see java.sql.Driver#getMajorVersion()
+		 */
 		public int getMajorVersion( )
 		{
 			return this.driver.getMajorVersion( );
 		}
 
+		/*
+		 * @see java.sql.Driver#getMinorVersion()
+		 */
 		public int getMinorVersion( )
 		{
 			return this.driver.getMinorVersion( );
 		}
 
+		/*
+		 * @see java.sql.Driver#getPropertyInfo(java.lang.String, java.util.Properties)
+		 */
 		public DriverPropertyInfo[] getPropertyInfo( String u, Properties p )
 				throws SQLException
 		{
 			return this.driver.getPropertyInfo( u, p );
 		}
 
+		/*
+		 * @see java.sql.Driver#jdbcCompliant()
+		 */
 		public boolean jdbcCompliant( )
 		{
 			return this.driver.jdbcCompliant( );
 		}
 		
+		/*
+		 * @see java.lang.Object#toString()
+		 */
 		public String toString( )
 		{
 			return driverClass;
