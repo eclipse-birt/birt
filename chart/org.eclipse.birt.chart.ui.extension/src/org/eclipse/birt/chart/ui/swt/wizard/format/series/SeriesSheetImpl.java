@@ -70,11 +70,11 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 	 */
 	public void getComponent( Composite parent )
 	{
-		final int COLUMN_NUMBER = 5;
+		final int COLUMN_NUMBER = 6;
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
 			GridLayout glContent = new GridLayout( COLUMN_NUMBER, false );
-			glContent.horizontalSpacing = 20;
+			glContent.horizontalSpacing = 10;
 			cmpContent.setLayout( glContent );
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			cmpContent.setLayoutData( gd );
@@ -148,6 +148,15 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 			lblStack.setText( Messages.getString( "SeriesSheetImpl.Label.Stacked" ) ); //$NON-NLS-1$
 		}
 
+		Label lblTranslucent = new Label( cmpContent, SWT.NONE );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalAlignment = SWT.CENTER;
+			lblTranslucent.setLayoutData( gd );
+			lblTranslucent.setFont( JFaceResources.getBannerFont( ) );
+			lblTranslucent.setText( Messages.getString( "SeriesSheetImpl.Label.Translucent" ) ); //$NON-NLS-1$
+		}
+
 		List seriesDefns = ChartUIUtil.getBaseSeriesDefinitions( getChart( ) );
 		int treeIndex = 0;
 		for ( int i = 0; i < seriesDefns.size( ); i++ )
@@ -198,9 +207,10 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 		private transient Combo cmbTypes;
 		private transient Button btnVisible;
 		private transient Button btnStack;
+		private transient Button btnTranslucent;
 
 		private transient int iSeriesDefinitionIndex = 0;
-		// Index of tree item in the navigator tee
+		// Index of tree item in the navigator tree
 		private transient int treeIndex = 0;
 
 		public SeriesOptionChoser( SeriesDefinition seriesDefn,
@@ -214,8 +224,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 
 		public void placeComponents( Composite parent )
 		{
-			Series series = seriesDefn.getDesignTimeSeries();
-			
+			Series series = seriesDefn.getDesignTimeSeries( );
+
 			lblSeries = new Label( parent, SWT.NONE );
 			{
 				GridData gd = new GridData( );
@@ -254,25 +264,43 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 				cmbTypes.addSelectionListener( this );
 			}
 
-			btnVisible = new Button( parent, SWT.CHECK );
+			if ( !series.getClass( ).isAssignableFrom( SeriesImpl.class ) )
 			{
-				GridData gd = new GridData( );
-				gd.horizontalAlignment = SWT.CENTER;
-				btnVisible.setLayoutData( gd );
-				btnVisible.setSelection( series.isVisible( ) );
-				btnVisible.setEnabled( !series.getClass( )
-						.isAssignableFrom( SeriesImpl.class ) );
-				btnVisible.addSelectionListener( this );
-			}
+				btnVisible = new Button( parent, SWT.CHECK );
+				{
+					GridData gd = new GridData( );
+					gd.horizontalAlignment = SWT.CENTER;
+					btnVisible.setLayoutData( gd );
+					btnVisible.setSelection( series.isVisible( ) );
+					btnVisible.addSelectionListener( this );
+				}
 
-			btnStack = new Button( parent, SWT.CHECK );
+				btnStack = new Button( parent, SWT.CHECK );
+				{
+					GridData gd = new GridData( );
+					gd.horizontalAlignment = SWT.CENTER;
+					btnStack.setLayoutData( gd );
+					btnStack.setEnabled( series.canBeStacked( ) );
+					btnStack.setSelection( series.isStacked( ) );
+					btnStack.addSelectionListener( this );
+				}
+
+				btnTranslucent = new Button( parent, SWT.CHECK );
+				{
+					GridData gd = new GridData( );
+					gd.horizontalAlignment = SWT.CENTER;
+					btnTranslucent.setLayoutData( gd );
+					btnTranslucent.setSelection( series.isTranslucent( ) );
+					btnTranslucent.addSelectionListener( this );
+				}
+			}
+			else
 			{
+				// Occupy a blank area
+				Label dummy = new Label( parent, SWT.CHECK );
 				GridData gd = new GridData( );
-				gd.horizontalAlignment = SWT.CENTER;
-				btnStack.setLayoutData( gd );
-				btnStack.setEnabled( series.canBeStacked( ) );
-				btnStack.setSelection( series.isStacked( ) );
-				btnStack.addSelectionListener( this );
+				gd.horizontalSpan = 3;
+				dummy.setLayoutData( gd );
 			}
 
 			populateLists( seriesDefn.getDesignTimeSeries( ) );
@@ -280,8 +308,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 
 		public void widgetSelected( SelectionEvent e )
 		{
-			Series series = seriesDefn.getDesignTimeSeries();
-			
+			Series series = seriesDefn.getDesignTimeSeries( );
+
 			if ( e.getSource( ).equals( cmbTypes ) )
 			{
 				if ( seriesDefn.getDesignTimeSeries( )
@@ -302,6 +330,10 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 			else if ( e.getSource( ).equals( btnStack ) )
 			{
 				series.setStacked( btnStack.getSelection( ) );
+			}
+			else if ( e.getSource( ).equals( btnTranslucent ) )
+			{
+				series.setTranslucent( btnTranslucent.getSelection( ) );
 			}
 		}
 
@@ -338,7 +370,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 			if ( event.widget.equals( txtTitle ) )
 			{
 				seriesDefn.getDesignTimeSeries( )
-						.setSeriesIdentifier( txtTitle.getText() );
+						.setSeriesIdentifier( txtTitle.getText( ) );
 			}
 		}
 
