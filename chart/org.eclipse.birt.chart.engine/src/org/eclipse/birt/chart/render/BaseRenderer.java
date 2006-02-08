@@ -180,6 +180,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			127 );
 
 	/**
+	 * Transparency for translucent color. Sould between 0 and 100.
+	 */
+	protected static double OVERRIDE_TRANSPARENCY = 50;
+
+	/**
 	 * The associated runtimeContext.
 	 */
 	private transient RunTimeContext rtc = null;
@@ -505,7 +510,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					Messages.getString( "info.elapsed.render.time", //$NON-NLS-1$
 							new Object[]{
 								new Long( lTimer )
-							}, rtc.getLocale( ) ) );
+							},
+							rtc.getLocale( ) ) );
 			htRenderers.remove( TIMER );
 		}
 	}
@@ -3073,6 +3079,22 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	{
 		return ( cm.getInteractivity( ) == null || cm.getInteractivity( )
 				.isEnable( ) );
+	}
+
+	/**
+	 * Updates the tranlucency of the fill according to series setting.
+	 * 
+	 * @param fill
+	 * @param se
+	 */
+	protected void updateTranslucency( Fill fill, Series se )
+	{
+		if ( se != null
+				&& se.isTranslucent( )
+				&& ( fill instanceof ColorDefinition ) )
+		{
+			( (ColorDefinition) fill ).setTransparency( (int) ( OVERRIDE_TRANSPARENCY * 255d / 100d ) );
+		}
 	}
 
 }
