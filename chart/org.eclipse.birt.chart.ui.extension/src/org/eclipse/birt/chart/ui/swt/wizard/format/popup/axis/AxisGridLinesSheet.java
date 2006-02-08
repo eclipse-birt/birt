@@ -166,6 +166,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 		}
 		fccLine = new FillChooserComposite( cmpGeneral,
 				SWT.NONE,
+				getContext( ),
 				clrCurrent,
 				false,
 				false );

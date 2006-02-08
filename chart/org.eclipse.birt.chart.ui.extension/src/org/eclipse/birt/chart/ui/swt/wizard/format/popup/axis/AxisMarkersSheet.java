@@ -403,6 +403,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 
 		fccRange = new FillChooserComposite( cmpRange,
 				SWT.NONE,
+				getContext( ),
 				null,
 				true,
 				true );
@@ -724,7 +725,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 				{
 					sTitleString = sTitleString.substring( ExternalizedTextEditorComposite.SEPARATOR.length( ) );
 				}
-				sAxisTitle = new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.ForAxis" ) ).format( new Object[]{sTitleString} ); //$NON-NLS-1$ //$NON-NLS-2$
+				sAxisTitle = new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.ForAxis" ) ).format( new Object[]{sTitleString} ); //$NON-NLS-1$ 
 			}
 			catch ( NullPointerException e1 )
 			{

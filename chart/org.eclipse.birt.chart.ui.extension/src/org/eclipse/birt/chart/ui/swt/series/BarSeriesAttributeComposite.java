@@ -117,6 +117,7 @@ public class BarSeriesAttributeComposite extends Composite implements
 
 		this.fccRiserOutline = new FillChooserComposite( this,
 				SWT.NONE,
+				series.eAdapters( ),
 				( (BarSeries) series ).getRiserOutline( ),
 				false,
 				false );

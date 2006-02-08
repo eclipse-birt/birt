@@ -113,7 +113,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartLegendSheetImpl.Label.Background" ) ); //$NON-NLS-1$
 
 		cmbBackgroundColor = new FillChooserComposite( cmpBasic, SWT.DROP_DOWN
-				| SWT.READ_ONLY, getChart( ).getLegend( )
+				| SWT.READ_ONLY, getContext( ), getChart( ).getLegend( )
 				.getClientArea( )
 				.getBackground( ), true, true );
 		{
@@ -127,7 +127,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		if ( getChart( ).getLegend( ).getItemType( ) == LegendItemType.SERIES_LITERAL )
 		{
 			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartLegendSheetImpl.Label.Value" ) ); //$NON-NLS-1$
-			
+
 			btnShowValue = new Button( cmpBasic, SWT.CHECK );
 			{
 				GridData gridData = new GridData( );

@@ -127,6 +127,7 @@ public class LegendTextSheet extends AbstractPopupSheet
 
 		fccShadow = new FillChooserComposite( grpTxtArea,
 				SWT.NONE,
+				getContext( ),
 				getLegend( ).getClientArea( ).getShadowColor( ),
 				false,
 				false );

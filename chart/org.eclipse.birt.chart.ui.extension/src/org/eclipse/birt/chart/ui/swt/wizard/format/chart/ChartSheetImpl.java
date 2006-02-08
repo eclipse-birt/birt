@@ -141,6 +141,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 		cmbBackground = new FillChooserComposite( cmpBasic,
 				SWT.NONE,
+				getContext( ),
 				getChart( ).getBlock( ).getBackground( ),
 				true,
 				true );

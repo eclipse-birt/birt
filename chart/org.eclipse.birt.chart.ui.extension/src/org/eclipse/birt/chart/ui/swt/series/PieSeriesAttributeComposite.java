@@ -206,6 +206,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 
 		fccSliceOutline = new FillChooserComposite( cmpBottomBindingArea,
 				SWT.NONE,
+				series.eAdapters( ),
 				series.getSliceOutline( ),
 				false,
 				false );

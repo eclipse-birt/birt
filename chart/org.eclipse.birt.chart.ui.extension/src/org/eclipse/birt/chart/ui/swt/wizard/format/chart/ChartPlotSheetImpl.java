@@ -79,11 +79,9 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background" ) ); //$NON-NLS-1$
 
-		cmbBlockColor = new FillChooserComposite( cmpBasic,
-				SWT.DROP_DOWN | SWT.READ_ONLY,
-				getChart( ).getPlot( ).getBackground( ),
-				true,
-				true );
+		cmbBlockColor = new FillChooserComposite( cmpBasic, SWT.DROP_DOWN
+				| SWT.READ_ONLY, getContext( ), getChart( ).getPlot( )
+				.getBackground( ), true, true );
 		{
 			GridData gd = new GridData( );
 			gd.widthHint = 200;
@@ -114,7 +112,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background" ) ); //$NON-NLS-1$
 
 		cmbClientAreaColor = new FillChooserComposite( cmpBasic, SWT.DROP_DOWN
-				| SWT.READ_ONLY, getChart( ).getPlot( )
+				| SWT.READ_ONLY, getContext( ), getChart( ).getPlot( )
 				.getClientArea( )
 				.getBackground( ), true, true );
 		{

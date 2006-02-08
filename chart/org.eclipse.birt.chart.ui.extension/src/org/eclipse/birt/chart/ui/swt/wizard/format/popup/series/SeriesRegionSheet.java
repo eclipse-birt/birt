@@ -296,6 +296,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 
 		fccRange = new FillChooserComposite( cmpRange,
 				SWT.NONE,
+				getContext( ),
 				null,
 				true,
 				true );
@@ -444,7 +445,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 	{
 		if ( e.getSource( ).equals( btnAddRange ) )
 		{
-			DialRegion range = DialRegionImpl.create( ); //$NON-NLS-1$
+			DialRegion range = DialRegionImpl.create( ); 
 			range.setStartValue( getTypedDataElement( "" ) ); //$NON-NLS-1$
 			range.setEndValue( getTypedDataElement( "" ) ); //$NON-NLS-1$
 			getDialForProcessing( ).getDialRegions( ).add( range );
@@ -509,7 +510,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 				{
 					sTitleString = sTitleString.substring( ExternalizedTextEditorComposite.SEPARATOR.length( ) );
 				}
-				sAxisTitle = new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.ForAxis" ) ).format( new Object[]{sTitleString} ); //$NON-NLS-1$ //$NON-NLS-2$
+				sAxisTitle = new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.ForAxis" ) ).format( new Object[]{sTitleString} ); //$NON-NLS-1$ 
 			}
 			catch ( NullPointerException e1 )
 			{

@@ -14,8 +14,8 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.popup.series;
 import java.text.MessageFormat;
 
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
-import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
@@ -120,16 +120,13 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 	private transient Label lblSeparator;
 
 	private transient Group grpOutline;
-	
-	private transient ChartWizardContext context;
 
 	public SeriesLabelSheet( Composite parent, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
 		super( parent, context, false );
 		this.seriesDefn = seriesDefn;
-		this.context = context;
-		cmpTop = getComponent( parent );		
+		cmpTop = getComponent( parent );
 	}
 
 	/*
@@ -275,12 +272,11 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 			}
 			// check inout
 			if ( ( positionScope & LabelAttributesComposite.ALLOW_INOUT_POSITION ) != 0 )
-			{				
+			{
 				if ( ( getSeriesForProcessing( ) instanceof BarSeries )
-						&& ( context.getModel( ).getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL ) )
+						&& ( getContext( ).getModel( ).getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL ) )
 				{
-					cmbPosition.add( LiteralHelper.inoutPositionSet.getDisplayNameByName( 
-							Position.OUTSIDE_LITERAL.getName( ) ) );
+					cmbPosition.add( LiteralHelper.inoutPositionSet.getDisplayNameByName( Position.OUTSIDE_LITERAL.getName( ) ) );
 				}
 				else
 				{
@@ -361,6 +357,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 
 		fccBackground = new FillChooserComposite( grpAttributes,
 				SWT.NONE,
+				getContext( ),
 				getSeriesForProcessing( ).getLabel( ).getBackground( ),
 				false,
 				false );
@@ -376,6 +373,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 
 		fccShadow = new FillChooserComposite( grpAttributes,
 				SWT.NONE,
+				getContext( ),
 				getSeriesForProcessing( ).getLabel( ).getShadowColor( ),
 				false,
 				false );
@@ -697,8 +695,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 	{
 		getSeriesForProcessing( ).getDataPoint( )
 				.getComponents( )
-				.remove( iComponentIndex );
-		;
+				.remove( iComponentIndex );;
 	}
 
 }

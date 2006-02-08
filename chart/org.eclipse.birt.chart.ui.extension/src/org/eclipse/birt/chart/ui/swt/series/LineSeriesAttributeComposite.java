@@ -129,6 +129,7 @@ public class LineSeriesAttributeComposite extends Composite
 
 			fccShadow = new FillChooserComposite( this,
 					SWT.NONE,
+					series.eAdapters( ),
 					( (LineSeries) series ).getShadowColor( ),
 					false,
 					false );

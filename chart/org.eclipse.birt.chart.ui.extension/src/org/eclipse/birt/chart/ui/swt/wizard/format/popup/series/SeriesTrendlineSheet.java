@@ -224,6 +224,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet
 
 		fccBackground = new FillChooserComposite( cmpLabelInner,
 				SWT.NONE,
+				getContext( ),
 				getTrendline( ).getLabel( ).getBackground( ),
 				false,
 				false );
@@ -239,6 +240,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet
 
 		fccShadow = new FillChooserComposite( cmpLabelInner,
 				SWT.NONE,
+				getContext( ),
 				getTrendline( ).getLabel( ).getShadowColor( ),
 				false,
 				false );

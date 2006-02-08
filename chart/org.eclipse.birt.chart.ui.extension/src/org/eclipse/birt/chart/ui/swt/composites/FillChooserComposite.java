@@ -20,7 +20,10 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -58,12 +61,13 @@ import org.eclipse.swt.widgets.Slider;
 /**
  * FillChooserComposite
  */
-public class FillChooserComposite extends Composite implements
-		SelectionListener,
-		MouseListener,
-		DisposeListener,
-		KeyListener,
-		FocusListener
+public class FillChooserComposite extends Composite
+		implements
+			SelectionListener,
+			MouseListener,
+			DisposeListener,
+			KeyListener,
+			FocusListener
 {
 
 	private transient Composite cmpContentInner = null;
@@ -114,9 +118,19 @@ public class FillChooserComposite extends Composite implements
 
 	private boolean bJustFocusLost = false;
 
+	private transient EList adapters;
+
 	/**
+	 * Using this constructor needs to pay attention to new EObject created
+	 * without adapters if Fill is null.
+	 * 
 	 * @param parent
 	 * @param style
+	 * @param fCurrent
+	 *            if null, create a default Fill
+	 * @param bEnableGradient
+	 * @param bEnableImage
+	 * @deprecated
 	 */
 	public FillChooserComposite( Composite parent, int style, Fill fCurrent,
 			boolean bEnableGradient, boolean bEnableImage )
@@ -125,6 +139,50 @@ public class FillChooserComposite extends Composite implements
 		this.fCurrent = fCurrent;
 		this.bGradientEnabled = bEnableGradient;
 		this.bImageEnabled = bEnableImage;
+		this.adapters = fCurrent != null ? fCurrent.eAdapters( ) : null;
+		init( );
+		placeComponents( );
+	}
+
+	/**
+	 * 
+	 * @param parent
+	 * @param style
+	 * @param adapters
+	 * @param fCurrent
+	 * @param bEnableGradient
+	 * @param bEnableImage
+	 */
+	public FillChooserComposite( Composite parent, int style, EList adapters,
+			Fill fCurrent, boolean bEnableGradient, boolean bEnableImage )
+	{
+		super( parent, style );
+		this.fCurrent = fCurrent;
+		this.bGradientEnabled = bEnableGradient;
+		this.bImageEnabled = bEnableImage;
+		this.adapters = adapters;
+		init( );
+		placeComponents( );
+	}
+
+	/**
+	 * 
+	 * @param parent
+	 * @param style
+	 * @param wizardContext
+	 * @param fCurrent
+	 * @param bEnableGradient
+	 * @param bEnableImage
+	 */
+	public FillChooserComposite( Composite parent, int style,
+			ChartWizardContext wizardContext, Fill fCurrent,
+			boolean bEnableGradient, boolean bEnableImage )
+	{
+		super( parent, style );
+		this.fCurrent = fCurrent;
+		this.bGradientEnabled = bEnableGradient;
+		this.bImageEnabled = bEnableImage;
+		this.adapters = wizardContext.getModel( ).eAdapters( );
 		init( );
 		placeComponents( );
 	}
@@ -465,13 +523,11 @@ public class FillChooserComposite extends Composite implements
 		}
 
 		if ( cmpDropDown == null
-				|| cmpDropDown.isDisposed( )
-				|| !cmpDropDown.isVisible( ) )
+				|| cmpDropDown.isDisposed( ) || !cmpDropDown.isVisible( ) )
 		{
 			Point pLoc = UIHelper.getScreenLocation( cnvSelection );
 			createDropDownComponent( pLoc.x, pLoc.y
-					+ cnvSelection.getSize( ).y
-					+ 1 );
+					+ cnvSelection.getSize( ).y + 1 );
 		}
 		else
 		{
@@ -502,10 +558,7 @@ public class FillChooserComposite extends Composite implements
 
 				if ( imgFill != null )
 				{
-					if ( fCurrent != null )
-					{
-						imgFill.eAdapters( ).addAll( fCurrent.eAdapters( ) );
-					}
+					addAdapters( imgFill );
 					this.setFill( imgFill );
 					fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
 				}
@@ -537,12 +590,9 @@ public class FillChooserComposite extends Composite implements
 			{
 				ColorDefinition cdNew = AttributeFactory.eINSTANCE.createColorDefinition( );
 				cdNew.set( rgb.red, rgb.green, rgb.blue );
-				cdNew.setTransparency( ( bTransparencyChanged ) ? this.iTransparency
-						: iTrans );
-				if ( fCurrent != null )
-				{
-					cdNew.eAdapters( ).addAll( fCurrent.eAdapters( ) );
-				}
+				cdNew.setTransparency( ( bTransparencyChanged )
+						? this.iTransparency : iTrans );
+				addAdapters( cdNew );
 				this.setFill( cdNew );
 				fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
 			}
@@ -570,10 +620,7 @@ public class FillChooserComposite extends Composite implements
 			if ( ged.getGradient( ) != null )
 			{
 				Fill fTmp = ged.getGradient( );
-				if ( fCurrent != null )
-				{
-					fTmp.eAdapters( ).addAll( fCurrent.eAdapters( ) );
-				}
+				addAdapters( fTmp );
 				if ( fCurrent == null || !( fCurrent.equals( fTmp ) ) )
 				{
 					this.setFill( fTmp );
@@ -663,10 +710,7 @@ public class FillChooserComposite extends Composite implements
 						: ( (ColorDefinition) fCurrent ).getTransparency( );
 			}
 			cTmp.setTransparency( iTransparency );
-			if ( fCurrent != null )
-			{
-				cTmp.eAdapters( ).addAll( fCurrent.eAdapters( ) );
-			}
+			addAdapters( cTmp );
 			setFill( cTmp );
 			fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
 			cmpDropDown.getShell( ).dispose( );
@@ -777,6 +821,14 @@ public class FillChooserComposite extends Composite implements
 
 			cmpDropDown.getShell( ).dispose( );
 			return;
+		}
+	}
+
+	private void addAdapters( Notifier notifier )
+	{
+		if ( adapters != null )
+		{
+			notifier.eAdapters( ).addAll( adapters );
 		}
 	}
 }
