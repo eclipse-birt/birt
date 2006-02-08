@@ -3087,7 +3087,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param fill
 	 * @param se
 	 */
-	protected void updateTranslucency( Fill fill, Series se )
+	public void updateTranslucency( Fill fill, Series se )
 	{
 		if ( se != null
 				&& se.isTranslucent( )
