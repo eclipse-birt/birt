@@ -70,8 +70,11 @@ public final class DataPointHints
 	 * @param _lcl
 	 * @throws UndefinedValueException
 	 */
-	public DataPointHints( Object _oBaseValue, Object _oOrthogonalValue,
-			Object _oSeriesValue, DataPoint _dp, // FOR COMBINED VALUE
+	public DataPointHints(
+			Object _oBaseValue,
+			Object _oOrthogonalValue,
+			Object _oSeriesValue,
+			DataPoint _dp, // FOR COMBINED VALUE
 			// RETRIEVAL
 			FormatSpecifier _fsBase, FormatSpecifier _fsOrthogonal,
 			FormatSpecifier _fsSeries, Location _lo, double _dSize,
@@ -115,8 +118,11 @@ public final class DataPointHints
 	 * @param _rtc
 	 * @throws ChartException
 	 */
-	public DataPointHints( Object _oBaseValue, Object _oOrthogonalValue,
-			Object _oSeriesValue, DataPoint _dp, // FOR COMBINED VALUE
+	public DataPointHints(
+			Object _oBaseValue,
+			Object _oOrthogonalValue,
+			Object _oSeriesValue,
+			DataPoint _dp, // FOR COMBINED VALUE
 			// RETRIEVAL
 			FormatSpecifier _fsBase, FormatSpecifier _fsOrthogonal,
 			FormatSpecifier _fsSeries, Location _lo, double[] _dSize,
@@ -448,7 +454,7 @@ public final class DataPointHints
 							},
 							rtc.getLocale( ) ) );
 		}
-		return IConstants.NULL_STRING;
+		return String.valueOf( oOrthogonalValue );
 	}
 
 	/**
@@ -538,6 +544,7 @@ public final class DataPointHints
 		return Messages.getString( "info.datapoint.to.string", //$NON-NLS-1$
 				new Object[]{
 						this, getDisplayValue( )
-				}, rtc.getLocale( ) );
+				},
+				rtc.getLocale( ) );
 	}
 }
