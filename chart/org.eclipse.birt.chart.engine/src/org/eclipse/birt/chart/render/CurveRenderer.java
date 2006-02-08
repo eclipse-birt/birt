@@ -487,6 +487,9 @@ public final class CurveRenderer
 		final LineRenderEvent lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 				LineRenderEvent.class );
 		lre.setLineAttributes( lia );
+		final Line3DRenderEvent lre3d = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+				Line3DRenderEvent.class );
+		lre3d.setLineAttributes( lia );
 
 		final PolygonRenderEvent pre = bRendering3D ? null
 				: (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
@@ -634,6 +637,22 @@ public final class CurveRenderer
 			loa3d[3].set( pte[0], zeroLocation, pte[2] );
 			pre3d.setPoints3D( loa3d );
 			dc.addPlane( pre3d, PrimitiveRenderEvent.FILL );
+
+			if ( lia.isSetVisible( ) && lia.isVisible( ) && points.size( ) > 1 )
+			{
+				double[] ptp = (double[]) points.get( 0 );
+
+				for ( int i = 1; i < points.size( ); i++ )
+				{
+					double[] pta = (double[]) points.get( i );
+					lre3d.setStart3D( ptp[0], ptp[1], ptp[2] );
+					lre3d.setEnd3D( pta[0], pta[1], pta[2] );
+					ptp = pta;
+
+					dc.addLine( lre3d );
+				}
+			}
+
 		}
 		else
 		{
@@ -746,9 +765,8 @@ public final class CurveRenderer
 				}
 				if ( bShowAsTape )
 				{
-					boolean drawLeftSide = ( i == 0 )
-							&& ( j == 0 )
-							//&& bKeepState
+					boolean drawLeftSide = ( i == 0 ) && ( j == 0 )
+					// && bKeepState
 							&& bRendering3D
 							&& bFillArea;
 
@@ -767,7 +785,7 @@ public final class CurveRenderer
 
 					// TODO user a single surface to draw the tape.
 					boolean drawRightSide = ( i == iNumberOfPoints - 2 )
-							&& ( j == iNumberOfDivisions - 1 /*&& bKeepState*/ && bFillArea );
+							&& ( j == iNumberOfDivisions - 1 /* && bKeepState */&& bFillArea );
 
 					plotPlane( ipr,
 							faXY1[0] + fXOffset,
