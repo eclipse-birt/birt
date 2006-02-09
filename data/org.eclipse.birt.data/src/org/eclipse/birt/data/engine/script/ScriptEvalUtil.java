@@ -627,7 +627,7 @@ public class ScriptEvalUtil
 				ExprTextAndValue op1, ExprTextAndValue op2 )
 				throws DataException
 		{
-			if ( isFormatNeeded( obj, operator, op1, op2 ) )
+			if ( needFormat( obj, operator, op1, op2 ) )
 				return formatToComparable( obj, op1, op2 );
 
 			return null;
@@ -641,15 +641,14 @@ public class ScriptEvalUtil
 		 * @param op2
 		 * @return
 		 */
-		private static boolean isFormatNeeded( Object obj, int operator,
+		private static boolean needFormat( Object obj, int operator,
 				ExprTextAndValue op1, ExprTextAndValue op2 )
 		{
 			// compare and between methods without null can get through.
-			if ( operator == IConditionalExpression.OP_LIKE
-					|| operator == IConditionalExpression.OP_TOP_N
-					|| operator == IConditionalExpression.OP_TOP_PERCENT
-					|| operator == IConditionalExpression.OP_BOTTOM_N
-					|| operator == IConditionalExpression.OP_BOTTOM_PERCENT
+			// for more information on operators,please refer to
+			// /org.eclipse.birt.data/src/org/eclipse/birt/data/engine/api/IConditionalExpression.java
+			if ( operator < IConditionalExpression.OP_EQ
+					|| operator > IConditionalExpression.OP_NOT_BETWEEN
 					|| obj == null || op1.value == null )
 				return false;
 			// op2.value can not be null either if it's a betteen method
