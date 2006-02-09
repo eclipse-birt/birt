@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2005 IBM Corporation.
+ * Copyright (c) 2005, 2006 IBM Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -229,6 +229,43 @@ public final class EventHandlers
     	.append( "	        return style.substring(0, index) + styleAttr+hc+ style.substring(index+bracketIndex+styleAttr.length+1, style.length);\n" ) //$NON-NLS-1$
     	.append( "	   }    \n" ) //$NON-NLS-1$
     	.append( "	}\n" ) //$NON-NLS-1$
+		//////////////////////////////////////////////////////////////////
+		//    	 function: scaleSVG
+		//    	 description: scales the svg document by a specified zoom factor
+		//    	 inputs:
+		//    	   factor - zoom factor 
+		////////////////////////////////////////////////////////////////
+//    	.append( "function scaleSVG(factor){\n" ) //$NON-NLS-1$
+//    	.append( "  root=document.rootElement;\n" ) //$NON-NLS-1$
+//    	.append( "  root.currentScale = factor\n" ) //$NON-NLS-1$
+//    	.append( "}    	\n" ) //$NON-NLS-1$
+ 		//////////////////////////////////////////////////////////////////
+		//    	 function: isIE
+		//    	 description: detects whether the browser is a Mircosoft internet explorer browser
+		//    	 outputs:
+		//    	   true/false 
+		////////////////////////////////////////////////////////////////   	
+    	.append( "	function isIE(){\n" )//$NON-NLS-1$
+		.append( "   var agt=parent.navigator.userAgent.toLowerCase();\n" )//$NON-NLS-1$
+		.append( "   return (agt.indexOf(\"msie\")!=-1);\n" )//$NON-NLS-1$
+		.append( "}  \n" )//$NON-NLS-1$  	
+ 		//////////////////////////////////////////////////////////////////
+		//    	 function: resizeSVG
+		//    	 description: changes the size of the SVG to the width and height
+		//                    of the containing embed tag.  Currently this 
+		//                    support is only for IE browsers.
+		//    	 input: 
+		//            e - the event that triggers the resize
+		////////////////////////////////////////////////////////////////
+    	.append( "	function resizeSVG(e){\n" )//$NON-NLS-1$
+    	.append( "    if(isIE()){\n" )//$NON-NLS-1$
+		.append( "       var root=e.target.ownerDocument.documentElement;\n" )//$NON-NLS-1$
+		.append( "       var g = e.target.ownerDocument.getElementById('outerG');\n" )//$NON-NLS-1$
+		.append( "       var xScale = (innerWidth) / root.getAttribute('width');\n" )//$NON-NLS-1$
+		.append( "       var yScale = (innerHeight) / root.getAttribute('height');\n" )//$NON-NLS-1$
+		.append( "       g.setAttributeNS(null, 'transform', 'scale('+xScale+','+yScale+')');\n" )//$NON-NLS-1$
+		.append( "     }\n" )//$NON-NLS-1$
+		.append( "  }\n" )//$NON-NLS-1$
     	.append( "	function getHexFromRGB(color){\n" ) //$NON-NLS-1$
     	.append( "	        findThem = /\\d{1,3}/g;\n" ) //$NON-NLS-1$
     	.append( "	        listOfnum = color.match(findThem);\n" ) //$NON-NLS-1$

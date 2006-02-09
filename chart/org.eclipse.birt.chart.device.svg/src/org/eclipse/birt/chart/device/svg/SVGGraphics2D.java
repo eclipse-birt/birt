@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2005 IBM Corporation.
+ * Copyright (c) 2005, 2006 IBM Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -97,6 +97,8 @@ public class SVGGraphics2D extends Graphics2D
 		// add default styles
 		currentElement = dom.createElement( "g" ); //$NON-NLS-1$
 		definitions = dom.createElement( "defs" ); //$NON-NLS-1$
+		//give the outer group element an ID
+		currentElement.setAttribute("id", "outerG"); //$NON-NLS-1$
 		currentElement.appendChild( definitions );
 		currentElement.setAttribute( "style", defaultStyles ); //$NON-NLS-1$
 		pushParent( currentElement );
