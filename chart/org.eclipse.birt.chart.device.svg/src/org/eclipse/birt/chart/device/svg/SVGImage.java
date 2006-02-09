@@ -17,6 +17,8 @@ import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.net.URL;
 
+import org.eclipse.birt.chart.util.Base64;
+
 /**
  * This class repesents an SVG image.
  */
@@ -25,6 +27,14 @@ public class SVGImage extends Image {
 
 	protected Image image;
 	protected URL url;
+	protected byte[] data;
+	public static final String BASE64="data:;base64,";
+	
+	
+	public byte[] getData() {
+		return data;
+	}
+
 	/**
 	 * @param image
 	 */
@@ -32,6 +42,11 @@ public class SVGImage extends Image {
 		super();
 		this.image = image;
 		this.url = url;
+	}
+	
+	public SVGImage(Image image, URL url, byte[] data){
+		this(image, url);
+		this.data = data;
 	}
 	/**
 	 * 
@@ -83,8 +98,14 @@ public class SVGImage extends Image {
 	/**
 	 * @return Returns the url.
 	 */
-	public URL getUrl() {
-		return url;
+	public String getUrl() {
+		if (url == null){
+			if (data != null){
+				return BASE64+Base64.encodeBytes(data);
+				
+			}
+		}
+		return url.toExternalForm();
 	}
 	/**
 	 * @param url The url to set.

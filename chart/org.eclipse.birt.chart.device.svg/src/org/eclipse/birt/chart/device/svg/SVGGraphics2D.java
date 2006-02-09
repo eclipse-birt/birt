@@ -961,7 +961,7 @@ public class SVGGraphics2D extends Graphics2D
 	{
 		SVGImage image = (SVGImage) arg0;
 		Element currentElement = createElement( "image" ); //$NON-NLS-1$
-		currentElement.setAttribute( "xlink:href", image.getUrl( ).toExternalForm( ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "xlink:href", image.getUrl( ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "x", Double.toString( arg1 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "y", Double.toString( arg2 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "width", "100%" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -985,7 +985,7 @@ public class SVGGraphics2D extends Graphics2D
 	{
 		SVGImage image = (SVGImage) arg0;
 		Element currentElement = createElement( "image" ); //$NON-NLS-1$
-		currentElement.setAttribute( "xlink:href", image.getUrl( ).toExternalForm( ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "xlink:href", image.getUrl( ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "x", Double.toString( arg1 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "y", Double.toString( arg2 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "width", Double.toString( arg3 ) ); //$NON-NLS-1$
@@ -1007,7 +1007,7 @@ public class SVGGraphics2D extends Graphics2D
 			ImageObserver arg4 )
 	{
 		SVGImage image = (SVGImage) arg0;
-		image.getUrl( ).toExternalForm( );
+		image.getUrl( );
 		Element currentElement = createElement( "image" ); //$NON-NLS-1$
 		currentElement.setAttribute( "x", Double.toString( arg1 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "y", Double.toString( arg2 ) ); //$NON-NLS-1$
@@ -1032,7 +1032,7 @@ public class SVGGraphics2D extends Graphics2D
 	{
 		SVGImage image = (SVGImage) arg0;
 		Element currentElement = createElement( "image" ); //$NON-NLS-1$
-		currentElement.setAttribute( "xlink:href", image.getUrl( ).toExternalForm( ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "xlink:href", image.getUrl( ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "x", Double.toString( arg1 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "y", Double.toString( arg2 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "width", Double.toString( arg3 ) ); //$NON-NLS-1$
@@ -1056,7 +1056,7 @@ public class SVGGraphics2D extends Graphics2D
 	{
 		SVGImage image = (SVGImage) arg0;
 		Element currentElement = createElement( "image" ); //$NON-NLS-1$
-		currentElement.setAttribute( "xlink:href", image.getUrl( ).toExternalForm( ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "xlink:href", image.getUrl( ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "x", Double.toString( arg1 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "y", Double.toString( arg2 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "width", Double.toString( arg3 ) ); //$NON-NLS-1$
@@ -1080,7 +1080,7 @@ public class SVGGraphics2D extends Graphics2D
 	{
 		SVGImage image = (SVGImage) arg0;
 		Element currentElement = createElement( "image" ); //$NON-NLS-1$
-		currentElement.setAttribute( "xlink:href", image.getUrl( ).toExternalForm( ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "xlink:href", image.getUrl( ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "x", Double.toString( arg1 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "y", Double.toString( arg2 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "width", Double.toString( arg3 ) ); //$NON-NLS-1$

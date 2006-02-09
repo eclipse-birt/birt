@@ -11,12 +11,16 @@
 
 package org.eclipse.birt.chart.device.svg;
 
+import java.awt.Image;
 import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
+import java.awt.image.ImageObserver;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -25,6 +29,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+import javax.swing.ImageIcon;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -61,7 +66,9 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.Location;
+import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
@@ -74,6 +81,7 @@ import org.eclipse.birt.chart.model.layout.LabelBlock;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
+import org.eclipse.birt.chart.util.Base64;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 import org.w3c.dom.DOMImplementation;
@@ -1058,6 +1066,12 @@ public class SVGRendererImpl extends SwingRendererImpl
 		super.drawImage(pre);
 		ungroupPrimitive(pre, false);
 	}
+	
+	protected Image createImage( byte[] data )
+	{
+		return new SVGImage(super.createImage(data), null, data );
+	}
+	
 
 	public void drawLine(LineRenderEvent lre) throws ChartException {
 		groupPrimitive(lre, false);
