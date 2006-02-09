@@ -16,6 +16,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.OrderingInfo;
@@ -569,7 +571,24 @@ public class SmartCache implements ResultSetCache
 				{
 					Comparable comp1 = (Comparable) colObj1;
 					Comparable comp2 = (Comparable) colObj2;
-					result = comp1.compareTo( comp2 );
+					
+					// Integer can not be compared with Double.
+ 					if ( colObj1.getClass( ) != colObj2.getClass( )
+							&& colObj1 instanceof Number
+							&& colObj2 instanceof Number )
+					{
+						try
+						{
+							comp1 = (Comparable) DataTypeUtil.toDouble( colObj1 );
+							comp2 = (Comparable) DataTypeUtil.toDouble( colObj2 );
+						}
+						catch ( BirtException ex )
+						{
+							// impossible
+						}
+					}
+ 					
+ 					result = comp1.compareTo( comp2 );					
 				}
 				else if ( colObj1 instanceof Boolean
 						&& colObj2 instanceof Boolean )
