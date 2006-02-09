@@ -173,6 +173,7 @@ public class ImageContent extends AbstractContent implements IImageContent
 	{
 		sourceType = IMAGE_NAME;
 		uri = name;
+		data = null;
 	}
 
 	public String getImageName( )
