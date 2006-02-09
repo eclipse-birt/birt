@@ -88,7 +88,7 @@ public class Statement implements IQuery
 			/* record down the JDBC Connection object */
 			this.preStat = null;
 			this.conn = connection;
-			maxrows = 0;
+			maxrows = -1;
 		}
 		else
 		{
@@ -323,14 +323,16 @@ public class Statement implements IQuery
 		
 		try
 		{
-			if (!maxRowsUpToDate)
+			if ( maxrows >= 0 && !maxRowsUpToDate )
 			{
-				try {
-					preStat.setMaxRows( maxrows );
-				}catch ( SQLException e1)
+				try
 				{
-					//assume this exception is caused by the drivers that do
-					//not support "setMaxRows" method
+					preStat.setMaxRows( maxrows );
+				}
+				catch ( SQLException e1 )
+				{
+					// assume this exception is caused by the drivers that do
+					// not support "setMaxRows" method
 				}
 				maxRowsUpToDate = true;
 			}
