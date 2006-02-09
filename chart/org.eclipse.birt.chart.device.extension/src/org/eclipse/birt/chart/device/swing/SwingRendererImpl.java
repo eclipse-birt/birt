@@ -1905,7 +1905,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		return _ids;
 	}
 
-	private Image createImage( byte[] data )
+	protected Image createImage( byte[] data )
 	{
 		ImageIcon ii = new ImageIcon( data );
 
