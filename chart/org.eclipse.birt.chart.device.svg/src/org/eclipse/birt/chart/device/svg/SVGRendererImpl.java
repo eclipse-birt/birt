@@ -532,13 +532,16 @@ public class SVGRendererImpl extends SwingRendererImpl
 				
 				switch (tg.getAction().getType().getValue()) {
 				case ActionType.SHOW_TOOLTIP:
-					Element title = svggc.dom.createElement("title"); //$NON-NLS-1$
-					title.appendChild(svggc.dom
-							.createTextNode(((TooltipValue) tg.getAction()
-									.getValue()).getText()));
-					elm.appendChild(title);
-					elm.setAttribute("onmouseout", "TM.remove()"); //$NON-NLS-1$ //$NON-NLS-2$
-					elm.setAttribute("onmouseover", "TM.show(evt)"); //$NON-NLS-1$ //$NON-NLS-2$		
+					String tooltipText = ((TooltipValue) tg.getAction().getValue()).getText();
+					//make sure the tooltip text is not empty
+					if ((tooltipText != null) && (tooltipText.trim().length() > 0)){
+						Element title = svggc.dom.createElement("title"); //$NON-NLS-1$
+						title.appendChild(svggc.dom
+								.createTextNode(tooltipText));
+						elm.appendChild(title);
+						elm.setAttribute("onmouseout", "TM.remove()"); //$NON-NLS-1$ //$NON-NLS-2$
+						elm.setAttribute("onmouseover", "TM.show(evt)"); //$NON-NLS-1$ //$NON-NLS-2$
+					}
 					break;
 				case ActionType.URL_REDIRECT:
 					URLValue urlValue = ((URLValue) tg.getAction().getValue());
