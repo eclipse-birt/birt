@@ -12,6 +12,7 @@ package org.eclipse.birt.report.engine.api.script.instance;
 
 import java.util.Map;
 
+import org.eclipse.birt.report.engine.api.script.IColumnMetaData;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 
 public interface IDataSetInstance
@@ -35,6 +36,13 @@ public interface IDataSetInstance
 	 */
 	String getExtensionID( );
 
+	/**
+     * Gets the current data set's column metadata, if available.
+     * @return column metadata, or null if no metadata is available 
+     * (e.g., data set is not yet open).
+     */
+    IColumnMetaData getColumnMetaData() throws ScriptException;
+	
 	/**
 	 * Gets the query text of the data set.
 	 * 
