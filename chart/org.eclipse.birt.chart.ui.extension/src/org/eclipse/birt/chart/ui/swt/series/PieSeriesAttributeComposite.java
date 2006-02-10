@@ -362,7 +362,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 	{
 		if ( e.getSource( ).equals( cmbLeaderLine ) )
 		{
-			series.setLeaderLineStyle( LeaderLineStyle.get( LiteralHelper.leaderLineStyleSet.getNameByDisplayName( cmbLeaderLine.getText( ) ) ) );
+			series.setLeaderLineStyle( LeaderLineStyle.getByName( LiteralHelper.leaderLineStyleSet.getNameByDisplayName( cmbLeaderLine.getText( ) ) ) );
 		}
 		else if ( e.widget.equals( btnBuilder ) )
 		{

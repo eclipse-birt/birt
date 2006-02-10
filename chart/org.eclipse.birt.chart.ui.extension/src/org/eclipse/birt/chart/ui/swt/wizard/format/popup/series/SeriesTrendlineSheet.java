@@ -401,7 +401,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet
 	{
 		if ( e.widget.equals( cmbAnchor ) )
 		{
-			getTrendline( ).setLabelAnchor( Anchor.get( LiteralHelper.anchorSet.getNameByDisplayName( cmbAnchor.getText( ) ) ) );
+			getTrendline( ).setLabelAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbAnchor.getText( ) ) ) );
 		}
 		// else if ( e.widget.equals( btnTriggers ) )
 		// {

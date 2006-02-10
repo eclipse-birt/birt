@@ -560,8 +560,8 @@ public class FormatSpecifierComposite extends Composite implements
 			else if ( this.btnStandard.getSelection( ) )
 			{
 				fs = AttributeFactory.eINSTANCE.createDateFormatSpecifier( );
-				( (DateFormatSpecifier) fs ).setType( DateFormatType.get( LiteralHelper.dateFormatTypeSet.getNameByDisplayName( cmbDateType.getText( ) ) ) );
-				( (DateFormatSpecifier) fs ).setDetail( DateFormatDetail.get( LiteralHelper.dateFormatDetailSet.getNameByDisplayName( cmbDateForm.getText( ) ) ) );
+				( (DateFormatSpecifier) fs ).setType( DateFormatType.getByName( LiteralHelper.dateFormatTypeSet.getNameByDisplayName( cmbDateType.getText( ) ) ) );
+				( (DateFormatSpecifier) fs ).setDetail( DateFormatDetail.getByName( LiteralHelper.dateFormatDetailSet.getNameByDisplayName( cmbDateForm.getText( ) ) ) );
 			}
 		}
 		else

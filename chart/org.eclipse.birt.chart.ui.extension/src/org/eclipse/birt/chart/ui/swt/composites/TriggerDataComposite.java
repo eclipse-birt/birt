@@ -545,9 +545,9 @@ public class TriggerDataComposite extends Composite
 			default :
 				break;
 		}
-		Action action = ActionImpl.create( ActionType.get( LiteralHelper.actionTypeSet.getNameByDisplayName( cmbActionType.getText( ) ) ),
+		Action action = ActionImpl.create( ActionType.getByName( LiteralHelper.actionTypeSet.getNameByDisplayName( cmbActionType.getText( ) ) ),
 				value );
-		return TriggerImpl.create( TriggerCondition.get( LiteralHelper.triggerConditionSet.getNameByDisplayName( cmbTriggerType.getText( ) ) ),
+		return TriggerImpl.create( TriggerCondition.getByName( LiteralHelper.triggerConditionSet.getNameByDisplayName( cmbTriggerType.getText( ) ) ),
 				action );
 	}
 

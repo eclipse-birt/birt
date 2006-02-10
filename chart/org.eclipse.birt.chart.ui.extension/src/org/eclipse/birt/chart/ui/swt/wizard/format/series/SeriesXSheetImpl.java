@@ -304,7 +304,7 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 			}
 			else
 			{
-				getSeriesDefinitionForProcessing( ).setSorting( SortOption.get( LiteralHelper.sortOptionSet.getNameByDisplayName( cmbSorting.getText( ) ) ) );
+				getSeriesDefinitionForProcessing( ).setSorting( SortOption.getByName( LiteralHelper.sortOptionSet.getNameByDisplayName( cmbSorting.getText( ) ) ) );
 			}
 		}
 

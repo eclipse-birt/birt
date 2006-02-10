@@ -150,7 +150,7 @@ public class BarSeriesAttributeComposite extends Composite implements
 	{
 		if ( e.getSource( ).equals( cmbRiserTypes ) )
 		{
-			( (BarSeries) series ).setRiser( RiserType.get( LiteralHelper.riserTypeSet.getNameByDisplayName( cmbRiserTypes.getText( ) ) ) );
+			( (BarSeries) series ).setRiser( RiserType.getByName( LiteralHelper.riserTypeSet.getNameByDisplayName( cmbRiserTypes.getText( ) ) ) );
 		}
 	}
 

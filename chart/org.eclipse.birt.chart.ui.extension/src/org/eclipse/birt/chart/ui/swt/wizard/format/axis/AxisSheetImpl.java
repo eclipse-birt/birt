@@ -261,7 +261,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			}
 			else if ( e.widget.equals( cmbTypes ) )
 			{
-				AxisType axisType = AxisType.get( LiteralHelper.axisTypeSet.getNameByDisplayName( cmbTypes.getText( ) ) );
+				AxisType axisType = AxisType.getByName( LiteralHelper.axisTypeSet.getNameByDisplayName( cmbTypes.getText( ) ) );
 
 				// Update the Sample Data without event fired.
 				boolean isNotificaionIgnored = ChartAdapter.isNotificationIgnored( );

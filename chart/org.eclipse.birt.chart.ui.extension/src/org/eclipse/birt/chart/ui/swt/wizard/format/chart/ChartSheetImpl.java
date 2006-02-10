@@ -383,7 +383,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		else if ( e.widget.equals( cmbInteractivity ) )
 		{
 			getChart( ).getInteractivity( )
-					.setLegendBehavior( LegendBehaviorType.get( LiteralHelper.legendBehaviorTypeSet.getNameByDisplayName( cmbInteractivity.getText( ) ) ) );
+					.setLegendBehavior( LegendBehaviorType.getByName( LiteralHelper.legendBehaviorTypeSet.getNameByDisplayName( cmbInteractivity.getText( ) ) ) );
 		}
 		else if ( e.widget.equals( btnTitleTriggers ) )
 		{

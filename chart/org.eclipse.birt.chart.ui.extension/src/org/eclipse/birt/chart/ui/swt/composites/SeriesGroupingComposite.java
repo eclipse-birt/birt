@@ -282,7 +282,7 @@ public class SeriesGroupingComposite extends Composite
 		Object oSource = e.getSource( );
 		if ( oSource.equals( cmbType ) )
 		{
-			getGrouping( ).setGroupType( DataType.get( LiteralHelper.dataTypeSet.getNameByDisplayName( cmbType.getText( ) ) ) );
+			getGrouping( ).setGroupType( DataType.getByName( LiteralHelper.dataTypeSet.getNameByDisplayName( cmbType.getText( ) ) ) );
 
 			boolean bEnableUI = btnEnabled.getSelection( );
 			boolean bDate = DataType.DATE_TIME_LITERAL.getName( )
@@ -297,7 +297,7 @@ public class SeriesGroupingComposite extends Composite
 		}
 		else if ( oSource.equals( cmbUnit ) )
 		{
-			getGrouping( ).setGroupingUnit( GroupingUnitType.get( LiteralHelper.groupingUnitTypeSet.getNameByDisplayName( cmbUnit.getText( ) ) ) );
+			getGrouping( ).setGroupingUnit( GroupingUnitType.getByName( LiteralHelper.groupingUnitTypeSet.getNameByDisplayName( cmbUnit.getText( ) ) ) );
 		}
 		else if ( oSource.equals( cmbAggregate ) )
 		{

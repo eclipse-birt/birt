@@ -405,7 +405,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 		if ( e.widget.equals( cmbTypes ) )
 		{
-			AxisType axisType = AxisType.get( LiteralHelper.axisTypeSet.getNameByDisplayName( cmbTypes.getText( ) ) );
+			AxisType axisType = AxisType.getByName( LiteralHelper.axisTypeSet.getNameByDisplayName( cmbTypes.getText( ) ) );
 
 			// Update the Sample Data without event fired.
 			boolean isNotificaionIgnored = ChartAdapter.isNotificationIgnored( );
@@ -432,7 +432,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 				txtValue.setEnabled( false );
 			}
 			getAxisForProcessing( ).getOrigin( )
-					.setType( IntersectionType.get( LiteralHelper.intersectionTypeSet.getNameByDisplayName( cmbOrigin.getText( ) ) ) );
+					.setType( IntersectionType.getByName( LiteralHelper.intersectionTypeSet.getNameByDisplayName( cmbOrigin.getText( ) ) ) );
 		}
 		else if ( e.widget.equals( btnVisible ) )
 		{

@@ -668,12 +668,12 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		else if ( e.getSource( ).equals( cmbLineAnchor ) )
 		{
 			( (MarkerLine) getAxisForProcessing( ).getMarkerLines( )
-					.get( getMarkerIndex( ) ) ).setLabelAnchor( Anchor.get( LiteralHelper.anchorSet.getNameByDisplayName( cmbLineAnchor.getText( ) ) ) );
+					.get( getMarkerIndex( ) ) ).setLabelAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbLineAnchor.getText( ) ) ) );
 		}
 		else if ( e.getSource( ).equals( cmbRangeAnchor ) )
 		{
 			( (MarkerRange) getAxisForProcessing( ).getMarkerRanges( )
-					.get( getMarkerIndex( ) ) ).setLabelAnchor( Anchor.get( LiteralHelper.anchorSet.getNameByDisplayName( cmbRangeAnchor.getText( ) ) ) );
+					.get( getMarkerIndex( ) ) ).setLabelAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbRangeAnchor.getText( ) ) ) );
 		}
 		else if ( e.getSource( ).equals( btnLineFormatSpecifier ) )
 		{

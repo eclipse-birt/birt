@@ -619,7 +619,7 @@ public class LabelAttributesComposite extends Composite
 		eLabel.widget = this;
 		if ( e.getSource( ).equals( cmbPosition ) )
 		{
-			eLabel.data = Position.get( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) );
+			eLabel.data = Position.getByName( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) );
 			eLabel.type = POSITION_CHANGED_EVENT;
 		}
 		else if ( e.getSource( ).equals( cbVisible ) )

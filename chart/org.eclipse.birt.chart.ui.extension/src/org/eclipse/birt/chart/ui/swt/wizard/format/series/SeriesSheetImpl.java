@@ -487,7 +487,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 		if ( e.widget.equals( cmbColorBy ) )
 		{
 			getChart( ).getLegend( )
-					.setItemType( LegendItemType.get( LiteralHelper.legendItemTypeSet.getNameByDisplayName( cmbColorBy.getText( ) ) ) );
+					.setItemType( LegendItemType.getByName( LiteralHelper.legendItemTypeSet.getNameByDisplayName( cmbColorBy.getText( ) ) ) );
 		}
 
 	}

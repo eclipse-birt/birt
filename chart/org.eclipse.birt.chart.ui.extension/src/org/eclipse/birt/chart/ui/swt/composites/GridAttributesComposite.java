@@ -256,7 +256,7 @@ public class GridAttributesComposite extends Composite implements
 			Event eGrid = new Event( );
 			eGrid.widget = this;
 			eGrid.type = TICK_STYLE_CHANGED_EVENT;
-			TickStyle tsGrid = TickStyle.get( LiteralHelper.fullTickStyleSet.getNameByDisplayName( cmbTickStyle.getText( ) ) );
+			TickStyle tsGrid = TickStyle.getByName( LiteralHelper.fullTickStyleSet.getNameByDisplayName( cmbTickStyle.getText( ) ) );
 			eGrid.data = tsGrid;
 			fireEvent( eGrid );
 		}

@@ -594,7 +594,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 	{
 		if ( e.getSource( ).equals( cmbPosition ) )
 		{
-			getSeriesForProcessing( ).setLabelPosition( Position.get( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) ) );
+			getSeriesForProcessing( ).setLabelPosition( Position.getByName( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) ) );
 		}
 		else if ( e.getSource( ).equals( cbVisible ) )
 		{
@@ -658,7 +658,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 	private void addDataPointComponent( int iComponentIndex )
 	{
 		DataPoint dp = getSeriesForProcessing( ).getDataPoint( );
-		DataPointComponent dpc = DataPointComponentImpl.create( DataPointComponentType.get( LiteralHelper.dataPointComponentTypeSet.getNameByDisplayName( lstComponents.getItem( iComponentIndex ) ) ),
+		DataPointComponent dpc = DataPointComponentImpl.create( DataPointComponentType.getByName( LiteralHelper.dataPointComponentTypeSet.getNameByDisplayName( lstComponents.getItem( iComponentIndex ) ) ),
 				null );
 		dpc.eAdapters( ).addAll( dp.eAdapters( ) );
 		dp.getComponents( ).add( dpc );

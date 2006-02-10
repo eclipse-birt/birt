@@ -471,7 +471,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 		Object oSource = e.getSource( );
 		if ( oSource.equals( cmbTypes ) )
 		{
-			getAxisForProcessing( ).setType( AxisType.get( LiteralHelper.axisTypeSet.getNameByDisplayName( cmbTypes.getText( ) ) ) );
+			getAxisForProcessing( ).setType( AxisType.getByName( LiteralHelper.axisTypeSet.getNameByDisplayName( cmbTypes.getText( ) ) ) );
 			convertSampleData( );
 			setState( LiteralHelper.axisTypeSet.getNameByDisplayName( cmbTypes.getText( ) ) );
 		}
@@ -489,12 +489,12 @@ public class AxisScaleSheet extends AbstractPopupSheet
 				txtValue.setEnabled( false );
 			}
 			getAxisForProcessing( ).getOrigin( )
-					.setType( IntersectionType.get( LiteralHelper.intersectionTypeSet.getNameByDisplayName( cmbOrigin.getText( ) ) ) );
+					.setType( IntersectionType.getByName( LiteralHelper.intersectionTypeSet.getNameByDisplayName( cmbOrigin.getText( ) ) ) );
 		}
 		else if ( oSource.equals( cmbScaleUnit ) )
 		{
 			getAxisForProcessing( ).getScale( )
-					.setUnit( ScaleUnitType.get( LiteralHelper.scaleUnitTypeSet.getNameByDisplayName( cmbScaleUnit.getText( ) ) ) );
+					.setUnit( ScaleUnitType.getByName( LiteralHelper.scaleUnitTypeSet.getNameByDisplayName( cmbScaleUnit.getText( ) ) ) );
 		}
 		else if ( oSource.equals( btnFormatSpecifier ) )
 		{

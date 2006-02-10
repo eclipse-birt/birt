@@ -275,7 +275,7 @@ public class LineSeriesAttributeComposite extends Composite
 		}
 		else if ( e.getSource( ).equals( cmbMarkerTypes ) )
 		{
-			if ( MarkerType.get( getSelectedMarkerName( ) ) == MarkerType.ICON_LITERAL )
+			if ( MarkerType.getByName( getSelectedMarkerName( ) ) == MarkerType.ICON_LITERAL )
 			{
 				MarkerIconDialog iconDialog = new MarkerIconDialog( this.getShell( ),
 						getSeriesMarker( ).getIconPalette( ) );
@@ -298,7 +298,7 @@ public class LineSeriesAttributeComposite extends Composite
 				}
 			}
 
-			getSeriesMarker( ).setType( MarkerType.get( getSelectedMarkerName( ) ) );
+			getSeriesMarker( ).setType( MarkerType.getByName( getSelectedMarkerName( ) ) );
 		}
 	}
 
