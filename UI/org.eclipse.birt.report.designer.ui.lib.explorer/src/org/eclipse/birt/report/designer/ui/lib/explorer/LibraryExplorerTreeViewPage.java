@@ -15,26 +15,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
-import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ItemSorter;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ListenerElementVisitor;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.lib.explorer.dnd.LibraryDragListener;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ParameterGroupHandle;
-import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -81,7 +74,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		IPreferenceChangeListener
 {
 
-	private static final String LABEL_DOUBLE_CLICK = Messages.getString( "DataViewTreeViewerPage.tooltip.DoubleClickToEdit" ); //$NON-NLS-1$
+//	private static final String LABEL_DOUBLE_CLICK = Messages.getString( "DataViewTreeViewerPage.tooltip.DoubleClickToEdit" ); //$NON-NLS-1$
 	private ListenerElementVisitor visitor ;
 	private List dataSetsToRefresh = new ArrayList( );
 	private ILibraryProvider libraryProvider;
@@ -220,7 +213,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 		treeViewer.getControl( ).setMenu( menu );
 		getSite( ).registerContextMenu( "#Pop up", menuManager, //$NON-NLS-1$
-				getSite( ).getSelectionProvider( ) );//$NON-NLS-1$				
+				getSite( ).getSelectionProvider( ) );			
 	}
 
 	private String getTooltip( TreeItem item )
@@ -228,35 +221,40 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		if ( item != null )
 		{
 			Object object = item.getData( );
-			if ( object instanceof DataSourceHandle
-					|| object instanceof ParameterGroupHandle )
+//			if ( object instanceof DataSourceHandle
+//					|| object instanceof ParameterGroupHandle )
+//			{
+//				return LABEL_DOUBLE_CLICK;
+//			}
+//			StringBuffer tooltip = new StringBuffer( );
+//			boolean canInsert = InsertInLayoutUtil.handleValidateInsertToLayout( object,
+//					UIUtil.getCurrentEditPart( ) );
+//			String text = "(" + item.getText( ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+//			if ( object instanceof DataSetHandle )
+//			{
+//				if ( canInsert )
+//					tooltip.append( Messages.getString( "DataViewTreeViewerPage.tooltip.DragToInsertDataSetColumns" ) //$NON-NLS-1$
+//							+ text
+//							+ "; " ); //$NON-NLS-1$
+//				tooltip.append( LABEL_DOUBLE_CLICK );
+//			}
+//			if ( object instanceof DataSetItemModel )
+//			{
+//				if ( canInsert )
+//					tooltip.append( Messages.getString( "DataViewTreeViewerPage.tooltip.DragToInsertColumn" ) + text ); //$NON-NLS-1$
+//			}
+//			if ( object instanceof ParameterHandle )
+//			{
+//				if ( canInsert )
+//					tooltip.append( Messages.getString( "DataViewTreeViewerPage.tooltip.DragToInsertParameter" ) ); //$NON-NLS-1$
+//				tooltip.append( LABEL_DOUBLE_CLICK );
+//			}
+//			return tooltip.toString( );
+
+			if ( object instanceof LibraryHandle )
 			{
-				return LABEL_DOUBLE_CLICK;
+				return ( (LibraryHandle) object ).getFileName( );
 			}
-			StringBuffer tooltip = new StringBuffer( );
-			boolean canInsert = InsertInLayoutUtil.handleValidateInsertToLayout( object,
-					UIUtil.getCurrentEditPart( ) );
-			String text = "(" + item.getText( ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-			if ( object instanceof DataSetHandle )
-			{
-				if ( canInsert )
-					tooltip.append( Messages.getString( "DataViewTreeViewerPage.tooltip.DragToInsertDataSetColumns" ) //$NON-NLS-1$
-							+ text
-							+ "; " ); //$NON-NLS-1$
-				tooltip.append( LABEL_DOUBLE_CLICK );
-			}
-			if ( object instanceof DataSetItemModel )
-			{
-				if ( canInsert )
-					tooltip.append( Messages.getString( "DataViewTreeViewerPage.tooltip.DragToInsertColumn" ) + text ); //$NON-NLS-1$
-			}
-			if ( object instanceof ParameterHandle )
-			{
-				if ( canInsert )
-					tooltip.append( Messages.getString( "DataViewTreeViewerPage.tooltip.DragToInsertParameter" ) ); //$NON-NLS-1$
-				tooltip.append( LABEL_DOUBLE_CLICK );
-			}
-			return tooltip.toString( );
 		}
 		return ""; //$NON-NLS-1$
 	}
