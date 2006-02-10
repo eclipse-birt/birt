@@ -22,6 +22,7 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
  */
 public class SaxParserConsumer implements ISaxParserConsumer
 {
+	private static final int INVALID_COLUMN_INDEX = -1;
 	//The ResultSet this instance served for.
 	private ResultSet resultSet;
 	
@@ -40,14 +41,13 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	//The root path of a table.
 	private String rootPath;
 	
-	//The ancestor path of a talbe.
-	private String ancestorPath;
+	//The names of complex nested xml columns
+	private String[] namesOfCachedComplexNestedColumns;
 	
-	//indicate whether the table is nested xml table. 
-	private boolean isNotNestedXMLTable;
+	//The names of simple xml columns
+	private String[] namesOfCachedSimpleNestedColumns;
 	
-	//The names of nested xml columns
-	private String[] namesOfCachedColumns;
+	private SimpleNestedXMLColumnManager sNXCManager;
 	
 	private String[] namesOfColumns;
 	//The name of a table.
@@ -91,15 +91,16 @@ public class SaxParserConsumer implements ISaxParserConsumer
 		
 		cachedResultSet = new String[Constants.CACHED_RESULT_SET_LENGTH][resultSet.getMetaData().getColumnCount( )];
 		this.rootPath = relationInfo.getTableRootPath( tableName );
-		this.ancestorPath = relationInfo.getTableAncestor( tableName );
-		this.isNotNestedXMLTable = rootPath.equals( ancestorPath );
 		
-		this.namesOfCachedColumns = relationInfo.getTableNestedXMLColumnNames( tableName );
+		this.namesOfCachedComplexNestedColumns = relationInfo.getTableComplexNestedXMLColumnNames( tableName );
+		this.namesOfCachedSimpleNestedColumns = relationInfo.getTableSimpleNestedXMLColumnNames( tableName );
+		this.sNXCManager = new SimpleNestedXMLColumnManager( relationInfo, tableName );
+		
 		this.namesOfColumns = relationInfo.getTableColumnNames( tableName );
 		
 		XMLDataInputStream xdis = (is instanceof XMLDataInputStream)?(XMLDataInputStream)is:new XMLDataInputStream(is);
 		
-		if( !isNotNestedXMLTable )
+		if( namesOfCachedComplexNestedColumns.length > 0)
 		{
 			spNestedQueryHelper = new SaxParserNestedQueryHelper(rinfo, xdis, tName);
 			while ( !spNestedQueryHelper.isPrepared( ) )
@@ -136,6 +137,11 @@ public class SaxParserConsumer implements ISaxParserConsumer
 			if ( SaxParserUtil.isSamePath( relationInfo.getTableColumnPath( tableName, namesOfColumns[i] ),
 					path ) )
 			{
+				if ( this.sNXCManager.isSimpleNestedXMLColumn( namesOfColumns[i] ))
+				{
+					this.sNXCManager.upDateColumnInfo( namesOfColumns[i], path, value );
+					continue;
+				}
 				//If the column in certain row has never been assigned the value,
 				//then populate the column value.
 				if ( cachedResultSet[cachedResultSetRowNo][i] == null )
@@ -175,23 +181,36 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	 * Populate all the columns that come from Nested XML data in certain row.
 	 * 
 	 */
-	private void populateNestedXMLDataMappingColumns( String path )
+	private void populateNestedXMLDataMappingColumns( String currentRootPath )
 	{
-		if ( !isNotNestedXMLTable )
+		for ( int i = 0; i < namesOfCachedComplexNestedColumns.length; i++)
 		{
-			for ( int i = 0; i < namesOfCachedColumns.length; i++)
-			{
-				for ( int j = 0; j < namesOfColumns.length; j++ )
-				{
-					if( namesOfCachedColumns[i].equals(namesOfColumns[j]))
-					{
-						cachedResultSet[cachedResultSetRowNo][j] = this.spNestedQueryHelper.getNestedColumnValue(namesOfCachedColumns[i],path);
-					}
-				}
-			}
+			int j = getColumnIndex( namesOfCachedComplexNestedColumns[i]);
+			if ( j!= INVALID_COLUMN_INDEX)
+				cachedResultSet[cachedResultSetRowNo][j] = this.spNestedQueryHelper.getNestedColumnValue(namesOfCachedComplexNestedColumns[i],currentRootPath);
+		}
+		
+		this.sNXCManager.upDateColumnInfos( currentRootPath );
+		for ( int i = 0; i < namesOfCachedSimpleNestedColumns.length; i++)
+		{
+			int j = getColumnIndex( namesOfCachedSimpleNestedColumns[i]);
+			if( j!= INVALID_COLUMN_INDEX )
+				cachedResultSet[cachedResultSetRowNo][j] = this.sNXCManager.getValue( namesOfCachedSimpleNestedColumns[i] );
 		}
 	}
 
+	private int getColumnIndex( String columnName )
+	{
+		for ( int j = 0; j < namesOfColumns.length; j++ )
+		{
+			if( columnName.equals(namesOfColumns[j]))
+			{
+				return j;
+			}
+		}
+	
+		return INVALID_COLUMN_INDEX;
+	}
 	/**
 	 * Apply the filter to current row. Return whether should current row be filtered out.
 	 * 
@@ -352,5 +371,202 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	public int getCurrentRowNo( )
 	{
 		return this.currentRowNo;
+	}
+}
+
+/**
+ * The instance of this class is used to manage all "Simple Nested XML Column" in the SaxParserConsumer instance.
+ * The simple nested XML column are xml attributes that can be fetched into cached data in one single pass.
+ */
+class SimpleNestedXMLColumnManager
+{
+	/**
+	 * The array which host all simple nested xml columns, which is in turn stored 
+	 * in "SimpleNestedXMLColumn" instances.
+	 */
+	SimpleNestedXMLColumn[] simpleNestedXMLColumns;
+	
+	/**
+	 * Constructor.
+	 * 
+	 * @param ri
+	 * @param tableName
+	 */
+	SimpleNestedXMLColumnManager( RelationInformation ri, String tableName )
+	{
+		String[] columnNames = ri.getTableSimpleNestedXMLColumnNames( tableName );
+		simpleNestedXMLColumns = new SimpleNestedXMLColumn[columnNames.length];
+		for( int i = 0; i < columnNames.length; i++ )
+		{
+			simpleNestedXMLColumns[i] = new SimpleNestedXMLColumn( columnNames[i],ri.getTableNestedColumnBackRefNumber( tableName, columnNames[i] )) ;
+		}
+	}
+	
+	/**
+	 * Update column info of one column.
+	 * 
+	 * @param columnName
+	 * @param columnPath
+	 * @param columnValue
+	 */
+	void upDateColumnInfo(String columnName, String columnPath, String columnValue)
+	{
+		 SimpleNestedXMLColumn column = findColumn( columnName );
+		 if( column != null )
+		 {
+			 column.update( columnPath, columnValue );
+		 }
+	}
+	
+	/**
+	 * Update column info of all columns according to the given root path.
+	 * 
+	 * @param currentRootPath
+	 */
+	void upDateColumnInfos( String currentRootPath )
+	{
+		for( int i = 0; i < simpleNestedXMLColumns.length; i++ )
+		{
+			if( !SaxParserUtil.isValidNestedXMLColumnPath( simpleNestedXMLColumns[i].getColumnPath( ), currentRootPath, simpleNestedXMLColumns[i].getColumnBackRef( )))
+				simpleNestedXMLColumns[i].update( simpleNestedXMLColumns[i].getColumnPath( ), null );
+		}
+		
+	}
+	
+	/**
+	 * Return the current column path of certain column.
+	 * 
+	 * @param columnName
+	 * @return
+	 */
+	String getPath( String columnName )
+	{
+		 SimpleNestedXMLColumn column = findColumn( columnName );
+		 if( column != null )
+		 {
+			return column.getColumnPath( );
+		 }
+		 return null;
+	}
+	
+	/**
+	 * Return the value located by current column path.
+	 * 
+	 * @param columnName
+	 * @return
+	 */
+	String getValue( String columnName )
+	{
+		 SimpleNestedXMLColumn column = findColumn( columnName );
+		 if( column != null )
+		 {
+			return column.getColumnValue();
+		 }
+		 return null;
+	}
+	
+	/**
+	 * Exam whether a given column name indicates a Simple nested xml column
+	 * 
+	 * @param columnName
+	 * @return
+	 */
+	boolean isSimpleNestedXMLColumn( String columnName )
+	{
+		if( this.findColumn( columnName) == null )
+			return false;
+		else
+			return true;
+	}
+	
+	/**
+	 * Find a column of given name.
+	 * 
+	 * @param columnName
+	 * @return
+	 */
+	private SimpleNestedXMLColumn findColumn( String columnName )
+	{
+		for( int i = 0; i < simpleNestedXMLColumns.length; i++ )
+		 {
+			if( simpleNestedXMLColumns[i].getColumnName( ).equals( columnName ))
+			{
+				return simpleNestedXMLColumns[i];
+			}
+		 }
+		return null;
+	}
+}
+
+/**
+ * The data class which host the information of a Simple Nested XML Column.
+ * 
+ * @author lzhu
+ */
+class SimpleNestedXMLColumn
+{
+	String columnName;
+	int columnBackRef;
+	String columnPath;
+	String columnValue;
+	
+	/**
+	 * Constructor.
+	 * 
+	 * @param name
+	 * @param backRef
+	 */
+	SimpleNestedXMLColumn( String name, int backRef)
+	{
+		this.columnName = name;
+		this.columnBackRef = backRef;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	String getColumnPath( )
+	{
+		return this.columnPath;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	String getColumnValue( )
+	{
+		return this.columnValue;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	int getColumnBackRef( )
+	{
+		return this.columnBackRef;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	String getColumnName( )
+	{
+		return this.columnName;
+	}
+	
+	/**
+	 * Update this instance with given path and value.
+	 * 
+	 * @param path
+	 * @param value
+	 */
+	void update( String path, String value )
+	{
+		this.columnPath = path;
+		this.columnValue = value;
 	}
 }

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.data.oda.xml.util.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.data.oda.xml.util.SaxParserUtil;
 import org.eclipse.birt.report.data.oda.xml.util.UtilConstants;
 
 /**
@@ -83,6 +84,23 @@ final public class XPathPopulationUtil
 		assert rootPath != null;
 		assert columnPath != null;
 	
+		rootPath = SaxParserUtil.processParentAxis( rootPath );
+		if( rootPath.equals( "//" )||rootPath.equals( "//*" ))
+		{
+			String[] temp = columnPath.split( "\\Q/\\E" );
+			if( temp.length <=2 )
+				return null;
+			else
+			{
+				String result = "";
+				for(int i = 2; i < temp.length; i++)
+				{
+					result+="/"+temp[i];
+				}
+				return result;
+			}
+		}
+			
 		if( columnPath.startsWith( rootPath ))
 		{
 			return columnPath.replaceFirst("\\Q"+rootPath+"\\E", "");
