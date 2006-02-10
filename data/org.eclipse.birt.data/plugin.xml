@@ -15,6 +15,7 @@
    	  <import plugin="org.junit" optional="true"/>
       <import plugin="org.eclipse.birt.core"/>
       <import plugin="org.eclipse.datatools.connectivity.oda"/>
+      <import plugin="com.ibm.icu"/>
    </requires>
    <extension-point id="aggregation" name="Custom Aggregation Extension" schema="schema/Aggregation.exsd"/>
 </plugin>
