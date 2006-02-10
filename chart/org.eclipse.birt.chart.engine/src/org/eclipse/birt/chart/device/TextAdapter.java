@@ -31,6 +31,17 @@ public class TextAdapter implements ITextMetrics
 	 */
 	public void reuse( Label la )
 	{
+		reuse( la, 0 );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.ITextMetrics#reuse(org.eclipse.birt.chart.model.component.Label,
+	 *      double)
+	 */
+	public void reuse( Label la, double forceWrappingSize )
+	{
 	}
 
 	/*

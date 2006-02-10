@@ -112,7 +112,7 @@ public final class SwingTextMetrics extends TextAdapter
 	 * 
 	 * @param fd
 	 */
-	public final void reuse( Label la )
+	public final void reuse( Label la, double forceWrappingSize )
 	{
 		final Font f = (Font) xs.createFont( la.getCaption( ).getFont( ) );
 		fm = g2d.getFontMetrics( f );
@@ -127,7 +127,7 @@ public final class SwingTextMetrics extends TextAdapter
 		{
 			s = IConstants.ONE_SPACE;
 		}
-		String[] sa = splitOnHardBreaks( s );
+		String[] sa = splitOnBreaks( s, forceWrappingSize );
 		if ( sa == null )
 		{
 			iLineCount = 1;
@@ -150,6 +150,23 @@ public final class SwingTextMetrics extends TextAdapter
 			}
 		}
 		ins = la.getInsets( ).scaledInstance( pointsToPixels( ) );
+
+		if ( forceWrappingSize > 0 )
+		{
+			// update label with new broken content.
+			StringBuffer sb = new StringBuffer( );
+			for ( int i = 0; i < fsa.length; i++ )
+			{
+				sb.append( fsa[i] ).append( "\n" ); //$NON-NLS-1$
+			}
+
+			if ( sb.length( ) > 0 )
+			{
+				sb.deleteCharAt( sb.length( ) - 1 );
+			}
+
+			la.getCaption( ).setValue( sb.toString( ) );
+		}
 	}
 
 	/**
@@ -274,8 +291,7 @@ public final class SwingTextMetrics extends TextAdapter
 
 	public final TextLayout getLayout( int iIndex )
 	{
-		return ( iLineCount > 1 ) ? ( (TextLayout[]) tla )[iIndex]
-				: (TextLayout) tla[0];
+		return ( iLineCount > 1 ) ? tla[iIndex] : tla[0];
 	}
 
 	/**
@@ -283,26 +299,106 @@ public final class SwingTextMetrics extends TextAdapter
 	 * @param s
 	 * @return
 	 */
-	private static String[] splitOnHardBreaks( String s )
+	private String[] splitOnBreaks( String s, double maxSize )
 	{
 		final ArrayList al = new ArrayList( );
+
 		int i = 0, j;
 		do
 		{
 			j = s.indexOf( '\n', i );
 			if ( j == -1 )
+			{
 				j = s.length( );
+			}
 			String ss = s.substring( i, j ).trim( );
 			if ( ss != null && ss.length( ) > 0 )
 			{
-				al.add( ss );
+				// check max size.
+				if ( maxSize > 0 )
+				{
+					Rectangle2D size = fm.getStringBounds( ss, g2d );
+					if ( size.getWidth( ) > maxSize )
+					{
+						// try fuzzy match first
+						int estCount = (int) ( maxSize / size.getWidth( ) )
+								* ss.length( );
+
+						if ( estCount < 1 )
+						{
+							estCount = ss.length( );
+						}
+
+						String fs;
+						Rectangle2D fsize;
+						int curPos = 0;
+
+						while ( ss.length( ) > 0 )
+						{
+							fs = ss.substring( 0, Math.min( estCount,
+									ss.length( ) ) );
+							fsize = fm.getStringBounds( fs, g2d );
+
+							if ( fsize.getWidth( ) <= maxSize )
+							{
+								al.add( fs );
+								curPos = fs.length( );
+							}
+							else
+							{
+								boolean matched = false;
+
+								// decrease the count and test again.
+								int curCount = Math.min( estCount - 1,
+										ss.length( ) );
+								while ( curCount > 1 )
+								{
+									fs = ss.substring( 0, curCount );
+									fsize = fm.getStringBounds( fs, g2d );
+
+									if ( fsize.getWidth( ) <= maxSize )
+									{
+										al.add( fs );
+										curPos = fs.length( );
+										matched = true;
+										break;
+									}
+									else
+									{
+										curCount--;
+									}
+								}
+
+								if ( !matched )
+								{
+									al.add( fs );
+									curPos = fs.length( );
+								}
+							}
+
+							ss = ss.substring( curPos );
+							curPos = 0;
+						}
+
+					}
+					else
+					{
+						al.add( ss );
+					}
+				}
+				else
+				{
+					al.add( ss );
+				}
 			}
 			i = j + 1;
 		} while ( j != -1 && j < s.length( ) );
 
 		final int n = al.size( );
 		if ( n == 1 || n == 0 )
+		{
 			return null;
+		}
 
 		final String[] sa = new String[n];
 		for ( i = 0; i < al.size( ); i++ )

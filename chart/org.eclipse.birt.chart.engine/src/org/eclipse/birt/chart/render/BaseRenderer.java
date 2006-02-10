@@ -668,9 +668,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		// RENDER THE LEGEND CLIENT AREA
 		final ClientArea ca = lg.getClientArea( );
+		final Insets lgIns = lg.getInsets( ).scaledInstance( dScale );
 		LineAttributes lia = ca.getOutline( );
 		bo = BoundsImpl.create( dX, dY, sz.getWidth( ), sz.getHeight( ) );
-		bo = bo.adjustedInstance( lg.getInsets( ).scaledInstance( dScale ) ); // SHRINK
+		bo = bo.adjustedInstance( lgIns ); // SHRINK
 		// BY
 		// INSETS
 		dX = bo.getLeft( );
@@ -711,12 +712,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
 		final ITextMetrics itm = xs.getTextMetrics( la );
 
+		double maxWrappingSize = lg.getWrappingSize( );
 		double dItemHeight = itm.getFullHeight( );
 		final double dHorizontalSpacing = 4;
 		final double dVerticalSpacing = 4;
 		double dSeparatorThickness = lia.getThickness( );
-		Insets insCA = ca.getInsets( )
-				.scaledInstance( xs.getDpiResolution( ) / 72d );
+		Insets insCA = ca.getInsets( ).scaledInstance( dScale );
 
 		Series seBase;
 		ArrayList al;
@@ -735,6 +736,20 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		boolean bPercentageMinSlice = false;
 		String sMinSliceLabel = null;
 		boolean bMinSliceApplied = false;
+
+		// Get available maximum block width/height.
+		Block bl = cm.getBlock( );
+		Bounds boFull = bl.getBounds( ).scaledInstance( dScale );
+		Insets ins = bl.getInsets( ).scaledInstance( dScale );
+
+		double dMaxX = boFull.getLeft( )
+				+ boFull.getWidth( )
+				- ins.getRight( )
+				- lgIns.getRight( );
+		double dMaxY = boFull.getTop( )
+				+ boFull.getHeight( )
+				- ins.getBottom( )
+				- lgIns.getBottom( );
 
 		if ( cm instanceof ChartWithoutAxes )
 		{
@@ -829,6 +844,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		// COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
 		if ( o.getValue( ) == Orientation.VERTICAL )
 		{
+			double dXOffset = 0, dMaxW = 0;
+
 			if ( bPaletteByCategory )
 			{
 				SeriesDefinition sdBase = null;
@@ -907,10 +924,26 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						}
 					}
 					la.getCaption( ).setValue( lgtext );
-					itm.reuse( la ); // RECYCLED
+					itm.reuse( la, maxWrappingSize ); // RECYCLED
 					fPaletteEntry = (Fill) elPaletteEntries.get( i++
 							% iPaletteCount ); // CYCLE THROUGH THE PALETTE
 					lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
+
+					if ( dY + itm.getFullHeight( ) + insCA.getBottom( ) > dMaxY )
+					{
+						dXOffset += dMaxW
+								+ insCA.getLeft( )
+								+ insCA.getRight( )
+								+ ( 3 * dItemHeight )
+								/ 2
+								+ dHorizontalSpacing;
+						dMaxW = 0;
+						dY = bo.getTop( ) + insCA.getTop( );
+						dX = bo.getLeft( ) + dXOffset;
+					}
+
+					dMaxW = Math.max( dMaxW, itm.getFullWidth( ) );
+
 					renderLegendItem( ipr,
 							lg,
 							la,
@@ -927,6 +960,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							seBase,
 							fPaletteEntry,
 							lirh );
+
 					dY += itm.getFullHeight( ) + insCA.getBottom( );
 				}
 
@@ -935,10 +969,26 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				{
 					dY += insCA.getTop( );
 					la.getCaption( ).setValue( sMinSliceLabel );
-					itm.reuse( la ); // RECYCLED
+					itm.reuse( la, maxWrappingSize ); // RECYCLED
 					fPaletteEntry = (Fill) elPaletteEntries.get( dsiBase.size( )
 							% iPaletteCount ); // CYCLE THROUGH THE PALETTE
 					lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
+
+					if ( dY + itm.getFullHeight( ) + insCA.getBottom( ) > dMaxY )
+					{
+						dXOffset += dMaxW
+								+ insCA.getLeft( )
+								+ insCA.getRight( )
+								+ ( 3 * dItemHeight )
+								/ 2
+								+ dHorizontalSpacing;
+						dMaxW = 0;
+						dY = bo.getTop( ) + insCA.getTop( );
+						dX = bo.getLeft( ) + dXOffset;
+					}
+
+					dMaxW = Math.max( dMaxW, itm.getFullWidth( ) );
+
 					renderLegendItem( ipr,
 							lg,
 							la,
@@ -993,7 +1043,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							}
 						}
 						la.getCaption( ).setValue( lgtext );
-						itm.reuse( la ); // RECYCLED
+						itm.reuse( la, maxWrappingSize ); // RECYCLED
 
 						double dFWidth = itm.getFullWidth( );
 						double dFHeight = itm.getFullHeight( );
@@ -1045,6 +1095,25 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							}
 						}
 
+						if ( dY
+								+ dFHeight
+								+ valueHeight
+								+ 2
+								+ insCA.getBottom( ) > dMaxY )
+						{
+							dXOffset += dMaxW
+									+ insCA.getLeft( )
+									+ insCA.getRight( )
+									+ ( 3 * dItemHeight )
+									/ 2
+									+ dHorizontalSpacing;
+							dMaxW = 0;
+							dY = bo.getTop( ) + insCA.getTop( );
+							dX = bo.getLeft( ) + dXOffset;
+						}
+
+						dMaxW = Math.max( dMaxW, dFWidth );
+
 						fPaletteEntry = (Fill) elPaletteEntries.get( i
 								% iPaletteCount ); // CYCLE THROUGH THE PALETTE
 						renderLegendItem( ipr,
@@ -1063,24 +1132,24 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								seBase,
 								fPaletteEntry,
 								lirh );
-						dY += dItemHeight + insCA.getBottom( ) + valueHeight;
+						dY += dFHeight + insCA.getBottom( ) + valueHeight + 2;
 					}
+
 					if ( j < seda.length - 1 )
 					{
-						renderSeparator( ipr,
-								lg,
-								lia,
-								dX,
-								dY + dSeparatorThickness / 2,
-								bo.getWidth( ),
-								Orientation.HORIZONTAL_LITERAL );
+						renderSeparator( ipr, lg, lia, dX, dY
+								+ dSeparatorThickness
+								/ 2, dMaxW
+								+ insCA.getLeft( )
+								+ insCA.getRight( )
+								+ ( 3 * dItemHeight )
+								/ 2, Orientation.HORIZONTAL_LITERAL );
 						dY += dSeparatorThickness;
 					}
 				}
 			}
 			else if ( d.getValue( ) == Direction.LEFT_RIGHT )
 			{
-				double dMaxW;
 				dSeparatorThickness += dHorizontalSpacing;
 				for ( int j = 0; j < seda.length; j++ )
 				{
@@ -1114,8 +1183,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							}
 						}
 						la.getCaption( ).setValue( lgtext );
-						itm.reuse( la ); // RECYCLED
-						dMaxW = Math.max( dMaxW, itm.getFullWidth( ) );
+						itm.reuse( la, maxWrappingSize ); // RECYCLED
 
 						double dFWidth = itm.getFullWidth( );
 						double dFHeight = itm.getFullHeight( );
@@ -1163,11 +1231,28 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 								dFWidth = Math.max( dFWidth, itm.getFullWidth( ) );
 
-								dMaxW = Math.max( dMaxW, dFWidth );
-
 								valueHeight = itm.getFullHeight( );
 							}
 						}
+
+						if ( dY
+								+ dFHeight
+								+ valueHeight
+								+ 2
+								+ insCA.getBottom( ) > dMaxY )
+						{
+							dXOffset += dMaxW
+									+ insCA.getLeft( )
+									+ insCA.getRight( )
+									+ ( 3 * dItemHeight )
+									/ 2
+									+ dHorizontalSpacing;
+							dMaxW = 0;
+							dY = bo.getTop( );
+							dX = bo.getLeft( ) + dXOffset;
+						}
+
+						dMaxW = Math.max( dMaxW, dFWidth );
 
 						fPaletteEntry = (Fill) elPaletteEntries.get( i
 								% iPaletteCount ); // CYCLE THROUGH THE PALETTE
@@ -1187,11 +1272,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								seBase,
 								fPaletteEntry,
 								lirh );
-						dY += dItemHeight + insCA.getBottom( ) + valueHeight;
+						dY += dFHeight + insCA.getBottom( ) + valueHeight + 2;
 					}
 
 					// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING +
 					// MAX ITEM WIDTH + RIGHT INSETS
+					dXOffset += insCA.getLeft( )
+							+ ( 3 * dItemHeight / 2 )
+							+ dHorizontalSpacing
+							+ dMaxW
+							+ insCA.getRight( );
 					dX += insCA.getLeft( )
 							+ ( 3 * dItemHeight / 2 )
 							+ dHorizontalSpacing
@@ -1227,6 +1317,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		}
 		else if ( o.getValue( ) == Orientation.HORIZONTAL )
 		{
+			double dYOffset = 0, dMaxH = 0;
+
 			if ( bPaletteByCategory )
 			{
 				SeriesDefinition sdBase = null;
@@ -1309,10 +1401,28 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						}
 					}
 					la.getCaption( ).setValue( lgtext );
-					itm.reuse( la ); // RECYCLED
+					itm.reuse( la, maxWrappingSize ); // RECYCLED
 					fPaletteEntry = (Fill) elPaletteEntries.get( i++
 							% iPaletteCount ); // CYCLE THROUGH THE PALETTE
 					lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
+
+					if ( dX
+							+ itm.getFullWidth( )
+							+ ( 3 * dItemHeight )
+							/ 2
+							+ insCA.getRight( ) > dMaxX )
+					{
+						dYOffset += dMaxH
+								+ insCA.getTop( )
+								+ insCA.getBottom( )
+								+ dVerticalSpacing;
+						dMaxH = 0;
+						dX = bo.getLeft( ) + insCA.getLeft( );
+						dY = bo.getTop( ) + insCA.getTop( ) + dYOffset;
+					}
+
+					dMaxH = Math.max( dMaxH, itm.getFullHeight( ) );
+
 					renderLegendItem( ipr,
 							lg,
 							la,
@@ -1332,7 +1442,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					dX += itm.getFullWidth( )
 							+ ( 3 * dItemHeight )
 							/ 2
-							+ dHorizontalSpacing
 							+ insCA.getRight( );
 				}
 
@@ -1341,10 +1450,28 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				{
 					dX += insCA.getLeft( );
 					la.getCaption( ).setValue( sMinSliceLabel );
-					itm.reuse( la ); // RECYCLED
+					itm.reuse( la, maxWrappingSize ); // RECYCLED
 					fPaletteEntry = (Fill) elPaletteEntries.get( dsiBase.size( )
 							% iPaletteCount ); // CYCLE THROUGH THE PALETTE
 					lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
+
+					if ( dX
+							+ itm.getFullWidth( )
+							+ ( 3 * dItemHeight )
+							/ 2
+							+ insCA.getRight( ) > dMaxX )
+					{
+						dYOffset += dMaxH
+								+ insCA.getTop( )
+								+ insCA.getBottom( )
+								+ dVerticalSpacing;
+						dMaxH = 0;
+						dX = bo.getLeft( ) + insCA.getLeft( );
+						dY = bo.getTop( ) + insCA.getTop( ) + dYOffset;
+					}
+
+					dMaxH = Math.max( dMaxH, itm.getFullHeight( ) );
+
 					renderLegendItem( ipr,
 							lg,
 							la,
@@ -1364,17 +1491,17 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					dX += itm.getFullWidth( )
 							+ ( 3 * dItemHeight )
 							/ 2
-							+ dHorizontalSpacing
 							+ insCA.getRight( );
 				}
 			}
 			else if ( d.getValue( ) == Direction.TOP_BOTTOM )
 			{
-				double maxValueHeight = 0;
 				dSeparatorThickness += dVerticalSpacing;
 				for ( int j = 0; j < seda.length; j++ )
 				{
+					dMaxH = 0;
 					dY += insCA.getTop( );
+					dX = bo.getLeft( ) + insCA.getLeft( );
 					al = seda[j].getRunTimeSeries( );
 					pa = seda[j].getSeriesPalette( );
 					elPaletteEntries = pa.getEntries( );
@@ -1403,7 +1530,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							}
 						}
 						la.getCaption( ).setValue( lgtext );
-						itm.reuse( la ); // RECYCLED
+						itm.reuse( la, maxWrappingSize ); // RECYCLED
 
 						double dFWidth = itm.getFullWidth( );
 						double dFHeight = itm.getFullHeight( );
@@ -1452,11 +1579,26 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								dFWidth = Math.max( dFWidth, itm.getFullWidth( ) );
 
 								valueHeight = itm.getFullHeight( );
-
-								maxValueHeight = Math.max( maxValueHeight,
-										valueHeight );
 							}
 						}
+
+						if ( dX
+								+ insCA.getLeft( )
+								+ dFWidth
+								+ ( 3 * dItemHeight )
+								/ 2
+								+ insCA.getRight( ) > dMaxX )
+						{
+							dYOffset += dMaxH
+									+ insCA.getTop( )
+									+ insCA.getBottom( )
+									+ dVerticalSpacing;
+							dMaxH = 0;
+							dX = bo.getLeft( ) + insCA.getLeft( );
+							dY = bo.getTop( ) + insCA.getTop( ) + dYOffset;
+						}
+
+						dMaxH = Math.max( dMaxH, dFHeight + valueHeight + 2 );
 
 						fPaletteEntry = (Fill) elPaletteEntries.get( i
 								% iPaletteCount ); // CYCLE THROUGH THE PALETTE
@@ -1482,20 +1624,23 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						dX += insCA.getLeft( )
 								+ ( 3 * dItemHeight )
 								/ 2
-								+ dHorizontalSpacing
 								+ dFWidth
 								+ insCA.getRight( );
 					}
+
+					dYOffset += insCA.getTop( )
+							+ insCA.getBottom( )
+							+ dMaxH
+							+ dVerticalSpacing;
 					dY += insCA.getTop( )
-							+ dItemHeight
-							+ insCA.getRight( )
-							+ maxValueHeight; // LINE
-					// FEED
+							+ insCA.getBottom( )
+							+ dMaxH
+							+ dVerticalSpacing;
+					dX = bo.getLeft( ) + insCA.getLeft( );
 
 					// SETUP HORIZONTAL SEPARATOR SPACING
 					if ( j < seda.length - 1 )
 					{
-						dX = bo.getLeft( ); // CARRIAGE RETURN
 						renderSeparator( ipr,
 								lg,
 								lia,
@@ -1510,6 +1655,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			else if ( d.getValue( ) == Direction.LEFT_RIGHT )
 			{
 				dSeparatorThickness += dHorizontalSpacing;
+				dX += insCA.getLeft( );
 				dY += insCA.getTop( );
 				for ( int j = 0; j < seda.length; j++ )
 				{
@@ -1541,7 +1687,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							}
 						}
 						la.getCaption( ).setValue( lgtext );
-						itm.reuse( la ); // RECYCLED
+						itm.reuse( la, maxWrappingSize ); // RECYCLED
 
 						double dFWidth = itm.getFullWidth( );
 						double dFHeight = itm.getFullHeight( );
@@ -1592,6 +1738,24 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								valueHeight = itm.getFullHeight( );
 							}
 						}
+
+						if ( dX
+								+ insCA.getLeft( )
+								+ dFWidth
+								+ ( 3 * dItemHeight )
+								/ 2
+								+ insCA.getRight( ) > dMaxX )
+						{
+							dYOffset += dMaxH
+									+ insCA.getTop( )
+									+ insCA.getBottom( )
+									+ dVerticalSpacing;
+							dMaxH = 0;
+							dX = bo.getLeft( ) + insCA.getLeft( );
+							dY = bo.getTop( ) + dYOffset;
+						}
+
+						dMaxH = Math.max( dMaxH, dFHeight + valueHeight + 2 );
 
 						fPaletteEntry = (Fill) elPaletteEntries.get( i
 								% iPaletteCount ); // CYCLE THROUGH THE PALETTE
@@ -1625,13 +1789,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					// SETUP VERTICAL SEPARATOR SPACING
 					if ( j < seda.length - 1 )
 					{
-						renderSeparator( ipr,
-								lg,
-								lia,
-								dX + dSeparatorThickness / 2,
-								dY,
-								bo.getHeight( ),
-								Orientation.VERTICAL_LITERAL );
+						renderSeparator( ipr, lg, lia, dX
+								+ dSeparatorThickness
+								/ 2, dY, dMaxH, Orientation.VERTICAL_LITERAL );
 						dX += dSeparatorThickness;
 					}
 				}
@@ -1776,7 +1936,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				la );
 		final Bounds bo = lirh.getLegendGraphicBounds( );
 		bo.setLeft( dX + dLeftInset + 1 );
-		bo.setTop( dY + 1 );
+		bo.setTop( dY + 1 + ( dFullHeight - dItemHeight ) / 2 );
 		bo.setWidth( 3 * dItemHeight / 2 );
 		bo.setHeight( dItemHeight - 2 );
 
