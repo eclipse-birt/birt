@@ -262,7 +262,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 */
 	protected EClass eStaticClass( )
 	{
-		return TypePackage.eINSTANCE.getPieSeries( );
+		return TypePackage.Literals.PIE_SERIES;
 	}
 
 	/**
@@ -773,77 +773,34 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, Class baseClass, NotificationChain msgs )
+			int featureID, NotificationChain msgs )
 	{
-		if ( featureID >= 0 )
+		switch ( featureID )
 		{
-			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
-			{
-				case TypePackage.PIE_SERIES__LABEL :
-					return basicSetLabel( null, msgs );
-				case TypePackage.PIE_SERIES__DATA_DEFINITION :
-					return ( (InternalEList) getDataDefinition( ) ).basicRemove( otherEnd,
-							msgs );
-				case TypePackage.PIE_SERIES__DATA_POINT :
-					return basicSetDataPoint( null, msgs );
-				case TypePackage.PIE_SERIES__DATA_SETS :
-					return ( (InternalEList) getDataSets( ) ).basicRemove( otherEnd,
-							msgs );
-				case TypePackage.PIE_SERIES__TRIGGERS :
-					return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
-							msgs );
-				case TypePackage.PIE_SERIES__CURVE_FITTING :
-					return basicSetCurveFitting( null, msgs );
-				case TypePackage.PIE_SERIES__TITLE :
-					return basicSetTitle( null, msgs );
-				case TypePackage.PIE_SERIES__LEADER_LINE_ATTRIBUTES :
-					return basicSetLeaderLineAttributes( null, msgs );
-				case TypePackage.PIE_SERIES__SLICE_OUTLINE :
-					return basicSetSliceOutline( null, msgs );
-				default :
-					return eDynamicInverseRemove( otherEnd,
-							featureID,
-							baseClass,
-							msgs );
-			}
+			case TypePackage.PIE_SERIES__TITLE :
+				return basicSetTitle( null, msgs );
+			case TypePackage.PIE_SERIES__LEADER_LINE_ATTRIBUTES :
+				return basicSetLeaderLineAttributes( null, msgs );
+			case TypePackage.PIE_SERIES__SLICE_OUTLINE :
+				return basicSetSliceOutline( null, msgs );
 		}
-		return eBasicSetContainer( null, featureID, msgs );
+		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case TypePackage.PIE_SERIES__VISIBLE :
-				return isVisible( ) ? Boolean.TRUE : Boolean.FALSE;
-			case TypePackage.PIE_SERIES__LABEL :
-				return getLabel( );
-			case TypePackage.PIE_SERIES__DATA_DEFINITION :
-				return getDataDefinition( );
-			case TypePackage.PIE_SERIES__SERIES_IDENTIFIER :
-				return getSeriesIdentifier( );
-			case TypePackage.PIE_SERIES__DATA_POINT :
-				return getDataPoint( );
-			case TypePackage.PIE_SERIES__DATA_SETS :
-				return getDataSets( );
-			case TypePackage.PIE_SERIES__LABEL_POSITION :
-				return getLabelPosition( );
-			case TypePackage.PIE_SERIES__STACKED :
-				return isStacked( ) ? Boolean.TRUE : Boolean.FALSE;
-			case TypePackage.PIE_SERIES__TRIGGERS :
-				return getTriggers( );
-			case TypePackage.PIE_SERIES__TRANSLUCENT :
-				return isTranslucent( ) ? Boolean.TRUE : Boolean.FALSE;
-			case TypePackage.PIE_SERIES__CURVE_FITTING :
-				return getCurveFitting( );
 			case TypePackage.PIE_SERIES__EXPLOSION :
 				return new Integer( getExplosion( ) );
 			case TypePackage.PIE_SERIES__EXPLOSION_EXPRESSION :
@@ -863,53 +820,18 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 			case TypePackage.PIE_SERIES__RATIO :
 				return new Double( getRatio( ) );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case TypePackage.PIE_SERIES__VISIBLE :
-				setVisible( ( (Boolean) newValue ).booleanValue( ) );
-				return;
-			case TypePackage.PIE_SERIES__LABEL :
-				setLabel( (Label) newValue );
-				return;
-			case TypePackage.PIE_SERIES__DATA_DEFINITION :
-				getDataDefinition( ).clear( );
-				getDataDefinition( ).addAll( (Collection) newValue );
-				return;
-			case TypePackage.PIE_SERIES__SERIES_IDENTIFIER :
-				setSeriesIdentifier( (Object) newValue );
-				return;
-			case TypePackage.PIE_SERIES__DATA_POINT :
-				setDataPoint( (DataPoint) newValue );
-				return;
-			case TypePackage.PIE_SERIES__DATA_SETS :
-				getDataSets( ).clear( );
-				getDataSets( ).addAll( (Collection) newValue );
-				return;
-			case TypePackage.PIE_SERIES__LABEL_POSITION :
-				setLabelPosition( (Position) newValue );
-				return;
-			case TypePackage.PIE_SERIES__STACKED :
-				setStacked( ( (Boolean) newValue ).booleanValue( ) );
-				return;
-			case TypePackage.PIE_SERIES__TRIGGERS :
-				getTriggers( ).clear( );
-				getTriggers( ).addAll( (Collection) newValue );
-				return;
-			case TypePackage.PIE_SERIES__TRANSLUCENT :
-				setTranslucent( ( (Boolean) newValue ).booleanValue( ) );
-				return;
-			case TypePackage.PIE_SERIES__CURVE_FITTING :
-				setCurveFitting( (CurveFitting) newValue );
-				return;
 			case TypePackage.PIE_SERIES__EXPLOSION :
 				setExplosion( ( (Integer) newValue ).intValue( ) );
 				return;
@@ -938,50 +860,18 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				setRatio( ( (Double) newValue ).doubleValue( ) );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case TypePackage.PIE_SERIES__VISIBLE :
-				unsetVisible( );
-				return;
-			case TypePackage.PIE_SERIES__LABEL :
-				setLabel( (Label) null );
-				return;
-			case TypePackage.PIE_SERIES__DATA_DEFINITION :
-				getDataDefinition( ).clear( );
-				return;
-			case TypePackage.PIE_SERIES__SERIES_IDENTIFIER :
-				setSeriesIdentifier( SERIES_IDENTIFIER_EDEFAULT );
-				return;
-			case TypePackage.PIE_SERIES__DATA_POINT :
-				setDataPoint( (DataPoint) null );
-				return;
-			case TypePackage.PIE_SERIES__DATA_SETS :
-				getDataSets( ).clear( );
-				return;
-			case TypePackage.PIE_SERIES__LABEL_POSITION :
-				unsetLabelPosition( );
-				return;
-			case TypePackage.PIE_SERIES__STACKED :
-				unsetStacked( );
-				return;
-			case TypePackage.PIE_SERIES__TRIGGERS :
-				getTriggers( ).clear( );
-				return;
-			case TypePackage.PIE_SERIES__TRANSLUCENT :
-				unsetTranslucent( );
-				return;
-			case TypePackage.PIE_SERIES__CURVE_FITTING :
-				setCurveFitting( (CurveFitting) null );
-				return;
 			case TypePackage.PIE_SERIES__EXPLOSION :
 				unsetExplosion( );
 				return;
@@ -1010,40 +900,18 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				unsetRatio( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case TypePackage.PIE_SERIES__VISIBLE :
-				return isSetVisible( );
-			case TypePackage.PIE_SERIES__LABEL :
-				return label != null;
-			case TypePackage.PIE_SERIES__DATA_DEFINITION :
-				return dataDefinition != null && !dataDefinition.isEmpty( );
-			case TypePackage.PIE_SERIES__SERIES_IDENTIFIER :
-				return SERIES_IDENTIFIER_EDEFAULT == null ? seriesIdentifier != null
-						: !SERIES_IDENTIFIER_EDEFAULT.equals( seriesIdentifier );
-			case TypePackage.PIE_SERIES__DATA_POINT :
-				return dataPoint != null;
-			case TypePackage.PIE_SERIES__DATA_SETS :
-				return dataSets != null && !dataSets.isEmpty( );
-			case TypePackage.PIE_SERIES__LABEL_POSITION :
-				return isSetLabelPosition( );
-			case TypePackage.PIE_SERIES__STACKED :
-				return isSetStacked( );
-			case TypePackage.PIE_SERIES__TRIGGERS :
-				return triggers != null && !triggers.isEmpty( );
-			case TypePackage.PIE_SERIES__TRANSLUCENT :
-				return isSetTranslucent( );
-			case TypePackage.PIE_SERIES__CURVE_FITTING :
-				return curveFitting != null;
 			case TypePackage.PIE_SERIES__EXPLOSION :
 				return isSetExplosion( );
 			case TypePackage.PIE_SERIES__EXPLOSION_EXPRESSION :
@@ -1064,7 +932,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 			case TypePackage.PIE_SERIES__RATIO :
 				return isSetRatio( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

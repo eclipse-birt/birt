@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.data.impl;
 
+import org.eclipse.birt.chart.model.data.*;
+
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataElement;
@@ -32,7 +34,11 @@ import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!-- end-user-doc -->
@@ -40,6 +46,29 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
  */
 public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 {
+
+	/**
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static DataFactory init( )
+	{
+		try
+		{
+			DataFactory theDataFactory = (DataFactory) EPackage.Registry.INSTANCE.getEFactory( "http://www.birt.eclipse.org/ChartModelData" ); //$NON-NLS-1$ 
+			if ( theDataFactory != null )
+			{
+				return theDataFactory;
+			}
+		}
+		catch ( Exception exception )
+		{
+			EcorePlugin.INSTANCE.log( exception );
+		}
+		return new DataFactoryImpl( );
+	}
 
 	/**
 	 * Creates an instance of the factory.

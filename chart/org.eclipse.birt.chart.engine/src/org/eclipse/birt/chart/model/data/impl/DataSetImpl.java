@@ -67,7 +67,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 	 */
 	protected EClass eStaticClass( )
 	{
-		return DataPackage.eINSTANCE.getDataSet( );
+		return DataPackage.Literals.DATA_SET;
 	}
 
 	/**
@@ -96,62 +96,66 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.DATA_SET__VALUES :
 				return getValues( );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.DATA_SET__VALUES :
 				setValues( (Object) newValue );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.DATA_SET__VALUES :
 				setValues( VALUES_EDEFAULT );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.DATA_SET__VALUES :
 				return VALUES_EDEFAULT == null ? values != null
 						: !VALUES_EDEFAULT.equals( values );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

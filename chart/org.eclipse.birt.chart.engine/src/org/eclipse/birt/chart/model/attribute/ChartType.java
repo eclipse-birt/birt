@@ -112,7 +112,8 @@ public final class ChartType extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final ChartType PIE_LITERAL = new ChartType( PIE, "Pie" ); //$NON-NLS-1$
+	public static final ChartType PIE_LITERAL = new ChartType( PIE,
+			"Pie", "Pie" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Bar</b></em>' literal object.
@@ -126,7 +127,8 @@ public final class ChartType extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final ChartType BAR_LITERAL = new ChartType( BAR, "Bar" ); //$NON-NLS-1$
+	public static final ChartType BAR_LITERAL = new ChartType( BAR,
+			"Bar", "Bar" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Line</b></em>' literal object.
@@ -140,7 +142,8 @@ public final class ChartType extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final ChartType LINE_LITERAL = new ChartType( LINE, "Line" ); //$NON-NLS-1$
+	public static final ChartType LINE_LITERAL = new ChartType( LINE,
+			"Line", "Line" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Combo</b></em>' literal object.
@@ -154,7 +157,8 @@ public final class ChartType extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final ChartType COMBO_LITERAL = new ChartType( COMBO, "Combo" ); //$NON-NLS-1$
+	public static final ChartType COMBO_LITERAL = new ChartType( COMBO,
+			"Combo", "Combo" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Scatter</b></em>' literal object.
@@ -170,7 +174,7 @@ public final class ChartType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final ChartType SCATTER_LITERAL = new ChartType( SCATTER,
-			"Scatter" ); //$NON-NLS-1$
+			"Scatter", "Scatter" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Stock</b></em>' literal object.
@@ -184,7 +188,8 @@ public final class ChartType extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final ChartType STOCK_LITERAL = new ChartType( STOCK, "Stock" ); //$NON-NLS-1$
+	public static final ChartType STOCK_LITERAL = new ChartType( STOCK,
+			"Stock", "Stock" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Chart Type</b></em>' enumerators. <!--
@@ -209,16 +214,16 @@ public final class ChartType extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Chart Type</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Chart Type</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static ChartType get( String name )
+	public static ChartType get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			ChartType result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -227,7 +232,26 @@ public final class ChartType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Chart Type</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Chart Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static ChartType getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			ChartType result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Chart Type</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -253,13 +277,13 @@ public final class ChartType extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private ChartType( int value, String name )
+	private ChartType( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //ChartType

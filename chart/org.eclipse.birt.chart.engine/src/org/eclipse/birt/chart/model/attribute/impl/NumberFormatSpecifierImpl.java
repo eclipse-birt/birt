@@ -150,7 +150,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getNumberFormatSpecifier( );
+		return AttributePackage.Literals.NUMBER_FORMAT_SPECIFIER;
 	}
 
 	/**
@@ -316,12 +316,13 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.NUMBER_FORMAT_SPECIFIER__PREFIX :
 				return getPrefix( );
@@ -332,16 +333,17 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 			case AttributePackage.NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS :
 				return new Integer( getFractionDigits( ) );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.NUMBER_FORMAT_SPECIFIER__PREFIX :
 				setPrefix( (String) newValue );
@@ -356,16 +358,17 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 				setFractionDigits( ( (Integer) newValue ).intValue( ) );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.NUMBER_FORMAT_SPECIFIER__PREFIX :
 				setPrefix( PREFIX_EDEFAULT );
@@ -380,16 +383,17 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 				unsetFractionDigits( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.NUMBER_FORMAT_SPECIFIER__PREFIX :
 				return PREFIX_EDEFAULT == null ? prefix != null
@@ -402,7 +406,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 			case AttributePackage.NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS :
 				return isSetFractionDigits( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

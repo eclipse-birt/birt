@@ -490,7 +490,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 */
 	protected EClass eStaticClass( )
 	{
-		return ComponentPackage.eINSTANCE.getAxis( );
+		return ComponentPackage.Literals.AXIS;
 	}
 
 	/**
@@ -1662,66 +1662,60 @@ public class AxisImpl extends EObjectImpl implements Axis
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, Class baseClass, NotificationChain msgs )
+			int featureID, NotificationChain msgs )
 	{
-		if ( featureID >= 0 )
+		switch ( featureID )
 		{
-			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
-			{
-				case ComponentPackage.AXIS__TITLE :
-					return basicSetTitle( null, msgs );
-				case ComponentPackage.AXIS__SUB_TITLE :
-					return basicSetSubTitle( null, msgs );
-				case ComponentPackage.AXIS__ASSOCIATED_AXES :
-					return ( (InternalEList) getAssociatedAxes( ) ).basicRemove( otherEnd,
-							msgs );
-				case ComponentPackage.AXIS__ANCILLARY_AXES :
-					return ( (InternalEList) getAncillaryAxes( ) ).basicRemove( otherEnd,
-							msgs );
-				case ComponentPackage.AXIS__SERIES_DEFINITIONS :
-					return ( (InternalEList) getSeriesDefinitions( ) ).basicRemove( otherEnd,
-							msgs );
-				case ComponentPackage.AXIS__LINE_ATTRIBUTES :
-					return basicSetLineAttributes( null, msgs );
-				case ComponentPackage.AXIS__LABEL :
-					return basicSetLabel( null, msgs );
-				case ComponentPackage.AXIS__FORMAT_SPECIFIER :
-					return basicSetFormatSpecifier( null, msgs );
-				case ComponentPackage.AXIS__MARKER_LINES :
-					return ( (InternalEList) getMarkerLines( ) ).basicRemove( otherEnd,
-							msgs );
-				case ComponentPackage.AXIS__MARKER_RANGES :
-					return ( (InternalEList) getMarkerRanges( ) ).basicRemove( otherEnd,
-							msgs );
-				case ComponentPackage.AXIS__MAJOR_GRID :
-					return basicSetMajorGrid( null, msgs );
-				case ComponentPackage.AXIS__MINOR_GRID :
-					return basicSetMinorGrid( null, msgs );
-				case ComponentPackage.AXIS__SCALE :
-					return basicSetScale( null, msgs );
-				case ComponentPackage.AXIS__ORIGIN :
-					return basicSetOrigin( null, msgs );
-				default :
-					return eDynamicInverseRemove( otherEnd,
-							featureID,
-							baseClass,
-							msgs );
-			}
+			case ComponentPackage.AXIS__TITLE :
+				return basicSetTitle( null, msgs );
+			case ComponentPackage.AXIS__SUB_TITLE :
+				return basicSetSubTitle( null, msgs );
+			case ComponentPackage.AXIS__ASSOCIATED_AXES :
+				return ( (InternalEList) getAssociatedAxes( ) ).basicRemove( otherEnd,
+						msgs );
+			case ComponentPackage.AXIS__ANCILLARY_AXES :
+				return ( (InternalEList) getAncillaryAxes( ) ).basicRemove( otherEnd,
+						msgs );
+			case ComponentPackage.AXIS__SERIES_DEFINITIONS :
+				return ( (InternalEList) getSeriesDefinitions( ) ).basicRemove( otherEnd,
+						msgs );
+			case ComponentPackage.AXIS__LINE_ATTRIBUTES :
+				return basicSetLineAttributes( null, msgs );
+			case ComponentPackage.AXIS__LABEL :
+				return basicSetLabel( null, msgs );
+			case ComponentPackage.AXIS__FORMAT_SPECIFIER :
+				return basicSetFormatSpecifier( null, msgs );
+			case ComponentPackage.AXIS__MARKER_LINES :
+				return ( (InternalEList) getMarkerLines( ) ).basicRemove( otherEnd,
+						msgs );
+			case ComponentPackage.AXIS__MARKER_RANGES :
+				return ( (InternalEList) getMarkerRanges( ) ).basicRemove( otherEnd,
+						msgs );
+			case ComponentPackage.AXIS__MAJOR_GRID :
+				return basicSetMajorGrid( null, msgs );
+			case ComponentPackage.AXIS__MINOR_GRID :
+				return basicSetMinorGrid( null, msgs );
+			case ComponentPackage.AXIS__SCALE :
+				return basicSetScale( null, msgs );
+			case ComponentPackage.AXIS__ORIGIN :
+				return basicSetOrigin( null, msgs );
 		}
-		return eBasicSetContainer( null, featureID, msgs );
+		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.AXIS__TYPE :
 				return getType( );
@@ -1770,16 +1764,17 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__PERCENT :
 				return isPercent( ) ? Boolean.TRUE : Boolean.FALSE;
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.AXIS__TYPE :
 				setType( (AxisType) newValue );
@@ -1856,16 +1851,17 @@ public class AxisImpl extends EObjectImpl implements Axis
 				setPercent( ( (Boolean) newValue ).booleanValue( ) );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.AXIS__TYPE :
 				unsetType( );
@@ -1937,16 +1933,17 @@ public class AxisImpl extends EObjectImpl implements Axis
 				unsetPercent( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.AXIS__TYPE :
 				return isSetType( );
@@ -1996,7 +1993,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__PERCENT :
 				return isSetPercent( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

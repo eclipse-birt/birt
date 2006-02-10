@@ -195,7 +195,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		isInited = true;
 
 		// Initialize simple dependencies
-		XMLTypePackageImpl.init( );
+		XMLTypePackage.eINSTANCE.eClass( );
 
 		// Obtain or create and register interdependencies
 		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
@@ -1312,10 +1312,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		setNsURI( eNS_URI );
 
 		// Obtain other dependent packages
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI );
-		DataPackageImpl theDataPackage = (DataPackageImpl) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
-		XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl) EPackage.Registry.INSTANCE.getEPackage( XMLTypePackage.eNS_URI );
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI );
+		AttributePackage theAttributePackage = (AttributePackage) EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI );
+		DataPackage theDataPackage = (DataPackage) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
+		XMLTypePackage theXMLTypePackage = (XMLTypePackage) EPackage.Registry.INSTANCE.getEPackage( XMLTypePackage.eNS_URI );
+		LayoutPackage theLayoutPackage = (LayoutPackage) EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI );
 
 		// Add supertypes to classes
 		dialRegionEClass.getESuperTypes( ).add( this.getMarkerRange( ) );
@@ -1440,10 +1440,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				"Dial", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getDial_StartAngle( ),
 				theXMLTypePackage.getDouble( ),
-				"startAngle", null, 0, 1, Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"startAngle", "0", 0, 1, Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getDial_StopAngle( ),
 				theXMLTypePackage.getDouble( ),
-				"stopAngle", null, 0, 1, Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"stopAngle", "180", 0, 1, Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getDial_Radius( ),
 				theXMLTypePackage.getDouble( ),
 				"radius", null, 0, 1, Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$

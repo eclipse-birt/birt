@@ -90,7 +90,7 @@ public final class DateFormatType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final DateFormatType LONG_LITERAL = new DateFormatType( LONG,
-			"Long" ); //$NON-NLS-1$
+			"Long", "Long" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Short</b></em>' literal object.
@@ -105,7 +105,7 @@ public final class DateFormatType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final DateFormatType SHORT_LITERAL = new DateFormatType( SHORT,
-			"Short" ); //$NON-NLS-1$
+			"Short", "Short" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Medium</b></em>' literal object.
@@ -120,7 +120,7 @@ public final class DateFormatType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final DateFormatType MEDIUM_LITERAL = new DateFormatType( MEDIUM,
-			"Medium" ); //$NON-NLS-1$
+			"Medium", "Medium" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Full</b></em>' literal object.
@@ -135,7 +135,7 @@ public final class DateFormatType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final DateFormatType FULL_LITERAL = new DateFormatType( FULL,
-			"Full" ); //$NON-NLS-1$
+			"Full", "Full" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Date Format Type</b></em>' enumerators.
@@ -154,16 +154,16 @@ public final class DateFormatType extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Date Format Type</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Date Format Type</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static DateFormatType get( String name )
+	public static DateFormatType get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			DateFormatType result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -172,7 +172,26 @@ public final class DateFormatType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Date Format Type</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Date Format Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static DateFormatType getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			DateFormatType result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Date Format Type</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -194,13 +213,13 @@ public final class DateFormatType extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private DateFormatType( int value, String name )
+	private DateFormatType( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //DateFormatType

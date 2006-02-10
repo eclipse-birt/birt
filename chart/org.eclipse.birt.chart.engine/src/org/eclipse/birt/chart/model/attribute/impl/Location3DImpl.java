@@ -151,7 +151,7 @@ public class Location3DImpl extends LocationImpl implements Location3D
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getLocation3D( );
+		return AttributePackage.Literals.LOCATION3_D;
 	}
 
 	/**
@@ -211,81 +211,65 @@ public class Location3DImpl extends LocationImpl implements Location3D
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case AttributePackage.LOCATION3_D__X :
-				return new Double( getX( ) );
-			case AttributePackage.LOCATION3_D__Y :
-				return new Double( getY( ) );
 			case AttributePackage.LOCATION3_D__Z :
 				return new Double( getZ( ) );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case AttributePackage.LOCATION3_D__X :
-				setX( ( (Double) newValue ).doubleValue( ) );
-				return;
-			case AttributePackage.LOCATION3_D__Y :
-				setY( ( (Double) newValue ).doubleValue( ) );
-				return;
 			case AttributePackage.LOCATION3_D__Z :
 				setZ( ( (Double) newValue ).doubleValue( ) );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case AttributePackage.LOCATION3_D__X :
-				unsetX( );
-				return;
-			case AttributePackage.LOCATION3_D__Y :
-				unsetY( );
-				return;
 			case AttributePackage.LOCATION3_D__Z :
 				unsetZ( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case AttributePackage.LOCATION3_D__X :
-				return isSetX( );
-			case AttributePackage.LOCATION3_D__Y :
-				return isSetY( );
 			case AttributePackage.LOCATION3_D__Z :
 				return isSetZ( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

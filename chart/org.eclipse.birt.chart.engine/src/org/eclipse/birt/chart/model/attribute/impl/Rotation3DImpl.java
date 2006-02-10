@@ -66,7 +66,7 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getRotation3D( );
+		return AttributePackage.Literals.ROTATION3_D;
 	}
 
 	/**
@@ -85,86 +85,83 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, Class baseClass, NotificationChain msgs )
+			int featureID, NotificationChain msgs )
 	{
-		if ( featureID >= 0 )
+		switch ( featureID )
 		{
-			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
-			{
-				case AttributePackage.ROTATION3_D__ANGLES :
-					return ( (InternalEList) getAngles( ) ).basicRemove( otherEnd,
-							msgs );
-				default :
-					return eDynamicInverseRemove( otherEnd,
-							featureID,
-							baseClass,
-							msgs );
-			}
+			case AttributePackage.ROTATION3_D__ANGLES :
+				return ( (InternalEList) getAngles( ) ).basicRemove( otherEnd,
+						msgs );
 		}
-		return eBasicSetContainer( null, featureID, msgs );
+		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.ROTATION3_D__ANGLES :
 				return getAngles( );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.ROTATION3_D__ANGLES :
 				getAngles( ).clear( );
 				getAngles( ).addAll( (Collection) newValue );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.ROTATION3_D__ANGLES :
 				getAngles( ).clear( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.ROTATION3_D__ANGLES :
 				return angles != null && !angles.isEmpty( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

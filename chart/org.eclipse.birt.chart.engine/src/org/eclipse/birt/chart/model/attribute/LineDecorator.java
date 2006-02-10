@@ -86,7 +86,7 @@ public final class LineDecorator extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final LineDecorator ARROW_LITERAL = new LineDecorator( ARROW,
-			"Arrow" ); //$NON-NLS-1$
+			"Arrow", "Arrow" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Circle</b></em>' literal object.
@@ -97,7 +97,7 @@ public final class LineDecorator extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final LineDecorator CIRCLE_LITERAL = new LineDecorator( CIRCLE,
-			"Circle" ); //$NON-NLS-1$
+			"Circle", "Circle" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>None</b></em>' literal object.
@@ -108,7 +108,7 @@ public final class LineDecorator extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final LineDecorator NONE_LITERAL = new LineDecorator( NONE,
-			"None" ); //$NON-NLS-1$
+			"None", "None" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Line Decorator</b></em>' enumerators.
@@ -127,16 +127,16 @@ public final class LineDecorator extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Line Decorator</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Line Decorator</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static LineDecorator get( String name )
+	public static LineDecorator get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			LineDecorator result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -145,7 +145,26 @@ public final class LineDecorator extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Line Decorator</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Line Decorator</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static LineDecorator getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			LineDecorator result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Line Decorator</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -165,13 +184,13 @@ public final class LineDecorator extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private LineDecorator( int value, String name )
+	private LineDecorator( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } // LineDecorator

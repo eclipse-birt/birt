@@ -93,7 +93,7 @@ public interface DataPackage extends EPackage
 	int ACTION__VALUE = 1;
 
 	/**
-	 * The number of structural features of the the '<em>Action</em>' class.
+	 * The number of structural features of the '<em>Action</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -118,7 +118,7 @@ public interface DataPackage extends EPackage
 	int BASE_SAMPLE_DATA__DATA_SET_REPRESENTATION = 0;
 
 	/**
-	 * The number of structural features of the the '<em>Base Sample Data</em>' class.
+	 * The number of structural features of the '<em>Base Sample Data</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -135,7 +135,7 @@ public interface DataPackage extends EPackage
 	int DATA_ELEMENT = 2;
 
 	/**
-	 * The number of structural features of the the '<em>Element</em>' class.
+	 * The number of structural features of the '<em>Element</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -161,7 +161,7 @@ public interface DataPackage extends EPackage
 	int DATA_SET__VALUES = 0;
 
 	/**
-	 * The number of structural features of the the '<em>Set</em>' class.
+	 * The number of structural features of the '<em>Set</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -187,7 +187,7 @@ public interface DataPackage extends EPackage
 	int DATE_TIME_DATA_ELEMENT__VALUE = DATA_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Date Time Data Element</em>' class.
+	 * The number of structural features of the '<em>Date Time Data Element</em>' class.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * @generated
@@ -214,7 +214,7 @@ public interface DataPackage extends EPackage
 	int DATE_TIME_DATA_SET__VALUES = DATA_SET__VALUES;
 
 	/**
-	 * The number of structural features of the the '<em>Date Time Data Set</em>' class.
+	 * The number of structural features of the '<em>Date Time Data Set</em>' class.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * @generated
@@ -241,7 +241,7 @@ public interface DataPackage extends EPackage
 	int NUMBER_DATA_ELEMENT__VALUE = DATA_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Number Data Element</em>' class.
+	 * The number of structural features of the '<em>Number Data Element</em>' class.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * @generated
@@ -268,7 +268,7 @@ public interface DataPackage extends EPackage
 	int NUMBER_DATA_SET__VALUES = DATA_SET__VALUES;
 
 	/**
-	 * The number of structural features of the the '<em>Number Data Set</em>' class.
+	 * The number of structural features of the '<em>Number Data Set</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -301,7 +301,7 @@ public interface DataPackage extends EPackage
 	int ORTHOGONAL_SAMPLE_DATA__SERIES_DEFINITION_INDEX = 1;
 
 	/**
-	 * The number of structural features of the the '<em>Orthogonal Sample Data</em>' class.
+	 * The number of structural features of the '<em>Orthogonal Sample Data</em>' class.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * @generated
@@ -336,7 +336,7 @@ public interface DataPackage extends EPackage
 	int QUERY__RULES = 1;
 
 	/**
-	 * The number of structural features of the the '<em>Query</em>' class.
+	 * The number of structural features of the '<em>Query</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -371,7 +371,7 @@ public interface DataPackage extends EPackage
 	int RULE__VALUE = 1;
 
 	/**
-	 * The number of structural features of the the '<em>Rule</em>' class.
+	 * The number of structural features of the '<em>Rule</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -413,7 +413,7 @@ public interface DataPackage extends EPackage
 	int SAMPLE_DATA__ANCILLARY_SAMPLE_DATA = 2;
 
 	/**
-	 * The number of structural features of the the '<em>Sample Data</em>' class.
+	 * The number of structural features of the '<em>Sample Data</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -487,7 +487,7 @@ public interface DataPackage extends EPackage
 	int SERIES_DEFINITION__SORTING = 6;
 
 	/**
-	 * The number of structural features of the the '<em>Series Definition</em>' class.
+	 * The number of structural features of the '<em>Series Definition</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -554,7 +554,7 @@ public interface DataPackage extends EPackage
 	int SERIES_GROUPING__AGGREGATE_EXPRESSION = 5;
 
 	/**
-	 * The number of structural features of the the '<em>Series Grouping</em>' class.
+	 * The number of structural features of the '<em>Series Grouping</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -580,7 +580,7 @@ public interface DataPackage extends EPackage
 	int STOCK_DATA_SET__VALUES = DATA_SET__VALUES;
 
 	/**
-	 * The number of structural features of the the '<em>Stock Data Set</em>' class.
+	 * The number of structural features of the '<em>Stock Data Set</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -606,7 +606,7 @@ public interface DataPackage extends EPackage
 	int TEXT_DATA_SET__VALUES = DATA_SET__VALUES;
 
 	/**
-	 * The number of structural features of the the '<em>Text Data Set</em>' class.
+	 * The number of structural features of the '<em>Text Data Set</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -649,7 +649,7 @@ public interface DataPackage extends EPackage
 	int TRIGGER__TRIGGER_FLOW = 2;
 
 	/**
-	 * The number of structural features of the the '<em>Trigger</em>' class.
+	 * The number of structural features of the '<em>Trigger</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -1137,5 +1137,440 @@ public interface DataPackage extends EPackage
 	 * @generated
 	 */
 	DataFactory getDataFactory( );
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Defines literals for the meta objects that represent
+	 * <ul>
+	 *   <li>each class,</li>
+	 *   <li>each feature of each class,</li>
+	 *   <li>each enum,</li>
+	 *   <li>and each data type</li>
+	 * </ul>
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	interface Literals
+	{
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.ActionImpl <em>Action</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.ActionImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getAction()
+		 * @generated
+		 */
+		EClass ACTION = eINSTANCE.getAction( );
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTION__TYPE = eINSTANCE.getAction_Type( );
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ACTION__VALUE = eINSTANCE.getAction_Value( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.BaseSampleDataImpl <em>Base Sample Data</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.BaseSampleDataImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getBaseSampleData()
+		 * @generated
+		 */
+		EClass BASE_SAMPLE_DATA = eINSTANCE.getBaseSampleData( );
+
+		/**
+		 * The meta object literal for the '<em><b>Data Set Representation</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BASE_SAMPLE_DATA__DATA_SET_REPRESENTATION = eINSTANCE.getBaseSampleData_DataSetRepresentation( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.DataElementImpl <em>Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.DataElementImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getDataElement()
+		 * @generated
+		 */
+		EClass DATA_ELEMENT = eINSTANCE.getDataElement( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.DataSetImpl <em>Set</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.DataSetImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getDataSet()
+		 * @generated
+		 */
+		EClass DATA_SET = eINSTANCE.getDataSet( );
+
+		/**
+		 * The meta object literal for the '<em><b>Values</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DATA_SET__VALUES = eINSTANCE.getDataSet_Values( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl <em>Date Time Data Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getDateTimeDataElement()
+		 * @generated
+		 */
+		EClass DATE_TIME_DATA_ELEMENT = eINSTANCE.getDateTimeDataElement( );
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DATE_TIME_DATA_ELEMENT__VALUE = eINSTANCE.getDateTimeDataElement_Value( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.DateTimeDataSetImpl <em>Date Time Data Set</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.DateTimeDataSetImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getDateTimeDataSet()
+		 * @generated
+		 */
+		EClass DATE_TIME_DATA_SET = eINSTANCE.getDateTimeDataSet( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl <em>Number Data Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getNumberDataElement()
+		 * @generated
+		 */
+		EClass NUMBER_DATA_ELEMENT = eINSTANCE.getNumberDataElement( );
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NUMBER_DATA_ELEMENT__VALUE = eINSTANCE.getNumberDataElement_Value( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl <em>Number Data Set</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getNumberDataSet()
+		 * @generated
+		 */
+		EClass NUMBER_DATA_SET = eINSTANCE.getNumberDataSet( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.OrthogonalSampleDataImpl <em>Orthogonal Sample Data</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.OrthogonalSampleDataImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getOrthogonalSampleData()
+		 * @generated
+		 */
+		EClass ORTHOGONAL_SAMPLE_DATA = eINSTANCE.getOrthogonalSampleData( );
+
+		/**
+		 * The meta object literal for the '<em><b>Data Set Representation</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ORTHOGONAL_SAMPLE_DATA__DATA_SET_REPRESENTATION = eINSTANCE.getOrthogonalSampleData_DataSetRepresentation( );
+
+		/**
+		 * The meta object literal for the '<em><b>Series Definition Index</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ORTHOGONAL_SAMPLE_DATA__SERIES_DEFINITION_INDEX = eINSTANCE.getOrthogonalSampleData_SeriesDefinitionIndex( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.QueryImpl <em>Query</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.QueryImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getQuery()
+		 * @generated
+		 */
+		EClass QUERY = eINSTANCE.getQuery( );
+
+		/**
+		 * The meta object literal for the '<em><b>Definition</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute QUERY__DEFINITION = eINSTANCE.getQuery_Definition( );
+
+		/**
+		 * The meta object literal for the '<em><b>Rules</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference QUERY__RULES = eINSTANCE.getQuery_Rules( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.RuleImpl <em>Rule</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.RuleImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getRule()
+		 * @generated
+		 */
+		EClass RULE = eINSTANCE.getRule( );
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RULE__TYPE = eINSTANCE.getRule_Type( );
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RULE__VALUE = eINSTANCE.getRule_Value( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.SampleDataImpl <em>Sample Data</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.SampleDataImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getSampleData()
+		 * @generated
+		 */
+		EClass SAMPLE_DATA = eINSTANCE.getSampleData( );
+
+		/**
+		 * The meta object literal for the '<em><b>Base Sample Data</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SAMPLE_DATA__BASE_SAMPLE_DATA = eINSTANCE.getSampleData_BaseSampleData( );
+
+		/**
+		 * The meta object literal for the '<em><b>Orthogonal Sample Data</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SAMPLE_DATA__ORTHOGONAL_SAMPLE_DATA = eINSTANCE.getSampleData_OrthogonalSampleData( );
+
+		/**
+		 * The meta object literal for the '<em><b>Ancillary Sample Data</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SAMPLE_DATA__ANCILLARY_SAMPLE_DATA = eINSTANCE.getSampleData_AncillarySampleData( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl <em>Series Definition</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getSeriesDefinition()
+		 * @generated
+		 */
+		EClass SERIES_DEFINITION = eINSTANCE.getSeriesDefinition( );
+
+		/**
+		 * The meta object literal for the '<em><b>Query</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERIES_DEFINITION__QUERY = eINSTANCE.getSeriesDefinition_Query( );
+
+		/**
+		 * The meta object literal for the '<em><b>Series Palette</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERIES_DEFINITION__SERIES_PALETTE = eINSTANCE.getSeriesDefinition_SeriesPalette( );
+
+		/**
+		 * The meta object literal for the '<em><b>Series Definitions</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERIES_DEFINITION__SERIES_DEFINITIONS = eINSTANCE.getSeriesDefinition_SeriesDefinitions( );
+
+		/**
+		 * The meta object literal for the '<em><b>Format Specifier</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERIES_DEFINITION__FORMAT_SPECIFIER = eINSTANCE.getSeriesDefinition_FormatSpecifier( );
+
+		/**
+		 * The meta object literal for the '<em><b>Series</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERIES_DEFINITION__SERIES = eINSTANCE.getSeriesDefinition_Series( );
+
+		/**
+		 * The meta object literal for the '<em><b>Grouping</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERIES_DEFINITION__GROUPING = eINSTANCE.getSeriesDefinition_Grouping( );
+
+		/**
+		 * The meta object literal for the '<em><b>Sorting</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERIES_DEFINITION__SORTING = eINSTANCE.getSeriesDefinition_Sorting( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl <em>Series Grouping</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getSeriesGrouping()
+		 * @generated
+		 */
+		EClass SERIES_GROUPING = eINSTANCE.getSeriesGrouping( );
+
+		/**
+		 * The meta object literal for the '<em><b>Enabled</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERIES_GROUPING__ENABLED = eINSTANCE.getSeriesGrouping_Enabled( );
+
+		/**
+		 * The meta object literal for the '<em><b>Grouping Unit</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERIES_GROUPING__GROUPING_UNIT = eINSTANCE.getSeriesGrouping_GroupingUnit( );
+
+		/**
+		 * The meta object literal for the '<em><b>Grouping Origin</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERIES_GROUPING__GROUPING_ORIGIN = eINSTANCE.getSeriesGrouping_GroupingOrigin( );
+
+		/**
+		 * The meta object literal for the '<em><b>Grouping Interval</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERIES_GROUPING__GROUPING_INTERVAL = eINSTANCE.getSeriesGrouping_GroupingInterval( );
+
+		/**
+		 * The meta object literal for the '<em><b>Group Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERIES_GROUPING__GROUP_TYPE = eINSTANCE.getSeriesGrouping_GroupType( );
+
+		/**
+		 * The meta object literal for the '<em><b>Aggregate Expression</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERIES_GROUPING__AGGREGATE_EXPRESSION = eINSTANCE.getSeriesGrouping_AggregateExpression( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.StockDataSetImpl <em>Stock Data Set</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.StockDataSetImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getStockDataSet()
+		 * @generated
+		 */
+		EClass STOCK_DATA_SET = eINSTANCE.getStockDataSet( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.TextDataSetImpl <em>Text Data Set</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.TextDataSetImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getTextDataSet()
+		 * @generated
+		 */
+		EClass TEXT_DATA_SET = eINSTANCE.getTextDataSet( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl <em>Trigger</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.TriggerImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getTrigger()
+		 * @generated
+		 */
+		EClass TRIGGER = eINSTANCE.getTrigger( );
+
+		/**
+		 * The meta object literal for the '<em><b>Condition</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TRIGGER__CONDITION = eINSTANCE.getTrigger_Condition( );
+
+		/**
+		 * The meta object literal for the '<em><b>Action</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRIGGER__ACTION = eINSTANCE.getTrigger_Action( );
+
+		/**
+		 * The meta object literal for the '<em><b>Trigger Flow</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TRIGGER__TRIGGER_FLOW = eINSTANCE.getTrigger_TriggerFlow( );
+
+	}
 
 } //DataPackage

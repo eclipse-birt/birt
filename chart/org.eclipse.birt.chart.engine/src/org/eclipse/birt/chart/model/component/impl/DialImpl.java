@@ -267,7 +267,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	 */
 	protected EClass eStaticClass( )
 	{
-		return ComponentPackage.eINSTANCE.getDial( );
+		return ComponentPackage.Literals.DIAL;
 	}
 
 	/**
@@ -969,50 +969,44 @@ public class DialImpl extends EObjectImpl implements Dial
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, Class baseClass, NotificationChain msgs )
+			int featureID, NotificationChain msgs )
 	{
-		if ( featureID >= 0 )
+		switch ( featureID )
 		{
-			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
-			{
-				case ComponentPackage.DIAL__LINE_ATTRIBUTES :
-					return basicSetLineAttributes( null, msgs );
-				case ComponentPackage.DIAL__FILL :
-					return basicSetFill( null, msgs );
-				case ComponentPackage.DIAL__DIAL_REGIONS :
-					return ( (InternalEList) getDialRegions( ) ).basicRemove( otherEnd,
-							msgs );
-				case ComponentPackage.DIAL__MAJOR_GRID :
-					return basicSetMajorGrid( null, msgs );
-				case ComponentPackage.DIAL__MINOR_GRID :
-					return basicSetMinorGrid( null, msgs );
-				case ComponentPackage.DIAL__SCALE :
-					return basicSetScale( null, msgs );
-				case ComponentPackage.DIAL__LABEL :
-					return basicSetLabel( null, msgs );
-				case ComponentPackage.DIAL__FORMAT_SPECIFIER :
-					return basicSetFormatSpecifier( null, msgs );
-				default :
-					return eDynamicInverseRemove( otherEnd,
-							featureID,
-							baseClass,
-							msgs );
-			}
+			case ComponentPackage.DIAL__LINE_ATTRIBUTES :
+				return basicSetLineAttributes( null, msgs );
+			case ComponentPackage.DIAL__FILL :
+				return basicSetFill( null, msgs );
+			case ComponentPackage.DIAL__DIAL_REGIONS :
+				return ( (InternalEList) getDialRegions( ) ).basicRemove( otherEnd,
+						msgs );
+			case ComponentPackage.DIAL__MAJOR_GRID :
+				return basicSetMajorGrid( null, msgs );
+			case ComponentPackage.DIAL__MINOR_GRID :
+				return basicSetMinorGrid( null, msgs );
+			case ComponentPackage.DIAL__SCALE :
+				return basicSetScale( null, msgs );
+			case ComponentPackage.DIAL__LABEL :
+				return basicSetLabel( null, msgs );
+			case ComponentPackage.DIAL__FORMAT_SPECIFIER :
+				return basicSetFormatSpecifier( null, msgs );
 		}
-		return eBasicSetContainer( null, featureID, msgs );
+		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.DIAL__START_ANGLE :
 				return new Double( getStartAngle( ) );
@@ -1039,16 +1033,17 @@ public class DialImpl extends EObjectImpl implements Dial
 			case ComponentPackage.DIAL__FORMAT_SPECIFIER :
 				return getFormatSpecifier( );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.DIAL__START_ANGLE :
 				setStartAngle( ( (Double) newValue ).doubleValue( ) );
@@ -1088,16 +1083,17 @@ public class DialImpl extends EObjectImpl implements Dial
 				setFormatSpecifier( (FormatSpecifier) newValue );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.DIAL__START_ANGLE :
 				unsetStartAngle( );
@@ -1136,16 +1132,17 @@ public class DialImpl extends EObjectImpl implements Dial
 				setFormatSpecifier( (FormatSpecifier) null );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.DIAL__START_ANGLE :
 				return isSetStartAngle( );
@@ -1172,7 +1169,7 @@ public class DialImpl extends EObjectImpl implements Dial
 			case ComponentPackage.DIAL__FORMAT_SPECIFIER :
 				return formatSpecifier != null;
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

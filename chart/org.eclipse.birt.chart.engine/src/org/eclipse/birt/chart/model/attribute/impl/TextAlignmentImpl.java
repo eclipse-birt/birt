@@ -107,7 +107,7 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getTextAlignment( );
+		return AttributePackage.Literals.TEXT_ALIGNMENT;
 	}
 
 	/**
@@ -226,28 +226,30 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.TEXT_ALIGNMENT__HORIZONTAL_ALIGNMENT :
 				return getHorizontalAlignment( );
 			case AttributePackage.TEXT_ALIGNMENT__VERTICAL_ALIGNMENT :
 				return getVerticalAlignment( );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.TEXT_ALIGNMENT__HORIZONTAL_ALIGNMENT :
 				setHorizontalAlignment( (HorizontalAlignment) newValue );
@@ -256,16 +258,17 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 				setVerticalAlignment( (VerticalAlignment) newValue );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.TEXT_ALIGNMENT__HORIZONTAL_ALIGNMENT :
 				unsetHorizontalAlignment( );
@@ -274,23 +277,24 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 				unsetVerticalAlignment( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.TEXT_ALIGNMENT__HORIZONTAL_ALIGNMENT :
 				return isSetHorizontalAlignment( );
 			case AttributePackage.TEXT_ALIGNMENT__VERTICAL_ALIGNMENT :
 				return isSetVerticalAlignment( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

@@ -27,7 +27,7 @@ public interface LayoutFactory extends EFactory
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	LayoutFactory eINSTANCE = new org.eclipse.birt.chart.model.layout.impl.LayoutFactoryImpl( );
+	LayoutFactory eINSTANCE = org.eclipse.birt.chart.model.layout.impl.LayoutFactoryImpl.init( );
 
 	/**
 	 * Returns a new object of class '<em>Block</em>'.

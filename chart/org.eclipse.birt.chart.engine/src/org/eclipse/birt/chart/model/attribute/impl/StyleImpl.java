@@ -101,7 +101,7 @@ public class StyleImpl extends EObjectImpl implements Style
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getStyle( );
+		return AttributePackage.Literals.STYLE;
 	}
 
 	/**
@@ -431,43 +431,37 @@ public class StyleImpl extends EObjectImpl implements Style
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, Class baseClass, NotificationChain msgs )
+			int featureID, NotificationChain msgs )
 	{
-		if ( featureID >= 0 )
+		switch ( featureID )
 		{
-			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
-			{
-				case AttributePackage.STYLE__FONT :
-					return basicSetFont( null, msgs );
-				case AttributePackage.STYLE__COLOR :
-					return basicSetColor( null, msgs );
-				case AttributePackage.STYLE__BACKGROUND_COLOR :
-					return basicSetBackgroundColor( null, msgs );
-				case AttributePackage.STYLE__BACKGROUND_IMAGE :
-					return basicSetBackgroundImage( null, msgs );
-				case AttributePackage.STYLE__PADDING :
-					return basicSetPadding( null, msgs );
-				default :
-					return eDynamicInverseRemove( otherEnd,
-							featureID,
-							baseClass,
-							msgs );
-			}
+			case AttributePackage.STYLE__FONT :
+				return basicSetFont( null, msgs );
+			case AttributePackage.STYLE__COLOR :
+				return basicSetColor( null, msgs );
+			case AttributePackage.STYLE__BACKGROUND_COLOR :
+				return basicSetBackgroundColor( null, msgs );
+			case AttributePackage.STYLE__BACKGROUND_IMAGE :
+				return basicSetBackgroundImage( null, msgs );
+			case AttributePackage.STYLE__PADDING :
+				return basicSetPadding( null, msgs );
 		}
-		return eBasicSetContainer( null, featureID, msgs );
+		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.STYLE__FONT :
 				return getFont( );
@@ -480,16 +474,17 @@ public class StyleImpl extends EObjectImpl implements Style
 			case AttributePackage.STYLE__PADDING :
 				return getPadding( );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.STYLE__FONT :
 				setFont( (FontDefinition) newValue );
@@ -507,16 +502,17 @@ public class StyleImpl extends EObjectImpl implements Style
 				setPadding( (Insets) newValue );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.STYLE__FONT :
 				setFont( (FontDefinition) null );
@@ -534,16 +530,17 @@ public class StyleImpl extends EObjectImpl implements Style
 				setPadding( (Insets) null );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.STYLE__FONT :
 				return font != null;
@@ -556,7 +553,7 @@ public class StyleImpl extends EObjectImpl implements Style
 			case AttributePackage.STYLE__PADDING :
 				return padding != null;
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

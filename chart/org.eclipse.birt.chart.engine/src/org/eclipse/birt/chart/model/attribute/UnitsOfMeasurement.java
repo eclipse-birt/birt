@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: UnitsOfMeasurement.java,v 1.2 2005/06/22 01:50:07 zqian Exp $
+ * $Id: UnitsOfMeasurement.java,v 1.3 2005/09/09 03:11:23 zqian Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -86,7 +86,7 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final UnitsOfMeasurement PIXELS_LITERAL = new UnitsOfMeasurement( PIXELS,
-			"Pixels" ); //$NON-NLS-1$
+			"Pixels", "Pixels" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Points</b></em>' literal object.
@@ -101,7 +101,7 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final UnitsOfMeasurement POINTS_LITERAL = new UnitsOfMeasurement( POINTS,
-			"Points" ); //$NON-NLS-1$
+			"Points", "Points" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Inches</b></em>' literal object.
@@ -116,7 +116,7 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final UnitsOfMeasurement INCHES_LITERAL = new UnitsOfMeasurement( INCHES,
-			"Inches" ); //$NON-NLS-1$
+			"Inches", "Inches" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Centimeters</b></em>' literal object. <!--
@@ -132,7 +132,7 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final UnitsOfMeasurement CENTIMETERS_LITERAL = new UnitsOfMeasurement( CENTIMETERS,
-			"Centimeters" ); //$NON-NLS-1$
+			"Centimeters", "Centimeters" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Units Of Measurement</b></em>' enumerators.
@@ -154,16 +154,16 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Units Of Measurement</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Units Of Measurement</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static UnitsOfMeasurement get( String name )
+	public static UnitsOfMeasurement get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			UnitsOfMeasurement result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -172,7 +172,26 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Units Of Measurement</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Units Of Measurement</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static UnitsOfMeasurement getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			UnitsOfMeasurement result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Units Of Measurement</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -194,13 +213,13 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private UnitsOfMeasurement( int value, String name )
+	private UnitsOfMeasurement( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //UnitsOfMeasurement

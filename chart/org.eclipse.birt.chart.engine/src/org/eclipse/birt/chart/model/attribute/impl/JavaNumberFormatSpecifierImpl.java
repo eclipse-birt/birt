@@ -99,7 +99,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getJavaNumberFormatSpecifier( );
+		return AttributePackage.Literals.JAVA_NUMBER_FORMAT_SPECIFIER;
 	}
 
 	/**
@@ -184,28 +184,30 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN :
 				return getPattern( );
 			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER :
 				return new Double( getMultiplier( ) );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN :
 				setPattern( (String) newValue );
@@ -214,16 +216,17 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 				setMultiplier( ( (Double) newValue ).doubleValue( ) );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN :
 				setPattern( PATTERN_EDEFAULT );
@@ -232,16 +235,17 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 				unsetMultiplier( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN :
 				return PATTERN_EDEFAULT == null ? pattern != null
@@ -249,7 +253,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER :
 				return isSetMultiplier( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

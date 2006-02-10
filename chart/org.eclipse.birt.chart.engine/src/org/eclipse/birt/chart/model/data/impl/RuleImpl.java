@@ -97,7 +97,7 @@ public class RuleImpl extends EObjectImpl implements Rule
 	 */
 	protected EClass eStaticClass( )
 	{
-		return DataPackage.eINSTANCE.getRule( );
+		return DataPackage.Literals.RULE;
 	}
 
 	/**
@@ -182,28 +182,30 @@ public class RuleImpl extends EObjectImpl implements Rule
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.RULE__TYPE :
 				return getType( );
 			case DataPackage.RULE__VALUE :
 				return getValue( );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.RULE__TYPE :
 				setType( (RuleType) newValue );
@@ -212,16 +214,17 @@ public class RuleImpl extends EObjectImpl implements Rule
 				setValue( (String) newValue );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.RULE__TYPE :
 				unsetType( );
@@ -230,16 +233,17 @@ public class RuleImpl extends EObjectImpl implements Rule
 				setValue( VALUE_EDEFAULT );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.RULE__TYPE :
 				return isSetType( );
@@ -247,7 +251,7 @@ public class RuleImpl extends EObjectImpl implements Rule
 				return VALUE_EDEFAULT == null ? value != null
 						: !VALUE_EDEFAULT.equals( value );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

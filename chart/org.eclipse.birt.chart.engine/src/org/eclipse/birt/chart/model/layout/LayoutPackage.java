@@ -195,7 +195,7 @@ public interface LayoutPackage extends EPackage
 	int BLOCK__TRIGGERS = 13;
 
 	/**
-	 * The number of structural features of the the '<em>Block</em>' class.
+	 * The number of structural features of the '<em>Block</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -244,7 +244,7 @@ public interface LayoutPackage extends EPackage
 	int CLIENT_AREA__INSETS = 3;
 
 	/**
-	 * The number of structural features of the the '<em>Client Area</em>' class.
+	 * The number of structural features of the '<em>Client Area</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -388,7 +388,7 @@ public interface LayoutPackage extends EPackage
 	int LABEL_BLOCK__LABEL = BLOCK_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Label Block</em>' class.
+	 * The number of structural features of the '<em>Label Block</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -645,12 +645,21 @@ public interface LayoutPackage extends EPackage
 	int LEGEND__SHOW_TOTAL = BLOCK_FEATURE_COUNT + 13;
 
 	/**
-	 * The number of structural features of the the '<em>Legend</em>' class.
+	 * The feature id for the '<em><b>Wrapping Size</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEGEND__WRAPPING_SIZE = BLOCK_FEATURE_COUNT + 14;
+
+	/**
+	 * The number of structural features of the '<em>Legend</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LEGEND_FEATURE_COUNT = BLOCK_FEATURE_COUNT + 14;
+	int LEGEND_FEATURE_COUNT = BLOCK_FEATURE_COUNT + 15;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl <em>Plot</em>}' class.
@@ -805,7 +814,7 @@ public interface LayoutPackage extends EPackage
 	int PLOT__CLIENT_AREA = BLOCK_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the the '<em>Plot</em>' class.
+	 * The number of structural features of the '<em>Plot</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -949,7 +958,7 @@ public interface LayoutPackage extends EPackage
 	int TITLE_BLOCK__LABEL = LABEL_BLOCK__LABEL;
 
 	/**
-	 * The number of structural features of the the '<em>Title Block</em>' class.
+	 * The number of structural features of the '<em>Title Block</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -1330,6 +1339,17 @@ public interface LayoutPackage extends EPackage
 	EAttribute getLegend_ShowTotal( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#getWrappingSize <em>Wrapping Size</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Wrapping Size</em>'.
+	 * @see org.eclipse.birt.chart.model.layout.Legend#getWrappingSize()
+	 * @see #getLegend()
+	 * @generated
+	 */
+	EAttribute getLegend_WrappingSize( );
+
+	/**
 	 * Returns the meta object for class '
 	 * {@link org.eclipse.birt.chart.model.layout.Plot <em>Plot</em>}'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -1387,5 +1407,378 @@ public interface LayoutPackage extends EPackage
 	 * @generated
 	 */
 	LayoutFactory getLayoutFactory( );
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Defines literals for the meta objects that represent
+	 * <ul>
+	 *   <li>each class,</li>
+	 *   <li>each feature of each class,</li>
+	 *   <li>each enum,</li>
+	 *   <li>and each data type</li>
+	 * </ul>
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	interface Literals
+	{
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl <em>Block</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.layout.impl.BlockImpl
+		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getBlock()
+		 * @generated
+		 */
+		EClass BLOCK = eINSTANCE.getBlock( );
+
+		/**
+		 * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BLOCK__CHILDREN = eINSTANCE.getBlock_Children( );
+
+		/**
+		 * The meta object literal for the '<em><b>Bounds</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BLOCK__BOUNDS = eINSTANCE.getBlock_Bounds( );
+
+		/**
+		 * The meta object literal for the '<em><b>Anchor</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BLOCK__ANCHOR = eINSTANCE.getBlock_Anchor( );
+
+		/**
+		 * The meta object literal for the '<em><b>Stretch</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BLOCK__STRETCH = eINSTANCE.getBlock_Stretch( );
+
+		/**
+		 * The meta object literal for the '<em><b>Insets</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BLOCK__INSETS = eINSTANCE.getBlock_Insets( );
+
+		/**
+		 * The meta object literal for the '<em><b>Row</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BLOCK__ROW = eINSTANCE.getBlock_Row( );
+
+		/**
+		 * The meta object literal for the '<em><b>Column</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BLOCK__COLUMN = eINSTANCE.getBlock_Column( );
+
+		/**
+		 * The meta object literal for the '<em><b>Rowspan</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BLOCK__ROWSPAN = eINSTANCE.getBlock_Rowspan( );
+
+		/**
+		 * The meta object literal for the '<em><b>Columnspan</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BLOCK__COLUMNSPAN = eINSTANCE.getBlock_Columnspan( );
+
+		/**
+		 * The meta object literal for the '<em><b>Min Size</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BLOCK__MIN_SIZE = eINSTANCE.getBlock_MinSize( );
+
+		/**
+		 * The meta object literal for the '<em><b>Outline</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BLOCK__OUTLINE = eINSTANCE.getBlock_Outline( );
+
+		/**
+		 * The meta object literal for the '<em><b>Background</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BLOCK__BACKGROUND = eINSTANCE.getBlock_Background( );
+
+		/**
+		 * The meta object literal for the '<em><b>Visible</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BLOCK__VISIBLE = eINSTANCE.getBlock_Visible( );
+
+		/**
+		 * The meta object literal for the '<em><b>Triggers</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BLOCK__TRIGGERS = eINSTANCE.getBlock_Triggers( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl <em>Client Area</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl
+		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getClientArea()
+		 * @generated
+		 */
+		EClass CLIENT_AREA = eINSTANCE.getClientArea( );
+
+		/**
+		 * The meta object literal for the '<em><b>Background</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLIENT_AREA__BACKGROUND = eINSTANCE.getClientArea_Background( );
+
+		/**
+		 * The meta object literal for the '<em><b>Outline</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLIENT_AREA__OUTLINE = eINSTANCE.getClientArea_Outline( );
+
+		/**
+		 * The meta object literal for the '<em><b>Shadow Color</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLIENT_AREA__SHADOW_COLOR = eINSTANCE.getClientArea_ShadowColor( );
+
+		/**
+		 * The meta object literal for the '<em><b>Insets</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLIENT_AREA__INSETS = eINSTANCE.getClientArea_Insets( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.layout.impl.LabelBlockImpl <em>Label Block</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.layout.impl.LabelBlockImpl
+		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getLabelBlock()
+		 * @generated
+		 */
+		EClass LABEL_BLOCK = eINSTANCE.getLabelBlock( );
+
+		/**
+		 * The meta object literal for the '<em><b>Label</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LABEL_BLOCK__LABEL = eINSTANCE.getLabelBlock_Label( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl <em>Legend</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.layout.impl.LegendImpl
+		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getLegend()
+		 * @generated
+		 */
+		EClass LEGEND = eINSTANCE.getLegend( );
+
+		/**
+		 * The meta object literal for the '<em><b>Horizontal Spacing</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LEGEND__HORIZONTAL_SPACING = eINSTANCE.getLegend_HorizontalSpacing( );
+
+		/**
+		 * The meta object literal for the '<em><b>Vertical Spacing</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LEGEND__VERTICAL_SPACING = eINSTANCE.getLegend_VerticalSpacing( );
+
+		/**
+		 * The meta object literal for the '<em><b>Client Area</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LEGEND__CLIENT_AREA = eINSTANCE.getLegend_ClientArea( );
+
+		/**
+		 * The meta object literal for the '<em><b>Text</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LEGEND__TEXT = eINSTANCE.getLegend_Text( );
+
+		/**
+		 * The meta object literal for the '<em><b>Orientation</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LEGEND__ORIENTATION = eINSTANCE.getLegend_Orientation( );
+
+		/**
+		 * The meta object literal for the '<em><b>Direction</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LEGEND__DIRECTION = eINSTANCE.getLegend_Direction( );
+
+		/**
+		 * The meta object literal for the '<em><b>Separator</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LEGEND__SEPARATOR = eINSTANCE.getLegend_Separator( );
+
+		/**
+		 * The meta object literal for the '<em><b>Position</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LEGEND__POSITION = eINSTANCE.getLegend_Position( );
+
+		/**
+		 * The meta object literal for the '<em><b>Item Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LEGEND__ITEM_TYPE = eINSTANCE.getLegend_ItemType( );
+
+		/**
+		 * The meta object literal for the '<em><b>Title</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LEGEND__TITLE = eINSTANCE.getLegend_Title( );
+
+		/**
+		 * The meta object literal for the '<em><b>Title Position</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LEGEND__TITLE_POSITION = eINSTANCE.getLegend_TitlePosition( );
+
+		/**
+		 * The meta object literal for the '<em><b>Show Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LEGEND__SHOW_VALUE = eINSTANCE.getLegend_ShowValue( );
+
+		/**
+		 * The meta object literal for the '<em><b>Show Percent</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LEGEND__SHOW_PERCENT = eINSTANCE.getLegend_ShowPercent( );
+
+		/**
+		 * The meta object literal for the '<em><b>Show Total</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LEGEND__SHOW_TOTAL = eINSTANCE.getLegend_ShowTotal( );
+
+		/**
+		 * The meta object literal for the '<em><b>Wrapping Size</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LEGEND__WRAPPING_SIZE = eINSTANCE.getLegend_WrappingSize( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl <em>Plot</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.layout.impl.PlotImpl
+		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getPlot()
+		 * @generated
+		 */
+		EClass PLOT = eINSTANCE.getPlot( );
+
+		/**
+		 * The meta object literal for the '<em><b>Horizontal Spacing</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PLOT__HORIZONTAL_SPACING = eINSTANCE.getPlot_HorizontalSpacing( );
+
+		/**
+		 * The meta object literal for the '<em><b>Vertical Spacing</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PLOT__VERTICAL_SPACING = eINSTANCE.getPlot_VerticalSpacing( );
+
+		/**
+		 * The meta object literal for the '<em><b>Client Area</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PLOT__CLIENT_AREA = eINSTANCE.getPlot_ClientArea( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.layout.impl.TitleBlockImpl <em>Title Block</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.layout.impl.TitleBlockImpl
+		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getTitleBlock()
+		 * @generated
+		 */
+		EClass TITLE_BLOCK = eINSTANCE.getTitleBlock( );
+
+	}
 
 } //LayoutPackage

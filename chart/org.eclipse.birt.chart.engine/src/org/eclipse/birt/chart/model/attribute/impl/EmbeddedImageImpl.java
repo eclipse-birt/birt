@@ -67,7 +67,7 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getEmbeddedImage( );
+		return AttributePackage.Literals.EMBEDDED_IMAGE;
 	}
 
 	/**
@@ -96,83 +96,66 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case AttributePackage.EMBEDDED_IMAGE__TYPE :
-				return new Integer( getType( ) );
-			case AttributePackage.EMBEDDED_IMAGE__URL :
-				return getURL( );
 			case AttributePackage.EMBEDDED_IMAGE__DATA :
 				return getData( );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case AttributePackage.EMBEDDED_IMAGE__TYPE :
-				setType( ( (Integer) newValue ).intValue( ) );
-				return;
-			case AttributePackage.EMBEDDED_IMAGE__URL :
-				setURL( (String) newValue );
-				return;
 			case AttributePackage.EMBEDDED_IMAGE__DATA :
 				setData( (String) newValue );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case AttributePackage.EMBEDDED_IMAGE__TYPE :
-				unsetType( );
-				return;
-			case AttributePackage.EMBEDDED_IMAGE__URL :
-				setURL( URL_EDEFAULT );
-				return;
 			case AttributePackage.EMBEDDED_IMAGE__DATA :
 				setData( DATA_EDEFAULT );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case AttributePackage.EMBEDDED_IMAGE__TYPE :
-				return isSetType( );
-			case AttributePackage.EMBEDDED_IMAGE__URL :
-				return URL_EDEFAULT == null ? uRL != null
-						: !URL_EDEFAULT.equals( uRL );
 			case AttributePackage.EMBEDDED_IMAGE__DATA :
 				return DATA_EDEFAULT == null ? data != null
 						: !DATA_EDEFAULT.equals( data );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

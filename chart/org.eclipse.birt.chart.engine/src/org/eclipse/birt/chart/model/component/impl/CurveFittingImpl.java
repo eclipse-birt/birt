@@ -117,7 +117,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 	 */
 	protected EClass eStaticClass( )
 	{
-		return ComponentPackage.eINSTANCE.getCurveFitting( );
+		return ComponentPackage.Literals.CURVE_FITTING;
 	}
 
 	/**
@@ -310,37 +310,31 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, Class baseClass, NotificationChain msgs )
+			int featureID, NotificationChain msgs )
 	{
-		if ( featureID >= 0 )
+		switch ( featureID )
 		{
-			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
-			{
-				case ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES :
-					return basicSetLineAttributes( null, msgs );
-				case ComponentPackage.CURVE_FITTING__LABEL :
-					return basicSetLabel( null, msgs );
-				default :
-					return eDynamicInverseRemove( otherEnd,
-							featureID,
-							baseClass,
-							msgs );
-			}
+			case ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES :
+				return basicSetLineAttributes( null, msgs );
+			case ComponentPackage.CURVE_FITTING__LABEL :
+				return basicSetLabel( null, msgs );
 		}
-		return eBasicSetContainer( null, featureID, msgs );
+		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES :
 				return getLineAttributes( );
@@ -349,16 +343,17 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 			case ComponentPackage.CURVE_FITTING__LABEL_ANCHOR :
 				return getLabelAnchor( );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES :
 				setLineAttributes( (LineAttributes) newValue );
@@ -370,16 +365,17 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 				setLabelAnchor( (Anchor) newValue );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES :
 				setLineAttributes( (LineAttributes) null );
@@ -391,16 +387,17 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 				unsetLabelAnchor( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES :
 				return lineAttributes != null;
@@ -409,7 +406,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 			case ComponentPackage.CURVE_FITTING__LABEL_ANCHOR :
 				return isSetLabelAnchor( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

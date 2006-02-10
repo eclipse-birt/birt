@@ -23,7 +23,11 @@ import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
@@ -32,6 +36,29 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
  */
 public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 {
+
+	/**
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static TypeFactory init( )
+	{
+		try
+		{
+			TypeFactory theTypeFactory = (TypeFactory) EPackage.Registry.INSTANCE.getEFactory( "http://www.birt.eclipse.org/ChartModelType" ); //$NON-NLS-1$ 
+			if ( theTypeFactory != null )
+			{
+				return theTypeFactory;
+			}
+		}
+		catch ( Exception exception )
+		{
+			EcorePlugin.INSTANCE.log( exception );
+		}
+		return new TypeFactoryImpl( );
+	}
 
 	/**
 	 * Creates an instance of the factory.

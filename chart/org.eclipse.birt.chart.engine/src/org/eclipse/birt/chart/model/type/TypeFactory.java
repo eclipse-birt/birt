@@ -27,7 +27,7 @@ public interface TypeFactory extends EFactory
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	TypeFactory eINSTANCE = new org.eclipse.birt.chart.model.type.impl.TypeFactoryImpl( );
+	TypeFactory eINSTANCE = org.eclipse.birt.chart.model.type.impl.TypeFactoryImpl.init( );
 
 	/**
 	 * Returns a new object of class '<em>Area Series</em>'.

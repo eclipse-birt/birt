@@ -49,7 +49,7 @@ public final class DateFormatDetail extends AbstractEnumerator
 	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
 	 * @see #DATE_TIME_LITERAL
-	 * @model name="Date_Time"
+	 * @model name="DateTime" literal="Date_Time"
 	 * @generated
 	 * @ordered
 	 */
@@ -68,7 +68,7 @@ public final class DateFormatDetail extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final DateFormatDetail DATE_LITERAL = new DateFormatDetail( DATE,
-			"Date" ); //$NON-NLS-1$
+			"Date", "Date" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Date Time</b></em>' literal object.
@@ -84,7 +84,7 @@ public final class DateFormatDetail extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final DateFormatDetail DATE_TIME_LITERAL = new DateFormatDetail( DATE_TIME,
-			"Date_Time" ); //$NON-NLS-1$
+			"DateTime", "Date_Time" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Date Format Detail</b></em>' enumerators.
@@ -103,16 +103,16 @@ public final class DateFormatDetail extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Date Format Detail</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Date Format Detail</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static DateFormatDetail get( String name )
+	public static DateFormatDetail get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			DateFormatDetail result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -121,7 +121,26 @@ public final class DateFormatDetail extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Date Format Detail</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Date Format Detail</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static DateFormatDetail getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			DateFormatDetail result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Date Format Detail</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -139,13 +158,13 @@ public final class DateFormatDetail extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private DateFormatDetail( int value, String name )
+	private DateFormatDetail( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //DateFormatDetail

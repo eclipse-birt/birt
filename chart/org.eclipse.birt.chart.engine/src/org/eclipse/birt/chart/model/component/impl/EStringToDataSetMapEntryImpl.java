@@ -89,7 +89,7 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements
 	 */
 	protected EClass eStaticClass( )
 	{
-		return ComponentPackage.eINSTANCE.getEStringToDataSetMapEntry( );
+		return ComponentPackage.Literals.ESTRING_TO_DATA_SET_MAP_ENTRY;
 	}
 
 	/**
@@ -128,8 +128,8 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements
 	{
 		if ( value != null && value.eIsProxy( ) )
 		{
-			DataSet oldValue = value;
-			value = (DataSet) eResolveProxy( (InternalEObject) value );
+			InternalEObject oldValue = (InternalEObject) value;
+			value = (DataSet) eResolveProxy( oldValue );
 			if ( value != oldValue )
 			{
 				if ( eNotificationRequired( ) )
@@ -175,9 +175,9 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY__KEY :
 				return getTypedKey( );
@@ -186,7 +186,7 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements
 					return getTypedValue( );
 				return basicGetTypedValue( );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
@@ -194,9 +194,9 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY__KEY :
 				setTypedKey( (String) newValue );
@@ -205,7 +205,7 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements
 				setTypedValue( (DataSet) newValue );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
@@ -213,9 +213,9 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY__KEY :
 				setTypedKey( KEY_EDEFAULT );
@@ -224,7 +224,7 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements
 				setTypedValue( (DataSet) null );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
@@ -232,9 +232,9 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY__KEY :
 				return KEY_EDEFAULT == null ? key != null
@@ -242,7 +242,7 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements
 			case ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE :
 				return value != null;
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

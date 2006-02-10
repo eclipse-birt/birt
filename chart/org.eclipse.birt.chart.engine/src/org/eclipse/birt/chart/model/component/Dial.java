@@ -55,6 +55,7 @@ public interface Dial extends EObject
 
 	/**
 	 * Returns the value of the '<em><b>Start Angle</b></em>' attribute.
+	 * The default value is <code>"0"</code>.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -65,7 +66,7 @@ public interface Dial extends EObject
 	 * @see #unsetStartAngle()
 	 * @see #setStartAngle(double)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_StartAngle()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 * @model default="0" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
 	 *        extendedMetaData="kind='element' name='StartAngle'"
 	 * @generated
 	 */
@@ -108,6 +109,7 @@ public interface Dial extends EObject
 
 	/**
 	 * Returns the value of the '<em><b>Stop Angle</b></em>' attribute.
+	 * The default value is <code>"180"</code>.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -118,7 +120,7 @@ public interface Dial extends EObject
 	 * @see #unsetStopAngle()
 	 * @see #setStopAngle(double)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_StopAngle()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 * @model default="180" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
 	 *        extendedMetaData="kind='element' name='StopAngle'"
 	 * @generated
 	 */

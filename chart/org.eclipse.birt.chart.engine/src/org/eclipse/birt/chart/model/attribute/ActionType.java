@@ -122,7 +122,7 @@ public final class ActionType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final ActionType URL_REDIRECT_LITERAL = new ActionType( URL_REDIRECT,
-			"URL_Redirect" ); //$NON-NLS-1$
+			"URLRedirect", "URL_Redirect" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Show Tooltip</b></em>' literal object. <!--
@@ -138,7 +138,7 @@ public final class ActionType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final ActionType SHOW_TOOLTIP_LITERAL = new ActionType( SHOW_TOOLTIP,
-			"Show_Tooltip" ); //$NON-NLS-1$
+			"ShowTooltip", "Show_Tooltip" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Toggle Visibility</b></em>' literal object. <!--
@@ -154,7 +154,7 @@ public final class ActionType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final ActionType TOGGLE_VISIBILITY_LITERAL = new ActionType( TOGGLE_VISIBILITY,
-			"Toggle_Visibility" ); //$NON-NLS-1$
+			"ToggleVisibility", "Toggle_Visibility" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Invoke Script</b></em>' literal object. <!--
@@ -170,7 +170,7 @@ public final class ActionType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final ActionType INVOKE_SCRIPT_LITERAL = new ActionType( INVOKE_SCRIPT,
-			"Invoke_Script" ); //$NON-NLS-1$
+			"InvokeScript", "Invoke_Script" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Highlight</b></em>' literal object.
@@ -181,7 +181,7 @@ public final class ActionType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final ActionType HIGHLIGHT_LITERAL = new ActionType( HIGHLIGHT,
-			"Highlight" ); //$NON-NLS-1$
+			"Highlight", "Highlight" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Call Back</b></em>' literal object.
@@ -192,7 +192,7 @@ public final class ActionType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final ActionType CALL_BACK_LITERAL = new ActionType( CALL_BACK,
-			"CallBack" ); //$NON-NLS-1$
+			"CallBack", "CallBack" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Action Type</b></em>' enumerators. <!--
@@ -217,16 +217,16 @@ public final class ActionType extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Action Type</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Action Type</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static ActionType get( String name )
+	public static ActionType get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			ActionType result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -235,7 +235,26 @@ public final class ActionType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Action Type</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Action Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static ActionType getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			ActionType result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Action Type</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -261,13 +280,13 @@ public final class ActionType extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private ActionType( int value, String name )
+	private ActionType( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //ActionType

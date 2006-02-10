@@ -28,7 +28,11 @@ import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
@@ -38,6 +42,29 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 public class ComponentFactoryImpl extends EFactoryImpl implements
 		ComponentFactory
 {
+
+	/**
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static ComponentFactory init( )
+	{
+		try
+		{
+			ComponentFactory theComponentFactory = (ComponentFactory) EPackage.Registry.INSTANCE.getEFactory( "http://www.birt.eclipse.org/ChartModelComponent" ); //$NON-NLS-1$ 
+			if ( theComponentFactory != null )
+			{
+				return theComponentFactory;
+			}
+		}
+		catch ( Exception exception )
+		{
+			EcorePlugin.INSTANCE.log( exception );
+		}
+		return new ComponentFactoryImpl( );
+	}
 
 	/**
 	 * Creates an instance of the factory.

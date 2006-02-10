@@ -83,7 +83,7 @@ public final class LegendBehaviorType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final LegendBehaviorType NONE_LITERAL = new LegendBehaviorType( NONE,
-			"None" ); //$NON-NLS-1$
+			"None", "None" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Toggle Serie Visibility</b></em>' literal object.
@@ -94,7 +94,7 @@ public final class LegendBehaviorType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final LegendBehaviorType TOGGLE_SERIE_VISIBILITY_LITERAL = new LegendBehaviorType( TOGGLE_SERIE_VISIBILITY,
-			"ToggleSerieVisibility" ); //$NON-NLS-1$
+			"ToggleSerieVisibility", "ToggleSerieVisibility" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Highlight Serie</b></em>' literal object.
@@ -105,7 +105,7 @@ public final class LegendBehaviorType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final LegendBehaviorType HIGHLIGHT_SERIE_LITERAL = new LegendBehaviorType( HIGHLIGHT_SERIE,
-			"HighlightSerie" ); //$NON-NLS-1$
+			"HighlightSerie", "HighlightSerie" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Legend Behavior Type</b></em>' enumerators.
@@ -128,17 +128,17 @@ public final class LegendBehaviorType extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Legend Behavior Type</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Legend Behavior Type</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static LegendBehaviorType get( String name )
+	public static LegendBehaviorType get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			LegendBehaviorType result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -147,7 +147,26 @@ public final class LegendBehaviorType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Legend Behavior Type</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Legend Behavior Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static LegendBehaviorType getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			LegendBehaviorType result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Legend Behavior Type</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -172,9 +191,9 @@ public final class LegendBehaviorType extends AbstractEnumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private LegendBehaviorType( int value, String name )
+	private LegendBehaviorType( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //LegendBehaviorType

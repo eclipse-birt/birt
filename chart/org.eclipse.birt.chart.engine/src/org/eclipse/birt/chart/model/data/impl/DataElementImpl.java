@@ -41,7 +41,7 @@ public class DataElementImpl extends EObjectImpl implements DataElement
 	 */
 	protected EClass eStaticClass( )
 	{
-		return DataPackage.eINSTANCE.getDataElement( );
+		return DataPackage.Literals.DATA_ELEMENT;
 	}
 
 } //DataElementImpl

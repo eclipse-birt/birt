@@ -39,6 +39,7 @@ import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
@@ -199,6 +200,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EClass formatSpecifierEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass fractionNumberFormatSpecifierEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -827,7 +835,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		isInited = true;
 
 		// Initialize simple dependencies
-		XMLTypePackageImpl.init( );
+		XMLTypePackage.eINSTANCE.eClass( );
 
 		// Obtain or create and register interdependencies
 		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
@@ -1351,6 +1359,82 @@ public class AttributePackageImpl extends EPackageImpl implements
 	public EClass getFormatSpecifier( )
 	{
 		return formatSpecifierEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getFractionNumberFormatSpecifier( )
+	{
+		return fractionNumberFormatSpecifierEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getFractionNumberFormatSpecifier_Precise( )
+	{
+		return (EAttribute) fractionNumberFormatSpecifierEClass.getEStructuralFeatures( )
+				.get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getFractionNumberFormatSpecifier_FractionDigits( )
+	{
+		return (EAttribute) fractionNumberFormatSpecifierEClass.getEStructuralFeatures( )
+				.get( 1 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getFractionNumberFormatSpecifier_Numerator( )
+	{
+		return (EAttribute) fractionNumberFormatSpecifierEClass.getEStructuralFeatures( )
+				.get( 2 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getFractionNumberFormatSpecifier_Prefix( )
+	{
+		return (EAttribute) fractionNumberFormatSpecifierEClass.getEStructuralFeatures( )
+				.get( 3 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getFractionNumberFormatSpecifier_Suffix( )
+	{
+		return (EAttribute) fractionNumberFormatSpecifierEClass.getEStructuralFeatures( )
+				.get( 4 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getFractionNumberFormatSpecifier_Delimiter( )
+	{
+		return (EAttribute) fractionNumberFormatSpecifierEClass.getEStructuralFeatures( )
+				.get( 5 );
 	}
 
 	/**
@@ -2827,6 +2911,20 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 		formatSpecifierEClass = createEClass( FORMAT_SPECIFIER );
 
+		fractionNumberFormatSpecifierEClass = createEClass( FRACTION_NUMBER_FORMAT_SPECIFIER );
+		createEAttribute( fractionNumberFormatSpecifierEClass,
+				FRACTION_NUMBER_FORMAT_SPECIFIER__PRECISE );
+		createEAttribute( fractionNumberFormatSpecifierEClass,
+				FRACTION_NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS );
+		createEAttribute( fractionNumberFormatSpecifierEClass,
+				FRACTION_NUMBER_FORMAT_SPECIFIER__NUMERATOR );
+		createEAttribute( fractionNumberFormatSpecifierEClass,
+				FRACTION_NUMBER_FORMAT_SPECIFIER__PREFIX );
+		createEAttribute( fractionNumberFormatSpecifierEClass,
+				FRACTION_NUMBER_FORMAT_SPECIFIER__SUFFIX );
+		createEAttribute( fractionNumberFormatSpecifierEClass,
+				FRACTION_NUMBER_FORMAT_SPECIFIER__DELIMITER );
+
 		gradientEClass = createEClass( GRADIENT );
 		createEReference( gradientEClass, GRADIENT__START_COLOR );
 		createEReference( gradientEClass, GRADIENT__END_COLOR );
@@ -3037,8 +3135,8 @@ public class AttributePackageImpl extends EPackageImpl implements
 		setNsURI( eNS_URI );
 
 		// Obtain other dependent packages
-		XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl) EPackage.Registry.INSTANCE.getEPackage( XMLTypePackage.eNS_URI );
-		DataPackageImpl theDataPackage = (DataPackageImpl) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
+		XMLTypePackage theXMLTypePackage = (XMLTypePackage) EPackage.Registry.INSTANCE.getEPackage( XMLTypePackage.eNS_URI );
+		DataPackage theDataPackage = (DataPackage) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
 
 		// Add supertypes to classes
 		callBackValueEClass.getESuperTypes( ).add( this.getActionValue( ) );
@@ -3046,6 +3144,8 @@ public class AttributePackageImpl extends EPackageImpl implements
 		dateFormatSpecifierEClass.getESuperTypes( )
 				.add( this.getFormatSpecifier( ) );
 		embeddedImageEClass.getESuperTypes( ).add( this.getImage( ) );
+		fractionNumberFormatSpecifierEClass.getESuperTypes( )
+				.add( this.getFormatSpecifier( ) );
 		gradientEClass.getESuperTypes( ).add( this.getFill( ) );
 		imageEClass.getESuperTypes( ).add( this.getFill( ) );
 		javaDateFormatSpecifierEClass.getESuperTypes( )
@@ -3228,6 +3328,28 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEClass( formatSpecifierEClass,
 				FormatSpecifier.class,
 				"FormatSpecifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+
+		initEClass( fractionNumberFormatSpecifierEClass,
+				FractionNumberFormatSpecifier.class,
+				"FractionNumberFormatSpecifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEAttribute( getFractionNumberFormatSpecifier_Precise( ),
+				theXMLTypePackage.getBoolean( ),
+				"precise", null, 1, 1, FractionNumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getFractionNumberFormatSpecifier_FractionDigits( ),
+				theXMLTypePackage.getInt( ),
+				"fractionDigits", null, 1, 1, FractionNumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getFractionNumberFormatSpecifier_Numerator( ),
+				theXMLTypePackage.getDouble( ),
+				"numerator", null, 1, 1, FractionNumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getFractionNumberFormatSpecifier_Prefix( ),
+				theXMLTypePackage.getString( ),
+				"prefix", null, 1, 1, FractionNumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getFractionNumberFormatSpecifier_Suffix( ),
+				theXMLTypePackage.getString( ),
+				"suffix", null, 1, 1, FractionNumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getFractionNumberFormatSpecifier_Delimiter( ),
+				theXMLTypePackage.getString( ),
+				"delimiter", "/", 1, 1, FractionNumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( gradientEClass,
 				Gradient.class,
@@ -4197,6 +4319,48 @@ public class AttributePackageImpl extends EPackageImpl implements
 				"name", "FormatSpecifier", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "empty" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
+		addAnnotation( fractionNumberFormatSpecifierEClass,
+				source,
+				new String[]{
+						"name", "FractionNumberFormatSpecifier", //$NON-NLS-1$ //$NON-NLS-2$
+						"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( getFractionNumberFormatSpecifier_Precise( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "Precise" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( getFractionNumberFormatSpecifier_FractionDigits( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "FractionDigits" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( getFractionNumberFormatSpecifier_Numerator( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "Numerator" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( getFractionNumberFormatSpecifier_Prefix( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "Prefix" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( getFractionNumberFormatSpecifier_Suffix( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "Suffix" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( getFractionNumberFormatSpecifier_Delimiter( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "Delimiter" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( gradientEClass, source, new String[]{
 				"name", "Gradient", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$

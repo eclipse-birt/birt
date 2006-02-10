@@ -217,7 +217,7 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		isInited = true;
 
 		// Initialize simple dependencies
-		XMLTypePackageImpl.init( );
+		XMLTypePackage.eINSTANCE.eClass( );
 
 		// Obtain or create and register interdependencies
 		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
@@ -835,9 +835,9 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		setNsURI( eNS_URI );
 
 		// Obtain other dependent packages
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI );
-		XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl) EPackage.Registry.INSTANCE.getEPackage( XMLTypePackage.eNS_URI );
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI );
+		AttributePackage theAttributePackage = (AttributePackage) EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI );
+		XMLTypePackage theXMLTypePackage = (XMLTypePackage) EPackage.Registry.INSTANCE.getEPackage( XMLTypePackage.eNS_URI );
+		ComponentPackage theComponentPackage = (ComponentPackage) EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI );
 
 		// Add supertypes to classes
 		dateTimeDataElementEClass.getESuperTypes( )

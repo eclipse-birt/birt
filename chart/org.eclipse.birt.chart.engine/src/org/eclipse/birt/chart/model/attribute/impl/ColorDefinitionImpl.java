@@ -202,7 +202,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getColorDefinition( );
+		return AttributePackage.Literals.COLOR_DEFINITION;
 	}
 
 	/**
@@ -374,6 +374,98 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
+	{
+		switch ( featureID )
+		{
+			case AttributePackage.COLOR_DEFINITION__TRANSPARENCY :
+				return new Integer( getTransparency( ) );
+			case AttributePackage.COLOR_DEFINITION__RED :
+				return new Integer( getRed( ) );
+			case AttributePackage.COLOR_DEFINITION__GREEN :
+				return new Integer( getGreen( ) );
+			case AttributePackage.COLOR_DEFINITION__BLUE :
+				return new Integer( getBlue( ) );
+		}
+		return super.eGet( featureID, resolve, coreType );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eSet( int featureID, Object newValue )
+	{
+		switch ( featureID )
+		{
+			case AttributePackage.COLOR_DEFINITION__TRANSPARENCY :
+				setTransparency( ( (Integer) newValue ).intValue( ) );
+				return;
+			case AttributePackage.COLOR_DEFINITION__RED :
+				setRed( ( (Integer) newValue ).intValue( ) );
+				return;
+			case AttributePackage.COLOR_DEFINITION__GREEN :
+				setGreen( ( (Integer) newValue ).intValue( ) );
+				return;
+			case AttributePackage.COLOR_DEFINITION__BLUE :
+				setBlue( ( (Integer) newValue ).intValue( ) );
+				return;
+		}
+		super.eSet( featureID, newValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eUnset( int featureID )
+	{
+		switch ( featureID )
+		{
+			case AttributePackage.COLOR_DEFINITION__TRANSPARENCY :
+				unsetTransparency( );
+				return;
+			case AttributePackage.COLOR_DEFINITION__RED :
+				unsetRed( );
+				return;
+			case AttributePackage.COLOR_DEFINITION__GREEN :
+				unsetGreen( );
+				return;
+			case AttributePackage.COLOR_DEFINITION__BLUE :
+				unsetBlue( );
+				return;
+		}
+		super.eUnset( featureID );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean eIsSet( int featureID )
+	{
+		switch ( featureID )
+		{
+			case AttributePackage.COLOR_DEFINITION__TRANSPARENCY :
+				return isSetTransparency( );
+			case AttributePackage.COLOR_DEFINITION__RED :
+				return isSetRed( );
+			case AttributePackage.COLOR_DEFINITION__GREEN :
+				return isSetGreen( );
+			case AttributePackage.COLOR_DEFINITION__BLUE :
+				return isSetBlue( );
+		}
+		return super.eIsSet( featureID );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -427,104 +519,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	public boolean isSetGreen( )
 	{
 		return greenESet;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
-	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
-		{
-			case AttributePackage.COLOR_DEFINITION__TYPE :
-				return new Integer( getType( ) );
-			case AttributePackage.COLOR_DEFINITION__TRANSPARENCY :
-				return new Integer( getTransparency( ) );
-			case AttributePackage.COLOR_DEFINITION__RED :
-				return new Integer( getRed( ) );
-			case AttributePackage.COLOR_DEFINITION__GREEN :
-				return new Integer( getGreen( ) );
-			case AttributePackage.COLOR_DEFINITION__BLUE :
-				return new Integer( getBlue( ) );
-		}
-		return eDynamicGet( eFeature, resolve );
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
-	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
-		{
-			case AttributePackage.COLOR_DEFINITION__TYPE :
-				setType( ( (Integer) newValue ).intValue( ) );
-				return;
-			case AttributePackage.COLOR_DEFINITION__TRANSPARENCY :
-				setTransparency( ( (Integer) newValue ).intValue( ) );
-				return;
-			case AttributePackage.COLOR_DEFINITION__RED :
-				setRed( ( (Integer) newValue ).intValue( ) );
-				return;
-			case AttributePackage.COLOR_DEFINITION__GREEN :
-				setGreen( ( (Integer) newValue ).intValue( ) );
-				return;
-			case AttributePackage.COLOR_DEFINITION__BLUE :
-				setBlue( ( (Integer) newValue ).intValue( ) );
-				return;
-		}
-		eDynamicSet( eFeature, newValue );
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void eUnset( EStructuralFeature eFeature )
-	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
-		{
-			case AttributePackage.COLOR_DEFINITION__TYPE :
-				unsetType( );
-				return;
-			case AttributePackage.COLOR_DEFINITION__TRANSPARENCY :
-				unsetTransparency( );
-				return;
-			case AttributePackage.COLOR_DEFINITION__RED :
-				unsetRed( );
-				return;
-			case AttributePackage.COLOR_DEFINITION__GREEN :
-				unsetGreen( );
-				return;
-			case AttributePackage.COLOR_DEFINITION__BLUE :
-				unsetBlue( );
-				return;
-		}
-		eDynamicUnset( eFeature );
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
-	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
-		{
-			case AttributePackage.COLOR_DEFINITION__TYPE :
-				return isSetType( );
-			case AttributePackage.COLOR_DEFINITION__TRANSPARENCY :
-				return isSetTransparency( );
-			case AttributePackage.COLOR_DEFINITION__RED :
-				return isSetRed( );
-			case AttributePackage.COLOR_DEFINITION__GREEN :
-				return isSetGreen( );
-			case AttributePackage.COLOR_DEFINITION__BLUE :
-				return isSetBlue( );
-		}
-		return eDynamicIsSet( eFeature );
 	}
 
 	/**

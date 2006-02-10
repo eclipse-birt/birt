@@ -65,7 +65,7 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getCallBackValue( );
+		return AttributePackage.Literals.CALL_BACK_VALUE;
 	}
 
 	/**
@@ -100,14 +100,14 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.CALL_BACK_VALUE__IDENTIFIER :
 				return getIdentifier( );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
@@ -115,15 +115,15 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.CALL_BACK_VALUE__IDENTIFIER :
 				setIdentifier( (String) newValue );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
@@ -131,15 +131,15 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.CALL_BACK_VALUE__IDENTIFIER :
 				setIdentifier( IDENTIFIER_EDEFAULT );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
@@ -147,15 +147,15 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.CALL_BACK_VALUE__IDENTIFIER :
 				return IDENTIFIER_EDEFAULT == null ? identifier != null
 						: !IDENTIFIER_EDEFAULT.equals( identifier );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

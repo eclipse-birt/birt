@@ -79,7 +79,7 @@ public final class VerticalAlignment extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final VerticalAlignment TOP_LITERAL = new VerticalAlignment( TOP,
-			"Top" ); //$NON-NLS-1$
+			"Top", "Top" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Center</b></em>' literal object.
@@ -94,7 +94,7 @@ public final class VerticalAlignment extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final VerticalAlignment CENTER_LITERAL = new VerticalAlignment( CENTER,
-			"Center" ); //$NON-NLS-1$
+			"Center", "Center" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Bottom</b></em>' literal object.
@@ -109,7 +109,7 @@ public final class VerticalAlignment extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final VerticalAlignment BOTTOM_LITERAL = new VerticalAlignment( BOTTOM,
-			"Bottom" ); //$NON-NLS-1$
+			"Bottom", "Bottom" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Vertical Alignment</b></em>' enumerators.
@@ -128,16 +128,16 @@ public final class VerticalAlignment extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static VerticalAlignment get( String name )
+	public static VerticalAlignment get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			VerticalAlignment result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -146,7 +146,26 @@ public final class VerticalAlignment extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static VerticalAlignment getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			VerticalAlignment result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -166,13 +185,13 @@ public final class VerticalAlignment extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private VerticalAlignment( int value, String name )
+	private VerticalAlignment( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //VerticalAlignment

@@ -69,7 +69,7 @@ public final class LeaderLineStyle extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final LeaderLineStyle FIXED_LENGTH_LITERAL = new LeaderLineStyle( FIXED_LENGTH,
-			"Fixed_Length" ); //$NON-NLS-1$
+			"FixedLength", "Fixed_Length" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Stretch To Side</b></em>' literal object. <!--
@@ -85,7 +85,7 @@ public final class LeaderLineStyle extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final LeaderLineStyle STRETCH_TO_SIDE_LITERAL = new LeaderLineStyle( STRETCH_TO_SIDE,
-			"Stretch_To_Side" ); //$NON-NLS-1$
+			"StretchToSide", "Stretch_To_Side" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Leader Line Style</b></em>' enumerators.
@@ -104,16 +104,16 @@ public final class LeaderLineStyle extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static LeaderLineStyle get( String name )
+	public static LeaderLineStyle get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			LeaderLineStyle result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -122,7 +122,26 @@ public final class LeaderLineStyle extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static LeaderLineStyle getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			LeaderLineStyle result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -140,13 +159,13 @@ public final class LeaderLineStyle extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private LeaderLineStyle( int value, String name )
+	private LeaderLineStyle( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //LeaderLineStyle

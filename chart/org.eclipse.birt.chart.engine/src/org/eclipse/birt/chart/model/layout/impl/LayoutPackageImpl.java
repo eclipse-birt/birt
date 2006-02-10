@@ -140,7 +140,7 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		isInited = true;
 
 		// Initialize simple dependencies
-		XMLTypePackageImpl.init( );
+		XMLTypePackage.eINSTANCE.eClass( );
 
 		// Obtain or create and register interdependencies
 		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
@@ -513,6 +513,16 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLegend_WrappingSize( )
+	{
+		return (EAttribute) legendEClass.getEStructuralFeatures( ).get( 14 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -626,6 +636,7 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		createEAttribute( legendEClass, LEGEND__SHOW_VALUE );
 		createEAttribute( legendEClass, LEGEND__SHOW_PERCENT );
 		createEAttribute( legendEClass, LEGEND__SHOW_TOTAL );
+		createEAttribute( legendEClass, LEGEND__WRAPPING_SIZE );
 
 		plotEClass = createEClass( PLOT );
 		createEAttribute( plotEClass, PLOT__HORIZONTAL_SPACING );
@@ -660,10 +671,10 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		setNsURI( eNS_URI );
 
 		// Obtain other dependent packages
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI );
-		XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl) EPackage.Registry.INSTANCE.getEPackage( XMLTypePackage.eNS_URI );
-		DataPackageImpl theDataPackage = (DataPackageImpl) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI );
+		AttributePackage theAttributePackage = (AttributePackage) EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI );
+		XMLTypePackage theXMLTypePackage = (XMLTypePackage) EPackage.Registry.INSTANCE.getEPackage( XMLTypePackage.eNS_URI );
+		DataPackage theDataPackage = (DataPackage) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
+		ComponentPackage theComponentPackage = (ComponentPackage) EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI );
 
 		// Add supertypes to classes
 		labelBlockEClass.getESuperTypes( ).add( this.getBlock( ) );
@@ -802,6 +813,9 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		initEAttribute( getLegend_ShowTotal( ),
 				theXMLTypePackage.getBoolean( ),
 				"showTotal", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getLegend_WrappingSize( ),
+				theXMLTypePackage.getDouble( ),
+				"wrappingSize", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( plotEClass,
 				Plot.class,
@@ -986,6 +1000,10 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		addAnnotation( getLegend_ShowTotal( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "ShowTotal" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getLegend_WrappingSize( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "WrappingSize" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( plotEClass, source, new String[]{
 				"name", "Plot", //$NON-NLS-1$ //$NON-NLS-2$

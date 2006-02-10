@@ -27,7 +27,7 @@ public interface ModelFactory extends EFactory
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	ModelFactory eINSTANCE = new org.eclipse.birt.chart.model.impl.ModelFactoryImpl( );
+	ModelFactory eINSTANCE = org.eclipse.birt.chart.model.impl.ModelFactoryImpl.init( );
 
 	/**
 	 * Returns a new object of class '<em>Chart</em>'.

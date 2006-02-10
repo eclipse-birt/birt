@@ -155,7 +155,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 */
 	protected EClass eStaticClass( )
 	{
-		return DataPackage.eINSTANCE.getSeriesDefinition( );
+		return DataPackage.Literals.SERIES_DEFINITION;
 	}
 
 	/**
@@ -509,47 +509,41 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, Class baseClass, NotificationChain msgs )
+			int featureID, NotificationChain msgs )
 	{
-		if ( featureID >= 0 )
+		switch ( featureID )
 		{
-			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
-			{
-				case DataPackage.SERIES_DEFINITION__QUERY :
-					return basicSetQuery( null, msgs );
-				case DataPackage.SERIES_DEFINITION__SERIES_PALETTE :
-					return basicSetSeriesPalette( null, msgs );
-				case DataPackage.SERIES_DEFINITION__SERIES_DEFINITIONS :
-					return ( (InternalEList) getSeriesDefinitions( ) ).basicRemove( otherEnd,
-							msgs );
-				case DataPackage.SERIES_DEFINITION__FORMAT_SPECIFIER :
-					return basicSetFormatSpecifier( null, msgs );
-				case DataPackage.SERIES_DEFINITION__SERIES :
-					return ( (InternalEList) getSeries( ) ).basicRemove( otherEnd,
-							msgs );
-				case DataPackage.SERIES_DEFINITION__GROUPING :
-					return basicSetGrouping( null, msgs );
-				default :
-					return eDynamicInverseRemove( otherEnd,
-							featureID,
-							baseClass,
-							msgs );
-			}
+			case DataPackage.SERIES_DEFINITION__QUERY :
+				return basicSetQuery( null, msgs );
+			case DataPackage.SERIES_DEFINITION__SERIES_PALETTE :
+				return basicSetSeriesPalette( null, msgs );
+			case DataPackage.SERIES_DEFINITION__SERIES_DEFINITIONS :
+				return ( (InternalEList) getSeriesDefinitions( ) ).basicRemove( otherEnd,
+						msgs );
+			case DataPackage.SERIES_DEFINITION__FORMAT_SPECIFIER :
+				return basicSetFormatSpecifier( null, msgs );
+			case DataPackage.SERIES_DEFINITION__SERIES :
+				return ( (InternalEList) getSeries( ) ).basicRemove( otherEnd,
+						msgs );
+			case DataPackage.SERIES_DEFINITION__GROUPING :
+				return basicSetGrouping( null, msgs );
 		}
-		return eBasicSetContainer( null, featureID, msgs );
+		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.SERIES_DEFINITION__QUERY :
 				return getQuery( );
@@ -566,16 +560,17 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 			case DataPackage.SERIES_DEFINITION__SORTING :
 				return getSorting( );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.SERIES_DEFINITION__QUERY :
 				setQuery( (Query) newValue );
@@ -601,16 +596,17 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 				setSorting( (SortOption) newValue );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.SERIES_DEFINITION__QUERY :
 				setQuery( (Query) null );
@@ -634,16 +630,17 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 				unsetSorting( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.SERIES_DEFINITION__QUERY :
 				return query != null;
@@ -661,7 +658,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 			case DataPackage.SERIES_DEFINITION__SORTING :
 				return isSetSorting( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

@@ -105,7 +105,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getInteractivity( );
+		return AttributePackage.Literals.INTERACTIVITY;
 	}
 
 	/**
@@ -222,28 +222,30 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.INTERACTIVITY__ENABLE :
 				return isEnable( ) ? Boolean.TRUE : Boolean.FALSE;
 			case AttributePackage.INTERACTIVITY__LEGEND_BEHAVIOR :
 				return getLegendBehavior( );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.INTERACTIVITY__ENABLE :
 				setEnable( ( (Boolean) newValue ).booleanValue( ) );
@@ -252,16 +254,17 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 				setLegendBehavior( (LegendBehaviorType) newValue );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.INTERACTIVITY__ENABLE :
 				unsetEnable( );
@@ -270,23 +273,24 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 				unsetLegendBehavior( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.INTERACTIVITY__ENABLE :
 				return isSetEnable( );
 			case AttributePackage.INTERACTIVITY__LEGEND_BEHAVIOR :
 				return isSetLegendBehavior( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

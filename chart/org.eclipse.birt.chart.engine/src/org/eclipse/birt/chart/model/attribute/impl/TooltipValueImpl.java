@@ -95,7 +95,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getTooltipValue( );
+		return AttributePackage.Literals.TOOLTIP_VALUE;
 	}
 
 	/**
@@ -180,28 +180,30 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.TOOLTIP_VALUE__TEXT :
 				return getText( );
 			case AttributePackage.TOOLTIP_VALUE__DELAY :
 				return new Integer( getDelay( ) );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.TOOLTIP_VALUE__TEXT :
 				setText( (String) newValue );
@@ -210,16 +212,17 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 				setDelay( ( (Integer) newValue ).intValue( ) );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.TOOLTIP_VALUE__TEXT :
 				setText( TEXT_EDEFAULT );
@@ -228,16 +231,17 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 				unsetDelay( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.TOOLTIP_VALUE__TEXT :
 				return TEXT_EDEFAULT == null ? text != null
@@ -245,7 +249,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 			case AttributePackage.TOOLTIP_VALUE__DELAY :
 				return isSetDelay( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

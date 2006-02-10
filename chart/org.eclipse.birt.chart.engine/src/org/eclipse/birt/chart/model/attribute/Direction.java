@@ -38,7 +38,7 @@ public final class Direction extends AbstractEnumerator
 	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
 	 * @see #LEFT_RIGHT_LITERAL
-	 * @model name="Left_Right"
+	 * @model name="LeftRight" literal="Left_Right"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +49,7 @@ public final class Direction extends AbstractEnumerator
 	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
 	 * @see #TOP_BOTTOM_LITERAL
-	 * @model name="Top_Bottom"
+	 * @model name="TopBottom" literal="Top_Bottom"
 	 * @generated
 	 * @ordered
 	 */
@@ -69,7 +69,7 @@ public final class Direction extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final Direction LEFT_RIGHT_LITERAL = new Direction( LEFT_RIGHT,
-			"Left_Right" ); //$NON-NLS-1$
+			"LeftRight", "Left_Right" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Top Bottom</b></em>' literal object.
@@ -85,7 +85,7 @@ public final class Direction extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final Direction TOP_BOTTOM_LITERAL = new Direction( TOP_BOTTOM,
-			"Top_Bottom" ); //$NON-NLS-1$
+			"TopBottom", "Top_Bottom" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Direction</b></em>' enumerators. <!--
@@ -105,16 +105,16 @@ public final class Direction extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Direction</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Direction</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Direction get( String name )
+	public static Direction get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			Direction result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -123,7 +123,26 @@ public final class Direction extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Direction</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Direction</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static Direction getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			Direction result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Direction</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -141,13 +160,13 @@ public final class Direction extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private Direction( int value, String name )
+	private Direction( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //Direction

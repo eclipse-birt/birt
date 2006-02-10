@@ -69,7 +69,7 @@ public final class SortOption extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final SortOption ASCENDING_LITERAL = new SortOption( ASCENDING,
-			"Ascending" ); //$NON-NLS-1$
+			"Ascending", "Ascending" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Descending</b></em>' literal object.
@@ -85,7 +85,7 @@ public final class SortOption extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final SortOption DESCENDING_LITERAL = new SortOption( DESCENDING,
-			"Descending" ); //$NON-NLS-1$
+			"Descending", "Descending" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Sort Option</b></em>' enumerators. <!--
@@ -105,16 +105,16 @@ public final class SortOption extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Sort Option</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Sort Option</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static SortOption get( String name )
+	public static SortOption get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			SortOption result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -123,7 +123,26 @@ public final class SortOption extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Sort Option</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Sort Option</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static SortOption getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			SortOption result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Sort Option</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -141,13 +160,13 @@ public final class SortOption extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private SortOption( int value, String name )
+	private SortOption( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //SortOption

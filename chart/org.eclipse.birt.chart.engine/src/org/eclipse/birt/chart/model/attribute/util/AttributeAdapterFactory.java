@@ -178,6 +178,12 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 			return createFormatSpecifierAdapter( );
 		}
 
+		public Object caseFractionNumberFormatSpecifier(
+				FractionNumberFormatSpecifier object )
+		{
+			return createFractionNumberFormatSpecifierAdapter( );
+		}
+
 		public Object caseGradient( Gradient object )
 		{
 			return createGradientAdapter( );
@@ -504,6 +510,21 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createFormatSpecifierAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier <em>Fraction Number Format Specifier</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier
+	 * @generated
+	 */
+	public Adapter createFractionNumberFormatSpecifierAdapter( )
 	{
 		return null;
 	}

@@ -124,7 +124,7 @@ public final class ScaleUnitType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final ScaleUnitType SECONDS_LITERAL = new ScaleUnitType( SECONDS,
-			"Seconds" ); //$NON-NLS-1$
+			"Seconds", "Seconds" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Minutes</b></em>' literal object.
@@ -140,7 +140,7 @@ public final class ScaleUnitType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final ScaleUnitType MINUTES_LITERAL = new ScaleUnitType( MINUTES,
-			"Minutes" ); //$NON-NLS-1$
+			"Minutes", "Minutes" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Hours</b></em>' literal object.
@@ -155,7 +155,7 @@ public final class ScaleUnitType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final ScaleUnitType HOURS_LITERAL = new ScaleUnitType( HOURS,
-			"Hours" ); //$NON-NLS-1$
+			"Hours", "Hours" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Days</b></em>' literal object.
@@ -170,7 +170,7 @@ public final class ScaleUnitType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final ScaleUnitType DAYS_LITERAL = new ScaleUnitType( DAYS,
-			"Days" ); //$NON-NLS-1$
+			"Days", "Days" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Weeks</b></em>' literal object.
@@ -185,7 +185,7 @@ public final class ScaleUnitType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final ScaleUnitType WEEKS_LITERAL = new ScaleUnitType( WEEKS,
-			"Weeks" ); //$NON-NLS-1$
+			"Weeks", "Weeks" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Months</b></em>' literal object.
@@ -200,7 +200,7 @@ public final class ScaleUnitType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final ScaleUnitType MONTHS_LITERAL = new ScaleUnitType( MONTHS,
-			"Months" ); //$NON-NLS-1$
+			"Months", "Months" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Years</b></em>' literal object.
@@ -215,7 +215,7 @@ public final class ScaleUnitType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final ScaleUnitType YEARS_LITERAL = new ScaleUnitType( YEARS,
-			"Years" ); //$NON-NLS-1$
+			"Years", "Years" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Scale Unit Type</b></em>' enumerators.
@@ -240,16 +240,16 @@ public final class ScaleUnitType extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Scale Unit Type</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Scale Unit Type</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static ScaleUnitType get( String name )
+	public static ScaleUnitType get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			ScaleUnitType result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -258,7 +258,26 @@ public final class ScaleUnitType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Scale Unit Type</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Scale Unit Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static ScaleUnitType getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			ScaleUnitType result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Scale Unit Type</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -286,13 +305,13 @@ public final class ScaleUnitType extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private ScaleUnitType( int value, String name )
+	private ScaleUnitType( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //ScaleUnitType

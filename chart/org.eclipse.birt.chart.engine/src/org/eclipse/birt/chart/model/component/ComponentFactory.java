@@ -27,7 +27,7 @@ public interface ComponentFactory extends EFactory
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	ComponentFactory eINSTANCE = new org.eclipse.birt.chart.model.component.impl.ComponentFactoryImpl( );
+	ComponentFactory eINSTANCE = org.eclipse.birt.chart.model.component.impl.ComponentFactoryImpl.init( );
 
 	/**
 	 * Returns a new object of class '<em>Axis</em>'.

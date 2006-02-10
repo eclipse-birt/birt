@@ -27,7 +27,7 @@ public interface AttributeFactory extends EFactory
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	AttributeFactory eINSTANCE = new org.eclipse.birt.chart.model.attribute.impl.AttributeFactoryImpl( );
+	AttributeFactory eINSTANCE = org.eclipse.birt.chart.model.attribute.impl.AttributeFactoryImpl.init( );
 
 	/**
 	 * Returns a new object of class '<em>Action Value</em>'.
@@ -143,6 +143,15 @@ public interface AttributeFactory extends EFactory
 	 * @generated
 	 */
 	FormatSpecifier createFormatSpecifier( );
+
+	/**
+	 * Returns a new object of class '<em>Fraction Number Format Specifier</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Fraction Number Format Specifier</em>'.
+	 * @generated
+	 */
+	FractionNumberFormatSpecifier createFractionNumberFormatSpecifier( );
 
 	/**
 	 * Returns a new object of class '<em>Gradient</em>'.

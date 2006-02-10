@@ -107,7 +107,7 @@ public final class MarkerType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final MarkerType CROSSHAIR_LITERAL = new MarkerType( CROSSHAIR,
-			"Crosshair" ); //$NON-NLS-1$
+			"Crosshair", "Crosshair" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Triangle</b></em>' literal object.
@@ -123,7 +123,7 @@ public final class MarkerType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final MarkerType TRIANGLE_LITERAL = new MarkerType( TRIANGLE,
-			"Triangle" ); //$NON-NLS-1$
+			"Triangle", "Triangle" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Box</b></em>' literal object.
@@ -137,7 +137,8 @@ public final class MarkerType extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final MarkerType BOX_LITERAL = new MarkerType( BOX, "Box" ); //$NON-NLS-1$
+	public static final MarkerType BOX_LITERAL = new MarkerType( BOX,
+			"Box", "Box" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Circle</b></em>' literal object.
@@ -152,7 +153,7 @@ public final class MarkerType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final MarkerType CIRCLE_LITERAL = new MarkerType( CIRCLE,
-			"Circle" ); //$NON-NLS-1$
+			"Circle", "Circle" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Icon</b></em>' literal object.
@@ -162,7 +163,8 @@ public final class MarkerType extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final MarkerType ICON_LITERAL = new MarkerType( ICON, "Icon" ); //$NON-NLS-1$
+	public static final MarkerType ICON_LITERAL = new MarkerType( ICON,
+			"Icon", "Icon" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Marker Type</b></em>' enumerators. <!--
@@ -186,16 +188,16 @@ public final class MarkerType extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Marker Type</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Marker Type</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static MarkerType get( String name )
+	public static MarkerType get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			MarkerType result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -204,7 +206,26 @@ public final class MarkerType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Marker Type</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Marker Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static MarkerType getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			MarkerType result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Marker Type</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -228,13 +249,13 @@ public final class MarkerType extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private MarkerType( int value, String name )
+	private MarkerType( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //MarkerType

@@ -97,7 +97,8 @@ public final class AngleType extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final AngleType NONE_LITERAL = new AngleType( NONE, "None" ); //$NON-NLS-1$
+	public static final AngleType NONE_LITERAL = new AngleType( NONE,
+			"None", "None" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>X</b></em>' literal object.
@@ -107,7 +108,7 @@ public final class AngleType extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final AngleType X_LITERAL = new AngleType( X, "X" ); //$NON-NLS-1$
+	public static final AngleType X_LITERAL = new AngleType( X, "X", "X" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Y</b></em>' literal object.
@@ -117,7 +118,7 @@ public final class AngleType extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final AngleType Y_LITERAL = new AngleType( Y, "Y" ); //$NON-NLS-1$
+	public static final AngleType Y_LITERAL = new AngleType( Y, "Y", "Y" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Z</b></em>' literal object.
@@ -127,7 +128,7 @@ public final class AngleType extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final AngleType Z_LITERAL = new AngleType( Z, "Z" ); //$NON-NLS-1$
+	public static final AngleType Z_LITERAL = new AngleType( Z, "Z", "Z" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Angle Type</b></em>' enumerators.
@@ -148,17 +149,17 @@ public final class AngleType extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Angle Type</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Angle Type</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static AngleType get( String name )
+	public static AngleType get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			AngleType result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -167,7 +168,26 @@ public final class AngleType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Angle Type</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Angle Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static AngleType getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			AngleType result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Angle Type</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -194,9 +214,9 @@ public final class AngleType extends AbstractEnumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private AngleType( int value, String name )
+	private AngleType( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //AngleType

@@ -221,7 +221,7 @@ public interface TypePackage extends EPackage
 	int LINE_SERIES__SHADOW_COLOR = ComponentPackage.SERIES_FEATURE_COUNT + 4;
 
 	/**
-	 * The number of structural features of the the '<em>Line Series</em>' class.
+	 * The number of structural features of the '<em>Line Series</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -383,7 +383,7 @@ public interface TypePackage extends EPackage
 	int AREA_SERIES__SHADOW_COLOR = LINE_SERIES__SHADOW_COLOR;
 
 	/**
-	 * The number of structural features of the the '<em>Area Series</em>' class.
+	 * The number of structural features of the '<em>Area Series</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -502,7 +502,7 @@ public interface TypePackage extends EPackage
 	int BAR_SERIES__RISER_OUTLINE = ComponentPackage.SERIES_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>Bar Series</em>' class.
+	 * The number of structural features of the '<em>Bar Series</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -637,7 +637,7 @@ public interface TypePackage extends EPackage
 	int DIAL_SERIES__NEEDLE = ComponentPackage.SERIES_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>Dial Series</em>' class.
+	 * The number of structural features of the '<em>Dial Series</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -823,7 +823,7 @@ public interface TypePackage extends EPackage
 	int PIE_SERIES__RATIO = ComponentPackage.SERIES_FEATURE_COUNT + 8;
 
 	/**
-	 * The number of structural features of the the '<em>Pie Series</em>' class.
+	 * The number of structural features of the '<em>Pie Series</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -975,7 +975,7 @@ public interface TypePackage extends EPackage
 	int SCATTER_SERIES__SHADOW_COLOR = LINE_SERIES__SHADOW_COLOR;
 
 	/**
-	 * The number of structural features of the the '<em>Scatter Series</em>' class.
+	 * The number of structural features of the '<em>Scatter Series</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -1101,7 +1101,7 @@ public interface TypePackage extends EPackage
 	int STOCK_SERIES__LINE_ATTRIBUTES = ComponentPackage.SERIES_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>Stock Series</em>' class.
+	 * The number of structural features of the '<em>Stock Series</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -1386,5 +1386,252 @@ public interface TypePackage extends EPackage
 	 * @generated
 	 */
 	TypeFactory getTypeFactory( );
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Defines literals for the meta objects that represent
+	 * <ul>
+	 *   <li>each class,</li>
+	 *   <li>each feature of each class,</li>
+	 *   <li>each enum,</li>
+	 *   <li>and each data type</li>
+	 * </ul>
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	interface Literals
+	{
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl <em>Area Series</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl
+		 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getAreaSeries()
+		 * @generated
+		 */
+		EClass AREA_SERIES = eINSTANCE.getAreaSeries( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.type.impl.BarSeriesImpl <em>Bar Series</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.type.impl.BarSeriesImpl
+		 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getBarSeries()
+		 * @generated
+		 */
+		EClass BAR_SERIES = eINSTANCE.getBarSeries( );
+
+		/**
+		 * The meta object literal for the '<em><b>Riser</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BAR_SERIES__RISER = eINSTANCE.getBarSeries_Riser( );
+
+		/**
+		 * The meta object literal for the '<em><b>Riser Outline</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BAR_SERIES__RISER_OUTLINE = eINSTANCE.getBarSeries_RiserOutline( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.type.impl.DialSeriesImpl <em>Dial Series</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.type.impl.DialSeriesImpl
+		 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getDialSeries()
+		 * @generated
+		 */
+		EClass DIAL_SERIES = eINSTANCE.getDialSeries( );
+
+		/**
+		 * The meta object literal for the '<em><b>Dial</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DIAL_SERIES__DIAL = eINSTANCE.getDialSeries_Dial( );
+
+		/**
+		 * The meta object literal for the '<em><b>Needle</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DIAL_SERIES__NEEDLE = eINSTANCE.getDialSeries_Needle( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl <em>Line Series</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.type.impl.LineSeriesImpl
+		 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getLineSeries()
+		 * @generated
+		 */
+		EClass LINE_SERIES = eINSTANCE.getLineSeries( );
+
+		/**
+		 * The meta object literal for the '<em><b>Marker</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LINE_SERIES__MARKER = eINSTANCE.getLineSeries_Marker( );
+
+		/**
+		 * The meta object literal for the '<em><b>Line Attributes</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LINE_SERIES__LINE_ATTRIBUTES = eINSTANCE.getLineSeries_LineAttributes( );
+
+		/**
+		 * The meta object literal for the '<em><b>Palette Line Color</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LINE_SERIES__PALETTE_LINE_COLOR = eINSTANCE.getLineSeries_PaletteLineColor( );
+
+		/**
+		 * The meta object literal for the '<em><b>Curve</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LINE_SERIES__CURVE = eINSTANCE.getLineSeries_Curve( );
+
+		/**
+		 * The meta object literal for the '<em><b>Shadow Color</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LINE_SERIES__SHADOW_COLOR = eINSTANCE.getLineSeries_ShadowColor( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl <em>Pie Series</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.type.impl.PieSeriesImpl
+		 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getPieSeries()
+		 * @generated
+		 */
+		EClass PIE_SERIES = eINSTANCE.getPieSeries( );
+
+		/**
+		 * The meta object literal for the '<em><b>Explosion</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PIE_SERIES__EXPLOSION = eINSTANCE.getPieSeries_Explosion( );
+
+		/**
+		 * The meta object literal for the '<em><b>Explosion Expression</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PIE_SERIES__EXPLOSION_EXPRESSION = eINSTANCE.getPieSeries_ExplosionExpression( );
+
+		/**
+		 * The meta object literal for the '<em><b>Title</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PIE_SERIES__TITLE = eINSTANCE.getPieSeries_Title( );
+
+		/**
+		 * The meta object literal for the '<em><b>Title Position</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PIE_SERIES__TITLE_POSITION = eINSTANCE.getPieSeries_TitlePosition( );
+
+		/**
+		 * The meta object literal for the '<em><b>Leader Line Attributes</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PIE_SERIES__LEADER_LINE_ATTRIBUTES = eINSTANCE.getPieSeries_LeaderLineAttributes( );
+
+		/**
+		 * The meta object literal for the '<em><b>Leader Line Style</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PIE_SERIES__LEADER_LINE_STYLE = eINSTANCE.getPieSeries_LeaderLineStyle( );
+
+		/**
+		 * The meta object literal for the '<em><b>Leader Line Length</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PIE_SERIES__LEADER_LINE_LENGTH = eINSTANCE.getPieSeries_LeaderLineLength( );
+
+		/**
+		 * The meta object literal for the '<em><b>Slice Outline</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PIE_SERIES__SLICE_OUTLINE = eINSTANCE.getPieSeries_SliceOutline( );
+
+		/**
+		 * The meta object literal for the '<em><b>Ratio</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PIE_SERIES__RATIO = eINSTANCE.getPieSeries_Ratio( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl <em>Scatter Series</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl
+		 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getScatterSeries()
+		 * @generated
+		 */
+		EClass SCATTER_SERIES = eINSTANCE.getScatterSeries( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl <em>Stock Series</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.type.impl.StockSeriesImpl
+		 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getStockSeries()
+		 * @generated
+		 */
+		EClass STOCK_SERIES = eINSTANCE.getStockSeries( );
+
+		/**
+		 * The meta object literal for the '<em><b>Fill</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STOCK_SERIES__FILL = eINSTANCE.getStockSeries_Fill( );
+
+		/**
+		 * The meta object literal for the '<em><b>Line Attributes</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STOCK_SERIES__LINE_ATTRIBUTES = eINSTANCE.getStockSeries_LineAttributes( );
+
+	}
 
 } //TypePackage

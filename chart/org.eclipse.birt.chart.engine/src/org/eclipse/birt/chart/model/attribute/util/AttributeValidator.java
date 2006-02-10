@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.model.attribute.util;
 
 import java.util.Map;
 
+import org.eclipse.birt.chart.model.attribute.*;
+
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
@@ -221,6 +223,10 @@ public class AttributeValidator extends EObjectValidator
 				return validateFormatSpecifier( (FormatSpecifier) value,
 						diagnostics,
 						context );
+			case AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER :
+				return validateFractionNumberFormatSpecifier( (FractionNumberFormatSpecifier) value,
+						diagnostics,
+						context );
 			case AttributePackage.GRADIENT :
 				return validateGradient( (Gradient) value, diagnostics, context );
 			case AttributePackage.IMAGE :
@@ -288,105 +294,123 @@ public class AttributeValidator extends EObjectValidator
 			case AttributePackage.URL_VALUE :
 				return validateURLValue( (URLValue) value, diagnostics, context );
 			case AttributePackage.ACTION_TYPE :
-				return validateActionType( (Object) value, diagnostics, context );
+				return validateActionType( (ActionType) value,
+						diagnostics,
+						context );
 			case AttributePackage.ANCHOR :
-				return validateAnchor( (Object) value, diagnostics, context );
+				return validateAnchor( (Anchor) value, diagnostics, context );
 			case AttributePackage.ANGLE_TYPE :
-				return validateAngleType( (Object) value, diagnostics, context );
+				return validateAngleType( (AngleType) value,
+						diagnostics,
+						context );
 			case AttributePackage.AXIS_TYPE :
-				return validateAxisType( (Object) value, diagnostics, context );
+				return validateAxisType( (AxisType) value, diagnostics, context );
 			case AttributePackage.CHART_DIMENSION :
-				return validateChartDimension( (Object) value,
+				return validateChartDimension( (ChartDimension) value,
 						diagnostics,
 						context );
 			case AttributePackage.CHART_TYPE :
-				return validateChartType( (Object) value, diagnostics, context );
+				return validateChartType( (ChartType) value,
+						diagnostics,
+						context );
 			case AttributePackage.DATA_POINT_COMPONENT_TYPE :
-				return validateDataPointComponentType( (Object) value,
+				return validateDataPointComponentType( (DataPointComponentType) value,
 						diagnostics,
 						context );
 			case AttributePackage.DATA_TYPE :
-				return validateDataType( (Object) value, diagnostics, context );
+				return validateDataType( (DataType) value, diagnostics, context );
 			case AttributePackage.DATE_FORMAT_DETAIL :
-				return validateDateFormatDetail( (Object) value,
+				return validateDateFormatDetail( (DateFormatDetail) value,
 						diagnostics,
 						context );
 			case AttributePackage.DATE_FORMAT_TYPE :
-				return validateDateFormatType( (Object) value,
+				return validateDateFormatType( (DateFormatType) value,
 						diagnostics,
 						context );
 			case AttributePackage.DIRECTION :
-				return validateDirection( (Object) value, diagnostics, context );
+				return validateDirection( (Direction) value,
+						diagnostics,
+						context );
 			case AttributePackage.GROUPING_UNIT_TYPE :
-				return validateGroupingUnitType( (Object) value,
+				return validateGroupingUnitType( (GroupingUnitType) value,
 						diagnostics,
 						context );
 			case AttributePackage.HORIZONTAL_ALIGNMENT :
-				return validateHorizontalAlignment( (Object) value,
+				return validateHorizontalAlignment( (HorizontalAlignment) value,
 						diagnostics,
 						context );
 			case AttributePackage.INTERSECTION_TYPE :
-				return validateIntersectionType( (Object) value,
+				return validateIntersectionType( (IntersectionType) value,
 						diagnostics,
 						context );
 			case AttributePackage.LEADER_LINE_STYLE :
-				return validateLeaderLineStyle( (Object) value,
+				return validateLeaderLineStyle( (LeaderLineStyle) value,
 						diagnostics,
 						context );
 			case AttributePackage.LEGEND_BEHAVIOR_TYPE :
-				return validateLegendBehaviorType( (Object) value,
+				return validateLegendBehaviorType( (LegendBehaviorType) value,
 						diagnostics,
 						context );
 			case AttributePackage.LEGEND_ITEM_TYPE :
-				return validateLegendItemType( (Object) value,
+				return validateLegendItemType( (LegendItemType) value,
 						diagnostics,
 						context );
 			case AttributePackage.LINE_DECORATOR :
-				return validateLineDecorator( (Object) value,
+				return validateLineDecorator( (LineDecorator) value,
 						diagnostics,
 						context );
 			case AttributePackage.LINE_STYLE :
-				return validateLineStyle( (Object) value, diagnostics, context );
+				return validateLineStyle( (LineStyle) value,
+						diagnostics,
+						context );
 			case AttributePackage.MARKER_TYPE :
-				return validateMarkerType( (Object) value, diagnostics, context );
+				return validateMarkerType( (MarkerType) value,
+						diagnostics,
+						context );
 			case AttributePackage.ORIENTATION :
-				return validateOrientation( (Object) value,
+				return validateOrientation( (Orientation) value,
 						diagnostics,
 						context );
 			case AttributePackage.POSITION :
-				return validatePosition( (Object) value, diagnostics, context );
+				return validatePosition( (Position) value, diagnostics, context );
 			case AttributePackage.RISER_TYPE :
-				return validateRiserType( (Object) value, diagnostics, context );
+				return validateRiserType( (RiserType) value,
+						diagnostics,
+						context );
 			case AttributePackage.RULE_TYPE :
-				return validateRuleType( (Object) value, diagnostics, context );
+				return validateRuleType( (RuleType) value, diagnostics, context );
 			case AttributePackage.SCALE_UNIT_TYPE :
-				return validateScaleUnitType( (Object) value,
+				return validateScaleUnitType( (ScaleUnitType) value,
 						diagnostics,
 						context );
 			case AttributePackage.SORT_OPTION :
-				return validateSortOption( (Object) value, diagnostics, context );
+				return validateSortOption( (SortOption) value,
+						diagnostics,
+						context );
 			case AttributePackage.STRETCH :
-				return validateStretch( (Object) value, diagnostics, context );
+				return validateStretch( (Stretch) value, diagnostics, context );
 			case AttributePackage.STYLED_COMPONENT :
-				return validateStyledComponent( (Object) value,
+				return validateStyledComponent( (StyledComponent) value,
 						diagnostics,
 						context );
 			case AttributePackage.TICK_STYLE :
-				return validateTickStyle( (Object) value, diagnostics, context );
+				return validateTickStyle( (TickStyle) value,
+						diagnostics,
+						context );
 			case AttributePackage.TRIGGER_CONDITION :
-				return validateTriggerCondition( (Object) value,
+				return validateTriggerCondition( (TriggerCondition) value,
 						diagnostics,
 						context );
 			case AttributePackage.TRIGGER_FLOW :
-				return validateTriggerFlow( (Object) value,
+				return validateTriggerFlow( (TriggerFlow) value,
 						diagnostics,
 						context );
 			case AttributePackage.UNITS_OF_MEASUREMENT :
-				return validateUnitsOfMeasurement( (Object) value,
+				return validateUnitsOfMeasurement( (UnitsOfMeasurement) value,
 						diagnostics,
 						context );
 			case AttributePackage.VERTICAL_ALIGNMENT :
-				return validateVerticalAlignment( (Object) value,
+				return validateVerticalAlignment( (VerticalAlignment) value,
 						diagnostics,
 						context );
 			case AttributePackage.ACTION_TYPE_OBJECT :
@@ -709,6 +733,20 @@ public class AttributeValidator extends EObjectValidator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateFractionNumberFormatSpecifier(
+			FractionNumberFormatSpecifier fractionNumberFormatSpecifier,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return validate_EveryDefaultConstraint( fractionNumberFormatSpecifier,
+				diagnostics,
+				context );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -955,151 +993,190 @@ public class AttributeValidator extends EObjectValidator
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateActionType( Object actionType,
+	public boolean validateActionType( ActionType actionType,
 			DiagnosticChain diagnostics, Map context )
 	{
 		return true;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateAnchor( Object anchor, DiagnosticChain diagnostics,
+	public boolean validateAnchor( Anchor anchor, DiagnosticChain diagnostics,
 			Map context )
 	{
 		return true;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateAngleType( Object angleType,
+	public boolean validateAngleType( AngleType angleType,
 			DiagnosticChain diagnostics, Map context )
 	{
 		return true;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateAxisType( Object axisType,
+	public boolean validateAxisType( AxisType axisType,
 			DiagnosticChain diagnostics, Map context )
 	{
 		return true;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateChartDimension( Object chartDimension,
+	public boolean validateChartDimension( ChartDimension chartDimension,
 			DiagnosticChain diagnostics, Map context )
 	{
 		return true;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateChartType( Object chartType,
+	public boolean validateChartType( ChartType chartType,
 			DiagnosticChain diagnostics, Map context )
 	{
 		return true;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateDataPointComponentType(
-			Object dataPointComponentType, DiagnosticChain diagnostics,
+			DataPointComponentType dataPointComponentType,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateDataType( DataType dataType,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateDateFormatDetail( DateFormatDetail dateFormatDetail,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateDateFormatType( DateFormatType dateFormatType,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateDirection( Direction direction,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateGroupingUnitType( GroupingUnitType groupingUnitType,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateHorizontalAlignment(
+			HorizontalAlignment horizontalAlignment,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateIntersectionType( IntersectionType intersectionType,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateLeaderLineStyle( LeaderLineStyle leaderLineStyle,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateLegendBehaviorType(
+			LegendBehaviorType legendBehaviorType, DiagnosticChain diagnostics,
 			Map context )
 	{
 		return true;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateDataType( Object dataType,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateDateFormatDetail( Object dateFormatDetail,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateDateFormatType( Object dateFormatType,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateDirection( Object direction,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateGroupingUnitType( Object groupingUnitType,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateHorizontalAlignment( Object horizontalAlignment,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateIntersectionType( Object intersectionType,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateLeaderLineStyle( Object leaderLineStyle,
+	public boolean validateLegendItemType( LegendItemType legendItemType,
 			DiagnosticChain diagnostics, Map context )
 	{
 		return true;
@@ -1110,147 +1187,7 @@ public class AttributeValidator extends EObjectValidator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateLegendBehaviorType( Object legendBehaviorType,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateLegendItemType( Object legendItemType,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateLineDecorator( Object lineDecorator,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateLineStyle( Object lineStyle,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateMarkerType( Object markerType,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateOrientation( Object orientation,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validatePosition( Object position,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateRiserType( Object riserType,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateRuleType( Object ruleType,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateScaleUnitType( Object scaleUnitType,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateSortOption( Object sortOption,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateStretch( Object stretch,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateStyledComponent( Object styledComponent,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateTickStyle( Object tickStyle,
-			DiagnosticChain diagnostics, Map context )
-	{
-		return true;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateTriggerCondition( Object triggerCondition,
+	public boolean validateLineDecorator( LineDecorator lineDecorator,
 			DiagnosticChain diagnostics, Map context )
 	{
 		return true;
@@ -1261,28 +1198,164 @@ public class AttributeValidator extends EObjectValidator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateTriggerFlow( Object triggerFlow,
+	public boolean validateLineStyle( LineStyle lineStyle,
 			DiagnosticChain diagnostics, Map context )
 	{
 		return true;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateUnitsOfMeasurement( Object unitsOfMeasurement,
+	public boolean validateMarkerType( MarkerType markerType,
 			DiagnosticChain diagnostics, Map context )
 	{
 		return true;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateVerticalAlignment( Object verticalAlignment,
+	public boolean validateOrientation( Orientation orientation,
 			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validatePosition( Position position,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateRiserType( RiserType riserType,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateRuleType( RuleType ruleType,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateScaleUnitType( ScaleUnitType scaleUnitType,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateSortOption( SortOption sortOption,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateStretch( Stretch stretch,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateStyledComponent( StyledComponent styledComponent,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateTickStyle( TickStyle tickStyle,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateTriggerCondition( TriggerCondition triggerCondition,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateTriggerFlow( TriggerFlow triggerFlow,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateUnitsOfMeasurement(
+			UnitsOfMeasurement unitsOfMeasurement, DiagnosticChain diagnostics,
+			Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateVerticalAlignment(
+			VerticalAlignment verticalAlignment, DiagnosticChain diagnostics,
+			Map context )
 	{
 		return true;
 	}
@@ -1441,7 +1514,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public static final PatternMatcher[][] ID__PATTERN__VALUES = new PatternMatcher[][]{
 		new PatternMatcher[]{
-			XMLTypeUtil.createPatternMatcher( "[A-Z]" ) //$NON-NLS-1$
+			XMLTypeUtil.createPatternMatcher( "[A-Z]" )
 		}
 	};
 
@@ -1454,7 +1527,7 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateID_Pattern( String id, DiagnosticChain diagnostics,
 			Map context )
 	{
-		return validatePattern( AttributePackage.eINSTANCE.getID( ),
+		return validatePattern( AttributePackage.Literals.ID,
 				id,
 				ID__PATTERN__VALUES,
 				diagnostics,
@@ -1580,7 +1653,7 @@ public class AttributeValidator extends EObjectValidator
 	{
 		boolean result = percentage >= PERCENTAGE__MIN__VALUE;
 		if ( !result && diagnostics != null )
-			reportMinViolation( AttributePackage.eINSTANCE.getPercentage( ),
+			reportMinViolation( AttributePackage.Literals.PERCENTAGE,
 					new Double( percentage ),
 					new Double( PERCENTAGE__MIN__VALUE ),
 					true,
@@ -1607,7 +1680,7 @@ public class AttributeValidator extends EObjectValidator
 	{
 		boolean result = percentage <= PERCENTAGE__MAX__VALUE;
 		if ( !result && diagnostics != null )
-			reportMaxViolation( AttributePackage.eINSTANCE.getPercentage( ),
+			reportMaxViolation( AttributePackage.Literals.PERCENTAGE,
 					new Double( percentage ),
 					new Double( PERCENTAGE__MAX__VALUE ),
 					true,
@@ -1674,7 +1747,7 @@ public class AttributeValidator extends EObjectValidator
 	{
 		boolean result = rgbValue >= RGB_VALUE__MIN__VALUE;
 		if ( !result && diagnostics != null )
-			reportMinViolation( AttributePackage.eINSTANCE.getRGBValue( ),
+			reportMinViolation( AttributePackage.Literals.RGB_VALUE,
 					new Integer( rgbValue ),
 					new Integer( RGB_VALUE__MIN__VALUE ),
 					true,
@@ -1701,7 +1774,7 @@ public class AttributeValidator extends EObjectValidator
 	{
 		boolean result = rgbValue <= RGB_VALUE__MAX__VALUE;
 		if ( !result && diagnostics != null )
-			reportMaxViolation( AttributePackage.eINSTANCE.getRGBValue( ),
+			reportMaxViolation( AttributePackage.Literals.RGB_VALUE,
 					new Integer( rgbValue ),
 					new Integer( RGB_VALUE__MAX__VALUE ),
 					true,

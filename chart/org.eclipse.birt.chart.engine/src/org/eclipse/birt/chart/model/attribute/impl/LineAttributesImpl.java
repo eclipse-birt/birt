@@ -147,7 +147,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getLineAttributes( );
+		return AttributePackage.Literals.LINE_ATTRIBUTES;
 	}
 
 	/**
@@ -385,35 +385,29 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, Class baseClass, NotificationChain msgs )
+			int featureID, NotificationChain msgs )
 	{
-		if ( featureID >= 0 )
+		switch ( featureID )
 		{
-			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
-			{
-				case AttributePackage.LINE_ATTRIBUTES__COLOR :
-					return basicSetColor( null, msgs );
-				default :
-					return eDynamicInverseRemove( otherEnd,
-							featureID,
-							baseClass,
-							msgs );
-			}
+			case AttributePackage.LINE_ATTRIBUTES__COLOR :
+				return basicSetColor( null, msgs );
 		}
-		return eBasicSetContainer( null, featureID, msgs );
+		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.LINE_ATTRIBUTES__STYLE :
 				return getStyle( );
@@ -424,16 +418,17 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 			case AttributePackage.LINE_ATTRIBUTES__VISIBLE :
 				return isVisible( ) ? Boolean.TRUE : Boolean.FALSE;
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.LINE_ATTRIBUTES__STYLE :
 				setStyle( (LineStyle) newValue );
@@ -448,16 +443,17 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 				setVisible( ( (Boolean) newValue ).booleanValue( ) );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.LINE_ATTRIBUTES__STYLE :
 				unsetStyle( );
@@ -472,16 +468,17 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 				unsetVisible( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.LINE_ATTRIBUTES__STYLE :
 				return isSetStyle( );
@@ -492,7 +489,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 			case AttributePackage.LINE_ATTRIBUTES__VISIBLE :
 				return isSetVisible( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

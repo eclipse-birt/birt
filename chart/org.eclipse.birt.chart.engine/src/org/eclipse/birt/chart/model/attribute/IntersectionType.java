@@ -79,7 +79,7 @@ public final class IntersectionType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final IntersectionType MIN_LITERAL = new IntersectionType( MIN,
-			"Min" ); //$NON-NLS-1$
+			"Min", "Min" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Max</b></em>' literal object.
@@ -94,7 +94,7 @@ public final class IntersectionType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final IntersectionType MAX_LITERAL = new IntersectionType( MAX,
-			"Max" ); //$NON-NLS-1$
+			"Max", "Max" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Value</b></em>' literal object.
@@ -109,7 +109,7 @@ public final class IntersectionType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final IntersectionType VALUE_LITERAL = new IntersectionType( VALUE,
-			"Value" ); //$NON-NLS-1$
+			"Value", "Value" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Intersection Type</b></em>' enumerators.
@@ -128,16 +128,16 @@ public final class IntersectionType extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Intersection Type</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Intersection Type</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static IntersectionType get( String name )
+	public static IntersectionType get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			IntersectionType result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -146,7 +146,26 @@ public final class IntersectionType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Intersection Type</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Intersection Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static IntersectionType getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			IntersectionType result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Intersection Type</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -166,13 +185,13 @@ public final class IntersectionType extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private IntersectionType( int value, String name )
+	private IntersectionType( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //IntersectionType

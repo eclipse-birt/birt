@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GroupingUnitType.java,v 1.2 2005/06/22 01:50:07 zqian Exp $
+ * $Id: GroupingUnitType.java,v 1.3 2005/09/09 03:11:23 zqian Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -120,7 +120,7 @@ public final class GroupingUnitType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final GroupingUnitType SECONDS_LITERAL = new GroupingUnitType( SECONDS,
-			"Seconds" ); //$NON-NLS-1$
+			"Seconds", "Seconds" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Minutes</b></em>' literal object.
@@ -136,7 +136,7 @@ public final class GroupingUnitType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final GroupingUnitType MINUTES_LITERAL = new GroupingUnitType( MINUTES,
-			"Minutes" ); //$NON-NLS-1$
+			"Minutes", "Minutes" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Hours</b></em>' literal object.
@@ -151,7 +151,7 @@ public final class GroupingUnitType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final GroupingUnitType HOURS_LITERAL = new GroupingUnitType( HOURS,
-			"Hours" ); //$NON-NLS-1$
+			"Hours", "Hours" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Days</b></em>' literal object.
@@ -166,7 +166,7 @@ public final class GroupingUnitType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final GroupingUnitType DAYS_LITERAL = new GroupingUnitType( DAYS,
-			"Days" ); //$NON-NLS-1$
+			"Days", "Days" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Weeks</b></em>' literal object.
@@ -181,7 +181,7 @@ public final class GroupingUnitType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final GroupingUnitType WEEKS_LITERAL = new GroupingUnitType( WEEKS,
-			"Weeks" ); //$NON-NLS-1$
+			"Weeks", "Weeks" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Months</b></em>' literal object.
@@ -196,7 +196,7 @@ public final class GroupingUnitType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final GroupingUnitType MONTHS_LITERAL = new GroupingUnitType( MONTHS,
-			"Months" ); //$NON-NLS-1$
+			"Months", "Months" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Years</b></em>' literal object.
@@ -211,7 +211,7 @@ public final class GroupingUnitType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final GroupingUnitType YEARS_LITERAL = new GroupingUnitType( YEARS,
-			"Years" ); //$NON-NLS-1$
+			"Years", "Years" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Grouping Unit Type</b></em>' enumerators.
@@ -236,16 +236,16 @@ public final class GroupingUnitType extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static GroupingUnitType get( String name )
+	public static GroupingUnitType get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			GroupingUnitType result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -254,7 +254,26 @@ public final class GroupingUnitType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static GroupingUnitType getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			GroupingUnitType result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -282,13 +301,13 @@ public final class GroupingUnitType extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private GroupingUnitType( int value, String name )
+	private GroupingUnitType( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //GroupingUnitType

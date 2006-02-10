@@ -73,6 +73,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowValue <em>Show Value</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowPercent <em>Show Percent</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowTotal <em>Show Total</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getWrappingSize <em>Wrapping Size</em>}</li>
  * </ul>
  * </p>
  *
@@ -398,6 +399,35 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected boolean showTotalESet = false;
 
 	/**
+	 * The default value of the '{@link #getWrappingSize() <em>Wrapping Size</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getWrappingSize()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final double WRAPPING_SIZE_EDEFAULT = 0.0;
+
+	/**
+	 * The cached value of the '{@link #getWrappingSize() <em>Wrapping Size</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getWrappingSize()
+	 * @generated
+	 * @ordered
+	 */
+	protected double wrappingSize = WRAPPING_SIZE_EDEFAULT;
+
+	/**
+	 * This is true if the Wrapping Size attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean wrappingSizeESet = false;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -412,7 +442,7 @@ public class LegendImpl extends BlockImpl implements Legend
 	 */
 	protected EClass eStaticClass( )
 	{
-		return LayoutPackage.eINSTANCE.getLegend( );
+		return LayoutPackage.Literals.LEGEND;
 	}
 
 	/**
@@ -1249,86 +1279,96 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, Class baseClass, NotificationChain msgs )
+	public double getWrappingSize( )
 	{
-		if ( featureID >= 0 )
-		{
-			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
-			{
-				case LayoutPackage.LEGEND__CHILDREN :
-					return ( (InternalEList) getChildren( ) ).basicRemove( otherEnd,
-							msgs );
-				case LayoutPackage.LEGEND__BOUNDS :
-					return basicSetBounds( null, msgs );
-				case LayoutPackage.LEGEND__INSETS :
-					return basicSetInsets( null, msgs );
-				case LayoutPackage.LEGEND__MIN_SIZE :
-					return basicSetMinSize( null, msgs );
-				case LayoutPackage.LEGEND__OUTLINE :
-					return basicSetOutline( null, msgs );
-				case LayoutPackage.LEGEND__BACKGROUND :
-					return basicSetBackground( null, msgs );
-				case LayoutPackage.LEGEND__TRIGGERS :
-					return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
-							msgs );
-				case LayoutPackage.LEGEND__CLIENT_AREA :
-					return basicSetClientArea( null, msgs );
-				case LayoutPackage.LEGEND__TEXT :
-					return basicSetText( null, msgs );
-				case LayoutPackage.LEGEND__SEPARATOR :
-					return basicSetSeparator( null, msgs );
-				case LayoutPackage.LEGEND__TITLE :
-					return basicSetTitle( null, msgs );
-				default :
-					return eDynamicInverseRemove( otherEnd,
-							featureID,
-							baseClass,
-							msgs );
-			}
-		}
-		return eBasicSetContainer( null, featureID, msgs );
+		return wrappingSize;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public void setWrappingSize( double newWrappingSize )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		double oldWrappingSize = wrappingSize;
+		wrappingSize = newWrappingSize;
+		boolean oldWrappingSizeESet = wrappingSizeESet;
+		wrappingSizeESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					LayoutPackage.LEGEND__WRAPPING_SIZE,
+					oldWrappingSize,
+					wrappingSize,
+					!oldWrappingSizeESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetWrappingSize( )
+	{
+		double oldWrappingSize = wrappingSize;
+		boolean oldWrappingSizeESet = wrappingSizeESet;
+		wrappingSize = WRAPPING_SIZE_EDEFAULT;
+		wrappingSizeESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					LayoutPackage.LEGEND__WRAPPING_SIZE,
+					oldWrappingSize,
+					WRAPPING_SIZE_EDEFAULT,
+					oldWrappingSizeESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetWrappingSize( )
+	{
+		return wrappingSizeESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseRemove( InternalEObject otherEnd,
+			int featureID, NotificationChain msgs )
+	{
+		switch ( featureID )
 		{
-			case LayoutPackage.LEGEND__CHILDREN :
-				return getChildren( );
-			case LayoutPackage.LEGEND__BOUNDS :
-				return getBounds( );
-			case LayoutPackage.LEGEND__ANCHOR :
-				return getAnchor( );
-			case LayoutPackage.LEGEND__STRETCH :
-				return getStretch( );
-			case LayoutPackage.LEGEND__INSETS :
-				return getInsets( );
-			case LayoutPackage.LEGEND__ROW :
-				return new Integer( getRow( ) );
-			case LayoutPackage.LEGEND__COLUMN :
-				return new Integer( getColumn( ) );
-			case LayoutPackage.LEGEND__ROWSPAN :
-				return new Integer( getRowspan( ) );
-			case LayoutPackage.LEGEND__COLUMNSPAN :
-				return new Integer( getColumnspan( ) );
-			case LayoutPackage.LEGEND__MIN_SIZE :
-				return getMinSize( );
-			case LayoutPackage.LEGEND__OUTLINE :
-				return getOutline( );
-			case LayoutPackage.LEGEND__BACKGROUND :
-				return getBackground( );
-			case LayoutPackage.LEGEND__VISIBLE :
-				return isVisible( ) ? Boolean.TRUE : Boolean.FALSE;
-			case LayoutPackage.LEGEND__TRIGGERS :
-				return getTriggers( );
+			case LayoutPackage.LEGEND__CLIENT_AREA :
+				return basicSetClientArea( null, msgs );
+			case LayoutPackage.LEGEND__TEXT :
+				return basicSetText( null, msgs );
+			case LayoutPackage.LEGEND__SEPARATOR :
+				return basicSetSeparator( null, msgs );
+			case LayoutPackage.LEGEND__TITLE :
+				return basicSetTitle( null, msgs );
+		}
+		return super.eInverseRemove( otherEnd, featureID, msgs );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
+	{
+		switch ( featureID )
+		{
 			case LayoutPackage.LEGEND__HORIZONTAL_SPACING :
 				return new Integer( getHorizontalSpacing( ) );
 			case LayoutPackage.LEGEND__VERTICAL_SPACING :
@@ -1357,62 +1397,21 @@ public class LegendImpl extends BlockImpl implements Legend
 				return isShowPercent( ) ? Boolean.TRUE : Boolean.FALSE;
 			case LayoutPackage.LEGEND__SHOW_TOTAL :
 				return isShowTotal( ) ? Boolean.TRUE : Boolean.FALSE;
+			case LayoutPackage.LEGEND__WRAPPING_SIZE :
+				return new Double( getWrappingSize( ) );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case LayoutPackage.LEGEND__CHILDREN :
-				getChildren( ).clear( );
-				getChildren( ).addAll( (Collection) newValue );
-				return;
-			case LayoutPackage.LEGEND__BOUNDS :
-				setBounds( (Bounds) newValue );
-				return;
-			case LayoutPackage.LEGEND__ANCHOR :
-				setAnchor( (Anchor) newValue );
-				return;
-			case LayoutPackage.LEGEND__STRETCH :
-				setStretch( (Stretch) newValue );
-				return;
-			case LayoutPackage.LEGEND__INSETS :
-				setInsets( (Insets) newValue );
-				return;
-			case LayoutPackage.LEGEND__ROW :
-				setRow( ( (Integer) newValue ).intValue( ) );
-				return;
-			case LayoutPackage.LEGEND__COLUMN :
-				setColumn( ( (Integer) newValue ).intValue( ) );
-				return;
-			case LayoutPackage.LEGEND__ROWSPAN :
-				setRowspan( ( (Integer) newValue ).intValue( ) );
-				return;
-			case LayoutPackage.LEGEND__COLUMNSPAN :
-				setColumnspan( ( (Integer) newValue ).intValue( ) );
-				return;
-			case LayoutPackage.LEGEND__MIN_SIZE :
-				setMinSize( (Size) newValue );
-				return;
-			case LayoutPackage.LEGEND__OUTLINE :
-				setOutline( (LineAttributes) newValue );
-				return;
-			case LayoutPackage.LEGEND__BACKGROUND :
-				setBackground( (Fill) newValue );
-				return;
-			case LayoutPackage.LEGEND__VISIBLE :
-				setVisible( ( (Boolean) newValue ).booleanValue( ) );
-				return;
-			case LayoutPackage.LEGEND__TRIGGERS :
-				getTriggers( ).clear( );
-				getTriggers( ).addAll( (Collection) newValue );
-				return;
 			case LayoutPackage.LEGEND__HORIZONTAL_SPACING :
 				setHorizontalSpacing( ( (Integer) newValue ).intValue( ) );
 				return;
@@ -1455,60 +1454,22 @@ public class LegendImpl extends BlockImpl implements Legend
 			case LayoutPackage.LEGEND__SHOW_TOTAL :
 				setShowTotal( ( (Boolean) newValue ).booleanValue( ) );
 				return;
+			case LayoutPackage.LEGEND__WRAPPING_SIZE :
+				setWrappingSize( ( (Double) newValue ).doubleValue( ) );
+				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case LayoutPackage.LEGEND__CHILDREN :
-				getChildren( ).clear( );
-				return;
-			case LayoutPackage.LEGEND__BOUNDS :
-				setBounds( (Bounds) null );
-				return;
-			case LayoutPackage.LEGEND__ANCHOR :
-				unsetAnchor( );
-				return;
-			case LayoutPackage.LEGEND__STRETCH :
-				unsetStretch( );
-				return;
-			case LayoutPackage.LEGEND__INSETS :
-				setInsets( (Insets) null );
-				return;
-			case LayoutPackage.LEGEND__ROW :
-				unsetRow( );
-				return;
-			case LayoutPackage.LEGEND__COLUMN :
-				unsetColumn( );
-				return;
-			case LayoutPackage.LEGEND__ROWSPAN :
-				unsetRowspan( );
-				return;
-			case LayoutPackage.LEGEND__COLUMNSPAN :
-				unsetColumnspan( );
-				return;
-			case LayoutPackage.LEGEND__MIN_SIZE :
-				setMinSize( (Size) null );
-				return;
-			case LayoutPackage.LEGEND__OUTLINE :
-				setOutline( (LineAttributes) null );
-				return;
-			case LayoutPackage.LEGEND__BACKGROUND :
-				setBackground( (Fill) null );
-				return;
-			case LayoutPackage.LEGEND__VISIBLE :
-				unsetVisible( );
-				return;
-			case LayoutPackage.LEGEND__TRIGGERS :
-				getTriggers( ).clear( );
-				return;
 			case LayoutPackage.LEGEND__HORIZONTAL_SPACING :
 				unsetHorizontalSpacing( );
 				return;
@@ -1551,46 +1512,22 @@ public class LegendImpl extends BlockImpl implements Legend
 			case LayoutPackage.LEGEND__SHOW_TOTAL :
 				unsetShowTotal( );
 				return;
+			case LayoutPackage.LEGEND__WRAPPING_SIZE :
+				unsetWrappingSize( );
+				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case LayoutPackage.LEGEND__CHILDREN :
-				return children != null && !children.isEmpty( );
-			case LayoutPackage.LEGEND__BOUNDS :
-				return bounds != null;
-			case LayoutPackage.LEGEND__ANCHOR :
-				return isSetAnchor( );
-			case LayoutPackage.LEGEND__STRETCH :
-				return isSetStretch( );
-			case LayoutPackage.LEGEND__INSETS :
-				return insets != null;
-			case LayoutPackage.LEGEND__ROW :
-				return isSetRow( );
-			case LayoutPackage.LEGEND__COLUMN :
-				return isSetColumn( );
-			case LayoutPackage.LEGEND__ROWSPAN :
-				return isSetRowspan( );
-			case LayoutPackage.LEGEND__COLUMNSPAN :
-				return isSetColumnspan( );
-			case LayoutPackage.LEGEND__MIN_SIZE :
-				return minSize != null;
-			case LayoutPackage.LEGEND__OUTLINE :
-				return outline != null;
-			case LayoutPackage.LEGEND__BACKGROUND :
-				return background != null;
-			case LayoutPackage.LEGEND__VISIBLE :
-				return isSetVisible( );
-			case LayoutPackage.LEGEND__TRIGGERS :
-				return triggers != null && !triggers.isEmpty( );
 			case LayoutPackage.LEGEND__HORIZONTAL_SPACING :
 				return isSetHorizontalSpacing( );
 			case LayoutPackage.LEGEND__VERTICAL_SPACING :
@@ -1619,8 +1556,10 @@ public class LegendImpl extends BlockImpl implements Legend
 				return isSetShowPercent( );
 			case LayoutPackage.LEGEND__SHOW_TOTAL :
 				return isSetShowTotal( );
+			case LayoutPackage.LEGEND__WRAPPING_SIZE :
+				return isSetWrappingSize( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**
@@ -1681,6 +1620,11 @@ public class LegendImpl extends BlockImpl implements Legend
 		result.append( ", showTotal: " ); //$NON-NLS-1$
 		if ( showTotalESet )
 			result.append( showTotal );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", wrappingSize: " ); //$NON-NLS-1$
+		if ( wrappingSizeESet )
+			result.append( wrappingSize );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );

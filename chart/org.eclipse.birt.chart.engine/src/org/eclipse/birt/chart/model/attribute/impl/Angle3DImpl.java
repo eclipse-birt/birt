@@ -13,7 +13,6 @@ import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -210,7 +209,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getAngle3D( );
+		return AttributePackage.Literals.ANGLE3_D;
 	}
 
 	/**
@@ -438,12 +437,13 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.ANGLE3_D__XANGLE :
 				return new Double( getXAngle( ) );
@@ -454,16 +454,17 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 			case AttributePackage.ANGLE3_D__TYPE :
 				return getType( );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.ANGLE3_D__XANGLE :
 				setXAngle( ( (Double) newValue ).doubleValue( ) );
@@ -478,16 +479,17 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 				setType( (AngleType) newValue );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.ANGLE3_D__XANGLE :
 				unsetXAngle( );
@@ -502,16 +504,17 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 				unsetType( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.ANGLE3_D__XANGLE :
 				return isSetXAngle( );
@@ -522,7 +525,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 			case AttributePackage.ANGLE3_D__TYPE :
 				return isSetType( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

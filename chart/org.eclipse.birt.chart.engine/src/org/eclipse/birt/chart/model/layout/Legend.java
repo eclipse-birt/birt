@@ -47,6 +47,7 @@ import org.eclipse.birt.chart.model.component.Label;
  *   <li>{@link org.eclipse.birt.chart.model.layout.Legend#isShowValue <em>Show Value</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.Legend#isShowPercent <em>Show Percent</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.Legend#isShowTotal <em>Show Total</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.Legend#getWrappingSize <em>Wrapping Size</em>}</li>
  * </ul>
  * </p>
  *
@@ -709,6 +710,59 @@ public interface Legend extends Block
 	 * @generated
 	 */
 	boolean isSetShowTotal( );
+
+	/**
+	 * Returns the value of the '<em><b>Wrapping Size</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies the maximum string size for each legend item. If the string size is greater than this, it will be wrapped. Zero means no wrap.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Wrapping Size</em>' attribute.
+	 * @see #isSetWrappingSize()
+	 * @see #unsetWrappingSize()
+	 * @see #setWrappingSize(double)
+	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLegend_WrappingSize()
+	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 *        extendedMetaData="kind='element' name='WrappingSize'"
+	 * @generated
+	 */
+	double getWrappingSize( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getWrappingSize <em>Wrapping Size</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Wrapping Size</em>' attribute.
+	 * @see #isSetWrappingSize()
+	 * @see #unsetWrappingSize()
+	 * @see #getWrappingSize()
+	 * @generated
+	 */
+	void setWrappingSize( double value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getWrappingSize <em>Wrapping Size</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetWrappingSize()
+	 * @see #getWrappingSize()
+	 * @see #setWrappingSize(double)
+	 * @generated
+	 */
+	void unsetWrappingSize( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getWrappingSize <em>Wrapping Size</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Wrapping Size</em>' attribute is set.
+	 * @see #unsetWrappingSize()
+	 * @see #getWrappingSize()
+	 * @see #setWrappingSize(double)
+	 * @generated
+	 */
+	boolean isSetWrappingSize( );
 
 	/**
 	 * Update the legend's block relationship in the hierarchy w.r.t. the chart model

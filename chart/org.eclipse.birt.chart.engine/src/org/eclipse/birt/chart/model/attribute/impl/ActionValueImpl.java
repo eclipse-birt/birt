@@ -41,7 +41,7 @@ public class ActionValueImpl extends EObjectImpl implements ActionValue
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getActionValue( );
+		return AttributePackage.Literals.ACTION_VALUE;
 	}
 
 } // ActionValueImpl

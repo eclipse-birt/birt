@@ -41,7 +41,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CHART_ALL_LITERAL
-	 * @model name="Chart_All"
+	 * @model name="ChartAll" literal="Chart_All"
 	 * @generated
 	 * @ordered
 	 */
@@ -51,7 +51,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * The '<em><b>Chart Title</b></em>' literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #CHART_TITLE_LITERAL
-	 * @model name="Chart_Title"
+	 * @model name="ChartTitle" literal="Chart_Title"
 	 * @generated
 	 * @ordered
 	 */
@@ -61,7 +61,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * The '<em><b>Chart Background</b></em>' literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #CHART_BACKGROUND_LITERAL
-	 * @model name="Chart_Background"
+	 * @model name="ChartBackground" literal="Chart_Background"
 	 * @generated
 	 * @ordered
 	 */
@@ -71,7 +71,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * The '<em><b>Plot Background</b></em>' literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #PLOT_BACKGROUND_LITERAL
-	 * @model name="Plot_Background"
+	 * @model name="PlotBackground" literal="Plot_Background"
 	 * @generated
 	 * @ordered
 	 */
@@ -81,7 +81,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * The '<em><b>Legend Background</b></em>' literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #LEGEND_BACKGROUND_LITERAL
-	 * @model name="Legend_Background"
+	 * @model name="LegendBackground" literal="Legend_Background"
 	 * @generated
 	 * @ordered
 	 */
@@ -91,7 +91,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * The '<em><b>Legend Label</b></em>' literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #LEGEND_LABEL_LITERAL
-	 * @model name="Legend_Label"
+	 * @model name="LegendLabel" literal="Legend_Label"
 	 * @generated
 	 * @ordered
 	 */
@@ -101,7 +101,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * The '<em><b>Axis Title</b></em>' literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #AXIS_TITLE_LITERAL
-	 * @model name="Axis_Title"
+	 * @model name="AxisTitle" literal="Axis_Title"
 	 * @generated
 	 * @ordered
 	 */
@@ -111,7 +111,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * The '<em><b>Axis Label</b></em>' literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #AXIS_LABEL_LITERAL
-	 * @model name="Axis_Label"
+	 * @model name="AxisLabel" literal="Axis_Label"
 	 * @generated
 	 * @ordered
 	 */
@@ -121,7 +121,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * The '<em><b>Axis Line</b></em>' literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #AXIS_LINE_LITERAL
-	 * @model name="Axis_Line"
+	 * @model name="AxisLine" literal="Axis_Line"
 	 * @generated
 	 * @ordered
 	 */
@@ -131,7 +131,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * The '<em><b>Series Title</b></em>' literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #SERIES_TITLE_LITERAL
-	 * @model name="Series_Title"
+	 * @model name="SeriesTitle" literal="Series_Title"
 	 * @generated
 	 * @ordered
 	 */
@@ -141,7 +141,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * The '<em><b>Series Label</b></em>' literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #SERIES_LABEL_LITERAL
-	 * @model name="Series_Label"
+	 * @model name="SeriesLabel" literal="Series_Label"
 	 * @generated
 	 * @ordered
 	 */
@@ -156,7 +156,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final StyledComponent CHART_ALL_LITERAL = new StyledComponent( CHART_ALL,
-			"Chart_All" ); //$NON-NLS-1$
+			"ChartAll", "Chart_All" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Chart Title</b></em>' literal object.
@@ -171,7 +171,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final StyledComponent CHART_TITLE_LITERAL = new StyledComponent( CHART_TITLE,
-			"Chart_Title" ); //$NON-NLS-1$
+			"ChartTitle", "Chart_Title" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Chart Background</b></em>' literal object.
@@ -186,7 +186,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final StyledComponent CHART_BACKGROUND_LITERAL = new StyledComponent( CHART_BACKGROUND,
-			"Chart_Background" ); //$NON-NLS-1$
+			"ChartBackground", "Chart_Background" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Plot Background</b></em>' literal object.
@@ -201,7 +201,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final StyledComponent PLOT_BACKGROUND_LITERAL = new StyledComponent( PLOT_BACKGROUND,
-			"Plot_Background" ); //$NON-NLS-1$
+			"PlotBackground", "Plot_Background" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Legend Background</b></em>' literal object.
@@ -216,7 +216,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final StyledComponent LEGEND_BACKGROUND_LITERAL = new StyledComponent( LEGEND_BACKGROUND,
-			"Legend_Background" ); //$NON-NLS-1$
+			"LegendBackground", "Legend_Background" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Legend Label</b></em>' literal object.
@@ -231,7 +231,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final StyledComponent LEGEND_LABEL_LITERAL = new StyledComponent( LEGEND_LABEL,
-			"Legend_Label" ); //$NON-NLS-1$
+			"LegendLabel", "Legend_Label" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Axis Title</b></em>' literal object.
@@ -246,7 +246,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final StyledComponent AXIS_TITLE_LITERAL = new StyledComponent( AXIS_TITLE,
-			"Axis_Title" ); //$NON-NLS-1$
+			"AxisTitle", "Axis_Title" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Axis Label</b></em>' literal object.
@@ -261,7 +261,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final StyledComponent AXIS_LABEL_LITERAL = new StyledComponent( AXIS_LABEL,
-			"Axis_Label" ); //$NON-NLS-1$
+			"AxisLabel", "Axis_Label" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Axis Line</b></em>' literal object.
@@ -276,7 +276,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final StyledComponent AXIS_LINE_LITERAL = new StyledComponent( AXIS_LINE,
-			"Axis_Line" ); //$NON-NLS-1$
+			"AxisLine", "Axis_Line" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Series Title</b></em>' literal object.
@@ -291,7 +291,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final StyledComponent SERIES_TITLE_LITERAL = new StyledComponent( SERIES_TITLE,
-			"Series_Title" ); //$NON-NLS-1$
+			"SeriesTitle", "Series_Title" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Series Label</b></em>' literal object.
@@ -306,7 +306,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final StyledComponent SERIES_LABEL_LITERAL = new StyledComponent( SERIES_LABEL,
-			"Series_Label" ); //$NON-NLS-1$
+			"SeriesLabel", "Series_Label" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Styled Component</b></em>' enumerators.
@@ -337,17 +337,17 @@ public final class StyledComponent extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Styled Component</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Styled Component</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * @generated
 	 */
-	public static StyledComponent get( String name )
+	public static StyledComponent get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			StyledComponent result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -356,7 +356,26 @@ public final class StyledComponent extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Styled Component</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Styled Component</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static StyledComponent getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			StyledComponent result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Styled Component</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -393,12 +412,13 @@ public final class StyledComponent extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private StyledComponent( int value, String name )
+	private StyledComponent( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //StyledComponent

@@ -87,7 +87,7 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getExtendedProperty( );
+		return AttributePackage.Literals.EXTENDED_PROPERTY;
 	}
 
 	/**
@@ -141,28 +141,30 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.EXTENDED_PROPERTY__NAME :
 				return getName( );
 			case AttributePackage.EXTENDED_PROPERTY__VALUE :
 				return getValue( );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.EXTENDED_PROPERTY__NAME :
 				setName( (String) newValue );
@@ -171,16 +173,17 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 				setValue( (String) newValue );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.EXTENDED_PROPERTY__NAME :
 				setName( NAME_EDEFAULT );
@@ -189,16 +192,17 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 				setValue( VALUE_EDEFAULT );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.EXTENDED_PROPERTY__NAME :
 				return NAME_EDEFAULT == null ? name != null
@@ -207,7 +211,7 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 				return VALUE_EDEFAULT == null ? value != null
 						: !VALUE_EDEFAULT.equals( value );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

@@ -111,7 +111,8 @@ public final class Position extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final Position ABOVE_LITERAL = new Position( ABOVE, "Above" ); //$NON-NLS-1$
+	public static final Position ABOVE_LITERAL = new Position( ABOVE,
+			"Above", "Above" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Below</b></em>' literal object.
@@ -125,7 +126,8 @@ public final class Position extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final Position BELOW_LITERAL = new Position( BELOW, "Below" ); //$NON-NLS-1$
+	public static final Position BELOW_LITERAL = new Position( BELOW,
+			"Below", "Below" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Left</b></em>' literal object.
@@ -139,7 +141,8 @@ public final class Position extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final Position LEFT_LITERAL = new Position( LEFT, "Left" ); //$NON-NLS-1$
+	public static final Position LEFT_LITERAL = new Position( LEFT,
+			"Left", "Left" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Right</b></em>' literal object.
@@ -153,7 +156,8 @@ public final class Position extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final Position RIGHT_LITERAL = new Position( RIGHT, "Right" ); //$NON-NLS-1$
+	public static final Position RIGHT_LITERAL = new Position( RIGHT,
+			"Right", "Right" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Inside</b></em>' literal object.
@@ -168,7 +172,7 @@ public final class Position extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final Position INSIDE_LITERAL = new Position( INSIDE,
-			"Inside" ); //$NON-NLS-1$
+			"Inside", "Inside" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Outside</b></em>' literal object.
@@ -184,7 +188,7 @@ public final class Position extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final Position OUTSIDE_LITERAL = new Position( OUTSIDE,
-			"Outside" ); //$NON-NLS-1$
+			"Outside", "Outside" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Position</b></em>' enumerators. <!--
@@ -209,16 +213,16 @@ public final class Position extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Position</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Position</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Position get( String name )
+	public static Position get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			Position result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -227,7 +231,26 @@ public final class Position extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Position</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Position</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static Position getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			Position result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Position</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -253,13 +276,13 @@ public final class Position extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private Position( int value, String name )
+	private Position( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //Position

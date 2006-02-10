@@ -43,7 +43,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * deprecated
 	 * <!-- end-model-doc -->
 	 * @see #MOUSE_HOVER_LITERAL
-	 * @model name="Mouse_Hover"
+	 * @model name="MouseHover" literal="Mouse_Hover"
 	 * @generated
 	 * @ordered
 	 */
@@ -57,7 +57,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * deprecated
 	 * <!-- end-model-doc -->
 	 * @see #MOUSE_CLICK_LITERAL
-	 * @model name="Mouse_Click"
+	 * @model name="MouseClick" literal="Mouse_Click"
 	 * @generated
 	 * @ordered
 	 */
@@ -273,7 +273,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @deprecated use ONMOUSEOVER_LITERAL instead.
 	 */
 	public static final TriggerCondition MOUSE_HOVER_LITERAL = new TriggerCondition( MOUSE_HOVER,
-			"Mouse_Hover" ); //$NON-NLS-1$
+			"MouseHover", "Mouse_Hover" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Mouse Click</b></em>' literal object. <!--
@@ -290,7 +290,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @deprecated use ONCLICK_LITERAL instead.
 	 */
 	public static final TriggerCondition MOUSE_CLICK_LITERAL = new TriggerCondition( MOUSE_CLICK,
-			"Mouse_Click" ); //$NON-NLS-1$
+			"MouseClick", "Mouse_Click" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Onclick</b></em>' literal object.
@@ -301,7 +301,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final TriggerCondition ONCLICK_LITERAL = new TriggerCondition( ONCLICK,
-			"onclick" ); //$NON-NLS-1$
+			"onclick", "onclick" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Ondblclick</b></em>' literal object.
@@ -312,7 +312,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final TriggerCondition ONDBLCLICK_LITERAL = new TriggerCondition( ONDBLCLICK,
-			"ondblclick" ); //$NON-NLS-1$
+			"ondblclick", "ondblclick" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Onmousedown</b></em>' literal object.
@@ -323,7 +323,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final TriggerCondition ONMOUSEDOWN_LITERAL = new TriggerCondition( ONMOUSEDOWN,
-			"onmousedown" ); //$NON-NLS-1$
+			"onmousedown", "onmousedown" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Onmouseup</b></em>' literal object.
@@ -334,7 +334,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final TriggerCondition ONMOUSEUP_LITERAL = new TriggerCondition( ONMOUSEUP,
-			"onmouseup" ); //$NON-NLS-1$
+			"onmouseup", "onmouseup" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Onmouseover</b></em>' literal object.
@@ -345,7 +345,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final TriggerCondition ONMOUSEOVER_LITERAL = new TriggerCondition( ONMOUSEOVER,
-			"onmouseover" ); //$NON-NLS-1$
+			"onmouseover", "onmouseover" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Onmousemove</b></em>' literal object.
@@ -356,7 +356,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final TriggerCondition ONMOUSEMOVE_LITERAL = new TriggerCondition( ONMOUSEMOVE,
-			"onmousemove" ); //$NON-NLS-1$
+			"onmousemove", "onmousemove" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Onmouseout</b></em>' literal object.
@@ -367,7 +367,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final TriggerCondition ONMOUSEOUT_LITERAL = new TriggerCondition( ONMOUSEOUT,
-			"onmouseout" ); //$NON-NLS-1$
+			"onmouseout", "onmouseout" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Onfocus</b></em>' literal object.
@@ -378,7 +378,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final TriggerCondition ONFOCUS_LITERAL = new TriggerCondition( ONFOCUS,
-			"onfocus" ); //$NON-NLS-1$
+			"onfocus", "onfocus" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Onblur</b></em>' literal object.
@@ -389,7 +389,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final TriggerCondition ONBLUR_LITERAL = new TriggerCondition( ONBLUR,
-			"onblur" ); //$NON-NLS-1$
+			"onblur", "onblur" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Onkeydown</b></em>' literal object.
@@ -400,7 +400,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final TriggerCondition ONKEYDOWN_LITERAL = new TriggerCondition( ONKEYDOWN,
-			"onkeydown" ); //$NON-NLS-1$
+			"onkeydown", "onkeydown" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Onkeypress</b></em>' literal object.
@@ -411,7 +411,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final TriggerCondition ONKEYPRESS_LITERAL = new TriggerCondition( ONKEYPRESS,
-			"onkeypress" ); //$NON-NLS-1$
+			"onkeypress", "onkeypress" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Onkeyup</b></em>' literal object.
@@ -422,7 +422,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final TriggerCondition ONKEYUP_LITERAL = new TriggerCondition( ONKEYUP,
-			"onkeyup" ); //$NON-NLS-1$
+			"onkeyup", "onkeyup" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Onload</b></em>' literal object.
@@ -433,7 +433,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final TriggerCondition ONLOAD_LITERAL = new TriggerCondition( ONLOAD,
-			"onload" ); //$NON-NLS-1$
+			"onload", "onload" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Trigger Condition</b></em>' enumerators.
@@ -466,16 +466,16 @@ public final class TriggerCondition extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Trigger Condition</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Trigger Condition</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static TriggerCondition get( String name )
+	public static TriggerCondition get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			TriggerCondition result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -484,7 +484,26 @@ public final class TriggerCondition extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Trigger Condition</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Trigger Condition</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static TriggerCondition getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			TriggerCondition result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Trigger Condition</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -528,13 +547,13 @@ public final class TriggerCondition extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private TriggerCondition( int value, String name )
+	private TriggerCondition( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //TriggerCondition

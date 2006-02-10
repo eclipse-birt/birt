@@ -68,7 +68,7 @@ public final class LegendItemType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final LegendItemType SERIES_LITERAL = new LegendItemType( SERIES,
-			"Series" ); //$NON-NLS-1$
+			"Series", "Series" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Categories</b></em>' literal object.
@@ -84,7 +84,7 @@ public final class LegendItemType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final LegendItemType CATEGORIES_LITERAL = new LegendItemType( CATEGORIES,
-			"Categories" ); //$NON-NLS-1$
+			"Categories", "Categories" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Legend Item Type</b></em>' enumerators.
@@ -103,16 +103,16 @@ public final class LegendItemType extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Legend Item Type</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Legend Item Type</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static LegendItemType get( String name )
+	public static LegendItemType get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			LegendItemType result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -121,7 +121,26 @@ public final class LegendItemType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Legend Item Type</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Legend Item Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static LegendItemType getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			LegendItemType result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Legend Item Type</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -139,13 +158,13 @@ public final class LegendItemType extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private LegendItemType( int value, String name )
+	private LegendItemType( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //LegendItemType

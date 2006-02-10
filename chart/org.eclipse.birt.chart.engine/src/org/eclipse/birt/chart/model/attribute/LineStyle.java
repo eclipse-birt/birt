@@ -71,7 +71,7 @@ public final class LineStyle extends AbstractEnumerator
 	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
 	 * @see #DASH_DOTTED_LITERAL
-	 * @model name="Dash_Dotted"
+	 * @model name="DashDotted" literal="Dash_Dotted"
 	 * @generated
 	 * @ordered
 	 */
@@ -89,7 +89,8 @@ public final class LineStyle extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final LineStyle SOLID_LITERAL = new LineStyle( SOLID, "Solid" ); //$NON-NLS-1$
+	public static final LineStyle SOLID_LITERAL = new LineStyle( SOLID,
+			"Solid", "Solid" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Dashed</b></em>' literal object.
@@ -104,7 +105,7 @@ public final class LineStyle extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final LineStyle DASHED_LITERAL = new LineStyle( DASHED,
-			"Dashed" ); //$NON-NLS-1$
+			"Dashed", "Dashed" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Dotted</b></em>' literal object.
@@ -119,7 +120,7 @@ public final class LineStyle extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final LineStyle DOTTED_LITERAL = new LineStyle( DOTTED,
-			"Dotted" ); //$NON-NLS-1$
+			"Dotted", "Dotted" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Dash Dotted</b></em>' literal object. <!--
@@ -135,7 +136,7 @@ public final class LineStyle extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final LineStyle DASH_DOTTED_LITERAL = new LineStyle( DASH_DOTTED,
-			"Dash_Dotted" ); //$NON-NLS-1$
+			"DashDotted", "Dash_Dotted" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Line Style</b></em>' enumerators. <!--
@@ -155,16 +156,16 @@ public final class LineStyle extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Line Style</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Line Style</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static LineStyle get( String name )
+	public static LineStyle get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			LineStyle result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -173,7 +174,26 @@ public final class LineStyle extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Line Style</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Line Style</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static LineStyle getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			LineStyle result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Line Style</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -195,13 +215,13 @@ public final class LineStyle extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private LineStyle( int value, String name )
+	private LineStyle( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //LineStyle

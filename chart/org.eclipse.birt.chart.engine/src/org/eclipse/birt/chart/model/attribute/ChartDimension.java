@@ -81,7 +81,7 @@ public final class ChartDimension extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final ChartDimension TWO_DIMENSIONAL_LITERAL = new ChartDimension( TWO_DIMENSIONAL,
-			"Two_Dimensional" ); //$NON-NLS-1$
+			"TwoDimensional", "Two_Dimensional" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Two Dimensional With Depth</b></em>' literal object.
@@ -97,7 +97,7 @@ public final class ChartDimension extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final ChartDimension TWO_DIMENSIONAL_WITH_DEPTH_LITERAL = new ChartDimension( TWO_DIMENSIONAL_WITH_DEPTH,
-			"Two_Dimensional_With_Depth" ); //$NON-NLS-1$
+			"TwoDimensionalWithDepth", "Two_Dimensional_With_Depth" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Three Dimensional</b></em>' literal object. <!--
@@ -113,7 +113,7 @@ public final class ChartDimension extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final ChartDimension THREE_DIMENSIONAL_LITERAL = new ChartDimension( THREE_DIMENSIONAL,
-			"Three_Dimensional" ); //$NON-NLS-1$
+			"ThreeDimensional", "Three_Dimensional" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Chart Dimension</b></em>' enumerators.
@@ -134,16 +134,16 @@ public final class ChartDimension extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static ChartDimension get( String name )
+	public static ChartDimension get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			ChartDimension result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -152,7 +152,26 @@ public final class ChartDimension extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static ChartDimension getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			ChartDimension result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -172,13 +191,13 @@ public final class ChartDimension extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private ChartDimension( int value, String name )
+	private ChartDimension( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //ChartDimension

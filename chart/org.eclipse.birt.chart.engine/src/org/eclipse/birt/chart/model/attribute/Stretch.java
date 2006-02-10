@@ -81,7 +81,7 @@ public final class Stretch extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final Stretch HORIZONTAL_LITERAL = new Stretch( HORIZONTAL,
-			"Horizontal" ); //$NON-NLS-1$
+			"Horizontal", "Horizontal" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Vertical</b></em>' literal object.
@@ -97,7 +97,7 @@ public final class Stretch extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final Stretch VERTICAL_LITERAL = new Stretch( VERTICAL,
-			"Vertical" ); //$NON-NLS-1$
+			"Vertical", "Vertical" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Both</b></em>' literal object.
@@ -111,7 +111,8 @@ public final class Stretch extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final Stretch BOTH_LITERAL = new Stretch( BOTH, "Both" ); //$NON-NLS-1$
+	public static final Stretch BOTH_LITERAL = new Stretch( BOTH,
+			"Both", "Both" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Stretch</b></em>' enumerators. <!--
@@ -131,16 +132,16 @@ public final class Stretch extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Stretch</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Stretch</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Stretch get( String name )
+	public static Stretch get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			Stretch result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -149,7 +150,26 @@ public final class Stretch extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Stretch</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Stretch</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static Stretch getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			Stretch result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Stretch</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -169,13 +189,13 @@ public final class Stretch extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private Stretch( int value, String name )
+	private Stretch( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //Stretch

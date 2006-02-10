@@ -266,7 +266,7 @@ public interface ComponentPackage extends EPackage
 	int AXIS__PERCENT = 22;
 
 	/**
-	 * The number of structural features of the the '<em>Axis</em>' class.
+	 * The number of structural features of the '<em>Axis</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -299,7 +299,7 @@ public interface ComponentPackage extends EPackage
 	int CHART_PREFERENCES__BLOCKS = 1;
 
 	/**
-	 * The number of structural features of the the '<em>Chart Preferences</em>' class.
+	 * The number of structural features of the '<em>Chart Preferences</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -344,7 +344,7 @@ public interface ComponentPackage extends EPackage
 	int CURVE_FITTING__LABEL_ANCHOR = 2;
 
 	/**
-	 * The number of structural features of the the '<em>Curve Fitting</em>' class.
+	 * The number of structural features of the '<em>Curve Fitting</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -471,7 +471,7 @@ public interface ComponentPackage extends EPackage
 	int DIAL__FORMAT_SPECIFIER = 11;
 
 	/**
-	 * The number of structural features of the the '<em>Dial</em>' class.
+	 * The number of structural features of the '<em>Dial</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -582,7 +582,7 @@ public interface ComponentPackage extends EPackage
 	int MARKER_RANGE__FORMAT_SPECIFIER = 6;
 
 	/**
-	 * The number of structural features of the the '<em>Marker Range</em>' class.
+	 * The number of structural features of the '<em>Marker Range</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -671,7 +671,7 @@ public interface ComponentPackage extends EPackage
 	int DIAL_REGION__OUTER_RADIUS = MARKER_RANGE_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>Dial Region</em>' class.
+	 * The number of structural features of the '<em>Dial Region</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -723,7 +723,7 @@ public interface ComponentPackage extends EPackage
 	int GRID__TICK_COUNT = 4;
 
 	/**
-	 * The number of structural features of the the '<em>Grid</em>' class.
+	 * The number of structural features of the '<em>Grid</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -780,7 +780,7 @@ public interface ComponentPackage extends EPackage
 	int LABEL__VISIBLE = 5;
 
 	/**
-	 * The number of structural features of the the '<em>Label</em>' class.
+	 * The number of structural features of the '<em>Label</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -828,7 +828,7 @@ public interface ComponentPackage extends EPackage
 	int MARKER_LINE__FORMAT_SPECIFIER = 4;
 
 	/**
-	 * The number of structural features of the the '<em>Marker Line</em>' class.
+	 * The number of structural features of the '<em>Marker Line</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -864,7 +864,7 @@ public interface ComponentPackage extends EPackage
 	int NEEDLE__DECORATOR = 1;
 
 	/**
-	 * The number of structural features of the the '<em>Needle</em>' class.
+	 * The number of structural features of the '<em>Needle</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -924,7 +924,7 @@ public interface ComponentPackage extends EPackage
 	int SCALE__MINOR_GRIDS_PER_UNIT = 4;
 
 	/**
-	 * The number of structural features of the the '<em>Scale</em>' class.
+	 * The number of structural features of the '<em>Scale</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -1034,7 +1034,7 @@ public interface ComponentPackage extends EPackage
 	int SERIES__CURVE_FITTING = 10;
 
 	/**
-	 * The number of structural features of the the '<em>Series</em>' class.
+	 * The number of structural features of the '<em>Series</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -1070,7 +1070,7 @@ public interface ComponentPackage extends EPackage
 	int ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE = 1;
 
 	/**
-	 * The number of structural features of the the '<em>EString To Data Set Map Entry</em>' class.
+	 * The number of structural features of the '<em>EString To Data Set Map Entry</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2088,5 +2088,832 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 */
 	ComponentFactory getComponentFactory( );
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Defines literals for the meta objects that represent
+	 * <ul>
+	 *   <li>each class,</li>
+	 *   <li>each feature of each class,</li>
+	 *   <li>each enum,</li>
+	 *   <li>and each data type</li>
+	 * </ul>
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	interface Literals
+	{
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.AxisImpl <em>Axis</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.component.impl.AxisImpl
+		 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getAxis()
+		 * @generated
+		 */
+		EClass AXIS = eINSTANCE.getAxis( );
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AXIS__TYPE = eINSTANCE.getAxis_Type( );
+
+		/**
+		 * The meta object literal for the '<em><b>Title</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AXIS__TITLE = eINSTANCE.getAxis_Title( );
+
+		/**
+		 * The meta object literal for the '<em><b>Sub Title</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AXIS__SUB_TITLE = eINSTANCE.getAxis_SubTitle( );
+
+		/**
+		 * The meta object literal for the '<em><b>Title Position</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AXIS__TITLE_POSITION = eINSTANCE.getAxis_TitlePosition( );
+
+		/**
+		 * The meta object literal for the '<em><b>Associated Axes</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AXIS__ASSOCIATED_AXES = eINSTANCE.getAxis_AssociatedAxes( );
+
+		/**
+		 * The meta object literal for the '<em><b>Ancillary Axes</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AXIS__ANCILLARY_AXES = eINSTANCE.getAxis_AncillaryAxes( );
+
+		/**
+		 * The meta object literal for the '<em><b>Series Definitions</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AXIS__SERIES_DEFINITIONS = eINSTANCE.getAxis_SeriesDefinitions( );
+
+		/**
+		 * The meta object literal for the '<em><b>Gap Width</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AXIS__GAP_WIDTH = eINSTANCE.getAxis_GapWidth( );
+
+		/**
+		 * The meta object literal for the '<em><b>Orientation</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AXIS__ORIENTATION = eINSTANCE.getAxis_Orientation( );
+
+		/**
+		 * The meta object literal for the '<em><b>Line Attributes</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AXIS__LINE_ATTRIBUTES = eINSTANCE.getAxis_LineAttributes( );
+
+		/**
+		 * The meta object literal for the '<em><b>Label</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AXIS__LABEL = eINSTANCE.getAxis_Label( );
+
+		/**
+		 * The meta object literal for the '<em><b>Format Specifier</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AXIS__FORMAT_SPECIFIER = eINSTANCE.getAxis_FormatSpecifier( );
+
+		/**
+		 * The meta object literal for the '<em><b>Label Position</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AXIS__LABEL_POSITION = eINSTANCE.getAxis_LabelPosition( );
+
+		/**
+		 * The meta object literal for the '<em><b>Staggered</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AXIS__STAGGERED = eINSTANCE.getAxis_Staggered( );
+
+		/**
+		 * The meta object literal for the '<em><b>Marker Lines</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AXIS__MARKER_LINES = eINSTANCE.getAxis_MarkerLines( );
+
+		/**
+		 * The meta object literal for the '<em><b>Marker Ranges</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AXIS__MARKER_RANGES = eINSTANCE.getAxis_MarkerRanges( );
+
+		/**
+		 * The meta object literal for the '<em><b>Major Grid</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AXIS__MAJOR_GRID = eINSTANCE.getAxis_MajorGrid( );
+
+		/**
+		 * The meta object literal for the '<em><b>Minor Grid</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AXIS__MINOR_GRID = eINSTANCE.getAxis_MinorGrid( );
+
+		/**
+		 * The meta object literal for the '<em><b>Scale</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AXIS__SCALE = eINSTANCE.getAxis_Scale( );
+
+		/**
+		 * The meta object literal for the '<em><b>Origin</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AXIS__ORIGIN = eINSTANCE.getAxis_Origin( );
+
+		/**
+		 * The meta object literal for the '<em><b>Primary Axis</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AXIS__PRIMARY_AXIS = eINSTANCE.getAxis_PrimaryAxis( );
+
+		/**
+		 * The meta object literal for the '<em><b>Category Axis</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AXIS__CATEGORY_AXIS = eINSTANCE.getAxis_CategoryAxis( );
+
+		/**
+		 * The meta object literal for the '<em><b>Percent</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AXIS__PERCENT = eINSTANCE.getAxis_Percent( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl <em>Chart Preferences</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl
+		 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getChartPreferences()
+		 * @generated
+		 */
+		EClass CHART_PREFERENCES = eINSTANCE.getChartPreferences( );
+
+		/**
+		 * The meta object literal for the '<em><b>Labels</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CHART_PREFERENCES__LABELS = eINSTANCE.getChartPreferences_Labels( );
+
+		/**
+		 * The meta object literal for the '<em><b>Blocks</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CHART_PREFERENCES__BLOCKS = eINSTANCE.getChartPreferences_Blocks( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.CurveFittingImpl <em>Curve Fitting</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.component.impl.CurveFittingImpl
+		 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getCurveFitting()
+		 * @generated
+		 */
+		EClass CURVE_FITTING = eINSTANCE.getCurveFitting( );
+
+		/**
+		 * The meta object literal for the '<em><b>Line Attributes</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CURVE_FITTING__LINE_ATTRIBUTES = eINSTANCE.getCurveFitting_LineAttributes( );
+
+		/**
+		 * The meta object literal for the '<em><b>Label</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CURVE_FITTING__LABEL = eINSTANCE.getCurveFitting_Label( );
+
+		/**
+		 * The meta object literal for the '<em><b>Label Anchor</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CURVE_FITTING__LABEL_ANCHOR = eINSTANCE.getCurveFitting_LabelAnchor( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.DialImpl <em>Dial</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.component.impl.DialImpl
+		 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getDial()
+		 * @generated
+		 */
+		EClass DIAL = eINSTANCE.getDial( );
+
+		/**
+		 * The meta object literal for the '<em><b>Start Angle</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIAL__START_ANGLE = eINSTANCE.getDial_StartAngle( );
+
+		/**
+		 * The meta object literal for the '<em><b>Stop Angle</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIAL__STOP_ANGLE = eINSTANCE.getDial_StopAngle( );
+
+		/**
+		 * The meta object literal for the '<em><b>Radius</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIAL__RADIUS = eINSTANCE.getDial_Radius( );
+
+		/**
+		 * The meta object literal for the '<em><b>Line Attributes</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DIAL__LINE_ATTRIBUTES = eINSTANCE.getDial_LineAttributes( );
+
+		/**
+		 * The meta object literal for the '<em><b>Fill</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DIAL__FILL = eINSTANCE.getDial_Fill( );
+
+		/**
+		 * The meta object literal for the '<em><b>Dial Regions</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DIAL__DIAL_REGIONS = eINSTANCE.getDial_DialRegions( );
+
+		/**
+		 * The meta object literal for the '<em><b>Major Grid</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DIAL__MAJOR_GRID = eINSTANCE.getDial_MajorGrid( );
+
+		/**
+		 * The meta object literal for the '<em><b>Minor Grid</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DIAL__MINOR_GRID = eINSTANCE.getDial_MinorGrid( );
+
+		/**
+		 * The meta object literal for the '<em><b>Scale</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DIAL__SCALE = eINSTANCE.getDial_Scale( );
+
+		/**
+		 * The meta object literal for the '<em><b>Inverse Scale</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIAL__INVERSE_SCALE = eINSTANCE.getDial_InverseScale( );
+
+		/**
+		 * The meta object literal for the '<em><b>Label</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DIAL__LABEL = eINSTANCE.getDial_Label( );
+
+		/**
+		 * The meta object literal for the '<em><b>Format Specifier</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DIAL__FORMAT_SPECIFIER = eINSTANCE.getDial_FormatSpecifier( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.DialRegionImpl <em>Dial Region</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.component.impl.DialRegionImpl
+		 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getDialRegion()
+		 * @generated
+		 */
+		EClass DIAL_REGION = eINSTANCE.getDialRegion( );
+
+		/**
+		 * The meta object literal for the '<em><b>Inner Radius</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIAL_REGION__INNER_RADIUS = eINSTANCE.getDialRegion_InnerRadius( );
+
+		/**
+		 * The meta object literal for the '<em><b>Outer Radius</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIAL_REGION__OUTER_RADIUS = eINSTANCE.getDialRegion_OuterRadius( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.GridImpl <em>Grid</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.component.impl.GridImpl
+		 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getGrid()
+		 * @generated
+		 */
+		EClass GRID = eINSTANCE.getGrid( );
+
+		/**
+		 * The meta object literal for the '<em><b>Line Attributes</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GRID__LINE_ATTRIBUTES = eINSTANCE.getGrid_LineAttributes( );
+
+		/**
+		 * The meta object literal for the '<em><b>Tick Style</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GRID__TICK_STYLE = eINSTANCE.getGrid_TickStyle( );
+
+		/**
+		 * The meta object literal for the '<em><b>Tick Attributes</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GRID__TICK_ATTRIBUTES = eINSTANCE.getGrid_TickAttributes( );
+
+		/**
+		 * The meta object literal for the '<em><b>Tick Size</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GRID__TICK_SIZE = eINSTANCE.getGrid_TickSize( );
+
+		/**
+		 * The meta object literal for the '<em><b>Tick Count</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GRID__TICK_COUNT = eINSTANCE.getGrid_TickCount( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.LabelImpl <em>Label</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.component.impl.LabelImpl
+		 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getLabel()
+		 * @generated
+		 */
+		EClass LABEL = eINSTANCE.getLabel( );
+
+		/**
+		 * The meta object literal for the '<em><b>Caption</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LABEL__CAPTION = eINSTANCE.getLabel_Caption( );
+
+		/**
+		 * The meta object literal for the '<em><b>Background</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LABEL__BACKGROUND = eINSTANCE.getLabel_Background( );
+
+		/**
+		 * The meta object literal for the '<em><b>Outline</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LABEL__OUTLINE = eINSTANCE.getLabel_Outline( );
+
+		/**
+		 * The meta object literal for the '<em><b>Shadow Color</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LABEL__SHADOW_COLOR = eINSTANCE.getLabel_ShadowColor( );
+
+		/**
+		 * The meta object literal for the '<em><b>Insets</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LABEL__INSETS = eINSTANCE.getLabel_Insets( );
+
+		/**
+		 * The meta object literal for the '<em><b>Visible</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LABEL__VISIBLE = eINSTANCE.getLabel_Visible( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl <em>Marker Line</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.component.impl.MarkerLineImpl
+		 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getMarkerLine()
+		 * @generated
+		 */
+		EClass MARKER_LINE = eINSTANCE.getMarkerLine( );
+
+		/**
+		 * The meta object literal for the '<em><b>Line Attributes</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MARKER_LINE__LINE_ATTRIBUTES = eINSTANCE.getMarkerLine_LineAttributes( );
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MARKER_LINE__VALUE = eINSTANCE.getMarkerLine_Value( );
+
+		/**
+		 * The meta object literal for the '<em><b>Label</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MARKER_LINE__LABEL = eINSTANCE.getMarkerLine_Label( );
+
+		/**
+		 * The meta object literal for the '<em><b>Label Anchor</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MARKER_LINE__LABEL_ANCHOR = eINSTANCE.getMarkerLine_LabelAnchor( );
+
+		/**
+		 * The meta object literal for the '<em><b>Format Specifier</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MARKER_LINE__FORMAT_SPECIFIER = eINSTANCE.getMarkerLine_FormatSpecifier( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl <em>Marker Range</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl
+		 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getMarkerRange()
+		 * @generated
+		 */
+		EClass MARKER_RANGE = eINSTANCE.getMarkerRange( );
+
+		/**
+		 * The meta object literal for the '<em><b>Outline</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MARKER_RANGE__OUTLINE = eINSTANCE.getMarkerRange_Outline( );
+
+		/**
+		 * The meta object literal for the '<em><b>Fill</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MARKER_RANGE__FILL = eINSTANCE.getMarkerRange_Fill( );
+
+		/**
+		 * The meta object literal for the '<em><b>Start Value</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MARKER_RANGE__START_VALUE = eINSTANCE.getMarkerRange_StartValue( );
+
+		/**
+		 * The meta object literal for the '<em><b>End Value</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MARKER_RANGE__END_VALUE = eINSTANCE.getMarkerRange_EndValue( );
+
+		/**
+		 * The meta object literal for the '<em><b>Label</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MARKER_RANGE__LABEL = eINSTANCE.getMarkerRange_Label( );
+
+		/**
+		 * The meta object literal for the '<em><b>Label Anchor</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MARKER_RANGE__LABEL_ANCHOR = eINSTANCE.getMarkerRange_LabelAnchor( );
+
+		/**
+		 * The meta object literal for the '<em><b>Format Specifier</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MARKER_RANGE__FORMAT_SPECIFIER = eINSTANCE.getMarkerRange_FormatSpecifier( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.NeedleImpl <em>Needle</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.component.impl.NeedleImpl
+		 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getNeedle()
+		 * @generated
+		 */
+		EClass NEEDLE = eINSTANCE.getNeedle( );
+
+		/**
+		 * The meta object literal for the '<em><b>Line Attributes</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NEEDLE__LINE_ATTRIBUTES = eINSTANCE.getNeedle_LineAttributes( );
+
+		/**
+		 * The meta object literal for the '<em><b>Decorator</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NEEDLE__DECORATOR = eINSTANCE.getNeedle_Decorator( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl <em>Scale</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.component.impl.ScaleImpl
+		 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getScale()
+		 * @generated
+		 */
+		EClass SCALE = eINSTANCE.getScale( );
+
+		/**
+		 * The meta object literal for the '<em><b>Min</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCALE__MIN = eINSTANCE.getScale_Min( );
+
+		/**
+		 * The meta object literal for the '<em><b>Max</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCALE__MAX = eINSTANCE.getScale_Max( );
+
+		/**
+		 * The meta object literal for the '<em><b>Step</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SCALE__STEP = eINSTANCE.getScale_Step( );
+
+		/**
+		 * The meta object literal for the '<em><b>Unit</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SCALE__UNIT = eINSTANCE.getScale_Unit( );
+
+		/**
+		 * The meta object literal for the '<em><b>Minor Grids Per Unit</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SCALE__MINOR_GRIDS_PER_UNIT = eINSTANCE.getScale_MinorGridsPerUnit( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl <em>Series</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl
+		 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getSeries()
+		 * @generated
+		 */
+		EClass SERIES = eINSTANCE.getSeries( );
+
+		/**
+		 * The meta object literal for the '<em><b>Visible</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERIES__VISIBLE = eINSTANCE.getSeries_Visible( );
+
+		/**
+		 * The meta object literal for the '<em><b>Label</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERIES__LABEL = eINSTANCE.getSeries_Label( );
+
+		/**
+		 * The meta object literal for the '<em><b>Data Definition</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERIES__DATA_DEFINITION = eINSTANCE.getSeries_DataDefinition( );
+
+		/**
+		 * The meta object literal for the '<em><b>Series Identifier</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERIES__SERIES_IDENTIFIER = eINSTANCE.getSeries_SeriesIdentifier( );
+
+		/**
+		 * The meta object literal for the '<em><b>Data Point</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERIES__DATA_POINT = eINSTANCE.getSeries_DataPoint( );
+
+		/**
+		 * The meta object literal for the '<em><b>Data Sets</b></em>' map feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERIES__DATA_SETS = eINSTANCE.getSeries_DataSets( );
+
+		/**
+		 * The meta object literal for the '<em><b>Label Position</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERIES__LABEL_POSITION = eINSTANCE.getSeries_LabelPosition( );
+
+		/**
+		 * The meta object literal for the '<em><b>Stacked</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERIES__STACKED = eINSTANCE.getSeries_Stacked( );
+
+		/**
+		 * The meta object literal for the '<em><b>Triggers</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERIES__TRIGGERS = eINSTANCE.getSeries_Triggers( );
+
+		/**
+		 * The meta object literal for the '<em><b>Translucent</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERIES__TRANSLUCENT = eINSTANCE.getSeries_Translucent( );
+
+		/**
+		 * The meta object literal for the '<em><b>Curve Fitting</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERIES__CURVE_FITTING = eINSTANCE.getSeries_CurveFitting( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.EStringToDataSetMapEntryImpl <em>EString To Data Set Map Entry</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.component.impl.EStringToDataSetMapEntryImpl
+		 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getEStringToDataSetMapEntry()
+		 * @generated
+		 */
+		EClass ESTRING_TO_DATA_SET_MAP_ENTRY = eINSTANCE.getEStringToDataSetMapEntry( );
+
+		/**
+		 * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ESTRING_TO_DATA_SET_MAP_ENTRY__KEY = eINSTANCE.getEStringToDataSetMapEntry_Key( );
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE = eINSTANCE.getEStringToDataSetMapEntry_Value( );
+
+	}
 
 } //ComponentPackage

@@ -343,7 +343,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 */
 	protected EClass eStaticClass( )
 	{
-		return LayoutPackage.eINSTANCE.getBlock( );
+		return LayoutPackage.Literals.BLOCK;
 	}
 
 	/**
@@ -1091,49 +1091,43 @@ public class BlockImpl extends EObjectImpl implements Block
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, Class baseClass, NotificationChain msgs )
+			int featureID, NotificationChain msgs )
 	{
-		if ( featureID >= 0 )
+		switch ( featureID )
 		{
-			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
-			{
-				case LayoutPackage.BLOCK__CHILDREN :
-					return ( (InternalEList) getChildren( ) ).basicRemove( otherEnd,
-							msgs );
-				case LayoutPackage.BLOCK__BOUNDS :
-					return basicSetBounds( null, msgs );
-				case LayoutPackage.BLOCK__INSETS :
-					return basicSetInsets( null, msgs );
-				case LayoutPackage.BLOCK__MIN_SIZE :
-					return basicSetMinSize( null, msgs );
-				case LayoutPackage.BLOCK__OUTLINE :
-					return basicSetOutline( null, msgs );
-				case LayoutPackage.BLOCK__BACKGROUND :
-					return basicSetBackground( null, msgs );
-				case LayoutPackage.BLOCK__TRIGGERS :
-					return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
-							msgs );
-				default :
-					return eDynamicInverseRemove( otherEnd,
-							featureID,
-							baseClass,
-							msgs );
-			}
+			case LayoutPackage.BLOCK__CHILDREN :
+				return ( (InternalEList) getChildren( ) ).basicRemove( otherEnd,
+						msgs );
+			case LayoutPackage.BLOCK__BOUNDS :
+				return basicSetBounds( null, msgs );
+			case LayoutPackage.BLOCK__INSETS :
+				return basicSetInsets( null, msgs );
+			case LayoutPackage.BLOCK__MIN_SIZE :
+				return basicSetMinSize( null, msgs );
+			case LayoutPackage.BLOCK__OUTLINE :
+				return basicSetOutline( null, msgs );
+			case LayoutPackage.BLOCK__BACKGROUND :
+				return basicSetBackground( null, msgs );
+			case LayoutPackage.BLOCK__TRIGGERS :
+				return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
+						msgs );
 		}
-		return eBasicSetContainer( null, featureID, msgs );
+		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case LayoutPackage.BLOCK__CHILDREN :
 				return getChildren( );
@@ -1164,16 +1158,17 @@ public class BlockImpl extends EObjectImpl implements Block
 			case LayoutPackage.BLOCK__TRIGGERS :
 				return getTriggers( );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case LayoutPackage.BLOCK__CHILDREN :
 				getChildren( ).clear( );
@@ -1220,16 +1215,17 @@ public class BlockImpl extends EObjectImpl implements Block
 				getTriggers( ).addAll( (Collection) newValue );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case LayoutPackage.BLOCK__CHILDREN :
 				getChildren( ).clear( );
@@ -1274,16 +1270,17 @@ public class BlockImpl extends EObjectImpl implements Block
 				getTriggers( ).clear( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case LayoutPackage.BLOCK__CHILDREN :
 				return children != null && !children.isEmpty( );
@@ -1314,7 +1311,7 @@ public class BlockImpl extends EObjectImpl implements Block
 			case LayoutPackage.BLOCK__TRIGGERS :
 				return triggers != null && !triggers.isEmpty( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

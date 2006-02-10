@@ -27,7 +27,7 @@ public interface DataFactory extends EFactory
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	DataFactory eINSTANCE = new org.eclipse.birt.chart.model.data.impl.DataFactoryImpl( );
+	DataFactory eINSTANCE = org.eclipse.birt.chart.model.data.impl.DataFactoryImpl.init( );
 
 	/**
 	 * Returns a new object of class '<em>Action</em>'.

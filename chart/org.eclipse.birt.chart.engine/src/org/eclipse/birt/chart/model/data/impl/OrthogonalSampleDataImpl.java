@@ -96,7 +96,7 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 	 */
 	protected EClass eStaticClass( )
 	{
-		return DataPackage.eINSTANCE.getOrthogonalSampleData( );
+		return DataPackage.Literals.ORTHOGONAL_SAMPLE_DATA;
 	}
 
 	/**
@@ -181,28 +181,30 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.ORTHOGONAL_SAMPLE_DATA__DATA_SET_REPRESENTATION :
 				return getDataSetRepresentation( );
 			case DataPackage.ORTHOGONAL_SAMPLE_DATA__SERIES_DEFINITION_INDEX :
 				return new Integer( getSeriesDefinitionIndex( ) );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.ORTHOGONAL_SAMPLE_DATA__DATA_SET_REPRESENTATION :
 				setDataSetRepresentation( (String) newValue );
@@ -211,16 +213,17 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 				setSeriesDefinitionIndex( ( (Integer) newValue ).intValue( ) );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.ORTHOGONAL_SAMPLE_DATA__DATA_SET_REPRESENTATION :
 				setDataSetRepresentation( DATA_SET_REPRESENTATION_EDEFAULT );
@@ -229,16 +232,17 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 				unsetSeriesDefinitionIndex( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.ORTHOGONAL_SAMPLE_DATA__DATA_SET_REPRESENTATION :
 				return DATA_SET_REPRESENTATION_EDEFAULT == null ? dataSetRepresentation != null
@@ -246,7 +250,7 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 			case DataPackage.ORTHOGONAL_SAMPLE_DATA__SERIES_DEFINITION_INDEX :
 				return isSetSeriesDefinitionIndex( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

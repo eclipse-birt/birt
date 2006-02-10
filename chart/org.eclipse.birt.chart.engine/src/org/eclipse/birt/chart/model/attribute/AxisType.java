@@ -91,7 +91,7 @@ public final class AxisType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final AxisType LINEAR_LITERAL = new AxisType( LINEAR,
-			"Linear" ); //$NON-NLS-1$
+			"Linear", "Linear" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Logarithmic</b></em>' literal object. <!--
@@ -107,7 +107,7 @@ public final class AxisType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final AxisType LOGARITHMIC_LITERAL = new AxisType( LOGARITHMIC,
-			"Logarithmic" ); //$NON-NLS-1$
+			"Logarithmic", "Logarithmic" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Text</b></em>' literal object.
@@ -121,7 +121,8 @@ public final class AxisType extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final AxisType TEXT_LITERAL = new AxisType( TEXT, "Text" ); //$NON-NLS-1$
+	public static final AxisType TEXT_LITERAL = new AxisType( TEXT,
+			"Text", "Text" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Date Time</b></em>' literal object.
@@ -137,7 +138,7 @@ public final class AxisType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final AxisType DATE_TIME_LITERAL = new AxisType( DATE_TIME,
-			"DateTime" ); //$NON-NLS-1$
+			"DateTime", "DateTime" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Axis Type</b></em>' enumerators. <!--
@@ -160,16 +161,16 @@ public final class AxisType extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Axis Type</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Axis Type</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static AxisType get( String name )
+	public static AxisType get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			AxisType result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -178,7 +179,26 @@ public final class AxisType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Axis Type</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Axis Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static AxisType getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			AxisType result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Axis Type</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -200,13 +220,13 @@ public final class AxisType extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private AxisType( int value, String name )
+	private AxisType( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //AxisType

@@ -79,7 +79,7 @@ public final class HorizontalAlignment extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final HorizontalAlignment LEFT_LITERAL = new HorizontalAlignment( LEFT,
-			"Left" ); //$NON-NLS-1$
+			"Left", "Left" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Center</b></em>' literal object.
@@ -94,7 +94,7 @@ public final class HorizontalAlignment extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final HorizontalAlignment CENTER_LITERAL = new HorizontalAlignment( CENTER,
-			"Center" ); //$NON-NLS-1$
+			"Center", "Center" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Right</b></em>' literal object.
@@ -109,7 +109,7 @@ public final class HorizontalAlignment extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final HorizontalAlignment RIGHT_LITERAL = new HorizontalAlignment( RIGHT,
-			"Right" ); //$NON-NLS-1$
+			"Right", "Right" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Horizontal Alignment</b></em>' enumerators.
@@ -128,16 +128,16 @@ public final class HorizontalAlignment extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Horizontal Alignment</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Horizontal Alignment</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static HorizontalAlignment get( String name )
+	public static HorizontalAlignment get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			HorizontalAlignment result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -146,7 +146,26 @@ public final class HorizontalAlignment extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Horizontal Alignment</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Horizontal Alignment</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static HorizontalAlignment getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			HorizontalAlignment result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Horizontal Alignment</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -166,13 +185,13 @@ public final class HorizontalAlignment extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private HorizontalAlignment( int value, String name )
+	private HorizontalAlignment( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //HorizontalAlignment

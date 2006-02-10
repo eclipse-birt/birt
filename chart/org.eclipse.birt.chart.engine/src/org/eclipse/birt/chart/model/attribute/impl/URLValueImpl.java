@@ -143,7 +143,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getURLValue( );
+		return AttributePackage.Literals.URL_VALUE;
 	}
 
 	/**
@@ -272,12 +272,13 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.URL_VALUE__BASE_URL :
 				return getBaseUrl( );
@@ -290,16 +291,17 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 			case AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME :
 				return getSeriesParameterName( );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.URL_VALUE__BASE_URL :
 				setBaseUrl( (String) newValue );
@@ -317,16 +319,17 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 				setSeriesParameterName( (String) newValue );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.URL_VALUE__BASE_URL :
 				setBaseUrl( BASE_URL_EDEFAULT );
@@ -344,16 +347,17 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 				setSeriesParameterName( SERIES_PARAMETER_NAME_EDEFAULT );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.URL_VALUE__BASE_URL :
 				return BASE_URL_EDEFAULT == null ? baseUrl != null
@@ -371,7 +375,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 				return SERIES_PARAMETER_NAME_EDEFAULT == null ? seriesParameterName != null
 						: !SERIES_PARAMETER_NAME_EDEFAULT.equals( seriesParameterName );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

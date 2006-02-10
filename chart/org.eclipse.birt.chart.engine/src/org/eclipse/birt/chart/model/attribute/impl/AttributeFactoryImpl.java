@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import org.eclipse.birt.chart.model.attribute.*;
+
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
@@ -85,7 +87,11 @@ import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -97,6 +103,29 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 public class AttributeFactoryImpl extends EFactoryImpl implements
 		AttributeFactory
 {
+
+	/**
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static AttributeFactory init( )
+	{
+		try
+		{
+			AttributeFactory theAttributeFactory = (AttributeFactory) EPackage.Registry.INSTANCE.getEFactory( "http://www.birt.eclipse.org/ChartModelAttribute" ); //$NON-NLS-1$ 
+			if ( theAttributeFactory != null )
+			{
+				return theAttributeFactory;
+			}
+		}
+		catch ( Exception exception )
+		{
+			EcorePlugin.INSTANCE.log( exception );
+		}
+		return new AttributeFactoryImpl( );
+	}
 
 	/**
 	 * Creates an instance of the factory.
@@ -145,6 +174,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return createFontDefinition( );
 			case AttributePackage.FORMAT_SPECIFIER :
 				return createFormatSpecifier( );
+			case AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER :
+				return createFractionNumberFormatSpecifier( );
 			case AttributePackage.GRADIENT :
 				return createGradient( );
 			case AttributePackage.IMAGE :
@@ -203,236 +234,80 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 		switch ( eDataType.getClassifierID( ) )
 		{
 			case AttributePackage.ACTION_TYPE :
-			{
-				ActionType result = ActionType.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createActionTypeFromString( eDataType, initialValue );
 			case AttributePackage.ANCHOR :
-			{
-				Anchor result = Anchor.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createAnchorFromString( eDataType, initialValue );
 			case AttributePackage.ANGLE_TYPE :
-			{
-				AngleType result = AngleType.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createAngleTypeFromString( eDataType, initialValue );
 			case AttributePackage.AXIS_TYPE :
-			{
-				AxisType result = AxisType.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createAxisTypeFromString( eDataType, initialValue );
 			case AttributePackage.CHART_DIMENSION :
-			{
-				ChartDimension result = ChartDimension.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createChartDimensionFromString( eDataType, initialValue );
 			case AttributePackage.CHART_TYPE :
-			{
-				ChartType result = ChartType.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createChartTypeFromString( eDataType, initialValue );
 			case AttributePackage.DATA_POINT_COMPONENT_TYPE :
-			{
-				DataPointComponentType result = DataPointComponentType.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createDataPointComponentTypeFromString( eDataType,
+						initialValue );
 			case AttributePackage.DATA_TYPE :
-			{
-				DataType result = DataType.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createDataTypeFromString( eDataType, initialValue );
 			case AttributePackage.DATE_FORMAT_DETAIL :
-			{
-				DateFormatDetail result = DateFormatDetail.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createDateFormatDetailFromString( eDataType,
+						initialValue );
 			case AttributePackage.DATE_FORMAT_TYPE :
-			{
-				DateFormatType result = DateFormatType.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createDateFormatTypeFromString( eDataType, initialValue );
 			case AttributePackage.DIRECTION :
-			{
-				Direction result = Direction.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createDirectionFromString( eDataType, initialValue );
 			case AttributePackage.GROUPING_UNIT_TYPE :
-			{
-				GroupingUnitType result = GroupingUnitType.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createGroupingUnitTypeFromString( eDataType,
+						initialValue );
 			case AttributePackage.HORIZONTAL_ALIGNMENT :
-			{
-				HorizontalAlignment result = HorizontalAlignment.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createHorizontalAlignmentFromString( eDataType,
+						initialValue );
 			case AttributePackage.INTERSECTION_TYPE :
-			{
-				IntersectionType result = IntersectionType.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createIntersectionTypeFromString( eDataType,
+						initialValue );
 			case AttributePackage.LEADER_LINE_STYLE :
-			{
-				LeaderLineStyle result = LeaderLineStyle.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createLeaderLineStyleFromString( eDataType, initialValue );
 			case AttributePackage.LEGEND_BEHAVIOR_TYPE :
-			{
-				LegendBehaviorType result = LegendBehaviorType.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createLegendBehaviorTypeFromString( eDataType,
+						initialValue );
 			case AttributePackage.LEGEND_ITEM_TYPE :
-			{
-				LegendItemType result = LegendItemType.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createLegendItemTypeFromString( eDataType, initialValue );
 			case AttributePackage.LINE_DECORATOR :
-			{
-				LineDecorator result = LineDecorator.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createLineDecoratorFromString( eDataType, initialValue );
 			case AttributePackage.LINE_STYLE :
-			{
-				LineStyle result = LineStyle.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createLineStyleFromString( eDataType, initialValue );
 			case AttributePackage.MARKER_TYPE :
-			{
-				MarkerType result = MarkerType.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createMarkerTypeFromString( eDataType, initialValue );
 			case AttributePackage.ORIENTATION :
-			{
-				Orientation result = Orientation.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createOrientationFromString( eDataType, initialValue );
 			case AttributePackage.POSITION :
-			{
-				Position result = Position.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createPositionFromString( eDataType, initialValue );
 			case AttributePackage.RISER_TYPE :
-			{
-				RiserType result = RiserType.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createRiserTypeFromString( eDataType, initialValue );
 			case AttributePackage.RULE_TYPE :
-			{
-				RuleType result = RuleType.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createRuleTypeFromString( eDataType, initialValue );
 			case AttributePackage.SCALE_UNIT_TYPE :
-			{
-				ScaleUnitType result = ScaleUnitType.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createScaleUnitTypeFromString( eDataType, initialValue );
 			case AttributePackage.SORT_OPTION :
-			{
-				SortOption result = SortOption.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createSortOptionFromString( eDataType, initialValue );
 			case AttributePackage.STRETCH :
-			{
-				Stretch result = Stretch.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createStretchFromString( eDataType, initialValue );
 			case AttributePackage.STYLED_COMPONENT :
-			{
-				StyledComponent result = StyledComponent.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createStyledComponentFromString( eDataType, initialValue );
 			case AttributePackage.TICK_STYLE :
-			{
-				TickStyle result = TickStyle.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createTickStyleFromString( eDataType, initialValue );
 			case AttributePackage.TRIGGER_CONDITION :
-			{
-				TriggerCondition result = TriggerCondition.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createTriggerConditionFromString( eDataType,
+						initialValue );
 			case AttributePackage.TRIGGER_FLOW :
-			{
-				TriggerFlow result = TriggerFlow.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createTriggerFlowFromString( eDataType, initialValue );
 			case AttributePackage.UNITS_OF_MEASUREMENT :
-			{
-				UnitsOfMeasurement result = UnitsOfMeasurement.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createUnitsOfMeasurementFromString( eDataType,
+						initialValue );
 			case AttributePackage.VERTICAL_ALIGNMENT :
-			{
-				VerticalAlignment result = VerticalAlignment.get( initialValue );
-				if ( result == null )
-					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				return result;
-			}
+				return createVerticalAlignmentFromString( eDataType,
+						initialValue );
 			case AttributePackage.ACTION_TYPE_OBJECT :
 				return createActionTypeObjectFromString( eDataType,
 						initialValue );
@@ -545,71 +420,80 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 		switch ( eDataType.getClassifierID( ) )
 		{
 			case AttributePackage.ACTION_TYPE :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertActionTypeToString( eDataType, instanceValue );
 			case AttributePackage.ANCHOR :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertAnchorToString( eDataType, instanceValue );
 			case AttributePackage.ANGLE_TYPE :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertAngleTypeToString( eDataType, instanceValue );
 			case AttributePackage.AXIS_TYPE :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertAxisTypeToString( eDataType, instanceValue );
 			case AttributePackage.CHART_DIMENSION :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertChartDimensionToString( eDataType, instanceValue );
 			case AttributePackage.CHART_TYPE :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertChartTypeToString( eDataType, instanceValue );
 			case AttributePackage.DATA_POINT_COMPONENT_TYPE :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertDataPointComponentTypeToString( eDataType,
+						instanceValue );
 			case AttributePackage.DATA_TYPE :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertDataTypeToString( eDataType, instanceValue );
 			case AttributePackage.DATE_FORMAT_DETAIL :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertDateFormatDetailToString( eDataType,
+						instanceValue );
 			case AttributePackage.DATE_FORMAT_TYPE :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertDateFormatTypeToString( eDataType, instanceValue );
 			case AttributePackage.DIRECTION :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertDirectionToString( eDataType, instanceValue );
 			case AttributePackage.GROUPING_UNIT_TYPE :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertGroupingUnitTypeToString( eDataType,
+						instanceValue );
 			case AttributePackage.HORIZONTAL_ALIGNMENT :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertHorizontalAlignmentToString( eDataType,
+						instanceValue );
 			case AttributePackage.INTERSECTION_TYPE :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertIntersectionTypeToString( eDataType,
+						instanceValue );
 			case AttributePackage.LEADER_LINE_STYLE :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertLeaderLineStyleToString( eDataType, instanceValue );
 			case AttributePackage.LEGEND_BEHAVIOR_TYPE :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertLegendBehaviorTypeToString( eDataType,
+						instanceValue );
 			case AttributePackage.LEGEND_ITEM_TYPE :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertLegendItemTypeToString( eDataType, instanceValue );
 			case AttributePackage.LINE_DECORATOR :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertLineDecoratorToString( eDataType, instanceValue );
 			case AttributePackage.LINE_STYLE :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertLineStyleToString( eDataType, instanceValue );
 			case AttributePackage.MARKER_TYPE :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertMarkerTypeToString( eDataType, instanceValue );
 			case AttributePackage.ORIENTATION :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertOrientationToString( eDataType, instanceValue );
 			case AttributePackage.POSITION :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertPositionToString( eDataType, instanceValue );
 			case AttributePackage.RISER_TYPE :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertRiserTypeToString( eDataType, instanceValue );
 			case AttributePackage.RULE_TYPE :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertRuleTypeToString( eDataType, instanceValue );
 			case AttributePackage.SCALE_UNIT_TYPE :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertScaleUnitTypeToString( eDataType, instanceValue );
 			case AttributePackage.SORT_OPTION :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertSortOptionToString( eDataType, instanceValue );
 			case AttributePackage.STRETCH :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertStretchToString( eDataType, instanceValue );
 			case AttributePackage.STYLED_COMPONENT :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertStyledComponentToString( eDataType, instanceValue );
 			case AttributePackage.TICK_STYLE :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertTickStyleToString( eDataType, instanceValue );
 			case AttributePackage.TRIGGER_CONDITION :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertTriggerConditionToString( eDataType,
+						instanceValue );
 			case AttributePackage.TRIGGER_FLOW :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertTriggerFlowToString( eDataType, instanceValue );
 			case AttributePackage.UNITS_OF_MEASUREMENT :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertUnitsOfMeasurementToString( eDataType,
+						instanceValue );
 			case AttributePackage.VERTICAL_ALIGNMENT :
-				return instanceValue == null ? null : instanceValue.toString( );
+				return convertVerticalAlignmentToString( eDataType,
+						instanceValue );
 			case AttributePackage.ACTION_TYPE_OBJECT :
 				return convertActionTypeObjectToString( eDataType,
 						instanceValue );
@@ -857,6 +741,17 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FractionNumberFormatSpecifier createFractionNumberFormatSpecifier( )
+	{
+		FractionNumberFormatSpecifierImpl fractionNumberFormatSpecifier = new FractionNumberFormatSpecifierImpl( );
+		return fractionNumberFormatSpecifier;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1081,13 +976,838 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ActionType createActionTypeFromString( EDataType eDataType,
+			String initialValue )
+	{
+		ActionType result = ActionType.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertActionTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Anchor createAnchorFromString( EDataType eDataType,
+			String initialValue )
+	{
+		Anchor result = Anchor.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertAnchorToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AngleType createAngleTypeFromString( EDataType eDataType,
+			String initialValue )
+	{
+		AngleType result = AngleType.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertAngleTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AxisType createAxisTypeFromString( EDataType eDataType,
+			String initialValue )
+	{
+		AxisType result = AxisType.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertAxisTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ChartDimension createChartDimensionFromString( EDataType eDataType,
+			String initialValue )
+	{
+		ChartDimension result = ChartDimension.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertChartDimensionToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ChartType createChartTypeFromString( EDataType eDataType,
+			String initialValue )
+	{
+		ChartType result = ChartType.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertChartTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DataPointComponentType createDataPointComponentTypeFromString(
+			EDataType eDataType, String initialValue )
+	{
+		DataPointComponentType result = DataPointComponentType.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertDataPointComponentTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DataType createDataTypeFromString( EDataType eDataType,
+			String initialValue )
+	{
+		DataType result = DataType.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertDataTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DateFormatDetail createDateFormatDetailFromString(
+			EDataType eDataType, String initialValue )
+	{
+		DateFormatDetail result = DateFormatDetail.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertDateFormatDetailToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DateFormatType createDateFormatTypeFromString( EDataType eDataType,
+			String initialValue )
+	{
+		DateFormatType result = DateFormatType.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertDateFormatTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Direction createDirectionFromString( EDataType eDataType,
+			String initialValue )
+	{
+		Direction result = Direction.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertDirectionToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GroupingUnitType createGroupingUnitTypeFromString(
+			EDataType eDataType, String initialValue )
+	{
+		GroupingUnitType result = GroupingUnitType.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertGroupingUnitTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public HorizontalAlignment createHorizontalAlignmentFromString(
+			EDataType eDataType, String initialValue )
+	{
+		HorizontalAlignment result = HorizontalAlignment.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertHorizontalAlignmentToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IntersectionType createIntersectionTypeFromString(
+			EDataType eDataType, String initialValue )
+	{
+		IntersectionType result = IntersectionType.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertIntersectionTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LeaderLineStyle createLeaderLineStyleFromString(
+			EDataType eDataType, String initialValue )
+	{
+		LeaderLineStyle result = LeaderLineStyle.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertLeaderLineStyleToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LegendBehaviorType createLegendBehaviorTypeFromString(
+			EDataType eDataType, String initialValue )
+	{
+		LegendBehaviorType result = LegendBehaviorType.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertLegendBehaviorTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LegendItemType createLegendItemTypeFromString( EDataType eDataType,
+			String initialValue )
+	{
+		LegendItemType result = LegendItemType.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertLegendItemTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LineDecorator createLineDecoratorFromString( EDataType eDataType,
+			String initialValue )
+	{
+		LineDecorator result = LineDecorator.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertLineDecoratorToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LineStyle createLineStyleFromString( EDataType eDataType,
+			String initialValue )
+	{
+		LineStyle result = LineStyle.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertLineStyleToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MarkerType createMarkerTypeFromString( EDataType eDataType,
+			String initialValue )
+	{
+		MarkerType result = MarkerType.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertMarkerTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Orientation createOrientationFromString( EDataType eDataType,
+			String initialValue )
+	{
+		Orientation result = Orientation.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertOrientationToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Position createPositionFromString( EDataType eDataType,
+			String initialValue )
+	{
+		Position result = Position.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertPositionToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RiserType createRiserTypeFromString( EDataType eDataType,
+			String initialValue )
+	{
+		RiserType result = RiserType.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertRiserTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RuleType createRuleTypeFromString( EDataType eDataType,
+			String initialValue )
+	{
+		RuleType result = RuleType.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertRuleTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ScaleUnitType createScaleUnitTypeFromString( EDataType eDataType,
+			String initialValue )
+	{
+		ScaleUnitType result = ScaleUnitType.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertScaleUnitTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SortOption createSortOptionFromString( EDataType eDataType,
+			String initialValue )
+	{
+		SortOption result = SortOption.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertSortOptionToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Stretch createStretchFromString( EDataType eDataType,
+			String initialValue )
+	{
+		Stretch result = Stretch.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertStretchToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StyledComponent createStyledComponentFromString(
+			EDataType eDataType, String initialValue )
+	{
+		StyledComponent result = StyledComponent.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertStyledComponentToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TickStyle createTickStyleFromString( EDataType eDataType,
+			String initialValue )
+	{
+		TickStyle result = TickStyle.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertTickStyleToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TriggerCondition createTriggerConditionFromString(
+			EDataType eDataType, String initialValue )
+	{
+		TriggerCondition result = TriggerCondition.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertTriggerConditionToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TriggerFlow createTriggerFlowFromString( EDataType eDataType,
+			String initialValue )
+	{
+		TriggerFlow result = TriggerFlow.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertTriggerFlowToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UnitsOfMeasurement createUnitsOfMeasurementFromString(
+			EDataType eDataType, String initialValue )
+	{
+		UnitsOfMeasurement result = UnitsOfMeasurement.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertUnitsOfMeasurementToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public VerticalAlignment createVerticalAlignmentFromString(
+			EDataType eDataType, String initialValue )
+	{
+		VerticalAlignment result = VerticalAlignment.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertVerticalAlignmentToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public ActionType createActionTypeObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (ActionType) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getActionType( ),
+		return (ActionType) createActionTypeFromString( AttributePackage.Literals.ACTION_TYPE,
 				initialValue );
 	}
 
@@ -1098,7 +1818,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertActionTypeObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getActionType( ),
+		return convertActionTypeToString( AttributePackage.Literals.ACTION_TYPE,
 				instanceValue );
 	}
 
@@ -1109,7 +1829,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public Anchor createAnchorObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (Anchor) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getAnchor( ),
+		return (Anchor) createAnchorFromString( AttributePackage.Literals.ANCHOR,
 				initialValue );
 	}
 
@@ -1120,7 +1840,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertAnchorObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getAnchor( ),
+		return convertAnchorToString( AttributePackage.Literals.ANCHOR,
 				instanceValue );
 	}
 
@@ -1132,7 +1852,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public AngleType createAngleTypeObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (AngleType) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getAngleType( ),
+		return (AngleType) createAngleTypeFromString( AttributePackage.Literals.ANGLE_TYPE,
 				initialValue );
 	}
 
@@ -1144,7 +1864,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertAngleTypeObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getAngleType( ),
+		return convertAngleTypeToString( AttributePackage.Literals.ANGLE_TYPE,
 				instanceValue );
 	}
 
@@ -1155,7 +1875,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public AxisType createAxisTypeObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (AxisType) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getAxisType( ),
+		return (AxisType) createAxisTypeFromString( AttributePackage.Literals.AXIS_TYPE,
 				initialValue );
 	}
 
@@ -1166,7 +1886,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertAxisTypeObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getAxisType( ),
+		return convertAxisTypeToString( AttributePackage.Literals.AXIS_TYPE,
 				instanceValue );
 	}
 
@@ -1177,7 +1897,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public ChartDimension createChartDimensionObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (ChartDimension) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getChartDimension( ),
+		return (ChartDimension) createChartDimensionFromString( AttributePackage.Literals.CHART_DIMENSION,
 				initialValue );
 	}
 
@@ -1188,7 +1908,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertChartDimensionObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getChartDimension( ),
+		return convertChartDimensionToString( AttributePackage.Literals.CHART_DIMENSION,
 				instanceValue );
 	}
 
@@ -1199,7 +1919,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public ChartType createChartTypeObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (ChartType) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getChartType( ),
+		return (ChartType) createChartTypeFromString( AttributePackage.Literals.CHART_TYPE,
 				initialValue );
 	}
 
@@ -1210,7 +1930,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertChartTypeObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getChartType( ),
+		return convertChartTypeToString( AttributePackage.Literals.CHART_TYPE,
 				instanceValue );
 	}
 
@@ -1221,7 +1941,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public DataPointComponentType createDataPointComponentTypeObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (DataPointComponentType) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getDataPointComponentType( ),
+		return (DataPointComponentType) createDataPointComponentTypeFromString( AttributePackage.Literals.DATA_POINT_COMPONENT_TYPE,
 				initialValue );
 	}
 
@@ -1232,7 +1952,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertDataPointComponentTypeObjectToString(
 			EDataType eDataType, Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getDataPointComponentType( ),
+		return convertDataPointComponentTypeToString( AttributePackage.Literals.DATA_POINT_COMPONENT_TYPE,
 				instanceValue );
 	}
 
@@ -1243,7 +1963,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public DataType createDataTypeObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (DataType) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getDataType( ),
+		return (DataType) createDataTypeFromString( AttributePackage.Literals.DATA_TYPE,
 				initialValue );
 	}
 
@@ -1254,7 +1974,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertDataTypeObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getDataType( ),
+		return convertDataTypeToString( AttributePackage.Literals.DATA_TYPE,
 				instanceValue );
 	}
 
@@ -1265,7 +1985,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public DateFormatDetail createDateFormatDetailObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (DateFormatDetail) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getDateFormatDetail( ),
+		return (DateFormatDetail) createDateFormatDetailFromString( AttributePackage.Literals.DATE_FORMAT_DETAIL,
 				initialValue );
 	}
 
@@ -1276,7 +1996,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertDateFormatDetailObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getDateFormatDetail( ),
+		return convertDateFormatDetailToString( AttributePackage.Literals.DATE_FORMAT_DETAIL,
 				instanceValue );
 	}
 
@@ -1287,7 +2007,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public DateFormatType createDateFormatTypeObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (DateFormatType) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getDateFormatType( ),
+		return (DateFormatType) createDateFormatTypeFromString( AttributePackage.Literals.DATE_FORMAT_TYPE,
 				initialValue );
 	}
 
@@ -1298,7 +2018,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertDateFormatTypeObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getDateFormatType( ),
+		return convertDateFormatTypeToString( AttributePackage.Literals.DATE_FORMAT_TYPE,
 				instanceValue );
 	}
 
@@ -1309,7 +2029,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public Direction createDirectionObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (Direction) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getDirection( ),
+		return (Direction) createDirectionFromString( AttributePackage.Literals.DIRECTION,
 				initialValue );
 	}
 
@@ -1320,7 +2040,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertDirectionObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getDirection( ),
+		return convertDirectionToString( AttributePackage.Literals.DIRECTION,
 				instanceValue );
 	}
 
@@ -1331,7 +2051,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public GroupingUnitType createGroupingUnitTypeObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (GroupingUnitType) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getGroupingUnitType( ),
+		return (GroupingUnitType) createGroupingUnitTypeFromString( AttributePackage.Literals.GROUPING_UNIT_TYPE,
 				initialValue );
 	}
 
@@ -1342,7 +2062,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertGroupingUnitTypeObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getGroupingUnitType( ),
+		return convertGroupingUnitTypeToString( AttributePackage.Literals.GROUPING_UNIT_TYPE,
 				instanceValue );
 	}
 
@@ -1353,7 +2073,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public HorizontalAlignment createHorizontalAlignmentObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (HorizontalAlignment) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getHorizontalAlignment( ),
+		return (HorizontalAlignment) createHorizontalAlignmentFromString( AttributePackage.Literals.HORIZONTAL_ALIGNMENT,
 				initialValue );
 	}
 
@@ -1364,7 +2084,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertHorizontalAlignmentObjectToString(
 			EDataType eDataType, Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getHorizontalAlignment( ),
+		return convertHorizontalAlignmentToString( AttributePackage.Literals.HORIZONTAL_ALIGNMENT,
 				instanceValue );
 	}
 
@@ -1374,7 +2094,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	 */
 	public String createIDFromString( EDataType eDataType, String initialValue )
 	{
-		return (String) XMLTypeFactory.eINSTANCE.createFromString( XMLTypePackage.eINSTANCE.getString( ),
+		return (String) XMLTypeFactory.eINSTANCE.createFromString( XMLTypePackage.Literals.STRING,
 				initialValue );
 	}
 
@@ -1384,7 +2104,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	 */
 	public String convertIDToString( EDataType eDataType, Object instanceValue )
 	{
-		return XMLTypeFactory.eINSTANCE.convertToString( XMLTypePackage.eINSTANCE.getString( ),
+		return XMLTypeFactory.eINSTANCE.convertToString( XMLTypePackage.Literals.STRING,
 				instanceValue );
 	}
 
@@ -1395,7 +2115,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public IntersectionType createIntersectionTypeObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (IntersectionType) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getIntersectionType( ),
+		return (IntersectionType) createIntersectionTypeFromString( AttributePackage.Literals.INTERSECTION_TYPE,
 				initialValue );
 	}
 
@@ -1406,7 +2126,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertIntersectionTypeObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getIntersectionType( ),
+		return convertIntersectionTypeToString( AttributePackage.Literals.INTERSECTION_TYPE,
 				instanceValue );
 	}
 
@@ -1417,7 +2137,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public LeaderLineStyle createLeaderLineStyleObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (LeaderLineStyle) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getLeaderLineStyle( ),
+		return (LeaderLineStyle) createLeaderLineStyleFromString( AttributePackage.Literals.LEADER_LINE_STYLE,
 				initialValue );
 	}
 
@@ -1428,7 +2148,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertLeaderLineStyleObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getLeaderLineStyle( ),
+		return convertLeaderLineStyleToString( AttributePackage.Literals.LEADER_LINE_STYLE,
 				instanceValue );
 	}
 
@@ -1440,7 +2160,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public LegendBehaviorType createLegendBehaviorTypeObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (LegendBehaviorType) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getLegendBehaviorType( ),
+		return (LegendBehaviorType) createLegendBehaviorTypeFromString( AttributePackage.Literals.LEGEND_BEHAVIOR_TYPE,
 				initialValue );
 	}
 
@@ -1452,7 +2172,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertLegendBehaviorTypeObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getLegendBehaviorType( ),
+		return convertLegendBehaviorTypeToString( AttributePackage.Literals.LEGEND_BEHAVIOR_TYPE,
 				instanceValue );
 	}
 
@@ -1463,7 +2183,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public LegendItemType createLegendItemTypeObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (LegendItemType) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getLegendItemType( ),
+		return (LegendItemType) createLegendItemTypeFromString( AttributePackage.Literals.LEGEND_ITEM_TYPE,
 				initialValue );
 	}
 
@@ -1474,7 +2194,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertLegendItemTypeObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getLegendItemType( ),
+		return convertLegendItemTypeToString( AttributePackage.Literals.LEGEND_ITEM_TYPE,
 				instanceValue );
 	}
 
@@ -1485,7 +2205,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public LineDecorator createLineDecoratorObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (LineDecorator) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getLineDecorator( ),
+		return (LineDecorator) createLineDecoratorFromString( AttributePackage.Literals.LINE_DECORATOR,
 				initialValue );
 	}
 
@@ -1496,7 +2216,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertLineDecoratorObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getLineDecorator( ),
+		return convertLineDecoratorToString( AttributePackage.Literals.LINE_DECORATOR,
 				instanceValue );
 	}
 
@@ -1507,7 +2227,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public LineStyle createLineStyleObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (LineStyle) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getLineStyle( ),
+		return (LineStyle) createLineStyleFromString( AttributePackage.Literals.LINE_STYLE,
 				initialValue );
 	}
 
@@ -1518,7 +2238,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertLineStyleObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getLineStyle( ),
+		return convertLineStyleToString( AttributePackage.Literals.LINE_STYLE,
 				instanceValue );
 	}
 
@@ -1529,7 +2249,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public MarkerType createMarkerTypeObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (MarkerType) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getMarkerType( ),
+		return (MarkerType) createMarkerTypeFromString( AttributePackage.Literals.MARKER_TYPE,
 				initialValue );
 	}
 
@@ -1540,7 +2260,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertMarkerTypeObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getMarkerType( ),
+		return convertMarkerTypeToString( AttributePackage.Literals.MARKER_TYPE,
 				instanceValue );
 	}
 
@@ -1551,7 +2271,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public Orientation createOrientationObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (Orientation) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getOrientation( ),
+		return (Orientation) createOrientationFromString( AttributePackage.Literals.ORIENTATION,
 				initialValue );
 	}
 
@@ -1562,7 +2282,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertOrientationObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getOrientation( ),
+		return convertOrientationToString( AttributePackage.Literals.ORIENTATION,
 				instanceValue );
 	}
 
@@ -1573,7 +2293,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public Double createPercentageFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (Double) XMLTypeFactory.eINSTANCE.createFromString( XMLTypePackage.eINSTANCE.getDouble( ),
+		return (Double) XMLTypeFactory.eINSTANCE.createFromString( XMLTypePackage.Literals.DOUBLE,
 				initialValue );
 	}
 
@@ -1584,7 +2304,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertPercentageToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return XMLTypeFactory.eINSTANCE.convertToString( XMLTypePackage.eINSTANCE.getDouble( ),
+		return XMLTypeFactory.eINSTANCE.convertToString( XMLTypePackage.Literals.DOUBLE,
 				instanceValue );
 	}
 
@@ -1595,7 +2315,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public Double createPercentageObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (Double) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getPercentage( ),
+		return (Double) createPercentageFromString( AttributePackage.Literals.PERCENTAGE,
 				initialValue );
 	}
 
@@ -1606,7 +2326,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertPercentageObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getPercentage( ),
+		return convertPercentageToString( AttributePackage.Literals.PERCENTAGE,
 				instanceValue );
 	}
 
@@ -1617,7 +2337,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public Position createPositionObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (Position) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getPosition( ),
+		return (Position) createPositionFromString( AttributePackage.Literals.POSITION,
 				initialValue );
 	}
 
@@ -1628,7 +2348,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertPositionObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getPosition( ),
+		return convertPositionToString( AttributePackage.Literals.POSITION,
 				instanceValue );
 	}
 
@@ -1639,7 +2359,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public Integer createRGBValueFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (Integer) XMLTypeFactory.eINSTANCE.createFromString( XMLTypePackage.eINSTANCE.getInt( ),
+		return (Integer) XMLTypeFactory.eINSTANCE.createFromString( XMLTypePackage.Literals.INT,
 				initialValue );
 	}
 
@@ -1650,7 +2370,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertRGBValueToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return XMLTypeFactory.eINSTANCE.convertToString( XMLTypePackage.eINSTANCE.getInt( ),
+		return XMLTypeFactory.eINSTANCE.convertToString( XMLTypePackage.Literals.INT,
 				instanceValue );
 	}
 
@@ -1661,7 +2381,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public Integer createRGBValueObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (Integer) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getRGBValue( ),
+		return (Integer) createRGBValueFromString( AttributePackage.Literals.RGB_VALUE,
 				initialValue );
 	}
 
@@ -1672,7 +2392,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertRGBValueObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getRGBValue( ),
+		return convertRGBValueToString( AttributePackage.Literals.RGB_VALUE,
 				instanceValue );
 	}
 
@@ -1683,7 +2403,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public RiserType createRiserTypeObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (RiserType) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getRiserType( ),
+		return (RiserType) createRiserTypeFromString( AttributePackage.Literals.RISER_TYPE,
 				initialValue );
 	}
 
@@ -1694,7 +2414,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertRiserTypeObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getRiserType( ),
+		return convertRiserTypeToString( AttributePackage.Literals.RISER_TYPE,
 				instanceValue );
 	}
 
@@ -1705,7 +2425,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public RuleType createRuleTypeObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (RuleType) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getRuleType( ),
+		return (RuleType) createRuleTypeFromString( AttributePackage.Literals.RULE_TYPE,
 				initialValue );
 	}
 
@@ -1716,7 +2436,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertRuleTypeObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getRuleType( ),
+		return convertRuleTypeToString( AttributePackage.Literals.RULE_TYPE,
 				instanceValue );
 	}
 
@@ -1727,7 +2447,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public ScaleUnitType createScaleUnitTypeObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (ScaleUnitType) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getScaleUnitType( ),
+		return (ScaleUnitType) createScaleUnitTypeFromString( AttributePackage.Literals.SCALE_UNIT_TYPE,
 				initialValue );
 	}
 
@@ -1738,7 +2458,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertScaleUnitTypeObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getScaleUnitType( ),
+		return convertScaleUnitTypeToString( AttributePackage.Literals.SCALE_UNIT_TYPE,
 				instanceValue );
 	}
 
@@ -1749,7 +2469,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public SortOption createSortOptionObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (SortOption) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getSortOption( ),
+		return (SortOption) createSortOptionFromString( AttributePackage.Literals.SORT_OPTION,
 				initialValue );
 	}
 
@@ -1760,7 +2480,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertSortOptionObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getSortOption( ),
+		return convertSortOptionToString( AttributePackage.Literals.SORT_OPTION,
 				instanceValue );
 	}
 
@@ -1771,7 +2491,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public Stretch createStretchObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (Stretch) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getStretch( ),
+		return (Stretch) createStretchFromString( AttributePackage.Literals.STRETCH,
 				initialValue );
 	}
 
@@ -1782,7 +2502,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertStretchObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getStretch( ),
+		return convertStretchToString( AttributePackage.Literals.STRETCH,
 				instanceValue );
 	}
 
@@ -1793,7 +2513,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public StyledComponent createStyledComponentObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (StyledComponent) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getStyledComponent( ),
+		return (StyledComponent) createStyledComponentFromString( AttributePackage.Literals.STYLED_COMPONENT,
 				initialValue );
 	}
 
@@ -1804,7 +2524,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertStyledComponentObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getStyledComponent( ),
+		return convertStyledComponentToString( AttributePackage.Literals.STYLED_COMPONENT,
 				instanceValue );
 	}
 
@@ -1815,7 +2535,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public TickStyle createTickStyleObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (TickStyle) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getTickStyle( ),
+		return (TickStyle) createTickStyleFromString( AttributePackage.Literals.TICK_STYLE,
 				initialValue );
 	}
 
@@ -1826,7 +2546,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertTickStyleObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getTickStyle( ),
+		return convertTickStyleToString( AttributePackage.Literals.TICK_STYLE,
 				instanceValue );
 	}
 
@@ -1837,7 +2557,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public TriggerCondition createTriggerConditionObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (TriggerCondition) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getTriggerCondition( ),
+		return (TriggerCondition) createTriggerConditionFromString( AttributePackage.Literals.TRIGGER_CONDITION,
 				initialValue );
 	}
 
@@ -1848,7 +2568,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertTriggerConditionObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getTriggerCondition( ),
+		return convertTriggerConditionToString( AttributePackage.Literals.TRIGGER_CONDITION,
 				instanceValue );
 	}
 
@@ -1860,7 +2580,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public TriggerFlow createTriggerFlowObjectFromString( EDataType eDataType,
 			String initialValue )
 	{
-		return (TriggerFlow) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getTriggerFlow( ),
+		return (TriggerFlow) createTriggerFlowFromString( AttributePackage.Literals.TRIGGER_FLOW,
 				initialValue );
 	}
 
@@ -1872,7 +2592,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertTriggerFlowObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getTriggerFlow( ),
+		return convertTriggerFlowToString( AttributePackage.Literals.TRIGGER_FLOW,
 				instanceValue );
 	}
 
@@ -1883,7 +2603,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public UnitsOfMeasurement createUnitsOfMeasurementObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (UnitsOfMeasurement) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getUnitsOfMeasurement( ),
+		return (UnitsOfMeasurement) createUnitsOfMeasurementFromString( AttributePackage.Literals.UNITS_OF_MEASUREMENT,
 				initialValue );
 	}
 
@@ -1894,7 +2614,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertUnitsOfMeasurementObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getUnitsOfMeasurement( ),
+		return convertUnitsOfMeasurementToString( AttributePackage.Literals.UNITS_OF_MEASUREMENT,
 				instanceValue );
 	}
 
@@ -1905,7 +2625,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public VerticalAlignment createVerticalAlignmentObjectFromString(
 			EDataType eDataType, String initialValue )
 	{
-		return (VerticalAlignment) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getVerticalAlignment( ),
+		return (VerticalAlignment) createVerticalAlignmentFromString( AttributePackage.Literals.VERTICAL_ALIGNMENT,
 				initialValue );
 	}
 
@@ -1916,7 +2636,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	public String convertVerticalAlignmentObjectToString( EDataType eDataType,
 			Object instanceValue )
 	{
-		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getVerticalAlignment( ),
+		return convertVerticalAlignmentToString( AttributePackage.Literals.VERTICAL_ALIGNMENT,
 				instanceValue );
 	}
 

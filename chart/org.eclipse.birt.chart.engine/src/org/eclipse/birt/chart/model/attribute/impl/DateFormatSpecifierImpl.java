@@ -113,75 +113,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getDateFormatSpecifier( );
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
-	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
-		{
-			case AttributePackage.DATE_FORMAT_SPECIFIER__TYPE :
-				return getType( );
-			case AttributePackage.DATE_FORMAT_SPECIFIER__DETAIL :
-				return getDetail( );
-		}
-		return eDynamicGet( eFeature, resolve );
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
-	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
-		{
-			case AttributePackage.DATE_FORMAT_SPECIFIER__TYPE :
-				setType( (DateFormatType) newValue );
-				return;
-			case AttributePackage.DATE_FORMAT_SPECIFIER__DETAIL :
-				setDetail( (DateFormatDetail) newValue );
-				return;
-		}
-		eDynamicSet( eFeature, newValue );
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void eUnset( EStructuralFeature eFeature )
-	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
-		{
-			case AttributePackage.DATE_FORMAT_SPECIFIER__TYPE :
-				unsetType( );
-				return;
-			case AttributePackage.DATE_FORMAT_SPECIFIER__DETAIL :
-				unsetDetail( );
-				return;
-		}
-		eDynamicUnset( eFeature );
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
-	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
-		{
-			case AttributePackage.DATE_FORMAT_SPECIFIER__TYPE :
-				return isSetType( );
-			case AttributePackage.DATE_FORMAT_SPECIFIER__DETAIL :
-				return isSetDetail( );
-		}
-		return eDynamicIsSet( eFeature );
+		return AttributePackage.Literals.DATE_FORMAT_SPECIFIER;
 	}
 
 	/**
@@ -345,6 +277,78 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	public boolean isSetDetail( )
 	{
 		return detailESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
+	{
+		switch ( featureID )
+		{
+			case AttributePackage.DATE_FORMAT_SPECIFIER__TYPE :
+				return getType( );
+			case AttributePackage.DATE_FORMAT_SPECIFIER__DETAIL :
+				return getDetail( );
+		}
+		return super.eGet( featureID, resolve, coreType );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eSet( int featureID, Object newValue )
+	{
+		switch ( featureID )
+		{
+			case AttributePackage.DATE_FORMAT_SPECIFIER__TYPE :
+				setType( (DateFormatType) newValue );
+				return;
+			case AttributePackage.DATE_FORMAT_SPECIFIER__DETAIL :
+				setDetail( (DateFormatDetail) newValue );
+				return;
+		}
+		super.eSet( featureID, newValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eUnset( int featureID )
+	{
+		switch ( featureID )
+		{
+			case AttributePackage.DATE_FORMAT_SPECIFIER__TYPE :
+				unsetType( );
+				return;
+			case AttributePackage.DATE_FORMAT_SPECIFIER__DETAIL :
+				unsetDetail( );
+				return;
+		}
+		super.eUnset( featureID );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean eIsSet( int featureID )
+	{
+		switch ( featureID )
+		{
+			case AttributePackage.DATE_FORMAT_SPECIFIER__TYPE :
+				return isSetType( );
+			case AttributePackage.DATE_FORMAT_SPECIFIER__DETAIL :
+				return isSetDetail( );
+		}
+		return super.eIsSet( featureID );
 	}
 
 	/*

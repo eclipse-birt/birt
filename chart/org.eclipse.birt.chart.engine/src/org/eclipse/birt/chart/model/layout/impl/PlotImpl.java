@@ -133,7 +133,7 @@ public class PlotImpl extends BlockImpl implements Plot
 	 */
 	protected EClass eStaticClass( )
 	{
-		return LayoutPackage.eINSTANCE.getPlot( );
+		return LayoutPackage.Literals.PLOT;
 	}
 
 	/**
@@ -315,80 +315,30 @@ public class PlotImpl extends BlockImpl implements Plot
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, Class baseClass, NotificationChain msgs )
+			int featureID, NotificationChain msgs )
 	{
-		if ( featureID >= 0 )
+		switch ( featureID )
 		{
-			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
-			{
-				case LayoutPackage.PLOT__CHILDREN :
-					return ( (InternalEList) getChildren( ) ).basicRemove( otherEnd,
-							msgs );
-				case LayoutPackage.PLOT__BOUNDS :
-					return basicSetBounds( null, msgs );
-				case LayoutPackage.PLOT__INSETS :
-					return basicSetInsets( null, msgs );
-				case LayoutPackage.PLOT__MIN_SIZE :
-					return basicSetMinSize( null, msgs );
-				case LayoutPackage.PLOT__OUTLINE :
-					return basicSetOutline( null, msgs );
-				case LayoutPackage.PLOT__BACKGROUND :
-					return basicSetBackground( null, msgs );
-				case LayoutPackage.PLOT__TRIGGERS :
-					return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
-							msgs );
-				case LayoutPackage.PLOT__CLIENT_AREA :
-					return basicSetClientArea( null, msgs );
-				default :
-					return eDynamicInverseRemove( otherEnd,
-							featureID,
-							baseClass,
-							msgs );
-			}
+			case LayoutPackage.PLOT__CLIENT_AREA :
+				return basicSetClientArea( null, msgs );
 		}
-		return eBasicSetContainer( null, featureID, msgs );
+		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case LayoutPackage.PLOT__CHILDREN :
-				return getChildren( );
-			case LayoutPackage.PLOT__BOUNDS :
-				return getBounds( );
-			case LayoutPackage.PLOT__ANCHOR :
-				return getAnchor( );
-			case LayoutPackage.PLOT__STRETCH :
-				return getStretch( );
-			case LayoutPackage.PLOT__INSETS :
-				return getInsets( );
-			case LayoutPackage.PLOT__ROW :
-				return new Integer( getRow( ) );
-			case LayoutPackage.PLOT__COLUMN :
-				return new Integer( getColumn( ) );
-			case LayoutPackage.PLOT__ROWSPAN :
-				return new Integer( getRowspan( ) );
-			case LayoutPackage.PLOT__COLUMNSPAN :
-				return new Integer( getColumnspan( ) );
-			case LayoutPackage.PLOT__MIN_SIZE :
-				return getMinSize( );
-			case LayoutPackage.PLOT__OUTLINE :
-				return getOutline( );
-			case LayoutPackage.PLOT__BACKGROUND :
-				return getBackground( );
-			case LayoutPackage.PLOT__VISIBLE :
-				return isVisible( ) ? Boolean.TRUE : Boolean.FALSE;
-			case LayoutPackage.PLOT__TRIGGERS :
-				return getTriggers( );
 			case LayoutPackage.PLOT__HORIZONTAL_SPACING :
 				return new Integer( getHorizontalSpacing( ) );
 			case LayoutPackage.PLOT__VERTICAL_SPACING :
@@ -396,61 +346,18 @@ public class PlotImpl extends BlockImpl implements Plot
 			case LayoutPackage.PLOT__CLIENT_AREA :
 				return getClientArea( );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case LayoutPackage.PLOT__CHILDREN :
-				getChildren( ).clear( );
-				getChildren( ).addAll( (Collection) newValue );
-				return;
-			case LayoutPackage.PLOT__BOUNDS :
-				setBounds( (Bounds) newValue );
-				return;
-			case LayoutPackage.PLOT__ANCHOR :
-				setAnchor( (Anchor) newValue );
-				return;
-			case LayoutPackage.PLOT__STRETCH :
-				setStretch( (Stretch) newValue );
-				return;
-			case LayoutPackage.PLOT__INSETS :
-				setInsets( (Insets) newValue );
-				return;
-			case LayoutPackage.PLOT__ROW :
-				setRow( ( (Integer) newValue ).intValue( ) );
-				return;
-			case LayoutPackage.PLOT__COLUMN :
-				setColumn( ( (Integer) newValue ).intValue( ) );
-				return;
-			case LayoutPackage.PLOT__ROWSPAN :
-				setRowspan( ( (Integer) newValue ).intValue( ) );
-				return;
-			case LayoutPackage.PLOT__COLUMNSPAN :
-				setColumnspan( ( (Integer) newValue ).intValue( ) );
-				return;
-			case LayoutPackage.PLOT__MIN_SIZE :
-				setMinSize( (Size) newValue );
-				return;
-			case LayoutPackage.PLOT__OUTLINE :
-				setOutline( (LineAttributes) newValue );
-				return;
-			case LayoutPackage.PLOT__BACKGROUND :
-				setBackground( (Fill) newValue );
-				return;
-			case LayoutPackage.PLOT__VISIBLE :
-				setVisible( ( (Boolean) newValue ).booleanValue( ) );
-				return;
-			case LayoutPackage.PLOT__TRIGGERS :
-				getTriggers( ).clear( );
-				getTriggers( ).addAll( (Collection) newValue );
-				return;
 			case LayoutPackage.PLOT__HORIZONTAL_SPACING :
 				setHorizontalSpacing( ( (Integer) newValue ).intValue( ) );
 				return;
@@ -461,59 +368,18 @@ public class PlotImpl extends BlockImpl implements Plot
 				setClientArea( (ClientArea) newValue );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case LayoutPackage.PLOT__CHILDREN :
-				getChildren( ).clear( );
-				return;
-			case LayoutPackage.PLOT__BOUNDS :
-				setBounds( (Bounds) null );
-				return;
-			case LayoutPackage.PLOT__ANCHOR :
-				unsetAnchor( );
-				return;
-			case LayoutPackage.PLOT__STRETCH :
-				unsetStretch( );
-				return;
-			case LayoutPackage.PLOT__INSETS :
-				setInsets( (Insets) null );
-				return;
-			case LayoutPackage.PLOT__ROW :
-				unsetRow( );
-				return;
-			case LayoutPackage.PLOT__COLUMN :
-				unsetColumn( );
-				return;
-			case LayoutPackage.PLOT__ROWSPAN :
-				unsetRowspan( );
-				return;
-			case LayoutPackage.PLOT__COLUMNSPAN :
-				unsetColumnspan( );
-				return;
-			case LayoutPackage.PLOT__MIN_SIZE :
-				setMinSize( (Size) null );
-				return;
-			case LayoutPackage.PLOT__OUTLINE :
-				setOutline( (LineAttributes) null );
-				return;
-			case LayoutPackage.PLOT__BACKGROUND :
-				setBackground( (Fill) null );
-				return;
-			case LayoutPackage.PLOT__VISIBLE :
-				unsetVisible( );
-				return;
-			case LayoutPackage.PLOT__TRIGGERS :
-				getTriggers( ).clear( );
-				return;
 			case LayoutPackage.PLOT__HORIZONTAL_SPACING :
 				unsetHorizontalSpacing( );
 				return;
@@ -524,45 +390,18 @@ public class PlotImpl extends BlockImpl implements Plot
 				setClientArea( (ClientArea) null );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case LayoutPackage.PLOT__CHILDREN :
-				return children != null && !children.isEmpty( );
-			case LayoutPackage.PLOT__BOUNDS :
-				return bounds != null;
-			case LayoutPackage.PLOT__ANCHOR :
-				return isSetAnchor( );
-			case LayoutPackage.PLOT__STRETCH :
-				return isSetStretch( );
-			case LayoutPackage.PLOT__INSETS :
-				return insets != null;
-			case LayoutPackage.PLOT__ROW :
-				return isSetRow( );
-			case LayoutPackage.PLOT__COLUMN :
-				return isSetColumn( );
-			case LayoutPackage.PLOT__ROWSPAN :
-				return isSetRowspan( );
-			case LayoutPackage.PLOT__COLUMNSPAN :
-				return isSetColumnspan( );
-			case LayoutPackage.PLOT__MIN_SIZE :
-				return minSize != null;
-			case LayoutPackage.PLOT__OUTLINE :
-				return outline != null;
-			case LayoutPackage.PLOT__BACKGROUND :
-				return background != null;
-			case LayoutPackage.PLOT__VISIBLE :
-				return isSetVisible( );
-			case LayoutPackage.PLOT__TRIGGERS :
-				return triggers != null && !triggers.isEmpty( );
 			case LayoutPackage.PLOT__HORIZONTAL_SPACING :
 				return isSetHorizontalSpacing( );
 			case LayoutPackage.PLOT__VERTICAL_SPACING :
@@ -570,7 +409,7 @@ public class PlotImpl extends BlockImpl implements Plot
 			case LayoutPackage.PLOT__CLIENT_AREA :
 				return clientArea != null;
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

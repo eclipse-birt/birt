@@ -42,7 +42,7 @@ public class FormatSpecifierImpl extends EObjectImpl implements FormatSpecifier
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getFormatSpecifier( );
+		return AttributePackage.Literals.FORMAT_SPECIFIER;
 	}
 
 } // FormatSpecifierImpl

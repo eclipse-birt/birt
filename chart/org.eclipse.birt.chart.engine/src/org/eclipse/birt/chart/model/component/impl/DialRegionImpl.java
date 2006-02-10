@@ -115,7 +115,7 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	 */
 	protected EClass eStaticClass( )
 	{
-		return ComponentPackage.eINSTANCE.getDialRegion( );
+		return ComponentPackage.Literals.DIAL_REGION;
 	}
 
 	/**
@@ -231,97 +231,31 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, Class baseClass, NotificationChain msgs )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		if ( featureID >= 0 )
+		switch ( featureID )
 		{
-			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
-			{
-				case ComponentPackage.DIAL_REGION__OUTLINE :
-					return basicSetOutline( null, msgs );
-				case ComponentPackage.DIAL_REGION__FILL :
-					return basicSetFill( null, msgs );
-				case ComponentPackage.DIAL_REGION__START_VALUE :
-					return basicSetStartValue( null, msgs );
-				case ComponentPackage.DIAL_REGION__END_VALUE :
-					return basicSetEndValue( null, msgs );
-				case ComponentPackage.DIAL_REGION__LABEL :
-					return basicSetLabel( null, msgs );
-				case ComponentPackage.DIAL_REGION__FORMAT_SPECIFIER :
-					return basicSetFormatSpecifier( null, msgs );
-				default :
-					return eDynamicInverseRemove( otherEnd,
-							featureID,
-							baseClass,
-							msgs );
-			}
-		}
-		return eBasicSetContainer( null, featureID, msgs );
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
-	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
-		{
-			case ComponentPackage.DIAL_REGION__OUTLINE :
-				return getOutline( );
-			case ComponentPackage.DIAL_REGION__FILL :
-				return getFill( );
-			case ComponentPackage.DIAL_REGION__START_VALUE :
-				return getStartValue( );
-			case ComponentPackage.DIAL_REGION__END_VALUE :
-				return getEndValue( );
-			case ComponentPackage.DIAL_REGION__LABEL :
-				return getLabel( );
-			case ComponentPackage.DIAL_REGION__LABEL_ANCHOR :
-				return getLabelAnchor( );
-			case ComponentPackage.DIAL_REGION__FORMAT_SPECIFIER :
-				return getFormatSpecifier( );
 			case ComponentPackage.DIAL_REGION__INNER_RADIUS :
 				return new Double( getInnerRadius( ) );
 			case ComponentPackage.DIAL_REGION__OUTER_RADIUS :
 				return new Double( getOuterRadius( ) );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case ComponentPackage.DIAL_REGION__OUTLINE :
-				setOutline( (LineAttributes) newValue );
-				return;
-			case ComponentPackage.DIAL_REGION__FILL :
-				setFill( (Fill) newValue );
-				return;
-			case ComponentPackage.DIAL_REGION__START_VALUE :
-				setStartValue( (DataElement) newValue );
-				return;
-			case ComponentPackage.DIAL_REGION__END_VALUE :
-				setEndValue( (DataElement) newValue );
-				return;
-			case ComponentPackage.DIAL_REGION__LABEL :
-				setLabel( (Label) newValue );
-				return;
-			case ComponentPackage.DIAL_REGION__LABEL_ANCHOR :
-				setLabelAnchor( (Anchor) newValue );
-				return;
-			case ComponentPackage.DIAL_REGION__FORMAT_SPECIFIER :
-				setFormatSpecifier( (FormatSpecifier) newValue );
-				return;
 			case ComponentPackage.DIAL_REGION__INNER_RADIUS :
 				setInnerRadius( ( (Double) newValue ).doubleValue( ) );
 				return;
@@ -329,38 +263,18 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 				setOuterRadius( ( (Double) newValue ).doubleValue( ) );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case ComponentPackage.DIAL_REGION__OUTLINE :
-				setOutline( (LineAttributes) null );
-				return;
-			case ComponentPackage.DIAL_REGION__FILL :
-				setFill( (Fill) null );
-				return;
-			case ComponentPackage.DIAL_REGION__START_VALUE :
-				setStartValue( (DataElement) null );
-				return;
-			case ComponentPackage.DIAL_REGION__END_VALUE :
-				setEndValue( (DataElement) null );
-				return;
-			case ComponentPackage.DIAL_REGION__LABEL :
-				setLabel( (Label) null );
-				return;
-			case ComponentPackage.DIAL_REGION__LABEL_ANCHOR :
-				unsetLabelAnchor( );
-				return;
-			case ComponentPackage.DIAL_REGION__FORMAT_SPECIFIER :
-				setFormatSpecifier( (FormatSpecifier) null );
-				return;
 			case ComponentPackage.DIAL_REGION__INNER_RADIUS :
 				unsetInnerRadius( );
 				return;
@@ -368,37 +282,24 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 				unsetOuterRadius( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case ComponentPackage.DIAL_REGION__OUTLINE :
-				return outline != null;
-			case ComponentPackage.DIAL_REGION__FILL :
-				return fill != null;
-			case ComponentPackage.DIAL_REGION__START_VALUE :
-				return startValue != null;
-			case ComponentPackage.DIAL_REGION__END_VALUE :
-				return endValue != null;
-			case ComponentPackage.DIAL_REGION__LABEL :
-				return label != null;
-			case ComponentPackage.DIAL_REGION__LABEL_ANCHOR :
-				return isSetLabelAnchor( );
-			case ComponentPackage.DIAL_REGION__FORMAT_SPECIFIER :
-				return formatSpecifier != null;
 			case ComponentPackage.DIAL_REGION__INNER_RADIUS :
 				return isSetInnerRadius( );
 			case ComponentPackage.DIAL_REGION__OUTER_RADIUS :
 				return isSetOuterRadius( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DataType.java,v 1.2 2005/06/22 01:50:07 zqian Exp $
+ * $Id: DataType.java,v 1.3 2005/09/09 03:11:23 zqian Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -77,7 +77,7 @@ public final class DataType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final DataType NUMERIC_LITERAL = new DataType( NUMERIC,
-			"Numeric" ); //$NON-NLS-1$
+			"Numeric", "Numeric" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Date Time</b></em>' literal object.
@@ -93,7 +93,7 @@ public final class DataType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final DataType DATE_TIME_LITERAL = new DataType( DATE_TIME,
-			"DateTime" ); //$NON-NLS-1$
+			"DateTime", "DateTime" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Text</b></em>' literal object.
@@ -107,7 +107,8 @@ public final class DataType extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final DataType TEXT_LITERAL = new DataType( TEXT, "Text" ); //$NON-NLS-1$
+	public static final DataType TEXT_LITERAL = new DataType( TEXT,
+			"Text", "Text" ); //$NON-NLS-1$
 
 	/**
 	 * An array of all the '<em><b>Data Type</b></em>' enumerators. <!--
@@ -127,16 +128,16 @@ public final class DataType extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Data Type</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Data Type</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static DataType get( String name )
+	public static DataType get( String literal )
 	{
 		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
 		{
 			DataType result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( name ) )
+			if ( result.toString( ).equals( literal ) )
 			{
 				return result;
 			}
@@ -145,7 +146,26 @@ public final class DataType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Data Type</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Data Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static DataType getByName( String name )
+	{
+		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
+		{
+			DataType result = VALUES_ARRAY[i];
+			if ( result.getName( ).equals( name ) )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Data Type</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -165,13 +185,13 @@ public final class DataType extends AbstractEnumerator
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private DataType( int value, String name )
+	private DataType( int value, String name, String literal )
 	{
-		super( value, name );
+		super( value, name, literal );
 	}
 
 } //DataType

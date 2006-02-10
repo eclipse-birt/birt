@@ -159,7 +159,7 @@ public class GradientImpl extends FillImpl implements Gradient
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getGradient( );
+		return AttributePackage.Literals.GRADIENT;
 	}
 
 	/**
@@ -463,40 +463,32 @@ public class GradientImpl extends FillImpl implements Gradient
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, Class baseClass, NotificationChain msgs )
+			int featureID, NotificationChain msgs )
 	{
-		if ( featureID >= 0 )
+		switch ( featureID )
 		{
-			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
-			{
-				case AttributePackage.GRADIENT__START_COLOR :
-					return basicSetStartColor( null, msgs );
-				case AttributePackage.GRADIENT__END_COLOR :
-					return basicSetEndColor( null, msgs );
-				default :
-					return eDynamicInverseRemove( otherEnd,
-							featureID,
-							baseClass,
-							msgs );
-			}
+			case AttributePackage.GRADIENT__START_COLOR :
+				return basicSetStartColor( null, msgs );
+			case AttributePackage.GRADIENT__END_COLOR :
+				return basicSetEndColor( null, msgs );
 		}
-		return eBasicSetContainer( null, featureID, msgs );
+		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case AttributePackage.GRADIENT__TYPE :
-				return new Integer( getType( ) );
 			case AttributePackage.GRADIENT__START_COLOR :
 				return getStartColor( );
 			case AttributePackage.GRADIENT__END_COLOR :
@@ -508,20 +500,18 @@ public class GradientImpl extends FillImpl implements Gradient
 			case AttributePackage.GRADIENT__TRANSPARENCY :
 				return new Integer( getTransparency( ) );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case AttributePackage.GRADIENT__TYPE :
-				setType( ( (Integer) newValue ).intValue( ) );
-				return;
 			case AttributePackage.GRADIENT__START_COLOR :
 				setStartColor( (ColorDefinition) newValue );
 				return;
@@ -538,20 +528,18 @@ public class GradientImpl extends FillImpl implements Gradient
 				setTransparency( ( (Integer) newValue ).intValue( ) );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case AttributePackage.GRADIENT__TYPE :
-				unsetType( );
-				return;
 			case AttributePackage.GRADIENT__START_COLOR :
 				setStartColor( (ColorDefinition) null );
 				return;
@@ -568,19 +556,18 @@ public class GradientImpl extends FillImpl implements Gradient
 				unsetTransparency( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
-			case AttributePackage.GRADIENT__TYPE :
-				return isSetType( );
 			case AttributePackage.GRADIENT__START_COLOR :
 				return startColor != null;
 			case AttributePackage.GRADIENT__END_COLOR :
@@ -592,7 +579,7 @@ public class GradientImpl extends FillImpl implements Gradient
 			case AttributePackage.GRADIENT__TRANSPARENCY :
 				return isSetTransparency( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

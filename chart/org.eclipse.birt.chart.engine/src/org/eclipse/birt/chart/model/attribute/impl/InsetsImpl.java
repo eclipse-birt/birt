@@ -162,7 +162,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getInsets( );
+		return AttributePackage.Literals.INSETS;
 	}
 
 	/**
@@ -390,12 +390,13 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.INSETS__TOP :
 				return new Double( getTop( ) );
@@ -406,16 +407,17 @@ public class InsetsImpl extends EObjectImpl implements Insets
 			case AttributePackage.INSETS__RIGHT :
 				return new Double( getRight( ) );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.INSETS__TOP :
 				setTop( ( (Double) newValue ).doubleValue( ) );
@@ -430,16 +432,17 @@ public class InsetsImpl extends EObjectImpl implements Insets
 				setRight( ( (Double) newValue ).doubleValue( ) );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.INSETS__TOP :
 				unsetTop( );
@@ -454,16 +457,17 @@ public class InsetsImpl extends EObjectImpl implements Insets
 				unsetRight( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.INSETS__TOP :
 				return isSetTop( );
@@ -474,7 +478,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 			case AttributePackage.INSETS__RIGHT :
 				return isSetRight( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

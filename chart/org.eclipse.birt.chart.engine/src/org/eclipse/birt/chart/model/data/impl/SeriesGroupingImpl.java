@@ -202,7 +202,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 */
 	protected EClass eStaticClass( )
 	{
-		return DataPackage.eINSTANCE.getSeriesGrouping( );
+		return DataPackage.Literals.SERIES_GROUPING;
 	}
 
 	/**
@@ -522,35 +522,29 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, Class baseClass, NotificationChain msgs )
+			int featureID, NotificationChain msgs )
 	{
-		if ( featureID >= 0 )
+		switch ( featureID )
 		{
-			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
-			{
-				case DataPackage.SERIES_GROUPING__GROUPING_ORIGIN :
-					return basicSetGroupingOrigin( null, msgs );
-				default :
-					return eDynamicInverseRemove( otherEnd,
-							featureID,
-							baseClass,
-							msgs );
-			}
+			case DataPackage.SERIES_GROUPING__GROUPING_ORIGIN :
+				return basicSetGroupingOrigin( null, msgs );
 		}
-		return eBasicSetContainer( null, featureID, msgs );
+		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.SERIES_GROUPING__ENABLED :
 				return isEnabled( ) ? Boolean.TRUE : Boolean.FALSE;
@@ -565,16 +559,17 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 			case DataPackage.SERIES_GROUPING__AGGREGATE_EXPRESSION :
 				return getAggregateExpression( );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.SERIES_GROUPING__ENABLED :
 				setEnabled( ( (Boolean) newValue ).booleanValue( ) );
@@ -595,16 +590,17 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 				setAggregateExpression( (String) newValue );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.SERIES_GROUPING__ENABLED :
 				unsetEnabled( );
@@ -625,16 +621,17 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 				setAggregateExpression( AGGREGATE_EXPRESSION_EDEFAULT );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case DataPackage.SERIES_GROUPING__ENABLED :
 				return isSetEnabled( );
@@ -650,7 +647,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 				return AGGREGATE_EXPRESSION_EDEFAULT == null ? aggregateExpression != null
 						: !AGGREGATE_EXPRESSION_EDEFAULT.equals( aggregateExpression );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

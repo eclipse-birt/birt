@@ -43,66 +43,7 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet
 	 */
 	protected EClass eStaticClass( )
 	{
-		return DataPackage.eINSTANCE.getStockDataSet( );
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
-	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
-		{
-			case DataPackage.STOCK_DATA_SET__VALUES :
-				return getValues( );
-		}
-		return eDynamicGet( eFeature, resolve );
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
-	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
-		{
-			case DataPackage.STOCK_DATA_SET__VALUES :
-				setValues( (Object) newValue );
-				return;
-		}
-		eDynamicSet( eFeature, newValue );
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void eUnset( EStructuralFeature eFeature )
-	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
-		{
-			case DataPackage.STOCK_DATA_SET__VALUES :
-				setValues( VALUES_EDEFAULT );
-				return;
-		}
-		eDynamicUnset( eFeature );
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
-	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
-		{
-			case DataPackage.STOCK_DATA_SET__VALUES :
-				return VALUES_EDEFAULT == null ? values != null
-						: !VALUES_EDEFAULT.equals( values );
-		}
-		return eDynamicIsSet( eFeature );
+		return DataPackage.Literals.STOCK_DATA_SET;
 	}
 
 	/**

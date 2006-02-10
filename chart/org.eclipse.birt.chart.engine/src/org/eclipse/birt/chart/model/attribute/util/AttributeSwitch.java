@@ -248,6 +248,16 @@ public class AttributeSwitch
 					result = defaultCase( theEObject );
 				return result;
 			}
+			case AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER :
+			{
+				FractionNumberFormatSpecifier fractionNumberFormatSpecifier = (FractionNumberFormatSpecifier) theEObject;
+				Object result = caseFractionNumberFormatSpecifier( fractionNumberFormatSpecifier );
+				if ( result == null )
+					result = caseFormatSpecifier( fractionNumberFormatSpecifier );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
 			case AttributePackage.GRADIENT :
 			{
 				Gradient gradient = (Gradient) theEObject;
@@ -647,6 +657,23 @@ public class AttributeSwitch
 	 * @generated
 	 */
 	public Object caseFormatSpecifier( FormatSpecifier object )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Fraction Number Format Specifier</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Fraction Number Format Specifier</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseFractionNumberFormatSpecifier(
+			FractionNumberFormatSpecifier object )
 	{
 		return null;
 	}

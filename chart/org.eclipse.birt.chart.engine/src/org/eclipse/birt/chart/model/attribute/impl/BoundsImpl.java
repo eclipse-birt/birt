@@ -164,7 +164,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	 */
 	protected EClass eStaticClass( )
 	{
-		return AttributePackage.eINSTANCE.getBounds( );
+		return AttributePackage.Literals.BOUNDS;
 	}
 
 	/**
@@ -392,12 +392,13 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.BOUNDS__LEFT :
 				return new Double( getLeft( ) );
@@ -408,16 +409,17 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 			case AttributePackage.BOUNDS__HEIGHT :
 				return new Double( getHeight( ) );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.BOUNDS__LEFT :
 				setLeft( ( (Double) newValue ).doubleValue( ) );
@@ -432,16 +434,17 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 				setHeight( ( (Double) newValue ).doubleValue( ) );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.BOUNDS__LEFT :
 				unsetLeft( );
@@ -456,16 +459,17 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 				unsetHeight( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case AttributePackage.BOUNDS__LEFT :
 				return isSetLeft( );
@@ -476,7 +480,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 			case AttributePackage.BOUNDS__HEIGHT :
 				return isSetHeight( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**

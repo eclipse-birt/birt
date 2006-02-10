@@ -156,7 +156,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 */
 	protected EClass eStaticClass( )
 	{
-		return ComponentPackage.eINSTANCE.getScale( );
+		return ComponentPackage.Literals.SCALE;
 	}
 
 	/**
@@ -456,37 +456,31 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, Class baseClass, NotificationChain msgs )
+			int featureID, NotificationChain msgs )
 	{
-		if ( featureID >= 0 )
+		switch ( featureID )
 		{
-			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
-			{
-				case ComponentPackage.SCALE__MIN :
-					return basicSetMin( null, msgs );
-				case ComponentPackage.SCALE__MAX :
-					return basicSetMax( null, msgs );
-				default :
-					return eDynamicInverseRemove( otherEnd,
-							featureID,
-							baseClass,
-							msgs );
-			}
+			case ComponentPackage.SCALE__MIN :
+				return basicSetMin( null, msgs );
+			case ComponentPackage.SCALE__MAX :
+				return basicSetMax( null, msgs );
 		}
-		return eBasicSetContainer( null, featureID, msgs );
+		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.SCALE__MIN :
 				return getMin( );
@@ -499,16 +493,17 @@ public class ScaleImpl extends EObjectImpl implements Scale
 			case ComponentPackage.SCALE__MINOR_GRIDS_PER_UNIT :
 				return new Integer( getMinorGridsPerUnit( ) );
 		}
-		return eDynamicGet( eFeature, resolve );
+		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet( int featureID, Object newValue )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.SCALE__MIN :
 				setMin( (DataElement) newValue );
@@ -526,16 +521,17 @@ public class ScaleImpl extends EObjectImpl implements Scale
 				setMinorGridsPerUnit( ( (Integer) newValue ).intValue( ) );
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		super.eSet( featureID, newValue );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.SCALE__MIN :
 				setMin( (DataElement) null );
@@ -553,16 +549,17 @@ public class ScaleImpl extends EObjectImpl implements Scale
 				unsetMinorGridsPerUnit( );
 				return;
 		}
-		eDynamicUnset( eFeature );
+		super.eUnset( featureID );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet( int featureID )
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch ( featureID )
 		{
 			case ComponentPackage.SCALE__MIN :
 				return min != null;
@@ -575,7 +572,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 			case ComponentPackage.SCALE__MINOR_GRIDS_PER_UNIT :
 				return isSetMinorGridsPerUnit( );
 		}
-		return eDynamicIsSet( eFeature );
+		return super.eIsSet( featureID );
 	}
 
 	/**
