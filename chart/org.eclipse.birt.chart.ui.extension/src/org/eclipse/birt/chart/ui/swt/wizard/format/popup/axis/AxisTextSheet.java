@@ -88,7 +88,8 @@ public class AxisTextSheet extends AbstractPopupSheet
 					chart.getUnits( ),
 					false,
 					true,
-					serviceprovider );
+					serviceprovider,
+					true );
 		}
 		else
 		{
@@ -101,7 +102,8 @@ public class AxisTextSheet extends AbstractPopupSheet
 					true,
 					true,
 					serviceprovider,
-					getPositionScope( ) );
+					getPositionScope( ),
+					true );
 		}
 		GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL );
 		gdLACTitle.widthHint = 200;
@@ -141,7 +143,8 @@ public class AxisTextSheet extends AbstractPopupSheet
 					chart.getUnits( ),
 					false,
 					false,
-					serviceprovider );
+					serviceprovider,
+					false );
 		}
 		else
 		{
@@ -154,7 +157,8 @@ public class AxisTextSheet extends AbstractPopupSheet
 					true,
 					false,
 					serviceprovider,
-					getPositionScope( ) );
+					getPositionScope( ),
+					false );
 		}
 		GridData gdLACLabel = new GridData( GridData.FILL_HORIZONTAL );
 		// gdLACLabel.verticalIndent = -7;

@@ -435,7 +435,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 				chart.getUnits( ),
 				false,
 				true,
-				serviceprovider );
+				serviceprovider,
+				true );
 		GridData gdLACLabel = new GridData( GridData.VERTICAL_ALIGN_BEGINNING
 				| GridData.FILL_HORIZONTAL );
 		lacLabel.setLayoutData( gdLACLabel );
