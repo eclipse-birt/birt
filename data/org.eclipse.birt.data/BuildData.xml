@@ -110,7 +110,7 @@
 			<include name="derby.jar"/>
 		</fileset>	
 
-		<!-- dependend on eclipse due to Plugin class -->
+		<!-- Dependent on Eclipse due to Plugin class -->
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.core.runtime_*/runtime.jar"/>
 			<include name="org.eclipse.osgi_*/*.jar"/>
@@ -125,6 +125,9 @@
 		<path refid="class.path" />
 		<fileset dir="${core.dir}">
 			<include name="lib/*.jar"/>
+		</fileset>
+		<fileset dir="${eclipse.home}/plugins">
+			<include name="org.eclipse.equinox*.jar"/>
 		</fileset>
 	</path>
 	
@@ -321,7 +324,7 @@
 			   source="1.4" 
 			   failonerror="true"
 			   debug="true">
-			<classpath refid="class.path" />
+			<classpath refid="class.path.test" />
 		</javac>
 	</target>
 		
