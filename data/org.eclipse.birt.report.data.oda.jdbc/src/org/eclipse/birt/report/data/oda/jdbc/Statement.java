@@ -358,7 +358,7 @@ public class Statement implements IQuery
 		assertNotNull( preStat );
 		try
 		{
-			if (!maxRowsUpToDate)
+			if ( maxrows >= 0 && !maxRowsUpToDate )
 			{
 				preStat.setMaxRows( maxrows );
 				maxRowsUpToDate = true;
@@ -370,7 +370,6 @@ public class Statement implements IQuery
 		{
 			throw new JDBCException( ResourceConstants.QUERY_EXECUTE_FAIL, e );
 		}
-
 	}
 
 	/*
