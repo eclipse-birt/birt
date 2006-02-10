@@ -37,6 +37,7 @@ import org.eclipse.birt.data.engine.executor.CachedResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.RDSave;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
+import org.eclipse.birt.data.engine.script.DataExceptionMocker;
 import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
@@ -314,6 +315,12 @@ public class ResultIterator implements IResultIterator
 					"Invalid expression handle.",
 					e );
 			throw e;
+		}
+		
+		//the result might be a DataExceptionMocker.
+		if ( exprValue instanceof DataExceptionMocker )
+		{
+			throw ((DataExceptionMocker) exprValue ).getCause( );
 		}
 		
 		this.getRdSaveUtil( ).doSaveExpr( dataExpr, exprValue );
