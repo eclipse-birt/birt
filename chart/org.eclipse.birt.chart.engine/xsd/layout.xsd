@@ -141,6 +141,11 @@
 							<xsd:documentation>Specifies if show legend item value total.</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
+					<xsd:element name="WrappingSize" type="xsd:double" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Specifies the maximum string size for each legend item. If the string size is greater than this, it will be wrapped. Zero means no wrap.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>

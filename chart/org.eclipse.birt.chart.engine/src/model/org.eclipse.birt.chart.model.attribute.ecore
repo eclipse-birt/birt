@@ -13,10 +13,10 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ActionType"/>
     </eAnnotations>
-    <eLiterals name="URL_Redirect"/>
-    <eLiterals name="Show_Tooltip" value="1"/>
-    <eLiterals name="Toggle_Visibility" value="2"/>
-    <eLiterals name="Invoke_Script" value="3"/>
+    <eLiterals name="URLRedirect" literal="URL_Redirect"/>
+    <eLiterals name="ShowTooltip" value="1" literal="Show_Tooltip"/>
+    <eLiterals name="ToggleVisibility" value="2" literal="Toggle_Visibility"/>
+    <eLiterals name="InvokeScript" value="3" literal="Invoke_Script"/>
     <eLiterals name="Highlight" value="4"/>
     <eLiterals name="CallBack" value="5"/>
   </eClassifiers>
@@ -43,13 +43,13 @@
       <details key="name" value="Anchor"/>
     </eAnnotations>
     <eLiterals name="North"/>
-    <eLiterals name="North_East" value="1"/>
+    <eLiterals name="NorthEast" value="1" literal="North_East"/>
     <eLiterals name="East" value="2"/>
-    <eLiterals name="South_East" value="3"/>
+    <eLiterals name="SouthEast" value="3" literal="South_East"/>
     <eLiterals name="South" value="4"/>
-    <eLiterals name="South_West" value="5"/>
+    <eLiterals name="SouthWest" value="5" literal="South_West"/>
     <eLiterals name="West" value="6"/>
-    <eLiterals name="North_West" value="7"/>
+    <eLiterals name="NorthWest" value="7" literal="North_West"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="AnchorObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -238,9 +238,9 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ChartDimension"/>
     </eAnnotations>
-    <eLiterals name="Two_Dimensional"/>
-    <eLiterals name="Two_Dimensional_With_Depth" value="1"/>
-    <eLiterals name="Three_Dimensional" value="2"/>
+    <eLiterals name="TwoDimensional" literal="Two_Dimensional"/>
+    <eLiterals name="TwoDimensionalWithDepth" value="1" literal="Two_Dimensional_With_Depth"/>
+    <eLiterals name="ThreeDimensional" value="2" literal="Three_Dimensional"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="ChartDimensionObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -403,9 +403,9 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DataPointComponentType"/>
     </eAnnotations>
-    <eLiterals name="Base_Value"/>
-    <eLiterals name="Orthogonal_Value" value="1"/>
-    <eLiterals name="Series_Value" value="2"/>
+    <eLiterals name="BaseValue" literal="Base_Value"/>
+    <eLiterals name="OrthogonalValue" value="1" literal="Orthogonal_Value"/>
+    <eLiterals name="SeriesValue" value="2" literal="Series_Value"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="DataPointComponentTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -438,7 +438,7 @@
       <details key="name" value="DateFormatDetail"/>
     </eAnnotations>
     <eLiterals name="Date"/>
-    <eLiterals name="Date_Time" value="1"/>
+    <eLiterals name="DateTime" value="1" literal="Date_Time"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="DateFormatDetailObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -500,8 +500,8 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Direction"/>
     </eAnnotations>
-    <eLiterals name="Left_Right"/>
-    <eLiterals name="Top_Bottom" value="1"/>
+    <eLiterals name="LeftRight" literal="Left_Right"/>
+    <eLiterals name="TopBottom" value="1" literal="Top_Bottom"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="DirectionObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -689,6 +689,79 @@
       <details key="name" value="FormatSpecifier"/>
       <details key="kind" value="empty"/>
     </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FractionNumberFormatSpecifier" eSuperTypes="#//FormatSpecifier">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type holds the fraction format specifier properties for a numeric label.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="FractionNumberFormatSpecifier"/>
+      <details key="kind" value="elementOnly"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="precise" unique="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Specifies if the fraction result is precise with the decimal"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Precise"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fractionDigits" unique="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="&#xD;&#xA;Specifies the fixed length of the denominator when in imprecise mode."/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="FractionDigits"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numerator" unique="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Specifies a fixed numerator for the fraction result when in imprecise mode. Zero means no effect. This setting will take the precedence than the FractionDigits setting."/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Numerator"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" unique="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Specifies the prefix of the result."/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Prefix"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="suffix" unique="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Specifies the suffix of the result."/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Suffix"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="delimiter" unique="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+        defaultValueLiteral="/" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Specifies the string as the fraction stroke. Default is &quot;/&quot;."/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Delimiter"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Gradient" eSuperTypes="#//Fill">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -972,8 +1045,8 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="LeaderLineStyle"/>
     </eAnnotations>
-    <eLiterals name="Fixed_Length"/>
-    <eLiterals name="Stretch_To_Side" value="1"/>
+    <eLiterals name="FixedLength" literal="Fixed_Length"/>
+    <eLiterals name="StretchToSide" value="1" literal="Stretch_To_Side"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="LeaderLineStyleObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -1092,7 +1165,7 @@
     <eLiterals name="Solid"/>
     <eLiterals name="Dashed" value="1"/>
     <eLiterals name="Dotted" value="2"/>
-    <eLiterals name="Dash_Dotted" value="3"/>
+    <eLiterals name="DashDotted" value="3" literal="Dash_Dotted"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="LineStyleObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -1595,17 +1668,17 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="StyledComponent"/>
     </eAnnotations>
-    <eLiterals name="Chart_All"/>
-    <eLiterals name="Chart_Title" value="1"/>
-    <eLiterals name="Chart_Background" value="2"/>
-    <eLiterals name="Plot_Background" value="3"/>
-    <eLiterals name="Legend_Background" value="4"/>
-    <eLiterals name="Legend_Label" value="5"/>
-    <eLiterals name="Axis_Title" value="6"/>
-    <eLiterals name="Axis_Label" value="7"/>
-    <eLiterals name="Axis_Line" value="8"/>
-    <eLiterals name="Series_Title" value="9"/>
-    <eLiterals name="Series_Label" value="10"/>
+    <eLiterals name="ChartAll" literal="Chart_All"/>
+    <eLiterals name="ChartTitle" value="1" literal="Chart_Title"/>
+    <eLiterals name="ChartBackground" value="2" literal="Chart_Background"/>
+    <eLiterals name="PlotBackground" value="3" literal="Plot_Background"/>
+    <eLiterals name="LegendBackground" value="4" literal="Legend_Background"/>
+    <eLiterals name="LegendLabel" value="5" literal="Legend_Label"/>
+    <eLiterals name="AxisTitle" value="6" literal="Axis_Title"/>
+    <eLiterals name="AxisLabel" value="7" literal="Axis_Label"/>
+    <eLiterals name="AxisLine" value="8" literal="Axis_Line"/>
+    <eLiterals name="SeriesTitle" value="9" literal="Series_Title"/>
+    <eLiterals name="SeriesLabel" value="10" literal="Series_Label"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="StyledComponentObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -1760,12 +1833,12 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="TriggerCondition"/>
     </eAnnotations>
-    <eLiterals name="Mouse_Hover">
+    <eLiterals name="MouseHover" literal="Mouse_Hover">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="deprecated"/>
       </eAnnotations>
     </eLiterals>
-    <eLiterals name="Mouse_Click" value="1">
+    <eLiterals name="MouseClick" value="1" literal="Mouse_Click">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="deprecated"/>
       </eAnnotations>

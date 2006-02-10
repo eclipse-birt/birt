@@ -1214,6 +1214,50 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+	<xsd:complexType name="FractionNumberFormatSpecifier">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type holds the fraction format specifier properties for a numeric label.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="FormatSpecifier">
+				<xsd:sequence>
+					<xsd:element name="Precise" type="xsd:boolean">
+						<xsd:annotation>
+							<xsd:documentation>Specifies if the fraction result is precise with the decimal</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="FractionDigits" type="xsd:int">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+Specifies the fixed length of the denominator when in imprecise mode.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Numerator" type="xsd:double">
+						<xsd:annotation>
+							<xsd:documentation>Specifies a fixed numerator for the fraction result when in imprecise mode. Zero means no effect. This setting will take the precedence than the FractionDigits setting.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Prefix" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>Specifies the prefix of the result.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Suffix" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>Specifies the suffix of the result.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Delimiter" type="xsd:string" default="/">
+						<xsd:annotation>
+							<xsd:documentation>Specifies the string as the fraction stroke. Default is "/".</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
 	<xsd:complexType name="AxisOrigin">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
