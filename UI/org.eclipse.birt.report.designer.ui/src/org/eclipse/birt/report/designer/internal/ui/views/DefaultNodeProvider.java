@@ -180,10 +180,12 @@ public class DefaultNodeProvider implements INodeProvider
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
 				+ "-end" ) );//$NON-NLS-1$		
 
-		action = new ExportToLibraryAction( object );
-		if ( object instanceof ReportDesignHandle
-				|| ( object instanceof ReportElementHandle && !( ( (ReportElementHandle) object ).getRoot( ) instanceof LibraryHandle ) ) )
-			menu.add( action );
+//		if ( object instanceof ReportDesignHandle
+//				|| ( object instanceof ReportElementHandle && !( ( (ReportElementHandle) object ).getRoot( ) instanceof LibraryHandle ) ) )
+		if ( object instanceof ReportDesignHandle )
+		{
+			menu.add( new ExportToLibraryAction( object ) );
+		}
 
 //		action = new CreatePlaceHolderAction( object );
 //		if ( action.isEnabled( ) )
