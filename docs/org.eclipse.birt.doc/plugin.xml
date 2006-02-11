@@ -3,7 +3,7 @@
 <plugin
    id="org.eclipse.birt.doc"
    name="BIRT Documentation"
-   version="2.0.0"
+   version="2.1.0"
    provider-name="Eclipse.org">
    <requires>
       <import plugin="org.eclipse.help"/>
