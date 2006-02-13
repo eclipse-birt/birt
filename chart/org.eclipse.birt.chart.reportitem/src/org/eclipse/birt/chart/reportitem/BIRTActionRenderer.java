@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
+import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.render.ActionRendererAdapter;
@@ -300,6 +301,16 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 			uv.setBaseUrl( sa );
 			uv.setTarget( target );
+		}
+		else if ( ActionType.SHOW_TOOLTIP_LITERAL.equals( action.getType( ) ) )
+		{
+			TooltipValue tv = (TooltipValue) action.getValue( );
+
+			if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
+			{
+				final DataPointHints dph = (DataPointHints) source.getSource( );
+				tv.setText( ChartUtil.stringValue( dph.getUserValue( tv.getText( ) ) ) );
+			}
 		}
 	}
 

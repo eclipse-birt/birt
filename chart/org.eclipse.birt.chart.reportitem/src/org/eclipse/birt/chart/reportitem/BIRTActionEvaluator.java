@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.factory.ActionEvaluatorAdapter;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
+import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.report.model.api.ActionHandle;
@@ -78,11 +79,11 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 				{
 					exp = handle.getTargetBookmark( );
 
-					if ( exp!= null && !expList.contains( exp ) )
+					if ( exp != null && !expList.contains( exp ) )
 					{
 						expList.add( exp );
 					}
-					
+
 					for ( Iterator itr = handle.getSearch( ).iterator( ); itr.hasNext( ); )
 					{
 						SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
@@ -115,6 +116,18 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 			catch ( DesignFileException e )
 			{
 				logger.log( e );
+			}
+		}
+		else if ( ActionType.SHOW_TOOLTIP_LITERAL.equals( action.getType( ) ) )
+		{
+			TooltipValue tv = (TooltipValue) action.getValue( );
+
+			String exp = tv.getText( );
+			if ( exp != null && exp.trim( ).length( ) > 0 )
+			{
+				return new String[]{
+					exp
+				};
 			}
 		}
 
