@@ -43,7 +43,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package </b>. <!--
@@ -386,10 +385,11 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAxis_MajorGrid( )
+	public EReference getAxis_Triggers( )
 	{
 		return (EReference) axisEClass.getEStructuralFeatures( ).get( 16 );
 	}
@@ -398,7 +398,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAxis_MinorGrid( )
+	public EReference getAxis_MajorGrid( )
 	{
 		return (EReference) axisEClass.getEStructuralFeatures( ).get( 17 );
 	}
@@ -407,7 +407,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAxis_Scale( )
+	public EReference getAxis_MinorGrid( )
 	{
 		return (EReference) axisEClass.getEStructuralFeatures( ).get( 18 );
 	}
@@ -416,7 +416,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAxis_Origin( )
+	public EReference getAxis_Scale( )
 	{
 		return (EReference) axisEClass.getEStructuralFeatures( ).get( 19 );
 	}
@@ -425,16 +425,16 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getAxis_PrimaryAxis( )
+	public EReference getAxis_Origin( )
 	{
-		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 20 );
+		return (EReference) axisEClass.getEStructuralFeatures( ).get( 20 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getAxis_CategoryAxis( )
+	public EAttribute getAxis_PrimaryAxis( )
 	{
 		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 21 );
 	}
@@ -443,9 +443,18 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getAxis_Percent( )
+	public EAttribute getAxis_CategoryAxis( )
 	{
 		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 22 );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAxis_Percent( )
+	{
+		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 23 );
 	}
 
 	/**
@@ -848,6 +857,16 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMarkerLine_Triggers( )
+	{
+		return (EReference) markerLineEClass.getEStructuralFeatures( ).get( 5 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -917,6 +936,16 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	public EReference getMarkerRange_FormatSpecifier( )
 	{
 		return (EReference) markerRangeEClass.getEStructuralFeatures( ).get( 6 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMarkerRange_Triggers( )
+	{
+		return (EReference) markerRangeEClass.getEStructuralFeatures( ).get( 7 );
 	}
 
 	/**
@@ -1190,6 +1219,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEAttribute( axisEClass, AXIS__STAGGERED );
 		createEReference( axisEClass, AXIS__MARKER_LINES );
 		createEReference( axisEClass, AXIS__MARKER_RANGES );
+		createEReference( axisEClass, AXIS__TRIGGERS );
 		createEReference( axisEClass, AXIS__MAJOR_GRID );
 		createEReference( axisEClass, AXIS__MINOR_GRID );
 		createEReference( axisEClass, AXIS__SCALE );
@@ -1246,6 +1276,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEReference( markerLineEClass, MARKER_LINE__LABEL );
 		createEAttribute( markerLineEClass, MARKER_LINE__LABEL_ANCHOR );
 		createEReference( markerLineEClass, MARKER_LINE__FORMAT_SPECIFIER );
+		createEReference( markerLineEClass, MARKER_LINE__TRIGGERS );
 
 		markerRangeEClass = createEClass( MARKER_RANGE );
 		createEReference( markerRangeEClass, MARKER_RANGE__OUTLINE );
@@ -1255,6 +1286,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEReference( markerRangeEClass, MARKER_RANGE__LABEL );
 		createEAttribute( markerRangeEClass, MARKER_RANGE__LABEL_ANCHOR );
 		createEReference( markerRangeEClass, MARKER_RANGE__FORMAT_SPECIFIER );
+		createEReference( markerRangeEClass, MARKER_RANGE__TRIGGERS );
 
 		needleEClass = createEClass( NEEDLE );
 		createEReference( needleEClass, NEEDLE__LINE_ATTRIBUTES );
@@ -1382,6 +1414,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				this.getMarkerRange( ),
 				null,
 				"markerRanges", null, 0, -1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getAxis_Triggers( ),
+				theDataPackage.getTrigger( ),
+				null,
+				"triggers", null, 0, -1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getAxis_MajorGrid( ),
 				this.getGrid( ),
 				null,
@@ -1563,6 +1599,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				theAttributePackage.getFormatSpecifier( ),
 				null,
 				"formatSpecifier", null, 0, 1, MarkerLine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getMarkerLine_Triggers( ),
+				theDataPackage.getTrigger( ),
+				null,
+				"triggers", null, 0, -1, MarkerLine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( markerRangeEClass,
 				MarkerRange.class,
@@ -1594,6 +1634,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				theAttributePackage.getFormatSpecifier( ),
 				null,
 				"formatSpecifier", null, 0, 1, MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getMarkerRange_Triggers( ),
+				theDataPackage.getTrigger( ),
+				null,
+				"triggers", null, 0, -1, MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( needleEClass,
 				Needle.class,
@@ -1766,6 +1810,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		addAnnotation( getAxis_MarkerRanges( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "MarkerRanges" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getAxis_Triggers( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Triggers" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_MajorGrid( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
@@ -1963,6 +2011,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
+		addAnnotation( getMarkerLine_Triggers( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Triggers" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( markerRangeEClass, source, new String[]{
 				"name", "MarkerRange", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
@@ -1994,6 +2046,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		addAnnotation( getMarkerRange_FormatSpecifier( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getMarkerRange_Triggers( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Triggers" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( needleEClass, source, new String[]{
 				"name", "Needle", //$NON-NLS-1$ //$NON-NLS-2$

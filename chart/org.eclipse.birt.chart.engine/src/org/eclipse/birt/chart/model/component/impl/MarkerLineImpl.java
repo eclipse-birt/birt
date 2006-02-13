@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.component.impl;
 
+import java.util.Collection;
+
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -24,14 +26,17 @@ import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.data.DataElement;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -44,6 +49,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getLabel <em>Label</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getLabelAnchor <em>Label Anchor</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getTriggers <em>Triggers</em>}</li>
  * </ul>
  * </p>
  *
@@ -116,6 +122,16 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * @ordered
 	 */
 	protected FormatSpecifier formatSpecifier = null;
+
+	/**
+	 * The cached value of the '{@link #getTriggers() <em>Triggers</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTriggers()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList triggers = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -461,6 +477,22 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getTriggers( )
+	{
+		if ( triggers == null )
+		{
+			triggers = new EObjectContainmentEList( Trigger.class,
+					this,
+					ComponentPackage.MARKER_LINE__TRIGGERS );
+		}
+		return triggers;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -474,6 +506,9 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 				return basicSetLabel( null, msgs );
 			case ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER :
 				return basicSetFormatSpecifier( null, msgs );
+			case ComponentPackage.MARKER_LINE__TRIGGERS :
+				return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
+						msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
@@ -497,6 +532,8 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 				return getLabelAnchor( );
 			case ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER :
 				return getFormatSpecifier( );
+			case ComponentPackage.MARKER_LINE__TRIGGERS :
+				return getTriggers( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -524,6 +561,10 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 				return;
 			case ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER :
 				setFormatSpecifier( (FormatSpecifier) newValue );
+				return;
+			case ComponentPackage.MARKER_LINE__TRIGGERS :
+				getTriggers( ).clear( );
+				getTriggers( ).addAll( (Collection) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -553,6 +594,9 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 			case ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER :
 				setFormatSpecifier( (FormatSpecifier) null );
 				return;
+			case ComponentPackage.MARKER_LINE__TRIGGERS :
+				getTriggers( ).clear( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -576,6 +620,8 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 				return isSetLabelAnchor( );
 			case ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER :
 				return formatSpecifier != null;
+			case ComponentPackage.MARKER_LINE__TRIGGERS :
+				return triggers != null && !triggers.isEmpty( );
 		}
 		return super.eIsSet( featureID );
 	}

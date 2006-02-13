@@ -49,6 +49,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isStaggered <em>Staggered</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getMarkerLines <em>Marker Lines</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getMarkerRanges <em>Marker Ranges</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getTriggers <em>Triggers</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getMajorGrid <em>Major Grid</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getMinorGrid <em>Minor Grid</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getScale <em>Scale</em>}</li>
@@ -635,6 +636,24 @@ public interface Axis extends EObject
 	 * @generated
 	 */
 	EList getMarkerRanges( );
+
+	/**
+	 * Returns the value of the '<em><b>Triggers</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.birt.chart.model.data.Trigger}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 					Holds the triggers for the axis.
+	 * 					
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Triggers</em>' containment reference list.
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_Triggers()
+	 * @model type="org.eclipse.birt.chart.model.data.Trigger" containment="true" resolveProxies="false"
+	 *        extendedMetaData="kind='element' name='Triggers'"
+	 * @generated
+	 */
+	EList getTriggers( );
 
 	/**
 	 * Returns the value of the '<em><b>Major Grid</b></em>' containment reference. <!-- begin-user-doc --> <!--

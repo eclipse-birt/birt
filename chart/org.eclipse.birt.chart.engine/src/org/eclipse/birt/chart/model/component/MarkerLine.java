@@ -15,6 +15,8 @@ import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.data.DataElement;
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -202,5 +204,23 @@ public interface MarkerLine extends EObject
 	 * @generated
 	 */
 	void setFormatSpecifier( FormatSpecifier value );
+
+	/**
+	 * Returns the value of the '<em><b>Triggers</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.birt.chart.model.data.Trigger}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 					Holds the triggers for the marker line.
+	 * 					
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Triggers</em>' containment reference list.
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine_Triggers()
+	 * @model type="org.eclipse.birt.chart.model.data.Trigger" containment="true" resolveProxies="false"
+	 *        extendedMetaData="kind='element' name='Triggers'"
+	 * @generated
+	 */
+	EList getTriggers( );
 
 } // MarkerLine

@@ -209,12 +209,21 @@ public interface ComponentPackage extends EPackage
 	int AXIS__MARKER_RANGES = 15;
 
 	/**
+	 * The feature id for the '<em><b>Triggers</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AXIS__TRIGGERS = 16;
+
+	/**
 	 * The feature id for the '<em><b>Major Grid</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__MAJOR_GRID = 16;
+	int AXIS__MAJOR_GRID = 17;
 
 	/**
 	 * The feature id for the '<em><b>Minor Grid</b></em>' containment reference.
@@ -222,7 +231,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__MINOR_GRID = 17;
+	int AXIS__MINOR_GRID = 18;
 
 	/**
 	 * The feature id for the '<em><b>Scale</b></em>' containment reference.
@@ -230,7 +239,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__SCALE = 18;
+	int AXIS__SCALE = 19;
 
 	/**
 	 * The feature id for the '<em><b>Origin</b></em>' containment reference.
@@ -238,7 +247,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__ORIGIN = 19;
+	int AXIS__ORIGIN = 20;
 
 	/**
 	 * The feature id for the '<em><b>Primary Axis</b></em>' attribute.
@@ -246,7 +255,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__PRIMARY_AXIS = 20;
+	int AXIS__PRIMARY_AXIS = 21;
 
 	/**
 	 * The feature id for the '<em><b>Category Axis</b></em>' attribute.
@@ -254,7 +263,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__CATEGORY_AXIS = 21;
+	int AXIS__CATEGORY_AXIS = 22;
 
 	/**
 	 * The feature id for the '<em><b>Percent</b></em>' attribute. <!--
@@ -263,7 +272,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__PERCENT = 22;
+	int AXIS__PERCENT = 23;
 
 	/**
 	 * The number of structural features of the '<em>Axis</em>' class.
@@ -271,7 +280,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS_FEATURE_COUNT = 23;
+	int AXIS_FEATURE_COUNT = 24;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl <em>Chart Preferences</em>}' class.
@@ -582,12 +591,21 @@ public interface ComponentPackage extends EPackage
 	int MARKER_RANGE__FORMAT_SPECIFIER = 6;
 
 	/**
+	 * The feature id for the '<em><b>Triggers</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER_RANGE__TRIGGERS = 7;
+
+	/**
 	 * The number of structural features of the '<em>Marker Range</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER_RANGE_FEATURE_COUNT = 7;
+	int MARKER_RANGE_FEATURE_COUNT = 8;
 
 	/**
 	 * The feature id for the '<em><b>Outline</b></em>' containment reference.
@@ -651,6 +669,15 @@ public interface ComponentPackage extends EPackage
 	 * @ordered
 	 */
 	int DIAL_REGION__FORMAT_SPECIFIER = MARKER_RANGE__FORMAT_SPECIFIER;
+
+	/**
+	 * The feature id for the '<em><b>Triggers</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_REGION__TRIGGERS = MARKER_RANGE__TRIGGERS;
 
 	/**
 	 * The feature id for the '<em><b>Inner Radius</b></em>' attribute.
@@ -828,12 +855,21 @@ public interface ComponentPackage extends EPackage
 	int MARKER_LINE__FORMAT_SPECIFIER = 4;
 
 	/**
+	 * The feature id for the '<em><b>Triggers</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER_LINE__TRIGGERS = 5;
+
+	/**
 	 * The number of structural features of the '<em>Marker Line</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER_LINE_FEATURE_COUNT = 5;
+	int MARKER_LINE_FEATURE_COUNT = 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.NeedleImpl <em>Needle</em>}' class.
@@ -1249,6 +1285,17 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 */
 	EReference getAxis_MarkerRanges( );
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.component.Axis#getTriggers <em>Triggers</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Triggers</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Axis#getTriggers()
+	 * @see #getAxis()
+	 * @generated
+	 */
+	EReference getAxis_Triggers( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Axis#getMajorGrid <em>Major Grid</em>}'.
@@ -1756,6 +1803,17 @@ public interface ComponentPackage extends EPackage
 	EReference getMarkerLine_FormatSpecifier( );
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.component.MarkerLine#getTriggers <em>Triggers</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Triggers</em>'.
+	 * @see org.eclipse.birt.chart.model.component.MarkerLine#getTriggers()
+	 * @see #getMarkerLine()
+	 * @generated
+	 */
+	EReference getMarkerLine_Triggers( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.MarkerRange <em>Marker Range</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Marker Range</em>'.
@@ -1833,6 +1891,17 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 */
 	EReference getMarkerRange_FormatSpecifier( );
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.component.MarkerRange#getTriggers <em>Triggers</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Triggers</em>'.
+	 * @see org.eclipse.birt.chart.model.component.MarkerRange#getTriggers()
+	 * @see #getMarkerRange()
+	 * @generated
+	 */
+	EReference getMarkerRange_Triggers( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.Needle <em>Needle</em>}'.
@@ -2243,6 +2312,14 @@ public interface ComponentPackage extends EPackage
 		EReference AXIS__MARKER_RANGES = eINSTANCE.getAxis_MarkerRanges( );
 
 		/**
+		 * The meta object literal for the '<em><b>Triggers</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AXIS__TRIGGERS = eINSTANCE.getAxis_Triggers( );
+
+		/**
 		 * The meta object literal for the '<em><b>Major Grid</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2649,6 +2726,14 @@ public interface ComponentPackage extends EPackage
 		EReference MARKER_LINE__FORMAT_SPECIFIER = eINSTANCE.getMarkerLine_FormatSpecifier( );
 
 		/**
+		 * The meta object literal for the '<em><b>Triggers</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MARKER_LINE__TRIGGERS = eINSTANCE.getMarkerLine_Triggers( );
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl <em>Marker Range</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2713,6 +2798,14 @@ public interface ComponentPackage extends EPackage
 		 * @generated
 		 */
 		EReference MARKER_RANGE__FORMAT_SPECIFIER = eINSTANCE.getMarkerRange_FormatSpecifier( );
+
+		/**
+		 * The meta object literal for the '<em><b>Triggers</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MARKER_RANGE__TRIGGERS = eINSTANCE.getMarkerRange_Triggers( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.NeedleImpl <em>Needle</em>}' class.

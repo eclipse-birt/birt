@@ -41,11 +41,11 @@ import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -74,6 +74,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isStaggered <em>Staggered</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerLines <em>Marker Lines</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerRanges <em>Marker Ranges</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getTriggers <em>Triggers</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMajorGrid <em>Major Grid</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMinorGrid <em>Minor Grid</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getScale <em>Scale</em>}</li>
@@ -348,6 +349,16 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @ordered
 	 */
 	protected EList markerRanges = null;
+
+	/**
+	 * The cached value of the '{@link #getTriggers() <em>Triggers</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTriggers()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList triggers = null;
 
 	/**
 	 * The cached value of the '{@link #getMajorGrid() <em>Major Grid</em>}' containment reference.
@@ -1234,6 +1245,22 @@ public class AxisImpl extends EObjectImpl implements Axis
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getTriggers( )
+	{
+		if ( triggers == null )
+		{
+			triggers = new EObjectContainmentEList( Trigger.class,
+					this,
+					ComponentPackage.AXIS__TRIGGERS );
+		}
+		return triggers;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1696,6 +1723,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__MARKER_RANGES :
 				return ( (InternalEList) getMarkerRanges( ) ).basicRemove( otherEnd,
 						msgs );
+			case ComponentPackage.AXIS__TRIGGERS :
+				return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
+						msgs );
 			case ComponentPackage.AXIS__MAJOR_GRID :
 				return basicSetMajorGrid( null, msgs );
 			case ComponentPackage.AXIS__MINOR_GRID :
@@ -1749,6 +1779,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return getMarkerLines( );
 			case ComponentPackage.AXIS__MARKER_RANGES :
 				return getMarkerRanges( );
+			case ComponentPackage.AXIS__TRIGGERS :
+				return getTriggers( );
 			case ComponentPackage.AXIS__MAJOR_GRID :
 				return getMajorGrid( );
 			case ComponentPackage.AXIS__MINOR_GRID :
@@ -1828,6 +1860,10 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__MARKER_RANGES :
 				getMarkerRanges( ).clear( );
 				getMarkerRanges( ).addAll( (Collection) newValue );
+				return;
+			case ComponentPackage.AXIS__TRIGGERS :
+				getTriggers( ).clear( );
+				getTriggers( ).addAll( (Collection) newValue );
 				return;
 			case ComponentPackage.AXIS__MAJOR_GRID :
 				setMajorGrid( (Grid) newValue );
@@ -1911,6 +1947,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__MARKER_RANGES :
 				getMarkerRanges( ).clear( );
 				return;
+			case ComponentPackage.AXIS__TRIGGERS :
+				getTriggers( ).clear( );
+				return;
 			case ComponentPackage.AXIS__MAJOR_GRID :
 				setMajorGrid( (Grid) null );
 				return;
@@ -1978,6 +2017,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return markerLines != null && !markerLines.isEmpty( );
 			case ComponentPackage.AXIS__MARKER_RANGES :
 				return markerRanges != null && !markerRanges.isEmpty( );
+			case ComponentPackage.AXIS__TRIGGERS :
+				return triggers != null && !triggers.isEmpty( );
 			case ComponentPackage.AXIS__MAJOR_GRID :
 				return majorGrid != null;
 			case ComponentPackage.AXIS__MINOR_GRID :
