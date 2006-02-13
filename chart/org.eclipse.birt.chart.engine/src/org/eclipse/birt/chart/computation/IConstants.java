@@ -22,6 +22,10 @@ public interface IConstants
 {
 
 	public final double LOG_10 = Math.log( 10 );
+	
+	public final int LINE_EXPAND_SIZE = 2;
+
+	public final int LINE_EXPAND_DOUBLE_SIZE = 4;
 
 	public final int TICK_SIZE = 5;
 

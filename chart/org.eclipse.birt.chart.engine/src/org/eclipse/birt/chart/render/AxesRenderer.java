@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.render;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Enumeration;
@@ -41,6 +42,7 @@ import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.BlockGenerationEvent;
 import org.eclipse.birt.chart.event.EventObjectCache;
+import org.eclipse.birt.chart.event.InteractionEvent;
 import org.eclipse.birt.chart.event.Line3DRenderEvent;
 import org.eclipse.birt.chart.event.LineRenderEvent;
 import org.eclipse.birt.chart.event.Polygon3DRenderEvent;
@@ -89,6 +91,7 @@ import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.TextDataElement;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
@@ -1154,6 +1157,28 @@ public abstract class AxesRenderer extends BaseRenderer
 						la.getCaption( )
 								.getFont( )
 								.setRotation( dOriginalAngle );
+					}
+				}
+
+				if ( isInteractivityEnabled( ) )
+				{
+					Trigger tg;
+					EList elTriggers = mr.getTriggers( );
+
+					if ( !elTriggers.isEmpty( ) )
+					{
+						final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerRange( mr ),
+								InteractionEvent.class );
+						for ( int t = 0; t < elTriggers.size( ); t++ )
+						{
+							tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+							processTrigger( tg,
+									StructureSource.createMarkerRange( mr ) );
+							iev.addTrigger( tg );
+						}
+
+						iev.setHotSpot( rre );
+						idr.enableInteraction( iev );
 					}
 				}
 
@@ -2622,6 +2647,61 @@ public abstract class AxesRenderer extends BaseRenderer
 								.setRotation( dOriginalAngle );
 					}
 				}
+
+				if ( isInteractivityEnabled( ) )
+				{
+					Trigger tg;
+					EList elTriggers = ml.getTriggers( );
+
+					if ( !elTriggers.isEmpty( ) )
+					{
+						final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerLine( ml ),
+								InteractionEvent.class );
+						for ( int t = 0; t < elTriggers.size( ); t++ )
+						{
+							tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+							processTrigger( tg,
+									StructureSource.createMarkerLine( ml ) );
+							iev.addTrigger( tg );
+						}
+
+						Location[] loaHotspot = new Location[4];
+
+						if ( iOrientation == Orientation.HORIZONTAL )
+						{
+							loaHotspot[0] = LocationImpl.create( loStart.getX( )
+									- IConstants.LINE_EXPAND_SIZE,
+									loStart.getY( ) );
+							loaHotspot[1] = LocationImpl.create( loStart.getX( )
+									+ IConstants.LINE_EXPAND_SIZE,
+									loStart.getY( ) );
+							loaHotspot[2] = LocationImpl.create( loEnd.getX( )
+									+ IConstants.LINE_EXPAND_SIZE, loEnd.getY( ) );
+							loaHotspot[3] = LocationImpl.create( loEnd.getX( )
+									- IConstants.LINE_EXPAND_SIZE, loEnd.getY( ) );
+						}
+						else
+						{
+							loaHotspot[0] = LocationImpl.create( loStart.getX( ),
+									loStart.getY( )
+											- IConstants.LINE_EXPAND_SIZE );
+							loaHotspot[1] = LocationImpl.create( loEnd.getX( ),
+									loEnd.getY( ) - IConstants.LINE_EXPAND_SIZE );
+							loaHotspot[2] = LocationImpl.create( loEnd.getX( ),
+									loEnd.getY( ) + IConstants.LINE_EXPAND_SIZE );
+							loaHotspot[3] = LocationImpl.create( loStart.getX( ),
+									loStart.getY( )
+											+ IConstants.LINE_EXPAND_SIZE );
+						}
+
+						final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerLine( ml ),
+								PolygonRenderEvent.class );
+						pre.setPoints( loaHotspot );
+						iev.setHotSpot( pre );
+						idr.enableInteraction( iev );
+					}
+				}
+
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.AFTER_DRAW_MARKER_LINE,
 						ax,
@@ -2725,6 +2805,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
 		final DeferredCache dc = getDeferredCache( );
 		final int axisType = ax.getAxisType( );
+		final Bounds boPlot = getPlotBounds( );
 
 		double[] daEndPoints3D = null;
 		double[] da3D = null;
@@ -2816,6 +2897,174 @@ public abstract class AxesRenderer extends BaseRenderer
 					l3dre.setStart3D( dXEnd, dStart, dZStart );
 					l3dre.setEnd3D( dXEnd, dEnd, dZStart );
 					dc.addLine( l3dre );
+
+					if ( isInteractivityEnabled( ) )
+					{
+						Trigger tg;
+						EList elTriggers = axModel.getTriggers( );
+
+						if ( !elTriggers.isEmpty( ) )
+						{
+							ArrayList cachedTriggers = null;
+							Location3D[] loaHotspot = new Location3D[4];
+							Polygon3DRenderEvent pre3d = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+									Polygon3DRenderEvent.class );
+
+							// process center y-axis.
+							loaHotspot[0] = Location3DImpl.create( dX
+									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
+									dStart,
+									dZ + IConstants.LINE_EXPAND_DOUBLE_SIZE );
+							loaHotspot[1] = Location3DImpl.create( dX
+									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
+									dStart,
+									dZ - IConstants.LINE_EXPAND_DOUBLE_SIZE );
+							loaHotspot[2] = Location3DImpl.create( dX
+									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
+									dEnd,
+									dZ - IConstants.LINE_EXPAND_DOUBLE_SIZE );
+							loaHotspot[3] = Location3DImpl.create( dX
+									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
+									dEnd,
+									dZ + IConstants.LINE_EXPAND_DOUBLE_SIZE );
+							pre3d.setPoints3D( loaHotspot );
+							pre3d.setDoubleSided( true );
+
+							if ( get3DEngine( ).processEvent( pre3d,
+									boPlot.getLeft( ),
+									boPlot.getTop( ) ) != null )
+							{
+								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+										InteractionEvent.class );
+								cachedTriggers = new ArrayList( );
+								for ( int t = 0; t < elTriggers.size( ); t++ )
+								{
+									tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+									processTrigger( tg,
+											StructureSource.createAxis( axModel ) );
+									cachedTriggers.add( tg );
+									iev.addTrigger( (Trigger) EcoreUtil.copy( tg ) );
+								}
+
+								iev.setHotSpot( pre3d );
+								ipr.enableInteraction( iev );
+							}
+
+							// process left y-axis.
+							pre3d = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+									Polygon3DRenderEvent.class );
+							loaHotspot = new Location3D[4];
+
+							loaHotspot[0] = Location3DImpl.create( dXStart
+									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
+									dStart,
+									dZEnd + IConstants.LINE_EXPAND_DOUBLE_SIZE );
+							loaHotspot[1] = Location3DImpl.create( dXStart
+									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
+									dStart,
+									dZEnd - IConstants.LINE_EXPAND_DOUBLE_SIZE );
+							loaHotspot[2] = Location3DImpl.create( dXStart
+									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
+									dEnd,
+									dZEnd - IConstants.LINE_EXPAND_DOUBLE_SIZE );
+							loaHotspot[3] = Location3DImpl.create( dXStart
+									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
+									dEnd,
+									dZEnd + IConstants.LINE_EXPAND_DOUBLE_SIZE );
+							pre3d.setPoints3D( loaHotspot );
+							pre3d.setDoubleSided( true );
+
+							if ( get3DEngine( ).processEvent( pre3d,
+									boPlot.getLeft( ),
+									boPlot.getTop( ) ) != null )
+							{
+								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+										InteractionEvent.class );
+
+								if ( cachedTriggers == null )
+								{
+									cachedTriggers = new ArrayList( );
+									for ( int t = 0; t < elTriggers.size( ); t++ )
+									{
+										tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+										processTrigger( tg,
+												StructureSource.createAxis( axModel ) );
+										cachedTriggers.add( tg );
+										iev.addTrigger( (Trigger) EcoreUtil.copy( tg ) );
+									}
+
+								}
+								else
+								{
+									for ( int t = 0; t < cachedTriggers.size( ); t++ )
+									{
+										iev.addTrigger( (Trigger) EcoreUtil.copy( (Trigger) cachedTriggers.get( t ) ) );
+									}
+								}
+
+								iev.setHotSpot( pre3d );
+								ipr.enableInteraction( iev );
+							}
+
+							// process right y-axis.
+							pre3d = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+									Polygon3DRenderEvent.class );
+							loaHotspot = new Location3D[4];
+
+							loaHotspot[0] = Location3DImpl.create( dXEnd
+									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
+									dStart,
+									dZStart
+											+ IConstants.LINE_EXPAND_DOUBLE_SIZE );
+							loaHotspot[1] = Location3DImpl.create( dXEnd
+									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
+									dStart,
+									dZStart
+											- IConstants.LINE_EXPAND_DOUBLE_SIZE );
+							loaHotspot[2] = Location3DImpl.create( dXEnd
+									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
+									dEnd,
+									dZStart
+											- IConstants.LINE_EXPAND_DOUBLE_SIZE );
+							loaHotspot[3] = Location3DImpl.create( dXEnd
+									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
+									dEnd,
+									dZStart
+											+ IConstants.LINE_EXPAND_DOUBLE_SIZE );
+							pre3d.setPoints3D( loaHotspot );
+							pre3d.setDoubleSided( true );
+
+							if ( get3DEngine( ).processEvent( pre3d,
+									boPlot.getLeft( ),
+									boPlot.getTop( ) ) != null )
+							{
+								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+										InteractionEvent.class );
+
+								if ( cachedTriggers == null )
+								{
+									for ( int t = 0; t < elTriggers.size( ); t++ )
+									{
+										tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+										processTrigger( tg,
+												StructureSource.createAxis( axModel ) );
+										iev.addTrigger( tg );
+									}
+								}
+								else
+								{
+									for ( int t = 0; t < cachedTriggers.size( ); t++ )
+									{
+										iev.addTrigger( (Trigger) cachedTriggers.get( t ) );
+									}
+								}
+
+								iev.setHotSpot( pre3d );
+								ipr.enableInteraction( iev );
+							}
+						}
+					}
+
 				}
 				else
 				{
@@ -2847,16 +3096,50 @@ public abstract class AxesRenderer extends BaseRenderer
 					lre.getStart( ).set( dX, dStart );
 					lre.getEnd( ).set( dX, dEnd );
 					ipr.drawLine( lre );
+
+					if ( isInteractivityEnabled( ) )
+					{
+						Trigger tg;
+						EList elTriggers = axModel.getTriggers( );
+
+						if ( !elTriggers.isEmpty( ) )
+						{
+							final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+									InteractionEvent.class );
+							for ( int t = 0; t < elTriggers.size( ); t++ )
+							{
+								tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+								processTrigger( tg,
+										StructureSource.createAxis( axModel ) );
+								iev.addTrigger( tg );
+							}
+
+							Location[] loaHotspot = new Location[4];
+
+							loaHotspot[0] = LocationImpl.create( dX
+									- IConstants.LINE_EXPAND_SIZE, dStart );
+							loaHotspot[1] = LocationImpl.create( dX
+									+ IConstants.LINE_EXPAND_SIZE, dStart );
+							loaHotspot[2] = LocationImpl.create( dX
+									+ IConstants.LINE_EXPAND_SIZE, dEnd );
+							loaHotspot[3] = LocationImpl.create( dX
+									- IConstants.LINE_EXPAND_SIZE, dEnd );
+
+							final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+									PolygonRenderEvent.class );
+							pre.setPoints( loaHotspot );
+							iev.setHotSpot( pre );
+							ipr.enableInteraction( iev );
+						}
+					}
+
 				}
 			}
 
 			if ( ( sc.getType( ) & IConstants.TEXT ) == IConstants.TEXT
 					|| sc.isCategoryScale( ) )
 			{
-				double dAngleInRadians = ( -dAngleInDegrees * Math.PI ) / 180;
-				double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
-				double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
-				double dOffset = 0, dW, dH, dHCosTheta;
+				double dOffset = 0;
 				double dUnitSize = sc.getUnitSize( );
 				DataSetIterator dsi = sc.getData( );
 				final int iDateTimeUnit = ( sc.getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
@@ -3750,6 +4033,49 @@ public abstract class AxesRenderer extends BaseRenderer
 					l3dre.setStart3D( dStart, dY, dZ );
 					l3dre.setEnd3D( dEnd, dY, dZ );
 					dc.addLine( l3dre );
+
+					if ( isInteractivityEnabled( ) )
+					{
+						Trigger tg;
+						EList elTriggers = axModel.getTriggers( );
+
+						if ( !elTriggers.isEmpty( ) )
+						{
+							final Polygon3DRenderEvent pre3d = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+									Polygon3DRenderEvent.class );
+
+							Location3D[] loaHotspot = new Location3D[4];
+							loaHotspot[0] = Location3DImpl.create( dStart, dY
+									- IConstants.LINE_EXPAND_DOUBLE_SIZE, dZ );
+							loaHotspot[1] = Location3DImpl.create( dStart, dY
+									+ IConstants.LINE_EXPAND_DOUBLE_SIZE, dZ );
+							loaHotspot[2] = Location3DImpl.create( dEnd, dY
+									+ IConstants.LINE_EXPAND_DOUBLE_SIZE, dZ );
+							loaHotspot[3] = Location3DImpl.create( dEnd, dY
+									- IConstants.LINE_EXPAND_DOUBLE_SIZE, dZ );
+							pre3d.setPoints3D( loaHotspot );
+							pre3d.setDoubleSided( true );
+
+							if ( get3DEngine( ).processEvent( pre3d,
+									boPlot.getLeft( ),
+									boPlot.getTop( ) ) != null )
+							{
+								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+										InteractionEvent.class );
+								for ( int t = 0; t < elTriggers.size( ); t++ )
+								{
+									tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+									processTrigger( tg,
+											StructureSource.createAxis( axModel ) );
+									iev.addTrigger( tg );
+								}
+
+								iev.setHotSpot( pre3d );
+								ipr.enableInteraction( iev );
+							}
+						}
+					}
+
 				}
 				else if ( bRenderAncillary3DAxis )
 				{
@@ -3759,6 +4085,51 @@ public abstract class AxesRenderer extends BaseRenderer
 					l3dre.setStart3D( dX, dY, dStart );
 					l3dre.setEnd3D( dX, dY, dEnd );
 					dc.addLine( l3dre );
+
+					if ( isInteractivityEnabled( ) )
+					{
+						Trigger tg;
+						EList elTriggers = axModel.getTriggers( );
+
+						if ( !elTriggers.isEmpty( ) )
+						{
+							final Polygon3DRenderEvent pre3d = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+									Polygon3DRenderEvent.class );
+
+							Location3D[] loaHotspot = new Location3D[4];
+							loaHotspot[0] = Location3DImpl.create( dX,
+									dY - IConstants.LINE_EXPAND_DOUBLE_SIZE,
+									dStart );
+							loaHotspot[1] = Location3DImpl.create( dX,
+									dY + IConstants.LINE_EXPAND_DOUBLE_SIZE,
+									dStart );
+							loaHotspot[2] = Location3DImpl.create( dX, dY
+									+ IConstants.LINE_EXPAND_DOUBLE_SIZE, dEnd );
+							loaHotspot[3] = Location3DImpl.create( dX, dY
+									- IConstants.LINE_EXPAND_DOUBLE_SIZE, dEnd );
+							pre3d.setPoints3D( loaHotspot );
+							pre3d.setDoubleSided( true );
+
+							if ( get3DEngine( ).processEvent( pre3d,
+									boPlot.getLeft( ),
+									boPlot.getTop( ) ) != null )
+							{
+								final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+										InteractionEvent.class );
+								for ( int t = 0; t < elTriggers.size( ); t++ )
+								{
+									tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+									processTrigger( tg,
+											StructureSource.createAxis( axModel ) );
+									iev.addTrigger( tg );
+								}
+
+								iev.setHotSpot( pre3d );
+								ipr.enableInteraction( iev );
+							}
+						}
+					}
+
 				}
 				else
 				{
@@ -3791,16 +4162,50 @@ public abstract class AxesRenderer extends BaseRenderer
 					lre.getStart( ).set( dStart, dY );
 					lre.getEnd( ).set( dEnd, dY );
 					ipr.drawLine( lre );
+
+					if ( isInteractivityEnabled( ) )
+					{
+						Trigger tg;
+						EList elTriggers = axModel.getTriggers( );
+
+						if ( !elTriggers.isEmpty( ) )
+						{
+							final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+									InteractionEvent.class );
+							for ( int t = 0; t < elTriggers.size( ); t++ )
+							{
+								tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+								processTrigger( tg,
+										StructureSource.createAxis( axModel ) );
+								iev.addTrigger( tg );
+							}
+
+							Location[] loaHotspot = new Location[4];
+
+							loaHotspot[0] = LocationImpl.create( dStart, dY
+									- IConstants.LINE_EXPAND_SIZE );
+							loaHotspot[1] = LocationImpl.create( dEnd, dY
+									- IConstants.LINE_EXPAND_SIZE );
+							loaHotspot[2] = LocationImpl.create( dEnd, dY
+									+ IConstants.LINE_EXPAND_SIZE );
+							loaHotspot[3] = LocationImpl.create( dStart, dY
+									+ IConstants.LINE_EXPAND_SIZE );
+
+							final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+									PolygonRenderEvent.class );
+							pre.setPoints( loaHotspot );
+							iev.setHotSpot( pre );
+							ipr.enableInteraction( iev );
+						}
+					}
+
 				}
 			}
 
 			if ( ( sc.getType( ) & IConstants.TEXT ) == IConstants.TEXT
 					|| sc.isCategoryScale( ) )
 			{
-				double dAngleInRadians = ( -dAngleInDegrees * Math.PI ) / 180;
-				double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
-				double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
-				double dOffset = 0, dW, dH, dHSineTheta;
+				double dOffset = 0;
 				double dUnitSize = sc.getUnitSize( );
 				DataSetIterator dsi = sc.getData( );
 				final int iDateTimeUnit = ( sc.getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
