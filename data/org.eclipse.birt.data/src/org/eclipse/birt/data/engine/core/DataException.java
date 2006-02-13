@@ -31,6 +31,9 @@ public class DataException extends BirtException
 	/** pluginId, probably this value should be obtained externally */
 	private final static String _pluginId = "org.eclipse.birt.data";
 	
+	/** serialVersionUID */
+	private static final long serialVersionUID = 8571109940669957243L;
+	
 	/*
 	 * @see BirtException(errorCode)
 	 */
