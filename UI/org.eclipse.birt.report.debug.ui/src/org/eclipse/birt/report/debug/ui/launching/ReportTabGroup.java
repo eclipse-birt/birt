@@ -14,9 +14,11 @@ package org.eclipse.birt.report.debug.ui.launching;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
-import org.eclipse.debug.ui.*;
+import org.eclipse.debug.ui.AbstractLaunchConfigurationTabGroup;
+import org.eclipse.debug.ui.ILaunchConfigurationDialog;
+import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
-import org.eclipse.pde.internal.ui.launcher.AdvancedLauncherTab;
+import org.eclipse.pde.ui.launcher.PluginsTab;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 
@@ -44,7 +46,7 @@ public class ReportTabGroup extends AbstractLaunchConfigurationTabGroup
 	{
 		ILaunchConfigurationTab tabs[] = (ILaunchConfigurationTab[]) null;
 		tabs = ( new ILaunchConfigurationTab[]{
-				new ReportAdvancedLauncherTab( ), new AdvancedLauncherTab( )
+				new ReportAdvancedLauncherTab( ), new PluginsTab( false)
 		} );
 		setTabs( tabs );
 	}

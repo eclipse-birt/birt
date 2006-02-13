@@ -14,10 +14,9 @@ package org.eclipse.birt.report.debug.internal.ui.launcher;
 import java.util.StringTokenizer;
 
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.DebugUtil;
-import org.eclipse.ui.IStartup;
-import org.eclipse.birt.report.viewer.utilities.IWorkspaceClasspathFinder;
-import org.eclipse.birt.report.viewer.utilities.WorkspaceClasspathManager;
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.WorkspaceClassPathFinder;
+import org.eclipse.birt.report.viewer.utilities.WorkspaceClasspathManager;
+import org.eclipse.ui.IStartup;
 
 /**
  * Copy the seletion of the project in the debug lauch.The key name is

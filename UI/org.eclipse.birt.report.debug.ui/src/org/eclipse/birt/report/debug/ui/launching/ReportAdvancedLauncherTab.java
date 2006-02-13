@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
@@ -33,9 +34,9 @@ import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.PDEPluginImages;
 import org.eclipse.pde.internal.ui.elements.DefaultContentProvider;
 import org.eclipse.pde.internal.ui.elements.NamedElement;
-import org.eclipse.pde.internal.ui.launcher.AbstractLauncherTab;
 import org.eclipse.pde.internal.ui.util.SWTUtil;
 import org.eclipse.pde.internal.ui.wizards.ListUtil;
+import org.eclipse.pde.ui.launcher.AbstractLauncherTab;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -44,7 +45,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.help.WorkbenchHelp;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * add comment here
@@ -187,7 +188,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 		hookListeners( );
 		setControl( composite );
 		Dialog.applyDialogFont( composite );
-		WorkbenchHelp.setHelp( composite,
+		PlatformUI.getWorkbench().getHelpSystem().setHelp( composite,
 				"org.eclipse.pde.doc.user.launcher_advanced" ); //$NON-NLS-1$
 	}
 
@@ -735,9 +736,40 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 
 	private IStatus validate( )
 	{
-		return AbstractLauncherTab.createStatus( 0, "" ); //$NON-NLS-1$
+		return createStatus( 0, "" ); //$NON-NLS-1$
 	}
 
+	protected void updateStatus(IStatus status) {
+		applyToStatusLine(status);
+	}
+
+	/**
+	 * Applies the status to a dialog page
+	 */
+	public  void applyToStatusLine(IStatus status) {
+		String errorMessage= null;
+		String warningMessage= null;
+		String statusMessage= status.getMessage();
+		if (statusMessage.length() > 0) {
+			if (status.matches(IStatus.ERROR)) {
+				errorMessage= statusMessage;
+			} else if (!status.isOK()) {
+				warningMessage= statusMessage;
+			}
+		}
+		
+		setErrorMessage(errorMessage);
+		setMessage(warningMessage);
+		updateLaunchConfigurationDialog();
+	}
+	
+	public static IStatus getMoreSevere(IStatus s1, IStatus s2) {
+		return (s1.getSeverity() >= s2.getSeverity()) ? s1 : s2;
+	}	
+	
+	public static IStatus createStatus(int severity, String message) {
+		return new Status(severity, PDEPlugin.getPluginId(), severity, message, null);
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -758,4 +790,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 		return fImage;
 	}
 
+	public void validateTab( )
+	{		
+	}
 }
