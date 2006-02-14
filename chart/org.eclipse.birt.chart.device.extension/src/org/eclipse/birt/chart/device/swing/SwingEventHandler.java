@@ -180,7 +180,7 @@ public final class SwingEventHandler implements
 								Messages.getString( "info.redirect.url", lcl ) //$NON-NLS-1$
 										+ uv.getBaseUrl( ) );
 						DeviceUtil.openURL( uv.getBaseUrl( ) );
-						break;
+						break LOOP;
 
 					case ActionType.SHOW_TOOLTIP :
 
@@ -191,8 +191,8 @@ public final class SwingEventHandler implements
 						saTooltip = sa;
 						bFound = true;
 						showTooltip( saTooltip );
-
-						break;
+						break LOOP;
+						
 					case ActionType.TOGGLE_VISIBILITY :
 						if ( src.getType( ) == StructureType.SERIES )
 						{
@@ -213,6 +213,7 @@ public final class SwingEventHandler implements
 							}
 							seDT.setVisible( !seDT.isVisible( ) );
 							iun.regenerateChart( );
+							break LOOP;
 						}
 						break;
 					case ActionType.HIGHLIGHT :
@@ -253,7 +254,7 @@ public final class SwingEventHandler implements
 											},
 											lcl ) );
 						}
-						break;
+						break LOOP;
 				}
 			}
 		}
@@ -708,10 +709,36 @@ public final class SwingEventHandler implements
 				logger.log( oosx );
 				return;
 			}
+
+			boolean highlight;
+			if ( iun.getContext( seDT ) != null )
+			{
+				highlight = false;
+				iun.removeContext( seDT );
+			}
+			else
+			{
+				highlight = true;
+				iun.putContext( seDT, Boolean.TRUE );
+			}
+
 			boolean changed = false;
 			if ( seDT != null )
 			{
-				changed = invert( seDT );
+				// changed = invert( seDT );
+
+				for ( Iterator itr = seDT.eAllContents( ); itr.hasNext( ); )
+				{
+					Object obj = itr.next( );
+
+					if ( obj instanceof ColorDefinition )
+					{
+						performHighlight( (ColorDefinition) obj, highlight );
+
+						changed = true;
+					}
+				}
+
 			}
 			if ( sdDT != null )
 			{
@@ -722,7 +749,10 @@ public final class SwingEventHandler implements
 					Object entry = itr.next( );
 					if ( entry instanceof ColorDefinition )
 					{
-						( (ColorDefinition) entry ).invert( );
+						// ( (ColorDefinition) entry ).invert( );
+
+						performHighlight( (ColorDefinition) entry, highlight );
+
 						changed = true;
 					}
 				}
@@ -730,6 +760,25 @@ public final class SwingEventHandler implements
 				{
 					iun.regenerateChart( );
 				}
+			}
+		}
+	}
+
+	private void performHighlight( ColorDefinition cd, boolean highlighted )
+	{
+		if ( cd != null )
+		{
+			if ( highlighted )
+			{
+				cd.setRed( ( cd.getRed( ) + 255 ) / 2 );
+				cd.setGreen( ( cd.getGreen( ) + 255 ) / 2 );
+				cd.setBlue( ( cd.getBlue( ) + 255 ) / 2 );
+			}
+			else
+			{
+				cd.setRed( Math.max( 0, cd.getRed( ) * 2 - 255 ) );
+				cd.setGreen( Math.max( 0, cd.getGreen( ) * 2 - 255 ) );
+				cd.setBlue( Math.max( 0, cd.getBlue( ) * 2 - 255 ) );
 			}
 		}
 	}

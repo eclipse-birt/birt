@@ -27,11 +27,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -60,6 +64,8 @@ public final class SwingInteractivityViewer extends JPanel implements
 
 	private IDeviceRenderer idr = null;
 
+	private Map contextMap;
+	
 	/**
 	 * Contructs the layout with a container for displaying chart and a control
 	 * panel for selecting interactivity.
@@ -98,6 +104,8 @@ public final class SwingInteractivityViewer extends JPanel implements
 	 */
 	SwingInteractivityViewer( )
 	{
+		contextMap = new HashMap();
+		
 		final PluginSettings ps = PluginSettings.instance( );
 		try
 		{
@@ -149,6 +157,37 @@ public final class SwingInteractivityViewer extends JPanel implements
 	public Chart getDesignTimeModel( )
 	{
 		return cm;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getContext(java.lang.Object)
+	 */
+	public Object getContext( Object key )
+	{
+		return contextMap.get( key );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#putContext(java.lang.Object,
+	 *      java.lang.Object)
+	 */
+	public Object putContext( Object key, Object value )
+	{
+		return contextMap.put( key, value );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#removeContext(java.lang.Object)
+	 */
+	public Object removeContext( Object key )
+	{
+		return contextMap.remove( key );
 	}
 
 	/*

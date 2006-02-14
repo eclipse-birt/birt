@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.chart.device;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.chart.model.Chart;
 
 /**
@@ -21,6 +24,7 @@ public class EmptyUpdateNotifier implements IUpdateNotifier
 
 	private Chart designModel = null;
 	private Chart runtimeModel = null;
+	private Map contextMap;
 
 	/**
 	 * The constructor.
@@ -32,6 +36,8 @@ public class EmptyUpdateNotifier implements IUpdateNotifier
 	{
 		this.designModel = designModel;
 		this.runtimeModel = runtimeModel;
+
+		contextMap = new HashMap( );
 	}
 
 	/*
@@ -84,4 +90,34 @@ public class EmptyUpdateNotifier implements IUpdateNotifier
 		return runtimeModel;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getContext(java.lang.Object)
+	 */
+	public Object getContext( Object key )
+	{
+		return contextMap.get( key );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#putContext(java.lang.Object,
+	 *      java.lang.Object)
+	 */
+	public Object putContext( Object key, Object value )
+	{
+		return contextMap.put( key, value );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#removeContext(java.lang.Object)
+	 */
+	public Object removeContext( Object key )
+	{
+		return contextMap.remove( key );
+	}
 }

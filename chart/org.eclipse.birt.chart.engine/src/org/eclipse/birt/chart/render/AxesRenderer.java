@@ -1071,33 +1071,45 @@ public abstract class AxesRenderer extends BaseRenderer
 				idr.fillRectangle( rre );
 				idr.drawRectangle( rre );
 
-				la = mr.getLabel( );
+				la = (Label) EcoreUtil.copy( mr.getLabel( ) );
 				if ( la.isVisible( ) )
 				{
-					try
+					if ( la.getCaption( ).getValue( ) != null
+							&& !IConstants.UNDEFINED_STRING.equals( la.getCaption( )
+									.getValue( ) )
+							&& la.getCaption( ).getValue( ).length( ) > 0 )
 					{
-						sb.delete( 0, sb.length( ) );
-						sb.append( Messages.getString( "prefix.marker.range.caption", //$NON-NLS-1$ 
-								getRunTimeContext( ).getLocale( ) ) );
-						sb.append( ValueFormatter.format( deStart,
-								mr.getFormatSpecifier( ),
-								oaxa[i].getRunTimeContext( ).getLocale( ),
-								null ) );
-						sb.append( Messages.getString( "separator.marker.range.caption", //$NON-NLS-1$ 
-								getRunTimeContext( ).getLocale( ) ) );
-						sb.append( ValueFormatter.format( deEnd,
-								mr.getFormatSpecifier( ),
-								oaxa[i].getRunTimeContext( ).getLocale( ),
-								null ) );
-						sb.append( Messages.getString( "suffix.marker.range.caption", //$NON-NLS-1$ 
-								getRunTimeContext( ).getLocale( ) ) );
-						la.getCaption( ).setValue( sb.toString( ) );
+						la.getCaption( ).setValue( oaxa[i].getRunTimeContext( )
+								.externalizedMessage( la.getCaption( )
+										.getValue( ) ) );
 					}
-					catch ( ChartException dfex )
+					else
 					{
-						throw new ChartException( ChartEnginePlugin.ID,
-								ChartException.RENDERING,
-								dfex );
+						try
+						{
+							sb.delete( 0, sb.length( ) );
+							sb.append( Messages.getString( "prefix.marker.range.caption", //$NON-NLS-1$ 
+									getRunTimeContext( ).getLocale( ) ) );
+							sb.append( ValueFormatter.format( deStart,
+									mr.getFormatSpecifier( ),
+									oaxa[i].getRunTimeContext( ).getLocale( ),
+									null ) );
+							sb.append( Messages.getString( "separator.marker.range.caption", //$NON-NLS-1$ 
+									getRunTimeContext( ).getLocale( ) ) );
+							sb.append( ValueFormatter.format( deEnd,
+									mr.getFormatSpecifier( ),
+									oaxa[i].getRunTimeContext( ).getLocale( ),
+									null ) );
+							sb.append( Messages.getString( "suffix.marker.range.caption", //$NON-NLS-1$ 
+									getRunTimeContext( ).getLocale( ) ) );
+							la.getCaption( ).setValue( sb.toString( ) );
+						}
+						catch ( ChartException dfex )
+						{
+							throw new ChartException( ChartEnginePlugin.ID,
+									ChartException.RENDERING,
+									dfex );
+						}
 					}
 
 					// DETERMINE THE LABEL ANCHOR (TRANSPOSE IF NEEDED)
@@ -1151,13 +1163,14 @@ public abstract class AxesRenderer extends BaseRenderer
 					tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 					idr.drawText( tre );
 
-					if ( bTransposed ) // RESTORE ORIGINAL FONT ANGLE IF
-					// TRANSPOSED
-					{
-						la.getCaption( )
-								.getFont( )
-								.setRotation( dOriginalAngle );
-					}
+					// !Copied, no need to restore now
+					// if ( bTransposed ) // RESTORE ORIGINAL FONT ANGLE IF
+					// // TRANSPOSED
+					// {
+					// la.getCaption( )
+					// .getFont( )
+					// .setRotation( dOriginalAngle );
+					// }
 				}
 
 				if ( isInteractivityEnabled( ) )
@@ -2364,19 +2377,35 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 
 				// UPDATE THE LABEL CONTENT ASSOCIATED WITH THE MARKER LINE
-				la = ml.getLabel( );
-				try
+				la = (Label) EcoreUtil.copy( ml.getLabel( ) );
+
+				if ( la.getCaption( ).getValue( ) != null
+						&& !IConstants.UNDEFINED_STRING.equals( la.getCaption( )
+								.getValue( ) )
+						&& la.getCaption( ).getValue( ).length( ) > 0 )
 				{
-					la.getCaption( ).setValue( ValueFormatter.format( deValue,
-							ml.getFormatSpecifier( ),
-							oaxa[i].getRunTimeContext( ).getLocale( ),
-							null ) );
+					la.getCaption( )
+							.setValue( oaxa[i].getRunTimeContext( )
+									.externalizedMessage( la.getCaption( )
+											.getValue( ) ) );
 				}
-				catch ( ChartException dfex )
+				else
 				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.RENDERING,
-							dfex );
+					try
+					{
+						la.getCaption( )
+								.setValue( ValueFormatter.format( deValue,
+										ml.getFormatSpecifier( ),
+										oaxa[i].getRunTimeContext( )
+												.getLocale( ),
+										null ) );
+					}
+					catch ( ChartException dfex )
+					{
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.RENDERING,
+								dfex );
+					}
 				}
 
 				if ( isDimension3D( ) )
@@ -2476,7 +2505,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					{
 						or = ax.getOrientation( ) == Orientation.HORIZONTAL_LITERAL ? Orientation.VERTICAL_LITERAL
 								: Orientation.HORIZONTAL_LITERAL;
-						la = ml.getLabel( );
+						// la = ml.getLabel( );
 						dOriginalAngle = la.getCaption( )
 								.getFont( )
 								.getRotation( );
@@ -2640,12 +2669,13 @@ public abstract class AxesRenderer extends BaseRenderer
 					tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 					idr.drawText( tre );
 
-					if ( bTransposed ) // RESTORE FONT ANGLE IF TRANSPOSED
-					{
-						la.getCaption( )
-								.getFont( )
-								.setRotation( dOriginalAngle );
-					}
+					// !Copied, no need to restore now.
+					// if ( bTransposed ) // RESTORE FONT ANGLE IF TRANSPOSED
+					// {
+					// la.getCaption( )
+					// .getFont( )
+					// .setRotation( dOriginalAngle );
+					// }
 				}
 
 				if ( isInteractivityEnabled( ) )

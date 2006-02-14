@@ -27,6 +27,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -60,6 +62,7 @@ public final class SwingChartViewerSelector extends JPanel implements
 		IUpdateNotifier,
 		ComponentListener
 {
+
 	private boolean bNeedsGeneration = true;
 
 	private GeneratedChartState gcs = null;
@@ -67,6 +70,8 @@ public final class SwingChartViewerSelector extends JPanel implements
 	private Chart cm = null;
 
 	private IDeviceRenderer idr = null;
+
+	private Map contextMap;
 
 	/**
 	 * Contructs the layout with a container for displaying chart and a control
@@ -93,7 +98,8 @@ public final class SwingChartViewerSelector extends JPanel implements
 				( dScreen.height - dApp.height ) / 2 );
 
 		jf.setTitle( scv.getClass( ).getName( ) + " [device=" //$NON-NLS-1$
-				+ scv.idr.getClass( ).getName( ) + "]" );//$NON-NLS-1$
+				+ scv.idr.getClass( ).getName( )
+				+ "]" );//$NON-NLS-1$
 
 		ControlPanel cp = scv.new ControlPanel( scv );
 		co.add( cp, BorderLayout.SOUTH );
@@ -106,6 +112,8 @@ public final class SwingChartViewerSelector extends JPanel implements
 	 */
 	SwingChartViewerSelector( )
 	{
+		contextMap = new HashMap( );
+
 		final PluginSettings ps = PluginSettings.instance( );
 		try
 		{
@@ -158,6 +166,37 @@ public final class SwingChartViewerSelector extends JPanel implements
 	public Chart getDesignTimeModel( )
 	{
 		return cm;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getContext(java.lang.Object)
+	 */
+	public Object getContext( Object key )
+	{
+		return contextMap.get( key );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#putContext(java.lang.Object,
+	 *      java.lang.Object)
+	 */
+	public Object putContext( Object key, Object value )
+	{
+		return contextMap.put( key, value );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#removeContext(java.lang.Object)
+	 */
+	public Object removeContext( Object key )
+	{
+		return contextMap.remove( key );
 	}
 
 	/*
@@ -294,7 +333,8 @@ public final class SwingChartViewerSelector extends JPanel implements
 		for ( int i = 0; i < stea.length; i++ )
 		{
 			g2d.drawString( stea[i].getClassName( ) + ":"//$NON-NLS-1$
-					+ stea[i].getMethodName( ) + "(...):"//$NON-NLS-1$
+					+ stea[i].getMethodName( )
+					+ "(...):"//$NON-NLS-1$
 					+ stea[i].getLineNumber( ), x, y );
 			x = 40;
 			y += fm.getHeight( );
