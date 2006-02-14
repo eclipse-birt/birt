@@ -282,7 +282,14 @@ public class TableUtil
 		if ( selection == null || !( selection instanceof IStructuredSelection ) )
 			return new StructuredSelection( Collections.EMPTY_LIST );
 		List list = ( (IStructuredSelection) selection ).toList( );
-		ArrayList retValue = new ArrayList(list); 
+		List retValue = filletCellModel(list); 
+		
+		return new StructuredSelection(retValue);
+	}
+	
+	public static List filletCellModel(List list)
+	{
+		List retValue = new ArrayList(list);
 		boolean hasRowOrColumn = false;
 		int size = list.size( );
 		for ( int i = 0; i < size; i++ )
@@ -306,7 +313,7 @@ public class TableUtil
 				}
 			}
 		}
-		return new StructuredSelection(retValue);
+		return retValue;
 	}
 	/**
 	 * Get minimum height of row.

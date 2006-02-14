@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportCombinedTemplateCreationEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -105,7 +106,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.23 $ $Date: 2005/12/28 07:32:11 $
+ * @version $Revision: 1.24 $ $Date: 2006/01/11 07:10:23 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
 		EditorSelectionProvider,
@@ -348,10 +349,11 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 				GroupRequest deleteReq = new GroupRequest( RequestConstants.REQ_DELETE );
 				deleteReq.setEditParts( objects );
 
+				List temp = TableUtil.filletCellModel(objects);
 				List list = new ArrayList( );
-				for ( int i = 0; i < objects.size( ); i++ )
+				for ( int i = 0; i < temp.size( ); i++ )
 				{
-					EditPart object = (EditPart) objects.get( i );
+					EditPart object = (EditPart) temp.get( i );
 					list.add( object.getModel( ) );
 				}
 				return new DeleteCommand( list.toArray( ) );
