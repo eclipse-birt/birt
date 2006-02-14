@@ -7,6 +7,8 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
+import java.util.Locale;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Fraction Number Format Specifier</b></em>'.
@@ -302,5 +304,14 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier
 	 * @generated
 	 */
 	boolean isSetDelimiter( );
+	
+	/**
+	 * Formats a value using the internally defined format specifier rules
+	 * 
+	 * @param dValue
+	 * 
+	 * @return A formatted string representation of the numerical value provided
+	 */
+	String format( double dValue, Locale lo );
 
 } // FractionNumberFormatSpecifier

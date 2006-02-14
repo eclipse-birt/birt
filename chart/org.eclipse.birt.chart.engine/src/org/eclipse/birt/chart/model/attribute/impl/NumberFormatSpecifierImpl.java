@@ -19,7 +19,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -443,7 +442,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 	 * 
 	 * NOTE: Manually written
 	 * 
-	 * @return
+	 * @return this instance
 	 */
 	public static final NumberFormatSpecifier create( )
 	{

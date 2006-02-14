@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
@@ -44,7 +45,7 @@ public final class ValueFormatter
 	 * @param oValue
 	 * @param fs
 	 * @param lcl
-	 * @return
+	 * @return formatted string
 	 */
 	public static final String format( Object oValue, FormatSpecifier fs,
 			Locale lcl, Object oCachedJavaFormatter ) throws ChartException
@@ -122,6 +123,12 @@ public final class ValueFormatter
 			final double dValue = asPrimitiveDouble( oValue, lcl );
 			return correctNumber( nfs.format( dValue, lcl ), dValue );
 		}
+		else if ( FractionNumberFormatSpecifier.class.isInstance( fs ) )
+		{
+			final FractionNumberFormatSpecifier fnfs = (FractionNumberFormatSpecifier) fs;
+			final double dValue = asPrimitiveDouble( oValue, lcl );
+			return correctNumber( fnfs.format( dValue, lcl ), dValue );
+		}
 		else if ( DateFormatSpecifier.class.isInstance( fs ) )
 		{
 			final DateFormatSpecifier dfs = (DateFormatSpecifier) fs;
@@ -191,7 +198,7 @@ public final class ValueFormatter
 	 * 
 	 * @param df
 	 * @param dValue
-	 * @return
+	 * @return corrected number
 	 */
 	public static final String correctNumber( String sValue, double dValue )
 	{
