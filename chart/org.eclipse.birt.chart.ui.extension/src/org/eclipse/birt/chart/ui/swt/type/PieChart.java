@@ -609,4 +609,13 @@ public class PieChart extends DefaultChartTypeImpl
 		component.setLabelText( Messages.getString( "PieBaseSeriesComponent.Label.CategoryDefinition" ) ); //$NON-NLS-1$
 		return component;
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getDisplayName()
+	 */
+	public String getDisplayName( )
+	{
+		return Messages.getString( "PieChart.Txt.DisplayName" );
+	}
+
 }

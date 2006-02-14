@@ -72,7 +72,7 @@ public class AreaChart extends DefaultChartTypeImpl
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
-	public static final String TYPE_LITERAL = "Area Chart"; //$NON-NLS-1$
+	public static final String TYPE_LITERAL = "Area Chart"; //$NON-NLS-1$$
 
 	private static final String STACKED_SUBTYPE_LITERAL = "Stacked"; //$NON-NLS-1$
 
@@ -864,5 +864,13 @@ public class AreaChart extends DefaultChartTypeImpl
 				builder,
 				oContext,
 				sTitle );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getDisplayName()
+	 */
+	public String getDisplayName( )
+	{
+		return Messages.getString( "AreaChart.Txt.DisplayName" );
 	}
 }

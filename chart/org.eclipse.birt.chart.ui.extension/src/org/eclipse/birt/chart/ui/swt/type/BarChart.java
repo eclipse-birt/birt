@@ -889,4 +889,12 @@ public class BarChart extends DefaultChartTypeImpl
 				oContext,
 				sTitle );
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getDisplayName()
+	 */
+	public String getDisplayName( )
+	{
+		return Messages.getString( "BarChart.Txt.DisplayName" );
+	}
 }

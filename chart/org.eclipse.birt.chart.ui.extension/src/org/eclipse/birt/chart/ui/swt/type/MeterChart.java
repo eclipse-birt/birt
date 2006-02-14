@@ -580,4 +580,13 @@ public class MeterChart extends DefaultChartTypeImpl
 		component.setTooltipWhenBlank( Messages.getString( "MeterChart.Tooltip.InputExpression" ) ); //$NON-NLS-1$
 		return component;
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getDisplayName()
+	 */
+	public String getDisplayName( )
+	{
+		return Messages.getString( "MeterChart.Txt.DisplayName" );
+	}
+
 }

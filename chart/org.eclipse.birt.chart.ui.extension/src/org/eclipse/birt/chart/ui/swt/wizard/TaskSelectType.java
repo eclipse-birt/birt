@@ -360,7 +360,8 @@ public class TaskSelectType extends SimpleTask
 			String sTypeTmp = (String) iter.next( );
 			TableItem tItem = new TableItem( table, SWT.NONE );
 			tItem.setText( LEADING_BLANKS
-					+ ( (IChartType) htTypes.get( sTypeTmp ) ).getName( ) );
+					+ ( (IChartType) htTypes.get( sTypeTmp ) ).getDisplayName( ) );
+			tItem.setData( ( (IChartType) htTypes.get( sTypeTmp ) ).getName( ) );
 			tItem.setImage( ( (IChartType) htTypes.get( sTypeTmp ) ).getImage( ) );
 		}
 	}
@@ -593,7 +594,7 @@ public class TaskSelectType extends SimpleTask
 		}
 		else if ( oSelected.getClass( ).equals( Table.class ) )
 		{
-			sType = ( (TableItem) e.item ).getText( ).trim( );
+			sType = ((String)( (TableItem) e.item ).getData( )).trim( );
 			if ( !chartModel.getType( ).equals( sType ) )
 			{
 				sSubType = null;

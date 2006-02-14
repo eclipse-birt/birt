@@ -39,12 +39,20 @@ public interface IChartType
 	public static final String THREE_DIMENSION_TYPE = Messages.getString( "DimensionType.3D" ); //$NON-NLS-1$
 
 	/**
-	 * Returns the name of the chart type. This is what appears in the selection
-	 * list in the Chart Selector UI.
+	 * Returns the name of the chart type.
 	 * 
 	 * @return Chart type name.
 	 */
 	public String getName( );
+	
+	/**
+	 * Returns the display name of the chart type. This is what appears in the selection
+	 * list in the Chart Selector UI.
+	 *
+	 * @return Chart type display name.
+	 * @since Version 2.1
+	 */
+	public String getDisplayName( );
 
 	/**
 	 * Returns the image icon of the chart type. This is what appears in the

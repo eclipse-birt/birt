@@ -30,6 +30,14 @@ import org.eclipse.swt.graphics.Image;
 public class DefaultChartTypeImpl implements IChartType
 {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDisplayName()
+	 */
+	public String getDisplayName() 
+	{
+		return "";
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
