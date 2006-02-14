@@ -2962,7 +2962,13 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			// THE
 			// VALUE
 			{
-				( (TooltipValue) tg.getAction( ).getValue( ) ).setText( dph.getDisplayValue( ) );
+				String toolText = ( (TooltipValue) tg.getAction( ).getValue( ) ).getText( );
+
+				// if blank, then use DataPoint label.
+				if ( toolText == null || toolText.length( ) == 0 )
+				{
+					( (TooltipValue) tg.getAction( ).getValue( ) ).setText( dph.getDisplayValue( ) );
+				}
 			}
 			else if ( tg.getAction( ).getType( ) == ActionType.URL_REDIRECT_LITERAL ) // BUILD
 			// A

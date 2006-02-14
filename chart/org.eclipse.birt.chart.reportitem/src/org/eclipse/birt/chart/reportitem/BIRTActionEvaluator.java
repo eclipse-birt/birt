@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.event.StructureSource;
+import org.eclipse.birt.chart.event.StructureType;
 import org.eclipse.birt.chart.factory.ActionEvaluatorAdapter;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -42,7 +44,7 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IActionEvaluator#getActionExpressions(org.eclipse.birt.chart.model.data.Action)
 	 */
-	public String[] getActionExpressions( Action action )
+	public String[] getActionExpressions( Action action, StructureSource source )
 	{
 		if ( ActionType.URL_REDIRECT_LITERAL.equals( action.getType( ) ) )
 		{
@@ -120,14 +122,17 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 		}
 		else if ( ActionType.SHOW_TOOLTIP_LITERAL.equals( action.getType( ) ) )
 		{
-			TooltipValue tv = (TooltipValue) action.getValue( );
-
-			String exp = tv.getText( );
-			if ( exp != null && exp.trim( ).length( ) > 0 )
+			if ( StructureType.SERIES.equals( source.getType( ) ) )
 			{
-				return new String[]{
-					exp
-				};
+				TooltipValue tv = (TooltipValue) action.getValue( );
+
+				String exp = tv.getText( );
+				if ( exp != null && exp.trim( ).length( ) > 0 )
+				{
+					return new String[]{
+						exp
+					};
+				}
 			}
 		}
 

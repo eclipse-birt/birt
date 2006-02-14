@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.factory;
 
+import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.model.data.Action;
 
 /**
@@ -24,7 +25,8 @@ public interface IActionEvaluator
 	 * contain any expression.
 	 * 
 	 * @param action
+	 * @param source
 	 * @return
 	 */
-	String[] getActionExpressions( Action action );
+	String[] getActionExpressions( Action action, StructureSource source );
 }
