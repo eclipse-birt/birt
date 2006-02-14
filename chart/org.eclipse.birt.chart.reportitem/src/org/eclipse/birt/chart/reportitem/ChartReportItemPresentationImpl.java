@@ -40,7 +40,6 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.ReportItemPresentationBase;
 import org.eclipse.birt.report.engine.extension.Size;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -70,7 +69,7 @@ public final class ChartReportItemPresentationImpl extends
 
 	private IDeviceRenderer idr = null;
 
-	private DesignElementHandle handle;
+	private ExtendedItemHandle handle;
 
 	private RunTimeContext rtc = null;
 
@@ -285,6 +284,13 @@ public final class ChartReportItemPresentationImpl extends
 
 				rtc = drtc;
 				cm = rtc.getScriptContext( ).getChartInstance( );
+				// Set back the cm into the handle from the engine, so that the chart inside the 
+				// reportdesignhandle is the same as the one used during presentation.
+				if ( cm != null && handle != null)
+				{
+					IReportItem item = ( (ExtendedItem) handle.getElement( ) ).getExtendedElement( );
+					item.setProperty( "chart.instance", cm );//$NON-NLS-1$
+				}
 			}
 			ois.close( );
 		}
