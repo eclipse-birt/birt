@@ -26,10 +26,12 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.MarkerLine;
@@ -512,9 +514,19 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		}
 		else if ( event.widget.equals( txtValue ) )
 		{
-			int iMarkerIndex = getMarkerIndex( );
-			( (MarkerLine) getAxisForProcessing( ).getMarkerLines( )
-					.get( iMarkerIndex ) ).setValue( this.getTypedDataElement( txtValue.getText( ) ) );
+			if ( event.type == TextEditorComposite.TEXT_MODIFIED )
+			{
+				int iMarkerIndex = getMarkerIndex( );
+				( (MarkerLine) getAxisForProcessing( ).getMarkerLines( )
+						.get( iMarkerIndex ) ).setValue( this.getTypedDataElement( txtValue.getText( ) ) );
+			}
+			if ( event.type == TextEditorComposite.TEXT_FRACTION_CONVERTED )
+			{
+				// Change FormatSpecifier if the text is fraction and converted
+				FractionNumberFormatSpecifier ffs = FractionNumberFormatSpecifierImpl.create( );
+				( (MarkerLine) getAxisForProcessing( ).getMarkerLines( )
+						.get( getMarkerIndex( ) ) ).setFormatSpecifier( ffs );
+			}
 		}
 		else if ( event.widget.equals( txtStartValue ) )
 		{

@@ -55,12 +55,37 @@ public class TextEditorComposite extends Composite
 
 	public static final int TEXT_MODIFIED = 0;
 
+	public static final int TEXT_FRACTION_CONVERTED = 1;
+
 	private transient boolean bEnabled = true;
 
+	private transient boolean isFractionSupported = false;
+
+	/**
+	 * Constructor. Default argument value of isFractionSupported is true.
+	 * 
+	 * @param parent
+	 * @param iStyle
+	 */
 	public TextEditorComposite( Composite parent, int iStyle )
+	{
+		this( parent, iStyle, true );
+	}
+
+	/**
+	 * 
+	 * @param parent
+	 * @param iStyle
+	 * @param isFractionSupported
+	 *            If this argument is true, the fraction value, like "1/3" is
+	 *            supported as a double value.
+	 */
+	public TextEditorComposite( Composite parent, int iStyle,
+			boolean isFractionSupported )
 	{
 		super( parent, SWT.NONE );
 		this.iStyle = iStyle;
+		this.isFractionSupported = isFractionSupported;
 		init( );
 		placeComponents( );
 	}
@@ -100,7 +125,7 @@ public class TextEditorComposite extends Composite
 	{
 		return txtValue.getText( );
 	}
-	
+
 	public void setToolTipText( String string )
 	{
 		txtValue.setToolTipText( string );
@@ -113,6 +138,33 @@ public class TextEditorComposite extends Composite
 
 	private void fireEvent( )
 	{
+		// Handle the fraction conversion
+		boolean isFractionConverted = false;
+		if ( this.isFractionSupported )
+		{
+			int iDelimiter = sText.indexOf( '/' );
+			if ( iDelimiter < 0 )
+			{
+				iDelimiter = sText.indexOf( ':' );
+			}
+			if ( iDelimiter > 0 )
+			{
+				isFractionConverted = true;
+				String numerator = sText.substring( 0, iDelimiter );
+				String denominator = sText.substring( iDelimiter + 1 );
+				try
+				{
+					this.sText = String.valueOf( Double.parseDouble( numerator )
+							/ Double.parseDouble( denominator ) );
+				}
+				catch ( NumberFormatException e )
+				{
+					this.sText = "0"; //$NON-NLS-1$
+				}
+				this.txtValue.setText( sText );
+			}
+		}
+
 		for ( int i = 0; i < vListeners.size( ); i++ )
 		{
 			Event e = new Event( );
@@ -120,6 +172,15 @@ public class TextEditorComposite extends Composite
 			e.widget = this;
 			e.type = TEXT_MODIFIED;
 			( (Listener) vListeners.get( i ) ).handleEvent( e );
+
+			if ( isFractionConverted )
+			{
+				e = new Event( );
+				e.data = this.sText;
+				e.widget = this;
+				e.type = TEXT_FRACTION_CONVERTED;
+				( (Listener) vListeners.get( i ) ).handleEvent( e );
+			}
 		}
 	}
 

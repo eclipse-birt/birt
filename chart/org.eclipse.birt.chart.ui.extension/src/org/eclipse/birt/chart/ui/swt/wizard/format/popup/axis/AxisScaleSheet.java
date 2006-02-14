@@ -219,7 +219,6 @@ public class AxisScaleSheet extends AbstractPopupSheet
 		Group grpScale = new Group( cmpContent, SWT.NONE );
 		{
 			GridData gdGRPScale = new GridData( GridData.FILL_BOTH );
-			gdGRPScale.widthHint = 200;
 			gdGRPScale.horizontalSpan = 4;
 			grpScale.setLayoutData( gdGRPScale );
 			GridLayout glScale = new GridLayout( );
@@ -550,7 +549,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 		txtScaleMax.setEnabled( bEnabled );
 		lblStep.setEnabled( bEnabled );
 		txtScaleStep.setEnabled( bEnabled );
-		
+
 		// lblUnit.setEnabled( sType.equals( "DateTime" ) ); //$NON-NLS-1$
 		// cmbScaleUnit.setEnabled( sType.equals( "DateTime" ) ); //$NON-NLS-1$
 		lblStep.setEnabled( bEnabled

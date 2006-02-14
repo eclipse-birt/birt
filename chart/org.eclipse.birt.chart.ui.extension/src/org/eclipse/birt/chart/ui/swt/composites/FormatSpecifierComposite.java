@@ -19,9 +19,11 @@ import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
 import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.DateFormatType;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl;
@@ -35,6 +37,7 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -50,10 +53,9 @@ import org.eclipse.swt.widgets.Text;
  * @author Actuate Corporation
  * 
  */
-public class FormatSpecifierComposite extends Composite implements
-		SelectionListener,
-		Listener,
-		ModifyListener
+public class FormatSpecifierComposite extends Composite
+		implements
+			SelectionListener
 {
 
 	private transient Button btnUndefined = null;
@@ -61,6 +63,8 @@ public class FormatSpecifierComposite extends Composite implements
 	private transient Button btnStandard = null;
 
 	private transient Button btnAdvanced = null;
+
+	private transient Button btnFraction = null;
 
 	private transient Combo cmbDataType = null;
 
@@ -71,23 +75,17 @@ public class FormatSpecifierComposite extends Composite implements
 
 	private transient Composite cmpStandardDateDetails = null;
 
-	private transient Composite cmpDateStandard = null;
-
-	private transient Combo cmbDateType = null;
-
-	private transient Combo cmbDateForm = null;
-
 	private transient Composite cmpStandardNumberDetails = null;
 
-	private transient Composite cmpNumberStandard = null;
+	private transient IFormatSpecifierUIComponent cpWrapStandardNumber = null;
 
-	private transient Text txtPrefix = null;
+	private transient IFormatSpecifierUIComponent cpWrapStandardDate = null;
 
-	private transient Text txtSuffix = null;
+	private transient IFormatSpecifierUIComponent cpWrapAdvancedNumber = null;
 
-	private transient Text txtMultiplier = null;
+	private transient IFormatSpecifierUIComponent cpWrapAdvancedDate = null;
 
-	private transient IntegerSpinControl iscFractionDigits = null;
+	private transient IFormatSpecifierUIComponent cpWrapFractionNumber = null;
 
 	// Composites for Advanced Properties
 	private transient Composite cmpAdvancedDetails = null;
@@ -96,17 +94,9 @@ public class FormatSpecifierComposite extends Composite implements
 
 	private transient Composite cmpAdvancedDateDetails = null;
 
-	private transient Composite cmpDateAdvanced = null;
-
-	private transient Text txtDatePattern = null;
-
 	private transient Composite cmpAdvancedNumberDetails = null;
 
-	private transient Composite cmpNumberAdvanced = null;
-
-	private transient Text txtNumberPattern = null;
-
-	private transient Text txtAdvMultiplier = null;
+	private transient Composite cmpFractionNumberDetails = null;
 
 	private transient FormatSpecifier formatspecifier = null;
 
@@ -139,7 +129,7 @@ public class FormatSpecifierComposite extends Composite implements
 		glContent.marginHeight = 7;
 		glContent.marginWidth = 7;
 		glContent.horizontalSpacing = 5;
-		glContent.verticalSpacing = 5;
+		glContent.verticalSpacing = 0;
 
 		// Layout for the details composite
 		slStandardDetails = new StackLayout( );
@@ -187,114 +177,26 @@ public class FormatSpecifierComposite extends Composite implements
 		cmpStandardDetails.setLayout( slStandardDetails );
 
 		// Date/Time details Composite
-		GridLayout glDate = new GridLayout( );
-		glDate.verticalSpacing = 5;
-		glDate.marginHeight = 0;
-		glDate.marginWidth = 0;
-
 		cmpStandardDateDetails = new Composite( cmpStandardDetails, SWT.NONE );
-		cmpStandardDateDetails.setLayout( glDate );
-
-		// Date/Time Standard Composite
-		// Layout
-		GridLayout glDateStandard = new GridLayout( );
-		glDateStandard.verticalSpacing = 5;
-		glDateStandard.numColumns = 2;
-		glDateStandard.marginHeight = 2;
-		glDateStandard.marginWidth = 2;
-
-		cmpDateStandard = new Composite( cmpStandardDateDetails, SWT.NONE );
-		GridData gdGRPDateStandard = new GridData( GridData.FILL_BOTH );
-		cmpDateStandard.setLayoutData( gdGRPDateStandard );
-		cmpDateStandard.setLayout( glDateStandard );
-
-		Label lblDateType = new Label( cmpDateStandard, SWT.NONE );
-		GridData gdLBLDateType = new GridData( );
-		lblDateType.setLayoutData( gdLBLDateType );
-		lblDateType.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Type" ) ); //$NON-NLS-1$
-
-		cmbDateType = new Combo( cmpDateStandard, SWT.DROP_DOWN | SWT.READ_ONLY );
-		GridData gdCMBDateType = new GridData( GridData.FILL_HORIZONTAL );
-		cmbDateType.setLayoutData( gdCMBDateType );
-		cmbDateType.addSelectionListener( this );
-
-		Label lblDateDetails = new Label( cmpDateStandard, SWT.NONE );
-		GridData gdLBLDateDetails = new GridData( );
-		lblDateDetails.setLayoutData( gdLBLDateDetails );
-		lblDateDetails.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Details" ) ); //$NON-NLS-1$
-
-		cmbDateForm = new Combo( cmpDateStandard, SWT.DROP_DOWN | SWT.READ_ONLY );
-		GridData gdCMBDateForm = new GridData( GridData.FILL_HORIZONTAL );
-		cmbDateForm.setLayoutData( gdCMBDateForm );
-		cmbDateForm.addSelectionListener( this );
+		{
+			GridLayout glDate = new GridLayout( );
+			glDate.verticalSpacing = 5;
+			glDate.marginHeight = 0;
+			glDate.marginWidth = 0;
+			cmpStandardDateDetails.setLayout( glDate );
+		}
+		cpWrapStandardDate = new DateStandardComposite( cmpStandardDateDetails );
 
 		// Number details Composite
-		GridLayout glNumber = new GridLayout( );
-		glNumber.verticalSpacing = 5;
-		glNumber.marginHeight = 0;
-		glNumber.marginWidth = 0;
-
 		cmpStandardNumberDetails = new Composite( cmpStandardDetails, SWT.NONE );
-		cmpStandardNumberDetails.setLayout( glNumber );
-
-		// Number Standard Composite
-		// Layout
-		GridLayout glNumberStandard = new GridLayout( );
-		glNumberStandard.verticalSpacing = 5;
-		glNumberStandard.numColumns = 4;
-		glNumberStandard.marginHeight = 2;
-		glNumberStandard.marginWidth = 2;
-
-		cmpNumberStandard = new Composite( cmpStandardNumberDetails, SWT.NONE );
-		GridData gdGRPNumberStandard = new GridData( GridData.FILL_BOTH );
-		cmpNumberStandard.setLayoutData( gdGRPNumberStandard );
-		cmpNumberStandard.setLayout( glNumberStandard );
-
-		Label lblPrefix = new Label( cmpNumberStandard, SWT.NONE );
-		GridData gdLBLPrefix = new GridData( );
-		lblPrefix.setLayoutData( gdLBLPrefix );
-		lblPrefix.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Prefix" ) ); //$NON-NLS-1$
-
-		txtPrefix = new Text( cmpNumberStandard, SWT.BORDER | SWT.SINGLE );
-		GridData gdTXTPrefix = new GridData( GridData.FILL_HORIZONTAL );
-		gdTXTPrefix.widthHint = 60;
-		txtPrefix.setLayoutData( gdTXTPrefix );
-		txtPrefix.addModifyListener( this );
-
-		Label lblSuffix = new Label( cmpNumberStandard, SWT.NONE );
-		GridData gdLBLSuffix = new GridData( );
-		lblSuffix.setLayoutData( gdLBLSuffix );
-		lblSuffix.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Suffix" ) ); //$NON-NLS-1$
-
-		txtSuffix = new Text( cmpNumberStandard, SWT.BORDER | SWT.SINGLE );
-		GridData gdTXTSuffix = new GridData( GridData.FILL_HORIZONTAL );
-		gdTXTSuffix.widthHint = 60;
-		txtSuffix.setLayoutData( gdTXTSuffix );
-		txtSuffix.addModifyListener( this );
-
-		Label lblMultiplier = new Label( cmpNumberStandard, SWT.NONE );
-		GridData gdLBLMultiplier = new GridData( );
-		lblMultiplier.setLayoutData( gdLBLMultiplier );
-		lblMultiplier.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Multiplier" ) ); //$NON-NLS-1$
-
-		txtMultiplier = new Text( cmpNumberStandard, SWT.BORDER | SWT.SINGLE );
-		GridData gdTXTMultiplier = new GridData( GridData.FILL_HORIZONTAL );
-		gdTXTMultiplier.widthHint = 60;
-		txtMultiplier.setLayoutData( gdTXTMultiplier );
-		txtMultiplier.addModifyListener( this );
-
-		Label lblFractionDigit = new Label( cmpNumberStandard, SWT.NONE );
-		GridData gdLBLFractionDigit = new GridData( );
-		lblFractionDigit.setLayoutData( gdLBLFractionDigit );
-		lblFractionDigit.setText( Messages.getString( "FormatSpecifierComposite.Lbl.FractionDigits" ) ); //$NON-NLS-1$
-
-		iscFractionDigits = new IntegerSpinControl( cmpNumberStandard,
-				SWT.NONE,
-				2 );
-		GridData gdISCFractionDigits = new GridData( GridData.FILL_HORIZONTAL );
-		gdISCFractionDigits.widthHint = 60;
-		iscFractionDigits.setLayoutData( gdISCFractionDigits );
-		iscFractionDigits.addListener( this );
+		{
+			GridLayout glNumber = new GridLayout( );
+			glNumber.verticalSpacing = 5;
+			glNumber.marginHeight = 0;
+			glNumber.marginWidth = 0;
+			cmpStandardNumberDetails.setLayout( glNumber );
+		}
+		cpWrapStandardNumber = new NumberStandardComposite( cmpStandardNumberDetails );
 
 		Label lblDummyAdvanced = new Label( this, SWT.NONE );
 		GridData gdLBLDummyAdvanced = new GridData( );
@@ -317,78 +219,54 @@ public class FormatSpecifierComposite extends Composite implements
 		cmpAdvancedDetails.setLayout( slAdvancedDetails );
 
 		// Date/Time details Composite
-		GridLayout glAdvDate = new GridLayout( );
-		glAdvDate.verticalSpacing = 5;
-		glAdvDate.marginHeight = 0;
-		glAdvDate.marginWidth = 0;
-
 		cmpAdvancedDateDetails = new Composite( cmpAdvancedDetails, SWT.NONE );
-		cmpAdvancedDateDetails.setLayout( glAdvDate );
-
-		// Date/Time Advanced Composite
-		// Layout
-		GridLayout glDateAdvanced = new GridLayout( );
-		glDateAdvanced.verticalSpacing = 5;
-		glDateAdvanced.numColumns = 2;
-		glDateAdvanced.marginHeight = 2;
-		glDateAdvanced.marginWidth = 2;
-
-		cmpDateAdvanced = new Composite( cmpAdvancedDateDetails, SWT.NONE );
-		GridData gdGRPDateAdvanced = new GridData( GridData.FILL_BOTH );
-		cmpDateAdvanced.setLayoutData( gdGRPDateAdvanced );
-		cmpDateAdvanced.setLayout( glDateAdvanced );
-
-		Label lblDatePattern = new Label( cmpDateAdvanced, SWT.NONE );
-		GridData gdLBLDatePattern = new GridData( );
-		lblDatePattern.setLayoutData( gdLBLDatePattern );
-		lblDatePattern.setText( Messages.getString( "FormatSpecifierComposite.Lbl.DatePattern" ) ); //$NON-NLS-1$
-
-		txtDatePattern = new Text( cmpDateAdvanced, SWT.BORDER | SWT.SINGLE );
-		GridData gdTXTDatePattern = new GridData( GridData.FILL_HORIZONTAL );
-		txtDatePattern.setLayoutData( gdTXTDatePattern );
-		txtDatePattern.addModifyListener( this );
+		{
+			GridLayout glAdvDate = new GridLayout( );
+			glAdvDate.verticalSpacing = 5;
+			glAdvDate.marginHeight = 0;
+			glAdvDate.marginWidth = 0;
+			cmpAdvancedDateDetails.setLayout( glAdvDate );
+		}
+		cpWrapAdvancedDate = new DateAdvancedComposite( cmpAdvancedDateDetails );
 
 		// Number details Composite
-		GridLayout glAdvNumber = new GridLayout( );
-		glAdvNumber.verticalSpacing = 5;
-		glAdvNumber.marginHeight = 0;
-		glAdvNumber.marginWidth = 0;
-
 		cmpAdvancedNumberDetails = new Composite( cmpAdvancedDetails, SWT.NONE );
-		cmpAdvancedNumberDetails.setLayout( glAdvNumber );
+		{
+			GridLayout glAdvNumber = new GridLayout( );
+			glAdvNumber.verticalSpacing = 5;
+			glAdvNumber.marginHeight = 0;
+			glAdvNumber.marginWidth = 0;
+			cmpAdvancedNumberDetails.setLayout( glAdvNumber );
+		}
+		cpWrapAdvancedNumber = new NumberAdvancedComposite( cmpAdvancedNumberDetails );
 
-		// Number Advanced Composite
-		// Layout
-		GridLayout glNumberAdvanced = new GridLayout( );
-		glNumberAdvanced.verticalSpacing = 5;
-		glNumberAdvanced.numColumns = 2;
-		glNumberAdvanced.marginHeight = 2;
-		glNumberAdvanced.marginWidth = 2;
+		// Fraction Number details Composite
+		Label lblDummyFraction = new Label( this, SWT.NONE );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalSpan = 2;
+			gd.heightHint = 10;
+			lblDummyFraction.setLayoutData( gd );
+		}
 
-		cmpNumberAdvanced = new Composite( cmpAdvancedNumberDetails, SWT.NONE );
-		GridData gdGRPNumberAdvanced = new GridData( GridData.FILL_BOTH );
-		cmpNumberAdvanced.setLayoutData( gdGRPNumberAdvanced );
-		cmpNumberAdvanced.setLayout( glNumberAdvanced );
+		btnFraction = new Button( this, SWT.RADIO );
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
+			btnFraction.setLayoutData( gd );
+			btnFraction.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Fraction" ) ); //$NON-NLS-1$
+			btnFraction.addSelectionListener( this );
+		}
 
-		Label lblAdvMultiplier = new Label( cmpNumberAdvanced, SWT.NONE );
-		GridData gdLBLAdvMultiplier = new GridData( );
-		lblAdvMultiplier.setLayoutData( gdLBLAdvMultiplier );
-		lblAdvMultiplier.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Multiplier" ) ); //$NON-NLS-1$
-
-		txtAdvMultiplier = new Text( cmpNumberAdvanced, SWT.BORDER | SWT.SINGLE );
-		GridData gdTXTAdvMultiplier = new GridData( GridData.FILL_HORIZONTAL );
-		txtAdvMultiplier.setLayoutData( gdTXTAdvMultiplier );
-		txtAdvMultiplier.addModifyListener( this );
-
-		Label lblNumberPattern = new Label( cmpNumberAdvanced, SWT.NONE );
-		GridData gdLBLNumberPattern = new GridData( );
-		lblNumberPattern.setLayoutData( gdLBLNumberPattern );
-		lblNumberPattern.setText( Messages.getString( "FormatSpecifierComposite.Lbl.NumberPattern" ) ); //$NON-NLS-1$
-
-		txtNumberPattern = new Text( cmpNumberAdvanced, SWT.BORDER | SWT.SINGLE );
-		GridData gdTXTNumberPattern = new GridData( GridData.FILL_HORIZONTAL );
-		txtNumberPattern.setLayoutData( gdTXTNumberPattern );
-		txtNumberPattern.addModifyListener( this );
+		cmpFractionNumberDetails = new Composite( this, SWT.NONE );
+		{
+			GridData gd = new GridData( GridData.FILL_BOTH );
+			gd.horizontalIndent = 16;
+			gd.horizontalSpan = 2;
+			cmpFractionNumberDetails.setLayoutData( gd );
+			cmpFractionNumberDetails.setLayout( new FormLayout( ) );
+		}
+		cpWrapFractionNumber = new NumberFractionComposite( cmpFractionNumberDetails );
 
 		populateLists( );
 	}
@@ -425,7 +303,8 @@ public class FormatSpecifierComposite extends Composite implements
 			slStandardDetails.topControl = this.cmpStandardDateDetails;
 			slAdvancedDetails.topControl = this.cmpAdvancedDateDetails;
 		}
-		else
+		else if ( formatspecifier instanceof NumberFormatSpecifier
+				|| formatspecifier instanceof JavaNumberFormatSpecifier )
 		{
 			cmbDataType.select( 0 );
 			if ( formatspecifier instanceof NumberFormatSpecifier )
@@ -443,83 +322,21 @@ public class FormatSpecifierComposite extends Composite implements
 			slStandardDetails.topControl = this.cmpStandardNumberDetails;
 			slAdvancedDetails.topControl = this.cmpAdvancedNumberDetails;
 		}
+		else if ( formatspecifier instanceof FractionNumberFormatSpecifier )
+		{
+			cmbDataType.select( 0 );
+			btnFraction.setSelection( true );
+			slStandardDetails.topControl = this.cmpStandardNumberDetails;
+			slAdvancedDetails.topControl = this.cmpAdvancedNumberDetails;
+		}
 		updateUIState( );
 
-		// Populate Date Types
-		NameSet ns = LiteralHelper.dateFormatTypeSet;
-		cmbDateType.setItems( ns.getDisplayNames( ) );
-		if ( formatspecifier instanceof DateFormatSpecifier )
-		{
-			cmbDateType.select( ns.getSafeNameIndex( ( (DateFormatSpecifier) formatspecifier ).getType( )
-					.getName( ) ) );
-		}
-		if ( cmbDateType.getSelectionIndex( ) == -1 )
-		{
-			cmbDateType.select( 0 );
-		}
+		cpWrapStandardDate.populateLists( );
+		cpWrapStandardNumber.populateLists( );
+		cpWrapAdvancedNumber.populateLists( );
+		cpWrapAdvancedDate.populateLists( );
+		cpWrapFractionNumber.populateLists( );
 
-		// Populate Date Details
-		ns = LiteralHelper.dateFormatDetailSet;
-		cmbDateForm.setItems( ns.getDisplayNames( ) );
-		if ( formatspecifier instanceof DateFormatSpecifier )
-		{
-			cmbDateForm.select( ns.getSafeNameIndex( ( (DateFormatSpecifier) formatspecifier ).getDetail( )
-					.getName( ) ) );
-		}
-		if ( cmbDateForm.getSelectionIndex( ) == -1 )
-		{
-			cmbDateForm.select( 0 );
-		}
-
-		String str = ""; //$NON-NLS-1$
-		if ( formatspecifier instanceof JavaDateFormatSpecifier )
-		{
-			str = ( (JavaDateFormatSpecifier) formatspecifier ).getPattern( );
-			if ( str == null )
-			{
-				str = ""; //$NON-NLS-1$
-			}
-			txtDatePattern.setText( str );
-		}
-		if ( formatspecifier instanceof NumberFormatSpecifier )
-		{
-			str = ( (NumberFormatSpecifier) formatspecifier ).getPrefix( );
-			if ( str == null )
-			{
-				str = ""; //$NON-NLS-1$
-			}
-			txtPrefix.setText( str );
-			str = ( (NumberFormatSpecifier) formatspecifier ).getSuffix( );
-			if ( str == null )
-			{
-				str = ""; //$NON-NLS-1$
-			}
-			txtSuffix.setText( str );
-			str = String.valueOf( ( (NumberFormatSpecifier) formatspecifier ).getMultiplier( ) );
-			if ( str == null
-					|| !( (NumberFormatSpecifier) formatspecifier ).eIsSet( AttributePackage.eINSTANCE.getNumberFormatSpecifier_Multiplier( ) ) )
-			{
-				str = ""; //$NON-NLS-1$
-			}
-			txtMultiplier.setText( str );
-			iscFractionDigits.setValue( ( (NumberFormatSpecifier) formatspecifier ).getFractionDigits( ) );
-		}
-		if ( formatspecifier instanceof JavaNumberFormatSpecifier )
-		{
-			str = String.valueOf( ( (JavaNumberFormatSpecifier) formatspecifier ).getMultiplier( ) );
-			if ( str == null
-					|| !( (JavaNumberFormatSpecifier) formatspecifier ).eIsSet( AttributePackage.eINSTANCE.getJavaNumberFormatSpecifier_Multiplier( ) ) )
-			{
-				str = ""; //$NON-NLS-1$
-			}
-			txtAdvMultiplier.setText( str );
-			str = ( (JavaNumberFormatSpecifier) formatspecifier ).getPattern( );
-			if ( str == null )
-			{
-				str = ""; //$NON-NLS-1$
-			}
-			txtNumberPattern.setText( str );
-		}
 		this.layout( );
 		this.bEnableEvents = true;
 	}
@@ -555,51 +372,26 @@ public class FormatSpecifierComposite extends Composite implements
 		{
 			if ( this.btnAdvanced.getSelection( ) )
 			{
-				fs = JavaDateFormatSpecifierImpl.create( txtDatePattern.getText( ) );
+				fs = cpWrapAdvancedDate.buildFormatSpecifier( );
 			}
 			else if ( this.btnStandard.getSelection( ) )
 			{
-				fs = AttributeFactory.eINSTANCE.createDateFormatSpecifier( );
-				( (DateFormatSpecifier) fs ).setType( DateFormatType.getByName( LiteralHelper.dateFormatTypeSet.getNameByDisplayName( cmbDateType.getText( ) ) ) );
-				( (DateFormatSpecifier) fs ).setDetail( DateFormatDetail.getByName( LiteralHelper.dateFormatDetailSet.getNameByDisplayName( cmbDateForm.getText( ) ) ) );
+				fs = cpWrapStandardDate.buildFormatSpecifier( );
 			}
 		}
 		else
 		{
 			if ( this.btnAdvanced.getSelection( ) )
 			{
-				fs = JavaNumberFormatSpecifierImpl.create( txtNumberPattern.getText( ) );
-				if ( txtAdvMultiplier.getText( ).length( ) > 0 )
-				{
-					try
-					{
-						( (JavaNumberFormatSpecifierImpl) fs ).setMultiplier( Double.valueOf( txtAdvMultiplier.getText( ) )
-								.doubleValue( ) );
-					}
-					catch ( NumberFormatException e )
-					{
-						handleFormatError( txtAdvMultiplier.getText( ) );
-					}
-				}
+				fs = cpWrapAdvancedNumber.buildFormatSpecifier( );
 			}
 			else if ( this.btnStandard.getSelection( ) )
 			{
-				fs = NumberFormatSpecifierImpl.create( );
-				( (NumberFormatSpecifier) fs ).setPrefix( txtPrefix.getText( ) );
-				( (NumberFormatSpecifier) fs ).setSuffix( txtSuffix.getText( ) );
-				( (NumberFormatSpecifier) fs ).setFractionDigits( iscFractionDigits.getValue( ) );
-				if ( txtMultiplier.getText( ).length( ) > 0 )
-				{
-					try
-					{
-						( (NumberFormatSpecifier) fs ).setMultiplier( Double.valueOf( txtMultiplier.getText( ) )
-								.doubleValue( ) );
-					}
-					catch ( NumberFormatException e )
-					{
-						handleFormatError( txtMultiplier.getText( ) );
-					}
-				}
+				fs = cpWrapStandardNumber.buildFormatSpecifier( );
+			}
+			else if ( this.btnFraction.getSelection( ) )
+			{
+				fs = cpWrapFractionNumber.buildFormatSpecifier( );
 			}
 		}
 		return fs;
@@ -611,38 +403,28 @@ public class FormatSpecifierComposite extends Composite implements
 		{
 			if ( this.btnStandard.getSelection( ) )
 			{
-				// Enable Standard properties for number
-				this.txtPrefix.setEnabled( true );
-				this.txtSuffix.setEnabled( true );
-				this.txtMultiplier.setEnabled( true );
-				this.iscFractionDigits.setEnabled( true );
-
-				// Disable Advanced properties for number
-				this.txtAdvMultiplier.setEnabled( false );
-				this.txtNumberPattern.setEnabled( false );
+				cpWrapStandardNumber.setEnabled( true );
+				cpWrapAdvancedNumber.setEnabled( false );
+				cpWrapFractionNumber.setEnabled( false );
 			}
 			else if ( this.btnAdvanced.getSelection( ) )
 			{
-				// Disable Standard properties for number
-				this.txtPrefix.setEnabled( false );
-				this.txtSuffix.setEnabled( false );
-				this.txtMultiplier.setEnabled( false );
-				this.iscFractionDigits.setEnabled( false );
-
-				// Enable Standard properties for number
-				this.txtAdvMultiplier.setEnabled( true );
-				this.txtNumberPattern.setEnabled( true );
+				cpWrapStandardNumber.setEnabled( false );
+				cpWrapAdvancedNumber.setEnabled( true );
+				cpWrapFractionNumber.setEnabled( false );
+			}
+			else if ( this.btnFraction.getSelection( ) )
+			{
+				cpWrapStandardNumber.setEnabled( false );
+				cpWrapAdvancedNumber.setEnabled( false );
+				cpWrapFractionNumber.setEnabled( true );
 			}
 			else
 			{
-				// Disable both Standard and Advanced properties
-				this.txtPrefix.setEnabled( false );
-				this.txtSuffix.setEnabled( false );
-				this.txtMultiplier.setEnabled( false );
-				this.iscFractionDigits.setEnabled( false );
-
-				this.txtAdvMultiplier.setEnabled( false );
-				this.txtNumberPattern.setEnabled( false );
+				// Disable all properties
+				cpWrapStandardNumber.setEnabled( false );
+				cpWrapAdvancedNumber.setEnabled( false );
+				cpWrapFractionNumber.setEnabled( false );
 			}
 		}
 		else
@@ -650,28 +432,25 @@ public class FormatSpecifierComposite extends Composite implements
 			if ( this.btnStandard.getSelection( ) )
 			{
 				// Enable Standard properties for date
-				this.cmbDateForm.setEnabled( true );
-				this.cmbDateType.setEnabled( true );
+				cpWrapStandardDate.setEnabled( true );
 
 				// Disable Standard properties for date
-				this.txtDatePattern.setEnabled( false );
+				cpWrapAdvancedDate.setEnabled( false );
 			}
 			else if ( this.btnAdvanced.getSelection( ) )
 			{
 				// Disable Standard properties for date
-				this.cmbDateForm.setEnabled( false );
-				this.cmbDateType.setEnabled( false );
+				cpWrapStandardDate.setEnabled( false );
 
 				// Enable Standard properties for date
-				this.txtDatePattern.setEnabled( true );
+				cpWrapAdvancedDate.setEnabled( true );
 			}
 			else
 			{
 				// Disable both Standard and Advanced properties
-				this.cmbDateForm.setEnabled( false );
-				this.cmbDateType.setEnabled( false );
+				cpWrapStandardDate.setEnabled( false );
 
-				this.txtDatePattern.setEnabled( false );
+				cpWrapAdvancedDate.setEnabled( false );
 			}
 		}
 	}
@@ -701,14 +480,25 @@ public class FormatSpecifierComposite extends Composite implements
 			{
 				slStandardDetails.topControl = cmpStandardNumberDetails;
 				slAdvancedDetails.topControl = cmpAdvancedNumberDetails;
-				updateUIState( );
+				cmpFractionNumberDetails.setVisible( true );
+				btnFraction.setVisible( true );
 			}
 			else
 			{
 				slStandardDetails.topControl = cmpStandardDateDetails;
 				slAdvancedDetails.topControl = cmpAdvancedDateDetails;
-				updateUIState( );
+				cmpFractionNumberDetails.setVisible( false );
+				btnFraction.setVisible( false );
+
+				// Select the default value when the current selection is
+				// invalid
+				if ( btnFraction.getSelection( ) )
+				{
+					btnUndefined.setSelection( true );
+					btnFraction.setSelection( false );
+				}
 			}
+			updateUIState( );
 			cmpStandardDetails.layout( );
 			cmpAdvancedDetails.layout( );
 		}
@@ -727,154 +517,196 @@ public class FormatSpecifierComposite extends Composite implements
 	{
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
-	 */
-	public void modifyText( ModifyEvent e )
+	interface IFormatSpecifierUIComponent
 	{
-		Object oSource = e.getSource( );
-		this.bEnableEvents = false;
-		if ( oSource.equals( txtDatePattern ) )
-		{
-			if ( !( formatspecifier instanceof JavaDateFormatSpecifier ) )
-			{
-				formatspecifier = JavaDateFormatSpecifierImpl.create( "" ); //$NON-NLS-1$
-			}
-			( (JavaDateFormatSpecifier) formatspecifier ).setPattern( txtDatePattern.getText( ) );
-		}
-		else if ( oSource.equals( txtPrefix ) )
-		{
-			if ( !( formatspecifier instanceof NumberFormatSpecifier ) )
-			{
-				formatspecifier = NumberFormatSpecifierImpl.create( );
-				( (NumberFormatSpecifier) formatspecifier ).setSuffix( txtSuffix.getText( ) );
-				( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getValue( ) );
-				try
-				{
-					String str = txtMultiplier.getText( );
-					if ( str.length( ) > 0 )
-					{
-						( (NumberFormatSpecifier) formatspecifier ).setMultiplier( new Double( str ).doubleValue( ) );
-					}
-					else
-					{
-						( (NumberFormatSpecifier) formatspecifier ).eUnset( AttributePackage.eINSTANCE.getNumberFormatSpecifier_Multiplier( ) );
-					}
-				}
-				catch ( NumberFormatException e1 )
-				{
-					handleFormatError( txtMultiplier.getText( ) );
-				}
-			}
-			( (NumberFormatSpecifier) formatspecifier ).setPrefix( txtPrefix.getText( ) );
-		}
-		else if ( oSource.equals( txtSuffix ) )
-		{
-			if ( !( formatspecifier instanceof NumberFormatSpecifier ) )
-			{
-				formatspecifier = NumberFormatSpecifierImpl.create( );
-				( (NumberFormatSpecifier) formatspecifier ).setPrefix( txtPrefix.getText( ) );
-				( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getValue( ) );
-				try
-				{
-					String str = txtMultiplier.getText( );
-					if ( str.length( ) > 0 )
-					{
-						( (NumberFormatSpecifier) formatspecifier ).setMultiplier( new Double( str ).doubleValue( ) );
-					}
-					else
-					{
-						( (NumberFormatSpecifier) formatspecifier ).eUnset( AttributePackage.eINSTANCE.getNumberFormatSpecifier_Multiplier( ) );
-					}
-				}
-				catch ( NumberFormatException e1 )
-				{
-					handleFormatError( txtMultiplier.getText( ) );
-				}
-			}
-			( (NumberFormatSpecifier) formatspecifier ).setSuffix( txtSuffix.getText( ) );
-		}
-		else if ( oSource.equals( txtMultiplier ) )
-		{
-			if ( !( formatspecifier instanceof NumberFormatSpecifier ) )
-			{
-				formatspecifier = NumberFormatSpecifierImpl.create( );
-				( (NumberFormatSpecifier) formatspecifier ).setPrefix( txtPrefix.getText( ) );
-				( (NumberFormatSpecifier) formatspecifier ).setSuffix( txtSuffix.getText( ) );
-				( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getValue( ) );
-			}
-			try
-			{
-				if ( "".equals( txtMultiplier.getText( ) ) ) //$NON-NLS-1$
-				{
-					( (NumberFormatSpecifier) formatspecifier ).eUnset( AttributePackage.eINSTANCE.getNumberFormatSpecifier_Multiplier( ) );
-				}
-				else
-				{
-					( (NumberFormatSpecifier) formatspecifier ).setMultiplier( new Double( txtMultiplier.getText( ) ).doubleValue( ) );
-				}
-			}
-			catch ( NumberFormatException e1 )
-			{
-				handleFormatError( txtMultiplier.getText( ) );
-			}
-		}
-		else if ( oSource.equals( txtAdvMultiplier ) )
-		{
-			if ( !( formatspecifier instanceof JavaNumberFormatSpecifier ) )
-			{
-				formatspecifier = JavaNumberFormatSpecifierImpl.create( txtNumberPattern.getText( ) );
-			}
-			try
-			{
-				if ( "".equals( txtAdvMultiplier.getText( ) ) ) //$NON-NLS-1$
-				{
-					( (JavaNumberFormatSpecifier) formatspecifier ).eUnset( AttributePackage.eINSTANCE.getJavaNumberFormatSpecifier_Multiplier( ) );
-				}
-				else
-				{
-					( (JavaNumberFormatSpecifier) formatspecifier ).setMultiplier( new Double( txtAdvMultiplier.getText( ) ).doubleValue( ) );
-				}
-			}
-			catch ( NumberFormatException e1 )
-			{
-				handleFormatError( txtAdvMultiplier.getText( ) );
-			}
-		}
-		else if ( oSource.equals( txtNumberPattern ) )
-		{
-			if ( !( formatspecifier instanceof JavaNumberFormatSpecifier ) )
-			{
-				formatspecifier = JavaNumberFormatSpecifierImpl.create( "" ); //$NON-NLS-1$
-			}
-			( (JavaNumberFormatSpecifier) formatspecifier ).setPattern( txtNumberPattern.getText( ) );
-		}
-		this.bEnableEvents = true;
+
+		void populateLists( );
+
+		FormatSpecifier buildFormatSpecifier( );
+
+		void setEnabled( boolean enabled );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
-	 */
-	public void handleEvent( Event event )
+	private class NumberStandardComposite extends Composite
+			implements
+				IFormatSpecifierUIComponent,
+				Listener,
+				ModifyListener
 	{
-		this.bEnableEvents = false;
-		if ( event.widget.equals( iscFractionDigits ) )
+
+		private transient Text txtPrefix = null;
+
+		private transient Text txtSuffix = null;
+
+		private transient Text txtMultiplier = null;
+
+		private transient IntegerSpinControl iscFractionDigits = null;
+
+		private NumberStandardComposite( Composite parent )
 		{
-			if ( !( formatspecifier instanceof NumberFormatSpecifier ) )
+			super( parent, SWT.NONE );
+			placeComponents( );
+		}
+
+		private void placeComponents( )
+		{
+			GridLayout glNumberStandard = new GridLayout( );
+			glNumberStandard.verticalSpacing = 5;
+			glNumberStandard.numColumns = 4;
+			glNumberStandard.marginHeight = 2;
+			glNumberStandard.marginWidth = 2;
+
+			GridData gdGRPNumberStandard = new GridData( GridData.FILL_BOTH );
+			this.setLayoutData( gdGRPNumberStandard );
+			this.setLayout( glNumberStandard );
+
+			Label lblPrefix = new Label( this, SWT.NONE );
+			GridData gdLBLPrefix = new GridData( );
+			lblPrefix.setLayoutData( gdLBLPrefix );
+			lblPrefix.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Prefix" ) ); //$NON-NLS-1$
+
+			txtPrefix = new Text( this, SWT.BORDER | SWT.SINGLE );
+			GridData gdTXTPrefix = new GridData( GridData.FILL_HORIZONTAL );
+			gdTXTPrefix.widthHint = 60;
+			txtPrefix.setLayoutData( gdTXTPrefix );
+			txtPrefix.addModifyListener( this );
+
+			Label lblSuffix = new Label( this, SWT.NONE );
+			GridData gdLBLSuffix = new GridData( );
+			lblSuffix.setLayoutData( gdLBLSuffix );
+			lblSuffix.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Suffix" ) ); //$NON-NLS-1$
+
+			txtSuffix = new Text( this, SWT.BORDER | SWT.SINGLE );
+			GridData gdTXTSuffix = new GridData( GridData.FILL_HORIZONTAL );
+			gdTXTSuffix.widthHint = 60;
+			txtSuffix.setLayoutData( gdTXTSuffix );
+			txtSuffix.addModifyListener( this );
+
+			Label lblMultiplier = new Label( this, SWT.NONE );
+			GridData gdLBLMultiplier = new GridData( );
+			lblMultiplier.setLayoutData( gdLBLMultiplier );
+			lblMultiplier.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Multiplier" ) ); //$NON-NLS-1$
+
+			txtMultiplier = new Text( this, SWT.BORDER | SWT.SINGLE );
+			GridData gdTXTMultiplier = new GridData( GridData.FILL_HORIZONTAL );
+			gdTXTMultiplier.widthHint = 60;
+			txtMultiplier.setLayoutData( gdTXTMultiplier );
+			txtMultiplier.addModifyListener( this );
+
+			Label lblFractionDigit = new Label( this, SWT.NONE );
+			GridData gdLBLFractionDigit = new GridData( );
+			lblFractionDigit.setLayoutData( gdLBLFractionDigit );
+			lblFractionDigit.setText( Messages.getString( "FormatSpecifierComposite.Lbl.FractionDigits" ) ); //$NON-NLS-1$
+
+			iscFractionDigits = new IntegerSpinControl( this, SWT.NONE, 2 );
+			GridData gdISCFractionDigits = new GridData( GridData.FILL_HORIZONTAL );
+			gdISCFractionDigits.widthHint = 60;
+			iscFractionDigits.setLayoutData( gdISCFractionDigits );
+			iscFractionDigits.addListener( this );
+		}
+
+		public void handleEvent( Event event )
+		{
+			bEnableEvents = false;
+			if ( event.widget.equals( iscFractionDigits ) )
 			{
-				formatspecifier = NumberFormatSpecifierImpl.create( );
+				if ( !( formatspecifier instanceof NumberFormatSpecifier ) )
+				{
+					formatspecifier = NumberFormatSpecifierImpl.create( );
+					( (NumberFormatSpecifier) formatspecifier ).setPrefix( txtPrefix.getText( ) );
+					( (NumberFormatSpecifier) formatspecifier ).setSuffix( txtSuffix.getText( ) );
+					try
+					{
+						String str = txtMultiplier.getText( );
+						if ( str.length( ) > 0 )
+						{
+							( (NumberFormatSpecifier) formatspecifier ).setMultiplier( new Double( str ).doubleValue( ) );
+						}
+					}
+					catch ( NumberFormatException e1 )
+					{
+						handleFormatError( txtMultiplier.getText( ) );
+					}
+				}
+				( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( ( (Integer) event.data ).intValue( ) );
+			}
+			bEnableEvents = true;
+		}
+
+		public void modifyText( ModifyEvent e )
+		{
+			Object oSource = e.getSource( );
+			bEnableEvents = false;
+			if ( oSource.equals( txtPrefix ) )
+			{
+				if ( !( formatspecifier instanceof NumberFormatSpecifier ) )
+				{
+					formatspecifier = NumberFormatSpecifierImpl.create( );
+					( (NumberFormatSpecifier) formatspecifier ).setSuffix( txtSuffix.getText( ) );
+					( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getValue( ) );
+					try
+					{
+						String str = txtMultiplier.getText( );
+						if ( str.length( ) > 0 )
+						{
+							( (NumberFormatSpecifier) formatspecifier ).setMultiplier( new Double( str ).doubleValue( ) );
+						}
+						else
+						{
+							( (NumberFormatSpecifier) formatspecifier ).eUnset( AttributePackage.eINSTANCE.getNumberFormatSpecifier_Multiplier( ) );
+						}
+					}
+					catch ( NumberFormatException e1 )
+					{
+						handleFormatError( txtMultiplier.getText( ) );
+					}
+				}
 				( (NumberFormatSpecifier) formatspecifier ).setPrefix( txtPrefix.getText( ) );
+			}
+			else if ( oSource.equals( txtSuffix ) )
+			{
+				if ( !( formatspecifier instanceof NumberFormatSpecifier ) )
+				{
+					formatspecifier = NumberFormatSpecifierImpl.create( );
+					( (NumberFormatSpecifier) formatspecifier ).setPrefix( txtPrefix.getText( ) );
+					( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getValue( ) );
+					try
+					{
+						String str = txtMultiplier.getText( );
+						if ( str.length( ) > 0 )
+						{
+							( (NumberFormatSpecifier) formatspecifier ).setMultiplier( new Double( str ).doubleValue( ) );
+						}
+						else
+						{
+							( (NumberFormatSpecifier) formatspecifier ).eUnset( AttributePackage.eINSTANCE.getNumberFormatSpecifier_Multiplier( ) );
+						}
+					}
+					catch ( NumberFormatException e1 )
+					{
+						handleFormatError( txtMultiplier.getText( ) );
+					}
+				}
 				( (NumberFormatSpecifier) formatspecifier ).setSuffix( txtSuffix.getText( ) );
+			}
+			else if ( oSource.equals( txtMultiplier ) )
+			{
+				if ( !( formatspecifier instanceof NumberFormatSpecifier ) )
+				{
+					formatspecifier = NumberFormatSpecifierImpl.create( );
+					( (NumberFormatSpecifier) formatspecifier ).setPrefix( txtPrefix.getText( ) );
+					( (NumberFormatSpecifier) formatspecifier ).setSuffix( txtSuffix.getText( ) );
+					( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getValue( ) );
+				}
 				try
 				{
-					String str = txtMultiplier.getText( );
-					if ( str.length( ) > 0 )
+					if ( "".equals( txtMultiplier.getText( ) ) ) //$NON-NLS-1$
 					{
-						( (NumberFormatSpecifier) formatspecifier ).setMultiplier( new Double( str ).doubleValue( ) );
+						( (NumberFormatSpecifier) formatspecifier ).eUnset( AttributePackage.eINSTANCE.getNumberFormatSpecifier_Multiplier( ) );
+					}
+					else
+					{
+						( (NumberFormatSpecifier) formatspecifier ).setMultiplier( new Double( txtMultiplier.getText( ) ).doubleValue( ) );
 					}
 				}
 				catch ( NumberFormatException e1 )
@@ -882,9 +714,689 @@ public class FormatSpecifierComposite extends Composite implements
 					handleFormatError( txtMultiplier.getText( ) );
 				}
 			}
-			( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( ( (Integer) event.data ).intValue( ) );
+			bEnableEvents = true;
 		}
-		this.bEnableEvents = true;
+
+		public void setEnabled( boolean enabled )
+		{
+			this.txtPrefix.setEnabled( enabled );
+			this.txtSuffix.setEnabled( enabled );
+			this.txtMultiplier.setEnabled( enabled );
+			this.iscFractionDigits.setEnabled( enabled );
+			super.setEnabled( enabled );
+		}
+
+		public void populateLists( )
+		{
+			if ( formatspecifier instanceof NumberFormatSpecifier )
+			{
+				String str = ( (NumberFormatSpecifier) formatspecifier ).getPrefix( );
+				if ( str == null )
+				{
+					str = ""; //$NON-NLS-1$
+				}
+				txtPrefix.setText( str );
+				str = ( (NumberFormatSpecifier) formatspecifier ).getSuffix( );
+				if ( str == null )
+				{
+					str = ""; //$NON-NLS-1$
+				}
+				txtSuffix.setText( str );
+				str = String.valueOf( ( (NumberFormatSpecifier) formatspecifier ).getMultiplier( ) );
+				if ( str == null
+						|| !( (NumberFormatSpecifier) formatspecifier ).eIsSet( AttributePackage.eINSTANCE.getNumberFormatSpecifier_Multiplier( ) ) )
+				{
+					str = ""; //$NON-NLS-1$
+				}
+				txtMultiplier.setText( str );
+				iscFractionDigits.setValue( ( (NumberFormatSpecifier) formatspecifier ).getFractionDigits( ) );
+			}
+		}
+
+		public FormatSpecifier buildFormatSpecifier( )
+		{
+			FormatSpecifier fs = NumberFormatSpecifierImpl.create( );
+			( (NumberFormatSpecifier) fs ).setPrefix( txtPrefix.getText( ) );
+			( (NumberFormatSpecifier) fs ).setSuffix( txtSuffix.getText( ) );
+			( (NumberFormatSpecifier) fs ).setFractionDigits( iscFractionDigits.getValue( ) );
+			if ( txtMultiplier.getText( ).length( ) > 0 )
+			{
+				try
+				{
+					( (NumberFormatSpecifier) fs ).setMultiplier( Double.valueOf( txtMultiplier.getText( ) )
+							.doubleValue( ) );
+				}
+				catch ( NumberFormatException e )
+				{
+					handleFormatError( txtMultiplier.getText( ) );
+				}
+			}
+			return fs;
+		}
+
+	}
+
+	private class DateStandardComposite extends Composite
+			implements
+				IFormatSpecifierUIComponent
+	{
+
+		private transient Combo cmbDateType = null;
+
+		private transient Combo cmbDateForm = null;
+
+		private DateStandardComposite( Composite parent )
+		{
+			super( parent, SWT.NONE );
+			placeComponents( );
+		}
+
+		private void placeComponents( )
+		{
+			GridLayout glDateStandard = new GridLayout( );
+			glDateStandard.verticalSpacing = 5;
+			glDateStandard.numColumns = 2;
+			glDateStandard.marginHeight = 2;
+			glDateStandard.marginWidth = 2;
+
+			GridData gdGRPDateStandard = new GridData( GridData.FILL_BOTH );
+			this.setLayoutData( gdGRPDateStandard );
+			this.setLayout( glDateStandard );
+
+			Label lblDateType = new Label( this, SWT.NONE );
+			GridData gdLBLDateType = new GridData( );
+			lblDateType.setLayoutData( gdLBLDateType );
+			lblDateType.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Type" ) ); //$NON-NLS-1$
+
+			cmbDateType = new Combo( this, SWT.DROP_DOWN | SWT.READ_ONLY );
+			GridData gdCMBDateType = new GridData( GridData.FILL_HORIZONTAL );
+			cmbDateType.setLayoutData( gdCMBDateType );
+
+			Label lblDateDetails = new Label( this, SWT.NONE );
+			GridData gdLBLDateDetails = new GridData( );
+			lblDateDetails.setLayoutData( gdLBLDateDetails );
+			lblDateDetails.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Details" ) ); //$NON-NLS-1$
+
+			cmbDateForm = new Combo( this, SWT.DROP_DOWN | SWT.READ_ONLY );
+			GridData gdCMBDateForm = new GridData( GridData.FILL_HORIZONTAL );
+			cmbDateForm.setLayoutData( gdCMBDateForm );
+		}
+
+		public void populateLists( )
+		{
+			// Populate Date Types
+			NameSet ns = LiteralHelper.dateFormatTypeSet;
+			cmbDateType.setItems( ns.getDisplayNames( ) );
+			if ( formatspecifier instanceof DateFormatSpecifier )
+			{
+				cmbDateType.select( ns.getSafeNameIndex( ( (DateFormatSpecifier) formatspecifier ).getType( )
+						.getName( ) ) );
+			}
+			if ( cmbDateType.getSelectionIndex( ) == -1 )
+			{
+				cmbDateType.select( 0 );
+			}
+
+			// Populate Date Details
+			ns = LiteralHelper.dateFormatDetailSet;
+			cmbDateForm.setItems( ns.getDisplayNames( ) );
+			if ( formatspecifier instanceof DateFormatSpecifier )
+			{
+				cmbDateForm.select( ns.getSafeNameIndex( ( (DateFormatSpecifier) formatspecifier ).getDetail( )
+						.getName( ) ) );
+			}
+			if ( cmbDateForm.getSelectionIndex( ) == -1 )
+			{
+				cmbDateForm.select( 0 );
+			}
+		}
+
+		public FormatSpecifier buildFormatSpecifier( )
+		{
+			FormatSpecifier fs = AttributeFactory.eINSTANCE.createDateFormatSpecifier( );
+			( (DateFormatSpecifier) fs ).setType( DateFormatType.getByName( LiteralHelper.dateFormatTypeSet.getNameByDisplayName( cmbDateType.getText( ) ) ) );
+			( (DateFormatSpecifier) fs ).setDetail( DateFormatDetail.getByName( LiteralHelper.dateFormatDetailSet.getNameByDisplayName( cmbDateForm.getText( ) ) ) );
+			return fs;
+		}
+
+		public void setEnabled( boolean enabled )
+		{
+			this.cmbDateForm.setEnabled( enabled );
+			this.cmbDateType.setEnabled( enabled );
+			super.setEnabled( enabled );
+		}
+	}
+
+	private class NumberAdvancedComposite extends Composite
+			implements
+				IFormatSpecifierUIComponent,
+				ModifyListener
+	{
+
+		private transient Text txtNumberPattern = null;
+
+		private transient Text txtAdvMultiplier = null;
+
+		private NumberAdvancedComposite( Composite parent )
+		{
+			super( parent, SWT.NONE );
+			placeComponents( );
+		}
+
+		private void placeComponents( )
+		{
+			GridLayout glNumberAdvanced = new GridLayout( );
+			glNumberAdvanced.verticalSpacing = 5;
+			glNumberAdvanced.numColumns = 2;
+			glNumberAdvanced.marginHeight = 2;
+			glNumberAdvanced.marginWidth = 2;
+
+			GridData gdGRPNumberAdvanced = new GridData( GridData.FILL_BOTH );
+			this.setLayoutData( gdGRPNumberAdvanced );
+			this.setLayout( glNumberAdvanced );
+
+			Label lblAdvMultiplier = new Label( this, SWT.NONE );
+			GridData gdLBLAdvMultiplier = new GridData( );
+			lblAdvMultiplier.setLayoutData( gdLBLAdvMultiplier );
+			lblAdvMultiplier.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Multiplier" ) ); //$NON-NLS-1$
+
+			txtAdvMultiplier = new Text( this, SWT.BORDER | SWT.SINGLE );
+			GridData gdTXTAdvMultiplier = new GridData( GridData.FILL_HORIZONTAL );
+			txtAdvMultiplier.setLayoutData( gdTXTAdvMultiplier );
+			txtAdvMultiplier.addModifyListener( this );
+
+			Label lblNumberPattern = new Label( this, SWT.NONE );
+			GridData gdLBLNumberPattern = new GridData( );
+			lblNumberPattern.setLayoutData( gdLBLNumberPattern );
+			lblNumberPattern.setText( Messages.getString( "FormatSpecifierComposite.Lbl.NumberPattern" ) ); //$NON-NLS-1$
+
+			txtNumberPattern = new Text( this, SWT.BORDER | SWT.SINGLE );
+			GridData gdTXTNumberPattern = new GridData( GridData.FILL_HORIZONTAL );
+			txtNumberPattern.setLayoutData( gdTXTNumberPattern );
+			txtNumberPattern.addModifyListener( this );
+
+		}
+
+		public void populateLists( )
+		{
+			if ( formatspecifier instanceof JavaNumberFormatSpecifier )
+			{
+				String str = String.valueOf( ( (JavaNumberFormatSpecifier) formatspecifier ).getMultiplier( ) );
+				if ( str == null
+						|| !( (JavaNumberFormatSpecifier) formatspecifier ).eIsSet( AttributePackage.eINSTANCE.getJavaNumberFormatSpecifier_Multiplier( ) ) )
+				{
+					str = ""; //$NON-NLS-1$
+				}
+				txtAdvMultiplier.setText( str );
+				str = ( (JavaNumberFormatSpecifier) formatspecifier ).getPattern( );
+				if ( str == null )
+				{
+					str = ""; //$NON-NLS-1$
+				}
+				txtNumberPattern.setText( str );
+			}
+		}
+
+		public FormatSpecifier buildFormatSpecifier( )
+		{
+			FormatSpecifier fs = JavaNumberFormatSpecifierImpl.create( txtNumberPattern.getText( ) );
+			if ( txtAdvMultiplier.getText( ).length( ) > 0 )
+			{
+				try
+				{
+					( (JavaNumberFormatSpecifierImpl) fs ).setMultiplier( Double.valueOf( txtAdvMultiplier.getText( ) )
+							.doubleValue( ) );
+				}
+				catch ( NumberFormatException e )
+				{
+					handleFormatError( txtAdvMultiplier.getText( ) );
+				}
+			}
+			return fs;
+		}
+
+		public void setEnabled( boolean enabled )
+		{
+			this.txtAdvMultiplier.setEnabled( enabled );
+			this.txtNumberPattern.setEnabled( enabled );
+			super.setEnabled( enabled );
+		}
+
+		public void modifyText( ModifyEvent e )
+		{
+			Object oSource = e.getSource( );
+			bEnableEvents = false;
+			if ( oSource.equals( txtAdvMultiplier ) )
+			{
+				if ( !( formatspecifier instanceof JavaNumberFormatSpecifier ) )
+				{
+					formatspecifier = JavaNumberFormatSpecifierImpl.create( txtNumberPattern.getText( ) );
+				}
+				try
+				{
+					if ( "".equals( txtAdvMultiplier.getText( ) ) ) //$NON-NLS-1$
+					{
+						( (JavaNumberFormatSpecifier) formatspecifier ).eUnset( AttributePackage.eINSTANCE.getJavaNumberFormatSpecifier_Multiplier( ) );
+					}
+					else
+					{
+						( (JavaNumberFormatSpecifier) formatspecifier ).setMultiplier( new Double( txtAdvMultiplier.getText( ) ).doubleValue( ) );
+					}
+				}
+				catch ( NumberFormatException e1 )
+				{
+					handleFormatError( txtAdvMultiplier.getText( ) );
+				}
+			}
+			else if ( oSource.equals( txtNumberPattern ) )
+			{
+				if ( !( formatspecifier instanceof JavaNumberFormatSpecifier ) )
+				{
+					formatspecifier = JavaNumberFormatSpecifierImpl.create( "" ); //$NON-NLS-1$
+				}
+				( (JavaNumberFormatSpecifier) formatspecifier ).setPattern( txtNumberPattern.getText( ) );
+			}
+			bEnableEvents = true;
+		}
+
+	}
+
+	private class DateAdvancedComposite extends Composite
+			implements
+				IFormatSpecifierUIComponent,
+				ModifyListener
+	{
+
+		private transient Text txtDatePattern = null;
+
+		private DateAdvancedComposite( Composite parent )
+		{
+			super( parent, SWT.NONE );
+			placeComponents( );
+		}
+
+		private void placeComponents( )
+		{
+			GridLayout glDateAdvanced = new GridLayout( );
+			glDateAdvanced.verticalSpacing = 5;
+			glDateAdvanced.numColumns = 2;
+			glDateAdvanced.marginHeight = 2;
+			glDateAdvanced.marginWidth = 2;
+
+			GridData gdGRPDateAdvanced = new GridData( GridData.FILL_BOTH );
+			this.setLayoutData( gdGRPDateAdvanced );
+			this.setLayout( glDateAdvanced );
+
+			Label lblDatePattern = new Label( this, SWT.NONE );
+			GridData gdLBLDatePattern = new GridData( );
+			lblDatePattern.setLayoutData( gdLBLDatePattern );
+			lblDatePattern.setText( Messages.getString( "FormatSpecifierComposite.Lbl.DatePattern" ) ); //$NON-NLS-1$
+
+			txtDatePattern = new Text( this, SWT.BORDER | SWT.SINGLE );
+			GridData gdTXTDatePattern = new GridData( GridData.FILL_HORIZONTAL );
+			txtDatePattern.setLayoutData( gdTXTDatePattern );
+			txtDatePattern.addModifyListener( this );
+		}
+
+		public void populateLists( )
+		{
+			String str = ""; //$NON-NLS-1$
+			if ( formatspecifier instanceof JavaDateFormatSpecifier )
+			{
+				str = ( (JavaDateFormatSpecifier) formatspecifier ).getPattern( );
+				if ( str == null )
+				{
+					str = ""; //$NON-NLS-1$
+				}
+				txtDatePattern.setText( str );
+			}
+		}
+
+		public FormatSpecifier buildFormatSpecifier( )
+		{
+			FormatSpecifier fs = JavaDateFormatSpecifierImpl.create( txtDatePattern.getText( ) );
+			return fs;
+		}
+
+		public void setEnabled( boolean enabled )
+		{
+			this.txtDatePattern.setEnabled( enabled );
+			super.setEnabled( enabled );
+		}
+
+		public void modifyText( ModifyEvent e )
+		{
+			Object oSource = e.getSource( );
+			bEnableEvents = false;
+			if ( oSource.equals( txtDatePattern ) )
+			{
+				if ( !( formatspecifier instanceof JavaDateFormatSpecifier ) )
+				{
+					formatspecifier = JavaDateFormatSpecifierImpl.create( "" ); //$NON-NLS-1$
+				}
+				( (JavaDateFormatSpecifier) formatspecifier ).setPattern( txtDatePattern.getText( ) );
+			}
+			bEnableEvents = true;
+		}
+
+	}
+
+	private class NumberFractionComposite extends Composite
+			implements
+				IFormatSpecifierUIComponent,
+				Listener,
+				ModifyListener,
+				SelectionListener
+	{
+
+		/**
+		 * This format specifier is used to initialize the UI when current
+		 * format specifier is not available
+		 */
+		private transient FractionNumberFormatSpecifier dummyFs = FractionNumberFormatSpecifierImpl.create( );
+
+		private transient Button btnApproximate = null;
+
+		private transient Button btnUseNumerator = null;
+
+		private transient Button btnUseDenorminator = null;
+
+		private transient Text txtPrefix = null;
+
+		private transient Text txtSuffix = null;
+
+		private transient Text txtDelimiter = null;
+
+		private transient Text txtNumerator = null;
+
+		private transient IntegerSpinControl iscFractionDigits = null;
+
+		private NumberFractionComposite( Composite parent )
+		{
+			super( parent, SWT.NONE );
+			placeComponents( );
+		}
+
+		private void placeComponents( )
+		{
+			GridLayout glNumberStandard = new GridLayout( );
+			glNumberStandard.verticalSpacing = 5;
+			glNumberStandard.numColumns = 4;
+			glNumberStandard.marginHeight = 2;
+			glNumberStandard.marginWidth = 2;
+
+			this.setLayout( glNumberStandard );
+
+			new Label( this, SWT.NONE ).setText( Messages.getString( "FormatSpecifierComposite.Lbl.Delimiter" ) ); //$NON-NLS-1$
+
+			txtDelimiter = new Text( this, SWT.BORDER | SWT.SINGLE );
+			{
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.widthHint = 60;
+				txtDelimiter.setLayoutData( gd );
+				String str = getFormatSpecifier( ).getDelimiter( );
+				if ( str == null )
+				{
+					str = ""; //$NON-NLS-1$
+				}
+				txtDelimiter.setText( str );
+				txtDelimiter.addModifyListener( this );
+			}
+
+			new Label( this, SWT.NONE ).setText( Messages.getString( "FormatSpecifierComposite.Lbl.Approximate" ) ); //$NON-NLS-1$
+
+			btnApproximate = new Button( this, SWT.CHECK );
+			{
+				GridData gd = new GridData( );
+				btnApproximate.setLayoutData( gd );
+				btnApproximate.addSelectionListener( this );
+			}
+
+			new Label( this, SWT.NONE ).setText( Messages.getString( "FormatSpecifierComposite.Lbl.Prefix" ) ); //$NON-NLS-1$
+
+			txtPrefix = new Text( this, SWT.BORDER | SWT.SINGLE );
+			{
+				GridData gdTXTPrefix = new GridData( GridData.FILL_HORIZONTAL );
+				gdTXTPrefix.widthHint = 60;
+				txtPrefix.setLayoutData( gdTXTPrefix );
+				String str = getFormatSpecifier( ).getPrefix( );
+				if ( str == null )
+				{
+					str = ""; //$NON-NLS-1$
+				}
+				txtPrefix.setText( str );
+				txtPrefix.addModifyListener( this );
+			}
+
+			btnUseNumerator = new Button( this, SWT.RADIO );
+			{
+				btnUseNumerator.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Numerator" ) ); //$NON-NLS-1$
+				btnUseNumerator.addSelectionListener( this );
+			}
+
+			txtNumerator = new Text( this, SWT.BORDER | SWT.SINGLE );
+			{
+				GridData gdTXTMultiplier = new GridData( GridData.FILL_HORIZONTAL );
+				gdTXTMultiplier.widthHint = 60;
+				txtNumerator.setLayoutData( gdTXTMultiplier );
+				txtNumerator.setText( Long.toString( (long) getFormatSpecifier( ).getNumerator( ) ) );
+				txtNumerator.setToolTipText( Messages.getString( "FormatSpecifierComposite.Tooltip.InputAPositiveInteger" ) ); //$NON-NLS-1$
+				txtNumerator.addModifyListener( this );
+			}
+
+			new Label( this, SWT.NONE ).setText( Messages.getString( "FormatSpecifierComposite.Lbl.Suffix" ) ); //$NON-NLS-1$
+
+			txtSuffix = new Text( this, SWT.BORDER | SWT.SINGLE );
+			{
+				GridData gdTXTSuffix = new GridData( GridData.FILL_HORIZONTAL );
+				gdTXTSuffix.widthHint = 60;
+				txtSuffix.setLayoutData( gdTXTSuffix );
+				String str = getFormatSpecifier( ).getSuffix( );
+				if ( str == null )
+				{
+					str = ""; //$NON-NLS-1$
+				}
+				txtSuffix.setText( str );
+				txtSuffix.addModifyListener( this );
+			}
+
+			btnUseDenorminator = new Button( this, SWT.RADIO );
+			{
+				btnUseDenorminator.setText( Messages.getString( "FormatSpecifierComposite.Lbl.MaxRecursionTimes" ) ); //$NON-NLS-1$
+				btnUseDenorminator.addSelectionListener( this );
+			}
+
+			iscFractionDigits = new IntegerSpinControl( this, SWT.NONE, 3 );
+			{
+				iscFractionDigits.setMinimum( 1 );
+				iscFractionDigits.setMaximum( 8 );
+				GridData gdISCFractionDigits = new GridData( GridData.FILL_HORIZONTAL );
+				gdISCFractionDigits.widthHint = 60;
+				iscFractionDigits.setLayoutData( gdISCFractionDigits );
+				iscFractionDigits.setValue( getFormatSpecifier( ).getFractionDigits( ) );
+				iscFractionDigits.setToolTipText( Messages.getString( "FormatSpecifierComposite.Tooltip.FractionDigits" ) ); //$NON-NLS-1$
+				iscFractionDigits.addListener( this );
+			}
+		}
+
+		public void handleEvent( Event event )
+		{
+			bEnableEvents = false;
+			if ( event.widget.equals( iscFractionDigits ) )
+			{
+				if ( !( formatspecifier instanceof FractionNumberFormatSpecifier ) )
+				{
+					formatspecifier = FractionNumberFormatSpecifierImpl.create( );
+					getFormatSpecifier( ).setPrefix( txtPrefix.getText( ) );
+					getFormatSpecifier( ).setSuffix( txtSuffix.getText( ) );
+					try
+					{
+						String str = txtNumerator.getText( );
+						if ( str.length( ) > 0 )
+						{
+							getFormatSpecifier( ).setNumerator( new Double( str ).doubleValue( ) );
+						}
+					}
+					catch ( NumberFormatException e1 )
+					{
+						handleFormatError( txtNumerator.getText( ) );
+					}
+				}
+				getFormatSpecifier( ).setFractionDigits( ( (Integer) event.data ).intValue( ) );
+			}
+			bEnableEvents = true;
+		}
+
+		public void modifyText( ModifyEvent e )
+		{
+			Object oSource = e.getSource( );
+			bEnableEvents = false;
+			if ( oSource.equals( txtPrefix ) )
+			{
+				updateFormatSpecifier( );
+			}
+			else if ( oSource.equals( txtSuffix ) )
+			{
+				updateFormatSpecifier( );
+			}
+			else if ( oSource.equals( txtDelimiter ) )
+			{
+				updateFormatSpecifier( );
+			}
+			else if ( oSource.equals( txtNumerator ) )
+			{
+				updateFormatSpecifier( );
+			}
+			bEnableEvents = true;
+		}
+
+		public void setEnabled( boolean enabled )
+		{
+			this.btnApproximate.setSelection( !getFormatSpecifier( ).isPrecise( ) );
+			this.btnApproximate.setEnabled( enabled );
+			this.txtDelimiter.setEnabled( enabled );
+			this.txtPrefix.setEnabled( enabled );
+			this.txtSuffix.setEnabled( enabled );
+
+			this.btnUseNumerator.setEnabled( enabled
+					&& btnApproximate.getSelection( ) );
+			this.btnUseDenorminator.setEnabled( enabled
+					&& btnApproximate.getSelection( ) );
+			if ( getFormatSpecifier( ).getNumerator( ) > 0 )
+			{
+				this.btnUseNumerator.setSelection( true );
+			}
+			else
+			{
+				this.btnUseDenorminator.setSelection( true );
+			}
+
+			this.txtNumerator.setEnabled( enabled
+					&& btnApproximate.getSelection( )
+					&& btnUseNumerator.getSelection( ) );
+			this.iscFractionDigits.setEnabled( enabled
+					&& btnApproximate.getSelection( )
+					&& btnUseDenorminator.getSelection( ) );
+
+			super.setEnabled( enabled );
+		}
+
+		public void populateLists( )
+		{
+			if ( formatspecifier instanceof FractionNumberFormatSpecifier )
+			{
+				this.setEnabled( true );
+			}
+		}
+
+		private FractionNumberFormatSpecifier getFormatSpecifier( )
+		{
+			return formatspecifier instanceof FractionNumberFormatSpecifier
+					? (FractionNumberFormatSpecifier) formatspecifier : dummyFs;
+		}
+
+		private void updateFormatSpecifier( )
+		{
+			if ( !( formatspecifier instanceof FractionNumberFormatSpecifier ) )
+			{
+				formatspecifier = FractionNumberFormatSpecifierImpl.create( );
+			}
+			getFormatSpecifier( ).setPrecise( !btnApproximate.getSelection( ) );
+			getFormatSpecifier( ).setPrefix( txtPrefix.getText( ) );
+			getFormatSpecifier( ).setSuffix( txtSuffix.getText( ) );
+			getFormatSpecifier( ).setDelimiter( txtDelimiter.getText( ) );
+			getFormatSpecifier( ).setFractionDigits( iscFractionDigits.getValue( ) );
+			try
+			{
+				String str = txtNumerator.getText( );
+				if ( str.length( ) > 0 )
+				{
+					getFormatSpecifier( ).setNumerator( new Double( str ).doubleValue( ) );
+				}
+				else
+				{
+					getFormatSpecifier( ).eUnset( AttributePackage.eINSTANCE.getFractionNumberFormatSpecifier_Numerator( ) );
+				}
+			}
+			catch ( NumberFormatException e1 )
+			{
+				handleFormatError( txtNumerator.getText( ) );
+			}
+		}
+
+		public FormatSpecifier buildFormatSpecifier( )
+		{
+			FractionNumberFormatSpecifier fs = FractionNumberFormatSpecifierImpl.create( );
+			fs.setPrecise( !btnApproximate.getSelection( ) );
+			fs.setDelimiter( txtDelimiter.getText( ) );
+			fs.setPrefix( txtPrefix.getText( ) );
+			fs.setSuffix( txtSuffix.getText( ) );
+			fs.setFractionDigits( iscFractionDigits.getValue( ) );
+			if ( btnUseNumerator.getSelection( )
+					&& txtNumerator.getText( ).length( ) > 0 )
+			{
+				try
+				{
+					fs.setNumerator( Double.valueOf( txtNumerator.getText( ) )
+							.doubleValue( ) );
+				}
+				catch ( NumberFormatException e )
+				{
+					handleFormatError( txtNumerator.getText( ) );
+				}
+			}
+			else
+			{
+				fs.setNumerator( 0 );
+			}
+			return fs;
+		}
+
+		public void widgetSelected( SelectionEvent e )
+		{
+			if ( e.widget.equals( btnApproximate ) )
+			{
+				getFormatSpecifier( ).setPrecise( !btnApproximate.getSelection( ) );
+				this.setEnabled( true );
+			}
+			else if ( e.widget.equals( btnUseNumerator ) )
+			{
+				this.txtNumerator.setEnabled( true );
+				this.iscFractionDigits.setEnabled( false );
+			}
+			else if ( e.widget.equals( btnUseDenorminator ) )
+			{
+				this.txtNumerator.setEnabled( false );
+				this.iscFractionDigits.setEnabled( true );
+			}
+		}
+
+		public void widgetDefaultSelected( SelectionEvent e )
+		{
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 
 }
