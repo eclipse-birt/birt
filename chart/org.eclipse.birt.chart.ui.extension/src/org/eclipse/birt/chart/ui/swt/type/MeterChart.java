@@ -143,10 +143,12 @@ public class MeterChart extends DefaultChartTypeImpl
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
 					imgStandard,
-					sStandardDescription ) );
+					sStandardDescription,
+					Messages.getString( "MeterChart.SubType.Standard" ) ) );
 			vSubTypes.add( new DefaultChartSubTypeImpl( SUPERIMPOSED_SUBTYPE_LITERAL,
 					imgSuperimposed,
-					sSuperimposedDescription ) ); //$NON-NLS-1$
+					sSuperimposedDescription,
+					Messages.getString( "MeterChart.SubType.Superimposed" ) ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}

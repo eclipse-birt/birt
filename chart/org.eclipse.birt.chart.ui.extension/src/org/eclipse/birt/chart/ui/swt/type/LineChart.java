@@ -165,13 +165,16 @@ public class LineChart extends DefaultChartTypeImpl
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( OVERLAY_SUBTYPE_LITERAL,
 					imgSideBySide,
-					sOverlayDescription ) );
+					sOverlayDescription,
+					Messages.getString( "LineChart.SubType.Overlay" ) ) );
 			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
 					imgStacked,
-					sStackedDescription ) );
+					sStackedDescription,
+					Messages.getString( "LineChart.SubType.Stacked" ) ) );
 			vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
 					imgPercentStacked,
-					sPercentStackedDescription ) );
+					sPercentStackedDescription,
+					Messages.getString( "LineChart.SubType.PercentStacked" ) ) );
 		}
 		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
@@ -180,7 +183,8 @@ public class LineChart extends DefaultChartTypeImpl
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( OVERLAY_SUBTYPE_LITERAL,
 					imgSideBySide3D,
-					sOverlayDescription ) );
+					sOverlayDescription,
+					Messages.getString( "LineChart.SubType.Overlay" ) ) );
 		}
 		return vSubTypes;
 	}

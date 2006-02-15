@@ -22,4 +22,12 @@ public interface IChartSubType
     public Image getImage();
 
     public String getDescription();
+    
+	/**
+	 * Returns the display name of the chart subType. 
+	 *
+	 * @return Chart subType display name.
+	 * @since Version 2.1
+	 */
+	public String getDisplayName( );
 }

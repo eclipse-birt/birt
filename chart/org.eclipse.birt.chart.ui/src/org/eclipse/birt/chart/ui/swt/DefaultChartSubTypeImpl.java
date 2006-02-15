@@ -18,17 +18,27 @@ import org.eclipse.swt.graphics.Image;
 public class DefaultChartSubTypeImpl implements IChartSubType
 {
 
-    private String sTypeName = null;
+	private String sTypeName = null;
 
     private String sDescription = null;
 
     private Image imgType = null;
+    
+    private String sTypeDisplayName = null;
 
     public DefaultChartSubTypeImpl(String sTypeName, Image imgType, String sDescription)
     {
         this.sTypeName = sTypeName;
         this.sDescription = sDescription;
         this.imgType = imgType;
+    }
+    
+    public DefaultChartSubTypeImpl(String sTypeName, Image imgType, String sDescription, String sTypeDisplayName)
+    {
+        this.sTypeName = sTypeName;
+        this.sDescription = sDescription;
+        this.imgType = imgType;
+        this.sTypeDisplayName = sTypeDisplayName;
     }
 
     public DefaultChartSubTypeImpl(String sTypeName, String sDescription, Image imgType)
@@ -72,5 +82,13 @@ public class DefaultChartSubTypeImpl implements IChartSubType
     {
         return sDescription;
     }
+    
+    /* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType#getDisplayName()
+	 */
+	public String getDisplayName( )
+	{
+		return sTypeDisplayName;
+	}
 
 }

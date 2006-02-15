@@ -169,13 +169,16 @@ public class AreaChart extends DefaultChartTypeImpl
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( OVERLAY_SUBTYPE_LITERAL,
 					imgSideBySide,
-					sOverlayDescription ) );
+					sOverlayDescription,
+					Messages.getString( "AreaChart.SubType.Overlay" ) ) );
 			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
 					imgStacked,
-					sStackedDescription ) );
+					sStackedDescription,
+					Messages.getString( "AreaChart.SubType.Stacked" ) ) );
 			vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
 					imgPercentStacked,
-					sPercentStackedDescription ) );
+					sPercentStackedDescription,
+					Messages.getString( "AreaChart.SubType.PercentStacked" ) ) );
 		}
 		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
@@ -192,7 +195,8 @@ public class AreaChart extends DefaultChartTypeImpl
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
 					imgStackedWithDepth,
-					sStackedDescription ) );
+					sStackedDescription,
+					Messages.getString( "AreaChart.SubType.Stacked" ) ) );
 		}
 		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
@@ -201,7 +205,8 @@ public class AreaChart extends DefaultChartTypeImpl
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( OVERLAY_SUBTYPE_LITERAL,
 					imgSideBySide3D,
-					sOverlayDescription ) );
+					sOverlayDescription,
+					Messages.getString( "AreaChart.SubType.Overlay" ) ) );
 		}
 		return vSubTypes;
 	}

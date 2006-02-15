@@ -145,7 +145,8 @@ public class ScatterChart extends DefaultChartTypeImpl
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
 					img2D,
-					sStandardDescription ) );
+					sStandardDescription,
+					Messages.getString( "ScatterChart.SubType.Standard" ) ) );
 		}
 		return vSubTypes;
 	}

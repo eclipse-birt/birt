@@ -144,7 +144,8 @@ public class StockChart extends DefaultChartTypeImpl
 			}
 			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
 					img2D,
-					sStandardDescription ) );
+					sStandardDescription,
+					Messages.getString( "StockChart.SubType.Standard" ) ) );
 		}
 		return vSubTypes;
 	}

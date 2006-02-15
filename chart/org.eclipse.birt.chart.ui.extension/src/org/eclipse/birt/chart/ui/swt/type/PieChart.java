@@ -136,7 +136,8 @@ public class PieChart extends DefaultChartTypeImpl
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
 					img2D,
-					sStandardDescription ) );
+					sStandardDescription,
+					Messages.getString( "PieChart.SubType.Standard" ) ) );
 		}
 		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
@@ -145,7 +146,8 @@ public class PieChart extends DefaultChartTypeImpl
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
 					img2DWithDepth,
-					sStandardDescription ) );
+					sStandardDescription,
+					Messages.getString( "PieChart.SubType.Standard" ) ) );
 		}
 		return vSubTypes;
 	}
