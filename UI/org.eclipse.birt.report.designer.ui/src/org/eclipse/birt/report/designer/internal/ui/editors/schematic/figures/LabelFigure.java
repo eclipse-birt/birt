@@ -351,4 +351,12 @@ public class LabelFigure extends ReportElementFigure
 			setToolTip(null);
 		}
 	}
+	
+	/**
+	 * Retsets the label height.
+	 */
+	public void resetHeight()
+	{
+		label.revalidate();
+	}
 }

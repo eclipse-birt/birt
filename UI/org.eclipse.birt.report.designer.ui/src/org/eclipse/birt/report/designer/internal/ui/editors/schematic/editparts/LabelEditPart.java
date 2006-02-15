@@ -131,6 +131,7 @@ public class LabelEditPart extends ReportElementEditPart
 				&& ( (PropertyEvent) arg1 ).getPropertyName().equals(
 						StyleHandle.FONT_SIZE_PROP))
 		{
+			((LabelFigure)getFigure()).resetHeight();
 			getFigure().invalidateTree();
 		}
 	}
