@@ -103,7 +103,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package </b>. <!--
@@ -842,10 +841,10 @@ public class AttributePackageImpl extends EPackageImpl implements
 				: ComponentPackage.eINSTANCE );
 		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
 				: DataPackage.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
-				: ModelPackage.eINSTANCE );
 		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
 				: LayoutPackage.eINSTANCE );
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+				: ModelPackage.eINSTANCE );
 		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
 				: TypePackage.eINSTANCE );
 
@@ -853,16 +852,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 		theAttributePackage.createPackageContents( );
 		theComponentPackage.createPackageContents( );
 		theDataPackage.createPackageContents( );
-		theModelPackage.createPackageContents( );
 		theLayoutPackage.createPackageContents( );
+		theModelPackage.createPackageContents( );
 		theTypePackage.createPackageContents( );
 
 		// Initialize created meta-data
 		theAttributePackage.initializePackageContents( );
 		theComponentPackage.initializePackageContents( );
 		theDataPackage.initializePackageContents( );
-		theModelPackage.initializePackageContents( );
 		theLayoutPackage.initializePackageContents( );
+		theModelPackage.initializePackageContents( );
 		theTypePackage.initializePackageContents( );
 
 		// Register package validator
@@ -3629,6 +3628,8 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( actionTypeEEnum, ActionType.INVOKE_SCRIPT_LITERAL );
 		addEEnumLiteral( actionTypeEEnum, ActionType.HIGHLIGHT_LITERAL );
 		addEEnumLiteral( actionTypeEEnum, ActionType.CALL_BACK_LITERAL );
+		addEEnumLiteral( actionTypeEEnum,
+				ActionType.TOGGLE_DATA_POINT_VISIBILITY_LITERAL );
 
 		initEEnum( anchorEEnum, Anchor.class, "Anchor" ); //$NON-NLS-1$
 		addEEnumLiteral( anchorEEnum, Anchor.NORTH_LITERAL );

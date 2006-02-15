@@ -109,6 +109,21 @@ public final class ActionType extends AbstractEnumerator
 	public static final int CALL_BACK = 5;
 
 	/**
+	 * The '<em><b>Toggle Data Point Visibility</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Toggle Data Point Visibility</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #TOGGLE_DATA_POINT_VISIBILITY_LITERAL
+	 * @model name="ToggleDataPointVisibility" literal="Toggle_DataPoint_Visibility"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int TOGGLE_DATA_POINT_VISIBILITY = 6;
+
+	/**
 	 * The '<em><b>URL Redirect</b></em>' literal object. <!--
 	 * begin-user-doc -->
 	 * <p>
@@ -195,6 +210,17 @@ public final class ActionType extends AbstractEnumerator
 			"CallBack", "CallBack" ); //$NON-NLS-1$
 
 	/**
+	 * The '<em><b>Toggle Data Point Visibility</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #TOGGLE_DATA_POINT_VISIBILITY
+	 * @generated
+	 * @ordered
+	 */
+	public static final ActionType TOGGLE_DATA_POINT_VISIBILITY_LITERAL = new ActionType( TOGGLE_DATA_POINT_VISIBILITY,
+			"ToggleDataPointVisibility", "Toggle_DataPoint_Visibility" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+	/**
 	 * An array of all the '<em><b>Action Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -207,6 +233,7 @@ public final class ActionType extends AbstractEnumerator
 			INVOKE_SCRIPT_LITERAL,
 			HIGHLIGHT_LITERAL,
 			CALL_BACK_LITERAL,
+			TOGGLE_DATA_POINT_VISIBILITY_LITERAL,
 	};
 
 	/**
@@ -274,6 +301,8 @@ public final class ActionType extends AbstractEnumerator
 				return HIGHLIGHT_LITERAL;
 			case CALL_BACK :
 				return CALL_BACK_LITERAL;
+			case TOGGLE_DATA_POINT_VISIBILITY :
+				return TOGGLE_DATA_POINT_VISIBILITY_LITERAL;
 		}
 		return null;
 	}

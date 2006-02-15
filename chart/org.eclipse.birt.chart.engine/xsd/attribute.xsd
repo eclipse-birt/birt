@@ -59,6 +59,7 @@
 			<xsd:enumeration value="Invoke_Script"/>
 			<xsd:enumeration value="Highlight"/>
 			<xsd:enumeration value="CallBack"/>
+			<xsd:enumeration value="Toggle_DataPoint_Visibility"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="TriggerCondition">

@@ -208,6 +208,32 @@ public final class SwingEventHandler implements
 							break LOOP;
 						}
 						break;
+						
+					case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
+						if ( src.getType( ) == StructureType.SERIES )
+						{
+							final Series seRT = (Series) src.getSource( );
+							logger.log( ILogger.INFORMATION,
+									Messages.getString( "info.toggle.datapoint.visibility", //$NON-NLS-1$
+											lcl )
+											+ seRT );
+							Series seDT = null;
+							try
+							{
+								seDT = findDesignTimeSeries( seRT );
+							}
+							catch ( ChartException oosx )
+							{
+								logger.log( oosx );
+								return;
+							}
+							seDT.getLabel( ).setVisible( !seDT.getLabel( )
+									.isVisible( ) );
+							iun.regenerateChart( );
+							break LOOP;
+						}
+						break;
+						
 					case ActionType.HIGHLIGHT :
 						bFound = true;
 
@@ -229,6 +255,7 @@ public final class SwingEventHandler implements
 							break LOOP;
 						}
 						break;
+						
 					case ActionType.CALL_BACK :
 						if ( iun instanceof ICallBackNotifier )
 						{

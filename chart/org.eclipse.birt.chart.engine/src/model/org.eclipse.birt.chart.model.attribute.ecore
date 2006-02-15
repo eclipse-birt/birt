@@ -19,6 +19,7 @@
     <eLiterals name="InvokeScript" value="3" literal="Invoke_Script"/>
     <eLiterals name="Highlight" value="4"/>
     <eLiterals name="CallBack" value="5"/>
+    <eLiterals name="ToggleDataPointVisibility" value="6" literal="Toggle_DataPoint_Visibility"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="ActionTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

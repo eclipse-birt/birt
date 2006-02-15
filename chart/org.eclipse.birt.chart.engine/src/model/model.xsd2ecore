@@ -17,6 +17,8 @@
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//ActionType/Highlight"/>
     <nested inputs="../../xsd/attribute.xsd#//ActionType;XSDSimpleTypeDefinition=3/XSDEnumerationFacet=5"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//ActionType/CallBack"/>
+    <nested inputs="../../xsd/attribute.xsd#//ActionType;XSDSimpleTypeDefinition=3/XSDEnumerationFacet=6"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//ActionType/ToggleDataPointVisibility"/>
   </nested>
   <nested inputs="../../xsd/attribute.xsd#//ActionValue;XSDComplexTypeDefinition=1"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//ActionValue"/>
