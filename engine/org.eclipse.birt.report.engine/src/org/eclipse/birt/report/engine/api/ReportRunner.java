@@ -41,7 +41,7 @@ import org.eclipse.birt.core.framework.PlatformFileContext;
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
  * 
- * @version $Revision: 1.15 $ $Date: 2005/12/12 09:19:54 $
+ * @version $Revision: 1.16 $ $Date: 2005/12/20 23:58:55 $
  */
 public class ReportRunner
 {
@@ -762,10 +762,13 @@ public class ReportRunner
 			targetFile = designFile.getParent( ) + File.separatorChar
 					+ designFileName + fileExt;
 		}
-		else if ( !targetFile.toLowerCase( ).endsWith( fileExt ) )
+		else if ( !targetFile.toLowerCase( ).endsWith( fileExt.toLowerCase( ) ) )
 		{
-			targetFile = targetFile + File.separatorChar + designFileName
-					+ fileExt;
+			targetFile = targetFile + File.separatorChar + designFileName + fileExt;
+			File file = new File( targetFile );
+			if ( !file.getParentFile( ).exists( ) ) {
+				file.getParentFile( ).mkdir( );
+			}
 		}
 	}
 }

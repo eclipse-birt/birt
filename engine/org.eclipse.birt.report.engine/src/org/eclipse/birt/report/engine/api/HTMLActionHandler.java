@@ -137,6 +137,9 @@ public class HTMLActionHandler implements IHTMLActionHandler
 					}
 				}
 			}
+			
+			// Adding overwrite.
+			link.append( "&__overwrite=true" ); //$NON-NLS-1$
 
 			// The search rules are not supported yet.
 			if ( !"pdf".equalsIgnoreCase( format )
