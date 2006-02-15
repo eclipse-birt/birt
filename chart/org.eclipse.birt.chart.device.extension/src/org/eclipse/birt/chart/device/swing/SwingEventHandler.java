@@ -44,6 +44,7 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
@@ -64,15 +65,6 @@ public final class SwingEventHandler implements
 {
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swing" ); //$NON-NLS-1$
-
-	// private static final BasicStroke bs = new BasicStroke( 5,
-	// BasicStroke.CAP_ROUND,
-	// BasicStroke.JOIN_ROUND,
-	// 0,
-	// new float[]{
-	// 6.0f, 4.0f
-	// },
-	// 0 );
 
 	private ShapedAction saTooltip = null;
 
@@ -192,7 +184,7 @@ public final class SwingEventHandler implements
 						bFound = true;
 						showTooltip( saTooltip );
 						break LOOP;
-						
+
 					case ActionType.TOGGLE_VISIBILITY :
 						if ( src.getType( ) == StructureType.SERIES )
 						{
@@ -291,24 +283,6 @@ public final class SwingEventHandler implements
 		} );
 
 		handleAction( al, e );
-	}
-
-	private final boolean invert( Series seDT )
-	{
-		boolean changed = false;
-		for ( Iterator itr = seDT.eAllContents( ); itr.hasNext( ); )
-		{
-			Object obj = itr.next( );
-
-			if ( obj instanceof ColorDefinition )
-			{
-				( (ColorDefinition) obj ).invert( );
-
-				changed = true;
-			}
-		}
-
-		return changed;
 	}
 
 	/**
@@ -710,35 +684,12 @@ public final class SwingEventHandler implements
 				return;
 			}
 
-			boolean highlight;
-			if ( iun.getContext( seDT ) != null )
-			{
-				highlight = false;
-				iun.removeContext( seDT );
-			}
-			else
-			{
-				highlight = true;
-				iun.putContext( seDT, Boolean.TRUE );
-			}
+			boolean highlight = iun.getContext( seDT ) == null;
 
 			boolean changed = false;
 			if ( seDT != null )
 			{
-				// changed = invert( seDT );
-
-				for ( Iterator itr = seDT.eAllContents( ); itr.hasNext( ); )
-				{
-					Object obj = itr.next( );
-
-					if ( obj instanceof ColorDefinition )
-					{
-						performHighlight( (ColorDefinition) obj, highlight );
-
-						changed = true;
-					}
-				}
-
+				changed = performHighlight( seDT, highlight );
 			}
 			if ( sdDT != null )
 			{
@@ -749,19 +700,120 @@ public final class SwingEventHandler implements
 					Object entry = itr.next( );
 					if ( entry instanceof ColorDefinition )
 					{
-						// ( (ColorDefinition) entry ).invert( );
-
 						performHighlight( (ColorDefinition) entry, highlight );
-
 						changed = true;
 					}
 				}
-				if ( changed )
+			}
+
+			if ( highlight )
+			{
+				if ( iun.getContext( seDT ) == null )
 				{
-					iun.regenerateChart( );
+					iun.putContext( seDT, Boolean.TRUE );
 				}
 			}
+			else
+			{
+				iun.removeContext( seDT );
+			}
+
+			if ( changed )
+			{
+				iun.regenerateChart( );
+			}
 		}
+	}
+
+	private boolean performHighlight( Series se, boolean highlighted )
+	{
+		boolean changed = false;
+
+		List lineContext;
+
+		if ( highlighted )
+		{
+			lineContext = new ArrayList( );
+		}
+		else
+		{
+			Object context = iun.getContext( se );
+
+			if ( context instanceof List )
+			{
+				lineContext = (List) context;
+			}
+			else
+			{
+				lineContext = new ArrayList( );
+			}
+		}
+
+		int idx = 0;
+
+		for ( Iterator itr = se.eAllContents( ); itr.hasNext( ); )
+		{
+			Object obj = itr.next( );
+
+			if ( obj instanceof ColorDefinition
+					&& !( ( (ColorDefinition) obj ).eContainer( ) instanceof LineAttributes ) )
+			{
+				performHighlight( (ColorDefinition) obj, highlighted );
+
+				changed = true;
+			}
+			else if ( obj instanceof LineAttributes )
+			{
+				LineAttributes la = (LineAttributes) obj;
+
+				if ( highlighted )
+				{
+					int[] ls = new int[5];
+					ls[0] = la.getThickness( );
+					ls[1] = la.getColor( ).getRed( );
+					ls[2] = la.getColor( ).getGreen( );
+					ls[3] = la.getColor( ).getBlue( );
+					ls[4] = la.getColor( ).getTransparency( );
+
+					lineContext.add( ls );
+
+					la.setThickness( 3 );
+					la.getColor( ).set( 255, 255, 255, 127 );
+
+					changed = true;
+				}
+				else
+				{
+					if ( idx < lineContext.size( ) )
+					{
+						Object context = lineContext.get( idx );
+
+						if ( context instanceof int[]
+								&& ( (int[]) context ).length > 4 )
+						{
+							int[] ls = (int[]) context;
+
+							la.setThickness( ls[0] );
+							la.getColor( ).setRed( ls[1] );
+							la.getColor( ).setGreen( ls[2] );
+							la.getColor( ).setBlue( ls[3] );
+							la.getColor( ).setTransparency( ls[4] );
+
+							changed = true;
+						}
+					}
+				}
+
+				idx++;
+			}
+		}
+
+		if ( highlighted && lineContext.size( ) > 0 )
+		{
+			iun.putContext( se, lineContext );
+		}
+
+		return changed;
 	}
 
 	private void performHighlight( ColorDefinition cd, boolean highlighted )
@@ -783,16 +835,4 @@ public final class SwingEventHandler implements
 		}
 	}
 
-	// private final void toggle( Shape sh )
-	// {
-	// final Graphics2D g2d = (Graphics2D) ( (JComponent) iun.peerInstance( )
-	// ).getGraphics( );
-	// final Color c = g2d.getColor( );
-	// final Stroke st = g2d.getStroke( );
-	// g2d.setXORMode( Color.white );
-	// g2d.setStroke( bs );
-	// g2d.fill( sh );
-	// g2d.setStroke( st );
-	// g2d.setColor( c );
-	// }
 }

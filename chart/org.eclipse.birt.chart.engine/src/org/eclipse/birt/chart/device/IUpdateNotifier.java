@@ -83,9 +83,11 @@ public interface IUpdateNotifier
 	/**
 	 * Removes the entry from context by given key if exists.
 	 * 
+	 * @since 2.1
+	 * 
 	 * @param key
 	 *            Key object.
-	 * @return
+	 * @return The previous value associated with given key
 	 */
 	Object removeContext( Object key );
 }
