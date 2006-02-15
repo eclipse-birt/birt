@@ -61,6 +61,7 @@ import org.eclipse.birt.report.model.metadata.StructRefPropertyType;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
 /**
@@ -945,7 +946,7 @@ public abstract class DesignElement
 		DesignElement e = this;
 
 		do
-		{			
+		{
 			if ( e.isVirtualElement( ) )
 			{
 				// Does the virtual parent provide the value of this property ?
@@ -1423,7 +1424,11 @@ public abstract class DesignElement
 		if ( NAME_PROP.equals( propName ) )
 			return name;
 		if ( EXTENDS_PROP.equals( propName ) )
+		{
+			if ( extendsRef != null && !extendsRef.isResolved( ) )
+				resolveExtends( getRoot( ) );
 			return extendsRef;
+		}
 		assert false;
 		return null;
 	}
@@ -1843,7 +1848,46 @@ public abstract class DesignElement
 	{
 		if ( extendsRef == null )
 			return null;
+		if ( !extendsRef.isResolved( ) )
+			resolveExtends(  getRoot( ) );
 		return extendsRef.getElement( );
+	}
+	
+	/**
+	 * Resolves the parent element reference.
+	 * 
+	 * @param module
+	 *            the module information needed for the check
+	 */
+
+	public void resolveExtends( Module module )
+	{
+		if ( extendsRef == null || module == null )
+			return;
+
+		if ( extendsRef.isResolved( ) )
+			return;
+
+		// The parent exist and is not resolved. Try to resolve it.
+		// If it is now resolved, cache the back pointer.
+		// Note that this is a safe operation to do without the
+		// use of the command stack. We are not changing the meaning
+		// of the property: we are only changing the form: from name
+		// to element pointer.
+
+		ElementDefn metaData = (ElementDefn) getDefn( );
+		PropertyDefn propDefn = (PropertyDefn) metaData
+				.getProperty( IDesignElementModel.EXTENDS_PROP );
+		int ns = metaData.getNameSpaceID( );
+		DesignElement resolvedParent = module
+				.resolveElement( ReferenceValueUtil.needTheNamespacePrefix(
+						extendsRef, module ), ns, propDefn );
+
+		if ( resolvedParent != null )
+		{			
+			extendsRef.resolve( resolvedParent );
+			resolvedParent.addDerived( this );
+		}
 	}
 
 	/**
@@ -3722,7 +3766,7 @@ public abstract class DesignElement
 			return "library"; //$NON-NLS-1$
 
 		if ( getContainer( ) == null )
-			return getDefn( ).getName( ); //$NON-NLS-1$
+			return getDefn( ).getName( );
 
 		ContainerSlot slot = getContainer( ).getSlot( getContainerSlot( ) );
 		ISlotDefn slotDefn = getContainer( ).getDefn( ).getSlot(

@@ -728,7 +728,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		DesignElement parent = getElement( ).getExtendsElement( );
 		if ( parent == null )
 			return null;
-		return parent.getHandle( parent.getRoot() );	
+		return parent.getHandle( parent.getRoot( ) );
 	}
 
 	/**
@@ -932,8 +932,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public String getQualifiedName( )
 	{
-		String name = getName();
-	
+		String name = getName( );
+
 		if ( name == null )
 			return null;
 
@@ -1977,7 +1977,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public boolean isTemplateParameterValue( )
 	{
-		return getElement().isTemplateParameterValue( getModule( ) );
+		return getElement( ).isTemplateParameterValue( getModule( ) );
 	}
 
 	/**

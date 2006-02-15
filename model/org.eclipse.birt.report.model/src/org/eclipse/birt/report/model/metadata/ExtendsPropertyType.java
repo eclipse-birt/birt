@@ -120,7 +120,7 @@ public class ExtendsPropertyType extends PropertyType
 				"The value of the extends property is not a valid type " ); //$NON-NLS-1$
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-				PropertyType.ELEMENT_REF_TYPE );
+				PropertyType.EXTENDS_TYPE );
 	}
 
 	/**

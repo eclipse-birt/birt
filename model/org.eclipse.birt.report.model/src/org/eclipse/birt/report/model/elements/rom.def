@@ -1366,6 +1366,7 @@
    	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.CascadingParameterTypeValidator" modules="design, library" name="CascadingParameterTypeValidator" />
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator" modules="library" name="ThemeStyleNameValidator" />	
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageContextContainmentValidator" modules="design, library" name="MasterPageContextContainmentValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ElementExtendsValidator" modules="design, library" name="ElementExtendsValidator" />
   </Validators>
   <Structure displayNameID="Structure.NumberFormatValue" name="NumberFormatValue" since="1.0">
     <Member detailType="numberFormat" displayNameID="Structure.NumberFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
@@ -1753,7 +1754,9 @@
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.ReportElement" extends="DesignElement" hasStyle="false" isAbstract="true" name="ReportElement" nameSpace="none" since="1.0">
     <Property canInherit="false" displayNameID="Element.ReportElement.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="name"/>
-    <Property canInherit="false" displayNameID="Element.ReportElement.extends" isIntrinsic="true" name="extends" runtimeSettable="false" since="reserved" type="extends"/>
+    <Property canInherit="false" displayNameID="Element.ReportElement.extends" isIntrinsic="true" name="extends" runtimeSettable="false" since="reserved" type="extends">
+    	<Trigger validator="ElementExtendsValidator"/>
+    </Property>
     <Property displayNameID="Element.ReportElement.displayName" name="displayName" runtimeSettable="false" since="reserved" type="string"/>
     <Property displayNameID="Element.ReportElement.displayNameID" name="displayNameID" since="reserved" type="resourceKey"/>
     <Property displayNameID="Element.ReportElement.comments" name="comments" runtimeSettable="false" since="1.0" type="string"/>
