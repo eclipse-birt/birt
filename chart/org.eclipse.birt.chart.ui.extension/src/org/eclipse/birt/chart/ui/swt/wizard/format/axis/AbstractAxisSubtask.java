@@ -39,6 +39,7 @@ import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisGridLinesSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisMarkersSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisScaleSheet;
@@ -86,6 +87,8 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 	private transient Button btnMarkers;
 
 	private transient Button btnScale;
+
+	private transient Button btnInteractivity;
 
 	private transient Label lblValue;
 
@@ -236,7 +239,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
-			cmp.setLayout( new GridLayout( 4, false ) );
+			cmp.setLayout( new GridLayout( 5, false ) );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.horizontalSpan = 2;
 			gridData.grabExcessVerticalSpace = true;
@@ -261,6 +264,12 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		btnMarkers.addSelectionListener( this );
 		// Marker is not supported for 3D
 		btnMarkers.setEnabled( !ChartUIUtil.is3DType( getChart( ) ) );
+
+		// Interactivity
+		btnInteractivity = createToggleButton( cmp,
+				Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
+		btnInteractivity.addSelectionListener( this );
+		btnInteractivity.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
 	}
 
 	private void populateLists( )
@@ -401,6 +410,16 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 					getContext( ),
 					getAxisForProcessing( ) );
 			getWizard( ).attachPopup( btnScale.getText( ), -1, -1 );
+		}
+		else if ( e.widget.equals( btnInteractivity ) )
+		{
+			popupShell = createPopupShell( );
+			popupSheet = new InteractivitySheet( popupShell,
+					getContext( ),
+					getAxisForProcessing( ).getTriggers( ),
+					false,
+					true );
+			getWizard( ).attachPopup( btnInteractivity.getText( ), -1, -1 );
 		}
 
 		if ( e.widget.equals( cmbTypes ) )

@@ -257,7 +257,7 @@ public class SubtaskSheetImpl
 		if ( text.length( ) <= 15 )
 		{
 			GridData gd = new GridData( );
-			gd.widthHint = 100;
+			gd.widthHint = 80;
 			button.setLayoutData( gd );
 		}
 		buttonRegistry.add( button );

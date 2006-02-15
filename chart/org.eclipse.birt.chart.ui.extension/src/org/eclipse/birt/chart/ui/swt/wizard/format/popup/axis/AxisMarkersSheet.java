@@ -51,6 +51,7 @@ import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TriggerEditorDialog;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -142,6 +143,10 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 	private transient LineAttributesComposite liacMarkerRange = null;
 
 	private transient LabelAttributesComposite lacLabel = null;
+
+	private transient Button btnLineTriggers;
+
+	private transient Button btnRangeTriggers;
 
 	private transient int iLineCount = 0;
 
@@ -314,6 +319,15 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 				true );
 		liacMarkerLine.addListener( this );
 
+		btnLineTriggers = new Button( cmpLine, SWT.PUSH );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalSpan = 2;
+			btnLineTriggers.setLayoutData( gd );
+			btnLineTriggers.setText( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
+			btnLineTriggers.addSelectionListener( this );
+		}
+
 		// Layout for the Marker Range composite
 		GridLayout glMarkerRange = new GridLayout( );
 		glMarkerRange.numColumns = 3;
@@ -431,6 +445,15 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 				true );
 		liacMarkerRange.addListener( this );
 
+		btnRangeTriggers = new Button( cmpRange, SWT.PUSH );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalSpan = 2;
+			btnRangeTriggers.setLayoutData( gd );
+			btnRangeTriggers.setText( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
+			btnRangeTriggers.addSelectionListener( this );
+		}
+
 		lacLabel = new LabelAttributesComposite( cmpContent,
 				SWT.NONE,
 				Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties" ), //$NON-NLS-1$
@@ -516,17 +539,16 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		}
 		else if ( event.widget.equals( txtValue ) )
 		{
+			MarkerLine line = (MarkerLine) getAxisForProcessing( ).getMarkerLines( )
+					.get( getMarkerIndex( ) );
 			if ( event.type == TextEditorComposite.TEXT_MODIFIED )
 			{
-				int iMarkerIndex = getMarkerIndex( );
-				( (MarkerLine) getAxisForProcessing( ).getMarkerLines( )
-						.get( iMarkerIndex ) ).setValue( this.getTypedDataElement( txtValue.getText( ) ) );
+				line.setValue( this.getTypedDataElement( txtValue.getText( ) ) );
 			}
 			if ( event.type == TextEditorComposite.TEXT_FRACTION_CONVERTED )
 			{
-				// Change FormatSpecifier if the text is fraction and has been converted
-				MarkerLine line = (MarkerLine) getAxisForProcessing( ).getMarkerLines( )
-						.get( getMarkerIndex( ) );
+				// Change FormatSpecifier if the text is fraction and has been
+				// converted
 				if ( !( line.getFormatSpecifier( ) instanceof FractionNumberFormatSpecifier ) )
 				{
 					FractionNumberFormatSpecifier ffs = FractionNumberFormatSpecifierImpl.create( );
@@ -536,15 +558,41 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		}
 		else if ( event.widget.equals( txtStartValue ) )
 		{
-			int iMarkerIndex = getMarkerIndex( );
-			( (MarkerRange) getAxisForProcessing( ).getMarkerRanges( )
-					.get( iMarkerIndex ) ).setStartValue( this.getTypedDataElement( txtStartValue.getText( ) ) );
+			MarkerRange range = (MarkerRange) getAxisForProcessing( ).getMarkerRanges( )
+					.get( getMarkerIndex( ) );
+			if ( event.type == TextEditorComposite.TEXT_MODIFIED )
+			{
+				range.setStartValue( this.getTypedDataElement( txtStartValue.getText( ) ) );
+			}
+			if ( event.type == TextEditorComposite.TEXT_FRACTION_CONVERTED )
+			{
+				// Change FormatSpecifier if the text is fraction and has been
+				// converted
+				if ( !( range.getFormatSpecifier( ) instanceof FractionNumberFormatSpecifier ) )
+				{
+					FractionNumberFormatSpecifier ffs = FractionNumberFormatSpecifierImpl.create( );
+					range.setFormatSpecifier( ffs );
+				}
+			}
 		}
 		else if ( event.widget.equals( txtEndValue ) )
 		{
-			int iMarkerIndex = getMarkerIndex( );
-			( (MarkerRange) getAxisForProcessing( ).getMarkerRanges( )
-					.get( iMarkerIndex ) ).setEndValue( this.getTypedDataElement( txtEndValue.getText( ) ) );
+			MarkerRange range = (MarkerRange) getAxisForProcessing( ).getMarkerRanges( )
+					.get( getMarkerIndex( ) );
+			if ( event.type == TextEditorComposite.TEXT_MODIFIED )
+			{
+				range.setEndValue( this.getTypedDataElement( txtEndValue.getText( ) ) );
+			}
+			if ( event.type == TextEditorComposite.TEXT_FRACTION_CONVERTED )
+			{
+				// Change FormatSpecifier if the text is fraction and has been
+				// converted
+				if ( !( range.getFormatSpecifier( ) instanceof FractionNumberFormatSpecifier ) )
+				{
+					FractionNumberFormatSpecifier ffs = FractionNumberFormatSpecifierImpl.create( );
+					range.setFormatSpecifier( ffs );
+				}
+			}
 		}
 		else if ( event.widget.equals( liacMarkerLine ) )
 		{
@@ -771,6 +819,22 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 				( (MarkerRange) getAxisForProcessing( ).getMarkerRanges( )
 						.get( getMarkerIndex( ) ) ).setFormatSpecifier( editor.getFormatSpecifier( ) );
 			}
+		}
+		else if ( e.widget.equals( btnLineTriggers ) )
+		{
+			new TriggerEditorDialog( cmpContent.getShell( ),
+					( (MarkerLine) getAxisForProcessing( ).getMarkerLines( )
+							.get( getMarkerIndex( ) ) ).getTriggers( ),
+					getContext( ),
+					Messages.getString( "AxisMarkersSheet.Title.MarkerLine" ), false, true ); //$NON-NLS-1$
+		}
+		else if ( e.widget.equals( btnRangeTriggers ) )
+		{
+			new TriggerEditorDialog( cmpContent.getShell( ),
+					( (MarkerRange) getAxisForProcessing( ).getMarkerRanges( )
+							.get( getMarkerIndex( ) ) ).getTriggers( ),
+					getContext( ),
+					Messages.getString( "AxisMarkersSheet.Title.MarkerRange" ), false, true ); //$NON-NLS-1$
 		}
 	}
 
