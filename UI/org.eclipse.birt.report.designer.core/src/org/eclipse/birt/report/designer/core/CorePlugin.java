@@ -14,25 +14,27 @@ package org.eclipse.birt.report.designer.core;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.BundleContext;
 
 /**
  * The main plugin class to be used in the desktop.
  * 
- *  
+ * 
  */
 
 public class CorePlugin extends AbstractUIPlugin
 {
 
-	//The shared instance.
+	// The shared instance.
 
 	private static final String RESOURCE_BUNDLE_BASE_NAME = "org.eclipse.birt.report.designer.core.CorePluginResources"; //$NON-NLS-1$
 
 	private static CorePlugin plugin;
 
-	//Resource bundle.
+	// Resource bundle.
 	private ResourceBundle resourceBundle;
 
 	/**
@@ -88,4 +90,11 @@ public class CorePlugin extends AbstractUIPlugin
 	{
 		return resourceBundle;
 	}
+
+	public void start( BundleContext context ) throws Exception
+	{
+		DEUtil.getSystemFontNames( );
+		super.start( context );
+	}
+
 }
