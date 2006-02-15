@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +20,10 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.util.ModelUtil;
+
+import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.SimpleDateFormat;
 
 /**
  * Date-time property type. Date-time property is stored as
@@ -49,8 +51,17 @@ public class DateTimePropertyType extends PropertyType
 	 * Fixed formatter for datetime expression in xml.
 	 */
 
-	private static final SimpleDateFormat formatter = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss", DEFAULT_LOCALE ); //$NON-NLS-1$
+	private static final SimpleDateFormat formatter;
+
+	// Set default time zone and initialize the formatter. Due to the bug of
+	// icu, if default time zone is not set, the <code>SimpleDateForma</code>
+	// cann't be initialized. When ICU fixed this bug, removes this codes.
+
+	static
+	{
+		ModelUtil.setDefaultTimeZone( );
+		formatter = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss", DEFAULT_LOCALE ); //$NON-NLS-1$
+	}
 
 	/**
 	 * Constructor.

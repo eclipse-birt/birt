@@ -12,13 +12,14 @@
 package org.eclipse.birt.report.model.api.metadata;
 
 import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.PropertyType;
+
+import com.ibm.icu.text.NumberFormat;
 
 /**
  * Representation of a dimension property value. A dimension has two parts: the
@@ -103,7 +104,6 @@ public class DimensionValue
 			throw new IllegalArgumentException(
 					"The unit " + theUnits + " is not supported." ); //$NON-NLS-1$//$NON-NLS-2$
 	}
-	
 
 	/**
 	 * Compiled pattern for CSS absolute pattern: "000,000.000,000"
@@ -118,7 +118,7 @@ public class DimensionValue
 
 	private static Pattern commaSeparatorPattern = Pattern
 			.compile( COMMA_SEPARATOR_EXPRESSION );
-	
+
 	/**
 	 * Returns the measure portion of the dimension.
 	 * 
@@ -211,8 +211,9 @@ public class DimensionValue
 		int indexOfFirstLetter = indexOfUnitLetter( value );
 		if ( indexOfFirstLetter != -1 )
 		{
-			value = StringUtil.trimString( value.substring( 0, indexOfFirstLetter ) );
-			if( value ==  null )
+			value = StringUtil.trimString( value.substring( 0,
+					indexOfFirstLetter ) );
+			if ( value == null )
 				return null;
 		}
 
@@ -233,13 +234,13 @@ public class DimensionValue
 				measure = Double.parseDouble( value );
 			}
 		}
-		catch( Exception e )
+		catch ( Exception e )
 		{
 			throw new PropertyValueException( value,
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 					PropertyType.DIMENSION_TYPE );
 		}
-		
+
 		return new DimensionValue( measure, units );
 	}
 
@@ -262,7 +263,7 @@ public class DimensionValue
 
 		if ( separator == '.' )
 		{
-			if ( ! dotSeparatorPattern.matcher( value ).matches( ) )
+			if ( !dotSeparatorPattern.matcher( value ).matches( ) )
 				throw new PropertyValueException( value,
 						PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 						PropertyType.DIMENSION_TYPE );
@@ -270,7 +271,7 @@ public class DimensionValue
 
 		else if ( separator == ',' )
 		{
-			if ( ! commaSeparatorPattern.matcher( value ).matches( ) )
+			if ( !commaSeparatorPattern.matcher( value ).matches( ) )
 				throw new PropertyValueException( value,
 						PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 						PropertyType.DIMENSION_TYPE );
@@ -467,7 +468,6 @@ public class DimensionValue
 	 * </blockquote> where <code>m</code> is defined by: <blockquote>
 	 * 
 	 * <pre>
-	 * 
 	 * long m = Double.doubleToLongBits( this.getMeasure( ) );
 	 * </pre>
 	 * 

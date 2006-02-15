@@ -13,8 +13,6 @@ package org.eclipse.birt.report.model.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.CollationKey;
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -68,6 +66,10 @@ import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.xml.sax.SAXException;
+
+import com.ibm.icu.text.CollationKey;
+import com.ibm.icu.text.Collator;
+import com.ibm.icu.util.SimpleTimeZone;
 
 /**
  * The utility class which provides many static methods used in Model.
@@ -271,8 +273,9 @@ public class ModelUtil
 
 			if ( StyledElement.STYLE_PROP.equals( propName )
 					|| DesignElement.EXTENDS_PROP.equals( propName )
-					|| DesignElement.USER_PROPERTIES_PROP.equals( propName ) 
-					|| DesignElement.REF_TEMPLATE_PARAMETER_PROP.equals( propName ) )
+					|| DesignElement.USER_PROPERTIES_PROP.equals( propName )
+					|| DesignElement.REF_TEMPLATE_PARAMETER_PROP
+							.equals( propName ) )
 				continue;
 
 			Object localValue = to.getLocalProperty( from.getRoot( ), propDefn );
@@ -361,9 +364,10 @@ public class ModelUtil
 					|| DesignElement.USER_PROPERTIES_PROP.equals( propName )
 					|| IOdaExtendableElementModel.EXTENSION_ID_PROP
 							.equals( propName )
-					|| IExtendedItemModel.EXTENSION_NAME_PROP.equals( propName ) 
-					|| DesignElement.REF_TEMPLATE_PARAMETER_PROP.equals( propName ) )
-				
+					|| IExtendedItemModel.EXTENSION_NAME_PROP.equals( propName )
+					|| DesignElement.REF_TEMPLATE_PARAMETER_PROP
+							.equals( propName ) )
+
 				continue;
 
 			ElementPropertyDefn propDefn = destination.getElement( )
@@ -942,6 +946,18 @@ public class ModelUtil
 	{
 		IElementDefn defn = MetaDataDictionary.getInstance( ).getElement(
 				elementName );
-		return containElement( element, defn );		
+		return containElement( element, defn );
+	}
+
+	/**
+	 * Sets default time zone. Wrote this method becuase of bugs in ICUs.
+	 */
+
+	public static void setDefaultTimeZone( )
+	{
+		java.util.TimeZone defaultTimeZone = java.util.TimeZone.getDefault( );
+		SimpleTimeZone pdt = new SimpleTimeZone(
+				defaultTimeZone.getRawOffset( ), defaultTimeZone.getID( ) );
+		SimpleTimeZone.setDefault( pdt );
 	}
 }

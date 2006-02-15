@@ -12,12 +12,13 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
-import java.text.NumberFormat;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+
+import com.ibm.icu.text.NumberFormat;
 
 /**
  * Represents the integer property type. Integer property values are stored as

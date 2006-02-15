@@ -19,11 +19,14 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
+import org.eclipse.birt.report.model.util.ModelUtil;
+
+import com.ibm.icu.text.SimpleDateFormat;
+
 
 /**
  * Default meta logger class for model's own use. Logs the exceptions into a
@@ -61,8 +64,17 @@ class FileMetaLogger implements IMetaLogger
 	 * Date formatter to be used when formatting error messages.
 	 */
 
-	protected final static SimpleDateFormat df = new SimpleDateFormat(
-			"yyyy-MM-dd hh:mm:ss" ); //$NON-NLS-1$
+	protected final static SimpleDateFormat df;
+
+	// Set default time zone and initialize the df. Due to the bug of icu, if
+	// default time zone is not set, the <code>SimpleDateForma</code> cann't be
+	// initialized.
+
+	static
+	{
+		ModelUtil.setDefaultTimeZone( );
+		df = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" ); //$NON-NLS-1$
+	}
 
 	/**
 	 * Constructor to initialize the meta logger using the default log file.
@@ -135,9 +147,9 @@ class FileMetaLogger implements IMetaLogger
 				sb.append( message.toString( ) + "]" + "\n" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 				sb.append( "\t\t\t\t\t" ); //$NON-NLS-1$
-				sb.append( " Exception [" ); //$NON-NLS-1$ //$NON-NLS-2$
+				sb.append( " Exception [" ); //$NON-NLS-1$ 
 				sb.append( getExceptionString( t ) );
-				sb.append( "]\n" ); //$NON-NLS-1$//$NON-NLS-2$ 
+				sb.append( "]\n" ); //$NON-NLS-1$
 
 				writer.write( sb.toString( ) );
 				writer.flush( );
@@ -222,8 +234,8 @@ class FileMetaLogger implements IMetaLogger
 
 		try
 		{
-			retWriter = new OutputStreamWriter( new FileOutputStream( new File( fileName ),
-					false ), DEFAULT_ENCODING );
+			retWriter = new OutputStreamWriter( new FileOutputStream( new File(
+					fileName ), false ), DEFAULT_ENCODING );
 		}
 		catch ( UnsupportedEncodingException e )
 		{
