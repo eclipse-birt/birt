@@ -742,16 +742,21 @@ public class ParameterDialog extends BaseDialog
 		{
 			dynamicRadio.setSelection( true );
 		}
-//		if ( isStatic( )
-//				&& !DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( inputParameter.getControlType( ) )
-//				&& ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( inputParameter.getDataType( ) ) || DesignChoiceConstants.PARAM_TYPE_STRING.equals( inputParameter.getDataType( ) ) ) )
-//		{
-//			defaultValue = removeQuoteString( inputParameter.getDefaultValue( ) );
-//		}
-//		else
-//		{
-			defaultValue = inputParameter.getDefaultValue( );
-//		}
+		// if ( isStatic( )
+		// && !DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals(
+		// inputParameter.getControlType( ) )
+		// && ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(
+		// inputParameter.getDataType( ) ) ||
+		// DesignChoiceConstants.PARAM_TYPE_STRING.equals(
+		// inputParameter.getDataType( ) ) ) )
+		// {
+		// defaultValue = removeQuoteString( inputParameter.getDefaultValue( )
+		// );
+		// }
+		// else
+		// {
+		defaultValue = inputParameter.getDefaultValue( );
+		// }
 		if ( inputParameter.getPropertyHandle( ScalarParameterHandle.LIST_LIMIT_PROP )
 				.isSet( ) )
 		{
@@ -1202,7 +1207,8 @@ public class ParameterDialog extends BaseDialog
 			{
 				int index = controlTypeChooser.indexOf( originalSelection );
 				if ( index == -1 )
-				{// The original control type cannot be supported
+				{// The original control type cannot be
+					// supported
 					controlTypeChooser.select( 0 );
 					return true;
 				}
@@ -1579,16 +1585,21 @@ public class ParameterDialog extends BaseDialog
 			inputParameter.setControlType( newControlType );
 
 			// Save default value
-//			if ( ( isStatic( ) && !getSelectedControlType( ).equals( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX ) )
-//					&& ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) || DesignChoiceConstants.PARAM_TYPE_STRING.equals( getSelectedDataType( ) ) )
-//					&& defaultValue != null )
-//			{
-//				inputParameter.setDefaultValue( "\"" + defaultValue + "\"" );//$NON-NLS-1$//$NON-NLS-2$
-//			}
-//			else
-//			{
-				inputParameter.setDefaultValue( defaultValue );
-//			}
+			// if ( ( isStatic( ) && !getSelectedControlType( ).equals(
+			// DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX ) )
+			// && ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(
+			// getSelectedDataType( ) ) ||
+			// DesignChoiceConstants.PARAM_TYPE_STRING.equals(
+			// getSelectedDataType( ) ) )
+			// && defaultValue != null )
+			// {
+			// inputParameter.setDefaultValue( "\"" + defaultValue + "\""
+			// );//$NON-NLS-1$//$NON-NLS-2$
+			// }
+			// else
+			// {
+			inputParameter.setDefaultValue( defaultValue );
+			// }
 
 			// Set data type
 			inputParameter.setDataType( dataType.findChoiceByDisplayName( dataTypeChooser.getText( ) )
@@ -1856,7 +1867,13 @@ public class ParameterDialog extends BaseDialog
 			}
 			else if ( defaultValue == null
 					&& ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( getSelectedControlType( ) ) ) )
-			{// Now combo and radio must specify an default value
+			{// Now combo
+				// and radio
+				// must
+				// specify
+				// an
+				// default
+				// value
 				errorMessage = ERROR_MSG_NO_DEFAULT_VALUE;
 			}
 		}
@@ -2123,7 +2140,7 @@ public class ParameterDialog extends BaseDialog
 				{
 					previewString = new StringFormatter( formatPattern == null ? formatCategroy
 							: formatPattern,
-							Locale.getDefault( ) ).format( "Sample" ); //$NON-NLS-1$
+							Locale.getDefault( ) ).format( Messages.getString( "ParameterDialog.Label.Sample" ) ); //$NON-NLS-1$
 				}
 				else
 				{

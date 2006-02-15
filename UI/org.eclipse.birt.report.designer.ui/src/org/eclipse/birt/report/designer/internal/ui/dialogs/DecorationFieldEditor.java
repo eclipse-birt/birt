@@ -16,13 +16,14 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 /**
  * A field editor for decoration that contains three check box button.
- *  
+ * 
  */
 
 public class DecorationFieldEditor extends AbstractFieldEditor
@@ -41,31 +42,40 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 	/**
 	 * The <code>Button</code> widgets.
 	 */
+
+	private Composite compositeLine;
+
 	private Button bUnderLine;
 
 	private boolean isSelected1;
+
 	private boolean isDirty1;
 
 	private Button bOverLine;
 
 	private boolean isSelected2;
+
 	private boolean isDirty2;
 
 	private Button bLineThrough;
 
 	private boolean isSelected3;
+
 	private boolean isDirty3;
 
 	/**
 	 * The names of the preferences displayed in this field editor.
 	 */
 	private String underline_prop;
+
 	private String underline_text;
 
 	private String overline_prop;
+
 	private String overline_text;
 
 	private String line_through_prop;
+
 	private String line_through_text;
 
 	/**
@@ -132,23 +142,29 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 	 */
 	protected void doFillIntoGrid( Composite parent, int numColumns )
 	{
+
 		Control control = getLabelControl( parent );
 		GridData gd = new GridData( GridData.HORIZONTAL_ALIGN_CENTER );
 		control.setLayoutData( gd );
 
-		bUnderLine = getUnderLinePropControl( parent );
+		compositeLine = new Composite( parent, SWT.NULL );
+		gd = new GridData( GridData.GRAB_HORIZONTAL );
+		gd.horizontalSpan = numColumns - 1;
+		compositeLine.setLayoutData( gd );
+		GridLayout layout = new GridLayout( );
+		layout.numColumns = 3;
+		compositeLine.setLayout( layout );
+
+		bUnderLine = getUnderLinePropControl( compositeLine );
 		gd = new GridData( );
-		gd.widthHint = 88;
 		bUnderLine.setLayoutData( gd );
 
-		bOverLine = getOverLinePropControl( parent );
+		bOverLine = getOverLinePropControl( compositeLine );
 		gd = new GridData( );
-		gd.widthHint = 88;
 		bOverLine.setLayoutData( gd );
 
-		bLineThrough = getLineThroughPropControl( parent );
+		bLineThrough = getLineThroughPropControl( compositeLine );
 		gd = new GridData( );
-		gd.widthHint = 88;
 		bLineThrough.setLayoutData( gd );
 	}
 
