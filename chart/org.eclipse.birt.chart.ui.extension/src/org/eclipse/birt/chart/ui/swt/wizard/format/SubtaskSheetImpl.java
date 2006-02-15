@@ -29,6 +29,7 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.events.ShellListener;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -254,10 +255,16 @@ public class SubtaskSheetImpl
 	{
 		Button button = new Button( parent, SWT.TOGGLE );
 		button.setText( text );
+
+		// Use GC to calculate the button width
+		GC gc = new GC( parent );
+		int width = Math.max( 80, gc.textExtent( text ).x );
+		gc.dispose( );
+
 		if ( text.length( ) <= 15 )
 		{
 			GridData gd = new GridData( );
-			gd.widthHint = 80;
+			gd.widthHint = width;
 			button.setLayoutData( gd );
 		}
 		buttonRegistry.add( button );
