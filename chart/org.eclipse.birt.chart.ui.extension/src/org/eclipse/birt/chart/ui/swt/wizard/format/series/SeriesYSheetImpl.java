@@ -28,8 +28,8 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.DialLabelSheet;
-import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.InteractivitySheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.PieTitleSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesLabelSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesPaletteSheet;
@@ -274,7 +274,10 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			popupShell = createPopupShell( );
 			popupSheet = new InteractivitySheet( popupShell,
 					getContext( ),
-					getSeriesDefinitionForProcessing( ) );
+					getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
+							.getTriggers( ),
+					true,
+					false );
 			getWizard( ).attachPopup( btnInteractivity.getText( ), -1, -1 );
 		}
 		else if ( e.widget.equals( btnTrendline ) )

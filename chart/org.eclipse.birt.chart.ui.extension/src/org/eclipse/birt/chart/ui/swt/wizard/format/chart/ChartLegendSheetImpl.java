@@ -18,8 +18,9 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.LegendTextSheet;
-import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.MoreOptionsChartLegendSheet;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.LegendLayoutSheet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -48,6 +49,8 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 	private transient Button btnLegendText;
 
 	private transient Button btnAreaProp;
+
+	private transient Button btnInteractivity;
 
 	private transient Button btnTitleVisible;
 
@@ -160,7 +163,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
-			cmp.setLayout( new GridLayout( 2, false ) );
+			cmp.setLayout( new GridLayout( 3, false ) );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.horizontalSpan = 2;
 			gridData.grabExcessVerticalSpace = true;
@@ -168,13 +171,21 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			cmp.setLayoutData( gridData );
 		}
 
+		// Text
 		btnLegendText = createToggleButton( cmp,
 				Messages.getString( "ChartLegendSheetImpl.Label.TextFormat" ) ); //$NON-NLS-1$
 		btnLegendText.addSelectionListener( this );
 
+		// Layout
 		btnAreaProp = createToggleButton( cmp,
 				Messages.getString( "ChartLegendSheetImpl.Label.Layout" ) ); //$NON-NLS-1$
 		btnAreaProp.addSelectionListener( this );
+
+		// Interactivity
+		btnInteractivity = createToggleButton( cmp,
+				Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
+		btnInteractivity.addSelectionListener( this );
+		btnInteractivity.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
 	}
 
 	/*
@@ -236,8 +247,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		else if ( e.widget.equals( btnAreaProp ) )
 		{
 			popupShell = createPopupShell( );
-			popupSheet = new MoreOptionsChartLegendSheet( popupShell,
-					getContext( ) );
+			popupSheet = new LegendLayoutSheet( popupShell, getContext( ) );
 			getWizard( ).attachPopup( Messages.getString( "ChartLegendSheetImpl.Title.LayoutLegend" ), -1, -1 ); //$NON-NLS-1$
 		}
 		else if ( e.widget.equals( btnLegendText ) )
@@ -245,6 +255,16 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			popupShell = createPopupShell( );
 			popupSheet = new LegendTextSheet( popupShell, getContext( ) );
 			getWizard( ).attachPopup( Messages.getString( "ChartLegendSheetImpl.Title.FormatLegendText" ), -1, -1 ); //$NON-NLS-1$
+		}
+		else if ( e.widget.equals( btnInteractivity ) )
+		{
+			popupShell = createPopupShell( );
+			popupSheet = new InteractivitySheet( popupShell,
+					getContext( ),
+					getChart( ).getLegend( ).getTriggers( ),
+					false,
+					true );
+			getWizard( ).attachPopup( btnInteractivity.getText( ), -1, -1 );
 		}
 
 	}

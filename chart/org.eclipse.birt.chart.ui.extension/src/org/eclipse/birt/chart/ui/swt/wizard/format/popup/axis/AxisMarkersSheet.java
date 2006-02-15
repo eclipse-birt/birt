@@ -270,7 +270,9 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		lblValue.setLayoutData( gdLBLValue );
 		lblValue.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.Value" ) ); //$NON-NLS-1$
 
-		txtValue = new TextEditorComposite( cmpValue, SWT.BORDER | SWT.SINGLE );
+		txtValue = new TextEditorComposite( cmpValue,
+				SWT.BORDER | SWT.SINGLE,
+				true );
 		GridData gdTXTValue = new GridData( GridData.FILL_HORIZONTAL );
 		txtValue.setLayoutData( gdTXTValue );
 		txtValue.addListener( this );
@@ -346,7 +348,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		lblStartValue.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.StartValue" ) ); //$NON-NLS-1$
 
 		txtStartValue = new TextEditorComposite( cmpRangeValue, SWT.BORDER
-				| SWT.SINGLE );
+				| SWT.SINGLE, true );
 		GridData gdTXTStartValue = new GridData( GridData.FILL_HORIZONTAL );
 		txtStartValue.setLayoutData( gdTXTStartValue );
 		txtStartValue.addListener( this );
@@ -368,7 +370,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		lblEndValue.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.EndValue" ) ); //$NON-NLS-1$
 
 		txtEndValue = new TextEditorComposite( cmpRangeValue, SWT.BORDER
-				| SWT.SINGLE );
+				| SWT.SINGLE, true );
 		GridData gdTXTEndValue = new GridData( GridData.FILL_HORIZONTAL );
 		txtEndValue.setLayoutData( gdTXTEndValue );
 		txtEndValue.addListener( this );
@@ -522,10 +524,14 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			}
 			if ( event.type == TextEditorComposite.TEXT_FRACTION_CONVERTED )
 			{
-				// Change FormatSpecifier if the text is fraction and converted
-				FractionNumberFormatSpecifier ffs = FractionNumberFormatSpecifierImpl.create( );
-				( (MarkerLine) getAxisForProcessing( ).getMarkerLines( )
-						.get( getMarkerIndex( ) ) ).setFormatSpecifier( ffs );
+				// Change FormatSpecifier if the text is fraction and has been converted
+				MarkerLine line = (MarkerLine) getAxisForProcessing( ).getMarkerLines( )
+						.get( getMarkerIndex( ) );
+				if ( !( line.getFormatSpecifier( ) instanceof FractionNumberFormatSpecifier ) )
+				{
+					FractionNumberFormatSpecifier ffs = FractionNumberFormatSpecifierImpl.create( );
+					line.setFormatSpecifier( ffs );
+				}
 			}
 		}
 		else if ( event.widget.equals( txtStartValue ) )

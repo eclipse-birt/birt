@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.util.Vector;
 
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -59,7 +60,7 @@ public class TextEditorComposite extends Composite
 
 	private transient boolean bEnabled = true;
 
-	private transient boolean isFractionSupported = false;
+	private transient boolean isNumber = false;
 
 	/**
 	 * Constructor. Default argument value of isFractionSupported is true.
@@ -69,23 +70,23 @@ public class TextEditorComposite extends Composite
 	 */
 	public TextEditorComposite( Composite parent, int iStyle )
 	{
-		this( parent, iStyle, true );
+		this( parent, iStyle, false );
 	}
 
 	/**
 	 * 
 	 * @param parent
 	 * @param iStyle
-	 * @param isFractionSupported
-	 *            If this argument is true, the fraction value, like "1/3" is
-	 *            supported as a double value.
+	 * @param isNumber
+	 *            If this argument is true, only number value is valid. The
+	 *            fraction value, like "1/3" also is supported as a double
+	 *            value.
 	 */
-	public TextEditorComposite( Composite parent, int iStyle,
-			boolean isFractionSupported )
+	public TextEditorComposite( Composite parent, int iStyle, boolean isNumber )
 	{
 		super( parent, SWT.NONE );
 		this.iStyle = iStyle;
-		this.isFractionSupported = isFractionSupported;
+		this.isNumber = isNumber;
 		init( );
 		placeComponents( );
 	}
@@ -100,6 +101,10 @@ public class TextEditorComposite extends Composite
 	private void placeComponents( )
 	{
 		txtValue = new Text( this, iStyle );
+		if ( isNumber )
+		{
+			txtValue.setToolTipText( Messages.getString( "TextEditorComposite.Tooltip.EnterDecimalOrFractionValue" ) ); //$NON-NLS-1$
+		}
 		txtValue.addModifyListener( this );
 		txtValue.addFocusListener( this );
 		txtValue.addKeyListener( this );
@@ -138,9 +143,9 @@ public class TextEditorComposite extends Composite
 
 	private void fireEvent( )
 	{
-		// Handle the fraction conversion
+
 		boolean isFractionConverted = false;
-		if ( this.isFractionSupported )
+		if ( this.isNumber )
 		{
 			int iDelimiter = sText.indexOf( '/' );
 			if ( iDelimiter < 0 )
@@ -149,6 +154,7 @@ public class TextEditorComposite extends Composite
 			}
 			if ( iDelimiter > 0 )
 			{
+				// Handle the fraction conversion
 				isFractionConverted = true;
 				String numerator = sText.substring( 0, iDelimiter );
 				String denominator = sText.substring( iDelimiter + 1 );
@@ -162,6 +168,19 @@ public class TextEditorComposite extends Composite
 					this.sText = "0"; //$NON-NLS-1$
 				}
 				this.txtValue.setText( sText );
+			}
+			else
+			{
+				// Test if the text is a number format
+				try
+				{
+					Double.parseDouble( this.sText );
+				}
+				catch ( NumberFormatException e )
+				{
+					this.sText = "0"; //$NON-NLS-1$
+					this.txtValue.setText( this.sText );
+				}
 			}
 		}
 

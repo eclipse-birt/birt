@@ -204,7 +204,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 			}
 
 			txtValue = new TextEditorComposite( cmpRightPane, SWT.BORDER
-					| SWT.SINGLE );
+					| SWT.SINGLE, true );
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				gd.grabExcessVerticalSpace = true;
@@ -237,7 +237,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 		lblMin.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Minimum" ) ); //$NON-NLS-1$
 
 		txtScaleMin = new TextEditorComposite( grpScale, SWT.BORDER
-				| SWT.SINGLE );
+				| SWT.SINGLE, true );
 		GridData gdTXTScaleMin = new GridData( GridData.HORIZONTAL_ALIGN_FILL );
 		txtScaleMin.setLayoutData( gdTXTScaleMin );
 		txtScaleMin.setText( getValue( getAxisForProcessing( ).getScale( )
@@ -250,7 +250,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 		lblMax.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Maximum" ) ); //$NON-NLS-1$
 
 		txtScaleMax = new TextEditorComposite( grpScale, SWT.BORDER
-				| SWT.SINGLE );
+				| SWT.SINGLE, true );
 		GridData gdTXTScaleMax = new GridData( GridData.HORIZONTAL_ALIGN_FILL );
 		txtScaleMax.setLayoutData( gdTXTScaleMax );
 		txtScaleMax.setText( getValue( getAxisForProcessing( ).getScale( )
@@ -267,7 +267,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 		lblStep.setEnabled( !bDateTimeAxisType );
 
 		txtScaleStep = new TextEditorComposite( grpScale, SWT.BORDER
-				| SWT.SINGLE );
+				| SWT.SINGLE, true );
 		GridData gdTXTScaleStep = new GridData( GridData.FILL_HORIZONTAL );
 		txtScaleStep.setLayoutData( gdTXTScaleStep );
 		String str = ""; //$NON-NLS-1$
