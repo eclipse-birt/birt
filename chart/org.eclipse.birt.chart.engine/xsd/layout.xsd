@@ -287,6 +287,16 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element name="WidthHint" type="xsd:double" default="-1" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies a hinted width for the block.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="HeightHint" type="xsd:double" default="-1" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies a hinted height for the block.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ClientArea">

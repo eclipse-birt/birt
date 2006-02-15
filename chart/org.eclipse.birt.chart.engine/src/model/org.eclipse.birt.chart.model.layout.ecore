@@ -163,6 +163,28 @@
         <details key="name" value="Triggers"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="widthHint" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" defaultValueLiteral="-1"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Specifies a hinted width for the block."/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="WidthHint"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="heightHint" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" defaultValueLiteral="-1"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Specifies a hinted height for the block."/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="HeightHint"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ClientArea">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

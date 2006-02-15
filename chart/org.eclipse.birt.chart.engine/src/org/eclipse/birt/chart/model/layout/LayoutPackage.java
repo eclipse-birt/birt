@@ -195,12 +195,30 @@ public interface LayoutPackage extends EPackage
 	int BLOCK__TRIGGERS = 13;
 
 	/**
+	 * The feature id for the '<em><b>Width Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BLOCK__WIDTH_HINT = 14;
+
+	/**
+	 * The feature id for the '<em><b>Height Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BLOCK__HEIGHT_HINT = 15;
+
+	/**
 	 * The number of structural features of the '<em>Block</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BLOCK_FEATURE_COUNT = 14;
+	int BLOCK_FEATURE_COUNT = 16;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl <em>Client Area</em>}' class.
@@ -380,6 +398,24 @@ public interface LayoutPackage extends EPackage
 	int LABEL_BLOCK__TRIGGERS = BLOCK__TRIGGERS;
 
 	/**
+	 * The feature id for the '<em><b>Width Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_BLOCK__WIDTH_HINT = BLOCK__WIDTH_HINT;
+
+	/**
+	 * The feature id for the '<em><b>Height Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_BLOCK__HEIGHT_HINT = BLOCK__HEIGHT_HINT;
+
+	/**
 	 * The feature id for the '<em><b>Label</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -522,6 +558,24 @@ public interface LayoutPackage extends EPackage
 	 * @ordered
 	 */
 	int LEGEND__TRIGGERS = BLOCK__TRIGGERS;
+
+	/**
+	 * The feature id for the '<em><b>Width Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEGEND__WIDTH_HINT = BLOCK__WIDTH_HINT;
+
+	/**
+	 * The feature id for the '<em><b>Height Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEGEND__HEIGHT_HINT = BLOCK__HEIGHT_HINT;
 
 	/**
 	 * The feature id for the '<em><b>Horizontal Spacing</b></em>' attribute.
@@ -790,6 +844,24 @@ public interface LayoutPackage extends EPackage
 	int PLOT__TRIGGERS = BLOCK__TRIGGERS;
 
 	/**
+	 * The feature id for the '<em><b>Width Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PLOT__WIDTH_HINT = BLOCK__WIDTH_HINT;
+
+	/**
+	 * The feature id for the '<em><b>Height Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PLOT__HEIGHT_HINT = BLOCK__HEIGHT_HINT;
+
+	/**
 	 * The feature id for the '<em><b>Horizontal Spacing</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -948,6 +1020,24 @@ public interface LayoutPackage extends EPackage
 	 * @ordered
 	 */
 	int TITLE_BLOCK__TRIGGERS = LABEL_BLOCK__TRIGGERS;
+
+	/**
+	 * The feature id for the '<em><b>Width Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TITLE_BLOCK__WIDTH_HINT = LABEL_BLOCK__WIDTH_HINT;
+
+	/**
+	 * The feature id for the '<em><b>Height Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TITLE_BLOCK__HEIGHT_HINT = LABEL_BLOCK__HEIGHT_HINT;
 
 	/**
 	 * The feature id for the '<em><b>Label</b></em>' containment reference.
@@ -1115,6 +1205,28 @@ public interface LayoutPackage extends EPackage
 	 * @generated
 	 */
 	EReference getBlock_Triggers( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Block#getWidthHint <em>Width Hint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Width Hint</em>'.
+	 * @see org.eclipse.birt.chart.model.layout.Block#getWidthHint()
+	 * @see #getBlock()
+	 * @generated
+	 */
+	EAttribute getBlock_WidthHint( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Block#getHeightHint <em>Height Hint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Height Hint</em>'.
+	 * @see org.eclipse.birt.chart.model.layout.Block#getHeightHint()
+	 * @see #getBlock()
+	 * @generated
+	 */
+	EAttribute getBlock_HeightHint( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.layout.ClientArea <em>Client Area</em>}'.
@@ -1544,6 +1656,22 @@ public interface LayoutPackage extends EPackage
 		 * @generated
 		 */
 		EReference BLOCK__TRIGGERS = eINSTANCE.getBlock_Triggers( );
+
+		/**
+		 * The meta object literal for the '<em><b>Width Hint</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BLOCK__WIDTH_HINT = eINSTANCE.getBlock_WidthHint( );
+
+		/**
+		 * The meta object literal for the '<em><b>Height Hint</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BLOCK__HEIGHT_HINT = eINSTANCE.getBlock_HeightHint( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl <em>Client Area</em>}' class.

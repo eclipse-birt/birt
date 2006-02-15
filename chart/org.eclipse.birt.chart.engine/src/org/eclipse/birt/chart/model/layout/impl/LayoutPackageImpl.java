@@ -35,7 +35,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package </b>. <!--
@@ -309,6 +308,26 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 	public EReference getBlock_Triggers( )
 	{
 		return (EReference) blockEClass.getEStructuralFeatures( ).get( 13 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBlock_WidthHint( )
+	{
+		return (EAttribute) blockEClass.getEStructuralFeatures( ).get( 14 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBlock_HeightHint( )
+	{
+		return (EAttribute) blockEClass.getEStructuralFeatures( ).get( 15 );
 	}
 
 	/**
@@ -611,6 +630,8 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		createEReference( blockEClass, BLOCK__BACKGROUND );
 		createEAttribute( blockEClass, BLOCK__VISIBLE );
 		createEReference( blockEClass, BLOCK__TRIGGERS );
+		createEAttribute( blockEClass, BLOCK__WIDTH_HINT );
+		createEAttribute( blockEClass, BLOCK__HEIGHT_HINT );
 
 		clientAreaEClass = createEClass( CLIENT_AREA );
 		createEReference( clientAreaEClass, CLIENT_AREA__BACKGROUND );
@@ -735,6 +756,12 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 				theDataPackage.getTrigger( ),
 				null,
 				"triggers", null, 0, -1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getBlock_WidthHint( ),
+				theXMLTypePackage.getDouble( ),
+				"widthHint", "-1", 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute( getBlock_HeightHint( ),
+				theXMLTypePackage.getDouble( ),
+				"heightHint", "-1", 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( clientAreaEClass,
 				ClientArea.class,
@@ -912,6 +939,14 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		addAnnotation( getBlock_Triggers( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Triggers" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getBlock_WidthHint( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "WidthHint" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getBlock_HeightHint( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "HeightHint" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( clientAreaEClass, source, new String[]{
 				"name", "ClientArea", //$NON-NLS-1$ //$NON-NLS-2$

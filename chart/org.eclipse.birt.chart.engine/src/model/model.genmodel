@@ -610,57 +610,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//URLValue/seriesParameterName"/>
     </genClasses>
   </genPackages>
-  <genPackages prefix="Layout" basePackage="org.eclipse.birt.chart.model" resource="XML"
-      ecorePackage="org.eclipse.birt.chart.model.layout.ecore#/">
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.layout.ecore#//Block">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Block/children"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Block/bounds"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Block/anchor"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Block/stretch"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Block/insets"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Block/row"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Block/column"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Block/rowspan"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Block/columnspan"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Block/minSize"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Block/outline"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Block/background"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Block/visible"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Block/triggers"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.layout.ecore#//ClientArea">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//ClientArea/background"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//ClientArea/outline"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//ClientArea/shadowColor"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//ClientArea/insets"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.layout.ecore#//LabelBlock">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//LabelBlock/label"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.layout.ecore#//Legend">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/horizontalSpacing"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/verticalSpacing"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Legend/clientArea"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Legend/text"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/orientation"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/direction"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Legend/separator"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/position"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/itemType"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Legend/title"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/titlePosition"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/showValue"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/showPercent"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/showTotal"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/wrappingSize"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.layout.ecore#//Plot">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Plot/horizontalSpacing"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Plot/verticalSpacing"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Plot/clientArea"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.layout.ecore#//TitleBlock"/>
-  </genPackages>
   <genPackages prefix="Model" basePackage="org.eclipse.birt.chart" resource="XML"
       ecorePackage="org.eclipse.birt.chart.model.ecore#/">
     <genClasses ecoreClass="org.eclipse.birt.chart.model.ecore#//Chart">
@@ -696,6 +645,59 @@
     <genClasses ecoreClass="org.eclipse.birt.chart.model.ecore#//DialChart">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.ecore#//DialChart/dialSuperimposition"/>
     </genClasses>
+  </genPackages>
+  <genPackages prefix="Layout" basePackage="org.eclipse.birt.chart.model" resource="XML"
+      ecorePackage="org.eclipse.birt.chart.model.layout.ecore#/">
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.layout.ecore#//Block">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Block/children"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Block/bounds"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Block/anchor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Block/stretch"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Block/insets"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Block/row"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Block/column"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Block/rowspan"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Block/columnspan"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Block/minSize"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Block/outline"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Block/background"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Block/visible"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Block/triggers"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Block/widthHint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Block/heightHint"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.layout.ecore#//ClientArea">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//ClientArea/background"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//ClientArea/outline"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//ClientArea/shadowColor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//ClientArea/insets"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.layout.ecore#//LabelBlock">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//LabelBlock/label"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.layout.ecore#//Legend">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/horizontalSpacing"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/verticalSpacing"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Legend/clientArea"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Legend/text"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/orientation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/direction"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Legend/separator"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/position"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/itemType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Legend/title"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/titlePosition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/showValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/showPercent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/showTotal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Legend/wrappingSize"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.layout.ecore#//Plot">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Plot/horizontalSpacing"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Plot/verticalSpacing"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Plot/clientArea"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.layout.ecore#//TitleBlock"/>
   </genPackages>
   <genPackages prefix="Type" basePackage="org.eclipse.birt.chart.model" resource="XML"
       ecorePackage="org.eclipse.birt.chart.model.type.ecore#/">

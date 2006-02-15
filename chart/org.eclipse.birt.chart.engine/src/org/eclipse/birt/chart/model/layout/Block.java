@@ -54,6 +54,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getBackground <em>Background</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.Block#isVisible <em>Visible</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getTriggers <em>Triggers</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getWidthHint <em>Width Hint</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getHeightHint <em>Height Hint</em>}</li>
  * </ul>
  * </p>
  *
@@ -603,6 +605,114 @@ public interface Block extends EObject
 	 * @generated
 	 */
 	EList getTriggers( );
+
+	/**
+	 * Returns the value of the '<em><b>Width Hint</b></em>' attribute.
+	 * The default value is <code>"-1"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies a hinted width for the block.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Width Hint</em>' attribute.
+	 * @see #isSetWidthHint()
+	 * @see #unsetWidthHint()
+	 * @see #setWidthHint(double)
+	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getBlock_WidthHint()
+	 * @model default="-1" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 *        extendedMetaData="kind='element' name='WidthHint'"
+	 * @generated
+	 */
+	double getWidthHint( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getWidthHint <em>Width Hint</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Width Hint</em>' attribute.
+	 * @see #isSetWidthHint()
+	 * @see #unsetWidthHint()
+	 * @see #getWidthHint()
+	 * @generated
+	 */
+	void setWidthHint( double value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getWidthHint <em>Width Hint</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetWidthHint()
+	 * @see #getWidthHint()
+	 * @see #setWidthHint(double)
+	 * @generated
+	 */
+	void unsetWidthHint( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getWidthHint <em>Width Hint</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Width Hint</em>' attribute is set.
+	 * @see #unsetWidthHint()
+	 * @see #getWidthHint()
+	 * @see #setWidthHint(double)
+	 * @generated
+	 */
+	boolean isSetWidthHint( );
+
+	/**
+	 * Returns the value of the '<em><b>Height Hint</b></em>' attribute.
+	 * The default value is <code>"-1"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies a hinted height for the block.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Height Hint</em>' attribute.
+	 * @see #isSetHeightHint()
+	 * @see #unsetHeightHint()
+	 * @see #setHeightHint(double)
+	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getBlock_HeightHint()
+	 * @model default="-1" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 *        extendedMetaData="kind='element' name='HeightHint'"
+	 * @generated
+	 */
+	double getHeightHint( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getHeightHint <em>Height Hint</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Height Hint</em>' attribute.
+	 * @see #isSetHeightHint()
+	 * @see #unsetHeightHint()
+	 * @see #getHeightHint()
+	 * @generated
+	 */
+	void setHeightHint( double value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getHeightHint <em>Height Hint</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetHeightHint()
+	 * @see #getHeightHint()
+	 * @see #setHeightHint(double)
+	 * @generated
+	 */
+	void unsetHeightHint( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getHeightHint <em>Height Hint</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Height Hint</em>' attribute is set.
+	 * @see #unsetHeightHint()
+	 * @see #getHeightHint()
+	 * @see #setHeightHint(double)
+	 * @generated
+	 */
+	boolean isSetHeightHint( );
 
 	/**
 	 * @param bRecursive

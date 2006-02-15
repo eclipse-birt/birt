@@ -694,6 +694,10 @@
         outputs="org.eclipse.birt.chart.model.layout.ecore#//Block/visible"/>
     <nested inputs="../../xsd/layout.xsd#//Block;XSDComplexTypeDefinition=4/XSDParticle/XSDModelGroup/XSDParticle=13"
         outputs="org.eclipse.birt.chart.model.layout.ecore#//Block/triggers"/>
+    <nested inputs="../../xsd/layout.xsd#//Block;XSDComplexTypeDefinition=4/XSDParticle/XSDModelGroup/XSDParticle=14"
+        outputs="org.eclipse.birt.chart.model.layout.ecore#//Block/widthHint"/>
+    <nested inputs="../../xsd/layout.xsd#//Block;XSDComplexTypeDefinition=4/XSDParticle/XSDModelGroup/XSDParticle=15"
+        outputs="org.eclipse.birt.chart.model.layout.ecore#//Block/heightHint"/>
   </nested>
   <nested inputs="../../xsd/attribute.xsd#//CallBackValue;XSDComplexTypeDefinition=6"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//CallBackValue">

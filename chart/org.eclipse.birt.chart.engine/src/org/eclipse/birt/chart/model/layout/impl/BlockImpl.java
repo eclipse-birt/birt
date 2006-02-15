@@ -41,7 +41,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -68,6 +67,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getBackground <em>Background</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#isVisible <em>Visible</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getTriggers <em>Triggers</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getWidthHint <em>Width Hint</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getHeightHint <em>Height Hint</em>}</li>
  * </ul>
  * </p>
  *
@@ -327,6 +328,64 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @ordered
 	 */
 	protected EList triggers = null;
+
+	/**
+	 * The default value of the '{@link #getWidthHint() <em>Width Hint</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getWidthHint()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final double WIDTH_HINT_EDEFAULT = -1.0;
+
+	/**
+	 * The cached value of the '{@link #getWidthHint() <em>Width Hint</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getWidthHint()
+	 * @generated
+	 * @ordered
+	 */
+	protected double widthHint = WIDTH_HINT_EDEFAULT;
+
+	/**
+	 * This is true if the Width Hint attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean widthHintESet = false;
+
+	/**
+	 * The default value of the '{@link #getHeightHint() <em>Height Hint</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getHeightHint()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final double HEIGHT_HINT_EDEFAULT = -1.0;
+
+	/**
+	 * The cached value of the '{@link #getHeightHint() <em>Height Hint</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getHeightHint()
+	 * @generated
+	 * @ordered
+	 */
+	protected double heightHint = HEIGHT_HINT_EDEFAULT;
+
+	/**
+	 * This is true if the Height Hint attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean heightHintESet = false;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1095,6 +1154,126 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public double getWidthHint( )
+	{
+		return widthHint;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setWidthHint( double newWidthHint )
+	{
+		double oldWidthHint = widthHint;
+		widthHint = newWidthHint;
+		boolean oldWidthHintESet = widthHintESet;
+		widthHintESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					LayoutPackage.BLOCK__WIDTH_HINT,
+					oldWidthHint,
+					widthHint,
+					!oldWidthHintESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetWidthHint( )
+	{
+		double oldWidthHint = widthHint;
+		boolean oldWidthHintESet = widthHintESet;
+		widthHint = WIDTH_HINT_EDEFAULT;
+		widthHintESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					LayoutPackage.BLOCK__WIDTH_HINT,
+					oldWidthHint,
+					WIDTH_HINT_EDEFAULT,
+					oldWidthHintESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetWidthHint( )
+	{
+		return widthHintESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public double getHeightHint( )
+	{
+		return heightHint;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setHeightHint( double newHeightHint )
+	{
+		double oldHeightHint = heightHint;
+		heightHint = newHeightHint;
+		boolean oldHeightHintESet = heightHintESet;
+		heightHintESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					LayoutPackage.BLOCK__HEIGHT_HINT,
+					oldHeightHint,
+					heightHint,
+					!oldHeightHintESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetHeightHint( )
+	{
+		double oldHeightHint = heightHint;
+		boolean oldHeightHintESet = heightHintESet;
+		heightHint = HEIGHT_HINT_EDEFAULT;
+		heightHintESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					LayoutPackage.BLOCK__HEIGHT_HINT,
+					oldHeightHint,
+					HEIGHT_HINT_EDEFAULT,
+					oldHeightHintESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetHeightHint( )
+	{
+		return heightHintESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -1157,6 +1336,10 @@ public class BlockImpl extends EObjectImpl implements Block
 				return isVisible( ) ? Boolean.TRUE : Boolean.FALSE;
 			case LayoutPackage.BLOCK__TRIGGERS :
 				return getTriggers( );
+			case LayoutPackage.BLOCK__WIDTH_HINT :
+				return new Double( getWidthHint( ) );
+			case LayoutPackage.BLOCK__HEIGHT_HINT :
+				return new Double( getHeightHint( ) );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -1214,6 +1397,12 @@ public class BlockImpl extends EObjectImpl implements Block
 				getTriggers( ).clear( );
 				getTriggers( ).addAll( (Collection) newValue );
 				return;
+			case LayoutPackage.BLOCK__WIDTH_HINT :
+				setWidthHint( ( (Double) newValue ).doubleValue( ) );
+				return;
+			case LayoutPackage.BLOCK__HEIGHT_HINT :
+				setHeightHint( ( (Double) newValue ).doubleValue( ) );
+				return;
 		}
 		super.eSet( featureID, newValue );
 	}
@@ -1269,6 +1458,12 @@ public class BlockImpl extends EObjectImpl implements Block
 			case LayoutPackage.BLOCK__TRIGGERS :
 				getTriggers( ).clear( );
 				return;
+			case LayoutPackage.BLOCK__WIDTH_HINT :
+				unsetWidthHint( );
+				return;
+			case LayoutPackage.BLOCK__HEIGHT_HINT :
+				unsetHeightHint( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -1310,6 +1505,10 @@ public class BlockImpl extends EObjectImpl implements Block
 				return isSetVisible( );
 			case LayoutPackage.BLOCK__TRIGGERS :
 				return triggers != null && !triggers.isEmpty( );
+			case LayoutPackage.BLOCK__WIDTH_HINT :
+				return isSetWidthHint( );
+			case LayoutPackage.BLOCK__HEIGHT_HINT :
+				return isSetHeightHint( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -1357,6 +1556,16 @@ public class BlockImpl extends EObjectImpl implements Block
 		result.append( ", visible: " ); //$NON-NLS-1$
 		if ( visibleESet )
 			result.append( visible );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", widthHint: " ); //$NON-NLS-1$
+		if ( widthHintESet )
+			result.append( widthHint );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", heightHint: " ); //$NON-NLS-1$
+		if ( heightHintESet )
+			result.append( heightHint );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
