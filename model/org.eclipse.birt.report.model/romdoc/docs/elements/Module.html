@@ -336,51 +336,6 @@ image from the images array:</p>
 
 <p>&nbsp;</p>
 
-<h2 class="method">initialize</h2>
-
-<p>Called when the report starts executing in either the 
-Factory or Presentation engine.</p>
-
-<h3>Description</h3>
-
-<p>BIRT calls this method before calling any other method in 
-the design. </p>
-
-<p>BIRT calls this method at the start of the Factory and 
-Presentation engines, just after loading the imports, before opening the report 
-document. Implement this method to define global functions, objects, Java 
-imports and other resources used throughout the report.</p>
-
-<p>Libraries can also contain an init script and imports. 
-BIRT executes these scripts in the following order:</p>
-
-<ul>
-<li>For each library, in the order that the library is included:</li>
-
-<ul>
-<li>Locate, read and execute the imported scripts in the order they appear in 
-the Code Modules element.</li>
-<li>Execute the <code>initialize</code> script.</li>
-</ul>
-
-<li>For the report design itself.</li>
-
-<ul>
-<li>Locate, read and execute the imported scripts in the order they appear in 
-the Code Modules element.</li>
-<li>Execute the init script.</li>
-</ul>
-</ul>
-
-<p>In general, the <code>initialize</code> 
-method of a report design or library can reference resources defined in the
-<code>initialize</code> script of any included libraries, but 
-not visa-versa. This is the generally accepted meaning of an include.</p>
-
-<h3>See Also</h3>
-
-<p>Report Design <code>beforeFactory</code> method</p>
-<p>Report Design <code>beforeRender</code> method</p>
 
 <h3>See Also</h3>
 

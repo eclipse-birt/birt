@@ -51,10 +51,10 @@ report does not refresh)</span></p>
 <h3>See Also</h3>
 
 <h2 class="property">cheatSheet</h2>
-<p>Name of the property to store the cheat sheet file name</p>
+<p>A string containing the file name of the cheat sheet.</p>
 
 <h3>Description</h3>
-<p>Name of the property to store the cheat sheet file name</p>
+<p>A string containing the file name of the cheat sheet used with this design.</p>
 
 <h2 class="property">dataSourceBindings</h2>
 <p>List of bindings defined for report data sources.</p>
@@ -117,77 +117,6 @@ document (if any). This is the last method called in the Factory.</p>
 
 <p><code>beforeFactory</code> method</p>
 
-<h2 class="method">beforeOpenDoc</h2>
-
-<p>Called just before opening the report document file 
-in the Factory. Allows the report to control the name and other properties of 
-this file.</p>
-
-<h3>Description</h3>
-
-<p>BIRT calls this method just before opening the report 
-document in the Factory. It allows the application to customize features of the 
-report document such as its name, whether it is temporary, security, and so on. 
-Code in this script will likely be specific to the deployment platform.</p>
-
-<h3>See Also</h3>
-
-<p><code>afterOpenDoc</code> method</p>
-
-<h2 class="method">initialize</h2>
-
-<p>Called when the report starts executing in the BIRT Report Engine.</p>
-
-<h3>Description</h3>
-
-<p>BIRT calls this method before calling any other method in the design. </p>
-
-<h2 class="method">afterOpenDoc</h2>
-
-<p>Called just after opening the report document file in the Factory.</p>
-
-<h3>Description</h3>
-
-<p>Called just after opening the report document file in the 
-Factory.</p>
-
-<h3>See Also</h3>
-
-<p><code>beforeOpenDoc</code> method</p>
-
-<h2 class="method">beforeCloseDoc</h2>
-
-<p>Called just before closing the report document file 
-in the Factory. Allows the report to set additional properties on the file 
-before closing the file.</p>
-
-<h3>Description</h3>
-
-<p>BIRT calls this method just after closing the report 
-document in the Factory. It allows the application to customize features of the 
-report document just before closing. Some deployment platforms require that 
-security, document aging and similar properties be set after closing the 
-document. Code in this method will likely be specific to the deployment 
-platform.</p>
-
-<h3>See Also</h3>
-
-<p><code>afterCloseDoc</code> method</p>
-
-<h2 class="method">afterCloseDoc</h2>
-
-<p>Called just after closing the report document file in 
-the Factory. Allows the report to perform Factory cleanup.</p>
-
-<h3>Description</h3>
-
-<p>Called just after closing the report document file in the 
-Factory. Allows the report to perform Factory cleanup.</p>
-
-<h3>See Also</h3>
-
-<p><code>beforeCloseDoc</code> method</p>
-
 <h2 class="method">beforeRender</h2>
 
 <p>Called before starting a presentation time action.</p>
@@ -242,6 +171,52 @@ call to <code>afterRender</code>.</p>
 <h3>See Also</h3>
 
 <p><code>beforeRender</code> method</p>
+	
+<h2 class="method">initialize</h2>
+
+<p>Called when the report starts executing in either the 
+Factory or Presentation engine.</p>
+
+<h3>Description</h3>
+
+<p>BIRT calls this method before calling any other method in 
+the design. </p>
+
+<p>BIRT calls this method at the start of the Factory and 
+Presentation engines, just after loading the imports, before opening the report 
+document. Implement this method to define global functions, objects, Java 
+imports and other resources used throughout the report.</p>
+
+<p>Libraries can also contain an init script and imports. 
+BIRT executes these scripts in the following order:</p>
+
+<ul>
+<li>For each library, in the order that the library is included:</li>
+
+<ul>
+<li>Locate, read and execute the imported scripts in the order they appear in 
+the Code Modules element.</li>
+<li>Execute the <code>initialize</code> script.</li>
+</ul>
+
+<li>For the report design itself.</li>
+
+<ul>
+<li>Locate, read and execute the imported scripts in the order they appear in 
+the Code Modules element.</li>
+<li>Execute the init script.</li>
+</ul>
+</ul>
+
+<p>In general, the <code>initialize</code> 
+method of a report design or library can reference resources defined in the
+<code>initialize</code> script of any included libraries, but 
+not visa-versa. This is the generally accepted meaning of an include.</p>
+
+<h3>See Also</h3>
+
+<p>Report Design <code>beforeFactory</code> method</p>
+<p>Report Design <code>beforeRender</code> method</p>
 
 <h2 class="slot">body</h2>
 
