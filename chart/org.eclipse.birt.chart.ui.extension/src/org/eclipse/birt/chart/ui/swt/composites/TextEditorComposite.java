@@ -171,15 +171,18 @@ public class TextEditorComposite extends Composite
 			}
 			else
 			{
-				// Test if the text is a number format
-				try
+				if ( this.sText.length( ) > 0 )
 				{
-					Double.parseDouble( this.sText );
-				}
-				catch ( NumberFormatException e )
-				{
-					this.sText = "0"; //$NON-NLS-1$
-					this.txtValue.setText( this.sText );
+					// Test if the text is a number format
+					try
+					{
+						Double.parseDouble( this.sText );
+					}
+					catch ( NumberFormatException e )
+					{
+						this.sText = "0"; //$NON-NLS-1$
+						this.txtValue.setText( this.sText );
+					}
 				}
 			}
 		}
