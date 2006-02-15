@@ -16,6 +16,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 
@@ -74,9 +75,29 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 	{
 		//if currentEditorModel is a compound componnet , gets its childrem
 		List list = new ArrayList();
-		list.add(currentEditorModel);
+		list.add(getTopContainer(getCurrentEditorModel()));
 		return list;
 		//return getModuleHandle().getComponents().getContents( );
+	}
+	
+	private Object getTopContainer(Object currentModel)
+	{
+		Object obj = currentModel;
+		if (currentModel instanceof DesignElementHandle)
+		{
+			DesignElementHandle handle = (DesignElementHandle)currentModel;
+			while (handle.getContainer() != null)
+			{
+				if (handle.getContainer() instanceof ModuleHandle)
+				{
+					obj = handle;
+					break;
+				}
+				handle = handle.getContainer();
+			}
+			
+		}
+		return obj;
 	}
 	/**
 	 * @return Returns the currentEditorModel.
@@ -100,10 +121,10 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 			this.currentEditorModel = current;
 		}
 		
-		if (currentEditorModel == old)
-		{
-			return;
-		}
+//		if (currentEditorModel == old)
+//		{
+//			return;
+//		}
 		PropertyChangeEvent event = new PropertyChangeEvent(this, CURRENTMODEL,old, this.currentEditorModel );
 		firePropertyChangeEvent(event);
 	}
