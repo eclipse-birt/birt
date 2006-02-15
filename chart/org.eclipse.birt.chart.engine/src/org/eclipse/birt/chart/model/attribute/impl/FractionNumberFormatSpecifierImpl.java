@@ -9,10 +9,11 @@ package org.eclipse.birt.chart.model.attribute.impl;
 
 import java.util.Locale;
 
+import org.eclipse.birt.chart.internal.model.Fraction;
+import org.eclipse.birt.chart.internal.model.FractionApproximator;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
-import org.eclipse.birt.chart.util.Fraction;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -685,16 +686,16 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 		Fraction fraction = null;
 		if ( isPrecise( ) )
 		{
-			fraction = new Fraction( dValue );
+			fraction = FractionApproximator.getExactFraction( dValue );
 		}
 		else if ( getNumerator( ) > 0 )
 		{
-			fraction = new Fraction( dValue, (int) getNumerator( ) );
+			fraction = FractionApproximator.getFractionWithNumerator( dValue, (int)getNumerator( ) );
 		}
 		// Using max digits for denominator to calculate
 		else
 		{
-			fraction = new Fraction( dValue, (short) getFractionDigits( ) );
+			fraction = FractionApproximator.getFractionWithMaxDigits( dValue, getFractionDigits( ) );
 		}
 
 		// Generate the formatted string
