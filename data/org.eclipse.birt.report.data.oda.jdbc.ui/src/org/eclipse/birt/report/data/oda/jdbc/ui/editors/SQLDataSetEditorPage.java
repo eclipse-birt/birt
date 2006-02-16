@@ -98,7 +98,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.36 $ $Date: 2006/01/16 09:36:53 $
+ * @version $Revision: 1.37 $ $Date: 2006/02/07 03:11:30 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -620,11 +620,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		ArrayList procedureRs = null;
 		if (schemaName != null && schemaName.trim().length() > 0)
 		{
-
-			
-			
 			// For each schema Get  the List of Tables
-			int numTables = 0;
+			
 			{
 				if( metaDataProvider.isProcedureSupported() )
 					procedureRs = metaDataProvider.getAllProcedure( catalogName, schemaName, namePattern );
@@ -636,10 +633,11 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 				{
 					// Create the schema Node
 					Image image = tableImage;
-										
+							
 					if ( tablesRs != null )
 					{
 						int numberOfTable;
+						
 						Preferences preferences = ReportPlugin.getDefault( ).getPluginPreferences( );
 						if ( preferences.contains( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA ) )
 						{
@@ -647,14 +645,14 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 						}
 						else
 						{
-							numberOfTable = DateSetPreferencePage.DEFAULT_MAX_NUM_OF_SCHEMA;
-							preferences.setValue( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA,
+							numberOfTable = DateSetPreferencePage.DEFAULT_MAX_NUM_OF_TABLE_EACH_SCHEMA;
+							preferences.setValue( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA,
 									numberOfTable );
 						}
-						int count = 0;
+						int count = 0;			
+						
 						while ( tablesRs.next( ) && count < numberOfTable)
 						{
-							count ++;
 							// tablesRs.getString("TABLE_NAME") must be called
 							// before
 							// tablesRs.getString("TABLE_TYPE"). This is because
@@ -695,7 +693,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 									dbType,
 									image );
 							tableList.add( dbObject );
-							numTables++;
+							count ++;
 
 						}
 					}
@@ -754,6 +752,17 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 
 		String dbtype = getSelectedDbType( );
 		cachedDbType = dbtype;
+		
+		if ( dbtype != null )
+		{
+			if ( DbType.TABLE_STRING.equalsIgnoreCase( dbtype )
+					|| DbType.VIEW_STRING.equalsIgnoreCase( dbtype ) )
+			{
+				tableType = new String[]{
+					dbtype
+				};
+			}
+		}
 
 		if ( metaDataProvider.isProcedureSupported( ) )
 			procedureRs = metaDataProvider.getAllProcedure( catalogName,
@@ -772,10 +781,25 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		try
 		{
 			Image image = tableImage;
+		
 			if ( tablesRs != null )
 			{
+				int numberOfTable;
+				
+				Preferences preferences = ReportPlugin.getDefault( ).getPluginPreferences( );
+				if ( preferences.contains( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA ) )
+				{
+					numberOfTable = preferences.getInt( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA );
+				}
+				else
+				{
+					numberOfTable = DateSetPreferencePage.DEFAULT_MAX_NUM_OF_TABLE_EACH_SCHEMA;
+					preferences.setValue( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA,
+							numberOfTable );
+				}
+				int count = 0;
 				tableList = new ArrayList( );
-				while ( tablesRs.next( ) )
+				while ( tablesRs.next( ) && count < numberOfTable )
 				{
 					String tableName = tablesRs.getString( "TABLE_NAME" );
 					String type = tablesRs.getString( "TABLE_TYPE" );//$NON-NLS-1$
@@ -801,6 +825,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 							dbType,
 							image );
 					tableList.add( dbObject );
+					count++;
 				}
 			}
 			if ( needToCreateProcedureNode( dbtype, procedureRs ) )
