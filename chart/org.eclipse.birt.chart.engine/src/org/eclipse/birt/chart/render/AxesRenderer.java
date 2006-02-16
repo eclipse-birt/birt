@@ -56,6 +56,7 @@ import org.eclipse.birt.chart.event.TransformationEvent;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DeferredCache;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.internal.model.FittingCalculator;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
@@ -102,7 +103,6 @@ import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
-import org.eclipse.birt.chart.util.Lowess;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -639,9 +639,11 @@ public abstract class AxesRenderer extends BaseRenderer
 				orthogonalArray = xArray;
 			}
 
-			Lowess ls = new Lowess( baseArray, orthogonalArray, 0.33f );
+			FittingCalculator fc = new FittingCalculator( baseArray,
+					orthogonalArray,
+					0.33 );
 
-			double[] fitYarray = ls.getYEst( );
+			double[] fitYarray = fc.getFittedValue( );
 
 			orthogonalArray = fitYarray;
 

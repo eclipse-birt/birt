@@ -27,7 +27,7 @@ import org.eclipse.birt.chart.tests.engine.util.ChartUtilTest;
 import org.eclipse.birt.chart.tests.engine.util.ClipTest;
 import org.eclipse.birt.chart.tests.engine.util.LUDecompositionTest;
 import org.eclipse.birt.chart.tests.engine.util.LiteralHelperTest;
-import org.eclipse.birt.chart.tests.engine.util.LowessTest;
+import org.eclipse.birt.chart.tests.engine.util.FittingCalculatorTest;
 import org.eclipse.birt.chart.tests.engine.util.MatrixTest;
 import org.eclipse.birt.chart.tests.engine.util.NameSetTest;
 import org.eclipse.birt.chart.tests.engine.util.QRDecompositionTest;
@@ -61,7 +61,7 @@ public class EngineTest
 		suite.addTestSuite( ChartUtilTest.class );
 		suite.addTestSuite( ClipTest.class );
 		suite.addTestSuite( LiteralHelperTest.class );
-		suite.addTestSuite( LowessTest.class );
+		suite.addTestSuite( FittingCalculatorTest.class );
 		suite.addTestSuite( LUDecompositionTest.class );
 		suite.addTestSuite( MatrixTest.class );
 		suite.addTestSuite( NameSetTest.class );
