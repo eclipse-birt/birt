@@ -630,14 +630,14 @@ class ColumnInfo
 			
 			//The back reference number cannot larger than the number of elements
 			//of root path.
-			String[] temp = rootPath.split( "\\Q/\\E" );
+/*			String[] temp = rootPath.split( "\\Q/\\E" );
 			int count = 0;
 			for( int i = 0; i < temp.length; i ++)
 			{
 				if( temp[i].trim( ).length( )> 0 )
 					count++;
 			}
-			backRefNumber = backRefNumber>count?count:backRefNumber;
+			backRefNumber = backRefNumber>count?count:backRefNumber;*/
 		}
 		else
 		{
@@ -652,12 +652,14 @@ class ColumnInfo
 	 */ 
 	private String fixTrailingAttr( String path )
 	{
-		if ( path.matches(".*/@.*"))
+		if ( path.matches(".*//@.*"))
+			path = path.replaceFirst("//@","//[@")+"]";
+		else if ( path.matches(".*/@.*"))
 			path = path.replaceFirst("/@","[@")+"]";
-		if ( path.startsWith( "//[" ))
+		/*if ( path.startsWith( "//[" ))
 			path = path.replaceFirst( "\\Q//[\\E", "//*[" );
 		if ( path.startsWith( "/[" ))
-			path = path.replaceFirst( "\\Q/[\\E", "//*[" );
+			path = path.replaceFirst( "\\Q/[\\E", "//*[" );*/
 		return path;
 	}
 	
