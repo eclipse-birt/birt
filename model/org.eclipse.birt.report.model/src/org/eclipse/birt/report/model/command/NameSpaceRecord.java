@@ -116,12 +116,20 @@ public class NameSpaceRecord extends SimpleRecord
 								element
 										.getPropertyDefn( IDesignElementModel.NAME_PROP ) );
 				ns.insert( element );
+				
+				// drop the element from the cached name manager
+				
+				root.getNameManager( ).dropElement( element );
 				if ( originalElement != null )
 					updateAllElementReferences( originalElement );
 			}
 			else
 			{
 				ns.insert( element );
+				
+				// drop the element from the cached name manager
+				
+				root.getNameManager( ).dropElement( element );
 			}
 		}
 		else

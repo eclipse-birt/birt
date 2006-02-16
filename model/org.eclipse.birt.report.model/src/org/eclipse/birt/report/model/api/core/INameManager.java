@@ -28,7 +28,7 @@ public interface INameManager
 	 * 
 	 * @return the host module of this name manager
 	 */
-	
+
 	Module getHostModule( );
 
 	/**
@@ -46,4 +46,13 @@ public interface INameManager
 	 */
 
 	void clear( );
+
+	/**
+	 * Deletes the element from the name manager.
+	 * 
+	 * @param element
+	 *            the element to drop
+	 */
+	
+	void dropElement( DesignElement element );
 }

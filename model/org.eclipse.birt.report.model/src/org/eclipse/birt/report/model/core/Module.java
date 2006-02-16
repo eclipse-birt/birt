@@ -1153,6 +1153,17 @@ public abstract class Module extends DesignElement implements IModuleModel
 	}
 
 	/**
+	 * Gets the name manager of this module.
+	 * 
+	 * @return the name manager of this module
+	 */
+
+	public INameManager getNameManager( )
+	{
+		return nameManager;
+	}
+
+	/**
 	 * Returns the file name of the module file.
 	 * 
 	 * @return the module file name. Returns null if the module has not yet been
