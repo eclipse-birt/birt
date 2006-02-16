@@ -381,8 +381,8 @@ public class ExtendsCommand extends AbstractElementCommand
 					continue;
 
 				Object localValue = element.getLocalProperty( module, propDefn );
-				Object parentValue = parent.getPropertyFromElement( module,
-						propDefn );
+				Object parentValue = parent.getStrategy( )
+						.getPropertyFromElement( module, parent, propDefn );
 
 				if ( localValue == null && parentValue != null )
 				{

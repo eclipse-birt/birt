@@ -23,7 +23,6 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
  * This class represents a Grid item. A grid item contains a set of report
@@ -255,41 +254,6 @@ public class GridItem extends ReportItem implements IGridItemModel
 				maxCols = cols;
 		}
 		return maxCols;
-	}
-
-	/**
-	 * Returns the style property defined on the column for the cell
-	 * <code>target</code>.
-	 * 
-	 * @param module
-	 *            the report design
-	 * @param target
-	 *            the target cell to search
-	 * @param prop
-	 *            the property definition.
-	 * 
-	 * @return the value of a style property
-	 */
-
-	protected Object getPropertyFromColumn( Module module, Cell target,
-			ElementPropertyDefn prop )
-	{
-		assert prop.isStyleProperty( );
-
-		ContainerSlot columnSlot = slots[COLUMN_SLOT];
-		if ( columnSlot.getCount( ) == 0 )
-			return null;
-
-		int columnNum = getCellPositionInColumn( module, target );
-
-		assert columnNum > 0;
-		TableColumn column = ColumnHelper.findColumn( module,
-				slots[COLUMN_SLOT], columnNum );
-
-		if ( column != null )
-			return column.getPropertyFromElement( module, prop );
-
-		return null;
 	}
 
 	/**

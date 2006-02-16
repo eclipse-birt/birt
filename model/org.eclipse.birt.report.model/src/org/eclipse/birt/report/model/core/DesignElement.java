@@ -928,89 +928,6 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * Returns the property value from this element's parent, or its virtual
-	 * parent. The value is only from local properties, or local style of its
-	 * ancestor.
-	 * 
-	 * @param module
-	 *            module
-	 * @param prop
-	 *            definition of the property to get.
-	 * @return property value, or <code>null</code> if no value is set.
-	 */
-
-	protected Object getPropertyFromParent( Module module,
-			ElementPropertyDefn prop )
-	{
-		Object value = null;
-		DesignElement e = this;
-
-		do
-		{
-			if ( e.isVirtualElement( ) )
-			{
-				// Does the virtual parent provide the value of this property ?
-
-				e = e.getVirtualParent( );
-			}
-			else
-			{
-				// Does the parent provide the value of this property?
-
-				e = e.getExtendsElement( );
-			}
-
-			if ( e != null )
-			{
-				Module currentRoot = e.getRoot( );
-				assert currentRoot != null;
-
-				// If we can find the value here, return it.
-
-				value = e.getPropertyFromSelf( currentRoot, prop );
-				if ( value != null )
-					return value;
-			}
-
-		} while ( e != null );
-
-		return value;
-	}
-
-	/**
-	 * Returns the property value from this element. The value is only from
-	 * local properties or local style of this element.
-	 * 
-	 * @param module
-	 *            the module
-	 * @param prop
-	 *            the definition of property
-	 * @return the property value, or null if no value is set.
-	 */
-
-	protected Object getPropertyFromSelf( Module module,
-			ElementPropertyDefn prop )
-	{
-		// 1). If we can find the value here, return it.
-
-		Object value = getLocalProperty( module, prop );
-		if ( value != null )
-			return value;
-
-		// 2). Does the style provide the value of this property ?
-
-		StyleElement style = getStyle( module );
-		if ( style != null )
-		{
-			value = style.getLocalProperty( module, prop );
-			if ( value != null )
-				return value;
-		}
-
-		return null;
-	}
-
-	/**
 	 * Tests if the property is inheritable in the context.
 	 * 
 	 * @param prop
@@ -1024,65 +941,6 @@ public abstract class DesignElement
 		assert prop != null;
 
 		return prop.canInherit( );
-	}
-
-	/**
-	 * Gets a property value given its definition. This version does the
-	 * property search as defined by the given derived component. That is, it
-	 * gets the "effective" property value. The definition can be for a system
-	 * or user-defined property.
-	 * <p>
-	 * The search won't search up the containment hierarchy. Meanwhile, it won't
-	 * the inheritance hierarchy if the non-style property is not inheritable.
-	 * <p>
-	 * Part of: Property value system.
-	 * 
-	 * @param module
-	 *            the module
-	 * @param prop
-	 *            definition of the property to get
-	 * @return The property value, or null if no value is set.
-	 */
-
-	public Object getPropertyFromElement( Module module,
-			ElementPropertyDefn prop )
-	{
-		Object value = null;
-
-		value = getPropertyFromSelf( module, prop );
-		if ( value != null )
-			return value;
-
-		// Can we search the parent element ?
-		// search the parent element: (1) the property is not a style property
-		// and "canInherit" is true; (2) the property is a style property
-
-		if ( isInheritableProperty( prop ) || prop.isStyleProperty( ) )
-		{
-			value = getPropertyFromParent( module, prop );
-
-			if ( value != null )
-				return value;
-		}
-
-		// Check if this element predefined style provides
-		// the property value
-
-		if ( prop.isStyleProperty( ) )
-		{
-			value = getPropertyFromSelfSelector( module, prop );
-			if ( value != null )
-				return value;
-
-			// Check if the container/slot predefined style provides
-			// the value
-
-			value = getPropertyFromSlotSelector( module, prop );
-			if ( value != null )
-				return value;
-		}
-
-		return null;
 	}
 
 	/**
@@ -1106,96 +964,23 @@ public abstract class DesignElement
 
 	public Object getProperty( Module module, ElementPropertyDefn prop )
 	{
-		Object value = getPropertyExceptRomDefault( module, prop );
+		Object value = getStrategy( ).getPropertyExceptRomDefault( module, this,
+				prop );
 		if ( value != null )
 			return value;
 
 		return prop.getDefault( );
 	}
-
+	
 	/**
-	 * Gets a property value given its definition. This version does the
-	 * property search with style reference, extends reference and containment.
-	 * The default value style property defined in session is also searched, but
-	 * the default value defined in ROM will not be returned.
+	 * Gets the search strategy for this element.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param prop
-	 *            definition of the property to get
-	 * @return The property value, or null if no value is set.
+	 * @return the search strategy for this element.
 	 */
-
-	public Object getPropertyExceptRomDefault( Module module,
-			ElementPropertyDefn prop )
+	
+	public PropertySearchStrategy getStrategy( )
 	{
-		if ( prop.isIntrinsic( ) )
-		{
-			// This is an intrinsic system-defined property.
-
-			Object value = getIntrinsicProperty( prop.getName( ) );
-			if ( value != null )
-				return value;
-			return null;
-		}
-
-		// Repeat the search up the inheritance or style
-		// hierarchy, starting with this element.
-
-		DesignElement e = this;
-		Object value = null;
-		while ( e != null )
-		{
-			// Check if this element or parent provides the value
-
-			value = e.getPropertyFromElement( module, prop );
-			if ( value != null )
-				return value;
-
-			if ( !e.isInheritableProperty( prop ) || !prop.isStyleProperty( )
-					|| isStyle( ) )
-				return getSessionDefaultValue( module, prop );
-
-			// for the special case that may relates to the container.
-
-			value = e.getPropertyRelatedToContainer( module, prop );
-			if ( value != null )
-				return value;
-
-			// Try to get the value of this property from container
-			// hierarchy.
-
-			e = e.getContainer( );
-		}
-
-		// Still not found. Use the default.
-
-		return getSessionDefaultValue( module, prop );
-	}
-
-	/**
-	 * Gets the session default value of the specified property if it is style
-	 * property.
-	 * 
-	 * @param module
-	 *            module
-	 * @param prop
-	 *            definition of the property to get
-	 * @return The session default property value, or null if no default value
-	 *         is set.
-	 */
-
-	private Object getSessionDefaultValue( Module module,
-			ElementPropertyDefn prop )
-	{
-		if ( prop.isStyleProperty( ) )
-		{
-			// Does session define default value for this property ?
-
-			return module.session.getDefaultValue( prop.getName( ) );
-		}
-
-		return null;
+		return PropertySearchStrategy.getInstance( );
 	}
 
 	/**
@@ -1224,94 +1009,6 @@ public abstract class DesignElement
 			return null;
 		}
 		return slotSelector;
-	}
-
-	/**
-	 * Returns property value with predefined style.
-	 * 
-	 * @param module
-	 *            module
-	 * @param prop
-	 *            definition of property to get
-	 * @param selector
-	 *            predefined style
-	 * @return The property value, or null if no value is set.
-	 */
-
-	public Object getPropertyFromSelector( Module module,
-			ElementPropertyDefn prop, String selector )
-	{
-		assert module != null;
-
-		if ( selector == null )
-			return null;
-
-		// Find the predefined style
-
-		StyleElement style = module.findStyle( selector );
-		if ( style != null )
-		{
-			return style.getLocalProperty( module, prop );
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the property value which is related to element selector. It is
-	 * from the selector style.
-	 * 
-	 * @param module
-	 *            the module
-	 * @param prop
-	 *            the definition of property
-	 * @return the property value, or null if no value is set.
-	 */
-
-	protected Object getPropertyFromSelfSelector( Module module,
-			ElementPropertyDefn prop )
-	{
-		String selector = ( (ElementDefn) getDefn( ) ).getSelector( );
-		return getPropertyFromSelector( module, prop, selector );
-	}
-
-	/**
-	 * Returns the property value which is related to slot selector. It is from
-	 * the selector style which represents the slot or combination of container
-	 * and slot.
-	 * 
-	 * @param module
-	 *            the module
-	 * @param prop
-	 *            the definition of property
-	 * @return the property value, or null if no value is set.
-	 */
-
-	protected Object getPropertyFromSlotSelector( Module module,
-			ElementPropertyDefn prop )
-	{
-		if ( getContainer( ) == null )
-			return null;
-
-		String selector = getContainer( ).getSelector( getContainerSlot( ) );
-
-		return getPropertyFromSelector( module, prop, selector );
-	}
-
-	/**
-	 * Returns the property value which is related to container.
-	 * 
-	 * @param module
-	 *            the module
-	 * @param prop
-	 *            the definition of property
-	 * @return the property value, or null if no value is set.
-	 */
-
-	protected Object getPropertyRelatedToContainer( Module module,
-			ElementPropertyDefn prop )
-	{
-		return null;
 	}
 
 	/**

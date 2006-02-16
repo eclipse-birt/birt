@@ -258,62 +258,11 @@ public abstract class StyledElement extends DesignElement
 
 		// Get the value from this element and its parent.
 
-		Object value = getFactoryPropertyFromElement( module, prop );
+		Object value = getStrategy( ).getPropertyFromElement( module, this,
+				prop );
 		if ( value != null )
 			return value;
 
-		return null;
-	}
-
-	/**
-	 * Gets the property value by the following rule:
-	 * <li>if the value existed on self, return it.</li>
-	 * <li>if the value existed on parent, return null, else check the element
-	 * selector.</li>
-	 * <li>if the value existed on the self selector, return it.</li>
-	 * 
-	 * @param module
-	 *            module
-	 * @param prop
-	 *            definition of the property to get
-	 * @return The property value, or null if no value is set.
-	 * 
-	 */
-	private Object getFactoryPropertyFromElement( Module module,
-			ElementPropertyDefn prop )
-	{
-		Object value = null;
-
-		value = getPropertyFromSelf( module, prop );
-		if ( value != null )
-			return value;
-
-		// Can we search the parent element ?
-
-		if ( isInheritableProperty( prop ) || prop.isStyleProperty( ) )
-		{
-			value = getPropertyFromParent( module, prop );
-
-			if ( value != null )
-				return value;
-		}
-
-		// Check if this element predefined style provides
-		// the property value
-
-		if ( prop.isStyleProperty( ) )
-		{
-			value = getPropertyFromSelfSelector( module, prop );
-			if ( value != null )
-				return value;
-
-			// Check if the container/slot predefined style provides
-			// the value
-
-			value = getPropertyFromSlotSelector( module, prop );
-			if ( value != null )
-				return value;
-		}
 		return null;
 	}
 

@@ -31,7 +31,6 @@ final class ComputedValueHandler extends CSSLengthValueHandler
 		super( dimensionHandle );
 	}
 
-
 	/**
 	 * Returns the absolute value for other length property, instead of font
 	 * size.
@@ -96,8 +95,9 @@ final class ComputedValueHandler extends CSSLengthValueHandler
 		{
 			if ( !computedPropertyFound )
 			{
-				propValue = e.getElement( ).getPropertyFromElement(
-						dimensionHandle.getModule( ), dimensionHandle.propDefn );
+				propValue = e.getElement( ).getStrategy( )
+						.getPropertyFromElement( dimensionHandle.getModule( ),
+								e.getElement( ), dimensionHandle.propDefn );
 				if ( propValue != null )
 				{
 					computedPropertyFound = true;
@@ -106,8 +106,9 @@ final class ComputedValueHandler extends CSSLengthValueHandler
 
 			if ( computedPropertyFound )
 			{
-				propValue = e.getElement( ).getPropertyFromElement(
-						dimensionHandle.getModule( ), fontSizePropDefn );
+				propValue = e.getElement( ).getStrategy( )
+						.getPropertyFromElement( dimensionHandle.getModule( ),
+								e.getElement( ), fontSizePropDefn );
 				if ( propValue != null )
 					break;
 			}

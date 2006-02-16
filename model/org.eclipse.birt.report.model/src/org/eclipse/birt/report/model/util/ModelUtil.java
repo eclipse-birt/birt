@@ -279,8 +279,8 @@ public class ModelUtil
 				continue;
 
 			Object localValue = to.getLocalProperty( from.getRoot( ), propDefn );
-			Object parentValue = from.getPropertyFromElement( from.getRoot( ),
-					propDefn );
+			Object parentValue = from.getStrategy( ).getPropertyFromElement(
+					from.getRoot( ), from, propDefn );
 
 			if ( localValue == null && parentValue != null )
 			{
@@ -409,8 +409,9 @@ public class ModelUtil
 				continue;
 			}
 			else
-				value = propHandle.getElement( ).getPropertyExceptRomDefault(
-						propHandle.getModule( ), propDefn );
+				value = propHandle.getElement( ).getStrategy( )
+						.getPropertyExceptRomDefault( propHandle.getModule( ),
+								propHandle.getElement( ), propDefn );
 
 			Object valueToSet = ModelUtil.copyValue( propHandle.getDefn( ),
 					value );

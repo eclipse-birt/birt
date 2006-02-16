@@ -15,11 +15,12 @@ import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.ContainerSlot;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
+import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.strategy.CellPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -47,6 +48,17 @@ public class Cell extends StyledElement implements ICellModel
 
 	public Cell( )
 	{
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getStrategy()
+	 */
+	
+	public PropertySearchStrategy getStrategy( )
+	{
+		return CellPropSearchStrategy.getInstance( );
 	}
 
 	/**
@@ -174,75 +186,6 @@ public class Cell extends StyledElement implements ICellModel
 	public int getColumn( Module module )
 	{
 		return getIntProperty( module, COLUMN_PROP );
-	}
-
-	/**
-	 * Gets a property value on the container column with the given definition.
-	 * If <code>prop</code> is a style property definition, also check style
-	 * values defined on the Table/Grid columns.
-	 * 
-	 * @param module
-	 *            the module
-	 * @param container
-	 *            the container, must be Table or Grid
-	 * @param cell
-	 *            the cell on which the property value to find
-	 * @param prop
-	 *            the property definition
-	 * @return the property value
-	 */
-
-	private Object getColumnProperty( Module module, DesignElement container,
-			Cell cell, ElementPropertyDefn prop )
-	{
-		Object value = null;
-		if ( container instanceof TableItem )
-		{
-			TableItem table = (TableItem) container;
-			value = table.getPropertyFromColumn( module, cell, prop );
-		}
-
-		if ( container instanceof GridItem )
-		{
-			GridItem grid = (GridItem) container;
-			value = grid.getPropertyFromColumn( module, cell, prop );
-		}
-
-		return value;
-	}
-
-	/*
-	 * Gets a property value given its definition. If <code>prop</code> is a
-	 * style property definition, also check style values defined on the Table
-	 * columns.
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyFromContainer(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
-	 */
-
-	protected Object getPropertyRelatedToContainer( Module module,
-			ElementPropertyDefn prop )
-	{
-		// Get property from the container of this cell. If the container
-		// has column, get property from column.
-
-		DesignElement e = getContainer( );
-		while ( e != null )
-		{
-			Object value = e.getPropertyFromElement( module, prop );
-			if ( value != null )
-				return value;
-
-			// check property values on the columns.
-
-			if ( e.getContainer( ) instanceof TableItem
-					|| e.getContainer( ) instanceof GridItem )
-				return getColumnProperty( module, e.getContainer( ), this, prop );
-
-			e = e.getContainer( );
-		}
-
-		return super.getPropertyRelatedToContainer( module, prop );
 	}
 
 	/**

@@ -152,7 +152,8 @@ public class ElementLocalizeRecord extends SimpleRecord
 				continue;
 
 			Object localValue = to.getLocalProperty( module, propDefn );
-			Object parentValue = from.getPropertyFromElement( module, propDefn );
+			Object parentValue = from.getStrategy( ).getPropertyFromElement(
+					module, from, propDefn );
 
 			if ( localValue == null && parentValue != null )
 			{
@@ -205,10 +206,11 @@ public class ElementLocalizeRecord extends SimpleRecord
 	}
 
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
-	
+
 	protected void perform( boolean undo )
 	{
 		if ( undo )
@@ -224,20 +226,22 @@ public class ElementLocalizeRecord extends SimpleRecord
 	}
 
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
-	
+
 	public DesignElement getTarget( )
 	{
 		return element;
 	}
 
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
-	
+
 	public NotificationEvent getEvent( )
 	{
 		return new ElementLocalizeEvent( element );

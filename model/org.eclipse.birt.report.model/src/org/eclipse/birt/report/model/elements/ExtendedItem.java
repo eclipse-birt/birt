@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.elements;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -22,17 +21,16 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
-import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.strategy.ExtendedItemPropSearchStrategy;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 
 /**
  * This class represents an extended item element. The extended report item
@@ -156,21 +154,22 @@ public class ExtendedItem extends ReportItem
 	}
 
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#hasLocalPropertyValues()
 	 */
-	
-	public boolean hasLocalPropertyValues()
+
+	public boolean hasLocalPropertyValues( )
 	{
-		if( super.hasLocalPropertyValues() )
+		if ( super.hasLocalPropertyValues( ) )
 			return true;
-		
-		if( provider != null )
-			return provider.hasLocalPropertyValues();
-		
+
+		if ( provider != null )
+			return provider.hasLocalPropertyValues( );
+
 		return false;
 	}
-	
+
 	/**
 	 * Gets a property value given its definition. This version checks not only
 	 * this one object, but also the extended element this item has. That is, it
@@ -461,37 +460,12 @@ public class ExtendedItem extends ReportItem
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyFromSelfSelector(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
-	 */
-
-	protected Object getPropertyFromSelfSelector( Module module,
-			ElementPropertyDefn prop )
-	{
-		// find the selector defined in extension
-
-		IElementDefn elementDefn = getExtDefn( );
-		if ( elementDefn != null )
-		{
-			String selector = getExtDefn( ).getSelector( );
-			Object value = getPropertyFromSelector( module, prop, selector );
-			if ( value != null )
-				return value;
-		}
-		
-		// find the "extended-item" selector
-
-		return super.getPropertyFromSelfSelector( module, prop );
-	}
-	
 	/**
 	 * Returns the script property name of this extended item.
+	 * 
 	 * @return the script property name
 	 */
-	
+
 	public String getScriptPropertyName( )
 	{
 		if ( provider != null )
@@ -502,4 +476,14 @@ public class ExtendedItem extends ReportItem
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getStrategy()
+	 */
+	
+	public PropertySearchStrategy getStrategy( )
+	{
+		return ExtendedItemPropSearchStrategy.getInstance( );
+	}
 }
