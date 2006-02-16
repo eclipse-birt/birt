@@ -255,6 +255,10 @@ public class RowHandle extends AbstractHandle implements IContainer
 	private Image getImage( )
 	{
 		TableEditPart part = (TableEditPart) getOwner( );
+		if (part.getRow( getRowNumber( ) )== null)
+		{
+			return null;
+		}
 		String type = HandleAdapterFactory.getInstance( )
 				.getRowHandleAdapter( part.getRow( getRowNumber( ) ) )
 				.getType( );
