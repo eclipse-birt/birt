@@ -16,7 +16,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ImageFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.AbstractHintLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutManager;
@@ -226,7 +228,7 @@ public class ReportFlowLayout extends AbstractHintLayout
 			Insets fmargin = getFigureMargin( f );
 
 			// Block elements take the whole space, in-line and none take -1
-			if ( getDisplay( f ) == ReportItemConstraint.BLOCK )
+			if ( getDisplay( f ) == ReportItemConstraint.BLOCK  || f instanceof ImageFigure)
 			{
 				wHint = parent.getClientArea( ).width;
 			}
@@ -539,6 +541,7 @@ public class ReportFlowLayout extends AbstractHintLayout
 
 		Dimension preferredDimension = child.getPreferredSize( wHint, hHint );
 
+		//now support the persent value
 		if ( constraint != null )
 		{
 			if ( constraint.isNone( ) )
@@ -546,11 +549,24 @@ public class ReportFlowLayout extends AbstractHintLayout
 				// DISPLAY = none, do not display
 				return new Dimension( 0, 0 );
 			}
+			
 			Dimension dimension = constraint.getSize( );
+			
 			if ( dimension.height <= 0 )
+			{
 				dimension.height = preferredDimension.height;
+			}
 			if ( dimension.width <= 0 )
-				dimension.width = preferredDimension.width;
+			{
+				if (constraint.getMeasure() != 0 && DesignChoiceConstants.UNITS_PERCENTAGE.equals( constraint.getUnits() ))
+				{
+					dimension.width = (int) constraint.getMeasure() * wHint / 100;
+				}
+				else
+				{
+					dimension.width = preferredDimension.width;
+				}
+			}
 			return dimension;
 		}
 		else

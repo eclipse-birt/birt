@@ -31,6 +31,45 @@ public class ReportItemConstraint extends Rectangle
 	private int m_display = NONE;
 
     private Insets m_margins = null;
+    
+    private double measure = 0;
+	private String units = ""; //$NON-NLS-1$
+
+	
+	/**
+	 * @return
+	 */
+	public double getMeasure( )
+	{
+		return measure;
+	}
+
+	
+	/**
+	 * @param measure
+	 */
+	public void setMeasure( double measure )
+	{
+		this.measure = measure;
+	}
+
+	
+	/**
+	 * @return
+	 */
+	public String getUnits( )
+	{
+		return units;
+	}
+
+	
+	/**
+	 * @param units
+	 */
+	public void setUnits( String units )
+	{
+		this.units = units;
+	}
 
 	public int getDisplay( )
 	{

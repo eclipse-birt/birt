@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.ImageBuilder;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.draw2d.IFigure;
@@ -188,6 +189,9 @@ public class ImageEditPart extends ReportElementEditPart
 		ReportItemConstraint constraint = new ReportItemConstraint( );
 
 		constraint.setDisplay( handle.getPrivateStyle( ).getDisplay( ) );
+		DimensionHandle value = handle.getWidth( );
+		constraint.setMeasure(value.getMeasure());
+		constraint.setUnits(value.getUnits());
 		return constraint;
 	}
 
