@@ -52,10 +52,12 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.cheatsheets.OpenCheatSheetAction;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 
 /**
@@ -600,13 +602,13 @@ public class NewReportWizard extends Wizard implements
 
 			public void run( )
 			{
-				//IWorkbench workbench = PlatformUI.getWorkbench( );
-				//IWorkbenchWindow window = workbench.getActiveWorkbenchWindow( );
-				//IWorkbenchPage page = window.getActivePage( );
+				IWorkbench workbench = PlatformUI.getWorkbench( );
+				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow( );
+				IWorkbenchPage page = window.getActivePage( );
 				
 				try
 				{
-					//IEditorPart editorPart = IDE.openEditor( page, file, true );
+					IDE.openEditor( page, file, true );
 					//setReportSettings( ( (IDEReportEditor) editorPart ).getModel( ) );
 					//editorPart.doSave( null );
 
