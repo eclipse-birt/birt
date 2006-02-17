@@ -11,11 +11,10 @@
 
 package org.eclipse.birt.report.designer.internal.ui.wizards;
 
-import java.io.File;
-
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -43,7 +42,7 @@ public class WizardReportSettingPage extends WizardPage
 	private static final String LABEL_IMAGE = Messages.getString( "PublishTemplateAction.wizard.page.label.image" ); //$NON-NLS-1$
 	private static final String BTN_CHOOSE = Messages.getString( "PublishTemplateAction.wizard.page.btn.browse" ); //$NON-NLS-1$
 	private static final String BROWSE_TITLE = Messages.getString( "PublishTemplateAction.wizard.page.browse.title" ); //$NON-NLS-1$
-	private static final String IMAGE_ERROR = "PublishTemplateAction.wizard.page.imageError";
+	//private static final String IMAGE_ERROR = "PublishTemplateAction.wizard.page.imageError";
 
 	private static final String STR_EMPTY = ""; //$NON-NLS-1$
 
@@ -106,7 +105,7 @@ public class WizardReportSettingPage extends WizardPage
 						.getActiveShell( ) );
 				dialog.setText( BROWSE_TITLE );
 				dialog.setFilterExtensions( new String[]{
-						"*.gif", "*.jpg", "*.png", "*.ico", "*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+						"*.gif;*.jpg;*.png;*.ico;*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 				} );
 				String fileName = dialog.open( );
 				if ( fileName == null )
@@ -141,7 +140,7 @@ public class WizardReportSettingPage extends WizardPage
 	public String getPreviewImagePath( )
 	{
 		return previewImageText.getText( ) == null ? STR_EMPTY
-				: previewImageText.getText( ).trim( );
+				:  previewImageText.getText( ).trim( );
 	}
 
 	private Text createText( Composite container, int column, int row )
@@ -164,20 +163,23 @@ public class WizardReportSettingPage extends WizardPage
 
 	private void validate( )
 	{
+		System.out.println(URIUtil.getDirectory( previewImageText.getText( ) ) + previewImageText.getText( ));
+		
 		if ( previewImageText.getText( ).trim( ).length( ) == 0 )
 		{
 			setErrorMessage( null );
 			setPageComplete( true );
 		}
-		else if ( !new File( previewImageText.getText( ) ).exists( ) )
-		{
-			setErrorMessage( Messages.getFormattedString( IMAGE_ERROR,
-					new String[]{
-						previewImageText.getText( )
-					} ) );
-			setPageComplete( false );
-			return;
-		}
+		
+//		else if ( !new File( URIUtil.getDirectory( previewImageText.getText( ) ) + previewImageText.getText( )).exists( ) )
+//		{
+//			setErrorMessage( Messages.getFormattedString( IMAGE_ERROR,
+//					new String[]{
+//						previewImageText.getText( )
+//					} ) );
+//			setPageComplete( false );
+//			return;
+//		}
 		else
 		{
 			setErrorMessage( null );
