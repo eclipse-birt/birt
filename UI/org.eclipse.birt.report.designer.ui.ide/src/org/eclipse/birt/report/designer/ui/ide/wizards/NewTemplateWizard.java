@@ -14,6 +14,8 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IDEReportEditor;
 import org.eclipse.birt.report.designer.ui.editors.IDETemplateEditor;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -247,4 +249,24 @@ public class NewTemplateWizard extends NewReportWizard
 		monitor.worked( 1 );
 	}
 
+	/**
+	 * Set report basic settings.
+	 * 
+	 * @param model
+	 * @throws IOException
+	 */
+	void setReportSettings( Object model ) throws IOException
+	{
+		ReportDesignHandle handle = (ReportDesignHandle) model;
+		try
+		{
+			handle.setDisplayName( settingPage.getDisplayName( ) );
+			handle.setDescription( settingPage.getDescription( ) );
+			handle.setIconFile( settingPage.getPreviewImagePath( ) );
+		}
+		catch ( SemanticException e )
+		{
+		}
+		handle.save( );
+	}
 }

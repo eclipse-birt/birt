@@ -27,9 +27,6 @@ import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingP
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.ui.editors.IDEReportEditor;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -55,12 +52,10 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.cheatsheets.OpenCheatSheetAction;
-import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 
 /**
@@ -359,12 +354,12 @@ public class NewReportWizard extends Wizard implements
 				NEW_REPORT_FILE_EXTENSION ) );//$NON-NLS-1$
 		newReportFileWizardPage.setContainerFullPath( getDefaultContainerPath( ) );
 
-		settingPage = new WizardReportSettingPage( null );
-		settingPage.setTitle( Messages.getFormattedString( "SaveReportAsWizard.SettingPage.title",//$NON-NLS-1$
-				new Object[]{
-					Messages.getString( "NewReportWizard.wizardPageTitle.report" )} ) );//$NON-NLS-1$
-		settingPage.setMessage( Messages.getString( "SaveReportAsWizard.SettingPage.message" ) ); //$NON-NLS-1$
-		addPage( settingPage );
+//		settingPage = new WizardReportSettingPage( null );
+//		settingPage.setTitle( Messages.getFormattedString( "SaveReportAsWizard.SettingPage.title",//$NON-NLS-1$
+//				new Object[]{
+//					Messages.getString( "NewReportWizard.wizardPageTitle.report" )} ) );//$NON-NLS-1$
+//		settingPage.setMessage( Messages.getString( "SaveReportAsWizard.SettingPage.message" ) ); //$NON-NLS-1$
+//		addPage( settingPage );
 	}
 
 	void resetUniqueCount( )
@@ -605,16 +600,15 @@ public class NewReportWizard extends Wizard implements
 
 			public void run( )
 			{
-				IWorkbench workbench = PlatformUI.getWorkbench( );
-				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow( );
-
-				IWorkbenchPage page = window.getActivePage( );
+				//IWorkbench workbench = PlatformUI.getWorkbench( );
+				//IWorkbenchWindow window = workbench.getActiveWorkbenchWindow( );
+				//IWorkbenchPage page = window.getActivePage( );
+				
 				try
 				{
-					IEditorPart editorPart = IDE.openEditor( page, file, true );
-
-					setReportSettings( ( (IDEReportEditor) editorPart ).getModel( ) );
-					editorPart.doSave( null );
+					//IEditorPart editorPart = IDE.openEditor( page, file, true );
+					//setReportSettings( ( (IDEReportEditor) editorPart ).getModel( ) );
+					//editorPart.doSave( null );
 
 					BasicNewProjectResourceWizard.updatePerspective( configElement );
 					if ( showCheat && !cheatId.equals( "" ) ) //$NON-NLS-1$
@@ -758,18 +752,18 @@ public class NewReportWizard extends Wizard implements
 	 * @param model
 	 * @throws IOException
 	 */
-	void setReportSettings( Object model ) throws IOException
-	{
-		ReportDesignHandle handle = (ReportDesignHandle) model;
-		try
-		{
-			handle.setDisplayName( settingPage.getDisplayName( ) );
-			handle.setDescription( settingPage.getDescription( ) );
-			handle.setIconFile( settingPage.getPreviewImagePath( ) );
-		}
-		catch ( SemanticException e )
-		{
-		}
-		handle.save( );
-	}
+//	void setReportSettings( Object model ) throws IOException
+//	{
+//		ReportDesignHandle handle = (ReportDesignHandle) model;
+//		try
+//		{
+//			handle.setDisplayName( settingPage.getDisplayName( ) );
+//			handle.setDescription( settingPage.getDescription( ) );
+//			handle.setIconFile( settingPage.getPreviewImagePath( ) );
+//		}
+//		catch ( SemanticException e )
+//		{
+//		}
+//		handle.save( );
+//	}
 }
