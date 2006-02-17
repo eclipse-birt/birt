@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisGridLinesSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisTextSheet;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -49,6 +50,8 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 	private transient Button btnAxisTitle;
 
 	private transient Button btnGridlines;
+
+	private transient Button btnInteractivity;
 
 	/*
 	 * (non-Javadoc)
@@ -110,7 +113,7 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
-			cmp.setLayout( new GridLayout( 2, false ) );
+			cmp.setLayout( new GridLayout( 3, false ) );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.grabExcessVerticalSpace = true;
 			gridData.verticalAlignment = SWT.END;
@@ -124,6 +127,11 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 		btnGridlines = createToggleButton( cmp,
 				Messages.getString( "AxisZSheetImpl.Label.Gridlines" ) );//$NON-NLS-1$
 		btnGridlines.addSelectionListener( this );
+
+		btnInteractivity = createToggleButton( cmp,
+				Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
+		btnInteractivity.addSelectionListener( this );
+		btnInteractivity.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
 	}
 
 	/*
@@ -172,6 +180,16 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 					getContext( ),
 					getAxisForProcessing( ) );
 			getWizard( ).attachPopup( btnGridlines.getText( ), -1, -1 );
+		}
+		else if ( e.widget.equals( btnInteractivity ) )
+		{
+			popupShell = createPopupShell( );
+			popupSheet = new InteractivitySheet( popupShell,
+					getContext( ),
+					getAxisForProcessing( ).getTriggers( ),
+					false,
+					true );
+			getWizard( ).attachPopup( btnInteractivity.getText( ), -1, -1 );
 		}
 
 		if ( e.widget.equals( btnVisible ) )

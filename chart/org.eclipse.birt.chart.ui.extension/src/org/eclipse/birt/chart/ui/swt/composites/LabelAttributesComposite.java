@@ -458,10 +458,10 @@ public class LabelAttributesComposite extends Composite
 		if ( this.bVisibilityEnabled )
 		{
 			bEnableUI = cbVisible.getSelection( );
+			cbVisible.setEnabled( bState );
 		}
 
 		setVisibleState( bState & bEnableUI );
-		cbVisible.setEnabled( bState );
 		grpAttributes.setEnabled( bState );
 
 		this.bEnabled = bState;
