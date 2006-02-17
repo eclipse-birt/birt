@@ -318,12 +318,23 @@ public class GroupDialog extends BaseDialog
 		intervalArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		intervalArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 
+		Composite intervalTypeArea = new Composite( intervalArea, SWT.NONE );
+		intervalTypeArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		intervalTypeArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 1,
+				false ) );
+
+		Composite intervalRangeArea = new Composite( intervalArea, SWT.NONE );
+		intervalRangeArea.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
+		intervalRangeArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 1,
+				false ) );
+
 		// Creates intervalRange labels
-		new Label( intervalArea, SWT.NONE ).setText( GROUP_DLG_GROUP_INTERVAL_LABEL );
-		new Label( intervalArea, SWT.NONE ).setText( GROUP_DLG_GROUP_RANGE_LABEL );
+		new Label( intervalTypeArea, SWT.NONE ).setText( GROUP_DLG_GROUP_INTERVAL_LABEL );
+		new Label( intervalRangeArea, SWT.NONE ).setText( GROUP_DLG_GROUP_RANGE_LABEL );
 
 		// Creates intervalRange type chooser
-		intervalType = new Combo( intervalArea, SWT.READ_ONLY | SWT.DROP_DOWN );
+		intervalType = new Combo( intervalTypeArea, SWT.READ_ONLY
+				| SWT.DROP_DOWN );
 		intervalType.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		for ( int i = 0; i < intervalChoices.length; i++ )
@@ -343,7 +354,7 @@ public class GroupDialog extends BaseDialog
 			}
 		} );
 		// Creates intervalRange range chooser
-		intervalRange = new Spinner( intervalArea, SWT.NONE );
+		intervalRange = new Spinner( intervalRangeArea, SWT.NONE );
 		intervalRange.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
 		intervalRange.setMinimum( 0 );
 		intervalRange.setMaximum( Integer.MAX_VALUE );
