@@ -213,6 +213,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 				txtValue.setLayoutData( gd );
 				txtValue.addListener( this );
 				txtValue.setEnabled( bValueOrigin );
+				txtValue.setDefaultValue( "" ); //$NON-NLS-1$
 			}
 		}
 
@@ -243,6 +244,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 		txtScaleMin.setText( getValue( getAxisForProcessing( ).getScale( )
 				.getMin( ) ) );
 		txtScaleMin.addListener( this );
+		txtScaleMin.setDefaultValue( "" ); //$NON-NLS-1$
 
 		lblMax = new Label( grpScale, SWT.NONE );
 		GridData gdLBLMax = new GridData( );
@@ -256,6 +258,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 		txtScaleMax.setText( getValue( getAxisForProcessing( ).getScale( )
 				.getMax( ) ) );
 		txtScaleMax.addListener( this );
+		txtScaleMax.setDefaultValue( "" ); //$NON-NLS-1$
 
 		boolean bDateTimeAxisType = getAxisForProcessing( ).getType( )
 				.equals( AxisType.DATE_TIME_LITERAL );
@@ -279,6 +282,7 @@ public class AxisScaleSheet extends AbstractPopupSheet
 		txtScaleStep.setText( str );
 		txtScaleStep.addListener( this );
 		txtScaleStep.setEnabled( !bDateTimeAxisType );
+		txtScaleStep.setDefaultValue( "" ); //$NON-NLS-1$
 
 		lblUnit = new Label( grpScale, SWT.NONE );
 		GridData gdLBLUnit = new GridData( );

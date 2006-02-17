@@ -62,6 +62,8 @@ public class TextEditorComposite extends Composite
 
 	private transient boolean isNumber = false;
 
+	private transient String defaultValue = "0"; //$NON-NLS-1$
+
 	/**
 	 * Constructor. Default argument value of isFractionSupported is true.
 	 * 
@@ -141,6 +143,18 @@ public class TextEditorComposite extends Composite
 		vListeners.add( listener );
 	}
 
+	/**
+	 * Sets the default value when current text is for numeric only. If the
+	 * inputed text is not numeric, will use this default value.
+	 * 
+	 * @param value
+	 *            default value
+	 */
+	public void setDefaultValue( String value )
+	{
+		this.defaultValue = value;
+	}
+
 	private void fireEvent( )
 	{
 
@@ -165,24 +179,21 @@ public class TextEditorComposite extends Composite
 				}
 				catch ( NumberFormatException e )
 				{
-					this.sText = "0"; //$NON-NLS-1$
+					this.sText = defaultValue;
 				}
 				this.txtValue.setText( sText );
 			}
 			else
 			{
-				if ( this.sText.length( ) > 0 )
+				// Test if the text is a number format
+				try
 				{
-					// Test if the text is a number format
-					try
-					{
-						Double.parseDouble( this.sText );
-					}
-					catch ( NumberFormatException e )
-					{
-						this.sText = "0"; //$NON-NLS-1$
-						this.txtValue.setText( this.sText );
-					}
+					Double.parseDouble( this.sText );
+				}
+				catch ( NumberFormatException e )
+				{
+					this.sText = defaultValue;
+					this.txtValue.setText( this.sText );
 				}
 			}
 		}

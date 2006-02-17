@@ -167,6 +167,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 
 		txtHeight = new TextEditorComposite( grpAreaIncluding, SWT.BORDER, true );
 		{
+			txtHeight.setDefaultValue( "-1" ); //$NON-NLS-1$
 			txtHeight.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			txtHeight.setText( String.valueOf( getBlockForProcessing( ).getHeightHint( ) ) );
 			txtHeight.addListener( this );
@@ -186,6 +187,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 
 		txtWidth = new TextEditorComposite( grpAreaIncluding, SWT.BORDER, true );
 		{
+			txtWidth.setDefaultValue( "-1" ); //$NON-NLS-1$
 			txtWidth.setText( String.valueOf( getBlockForProcessing( ).getWidthHint( ) ) );
 			txtWidth.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			txtWidth.addListener( this );
