@@ -458,17 +458,15 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	private boolean isMutilSelection( Object multiSelection )
 	{
 		return multiSelection != null && ( multiSelection == Object.class // report
-				// design
-				// and
-				// slot
-				// multi ?
+				// design and slot multi ?
 				|| multiSelection == DesignElementHandle.class
 				// report design
 				|| isRootElementHandleClass( multiSelection )
 				// saveral report items
 				|| multiSelection == ReportItemHandle.class
-		// table and list
-				|| multiSelection == ListHandle.class );
+				// table and list
+//				|| multiSelection == ListHandle.class 
+				);
 	}
 
 	private boolean isRootElementHandleClass( Object obj )
@@ -907,8 +905,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			}
 			else if ( obj instanceof TableCellEditPart )
 			{
-				Object parent = (TableEditPart) ( (TableCellEditPart) obj )
+				TableEditPart parent2 = (TableEditPart) ( (TableCellEditPart) obj )
 						.getParent( );
+				Object parent = parent2;
 				if ( parent instanceof GridEditPart )
 				{
 					return Collections.EMPTY_LIST;
@@ -947,8 +946,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			}
 			else if ( obj instanceof ListBandEditPart )
 			{
-				Object parent = (ListEditPart) ( (ListBandEditPart) obj )
+				ListEditPart parent2 = (ListEditPart) ( (ListBandEditPart) obj )
 						.getParent( );
+				Object parent = parent2;
 				if ( !( listParts.contains( parent ) ) )
 				{
 					listParts.add( parent );

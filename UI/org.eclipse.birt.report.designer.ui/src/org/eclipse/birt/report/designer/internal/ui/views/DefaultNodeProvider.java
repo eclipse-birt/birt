@@ -41,7 +41,6 @@ import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
-import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -391,6 +390,7 @@ public class DefaultNodeProvider implements INodeProvider
 		}
 		catch ( SemanticException e )
 		{
+			ExceptionHandler.handle(e);
 			return false;
 		}
 		return true;
@@ -410,6 +410,7 @@ public class DefaultNodeProvider implements INodeProvider
 		}
 		catch ( SemanticException e )
 		{
+			ExceptionHandler.handle(e);
 			return false;
 		}
 		return true;
@@ -423,6 +424,7 @@ public class DefaultNodeProvider implements INodeProvider
 		}
 		catch ( SemanticException e )
 		{
+			ExceptionHandler.handle(e);
 			return false;
 		}
 		return true;
