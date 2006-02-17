@@ -73,7 +73,7 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 			cmpBasic.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
 
-		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Title" ) ); //$NON-NLS-1$
+		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "AxisYSheetImpl.Label.Title" ) ); //$NON-NLS-1$
 
 		List keys = null;
 		IUIServiceProvider serviceprovider = getContext( ).getUIServiceProvider( );
