@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.internal.model;
 
-import org.eclipse.birt.chart.util.Matrix;
+import org.eclipse.birt.chart.internal.computations.Matrix;
 
 /**
  * A utility class to calculate curve fitting points using the LOWESS algorithm.
@@ -81,15 +81,76 @@ public class FittingCalculator
 			Matrix W = new Matrix( window, window );
 
 			// iterate each given point.
-			for ( int i = 0; i < xa.length; i++ )
+			for ( int index = 0; index < xa.length; index++ )
 			{
-				calculateWeights( i,
-						xa,
-						ya,
-						windowXa,
-						windowYa,
-						weights,
-						window );
+				// Calculates window value and weights using LOWESS algorithm.
+				int total = xa.length;
+				int windowStart = 0;
+				double maxDistance = 0;
+
+				// detect a proper window range first.
+				if ( index < window )
+				{
+					for ( int i = 0; i < window; i++ )
+					{
+						if ( ( xa[index] - xa[i] ) <= ( xa[window + i] - xa[index] ) )
+						{
+							windowStart = i;
+							maxDistance = Math.max( xa[index] - xa[windowStart],
+									xa[windowStart + window - 1] - xa[index] );
+							break;
+						}
+					}
+				}
+				else if ( index >= window && index < total - window )
+				{
+					for ( int i = 0; i < window; i++ )
+					{
+						if ( xa[index] - xa[index - window + 1 + i] <= xa[index
+								+ 1
+								+ i]
+								- xa[index] )
+						{
+							windowStart = index - window + 1 + i;
+							maxDistance = Math.max( xa[index] - xa[windowStart],
+									xa[windowStart + window - 1] - xa[index] );
+							break;
+						}
+					}
+				}
+				else
+				{
+					for ( int i = 0; i < window; i++ )
+					{
+						if ( ( xa[total - 1 - i] - xa[index] ) <= ( xa[index] - xa[total
+								- window
+								- 1
+								- i] ) )
+						{
+							windowStart = total - window - i;
+							maxDistance = Math.max( xa[index] - xa[windowStart],
+									xa[windowStart + window - 1] - xa[index] );
+							break;
+						}
+					}
+				}
+
+				// construct window data
+				System.arraycopy( xa, windowStart, windowXa, 0, window );
+				System.arraycopy( ya, windowStart, windowYa, 0, window );
+
+				// calculate weights using tricube function.
+				int windowIndex = index - windowStart;
+
+				for ( int i = 0; i < window; i++ )
+				{
+					double distance = Math.abs( windowXa[windowIndex]
+							- windowXa[i] );
+
+					weights[i] = Math.pow( 1.0 - Math.pow( ( distance / maxDistance ),
+							3.0 ),
+							3.0 );
+				}
 
 				// Apply WLS(Weighted Least Square) regression method
 				// ===================================================
@@ -101,12 +162,12 @@ public class FittingCalculator
 				//
 				// ** (M)i is the inverse of M.
 
-				for ( int j = 0; j < window; j++ )
+				for ( int i = 0; i < window; i++ )
 				{
-					X.set( j, 0, 1 );
-					X.set( j, 1, windowXa[j] );
-					Y.set( j, 0, windowYa[j] );
-					W.set( j, j, weights[j] );
+					X.set( i, 0, 1 );
+					X.set( i, 1, windowXa[i] );
+					Y.set( i, 0, windowYa[i] );
+					W.set( i, i, weights[i] );
 				}
 
 				Matrix XTW = X.transpose( ).times( W );
@@ -121,11 +182,11 @@ public class FittingCalculator
 					// in some cases, the matrix may be singular due to too many
 					// null weights, just use original value as the estimation.
 					L = new Matrix( 2, 1 );
-					L.set( 0, 0, ya[i] );
+					L.set( 0, 0, ya[index] );
 					L.set( 1, 0, 0 );
 				}
 
-				fittedValue[i] = L.get( 0, 0 ) + L.get( 1, 0 ) * xa[i];
+				fittedValue[index] = L.get( 0, 0 ) + L.get( 1, 0 ) * xa[index];
 			}
 		}
 		else
@@ -138,80 +199,4 @@ public class FittingCalculator
 		}
 	}
 
-	/**
-	 * Calculates window value and weights using LOWESS algorithm.
-	 * 
-	 * @param index
-	 * @param windowXa
-	 * @param windowYa
-	 * @param weights
-	 */
-	private void calculateWeights( int index, double[] xa, double[] ya,
-			double[] windowXa, double[] windowYa, double[] weights, int window )
-	{
-		int total = xa.length;
-		int windowStart = 0;
-		double maxDistance = 0;
-
-		// detect a proper window range first.
-		if ( index < window )
-		{
-			for ( int i = 0; i < window; i++ )
-			{
-				if ( ( xa[index] - xa[i] ) <= ( xa[window + i] - xa[index] ) )
-				{
-					windowStart = i;
-					maxDistance = Math.max( xa[index] - xa[windowStart],
-							xa[windowStart + window - 1] - xa[index] );
-					break;
-				}
-			}
-		}
-		else if ( index >= window && index < total - window )
-		{
-			for ( int i = 0; i < window; i++ )
-			{
-				if ( xa[index] - xa[index - window + 1 + i] <= xa[index + 1 + i]
-						- xa[index] )
-				{
-					windowStart = index - window + 1 + i;
-					maxDistance = Math.max( xa[index] - xa[windowStart],
-							xa[windowStart + window - 1] - xa[index] );
-					break;
-				}
-			}
-		}
-		else
-		{
-			for ( int i = 0; i < window; i++ )
-			{
-				if ( ( xa[total - 1 - i] - xa[index] ) <= ( xa[index] - xa[total
-						- window
-						- 1
-						- i] ) )
-				{
-					windowStart = total - window - i;
-					maxDistance = Math.max( xa[index] - xa[windowStart],
-							xa[windowStart + window - 1] - xa[index] );
-					break;
-				}
-			}
-		}
-
-		// construct window data
-		System.arraycopy( xa, windowStart, windowXa, 0, window );
-		System.arraycopy( ya, windowStart, windowYa, 0, window );
-
-		// calculate weights using tricube function.
-		int windowIndex = index - windowStart;
-
-		for ( int j = 0; j < window; j++ )
-		{
-			double distance = Math.abs( windowXa[windowIndex] - windowXa[j] );
-
-			weights[j] = Math.pow( 1.0 - Math.pow( ( distance / maxDistance ),
-					3.0 ), 3.0 );
-		}
-
-	}
 }

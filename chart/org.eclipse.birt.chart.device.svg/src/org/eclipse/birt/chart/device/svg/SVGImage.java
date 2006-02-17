@@ -17,100 +17,124 @@ import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.net.URL;
 
-import org.eclipse.birt.chart.util.Base64;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * This class repesents an SVG image.
  */
-public class SVGImage extends Image {
-
+public class SVGImage extends Image
+{
 
 	protected Image image;
 	protected URL url;
 	protected byte[] data;
-	public static final String BASE64="data:;base64,";
-	
-	
-	public byte[] getData() {
+	public static final String BASE64 = "data:;base64,";
+
+	public byte[] getData( )
+	{
 		return data;
 	}
 
 	/**
 	 * @param image
 	 */
-	public SVGImage(Image image, URL url) {
-		super();
+	public SVGImage( Image image, URL url )
+	{
+		super( );
 		this.image = image;
 		this.url = url;
 	}
-	
-	public SVGImage(Image image, URL url, byte[] data){
-		this(image, url);
+
+	public SVGImage( Image image, URL url, byte[] data )
+	{
+		this( image, url );
 		this.data = data;
 	}
+
 	/**
 	 * 
 	 */
-	public void flush() {
-		image.flush();
+	public void flush( )
+	{
+		image.flush( );
 	}
+
 	/**
 	 * @return
 	 */
-	public Graphics getGraphics() {
-		return image.getGraphics();
+	public Graphics getGraphics( )
+	{
+		return image.getGraphics( );
 	}
+
 	/**
 	 * @param arg0
 	 * @return
 	 */
-	public int getHeight(ImageObserver arg0) {
-		return image.getHeight(arg0);
+	public int getHeight( ImageObserver arg0 )
+	{
+		return image.getHeight( arg0 );
 	}
+
 	/**
 	 * @param arg0
 	 * @param arg1
 	 * @return
 	 */
-	public Object getProperty(String arg0, ImageObserver arg1) {
-		return image.getProperty(arg0, arg1);
+	public Object getProperty( String arg0, ImageObserver arg1 )
+	{
+		return image.getProperty( arg0, arg1 );
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.awt.Image#getScaledInstance(int, int, int)
 	 */
-	public Image getScaledInstance(int arg0, int arg1, int arg2) {
-		return image.getScaledInstance(arg0, arg1, arg2);
+	public Image getScaledInstance( int arg0, int arg1, int arg2 )
+	{
+		return image.getScaledInstance( arg0, arg1, arg2 );
 	}
+
 	/**
 	 * @return
 	 */
-	public ImageProducer getSource() {
-		return image.getSource();
+	public ImageProducer getSource( )
+	{
+		return image.getSource( );
 	}
+
 	/**
 	 * @param arg0
 	 * @return
 	 */
-	public int getWidth(ImageObserver arg0) {
-		return image.getWidth(arg0);
+	public int getWidth( ImageObserver arg0 )
+	{
+		return image.getWidth( arg0 );
 	}
 
 	/**
 	 * @return Returns the url.
 	 */
-	public String getUrl() {
-		if (url == null){
-			if (data != null){
-				return BASE64+Base64.encodeBytes(data);
-				
+	public String getUrl( )
+	{
+		if ( url == null )
+		{
+			if ( data != null )
+			{
+				return BASE64 + new String( Base64.encodeBase64( data ) );
+
 			}
 		}
-		return url.toExternalForm();
+		return url.toExternalForm( );
 	}
+
 	/**
-	 * @param url The url to set.
+	 * @param url
+	 *            The url to set.
 	 */
-	public void setUrl(URL url) {
+	public void setUrl( URL url )
+	{
 		this.url = url;
 	}
 }

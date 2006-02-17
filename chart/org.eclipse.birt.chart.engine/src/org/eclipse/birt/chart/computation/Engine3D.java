@@ -25,10 +25,10 @@ import org.eclipse.birt.chart.event.Polygon3DRenderEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.Text3DRenderEvent;
 import org.eclipse.birt.chart.event.WrappedInstruction;
+import org.eclipse.birt.chart.internal.computations.Matrix;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.Rotation3D;
-import org.eclipse.birt.chart.util.Matrix;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**

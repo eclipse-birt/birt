@@ -109,6 +109,10 @@
 			<include name="org.eclipse.swt*.jar"/>
 		</fileset>
 		
+		<fileset dir="${core.dir}/lib">
+						<include name="**/*.jar"/>
+		</fileset>
+		
 		<pathelement path="${core.dir}/core.jar"/>
 		<pathelement path="${chart.engine.dir}/engine.jar"/>
 	</path>

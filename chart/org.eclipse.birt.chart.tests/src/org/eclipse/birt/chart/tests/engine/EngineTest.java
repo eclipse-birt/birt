@@ -11,6 +11,7 @@ package org.eclipse.birt.chart.tests.engine;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
 import org.eclipse.birt.chart.tests.engine.aggregate.AverageTest;
 import org.eclipse.birt.chart.tests.engine.aggregate.SumTest;
 import org.eclipse.birt.chart.tests.engine.computation.BoundingBoxTest;
@@ -24,13 +25,9 @@ import org.eclipse.birt.chart.tests.engine.internal.TupleComparatorTest;
 import org.eclipse.birt.chart.tests.engine.model.ModelAttributeTest;
 import org.eclipse.birt.chart.tests.engine.util.CDateTimeTest;
 import org.eclipse.birt.chart.tests.engine.util.ChartUtilTest;
-import org.eclipse.birt.chart.tests.engine.util.ClipTest;
-import org.eclipse.birt.chart.tests.engine.util.LUDecompositionTest;
-import org.eclipse.birt.chart.tests.engine.util.LiteralHelperTest;
 import org.eclipse.birt.chart.tests.engine.util.FittingCalculatorTest;
-import org.eclipse.birt.chart.tests.engine.util.MatrixTest;
+import org.eclipse.birt.chart.tests.engine.util.LiteralHelperTest;
 import org.eclipse.birt.chart.tests.engine.util.NameSetTest;
-import org.eclipse.birt.chart.tests.engine.util.QRDecompositionTest;
 
 public class EngineTest
 {
@@ -59,13 +56,9 @@ public class EngineTest
 
 		suite.addTestSuite( CDateTimeTest.class );
 		suite.addTestSuite( ChartUtilTest.class );
-		suite.addTestSuite( ClipTest.class );
 		suite.addTestSuite( LiteralHelperTest.class );
 		suite.addTestSuite( FittingCalculatorTest.class );
-		suite.addTestSuite( LUDecompositionTest.class );
-		suite.addTestSuite( MatrixTest.class );
 		suite.addTestSuite( NameSetTest.class );
-		suite.addTestSuite( QRDecompositionTest.class );
 
 		// $JUnit-END$
 		return suite;

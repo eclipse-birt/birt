@@ -16,13 +16,13 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.net.URL;
 
+import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.impl.EmbeddedImageImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.util.Base64;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -66,7 +66,7 @@ public class ImageDialog extends Dialog
 	private Fill fCurrent;
 
 	private String imageData;
-	
+
 	private Label title;
 
 	/**
@@ -132,7 +132,7 @@ public class ImageDialog extends Dialog
 			{
 				selectedType = URI_TYPE;
 				title.setText( Messages.getString( "ImageDialog.label.EnterURL" ) ); //$NON-NLS-1$
-				updateButtons();
+				updateButtons( );
 			}
 
 		} );
@@ -144,7 +144,7 @@ public class ImageDialog extends Dialog
 			{
 				selectedType = EMBEDDED_TYPE;
 				title.setText( Messages.getString( "ImageDialog.label.EnterEmbed" ) ); //$NON-NLS-1$
-				updateButtons();
+				updateButtons( );
 			}
 		} );
 	}
@@ -242,7 +242,7 @@ public class ImageDialog extends Dialog
 		{
 			if ( imageData != null )
 			{
-				ByteArrayInputStream bis = new ByteArrayInputStream( Base64.decode( imageData ) );
+				ByteArrayInputStream bis = new ByteArrayInputStream( Base64.decodeBase64( imageData.getBytes( ) ) );
 				previewCanvas.loadImage( bis );
 			}
 			else
@@ -293,7 +293,7 @@ public class ImageDialog extends Dialog
 						count = bis.read( buf );
 					}
 
-					String data = Base64.encodeBytes( bos.toByteArray( ) );
+					String data = new String( Base64.encodeBase64( bos.toByteArray( ) ) );
 
 					( (EmbeddedImage) fCurrent ).setData( data );
 				}
@@ -322,7 +322,7 @@ public class ImageDialog extends Dialog
 			uri.setSelection( true );
 			selectedType = URI_TYPE;
 		}
-		
+
 		if ( selectedType == EMBEDDED_TYPE )
 		{
 			title.setText( Messages.getString( "ImageDialog.label.EnterEmbed" ) ); //$NON-NLS-1$
@@ -333,7 +333,7 @@ public class ImageDialog extends Dialog
 		}
 
 		getButton( IDialogConstants.OK_ID ).setEnabled( false );
-		
+
 		return true;
 	}
 
