@@ -296,7 +296,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 								break;
 							case ActionType.SHOW_TOOLTIP :
 								TooltipValue tv = (TooltipValue) ac.getValue( );
-								tag.addAttribute( HTMLAttribute.ALT,  eval( tv.getText( ) ) ); 
+								tag.addAttribute( HTMLAttribute.ALT,  eval( tv.getText( )) ); 
 								tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE); 
 								tag.addAttribute( HTMLAttribute.COORDS, coords );
 								sb.append( tag.toString( ) );
@@ -710,6 +710,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		}
 		else
 		{
+			expr = expr.replaceAll( "\"", "&quot;" );
 			return expr;
 		}
 	}
