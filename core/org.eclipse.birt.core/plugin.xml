@@ -23,6 +23,9 @@
       <library name="lib/servlet.jar">
          <export name="*"/>
       </library>
+      <library name="lib/commons-codec-1.3.jar">
+         <export name="*"/>
+      </library>
    </runtime>
    
    <requires>
