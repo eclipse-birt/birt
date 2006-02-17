@@ -1,0 +1,396 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart;
+
+import org.eclipse.birt.chart.model.attribute.Anchor;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.Insets;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.Stretch;
+import org.eclipse.birt.chart.model.layout.Plot;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
+import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
+import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
+import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
+import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.NameSet;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+
+/**
+ * 
+ */
+
+public class PlotClientAreaSheet extends AbstractPopupSheet
+		implements
+			Listener,
+			SelectionListener
+{
+
+	private transient Composite cmpContent;
+
+	private transient Combo cmbAnchor;
+
+	private transient Combo cmbStretch;
+
+	// Removed this feature for engine support
+	// private transient Button btnTriggers;
+
+	private transient LineAttributesComposite outlineIncluding;
+
+	private transient LineAttributesComposite outlineWithin;
+
+	private transient InsetsComposite icIncluding;
+
+	private transient InsetsComposite icWithin;
+
+	private transient IntegerSpinControl iscVSpacing;
+
+	private transient IntegerSpinControl iscHSpacing;
+
+	private transient FillChooserComposite fccShadow;
+
+	public PlotClientAreaSheet( Composite parent,
+			ChartWizardContext context )
+	{
+		super( parent, context, true );
+		cmpTop = getComponent( parent );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISheet#getComponent(org.eclipse.swt.widgets.Composite)
+	 */
+	public Composite getComponent( Composite parent )
+	{
+		cmpContent = new Composite( parent, SWT.NONE );
+		cmpContent.setLayout( new GridLayout( ) );
+
+		Group grpAreaIncluding = new Group( cmpContent, SWT.NONE );
+		{
+			grpAreaIncluding.setLayout( new GridLayout( 4, false ) );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			grpAreaIncluding.setLayoutData( gd );
+			grpAreaIncluding.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.AreaIncludingAxes" ) ); //$NON-NLS-1$
+		}
+
+		Label lblAnchor = new Label( grpAreaIncluding, SWT.NONE );
+		GridData gdLBLAnchor = new GridData( );
+		// gdLBLAnchor.verticalIndent = 5;
+		lblAnchor.setLayoutData( gdLBLAnchor );
+		lblAnchor.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.Anchor" ) ); //$NON-NLS-1$
+
+		cmbAnchor = new Combo( grpAreaIncluding, SWT.DROP_DOWN | SWT.READ_ONLY );
+		GridData gdCBAnchor = new GridData( GridData.FILL_HORIZONTAL );
+		// gdCBAnchor.verticalIndent = 5;
+		cmbAnchor.setLayoutData( gdCBAnchor );
+		cmbAnchor.addSelectionListener( this );
+
+		Group grpOutline = new Group( grpAreaIncluding, SWT.NONE );
+		GridData gdGRPOutline = new GridData( GridData.FILL_HORIZONTAL );
+		gdGRPOutline.horizontalSpan = 2;
+		gdGRPOutline.verticalSpan = 3;
+		gdGRPOutline.widthHint = 150;
+		grpOutline.setLayoutData( gdGRPOutline );
+		grpOutline.setLayout( new FillLayout( ) );
+		grpOutline.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.Outline" ) ); //$NON-NLS-1$
+
+		outlineIncluding = new LineAttributesComposite( grpOutline,
+				SWT.NONE,
+				getBlockForProcessing( ).getOutline( ),
+				true,
+				true,
+				false );
+		outlineIncluding.addListener( this );
+
+		Label lblStretch = new Label( grpAreaIncluding, SWT.NONE );
+		{
+			GridData gd = new GridData( );
+			gd.verticalAlignment = SWT.BEGINNING;
+			lblStretch.setLayoutData( gd );
+			lblStretch.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.Stretch" ) ); //$NON-NLS-1$
+		}
+
+		cmbStretch = new Combo( grpAreaIncluding, SWT.DROP_DOWN | SWT.READ_ONLY );
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.verticalAlignment = SWT.BEGINNING;
+			cmbStretch.setLayoutData( gd );
+			cmbStretch.addSelectionListener( this );
+		}
+
+		icIncluding = new InsetsComposite( grpAreaIncluding,
+				SWT.NONE,
+				getBlockForProcessing( ).getInsets( ),
+				chart.getUnits( ),
+				serviceprovider );
+		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
+		gdInsets.horizontalSpan = 2;
+		gdInsets.verticalSpan = 2;
+		icIncluding.setLayoutData( gdInsets );
+
+		if ( chart.getDimension( ) != ChartDimension.THREE_DIMENSIONAL_LITERAL )
+		{
+			Label lblVerticalSpacing = new Label( grpAreaIncluding, SWT.NONE );
+			GridData gdLBLVerticalSpacing = new GridData( );
+			lblVerticalSpacing.setLayoutData( gdLBLVerticalSpacing );
+			lblVerticalSpacing.setText( Messages.getString( "BlockAttributeComposite.Lbl.VerticalSpacing" ) ); //$NON-NLS-1$
+
+			iscVSpacing = new IntegerSpinControl( grpAreaIncluding,
+					SWT.NONE,
+					getBlockForProcessing( ).getVerticalSpacing( ) );
+			GridData gdISCVSpacing = new GridData( GridData.FILL_HORIZONTAL );
+			iscVSpacing.setLayoutData( gdISCVSpacing );
+			iscVSpacing.addListener( this );
+		}
+
+		// btnTriggers = new Button( grpAreaIncluding, SWT.PUSH );
+		// GridData gdBTNTriggers = new GridData( );
+		// gdBTNTriggers.horizontalSpan = 2;
+		// btnTriggers.setLayoutData( gdBTNTriggers );
+		// btnTriggers.setText( Messages.getString(
+		// "MoreOptionsChartPlotSheet.Label.Interactivity" ) ); //$NON-NLS-1$
+		// btnTriggers.addSelectionListener( this );
+		// btnTriggers.setEnabled( chart.getInteractivity( ).isEnable( ) );
+
+		if ( chart.getDimension( ) != ChartDimension.THREE_DIMENSIONAL_LITERAL )
+		{
+			Label lblHorizontalSpacing = new Label( grpAreaIncluding, SWT.NONE );
+			GridData gdLBLHorizontalSpacing = new GridData( );
+			gdLBLHorizontalSpacing.verticalAlignment = SWT.BEGINNING;
+			lblHorizontalSpacing.setLayoutData( gdLBLHorizontalSpacing );
+			lblHorizontalSpacing.setText( Messages.getString( "BlockAttributeComposite.Lbl.HorizontalSpacing" ) ); //$NON-NLS-1$
+
+			iscHSpacing = new IntegerSpinControl( grpAreaIncluding,
+					SWT.NONE,
+					getBlockForProcessing( ).getHorizontalSpacing( ) );
+			GridData gdISCHSpacing = new GridData( GridData.FILL_HORIZONTAL );
+			gdISCHSpacing.verticalAlignment = SWT.BEGINNING;
+			iscHSpacing.setLayoutData( gdISCHSpacing );
+			iscHSpacing.addListener( this );
+		}
+
+		Group grpAreaWithin = new Group( cmpContent, SWT.NONE );
+		{
+			grpAreaWithin.setLayout( new GridLayout( 4, false ) );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			grpAreaWithin.setLayoutData( gd );
+			grpAreaWithin.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.AreaWithinAxes" ) ); //$NON-NLS-1$
+		}
+
+		createClientArea( grpAreaWithin );
+		populateLists( );
+		return cmpContent;
+	}
+
+	private void createClientArea( Group grpAreaWithin )
+	{
+		Label lblShadow = new Label( grpAreaWithin, SWT.NONE );
+		GridData gdLBLShadow = new GridData( );
+		lblShadow.setLayoutData( gdLBLShadow );
+		lblShadow.setText( Messages.getString( "ClientAreaAttributeComposite.Lbl.Shadow" ) ); //$NON-NLS-1$
+
+		fccShadow = new FillChooserComposite( grpAreaWithin,
+				SWT.NONE,
+				getContext( ),
+				getBlockForProcessing( ).getClientArea( ).getShadowColor( ),
+				false,
+				false );
+		GridData gdFCCShadow = new GridData( GridData.FILL_HORIZONTAL );
+		fccShadow.setLayoutData( gdFCCShadow );
+		fccShadow.addListener( this );
+
+		Group grpOutline = new Group( grpAreaWithin, SWT.NONE );
+		GridData gdGRPOutline = new GridData( GridData.FILL_HORIZONTAL );
+		gdGRPOutline.horizontalSpan = 2;
+		gdGRPOutline.verticalSpan = 2;
+		grpOutline.setLayoutData( gdGRPOutline );
+		grpOutline.setLayout( new FillLayout( ) );
+		grpOutline.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.Outline" ) ); //$NON-NLS-1$
+
+		outlineWithin = new LineAttributesComposite( grpOutline,
+				SWT.NONE,
+				getBlockForProcessing( ).getClientArea( ).getOutline( ),
+				true,
+				true,
+				false );
+		outlineWithin.addListener( this );
+
+		icWithin = new InsetsComposite( grpAreaWithin,
+				SWT.NONE,
+				getBlockForProcessing( ).getClientArea( ).getInsets( ),
+				chart.getUnits( ),
+				serviceprovider );
+		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
+		gdInsets.horizontalSpan = 2;
+		icWithin.setLayoutData( gdInsets );
+	}
+
+	private void populateLists( )
+	{
+		// Set block Anchor property
+		NameSet ns = LiteralHelper.anchorSet;
+		cmbAnchor.setItems( ns.getDisplayNames( ) );
+		cmbAnchor.select( ns.getSafeNameIndex( getBlockForProcessing( ).getAnchor( )
+				.getName( ) ) );
+
+		// Set the block Stretch property
+		ns = LiteralHelper.stretchSet;
+		cmbStretch.setItems( ns.getDisplayNames( ) );
+		cmbStretch.select( ns.getSafeNameIndex( getBlockForProcessing( ).getStretch( )
+				.getName( ) ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 */
+	public void handleEvent( Event event )
+	{
+		if ( event.widget.equals( outlineIncluding ) )
+		{
+			switch ( event.type )
+			{
+				case LineAttributesComposite.STYLE_CHANGED_EVENT :
+					getBlockForProcessing( ).getOutline( )
+							.setStyle( (LineStyle) event.data );
+					break;
+				case LineAttributesComposite.WIDTH_CHANGED_EVENT :
+					getBlockForProcessing( ).getOutline( )
+							.setThickness( ( (Integer) event.data ).intValue( ) );
+					break;
+				case LineAttributesComposite.COLOR_CHANGED_EVENT :
+					getBlockForProcessing( ).getOutline( )
+							.setColor( (ColorDefinition) event.data );
+					break;
+				case LineAttributesComposite.VISIBILITY_CHANGED_EVENT :
+					getBlockForProcessing( ).getOutline( )
+							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					break;
+			}
+		}
+		else if ( event.widget.equals( outlineWithin ) )
+		{
+			switch ( event.type )
+			{
+				case LineAttributesComposite.STYLE_CHANGED_EVENT :
+					getBlockForProcessing( ).getClientArea( )
+							.getOutline( )
+							.setStyle( (LineStyle) event.data );
+					break;
+				case LineAttributesComposite.WIDTH_CHANGED_EVENT :
+					getBlockForProcessing( ).getClientArea( )
+							.getOutline( )
+							.setThickness( ( (Integer) event.data ).intValue( ) );
+					break;
+				case LineAttributesComposite.COLOR_CHANGED_EVENT :
+					getBlockForProcessing( ).getClientArea( )
+							.getOutline( )
+							.setColor( (ColorDefinition) event.data );
+					break;
+				case LineAttributesComposite.VISIBILITY_CHANGED_EVENT :
+					getBlockForProcessing( ).getClientArea( )
+							.getOutline( )
+							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					break;
+			}
+		}
+		else if ( event.widget.equals( fccShadow ) )
+		{
+			getBlockForProcessing( ).getClientArea( )
+					.setShadowColor( (ColorDefinition) event.data );
+		}
+		else if ( event.widget.equals( iscHSpacing ) )
+		{
+			getBlockForProcessing( ).setHorizontalSpacing( ( (Integer) event.data ).intValue( ) );
+		}
+		else if ( event.widget.equals( iscVSpacing ) )
+		{
+			getBlockForProcessing( ).setVerticalSpacing( ( (Integer) event.data ).intValue( ) );
+		}
+		else if ( event.widget.equals( icIncluding ) )
+		{
+			getBlockForProcessing( ).setInsets( (Insets) event.data );
+		}
+		else if ( event.widget.equals( icWithin ) )
+		{
+			getBlockForProcessing( ).getClientArea( )
+					.setInsets( (Insets) event.data );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 */
+	public void widgetDefaultSelected( SelectionEvent e )
+	{
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 */
+	public void widgetSelected( SelectionEvent e )
+	{
+		Object oSource = e.getSource( );
+		if ( oSource.equals( cmbAnchor ) )
+		{
+			getBlockForProcessing( ).setAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbAnchor.getText( ) ) ) );
+		}
+		else if ( oSource.equals( cmbStretch ) )
+		{
+			getBlockForProcessing( ).setStretch( Stretch.getByName( LiteralHelper.stretchSet.getNameByDisplayName( cmbStretch.getText( ) ) ) );
+		}
+		// else if ( oSource.equals( btnTriggers ) )
+		// {
+		// new TriggerEditorDialog( cmpContent.getShell( ),
+		// getBlockForProcessing( ).getTriggers( ),
+		// getContext( ),
+		// Messages.getString( "BlockAttributeComposite.Title.PlotBlock" ),
+		// false, true ); //$NON-NLS-1$
+		// }
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISheet#getTitleText()
+	 */
+	public String getTitleText( )
+	{
+		return Messages.getString( "AttributeSheetImpl.Title.SheetTitle" ); //$NON-NLS-1$
+	}
+
+	private Plot getBlockForProcessing( )
+	{
+		return chart.getPlot( );
+	}
+}

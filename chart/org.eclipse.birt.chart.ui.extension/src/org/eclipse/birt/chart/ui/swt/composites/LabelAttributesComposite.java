@@ -459,30 +459,11 @@ public class LabelAttributesComposite extends Composite
 		{
 			bEnableUI = cbVisible.getSelection( );
 		}
-		if ( this.bPositionEnabled )
-		{
-			lblPosition.setEnabled( bState & bEnableUI );
-			cmbPosition.setEnabled( bState & bEnableUI );
-		}
-		lblFont.setEnabled( bState & bEnableUI );
-		fdcFont.setEnabled( bState & bEnableUI );
-		lblFill.setEnabled( bState & bEnableUI );
-		fccBackground.setEnabled( bState & bEnableUI );
 
-		if ( this.bShadowEnabled )
-		{
-			lblShadow.setEnabled( bState & bEnableUI );
-			fccShadow.setEnabled( bState & bEnableUI );
-		}
+		setVisibleState( bState & bEnableUI );
+		cbVisible.setEnabled( bState );
+		grpAttributes.setEnabled( bState );
 
-		if ( this.bInsetsEnabled )
-		{
-			icInsets.setEnabled( bState & bEnableUI );
-		}
-
-		liacOutline.setEnabled( bState & bEnableUI );
-		// grpAttributes.setEnabled( bState & bEnableUI );
-		grpOutline.setEnabled( bState & bEnableUI );
 		this.bEnabled = bState;
 	}
 
@@ -563,7 +544,7 @@ public class LabelAttributesComposite extends Composite
 		if ( this.bVisibilityEnabled )
 		{
 			this.cbVisible.setSelection( lblCurrent.isVisible( ) );
-			setEnabled( this.cbVisible.getSelection( ) );
+			setVisibleState( cbVisible.getSelection( ) && cbVisible.isEnabled( ) );
 		}
 
 		if ( this.bInsetsEnabled )
@@ -627,31 +608,34 @@ public class LabelAttributesComposite extends Composite
 			eLabel.data = new Boolean( cbVisible.getSelection( ) );
 			eLabel.type = VISIBILITY_CHANGED_EVENT;
 
-			boolean bEnableUI = cbVisible.getSelection( );
-			grpOutline.setEnabled( bEnableUI );
-			if ( this.bPositionEnabled )
-			{
-				lblPosition.setEnabled( bEnableUI );
-				cmbPosition.setEnabled( bEnableUI );
-			}
-			lblFill.setEnabled( bEnableUI );
-			lblFont.setEnabled( bEnableUI );
-			fdcFont.setEnabled( bEnableUI );
-			fccBackground.setEnabled( bEnableUI );
-
-			if ( this.bShadowEnabled )
-			{
-				lblShadow.setEnabled( bEnableUI );
-				fccShadow.setEnabled( bEnableUI );
-			}
-			if ( this.bInsetsEnabled )
-			{
-				icInsets.setEnabled( bEnableUI );
-			}
-
-			liacOutline.setEnabled( bEnableUI );
+			setVisibleState( cbVisible.getSelection( ) );
 		}
 		fireEvent( eLabel );
+	}
+
+	private void setVisibleState( boolean isVisible )
+	{
+		if ( this.bPositionEnabled )
+		{
+			lblPosition.setEnabled( isVisible );
+			cmbPosition.setEnabled( isVisible );
+		}
+		lblFill.setEnabled( isVisible );
+		lblFont.setEnabled( isVisible );
+		fdcFont.setEnabled( isVisible );
+		fccBackground.setEnabled( isVisible );
+
+		if ( this.bShadowEnabled )
+		{
+			lblShadow.setEnabled( isVisible );
+			fccShadow.setEnabled( isVisible );
+		}
+		if ( this.bInsetsEnabled )
+		{
+			icInsets.setEnabled( isVisible );
+		}
+		grpOutline.setEnabled( isVisible );
+		liacOutline.setEnabled( isVisible );
 	}
 
 	/*

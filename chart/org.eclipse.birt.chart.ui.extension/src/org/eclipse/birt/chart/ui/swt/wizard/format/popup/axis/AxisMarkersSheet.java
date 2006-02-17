@@ -100,9 +100,15 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 
 	private transient StackLayout slMarkers = null;
 
+	// Composite for Marker Line
+
 	private transient Composite cmpLine = null;
 
 	private transient Group grpMarkerLine = null;
+
+	private transient Label lblLineLabel = null;
+
+	private transient ExternalizedTextEditorComposite txtLineEText = null;
 
 	private transient Label lblValue = null;
 
@@ -116,9 +122,15 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 
 	private transient LineAttributesComposite liacMarkerLine = null;
 
+	// Composite for Marker Range
+
 	private transient Composite cmpRange = null;
 
 	private transient Group grpMarkerRange = null;
+
+	private transient Label lblRangeLabel = null;
+
+	private transient ExternalizedTextEditorComposite txtRangeEText = null;
 
 	private transient Label lblStartValue = null;
 
@@ -254,6 +266,29 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		cmpLine.setLayoutData( gdGRPLine );
 		cmpLine.setLayout( glMarkerLine );
 
+		lblLineLabel = new Label( cmpLine, SWT.NONE );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalIndent = 5;
+			gd.widthHint = 38;
+			lblLineLabel.setLayoutData( gd );
+			lblLineLabel.setText( Messages.getString( "AxisMarkersSheet.Label.Label" ) ); //$NON-NLS-1$
+		}
+
+		txtLineEText = new ExternalizedTextEditorComposite( cmpLine,
+				SWT.BORDER | SWT.SINGLE,
+				-1,
+				-1,
+				getContext( ).getUIServiceProvider( ).getRegisteredKeys( ),
+				getContext( ).getUIServiceProvider( ),
+				"" ); //$NON-NLS-1$
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
+			txtLineEText.setLayoutData( gd );
+			txtLineEText.addListener( this );
+		}
+
 		// Layout for Value composite
 		GridLayout glValue = new GridLayout( );
 		glValue.numColumns = 3;
@@ -340,6 +375,29 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		GridData gdGRPRange = new GridData( GridData.FILL_HORIZONTAL );
 		cmpRange.setLayoutData( gdGRPRange );
 		cmpRange.setLayout( glMarkerRange );
+
+		lblRangeLabel = new Label( cmpRange, SWT.NONE );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalIndent = 5;
+			gd.widthHint = 38;
+			lblRangeLabel.setLayoutData( gd );
+			lblRangeLabel.setText( Messages.getString( "AxisMarkersSheet.Label.Label" ) ); //$NON-NLS-1$
+		}
+
+		txtRangeEText = new ExternalizedTextEditorComposite( cmpRange,
+				SWT.BORDER | SWT.SINGLE,
+				-1,
+				-1,
+				getContext( ).getUIServiceProvider( ).getRegisteredKeys( ),
+				getContext( ).getUIServiceProvider( ),
+				"" ); //$NON-NLS-1$
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
+			txtRangeEText.setLayoutData( gd );
+			txtRangeEText.addListener( this );
+		}
 
 		// Layout for Value composite
 		GridLayout glRangeValue = new GridLayout( );
@@ -648,6 +706,20 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
 			}
 		}
+		else if ( event.widget.equals( txtLineEText ) )
+		{
+			( (MarkerLine) getAxisForProcessing( ).getMarkerLines( )
+					.get( getMarkerIndex( ) ) ).getLabel( )
+					.getCaption( )
+					.setValue( txtLineEText.getText( ) );
+		}
+		else if ( event.widget.equals( txtRangeEText ) )
+		{
+			( (MarkerRange) getAxisForProcessing( ).getMarkerRanges( )
+					.get( getMarkerIndex( ) ) ).getLabel( )
+					.getCaption( )
+					.setValue( txtRangeEText.getText( ) );
+		}
 	}
 
 	/*
@@ -912,9 +984,11 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			slMarkers.topControl = cmpLine;
 			grpGeneral.layout( );
 
-			int iLineIndex = getMarkerIndex( );
 			MarkerLine line = ( (MarkerLine) getAxisForProcessing( ).getMarkerLines( )
-					.get( iLineIndex ) );
+					.get( getMarkerIndex( ) ) );
+
+			// Update the label fields
+			txtLineEText.setText( line.getLabel( ).getCaption( ).getValue( ) );
 
 			// Update the value fields
 			txtValue.setText( getValueAsString( line.getValue( ) ) );
@@ -934,9 +1008,11 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			slMarkers.topControl = cmpRange;
 			grpGeneral.layout( );
 
-			int iRangeIndex = getMarkerIndex( );
 			MarkerRange range = (MarkerRange) getAxisForProcessing( ).getMarkerRanges( )
-					.get( iRangeIndex );
+					.get( getMarkerIndex( ) );
+
+			// Update the label fields
+			txtRangeEText.setText( range.getLabel( ).getCaption( ).getValue( ) );
 
 			// Update the value fields
 			txtStartValue.setText( getValueAsString( range.getStartValue( ) ) );
@@ -983,13 +1059,18 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 
 	private void setState( boolean bState )
 	{
+		lblLineLabel.setEnabled( bState );
+		txtLineEText.setEnabled( bState );
 		btnLineFormatSpecifier.setEnabled( bState );
 		lblAnchor.setEnabled( bState );
 		cmbLineAnchor.setEnabled( bState );
 		lblValue.setEnabled( bState );
 		txtValue.setEnabled( bState );
 		liacMarkerLine.setEnabled( bState );
+		btnLineTriggers.setEnabled( bState );
 
+		lblRangeLabel.setEnabled( bState );
+		txtRangeEText.setEnabled( bState );
 		btnStartFormatSpecifier.setEnabled( bState );
 		btnEndFormatSpecifier.setEnabled( bState );
 		lblRangeAnchor.setEnabled( bState );
@@ -1002,6 +1083,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		lacLabel.setEnabled( bState );
 		lblRangeFill.setEnabled( bState );
 		fccRange.setEnabled( bState );
+		btnRangeTriggers.setEnabled( bState );
 
 		this.grpGeneral.setEnabled( bState );
 		this.grpMarkerLine.setEnabled( bState );
@@ -1092,7 +1174,6 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 	private void setAllEnabled( boolean isEnabled )
 	{
 		setState( isEnabled && lstMarkers.getItemCount( ) > 0 );
-		lacLabel.setEnabled( isEnabled || lacLabel.isEnabled( ) );
 
 		setEnabled( cmpContent, isEnabled );
 		setEnabled( btnAddLine, isEnabled );

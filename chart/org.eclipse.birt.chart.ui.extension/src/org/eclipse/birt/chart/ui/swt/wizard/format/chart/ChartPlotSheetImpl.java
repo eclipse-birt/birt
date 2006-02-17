@@ -13,7 +13,7 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
-import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.MoreOptionsChartPlotSheet;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.PlotClientAreaSheet;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -212,7 +212,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 		else if ( e.widget.equals( btnArea ) )
 		{
 			popupShell = createPopupShell( );
-			popupSheet = new MoreOptionsChartPlotSheet( popupShell,
+			popupSheet = new PlotClientAreaSheet( popupShell,
 					getContext( ) );
 			getWizard( ).attachPopup( btnArea.getText( ), -1, -1 );
 		}
