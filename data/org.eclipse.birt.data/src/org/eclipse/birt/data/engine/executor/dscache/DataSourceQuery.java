@@ -14,7 +14,7 @@ import java.util.Collection;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
-import org.eclipse.birt.data.engine.executor.CachedResultSet;
+import org.eclipse.birt.data.engine.executor.transformation.CachedResultSet;
 import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;

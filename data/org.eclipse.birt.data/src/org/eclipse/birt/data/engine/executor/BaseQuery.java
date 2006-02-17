@@ -25,17 +25,20 @@ import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
  */
 public abstract class BaseQuery implements IQuery
 {
-    protected SortSpec[] 	sorts;
-    protected GroupSpec[] 	groups;
-    protected int			maxRows = 0;
-    protected List 			fetchEventList;
+    private SortSpec[] 	sorts;
+    private GroupSpec[] 	groups;
+    private int			maxRows = 0;
+    private List 			fetchEventList;
     
     /**
      * @see org.eclipse.birt.data.engine.odi.IQuery#setOrdering(java.util.List)
      */
     public void setOrdering(List sortSpecs) throws DataException
     {
-        sorts = (SortSpec[]) sortSpecs.toArray( new SortSpec[0] );
+    	if( sortSpecs == null )
+    		sorts = null;
+    	else
+    		sorts = (SortSpec[]) sortSpecs.toArray( new SortSpec[0] );
     }
 
     /**
@@ -43,7 +46,10 @@ public abstract class BaseQuery implements IQuery
      */
     public void setGrouping(List groupSpecs) throws DataException
     {
-        groups = ( GroupSpec[] ) groupSpecs.toArray( new GroupSpec[0]);
+        if( groupSpecs == null )
+        	groups = null;
+        else
+        	groups = ( GroupSpec[] ) groupSpecs.toArray( new GroupSpec[0]);
     }
     
     /**
@@ -57,7 +63,7 @@ public abstract class BaseQuery implements IQuery
     /**
      * Gets the query's sort specification. Returns null if no sort specs are defined.
      */
-    SortSpec[] getOrdering()
+    public SortSpec[] getOrdering()
     {
         return sorts;
     }

@@ -21,7 +21,7 @@ import java.util.Set;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.CachedResultSet;
+import org.eclipse.birt.data.engine.executor.transformation.CachedResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
