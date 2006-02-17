@@ -37,7 +37,6 @@ import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.layout.area.IArea;
@@ -54,6 +53,7 @@ import com.lowagie.text.BadElementException;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Font;
 import com.lowagie.text.Image;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfAction;
@@ -97,7 +97,7 @@ public class PDFEmitter implements IAreaVisitor
 	/**
 	 * The ratio of layout measure to iText measure
 	 */
-	private static final int layout2PdfRatio = 1000;
+	public static final int LAYOUT_TO_PDF_RATIO = 1000;
 	
 	/**
 	 * the pdf Document object created by iText
@@ -442,8 +442,7 @@ public class PDFEmitter implements IAreaVisitor
 	    //style.getFontVariant();     	small-caps or normal
 	    //FIXME does NOT support small-caps now
 
-		float fontSize = pdfMeasure( PropertyUtil.getDimensionValue(
-	        	style.getProperty(StyleConstants.STYLE_FONT_SIZE)) );
+		float fontSize = text.getFontInfo().getFontSize();
 		float characterSpacing = pdfMeasure( PropertyUtil.getDimensionValue(
 	        	style.getProperty(StyleConstants.STYLE_LETTER_SPACING)) );
 		float wordSpacing = pdfMeasure( PropertyUtil.getDimensionValue(
@@ -451,22 +450,20 @@ public class PDFEmitter implements IAreaVisitor
 		cb.saveState();
 		//start drawing the text content
 	    cb.beginText();
-	        
-	    //set the font handler
-	    FontHandler fh = new FontHandler((ITextContent)text.getContent());
-
-	    fh.selectFont(text.getText());
-	    cb.setFontAndSize(fh.getBaseFont(), fontSize); 
+	    
+	    cb.setFontAndSize(text.getFontInfo().getBaseFont(), fontSize); 
 		cb.setCharacterSpacing(characterSpacing);
 		cb.setWordSpacing(wordSpacing);
-	        
-	    cb.setTextMatrix( layoutAreaX2PDF(text.getAbsoluteX()), 
-	    		layoutAreaY2PDF(text.getAbsoluteY(), (int)(fh.getBaseline()*layout2PdfRatio)));
+	       
+	    placeText(cb, text.getFontInfo(), layoutAreaX2PDF(text.getAbsoluteX()), 
+	    		layoutAreaY2PDF(text.getAbsoluteY(), text.getFontInfo().getBaseline()));
+	    
 	    Color color = PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR));
 	    if (null != color)
 	    {
 	    	cb.setColorFill(color);
 	    }
+	   
 		cb.showText(text.getText());
 		cb.endText();
 		cb.restoreState();
@@ -477,9 +474,9 @@ public class PDFEmitter implements IAreaVisitor
 		if ("line-through".equalsIgnoreCase(style.getTextLineThrough())) //$NON-NLS-1$
 	    {
 	    	drawLine( layoutPointX2PDF(text.getAbsoluteX()), 
-	        		layoutPointY2PDF(text.getAbsoluteY()+text.getHeight()/2), 
+	        		layoutPointY2PDF(text.getAbsoluteY() + text.getFontInfo().getLineThroughPosition()), 
 	        		layoutPointX2PDF(text.getAbsoluteX()+text.getWidth()), 
-	        		layoutPointY2PDF(text.getAbsoluteY()+text.getHeight()/2), 
+	        		layoutPointY2PDF(text.getAbsoluteY() + text.getFontInfo().getLineThroughPosition()), 
 	        		pdfMeasure(lineWidth), 
 	        		PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR)),  
 	        		"solid", cb ); //$NON-NLS-1$
@@ -487,9 +484,9 @@ public class PDFEmitter implements IAreaVisitor
 	    if ("overline".equalsIgnoreCase(style.getTextOverline())) //$NON-NLS-1$
 	    {	
 	        drawLine( layoutPointX2PDF(text.getAbsoluteX()), 
-	        		layoutPointY2PDF(text.getAbsoluteY()+2*lineWidth),
+	        		layoutPointY2PDF(text.getAbsoluteY() + text.getFontInfo().getOverlinePosition()),
 	        		layoutPointX2PDF(text.getAbsoluteX()+text.getWidth()), 
-	        		layoutPointY2PDF(text.getAbsoluteY()+lineWidth),
+	        		layoutPointY2PDF(text.getAbsoluteY() + text.getFontInfo().getOverlinePosition()),
 	        		pdfMeasure(lineWidth), 
 	        		PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR)),
 	        		"solid", cb ); //$NON-NLS-1$
@@ -497,9 +494,9 @@ public class PDFEmitter implements IAreaVisitor
 		if ("underline".equalsIgnoreCase(style.getTextUnderline())) //$NON-NLS-1$
 	    {
 	        drawLine(layoutPointX2PDF(text.getAbsoluteX()), 
-	        		layoutPointY2PDF(text.getAbsoluteY()+text.getHeight()-lineWidth/2),
+	        		layoutPointY2PDF(text.getAbsoluteY() + text.getFontInfo().getUnderlinePosition()),
 	        		layoutPointX2PDF(text.getAbsoluteX()+text.getWidth()), 
-	        		layoutPointY2PDF(text.getAbsoluteY()+text.getHeight()-lineWidth/2),
+	        		layoutPointY2PDF(text.getAbsoluteY() + text.getFontInfo().getUnderlinePosition()),
 	        		pdfMeasure(lineWidth), 
 	        		PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR)),
 	        		"solid", cb ); //$NON-NLS-1$
@@ -1033,6 +1030,50 @@ public class PDFEmitter implements IAreaVisitor
 		cbUnder.restoreState();
 	}
 	
+	private void placeText(PdfContentByte cb, FontInfo fi, float x, float y)
+	{
+		if (!fi.getSimulation())
+		{
+			cb.setTextMatrix(x,y);
+			return;
+		}	
+		switch (fi.getFontStyle())
+		{
+		case Font.ITALIC:
+			{
+				simulateItalic(cb, x, y);
+				break;
+			}
+		case Font.BOLD:
+			{
+            	simulateBold(cb, x, y);
+            	break;
+			}
+		case Font.BOLDITALIC:
+			{
+				simulateBold(cb, x, y);
+				simulateItalic(cb, x, y);
+				break;
+			}
+		}
+	}
+	
+	private void simulateBold(PdfContentByte cb, float x, float y)
+	{
+		cb.setTextRenderingMode(PdfContentByte.TEXT_RENDER_MODE_FILL_STROKE);
+    	cb.setLineWidth(0.9f);
+    	cb.setTextMatrix(x, y);
+	}
+	
+	private void simulateItalic(PdfContentByte cb, float x, float y)
+	{
+		float alpha = (float) Math.tan(0f * Math.PI / 180);
+		float beta = (float) Math.tan(15f * Math.PI / 180);
+		cb.setTextMatrix(1, alpha, beta, 1, x, y);
+	}
+	
+	
+	
 	/**
 	 * convert the layout measure to PDF, the measure of layout is 1000 times
 	 * larger than that of PDF
@@ -1043,7 +1084,7 @@ public class PDFEmitter implements IAreaVisitor
 	 */
 	private float pdfMeasure( int layoutMeasure )
 	{
-		return layoutMeasure/(float)layout2PdfRatio;
+		return layoutMeasure/(float)LAYOUT_TO_PDF_RATIO;
 	}
 
 	/**
