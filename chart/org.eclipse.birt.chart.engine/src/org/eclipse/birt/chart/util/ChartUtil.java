@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.chart.util;
 
-import org.eclipse.birt.chart.computation.IPolygon;
+import java.util.Iterator;
+
+import org.eclipse.birt.chart.computation.Point;
 import org.eclipse.birt.chart.device.IDisplayServer;
-import org.eclipse.birt.chart.internal.computations.Clip;
+import org.eclipse.birt.chart.internal.computations.Polygon;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.component.Label;
@@ -164,11 +166,45 @@ public class ChartUtil
 	 * @param pg2
 	 * @return
 	 */
-	public static boolean intersects( IPolygon pg1, IPolygon pg2 )
+	public static boolean intersects( Polygon pg1, Polygon pg2 )
 	{
-		IPolygon result = Clip.intersection( pg1, pg2 );
+		// TODO this is just a simple implementation for clip test. May only
+		// works for convex polygon.
 
-		return !result.isEmpty( );
+		boolean started = false;
+		boolean diff = false, oldDiff = false;
+
+		for ( Iterator itr = pg2.getPoints( ).iterator( ); itr.hasNext( ); )
+		{
+			Point pt = (Point) itr.next( );
+
+			diff = pg1.contains( pt );
+
+			if ( !started )
+			{
+				started = true;
+				oldDiff = diff;
+			}
+
+			if ( diff != oldDiff )
+			{
+				return true;
+			}
+
+			oldDiff = diff;
+		}
+
+		if ( diff )
+		{
+			return true;
+		}
+
+		if ( pg1.getPoints( ).size( ) > 0 )
+		{
+			return pg2.contains( pg1.getPoint( 0 ) );
+		}
+
+		return false;
 	}
 
 	/**

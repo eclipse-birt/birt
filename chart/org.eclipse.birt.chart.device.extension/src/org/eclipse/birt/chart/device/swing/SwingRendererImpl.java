@@ -43,6 +43,7 @@ import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
+import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.device.DeviceAdapter;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
@@ -79,7 +80,6 @@ import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.render.BaseRenderer;
-import org.eclipse.birt.chart.util.Base64;
 import org.eclipse.birt.chart.util.PluginSettings;
 
 /**
@@ -274,7 +274,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		{
 			try
 			{
-				byte[] data = Base64.decode( ( (EmbeddedImage) pre.getImage( ) ).getData( ) );
+				byte[] data = Base64.decodeBase64( ( (EmbeddedImage) pre.getImage( ) ).getData( ).getBytes() );
 
 				img = createImage( data );
 			}
@@ -527,7 +527,7 @@ public class SwingRendererImpl extends DeviceAdapter
 			{
 				try
 				{
-					byte[] data = Base64.decode( ( (EmbeddedImage) flBackground ).getData( ) );
+					byte[] data = Base64.decodeBase64( ( (EmbeddedImage) flBackground ).getData( ).getBytes() );
 
 					img = createImage( data );
 				}
@@ -748,7 +748,7 @@ public class SwingRendererImpl extends DeviceAdapter
 			{
 				try
 				{
-					byte[] data = Base64.decode( ( (EmbeddedImage) flBackground ).getData( ) );
+					byte[] data = Base64.decodeBase64( ( (EmbeddedImage) flBackground ).getData( ).getBytes() );
 
 					img = createImage( data );
 				}
@@ -1195,7 +1195,7 @@ public class SwingRendererImpl extends DeviceAdapter
 			{
 				try
 				{
-					byte[] data = Base64.decode( ( (EmbeddedImage) flBackground ).getData( ) );
+					byte[] data = Base64.decodeBase64( ( (EmbeddedImage) flBackground ).getData( ).getBytes() );
 
 					img = createImage( data );
 				}
@@ -1833,7 +1833,7 @@ public class SwingRendererImpl extends DeviceAdapter
 			{
 				try
 				{
-					byte[] data = Base64.decode( ( (EmbeddedImage) flBackground ).getData( ) );
+					byte[] data = Base64.decodeBase64( ( (EmbeddedImage) flBackground ).getData( ).getBytes() );
 
 					img = createImage( data );
 				}

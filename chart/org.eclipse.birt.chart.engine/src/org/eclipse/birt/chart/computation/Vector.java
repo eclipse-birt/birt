@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.chart.computation;
 
+import org.eclipse.birt.chart.internal.computations.Matrix;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.Location3D;
-import org.eclipse.birt.chart.util.Matrix;
 
 /**
  * A Vector class used to perform 3D computation.

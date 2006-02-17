@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -26,7 +27,6 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.util.Base64;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -195,7 +195,8 @@ class FillCanvas extends Canvas implements PaintListener
 		{
 			if ( modelImage instanceof EmbeddedImage )
 			{
-				ByteArrayInputStream bis = new ByteArrayInputStream( Base64.decode( ( (EmbeddedImage) modelImage ).getData( ) ) );
+				ByteArrayInputStream bis = new ByteArrayInputStream( Base64.decodeBase64( ( (EmbeddedImage) modelImage ).getData( )
+						.getBytes( ) ) );
 
 				img = new org.eclipse.swt.graphics.Image( Display.getDefault( ),
 						bis );

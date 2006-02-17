@@ -110,31 +110,4 @@ public class ChartUtilTest extends TestCase
 		assertEquals( 4, ChartUtil.getQuadrant( -45 ) );
 	}
 
-	/**
-	 * Test whether two polygons intersect.
-	 * 
-	 */
-	public void testIntersects( )
-	{
-		Polygon p1 = new Polygon( );
-		p1.add( 0.0, 1.0 );
-		p1.add( 4.0, 1.0 );
-		p1.add( 4.0, 5.0 );
-		p1.add( 0.0, 5.0 );
-
-		Polygon p2 = new Polygon( );
-		p2.add( -1.0, 2.0 );
-		p2.add( -2.0, 2.0 );
-		p2.add( -2.0, 4.0 );
-		p2.add( -1.0, 4.0 );
-		
-		Polygon p3 = new Polygon( );
-		p2.add( -1.0, 2.0 );
-		p2.add( 1.0, 2.0 );
-		p2.add( 1.0, 4.0 );
-		p2.add( -1.0, 4.0 );
-		
-		assertTrue( ChartUtil.intersects( p1, p2 ) );
-		assertFalse( ChartUtil.intersects( p1, p3 ) );
-	}
 }

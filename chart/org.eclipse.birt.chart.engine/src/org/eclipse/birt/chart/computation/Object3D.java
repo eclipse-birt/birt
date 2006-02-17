@@ -4,12 +4,12 @@ package org.eclipse.birt.chart.computation;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.chart.internal.computations.Matrix;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.util.ChartUtil;
-import org.eclipse.birt.chart.util.Matrix;
 
 /**
  * Object3D
