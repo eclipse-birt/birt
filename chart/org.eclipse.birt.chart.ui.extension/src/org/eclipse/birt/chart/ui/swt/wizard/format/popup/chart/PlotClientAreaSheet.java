@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.util.LiteralHelper;
@@ -56,9 +57,6 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 
 	private transient Combo cmbStretch;
 
-	// Removed this feature for engine support
-	// private transient Button btnTriggers;
-
 	private transient LineAttributesComposite outlineIncluding;
 
 	private transient LineAttributesComposite outlineWithin;
@@ -71,10 +69,13 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 
 	private transient IntegerSpinControl iscHSpacing;
 
+	private transient TextEditorComposite txtHeight;
+
+	private transient TextEditorComposite txtWidth;
+
 	private transient FillChooserComposite fccShadow;
 
-	public PlotClientAreaSheet( Composite parent,
-			ChartWizardContext context )
+	public PlotClientAreaSheet( Composite parent, ChartWizardContext context )
 	{
 		super( parent, context, true );
 		cmpTop = getComponent( parent );
@@ -100,20 +101,18 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 
 		Label lblAnchor = new Label( grpAreaIncluding, SWT.NONE );
 		GridData gdLBLAnchor = new GridData( );
-		// gdLBLAnchor.verticalIndent = 5;
 		lblAnchor.setLayoutData( gdLBLAnchor );
 		lblAnchor.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.Anchor" ) ); //$NON-NLS-1$
 
 		cmbAnchor = new Combo( grpAreaIncluding, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCBAnchor = new GridData( GridData.FILL_HORIZONTAL );
-		// gdCBAnchor.verticalIndent = 5;
 		cmbAnchor.setLayoutData( gdCBAnchor );
 		cmbAnchor.addSelectionListener( this );
 
 		Group grpOutline = new Group( grpAreaIncluding, SWT.NONE );
 		GridData gdGRPOutline = new GridData( GridData.FILL_HORIZONTAL );
 		gdGRPOutline.horizontalSpan = 2;
-		gdGRPOutline.verticalSpan = 3;
+		gdGRPOutline.verticalSpan = 4;
 		gdGRPOutline.widthHint = 150;
 		grpOutline.setLayoutData( gdGRPOutline );
 		grpOutline.setLayout( new FillLayout( ) );
@@ -130,7 +129,6 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 		Label lblStretch = new Label( grpAreaIncluding, SWT.NONE );
 		{
 			GridData gd = new GridData( );
-			gd.verticalAlignment = SWT.BEGINNING;
 			lblStretch.setLayoutData( gd );
 			lblStretch.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.Stretch" ) ); //$NON-NLS-1$
 		}
@@ -138,9 +136,40 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 		cmbStretch = new Combo( grpAreaIncluding, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.verticalAlignment = SWT.BEGINNING;
 			cmbStretch.setLayoutData( gd );
 			cmbStretch.addSelectionListener( this );
+		}
+
+		if ( chart.getDimension( ) != ChartDimension.THREE_DIMENSIONAL_LITERAL )
+		{
+			Label lblVerticalSpacing = new Label( grpAreaIncluding, SWT.NONE );
+			lblVerticalSpacing.setLayoutData( new GridData( ) );
+			lblVerticalSpacing.setText( Messages.getString( "BlockAttributeComposite.Lbl.VerticalSpacing" ) ); //$NON-NLS-1$
+
+			iscVSpacing = new IntegerSpinControl( grpAreaIncluding,
+					SWT.NONE,
+					getBlockForProcessing( ).getVerticalSpacing( ) );
+			iscVSpacing.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			iscVSpacing.addListener( this );
+
+			Label lblHorizontalSpacing = new Label( grpAreaIncluding, SWT.NONE );
+			lblHorizontalSpacing.setLayoutData( new GridData( ) );
+			lblHorizontalSpacing.setText( Messages.getString( "BlockAttributeComposite.Lbl.HorizontalSpacing" ) ); //$NON-NLS-1$
+
+			iscHSpacing = new IntegerSpinControl( grpAreaIncluding,
+					SWT.NONE,
+					getBlockForProcessing( ).getHorizontalSpacing( ) );
+			iscHSpacing.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			iscHSpacing.addListener( this );
+		}
+
+		new Label( grpAreaIncluding, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.HeightHint" ) ); //$NON-NLS-1$
+
+		txtHeight = new TextEditorComposite( grpAreaIncluding, SWT.BORDER, true );
+		{
+			txtHeight.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			txtHeight.setText( String.valueOf( getBlockForProcessing( ).getHeightHint( ) ) );
+			txtHeight.addListener( this );
 		}
 
 		icIncluding = new InsetsComposite( grpAreaIncluding,
@@ -150,49 +179,21 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 				serviceprovider );
 		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
 		gdInsets.horizontalSpan = 2;
-		gdInsets.verticalSpan = 2;
+		gdInsets.verticalSpan = 3;
 		icIncluding.setLayoutData( gdInsets );
 
-		if ( chart.getDimension( ) != ChartDimension.THREE_DIMENSIONAL_LITERAL )
-		{
-			Label lblVerticalSpacing = new Label( grpAreaIncluding, SWT.NONE );
-			GridData gdLBLVerticalSpacing = new GridData( );
-			lblVerticalSpacing.setLayoutData( gdLBLVerticalSpacing );
-			lblVerticalSpacing.setText( Messages.getString( "BlockAttributeComposite.Lbl.VerticalSpacing" ) ); //$NON-NLS-1$
+		new Label( grpAreaIncluding, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.WidthHint" ) ); //$NON-NLS-1$
 
-			iscVSpacing = new IntegerSpinControl( grpAreaIncluding,
-					SWT.NONE,
-					getBlockForProcessing( ).getVerticalSpacing( ) );
-			GridData gdISCVSpacing = new GridData( GridData.FILL_HORIZONTAL );
-			iscVSpacing.setLayoutData( gdISCVSpacing );
-			iscVSpacing.addListener( this );
+		txtWidth = new TextEditorComposite( grpAreaIncluding, SWT.BORDER, true );
+		{
+			txtWidth.setText( String.valueOf( getBlockForProcessing( ).getWidthHint( ) ) );
+			txtWidth.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			txtWidth.addListener( this );
 		}
 
-		// btnTriggers = new Button( grpAreaIncluding, SWT.PUSH );
-		// GridData gdBTNTriggers = new GridData( );
-		// gdBTNTriggers.horizontalSpan = 2;
-		// btnTriggers.setLayoutData( gdBTNTriggers );
-		// btnTriggers.setText( Messages.getString(
-		// "MoreOptionsChartPlotSheet.Label.Interactivity" ) ); //$NON-NLS-1$
-		// btnTriggers.addSelectionListener( this );
-		// btnTriggers.setEnabled( chart.getInteractivity( ).isEnable( ) );
+		new Label( grpAreaIncluding, SWT.NONE );
 
-		if ( chart.getDimension( ) != ChartDimension.THREE_DIMENSIONAL_LITERAL )
-		{
-			Label lblHorizontalSpacing = new Label( grpAreaIncluding, SWT.NONE );
-			GridData gdLBLHorizontalSpacing = new GridData( );
-			gdLBLHorizontalSpacing.verticalAlignment = SWT.BEGINNING;
-			lblHorizontalSpacing.setLayoutData( gdLBLHorizontalSpacing );
-			lblHorizontalSpacing.setText( Messages.getString( "BlockAttributeComposite.Lbl.HorizontalSpacing" ) ); //$NON-NLS-1$
-
-			iscHSpacing = new IntegerSpinControl( grpAreaIncluding,
-					SWT.NONE,
-					getBlockForProcessing( ).getHorizontalSpacing( ) );
-			GridData gdISCHSpacing = new GridData( GridData.FILL_HORIZONTAL );
-			gdISCHSpacing.verticalAlignment = SWT.BEGINNING;
-			iscHSpacing.setLayoutData( gdISCHSpacing );
-			iscHSpacing.addListener( this );
-		}
+		new Label( grpAreaIncluding, SWT.NONE );
 
 		Group grpAreaWithin = new Group( cmpContent, SWT.NONE );
 		{
@@ -342,6 +343,20 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 			getBlockForProcessing( ).getClientArea( )
 					.setInsets( (Insets) event.data );
 		}
+		else if ( event.widget.equals( txtHeight ) )
+		{
+			if ( event.type == TextEditorComposite.TEXT_MODIFIED )
+			{
+				getBlockForProcessing( ).setHeightHint( Double.parseDouble( (String) event.data ) );
+			}
+		}
+		else if ( event.widget.equals( txtWidth ) )
+		{
+			if ( event.type == TextEditorComposite.TEXT_MODIFIED )
+			{
+				getBlockForProcessing( ).setWidthHint( Double.parseDouble( (String) event.data ) );
+			}
+		}
 	}
 
 	/*
@@ -369,14 +384,6 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 		{
 			getBlockForProcessing( ).setStretch( Stretch.getByName( LiteralHelper.stretchSet.getNameByDisplayName( cmbStretch.getText( ) ) ) );
 		}
-		// else if ( oSource.equals( btnTriggers ) )
-		// {
-		// new TriggerEditorDialog( cmpContent.getShell( ),
-		// getBlockForProcessing( ).getTriggers( ),
-		// getContext( ),
-		// Messages.getString( "BlockAttributeComposite.Title.PlotBlock" ),
-		// false, true ); //$NON-NLS-1$
-		// }
 	}
 
 	/*
