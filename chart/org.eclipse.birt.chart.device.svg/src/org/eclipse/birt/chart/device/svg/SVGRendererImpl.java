@@ -206,6 +206,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	
 	protected Element createHotspotLayer(Document dom){
 		Element hotspot = dom.createElement("g"); //$NON-NLS-1$
+		hotspot.setAttribute( "id", "hotSpots" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		hotspot.setAttribute( "style", "fill-opacity:0.01;fill:#FFFFFF;" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		return hotspot;		
 	}

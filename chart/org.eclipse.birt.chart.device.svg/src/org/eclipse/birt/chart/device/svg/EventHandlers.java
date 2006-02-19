@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.device.svg;
 
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+
 /**
  * This class provides javascript helper functions to enable user interactions
  * such as tooltip support. Defines default styles for svg elements.
@@ -183,19 +185,23 @@ public final class EventHandlers
 	.append( "	}		\n" ) //$NON-NLS-1$
 	.append( "	var oldCompId = null;\n" ) //$NON-NLS-1$
 	.append( "	var oldCompList = null;\n" ) //$NON-NLS-1$
+    .append( "    var fillToColor = new Array(); \n" ) //$NON-NLS-1$
+    .append( "    var strokeToColor = new Array();	\n" ) //$NON-NLS-1$
  	.append( "   function highlight(evt, id, compList){\n" ) //$NON-NLS-1$
-		.append( "       highlightElement(evt, oldCompId, oldCompList);\n" ) //$NON-NLS-1$
+		.append( "       highlightElement(evt, oldCompId, oldCompList, false);\n" ) //$NON-NLS-1$
     	.append( "       if (id != oldCompId){\n" ) //$NON-NLS-1$
-        	.append( "           highlightElement(evt, id, compList);\n" ) //$NON-NLS-1$
+        	.append( "           highlightElement(evt, id, compList, true);\n" ) //$NON-NLS-1$
        	.append( "           oldCompId = id;\n" ) //$NON-NLS-1$
        	.append( "          oldCompList = compList;\n" ) //$NON-NLS-1$
        	.append( "        }\n" ) //$NON-NLS-1$
     	.append( "        else{\n" ) //$NON-NLS-1$
         	.append( "           oldCompId = null;\n" ) //$NON-NLS-1$
        	.append( "           oldCompList = null;\n" ) //$NON-NLS-1$
+       	.append( "       	fillToColor = new Array();\n" ) //$NON-NLS-1$
+		.append( "      strokeToColor = new Array();\n" ) //$NON-NLS-1$
        	.append( "        }\n" ) //$NON-NLS-1$
     	.append( "     }\n" ) //$NON-NLS-1$
-    	.append( "    	function highlightElement(evt, id, compList){\n" ) //$NON-NLS-1$
+    	.append( "    	function highlightElement(evt, id, compList, highlight){\n" ) //$NON-NLS-1$
     	.append( "		   if ((id == null) || (compList == null)) return;\n" ) //$NON-NLS-1$
     	.append( "	       var mainSvg = evt.target.ownerDocument;\n" ) //$NON-NLS-1$
 
@@ -204,28 +210,28 @@ public final class EventHandlers
     	.append( "	    var styleStr = comp.getAttribute(\"style\");\n" ) //$NON-NLS-1$
     	.append( "		   fillIndex = styleStr.search(\"fill:\");\n" ) //$NON-NLS-1$
     	.append( "		   if (fillIndex != -1){\n" ) //$NON-NLS-1$
-    	.append( "	              styleStr = getNewStyle(styleStr, fillIndex, \"fill:\");\n" ) //$NON-NLS-1$
+    	.append( "	              styleStr = getNewStyle(styleStr, fillIndex, \"fill:\", highlight, fillToColor, compList[i]);\n" ) //$NON-NLS-1$
     	.append( "		   }\n" ) //$NON-NLS-1$
     	.append( "		   strokeIndex = styleStr.search(\"stroke:\");\n" ) //$NON-NLS-1$
     	.append( "		   if (strokeIndex != -1){\n" ) //$NON-NLS-1$
-    	.append( "	              styleStr = getNewStyle(styleStr, strokeIndex, \"stroke:\");\n" ) //$NON-NLS-1$
+    	.append( "	              styleStr = getNewStyle(styleStr, strokeIndex, \"stroke:\", highlight, strokeToColor, compList[i]);\n" ) //$NON-NLS-1$
     	.append( "		   }\n" ) //$NON-NLS-1$
     	.append( "	   comp.setAttributeNS(null, \"style\", styleStr);\n" ) //$NON-NLS-1$
     	.append( "	     }\n" ) //$NON-NLS-1$
     	.append( "	     }\n" ) //$NON-NLS-1$				
-    	.append( "	function getNewStyle(style, index, styleAttr){\n" ) //$NON-NLS-1$
+    	.append( "	function getNewStyle(style, index, styleAttr, highlight, lookUpTable, id){\n" ) //$NON-NLS-1$
     	.append( "	     color = style.substring(index+styleAttr.length, style.length );\n" ) //$NON-NLS-1$
     	.append( "	     rgbIndex = color.search(\"rgb\");\n" ) //$NON-NLS-1$
     	.append( "	     if (rgbIndex == -1){\n" ) //$NON-NLS-1$
     	.append( "	        hexColor = color.substring(1, 7);\n" ) //$NON-NLS-1$
-    	.append( "	        hc = getXorColor(hexColor);\n" ) //$NON-NLS-1$
+    	.append( "	        hc = getHighlight(hexColor, highlight, lookUpTable, id);\n" ) //$NON-NLS-1$
     	.append( "	        return style.replace(styleAttr+\"#\"+hexColor,styleAttr+hc);\n" ) //$NON-NLS-1$
     	.append( "	     }\n" ) //$NON-NLS-1$
     	.append( "	     else{\n" ) //$NON-NLS-1$
 	     .append( "	        bracketIndex = color.search(\"\\\\)\");\n" ) //$NON-NLS-1$
     	.append( "	        color = color.substring(0, bracketIndex);\n" ) //$NON-NLS-1$
     	.append( "	        hexColor = getHexFromRGB(color);\n" ) //$NON-NLS-1$
-    	.append( "	        hc = getXorColor(hexColor);\n" ) //$NON-NLS-1$
+    	.append( "	        hc = getHighlight(hexColor, highlight, lookUpTable, id);\n" ) //$NON-NLS-1$
     	.append( "	        return style.substring(0, index) + styleAttr+hc+ style.substring(index+bracketIndex+styleAttr.length+1, style.length);\n" ) //$NON-NLS-1$
     	.append( "	   }    \n" ) //$NON-NLS-1$
     	.append( "	}\n" ) //$NON-NLS-1$
@@ -260,12 +266,50 @@ public final class EventHandlers
     	.append( "	function resizeSVG(e){\n" )//$NON-NLS-1$
     	.append( "    if(isIE()){\n" )//$NON-NLS-1$
 		.append( "       var root=e.target.ownerDocument.documentElement;\n" )//$NON-NLS-1$
+		.append( "       var hotSpot = e.target.ownerDocument.getElementById('hotSpots');\n" )//$NON-NLS-1$
 		.append( "       var g = e.target.ownerDocument.getElementById('outerG');\n" )//$NON-NLS-1$
 		.append( "       var xScale = (innerWidth) / root.getAttribute('width');\n" )//$NON-NLS-1$
 		.append( "       var yScale = (innerHeight) / root.getAttribute('height');\n" )//$NON-NLS-1$
 		.append( "       g.setAttributeNS(null, 'transform', 'scale('+xScale+','+yScale+')');\n" )//$NON-NLS-1$
+		.append( "       hotSpot.setAttributeNS(null, 'transform', 'scale('+xScale+','+yScale+')');\n" )//$NON-NLS-1$
 		.append( "     }\n" )//$NON-NLS-1$
-		.append( "  }\n" )//$NON-NLS-1$
+		.append( "  }\n" )//$NON-NLS-1$		
+		.append( "        function getHighlight(color, highlight, lookupTable, id){\n" )//$NON-NLS-1$
+    	.append( "        if (!(highlight)){\n" )//$NON-NLS-1$
+    	.append( "            color = lookupTable[id];\n" )//$NON-NLS-1$
+    	.append( "        }\n" )//$NON-NLS-1$
+    	.append( "        else{\n" )//$NON-NLS-1$
+    	.append( "            lookupTable[id] = color;\n" )//$NON-NLS-1$
+    	.append( "        }\n" )//$NON-NLS-1$
+    	.append( "        r = color.substring(0, 2);\n" )//$NON-NLS-1$
+    	.append( "        r = parseInt(r, 16);\n" )//$NON-NLS-1$
+    	.append( "        g = color.substring(2, 4);\n" )//$NON-NLS-1$
+    	.append( "        g = parseInt(g, 16);\n" )//$NON-NLS-1$
+    	.append( "        b = color.substring(4, 6);\n" )//$NON-NLS-1$
+    	.append( "        b = parseInt(b, 16);\n" )//$NON-NLS-1$
+    	.append( "    var value = parseInt(r, 16);\n" )//$NON-NLS-1$
+    	.append( "        if (highlight){\n" )//$NON-NLS-1$
+    	.append( "           r = r * 2 - 255;\n" )//$NON-NLS-1$
+    	.append( "           if (r < 0 ) r = 0;\n" )//$NON-NLS-1$
+    	.append( "           g = g * 2 - 255;\n" )//$NON-NLS-1$
+    	.append( "           if (g < 0 ) g = 0;\n" )//$NON-NLS-1$
+    	.append( "           b = b * 2 - 255;\n" )//$NON-NLS-1$
+    	.append( "           if (b < 0 ) b = 0;\n" )//$NON-NLS-1$
+    	.append( "        }\n" )//$NON-NLS-1$
+    	.append( "        rStr = r.toString(16);\n" )//$NON-NLS-1$		
+    	.append( "        gStr = g.toString(16);\n" )//$NON-NLS-1$
+    	.append( "    bStr = b.toString(16);\n" )//$NON-NLS-1$
+    	.append( "    while (rStr.length < 2){\n" )//$NON-NLS-1$
+    	.append( "        rStr = \"0\"+rStr;\n" )//$NON-NLS-1$
+    	.append( "    }\n" )//$NON-NLS-1$
+    	.append( "    while (gStr.length < 2){\n" )//$NON-NLS-1$
+    	.append( "        gStr = \"0\"+gStr;\n" )//$NON-NLS-1$
+    	.append( "    }\n" )//$NON-NLS-1$
+    	.append( "    while (bStr.length < 2){\n" )//$NON-NLS-1$
+    	.append( "        bStr = \"0\"+bStr;\n" )//$NON-NLS-1$
+    	.append( "    }\n" )//$NON-NLS-1$
+    	.append( "return \"#\"+rStr+gStr+bStr;\n" )//$NON-NLS-1$
+    	.append( "}\n" )//$NON-NLS-1$    	    	
     	.append( "	function getHexFromRGB(color){\n" ) //$NON-NLS-1$
     	.append( "	        findThem = /\\d{1,3}/g;\n" ) //$NON-NLS-1$
     	.append( "	        listOfnum = color.match(findThem);\n" ) //$NON-NLS-1$
