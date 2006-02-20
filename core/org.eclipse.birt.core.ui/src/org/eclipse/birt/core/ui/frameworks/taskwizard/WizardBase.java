@@ -11,7 +11,6 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.birt.core.ui.i18n.Messages;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.DisposeEvent;
@@ -26,12 +25,13 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 
 public class WizardBase
 		implements
@@ -57,11 +57,9 @@ public class WizardBase
 
 	private transient Shell shellPopup = null;
 
-	private transient TaskList tasklist = null;
+	private transient TabFolder cmpTaskContainer = null;
 
-	private transient Composite cmpTaskContainer = null;
-
-	private transient StackLayout slTaskContainer = null;
+	// private transient StackLayout slTaskContainer = null;
 
 	private transient ButtonPanel buttonpanel = null;
 
@@ -77,9 +75,11 @@ public class WizardBase
 
 	private transient String wizardTitle = "Task Wizard"; //$NON-NLS-1$
 
+	private transient String strHeader = ""; //$NON-NLS-1$
+
 	private transient Image imgShell = null;
 
-	transient Image imgTitle = null;
+	private transient Image imgHeader = null;
 
 	private transient Shell shellParent = null;
 
@@ -87,6 +87,9 @@ public class WizardBase
 	private transient Object[] errorHints = null;
 
 	private transient boolean bWasCancelled = true;
+
+	// Use this dummy part for lazy initializtion
+	private transient Label lblDummy = null;
 
 	/**
 	 * Launches the wizard with the specified tasks in 'Available' state...and
@@ -135,24 +138,7 @@ public class WizardBase
 		}
 		shell.addControlListener( this );
 
-		// Initialize and layout UI components of the framework
-		tasklist = new TaskList( shell, SWT.NONE, this );
-		Label lblSeparator = new Label( shell, SWT.SEPARATOR | SWT.HORIZONTAL );
-		lblSeparator.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
 		placeComponents( );
-
-		lblSeparator = new Label( shell, SWT.SEPARATOR | SWT.HORIZONTAL );
-		lblSeparator.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
-		Composite cmpButton = new Composite( shell, SWT.NONE );
-		{
-			cmpButton.setLayout( new GridLayout( ) );
-			GridData gd = new GridData( );
-			gd.horizontalAlignment = SWT.END;
-			cmpButton.setLayoutData( gd );
-		}
-		buttonpanel = new ButtonPanel( cmpButton, SWT.NONE, this );
 
 		// Add tasks
 		String[] allTasks = TasksManager.instance( )
@@ -191,6 +177,7 @@ public class WizardBase
 			assert vTaskIDs.contains( topTaskId );
 			sCurrentActiveTask = topTaskId;
 			int taskIndex = vTaskIDs.indexOf( topTaskId );
+			cmpTaskContainer.setSelection( taskIndex );
 			if ( taskIndex > 0 )
 			{
 				buttonpanel.setButtonEnabled( ButtonPanel.BACK, true );
@@ -201,8 +188,7 @@ public class WizardBase
 			}
 		}
 
-		ITask currentTask = getCurrentTask( );
-		if ( currentTask != null )
+		if ( getCurrentTask( ) != null )
 		{
 			getCurrentTask( ).setContext( initialContext );
 			switchTo( sCurrentActiveTask );
@@ -227,6 +213,15 @@ public class WizardBase
 			return this.context;
 		}
 		return null;
+	}
+
+	private Control getDummyTask( )
+	{
+		if ( lblDummy == null )
+		{
+			lblDummy = new Label( cmpTaskContainer, SWT.NONE );
+		}
+		return lblDummy;
 	}
 
 	/**
@@ -268,17 +263,21 @@ public class WizardBase
 			}
 		}
 		// REGISTER WIZARDBASE INSTANCE WITH TASK
+		task.setContext( context );
 		task.setUIProvider( this );
-		String sLabel = TasksManager.instance( )
-				.getTask( sTaskID )
-				.getDisplayLabel( Locale.getDefault( ) );
+		String sLabel = task.getDisplayLabel( Locale.getDefault( ) );
+
+		// Add Dummy UI
+		TabItem item = new TabItem( cmpTaskContainer, SWT.NONE );
+		item.setControl( getDummyTask( ) );
+		item.setText( sLabel );
+
 		// DO NOT ADD DUPLICATE TASKS
 		if ( !vTaskIDs.contains( sTaskID ) )
 		{
 			availableTasks.put( sTaskID, task );
 			vTaskLabels.add( sLabel );
 			vTaskIDs.add( sTaskID );
-			tasklist.addTask( sLabel );
 			cmpTaskContainer.layout( );
 		}
 	}
@@ -296,10 +295,8 @@ public class WizardBase
 		{
 			availableTasks.remove( sTaskID );
 			int iTaskIndex = vTaskIDs.indexOf( sTaskID );
-			String sTaskLabel = (String) vTaskLabels.elementAt( iTaskIndex );
 			vTaskIDs.remove( iTaskIndex );
 			vTaskLabels.remove( iTaskIndex );
-			tasklist.removeTask( sTaskLabel );
 			// SELECT THE FIRST TASK
 			switchTo( (String) vTaskIDs.get( 0 ) );
 		}
@@ -350,11 +347,14 @@ public class WizardBase
 		// Clear errorHints
 		errorHints = null;
 
-		// Get the new UI and display it
-		Control c = getCurrentTask( ).getUI( cmpTaskContainer );
-		slTaskContainer.topControl = c;
-		cmpTaskContainer.layout( );
-		tasklist.setActive( (String) vTaskLabels.get( vTaskIDs.indexOf( sTaskID ) ) );
+		// Update UI
+		TabItem currentItem = cmpTaskContainer.getItem( cmpTaskContainer.getSelectionIndex( ) );
+		Composite cmpTask = getCurrentTask( ).getUI( cmpTaskContainer );
+		if ( currentItem.getControl( ) == getDummyTask( ) )
+		{
+			currentItem.setControl( cmpTask );
+		}
+		cmpTask.layout( );
 
 		// Pack every task to show as much as possible
 		packWizard( );
@@ -435,22 +435,25 @@ public class WizardBase
 	 *            width minimum
 	 * @param iInitialHeight
 	 *            height minimum
-	 * @param wizardTitle
+	 * @param strTitle
 	 *            wizard title
-	 * @param wizardImage
+	 * @param imgTitle
 	 *            wizard image
-	 * @param imgTaskbar
+	 * @param strHeader
+	 *            the header description
+	 * @param imgHeader
 	 *            image displayed in the task bar. If null, leave blank.
 	 */
 	public WizardBase( String sID, int iInitialWidth, int iInitialHeight,
-			String wizardTitle, Image wizardImage, Image imgTaskbar )
+			String strTitle, Image imgTitle, String strHeader, Image imgHeader )
 	{
 		this( sID );
 		this.iWizardWidthMinimum = iInitialWidth;
 		this.iWizardHeightMinimum = iInitialHeight;
-		this.wizardTitle = wizardTitle;
-		this.imgShell = wizardImage;
-		this.imgTitle = imgTaskbar;
+		this.wizardTitle = strTitle;
+		this.imgShell = imgTitle;
+		this.strHeader = strHeader;
+		this.imgHeader = imgHeader;
 	}
 
 	public WizardBase( )
@@ -564,14 +567,51 @@ public class WizardBase
 
 	private void placeComponents( )
 	{
+		// Initialize and layout UI components of the framework
+		Composite cmpHeader = new Composite( shell, SWT.NONE );
+
+		cmpHeader.setBackground( Display.getDefault( )
+				.getSystemColor( SWT.COLOR_WHITE ) );
+		GridLayout layout = new GridLayout( 2, false );
+		layout.marginHeight = 0;
+		layout.marginWidth = 0;
+		cmpHeader.setLayout( layout );
+		cmpHeader.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		Label lblHeader = new Label( cmpHeader, SWT.NONE );
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalIndent = 10;
+			lblHeader.setLayoutData( gd );
+			lblHeader.setBackground( Display.getDefault( )
+					.getSystemColor( SWT.COLOR_WHITE ) );
+			lblHeader.setText( strHeader );
+		}
+
+		if ( imgHeader != null )
+		{
+			new Label( cmpHeader, SWT.NONE ).setImage( imgHeader );
+		}
+
+		Label lblSeparator = new Label( shell, SWT.SEPARATOR | SWT.HORIZONTAL );
+		lblSeparator.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
 		GridLayout glTest = new GridLayout( );
 		glTest.numColumns = 1;
 		glTest.marginHeight = 10;
 		glTest.marginWidth = 20;
-		cmpTaskContainer = new Canvas( shell, SWT.NONE );
-		slTaskContainer = new StackLayout( );
-		cmpTaskContainer.setLayout( slTaskContainer );
+		cmpTaskContainer = new TabFolder( shell, SWT.TOP );
 		cmpTaskContainer.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		cmpTaskContainer.addSelectionListener( this );
+
+		Composite cmpButton = new Composite( shell, SWT.NONE );
+		{
+			cmpButton.setLayout( new GridLayout( ) );
+			GridData gd = new GridData( );
+			gd.horizontalAlignment = SWT.END;
+			cmpButton.setLayoutData( gd );
+		}
+		buttonpanel = new ButtonPanel( cmpButton, SWT.NONE, this );
 	}
 
 	/**
@@ -623,7 +663,8 @@ public class WizardBase
 				int i = vTaskIDs.indexOf( this.sCurrentActiveTask );
 				if ( i < vTaskIDs.size( ) - 1 )
 				{
-					this.switchTo( (String) vTaskIDs.get( i + 1 ) );
+					cmpTaskContainer.setSelection( i + 1 );
+					this.switchTo( (String) vTaskIDs.get( i + 1 ) );					
 					buttonpanel.setButtonEnabled( ButtonPanel.BACK, true );
 				}
 				if ( i == vTaskIDs.size( ) - 2 )
@@ -636,7 +677,8 @@ public class WizardBase
 				int i = vTaskIDs.indexOf( this.sCurrentActiveTask );
 				if ( i > 0 )
 				{
-					this.switchTo( (String) vTaskIDs.get( i - 1 ) );
+					cmpTaskContainer.setSelection( i - 1 );
+					this.switchTo( (String) vTaskIDs.get( i - 1 ) );			
 					buttonpanel.setButtonEnabled( ButtonPanel.NEXT, true );
 				}
 				if ( i == 1 )
@@ -670,24 +712,17 @@ public class WizardBase
 				shell.dispose( );
 				context = null;
 			}
-			else
+		}
+		else if ( e.getSource( ) instanceof TabFolder )
+		{
+			String sCmd = ( (TabItem) e.item ).getText( );
+			int indexLabel = vTaskLabels.indexOf( sCmd );
+			if ( indexLabel >= 0 )
 			{
-				if ( vTaskIDs.get( vTaskLabels.indexOf( sCmd ) )
-						.equals( sCurrentActiveTask ) )
-				{
-					// Keep the selection
-					tasklist.setActive( sCmd );
-				}
-				else
-				{
-					// Skip the request to the current task
-					switchTo( (String) vTaskIDs.get( vTaskLabels.indexOf( sCmd ) ) );
-					int i = vTaskIDs.indexOf( this.sCurrentActiveTask );
-					buttonpanel.setButtonEnabled( ButtonPanel.NEXT,
-							( i < vTaskIDs.size( ) - 1 ) ? true : false );
-					buttonpanel.setButtonEnabled( ButtonPanel.BACK, ( i > 0 )
-							? true : false );
-				}
+				switchTo( (String) vTaskIDs.get( indexLabel ) );
+				buttonpanel.setButtonEnabled( ButtonPanel.NEXT,
+						indexLabel < vTaskIDs.size( ) - 1 );
+				buttonpanel.setButtonEnabled( ButtonPanel.BACK, indexLabel > 0 );
 			}
 		}
 	}
@@ -792,123 +827,6 @@ public class WizardBase
 			shell.setSize( oldSize );
 			shell.layout( );
 		}
-	}
-}
-
-class TaskList extends Composite implements DisposeListener
-{
-
-	private transient Vector vTasks = null;
-	private transient WizardBase wb = null;
-	private transient Composite tbTasks = null;
-
-	public TaskList( Composite parent, int iStyle, WizardBase wb )
-	{
-		super( parent, iStyle );
-		vTasks = new Vector( 5, 2 );
-		this.wb = wb;
-		placeComponents( );
-	}
-
-	public void addTask( String sTaskLabel )
-	{
-		vTasks.add( sTaskLabel );
-		addItem( );
-	}
-
-	public void removeTask( String sTaskLabel )
-	{
-		vTasks.remove( sTaskLabel );
-		findItem( sTaskLabel, true );
-	}
-
-	public void insertTask( int iTaskIndex, String sTaskLabel )
-	{
-		vTasks.add( iTaskIndex, sTaskLabel );
-	}
-
-	public void setActive( String sTaskLabel )
-	{
-		// Disable the button with current task
-		Control[] c = tbTasks.getChildren( );
-		for ( int i = 0; i < c.length; i++ )
-		{
-			if ( c[i] instanceof Button )
-			{
-				( (Button) c[i] ).setSelection( ( (Button) c[i] ).getText( )
-						.equals( sTaskLabel ) );
-			}
-		}
-	}
-
-	private int findItem( String sTaskLabel, boolean bRemove )
-	{
-		Control[] c = tbTasks.getChildren( );
-		for ( int i = 0; i < c.length; i++ )
-		{
-			if ( c[i] instanceof Button )
-			{
-				if ( ( (Button) c[i] ).getText( ).equals( sTaskLabel ) )
-				{
-					if ( bRemove )
-					{
-						c[i].dispose( );
-						this.layout( );
-					}
-					return i;
-				}
-			}
-		}
-		return -1;
-	}
-
-	private void addItem( )
-	{
-		Button btnTask = new Button( tbTasks, SWT.FLAT | SWT.TOGGLE );
-		String taskText = (String) vTasks.get( vTasks.size( ) - 1 );
-		btnTask.setText( taskText );
-		btnTask.setBackground( Display.getDefault( )
-				.getSystemColor( SWT.COLOR_WHITE ) );
-		btnTask.addSelectionListener( wb );
-		btnTask.setLayoutData( new RowData( taskText.length( ) > 15
-				? SWT.DEFAULT : 100, 30 ) );
-	}
-
-	private void placeComponents( )
-	{
-		setBackground( Display.getDefault( ).getSystemColor( SWT.COLOR_WHITE ) );
-		GridLayout layout = new GridLayout( 2, false );
-		layout.marginHeight = 0;
-		layout.marginWidth = 0;
-		setLayout( layout );
-		setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
-		tbTasks = new Composite( this, SWT.NONE );
-		{
-			RowLayout rlTasks = new RowLayout( SWT.HORIZONTAL );
-			rlTasks.marginHeight = 10;
-			rlTasks.marginWidth = 10;
-			rlTasks.spacing = 5;
-			tbTasks.setLayout( rlTasks );
-			tbTasks.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			tbTasks.setBackground( Display.getDefault( )
-					.getSystemColor( SWT.COLOR_WHITE ) );
-		}
-
-		if ( wb.imgTitle != null )
-		{
-			new Label( this, SWT.NONE ).setImage( wb.imgTitle );
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.DisposeListener#widgetDisposed(org.eclipse.swt.events.DisposeEvent)
-	 */
-	public void widgetDisposed( DisposeEvent e )
-	{
-
 	}
 }
 
