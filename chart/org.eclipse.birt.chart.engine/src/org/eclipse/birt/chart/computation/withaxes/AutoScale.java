@@ -429,7 +429,7 @@ public final class AutoScale extends Methods implements Cloneable
 					int i = 0;
 					for ( ; i < n; i++ )
 					{
-						if ( (double) dStep == iaLinearDeltas[i] )
+						if ( dStep == iaLinearDeltas[i] )
 						{
 							if ( i < n - 1 )
 							{
@@ -1222,9 +1222,20 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 
 			if ( dMinValue < 0 && dMaxValue < 0 )
-				dMaxAxis = 0;
+			{
+				if ( dMaxAxis <= dMaxValue - dStep )
+				{
+					dMaxAxis += 2 * dStep;
+				}
+			}
 			if ( dMinValue > 0 && dMaxValue > 0 )
-				dMinAxis = 0;
+			{
+				if ( dMinAxis >= dMinValue + dStep )
+				{
+					dMinAxis -= 2 * dStep;
+				}
+			}
+
 			if ( !bMaximumFixed )
 			{
 				oMaximum = new Double( dMaxAxis );
@@ -1657,8 +1668,7 @@ public final class AutoScale extends Methods implements Cloneable
 		if ( tickIndex == arrayIndex )
 		{
 			// Always show the first label.
-			rrPrev[arrayIndex] = computePolygon( xs, iLabelLocation, la, x, y );
-			;
+			rrPrev[arrayIndex] = computePolygon( xs, iLabelLocation, la, x, y );;
 			return true;
 		}
 		else
@@ -2235,7 +2245,7 @@ public final class AutoScale extends Methods implements Cloneable
 			// VALIDATE OVERRIDDEN MIN/MAX
 			if ( sc.bMaximumFixed && sc.bMinimumFixed )
 			{
-				if ( ( (CDateTime) sc.oMinimum ).after( ( (CDateTime) sc.oMaximum ) ) )
+				if ( ( (CDateTime) sc.oMinimum ).after( sc.oMaximum ) )
 				{
 					throw new ChartException( ChartEnginePlugin.ID,
 							ChartException.GENERATION,

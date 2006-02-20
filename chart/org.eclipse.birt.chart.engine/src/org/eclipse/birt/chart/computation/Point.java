@@ -95,7 +95,7 @@ public class Point
 	 */
 	public String toString( )
 	{
-		return "Location[" + x + ", " + y + "]";
+		return "Location[" + x + ", " + y + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	public void setX( double x )

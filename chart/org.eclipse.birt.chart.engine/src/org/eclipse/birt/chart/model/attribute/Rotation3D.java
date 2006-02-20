@@ -8,7 +8,6 @@
 package org.eclipse.birt.chart.model.attribute;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**

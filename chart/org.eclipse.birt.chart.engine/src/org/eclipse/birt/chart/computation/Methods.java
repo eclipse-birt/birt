@@ -136,8 +136,7 @@ public class Methods implements IConstants
 					long l = cdtValue.getTimeInMillis( );
 					double dUnitSize = da[i] - da[i - 1];
 
-					double dOffset = ( dUnitSize / (double) ( l2 - l1 ) )
-							* (double) ( l - l1 );
+					double dOffset = ( dUnitSize / ( l2 - l1 ) ) * ( l - l1 );
 					return da[i - 1] + dOffset;
 
 				}
@@ -259,7 +258,8 @@ public class Methods implements IConstants
 	public static final double getLocation( AutoScale sc, double dValue )
 			throws IllegalArgumentException
 	{
-		if ( ( sc.getType( ) & IConstants.TEXT ) == IConstants.TEXT || sc.isCategoryScale())
+		if ( ( sc.getType( ) & IConstants.TEXT ) == IConstants.TEXT
+				|| sc.isCategoryScale( ) )
 		{
 			double[] da = sc.getTickCordinates( );
 			return da[0] + ( da[1] - da[0] ) * dValue;
@@ -335,8 +335,7 @@ public class Methods implements IConstants
 				long l = cdtValue.getTimeInMillis( );
 				double dUnitSize = da[i] - da[i - 1];
 
-				double dOffset = ( dUnitSize / (double) ( l2 - l1 ) )
-						* (double) ( l - l1 );
+				double dOffset = ( dUnitSize / ( l2 - l1 ) ) * ( l - l1 );
 				return da[i - 1] + dOffset;
 
 			}
@@ -423,9 +422,12 @@ public class Methods implements IConstants
 			if ( dAngleInDegrees == 0 )
 			{
 				rr = new RotatedRectangle( dX - dW, dY - dH / 2, // TL
-						dX, dY - dH / 2, // TR
-						dX, dY + dH / 2, // BR
-						dX - dW, dY + dH / 2 // BL
+						dX,
+						dY - dH / 2, // TR
+						dX,
+						dY + dH / 2, // BR
+						dX - dW,
+						dY + dH / 2 // BL
 				);
 			}
 			// POSITIVE
@@ -436,9 +438,12 @@ public class Methods implements IConstants
 						* dSineTheta
 						- dW
 						* dCosTheta, dY - dH * dCosTheta + dW * dSineTheta, // TL
-						dX - dH * dSineTheta, dY - dH * dCosTheta, // TR
-						dX, dY, // BR
-						dX - dW * dCosTheta, dY + dW * dSineTheta // BL
+						dX - dH * dSineTheta,
+						dY - dH * dCosTheta, // TR
+						dX,
+						dY, // BR
+						dX - dW * dCosTheta,
+						dY + dW * dSineTheta // BL
 				);
 			}
 			// NEGATIVE
@@ -447,22 +452,24 @@ public class Methods implements IConstants
 				rr = new RotatedRectangle( dX - dW * dCosTheta, dY
 						- dW
 						* dSineTheta, // TL
-						dX, dY, // TR
-						dX - dH * dSineTheta, dY + dH * dCosTheta, // BR
-						dX - dH * dSineTheta - dW * dCosTheta, dY
-								+ dH
-								* dCosTheta
-								- dW
-								* dSineTheta // BL
+						dX,
+						dY, // TR
+						dX - dH * dSineTheta,
+						dY + dH * dCosTheta, // BR
+						dX - dH * dSineTheta - dW * dCosTheta,
+						dY + dH * dCosTheta - dW * dSineTheta // BL
 				);
 			}
 			// ?90 : VERTICALLY UP OR DOWN
 			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
 			{
 				rr = new RotatedRectangle( dX - dH, dY - dW / 2, // TL
-						dX, dY - dW / 2, // TR
-						dX, dY + dW / 2, // BR
-						dX - dH, dY + dW / 2 // BL
+						dX,
+						dY - dW / 2, // TR
+						dX,
+						dY + dW / 2, // BR
+						dX - dH,
+						dY + dW / 2 // BL
 				);
 			}
 		}
@@ -472,22 +479,24 @@ public class Methods implements IConstants
 			if ( dAngleInDegrees == 0 )
 			{
 				rr = new RotatedRectangle( dX, dY - dH / 2, // TL
-						dX + dW, dY - dH / 2, // TR
-						dX + dW, dY + dH / 2, // BR
-						dX, dY + dH / 2 // BL
+						dX + dW,
+						dY - dH / 2, // TR
+						dX + dW,
+						dY + dH / 2, // BR
+						dX,
+						dY + dH / 2 // BL
 				);
 			}
 			// POSITIVE
 			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
 			{
 				rr = new RotatedRectangle( dX, dY, // TL
-						dX + dW * dCosTheta, dY - dW * dSineTheta, // TR
-						dX + dW * dCosTheta + dH * dSineTheta, dY
-								- dW
-								* dSineTheta
-								+ dH
-								* dCosTheta, // BR
-						dX + dH * dSineTheta, dY + dH * dCosTheta // BL
+						dX + dW * dCosTheta,
+						dY - dW * dSineTheta, // TR
+						dX + dW * dCosTheta + dH * dSineTheta,
+						dY - dW * dSineTheta + dH * dCosTheta, // BR
+						dX + dH * dSineTheta,
+						dY + dH * dCosTheta // BL
 				);
 			}
 			// NEGATIVE
@@ -496,22 +505,24 @@ public class Methods implements IConstants
 				rr = new RotatedRectangle( dX + dH * dSineTheta, dY
 						- dH
 						* dCosTheta, // TL
-						dX + dH * dSineTheta + dW * dCosTheta, dY
-								- dH
-								* dCosTheta
-								+ dW
-								* dSineTheta, // TR
-						dX + dW * dCosTheta, dY + dW * dSineTheta, // BR
-						dX, dY // BL
+						dX + dH * dSineTheta + dW * dCosTheta,
+						dY - dH * dCosTheta + dW * dSineTheta, // TR
+						dX + dW * dCosTheta,
+						dY + dW * dSineTheta, // BR
+						dX,
+						dY // BL
 				);
 			}
 			// ?90 : VERTICALLY UP OR DOWN
 			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
 			{
 				rr = new RotatedRectangle( dX, dY - dW / 2, // TL
-						dX + dH, dY - dW / 2, // TR
-						dX + dH, dY + dW / 2, // BR
-						dX, dY + dW / 2 // BL
+						dX + dH,
+						dY - dW / 2, // TR
+						dX + dH,
+						dY + dW / 2, // BR
+						dX,
+						dY + dW / 2 // BL
 				);
 			}
 		}
@@ -521,9 +532,12 @@ public class Methods implements IConstants
 			if ( dAngleInDegrees == 0 )
 			{
 				rr = new RotatedRectangle( dX - dW / 2, dY, // TL
-						dX + dW / 2, dY, // TR
-						dX + dW / 2, dY + dH, // BR
-						dX - dW / 2, dY + dH // BL
+						dX + dW / 2,
+						dY, // TR
+						dX + dW / 2,
+						dY + dH, // BR
+						dX - dW / 2,
+						dY + dH // BL
 				);
 			}
 			// POSITIVE
@@ -532,35 +546,36 @@ public class Methods implements IConstants
 				rr = new RotatedRectangle( dX - dW * dCosTheta, dY
 						+ dW
 						* dSineTheta, // TL
-						dX, dY, // TR
-						dX + dH * dSineTheta, dY + dH * dCosTheta, // BR
-						dX + dH * dSineTheta - dW * dCosTheta, dY
-								+ dH
-								* dCosTheta
-								+ dW
-								* dSineTheta // BL
+						dX,
+						dY, // TR
+						dX + dH * dSineTheta,
+						dY + dH * dCosTheta, // BR
+						dX + dH * dSineTheta - dW * dCosTheta,
+						dY + dH * dCosTheta + dW * dSineTheta // BL
 				);
 			}
 			// NEGATIVE
 			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
 			{
 				rr = new RotatedRectangle( dX, dY, // TL
-						dX + dW * dCosTheta, dY + dW * dSineTheta, // TR
-						dX + dW * dCosTheta - dH * dSineTheta, dY
-								+ dW
-								* dSineTheta
-								+ dH
-								* dCosTheta, // BR
-						dX - dH * dSineTheta, dY + dH * dCosTheta // BL
+						dX + dW * dCosTheta,
+						dY + dW * dSineTheta, // TR
+						dX + dW * dCosTheta - dH * dSineTheta,
+						dY + dW * dSineTheta + dH * dCosTheta, // BR
+						dX - dH * dSineTheta,
+						dY + dH * dCosTheta // BL
 				);
 			}
 			// ?90 : VERTICALLY UP OR DOWN
 			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
 			{
 				rr = new RotatedRectangle( dX - dH / 2, dY, // TL
-						dX + dH / 2, dY, // TR
-						dX + dH / 2, dY + dW, // BR
-						dX - dH / 2, dY + dW // BL
+						dX + dH / 2,
+						dY, // TR
+						dX + dH / 2,
+						dY + dW, // BR
+						dX - dH / 2,
+						dY + dW // BL
 				);
 			}
 		}
@@ -570,9 +585,12 @@ public class Methods implements IConstants
 			if ( dAngleInDegrees == 0 )
 			{
 				rr = new RotatedRectangle( dX - dW / 2, dY - dH, // TL
-						dX + dW / 2, dY - dH, // TR
-						dX + dW / 2, dY, // BR
-						dX - dW / 2, dY // BL
+						dX + dW / 2,
+						dY - dH, // TR
+						dX + dW / 2,
+						dY, // BR
+						dX - dW / 2,
+						dY // BL
 				);
 			}
 			// POSITIVE
@@ -581,13 +599,12 @@ public class Methods implements IConstants
 				rr = new RotatedRectangle( dX - dH * dSineTheta, dY
 						- dH
 						* dCosTheta, // TL
-						dX - dH * dSineTheta + dW * dCosTheta, dY
-								- dH
-								* dCosTheta
-								- dW
-								* dSineTheta, // TR
-						dX + dW * dCosTheta, dY - dW * dSineTheta, // BR
-						dX, dY // BL
+						dX - dH * dSineTheta + dW * dCosTheta,
+						dY - dH * dCosTheta - dW * dSineTheta, // TR
+						dX + dW * dCosTheta,
+						dY - dW * dSineTheta, // BR
+						dX,
+						dY // BL
 				);
 			}
 			// NEGATIVE
@@ -598,18 +615,24 @@ public class Methods implements IConstants
 						* dCosTheta
 						+ dH
 						* dSineTheta, dY - dW * dSineTheta - dH * dCosTheta, // TL
-						dX + dH * dSineTheta, dY - dH * dCosTheta, // TR
-						dX, dY, // BR
-						dX - dW * dCosTheta, dY - dW * dSineTheta // BL
+						dX + dH * dSineTheta,
+						dY - dH * dCosTheta, // TR
+						dX,
+						dY, // BR
+						dX - dW * dCosTheta,
+						dY - dW * dSineTheta // BL
 				);
 			}
 			// ?90 : VERTICALLY UP OR DOWN
 			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
 			{
 				rr = new RotatedRectangle( dX - dH / 2, dY - dW, // TL
-						dX + dH / 2, dY - dW, // TR
-						dX + dH / 2, dY, // BR
-						dX - dH / 2, dY // BL
+						dX + dH / 2,
+						dY - dW, // TR
+						dX + dH / 2,
+						dY, // BR
+						dX - dH / 2,
+						dY // BL
 				);
 			}
 		}

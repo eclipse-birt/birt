@@ -852,7 +852,7 @@ public final class PluginSettings
 					ChartException.PLUGIN,
 					"exception.cannot.find.plugin.entry", //$NON-NLS-1$
 					new Object[]{
-							"", sXsdElementName, sXsdElementValue //$NON-NLS-1$ //$NON-NLS-2$
+							"", sXsdElementName, sXsdElementValue //$NON-NLS-1$
 					},
 					ResourceBundle.getBundle( Messages.ENGINE,
 							Locale.getDefault( ) ) );

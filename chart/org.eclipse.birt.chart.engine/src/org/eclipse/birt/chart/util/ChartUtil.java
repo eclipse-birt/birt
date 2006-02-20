@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.chart.util;
 
-import java.util.Iterator;
-
-import org.eclipse.birt.chart.computation.Point;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.internal.computations.Polygon;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -168,40 +165,9 @@ public class ChartUtil
 	 */
 	public static boolean intersects( Polygon pg1, Polygon pg2 )
 	{
-		// TODO this is just a simple implementation for clip test. May only
-		// works for convex polygon.
-
-		boolean started = false;
-		boolean diff = false, oldDiff = false;
-
-		for ( Iterator itr = pg2.getPoints( ).iterator( ); itr.hasNext( ); )
+		if ( pg1 != null )
 		{
-			Point pt = (Point) itr.next( );
-
-			diff = pg1.contains( pt );
-
-			if ( !started )
-			{
-				started = true;
-				oldDiff = diff;
-			}
-
-			if ( diff != oldDiff )
-			{
-				return true;
-			}
-
-			oldDiff = diff;
-		}
-
-		if ( diff )
-		{
-			return true;
-		}
-
-		if ( pg1.getPoints( ).size( ) > 0 )
-		{
-			return pg2.contains( pg1.getPoint( 0 ) );
+			return pg1.intersects( pg2 );
 		}
 
 		return false;

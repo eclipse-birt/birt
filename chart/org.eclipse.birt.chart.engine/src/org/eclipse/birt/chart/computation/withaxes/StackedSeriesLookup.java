@@ -15,6 +15,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.DataSetIterator;
@@ -208,7 +209,7 @@ public final class StackedSeriesLookup
 		final Axis[] axaOrthogonal = cwa.getOrthogonalAxes( axBase, true );
 
 		EList el;
-		ArrayList alSeries;
+		List alSeries;
 		int iSeriesCount;
 		StackGroup sg, sgSingle;
 		Series se;
@@ -230,7 +231,7 @@ public final class StackedSeriesLookup
 			for ( int j = 0; j < el.size( ); j++ ) // EACH SERIES DEFINITION
 			{
 				sd = (SeriesDefinition) el.get( j );
-				alSeries = (ArrayList) sd.getRunTimeSeries( );
+				alSeries = sd.getRunTimeSeries( );
 				iSeriesCount = alSeries.size( );
 				if ( iSeriesCount > 1 )
 				{

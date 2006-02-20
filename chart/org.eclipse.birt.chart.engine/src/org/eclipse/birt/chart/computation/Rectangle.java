@@ -296,8 +296,8 @@ public class Rectangle
 	 */
 	public String toString( )
 	{
-		return getClass().getName() + "[x=" + x + ",y=" + y + ",w=" + width
-				+ ",h=" + height + "]";
+		return getClass().getName() + "[x=" + x + ",y=" + y + ",w=" + width //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				+ ",h=" + height + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
     /**

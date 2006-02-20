@@ -2052,7 +2052,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								&& insCA.getRight( ) < lia.getThickness( ) )
 							continue;
 
-						y = (int) ( da[j] - pwa.getSeriesThickness( ) );
+						y = ( da[j] - pwa.getSeriesThickness( ) );
 						lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 								LineRenderEvent.class );
 						lre.setLineAttributes( lia );
@@ -2071,7 +2071,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							&& insCA.getRight( ) < lia.getThickness( ) )
 						continue;
 
-					y = (int) da[j];
+					y = da[j];
 					if ( pwa.getDimension( ) == IConstants.TWO_5_D )
 					{
 						y -= pwa.getSeriesThickness( );

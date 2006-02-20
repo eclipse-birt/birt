@@ -409,7 +409,7 @@ public final class RunTimeContext implements Serializable
 				sKey = sDefaultValue;
 			}
 			String localizedValue = iml.getMessageValue( sKey, getLocale() );
-			if ( localizedValue == null || localizedValue.equals( "" ) )
+			if ( localizedValue == null || localizedValue.equals( "" ) ) //$NON-NLS-1$
 				return sDefaultValue;
 			else
 				return localizedValue;

@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.model.data.impl;
 
-import org.eclipse.birt.chart.model.data.*;
-
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataElement;
@@ -35,9 +33,7 @@ import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**

@@ -1514,7 +1514,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public static final PatternMatcher[][] ID__PATTERN__VALUES = new PatternMatcher[][]{
 		new PatternMatcher[]{
-			XMLTypeUtil.createPatternMatcher( "[A-Z]" )
+			XMLTypeUtil.createPatternMatcher( "[A-Z]" ) //$NON-NLS-1$
 		}
 	};
 

@@ -13,8 +13,6 @@ package org.eclipse.birt.chart.model.data.util;
 
 import java.util.List;
 
-import org.eclipse.birt.chart.model.data.*;
-
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataElement;

@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.model.layout.impl;
 
-import org.eclipse.birt.chart.model.layout.*;
-
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
@@ -24,9 +22,7 @@ import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**

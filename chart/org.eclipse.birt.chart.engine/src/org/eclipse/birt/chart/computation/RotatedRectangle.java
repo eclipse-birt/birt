@@ -53,7 +53,7 @@ public final class RotatedRectangle extends Polygon
 		int[] iaXY = new int[8];
 		for ( int i = 0; i < 4; i++ )
 		{
-			Point lo = (Point) this.getPoint( i );
+			Point lo = this.getPoint( i );
 			iaXY[2 * i] = (int) lo.getX( );
 			iaXY[2 * i + 1] = (int) lo.getY( );
 		}
@@ -69,7 +69,7 @@ public final class RotatedRectangle extends Polygon
 	{
 		for ( int i = 0; i < 4; i++ )
 		{
-			Point lo = (Point) getPoint( i );
+			Point lo = getPoint( i );
 			lo.setX( lo.getX( ) + dOffset );
 		}
 	}
@@ -83,7 +83,7 @@ public final class RotatedRectangle extends Polygon
 	{
 		for ( int i = 0; i < 4; i++ )
 		{
-			Point lo = (Point) getPoint( i );
+			Point lo = getPoint( i );
 			lo.setY( lo.getY( ) + dOffset );
 		}
 	}
@@ -97,7 +97,7 @@ public final class RotatedRectangle extends Polygon
 	{
 		for ( int i = 0; i < 4; i++ )
 		{
-			Point lo = (Point) getPoint( i );
+			Point lo = getPoint( i );
 			lo.translate( dOffset, dOffset );
 		}
 	}

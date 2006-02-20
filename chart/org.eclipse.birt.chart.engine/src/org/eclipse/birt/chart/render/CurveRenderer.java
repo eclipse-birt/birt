@@ -757,8 +757,8 @@ public final class CurveRenderer
 			{
 				fT = fa[i]
 						+ ( fa[i + 1] - fa[i] )
-						* (double) ( j + 1 )
-						/ (double) iNumberOfDivisions;
+						* ( j + 1 )
+						/ iNumberOfDivisions;
 				if ( !computeSpline( fT, faXY2 ) )
 				{
 					continue;

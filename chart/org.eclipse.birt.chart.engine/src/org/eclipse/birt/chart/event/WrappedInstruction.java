@@ -80,7 +80,7 @@ public final class WrappedInstruction implements Comparable
 			}
 			else
 			{
-				bo = ( (PrimitiveRenderEvent) pre ).getBounds( );
+				bo = pre.getBounds( );
 			}
 			return dc.isTransposed( ) ? PrimitiveRenderEvent.compareTransposed( getBounds( ),
 					bo )

@@ -95,7 +95,7 @@ public  class Fraction
 
 	public String toString( )
 	{
-		return toString( "/" );
+		return toString( "/" ); //$NON-NLS-1$
 	}
 	public String toString( String separator )
 	{
@@ -104,7 +104,7 @@ public  class Fraction
 			StringBuffer buffer = new StringBuffer( );
 			// both negative: no sign
 			if ( ( numerator * denominator ) < 0 )
-				buffer.append( "-" );
+				buffer.append( "-" ); //$NON-NLS-1$
 			buffer.append( Math.abs( numerator ) );
 			buffer.append( separator );
 			buffer.append( Math.abs( denominator ) );
