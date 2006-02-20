@@ -92,7 +92,7 @@ public final class SwingChartViewerSelector extends JPanel implements
 		co.add( scv, BorderLayout.CENTER );
 
 		Dimension dScreen = Toolkit.getDefaultToolkit( ).getScreenSize( );
-		Dimension dApp = new Dimension( 600, 400 );
+		Dimension dApp = new Dimension( 800, 600 );
 		jf.setSize( dApp );
 		jf.setLocation( ( dScreen.width - dApp.width ) / 2,
 				( dScreen.height - dApp.height ) / 2 );

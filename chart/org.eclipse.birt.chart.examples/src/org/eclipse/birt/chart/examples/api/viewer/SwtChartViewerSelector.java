@@ -82,7 +82,7 @@ public final class SwtChartViewerSelector implements
 		// gl.numColumns = 1;
 		Display d = Display.getDefault( );
 		Shell sh = new Shell( d );
-		sh.setSize( 900, 700 );
+		sh.setSize( 800, 600 );
 		sh.setLayout( gl );
 		sh.setText( scv.getClass( ).getName( ) + " [device="//$NON-NLS-1$
 				+ scv.idr.getClass( ).getName( ) + "]" );//$NON-NLS-1$
