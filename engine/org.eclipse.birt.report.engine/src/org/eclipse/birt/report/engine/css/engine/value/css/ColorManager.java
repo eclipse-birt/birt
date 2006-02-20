@@ -30,26 +30,14 @@ public class ColorManager extends AbstractColorManager {
 	}
 
     
-    /**
-     * Implements {@link
-     * org.apache.batik.css.engine.value.ValueManager#isInheritedProperty()}.
-     */
     public boolean isInheritedProperty() {
     	return inherit;
     }
 
-    /**
-     * Implements {@link
-     * org.apache.batik.css.engine.value.ValueManager#getPropertyName()}.
-     */
     public String getPropertyName() {
 	return propertyName;
     }
     
-    /**
-     * Implements {@link
-     * org.apache.batik.css.engine.value.ValueManager#getDefaultValue()}.
-     */
     public Value getDefaultValue() {
         return defaultValue;
     }
