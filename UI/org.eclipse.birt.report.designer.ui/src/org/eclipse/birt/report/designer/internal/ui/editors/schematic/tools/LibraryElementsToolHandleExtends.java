@@ -58,15 +58,15 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends
 		{
 			if ( UIUtil.includeLibrary( moduleHandle, library ) )
 			{
-				setModel( moduleHandle.getElementFactory( ).newElementFrom(
-						elementHandle, null ) );
+				setModel(  moduleHandle.getElementFactory( )
+						.newElementFrom( elementHandle, null ) );
 			}
 		}
 		catch ( ExtendsException e )
 		{
-			GUIException exception = GUIException
-					.createGUIException( ReportPlugin.REPORT_UI, e,
-							"Library.DND.messages.outofsync" );//$NON-NLS-1$
+			GUIException exception = GUIException.createGUIException( ReportPlugin.REPORT_UI,
+					e,
+					"Library.DND.messages.outofsync" );//$NON-NLS-1$
 			ExceptionHandler.handle( exception );
 		}
 		catch ( Exception e )

@@ -17,10 +17,12 @@ import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddLibraryAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddSelectedLibToCurrentReportDesignAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.RefreshLibExplorerAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.RemoveLibraryAction;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IWorkbenchActionConstants;
 
@@ -62,25 +64,55 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 		{
 			System.out.println( "Menu(for Views) >> Shows for library" ); //$NON-NLS-1$
 		}
-		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS ) );
-		IAction addAction = new AddSelectedLibToCurrentReportDesignAction( treeViewer );
-		if ( addAction.isEnabled( ) )
-		{
-			menu.add( addAction );
-		}
-		IAction refreshAction = new RefreshLibExplorerAction( treeViewer );
-		if ( refreshAction.isEnabled( ) )
-		{
-			menu.add( refreshAction );
-		}
 
-		IAction addLibraryAction = new AddLibraryAction( );
-		menu.add( addLibraryAction );
-		
-		IAction removeLibraryAction = new RemoveLibraryAction( treeViewer );
-		if ( removeLibraryAction.isEnabled( ) )
+		ISelectionProvider struViewer = (ISelectionProvider) getViewer( );
+		IStructuredSelection selection = (IStructuredSelection) struViewer.getSelection( );
+		LibraryHandle library = getSelectedLibrary( );
+		if ( selection == null || selection.getFirstElement( ) == null )
 		{
-			menu.add( removeLibraryAction );
+			IAction refreshAction = new RefreshLibExplorerAction( treeViewer );
+			if ( refreshAction.isEnabled( ) )
+			{
+				menu.add( refreshAction );
+			}
+
+			IAction addLibraryAction = new AddLibraryAction( );
+			menu.add( addLibraryAction );
+
+		} // else if something is selected, but not library
+		else if ( library != null )
+		{
+			IAction addAction = new AddSelectedLibToCurrentReportDesignAction( treeViewer );
+			if ( addAction.isEnabled( ) )
+			{
+				menu.add( addAction );
+			}
+			IAction removeLibraryAction = new RemoveLibraryAction( treeViewer );
+			if ( removeLibraryAction.isEnabled( ) )
+			{
+				menu.add( removeLibraryAction );
+			}
+			menu.add( new Separator( ) );
+			IAction refreshAction = new RefreshLibExplorerAction( treeViewer );
+			if ( refreshAction.isEnabled( ) )
+			{
+				menu.add( refreshAction );
+			}
 		}
+	}
+
+	private LibraryHandle getSelectedLibrary( )
+	{
+
+		ISelectionProvider struViewer = (ISelectionProvider) getViewer( );
+		IStructuredSelection selection = (IStructuredSelection) struViewer.getSelection( );
+		if ( selection != null )
+		{
+			if ( selection.getFirstElement( ) instanceof LibraryHandle )
+			{
+				return (LibraryHandle) selection.getFirstElement( );
+			}
+		}
+		return null;
 	}
 }
