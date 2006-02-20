@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.metadata;
 import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
+import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 
@@ -62,6 +63,23 @@ public class EncryptionHelperExtensionLoader extends ExtensionLoader
 			{
 				loader.loadElement( currentTag );
 			}
+		}
+	}
+
+	/**
+	 * Logs the exception if encryption helper extension pointer is not found on
+	 * non-eclipse platform, the error messages won't be logged out.
+	 * 
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.ExtensionLoader#logExtenstionException(
+	 *      ExtensionException e )
+	 */
+
+	protected void logExtenstionException( ExtensionException e )
+	{
+		if ( Platform.runningEclipse( ) )
+		{
+			super.logExtenstionException( e );
 		}
 	}
 
