@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
@@ -885,25 +886,25 @@ public class InsertInLayoutUtil
 				{
 					if ( isLabel )
 					{
-						// LabelHandle labelItemHandle =
-						// SessionHandleAdapter.getInstance( )
-						// .getReportDesignHandle( )
-						// .getElementFactory( )
-						// .newLabel( null );
-						LabelHandle labelItemHandle = DesignElementFactory.getInstance( )
-								.newLabel( null );
+						 LabelHandle labelItemHandle =
+						 SessionHandleAdapter.getInstance( )
+						 .getReportDesignHandle( )
+						 .getElementFactory( )
+						 .newLabel( null );
+//						LabelHandle labelItemHandle = DesignElementFactory.getInstance( )
+//								.newLabel( null );
 						labelItemHandle.setText( columns[j].getDisplayName( ) );
 						cell.addElement( labelItemHandle, cells.getSlotID( ) );
 					}
 					else
 					{
-						// DataItemHandle dataHandle =
-						// SessionHandleAdapter.getInstance( )
-						// .getReportDesignHandle( )
-						// .getElementFactory( )
-						// .newDataItem( null );
-						DataItemHandle dataHandle = DesignElementFactory.getInstance( )
-								.newDataItem( null );
+						 DataItemHandle dataHandle =
+						 SessionHandleAdapter.getInstance( )
+						 .getReportDesignHandle( )
+						 .getElementFactory( )
+						 .newDataItem( null );
+//						DataItemHandle dataHandle = DesignElementFactory.getInstance( )
+//								.newDataItem( null );
 						dataHandle.setValueExpr( DEUtil.getExpression( columns[j] ) );
 						cell.addElement( dataHandle, cells.getSlotID( ) );
 					}
