@@ -47,10 +47,24 @@ public class SaxParser extends DefaultHandler implements Runnable
 	private HashMap currentElementRecoder;
 	
 	//The boolean indicates that whether the parsing has started.
-	boolean start;
+	private boolean start;
 	
 	//The boolean indicates that whether the parsing thread is alive or not.
-	boolean alive;
+	private boolean alive;
+	
+    /*	We will override method	org.xml.sax.helpers.DefaultHandler.characters(char[], int start, int length) to
+	rechieve value of an xml element.
+
+	In the Xerces2 Java Parser 2.6.2 implementation (the one we used), the
+	first argument, that is, char[], which is a cache of xml input stream, passed
+	by the Xerces parser would always be of 2048 bytes in length. If a value of an
+	xml element exceeds 2048 bytes, or only parts of its value being cached on the
+	rear of the char array, then the method characters() will be called multiple
+	times so that the whole value could be achieved.
+
+	Based on the above consideration, we decide to cache the chars fetched from the 
+	characters method and proceed them when endDocument method is called */
+	private String currentCacheValue;
 
 	/**
 	 * 
@@ -63,6 +77,7 @@ public class SaxParser extends DefaultHandler implements Runnable
 		spConsumer = consumer;
 		start = true;
 		alive = true;
+		currentCacheValue = "";
 		currentElementRecoder = new HashMap();
 	}
 
@@ -199,6 +214,10 @@ public class SaxParser extends DefaultHandler implements Runnable
 	public void endElement( String uri, String localName, String qName )
 			throws SAXException
 	{
+		//Manipulate the data. The currentCacheValue is trimed to delimite
+		//the heading and tailing junk spaces.
+		spConsumer.manipulateData( pathHolder.getPath( ), this.currentCacheValue.trim() );
+		this.currentCacheValue = "";
 		spConsumer.detectNewRow( pathHolder.getPath( ) );
 		//	this.currentElementRecoder.clear();
 		
@@ -236,12 +255,10 @@ public class SaxParser extends DefaultHandler implements Runnable
 	 */
 	public void characters( char ch[], int start, int length )
 	{
-		String s = "";
 		for ( int i = 0; i < length; i++ )
 		{
-			s = s + ch[start + i];
-		}
-		spConsumer.manipulateData( pathHolder.getPath( ), s );		
+			this.currentCacheValue = this.currentCacheValue + ch[start + i];
+		}	
 	}
 
 	/**
