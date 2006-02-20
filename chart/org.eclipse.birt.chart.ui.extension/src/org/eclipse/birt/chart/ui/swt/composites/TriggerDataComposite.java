@@ -92,6 +92,8 @@ public class TriggerDataComposite extends Composite
 
 	private transient Composite cmpHighlight = null;
 
+	private transient Composite cmpDPVisibility = null;
+
 	// private transient Text txtSeriesDefinition = null;
 
 	private transient StackLayout slValues = null;
@@ -214,13 +216,21 @@ public class TriggerDataComposite extends Composite
 				1,
 				Messages.getString( "TriggerDataComposite.Label.HighlightDescription" ) ); //$NON-NLS-1$
 
-		// Composite for highlight value
+		// Composite for Toogle Visibility value
 		cmpVisiblity = new Composite( grpValue, SWT.NONE );
 		cmpVisiblity.setLayout( new GridLayout( ) );
 
 		addDescriptionLabel( cmpVisiblity,
 				1,
 				Messages.getString( "TriggerDataComposite.Label.VisiblityDescription" ) ); //$NON-NLS-1$
+
+		// Composite for Toogle DataPoint Visibility value
+		cmpDPVisibility = new Composite( grpValue, SWT.NONE );
+		cmpDPVisibility.setLayout( new GridLayout( ) );
+
+		addDescriptionLabel( cmpDPVisibility,
+				1,
+				Messages.getString( "TriggerDataComposite.Label.DPVisibilityDescription" ) ); //$NON-NLS-1$
 
 		// Composite for script value
 		cmpScript = new Composite( grpValue, SWT.NONE );
@@ -517,6 +527,9 @@ public class TriggerDataComposite extends Composite
 			case 5 :
 				this.slValues.topControl = cmpCallback;
 				break;
+			case 6 :
+				this.slValues.topControl = cmpDPVisibility;
+				break;
 			default :
 				this.slValues.topControl = cmpDefault;
 				break;
@@ -552,6 +565,9 @@ public class TriggerDataComposite extends Composite
 				value = AttributeFactory.eINSTANCE.createSeriesValue( );
 				( (SeriesValue) value ).setName( "" ); //$NON-NLS-1$
 				break;
+			case 6 :
+				value = AttributeFactory.eINSTANCE.createSeriesValue( );
+				( (SeriesValue) value ).setName( "" ); //$NON-NLS-1$
 			default :
 				break;
 		}
@@ -565,6 +581,16 @@ public class TriggerDataComposite extends Composite
 	{
 		cmbTriggerType.select( 0 );
 		cmbActionType.select( 0 );
+		switchUI();
+	}
+
+	public Point getPreferredSize( )
+	{
+		return new Point( 260, 260 );
+	}
+	
+	private void switchUI()
+	{
 		switch ( cmbActionType.getSelectionIndex( ) )
 		{
 			case 0 :
@@ -585,18 +611,16 @@ public class TriggerDataComposite extends Composite
 			case 5 :
 				this.slValues.topControl = cmpCallback;
 				break;
+			case 6 :
+				this.slValues.topControl = cmpDPVisibility;
+				break;
 			default :
 				this.slValues.topControl = cmpDefault;
 				break;
 		}
 		grpValue.layout( );
 	}
-
-	public Point getPreferredSize( )
-	{
-		return new Point( 260, 260 );
-	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -606,31 +630,7 @@ public class TriggerDataComposite extends Composite
 	{
 		if ( e.getSource( ).equals( cmbActionType ) )
 		{
-			switch ( cmbActionType.getSelectionIndex( ) )
-			{
-				case 0 :
-					this.slValues.topControl = cmpURL;
-					break;
-				case 1 :
-					this.slValues.topControl = cmpTooltip;
-					break;
-				case 2 :
-					this.slValues.topControl = cmpVisiblity;
-					break;
-				case 3 :
-					this.slValues.topControl = cmpScript;
-					break;
-				case 4 :
-					this.slValues.topControl = cmpHighlight;
-					break;
-				case 5 :
-					this.slValues.topControl = cmpCallback;
-					break;
-				default :
-					this.slValues.topControl = cmpDefault;
-					break;
-			}
-			grpValue.layout( );
+			switchUI();
 		}
 		else if ( e.getSource( ).equals( btnBaseURL ) )
 		{
