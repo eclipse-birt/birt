@@ -82,13 +82,17 @@ public class MasterPageLayout extends AbstractPageFlowLayout
 			Dimension preferredSize = figure.getPreferredSize( );
 			bounds = bounds.getCopy( );
 
-			if ( bounds.height <= 0 )
+//			if ( bounds.height <= 0 )
+//			{
+//				bounds.height = Math.max( preferredSize.height, MINIMUM_HEIGHT );
+//			}
+//			else if ( bounds.height < MINIMUM_HEIGHT )
+//			{
+//				bounds.height = MINIMUM_HEIGHT;
+//			}
+			if ( bounds.height < 0 )
 			{
 				bounds.height = Math.max( preferredSize.height, MINIMUM_HEIGHT );
-			}
-			else if ( bounds.height < MINIMUM_HEIGHT )
-			{
-				bounds.height = MINIMUM_HEIGHT;
 			}
 
 			// adapt the figure's location to make sure it's inside the client
