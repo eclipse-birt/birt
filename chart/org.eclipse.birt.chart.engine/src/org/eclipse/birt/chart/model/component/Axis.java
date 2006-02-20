@@ -47,6 +47,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getFormatSpecifier <em>Format Specifier</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getLabelPosition <em>Label Position</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isStaggered <em>Staggered</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getInterval <em>Interval</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getMarkerLines <em>Marker Lines</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getMarkerRanges <em>Marker Ranges</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getTriggers <em>Triggers</em>}</li>
@@ -602,6 +603,60 @@ public interface Axis extends EObject
 	 * @generated
 	 */
 	boolean isSetStaggered( );
+
+	/**
+	 * Returns the value of the '<em><b>Interval</b></em>' attribute.
+	 * The default value is <code>"0"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies the showing interval for the labels.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Interval</em>' attribute.
+	 * @see #isSetInterval()
+	 * @see #unsetInterval()
+	 * @see #setInterval(int)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_Interval()
+	 * @model default="0" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
+	 *        extendedMetaData="kind='element' name='Interval'"
+	 * @generated
+	 */
+	int getInterval( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getInterval <em>Interval</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Interval</em>' attribute.
+	 * @see #isSetInterval()
+	 * @see #unsetInterval()
+	 * @see #getInterval()
+	 * @generated
+	 */
+	void setInterval( int value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getInterval <em>Interval</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetInterval()
+	 * @see #getInterval()
+	 * @see #setInterval(int)
+	 * @generated
+	 */
+	void unsetInterval( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getInterval <em>Interval</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Interval</em>' attribute is set.
+	 * @see #unsetInterval()
+	 * @see #getInterval()
+	 * @see #setInterval(int)
+	 * @generated
+	 */
+	boolean isSetInterval( );
 
 	/**
 	 * Returns the value of the '<em><b>Marker Lines</b></em>' containment reference list.

@@ -150,6 +150,11 @@
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
+					<xsd:element name="ConnectMissingValue" type="xsd:boolean" default="true" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Specifies if connect the missing values in the line or just skip drawing.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>

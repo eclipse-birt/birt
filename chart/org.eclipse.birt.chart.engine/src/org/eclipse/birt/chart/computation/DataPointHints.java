@@ -46,6 +46,8 @@ public final class DataPointHints
 
 	private Object oSeriesValue;
 
+	private Object oPercentileOrthogonalValue;
+
 	private Map userValueMap;
 
 	private final Location lo;
@@ -54,7 +56,7 @@ public final class DataPointHints
 
 	private final DataPoint dp;
 
-	private final FormatSpecifier fsBase, fsOrthogonal, fsSeries;
+	private final FormatSpecifier fsBase, fsOrthogonal, fsSeries, fsPercentile;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation" ); //$NON-NLS-1$
 
@@ -70,15 +72,16 @@ public final class DataPointHints
 	 * @param _lcl
 	 * @throws UndefinedValueException
 	 */
-	public DataPointHints(
-			Object _oBaseValue,
+	public DataPointHints( Object _oBaseValue,
 			Object _oOrthogonalValue,
 			Object _oSeriesValue,
+			Object _oPercentileValue,
 			DataPoint _dp, // FOR COMBINED VALUE
 			// RETRIEVAL
 			FormatSpecifier _fsBase, FormatSpecifier _fsOrthogonal,
-			FormatSpecifier _fsSeries, Location _lo, double _dSize,
-			RunTimeContext _rtc ) throws ChartException
+			FormatSpecifier _fsSeries, FormatSpecifier _fsPercentile,
+			Location _lo, double _dSize, RunTimeContext _rtc )
+			throws ChartException
 	{
 		if ( _dp == null )
 		{
@@ -91,10 +94,12 @@ public final class DataPointHints
 		oBaseValue = _oBaseValue;
 		oOrthogonalValue = _oOrthogonalValue;
 		oSeriesValue = _oSeriesValue;
+		oPercentileOrthogonalValue = _oPercentileValue;
 
 		fsBase = _fsBase;
 		fsOrthogonal = _fsOrthogonal;
 		fsSeries = _fsSeries;
+		fsPercentile = _fsPercentile;
 
 		lo = _lo;
 		rtc = _rtc;
@@ -118,23 +123,26 @@ public final class DataPointHints
 	 * @param _rtc
 	 * @throws ChartException
 	 */
-	public DataPointHints(
-			Object _oBaseValue,
+	public DataPointHints( Object _oBaseValue,
 			Object _oOrthogonalValue,
 			Object _oSeriesValue,
+			Object _oPercentileValue,
 			DataPoint _dp, // FOR COMBINED VALUE
 			// RETRIEVAL
 			FormatSpecifier _fsBase, FormatSpecifier _fsOrthogonal,
-			FormatSpecifier _fsSeries, Location _lo, double[] _dSize,
-			RunTimeContext _rtc ) throws ChartException
+			FormatSpecifier _fsSeries, FormatSpecifier _fsPercentile,
+			Location _lo, double[] _dSize, RunTimeContext _rtc )
+			throws ChartException
 	{
 		this( _oBaseValue,
 				_oOrthogonalValue,
 				_oSeriesValue,
+				_oPercentileValue,
 				_dp,
 				_fsBase,
 				_fsOrthogonal,
 				_fsSeries,
+				_fsPercentile,
 				_lo,
 				0,
 				_rtc );
@@ -154,10 +162,12 @@ public final class DataPointHints
 		return new DataPointHints( oBaseValue,
 				oOrthogonalValue,
 				oSeriesValue,
+				oPercentileOrthogonalValue,
 				dp,
 				fsBase,
 				fsOrthogonal,
 				fsSeries,
+				fsPercentile,
 				lo,
 				dSize,
 				rtc );
@@ -171,7 +181,7 @@ public final class DataPointHints
 	 * @param _oSeriesValue
 	 */
 	public void accumulate( Object _oBaseValue, Object _oOrthogonalValue,
-			Object _oSeriesValue )
+			Object _oSeriesValue, Object _oPercentileOrthogonalValue )
 	{
 		if ( oBaseValue instanceof Number )
 		{
@@ -254,6 +264,33 @@ public final class DataPointHints
 			}
 		}
 
+		if ( oPercentileOrthogonalValue instanceof Number )
+		{
+			if ( _oPercentileOrthogonalValue instanceof Number )
+			{
+				oPercentileOrthogonalValue = new Double( ( (Number) oPercentileOrthogonalValue ).doubleValue( )
+						+ ( (Number) _oPercentileOrthogonalValue ).doubleValue( ) );
+			}
+			else if ( _oPercentileOrthogonalValue instanceof NumberDataElement )
+			{
+				oPercentileOrthogonalValue = new Double( ( (Number) oPercentileOrthogonalValue ).doubleValue( )
+						+ ( (NumberDataElement) _oPercentileOrthogonalValue ).getValue( ) );
+			}
+		}
+		else if ( oPercentileOrthogonalValue instanceof NumberDataElement )
+		{
+			if ( _oPercentileOrthogonalValue instanceof Number )
+			{
+				( (NumberDataElement) oPercentileOrthogonalValue ).setValue( ( (NumberDataElement) oPercentileOrthogonalValue ).getValue( )
+						+ ( (Number) _oPercentileOrthogonalValue ).doubleValue( ) );
+			}
+			else if ( _oPercentileOrthogonalValue instanceof NumberDataElement )
+			{
+				( (NumberDataElement) oPercentileOrthogonalValue ).setValue( ( (NumberDataElement) oPercentileOrthogonalValue ).getValue( )
+						+ ( (NumberDataElement) _oPercentileOrthogonalValue ).getValue( ) );
+			}
+		}
+
 	}
 
 	/**
@@ -284,6 +321,16 @@ public final class DataPointHints
 	public final Object getSeriesValue( )
 	{
 		return oSeriesValue;
+	}
+
+	/**
+	 * Returns the percentile orthogonal value of current DataPointHintes.
+	 * 
+	 * @return
+	 */
+	public final Object getPercentileOrthogonalValue( )
+	{
+		return oPercentileOrthogonalValue;
 	}
 
 	/**
@@ -396,6 +443,17 @@ public final class DataPointHints
 	}
 
 	/**
+	 * Returns the percentile orthogonal display value of current
+	 * DataPointHintes.
+	 * 
+	 * @return
+	 */
+	public final String getPercentileOrthogonalDisplayValue( )
+	{
+		return getPercentileOrthogonalDisplayValue( fsPercentile );
+	}
+
+	/**
 	 * Returns the base display value of current DataPointHintes using given
 	 * format specifier.
 	 * 
@@ -489,6 +547,37 @@ public final class DataPointHints
 	}
 
 	/**
+	 * Returns the percentile orthogonal display value of current
+	 * DataPointHintes using given format specifier.
+	 * 
+	 * @return
+	 */
+	private final String getPercentileOrthogonalDisplayValue( FormatSpecifier fs )
+	{
+		if ( oPercentileOrthogonalValue == null )
+		{
+			return IConstants.NULL_STRING;
+		}
+		try
+		{
+			return ValueFormatter.format( oPercentileOrthogonalValue,
+					fs,
+					rtc.getLocale( ),
+					null );
+		}
+		catch ( Exception ex )
+		{
+			logger.log( ILogger.ERROR,
+					Messages.getString( "exception.parse.value.format.specifier", //$NON-NLS-1$
+							new Object[]{
+									oPercentileOrthogonalValue, fs
+							},
+							rtc.getLocale( ) ) );
+		}
+		return String.valueOf( oPercentileOrthogonalValue );
+	}
+
+	/**
 	 * Returns the display value of current DataPointHintes.
 	 * 
 	 * @return
@@ -520,6 +609,10 @@ public final class DataPointHints
 			else if ( dpct == DataPointComponentType.SERIES_VALUE_LITERAL )
 			{
 				sb.append( getSeriesDisplayValue( ) );
+			}
+			else if ( dpct == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL )
+			{
+				sb.append( getPercentileOrthogonalDisplayValue( ) );
 			}
 
 			if ( i < el.size( ) - 1 )

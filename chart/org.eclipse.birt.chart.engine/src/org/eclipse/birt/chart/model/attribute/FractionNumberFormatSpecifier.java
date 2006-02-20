@@ -304,7 +304,7 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier
 	 * @generated
 	 */
 	boolean isSetDelimiter( );
-	
+
 	/**
 	 * Formats a value using the internally defined format specifier rules
 	 * 

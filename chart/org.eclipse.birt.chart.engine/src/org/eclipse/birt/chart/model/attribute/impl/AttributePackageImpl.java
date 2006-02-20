@@ -841,10 +841,10 @@ public class AttributePackageImpl extends EPackageImpl implements
 				: ComponentPackage.eINSTANCE );
 		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
 				: DataPackage.eINSTANCE );
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
-				: LayoutPackage.eINSTANCE );
 		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
 				: ModelPackage.eINSTANCE );
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
+				: LayoutPackage.eINSTANCE );
 		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
 				: TypePackage.eINSTANCE );
 
@@ -852,16 +852,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 		theAttributePackage.createPackageContents( );
 		theComponentPackage.createPackageContents( );
 		theDataPackage.createPackageContents( );
-		theLayoutPackage.createPackageContents( );
 		theModelPackage.createPackageContents( );
+		theLayoutPackage.createPackageContents( );
 		theTypePackage.createPackageContents( );
 
 		// Initialize created meta-data
 		theAttributePackage.initializePackageContents( );
 		theComponentPackage.initializePackageContents( );
 		theDataPackage.initializePackageContents( );
-		theLayoutPackage.initializePackageContents( );
 		theModelPackage.initializePackageContents( );
+		theLayoutPackage.initializePackageContents( );
 		theTypePackage.initializePackageContents( );
 
 		// Register package validator
@@ -3678,6 +3678,8 @@ public class AttributePackageImpl extends EPackageImpl implements
 				DataPointComponentType.ORTHOGONAL_VALUE_LITERAL );
 		addEEnumLiteral( dataPointComponentTypeEEnum,
 				DataPointComponentType.SERIES_VALUE_LITERAL );
+		addEEnumLiteral( dataPointComponentTypeEEnum,
+				DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL );
 
 		initEEnum( dataTypeEEnum, DataType.class, "DataType" ); //$NON-NLS-1$
 		addEEnumLiteral( dataTypeEEnum, DataType.NUMERIC_LITERAL );

@@ -132,6 +132,17 @@
         <details key="name" value="ShadowColor"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="connectMissingValue" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+        defaultValueLiteral="true" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Specifies if connect the missing values in the line or just skip drawing."/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="ConnectMissingValue"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PieSeries" eSuperTypes="org.eclipse.birt.chart.model.component.ecore#//Series">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

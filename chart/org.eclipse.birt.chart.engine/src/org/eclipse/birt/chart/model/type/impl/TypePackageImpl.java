@@ -304,6 +304,16 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLineSeries_ConnectMissingValue( )
+	{
+		return (EAttribute) lineSeriesEClass.getEStructuralFeatures( ).get( 5 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -475,6 +485,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		createEAttribute( lineSeriesEClass, LINE_SERIES__PALETTE_LINE_COLOR );
 		createEAttribute( lineSeriesEClass, LINE_SERIES__CURVE );
 		createEReference( lineSeriesEClass, LINE_SERIES__SHADOW_COLOR );
+		createEAttribute( lineSeriesEClass, LINE_SERIES__CONNECT_MISSING_VALUE );
 
 		pieSeriesEClass = createEClass( PIE_SERIES );
 		createEAttribute( pieSeriesEClass, PIE_SERIES__EXPLOSION );
@@ -586,6 +597,9 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 				theAttributePackage.getColorDefinition( ),
 				null,
 				"shadowColor", null, 1, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getLineSeries_ConnectMissingValue( ),
+				theXMLTypePackage.getBoolean( ),
+				"connectMissingValue", "true", 0, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( pieSeriesEClass,
 				PieSeries.class,
@@ -707,6 +721,12 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "ShadowColor" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
+		addAnnotation( getLineSeries_ConnectMissingValue( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "ConnectMissingValue" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( pieSeriesEClass, source, new String[]{
 				"name", "PieSeries", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$

@@ -367,12 +367,22 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAxis_Interval( )
+	{
+		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 14 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EReference getAxis_MarkerLines( )
 	{
-		return (EReference) axisEClass.getEStructuralFeatures( ).get( 14 );
+		return (EReference) axisEClass.getEStructuralFeatures( ).get( 15 );
 	}
 
 	/**
@@ -381,7 +391,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 */
 	public EReference getAxis_MarkerRanges( )
 	{
-		return (EReference) axisEClass.getEStructuralFeatures( ).get( 15 );
+		return (EReference) axisEClass.getEStructuralFeatures( ).get( 16 );
 	}
 
 	/**
@@ -391,7 +401,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 */
 	public EReference getAxis_Triggers( )
 	{
-		return (EReference) axisEClass.getEStructuralFeatures( ).get( 16 );
+		return (EReference) axisEClass.getEStructuralFeatures( ).get( 17 );
 	}
 
 	/**
@@ -400,7 +410,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 */
 	public EReference getAxis_MajorGrid( )
 	{
-		return (EReference) axisEClass.getEStructuralFeatures( ).get( 17 );
+		return (EReference) axisEClass.getEStructuralFeatures( ).get( 18 );
 	}
 
 	/**
@@ -409,7 +419,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 */
 	public EReference getAxis_MinorGrid( )
 	{
-		return (EReference) axisEClass.getEStructuralFeatures( ).get( 18 );
+		return (EReference) axisEClass.getEStructuralFeatures( ).get( 19 );
 	}
 
 	/**
@@ -418,7 +428,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 */
 	public EReference getAxis_Scale( )
 	{
-		return (EReference) axisEClass.getEStructuralFeatures( ).get( 19 );
+		return (EReference) axisEClass.getEStructuralFeatures( ).get( 20 );
 	}
 
 	/**
@@ -427,7 +437,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 */
 	public EReference getAxis_Origin( )
 	{
-		return (EReference) axisEClass.getEStructuralFeatures( ).get( 20 );
+		return (EReference) axisEClass.getEStructuralFeatures( ).get( 21 );
 	}
 
 	/**
@@ -436,7 +446,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 */
 	public EAttribute getAxis_PrimaryAxis( )
 	{
-		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 21 );
+		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 22 );
 	}
 
 	/**
@@ -445,7 +455,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 */
 	public EAttribute getAxis_CategoryAxis( )
 	{
-		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 22 );
+		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 23 );
 	}
 
 	/**
@@ -454,7 +464,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 */
 	public EAttribute getAxis_Percent( )
 	{
-		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 23 );
+		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 24 );
 	}
 
 	/**
@@ -1217,6 +1227,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEReference( axisEClass, AXIS__FORMAT_SPECIFIER );
 		createEAttribute( axisEClass, AXIS__LABEL_POSITION );
 		createEAttribute( axisEClass, AXIS__STAGGERED );
+		createEAttribute( axisEClass, AXIS__INTERVAL );
 		createEReference( axisEClass, AXIS__MARKER_LINES );
 		createEReference( axisEClass, AXIS__MARKER_RANGES );
 		createEReference( axisEClass, AXIS__TRIGGERS );
@@ -1406,6 +1417,9 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		initEAttribute( getAxis_Staggered( ),
 				theXMLTypePackage.getBoolean( ),
 				"staggered", null, 1, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getAxis_Interval( ),
+				theXMLTypePackage.getInt( ),
+				"interval", "0", 0, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getAxis_MarkerLines( ),
 				this.getMarkerLine( ),
 				null,
@@ -1802,6 +1816,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		addAnnotation( getAxis_Staggered( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Staggered" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getAxis_Interval( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Interval" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_MarkerLines( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$

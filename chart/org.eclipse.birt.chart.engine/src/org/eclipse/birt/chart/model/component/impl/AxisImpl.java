@@ -72,6 +72,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLabelPosition <em>Label Position</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isStaggered <em>Staggered</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getInterval <em>Interval</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerLines <em>Marker Lines</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerRanges <em>Marker Ranges</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getTriggers <em>Triggers</em>}</li>
@@ -331,6 +332,35 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @ordered
 	 */
 	protected boolean staggeredESet = false;
+
+	/**
+	 * The default value of the '{@link #getInterval() <em>Interval</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInterval()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int INTERVAL_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getInterval() <em>Interval</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInterval()
+	 * @generated
+	 * @ordered
+	 */
+	protected int interval = INTERVAL_EDEFAULT;
+
+	/**
+	 * This is true if the Interval attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean intervalESet = false;
 
 	/**
 	 * The cached value of the '{@link #getMarkerLines() <em>Marker Lines</em>}' containment reference list.
@@ -1215,6 +1245,66 @@ public class AxisImpl extends EObjectImpl implements Axis
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getInterval( )
+	{
+		return interval;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setInterval( int newInterval )
+	{
+		int oldInterval = interval;
+		interval = newInterval;
+		boolean oldIntervalESet = intervalESet;
+		intervalESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.AXIS__INTERVAL,
+					oldInterval,
+					interval,
+					!oldIntervalESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetInterval( )
+	{
+		int oldInterval = interval;
+		boolean oldIntervalESet = intervalESet;
+		interval = INTERVAL_EDEFAULT;
+		intervalESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					ComponentPackage.AXIS__INTERVAL,
+					oldInterval,
+					INTERVAL_EDEFAULT,
+					oldIntervalESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetInterval( )
+	{
+		return intervalESet;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1775,6 +1865,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return getLabelPosition( );
 			case ComponentPackage.AXIS__STAGGERED :
 				return isStaggered( ) ? Boolean.TRUE : Boolean.FALSE;
+			case ComponentPackage.AXIS__INTERVAL :
+				return new Integer( getInterval( ) );
 			case ComponentPackage.AXIS__MARKER_LINES :
 				return getMarkerLines( );
 			case ComponentPackage.AXIS__MARKER_RANGES :
@@ -1852,6 +1944,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return;
 			case ComponentPackage.AXIS__STAGGERED :
 				setStaggered( ( (Boolean) newValue ).booleanValue( ) );
+				return;
+			case ComponentPackage.AXIS__INTERVAL :
+				setInterval( ( (Integer) newValue ).intValue( ) );
 				return;
 			case ComponentPackage.AXIS__MARKER_LINES :
 				getMarkerLines( ).clear( );
@@ -1941,6 +2036,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__STAGGERED :
 				unsetStaggered( );
 				return;
+			case ComponentPackage.AXIS__INTERVAL :
+				unsetInterval( );
+				return;
 			case ComponentPackage.AXIS__MARKER_LINES :
 				getMarkerLines( ).clear( );
 				return;
@@ -2013,6 +2111,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return isSetLabelPosition( );
 			case ComponentPackage.AXIS__STAGGERED :
 				return isSetStaggered( );
+			case ComponentPackage.AXIS__INTERVAL :
+				return isSetInterval( );
 			case ComponentPackage.AXIS__MARKER_LINES :
 				return markerLines != null && !markerLines.isEmpty( );
 			case ComponentPackage.AXIS__MARKER_RANGES :
@@ -2075,6 +2175,11 @@ public class AxisImpl extends EObjectImpl implements Axis
 		result.append( ", staggered: " ); //$NON-NLS-1$
 		if ( staggeredESet )
 			result.append( staggered );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", interval: " ); //$NON-NLS-1$
+		if ( intervalESet )
+			result.append( interval );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ", primaryAxis: " ); //$NON-NLS-1$

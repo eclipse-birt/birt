@@ -30,6 +30,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.component.ecore#//Axis/formatSpecifier"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.component.ecore#//Axis/labelPosition"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.component.ecore#//Axis/staggered"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.component.ecore#//Axis/interval"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.component.ecore#//Axis/markerLines"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.component.ecore#//Axis/markerRanges"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.component.ecore#//Axis/triggers"/>
@@ -239,6 +240,7 @@
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//DataPointComponentType/BaseValue"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//DataPointComponentType/OrthogonalValue"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//DataPointComponentType/SeriesValue"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//DataPointComponentType/PercentileOrthogonalValue"/>
     </genEnums>
     <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//DataType">
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//DataType/Numeric"/>
@@ -716,6 +718,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//LineSeries/paletteLineColor"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//LineSeries/curve"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//LineSeries/shadowColor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//LineSeries/connectMissingValue"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//PieSeries">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/explosion"/>

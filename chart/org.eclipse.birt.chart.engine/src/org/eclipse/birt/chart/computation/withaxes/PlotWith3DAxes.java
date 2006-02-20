@@ -42,6 +42,7 @@ import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.DataSet;
+import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
@@ -550,16 +551,17 @@ public class PlotWith3DAxes extends PlotWithAxes
 			{
 				dZ1 -= dYAxisLabelsThickness;
 				dZ2 += Math.max( // IF LABELS ARE LEFT, THEN RIGHT SPACING IS
-						// MAX(RT_TICK_SIZE, HORZ_SPACING)
-						bTicksRight ? TICK_SIZE : 0, dAppliedYAxisPlotSpacing );
+				// MAX(RT_TICK_SIZE, HORZ_SPACING)
+				bTicksRight ? TICK_SIZE : 0,
+						dAppliedYAxisPlotSpacing );
 			}
 			else if ( iYLabelLocation == RIGHT )
 			{
 				dZ2 += Math.max( // IF LABELS ARE RIGHT, THEN RIGHT SPACING
-						// IS
-						// MAX(RT_TICK_SIZE+AXIS_LBL_THCKNESS,
-						// HORZ_SPACING)
-						( bTicksRight ? TICK_SIZE : 0 ) + dYAxisLabelsThickness,
+				// IS
+				// MAX(RT_TICK_SIZE+AXIS_LBL_THCKNESS,
+				// HORZ_SPACING)
+				( bTicksRight ? TICK_SIZE : 0 ) + dYAxisLabelsThickness,
 						dAppliedYAxisPlotSpacing );
 			}
 
@@ -1408,7 +1410,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 			final EList el = dp.getComponents( );
 			DataPointComponent dpc;
 			DataPointComponentType dpct;
-			FormatSpecifier fsBase = null, fsOrthogonal = null, fsSeries = null;
+			FormatSpecifier fsBase = null, fsOrthogonal = null, fsSeries = null, fsPercentile = null;
 			for ( int i = 0; i < el.size( ); i++ )
 			{
 				dpc = (DataPointComponent) el.get( i );
@@ -1438,6 +1440,10 @@ public class PlotWith3DAxes extends PlotWithAxes
 						fsSeries = fsSDAncillary;
 					}
 				}
+				else if ( dpct == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL )
+				{
+					fsPercentile = dpc.getFormatSpecifier( );
+				}
 			}
 
 			dsiDataBase.reset( );
@@ -1445,6 +1451,25 @@ public class PlotWith3DAxes extends PlotWithAxes
 
 			UserDataSetHints udsh = new UserDataSetHints( seOrthogonal.getDataSets( ) );
 			udsh.reset( );
+
+			double total = 0;
+
+			// get total orthogonal value.
+			for ( int i = 0; i < iOrthogonalCount; i++ )
+			{
+				Object v = dsiDataOrthogonal.next( );
+
+				if ( v instanceof Number )
+				{
+					total += ( (Number) v ).doubleValue( );
+				}
+				else if ( v instanceof NumberDataElement )
+				{
+					total += ( (NumberDataElement) v ).getValue( );
+				}
+			}
+
+			dsiDataOrthogonal.reset( );
 
 			for ( int i = 0; i < iBaseCount; i++ )
 			{
@@ -1555,13 +1580,31 @@ public class PlotWith3DAxes extends PlotWithAxes
 						- daZTickCoordinates[seriesIndex]
 						: 0;
 
+				Object percentileValue = null;
+
+				if ( total != 0 )
+				{
+					if ( oDataOrthogonal instanceof Number )
+					{
+						percentileValue = new Double( ( (Number) oDataOrthogonal ).doubleValue( )
+								/ total );
+					}
+					else if ( oDataOrthogonal instanceof NumberDataElement )
+					{
+						percentileValue = new Double( ( (NumberDataElement) oDataOrthogonal ).getValue( )
+								/ total );
+					}
+				}
+
 				dpa[i] = new DataPointHints( oDataBase,
 						oDataOrthogonal,
 						oDataAncillary,
+						percentileValue,
 						seOrthogonal.getDataPoint( ),
 						fsBase,
 						fsOrthogonal,
 						fsSeries,
+						fsPercentile,
 						lo3d,
 						new double[]{
 								dXLength, dZLength

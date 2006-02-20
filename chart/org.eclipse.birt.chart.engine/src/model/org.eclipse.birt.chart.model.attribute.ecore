@@ -407,6 +407,7 @@
     <eLiterals name="BaseValue" literal="Base_Value"/>
     <eLiterals name="OrthogonalValue" value="1" literal="Orthogonal_Value"/>
     <eLiterals name="SeriesValue" value="2" literal="Series_Value"/>
+    <eLiterals name="PercentileOrthogonalValue" value="3" literal="Percentile_Orthogonal_Value"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="DataPointComponentTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

@@ -109,6 +109,11 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element name="Interval" type="xsd:int" default="0" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the showing interval for the labels.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element name="MarkerLines" type="MarkerLine" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">

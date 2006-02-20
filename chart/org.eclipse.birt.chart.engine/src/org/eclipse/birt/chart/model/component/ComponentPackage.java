@@ -193,12 +193,21 @@ public interface ComponentPackage extends EPackage
 	int AXIS__STAGGERED = 13;
 
 	/**
+	 * The feature id for the '<em><b>Interval</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AXIS__INTERVAL = 14;
+
+	/**
 	 * The feature id for the '<em><b>Marker Lines</b></em>' containment reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__MARKER_LINES = 14;
+	int AXIS__MARKER_LINES = 15;
 
 	/**
 	 * The feature id for the '<em><b>Marker Ranges</b></em>' containment reference list.
@@ -206,7 +215,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__MARKER_RANGES = 15;
+	int AXIS__MARKER_RANGES = 16;
 
 	/**
 	 * The feature id for the '<em><b>Triggers</b></em>' containment reference list.
@@ -215,7 +224,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__TRIGGERS = 16;
+	int AXIS__TRIGGERS = 17;
 
 	/**
 	 * The feature id for the '<em><b>Major Grid</b></em>' containment reference.
@@ -223,7 +232,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__MAJOR_GRID = 17;
+	int AXIS__MAJOR_GRID = 18;
 
 	/**
 	 * The feature id for the '<em><b>Minor Grid</b></em>' containment reference.
@@ -231,7 +240,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__MINOR_GRID = 18;
+	int AXIS__MINOR_GRID = 19;
 
 	/**
 	 * The feature id for the '<em><b>Scale</b></em>' containment reference.
@@ -239,7 +248,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__SCALE = 19;
+	int AXIS__SCALE = 20;
 
 	/**
 	 * The feature id for the '<em><b>Origin</b></em>' containment reference.
@@ -247,7 +256,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__ORIGIN = 20;
+	int AXIS__ORIGIN = 21;
 
 	/**
 	 * The feature id for the '<em><b>Primary Axis</b></em>' attribute.
@@ -255,7 +264,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__PRIMARY_AXIS = 21;
+	int AXIS__PRIMARY_AXIS = 22;
 
 	/**
 	 * The feature id for the '<em><b>Category Axis</b></em>' attribute.
@@ -263,7 +272,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__CATEGORY_AXIS = 22;
+	int AXIS__CATEGORY_AXIS = 23;
 
 	/**
 	 * The feature id for the '<em><b>Percent</b></em>' attribute. <!--
@@ -272,7 +281,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__PERCENT = 23;
+	int AXIS__PERCENT = 24;
 
 	/**
 	 * The number of structural features of the '<em>Axis</em>' class.
@@ -280,7 +289,7 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS_FEATURE_COUNT = 24;
+	int AXIS_FEATURE_COUNT = 25;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl <em>Chart Preferences</em>}' class.
@@ -1265,6 +1274,17 @@ public interface ComponentPackage extends EPackage
 	 * @generated
 	 */
 	EAttribute getAxis_Staggered( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Axis#getInterval <em>Interval</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Interval</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Axis#getInterval()
+	 * @see #getAxis()
+	 * @generated
+	 */
+	EAttribute getAxis_Interval( );
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.component.Axis#getMarkerLines <em>Marker Lines</em>}'.
@@ -2294,6 +2314,14 @@ public interface ComponentPackage extends EPackage
 		 * @generated
 		 */
 		EAttribute AXIS__STAGGERED = eINSTANCE.getAxis_Staggered( );
+
+		/**
+		 * The meta object literal for the '<em><b>Interval</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AXIS__INTERVAL = eINSTANCE.getAxis_Interval( );
 
 		/**
 		 * The meta object literal for the '<em><b>Marker Lines</b></em>' containment reference list feature.

@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
@@ -213,7 +214,8 @@ public final class PlotWithoutAxes
 							new Object[]{
 									new Integer( dsiBaseValues.size( ) ),
 									new Integer( dsiOrthogonalValues.size( ) )
-							}, rtc.getLocale( ) ) );
+							},
+							rtc.getLocale( ) ) );
 		}
 		else
 		{
@@ -226,7 +228,7 @@ public final class PlotWithoutAxes
 			final EList el = dp.getComponents( );
 			DataPointComponent dpc;
 			DataPointComponentType dpct;
-			FormatSpecifier fsBase = null, fsOrthogonal = null, fsSeries = null;
+			FormatSpecifier fsBase = null, fsOrthogonal = null, fsSeries = null, fsPercentile = null;
 			for ( int i = 0; i < el.size( ); i++ )
 			{
 				dpc = (DataPointComponent) el.get( i );
@@ -252,20 +254,63 @@ public final class PlotWithoutAxes
 				{
 					fsSeries = dpc.getFormatSpecifier( );
 				}
+				else if ( dpct == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL )
+				{
+					fsPercentile = dpc.getFormatSpecifier( );
+				}
 			}
 
 			UserDataSetHints udsh = new UserDataSetHints( seOrthogonal.getDataSets( ) );
 			udsh.reset( );
 
+			double total = 0;
+
+			// get total orthogonal value.
 			for ( int i = 0; i < iCount; i++ )
 			{
+				Object v = dsiOrthogonalValues.next( );
+
+				if ( v instanceof Number )
+				{
+					total += ( (Number) v ).doubleValue( );
+				}
+				else if ( v instanceof NumberDataElement )
+				{
+					total += ( (NumberDataElement) v ).getValue( );
+				}
+			}
+
+			dsiOrthogonalValues.reset( );
+
+			for ( int i = 0; i < iCount; i++ )
+			{
+				Object orthValue = dsiOrthogonalValues.next( );
+
+				Object percentileValue = null;
+
+				if ( total != 0 )
+				{
+					if ( orthValue instanceof Number )
+					{
+						percentileValue = new Double( ( (Number) orthValue ).doubleValue( )
+								/ total );
+					}
+					else if ( orthValue instanceof NumberDataElement )
+					{
+						percentileValue = new Double( ( (NumberDataElement) orthValue ).getValue( )
+								/ total );
+					}
+				}
+
 				dpha[i] = new DataPointHints( dsiBaseValues.next( ),
-						dsiOrthogonalValues.next( ),
+						orthValue,
 						seOrthogonal.getSeriesIdentifier( ),
+						percentileValue,
 						seOrthogonal.getDataPoint( ),
 						fsBase,
 						fsOrthogonal,
 						fsSeries,
+						fsPercentile,
 						null,
 						-1,
 						rtc );

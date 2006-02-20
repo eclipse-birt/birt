@@ -42,6 +42,7 @@ import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.DataSet;
+import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
@@ -461,7 +462,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					Messages.getString( "info.processing.stacked.info", //$NON-NLS-1$
 							new Object[]{
 								ax
-							}, rtc.getLocale( ) ) );
+							},
+							rtc.getLocale( ) ) );
 			int iSeriesIndex, iDataSetCount = ssl.getUnitCount( );
 
 			for ( int k = 0; k < iDataSetCount; k++ ) // PER UNIT
@@ -1235,8 +1237,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						+ dDelta
 						- 1 : dX2 + 1 - dAxisTitleThickness + dDelta // dX1<=>dX<=>dX2
 				// INCORPORATES
-						// TITLE
-						);
+				// TITLE
+				);
 			}
 			else if ( iOrientation == HORIZONTAL )
 			{
@@ -1382,8 +1384,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						- 1
 						: dY2 + 1 - dAxisTitleThickness + dDelta // dY1<=>dX<=>dY2
 				// INCORPORATES
-						// TITLE
-						);
+				// TITLE
+				);
 
 				dBlockLength -= ( dY2 - dY1 ); // SHIFT BOTTOM EDGE <<
 			}
@@ -1576,7 +1578,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			final EList el = dp.getComponents( );
 			DataPointComponent dpc;
 			DataPointComponentType dpct;
-			FormatSpecifier fsBase = null, fsOrthogonal = null, fsSeries = null;
+			FormatSpecifier fsBase = null, fsOrthogonal = null, fsSeries = null, fsPercentile = null;
 			for ( int i = 0; i < el.size( ); i++ )
 			{
 				dpc = (DataPointComponent) el.get( i );
@@ -1602,6 +1604,10 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				{
 					fsSeries = dpc.getFormatSpecifier( );
 				}
+				else if ( dpct == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL )
+				{
+					fsPercentile = dpc.getFormatSpecifier( );
+				}
 			}
 
 			dsiDataBase.reset( );
@@ -1609,6 +1615,25 @@ public final class PlotWith2DAxes extends PlotWithAxes
 
 			UserDataSetHints udsh = new UserDataSetHints( seOrthogonal.getDataSets( ) );
 			udsh.reset( );
+
+			double total = 0;
+
+			// get total orthogonal value.
+			for ( int i = 0; i < iOrthogonalCount; i++ )
+			{
+				Object v = dsiDataOrthogonal.next( );
+
+				if ( v instanceof Number )
+				{
+					total += ( (Number) v ).doubleValue( );
+				}
+				else if ( v instanceof NumberDataElement )
+				{
+					total += ( (NumberDataElement) v ).getValue( );
+				}
+			}
+
+			dsiDataOrthogonal.reset( );
 
 			for ( int i = 0; i < iBaseCount; i++ )
 			{
@@ -1693,13 +1718,31 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				dLength = ( i < iTickCount - 1 ) ? daTickCoordinates[i + 1]
 						- daTickCoordinates[i] : 0;
 
+				Object percentileValue = null;
+
+				if ( total != 0 )
+				{
+					if ( oDataOrthogonal instanceof Number )
+					{
+						percentileValue = new Double( ( (Number) oDataOrthogonal ).doubleValue( )
+								/ total );
+					}
+					else if ( oDataOrthogonal instanceof NumberDataElement )
+					{
+						percentileValue = new Double( ( (NumberDataElement) oDataOrthogonal ).getValue( )
+								/ total );
+					}
+				}
+
 				dpa[i] = new DataPointHints( oDataBase,
 						oDataOrthogonal,
 						seOrthogonal.getSeriesIdentifier( ),
+						percentileValue,
 						seOrthogonal.getDataPoint( ),
 						fsBase,
 						fsOrthogonal,
 						fsSeries,
+						fsPercentile,
 						lo,
 						dLength,
 						rtc );

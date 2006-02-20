@@ -222,4 +222,58 @@ public interface LineSeries extends Series
 	 */
 	void setShadowColor( ColorDefinition value );
 
+	/**
+	 * Returns the value of the '<em><b>Connect Missing Value</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies if connect the missing values in the line or just skip drawing.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Connect Missing Value</em>' attribute.
+	 * @see #isSetConnectMissingValue()
+	 * @see #unsetConnectMissingValue()
+	 * @see #setConnectMissingValue(boolean)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getLineSeries_ConnectMissingValue()
+	 * @model default="true" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 *        extendedMetaData="kind='element' name='ConnectMissingValue'"
+	 * @generated
+	 */
+	boolean isConnectMissingValue( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isConnectMissingValue <em>Connect Missing Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Connect Missing Value</em>' attribute.
+	 * @see #isSetConnectMissingValue()
+	 * @see #unsetConnectMissingValue()
+	 * @see #isConnectMissingValue()
+	 * @generated
+	 */
+	void setConnectMissingValue( boolean value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isConnectMissingValue <em>Connect Missing Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetConnectMissingValue()
+	 * @see #isConnectMissingValue()
+	 * @see #setConnectMissingValue(boolean)
+	 * @generated
+	 */
+	void unsetConnectMissingValue( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isConnectMissingValue <em>Connect Missing Value</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Connect Missing Value</em>' attribute is set.
+	 * @see #unsetConnectMissingValue()
+	 * @see #isConnectMissingValue()
+	 * @see #setConnectMissingValue(boolean)
+	 * @generated
+	 */
+	boolean isSetConnectMissingValue( );
+
 } // LineSeries

@@ -24,26 +24,24 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#isPrecise <em>Precise</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getFractionDigits <em>Fraction Digits</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getNumerator <em>Numerator</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getPrefix <em>Prefix</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getSuffix <em>Suffix</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getDelimiter <em>Delimiter</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#isPrecise <em>Precise</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getFractionDigits <em>Fraction Digits</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getNumerator <em>Numerator</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getPrefix <em>Prefix</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getSuffix <em>Suffix</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getDelimiter <em>Delimiter</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
-public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
-		implements
-			FractionNumberFormatSpecifier
+public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl implements
+		FractionNumberFormatSpecifier
 {
 
 	/**
-	 * The default value of the '{@link #isPrecise() <em>Precise</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isPrecise() <em>Precise</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isPrecise()
 	 * @generated
 	 * @ordered
@@ -51,9 +49,8 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	protected static final boolean PRECISE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isPrecise() <em>Precise</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isPrecise() <em>Precise</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isPrecise()
 	 * @generated
 	 * @ordered
@@ -61,18 +58,17 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	protected boolean precise = PRECISE_EDEFAULT;
 
 	/**
-	 * This is true if the Precise attribute has been set. <!-- begin-user-doc
+	 * This is true if the Precise attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean preciseESet = false;
 
 	/**
-	 * The default value of the '{@link #getFractionDigits() <em>Fraction Digits</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getFractionDigits() <em>Fraction Digits</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFractionDigits()
 	 * @generated
 	 * @ordered
@@ -80,9 +76,8 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	protected static final int FRACTION_DIGITS_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getFractionDigits() <em>Fraction Digits</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getFractionDigits() <em>Fraction Digits</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFractionDigits()
 	 * @generated
 	 * @ordered
@@ -99,9 +94,8 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	protected boolean fractionDigitsESet = false;
 
 	/**
-	 * The default value of the '{@link #getNumerator() <em>Numerator</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getNumerator() <em>Numerator</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getNumerator()
 	 * @generated
 	 * @ordered
@@ -109,9 +103,8 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	protected static final double NUMERATOR_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getNumerator() <em>Numerator</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getNumerator() <em>Numerator</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getNumerator()
 	 * @generated
 	 * @ordered
@@ -119,18 +112,17 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	protected double numerator = NUMERATOR_EDEFAULT;
 
 	/**
-	 * This is true if the Numerator attribute has been set. <!-- begin-user-doc
+	 * This is true if the Numerator attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean numeratorESet = false;
 
 	/**
-	 * The default value of the '{@link #getPrefix() <em>Prefix</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPrefix()
 	 * @generated
 	 * @ordered
@@ -138,9 +130,8 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	protected static final String PREFIX_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getPrefix() <em>Prefix</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPrefix()
 	 * @generated
 	 * @ordered
@@ -148,9 +139,8 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	protected String prefix = PREFIX_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getSuffix() <em>Suffix</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getSuffix() <em>Suffix</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSuffix()
 	 * @generated
 	 * @ordered
@@ -158,9 +148,8 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	protected static final String SUFFIX_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getSuffix() <em>Suffix</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getSuffix() <em>Suffix</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSuffix()
 	 * @generated
 	 * @ordered
@@ -168,9 +157,8 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	protected String suffix = SUFFIX_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getDelimiter() <em>Delimiter</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getDelimiter() <em>Delimiter</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDelimiter()
 	 * @generated
 	 * @ordered
@@ -178,9 +166,8 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	protected static final String DELIMITER_EDEFAULT = "/"; //$NON-NLS-1$
 
 	/**
-	 * The cached value of the '{@link #getDelimiter() <em>Delimiter</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getDelimiter() <em>Delimiter</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDelimiter()
 	 * @generated
 	 * @ordered
@@ -188,9 +175,9 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 	protected String delimiter = DELIMITER_EDEFAULT;
 
 	/**
-	 * This is true if the Delimiter attribute has been set. <!-- begin-user-doc
+	 * This is true if the Delimiter attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -198,7 +185,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected FractionNumberFormatSpecifierImpl( )
@@ -208,7 +194,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -218,7 +203,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isPrecise( )
@@ -228,7 +212,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setPrecise( boolean newPrecise )
@@ -248,7 +231,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetPrecise( )
@@ -268,7 +250,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetPrecise( )
@@ -278,7 +259,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getFractionDigits( )
@@ -288,7 +268,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setFractionDigits( int newFractionDigits )
@@ -308,7 +287,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetFractionDigits( )
@@ -328,7 +306,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetFractionDigits( )
@@ -338,7 +315,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getNumerator( )
@@ -348,7 +324,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setNumerator( double newNumerator )
@@ -368,7 +343,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetNumerator( )
@@ -388,7 +362,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetNumerator( )
@@ -398,7 +371,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getPrefix( )
@@ -408,7 +380,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setPrefix( String newPrefix )
@@ -425,7 +396,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getSuffix( )
@@ -435,7 +405,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setSuffix( String newSuffix )
@@ -452,7 +421,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getDelimiter( )
@@ -462,7 +430,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setDelimiter( String newDelimiter )
@@ -482,7 +449,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetDelimiter( )
@@ -502,7 +468,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetDelimiter( )
@@ -512,7 +477,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
@@ -537,7 +501,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( int featureID, Object newValue )
@@ -568,7 +531,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( int featureID )
@@ -599,7 +561,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( int featureID )
@@ -626,7 +587,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -690,12 +650,14 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
 		}
 		else if ( getNumerator( ) > 0 )
 		{
-			fraction = FractionApproximator.getFractionWithNumerator( dValue, (int)getNumerator( ) );
+			fraction = FractionApproximator.getFractionWithNumerator( dValue,
+					(int) getNumerator( ) );
 		}
 		// Using max digits for denominator to calculate
 		else
 		{
-			fraction = FractionApproximator.getFractionWithMaxDigits( dValue, getFractionDigits( ) );
+			fraction = FractionApproximator.getFractionWithMaxDigits( dValue,
+					getFractionDigits( ) );
 		}
 
 		// Generate the formatted string

@@ -221,12 +221,21 @@ public interface TypePackage extends EPackage
 	int LINE_SERIES__SHADOW_COLOR = ComponentPackage.SERIES_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Connect Missing Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINE_SERIES__CONNECT_MISSING_VALUE = ComponentPackage.SERIES_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>Line Series</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LINE_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 5;
+	int LINE_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl <em>Area Series</em>}' class.
@@ -381,6 +390,15 @@ public interface TypePackage extends EPackage
 	 * @ordered
 	 */
 	int AREA_SERIES__SHADOW_COLOR = LINE_SERIES__SHADOW_COLOR;
+
+	/**
+	 * The feature id for the '<em><b>Connect Missing Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AREA_SERIES__CONNECT_MISSING_VALUE = LINE_SERIES__CONNECT_MISSING_VALUE;
 
 	/**
 	 * The number of structural features of the '<em>Area Series</em>' class.
@@ -975,6 +993,15 @@ public interface TypePackage extends EPackage
 	int SCATTER_SERIES__SHADOW_COLOR = LINE_SERIES__SHADOW_COLOR;
 
 	/**
+	 * The feature id for the '<em><b>Connect Missing Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__CONNECT_MISSING_VALUE = LINE_SERIES__CONNECT_MISSING_VALUE;
+
+	/**
 	 * The number of structural features of the '<em>Scatter Series</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -1238,6 +1265,17 @@ public interface TypePackage extends EPackage
 	 * @generated
 	 */
 	EReference getLineSeries_ShadowColor( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.LineSeries#isConnectMissingValue <em>Connect Missing Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Connect Missing Value</em>'.
+	 * @see org.eclipse.birt.chart.model.type.LineSeries#isConnectMissingValue()
+	 * @see #getLineSeries()
+	 * @generated
+	 */
+	EAttribute getLineSeries_ConnectMissingValue( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.PieSeries <em>Pie Series</em>}'.
@@ -1513,6 +1551,14 @@ public interface TypePackage extends EPackage
 		 * @generated
 		 */
 		EReference LINE_SERIES__SHADOW_COLOR = eINSTANCE.getLineSeries_ShadowColor( );
+
+		/**
+		 * The meta object literal for the '<em><b>Connect Missing Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LINE_SERIES__CONNECT_MISSING_VALUE = eINSTANCE.getLineSeries_ConnectMissingValue( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl <em>Pie Series</em>}' class.

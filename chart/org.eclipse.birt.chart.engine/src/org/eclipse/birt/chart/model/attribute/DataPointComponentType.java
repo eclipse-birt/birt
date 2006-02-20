@@ -67,6 +67,21 @@ public final class DataPointComponentType extends AbstractEnumerator
 	public static final int SERIES_VALUE = 2;
 
 	/**
+	 * The '<em><b>Percentile Orthogonal Value</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Percentile Orthogonal Value</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #PERCENTILE_ORTHOGONAL_VALUE_LITERAL
+	 * @model name="PercentileOrthogonalValue" literal="Percentile_Orthogonal_Value"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int PERCENTILE_ORTHOGONAL_VALUE = 3;
+
+	/**
 	 * The '<em><b>Base Value</b></em>' literal object.
 	 * <!-- begin-user-doc
 	 * -->
@@ -80,7 +95,7 @@ public final class DataPointComponentType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final DataPointComponentType BASE_VALUE_LITERAL = new DataPointComponentType( BASE_VALUE,
-			"BaseValue", "Base_Value" ); //$NON-NLS-1$
+			"BaseValue", "Base_Value" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
 	 * The '<em><b>Orthogonal Value</b></em>' literal object. <!--
@@ -96,7 +111,7 @@ public final class DataPointComponentType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final DataPointComponentType ORTHOGONAL_VALUE_LITERAL = new DataPointComponentType( ORTHOGONAL_VALUE,
-			"OrthogonalValue", "Orthogonal_Value" ); //$NON-NLS-1$
+			"OrthogonalValue", "Orthogonal_Value" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
 	 * The '<em><b>Series Value</b></em>' literal object. <!--
@@ -112,7 +127,18 @@ public final class DataPointComponentType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final DataPointComponentType SERIES_VALUE_LITERAL = new DataPointComponentType( SERIES_VALUE,
-			"SeriesValue", "Series_Value" ); //$NON-NLS-1$
+			"SeriesValue", "Series_Value" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+	/**
+	 * The '<em><b>Percentile Orthogonal Value</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #PERCENTILE_ORTHOGONAL_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	public static final DataPointComponentType PERCENTILE_ORTHOGONAL_VALUE_LITERAL = new DataPointComponentType( PERCENTILE_ORTHOGONAL_VALUE,
+			"PercentileOrthogonalValue", "Percentile_Orthogonal_Value" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
 	 * An array of all the '<em><b>Data Point Component Type</b></em>' enumerators.
@@ -120,7 +146,10 @@ public final class DataPointComponentType extends AbstractEnumerator
 	 * @generated
 	 */
 	private static final DataPointComponentType[] VALUES_ARRAY = new DataPointComponentType[]{
-			BASE_VALUE_LITERAL, ORTHOGONAL_VALUE_LITERAL, SERIES_VALUE_LITERAL,
+			BASE_VALUE_LITERAL,
+			ORTHOGONAL_VALUE_LITERAL,
+			SERIES_VALUE_LITERAL,
+			PERCENTILE_ORTHOGONAL_VALUE_LITERAL,
 	};
 
 	/**
@@ -184,6 +213,8 @@ public final class DataPointComponentType extends AbstractEnumerator
 				return ORTHOGONAL_VALUE_LITERAL;
 			case SERIES_VALUE :
 				return SERIES_VALUE_LITERAL;
+			case PERCENTILE_ORTHOGONAL_VALUE :
+				return PERCENTILE_ORTHOGONAL_VALUE_LITERAL;
 		}
 		return null;
 	}

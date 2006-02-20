@@ -55,6 +55,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#isPaletteLineColor <em>Palette Line Color</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#isCurve <em>Curve</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getShadowColor <em>Shadow Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#isConnectMissingValue <em>Connect Missing Value</em>}</li>
  * </ul>
  * </p>
  *
@@ -143,6 +144,35 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 * @ordered
 	 */
 	protected ColorDefinition shadowColor = null;
+
+	/**
+	 * The default value of the '{@link #isConnectMissingValue() <em>Connect Missing Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isConnectMissingValue()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean CONNECT_MISSING_VALUE_EDEFAULT = true;
+
+	/**
+	 * The cached value of the '{@link #isConnectMissingValue() <em>Connect Missing Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isConnectMissingValue()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean connectMissingValue = CONNECT_MISSING_VALUE_EDEFAULT;
+
+	/**
+	 * This is true if the Connect Missing Value attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean connectMissingValueESet = false;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -477,6 +507,66 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isConnectMissingValue( )
+	{
+		return connectMissingValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setConnectMissingValue( boolean newConnectMissingValue )
+	{
+		boolean oldConnectMissingValue = connectMissingValue;
+		connectMissingValue = newConnectMissingValue;
+		boolean oldConnectMissingValueESet = connectMissingValueESet;
+		connectMissingValueESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					TypePackage.LINE_SERIES__CONNECT_MISSING_VALUE,
+					oldConnectMissingValue,
+					connectMissingValue,
+					!oldConnectMissingValueESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetConnectMissingValue( )
+	{
+		boolean oldConnectMissingValue = connectMissingValue;
+		boolean oldConnectMissingValueESet = connectMissingValueESet;
+		connectMissingValue = CONNECT_MISSING_VALUE_EDEFAULT;
+		connectMissingValueESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					TypePackage.LINE_SERIES__CONNECT_MISSING_VALUE,
+					oldConnectMissingValue,
+					CONNECT_MISSING_VALUE_EDEFAULT,
+					oldConnectMissingValueESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetConnectMissingValue( )
+	{
+		return connectMissingValueESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -511,6 +601,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 				return isCurve( ) ? Boolean.TRUE : Boolean.FALSE;
 			case TypePackage.LINE_SERIES__SHADOW_COLOR :
 				return getShadowColor( );
+			case TypePackage.LINE_SERIES__CONNECT_MISSING_VALUE :
+				return isConnectMissingValue( ) ? Boolean.TRUE : Boolean.FALSE;
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -538,6 +630,9 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 				return;
 			case TypePackage.LINE_SERIES__SHADOW_COLOR :
 				setShadowColor( (ColorDefinition) newValue );
+				return;
+			case TypePackage.LINE_SERIES__CONNECT_MISSING_VALUE :
+				setConnectMissingValue( ( (Boolean) newValue ).booleanValue( ) );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -567,6 +662,9 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 			case TypePackage.LINE_SERIES__SHADOW_COLOR :
 				setShadowColor( (ColorDefinition) null );
 				return;
+			case TypePackage.LINE_SERIES__CONNECT_MISSING_VALUE :
+				unsetConnectMissingValue( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -590,6 +688,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 				return isSetCurve( );
 			case TypePackage.LINE_SERIES__SHADOW_COLOR :
 				return shadowColor != null;
+			case TypePackage.LINE_SERIES__CONNECT_MISSING_VALUE :
+				return isSetConnectMissingValue( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -612,6 +712,11 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 		result.append( ", curve: " ); //$NON-NLS-1$
 		if ( curveESet )
 			result.append( curve );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", connectMissingValue: " ); //$NON-NLS-1$
+		if ( connectMissingValueESet )
+			result.append( connectMissingValue );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
