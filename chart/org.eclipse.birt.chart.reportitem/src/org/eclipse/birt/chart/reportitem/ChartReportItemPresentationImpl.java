@@ -123,7 +123,7 @@ public final class ChartReportItemPresentationImpl extends
 			int idx = formats.indexOf( ';' );
 			if ( idx == -1 )
 			{
-				if ( isOutputRendererSupported( formats ) ) //$NON-NLS-1$
+				if ( isOutputRendererSupported( formats ) )
 				{
 					return formats;
 				}
@@ -132,7 +132,7 @@ public final class ChartReportItemPresentationImpl extends
 			{
 				String ext = formats.substring( 0, idx );
 
-				if ( isOutputRendererSupported( ext ) ) //$NON-NLS-1$
+				if ( isOutputRendererSupported( ext ) )
 				{
 					return ext;
 				}
@@ -247,7 +247,14 @@ public final class ChartReportItemPresentationImpl extends
 		}
 		else
 		{
-			sExtension = sOutputFormat;
+			if ( isOutputRendererSupported( outputFormat ) )
+			{
+				sExtension = outputFormat;
+			}
+			else
+			{
+				sExtension = getFirstSupportedFormat( sSupportedFormats );
+			}
 		}
 	}
 
@@ -284,9 +291,11 @@ public final class ChartReportItemPresentationImpl extends
 
 				rtc = drtc;
 				cm = rtc.getScriptContext( ).getChartInstance( );
-				// Set back the cm into the handle from the engine, so that the chart inside the 
-				// reportdesignhandle is the same as the one used during presentation.
-				if ( cm != null && handle != null)
+				// Set back the cm into the handle from the engine, so that the
+				// chart inside the
+				// reportdesignhandle is the same as the one used during
+				// presentation.
+				if ( cm != null && handle != null )
 				{
 					IReportItem item = ( (ExtendedItem) handle.getElement( ) ).getExtendedElement( );
 					item.setProperty( "chart.instance", cm );//$NON-NLS-1$

@@ -136,7 +136,7 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 			ta.setHorizontalAlignment( ha );
 			ta.setVerticalAlignment( va );
 			FontDefinition fd = FontDefinitionImpl.create( fname,
-					(float) fsize,
+					fsize,
 					fbold,
 					fitalic,
 					funder,
