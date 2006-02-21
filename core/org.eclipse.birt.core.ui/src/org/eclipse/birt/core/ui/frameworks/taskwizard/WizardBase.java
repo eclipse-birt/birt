@@ -26,7 +26,6 @@ import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -59,8 +58,6 @@ public class WizardBase
 
 	private transient TabFolder cmpTaskContainer = null;
 
-	// private transient StackLayout slTaskContainer = null;
-
 	private transient ButtonPanel buttonpanel = null;
 
 	private transient String sCurrentActiveTask = null;
@@ -87,9 +84,6 @@ public class WizardBase
 	private transient Object[] errorHints = null;
 
 	private transient boolean bWasCancelled = true;
-
-	// Use this dummy part for lazy initializtion
-	private transient Label lblDummy = null;
 
 	/**
 	 * Launches the wizard with the specified tasks in 'Available' state...and
@@ -215,15 +209,6 @@ public class WizardBase
 		return null;
 	}
 
-	private Control getDummyTask( )
-	{
-		if ( lblDummy == null )
-		{
-			lblDummy = new Label( cmpTaskContainer, SWT.NONE );
-		}
-		return lblDummy;
-	}
-
 	/**
 	 * Launches the wizard with the first tasks in 'Available' state. Ensure the
 	 * task is registered at first.
@@ -267,9 +252,9 @@ public class WizardBase
 		task.setUIProvider( this );
 		String sLabel = task.getDisplayLabel( Locale.getDefault( ) );
 
-		// Add Dummy UI
+		// Create the blank tab item. UI is only created after the first
+		// initializtion.
 		TabItem item = new TabItem( cmpTaskContainer, SWT.NONE );
-		item.setControl( getDummyTask( ) );
 		item.setText( sLabel );
 
 		// DO NOT ADD DUPLICATE TASKS
@@ -350,7 +335,7 @@ public class WizardBase
 		// Update UI
 		TabItem currentItem = cmpTaskContainer.getItem( cmpTaskContainer.getSelectionIndex( ) );
 		Composite cmpTask = getCurrentTask( ).getUI( cmpTaskContainer );
-		if ( currentItem.getControl( ) == getDummyTask( ) )
+		if ( currentItem.getControl( ) == null )
 		{
 			currentItem.setControl( cmpTask );
 		}
@@ -569,14 +554,15 @@ public class WizardBase
 	{
 		// Initialize and layout UI components of the framework
 		Composite cmpHeader = new Composite( shell, SWT.NONE );
-
-		cmpHeader.setBackground( Display.getDefault( )
-				.getSystemColor( SWT.COLOR_WHITE ) );
-		GridLayout layout = new GridLayout( 2, false );
-		layout.marginHeight = 0;
-		layout.marginWidth = 0;
-		cmpHeader.setLayout( layout );
-		cmpHeader.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		{
+			cmpHeader.setBackground( Display.getDefault( )
+					.getSystemColor( SWT.COLOR_WHITE ) );
+			GridLayout layout = new GridLayout( 2, false );
+			layout.marginHeight = 0;
+			layout.marginWidth = 0;
+			cmpHeader.setLayout( layout );
+			cmpHeader.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		}
 
 		Label lblHeader = new Label( cmpHeader, SWT.NONE );
 		{
@@ -596,10 +582,6 @@ public class WizardBase
 		Label lblSeparator = new Label( shell, SWT.SEPARATOR | SWT.HORIZONTAL );
 		lblSeparator.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		GridLayout glTest = new GridLayout( );
-		glTest.numColumns = 1;
-		glTest.marginHeight = 10;
-		glTest.marginWidth = 20;
 		cmpTaskContainer = new TabFolder( shell, SWT.TOP );
 		cmpTaskContainer.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		cmpTaskContainer.addSelectionListener( this );
@@ -664,7 +646,7 @@ public class WizardBase
 				if ( i < vTaskIDs.size( ) - 1 )
 				{
 					cmpTaskContainer.setSelection( i + 1 );
-					this.switchTo( (String) vTaskIDs.get( i + 1 ) );					
+					this.switchTo( (String) vTaskIDs.get( i + 1 ) );
 					buttonpanel.setButtonEnabled( ButtonPanel.BACK, true );
 				}
 				if ( i == vTaskIDs.size( ) - 2 )
@@ -678,7 +660,7 @@ public class WizardBase
 				if ( i > 0 )
 				{
 					cmpTaskContainer.setSelection( i - 1 );
-					this.switchTo( (String) vTaskIDs.get( i - 1 ) );			
+					this.switchTo( (String) vTaskIDs.get( i - 1 ) );
 					buttonpanel.setButtonEnabled( ButtonPanel.NEXT, true );
 				}
 				if ( i == 1 )
