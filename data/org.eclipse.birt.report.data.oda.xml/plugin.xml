@@ -3,7 +3,7 @@
 <plugin
    id="org.eclipse.birt.report.data.oda.xml"
    name="BIRT ODA-XML Driver"
-   version="2.0.0"
+   version="2.0.1"
    provider-name="Eclipse.org">
    <runtime>
        <library name="lib/resolver.jar">
