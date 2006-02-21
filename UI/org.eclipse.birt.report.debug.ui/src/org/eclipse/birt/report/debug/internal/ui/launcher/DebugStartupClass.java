@@ -61,10 +61,11 @@ public class DebugStartupClass implements IStartup
 			try
 			{
 				DebugUtil.importProject( str );
-			} catch ( Exception e1 )
+			}
+			catch ( Exception e1 )
 			{
-
-				e1.printStackTrace( );
+				// do nothing, the project has inport to the workspace1
+				// e1.printStackTrace( );
 			}
 		}
 	}
