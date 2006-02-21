@@ -1,5 +1,5 @@
 /**
- * Vector.java
+ * DataSetList.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.2.1 Sep 06, 2005 (12:48:20 PDT) WSDL2Java emitter.
@@ -7,49 +7,49 @@
 
 package org.eclipse.birt.report.soapengine.api;
 
-public class Vector  implements java.io.Serializable {
-    private java.lang.String[] value;
+public class DataSetList  implements java.io.Serializable {
+    private org.eclipse.birt.report.soapengine.api.DataSet[] dataSet;
 
-    public Vector() {
+    public DataSetList() {
     }
 
-    public Vector(
-           java.lang.String[] value) {
-           this.value = value;
-    }
-
-
-    /**
-     * Gets the value value for this Vector.
-     * 
-     * @return value
-     */
-    public java.lang.String[] getValue() {
-        return value;
+    public DataSetList(
+           org.eclipse.birt.report.soapengine.api.DataSet[] dataSet) {
+           this.dataSet = dataSet;
     }
 
 
     /**
-     * Sets the value value for this Vector.
+     * Gets the dataSet value for this DataSetList.
      * 
-     * @param value
+     * @return dataSet
      */
-    public void setValue(java.lang.String[] value) {
-        this.value = value;
+    public org.eclipse.birt.report.soapengine.api.DataSet[] getDataSet() {
+        return dataSet;
     }
 
-    public java.lang.String getValue(int i) {
-        return this.value[i];
+
+    /**
+     * Sets the dataSet value for this DataSetList.
+     * 
+     * @param dataSet
+     */
+    public void setDataSet(org.eclipse.birt.report.soapengine.api.DataSet[] dataSet) {
+        this.dataSet = dataSet;
     }
 
-    public void setValue(int i, java.lang.String _value) {
-        this.value[i] = _value;
+    public org.eclipse.birt.report.soapengine.api.DataSet getDataSet(int i) {
+        return this.dataSet[i];
+    }
+
+    public void setDataSet(int i, org.eclipse.birt.report.soapengine.api.DataSet _value) {
+        this.dataSet[i] = _value;
     }
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof Vector)) return false;
-        Vector other = (Vector) obj;
+        if (!(obj instanceof DataSetList)) return false;
+        DataSetList other = (DataSetList) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -58,9 +58,9 @@ public class Vector  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
-            ((this.value==null && other.getValue()==null) || 
-             (this.value!=null &&
-              java.util.Arrays.equals(this.value, other.getValue())));
+            ((this.dataSet==null && other.getDataSet()==null) || 
+             (this.dataSet!=null &&
+              java.util.Arrays.equals(this.dataSet, other.getDataSet())));
         __equalsCalc = null;
         return _equals;
     }
@@ -72,11 +72,11 @@ public class Vector  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        if (getValue() != null) {
+        if (getDataSet() != null) {
             for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getValue());
+                 i<java.lang.reflect.Array.getLength(getDataSet());
                  i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getValue(), i);
+                java.lang.Object obj = java.lang.reflect.Array.get(getDataSet(), i);
                 if (obj != null &&
                     !obj.getClass().isArray()) {
                     _hashCode += obj.hashCode();
@@ -89,14 +89,14 @@ public class Vector  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(Vector.class, true);
+        new org.apache.axis.description.TypeDesc(DataSetList.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Vector"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSetList"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("value");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Value"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setFieldName("dataSet");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSet"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSet"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         elemField.setMaxOccursUnbounded(true);

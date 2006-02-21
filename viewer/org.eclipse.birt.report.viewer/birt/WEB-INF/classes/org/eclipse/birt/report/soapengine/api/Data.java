@@ -2,7 +2,7 @@
  * Data.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
+ * by the Apache Axis 1.2.1 Sep 06, 2005 (12:48:20 PDT) WSDL2Java emitter.
  */
 
 package org.eclipse.birt.report.soapengine.api;
@@ -14,9 +14,18 @@ public class Data  implements java.io.Serializable {
     private org.eclipse.birt.report.soapengine.api.TOC TOC;
     private org.eclipse.birt.report.soapengine.api.Export export;
     private org.eclipse.birt.report.soapengine.api.CascadeParameter cascadeParameter;
-    private org.eclipse.birt.report.soapengine.api.SimpleFilter simpleFilter;
+    private org.eclipse.birt.report.soapengine.api.Filter filter;
     private org.eclipse.birt.report.soapengine.api.Vector columnValues;
     private org.eclipse.birt.report.soapengine.api.Page page;
+    private org.eclipse.birt.report.soapengine.api.DataSetList dataSets;
+    private org.eclipse.birt.report.soapengine.api.ReportElementList reportElementList;
+    private org.eclipse.birt.report.soapengine.api.ThemeList themes;
+    private org.eclipse.birt.report.soapengine.api.ColumnDefinitionGroup columnDefs;
+    private org.eclipse.birt.report.soapengine.api.SectionDefinition sectionDef;
+    private org.eclipse.birt.report.soapengine.api.ChartProperties chart;
+    private java.lang.String labelText;
+    private org.eclipse.birt.report.soapengine.api.FileBrowsing fileBrowsing;
+    private org.eclipse.birt.report.soapengine.api.DataSourceList dataSources;
 
     public Data() {
     }
@@ -28,18 +37,36 @@ public class Data  implements java.io.Serializable {
            org.eclipse.birt.report.soapengine.api.TOC TOC,
            org.eclipse.birt.report.soapengine.api.Export export,
            org.eclipse.birt.report.soapengine.api.CascadeParameter cascadeParameter,
-           org.eclipse.birt.report.soapengine.api.SimpleFilter simpleFilter,
+           org.eclipse.birt.report.soapengine.api.Filter filter,
            org.eclipse.birt.report.soapengine.api.Vector columnValues,
-           org.eclipse.birt.report.soapengine.api.Page page) {
+           org.eclipse.birt.report.soapengine.api.Page page,
+           org.eclipse.birt.report.soapengine.api.DataSetList dataSets,
+           org.eclipse.birt.report.soapengine.api.ReportElementList reportElementList,
+           org.eclipse.birt.report.soapengine.api.ThemeList themes,
+           org.eclipse.birt.report.soapengine.api.ColumnDefinitionGroup columnDefs,
+           org.eclipse.birt.report.soapengine.api.SectionDefinition sectionDef,
+           org.eclipse.birt.report.soapengine.api.ChartProperties chart,
+           java.lang.String labelText,
+           org.eclipse.birt.report.soapengine.api.FileBrowsing fileBrowsing,
+           org.eclipse.birt.report.soapengine.api.DataSourceList dataSources) {
            this.font = font;
            this.resultSets = resultSets;
            this.format = format;
            this.TOC = TOC;
            this.export = export;
            this.cascadeParameter = cascadeParameter;
-           this.simpleFilter = simpleFilter;
+           this.filter = filter;
            this.columnValues = columnValues;
            this.page = page;
+           this.dataSets = dataSets;
+           this.reportElementList = reportElementList;
+           this.themes = themes;
+           this.columnDefs = columnDefs;
+           this.sectionDef = sectionDef;
+           this.chart = chart;
+           this.labelText = labelText;
+           this.fileBrowsing = fileBrowsing;
+           this.dataSources = dataSources;
     }
 
 
@@ -164,22 +191,22 @@ public class Data  implements java.io.Serializable {
 
 
     /**
-     * Gets the simpleFilter value for this Data.
+     * Gets the filter value for this Data.
      * 
-     * @return simpleFilter
+     * @return filter
      */
-    public org.eclipse.birt.report.soapengine.api.SimpleFilter getSimpleFilter() {
-        return simpleFilter;
+    public org.eclipse.birt.report.soapengine.api.Filter getFilter() {
+        return filter;
     }
 
 
     /**
-     * Sets the simpleFilter value for this Data.
+     * Sets the filter value for this Data.
      * 
-     * @param simpleFilter
+     * @param filter
      */
-    public void setSimpleFilter(org.eclipse.birt.report.soapengine.api.SimpleFilter simpleFilter) {
-        this.simpleFilter = simpleFilter;
+    public void setFilter(org.eclipse.birt.report.soapengine.api.Filter filter) {
+        this.filter = filter;
     }
 
 
@@ -222,6 +249,186 @@ public class Data  implements java.io.Serializable {
         this.page = page;
     }
 
+
+    /**
+     * Gets the dataSets value for this Data.
+     * 
+     * @return dataSets
+     */
+    public org.eclipse.birt.report.soapengine.api.DataSetList getDataSets() {
+        return dataSets;
+    }
+
+
+    /**
+     * Sets the dataSets value for this Data.
+     * 
+     * @param dataSets
+     */
+    public void setDataSets(org.eclipse.birt.report.soapengine.api.DataSetList dataSets) {
+        this.dataSets = dataSets;
+    }
+
+
+    /**
+     * Gets the reportElementList value for this Data.
+     * 
+     * @return reportElementList
+     */
+    public org.eclipse.birt.report.soapengine.api.ReportElementList getReportElementList() {
+        return reportElementList;
+    }
+
+
+    /**
+     * Sets the reportElementList value for this Data.
+     * 
+     * @param reportElementList
+     */
+    public void setReportElementList(org.eclipse.birt.report.soapengine.api.ReportElementList reportElementList) {
+        this.reportElementList = reportElementList;
+    }
+
+
+    /**
+     * Gets the themes value for this Data.
+     * 
+     * @return themes
+     */
+    public org.eclipse.birt.report.soapengine.api.ThemeList getThemes() {
+        return themes;
+    }
+
+
+    /**
+     * Sets the themes value for this Data.
+     * 
+     * @param themes
+     */
+    public void setThemes(org.eclipse.birt.report.soapengine.api.ThemeList themes) {
+        this.themes = themes;
+    }
+
+
+    /**
+     * Gets the columnDefs value for this Data.
+     * 
+     * @return columnDefs
+     */
+    public org.eclipse.birt.report.soapengine.api.ColumnDefinitionGroup getColumnDefs() {
+        return columnDefs;
+    }
+
+
+    /**
+     * Sets the columnDefs value for this Data.
+     * 
+     * @param columnDefs
+     */
+    public void setColumnDefs(org.eclipse.birt.report.soapengine.api.ColumnDefinitionGroup columnDefs) {
+        this.columnDefs = columnDefs;
+    }
+
+
+    /**
+     * Gets the sectionDef value for this Data.
+     * 
+     * @return sectionDef
+     */
+    public org.eclipse.birt.report.soapengine.api.SectionDefinition getSectionDef() {
+        return sectionDef;
+    }
+
+
+    /**
+     * Sets the sectionDef value for this Data.
+     * 
+     * @param sectionDef
+     */
+    public void setSectionDef(org.eclipse.birt.report.soapengine.api.SectionDefinition sectionDef) {
+        this.sectionDef = sectionDef;
+    }
+
+
+    /**
+     * Gets the chart value for this Data.
+     * 
+     * @return chart
+     */
+    public org.eclipse.birt.report.soapengine.api.ChartProperties getChart() {
+        return chart;
+    }
+
+
+    /**
+     * Sets the chart value for this Data.
+     * 
+     * @param chart
+     */
+    public void setChart(org.eclipse.birt.report.soapengine.api.ChartProperties chart) {
+        this.chart = chart;
+    }
+
+
+    /**
+     * Gets the labelText value for this Data.
+     * 
+     * @return labelText
+     */
+    public java.lang.String getLabelText() {
+        return labelText;
+    }
+
+
+    /**
+     * Sets the labelText value for this Data.
+     * 
+     * @param labelText
+     */
+    public void setLabelText(java.lang.String labelText) {
+        this.labelText = labelText;
+    }
+
+
+    /**
+     * Gets the fileBrowsing value for this Data.
+     * 
+     * @return fileBrowsing
+     */
+    public org.eclipse.birt.report.soapengine.api.FileBrowsing getFileBrowsing() {
+        return fileBrowsing;
+    }
+
+
+    /**
+     * Sets the fileBrowsing value for this Data.
+     * 
+     * @param fileBrowsing
+     */
+    public void setFileBrowsing(org.eclipse.birt.report.soapengine.api.FileBrowsing fileBrowsing) {
+        this.fileBrowsing = fileBrowsing;
+    }
+
+
+    /**
+     * Gets the dataSources value for this Data.
+     * 
+     * @return dataSources
+     */
+    public org.eclipse.birt.report.soapengine.api.DataSourceList getDataSources() {
+        return dataSources;
+    }
+
+
+    /**
+     * Sets the dataSources value for this Data.
+     * 
+     * @param dataSources
+     */
+    public void setDataSources(org.eclipse.birt.report.soapengine.api.DataSourceList dataSources) {
+        this.dataSources = dataSources;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof Data)) return false;
@@ -252,15 +459,42 @@ public class Data  implements java.io.Serializable {
             ((this.cascadeParameter==null && other.getCascadeParameter()==null) || 
              (this.cascadeParameter!=null &&
               this.cascadeParameter.equals(other.getCascadeParameter()))) &&
-            ((this.simpleFilter==null && other.getSimpleFilter()==null) || 
-             (this.simpleFilter!=null &&
-              this.simpleFilter.equals(other.getSimpleFilter()))) &&
+            ((this.filter==null && other.getFilter()==null) || 
+             (this.filter!=null &&
+              this.filter.equals(other.getFilter()))) &&
             ((this.columnValues==null && other.getColumnValues()==null) || 
              (this.columnValues!=null &&
               this.columnValues.equals(other.getColumnValues()))) &&
             ((this.page==null && other.getPage()==null) || 
              (this.page!=null &&
-              this.page.equals(other.getPage())));
+              this.page.equals(other.getPage()))) &&
+            ((this.dataSets==null && other.getDataSets()==null) || 
+             (this.dataSets!=null &&
+              this.dataSets.equals(other.getDataSets()))) &&
+            ((this.reportElementList==null && other.getReportElementList()==null) || 
+             (this.reportElementList!=null &&
+              this.reportElementList.equals(other.getReportElementList()))) &&
+            ((this.themes==null && other.getThemes()==null) || 
+             (this.themes!=null &&
+              this.themes.equals(other.getThemes()))) &&
+            ((this.columnDefs==null && other.getColumnDefs()==null) || 
+             (this.columnDefs!=null &&
+              this.columnDefs.equals(other.getColumnDefs()))) &&
+            ((this.sectionDef==null && other.getSectionDef()==null) || 
+             (this.sectionDef!=null &&
+              this.sectionDef.equals(other.getSectionDef()))) &&
+            ((this.chart==null && other.getChart()==null) || 
+             (this.chart!=null &&
+              this.chart.equals(other.getChart()))) &&
+            ((this.labelText==null && other.getLabelText()==null) || 
+             (this.labelText!=null &&
+              this.labelText.equals(other.getLabelText()))) &&
+            ((this.fileBrowsing==null && other.getFileBrowsing()==null) || 
+             (this.fileBrowsing!=null &&
+              this.fileBrowsing.equals(other.getFileBrowsing()))) &&
+            ((this.dataSources==null && other.getDataSources()==null) || 
+             (this.dataSources!=null &&
+              this.dataSources.equals(other.getDataSources())));
         __equalsCalc = null;
         return _equals;
     }
@@ -290,14 +524,41 @@ public class Data  implements java.io.Serializable {
         if (getCascadeParameter() != null) {
             _hashCode += getCascadeParameter().hashCode();
         }
-        if (getSimpleFilter() != null) {
-            _hashCode += getSimpleFilter().hashCode();
+        if (getFilter() != null) {
+            _hashCode += getFilter().hashCode();
         }
         if (getColumnValues() != null) {
             _hashCode += getColumnValues().hashCode();
         }
         if (getPage() != null) {
             _hashCode += getPage().hashCode();
+        }
+        if (getDataSets() != null) {
+            _hashCode += getDataSets().hashCode();
+        }
+        if (getReportElementList() != null) {
+            _hashCode += getReportElementList().hashCode();
+        }
+        if (getThemes() != null) {
+            _hashCode += getThemes().hashCode();
+        }
+        if (getColumnDefs() != null) {
+            _hashCode += getColumnDefs().hashCode();
+        }
+        if (getSectionDef() != null) {
+            _hashCode += getSectionDef().hashCode();
+        }
+        if (getChart() != null) {
+            _hashCode += getChart().hashCode();
+        }
+        if (getLabelText() != null) {
+            _hashCode += getLabelText().hashCode();
+        }
+        if (getFileBrowsing() != null) {
+            _hashCode += getFileBrowsing().hashCode();
+        }
+        if (getDataSources() != null) {
+            _hashCode += getDataSources().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -352,9 +613,9 @@ public class Data  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("simpleFilter");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SimpleFilter"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SimpleFilter"));
+        elemField.setFieldName("filter");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Filter"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Filter"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
@@ -369,6 +630,69 @@ public class Data  implements java.io.Serializable {
         elemField.setFieldName("page");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Page"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Page"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("dataSets");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSets"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSetList"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("reportElementList");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportElementList"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportElementList"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("themes");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Themes"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ThemeList"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("columnDefs");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ColumnDefs"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ColumnDefinitionGroup"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("sectionDef");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SectionDef"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SectionDefinition"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("chart");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Chart"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ChartProperties"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("labelText");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "LabelText"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("fileBrowsing");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FileBrowsing"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FileBrowsing"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("dataSources");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSources"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSourceList"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

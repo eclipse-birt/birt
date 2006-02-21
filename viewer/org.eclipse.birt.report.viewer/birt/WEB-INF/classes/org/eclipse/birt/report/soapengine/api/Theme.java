@@ -1,5 +1,5 @@
 /**
- * Oprand.java
+ * Theme.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.2.1 Sep 06, 2005 (12:48:20 PDT) WSDL2Java emitter.
@@ -7,23 +7,46 @@
 
 package org.eclipse.birt.report.soapengine.api;
 
-public class Oprand  implements java.io.Serializable {
+public class Theme  implements java.io.Serializable {
+    private long id;
     private java.lang.String name;
-    private java.lang.String value;
+    private java.lang.String displayName;
 
-    public Oprand() {
+    public Theme() {
     }
 
-    public Oprand(
+    public Theme(
+           long id,
            java.lang.String name,
-           java.lang.String value) {
+           java.lang.String displayName) {
+           this.id = id;
            this.name = name;
-           this.value = value;
+           this.displayName = displayName;
     }
 
 
     /**
-     * Gets the name value for this Oprand.
+     * Gets the id value for this Theme.
+     * 
+     * @return id
+     */
+    public long getId() {
+        return id;
+    }
+
+
+    /**
+     * Sets the id value for this Theme.
+     * 
+     * @param id
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+
+    /**
+     * Gets the name value for this Theme.
      * 
      * @return name
      */
@@ -33,7 +56,7 @@ public class Oprand  implements java.io.Serializable {
 
 
     /**
-     * Sets the name value for this Oprand.
+     * Sets the name value for this Theme.
      * 
      * @param name
      */
@@ -43,28 +66,28 @@ public class Oprand  implements java.io.Serializable {
 
 
     /**
-     * Gets the value value for this Oprand.
+     * Gets the displayName value for this Theme.
      * 
-     * @return value
+     * @return displayName
      */
-    public java.lang.String getValue() {
-        return value;
+    public java.lang.String getDisplayName() {
+        return displayName;
     }
 
 
     /**
-     * Sets the value value for this Oprand.
+     * Sets the displayName value for this Theme.
      * 
-     * @param value
+     * @param displayName
      */
-    public void setValue(java.lang.String value) {
-        this.value = value;
+    public void setDisplayName(java.lang.String displayName) {
+        this.displayName = displayName;
     }
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof Oprand)) return false;
-        Oprand other = (Oprand) obj;
+        if (!(obj instanceof Theme)) return false;
+        Theme other = (Theme) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -73,12 +96,13 @@ public class Oprand  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
+            this.id == other.getId() &&
             ((this.name==null && other.getName()==null) || 
              (this.name!=null &&
               this.name.equals(other.getName()))) &&
-            ((this.value==null && other.getValue()==null) || 
-             (this.value!=null &&
-              this.value.equals(other.getValue())));
+            ((this.displayName==null && other.getDisplayName()==null) || 
+             (this.displayName!=null &&
+              this.displayName.equals(other.getDisplayName())));
         __equalsCalc = null;
         return _equals;
     }
@@ -90,11 +114,12 @@ public class Oprand  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
+        _hashCode += new Long(getId()).hashCode();
         if (getName() != null) {
             _hashCode += getName().hashCode();
         }
-        if (getValue() != null) {
-            _hashCode += getValue().hashCode();
+        if (getDisplayName() != null) {
+            _hashCode += getDisplayName().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -102,19 +127,25 @@ public class Oprand  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(Oprand.class, true);
+        new org.apache.axis.description.TypeDesc(Theme.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Oprand"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Theme"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("id");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Id"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "long"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("name");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Name"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("value");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Value"));
+        elemField.setFieldName("displayName");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DisplayName"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

@@ -1,5 +1,5 @@
 /**
- * Oprand.java
+ * FileSearch.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.2.1 Sep 06, 2005 (12:48:20 PDT) WSDL2Java emitter.
@@ -7,64 +7,41 @@
 
 package org.eclipse.birt.report.soapengine.api;
 
-public class Oprand  implements java.io.Serializable {
-    private java.lang.String name;
-    private java.lang.String value;
+public class FileSearch  implements java.io.Serializable {
+    private java.lang.String fileType;
 
-    public Oprand() {
+    public FileSearch() {
     }
 
-    public Oprand(
-           java.lang.String name,
-           java.lang.String value) {
-           this.name = name;
-           this.value = value;
+    public FileSearch(
+           java.lang.String fileType) {
+           this.fileType = fileType;
     }
 
 
     /**
-     * Gets the name value for this Oprand.
+     * Gets the fileType value for this FileSearch.
      * 
-     * @return name
+     * @return fileType
      */
-    public java.lang.String getName() {
-        return name;
+    public java.lang.String getFileType() {
+        return fileType;
     }
 
 
     /**
-     * Sets the name value for this Oprand.
+     * Sets the fileType value for this FileSearch.
      * 
-     * @param name
+     * @param fileType
      */
-    public void setName(java.lang.String name) {
-        this.name = name;
-    }
-
-
-    /**
-     * Gets the value value for this Oprand.
-     * 
-     * @return value
-     */
-    public java.lang.String getValue() {
-        return value;
-    }
-
-
-    /**
-     * Sets the value value for this Oprand.
-     * 
-     * @param value
-     */
-    public void setValue(java.lang.String value) {
-        this.value = value;
+    public void setFileType(java.lang.String fileType) {
+        this.fileType = fileType;
     }
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof Oprand)) return false;
-        Oprand other = (Oprand) obj;
+        if (!(obj instanceof FileSearch)) return false;
+        FileSearch other = (FileSearch) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -73,12 +50,9 @@ public class Oprand  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
-            ((this.name==null && other.getName()==null) || 
-             (this.name!=null &&
-              this.name.equals(other.getName()))) &&
-            ((this.value==null && other.getValue()==null) || 
-             (this.value!=null &&
-              this.value.equals(other.getValue())));
+            ((this.fileType==null && other.getFileType()==null) || 
+             (this.fileType!=null &&
+              this.fileType.equals(other.getFileType())));
         __equalsCalc = null;
         return _equals;
     }
@@ -90,11 +64,8 @@ public class Oprand  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        if (getName() != null) {
-            _hashCode += getName().hashCode();
-        }
-        if (getValue() != null) {
-            _hashCode += getValue().hashCode();
+        if (getFileType() != null) {
+            _hashCode += getFileType().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -102,19 +73,13 @@ public class Oprand  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(Oprand.class, true);
+        new org.apache.axis.description.TypeDesc(FileSearch.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Oprand"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FileSearch"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("name");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Name"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("value");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Value"));
+        elemField.setFieldName("fileType");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FileType"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

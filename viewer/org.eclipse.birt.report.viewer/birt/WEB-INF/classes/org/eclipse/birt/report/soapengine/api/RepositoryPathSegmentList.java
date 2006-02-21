@@ -1,5 +1,5 @@
 /**
- * Vector.java
+ * RepositoryPathSegmentList.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.2.1 Sep 06, 2005 (12:48:20 PDT) WSDL2Java emitter.
@@ -7,49 +7,49 @@
 
 package org.eclipse.birt.report.soapengine.api;
 
-public class Vector  implements java.io.Serializable {
-    private java.lang.String[] value;
+public class RepositoryPathSegmentList  implements java.io.Serializable {
+    private org.eclipse.birt.report.soapengine.api.RepositoryPathSegment[] segment;
 
-    public Vector() {
+    public RepositoryPathSegmentList() {
     }
 
-    public Vector(
-           java.lang.String[] value) {
-           this.value = value;
-    }
-
-
-    /**
-     * Gets the value value for this Vector.
-     * 
-     * @return value
-     */
-    public java.lang.String[] getValue() {
-        return value;
+    public RepositoryPathSegmentList(
+           org.eclipse.birt.report.soapengine.api.RepositoryPathSegment[] segment) {
+           this.segment = segment;
     }
 
 
     /**
-     * Sets the value value for this Vector.
+     * Gets the segment value for this RepositoryPathSegmentList.
      * 
-     * @param value
+     * @return segment
      */
-    public void setValue(java.lang.String[] value) {
-        this.value = value;
+    public org.eclipse.birt.report.soapengine.api.RepositoryPathSegment[] getSegment() {
+        return segment;
     }
 
-    public java.lang.String getValue(int i) {
-        return this.value[i];
+
+    /**
+     * Sets the segment value for this RepositoryPathSegmentList.
+     * 
+     * @param segment
+     */
+    public void setSegment(org.eclipse.birt.report.soapengine.api.RepositoryPathSegment[] segment) {
+        this.segment = segment;
     }
 
-    public void setValue(int i, java.lang.String _value) {
-        this.value[i] = _value;
+    public org.eclipse.birt.report.soapengine.api.RepositoryPathSegment getSegment(int i) {
+        return this.segment[i];
+    }
+
+    public void setSegment(int i, org.eclipse.birt.report.soapengine.api.RepositoryPathSegment _value) {
+        this.segment[i] = _value;
     }
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof Vector)) return false;
-        Vector other = (Vector) obj;
+        if (!(obj instanceof RepositoryPathSegmentList)) return false;
+        RepositoryPathSegmentList other = (RepositoryPathSegmentList) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -58,9 +58,9 @@ public class Vector  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
-            ((this.value==null && other.getValue()==null) || 
-             (this.value!=null &&
-              java.util.Arrays.equals(this.value, other.getValue())));
+            ((this.segment==null && other.getSegment()==null) || 
+             (this.segment!=null &&
+              java.util.Arrays.equals(this.segment, other.getSegment())));
         __equalsCalc = null;
         return _equals;
     }
@@ -72,11 +72,11 @@ public class Vector  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        if (getValue() != null) {
+        if (getSegment() != null) {
             for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getValue());
+                 i<java.lang.reflect.Array.getLength(getSegment());
                  i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getValue(), i);
+                java.lang.Object obj = java.lang.reflect.Array.get(getSegment(), i);
                 if (obj != null &&
                     !obj.getClass().isArray()) {
                     _hashCode += obj.hashCode();
@@ -89,15 +89,14 @@ public class Vector  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(Vector.class, true);
+        new org.apache.axis.description.TypeDesc(RepositoryPathSegmentList.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Vector"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "RepositoryPathSegmentList"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("value");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Value"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
+        elemField.setFieldName("segment");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Segment"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "RepositoryPathSegment"));
         elemField.setNillable(false);
         elemField.setMaxOccursUnbounded(true);
         typeDesc.addFieldDesc(elemField);

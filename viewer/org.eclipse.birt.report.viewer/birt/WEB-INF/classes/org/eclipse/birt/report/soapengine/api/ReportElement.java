@@ -1,5 +1,5 @@
 /**
- * Oprand.java
+ * ReportElement.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.2.1 Sep 06, 2005 (12:48:20 PDT) WSDL2Java emitter.
@@ -7,23 +7,26 @@
 
 package org.eclipse.birt.report.soapengine.api;
 
-public class Oprand  implements java.io.Serializable {
+public class ReportElement  implements java.io.Serializable {
     private java.lang.String name;
-    private java.lang.String value;
+    private long id;
+    private boolean visible;
 
-    public Oprand() {
+    public ReportElement() {
     }
 
-    public Oprand(
+    public ReportElement(
            java.lang.String name,
-           java.lang.String value) {
+           long id,
+           boolean visible) {
            this.name = name;
-           this.value = value;
+           this.id = id;
+           this.visible = visible;
     }
 
 
     /**
-     * Gets the name value for this Oprand.
+     * Gets the name value for this ReportElement.
      * 
      * @return name
      */
@@ -33,7 +36,7 @@ public class Oprand  implements java.io.Serializable {
 
 
     /**
-     * Sets the name value for this Oprand.
+     * Sets the name value for this ReportElement.
      * 
      * @param name
      */
@@ -43,28 +46,48 @@ public class Oprand  implements java.io.Serializable {
 
 
     /**
-     * Gets the value value for this Oprand.
+     * Gets the id value for this ReportElement.
      * 
-     * @return value
+     * @return id
      */
-    public java.lang.String getValue() {
-        return value;
+    public long getId() {
+        return id;
     }
 
 
     /**
-     * Sets the value value for this Oprand.
+     * Sets the id value for this ReportElement.
      * 
-     * @param value
+     * @param id
      */
-    public void setValue(java.lang.String value) {
-        this.value = value;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+
+    /**
+     * Gets the visible value for this ReportElement.
+     * 
+     * @return visible
+     */
+    public boolean isVisible() {
+        return visible;
+    }
+
+
+    /**
+     * Sets the visible value for this ReportElement.
+     * 
+     * @param visible
+     */
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof Oprand)) return false;
-        Oprand other = (Oprand) obj;
+        if (!(obj instanceof ReportElement)) return false;
+        ReportElement other = (ReportElement) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -76,9 +99,8 @@ public class Oprand  implements java.io.Serializable {
             ((this.name==null && other.getName()==null) || 
              (this.name!=null &&
               this.name.equals(other.getName()))) &&
-            ((this.value==null && other.getValue()==null) || 
-             (this.value!=null &&
-              this.value.equals(other.getValue())));
+            this.id == other.getId() &&
+            this.visible == other.isVisible();
         __equalsCalc = null;
         return _equals;
     }
@@ -93,19 +115,18 @@ public class Oprand  implements java.io.Serializable {
         if (getName() != null) {
             _hashCode += getName().hashCode();
         }
-        if (getValue() != null) {
-            _hashCode += getValue().hashCode();
-        }
+        _hashCode += new Long(getId()).hashCode();
+        _hashCode += (isVisible() ? Boolean.TRUE : Boolean.FALSE).hashCode();
         __hashCodeCalc = false;
         return _hashCode;
     }
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(Oprand.class, true);
+        new org.apache.axis.description.TypeDesc(ReportElement.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Oprand"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportElement"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("name");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Name"));
@@ -113,9 +134,15 @@ public class Oprand  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("value");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Value"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setFieldName("id");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Id"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "long"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("visible");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Visible"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }

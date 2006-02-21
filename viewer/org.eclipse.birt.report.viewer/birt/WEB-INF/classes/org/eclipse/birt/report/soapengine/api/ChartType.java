@@ -1,5 +1,5 @@
 /**
- * ReportIdType.java
+ * ChartType.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.2.1 Sep 06, 2005 (12:48:20 PDT) WSDL2Java emitter.
@@ -7,33 +7,37 @@
 
 package org.eclipse.birt.report.soapengine.api;
 
-public class ReportIdType implements java.io.Serializable {
+public class ChartType implements java.io.Serializable {
     private java.lang.String _value_;
     private static java.util.HashMap _table_ = new java.util.HashMap();
 
     // Constructor
-    protected ReportIdType(java.lang.String value) {
+    protected ChartType(java.lang.String value) {
         _value_ = value;
         _table_.put(_value_,this);
     }
 
-    public static final java.lang.String _Chart = "Chart";
-    public static final java.lang.String _Document = "Document";
-    public static final java.lang.String _Label = "Label";
-    public static final java.lang.String _Table = "Table";
-    public static final ReportIdType Chart = new ReportIdType(_Chart);
-    public static final ReportIdType Document = new ReportIdType(_Document);
-    public static final ReportIdType Label = new ReportIdType(_Label);
-    public static final ReportIdType Table = new ReportIdType(_Table);
+    public static final java.lang.String _VBar = "VBar";
+    public static final java.lang.String _HBar = "HBar";
+    public static final java.lang.String _BarLineOverlay = "BarLineOverlay";
+    public static final java.lang.String _Pie = "Pie";
+    public static final java.lang.String _Area = "Area";
+    public static final java.lang.String _Line = "Line";
+    public static final ChartType VBar = new ChartType(_VBar);
+    public static final ChartType HBar = new ChartType(_HBar);
+    public static final ChartType BarLineOverlay = new ChartType(_BarLineOverlay);
+    public static final ChartType Pie = new ChartType(_Pie);
+    public static final ChartType Area = new ChartType(_Area);
+    public static final ChartType Line = new ChartType(_Line);
     public java.lang.String getValue() { return _value_;}
-    public static ReportIdType fromValue(java.lang.String value)
+    public static ChartType fromValue(java.lang.String value)
           throws java.lang.IllegalArgumentException {
-        ReportIdType enumeration = (ReportIdType)
+        ChartType enumeration = (ChartType)
             _table_.get(value);
         if (enumeration==null) throw new java.lang.IllegalArgumentException();
         return enumeration;
     }
-    public static ReportIdType fromString(java.lang.String value)
+    public static ChartType fromString(java.lang.String value)
           throws java.lang.IllegalArgumentException {
         return fromValue(value);
     }
@@ -59,10 +63,10 @@ public class ReportIdType implements java.io.Serializable {
     }
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(ReportIdType.class);
+        new org.apache.axis.description.TypeDesc(ChartType.class);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", ">ReportId>Type"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ChartType"));
     }
     /**
      * Return type metadata object
