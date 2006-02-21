@@ -194,6 +194,16 @@
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
+					<xsd:element name="ShowAsBarStick" type="xsd:boolean" default="false" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Specifies if show graph as bar-stick look.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="StickLength" type="xsd:int" default="5" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Specifies the length of the stick when show as bar-stick look.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>

@@ -90,4 +90,112 @@ public interface StockSeries extends Series
 	 */
 	void setLineAttributes( LineAttributes value );
 
+	/**
+	 * Returns the value of the '<em><b>Show As Bar Stick</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies if show graph as bar-stick look.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Show As Bar Stick</em>' attribute.
+	 * @see #isSetShowAsBarStick()
+	 * @see #unsetShowAsBarStick()
+	 * @see #setShowAsBarStick(boolean)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getStockSeries_ShowAsBarStick()
+	 * @model default="false" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 *        extendedMetaData="kind='element' name='ShowAsBarStick'"
+	 * @generated
+	 */
+	boolean isShowAsBarStick( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.StockSeries#isShowAsBarStick <em>Show As Bar Stick</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Show As Bar Stick</em>' attribute.
+	 * @see #isSetShowAsBarStick()
+	 * @see #unsetShowAsBarStick()
+	 * @see #isShowAsBarStick()
+	 * @generated
+	 */
+	void setShowAsBarStick( boolean value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.StockSeries#isShowAsBarStick <em>Show As Bar Stick</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetShowAsBarStick()
+	 * @see #isShowAsBarStick()
+	 * @see #setShowAsBarStick(boolean)
+	 * @generated
+	 */
+	void unsetShowAsBarStick( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.StockSeries#isShowAsBarStick <em>Show As Bar Stick</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Show As Bar Stick</em>' attribute is set.
+	 * @see #unsetShowAsBarStick()
+	 * @see #isShowAsBarStick()
+	 * @see #setShowAsBarStick(boolean)
+	 * @generated
+	 */
+	boolean isSetShowAsBarStick( );
+
+	/**
+	 * Returns the value of the '<em><b>Stick Length</b></em>' attribute.
+	 * The default value is <code>"5"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies the length of the stick when show as bar-stick look.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Stick Length</em>' attribute.
+	 * @see #isSetStickLength()
+	 * @see #unsetStickLength()
+	 * @see #setStickLength(int)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getStockSeries_StickLength()
+	 * @model default="5" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
+	 *        extendedMetaData="kind='element' name='StickLength'"
+	 * @generated
+	 */
+	int getStickLength( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.StockSeries#getStickLength <em>Stick Length</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Stick Length</em>' attribute.
+	 * @see #isSetStickLength()
+	 * @see #unsetStickLength()
+	 * @see #getStickLength()
+	 * @generated
+	 */
+	void setStickLength( int value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.StockSeries#getStickLength <em>Stick Length</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetStickLength()
+	 * @see #getStickLength()
+	 * @see #setStickLength(int)
+	 * @generated
+	 */
+	void unsetStickLength( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.StockSeries#getStickLength <em>Stick Length</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Stick Length</em>' attribute is set.
+	 * @see #unsetStickLength()
+	 * @see #getStickLength()
+	 * @see #setStickLength(int)
+	 * @generated
+	 */
+	boolean isSetStickLength( );
+
 } // StockSeries

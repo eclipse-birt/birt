@@ -1167,6 +1167,10 @@
         outputs="org.eclipse.birt.chart.model.type.ecore#//StockSeries/fill"/>
     <nested inputs="../../xsd/type.xsd#//StockSeries;XSDComplexTypeDefinition=4/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.type.ecore#//StockSeries/lineAttributes"/>
+    <nested inputs="../../xsd/type.xsd#//StockSeries;XSDComplexTypeDefinition=4/XSDParticle/XSDModelGroup/XSDParticle=2"
+        outputs="org.eclipse.birt.chart.model.type.ecore#//StockSeries/showAsBarStick"/>
+    <nested inputs="../../xsd/type.xsd#//StockSeries;XSDComplexTypeDefinition=4/XSDParticle/XSDModelGroup/XSDParticle=3"
+        outputs="org.eclipse.birt.chart.model.type.ecore#//StockSeries/stickLength"/>
   </nested>
   <nested inputs="../../xsd/data.xsd#//TextDataSet;XSDComplexTypeDefinition=3" outputs="org.eclipse.birt.chart.model.data.ecore#//TextDataSet"/>
   <nested inputs="../../xsd/layout.xsd#//TitleBlock;XSDComplexTypeDefinition=3" outputs="org.eclipse.birt.chart.model.layout.ecore#//TitleBlock"/>

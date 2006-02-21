@@ -735,6 +735,8 @@
     <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//StockSeries">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//StockSeries/fill"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//StockSeries/lineAttributes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//StockSeries/showAsBarStick"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//StockSeries/stickLength"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

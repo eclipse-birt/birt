@@ -441,6 +441,26 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStockSeries_ShowAsBarStick( )
+	{
+		return (EAttribute) stockSeriesEClass.getEStructuralFeatures( ).get( 2 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStockSeries_StickLength( )
+	{
+		return (EAttribute) stockSeriesEClass.getEStructuralFeatures( ).get( 3 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -503,6 +523,8 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		stockSeriesEClass = createEClass( STOCK_SERIES );
 		createEReference( stockSeriesEClass, STOCK_SERIES__FILL );
 		createEReference( stockSeriesEClass, STOCK_SERIES__LINE_ATTRIBUTES );
+		createEAttribute( stockSeriesEClass, STOCK_SERIES__SHOW_AS_BAR_STICK );
+		createEAttribute( stockSeriesEClass, STOCK_SERIES__STICK_LENGTH );
 	}
 
 	/**
@@ -650,6 +672,12 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 				theAttributePackage.getLineAttributes( ),
 				null,
 				"lineAttributes", null, 0, 1, StockSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getStockSeries_ShowAsBarStick( ),
+				theXMLTypePackage.getBoolean( ),
+				"showAsBarStick", "false", 0, 1, StockSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute( getStockSeries_StickLength( ),
+				theXMLTypePackage.getInt( ),
+				"stickLength", "5", 0, 1, StockSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Create resource
 		createResource( eNS_URI );
@@ -786,6 +814,14 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		addAnnotation( getStockSeries_LineAttributes( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getStockSeries_ShowAsBarStick( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ShowAsBarStick" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getStockSeries_StickLength( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "StickLength" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 	}
 

@@ -54,6 +54,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <ul>
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#getFill <em>Fill</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#getLineAttributes <em>Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#isShowAsBarStick <em>Show As Bar Stick</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#getStickLength <em>Stick Length</em>}</li>
  * </ul>
  * </p>
  *
@@ -79,6 +81,64 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	 * @ordered
 	 */
 	protected LineAttributes lineAttributes = null;
+
+	/**
+	 * The default value of the '{@link #isShowAsBarStick() <em>Show As Bar Stick</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isShowAsBarStick()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean SHOW_AS_BAR_STICK_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isShowAsBarStick() <em>Show As Bar Stick</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isShowAsBarStick()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean showAsBarStick = SHOW_AS_BAR_STICK_EDEFAULT;
+
+	/**
+	 * This is true if the Show As Bar Stick attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean showAsBarStickESet = false;
+
+	/**
+	 * The default value of the '{@link #getStickLength() <em>Stick Length</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStickLength()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int STICK_LENGTH_EDEFAULT = 5;
+
+	/**
+	 * The cached value of the '{@link #getStickLength() <em>Stick Length</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStickLength()
+	 * @generated
+	 * @ordered
+	 */
+	protected int stickLength = STICK_LENGTH_EDEFAULT;
+
+	/**
+	 * This is true if the Stick Length attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean stickLengthESet = false;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -232,6 +292,126 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isShowAsBarStick( )
+	{
+		return showAsBarStick;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setShowAsBarStick( boolean newShowAsBarStick )
+	{
+		boolean oldShowAsBarStick = showAsBarStick;
+		showAsBarStick = newShowAsBarStick;
+		boolean oldShowAsBarStickESet = showAsBarStickESet;
+		showAsBarStickESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					TypePackage.STOCK_SERIES__SHOW_AS_BAR_STICK,
+					oldShowAsBarStick,
+					showAsBarStick,
+					!oldShowAsBarStickESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetShowAsBarStick( )
+	{
+		boolean oldShowAsBarStick = showAsBarStick;
+		boolean oldShowAsBarStickESet = showAsBarStickESet;
+		showAsBarStick = SHOW_AS_BAR_STICK_EDEFAULT;
+		showAsBarStickESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					TypePackage.STOCK_SERIES__SHOW_AS_BAR_STICK,
+					oldShowAsBarStick,
+					SHOW_AS_BAR_STICK_EDEFAULT,
+					oldShowAsBarStickESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetShowAsBarStick( )
+	{
+		return showAsBarStickESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getStickLength( )
+	{
+		return stickLength;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStickLength( int newStickLength )
+	{
+		int oldStickLength = stickLength;
+		stickLength = newStickLength;
+		boolean oldStickLengthESet = stickLengthESet;
+		stickLengthESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					TypePackage.STOCK_SERIES__STICK_LENGTH,
+					oldStickLength,
+					stickLength,
+					!oldStickLengthESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetStickLength( )
+	{
+		int oldStickLength = stickLength;
+		boolean oldStickLengthESet = stickLengthESet;
+		stickLength = STICK_LENGTH_EDEFAULT;
+		stickLengthESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					TypePackage.STOCK_SERIES__STICK_LENGTH,
+					oldStickLength,
+					STICK_LENGTH_EDEFAULT,
+					oldStickLengthESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetStickLength( )
+	{
+		return stickLengthESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -258,6 +438,10 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 				return getFill( );
 			case TypePackage.STOCK_SERIES__LINE_ATTRIBUTES :
 				return getLineAttributes( );
+			case TypePackage.STOCK_SERIES__SHOW_AS_BAR_STICK :
+				return isShowAsBarStick( ) ? Boolean.TRUE : Boolean.FALSE;
+			case TypePackage.STOCK_SERIES__STICK_LENGTH :
+				return new Integer( getStickLength( ) );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -276,6 +460,12 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 				return;
 			case TypePackage.STOCK_SERIES__LINE_ATTRIBUTES :
 				setLineAttributes( (LineAttributes) newValue );
+				return;
+			case TypePackage.STOCK_SERIES__SHOW_AS_BAR_STICK :
+				setShowAsBarStick( ( (Boolean) newValue ).booleanValue( ) );
+				return;
+			case TypePackage.STOCK_SERIES__STICK_LENGTH :
+				setStickLength( ( (Integer) newValue ).intValue( ) );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -296,6 +486,12 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 			case TypePackage.STOCK_SERIES__LINE_ATTRIBUTES :
 				setLineAttributes( (LineAttributes) null );
 				return;
+			case TypePackage.STOCK_SERIES__SHOW_AS_BAR_STICK :
+				unsetShowAsBarStick( );
+				return;
+			case TypePackage.STOCK_SERIES__STICK_LENGTH :
+				unsetStickLength( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -313,8 +509,37 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 				return fill != null;
 			case TypePackage.STOCK_SERIES__LINE_ATTRIBUTES :
 				return lineAttributes != null;
+			case TypePackage.STOCK_SERIES__SHOW_AS_BAR_STICK :
+				return isSetShowAsBarStick( );
+			case TypePackage.STOCK_SERIES__STICK_LENGTH :
+				return isSetStickLength( );
 		}
 		return super.eIsSet( featureID );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String toString( )
+	{
+		if ( eIsProxy( ) )
+			return super.toString( );
+
+		StringBuffer result = new StringBuffer( super.toString( ) );
+		result.append( " (showAsBarStick: " ); //$NON-NLS-1$
+		if ( showAsBarStickESet )
+			result.append( showAsBarStick );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", stickLength: " ); //$NON-NLS-1$
+		if ( stickLengthESet )
+			result.append( stickLength );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ')' );
+		return result.toString( );
 	}
 
 	/*

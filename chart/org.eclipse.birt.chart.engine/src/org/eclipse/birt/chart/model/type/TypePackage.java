@@ -1128,12 +1128,30 @@ public interface TypePackage extends EPackage
 	int STOCK_SERIES__LINE_ATTRIBUTES = ComponentPackage.SERIES_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Show As Bar Stick</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STOCK_SERIES__SHOW_AS_BAR_STICK = ComponentPackage.SERIES_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Stick Length</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STOCK_SERIES__STICK_LENGTH = ComponentPackage.SERIES_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Stock Series</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STOCK_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 2;
+	int STOCK_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 4;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.AreaSeries <em>Area Series</em>}'.
@@ -1417,6 +1435,28 @@ public interface TypePackage extends EPackage
 	EReference getStockSeries_LineAttributes( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.StockSeries#isShowAsBarStick <em>Show As Bar Stick</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Show As Bar Stick</em>'.
+	 * @see org.eclipse.birt.chart.model.type.StockSeries#isShowAsBarStick()
+	 * @see #getStockSeries()
+	 * @generated
+	 */
+	EAttribute getStockSeries_ShowAsBarStick( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.StockSeries#getStickLength <em>Stick Length</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Stick Length</em>'.
+	 * @see org.eclipse.birt.chart.model.type.StockSeries#getStickLength()
+	 * @see #getStockSeries()
+	 * @generated
+	 */
+	EAttribute getStockSeries_StickLength( );
+
+	/**
 	 * Returns the factory that creates the instances of the model. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -1677,6 +1717,22 @@ public interface TypePackage extends EPackage
 		 * @generated
 		 */
 		EReference STOCK_SERIES__LINE_ATTRIBUTES = eINSTANCE.getStockSeries_LineAttributes( );
+
+		/**
+		 * The meta object literal for the '<em><b>Show As Bar Stick</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STOCK_SERIES__SHOW_AS_BAR_STICK = eINSTANCE.getStockSeries_ShowAsBarStick( );
+
+		/**
+		 * The meta object literal for the '<em><b>Stick Length</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STOCK_SERIES__STICK_LENGTH = eINSTANCE.getStockSeries_StickLength( );
 
 	}
 
