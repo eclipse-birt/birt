@@ -134,9 +134,6 @@
 		</fileset>
 		<pathelement path="${designer.core.dir}/core.jar"/>
 		<pathelement path="${designer.ui.dir}/ui.jar"/>
-		<fileset dir="${designer.ui.dir}/lib">
-				<include name="**/*.jar"/>
-		</fileset>
 		<pathelement path="${data.dir}/dte.jar"/>
 		<pathelement path="${chart.engine.dir}/engine.jar"/>
 		<pathelement path="${chart.ui.dir}/ui.jar"/>
