@@ -1230,15 +1230,25 @@ public class PDFEmitter implements IAreaVisitor
 								Map.Entry entry = (Map.Entry) paramsIte.next( );
 								try
 								{
-									link.append( "&" + URLEncoder.encode( (String) entry.getKey( ), "UTF-8" ) + "=" + URLEncoder.encode( (String) entry.getValue( ), "UTF-8" ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$				
+									String key = (String) entry.getKey( );
+									Object valueObj = entry.getValue( );
+									if ( valueObj != null )
+									{
+										String value = valueObj.toString( );
+										link.append( "&" + URLEncoder.encode( key, "UTF-8" ) //$NON-NLS-1$ //$NON-NLS-2$
+														+ "=" + URLEncoder.encode( value, "UTF-8" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+									}
 								}
 								catch ( UnsupportedEncodingException e )
 								{
-									//Does nothing
+									// Does nothing
 								}
 							}
 						}
 					}
+					
+					//Adding overwrite.
+					link.append( "&__overwrite=true" ); //$NON-NLS-1$
 					
 					if ( hlAction.getBookmark() != null )
 					{
