@@ -469,15 +469,14 @@ public class PDFEmitter implements IAreaVisitor
 		cb.restoreState();
 	        
 		//draw the overline,throughline or underline for the text if it has any. 
-	    //set 1/20 of fontSize as the line width
-	    int lineWidth = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_FONT_SIZE))/20;
+	    
 		if ("line-through".equalsIgnoreCase(style.getTextLineThrough())) //$NON-NLS-1$
 	    {
 	    	drawLine( layoutPointX2PDF(text.getAbsoluteX()), 
 	        		layoutPointY2PDF(text.getAbsoluteY() + text.getFontInfo().getLineThroughPosition()), 
 	        		layoutPointX2PDF(text.getAbsoluteX()+text.getWidth()), 
 	        		layoutPointY2PDF(text.getAbsoluteY() + text.getFontInfo().getLineThroughPosition()), 
-	        		pdfMeasure(lineWidth), 
+	        		text.getFontInfo().getLineWidth(), 
 	        		PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR)),  
 	        		"solid", cb ); //$NON-NLS-1$
 	    }
@@ -487,7 +486,7 @@ public class PDFEmitter implements IAreaVisitor
 	        		layoutPointY2PDF(text.getAbsoluteY() + text.getFontInfo().getOverlinePosition()),
 	        		layoutPointX2PDF(text.getAbsoluteX()+text.getWidth()), 
 	        		layoutPointY2PDF(text.getAbsoluteY() + text.getFontInfo().getOverlinePosition()),
-	        		pdfMeasure(lineWidth), 
+	        		text.getFontInfo().getLineWidth(),
 	        		PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR)),
 	        		"solid", cb ); //$NON-NLS-1$
 	    }
@@ -497,7 +496,7 @@ public class PDFEmitter implements IAreaVisitor
 	        		layoutPointY2PDF(text.getAbsoluteY() + text.getFontInfo().getUnderlinePosition()),
 	        		layoutPointX2PDF(text.getAbsoluteX()+text.getWidth()), 
 	        		layoutPointY2PDF(text.getAbsoluteY() + text.getFontInfo().getUnderlinePosition()),
-	        		pdfMeasure(lineWidth), 
+	        		text.getFontInfo().getLineWidth(),
 	        		PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR)),
 	        		"solid", cb ); //$NON-NLS-1$
 	    } 
