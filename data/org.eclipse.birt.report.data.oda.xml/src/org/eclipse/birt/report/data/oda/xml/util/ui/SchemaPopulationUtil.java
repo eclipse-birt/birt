@@ -117,7 +117,7 @@ final class XMLFileSchemaTreePopulator implements ISaxParserConsumer
 		{
 			assert sp != null;
 			sp.setStart( false );
-			spThread.stop( );
+			sp.stopParsing();
 		}
 
 	}

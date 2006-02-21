@@ -66,6 +66,7 @@ public class SaxParser extends DefaultHandler implements Runnable
 	characters method and proceed them when endDocument method is called */
 	private String currentCacheValue;
 
+	private boolean stopCurrentThread;
 	/**
 	 * 
 	 * @param fileName
@@ -79,6 +80,7 @@ public class SaxParser extends DefaultHandler implements Runnable
 		alive = true;
 		currentCacheValue = "";
 		currentElementRecoder = new HashMap();
+		stopCurrentThread = false;
 	}
 
 	/*
@@ -100,8 +102,14 @@ public class SaxParser extends DefaultHandler implements Runnable
 			
 			file = new InputStreamReader( is );
 				
-			xr.parse( new InputSource( file ) );
-			
+			try{
+				xr.parse( new InputSource( file ) );
+			}catch ( ThreadStopException tsE )
+			{
+				//This exception is thrown out to stop the execution of current
+				//thread.
+				tsE.printStackTrace();
+			}
 			this.inputStream.reStart();
 		}
 		catch ( Exception e )
@@ -171,7 +179,12 @@ public class SaxParser extends DefaultHandler implements Runnable
 	public void startElement( String uri, String name, String qName,
 			Attributes atts )
 	{
-
+		//If the current thread should be stopped and current parsing should not continue any more, then
+		//throw a ThreadStopException so that it can be catched later in run method to stop the current thread
+		//execution.
+		if( this.stopCurrentThread )
+			throw new ThreadStopException();
+		
 		String elementName = getElementName( uri, qName, name );
 		String parentPath = pathHolder.getPath();
 		//Record the occurance of elements
@@ -292,6 +305,15 @@ public class SaxParser extends DefaultHandler implements Runnable
 			}
 		}
 	}
+	
+	/**
+	 * Set the member data stopCurrentThread to "true" value so that the current thread can be stopped afterwise.
+	 *
+	 */
+	public void stopParsing()
+	{
+		this.stopCurrentThread = true;
+	}
 
 	/**
 	 * Return whether the thread that host the SaxParser is suspended.
@@ -310,6 +332,14 @@ public class SaxParser extends DefaultHandler implements Runnable
 	public boolean isAlive( )
 	{
 		return this.alive;
+	}
+	
+	/**
+	 * This class wrapps a RuntimeException. It is used to stop the execution of current thread.
+	 */
+	private class ThreadStopException extends RuntimeException
+	{
+		ThreadStopException(){}
 	}
 }
 

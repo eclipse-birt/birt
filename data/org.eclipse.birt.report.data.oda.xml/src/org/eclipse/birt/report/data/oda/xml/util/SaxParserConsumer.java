@@ -346,8 +346,8 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	public void close( )
 	{
 		//TODO add comments.
-		if( this.spThread != null )
-			this.spThread.stop();
+		if( this.sp != null )
+			this.sp.stopParsing();
 	}
 
 	/**
