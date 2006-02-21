@@ -122,8 +122,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 				* dPointToPixel; // CONVERSION
 		dYAxisPlotSpacing = cwa.getPlot( ).getVerticalSpacing( )
 				* dPointToPixel; // CONVERSION
-		dZAxisPlotSpacing = cwa.getPlot( ).getHorizontalSpacing( )
-				* dPointToPixel; // CONVERSION
+		dZAxisPlotSpacing = dXAxisPlotSpacing;
 
 		double dStart, dEnd;
 		final Axis[] axa = cwa.getPrimaryBaseAxes( );
@@ -272,7 +271,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 
 		// ITERATIVELY ADJUST THE PRIMARY BASE AXIS POSITION DUE TO THE SCALE,
 		// START/END LABELS
-		double dXAxisLocation = adjustVerticalDueToHorizontal( dY, dH, aax );
+		double dXAxisLocation = adjustVerticalDueToHorizontalPlane( dY, dH, aax );
 
 		// TODO Just use XAxisLocation as the ZAxisLocation now.
 		double dZAxisLocation = dXAxisLocation;
@@ -316,17 +315,15 @@ public class PlotWith3DAxes extends PlotWithAxes
 
 		// set new 3D axis coordinate. this coordinate has been normalized to
 		// Zero-coordinates.
-		axPH.setAxisCoordinate3D( Location3DImpl.create( 0, dXAxisLocation
-				- scPrimaryOrthogonal.getStart( ), 0 ) );
-		axPV.setAxisCoordinate3D( Location3DImpl.create( dYAxisLocationOnX
-				- scPrimaryBase.getStart( ), 0, dYAxisLocationOnZ
-				- scAncillaryBase.getStart( ) ) );
-		axAB.setAxisCoordinate3D( Location3DImpl.create( 0, dZAxisLocation
-				- scPrimaryOrthogonal.getStart( ), 0 ) );
-		// !Always use Zero origin for 3D coordinates.
-		// axPH.setAxisCoordinate3D( Location3DImpl.create( 0, 0, 0 ) );
-		// axPV.setAxisCoordinate3D( Location3DImpl.create( 0, 0, 0 ) );
-		// axAB.setAxisCoordinate3D( Location3DImpl.create( 0, 0, 0 ) );
+		axPH.setAxisCoordinate3D( Location3DImpl.create( 0,
+				dXAxisLocation,
+				dYAxisLocationOnZ ) );
+		axPV.setAxisCoordinate3D( Location3DImpl.create( dYAxisLocationOnX,
+				0,
+				dYAxisLocationOnZ ) );
+		axAB.setAxisCoordinate3D( Location3DImpl.create( dYAxisLocationOnX,
+				dZAxisLocation,
+				0 ) );
 
 		boPlotBackground = (Bounds) EcoreUtil.copy( bo );
 	}
@@ -1091,6 +1088,532 @@ public class PlotWith3DAxes extends PlotWithAxes
 		return dZ;
 	}
 
+	/**
+	 * 
+	 * @param dBlockY
+	 * @param dBlockHeight
+	 * @param aax
+	 * 
+	 * @return
+	 */
+	private final double adjustVerticalDueToHorizontalPlane( double dBlockY,
+			double dBlockHeight, AllAxes aax ) throws ChartException,
+			IllegalArgumentException
+	{
+		final OneAxis axPH = aax.areAxesSwapped( ) ? aax.getPrimaryOrthogonal( )
+				: aax.getPrimaryBase( );
+		final OneAxis axPV = aax.areAxesSwapped( ) ? aax.getPrimaryBase( )
+				: aax.getPrimaryOrthogonal( );
+		final AutoScale scX = axPH.getScale( );
+		final AutoScale scY = axPV.getScale( );
+		final int iXLabelLocation = axPH.getLabelPosition( );
+		final int iYLabelLocation = axPV.getLabelPosition( );
+		final int iXTitleLocation = axPH.getTitlePosition( );
+
+		final Label laXAxisTitle = axPH.getTitle( );
+		final Label laYAxisLabels = axPV.getLabel( );
+		final int iXTickStyle = axPH.getCombinedTickStyle( );
+		final IntersectionValue iv = axPH.getIntersectionValue( );
+
+		// COMPUTE THE THICKNESS OF THE AXIS INCLUDING AXIS LABEL BOUNDS AND
+		// AXIS-PLOT SPACING
+		double dXAxisLabelsThickness = scX.computeAxisLabelThickness( ids,
+				axPH.getLabel( ),
+				HORIZONTAL );
+		double dXAxisTitleThickness = 0;
+		if ( laXAxisTitle.isVisible( ) )
+		{
+			final String sPreviousValue = laXAxisTitle.getCaption( ).getValue( );
+			laXAxisTitle.getCaption( )
+					.setValue( rtc.externalizedMessage( sPreviousValue ) ); // EXTERNALIZE
+			try
+			{
+				dXAxisTitleThickness = computeBox( ids,
+						iXTitleLocation,
+						laXAxisTitle,
+						0,
+						0 ).getHeight( );
+			}
+			catch ( IllegalArgumentException uiex )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						uiex );
+			}
+			finally
+			{
+				laXAxisTitle.getCaption( ).setValue( sPreviousValue ); // RESTORE
+			}
+		}
+
+		double dY = getLocation( scY, iv ), dY1 = dY, dY2 = dY; // X-AXIS BAND
+		// VERTICAL
+		// CO-ORDINATES
+		final boolean bTicksAbove = ( iXTickStyle & TICK_ABOVE ) == TICK_ABOVE; // 'boolean'
+		// FOR
+		// CONVENIENCE
+		// &
+		// READABILITY
+		final boolean bTicksBelow = ( iXTickStyle & TICK_BELOW ) == TICK_BELOW; // 'boolean'
+		// FOR
+		// CONVENIENCE
+		// &
+		// READABILITY
+		final double dAppliedXAxisPlotSpacing = ( iv.iType == IntersectionValue.MAX || iv.iType == IntersectionValue.MIN ) ? dXAxisPlotSpacing
+				: 0;
+
+		// COMPUTE VALUES FOR y1, y, y2
+		// y = VERTICAL LOCATION OF X-AXIS ALONG PLOT
+		// y1 = UPPER EDGE OF X-AXIS (DUE TO AXIS LABELS, TICKS, SPACING)
+		// y2 = LOWER EDGE OF X-AXIS (DUE TO AXIS LABELS, TICKS, SPACING)
+		if ( iv.iType == IntersectionValue.MAX )
+		{
+			// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MIN'
+
+			dY += dAppliedXAxisPlotSpacing;
+			dY1 = dY;
+			dY2 = dY;
+			if ( bTicksAbove )
+			{
+				dY1 += TICK_SIZE;
+			}
+			if ( iXLabelLocation == ABOVE )
+			{
+				dY1 += dXAxisLabelsThickness;
+				dY2 -= Math.max( bTicksBelow ? TICK_SIZE : 0,
+						dAppliedXAxisPlotSpacing );
+			}
+			else if ( iXLabelLocation == BELOW )
+			{
+				dY2 -= Math.max( ( bTicksBelow ? TICK_SIZE : 0 )
+						+ dXAxisLabelsThickness, dAppliedXAxisPlotSpacing );
+			}
+
+			if ( iXTitleLocation == ABOVE )
+			{
+				dY1 += dXAxisTitleThickness;
+			}
+			else if ( iXTitleLocation == BELOW )
+			{
+				dY2 -= dXAxisTitleThickness;
+			}
+
+			// // ENSURE THAT WE DON'T GO ABOVE THE UPPER PLOT BLOCK EDGE
+			// if ( dY1 < dBlockY )
+			// {
+			// final double dDelta = ( dBlockY - dY1 );
+			// dY1 = dBlockY;
+			// dY += dDelta;
+			// dY2 += dDelta;
+			// }
+			double dDeltaY1 = dY1 - dY;
+			double dDeltaY2 = dY - dY2;
+
+			// COMPUTE THE X-AXIS BAND THICKNESS AND ADJUST Y2 FOR LABELS BELOW
+			dXAxisLabelsThickness = 0; // REUSE VARIABLE
+			if ( iXLabelLocation == ABOVE )
+			{
+				// X-AXIS BAND IS (y1 -> y2)
+				dXAxisLabelsThickness = dY1 - dY2;
+			}
+			else if ( iXLabelLocation == BELOW )
+			{
+				// X-AXIS BAND IS (y1 -> (y+AxisPlotSpacing))
+				dY2 = ( dY - dAppliedXAxisPlotSpacing );
+				dXAxisLabelsThickness = dY1 - dY2;
+			}
+
+			// CHECK IF X-AXIS THICKNESS REQUIRES A PLOT HEIGHT RESIZE AT THE
+			// UPPER END
+			if ( dXAxisLabelsThickness > scY.getEndShift( ) )
+			{
+				// REDUCE scY's ENDPOINT TO FIT THE X-AXIS AT THE TOP
+				scY.setEndPoints( scY.getStart( ) + scY.getStartShift( ),
+						scY.getEnd( ) - scY.getEndShift( ) );
+				double dStart = scY.getStart( ), dEnd = dY2 - scY.getEndShift( );
+				scY.resetShifts( );
+
+				// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS LABELS
+				// IF OVERLAPS OCCUR
+				scY.setEndPoints( dStart, dEnd );
+				scY.computeTicks( ids,
+						laYAxisLabels,
+						iYLabelLocation,
+						VERTICAL,
+						dStart,
+						dEnd,
+						true,
+						aax );
+				if ( !scY.isStepFixed( ) )
+				{
+					final Object[] oaMinMax = scY.getMinMax( );
+					while ( !scY.checkFit( ids, laYAxisLabels, iYLabelLocation ) )
+					{
+						if ( !scY.zoomOut( ) )
+						{
+							break;
+						}
+						scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
+						int tickCount = scY.computeTicks( ids,
+								laYAxisLabels,
+								iYLabelLocation,
+								VERTICAL,
+								dStart,
+								dEnd,
+								true,
+								aax );
+						if ( scY.getUnit( ) != null
+								&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
+								&& tickCount <= 3 )
+						{
+							break;
+						}
+					}
+				}
+			}
+
+			dY += insCA.getTop( );
+			dY1 = dY + dDeltaY1;
+			dY2 = dY - dDeltaY2;
+			axPH.setTitleCoordinate( ( iXTitleLocation == ABOVE ) ? dY1 + 1
+					: dY2 - 1 + dXAxisTitleThickness );
+		}
+		else if ( iv.iType == IntersectionValue.MIN )
+		{
+			// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MAX'
+
+			dY -= dAppliedXAxisPlotSpacing;
+			dY1 = dY;
+			dY2 = dY;
+			if ( bTicksBelow )
+			{
+				dY2 -= TICK_SIZE;
+			}
+			if ( iXLabelLocation == ABOVE )
+			{
+				dY1 += Math.max( ( bTicksAbove ? TICK_SIZE : 0 )
+						+ dXAxisLabelsThickness, dAppliedXAxisPlotSpacing );
+			}
+			else if ( iXLabelLocation == BELOW )
+			{
+				dY2 -= dXAxisLabelsThickness;
+				dY1 += Math.max( bTicksAbove ? TICK_SIZE : 0,
+						dAppliedXAxisPlotSpacing );
+			}
+			if ( iXTitleLocation == ABOVE )
+			{
+				dY1 += dXAxisTitleThickness;
+			}
+			else if ( iXTitleLocation == BELOW )
+			{
+				dY2 -= dXAxisTitleThickness;
+			}
+
+			// // ENSURE THAT WE DON'T GO BELOW THE LOWER PLOT BLOCK EDGE
+			// if ( dY2 > dBlockY + dBlockHeight )
+			// {
+			// final double dDelta = ( dY2 - ( dBlockY + dBlockHeight ) );
+			// dY2 = dBlockY + dBlockHeight;
+			// dY -= dDelta;
+			// dY1 -= dDelta;
+			// }
+			double dDeltaY1 = dY1 - dY;
+			double dDeltaY2 = dY - dY2;
+
+			// COMPUTE THE X-AXIS BAND THICKNESS AND ADJUST Y2 FOR LABELS BELOW
+			dXAxisLabelsThickness = 0; // REUSE VARIABLE
+			if ( iXLabelLocation == ABOVE )
+			{
+				// X-AXIS BAND IS ((y+AxisPlotSpacing) -> y2)
+				dY1 = ( dY + dAppliedXAxisPlotSpacing );
+				dXAxisLabelsThickness = dY1 - dY2;
+			}
+			else if ( iXLabelLocation == BELOW )
+			{
+				// X-AXIS BAND IS (y1 -> y2)
+				dXAxisLabelsThickness = dY1 - dY2;
+			}
+
+			// CHECK IF X-AXIS THICKNESS REQUIRES A PLOT HEIGHT RESIZE AT THE
+			// LOWER END
+			if ( dXAxisLabelsThickness > scY.getStartShift( ) )
+			{
+				// REDUCE scY's STARTPOINT TO FIT THE X-AXIS AT THE TOP
+				scY.setEndPoints( scY.getStart( ) + scY.getStartShift( ),
+						scY.getEnd( ) - scY.getEndShift( ) ); // RESTORE
+				double dStart = dY1 + scY.getStartShift( ), dEnd = scY.getEnd( );
+				scY.resetShifts( );
+
+				// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS LABELS
+				// IF OVERLAPS OCCUR
+				scY.setEndPoints( dStart, dEnd );
+				scY.computeTicks( ids,
+						laYAxisLabels,
+						iYLabelLocation,
+						VERTICAL,
+						dStart,
+						dEnd,
+						true,
+						aax );
+				if ( !scY.isStepFixed( ) )
+				{
+					final Object[] oaMinMax = scY.getMinMax( );
+					while ( !scY.checkFit( ids, laYAxisLabels, iYLabelLocation ) )
+					{
+						if ( !scY.zoomOut( ) )
+						{
+							break;
+						}
+						scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
+						int tickCount = scY.computeTicks( ids,
+								laYAxisLabels,
+								iYLabelLocation,
+								VERTICAL,
+								dStart,
+								dEnd,
+								true,
+								aax );
+						if ( scY.getUnit( ) != null
+								&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
+								&& tickCount <= 3 )
+						{
+							break;
+						}
+					}
+				}
+			}
+
+			// MOVE THE BAND DOWNWARDS BY INSETS.BOTTOM
+			dY -= insCA.getBottom( );
+			dY1 = dY + dDeltaY1;
+			dY2 = dY - dDeltaY2;
+
+			// SET THE AXIS TITLE's BOX TOP CO-ORDINATE
+			axPH.setTitleCoordinate( ( iXTitleLocation == ABOVE ) ? dY1 + 1
+					: dY2 - 1 + dXAxisTitleThickness );
+		}
+		else
+		{
+			double dDeltaY1 = 0, dDeltaY2 = 0;
+			if ( iXLabelLocation == ABOVE )
+			{
+				dY1 += ( bTicksAbove ? TICK_SIZE : 0 ) + dXAxisLabelsThickness;
+				dY2 -= ( bTicksBelow ? TICK_SIZE : 0 );
+
+				if ( iXTitleLocation == ABOVE )
+				{
+					dY1 += dXAxisTitleThickness;
+				}
+				else if ( iXTitleLocation == BELOW )
+				{
+					dY2 -= dXAxisTitleThickness;
+				}
+				dDeltaY1 = dY1 - dY;
+				dDeltaY2 = dY - dY2;
+
+				// CHECK IF UPPER EDGE OF X-AXIS BAND GOES ABOVE PLOT UPPER EDGE
+				if ( dY1 > dBlockY + dBlockHeight )
+				{
+					final Object[] oaMinMax = scY.getMinMax( );
+					boolean bForceBreak = false;
+
+					// A LOOP THAT ITERATIVELY ATTEMPTS TO ADJUST THE TOP EDGE
+					// OF THE X-AXIS LABELS WITH THE TOP EDGE OF THE PLOT AND/OR
+					// ENSURE THAT THE END POINT OF THE Y-AXIS SCALE IS SUITABLY
+					// POSITIONED
+
+					do
+					{
+						// CANCEL OUT THE END LABEL SHIFT COMPUTATIONS FROM THE
+						// Y-AXIS
+						scY.setEndPoints( scY.getStart( ) + scY.getStartShift( ),
+								scY.getEnd( ) - scY.getEndShift( ) ); // RESTORE
+						scY.resetShifts( );
+
+						// APPLY THE AXIS REDUCTION FORMULA W.R.T. Y-AXIS
+						// ENDPOINT
+						double[] da = scY.getEndPoints( );
+						double dT_RI = dBlockY - dY1; // THRESHOLD -
+						// REQUESTEDINTERSECTION
+						double dAMin_AMax = da[0] - da[1];
+						double dAMin_RI = da[0] - dY;
+						double dStart = da[0];
+						double dEnd = ( dT_RI / dAMin_RI ) * dAMin_AMax + da[1];
+						if ( dEnd < dBlockY )
+						{
+							dEnd = dBlockY;
+							bForceBreak = true; // ADJUST THE TOP EDGE OF THE
+							// Y-AXIS SCALE TO THE TOP EDGE
+							// OF THE PLOT BLOCK
+						}
+
+						// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS
+						// LABELS IF OVERLAPS OCCUR
+						scY.setEndPoints( dStart, dEnd );
+						scY.computeTicks( ids,
+								laYAxisLabels,
+								iYLabelLocation,
+								VERTICAL,
+								dStart,
+								dEnd,
+								true,
+								aax );
+						if ( !scY.isStepFixed( ) )
+						{
+							while ( !scY.checkFit( ids,
+									laYAxisLabels,
+									iYLabelLocation ) )
+							{
+								if ( !scY.zoomOut( ) )
+								{
+									bForceBreak = true;
+									break;
+								}
+								scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
+								int tickCount = scY.computeTicks( ids,
+										laYAxisLabels,
+										iYLabelLocation,
+										VERTICAL,
+										dStart,
+										dEnd,
+										true,
+										aax );
+								if ( scY.getUnit( ) != null
+										&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
+										&& tickCount <= 3 )
+								{
+									bForceBreak = true;
+									break;
+								}
+							}
+						}
+
+						dY = getLocation( scY, iv );
+						dY1 = dY + dDeltaY1; // RE-CALCULATE X-AXIS BAND
+						// UPPER
+						// EDGE
+						dY2 = dY - dDeltaY2; // REDUNDANT: RE-CALCULATE
+						// X-AXIS
+						// BAND LOWER EDGE
+					} while ( Math.abs( dY1 - ( dBlockY + dBlockHeight ) ) > 1
+							&& !bForceBreak );
+				}
+			}
+			else if ( iXLabelLocation == BELOW )
+			{
+				dY1 += ( bTicksAbove ? TICK_SIZE : 0 );
+				dY2 -= ( bTicksBelow ? TICK_SIZE : 0 ) + dXAxisLabelsThickness;
+
+				if ( iXTitleLocation == ABOVE )
+				{
+					dY1 += dXAxisTitleThickness;
+				}
+				else if ( iXTitleLocation == BELOW )
+				{
+					dY2 -= dXAxisTitleThickness;
+				}
+				dDeltaY1 = dY1 - dY;
+				dDeltaY2 = dY - dY2;
+
+				// CHECK IF LOWER EDGE OF X-AXIS BAND GOES BELOW PLOT LOWER EDGE
+				if ( dY2 < dBlockY )
+				{
+					final Object[] oaMinMax = scY.getMinMax( );
+					boolean bForceBreak = false;
+
+					// A LOOP THAT ITERATIVELY ATTEMPTS TO ADJUST THE TOP EDGE
+					// OF THE X-AXIS LABELS WITH THE TOP EDGE OF THE PLOT AND/OR
+					// ENSURE THAT THE END POINT OF THE Y-AXIS SCALE IS SUITABLY
+					// POSITIONED
+
+					do
+					{
+						// CANCEL OUT THE END LABEL SHIFT COMPUTATIONS FROM THE
+						// Y-AXIS
+						scY.setEndPoints( scY.getStart( ) + scY.getStartShift( ),
+								scY.getEnd( ) - scY.getEndShift( ) ); // RESTORE
+						scY.resetShifts( );
+
+						// APPLY THE AXIS REDUCTION FORMULA W.R.T. Y-AXIS
+						// ENDPOINT
+						double[] da = scY.getEndPoints( );
+						double dX2_X1 = dY2 - ( dBlockY + dBlockHeight ); // THRESHOLD
+						// -
+						// REQUESTEDINTERSECTION
+						double dAMin_AMax = da[0] - da[1];
+						double dX2_AMax = dY - da[1];
+						double dStart = da[0]
+								- ( dX2_X1 / dX2_AMax )
+								* dAMin_AMax;
+						double dEnd = da[1];
+
+						if ( dStart > dBlockY + dBlockHeight )
+						{
+							dStart = dBlockY + dBlockHeight;
+							bForceBreak = true; // ADJUST THE TOP EDGE OF THE
+							// Y-AXIS SCALE TO THE TOP EDGE
+							// OF THE PLOT BLOCK
+						}
+
+						// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS
+						// LABELS IF OVERLAPS OCCUR
+						scY.setEndPoints( dStart, dEnd );
+						scY.computeTicks( ids,
+								laYAxisLabels,
+								iYLabelLocation,
+								VERTICAL,
+								dStart,
+								dEnd,
+								true,
+								aax );
+						if ( !scY.isStepFixed( ) )
+						{
+							while ( !scY.checkFit( ids,
+									laYAxisLabels,
+									iYLabelLocation ) )
+							{
+								if ( !scY.zoomOut( ) )
+								{
+									bForceBreak = true;
+									break;
+								}
+								scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
+								int tickCount = scY.computeTicks( ids,
+										laYAxisLabels,
+										iYLabelLocation,
+										VERTICAL,
+										dStart,
+										dEnd,
+										true,
+										aax );
+								if ( scY.getUnit( ) != null
+										&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
+										&& tickCount <= 3 )
+								{
+									bForceBreak = true;
+									break;
+								}
+							}
+						}
+
+						dY = getLocation( scY, iv );
+						dY2 = dY - dDeltaY2; // RE-CALCULATE X-AXIS BAND
+						// LOWER
+						// EDGE
+						dY1 = dY + dDeltaY1; // RE-CALCULATE X-AXIS BAND
+						// LOWER
+						// EDGE
+					} while ( Math.abs( dY2 - dBlockY ) > 1 && !bForceBreak );
+				}
+			}
+
+			axPH.setTitleCoordinate( ( iXTitleLocation == ABOVE ) ? dY1 + 1
+					: dY2 - 1 + dXAxisTitleThickness );
+		}
+
+		return dY;
+	}
+
 	private final Object getMinMax( Axis ax, int iType ) throws ChartException,
 			IllegalArgumentException
 	{
@@ -1319,8 +1842,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 		final boolean bZCategoryTextStyle = scAncillary.isCategoryScale( )
 				|| scAncillary.getType( ) == IConstants.TEXT;
 
-		double[] daXTickCoordinates = scBase.getNormalizedTickCoordinates( );
-		double[] daZTickCoordinates = scAncillary.getNormalizedTickCoordinates( );
+		double[] daXTickCoordinates = scBase.getTickCordinates( );
+		double[] daZTickCoordinates = scAncillary.getTickCordinates( );
 		Object oDataBase = null;
 		DataSetIterator dsiDataBase = scBase.getData( );
 		Object oDataOrthogonal;
@@ -1330,20 +1853,20 @@ public class PlotWith3DAxes extends PlotWithAxes
 		double dOrthogonalZero = 0;
 		if ( ( scOrthogonal.getType( ) & NUMERICAL ) == NUMERICAL )
 		{
-			dOrthogonalZero = getNormalizedLocation( scOrthogonal, 0 );
+			dOrthogonalZero = getLocation( scOrthogonal, 0 );
 		}
 		else
 		{
-			dOrthogonalZero = scOrthogonal.getNormalizedStart( );
+			dOrthogonalZero = scOrthogonal.getStart( );
 		}
 		double dAncillaryZero = 0;
 		if ( ( scAncillary.getType( ) & NUMERICAL ) == NUMERICAL )
 		{
-			dAncillaryZero = getNormalizedLocation( scAncillary, 0 );
+			dAncillaryZero = getLocation( scAncillary, 0 );
 		}
 		else
 		{
-			dAncillaryZero = scAncillary.getNormalizedStart( );
+			dAncillaryZero = scAncillary.getStart( );
 		}
 
 		double dX = 0, dY = 0, dZ = 0, dXLength = 0, dZLength = 0;
@@ -1492,8 +2015,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 						{
 							try
 							{
-								dZ = getNormalizedLocation( scAncillary,
-										oDataAncillary );
+								dZ = getLocation( scAncillary, oDataAncillary );
 							}
 							catch ( IllegalArgumentException e )
 							{
@@ -1507,8 +2029,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 
 						try
 						{
-							dX = getNormalizedLocation( scOrthogonal,
-									oDataOrthogonal );
+							dX = getLocation( scOrthogonal, oDataOrthogonal );
 						}
 						catch ( IllegalArgumentException nvex )
 						{
@@ -1534,8 +2055,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 						{
 							try
 							{
-								dZ = getNormalizedLocation( scAncillary,
-										oDataAncillary );
+								dZ = getLocation( scAncillary, oDataAncillary );
 							}
 							catch ( IllegalArgumentException e )
 							{
@@ -1549,8 +2069,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 
 						try
 						{
-							dY = getNormalizedLocation( scOrthogonal,
-									oDataOrthogonal );
+							dY = getLocation( scOrthogonal, oDataOrthogonal );
 						}
 						catch ( IllegalArgumentException nvex )
 						{
@@ -1616,10 +2135,11 @@ public class PlotWith3DAxes extends PlotWithAxes
 		}
 
 		return new SeriesRenderingHints3D( this,
-				oaxBase.getAxisCoordinate( ) - scBase.getStart( ),
-				oaxAncillaryBase.getAxisCoordinate( ) - scAncillary.getStart( ),
-				scOrthogonal.getNormalizedStart( ),
+				oaxBase.getAxisCoordinate( ),
+				oaxAncillaryBase.getAxisCoordinate( ),
+				scOrthogonal.getStart( ),
 				dOrthogonalZero,
+				scOrthogonal.getEnd( ) - scOrthogonal.getStart( ),
 				daXTickCoordinates,
 				daZTickCoordinates,
 				dpa,

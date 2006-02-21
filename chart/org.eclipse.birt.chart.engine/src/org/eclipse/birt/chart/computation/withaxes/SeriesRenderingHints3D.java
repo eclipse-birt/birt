@@ -43,6 +43,8 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 
 	private final double dPlotBaseLocation;
 
+	private final double dPlotHeight;
+
 	private final double[] daXTickCoordinates;
 
 	private final double[] daZTickCoordinates;
@@ -81,17 +83,18 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 	 */
 	public SeriesRenderingHints3D( PlotWith3DAxes _pwa, double _dXAxisLocation,
 			double _dZAxisLocation, double _dPlotBaseLocation,
-			double _dPlotZeroLocation, double[] _daXTickCoordinates,
-			double[] _daZTickCoordinates, DataPointHints[] _dpa,
-			AutoScale _scBase, AutoScale _scOrthogonal, AutoScale _scAncillary,
-			DataSetIterator _dsiBase, DataSetIterator _dsiOrthogonal,
-			DataSetIterator _dsiAncillary )
+			double _dPlotZeroLocation, double _dPlotHeight,
+			double[] _daXTickCoordinates, double[] _daZTickCoordinates,
+			DataPointHints[] _dpa, AutoScale _scBase, AutoScale _scOrthogonal,
+			AutoScale _scAncillary, DataSetIterator _dsiBase,
+			DataSetIterator _dsiOrthogonal, DataSetIterator _dsiAncillary )
 	{
 		pwa = _pwa;
 		dXAxisLocation = _dXAxisLocation;
 		dZAxisLocation = _dZAxisLocation;
 		dPlotZeroLocation = _dPlotZeroLocation;
 		dPlotBaseLocation = _dPlotBaseLocation;
+		dPlotHeight = _dPlotHeight;
 		daXTickCoordinates = _daXTickCoordinates;
 		daZTickCoordinates = _daZTickCoordinates;
 		dpa = _dpa;
@@ -214,7 +217,7 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 	public final double getLocationOnOrthogonal( Object oValue )
 			throws ChartException, IllegalArgumentException
 	{
-		return Methods.getNormalizedLocation( scOrthogonal, oValue );
+		return Methods.getLocation( scOrthogonal, oValue );
 	}
 
 	/**
@@ -224,6 +227,14 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 	public final double getPlotBaseLocation( )
 	{
 		return dPlotBaseLocation;
+	}
+
+	/**
+	 * @return
+	 */
+	public final double getPlotHeight( )
+	{
+		return dPlotHeight;
 	}
 
 	/**

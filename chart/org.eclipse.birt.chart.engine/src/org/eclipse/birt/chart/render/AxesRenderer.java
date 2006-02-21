@@ -1275,11 +1275,11 @@ public abstract class AxesRenderer extends BaseRenderer
 			scPrimaryOrthogonal = aax.getPrimaryOrthogonal( ).getScale( );
 			scAncillaryBase = aax.getAncillaryBase( ).getScale( );
 
-			dXStart = scPrimaryBase.getNormalizedStart( );
+			dXStart = scPrimaryBase.getStart( );
 			// dXEnd = scPrimaryBase.getNormalizedEnd( );
-			dYStart = scPrimaryOrthogonal.getNormalizedStart( );
+			dYStart = scPrimaryOrthogonal.getStart( );
 			// dYEnd = scPrimaryOrthogonal.getNormalizedEnd( );
-			dZStart = scAncillaryBase.getNormalizedStart( );
+			dZStart = scAncillaryBase.getStart( );
 			// dZEnd = scAncillaryBase.getNormalizedEnd( );
 
 			baseTickCount = scPrimaryBase.getTickCordinates( ).length;
@@ -1616,7 +1616,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					case IConstants.BASE_AXIS :
 
-						double[] xa = scPrimaryBase.getNormalizedTickCoordinates( );
+						double[] xa = scPrimaryBase.getTickCordinates( );
 						if ( floorFill )
 						{
 							for ( int k = 0; k < xa.length - 1; k++ )
@@ -1662,7 +1662,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						break;
 					case IConstants.ORTHOGONAL_AXIS :
-						double[] ya = scPrimaryOrthogonal.getNormalizedTickCoordinates( );
+						double[] ya = scPrimaryOrthogonal.getTickCordinates( );
 						if ( leftWallFill )
 						{
 							for ( int k = 0; k < ya.length - 1; k++ )
@@ -1708,7 +1708,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						break;
 					case IConstants.ANCILLARY_AXIS :
-						double[] za = scAncillaryBase.getNormalizedTickCoordinates( );
+						double[] za = scAncillaryBase.getTickCordinates( );
 						if ( leftWallFill )
 						{
 							for ( int k = 0; k < za.length - 1; k++ )
@@ -1869,7 +1869,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					case IConstants.BASE_AXIS :
 
-						double[] xa = scPrimaryBase.getNormalizedTickCoordinates( );
+						double[] xa = scPrimaryBase.getTickCordinates( );
 						if ( floorFill )
 						{
 							for ( int k = 0; k < xa.length; k++ )
@@ -1905,7 +1905,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						break;
 					case IConstants.ORTHOGONAL_AXIS :
-						double[] ya = scPrimaryOrthogonal.getNormalizedTickCoordinates( );
+						double[] ya = scPrimaryOrthogonal.getTickCordinates( );
 						if ( leftWallFill )
 						{
 							for ( int k = 0; k < ya.length; k++ )
@@ -1945,7 +1945,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						break;
 					case IConstants.ANCILLARY_AXIS :
-						double[] za = scAncillaryBase.getNormalizedTickCoordinates( );
+						double[] za = scAncillaryBase.getTickCordinates( );
 						if ( leftWallFill )
 						{
 							for ( int k = 0; k < za.length; k++ )
@@ -2853,13 +2853,13 @@ public abstract class AxesRenderer extends BaseRenderer
 		if ( iDimension == IConstants.THREE_D )
 		{
 			AllAxes aax = pwa.getAxes( );
-			dXEnd = aax.getPrimaryBase( ).getScale( ).getNormalizedEnd( );
-			dZEnd = aax.getAncillaryBase( ).getScale( ).getNormalizedEnd( );
-			dXStart = aax.getPrimaryBase( ).getScale( ).getNormalizedStart( );
-			dZStart = aax.getAncillaryBase( ).getScale( ).getNormalizedStart( );
+			dXEnd = aax.getPrimaryBase( ).getScale( ).getEnd( );
+			dZEnd = aax.getAncillaryBase( ).getScale( ).getEnd( );
+			dXStart = aax.getPrimaryBase( ).getScale( ).getStart( );
+			dZStart = aax.getAncillaryBase( ).getScale( ).getStart( );
 
-			daEndPoints3D = sc.getNormalizedEndPoints( );
-			da3D = sc.getNormalizedTickCoordinates( );
+			daEndPoints3D = sc.getEndPoints( );
+			da3D = sc.getTickCordinates( );
 
 			lo3d = Location3DImpl.create( 0, 0, 0 );
 
@@ -2921,13 +2921,13 @@ public abstract class AxesRenderer extends BaseRenderer
 					dc.addLine( l3dre );
 
 					// left
-					l3dre.setStart3D( dXStart, dStart, dZEnd );
-					l3dre.setEnd3D( dXStart, dEnd, dZEnd );
+					l3dre.setStart3D( dX, dStart, dZEnd );
+					l3dre.setEnd3D( dX, dEnd, dZEnd );
 					dc.addLine( l3dre );
 
 					// right
-					l3dre.setStart3D( dXEnd, dStart, dZStart );
-					l3dre.setEnd3D( dXEnd, dEnd, dZStart );
+					l3dre.setStart3D( dXEnd, dStart, dZ );
+					l3dre.setEnd3D( dXEnd, dEnd, dZ );
 					dc.addLine( l3dre );
 
 					if ( isInteractivityEnabled( ) )

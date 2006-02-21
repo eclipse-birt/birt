@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart;
 
 import org.eclipse.birt.chart.model.attribute.Anchor;
-import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
@@ -45,10 +44,9 @@ import org.eclipse.swt.widgets.Listener;
  * 
  */
 
-public class PlotClientAreaSheet extends AbstractPopupSheet
-		implements
-			Listener,
-			SelectionListener
+public class PlotClientAreaSheet extends AbstractPopupSheet implements
+		Listener,
+		SelectionListener
 {
 
 	private transient Composite cmpContent;
@@ -140,28 +138,25 @@ public class PlotClientAreaSheet extends AbstractPopupSheet
 			cmbStretch.addSelectionListener( this );
 		}
 
-		if ( chart.getDimension( ) != ChartDimension.THREE_DIMENSIONAL_LITERAL )
-		{
-			Label lblVerticalSpacing = new Label( grpAreaIncluding, SWT.NONE );
-			lblVerticalSpacing.setLayoutData( new GridData( ) );
-			lblVerticalSpacing.setText( Messages.getString( "BlockAttributeComposite.Lbl.VerticalSpacing" ) ); //$NON-NLS-1$
+		Label lblVerticalSpacing = new Label( grpAreaIncluding, SWT.NONE );
+		lblVerticalSpacing.setLayoutData( new GridData( ) );
+		lblVerticalSpacing.setText( Messages.getString( "BlockAttributeComposite.Lbl.VerticalSpacing" ) ); //$NON-NLS-1$
 
-			iscVSpacing = new IntegerSpinControl( grpAreaIncluding,
-					SWT.NONE,
-					getBlockForProcessing( ).getVerticalSpacing( ) );
-			iscVSpacing.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			iscVSpacing.addListener( this );
+		iscVSpacing = new IntegerSpinControl( grpAreaIncluding,
+				SWT.NONE,
+				getBlockForProcessing( ).getVerticalSpacing( ) );
+		iscVSpacing.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		iscVSpacing.addListener( this );
 
-			Label lblHorizontalSpacing = new Label( grpAreaIncluding, SWT.NONE );
-			lblHorizontalSpacing.setLayoutData( new GridData( ) );
-			lblHorizontalSpacing.setText( Messages.getString( "BlockAttributeComposite.Lbl.HorizontalSpacing" ) ); //$NON-NLS-1$
+		Label lblHorizontalSpacing = new Label( grpAreaIncluding, SWT.NONE );
+		lblHorizontalSpacing.setLayoutData( new GridData( ) );
+		lblHorizontalSpacing.setText( Messages.getString( "BlockAttributeComposite.Lbl.HorizontalSpacing" ) ); //$NON-NLS-1$
 
-			iscHSpacing = new IntegerSpinControl( grpAreaIncluding,
-					SWT.NONE,
-					getBlockForProcessing( ).getHorizontalSpacing( ) );
-			iscHSpacing.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			iscHSpacing.addListener( this );
-		}
+		iscHSpacing = new IntegerSpinControl( grpAreaIncluding,
+				SWT.NONE,
+				getBlockForProcessing( ).getHorizontalSpacing( ) );
+		iscHSpacing.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		iscHSpacing.addListener( this );
 
 		new Label( grpAreaIncluding, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.HeightHint" ) ); //$NON-NLS-1$
 
