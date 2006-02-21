@@ -26,14 +26,6 @@ public interface IRenderTask extends IEngineTask
 	public abstract void setRenderOption( IRenderOption options );
 
 	/**
-	 * set the callback function that the engine calls to allow the caller 
-     * to have a final change on the report design before running the report
-     * @param dm design modifier, which allows the design to be modified 
-     * before running the report. Not supported now
-     */
-	public abstract void setDesignModifier(IDesignModifier dm);
-	
-	/**
 	 * @return the render option
 	 */
 	public abstract IRenderOption getRenderOption( );

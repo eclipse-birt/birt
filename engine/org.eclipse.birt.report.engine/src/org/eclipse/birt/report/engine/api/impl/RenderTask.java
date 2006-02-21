@@ -19,7 +19,6 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.IDesignModifier;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.InstanceID;
@@ -36,7 +35,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 {
 	ReportDocumentReader reportDoc;
 	String emitterID;
-	private IDesignModifier dm;
 
 	/**
 	 * @param engine
@@ -389,20 +387,5 @@ public class RenderTask extends EngineTask implements IRenderTask
 	public void render() throws EngineException {
 		// TODO Auto-generated method stub
 		
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setDesignModifier(org.eclipse.birt.report.engine.api.IDesignModifier)
-	 */
-	public void setDesignModifier(IDesignModifier dm) {
-		this.dm = dm;
-	}
-	
-	/**
-	 * @return the design modifier object passed to the task 
-	 */
-	public IDesignModifier getDesignModifier()
-	{
-		return this.dm;
 	}
 }

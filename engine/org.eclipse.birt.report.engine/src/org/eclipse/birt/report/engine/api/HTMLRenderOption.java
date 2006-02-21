@@ -18,7 +18,6 @@ import java.util.List;
  */
 public class HTMLRenderOption extends RenderOptionBase
 {
-
 	public static final String HTML_TYPE = "HTMLType"; //$NON-NLS-1$
 	public static final String HTML = "HTML"; //$NON-NLS-1$
 	public static final String HTML_NOCSS = "HTMLNoCSS"; //$NON-NLS-1$
@@ -27,6 +26,7 @@ public class HTMLRenderOption extends RenderOptionBase
 	public static final String INSTANCE_ID_LIST = "InstanceIdList"; //$NON-NLS-1$
 	public static final String HTML_PAGINATION = "htmlPagination"; //$NON-NLS-1$
 	public static final String MASTER_PAGE_CONTENT = "htmlMasterPageContent"; //$NON-NLS-1$
+	public static final String OBSERVE_TEMPLATE_DEFAULT = "observeTemplateDefault"; //$NON-NLS-1$
 
 	// used to pass back a set of instance IDs. One use is for interactivity
 	protected List instanceIDs = null;
@@ -136,5 +136,15 @@ public class HTMLRenderOption extends RenderOptionBase
 	public IHTMLActionHandler getActionHandle( )
 	{
 		return (IHTMLActionHandler) options.get( ACTION_HANDLER );
+	}
+	
+	public void setRenderTemplateUseDefault(boolean option)
+	{
+		options.put( OBSERVE_TEMPLATE_DEFAULT, new Boolean(option) );
+	}
+	
+	public boolean getRenderTemplateUseDefault()
+	{
+		return ((Boolean)options.get( OBSERVE_TEMPLATE_DEFAULT) ).booleanValue();
 	}
 }

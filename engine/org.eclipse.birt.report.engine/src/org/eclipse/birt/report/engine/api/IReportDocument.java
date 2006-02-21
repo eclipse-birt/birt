@@ -11,8 +11,7 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
  * A report document (i.e., not modifiable) that can be rendered to other
  * formats in the BIRT presentation engine
  * 
- * This is the high-level report document interface. Low-level report document
- * interface that supports file-level operations is in a separate interface.
+ * This is the high-level report document interface. 
  */
 public interface IReportDocument
 {
