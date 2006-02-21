@@ -374,7 +374,7 @@ final class XSDFileSchemaTreePopulator
 				else
 				{
 					
-					addParticleAndAttributeInfo( node, complexType );
+					addParticleAndAttributeInfo( node, complexType, complexTypesRoot );
 				}
 			}
 			root.addChild( node );
@@ -392,7 +392,7 @@ final class XSDFileSchemaTreePopulator
 	 * @param complexType
 	 */
 	private static void addParticleAndAttributeInfo( ATreeNode node,
-			XSComplexTypeDecl complexType )
+			XSComplexTypeDecl complexType, ATreeNode complexTypesRoot  )
 	{
 		XSParticle particle = complexType.getParticle( );
 		if ( particle != null )
@@ -409,7 +409,13 @@ final class XSDFileSchemaTreePopulator
 					dataType = childNode.getValue( ).toString( );
 				childNode.setDataType( dataType );
 				childNode.setType( ATreeNode.ELEMENT_TYPE );
-				node.addChild( childNode );
+				//Populate the complex data types under node.
+				if ((!dataType.equals("anyType"))
+						&& ((XSElementDecl) ((XSParticleDecl) list.item(j))
+								.getTerm()).getTypeDefinition() instanceof XSComplexTypeDecl)
+					childNode.addChild(findComplexElement(complexTypesRoot,
+							dataType).getChildren());
+				node.addChild(childNode);
 			}
 		}
 		if(!includeAttribute)
