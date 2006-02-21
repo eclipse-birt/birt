@@ -42,7 +42,7 @@ public interface INodeProvider
 	 * Gets the display name of the node
 	 * 
 	 * @param model
-	 *            the model of the node *
+	 *            the model of the node
 	 * @return Returns the display name for the node
 	 */
 	public String getNodeDisplayName( Object model );
@@ -56,6 +56,15 @@ public interface INodeProvider
 	 */
 	public Image getNodeIcon( Object model );
 
+	/**
+	 * Gets the tooltip of the node
+	 * 
+	 * @param model
+	 *            the model of the node
+	 * @return Returns the tooltip name for the node, or null if no tooltip is needed.
+	 */
+	public String getNodeTooltip( Object model );
+	
 	/**
 	 * Gets the given model object's children
 	 * 

@@ -298,6 +298,19 @@ public class DefaultNodeProvider implements INodeProvider
 		return icon;
 	}
 
+	
+	/**
+	 * Gets the tooltip of the node
+	 * 
+	 * @param model
+	 *            the model of the node
+	 * @return Returns the tooltip name for the node, or null if no tooltip is needed.
+	 */
+	public String getNodeTooltip( Object model )
+	{
+		return null;
+	}
+
 	/**
 	 * Gets the icon name for the given model. The default implementation does
 	 * nothing.The subclasses may override it if necessary
