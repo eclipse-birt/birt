@@ -3,7 +3,7 @@
 <plugin
    id="org.eclipse.birt.chart.device.extension"
    name="BIRT Chart Device Extension(s)"
-   version="2.0.0"
+   version="2.0.1"
    provider-name="Eclipse.org"
    class="org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin">
 
