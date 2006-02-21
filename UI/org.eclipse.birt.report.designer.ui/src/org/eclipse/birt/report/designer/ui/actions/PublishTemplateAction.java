@@ -265,6 +265,16 @@ class PublishTemplateWizard extends Wizard
 		fis.close( );
 		fos.close( );
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.wizard.IWizard#canFinish()
+	 */
+	public boolean canFinish()
+	{		
+		return page.canFinish();
+	}
 }
 
 /**

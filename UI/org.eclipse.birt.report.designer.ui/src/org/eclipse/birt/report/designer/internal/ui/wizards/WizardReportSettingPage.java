@@ -15,6 +15,8 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.util.URIUtil;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -44,6 +46,9 @@ public class WizardReportSettingPage extends WizardPage
 	private static final String BROWSE_TITLE = Messages.getString( "PublishTemplateAction.wizard.page.browse.title" ); //$NON-NLS-1$
 	//private static final String IMAGE_ERROR = "PublishTemplateAction.wizard.page.imageError";
 
+	private static final String PAGE_DESC = Messages.getString( "PublishTemplateAction.wizard.page.desc" ); //$NON-NLS-1$
+	private static final String PLUGIN_ID = "org.eclipse.birt.report.designer.ui.actions.PublishTemplateWizard";
+
 	private static final String STR_EMPTY = ""; //$NON-NLS-1$
 
 	private ReportDesignHandle module;
@@ -51,10 +56,18 @@ public class WizardReportSettingPage extends WizardPage
 	private Text descText;
 	private Text nameText;
 
+	private Status nameStatus;
+	private Status descStatus;
+	private Status previewImageStatus;
+	
 	public WizardReportSettingPage( ReportDesignHandle handle )
 	{
 		super( "" );
 		module = handle;
+		
+		nameStatus = new Status(IStatus.OK, PLUGIN_ID, 0, PAGE_DESC, null);
+		descStatus = new Status(IStatus.OK, PLUGIN_ID, 0,PAGE_DESC, null);	
+		previewImageStatus = new Status(IStatus.OK, PLUGIN_ID, 0, PAGE_DESC, null);	
 	}
 
 	/*
@@ -75,13 +88,27 @@ public class WizardReportSettingPage extends WizardPage
 		if ( module != null
 				&& module.getProperty( ModuleHandle.DISPLAY_NAME_PROP ) != null )
 			nameText.setText( module.getDisplayName( ) );
+		nameText.addModifyListener( new ModifyListener( ) {
 
+			public void modifyText( ModifyEvent e )
+			{
+				checkStatus();				
+			}
+		} );
+		
 		new Label( container, SWT.NONE ).setText( LABEL_DESCRIPTION );
 		descText = createText( container, 2, 5 );
 		if ( module != null
 				&& module.getProperty( ModuleHandle.DESCRIPTION_PROP ) != null )
 			descText.setText( (String) module.getProperty( ModuleHandle.DESCRIPTION_PROP ) );
+		descText.addModifyListener( new ModifyListener( ) {
 
+			public void modifyText( ModifyEvent e )
+			{
+				checkStatus();
+			}
+		} );
+		
 		new Label( container, SWT.NONE ).setText( LABEL_IMAGE );
 		previewImageText = createText( container, 1, 1 );
 		if ( module != null && module.getIconFile( ) != null )
@@ -90,6 +117,7 @@ public class WizardReportSettingPage extends WizardPage
 
 			public void modifyText( ModifyEvent e )
 			{
+				checkStatus();
 				validate( );
 			}
 		} );
@@ -123,6 +151,7 @@ public class WizardReportSettingPage extends WizardPage
 
 		nameText.forceFocus( );
 		setControl( container );
+
 	}
 
 	public String getDisplayName( )
@@ -186,5 +215,96 @@ public class WizardReportSettingPage extends WizardPage
 			setPageComplete( true );
 		}
 
+	}
+	
+
+	public void checkStatus( )
+	{
+	    // Initialize a variable with the no error status
+	    Status status = new Status(IStatus.OK, "PLUGIN_ID", 0, PAGE_DESC, null);	    
+		if(isTextEmpty(nameText))
+		{
+            status = new Status(IStatus.ERROR, 	PLUGIN_ID, 0, 
+	                Messages.getString( "PublishTemplateAction.wizard.page.nameInfo" ), null);        	        
+		}
+		nameStatus = status;
+		
+		status = new Status(IStatus.OK, "PLUGIN_ID", 0, PAGE_DESC, null);
+		if(isTextEmpty(descText))
+		{
+            status = new Status(IStatus.WARNING, PLUGIN_ID, 0, 
+            		 Messages.getString( "PublishTemplateAction.wizard.page.descInfo" ), null);        
+	        
+		}
+		descStatus = status;
+		
+		status = new Status(IStatus.OK, "PLUGIN_ID", 0, PAGE_DESC, null);
+		if(isTextEmpty(previewImageText))
+		{
+            status = new Status(IStatus.WARNING, PLUGIN_ID, 0, 
+            		 Messages.getString( "PublishTemplateAction.wizard.page.imgInfo" ), null);        	       	
+		}
+		previewImageStatus = status;
+		
+	    // Show the most serious error
+	    applyToStatusLine(findMostSevere());
+		getWizard().getContainer().updateButtons();
+		
+	}
+	
+	private static boolean isTextEmpty(Text text)
+	{
+		String s = text.getText();
+		if ((s!=null) && (s.trim().length() >0)) return false;
+		return true;
+	}	
+	
+	private IStatus findMostSevere()
+	{
+		if (nameStatus.matches(IStatus.ERROR))
+			return nameStatus;
+		if (descStatus.matches(IStatus.WARNING))
+			return descStatus;
+		if (previewImageStatus.matches(IStatus.WARNING))
+			return previewImageStatus;
+		else return nameStatus;
+	}
+	
+	/**
+	 * Applies the status to the status line of a dialog page.
+	 */
+	private void applyToStatusLine(IStatus status) {
+		String message= status.getMessage();
+		if (message.length() == 0) message= PAGE_DESC;
+		switch (status.getSeverity()) {
+			case IStatus.OK:
+				setErrorMessage(null);
+				setMessage(message);
+				break;
+			case IStatus.ERROR:
+				setErrorMessage(message);
+				setMessage(message,WizardPage.ERROR);
+				break;
+			case IStatus.WARNING:
+				setErrorMessage(null);
+				setMessage(message, WizardPage.WARNING);
+				break;				
+			case IStatus.INFO:
+				setErrorMessage(null);
+				setMessage(message, WizardPage.INFORMATION);
+				break;			
+			default:
+				setErrorMessage(message);
+				setMessage(null);
+				break;		
+		}
+	}
+	
+	/**
+	 * @see IWizardPage#canFinish()
+	 */
+	public boolean canFinish()
+	{		
+		return !(isTextEmpty(nameText));
 	}
 }
