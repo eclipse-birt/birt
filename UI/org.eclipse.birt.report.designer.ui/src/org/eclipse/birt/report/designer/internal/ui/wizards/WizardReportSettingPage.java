@@ -217,7 +217,7 @@ public class WizardReportSettingPage extends WizardPage
 	public void checkStatus( )
 	{
 	    // Initialize a variable with the no error status
-	    Status status = new Status(IStatus.OK, "PLUGIN_ID", 0, PAGE_DESC, null);	    
+	    Status status = new Status(IStatus.OK, PLUGIN_ID, 0, PAGE_DESC, null);	    
 		if(isTextEmpty(nameText))
 		{
             status = new Status(IStatus.ERROR, 	PLUGIN_ID, 0, 
@@ -225,23 +225,6 @@ public class WizardReportSettingPage extends WizardPage
 		}
 		nameStatus = status;
 		
-//		status = new Status(IStatus.OK, "PLUGIN_ID", 0, PAGE_DESC, null);
-//		if(isTextEmpty(descText))
-//		{
-//            status = new Status(IStatus.WARNING, PLUGIN_ID, 0, 
-//            		 Messages.getString( "PublishTemplateAction.wizard.page.descInfo" ), null);        
-//	        
-//		}
-//		descStatus = status;
-//		
-//		status = new Status(IStatus.OK, "PLUGIN_ID", 0, PAGE_DESC, null);
-//		if(isTextEmpty(previewImageText))
-//		{
-//            status = new Status(IStatus.WARNING, PLUGIN_ID, 0, 
-//            		 Messages.getString( "PublishTemplateAction.wizard.page.imgInfo" ), null);        	       	
-//		}
-//		previewImageStatus = status;
-//		
 	    // Show the most serious error
 	    applyToStatusLine(findMostSevere());
 		getWizard().getContainer().updateButtons();
