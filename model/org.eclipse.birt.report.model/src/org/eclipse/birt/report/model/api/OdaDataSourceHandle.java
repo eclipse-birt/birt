@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 
 /**
@@ -31,7 +32,7 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 
 public class OdaDataSourceHandle extends DataSourceHandle
 		implements
-			IOdaDataSourceModel
+			IOdaDataSourceModel, IOdaExtendableElementModel
 {
 
 	/**
