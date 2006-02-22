@@ -72,11 +72,6 @@ public class ImportLibraryAction extends Action
 		}
 		if ( filename != null )
 		{
-			if ( !isInExplorer( filename ) )
-			{
-				addToPreference( filename );
-			}
-
 			ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
 			try
@@ -86,6 +81,11 @@ public class ImportLibraryAction extends Action
 			catch ( Exception e )
 			{
 				ExceptionHandler.handle( e );
+				return;
+			}
+			if ( !isInExplorer( filename ) )
+			{
+				addToPreference( filename );
 			}
 		}
 	}
