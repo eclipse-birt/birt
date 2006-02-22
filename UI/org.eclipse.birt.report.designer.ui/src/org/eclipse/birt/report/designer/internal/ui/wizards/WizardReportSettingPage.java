@@ -57,8 +57,6 @@ public class WizardReportSettingPage extends WizardPage
 	private Text nameText;
 
 	private Status nameStatus;
-	private Status descStatus;
-	private Status previewImageStatus;
 	
 	public WizardReportSettingPage( ReportDesignHandle handle )
 	{
@@ -66,8 +64,6 @@ public class WizardReportSettingPage extends WizardPage
 		module = handle;
 		
 		nameStatus = new Status(IStatus.OK, PLUGIN_ID, 0, PAGE_DESC, null);
-		descStatus = new Status(IStatus.OK, PLUGIN_ID, 0,PAGE_DESC, null);	
-		previewImageStatus = new Status(IStatus.OK, PLUGIN_ID, 0, PAGE_DESC, null);	
 	}
 
 	/*
@@ -229,23 +225,23 @@ public class WizardReportSettingPage extends WizardPage
 		}
 		nameStatus = status;
 		
-		status = new Status(IStatus.OK, "PLUGIN_ID", 0, PAGE_DESC, null);
-		if(isTextEmpty(descText))
-		{
-            status = new Status(IStatus.WARNING, PLUGIN_ID, 0, 
-            		 Messages.getString( "PublishTemplateAction.wizard.page.descInfo" ), null);        
-	        
-		}
-		descStatus = status;
-		
-		status = new Status(IStatus.OK, "PLUGIN_ID", 0, PAGE_DESC, null);
-		if(isTextEmpty(previewImageText))
-		{
-            status = new Status(IStatus.WARNING, PLUGIN_ID, 0, 
-            		 Messages.getString( "PublishTemplateAction.wizard.page.imgInfo" ), null);        	       	
-		}
-		previewImageStatus = status;
-		
+//		status = new Status(IStatus.OK, "PLUGIN_ID", 0, PAGE_DESC, null);
+//		if(isTextEmpty(descText))
+//		{
+//            status = new Status(IStatus.WARNING, PLUGIN_ID, 0, 
+//            		 Messages.getString( "PublishTemplateAction.wizard.page.descInfo" ), null);        
+//	        
+//		}
+//		descStatus = status;
+//		
+//		status = new Status(IStatus.OK, "PLUGIN_ID", 0, PAGE_DESC, null);
+//		if(isTextEmpty(previewImageText))
+//		{
+//            status = new Status(IStatus.WARNING, PLUGIN_ID, 0, 
+//            		 Messages.getString( "PublishTemplateAction.wizard.page.imgInfo" ), null);        	       	
+//		}
+//		previewImageStatus = status;
+//		
 	    // Show the most serious error
 	    applyToStatusLine(findMostSevere());
 		getWizard().getContainer().updateButtons();
@@ -261,13 +257,7 @@ public class WizardReportSettingPage extends WizardPage
 	
 	private IStatus findMostSevere()
 	{
-		if (nameStatus.matches(IStatus.ERROR))
 			return nameStatus;
-		if (descStatus.matches(IStatus.WARNING))
-			return descStatus;
-		if (previewImageStatus.matches(IStatus.WARNING))
-			return previewImageStatus;
-		else return nameStatus;
 	}
 	
 	/**
