@@ -20,7 +20,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -188,7 +187,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	 * @param sJavaPattern
 	 * @return
 	 */
-	public static final JavaDateFormatSpecifier create( String sJavaPattern )
+	public static JavaDateFormatSpecifier create( String sJavaPattern )
 	{
 		final JavaDateFormatSpecifier jdfs = AttributeFactory.eINSTANCE.createJavaDateFormatSpecifier( );
 		jdfs.setPattern( sJavaPattern );

@@ -631,7 +631,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	 * 
 	 * @return this instance
 	 */
-	public static final FractionNumberFormatSpecifier create( )
+	public static FractionNumberFormatSpecifier create( )
 	{
 		final FractionNumberFormatSpecifier nfs = AttributeFactory.eINSTANCE.createFractionNumberFormatSpecifier( );
 		nfs.setPrecise( true );

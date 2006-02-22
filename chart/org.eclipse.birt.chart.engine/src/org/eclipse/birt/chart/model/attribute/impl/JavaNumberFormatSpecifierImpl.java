@@ -19,7 +19,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -286,7 +285,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	 * @param sJavaPattern
 	 * @return
 	 */
-	public static final JavaNumberFormatSpecifier create( String sJavaPattern )
+	public static JavaNumberFormatSpecifier create( String sJavaPattern )
 	{
 		final JavaNumberFormatSpecifier jnfs = AttributeFactory.eINSTANCE.createJavaNumberFormatSpecifier( );
 		jnfs.setPattern( sJavaPattern );

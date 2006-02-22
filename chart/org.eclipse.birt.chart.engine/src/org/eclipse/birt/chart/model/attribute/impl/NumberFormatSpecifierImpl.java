@@ -444,7 +444,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 	 * 
 	 * @return this instance
 	 */
-	public static final NumberFormatSpecifier create( )
+	public static NumberFormatSpecifier create( )
 	{
 		final NumberFormatSpecifier nfs = AttributeFactory.eINSTANCE.createNumberFormatSpecifier( );
 		nfs.setFractionDigits( 2 );
