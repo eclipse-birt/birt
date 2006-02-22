@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.engine.script.internal;
 
 import java.io.Serializable;
-import java.text.MessageFormat;
+import com.ibm.icu.text.MessageFormat;
 import java.util.Locale;
 import java.util.Map;
 

@@ -12,10 +12,11 @@
 package org.eclipse.birt.core.format;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import com.ibm.icu.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
+import com.ibm.icu.util.ULocale;
+import com.ibm.icu.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,7 +28,7 @@ import java.util.logging.Logger;
  * this version, we also provide some new API for further implementation in the
  * future
  * 
- * @version $Revision: 1.7 $ $Date: 2005/05/13 05:51:41 $
+ * @version $Revision: 1.8 $ $Date: 2005/08/11 05:22:56 $
  */
 public class DateFormatter
 {
@@ -41,12 +42,12 @@ public class DateFormatter
 	 * Comment for <code>dateFormat</code> used for two methods,
 	 * createDateFormat() and format()
 	 */
-	private java.text.DateFormat dateFormat;
+	private com.ibm.icu.text.DateFormat dateFormat;
 
 	/**
 	 * Comment for <code>locale</code> used for record Locale information
 	 */
-	private Locale locale = Locale.getDefault( );
+	private ULocale locale = ULocale.getDefault( );
 
 	/**
 	 * logger used to log syntax errors.
@@ -77,10 +78,19 @@ public class DateFormatter
 	 * 
 	 * @param localeLoc
 	 */
-	public DateFormatter( Locale localeLoc )
+	public DateFormatter( ULocale localeLoc )
 	{
 		locale = localeLoc;
 		applyPattern( null );
+	}
+
+	/**
+	 * @deprecated since 2.1
+	 * @return
+	 */
+	public DateFormatter( Locale localeLoc )
+	{
+		this(ULocale.forLocale(localeLoc));
 	}
 
 	/**
@@ -90,11 +100,22 @@ public class DateFormatter
 	 * @param pattern
 	 * @param localeLoc
 	 */
-	public DateFormatter( String pattern, Locale localeLoc )
+	public DateFormatter( String pattern, ULocale localeLoc )
 	{
 		locale = localeLoc;
 		applyPattern( pattern );
 	}
+
+	/**
+	 * @deprecated since 2.1
+	 * @return
+	 */
+	public DateFormatter( String pattern, Locale localeLoc )
+	{
+		this(pattern, ULocale.forLocale(localeLoc));
+	}
+	
+	
 
 	/**
 	 * get the string pattern
@@ -124,8 +145,8 @@ public class DateFormatter
 			if ( formatString == null || "Unformatted".equals(formatString)) //$NON-NLS-1$
 			{
 				formatPattern = "";
-				dateFormat = java.text.DateFormat.getDateTimeInstance(
-						java.text.DateFormat.MEDIUM, java.text.DateFormat.SHORT,
+				dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance(
+						com.ibm.icu.text.DateFormat.MEDIUM, com.ibm.icu.text.DateFormat.SHORT,
 						locale );
 				return;
 
@@ -136,44 +157,44 @@ public class DateFormatter
 				switch ( patternTemp )
 				{
 					case 'G' :
-						dateFormat = java.text.DateFormat.getDateTimeInstance(
-								java.text.DateFormat.LONG,
-								java.text.DateFormat.LONG, locale );
+						dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance(
+								com.ibm.icu.text.DateFormat.LONG,
+								com.ibm.icu.text.DateFormat.LONG, locale );
 						return;
 					case 'D' :
 
-						dateFormat = java.text.DateFormat.getDateInstance(
-								java.text.DateFormat.LONG, locale );
+						dateFormat = com.ibm.icu.text.DateFormat.getDateInstance(
+								com.ibm.icu.text.DateFormat.LONG, locale );
 						return;
 					case 'd' :
 
-						dateFormat = java.text.DateFormat.getDateInstance(
-								java.text.DateFormat.SHORT, locale );
+						dateFormat = com.ibm.icu.text.DateFormat.getDateInstance(
+								com.ibm.icu.text.DateFormat.SHORT, locale );
 						return;
 					case 'T' :
 
-						dateFormat = java.text.DateFormat.getTimeInstance(
-								java.text.DateFormat.LONG, locale );
+						dateFormat = com.ibm.icu.text.DateFormat.getTimeInstance(
+								com.ibm.icu.text.DateFormat.LONG, locale );
 						return;
 					case 't' :
 						dateFormat = new SimpleDateFormat( "HH:mm", locale );
 						return;
 					case 'f' :
 
-						dateFormat = java.text.DateFormat.getDateTimeInstance(
-								java.text.DateFormat.LONG,
-								java.text.DateFormat.SHORT, locale );
+						dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance(
+								com.ibm.icu.text.DateFormat.LONG,
+								com.ibm.icu.text.DateFormat.SHORT, locale );
 						return;
 					case 'F' :
-						dateFormat = java.text.DateFormat.getDateTimeInstance(
-								java.text.DateFormat.LONG,
-								java.text.DateFormat.LONG, locale );
+						dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance(
+								com.ibm.icu.text.DateFormat.LONG,
+								com.ibm.icu.text.DateFormat.LONG, locale );
 						return;
 					case 'g' :
 
-						dateFormat = java.text.DateFormat.getDateTimeInstance(
-								java.text.DateFormat.SHORT,
-								java.text.DateFormat.SHORT, locale );
+						dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance(
+								com.ibm.icu.text.DateFormat.SHORT,
+								com.ibm.icu.text.DateFormat.SHORT, locale );
 						return;
 					case 'M' :
 					case 'm' :
@@ -213,43 +234,43 @@ public class DateFormatter
 			 */
 			if ( formatString.equals( "General Date" ) )
 			{
-				dateFormat = java.text.DateFormat.getDateTimeInstance(
-						java.text.DateFormat.LONG, java.text.DateFormat.LONG,
+				dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance(
+						com.ibm.icu.text.DateFormat.LONG, com.ibm.icu.text.DateFormat.LONG,
 						locale );
 				return;
 			}
 			if ( formatString.equals( "Long Date" ) )
 			{
-				dateFormat = java.text.DateFormat.getDateInstance(
-						java.text.DateFormat.LONG, locale );
+				dateFormat = com.ibm.icu.text.DateFormat.getDateInstance(
+						com.ibm.icu.text.DateFormat.LONG, locale );
 				return;
 
 			}
 			if ( formatString.equals( "Medium Date" ) )
 			{
-				dateFormat = java.text.DateFormat.getDateInstance(
-						java.text.DateFormat.MEDIUM, locale );
+				dateFormat = com.ibm.icu.text.DateFormat.getDateInstance(
+						com.ibm.icu.text.DateFormat.MEDIUM, locale );
 				return;
 
 			}
 			if ( formatString.equals( "Short Date" ) )
 			{
-				dateFormat = java.text.DateFormat.getDateInstance(
-						java.text.DateFormat.SHORT, locale );
+				dateFormat = com.ibm.icu.text.DateFormat.getDateInstance(
+						com.ibm.icu.text.DateFormat.SHORT, locale );
 				return;
 
 			}
 			if ( formatString.equals( "Long Time" ) )
 			{
-				dateFormat = java.text.DateFormat.getTimeInstance(
-						java.text.DateFormat.LONG, locale );
+				dateFormat = com.ibm.icu.text.DateFormat.getTimeInstance(
+						com.ibm.icu.text.DateFormat.LONG, locale );
 				return;
 
 			}
 			if ( formatString.equals( "Medium Time" ) )
 			{
-				dateFormat = java.text.DateFormat.getTimeInstance(
-						java.text.DateFormat.MEDIUM, locale );
+				dateFormat = com.ibm.icu.text.DateFormat.getTimeInstance(
+						com.ibm.icu.text.DateFormat.MEDIUM, locale );
 				return;
 
 			}

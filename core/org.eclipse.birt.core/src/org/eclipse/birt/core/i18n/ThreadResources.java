@@ -11,11 +11,11 @@
 
 package org.eclipse.birt.core.i18n;
 
-import java.text.MessageFormat;
+import com.ibm.icu.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Locale;
+import com.ibm.icu.util.ULocale;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 /**
  * Provides access to a resource bundle associated with this thread. The application calls <code>setThreadLocale</code>
@@ -47,7 +47,7 @@ public class ThreadResources
 	 *            Locale of the current thread.
 	 */
     
-    public static void setLocale( Locale locale )
+    public static void setLocale( ULocale locale )
     {
     	ResourceHandle resourceHandle = null;
     	if ( locale != null )
@@ -68,15 +68,34 @@ public class ThreadResources
     }
     
 	/**
+	 * @deprecated since 2.1
+	 * @return
+	 */
+    public static void setLocale( Locale locale )
+    {
+    	setLocale(ULocale.forLocale(locale));
+    }
+    
+	/**
       * Get the locale of current user-thread.
       * @return Locale of the current thread.
       */
-     public static Locale getLocale()
+     public static ULocale getULocale()
      {
           ResourceHandle handle = (ResourceHandle)resources.get();
           assert handle != null;
-          return handle.getResourceBundle().getLocale();
+         return handle.getUResourceBundle().getULocale();
      }
+     
+     /**
+ 	 * @deprecated since 2.1
+ 	 * @return
+ 	 */
+     public static Locale getLocale()
+     {
+    	 return getULocale().toLocale( );
+     }
+     
 
      /**
       * Get a message given the message key. An assertion will be raised if the message key does not exist in the

@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
+import com.ibm.icu.util.ULocale;
+import com.ibm.icu.util.UResourceBundle;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
@@ -27,7 +27,7 @@ public class EngineException extends BirtException {
 	 */
 	private static final long serialVersionUID = 3137320793453389473L;
 
-	static protected ResourceBundle rb = new EngineResourceHandle(Locale.getDefault()).getResourceBundle();
+	static protected UResourceBundle rb = new EngineResourceHandle(ULocale.getDefault()).getUResourceBundle();
 	
 	protected static final String pluginId = "org.eclipse.birt.report.engine"; //$NON-NLS-1$
 	/**

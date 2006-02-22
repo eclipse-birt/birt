@@ -13,7 +13,7 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import com.ibm.icu.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;

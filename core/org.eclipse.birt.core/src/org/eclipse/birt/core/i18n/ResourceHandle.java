@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.core.i18n;
 
-import java.text.MessageFormat;
+import com.ibm.icu.text.MessageFormat;
 import java.util.Locale;
+import com.ibm.icu.util.ULocale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import com.ibm.icu.util.UResourceBundle;
 
 /**
  * Represents a set of resources for a given package and locale. This class will
@@ -41,7 +43,7 @@ public class ResourceHandle
 	 * a PropertyResourceBundle to access our files.
 	 */
 
-	protected ResourceBundle resources;
+	protected UResourceBundle resources;
 
 	/**
 	 * Name of the resource bundle.
@@ -57,7 +59,7 @@ public class ResourceHandle
 	 *            will be used.
 	 */
 
-	public ResourceHandle( Locale locale )
+	public ResourceHandle( ULocale locale )
 	{
 		String className = this.getClass( ).getName( );
 		String bundleName = ""; //$NON-NLS-1$
@@ -76,10 +78,19 @@ public class ResourceHandle
 
 		bundleName = bundleName + BUNDLE_NAME;
 		if ( locale == null )
-			locale = Locale.getDefault( );
-		resources = ResourceBundle.getBundle( bundleName, locale, this.getClass().getClassLoader() );
+			locale = ULocale.getDefault( );
+		resources = UResourceBundle.getBundleInstance( bundleName, locale, this.getClass().getClassLoader() );
 		assert resources != null : "ResourceBundle : " + BUNDLE_NAME + " for " + locale + " not found"; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
 
+	}
+
+	/**
+	 * @deprecated since 2.1
+	 * @return
+	 */
+	public ResourceHandle( Locale locale )
+	{
+		this(ULocale.forLocale(locale));
 	}
 
 	/**
@@ -137,9 +148,18 @@ public class ResourceHandle
 	 * @see ResourceBundle
 	 */
 
-	public ResourceBundle getResourceBundle( )
+	public UResourceBundle getUResourceBundle( )
 	{
 		return resources;
+	}
+	
+	/**
+	 * @deprecated since 2.1
+	 * @return
+	 */
+	public ResourceBundle getResourceBundle( )
+	{
+		return (UResourceBundle)getUResourceBundle();
 	}
 
 }

@@ -15,7 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.text.SimpleDateFormat;
+import com.ibm.icu.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 

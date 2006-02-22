@@ -12,17 +12,18 @@
 package org.eclipse.birt.core.format;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
+import com.ibm.icu.text.DecimalFormat;
+import com.ibm.icu.text.DecimalFormatSymbols;
+import com.ibm.icu.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
+import com.ibm.icu.util.ULocale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.12 $ $Date: 2005/10/19 11:00:37 $
+ * @version $Revision: 1.13 $ $Date: 2005/12/27 09:07:29 $
  * 
  * Defines a number formatting class. It does the following:
  * 1. In constructor, convert format string to Java format string. 
@@ -46,7 +47,7 @@ public class NumberFormatter
 	/**
 	 * the locale used for formatting
 	 */
-	protected Locale locale = Locale.getDefault( );
+	protected ULocale locale = ULocale.getDefault( );
 
 	/**
 	 * a java.text.NumberFormat format object. We want to use the
@@ -82,10 +83,19 @@ public class NumberFormatter
 	 * @param locale
 	 *            the locale used for numer format
 	 */
-	public NumberFormatter( Locale locale )
+	public NumberFormatter( ULocale locale )
 	{
 		this.locale = locale;
 		applyPattern( null );
+	}
+
+	/**
+	 * @deprecated since 2.1
+	 * @return
+	 */
+	public NumberFormatter( Locale locale )
+	{
+		this(ULocale.forLocale(locale));
 	}
 
 	/**
@@ -96,10 +106,19 @@ public class NumberFormatter
 	 * @param locale
 	 *            locale used to format the number
 	 */
-	public NumberFormatter( String pattern, Locale locale )
+	public NumberFormatter( String pattern, ULocale locale )
 	{
 		this.locale = locale;
 		applyPattern( pattern );
+	}
+	
+	/**
+	 * @deprecated since 2.1
+	 * @return
+	 */
+	public NumberFormatter( String pattern, Locale locale )
+	{
+		this(pattern, ULocale.forLocale(locale));
 	}
 
 	/**

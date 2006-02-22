@@ -13,7 +13,7 @@ package org.eclipse.birt.report.engine.parser;
 
 import java.io.PrintWriter;
 import java.io.Writer;
-import java.text.DecimalFormat;
+import com.ibm.icu.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.Stack;
 
@@ -48,7 +48,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * visitor used to write the IR.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/11/11 06:26:47 $
+ * @version $Revision: 1.13 $ $Date: 2005/11/24 07:25:15 $
  */
 class ReportDesignWriter
 {

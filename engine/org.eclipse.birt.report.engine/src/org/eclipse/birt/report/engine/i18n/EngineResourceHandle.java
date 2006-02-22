@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.i18n;
 
 
 import java.util.Locale;
+import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.core.i18n.ResourceHandle;
 
@@ -32,13 +33,22 @@ public class EngineResourceHandle extends ResourceHandle
 		{
 			if ( resourceHandle == null )
 			{
-				resourceHandle = new EngineResourceHandle( Locale.getDefault( ) );
+				resourceHandle = new EngineResourceHandle( ULocale.getDefault( ) );
 			}
 		}
 		return resourceHandle;
 	}
-	public EngineResourceHandle( Locale locale )
+	public EngineResourceHandle( ULocale locale )
 	{
 		super(locale);
+	}
+	
+	/**
+	 * @deprecated since 2.1
+	 * @return
+	 */
+	public EngineResourceHandle( Locale locale )
+	{
+		super(ULocale.forLocale(locale));
 	}
 }

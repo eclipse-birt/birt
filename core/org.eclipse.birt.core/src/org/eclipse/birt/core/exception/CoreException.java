@@ -13,8 +13,8 @@
  */ 
 package org.eclipse.birt.core.exception;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
+import com.ibm.icu.util.ULocale;
+import com.ibm.icu.util.UResourceBundle;
 
 import org.eclipse.birt.core.i18n.ResourceHandle;
 
@@ -24,7 +24,7 @@ import org.eclipse.birt.core.i18n.ResourceHandle;
  */
 public class CoreException extends BirtException
 {
-	static protected ResourceBundle rb = new ResourceHandle(Locale.getDefault()).getResourceBundle();
+	static protected UResourceBundle rb = new ResourceHandle(ULocale.getDefault()).getUResourceBundle();
 	static protected String PLUGIN_ID = "org.eclipse.birt.core";
 	
 	public CoreException( String errCode )

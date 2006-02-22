@@ -11,17 +11,18 @@
 
 package org.eclipse.birt.report.engine.css.engine.value;
 
-import java.text.MessageFormat;
+import com.ibm.icu.text.MessageFormat;
 import java.util.Locale;
+import com.ibm.icu.util.ULocale;
 import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import com.ibm.icu.util.UResourceBundle;
 
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 
 /**
  * This class manages the message for the css.engine.value module.
  * 
- * @version $Id: Messages.java,v 1.1 2005/11/11 06:26:44 wyan Exp $
+ * @version $Id: Messages.java,v 1.2 2005/11/22 09:59:57 wyan Exp $
  */
 public class Messages
 {
@@ -41,8 +42,8 @@ public class Messages
 	/**
 	 * The localizable support for the error messages.
 	 */
-	static protected ResourceBundle rb = new EngineResourceHandle( Locale
-			.getDefault( ) ).getResourceBundle( );
+	static protected UResourceBundle rb = new EngineResourceHandle( ULocale
+			.getDefault( ) ).getUResourceBundle( );
 
 	/**
 	 * set the locale of message.

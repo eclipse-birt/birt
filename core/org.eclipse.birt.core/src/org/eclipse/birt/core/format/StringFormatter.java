@@ -13,11 +13,12 @@ package org.eclipse.birt.core.format;
 
 import java.text.ParseException;
 import java.util.Locale;
+import com.ibm.icu.util.ULocale;
 import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.10 $ $Date: 2005/05/12 02:40:49 $
+ * @version $Revision: 1.11 $ $Date: 2005/05/20 15:11:13 $
  * 
  * Defines a string formatting class. Notice that unlike numeric or Date
  * formatting, locale is irrelevant in string formatting
@@ -35,7 +36,7 @@ public class StringFormatter
 	//	original format string
 	protected String formatPattern;
 	//	Locale
-	private Locale locale = Locale.getDefault( );
+	private ULocale locale = ULocale.getDefault( );
 
 	// uppercase or lowercase;
 	private char chcase;
@@ -71,11 +72,21 @@ public class StringFormatter
 	/**
 	 * constructor with no formatting string
 	 */
-	public StringFormatter( Locale locale )
+	public StringFormatter( ULocale locale )
 	{
 		this.locale = locale;
 		applyPattern( null );
 	}
+
+	/**
+	 * @deprecated since 2.1
+	 * @return
+	 */
+	public StringFormatter( Locale locale )
+	{
+		this(ULocale.forLocale(locale));
+	}
+	
 
 	/**
 	 * constructor with a format string argument
@@ -93,11 +104,22 @@ public class StringFormatter
 	 * @param format the format string
 	 * @param locale the locale
 	 */
-	public StringFormatter( String format, Locale locale)
+	public StringFormatter( String format, ULocale locale)
 	{
 		this.locale = locale;
 		applyPattern( format );
 	}
+	
+	/**
+	 * @deprecated since 2.1
+	 * @return
+	 */
+	public StringFormatter( String format, Locale locale)
+	{
+		this(format, ULocale.forLocale(locale));
+	}
+	
+	
 	/**
 	 * @param format
 	 *            the format pattern
@@ -167,9 +189,18 @@ public class StringFormatter
 	 * getLoacle() method, return the locale value.
 	 *  
 	 */
-	public Locale getLocale( )
+	public ULocale getULocale( )
 	{
 		return this.locale;
+	}
+
+	/**
+	 * @deprecated since 2.1
+	 * @return
+	 */
+	public Locale getLocale( )
+	{
+		return getULocale( ).toLocale( );
 	}
 
 	/**
@@ -177,9 +208,18 @@ public class StringFormatter
 	 * setLoacle() method, set the locale value.
 	 *  
 	 */
-	public void setLocale( Locale theLocale )
+	public void setLocale( ULocale theLocale )
 	{
 		locale = theLocale;
+	}
+	
+	/**
+	 * @deprecated since 2.1
+	 * @return
+	 */
+	public void setLocale( Locale theLocale )
+	{
+		setLocale(ULocale.forLocale(theLocale));
 	}
 
 	/**

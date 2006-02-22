@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.core.exception;
 
-import java.text.MessageFormat;
+import com.ibm.icu.text.MessageFormat;
 import java.util.ResourceBundle;
 
 /**
