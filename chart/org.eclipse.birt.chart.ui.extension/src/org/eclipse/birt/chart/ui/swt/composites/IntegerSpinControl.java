@@ -28,198 +28,203 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * @author Actuate Corporation
- *  
+ * 
  */
-public class IntegerSpinControl extends Composite implements SelectionListener, Listener
+public class IntegerSpinControl extends Composite
+		implements
+			SelectionListener,
+			Listener
 {
 
-    private transient int iSize = 16;
+	private transient int iSize = 16;
 
-    private transient int iMinValue = 0;
+	private transient int iMinValue = 0;
 
-    private transient int iMaxValue = 100;
+	private transient int iMaxValue = 100;
 
-    private transient int iCurrentValue = 0;
+	private transient int iCurrentValue = 0;
 
-    private transient int iIncrement = 1;
+	private transient int iIncrement = 1;
 
-    private transient Composite cmpContentOuter = null;
+	private transient Composite cmpContentOuter = null;
 
-    private transient Composite cmpContentInner = null;
+	private transient Composite cmpContentInner = null;
 
-    private transient Composite cmpBtnContainer = null;
+	private transient Composite cmpBtnContainer = null;
 
-    private transient Button btnIncrement = null;
+	private transient Button btnIncrement = null;
 
-    private transient Button btnDecrement = null;
+	private transient Button btnDecrement = null;
 
-    private transient TextEditorComposite txtValue = null;
+	private transient TextEditorComposite txtValue = null;
 
-    private transient Vector vListeners = null;
+	private transient Vector vListeners = null;
 
-    public static final int VALUE_CHANGED_EVENT = 1;
-    
-    private transient boolean bEnabled = true;
+	public static final int VALUE_CHANGED_EVENT = 1;
 
-    /**
-     * @param parent
-     * @param style
-     */
-    public IntegerSpinControl(Composite parent, int style, int iCurrentValue)
-    {
-        super(parent, style);
-        this.iCurrentValue = iCurrentValue;
-        init();
-        placeComponents();
-    }
+	private transient boolean bEnabled = true;
 
-    /**
-     *  
-     */
-    private void init()
-    {
-        this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
-        vListeners = new Vector();
-    }
+	/**
+	 * @param parent
+	 * @param style
+	 */
+	public IntegerSpinControl( Composite parent, int style, int iCurrentValue )
+	{
+		super( parent, style );
+		this.iCurrentValue = iCurrentValue;
+		init( );
+		placeComponents( );
+	}
 
-    /**
-     *  
-     */
-    private void placeComponents()
-    {
-        FillLayout fl = new FillLayout();
-        fl.marginHeight = 0;
-        fl.marginWidth = 0;
-        setLayout(fl);
+	/**
+	 * 
+	 */
+	private void init( )
+	{
+		this.setSize( getParent( ).getClientArea( ).width,
+				getParent( ).getClientArea( ).height );
+		vListeners = new Vector( );
+	}
 
-        // THE LAYOUT OF THE OUTER COMPOSITE (THAT GROWS VERTICALLY BUT ANCHORS
-        // ITS CONTENT NORTH)
-        cmpContentOuter = new Composite(this, SWT.NONE);
-        GridLayout gl = new GridLayout();
-        gl.verticalSpacing = 0;
-        gl.horizontalSpacing = 0;
-        gl.marginHeight = 0;
-        gl.marginWidth = 0;
-        gl.numColumns = 1;
-        cmpContentOuter.setLayout(gl);
+	/**
+	 * 
+	 */
+	private void placeComponents( )
+	{
+		FillLayout fl = new FillLayout( );
+		fl.marginHeight = 0;
+		fl.marginWidth = 0;
+		setLayout( fl );
 
-        // THE LAYOUT OF THE INNER COMPOSITE (ANCHORED NORTH AND ENCAPSULATES
-        // THE CANVAS + BUTTON)
-        cmpContentInner = new Composite(cmpContentOuter, SWT.NONE);
-        gl = new GridLayout();
-        gl.verticalSpacing = 0;
-        gl.horizontalSpacing = 0;
-        gl.marginHeight = 0;
-        gl.marginWidth = 0;
-        gl.numColumns = 2;
-        cmpContentInner.setLayout(gl);
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        cmpContentInner.setLayoutData(gd);
+		// THE LAYOUT OF THE OUTER COMPOSITE (THAT GROWS VERTICALLY BUT ANCHORS
+		// ITS CONTENT NORTH)
+		cmpContentOuter = new Composite( this, SWT.NONE );
+		GridLayout gl = new GridLayout( );
+		gl.verticalSpacing = 0;
+		gl.horizontalSpacing = 0;
+		gl.marginHeight = 0;
+		gl.marginWidth = 0;
+		gl.numColumns = 1;
+		cmpContentOuter.setLayout( gl );
 
-        txtValue = new TextEditorComposite(cmpContentInner, SWT.BORDER);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.grabExcessHorizontalSpace = true;
-        gd.verticalAlignment = GridData.BEGINNING;
-        gd.heightHint = iSize + 8;
-        txtValue.setLayoutData(gd);
-        txtValue.setText(String.valueOf(iCurrentValue));
-        txtValue.addListener(this);
+		// THE LAYOUT OF THE INNER COMPOSITE (ANCHORED NORTH AND ENCAPSULATES
+		// THE CANVAS + BUTTON)
+		cmpContentInner = new Composite( cmpContentOuter, SWT.NONE );
+		gl = new GridLayout( );
+		gl.verticalSpacing = 0;
+		gl.horizontalSpacing = 0;
+		gl.marginHeight = 0;
+		gl.marginWidth = 0;
+		gl.numColumns = 2;
+		cmpContentInner.setLayout( gl );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		cmpContentInner.setLayoutData( gd );
 
-        cmpBtnContainer = new Composite(cmpContentInner, SWT.NONE);
-        gd = new GridData();
-        gd.verticalAlignment = GridData.BEGINNING;
-        gd.horizontalAlignment = SWT.END;
-        cmpBtnContainer.setLayoutData(gd);
-        cmpBtnContainer.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
-        gl = new GridLayout();
-        gl.horizontalSpacing = 0;
-        gl.verticalSpacing = 0;
-        gl.marginHeight = 0;
-        gl.marginWidth = 0;
-        cmpBtnContainer.setLayout(gl);
+		txtValue = new TextEditorComposite( cmpContentInner, SWT.BORDER );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.grabExcessHorizontalSpace = true;
+		gd.verticalAlignment = GridData.BEGINNING;
+		gd.heightHint = iSize + 8;
+		txtValue.setLayoutData( gd );
+		txtValue.setText( String.valueOf( iCurrentValue ) );
+		txtValue.addListener( this );
 
-        final int iHalf = (iSize + 8) / 2;
-        btnIncrement = new Button(cmpBtnContainer, SWT.ARROW | SWT.UP);
-        gd = new GridData();
-        gd.grabExcessVerticalSpace = true;
-        gd.grabExcessHorizontalSpace = true;
-        gd.heightHint = iHalf;
-        gd.widthHint = iHalf;
-        btnIncrement.setLayoutData(gd);
-        btnIncrement.addSelectionListener(this);
+		cmpBtnContainer = new Composite( cmpContentInner, SWT.NONE );
+		gd = new GridData( );
+		gd.verticalAlignment = GridData.BEGINNING;
+		gd.horizontalAlignment = SWT.END;
+		cmpBtnContainer.setLayoutData( gd );
+		cmpBtnContainer.setBackground( Display.getDefault( )
+				.getSystemColor( SWT.COLOR_RED ) );
+		gl = new GridLayout( );
+		gl.horizontalSpacing = 0;
+		gl.verticalSpacing = 0;
+		gl.marginHeight = 0;
+		gl.marginWidth = 0;
+		cmpBtnContainer.setLayout( gl );
 
-        btnDecrement = new Button(cmpBtnContainer, SWT.ARROW | SWT.DOWN);
-        gd = new GridData();
-        gd.grabExcessVerticalSpace = true;
-        gd.grabExcessHorizontalSpace = true;
-        gd.heightHint = iHalf;
-        gd.widthHint = iHalf;
-        btnDecrement.setLayoutData(gd);
-        btnDecrement.addSelectionListener(this);
-    }
+		final int iHalf = ( iSize + 8 ) / 2;
+		btnIncrement = new Button( cmpBtnContainer, SWT.ARROW | SWT.UP );
+		gd = new GridData( );
+		gd.grabExcessVerticalSpace = true;
+		gd.grabExcessHorizontalSpace = true;
+		gd.heightHint = iHalf;
+		gd.widthHint = iHalf;
+		btnIncrement.setLayoutData( gd );
+		btnIncrement.addSelectionListener( this );
 
-    public void setMinimum(int iMin)
-    {
-        this.iMinValue = iMin;
-    }
+		btnDecrement = new Button( cmpBtnContainer, SWT.ARROW | SWT.DOWN );
+		gd = new GridData( );
+		gd.grabExcessVerticalSpace = true;
+		gd.grabExcessHorizontalSpace = true;
+		gd.heightHint = iHalf;
+		gd.widthHint = iHalf;
+		btnDecrement.setLayoutData( gd );
+		btnDecrement.addSelectionListener( this );
+	}
 
-    public int getMinimum()
-    {
-        return this.iMinValue;
-    }
+	public void setMinimum( int iMin )
+	{
+		this.iMinValue = iMin;
+	}
 
-    public void setMaximum(int iMax)
-    {
-        this.iMaxValue = iMax;
-    }
+	public int getMinimum( )
+	{
+		return this.iMinValue;
+	}
 
-    public int getMaximum()
-    {
-        return this.iMaxValue;
-    }
+	public void setMaximum( int iMax )
+	{
+		this.iMaxValue = iMax;
+	}
 
-    public void setIncrement(int iIncrement)
-    {
-        this.iIncrement = iIncrement;
-    }
+	public int getMaximum( )
+	{
+		return this.iMaxValue;
+	}
 
-    public void setValue(int iCurrent)
-    {
-        this.iCurrentValue = iCurrent;
-        this.txtValue.setText(String.valueOf(iCurrentValue));
-    }
+	public void setIncrement( int iIncrement )
+	{
+		this.iIncrement = iIncrement;
+	}
 
-    public int getValue()
-    {
-        return this.iCurrentValue;
-    }
+	public void setValue( int iCurrent )
+	{
+		this.iCurrentValue = iCurrent;
+		this.txtValue.setText( String.valueOf( iCurrentValue ) );
+	}
 
-    public void setEnabled(boolean bState)
-    {
-        this.btnIncrement.setEnabled(bState);
-        this.btnDecrement.setEnabled(bState);
-        this.txtValue.setEnabled(bState);
-        this.bEnabled = bState;
-    }
-    
-    public boolean isEnabled()
-    {
-        return this.bEnabled;
-    }
+	public int getValue( )
+	{
+		return this.iCurrentValue;
+	}
 
-    public void addListener(Listener listener)
-    {
-        vListeners.add(listener);
-    }
+	public void setEnabled( boolean bState )
+	{
+		this.btnIncrement.setEnabled( bState );
+		this.btnDecrement.setEnabled( bState );
+		this.txtValue.setEnabled( bState );
+		this.bEnabled = bState;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-     */
-    public void widgetSelected(SelectionEvent e)
-    {
-    	int iTextValue = iCurrentValue;
+	public boolean isEnabled( )
+	{
+		return this.bEnabled;
+	}
+
+	public void addListener( Listener listener )
+	{
+		vListeners.add( listener );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 */
+	public void widgetSelected( SelectionEvent e )
+	{
+		int iTextValue = iCurrentValue;
 		try
 		{
 			iTextValue = Integer.valueOf( txtValue.getText( ) ).intValue( );
@@ -238,6 +243,11 @@ public class IntegerSpinControl extends Composite implements SelectionListener, 
 				iCurrentValue = ( iTextValue + iIncrement );
 				txtValue.setText( String.valueOf( iCurrentValue ) );
 			}
+			else if ( iTextValue < iMinValue )
+			{
+				iCurrentValue = ( iMinValue );
+				txtValue.setText( String.valueOf( iMinValue ) );
+			}
 		}
 		else if ( oSource.equals( btnDecrement ) )
 		{
@@ -247,59 +257,71 @@ public class IntegerSpinControl extends Composite implements SelectionListener, 
 				iCurrentValue = ( iTextValue - iIncrement );
 				txtValue.setText( String.valueOf( iCurrentValue ) );
 			}
+			else if ( iCurrentValue > iMaxValue )
+			{
+				iCurrentValue = ( iMaxValue );
+				txtValue.setText( String.valueOf( iMaxValue ) );
+			}
 		}
-        // Notify Listeners that a change has occurred in the value
-        fireValueChangedEvent();
-    }
+		// Notify Listeners that a change has occurred in the value
+		fireValueChangedEvent( );
+	}
 
-    private void fireValueChangedEvent()
-    {
-        for (int iL = 0; iL < vListeners.size(); iL++)
-        {
-            Event se = new Event();
-            se.widget = this;
-            se.data = new Integer(iCurrentValue);
-            se.type = IntegerSpinControl.VALUE_CHANGED_EVENT;
-            ((Listener) vListeners.get(iL)).handleEvent(se);
-        }
-    }
+	private void fireValueChangedEvent( )
+	{
+		for ( int iL = 0; iL < vListeners.size( ); iL++ )
+		{
+			Event se = new Event( );
+			se.widget = this;
+			se.data = new Integer( iCurrentValue );
+			se.type = IntegerSpinControl.VALUE_CHANGED_EVENT;
+			( (Listener) vListeners.get( iL ) ).handleEvent( se );
+		}
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-     */
-    public void widgetDefaultSelected(SelectionEvent e)
-    {
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 */
+	public void widgetDefaultSelected( SelectionEvent e )
+	{
+	}
 
-    public Point getPreferredSize()
-    {
-        return new Point(80, 24);
-    }
+	public Point getPreferredSize( )
+	{
+		return new Point( 80, 24 );
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
-     */
-    public void handleEvent(Event event)
-    {
-        try
-        {
-            int iValue = (Integer.valueOf(txtValue.getText()).intValue());
-            if (iValue >= iMinValue && iValue <= iMaxValue)
-            {
-                iCurrentValue = iValue;
-                fireValueChangedEvent();
-            }
-        }
-        catch (NumberFormatException e1 )
-        {
-        }
-    }
-    
-    public void setToolTipText( String string )
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 */
+	public void handleEvent( Event event )
+	{
+		try
+		{
+			int iValue = ( Integer.valueOf( txtValue.getText( ) ).intValue( ) );
+			if ( iValue >= iMinValue && iValue <= iMaxValue )
+			{
+				iCurrentValue = iValue;
+				fireValueChangedEvent( );
+			}
+			else
+			{
+				// Rollback the invalid value
+				txtValue.setText( String.valueOf( iCurrentValue ) );
+			}
+		}
+		catch ( NumberFormatException e1 )
+		{
+			// Rollback the invalid value
+			txtValue.setText( String.valueOf( iCurrentValue ) );
+		}
+	}
+
+	public void setToolTipText( String string )
 	{
 		txtValue.setToolTipText( string );
 	}

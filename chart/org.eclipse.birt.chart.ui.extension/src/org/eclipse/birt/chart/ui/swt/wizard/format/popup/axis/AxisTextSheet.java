@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
@@ -32,6 +33,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 /**
@@ -51,6 +53,8 @@ public class AxisTextSheet extends AbstractPopupSheet
 	private transient LabelAttributesComposite lacLabel = null;
 
 	private transient Button cbStaggered;
+
+	private transient IntegerSpinControl iscInterval;
 
 	private transient Axis axis;
 
@@ -105,39 +109,32 @@ public class AxisTextSheet extends AbstractPopupSheet
 					getPositionScope( ),
 					true );
 		}
-		GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL );
+		GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL
+				| GridData.VERTICAL_ALIGN_BEGINNING );
 		gdLACTitle.widthHint = 200;
 		lacTitle.setLayoutData( gdLACTitle );
 		lacTitle.addListener( this );
 
+		boolean isLabelEnabled = getAxisForProcessing( ).getLabel( )
+				.isVisible( );
+
 		Group grpLabel = new Group( cmpContent, SWT.NONE );
 		{
 			GridLayout layout = new GridLayout( );
-			layout.marginWidth = 0;
-			layout.verticalSpacing = 0;
+			layout.numColumns = 2;
+			// layout.marginWidth = 0;
+			// layout.verticalSpacing = 0;
 			grpLabel.setLayout( layout );
 			grpLabel.setText( Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Label" ) ); //$NON-NLS-1$
-		}
-
-		cbStaggered = new Button( grpLabel, SWT.CHECK );
-		{
-			GridData gd = new GridData( );
-			gd.horizontalIndent = 10;
-			// gd.verticalIndent = 10;
-			cbStaggered.setLayoutData( gd );
-			cbStaggered.setSelection( getAxisForProcessing( ).isSetStaggered( )
-					&& getAxisForProcessing( ).isStaggered( ) );
-			cbStaggered.setText( Messages.getString( "AxisTextSheet.Label.StaggerLabels" ) ); //$NON-NLS-1$
-			cbStaggered.addSelectionListener( this );
-			cbStaggered.setEnabled( getAxisForProcessing( ).getLabel( )
-					.isVisible( ) );
+			grpLabel.setEnabled( isLabelEnabled );
 		}
 
 		if ( axisType == AngleType.Z )
 		{
-			lacLabel = new LabelAttributesComposite( grpLabel,
-					SWT.NONE,
-					null,// Replace group with composite
+			lacLabel = new LabelAttributesComposite( grpLabel, SWT.NONE, null,// Replace
+					// group
+					// with
+					// composite
 					getAxisForProcessing( ).getLabelPosition( ),
 					getAxisForProcessing( ).getLabel( ),
 					chart.getUnits( ),
@@ -148,9 +145,10 @@ public class AxisTextSheet extends AbstractPopupSheet
 		}
 		else
 		{
-			lacLabel = new LabelAttributesComposite( grpLabel,
-					SWT.NONE,
-					null,// Replace group with composite
+			lacLabel = new LabelAttributesComposite( grpLabel, SWT.NONE, null,// Replace
+					// group
+					// with
+					// composite
 					getAxisForProcessing( ).getLabelPosition( ),
 					getAxisForProcessing( ).getLabel( ),
 					chart.getUnits( ),
@@ -161,11 +159,45 @@ public class AxisTextSheet extends AbstractPopupSheet
 					false );
 		}
 		GridData gdLACLabel = new GridData( GridData.FILL_HORIZONTAL );
-		// gdLACLabel.verticalIndent = -7;
-		gdLACLabel.widthHint = 200;
+		gdLACLabel.verticalIndent = 14;
+		gdLACLabel.horizontalSpan = 2;
 		lacLabel.setLayoutData( gdLACLabel );
 		lacLabel.addListener( this );
-		lacLabel.setEnabled( getAxisForProcessing( ).getLabel( ).isVisible( ) );
+		lacLabel.setEnabled( isLabelEnabled );
+
+		cbStaggered = new Button( grpLabel, SWT.CHECK );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalSpan = 2;
+			gd.horizontalIndent = 10;
+			cbStaggered.setLayoutData( gd );
+			cbStaggered.setSelection( getAxisForProcessing( ).isSetStaggered( )
+					&& getAxisForProcessing( ).isStaggered( ) );
+			cbStaggered.setText( Messages.getString( "AxisTextSheet.Label.StaggerLabels" ) ); //$NON-NLS-1$
+			cbStaggered.addSelectionListener( this );
+			cbStaggered.setEnabled( isLabelEnabled );
+		}
+
+		Label lblInterval = new Label( grpLabel, SWT.NONE );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalIndent = 10;
+			lblInterval.setLayoutData( gd );
+			lblInterval.setText( Messages.getString( "AxisTextSheet.Label.Interval" ) ); //$NON-NLS-1$
+			lblInterval.setEnabled( isLabelEnabled );
+		}
+
+		iscInterval = new IntegerSpinControl( grpLabel,
+				SWT.NONE,
+				getAxisForProcessing( ).getInterval( ) );
+		{
+			iscInterval.setMinimum( 1 );
+			GridData gd = new GridData( );
+			gd.widthHint = 135;
+			iscInterval.setLayoutData( gd );
+			iscInterval.addListener( this );
+			iscInterval.setEnabled( isLabelEnabled );
+		}
 
 		return cmpContent;
 	}
@@ -282,6 +314,10 @@ public class AxisTextSheet extends AbstractPopupSheet
 							.setInsets( (Insets) event.data );
 					break;
 			}
+		}
+		else if ( event.widget.equals( iscInterval ) )
+		{
+			getAxisForProcessing( ).setInterval( ( (Integer) event.data ).intValue( ) );
 		}
 	}
 
