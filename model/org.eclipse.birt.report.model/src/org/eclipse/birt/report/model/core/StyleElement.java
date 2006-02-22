@@ -156,7 +156,7 @@ public abstract class StyleElement extends ReferenceableElement
 
 		// Broad the event to the elements selected by selector style.
 
-		String selector = null;
+		List selectors = new ArrayList( );
 
 		if ( ev instanceof NameEvent )
 		{
@@ -164,19 +164,18 @@ public abstract class StyleElement extends ReferenceableElement
 			String newName = ( (NameEvent) ev ).getNewName( );
 
 			if ( MetaDataDictionary.getInstance( ).getPredefinedStyle( oldName ) != null )
-				selector = oldName;
-			else if ( MetaDataDictionary.getInstance( ).getPredefinedStyle(
-					newName ) != null )
-				selector = newName;
+				selectors.add( oldName );
+			if ( MetaDataDictionary.getInstance( ).getPredefinedStyle( newName ) != null )
+				selectors.add( newName );
 		}
 		else
 		{
 			if ( MetaDataDictionary.getInstance( ).getPredefinedStyle(
 					getName( ) ) != null )
-				selector = getName( );
+				selectors.add( getName( ) );
 		}
 
-		if ( selector != null )
+		if ( !selectors.isEmpty( ) )
 		{
 			// broadcast the change to theme references.
 
@@ -197,8 +196,9 @@ public abstract class StyleElement extends ReferenceableElement
 				modules.add( module );
 
 			for ( int i = 0; i < modules.size( ); i++ )
-				broadcastToModule( (Module) modules.get( i ), selector );
+				broadcastToModule( (Module) modules.get( i ), selectors );
 		}
+
 	}
 
 	/**
@@ -208,35 +208,43 @@ public abstract class StyleElement extends ReferenceableElement
 	 *            the selector name
 	 */
 
-	private void broadcastToModule( Module module, String selectorName )
+	private void broadcastToModule( Module module, List selectorList )
 	{
-		assert selectorName != null;
+		assert !selectorList.isEmpty( );
 
 		// Work around for renaming selector style.
-		if ( REPORT_SELECTOR.equals( selectorName ) )
+
+		Iterator iter = selectorList.iterator( );
+		while ( iter.hasNext( ) )
 		{
-			NotificationEvent event = null;
-			event = new StyleEvent( module );
-			event.setDeliveryPath( NotificationEvent.STYLE_CLIENT );
-			module.broadcast( event );
+			String selectorName = (String) iter.next( );
 
-		}
-		else
-		{
-			broadcastToSelectedElementsInSlot( module, module
-					.getSlot( Module.COMPONENT_SLOT ), selectorName );
-			broadcastToSelectedElementsInSlot( module, module
-					.getSlot( Module.PAGE_SLOT ), selectorName );
+			if ( REPORT_SELECTOR.equals( selectorName ) )
+			{
+				NotificationEvent event = null;
+				event = new StyleEvent( module );
+				event.setDeliveryPath( NotificationEvent.STYLE_CLIENT );
+				module.broadcast( event );
 
-			// only report design has the body, scratch pad slots.
-
-			if ( module instanceof ReportDesign )
+			}
+			else
 			{
 				broadcastToSelectedElementsInSlot( module, module
-						.getSlot( ReportDesign.BODY_SLOT ), selectorName );
-
+						.getSlot( Module.COMPONENT_SLOT ), selectorName );
 				broadcastToSelectedElementsInSlot( module, module
-						.getSlot( ReportDesign.SCRATCH_PAD_SLOT ), selectorName );
+						.getSlot( Module.PAGE_SLOT ), selectorName );
+
+				// only report design has the body, scratch pad slots.
+
+				if ( module instanceof ReportDesign )
+				{
+					broadcastToSelectedElementsInSlot( module, module
+							.getSlot( ReportDesign.BODY_SLOT ), selectorName );
+
+					broadcastToSelectedElementsInSlot( module, module
+							.getSlot( ReportDesign.SCRATCH_PAD_SLOT ),
+							selectorName );
+				}
 			}
 		}
 
@@ -308,15 +316,15 @@ public abstract class StyleElement extends ReferenceableElement
 			String selectorName )
 	{
 		String selector = null;
-		
-		// get extension defined style 
-		
+
+		// get extension defined style
+
 		if ( element instanceof ExtendedItem )
 		{
 			String tmpSelector = null;
-			
+
 			// get extension element definition of the extended item.
-			
+
 			ElementDefn elementDefn = ( (ExtendedItem) element ).getExtDefn( );
 			if ( elementDefn != null )
 				tmpSelector = elementDefn.getSelector( );
@@ -326,8 +334,8 @@ public abstract class StyleElement extends ReferenceableElement
 				selector = tmpSelector;
 		}
 
-		// get ROM defined style 
-		
+		// get ROM defined style
+
 		if ( selector == null )
 			selector = ( (ElementDefn) element.getDefn( ) ).getSelector( );
 
