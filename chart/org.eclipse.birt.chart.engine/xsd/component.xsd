@@ -109,7 +109,7 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Interval" type="xsd:int" default="0" minOccurs="0">
+			<xsd:element name="Interval" type="xsd:int" default="1" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation>Specifies the showing interval for the labels.</xsd:documentation>
 				</xsd:annotation>

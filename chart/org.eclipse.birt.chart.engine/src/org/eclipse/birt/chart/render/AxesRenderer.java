@@ -3296,7 +3296,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					{
 						double sx = x;
 						double sx2 = dXEnd;
-						if ( bAxisLabelStaggered && i % 2 == 1 )
+						if ( bAxisLabelStaggered && sc.isTickLabelStaggered( i ) )
 						{
 							if ( iLabelLocation == IConstants.LEFT )
 							{
@@ -3497,12 +3497,15 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 					}
 
-					if ( bRenderAxisLabels ) // RENDER LABELS ONLY IF
+					if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) ) // RENDER
+					// LABELS
+					// ONLY
+					// IF
 					// REQUESTED
 					{
 						double sx = x;
 						double sx2 = dXEnd;
-						if ( bAxisLabelStaggered && i % 2 == 1 )
+						if ( bAxisLabelStaggered && sc.isTickLabelStaggered( i ) )
 						{
 							if ( iLabelLocation == IConstants.LEFT )
 							{
@@ -3675,11 +3678,11 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 					}
 
-					if ( bRenderAxisLabels )
+					if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) )
 					{
 						double sx = x;
 						double sx2 = dXEnd;
-						if ( bAxisLabelStaggered && i % 2 == 1 )
+						if ( bAxisLabelStaggered && sc.isTickLabelStaggered( i ) )
 						{
 							if ( iLabelLocation == IConstants.LEFT )
 							{
@@ -3850,11 +3853,11 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 					}
 
-					if ( bRenderAxisLabels )
+					if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) )
 					{
 						double sx = x;
 						double sx2 = dXEnd;
-						if ( bAxisLabelStaggered && i % 2 == 1 )
+						if ( bAxisLabelStaggered && sc.isTickLabelStaggered( i ) )
 						{
 							if ( iLabelLocation == IConstants.LEFT )
 							{
@@ -4388,7 +4391,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
 							dOffset = dUnitSize / 2;
 							double sy = y;
-							if ( bAxisLabelStaggered && i % 2 == 1 )
+							if ( bAxisLabelStaggered && sc.isTickLabelStaggered( i ) )
 							{
 								if ( iLabelLocation == IConstants.ABOVE )
 								{
@@ -4604,7 +4607,10 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 					}
 
-					if ( bRenderAxisLabels ) // OPTIMIZED: ONLY PROCESS IF
+					if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) ) // OPTIMIZED:
+																			// ONLY
+																			// PROCESS
+																			// IF
 					// AXES
 					// LABELS ARE VISIBLE OR REQUESTED
 					// FOR
@@ -4632,7 +4638,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								la );
 
 						double sy = y;
-						if ( bAxisLabelStaggered && i % 2 == 1 )
+						if ( bAxisLabelStaggered && sc.isTickLabelStaggered( i ) )
 						{
 							if ( iLabelLocation == IConstants.ABOVE )
 							{
@@ -4807,7 +4813,10 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 					}
 
-					if ( bRenderAxisLabels ) // OPTIMIZED: ONLY PROCESS IF
+					if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) ) // OPTIMIZED:
+																			// ONLY
+																			// PROCESS
+																			// IF
 					// AXES
 					// LABELS ARE VISIBLE OR REQUESTED
 					// FOR
@@ -4839,7 +4848,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								la );
 
 						double sy = y;
-						if ( bAxisLabelStaggered && i % 2 == 1 )
+						if ( bAxisLabelStaggered && sc.isTickLabelStaggered( i ) )
 						{
 							if ( iLabelLocation == IConstants.ABOVE )
 							{
@@ -5019,7 +5028,10 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 					}
 
-					if ( bRenderAxisLabels ) // OPTIMIZED: ONLY PROCESS IF
+					if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) ) // OPTIMIZED:
+																			// ONLY
+																			// PROCESS
+																			// IF
 					// AXES
 					// LABELS ARE VISIBLE OR REQUESTED
 					// FOR
@@ -5046,7 +5058,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								la );
 
 						double sy = y;
-						if ( bAxisLabelStaggered && i % 2 == 1 )
+						if ( bAxisLabelStaggered && sc.isTickLabelStaggered( i ) )
 						{
 							if ( iLabelLocation == IConstants.ABOVE )
 							{

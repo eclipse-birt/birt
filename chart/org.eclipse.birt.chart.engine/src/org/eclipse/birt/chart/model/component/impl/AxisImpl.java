@@ -341,7 +341,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int INTERVAL_EDEFAULT = 0;
+	protected static final int INTERVAL_EDEFAULT = 1;
 
 	/**
 	 * The cached value of the '{@link #getInterval() <em>Interval</em>}' attribute.

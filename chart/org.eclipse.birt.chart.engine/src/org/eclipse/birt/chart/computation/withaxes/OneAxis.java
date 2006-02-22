@@ -224,8 +224,25 @@ public final class OneAxis
 			return false;
 		}
 
-		//TODO only apply to horizontal/vertical label?
+		// TODO only apply to horizontal/vertical label?
 		return axModel.isStaggered( );
+	}
+
+	final int getLableShowingInterval( )
+	{
+		if ( axModel == null || !axModel.isSetInterval( ) )
+		{
+			return 1;
+		}
+
+		int i = axModel.getInterval( );
+
+		if ( i < 1 )
+		{
+			return 1;
+		}
+
+		return i;
 	}
 
 	/**

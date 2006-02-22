@@ -68,6 +68,8 @@ public final class AutoScale extends Methods implements Cloneable
 
 	private transient boolean[] baTickLabelVisible;
 
+	private transient boolean[] baTickLabelStaggered;
+
 	private transient DataSetIterator dsiData;
 
 	private transient boolean bCategoryScale = false;
@@ -147,6 +149,8 @@ public final class AutoScale extends Methods implements Cloneable
 	private boolean bAlwaysForward = false;
 
 	private boolean bAxisLabelStaggered = false;
+
+	private int iLabelShowingInterval = 0;
 
 	private FormatSpecifier fs = null;
 
@@ -240,7 +244,9 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.bCategoryScale = bCategoryScale;
 		sc.bAlwaysForward = bAlwaysForward;
 		sc.baTickLabelVisible = baTickLabelVisible;
+		sc.baTickLabelStaggered = baTickLabelStaggered;
 		sc.bAxisLabelStaggered = bAxisLabelStaggered;
+		sc.iLabelShowingInterval = iLabelShowingInterval;
 		return sc;
 	}
 
@@ -748,6 +754,22 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 
 		return baTickLabelVisible[index];
+	}
+
+	/**
+	 * @param index
+	 * @return
+	 */
+	public final boolean isTickLabelStaggered( int index )
+	{
+		if ( baTickLabelStaggered == null
+				|| index < 0
+				|| index > baTickLabelStaggered.length - 1 )
+		{
+			return false;
+		}
+
+		return baTickLabelStaggered[index];
 	}
 
 	/**
@@ -1335,7 +1357,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 				Point p = rr.getPoint( iPointToCheck );
 
-				if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+				if ( isAxisLabelStaggered( ) && baTickLabelStaggered[i] )
 				{
 					if ( rrPrev2 != null
 							&& ( rrPrev2.contains( p )
@@ -1413,7 +1435,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 				Point p = rr.getPoint( iPointToCheck );
 
-				if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+				if ( isAxisLabelStaggered( ) && baTickLabelStaggered[i] )
 				{
 					if ( rrPrev2 != null
 							&& ( rrPrev2.contains( p )
@@ -1471,7 +1493,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 				Point p = rr.getPoint( iPointToCheck );
 
-				if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+				if ( isAxisLabelStaggered( ) && baTickLabelStaggered[i] )
 				{
 					if ( rrPrev2 != null
 							&& ( rrPrev2.contains( p )
@@ -1519,15 +1541,45 @@ public final class AutoScale extends Methods implements Cloneable
 		boolean vis = la.isSetVisible( ) && la.isVisible( );
 		Arrays.fill( ba, vis );
 
+		// initialize stagger state.
+		baTickLabelStaggered = new boolean[daTickCoordinates.length];
+		boolean staggerEnabled = isAxisLabelStaggered( );
+
+		// all non-visible label, skip checking.
 		if ( !vis )
 		{
-			// all non-visible label, skip checking.
 			return ba;
+		}
+
+		// check with showing interval.
+		if ( iLabelShowingInterval >= 2 )
+		{
+			for ( int i = 0, c = 0; i < ba.length; i++ )
+			{
+				ba[i] = ( i % iLabelShowingInterval == 0 );
+
+				if ( staggerEnabled && ba[i] )
+				{
+					c++;
+					baTickLabelStaggered[i] = ( c % 2 == 0 );
+				}
+			}
+		}
+		else
+		{
+			// no interval applied.
+			if ( staggerEnabled )
+			{
+				for ( int i = 0; i < ba.length; i++ )
+				{
+					baTickLabelStaggered[i] = ( i % 2 != 0 );
+				}
+			}
 		}
 
 		if ( iType != TEXT && !bCategoryScale )
 		{
-			// Already auto scaled, just return all as true.
+			// This should be already auto scaled, just return here.
 			return ba;
 		}
 
@@ -1579,52 +1631,57 @@ public final class AutoScale extends Methods implements Cloneable
 
 		for ( int i = 0; i < daTickCoordinates.length - 1; i++ )
 		{
+			Object oValue = null;
+			
 			if ( dsi.hasNext( ) )
 			{
-				sText = formatCategoryValue( iType, dsi.next( ), iDateTimeUnit );
-			}
-			else
-			{
-				sText = NULL_STRING;
+				oValue = dsi.next( );
 			}
 
-			if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
+			// only check visible labels.
+			if ( ba[i] )
 			{
-				x = this.daTickCoordinates[i];
-			}
-			else if ( iLabelLocation == LEFT || iLabelLocation == RIGHT )
-			{
-				y = this.daTickCoordinates[i];
-			}
+				sText = formatCategoryValue( iType, oValue, iDateTimeUnit );
 
-			la.getCaption( ).setValue( sText );
+				if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
+				{
+					x = this.daTickCoordinates[i];
+				}
+				else if ( iLabelLocation == LEFT || iLabelLocation == RIGHT )
+				{
+					y = this.daTickCoordinates[i];
+				}
 
-			if ( isAxisLabelStaggered( ) && i % 2 == 1 )
-			{
+				la.getCaption( ).setValue( sText );
 
-				ba[i] = checkOneTickLabelVisibility( rrPrev,
-						1,
-						iLabelLocation,
-						x,
-						y,
-						iNewPointToCheck,
-						iPrevPointToCheck,
-						la,
-						xs,
-						i );
-			}
-			else
-			{
-				ba[i] = checkOneTickLabelVisibility( rrPrev,
-						0,
-						iLabelLocation,
-						x,
-						y,
-						iNewPointToCheck,
-						iPrevPointToCheck,
-						la,
-						xs,
-						i );
+				if ( isAxisLabelStaggered( ) && baTickLabelStaggered[i] )
+				{
+					// check second line.
+					ba[i] = checkOneTickLabelVisibility( rrPrev,
+							1,
+							iLabelLocation,
+							x,
+							y,
+							iNewPointToCheck,
+							iPrevPointToCheck,
+							la,
+							xs,
+							i );
+				}
+				else
+				{
+					// check first line.
+					ba[i] = checkOneTickLabelVisibility( rrPrev,
+							0,
+							iLabelLocation,
+							x,
+							y,
+							iNewPointToCheck,
+							iPrevPointToCheck,
+							la,
+							xs,
+							i );
+				}
 			}
 		}
 
@@ -1655,7 +1712,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @param xs
 	 *            the Display Server
 	 * @param tickIndex
-	 *            The tick index
+	 *            The tick index, must start from 0.
 	 * @return
 	 */
 	protected final boolean checkOneTickLabelVisibility(
@@ -1665,7 +1722,7 @@ public final class AutoScale extends Methods implements Cloneable
 			final Label la, final IDisplayServer xs, final int tickIndex )
 	{
 
-		if ( tickIndex == arrayIndex )
+		if ( rrPrev[arrayIndex] == null )
 		{
 			// Always show the first label.
 			rrPrev[arrayIndex] = computePolygon( xs, iLabelLocation, la, x, y );;
@@ -1798,6 +1855,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.rtc = rtc;
 			sc.bCategoryScale = true;
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
+			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
 			sc.setData( dsi );
 			sc.setAlwaysForward( forward );
 			sc.computeTicks( xs,
@@ -1849,6 +1907,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.fs = fs; // FORMAT SPECIFIER
 			sc.rtc = rtc; // LOCALE
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
+			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
 
 			// OVERRIDE MINIMUM IF SPECIFIED
 			if ( oMinimum != null )
@@ -2047,6 +2106,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.fs = fs; // FORMAT SPECIFIER
 			sc.rtc = rtc; // LOCALE
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
+			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
 			sc.setData( dsi );
 			sc.setAlwaysForward( forward );
 			sc.updateAxisMinMax( oMinValue, oMaxValue );
@@ -2172,6 +2232,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.fs = fs; // FORMAT SPECIFIER
 			sc.rtc = rtc; // LOCALE
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
+			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
 
 			sc.computeTicks( xs,
 					la,
@@ -2854,7 +2915,7 @@ public final class AutoScale extends Methods implements Cloneable
 							iDateTimeUnit ) );
 					dW = computeWidth( xs, la );
 
-					if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+					if ( isAxisLabelStaggered( ) && baTickLabelStaggered[i] )
 					{
 						dMaxW2 = Math.max( dW, dMaxW2 );
 					}
@@ -2893,7 +2954,7 @@ public final class AutoScale extends Methods implements Cloneable
 					la.getCaption( ).setValue( sText );
 					dW = computeWidth( xs, la );
 
-					if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+					if ( isAxisLabelStaggered( ) && baTickLabelStaggered[i] )
 					{
 						dMaxW2 = Math.max( dW, dMaxW2 );
 					}
@@ -2931,7 +2992,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					la.getCaption( ).setValue( sText );
 					dW = computeWidth( xs, la );
-					if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+					if ( isAxisLabelStaggered( ) && baTickLabelStaggered[i] )
 					{
 						dMaxW2 = Math.max( dW, dMaxW2 );
 					}
@@ -2968,7 +3029,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					la.getCaption( ).setValue( sText );
 					dW = computeWidth( xs, la );
-					if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+					if ( isAxisLabelStaggered( ) && baTickLabelStaggered[i] )
 					{
 						dMaxW2 = Math.max( dW, dMaxW2 );
 					}
@@ -2998,7 +3059,7 @@ public final class AutoScale extends Methods implements Cloneable
 							dsi.next( ),
 							iDateTimeUnit ) );
 					dH = computeHeight( xs, la );
-					if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+					if ( isAxisLabelStaggered( ) && baTickLabelStaggered[i] )
 					{
 						dMaxH2 = Math.max( dH, dMaxH2 );
 					}
@@ -3036,7 +3097,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					la.getCaption( ).setValue( sText );
 					dH = computeHeight( xs, la );
-					if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+					if ( isAxisLabelStaggered( ) && baTickLabelStaggered[i] )
 					{
 						dMaxH2 = Math.max( dH, dMaxH2 );
 					}
@@ -3074,7 +3135,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					la.getCaption( ).setValue( sText );
 					dH = computeHeight( xs, la );
-					if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+					if ( isAxisLabelStaggered( ) && baTickLabelStaggered[i] )
 					{
 						dMaxH2 = Math.max( dH, dMaxH2 );
 					}
@@ -3111,7 +3172,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					la.getCaption( ).setValue( sText );
 					dH = computeHeight( xs, la );
-					if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+					if ( isAxisLabelStaggered( ) && baTickLabelStaggered[i] )
 					{
 						dMaxH2 = Math.max( dH, dMaxH2 );
 					}
@@ -3171,7 +3232,7 @@ public final class AutoScale extends Methods implements Cloneable
 					la.getCaption( ).setValue( formatCategoryValue( getType( ),
 							dsi.next( ),
 							iDateTimeUnit ) );
-					if ( i % 2 == 0 )
+					if ( !baTickLabelStaggered[i] )
 					{
 						dW = computeWidth( xs, la );
 
@@ -3210,7 +3271,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					la.getCaption( ).setValue( sText );
 
-					if ( i % 2 == 0 )
+					if ( !baTickLabelStaggered[i] )
 					{
 						dW = computeWidth( xs, la );
 
@@ -3249,7 +3310,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					la.getCaption( ).setValue( sText );
 
-					if ( i % 2 == 0 )
+					if ( !baTickLabelStaggered[i] )
 					{
 						dW = computeWidth( xs, la );
 
@@ -3287,7 +3348,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					la.getCaption( ).setValue( sText );
 
-					if ( i % 2 == 0 )
+					if ( !baTickLabelStaggered[i] )
 					{
 						dW = computeWidth( xs, la );
 
@@ -3318,7 +3379,7 @@ public final class AutoScale extends Methods implements Cloneable
 							dsi.next( ),
 							iDateTimeUnit ) );
 
-					if ( i % 2 == 0 )
+					if ( !baTickLabelStaggered[i] )
 					{
 						dH = computeHeight( xs, la );
 
@@ -3357,7 +3418,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					la.getCaption( ).setValue( sText );
 
-					if ( i % 2 == 0 )
+					if ( !baTickLabelStaggered[i] )
 					{
 						dH = computeHeight( xs, la );
 
@@ -3396,7 +3457,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					la.getCaption( ).setValue( sText );
 
-					if ( i % 2 == 0 )
+					if ( !baTickLabelStaggered[i] )
 					{
 						dH = computeHeight( xs, la );
 
@@ -3434,7 +3495,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					la.getCaption( ).setValue( sText );
 
-					if ( i % 2 == 0 )
+					if ( !baTickLabelStaggered[i] )
 					{
 						dH = computeHeight( xs, la );
 
