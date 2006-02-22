@@ -82,6 +82,7 @@
 		<tstamp>
 			<format property="TODAY" pattern="yyyyMMddHHmm" />
 		</tstamp>
+		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
 		<copy todir="${export.dir}/${module.name}_${plugin.version}">
 			<fileset dir=".">
 				<exclude name="BuildBirt.xml" />
