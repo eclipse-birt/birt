@@ -215,7 +215,14 @@ public class HTMLCompleteImageHandler implements IHTMLImageHandler
 				}
 				else
 				{
-					ret = file.getAbsolutePath( ); //$NON-NLS-1$
+					try
+					{
+						ret = file.toURL( ).toExternalForm( );
+					}
+					catch(Exception ex)
+					{
+						ret = file.getAbsolutePath( );
+					}
 				}
 			}
 
