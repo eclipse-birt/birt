@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.Line3DRenderEvent;
 import org.eclipse.birt.chart.event.LineRenderEvent;
+import org.eclipse.birt.chart.event.OvalRenderEvent;
 import org.eclipse.birt.chart.event.Polygon3DRenderEvent;
 import org.eclipse.birt.chart.event.PolygonRenderEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
@@ -32,9 +33,11 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
+import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.type.AreaSeries;
+import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -81,6 +84,8 @@ public final class CurveRenderer
 	private final Location3D[] loa3d;
 
 	private final Location[] loPoints;
+	
+	private Location[] tempPoints;
 
 	private final double dTapeWidth;
 
@@ -135,7 +140,8 @@ public final class CurveRenderer
 		cwa = _cwa;
 		bRendering3D = _lo instanceof Location3D[];
 
-		loPoints = filterNull( _lo );
+		loPoints = _lo;
+		tempPoints = _lo;
 
 		bFillArea = _bFillArea;
 		bShowAsTape = _bShowAsTape;
@@ -165,16 +171,6 @@ public final class CurveRenderer
 			}
 		}
 
-		faX = LocationImpl.getXArray( loPoints );
-		faY = LocationImpl.getYArray( loPoints );
-		if ( bRendering3D )
-		{
-			faZ = Location3DImpl.getZArray( (Location3D[]) loPoints );
-		}
-		else
-		{
-			faZ = null;
-		}
 		lia = _lia;
 		zeroLocation = _zeroLocation;
 		bTranslucent = _bTranslucent;
@@ -238,7 +234,6 @@ public final class CurveRenderer
 			return (Location[]) al.toArray( new Location[0] );
 		}
 	}
-
 	/**
 	 * 
 	 * @param ipr
@@ -260,26 +255,135 @@ public final class CurveRenderer
 			return;
 		}
 
-		iNumberOfPoints = faX.length;
-
-		if ( iNumberOfPoints <= 1 )
+		if ( ! ( (LineSeries) iRender.getSeries( ) ).isConnectMissingValue( ) )
 		{
-			return;
+			for ( int i = 0; i < loPoints.length; i++ )
+			{
+				if ( Double.isNaN( loPoints[i].getX( ) )
+						|| Double.isNaN( loPoints[i].getY( ) ) )
+				{
+					continue;
+				}
+
+				ArrayList al = new ArrayList( );
+				while ( ( i < loPoints.length )
+						&& !( Double.isNaN( loPoints[i].getX( ) ) || Double.isNaN( loPoints[i].getY( ) ) ) )
+				{
+					al.add( loPoints[i] );
+					i += 1;
+				}
+				i -= 1;
+
+				if ( loPoints instanceof Location3D[] )
+				{
+					tempPoints = (Location3D[]) al.toArray( new Location3D[0] );
+				}
+				else
+				{
+					tempPoints = (Location[]) al.toArray( new Location[0] );
+				}
+				faX = LocationImpl.getXArray( tempPoints );
+				faY = LocationImpl.getYArray( tempPoints );
+				if ( bRendering3D )
+				{
+					faZ = Location3DImpl.getZArray( (Location3D[]) tempPoints );
+				}
+				else
+				{
+					faZ = null;
+				}
+				iNumberOfPoints = faX.length;
+
+				if ( iNumberOfPoints < 1 )
+				{
+					return;
+				}
+				else if ( iNumberOfPoints == 1 )
+				{
+					double iSize = (double) lia.getThickness( );
+
+					if ( bRendering3D )
+					{
+						Line3DRenderEvent lre3dValue = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+								Line3DRenderEvent.class );
+						Location3D[] loa3dValue = new Location3D[2];
+						loa3dValue[0] = Location3DImpl.create( faX[0],
+								faY[0],
+								faZ[0] );
+						loa3dValue[1] = Location3DImpl.create( faX[0],
+								faY[0],
+								faZ[0] - dTapeWidth );
+						lre3dValue.setStart3D( loa3dValue[0] );
+						lre3dValue.setEnd3D( loa3dValue[1] );
+						lre3dValue.setLineAttributes( lia );
+
+						dc.addLine( lre3dValue );
+					}
+					else
+					{
+						final OvalRenderEvent ore = (OvalRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+								OvalRenderEvent.class );
+						ore.setBounds( BoundsImpl.create( faX[0] - iSize,
+								faY[0] - iSize,
+								2 * iSize,
+								2 * iSize ) );
+						ore.setOutline( lia );
+						ipr.drawOval( ore );
+					}
+				}
+				else
+				{
+					// X-CORDINATES
+					spX = new Spline( faX ); // X-SPLINE
+
+					// Y-CORDINATES
+					spY = new Spline( faY ); // Y-SPLINE
+
+					fa = new double[iNumberOfPoints];
+					for ( int j = 0; j < iNumberOfPoints; j++ )
+					{
+						fa[j] = j;
+					}
+
+					renderCurve( ipr, 0, 0 ); // ACTUAL CURVE
+				}
+			}
+		}
+		else
+		{
+			tempPoints = filterNull( loPoints );
+			faX = LocationImpl.getXArray( tempPoints );
+			faY = LocationImpl.getYArray( tempPoints );
+			if ( bRendering3D )
+			{
+				faZ = Location3DImpl.getZArray( (Location3D[]) tempPoints );
+			}
+			else
+			{
+				faZ = null;
+			}
+			iNumberOfPoints = faX.length;
+
+			if ( iNumberOfPoints <= 1 )
+			{
+				return;
+			}
+
+			// X-CORDINATES
+			spX = new Spline( faX ); // X-SPLINE
+
+			// Y-CORDINATES
+			spY = new Spline( faY ); // Y-SPLINE
+
+			fa = new double[iNumberOfPoints];
+			for ( int i = 0; i < iNumberOfPoints; i++ )
+			{
+				fa[i] = i;
+			}
+
+			renderCurve( ipr, 0, 0 ); // ACTUAL CURVE
 		}
 
-		// X-CORDINATES
-		spX = new Spline( faX ); // X-SPLINE
-
-		// Y-CORDINATES
-		spY = new Spline( faY ); // Y-SPLINE
-
-		fa = new double[iNumberOfPoints];
-		for ( int i = 0; i < iNumberOfPoints; i++ )
-		{
-			fa[i] = i;
-		}
-
-		renderCurve( ipr, 0, 0 ); // ACTUAL CURVE
 	}
 
 	/**

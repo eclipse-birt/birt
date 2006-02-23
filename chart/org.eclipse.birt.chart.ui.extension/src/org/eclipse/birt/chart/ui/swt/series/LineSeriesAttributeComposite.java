@@ -49,13 +49,14 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class LineSeriesAttributeComposite extends Composite
-		implements
-			SelectionListener,
-			Listener
+public class LineSeriesAttributeComposite extends Composite implements
+		SelectionListener,
+		Listener
 {
 
 	private transient Button btnCurve = null;
+
+	private transient Button btnMissingValue = null;
 
 	private transient Button btnPalette = null;
 
@@ -138,7 +139,7 @@ public class LineSeriesAttributeComposite extends Composite
 			fccShadow.setLayoutData( gdFCCShadow );
 			fccShadow.addListener( this );
 		}
-		
+
 		btnPalette = new Button( this, SWT.CHECK );
 		{
 			btnPalette.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
@@ -153,13 +154,26 @@ public class LineSeriesAttributeComposite extends Composite
 			btnCurve.addSelectionListener( this );
 		}
 
+		if ( !( series instanceof AreaSeries ) )
+		{
+			btnMissingValue = new Button( this, SWT.CHECK );
+			{
+				btnMissingValue.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ConnectMissingValue" ) ); //$NON-NLS-1$
+				GridData gdBTNMissingValue = new GridData( );
+				gdBTNMissingValue.horizontalSpan = 4;
+				btnMissingValue.setLayoutData( gdBTNMissingValue );
+				btnMissingValue.setSelection( ( (LineSeries) series ).isConnectMissingValue( ) );
+				btnMissingValue.addSelectionListener( this );
+			}
+		}
+
 		if ( !isShadowNeeded( ) )
 		{
 			GridData gd = new GridData( );
 			gd.horizontalSpan = 2;
 			gd.horizontalIndent = 5;
 			btnPalette.setLayoutData( gd );
-			
+
 			gd = new GridData( );
 			gd.horizontalSpan = 2;
 			gd.horizontalIndent = 5;
@@ -265,6 +279,10 @@ public class LineSeriesAttributeComposite extends Composite
 		else if ( e.getSource( ).equals( btnPalette ) )
 		{
 			( (LineSeries) series ).setPaletteLineColor( btnPalette.getSelection( ) );
+		}
+		else if ( e.getSource( ).equals( btnMissingValue ) )
+		{
+			( (LineSeries) series ).setConnectMissingValue( btnMissingValue.getSelection( ) );
 		}
 		else if ( e.getSource( ).equals( btnMarkerVisible ) )
 		{
