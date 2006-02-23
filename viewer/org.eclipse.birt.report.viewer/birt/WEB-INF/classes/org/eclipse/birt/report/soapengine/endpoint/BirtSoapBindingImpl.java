@@ -13,14 +13,17 @@ import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjects;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
-import org.eclipse.birt.report.soapengine.processor.ComponentProcessorFactory;
+import org.eclipse.birt.report.soapengine.processor.BaseProcessorFactory;
 import org.eclipse.birt.report.soapengine.processor.IComponentProcessor;
+import org.eclipse.birt.report.soapengine.processor.api.IProcessorFactory;
 import org.eclipse.birt.report.soapengine.BirtContext;
 
 public class BirtSoapBindingImpl implements BirtSoapPort
 {
     public GetUpdatedObjectsResponse getUpdatedObjects( GetUpdatedObjects request ) throws java.rmi.RemoteException
 	{
+    	IProcessorFactory processorFactory = BaseProcessorFactory.getInstance( );
+	
     	GetUpdatedObjectsResponse response = new GetUpdatedObjectsResponse( );
     	Operation[] ops = request.getOperation( );
     	
@@ -36,7 +39,8 @@ public class BirtSoapBindingImpl implements BirtSoapPort
 		for( int i = 0; i < ops.length; i ++ )
     	{
     		Operation  op = ops[i];
-    		IComponentProcessor processor = ComponentProcessorFactory.createProcessor( op.getTarget( ).getType( ) );
+    		IComponentProcessor processor = processorFactory
+    			.createProcessor( context.getBean( ).getCategory( ), op.getTarget( ).getType( ) );
     		
     		if ( processor == null )
     		{
