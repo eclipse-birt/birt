@@ -130,6 +130,9 @@ public class ModelOdaAdapter
 
 	private Properties newOdaPrivateProperties( Iterator props )
 	{
+		if ( props == null || !props.hasNext( ) )
+			return null;
+
 		Properties retProps = DesignFactory.eINSTANCE.createProperties( );
 		for ( ; props.hasNext( ); )
 		{
