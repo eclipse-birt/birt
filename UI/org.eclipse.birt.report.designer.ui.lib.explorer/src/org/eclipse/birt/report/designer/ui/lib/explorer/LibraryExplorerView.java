@@ -14,10 +14,10 @@ package org.eclipse.birt.report.designer.ui.lib.explorer;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.AbstractMultiPageLayoutEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -89,7 +89,7 @@ public class LibraryExplorerView extends PageBookView
 	 */
 	protected PageRec doCreatePage( IWorkbenchPart part )
 	{
-		if ( part instanceof AbstractMultiPageEditor )
+		if ( part instanceof AbstractMultiPageLayoutEditor )
 		{
 			IEditorPart editor = UIUtil.getActiveEditor( true );
 			if ( editor != null )
