@@ -46,7 +46,7 @@ public class BaseProcessorFactory implements IProcessorFactory
 		
 		try
 		{ 
-			instance = ( IProcessorFactory ) Class.forName( "com.actuate.common.processor.ProcessorFactory" )
+			instance = ( IProcessorFactory ) Class.forName( "" )
 				.newInstance( ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
