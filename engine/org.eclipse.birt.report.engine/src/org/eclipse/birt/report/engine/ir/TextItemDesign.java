@@ -20,7 +20,7 @@ import org.eclipse.birt.report.engine.executor.template.TextTemplate;
 /**
  * Text element captures a long string with internal formatting.
  * 
- * @version $Revision: 1.13 $ $Date: 2005/11/28 07:42:57 $
+ * @version $Revision: 1.14 $ $Date: 2005/11/28 09:05:49 $
  */
 public class TextItemDesign extends ReportItemDesign
 {
@@ -80,7 +80,7 @@ public class TextItemDesign extends ReportItemDesign
 						expression = ( ( TextTemplate.ImageNode ) obj ).getExpr();
 					}
 					
-					if( expression != null )
+					if( expression != null && !expression.trim( ).equals( "" ) )
 					{
 						exprs.put( expression, new Expression( expression ) );
 						expression = null;

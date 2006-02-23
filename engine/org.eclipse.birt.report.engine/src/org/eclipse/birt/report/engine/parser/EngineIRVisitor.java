@@ -150,7 +150,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.75 $ $Date: 2006/01/12 10:18:00 $
+ * @version $Revision: 1.76 $ $Date: 2006/01/20 14:55:40 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -321,7 +321,7 @@ class EngineIRVisitor extends DesignVisitor
 			{
 				String name = userDef.getName( );
 				String exprString = handle.getStringProperty( name );
-				if ( exprString != null && !exprString.equals( "" ) )
+				if ( exprString != null && !exprString.trim( ).equals( "" ) )
 				{
 					Expression expression = new Expression( exprString );
 					namedExpressions.put( name, expression );
@@ -1055,7 +1055,7 @@ class EngineIRVisitor extends DesignVisitor
 
 		// flatten TOC on group to the first report item in group header
 		String tocExpr = handle.getTocExpression( );
-		if ( null != tocExpr && !"".equals( tocExpr ) ) //$NON-NLS-1$
+		if ( null != tocExpr && !"".equals( tocExpr.trim( ) ) ) //$NON-NLS-1$
 		{
 			if ( header.getContentCount( ) > 0 )
 			{
@@ -1089,7 +1089,7 @@ class EngineIRVisitor extends DesignVisitor
 
 		// flatten TOC on group to the first report item in group header
 		String toc = handle.getTocExpression( );
-		if ( null != toc && !"".equals( toc ) ) //$NON-NLS-1$
+		if ( null != toc && !"".equals( toc.trim( ) ) ) //$NON-NLS-1$
 		{
 			if ( header.getRowCount( ) > 0 )
 			{
@@ -1289,7 +1289,7 @@ class EngineIRVisitor extends DesignVisitor
 
 	protected Expression createExpression( String expr )
 	{
-		if ( expr != null )
+		if ( expr != null && !expr.trim( ).equals( "" ) )
 		{
 			return new Expression( expr );
 		}
