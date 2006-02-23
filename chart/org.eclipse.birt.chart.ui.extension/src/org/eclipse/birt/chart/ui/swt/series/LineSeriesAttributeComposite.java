@@ -397,6 +397,10 @@ public class LineSeriesAttributeComposite extends Composite implements
 		{
 			btnPalette.setEnabled( isEnabled );
 		}
+		if ( btnMissingValue != null )
+		{
+			btnMissingValue.setEnabled( isEnabled );
+		}
 		btnCurve.setEnabled( isEnabled );
 	}
 
