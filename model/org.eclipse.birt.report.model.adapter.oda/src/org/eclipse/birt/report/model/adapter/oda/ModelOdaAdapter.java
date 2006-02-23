@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.adapter.oda;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -337,7 +336,7 @@ public class ModelOdaAdapter
 	private List newROMPrivateProperties( Properties props )
 	{
 		if ( props == null )
-			return Collections.EMPTY_LIST;
+			return null;
 
 		List list = new ArrayList( );
 		EList designProps = props.getProperties( );
