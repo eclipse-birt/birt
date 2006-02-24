@@ -14,7 +14,9 @@ package org.eclipse.birt.chart.ui.swt.series;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
@@ -31,6 +33,7 @@ import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.MarkerIconDialog;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -102,6 +105,27 @@ public class LineSeriesAttributeComposite extends Composite implements
 			}
 		}
 		this.series = series;
+
+		if ( ( (LineSeries) series ).getMarkers( ).size( ) == 0 )
+		{
+			Marker mk;
+			if ( ( (LineSeries) series ).getMarker( ) != null )
+			{
+				mk = (Marker) EcoreUtil.copy( ( (LineSeries) series ).getMarker( ) );
+			}
+			else
+			{
+				mk = AttributeFactory.eINSTANCE.createMarker( );
+				mk.setType( MarkerType.BOX_LITERAL );
+				mk.setSize( 5 );
+				mk.setVisible( true );
+			}
+
+			mk.eAdapters( ).addAll( series.eAdapters( ) );
+
+			( (LineSeries) series ).getMarkers( ).add( mk );
+		}
+
 		init( );
 		placeComponents( );
 	}
@@ -202,8 +226,8 @@ public class LineSeriesAttributeComposite extends Composite implements
 		btnMarkerVisible.setLayoutData( gdBTNVisible );
 		btnMarkerVisible.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
 		btnMarkerVisible.addSelectionListener( this );
-		btnMarkerVisible.setSelection( ( (LineSeries) series ).getMarker( )
-				.isVisible( ) );
+		btnMarkerVisible.setSelection( ( (Marker) ( (LineSeries) series ).getMarkers( )
+				.get( 0 ) ).isVisible( ) );
 
 		Label lblType = new Label( grpMarker, SWT.NONE );
 		GridData gdLBLType = new GridData( );
@@ -223,7 +247,7 @@ public class LineSeriesAttributeComposite extends Composite implements
 
 		iscMarkerSize = new IntegerSpinControl( grpMarker,
 				SWT.NONE,
-				( (LineSeries) series ).getMarker( ).getSize( ) );
+				( (Marker) ( (LineSeries) series ).getMarkers( ).get( 0 ) ).getSize( ) );
 		GridData gdISCMarkerSize = new GridData( GridData.FILL_HORIZONTAL );
 		iscMarkerSize.setLayoutData( gdISCMarkerSize );
 		iscMarkerSize.setMinimum( 0 );
@@ -254,11 +278,10 @@ public class LineSeriesAttributeComposite extends Composite implements
 
 	private void populateLists( )
 	{
-		NameSet ns = LiteralHelper.markerTypeSet;
+		NameSet ns = LiteralHelper.supportedMarkerTypeSet;
 		cmbMarkerTypes.setItems( ns.getDisplayNames( ) );
-		cmbMarkerTypes.select( ns.getSafeNameIndex( ( (LineSeries) series ).getMarker( )
-				.getType( )
-				.getName( ) ) );
+		cmbMarkerTypes.select( ns.getSafeNameIndex( ( (Marker) ( (LineSeries) series ).getMarkers( )
+				.get( 0 ) ).getType( ).getName( ) ) );
 	}
 
 	public Point getPreferredSize( )
@@ -287,8 +310,7 @@ public class LineSeriesAttributeComposite extends Composite implements
 		}
 		else if ( e.getSource( ).equals( btnMarkerVisible ) )
 		{
-			( (LineSeries) series ).getMarker( )
-					.setVisible( btnMarkerVisible.getSelection( ) );
+			( (Marker) ( (LineSeries) series ).getMarkers( ).get( 0 ) ).setVisible( btnMarkerVisible.getSelection( ) );
 			cmbMarkerTypes.setEnabled( btnMarkerVisible.getSelection( ) );
 			iscMarkerSize.setEnabled( btnMarkerVisible.getSelection( ) );
 		}
@@ -297,18 +319,18 @@ public class LineSeriesAttributeComposite extends Composite implements
 			if ( MarkerType.getByName( getSelectedMarkerName( ) ) == MarkerType.ICON_LITERAL )
 			{
 				MarkerIconDialog iconDialog = new MarkerIconDialog( this.getShell( ),
-						getSeriesMarker( ).getIconPalette( ) );
+						getSeriesMarker( ).getFill( ) );
 
 				if ( iconDialog.applyMarkerIcon( ) )
 				{
-					if ( iconDialog.getIconPalette( ).eAdapters( ).isEmpty( ) )
+					Fill resultFill = iconDialog.getFill( );
+					if ( resultFill.eAdapters( ).isEmpty( ) )
 					{
 						// Add adapters to new EObject
-						iconDialog.getIconPalette( )
-								.eAdapters( )
+						resultFill.eAdapters( )
 								.addAll( getSeriesMarker( ).eAdapters( ) );
 					}
-					getSeriesMarker( ).setIconPalette( iconDialog.getIconPalette( ) );
+					getSeriesMarker( ).setFill( resultFill );
 				}
 				else
 				{
@@ -323,7 +345,7 @@ public class LineSeriesAttributeComposite extends Composite implements
 
 	private Marker getSeriesMarker( )
 	{
-		return ( (LineSeries) series ).getMarker( );
+		return ( (Marker) ( (LineSeries) series ).getMarkers( ).get( 0 ) );
 	}
 
 	private String getSelectedMarkerName( )
@@ -349,8 +371,7 @@ public class LineSeriesAttributeComposite extends Composite implements
 	{
 		if ( event.widget.equals( iscMarkerSize ) )
 		{
-			( (LineSeries) series ).getMarker( )
-					.setSize( ( (Integer) event.data ).intValue( ) );
+			( (Marker) ( (LineSeries) series ).getMarkers( ).get( 0 ) ).setSize( ( (Integer) event.data ).intValue( ) );
 		}
 		else if ( event.widget.equals( liacLine ) )
 		{

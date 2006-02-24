@@ -365,6 +365,16 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 			<xsd:enumeration value="Box"/>
 			<xsd:enumeration value="Circle"/>
 			<xsd:enumeration value="Icon"/>
+			<xsd:enumeration value="Nabla"/>
+			<xsd:enumeration value="Diamond"/>
+			<xsd:enumeration value="Four_Diamonds"/>
+			<xsd:enumeration value="Button"/>
+			<xsd:enumeration value="Semi_Circle"/>
+			<xsd:enumeration value="Hexagon"/>
+			<xsd:enumeration value="Rectangle"/>
+			<xsd:enumeration value="Star"/>
+			<xsd:enumeration value="Column"/>
+			<xsd:enumeration value="Cross"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="LegendItemType">
@@ -1311,9 +1321,14 @@ Specifies the fixed length of the denominator when in imprecise mode.</xsd:docum
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element name="Fill" type="Fill" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the fill for the marker.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element name="IconPalette" type="Palette" minOccurs="0">
 				<xsd:annotation>
-					<xsd:documentation>Specified the palette used by type Icon</xsd:documentation>
+					<xsd:documentation>Deprecated. Use Fill property instead.  This is kept just to maintain compatibility with old models.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 		</xsd:sequence>

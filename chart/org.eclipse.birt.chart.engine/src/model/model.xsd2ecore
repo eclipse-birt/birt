@@ -359,6 +359,26 @@
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//MarkerType/Circle"/>
     <nested inputs="../../xsd/attribute.xsd#//MarkerType;XSDSimpleTypeDefinition=24/XSDEnumerationFacet=4"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//MarkerType/Icon"/>
+    <nested inputs="../../xsd/attribute.xsd#//MarkerType;XSDSimpleTypeDefinition=24/XSDEnumerationFacet=5"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//MarkerType/Nabla"/>
+    <nested inputs="../../xsd/attribute.xsd#//MarkerType;XSDSimpleTypeDefinition=24/XSDEnumerationFacet=6"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//MarkerType/Diamond"/>
+    <nested inputs="../../xsd/attribute.xsd#//MarkerType;XSDSimpleTypeDefinition=24/XSDEnumerationFacet=7"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//MarkerType/FourDiamonds"/>
+    <nested inputs="../../xsd/attribute.xsd#//MarkerType;XSDSimpleTypeDefinition=24/XSDEnumerationFacet=8"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//MarkerType/Button"/>
+    <nested inputs="../../xsd/attribute.xsd#//MarkerType;XSDSimpleTypeDefinition=24/XSDEnumerationFacet=9"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//MarkerType/SemiCircle"/>
+    <nested inputs="../../xsd/attribute.xsd#//MarkerType;XSDSimpleTypeDefinition=24/XSDEnumerationFacet=10"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//MarkerType/Hexagon"/>
+    <nested inputs="../../xsd/attribute.xsd#//MarkerType;XSDSimpleTypeDefinition=24/XSDEnumerationFacet=11"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//MarkerType/Rectangle"/>
+    <nested inputs="../../xsd/attribute.xsd#//MarkerType;XSDSimpleTypeDefinition=24/XSDEnumerationFacet=12"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//MarkerType/Star"/>
+    <nested inputs="../../xsd/attribute.xsd#//MarkerType;XSDSimpleTypeDefinition=24/XSDEnumerationFacet=13"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//MarkerType/Column"/>
+    <nested inputs="../../xsd/attribute.xsd#//MarkerType;XSDSimpleTypeDefinition=24/XSDEnumerationFacet=14"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//MarkerType/Cross"/>
   </nested>
   <nested inputs="../../xsd/attribute.xsd#//Palette;XSDComplexTypeDefinition=17" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Palette">
     <nested inputs="../../xsd/attribute.xsd#//Palette;XSDComplexTypeDefinition=17/XSDParticle/XSDModelGroup/XSDParticle"
@@ -374,20 +394,24 @@
     <nested inputs="../../xsd/attribute.xsd#//Marker;XSDComplexTypeDefinition=31/XSDParticle/XSDModelGroup/XSDParticle=2"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Marker/visible"/>
     <nested inputs="../../xsd/attribute.xsd#//Marker;XSDComplexTypeDefinition=31/XSDParticle/XSDModelGroup/XSDParticle=3"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//Marker/fill"/>
+    <nested inputs="../../xsd/attribute.xsd#//Marker;XSDComplexTypeDefinition=31/XSDParticle/XSDModelGroup/XSDParticle=4"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Marker/iconPalette"/>
   </nested>
   <nested inputs="../../xsd/type.xsd#//LineSeries;XSDComplexTypeDefinition=2" outputs="org.eclipse.birt.chart.model.type.ecore#//LineSeries">
     <nested inputs="../../xsd/type.xsd#//LineSeries;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle"
-        outputs="org.eclipse.birt.chart.model.type.ecore#//LineSeries/marker"/>
+        outputs="org.eclipse.birt.chart.model.type.ecore#//LineSeries/markers"/>
     <nested inputs="../../xsd/type.xsd#//LineSeries;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle=1"
-        outputs="org.eclipse.birt.chart.model.type.ecore#//LineSeries/lineAttributes"/>
+        outputs="org.eclipse.birt.chart.model.type.ecore#//LineSeries/marker"/>
     <nested inputs="../../xsd/type.xsd#//LineSeries;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle=2"
-        outputs="org.eclipse.birt.chart.model.type.ecore#//LineSeries/paletteLineColor"/>
+        outputs="org.eclipse.birt.chart.model.type.ecore#//LineSeries/lineAttributes"/>
     <nested inputs="../../xsd/type.xsd#//LineSeries;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle=3"
-        outputs="org.eclipse.birt.chart.model.type.ecore#//LineSeries/curve"/>
+        outputs="org.eclipse.birt.chart.model.type.ecore#//LineSeries/paletteLineColor"/>
     <nested inputs="../../xsd/type.xsd#//LineSeries;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle=4"
-        outputs="org.eclipse.birt.chart.model.type.ecore#//LineSeries/shadowColor"/>
+        outputs="org.eclipse.birt.chart.model.type.ecore#//LineSeries/curve"/>
     <nested inputs="../../xsd/type.xsd#//LineSeries;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle=5"
+        outputs="org.eclipse.birt.chart.model.type.ecore#//LineSeries/shadowColor"/>
+    <nested inputs="../../xsd/type.xsd#//LineSeries;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle=6"
         outputs="org.eclipse.birt.chart.model.type.ecore#//LineSeries/connectMissingValue"/>
   </nested>
   <nested inputs="../../xsd/type.xsd#//AreaSeries;XSDComplexTypeDefinition=5" outputs="org.eclipse.birt.chart.model.type.ecore#//AreaSeries"/>

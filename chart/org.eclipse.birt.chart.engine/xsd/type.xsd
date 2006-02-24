@@ -117,11 +117,16 @@
 		<xsd:complexContent>
 			<xsd:extension base="component:Series">
 				<xsd:sequence>
-					<xsd:element name="Marker" type="attribute:Marker" minOccurs="0">
+					<xsd:element name="Markers" type="attribute:Marker" minOccurs="0" maxOccurs="unbounded">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							Specifies the marker to be used for displaying the data point on the line in the chart.
 							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Marker" type="attribute:Marker" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Deprecated. Use Markers property instead. This is kept just to maintain the compatibility with old models.</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
 					<xsd:element name="LineAttributes" type="attribute:LineAttributes" minOccurs="0">

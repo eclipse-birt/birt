@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.type;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -170,15 +171,15 @@ public class AreaChart extends DefaultChartTypeImpl
 			vSubTypes.add( new DefaultChartSubTypeImpl( OVERLAY_SUBTYPE_LITERAL,
 					imgSideBySide,
 					sOverlayDescription,
-					Messages.getString( "AreaChart.SubType.Overlay" ) ) );
+					Messages.getString( "AreaChart.SubType.Overlay" ) ) ); //$NON-NLS-1$
 			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
 					imgStacked,
 					sStackedDescription,
-					Messages.getString( "AreaChart.SubType.Stacked" ) ) );
+					Messages.getString( "AreaChart.SubType.Stacked" ) ) ); //$NON-NLS-1$
 			vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
 					imgPercentStacked,
 					sPercentStackedDescription,
-					Messages.getString( "AreaChart.SubType.PercentStacked" ) ) );
+					Messages.getString( "AreaChart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
 		}
 		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
@@ -196,7 +197,7 @@ public class AreaChart extends DefaultChartTypeImpl
 			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
 					imgStackedWithDepth,
 					sStackedDescription,
-					Messages.getString( "AreaChart.SubType.Stacked" ) ) );
+					Messages.getString( "AreaChart.SubType.Stacked" ) ) ); //$NON-NLS-1$
 		}
 		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
@@ -206,7 +207,7 @@ public class AreaChart extends DefaultChartTypeImpl
 			vSubTypes.add( new DefaultChartSubTypeImpl( OVERLAY_SUBTYPE_LITERAL,
 					imgSideBySide3D,
 					sOverlayDescription,
-					Messages.getString( "AreaChart.SubType.Overlay" ) ) );
+					Messages.getString( "AreaChart.SubType.Overlay" ) ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}
@@ -263,7 +264,7 @@ public class AreaChart extends DefaultChartTypeImpl
 			sdY.getSeriesPalette( ).update( 0 );
 			Series valueSeries = AreaSeriesImpl.create( );
 			valueSeries.getLabel( ).setVisible( true );
-			( (AreaSeries) valueSeries ).getMarker( ).setVisible( false );
+			( (Marker) ( (AreaSeries) valueSeries ).getMarkers( ).get( 0 ) ).setVisible( false );
 			( (AreaSeries) valueSeries ).getLineAttributes( )
 					.setColor( ColorDefinitionImpl.BLUE( ) );
 			( (AreaSeries) valueSeries ).setStacked( true );
@@ -284,7 +285,7 @@ public class AreaChart extends DefaultChartTypeImpl
 			sdY.getSeriesPalette( ).update( 0 );
 			Series valueSeries = AreaSeriesImpl.create( );
 			valueSeries.getLabel( ).setVisible( true );
-			( (AreaSeries) valueSeries ).getMarker( ).setVisible( false );
+			( (Marker) ( (AreaSeries) valueSeries ).getMarkers( ).get( 0 ) ).setVisible( false );
 			( (AreaSeries) valueSeries ).getLineAttributes( )
 					.setColor( ColorDefinitionImpl.BLUE( ) );
 			( (AreaSeries) valueSeries ).setStacked( true );
@@ -303,7 +304,7 @@ public class AreaChart extends DefaultChartTypeImpl
 			sdY.getSeriesPalette( ).update( 0 );
 			Series valueSeries = AreaSeriesImpl.create( );
 			valueSeries.getLabel( ).setVisible( true );
-			( (AreaSeries) valueSeries ).getMarker( ).setVisible( false );
+			( (Marker) ( (AreaSeries) valueSeries ).getMarkers( ).get( 0 ) ).setVisible( false );
 			( (AreaSeries) valueSeries ).getLineAttributes( )
 					.setColor( ColorDefinitionImpl.BLUE( ) );
 			( (AreaSeries) valueSeries ).setStacked( false );
@@ -671,16 +672,24 @@ public class AreaChart extends DefaultChartTypeImpl
 		areaseries.getLineAttributes( ).setColor( ColorDefinitionImpl.BLACK( ) );
 		if ( !( series instanceof ScatterSeries ) )
 		{
+			areaseries.getMarkers( ).clear( );
 			Marker marker = AttributeFactory.eINSTANCE.createMarker( );
 			marker.setSize( 5 );
 			marker.setType( MarkerType.BOX_LITERAL );
 			marker.setVisible( false );
-			areaseries.setMarker( marker );
+			areaseries.getMarkers( ).add( marker );
 		}
 		else
 		{
-			areaseries.setMarker( ( (ScatterSeries) series ).getMarker( ) );
-			areaseries.getMarker( ).setVisible( false );
+			areaseries.getMarkers( ).clear( );
+			areaseries.getMarkers( )
+					.addAll( ( (ScatterSeries) series ).getMarkers( ) );
+
+			for ( Iterator itr = areaseries.getMarkers( ).iterator( ); itr.hasNext( ); )
+			{
+				Marker mk = (Marker) itr.next( );
+				mk.setVisible( false );
+			}
 		}
 
 		// Copy generic series properties
@@ -871,11 +880,13 @@ public class AreaChart extends DefaultChartTypeImpl
 				sTitle );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getDisplayName()
 	 */
 	public String getDisplayName( )
 	{
-		return Messages.getString( "AreaChart.Txt.DisplayName" );
+		return Messages.getString( "AreaChart.Txt.DisplayName" ); //$NON-NLS-1$
 	}
 }

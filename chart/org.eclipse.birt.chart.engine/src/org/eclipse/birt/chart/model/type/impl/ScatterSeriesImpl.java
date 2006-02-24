@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.model.type.impl;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
@@ -89,7 +90,8 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 	{
 		super.initialize( );
 		getLineAttributes( ).setVisible( false );
-		getMarker( ).setType( MarkerType.CROSSHAIR_LITERAL );
+
+		( (Marker) getMarkers( ).get( 0 ) ).setType( MarkerType.CROSSHAIR_LITERAL );
 	}
 
 	/*

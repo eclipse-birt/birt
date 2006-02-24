@@ -259,19 +259,21 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLineSeries_Marker( )
+	public EReference getLineSeries_Markers( )
 	{
 		return (EReference) lineSeriesEClass.getEStructuralFeatures( ).get( 0 );
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLineSeries_LineAttributes( )
+	public EReference getLineSeries_Marker( )
 	{
 		return (EReference) lineSeriesEClass.getEStructuralFeatures( ).get( 1 );
 	}
@@ -280,16 +282,16 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLineSeries_PaletteLineColor( )
+	public EReference getLineSeries_LineAttributes( )
 	{
-		return (EAttribute) lineSeriesEClass.getEStructuralFeatures( ).get( 2 );
+		return (EReference) lineSeriesEClass.getEStructuralFeatures( ).get( 2 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLineSeries_Curve( )
+	public EAttribute getLineSeries_PaletteLineColor( )
 	{
 		return (EAttribute) lineSeriesEClass.getEStructuralFeatures( ).get( 3 );
 	}
@@ -298,9 +300,18 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getLineSeries_Curve( )
+	{
+		return (EAttribute) lineSeriesEClass.getEStructuralFeatures( ).get( 4 );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getLineSeries_ShadowColor( )
 	{
-		return (EReference) lineSeriesEClass.getEStructuralFeatures( ).get( 4 );
+		return (EReference) lineSeriesEClass.getEStructuralFeatures( ).get( 5 );
 	}
 
 	/**
@@ -310,7 +321,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	 */
 	public EAttribute getLineSeries_ConnectMissingValue( )
 	{
-		return (EAttribute) lineSeriesEClass.getEStructuralFeatures( ).get( 5 );
+		return (EAttribute) lineSeriesEClass.getEStructuralFeatures( ).get( 6 );
 	}
 
 	/**
@@ -500,6 +511,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		createEReference( dialSeriesEClass, DIAL_SERIES__NEEDLE );
 
 		lineSeriesEClass = createEClass( LINE_SERIES );
+		createEReference( lineSeriesEClass, LINE_SERIES__MARKERS );
 		createEReference( lineSeriesEClass, LINE_SERIES__MARKER );
 		createEReference( lineSeriesEClass, LINE_SERIES__LINE_ATTRIBUTES );
 		createEAttribute( lineSeriesEClass, LINE_SERIES__PALETTE_LINE_COLOR );
@@ -601,6 +613,10 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		initEClass( lineSeriesEClass,
 				LineSeries.class,
 				"LineSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEReference( getLineSeries_Markers( ),
+				theAttributePackage.getMarker( ),
+				null,
+				"markers", null, 0, -1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getLineSeries_Marker( ),
 				theAttributePackage.getMarker( ),
 				null,
@@ -728,6 +744,10 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		addAnnotation( lineSeriesEClass, source, new String[]{
 				"name", "LineSeries", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getLineSeries_Markers( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Markers" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLineSeries_Marker( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$

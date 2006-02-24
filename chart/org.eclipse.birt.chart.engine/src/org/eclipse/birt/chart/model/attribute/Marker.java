@@ -14,24 +14,26 @@ package org.eclipse.birt.chart.model.attribute;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Marker</b></em>'. <!-- end-user-doc -->
- *
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Marker</b></em>'.
+ * <!-- end-user-doc -->
+ * 
  * <!-- begin-model-doc -->
  * 
- * 			This type represents the value marker for a line or scatter series.
- * 			
+ * This type represents the value marker for a line or scatter series.
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getSize <em>Size</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.Marker#isVisible <em>Visible</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getIconPalette <em>Icon Palette</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getType <em>Type</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getSize <em>Size</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.Marker#isVisible <em>Visible</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getFill <em>Fill</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getIconPalette <em>Icon Palette</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMarker()
  * @model extendedMetaData="name='Marker' kind='elementOnly'"
  * @generated
@@ -40,9 +42,11 @@ public interface Marker extends EObject
 {
 
 	/**
-	 * Returns the value of the '<em><b>Type</b></em>' attribute. The default value is <code>"Crosshair"</code>.
-	 * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.MarkerType}. <!--
-	 * begin-user-doc --> Gets the type of marker. <!-- end-user-doc --> <!-- begin-model-doc -->
+	 * Returns the value of the '<em><b>Type</b></em>' attribute. The
+	 * default value is <code>"Crosshair"</code>. The literals are from the
+	 * enumeration {@link org.eclipse.birt.chart.model.attribute.MarkerType}.
+	 * <!-- begin-user-doc --> Gets the type of marker. <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
 	 * 
 	 * Specifies the type of marker.
 	 * 
@@ -54,15 +58,19 @@ public interface Marker extends EObject
 	 * @see #unsetType()
 	 * @see #setType(MarkerType)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMarker_Type()
-	 * @model default="Crosshair" unique="false" unsettable="true" required="true"
+	 * @model default="Crosshair" unique="false" unsettable="true"
+	 *        required="true"
 	 * @generated
 	 */
 	MarkerType getType( );
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getType <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc --> Sets the type of marker. <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Type</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getType <em>Type</em>}'
+	 * attribute. <!-- begin-user-doc --> Sets the type of marker. <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Type</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.MarkerType
 	 * @see #isSetType()
 	 * @see #unsetType()
@@ -72,8 +80,9 @@ public interface Marker extends EObject
 	void setType( MarkerType value );
 
 	/**
-	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getType <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getType <em>Type</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isSetType()
 	 * @see #getType()
 	 * @see #setType(MarkerType)
@@ -82,8 +91,9 @@ public interface Marker extends EObject
 	void unsetType( );
 
 	/**
-	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getType <em>Type</em>}' attribute is set.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getType <em>Type</em>}'
+	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return whether the value of the '<em>Type</em>' attribute is set.
 	 * @see #unsetType()
 	 * @see #getType()
@@ -93,8 +103,9 @@ public interface Marker extends EObject
 	boolean isSetType( );
 
 	/**
-	 * Returns the value of the '<em><b>Size</b></em>' attribute. <!-- begin-user-doc --> Gets the size of the
-	 * marker in the chart (as a percentage). <!-- end-user-doc --> <!-- begin-model-doc -->
+	 * Returns the value of the '<em><b>Size</b></em>' attribute. <!--
+	 * begin-user-doc --> Gets the size of the marker in the chart (as a
+	 * percentage). <!-- end-user-doc --> <!-- begin-model-doc -->
 	 * 
 	 * Specifies the size of the marker in the chart (as a percentage).
 	 * 
@@ -105,15 +116,19 @@ public interface Marker extends EObject
 	 * @see #unsetSize()
 	 * @see #setSize(int)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMarker_Size()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+	 * @model unique="false" unsettable="true"
+	 *        dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
 	 * @generated
 	 */
 	int getSize( );
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getSize <em>Size</em>}' attribute.
-	 * <!-- begin-user-doc --> Sets the size of the marker in the chart (as a percentage). <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Size</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getSize <em>Size</em>}'
+	 * attribute. <!-- begin-user-doc --> Sets the size of the marker in the
+	 * chart (as a percentage). <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Size</em>' attribute.
 	 * @see #isSetSize()
 	 * @see #unsetSize()
 	 * @see #getSize()
@@ -122,8 +137,9 @@ public interface Marker extends EObject
 	void setSize( int value );
 
 	/**
-	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getSize <em>Size</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getSize <em>Size</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isSetSize()
 	 * @see #getSize()
 	 * @see #setSize(int)
@@ -132,8 +148,9 @@ public interface Marker extends EObject
 	void unsetSize( );
 
 	/**
-	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getSize <em>Size</em>}' attribute is set.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getSize <em>Size</em>}'
+	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return whether the value of the '<em>Size</em>' attribute is set.
 	 * @see #unsetSize()
 	 * @see #getSize()
@@ -143,8 +160,9 @@ public interface Marker extends EObject
 	boolean isSetSize( );
 
 	/**
-	 * Returns the value of the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> Gets whether the
-	 * marker will be rendered. <!-- end-user-doc --> <!-- begin-model-doc -->
+	 * Returns the value of the '<em><b>Visible</b></em>' attribute. <!--
+	 * begin-user-doc --> Gets whether the marker will be rendered. <!--
+	 * end-user-doc --> <!-- begin-model-doc -->
 	 * 
 	 * Specifies whether the marker is to be rendered.
 	 * 
@@ -155,15 +173,19 @@ public interface Marker extends EObject
 	 * @see #unsetVisible()
 	 * @see #setVisible(boolean)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMarker_Visible()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 * @model unique="false" unsettable="true"
+	 *        dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
 	 * @generated
 	 */
 	boolean isVisible( );
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#isVisible <em>Visible</em>}' attribute.
-	 * <!-- begin-user-doc --> Specifies whether the marker is to be rendered. <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Visible</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#isVisible <em>Visible</em>}'
+	 * attribute. <!-- begin-user-doc --> Specifies whether the marker is to be
+	 * rendered. <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Visible</em>' attribute.
 	 * @see #isSetVisible()
 	 * @see #unsetVisible()
 	 * @see #isVisible()
@@ -172,8 +194,9 @@ public interface Marker extends EObject
 	void setVisible( boolean value );
 
 	/**
-	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#isVisible <em>Visible</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#isVisible <em>Visible</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isSetVisible()
 	 * @see #isVisible()
 	 * @see #setVisible(boolean)
@@ -183,8 +206,8 @@ public interface Marker extends EObject
 
 	/**
 	 * Returns whether the value of the '
-	 * {@link org.eclipse.birt.chart.model.attribute.Marker#isVisible <em>Visible</em>}' attribute is set. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * {@link org.eclipse.birt.chart.model.attribute.Marker#isVisible <em>Visible</em>}'
+	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return whether the value of the '<em>Visible</em>' attribute is set.
 	 * @see #unsetVisible()
@@ -195,28 +218,58 @@ public interface Marker extends EObject
 	boolean isSetVisible( );
 
 	/**
-	 * Returns the value of the '<em><b>Icon Palette</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Specified the palette used by type Icon
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Icon Palette</em>' containment reference.
+	 * Returns the value of the '<em><b>Fill</b></em>' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
+	 * begin-model-doc --> Specifies the fill for the marker. <!-- end-model-doc
+	 * -->
+	 * 
+	 * @return the value of the '<em>Fill</em>' containment reference.
+	 * @see #setFill(Fill)
+	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMarker_Fill()
+	 * @model containment="true" resolveProxies="false"
+	 *        extendedMetaData="kind='element' name='Fill'"
+	 * @generated
+	 */
+	Fill getFill( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getFill <em>Fill</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Fill</em>' containment
+	 *            reference.
+	 * @see #getFill()
+	 * @generated
+	 */
+	void setFill( Fill value );
+
+	/**
+	 * Returns the value of the '<em><b>Icon Palette</b></em>' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
+	 * begin-model-doc --> <!-- end-model-doc -->
+	 * 
+	 * @return the value of the '<em>Icon Palette</em>' containment
+	 *         reference.
 	 * @see #setIconPalette(Palette)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMarker_IconPalette()
 	 * @model containment="true" resolveProxies="false"
 	 *        extendedMetaData="kind='element' name='IconPalette'"
-	 * @generated
+	 * @deprecated Deprecated. Use Fill property instead. This is kept just to
+	 *             maintain compatibility with old models.
 	 */
 	Palette getIconPalette( );
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getIconPalette <em>Icon Palette</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Icon Palette</em>' containment reference.
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getIconPalette <em>Icon Palette</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Icon Palette</em>' containment
+	 *            reference.
 	 * @see #getIconPalette()
-	 * @generated
+	 * @deprecated Deprecated. Use Fill property instead. This is kept just to
+	 *             maintain compatibility with old models.
 	 */
 	void setIconPalette( Palette value );
 

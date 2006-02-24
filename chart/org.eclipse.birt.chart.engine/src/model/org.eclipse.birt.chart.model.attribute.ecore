@@ -1253,10 +1253,20 @@
         <details key="name" value="Visible"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fill" eType="#//Fill" containment="true"
+        resolveProxies="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Specifies the fill for the marker."/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Fill"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="iconPalette" eType="#//Palette"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Specified the palette used by type Icon"/>
+        <details key="documentation" value="Deprecated. Use Fill property instead.  This is kept just to maintain compatibility with old models."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1276,6 +1286,16 @@
     <eLiterals name="Box" value="2"/>
     <eLiterals name="Circle" value="3"/>
     <eLiterals name="Icon" value="4"/>
+    <eLiterals name="Nabla" value="5"/>
+    <eLiterals name="Diamond" value="6"/>
+    <eLiterals name="FourDiamonds" value="7" literal="Four_Diamonds"/>
+    <eLiterals name="Button" value="8"/>
+    <eLiterals name="SemiCircle" value="9" literal="Semi_Circle"/>
+    <eLiterals name="Hexagon" value="10"/>
+    <eLiterals name="Rectangle" value="11"/>
+    <eLiterals name="Star" value="12"/>
+    <eLiterals name="Column" value="13"/>
+    <eLiterals name="Cross" value="14"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="MarkerTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

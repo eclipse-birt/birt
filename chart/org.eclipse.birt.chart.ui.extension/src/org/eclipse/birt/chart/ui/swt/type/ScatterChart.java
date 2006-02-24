@@ -146,7 +146,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
 					img2D,
 					sStandardDescription,
-					Messages.getString( "ScatterChart.SubType.Standard" ) ) );
+					Messages.getString( "ScatterChart.SubType.Standard" ) ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}
@@ -191,7 +191,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 		( (Axis) newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
 				.add( sdX );
 
-		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE ); //$NON-NLS-1$
+		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 
 		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
@@ -448,7 +448,8 @@ public class ScatterChart extends DefaultChartTypeImpl
 		scatterseries.getLineAttributes( ).setVisible( false );
 		if ( series instanceof LineSeries )
 		{
-			scatterseries.setMarker( ( (LineSeries) series ).getMarker( ) );
+			scatterseries.getMarkers( )
+					.addAll( ( (LineSeries) series ).getMarkers( ) );
 		}
 		else if ( series instanceof BarSeries
 				|| series instanceof PieSeries
@@ -458,11 +459,12 @@ public class ScatterChart extends DefaultChartTypeImpl
 		}
 		else
 		{
+			scatterseries.getMarkers( ).clear( );
 			Marker marker = AttributeFactory.eINSTANCE.createMarker( );
 			marker.setSize( 5 );
 			marker.setType( MarkerType.BOX_LITERAL );
 			marker.setVisible( true );
-			scatterseries.setMarker( marker );
+			scatterseries.getMarkers( ).add( marker );
 		}
 
 		// Copy generic series properties
@@ -633,13 +635,15 @@ public class ScatterChart extends DefaultChartTypeImpl
 				oContext,
 				sTitle );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getDisplayName()
 	 */
 	public String getDisplayName( )
 	{
-		return Messages.getString( "ScatterChart.Txt.DisplayName" );
+		return Messages.getString( "ScatterChart.Txt.DisplayName" ); //$NON-NLS-1$
 	}
 
 }

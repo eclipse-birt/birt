@@ -13,10 +13,9 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.net.URL;
 
+import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Image;
-import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
-import org.eclipse.birt.chart.model.attribute.impl.PaletteImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -34,7 +33,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
@@ -49,11 +47,7 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 
 	private transient Button btnLocal;
 
-	private transient Button btnAdd;
-
 	private transient Button btnPreview;
-
-	private transient Button btnRemove;
 
 	private transient Button btnOK;
 
@@ -73,13 +67,11 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 
 	private Text uriEditor;
 
-	private List iconList;
-
 	private transient Shell shell;
 
 	private transient boolean applyMarkerIcon = false;
 
-	private transient Palette iconPalette;
+	private transient Fill icon;
 
 	/**
 	 * Constructor
@@ -89,13 +81,15 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 	 * @param iconPalette
 	 *            retrieved from LineSeries
 	 */
-	public MarkerIconDialog( Shell parent, Palette iconPalette )
+	public MarkerIconDialog( Shell parent, Fill fill )
 	{
 		super( );
-		if ( iconPalette != null )
+
+		icon = null;
+
+		if ( fill != null )
 		{
-			this.iconPalette = (Palette) EcoreUtil.copy( iconPalette );
-			this.iconPalette.eAdapters( ).addAll( iconPalette.eAdapters( ) );
+			icon = (Fill) EcoreUtil.copy( fill );
 		}
 
 		shell = new Shell( parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL );
@@ -147,7 +141,7 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 		btnOK.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING ) );
 		btnOK.setText( Messages.getString( "Shared.Lbl.OK" ) ); //$NON-NLS-1$
 		btnOK.addSelectionListener( this );
-		btnOK.setEnabled( iconList.getSelectionCount( ) > 0 );
+		btnOK.setEnabled( icon != null );
 
 		btnCancel = new Button( btnComposite, SWT.NONE );
 		btnCancel.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
@@ -208,28 +202,6 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 				| GridData.HORIZONTAL_ALIGN_BEGINNING );
 		inputArea.setLayoutData( gdInputArea );
 		inputArea.setLayout( gl );
-
-		iconList = new List( listArea, SWT.SINGLE
-				| SWT.BORDER
-				| SWT.V_SCROLL
-				| SWT.H_SCROLL );
-		GridData gdIconList = new GridData( GridData.FILL_HORIZONTAL );
-		gdIconList.heightHint = 120;
-		iconList.setLayoutData( gdIconList );
-		iconList.addSelectionListener( this );
-
-		if ( iconPalette != null )
-		{
-			for ( int i = 0; i < iconPalette.getEntries( ).size( ); i++ )
-			{
-				iconList.add( ( (Image) iconPalette.getEntries( ).get( i ) ).getURL( ) );
-			}
-		}
-
-		btnRemove = new Button( listArea, SWT.NONE );
-		btnRemove.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
-		btnRemove.setText( Messages.getString( "MarkerIconDialog.Lbl.Remove" ) ); //$NON-NLS-1$
-		btnRemove.addSelectionListener( this );
 	}
 
 	/**
@@ -280,10 +252,11 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 				swtichToURIType( );
 				break;
 			case LOCAL_TYPE :
-				swtichToListType( );
+				swtichToLocalType( );
 				break;
 		}
 		inputArea.layout( );
+		updateButton( );
 	}
 
 	private void swtichToURIType( )
@@ -305,20 +278,19 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 		gl.verticalSpacing = 2;
 		innerComp.setLayout( gl );
 
-		btnAdd = new Button( innerComp, SWT.PUSH );
-		btnAdd.setText( Messages.getString( "MarkerIconDialog.Lbl.Add" ) ); //$NON-NLS-1$
-		btnAdd.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
-		btnAdd.setEnabled( false );
-		btnAdd.addSelectionListener( this );
-
 		btnPreview = new Button( innerComp, SWT.PUSH );
 		btnPreview.setText( Messages.getString( "MarkerIconDialog.Lbl.Preview" ) ); //$NON-NLS-1$
 		btnPreview.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
 		btnPreview.setEnabled( false );
 		btnPreview.addSelectionListener( this );
+
+		if ( icon != null )
+		{
+			uriEditor.setText( ( (Image) icon ).getURL( ) );
+		}
 	}
 
-	private void swtichToListType( )
+	private void swtichToLocalType( )
 	{
 		Composite buttonBar = new Composite( inputArea, SWT.NONE );
 
@@ -342,7 +314,8 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 
 	private void updateButton( )
 	{
-		btnOK.setEnabled( iconList.getSelectionCount( ) != 0 );
+		btnOK.setEnabled( icon != null
+				|| ( selectedType == URI_TYPE && trimString( uriEditor.getText( ) ) != null ) );
 	}
 
 	/**
@@ -368,16 +341,16 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 	 * Otherwise, add the icon into the palette.
 	 * 
 	 */
-	private void addIconToPalette( )
+	private void checkIcon( )
 	{
-		if ( iconPalette == null )
+		if ( selectedType == URI_TYPE )
 		{
-			iconPalette = PaletteImpl.create( ImageImpl.create( iconList.getSelection( )[0] ) );
-		}
-		else
-		{
-			iconPalette.getEntries( )
-					.add( ImageImpl.create( iconList.getSelection( )[0] ) );
+			if ( icon == null
+					|| !( (Image) icon ).getURL( )
+							.equals( trimString( uriEditor.getText( ) ) ) )
+			{
+				icon = ImageImpl.create( trimString( uriEditor.getText( ) ) );
+			}
 		}
 	}
 
@@ -390,6 +363,7 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 	{
 		if ( e.widget.equals( btnOK ) )
 		{
+			checkIcon( );
 			applyMarkerIcon = true;
 			shell.dispose( );
 		}
@@ -405,26 +379,11 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 		{
 			switchTo( LOCAL_TYPE );
 		}
-		else if ( e.widget.equals( btnAdd ) )
-		{
-			uriEditor.setText( uriEditor.getText( ).trim( ) );
-			String path = uriEditor.getText( );
-			iconList.add( path );
-			iconList.select( iconList.indexOf( path ) );
-			addIconToPalette( );
-			updateButton( );
-		}
 		else if ( e.widget.equals( btnPreview ) )
 		{
 			uriEditor.setText( uriEditor.getText( ).trim( ) );
 			String path = uriEditor.getText( );
 			preview( path );
-		}
-		else if ( e.widget.equals( iconList ) )
-		{
-			String path = iconList.getSelection( )[0];
-			preview( path );
-			updateButton( );
 		}
 		else if ( e.widget.equals( btnBrowse ) )
 		{
@@ -439,31 +398,15 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 				String path = fileChooser.open( );
 				if ( path != null )
 				{
-					if ( iconList.indexOf( path ) != -1 )
-					{
-						return;
-					}
 					path = new StringBuffer( "file:///" ).append( path ).toString( ); //$NON-NLS-1$
 					preview( path );
-					iconList.add( path );
-					iconList.select( iconList.indexOf( path ) );
-					addIconToPalette( );
+
+					icon = ImageImpl.create( path );
 				}
 			}
 			catch ( Throwable ex )
 			{
 				ex.printStackTrace( );
-			}
-			updateButton( );
-		}
-		else if ( e.widget.equals( btnRemove ) )
-		{
-			if ( iconList.getSelectionCount( ) != 0 )
-			{
-				iconPalette.getEntries( )
-						.remove( iconList.getSelectionIndex( ) );
-				previewCanvas.clear( );
-				iconList.remove( iconList.getSelectionIndex( ) );
 			}
 			updateButton( );
 		}
@@ -488,8 +431,8 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 	{
 		if ( e.widget.equals( uriEditor ) )
 		{
-			btnAdd.setEnabled( trimString( uriEditor.getText( ) ) != null );
 			btnPreview.setEnabled( trimString( uriEditor.getText( ) ) != null );
+			updateButton( );
 		}
 	}
 
@@ -505,10 +448,14 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 	private static String trimString( String value )
 	{
 		if ( value == null )
+		{
 			return null;
+		}
 		value = value.trim( );
 		if ( value.length( ) == 0 )
+		{
 			return null;
+		}
 		return value;
 	}
 
@@ -525,8 +472,8 @@ public class MarkerIconDialog implements SelectionListener, ModifyListener
 	 * 
 	 * @return Returns an icon palette to Line series.
 	 */
-	public Palette getIconPalette( )
+	public Fill getFill( )
 	{
-		return iconPalette;
+		return icon;
 	}
 }

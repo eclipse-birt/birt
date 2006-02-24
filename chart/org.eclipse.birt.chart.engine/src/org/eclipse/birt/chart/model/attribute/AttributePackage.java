@@ -1158,13 +1158,22 @@ public interface AttributePackage extends EPackage
 	int MARKER__VISIBLE = 2;
 
 	/**
+	 * The feature id for the '<em><b>Fill</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER__FILL = 3;
+
+	/**
 	 * The feature id for the '<em><b>Icon Palette</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER__ICON_PALETTE = 3;
+	int MARKER__ICON_PALETTE = 4;
 
 	/**
 	 * The number of structural features of the '<em>Marker</em>' class.
@@ -1172,7 +1181,7 @@ public interface AttributePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER_FEATURE_COUNT = 4;
+	int MARKER_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl <em>Number Format Specifier</em>}' class.
@@ -3213,6 +3222,17 @@ public interface AttributePackage extends EPackage
 	EAttribute getMarker_Visible( );
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.attribute.Marker#getFill <em>Fill</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Fill</em>'.
+	 * @see org.eclipse.birt.chart.model.attribute.Marker#getFill()
+	 * @see #getMarker()
+	 * @generated
+	 */
+	EReference getMarker_Fill( );
+
+	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.attribute.Marker#getIconPalette <em>Icon Palette</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5176,6 +5196,14 @@ public interface AttributePackage extends EPackage
 		 * @generated
 		 */
 		EAttribute MARKER__VISIBLE = eINSTANCE.getMarker_Visible( );
+
+		/**
+		 * The meta object literal for the '<em><b>Fill</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MARKER__FILL = eINSTANCE.getMarker_Fill( );
 
 		/**
 		 * The meta object literal for the '<em><b>Icon Palette</b></em>' containment reference feature.

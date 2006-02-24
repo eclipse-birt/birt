@@ -12,17 +12,14 @@
 package org.eclipse.birt.chart.model.attribute.impl;
 
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
+import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Palette;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -35,6 +32,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#getSize <em>Size</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#isVisible <em>Visible</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#getFill <em>Fill</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#getIconPalette <em>Icon Palette</em>}</li>
  * </ul>
  * </p>
@@ -124,6 +122,16 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	 * @ordered
 	 */
 	protected boolean visibleESet = false;
+
+	/**
+	 * The cached value of the '{@link #getFill() <em>Fill</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFill()
+	 * @generated
+	 * @ordered
+	 */
+	protected Fill fill = null;
 
 	/**
 	 * The cached value of the '{@link #getIconPalette() <em>Icon Palette</em>}' containment reference.
@@ -326,6 +334,72 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Fill getFill( )
+	{
+		return fill;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetFill( Fill newFill, NotificationChain msgs )
+	{
+		Fill oldFill = fill;
+		fill = newFill;
+		if ( eNotificationRequired( ) )
+		{
+			ENotificationImpl notification = new ENotificationImpl( this,
+					Notification.SET,
+					AttributePackage.MARKER__FILL,
+					oldFill,
+					newFill );
+			if ( msgs == null )
+				msgs = notification;
+			else
+				msgs.add( notification );
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFill( Fill newFill )
+	{
+		if ( newFill != fill )
+		{
+			NotificationChain msgs = null;
+			if ( fill != null )
+				msgs = ( (InternalEObject) fill ).eInverseRemove( this,
+						EOPPOSITE_FEATURE_BASE - AttributePackage.MARKER__FILL,
+						null,
+						msgs );
+			if ( newFill != null )
+				msgs = ( (InternalEObject) newFill ).eInverseAdd( this,
+						EOPPOSITE_FEATURE_BASE - AttributePackage.MARKER__FILL,
+						null,
+						msgs );
+			msgs = basicSetFill( newFill, msgs );
+			if ( msgs != null )
+				msgs.dispatch( );
+		}
+		else if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					AttributePackage.MARKER__FILL,
+					newFill,
+					newFill ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Palette getIconPalette( )
 	{
 		return iconPalette;
@@ -400,6 +474,8 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	{
 		switch ( featureID )
 		{
+			case AttributePackage.MARKER__FILL :
+				return basicSetFill( null, msgs );
 			case AttributePackage.MARKER__ICON_PALETTE :
 				return basicSetIconPalette( null, msgs );
 		}
@@ -421,6 +497,8 @@ public class MarkerImpl extends EObjectImpl implements Marker
 				return new Integer( getSize( ) );
 			case AttributePackage.MARKER__VISIBLE :
 				return isVisible( ) ? Boolean.TRUE : Boolean.FALSE;
+			case AttributePackage.MARKER__FILL :
+				return getFill( );
 			case AttributePackage.MARKER__ICON_PALETTE :
 				return getIconPalette( );
 		}
@@ -444,6 +522,9 @@ public class MarkerImpl extends EObjectImpl implements Marker
 				return;
 			case AttributePackage.MARKER__VISIBLE :
 				setVisible( ( (Boolean) newValue ).booleanValue( ) );
+				return;
+			case AttributePackage.MARKER__FILL :
+				setFill( (Fill) newValue );
 				return;
 			case AttributePackage.MARKER__ICON_PALETTE :
 				setIconPalette( (Palette) newValue );
@@ -470,6 +551,9 @@ public class MarkerImpl extends EObjectImpl implements Marker
 			case AttributePackage.MARKER__VISIBLE :
 				unsetVisible( );
 				return;
+			case AttributePackage.MARKER__FILL :
+				setFill( (Fill) null );
+				return;
 			case AttributePackage.MARKER__ICON_PALETTE :
 				setIconPalette( (Palette) null );
 				return;
@@ -492,6 +576,8 @@ public class MarkerImpl extends EObjectImpl implements Marker
 				return isSetSize( );
 			case AttributePackage.MARKER__VISIBLE :
 				return isSetVisible( );
+			case AttributePackage.MARKER__FILL :
+				return fill != null;
 			case AttributePackage.MARKER__ICON_PALETTE :
 				return iconPalette != null;
 		}

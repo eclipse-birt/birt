@@ -166,15 +166,15 @@ public class LineChart extends DefaultChartTypeImpl
 			vSubTypes.add( new DefaultChartSubTypeImpl( OVERLAY_SUBTYPE_LITERAL,
 					imgSideBySide,
 					sOverlayDescription,
-					Messages.getString( "LineChart.SubType.Overlay" ) ) );
+					Messages.getString( "LineChart.SubType.Overlay" ) ) ); //$NON-NLS-1$
 			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
 					imgStacked,
 					sStackedDescription,
-					Messages.getString( "LineChart.SubType.Stacked" ) ) );
+					Messages.getString( "LineChart.SubType.Stacked" ) ) ); //$NON-NLS-1$
 			vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
 					imgPercentStacked,
 					sPercentStackedDescription,
-					Messages.getString( "LineChart.SubType.PercentStacked" ) ) );
+					Messages.getString( "LineChart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
 		}
 		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
@@ -184,7 +184,7 @@ public class LineChart extends DefaultChartTypeImpl
 			vSubTypes.add( new DefaultChartSubTypeImpl( OVERLAY_SUBTYPE_LITERAL,
 					imgSideBySide3D,
 					sOverlayDescription,
-					Messages.getString( "LineChart.SubType.Overlay" ) ) );
+					Messages.getString( "LineChart.SubType.Overlay" ) ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}
@@ -241,7 +241,7 @@ public class LineChart extends DefaultChartTypeImpl
 			sdY.getSeriesPalette( ).update( 0 );
 			Series valueSeries = LineSeriesImpl.create( );
 			valueSeries.getLabel( ).setVisible( true );
-			( (LineSeries) valueSeries ).getMarker( ).setVisible( true );
+			( (Marker) ( (LineSeries) valueSeries ).getMarkers( ).get( 0 ) ).setVisible( true );
 			( (LineSeries) valueSeries ).setStacked( true );
 			( (LineSeries) valueSeries ).setPaletteLineColor( true );
 			sdY.getSeries( ).add( valueSeries );
@@ -261,7 +261,7 @@ public class LineChart extends DefaultChartTypeImpl
 			sdY.getSeriesPalette( ).update( 0 );
 			Series valueSeries = LineSeriesImpl.create( );
 			valueSeries.getLabel( ).setVisible( true );
-			( (LineSeries) valueSeries ).getMarker( ).setVisible( true );
+			( (Marker) ( (LineSeries) valueSeries ).getMarkers( ).get( 0 ) ).setVisible( true );
 			( (LineSeries) valueSeries ).setStacked( true );
 			( (LineSeries) valueSeries ).setPaletteLineColor( true );
 			sdY.getSeries( ).add( valueSeries );
@@ -279,7 +279,7 @@ public class LineChart extends DefaultChartTypeImpl
 			sdY.getSeriesPalette( ).update( 0 );
 			Series valueSeries = LineSeriesImpl.create( );
 			valueSeries.getLabel( ).setVisible( true );
-			( (LineSeries) valueSeries ).getMarker( ).setVisible( true );
+			( (Marker) ( (LineSeries) valueSeries ).getMarkers( ).get( 0 ) ).setVisible( true );
 			( (LineSeries) valueSeries ).setStacked( false );
 			( (LineSeries) valueSeries ).setPaletteLineColor( true );
 			sdY.getSeries( ).add( valueSeries );
@@ -453,7 +453,7 @@ public class LineChart extends DefaultChartTypeImpl
 						( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
 								.clear( );
 						( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
-								.add( series );				
+								.add( series );
 					}
 				}
 			}
@@ -527,7 +527,7 @@ public class LineChart extends DefaultChartTypeImpl
 				Series series = ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( );
 				series = getConvertedSeries( series );
-				
+
 				// Clear existing series
 				( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getSeries( )
@@ -648,15 +648,17 @@ public class LineChart extends DefaultChartTypeImpl
 		lineseries.getLineAttributes( ).setColor( ColorDefinitionImpl.BLACK( ) );
 		if ( !( series instanceof ScatterSeries ) )
 		{
+			lineseries.getMarkers( ).clear( );
 			Marker marker = AttributeFactory.eINSTANCE.createMarker( );
 			marker.setSize( 5 );
 			marker.setType( MarkerType.BOX_LITERAL );
 			marker.setVisible( true );
-			lineseries.setMarker( marker );
+			lineseries.getMarkers( ).add( marker );
 		}
 		else
 		{
-			lineseries.setMarker( ( (ScatterSeries) series ).getMarker( ) );
+			lineseries.getMarkers( )
+					.addAll( ( (ScatterSeries) series ).getMarkers( ) );
 		}
 
 		// Copy generic series properties
@@ -846,13 +848,15 @@ public class LineChart extends DefaultChartTypeImpl
 				oContext,
 				sTitle );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getDisplayName()
 	 */
 	public String getDisplayName( )
 	{
-		return Messages.getString( "LineChart.Txt.DisplayName" );
+		return Messages.getString( "LineChart.Txt.DisplayName" ); //$NON-NLS-1$
 	}
 
 }

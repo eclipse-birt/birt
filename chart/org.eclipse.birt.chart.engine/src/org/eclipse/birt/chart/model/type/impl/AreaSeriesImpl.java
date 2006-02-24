@@ -11,8 +11,11 @@
 
 package org.eclipse.birt.chart.model.type.impl;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
@@ -48,15 +51,22 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 		return TypePackage.Literals.AREA_SERIES;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.model.component.Series#translateFrom(org.eclipse.birt.chart.model.component.Series, int, org.eclipse.birt.chart.model.Chart)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.model.component.Series#translateFrom(org.eclipse.birt.chart.model.component.Series,
+	 *      int, org.eclipse.birt.chart.model.Chart)
 	 */
 	public void translateFrom( Series series, int iSeriesDefinitionIndex,
 			Chart chart )
 	{
 		super.translateFrom( series, iSeriesDefinitionIndex, chart );
 
-		this.getMarker( ).setVisible( false );
+		for ( Iterator itr = getMarkers( ).iterator( ); itr.hasNext( ); )
+		{
+			Marker mk = (Marker) itr.next( );
+			mk.setVisible( false );
+		}
 	}
 
 	/**
@@ -79,7 +89,12 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	protected void initialize( )
 	{
 		super.initialize( );
-		getMarker( ).setVisible( false );
+
+		for ( Iterator itr = getMarkers( ).iterator( ); itr.hasNext( ); )
+		{
+			Marker mk = (Marker) itr.next( );
+			mk.setVisible( false );
+		}
 	}
 
 	/*

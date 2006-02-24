@@ -179,12 +179,22 @@ public interface TypePackage extends EPackage
 	int LINE_SERIES__CURVE_FITTING = ComponentPackage.SERIES__CURVE_FITTING;
 
 	/**
-	 * The feature id for the '<em><b>Marker</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Markers</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LINE_SERIES__MARKER = ComponentPackage.SERIES_FEATURE_COUNT + 0;
+	int LINE_SERIES__MARKERS = ComponentPackage.SERIES_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Marker</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINE_SERIES__MARKER = ComponentPackage.SERIES_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Line Attributes</b></em>' containment reference.
@@ -192,7 +202,7 @@ public interface TypePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int LINE_SERIES__LINE_ATTRIBUTES = ComponentPackage.SERIES_FEATURE_COUNT + 1;
+	int LINE_SERIES__LINE_ATTRIBUTES = ComponentPackage.SERIES_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Palette Line Color</b></em>' attribute.
@@ -201,7 +211,7 @@ public interface TypePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int LINE_SERIES__PALETTE_LINE_COLOR = ComponentPackage.SERIES_FEATURE_COUNT + 2;
+	int LINE_SERIES__PALETTE_LINE_COLOR = ComponentPackage.SERIES_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Curve</b></em>' attribute. <!--
@@ -210,7 +220,7 @@ public interface TypePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int LINE_SERIES__CURVE = ComponentPackage.SERIES_FEATURE_COUNT + 3;
+	int LINE_SERIES__CURVE = ComponentPackage.SERIES_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Shadow Color</b></em>' containment reference.
@@ -218,7 +228,7 @@ public interface TypePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int LINE_SERIES__SHADOW_COLOR = ComponentPackage.SERIES_FEATURE_COUNT + 4;
+	int LINE_SERIES__SHADOW_COLOR = ComponentPackage.SERIES_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Connect Missing Value</b></em>' attribute.
@@ -227,7 +237,7 @@ public interface TypePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int LINE_SERIES__CONNECT_MISSING_VALUE = ComponentPackage.SERIES_FEATURE_COUNT + 5;
+	int LINE_SERIES__CONNECT_MISSING_VALUE = ComponentPackage.SERIES_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of structural features of the '<em>Line Series</em>' class.
@@ -235,7 +245,7 @@ public interface TypePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int LINE_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 6;
+	int LINE_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 7;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl <em>Area Series</em>}' class.
@@ -345,6 +355,15 @@ public interface TypePackage extends EPackage
 	 * @ordered
 	 */
 	int AREA_SERIES__CURVE_FITTING = LINE_SERIES__CURVE_FITTING;
+
+	/**
+	 * The feature id for the '<em><b>Markers</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AREA_SERIES__MARKERS = LINE_SERIES__MARKERS;
 
 	/**
 	 * The feature id for the '<em><b>Marker</b></em>' containment reference.
@@ -951,8 +970,18 @@ public interface TypePackage extends EPackage
 	int SCATTER_SERIES__CURVE_FITTING = LINE_SERIES__CURVE_FITTING;
 
 	/**
+	 * The feature id for the '<em><b>Markers</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__MARKERS = LINE_SERIES__MARKERS;
+
+	/**
 	 * The feature id for the '<em><b>Marker</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -1234,8 +1263,20 @@ public interface TypePackage extends EPackage
 	EClass getLineSeries( );
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.type.LineSeries#getMarkers <em>Markers</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Markers</em>'.
+	 * @see org.eclipse.birt.chart.model.type.LineSeries#getMarkers()
+	 * @see #getLineSeries()
+	 * @generated
+	 */
+	EReference getLineSeries_Markers( );
+
+	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.LineSeries#getMarker <em>Marker</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Marker</em>'.
 	 * @see org.eclipse.birt.chart.model.type.LineSeries#getMarker()
 	 * @see #getLineSeries()
@@ -1551,6 +1592,14 @@ public interface TypePackage extends EPackage
 		 * @generated
 		 */
 		EClass LINE_SERIES = eINSTANCE.getLineSeries( );
+
+		/**
+		 * The meta object literal for the '<em><b>Markers</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LINE_SERIES__MARKERS = eINSTANCE.getLineSeries_Markers( );
 
 		/**
 		 * The meta object literal for the '<em><b>Marker</b></em>' containment reference feature.
