@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
+import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -27,6 +28,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 /**
@@ -41,6 +43,8 @@ public class StockSeriesAttributeComposite extends Composite
 	// FillChooserComposite fccCandle = null;
 
 	private LineAttributesComposite liacStock = null;
+
+	private IntegerSpinControl iscStick = null;
 
 	private StockSeries series = null;
 
@@ -83,20 +87,18 @@ public class StockSeriesAttributeComposite extends Composite
 	{
 		// Layout for content composite
 		GridLayout glContent = new GridLayout( );
-		glContent.numColumns = 2;
-		glContent.marginHeight = 2;
-		glContent.marginWidth = 2;
+		glContent.numColumns = series.isShowAsBarStick( ) ? 3 : 1;
 
 		// Main content composite
 		this.setLayout( glContent );
 
-		// Candle Fill composite
+		// // Candle Fill composite
 		// Label lblRiserOutline = new Label( this, SWT.NONE );
 		// GridData gdLBLRiserOutline = new GridData( );
 		// lblRiserOutline.setLayoutData( gdLBLRiserOutline );
 		// lblRiserOutline.setText( Messages.getString(
 		// "StockSeriesAttributeComposite.Lbl.CandleFill" ) ); //$NON-NLS-1$
-		//
+		//		
 		// this.fccCandle = new FillChooserComposite( this,
 		// SWT.NONE,
 		// series.getFill( ),
@@ -115,9 +117,20 @@ public class StockSeriesAttributeComposite extends Composite
 				true,
 				false );
 		GridData gdLIACStock = new GridData( GridData.FILL_HORIZONTAL );
-		gdLIACStock.horizontalSpan = 2;
+		gdLIACStock.verticalSpan = 3;
 		liacStock.setLayoutData( gdLIACStock );
 		liacStock.addListener( this );
+
+		if ( series.isShowAsBarStick( ) )
+		{
+			new Label( this, SWT.NONE ).setText( Messages.getString( "StockSeriesAttributeComposite.Lbl.StickLength" ) ); //$NON-NLS-1$
+
+			iscStick = new IntegerSpinControl( this,
+					SWT.NONE,
+					series.getStickLength( ) );
+			iscStick.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			iscStick.addListener( this );
+		}
 	}
 
 	public Point getPreferredSize( )
@@ -157,6 +170,10 @@ public class StockSeriesAttributeComposite extends Composite
 				series.getLineAttributes( )
 						.setColor( (ColorDefinition) event.data );
 			}
+		}
+		else if ( event.widget.equals( iscStick ) )
+		{
+			series.setStickLength( ( (Integer) event.data ).intValue( ) );
 		}
 	}
 

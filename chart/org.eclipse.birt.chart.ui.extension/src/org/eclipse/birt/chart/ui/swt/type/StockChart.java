@@ -74,13 +74,19 @@ public class StockChart extends DefaultChartTypeImpl
 
 	private static final String STANDARD_SUBTYPE_LITERAL = "Standard Stock Chart"; //$NON-NLS-1$
 
+	private static final String BAR_STICK_SUBTYPE_LITERAL = "Bar Stick Stock Chart"; //$NON-NLS-1$
+
 	public static final String CHART_TITLE = Messages.getString( "StockChart.Txt.DefaultStockChartTitle" ); //$NON-NLS-1$
 
-	private static final String sStandardDescription = Messages.getString( "StockChart.Txt.Description" ); //$NON-NLS-1$
+	private static final String sCandleStickDescription = Messages.getString( "StockChart.Txt.CandleStickDescription" ); //$NON-NLS-1$
+
+	private static final String sBarStickDescription = Messages.getString( "StockChart.Txt.BarStickDescription" ); //$NON-NLS-1$
 
 	private transient Image imgIcon = null;
 
-	private transient Image img2D = null;
+	private transient Image img2DCandleStick = null;
+
+	private transient Image img2DBarlStick = null;
 
 	private static final String[] saDimensions = new String[]{
 		TWO_DIMENSION_TYPE
@@ -136,16 +142,22 @@ public class StockChart extends DefaultChartTypeImpl
 		{
 			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
 			{
-				img2D = UIHelper.getImage( "icons/wizban/stockchartimage.gif" ); //$NON-NLS-1$
+				img2DCandleStick = UIHelper.getImage( "icons/wizban/stockchartimage.gif" ); //$NON-NLS-1$
+				img2DBarlStick = UIHelper.getImage( "icons/wizban/stockchartbarstickimage.gif" ); //$NON-NLS-1$
 			}
 			else
 			{
-				img2D = UIHelper.getImage( "icons/wizban/horizontalstockchartimage.gif" ); //$NON-NLS-1$
+				img2DCandleStick = UIHelper.getImage( "icons/wizban/horizontalstockchartimage.gif" ); //$NON-NLS-1$
+				img2DBarlStick = UIHelper.getImage( "icons/wizban/horizontalstockchartbarstickimage.gif" ); //$NON-NLS-1$
 			}
 			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
-					img2D,
-					sStandardDescription,
-					Messages.getString( "StockChart.SubType.Standard" ) ) );
+					img2DCandleStick,
+					sCandleStickDescription,
+					Messages.getString( "StockChart.SubType.CandleStick" ) ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( BAR_STICK_SUBTYPE_LITERAL,
+					img2DBarlStick,
+					sBarStickDescription,
+					Messages.getString( "StockChart.SubType.BarStick" ) ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}
@@ -178,7 +190,7 @@ public class StockChart extends DefaultChartTypeImpl
 		newChart.setDimension( getDimensionFor( sDimension ) );
 		newChart.setUnits( "Points" ); //$NON-NLS-1$
 
-		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE ); //$NON-NLS-1$
+		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 
 		( (Axis) newChart.getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
 		( (Axis) newChart.getAxes( ).get( 0 ) ).setType( AxisType.DATE_TIME_LITERAL );
@@ -200,6 +212,10 @@ public class StockChart extends DefaultChartTypeImpl
 		sdY.getSeriesPalette( ).update( 0 );
 		Series valueSeries = StockSeriesImpl.create( );
 		valueSeries.getLabel( ).setVisible( true );
+		if ( BAR_STICK_SUBTYPE_LITERAL.equals( sSubType ) )
+		{
+			( (StockSeries) valueSeries ).setShowAsBarStick( true );
+		}
 		sdY.getSeries( ).add( valueSeries );
 		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.get( 0 ) ).getSeriesDefinitions( ).add( sdY );
@@ -234,18 +250,11 @@ public class StockChart extends DefaultChartTypeImpl
 		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
 		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
-			if ( currentChart.getType( ).equals( TYPE_LITERAL ) ) // Original
-			// chart is
-			// of this type
-			// (BarChart)
+			// Original chart is of this type (StockChart)
+			if ( currentChart.getType( ).equals( TYPE_LITERAL ) )
 			{
-				if ( !currentChart.getSubType( ).equals( sNewSubType ) ) // Original
-				// chart
-				// is
-				// of
-				// the
-				// required
-				// subtype
+				// Original chart is of the required subtype
+				if ( !currentChart.getSubType( ).equals( sNewSubType ) )
 				{
 					currentChart.setSubType( sNewSubType );
 					EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -258,6 +267,7 @@ public class StockChart extends DefaultChartTypeImpl
 						{
 							Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 							series.setStacked( false );
+							( (StockSeries) series ).setShowAsBarStick( BAR_STICK_SUBTYPE_LITERAL.equals( currentChart.getSubType( ) ) );
 						}
 					}
 				}
@@ -667,13 +677,15 @@ public class StockChart extends DefaultChartTypeImpl
 				oContext,
 				sTitle );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getDisplayName()
 	 */
 	public String getDisplayName( )
 	{
-		return Messages.getString( "StockChart.Txt.DisplayName" );
+		return Messages.getString( "StockChart.Txt.DisplayName" ); //$NON-NLS-1$
 	}
 
 }
