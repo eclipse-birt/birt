@@ -22,6 +22,7 @@ public interface IAggregation
     public static final int SUMMARY_AGGR = 0;
     public static final int RUNNING_AGGR = 1;
     
+    
     /**
      * Gets the name that identifies the aggregate function represented by this class.
      * For BIRT built-in aggregations, this is the name of the JavaScript function (e.g., "SUM",

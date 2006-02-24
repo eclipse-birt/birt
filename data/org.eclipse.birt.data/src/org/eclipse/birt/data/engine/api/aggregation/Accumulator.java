@@ -76,6 +76,6 @@ abstract public class Accumulator
      * java.math.BigDecimal or java.sql.Blob. Or it can be null to indicate a null aggregate value.
      * @return Aggregate value calculated over the processed rows  
      */
-    abstract public Object getValue();
+    abstract public Object getValue() throws DataException;
     
 }

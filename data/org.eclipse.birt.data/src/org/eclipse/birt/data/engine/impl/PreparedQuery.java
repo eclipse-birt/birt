@@ -36,6 +36,7 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
+import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.transformation.ExpressionProcessorManager;
@@ -326,6 +327,8 @@ abstract class PreparedQuery
 	    	// 3 sub expressions of the conditional expression should be prepared
 	    	// individually
 	    	IConditionalExpression ce = (IConditionalExpression) expr;
+	    	ce = transformConditionalExpression( ce );
+			
 	    	prepareExpression( ce.getExpression(), groupLevel, cx, reg );
 	    	if ( ce.getOperand1() != null )
 		    	prepareExpression( ce.getOperand1(), groupLevel, cx, reg );
@@ -334,7 +337,7 @@ abstract class PreparedQuery
 
 	    	// No separate preparation is required for the conditional expression 
 	    	// Set itself as the compiled handle
-	    	expr.setHandle( expr );
+	    	expr.setHandle( ce );
 	    	expr.setID( IDUtil.nextExprID( ) );
 	    }
 	    else
@@ -342,6 +345,42 @@ abstract class PreparedQuery
 	    	// Should never get here
 	    	assert false;
 	    }
+	}
+
+	/**
+	 * When a TopN/TopPercent/BottomN/BottomPercent ConditionalExpression is set, transform it to Total.TopN/
+	 * Total.TopPercent/Total.BottomN/Total.BottomPercent aggregations with "isTrue" operator.
+	 * 
+	 * @param ce
+	 * @return
+	 */
+	private IConditionalExpression transformConditionalExpression( IConditionalExpression ce )
+	{
+		String prefix = null;
+		if ( ce.getOperator( ) == IConditionalExpression.OP_TOP_N )
+		{
+			prefix = "Total.TopN";
+		}
+		if ( ce.getOperator( ) == IConditionalExpression.OP_TOP_PERCENT )
+		{
+			prefix = "Total.TopPercent";
+		}
+		if ( ce.getOperator( ) == IConditionalExpression.OP_BOTTOM_N )
+		{
+			prefix = "Total.BottomN";
+		}
+		if ( ce.getOperator( ) == IConditionalExpression.OP_BOTTOM_PERCENT )
+		{
+			prefix = "Total.BottomPercent";
+		}
+		if( prefix != null )
+		{
+			ce = new ConditionalExpression( prefix+"("
+					+ ce.getExpression( ).getText( ) + ","
+					+ ce.getOperand1( ).getText( ) + ")",
+					IConditionalExpression.OP_TRUE );
+		}
+		return ce;
 	}
 	
 	/**
@@ -879,8 +918,6 @@ abstract class PreparedQuery
 						
 						if( groupSpecs[i].isCompleteExpression() )
 						{
-							;
-						
 							temporaryComputedColumns.add(new ComputedColumn( "_{$TEMP_GROUP_"+i+"$}_", src.getKeyExpression(), getTempComputedColumnType( groupSpecs[i].getInterval() )));
 						}
 					}

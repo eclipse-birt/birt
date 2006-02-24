@@ -75,9 +75,12 @@ public class ScriptEvalUtil
 	 * @throws DataException
 	 */
 	public static Object evalConditionalExpr( Object obj,
-			int operator, ExprTextAndValue op1, ExprTextAndValue op2 )
+			int operator, Object o1, Object o2 )
 			throws DataException
 	{
+		ExprTextAndValue op1 = createExprTextAndValueInstance( o1 );
+		ExprTextAndValue op2 = createExprTextAndValueInstance( o2 );
+		
 		Object resultObject = obj;
 		Object resultOp1 = op1.value;
 		Object resultOp2 = op2.value;
@@ -170,24 +173,19 @@ public class ScriptEvalUtil
 	}
 
 	/**
-	 * Encapsulate operands to ExprTextAndValue, internal use only
-	 * 
-	 * @param obj
-	 * @param operator
-	 * @param op1
-	 * @param op2
-	 * @return A Boolean result
-	 * @throws DataException
+	 * @param o1
+	 * @return
 	 */
-	public static Object evalConditionalExpr2( Object obj, int operator,
-			Object op1, Object op2 ) throws DataException
+	private static ExprTextAndValue createExprTextAndValueInstance( Object o )
 	{
-		return evalConditionalExpr( obj,
-				operator,
-				ExprTextAndValue.newInstance( "", op1 ),
-				ExprTextAndValue.newInstance( "", op2 ) );
+		ExprTextAndValue op;
+		if(! (o instanceof ExprTextAndValue ))
+			op = ExprTextAndValue.newInstance( "", o );
+		else
+			op = (ExprTextAndValue)o;
+		return op;
 	}
-	
+
 	/**
 	 * Most objects should already be formatted to the same type by method
 	 * formatToComparable at this point if neither of them is null. This method
@@ -469,7 +467,7 @@ public class ScriptEvalUtil
 				Object expression = evalExpr( ConditionalExpr.getExpression( ), cx, scope, source, lineNo );
 				Object Op1 = evalExpr( MiscUtil.constructValidScriptExpression ( ConditionalExpr.getOperand1() ), cx, scope, source, lineNo );
 				Object Op2 = evalExpr( MiscUtil.constructValidScriptExpression ( ConditionalExpr.getOperand2() ), cx, scope, source, lineNo );
-				result = evalConditionalExpr2( expression, ConditionalExpr.getOperator( ), Op1, Op2 ); 
+				result = evalConditionalExpr( expression, ConditionalExpr.getOperator( ), Op1, Op2 ); 
 			}
 		}
 		else

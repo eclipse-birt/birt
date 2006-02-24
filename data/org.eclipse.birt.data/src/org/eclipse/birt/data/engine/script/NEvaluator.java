@@ -282,7 +282,7 @@ class TopNEvaluator extends NEvaluator
 {
 	protected Object doCompare( Object value1, Object value2 ) throws DataException
 	{
-		return ScriptEvalUtil.evalConditionalExpr2( value1, IConditionalExpression.OP_GT, value2, null);
+		return ScriptEvalUtil.evalConditionalExpr( value1, IConditionalExpression.OP_GT, value2, null);
 	}
 }
 
@@ -294,6 +294,6 @@ class BottomNEvaluator extends NEvaluator
 {
 	protected Object doCompare( Object value1, Object value2 ) throws DataException
 	{
-		return ScriptEvalUtil.evalConditionalExpr2( value1, IConditionalExpression.OP_LT, value2, null);
+		return ScriptEvalUtil.evalConditionalExpr( value1, IConditionalExpression.OP_LT, value2, null);
 	}
 }
