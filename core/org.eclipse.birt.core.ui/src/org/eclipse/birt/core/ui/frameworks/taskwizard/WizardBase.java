@@ -105,7 +105,7 @@ public class WizardBase
 		// Update initial context
 		context = initialContext;
 
-		// Initialize UI elelents
+		// Initialize UI elements
 		GridLayout glShell = new GridLayout( );
 		glShell.marginHeight = 0;
 		glShell.marginWidth = 0;
@@ -332,7 +332,7 @@ public class WizardBase
 		// Clear errorHints
 		errorHints = null;
 
-		// Update UI
+		// Update or create UI
 		if ( cmpTaskContainer.getSelectionIndex( ) < 0 )
 		{
 			cmpTaskContainer.setSelection( 0 );
@@ -604,7 +604,7 @@ public class WizardBase
 		Label lblSeparator = new Label( shell, SWT.SEPARATOR | SWT.HORIZONTAL );
 		lblSeparator.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		cmpTaskContainer = new CTabFolder( shell, SWT.TOP );
+		cmpTaskContainer = new CTabFolder( shell, SWT.TOP | SWT.FLAT );
 		{
 			cmpTaskContainer.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 			cmpTaskContainer.setTabHeight( 25 );
