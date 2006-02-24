@@ -41,7 +41,6 @@ import org.eclipse.birt.report.model.metadata.MetaDataParserException;
 import org.eclipse.birt.report.model.metadata.MetaDataReader;
 import org.eclipse.core.runtime.Platform;
 
-
 /**
  * This class is abstract class used for tests, which contains the design file
  * name and report design handle, and provides the basic design file reading
@@ -82,78 +81,66 @@ public abstract class BaseTestCase extends TestCase
 	/**
 	 * The session handle.
 	 */
-	
+
 	protected LibraryHandle libraryHandle = null;
 
 	/**
 	 * The session handle.
 	 */
-	
+
 	protected SessionHandle sessionHandle = null;
 
 	/**
 	 * the root element for this design.
 	 */
-	
-    protected ReportDesign design = null;
 
-    /**
+	protected ReportDesign design = null;
+
+	/**
 	 * the root element for this library.
 	 */
-    protected Library library = null;
+	protected Library library = null;
 
-    /**
+	/**
 	 * The file name of metadata file.
 	 */
-	
+
 	protected static final String ROM_DEF_NAME = "rom.def"; //$NON-NLS-1$
 
-	protected static final String PLUGIN_NAME = "org.eclipse.birt.report.tests.model";
-	/*
-	 *  The plugin location   
-	 */
-//	protected static final String PLUGINLOC = 
-//		Platform.getBundle(PLUGIN_NAME).getLocation();
-	
-	protected static final String PLUGINLOC = "/org.eclipse.birt.report.tests.model/";
-	
-//	protected static final String PLUGIN_PATH = System.getProperty("user.dir")
-//			+ "\\plugins\\"
-//			+ BaseTestCase.PLUGINLOC.substring(BaseTestCase.PLUGINLOC
-//					.indexOf("/") + 1) + "bin/";
-	protected static final String PLUGIN_PATH = System.getProperty("user.dir")+"/bin/";
+	protected static final String PLUGIN_NAME = "org.eclipse.birt.report.tests.model"; //$NON-NLS-1$
+
+	protected static final String PLUGINLOC = "/org.eclipse.birt.report.tests.model/"; //$NON-NLS-1$
+
+	protected static final String PLUGIN_PATH = System.getProperty( "user.dir" ) + "/bin/"; //$NON-NLS-1$//$NON-NLS-2$
 
 	protected static final String TEST_FOLDER = ""; //$NON-NLS-1$
 	protected static final String OUTPUT_FOLDER = "/output/"; //$NON-NLS-1$
 	protected static final String INPUT_FOLDER = "/input/"; //$NON-NLS-1$
 	protected static final String GOLDEN_FOLDER = "/golden/"; //$NON-NLS-1$
 
-	protected static final Locale TEST_LOCALE = new Locale("aa"); //$NON-NLS-1$
-	/*
-	 * @see TestCase#setUp()
-	 * 
-	 *
-	 */
-	
-	public BaseTestCase(String name){
-		super(name);
+	protected static final Locale TEST_LOCALE = new Locale( "aa" ); //$NON-NLS-1$
+
+
+	public BaseTestCase( String name )
+	{
+		super( name );
 	}
-	
+
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
 
 		ThreadResources.setLocale( Locale.getDefault( ) );
 		MetaDataDictionary.reset( );
-	
+
 		try
-		{   
+		{
 			MetaDataReader.read( ReportDesign.class
 					.getResourceAsStream( ROM_DEF_NAME ) );
 		}
 		catch ( MetaDataParserException e )
 		{
-			super.fail();
+			super.fail( );
 		}
 	}
 
@@ -193,7 +180,7 @@ public abstract class BaseTestCase extends TestCase
 	{
 		sessionHandle = DesignEngine.newSession( locale );
 		designHandle = sessionHandle.createDesign( );
-		design = designHandle.getDesign( );
+		design = (ReportDesign)designHandle.getModule( );
 
 		return designHandle;
 	}
@@ -206,7 +193,6 @@ public abstract class BaseTestCase extends TestCase
 	 * @throws DesignFileException
 	 *             if any exception
 	 */
-
 
 	protected void openDesign( String fileName ) throws DesignFileException
 	{
@@ -224,21 +210,17 @@ public abstract class BaseTestCase extends TestCase
 	 *             if any exception.
 	 */
 
-
-	
 	protected void openDesign( String fileName, Locale locale )
 			throws DesignFileException
 	{
-		
-		
+
 		fileName = PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER + fileName;
-		fileName = fileName.replace('/','\\');
+		fileName = fileName.replace( '/', '\\' );
 		sessionHandle = DesignEngine.newSession( locale );
 		assertNotNull( sessionHandle );
 
 		designHandle = sessionHandle.openDesign( fileName );
-		design = designHandle.getDesign( );
-
+		design = (ReportDesign)designHandle.getModule( );
 	}
 
 	/**
@@ -268,13 +250,12 @@ public abstract class BaseTestCase extends TestCase
 	protected void openLibrary( String fileName, Locale locale )
 			throws DesignFileException
 	{
-//		fileName = getClassFolder( ) + INPUT_FOLDER + fileName;
 		sessionHandle = DesignEngine.newSession( locale );
 		assertNotNull( sessionHandle );
 
 		libraryHandle = sessionHandle.openLibrary( fileName );
 	}
-	
+
 	/**
 	 * Opens library file with given file name and locale.
 	 * 
@@ -289,13 +270,11 @@ public abstract class BaseTestCase extends TestCase
 	protected void openLibrary( URL systemId, InputStream is )
 			throws DesignFileException
 	{
-//		fileName = getClassFolder( ) + INPUT_FOLDER + fileName;
 		sessionHandle = DesignEngine.newSession( Locale.getDefault( ) );
 		assertNotNull( sessionHandle );
-
 		libraryHandle = sessionHandle.openLibrary( systemId, is );
 	}
-	
+
 	protected void openDesignAsResource( Class theClass, String fileName )
 			throws DesignFileException
 	{
@@ -316,13 +295,14 @@ public abstract class BaseTestCase extends TestCase
 	protected void openDesignAsResource( Class theClass, String fileName,
 			Locale locale ) throws DesignFileException
 	{
-		fileName = PLUGIN_PATH + getFullQualifiedClassName( ) + INPUT_FOLDER + fileName;
+		fileName = PLUGIN_PATH + getFullQualifiedClassName( ) + INPUT_FOLDER
+				+ fileName;
 		sessionHandle = DesignEngine.newSession( Locale.ENGLISH );
 		assertNotNull( sessionHandle );
 
 		InputStream stream = theClass.getResourceAsStream( fileName );
 		designHandle = sessionHandle.openDesign( fileName, stream );
-		design = designHandle.getDesign( );
+		design = (ReportDesign)designHandle.getModule( );
 	}
 
 	/**
@@ -359,7 +339,7 @@ public abstract class BaseTestCase extends TestCase
 	{
 		sessionHandle = DesignEngine.newSession( locale );
 		designHandle = sessionHandle.openDesign( fileName, is );
-		design = designHandle.getDesign( );
+		design = (ReportDesign)designHandle.getModule( );
 	}
 
 	/**
@@ -384,10 +364,11 @@ public abstract class BaseTestCase extends TestCase
 
 		try
 		{
-			goldenFileName = PLUGIN_PATH + getClassFolder( ) + GOLDEN_FOLDER + goldenFileName;
-			outputFileName = PLUGIN_PATH + getClassFolder( ) + OUTPUT_FOLDER + outputFileName;
+			goldenFileName = PLUGIN_PATH + getClassFolder( ) + GOLDEN_FOLDER
+					+ goldenFileName;
+			outputFileName = PLUGIN_PATH + getClassFolder( ) + OUTPUT_FOLDER
+					+ outputFileName;
 
-			
 			readerA = new FileReader( goldenFileName );
 			readerB = new FileReader( outputFileName );
 
@@ -455,7 +436,8 @@ public abstract class BaseTestCase extends TestCase
 			InputStream goldenStream = theClass
 					.getResourceAsStream( goldenFileName );
 
-			outputFileName = tempDir + "org.eclipse.birt.report.model" //$NON-NLS-1$
+			outputFileName = tempDir
+					+ "org.eclipse.birt.report.model" //$NON-NLS-1$
 					+ getFullQualifiedClassName( ) + OUTPUT_FOLDER
 					+ outputFileName;
 
@@ -520,13 +502,13 @@ public abstract class BaseTestCase extends TestCase
 			String strB = lineReaderB.readLine( ).trim( );
 			while ( strA != null )
 			{
-				if ( ! strA.startsWith("<property name=\"fileName\">") )
+				if ( !strA.startsWith( "<property name=\"fileName\">" ) )
 				{
 					same = strA.equals( strB );
 					if ( !same )
 					{
 						StringBuffer message = new StringBuffer( );
-	
+
 						message.append( "line=" ); //$NON-NLS-1$
 						message.append( lineNo );
 						message.append( " is different:\n" );//$NON-NLS-1$
@@ -543,10 +525,10 @@ public abstract class BaseTestCase extends TestCase
 				strA = lineReaderA.readLine( );
 				strB = lineReaderB.readLine( );
 				if ( strA != null )
-					strA = strA.trim();
+					strA = strA.trim( );
 				if ( strB != null )
-					strB = strB.trim();
-				
+					strB = strB.trim( );
+
 				lineNo++;
 			}
 			same = strA == null && strB == null;
@@ -710,6 +692,7 @@ public abstract class BaseTestCase extends TestCase
 		}
 		libraryHandle.saveAs( outputPath + filename );
 	}
+
 	/**
 	 * Saves the library file to temp directory.
 	 * 
@@ -718,8 +701,7 @@ public abstract class BaseTestCase extends TestCase
 	 * @throws IOException
 	 *             if any exception
 	 */
-	
-	
+
 	protected void saveAsInTempDir( String filename ) throws IOException
 	{
 		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
@@ -797,7 +779,7 @@ public abstract class BaseTestCase extends TestCase
 			msg = design.getFileName( ) + ex;
 
 			msgLine = reader.readLine( );
-			assertTrue(msgLine != null && msg.equals( msgLine));
+			assertTrue( msgLine != null && msg.equals( msgLine ) );
 		}
 		reader.close( );
 	}
