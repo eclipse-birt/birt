@@ -163,6 +163,11 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 * Element that represents the hot spot layer
 	 */
 	protected Element hotspotLayer;
+	
+	/**
+	 * Property that determins if the SVG should resize to the containing element dimensions.
+	 */
+	protected boolean _resizeSVG = false;
 
 	/*
 	 * (non-Javadoc)
@@ -204,6 +209,10 @@ public class SVGRendererImpl extends SwingRendererImpl
 		else if ( sProperty.equals( ISVGConstants.JAVASCRIPT_URL_REF_LIST ) )
 		{
 			scriptRefList = (List)oValue;
+		}
+		else if ( sProperty.equals( ISVGConstants.RESIZE_SVG ) )
+		{
+			_resizeSVG = ((Boolean)oValue).booleanValue();
 		}
 	}
 	
@@ -340,7 +349,8 @@ public class SVGRendererImpl extends SwingRendererImpl
 		svgDocument.getDocumentElement().setAttribute("xmlns", XMLNS); //$NON-NLS-1$
 		svgDocument.getDocumentElement().setAttribute("xmlns:xlink", XMLNSXINK); //$NON-NLS-1$
 	
-		svgDocument.getDocumentElement().setAttribute("onload","resizeSVG(evt)"); //$NON-NLS-1$ //$NON-NLS-2$
+		if (_resizeSVG)
+			svgDocument.getDocumentElement().setAttribute("onload","resizeSVG(evt)"); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		return svgDocument;
 	}
@@ -645,7 +655,13 @@ public class SVGRendererImpl extends SwingRendererImpl
 										sb.append(")"); //$NON-NLS-1$
 									elm.setAttribute(scriptEvent, //$NON-NLS-1$
 											"highlight(evt, " //$NON-NLS-1$
-													+ sb.toString() + ")"); //$NON-NLS-1$							
+													+ sb.toString() + ")"); //$NON-NLS-1$	
+									//see if this is on mouse over event.  Then we should have a on mouse out event to correctly reset
+									//the highlight color
+									if (tg.getCondition().getValue() == TriggerCondition.ONMOUSEOVER){
+										elm.setAttribute("onmouseout", //$NON-NLS-1$
+												"highlight(evt, null, null)"); //$NON-NLS-1$	
+									}
 									setCursor(elm);
 		
 									//should define style class and set the visibility to visible
