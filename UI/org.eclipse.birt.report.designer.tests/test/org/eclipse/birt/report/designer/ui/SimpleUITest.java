@@ -13,7 +13,7 @@ package org.eclipse.birt.report.designer.ui;
 
 import org.eclipse.birt.report.designer.testutil.BirtUITestCase;
 import org.eclipse.birt.report.designer.testutil.PlatformUtil;
-import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
+import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
 import org.eclipse.ui.IEditorPart;
 
 /**
@@ -50,7 +50,7 @@ public class SimpleUITest extends BirtUITestCase
 		if ( PlatformUtil.isWindows( ) )
 		{//platform related issue
 			IEditorPart tPart = openEditor( );
-			assertTrue( tPart instanceof AbstractMultiPageEditor );
+			assertTrue( tPart instanceof ReportEditor );
 			assertEquals( tPart, tPage.getActiveEditor( ) );
 			assertEquals( EDITOR_ID, tPart.getSite( ).getId( ) );
 			assertEquals( EDITOR_NAME, tPart.getSite( ).getRegisteredName( ) );
