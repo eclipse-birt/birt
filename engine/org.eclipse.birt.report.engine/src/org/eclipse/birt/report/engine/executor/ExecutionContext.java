@@ -76,7 +76,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.60 $ $Date: 2006/01/13 04:56:59 $
+ * @version $Revision: 1.61 $ $Date: 2006/01/17 05:06:44 $
  */
 public class ExecutionContext
 {
@@ -574,7 +574,7 @@ public class ExecutionContext
 		try
 		{
 
-			return ScriptEvalUtil.evalConditionalExpr2( testExprValue, expr
+			return ScriptEvalUtil.evalConditionalExpr( testExprValue, expr
 					.getOperator( ), vv1, vv2 );
 		} catch ( Exception e )
 		{
