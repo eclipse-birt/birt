@@ -434,6 +434,14 @@
   	<Choice displayNameID="Choices.sortType.sortOnGroupkey" name="sort-on-group-key"/>   		
   	<Choice displayNameID="Choices.sortType.complexSort" name="complex-sort"/>   		 		
   </ChoiceType> 
+  <ChoiceType name="jointType">
+    <Choice displayNameID="Choices.jointType.inner" name="inner"/>
+    <Choice displayNameID="Choices.jointType.leftOut" name="left-out"/>
+    <Choice displayNameID="Choices.jointType.rightOut" name="right-out"/>
+  </ChoiceType>
+  <ChoiceType name="jointOperator">
+    <Choice displayNameID="Choices.jointOperator.equals" name="eq"/>
+  </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
@@ -1581,6 +1589,18 @@
   	<Member displayNameID="Structure.PropertyBinding.id" isIntrinsic="true" name="id" since="20." type="number"/> 
    	<Member displayNameID="Structure.PropertyBinding.value" isIntrinsic="true" name="value" returnType="string" since="2.0" type="expression"/>
   </Structure>
+  <Structure displayNameID="Structure.JointCondition" name="JointCondition" since="2.1">
+    <Member detailType="jointType" displayNameID="Structure.JointCondition.jointType" isIntrinsic="true" name="jointType" runtimeSettable="true" since="2.1" type="choice">
+      <Default>inner</Default>
+    </Member>
+    <Member detailType="jointOperator" displayNameID="Structure.JointCondition.jointOperator" isIntrinsic="true" name="jointOperator" runtimeSettable="true" since="2.1" type="choice">
+      <Default>eq</Default>
+    </Member>
+    <Member displayNameID="Structure.JointCondition.leftDataSet" isIntrinsic="true" name="leftDataSet" runtimeSettable="true" since="2.1" type="string" valueRequired="true"/>
+    <Member displayNameID="Structure.JointCondition.rightDataSet" isIntrinsic="true" name="rightDataSet" runtimeSettable="true" since="2.1" type="string" valueRequired="true"/>
+    <Member displayNameID="Structure.JointCondition.leftExpression" isIntrinsic="true" name="leftExpression" returnType="any" runtimeSettable="true" since="2.1" type="expression" valueRequired="true"/>
+    <Member displayNameID="Structure.JointCondition.rightExpression" isIntrinsic="true" name="rightExpression" returnType="any" runtimeSettable="true" since="2.1" type="expression" valueRequired="true"/>
+  </Structure>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Module" hasStyle="false" isAbstract="true" name="Module" nameSpace="none" since="2.0">
     <Property canInherit="false" displayNameID="Element.Module.author" name="author" runtimeSettable="false" since="1.0" type="string"/>
     <Property canInherit="false" displayNameID="Element.Module.helpGuide" name="helpGuide" runtimeSettable="false" since="reserved" type="uri"/>
@@ -1616,6 +1636,7 @@
     </Slot>
     <Slot displayNameID="Element.Library.slot.dataSets" multipleCardinality="true" name="dataSets" since="1.0" xmlName="data-sets">
       <Type name="DataSet"/>
+      <Type name="JointDataSet"/>
     </Slot>
     <Slot displayNameID="Element.Library.slot.pageSetup" multipleCardinality="true" name="pageSetup" since="1.0" xmlName="page-setup">
       <Type name="MasterPage"/>
@@ -1695,6 +1716,7 @@
     <Slot displayNameID="Element.ReportDesign.slot.dataSets" multipleCardinality="true" name="dataSets" since="1.0" xmlName="data-sets">
       <Type name="DataSet"/>
       <Type name="TemplateDataSet"/>
+      <Type name="JointDataSet"/>
     </Slot>
     <Slot displayNameID="Element.ReportDesign.slot.pageSetup" multipleCardinality="false" name="pageSetup" since="1.0" xmlName="page-setup">
       <Type name="MasterPage"/>
@@ -1855,6 +1877,10 @@
     <PropertyVisibility name="extensionID" visibility="hide"/>
     <PropertyVisibility name="resultSetName" visibility="hide"/>
     <PropertyVisibility name="privateDriverProperties" visibility="hide"/>
+  </Element>
+  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.JointDataSet" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.JointDataSet" name="JointDataSet" nameSpace="dataSet" since="2.1" xmlName="joint-data-set">
+    <!--<Property subType="element" detailType="Dataset" displayNameID="Element.JointDataSet.dataSets" name="datasets" runtimeSettable="true" since="2.1" type="list"/>-->
+    <Property detailType="JointCondition" displayNameID="Element.JointDataSet.jointConditions" isList="true" name="jointConditions" runtimeSettable="true" since="2.1" type="structure"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Parameter" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="Parameter" nameSpace="parameter" since="1.0">
     <Property displayNameID="Element.Parameter.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>

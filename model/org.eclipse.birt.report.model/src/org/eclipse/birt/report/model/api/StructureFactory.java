@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
+import org.eclipse.birt.report.model.api.elements.structures.JointCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
@@ -277,6 +278,17 @@ public class StructureFactory
 	}
 
 	/**
+	 * Creates an empty joint condition structure.
+	 * 
+	 * @return an empty joint condition structure
+	 */
+
+	public static JointCondition createJointCondition( )
+	{
+		return new JointCondition( );
+	}
+
+	/**
 	 * Creates an embedded image from another library embedded image.
 	 * 
 	 * @param baseImage
@@ -376,4 +388,5 @@ public class StructureFactory
 		targetModule.rename( newImage );
 		return newImage;
 	}
+
 }

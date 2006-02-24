@@ -568,4 +568,16 @@ public class ElementVisitor
 	{
 		visitTemplateElement( obj );
 	}
+
+	/**
+	 * Visits the joint data set.
+	 * 
+	 * @param obj
+	 *            the joint data set to traverse
+	 */
+
+	public void visitJointDataSet( JointDataSet obj )
+	{
+		visitDesignElement( obj );
+	}
 }

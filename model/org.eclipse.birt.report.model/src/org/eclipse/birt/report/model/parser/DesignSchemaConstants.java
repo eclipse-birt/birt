@@ -91,6 +91,7 @@ public interface DesignSchemaConstants
 	static final String INCLUDE_SCRIPT_TAG 						= "include-script"; 			//$NON-NLS-1$
 	static final String INCLUDE_TAG								= "include"; 					//$NON-NLS-1$
 	static final String	INCLUDES_TAG							= "includes";					//$NON-NLS-1$
+	static final String	JOINT_DATA_SET_TAG						= "joint-data-set";				//$NON-NLS-1$
 	static final String	KEY_ATTRIB								= "key";		 				//$NON-NLS-1$
 	static final String	LABEL_TAG								= "label";						//$NON-NLS-1$ 
 	static final String	LIBRARY_ATTRIB							= "library";					//$NON-NLS-1$ 

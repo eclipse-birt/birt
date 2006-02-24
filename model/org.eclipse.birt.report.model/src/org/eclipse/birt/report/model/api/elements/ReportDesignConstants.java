@@ -62,10 +62,11 @@ public interface ReportDesignConstants
 	String TEMPLATE_ELEMENT = "TemplateElement"; //$NON-NLS-1$
 	String TEMPLATE_REPORT_ITEM = "TemplateReportItem"; //$NON-NLS-1$
 	String TEMPLATE_DATA_SET = "TemplateDataSet"; //$NON-NLS-1$
+	String JOINT_DATA_SET = "JointDataSet"; //$NON-NLS-1$
 
 	/**
 	 * @deprecated by {@link #TEXT_DATA_ITEM}
 	 */
-	String MULTI_LINE_DATA_ITEM = TEXT_DATA_ITEM; //$NON-NLS-1$
+	String MULTI_LINE_DATA_ITEM = TEXT_DATA_ITEM; 
 
 }

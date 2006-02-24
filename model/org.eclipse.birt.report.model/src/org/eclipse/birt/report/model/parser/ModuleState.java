@@ -32,7 +32,7 @@ public abstract class ModuleState extends DesignParseState
 	/**
 	 * 
 	 */
-	
+
 	protected Module module = null;
 
 	/**
@@ -130,12 +130,12 @@ public abstract class ModuleState extends DesignParseState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.SCRIPT_DATA_SOURCE_TAG ) )
+			if ( DesignSchemaConstants.SCRIPT_DATA_SOURCE_TAG
+					.equalsIgnoreCase( tagName ) )
 				return new ScriptDataSourceState( handler );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.ODA_DATA_SOURCE_TAG )
-					|| tagName.equalsIgnoreCase( "extended-data-source" ) ) //$NON-NLS-1$
+			if ( DesignSchemaConstants.ODA_DATA_SOURCE_TAG
+					.equalsIgnoreCase( tagName )
+					|| "extended-data-source".equalsIgnoreCase( tagName ) ) //$NON-NLS-1$
 			{
 				return new OdaDataSourceState( handler );
 			}
@@ -158,17 +158,21 @@ public abstract class ModuleState extends DesignParseState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.SCRIPT_DATA_SET_TAG ) )
+			if ( DesignSchemaConstants.SCRIPT_DATA_SET_TAG
+					.equalsIgnoreCase( tagName ) )
 				return new ScriptDataSetState( handler );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.ODA_DATA_SET_TAG )
-					|| tagName.equalsIgnoreCase( "extended-data-set" ) ) //$NON-NLS-1$
+			if ( DesignSchemaConstants.ODA_DATA_SET_TAG
+					.equalsIgnoreCase( tagName )
+					|| "extended-data-set".equalsIgnoreCase( tagName ) ) //$NON-NLS-1$
 			{
 				return new OdaDataSetState( handler );
 			}
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_DATA_SET_TAG ) )
+			if ( DesignSchemaConstants.TEMPLATE_DATA_SET_TAG
+					.equalsIgnoreCase( tagName ) )
 				return new TemplateDataSetState( handler );
+			if ( DesignSchemaConstants.JOINT_DATA_SET_TAG
+					.equalsIgnoreCase( tagName ) )
+				return new JointDataSetState( handler );
 			return super.startElement( tagName );
 		}
 	}
@@ -187,7 +191,7 @@ public abstract class ModuleState extends DesignParseState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.RESOURCE_TAG ) )
+			if ( DesignSchemaConstants.RESOURCE_TAG.equalsIgnoreCase( tagName ) )
 				return new ResourceState( );
 
 			return super.startElement( tagName );
@@ -215,8 +219,10 @@ public abstract class ModuleState extends DesignParseState
 			if ( StringUtil.isEmpty( key ) )
 			{
 				handler
-						.getErrorHandler( ).semanticError( new DesignParserException(
-								DesignParserException.DESIGN_EXCEPTION_MESSAGE_KEY_REQUIRED ) );
+						.getErrorHandler( )
+						.semanticError(
+								new DesignParserException(
+										DesignParserException.DESIGN_EXCEPTION_MESSAGE_KEY_REQUIRED ) );
 				return;
 			}
 
@@ -231,8 +237,8 @@ public abstract class ModuleState extends DesignParseState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.TRANSLATION_TAG ) )
+			if ( DesignSchemaConstants.TRANSLATION_TAG
+					.equalsIgnoreCase( tagName ) )
 				return new TranslationState( key );
 
 			return super.startElement( tagName );
@@ -272,8 +278,10 @@ public abstract class ModuleState extends DesignParseState
 			if ( module.findTranslation( resourceKey, locale ) != null )
 			{
 				handler
-						.getErrorHandler( ).semanticError( new DesignParserException(
-								DesignParserException.DESIGN_EXCEPTION_DUPLICATE_TRANSLATION_LOCALE ) );
+						.getErrorHandler( )
+						.semanticError(
+								new DesignParserException(
+										DesignParserException.DESIGN_EXCEPTION_DUPLICATE_TRANSLATION_LOCALE ) );
 				return;
 			}
 
@@ -309,14 +317,14 @@ public abstract class ModuleState extends DesignParseState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.GRAPHIC_MASTER_PAGE_TAG ) )
+			if ( DesignSchemaConstants.GRAPHIC_MASTER_PAGE_TAG
+					.equalsIgnoreCase( tagName ) )
 				return new GraphicMasterPageState( handler );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.SIMPLE_MASTER_PAGE_TAG ) )
+			if ( DesignSchemaConstants.SIMPLE_MASTER_PAGE_TAG
+					.equalsIgnoreCase( tagName ) )
 				return new SimpleMasterPageState( handler );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.PAGE_SEQUENCE_TAG ) )
+			if ( DesignSchemaConstants.PAGE_SEQUENCE_TAG
+					.equalsIgnoreCase( tagName ) )
 				return new AnyElementState( handler );
 			return super.startElement( tagName );
 		}
@@ -352,37 +360,37 @@ public abstract class ModuleState extends DesignParseState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.BROWSER_CONTROL_TAG ) )
+			if ( DesignSchemaConstants.BROWSER_CONTROL_TAG
+					.equalsIgnoreCase( tagName ) )
 				return new AnyElementState( handler );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FREE_FORM_TAG ) )
+			if ( DesignSchemaConstants.FREE_FORM_TAG.equalsIgnoreCase( tagName ) )
 				return new FreeFormState( handler, module, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_TAG ) )
+			if ( DesignSchemaConstants.DATA_TAG.equalsIgnoreCase( tagName ) )
 				return new DataItemState( handler, module, slotID );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.EXTENDED_ITEM_TAG ) )
+			if ( DesignSchemaConstants.EXTENDED_ITEM_TAG
+					.equalsIgnoreCase( tagName ) )
 				return new ExtendedItemState( handler, module, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GRID_TAG ) )
+			if ( DesignSchemaConstants.GRID_TAG.equalsIgnoreCase( tagName ) )
 				return new GridItemState( handler, module, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.IMAGE_TAG ) )
+			if ( DesignSchemaConstants.IMAGE_TAG.equalsIgnoreCase( tagName ) )
 				return new ImageState( handler, module, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.INCLUDE_TAG ) )
+			if ( DesignSchemaConstants.INCLUDE_TAG.equalsIgnoreCase( tagName ) )
 				return new AnyElementState( handler );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LABEL_TAG ) )
+			if ( DesignSchemaConstants.LABEL_TAG.equalsIgnoreCase( tagName ) )
 				return new LabelState( handler, module, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
+			if ( DesignSchemaConstants.TEXT_TAG.equalsIgnoreCase( tagName ) )
 				return new TextItemState( handler, module, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LINE_TAG ) )
+			if ( DesignSchemaConstants.LINE_TAG.equalsIgnoreCase( tagName ) )
 				return new LineItemState( handler, module, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_TAG ) )
+			if ( DesignSchemaConstants.LIST_TAG.equalsIgnoreCase( tagName ) )
 				return new ListItemState( handler, module, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.RECTANGLE_TAG ) )
+			if ( DesignSchemaConstants.RECTANGLE_TAG.equalsIgnoreCase( tagName ) )
 				return new RectangleState( handler, module, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TABLE_TAG ) )
+			if ( DesignSchemaConstants.TABLE_TAG.equalsIgnoreCase( tagName ) )
 				return new TableItemState( handler, module, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
+			if ( DesignSchemaConstants.TEXT_TAG.equalsIgnoreCase( tagName ) )
 				return new TextItemState( handler, module, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TOC_TAG ) )
+			if ( DesignSchemaConstants.TOC_TAG.equalsIgnoreCase( tagName ) )
 				return new AnyElementState( handler );
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG )

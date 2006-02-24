@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.ImageItem;
+import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.LineItem;
@@ -124,6 +125,18 @@ public class DesignVisitor
 	protected void visitScriptDataSet( ScriptDataSetHandle obj )
 	{
 		visitDataSet( obj );
+	}
+
+	/**
+	 * Visits the joint data set element.
+	 * 
+	 * @param obj
+	 *            the handle of the joint data set to traverse
+	 */
+
+	protected void visitJointDataSet( JointDataSetHandle obj )
+	{
+		visitDesignElement( obj );
 	}
 
 	/**
@@ -581,7 +594,7 @@ public class DesignVisitor
 	{
 		visitDesignElement( obj );
 	}
-	
+
 	/**
 	 * Visits the template element.
 	 * 
@@ -992,6 +1005,18 @@ public class DesignVisitor
 		public void visitOdaDataSet( OdaDataSet obj )
 		{
 			DesignVisitor.this.visitExtendedDataSet( obj.handle( module ) );
+		}
+
+		/**
+		 * Visits the joint data set element.
+		 * 
+		 * @param obj
+		 *            the handle of the joint data set to traverse
+		 */
+
+		public void visitJointDataSet( JointDataSet obj )
+		{
+			DesignVisitor.this.visitJointDataSet( obj.handle( module ) );
 		}
 
 		/**

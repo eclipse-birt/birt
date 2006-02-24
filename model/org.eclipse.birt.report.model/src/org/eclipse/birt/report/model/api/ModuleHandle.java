@@ -57,6 +57,8 @@ import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 import org.eclipse.birt.report.model.css.StyleSheetLoader;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
+import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
@@ -240,7 +242,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		String baseName = image.getName( );
 		while ( names.contains( name ) )
 		{
-			name = baseName + ++index; //$NON-NLS-1$
+			name = baseName + ++index; 
 		}
 		image.setName( name.trim( ) );
 	}
@@ -616,10 +618,28 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public DataSetHandle findDataSet( String name )
 	{
 		DesignElement element = module.findDataSet( name );
-		if ( element == null )
+		if ( !( element instanceof DataSet ) )
 			return null;
 
 		return (DataSetHandle) element.getHandle( element.getRoot( ) );
+	}
+
+	/**
+	 * Finds a joint data set by name in this module and the included modules.
+	 * 
+	 * @param name
+	 *            name of the joint data set
+	 * @return a handle to the joint data set, or <code>null</code> if the data set
+	 *         is not found
+	 */
+
+	public JointDataSetHandle findJointDataSet( String name )
+	{
+		DesignElement element = module.findDataSet( name );
+		if ( !( element instanceof JointDataSet ) )
+			return null;
+
+		return (JointDataSetHandle) element.getHandle( element.getRoot( ) );
 	}
 
 	/**

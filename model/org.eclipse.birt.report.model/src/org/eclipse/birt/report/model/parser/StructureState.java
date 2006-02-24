@@ -28,8 +28,9 @@ import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
-import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
+import org.eclipse.birt.report.model.api.elements.structures.JointCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
@@ -307,7 +308,7 @@ public class StructureState extends AbstractPropertyState
 			return state;
 		}
 
-		String propName = propDefn == null ? null : propDefn.getName( ); //$NON-NLS-1$
+		String propName = propDefn == null ? null : propDefn.getName( ); 
 		if ( element instanceof DataSet )
 		{
 			if ( DataSet.PARAMETERS_PROP.equalsIgnoreCase( propName ) )
@@ -447,7 +448,11 @@ public class StructureState extends AbstractPropertyState
 
 		structDict.put( DataSourceParamBinding.STRUCT_NAME.toLowerCase( ),
 				DataSourceParamBinding.class );
+
 		structDict.put( PropertyBinding.PROPERTY_BINDING_STRUCT.toLowerCase( ),
 				PropertyBinding.class );
+
+		structDict.put( JointCondition.STRUCTURE_NAME.toLowerCase( ),
+				JointCondition.class );
 	}
 }

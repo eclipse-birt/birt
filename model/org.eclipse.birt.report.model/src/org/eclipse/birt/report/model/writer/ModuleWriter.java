@@ -53,6 +53,7 @@ import org.eclipse.birt.report.model.elements.GraphicMasterPage;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ImageItem;
+import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.LineItem;
 import org.eclipse.birt.report.model.elements.ListGroup;
@@ -2666,6 +2667,25 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writer.endElement( ); // end ¡°Overridden-values¡±
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitJointDataSet(org.eclipse.birt.report.model.elements.JointDataSet)
+	 */
+	 
+	public void visitJointDataSet( JointDataSet obj )
+	{
+
+		writer.startElement( DesignSchemaConstants.JOINT_DATA_SET_TAG );
+		super.visitJointDataSet( obj );
+
+		// TODO: property list SOURCE_DATASETS_PROP
+		// property(obj, JointDataSet.SOURCE_DATASETS_PROP);
+
+		writeStructureList( obj, JointDataSet.JOINT_CONDITONS_PROP );
+		writer.endElement( );
 	}
 
 }
