@@ -666,7 +666,8 @@ public abstract class AxesRenderer extends BaseRenderer
 						bDeferred,
 						false,
 						null,
-						false );
+						false,
+						true );
 				crdr.draw( ipr );
 			}
 

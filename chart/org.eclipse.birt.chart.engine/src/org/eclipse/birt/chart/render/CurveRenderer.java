@@ -37,7 +37,6 @@ import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.type.AreaSeries;
-import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -78,6 +77,8 @@ public final class CurveRenderer
 	private final boolean bTranslucent;
 
 	private final boolean bDeferred;
+	
+	private final boolean bConnectMissingValue;
 
 	private final Location[] loa;
 
@@ -105,7 +106,8 @@ public final class CurveRenderer
 	public CurveRenderer( ChartWithAxes _cwa, BaseRenderer _render,
 			LineAttributes _lia, Location[] _lo, boolean _bShowAsTape,
 			double _tapeWidth, boolean _bDeferred, boolean _bKeepState,
-			Fill paletteEntry, boolean usePaletteLineColor )
+			Fill paletteEntry, boolean usePaletteLineColor,
+			boolean connectMissingValue )
 	{
 		this( _cwa,
 				_render,
@@ -120,7 +122,8 @@ public final class CurveRenderer
 				_bDeferred,
 				_bKeepState,
 				paletteEntry,
-				usePaletteLineColor );
+				usePaletteLineColor,
+				connectMissingValue );
 	}
 
 	/**
@@ -135,7 +138,8 @@ public final class CurveRenderer
 			LineAttributes _lia, Location[] _lo, double _zeroLocation,
 			boolean _bShowAsTape, double _tapeWidth, boolean _bFillArea,
 			boolean _bTranslucent, boolean _bUseLastState, boolean _bDeferred,
-			boolean _bKeepState, Fill paletteEntry, boolean usePaletteLineColor )
+			boolean _bKeepState, Fill paletteEntry,
+			boolean usePaletteLineColor, boolean connectMissingValue )
 	{
 		cwa = _cwa;
 		bRendering3D = _lo instanceof Location3D[];
@@ -143,6 +147,7 @@ public final class CurveRenderer
 		loPoints = _lo;
 		tempPoints = _lo;
 
+		bConnectMissingValue = connectMissingValue;
 		bFillArea = _bFillArea;
 		bShowAsTape = _bShowAsTape;
 		bDeferred = _bDeferred;
@@ -255,7 +260,7 @@ public final class CurveRenderer
 			return;
 		}
 
-		if ( ! ( (LineSeries) iRender.getSeries( ) ).isConnectMissingValue( ) )
+		if ( ! bConnectMissingValue )
 		{
 			for ( int i = 0; i < loPoints.length; i++ )
 			{

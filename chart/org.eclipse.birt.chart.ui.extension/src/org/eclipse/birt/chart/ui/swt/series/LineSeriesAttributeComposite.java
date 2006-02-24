@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
+import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
@@ -154,7 +155,7 @@ public class LineSeriesAttributeComposite extends Composite implements
 			btnCurve.addSelectionListener( this );
 		}
 
-		if ( !( series instanceof AreaSeries ) )
+		if ( !( series instanceof AreaSeries || series instanceof ScatterSeries ) )
 		{
 			btnMissingValue = new Button( this, SWT.CHECK );
 			{
