@@ -107,6 +107,11 @@ public interface IScalarParameterDefn extends IParameterDefn
 	 *         (default), LEFT, CENTER and RIGHT
 	 */
 	int getAlignment( );
+	
+	/**
+	 * @return prompt text
+	 */
+	String getPromptText( );
 
 	/**
 	 * @return get a parameter value selection object, from which a list of

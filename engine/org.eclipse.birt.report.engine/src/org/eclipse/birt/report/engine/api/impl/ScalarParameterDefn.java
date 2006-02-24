@@ -44,6 +44,7 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 
 	protected String defaultValue;
 	
+	protected String promptText;
 	
 	protected Logger log = Logger.getLogger( ScalarParameterDefn.class.getName( ) );
 	
@@ -154,6 +155,22 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 	public void setAlignment(int align)
 	{
 		this.alignment = align;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api2.IParameterDefnBase#getHelpText()
+	 */
+	public String getPromptText( )	{
+		
+		return promptText;		
+	}
+	
+	/**
+	 * @param helpText The help text to set.
+	 */
+	public void setPromptText(String promptText)
+	{
+		this.promptText = promptText;
 	}
 
 	/* (non-Javadoc)
