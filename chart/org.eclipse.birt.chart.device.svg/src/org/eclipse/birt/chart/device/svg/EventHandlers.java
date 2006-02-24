@@ -149,8 +149,36 @@ public final class EventHandlers
 			.append( "		  return childs.item(x).nodeValue;\n" ) //$NON-NLS-1$
 			.append( "	   return \"\";\n" ) //$NON-NLS-1$
 			.append( "	}\n" ) //$NON-NLS-1$
-			.append( "	        function toggleVisibility(evt, id, compList){\n" ) //$NON-NLS-1$
+			.append( "	        function toggleLabelsVisibility(evt, id, compList, labelList){\n" ) //$NON-NLS-1$
 		.append( "       var mainSvg = evt.target.ownerDocument;\n" ) //$NON-NLS-1$
+		.append( "    for (i = 0; i < compList.length; i=i+1){\n" ) //$NON-NLS-1$
+			.append( "         var comp = mainSvg.getElementById(id+'_'+compList[i]);\n" ) //$NON-NLS-1$
+			.append( "         var styleStr = comp.getAttribute(\"style\");\n" ) //$NON-NLS-1$
+			.append( "        rVisibleExp=/visibility:visible/g;\n" ) //$NON-NLS-1$
+			.append( "        rInheritExp=/visibility:inherit/g;\n" ) //$NON-NLS-1$
+			.append( "        rHiddenExp=/visibility:hidden/g;\n" ) //$NON-NLS-1$
+			.append( "        results = styleStr.search(rVisibleExp);\n" ) //$NON-NLS-1$
+			.append( "        inResults = styleStr.search(rInheritExp);\n" ) //$NON-NLS-1$
+			.append( "        if ((results == -1) && (inResults == -1)){\n" ) //$NON-NLS-1$
+ 			.append( "           results = styleStr.search(rHiddenExp);\n" ) //$NON-NLS-1$
+			.append( "            if (results == -1)\n" ) //$NON-NLS-1$
+			.append( "                styleStr = styleStr + \"visibility:hidden;\";\n" ) //$NON-NLS-1$
+    			.append( "            else\n" ) //$NON-NLS-1$
+			.append( "                styleStr = styleStr.replace(rHiddenExp,\"visibility:visible\");\n" ) //$NON-NLS-1$
+    			.append( "         }\n" ) //$NON-NLS-1$
+			.append( "         else{\n" ) //$NON-NLS-1$
+			.append( "         if (inResults == -1){\n" ) //$NON-NLS-1$
+ 			.append( "                styleStr = styleStr.replace(rVisibleExp,\"visibility:hidden\");\n" ) //$NON-NLS-1$
+			.append( "         }else{\n" ) //$NON-NLS-1$
+ 			.append( "                styleStr = styleStr.replace(rInheritExp,\"visibility:hidden\");\n" ) //$NON-NLS-1$
+    			.append( "         }\n" ) //$NON-NLS-1$
+    			.append( "         }\n" ) //$NON-NLS-1$
+			.append( "         comp.setAttributeNS(null, \"style\", styleStr);\n" ) //$NON-NLS-1$
+			.append( "     }\n" ) //$NON-NLS-1$
+			.append( "	}\n" ) //$NON-NLS-1$
+			.append( "	        function toggleVisibility(evt, id, compList, labelList){\n" ) //$NON-NLS-1$
+		.append( "       var mainSvg = evt.target.ownerDocument;\n" ) //$NON-NLS-1$
+		.append( "       var isHidden = true;\n" ) //$NON-NLS-1$
 		.append( "    for (i = 0; i < compList.length; i=i+1){\n" ) //$NON-NLS-1$
 			.append( "         var comp = mainSvg.getElementById(id+'_'+compList[i]);\n" ) //$NON-NLS-1$
 			.append( "         var styleStr = comp.getAttribute(\"style\");\n" ) //$NON-NLS-1$
@@ -161,14 +189,49 @@ public final class EventHandlers
  			.append( "           results = styleStr.search(rHiddenExp);\n" ) //$NON-NLS-1$
 			.append( "            if (results == -1)\n" ) //$NON-NLS-1$
 			.append( "                styleStr = styleStr + \"visibility:hidden;\";\n" ) //$NON-NLS-1$
-    			.append( "            else\n" ) //$NON-NLS-1$
+    			.append( "            else{\n" ) //$NON-NLS-1$
 			.append( "                styleStr = styleStr.replace(rHiddenExp,\"visibility:visible\");\n" ) //$NON-NLS-1$
+			.append( "                isHidden = false;\n" ) //$NON-NLS-1$
+    			.append( "         }\n" ) //$NON-NLS-1$
     			.append( "         }\n" ) //$NON-NLS-1$
 			.append( "         else{\n" ) //$NON-NLS-1$
  			.append( "                styleStr = styleStr.replace(rVisibleExp,\"visibility:hidden\");\n" ) //$NON-NLS-1$
     			.append( "         }\n" ) //$NON-NLS-1$
 			.append( "         comp.setAttributeNS(null, \"style\", styleStr);\n" ) //$NON-NLS-1$
 			.append( "     }\n" ) //$NON-NLS-1$
+		.append( "    for (i = 0; i < labelList.length; i=i+1){\n" ) //$NON-NLS-1$
+			.append( "         var comp = mainSvg.getElementById(id+'_'+labelList[i]+'_g');\n" ) //$NON-NLS-1$
+			.append( "         var styleStr = comp.getAttribute(\"style\");\n" ) //$NON-NLS-1$
+			.append( "        if (isHidden){\n" ) //$NON-NLS-1$
+			.append( "                styleStr = styleStr + \"visibility:hidden;\";\n" ) //$NON-NLS-1$
+			.append( "         toggleLabelVisibility(evt, id+'_'+labelList[i], 'inherit');\n" ) //$NON-NLS-1$
+    			.append( "            }else{\n" ) //$NON-NLS-1$
+			.append( "                styleStr = styleStr.replace(rHiddenExp,\"visibility:visible\");\n" ) //$NON-NLS-1$
+    			.append( "         }\n" ) //$NON-NLS-1$
+			.append( "         comp.setAttributeNS(null, \"style\", styleStr);\n" ) //$NON-NLS-1$
+			.append( "     }\n" ) //$NON-NLS-1$
+		.append( "     }			\n" ) //$NON-NLS-1$
+		.append( "        function toggleLabelVisibility(evt, id, property){\n" ) //$NON-NLS-1$
+		.append( "	      var mainSvg = evt.target.ownerDocument;\n" ) //$NON-NLS-1$
+		.append( "	        var comp = mainSvg.getElementById(id);\n" ) //$NON-NLS-1$
+		.append( "	        var styleStr = comp.getAttribute(\"style\");\n" ) //$NON-NLS-1$
+		.append( "	       rVisibleExp=/visibility:visible/g;\n" ) //$NON-NLS-1$
+		.append( "	       rInheritExp=/visibility:inherit/g;\n" ) //$NON-NLS-1$
+		.append( "	       rHiddenExp=/visibility:hidden/g;\n" ) //$NON-NLS-1$
+		.append( "	       results = styleStr.search(rVisibleExp);\n" ) //$NON-NLS-1$
+		.append( "	       inResults = styleStr.search(rInheritExp);\n" ) //$NON-NLS-1$
+		.append( "	       if ((results == -1) && (inResults == -1)){\n" ) //$NON-NLS-1$
+		.append( "	          results = styleStr.search(rHiddenExp);\n" ) //$NON-NLS-1$
+		.append( "	           if (results == -1)\n" ) //$NON-NLS-1$
+		.append( "	               styleStr = styleStr + \"visibility:\"+property+\";\";\n" ) //$NON-NLS-1$
+		.append( "	        }\n" ) //$NON-NLS-1$
+		.append( "	        else{\n" ) //$NON-NLS-1$
+		.append( "	            if (inResults == -1)\n" ) //$NON-NLS-1$
+		.append( "	               styleStr = styleStr.replace(rVisibleExp,\"visibility:\"+property);\n" ) //$NON-NLS-1$		
+		.append( "        else\n" ) //$NON-NLS-1$
+		.append( "            styleStr = styleStr.replace(rInheritExp,\"visibility:\"+property);\n" ) //$NON-NLS-1$
+		.append( "     }\n" ) //$NON-NLS-1$
+		.append( "     comp.setAttributeNS(null, \"style\", styleStr);\n" ) //$NON-NLS-1$
 		.append( "     }			\n" ) //$NON-NLS-1$
 		.append( "   		function toHex(val)\n" ) //$NON-NLS-1$
 	.append( "	{\n" ) //$NON-NLS-1$

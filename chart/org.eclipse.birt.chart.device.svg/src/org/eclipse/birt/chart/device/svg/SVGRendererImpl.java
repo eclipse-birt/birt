@@ -97,6 +97,9 @@ public class SVGRendererImpl extends SwingRendererImpl
 	private IUpdateNotifier _iun = null;
 	
 	private Map componentPrimitives = new Hashtable();
+	private Map labelPrimitives = new Hashtable();
+	private Map cacheHotspots = new Hashtable();
+	private Map cacheSeriesHotspots = new Hashtable();
 	private List scripts = new Vector();
 	protected List scriptRefList = null;
 	protected List scriptCodeList = null;
@@ -234,6 +237,9 @@ public class SVGRendererImpl extends SwingRendererImpl
 	public final void after( ) throws ChartException
 	{
 		super.after( );
+		
+		//need to process cached hotspots
+		processDataPointHotspot();
 		addScripts();
 		((SVGGraphics2D)_g2d).flush();		
 		
@@ -281,6 +287,8 @@ public class SVGRendererImpl extends SwingRendererImpl
 					null );
 		}
 		
+		cacheHotspots.clear();
+		labelPrimitives.clear();		
 		componentPrimitives.clear();
 		scripts.clear();
 	}
@@ -566,28 +574,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 							// DESIGN-TIME
 							// SERIES							
 							seDT = findDesignTimeSeries( seRT ); // LOCATE
-							List components = (List)componentPrimitives.get(seDT);
-							if (components != null){
-								Iterator iter = components.iterator();
-								StringBuffer sb = new StringBuffer();
-								sb.append(seDT.hashCode());
-								if (iter.hasNext())
-									sb.append(",new Array(");							 //$NON-NLS-1$
-								while (iter.hasNext()){
-									sb.append("'").append(iter.next()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
-									if (iter.hasNext())
-										sb.append(","); //$NON-NLS-1$
-								}
-								if (components.size() > 0)
-									sb.append(")"); //$NON-NLS-1$
-								elm.setAttribute("onmousedown", //$NON-NLS-1$
-										"toggleVisibility(evt, " //$NON-NLS-1$
-												+ sb.toString() + ")"); //$NON-NLS-1$							
-								setCursor(elm);
-	
-								//should define style class and set the visibility to visible
-								((SVGGraphics2D)_g2d).addCSSStyle(".class"+seDT.hashCode(), "visibility", "visible"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-							}
+							cacheSeriesHotspots.put(elm, seDT);
 						}
 						catch ( ChartException oosx )
 						{
@@ -596,6 +583,32 @@ public class SVGRendererImpl extends SwingRendererImpl
 						}
 					}
 					break;
+					
+				case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
+					if ( src.getType( ) == StructureType.SERIES )
+					{
+						
+						final Series seRT = (Series) src.getSource( );
+						logger.log( ILogger.INFORMATION,
+								Messages.getString( "info.toggle.datapoint.visibility", //$NON-NLS-1$
+										getLocale() )
+										+ seRT );
+						Series seDT = null;
+						try
+						{
+							seDT = findDesignTimeSeries( seRT );
+						}
+						catch ( ChartException oosx )
+						{
+							logger.log( oosx );
+							return;
+						}
+						if (seDT != null)
+							cacheHotspots.put(elm, seDT);
+						
+					}
+					break;
+					
 				case ActionType.HIGHLIGHT :
 					
 					if ( src.getType( ) == StructureType.SERIES )
@@ -933,6 +946,84 @@ public class SVGRendererImpl extends SwingRendererImpl
 		return seDT;
 	}
 
+	protected void processDataPointHotspot(){	
+		Iterator iter = cacheSeriesHotspots.keySet().iterator();
+		Iterator valIter = cacheSeriesHotspots.values().iterator();
+		while (iter.hasNext()){
+			Element elm = (Element)iter.next();
+			Series seDT = (Series)valIter.next();
+			List components = (List)componentPrimitives.get(seDT);
+			if (components != null){
+				Iterator iterComp = components.iterator();
+				StringBuffer sb = new StringBuffer();
+				StringBuffer labelSB = new StringBuffer();
+				sb.append(seDT.hashCode());
+				if (iterComp.hasNext())
+					sb.append(",new Array(");							 //$NON-NLS-1$
+				while (iterComp.hasNext()){
+					sb.append("'").append(iterComp.next()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+					if (iterComp.hasNext())
+						sb.append(","); //$NON-NLS-1$
+				}
+				if (components.size() > 0)
+					sb.append(")"); //$NON-NLS-1$
+
+				//see if we need to hide te data labels
+				List labelComp = (List)labelPrimitives.get(seDT);
+				if (labelComp != null){
+					Iterator iterLabel = labelComp.iterator();
+					if (iterLabel.hasNext())
+						labelSB.append("new Array(");							 //$NON-NLS-1$
+					while (iterLabel.hasNext()){
+						labelSB.append("'").append(iterLabel.next()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+						if (iterLabel.hasNext())
+							labelSB.append(","); //$NON-NLS-1$
+					}
+					if (labelComp.size() > 0)
+						labelSB.append(")"); //$NON-NLS-1$
+				}
+				
+				elm.setAttribute("onmousedown", //$NON-NLS-1$
+						"toggleVisibility(evt, " //$NON-NLS-1$
+								+ sb.toString() + ","+labelSB.toString()+")"); //$NON-NLS-1$							
+				setCursor(elm);
+	
+				//should define style class and set the visibility to visible
+				((SVGGraphics2D)_g2d).addCSSStyle(".class"+seDT.hashCode(), "visibility", "visible"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			}
+		}
+			
+		iter = cacheHotspots.keySet().iterator();
+		valIter = cacheHotspots.values().iterator();
+		while (iter.hasNext()){
+			Element elm = (Element)iter.next();
+			Series seDT = (Series)valIter.next();
+			
+			List components = (List)labelPrimitives.get(seDT);
+			if (components != null){
+				Iterator compIter = components.iterator();
+				StringBuffer sb = new StringBuffer();
+				sb.append(seDT.hashCode());
+				if (compIter.hasNext())
+					sb.append(",new Array(");							 //$NON-NLS-1$
+				while (compIter.hasNext()){
+					sb.append("'").append(compIter.next()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+					if (compIter.hasNext())
+						sb.append(","); //$NON-NLS-1$
+				}
+				if (components.size() > 0)
+					sb.append(")"); //$NON-NLS-1$
+				elm.setAttribute("onmousedown", //$NON-NLS-1$
+						"toggleLabelsVisibility(evt, " //$NON-NLS-1$
+								+ sb.toString() + ")"); //$NON-NLS-1$							
+				setCursor(elm);
+	
+			}
+		}
+		
+
+		
+	}
 	/**
 	 * Helper function that will determine if the source object is a series component of the chart.
 	 * 
@@ -977,6 +1068,40 @@ public class SVGRendererImpl extends SwingRendererImpl
 
 		// For now only group series elements
 		if (pre.getSource() instanceof StructureSource) {
+			if (drawText){
+				Object source = ((StructureSource) pre.getSource()).getSource();
+				if (source instanceof Series){
+					try {
+					Series seDT = findDesignTimeSeries((Series) source); // LOCATE
+					String id = Integer.toString(pre.hashCode());
+					// svg_g2d.setStyleClass("class"+seDT.hashCode());
+					List components = (List) labelPrimitives.get(seDT);
+					if (components == null) {
+						components = new ArrayList();
+						labelPrimitives.put(seDT, components);
+					}
+					
+					components.add(id);
+					
+					// Create group element that will contain the drawing
+					// instructions that corresponds to the event
+					Element outerGroup = svg_g2d.createElement("g"); //$NON-NLS-1$
+					svg_g2d.pushParent(outerGroup);
+					
+					Element primGroup = svg_g2d.createElement("g"); //$NON-NLS-1$
+					outerGroup.appendChild(primGroup);
+					svg_g2d.pushParent(primGroup);
+					primGroup.setAttribute("id", seDT.hashCode() + "_" + id); //$NON-NLS-1$ //$NON-NLS-2$
+					primGroup.setAttribute("style", "visibility:visible;"); //$NON-NLS-1$ //$NON-NLS-2$
+					outerGroup.setAttribute("id", seDT.hashCode() + "_" + id+"_g"); //$NON-NLS-1$ //$NON-NLS-2$
+					outerGroup.setAttribute("style", "visibility:visible;"); //$NON-NLS-1$ //$NON-NLS-2$
+					} catch (ChartException e) {
+						logger.log(e);
+						return;
+					}
+				}
+			}
+			else{
 			final StructureSource src = isSeries((StructureSource) pre
 					.getSource());
 			if (src != null) {
@@ -1009,13 +1134,14 @@ public class SVGRendererImpl extends SwingRendererImpl
 							.setAttribute("id", seDT.hashCode() + "_" + idTemp); //$NON-NLS-1$ //$NON-NLS-2$
 					primGroup.setAttribute("style", "visibility:visible;"); //$NON-NLS-1$ //$NON-NLS-2$
 
-					if (!drawText)
-						svg_g2d.setDeferStrokColor(primGroup);
+					svg_g2d.setDeferStrokColor(primGroup);
 
 				} catch (ChartException e) {
 					logger.log(e);
 					return;
 				}
+			}
+				
 			}
 		}
 	}
@@ -1037,13 +1163,23 @@ public class SVGRendererImpl extends SwingRendererImpl
 //		svg_g2d.setStyleClass(null);		
 //		svg_g2d.setId(null);
 		
+		
 		//For now only ungroup series elements
 		if (pre.getSource() instanceof StructureSource) {
-			final StructureSource src = isSeries((StructureSource) pre.getSource( ));
-			if ( src != null ){
-				if (!drawText)
-					svg_g2d.setDeferStrokColor(null);
+			if (drawText){
+				Object source = ((StructureSource) pre.getSource()).getSource();
+				if (source instanceof Series){
 				svg_g2d.popParent();
+				svg_g2d.popParent();
+				}
+				
+			}
+			else{
+				final StructureSource src = isSeries((StructureSource) pre.getSource( ));
+				if ( src != null ){
+					svg_g2d.setDeferStrokColor(null);
+					svg_g2d.popParent();
+				}
 			}
 		}
 	}
