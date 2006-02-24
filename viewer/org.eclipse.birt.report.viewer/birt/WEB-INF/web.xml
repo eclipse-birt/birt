@@ -41,7 +41,7 @@
 
 	<servlet>
 		<servlet-name>ViewerServlet</servlet-name>
-		<servlet-class>org.eclipse.birt.report.viewer.servlet.ViewerServlet</servlet-class>
+		<servlet-class>org.eclipse.birt.report.servlet.ViewerServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>

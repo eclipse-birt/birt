@@ -9,15 +9,24 @@
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
 
-package org.eclipse.birt.report.soapengine.processor;
+package org.eclipse.birt.report.presentation.aggregation.layout;
 
-import java.rmi.RemoteException;
+import org.eclipse.birt.report.presentation.aggregation.BaseFragment;
+import org.eclipse.birt.report.presentation.aggregation.control.NavigationbarFragment;
 
-import org.eclipse.birt.report.context.BirtContext;
-import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
-import org.eclipse.birt.report.soapengine.api.Operation;
-
-public interface IComponentProcessor
+/**
+ * Report content fragment containing engine fragment.
+ * <p>
+ * @see BaseFragment
+ */
+public class ReportContentFragment extends BaseFragment
 {
-	public void process( BirtContext context, Operation op, GetUpdatedObjectsResponse response ) throws RemoteException;
+	/**
+	 * Build fragment by adding engine fragment as child.
+	 */
+	protected void build( )
+	{
+		addChild( new NavigationbarFragment( ) );
+		addChild( new DocumentFragment( ) );
+	}
 }
