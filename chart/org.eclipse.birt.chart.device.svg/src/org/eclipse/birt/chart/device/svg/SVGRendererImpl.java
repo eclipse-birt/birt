@@ -997,11 +997,12 @@ public class SVGRendererImpl extends SwingRendererImpl
 					}
 					if (labelComp.size() > 0)
 						labelSB.append(")"); //$NON-NLS-1$
+					sb.append(",").append(labelSB);
 				}
 				
 				elm.setAttribute("onmousedown", //$NON-NLS-1$
 						"toggleVisibility(evt, " //$NON-NLS-1$
-								+ sb.toString() + ","+labelSB.toString()+")"); //$NON-NLS-1$							
+								+ sb.toString()+")"); //$NON-NLS-1$							
 				setCursor(elm);
 	
 				//should define style class and set the visibility to visible

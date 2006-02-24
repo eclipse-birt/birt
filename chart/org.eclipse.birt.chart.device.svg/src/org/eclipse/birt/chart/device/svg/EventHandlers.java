@@ -199,6 +199,7 @@ public final class EventHandlers
     			.append( "         }\n" ) //$NON-NLS-1$
 			.append( "         comp.setAttributeNS(null, \"style\", styleStr);\n" ) //$NON-NLS-1$
 			.append( "     }\n" ) //$NON-NLS-1$
+			.append( "        if (labelList != null){\n" ) //$NON-NLS-1$
 		.append( "    for (i = 0; i < labelList.length; i=i+1){\n" ) //$NON-NLS-1$
 			.append( "         var comp = mainSvg.getElementById(id+'_'+labelList[i]+'_g');\n" ) //$NON-NLS-1$
 			.append( "         var styleStr = comp.getAttribute(\"style\");\n" ) //$NON-NLS-1$
@@ -209,6 +210,7 @@ public final class EventHandlers
 			.append( "                styleStr = styleStr.replace(rHiddenExp,\"visibility:visible\");\n" ) //$NON-NLS-1$
     			.append( "         }\n" ) //$NON-NLS-1$
 			.append( "         comp.setAttributeNS(null, \"style\", styleStr);\n" ) //$NON-NLS-1$
+			.append( "     }\n" ) //$NON-NLS-1$
 			.append( "     }\n" ) //$NON-NLS-1$
 		.append( "     }			\n" ) //$NON-NLS-1$
 		.append( "        function toggleLabelVisibility(evt, id, property){\n" ) //$NON-NLS-1$
