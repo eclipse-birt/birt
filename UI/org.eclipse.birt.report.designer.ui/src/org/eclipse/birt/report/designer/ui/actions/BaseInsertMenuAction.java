@@ -16,7 +16,6 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.AbstractMultiPageLayoutEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -24,6 +23,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -152,9 +152,9 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 							.getPartService( )
 							.getActivePart( );
 
-					if ( part instanceof AbstractMultiPageLayoutEditor )
+					if ( part instanceof AbstractMultiPageEditor )
 					{
-						IEditorPart epart = ( (AbstractMultiPageLayoutEditor) part ).getActiveEditor( );
+						IEditorPart epart = ( (AbstractMultiPageEditor) part ).getActivePageInstance( );
 
 						if ( epart instanceof GraphicalEditorWithFlyoutPalette )
 						{

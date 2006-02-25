@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditorInput;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -318,7 +319,7 @@ public class NewReportWizard extends Wizard implements
 
 					// open the editor on the file
 					page.openEditor( new ReportEditorInput( file ),
-							ReportEditorInput.REPORT_EDITOR_ID,
+							IReportEditorContants.DESIGN_EDITOR_ID,
 							true );
 //					setReportSettings( ( (RCPReportEditor) editorPart ).getModel( ) );
 //					editorPart.doSave( null );

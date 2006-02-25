@@ -21,8 +21,8 @@ import java.net.URL;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.ui.editors.IReportEditorInput;
-import org.eclipse.birt.report.designer.ui.editors.LibraryReportEditor;
+import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
+import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage;
 import org.eclipse.core.runtime.IPath;
@@ -132,10 +132,10 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 
 		IPath path;
 
-		if ( !getFileName( ).endsWith( IReportEditorInput.DESIGN_FILE_EXTENTION ) )
+		if ( !getFileName( ).endsWith( IReportEditorContants.LIBRARY_FILE_EXTENTION ) )
 		{
 			path = getContainerFullPath( ).append( getFileName( )
-					+ IReportEditorInput.DESIGN_FILE_EXTENTION );
+					+ IReportEditorContants.LIBRARY_FILE_EXTENTION );
 		}
 		else
 		{
@@ -274,7 +274,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 				try
 				{
 					page.openEditor( new ReportEditorInput( file ),
-							LibraryReportEditor.EDITOR_ID,
+							IReportEditorContants.LIBRARY_EDITOR_ID,
 							true );
 				}
 				catch ( Exception e )

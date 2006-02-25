@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Rdt Plug-in
+Bundle-SymbolicName: org.eclipse.birt.report.designer.ui.editors;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: org.eclipse.birt.report.designer.ui.editors.Activator
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ui,
+ org.eclipse.ui.workbench,
+ org.eclipse.ui.forms,
+ org.eclipse.ui.views,
+ org.eclipse.ui.workbench.texteditor,
+ org.eclipse.jface.text,
+ org.eclipse.gef,
+ org.eclipse.birt.core,
+ org.eclipse.birt.report.model,
+ org.eclipse.birt.report.designer.core,
+ org.eclipse.birt.report.designer.ui
+Eclipse-LazyStart: true
+Export-Package: org.eclipse.birt.report.designer.ui.editors

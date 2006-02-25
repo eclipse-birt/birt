@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportLibraryDialog;
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.AbstractMultiPageLayoutEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
@@ -32,7 +31,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.GroupDialog;
-import org.eclipse.birt.report.designer.ui.editors.IReportEditorInput;
+import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -115,7 +114,7 @@ public class UIUtil
 	 * @return the current active report editor, or null if no report editor is
 	 *         active.
 	 */
-	public static AbstractMultiPageLayoutEditor getActiveReportEditor( )
+	public static AbstractMultiPageEditor getActiveReportEditor( )
 	{
 		return getActiveReportEditor( true );
 	}
@@ -131,7 +130,7 @@ public class UIUtil
 	 * @return the current active report editor, or null if no report editor is
 	 *         active.
 	 */
-	public static AbstractMultiPageLayoutEditor getActiveReportEditor(
+	public static AbstractMultiPageEditor getActiveReportEditor(
 			boolean activePageOnly )
 	{
 		IWorkbenchWindow window = PlatformUI.getWorkbench( )
@@ -147,12 +146,11 @@ public class UIUtil
 				{
 					IEditorPart editor = pg.getActiveEditor( );
 
-					if ( editor != null
-							&& editor.getEditorInput( ) instanceof IReportEditorInput )
+					if ( editor != null )
 					{
-						if ( editor instanceof AbstractMultiPageLayoutEditor )
+						if ( editor instanceof AbstractMultiPageEditor )
 						{
-							return (AbstractMultiPageLayoutEditor) editor;
+							return (AbstractMultiPageEditor) editor;
 						}
 					}
 				}
@@ -169,13 +167,9 @@ public class UIUtil
 					{
 						IEditorPart editor = pg.getActiveEditor( );
 
-						if ( editor != null
-								&& editor.getEditorInput( ) instanceof IReportEditorInput )
+						if ( editor instanceof AbstractMultiPageEditor )
 						{
-							if ( editor instanceof AbstractMultiPageLayoutEditor )
-							{
-								return (AbstractMultiPageLayoutEditor) editor;
-							}
+							return (AbstractMultiPageEditor) editor;
 						}
 					}
 				}
@@ -445,16 +439,16 @@ public class UIUtil
 	 */
 	public static EditPartViewer getLayoutEditPartViewer( )
 	{
-		AbstractMultiPageLayoutEditor reportEditor = (AbstractMultiPageLayoutEditor) PlatformUI.getWorkbench( )
+		AbstractMultiPageEditor reportEditor = (AbstractMultiPageEditor) PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( )
 				.getActivePage( )
 				.getActiveEditor( );
 		if ( reportEditor == null
-				|| !( reportEditor.getActiveEditor( ) instanceof GraphicalEditorWithFlyoutPalette ) )
+				|| !( reportEditor.getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette ) )
 		{
 			return null;
 		}
-		return ( (GraphicalEditorWithFlyoutPalette) reportEditor.getActiveEditor( ) ).getGraphicalViewer( );
+		return ( (GraphicalEditorWithFlyoutPalette) reportEditor.getActivePageInstance( ) ).getGraphicalViewer( );
 	}
 
 	/**
@@ -963,7 +957,6 @@ public class UIUtil
 		return label;
 	}
 
-	
 	/**
 	 * Includes the library into within the given module.
 	 * 
@@ -992,7 +985,7 @@ public class UIUtil
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Includes the library into within the given module.
 	 * 
@@ -1014,8 +1007,6 @@ public class UIUtil
 		}
 		return true;
 	}
-
-	
 
 	/**
 	 * Includes the library into within the current module.

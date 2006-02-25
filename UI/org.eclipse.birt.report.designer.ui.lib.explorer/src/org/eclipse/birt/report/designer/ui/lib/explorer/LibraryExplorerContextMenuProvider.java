@@ -65,6 +65,8 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 			System.out.println( "Menu(for Views) >> Shows for library" ); //$NON-NLS-1$
 		}
 
+		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS ) );
+		
 		ISelectionProvider struViewer = (ISelectionProvider) getViewer( );
 		IStructuredSelection selection = (IStructuredSelection) struViewer.getSelection( );
 		LibraryHandle library = getSelectedLibrary( );

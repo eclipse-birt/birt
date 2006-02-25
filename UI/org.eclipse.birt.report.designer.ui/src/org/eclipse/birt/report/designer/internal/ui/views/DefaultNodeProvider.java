@@ -34,7 +34,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RenameAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
-import org.eclipse.birt.report.designer.ui.actions.PageSetAction.CodePageAction;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -52,7 +51,6 @@ import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.gef.Request;
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
@@ -155,12 +153,12 @@ public class DefaultNodeProvider implements INodeProvider
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
 				+ "-refresh" ) );//$NON-NLS-1$
 
-		Action action = new CodePageAction( object );
-		if ( action.isEnabled( ) )
-			menu.add( action );
-
-		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
-				+ "-end" ) );//$NON-NLS-1$		
+//		Action action = new CodePageAction( object );
+//		if ( action.isEnabled( ) )
+//			menu.add( action );
+//
+//		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
+//				+ "-end" ) );//$NON-NLS-1$		
 
 		// if ( object instanceof ReportDesignHandle
 		// || ( object instanceof ReportElementHandle && !( (

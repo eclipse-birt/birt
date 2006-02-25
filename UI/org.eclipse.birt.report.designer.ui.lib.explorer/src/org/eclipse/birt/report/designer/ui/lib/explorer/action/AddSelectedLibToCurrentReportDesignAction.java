@@ -41,10 +41,11 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 	public boolean isEnabled( )
 	{
 		LibraryHandle library = getSelectedLibrary( );
-		if ( library != null )
+		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+		.getReportDesignHandle( );
+
+		if ( library != null  && moduleHandle!=null)
 		{
-			ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( );
 			return !moduleHandle.isInclude( library );
 		}
 		return false;

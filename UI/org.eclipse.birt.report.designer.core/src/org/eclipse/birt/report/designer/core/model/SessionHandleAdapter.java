@@ -41,26 +41,27 @@ import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 
 public class SessionHandleAdapter
 {
+
 	public static final int UNKNOWFILE = -1;
 	public static int DESIGNEFILE = 0;
 	public static int LIBRARYFILE = 1;
 	public static int TEMPLATEFILE = 2;
-	
+
 	private int type = DESIGNEFILE;
-	IDisposeListener disposeLitener =new IDisposeListener()
-	{
+	IDisposeListener disposeLitener = new IDisposeListener( ) {
+
 		public void moduleDisposed( ModuleHandle targetElement, DisposeEvent ev )
 		{
-			ReportMediator media = (ReportMediator)mediatorMap.get(targetElement);
-			if (media != null)
+			ReportMediator media = (ReportMediator) mediatorMap.get( targetElement );
+			if ( media != null )
 			{
-				media.dispose();
+				media.dispose( );
 			}
-			mediatorMap.remove(targetElement);
-			targetElement.removeDisposeListener(this);
-		}	
+			mediatorMap.remove( targetElement );
+			targetElement.removeDisposeListener( this );
+		}
 	};
-	
+
 	// add field support mediator
 	private Map mediatorMap = new WeakHashMap( );
 
@@ -71,8 +72,8 @@ public class SessionHandleAdapter
 	{
 
 	}
-	
-	public int getFileType()
+
+	public int getFileType( )
 	{
 		return type;
 	}
@@ -114,12 +115,18 @@ public class SessionHandleAdapter
 		return sessionHandle;
 	}
 
-	
 	public void init( String fileName, InputStream input )
-	throws DesignFileException
+			throws DesignFileException
 	{
-		init(fileName, input, DESIGNEFILE );
+		init( fileName, input, DESIGNEFILE );
 	}
+
+	public void init( String fileName, InputStream input,boolean flag )
+			throws DesignFileException
+	{
+		init( fileName, input, DESIGNEFILE,true );
+	}
+
 	/**
 	 * Initialize a report design file
 	 * 
@@ -133,31 +140,44 @@ public class SessionHandleAdapter
 	public void init( String fileName, InputStream input, int type )
 			throws DesignFileException
 	{
+
+		if ( getReportDesignHandle( ) != null
+				&& fileName.equalsIgnoreCase( getReportDesignHandle( ).getFileName( ) ) )
+		{
+			return;
+		}
+
+		init( fileName, input, type, true );
+
+	}
+
+	public void init( String fileName, InputStream input, int type,
+			boolean reLoad ) throws DesignFileException
+	{
+
 		try
 		{
 			ModuleHandle handle = null;
-			if (type == DESIGNEFILE || type == TEMPLATEFILE)
+			if ( type == DESIGNEFILE || type == TEMPLATEFILE )
 			{
-				handle = getSessionHandle( ).openDesign( fileName,
-					input );
-
+				handle = getSessionHandle( ).openDesign( fileName, input );
 			}
-			else if (type == LIBRARYFILE)
+			else if ( type == LIBRARYFILE )
 			{
 				handle = getSessionHandle( ).openLibrary( fileName );
 			}
 			else
 			{
-				throw new RuntimeException("Not support this type of file");
+				throw new RuntimeException( "Not support this type of file" );
 			}
 			postInit( handle );
-
 			designHandleAdapter = new ReportDesignHandleAdapter( handle );
 		}
 		catch ( DesignFileException e )
 		{
 			throw e;
 		}
+
 	}
 
 	/**
@@ -217,7 +237,10 @@ public class SessionHandleAdapter
 	public void setReportDesignHandle( ModuleHandle handle )
 	{
 
-		designHandleAdapter.setReportDesignHandle( handle );
+		if(designHandleAdapter!=null)
+		{
+			designHandleAdapter.setReportDesignHandle( handle );
+		}
 	}
 
 	/**
@@ -239,19 +262,22 @@ public class SessionHandleAdapter
 	 */
 	public MasterPageHandle getMasterPageHandle( )
 	{
-		return getMasterPageHandle(getReportDesignHandle());
+		return getMasterPageHandle( getReportDesignHandle( ) );
 	}
 
-	/**Gets the first MasterPageHandle
+	/**
+	 * Gets the first MasterPageHandle
+	 * 
 	 * @param handle
 	 * @return
 	 */
-	public MasterPageHandle getMasterPageHandle(ModuleHandle handle )
+	public MasterPageHandle getMasterPageHandle( ModuleHandle handle )
 	{
 		SlotHandle slotHandle = handle.getMasterPages( );
 		Iterator iter = slotHandle.iterator( );
 		return (MasterPageHandle) iter.next( );
 	}
+
 	/**
 	 * 
 	 * @param handle
@@ -260,9 +286,9 @@ public class SessionHandleAdapter
 	 */
 	public ReportMediator getMediator( ModuleHandle handle )
 	{
-		if (handle != null)
+		if ( handle != null )
 		{
-			handle.addDisposeListener(disposeLitener);
+			handle.addDisposeListener( disposeLitener );
 		}
 		ReportMediator mediator = (ReportMediator) mediatorMap.get( handle );
 		if ( mediator == null )
@@ -297,4 +323,13 @@ public class SessionHandleAdapter
 		mediatorMap.remove( oldObj );
 		mediatorMap.put( newObj, mediator );
 	}
+
+	public void clear( )
+	{
+		mediatorMap.remove( getInstance( ).getReportDesignHandle( ) );
+		setReportDesignHandle( null );
+		designHandleAdapter = null;
+		
+	}
+
 }

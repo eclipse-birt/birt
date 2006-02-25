@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension
+         point="org.eclipse.birt.report.designer.ui.editors.multiPageEditorContributor">
+      <targetEditor targetEditorId="org.eclipse.birt.report.designer.ui.editors.ReportEditor">
+      <formPage
+            class="org.eclipse.birt.report.designer.ui.editors.pages.ReportLayoutEditorFormPage"
+            displayName="%design.layout"
+            id="org.eclipse.birt.report.designer.ui.editors.design.layout"
+            visible="true"/>
+      <formPage
+            class="org.eclipse.birt.report.designer.ui.editors.pages.ReportMasterPageEditorFormPage"
+            displayName="%design.masterPage"
+            id="org.eclipse.birt.report.designer.ui.editors.design.masterpage"
+            visible="true"/>
+      <formPage
+            class="org.eclipse.birt.report.designer.ui.editors.pages.ReportScriptFormPage"
+            displayName="%design.script"
+            id="org.eclipse.birt.report.designer.ui.editors.design.script"
+            visible="true"/>
+      <formPage
+            class="org.eclipse.birt.report.designer.ui.editors.pages.ReportPreviewFormPage"
+            displayName="%design.preview"
+            id="org.eclipse.birt.report.designer.ui.editors.design.preview"
+            visible="true"/>
+      <formPage
+            class="org.eclipse.birt.report.designer.ui.editors.pages.ReportXMLSourceEditorFormPage"
+            displayName="%design.xmlsource"
+            id="org.eclipse.birt.report.designer.ui.editors.design.xmlsource"
+            visible="true"/>
+      </targetEditor>
+      <targetEditor targetEditorId="org.eclipse.birt.report.designer.ui.editors.TemplateEditor">
+      <formPage
+            class="org.eclipse.birt.report.designer.ui.editors.pages.ReportLayoutEditorFormPage"
+            displayName="%template.layout"
+            id="org.eclipse.birt.report.designer.ui.editors.template.layout"
+            visible="true"/>
+      <formPage
+            class="org.eclipse.birt.report.designer.ui.editors.pages.ReportMasterPageEditorFormPage"
+            displayName="%template.masterPage"
+            id="org.eclipse.birt.report.designer.ui.editors.template.masterpage"
+            visible="true"/>
+      <formPage
+            class="org.eclipse.birt.report.designer.ui.editors.pages.ReportPreviewFormPage"
+            displayName="%template.preview"
+            id="org.eclipse.birt.report.designer.ui.editors.template.preview"
+            visible="true"/>
+      <formPage
+            class="org.eclipse.birt.report.designer.ui.editors.pages.ReportScriptFormPage"
+            displayName="%template.script"
+            id="org.eclipse.birt.report.designer.ui.editors.template.script"
+            visible="true"/>
+      <formPage
+            class="org.eclipse.birt.report.designer.ui.editors.pages.ReportXMLSourceEditorFormPage"
+            displayName="%template.xmlsource"
+            id="org.eclipse.birt.report.designer.ui.editors.design.xmlsource"
+            visible="true"/>
+      </targetEditor>
+   </extension>
+   
+   
+
+</plugin>

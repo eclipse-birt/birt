@@ -250,7 +250,13 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	// scrolling
 	public void reveal( EditPart part )
 	{
-
+		// In some case, the editor control is not created, but get the sync selection event.
+		// Fix this problem temporary.
+		if(getFigureCanvas( )==null || getFigureCanvas( ).isDisposed( ))
+		{
+			return;
+		}
+		
 		Viewport port = getFigureCanvas( ).getViewport( );
 		IFigure target = ( (GraphicalEditPart) part ).getFigure( );
 

@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.designer.ui.internal.rcp.wizards;
 
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.editors.IReportEditorInput;
+import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -131,10 +131,10 @@ public class WizardNewReportCreationPage extends WizardPage
 
 		IPath path;
 
-		if ( !getFileName( ).endsWith( IReportEditorInput.DESIGN_FILE_EXTENTION ) )
+		if ( !getFileName( ).endsWith( IReportEditorContants.DESIGN_FILE_EXTENTION ) )
 		{
 			path = getFileLocationFullPath( ).append( getFileName( )
-					+ IReportEditorInput.DESIGN_FILE_EXTENTION ); 
+					+ IReportEditorContants.DESIGN_FILE_EXTENTION ); 
 		}
 		else
 		{

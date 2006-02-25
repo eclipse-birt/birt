@@ -7,13 +7,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.ui.editors.IDEReportEditor;
-import org.eclipse.birt.report.designer.ui.editors.IDETemplateEditor;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.resources.IContainer;
@@ -231,10 +230,8 @@ public class NewTemplateWizard extends NewReportWizard
 				IWorkbenchPage page = window.getActivePage( );
 				try
 				{
-					IEditorPart editorPart = IDE.openEditor( page, file,
-							IDETemplateEditor.ID, true );
-					setReportSettings( ( (IDEReportEditor) editorPart )
-							.getModel( ) );
+					IEditorPart editorPart = IDE.openEditor( page, file, true );
+					setReportSettings( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) );
 					editorPart.doSave( null );
 					BasicNewProjectResourceWizard
 							.updatePerspective( getConfigElement( ) );

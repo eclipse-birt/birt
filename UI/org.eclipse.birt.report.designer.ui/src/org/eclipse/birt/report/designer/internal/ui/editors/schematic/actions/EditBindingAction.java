@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.DataBindingDialog;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.IWorkbenchPart;
@@ -37,8 +38,7 @@ public class EditBindingAction extends InsertRowAction
 	{
 		super( part );
 		setId( ID );
-		setText( Messages
-				.getString( "DesignerActionBarContributor.menu.element.editDataBinding" ) ); //$NON-NLS-1$
+		setText( Messages.getString( "DesignerActionBarContributor.menu.element.editDataBinding" ) ); //$NON-NLS-1$
 	}
 
 	/*
@@ -48,10 +48,10 @@ public class EditBindingAction extends InsertRowAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return !SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
-				.getVisibleDataSets( ).isEmpty( )
-				|| ( getSelectedElement() != null && getSelectedElement( )
-						.getDataSet( ) != null );
+		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+		return moduleHandle != null
+				&& ( !moduleHandle.getVisibleDataSets( ).isEmpty( ) || ( getSelectedElement( ) != null && getSelectedElement( ).getDataSet( ) != null ) );
 	}
 
 	private ReportItemHandle getSelectedElement( )
@@ -84,11 +84,10 @@ public class EditBindingAction extends InsertRowAction
 			CommandStack stack = SessionHandleAdapter.getInstance( )
 					.getCommandStack( );
 
-			stack
-					.startTrans( Messages
-							.getString( "DesignerActionBarContributor.menu.element.editDataBinding" ) ); //$NON-NLS-1$
-			DataBindingDialog dialog = new DataBindingDialog( PlatformUI
-					.getWorkbench( ).getDisplay( ).getActiveShell( ),
+			stack.startTrans( Messages.getString( "DesignerActionBarContributor.menu.element.editDataBinding" ) ); //$NON-NLS-1$
+			DataBindingDialog dialog = new DataBindingDialog( PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getActiveShell( ),
 					getSelectedElement( ) );
 
 			if ( dialog.open( ) == Dialog.OK )

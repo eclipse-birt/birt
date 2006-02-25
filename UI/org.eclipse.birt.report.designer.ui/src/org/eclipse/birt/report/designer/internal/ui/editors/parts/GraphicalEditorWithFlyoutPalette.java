@@ -30,11 +30,9 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportCombinedTemplateCreationEntry;
+import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
-import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.model.api.ImageHandle;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.draw2d.geometry.Point;
@@ -106,7 +104,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.24 $ $Date: 2006/01/11 07:10:23 $
+ * @version $Revision: 1.4 $ $Date: 2006/02/24 05:49:29 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
 		EditorSelectionProvider,
@@ -417,6 +415,8 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 			splitter.setExternalViewer( page.getPaletteViewer( ) );
 			page = null;
 		}
+		
+		DataSetManager.initCurrentInstance(getEditorInput( ) );
 	}
 
 	/**
@@ -428,6 +428,8 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		SessionHandleAdapter.getInstance( )
 				.getMediator( )
 				.removeColleague( this );
+		
+		DataSetManager.removeInstance(getEditorInput( ));
 
 		// remove selection listener
 
@@ -452,7 +454,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		{
 			getActionRegistry( ).removeAction((IAction)list.get(i));
 		}
-		((ReportMultiPageEditorSite)getSite()).dispose();
+		( (ReportMultiPageEditorSite)getSite()).dispose();
 	}
 
 	/**
@@ -473,13 +475,6 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		if ( type == PaletteRoot.class )
 		{
 			return getPaletteRoot( );
-		}
-
-		if ( type == DataViewPage.class )
-		{
-			DataViewTreeViewerPage page = new DataViewTreeViewerPage( (ModuleHandle) ( (AbstractMultiPageEditor) getMultiPageEditor( ) ).getInputContext( )
-					.getModel( ) );
-			return page;
 		}
 
 		if ( type == ZoomManager.class )

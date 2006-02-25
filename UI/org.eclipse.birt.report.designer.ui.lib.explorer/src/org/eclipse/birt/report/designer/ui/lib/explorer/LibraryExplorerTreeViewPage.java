@@ -11,16 +11,10 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ItemSorter;
-import org.eclipse.birt.report.designer.internal.ui.views.outline.ListenerElementVisitor;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -29,23 +23,11 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
-import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
-import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
-import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.birt.report.model.api.command.ContentEvent;
-import org.eclipse.birt.report.model.api.command.ElementDeletedEvent;
-import org.eclipse.birt.report.model.api.command.LibraryEvent;
-import org.eclipse.birt.report.model.api.core.IDesignElement;
-import org.eclipse.birt.report.model.api.core.Listener;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.core.runtime.Platform;
@@ -69,7 +51,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.PlatformUI;
 import org.osgi.service.prefs.BackingStoreException;
 
 /**
@@ -77,33 +58,15 @@ import org.osgi.service.prefs.BackingStoreException;
  * 
  */
 public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage implements
-		Listener,
 		IValidationListener,
-		ActivityStackListener,
 		IPreferenceChangeListener
 {
 
 	// private static final String LABEL_DOUBLE_CLICK = Messages.getString(
 	// "DataViewTreeViewerPage.tooltip.DoubleClickToEdit" ); //$NON-NLS-1$
-	private ListenerElementVisitor visitor;
-	private List dataSetsToRefresh = new ArrayList( );
 	private ILibraryProvider libraryProvider;
 	private IEclipsePreferences reportPreferenceNode;
 	private TreeViewer treeViewer;
-
-	/**
-	 * constructor
-	 * 
-	 * @param reportHandle
-	 *            the handle of the report design
-	 */
-	public LibraryExplorerTreeViewPage( )
-	{
-		super( );
-		SessionHandleAdapter.getInstance( )
-				.getCommandStack( )
-				.addListener( this );
-	}
 
 	/**
 	 * Creates the tree view
@@ -115,15 +78,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	{
 		treeViewer = new TreeViewer( parent, SWT.MULTI
 				| SWT.H_SCROLL
-				| SWT.V_SCROLL ) {
-
-			protected void inputChanged( Object input, Object oldInput )
-			{
-				super.inputChanged( input, oldInput );
-				removeListener( oldInput );
-				addListener( input );
-			}
-		};
+				| SWT.V_SCROLL );
 		configTreeViewer( );
 		initPage( );
 		return treeViewer;
@@ -221,7 +176,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 		Menu menu = menuManager.createContextMenu( treeViewer.getControl( ) );
 
-		treeViewer.getControl( ).setMenu( menu );
+		treeViewer.getControl( ).setMenu( menu );				
 		getSite( ).registerContextMenu( "#Pop up", menuManager, //$NON-NLS-1$
 				getSite( ).getSelectionProvider( ) );
 	}
@@ -258,119 +213,11 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 * already been disposed). Disposes the visitor of the element
 	 */
 	public void dispose( )
-	{
-		removeListener( treeViewer.getInput( ) );
-		if ( visitor != null )
-		{
-			visitor.removeListener( SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ) );
-			visitor.dispose( );
-			visitor = null;
-		}
-
+	{		
 		if ( reportPreferenceNode != null )
 			reportPreferenceNode.removePreferenceChangeListener( this );
 
-		SessionHandleAdapter.getInstance( )
-				.getCommandStack( )
-				.removeListener( this );
 		super.dispose( );
-	}
-
-	/**
-	 * Refreshes the focus and the focus container of the tree view. And applies
-	 * the visitor to the given focus.
-	 * 
-	 * @param focus
-	 *            the design element
-	 * @param ev
-	 *            the notification event
-	 */
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		if ( focus instanceof DataSetHandle )
-		{
-			if ( !( ev instanceof ElementDeletedEvent ) )
-			{
-				if ( !dataSetsToRefresh.contains( focus ) )
-					dataSetsToRefresh.add( focus );
-			}
-			else
-			{
-				if ( dataSetsToRefresh.contains( focus ) )
-					dataSetsToRefresh.remove( focus );
-			}
-		}
-		else if ( focus instanceof ModuleHandle
-				&& ev.getEventType( ) == NotificationEvent.CONTENT_EVENT )
-		{
-			IDesignElement element = ( (ContentEvent) ev ).getContent( );
-			if ( ( (ContentEvent) ev ).getAction( ) == ContentEvent.REMOVE
-					&& element.getDefn( )
-							.getName( )
-							.equals( ReportDesignConstants.ODA_DATA_SET ) )
-			{
-				DataSetManager.getCurrentInstance( )
-						.removeCachedColumns( element.getHandle( SessionHandleAdapter.getInstance( )
-								.getReportDesignHandle( )
-								.getModule( ) ) );
-			}
-			treeViewer.refresh( );
-		}
-		else if ( ev instanceof LibraryEvent )
-		{
-			refreshRoot( );
-		}
-		else
-		{
-			treeViewer.refresh( );
-		}
-		getListenerElementVisitor( ).addListener( focus );
-	}
-
-	/**
-	 * Gets the visitor.
-	 * 
-	 * @return the visitor
-	 */
-	private ListenerElementVisitor getListenerElementVisitor( )
-	{
-		if ( visitor == null )
-		{
-			visitor = new ListenerElementVisitor( this );
-		}
-		return visitor;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityStackListener#stackChanged(org.eclipse.birt.report.model.activity.ActivityStackEvent)
-	 */
-	public void stackChanged( ActivityStackEvent event )
-	{
-		if ( !dataSetsToRefresh.isEmpty( ) )
-		{
-			PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.asyncExec( new Runnable( ) {
-
-						public void run( )
-						{
-							if ( !isDisposed( ) )
-							{
-								for ( int i = 0; i < dataSetsToRefresh.size( ); i++ )
-								{
-									DataSetHandle dataSetToRefresh = (DataSetHandle) dataSetsToRefresh.get( i );
-									DataSetManager.getCurrentInstance( )
-											.refresh( dataSetToRefresh );
-									treeViewer.refresh( dataSetToRefresh );
-								}
-								dataSetsToRefresh.clear( );
-							}
-						}
-					} );
-		}
 	}
 
 	protected boolean isDisposed( )
@@ -399,36 +246,6 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	public void setLibraryProvider( ILibraryProvider provider )
 	{
 		this.libraryProvider = provider;
-	}
-
-	private void addListener( Object input )
-	{
-		if ( input instanceof Object[] )
-		{
-			Object[] libs = (Object[]) input;
-			for ( int i = 0; i < libs.length; i++ )
-			{
-				if ( libs[i] instanceof LibraryHandle )
-				{
-					getListenerElementVisitor( ).addListener( (LibraryHandle) libs[i] );
-				}
-			}
-		}
-	}
-
-	private void removeListener( Object input )
-	{
-		if ( input instanceof Object[] )
-		{
-			Object[] libs = (Object[]) input;
-			for ( int i = 0; i < libs.length; i++ )
-			{
-				if ( libs[i] instanceof LibraryHandle )
-				{
-					getListenerElementVisitor( ).addListener( (LibraryHandle) libs[i] );
-				}
-			}
-		}
 	}
 
 	public void preferenceChange( PreferenceChangeEvent event )

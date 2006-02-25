@@ -18,11 +18,12 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.ui.editors.RCPReportEditor;
+import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -49,32 +50,24 @@ import org.eclipse.ui.PlatformUI;
  * 
  */
 
-public class NewReportTemplateWizard extends Wizard
-		implements
-			INewWizard,
-			IExecutableExtension
+public class NewReportTemplateWizard extends Wizard implements
+		INewWizard,
+		IExecutableExtension
 {
 
-	private static final String NEW = Messages
-			.getString( "NewTemplateWizard.title.New" ); //$NON-NLS-1$
+	private static final String NEW = Messages.getString( "NewTemplateWizard.title.New" ); //$NON-NLS-1$
 
-	private static final String REPORT = Messages
-			.getString( "NewTemplateWizard.title.Template" ); //$NON-NLS-1$
+	private static final String REPORT = Messages.getString( "NewTemplateWizard.title.Template" ); //$NON-NLS-1$
 
-	private static final String WIZARDPAGE = Messages
-			.getString( "NewTemplateWizard.title.WizardPage" ); //$NON-NLS-1$
+	private static final String WIZARDPAGE = Messages.getString( "NewTemplateWizard.title.WizardPage" ); //$NON-NLS-1$
 
-	private static final String CREATE_A_NEW_REPORT = Messages
-			.getString( "NewTemplateWizard.text.CreateReport" ); //$NON-NLS-1$
+	private static final String CREATE_A_NEW_REPORT = Messages.getString( "NewTemplateWizard.text.CreateReport" ); //$NON-NLS-1$
 
-	private static final String CREATING = Messages
-			.getString( "NewTemplateWizard.text.Creating" ); //$NON-NLS-1$
+	private static final String CREATING = Messages.getString( "NewTemplateWizard.text.Creating" ); //$NON-NLS-1$
 
-	private static final String OPENING_FILE_FOR_EDITING = Messages
-			.getString( "NewTemplateWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
+	private static final String OPENING_FILE_FOR_EDITING = Messages.getString( "NewTemplateWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
 
-	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages
-			.getString( "NewTemplateWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
+	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages.getString( "NewTemplateWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
 
 	private static final String NEW_REPORT_FILE_EXTENSION = ".rpttemplate"; //$NON-NLS-1$
 
@@ -115,17 +108,13 @@ public class NewReportTemplateWizard extends Wizard
 		newReportFileWizardPage.setDescription( CREATE_A_NEW_REPORT );
 
 		// initialize new report file page.
-		newReportFileWizardPage
-				.setInitialFileName( getNewFileFullName( NEW_REPORT_FILE_NAME_PREFIX ) );
+		newReportFileWizardPage.setInitialFileName( getNewFileFullName( NEW_REPORT_FILE_NAME_PREFIX ) );
 		newReportFileWizardPage.setInitialFileLocation( getDefaultLocation( ) );
 
 		settingPage = new WizardReportSettingPage( null );
-		settingPage
-				.setTitle( Messages
-						.getFormattedString(
-								"SaveReportAsWizard.SettingPage.title",//$NON-NLS-1$
-								new Object[]{Messages
-										.getString( "NewTemplateWizard.WizardPageTitle.Template" )} ) );//$NON-NLS-1$
+		settingPage.setTitle( Messages.getFormattedString( "SaveReportAsWizard.SettingPage.title",//$NON-NLS-1$
+				new Object[]{
+					Messages.getString( "NewTemplateWizard.WizardPageTitle.Template" )} ) );//$NON-NLS-1$
 
 		addPage( settingPage );
 	}
@@ -289,11 +278,11 @@ public class NewReportTemplateWizard extends Wizard
 					}
 
 					// open the editor on the file
-					IEditorPart editorPart = page.openEditor(
-							new ReportEditorInput( file ),
-							ReportEditorInput.TEMPLATE_EDITOR_ID, true );
-					setReportSettings( ( (RCPReportEditor) editorPart )
-							.getModel( ) );
+					IEditorPart editorPart = page.openEditor( new ReportEditorInput( file ),
+							IReportEditorContants.TEMPLATE_EDITOR_ID,
+							true );
+					setReportSettings( SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( ) );
 					editorPart.doSave( null );
 
 				}

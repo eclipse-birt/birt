@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.js.JSDocumentProvider;
-import org.eclipse.birt.report.designer.internal.ui.editors.js.JSEditorInput;
-import org.eclipse.birt.report.designer.internal.ui.editors.js.JSSourceViewerConfiguration;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.js.JSDocumentProvider;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.js.JSEditorInput;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.js.JSSourceViewerConfiguration;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;

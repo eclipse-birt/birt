@@ -15,10 +15,9 @@ import java.text.MessageFormat;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.AbstractMultiPageLayoutEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.editors.IReportEditorInput;
+import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
@@ -37,9 +36,8 @@ import org.eclipse.ui.PlatformUI;
  * Undo/Redo action for contribution of toolbar or menu.
  */
 
-public abstract class StackWindowAction
-		implements
-			IWorkbenchWindowActionDelegate
+public abstract class StackWindowAction implements
+		IWorkbenchWindowActionDelegate
 {
 
 	private ActivityStackListener commandStackListener = new ActivityStackListener( ) {
@@ -71,7 +69,7 @@ public abstract class StackWindowAction
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	public StackWindowAction( )
 	{
@@ -176,14 +174,20 @@ public abstract class StackWindowAction
 			{
 				IEditorPart editor = refs[j].getEditor( false );
 
-				if ( editor != null
-						&& editor.getEditorInput( ) instanceof IReportEditorInput )
+				// if ( editor != null
+				// && editor.getEditorInput( ) instanceof IReportEditorInput )
+				// {
+				// if ( editor instanceof AbstractMultiPageEditor )
+				// {
+				// isEnabled = canDo( );
+				// break;
+				// }
+				// }
+
+				if ( editor instanceof AbstractMultiPageEditor )
 				{
-					if ( editor instanceof AbstractMultiPageLayoutEditor )
-					{
-						isEnabled = canDo( );
-						break;
-					}
+					isEnabled = canDo( );
+					break;
 				}
 			}
 		}
@@ -238,7 +242,7 @@ public abstract class StackWindowAction
 		protected void changeLabel( IAction action )
 		{
 			Command undoCmd = getCommandStack( ).getUndoCommand( );
-			action.setToolTipText( MessageFormat.format( Messages.getString("UndoAction_Tooltip"), //$NON-NLS-1$
+			action.setToolTipText( MessageFormat.format( Messages.getString( "UndoAction_Tooltip" ), //$NON-NLS-1$
 					new Object[]{
 						getLabelForCommand( undoCmd )
 					} )
@@ -277,7 +281,7 @@ public abstract class StackWindowAction
 		protected void changeLabel( IAction action )
 		{
 			Command redoCmd = getCommandStack( ).getRedoCommand( );
-			action.setToolTipText( MessageFormat.format( Messages.getString("RedoAction_Tooltip"), //$NON-NLS-1$
+			action.setToolTipText( MessageFormat.format( Messages.getString( "RedoAction_Tooltip" ), //$NON-NLS-1$
 					new Object[]{
 						getLabelForCommand( redoCmd )
 					} )

@@ -20,8 +20,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.ui.editors.LibraryReportEditor;
-import org.eclipse.birt.report.designer.ui.editors.ReportFileEditorInput;
 import org.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage;
 import org.eclipse.birt.report.designer.ui.wizards.NewLibraryWizard;
 import org.eclipse.core.resources.IContainer;
@@ -43,6 +41,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
+import org.eclipse.ui.ide.IDE;
 
 /**
  * Add INewLibraryCreationPage adaptable to NewLibraryWizard. 
@@ -55,7 +54,7 @@ public class NewLibraryWizardAdapterFactory implements IAdapterFactory
 	{
 		NewLibraryWizard wizard = (NewLibraryWizard) adaptableObject;
 
-		return new NewLibraryCreationPage( "", wizard.getSelection( ) );
+		return new NewLibraryCreationPage( "", wizard.getSelection( ) ); //$NON-NLS-1$
 	}
 
 	public Class[] getAdapterList( )
@@ -204,9 +203,10 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 				IWorkbenchPage page = window.getActivePage( );
 				try
 				{
-					page.openEditor( new ReportFileEditorInput( file ),
-							LibraryReportEditor.EDITOR_ID,
-							true );
+					IDE.openEditor( page, file, true );
+//					page.openEditor( new FileEditorInput( file ),
+//							LibraryReportEditor.EDITOR_ID,
+//							true );
 				}
 				catch ( Exception e )
 				{
