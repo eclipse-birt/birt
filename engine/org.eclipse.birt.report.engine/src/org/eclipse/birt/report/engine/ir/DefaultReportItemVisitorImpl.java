@@ -15,7 +15,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Default implementation for IReportItemVisitor interface
  * 
- * @version $Revision: 1.4 $ $Date: 2005/11/11 06:26:41 $
+ * @version $Revision: 1.5 $ $Date: 2005/11/17 16:50:43 $
  */
 public class DefaultReportItemVisitorImpl implements IReportItemVisitor
 {
@@ -116,5 +116,10 @@ public class DefaultReportItemVisitorImpl implements IReportItemVisitor
 	public Object visitCell(CellDesign cell, Object value)
 	{
 		return visitReportItem(cell, value);
+	}
+
+	public Object visitTemplate( TemplateDesign template, Object value )
+	{
+		return visitReportItem( template, value );
 	}
 }

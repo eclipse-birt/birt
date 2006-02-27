@@ -28,7 +28,6 @@ import org.eclipse.birt.report.engine.api.impl.ParameterSelectionChoice;
 import org.eclipse.birt.report.engine.api.impl.ScalarParameterDefn;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
-import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
@@ -66,6 +65,7 @@ import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableGroupDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
+import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityRuleDesign;
@@ -109,6 +109,7 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
@@ -150,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.77 $ $Date: 2006/02/23 07:38:23 $
+ * @version $Revision: 1.78 $ $Date: 2006/02/24 09:18:56 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1131,6 +1132,16 @@ class EngineIRVisitor extends DesignVisitor
 		setupReportItem( extendedItem, obj );
 
 		currentElement = extendedItem;
+	}
+
+	public void visitTemplateReportItem( TemplateReportItemHandle obj )
+	{
+		TemplateDesign template = new TemplateDesign( );
+		setupReportElement( template, obj );
+		template.setPromptText( obj.getDescription( ) );
+		template.setPromptTextKey( obj.getDescriptionKey( ) );
+		
+		currentElement = template;
 	}
 
 	protected void setupGroup( GroupDesign group, GroupHandle handle )

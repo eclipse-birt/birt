@@ -18,7 +18,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 /**
  * Report Item
  * 
- * @version $Revision: 1.9 $ $Date: 2005/11/11 06:26:41 $
+ * @version $Revision: 1.10 $ $Date: 2005/11/17 16:50:43 $
  */
 abstract public class ReportItemDesign extends StyledElementDesign
 {
@@ -73,6 +73,11 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 * Visibility property.
 	 */
 	protected VisibilityDesign visibility;
+	
+	/**
+	 * execution state associated with this design
+	 */
+	transient protected Object executionState;
 	
 	/**
 	 * @return Returns the height.
@@ -263,5 +268,14 @@ abstract public class ReportItemDesign extends StyledElementDesign
 		this.action = action;
 	}
 
+	public void setExecutionState(Object state)
+	{
+		executionState = state;
+	}
+	
+	public Object getExecutionState()
+	{
+		return executionState;
+	}
 	
 }

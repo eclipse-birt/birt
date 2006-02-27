@@ -29,10 +29,16 @@ import org.eclipse.birt.report.engine.script.internal.DataItemScriptExecutor;
  * data content instance, evaluate styles, bookmark, action property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.23 $ $Date: 2005/12/03 02:01:49 $
+ * @version $Revision: 1.24 $ $Date: 2005/12/03 05:34:28 $
  */
 public class DataItemExecutor extends QueryItemExecutor
 {
+
+	class DataItemExecutionState
+	{
+
+		Object lastValue;
+	}
 
 	/**
 	 * construct a data item executor by giving execution context and report
@@ -84,6 +90,28 @@ public class DataItemExecutor extends QueryItemExecutor
 		processVisibility( item, dataObj );
 
 		Object value = context.evaluate( dataItem.getValue( ) );
+		// should we suppress the duplicate
+		boolean duplicated = false;
+		if ( dataItem.getSuppressDuplicate( ) )
+		{
+			DataItemExecutionState state = (DataItemExecutionState) dataItem
+					.getExecutionState( );
+			if ( state != null )
+			{
+				Object lastValue = state.lastValue;
+				if ( lastValue == value
+						|| ( lastValue != null && lastValue.equals( value ) ) )
+				{
+					duplicated = true;
+				}
+			}
+			if ( state == null )
+			{
+				state = new DataItemExecutionState( );
+				dataItem.setExecutionState( state );
+			}
+			state.lastValue = value;
+		}
 		dataObj.setValue( value );
 
 		// get the mapping value
@@ -95,15 +123,17 @@ public class DataItemExecutor extends QueryItemExecutor
 					context );
 		}
 
-		startTOCEntry( dataObj );
-
-		// pass the text content instance to emitter
-		if ( emitter != null )
+		if ( !duplicated )
 		{
-			emitter.startData( dataObj );
+			startTOCEntry( dataObj );
+			// pass the text content instance to emitter
+			if ( emitter != null )
+			{
+				emitter.startData( dataObj );
+			}
+			finishTOCEntry( );
 		}
 
-		finishTOCEntry( );
 		closeResultSet( );
 		context.popContent( );
 	}

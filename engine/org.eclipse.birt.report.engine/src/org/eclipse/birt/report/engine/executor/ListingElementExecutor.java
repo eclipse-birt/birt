@@ -14,9 +14,26 @@ package org.eclipse.birt.report.engine.executor;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.report.engine.data.dte.DteResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.ir.CellDesign;
+import org.eclipse.birt.report.engine.ir.DataItemDesign;
+import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
+import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
+import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
+import org.eclipse.birt.report.engine.ir.ImageItemDesign;
+import org.eclipse.birt.report.engine.ir.LabelItemDesign;
+import org.eclipse.birt.report.engine.ir.ListBandDesign;
+import org.eclipse.birt.report.engine.ir.ListGroupDesign;
+import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
+import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.ir.RowDesign;
+import org.eclipse.birt.report.engine.ir.TableBandDesign;
+import org.eclipse.birt.report.engine.ir.TableGroupDesign;
+import org.eclipse.birt.report.engine.ir.TableItemDesign;
+import org.eclipse.birt.report.engine.ir.TemplateDesign;
+import org.eclipse.birt.report.engine.ir.TextItemDesign;
 
 /**
  * An abstract class that defines execution logic for a Listing element, which
@@ -67,7 +84,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 */
 	protected void accessQuery( ReportItemDesign design, IContentEmitter emitter )
 	{
-		ListingDesign listing = ( ListingDesign ) design;
+		ListingDesign listing = (ListingDesign) design;
 
 		rsetCursor = -1;
 		outputEmitter = emitter;
@@ -90,7 +107,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			return;
 		}
 
-		IResultIterator rsIterator = ( ( DteResultSet ) rset )
+		IResultIterator rsIterator = ( (DteResultSet) rset )
 				.getResultIterator( );
 
 		startTOCEntry( null );
@@ -146,6 +163,8 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 					finishTOCEntry( );// close the group header
 					groupIndex++;
 				}
+				// for each group, we should restart the duplicate state
+				clearDuplicateFlags( listing );
 			}
 			startGroupTOCEntry( );
 			accessDetail( listing, outputEmitter, rsIterator );
@@ -256,4 +275,140 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		this.rsetCursor = -1;
 		super.reset( );
 	}
+
+	/**
+	 * clear the execution state of the elements
+	 * 
+	 * @param list
+	 */
+	protected void clearDuplicateFlags( ListingDesign list )
+	{
+		list.accept( new ClearDuplicateFlagVisitor( ), null );
+	}
+
+	protected class ClearDuplicateFlagVisitor implements IReportItemVisitor
+	{
+
+		public Object visitFreeFormItem( FreeFormItemDesign container,
+				Object value )
+		{
+			for ( int i = 0; i < container.getItemCount( ); i++ )
+			{
+				container.getItem( i ).accept( this, value );
+			}
+			return value;
+		}
+
+		public Object visitListItem( ListItemDesign list, Object value )
+		{
+			value = clearListBand( list.getHeader( ), value );
+			for ( int i = 0; i < list.getGroupCount( ); i++ )
+			{
+				ListGroupDesign group = list.getGroup( i );
+				value = clearListBand( group.getHeader( ), value );
+				value = clearListBand( group.getFooter( ), value );
+			}
+
+			value = clearListBand( list.getDetail( ), value );
+
+			clearListBand( list.getFooter( ), value );
+			return null;
+		}
+
+		protected Object clearListBand( ListBandDesign band, Object value )
+		{
+			for ( int i = 0; i < band.getContentCount( ); i++ )
+			{
+				value = band.getContent( i ).accept( this, value );
+			}
+			return value;
+		}
+
+		public Object visitTextItem( TextItemDesign text, Object value )
+		{
+			return value;
+		}
+
+		public Object visitLabelItem( LabelItemDesign label, Object value )
+		{
+			return value;
+		}
+
+		public Object visitDataItem( DataItemDesign data, Object value )
+		{
+			data.setExecutionState( null );
+			return value;
+		}
+
+		public Object visitMultiLineItem( MultiLineItemDesign multiLine,
+				Object value )
+		{
+			return null;
+		}
+
+		public Object visitGridItem( GridItemDesign grid, Object value )
+		{
+			for ( int i = 0; i < grid.getRowCount( ); i++ )
+			{
+				value = visitRow( grid.getRow( i ), value );
+			}
+			return value;
+		}
+
+		protected Object visitTableBand( TableBandDesign band, Object value )
+		{
+			for ( int i = 0; i < band.getRowCount( ); i++ )
+			{
+				value = visitRow( band.getRow( i ), value );
+			}
+			return value;
+		}
+
+		public Object visitTableItem( TableItemDesign table, Object value )
+		{
+			value = visitTableBand( table.getHeader( ), value );
+			for ( int i = 0; i < table.getGroupCount( ); i++ )
+			{
+				TableGroupDesign group = table.getGroup( i );
+				value = visitTableBand( group.getHeader( ), value );
+				value = visitTableBand( group.getFooter( ), value );
+			}
+			value = visitTableBand( table.getDetail( ), value );
+			value = visitTableBand( table.getFooter( ), value );
+			return value;
+		}
+
+		public Object visitRow( RowDesign row, Object value )
+		{
+			for ( int i = 0; i < row.getCellCount( ); i++ )
+			{
+				value = visitCell( row.getCell( i ), value );
+			}
+			return value;
+		}
+
+		public Object visitCell( CellDesign cell, Object value )
+		{
+			for ( int i = 0; i < cell.getContentCount( ); i++ )
+			{
+				value = cell.getContent( i ).accept( this, value );
+			}
+			return value;
+		}
+
+		public Object visitImageItem( ImageItemDesign image, Object value )
+		{
+			return value;
+		}
+
+		public Object visitExtendedItem( ExtendedItemDesign item, Object value )
+		{
+			return value;
+		}
+		public Object visitTemplate(TemplateDesign template, Object value)
+		{
+			return value;
+		}
+	}
+
 }

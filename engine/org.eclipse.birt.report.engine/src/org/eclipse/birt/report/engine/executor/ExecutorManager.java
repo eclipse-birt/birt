@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
  * report item executor manager
  * 
  * @author liugang
- * @version $Revision: 1.7 $ $Date: 2005/03/18 19:40:27 $
+ * @version $Revision: 1.8 $ $Date: 2005/11/11 06:26:45 $
  */
 public class ExecutorManager
 {
@@ -41,11 +41,12 @@ public class ExecutorManager
 	public static final int TEXTITEM = 6;
 	public static final int DATAITEM = 7;
 	public static final int EXTENDEDITEM = 8;
+	public static final int TEMPLATEITEM = 9;
 
 	/**
 	 * the number of suppported executor
 	 */
-	public static final int NUMBER = 9;
+	public static final int NUMBER = 10;
 
 	protected static Logger log = Logger.getLogger( ExecutorManager.class
 			.getName( ) );
@@ -115,6 +116,8 @@ public class ExecutorManager
 				return new DataItemExecutor( context, visitor );
 			case EXTENDEDITEM :
 				return new ExtendedItemExecutor( context, visitor );
+			case TEMPLATEITEM :
+				return new TemplateExecutor( context, visitor );
 			default :
 				throw new UnsupportedOperationException(
 						"unsupported executor!" ); //$NON-NLS-1$

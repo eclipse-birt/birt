@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * A visitor class against the report design.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/11/11 06:26:41 $
+ * @version $Revision: 1.5 $ $Date: 2005/11/17 16:50:43 $
  */
 public interface IReportItemVisitor {
 
@@ -101,4 +101,15 @@ public interface IReportItemVisitor {
 	 *            the extended item to be visited
 	 */
 	Object visitExtendedItem(ExtendedItemDesign item, Object value);
+
+	/**
+	 * visit template design.
+	 * 
+	 * @param template
+	 *            template item
+	 * @param value
+	 *            paramter values used by this visitor
+	 * @return the value after the visit.
+	 */
+	Object visitTemplate( TemplateDesign template, Object value );
 }

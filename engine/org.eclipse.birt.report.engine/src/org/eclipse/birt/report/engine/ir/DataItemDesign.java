@@ -16,7 +16,7 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * reference to report design schema.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/11 06:26:41 $
+ * @version $Revision: 1.8 $ $Date: 2005/11/17 16:50:43 $
  */
 public class DataItemDesign extends ReportItemDesign
 {
@@ -34,7 +34,8 @@ public class DataItemDesign extends ReportItemDesign
 	 * help text resource key
 	 */
 	protected String helpTextKey;
-
+	
+	protected boolean suppressDuplicate = false; 
 	/**
 	 * default constructor. create an empty expression.
 	 */
@@ -100,5 +101,15 @@ public class DataItemDesign extends ReportItemDesign
 	public String getHelpTextKey( )
 	{
 		return this.helpTextKey;
+	}
+	
+	public void setSuppressDuplicate(boolean suppress)
+	{
+		suppressDuplicate = suppress;
+	}
+	
+	public boolean getSuppressDuplicate()
+	{
+		return suppressDuplicate;
 	}
 }
