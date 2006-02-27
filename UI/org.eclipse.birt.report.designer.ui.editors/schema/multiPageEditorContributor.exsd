@@ -6,7 +6,7 @@
          <meta.schema plugin="org.eclipse.birt.report.designer.ui" id="formPage" name="Birt Editor Form Page"/>
       </appInfo>
       <documentation>
-         [Enter description of this extension point.]
+         This extension point is used to contributor embedded editor into BIRT mulipage report editor.
       </documentation>
    </annotation>
 
@@ -132,7 +132,37 @@
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         [Enter extension point usage example here.]
+         The following is an example :
+   &lt;extension
+         point=&quot;org.eclipse.birt.report.designer.ui.editors.multiPageEditorContributor&quot;&gt;
+      &lt;targetEditor targetEditorId=&quot;org.eclipse.birt.report.designer.ui.editors.ReportEditor&quot;&gt;
+      &lt;formPage
+            class=&quot;org.eclipse.birt.report.designer.ui.editors.pages.ReportLayoutEditorFormPage&quot;
+            displayName=&quot;%design.layout&quot;
+            id=&quot;org.eclipse.birt.report.designer.ui.editors.design.layout&quot;
+            visible=&quot;true&quot;/&gt;
+      &lt;formPage
+            class=&quot;org.eclipse.birt.report.designer.ui.editors.pages.ReportMasterPageEditorFormPage&quot;
+            displayName=&quot;%design.masterPage&quot;
+            id=&quot;org.eclipse.birt.report.designer.ui.editors.design.masterpage&quot;
+            visible=&quot;true&quot;/&gt;
+      &lt;formPage
+            class=&quot;org.eclipse.birt.report.designer.ui.editors.pages.ReportScriptFormPage&quot;
+            displayName=&quot;%design.script&quot;
+            id=&quot;org.eclipse.birt.report.designer.ui.editors.design.script&quot;
+            visible=&quot;true&quot;/&gt;
+      &lt;formPage
+            class=&quot;org.eclipse.birt.report.designer.ui.editors.pages.ReportPreviewFormPage&quot;
+            displayName=&quot;%design.preview&quot;
+            id=&quot;org.eclipse.birt.report.designer.ui.editors.design.preview&quot;
+            visible=&quot;true&quot;/&gt;
+      &lt;formPage
+            class=&quot;org.eclipse.birt.report.designer.ui.editors.pages.ReportXMLSourceEditorFormPage&quot;
+            displayName=&quot;%design.xmlsource&quot;
+            id=&quot;org.eclipse.birt.report.designer.ui.editors.design.xmlsource&quot;
+            visible=&quot;true&quot;/&gt;
+      &lt;/targetEditor&gt;
+   &lt;/extension&gt;
       </documentation>
    </annotation>
 
@@ -141,7 +171,7 @@
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
-         [Enter API information here.]
+         The report item UI extension should implement the IReportEditorPage interface defined in the &lt;i&gt;org.eclipse.birt.report.designer.ui.editors&lt;/i&gt; package. See the package&apos;s JavaDoc documentation and API interfaces for more information.
       </documentation>
    </annotation>
 
@@ -150,7 +180,8 @@
          <meta.section type="implementation"/>
       </appInfo>
       <documentation>
-         [Enter information about supplied implementation of this extension point.]
+         The plugin &lt;i&gt;org.eclipse.birt.report.designer.ui.editors.schematic&lt;/i&gt;, supplied with the BIRT installation, provides a good example for implementing a multip page editor contributor extension point.
+&lt;br&gt;
       </documentation>
    </annotation>
 
@@ -159,7 +190,9 @@
          <meta.section type="copyright"/>
       </appInfo>
       <documentation>
-         
+         Copyright (c) 2005 Actuate Corporation. All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+
+Contributors: Actuate Corporation - initial API and implementation
       </documentation>
    </annotation>
 
