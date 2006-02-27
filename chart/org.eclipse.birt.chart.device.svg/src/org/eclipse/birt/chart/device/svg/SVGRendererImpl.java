@@ -559,12 +559,24 @@ public class SVGRendererImpl extends SwingRendererImpl
 					break;
 				case ActionType.URL_REDIRECT:
 					URLValue urlValue = ((URLValue) tg.getAction().getValue());
-					Element aLink = ((SVGGraphics2D)_g2d).createElement("a"); //$NON-NLS-1$
-					aLink.setAttribute("xlink:href", urlValue.getBaseUrl()); //$NON-NLS-1$
-					if (urlValue.getTarget() != null)
-						aLink.setAttribute("target", urlValue.getTarget()); //$NON-NLS-1$ 
-					aLink.appendChild(elm);
-					elm = aLink;
+					//See if this is an internal anchor link
+					System.out.println("urlValue.getBaseUrl() "  + urlValue.getBaseUrl());
+					if ( urlValue.getBaseUrl().startsWith("#")){ //$NON-NLS-1$
+						Element aLink = ((SVGGraphics2D)_g2d).createElement("g"); //$NON-NLS-1$
+						aLink.setAttribute("onclick", "parent.document.location='"+urlValue.getBaseUrl()+"';"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						aLink.setAttribute("style", "cursor:pointer"); //$NON-NLS-1$ //$NON-NLS-2$
+						aLink.appendChild(elm);
+						elm = aLink;
+					}
+					else{
+						Element aLink = ((SVGGraphics2D)_g2d).createElement("a"); //$NON-NLS-1$
+							
+						aLink.setAttribute("xlink:href", urlValue.getBaseUrl()); //$NON-NLS-1$
+						if (urlValue.getTarget() != null)
+							aLink.setAttribute("target", urlValue.getTarget()); //$NON-NLS-1$ 
+						aLink.appendChild(elm);
+						elm = aLink;
+					}					
 					break;
 
 				case ActionType.TOGGLE_VISIBILITY :
@@ -594,30 +606,30 @@ public class SVGRendererImpl extends SwingRendererImpl
 					}
 					break;
 					
-				case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
-					if ( src.getType( ) == StructureType.SERIES )
-					{
-						
-						final Series seRT = (Series) src.getSource( );
-						logger.log( ILogger.INFORMATION,
-								Messages.getString( "info.toggle.datapoint.visibility", //$NON-NLS-1$
-										getLocale() )
-										+ seRT );
-						Series seDT = null;
-						try
-						{
-							seDT = findDesignTimeSeries( seRT );
-						}
-						catch ( ChartException oosx )
-						{
-							logger.log( oosx );
-							return;
-						}
-						if (seDT != null)
-							cacheHotspots.put(elm, seDT);
-						
-					}
-					break;
+//				case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
+//					if ( src.getType( ) == StructureType.SERIES )
+//					{
+//						
+//						final Series seRT = (Series) src.getSource( );
+//						logger.log( ILogger.INFORMATION,
+//								Messages.getString( "info.toggle.datapoint.visibility", //$NON-NLS-1$
+//										getLocale() )
+//										+ seRT );
+//						Series seDT = null;
+//						try
+//						{
+//							seDT = findDesignTimeSeries( seRT );
+//						}
+//						catch ( ChartException oosx )
+//						{
+//							logger.log( oosx );
+//							return;
+//						}
+//						if (seDT != null)
+//							cacheHotspots.put(elm, seDT);
+//						
+//					}
+//					break;
 					
 				case ActionType.HIGHLIGHT :
 					
@@ -1221,7 +1233,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	
 	protected Image createImage( byte[] data )
 	{
-		return new SVGImage(super.createImage(data), null, data );
+		return null;//new SVGImage(super.createImage(data), null, data );
 	}
 	
 
