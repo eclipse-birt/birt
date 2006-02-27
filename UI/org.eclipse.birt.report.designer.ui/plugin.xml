@@ -11,9 +11,6 @@
       <library name="ui.jar">
          <export name="*"/>
       </library>
-      <library name="lib/jseditor.jar">
-         <export name="*"/>
-      </library>
    </runtime>
    <requires>
       <import plugin="org.eclipse.ui"/>
