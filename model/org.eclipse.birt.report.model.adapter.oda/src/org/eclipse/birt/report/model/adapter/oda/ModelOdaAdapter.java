@@ -218,23 +218,32 @@ public class ModelOdaAdapter
 
 			// set public properties.
 
-			List props = sourceDesign.getPublicProperties( ).getProperties( );
-			for ( int i = 0; i < props.size( ); i++ )
+			Properties props = sourceDesign.getPublicProperties( );
+			if ( props != null )
 			{
-				Property prop = (Property) props.get( i );
-				sourceHandle.setProperty( prop.getName( ), prop.getValue( ) );
+				EList propList = props.getProperties( );
+				for ( int i = 0; i < propList.size( ); i++ )
+				{
+					Property prop = (Property) propList.get( i );
+					sourceHandle
+							.setProperty( prop.getName( ), prop.getValue( ) );
+				}
 			}
 
 			// set private properties.
 
-			props = sourceDesign.getPrivateProperties( ).getProperties( );
-
-			for ( int i = 0; i < props.size( ); i++ )
+			props = sourceDesign.getPrivateProperties( );
+			if ( props != null )
 			{
-				Property prop = (Property) props.get( i );
-				sourceHandle.setPrivateDriverProperty( prop.getName( ), prop
-						.getValue( ) );
+				EList propList = props.getProperties( );
+				for ( int i = 0; i < propList.size( ); i++ )
+				{
+					Property prop = (Property) propList.get( i );
+					sourceHandle.setPrivateDriverProperty( prop.getName( ),
+							prop.getValue( ) );
+				}
 			}
+
 		}
 		catch ( SemanticException e )
 		{
