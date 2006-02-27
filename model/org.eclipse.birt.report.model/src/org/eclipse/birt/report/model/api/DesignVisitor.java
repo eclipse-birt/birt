@@ -602,7 +602,7 @@ public class DesignVisitor
 	 *            the template element to traverse
 	 */
 
-	public void visitTemplateElement( TemplateElementHandle obj )
+	protected void visitTemplateElement( TemplateElementHandle obj )
 	{
 		visitDesignElement( obj );
 	}
@@ -614,7 +614,7 @@ public class DesignVisitor
 	 *            the template report item to traverse
 	 */
 
-	public void visitTemplateReportItem( TemplateReportItemHandle obj )
+	protected void visitTemplateReportItem( TemplateReportItemHandle obj )
 	{
 		visitTemplateElement( obj );
 	}
@@ -626,7 +626,7 @@ public class DesignVisitor
 	 *            the template data set to traverse
 	 */
 
-	public void visitTemplateDataSet( TemplateDataSetHandle obj )
+	protected void visitTemplateDataSet( TemplateDataSetHandle obj )
 	{
 		visitTemplateElement( obj );
 	}
@@ -1054,7 +1054,7 @@ public class DesignVisitor
 
 		public void visitTemplateReportItem( TemplateReportItem obj )
 		{
-			DesignVisitor.this.visitTemplateElement( obj.handle( module ) );
+			DesignVisitor.this.visitTemplateReportItem( obj.handle( module ) );
 		}
 
 		/**
@@ -1066,7 +1066,7 @@ public class DesignVisitor
 
 		public void visitTemplateDataSet( TemplateDataSet obj )
 		{
-			DesignVisitor.this.visitTemplateElement( obj.handle( module ) );
+			DesignVisitor.this.visitTemplateDataSet( obj.handle( module ) );
 		}
 	}
 }
