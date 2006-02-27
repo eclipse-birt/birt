@@ -13,14 +13,20 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.SimpleMasterPage;
+import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 
 /**
@@ -116,21 +122,21 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
  * </ul>
  * 
  * <pre>
- *                    // Include one library
- *                    
- *                    ReportDesignHandle designHandle = ...;
- *                    designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
- *                    LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
- *                     
- *                    // Create one label based on the one in library
- *                   
- *                    LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
- *                    LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
- *                   
- *                    // Add the new label into design file
- *                   
- *                    designHandle.getBody().add(myLabelHandle);
- *                 
+ *                                          // Include one library
+ *                                          
+ *                                          ReportDesignHandle designHandle = ...;
+ *                                          designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
+ *                                          LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *                                           
+ *                                          // Create one label based on the one in library
+ *                                         
+ *                                          LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
+ *                                          LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
+ *                                         
+ *                                          // Add the new label into design file
+ *                                         
+ *                                          designHandle.getBody().add(myLabelHandle);
+ *                                       
  * </pre>
  * 
  * @see org.eclipse.birt.report.model.elements.ReportDesign
@@ -140,6 +146,8 @@ public class ReportDesignHandle extends ModuleHandle
 		implements
 			IReportDesignModel
 {
+
+	boolean isInitialized = false;
 
 	/**
 	 * Constructs a handle with the given design. The application generally does
@@ -722,4 +730,63 @@ public class ReportDesignHandle extends ModuleHandle
 		return module.getBookmarksFrom( BODY_SLOT );
 	}
 
+	/**
+	 * Initializes the report design when it is just created.
+	 * <li> Check if the reprot has a master page defined, if no, add one. </li>
+	 * <li> Set the value to the properties on repot design element which need
+	 * the initialize valuel. </li>
+	 * 
+	 * All initialize operations will not go into the command stack and can not
+	 * be undo redo.
+	 * 
+	 * @param properties
+	 *            the property name value pairs.Those properties in the map are
+	 *            which need to be initialized.
+	 * @throws SemanticException
+	 *             SemamticException will throw out when the give properties map
+	 *             contians invlid property name or property value.
+	 */
+	public void initializeReportDesign( Map properties )
+			throws SemanticException
+	{
+		// if this report deisgn has been initialized, return.
+		if ( isInitialized )
+			return;
+
+		String name = null;
+		Object value = null;
+		ReportDesign design = (ReportDesign) getElement( );
+		Set propNames = properties.keySet( );
+
+		// check whether this report has a masterPage, if no, create one.
+		if ( getMasterPages( ).getCount( ) == 0 )
+		{
+			MasterPageHandle page = getElementFactory( ).newSimpleMasterPage(
+					"Simple MasterPage" );
+			TextItemHandle text = getElementFactory( ).newTextItem( null );
+
+			( (TextItem) text.getElement( ) ).setProperty(
+					TextItem.CONTENT_TYPE_PROP,
+					DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
+			( (TextItem) text.getElement( ) ).setProperty(
+					TextItem.CONTENT_PROP, "<value-of>new Date()</value-of>" );
+
+			page.getElement().getSlot( SimpleMasterPage.PAGE_FOOTER_SLOT )
+					.add( text.element );
+			design.getSlot( ReportDesign.PAGE_SLOT ).add( page.element );
+		}
+
+		// initialize the properties for the reprot design.
+		Iterator itre = propNames.iterator( );
+		while ( itre.hasNext( ) )
+		{
+			name = (String) itre.next( );
+			value = PropertyValueValidationUtil.validateProperty( this, name,
+					properties.get( name ) );
+			design.setProperty( name, value );
+		}
+
+		isInitialized = true;
+
+	}
 }
