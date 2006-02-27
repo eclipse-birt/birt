@@ -54,7 +54,7 @@
 <project name="BIRT Library Explorer Project" default="Jar" basedir=".">
 
 
-	<description>BIRT Core Project.</description>
+	<description>BIRT Library Explorer Project.</description>
 	<!-- set global properties for this build -->
 	<!-- Public properties, used by public targets, top level build script
 		     will pass on the value at runtime. Properties will have there default
