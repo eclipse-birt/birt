@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.1 U (http://www.xmlspy.com) by David Michonneau (Actuate Corporation) -->
 <!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by aa (ORiON) -->
-<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelAttribute" xmlns="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:chart="http://www.birt.eclipse.org/ChartModel" xmlns:component="http://www.birt.eclipse.org/ChartModelComponent" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:type="http://www.birt.eclipse.org/ChartModelType" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:type="http://www.birt.eclipse.org/ChartModelType" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:component="http://www.birt.eclipse.org/ChartModelComponent" xmlns:chart="http://www.birt.eclipse.org/ChartModel" xmlns="http://www.birt.eclipse.org/ChartModelAttribute">
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModel" schemaLocation="model.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelComponent" schemaLocation="component.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelData" schemaLocation="data.xsd"/>
@@ -91,6 +92,7 @@
 			<xsd:enumeration value="onkeydown"/>
 			<xsd:enumeration value="onkeypress"/>
 			<xsd:enumeration value="onkeyup"/>
+			<xsd:enumeration value="accessibility"/>
 			<xsd:enumeration value="onload"/>
 		</xsd:restriction>
 	</xsd:simpleType>
@@ -596,6 +598,27 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 					<xsd:element name="Identifier" type="xsd:string">
 						<xsd:annotation>
 							<xsd:documentation>Specify a call back identifier to be used in the call back routine.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="AccessibilityValue">
+		<xsd:annotation>
+			<xsd:documentation>                                                This type defines the value for a 'Accessibility' action.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ActionValue">
+				<xsd:sequence>
+					<xsd:element name="Text" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Short Description</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Accessibility" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Full Description</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
 				</xsd:sequence>

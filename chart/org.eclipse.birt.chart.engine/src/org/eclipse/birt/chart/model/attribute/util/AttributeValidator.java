@@ -173,6 +173,10 @@ public class AttributeValidator extends EObjectValidator
 	{
 		switch ( classifierID )
 		{
+			case AttributePackage.ACCESSIBILITY_VALUE :
+				return validateAccessibilityValue( (AccessibilityValue) value,
+						diagnostics,
+						context );
 			case AttributePackage.ACTION_VALUE :
 				return validateActionValue( (ActionValue) value,
 						diagnostics,
@@ -566,6 +570,20 @@ public class AttributeValidator extends EObjectValidator
 			default :
 				return true;
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateAccessibilityValue(
+			AccessibilityValue accessibilityValue, DiagnosticChain diagnostics,
+			Map context )
+	{
+		return validate_EveryDefaultConstraint( accessibilityValue,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -1514,7 +1532,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public static final PatternMatcher[][] ID__PATTERN__VALUES = new PatternMatcher[][]{
 		new PatternMatcher[]{
-			XMLTypeUtil.createPatternMatcher( "[A-Z]" ) //$NON-NLS-1$
+			XMLTypeUtil.createPatternMatcher( "[A-Z]" )
 		}
 	};
 

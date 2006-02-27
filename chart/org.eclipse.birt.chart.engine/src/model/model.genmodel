@@ -395,6 +395,7 @@
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onkeydown"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onkeypress"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onkeyup"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/accessibility"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onload"/>
     </genEnums>
     <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//TriggerFlow">
@@ -451,6 +452,10 @@
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//TriggerFlowObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//UnitsOfMeasurementObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//VerticalAlignmentObject"/>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//AccessibilityValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//AccessibilityValue/text"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//AccessibilityValue/accessibility"/>
+    </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//ActionValue"/>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//Angle3D">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Angle3D/xAngle"/>

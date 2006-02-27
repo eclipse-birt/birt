@@ -6,6 +6,34 @@
   <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
     <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;Schema file for the chart.model package.&#xD;&#xA;&#x9;&#x9;"/>
   </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="AccessibilityValue" eSuperTypes="#//ActionValue">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="                                                This type defines the value for a 'Accessibility' action."/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="AccessibilityValue"/>
+      <details key="kind" value="elementOnly"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Short Description"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Text"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="accessibility" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Full Description"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Accessibility"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ActionType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines the allowed values for Action types (for interactivity with chart). Any new Action type needs to be added here to be supported.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
@@ -1877,7 +1905,8 @@
     <eLiterals name="onkeydown" value="11"/>
     <eLiterals name="onkeypress" value="12"/>
     <eLiterals name="onkeyup" value="13"/>
-    <eLiterals name="onload" value="14"/>
+    <eLiterals name="accessibility" value="14"/>
+    <eLiterals name="onload" value="15"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="TriggerConditionObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

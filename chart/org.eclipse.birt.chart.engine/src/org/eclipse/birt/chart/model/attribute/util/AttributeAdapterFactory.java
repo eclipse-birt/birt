@@ -108,6 +108,11 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 	 */
 	protected AttributeSwitch modelSwitch = new AttributeSwitch( ) {
 
+		public Object caseAccessibilityValue( AccessibilityValue object )
+		{
+			return createAccessibilityValueAdapter( );
+		}
+
 		public Object caseActionValue( ActionValue object )
 		{
 			return createActionValueAdapter( );
@@ -313,6 +318,21 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 	public Adapter createAdapter( Notifier target )
 	{
 		return (Adapter) modelSwitch.doSwitch( (EObject) target );
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.attribute.AccessibilityValue <em>Accessibility Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.attribute.AccessibilityValue
+	 * @generated
+	 */
+	public Adapter createAccessibilityValueAdapter( )
+	{
+		return null;
 	}
 
 	/**

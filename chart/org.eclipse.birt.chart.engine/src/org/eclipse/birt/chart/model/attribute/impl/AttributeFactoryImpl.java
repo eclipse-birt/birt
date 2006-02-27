@@ -146,6 +146,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	{
 		switch ( eClass.getClassifierID( ) )
 		{
+			case AttributePackage.ACCESSIBILITY_VALUE :
+				return createAccessibilityValue( );
 			case AttributePackage.ACTION_VALUE :
 				return createActionValue( );
 			case AttributePackage.ANGLE3_D :
@@ -595,6 +597,17 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 			default :
 				throw new IllegalArgumentException( "The datatype '" + eDataType.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AccessibilityValue createAccessibilityValue( )
+	{
+		AccessibilityValueImpl accessibilityValue = new AccessibilityValueImpl( );
+		return accessibilityValue;
 	}
 
 	/**

@@ -30,6 +30,15 @@ public interface AttributeFactory extends EFactory
 	AttributeFactory eINSTANCE = org.eclipse.birt.chart.model.attribute.impl.AttributeFactoryImpl.init( );
 
 	/**
+	 * Returns a new object of class '<em>Accessibility Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Accessibility Value</em>'.
+	 * @generated
+	 */
+	AccessibilityValue createAccessibilityValue( );
+
+	/**
 	 * Returns a new object of class '<em>Action Value</em>'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return a new object of class '<em>Action Value</em>'.

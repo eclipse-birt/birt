@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xsd2ecore:XSD2EcoreMappingRoot xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsd2ecore="http://www.eclipse.org/emf/2002/XSD2Ecore" inputs="../../xsd/attribute.xsd#/ ../../xsd/data.xsd#/ ../../xsd/type.xsd#/ ../../xsd/component.xsd#/ ../../xsd/layout.xsd#/ ../../xsd/model.xsd#/"
-    outputs="org.eclipse.birt.chart.model.data.ecore#/ org.eclipse.birt.chart.model.attribute.ecore#/ org.eclipse.birt.chart.model.type.ecore#/ org.eclipse.birt.chart.model.component.ecore#/ org.eclipse.birt.chart.model.layout.ecore#/ org.eclipse.birt.chart.model.ecore#/"
+    outputs="org.eclipse.birt.chart.model.attribute.ecore#/ org.eclipse.birt.chart.model.data.ecore#/ org.eclipse.birt.chart.model.type.ecore#/ org.eclipse.birt.chart.model.component.ecore#/ org.eclipse.birt.chart.model.layout.ecore#/ org.eclipse.birt.chart.model.ecore#/"
     topToBottom="true">
+  <nested inputs="../../xsd/attribute.xsd#//ActionValue;XSDComplexTypeDefinition=1"
+      outputs="org.eclipse.birt.chart.model.attribute.ecore#//ActionValue"/>
+  <nested inputs="bundleentry://169/cache/www.w3.org/2001/XMLSchema.xsd#//string;XSDSimpleTypeDefinition=7"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  <nested inputs="../../xsd/attribute.xsd#//AccessibilityValue;XSDComplexTypeDefinition=7"
+      outputs="org.eclipse.birt.chart.model.attribute.ecore#//AccessibilityValue">
+    <nested inputs="../../xsd/attribute.xsd#//AccessibilityValue;XSDComplexTypeDefinition=7/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//AccessibilityValue/text"/>
+    <nested inputs="../../xsd/attribute.xsd#//AccessibilityValue;XSDComplexTypeDefinition=7/XSDParticle/XSDModelGroup/XSDParticle=1"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//AccessibilityValue/accessibility"/>
+  </nested>
   <nested inputs="../../xsd/attribute.xsd#//ActionType;XSDSimpleTypeDefinition=3"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//ActionType">
     <nested inputs="../../xsd/attribute.xsd#//ActionType;XSDSimpleTypeDefinition=3/XSDEnumerationFacet"
@@ -20,8 +31,6 @@
     <nested inputs="../../xsd/attribute.xsd#//ActionType;XSDSimpleTypeDefinition=3/XSDEnumerationFacet=6"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//ActionType/ToggleDataPointVisibility"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//ActionValue;XSDComplexTypeDefinition=1"
-      outputs="org.eclipse.birt.chart.model.attribute.ecore#//ActionValue"/>
   <nested inputs="../../xsd/data.xsd#//Action;XSDComplexTypeDefinition=10" outputs="org.eclipse.birt.chart.model.data.ecore#//Action">
     <nested inputs="../../xsd/data.xsd#//Action;XSDComplexTypeDefinition=10/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.data.ecore#//Action/type"/>
@@ -46,7 +55,7 @@
     <nested inputs="../../xsd/attribute.xsd#//Anchor;XSDSimpleTypeDefinition=15/XSDEnumerationFacet=7"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Anchor/NorthWest"/>
   </nested>
-  <nested inputs="bundleentry://163/cache/www.w3.org/2001/XMLSchema.xsd#//double;XSDSimpleTypeDefinition=10"
+  <nested inputs="bundleentry://169/cache/www.w3.org/2001/XMLSchema.xsd#//double;XSDSimpleTypeDefinition=10"
       outputs="http://www.eclipse.org/emf/2003/XMLType#//Double"/>
   <nested inputs="../../xsd/attribute.xsd#//AngleType;XSDSimpleTypeDefinition=31"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//AngleType">
@@ -59,21 +68,19 @@
     <nested inputs="../../xsd/attribute.xsd#//AngleType;XSDSimpleTypeDefinition=31/XSDEnumerationFacet=3"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//AngleType/Z"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//Angle3D;XSDComplexTypeDefinition=11" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Angle3D">
-    <nested inputs="../../xsd/attribute.xsd#//Angle3D;XSDComplexTypeDefinition=11/XSDParticle/XSDModelGroup/XSDParticle"
+  <nested inputs="../../xsd/attribute.xsd#//Angle3D;XSDComplexTypeDefinition=12" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Angle3D">
+    <nested inputs="../../xsd/attribute.xsd#//Angle3D;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Angle3D/xAngle"/>
-    <nested inputs="../../xsd/attribute.xsd#//Angle3D;XSDComplexTypeDefinition=11/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//Angle3D;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Angle3D/yAngle"/>
-    <nested inputs="../../xsd/attribute.xsd#//Angle3D;XSDComplexTypeDefinition=11/XSDParticle/XSDModelGroup/XSDParticle=2"
+    <nested inputs="../../xsd/attribute.xsd#//Angle3D;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=2"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Angle3D/zAngle"/>
-    <nested inputs="../../xsd/attribute.xsd#//Angle3D;XSDComplexTypeDefinition=11/XSDParticle/XSDModelGroup/XSDParticle=3"
+    <nested inputs="../../xsd/attribute.xsd#//Angle3D;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=3"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Angle3D/type"/>
   </nested>
-  <nested inputs="bundleentry://163/cache/www.w3.org/2001/XMLSchema.xsd#//boolean;XSDSimpleTypeDefinition=8"
+  <nested inputs="bundleentry://169/cache/www.w3.org/2001/XMLSchema.xsd#//boolean;XSDSimpleTypeDefinition=8"
       outputs="http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
-  <nested inputs="bundleentry://163/cache/www.w3.org/2001/XMLSchema.xsd#//string;XSDSimpleTypeDefinition=7"
-      outputs="http://www.eclipse.org/emf/2003/XMLType#//String"/>
-  <nested inputs="bundleentry://163/cache/www.w3.org/2001/XMLSchema.xsd#//float;XSDSimpleTypeDefinition=9"
+  <nested inputs="bundleentry://169/cache/www.w3.org/2001/XMLSchema.xsd#//float;XSDSimpleTypeDefinition=9"
       outputs="http://www.eclipse.org/emf/2003/XMLType#//Float"/>
   <nested inputs="../../xsd/attribute.xsd#//HorizontalAlignment;XSDSimpleTypeDefinition=12"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//HorizontalAlignment">
@@ -93,58 +100,58 @@
     <nested inputs="../../xsd/attribute.xsd#//VerticalAlignment;XSDSimpleTypeDefinition=13/XSDEnumerationFacet=2"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//VerticalAlignment/Bottom"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//TextAlignment;XSDComplexTypeDefinition=8"
+  <nested inputs="../../xsd/attribute.xsd#//TextAlignment;XSDComplexTypeDefinition=9"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//TextAlignment">
-    <nested inputs="../../xsd/attribute.xsd#//TextAlignment;XSDComplexTypeDefinition=8/XSDParticle/XSDModelGroup/XSDParticle"
+    <nested inputs="../../xsd/attribute.xsd#//TextAlignment;XSDComplexTypeDefinition=9/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//TextAlignment/horizontalAlignment"/>
-    <nested inputs="../../xsd/attribute.xsd#//TextAlignment;XSDComplexTypeDefinition=8/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//TextAlignment;XSDComplexTypeDefinition=9/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//TextAlignment/verticalAlignment"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=23"
+  <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=24"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//FontDefinition">
-    <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=23/XSDParticle/XSDModelGroup/XSDParticle"
+    <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=24/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//FontDefinition/name"/>
-    <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=23/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=24/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//FontDefinition/size"/>
-    <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=23/XSDParticle/XSDModelGroup/XSDParticle=2"
+    <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=24/XSDParticle/XSDModelGroup/XSDParticle=2"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//FontDefinition/bold"/>
-    <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=23/XSDParticle/XSDModelGroup/XSDParticle=3"
+    <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=24/XSDParticle/XSDModelGroup/XSDParticle=3"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//FontDefinition/italic"/>
-    <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=23/XSDParticle/XSDModelGroup/XSDParticle=4"
+    <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=24/XSDParticle/XSDModelGroup/XSDParticle=4"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//FontDefinition/strikethrough"/>
-    <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=23/XSDParticle/XSDModelGroup/XSDParticle=5"
+    <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=24/XSDParticle/XSDModelGroup/XSDParticle=5"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//FontDefinition/underline"/>
-    <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=23/XSDParticle/XSDModelGroup/XSDParticle=6"
+    <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=24/XSDParticle/XSDModelGroup/XSDParticle=6"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//FontDefinition/wordWrap"/>
-    <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=23/XSDParticle/XSDModelGroup/XSDParticle=7"
+    <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=24/XSDParticle/XSDModelGroup/XSDParticle=7"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//FontDefinition/alignment"/>
-    <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=23/XSDParticle/XSDModelGroup/XSDParticle=8"
+    <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=24/XSDParticle/XSDModelGroup/XSDParticle=8"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//FontDefinition/rotation"/>
   </nested>
-  <nested inputs="bundleentry://163/cache/www.w3.org/2001/XMLSchema.xsd#//int;XSDSimpleTypeDefinition=42"
+  <nested inputs="bundleentry://169/cache/www.w3.org/2001/XMLSchema.xsd#//int;XSDSimpleTypeDefinition=42"
       outputs="http://www.eclipse.org/emf/2003/XMLType#//Int"/>
-  <nested inputs="../../xsd/attribute.xsd#//Fill;XSDComplexTypeDefinition=18" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Fill">
-    <nested inputs="../../xsd/attribute.xsd#//Fill;XSDComplexTypeDefinition=18/XSDParticle/XSDModelGroup/XSDParticle"
+  <nested inputs="../../xsd/attribute.xsd#//Fill;XSDComplexTypeDefinition=19" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Fill">
+    <nested inputs="../../xsd/attribute.xsd#//Fill;XSDComplexTypeDefinition=19/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Fill/type"/>
   </nested>
   <nested inputs="../../xsd/attribute.xsd#//RGBValue;XSDSimpleTypeDefinition=34" outputs="org.eclipse.birt.chart.model.attribute.ecore#//RGBValue"/>
-  <nested inputs="../../xsd/attribute.xsd#//ColorDefinition;XSDComplexTypeDefinition=19"
+  <nested inputs="../../xsd/attribute.xsd#//ColorDefinition;XSDComplexTypeDefinition=20"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//ColorDefinition">
-    <nested inputs="../../xsd/attribute.xsd#//ColorDefinition;XSDComplexTypeDefinition=19/XSDParticle/XSDModelGroup/XSDParticle"
+    <nested inputs="../../xsd/attribute.xsd#//ColorDefinition;XSDComplexTypeDefinition=20/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//ColorDefinition/transparency"/>
-    <nested inputs="../../xsd/attribute.xsd#//ColorDefinition;XSDComplexTypeDefinition=19/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//ColorDefinition;XSDComplexTypeDefinition=20/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//ColorDefinition/red"/>
-    <nested inputs="../../xsd/attribute.xsd#//ColorDefinition;XSDComplexTypeDefinition=19/XSDParticle/XSDModelGroup/XSDParticle=2"
+    <nested inputs="../../xsd/attribute.xsd#//ColorDefinition;XSDComplexTypeDefinition=20/XSDParticle/XSDModelGroup/XSDParticle=2"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//ColorDefinition/green"/>
-    <nested inputs="../../xsd/attribute.xsd#//ColorDefinition;XSDComplexTypeDefinition=19/XSDParticle/XSDModelGroup/XSDParticle=3"
+    <nested inputs="../../xsd/attribute.xsd#//ColorDefinition;XSDComplexTypeDefinition=20/XSDParticle/XSDModelGroup/XSDParticle=3"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//ColorDefinition/blue"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//Text;XSDComplexTypeDefinition=7" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Text">
-    <nested inputs="../../xsd/attribute.xsd#//Text;XSDComplexTypeDefinition=7/XSDParticle/XSDModelGroup/XSDParticle"
+  <nested inputs="../../xsd/attribute.xsd#//Text;XSDComplexTypeDefinition=8" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Text">
+    <nested inputs="../../xsd/attribute.xsd#//Text;XSDComplexTypeDefinition=8/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Text/value"/>
-    <nested inputs="../../xsd/attribute.xsd#//Text;XSDComplexTypeDefinition=7/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//Text;XSDComplexTypeDefinition=8/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Text/font"/>
-    <nested inputs="../../xsd/attribute.xsd#//Text;XSDComplexTypeDefinition=7/XSDParticle/XSDModelGroup/XSDParticle=2"
+    <nested inputs="../../xsd/attribute.xsd#//Text;XSDComplexTypeDefinition=8/XSDParticle/XSDModelGroup/XSDParticle=2"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Text/color"/>
   </nested>
   <nested inputs="../../xsd/attribute.xsd#//LineStyle;XSDSimpleTypeDefinition=19"
@@ -158,25 +165,25 @@
     <nested inputs="../../xsd/attribute.xsd#//LineStyle;XSDSimpleTypeDefinition=19/XSDEnumerationFacet=3"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//LineStyle/DashDotted"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//LineAttributes;XSDComplexTypeDefinition=16"
+  <nested inputs="../../xsd/attribute.xsd#//LineAttributes;XSDComplexTypeDefinition=17"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//LineAttributes">
-    <nested inputs="../../xsd/attribute.xsd#//LineAttributes;XSDComplexTypeDefinition=16/XSDParticle/XSDModelGroup/XSDParticle"
+    <nested inputs="../../xsd/attribute.xsd#//LineAttributes;XSDComplexTypeDefinition=17/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//LineAttributes/style"/>
-    <nested inputs="../../xsd/attribute.xsd#//LineAttributes;XSDComplexTypeDefinition=16/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//LineAttributes;XSDComplexTypeDefinition=17/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//LineAttributes/thickness"/>
-    <nested inputs="../../xsd/attribute.xsd#//LineAttributes;XSDComplexTypeDefinition=16/XSDParticle/XSDModelGroup/XSDParticle=2"
+    <nested inputs="../../xsd/attribute.xsd#//LineAttributes;XSDComplexTypeDefinition=17/XSDParticle/XSDModelGroup/XSDParticle=2"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//LineAttributes/color"/>
-    <nested inputs="../../xsd/attribute.xsd#//LineAttributes;XSDComplexTypeDefinition=16/XSDParticle/XSDModelGroup/XSDParticle=3"
+    <nested inputs="../../xsd/attribute.xsd#//LineAttributes;XSDComplexTypeDefinition=17/XSDParticle/XSDModelGroup/XSDParticle=3"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//LineAttributes/visible"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//Insets;XSDComplexTypeDefinition=15" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Insets">
-    <nested inputs="../../xsd/attribute.xsd#//Insets;XSDComplexTypeDefinition=15/XSDParticle/XSDModelGroup/XSDParticle"
+  <nested inputs="../../xsd/attribute.xsd#//Insets;XSDComplexTypeDefinition=16" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Insets">
+    <nested inputs="../../xsd/attribute.xsd#//Insets;XSDComplexTypeDefinition=16/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Insets/top"/>
-    <nested inputs="../../xsd/attribute.xsd#//Insets;XSDComplexTypeDefinition=15/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//Insets;XSDComplexTypeDefinition=16/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Insets/left"/>
-    <nested inputs="../../xsd/attribute.xsd#//Insets;XSDComplexTypeDefinition=15/XSDParticle/XSDModelGroup/XSDParticle=2"
+    <nested inputs="../../xsd/attribute.xsd#//Insets;XSDComplexTypeDefinition=16/XSDParticle/XSDModelGroup/XSDParticle=2"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Insets/bottom"/>
-    <nested inputs="../../xsd/attribute.xsd#//Insets;XSDComplexTypeDefinition=15/XSDParticle/XSDModelGroup/XSDParticle=3"
+    <nested inputs="../../xsd/attribute.xsd#//Insets;XSDComplexTypeDefinition=16/XSDParticle/XSDModelGroup/XSDParticle=3"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Insets/right"/>
   </nested>
   <nested inputs="../../xsd/component.xsd#//Label;XSDComplexTypeDefinition=2" outputs="org.eclipse.birt.chart.model.component.ecore#//Label">
@@ -213,7 +220,7 @@
     <nested inputs="../../xsd/data.xsd#//Query;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.data.ecore#//Query/rules"/>
   </nested>
-  <nested inputs="bundleentry://163/cache/www.w3.org/2001/MagicXMLSchema.xsd#//anySimpleType;XSDSimpleTypeDefinition=1"
+  <nested inputs="bundleentry://169/cache/www.w3.org/2001/MagicXMLSchema.xsd#//anySimpleType;XSDSimpleTypeDefinition=1"
       outputs="http://www.eclipse.org/emf/2003/XMLType#//AnySimpleType"/>
   <nested inputs="../../xsd/attribute.xsd#//DataPointComponentType;XSDSimpleTypeDefinition=7"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataPointComponentType">
@@ -226,24 +233,24 @@
     <nested inputs="../../xsd/attribute.xsd#//DataPointComponentType;XSDSimpleTypeDefinition=7/XSDEnumerationFacet=3"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataPointComponentType/PercentileOrthogonalValue"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//FormatSpecifier;XSDComplexTypeDefinition=24"
+  <nested inputs="../../xsd/attribute.xsd#//FormatSpecifier;XSDComplexTypeDefinition=25"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//FormatSpecifier"/>
-  <nested inputs="../../xsd/attribute.xsd#//DataPointComponent;XSDComplexTypeDefinition=33"
+  <nested inputs="../../xsd/attribute.xsd#//DataPointComponent;XSDComplexTypeDefinition=34"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataPointComponent">
-    <nested inputs="../../xsd/attribute.xsd#//DataPointComponent;XSDComplexTypeDefinition=33/XSDParticle/XSDModelGroup/XSDParticle"
+    <nested inputs="../../xsd/attribute.xsd#//DataPointComponent;XSDComplexTypeDefinition=34/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataPointComponent/type"/>
-    <nested inputs="../../xsd/attribute.xsd#//DataPointComponent;XSDComplexTypeDefinition=33/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//DataPointComponent;XSDComplexTypeDefinition=34/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataPointComponent/formatSpecifier"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//DataPoint;XSDComplexTypeDefinition=32"
+  <nested inputs="../../xsd/attribute.xsd#//DataPoint;XSDComplexTypeDefinition=33"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataPoint">
-    <nested inputs="../../xsd/attribute.xsd#//DataPoint;XSDComplexTypeDefinition=32/XSDParticle/XSDModelGroup/XSDParticle"
+    <nested inputs="../../xsd/attribute.xsd#//DataPoint;XSDComplexTypeDefinition=33/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataPoint/components"/>
-    <nested inputs="../../xsd/attribute.xsd#//DataPoint;XSDComplexTypeDefinition=32/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//DataPoint;XSDComplexTypeDefinition=33/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataPoint/prefix"/>
-    <nested inputs="../../xsd/attribute.xsd#//DataPoint;XSDComplexTypeDefinition=32/XSDParticle/XSDModelGroup/XSDParticle=2"
+    <nested inputs="../../xsd/attribute.xsd#//DataPoint;XSDComplexTypeDefinition=33/XSDParticle/XSDModelGroup/XSDParticle=2"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataPoint/suffix"/>
-    <nested inputs="../../xsd/attribute.xsd#//DataPoint;XSDComplexTypeDefinition=32/XSDParticle/XSDModelGroup/XSDParticle=3"
+    <nested inputs="../../xsd/attribute.xsd#//DataPoint;XSDComplexTypeDefinition=33/XSDParticle/XSDModelGroup/XSDParticle=3"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataPoint/separator"/>
   </nested>
   <nested inputs="../../xsd/data.xsd#//DataSet;XSDComplexTypeDefinition" outputs="org.eclipse.birt.chart.model.data.ecore#//DataSet">
@@ -295,6 +302,8 @@
     <nested inputs="../../xsd/attribute.xsd#//TriggerCondition;XSDSimpleTypeDefinition=4/XSDEnumerationFacet=13"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onkeyup"/>
     <nested inputs="../../xsd/attribute.xsd#//TriggerCondition;XSDSimpleTypeDefinition=4/XSDEnumerationFacet=14"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/accessibility"/>
+    <nested inputs="../../xsd/attribute.xsd#//TriggerCondition;XSDSimpleTypeDefinition=4/XSDEnumerationFacet=15"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onload"/>
   </nested>
   <nested inputs="../../xsd/attribute.xsd#//TriggerFlow;XSDSimpleTypeDefinition=5"
@@ -380,22 +389,22 @@
     <nested inputs="../../xsd/attribute.xsd#//MarkerType;XSDSimpleTypeDefinition=24/XSDEnumerationFacet=14"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//MarkerType/Cross"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//Palette;XSDComplexTypeDefinition=17" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Palette">
-    <nested inputs="../../xsd/attribute.xsd#//Palette;XSDComplexTypeDefinition=17/XSDParticle/XSDModelGroup/XSDParticle"
+  <nested inputs="../../xsd/attribute.xsd#//Palette;XSDComplexTypeDefinition=18" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Palette">
+    <nested inputs="../../xsd/attribute.xsd#//Palette;XSDComplexTypeDefinition=18/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Palette/name"/>
-    <nested inputs="../../xsd/attribute.xsd#//Palette;XSDComplexTypeDefinition=17/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//Palette;XSDComplexTypeDefinition=18/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Palette/entries"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//Marker;XSDComplexTypeDefinition=31" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Marker">
-    <nested inputs="../../xsd/attribute.xsd#//Marker;XSDComplexTypeDefinition=31/XSDParticle/XSDModelGroup/XSDParticle"
+  <nested inputs="../../xsd/attribute.xsd#//Marker;XSDComplexTypeDefinition=32" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Marker">
+    <nested inputs="../../xsd/attribute.xsd#//Marker;XSDComplexTypeDefinition=32/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Marker/type"/>
-    <nested inputs="../../xsd/attribute.xsd#//Marker;XSDComplexTypeDefinition=31/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//Marker;XSDComplexTypeDefinition=32/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Marker/size"/>
-    <nested inputs="../../xsd/attribute.xsd#//Marker;XSDComplexTypeDefinition=31/XSDParticle/XSDModelGroup/XSDParticle=2"
+    <nested inputs="../../xsd/attribute.xsd#//Marker;XSDComplexTypeDefinition=32/XSDParticle/XSDModelGroup/XSDParticle=2"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Marker/visible"/>
-    <nested inputs="../../xsd/attribute.xsd#//Marker;XSDComplexTypeDefinition=31/XSDParticle/XSDModelGroup/XSDParticle=3"
+    <nested inputs="../../xsd/attribute.xsd#//Marker;XSDComplexTypeDefinition=32/XSDParticle/XSDModelGroup/XSDParticle=3"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Marker/fill"/>
-    <nested inputs="../../xsd/attribute.xsd#//Marker;XSDComplexTypeDefinition=31/XSDParticle/XSDModelGroup/XSDParticle=4"
+    <nested inputs="../../xsd/attribute.xsd#//Marker;XSDComplexTypeDefinition=32/XSDParticle/XSDModelGroup/XSDParticle=4"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Marker/iconPalette"/>
   </nested>
   <nested inputs="../../xsd/type.xsd#//LineSeries;XSDComplexTypeDefinition=2" outputs="org.eclipse.birt.chart.model.type.ecore#//LineSeries">
@@ -594,11 +603,11 @@
     <nested inputs="../../xsd/attribute.xsd#//IntersectionType;XSDSimpleTypeDefinition=22/XSDEnumerationFacet=2"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//IntersectionType/Value"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//AxisOrigin;XSDComplexTypeDefinition=30"
+  <nested inputs="../../xsd/attribute.xsd#//AxisOrigin;XSDComplexTypeDefinition=31"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//AxisOrigin">
-    <nested inputs="../../xsd/attribute.xsd#//AxisOrigin;XSDComplexTypeDefinition=30/XSDParticle/XSDModelGroup/XSDParticle"
+    <nested inputs="../../xsd/attribute.xsd#//AxisOrigin;XSDComplexTypeDefinition=31/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//AxisOrigin/type"/>
-    <nested inputs="../../xsd/attribute.xsd#//AxisOrigin;XSDComplexTypeDefinition=30/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//AxisOrigin;XSDComplexTypeDefinition=31/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//AxisOrigin/value"/>
   </nested>
   <nested inputs="../../xsd/component.xsd#//Axis;XSDComplexTypeDefinition" outputs="org.eclipse.birt.chart.model.component.ecore#//Axis">
@@ -671,14 +680,14 @@
     <nested inputs="../../xsd/data.xsd#//BaseSampleData;XSDComplexTypeDefinition=15/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.data.ecore#//BaseSampleData/dataSetRepresentation"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//Bounds;XSDComplexTypeDefinition=13" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Bounds">
-    <nested inputs="../../xsd/attribute.xsd#//Bounds;XSDComplexTypeDefinition=13/XSDParticle/XSDModelGroup/XSDParticle"
+  <nested inputs="../../xsd/attribute.xsd#//Bounds;XSDComplexTypeDefinition=14" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Bounds">
+    <nested inputs="../../xsd/attribute.xsd#//Bounds;XSDComplexTypeDefinition=14/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Bounds/left"/>
-    <nested inputs="../../xsd/attribute.xsd#//Bounds;XSDComplexTypeDefinition=13/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//Bounds;XSDComplexTypeDefinition=14/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Bounds/top"/>
-    <nested inputs="../../xsd/attribute.xsd#//Bounds;XSDComplexTypeDefinition=13/XSDParticle/XSDModelGroup/XSDParticle=2"
+    <nested inputs="../../xsd/attribute.xsd#//Bounds;XSDComplexTypeDefinition=14/XSDParticle/XSDModelGroup/XSDParticle=2"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Bounds/width"/>
-    <nested inputs="../../xsd/attribute.xsd#//Bounds;XSDComplexTypeDefinition=13/XSDParticle/XSDModelGroup/XSDParticle=3"
+    <nested inputs="../../xsd/attribute.xsd#//Bounds;XSDComplexTypeDefinition=14/XSDParticle/XSDModelGroup/XSDParticle=3"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Bounds/height"/>
   </nested>
   <nested inputs="../../xsd/attribute.xsd#//Stretch;XSDSimpleTypeDefinition=16" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Stretch">
@@ -689,10 +698,10 @@
     <nested inputs="../../xsd/attribute.xsd#//Stretch;XSDSimpleTypeDefinition=16/XSDEnumerationFacet=2"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Stretch/Both"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//Size;XSDComplexTypeDefinition=14" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Size">
-    <nested inputs="../../xsd/attribute.xsd#//Size;XSDComplexTypeDefinition=14/XSDParticle/XSDModelGroup/XSDParticle"
+  <nested inputs="../../xsd/attribute.xsd#//Size;XSDComplexTypeDefinition=15" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Size">
+    <nested inputs="../../xsd/attribute.xsd#//Size;XSDComplexTypeDefinition=15/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Size/height"/>
-    <nested inputs="../../xsd/attribute.xsd#//Size;XSDComplexTypeDefinition=14/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//Size;XSDComplexTypeDefinition=15/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Size/width"/>
   </nested>
   <nested inputs="../../xsd/layout.xsd#//Block;XSDComplexTypeDefinition=4" outputs="org.eclipse.birt.chart.model.layout.ecore#//Block">
@@ -743,11 +752,11 @@
     <nested inputs="../../xsd/attribute.xsd#//ChartDimension;XSDSimpleTypeDefinition=2/XSDEnumerationFacet=2"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//ChartDimension/ThreeDimensional"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//ExtendedProperty;XSDComplexTypeDefinition=36"
+  <nested inputs="../../xsd/attribute.xsd#//ExtendedProperty;XSDComplexTypeDefinition=37"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//ExtendedProperty">
-    <nested inputs="../../xsd/attribute.xsd#//ExtendedProperty;XSDComplexTypeDefinition=36/XSDParticle/XSDModelGroup/XSDParticle"
+    <nested inputs="../../xsd/attribute.xsd#//ExtendedProperty;XSDComplexTypeDefinition=37/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//ExtendedProperty/name"/>
-    <nested inputs="../../xsd/attribute.xsd#//ExtendedProperty;XSDComplexTypeDefinition=36/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//ExtendedProperty;XSDComplexTypeDefinition=37/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//ExtendedProperty/value"/>
   </nested>
   <nested inputs="../../xsd/data.xsd#//OrthogonalSampleData;XSDComplexTypeDefinition=16"
@@ -790,27 +799,27 @@
     <nested inputs="../../xsd/attribute.xsd#//StyledComponent;XSDSimpleTypeDefinition=27/XSDEnumerationFacet=10"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//StyledComponent/SeriesLabel"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//Image;XSDComplexTypeDefinition=21" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Image">
-    <nested inputs="../../xsd/attribute.xsd#//Image;XSDComplexTypeDefinition=21/XSDParticle/XSDModelGroup/XSDParticle"
+  <nested inputs="../../xsd/attribute.xsd#//Image;XSDComplexTypeDefinition=22" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Image">
+    <nested inputs="../../xsd/attribute.xsd#//Image;XSDComplexTypeDefinition=22/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Image/uRL"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//Style;XSDComplexTypeDefinition=35" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Style">
-    <nested inputs="../../xsd/attribute.xsd#//Style;XSDComplexTypeDefinition=35/XSDParticle/XSDModelGroup/XSDParticle"
+  <nested inputs="../../xsd/attribute.xsd#//Style;XSDComplexTypeDefinition=36" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Style">
+    <nested inputs="../../xsd/attribute.xsd#//Style;XSDComplexTypeDefinition=36/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Style/font"/>
-    <nested inputs="../../xsd/attribute.xsd#//Style;XSDComplexTypeDefinition=35/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//Style;XSDComplexTypeDefinition=36/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Style/color"/>
-    <nested inputs="../../xsd/attribute.xsd#//Style;XSDComplexTypeDefinition=35/XSDParticle/XSDModelGroup/XSDParticle=2"
+    <nested inputs="../../xsd/attribute.xsd#//Style;XSDComplexTypeDefinition=36/XSDParticle/XSDModelGroup/XSDParticle=2"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Style/backgroundColor"/>
-    <nested inputs="../../xsd/attribute.xsd#//Style;XSDComplexTypeDefinition=35/XSDParticle/XSDModelGroup/XSDParticle=3"
+    <nested inputs="../../xsd/attribute.xsd#//Style;XSDComplexTypeDefinition=36/XSDParticle/XSDModelGroup/XSDParticle=3"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Style/backgroundImage"/>
-    <nested inputs="../../xsd/attribute.xsd#//Style;XSDComplexTypeDefinition=35/XSDParticle/XSDModelGroup/XSDParticle=4"
+    <nested inputs="../../xsd/attribute.xsd#//Style;XSDComplexTypeDefinition=36/XSDParticle/XSDModelGroup/XSDParticle=4"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Style/padding"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//StyleMap;XSDComplexTypeDefinition=34"
+  <nested inputs="../../xsd/attribute.xsd#//StyleMap;XSDComplexTypeDefinition=35"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//StyleMap">
-    <nested inputs="../../xsd/attribute.xsd#//StyleMap;XSDComplexTypeDefinition=34/XSDParticle/XSDModelGroup/XSDParticle"
+    <nested inputs="../../xsd/attribute.xsd#//StyleMap;XSDComplexTypeDefinition=35/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//StyleMap/componentName"/>
-    <nested inputs="../../xsd/attribute.xsd#//StyleMap;XSDComplexTypeDefinition=34/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//StyleMap;XSDComplexTypeDefinition=35/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//StyleMap/style"/>
   </nested>
   <nested inputs="../../xsd/attribute.xsd#//LegendBehaviorType;XSDSimpleTypeDefinition=6"
@@ -882,9 +891,9 @@
   </nested>
   <nested inputs="../../xsd/attribute.xsd#//Percentage;XSDSimpleTypeDefinition=33"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//Percentage"/>
-  <nested inputs="../../xsd/attribute.xsd#//Rotation3D;XSDComplexTypeDefinition=12"
+  <nested inputs="../../xsd/attribute.xsd#//Rotation3D;XSDComplexTypeDefinition=13"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//Rotation3D">
-    <nested inputs="../../xsd/attribute.xsd#//Rotation3D;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle"
+    <nested inputs="../../xsd/attribute.xsd#//Rotation3D;XSDComplexTypeDefinition=13/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Rotation3D/angles"/>
   </nested>
   <nested inputs="../../xsd/model.xsd#//ChartWithAxes;XSDComplexTypeDefinition=1"
@@ -941,14 +950,14 @@
     <nested inputs="../../xsd/attribute.xsd#//DateFormatType;XSDSimpleTypeDefinition=8/XSDEnumerationFacet=3"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//DateFormatType/Full"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//DateFormatSpecifier;XSDComplexTypeDefinition=25"
+  <nested inputs="../../xsd/attribute.xsd#//DateFormatSpecifier;XSDComplexTypeDefinition=26"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//DateFormatSpecifier">
-    <nested inputs="../../xsd/attribute.xsd#//DateFormatSpecifier;XSDComplexTypeDefinition=25/XSDParticle/XSDModelGroup/XSDParticle"
+    <nested inputs="../../xsd/attribute.xsd#//DateFormatSpecifier;XSDComplexTypeDefinition=26/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//DateFormatSpecifier/type"/>
-    <nested inputs="../../xsd/attribute.xsd#//DateFormatSpecifier;XSDComplexTypeDefinition=25/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//DateFormatSpecifier;XSDComplexTypeDefinition=26/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//DateFormatSpecifier/detail"/>
   </nested>
-  <nested inputs="bundleentry://163/cache/www.w3.org/2001/XMLSchema.xsd#//long;XSDSimpleTypeDefinition=41"
+  <nested inputs="bundleentry://169/cache/www.w3.org/2001/XMLSchema.xsd#//long;XSDSimpleTypeDefinition=41"
       outputs="http://www.eclipse.org/emf/2003/XMLType#//Long"/>
   <nested inputs="../../xsd/data.xsd#//DateTimeDataElement;XSDComplexTypeDefinition=7"
       outputs="org.eclipse.birt.chart.model.data.ecore#//DateTimeDataElement">
@@ -1022,50 +1031,50 @@
     <nested inputs="../../xsd/attribute.xsd#//Direction;XSDSimpleTypeDefinition=18/XSDEnumerationFacet=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Direction/TopBottom"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//EmbeddedImage;XSDComplexTypeDefinition=22"
+  <nested inputs="../../xsd/attribute.xsd#//EmbeddedImage;XSDComplexTypeDefinition=23"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//EmbeddedImage">
-    <nested inputs="../../xsd/attribute.xsd#//EmbeddedImage;XSDComplexTypeDefinition=22/XSDParticle/XSDModelGroup/XSDParticle"
+    <nested inputs="../../xsd/attribute.xsd#//EmbeddedImage;XSDComplexTypeDefinition=23/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//EmbeddedImage/data"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//FractionNumberFormatSpecifier;XSDComplexTypeDefinition=29"
+  <nested inputs="../../xsd/attribute.xsd#//FractionNumberFormatSpecifier;XSDComplexTypeDefinition=30"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//FractionNumberFormatSpecifier">
-    <nested inputs="../../xsd/attribute.xsd#//FractionNumberFormatSpecifier;XSDComplexTypeDefinition=29/XSDParticle/XSDModelGroup/XSDParticle"
+    <nested inputs="../../xsd/attribute.xsd#//FractionNumberFormatSpecifier;XSDComplexTypeDefinition=30/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//FractionNumberFormatSpecifier/precise"/>
-    <nested inputs="../../xsd/attribute.xsd#//FractionNumberFormatSpecifier;XSDComplexTypeDefinition=29/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//FractionNumberFormatSpecifier;XSDComplexTypeDefinition=30/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//FractionNumberFormatSpecifier/fractionDigits"/>
-    <nested inputs="../../xsd/attribute.xsd#//FractionNumberFormatSpecifier;XSDComplexTypeDefinition=29/XSDParticle/XSDModelGroup/XSDParticle=2"
+    <nested inputs="../../xsd/attribute.xsd#//FractionNumberFormatSpecifier;XSDComplexTypeDefinition=30/XSDParticle/XSDModelGroup/XSDParticle=2"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//FractionNumberFormatSpecifier/numerator"/>
-    <nested inputs="../../xsd/attribute.xsd#//FractionNumberFormatSpecifier;XSDComplexTypeDefinition=29/XSDParticle/XSDModelGroup/XSDParticle=3"
+    <nested inputs="../../xsd/attribute.xsd#//FractionNumberFormatSpecifier;XSDComplexTypeDefinition=30/XSDParticle/XSDModelGroup/XSDParticle=3"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//FractionNumberFormatSpecifier/prefix"/>
-    <nested inputs="../../xsd/attribute.xsd#//FractionNumberFormatSpecifier;XSDComplexTypeDefinition=29/XSDParticle/XSDModelGroup/XSDParticle=4"
+    <nested inputs="../../xsd/attribute.xsd#//FractionNumberFormatSpecifier;XSDComplexTypeDefinition=30/XSDParticle/XSDModelGroup/XSDParticle=4"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//FractionNumberFormatSpecifier/suffix"/>
-    <nested inputs="../../xsd/attribute.xsd#//FractionNumberFormatSpecifier;XSDComplexTypeDefinition=29/XSDParticle/XSDModelGroup/XSDParticle=5"
+    <nested inputs="../../xsd/attribute.xsd#//FractionNumberFormatSpecifier;XSDComplexTypeDefinition=30/XSDParticle/XSDModelGroup/XSDParticle=5"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//FractionNumberFormatSpecifier/delimiter"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//Gradient;XSDComplexTypeDefinition=20"
+  <nested inputs="../../xsd/attribute.xsd#//Gradient;XSDComplexTypeDefinition=21"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//Gradient">
-    <nested inputs="../../xsd/attribute.xsd#//Gradient;XSDComplexTypeDefinition=20/XSDParticle/XSDModelGroup/XSDParticle"
+    <nested inputs="../../xsd/attribute.xsd#//Gradient;XSDComplexTypeDefinition=21/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Gradient/startColor"/>
-    <nested inputs="../../xsd/attribute.xsd#//Gradient;XSDComplexTypeDefinition=20/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//Gradient;XSDComplexTypeDefinition=21/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Gradient/endColor"/>
-    <nested inputs="../../xsd/attribute.xsd#//Gradient;XSDComplexTypeDefinition=20/XSDParticle/XSDModelGroup/XSDParticle=2"
+    <nested inputs="../../xsd/attribute.xsd#//Gradient;XSDComplexTypeDefinition=21/XSDParticle/XSDModelGroup/XSDParticle=2"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Gradient/direction"/>
-    <nested inputs="../../xsd/attribute.xsd#//Gradient;XSDComplexTypeDefinition=20/XSDParticle/XSDModelGroup/XSDParticle=3"
+    <nested inputs="../../xsd/attribute.xsd#//Gradient;XSDComplexTypeDefinition=21/XSDParticle/XSDModelGroup/XSDParticle=3"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Gradient/cyclic"/>
-    <nested inputs="../../xsd/attribute.xsd#//Gradient;XSDComplexTypeDefinition=20/XSDParticle/XSDModelGroup/XSDParticle=4"
+    <nested inputs="../../xsd/attribute.xsd#//Gradient;XSDComplexTypeDefinition=21/XSDParticle/XSDModelGroup/XSDParticle=4"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Gradient/transparency"/>
   </nested>
   <nested inputs="../../xsd/attribute.xsd#//ID;XSDSimpleTypeDefinition=32" outputs="org.eclipse.birt.chart.model.attribute.ecore#//ID"/>
-  <nested inputs="../../xsd/attribute.xsd#//JavaDateFormatSpecifier;XSDComplexTypeDefinition=26"
+  <nested inputs="../../xsd/attribute.xsd#//JavaDateFormatSpecifier;XSDComplexTypeDefinition=27"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//JavaDateFormatSpecifier">
-    <nested inputs="../../xsd/attribute.xsd#//JavaDateFormatSpecifier;XSDComplexTypeDefinition=26/XSDParticle/XSDModelGroup/XSDParticle"
+    <nested inputs="../../xsd/attribute.xsd#//JavaDateFormatSpecifier;XSDComplexTypeDefinition=27/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//JavaDateFormatSpecifier/pattern"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//JavaNumberFormatSpecifier;XSDComplexTypeDefinition=28"
+  <nested inputs="../../xsd/attribute.xsd#//JavaNumberFormatSpecifier;XSDComplexTypeDefinition=29"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//JavaNumberFormatSpecifier">
-    <nested inputs="../../xsd/attribute.xsd#//JavaNumberFormatSpecifier;XSDComplexTypeDefinition=28/XSDParticle/XSDModelGroup/XSDParticle"
+    <nested inputs="../../xsd/attribute.xsd#//JavaNumberFormatSpecifier;XSDComplexTypeDefinition=29/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//JavaNumberFormatSpecifier/pattern"/>
-    <nested inputs="../../xsd/attribute.xsd#//JavaNumberFormatSpecifier;XSDComplexTypeDefinition=28/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//JavaNumberFormatSpecifier;XSDComplexTypeDefinition=29/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//JavaNumberFormatSpecifier/multiplier"/>
   </nested>
   <nested inputs="../../xsd/layout.xsd#//LabelBlock;XSDComplexTypeDefinition=2" outputs="org.eclipse.birt.chart.model.layout.ecore#//LabelBlock">
@@ -1118,15 +1127,16 @@
     <nested inputs="../../xsd/layout.xsd#//Legend;XSDComplexTypeDefinition=1/XSDParticle/XSDModelGroup/XSDParticle=14"
         outputs="org.eclipse.birt.chart.model.layout.ecore#//Legend/wrappingSize"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//Location;XSDComplexTypeDefinition=9" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Location">
-    <nested inputs="../../xsd/attribute.xsd#//Location;XSDComplexTypeDefinition=9/XSDParticle/XSDModelGroup/XSDParticle"
+  <nested inputs="../../xsd/attribute.xsd#//Location;XSDComplexTypeDefinition=10"
+      outputs="org.eclipse.birt.chart.model.attribute.ecore#//Location">
+    <nested inputs="../../xsd/attribute.xsd#//Location;XSDComplexTypeDefinition=10/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Location/x"/>
-    <nested inputs="../../xsd/attribute.xsd#//Location;XSDComplexTypeDefinition=9/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//Location;XSDComplexTypeDefinition=10/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Location/y"/>
   </nested>
-  <nested inputs="../../xsd/attribute.xsd#//Location3D;XSDComplexTypeDefinition=10"
+  <nested inputs="../../xsd/attribute.xsd#//Location3D;XSDComplexTypeDefinition=11"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//Location3D">
-    <nested inputs="../../xsd/attribute.xsd#//Location3D;XSDComplexTypeDefinition=10/XSDParticle/XSDModelGroup/XSDParticle"
+    <nested inputs="../../xsd/attribute.xsd#//Location3D;XSDComplexTypeDefinition=11/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//Location3D/z"/>
   </nested>
   <nested inputs="../../xsd/data.xsd#//NumberDataElement;XSDComplexTypeDefinition=6"
@@ -1135,15 +1145,15 @@
         outputs="org.eclipse.birt.chart.model.data.ecore#//NumberDataElement/value"/>
   </nested>
   <nested inputs="../../xsd/data.xsd#//NumberDataSet;XSDComplexTypeDefinition=1" outputs="org.eclipse.birt.chart.model.data.ecore#//NumberDataSet"/>
-  <nested inputs="../../xsd/attribute.xsd#//NumberFormatSpecifier;XSDComplexTypeDefinition=27"
+  <nested inputs="../../xsd/attribute.xsd#//NumberFormatSpecifier;XSDComplexTypeDefinition=28"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//NumberFormatSpecifier">
-    <nested inputs="../../xsd/attribute.xsd#//NumberFormatSpecifier;XSDComplexTypeDefinition=27/XSDParticle/XSDModelGroup/XSDParticle"
+    <nested inputs="../../xsd/attribute.xsd#//NumberFormatSpecifier;XSDComplexTypeDefinition=28/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//NumberFormatSpecifier/prefix"/>
-    <nested inputs="../../xsd/attribute.xsd#//NumberFormatSpecifier;XSDComplexTypeDefinition=27/XSDParticle/XSDModelGroup/XSDParticle=1"
+    <nested inputs="../../xsd/attribute.xsd#//NumberFormatSpecifier;XSDComplexTypeDefinition=28/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//NumberFormatSpecifier/suffix"/>
-    <nested inputs="../../xsd/attribute.xsd#//NumberFormatSpecifier;XSDComplexTypeDefinition=27/XSDParticle/XSDModelGroup/XSDParticle=2"
+    <nested inputs="../../xsd/attribute.xsd#//NumberFormatSpecifier;XSDComplexTypeDefinition=28/XSDParticle/XSDModelGroup/XSDParticle=2"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//NumberFormatSpecifier/multiplier"/>
-    <nested inputs="../../xsd/attribute.xsd#//NumberFormatSpecifier;XSDComplexTypeDefinition=27/XSDParticle/XSDModelGroup/XSDParticle=3"
+    <nested inputs="../../xsd/attribute.xsd#//NumberFormatSpecifier;XSDComplexTypeDefinition=28/XSDParticle/XSDModelGroup/XSDParticle=3"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//NumberFormatSpecifier/fractionDigits"/>
   </nested>
   <nested inputs="../../xsd/type.xsd#//PieSeries;XSDComplexTypeDefinition=1" outputs="org.eclipse.birt.chart.model.type.ecore#//PieSeries">

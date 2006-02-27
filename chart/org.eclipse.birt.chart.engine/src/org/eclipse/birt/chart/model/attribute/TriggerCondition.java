@@ -244,6 +244,21 @@ public final class TriggerCondition extends AbstractEnumerator
 	public static final int ONKEYUP = 13;
 
 	/**
+	 * The '<em><b>Accessibility</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Accessibility</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #ACCESSIBILITY_LITERAL
+	 * @model name="accessibility"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int ACCESSIBILITY = 14;
+
+	/**
 	 * The '<em><b>Onload</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -256,7 +271,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ONLOAD = 14;
+	public static final int ONLOAD = 15;
 
 	/**
 	 * The '<em><b>Mouse Hover</b></em>' literal object. <!--
@@ -425,6 +440,17 @@ public final class TriggerCondition extends AbstractEnumerator
 			"onkeyup", "onkeyup" ); //$NON-NLS-1$
 
 	/**
+	 * The '<em><b>Accessibility</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ACCESSIBILITY
+	 * @generated
+	 * @ordered
+	 */
+	public static final TriggerCondition ACCESSIBILITY_LITERAL = new TriggerCondition( ACCESSIBILITY,
+			"accessibility", "accessibility" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+	/**
 	 * The '<em><b>Onload</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -455,6 +481,7 @@ public final class TriggerCondition extends AbstractEnumerator
 			ONKEYDOWN_LITERAL,
 			ONKEYPRESS_LITERAL,
 			ONKEYUP_LITERAL,
+			ACCESSIBILITY_LITERAL,
 			ONLOAD_LITERAL,
 	};
 
@@ -539,6 +566,8 @@ public final class TriggerCondition extends AbstractEnumerator
 				return ONKEYPRESS_LITERAL;
 			case ONKEYUP :
 				return ONKEYUP_LITERAL;
+			case ACCESSIBILITY :
+				return ACCESSIBILITY_LITERAL;
 			case ONLOAD :
 				return ONLOAD_LITERAL;
 		}

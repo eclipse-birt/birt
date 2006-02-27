@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.model.attribute.impl;
 
 import org.eclipse.birt.chart.model.ModelPackage;
+import org.eclipse.birt.chart.model.attribute.AccessibilityValue;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
@@ -112,6 +113,13 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 public class AttributePackageImpl extends EPackageImpl implements
 		AttributePackage
 {
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass accessibilityValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -878,6 +886,38 @@ public class AttributePackageImpl extends EPackageImpl implements
 		theAttributePackage.freeze( );
 
 		return theAttributePackage;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAccessibilityValue( )
+	{
+		return accessibilityValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAccessibilityValue_Text( )
+	{
+		return (EAttribute) accessibilityValueEClass.getEStructuralFeatures( )
+				.get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAccessibilityValue_Accessibility( )
+	{
+		return (EAttribute) accessibilityValueEClass.getEStructuralFeatures( )
+				.get( 1 );
 	}
 
 	/**
@@ -2853,6 +2893,11 @@ public class AttributePackageImpl extends EPackageImpl implements
 		isCreated = true;
 
 		// Create classes and their features
+		accessibilityValueEClass = createEClass( ACCESSIBILITY_VALUE );
+		createEAttribute( accessibilityValueEClass, ACCESSIBILITY_VALUE__TEXT );
+		createEAttribute( accessibilityValueEClass,
+				ACCESSIBILITY_VALUE__ACCESSIBILITY );
+
 		actionValueEClass = createEClass( ACTION_VALUE );
 
 		angle3DEClass = createEClass( ANGLE3_D );
@@ -3149,6 +3194,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		DataPackage theDataPackage = (DataPackage) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
 
 		// Add supertypes to classes
+		accessibilityValueEClass.getESuperTypes( ).add( this.getActionValue( ) );
 		callBackValueEClass.getESuperTypes( ).add( this.getActionValue( ) );
 		colorDefinitionEClass.getESuperTypes( ).add( this.getFill( ) );
 		dateFormatSpecifierEClass.getESuperTypes( )
@@ -3171,6 +3217,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 		urlValueEClass.getESuperTypes( ).add( this.getActionValue( ) );
 
 		// Initialize classes and features; add operations and parameters
+		initEClass( accessibilityValueEClass,
+				AccessibilityValue.class,
+				"AccessibilityValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEAttribute( getAccessibilityValue_Text( ),
+				theXMLTypePackage.getString( ),
+				"text", null, 0, 1, AccessibilityValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getAccessibilityValue_Accessibility( ),
+				theXMLTypePackage.getString( ),
+				"accessibility", null, 0, 1, AccessibilityValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
 		initEClass( actionValueEClass,
 				ActionValue.class,
 				"ActionValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
@@ -3900,6 +3956,8 @@ public class AttributePackageImpl extends EPackageImpl implements
 				TriggerCondition.ONKEYPRESS_LITERAL );
 		addEEnumLiteral( triggerConditionEEnum,
 				TriggerCondition.ONKEYUP_LITERAL );
+		addEEnumLiteral( triggerConditionEEnum,
+				TriggerCondition.ACCESSIBILITY_LITERAL );
 		addEEnumLiteral( triggerConditionEEnum, TriggerCondition.ONLOAD_LITERAL );
 
 		initEEnum( triggerFlowEEnum, TriggerFlow.class, "TriggerFlow" ); //$NON-NLS-1$
@@ -4062,6 +4120,20 @@ public class AttributePackageImpl extends EPackageImpl implements
 	protected void createExtendedMetaDataAnnotations( )
 	{
 		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$				
+		addAnnotation( accessibilityValueEClass, source, new String[]{
+				"name", "AccessibilityValue", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getAccessibilityValue_Text( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Text" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getAccessibilityValue_Accessibility( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "Accessibility" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( actionTypeEEnum, source, new String[]{
 				"name", "ActionType" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
