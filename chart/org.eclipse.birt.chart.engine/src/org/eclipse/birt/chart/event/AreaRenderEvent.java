@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.event;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
@@ -22,18 +23,18 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * 
+ * AreaRenderEvent
  */
-public final class AreaRenderEvent extends PrimitiveRenderEvent
+public class AreaRenderEvent extends PrimitiveRenderEvent
 {
 
 	private static final long serialVersionUID = 4924819106091024348L;
 
-	private final ArrayList alLinesAndArcs = new ArrayList( );
+	protected final ArrayList alLinesAndArcs = new ArrayList( );
 
-	private Fill fill;
+	protected Fill fill;
 
-	private LineAttributes lia;
+	protected LineAttributes lia;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/event" ); //$NON-NLS-1$
 
@@ -174,5 +175,32 @@ public final class AreaRenderEvent extends PrimitiveRenderEvent
 	public final void setOutline( LineAttributes outline )
 	{
 		this.lia = outline;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
+	 */
+	public PrimitiveRenderEvent copy( ) throws ChartException
+	{
+		AreaRenderEvent are = new AreaRenderEvent( source );
+
+		if ( fill != null )
+		{
+			are.setBackground( (Fill) EcoreUtil.copy( fill ) );
+		}
+
+		if ( lia != null )
+		{
+			are.setOutline( (LineAttributes) EcoreUtil.copy( lia ) );
+		}
+
+		for ( Iterator itr = alLinesAndArcs.iterator( ); itr.hasNext( ); )
+		{
+			are.add( ( (PrimitiveRenderEvent) itr.next( ) ).copy( ) );
+		}
+
+		return are;
 	}
 }

@@ -17,6 +17,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.event.Arc3DRenderEvent;
+import org.eclipse.birt.chart.event.Area3DRenderEvent;
 import org.eclipse.birt.chart.event.I3DRenderEvent;
 import org.eclipse.birt.chart.event.Image3DRenderEvent;
 import org.eclipse.birt.chart.event.Line3DRenderEvent;
@@ -25,7 +27,10 @@ import org.eclipse.birt.chart.event.Polygon3DRenderEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.Text3DRenderEvent;
 import org.eclipse.birt.chart.event.WrappedInstruction;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.internal.computations.Matrix;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.Rotation3D;
@@ -134,6 +139,8 @@ public final class Engine3D implements IConstants
 	 * Matrix to convert viewer coordinates to canvas coordinates.
 	 */
 	private Matrix V2C_MATRIX;
+
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation" ); //$NON-NLS-1$
 
 	/**
 	 * @param rotation
@@ -678,6 +685,60 @@ public final class Engine3D implements IConstants
 
 			i3dre.prepare2D( xOffset, yOffset );
 		}
+		else if ( obj instanceof Arc3DRenderEvent )
+		{
+			Arc3DRenderEvent a3dre = (Arc3DRenderEvent) obj;
+			Object3D object3D = a3dre.getObject3D( );
+
+			object3D.transform( transMatrix );
+			object3D.transform( M2V_MATRIX );
+
+			object3D.prepareZSort( );
+
+			object3D.clip( this );
+			if ( object3D.getVectors( ).length < 1 )
+			{
+				return false;
+			}
+			object3D.perspective( PERSPECTIVE_VALUE );
+			object3D.transform( V2C_MATRIX );
+
+			a3dre.prepare2D( xOffset, yOffset );
+		}
+		else if ( obj instanceof Area3DRenderEvent )
+		{
+			Area3DRenderEvent a3dre = (Area3DRenderEvent) obj;
+
+			for ( int i = 0; i < a3dre.getElementCount( ); i++ )
+			{
+				PrimitiveRenderEvent pre = a3dre.getElement( i );
+
+				if ( pre instanceof I3DRenderEvent )
+				{
+					try
+					{
+						Object3D object3D = ( (I3DRenderEvent) pre ).getObject3D( );
+
+						object3D.transform( transMatrix );
+						object3D.transform( M2V_MATRIX );
+
+						object3D.prepareZSort( );
+
+						object3D.clip( this );
+
+						object3D.perspective( PERSPECTIVE_VALUE );
+						object3D.transform( V2C_MATRIX );
+					}
+					catch ( ChartException ex )
+					{
+						logger.log( ex );
+						continue;
+					}
+				}
+			}
+
+			a3dre.prepare2D( xOffset, yOffset );
+		}
 
 		return true;
 	}
@@ -799,7 +860,14 @@ public final class Engine3D implements IConstants
 
 		if ( event instanceof I3DRenderEvent )
 		{
-			return ( (I3DRenderEvent) event ).getObject3D( );
+			try
+			{
+				return ( (I3DRenderEvent) event ).getObject3D( );
+			}
+			catch ( ChartException ex )
+			{
+				throw new RuntimeException( ex );
+			}
 		}
 		else
 		{

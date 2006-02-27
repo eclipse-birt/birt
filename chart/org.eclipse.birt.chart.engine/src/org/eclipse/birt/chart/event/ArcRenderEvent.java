@@ -24,30 +24,30 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 /**
  * ArcRenderEvent
  */
-public final class ArcRenderEvent extends PrimitiveRenderEvent
+public class ArcRenderEvent extends PrimitiveRenderEvent
 {
 
 	private static final long serialVersionUID = -8516218845415390970L;
 
-	private Location loTopLeft = null;
+	protected Location loTopLeft = null;
 
-	private double dWidth;
+	protected double dWidth;
 
-	private double dHeight;
+	protected double dHeight;
 
-	private double dStartInDegrees;
+	protected double dStartInDegrees;
 
-	private double dExtentInDegrees;
+	protected double dExtentInDegrees;
 
-	private double dInnerRadius;
+	protected double dInnerRadius;
 
-	private double dOuterRadius;
+	protected double dOuterRadius;
 
-	private LineAttributes outline;
+	protected LineAttributes outline;
 
-	private Fill ifBackground = null;
+	protected Fill ifBackground = null;
 
-	private int iStyle = SECTOR;
+	protected int iStyle = SECTOR;
 
 	public static final int OPEN = 1;
 
