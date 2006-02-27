@@ -77,7 +77,13 @@ public class DataSetCacheManager
 	public static DataSetCacheManager getInstance( )
 	{
 		if ( cacheManager == null )
-			cacheManager = new DataSetCacheManager( );
+		{
+			synchronized ( DataSetCacheManager.class )
+			{
+				if ( cacheManager == null )
+					cacheManager = new DataSetCacheManager( );
+			}
+		}
 
 		return cacheManager;
 	}

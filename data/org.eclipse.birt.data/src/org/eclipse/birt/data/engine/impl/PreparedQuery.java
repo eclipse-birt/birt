@@ -39,7 +39,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
-import org.eclipse.birt.data.engine.executor.transformation.ExpressionProcessorManager;
+import org.eclipse.birt.data.engine.executor.transformation.IExpressionProcessor;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -698,15 +698,19 @@ abstract class PreparedQuery
 			assert dataSet != null;
 			
 			openDataSource( );
-				
+			
 			// Run beforeOpen script now so the script can modify the DataSetRuntime properties
 			dataSet.beforeOpen();
-			
-			ExpressionProcessorManager.registerInstance(
-					new ExpressionProcessor( null, null, dataSet, null ));
-			
-			// Let subclass create a new and empty intance of the appropriate odi IQuery
+						
+			IExpressionProcessor exprProcessor = new ExpressionProcessor( null,
+					null,
+					dataSet,
+					null );
+
+			// Let subclass create a new and empty intance of the appropriate
+			// odi IQuery
 			odiQuery = createOdiQuery( );
+			odiQuery.setExprProcessor( exprProcessor );
 			populateOdiQuery( );
 			prepareOdiQuery( );
 			isPrepared = true;

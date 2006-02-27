@@ -32,7 +32,14 @@ public class DataSourceFactory implements IDataSourceFactory
 	public static IDataSourceFactory getFactory()
 	{
 		if ( instance == null )
-			instance = new DataSourceFactory();
+		{
+			synchronized ( DataSourceFactory.class )
+			{
+				if ( instance == null )
+					instance = new DataSourceFactory( );
+			}
+		}
+		
 		return instance;
 	}
 	

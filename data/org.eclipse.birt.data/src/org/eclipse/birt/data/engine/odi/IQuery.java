@@ -17,6 +17,7 @@ package org.eclipse.birt.data.engine.odi;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.transformation.IExpressionProcessor;
 
 /**
  * The IQuery interface allows applications to specify 
@@ -77,6 +78,11 @@ public interface IQuery
      * These event objects are called in the order that they are added.
      */
     public void addOnFetchEvent( IResultObjectEvent event);
+    
+    /**
+     * @param exprProcessor
+     */
+    public void setExprProcessor( IExpressionProcessor exprProcessor );
     
 	/**
 	 * Close all result iterators of execute(...) methods on this Query 

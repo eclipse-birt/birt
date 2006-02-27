@@ -342,22 +342,28 @@ public class SmartCache implements ResultSetCache
 	{
 		if ( MemoryCacheSize == 0 )
 		{
-			MemoryCacheSize = 10; // default minimum value is 10M.
-			String memcachesize = System.getProperty( "birt.data.engine.memcachesize" );
-			if ( memcachesize != null )
+			synchronized ( this )
 			{
-				try
+				if ( MemoryCacheSize == 0 )
 				{
-					MemoryCacheSize = Integer.parseInt( memcachesize );
-				}
-				catch ( Exception e )
-				{
-					// ignore it
-				}
-
-				if ( MemoryCacheSize < 10 )
-				{
-					throw new IllegalArgumentException( "the value of memcachesize should be at least 10" );
+					MemoryCacheSize = 10; // default minimum value is 10M.
+					String memcachesize = System.getProperty( "birt.data.engine.memcachesize" );
+					if ( memcachesize != null )
+					{
+						try
+						{
+							MemoryCacheSize = Integer.parseInt( memcachesize );
+						}
+						catch ( Exception e )
+						{
+							// ignore it
+						}
+						
+						if ( MemoryCacheSize < 10 )
+						{
+							throw new IllegalArgumentException( "the value of memcachesize should be at least 10" );
+						}
+					}
 				}
 			}
 		}

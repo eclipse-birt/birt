@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.transformation.IExpressionProcessor;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 
@@ -29,6 +30,8 @@ public abstract class BaseQuery implements IQuery
     private GroupSpec[] 	groups;
     private int			maxRows = 0;
     private List 			fetchEventList;
+    
+    private IExpressionProcessor exprProcessor;
     
     /**
      * @see org.eclipse.birt.data.engine.odi.IQuery#setOrdering(java.util.List)
@@ -97,6 +100,22 @@ public abstract class BaseQuery implements IQuery
 	public List getFetchEvents( )
 	{
 		return fetchEventList;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.odi.IQuery#setExprProcessor(org.eclipse.birt.data.engine.executor.transformation.IExpressionProcessor)
+	 */
+	public void setExprProcessor( IExpressionProcessor exprProcessor )
+	{
+		this.exprProcessor = exprProcessor;
+	}
+    
+    /**
+	 * @return
+	 */
+	public IExpressionProcessor getExprProcessor( )
+	{
+		return exprProcessor;
 	}
 	
 }

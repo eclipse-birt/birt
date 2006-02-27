@@ -1,4 +1,3 @@
-
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -26,6 +25,13 @@ import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
  */
 public class FilterUtil
 {
+	/**
+	 * No instance
+	 */
+	private FilterUtil( )
+	{
+	}
+	
 	/**
 	 * @param filters
 	 */

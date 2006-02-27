@@ -41,6 +41,13 @@ public class ScriptEvalUtil
 	private static Logger logger = Logger.getLogger( ScriptEvalUtil.class.getName( ) );
 	
 	/**
+	 * No instance
+	 */
+	private ScriptEvalUtil( )
+	{
+	}
+	
+	/**
 	 * @param exprText
 	 * @param value
 	 * @return an instance of ExprTextAndValue

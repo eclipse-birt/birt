@@ -30,7 +30,13 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
  */
 public final class LogUtil
 {
-
+	/**
+	 * No instance
+	 */
+	private LogUtil()
+	{
+	}
+	
 	public static String toString( Object source )
 	{
 		if ( source instanceof Collection ){
