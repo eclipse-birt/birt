@@ -605,30 +605,30 @@ public class SVGRendererImpl extends SwingRendererImpl
 					}
 					break;
 					
-//				case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
-//					if ( src.getType( ) == StructureType.SERIES )
-//					{
-//						
-//						final Series seRT = (Series) src.getSource( );
-//						logger.log( ILogger.INFORMATION,
-//								Messages.getString( "info.toggle.datapoint.visibility", //$NON-NLS-1$
-//										getLocale() )
-//										+ seRT );
-//						Series seDT = null;
-//						try
-//						{
-//							seDT = findDesignTimeSeries( seRT );
-//						}
-//						catch ( ChartException oosx )
-//						{
-//							logger.log( oosx );
-//							return;
-//						}
-//						if (seDT != null)
-//							cacheHotspots.put(elm, seDT);
-//						
-//					}
-//					break;
+				case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
+					if ( src.getType( ) == StructureType.SERIES )
+					{
+						
+						final Series seRT = (Series) src.getSource( );
+						logger.log( ILogger.INFORMATION,
+								Messages.getString( "info.toggle.datapoint.visibility", //$NON-NLS-1$
+										getLocale() )
+										+ seRT );
+						Series seDT = null;
+						try
+						{
+							seDT = findDesignTimeSeries( seRT );
+						}
+						catch ( ChartException oosx )
+						{
+							logger.log( oosx );
+							return;
+						}
+						if (seDT != null)
+							cacheHotspots.put(elm, seDT);
+						
+					}
+					break;
 					
 				case ActionType.HIGHLIGHT :
 					
@@ -1232,7 +1232,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	
 	protected Image createImage( byte[] data )
 	{
-		return null;//new SVGImage(super.createImage(data), null, data );
+		return new SVGImage(super.createImage(data), null, data );
 	}
 	
 
