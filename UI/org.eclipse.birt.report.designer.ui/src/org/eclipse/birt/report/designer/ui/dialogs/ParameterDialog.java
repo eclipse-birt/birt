@@ -668,7 +668,9 @@ public class ParameterDialog extends BaseDialog
 		limitArea.setLayoutData( data );
 
 		listLimit = new Text( limitArea, SWT.BORDER );
-		listLimit.setLayoutData( new GridData( ) );
+		data =  new GridData( );
+		data.widthHint = 80;
+		listLimit.setLayoutData(data );
 		listLimit.addVerifyListener( new VerifyListener( ) {
 
 			public void verifyText( VerifyEvent e )
