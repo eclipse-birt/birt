@@ -235,6 +235,26 @@
          </and>
       </visibility>
    </viewerContribution>
+    <viewerContribution
+         id="org.eclipse.birt.report.designer.ui.ide.report.publishTemplate"
+         targetID="org.eclipse.ui.views.ResourceNavigator">
+      <action
+            class="org.eclipse.birt.report.designer.ui.ide.navigator.PublishTemplateNavigatorAction"
+            enablesFor="1"
+            id="org.eclipse.birt.report.designer.ui.ide.navigator.publishTemplate"
+            label="%Action.Publish"
+            menubarPath="additions-end"/>
+      <visibility>
+         <and>
+            <objectClass name="org.eclipse.core.resources.IFile"/>
+            <objectState
+                  name="extension"
+                  value="rpttemplate"/>
+         </and>
+      </visibility>
+   </viewerContribution>
+   
+ 
 </extension>
 
 </plugin>
