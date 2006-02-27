@@ -560,7 +560,6 @@ public class SVGRendererImpl extends SwingRendererImpl
 				case ActionType.URL_REDIRECT:
 					URLValue urlValue = ((URLValue) tg.getAction().getValue());
 					//See if this is an internal anchor link
-					System.out.println("urlValue.getBaseUrl() "  + urlValue.getBaseUrl());
 					if ( urlValue.getBaseUrl().startsWith("#")){ //$NON-NLS-1$
 						Element aLink = ((SVGGraphics2D)_g2d).createElement("g"); //$NON-NLS-1$
 						aLink.setAttribute("onclick", "parent.document.location='"+urlValue.getBaseUrl()+"';"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
