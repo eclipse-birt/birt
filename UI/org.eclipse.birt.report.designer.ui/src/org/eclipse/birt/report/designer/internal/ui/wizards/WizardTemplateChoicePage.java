@@ -50,69 +50,49 @@ import org.eclipse.swt.widgets.Listener;
 public class WizardTemplateChoicePage extends WizardPage
 {
 
-	private static final String MESSAGE_DESCRIPTION = Messages
-			.getString( "WizardTemplateChoicePage.label.Description" ); //$NON-NLS-1$
+	private static final String MESSAGE_DESCRIPTION = Messages.getString( "WizardTemplateChoicePage.label.Description" ); //$NON-NLS-1$
 
-	private static final String MESSAGE_PREVIEW = Messages
-			.getString( "WizardTemplateChoicePage.label.Preview" ); //$NON-NLS-1$
+	private static final String MESSAGE_PREVIEW = Messages.getString( "WizardTemplateChoicePage.label.Preview" ); //$NON-NLS-1$
 
-	private static final String MESSAGE_REPORT_TEMPLATES = Messages
-			.getString( "WizardTemplateChoicePage.label.ReportTemplates" ); //$NON-NLS-1$
+	private static final String MESSAGE_REPORT_TEMPLATES = Messages.getString( "WizardTemplateChoicePage.label.ReportTemplates" ); //$NON-NLS-1$
 
-	private static final String MESSAGE_SHOW_CHEATSHEET = Messages
-			.getString( "WizardTemplateChoicePage.label.ShowCheatSheets" ); //$NON-NLS-1$)
+	private static final String MESSAGE_SHOW_CHEATSHEET = Messages.getString( "WizardTemplateChoicePage.label.ShowCheatSheets" ); //$NON-NLS-1$)
 
 	// private static final String TITLE_LETTER = Messages.getString(
 	// "WizardTemplateChoicePage.title.Letter" ); //$NON-NLS-1$
-	private static final String TITLE_SIDE_BY_SIDE_CHART_LISTING = Messages
-			.getString( "WizardTemplateChoicePage.title.SideBySideChartListing" ); //$NON-NLS-1$
+	private static final String TITLE_SIDE_BY_SIDE_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.title.SideBySideChartListing" ); //$NON-NLS-1$
 
-	private static final String TITLE_CHART_LISTING = Messages
-			.getString( "WizardTemplateChoicePage.title.ChartListing" ); //$NON-NLS-1$
+	private static final String TITLE_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.title.ChartListing" ); //$NON-NLS-1$
 
-	private static final String TITLE_GROUPED_LISTING = Messages
-			.getString( "WizardTemplateChoicePage.title.GroupedListing" ); //$NON-NLS-1$
+	private static final String TITLE_GROUPED_LISTING = Messages.getString( "WizardTemplateChoicePage.title.GroupedListing" ); //$NON-NLS-1$
 
-	private static final String TITLE_SIMPLE_LISTING = Messages
-			.getString( "WizardTemplateChoicePage.title.SimpleListing" ); //$NON-NLS-1$
+	private static final String TITLE_SIMPLE_LISTING = Messages.getString( "WizardTemplateChoicePage.title.SimpleListing" ); //$NON-NLS-1$
 
-	private static final String TITLE_BLANK_REPORT = Messages
-			.getString( "WizardTemplateChoicePage.title.BlankReport" ); //$NON-NLS-1$
+	private static final String TITLE_BLANK_REPORT = Messages.getString( "WizardTemplateChoicePage.title.BlankReport" ); //$NON-NLS-1$
 
-	private static final String TITLE_DUAL_COLUMN_CHART_LISTING = Messages
-			.getString( "WizardTemplateChoicePage.title.DualColumnChartListing" ); //$NON-NLS-1$
+	private static final String TITLE_DUAL_COLUMN_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.title.DualColumnChartListing" ); //$NON-NLS-1$
 
-	private static final String TITLE_DUAL_COLUMN_LISTING = Messages
-			.getString( "WizardTemplateChoicePage.title.DualColumnListing" ); //$NON-NLS-1$
+	private static final String TITLE_DUAL_COLUMN_LISTING = Messages.getString( "WizardTemplateChoicePage.title.DualColumnListing" ); //$NON-NLS-1$
 
-	private static final String TITLE_FIRST_REPORT = Messages
-			.getString( "WizardTemplateChoicePage.title.FirstReport" ); //$NON-NLS-1$
+	private static final String TITLE_FIRST_REPORT = Messages.getString( "WizardTemplateChoicePage.title.FirstReport" ); //$NON-NLS-1$
 
 	// private static final String DESCRIPTION_LETTER = Messages.getString(
 	// "WizardTemplateChoicePage.message.Letter" ); //$NON-NLS-1$
-	private static final String DESCRIPTION_SIDE_BY_SIDE_CHART_LISTING = Messages
-			.getString( "WizardTemplateChoicePage.message.SideBySideChartListing" ); //$NON-NLS-1$
+	private static final String DESCRIPTION_SIDE_BY_SIDE_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.message.SideBySideChartListing" ); //$NON-NLS-1$
 
-	private static final String DESCRIPTION_CHART_LISTING = Messages
-			.getString( "WizardTemplateChoicePage.message.ChartListing" ); //$NON-NLS-1$
+	private static final String DESCRIPTION_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.message.ChartListing" ); //$NON-NLS-1$
 
-	private static final String DESCRIPTION_GROUPED_LISTING = Messages
-			.getString( "WizardTemplateChoicePage.message.GroupedListing" ); //$NON-NLS-1$
+	private static final String DESCRIPTION_GROUPED_LISTING = Messages.getString( "WizardTemplateChoicePage.message.GroupedListing" ); //$NON-NLS-1$
 
-	private static final String DESCRIPTION_SIMPLE_LISTING = Messages
-			.getString( "WizardTemplateChoicePage.message.SimpleListing" ); //$NON-NLS-1$
+	private static final String DESCRIPTION_SIMPLE_LISTING = Messages.getString( "WizardTemplateChoicePage.message.SimpleListing" ); //$NON-NLS-1$
 
-	private static final String DESCRIPTION_BLANK_REPORT = Messages
-			.getString( "WizardTemplateChoicePage.message.BlankReport" ); //$NON-NLS-1$
+	private static final String DESCRIPTION_BLANK_REPORT = Messages.getString( "WizardTemplateChoicePage.message.BlankReport" ); //$NON-NLS-1$
 
-	private static final String DESCRIPTION_DUAL_COLUMN_CHART_LISTING = Messages
-			.getString( "WizardTemplateChoicePage.message.DualColumnChartListing" ); //$NON-NLS-1$
+	private static final String DESCRIPTION_DUAL_COLUMN_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.message.DualColumnChartListing" ); //$NON-NLS-1$
 
-	private static final String DESCRIPTION_DUAL_COLUMN_LISTING = Messages
-			.getString( "WizardTemplateChoicePage.message.DualColumnListing" ); //$NON-NLS-1$
+	private static final String DESCRIPTION_DUAL_COLUMN_LISTING = Messages.getString( "WizardTemplateChoicePage.message.DualColumnListing" ); //$NON-NLS-1$
 
-	private static final String DESCRIPTION_FIRST_REPORT = Messages
-			.getString( "WizardTemplateChoicePage.message.FirstReport" ); //$NON-NLS-1$
+	private static final String DESCRIPTION_FIRST_REPORT = Messages.getString( "WizardTemplateChoicePage.message.FirstReport" ); //$NON-NLS-1$
 
 	private List templateList;
 
@@ -137,40 +117,30 @@ public class WizardTemplateChoicePage extends WizardPage
 			this.cheatSheetId = cheatSheetId;
 		}
 
-		public Template( String reportPath )
+		public Template( String reportPath ) throws DesignFileException
 		{
-			try
+			ReportDesignHandle reportDesign = (ReportDesignHandle) files.get( reportPath );
+			if ( reportDesign == null )
 			{
-				ReportDesignHandle reportDesign = (ReportDesignHandle) files
-						.get( reportPath );
-				if ( reportDesign == null )
-				{
-					reportDesign = SessionHandleAdapter.getInstance( )
-							.getSessionHandle( ).openDesign( reportPath );
-					files.put( reportPath, reportDesign );
-				}
-
-				// Todo: get description from report design.
-				name = reportDesign.getDisplayName( ) == null
-						? UIUtil
-								.getSimpleFileName( reportDesign.getFileName( ) )
-						: reportDesign.getDisplayName( );//$NON-NLS-1$
-				templateDescription = reportDesign
-						.getStringProperty( ModuleHandle.DESCRIPTION_PROP );
-				if ( templateDescription == null )
-				{
-					templateDescription = "";//$NON-NLS-1$
-				}
-
-				picturePath = reportDesign.getIconFile( ) == null
-						? "" : reportDesign.getIconFile( );//$NON-NLS-1$
-				cheatSheetId = reportDesign.getCheetSheet( ) == null
-						? "" : reportDesign.getCheetSheet( );//$NON-NLS-1$
-				this.reportPath = reportPath;
+				reportDesign = SessionHandleAdapter.getInstance( )
+						.getSessionHandle( )
+						.openDesign( reportPath );
+				files.put( reportPath, reportDesign );
 			}
-			catch ( DesignFileException e )
+
+			// Todo: get description from report design.
+			name = reportDesign.getDisplayName( ) == null ? UIUtil.getSimpleFileName( reportDesign.getFileName( ) )
+					: reportDesign.getDisplayName( );//$NON-NLS-1$
+			templateDescription = reportDesign.getStringProperty( ModuleHandle.DESCRIPTION_PROP );
+			if ( templateDescription == null )
 			{
+				templateDescription = "";//$NON-NLS-1$
 			}
+
+			picturePath = reportDesign.getIconFile( ) == null ? "" : reportDesign.getIconFile( );//$NON-NLS-1$
+			cheatSheetId = reportDesign.getCheetSheet( ) == null ? "" : reportDesign.getCheetSheet( );//$NON-NLS-1$
+			this.reportPath = reportPath;
+
 		}
 
 		private String name;
@@ -247,19 +217,23 @@ public class WizardTemplateChoicePage extends WizardPage
 	}
 
 	protected Template[] preDefinedTemplates = new Template[]{
-			new Template( TITLE_BLANK_REPORT, DESCRIPTION_BLANK_REPORT,
+			new Template( TITLE_BLANK_REPORT,
+					DESCRIPTION_BLANK_REPORT,
 					"/templates/blank_report.rptdesign", //$NON-NLS-1$
 					"/templates/blank_report.gif", //$NON-NLS-1$
 					"" ), //$NON-NLS-1$
-			new Template( TITLE_FIRST_REPORT, DESCRIPTION_FIRST_REPORT,
+			new Template( TITLE_FIRST_REPORT,
+					DESCRIPTION_FIRST_REPORT,
 					"/templates/blank_report.rptdesign", //$NON-NLS-1$
 					"/templates/first_report.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ), //$NON-NLS-1$
-			new Template( TITLE_SIMPLE_LISTING, DESCRIPTION_SIMPLE_LISTING,
+			new Template( TITLE_SIMPLE_LISTING,
+					DESCRIPTION_SIMPLE_LISTING,
 					"/templates/simple_listing.rptdesign", //$NON-NLS-1$
 					"/templates/simple_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.simplelisting" ), //$NON-NLS-1$
-			new Template( TITLE_GROUPED_LISTING, DESCRIPTION_GROUPED_LISTING,
+			new Template( TITLE_GROUPED_LISTING,
+					DESCRIPTION_GROUPED_LISTING,
 					"/templates/grouped_listing.rptdesign", //$NON-NLS-1$
 					"/templates/grouped_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.groupedlisting" ), //$NON-NLS-1$
@@ -268,7 +242,8 @@ public class WizardTemplateChoicePage extends WizardPage
 					"/templates/dual_column_listing.rptdesign", //$NON-NLS-1$
 					"/templates/dual_column_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.dualcolumnlisting" ), //$NON-NLS-1$
-			new Template( TITLE_CHART_LISTING, DESCRIPTION_CHART_LISTING,
+			new Template( TITLE_CHART_LISTING,
+					DESCRIPTION_CHART_LISTING,
 					"/templates/chart_listing.rptdesign", //$NON-NLS-1$
 					"/templates/chart_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.chartlisting" ), //$NON-NLS-1$
@@ -440,21 +415,19 @@ public class WizardTemplateChoicePage extends WizardPage
 
 		if ( templateDirectory.isDirectory( ) )
 		{
-			File[] filesArray = templateDirectory
-					.listFiles( new FilenameFilter( ) {
+			File[] filesArray = templateDirectory.listFiles( new FilenameFilter( ) {
 
-						public boolean accept( File dir, String name )
-						{
-							return name.endsWith( ".rpttemplate" );//$NON-NLS-1$
-						}
-					} );
+				public boolean accept( File dir, String name )
+				{
+					return name.endsWith( ".rpttemplate" );//$NON-NLS-1$
+				}
+			} );
 
 			for ( int i = 0; i < filesArray.length; i++ )
 			{
 				try
 				{
-					templates.add( new Template( filesArray[i]
-							.getAbsolutePath( ) ) );
+					templates.add( new Template( filesArray[i].getAbsolutePath( ) ) );
 				}
 				catch ( Exception e )
 				{
@@ -476,17 +449,14 @@ public class WizardTemplateChoicePage extends WizardPage
 		{
 			// change description/image
 			selectedIndex = templateList.getSelectionIndex( );
-			description.setText( ( (Template) templates.get( selectedIndex ) )
-					.getTemplateDescription( ) );
+			description.setText( ( (Template) templates.get( selectedIndex ) ).getTemplateDescription( ) );
 			// we need to relayout if the new text has different number of lines
 			previewPane.layout( );
-			String key = ( (Template) templates.get( selectedIndex ) )
-					.getPicturePath( );
+			String key = ( (Template) templates.get( selectedIndex ) ).getPicturePath( );
 			Object img = null;
 			if ( key == null || "".equals( key.trim( ) ) )
 			{
-				img = ReportPlatformUIImages
-						.getImage( IReportGraphicConstants.ICON_TEMPLATE_NO_PREVIEW );
+				img = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_TEMPLATE_NO_PREVIEW );
 			}
 			else
 			{
@@ -504,13 +474,9 @@ public class WizardTemplateChoicePage extends WizardPage
 			previewCanvas.loadImage( ( (Image) img ) );
 			previewCanvas.showOriginal( );
 
-			chkBox
-					.setEnabled( !( ( (Template) templates.get( selectedIndex ) )
-							.getCheatSheetId( ).equals( "" ) || ( (Template) templates
-							.get( selectedIndex ) )
-							.getCheatSheetId( )
-							.equals(
-									"org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ) ) ); //$NON-NLS-1$
+			chkBox.setEnabled( !( ( (Template) templates.get( selectedIndex ) ).getCheatSheetId( )
+					.equals( "" ) || ( (Template) templates.get( selectedIndex ) ).getCheatSheetId( )
+					.equals( "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ) ) ); //$NON-NLS-1$
 		}
 	};
 
@@ -535,10 +501,8 @@ public class WizardTemplateChoicePage extends WizardPage
 	 */
 	public boolean getShowCheatSheet( )
 	{
-		if ( ( (Template) templates.get( selectedIndex ) )
-				.getCheatSheetId( )
-				.equals(
-						"org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ) )
+		if ( ( (Template) templates.get( selectedIndex ) ).getCheatSheetId( )
+				.equals( "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ) )
 		{
 			return true;
 		}
