@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -102,8 +103,7 @@ public class PropertyHandle extends SimpleValueHandle
 
 		if ( value instanceof ReferenceValue )
 			return ReferenceValueUtil.needTheNamespacePrefix(
-					(ReferenceValue) value, getElementHandle( )
-							.getModule( ) );
+					(ReferenceValue) value, getElementHandle( ).getModule( ) );
 
 		return value;
 	}
@@ -235,7 +235,7 @@ public class PropertyHandle extends SimpleValueHandle
 			{
 				case PropertyDefn.SYSTEM_PROPERTY :
 				case PropertyDefn.EXTENSION_PROPERTY :
-				case PropertyDefn.ODA_PROPERTY:
+				case PropertyDefn.ODA_PROPERTY :
 					IElementDefn elementDefn = getElementHandle( ).getDefn( );
 					if ( elementDefn.isPropertyReadOnly( propDefn.getName( ) ) )
 						isReadOnly = true;
@@ -247,7 +247,10 @@ public class PropertyHandle extends SimpleValueHandle
 			}
 		}
 
-		return isReadOnly;
+		if ( isReadOnly )
+			return true;
+
+		return isReadOnlyInContext( );
 	}
 
 	/*
@@ -263,7 +266,7 @@ public class PropertyHandle extends SimpleValueHandle
 		{
 			case PropertyDefn.SYSTEM_PROPERTY :
 			case PropertyDefn.EXTENSION_PROPERTY :
-			case PropertyDefn.ODA_PROPERTY:
+			case PropertyDefn.ODA_PROPERTY :
 				IElementDefn elementDefn = getElementHandle( ).getDefn( );
 				if ( !elementDefn.isPropertyVisible( propDefn.getName( ) ) )
 					isVisible = false;
@@ -273,7 +276,32 @@ public class PropertyHandle extends SimpleValueHandle
 					isVisible = false;
 				break;
 		}
-		
+
 		return isVisible;
+	}
+
+	/**
+	 * Returns whether the property value is read-only in the report context.
+	 * 
+	 * @return <code>true</code> if the value is read-only. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	private boolean isReadOnlyInContext( )
+	{
+		DesignElementHandle element = getElementHandle( );
+		if ( element instanceof MasterPageHandle )
+		{
+			MasterPage masterPage = (MasterPage) element.getElement( );
+			if ( !masterPage.isCustomType( getModule( ) ) )
+			{
+				String propName = propDefn.getName( );
+				if ( MasterPage.HEIGHT_PROP.equals( propName )
+						|| MasterPage.WIDTH_PROP.equals( propName ) )
+					return true;
+			}
+		}
+
+		return false;
 	}
 }

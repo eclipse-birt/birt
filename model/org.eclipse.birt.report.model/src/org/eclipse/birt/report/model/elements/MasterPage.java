@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.elements;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
@@ -26,6 +27,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
  * This class represents a Master Page element in the report design. This class
@@ -118,22 +120,11 @@ public abstract class MasterPage extends StyledElement
 			return size;
 		}
 
-		// Consider orientation for standard pages sizes, but not custom size.
-
-		if ( type.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_CUSTOM )
-				&& ( getStringProperty( module, ORIENTATION_PROP )
-						.equalsIgnoreCase( DesignChoiceConstants.PAGE_ORIENTATION_LANDSCAPE ) ) )
-		{
-			String temp = height;
-			height = width;
-			width = temp;
-		}
-
 		// Convert to application units.
 		try
 		{
 			String sessionUnit = module.getSession( ).getUnits( );
-			
+
 			if ( height != null )
 				size.y = DimensionUtil.convertTo( height, sessionUnit,
 						sessionUnit ).getMeasure( );
@@ -150,6 +141,39 @@ public abstract class MasterPage extends StyledElement
 		}
 
 		return size;
+	}
+
+	/**
+	 * Checks if current orientation type is "Landscape".
+	 * 
+	 * @param module
+	 *            module
+	 * @param type
+	 *            master page type
+	 * @return true if and only if the orientation type is "Landscape".
+	 */
+	public boolean isLandscape( Module module )
+	{
+		return ( !getStringProperty( module, TYPE_PROP ).equalsIgnoreCase(
+				DesignChoiceConstants.PAGE_SIZE_CUSTOM ) )
+				&& ( getStringProperty( module, ORIENTATION_PROP )
+						.equalsIgnoreCase( DesignChoiceConstants.PAGE_ORIENTATION_LANDSCAPE ) );
+	}
+
+	/**
+	 * Checks if current page size type is DeisgnChoiceConstants..
+	 * 
+	 * @param module
+	 *            module.
+	 * @param type
+	 *            master page type.
+	 * @return true if and only if current page size type is "Customer".
+	 */
+
+	public boolean isCustomType( Module module )
+	{
+		return DesignChoiceConstants.PAGE_SIZE_CUSTOM
+				.equalsIgnoreCase( getStringProperty( module, TYPE_PROP ) );
 	}
 
 	/**
@@ -197,7 +221,7 @@ public abstract class MasterPage extends StyledElement
 
 		return list;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -238,5 +262,107 @@ public abstract class MasterPage extends StyledElement
 				.validateForAdding( module, container, defn ) );
 
 		return errors;
+	}
+
+	/**
+	 * Returns the predefined height/width with the given property name, the
+	 * orientation of the page and predefined values.
+	 * 
+	 * @param propName
+	 *            the property name
+	 * @param isLandScape
+	 *            <code>true</code> if the page orientation is landscape.
+	 *            Otherwise <code>false</code>.
+	 * @param predefinedWidth
+	 *            the predefined width
+	 * @param predefinedHeight
+	 *            the predefined height
+	 * @return the height or width in <code>DimensionValue</code>.
+	 * @throws PropertyValueException
+	 *             if <code>predefinedWidth</code> or
+	 *             <code>predefinedHeight</code> is not a valid dimension
+	 *             value.
+	 */
+
+	private DimensionValue getPredefinedDimension( String propName,
+			boolean isLandScape, String predefinedWidth, String predefinedHeight )
+			throws PropertyValueException
+	{
+		if ( MasterPage.HEIGHT_PROP.equals( propName ) )
+		{
+			if ( !isLandScape )
+				return DimensionValue.parse( predefinedHeight );
+
+			return DimensionValue.parse( predefinedWidth );
+
+		}
+
+		if ( MasterPage.WIDTH_PROP.equals( propName ) )
+		{
+			if ( !isLandScape )
+				return DimensionValue.parse( predefinedWidth );
+
+			return DimensionValue.parse( predefinedHeight );
+		}
+
+		assert false;
+
+		return null;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getProperty(org.eclipse.birt.report.model.core.Module,
+	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+
+	public Object getProperty( Module module, ElementPropertyDefn prop )
+	{
+		String propName = prop.getName( );
+
+		if ( MasterPage.HEIGHT_PROP.equals( propName )
+				|| MasterPage.WIDTH_PROP.equals( propName ) )
+		{
+			String pageType = (String) getProperty( module, TYPE_PROP );
+
+			// for the custom page, do not need the special function call.
+
+			if ( DesignChoiceConstants.PAGE_SIZE_CUSTOM
+					.equalsIgnoreCase( pageType ) )
+				return super.getProperty( module, prop );
+
+			boolean isLandScape = isLandscape( module );
+			try
+			{
+				if ( DesignChoiceConstants.PAGE_SIZE_A4
+						.equalsIgnoreCase( pageType ) )
+				{
+					return getPredefinedDimension( propName, isLandScape,
+							MasterPage.A4_WIDTH, MasterPage.A4_HEIGHT );
+				}
+				else if ( DesignChoiceConstants.PAGE_SIZE_US_LEGAL
+						.equalsIgnoreCase( pageType ) )
+				{
+					return getPredefinedDimension( propName, isLandScape,
+							MasterPage.US_LEGAL_WIDTH,
+							MasterPage.US_LEGAL_HEIGHT );
+				}
+				else if ( DesignChoiceConstants.PAGE_SIZE_US_LETTER
+						.equalsIgnoreCase( pageType ) )
+				{
+					return getPredefinedDimension( propName, isLandScape,
+							MasterPage.US_LETTER_WIDTH,
+							MasterPage.US_LETTER_HEIGHT );
+				}
+			}
+			catch ( PropertyValueException e )
+			{
+				assert false;
+			}
+		}
+
+		return super.getProperty( module, prop );
 	}
 }

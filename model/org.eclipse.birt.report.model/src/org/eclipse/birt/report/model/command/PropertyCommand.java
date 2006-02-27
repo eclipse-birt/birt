@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
@@ -148,6 +149,23 @@ public class PropertyCommand extends AbstractElementCommand
 						PropertyValueException.DESIGN_EXCEPTION_PROPERTY_CHANGE_FORBIDDEN );
 			}
 
+		}
+
+		if ( element instanceof MasterPage )
+		{
+
+			// Height and width are not allowed to be set if masterpage size
+			// type is
+			// a pre-defined type.
+
+			String propName = prop.getName( );
+			if ( !( (MasterPage) element ).isCustomType( module )
+					&& ( MasterPage.WIDTH_PROP.equals( propName ) || MasterPage.HEIGHT_PROP
+							.equals( propName ) ) )
+			{
+				throw new SemanticError( element,
+						SemanticError.DESIGN_EXCEPTION_CANNOT_SPECIFY_PAGE_SIZE );
+			}
 		}
 
 		value = validateValue( prop, value );

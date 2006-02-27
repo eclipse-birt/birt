@@ -94,19 +94,6 @@ public class MasterPageTypeValidator extends AbstractElementValidator
 						SemanticError.DESIGN_EXCEPTION_MISSING_PAGE_SIZE ) );
 			}
 		}
-		else
-		{
-			// if type is not CUSTOM type, height and width can not be
-			// specified.
-
-			if ( !StringUtil.isBlank( height ) || !StringUtil.isBlank( width ) )
-			{
-				list
-						.add( new SemanticError(
-								toValidate,
-								SemanticError.DESIGN_EXCEPTION_CANNOT_SPECIFY_PAGE_SIZE ) );
-			}
-		}
 
 		return list;
 	}
