@@ -17,7 +17,6 @@ import java.io.FileNotFoundException;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.xml.XMLEditor;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
@@ -49,14 +48,16 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 	public static final String ID = "BIRT.XMLSourceFormPage"; //$NON-NLS-1$
 
 	private ActionRegistry registry;
-	
+
 	private FormEditor editor;
 	private Control control;
 	private int staleType;
 
 	private int index;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms.editor.FormEditor)
 	 */
 	public void initialize( FormEditor editor )
@@ -64,19 +65,21 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		this.editor = editor;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getEditor()
 	 */
 	public FormEditor getEditor( )
 	{
 		return editor;
 	}
-	
+
 	public void doSave( IProgressMonitor progressMonitor )
 	{
 		super.doSave( progressMonitor );
 		Object adapter = ( (IEditorPart) this ).getAdapter( IReportProvider.class );
-		if ( adapter != null )
+		if ( adapter != null && isValidModelFile( ) )
 		{
 			IReportProvider provider = (IReportProvider) adapter;
 			ModuleHandle model = provider.getReportModuleHandle( getEditorInput( ),
@@ -85,7 +88,45 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		}
 	}
 
-	/* (non-Javadoc)
+	private boolean isValidModelFile( )
+	{
+		IEditorInput input = getEditorInput( );
+
+		if ( !( input instanceof IPathEditorInput ) )
+		{
+			return false;
+		}
+		boolean validModel = false;
+		IPath path = ( (IPathEditorInput) input ).getPath( );
+		try
+		{
+			if ( path.toOSString( )
+					.endsWith( IReportEditorContants.LIBRARY_FILE_EXTENTION ) )
+			{
+				validModel = ModuleUtil.isValidLibrary( SessionHandleAdapter.getInstance( )
+						.getSessionHandle( ),
+						path.toOSString( ),
+						new FileInputStream( new File( path.toOSString( ) ) ) );
+			}
+			else
+			{
+				validModel = ModuleUtil.isValidDesign( SessionHandleAdapter.getInstance( )
+						.getSessionHandle( ),
+						path.toOSString( ),
+						new FileInputStream( new File( path.toOSString( ) ) ) );
+
+			}
+			return validModel;
+		}
+		catch ( FileNotFoundException e )
+		{
+			return validModel;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getManagedForm()
 	 */
 	public IManagedForm getManagedForm( )
@@ -93,7 +134,9 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setActive(boolean)
 	 */
 	public void setActive( boolean active )
@@ -101,7 +144,9 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isActive()
 	 */
 	public boolean isActive( )
@@ -109,7 +154,9 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#canLeaveThePage()
 	 */
 	public boolean canLeaveThePage( )
@@ -142,35 +189,10 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 					return false;
 			}
 		}
-		IEditorInput input = getEditorInput( );
 		boolean validModel = false;
-		if ( input instanceof IPathEditorInput )
-		{
-			IPath path = ( (IPathEditorInput) input ).getPath( );
-			try
-			{
-				if ( path.toOSString( )
-						.endsWith( IReportEditorContants.LIBRARY_FILE_EXTENTION ) )
-				{
-					validModel = ModuleUtil.isValidLibrary( SessionHandleAdapter.getInstance( )
-							.getSessionHandle( ),
-							path.toOSString( ),
-							new FileInputStream( new File( path.toOSString( ) ) ) );
-				}
-				else
-				{
-					validModel = ModuleUtil.isValidDesign( SessionHandleAdapter.getInstance( )
-							.getSessionHandle( ),
-							path.toOSString( ),
-							new FileInputStream( new File( path.toOSString( ) ) ) );
 
-				}
-			}
-			catch ( FileNotFoundException e )
-			{
-				ExceptionHandler.handle( e );
-			}
-		}
+		validModel = isValidModelFile( );
+
 		if ( !validModel )
 		{
 			Display.getCurrent( ).beep( );
@@ -182,7 +204,9 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getPartControl()
 	 */
 	public Control getPartControl( )
@@ -190,7 +214,9 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		return control;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getId()
 	 */
 	public String getId( )
@@ -198,7 +224,9 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		return ID;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getIndex()
 	 */
 	public int getIndex( )
@@ -206,7 +234,9 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		return index;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setIndex(int)
 	 */
 	public void setIndex( int index )
@@ -214,7 +244,9 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		this.index = index;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isEditor()
 	 */
 	public boolean isEditor( )
@@ -222,7 +254,9 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#selectReveal(java.lang.Object)
 	 */
 	public boolean selectReveal( Object object )
@@ -269,12 +303,14 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 			prePage.doSave( null );
 			prePage.markPageStale( IPageStaleType.NONE );
 			refreshDocument( );
-			markPageStale(IPageStaleType.NONE);
+			markPageStale( IPageStaleType.NONE );
 		}
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale(int)
 	 */
 	public void markPageStale( int type )
@@ -282,7 +318,9 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		staleType = type;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType()
 	 */
 	public int getStaleType( )
@@ -310,7 +348,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 			super.firePropertyChange( type );
 		}
 	}
-	
+
 	/*
 	 * 
 	 */
