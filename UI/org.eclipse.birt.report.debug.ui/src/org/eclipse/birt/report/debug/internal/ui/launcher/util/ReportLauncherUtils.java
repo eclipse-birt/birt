@@ -34,7 +34,7 @@ import org.eclipse.pde.internal.core.PDECore;
 
 /**
  * add comment here
- *  
+ * 
  */
 public class ReportLauncherUtils
 {
@@ -45,10 +45,10 @@ public class ReportLauncherUtils
 		String customAutoStart = ""; //$NON-NLS-1$
 		try
 		{
-			useDefault = config.getAttribute(
-					IReportLauncherSettings.CONFIG_USE_DEFAULT, true );
-			customAutoStart = config.getAttribute(
-					IReportLauncherSettings.CONFIG_AUTO_START, "" ); //$NON-NLS-1$
+			useDefault = config.getAttribute( IReportLauncherSettings.CONFIG_USE_DEFAULT,
+					true );
+			customAutoStart = config.getAttribute( IReportLauncherSettings.CONFIG_AUTO_START,
+					"" ); //$NON-NLS-1$
 		}
 		catch ( CoreException e )
 		{
@@ -60,7 +60,8 @@ public class ReportLauncherUtils
 			String customAutoStart )
 	{
 		HashMap list = new HashMap( );
-		if ( !PDECore.getDefault( ).getModelManager( ).isOSGiRuntime( ) )
+		if ( true )
+		// !PDECore.getDefault( ).getModelManager( ).isOSGiRuntime( ) )
 		{
 			list.put( "org.eclipse.core.boot", new Integer( 0 ) ); //$NON-NLS-1$
 		}
@@ -69,8 +70,8 @@ public class ReportLauncherUtils
 			String bundles = null;
 			if ( useDefault )
 			{
-				Properties prop = getConfigIniProperties( ExternalModelManager
-						.getEclipseHome( ).toOSString( ),
+				Properties prop = getConfigIniProperties( ExternalModelManager.getEclipseHome( )
+						.toOSString( ),
 						"configuration/config.ini" ); //$NON-NLS-1$
 				if ( prop != null )
 					bundles = prop.getProperty( "osgi.bundles" ); //$NON-NLS-1$
@@ -99,11 +100,10 @@ public class ReportLauncherUtils
 						continue;
 					String start = token.substring( index + 1 );
 					if ( start.indexOf( "start" ) != -1 || !useDefault ) { //$NON-NLS-1$
-						Integer level = index != -1
-								? getStartLevel( start )
+						Integer level = index != -1 ? getStartLevel( start )
 								: new Integer( -1 );
-						list.put( index != -1 ? token.substring( 0, token
-								.indexOf( '@' ) ) : token, level );
+						list.put( index != -1 ? token.substring( 0,
+								token.indexOf( '@' ) ) : token, level );
 					}
 				}
 			}
@@ -133,15 +133,18 @@ public class ReportLauncherUtils
 
 	private static String getOSGiPath( )
 	{
-		ModelEntry entry = PDECore.getDefault( ).getModelManager( ).findEntry(
-				"org.eclipse.osgi" ); //$NON-NLS-1$
+		ModelEntry entry = PDECore.getDefault( )
+				.getModelManager( )
+				.findEntry( "org.eclipse.osgi" ); //$NON-NLS-1$
 		if ( entry != null )
 		{
 			IPluginModelBase model = entry.getActiveModel( );
 			if ( model.getUnderlyingResource( ) != null )
 			{
-				return model.getUnderlyingResource( ).getLocation( )
-						.removeLastSegments( 2 ).toOSString( );
+				return model.getUnderlyingResource( )
+						.getLocation( )
+						.removeLastSegments( 2 )
+						.toOSString( );
 			}
 			return model.getInstallLocation( );
 		}
@@ -167,15 +170,16 @@ public class ReportLauncherUtils
 
 	public static String getPrimaryFeatureId( )
 	{
-		boolean isOSGi = PDECore.getDefault( ).getModelManager( )
-				.isOSGiRuntime( );
+		boolean isOSGi = true;
+		// PDECore.getDefault( ).getModelManager( ).isOSGiRuntime( );
 		String filename = isOSGi ? "configuration/config.ini" : "install.ini"; //$NON-NLS-1$ //$NON-NLS-2$
-		Properties properties = getConfigIniProperties( ExternalModelManager
-				.getEclipseHome( ).toOSString( ), filename );
+		Properties properties = getConfigIniProperties( ExternalModelManager.getEclipseHome( )
+				.toOSString( ),
+				filename );
 
 		String property = isOSGi ? "eclipse.product" : "feature.default.id"; //$NON-NLS-1$ //$NON-NLS-2$
-		return ( properties == null ) ? null : properties
-				.getProperty( property );
+		return ( properties == null ) ? null
+				: properties.getProperty( property );
 	}
 
 	public static File createConfigArea( String name )
@@ -197,8 +201,8 @@ public class ReportLauncherUtils
 			throws CoreException
 	{
 		TreeSet deselected = new TreeSet( );
-		String ids = config.getAttribute(
-				IReportLauncherSettings.IMPORTPROJECT, (String) null );
+		String ids = config.getAttribute( IReportLauncherSettings.IMPORTPROJECT,
+				(String) null );
 		if ( ids != null && ids.length( ) > 0 )
 		{
 			StringTokenizer token = new StringTokenizer( ids, ";" ); //$NON-NLS-1$
@@ -220,8 +224,8 @@ public class ReportLauncherUtils
 			throws CoreException
 	{
 		TreeSet deselected = new TreeSet( );
-		String ids = config.getAttribute(
-				IReportLauncherSettings.IMPORTPROJECTNAMES, (String) null );
+		String ids = config.getAttribute( IReportLauncherSettings.IMPORTPROJECTNAMES,
+				(String) null );
 		if ( ids != null && ids.length( ) > 0 )
 		{
 			StringTokenizer token = new StringTokenizer( ids, ";" ); //$NON-NLS-1$
