@@ -47,8 +47,12 @@ public class CellScriptExecutor extends ScriptExecutor
 	{
 		try
 		{
-			ReportItemDesign cellDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
+			Object generateBy = content.getGenerateBy( );
+			if ( generateBy == null )
+			{
+				return;
+			}
+			ReportItemDesign cellDesign = ( ReportItemDesign ) generateBy;
 			ICellInstance cell = new CellInstance( content, rowData, context,
 					fromGrid );
 			if ( handleJS( cell, cellDesign.getOnCreate( ), context ).didRun( ) )
@@ -68,8 +72,13 @@ public class CellScriptExecutor extends ScriptExecutor
 	{
 		try
 		{
-			ReportItemDesign cellDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
+			Object generateBy = content.getGenerateBy( );
+			if ( generateBy == null )
+			{
+				return;
+			}
+			ReportItemDesign cellDesign = ( ReportItemDesign ) generateBy; 
+			
 			//fromGrid doesn't matter here since row data is null
 			ICellInstance cell = new CellInstance( content, null, context,
 					false );
