@@ -31,6 +31,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.ExportToLibrar
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayoutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.PublishTemplateViewAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RenameAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -167,6 +168,12 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( object instanceof ReportDesignHandle )
 		{
 			menu.add( new ExportToLibraryAction( object ) );
+			ReportDesignHandle report = (ReportDesignHandle)object;
+			if(report.getModuleHandle( ).getFileName( ).endsWith( Messages.getString("DefaultNodeProvider.template.suffix") ))
+			{
+				menu.add( new PublishTemplateViewAction ( object ) );
+			}
+			
 		}
 
 		// action = new CreatePlaceHolderAction( object );
