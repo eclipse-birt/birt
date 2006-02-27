@@ -39,9 +39,10 @@ public interface IReportContext
 	void setParameterValue( String name, Object value );
 
 	/**
-	 * 
+	 * always return NULL as 125963
 	 * @param varName
 	 * @return
+	 * @deprecated 2.1
 	 */
 	Object getConfigVariableValue( String varName );
 

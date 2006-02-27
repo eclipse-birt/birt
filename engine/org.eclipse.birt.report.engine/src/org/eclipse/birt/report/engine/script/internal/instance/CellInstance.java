@@ -98,10 +98,12 @@ public class CellInstance extends ReportElementInstance implements
 	{
 		if (data == null)
 			return null;
-		//TODO: This is beacuse getColumn from the first cell in a grid returns 0
-		//and getColumn in the first cell in a table returns 1
+		//TODO bug124760: getColumn both the first cell both in a grid and in a table return 0
+		//not the follows:
+		////TODO: This is beacuse getColumn from the first cell in a grid returns 0
+		////and getColumn in the first cell in a table returns 1
 		if ( fromGrid )
 			return data.getExpressionValue( getColumn( ) + 1 );
-		return data.getExpressionValue( getColumn( ) );
+		return data.getExpressionValue( getColumn( ) + 1 );
 	}
 }
