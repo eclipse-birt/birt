@@ -657,7 +657,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public void partClosed( IWorkbenchPart part )
 	{
-		SessionHandleAdapter.getInstance( ).clear();
+		if(part== this)
+		{
+			SessionHandleAdapter.getInstance( ).clear(getModel( ));
+		}
 	}
 
 	/*

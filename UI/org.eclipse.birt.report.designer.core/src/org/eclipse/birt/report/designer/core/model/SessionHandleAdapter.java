@@ -241,6 +241,10 @@ public class SessionHandleAdapter
 		{
 			designHandleAdapter.setReportDesignHandle( handle );
 		}
+		else if(handle!=null){
+			
+			designHandleAdapter = new ReportDesignHandleAdapter(handle);
+		}
 	}
 
 	/**
@@ -324,12 +328,14 @@ public class SessionHandleAdapter
 		mediatorMap.put( newObj, mediator );
 	}
 
-	public void clear( )
+	public void clear(ModuleHandle handle )
 	{
-		mediatorMap.remove( getInstance( ).getReportDesignHandle( ) );
-		setReportDesignHandle( null );
-		designHandleAdapter = null;
-		
+		mediatorMap.remove( handle );
+		if(handle == getReportDesignHandle( ))
+		{
+			setReportDesignHandle( null );
+			designHandleAdapter = null;
+		}
 	}
 
 }
