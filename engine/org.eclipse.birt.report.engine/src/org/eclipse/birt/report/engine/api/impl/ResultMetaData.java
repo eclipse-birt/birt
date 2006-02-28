@@ -11,75 +11,56 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
-import org.eclipse.birt.data.engine.api.IScriptExpression;
 
 
 public class ResultMetaData implements IResultMetaData
 {
-	protected IResultMetaData resultMeta;
+	// protected IResultMetaData resultMeta;
 	protected String[] selectedColumns;
 	protected HashMap columnsMap;
+	protected DataExtractionHelper helper;
 	
-	ResultMetaData( IResultMetaData metaData, String[] selectedColumns )
-	{	
-		assert selectedColumns != null;
-		
-		this.selectedColumns = selectedColumns;
-		resultMeta = metaData;
-		populateColumnsMap( );
-	}
-	
-	ResultMetaData( Collection rowExprs )
+	ResultMetaData ( DataExtractionHelper helper, String[] selectedColumns )
 	{
-		assert rowExprs != null && rowExprs instanceof ArrayList;
-		ArrayList exprs = (ArrayList)rowExprs;
-		if( selectedColumns == null )
-		{
-			selectedColumns = new String[ rowExprs.size( )];
-		}
-		
-		for( int i=0; i<rowExprs.size( ); i++ )
-		{
-			IScriptExpression scriptExpr = (IScriptExpression)exprs.get( i );
-			selectedColumns[ i ] = scriptExpr.getText( );
-		}
+		this.selectedColumns = selectedColumns;
+		this.helper = helper;
+		populateColumnsMap( );
 	}
 	
 	private void populateColumnsMap( )
 	{
-		if( resultMeta == null )
+		if( helper == null )
 			return ;
+		if ( this.selectedColumns == null )
+		{
+			ArrayList aColMeta = helper.validatedColMetas;
+			this.selectedColumns = new String[aColMeta.size( )];
+			for( int i=0; i<aColMeta.size( ); i++ )
+			{
+				ExprMetaData meta = (ExprMetaData)aColMeta.get( i );
+				this.selectedColumns[i] = meta.getName( );
+			}
+		}
 		
+		ArrayList validateColsMeta = helper.validatedColMetas;
 		for( int i=0; i<selectedColumns.length; i++)
 		{
-			for( int j=1; j<=resultMeta.getColumnCount(); j++)
+			for( int j=0; j<validateColsMeta.size( ); j++)
 			{
-				try
+				ExprMetaData meta = (ExprMetaData) validateColsMeta.get( j );
+				String colName = meta.getName( );
+
+				if ( selectedColumns[i].equalsIgnoreCase( colName ) )
 				{
-					String colName = resultMeta.getColumnName( j );
-					if( colName.matches( "\"\\w+\"" ) )
-					{
-						colName = colName.replaceAll("\"", "\\\\\"");
-					}
-					
-					String newColName =  "row[\"" + colName + "\"]";
-					if( selectedColumns[i].equalsIgnoreCase( newColName ) )
-					{
-						if( columnsMap == null )
-							columnsMap = new HashMap( );
-						columnsMap.put( new Integer(i), new Integer(j));
-						break;
-					}
-				}
-				catch (BirtException be)
-				{
-					be.printStackTrace();
+					if ( columnsMap == null )
+						columnsMap = new HashMap( );
+					columnsMap.put( new Integer( i ), new Integer( j ) );
+					break;
 				}
 			}
 		}
@@ -95,6 +76,7 @@ public class ResultMetaData implements IResultMetaData
 		}
 		return -1;
 	}
+	
 	private void validateIndex( int index )
 	{
 		assert index >=0 && index < selectedColumns.length; 
@@ -104,6 +86,10 @@ public class ResultMetaData implements IResultMetaData
 		return selectedColumns.length;
 	}
 
+	private ExprMetaData getMeta( int index )
+	{
+		return (ExprMetaData)helper.validatedColMetas.get( index );
+	}
 	public String getColumnName( int index ) throws BirtException
 	{
 		validateIndex( index );
@@ -115,7 +101,7 @@ public class ResultMetaData implements IResultMetaData
 		validateIndex( index );
 		int mappedIndex = getMappedIndex( index );
 		if( mappedIndex != -1)
-			return resultMeta.getColumnAlias( mappedIndex );
+			return getMeta(mappedIndex).metaAlias;
 		return null;
 	}
 
@@ -124,7 +110,7 @@ public class ResultMetaData implements IResultMetaData
 		validateIndex( index );
 		int mappedIndex = getMappedIndex( index );
 		if( mappedIndex != -1)
-			return resultMeta.getColumnType( mappedIndex );
+			return getMeta(mappedIndex).metaType;
 		return DataType.UNKNOWN_TYPE;
 	}
 
@@ -133,7 +119,7 @@ public class ResultMetaData implements IResultMetaData
 		validateIndex( index );
 		int mappedIndex = getMappedIndex( index );
 		if( mappedIndex != -1)
-			return resultMeta.getColumnTypeName( mappedIndex );
+			return getMeta(mappedIndex).metaTypeName;
 		return null;
 	}
 
@@ -142,7 +128,7 @@ public class ResultMetaData implements IResultMetaData
 		validateIndex( index );
 		int mappedIndex = getMappedIndex( index );
 		if( mappedIndex != -1)
-			return resultMeta.getColumnNativeTypeName( mappedIndex );
+			return getMeta( mappedIndex ).metaNativeTypeName;
 		return null;
 	}
 
@@ -151,7 +137,7 @@ public class ResultMetaData implements IResultMetaData
 		validateIndex( index );
 		int mappedIndex = getMappedIndex( index );
 		if( mappedIndex != -1)
-			return resultMeta.getColumnLabel( mappedIndex );
+			return getMeta( mappedIndex ).metaLabel;
 		return null;
 	}
 
@@ -160,7 +146,7 @@ public class ResultMetaData implements IResultMetaData
 		validateIndex( index );
 		int mappedIndex = getMappedIndex( index );
 		if( mappedIndex != -1)
-			return resultMeta.isComputedColumn( mappedIndex );
+			return getMeta( mappedIndex ).isMetaComputedColumn;
 		return false;
 	}
 }

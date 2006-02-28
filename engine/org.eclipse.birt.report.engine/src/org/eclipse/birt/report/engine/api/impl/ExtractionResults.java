@@ -11,9 +11,9 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
@@ -21,21 +21,16 @@ import org.eclipse.birt.report.engine.api.IExtractionResults;
 
 public class ExtractionResults implements IExtractionResults
 {
-	protected IResultIterator resultIter;
 	protected String[] selectedColumns;
 	protected Collection expressions;
 	protected DataIterator currentDataIterator;
+	protected HashMap exprMeta;
+	protected DataExtractionHelper helper;
 		
-	ExtractionResults ( IResultIterator results, String[] selectedColumns, Collection exprs )
+	ExtractionResults ( String[] selectedColumns, DataExtractionHelper helper )
 	{
-		initialize( results, selectedColumns, exprs );
-	}
-	
-	private void initialize( IResultIterator results, String[] selectedColumns, Collection exprs )
-	{
-		resultIter = results;
 		this.selectedColumns = selectedColumns;
-		expressions = exprs;
+		this.helper = helper;
 	}
 	
 	public IResultMetaData getResultMetaData( ) throws BirtException
@@ -55,26 +50,17 @@ public class ExtractionResults implements IExtractionResults
 
 	public IDataIterator nextResultIterator( ) throws BirtException
 	{
-		if( resultIter == null )
-			return null;
 		if (currentDataIterator == null || currentDataIterator.isAdvanced() == false)
 		{
-			currentDataIterator = new DataIterator( this, resultIter, selectedColumns, expressions );
-			return currentDataIterator;
+			currentDataIterator = new DataIterator( this, this.selectedColumns, 
+					this.helper );
 		}
 		
-		return null;
+		return this.currentDataIterator;
 	}
 
 	public void close( )
 	{
-		try
-		{
-			resultIter.close();
-		}
-		catch( BirtException be )
-		{
-			be.printStackTrace( );
-		}
+		this.currentDataIterator.close( );
 	}
 }

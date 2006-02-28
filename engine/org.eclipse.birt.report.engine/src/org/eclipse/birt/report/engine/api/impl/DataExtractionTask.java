@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -27,13 +26,12 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBaseTransform;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.api.ComponentID;
-import org.eclipse.birt.report.engine.api.DataID;
-import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
@@ -108,6 +106,11 @@ public class DataExtractionTask extends EngineTask
 	 */
 	protected HashMap mapResultSetNameToQuery;
 	
+	/* 
+	 * map valued expr to its report data item name
+	 */
+	protected HashMap mapExprToDataName;
+	
 	/**
 	 * the logger
 	 */
@@ -155,6 +158,7 @@ public class DataExtractionTask extends EngineTask
 			
 		mapQueryToReportItem = report.getReportItemToQueryMap( );
 		mapQueryToValueExprs = report.getQueryToValueExprMap( );
+		this.mapExprToDataName = report.getExprToNameMap( );
 		
 		// load query -> result set name
 		try
@@ -202,6 +206,8 @@ public class DataExtractionTask extends EngineTask
 		for (int i = 0; i < queryList.size(); i++) {
 			IQueryDefinition query = (IQueryDefinition) queryList.get(i);
 			assert query != null;
+			
+			// DataExtractionHelper helper = new DataExtractionHelper( query, null );
 			
 			String queryId = (String)report.getQueryIDs( ).get( query );
 			List resultSetList = (List) mapQueryIDToResultSetName.get(queryId);
@@ -295,7 +301,7 @@ public class DataExtractionTask extends EngineTask
 	
 	public List getMetaData( ) throws EngineException
 	{
-		if ( resultMetaList == null )
+		/*if ( resultMetaList == null )
 		{
 			resultMetaList = new ArrayList( );
 			ResultMetaData metaData = null;
@@ -318,11 +324,11 @@ public class DataExtractionTask extends EngineTask
 			}
 			else
 			{
-				metaData = new ResultMetaData( null,
-						selectedColumns );
-				resultMetaList.add( metaData );
+				// metaData = new ResultMetaData( null,
+				// 		selectedColumns );
+				// resultMetaList.add( metaData );
 			}
-		}
+		}*/
 		return resultMetaList;
 	}
 	
@@ -366,8 +372,12 @@ public class DataExtractionTask extends EngineTask
 		assert query != null;
 		assert displayName != null;
 		
-		ResultMetaData resultMeta = new ResultMetaData(
-				getValueExpressions( query ));
+		DataExtractionHelper helper = new DataExtractionHelper( 
+				(IQueryDefinition)query, null, 
+				executionContext.getScope( ),
+				this.mapQueryToValueExprs, this.mapExprToDataName );
+		
+		IResultMetaData resultMeta = helper.getResultMetaData( );
 
 		IResultSetItem resultItem = new ResultSetItem(displayName, resultMeta);
 		
@@ -385,11 +395,7 @@ public class DataExtractionTask extends EngineTask
 		if ( currentResult != null )
 			return currentResult;
 		
-		if( instanceId != null )
-		{
-			return extractByInstanceId( );
-		}
-		else if( resultSetName != null )
+		if( resultSetName != null )
 		{
 			return extractByResultSetName( );
 		}
@@ -409,16 +415,18 @@ public class DataExtractionTask extends EngineTask
 		DataEngine dataEngine = executionContext.getDataEngine().getDataEngine();
 		try
 		{
-			IBaseQueryDefinition query = (IBaseQueryDefinition)mapResultSetNameToQuery
+			IQueryDefinition query = (IQueryDefinition)mapResultSetNameToQuery
 									.get( resultSetName );
 			assert query != null;
-			validateSelectedColumns( query );
 			
 			IQueryResults queryResults = dataEngine.getQueryResults( resultSetName );
 			assert queryResults.getResultIterator() != null;
-			 
-			currentResult = new ExtractionResults( queryResults.getResultIterator() 
-					, selectedColumns, getValueExpressions( query ) );
+			
+			DataExtractionHelper helper = new DataExtractionHelper( 
+					query, queryResults.getResultIterator( ), 
+					executionContext.getScope( ),
+					this.mapQueryToValueExprs, this.mapExprToDataName );
+			currentResult = new ExtractionResults( this.selectedColumns, helper );
 			return currentResult;
 		}
 		catch ( BirtException e )
@@ -429,119 +437,17 @@ public class DataExtractionTask extends EngineTask
 	}
 	
 	/*
-	 * data export by report item instance
-	 */
-	private IExtractionResults extractByInstanceId( ) throws EngineException
-	{
-		assert instanceId != null;
-		
-		assert executionContext.getDataEngine() != null;
-		DataEngine dataEngine = executionContext.getDataEngine().getDataEngine();
-		
-		ReportItemDesign rptItem = (ReportItemDesign) report
-				.getReportItemByID( instanceId.getComponentID( ) );
-		assert rptItem != null;
-		
-		validateSelectedColumns( rptItem.getQuery( ) );
-		
-		
-		DataID dataId = instanceId.getDataID();
-		InstanceID instId = instanceId;
-		while( instId != null && dataId == null ){
-			instId = instId.getParentID( );
-			if( instId != null )
-			{
-				dataId = instId.getDataID();
-			}
-		}
-		
-		if(dataId == null)
-			return null;
-		
-		DataSetID dataSetId = dataId.getDataSetID( );
-		assert dataSetId != null;
-		
-		String queryResultName = dataSetId.getDataSetName( );
-		
-		if( resultMetaList == null )
-		{
-			resultMetaList = new ArrayList( );
-		}
-		else
-		{
-			resultMetaList.clear();
-		}
-		
-		if ( queryResultName != null )
-		{
-			try
-			{
-				IQueryResults queryResults = dataEngine.getQueryResults( queryResultName );
-				
-				assert queryResults.getResultIterator() != null;
-				
-				currentResult = new ExtractionResults( queryResults.getResultIterator() 
-						, selectedColumns, getValueExpressions( rptItem.getQuery( ) ) );
-				return currentResult;
-				
-			}
-			catch ( BirtException e )
-			{
-				e.printStackTrace();
-			}
-		}
-		else
-		{
-			DataSetID parentId = dataSetId.getParentID( );
-			assert parentId != null;
-			try
-			{
-				queryResultName = parentId.getDataSetName( );
-				DataSetID parId = parentId;
-				while( queryResultName == null && parId != null )
-				{
-					parId = parId.getParentID();
-					if( parId != null )
-						queryResultName = parId.getDataSetName();
-				}
-				assert queryResultName != null;
-				
-				IQueryResults parentQueryResult = dataEngine
-						.getQueryResults( queryResultName );
-				assert parentQueryResult != null;
-				
-				IResultIterator iter = parentQueryResult.getResultIterator( );
-				long rowid = dataSetId.getRowID( );
-				
-				int i = 0;
-				while ( iter.next( ) && i++ < rowid ) 		;
-				
-				IResultIterator subIter = iter.getSecondaryIterator( dataSetId
-						.getQueryName( ), executionContext.getScope( ) );
-				
-				currentResult = new ExtractionResults( subIter, 
-						selectedColumns, getValueExpressions ( rptItem.getQuery( ) ) );
-				return currentResult;
-			}
-			catch( BirtException be )
-			{
-				be.printStackTrace( );
-			}
-		}
-		return null;
-	}
-	
-	/*
 	 * check if the selected columns is valid, if no column is selected, then initialize the
 	 * selected column using row expression.
 	 */
-	private void validateSelectedColumns( IBaseQueryDefinition query )
+	/*private void validateSelectedColumns( IBaseQueryDefinition query )
 			throws EngineException
 	{
 		assert query != null;
+		ArrayList exprs = new ArrayList( );
+		HashMap exprMeta = new HashMap( );
 		
-		Collection exprs = getValueExpressions( query );
-
+		visitQuery( (QueryDefinition)query, exprMeta, exprs );
 		if ( selectedColumns != null )
 		{
 			for ( int i = 0; i < selectedColumns.length; i++ )
@@ -583,11 +489,121 @@ public class DataExtractionTask extends EngineTask
 				}
 			}
 		}
- 	}
-
-	private Collection getValueExpressions( IBaseQueryDefinition query )
+ 	}*/
+		
+	/*private void visitQuery( QueryDefinition query, HashMap exprToMeta,
+			ArrayList colExprs )
 	{
-		ArrayList valueExprs = (ArrayList)mapQueryToValueExprs.get( query );
-		return valueExprs;
+		int level = 0;
+		ArrayList valueExprs = (ArrayList) this.mapQueryToValueExprs
+				.get( query );
+		setExpressions( (List) query.getBeforeExpressions( ), query,
+				ExprConstants.EXPR_BEFORE, level, exprToMeta, colExprs,
+				valueExprs );
+		setExpressions( (List) query.getRowExpressions( ), query,
+				ExprConstants.EXPR_ROW, level, exprToMeta, colExprs, valueExprs );
+
+		Iterator iter = query.getGroups( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			IGroupDefinition group = (IGroupDefinition) iter.next( );
+			visitGroup( group, level + 1, exprToMeta, colExprs, valueExprs );
+		}
+
+		iter = query.getSubqueries( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			ISubqueryDefinition subquery = (ISubqueryDefinition) iter.next( );
+			visitSubquery( subquery, level + 1, exprToMeta, colExprs );
+		}
 	}
+
+	private void visitGroup( IGroupDefinition group, int level,
+			HashMap exprToMeta, ArrayList colExprs, ArrayList valueExprs )
+	{
+		setExpressions( (List) group.getBeforeExpressions( ), group,
+				ExprConstants.EXPR_BEFORE, level, exprToMeta, colExprs,
+				valueExprs );
+		setExpressions( (List) group.getRowExpressions( ), group,
+				ExprConstants.EXPR_ROW, level, exprToMeta, colExprs, valueExprs );
+
+		Iterator iter = group.getSubqueries( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			ISubqueryDefinition subquery = (ISubqueryDefinition) iter.next( );
+			visitSubquery( subquery, level + 1, exprToMeta, colExprs );
+		}
+	}
+
+	private void visitSubquery( ISubqueryDefinition subquery, int level,
+			HashMap exprToMeta, ArrayList colExprs )
+	{
+		ArrayList valueExprs = (ArrayList) this.mapQueryToValueExprs
+				.get( subquery );
+		setExpressions( (List) subquery.getBeforeExpressions( ), subquery,
+				ExprConstants.EXPR_BEFORE, level, exprToMeta, colExprs,
+				valueExprs );
+		setExpressions( (List) subquery.getRowExpressions( ), subquery,
+				ExprConstants.EXPR_ROW, level, exprToMeta, colExprs, valueExprs );
+
+		Iterator iter = subquery.getGroups( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			IGroupDefinition group = (IGroupDefinition) iter.next( );
+			visitGroup( group, level + 1, exprToMeta, colExprs, valueExprs );
+		}
+
+		iter = subquery.getSubqueries( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			ISubqueryDefinition subq = (ISubqueryDefinition) iter.next( );
+			visitSubquery( subq, level + 1, exprToMeta, colExprs );
+		}
+	}
+
+	private void setExpressions( List exprs, IBaseTransform origin,
+			int exprType, int level, HashMap exprToMeta, ArrayList colExprs,
+			ArrayList valueExprs )
+	{
+		if ( exprs != null )
+		{
+			if ( valueExprs != null && valueExprs.isEmpty( ) == false )
+			{
+				Iterator exprIter = exprs.iterator( );
+				while ( exprIter.hasNext( ) )
+				{
+					IBaseExpression expr = (IBaseExpression) exprIter.next( );
+					if ( valueExprs.contains( expr ) )
+					{
+						ExpressionMetaData exprMeta = new ExpressionMetaData(
+								origin, exprType, level );
+						exprToMeta.put( expr, exprMeta );
+						colExprs.add( expr );
+					}
+				}
+			}
+		}
+	}*/
+	
+	
+}
+
+class ExpressionMetaData 
+{
+	IBaseTransform originFrom;			// Query, Group or Subquery
+	int type;							// beforeExpr or rowExpr 
+	int groupLevel;						// the parent level in group
+	IResultIterator resultIter;
+	public ExpressionMetaData( IBaseTransform origin, int exprType, int level ) 
+	{
+		this.originFrom = origin;
+		this.type = exprType;
+		this.groupLevel = level;
+	}
+}
+
+class ExprConstants {
+	public static final int EXPR_BEFORE = 0;
+	public static final int EXPR_ROW = 1;
+	public static final int EXPR_AFTER = 2;
 }

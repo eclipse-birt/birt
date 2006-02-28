@@ -33,7 +33,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.29 $ $Date: 2006/01/11 09:19:40 $
+ * @version $Revision: 1.30 $ $Date: 2006/01/20 14:55:40 $
  */
 public class Report
 {
@@ -125,6 +125,8 @@ public class Report
 	 * map query to "value" expressions
 	 */
 	protected HashMap mapQueryToValueExprs;
+	
+	protected HashMap mapValueExprToName;
 
 	/**
 	 * css engine used in this
@@ -170,6 +172,15 @@ public class Report
 			mapQueryToValueExprs = new HashMap( );
 		}
 		return mapQueryToValueExprs;
+	}
+	
+	public HashMap getExprToNameMap( )
+	{
+		if( this.mapValueExprToName == null )
+		{
+			this.mapValueExprToName = new HashMap( );
+		}
+		return this.mapQueryToValueExprs;
 	}
 
 	/**

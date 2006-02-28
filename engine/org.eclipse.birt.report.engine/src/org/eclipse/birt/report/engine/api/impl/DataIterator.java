@@ -10,59 +10,48 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api.impl;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IConditionalExpression;
-import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
-import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 
 
 public class DataIterator implements IDataIterator
 {
-	protected IResultIterator resultIter;
 	protected IExtractionResults extractResult;
 	protected String[] selectedColumns; 
-	protected Collection expressions;
 	protected ResultMetaData metaData;
-	protected HashMap exprMap;
 	private boolean isAdvanced = false;
-	
-	DataIterator( IExtractionResults result, IResultIterator iter, 
-			String[] selectedColumns, Collection exprs )
+	private DataExtractionHelper helper;
+	private HashSet colSet = new HashSet( );
+		
+	DataIterator( IExtractionResults result, String[] selectedColumns, 
+					DataExtractionHelper helper )
 	{
-		initialize( result, iter, selectedColumns, exprs );
-	}
-	
-	private void initialize( IExtractionResults result, IResultIterator iter, 
-			String[] selectedColumns, Collection exprs )
-	{
-		extractResult = result;
-		resultIter = iter;
+		this.extractResult = result;
 		this.selectedColumns = selectedColumns;
-		expressions = exprs;
-		populateExprMap( );
-	}
-	
-	private void populateExprMap( )
-	{
-		assert expressions != null;
-		if( exprMap == null )
+		this.helper = helper;
+		
+		if ( this.selectedColumns == null )
 		{
-			exprMap = new HashMap( );
+			ArrayList aColMeta = helper.validatedColMetas;
+			this.selectedColumns = new String[aColMeta.size( )];
+			for( int i=0; i<aColMeta.size( ); i++ )
+			{
+				ExprMetaData meta = (ExprMetaData)aColMeta.get( i );
+				this.selectedColumns[i] = meta.getName( );
+			}
 		}
 		
-		Iterator iter = expressions.iterator();
-		while( iter.hasNext() )
+		if ( this.selectedColumns != null ) 
 		{
-			IScriptExpression expr = (IScriptExpression)iter.next();
-			exprMap.put( expr.getText( ), expr );
+			for ( int i=0; i<this.selectedColumns.length; i++ )
+			{
+				colSet.add( this.selectedColumns[i] );
+			}
 		}
 	}
 	
@@ -75,7 +64,7 @@ public class DataIterator implements IDataIterator
 	{
 		if( metaData == null )
 		{
-			metaData = new ResultMetaData( resultIter.getResultMetaData(), selectedColumns ); 
+			metaData = new ResultMetaData( helper, this.selectedColumns ); 
 		}
 		
 		return metaData;
@@ -85,23 +74,18 @@ public class DataIterator implements IDataIterator
 	{
 		if( isAdvanced == false)
 			isAdvanced = true;
-		return resultIter.next();
+		return helper.next();
 	}
 
 	public Object getValue( String columnName ) throws BirtException
 	{
-		IBaseExpression expr = getExpression( columnName );
-		
-		return resultIter.getValue( expr );
+		if ( colSet.contains( columnName ) )
+		{
+			return helper.getValue( columnName );
+		}
+		return null;
 	}
 	
-	private IBaseExpression getExpression( String columnName )
-	{
-		assert exprMap != null;
-				
-		return (IBaseExpression)exprMap.get( columnName );
-	}
-
 	public Object getValue( int index ) throws BirtException
 	{
 		IResultMetaData metaData = getResultMetaData( );
@@ -109,7 +93,6 @@ public class DataIterator implements IDataIterator
 		if(index >= 0 && index < metaData.getColumnCount() )
 		{
 			columnName = metaData.getColumnName( index );
-			
 			return getValue( columnName );
 		}
 		
@@ -118,46 +101,11 @@ public class DataIterator implements IDataIterator
 
 	public void close( )
 	{
-		try
-		{
-			resultIter.close( );
-		}
-		catch( BirtException be )
-		{
-			be.printStackTrace( );
-		}
+		helper.close( );
 	}
 	
 	boolean isAdvanced( )
 	{
 		return isAdvanced;
-	}
-	
-	static String getConditionalExpressionText( IConditionalExpression condExpr )
-	{
-		assert condExpr != null ;
-		
-		StringBuffer exprTextBuf = new StringBuffer( );
-		IScriptExpression expr = condExpr.getExpression();
-		if( expr != null )
-		{
-			exprTextBuf.append( expr.getText( ) );
-		}
-		
-		exprTextBuf.append( condExpr.getOperator() );
-		
-		expr = condExpr.getOperand1( );
-		if( expr != null )
-		{
-			exprTextBuf.append( expr.getText( ) );
-		}
-		
-		expr = condExpr.getOperand2( );
-		if( expr != null )
-		{
-			exprTextBuf.append( expr.getText( ) );
-		}
-		
-		return exprTextBuf.toString( );
 	}
 }

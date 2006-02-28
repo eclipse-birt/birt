@@ -91,7 +91,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.47 $ $Date: 2006/01/11 09:19:39 $
+ * @version $Revision: 1.48 $ $Date: 2006/01/13 04:56:58 $
  */
 public class ReportQueryBuilder
 {
@@ -425,19 +425,25 @@ public class ReportQueryBuilder
 			}
 			else
 			{
+				pushReportItemQuery( query );
 				pushExpressions( query.getBeforeExpressions( ) );
 				handleReportItemExpressions( list );
 				visitListBand( list.getHeader( ), value );
 				popExpressions( );
+				popReportItemQuery( );
 
+				
 				SlotHandle groupsSlot = ( (ListHandle) list.getHandle( ) )
 						.getGroups( );
+				
+				pushReportItemQuery( query );
 				for ( int i = 0; i < list.getGroupCount( ); i++ )
 				{
 					handleListGroup( list.getGroup( i ),
 							(GroupHandle) groupsSlot.get( i ), value );
 				}
-
+				popReportItemQuery( );
+				
 				if ( list.getDetail( ).getContentCount( ) != 0 )
 				{
 					query.setUsesDetails( true );
@@ -589,11 +595,13 @@ public class ReportQueryBuilder
 			if( data.getValue( ) != null )
 			{					
 				IBaseQueryDefinition query = (IBaseQueryDefinition)reportItemQueryStack
-												.get( 0 );
+												.getLast( );
 				assert query != null;
 				
 				HashMap queryMap = report.getQueryToValueExprMap( );
 				assert queryMap != null;
+				HashMap exprToNameMap = report.getExprToNameMap( );
+				assert exprToNameMap != null;
 				
 				ArrayList valueExprs = (ArrayList)queryMap.get( query );
 				if( valueExprs == null )
@@ -603,6 +611,10 @@ public class ReportQueryBuilder
 				if( valueExprs.contains( data.getValue( )) == false )
 				{
 					valueExprs.add( data.getValue( ));
+					if ( data.getName( ) != null )
+					{
+						exprToNameMap.put( data.getValue( ), data.getName( ) );
+					}
 				}
 				queryMap.put( query, valueExprs );
 			}
@@ -668,6 +680,7 @@ public class ReportQueryBuilder
 				GroupHandle handle, Object value )
 		{
 			IGroupDefinition groupDefn = handleGroup( group, handle );
+			
 			pushQuery( groupDefn );
 			pushExpressions( groupDefn.getBeforeExpressions( ) );
 			visitListBand( group.getHeader( ), value );
