@@ -127,8 +127,8 @@
 		 		- ${plugin.version} the version of plugin exported
 	 -->
 	<target name="Export">
-	  	<xmlproperty file="plugin.xml" collapseAttributes="true"/>
-		<property name="plugin.package" value="${module.name}_${plugin.version}" />
+        <property file="META-INF/MANIFEST.MF" />
+        <property name="plugin.package" value="${module.name}_${Bundle-Version}" />
 		<copy todir="${export.dir}\${plugin.package}">
 			<fileset dir=".">
 	 			<include name="${jar.name}"/>

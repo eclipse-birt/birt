@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Editors Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.designer.ui.editors.schematic;singleton:=true
-Bundle-Version: 2.1.0
+Bundle-Version: 2.1.0.qualifier
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -28,3 +28,4 @@ Export-Package: org.eclipse.birt.report.designer.internal.ui.editors.schematic.l
  org.eclipse.birt.report.designer.ui.editors.pages,
  org.eclipse.birt.report.designer.ui.editors.schematic
 Bundle-ClassPath: editorSchematic.jar
+Bundle-Vendor: Eclipse.org

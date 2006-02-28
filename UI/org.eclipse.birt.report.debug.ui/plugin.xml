@@ -3,7 +3,7 @@
 <plugin
    id="org.eclipse.birt.report.debug.ui"
    name="BIRT debug Plug-in"
-   version="2.0.0"
+   version="2.1.0"
    provider-name="Eclipse.org"
    class="org.eclipse.birt.report.debug.ui.DebugUI">
 
