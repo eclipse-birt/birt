@@ -101,6 +101,8 @@
 			<include name="org.eclipse.core.runtime_*.jar"/>
 			<include name="org.eclipse.emf.ecore_*.jar"/>
 			<include name="org.eclipse.emf.common_*.jar"/>
+			<include name="org.eclipse.osgi_*/*.jar"/>
+			<include name="org.eclipse.osgi*.jar"/>			
 	        <include name="org.junit_*/*.jar"/>	
 			<include name="com.ibm.icu_*.jar"/>					
 		</fileset>		
