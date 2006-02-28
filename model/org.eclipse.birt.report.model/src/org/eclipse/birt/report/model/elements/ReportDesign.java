@@ -19,9 +19,11 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.validators.MasterPageRequiredValidator;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.writer.DesignWriter;
 import org.eclipse.birt.report.model.writer.ModuleWriter;
 
@@ -190,6 +192,32 @@ public class ReportDesign extends Module implements IReportDesignModel
 	public ModuleWriter getWriter( )
 	{
 		return new DesignWriter( this );
+	}
+	
+	/**
+	 * Gets all TOCs or bookmarks defined in the slot of the module.
+	 * 
+	 * @param slotId
+	 *            slot id in which the items hold TOCs.
+	 * @param propName
+	 *            property name
+	 * @return all TOCs or bookmarks defined in the slot of the module.
+	 */
+
+	public List collectPropValues( int slotId, String propName )
+	{
+		List rtnList = new ArrayList( );
+		ContentIterator contents = new ContentIterator( this, slotId );
+
+		while ( contents.hasNext( ) )
+		{
+			DesignElement ele = (DesignElement) contents.next( );
+			String str = ele.getStringProperty( this, propName );
+			if ( str != null )
+				rtnList.add( str );
+		}
+
+		return rtnList;
 	}
 
 }

@@ -303,14 +303,4 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 
 		stack.commit( );
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.ModuleHandle#getAllBookmarks()
-	 */
-	public List getAllBookmarks( )
-	{
-		return module.getBookmarksFrom( COMPONENT_SLOT );
-	}
 }

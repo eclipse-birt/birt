@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
@@ -122,21 +123,21 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
  * </ul>
  * 
  * <pre>
- *                                          // Include one library
- *                                          
- *                                          ReportDesignHandle designHandle = ...;
- *                                          designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
- *                                          LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *                                           // Include one library
  *                                           
- *                                          // Create one label based on the one in library
- *                                         
- *                                          LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
- *                                          LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
- *                                         
- *                                          // Add the new label into design file
- *                                         
- *                                          designHandle.getBody().add(myLabelHandle);
- *                                       
+ *                                           ReportDesignHandle designHandle = ...;
+ *                                           designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
+ *                                           LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *                                            
+ *                                           // Create one label based on the one in library
+ *                                          
+ *                                           LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
+ *                                           LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
+ *                                          
+ *                                           // Add the new label into design file
+ *                                          
+ *                                           designHandle.getBody().add(myLabelHandle);
+ *                                        
  * </pre>
  * 
  * @see org.eclipse.birt.report.model.elements.ReportDesign
@@ -720,14 +721,28 @@ public class ReportDesignHandle extends ModuleHandle
 		return getStringProperty( ReportDesign.CHEAT_SHEET_PROP );
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Gets all bookmarks defined in this module.
 	 * 
-	 * @see org.eclipse.birt.report.model.api.ModuleHandle#getAllBookmarks()
+	 * @return All bookmarks defined in this module.
 	 */
+
 	public List getAllBookmarks( )
 	{
-		return module.getBookmarksFrom( BODY_SLOT );
+		return ( (ReportDesign) module ).collectPropValues( BODY_SLOT,
+				ReportItem.BOOKMARK_PROP );
+	}
+
+	/**
+	 * Gets all TOCs defined in this module.
+	 * 
+	 * @return All TOCs defined in this module.
+	 */
+
+	public List getAllTocs( )
+	{
+		return ( (ReportDesign) module ).collectPropValues( BODY_SLOT,
+				ReportItem.TOC_PROP );
 	}
 
 	/**
@@ -771,7 +786,7 @@ public class ReportDesignHandle extends ModuleHandle
 			( (TextItem) text.getElement( ) ).setProperty(
 					TextItem.CONTENT_PROP, "<value-of>new Date()</value-of>" );
 
-			page.getElement().getSlot( SimpleMasterPage.PAGE_FOOTER_SLOT )
+			page.getElement( ).getSlot( SimpleMasterPage.PAGE_FOOTER_SLOT )
 					.add( text.element );
 			design.getSlot( ReportDesign.PAGE_SLOT ).add( page.element );
 		}
@@ -789,4 +804,5 @@ public class ReportDesignHandle extends ModuleHandle
 		isInitialized = true;
 
 	}
+
 }
