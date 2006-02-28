@@ -68,7 +68,6 @@
 
 	<property name="eclipse.home" location="." />
 	<property name="module.name" value="org.eclipse.birt" />
-	<property name="plugin.version" value="2.0.0" />
 
 	<!-- Generate zip for this project.
 		 Input parameters:
@@ -82,6 +81,7 @@
 		<tstamp>
 			<format property="TODAY" pattern="yyyyMMddHHmm" />
 		</tstamp>
+		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
 		<copy todir="${export.dir}/${module.name}_${plugin.version}">
 			<fileset dir=".">
 				<exclude name="BuildBirt.xml" />
