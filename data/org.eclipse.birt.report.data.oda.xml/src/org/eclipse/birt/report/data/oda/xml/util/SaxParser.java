@@ -11,10 +11,6 @@
 
 package org.eclipse.birt.report.data.oda.xml.util;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
@@ -95,21 +91,16 @@ public class SaxParser extends DefaultHandler implements Runnable
 			xr = new SAXParser( );
 			xr.setContentHandler( this );
 			xr.setErrorHandler( this );
-			Reader file = null;
-			InputStream is = null;
-		
-			is = getInputStream( this.inputStream );
-			
-			file = new InputStreamReader( is );
-				
+
 			try{
-				xr.parse( new InputSource( file ) );
+				xr.parse( new InputSource( this.inputStream ) );
 			}catch ( ThreadStopException tsE )
 			{
 				//This exception is thrown out to stop the execution of current
 				//thread.
 				tsE.printStackTrace();
 			}
+
 			this.inputStream.reStart();
 		}
 		catch ( Exception e )
@@ -121,35 +112,6 @@ public class SaxParser extends DefaultHandler implements Runnable
 			this.alive = false;
 			spConsumer.wakeup( );
 		}
-	}
-
-	/**
-	 * This method remove the microsoft utf bom from the input stream, if any.
-	 * 
-	 * @param is
-	 * @return 
-	 * @throws IOException
-	 */
-	private InputStream getInputStream( XMLDataInputStream is ) throws IOException
-	{
-		byte[] buff = new byte[3];
-		is.read( buff );
-		//The UTF8BOM will add three bytes, -17,-69,-65 to the header of a file.
-		boolean isUTF8BOM = (buff[0] == -17 && buff[1] == -69 && buff[2]== -65);
-	//	boolean isUTF16BOM = (buff[0] == -1 && buff[1] == -2)||(buff[0] == -2&&buff[1] == -1);
-	//	if(isUTF16BOM)
-	//	{
-	//		is = url.openStream();
-	//		byte[] b = new byte[10];
-	//		
-	//		is.read( b );
-	//		b = null;
-	//	}else 
-		if ( !isUTF8BOM )
-		{
-			is.reStart();
-		}
-		return is;
 	}
 
 	/*
@@ -339,6 +301,11 @@ public class SaxParser extends DefaultHandler implements Runnable
 	 */
 	private class ThreadStopException extends RuntimeException
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 7871277314833138093L;
+
 		ThreadStopException(){}
 	}
 }
