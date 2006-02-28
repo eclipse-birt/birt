@@ -414,7 +414,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		}
 
 		// RENDER THE RECTANGLE WITH THE APPROPRIATE LINE STYLE
-		final Bounds bo = rre.getBounds( );
+		final Bounds bo = normalizeBounds( rre.getBounds( ) );
 		Stroke sPrevious = null;
 		Stroke sCurrent = getCachedStroke( lia );
 		if ( sCurrent != null ) // SOME STROKE DEFINED?
@@ -441,7 +441,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	public void fillRectangle( RectangleRenderEvent rre ) throws ChartException
 	{
 		final Fill flBackground = rre.getBackground( );
-		final Bounds bo = rre.getBounds( );
+		final Bounds bo = normalizeBounds( rre.getBounds( ) );
 		final Rectangle2D.Double r2d = new Rectangle2D.Double( bo.getLeft( ),
 				bo.getTop( ),
 				bo.getWidth( ),
@@ -455,8 +455,8 @@ public class SwingRendererImpl extends DeviceAdapter
 		else if ( flBackground instanceof Gradient )
 		{
 			final Gradient g = (Gradient) flBackground;
-			final ColorDefinition cdStart = (ColorDefinition) g.getStartColor( );
-			final ColorDefinition cdEnd = (ColorDefinition) g.getEndColor( );
+			final ColorDefinition cdStart = g.getStartColor( );
+			final ColorDefinition cdEnd = g.getEndColor( );
 			// boolean bCyclic = g.isCyclic();
 			double dAngleInDegrees = g.getDirection( );
 			final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
@@ -617,6 +617,29 @@ public class SwingRendererImpl extends DeviceAdapter
 		};
 	}
 
+	/**
+	 * Make bounds height/width always positive.
+	 * 
+	 * @param bo
+	 * @return
+	 */
+	protected static final Bounds normalizeBounds( Bounds bo )
+	{
+		if ( bo.getHeight( ) < 0 )
+		{
+			bo.setTop( bo.getTop( ) + bo.getHeight( ) );
+			bo.setHeight( -bo.getHeight( ) );
+		}
+
+		if ( bo.getWidth( ) < 0 )
+		{
+			bo.setLeft( bo.getLeft( ) + bo.getWidth( ) );
+			bo.setWidth( -bo.getWidth( ) );
+		}
+
+		return bo;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -680,8 +703,8 @@ public class SwingRendererImpl extends DeviceAdapter
 		else if ( flBackground instanceof Gradient )
 		{
 			final Gradient g = (Gradient) flBackground;
-			final ColorDefinition cdStart = (ColorDefinition) g.getStartColor( );
-			final ColorDefinition cdEnd = (ColorDefinition) g.getEndColor( );
+			final ColorDefinition cdStart = g.getStartColor( );
+			final ColorDefinition cdEnd = g.getEndColor( );
 			// final boolean bRadial = g.isCyclic();
 			final double dAngleInDegrees = g.getDirection( );
 			final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
@@ -1010,8 +1033,8 @@ public class SwingRendererImpl extends DeviceAdapter
 		else if ( flBackground instanceof Gradient )
 		{
 			final Gradient g = (Gradient) flBackground;
-			final ColorDefinition cdStart = (ColorDefinition) g.getStartColor( );
-			final ColorDefinition cdEnd = (ColorDefinition) g.getEndColor( );
+			final ColorDefinition cdStart = g.getStartColor( );
+			final ColorDefinition cdEnd = g.getEndColor( );
 			double dAngleInDegrees = g.getDirection( );
 			final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 			Bounds bo = are.getBounds( );
@@ -1371,8 +1394,8 @@ public class SwingRendererImpl extends DeviceAdapter
 		else if ( flBackground instanceof Gradient )
 		{
 			final Gradient g = (Gradient) flBackground;
-			final ColorDefinition cdStart = (ColorDefinition) g.getStartColor( );
-			final ColorDefinition cdEnd = (ColorDefinition) g.getEndColor( );
+			final ColorDefinition cdStart = g.getStartColor( );
+			final ColorDefinition cdEnd = g.getEndColor( );
 			// boolean bCyclic = g.isCyclic();
 			double dAngleInDegrees = g.getDirection( );
 			final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
@@ -1765,8 +1788,8 @@ public class SwingRendererImpl extends DeviceAdapter
 		else if ( flBackground instanceof Gradient )
 		{
 			final Gradient g = (Gradient) flBackground;
-			final ColorDefinition cdStart = (ColorDefinition) g.getStartColor( );
-			final ColorDefinition cdEnd = (ColorDefinition) g.getEndColor( );
+			final ColorDefinition cdStart = g.getStartColor( );
+			final ColorDefinition cdEnd = g.getEndColor( );
 			// boolean bCyclic = g.isCyclic();
 			double dAngleInDegrees = g.getDirection( );
 			final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
