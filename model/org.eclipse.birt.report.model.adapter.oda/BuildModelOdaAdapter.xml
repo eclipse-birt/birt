@@ -80,7 +80,7 @@
 	<property name="data.oda.dir" value="../org.eclipse.birt.data.oda" />	
 	<property name="datatools.connectivity.oda.dir" value="${dtp.home}/org.eclipse.datatools.connectivity.oda" />		
 	<property name="datatools.connectivity.oda.design.dir" value="${dtp.home}/org.eclipse.datatools.connectivity.oda.design" />	
-	<property name="module.name" value = "org.eclipse.birt.report.model.oda" />
+	<property name="module.name" value = "org.eclipse.birt.report.model.adapter.oda" />
 	
 	<property name="src.dir" value="src" />
 	<property name="build.dir" value="bin" />
