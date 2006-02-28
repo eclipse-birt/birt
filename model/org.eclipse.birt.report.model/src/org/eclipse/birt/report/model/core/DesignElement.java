@@ -927,21 +927,21 @@ public abstract class DesignElement
 		return getProperty( module, prop );
 	}
 
-	/**
-	 * Tests if the property is inheritable in the context.
-	 * 
-	 * @param prop
-	 *            definition of the property to test
-	 * @return <code>true</code> if the property is inheritable in the
-	 *         context, otherwise, <code>false</code>.
-	 */
-
-	protected boolean isInheritableProperty( ElementPropertyDefn prop )
-	{
-		assert prop != null;
-
-		return prop.canInherit( );
-	}
+//	/**
+//	 * Tests if the property is inheritable in the context.
+//	 * 
+//	 * @param prop
+//	 *            definition of the property to test
+//	 * @return <code>true</code> if the property is inheritable in the
+//	 *         context, otherwise, <code>false</code>.
+//	 */
+//
+//	protected boolean isInheritableProperty( ElementPropertyDefn prop )
+//	{
+//		assert prop != null;
+//
+//		return prop.canInherit( );
+//	}
 
 	/**
 	 * Gets a property value given its definition. This version does the full

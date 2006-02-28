@@ -18,8 +18,10 @@ import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ColumnHelper;
 import org.eclipse.birt.report.model.elements.GridItem;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -44,7 +46,7 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 	 * 
 	 * @return the instance of <code>CellPropSearchStrategy</code>
 	 */
-	
+
 	public static PropertySearchStrategy getInstance( )
 	{
 		return instance;
@@ -67,7 +69,8 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 		DesignElement e = cell.getContainer( );
 		while ( e != null )
 		{
-			Object value = getPropertyFromElement( module, e, prop );
+			Object value = e.getStrategy( ).getPropertyFromElement( module, e,
+					prop );
 			if ( value != null )
 				return value;
 
@@ -197,5 +200,27 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 			return getPropertyFromElement( module, column, prop );
 
 		return null;
+	}
+
+	/**
+	 * Tests if the property of a cell is inheritable in the context.
+	 * <p>
+	 * If the cell resides in the row and the property is "vertical-align",
+	 * return <code>true</code>. Otherwise, return the value from its super
+	 * class.
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#isInheritableProperty(org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+
+	protected boolean isInheritableProperty( DesignElement element,
+			ElementPropertyDefn prop )
+	{
+		assert prop != null;
+
+		if ( Style.VERTICAL_ALIGN_PROP.equalsIgnoreCase( prop.getName( ) )
+				&& element.getContainer( ) instanceof TableRow )
+			return true;
+
+		return super.isInheritableProperty( element, prop );
 	}
 }

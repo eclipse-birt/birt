@@ -1974,13 +1974,13 @@
       <Property displayNameID="Element.Style.color" isStyleProperty="true" name="color" since="1.0" type="color">
         <Default>black</Default>
       </Property>
-      <Property canInherit="false" detailType="textUnderline" displayNameID="Element.Style.font.textUnderline" isStyleProperty="true" name="textUnderline" since="1.0" type="choice">
+      <Property detailType="textUnderline" displayNameID="Element.Style.font.textUnderline" isStyleProperty="true" name="textUnderline" since="1.0" type="choice">
         <Default>none</Default>
       </Property>
-      <Property canInherit="false" detailType="textOverline" displayNameID="Element.Style.font.textOverline" isStyleProperty="true" name="textOverline" since="1.0" type="choice">
+      <Property detailType="textOverline" displayNameID="Element.Style.font.textOverline" isStyleProperty="true" name="textOverline" since="1.0" type="choice">
         <Default>none</Default>
       </Property>
-      <Property canInherit="false" detailType="textLineThrough" displayNameID="Element.Style.font.textLineThrough" isStyleProperty="true" name="textLineThrough" since="1.0" type="choice">
+      <Property detailType="textLineThrough" displayNameID="Element.Style.font.textLineThrough" isStyleProperty="true" name="textLineThrough" since="1.0" type="choice">
         <Default>none</Default>
       </Property>
     </PropertyGroup>

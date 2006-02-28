@@ -87,8 +87,8 @@ public class PropertySearchStrategy
 			if ( value != null )
 				return value;
 
-			if ( !e.isInheritableProperty( prop ) || !prop.isStyleProperty( )
-					|| e.isStyle( ) )
+			if ( !e.getStrategy( ).isInheritableProperty( e, prop )
+					|| !prop.isStyleProperty( ) || e.isStyle( ) )
 				break;
 
 			// for the special case that may relates to the container.
@@ -142,7 +142,7 @@ public class PropertySearchStrategy
 		// search the parent element: (1) the property is not a style property
 		// and "canInherit" is true; (2) the property is a style property
 
-		if ( element.isInheritableProperty( prop ) || prop.isStyleProperty( ) )
+		if ( isInheritableProperty( element, prop ) || prop.isStyleProperty( ) )
 		{
 			value = getPropertyFromParent( element, prop );
 
@@ -375,5 +375,24 @@ public class PropertySearchStrategy
 		}
 
 		return null;
+	}
+
+	/**
+	 * Tests if the property is inheritable in the context.
+	 * 
+	 * @param element
+	 *            the element to test
+	 * @param prop
+	 *            definition of the property to test
+	 * @return <code>true</code> if the property is inheritable in the
+	 *         context, otherwise, <code>false</code>.
+	 */
+
+	protected boolean isInheritableProperty( DesignElement element,
+			ElementPropertyDefn prop )
+	{
+		assert prop != null;
+
+		return prop.canInherit( );
 	}
 }
