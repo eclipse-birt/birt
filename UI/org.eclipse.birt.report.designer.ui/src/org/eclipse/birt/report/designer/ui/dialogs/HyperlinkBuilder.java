@@ -86,43 +86,65 @@ import org.eclipse.ui.ISharedImages;
 public class HyperlinkBuilder extends BaseDialog
 {
 
-	private static final String TITLE = Messages.getString( "HyperlinkBuilder.DialogTitle" );
-	private static final String LABEL_SELECT_TYPE = Messages.getString( "HyperlinkBuilder.Label.SelectType" ); //$NON-NLS-1$
-	private static final String LABEL_LOCATION = Messages.getString( "HyperlinkBuilder.Label.Location" ); //$NON-NLS-1$
-	private static final String LABEL_TARGET = Messages.getString( "HyperlinkBuilder.Label.Target" ); //$NON-NLS-1$
-	private static final String LABEL_BOOKMARK = Messages.getString( "HyperlinkBuilder.Label.Bookmark" ); //$NON-NLS-1$
-	private static final String LABEL_LINKED_EXPRESSION = Messages.getString( "HyperlinkBuilder.Label.LinkedExpression" ); //$NON-NLS-1$
-	private static final String LABEL_REPORT = Messages.getString( "HyperlinkBuilder.Label.Report" ); //$NON-NLS-1$
-	private static final String LABEL_REPORT_PARAMETER = Messages.getString( "HyperlinkBuilder.Label.Parameters" ); //$NON-NLS-1$
-	private static final String LABEL_FORMAT = Messages.getString( "HyperlinkBuilder.Label.Format" ); //$NON-NLS-1$
+	private static final String TITLE = Messages
+			.getString( "HyperlinkBuilder.DialogTitle" );
+	private static final String LABEL_SELECT_TYPE = Messages
+			.getString( "HyperlinkBuilder.Label.SelectType" ); //$NON-NLS-1$
+	private static final String LABEL_LOCATION = Messages
+			.getString( "HyperlinkBuilder.Label.Location" ); //$NON-NLS-1$
+	private static final String LABEL_TARGET = Messages
+			.getString( "HyperlinkBuilder.Label.Target" ); //$NON-NLS-1$
+	private static final String LABEL_BOOKMARK = Messages
+			.getString( "HyperlinkBuilder.Label.Bookmark" ); //$NON-NLS-1$
+	private static final String LABEL_LINKED_EXPRESSION = Messages
+			.getString( "HyperlinkBuilder.Label.LinkedExpression" ); //$NON-NLS-1$
+	private static final String LABEL_REPORT = Messages
+			.getString( "HyperlinkBuilder.Label.Report" ); //$NON-NLS-1$
+	private static final String LABEL_REPORT_PARAMETER = Messages
+			.getString( "HyperlinkBuilder.Label.Parameters" ); //$NON-NLS-1$
+	private static final String LABEL_FORMAT = Messages
+			.getString( "HyperlinkBuilder.Label.Format" ); //$NON-NLS-1$
 
-	private static final String RADIO_NONE = Messages.getString( "HyperlinkBuilder.Radio.None" ); //$NON-NLS-1$
-	private static final String RADIO_URI = Messages.getString( "HyperlinkBuilder.Radio.Uri" ); //$NON-NLS-1$
-	private static final String RADIO_BOOKMARK = Messages.getString( "HyperlinkBuilder.Radio.Bookmark" ); //$NON-NLS-1$
-	private static final String RADIO_DRILLTHROUGH = Messages.getString( "HyperlinkBuilder.Radio.DrillThrough" ); //$NON-NLS-1$
+	private static final String RADIO_NONE = Messages
+			.getString( "HyperlinkBuilder.Radio.None" ); //$NON-NLS-1$
+	private static final String RADIO_URI = Messages
+			.getString( "HyperlinkBuilder.Radio.Uri" ); //$NON-NLS-1$
+	private static final String RADIO_BOOKMARK = Messages
+			.getString( "HyperlinkBuilder.Radio.Bookmark" ); //$NON-NLS-1$
+	private static final String RADIO_DRILLTHROUGH = Messages
+			.getString( "HyperlinkBuilder.Radio.DrillThrough" ); //$NON-NLS-1$
 
-	private static final String COLUMN_PARAMETER = Messages.getString( "HyperlinkBuilder.Column.Parameters" ); //$NON-NLS-1$
-	private static final String COLUMN_VALUE = Messages.getString( "HyperlinkBuilder.Column.Values" ); //$NON-NLS-1$
+	private static final String COLUMN_PARAMETER = Messages
+			.getString( "HyperlinkBuilder.Column.Parameters" ); //$NON-NLS-1$
+	private static final String COLUMN_VALUE = Messages
+			.getString( "HyperlinkBuilder.Column.Values" ); //$NON-NLS-1$
 
-	private static final Image IMAGE_OPEN_FILE = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_OPEN_FILE );
+	private static final Image IMAGE_OPEN_FILE = ReportPlatformUIImages
+			.getImage( IReportGraphicConstants.ICON_OPEN_FILE );
 
-	private static final Image ERROR_ICON = ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
+	private static final Image ERROR_ICON = ReportPlatformUIImages
+			.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 
-	private static final String ERROR_MSG_REPORT_REQUIRED = Messages.getString( "HyperlinkBuilder.ErrorMessage.ReportReqired" ); //$NON-NLS-1$
-	private static final String ERROR_MSG_INVALID_REPORT = Messages.getString( "HyperlinkBuilder.ErrorMessage.InvalidReport" ); //$NON-NLS-1$
+	private static final String ERROR_MSG_REPORT_REQUIRED = Messages
+			.getString( "HyperlinkBuilder.ErrorMessage.ReportReqired" ); //$NON-NLS-1$
+	private static final String ERROR_MSG_INVALID_REPORT = Messages
+			.getString( "HyperlinkBuilder.ErrorMessage.InvalidReport" ); //$NON-NLS-1$
 
 	private static final String TOOLTIP_BROWSE_FILE = "Browse for File"; //$NON-NLS-1$
 	private static final String TOOLTIP_EXPRESSION = "Open Expression Builder"; //$NON-NLS-1$
 
 	private static final String REQUIED_MARK = "*";
 
-	private static final IChoiceSet CHOICESET_TARGET = DesignEngine.getMetaDataDictionary( )
-			.getChoiceSet( DesignChoiceConstants.CHOICE_TARGET_NAMES_TYPE );
+	private static final IChoiceSet CHOICESET_TARGET = DesignEngine
+			.getMetaDataDictionary( ).getChoiceSet(
+					DesignChoiceConstants.CHOICE_TARGET_NAMES_TYPE );
 
-	private static final IChoiceSet CHOICESET_FORMAT = DesignEngine.getMetaDataDictionary( )
-			.getChoiceSet( DesignChoiceConstants.CHOICE_ACTION_FORMAT_TYPE );
+	private static final IChoiceSet CHOICESET_FORMAT = DesignEngine
+			.getMetaDataDictionary( ).getChoiceSet(
+					DesignChoiceConstants.CHOICE_ACTION_FORMAT_TYPE );
 
-	private static final ParamBinding dummyParameterBinding = StructureFactory.createParamBinding( );
+	private static final ParamBinding dummyParameterBinding = StructureFactory
+			.createParamBinding( );
 
 	private ActionHandle inputHandle;
 	private List dataSetList;
@@ -251,7 +273,8 @@ public class HyperlinkBuilder extends BaseDialog
 				int index = -1;
 				for ( int i = 0; i < paramterChooser.getItems( ).length; i++ )
 				{
-					if ( paramterChooser.getItems( )[i].equals( paramBinding.getParamName( ) ) )
+					if ( paramterChooser.getItems( )[i].equals( paramBinding
+							.getParamName( ) ) )
 					{
 						index = i;
 						break;
@@ -283,7 +306,8 @@ public class HyperlinkBuilder extends BaseDialog
 						paramBinding = StructureFactory.createParamBinding( );
 						bindingList.add( paramBinding );
 					}
-					paramBinding.setParamName( paramterChooser.getItems( )[index] );
+					paramBinding
+							.setParamName( paramterChooser.getItems( )[index] );
 				}
 			}
 			paramBindingTable.refresh( );
@@ -304,11 +328,13 @@ public class HyperlinkBuilder extends BaseDialog
 	{
 		Composite composite = (Composite) super.createDialogArea( parent );
 		createSelectionArea( composite );
-		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL )
+				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		displayArea = new Composite( composite, SWT.NONE );
 		displayArea.setLayoutData( new GridData( 450, 250 ) );
 		displayArea.setLayout( new GridLayout( 3, false ) );
-		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL )
+				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		return composite;
 	}
 
@@ -358,11 +384,13 @@ public class HyperlinkBuilder extends BaseDialog
 		{
 			switchToURI( );
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( type ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
+				.equals( type ) )
 		{
 			switchToBookmark( );
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( type ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH
+				.equals( type ) )
 		{
 			switchToDrillthrough( );
 		}
@@ -399,7 +427,8 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private void switchToDrillthrough( )
 	{
-		new Label( displayArea, SWT.NONE ).setText( REQUIED_MARK + LABEL_REPORT );
+		new Label( displayArea, SWT.NONE )
+				.setText( REQUIED_MARK + LABEL_REPORT );
 		locationEditor = new Text( displayArea, SWT.BORDER | SWT.SINGLE );
 		locationEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		locationEditor.addModifyListener( new ModifyListener( ) {
@@ -433,8 +462,7 @@ public class HyperlinkBuilder extends BaseDialog
 		label.setText( LABEL_REPORT_PARAMETER );
 		label.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
 		paramBindingTable = new TableViewer( displayArea, SWT.BORDER
-				| SWT.SINGLE
-				| SWT.FULL_SELECTION );
+				| SWT.SINGLE | SWT.FULL_SELECTION );
 		Table table = paramBindingTable.getTable( );
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		gd.horizontalSpan = 2;
@@ -468,18 +496,15 @@ public class HyperlinkBuilder extends BaseDialog
 
 		} );
 
-		paramBindingTable.setColumnProperties( new String[]{
-				COLUMN_PARAMETER, COLUMN_VALUE
-		} );
+		paramBindingTable.setColumnProperties( new String[]{COLUMN_PARAMETER,
+				COLUMN_VALUE} );
 
-		paramterChooser = new ComboBoxCellEditor( table,
-				new String[0],
+		paramterChooser = new ComboBoxCellEditor( table, new String[0],
 				SWT.READ_ONLY );
 		ExpressionCellEditor valueEditor = new ExpressionCellEditor( table );
 		valueEditor.setDataSetList( dataSetList );
-		paramBindingTable.setCellEditors( new CellEditor[]{
-				paramterChooser, valueEditor
-		} );
+		paramBindingTable.setCellEditors( new CellEditor[]{paramterChooser,
+				valueEditor} );
 		paramBindingTable.setContentProvider( contentProvider );
 		paramBindingTable.setLabelProvider( labelProvider );
 		paramBindingTable.setCellModifier( cellModifier );
@@ -505,8 +530,10 @@ public class HyperlinkBuilder extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				ExpressionBuilder builder = new ExpressionBuilder( text.getText( ) );
-				builder.setExpressionProvier( new ExpressionProvider( dataSetList ) );
+				ExpressionBuilder builder = new ExpressionBuilder( text
+						.getText( ) );
+				builder.setExpressionProvier( new ExpressionProvider(
+						dataSetList ) );
 				if ( builder.open( ) == Dialog.OK )
 				{
 					text.setText( builder.getResult( ) );
@@ -532,9 +559,8 @@ public class HyperlinkBuilder extends BaseDialog
 				FileDialog dialog = new FileDialog( UIUtil.getDefaultShell( ) );
 				if ( needFilter )
 				{
-					dialog.setFilterExtensions( new String[]{
-						"*.rptdesign" //$NON-NLS-1$
-						} );
+					dialog.setFilterExtensions( new String[]{"*.rptdesign" //$NON-NLS-1$
+							} );
 				}
 				try
 				{
@@ -575,7 +601,8 @@ public class HyperlinkBuilder extends BaseDialog
 		new Label( displayArea, SWT.NONE ).setText( LABEL_TARGET );
 		targetChooser = new Combo( displayArea, SWT.READ_ONLY | SWT.BORDER );
 		targetChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		targetChooser.setItems( ChoiceSetFactory.getDisplayNamefromChoiceSet( CHOICESET_TARGET ) );
+		targetChooser.setItems( ChoiceSetFactory
+				.getDisplayNamefromChoiceSet( CHOICESET_TARGET ) );
 		UIUtil.createBlankLabel( displayArea );
 	}
 
@@ -616,7 +643,8 @@ public class HyperlinkBuilder extends BaseDialog
 		new Label( displayArea, SWT.NONE ).setText( LABEL_FORMAT );
 		formatChooser = new Combo( displayArea, SWT.READ_ONLY | SWT.BORDER );
 		formatChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		formatChooser.setItems( ChoiceSetFactory.getDisplayNamefromChoiceSet( CHOICESET_FORMAT ) );
+		formatChooser.setItems( ChoiceSetFactory
+				.getDisplayNamefromChoiceSet( CHOICESET_FORMAT ) );
 		UIUtil.createBlankLabel( displayArea );
 	}
 
@@ -630,20 +658,25 @@ public class HyperlinkBuilder extends BaseDialog
 			inputHandle.setTargetWindow( null );
 			inputHandle.setReportName( null );
 			inputHandle.setFormatType( null );
-			inputHandle.getMember( Action.PARAM_BINDINGS_MEMBER )
-					.setValue( null );
+			inputHandle.getMember( Action.PARAM_BINDINGS_MEMBER ).setValue(
+					null );
 
-			if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( selectedType ) )
+			if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK
+					.equals( selectedType ) )
 			{
 				inputHandle.setURI( locationEditor.getText( ).trim( ) );
-				inputHandle.setTargetWindow( ChoiceSetFactory.getValueFromChoiceSet( targetChooser.getText( ),
-						CHOICESET_TARGET ) );
+				inputHandle.setTargetWindow( ChoiceSetFactory
+						.getValueFromChoiceSet( targetChooser.getText( ),
+								CHOICESET_TARGET ) );
 			}
-			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType ) )
+			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
+					.equals( selectedType ) )
 			{
-				inputHandle.setTargetBookmark( bookmarkEditor.getText( ).trim( ) );
+				inputHandle
+						.setTargetBookmark( bookmarkEditor.getText( ).trim( ) );
 			}
-			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( selectedType ) )
+			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH
+					.equals( selectedType ) )
 			{
 				inputHandle.setReportName( locationEditor.getText( ).trim( ) );
 				for ( Iterator iter = bindingList.iterator( ); iter.hasNext( ); )
@@ -655,10 +688,12 @@ public class HyperlinkBuilder extends BaseDialog
 					inputHandle.setTargetBookmark( bookmarkEditor.getText( )
 							.trim( ) );
 				}
-				inputHandle.setTargetWindow( ChoiceSetFactory.getValueFromChoiceSet( targetChooser.getText( ),
-						CHOICESET_TARGET ) );
-				inputHandle.setFormatType( ChoiceSetFactory.getValueFromChoiceSet( formatChooser.getText( ),
-						CHOICESET_FORMAT ) );
+				inputHandle.setTargetWindow( ChoiceSetFactory
+						.getValueFromChoiceSet( targetChooser.getText( ),
+								CHOICESET_TARGET ) );
+				inputHandle.setFormatType( ChoiceSetFactory
+						.getValueFromChoiceSet( formatChooser.getText( ),
+								CHOICESET_FORMAT ) );
 			}
 			inputHandle.setLinkType( selectedType );
 		}
@@ -693,15 +728,18 @@ public class HyperlinkBuilder extends BaseDialog
 
 		switchTo( inputHandle.getLinkType( ) );
 
-		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( selectedType ) )
+		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK
+				.equals( selectedType ) )
 		{
 			uriRadio.setSelection( true );
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
+				.equals( selectedType ) )
 		{
 			bookmarkRadio.setSelection( true );
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( selectedType ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH
+				.equals( selectedType ) )
 		{
 			drillRadio.setSelection( true );
 		}
@@ -714,7 +752,8 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private void initDisplayArea( )
 	{
-		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( selectedType ) )
+		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK
+				.equals( selectedType ) )
 		{
 			if ( inputHandle.getURI( ) != null )
 			{
@@ -722,15 +761,17 @@ public class HyperlinkBuilder extends BaseDialog
 			}
 			if ( inputHandle.getTargetWindow( ) != null )
 			{
-				targetChooser.setText( ChoiceSetFactory.getDisplayNameFromChoiceSet( inputHandle.getTargetWindow( ),
-						CHOICESET_TARGET ) );
+				targetChooser.setText( ChoiceSetFactory
+						.getDisplayNameFromChoiceSet( inputHandle
+								.getTargetWindow( ), CHOICESET_TARGET ) );
 			}
 			else
 			{
 				targetChooser.select( 0 );
 			}
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
+				.equals( selectedType ) )
 		{
 			if ( inputHandle.getTargetBookmark( ) != null )
 			{
@@ -739,7 +780,8 @@ public class HyperlinkBuilder extends BaseDialog
 			initBookmarkList( SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( ) );
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( selectedType ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH
+				.equals( selectedType ) )
 		{
 			if ( inputHandle.getTargetBookmark( ) != null )
 			{
@@ -756,8 +798,9 @@ public class HyperlinkBuilder extends BaseDialog
 			}
 			if ( inputHandle.getTargetWindow( ) != null )
 			{
-				targetChooser.setText( ChoiceSetFactory.getDisplayNameFromChoiceSet( inputHandle.getTargetWindow( ),
-						CHOICESET_TARGET ) );
+				targetChooser.setText( ChoiceSetFactory
+						.getDisplayNameFromChoiceSet( inputHandle
+								.getTargetWindow( ), CHOICESET_TARGET ) );
 			}
 			else
 			{
@@ -765,8 +808,9 @@ public class HyperlinkBuilder extends BaseDialog
 			}
 			if ( inputHandle.getFormatType( ) != null )
 			{
-				formatChooser.setText( ChoiceSetFactory.getDisplayNameFromChoiceSet( inputHandle.getFormatType( ),
-						CHOICESET_FORMAT ) );
+				formatChooser.setText( ChoiceSetFactory
+						.getDisplayNameFromChoiceSet( inputHandle
+								.getFormatType( ), CHOICESET_FORMAT ) );
 			}
 			else
 			{
@@ -792,17 +836,16 @@ public class HyperlinkBuilder extends BaseDialog
 			try
 			{
 				reportHandle = SessionHandleAdapter.getInstance( )
-						.getSessionHandle( )
-						.openDesign( newFilename );
+						.getSessionHandle( ).openDesign( newFilename );
 			}
 			catch ( DesignFileException e )
 			{
 				try
 				{
 					reportHandle = SessionHandleAdapter.getInstance( )
-							.getSessionHandle( )
-							.openDesign( URIUtil.resolveAbsolutePath( getBasePath( ),
-									newFilename ) );
+							.getSessionHandle( ).openDesign(
+									URIUtil.resolveAbsolutePath(
+											getBasePath( ), newFilename ) );
 				}
 				catch ( DesignFileException e1 )
 				{
@@ -821,15 +864,17 @@ public class HyperlinkBuilder extends BaseDialog
 					}
 					else if ( obj instanceof ParameterGroupHandle )
 					{
-						parameterList.addAll( ( (ParameterGroupHandle) obj ).getParameters( )
-								.getContents( ) );
+						parameterList.addAll( ( (ParameterGroupHandle) obj )
+								.getParameters( ).getContents( ) );
 					}
 				}
 				if ( newFilename.equals( inputHandle.getReportName( ) ) )
 				{
-					for ( Iterator iter = inputHandle.paramBindingsIterator( ); iter.hasNext( ); )
+					for ( Iterator iter = inputHandle.paramBindingsIterator( ); iter
+							.hasNext( ); )
 					{
-						ParamBindingHandle handle = (ParamBindingHandle) iter.next( );
+						ParamBindingHandle handle = (ParamBindingHandle) iter
+								.next( );
 						bindingList.add( handle.getStructure( ) );
 					}
 				}
@@ -855,10 +900,10 @@ public class HyperlinkBuilder extends BaseDialog
 	private void initBookmarkList( ModuleHandle handle )
 	{
 		bookmarkChooser.removeAll( );
-		if ( handle != null )
+		if ( handle != null && handle instanceof ReportDesignHandle )
 		{
-			bookmarkChooser.setItems( (String[]) handle.getAllBookmarks( )
-					.toArray( new String[0] ) );
+			bookmarkChooser.setItems( (String[]) ( (ReportDesignHandle) handle )
+					.getAllBookmarks( ).toArray( new String[0] ) );
 			bookmarkChooser.setText( bookmarkEditor.getText( ) );
 		}
 		bookmarkChooser.setEnabled( bookmarkChooser.getItemCount( ) > 0 );
@@ -881,15 +926,18 @@ public class HyperlinkBuilder extends BaseDialog
 	private void updateButtons( )
 	{
 		boolean okEnable = true;
-		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( selectedType ) )
+		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK
+				.equals( selectedType ) )
 		{
 			okEnable = !StringUtil.isBlank( locationEditor.getText( ) );
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
+				.equals( selectedType ) )
 		{
 			okEnable = !StringUtil.isBlank( bookmarkEditor.getText( ) );
 		}
-		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( selectedType ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH
+				.equals( selectedType ) )
 		{
 			okEnable = !StringUtil.isBlank( locationEditor.getText( ) )
 					&& messageLine.getImage( ) == null;
@@ -913,7 +961,8 @@ public class HyperlinkBuilder extends BaseDialog
 				avaliavleList.remove( paramBinding.getParamName( ) );
 			}
 		}
-		paramterChooser.setItems( (String[]) avaliavleList.toArray( new String[0] ) );
+		paramterChooser.setItems( (String[]) avaliavleList
+				.toArray( new String[0] ) );
 	}
 
 	private void deleteRow( )
@@ -928,7 +977,8 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private ParamBinding getSelectedBinding( )
 	{
-		IStructuredSelection selection = (IStructuredSelection) paramBindingTable.getSelection( );
+		IStructuredSelection selection = (IStructuredSelection) paramBindingTable
+				.getSelection( );
 		if ( selection.size( ) == 1 )
 		{
 			return (ParamBinding) selection.getFirstElement( );
@@ -948,8 +998,7 @@ public class HyperlinkBuilder extends BaseDialog
 	private String getBasePath( )
 	{
 		String baseFile = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getFileName( );
+				.getReportDesignHandle( ).getFileName( );
 		return new File( baseFile ).getParent( );
 	}
 
