@@ -19,6 +19,7 @@ import java.util.Locale;
 //import org.eclipse.birt.report.model.metadata.MetaDataParserException;
 //import org.eclipse.birt.report.model.metadata.MetaDataReader;
 
+import org.eclipse.birt.report.tests.engine.api.Bug128854PrompttextTest;
 import org.eclipse.birt.report.tests.engine.api.DefaultStatusHandlerTest;
 import org.eclipse.birt.report.tests.engine.api.EngineConfigTest;
 import org.eclipse.birt.report.tests.engine.api.FORenderOptionTest;
@@ -46,7 +47,7 @@ import junit.framework.TestSuite;
 /**
  *  Put your comments  
  *
- * @ @version $Revision: 1.5 $Date: 2005-6-27 
+ * @ @version $Revision: 1.6 $Date: 2005-6-27 
  */
 public class AllTests extends TestCase{
 
@@ -90,7 +91,9 @@ public class AllTests extends TestCase{
 		suite.addTestSuite(DataPreviewTaskTest.class);
 		suite.addTestSuite(RunTaskTest.class);
 		suite.addTestSuite(ReportDocumentTest.class);
-		suite.addTestSuite(RenderTaskTest.class);
+		//suite.addTestSuite(RenderTaskTest.class);
+		//added 06/02/28
+		suite.addTestSuite(Bug128854PrompttextTest.class);
 		//$JUnit-END$
 		return suite;
 	}
