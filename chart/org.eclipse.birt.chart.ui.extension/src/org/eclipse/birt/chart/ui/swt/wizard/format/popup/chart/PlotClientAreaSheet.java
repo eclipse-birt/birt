@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart;
 
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -44,9 +45,10 @@ import org.eclipse.swt.widgets.Listener;
  * 
  */
 
-public class PlotClientAreaSheet extends AbstractPopupSheet implements
-		Listener,
-		SelectionListener
+public class PlotClientAreaSheet extends AbstractPopupSheet
+		implements
+			Listener,
+			SelectionListener
 {
 
 	private transient Composite cmpContent;
@@ -94,7 +96,8 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 			grpAreaIncluding.setLayout( new GridLayout( 4, false ) );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			grpAreaIncluding.setLayoutData( gd );
-			grpAreaIncluding.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.AreaIncludingAxes" ) ); //$NON-NLS-1$
+			grpAreaIncluding.setText( chart instanceof ChartWithAxes
+					? Messages.getString( "ChartPlotSheetImpl.Label.AreaIncludingAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.PlotArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		Label lblAnchor = new Label( grpAreaIncluding, SWT.NONE );
@@ -197,7 +200,8 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 			grpAreaWithin.setLayout( new GridLayout( 4, false ) );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			grpAreaWithin.setLayoutData( gd );
-			grpAreaWithin.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.AreaWithinAxes" ) ); //$NON-NLS-1$
+			grpAreaWithin.setText( chart instanceof ChartWithAxes
+					? Messages.getString( "ChartPlotSheetImpl.Label.AreaWithinAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.ClientArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		createClientArea( grpAreaWithin );

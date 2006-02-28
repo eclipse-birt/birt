@@ -9,6 +9,7 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
@@ -74,7 +75,8 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 			gd.horizontalSpan = 2;
 			lblIncludingAxes.setLayoutData( gd );
 			lblIncludingAxes.setFont( JFaceResources.getBannerFont( ) );
-			lblIncludingAxes.setText( Messages.getString( "ChartPlotSheetImpl.Label.AreaIncludingAxes" ) ); //$NON-NLS-1$
+			lblIncludingAxes.setText( getChart( ) instanceof ChartWithAxes
+					? Messages.getString( "ChartPlotSheetImpl.Label.AreaIncludingAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.PlotArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background" ) ); //$NON-NLS-1$
@@ -106,7 +108,8 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 			gd.horizontalSpan = 2;
 			lblWithinAxes.setLayoutData( gd );
 			lblWithinAxes.setFont( JFaceResources.getBannerFont( ) );
-			lblWithinAxes.setText( Messages.getString( "ChartPlotSheetImpl.Label.AreaWithinAxes" ) ); //$NON-NLS-1$
+			lblWithinAxes.setText( getChart( ) instanceof ChartWithAxes
+					? Messages.getString( "ChartPlotSheetImpl.Label.AreaWithinAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.ClientArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background" ) ); //$NON-NLS-1$
@@ -150,7 +153,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 		}
 
 		btnArea = createToggleButton( cmp,
-				Messages.getString( "ChartPlotSheetImpl.Label.ClientArea" ) ); //$NON-NLS-1$
+				Messages.getString( "ChartPlotSheetImpl.Label.AreaFormat" ) ); //$NON-NLS-1$
 		btnArea.addSelectionListener( this );
 	}
 
@@ -212,8 +215,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 		else if ( e.widget.equals( btnArea ) )
 		{
 			popupShell = createPopupShell( );
-			popupSheet = new PlotClientAreaSheet( popupShell,
-					getContext( ) );
+			popupSheet = new PlotClientAreaSheet( popupShell, getContext( ) );
 			getWizard( ).attachPopup( btnArea.getText( ), -1, -1 );
 		}
 
