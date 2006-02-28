@@ -37,6 +37,6 @@ public class LibraryPlugin extends AbstractUIPlugin
 	public void start( BundleContext context ) throws Exception
 	{
 		super.start( context );
-		ReportPlugin.getDefault().addIgnoreViewID("org.eclipse.birt.report.designer.ui.editors.LibraryReportEditor");
+		ReportPlugin.getDefault().addIgnoreViewID("org.eclipse.birt.report.designer.ui.editors.LibraryEditor");
 	}
 }
