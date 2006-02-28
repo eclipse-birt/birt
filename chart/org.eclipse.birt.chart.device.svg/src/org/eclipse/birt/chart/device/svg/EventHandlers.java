@@ -154,9 +154,9 @@ public final class EventHandlers
 		.append( "    for (i = 0; i < compList.length; i=i+1){\n" ) //$NON-NLS-1$
 			.append( "         var comp = mainSvg.getElementById(id+'_'+compList[i]);\n" ) //$NON-NLS-1$
 			.append( "         var styleStr = comp.getAttribute(\"style\");\n" ) //$NON-NLS-1$
-			.append( "        rVisibleExp=/visibility:visible/g;\n" ) //$NON-NLS-1$
-			.append( "        rInheritExp=/visibility:inherit/g;\n" ) //$NON-NLS-1$
-			.append( "        rHiddenExp=/visibility:hidden/g;\n" ) //$NON-NLS-1$
+			.append( "        rVisibleExp=/visibility:[ ]*visible/g;\n" ) //$NON-NLS-1$
+			.append( "        rInheritExp=/visibility:[ ]*inherit/g;\n" ) //$NON-NLS-1$
+			.append( "        rHiddenExp=/visibility:[ ]*hidden/g;\n" ) //$NON-NLS-1$
 			.append( "        results = styleStr.search(rVisibleExp);\n" ) //$NON-NLS-1$
 			.append( "        inResults = styleStr.search(rInheritExp);\n" ) //$NON-NLS-1$
 			.append( "        if ((results == -1) && (inResults == -1)){\n" ) //$NON-NLS-1$
@@ -182,8 +182,8 @@ public final class EventHandlers
 		.append( "    for (i = 0; i < compList.length; i=i+1){\n" ) //$NON-NLS-1$
 			.append( "         var comp = mainSvg.getElementById(id+'_'+compList[i]);\n" ) //$NON-NLS-1$
 			.append( "         var styleStr = comp.getAttribute(\"style\");\n" ) //$NON-NLS-1$
-			.append( "        rVisibleExp=/visibility:visible/g;\n" ) //$NON-NLS-1$
-			.append( "        rHiddenExp=/visibility:hidden/g;\n" ) //$NON-NLS-1$
+			.append( "        rVisibleExp=/visibility:[ ]*visible/g;\n" ) //$NON-NLS-1$
+			.append( "        rHiddenExp=/visibility:[ ]*hidden/g;\n" ) //$NON-NLS-1$
 			.append( "        results = styleStr.search(rVisibleExp);\n" ) //$NON-NLS-1$
 			.append( "        if (results == -1){\n" ) //$NON-NLS-1$
  			.append( "           results = styleStr.search(rHiddenExp);\n" ) //$NON-NLS-1$
@@ -217,9 +217,9 @@ public final class EventHandlers
 		.append( "	      var mainSvg = evt.target.ownerDocument;\n" ) //$NON-NLS-1$
 		.append( "	        var comp = mainSvg.getElementById(id);\n" ) //$NON-NLS-1$
 		.append( "	        var styleStr = comp.getAttribute(\"style\");\n" ) //$NON-NLS-1$
-		.append( "	       rVisibleExp=/visibility:visible/g;\n" ) //$NON-NLS-1$
-		.append( "	       rInheritExp=/visibility:inherit/g;\n" ) //$NON-NLS-1$
-		.append( "	       rHiddenExp=/visibility:hidden/g;\n" ) //$NON-NLS-1$
+		.append( "	       rVisibleExp=/visibility:[ ]*visible/g;\n" ) //$NON-NLS-1$
+		.append( "	       rInheritExp=/visibility:[ ]*inherit/g;\n" ) //$NON-NLS-1$
+		.append( "	       rHiddenExp=/visibility:[ ]*hidden/g;\n" ) //$NON-NLS-1$
 		.append( "	       results = styleStr.search(rVisibleExp);\n" ) //$NON-NLS-1$
 		.append( "	       inResults = styleStr.search(rInheritExp);\n" ) //$NON-NLS-1$
 		.append( "	       if ((results == -1) && (inResults == -1)){\n" ) //$NON-NLS-1$
