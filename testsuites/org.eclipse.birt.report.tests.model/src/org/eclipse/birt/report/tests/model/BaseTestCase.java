@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.elements.Library;
@@ -113,7 +114,7 @@ public abstract class BaseTestCase extends TestCase
 
 	protected static final String PLUGIN_PATH = System.getProperty( "user.dir" ) + "/bin/"; //$NON-NLS-1$//$NON-NLS-2$
 
-	protected static final String TEST_FOLDER = ""; //$NON-NLS-1$
+	protected static final String TEST_FOLDER = "src/"; //$NON-NLS-1$
 	protected static final String OUTPUT_FOLDER = "/output/"; //$NON-NLS-1$
 	protected static final String INPUT_FOLDER = "/input/"; //$NON-NLS-1$
 	protected static final String GOLDEN_FOLDER = "/golden/"; //$NON-NLS-1$
@@ -214,8 +215,7 @@ public abstract class BaseTestCase extends TestCase
 			throws DesignFileException
 	{
 
-		fileName = PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER + fileName;
-		fileName = fileName.replace( '/', '\\' );
+		fileName = getClassFolder( ) + INPUT_FOLDER + fileName;
 		sessionHandle = DesignEngine.newSession( locale );
 		assertNotNull( sessionHandle );
 
@@ -364,10 +364,8 @@ public abstract class BaseTestCase extends TestCase
 
 		try
 		{
-			goldenFileName = PLUGIN_PATH + getClassFolder( ) + GOLDEN_FOLDER
-					+ goldenFileName;
-			outputFileName = PLUGIN_PATH + getClassFolder( ) + OUTPUT_FOLDER
-					+ outputFileName;
+			goldenFileName = getClassFolder( ) + GOLDEN_FOLDER + goldenFileName;
+			outputFileName = getClassFolder( ) + OUTPUT_FOLDER + outputFileName;
 
 			readerA = new FileReader( goldenFileName );
 			readerB = new FileReader( outputFileName );
@@ -661,15 +659,38 @@ public abstract class BaseTestCase extends TestCase
 
 	protected void saveAs( String filename ) throws IOException
 	{
-		if ( designHandle == null )
+		saveAs( designHandle, filename );
+	}
+	
+	/**
+	 * Eventually, this method will call
+	 * {@link ReportDesignHandle#saveAs(String)}to save the output file of some
+	 * unit test. The output test file will be saved in the folder of 'output'
+	 * under the folder where the unit test java source file locates, so before
+	 * calling {@link ReportDesignHandle#saveAs(String)}, the file name will be
+	 * modified to include the path information. For example, in a unit test
+	 * class, it can call saveAs( "PropertyCommandTest.out" ).
+	 * 
+	 * @param moduleHandle
+	 *            the module to save, either a report design or a library
+	 * @param filename
+	 *            the test output file to be saved.
+	 * @throws IOException
+	 *             if error occurs while saving the file.
+	 */
+
+	protected void saveAs( ModuleHandle moduleHandle, String filename )
+			throws IOException
+	{
+		if ( moduleHandle == null )
 			return;
-		String outputPath = PLUGIN_PATH + getClassFolder( ) + OUTPUT_FOLDER;
+		String outputPath = getClassFolder( ) + OUTPUT_FOLDER;
 		File outputFolder = new File( outputPath );
 		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
 		{
 			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
 		}
-		designHandle.saveAs( outputPath + filename );
+		moduleHandle.saveAs( outputPath + filename );
 	}
 
 	/**
@@ -731,7 +752,7 @@ public abstract class BaseTestCase extends TestCase
 		String className = this.getClass( ).getName( );
 		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
 		className = className.substring( 0, lastDotIndex );
-		className = TEST_FOLDER + className.replace( '.', '\\' );
+		className = TEST_FOLDER + className.replace( '.', '/' );
 
 		return className;
 	}
