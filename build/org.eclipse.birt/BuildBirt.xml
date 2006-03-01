@@ -101,6 +101,17 @@
 			</filterchain>
 
 		</copy>
+		<copy todir="${export.dir}/${module.name}_${plugin.version}" overwrite="true">
+			<fileset dir=".">
+				<include name="about.properties" />
+			</fileset>
+			<filterchain>
+				<replacetokens>
+					<token key="Replace_By_Version" value="${plugin.version}" />
+				</replacetokens>
+			</filterchain>
+
+		</copy>
 
 	</target>
 
