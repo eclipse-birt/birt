@@ -98,7 +98,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 			logger.log( Level.SEVERE, "Unexpected driverClass: " + driverClass );
 			throw new SQLException("Unexpected driverClass " + driverClass);
 		}
-		if ( ! url.equals(url) )
+		if ( ! url.equals(Constants.DRIVER_URL) )
 		{
 			// Wrong url
 			logger.log( Level.WARNING, "Unexpected url: " + url );
