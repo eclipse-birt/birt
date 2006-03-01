@@ -44,11 +44,6 @@ public class DeleteCommandTest extends CmdBaseTestCase
 
 	}
 
-	protected void tearDown( )
-	{
-		super.tearDown( );
-	}
-
 	public void testDeleteEmptyCell( )
 	{
 		//can not delete an empty cell
@@ -122,13 +117,13 @@ public class DeleteCommandTest extends CmdBaseTestCase
 		SlotHandle parent = getReportDesignHandle( ).getDataSources( );
 		assertEquals( 0, parent.getCount( ) );
 
-		createDataSource1( );
+		createDataSource( );
 		createDataSet( );
 		assertEquals( 1, parent.getCount( ) );
-		assertEquals( dataSource1, parent.get( 0 ) );
-		assertEquals( dataSource1, dataSet.getDataSource( ) );
+		assertEquals( dataSource, parent.get( 0 ) );
+		assertEquals( dataSource, dataSet.getDataSource( ) );
 
-		DeleteCommand deleteCmd = new DeleteCommand( dataSource1 );
+		DeleteCommand deleteCmd = new DeleteCommand( dataSource );
 		assertTrue( deleteCmd.canExecute( ) );
 		deleteCmd.execute( );
 		assertEquals( 0, parent.getCount( ) );

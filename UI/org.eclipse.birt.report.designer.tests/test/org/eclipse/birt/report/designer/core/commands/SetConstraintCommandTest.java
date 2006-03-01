@@ -29,19 +29,6 @@ import org.eclipse.draw2d.geometry.Dimension;
 public class SetConstraintCommandTest extends CmdBaseTestCase
 {
 
-	/*
-	 * @see TestCase#setUp()
-	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	protected void tearDown( )
-	{
-		super.tearDown( );
-	}
-
 	public void notestSetConstraintTableCmd( )
 	{
 		SetConstraintCommand cmd = new SetConstraintCommand( );

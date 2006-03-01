@@ -48,11 +48,6 @@ public class PasteCommandTest extends CmdBaseTestCase
 		 **********************************************************************/
 	}
 
-	protected void tearDown( )
-	{
-		super.tearDown( );
-	}
-
 	private void createNewCellInSecondRow( )
 	{
 		//create a new cell in secondRow

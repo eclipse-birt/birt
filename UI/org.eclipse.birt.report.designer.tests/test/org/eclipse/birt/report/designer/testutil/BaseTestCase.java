@@ -55,6 +55,7 @@ public abstract class BaseTestCase extends TestCase
 
 	protected void tearDown( ) throws Exception
 	{
+		report.close( );
 		report = null;
 	}
 

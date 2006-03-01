@@ -27,16 +27,6 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 public class CreateCommandTest extends CmdBaseTestCase
 {
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	protected void tearDown( )
-	{
-		super.tearDown( );
-	}
-
 	public void testCreateFirstTableRow( )
 	{
 
@@ -112,10 +102,10 @@ public class CreateCommandTest extends CmdBaseTestCase
 		SlotHandle parent = getReportDesignHandle( ).getDataSources( );
 		assertEquals( 0, parent.getCount( ) );
 
-		createDataSource1( );
+		createDataSource( );
 
 		assertEquals( 1, parent.getCount( ) );
-		assertEquals( dataSource1, parent.get( 0 ) );
+		assertEquals( dataSource, parent.get( 0 ) );
 	}
 
 	public void testCreateDataSourceWithSameName( )
@@ -123,7 +113,7 @@ public class CreateCommandTest extends CmdBaseTestCase
 
 		SlotHandle parent = getReportDesignHandle( ).getDataSources( );
 		assertEquals( 0, parent.getCount( ) );
-		createDataSource1( );
+		createDataSource( );
 		assertEquals( 1, parent.getCount( ) );
 
 		DataSourceHandle dataSource2 = getElementFactory( ).newOdaDataSource( DATA_SOURCE_NAME );

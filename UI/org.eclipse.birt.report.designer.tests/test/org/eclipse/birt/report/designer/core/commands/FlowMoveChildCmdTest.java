@@ -43,11 +43,6 @@ public class FlowMoveChildCmdTest extends CmdBaseTestCase
 		 **********************************************************************/
 	}
 
-	protected void tearDown( )
-	{
-		super.tearDown( );
-	}
-
 	public void testMoveRowCmd( )
 	{
 		SlotHandle container = table.getDetail( );

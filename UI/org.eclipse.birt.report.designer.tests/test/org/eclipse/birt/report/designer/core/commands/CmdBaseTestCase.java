@@ -49,7 +49,7 @@ public class CmdBaseTestCase extends BaseTestCase
 
 	protected ColumnHandle firstColumn;
 
-	protected DataSourceHandle dataSource1;
+	protected DataSourceHandle dataSource;
 
 	protected DataSetHandle dataSet;
 
@@ -71,15 +71,18 @@ public class CmdBaseTestCase extends BaseTestCase
 		adapter = new TableHandleAdapter( table, null );
 	}
 
-	protected void tearDown( )
+	protected void tearDown( ) throws SemanticException
 	{
+		clearAll( getReportDesignHandle( ).getBody( ) );
+		clearAll( getReportDesignHandle( ).getDataSources( ) );
+		clearAll( getReportDesignHandle( ).getDataSets( ) );
 		dataItem = null;
 		firstColumn = null;
 		firstCell = secondCell = null;
 		firstRow = secondRow = null;
 		adapter = null;
 		table = null;
-		dataSource1 = null;
+		dataSource = null;
 	}
 
 	protected ElementFactory getElementFactory( )
@@ -89,7 +92,7 @@ public class CmdBaseTestCase extends BaseTestCase
 
 	protected void createFirstRow( )
 	{
-		//create first Row in table Detail
+		// create first Row in table Detail
 		SlotHandle container = table.getDetail( );
 		firstRow = getElementFactory( ).newTableRow( );
 		HashMap map = new HashMap( );
@@ -101,8 +104,8 @@ public class CmdBaseTestCase extends BaseTestCase
 
 	protected void createSecondRow( )
 	{
-		//create second Row before the firstRow in the table
-		//after was set
+		// create second Row before the firstRow in the table
+		// after was set
 		secondRow = getElementFactory( ).newTableRow( );
 		HashMap map = new HashMap( );
 		map.put( DesignerConstants.KEY_NEWOBJECT, secondRow );
@@ -115,8 +118,8 @@ public class CmdBaseTestCase extends BaseTestCase
 
 	protected void createFirstCell( )
 	{
-		//create cell in firstRow
-		//with no after set
+		// create cell in firstRow
+		// with no after set
 		firstCell = getElementFactory( ).newCell( );
 		try
 		{
@@ -137,8 +140,8 @@ public class CmdBaseTestCase extends BaseTestCase
 
 	protected void createSecondCell( )
 	{
-		//create cell in firstFow after the first cell
-		//with after set
+		// create cell in firstFow after the first cell
+		// with after set
 		secondCell = getElementFactory( ).newCell( );
 		try
 		{
@@ -160,7 +163,7 @@ public class CmdBaseTestCase extends BaseTestCase
 
 	protected void addDataItems( )
 	{
-		//add dataItems to firstCell
+		// add dataItems to firstCell
 		dataItem = getElementFactory( ).newDataItem( "DataItem1" );
 		HashMap map = new HashMap( );
 		map.put( DesignerConstants.KEY_NEWOBJECT, dataItem );
@@ -189,11 +192,11 @@ public class CmdBaseTestCase extends BaseTestCase
 		}
 	}
 
-	protected void createDataSource1( )
+	protected void createDataSource( )
 	{
-		dataSource1 = getElementFactory( ).newOdaDataSource( DATA_SOURCE_NAME );
+		dataSource = getElementFactory( ).newOdaDataSource( DATA_SOURCE_NAME );
 		HashMap map = new HashMap( );
-		map.put( DesignerConstants.KEY_NEWOBJECT, dataSource1 );
+		map.put( DesignerConstants.KEY_NEWOBJECT, dataSource );
 		CreateCommand command = new CreateCommand( map );
 		SlotHandle parent = getReportDesignHandle( ).getDataSources( );
 		command.setParent( parent );
@@ -211,8 +214,8 @@ public class CmdBaseTestCase extends BaseTestCase
 		command.setParent( parent );
 		command.execute( );
 
-		if ( dataSource1 == null )
-			createDataSource1( );
+		if ( dataSource == null )
+			createDataSource( );
 
 		try
 		{
@@ -225,6 +228,14 @@ public class CmdBaseTestCase extends BaseTestCase
 			fail( "add data source to dataset" );
 		}
 
+	}
+
+	protected void clearAll( SlotHandle handle ) throws SemanticException
+	{
+		for ( int i = 0; i < handle.getCount( ); i++ )
+		{
+			handle.drop( 0 );
+		}
 	}
 
 }

@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.tests.ITestConstants;
 import org.eclipse.birt.report.designer.testutil.BirtUITestCase;
 import org.eclipse.birt.report.designer.testutil.PrivateAccessor;
+import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -67,8 +68,8 @@ public class UIUtilUITest extends BirtUITestCase
 
 	public void testGetDefaultShell( )
 	{
-//		assertEquals( Display.getDefault( ).getActiveShell( ),
-//				UIUtil.getDefaultShell( ) );
+		// assertEquals( Display.getDefault( ).getActiveShell( ),
+		// UIUtil.getDefaultShell( ) );
 	}
 
 	public void testGetDefaultProject( )
@@ -80,73 +81,74 @@ public class UIUtilUITest extends BirtUITestCase
 
 	public void testContainElement( ) throws Throwable
 	{
-		showPerspective( );
-		openEditor( );
-
-		ContentOutlinePage outlinePage = (ContentOutlinePage) PrivateAccessor.getField( UIUtil.getActiveReportEditor( ),
-				"outlinePage" );
-		TreeViewer outlineTreeViewer = (TreeViewer) PrivateAccessor.getField( outlinePage,
-				"treeViewer" );
-
-		ReportDesignHandle reportHandle = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
-
-		DataSourceHandle dataSource = reportHandle.getElementFactory( )
-				.newOdaDataSource( null, null );
-		DataSetHandle dataSet = reportHandle.getElementFactory( )
-				.newScriptDataSet( null );
-		dataSet.setDataSource( dataSource.getName( ) );
-		ScalarParameterHandle param1 = reportHandle.getElementFactory( )
-				.newScalarParameter( "P1" );
-		ScalarParameterHandle param2 = reportHandle.getElementFactory( )
-				.newScalarParameter( "P2" );
-		ParameterGroupHandle paramGroup = reportHandle.getElementFactory( )
-				.newParameterGroup( null );
-		paramGroup.addElement( param2, ParameterGroupHandle.PARAMETERS_SLOT );
-
-		reportHandle.getDataSources( ).add( dataSource );
-		reportHandle.getDataSets( ).add( dataSet );
-		reportHandle.getParameters( ).add( param1 );
-		reportHandle.getParameters( ).add( paramGroup );
-
-		LabelHandle label1 = reportHandle.getElementFactory( ).newLabel( null );
-		LabelHandle label2 = reportHandle.getElementFactory( ).newLabel( null );
-		TextItemHandle text = reportHandle.getElementFactory( )
-				.newTextItem( null );
-		ListHandle list = reportHandle.getElementFactory( ).newList( null );
-		ListGroupHandle listGroup = reportHandle.getElementFactory( )
-				.newListGroup( );
-		listGroup.getHeader( ).add( label2 );
-		list.getDetail( ).add( text );
-		list.getGroups( ).add( listGroup );
-
-		reportHandle.getBody( ).add( label1 );
-		reportHandle.getBody( ).add( list );
-
-		getView( OUTLINE_ID ).setFocus( );
-		outlineTreeViewer.refresh( );
-
-		try
-		{
-			assertTrue( UIUtil.containElement( outlineTreeViewer, label1 ) );
-			assertTrue( UIUtil.containElement( outlineTreeViewer, label2 ) );
-			assertTrue( UIUtil.containElement( outlineTreeViewer, text ) );
-			assertTrue( UIUtil.containElement( outlineTreeViewer, list ) );
-			assertTrue( UIUtil.containElement( outlineTreeViewer, listGroup ) );
-
-			assertTrue( UIUtil.containElement( outlineTreeViewer, dataSource ) );
-			assertTrue( UIUtil.containElement( outlineTreeViewer, dataSet ) );
-			assertTrue( UIUtil.containElement( outlineTreeViewer, param1 ) );
-			assertTrue( UIUtil.containElement( outlineTreeViewer, paramGroup ) );
-			assertTrue( UIUtil.containElement( outlineTreeViewer, param2 ) );
-		}
-		catch ( Throwable e )
-		{
-			throw e;
-		}
-		finally
-		{
-			closeEditor( );
-		}
+//		showPerspective( );
+//		openEditor( );
+//
+//		AbstractMultiPageEditor editor = UIUtil.getActiveReportEditor( );
+//		ContentOutlinePage outlinePage = (ContentOutlinePage) editor.getSite( )
+//				.getPage( );
+//		TreeViewer outlineTreeViewer = (TreeViewer) PrivateAccessor.getField( outlinePage,
+//				"treeViewer" );
+//
+//		ReportDesignHandle reportHandle = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
+//				.getReportDesignHandle( );
+//
+//		DataSourceHandle dataSource = reportHandle.getElementFactory( )
+//				.newOdaDataSource( null, null );
+//		DataSetHandle dataSet = reportHandle.getElementFactory( )
+//				.newScriptDataSet( null );
+//		dataSet.setDataSource( dataSource.getName( ) );
+//		ScalarParameterHandle param1 = reportHandle.getElementFactory( )
+//				.newScalarParameter( "P1" );
+//		ScalarParameterHandle param2 = reportHandle.getElementFactory( )
+//				.newScalarParameter( "P2" );
+//		ParameterGroupHandle paramGroup = reportHandle.getElementFactory( )
+//				.newParameterGroup( null );
+//		paramGroup.addElement( param2, ParameterGroupHandle.PARAMETERS_SLOT );
+//
+//		reportHandle.getDataSources( ).add( dataSource );
+//		reportHandle.getDataSets( ).add( dataSet );
+//		reportHandle.getParameters( ).add( param1 );
+//		reportHandle.getParameters( ).add( paramGroup );
+//
+//		LabelHandle label1 = reportHandle.getElementFactory( ).newLabel( null );
+//		LabelHandle label2 = reportHandle.getElementFactory( ).newLabel( null );
+//		TextItemHandle text = reportHandle.getElementFactory( )
+//				.newTextItem( null );
+//		ListHandle list = reportHandle.getElementFactory( ).newList( null );
+//		ListGroupHandle listGroup = reportHandle.getElementFactory( )
+//				.newListGroup( );
+//		listGroup.getHeader( ).add( label2 );
+//		list.getDetail( ).add( text );
+//		list.getGroups( ).add( listGroup );
+//
+//		reportHandle.getBody( ).add( label1 );
+//		reportHandle.getBody( ).add( list );
+//
+//		getView( OUTLINE_ID ).setFocus( );
+//		outlineTreeViewer.refresh( );
+//
+//		try
+//		{
+//			assertTrue( UIUtil.containElement( outlineTreeViewer, label1 ) );
+//			assertTrue( UIUtil.containElement( outlineTreeViewer, label2 ) );
+//			assertTrue( UIUtil.containElement( outlineTreeViewer, text ) );
+//			assertTrue( UIUtil.containElement( outlineTreeViewer, list ) );
+//			assertTrue( UIUtil.containElement( outlineTreeViewer, listGroup ) );
+//
+//			assertTrue( UIUtil.containElement( outlineTreeViewer, dataSource ) );
+//			assertTrue( UIUtil.containElement( outlineTreeViewer, dataSet ) );
+//			assertTrue( UIUtil.containElement( outlineTreeViewer, param1 ) );
+//			assertTrue( UIUtil.containElement( outlineTreeViewer, paramGroup ) );
+//			assertTrue( UIUtil.containElement( outlineTreeViewer, param2 ) );
+//		}
+//		catch ( Throwable e )
+//		{
+//			throw e;
+//		}
+//		finally
+//		{
+//			closeEditor( );
+//		}
 	}
 }
