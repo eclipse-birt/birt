@@ -75,7 +75,11 @@ public class TableBorderLayer extends FreeformLayer
 
 		rowCount = source.getRowCount( );
 		colCount = source.getColumnCount( );
-
+		
+		if (borderData == null || borderData.length != (2 * colCount * rowCount + colCount + rowCount))
+		{
+			return;
+		}
 		for ( int i = 0; i < rowCount; i++ )
 		{
 			int y = TableUtil.caleY( source, i + 1 );

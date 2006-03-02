@@ -190,7 +190,7 @@ public class ListEditPart extends ReportElementEditPart
 	{
 
 		super.activate( );
-		// addListBandEditPart( );
+		addListBandEditPart( );
 	}
 
 	/**
