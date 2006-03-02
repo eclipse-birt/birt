@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.i18n;
 
-import java.util.Locale;
+import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.core.i18n.ResourceHandle;
 
@@ -28,7 +28,7 @@ public class JdbcResourceHandle extends ResourceHandle
 	 *            the user's locale.
 	 *  
 	 */
-	public JdbcResourceHandle( Locale locale )
+	public JdbcResourceHandle( ULocale locale )
 	{
 		super( locale );
 	}

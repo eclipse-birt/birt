@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.data.oda.jdbc;
 
-import java.util.Locale;
+import com.ibm.icu.util.ULocale;
 import java.util.logging.Logger;
 import java.sql.SQLException;
 
@@ -36,7 +36,7 @@ public class JDBCException extends OdaException
 
 	private String errorCode;
 	private Object argv[];
-	private static JdbcResourceHandle resourceHandle = new JdbcResourceHandle( Locale.getDefault( ) );
+	private static JdbcResourceHandle resourceHandle = new JdbcResourceHandle( ULocale.getDefault( ) );
 
 	/**
 	 * 
