@@ -481,6 +481,12 @@ public class SVGRendererImpl extends SwingRendererImpl
 					boEllipse.getWidth( ),
 					boEllipse.getHeight( ) );
 		}
+		else if ( pre instanceof RectangleRenderEvent )
+		{
+			final Bounds boRect = ( (RectangleRenderEvent) pre ).getBounds( );
+
+			elm = svggc.createRect(boRect.getLeft(), boRect.getTop(), boRect.getWidth(), boRect.getHeight());
+		}
 		else if ( pre instanceof ArcRenderEvent )
 		{
 			final ArcRenderEvent are = (ArcRenderEvent) pre;
