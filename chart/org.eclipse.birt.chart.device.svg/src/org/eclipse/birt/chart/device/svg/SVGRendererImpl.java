@@ -554,7 +554,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 								.createTextNode(tooltipText));
 						elm.appendChild(title);
 						elm.setAttribute("onmouseout", "TM.remove()"); //$NON-NLS-1$ //$NON-NLS-2$
-						elm.setAttribute("onmouseover", "TM.show(evt)"); //$NON-NLS-1$ //$NON-NLS-2$
+						elm.setAttribute("onmousemove", "TM.show(evt)"); //$NON-NLS-1$ //$NON-NLS-2$
 					}
 					break;
 				case ActionType.URL_REDIRECT:

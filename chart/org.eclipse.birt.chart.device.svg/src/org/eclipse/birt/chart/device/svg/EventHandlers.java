@@ -98,7 +98,20 @@ public final class EventHandlers
 			.append( "	var text = TM.getText(TM.getTitleElement(evt));	\n" ) //$NON-NLS-1$
 			.append( "	x = evt.clientX;	\n" ) //$NON-NLS-1$
 			.append( "	y = evt.clientY;	\n" ) //$NON-NLS-1$
+			.append( "	update = true;\n" ) //$NON-NLS-1$
+			.append( "    if (this.oldX != 'undefined'){\n" ) //$NON-NLS-1$
+			.append( "      diffX = (x - this.oldX);\n" ) //$NON-NLS-1$
+			.append( "      if (diffX < 0) diffX= diffX*(-1);\n" ) //$NON-NLS-1$
+			.append( "      diffY = (y - this.oldY);\n" ) //$NON-NLS-1$
+			.append( "      if (diffY < 0) diffY= diffY*(-1);\n" ) //$NON-NLS-1$
+			.append( "      if ((diffY > 5) || (diffX > 5))\n" ) //$NON-NLS-1$
+			.append( "        update = true;\n" ) //$NON-NLS-1$
+			.append( "    }\n" ) //$NON-NLS-1$
+			.append( "    if (update)\n" ) //$NON-NLS-1$
+			.append( "       TM.remove();			\n" ) //$NON-NLS-1$
 			.append( "	if (typeof this.group == 'undefined'){	\n" ) //$NON-NLS-1$
+			.append( " this.oldX = x;\n" ) //$NON-NLS-1$
+			.append( " this.oldY = y;		\n" ) //$NON-NLS-1$	
 			.append( "	this.height = 15;	\n" ) //$NON-NLS-1$
 			.append( "	this.xPadding = 5;	\n" ) //$NON-NLS-1$
 			.append( "	   this.yPadding = -20;\n" ) //$NON-NLS-1$
