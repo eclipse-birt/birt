@@ -962,12 +962,13 @@ public class SVGGraphics2D extends Graphics2D
 	public boolean drawImage( Image arg0, int arg1, int arg2, ImageObserver arg3 )
 	{
 		SVGImage image = (SVGImage) arg0;
+		
 		Element currentElement = createElement( "image" ); //$NON-NLS-1$
 		currentElement.setAttribute( "xlink:href", image.getUrl( ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "x", Double.toString( arg1 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "y", Double.toString( arg2 ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "width", "100%" ); //$NON-NLS-1$ //$NON-NLS-2$
-		currentElement.setAttribute( "height", "100%" ); //$NON-NLS-1$ //$NON-NLS-2$
+		currentElement.setAttribute( "width", Integer.toString(arg0.getWidth(arg3)) ); //$NON-NLS-1$
+		currentElement.setAttribute( "height", Integer.toString(arg0.getHeight(arg3)) ); //$NON-NLS-1$
 		if ( clip != null )
 			currentElement.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
@@ -1013,8 +1014,8 @@ public class SVGGraphics2D extends Graphics2D
 		Element currentElement = createElement( "image" ); //$NON-NLS-1$
 		currentElement.setAttribute( "x", Double.toString( arg1 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "y", Double.toString( arg2 ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "width", "100%" ); //$NON-NLS-1$ //$NON-NLS-2$
-		currentElement.setAttribute( "height", "100%" ); //$NON-NLS-1$ //$NON-NLS-2$
+		currentElement.setAttribute( "width", Integer.toString(arg0.getWidth(arg4)) ); //$NON-NLS-1$
+		currentElement.setAttribute( "height", Integer.toString(arg0.getHeight(arg4)) ); //$NON-NLS-1$
 		currentElement.setAttribute( "fill", serializeToString( arg3 ) ); //$NON-NLS-1$
 		if ( clip != null )
 			currentElement.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
