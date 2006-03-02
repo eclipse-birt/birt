@@ -13,92 +13,36 @@
  */
 package org.eclipse.birt.report.data.oda.sampledb;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Provides JDBC connection to the Derby database embedded in this plugin.
- */
-import org.eclipse.birt.core.framework.IBundle;
-import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.data.oda.jdbc.IConnectionFactory;
 import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 {
-	static private final Logger logger = Logger.getLogger( SampleDBJDBCConnectionFactory.class.getName() );
+	private static final Logger logger = Logger.getLogger( SampleDBJDBCConnectionFactory.class.getName( ) );
 	
-	public static class Constants
-	{
-		// Driver class name. Note that this class does not actually exist. It's only a name to identify
-		// this connection provider
-		public static final String DRIVER_CLASS = "org.eclipse.birt.report.data.oda.sampledb.Driver";
-		
-		// URL accepted by this driver
-		public static final String DRIVER_URL = "jdbc:classicmodels:sampledb";
-		
-		// ID of this plugin
-		public static final String PLUGIN_ID="org.eclipse.birt.report.data.oda.sampledb";
-	}
-	
-	private static final String SAMPLE_DB_JAR_FILE="BirtSample.jar";
-	private static final String SAMPLE_DB_NAME="BirtSample";
-	private static final String SAMPLE_DB_HOME_DIR="db";
-	private static final String DERBY_DRIVER_CLASS="org.apache.derby.jdbc.EmbeddedDriver";
-	private static final String SAMPLE_DB_SCHEMA="ClassicModels";
-
-	private static String dbUrl;
-	static
-	{
-		// Class static code to initialize Derby resources
-		
-		// Find the absolute path of the plugin home directory
-		try
-		{
-			// Construct a Derby embedded URL using the absolute
-			// path to the Db directory			
-			String driverHome = getHomeDir();
-	    	
-			File dbDir = new File( driverHome, SAMPLE_DB_HOME_DIR );
-			File dbFile = new File (dbDir, SAMPLE_DB_JAR_FILE);
-			dbUrl = "jdbc:derby:jar:(" + dbFile.getAbsolutePath() + ")" + SAMPLE_DB_NAME;
-			logger.log( Level.INFO, "SampleDB driver loaded. Url=" + dbUrl);
-			
-			System.setProperty( "derby.system.home", dbDir.getAbsolutePath() );
-			System.setProperty( "derby.storage.tempDirectory", dbDir.getAbsolutePath() );
-			System.setProperty( "derby.stream.error.file", 
-					new File( dbDir, "error.log").getAbsolutePath() );
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.WARNING, "SampleDB: cannot resolve local file path for plugin:  " 
-					+ Constants.PLUGIN_ID,	e );
-		}
-	}
-
 	/**
-	 * Creates a new JDBC connection to the embedded sample database. 
-	 * @see org.eclipse.birt.report.data.oda.jdbc.IConnectionFactory#getConnection(java.lang.String, java.lang.String, java.util.Properties)
+	 * Creates a new JDBC connection to the embedded sample database.
+	 * 
+	 * @see org.eclipse.birt.report.data.oda.jdbc.IConnectionFactory#getConnection(java.lang.String,
+	 *      java.lang.String, java.util.Properties)
 	 */
-	public Connection getConnection(String driverClass, String url, Properties connectionProperties)
-			throws SQLException
+	public Connection getConnection( String driverClass, String url,
+			Properties connectionProperties ) throws SQLException
 	{
-		if ( ! driverClass.equals( Constants.DRIVER_CLASS) )
+		if ( ! driverClass.equals( SampleDBConstants.DRIVER_CLASS) )
 		{
 			// This is unexpected; we shouldn't be getting this call
 			logger.log( Level.SEVERE, "Unexpected driverClass: " + driverClass );
 			throw new SQLException("Unexpected driverClass " + driverClass);
 		}
-		if ( ! url.equals(Constants.DRIVER_URL) )
+		if ( ! url.equals(SampleDBConstants.DRIVER_URL) )
 		{
 			// Wrong url
 			logger.log( Level.WARNING, "Unexpected url: " + url );
@@ -113,13 +57,13 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 			props = (Properties)connectionProperties.clone();
 		else 
 			props = new Properties(); 
-		props.put( "user", SAMPLE_DB_SCHEMA);
-		props.put("password", "");
+		props.put( "user", SampleDBConstants.SAMPLE_DB_SCHEMA);
+		props.put( "password", "" );
 		
 		try
 		{
 			return JDBCDriverManager.getInstance().getConnection( 
-					DERBY_DRIVER_CLASS, dbUrl, props );
+					SampleDBConstants.DERBY_DRIVER_CLASS, dbUrl, props );
 		}
 		catch (OdaException e)
 		{
@@ -128,40 +72,20 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 	}
 	
 	/**
-	 * @return Url to be used with Derby Embedded driver to connect to embedded database
+	 * @return Url to be used with Derby Embedded driver to connect to embedded
+	 *         database
 	 */
-	public static String getDbUrl()
+	private static String getDbUrl( )
 	{
-		return dbUrl;
+		return SampleDBConstants.dbUrl;
 	}
-	
+
 	/**
 	 * @return user name for db connection
 	 */
-	public static String getDbUser()
+	public static String getDbUser( )
 	{
-		return SAMPLE_DB_SCHEMA;
+		return SampleDBConstants.SAMPLE_DB_SCHEMA;
 	}
 	
-	
-	/**
-	 * @return Local path of the plugin's home directory
-	 */
-	private static String getHomeDir() throws OdaException, IOException
-	{
-		String result = null;
-		IBundle bundle = Platform.getBundle( Constants.PLUGIN_ID );
-		URL pluginHomeUrl = bundle.getEntry( "/" );
-		pluginHomeUrl = Platform.asLocalURL( pluginHomeUrl );
-        try 
-		{
-            URI uri = new URI(pluginHomeUrl.toString());
-            result = uri.getPath();            
-        } 
-        catch ( URISyntaxException e)
-		{
-	            result = pluginHomeUrl.getFile();
-        }
-        return result;
-	}
 }

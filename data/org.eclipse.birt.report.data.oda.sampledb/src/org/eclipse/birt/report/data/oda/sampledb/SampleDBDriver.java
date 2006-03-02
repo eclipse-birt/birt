@@ -52,14 +52,14 @@ public class SampleDBDriver extends OdaJdbcDriver
 		/**
 		 * @see org.eclipse.birt.data.oda.IConnection#open(java.util.Propertikes)
 		 */
-		public void open(Properties connProperties) throws OdaException
+		public void open( Properties connProperties ) throws OdaException
 		{
 			logger.entering( SampleDBConnection.class.getName(), "open");
 			
 			// Ignore all properties passed in (it's expected to be empty anyway)
 			Properties props = new Properties();
-			String driverClass = SampleDBJDBCConnectionFactory.Constants.DRIVER_CLASS;
-			String url = SampleDBJDBCConnectionFactory.getDbUrl( );
+			String driverClass = SampleDBConstants.DRIVER_CLASS;
+			String url = SampleDBConstants.DRIVER_URL;
 			String user = SampleDBJDBCConnectionFactory.getDbUser( );
 			props.setProperty( Connection.Constants.ODADriverClass, driverClass);
 			props.setProperty( Connection.Constants.ODAURL, url);
