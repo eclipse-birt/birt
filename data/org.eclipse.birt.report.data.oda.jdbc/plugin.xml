@@ -19,6 +19,7 @@
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.birt.core"/>
       <import plugin="org.eclipse.datatools.connectivity.oda"/>
+      <import plugin="com.ibm.icu"/>
    </requires>
    
    <extension-point id="driverinfo" name="JDBC Driver Information Extension" 

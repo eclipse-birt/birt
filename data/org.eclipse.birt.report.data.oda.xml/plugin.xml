@@ -22,6 +22,7 @@
    <requires>
  	  <import plugin="org.junit" optional="true"/>
       <import plugin="org.eclipse.datatools.connectivity.oda"/>
+      <import plugin="com.ibm.icu"/>
    </requires>
    
    <extension
