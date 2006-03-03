@@ -47,6 +47,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -147,7 +148,20 @@ public class TableEditPart extends ReportElementEditPart implements
 		super.deactivate( );
 		removeRowListener( );
 		removeColumnListener( );
+		removeGroupListener();
 
+	}
+
+	private void removeGroupListener( )
+	{
+		if(getModel() instanceof ListingHandle)
+		{
+			for ( Iterator it = ( (ListingHandle) getModel( ) ).getGroups( )
+					.iterator( ); it.hasNext( ); )
+			{
+				( (DesignElementHandle) it.next( ) ).removeListener(  this );
+			}
+		}
 	}
 
 	/*
