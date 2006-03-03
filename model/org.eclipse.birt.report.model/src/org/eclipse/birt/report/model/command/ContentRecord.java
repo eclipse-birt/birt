@@ -358,6 +358,8 @@ public class ContentRecord extends SimpleRecord
 			retValue.add( new NotificationRecordTask( content, event, container
 					.getRoot( ) ) );
 		}
+		else 
+			content.clearListeners( );
 
 		return retValue;
 	}
