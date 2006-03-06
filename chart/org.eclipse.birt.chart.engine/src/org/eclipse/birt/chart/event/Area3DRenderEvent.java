@@ -11,13 +11,17 @@
 
 package org.eclipse.birt.chart.event;
 
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * Area3DRenderEvent
@@ -48,6 +52,34 @@ public class Area3DRenderEvent extends AreaRenderEvent implements
 				},
 				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) );
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
+	 */
+	public PrimitiveRenderEvent copy( ) throws ChartException
+	{
+		Area3DRenderEvent are = new Area3DRenderEvent( source );
+
+		if ( fill != null )
+		{
+			are.setBackground( (Fill) EcoreUtil.copy( fill ) );
+		}
+
+		if ( lia != null )
+		{
+			are.setOutline( (LineAttributes) EcoreUtil.copy( lia ) );
+		}
+
+		for ( Iterator itr = alLinesAndArcs.iterator( ); itr.hasNext( ); )
+		{
+			are.add( ( (PrimitiveRenderEvent) itr.next( ) ).copy( ) );
+		}
+
+		return are;
+	}
+	
 
 	/*
 	 * (non-Javadoc)

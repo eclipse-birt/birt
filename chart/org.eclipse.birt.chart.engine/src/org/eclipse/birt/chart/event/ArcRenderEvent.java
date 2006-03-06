@@ -53,7 +53,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 
 	public static final int CLOSED = 2;
 
-	public static final int SECTOR = 3;;
+	public static final int SECTOR = 3;
 
 	/**
 	 * @param oSource

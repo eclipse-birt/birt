@@ -862,7 +862,14 @@ public final class Engine3D implements IConstants
 		{
 			try
 			{
-				return ( (I3DRenderEvent) event ).getObject3D( );
+				if ( event instanceof Area3DRenderEvent )
+				{
+					return ( (I3DRenderEvent) ( (Area3DRenderEvent) event ).getElement( 0 ) ).getObject3D( );
+				}
+				else
+				{
+					return ( (I3DRenderEvent) event ).getObject3D( );
+				}
 			}
 			catch ( ChartException ex )
 			{

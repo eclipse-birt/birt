@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.event;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -209,5 +210,25 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 		}
 
 		return are;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#draw(org.eclipse.birt.chart.device.IDeviceRenderer)
+	 */
+	public void draw( IDeviceRenderer idr ) throws ChartException
+	{
+		idr.drawArea( this );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#fill(org.eclipse.birt.chart.device.IDeviceRenderer)
+	 */
+	public void fill( IDeviceRenderer idr ) throws ChartException
+	{
+		idr.fillArea( this );
 	}
 }

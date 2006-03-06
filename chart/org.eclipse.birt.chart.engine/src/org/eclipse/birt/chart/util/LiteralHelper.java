@@ -334,6 +334,16 @@ public class LiteralHelper
 				MarkerType.BOX_LITERAL.getName( ),
 				MarkerType.CIRCLE_LITERAL.getName( ),
 				MarkerType.ICON_LITERAL.getName( ),
+				MarkerType.NABLA_LITERAL.getName( ),
+				MarkerType.DIAMOND_LITERAL.getName( ),
+				MarkerType.FOUR_DIAMONDS_LITERAL.getName( ),
+				MarkerType.BUTTON_LITERAL.getName( ),
+				MarkerType.SEMI_CIRCLE_LITERAL.getName( ),
+				MarkerType.HEXAGON_LITERAL.getName( ),
+				MarkerType.RECTANGLE_LITERAL.getName( ),
+				MarkerType.STAR_LITERAL.getName( ),
+				MarkerType.COLUMN_LITERAL.getName( ),
+				MarkerType.CROSS_LITERAL.getName( )
 		} );
 	}
 
