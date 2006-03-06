@@ -270,8 +270,8 @@ public class TableEditPart extends ReportElementEditPart implements
 
 				if ( ( (ContentEvent) ev ).getAction( ) == ContentEvent.REMOVE )
 				{
-					//this.getViewer( ).select( this );
-					reselectTable(); 
+					// this.getViewer( ).select( this );
+					reselectTable( );
 				}
 				break;
 			}
@@ -287,7 +287,8 @@ public class TableEditPart extends ReportElementEditPart implements
 				{
 					refreshVisuals( );
 				}
-				if ( event.getPropertyName( ).equals( StyleHandle.PADDING_TOP_PROP )
+				if ( event.getPropertyName( )
+						.equals( StyleHandle.PADDING_TOP_PROP )
 						|| event.getPropertyName( )
 								.equals( StyleHandle.PADDING_BOTTOM_PROP )
 						|| event.getPropertyName( )
@@ -297,7 +298,8 @@ public class TableEditPart extends ReportElementEditPart implements
 				{
 					invalidParent( );
 				}
-				if ( event.getPropertyName( ).equals( ReportItemHandle.WIDTH_PROP )
+				if ( event.getPropertyName( )
+						.equals( ReportItemHandle.WIDTH_PROP )
 						|| event.getPropertyName( )
 								.equals( ReportItemHandle.HEIGHT_PROP ) )
 				{
@@ -330,15 +332,15 @@ public class TableEditPart extends ReportElementEditPart implements
 
 	}
 
-	private void reselectTable()
+	private void reselectTable( )
 	{
-		if (isDelete())
+		if ( isDelete( ) )
 		{
 			return;
 		}
 		ReportRequest request = new ReportRequest( this );
 		List list = new ArrayList( );
-		list.add(this);
+		list.add( this );
 		request.setSelectionObject( list );
 		request.setType( ReportRequest.SELECTION );
 
@@ -348,6 +350,7 @@ public class TableEditPart extends ReportElementEditPart implements
 				.getMediator( )
 				.notifyRequest( request );
 	}
+
 	/**
 	 * Re-layouts table.
 	 */
@@ -629,11 +632,11 @@ public class TableEditPart extends ReportElementEditPart implements
 		}
 
 		int x = TableUtil.caleX( this, minColumnnumber );
-		
+
 		Rectangle rect = new Rectangle( x,
 				0,
 				width,
-				TableUtil.getTableContentsHeight(this) );
+				TableUtil.getTableContentsHeight( this ) );
 
 		setSelectRowAndColumnRect( rect );
 		getViewer( ).setSelection( new StructuredSelection( list ) );
@@ -687,7 +690,7 @@ public class TableEditPart extends ReportElementEditPart implements
 		int height = 0;
 		int minRownumber = numbers[0];
 
-		//add row object in the list first
+		// add row object in the list first
 		for ( int i = 0; i < size; i++ )
 		{
 
@@ -715,11 +718,11 @@ public class TableEditPart extends ReportElementEditPart implements
 		}
 
 		int y = TableUtil.caleY( this, minRownumber );
-		
+
 		Rectangle rect = new Rectangle( 0,
 				y,
-				TableUtil.getTableContentsWidth(this),
-				height) ;
+				TableUtil.getTableContentsWidth( this ),
+				height );
 
 		setSelectRowAndColumnRect( rect );
 		getViewer( ).setSelection( new StructuredSelection( list ) );
@@ -872,7 +875,7 @@ public class TableEditPart extends ReportElementEditPart implements
 
 	/**
 	 * Gets data set, which is biding on table.
-	 *  
+	 * 
 	 */
 	public Object getDataSet( )
 	{
@@ -971,7 +974,7 @@ public class TableEditPart extends ReportElementEditPart implements
 
 			public void run( )
 			{
-				//reLayout();
+				// reLayout();
 				selectRow( new int[]{
 					adapter.getRowNumber( )
 				} );
@@ -1048,7 +1051,7 @@ public class TableEditPart extends ReportElementEditPart implements
 
 			public void run( )
 			{
-				//reLayout();
+				// reLayout();
 				selectColumn( new int[]{
 					adapter.getColumnNumber( )
 				} );
@@ -1068,7 +1071,7 @@ public class TableEditPart extends ReportElementEditPart implements
 	 * @param colNumbers
 	 *            The column numbers of the origin selected column(s).
 	 */
-	//TODO move the logic to tableHandle adapt
+	// TODO move the logic to tableHandle adapt
 	public void insertColumns( final int relativePos, final int[] colNumbers )
 	{
 		int colCount = colNumbers.length;
@@ -1114,7 +1117,7 @@ public class TableEditPart extends ReportElementEditPart implements
 
 		TableCellEditPart cellPart = caleNumber[0];
 		ArrayList list = new ArrayList( );
-		//first is the contain cell(minrow, minColumn)
+		// first is the contain cell(minrow, minColumn)
 		for ( int i = 0; i < size; i++ )
 		{
 			if ( selections.get( i ) != cellPart )
@@ -1133,9 +1136,9 @@ public class TableEditPart extends ReportElementEditPart implements
 		getTableAdapter( ).transStar( MERGE_TRANS_LABEL );
 		try
 		{
-			MergeContent(cellPart, list);
+			MergeContent( cellPart, list );
 		}
-		catch(ContentException e)
+		catch ( ContentException e )
 		{
 			ExceptionHandler.handle( e );
 		}
@@ -1148,24 +1151,28 @@ public class TableEditPart extends ReportElementEditPart implements
 		getTableAdapter( ).reload( );
 	}
 
-	//TODO move logic to adapt
-	private void MergeContent(TableCellEditPart cellPart, List list) throws ContentException
+	// TODO move logic to adapt
+	private void MergeContent( TableCellEditPart cellPart, List list )
+			throws ContentException
 	{
-		CellHandle cellHandle = (CellHandle)cellPart.getModel();
-		int size = list.size();
-		for (int i=0; i<size; i++)
+		CellHandle cellHandle = (CellHandle) cellPart.getModel( );
+		int size = list.size( );
+		for ( int i = 0; i < size; i++ )
 		{
-			CellHandle handle = (CellHandle)(((TableCellEditPart)list.get(i)).getModel());
-			
-			List chList = handle.getSlot(CellHandle.CONTENT_SLOT).getContents();
-			for (int j=0; j<chList.size(); j++)
+			CellHandle handle = (CellHandle) ( ( (TableCellEditPart) list.get( i ) ).getModel( ) );
+
+			List chList = handle.getSlot( CellHandle.CONTENT_SLOT )
+					.getContents( );
+			for ( int j = 0; j < chList.size( ); j++ )
 			{
-				DesignElementHandle contentHandle = (DesignElementHandle)chList.get(j);
-				handle.getSlot(CellHandle.CONTENT_SLOT).move(contentHandle, cellHandle, CellHandle.CONTENT_SLOT);
+				DesignElementHandle contentHandle = (DesignElementHandle) chList.get( j );
+				handle.getSlot( CellHandle.CONTENT_SLOT ).move( contentHandle,
+						cellHandle,
+						CellHandle.CONTENT_SLOT );
 			}
 		}
 	}
-	
+
 	/**
 	 * not use?
 	 * 
@@ -1274,7 +1281,7 @@ public class TableEditPart extends ReportElementEditPart implements
 	 */
 	public boolean canMerge( )
 	{
-		if ( !isActive() || isDelete( ) || getParent( ) == null )
+		if ( !isActive( ) || isDelete( ) || getParent( ) == null )
 		{
 			return false;
 		}
@@ -1405,7 +1412,7 @@ public class TableEditPart extends ReportElementEditPart implements
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	protected void addGroupListener( )
 	{
@@ -1456,7 +1463,7 @@ public class TableEditPart extends ReportElementEditPart implements
 
 	/**
 	 * The class use for select row in table.
-	 *  
+	 * 
 	 */
 	public static class DummyColumnEditPart extends DummyEditpart
 	{
@@ -1492,15 +1499,21 @@ public class TableEditPart extends ReportElementEditPart implements
 
 		public int getColumnNumber( )
 		{
-			return HandleAdapterFactory.getInstance( )
-					.getColumnHandleAdapter( getModel( ) )
-					.getColumnNumber( );
+
+			ColumnHandleAdapter adapt = HandleAdapterFactory.getInstance( )
+					.getColumnHandleAdapter( getModel( ) );
+			if ( adapt.getTableParent( ) == null )
+			{
+				return -1;
+			}
+			return adapt.getColumnNumber( );
+
 		}
 	}
 
 	/**
 	 * The class use for select row in table.
-	 *  
+	 * 
 	 */
 	public static class DummyRowEditPart extends DummyEditpart
 	{
@@ -1535,9 +1548,13 @@ public class TableEditPart extends ReportElementEditPart implements
 
 		public int getRowNumber( )
 		{
-			return HandleAdapterFactory.getInstance( )
-					.getRowHandleAdapter( getModel( ) )
-					.getRowNumber( );
+			RowHandleAdapter adapt = HandleAdapterFactory.getInstance( )
+					.getRowHandleAdapter( getModel( ) );
+			if ( adapt.getTableParent( ) == null )
+			{
+				return -1;
+			}
+			return adapt.getRowNumber( );
 		}
 	}
 }

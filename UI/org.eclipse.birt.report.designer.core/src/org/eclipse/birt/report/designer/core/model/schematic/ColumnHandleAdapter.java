@@ -158,7 +158,7 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter
 		return adapter.getColumns( ).indexOf( getColumnHandle( ) ) + 1;
 	}
 
-	private Object getTableParent( )
+	public Object getTableParent( )
 	{
 		DesignElementHandle element = getColumnHandle( ).getContainer( );
 		if ( element instanceof TableGroupHandle )
