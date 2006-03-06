@@ -233,88 +233,91 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	 */
 	public final Bounds getBounds( )
 	{
-		double dMinY = -1, dMinX = -1, dMaxY = -1, dMaxX = -1;
+		return getEllipseBounds( );
 
-		final double dStart = getStartAngle( );
-		final double dEnd = dStart + getAngleExtent( );
-		final int iQStart = getQuadrant( dStart );
-		final int iQEnd = getQuadrant( dEnd );
-
-		double dXCosTheta = getWidth( )
-				/ 2
-				* Math.cos( Math.toRadians( -dStart ) );
-		double dYSinTheta = getHeight( )
-				/ 2
-				* Math.sin( Math.toRadians( -dStart ) );
-		double dX1 = ( loTopLeft.getX( ) + getWidth( ) / 2 ) + dXCosTheta;
-		double dY1 = ( loTopLeft.getY( ) + getHeight( ) / 2 ) + dYSinTheta;
-		dXCosTheta = getWidth( ) / 2 * Math.cos( Math.toRadians( -dEnd ) );
-		dYSinTheta = getHeight( ) / 2 * Math.sin( Math.toRadians( -dEnd ) );
-		double dX2 = loTopLeft.getX( ) + getWidth( ) / 2 + dXCosTheta;
-		double dY2 = loTopLeft.getY( ) + getHeight( ) / 2 + dYSinTheta;
-
-		int iQMin = Math.min( iQStart, iQEnd );
-		int iQMax = Math.max( iQStart, iQEnd );
-
-		// TEST QUADRANTS
-		for ( int i = iQMin; i < iQMax; i++ )
-		{
-			if ( i == 1 )
-			{
-				dMinY = loTopLeft.getY( );
-			}
-			else if ( i == 2 )
-			{
-				dMinX = loTopLeft.getX( );
-			}
-			else if ( i == 3 )
-			{
-				dMaxY = loTopLeft.getY( ) + getHeight( );
-			}
-		}
-
-		dMaxX = Math.max( dX1, dX2 ); // MAX-X NEEDS TO BE DEFINED
-
-		if ( dMinY != -1 )
-		{
-			dMinY = Math.min( dMinY, Math.min( dY1, dY2 ) );
-		}
-		else
-		// IF UNDEFINED DUE TO QUADRANT-1 SPAN
-		{
-			dMinY = Math.min( dY1, dY2 );
-		}
-
-		if ( dMinX != -1 )
-		{
-			dMinX = Math.min( dMinX, Math.min( dX1, dX2 ) );
-		}
-		else
-		// IF UNDEFINED DUE TO QUADRANT-2 SPAN
-		{
-			dMinX = Math.min( dX1, dX2 );
-		}
-
-		if ( dMaxY != -1 )
-		{
-			dMaxY = Math.max( dMaxY, Math.min( dY1, dY2 ) );
-		}
-		else
-		// IF UNDEFINED DUE TO QUADRANT-3 SPAN
-		{
-			dMaxY = Math.max( dY1, dY2 );
-		}
-
-		if ( getStyle( ) == SECTOR ) // ALSO INCLUDE THE ARC CIRCLE CENTER
-		{
-			final double dCenterX = loTopLeft.getX( ) + dWidth / 2;
-			final double dCenterY = loTopLeft.getY( ) + dHeight / 2;
-			dMinX = Math.min( dCenterX, dMinX );
-			dMaxX = Math.max( dCenterX, dMaxX );
-			dMinY = Math.min( dCenterY, dMinY );
-			dMaxY = Math.max( dCenterY, dMaxY );
-		}
-		return BoundsImpl.create( dMinX, dMinY, dMaxX - dMinX, dMaxY - dMinY );
+		// double dMinY = -1, dMinX = -1, dMaxY = -1, dMaxX = -1;
+		//
+		// final double dStart = getStartAngle( );
+		// final double dEnd = dStart + getAngleExtent( );
+		// final int iQStart = getQuadrant( dStart );
+		// final int iQEnd = getQuadrant( dEnd );
+		//
+		// double dXCosTheta = getWidth( )
+		// / 2
+		// * Math.cos( Math.toRadians( -dStart ) );
+		// double dYSinTheta = getHeight( )
+		// / 2
+		// * Math.sin( Math.toRadians( -dStart ) );
+		// double dX1 = ( loTopLeft.getX( ) + getWidth( ) / 2 ) + dXCosTheta;
+		// double dY1 = ( loTopLeft.getY( ) + getHeight( ) / 2 ) + dYSinTheta;
+		// dXCosTheta = getWidth( ) / 2 * Math.cos( Math.toRadians( -dEnd ) );
+		// dYSinTheta = getHeight( ) / 2 * Math.sin( Math.toRadians( -dEnd ) );
+		// double dX2 = loTopLeft.getX( ) + getWidth( ) / 2 + dXCosTheta;
+		// double dY2 = loTopLeft.getY( ) + getHeight( ) / 2 + dYSinTheta;
+		//
+		// int iQMin = Math.min( iQStart, iQEnd );
+		// int iQMax = Math.max( iQStart, iQEnd );
+		//
+		// // TEST QUADRANTS
+		// for ( int i = iQMin; i < iQMax; i++ )
+		// {
+		// if ( i == 1 )
+		// {
+		// dMinY = loTopLeft.getY( );
+		// }
+		// else if ( i == 2 )
+		// {
+		// dMinX = loTopLeft.getX( );
+		// }
+		// else if ( i == 3 )
+		// {
+		// dMaxY = loTopLeft.getY( ) + getHeight( );
+		// }
+		// }
+		//
+		// dMaxX = Math.max( dX1, dX2 ); // MAX-X NEEDS TO BE DEFINED
+		//
+		// if ( dMinY != -1 )
+		// {
+		// dMinY = Math.min( dMinY, Math.min( dY1, dY2 ) );
+		// }
+		// else
+		// // IF UNDEFINED DUE TO QUADRANT-1 SPAN
+		// {
+		// dMinY = Math.min( dY1, dY2 );
+		// }
+		//
+		// if ( dMinX != -1 )
+		// {
+		// dMinX = Math.min( dMinX, Math.min( dX1, dX2 ) );
+		// }
+		// else
+		// // IF UNDEFINED DUE TO QUADRANT-2 SPAN
+		// {
+		// dMinX = Math.min( dX1, dX2 );
+		// }
+		//
+		// if ( dMaxY != -1 )
+		// {
+		// dMaxY = Math.max( dMaxY, Math.min( dY1, dY2 ) );
+		// }
+		// else
+		// // IF UNDEFINED DUE TO QUADRANT-3 SPAN
+		// {
+		// dMaxY = Math.max( dY1, dY2 );
+		// }
+		//
+		// if ( getStyle( ) == SECTOR ) // ALSO INCLUDE THE ARC CIRCLE CENTER
+		// {
+		// final double dCenterX = loTopLeft.getX( ) + dWidth / 2;
+		// final double dCenterY = loTopLeft.getY( ) + dHeight / 2;
+		// dMinX = Math.min( dCenterX, dMinX );
+		// dMaxX = Math.max( dCenterX, dMaxX );
+		// dMinY = Math.min( dCenterY, dMinY );
+		// dMaxY = Math.max( dCenterY, dMaxY );
+		// }
+		// return BoundsImpl.create( dMinX, dMinY, dMaxX - dMinX, dMaxY - dMinY
+		// );
 	}
 
 	/**
