@@ -2444,7 +2444,20 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	public void renderTitle( IPrimitiveRenderer ipr, TitleBlock b )
 			throws ChartException
 	{
+		// switch lable alignment
+		TextAlignment restoreValue = b.getLabel( )
+				.getCaption( )
+				.getFont( )
+				.getAlignment( );
+		b.getLabel( )
+				.getCaption( )
+				.getFont( )
+				.setAlignment( switchTextAlignment( restoreValue ) );
+
 		renderLabel( ipr, b, StructureSource.createTitle( b ) );
+
+		// restore original value
+		b.getLabel( ).getCaption( ).getFont( ).setAlignment( restoreValue );
 
 		if ( isInteractivityEnabled( ) )
 		{
@@ -3320,6 +3333,85 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			return false;
 		}
 		return rtc.isRightToLeft( );
+	}
+
+	/**
+	 * Switch Anchor value due to right-left setting.
+	 * 
+	 * @param anchor
+	 * @return
+	 */
+	public Anchor switchAnchor( Anchor anchor )
+	{
+		if ( anchor != null && isRightToLeft( ) )
+		{
+			switch ( anchor.getValue( ) )
+			{
+				case Anchor.EAST :
+					anchor = Anchor.WEST_LITERAL;
+					break;
+				case Anchor.NORTH_EAST :
+					anchor = Anchor.NORTH_WEST_LITERAL;
+					break;
+				case Anchor.SOUTH_EAST :
+					anchor = Anchor.SOUTH_WEST_LITERAL;
+					break;
+				case Anchor.WEST :
+					anchor = Anchor.EAST_LITERAL;
+					break;
+				case Anchor.NORTH_WEST :
+					anchor = Anchor.NORTH_EAST_LITERAL;
+					break;
+				case Anchor.SOUTH_WEST :
+					anchor = Anchor.SOUTH_EAST_LITERAL;
+					break;
+			}
+		}
+		return anchor;
+	}
+
+	/**
+	 * Switch Position value due to right-left setting.
+	 * 
+	 * @param po
+	 * @return
+	 */
+	public Position switchPosition( Position po )
+	{
+		if ( po != null && isRightToLeft( ) )
+		{
+			if ( po == Position.RIGHT_LITERAL )
+			{
+				po = Position.LEFT_LITERAL;
+			}
+			else if ( po == Position.LEFT_LITERAL )
+			{
+				po = Position.RIGHT_LITERAL;
+			}
+		}
+		return po;
+	}
+
+	/**
+	 * Switch TextAlignment value due to right-left setting.
+	 * 
+	 * @param ta
+	 * @return
+	 */
+	public TextAlignment switchTextAlignment( TextAlignment ta )
+	{
+		if ( ta != null && isRightToLeft( ) )
+		{
+			if ( ta.getHorizontalAlignment( ) == HorizontalAlignment.LEFT_LITERAL )
+			{
+				ta.setHorizontalAlignment( HorizontalAlignment.RIGHT_LITERAL );
+			}
+			else if ( ta.getHorizontalAlignment( ) == HorizontalAlignment.RIGHT_LITERAL )
+			{
+				ta.setHorizontalAlignment( HorizontalAlignment.LEFT_LITERAL );
+			}
+		}
+		return ta;
 	}
 
 	/**

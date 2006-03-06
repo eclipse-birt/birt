@@ -1116,7 +1116,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					}
 
 					// DETERMINE THE LABEL ANCHOR (TRANSPOSE IF NEEDED)
-					anc = mr.getLabelAnchor( );
+					anc = switchAnchor( mr.getLabelAnchor( ) );
 					if ( bTransposed )
 					{
 						or = ax.getOrientation( ) == Orientation.HORIZONTAL_LITERAL ? Orientation.VERTICAL_LITERAL
@@ -2428,7 +2428,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				if ( la.isVisible( ) )
 				{
 					// DETERMINE THE LABEL ANCHOR (TRANSPOSE IF NEEDED)
-					anc = ml.getLabelAnchor( );
+					anc = switchAnchor( ml.getLabelAnchor( ) );
 					if ( bTransposed )
 					{
 						or = ax.getOrientation( ) == Orientation.HORIZONTAL_LITERAL ? Orientation.VERTICAL_LITERAL
@@ -5035,6 +5035,12 @@ public abstract class AxesRenderer extends BaseRenderer
 				final String sRestoreValue = la.getCaption( ).getValue( );
 				la.getCaption( )
 						.setValue( rtc.externalizedMessage( sRestoreValue ) ); // EXTERNALIZE
+				la.getCaption( )
+						.getFont( )
+						.setAlignment( switchTextAlignment( la.getCaption( )
+								.getFont( )
+								.getAlignment( ) ) );
+
 				BoundingBox bb = null;
 				try
 				{
@@ -5109,7 +5115,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						ipr.drawText( tre );
 					}
 				}
-				la.getCaption( ).setValue( sRestoreValue ); // RESTORE
+
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.AFTER_DRAW_AXIS_TITLE,
 						axModel,
