@@ -995,7 +995,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 		setLeaderLineAttributes( LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
 				LineStyle.SOLID_LITERAL,
 				1 ) );
-		setLeaderLineLength( 100 ); // i.e. 100%
+		setLeaderLineLength( 40 );
 		setLeaderLineStyle( LeaderLineStyle.STRETCH_TO_SIDE_LITERAL );
 		// setSliceOutline(ColorDefinitionImpl.BLACK()); // UNDEFINED SUGGESTS
 		// THAT OUTLINE IS RENDERED IN DARKER SLICE FILL COLOR
