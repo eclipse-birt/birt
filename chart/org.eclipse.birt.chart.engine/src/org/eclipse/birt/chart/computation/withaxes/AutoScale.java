@@ -146,7 +146,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 	private boolean bStepFixed = false;
 
-	private boolean bAlwaysForward = false;
+	private int iScaleDirection = AUTO;
 
 	private boolean bAxisLabelStaggered = false;
 
@@ -210,13 +210,23 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
-	 * Tick coordinates always lines forward.
+	 * Sets the scale direction.
 	 * 
 	 * @param val
 	 */
-	public final void setAlwaysForward( boolean val )
+	public final void setDirection( int iValue )
 	{
-		bAlwaysForward = val;
+		iScaleDirection = iValue;
+	}
+
+	/**
+	 * Returns the scale direction.
+	 * 
+	 * @return
+	 */
+	public int getDirection( )
+	{
+		return iScaleDirection;
 	}
 
 	/*
@@ -242,7 +252,7 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.rtc = rtc;
 		sc.bIntegralZoom = bIntegralZoom;
 		sc.bCategoryScale = bCategoryScale;
-		sc.bAlwaysForward = bAlwaysForward;
+		sc.iScaleDirection = iScaleDirection;
 		sc.baTickLabelVisible = baTickLabelVisible;
 		sc.baTickLabelStaggered = baTickLabelStaggered;
 		sc.bAxisLabelStaggered = bAxisLabelStaggered;
@@ -954,6 +964,7 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
+	 * Returns the absolute value of the scale unit.
 	 * 
 	 * @return
 	 */
@@ -1295,13 +1306,29 @@ public final class AutoScale extends Methods implements Cloneable
 		int iPointToCheck = 0;
 		if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
 		{
-			iPointToCheck = ( dAngleInDegrees < 0 && dAngleInDegrees > -90 ) ? 3
-					: 0;
+			if ( iScaleDirection == BACKWARD )
+			{
+				iPointToCheck = ( dAngleInDegrees < 0 && dAngleInDegrees > -90 ) ? 1
+						: 2;
+			}
+			else
+			{
+				iPointToCheck = ( dAngleInDegrees < 0 && dAngleInDegrees > -90 ) ? 3
+						: 0;
+			}
 		}
 		else if ( iLabelLocation == LEFT || iLabelLocation == RIGHT )
 		{
-			iPointToCheck = ( dAngleInDegrees < 0 && dAngleInDegrees > -90 ) ? 2
-					: 3;
+			if ( iScaleDirection == FORWARD )
+			{
+				iPointToCheck = ( dAngleInDegrees < 0 && dAngleInDegrees > -90 ) ? 0
+						: 1;
+			}
+			else
+			{
+				iPointToCheck = ( dAngleInDegrees < 0 && dAngleInDegrees > -90 ) ? 2
+						: 3;
+			}
 		}
 		double[] da = daTickCoordinates;
 		RotatedRectangle rrPrev = null, rrPrev2 = null, rr;
@@ -1606,16 +1633,20 @@ public final class AutoScale extends Methods implements Cloneable
 				iPrevPointToCheck = isNegativeRotation ? 1 : 3;
 				break;
 			case BELOW :
-				iNewPointToCheck = isNegativeRotation ? 3 : 0;
-				iPrevPointToCheck = isNegativeRotation ? 0 : 2;
+				iNewPointToCheck = isNegativeRotation ? ( iScaleDirection == BACKWARD ? 1
+						: 3 )
+						: ( iScaleDirection == BACKWARD ? 2 : 0 );
+				iPrevPointToCheck = isNegativeRotation ? ( iScaleDirection == BACKWARD ? 2
+						: 0 )
+						: ( iScaleDirection == BACKWARD ? 0 : 2 );
 				break;
 			case LEFT :
-				iNewPointToCheck = 2;
-				iPrevPointToCheck = 1;
+				iNewPointToCheck = iScaleDirection == FORWARD ? 1 : 2;
+				iPrevPointToCheck = iScaleDirection == FORWARD ? 2 : 1;
 				break;
 			case RIGHT :
-				iNewPointToCheck = 3;
-				iPrevPointToCheck = 0;
+				iNewPointToCheck = iScaleDirection == FORWARD ? 0 : 3;
+				iPrevPointToCheck = iScaleDirection == FORWARD ? 3 : 0;
 				break;
 		}
 
@@ -1632,7 +1663,7 @@ public final class AutoScale extends Methods implements Cloneable
 		for ( int i = 0; i < daTickCoordinates.length - 1; i++ )
 		{
 			Object oValue = null;
-			
+
 			if ( dsi.hasNext( ) )
 			{
 				oValue = dsi.next( );
@@ -1762,8 +1793,8 @@ public final class AutoScale extends Methods implements Cloneable
 		// quick check first (fast)
 		if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
 		{
-
-			if ( previousPoint.getX( ) > x )
+			if ( ( iScaleDirection == BACKWARD && previousPoint.getX( ) < x )
+					|| ( iScaleDirection != BACKWARD && previousPoint.getX( ) > x ) )
 			{
 				return false;
 			}
@@ -1771,7 +1802,8 @@ public final class AutoScale extends Methods implements Cloneable
 		else if ( iLabelLocation == LEFT || iLabelLocation == RIGHT )
 		{
 
-			if ( previousPoint.getY( ) < y )
+			if ( ( iScaleDirection == FORWARD && previousPoint.getY( ) > y )
+					|| ( iScaleDirection != FORWARD && previousPoint.getY( ) < y ) )
 			{
 				return false;
 			}
@@ -1838,7 +1870,7 @@ public final class AutoScale extends Methods implements Cloneable
 	static final AutoScale computeScale( IDisplayServer xs, OneAxis ax,
 			DataSetIterator dsi, int iType, double dStart, double dEnd,
 			DataElement oMinimum, DataElement oMaximum, Double oStep,
-			FormatSpecifier fs, RunTimeContext rtc, boolean forward )
+			FormatSpecifier fs, RunTimeContext rtc, int direction )
 			throws ChartException
 	{
 		final Label la = ax.getLabel( );
@@ -1857,7 +1889,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
 			sc.setData( dsi );
-			sc.setAlwaysForward( forward );
+			sc.setDirection( direction );
 			sc.computeTicks( xs,
 					ax.getLabel( ),
 					iLabelLocation,
@@ -1903,7 +1935,7 @@ public final class AutoScale extends Methods implements Cloneable
 					new Double( 0 ),
 					new Double( dStep ) );
 			sc.setData( dsi );
-			sc.setAlwaysForward( forward );
+			sc.setDirection( direction );
 			sc.fs = fs; // FORMAT SPECIFIER
 			sc.rtc = rtc; // LOCALE
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
@@ -2108,7 +2140,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
 			sc.setData( dsi );
-			sc.setAlwaysForward( forward );
+			sc.setDirection( direction );
 			sc.updateAxisMinMax( oMinValue, oMaxValue );
 			if ( ( iType & PERCENT ) == PERCENT )
 			{
@@ -2228,7 +2260,7 @@ public final class AutoScale extends Methods implements Cloneable
 					cdtMaxAxis,
 					new Integer( iUnit ),
 					new Integer( 1 ) );
-			sc.setAlwaysForward( forward );
+			sc.setDirection( direction );
 			sc.fs = fs; // FORMAT SPECIFIER
 			sc.rtc = rtc; // LOCALE
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
@@ -2395,8 +2427,9 @@ public final class AutoScale extends Methods implements Cloneable
 	{
 		int nTicks = 0;
 		double dLength = 0;
-		int iDirection = ( iOrientation == HORIZONTAL || bAlwaysForward ) ? FORWARD
-				: BACKWARD;
+		int iDirection = ( iScaleDirection == AUTO ) ? ( ( iOrientation == HORIZONTAL ) ? FORWARD
+				: BACKWARD )
+				: iScaleDirection;
 		DataSetIterator dsi = getData( );
 
 		if ( bConsiderStartEndLabels )
@@ -2552,6 +2585,7 @@ public final class AutoScale extends Methods implements Cloneable
 			final double dUnitSize = getUnitSize( );
 			final DataSetIterator dsi = getData( );
 			final int iDateTimeUnit;
+			BoundingBox bb = null;
 			try
 			{
 				iDateTimeUnit = ( getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
@@ -2568,60 +2602,147 @@ public final class AutoScale extends Methods implements Cloneable
 
 			}
 
-			// ADJUST THE START POSITION
-			la.getCaption( ).setValue( formatCategoryValue( getType( ),
-					dsi.first( ),
-					iDateTimeUnit ) );
-			BoundingBox bb = null;
-			try
+			final double rotation = la.getCaption( ).getFont( ).getRotation( );
+			final boolean bCenter = rotation == 0
+					|| rotation == 90
+					|| rotation == -90;
+
+			// TODO check first visible label shift.
+			if ( !isTickLabelVisible( 0 ) )
 			{
-				bb = computeBox( xs, iLocation, la, 0, 0 );
+				dStartShift = dMaxSS;
 			}
-			catch ( IllegalArgumentException uiex )
+			else
 			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						uiex );
-			}
-			if ( iOrientation == VERTICAL ) // VERTICAL AXIS
-			{
-				dStartShift = Math.max( dMaxSS,
-						( dUnitSize > bb.getHeight( ) ) ? 0
-								: ( bb.getHeight( ) - dUnitSize ) / 2 );
-			}
-			else if ( iOrientation == HORIZONTAL ) // HORIZONTAL AXIS
-			{
-				dStartShift = Math.max( dMaxSS,
-						( dUnitSize > bb.getWidth( ) ) ? 0
-								: ( bb.getWidth( ) - dUnitSize ) / 2 );
+				// ADJUST THE START POSITION
+				la.getCaption( ).setValue( formatCategoryValue( getType( ),
+						dsi.first( ),
+						iDateTimeUnit ) );
+				try
+				{
+					bb = computeBox( xs, iLocation, la, 0, 0 );
+				}
+				catch ( IllegalArgumentException uiex )
+				{
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
+							uiex );
+				}
+
+				if ( iOrientation == VERTICAL ) // VERTICAL AXIS
+				{
+					if ( bCenter )
+					{
+						dStartShift = Math.max( dMaxSS,
+								( dUnitSize > bb.getHeight( ) ) ? 0
+										: ( bb.getHeight( ) - dUnitSize ) / 2 );
+					}
+					else if ( iScaleDirection == FORWARD )
+					{
+						dStartShift = Math.max( dMaxSS, bb.getHotPoint( )
+								- dUnitSize
+								/ 2 );
+					}
+					else
+					{
+						dStartShift = Math.max( dMaxSS, bb.getHeight( )
+								- bb.getHotPoint( )
+								- dUnitSize
+								/ 2 );
+					}
+				}
+				else if ( iOrientation == HORIZONTAL ) // HORIZONTAL AXIS
+				{
+					if ( bCenter )
+					{
+						dStartShift = Math.max( dMaxSS,
+								( dUnitSize > bb.getWidth( ) ) ? 0
+										: ( bb.getWidth( ) - dUnitSize ) / 2 );
+
+					}
+					else if ( iScaleDirection == BACKWARD )
+					{
+						dStartShift = Math.max( dMaxSS, bb.getWidth( )
+								- bb.getHotPoint( )
+								- dUnitSize
+								/ 2 );
+					}
+					else
+					{
+						dStartShift = Math.max( dMaxSS, bb.getHotPoint( )
+								- dUnitSize
+								/ 2 );
+					}
+				}
 			}
 
-			// ADJUST THE END POSITION
-			la.getCaption( ).setValue( formatCategoryValue( getType( ),
-					dsi.last( ),
-					iDateTimeUnit ) );
-			try
+			// TODO check last visible label shift.
+			if ( !isTickLabelVisible( dsi.size( ) - 1 ) )
 			{
-				bb = computeBox( xs, iLocation, la, 0, dEnd );
+				dEndShift = dMaxES;
 			}
-			catch ( IllegalArgumentException uiex )
+			else
 			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						uiex );
+				// ADJUST THE END POSITION
+				la.getCaption( ).setValue( formatCategoryValue( getType( ),
+						dsi.last( ),
+						iDateTimeUnit ) );
+				try
+				{
+					bb = computeBox( xs, iLocation, la, 0, dEnd );
+				}
+				catch ( IllegalArgumentException uiex )
+				{
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
+							uiex );
+				}
+				if ( iOrientation == VERTICAL ) // VERTICAL AXIS
+				{
+					if ( bCenter )
+					{
+						dEndShift = Math.max( dMaxES,
+								( dUnitSize > bb.getHeight( ) ) ? 0
+										: ( bb.getHeight( ) - dUnitSize ) / 2 );
+					}
+					else if ( iScaleDirection == FORWARD )
+					{
+						dEndShift = Math.max( dMaxES, bb.getHeight( )
+								- bb.getHotPoint( )
+								- dUnitSize
+								/ 2 );
+					}
+					else
+					{
+						dEndShift = Math.max( dMaxES, bb.getHotPoint( )
+								- dUnitSize
+								/ 2 );
+					}
+				}
+				else if ( iOrientation == HORIZONTAL ) // HORIZONTAL AXIS
+				{
+					if ( bCenter )
+					{
+						dEndShift = Math.max( dMaxES,
+								( dUnitSize > bb.getWidth( ) ) ? 0
+										: ( bb.getWidth( ) - dUnitSize ) / 2 );
+					}
+					else if ( iScaleDirection == BACKWARD )
+					{
+						dEndShift = Math.max( dMaxES, bb.getHotPoint( )
+								- dUnitSize
+								/ 2 );
+					}
+					else
+					{
+						dEndShift = Math.max( dMaxES, bb.getWidth( )
+								- bb.getHotPoint( )
+								- dUnitSize
+								/ 2 );
+					}
+				}
 			}
-			if ( iOrientation == VERTICAL ) // VERTICAL AXIS
-			{
-				dEndShift = Math.max( dMaxES,
-						( dUnitSize > bb.getHeight( ) ) ? 0
-								: ( bb.getHeight( ) - dUnitSize ) / 2 );
-			}
-			else if ( iOrientation == HORIZONTAL ) // HORIZONTAL AXIS
-			{
-				dEndShift = Math.max( dMaxES,
-						( dUnitSize > bb.getWidth( ) ) ? 0
-								: ( bb.getWidth( ) - dUnitSize ) / 2 );
-			}
+
 		}
 		else if ( ( iType & NUMERICAL ) == NUMERICAL )
 		{

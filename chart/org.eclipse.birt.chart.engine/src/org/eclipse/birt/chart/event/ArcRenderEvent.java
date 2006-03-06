@@ -253,8 +253,11 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 		double dX2 = loTopLeft.getX( ) + getWidth( ) / 2 + dXCosTheta;
 		double dY2 = loTopLeft.getY( ) + getHeight( ) / 2 + dYSinTheta;
 
+		int iQMin = Math.min( iQStart, iQEnd );
+		int iQMax = Math.max( iQStart, iQEnd );
+
 		// TEST QUADRANTS
-		for ( int i = iQStart; i < iQEnd; i++ )
+		for ( int i = iQMin; i < iQMax; i++ )
 		{
 			if ( i == 1 )
 			{

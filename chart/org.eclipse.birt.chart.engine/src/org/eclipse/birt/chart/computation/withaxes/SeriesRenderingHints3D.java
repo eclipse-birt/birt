@@ -344,12 +344,7 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 	public final Label getLabelAttributes( Series se )
 			throws IllegalArgumentException
 	{
-		final Label la = (Label) EcoreUtil.copy( se.getLabel( ) );
-		final double dRotation = la.getCaption( ).getFont( ).getRotation( );
-		la.getCaption( )
-				.getFont( )
-				.setRotation( pwa.transposeAngle( dRotation ) );
-		return la;
+		return (Label) EcoreUtil.copy( se.getLabel( ) );
 	}
 
 	/**

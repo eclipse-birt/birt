@@ -20,69 +20,74 @@ import org.eclipse.birt.chart.computation.Methods;
 public final class IntersectionValue extends Methods implements IConstants
 {
 
-    int iType;
+	public static final IntersectionValue MAX_VALUE = new IntersectionValue( MAX,
+			0 );
+	public static final IntersectionValue MIN_VALUE = new IntersectionValue( MIN,
+			0 );
 
-    Object oValue;
+	int iType;
 
-    /**
-     * @param _iType
-     * @param _dValue
-     */
-    public IntersectionValue(int _iType, double _dValue)
-    {
-        iType = _iType;
-        oValue = new Double(_dValue);
-    }
+	Object oValue;
 
-    /**
-     * @param _iType
-     * @param _oValue
-     */
-    public IntersectionValue(int _iType, Object _oValue)
-    {
-        iType = _iType;
-        oValue = _oValue;
-    }
+	/**
+	 * @param _iType
+	 * @param _dValue
+	 */
+	public IntersectionValue( int _iType, double _dValue )
+	{
+		iType = _iType;
+		oValue = new Double( _dValue );
+	}
 
-    /**
-     * @return
-     */
-    public final int getType()
-    {
-        return iType;
-    }
+	/**
+	 * @param _iType
+	 * @param _oValue
+	 */
+	public IntersectionValue( int _iType, Object _oValue )
+	{
+		iType = _iType;
+		oValue = _oValue;
+	}
 
-    /**
-     * @return
-     */
-    public final Object getValue()
-    {
-        return oValue;
-    }
+	/**
+	 * @return
+	 */
+	public final int getType( )
+	{
+		return iType;
+	}
 
-    /**
-     * @return
-     */
-    public final double getValueAsDouble()
-    {
-        return asDouble(oValue).doubleValue();
-    }
+	/**
+	 * @return
+	 */
+	public final Object getValue( )
+	{
+		return oValue;
+	}
 
-    /**
-     * @param sc
-     * @return
-     */
-    public final double getValueAsDouble(AutoScale sc)
-    {
-        if (iType == MAX)
-        {
-            return asDouble(sc.getMaximum()).doubleValue();
-        }
-        else if (iType == MIN)
-        {
-            return asDouble(sc.getMinimum()).doubleValue();
-        }
-        return asDouble(oValue).doubleValue();
-    }
+	/**
+	 * @return
+	 */
+	public final double getValueAsDouble( )
+	{
+		return asDouble( oValue ).doubleValue( );
+	}
+
+	/**
+	 * @param sc
+	 * @return
+	 */
+	public final double getValueAsDouble( AutoScale sc )
+	{
+		if ( iType == MAX )
+		{
+			return asDouble( sc.getMaximum( ) ).doubleValue( );
+		}
+		else if ( iType == MIN )
+		{
+			return asDouble( sc.getMinimum( ) ).doubleValue( );
+		}
+		return asDouble( oValue ).doubleValue( );
+	}
 
 }

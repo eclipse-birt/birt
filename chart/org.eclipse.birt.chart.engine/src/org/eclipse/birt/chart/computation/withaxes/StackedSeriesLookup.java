@@ -36,23 +36,14 @@ import org.eclipse.emf.common.util.EList;
 public final class StackedSeriesLookup
 {
 
-	/**
-	 * 
-	 */
 	private final Hashtable htAxisToStackGroups;
 
-	/**
-	 * 
-	 */
 	private final Hashtable htSeriesToStackGroup;
 
-	/**
-	 * 
-	 */
 	private int iCachedUnitCount = 0;
 
 	/**
-	 * 
+	 * The constructor.
 	 */
 	StackedSeriesLookup( RunTimeContext rtc )
 	{
@@ -431,7 +422,7 @@ public final class StackedSeriesLookup
 									}
 									ssl.htSeriesToStackGroup.put( se, sgSingle );
 									sgSingle.addSeries( se ); // REQUIRE
-																// REVERSE
+									// REVERSE
 									// LOOKUP
 								}
 								else

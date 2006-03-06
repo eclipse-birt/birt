@@ -150,8 +150,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		final ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
 
 		if ( bFirstInSequence ) // SEQUENCE OF MULTIPLE SERIES RENDERERS
-		// (POSSIBLY PARTICIPATING IN A COMBINATION
-		// CHART)
+		// (POSSIBLY PARTICIPATING IN A COMBINATION CHART)
 		{
 			// SETUP A TIMER
 			lTimer = System.currentTimeMillis( );
@@ -200,8 +199,9 @@ public abstract class AxesRenderer extends BaseRenderer
 							bl );
 					if ( !bLastInSequence )
 					{
-						break; // STOP AT THE PLOT IF NOT ALSO THE LAST IN THE
+						// STOP AT THE PLOT IF NOT ALSO THE LAST IN THE
 						// SEQUENCE
+						break;
 					}
 				}
 				else if ( bl instanceof TitleBlock )
@@ -370,8 +370,8 @@ public abstract class AxesRenderer extends BaseRenderer
 			}
 		}
 		else
-		// FOR ALL SERIES IN-BETWEEN, ONLY RENDER THE PLOT
 		{
+			// FOR ALL SERIES IN-BETWEEN, ONLY RENDER THE PLOT
 			final BlockGenerationEvent bge = new BlockGenerationEvent( this );
 			Plot p = cm.getPlot( );
 			bge.updateBlock( p );
@@ -705,18 +705,18 @@ public abstract class AxesRenderer extends BaseRenderer
 						0,
 						0 );
 
-				Anchor lbPosition = curve.getLabelAnchor( );
+				Anchor lbAnchor = curve.getLabelAnchor( );
 
-				if ( lbPosition == null )
+				if ( lbAnchor == null )
 				{
-					lbPosition = Anchor.NORTH_LITERAL;
+					lbAnchor = Anchor.NORTH_LITERAL;
 				}
 
 				int horizontal = IConstants.CENTER;
 				int vertical = IConstants.ABOVE;
 
 				// convert anchor to position.
-				switch ( lbPosition.getValue( ) )
+				switch ( lbAnchor.getValue( ) )
 				{
 					case Anchor.WEST :
 					case Anchor.NORTH_WEST :
@@ -734,7 +734,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						break;
 				}
 
-				switch ( lbPosition.getValue( ) )
+				switch ( lbAnchor.getValue( ) )
 				{
 					case Anchor.NORTH :
 					case Anchor.NORTH_WEST :
@@ -1165,15 +1165,6 @@ public abstract class AxesRenderer extends BaseRenderer
 					tre.setLabel( la );
 					tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 					idr.drawText( tre );
-
-					// !Copied, no need to restore now
-					// if ( bTransposed ) // RESTORE ORIGINAL FONT ANGLE IF
-					// // TRANSPOSED
-					// {
-					// la.getCaption( )
-					// .getFont( )
-					// .setRotation( dOriginalAngle );
-					// }
 				}
 
 				if ( isInteractivityEnabled( ) )
@@ -1258,11 +1249,8 @@ public abstract class AxesRenderer extends BaseRenderer
 		AutoScale scPrimaryOrthogonal = null;
 		AutoScale scAncillaryBase = null;
 		double dXStart = 0;
-		// double dXEnd = 0;
 		double dYStart = 0;
-		// double dYEnd = 0;
 		double dZStart = 0;
-		// double dZEnd = 0;
 		int baseTickCount = 0;
 		int ancillaryTickCount = 0;
 		int orthogonalTickCount = 0;
@@ -1277,11 +1265,8 @@ public abstract class AxesRenderer extends BaseRenderer
 			scAncillaryBase = aax.getAncillaryBase( ).getScale( );
 
 			dXStart = scPrimaryBase.getStart( );
-			// dXEnd = scPrimaryBase.getNormalizedEnd( );
 			dYStart = scPrimaryOrthogonal.getStart( );
-			// dYEnd = scPrimaryOrthogonal.getNormalizedEnd( );
 			dZStart = scAncillaryBase.getStart( );
-			// dZEnd = scAncillaryBase.getNormalizedEnd( );
 
 			baseTickCount = scPrimaryBase.getTickCordinates( ).length;
 			ancillaryTickCount = scAncillaryBase.getTickCordinates( ).length;
@@ -1405,17 +1390,6 @@ public abstract class AxesRenderer extends BaseRenderer
 										| PrimitiveRenderEvent.FILL );
 					}
 				}
-
-				// loa[0] = Location3DImpl.create( dXStart, dYStart, dZStart );
-				// loa[1] = Location3DImpl.create( dXStart, dYEnd, dZStart );
-				// loa[2] = Location3DImpl.create( dXStart, dYEnd, dZEnd );
-				// loa[3] = Location3DImpl.create( dXStart, dYStart, dZEnd );
-				// pre.setPoints3D( loa );
-				// pre.setBackground( cwa.getWallFill( ) );
-				// pre.setOutline( ca.getOutline( ) );
-				// getDeferredCache( ).addPlane( pre,
-				// PrimitiveRenderEvent.DRAW | PrimitiveRenderEvent.FILL );
-
 				leftWallFill = true;
 
 				// Right Wall
@@ -1444,18 +1418,6 @@ public abstract class AxesRenderer extends BaseRenderer
 										| PrimitiveRenderEvent.FILL );
 					}
 				}
-
-				// loa[0] = Location3DImpl.create( dXStart, dYStart, dZStart );
-				// loa[1] = Location3DImpl.create( dXStart, dYEnd, dZStart );
-				// loa[2] = Location3DImpl.create( dXEnd, dYEnd, dZStart );
-				// loa[3] = Location3DImpl.create( dXEnd, dYStart, dZStart );
-				// pre.setPoints3D( loa );
-				// pre.setBackground( cwa.getWallFill( ) );
-				// pre.setOutline( ca.getOutline( ) );
-				// getDeferredCache( ).addPlane( pre,
-				// PrimitiveRenderEvent.DRAW
-				// | PrimitiveRenderEvent.FILL );
-
 				rightWallFill = true;
 			}
 
@@ -1493,64 +1455,8 @@ public abstract class AxesRenderer extends BaseRenderer
 										| PrimitiveRenderEvent.FILL );
 					}
 				}
-
-				// loa[0] = Location3DImpl.create( dXStart, dYStart, dZStart );
-				// loa[1] = Location3DImpl.create( dXStart, dYStart, dZEnd );
-				// loa[2] = Location3DImpl.create( dXEnd, dYStart, dZEnd );
-				// loa[3] = Location3DImpl.create( dXEnd, dYStart, dZStart );
-				// pre.setPoints3D( loa );
-				// pre.setBackground( cwa.getFloorFill( ) );
-				// pre.setOutline( ca.getOutline( ) );
-				// getDeferredCache( ).addPlane( pre,
-				// PrimitiveRenderEvent.DRAW
-				// | PrimitiveRenderEvent.FILL );
-
 				floorFill = true;
 			}
-
-			// Draw the Zero plane
-			// IntersectionValue iv = aax.getPrimaryBase(
-			// ).getIntersectionValue( );
-			// if ( iv != null && iv.getType( ) == IntersectionValue.VALUE )
-			// {
-			// if ( loa == null )
-			// {
-			// loa = new Location3D[4];
-			// }
-			//
-			// double yZeroValue = Methods.getNormalizedLocation(
-			// scPrimaryOrthogonal,
-			// 0 );
-			//
-			// for ( int i = 0; i < baseTickCount - 1; i++ )
-			// {
-			// for ( int j = 0; j < ancillaryTickCount - 1; j++ )
-			// {
-			// loa[0] = Location3DImpl.create( dXStart + i * xStep,
-			// yZeroValue,
-			// dZStart + j * zStep );
-			// loa[1] = Location3DImpl.create( dXStart + i * xStep,
-			// yZeroValue,
-			// dZStart + ( j + 1 ) * zStep );
-			// loa[2] = Location3DImpl.create( dXStart
-			// + ( i + 1 )
-			// * xStep, yZeroValue, dZStart
-			// + ( j + 1 )
-			// * zStep );
-			// loa[3] = Location3DImpl.create( dXStart
-			// + ( i + 1 )
-			// * xStep, yZeroValue, dZStart + j * zStep );
-			// pre.setPoints3D( loa );
-			// pre.setBackground( ColorDefinitionImpl.create( 255,
-			// 255,
-			// 255,
-			// 127 ) );
-			// pre.setOutline( null );
-			// getDeferredCache( ).addPlane( pre,
-			// PrimitiveRenderEvent.FILL );
-			// }
-			// }
-			// }
 		}
 
 		// SETUP AXIS ARRAY
@@ -1760,6 +1666,8 @@ public abstract class AxesRenderer extends BaseRenderer
 			}
 			else if ( oaxa[i].getOrientation( ) == IConstants.HORIZONTAL )
 			{
+				int iDirection = sc.getDirection( ) == IConstants.BACKWARD ? -1
+						: 1;
 				double[] da = sc.getTickCordinates( );
 				double dY2 = bo.getTop( ) + 1, dY1 = bo.getTop( )
 						+ bo.getHeight( )
@@ -1774,10 +1682,13 @@ public abstract class AxesRenderer extends BaseRenderer
 							lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 									LineRenderEvent.class );
 							lre.setLineAttributes( lia );
-							lre.setStart( LocationImpl.create( x + doaMinor[k],
-									dY1 + pwa.getSeriesThickness( ) ) );
+							lre.setStart( LocationImpl.create( x
+									+ iDirection
+									* doaMinor[k], dY1
+									+ pwa.getSeriesThickness( ) ) );
 							lre.setEnd( LocationImpl.create( x
-									+ doaMinor[k]
+									+ iDirection
+									* doaMinor[k]
 									+ pwa.getSeriesThickness( ), dY1 ) );
 							ipr.drawLine( lre );
 						}
@@ -1796,14 +1707,20 @@ public abstract class AxesRenderer extends BaseRenderer
 						lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 								LineRenderEvent.class );
 						lre.setLineAttributes( lia );
-						lre.setStart( LocationImpl.create( x + doaMinor[k], dY1 ) );
-						lre.setEnd( LocationImpl.create( x + doaMinor[k], dY2 ) );
+						lre.setStart( LocationImpl.create( x
+								+ iDirection
+								* doaMinor[k], dY1 ) );
+						lre.setEnd( LocationImpl.create( x
+								+ iDirection
+								* doaMinor[k], dY2 ) );
 						ipr.drawLine( lre );
 					}
 				}
 			}
 			else if ( oaxa[i].getOrientation( ) == IConstants.VERTICAL )
 			{
+				int iDirection = sc.getDirection( ) == IConstants.FORWARD ? -1
+						: 1;
 				double[] da = sc.getTickCordinates( );
 				double dX1 = bo.getLeft( ) + 1, dX2 = bo.getLeft( )
 						+ bo.getWidth( )
@@ -1819,10 +1736,12 @@ public abstract class AxesRenderer extends BaseRenderer
 									LineRenderEvent.class );
 							lre.setLineAttributes( lia );
 							lre.setStart( LocationImpl.create( dX1, y
-									- doaMinor[k] ) );
+									- iDirection
+									* doaMinor[k] ) );
 							lre.setEnd( LocationImpl.create( dX1
 									- pwa.getSeriesThickness( ), y
-									- doaMinor[k]
+									- iDirection
+									* doaMinor[k]
 									+ pwa.getSeriesThickness( ) ) );
 							ipr.drawLine( lre );
 						}
@@ -1840,8 +1759,12 @@ public abstract class AxesRenderer extends BaseRenderer
 						lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 								LineRenderEvent.class );
 						lre.setLineAttributes( lia );
-						lre.setStart( LocationImpl.create( dX1, y - doaMinor[k] ) );
-						lre.setEnd( LocationImpl.create( dX2, y - doaMinor[k] ) );
+						lre.setStart( LocationImpl.create( dX1, y
+								- iDirection
+								* doaMinor[k] ) );
+						lre.setEnd( LocationImpl.create( dX2, y
+								- iDirection
+								* doaMinor[k] ) );
 						ipr.drawLine( lre );
 					}
 				}
@@ -2177,56 +2100,58 @@ public abstract class AxesRenderer extends BaseRenderer
 			renderAxesStructure( ipr, p );
 		}
 
-		ISeriesRenderingHints srh = null;
-		try
+		if ( getSeries( ) != null )
 		{
-			srh = ( (PlotWithAxes) getComputations( ) ).getSeriesRenderingHints( getSeriesDefinition( ),
+			ISeriesRenderingHints srh = null;
+			try
+			{
+				srh = ( (PlotWithAxes) getComputations( ) ).getSeriesRenderingHints( getSeriesDefinition( ),
+						getSeries( ) );
+			}
+			catch ( Exception ex )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.RENDERING,
+						ex );
+			}
+
+			// try
+			// {
+			// Bounds boClipping = p.getBounds( )
+			// .scaledInstance( getDevice( ).getDisplayServer( )
+			// .getDpiResolution( ) / 72d );
+			//
+			// Location[] loaClipping = new Location[4];
+			// loaClipping[0] = LocationImpl.create( boClipping.getLeft( ),
+			// boClipping.getTop( ) );
+			// loaClipping[1] = LocationImpl.create( boClipping.getLeft( )
+			// + boClipping.getWidth( ), boClipping.getTop( ) );
+			// loaClipping[2] = LocationImpl.create( boClipping.getLeft( )
+			// + boClipping.getWidth( ), boClipping.getTop( )
+			// + boClipping.getHeight( ) );
+			// loaClipping[3] = LocationImpl.create( boClipping.getLeft( ),
+			// boClipping.getTop( ) + boClipping.getHeight( ) );
+			//
+			// cre.setVertices( loaClipping );
+			// getDevice( ).setClip( cre );
+
+			ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
+					ScriptHandler.BEFORE_DRAW_SERIES,
+					getSeries( ),
+					this,
+					getRunTimeContext( ).getScriptContext( ) );
+			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_SERIES,
+					getSeries( ) );
+			// CALLS THE APPROPRIATE SUBCLASS FOR GRAPHIC ELEMENT RENDERING
+			renderSeries( ipr, p, srh );
+			ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
+					ScriptHandler.AFTER_DRAW_SERIES,
+					getSeries( ),
+					this,
+					getRunTimeContext( ).getScriptContext( ) );
+			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_SERIES,
 					getSeries( ) );
 		}
-		catch ( Exception ex )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.RENDERING,
-					ex );
-		}
-
-		// try
-		// {
-		// Bounds boClipping = p.getBounds( )
-		// .scaledInstance( getDevice( ).getDisplayServer( )
-		// .getDpiResolution( ) / 72d );
-		//
-		// Location[] loaClipping = new Location[4];
-		// loaClipping[0] = LocationImpl.create( boClipping.getLeft( ),
-		// boClipping.getTop( ) );
-		// loaClipping[1] = LocationImpl.create( boClipping.getLeft( )
-		// + boClipping.getWidth( ), boClipping.getTop( ) );
-		// loaClipping[2] = LocationImpl.create( boClipping.getLeft( )
-		// + boClipping.getWidth( ), boClipping.getTop( )
-		// + boClipping.getHeight( ) );
-		// loaClipping[3] = LocationImpl.create( boClipping.getLeft( ),
-		// boClipping.getTop( ) + boClipping.getHeight( ) );
-		//
-		// cre.setVertices( loaClipping );
-		// getDevice( ).setClip( cre );
-
-		ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
-				ScriptHandler.BEFORE_DRAW_SERIES,
-				getSeries( ),
-				this,
-				getRunTimeContext( ).getScriptContext( ) );
-		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_SERIES,
-				getSeries( ) );
-		renderSeries( ipr, p, srh ); // CALLS THE APPROPRIATE SUBCLASS
-		// FOR
-		// GRAPHIC ELEMENT RENDERING
-		ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
-				ScriptHandler.AFTER_DRAW_SERIES,
-				getSeries( ),
-				this,
-				getRunTimeContext( ).getScriptContext( ) );
-		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_SERIES,
-				getSeries( ) );
 
 		if ( bLastInSequence )
 		{
@@ -2242,9 +2167,9 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				getDeferredCache( ).flush( ); // FLUSH DEFERRED CACHE
 			}
-			catch ( ChartException ex ) // NOTE: RENDERING EXCEPTION ALREADY
-			// BEING THROWN
+			catch ( ChartException ex )
 			{
+				// NOTE: RENDERING EXCEPTION ALREADY BEING THROWN
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.RENDERING,
 						ex );
@@ -2287,9 +2212,9 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				getDeferredCache( ).flush( ); // FLUSH DEFERRED CACHE
 			}
-			catch ( ChartException ex ) // NOTE: RENDERING EXCEPTION ALREADY
-			// BEING THROWN
+			catch ( ChartException ex )
 			{
+				// NOTE: RENDERING EXCEPTION ALREADY BEING THROWN
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.RENDERING,
 						ex );
@@ -2671,14 +2596,6 @@ public abstract class AxesRenderer extends BaseRenderer
 					tre.setLabel( la );
 					tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 					idr.drawText( tre );
-
-					// !Copied, no need to restore now.
-					// if ( bTransposed ) // RESTORE FONT ANGLE IF TRANSPOSED
-					// {
-					// la.getCaption( )
-					// .getFont( )
-					// .setRotation( dOriginalAngle );
-					// }
 				}
 
 				if ( isInteractivityEnabled( ) )
@@ -2764,28 +2681,26 @@ public abstract class AxesRenderer extends BaseRenderer
 		final PlotWithAxes pwa = (PlotWithAxes) getComputations( );
 		final Insets insCA = pwa.getAxes( ).getInsets( );
 		final ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
-		double dLocation = ax.getAxisCoordinate( );
-		double dAngleInDegrees = ax.getLabel( )
-				.getCaption( )
-				.getFont( )
-				.getRotation( );
-		AutoScale sc = ax.getScale( );
-		IntersectionValue iv = ax.getIntersectionValue( );
-		int iMajorTickStyle = ax.getGrid( ).getTickStyle( IConstants.MAJOR );
-		int iMinorTickStyle = ax.getGrid( ).getTickStyle( IConstants.MINOR );
-		int iLabelLocation = ax.getLabelPosition( );
-		int iOrientation = ax.getOrientation( );
-		Label la = (Label) EcoreUtil.copy( ax.getLabel( ) );
+		final double dLocation = ax.getAxisCoordinate( );
+		final AutoScale sc = ax.getScale( );
+		final IntersectionValue iv = ax.getIntersectionValue( );
+		final int iMajorTickStyle = ax.getGrid( )
+				.getTickStyle( IConstants.MAJOR );
+		final int iMinorTickStyle = ax.getGrid( )
+				.getTickStyle( IConstants.MINOR );
+		final int iLabelLocation = ax.getLabelPosition( );
+		final int iOrientation = ax.getOrientation( );
 		final IDisplayServer xs = this.getDevice( ).getDisplayServer( );
+		Label la = (Label) EcoreUtil.copy( ax.getLabel( ) );
 
-		double[] daEndPoints = sc.getEndPoints( );
-		double[] da = sc.getTickCordinates( );
-		double[] daMinor = sc.getMinorCoordinates( ax.getGrid( )
+		final double[] daEndPoints = sc.getEndPoints( );
+		final double[] da = sc.getTickCordinates( );
+		final double[] daMinor = sc.getMinorCoordinates( ax.getGrid( )
 				.getMinorCountPerMajor( ) );
 		String sText = null;
 
-		int iDimension = pwa.getDimension( );
-		double dSeriesThickness = pwa.getSeriesThickness( );
+		final int iDimension = pwa.getDimension( );
+		final double dSeriesThickness = pwa.getSeriesThickness( );
 		final NumberDataElement nde = NumberDataElementImpl.create( 0 );
 		final FormatSpecifier fs = ax.getModelAxis( ).getFormatSpecifier( );
 		final double dStaggeredLabelOffset = sc.computeStaggeredAxisLabelOffset( xs,
@@ -2795,10 +2710,10 @@ public abstract class AxesRenderer extends BaseRenderer
 
 		DecimalFormat df = null;
 
-		LineAttributes lia = ax.getLineAttributes( );
-		LineAttributes liaMajorTick = ax.getGrid( )
+		final LineAttributes lia = ax.getLineAttributes( );
+		final LineAttributes liaMajorTick = ax.getGrid( )
 				.getTickAttributes( IConstants.MAJOR );
-		LineAttributes liaMinorTick = ax.getGrid( )
+		final LineAttributes liaMinorTick = ax.getGrid( )
 				.getTickAttributes( IConstants.MINOR );
 
 		if ( !lia.isSetVisible( ) )
@@ -2839,6 +2754,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		final DeferredCache dc = getDeferredCache( );
 		final int axisType = ax.getAxisType( );
 		final Bounds boPlot = getPlotBounds( );
+		final boolean bTransposed = ( (ChartWithAxes) getModel( ) ).isTransposed( );
 
 		double[] daEndPoints3D = null;
 		double[] da3D = null;
@@ -3101,8 +3017,15 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				else
 				{
-					final double dStart = daEndPoints[0] + insCA.getBottom( ), dEnd = daEndPoints[1]
+					double dStart = daEndPoints[0] + insCA.getBottom( ), dEnd = daEndPoints[1]
 							- insCA.getTop( );
+
+					if ( sc.getDirection( ) == IConstants.FORWARD )
+					{
+						dStart = daEndPoints[1] + insCA.getBottom( );
+						dEnd = daEndPoints[0] - insCA.getTop( );
+					}
+
 					if ( iv != null
 							&& iv.getType( ) == IntersectionValue.VALUE
 							&& iDimension == IConstants.TWO_5_D )
@@ -3172,17 +3095,16 @@ public abstract class AxesRenderer extends BaseRenderer
 			if ( ( sc.getType( ) & IConstants.TEXT ) == IConstants.TEXT
 					|| sc.isCategoryScale( ) )
 			{
-				double dOffset = 0;
-				double dUnitSize = sc.getUnitSize( );
+				final int iDirection = sc.getDirection( );
+				// double dUnitSize = sc.getUnitSize( );
+				final double dUnitSize = ( iDirection == IConstants.BACKWARD || ( iDirection == IConstants.AUTO && bTransposed ) ) ? -sc.getUnitSize( )
+						: sc.getUnitSize( );
+				final double dOffset = dUnitSize / 2;
+
 				DataSetIterator dsi = sc.getData( );
 				final int iDateTimeUnit = ( sc.getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
 						: IConstants.UNDEFINED;
 				final ITextMetrics itmText = xs.getTextMetrics( la );
-
-				if ( dAngleInDegrees == 90 || dAngleInDegrees == 0 )
-				{
-					dOffset = -dUnitSize / 2;
-				}
 
 				double x = ( iLabelLocation == IConstants.LEFT ) ? dXTick1 - 1
 						: dXTick2 + 1;
@@ -3206,7 +3128,6 @@ public abstract class AxesRenderer extends BaseRenderer
 							getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 									la );
 							itmText.reuse( la ); // RECYCLED
-							dOffset = -dUnitSize / 2;
 						}
 					}
 
@@ -3498,11 +3419,8 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 					}
 
-					if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) ) // RENDER
-					// LABELS
-					// ONLY
-					// IF
-					// REQUESTED
+					// RENDER LABELS ONLY IF REQUESTED
+					if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) )
 					{
 						double sx = x;
 						double sx2 = dXEnd;
@@ -3916,10 +3834,8 @@ public abstract class AxesRenderer extends BaseRenderer
 								la );
 					}
 
-					cdt = cdtAxisValue.forward( iUnit, iStep * ( i + 1 ) ); // ALWAYS
-					// W.R.T
-					// START
-					// VALUE
+					// ALWAYS W.R.T START VALUE
+					cdt = cdtAxisValue.forward( iUnit, iStep * ( i + 1 ) );
 				}
 			}
 
@@ -4050,8 +3966,8 @@ public abstract class AxesRenderer extends BaseRenderer
 					: dY;
 
 			if ( iv != null
-					&& iv.getType( ) == IntersectionValue.MAX
-					&& iDimension == IConstants.TWO_5_D )
+					&& iDimension == IConstants.TWO_5_D
+					&& ( ( bTransposed && isRightToLeft( ) && iv.getType( ) == IntersectionValue.MIN ) || ( !bTransposed && iv.getType( ) == IntersectionValue.MAX ) ) )
 			{
 				trae.setTransform( TransformationEvent.TRANSLATE );
 				trae.setTranslation( dSeriesThickness, -dSeriesThickness );
@@ -4169,8 +4085,15 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				else
 				{
-					final double dStart = daEndPoints[0] - insCA.getLeft( ), dEnd = daEndPoints[1]
+					double dStart = daEndPoints[0] - insCA.getLeft( ), dEnd = daEndPoints[1]
 							+ insCA.getRight( );
+
+					if ( sc.getDirection( ) == IConstants.BACKWARD )
+					{
+						dStart = daEndPoints[1] - insCA.getLeft( );
+						dEnd = daEndPoints[0] + insCA.getRight( );
+					}
+
 					if ( iv != null
 							&& iv.getType( ) == IntersectionValue.VALUE
 							&& iDimension == IConstants.TWO_5_D )
@@ -4241,17 +4164,16 @@ public abstract class AxesRenderer extends BaseRenderer
 			if ( ( sc.getType( ) & IConstants.TEXT ) == IConstants.TEXT
 					|| sc.isCategoryScale( ) )
 			{
-				double dOffset = 0;
-				double dUnitSize = sc.getUnitSize( );
+				final int iDirection = sc.getDirection( );
+				// double dUnitSize = sc.getUnitSize( );
+				final double dUnitSize = ( iDirection == IConstants.BACKWARD || ( iDirection == IConstants.AUTO && bTransposed ) ) ? -sc.getUnitSize( )
+						: sc.getUnitSize( );
+				final double dOffset = dUnitSize / 2;
+
 				DataSetIterator dsi = sc.getData( );
 				final int iDateTimeUnit = ( sc.getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
 						: IConstants.UNDEFINED;
 				final ITextMetrics itmText = xs.getTextMetrics( la );
-
-				if ( dAngleInDegrees == 90 || dAngleInDegrees == 0 )
-				{
-					dOffset = dUnitSize / 2;
-				}
 
 				double y = ( iLabelLocation == IConstants.ABOVE ) ? ( bRendering3D ? dYTick1 + 1
 						: dYTick1 - 1 )
@@ -4390,9 +4312,10 @@ public abstract class AxesRenderer extends BaseRenderer
 									la );
 							itmText.reuse( la );// RECYCLED
 
-							dOffset = dUnitSize / 2;
 							double sy = y;
-							if ( bAxisLabelStaggered && sc.isTickLabelStaggered( i ) )
+
+							if ( bAxisLabelStaggered
+									&& sc.isTickLabelStaggered( i ) )
 							{
 								if ( iLabelLocation == IConstants.ABOVE )
 								{
@@ -4608,13 +4531,9 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 					}
 
-					if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) ) // OPTIMIZED:
-																			// ONLY
-																			// PROCESS
-																			// IF
-					// AXES
-					// LABELS ARE VISIBLE OR REQUESTED
-					// FOR
+					// OPTIMIZED: ONLY PROCESS IF AXES LABELS ARE VISIBLE OR
+					// REQUESTED FOR
+					if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) )
 					{
 						nde.setValue( dAxisValue );
 						try
@@ -4814,13 +4733,9 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 					}
 
-					if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) ) // OPTIMIZED:
-																			// ONLY
-																			// PROCESS
-																			// IF
-					// AXES
-					// LABELS ARE VISIBLE OR REQUESTED
-					// FOR
+					// OPTIMIZED: ONLY PROCESS IF AXES LABELS ARE VISIBLE OR
+					// REQUESTED FOR
+					if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) )
 					{
 						if ( fs == null )
 						{
@@ -5029,13 +4944,9 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 					}
 
-					if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) ) // OPTIMIZED:
-																			// ONLY
-																			// PROCESS
-																			// IF
-					// AXES
-					// LABELS ARE VISIBLE OR REQUESTED
-					// FOR
+					// OPTIMIZED: ONLY PROCESS IF AXES LABELS ARE VISIBLE OR
+					// REQUESTED FOR
+					if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) )
 					{
 						try
 						{
@@ -5104,10 +5015,8 @@ public abstract class AxesRenderer extends BaseRenderer
 								la );
 					}
 
-					cdt = cdtAxisValue.forward( iUnit, iStep * ( i + 1 ) ); // ALWAYS
-					// W.R.T
-					// START
-					// VALUE
+					// ALWAYS W.R.T START VALUE
+					cdt = cdtAxisValue.forward( iUnit, iStep * ( i + 1 ) );
 				}
 			}
 
@@ -5213,8 +5122,8 @@ public abstract class AxesRenderer extends BaseRenderer
 			// AXIS LABEL
 
 			if ( iv != null
-					&& iv.getType( ) == IntersectionValue.MAX
-					&& iDimension == IConstants.TWO_5_D )
+					&& iDimension == IConstants.TWO_5_D
+					&& ( ( bTransposed && isRightToLeft( ) && iv.getType( ) == IntersectionValue.MIN ) || ( !bTransposed && iv.getType( ) == IntersectionValue.MAX ) ) )
 			{
 				trae.setTranslation( -dSeriesThickness, dSeriesThickness );
 				ipr.applyTransformation( trae );
@@ -5233,7 +5142,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	public final void set( Chart _cm, Object _o, Series _se, Axis _ax,
 			SeriesDefinition _sd )
 	{
-		super.set( _cm, _o, _se, _ax, _sd );
+		super.set( _cm, _o, _se, _sd );
 		ax = _ax; // HOLD AXIS HERE
 	}
 

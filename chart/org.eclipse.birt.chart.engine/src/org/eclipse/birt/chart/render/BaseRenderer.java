@@ -180,7 +180,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			127 );
 
 	/**
-	 * Transparency for translucent color. Sould between 0 and 100.
+	 * Transparency for translucent color. Should between 0 and 100.
 	 */
 	protected static double OVERRIDE_TRANSPARENCY = 50;
 
@@ -208,14 +208,13 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param _ax
 	 * @param _sd
 	 */
-	public void set( Chart _cm, Object _o, Series _se, Axis _ax,
+	public void set( Chart _cm, Object _oComputation, Series _se,
 			SeriesDefinition _sd )
 	{
 		cm = _cm;
-		oComputations = _o;
+		oComputations = _oComputation;
 		se = _se;
 		sd = _sd;
-		// CAN'T HOLD 'AXIS' HERE
 	}
 
 	/**
@@ -288,14 +287,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	public final SeriesDefinition getSeriesDefinition( )
 	{
 		return sd;
-	}
-
-	/**
-	 * @return
-	 */
-	public Axis getAxis( ) // DON'T KNOW ABOUT AXIS HERE!
-	{
-		return null;
 	}
 
 	/**
@@ -498,10 +489,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				dc.flush( ); // FLUSH DEFERRED CACHE
 			}
-			catch ( ChartException ex ) // NOTE: RENDERING
-			// EXCEPTION ALREADY BEING
-			// THROWN
+			catch ( ChartException ex )
 			{
+				// NOTE: RENDERING EXCEPTION ALREADY BEING THROWN
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.RENDERING,
 						ex );
@@ -560,7 +550,37 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			dY = 0;
 			if ( lg.isSetAnchor( ) )
 			{
-				final int iAnchor = lg.getAnchor( ).getValue( );
+				int iAnchor = lg.getAnchor( ).getValue( );
+
+				// swap west/east
+				if ( isRightToLeft( ) )
+				{
+					if ( iAnchor == Anchor.EAST )
+					{
+						iAnchor = Anchor.WEST;
+					}
+					else if ( iAnchor == Anchor.NORTH_EAST )
+					{
+						iAnchor = Anchor.NORTH_WEST;
+					}
+					else if ( iAnchor == Anchor.SOUTH_EAST )
+					{
+						iAnchor = Anchor.SOUTH_WEST;
+					}
+					else if ( iAnchor == Anchor.WEST )
+					{
+						iAnchor = Anchor.EAST;
+					}
+					else if ( iAnchor == Anchor.NORTH_WEST )
+					{
+						iAnchor = Anchor.NORTH_EAST;
+					}
+					else if ( iAnchor == Anchor.SOUTH_WEST )
+					{
+						iAnchor = Anchor.SOUTH_EAST;
+					}
+				}
+
 				switch ( iAnchor )
 				{
 					case Anchor.NORTH :
@@ -608,14 +628,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 		}
 		else
-		// USE PREVIOUSLY COMPUTED POSITION IN THE GENERATOR FOR LEGEND 'INSIDE'
-		// PLOT
 		{
+			// USE PREVIOUSLY COMPUTED POSITION IN THE GENERATOR FOR LEGEND
+			// 'INSIDE' PLOT
 			dX = bo.getLeft( );
 			dY = bo.getTop( );
-			sz = SizeImpl.create( bo.getWidth( ), bo.getHeight( ) ); // 'bo'
-			// ALREADY
-			// SCALED
+			sz = SizeImpl.create( bo.getWidth( ), bo.getHeight( ) );
 		}
 
 		// consider legend title size.
@@ -623,7 +641,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		double lgTitleWidth = 0, lgTitleHeight = 0;
 		double yOffset = 0, xOffset = 0, wOffset = 0, hOffset = 0;
 
-		if ( lgTitle != null && lgTitle.isSetVisible( ) && lgTitle.isVisible( ) )
+		final boolean bRenderLegendTitle = lgTitle != null
+				&& lgTitle.isSetVisible( )
+				&& lgTitle.isVisible( );
+		int iTitlePos = Position.ABOVE;
+
+		if ( bRenderLegendTitle )
 		{
 			lgTitle = (Label) EcoreUtil.copy( lgTitle );
 
@@ -647,7 +670,22 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			lgTitleWidth = bb.getWidth( );
 			lgTitleHeight = bb.getHeight( );
 
-			switch ( lg.getTitlePosition( ).getValue( ) )
+			iTitlePos = lg.getTitlePosition( ).getValue( );
+
+			// swap left/right
+			if ( isRightToLeft( ) )
+			{
+				if ( iTitlePos == Position.LEFT )
+				{
+					iTitlePos = Position.RIGHT;
+				}
+				else if ( iTitlePos == Position.RIGHT )
+				{
+					iTitlePos = Position.LEFT;
+				}
+			}
+
+			switch ( iTitlePos )
 			{
 				case Position.ABOVE :
 					yOffset = lgTitleHeight;
@@ -671,9 +709,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final Insets lgIns = lg.getInsets( ).scaledInstance( dScale );
 		LineAttributes lia = ca.getOutline( );
 		bo = BoundsImpl.create( dX, dY, sz.getWidth( ), sz.getHeight( ) );
-		bo = bo.adjustedInstance( lgIns ); // SHRINK
-		// BY
-		// INSETS
+		bo = bo.adjustedInstance( lgIns );
 		dX = bo.getLeft( );
 		dY = bo.getTop( );
 
@@ -712,8 +748,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
 		final ITextMetrics itm = xs.getTextMetrics( la );
 
-		double maxWrappingSize = lg.getWrappingSize( );
-		double dItemHeight = itm.getFullHeight( );
+		final double maxWrappingSize = lg.getWrappingSize( );
+		final double dItemHeight = itm.getFullHeight( );
 		final double dHorizontalSpacing = 4;
 		final double dVerticalSpacing = 4;
 		double dSeparatorThickness = lia.getThickness( );
@@ -856,8 +892,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					final Axis axPrimaryBase = ( (ChartWithAxes) cm ).getBaseAxes( )[0];
 					if ( axPrimaryBase.getSeriesDefinitions( ).isEmpty( ) )
 					{
-						return; // NOTHING TO RENDER (BASE AXIS HAS NO SERIES
+						// NOTHING TO RENDER (BASE AXIS HAS NO SERIES
 						// DEFINITIONS)
+						return;
 					}
 					// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
 					sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions( )
@@ -868,8 +905,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					if ( ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
 							.isEmpty( ) )
 					{
-						return; // NOTHING TO RENDER (BASE AXIS HAS NO SERIES
+						// NOTHING TO RENDER (BASE AXIS HAS NO SERIES
 						// DEFINITIONS)
+						return;
 					}
 					// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
 					sdBase = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
@@ -954,7 +992,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							dItemHeight,
 							itm.getFullHeight( ),
 							0,
-							0,
+							bo.getWidth( ),
 							insCA.getLeft( ),
 							dHorizontalSpacing,
 							seBase,
@@ -999,7 +1037,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							dItemHeight,
 							itm.getFullHeight( ),
 							0,
-							0,
+							bo.getWidth( ),
 							insCA.getLeft( ),
 							dHorizontalSpacing,
 							seBase,
@@ -1126,7 +1164,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								dItemHeight,
 								dFHeight,
 								valueHeight,
-								bo.getWidth( ) - 2 * insCA.getLeft( ),
+								bo.getWidth( ),
 								insCA.getLeft( ),
 								dHorizontalSpacing,
 								seBase,
@@ -1266,7 +1304,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								dItemHeight,
 								dFHeight,
 								valueHeight,
-								bo.getWidth( ) - 2 * insCA.getLeft( ),
+								bo.getWidth( ),
 								insCA.getLeft( ),
 								dHorizontalSpacing,
 								seBase,
@@ -1325,17 +1363,13 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				FormatSpecifier fs = null;
 				if ( cm instanceof ChartWithAxes )
 				{
-					final Axis axPrimaryBase = ( (ChartWithAxes) cm ).getBaseAxes( )[0]; // ONLY
-					// SUPPORT
-					// 1
-					// BASE
-					// AXIS
-					// FOR
-					// NOW
+					// ONLY SUPPORT 1 BASE AXIS FOR NOW
+					final Axis axPrimaryBase = ( (ChartWithAxes) cm ).getBaseAxes( )[0];
 					if ( axPrimaryBase.getSeriesDefinitions( ).isEmpty( ) )
 					{
-						return; // NOTHING TO RENDER (BASE AXIS HAS NO SERIES
+						// NOTHING TO RENDER (BASE AXIS HAS NO SERIES
 						// DEFINITIONS)
+						return;
 					}
 					// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
 					sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions( )
@@ -1346,8 +1380,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					if ( ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
 							.isEmpty( ) )
 					{
-						return; // NOTHING TO RENDER (BASE AXIS HAS NO SERIES
+						// NOTHING TO RENDER (BASE AXIS HAS NO SERIES
 						// DEFINITIONS)
+						return;
 					}
 					// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
 					sdBase = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
@@ -1377,6 +1412,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				}
 
 				int i = 0;
+				double dFullWidth = 0;
 				dY += insCA.getTop( );
 				while ( dsiBase.hasNext( ) )
 				{
@@ -1406,8 +1442,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							% iPaletteCount ); // CYCLE THROUGH THE PALETTE
 					lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
 
+					dFullWidth = itm.getFullWidth( );
+
 					if ( dX
-							+ itm.getFullWidth( )
+							+ dFullWidth
 							+ ( 3 * dItemHeight )
 							/ 2
 							+ insCA.getRight( ) > dMaxX )
@@ -1429,17 +1467,22 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							null,
 							dX,
 							dY,
-							itm.getFullWidth( ),
+							dFullWidth,
 							dItemHeight,
 							itm.getFullHeight( ),
 							0,
-							0,
+							dFullWidth
+									+ 3
+									* dItemHeight
+									/ 2
+									+ 2
+									* insCA.getLeft( ),
 							insCA.getLeft( ),
 							dHorizontalSpacing,
 							seBase,
 							fPaletteEntry,
 							lirh );
-					dX += itm.getFullWidth( )
+					dX += dFullWidth
 							+ ( 3 * dItemHeight )
 							/ 2
 							+ insCA.getRight( );
@@ -1455,8 +1498,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							% iPaletteCount ); // CYCLE THROUGH THE PALETTE
 					lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
 
+					dFullWidth = itm.getFullWidth( );
 					if ( dX
-							+ itm.getFullWidth( )
+							+ dFullWidth
 							+ ( 3 * dItemHeight )
 							/ 2
 							+ insCA.getRight( ) > dMaxX )
@@ -1478,17 +1522,22 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							null,
 							dX,
 							dY,
-							itm.getFullWidth( ),
+							dFullWidth,
 							dItemHeight,
 							itm.getFullHeight( ),
 							0,
-							0,
+							dFullWidth
+									+ 3
+									* dItemHeight
+									/ 2
+									+ 2
+									* insCA.getLeft( ),
 							insCA.getLeft( ),
 							dHorizontalSpacing,
 							seBase,
 							fPaletteEntry,
 							lirh );
-					dX += itm.getFullWidth( )
+					dX += dFullWidth
 							+ ( 3 * dItemHeight )
 							/ 2
 							+ insCA.getRight( );
@@ -1612,7 +1661,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								dItemHeight,
 								dFHeight,
 								valueHeight,
-								dFWidth + 3 * dItemHeight / 2,
+								dFWidth
+										+ 3
+										* dItemHeight
+										/ 2
+										+ 2
+										* insCA.getLeft( ),
 								insCA.getLeft( ),
 								dHorizontalSpacing,
 								seBase,
@@ -1769,7 +1823,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								dItemHeight,
 								dFHeight,
 								valueHeight,
-								dFWidth + 3 * dItemHeight / 2,
+								dFWidth
+										+ 3
+										* dItemHeight
+										/ 2
+										+ 2
+										* insCA.getLeft( ),
 								insCA.getLeft( ),
 								dHorizontalSpacing,
 								seBase,
@@ -1816,16 +1875,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					new Object[]{
 						o.getName( )
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
 		}
 
 		// Render legend title if defined.
-		if ( lgTitle != null && lgTitle.isSetVisible( ) && lgTitle.isVisible( ) )
+		if ( bRenderLegendTitle )
 		{
 			double lX = bo.getLeft( );
 			double lY = bo.getTop( );
 
-			switch ( lg.getTitlePosition( ).getValue( ) )
+			switch ( iTitlePos )
 			{
 				case Position.ABOVE :
 					lX = bo.getLeft( ) + ( bo.getWidth( ) - lgTitleWidth ) / 2d;
@@ -1922,8 +1981,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 */
 	protected final void renderLegendItem( IPrimitiveRenderer ipr, Legend lg,
 			Label la, Label valueLa, double dX, double dY, double dW,
-			double dItemHeight, double dFullHeight, double dValueHeight,
-			double dValueWidth, double dLeftInset, double dHorizontalSpacing,
+			double dItemHeight, double dFullHeight, double dExtraHeight,
+			double dFullWidth, double dLeftInset, double dHorizontalSpacing,
 			Series se, Fill fPaletteEntry, LegendItemRenderingHints lirh )
 			throws ChartException
 	{
@@ -1934,8 +1993,17 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				getRunTimeContext( ).getScriptContext( ) );
 		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_LEGEND_ENTRY,
 				la );
+
 		final Bounds bo = lirh.getLegendGraphicBounds( );
-		bo.setLeft( dX + dLeftInset + 1 );
+
+		if ( isRightToLeft( ) )
+		{
+			bo.setLeft( dX + dFullWidth - dLeftInset - 1 - 3 * dItemHeight / 2 );
+		}
+		else
+		{
+			bo.setLeft( dX + dLeftInset + 1 );
+		}
 		bo.setTop( dY + 1 + ( dFullHeight - dItemHeight ) / 2 );
 		bo.setWidth( 3 * dItemHeight / 2 );
 		bo.setHeight( dItemHeight - 2 );
@@ -1945,11 +2013,25 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
 				TextRenderEvent.class );
-		tre.setLocation( LocationImpl.create( dX
-				+ dLeftInset
-				+ ( 3 * dItemHeight / 2 )
-				+ dHorizontalSpacing, dY + dFullHeight / 2 - 1 ) );
-		tre.setTextPosition( TextRenderEvent.RIGHT );
+		if ( isRightToLeft( ) )
+		{
+			tre.setLocation( LocationImpl.create( dX
+					+ dFullWidth
+					- dLeftInset
+					- 3
+					* dItemHeight
+					/ 2
+					- dHorizontalSpacing, dY + dFullHeight / 2 - 1 ) );
+			tre.setTextPosition( TextRenderEvent.LEFT );
+		}
+		else
+		{
+			tre.setLocation( LocationImpl.create( dX
+					+ dLeftInset
+					+ ( 3 * dItemHeight / 2 )
+					+ dHorizontalSpacing, dY + dFullHeight / 2 - 1 ) );
+			tre.setTextPosition( TextRenderEvent.RIGHT );
+		}
 		tre.setLabel( la );
 		tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 		ipr.drawText( tre );
@@ -1963,14 +2045,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			pre.setOutline( valueLa.getOutline( ) );
 			pre.setPoints( loaBack );
 
+			final double dValueWidth = dFullWidth - 2 * dLeftInset;
+
 			loaBack[0] = LocationImpl.create( dX + dLeftInset + 1, dY
 					+ dFullHeight
 					+ 1 );
 			loaBack[1] = LocationImpl.create( dX + dLeftInset + 1, dY
 					+ dFullHeight
-					+ dValueHeight );
+					+ dExtraHeight );
 			loaBack[2] = LocationImpl.create( dX + dLeftInset + dValueWidth - 1,
-					dY + dFullHeight + dValueHeight );
+					dY + dFullHeight + dExtraHeight );
 			loaBack[3] = LocationImpl.create( dX + dLeftInset + dValueWidth - 1,
 					dY + dFullHeight + 1 );
 
@@ -1987,7 +2071,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			tre.setBlockAlignment( ta );
 			tre.setBlockBounds( BoundsImpl.create( dX + dLeftInset + 1, dY
 					+ dFullHeight
-					+ 1, dValueWidth - 2, dValueHeight - 1 ) );
+					+ 1, dValueWidth - 2, dExtraHeight - 1 ) );
 			tre.setLabel( tmpLa );
 			tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 			ipr.drawText( tre );
@@ -1999,15 +2083,31 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			Trigger tg;
 			EList elTriggers = lg.getTriggers( );
 			Location[] loaHotspot = new Location[4];
-			double dTextStartX = tre.getLocation( ).getX( ) - 1;
-			loaHotspot[0] = LocationImpl.create( dTextStartX, dY );
-			loaHotspot[1] = LocationImpl.create( dTextStartX + dW, dY + 1 );
-			loaHotspot[2] = LocationImpl.create( dTextStartX + dW, dY
-					+ dItemHeight
-					+ dValueHeight );
-			loaHotspot[3] = LocationImpl.create( dTextStartX, dY
-					+ dItemHeight
-					+ dValueHeight );
+
+			if ( isRightToLeft( ) )
+			{
+				double dTextStartX = tre.getLocation( ).getX( ) + 1;
+				loaHotspot[0] = LocationImpl.create( dTextStartX, dY );
+				loaHotspot[1] = LocationImpl.create( dTextStartX - dW, dY + 1 );
+				loaHotspot[2] = LocationImpl.create( dTextStartX - dW, dY
+						+ dItemHeight
+						+ dExtraHeight );
+				loaHotspot[3] = LocationImpl.create( dTextStartX, dY
+						+ dItemHeight
+						+ dExtraHeight );
+			}
+			else
+			{
+				double dTextStartX = tre.getLocation( ).getX( ) - 1;
+				loaHotspot[0] = LocationImpl.create( dTextStartX, dY );
+				loaHotspot[1] = LocationImpl.create( dTextStartX + dW, dY + 1 );
+				loaHotspot[2] = LocationImpl.create( dTextStartX + dW, dY
+						+ dItemHeight
+						+ dExtraHeight );
+				loaHotspot[3] = LocationImpl.create( dTextStartX, dY
+						+ dItemHeight
+						+ dExtraHeight );
+			}
 
 			Trigger buildinTg = null;
 
@@ -2114,21 +2214,25 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			renderBackground( ipr, p );
 		}
 
-		ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
-				ScriptHandler.BEFORE_DRAW_SERIES,
-				getSeries( ),
-				this,
-				getRunTimeContext( ).getScriptContext( ) );
-		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_SERIES,
-				getSeries( ) );
-		renderSeries( ipr, p, srh ); // CALLS THE APPROPRIATE SUBCLASS FOR
-		ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
-				ScriptHandler.AFTER_DRAW_SERIES,
-				getSeries( ),
-				this,
-				getRunTimeContext( ).getScriptContext( ) );
-		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_SERIES,
-				getSeries( ) );
+		if ( getSeries( ) != null )
+		{
+			ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
+					ScriptHandler.BEFORE_DRAW_SERIES,
+					getSeries( ),
+					this,
+					getRunTimeContext( ).getScriptContext( ) );
+			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_SERIES,
+					getSeries( ) );
+			renderSeries( ipr, p, srh ); // CALLS THE APPROPRIATE SUBCLASS
+			// FOR
+			ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
+					ScriptHandler.AFTER_DRAW_SERIES,
+					getSeries( ),
+					this,
+					getRunTimeContext( ).getScriptContext( ) );
+			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_SERIES,
+					getSeries( ) );
+		}
 
 		if ( bLastInSequence )
 		{
@@ -2313,7 +2417,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	public void renderLabel( IPrimitiveRenderer ipr, Block b, Object oSource )
 			throws ChartException
 	{
-		if ( !b.isVisible( ) ) // CHECK VISIBILITY
+		if ( !b.isVisible( ) )
 		{
 			return;
 		}
@@ -2324,9 +2428,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 				TextRenderEvent.class );
 
-		final String sRestoreValue = tre.updateFrom( lb, dScale, rtc ); // HANDLES
-		// EXTERNALIZED
-		// TEXT
+		// need backup original non-externalized value.
+		final String sRestoreValue = tre.updateFrom( lb, dScale, rtc );
 		ipr.drawText( tre );
 		lb.getLabel( ).getCaption( ).setValue( sRestoreValue );
 	}
@@ -2430,8 +2533,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			ArrayList al = new ArrayList( ), alRunTimeSeries;
 			EList elBase, elOrthogonal;
 			SeriesDefinition sd = null;
-			// final int iSeriesCount =
-			// ((ChartWithAxes)cm).getSeries(IConstants.ORTHOGONAL).length;
 
 			int iSI = 0; // SERIES INDEX COUNTER
 
@@ -2442,28 +2543,24 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 			else
 			{
-				final SeriesDefinition sdBase = (SeriesDefinition) elBase.get( 0 ); // ONLY
-				// 1
-				// SERIES
-				// DEFINITION
-				// MAY
-				// BE
+				// ONLY 1 SERIES DEFINITION MAY BE
 				// ASSOCIATED
 				// WITH THE BASE AXIS
+				final SeriesDefinition sdBase = (SeriesDefinition) elBase.get( 0 );
+
 				alRunTimeSeries = sdBase.getRunTimeSeries( );
 				if ( alRunTimeSeries.isEmpty( ) )
 				{
 					return createEmptyInstance( cm, rtc, oComputations );
 				}
-				se = (Series) alRunTimeSeries.get( 0 ); // ONLY 1 SERIES MAY BE
+				// ONLY 1 SERIES MAY BE
 				// ASSOCIATED WITH THE
-				// BASE SERIES
-				// DEFINITION
+				// BASE SERIES DEFINITION
+				se = (Series) alRunTimeSeries.get( 0 );
 				ar = ( se.getClass( ) == SeriesImpl.class ) ? new EmptyWithAxes( )
 						: (AxesRenderer) ps.getRenderer( se.getClass( ) );
-				ar.set( cm, oComputations, se, axPrimaryBase, sdBase ); // INITIALIZE
-				// THE
-				// RENDERER
+				// INITIALIZE THE RENDERER
+				ar.set( cm, oComputations, se, axPrimaryBase, sdBase );
 				ar.set( rtc );
 				ar.iSeriesIndex = iSI++;
 				al.add( ar );
@@ -2482,13 +2579,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							se = (Series) alRunTimeSeries.get( k );
 							ar = ( se.getClass( ) == SeriesImpl.class ) ? new EmptyWithAxes( )
 									: (AxesRenderer) ps.getRenderer( se.getClass( ) );
+							// INITIALIZE THE RENDERER
 							ar.set( cm,
 									oComputations,
 									se,
 									axaOrthogonal[i],
-									bPaletteByCategory ? sdBase : sd ); // INITIALIZE
-							// THE
-							// RENDERER
+									bPaletteByCategory ? sdBase : sd );
 							ar.iSeriesIndex = iSI++;
 							al.add( ar );
 						}
@@ -2524,8 +2620,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				sdBase = (SeriesDefinition) elBase.get( i );
 				alRuntimeSeries = sdBase.getRunTimeSeries( );
-				if ( alRuntimeSeries.size( ) != 1 ) // CHECK FOR A SINGLE BASE
-				// SERIES ONLY
+				// CHECK FOR A SINGLE BASE SERIES ONLY
+				if ( alRuntimeSeries.size( ) != 1 )
 				{
 					throw new ChartException( ChartEnginePlugin.ID,
 							ChartException.PLUGIN,
@@ -2539,9 +2635,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				se = (Series) alRuntimeSeries.get( 0 );
 				brna[iSI] = ( se.getClass( ) == SeriesImpl.class ) ? new EmptyWithoutAxes( )
 						: ps.getRenderer( se.getClass( ) );
-				brna[iSI].set( cm, oComputations, se, null, sdBase ); // INITIALIZE
-				// THE
-				// RENDERER
+				// INITIALIZE THE RENDERER
+				brna[iSI].set( cm, oComputations, se, sdBase );
 				brna[iSI].set( rtc );
 				brna[iSI].iSeriesIndex = iSI++;
 
@@ -2555,13 +2650,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						se = (Series) alRuntimeSeries.get( k );
 						brna[iSI] = ( se.getClass( ) == SeriesImpl.class ) ? new EmptyWithoutAxes( )
 								: ps.getRenderer( se.getClass( ) );
+						// INITIALIZE THE RENDERER
 						brna[iSI].set( cm,
 								oComputations,
 								se,
-								null,
-								bPaletteByCategory ? sdBase : sd ); // INITIALIZE
-						// THE
-						// RENDERER
+								bPaletteByCategory ? sdBase : sd );
 						brna[iSI].iSeriesIndex = iSI++;
 					}
 				}
@@ -2958,10 +3051,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			DataPointHints dph = (DataPointHints) source.getSource( );
 
-			if ( tg.getAction( ).getType( ) == ActionType.SHOW_TOOLTIP_LITERAL ) // BUILD
-			// THE
-			// VALUE
+			if ( tg.getAction( ).getType( ) == ActionType.SHOW_TOOLTIP_LITERAL )
 			{
+				// BUILD THE VALUE
 				String toolText = ( (TooltipValue) tg.getAction( ).getValue( ) ).getText( );
 
 				// if blank, then use DataPoint label.
@@ -2970,10 +3062,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					( (TooltipValue) tg.getAction( ).getValue( ) ).setText( dph.getDisplayValue( ) );
 				}
 			}
-			else if ( tg.getAction( ).getType( ) == ActionType.URL_REDIRECT_LITERAL ) // BUILD
-			// A
-			// URI
+			else if ( tg.getAction( ).getType( ) == ActionType.URL_REDIRECT_LITERAL )
 			{
+				// BUILD A URI
 				final URLValue uv = (URLValue) tg.getAction( ).getValue( );
 				final String sBaseURL = uv.getBaseUrl( );
 				final StringBuffer sb = new StringBuffer( sBaseURL );
@@ -3124,31 +3215,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	protected void validateNullDatapoint( DataPointHints[] dphs )
 			throws ChartException
 	{
-		boolean valid = true;
-
 		if ( dphs == null )
-		{
-			valid = false;
-		}
-		// !Ignore this check, now we support the null values.
-		// else
-		// {
-		// for ( int i = 0; i < dphs.length; i++ )
-		// {
-		// if ( dphs[i].getOrthogonalValue( ) == null )
-		// {
-		// // valid = false;
-		// break;
-		// }
-		// }
-		// }
-
-		if ( !valid )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.VALIDATION,
 					"exception.base.orthogonal.null.datapoint", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
 		}
 	}
 
@@ -3234,6 +3306,20 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	protected boolean isNaN( Object value )
 	{
 		return ( !( value instanceof Number ) || Double.isNaN( ( (Number) value ).doubleValue( ) ) );
+	}
+
+	/**
+	 * Returns if the right-left mode is enabled.
+	 * 
+	 * @return
+	 */
+	protected boolean isRightToLeft( )
+	{
+		if ( rtc == null )
+		{
+			return false;
+		}
+		return rtc.isRightToLeft( );
 	}
 
 	/**

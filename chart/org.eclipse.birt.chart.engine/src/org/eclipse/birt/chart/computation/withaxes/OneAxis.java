@@ -224,7 +224,6 @@ public final class OneAxis
 			return false;
 		}
 
-		// TODO only apply to horizontal/vertical label?
 		return axModel.isStaggered( );
 	}
 

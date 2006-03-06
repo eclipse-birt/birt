@@ -84,6 +84,11 @@ public final class RunTimeContext implements Serializable
 	private boolean enableScripting = true;
 
 	/**
+	 * Specifies if right-left mode is enabled.
+	 */
+	private int iRightToLeft = -1;
+
+	/**
 	 * A default zero-arg public constructor used for object creation.
 	 */
 	public RunTimeContext( )
@@ -97,7 +102,7 @@ public final class RunTimeContext implements Serializable
 	 * @param key
 	 * @param state
 	 */
-	public final void putState( Object key, Object state )
+	public void putState( Object key, Object state )
 	{
 		stateStore.put( key, state );
 	}
@@ -108,7 +113,7 @@ public final class RunTimeContext implements Serializable
 	 * @param key
 	 * @return
 	 */
-	public final Object getState( Object key )
+	public Object getState( Object key )
 	{
 		return stateStore.get( key );
 	}
@@ -119,7 +124,7 @@ public final class RunTimeContext implements Serializable
 	 * @param key
 	 * @return
 	 */
-	public final Object removeState( Object key )
+	public Object removeState( Object key )
 	{
 		return stateStore.remove( key );
 	}
@@ -127,7 +132,7 @@ public final class RunTimeContext implements Serializable
 	/**
 	 * Clears all the stored states.
 	 */
-	public final void clearState( )
+	public void clearState( )
 	{
 		stateStore.clear( );
 	}
@@ -137,7 +142,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return
 	 */
-	public final boolean isScriptingEnabled( )
+	public boolean isScriptingEnabled( )
 	{
 		return enableScripting;
 	}
@@ -147,7 +152,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @param value
 	 */
-	public final void setScriptingEnabled( boolean value )
+	public void setScriptingEnabled( boolean value )
 	{
 		enableScripting = value;
 	}
@@ -157,7 +162,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return
 	 */
-	public final IScriptClassLoader getScriptClassLoader( )
+	public IScriptClassLoader getScriptClassLoader( )
 	{
 		return iscl;
 	}
@@ -167,7 +172,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @param value
 	 */
-	public final void setScriptClassLoader( IScriptClassLoader value )
+	public void setScriptClassLoader( IScriptClassLoader value )
 	{
 		iscl = value;
 	}
@@ -233,14 +238,14 @@ public final class RunTimeContext implements Serializable
 	 * @return 'true' if the structure definition listener exists and was
 	 *         notified of the change or 'false' otherwise.
 	 */
-	public final boolean notifyStructureChange( String sEventName,
+	public boolean notifyStructureChange( String sEventName,
 			Object oSource )
 	{
 		if ( isdl == null )
 		{
 			return false;
 		}
-		final StructureChangeEvent scev = (StructureChangeEvent) ( (EventObjectCache) isdl ).getEventObject( oSource,
+		StructureChangeEvent scev = (StructureChangeEvent) ( (EventObjectCache) isdl ).getEventObject( oSource,
 				StructureChangeEvent.class );
 		scev.setEventName( sEventName );
 		isdl.changeStructure( scev );
@@ -252,7 +257,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return The locale associated with this runtime context.
 	 */
-	public final Locale getLocale( )
+	public Locale getLocale( )
 	{
 		return lcl;
 	}
@@ -264,9 +269,44 @@ public final class RunTimeContext implements Serializable
 	 * @param lcl
 	 *            The locale associated with the runtime context.
 	 */
-	public final void setLocale( Locale lcl )
+	public void setLocale( Locale lcl )
 	{
 		this.lcl = lcl;
+	}
+
+	/**
+	 * Returns if current context is in a right-left platform. e.g. Arabic,
+	 * Hebrew.
+	 * 
+	 * @return
+	 */
+	public boolean isRightToLeft( )
+	{
+		if ( iRightToLeft == -1 )
+		{
+			if ( lcl != null
+					&& ( lcl.getLanguage( )
+							.equals( new Locale( "he" ).getLanguage( ) ) || lcl.getLanguage( ) //$NON-NLS-1$
+							.equals( new Locale( "ar" ).getLanguage( ) ) ) ) //$NON-NLS-1$
+			{
+				iRightToLeft = 1;
+			}
+			else
+			{
+				iRightToLeft = 0;
+			}
+		}
+		return iRightToLeft == 1;
+	}
+
+	/**
+	 * Sets the right-left mode for current context mandatorily.
+	 * 
+	 * @param value
+	 */
+	public void setRightToLeft( boolean value )
+	{
+		iRightToLeft = value ? 1 : 0;
 	}
 
 	/**
@@ -276,7 +316,7 @@ public final class RunTimeContext implements Serializable
 	 * @return An instance of the resource handle for which chart specific
 	 *         messages are externalized.
 	 */
-	public final ResourceHandle getResourceHandle( )
+	public ResourceHandle getResourceHandle( )
 	{
 		return rh;
 	}
@@ -288,7 +328,7 @@ public final class RunTimeContext implements Serializable
 	 * @param rh
 	 *            The resource handle.
 	 */
-	public final void setResourceHandle( ResourceHandle rh )
+	public void setResourceHandle( ResourceHandle rh )
 	{
 		this.rh = rh;
 	}
@@ -300,7 +340,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return An instance of the script handler.
 	 */
-	public final ScriptHandler getScriptHandler( )
+	public ScriptHandler getScriptHandler( )
 	{
 		return sh;
 	}
@@ -313,7 +353,7 @@ public final class RunTimeContext implements Serializable
 	 * @param sh
 	 *            An instance of the script handler.
 	 */
-	public final void setScriptHandler( ScriptHandler sh )
+	public void setScriptHandler( ScriptHandler sh )
 	{
 		this.sh = sh;
 	}
@@ -324,7 +364,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return An instance of the script context.
 	 */
-	public final IChartScriptContext getScriptContext( )
+	public IChartScriptContext getScriptContext( )
 	{
 		return csc;
 	}
@@ -336,7 +376,7 @@ public final class RunTimeContext implements Serializable
 	 * @param csc
 	 *            An instance of the chart script context.
 	 */
-	public final void setScriptContext( IChartScriptContext csc )
+	public void setScriptContext( IChartScriptContext csc )
 	{
 		this.csc = csc;
 	}
@@ -363,28 +403,27 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return The externalized message associated with the specified key.
 	 */
-	public final String externalizedMessage( String sChartKey )
+	public String externalizedMessage( String sChartKey )
 	{
-		// The key can be either alone, or with its default value: "key=defaultvalue"
+		// The key can be either alone, or with its default value:
+		// "key=defaultvalue"
 
-		/* Possible cases: 
-		 	chartkey	lookup	badkey	nolookup
-		 	-------------------------------------
-			a=b			get(a)	b		b
-			b			get(b)	b		b
-			=b			b		-		b
+		/*
+		 * Possible cases: chartkey lookup badkey nolookup
+		 * ------------------------------------- a=b get(a) b b b get(b) b b =b
+		 * b - b
 		 */
 		String sKey = sChartKey;
 		String sDefaultValue = sChartKey;
 		final int iKeySeparator = sChartKey.indexOf( IMessageLookup.KEY_SEPARATOR );
-		
+
 		if ( iKeySeparator != -1 )
 		{
 			// VALUE ON RHS OF IMessageLookup.KEY_SEPARATOR
 			sDefaultValue = sChartKey.substring( iKeySeparator + 1 );
-			
+
 		}
-		
+
 		if ( iml == null )
 		{
 			// no lookup cases
@@ -393,12 +432,12 @@ public final class RunTimeContext implements Serializable
 		else
 		{
 			// lookup cases
-			if ( iKeySeparator > 0  )
+			if ( iKeySeparator > 0 )
 			{
 				// a=b case
-				sKey = sChartKey.substring( 0, iKeySeparator  );
+				sKey = sChartKey.substring( 0, iKeySeparator );
 			}
-			else  if ( iKeySeparator == 0)
+			else if ( iKeySeparator == 0 )
 			{
 				// =b case
 				return sDefaultValue;
@@ -408,12 +447,12 @@ public final class RunTimeContext implements Serializable
 				// b case
 				sKey = sDefaultValue;
 			}
-			String localizedValue = iml.getMessageValue( sKey, getLocale() );
+			String localizedValue = iml.getMessageValue( sKey, getLocale( ) );
 			if ( localizedValue == null || localizedValue.equals( "" ) ) //$NON-NLS-1$
 				return sDefaultValue;
 			else
 				return localizedValue;
 		}
-		
+
 	}
 }

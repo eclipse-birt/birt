@@ -72,6 +72,8 @@ public interface IConstants
 	public final int HORIZONTAL = 0;
 
 	public final int VERTICAL = 1;
+	
+	public final int AUTO = 0;
 
 	public final int FORWARD = 1;
 

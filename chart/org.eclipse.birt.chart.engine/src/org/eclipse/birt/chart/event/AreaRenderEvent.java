@@ -54,6 +54,13 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 		alLinesAndArcs.clear( );
 	}
 
+	public void reset( )
+	{
+		alLinesAndArcs.clear( );
+		fill = null;
+		lia = null;
+	}
+
 	/**
 	 * 
 	 * @param pre

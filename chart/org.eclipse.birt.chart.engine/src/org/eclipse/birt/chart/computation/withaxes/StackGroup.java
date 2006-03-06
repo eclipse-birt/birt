@@ -16,83 +16,69 @@ import java.util.ArrayList;
 import org.eclipse.birt.chart.model.component.Series;
 
 /**
- * This class ...
- * 
- * @author Actuate Corporation
+ * StackGroup
  */
 public class StackGroup
 {
 
-    /**
-     *  
-     */
-    ArrayList alSeries = new ArrayList();
+	ArrayList alSeries = new ArrayList( );
 
-    /**
-     *  
-     */
-    ArrayList alUnitPositions = null;
+	ArrayList alUnitPositions = null;
 
-    /**
-     *  
-     */
-    final int iSharedUnitIndex;
+	final int iSharedUnitIndex;
 
-    /**
-     *  
-     */
-    int iSharedUnitCount = 1;
+	int iSharedUnitCount = 1;
 
-    /**
-     *  
-     */
-    StackGroup(int iSharedUnitIndex)
-    {
-        this.iSharedUnitIndex = iSharedUnitIndex;
-    }
+	/**
+	 * The constructor.
+	 */
+	StackGroup( int iSharedUnitIndex )
+	{
+		this.iSharedUnitIndex = iSharedUnitIndex;
+	}
 
-    /**
-     * 
-     * @param iSharedUnitCount
-     */
-    final void updateCount(int iSharedUnitCount)
-    {
-        this.iSharedUnitCount = iSharedUnitCount;
-    }
+	/**
+	 * 
+	 * @param iSharedUnitCount
+	 */
+	final void updateCount( int iSharedUnitCount )
+	{
+		this.iSharedUnitCount = iSharedUnitCount;
+	}
 
-    /**
-     * 
-     * @param se
-     */
-    final void addSeries(Series se)
-    {
-        alSeries.add(se);
-    }
+	/**
+	 * 
+	 * @param se
+	 */
+	final void addSeries( Series se )
+	{
+		alSeries.add( se );
+	}
 
-    /**
-     * 
-     * @return
-     */
-    final ArrayList getSeries()
-    {
-        return alSeries;
-    }
+	/**
+	 * 
+	 * @return
+	 */
+	final ArrayList getSeries( )
+	{
+		return alSeries;
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public final int getSharedIndex()
-    {
-        return iSharedUnitIndex;
-    }
+	/**
+	 * 
+	 * @return
+	 */
+	public final int getSharedIndex( )
+	{
+		return iSharedUnitIndex;
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public final int getSharedCount()
-    {
-        return iSharedUnitCount;
-    }
+	/**
+	 * 
+	 * @return
+	 */
+	public final int getSharedCount( )
+	{
+		return iSharedUnitCount;
+	}
 }

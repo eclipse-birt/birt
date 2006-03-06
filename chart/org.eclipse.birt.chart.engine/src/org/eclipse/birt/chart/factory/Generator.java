@@ -597,7 +597,7 @@ public final class Generator
 
 		ScriptHandler sh = new ScriptHandler( );
 		rtc.setScriptHandler( sh );
-		
+
 		sh.setScriptClassLoader( iscl );
 
 		// initialize scripthandler.
@@ -750,7 +750,7 @@ public final class Generator
 					"exception.illegal.null.value", //$NON-NLS-1$ 
 					ResourceBundle.getBundle( Messages.ENGINE,
 							Locale.getDefault( ) // LOCALE?
-							) );
+					) );
 		}
 
 		// CREATE A RUNTIME CONTEXT IF NEEDED
@@ -1011,7 +1011,8 @@ public final class Generator
 				Messages.getString( "info.compute.elapsed.time.without.axes", //$NON-NLS-1$
 						new Object[]{
 							new Long( System.currentTimeMillis( ) - lTimer )
-						}, rtc.getLocale( ) ) );
+						},
+						rtc.getLocale( ) ) );
 
 		final GeneratedChartState gcs = new GeneratedChartState( ids,
 				cmRunTime,
@@ -1078,7 +1079,8 @@ public final class Generator
 					Messages.getString( "info.compute.elapsed.time.with.axes", //$NON-NLS-1$
 							new Object[]{
 								new Long( System.currentTimeMillis( ) - lTimer )
-							}, gcs.getRunTimeContext( ).getLocale( ) ) );
+							},
+							gcs.getRunTimeContext( ).getLocale( ) ) );
 		}
 		else if ( iChartType == WITHOUT_AXES )
 		{
@@ -1173,7 +1175,7 @@ public final class Generator
 			}
 		}
 
-		final LinkedHashMap lhm = (LinkedHashMap) gcs.getRenderers( );
+		final LinkedHashMap lhm = gcs.getRenderers( );
 		final int iSize = lhm.size( );
 
 		BaseRenderer br;
@@ -1263,7 +1265,37 @@ public final class Generator
 		// SLACK SPACE
 		if ( lg.isSetAnchor( ) )
 		{
-			final int iAnchor = lg.getAnchor( ).getValue( );
+			int iAnchor = lg.getAnchor( ).getValue( );
+
+			// swap west/east
+			if ( rtc.isRightToLeft( ) )
+			{
+				if ( iAnchor == Anchor.EAST )
+				{
+					iAnchor = Anchor.WEST;
+				}
+				else if ( iAnchor == Anchor.NORTH_EAST )
+				{
+					iAnchor = Anchor.NORTH_WEST;
+				}
+				else if ( iAnchor == Anchor.SOUTH_EAST )
+				{
+					iAnchor = Anchor.SOUTH_WEST;
+				}
+				else if ( iAnchor == Anchor.WEST )
+				{
+					iAnchor = Anchor.EAST;
+				}
+				else if ( iAnchor == Anchor.NORTH_WEST )
+				{
+					iAnchor = Anchor.NORTH_EAST;
+				}
+				else if ( iAnchor == Anchor.SOUTH_WEST )
+				{
+					iAnchor = Anchor.SOUTH_EAST;
+				}
+			}
+
 			switch ( iAnchor )
 			{
 				case Anchor.NORTH :

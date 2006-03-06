@@ -168,7 +168,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 				sc.isSetStep( ) ? new Double( sc.getStep( ) ) : null,
 				axPrimaryBase.getFormatSpecifier( ),
 				rtc,
-				true );
+				FORWARD );
 		oaxPrimaryBase.set( scPrimaryBase ); // UPDATE SCALE ON PRIMARY-BASE
 		// AXIS
 
@@ -213,7 +213,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 				sc.isSetStep( ) ? new Double( sc.getStep( ) ) : null,
 				axAncillaryBase.getFormatSpecifier( ),
 				rtc,
-				true );
+				FORWARD );
 		oaxAncillaryBase.set( scAncillaryBase ); // UPDATE SCALE ON
 		// ANCILLARY-BASE AXIS
 
@@ -251,7 +251,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 				sc.isSetStep( ) ? new Double( sc.getStep( ) ) : null,
 				axPrimaryOrthogonal.getFormatSpecifier( ),
 				rtc,
-				true );
+				FORWARD );
 		oaxPrimaryOrthogonal.set( scPrimaryOrthogonal ); // UPDATE SCALE ON
 		// PRIMARY-ORTHOGONAL AXIS
 
@@ -2219,31 +2219,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 						getTickStyle( axPrimaryBase, MINOR ) ),
 				axPrimaryBase.getScale( ).getMinorGridsPerUnit( ) );
 
-		if ( cwa.isTransposed( ) )
-		{
-			// TRANSPOSE ROTATION OF LABELS AS APPROPRIATE
-			final Label laAxisLabels = (Label) EcoreUtil.copy( axPrimaryBase.getLabel( ) );
-			final Label laAxisTitle = (Label) EcoreUtil.copy( axPrimaryBase.getTitle( ) );
-			laAxisLabels.getCaption( )
-					.getFont( )
-					.setRotation( transposeAngle( laAxisLabels.getCaption( )
-							.getFont( )
-							.getRotation( ) ) );
-			laAxisTitle.getCaption( )
-					.getFont( )
-					.setRotation( transposeAngle( laAxisTitle.getCaption( )
-							.getFont( )
-							.getRotation( ) ) );
-			oaxPrimaryBase.set( laAxisLabels, laAxisTitle ); // ASSOCIATE
-			// FONT,
-			// ETC
-		}
-		else
-		{
-			oaxPrimaryBase.set( axPrimaryBase.getLabel( ),
-					axPrimaryBase.getTitle( ) ); // ASSOCIATE FONT
-		}
-
+		oaxPrimaryBase.set( axPrimaryBase.getLabel( ), axPrimaryBase.getTitle( ) );
 		oaxPrimaryBase.set( getIntersection( axPrimaryBase ) );
 		oaxPrimaryBase.set( axPrimaryBase.getLineAttributes( ) );
 		aax.definePrimary( oaxPrimaryBase ); // ADD TO AXIS SET
@@ -2269,30 +2245,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 						getTickStyle( axPrimaryOrthogonal, MINOR ) ),
 				axPrimaryOrthogonal.getScale( ).getMinorGridsPerUnit( ) );
 
-		if ( cwa.isTransposed( ) )
-		{
-			// TRANSPOSE ROTATION OF LABELS AS APPROPRIATE
-			final Label laAxisLabels = (Label) EcoreUtil.copy( axPrimaryOrthogonal.getLabel( ) );
-			final Label laAxisTitle = (Label) EcoreUtil.copy( axPrimaryOrthogonal.getTitle( ) );
-			laAxisLabels.getCaption( )
-					.getFont( )
-					.setRotation( transposeAngle( laAxisLabels.getCaption( )
-							.getFont( )
-							.getRotation( ) ) );
-			laAxisTitle.getCaption( )
-					.getFont( )
-					.setRotation( transposeAngle( laAxisTitle.getCaption( )
-							.getFont( )
-							.getRotation( ) ) );
-			oaxPrimaryOrthogonal.set( laAxisLabels, laAxisTitle ); // ASSOCIATE
-			// FONT, ETC
-		}
-		else
-		{
-			oaxPrimaryOrthogonal.set( axPrimaryOrthogonal.getLabel( ),
-					axPrimaryOrthogonal.getTitle( ) ); // ASSOCIATE FONT,
-			// ETC
-		}
+		oaxPrimaryOrthogonal.set( axPrimaryOrthogonal.getLabel( ),
+				axPrimaryOrthogonal.getTitle( ) );
 		oaxPrimaryOrthogonal.set( getIntersection( axPrimaryOrthogonal ) );
 		oaxPrimaryOrthogonal.set( axPrimaryOrthogonal.getLineAttributes( ) );
 		aax.definePrimary( oaxPrimaryOrthogonal ); // ADD TO AXIS SET

@@ -49,8 +49,7 @@ import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.birt.chart.util.CDateTime;
 
 /**
- * 
- * WARNING: This is an internal class and subject to change
+ * PlotWithAxes
  */
 public abstract class PlotWithAxes extends Methods
 {
@@ -66,7 +65,7 @@ public abstract class PlotWithAxes extends Methods
 	protected double dYAxisPlotSpacing = 0;
 
 	protected double dZAxisPlotSpacing = 0;
-	
+
 	protected ColorDefinition cdShadow = ColorDefinitionImpl.GREY( );
 
 	protected LineAttributes laPlot = null;
@@ -221,11 +220,11 @@ public abstract class PlotWithAxes extends Methods
 		AxisOrigin ao = ax.getOrigin( );
 		if ( ao.getType( ) == IntersectionType.MAX_LITERAL )
 		{
-			iv = new IntersectionValue( IntersectionValue.MAX, 0 );
+			iv = IntersectionValue.MAX_VALUE;
 		}
 		else if ( ao.getType( ) == IntersectionType.MIN_LITERAL )
 		{
-			iv = new IntersectionValue( IntersectionValue.MIN, 0 );
+			iv = IntersectionValue.MIN_VALUE;
 		}
 		else
 		{
@@ -293,7 +292,7 @@ public abstract class PlotWithAxes extends Methods
 	 * @throws ChartException
 	 */
 	abstract void buildAxes( ) throws IllegalArgumentException, ChartException;
-	
+
 	/**
 	 * 
 	 * @return
@@ -310,7 +309,7 @@ public abstract class PlotWithAxes extends Methods
 	{
 		return rtc;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -612,7 +611,7 @@ public abstract class PlotWithAxes extends Methods
 			}
 		}
 	}
-	
+
 	/**
 	 * This method converts a generic text dataset to a typed dataset as
 	 * expected by the renderer
@@ -828,42 +827,6 @@ public abstract class PlotWithAxes extends Methods
 	}
 
 	/**
-	 * Returns a transposed or the original angle as requested depending on the
-	 * plot's orientation
-	 * 
-	 * @param iBaseOrOrthogonal
-	 * @param dOriginalAngle
-	 * @return
-	 * @throws UnexpectedInputException
-	 */
-	public final double transposeAngle( double dOriginalAngle )
-			throws IllegalArgumentException
-	{
-		return dOriginalAngle;
-		
-		/* It doesn't make sense to transpose the angle of rotation, since
-		 *  the angle is relative to the chart, not the axis.
-		 */
-		
-	/*	if ( !cwa.isTransposed( ) )
-		{
-			return dOriginalAngle;
-		}
-		if ( dOriginalAngle >= 0 && dOriginalAngle <= 90 )
-		{
-			return -( 90 - dOriginalAngle );
-		}
-		else if ( dOriginalAngle < 0 && dOriginalAngle >= -90 )
-		{
-			return ( dOriginalAngle + 90 );
-		}
-		throw new IllegalArgumentException( ResourceBundle.getBundle( Messages.ENGINE,
-				rtc.getLocale( ) )
-				.getString( "exception.angle.range.transpose" ) ); //$NON-NLS-1$
-				*/
-	}
-
-	/**
 	 * Returns a transposed or the original label position as requested
 	 * depending on the plot's orientation
 	 * 
@@ -976,8 +939,9 @@ public abstract class PlotWithAxes extends Methods
 	 * 
 	 * @return
 	 */
-	protected final double adjustHorizontal( double dBlockX, double dBlockWidth,
-			AllAxes aax ) throws ChartException, IllegalArgumentException
+	protected final double adjustHorizontal( double dBlockX,
+			double dBlockWidth, AllAxes aax ) throws ChartException,
+			IllegalArgumentException
 	{
 		final OneAxis axPH = aax.areAxesSwapped( ) ? aax.getPrimaryOrthogonal( )
 				: aax.getPrimaryBase( );
@@ -997,16 +961,8 @@ public abstract class PlotWithAxes extends Methods
 
 		// COMPUTE THE THICKNESS OF THE AXIS INCLUDING AXIS LABEL BOUNDS AND
 		// AXIS-PLOT SPACING
-		final boolean bTicksLeft = ( iYTickStyle & TICK_LEFT ) == TICK_LEFT; // 'boolean'
-		// FOR
-		// CONVENIENCE
-		// &
-		// READABILITY
-		final boolean bTicksRight = ( iYTickStyle & TICK_RIGHT ) == TICK_RIGHT; // 'boolean'
-		// FOR
-		// CONVENIENCE
-		// &
-		// READABILITY
+		final boolean bTicksLeft = ( iYTickStyle & TICK_LEFT ) == TICK_LEFT;
+		final boolean bTicksRight = ( iYTickStyle & TICK_RIGHT ) == TICK_RIGHT;
 		final double dAppliedYAxisPlotSpacing = ( iv.iType == IntersectionValue.MAX || iv.iType == IntersectionValue.MIN ) ? dYAxisPlotSpacing
 				: 0;
 
@@ -1025,7 +981,7 @@ public abstract class PlotWithAxes extends Methods
 			final Object[] oaMinMax = scY.getMinMax( );
 			while ( !scY.checkFit( ids, laYAxisLabels, iYLabelLocation ) )
 			{
-				if (!scY.zoomOut( ))
+				if ( !scY.zoomOut( ) )
 				{
 					break;
 				}
@@ -1075,9 +1031,7 @@ public abstract class PlotWithAxes extends Methods
 				laYAxisTitle.getCaption( ).setValue( sPreviousValue );
 			}
 		}
-		double dX = getLocation( scX, iv ), dX1 = dX, dX2 = dX; // Y-AXIS BAND
-		// HORIZONTAL
-		// CO-ORDINATES
+		double dX = getLocation( scX, iv ), dX1 = dX, dX2 = dX;
 
 		// COMPUTE VALUES FOR x1, x, x2
 		// x = HORIZONTAL LOCATION OF Y-AXIS ALONG PLOT
@@ -1085,9 +1039,14 @@ public abstract class PlotWithAxes extends Methods
 		// SPACING)
 		// x2 = RIGHT EDGE OF Y-AXIS BAND (DUE TO AXIS LABELS, TITLE, TICKS &
 		// SPACING)
-		if ( iv.iType == IntersectionValue.MIN ) // LEFT
+		if ( iv.iType == IntersectionValue.MIN )
 		{
-			// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MAX'
+			if ( scX.getDirection( ) == BACKWARD )
+			{
+				// switch if scale is backward.
+				dX = getLocation( scX, IntersectionValue.MAX_VALUE );
+			}
+
 			dX -= dAppliedYAxisPlotSpacing;
 			dX1 = dX;
 			dX2 = dX;
@@ -1100,17 +1059,16 @@ public abstract class PlotWithAxes extends Methods
 			{
 				dX1 -= dYAxisLabelsThickness;
 				dX2 += Math.max( // IF LABELS ARE LEFT, THEN RIGHT SPACING IS
-						// MAX(RT_TICK_SIZE, HORZ_SPACING)
-						bTicksRight ? TICK_SIZE : 0, dAppliedYAxisPlotSpacing );
+				// MAX(RT_TICK_SIZE, HORZ_SPACING)
+				bTicksRight ? TICK_SIZE : 0,
+						dAppliedYAxisPlotSpacing );
 			}
 			else if ( iYLabelLocation == RIGHT )
 			{
-				dX2 += Math.max( // IF LABELS ARE RIGHT, THEN RIGHT SPACING
-						// IS
-						// MAX(RT_TICK_SIZE+AXIS_LBL_THCKNESS,
-						// HORZ_SPACING)
-						( bTicksRight ? TICK_SIZE : 0 ) + dYAxisLabelsThickness,
-						dAppliedYAxisPlotSpacing );
+				// IF LABELS ARE RIGHT, THEN RIGHT SPACING IS
+				// MAX(RT_TICK_SIZE+AXIS_LBL_THCKNESS, HORZ_SPACING)
+				dX2 += Math.max( ( bTicksRight ? TICK_SIZE : 0 )
+						+ dYAxisLabelsThickness, dAppliedYAxisPlotSpacing );
 			}
 
 			if ( iYTitleLocation == LEFT )
@@ -1148,16 +1106,33 @@ public abstract class PlotWithAxes extends Methods
 					HORIZONTAL,
 					iXLabelLocation,
 					aax );
-			if ( dYAxisLabelsThickness > scX.getStartShift( ) )
+
+			if ( scX.getDirection( ) == BACKWARD )
 			{
-				// REDUCE scX's STARTPOINT TO FIT THE Y-AXIS ON THE LEFT
-				dStart = dX2 - scX.getStartShift( );
+				if ( dYAxisLabelsThickness > scX.getEndShift( ) )
+				{
+					// REDUCE scX's STARTPOINT TO FIT THE Y-AXIS ON THE LEFT
+					dEnd = dX2 - scX.getEndShift( );
+				}
+				else
+				{
+					dEnd = scX.getEnd( );
+				}
+				dStart = scX.getStart( );
 			}
 			else
 			{
-				dStart = scX.getStart( );
+				if ( dYAxisLabelsThickness > scX.getStartShift( ) )
+				{
+					// REDUCE scX's STARTPOINT TO FIT THE Y-AXIS ON THE LEFT
+					dStart = dX2 - scX.getStartShift( );
+				}
+				else
+				{
+					dStart = scX.getStart( );
+				}
+				dEnd = scX.getEnd( );
 			}
-			dEnd = scX.getEnd( );
 			scX.resetShifts( );
 
 			// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS LABELS IF
@@ -1178,7 +1153,7 @@ public abstract class PlotWithAxes extends Methods
 
 				while ( !scX.checkFit( ids, laXAxisLabels, iXLabelLocation ) )
 				{
-					if (!scX.zoomOut( ))
+					if ( !scX.zoomOut( ) )
 					{
 						break;
 					}
@@ -1202,10 +1177,21 @@ public abstract class PlotWithAxes extends Methods
 
 			// MOVE THE Y-AXIS TO THE LEFT EDGE OF THE PLOT IF SLACK SPACE
 			// EXISTS
-			if ( dYAxisLabelsThickness < scX.getStartShift( ) )
+			if ( scX.getDirection( ) == BACKWARD )
 			{
-				dX = scX.getStart( ) - ( dX2 - dX );
+				if ( dYAxisLabelsThickness < scX.getEndShift( ) )
+				{
+					dX = scX.getEnd( ) - ( dX2 - dX );
+				}
 			}
+			else
+			{
+				if ( dYAxisLabelsThickness < scX.getStartShift( ) )
+				{
+					dX = scX.getStart( ) - ( dX2 - dX );
+				}
+			}
+
 			dX -= insCA.getLeft( );
 			dX2 = dX + dDeltaX2;
 			dX1 = dX - dDeltaX1;
@@ -1214,9 +1200,13 @@ public abstract class PlotWithAxes extends Methods
 					: dX2 + 1 - dYAxisTitleThickness );
 
 		}
-		else if ( iv.iType == IntersectionValue.MAX ) // RIGHT
+		else if ( iv.iType == IntersectionValue.MAX )
 		{
-			// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MIN'
+			if ( scX.getDirection( ) == BACKWARD )
+			{
+				// switch if scale is backward.
+				dX = getLocation( scX, IntersectionValue.MIN_VALUE );
+			}
 
 			dX += dAppliedYAxisPlotSpacing;
 			dX1 = dX;
@@ -1273,16 +1263,33 @@ public abstract class PlotWithAxes extends Methods
 					HORIZONTAL,
 					iXLabelLocation,
 					aax );
-			if ( dYAxisLabelsThickness > scX.getEndShift( ) )
+
+			if ( scX.getDirection( ) == BACKWARD )
 			{
-				// REDUCE scX's ENDPOINT TO FIT THE Y-AXIS ON THE RIGHT
-				dEnd = dX1 + scX.getEndShift( );
+				if ( dYAxisLabelsThickness > scX.getStartShift( ) )
+				{
+					// REDUCE scX's ENDPOINT TO FIT THE Y-AXIS ON THE RIGHT
+					dStart = dX1 + scX.getStartShift( );
+				}
+				else
+				{
+					dStart = scX.getStart( );
+				}
+				dEnd = scX.getEnd( );
 			}
 			else
 			{
-				dEnd = scX.getEnd( );
+				if ( dYAxisLabelsThickness > scX.getEndShift( ) )
+				{
+					// REDUCE scX's ENDPOINT TO FIT THE Y-AXIS ON THE RIGHT
+					dEnd = dX1 + scX.getEndShift( );
+				}
+				else
+				{
+					dEnd = scX.getEnd( );
+				}
+				dStart = scX.getStart( );
 			}
-			dStart = scX.getStart( );
 
 			scX.resetShifts( );
 
@@ -1302,7 +1309,7 @@ public abstract class PlotWithAxes extends Methods
 				final Object[] oaMinMax = scX.getMinMax( );
 				while ( !scX.checkFit( ids, laXAxisLabels, iXLabelLocation ) )
 				{
-					if (!scX.zoomOut( ))
+					if ( !scX.zoomOut( ) )
 					{
 						break;
 					}
@@ -1326,9 +1333,19 @@ public abstract class PlotWithAxes extends Methods
 
 			// MOVE THE Y-AXIS TO THE LEFT EDGE OF THE PLOT IF SLACK SPACE
 			// EXISTS
-			if ( dYAxisLabelsThickness < scX.getEndShift( ) )
+			if ( scX.getDirection( ) == BACKWARD )
 			{
-				dX = scX.getEnd( ) - ( dX1 - dX );
+				if ( dYAxisLabelsThickness < scX.getStartShift( ) )
+				{
+					dX = scX.getStart( ) - ( dX1 - dX );
+				}
+			}
+			else
+			{
+				if ( dYAxisLabelsThickness < scX.getEndShift( ) )
+				{
+					dX = scX.getEnd( ) - ( dX1 - dX );
+				}
 			}
 			dX += insCA.getRight( );
 			dX2 = dX + dDeltaX2;
@@ -1370,8 +1387,6 @@ public abstract class PlotWithAxes extends Methods
 					// ENSURE THAT THE START POINT OF THE X-AXIS SCALE IS
 					// SUITABLY POSITIONED
 
-					// computeTicks(g2d, fm, iXLabelLocation, iXRotation,
-					// HORIZONTAL, scX.dStart, scX.dEnd, scX, true);
 					do
 					{
 						// CANCEL OUT THE ENDPOINT LABEL SHIFT COMPUTATIONS FROM
@@ -1414,7 +1429,7 @@ public abstract class PlotWithAxes extends Methods
 								laXAxisLabels,
 								iXLabelLocation ) )
 						{
-							if (!scX.zoomOut( ))
+							if ( !scX.zoomOut( ) )
 							{
 								bForceBreak = true;
 								break;
@@ -1464,7 +1479,7 @@ public abstract class PlotWithAxes extends Methods
 								laXAxisLabels,
 								iXLabelLocation ) )
 						{
-							if (!scX.zoomOut( ))
+							if ( !scX.zoomOut( ) )
 							{
 								break;
 							}
@@ -1555,7 +1570,7 @@ public abstract class PlotWithAxes extends Methods
 									laXAxisLabels,
 									iXLabelLocation ) )
 							{
-								if (!scX.zoomOut( ))
+								if ( !scX.zoomOut( ) )
 								{
 									bForceBreak = true;
 									break;
@@ -1607,7 +1622,7 @@ public abstract class PlotWithAxes extends Methods
 								laXAxisLabels,
 								iXLabelLocation ) )
 						{
-							if (!scX.zoomOut( ))
+							if ( !scX.zoomOut( ) )
 							{
 								break;
 							}
@@ -1697,27 +1712,19 @@ public abstract class PlotWithAxes extends Methods
 			}
 		}
 
-		double dY = getLocation( scY, iv ), dY1 = dY, dY2 = dY; // X-AXIS BAND
-		// VERTICAL
-		// CO-ORDINATES
-		final boolean bTicksAbove = ( iXTickStyle & TICK_ABOVE ) == TICK_ABOVE; // 'boolean'
-		// FOR
-		// CONVENIENCE
-		// &
-		// READABILITY
-		final boolean bTicksBelow = ( iXTickStyle & TICK_BELOW ) == TICK_BELOW; // 'boolean'
-		// FOR
-		// CONVENIENCE
-		// &
-		// READABILITY
+		double dY = getLocation( scY, iv ), dY1 = dY, dY2 = dY;
+		final boolean bTicksAbove = ( iXTickStyle & TICK_ABOVE ) == TICK_ABOVE;
+		final boolean bTicksBelow = ( iXTickStyle & TICK_BELOW ) == TICK_BELOW;
 		final double dAppliedXAxisPlotSpacing = ( iv.iType == IntersectionValue.MAX || iv.iType == IntersectionValue.MIN ) ? dXAxisPlotSpacing
 				: 0;
+		final boolean bForwardScale = scY.getDirection( ) == FORWARD;
 
 		// COMPUTE VALUES FOR y1, y, y2
 		// y = VERTICAL LOCATION OF X-AXIS ALONG PLOT
 		// y1 = UPPER EDGE OF X-AXIS (DUE TO AXIS LABELS, TICKS, SPACING)
 		// y2 = LOWER EDGE OF X-AXIS (DUE TO AXIS LABELS, TICKS, SPACING)
-		if ( iv.iType == IntersectionValue.MAX )
+		if ( ( bForwardScale && iv.iType == IntersectionValue.MIN )
+				|| ( !bForwardScale && iv.iType == IntersectionValue.MAX ) )
 		{
 			// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MIN'
 
@@ -1776,12 +1783,18 @@ public abstract class PlotWithAxes extends Methods
 
 			// CHECK IF X-AXIS THICKNESS REQUIRES A PLOT HEIGHT RESIZE AT THE
 			// UPPER END
-			if ( dXAxisLabelsThickness > scY.getEndShift( ) )
+			if ( ( bForwardScale && dXAxisLabelsThickness > scY.getStartShift( ) )
+					|| ( !bForwardScale && dXAxisLabelsThickness > scY.getEndShift( ) ) )
 			{
 				// REDUCE scY's ENDPOINT TO FIT THE X-AXIS AT THE TOP
-				scY.setEndPoints( scY.getStart( ) + scY.getStartShift( ),
-						scY.getEnd( ) - scY.getEndShift( ) );
 				double dStart = scY.getStart( ), dEnd = dY2 - scY.getEndShift( );
+
+				if ( bForwardScale )
+				{
+					dStart = dY2 - scY.getStartShift( );
+					dEnd = scY.getEnd( );
+				}
+
 				scY.resetShifts( );
 
 				// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS LABELS
@@ -1800,7 +1813,7 @@ public abstract class PlotWithAxes extends Methods
 					final Object[] oaMinMax = scY.getMinMax( );
 					while ( !scY.checkFit( ids, laYAxisLabels, iYLabelLocation ) )
 					{
-						if (!scY.zoomOut( ))
+						if ( !scY.zoomOut( ) )
 						{
 							break;
 						}
@@ -1829,7 +1842,8 @@ public abstract class PlotWithAxes extends Methods
 			axPH.setTitleCoordinate( ( iXTitleLocation == ABOVE ) ? dY1 - 1
 					: dY2 + 1 - dXAxisTitleThickness );
 		}
-		else if ( iv.iType == IntersectionValue.MIN )
+		else if ( ( bForwardScale && iv.iType == IntersectionValue.MAX )
+				|| ( !bForwardScale && iv.iType == IntersectionValue.MIN ) )
 		{
 			// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MAX'
 
@@ -1868,6 +1882,7 @@ public abstract class PlotWithAxes extends Methods
 				dY -= dDelta;
 				dY1 -= dDelta;
 			}
+
 			double dDeltaY1 = dY - dY1;
 			double dDeltaY2 = dY2 - dY;
 
@@ -1887,12 +1902,17 @@ public abstract class PlotWithAxes extends Methods
 
 			// CHECK IF X-AXIS THICKNESS REQUIRES A PLOT HEIGHT RESIZE AT THE
 			// LOWER END
-			if ( dXAxisLabelsThickness > scY.getStartShift( ) )
+			if ( ( bForwardScale && dXAxisLabelsThickness > scY.getEndShift( ) )
+					|| ( !bForwardScale && dXAxisLabelsThickness > scY.getStartShift( ) ) )
 			{
 				// REDUCE scY's STARTPOINT TO FIT THE X-AXIS AT THE TOP
-				scY.setEndPoints( scY.getStart( ) + scY.getStartShift( ),
-						scY.getEnd( ) - scY.getEndShift( ) ); // RESTORE
 				double dStart = dY1 + scY.getStartShift( ), dEnd = scY.getEnd( );
+
+				if ( bForwardScale )
+				{
+					dStart = scY.getStart( );
+					dEnd = dY1 + scY.getEndShift( );
+				}
 				scY.resetShifts( );
 
 				// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS LABELS
@@ -1911,7 +1931,7 @@ public abstract class PlotWithAxes extends Methods
 					final Object[] oaMinMax = scY.getMinMax( );
 					while ( !scY.checkFit( ids, laYAxisLabels, iYLabelLocation ) )
 					{
-						if (!scY.zoomOut( ))
+						if ( !scY.zoomOut( ) )
 						{
 							break;
 						}
@@ -2015,7 +2035,7 @@ public abstract class PlotWithAxes extends Methods
 									laYAxisLabels,
 									iYLabelLocation ) )
 							{
-								if (!scY.zoomOut( ))
+								if ( !scY.zoomOut( ) )
 								{
 									bForceBreak = true;
 									break;
@@ -2122,7 +2142,7 @@ public abstract class PlotWithAxes extends Methods
 									laYAxisLabels,
 									iYLabelLocation ) )
 							{
-								if (!scY.zoomOut( ))
+								if ( !scY.zoomOut( ) )
 								{
 									bForceBreak = true;
 									break;
@@ -2164,5 +2184,107 @@ public abstract class PlotWithAxes extends Methods
 
 		return dY;
 	}
-	
+
+	/**
+	 * Returns if the right-left mode is enabled.
+	 * 
+	 * @return
+	 */
+	protected boolean isRightToLeft( )
+	{
+		if ( rtc == null )
+		{
+			return false;
+		}
+		return rtc.isRightToLeft( );
+	}
+
+	/**
+	 * Switch Position value due to right-left setting.
+	 * 
+	 * @param po
+	 * @return
+	 */
+	protected Position switchPosition( Position po )
+	{
+		if ( isRightToLeft( ) )
+		{
+			if ( po == Position.RIGHT_LITERAL )
+			{
+				po = Position.LEFT_LITERAL;
+			}
+			else if ( po == Position.LEFT_LITERAL )
+			{
+				po = Position.RIGHT_LITERAL;
+			}
+		}
+		return po;
+	}
+
+	/**
+	 * Switch Anchor value due to right-left setting.
+	 * 
+	 * @param anchor
+	 * @return
+	 */
+	protected Anchor switchAnchor( Anchor anchor )
+	{
+		if ( isRightToLeft( ) )
+		{
+			switch ( anchor.getValue( ) )
+			{
+				case Anchor.EAST :
+					anchor = Anchor.WEST_LITERAL;
+					break;
+				case Anchor.NORTH_EAST :
+					anchor = Anchor.NORTH_WEST_LITERAL;
+					break;
+				case Anchor.SOUTH_EAST :
+					anchor = Anchor.SOUTH_WEST_LITERAL;
+					break;
+				case Anchor.WEST :
+					anchor = Anchor.EAST_LITERAL;
+					break;
+				case Anchor.NORTH_WEST :
+					anchor = Anchor.NORTH_EAST_LITERAL;
+					break;
+				case Anchor.SOUTH_WEST :
+					anchor = Anchor.SOUTH_EAST_LITERAL;
+					break;
+			}
+		}
+		return anchor;
+	}
+
+	protected int switchTickStyle( int tickStyle )
+	{
+		if ( isRightToLeft( ) )
+		{
+			if ( tickStyle == TICK_LEFT )
+			{
+				tickStyle = TICK_RIGHT;
+			}
+			else if ( tickStyle == TICK_RIGHT )
+			{
+				tickStyle = TICK_LEFT;
+			}
+		}
+		return tickStyle;
+	}
+
+	protected IntersectionValue switchIntersection( IntersectionValue iv )
+	{
+		if ( !cwa.isTransposed( ) && isRightToLeft( ) )
+		{
+			if ( iv.getType( ) == IntersectionValue.MAX )
+			{
+				iv = IntersectionValue.MIN_VALUE;
+			}
+			else if ( iv.getType( ) == IntersectionValue.MIN )
+			{
+				iv = IntersectionValue.MAX_VALUE;
+			}
+		}
+		return iv;
+	}
 }
