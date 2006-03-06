@@ -675,10 +675,20 @@ public final class SwingEventHandler implements
 	{
 		Action ac = sa.getAction( );
 		TooltipValue tv = (TooltipValue) ac.getValue( );
-		String s = tv.getText( );
 
-		( (JComponent) iun.peerInstance( ) ).setToolTipText( s );
+		// Handle character conversion of \n in the tooltip
+		String tooltip = tv.getText( ).replaceAll( "\\\\n", "<br>" ); //$NON-NLS-1$//$NON-NLS-2$
+		if ( !tooltip.equals( tv.getText( ) ) )
+		{
+			tooltip = "<html>" + tooltip + "</html>"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		else
+		{
+			tooltip = tv.getText( );
+		}
+		( (JComponent) iun.peerInstance( ) ).setToolTipText( tooltip );
 	}
+	
 
 	private final void toggleHighlight( ShapedAction sa )
 	{
