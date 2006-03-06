@@ -51,6 +51,8 @@ import org.eclipse.birt.report.model.api.TemplateElementHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
@@ -154,12 +156,12 @@ public class DefaultNodeProvider implements INodeProvider
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
 				+ "-refresh" ) );//$NON-NLS-1$
 
-//		Action action = new CodePageAction( object );
-//		if ( action.isEnabled( ) )
-//			menu.add( action );
-//
-//		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
-//				+ "-end" ) );//$NON-NLS-1$		
+		// Action action = new CodePageAction( object );
+		// if ( action.isEnabled( ) )
+		// menu.add( action );
+		//
+		// menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
+		// + "-end" ) );//$NON-NLS-1$
 
 		// if ( object instanceof ReportDesignHandle
 		// || ( object instanceof ReportElementHandle && !( (
@@ -168,12 +170,14 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( object instanceof ReportDesignHandle )
 		{
 			menu.add( new ExportToLibraryAction( object ) );
-			ReportDesignHandle report = (ReportDesignHandle)object;
-			if(report.getModuleHandle( ).getFileName( ).endsWith( Messages.getString("DefaultNodeProvider.template.suffix") ))
+			ReportDesignHandle report = (ReportDesignHandle) object;
+			if ( report.getModuleHandle( )
+					.getFileName( )
+					.endsWith( Messages.getString( "DefaultNodeProvider.template.suffix" ) ) )
 			{
-				menu.add( new PublishTemplateViewAction ( object ) );
+				menu.add( new PublishTemplateViewAction( object ) );
 			}
-			
+
 		}
 
 		// action = new CreatePlaceHolderAction( object );
@@ -285,13 +289,13 @@ public class DefaultNodeProvider implements INodeProvider
 		return icon;
 	}
 
-	
 	/**
 	 * Gets the tooltip of the node
 	 * 
 	 * @param model
 	 *            the model of the node
-	 * @return Returns the tooltip name for the node, or null if no tooltip is needed.
+	 * @return Returns the tooltip name for the node, or null if no tooltip is
+	 *         needed.
 	 */
 	public String getNodeTooltip( Object model )
 	{
@@ -429,36 +433,90 @@ public class DefaultNodeProvider implements INodeProvider
 		return true;
 	}
 
+	private boolean checkNameExist( DesignElement element, String name )
+	{
+		if ( name == null || name.length( ) == 0 )
+			return false;
+		ElementDefn metaData = (ElementDefn) element.getDefn( );
+		int ns = metaData.getNameSpaceID( );
+
+		// first found the element with the given name. Since the library
+		// has it own namespace -- prefix, the range of name check should be
+		// in the current module.
+
+		DesignElement existedElement = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
+				.getModule( )
+				.getNameSpace( ns )
+				.getElement( name );
+
+		return ( existedElement == null ) ? false : true;
+
+	}
+
 	private boolean performCreatePlaceHolder( ReportElementHandle handle )
 	{
-		try
-		{
-			TemplateElementHandle template = handle.createTemplateElement( null );
+		boolean bIsNameExist = false;
+		TemplateElementHandle template = null;
+		String name = null;
+		String desc = null;
 
-			String name = template.getName( );
-			name = ( name == null ) ? "" : name; //$NON-NLS-1$
-			String desc = template.getDescription( );
-			desc = ( desc == null ) ? "" : desc; //$NON-NLS-1$
-			TemplateReportItemPropertiesDialog dialog = new TemplateReportItemPropertiesDialog( template.getDefaultElement( )
-					.getDefn( )
-					.getDisplayName( ),
-					name,
-					desc );
-			if ( dialog.open( ) == Window.OK )
+		do
+		{
+			try
 			{
-				template.setDescription( (String) dialog.getResult( ) );
-				template.setName( (String) dialog.getName( ) );
+				if ( template == null )
+				{
+					template = handle.createTemplateElement( null );
+				}
+
+				if ( name == null )
+				{
+					name = template.getName( );
+					name = ( name == null ) ? "" : name; //$NON-NLS-1$					
+				}
+
+				if ( desc == null )
+				{
+					desc = template.getDescription( );
+					desc = ( desc == null ) ? "" : desc; //$NON-NLS-1$
+				}
+
+				TemplateReportItemPropertiesDialog dialog = new TemplateReportItemPropertiesDialog( template.getDefaultElement( )
+						.getDefn( )
+						.getDisplayName( ),
+						name,
+						desc );
+				if ( dialog.open( ) == Window.OK )
+				{
+					name = (String) dialog.getName( ).trim( );
+					desc = (String) dialog.getResult( );
+
+					bIsNameExist = checkNameExist( template.getElement( ), name );
+					if ( bIsNameExist == false )
+					{
+						template.setDescription( desc );
+						template.setName( name );
+					}
+					else
+					{
+
+						ExceptionHandler.openErrorMessageBox( Messages.getString( "performCreatePlaceHolder.errorMessage.title" ), //$NON-NLS-1$
+								Messages.getString( "performCreatePlaceHolder.errorMessage.content" ) ); //$NON-NLS-1$
+					}
+				}
+				else
+				{
+					return false;
+				}
 			}
-			else
+			catch ( SemanticException e )
 			{
+				ExceptionHandler.handle( e );
 				return false;
 			}
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
-			return false;
-		}
+		} while ( bIsNameExist == true );
+
 		return true;
 	}
 
