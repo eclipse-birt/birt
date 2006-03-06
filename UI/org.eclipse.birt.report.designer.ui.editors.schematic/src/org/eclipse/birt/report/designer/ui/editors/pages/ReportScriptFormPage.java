@@ -344,4 +344,15 @@ public class ReportScriptFormPage extends ReportFormPage
 	{
 		return jsEditor;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.ui.editors.pages.ReportFormPage#canLeaveThePage()
+	 */
+	public boolean canLeaveThePage( )
+	{
+		jsEditor.saveModel( );
+		return super.canLeaveThePage( );
+	}
+	
+	
 }
