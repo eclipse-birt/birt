@@ -13,7 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -220,7 +220,7 @@ public class TemplateParameterDefinitionState extends ReportElementState
 					setProperty( TemplateParameterDefinition.ALLOWED_TYPE_PROP,
 							defaultElement.getElementName( ) );
 			}
-			else if ( defaultElement instanceof DataSet )
+			else if ( defaultElement instanceof SimpleDataSet )
 			{
 				if ( !DesignChoiceConstants.TEMPLATE_ELEMENT_TYPE_DATA_SET
 						.equals( allowedType ) )

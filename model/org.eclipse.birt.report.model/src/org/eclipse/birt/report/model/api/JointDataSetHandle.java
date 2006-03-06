@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IJointDataSetModel;
  * @see org.eclipse.birt.report.model.elements.JointDataSet
  */
 
-public class JointDataSetHandle extends ReportItemHandle
+public class JointDataSetHandle extends DataSetHandle
 		implements
 			IJointDataSetModel
 {
@@ -83,19 +83,153 @@ public class JointDataSetHandle extends ReportItemHandle
 	}
 
 	/**
-	 * Returns the iterator of joint conditions. The element in the iterator is
-	 * the corresponding <code>JointConditionHandle</code> that deal with a
-	 * <code>JointCondition</code>.
+	 * Returns the iterator of join conditions. The element in the iterator is
+	 * the corresponding <code>JoinConditionHandle</code> that deal with a
+	 * <code>JoinCondition</code>.
 	 * 
-	 * @return the iterator of joint condition structure list
+	 * @return the iterator of join condition structure list
 	 */
 
-	public Iterator jointConditionsIterator( )
+	public Iterator joinConditionsIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( JointDataSet.JOINT_CONDITONS_PROP );
+		PropertyHandle propHandle = getPropertyHandle( JointDataSet.JOIN_CONDITONS_PROP );
 
 		assert propHandle != null;
 
 		return propHandle.iterator( );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DataSetHandle#columnHintsIterator()
+	 */
+	public Iterator columnHintsIterator( )
+	{
+		throw new IllegalOperationException( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DataSetHandle#computedColumnsIterator()
+	 */
+	public Iterator computedColumnsIterator( )
+	{
+		throw new IllegalOperationException( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DataSetHandle#filtersIterator()
+	 */
+	public Iterator filtersIterator( )
+	{
+		throw new IllegalOperationException( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getCachedMetaDataHandle()
+	 */
+	public CachedMetaDataHandle getCachedMetaDataHandle( )
+	{
+		throw new IllegalOperationException( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DataSetHandle#paramBindingsIterator()
+	 */
+	public Iterator paramBindingsIterator( )
+	{
+		throw new IllegalOperationException( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DataSetHandle#parametersIterator()
+	 */
+	public Iterator parametersIterator( )
+	{
+		throw new IllegalOperationException( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DataSetHandle#resultSetIterator()
+	 */
+	public Iterator resultSetIterator( )
+	{
+		throw new IllegalOperationException( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getCachedRowCount()
+	 */
+	public int getCachedRowCount( )
+	{
+		throw new IllegalOperationException( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getAfterClose()
+	 */
+	public String getAfterClose( )
+	{
+		throw new IllegalOperationException( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getAfterOpen()
+	 */
+	public String getAfterOpen( )
+	{
+		throw new IllegalOperationException( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getBeforeClose()
+	 */
+	public String getBeforeClose( )
+	{
+		throw new IllegalOperationException( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getBeforeOpen()
+	 */
+	public String getBeforeOpen( )
+	{
+		throw new IllegalOperationException( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getDataSource()
+	 */
+	public DataSourceHandle getDataSource( )
+	{
+		throw new IllegalOperationException( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getDataSourceName()
+	 */
+	public String getDataSourceName( )
+	{
+		throw new IllegalOperationException( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getOnFetch()
+	 */
+	public String getOnFetch( )
+	{
+		throw new IllegalOperationException( );
+	}	
 }

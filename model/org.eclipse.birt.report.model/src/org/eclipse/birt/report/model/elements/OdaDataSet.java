@@ -31,7 +31,7 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
  * Represents an extended data set.
  */
 
-public class OdaDataSet extends DataSet
+public class OdaDataSet extends SimpleDataSet
 		implements
 			IExtendableElement,
 			IOdaDataSetModel,

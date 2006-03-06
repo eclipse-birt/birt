@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSetModel;
  * 
  */
 
-public class ScriptDataSet extends DataSet implements IScriptDataSetModel
+public class ScriptDataSet extends SimpleDataSet implements IScriptDataSetModel
 {
 
 	/**

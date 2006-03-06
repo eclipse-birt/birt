@@ -30,7 +30,7 @@ import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
-import org.eclipse.birt.report.model.api.elements.structures.JointCondition;
+import org.eclipse.birt.report.model.api.elements.structures.JoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
@@ -44,7 +44,7 @@ import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DataItem;
-import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -309,9 +309,9 @@ public class StructureState extends AbstractPropertyState
 		}
 
 		String propName = propDefn == null ? null : propDefn.getName( ); 
-		if ( element instanceof DataSet )
+		if ( element instanceof SimpleDataSet )
 		{
-			if ( DataSet.PARAMETERS_PROP.equalsIgnoreCase( propName ) )
+			if ( SimpleDataSet.PARAMETERS_PROP.equalsIgnoreCase( propName ) )
 			{
 				CompatibleDataSetParamStructureState state = new CompatibleDataSetParamStructureState(
 						handler, element, propDefn, list );
@@ -319,7 +319,7 @@ public class StructureState extends AbstractPropertyState
 
 				return state;
 			}
-			else if ( DataSet.COMPUTED_COLUMNS_PROP.equalsIgnoreCase( propName ) )
+			else if ( SimpleDataSet.COMPUTED_COLUMNS_PROP.equalsIgnoreCase( propName ) )
 			{
 				CompatibleComputedColumnStructureState state = new CompatibleComputedColumnStructureState(
 						handler, element, propDefn, list );
@@ -452,7 +452,7 @@ public class StructureState extends AbstractPropertyState
 		structDict.put( PropertyBinding.PROPERTY_BINDING_STRUCT.toLowerCase( ),
 				PropertyBinding.class );
 
-		structDict.put( JointCondition.STRUCTURE_NAME.toLowerCase( ),
-				JointCondition.class );
+		structDict.put( JoinCondition.STRUCTURE_NAME.toLowerCase( ),
+				JoinCondition.class );
 	}
 }

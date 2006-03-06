@@ -16,7 +16,7 @@ import org.eclipse.birt.report.model.api.command.TemplateException;
 import org.eclipse.birt.report.model.command.TemplateCommand;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.TemplateDataSet;
 
 /**
@@ -64,7 +64,7 @@ public class TemplateDataSetHandle extends TemplateElementHandle
 		TemplateCommand cmd = new TemplateCommand( getModule( ), getContainer( )
 				.getElement( ) );
 		cmd.transformToDataSet( (TemplateDataSet) getElement( ),
-				(DataSet) dataSetHandle.getElement( ), getElement( )
+				(SimpleDataSet) dataSetHandle.getElement( ), getElement( )
 						.getContainerSlot( ) );
 	}
 }

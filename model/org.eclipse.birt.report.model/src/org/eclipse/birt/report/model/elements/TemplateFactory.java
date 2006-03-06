@@ -48,7 +48,7 @@ public class TemplateFactory
 				return new TemplateReportItem( name );
 
 		}
-		else if ( defaultElement instanceof DataSet )
+		else if ( defaultElement instanceof SimpleDataSet )
 		{
 			TemplateDataSet template = new TemplateDataSet( name );
 			assert module != null;

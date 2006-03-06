@@ -29,7 +29,7 @@ import org.xml.sax.Attributes;
  * 
  */
 
-public class OdaDataSetState extends DataSetState
+public class OdaDataSetState extends SimpleDataSetState
 {
 
 	/**

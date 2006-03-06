@@ -23,7 +23,7 @@ import org.xml.sax.Attributes;
  * 
  */
 
-public class ScriptDataSetState extends DataSetState
+public class ScriptDataSetState extends SimpleDataSetState
 {
 
 	/**

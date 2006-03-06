@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
@@ -59,11 +59,11 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * To get a handle for the data source, uses the following example:
  * 
  * <pre>
- * 
- *     
- * 		DataSetHandle dataHandle = designHandle
- *         findDataSet( &quot;My First Data Set &quot; );
  *  
+ *      
+ *  		DataSetHandle dataHandle = designHandle
+ *          findDataSet( &quot;My First Data Set &quot; );
+ *   
  * </pre>
  * 
  * <p>
@@ -76,7 +76,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * TBD class will provide the full result set: either by returning the one in
  * the design file, or by obtaining it from the data provider.
  * 
- * @see org.eclipse.birt.report.model.elements.DataSet
+ * @see org.eclipse.birt.report.model.elements.SimpleDataSet
  */
 
 public abstract class DataSetHandle extends ReportElementHandle
@@ -109,7 +109,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public DataSourceHandle getDataSource( )
 	{
-		return (DataSourceHandle) getElementProperty( DataSet.DATA_SOURCE_PROP );
+		return (DataSourceHandle) getElementProperty( SimpleDataSet.DATA_SOURCE_PROP );
 	}
 
 	/**
@@ -122,7 +122,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public String getDataSourceName( )
 	{
-		return getStringProperty( DataSet.DATA_SOURCE_PROP );
+		return getStringProperty( SimpleDataSet.DATA_SOURCE_PROP );
 	}
 
 	/**
@@ -139,7 +139,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public void setDataSource( String name ) throws SemanticException
 	{
-		setStringProperty( DataSet.DATA_SOURCE_PROP, name );
+		setStringProperty( SimpleDataSet.DATA_SOURCE_PROP, name );
 	}
 
 	/**
@@ -153,7 +153,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public Iterator parametersIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( DataSet.PARAMETERS_PROP );
+		PropertyHandle propHandle = getPropertyHandle( SimpleDataSet.PARAMETERS_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -170,7 +170,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public Iterator paramBindingsIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( DataSet.PARAM_BINDINGS_PROP );
+		PropertyHandle propHandle = getPropertyHandle( SimpleDataSet.PARAM_BINDINGS_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -187,7 +187,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public Iterator resultSetIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( DataSet.RESULT_SET_PROP );
+		PropertyHandle propHandle = getPropertyHandle( SimpleDataSet.RESULT_SET_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -203,7 +203,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public Iterator computedColumnsIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( DataSet.COMPUTED_COLUMNS_PROP );
+		PropertyHandle propHandle = getPropertyHandle( SimpleDataSet.COMPUTED_COLUMNS_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -219,7 +219,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public Iterator columnHintsIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( DataSet.COLUMN_HINTS_PROP );
+		PropertyHandle propHandle = getPropertyHandle( SimpleDataSet.COLUMN_HINTS_PROP );
 
 		assert propHandle != null;
 		return propHandle.iterator( );
@@ -237,7 +237,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public Iterator filtersIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( DataSet.FILTER_PROP );
+		PropertyHandle propHandle = getPropertyHandle( SimpleDataSet.FILTER_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -251,7 +251,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public String getBeforeOpen( )
 	{
-		return getStringProperty( DataSet.BEFORE_OPEN_METHOD );
+		return getStringProperty( SimpleDataSet.BEFORE_OPEN_METHOD );
 	}
 
 	/**
@@ -266,7 +266,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public void setBeforeOpen( String code ) throws SemanticException
 	{
-		setProperty( DataSet.BEFORE_OPEN_METHOD, code );
+		setProperty( SimpleDataSet.BEFORE_OPEN_METHOD, code );
 	}
 
 	/**
@@ -278,7 +278,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public String getBeforeClose( )
 	{
-		return getStringProperty( DataSet.BEFORE_CLOSE_METHOD );
+		return getStringProperty( SimpleDataSet.BEFORE_CLOSE_METHOD );
 	}
 
 	/**
@@ -293,7 +293,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public void setBeforeClose( String code ) throws SemanticException
 	{
-		setProperty( DataSet.BEFORE_CLOSE_METHOD, code );
+		setProperty( SimpleDataSet.BEFORE_CLOSE_METHOD, code );
 	}
 
 	/**
@@ -305,7 +305,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public String getAfterOpen( )
 	{
-		return getStringProperty( DataSet.AFTER_OPEN_METHOD );
+		return getStringProperty( SimpleDataSet.AFTER_OPEN_METHOD );
 	}
 
 	/**
@@ -320,7 +320,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public void setAfterOpen( String code ) throws SemanticException
 	{
-		setProperty( DataSet.AFTER_OPEN_METHOD, code );
+		setProperty( SimpleDataSet.AFTER_OPEN_METHOD, code );
 	}
 
 	/**
@@ -332,7 +332,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public String getAfterClose( )
 	{
-		return getStringProperty( DataSet.AFTER_CLOSE_METHOD );
+		return getStringProperty( SimpleDataSet.AFTER_CLOSE_METHOD );
 	}
 
 	/**
@@ -347,7 +347,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public void setAfterClose( String code ) throws SemanticException
 	{
-		setProperty( DataSet.AFTER_CLOSE_METHOD, code );
+		setProperty( SimpleDataSet.AFTER_CLOSE_METHOD, code );
 	}
 
 	/**
@@ -359,7 +359,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public String getOnFetch( )
 	{
-		return getStringProperty( DataSet.ON_FETCH_METHOD );
+		return getStringProperty( SimpleDataSet.ON_FETCH_METHOD );
 	}
 
 	/**
@@ -374,7 +374,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public void setOnFetch( String code ) throws SemanticException
 	{
-		setProperty( DataSet.ON_FETCH_METHOD, code );
+		setProperty( SimpleDataSet.ON_FETCH_METHOD, code );
 	}
 
 	/**
@@ -390,7 +390,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 	public CachedMetaDataHandle getCachedMetaDataHandle( )
 	{
 		PropertyHandle propHandle = this
-				.getPropertyHandle( DataSet.CACHED_METADATA_PROP );
+				.getPropertyHandle( SimpleDataSet.CACHED_METADATA_PROP );
 		assert propHandle != null;
 
 		CachedMetaData value = (CachedMetaData) propHandle.getValue( );
@@ -416,12 +416,12 @@ public abstract class DataSetHandle extends ReportElementHandle
 	public CachedMetaDataHandle setCachedMetaData( CachedMetaData metadata )
 			throws SemanticException
 	{
-		setProperty( DataSet.CACHED_METADATA_PROP, metadata );
+		setProperty( SimpleDataSet.CACHED_METADATA_PROP, metadata );
 		if ( metadata == null )
 			return null;
 
 		return (CachedMetaDataHandle) metadata
-				.getHandle( getPropertyHandle( DataSet.CACHED_METADATA_PROP ) );
+				.getHandle( getPropertyHandle( SimpleDataSet.CACHED_METADATA_PROP ) );
 
 	}
 
@@ -437,26 +437,26 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 		return super.getPropertyHandle( propName );
 	}
-	
+
 	/**
 	 * sets the cached row count property value.
 	 * 
-	 *  @throws SemanticException
+	 * @throws SemanticException
 	 */
 	public void setCachedRowCount( int count ) throws SemanticException
 	{
 		setIntProperty( CACHED_ROW_COUNT_PROP, count );
 	}
-	
+
 	/**
 	 * Returns the value of cached row count property.
 	 * 
-	 * @return
-	 * 		the row count.
+	 * @return the row count.
 	 */
-	public int getCachedRowCount(){
-		
-		return getIntProperty(CACHED_ROW_COUNT_PROP);
+	public int getCachedRowCount( )
+	{
+
+		return getIntProperty( CACHED_ROW_COUNT_PROP );
 	}
 
 	/**

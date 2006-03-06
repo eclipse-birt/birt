@@ -14,34 +14,53 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
-import org.eclipse.birt.report.model.elements.TemplateDataSet;
+import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 /**
- * This class parses a template data set.
+ * This class parse a data set.
+ * 
  */
 
-public class TemplateDataSetState extends ReportElementState
+class SimpleDataSetState extends ReportElementState
 {
 
 	/**
-	 * The template data set being created.
+	 * The data set being built.
 	 */
 
-	protected TemplateDataSet element = null;
+	protected SimpleDataSet element;
 
 	/**
-	 * Constructs the template data set state with the design parser handler.
+	 * Constructs the data set state with the design parser handler.
 	 * 
-	 * @param handler
+	 * @param theHandler
 	 *            the design file parser handler
 	 */
 
-	public TemplateDataSetState( ModuleParserHandler handler )
+	public SimpleDataSetState( ModuleParserHandler theHandler )
 	{
-		super( handler, handler.getModule( ), Module.DATA_SET_SLOT );
+		super( theHandler, theHandler.getModule( ), Module.DATA_SET_SLOT );
+	}
+
+	/**
+	 * Constructs the data set state with the design parser handler, the
+	 * container element and the container slot of the data set.
+	 * 
+	 * @param handler
+	 *            the design file parser handler
+	 * @param theContainer
+	 *            the element that contains this one
+	 * @param slot
+	 *            the slot in which this element appears
+	 */
+
+	public SimpleDataSetState( ModuleParserHandler handler,
+			DesignElement theContainer, int slot )
+	{
+		super( handler, theContainer, slot );
 	}
 
 	/*
@@ -63,8 +82,6 @@ public class TemplateDataSetState extends ReportElementState
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
-		element = new TemplateDataSet( );
-
 		initElement( attrs, true );
 	}
 
@@ -76,12 +93,13 @@ public class TemplateDataSetState extends ReportElementState
 
 	public void end( ) throws SAXException
 	{
-		DesignElement refTemplateParam = element
+		DesignElement element = getElement( );
+		TemplateParameterDefinition refTemplateParam = element
 				.getTemplateParameterElement( handler.getModule( ) );
 		if ( refTemplateParam != null )
 		{
-			DesignElement defaultElement = element.getDefaultElement( handler
-					.getModule( ) );
+			DesignElement defaultElement = refTemplateParam.getDefaultElement( );
+
 			if ( !( defaultElement instanceof SimpleDataSet ) )
 			{
 				handler
@@ -93,7 +111,7 @@ public class TemplateDataSetState extends ReportElementState
 												refTemplateParam
 														.getIdentifier( )},
 										DesignParserException.DESIGN_EXCEPTION_INCONSISTENT_TEMPLATE_ELEMENT_TYPE ) );
-			}			
+			}
 		}
 		else
 		{
@@ -101,5 +119,4 @@ public class TemplateDataSetState extends ReportElementState
 		}
 		super.end( );
 	}
-
 }

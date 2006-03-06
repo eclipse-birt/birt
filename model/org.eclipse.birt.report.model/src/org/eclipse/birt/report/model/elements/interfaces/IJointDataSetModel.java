@@ -27,10 +27,10 @@ public interface IJointDataSetModel
 	public static final String DATASETS_PROP = "dataSets"; //$NON-NLS-1$
 
 	/**
-	 * Name of the joint conditions property which gives all the joint conditions
+	 * Name of the joint conditions property which gives all the join conditions
 	 * in this joint dataset.
 	 */
 
-	public static final String JOINT_CONDITONS_PROP = "jointConditions"; //$NON-NLS-1$
+	public static final String JOIN_CONDITONS_PROP = "joinConditions"; //$NON-NLS-1$
 
 }

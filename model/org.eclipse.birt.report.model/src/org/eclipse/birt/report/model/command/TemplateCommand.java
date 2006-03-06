@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TemplateDataSet;
@@ -111,7 +111,7 @@ public class TemplateCommand extends AbstractElementCommand
 			}
 		}
 
-		if ( ( element instanceof DataSet || element instanceof TemplateDataSet )
+		if ( ( element instanceof SimpleDataSet || element instanceof TemplateDataSet )
 				&& DesignElement.REF_TEMPLATE_PARAMETER_PROP.equals( prop
 						.getName( ) ) )
 		{
@@ -128,7 +128,7 @@ public class TemplateCommand extends AbstractElementCommand
 				TemplateParameterDefinition templateParam = resolveTemplateParameterDefinition(
 						module, ( (ElementRefValue) value ).getName( ) );
 
-				if ( !( templateParam.getDefaultElement( ) instanceof DataSet ) )
+				if ( !( templateParam.getDefaultElement( ) instanceof SimpleDataSet ) )
 					throw new PropertyValueException(
 							element,
 							prop.getName( ),
@@ -330,7 +330,7 @@ public class TemplateCommand extends AbstractElementCommand
 	private void createTemplateFromDesignElement( TemplateElement template,
 			DesignElement base )
 	{
-		assert base instanceof ReportItem || base instanceof DataSet;
+		assert base instanceof ReportItem || base instanceof SimpleDataSet;
 		assert template != null;
 		assert module instanceof ReportDesign;
 
@@ -346,7 +346,7 @@ public class TemplateCommand extends AbstractElementCommand
 
 			PropertyCommand propertyCmd = new PropertyCommand( module,
 					templateParam );
-			if ( base instanceof DataSet )
+			if ( base instanceof SimpleDataSet )
 				propertyCmd.setProperty(
 						TemplateParameterDefinition.ALLOWED_TYPE_PROP,
 						DesignChoiceConstants.TEMPLATE_ELEMENT_TYPE_DATA_SET );
@@ -488,7 +488,7 @@ public class TemplateCommand extends AbstractElementCommand
 	 */
 
 	public void transformToDataSet( TemplateDataSet templateDataSet,
-			DataSet dataSet, int slotID ) throws SemanticException
+			SimpleDataSet dataSet, int slotID ) throws SemanticException
 	{
 		// if the template data set has no template definition, it can not be
 		// transformed to a data set
@@ -507,7 +507,7 @@ public class TemplateCommand extends AbstractElementCommand
 		try
 		{
 			PropertyCommand pcmd = new PropertyCommand( module, dataSet );
-			pcmd.setProperty( DataSet.REF_TEMPLATE_PARAMETER_PROP,
+			pcmd.setProperty( SimpleDataSet.REF_TEMPLATE_PARAMETER_PROP,
 					templateparam.getName( ) );
 
 			ContentCommand cmd = new ContentCommand( module, element );

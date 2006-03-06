@@ -24,6 +24,7 @@ public interface ReportDesignConstants
 	String COLUMN_ELEMENT = "Column"; //$NON-NLS-1$ 
 	String DATA_ITEM = "Data"; //$NON-NLS-1$ 
 	String DATA_SET_ELEMENT = "DataSet"; //$NON-NLS-1$ 
+	String SIMPLE_DATA_SET_ELEMENT = "SimpleDataSet"; //$NON-NLS-1$ 
 	String DATA_SOURCE_ELEMENT = "DataSource"; //$NON-NLS-1$ 
 	String DESIGN_ELEMENT = "DesignElement"; //$NON-NLS-1$	
 	String ODA_DATA_SET = "OdaDataSet"; //$NON-NLS-1$

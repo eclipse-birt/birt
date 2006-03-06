@@ -48,7 +48,7 @@ public class ElementVisitor
 	 *            the data set to traverse
 	 */
 
-	public void visitDataSet( DataSet obj )
+	public void visitDataSet( SimpleDataSet obj )
 	{
 		visitDesignElement( obj );
 	}

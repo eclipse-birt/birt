@@ -81,13 +81,13 @@ public class CascadingParameterGroup extends ParameterGroup
 	 * @return the data set element defined on this cascading parameter group.
 	 */
 
-	public DataSet getDataSetElement( Module module )
+	public SimpleDataSet getDataSetElement( Module module )
 	{
 		ElementRefValue dataSetRef = (ElementRefValue) getProperty( module,
 				DATA_SET_PROP );
 		if ( dataSetRef == null )
 			return null;
-		return (DataSet)dataSetRef.getElement( );
+		return (SimpleDataSet)dataSetRef.getElement( );
 	}
 	
 	/*

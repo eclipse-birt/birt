@@ -624,18 +624,18 @@ public interface DesignChoiceConstants
 	public static final String SORT_TYPE_COMPLEX_SORT = "complexSort"; //$NON-NLS-1$
 	
 	/**
-	 * jointType -- joint type of joint condition.
+	 * joinType -- join type of join condition.
 	 */
 
-	public static final String CHOICE_JOINT_TYPE = "jointType"; //$NON-NLS-1$
-	public static final String JOINT_TYPE_INNER = "inner"; //$NON-NLS-1$
-	public static final String JOINT_TYPE_LEFT_OUT = "left-out"; //$NON-NLS-1$
-	public static final String JOINT_TYPE_RIGHT_OUT = "right-out"; //$NON-NLS-1$
+	public static final String CHOICE_JOIN_TYPE = "joinType"; //$NON-NLS-1$
+	public static final String JOIN_TYPE_INNER = "inner"; //$NON-NLS-1$
+	public static final String JOIN_TYPE_LEFT_OUT = "left-out"; //$NON-NLS-1$
+	public static final String JOIN_TYPE_RIGHT_OUT = "right-out"; //$NON-NLS-1$
 
 	/**
-	 * jointOperator -- joint operator of joint condition.
+	 * joinOperator -- join operator of join condition.
 	 */
 
-	public static final String CHOICE_JOINT_OPERATOR = "jointOperator"; //$NON-NLS-1$
-	public static final String JOINT_OPERATOR_EQALS = "eq"; //$NON-NLS-1$
+	public static final String CHOICE_JOIN_OPERATOR = "joinOperator"; //$NON-NLS-1$
+	public static final String JOIN_OPERATOR_EQALS = "eq"; //$NON-NLS-1$
 }

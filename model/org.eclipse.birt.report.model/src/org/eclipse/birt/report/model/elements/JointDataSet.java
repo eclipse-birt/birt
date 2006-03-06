@@ -11,22 +11,23 @@
 
 package org.eclipse.birt.report.model.elements;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IJointDataSetModel;
 
 /**
  * Represents a joint data set. A joint data set is a data set joined by several
  * data sets which can come from different data sources.
  * 
- * @see org.eclipse.birt.report.model.elements.DataSet
+ * @see org.eclipse.birt.report.model.elements.SimpleDataSet
  */
 
-public class JointDataSet extends ReferenceableElement
+public class JointDataSet extends DataSet
 		implements
 			IJointDataSetModel
 {
@@ -50,17 +51,6 @@ public class JointDataSet extends ReferenceableElement
 	public JointDataSet( String theName )
 	{
 		super( theName );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.ReferenceableElement#adjustDeliveryPath(org.eclipse.birt.report.model.api.activity.NotificationEvent)
-	 */
-
-	protected void adjustDeliveryPath( NotificationEvent ev )
-	{
-		ev.setDeliveryPath( NotificationEvent.ELEMENT_CLIENT );
 	}
 
 	/*
@@ -114,4 +104,11 @@ public class JointDataSet extends ReferenceableElement
 		return (JointDataSetHandle) handle;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.elements.DataSet#validate(org.eclipse.birt.report.model.core.Module)
+	 */
+	public List validate( Module module )
+	{
+		return Collections.EMPTY_LIST;
+	}
 }
