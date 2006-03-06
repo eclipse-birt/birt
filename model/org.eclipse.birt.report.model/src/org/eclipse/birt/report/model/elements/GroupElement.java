@@ -95,9 +95,13 @@ public abstract class GroupElement extends DesignElement
 
 	public int getGroupLevel( )
 	{
-		ContainerSlot slot = container.getSlot( containerSlotID );
-		groupLevel = slot.findPosn( this ) + 1;
-
+		if ( container == null )
+			groupLevel = LEVEL_NOT_SET;
+		else
+		{
+			ContainerSlot slot = container.getSlot( containerSlotID );
+			groupLevel = slot.findPosn( this ) + 1;
+		}
 		return groupLevel;
 	}
 
@@ -174,7 +178,7 @@ public abstract class GroupElement extends DesignElement
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getNameForDisplayLabel()
 	 */
-	
+
 	protected String getNameForDisplayLabel( )
 	{
 		// This getting is not relative to design.
@@ -187,7 +191,7 @@ public abstract class GroupElement extends DesignElement
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getStrategy()
 	 */
-	
+
 	public PropertySearchStrategy getStrategy( )
 	{
 		return GroupElementPropSearchStrategy.getInstance( );
