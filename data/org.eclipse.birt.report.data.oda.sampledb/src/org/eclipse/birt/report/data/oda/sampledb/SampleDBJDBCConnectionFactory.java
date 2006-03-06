@@ -49,7 +49,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 			throw new SQLException("Classic Models Inc. Sample Database Driver does not recognize url: " + driverClass);
 		}
 
-		String dbUrl = getDbUrl();
+		String dbUrl = SampleDBConstants.getDBUrl( );
 		
 		// Copy connection properties and replace user and password with fixed value
 		Properties props;
@@ -71,15 +71,6 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 		}
 	}
 	
-	/**
-	 * @return Url to be used with Derby Embedded driver to connect to embedded
-	 *         database
-	 */
-	private static String getDbUrl( )
-	{
-		return SampleDBConstants.dbUrl;
-	}
-
 	/**
 	 * @return user name for db connection
 	 */
