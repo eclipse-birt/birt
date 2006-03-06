@@ -73,7 +73,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 	private final static String NO_OP_JAVASCRIPT = "javascript:void(0);"; //$NON-NLS-1$
 	private final static String POLY_SHAPE = "poly"; // //$NON-NLS-1$
-	
+
 	/**
 	 * Returns the output format string for this writer.
 	 * 
@@ -140,7 +140,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		List al = (List) triggerMap.get( TriggerCondition.ONFOCUS_LITERAL );
 		if ( al != null )
 		{
-			for ( int i = al.size() - 1; i >= 0; i -- )
+			for ( int i = al.size( ) - 1; i >= 0; i-- )
 			{
 				HTMLTag tag = new HTMLTag( "AREA" ); //$NON-NLS-1$
 				ShapedAction sa = (ShapedAction) al.get( i );
@@ -155,9 +155,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 						{
 							case ActionType.URL_REDIRECT :
 								URLValue uv = (URLValue) ac.getValue( );
-								tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT); 
-								tag.addAttribute( HTMLAttribute.ONFOCUS, getJsURLRedirect( uv ) );
-								tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE );
+								tag.addAttribute( HTMLAttribute.HREF,
+										NO_OP_JAVASCRIPT );
+								tag.addAttribute( HTMLAttribute.ONFOCUS,
+										getJsURLRedirect( uv ) );
+								tag.addAttribute( HTMLAttribute.SHAPE,
+										POLY_SHAPE );
 								tag.addAttribute( HTMLAttribute.COORDS, coords );
 								sb.append( tag.toString( ) );
 								break;
@@ -166,9 +169,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 								break;
 							case ActionType.INVOKE_SCRIPT :
 								ScriptValue sv = (ScriptValue) ac.getValue( );
-								tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT); 
-								tag.addAttribute( HTMLAttribute.ONFOCUS, eval( sv.getScript( ) ) );
-								tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE );
+								tag.addAttribute( HTMLAttribute.HREF,
+										NO_OP_JAVASCRIPT );
+								tag.addAttribute( HTMLAttribute.ONFOCUS,
+										eval( sv.getScript( ) ) );
+								tag.addAttribute( HTMLAttribute.SHAPE,
+										POLY_SHAPE );
 								tag.addAttribute( HTMLAttribute.COORDS, coords );
 								sb.append( tag.toString( ) );
 								break;
@@ -186,7 +192,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		al = (List) triggerMap.get( TriggerCondition.ONBLUR_LITERAL );
 		if ( al != null )
 		{
-			for ( int i = al.size() - 1; i >= 0; i -- )
+			for ( int i = al.size( ) - 1; i >= 0; i-- )
 			{
 				HTMLTag tag = new HTMLTag( "AREA" ); //$NON-NLS-1$
 				ShapedAction sa = (ShapedAction) al.get( i );
@@ -201,9 +207,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 						{
 							case ActionType.URL_REDIRECT :
 								URLValue uv = (URLValue) ac.getValue( );
-								tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
-								tag.addAttribute( HTMLAttribute.ONBLUR, getJsURLRedirect( uv ) ); 
-								tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE); //$NON-NLS-1$
+								tag.addAttribute( HTMLAttribute.HREF,
+										NO_OP_JAVASCRIPT );
+								tag.addAttribute( HTMLAttribute.ONBLUR,
+										getJsURLRedirect( uv ) );
+								tag.addAttribute( HTMLAttribute.SHAPE,
+										POLY_SHAPE );
 								tag.addAttribute( HTMLAttribute.COORDS, coords );
 								sb.append( tag.toString( ) );
 								break;
@@ -212,9 +221,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 								break;
 							case ActionType.INVOKE_SCRIPT :
 								ScriptValue sv = (ScriptValue) ac.getValue( );
-								tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
-								tag.addAttribute( HTMLAttribute.ONBLUR, eval( sv.getScript( ) ) ); 
-								tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE); //$NON-NLS-1$
+								tag.addAttribute( HTMLAttribute.HREF,
+										NO_OP_JAVASCRIPT );
+								tag.addAttribute( HTMLAttribute.ONBLUR,
+										eval( sv.getScript( ) ) );
+								tag.addAttribute( HTMLAttribute.SHAPE,
+										POLY_SHAPE );
 								tag.addAttribute( HTMLAttribute.COORDS, coords );
 								sb.append( tag.toString( ) );
 								break;
@@ -232,7 +244,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		al = (List) triggerMap.get( TriggerCondition.ONCLICK_LITERAL );
 		if ( al != null )
 		{
-			for ( int i = al.size() - 1; i >= 0; i -- )
+			for ( int i = al.size( ) - 1; i >= 0; i-- )
 			{
 				HTMLTag tag = new HTMLTag( "AREA" ); //$NON-NLS-1$
 				ShapedAction sa = (ShapedAction) al.get( i );
@@ -247,9 +259,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 						{
 							case ActionType.URL_REDIRECT :
 								URLValue uv = (URLValue) ac.getValue( );
-								tag.addAttribute( HTMLAttribute.HREF, eval( uv.getBaseUrl( ) )) ;
-								tag.addAttribute( HTMLAttribute.TARGET, eval( uv.getTarget( ) ) ); 
-								tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE); 
+								tag.addAttribute( HTMLAttribute.HREF,
+										eval( uv.getBaseUrl( ) ) );
+								tag.addAttribute( HTMLAttribute.TARGET,
+										eval( uv.getTarget( ) ) );
+								tag.addAttribute( HTMLAttribute.SHAPE,
+										POLY_SHAPE );
 								tag.addAttribute( HTMLAttribute.COORDS, coords );
 								sb.append( tag.toString( ) );
 								break;
@@ -257,10 +272,13 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 								// for onmouseover only.
 								break;
 							case ActionType.INVOKE_SCRIPT :
-								ScriptValue sv = (ScriptValue)ac.getValue( );
-								tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
-								tag.addAttribute( HTMLAttribute.ONCLICK, eval( sv.getScript( ) ) ); 
-								tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE); 
+								ScriptValue sv = (ScriptValue) ac.getValue( );
+								tag.addAttribute( HTMLAttribute.HREF,
+										NO_OP_JAVASCRIPT );
+								tag.addAttribute( HTMLAttribute.ONCLICK,
+										eval( sv.getScript( ) ) );
+								tag.addAttribute( HTMLAttribute.SHAPE,
+										POLY_SHAPE );
 								tag.addAttribute( HTMLAttribute.COORDS, coords );
 								sb.append( tag.toString( ) );
 								break;
@@ -278,7 +296,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		al = (List) triggerMap.get( TriggerCondition.ONMOUSEOVER_LITERAL );
 		if ( al != null )
 		{
-			for ( int i = al.size() - 1; i >= 0; i -- )
+			for ( int i = al.size( ) - 1; i >= 0; i-- )
 			{
 				HTMLTag tag = new HTMLTag( "AREA" ); //$NON-NLS-1$
 				ShapedAction sa = (ShapedAction) al.get( i );
@@ -296,8 +314,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 								break;
 							case ActionType.SHOW_TOOLTIP :
 								TooltipValue tv = (TooltipValue) ac.getValue( );
-								tag.addAttribute( HTMLAttribute.ALT,  eval( tv.getText( )) ); 
-								tag.addAttribute( HTMLAttribute.SHAPE, POLY_SHAPE); 
+								tag.addAttribute( HTMLAttribute.TITLE,
+										eval( tv.getText( ) ) );
+								tag.addAttribute( HTMLAttribute.ALT,
+										eval( tv.getText( ) ) );
+								tag.addAttribute( HTMLAttribute.SHAPE,
+										POLY_SHAPE );
 								tag.addAttribute( HTMLAttribute.COORDS, coords );
 								sb.append( tag.toString( ) );
 								break;
@@ -317,16 +339,14 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		return sb.toString( );
 	}
 
-
-
 	protected String getJsURLRedirect( URLValue uv )
 	{
 		StringBuffer js = new StringBuffer( "window.open('" ); //$NON-NLS-1$
 		js.append( eval( uv.getBaseUrl( ) ) );
-		js.append( "','");
-		js.append( uv.getTarget() == null ? "self" : uv.getTarget() ); //$NON-NLS-1$
-		js.append( "');");//$NON-NLS-1$
-		return js.toString();
+		js.append( "','" ); //$NON-NLS-1$
+		js.append( uv.getTarget( ) == null ? "self" : uv.getTarget( ) ); //$NON-NLS-1$
+		js.append( "');" );//$NON-NLS-1$
+		return js.toString( );
 	}
 
 	/**
@@ -549,7 +569,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "info.using.imagewriter", getLocale( ) ) //$NON-NLS-1$
-							+ getFormat( ) + iw.getClass( ).getName( ) );
+							+ getFormat( )
+							+ iw.getClass( ).getName( ) );
 
 			// WRITE TO SPECIFIC FILE FORMAT
 			final Object o = ( _oOutputIdentifier instanceof String ) ? new File( (String) _oOutputIdentifier )
@@ -558,7 +579,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			{
 				final ImageOutputStream ios = ImageIO.createImageOutputStream( o );
 				updateWriterParameters( iw.getDefaultWriteParam( ) ); // SET
-																		// ANY
+				// ANY
 				// OUTPUT
 				// FORMAT
 				// SPECIFIC
@@ -695,9 +716,10 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 							stea[i].getClassName( ),
 							stea[i].getMethodName( ),
 							String.valueOf( stea[i].getLineNumber( ) )
-					}, getLocale( ) ), x, y );
+					},
+					getLocale( ) ), x, y );
 			x = 40;
-			y += fm.getHeight( ); // i18n_CONCATENATIONS_REMOVED
+			y += fm.getHeight( );
 		}
 
 	}
@@ -710,10 +732,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		}
 		else
 		{
-			expr = expr.replaceAll( "\"", "&quot;" );
+			expr = expr.replaceAll( "\"", "&quot;" ); //$NON-NLS-1$ //$NON-NLS-2$
 			return expr;
 		}
 	}
-	
-	
+
 }
