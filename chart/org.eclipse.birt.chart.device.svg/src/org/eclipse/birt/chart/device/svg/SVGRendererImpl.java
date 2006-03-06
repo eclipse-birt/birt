@@ -60,6 +60,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.AccessibilityValue;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Location;
@@ -568,7 +569,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 					//See if this is an internal anchor link
 					if ( urlValue.getBaseUrl().startsWith("#")){ //$NON-NLS-1$
 						Element aLink = ((SVGGraphics2D)_g2d).createElement("g"); //$NON-NLS-1$
-						aLink.setAttribute("onclick", "parent.document.location='"+urlValue.getBaseUrl()+"';"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						aLink.setAttribute("onclick", "top.document.location.hash='"+urlValue.getBaseUrl()+"';"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						aLink.setAttribute("style", "cursor:pointer"); //$NON-NLS-1$ //$NON-NLS-2$
 						aLink.appendChild(elm);
 						elm = aLink;
@@ -695,6 +696,24 @@ public class SVGRendererImpl extends SwingRendererImpl
 					break;					
 				case ActionType.INVOKE_SCRIPT:
 					final StructureSource sructSource = (StructureSource) ie.getSource( );
+					//lets see if we need to add accessibility
+					if (tg.getCondition().equals(TriggerCondition.ACCESSIBILITY_LITERAL)){
+						AccessibilityValue accessValue = ((AccessibilityValue) tg.getAction().getValue());
+						if (accessValue.getText() != null){
+							Element title = ((SVGGraphics2D)_g2d).createElement("title"); //$NON-NLS-1$
+							title.appendChild(svggc.dom
+									.createTextNode(accessValue.getText()));
+							elm.appendChild(title);
+						}
+						if (accessValue.getAccessibility() != null){
+							Element description = ((SVGGraphics2D)_g2d).createElement("desc"); //$NON-NLS-1$
+							description.appendChild(svggc.dom
+									.createTextNode(accessValue.getAccessibility()));
+							elm.appendChild(description);
+						}
+						
+					}
+					else{
 					String scriptEvent = getJsScriptEvent(tg.getCondition().getValue());
 					if (scriptEvent != null){
 						String script = ((ScriptValue) tg.getAction().getValue()).getScript();
@@ -706,6 +725,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 							((SVGGraphics2D)_g2d).addScript("function callback"+Math.abs(script.hashCode())+"(evt,source)" +"{"+script+"}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 							scripts.add(script);
 						}
+					}
 					}
 					break;
 
@@ -1266,12 +1286,6 @@ public class SVGRendererImpl extends SwingRendererImpl
 		ungroupPrimitive(rre, false);
 	}
 
-	public void drawText(TextRenderEvent tre) throws ChartException {
-		groupPrimitive(tre, true);
-		super.drawText(tre);
-		ungroupPrimitive(tre, true);
-	}
-
 	public void fillArc(ArcRenderEvent are) throws ChartException {
 		groupPrimitive(are, false);
 		super.fillArc(are);
@@ -1302,5 +1316,46 @@ public class SVGRendererImpl extends SwingRendererImpl
 		ungroupPrimitive(rre, false);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderListener#drawText(org.eclipse.birt.chart.event.TextRenderEvent)
+	 */
+	public void drawText( TextRenderEvent tre ) throws ChartException
+	{
+		groupPrimitive(tre, true);
+		SVGTextRenderer tr = SVGTextRenderer.instance( (SVGDisplayServer) _ids );
+		switch ( tre.getAction( ) )
+		{
+			case TextRenderEvent.UNDEFINED :
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
+						"exception.missing.text.render.action", //$NON-NLS-1$
+						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
+								getLocale( ) ) );
+
+			case TextRenderEvent.RENDER_SHADOW_AT_LOCATION :
+				tr.renderShadowAtLocation( this,
+						tre.getTextPosition( ),
+						tre.getLocation( ),
+						tre.getLabel( ) );
+				break;
+
+			case TextRenderEvent.RENDER_TEXT_AT_LOCATION :
+				tr.renderTextAtLocation( this,
+						tre.getTextPosition( ),
+						tre.getLocation( ),
+						tre.getLabel( ) );
+				break;
+
+			case TextRenderEvent.RENDER_TEXT_IN_BLOCK :
+				tr.renderTextInBlock( this,
+						tre.getBlockBounds( ),
+						tre.getBlockAlignment( ),
+						tre.getLabel( ) );
+				break;
+		}
+		ungroupPrimitive(tre, true);
+	}	
 	
 }
