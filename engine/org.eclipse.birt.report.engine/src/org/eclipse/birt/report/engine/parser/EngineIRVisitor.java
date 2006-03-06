@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.79 $ $Date: 2006/02/27 07:36:00 $
+ * @version $Revision: 1.80 $ $Date: 2006/02/28 03:53:14 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -414,6 +414,7 @@ class EngineIRVisitor extends DesignVisitor
 		page.setFooterHeight( createDimension( handle.getFooterHeight( ) ) );
 		page.setShowFooterOnLast( handle.showFooterOnLast( ) );
 		page.setShowHeaderOnFirst( handle.showHeaderOnFirst( ) );
+		page.setFloatingFooter( handle.isFloatingFooter( ) );
 		SlotHandle headerSlot = handle.getPageHeader( );
 		for ( int i = 0; i < headerSlot.getCount( ); i++ )
 		{
