@@ -25,12 +25,16 @@ import java.util.Properties;
  * This is a utility class for maintaining the meta data information for a
  * particular JDBC connection.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/05 02:16:15 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/26 01:21:28 $
  */
 
 public class ConnectionMetaData implements Serializable
 {
 
+	/**
+	 * serial version id
+	 */
+	private static final long serialVersionUID = -4370317661507339132L;
 	private String classname = null;
 	private String url = null;
 	private String username = null;

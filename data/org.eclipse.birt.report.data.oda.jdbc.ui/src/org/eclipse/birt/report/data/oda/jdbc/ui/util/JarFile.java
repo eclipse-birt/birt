@@ -38,6 +38,11 @@ import org.osgi.framework.Bundle;
 public class JarFile implements Serializable
 {
 	/**
+	 * serial version id
+	 */
+	private static final long serialVersionUID = -765442524028110564L;
+
+	/**
 	 * File name of the Jar file
 	 */
 	private String fileName;

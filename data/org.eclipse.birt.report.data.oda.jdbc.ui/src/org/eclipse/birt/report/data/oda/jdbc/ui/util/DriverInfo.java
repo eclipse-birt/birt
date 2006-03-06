@@ -19,6 +19,11 @@ import java.io.Serializable;
 public class DriverInfo implements Serializable
 {
 	/**
+	 * serial version id
+	 */
+	private static final long serialVersionUID = -6628864223068044321L;
+
+	/**
 	 * Diver Name 
 	 */
 	private String driverName;

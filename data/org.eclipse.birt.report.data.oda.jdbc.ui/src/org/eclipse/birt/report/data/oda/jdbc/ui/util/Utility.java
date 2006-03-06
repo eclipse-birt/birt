@@ -26,7 +26,6 @@ import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
-import org.eclipse.birt.report.data.oda.jdbc.ui.model.TableImpl;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.UserPropertyDefnHandle;
@@ -44,15 +43,10 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.18 $ $Date: 2005/09/23 10:54:32 $
+ * @version $Revision: 1.19 $ $Date: 2005/11/24 06:01:41 $
  */
 public class Utility
 {
-
-	// The suffix which will be used to create new names 
-	// if duplicate objects are selected in the Table Selection Page
-	private static final String dupAffix = "_";
-	
 	// flag to indicate whether JarInfo and DriverInfo in preference page have
 	// been updated from String[] to JarFile and DriverInfo 
 	private static boolean updatedOfJarInfo = false;
@@ -133,13 +127,6 @@ public class Utility
 			{
 				displayName = (String)source;
 				name = displayName;
-				item[i].setData(name);
-			}
-			else if( source instanceof TableImpl)
-			{
-				TableImpl table = (TableImpl)source;
-				displayName = table.getTableAlias();
-				name = table.getFullyQualifiedName();
 				item[i].setData(name);
 			}
 			else if (source instanceof TableItem )
@@ -252,11 +239,6 @@ public class Utility
 			{
 				name = (String)source;
 			}
-			else if( source instanceof TableImpl)
-			{
-				TableImpl table = (TableImpl)source;
-				name = table.getFullyQualifiedName();
-			}
 			else if (source instanceof TableItem )
 			{
 				name = (String)((TableItem)source).getData();
@@ -291,38 +273,7 @@ public class Utility
 			}
 			return name;
 	}
-	
-	/**
-	 * @param tables: A List of existing table names
-	 * @param fileName
-	 * @return
-	 */
-	public static String checkDuplicationAndGetDuplicateName(ArrayList tableList, String tableName) 
-	{
-		int index = 0;
-		Iterator tableIterator = tableList.iterator();
 		
-		// See how many items are there matching the given name
-		
-		while(tableIterator.hasNext())
-		{
-			TableImpl table = (TableImpl)tableIterator.next();
-			
-			String name = table.getFullyQualifiedName();
-			if(name.equalsIgnoreCase(tableName))
-			{
-				index ++;
-			}
-		}
-		
-		
-		if(index > 0)
-		{
-			tableName = tableName + dupAffix + index;
-		}
-		return tableName;
-	}
-	
 	/**
 	 * 
 	 * @param tree The Tree whose position needs to be set 

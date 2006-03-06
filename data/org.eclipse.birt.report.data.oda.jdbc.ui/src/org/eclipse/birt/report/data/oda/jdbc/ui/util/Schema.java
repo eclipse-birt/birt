@@ -21,12 +21,16 @@ import java.util.Iterator;
  * This object represents a schema in the data base It contains methods to
  * retrieve the tables from the data base
  * 
- * @version $Revision: #2 $ $Date: 2005/02/05 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/06 06:33:32 $
  */
 
 public class Schema implements Serializable
 {
 
+	/**
+	 * serial version id
+	 */
+	private static final long serialVersionUID = 4701365854117670629L;
 	private String name = null;
 	private ArrayList tables = null;
 	private ConnectionMetaData metaData = null;

@@ -13,10 +13,15 @@
  */ 
 package org.eclipse.birt.report.data.oda.sampledb.ui;
 
+import org.eclipse.birt.report.data.oda.jdbc.Connection;
+import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
+import org.eclipse.birt.report.data.oda.sampledb.SampleDBConstants;
+import org.eclipse.birt.report.data.oda.sampledb.SampleDBJDBCConnectionFactory;
 import org.eclipse.birt.report.data.oda.sampledb.ui.i18n.Messages;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPageContainer;
+import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
@@ -85,7 +90,7 @@ public class SampleDataSetEditor extends AbstractPropertyPage
 				
 			dataSource.drop();
 				
-			dataSource = SampleDataSourceCreationWizard.newSampleDataSource( moduleHandle );
+			dataSource = newSampleDataSource( moduleHandle );
 			dataSource.setName( dataSourceName );
 			dataSource.setAfterClose( afterClose );
 			dataSource.setAfterOpen( afterOpen );
@@ -103,6 +108,28 @@ public class SampleDataSetEditor extends AbstractPropertyPage
 		}
 		 
 		return true;
+	}
+	
+	private OdaDataSourceHandle newSampleDataSource( ModuleHandle handle )
+	{
+		// This wizard actually creates a oda.jdbc data source and fill
+		// in its JDBC connection information to use the SampleDB JDBC Data Source Provider 
+		OdaDataSourceHandle dsHandle = DesignElementFactory.getInstance( handle ).
+				newOdaDataSource( null, OdaJdbcDriver.Constants.DATA_SOURCE_ID );
+		try
+		{
+			dsHandle.setProperty( Connection.Constants.ODAURL,
+					SampleDBConstants.DRIVER_URL );
+			dsHandle.setProperty( Connection.Constants.ODADriverClass,
+					SampleDBConstants.DRIVER_CLASS );
+			dsHandle.setProperty( Connection.Constants.ODAUser,
+					SampleDBJDBCConnectionFactory.getDbUser( ) );
+		}
+		catch ( SemanticException ex )
+		{
+			ExceptionHandler.handle( ex );
+		}
+		return dsHandle;
 	}
 
 	/**

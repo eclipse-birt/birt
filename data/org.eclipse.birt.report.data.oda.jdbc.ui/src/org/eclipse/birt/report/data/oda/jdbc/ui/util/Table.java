@@ -19,12 +19,16 @@ import java.util.ArrayList;
 /**
  * TODO: Please document
  * 
- * @version $Revision: #2 $ $Date: 2005/02/05 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/06 06:33:32 $
  */
 
 public class Table implements Serializable
 {
 
+	/**
+	 * serial version id
+	 */
+	private static final long serialVersionUID = 8386854614853850187L;
 	private String name = null;
 	private String type = null;
 	private ArrayList columns = null;

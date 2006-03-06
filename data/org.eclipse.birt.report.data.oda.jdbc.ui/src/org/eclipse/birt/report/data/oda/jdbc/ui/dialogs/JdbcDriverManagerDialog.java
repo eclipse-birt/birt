@@ -25,12 +25,11 @@ import java.util.Map;
 
 import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverInfo;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInformation;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JarFile;
-import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverInfo;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -920,7 +919,8 @@ public class JdbcDriverManagerDialog extends Dialog
 							.equals( JarFile.ODA_FILE_NOT_EXIST_TOKEN ) )
 			{
 				// duplicate,can not add a driver
-				ExceptionHandler.openErrorMessageBox( JdbcPlugin.getResourceString( "driverManagerDialog.text.DriverError" ),
+				MessageDialog.openError( null,
+						JdbcPlugin.getResourceString( "driverManagerDialog.text.DriverError" ),
 						JdbcPlugin.getResourceString( "driverManagerDialog.error.CanNotAddDriver" ) );
 				return;
 			}

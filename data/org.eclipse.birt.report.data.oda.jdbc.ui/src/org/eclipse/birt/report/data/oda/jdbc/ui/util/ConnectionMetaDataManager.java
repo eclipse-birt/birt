@@ -19,11 +19,16 @@ import java.util.Properties;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/06 06:33:32 $
+ * @version $Revision: 1.3 $ $Date: 2005/05/26 01:21:28 $
  */
 
 public class ConnectionMetaDataManager implements Serializable
 {
+
+	/**
+	 * serial version id
+	 */
+	private static final long serialVersionUID = -5760267960286269980L;
 
 	private ArrayList metaDatas = new ArrayList( );
 

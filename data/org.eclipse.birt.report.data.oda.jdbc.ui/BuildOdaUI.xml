@@ -70,6 +70,7 @@
 	<property name="utest.report.dir" location="utestreports" />
 	<property name="javadoc.dir" location="docs/api" />
 	<property name="export.dir" location="export" />
+	<property name="dtp.home" location=".." />
 	
 	<!--properties -->
 	<property name="dir.src" location="src" />
@@ -84,6 +85,7 @@
 	<property name="oda.jdbc.dir" value="../org.eclipse.birt.report.data.oda.jdbc" />		
 	<property name="oda.jdbc.jar" value="oda-jdbc.jar" />		
 	<property name="jar.name" value="jdbc.jar"/>
+	<property name="oda.designer.ui.dir" value="${dtp.home}/org.eclipse.datatools.connectivity.oda.design.ui"/>
 
 	<property name="arch" value="x86" />	
 	
@@ -146,6 +148,9 @@
 		<fileset dir="${oda.jdbc.dir}">
 			<include name="${oda.jdbc.jar}" />
 		</fileset>
+		<fileset dir="${oda.designer.ui.dir}">
+			<include name="*.jar" />
+		</fileset>	
 
 		<!-- dependend on eclipse due to Plugin class -->
 		<fileset dir="${eclipse.home}/plugins">
@@ -259,6 +264,9 @@
 		</ant>
 		<ant dir="${designer.ui.dir}" antfile="BuildDesignerUI.xml" target="Jar" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}"/>
+		</ant>
+		<ant dir="${oda.designer.ui.dir}" antfile="build.xml" target="Jar" inheritAll="false">
+			<property name="dtp.home" value="${dtp.home}"/>
 		</ant>
 	</target>	
 </project>

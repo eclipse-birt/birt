@@ -16,12 +16,16 @@ import java.io.Serializable;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/06 06:33:32 $
+ * @version $Revision: 1.3 $ $Date: 2005/04/23 03:21:32 $
  */
 
 public class Column implements Serializable
 {
 
+	/**
+	 * serial version id
+	 */
+	private static final long serialVersionUID = 1367008141750802405L;
 	private String name = null;
 	private String DbType = null;
 	private String schemaName = null;

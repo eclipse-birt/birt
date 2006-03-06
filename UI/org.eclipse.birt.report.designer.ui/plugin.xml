@@ -32,6 +32,9 @@
       <import plugin="org.eclipse.birt.data.oda"/>
       <import plugin="org.eclipse.birt.data"/>
       <import plugin="org.eclipse.team.core"/>
+      <import plugin="org.eclipse.datatools.connectivity.oda.design.ui"/>
+      <import plugin="org.eclipse.birt.report.model.adapter.oda"/>
+      <import plugin="org.eclipse.datatools.connectivity.oda.design"/>
    </requires>
    
    <!-- Extension points -->
