@@ -62,6 +62,7 @@
 	-->
 	<property file="build.properties" /> 
 	<property file="../birt-build.properties" /> 
+	<property name="dtp.home" location=".." />
 	
 	<!-- ===== Default value for public properties ============= -->
 	<property name="module.name" value="org.eclipse.birt.report.data.oda.sampledb.ui"/>
@@ -88,6 +89,9 @@
 		</fileset>
 		<fileset dir="${sampledb.dir}">
 			<include name="${sampledb.jar}"/>
+		</fileset>
+		<fileset dir="${oda.designer.ui.dir}">
+			<include name="${oda.designer.ui.jar}"/>
 		</fileset>
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.swt*/**/swt.jar" /> 
@@ -229,6 +233,13 @@
 		  <property name="eclipse.home" value="${eclipse.home}" /> 
 		</ant>
 		<echo message="end call Jar task in ${sampledb.dir}"/>
+
+		<echo message="start call Jar task in ${oda.designer.ui.dir}"/>
+		<ant dir="${oda.designer.ui.dir}" antfile="build.xml" target="Jar" inheritAll="false">
+			<property name="dtp.home" value="${dtp.home}"/>
+		</ant>
+		<echo message="end call Jar task in ${oda.designer.ui.dir}"/>
+		
 	</target>
 	
 	<target name="compileSource" depends="buildDependency" description="compile the source ">

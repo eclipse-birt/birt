@@ -3,15 +3,9 @@
 <plugin
    id="org.eclipse.birt.report.data.oda.sampledb.ui"
    name="BIRT Sample Database UI Plug-in"
-   version="2.1.0"
+   version="2.0.0"
    provider-name="Eclipse.org"
    class="org.eclipse.birt.report.data.oda.sampledb.ui.plugin.SampledbUIPlugin">
-
-   <runtime>
-      <library name="sampledbui.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
 
    <requires>
       <import plugin="org.eclipse.ui"/>
@@ -20,25 +14,76 @@
       <import plugin="org.eclipse.birt.report.model"/>
       <import plugin="org.eclipse.birt.report.designer.ui"/>
       <import plugin="org.eclipse.birt.report.data.oda.jdbc"/>
+      <import plugin="org.eclipse.datatools.connectivity.oda.design.ui"/>
       <import plugin="org.eclipse.birt.report.data.oda.jdbc.ui"/>
       <import plugin="org.eclipse.birt.report.data.oda.sampledb"/>
       <import plugin="org.eclipse.datatools.connectivity.oda"/>
    </requires>
 
    <extension
-         point="org.eclipse.birt.report.designer.ui.odadatasource">
-      
-      <odaDataSourceUI id="org.eclipse.birt.report.data.oda.sampledb">
-         <newDataSourceWizard class="org.eclipse.birt.report.data.oda.sampledb.ui.SampleDataSourceCreationWizard"/>
-      </odaDataSourceUI>
-      
-      <odaDataSetUI id="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
-            <dataSetEditorPage
-                  class="org.eclipse.birt.report.data.oda.sampledb.ui.SampleDataSetEditor"
+         point="org.eclipse.datatools.connectivity.connectionProfile">
+      <category
+            id="%oda.parent.category.id"
+            name="%oda.parent.category.name"/>
+      <category
+            id="%oda.data.source.id"
+            name="%oda.data.source.name"
+            parentCategory="%oda.parent.category.id"/>
+      <configurationType id="org.eclipse.datatools.connectivity.oda.profile.dummyConfigsss"/>
+      <connectionProfile
+            category="%oda.data.source.id"
+            configurationType="org.eclipse.datatools.connectivity.oda.profile.dummyConfigsss"
+            icon="icons/file.gif"
+            id="%oda.data.source.id"
+            name="%connection.profile.name"/>
+      <connectionFactory
+            id="org.eclipse.datatools.connectivity.oda.IConnection"
+            name="%oda.connection.factory.name"
+            class="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory"
+            profile="%oda.data.source.id"/>
+      <connectionFactory
+            id="org.eclipse.datatools.connectivity.connectionFactory.pingFactory"
+            name="%ping.factory.name"
+            class="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory"
+            profile="%oda.data.source.id"/>
+      <newWizard
+            id="%oda.data.source.id"
+            name="%newwizard.name"
+            class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.NewDataSourceWizard"       
+            description="%newwizard.description"
+            icon="icons/fieldlist.ico"
+            profile="%oda.data.source.id"/>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            id="%oda.data.source.id"
+            name="%profile.propertypage.name"
+            class="org.eclipse.birt.report.data.oda.sampledb.ui.profile.SampleDbPropertyPage"
+            objectClass="org.eclipse.datatools.connectivity.IConnectionProfile">
+         <filter
+               name="org.eclipse.datatools.profile.property.id"
+               value="%oda.data.source.id"/>
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.datatools.connectivity.oda.design.ui.dataSource">
+      <dataSourceUI id="%oda.data.source.id">
+         <newDataSourceWizard
+               includesProgressMonitor="false"
+               pageClass="org.eclipse.birt.report.data.oda.sampledb.ui.profile.SampleDbSelectionWizardPage"
+               pageTitle="%wizard.data.source.page.title"
+               windowTitle="%wizard.window.title"/>
+      </dataSourceUI>
+       <dataSetUI id="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet"
+		       		hasParameterDefinition = "true">
+            <dataSetPage
+                  id="org.eclipse.birt.report.data.oda.jdbc.ui.dataset2"
+                  wizardPageClass="org.eclipse.birt.report.data.oda.sampledb.ui.SampleDataSetEditor"
                   path="/"
-                  name="org.eclipse.birt.report.data.oda.sampledb.ui.data-set-editor-page"
                   displayName="%dataset.editor.page.query"/>
-      </odaDataSetUI>
+       </dataSetUI>
    </extension>
    
 </plugin>
