@@ -35,6 +35,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Spinner;
 
 /**
  * 
@@ -69,6 +70,10 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 	private transient GridAttributesComposite gacMajor = null;
 
 	private transient GridAttributesComposite gacMinor = null;
+
+	private transient Label lblGridCount = null;
+
+	private transient Spinner iscGridCount = null;
 
 	private transient Axis axis;
 
@@ -107,9 +112,6 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 
 		// Layout for the Major Grid group
 		FillLayout flMajor = new FillLayout( );
-
-		// Layout for the Minor Grid group
-		FillLayout flMinor = new FillLayout( );
 
 		// Main content composite
 		cmpContent = new Composite( parent, SWT.NONE );
@@ -194,6 +196,23 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 		cmbOrientation.setText( LiteralHelper.orientationSet.getDisplayNameByName( getAxisForProcessing( ).getOrientation( )
 				.getName( ) ) );
 
+		lblGridCount = new Label( cmpGeneral, SWT.NONE );
+		GridData gdLBLGridCount = new GridData( );
+		lblGridCount.setLayoutData( gdLBLGridCount );
+		lblGridCount.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.MinorGridCount" ) ); //$NON-NLS-1$
+
+		
+		iscGridCount = new Spinner( cmpGeneral, SWT.BORDER );
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 3;
+			iscGridCount.setLayoutData( gd );
+			iscGridCount.setMinimum( 1 );
+			iscGridCount.setSelection( getAxisForProcessing( ).getScale( )
+					.getMinorGridsPerUnit( ) );
+			iscGridCount.addSelectionListener( this );
+		}
+
 		// Comments out for deficient support
 		// Axis gap width
 		// cmpGapWidth = new Composite( cmpGeneral, SWT.NONE );
@@ -243,10 +262,12 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 
 		// Minor Grid
 		grpMinor = new Group( cmpContent, SWT.NONE );
-		GridData gdGRPMinor = new GridData( GridData.FILL_HORIZONTAL );
-		grpMinor.setLayoutData( gdGRPMinor );
-		grpMinor.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.MinorGrid" ) ); //$NON-NLS-1$
-		grpMinor.setLayout( flMinor );
+		{
+			grpMinor.setLayout( new FillLayout( ) );
+			GridData gdGRPMinor = new GridData( GridData.FILL_HORIZONTAL );
+			grpMinor.setLayoutData( gdGRPMinor );
+			grpMinor.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.MinorGrid" ) ); //$NON-NLS-1$
+		}
 
 		gacMinor = new GridAttributesComposite( grpMinor,
 				SWT.NONE,
@@ -254,6 +275,10 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 				axis.getOrientation( ).getValue( ) );
 		gacMinor.addListener( this );
 
+		setStateOfMinorGrid( getAxisForProcessing( ).getMinorGrid( )
+				.getLineAttributes( )
+				.isVisible( ) );
+		
 		return cmpContent;
 	}
 
@@ -342,6 +367,9 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 					getAxisForProcessing( ).getMinorGrid( )
 							.getLineAttributes( )
 							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					setStateOfMinorGrid( getAxisForProcessing( ).getMinorGrid( )
+							.getLineAttributes( )
+							.isVisible( ) );
 					break;
 				case GridAttributesComposite.TICK_COLOR_CHANGED_EVENT :
 					getAxisForProcessing( ).getMinorGrid( )
@@ -361,6 +389,12 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 		}
 	}
 
+	private void setStateOfMinorGrid( boolean enabled )
+	{
+		lblGridCount.setEnabled( enabled );
+		iscGridCount.setEnabled( enabled );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -369,17 +403,21 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 	public void widgetSelected( SelectionEvent e )
 	{
 		Object oSource = e.getSource( );
-		if ( oSource.equals( cbHidden ) ) // Process hiding / showing of
-		// axis
+		if ( oSource.equals( cbHidden ) )
 		{
+			// Process hiding showing of axis
 			getAxisForProcessing( ).getLineAttributes( )
 					.setVisible( !cbHidden.getSelection( ) );
 		}
-		else if ( oSource.equals( cbCategory ) ) // Process setting of
-		// category
-		// axis boolean
+		else if ( oSource.equals( cbCategory ) )
 		{
+			// Process setting of category axis boolean
 			getAxisForProcessing( ).setCategoryAxis( cbCategory.getSelection( ) );
+		}
+		if ( oSource.equals( iscGridCount ) )
+		{
+			getAxisForProcessing( ).getScale( )
+					.setMinorGridsPerUnit( iscGridCount.getSelection( ) );
 		}
 	}
 
