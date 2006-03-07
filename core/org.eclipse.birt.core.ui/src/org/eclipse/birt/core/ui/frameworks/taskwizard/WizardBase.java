@@ -376,8 +376,17 @@ public class WizardBase
 		return shellPopup;
 	}
 
+	/**
+	 * Attaches the popup window.
+	 * 
+	 * @param sPopupTitle
+	 *            '&' will be removed for accelerator key, if the popup
+	 *            title is from the control text.
+	 */
 	public void attachPopup( String sPopupTitle, int iWidth, int iHeight )
 	{
+		// Replace accelerator key if it's used
+		sPopupTitle = sPopupTitle.replace( '&', ' ' );
 		shellPopup.setText( sPopupTitle );
 		// IF PREFERRED SIZE IS SPECIFIED USE IT...ELSE USE PACK
 		if ( iWidth != -1 && iHeight != -1 )

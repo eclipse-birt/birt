@@ -1148,12 +1148,12 @@ public class FormatSpecifierComposite extends Composite
 				txtDelimiter.addModifyListener( this );
 			}
 
-			new Label( this, SWT.NONE ).setText( Messages.getString( "FormatSpecifierComposite.Lbl.Approximate" ) ); //$NON-NLS-1$
-
 			btnApproximate = new Button( this, SWT.CHECK );
 			{
 				GridData gd = new GridData( );
+				gd.horizontalSpan = 2;
 				btnApproximate.setLayoutData( gd );
+				btnApproximate.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Approximate" ) ); //$NON-NLS-1$
 				btnApproximate.addSelectionListener( this );
 			}
 

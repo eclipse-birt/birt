@@ -31,10 +31,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Spinner;
 
 /**
  * @author Actuate Corporation
@@ -42,8 +41,7 @@ import org.eclipse.swt.widgets.Listener;
  */
 public class SeriesGroupingComposite extends Composite
 		implements
-			SelectionListener,
-			Listener
+			SelectionListener
 {
 
 	private transient Group grpContent = null;
@@ -60,7 +58,7 @@ public class SeriesGroupingComposite extends Composite
 
 	private transient Label lblInterval = null;
 
-	private transient IntegerSpinControl iscInterval = null;
+	private transient Spinner iscInterval = null;
 
 	private transient Label lblAggregate = null;
 
@@ -156,14 +154,13 @@ public class SeriesGroupingComposite extends Composite
 			iGroupInterval = sd.getGrouping( ).getGroupingInterval( );
 		}
 
-		iscInterval = new IntegerSpinControl( grpContent,
-				SWT.NONE,
-				iGroupInterval );
+		iscInterval = new Spinner( grpContent, SWT.BORDER );
 		GridData gdISCInterval = new GridData( GridData.FILL_HORIZONTAL );
 		iscInterval.setLayoutData( gdISCInterval );
 		iscInterval.setMinimum( 0 );
 		iscInterval.setToolTipText( Messages.getString( "SeriesGroupingComposite.Tooltip.SelectIntervalForGrouping" ) ); //$NON-NLS-1$
-		iscInterval.addListener( this );
+		iscInterval.setSelection( iGroupInterval );
+		iscInterval.addSelectionListener( this );
 
 		Label lblDummy = new Label( grpContent, SWT.NONE );
 		GridData gdLBLDummy = new GridData( GridData.FILL_HORIZONTAL );
@@ -331,6 +328,10 @@ public class SeriesGroupingComposite extends Composite
 			lblAggregate.setEnabled( bEnableUI );
 			cmbAggregate.setEnabled( bEnableUI );
 		}
+		else if ( oSource.equals( iscInterval ) )
+		{
+			getGrouping( ).setGroupingInterval( iscInterval.getSelection( ) );
+		}
 	}
 
 	/*
@@ -342,17 +343,6 @@ public class SeriesGroupingComposite extends Composite
 	{
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
-	 */
-	public void handleEvent( Event event )
-	{
-		if ( event.widget.equals( iscInterval ) )
-		{
-			getGrouping( ).setGroupingInterval( ( (Integer) event.data ).intValue( ) );
-		}
-	}
+
 
 }

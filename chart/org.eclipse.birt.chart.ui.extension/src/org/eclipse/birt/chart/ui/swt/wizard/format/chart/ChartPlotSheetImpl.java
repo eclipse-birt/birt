@@ -112,7 +112,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 					? Messages.getString( "ChartPlotSheetImpl.Label.AreaWithinAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.ClientArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
-		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background" ) ); //$NON-NLS-1$
+		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background2" ) ); //$NON-NLS-1$
 
 		cmbClientAreaColor = new FillChooserComposite( cmpBasic, SWT.DROP_DOWN
 				| SWT.READ_ONLY, getContext( ), getChart( ).getPlot( )
@@ -129,7 +129,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 
 		btnWithinVisible = new Button( cmpBasic, SWT.CHECK );
 		{
-			btnWithinVisible.setText( Messages.getString( "ChartPlotSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
+			btnWithinVisible.setText( Messages.getString( "ChartPlotSheetImpl.Label.Visible2" ) ); //$NON-NLS-1$
 			btnWithinVisible.addSelectionListener( this );
 			btnWithinVisible.setSelection( getChart( ).getPlot( )
 					.getClientArea( )

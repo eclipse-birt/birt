@@ -159,12 +159,11 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 
     private String buildString()
     {
-    	if ( sKey != null && !sKey.equals("") )
-    	{
-    		return sKey + ExternalizedTextEditorComposite.SEPARATOR + sCurrent;
-    	}
-    	else
-    		return sCurrent;
+    	if ( sKey != null && sKey.length( ) > 0 )
+		{
+			return sKey + ExternalizedTextEditorComposite.SEPARATOR + sCurrent;
+		}
+		return sCurrent;
     }
 
     public String getKey(String str)

@@ -45,6 +45,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -82,7 +83,7 @@ public class TriggerDataComposite extends Composite
 
 	private transient Composite cmpTooltip = null;
 
-	private transient IntegerSpinControl iscDelay = null;
+	private transient Spinner iscDelay = null;
 
 	private transient Text txtTooltipText = null;
 
@@ -267,13 +268,14 @@ public class TriggerDataComposite extends Composite
 		lblDelay.setLayoutData( gdLBLDelay );
 		lblDelay.setText( Messages.getString( "TriggerDataComposite.Lbl.TooltipDelay" ) ); //$NON-NLS-1$
 
-		iscDelay = new IntegerSpinControl( cmpTooltip, SWT.NONE, 200 );
+		iscDelay = new Spinner( cmpTooltip, SWT.BORDER );
 		GridData gdISCDelay = new GridData( GridData.FILL_HORIZONTAL );
 		gdISCDelay.horizontalSpan = 2;
-		iscDelay.setLayoutData( gdISCDelay );
-		iscDelay.setMinimum( 100 );
+		iscDelay.setLayoutData( gdISCDelay );		
 		iscDelay.setMaximum( 5000 );
+		iscDelay.setMinimum( 100 );
 		iscDelay.setIncrement( 100 );
+		iscDelay.setSelection( 200 );
 
 		Label lblText = new Label( cmpTooltip, SWT.NONE );
 		lblText.setText( Messages.getString( "TriggerDataComposite.Lbl.TooltipText" ) ); //$NON-NLS-1$
@@ -495,7 +497,7 @@ public class TriggerDataComposite extends Composite
 				this.slValues.topControl = cmpTooltip;
 				TooltipValue tooltipValue = (TooltipValue) trigger.getAction( )
 						.getValue( );
-				iscDelay.setValue( tooltipValue.getDelay( ) );
+				iscDelay.setSelection( tooltipValue.getDelay( ) );
 				txtTooltipText.setText( ( tooltipValue.getText( ) != null )
 						? tooltipValue.getText( ) : "" ); //$NON-NLS-1$
 				break;
@@ -550,7 +552,7 @@ public class TriggerDataComposite extends Composite
 						txtSeriesParm.getText( ) );
 				break;
 			case 1 :
-				value = TooltipValueImpl.create( iscDelay.getValue( ), "" ); //$NON-NLS-1$
+				value = TooltipValueImpl.create( iscDelay.getSelection( ), "" ); //$NON-NLS-1$
 				( (TooltipValue) value ).setText( txtTooltipText.getText( ) );
 				break;
 			case 2 :

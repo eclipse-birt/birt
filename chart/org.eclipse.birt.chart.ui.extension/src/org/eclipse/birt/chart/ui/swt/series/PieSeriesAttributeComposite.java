@@ -22,7 +22,6 @@ import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
-import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
@@ -42,6 +41,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Spinner;
 
 /**
  * @author Actuate Corporation
@@ -58,7 +58,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 
 	private transient Combo cmbLeaderLine = null;
 
-	private transient IntegerSpinControl iscLeaderLength = null;
+	private transient Spinner iscLeaderLength = null;
 
 	private transient LineAttributesComposite liacLeaderLine = null;
 
@@ -75,7 +75,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 	private transient Label lblExpSliWhen;
 	private transient Label lblExpDistance;
 	private transient Label lblRatio;
-	private transient IntegerSpinControl iscExplosion;
+	private transient Spinner iscExplosion;
 	private transient TextEditorComposite txtRatio;
 
 	private final static String TOOLTIP_EXPLODE_SLICE_WHEN = Messages.getString( "PieBottomAreaComponent.Label.TheExplosionCondition" ); //$NON-NLS-1$
@@ -174,14 +174,13 @@ public class PieSeriesAttributeComposite extends Composite implements
 		lblLeaderSize.setLayoutData( gdLBLLeaderSize );
 		lblLeaderSize.setText( Messages.getString( "PieSeriesAttributeComposite.Lbl.LeaderLineSize" ) ); //$NON-NLS-1$
 
-		iscLeaderLength = new IntegerSpinControl( grpLeaderLine,
-				SWT.NONE,
-				(int) series.getLeaderLineLength( ) );
+		iscLeaderLength = new Spinner( grpLeaderLine, SWT.BORDER );
 		GridData gdISCLeaderLength = new GridData( GridData.FILL_HORIZONTAL );
 		iscLeaderLength.setLayoutData( gdISCLeaderLength );
 		iscLeaderLength.setMinimum( 0 );
 		iscLeaderLength.setMaximum( MAX_LEADER_LENGTH );
-		iscLeaderLength.addListener( this );
+		iscLeaderLength.setSelection( (int) series.getLeaderLineLength( ) );
+		iscLeaderLength.addSelectionListener( this );
 
 		Composite cmpRight = new Composite( this, SWT.NONE );
 		{
@@ -256,16 +255,15 @@ public class PieSeriesAttributeComposite extends Composite implements
 			lblExpDistance.setToolTipText( TOOLTIP_EXPLOSION_DISTANCE );
 		}
 
-		iscExplosion = new IntegerSpinControl( cmpBottomBindingArea,
-				SWT.NONE,
-				series.getExplosion( ) );
+		iscExplosion = new Spinner( cmpBottomBindingArea, SWT.BORDER );
 		{
 			GridData gdISCExplosion = new GridData( GridData.FILL_HORIZONTAL );
 			gdISCExplosion.horizontalSpan = 2;
 			iscExplosion.setLayoutData( gdISCExplosion );
 			iscExplosion.setMinimum( 0 );
 			iscExplosion.setMaximum( 100 );
-			iscExplosion.addListener( this );
+			iscExplosion.setSelection( series.getExplosion( ) );
+			iscExplosion.addSelectionListener( this );
 		}
 
 		lblRatio = new Label( cmpBottomBindingArea, SWT.NONE );
@@ -301,15 +299,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 	 */
 	public void handleEvent( Event event )
 	{
-		if ( event.widget.equals( iscExplosion ) )
-		{
-			series.setExplosion( ( (Integer) event.data ).intValue( ) );
-		}
-		else if ( event.widget.equals( iscLeaderLength ) )
-		{
-			series.setLeaderLineLength( ( (Integer) event.data ).doubleValue( ) );
-		}
-		else if ( event.widget.equals( fccSliceOutline ) )
+		if ( event.widget.equals( fccSliceOutline ) )
 		{
 			series.setSliceOutline( (ColorDefinition) event.data );
 		}
@@ -360,7 +350,15 @@ public class PieSeriesAttributeComposite extends Composite implements
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		if ( e.getSource( ).equals( cmbLeaderLine ) )
+		if ( e.getSource( ).equals( iscExplosion ) )
+		{
+			series.setExplosion( iscExplosion.getSelection( ) );
+		}
+		else if ( e.getSource( ).equals( iscLeaderLength ) )
+		{
+			series.setLeaderLineLength( iscLeaderLength.getSelection( ) );
+		}
+		else if ( e.getSource( ).equals( cmbLeaderLine ) )
 		{
 			series.setLeaderLineStyle( LeaderLineStyle.getByName( LiteralHelper.leaderLineStyleSet.getNameByDisplayName( cmbLeaderLine.getText( ) ) ) );
 		}

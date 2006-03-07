@@ -296,21 +296,22 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
         return getValueComponent(sResult);
     }
 
-    private String getDisplayValue()
-    {
-        if (cbExternalize.getSelection())
-        {
-        	if ( defaultValue == null || defaultValue.equals("" ) )
-        		return new MessageFormat(Messages.getString("ExternalizedTextEditorDialog.Lbl.Value")).format(new Object[] { getKeyComponent(sResult)}); //$NON-NLS-1$
-        	else
-        		return defaultValue;
-        }
-        return getValueComponent(sResult);
-    }
+    private String getDisplayValue( )
+	{
+		if ( cbExternalize.getSelection( ) )
+		{
+			if ( defaultValue == null || defaultValue.length( ) == 0 )
+			{
+				return new MessageFormat( Messages.getString( "ExternalizedTextEditorDialog.Lbl.Value" ) ).format( new Object[]{getKeyComponent( sResult )} ); //$NON-NLS-1$
+			}
+			return defaultValue;
+		}
+		return getValueComponent( sResult );
+	}
 
     /**
-     * @return "key=defaultValue"
-     */ 
+	 * @return "key=defaultValue"
+	 */ 
     private String buildString()
     {
         StringBuffer sbText = new StringBuffer(""); //$NON-NLS-1$

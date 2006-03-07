@@ -132,9 +132,10 @@ public class InsetsComposite extends Composite implements Listener
 		this.setLayout( flMain );
 
 		grpInsets = new Group( this, SWT.NONE );
-		grpInsets.setLayout( glGroup );		
-		grpInsets.setText( new MessageFormat( Messages.getString( "InsetsComposite.Lbl.Insets" ) ).format(
-				new Object[]{LiteralHelper.unitsOfMeasurementSet.getDisplayNameByName( sUnits )} ) ); //$NON-NLS-1$
+		grpInsets.setLayout( glGroup );
+		grpInsets.setText( new MessageFormat( Messages.getString( "InsetsComposite.Lbl.Insets" ) ).format( new Object[]{ //$NON-NLS-1$
+			LiteralHelper.unitsOfMeasurementSet.getDisplayNameByName( sUnits )
+		} ) );
 
 		lblTop = new Label( grpInsets, SWT.NONE );
 		GridData gdLTop = new GridData( GridData.VERTICAL_ALIGN_CENTER );

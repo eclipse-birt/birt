@@ -20,7 +20,6 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
@@ -35,6 +34,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Spinner;
 
 /**
  * 
@@ -54,7 +54,7 @@ public class AxisTextSheet extends AbstractPopupSheet
 
 	private transient Button cbStaggered;
 
-	private transient IntegerSpinControl iscInterval;
+	private transient Spinner iscInterval;
 
 	private transient Axis axis;
 
@@ -187,15 +187,14 @@ public class AxisTextSheet extends AbstractPopupSheet
 			lblInterval.setEnabled( isLabelEnabled );
 		}
 
-		iscInterval = new IntegerSpinControl( grpLabel,
-				SWT.NONE,
-				getAxisForProcessing( ).getInterval( ) );
+		iscInterval = new Spinner( grpLabel, SWT.BORDER );
 		{
 			iscInterval.setMinimum( 1 );
+			iscInterval.setSelection( getAxisForProcessing( ).getInterval( ) );
 			GridData gd = new GridData( );
 			gd.widthHint = 135;
 			iscInterval.setLayoutData( gd );
-			iscInterval.addListener( this );
+			iscInterval.addSelectionListener( this );
 			iscInterval.setEnabled( isLabelEnabled );
 		}
 
@@ -315,10 +314,6 @@ public class AxisTextSheet extends AbstractPopupSheet
 					break;
 			}
 		}
-		else if ( event.widget.equals( iscInterval ) )
-		{
-			getAxisForProcessing( ).setInterval( ( (Integer) event.data ).intValue( ) );
-		}
 	}
 
 	/*
@@ -331,6 +326,10 @@ public class AxisTextSheet extends AbstractPopupSheet
 		if ( e.getSource( ).equals( cbStaggered ) )
 		{
 			getAxisForProcessing( ).setStaggered( cbStaggered.getSelection( ) );
+		}
+		else if ( e.getSource( ).equals( iscInterval ) )
+		{
+			getAxisForProcessing( ).setInterval( iscInterval.getSelection( ) );
 		}
 	}
 

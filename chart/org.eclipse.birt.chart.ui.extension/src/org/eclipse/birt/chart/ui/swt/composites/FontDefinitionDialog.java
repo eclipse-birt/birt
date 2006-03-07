@@ -299,6 +299,7 @@ public class FontDefinitionDialog implements
 		btnBold = new Button( cmpFontStyle, SWT.TOGGLE );
 		GridData gdBBold = new GridData( );
 		btnBold.setLayoutData( gdBBold );
+		btnBold.setText( "&b" ); //$NON-NLS-1$
 		btnBold.setImage( UIHelper.getImage( "icons/obj16/fnt_style_bold.gif" ) ); //$NON-NLS-1$
 		btnBold.addSelectionListener( this );
 		btnBold.setSelection( fdCurrent.isSetBold( ) && fdCurrent.isBold( ) );
@@ -306,6 +307,7 @@ public class FontDefinitionDialog implements
 		btnItalic = new Button( cmpFontStyle, SWT.TOGGLE );
 		GridData gdBItalic = new GridData( );
 		btnItalic.setLayoutData( gdBItalic );
+		btnItalic.setText( "&i" ); //$NON-NLS-1$
 		btnItalic.setImage( UIHelper.getImage( "icons/obj16/fnt_style_italic.gif" ) ); //$NON-NLS-1$
 		btnItalic.addSelectionListener( this );
 		btnItalic.setSelection( fdCurrent.isSetItalic( )
@@ -314,6 +316,7 @@ public class FontDefinitionDialog implements
 		btnUnderline = new Button( cmpFontStyle, SWT.TOGGLE );
 		GridData gdBUnderline = new GridData( );
 		btnUnderline.setLayoutData( gdBUnderline );
+		btnUnderline.setText( "&u" ); //$NON-NLS-1$
 		btnUnderline.setImage( UIHelper.getImage( "icons/obj16/fnt_style_underline.gif" ) ); //$NON-NLS-1$
 		btnUnderline.addSelectionListener( this );
 		btnUnderline.setSelection( fdCurrent.isSetUnderline( )
