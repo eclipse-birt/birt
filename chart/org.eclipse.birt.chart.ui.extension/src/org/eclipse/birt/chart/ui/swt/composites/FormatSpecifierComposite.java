@@ -43,10 +43,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -530,7 +529,7 @@ public class FormatSpecifierComposite extends Composite
 	private class NumberStandardComposite extends Composite
 			implements
 				IFormatSpecifierUIComponent,
-				Listener,
+				SelectionListener,
 				ModifyListener
 	{
 
@@ -540,7 +539,7 @@ public class FormatSpecifierComposite extends Composite
 
 		private transient Text txtMultiplier = null;
 
-		private transient IntegerSpinControl iscFractionDigits = null;
+		private transient Spinner iscFractionDigits = null;
 
 		private NumberStandardComposite( Composite parent )
 		{
@@ -598,39 +597,12 @@ public class FormatSpecifierComposite extends Composite
 			lblFractionDigit.setLayoutData( gdLBLFractionDigit );
 			lblFractionDigit.setText( Messages.getString( "FormatSpecifierComposite.Lbl.FractionDigits" ) ); //$NON-NLS-1$
 
-			iscFractionDigits = new IntegerSpinControl( this, SWT.NONE, 2 );
+			iscFractionDigits = new Spinner( this, SWT.BORDER );
 			GridData gdISCFractionDigits = new GridData( GridData.FILL_HORIZONTAL );
 			gdISCFractionDigits.widthHint = 60;
 			iscFractionDigits.setLayoutData( gdISCFractionDigits );
-			iscFractionDigits.addListener( this );
-		}
-
-		public void handleEvent( Event event )
-		{
-			bEnableEvents = false;
-			if ( event.widget.equals( iscFractionDigits ) )
-			{
-				if ( !( formatspecifier instanceof NumberFormatSpecifier ) )
-				{
-					formatspecifier = NumberFormatSpecifierImpl.create( );
-					( (NumberFormatSpecifier) formatspecifier ).setPrefix( txtPrefix.getText( ) );
-					( (NumberFormatSpecifier) formatspecifier ).setSuffix( txtSuffix.getText( ) );
-					try
-					{
-						String str = txtMultiplier.getText( );
-						if ( str.length( ) > 0 )
-						{
-							( (NumberFormatSpecifier) formatspecifier ).setMultiplier( new Double( str ).doubleValue( ) );
-						}
-					}
-					catch ( NumberFormatException e1 )
-					{
-						handleFormatError( txtMultiplier.getText( ) );
-					}
-				}
-				( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( ( (Integer) event.data ).intValue( ) );
-			}
-			bEnableEvents = true;
+			iscFractionDigits.setSelection( 2 );
+			iscFractionDigits.addSelectionListener( this );
 		}
 
 		public void modifyText( ModifyEvent e )
@@ -643,7 +615,7 @@ public class FormatSpecifierComposite extends Composite
 				{
 					formatspecifier = NumberFormatSpecifierImpl.create( );
 					( (NumberFormatSpecifier) formatspecifier ).setSuffix( txtSuffix.getText( ) );
-					( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getValue( ) );
+					( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getSelection( ) );
 					try
 					{
 						String str = txtMultiplier.getText( );
@@ -669,7 +641,7 @@ public class FormatSpecifierComposite extends Composite
 				{
 					formatspecifier = NumberFormatSpecifierImpl.create( );
 					( (NumberFormatSpecifier) formatspecifier ).setPrefix( txtPrefix.getText( ) );
-					( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getValue( ) );
+					( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getSelection( ) );
 					try
 					{
 						String str = txtMultiplier.getText( );
@@ -696,7 +668,7 @@ public class FormatSpecifierComposite extends Composite
 					formatspecifier = NumberFormatSpecifierImpl.create( );
 					( (NumberFormatSpecifier) formatspecifier ).setPrefix( txtPrefix.getText( ) );
 					( (NumberFormatSpecifier) formatspecifier ).setSuffix( txtSuffix.getText( ) );
-					( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getValue( ) );
+					( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getSelection( ) );
 				}
 				try
 				{
@@ -749,7 +721,7 @@ public class FormatSpecifierComposite extends Composite
 					str = ""; //$NON-NLS-1$
 				}
 				txtMultiplier.setText( str );
-				iscFractionDigits.setValue( ( (NumberFormatSpecifier) formatspecifier ).getFractionDigits( ) );
+				iscFractionDigits.setSelection( ( (NumberFormatSpecifier) formatspecifier ).getFractionDigits( ) );
 			}
 		}
 
@@ -758,7 +730,7 @@ public class FormatSpecifierComposite extends Composite
 			FormatSpecifier fs = NumberFormatSpecifierImpl.create( );
 			( (NumberFormatSpecifier) fs ).setPrefix( txtPrefix.getText( ) );
 			( (NumberFormatSpecifier) fs ).setSuffix( txtSuffix.getText( ) );
-			( (NumberFormatSpecifier) fs ).setFractionDigits( iscFractionDigits.getValue( ) );
+			( (NumberFormatSpecifier) fs ).setFractionDigits( iscFractionDigits.getSelection( ) );
 			if ( txtMultiplier.getText( ).length( ) > 0 )
 			{
 				try
@@ -772,6 +744,40 @@ public class FormatSpecifierComposite extends Composite
 				}
 			}
 			return fs;
+		}
+
+		public void widgetSelected( SelectionEvent e )
+		{
+			bEnableEvents = false;
+			if ( e.widget.equals( iscFractionDigits ) )
+			{
+				if ( !( formatspecifier instanceof NumberFormatSpecifier ) )
+				{
+					formatspecifier = NumberFormatSpecifierImpl.create( );
+					( (NumberFormatSpecifier) formatspecifier ).setPrefix( txtPrefix.getText( ) );
+					( (NumberFormatSpecifier) formatspecifier ).setSuffix( txtSuffix.getText( ) );
+					try
+					{
+						String str = txtMultiplier.getText( );
+						if ( str.length( ) > 0 )
+						{
+							( (NumberFormatSpecifier) formatspecifier ).setMultiplier( new Double( str ).doubleValue( ) );
+						}
+					}
+					catch ( NumberFormatException e1 )
+					{
+						handleFormatError( txtMultiplier.getText( ) );
+					}
+				}
+				( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getSelection( ) );
+			}
+			bEnableEvents = true;
+		}
+
+		public void widgetDefaultSelected( SelectionEvent e )
+		{
+			// TODO Auto-generated method stub
+
 		}
 
 	}
@@ -1084,7 +1090,6 @@ public class FormatSpecifierComposite extends Composite
 	private class NumberFractionComposite extends Composite
 			implements
 				IFormatSpecifierUIComponent,
-				Listener,
 				ModifyListener,
 				SelectionListener
 	{
@@ -1107,9 +1112,9 @@ public class FormatSpecifierComposite extends Composite
 
 		private transient Text txtDelimiter = null;
 
-		private transient Text txtNumerator = null;
+		private transient Spinner spnNumerator = null;
 
-		private transient IntegerSpinControl iscFractionDigits = null;
+		private transient Spinner spnFractionDigits = null;
 
 		private NumberFractionComposite( Composite parent )
 		{
@@ -1174,14 +1179,15 @@ public class FormatSpecifierComposite extends Composite
 				btnUseNumerator.addSelectionListener( this );
 			}
 
-			txtNumerator = new Text( this, SWT.BORDER | SWT.SINGLE );
+			spnNumerator = new Spinner( this, SWT.BORDER );
 			{
 				GridData gdTXTMultiplier = new GridData( GridData.FILL_HORIZONTAL );
 				gdTXTMultiplier.widthHint = 60;
-				txtNumerator.setLayoutData( gdTXTMultiplier );
-				txtNumerator.setText( Long.toString( (long) getFormatSpecifier( ).getNumerator( ) ) );
-				txtNumerator.setToolTipText( Messages.getString( "FormatSpecifierComposite.Tooltip.InputAPositiveInteger" ) ); //$NON-NLS-1$
-				txtNumerator.addModifyListener( this );
+				spnNumerator.setLayoutData( gdTXTMultiplier );
+				spnNumerator.setMinimum( 1 );
+				spnNumerator.setSelection( (int) getFormatSpecifier( ).getNumerator( ) );
+				spnNumerator.setToolTipText( Messages.getString( "FormatSpecifierComposite.Tooltip.InputAPositiveInteger" ) ); //$NON-NLS-1$
+				spnNumerator.addSelectionListener( this );
 			}
 
 			new Label( this, SWT.NONE ).setText( Messages.getString( "FormatSpecifierComposite.Lbl.Suffix" ) ); //$NON-NLS-1$
@@ -1206,45 +1212,17 @@ public class FormatSpecifierComposite extends Composite
 				btnUseDenorminator.addSelectionListener( this );
 			}
 
-			iscFractionDigits = new IntegerSpinControl( this, SWT.NONE, 3 );
+			spnFractionDigits = new Spinner( this, SWT.BORDER );
 			{
-				iscFractionDigits.setMinimum( 1 );
-				iscFractionDigits.setMaximum( 8 );
+				spnFractionDigits.setMinimum( 1 );
+				spnFractionDigits.setMaximum( 8 );
 				GridData gdISCFractionDigits = new GridData( GridData.FILL_HORIZONTAL );
 				gdISCFractionDigits.widthHint = 60;
-				iscFractionDigits.setLayoutData( gdISCFractionDigits );
-				iscFractionDigits.setValue( getFormatSpecifier( ).getFractionDigits( ) );
-				iscFractionDigits.setToolTipText( Messages.getString( "FormatSpecifierComposite.Tooltip.FractionDigits" ) ); //$NON-NLS-1$
-				iscFractionDigits.addListener( this );
+				spnFractionDigits.setLayoutData( gdISCFractionDigits );
+				spnFractionDigits.setSelection( getFormatSpecifier( ).getFractionDigits( ) );
+				spnFractionDigits.setToolTipText( Messages.getString( "FormatSpecifierComposite.Tooltip.FractionDigits" ) ); //$NON-NLS-1$
+				spnFractionDigits.addSelectionListener( this );
 			}
-		}
-
-		public void handleEvent( Event event )
-		{
-			bEnableEvents = false;
-			if ( event.widget.equals( iscFractionDigits ) )
-			{
-				if ( !( formatspecifier instanceof FractionNumberFormatSpecifier ) )
-				{
-					formatspecifier = FractionNumberFormatSpecifierImpl.create( );
-					getFormatSpecifier( ).setPrefix( txtPrefix.getText( ) );
-					getFormatSpecifier( ).setSuffix( txtSuffix.getText( ) );
-					try
-					{
-						String str = txtNumerator.getText( );
-						if ( str.length( ) > 0 )
-						{
-							getFormatSpecifier( ).setNumerator( new Double( str ).doubleValue( ) );
-						}
-					}
-					catch ( NumberFormatException e1 )
-					{
-						handleFormatError( txtNumerator.getText( ) );
-					}
-				}
-				getFormatSpecifier( ).setFractionDigits( ( (Integer) event.data ).intValue( ) );
-			}
-			bEnableEvents = true;
 		}
 
 		public void modifyText( ModifyEvent e )
@@ -1253,19 +1231,15 @@ public class FormatSpecifierComposite extends Composite
 			bEnableEvents = false;
 			if ( oSource.equals( txtPrefix ) )
 			{
-				updateFormatSpecifier( );
+				getFormatSpecifier( ).setPrefix( txtPrefix.getText( ) );
 			}
 			else if ( oSource.equals( txtSuffix ) )
 			{
-				updateFormatSpecifier( );
+				getFormatSpecifier( ).setSuffix( txtSuffix.getText( ) );
 			}
 			else if ( oSource.equals( txtDelimiter ) )
 			{
-				updateFormatSpecifier( );
-			}
-			else if ( oSource.equals( txtNumerator ) )
-			{
-				updateFormatSpecifier( );
+				getFormatSpecifier( ).setDelimiter( txtDelimiter.getText( ) );
 			}
 			bEnableEvents = true;
 		}
@@ -1291,10 +1265,10 @@ public class FormatSpecifierComposite extends Composite
 				this.btnUseDenorminator.setSelection( true );
 			}
 
-			this.txtNumerator.setEnabled( enabled
+			this.spnNumerator.setEnabled( enabled
 					&& btnApproximate.getSelection( )
 					&& btnUseNumerator.getSelection( ) );
-			this.iscFractionDigits.setEnabled( enabled
+			this.spnFractionDigits.setEnabled( enabled
 					&& btnApproximate.getSelection( )
 					&& btnUseDenorminator.getSelection( ) );
 
@@ -1315,35 +1289,6 @@ public class FormatSpecifierComposite extends Composite
 					? (FractionNumberFormatSpecifier) formatspecifier : dummyFs;
 		}
 
-		private void updateFormatSpecifier( )
-		{
-			if ( !( formatspecifier instanceof FractionNumberFormatSpecifier ) )
-			{
-				formatspecifier = FractionNumberFormatSpecifierImpl.create( );
-			}
-			getFormatSpecifier( ).setPrecise( !btnApproximate.getSelection( ) );
-			getFormatSpecifier( ).setPrefix( txtPrefix.getText( ) );
-			getFormatSpecifier( ).setSuffix( txtSuffix.getText( ) );
-			getFormatSpecifier( ).setDelimiter( txtDelimiter.getText( ) );
-			getFormatSpecifier( ).setFractionDigits( iscFractionDigits.getValue( ) );
-			try
-			{
-				String str = txtNumerator.getText( );
-				if ( str.length( ) > 0 )
-				{
-					getFormatSpecifier( ).setNumerator( new Double( str ).doubleValue( ) );
-				}
-				else
-				{
-					getFormatSpecifier( ).eUnset( AttributePackage.eINSTANCE.getFractionNumberFormatSpecifier_Numerator( ) );
-				}
-			}
-			catch ( NumberFormatException e1 )
-			{
-				handleFormatError( txtNumerator.getText( ) );
-			}
-		}
-
 		public FormatSpecifier buildFormatSpecifier( )
 		{
 			FractionNumberFormatSpecifier fs = FractionNumberFormatSpecifierImpl.create( );
@@ -1351,19 +1296,10 @@ public class FormatSpecifierComposite extends Composite
 			fs.setDelimiter( txtDelimiter.getText( ) );
 			fs.setPrefix( txtPrefix.getText( ) );
 			fs.setSuffix( txtSuffix.getText( ) );
-			fs.setFractionDigits( iscFractionDigits.getValue( ) );
-			if ( btnUseNumerator.getSelection( )
-					&& txtNumerator.getText( ).length( ) > 0 )
+			fs.setFractionDigits( spnFractionDigits.getSelection( ) );
+			if ( btnUseNumerator.getSelection( ) )
 			{
-				try
-				{
-					fs.setNumerator( Double.valueOf( txtNumerator.getText( ) )
-							.doubleValue( ) );
-				}
-				catch ( NumberFormatException e )
-				{
-					handleFormatError( txtNumerator.getText( ) );
-				}
+				fs.setNumerator( spnNumerator.getSelection( ) );
 			}
 			else
 			{
@@ -1381,13 +1317,21 @@ public class FormatSpecifierComposite extends Composite
 			}
 			else if ( e.widget.equals( btnUseNumerator ) )
 			{
-				this.txtNumerator.setEnabled( true );
-				this.iscFractionDigits.setEnabled( false );
+				this.spnNumerator.setEnabled( true );
+				this.spnFractionDigits.setEnabled( false );
 			}
 			else if ( e.widget.equals( btnUseDenorminator ) )
 			{
-				this.txtNumerator.setEnabled( false );
-				this.iscFractionDigits.setEnabled( true );
+				this.spnNumerator.setEnabled( false );
+				this.spnFractionDigits.setEnabled( true );
+			}
+			else if ( e.widget.equals( spnFractionDigits ) )
+			{
+				getFormatSpecifier( ).setFractionDigits( spnFractionDigits.getSelection( ) );
+			}
+			else if ( e.widget.equals( spnNumerator ) )
+			{
+				getFormatSpecifier( ).setNumerator( spnNumerator.getSelection( ) );
 			}
 		}
 
