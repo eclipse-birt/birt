@@ -777,7 +777,7 @@ public class CascadingParametersDialog extends BaseDialog
 			return new String[0];
 		}
 		DataSetItemModel[] models = DataSetManager.getCurrentInstance( )
-				.getColumns( dataSet, true );
+				.getColumns( dataSet, false );
 		if ( models == null )
 		{
 			return new String[0];
