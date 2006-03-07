@@ -19,7 +19,6 @@
       <import plugin="org.eclipse.birt.report.designer.ui"/>
       <import plugin="org.eclipse.birt.report.model"/>
       <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.datatools.connectivity.oda"/>
       <import plugin="org.eclipse.datatools.connectivity.oda.design.ui"/>
    </requires>
    
@@ -32,10 +31,10 @@
             id="%oda.data.source.id"
             name="%oda.data.source.name"
             parentCategory="%oda.parent.category.id"/>
-      <configurationType id="org.eclipse.datatools.connectivity.oda.profile.dummyConfigs"/>
+      <configurationType id="org.eclipse.datatools.connectivity.oda.profile.BIRTXmlConfig"/>
       <connectionProfile
             category="%oda.data.source.id"
-            configurationType="org.eclipse.datatools.connectivity.oda.profile.dummyConfigs"
+            configurationType="org.eclipse.datatools.connectivity.oda.profile.BIRTXmlConfig"
             icon="icons/file.gif"
             id="%oda.data.source.id"
             name="%connection.profile.name"/>

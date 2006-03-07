@@ -37,10 +37,10 @@
             id="%oda.data.source.id"
             name="%oda.data.source.name"
             parentCategory="%oda.parent.category.id"/>
-      <configurationType id="org.eclipse.datatools.connectivity.oda.profile.JDBCConfigs"/>
+      <configurationType id="org.eclipse.datatools.connectivity.oda.profile.BIRTJDBCConfig"/>
       <connectionProfile
             category="%oda.data.source.id"
-            configurationType="org.eclipse.datatools.connectivity.oda.profile.JDBCConfigs"
+            configurationType="org.eclipse.datatools.connectivity.oda.profile.BIRTJDBCConfig"
             icon="icons/file.gif"
             id="%oda.data.source.id"
             name="%connection.profile.name"/>

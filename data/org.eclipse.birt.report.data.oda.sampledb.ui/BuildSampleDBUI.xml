@@ -72,9 +72,6 @@
 		<fileset dir="${birt.core.dir}">
 			<include name="${birt.core.jar}"/>
 		</fileset>
-		<fileset dir="${dtp.oda.dir}">
-			<include name="${dtp.oda.jar}"/>
-		</fileset>
 		<fileset dir="${oda.jdbc.dir}">
 			<include name="${oda.jdbc.jar}"/>
 		</fileset>
@@ -235,7 +232,7 @@
 		<echo message="end call Jar task in ${sampledb.dir}"/>
 
 		<echo message="start call Jar task in ${oda.designer.ui.dir}"/>
-		<ant dir="${oda.designer.ui.dir}" antfile="build.xml" target="Jar" inheritAll="false">
+		<ant dir="${oda.designer.ui.dir}" antfile="BuildOdaDesignUI.xml" target="Jar" inheritAll="false">
 			<property name="dtp.home" value="${dtp.home}"/>
 		</ant>
 		<echo message="end call Jar task in ${oda.designer.ui.dir}"/>
