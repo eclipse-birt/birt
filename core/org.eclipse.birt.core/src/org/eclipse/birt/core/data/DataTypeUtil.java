@@ -13,7 +13,6 @@ package org.eclipse.birt.core.data;
 
 import java.math.BigDecimal;
 import java.sql.Blob;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
@@ -24,6 +23,9 @@ import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.core.i18n.ResourceHandle;
 
+import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.util.ULocale;
+
 /**
  * A utility function The convert method converts the source object, which can
  * be any supported data type, into an object given specified type. If no
@@ -33,13 +35,13 @@ public final class DataTypeUtil
 {
 	// Defalult Locale, if we have any problem parse string to date for Locale.getDefault()
 	// we will try to parse it for Locale.US
-	private static Locale DEFAULT_LOCALE = Locale.US;
+	private static ULocale DEFAULT_LOCALE = ULocale.US;
 
 	// Default Date/Time Style 
 	private static int DEFAULT_DATE_STYLE =DateFormat.MEDIUM;
 
 	// resource bundle for exception messages 
-	public static ResourceBundle resourceBundle = ( new ResourceHandle( Locale
+	public static ResourceBundle resourceBundle = ( new ResourceHandle( ULocale
 			.getDefault( ) ) ).getResourceBundle( );
 
 	private final static String pluginId = "org.eclipse.birt.core";
@@ -372,6 +374,21 @@ public final class DataTypeUtil
 	}
 
 	/**
+	 * A temp solution to the adoption of ICU4J to BIRT. Simply delegate
+	 * toDate( String, Locale) method.
+	 * 
+	 * @param source
+	 *            the String to be convert
+	 * @param locate
+	 * 			  the locate of the string
+	 * @return result Date
+	 */
+	public static Date toDate( String source, Locale locale ) throws BirtException
+	{
+		return toDate( source, ULocale.forLocale( locale ) );
+	}
+	
+	/**
 	 * convert String with the specified locale to java.util.Date
 	 * 
 	 * @param source
@@ -380,7 +397,7 @@ public final class DataTypeUtil
 	 * 			  the locate of the string
 	 * @return result Date
 	 */
-	public static Date toDate( String source, Locale locale )
+	public static Date toDate( String source, ULocale locale )
 			throws BirtException
 	{
 		if ( source == null )
@@ -432,6 +449,21 @@ public final class DataTypeUtil
 	}
 	
 	/**
+	 * A temp solution to the adoption of ICU4J in BIRT. It is a simple
+	 * delegation to toDateWithCheck( String, Locale ).
+	 * 
+	 * @param source
+	 * @param locale
+	 * @return Date
+	 * @throws BirtException
+	 */
+	public static Date toDateWithCheck( String source, Locale locale )
+			throws BirtException
+	{
+		return toDateWithCheck( source, ULocale.forLocale( locale ));
+	}
+	
+	/**
 	 * Convert string to date with check.
 	 * JDK may do incorrect converse, for example:
 	 * 		2005/1/1 Local.US, format pattern is MM/dd/YY.
@@ -446,7 +478,7 @@ public final class DataTypeUtil
 	 * @return Date
 	 * @throws BirtException
 	 */
-	public static Date toDateWithCheck( String source, Locale locale )
+	public static Date toDateWithCheck( String source, ULocale locale )
 			throws BirtException
 	{
 		DateFormat dateFormat = DateFormat.getDateInstance( DateFormat.SHORT,
@@ -557,9 +589,21 @@ public final class DataTypeUtil
 	 */
 	public static String toString( Object source ) throws BirtException
 	{
-		return toString( source, Locale.getDefault( ) );
+		return toString( source, ULocale.getDefault( ) );
 	}
 	
+	/**
+	 * A temp solution to the adoption of ICU4J. It is a simple delegation
+	 * to toString( Object, Locale ).
+	 * @param source
+	 * @return
+	 * @throws BirtException
+	 */
+	public static String toString( Object source, Locale locale )
+			throws BirtException
+	{
+		return toString( source, ULocale.forLocale( locale ) );
+	}
 	
 	/**
 	 * Number -> String
@@ -572,7 +616,7 @@ public final class DataTypeUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	public static String toString( Object source, Locale locale )
+	public static String toString( Object source, ULocale locale )
 			throws BirtException
 	{
 		if ( source == null )
@@ -797,7 +841,7 @@ public final class DataTypeUtil
 		try
 		{
 			//Try to format the given String for JRE default Locale
-			return toDate( source, Locale.getDefault( ) );
+			return toDate( source, ULocale.getDefault( ) );
 		}
 		catch ( BirtException e )
 		{
@@ -811,7 +855,7 @@ public final class DataTypeUtil
 	 * @param source
 	 * @return
 	 */
-	private static String toString( Date source, Locale locale )
+	private static String toString( Date source, ULocale locale )
 	{
 		DateFormatter df = new DateFormatter( locale );
 		return df.format( (Date) source );
