@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.executor.transform.OrderingInfo;
@@ -66,15 +65,15 @@ public class SmartCache implements ResultSetCache
 	 * @param sortSpec
 	 * @throws DataException
 	 */
-	public SmartCache( BaseQuery query, ResultSet odaResultSet,
-			IResultClass rsMeta, SortSpec sortSpec ) throws DataException
+	public SmartCache( CacheRequest cacheRequest, ResultSet odaResultSet,
+			IResultClass rsMeta ) throws DataException
 	{
+		assert cacheRequest != null;
 		assert odaResultSet != null;
-		assert query != null;
 		assert rsMeta != null;
 
 		OdiAdapter odiAdpater = new OdiAdapter( odaResultSet );
-		initInstance( odiAdpater, query, rsMeta, sortSpec );
+		initInstance( cacheRequest, odiAdpater, rsMeta );
 	}
 	
 	/**
@@ -86,15 +85,16 @@ public class SmartCache implements ResultSetCache
 	 * @param sortSpec
 	 * @throws DataException
 	 */
-	public SmartCache( BaseQuery query, DataSetResultCache odaCacheResultSet,
-			IResultClass rsMeta, SortSpec sortSpec ) throws DataException
+	public SmartCache( CacheRequest cacheRequest,
+			DataSetResultCache odaCacheResultSet, IResultClass rsMeta )
+			throws DataException
 	{
+		assert cacheRequest != null;
 		assert odaCacheResultSet != null;
-		assert query != null;
 		assert rsMeta != null;
 
 		OdiAdapter odiAdpater = new OdiAdapter( odaCacheResultSet );
-		initInstance( odiAdpater, query, rsMeta, sortSpec );
+		initInstance( cacheRequest, odiAdpater, rsMeta );
 	}
 
 	/**
@@ -106,15 +106,15 @@ public class SmartCache implements ResultSetCache
 	 * @param sortSpec
 	 * @throws DataException
 	 */
-	public SmartCache( BaseQuery query, IResultIterator odaResultSet,
-			IResultClass rsMeta, SortSpec sortSpec ) throws DataException
+	public SmartCache( CacheRequest cacheRequest, IResultIterator odaResultSet,
+			IResultClass rsMeta ) throws DataException
 	{
+		assert cacheRequest != null;
 		assert odaResultSet != null;
-		assert query != null;
 		assert rsMeta != null;
 
 		OdiAdapter odiAdpater = new OdiAdapter( odaResultSet );
-		initInstance( odiAdpater, query, rsMeta, sortSpec );
+		initInstance( cacheRequest, odiAdpater, rsMeta );
 	}
 	/**
 	 * Retrieve data from ODI, used in candidate query, such as Scripted DataSet
@@ -125,15 +125,15 @@ public class SmartCache implements ResultSetCache
 	 * @param sortSpec
 	 * @throws DataException
 	 */
-	public SmartCache( BaseQuery query, ICustomDataSet customDataSet,
-			IResultClass rsMeta, SortSpec sortSpec ) throws DataException
+	public SmartCache( CacheRequest cacheRequest, ICustomDataSet customDataSet,
+			IResultClass rsMeta ) throws DataException
 	{
+		assert cacheRequest != null;
 		assert customDataSet != null;
-		assert query != null;
 		assert rsMeta != null;
 
 		OdiAdapter odiAdpater = new OdiAdapter( customDataSet );
-		initInstance( odiAdpater, query, rsMeta, sortSpec );
+		initInstance( cacheRequest, odiAdpater, rsMeta );
 	}
 
 	/**
@@ -147,28 +147,21 @@ public class SmartCache implements ResultSetCache
 	 * @param sortSpec
 	 * @throws DataException
 	 */
-	public SmartCache( BaseQuery query, ResultSetCache resultCache,
-			int startIndex, int endIndex, IResultClass rsMeta, SortSpec sortSpec )
+	public SmartCache( CacheRequest cacheRequest, ResultSetCache resultCache,
+			int startIndex, int endIndex, IResultClass rsMeta )
 			throws DataException
 	{
+		assert cacheRequest != null;
 		assert resultCache != null;
-		assert query != null;
 		assert rsMeta != null;
 
 		OdiAdapter odiAdpater = new OdiAdapter( resultCache );
-		initInstance2( resultCache, odiAdpater, query, startIndex, endIndex, rsMeta, sortSpec );
-		
-//		OdiAdapterOfSubQueryForSave odiAdpater = OdiAdapterOfSubQuery.newSave( resultCache,
-//				rsMeta,
-//				startIndex );
-//		IResultClass newMeta = odiAdpater.getMetaData( );
-//		initInstance2( resultCache,
-//				odiAdpater,
-//				query,
-//				startIndex,
-//				endIndex,
-//				newMeta,
-//				sortSpec );
+		initInstance2( cacheRequest,
+				resultCache,
+				odiAdpater,
+				startIndex,
+				endIndex,
+				rsMeta );
 	}
 	
 	/**
@@ -180,8 +173,8 @@ public class SmartCache implements ResultSetCache
 	 * @param sortSpec
 	 * @throws DataException
 	 */
-	public SmartCache( BaseQuery query, ResultSetCache resultCache,
-			OrderingInfo orderingInfo, IResultClass rsMeta, SortSpec sortSpec )
+	public SmartCache( CacheRequest cacheRequest, ResultSetCache resultCache,
+			OrderingInfo orderingInfo, IResultClass rsMeta )
 			throws DataException
 	{
 		assert resultCache != null;
@@ -199,11 +192,14 @@ public class SmartCache implements ResultSetCache
 	 * @param sortSpec
 	 * @throws DataException
 	 */
-	private void initInstance( OdiAdapter odiAdpater, BaseQuery query,
-			IResultClass rsMeta, SortSpec sortSpec ) throws DataException
+	private void initInstance( CacheRequest cacheRequest,
+			OdiAdapter odiAdpater, IResultClass rsMeta ) throws DataException
 	{	
-		RowResultSet rowResultSet = new RowResultSet( query, odiAdpater, rsMeta );
-		populateData( rsMeta, rowResultSet, sortSpec);
+		RowResultSet rowResultSet = new RowResultSet( cacheRequest.getMaxRow( ),
+				cacheRequest.getFetchEvents( ),
+				odiAdpater,
+				rsMeta );
+		populateData( rsMeta, rowResultSet, cacheRequest.getSortSpec( ) );
 	}
 	
 	/**
@@ -218,20 +214,21 @@ public class SmartCache implements ResultSetCache
 	 * @param sortSpec
 	 * @throws DataException
 	 */
-	private void initInstance2( ResultSetCache resultCache,
-			OdiAdapter odiAdpater, BaseQuery query, int startIndex,
-			int endIndex, IResultClass rsMeta, SortSpec sortSpec )
+	private void initInstance2( CacheRequest cacheRequest,
+			ResultSetCache resultCache, OdiAdapter odiAdpater, int startIndex,
+			int endIndex, IResultClass rsMeta )
 			throws DataException
 	{
 		int length = endIndex - startIndex;
-		if ( query.getMaxRows( ) == 0 || length <= query.getMaxRows( ) )
-			query.setMaxRows( length );
+		if ( cacheRequest.getMaxRow( ) == 0
+				|| length <= cacheRequest.getMaxRow( ) )
+			cacheRequest.setMaxRow( length );
 
 		int oldIndex = resultCache.getCurrentIndex( );
 
 		// In OdiAdapter, it fetches the next row, not current row.
 		resultCache.moveTo( startIndex - 1 );
-		initInstance( odiAdpater, query, rsMeta, sortSpec );
+		initInstance( cacheRequest, odiAdpater, rsMeta );
 
 		resultCache.moveTo( oldIndex );
 	}

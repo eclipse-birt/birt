@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.executor.cache;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
@@ -25,8 +24,8 @@ import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
  */
 class RowResultSet implements IRowResultSet
 {
-	// query information provider
-	private BaseQuery query;
+	//
+	private List eventList;
 	
 	// basic data provider
 	private OdiAdapter odiAdpater;
@@ -47,14 +46,14 @@ class RowResultSet implements IRowResultSet
 	 * @param odaResultSet
 	 * @param resultClass
 	 */
-	RowResultSet( BaseQuery query, OdiAdapter odiAdpater,
+	RowResultSet( int maxRow, List eventList, OdiAdapter odiAdpater,
 			IResultClass resultClass )
 	{
-		this.query = query;
+		this.eventList = eventList;
 		this.odiAdpater = odiAdpater;
 		this.resultClass = resultClass;
 
-		maxRows = query.getMaxRows( );
+		this.maxRows = maxRow;
 		if ( maxRows <= 0 )
 			maxRows = Integer.MAX_VALUE;
 	}
@@ -113,7 +112,6 @@ class RowResultSet implements IRowResultSet
 	{
 		assert resultObject != null;
 		
-		List eventList = query.getFetchEvents( );
 		if ( eventList != null )
 		{
 			int size = eventList.size( );

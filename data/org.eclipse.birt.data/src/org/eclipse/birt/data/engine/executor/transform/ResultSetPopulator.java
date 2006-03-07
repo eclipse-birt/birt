@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.executor.transform;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
+import org.eclipse.birt.data.engine.executor.cache.CacheRequest;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.SmartCache;
 import org.eclipse.birt.data.engine.executor.transform.group.GroupProcessorManager;
@@ -221,11 +222,9 @@ public class ResultSetPopulator
 	{
 		this.getCache( ).reset( );
 		this.getCache( ).next( );
-		this.setCache( new SmartCache( query,
-				this.getCache( ),
-				odInfo,
-				this.rsMeta,
-				null ) );
+		this.setCache( new SmartCache( new CacheRequest( query.getMaxRows( ),
+				query.getFetchEvents( ),
+				null ), this.getCache( ), odInfo, this.rsMeta ) );
 		this.groupProcessorManager.getGroupCalculationUtil( )
 				.setResultSetCache( this.getCache( ) );
 	}
