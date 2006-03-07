@@ -318,7 +318,7 @@ public class ViewerAttributeBean
 	{
 		if ( parameterTask != null )
 		{
-			return parameterTask.getParameters( ).getContents( );
+			return parameterTask.getParameterDefns( false );
 		}
 		return null;
 	}
