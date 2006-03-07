@@ -17,12 +17,9 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
@@ -278,36 +275,17 @@ public class GroupPropertyHandle
 
 	public List getReferenceableElementList( )
 	{
-		if ( propDefn.getTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
+		List elements = handle.getElements( );
+		if ( elements == null || elements.isEmpty( ) )
 			return Collections.EMPTY_LIST;
 
-		ElementDefn elementDefn = (ElementDefn) propDefn.getTargetElementType( );
-		assert elementDefn != null;
+		DesignElementHandle element = (DesignElementHandle) elements.get( 0 );
+		PropertyHandle propHandle = element.getPropertyHandle( propDefn
+				.getName( ) );
 
-		List elementList = null;
-		assert handle.getModuleHandle( ) != null;
-		if ( ReportDesignConstants.DATA_SET_ELEMENT.equals( elementDefn
-				.getName( ) ) )
-		{
-			elementList = handle.getModuleHandle( ).getAllDataSets( );
-		}
-		else if ( ReportDesignConstants.DATA_SOURCE_ELEMENT.equals( elementDefn
-				.getName( ) ) )
-		{
-			elementList = handle.getModuleHandle( ).getAllDataSources( );
-		}
-		else if ( ReportDesignConstants.STYLE_ELEMENT.equals( elementDefn
-				.getName( ) ) )
-		{
-			elementList = handle.getModuleHandle( ).getAllStyles( );
-		}
-		else if ( ReportDesignConstants.THEME_ITEM.equals( elementDefn
-				.getName( ) ) )
-		{
-			elementList = handle.getModuleHandle( ).getAllThemes( );
-		}
+		List retList = propHandle.getReferenceableElementList( );
 
-		return ModelUtil.sortElementsByName( elementList );
+		return ModelUtil.sortElementsByName( retList );
 	}
 
 	/**

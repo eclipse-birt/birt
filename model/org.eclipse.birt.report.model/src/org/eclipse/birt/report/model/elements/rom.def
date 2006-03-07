@@ -2683,6 +2683,9 @@
       <Trigger targetElement="Table" validator="InconsistentColumnsValidator"/>
     </Property>
     <Property displayNameID="Element.Column.width" name="width" runtimeSettable="false" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
+    <Property displayNameID="Element.Column.suppressDuplicates" name="suppressDuplicates" runtimeSettable="true" since="2.1" type="boolean">
+      <Default>false</Default>
+    </Property>
     <StyleProperty name="fontFamily"/>
     <StyleProperty name="fontSize"/>
     <StyleProperty name="fontStyle"/>

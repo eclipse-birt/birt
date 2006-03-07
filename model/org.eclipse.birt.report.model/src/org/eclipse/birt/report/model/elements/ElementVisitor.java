@@ -48,9 +48,21 @@ public class ElementVisitor
 	 *            the data set to traverse
 	 */
 
-	public void visitDataSet( SimpleDataSet obj )
+	public void visitDataSet(DataSet obj)
 	{
-		visitDesignElement( obj );
+		visitDesignElement(obj);
+	}
+
+	/**
+	 * Visits the data set element.
+	 * 
+	 * @param obj
+	 *            the data set to traverse
+	 */
+
+	public void visitSimpleDataSet( SimpleDataSet obj )
+	{
+		visitDataSet( obj );
 	}
 
 	/**
@@ -62,7 +74,7 @@ public class ElementVisitor
 
 	public void visitScriptDataSet( ScriptDataSet obj )
 	{
-		visitDataSet( obj );
+		visitSimpleDataSet( obj );
 	}
 
 	/**
@@ -493,7 +505,7 @@ public class ElementVisitor
 
 	public void visitOdaDataSet( OdaDataSet obj )
 	{
-		visitDataSet( obj );
+		visitSimpleDataSet( obj );
 	}
 
 	/**
@@ -578,6 +590,6 @@ public class ElementVisitor
 
 	public void visitJointDataSet( JointDataSet obj )
 	{
-		visitDesignElement( obj );
+		visitDataSet( obj );
 	}
 }

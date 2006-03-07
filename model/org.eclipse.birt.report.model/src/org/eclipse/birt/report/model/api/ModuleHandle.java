@@ -215,7 +215,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		if ( StringUtil.isBlank( image.getName( ) ) )
 			return;
 
-		List images = getListProperty( module, Module.IMAGES_PROP );
+		List images = getListProperty( Module.IMAGES_PROP );
 		if ( images == null )
 			return;
 
@@ -242,7 +242,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		String baseName = image.getName( );
 		while ( names.contains( name ) )
 		{
-			name = baseName + ++index; 
+			name = baseName + ++index;
 		}
 		image.setName( name.trim( ) );
 	}
@@ -629,8 +629,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * 
 	 * @param name
 	 *            name of the joint data set
-	 * @return a handle to the joint data set, or <code>null</code> if the data set
-	 *         is not found
+	 * @return a handle to the joint data set, or <code>null</code> if the
+	 *         data set is not found
 	 */
 
 	public JointDataSetHandle findJointDataSet( String name )

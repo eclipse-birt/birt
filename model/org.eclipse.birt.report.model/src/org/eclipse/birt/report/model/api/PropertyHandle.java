@@ -199,20 +199,20 @@ public class PropertyHandle extends SimpleValueHandle
 
 		if ( ReportDesignConstants.DATA_SET_ELEMENT.equals( elementDefn
 				.getName( ) ) )
-			return moduleHandle.getDataSets( ).getContents( );
+			return moduleHandle.getVisibleDataSets( );
 
 		else if ( ReportDesignConstants.DATA_SOURCE_ELEMENT.equals( elementDefn
 				.getName( ) ) )
-			return moduleHandle.getDataSources( ).getContents( );
+			return moduleHandle.getVisibleDataSources( );
 
 		else if ( ReportDesignConstants.STYLE_ELEMENT.equals( elementDefn
-				.getName( ) )
-				&& moduleHandle instanceof ReportDesignHandle )
-			return ( (ReportDesignHandle) moduleHandle ).getStyles( )
-					.getContents( );
+				.getName( ) ) )
+			return ( (ReportDesignHandle) moduleHandle ).getAllStyles( );
+		else if ( ReportDesignConstants.THEME_ITEM.equals( elementDefn
+				.getName( ) ) )
+			return moduleHandle.getAllThemes( );
 
 		return list;
-
 	}
 
 	/*

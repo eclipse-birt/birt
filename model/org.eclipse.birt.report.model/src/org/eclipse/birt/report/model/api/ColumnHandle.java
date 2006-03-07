@@ -119,4 +119,34 @@ public class ColumnHandle extends ReportElementHandle
 	public void setAlignment( String alignment ) throws SemanticException
 	{
 	}
+
+	/**
+	 * Get the suppress duplicates property of this column.
+	 * 
+	 * @return a boolean value which indicates if this column is suppress
+	 *         duplicates.
+	 */
+	public boolean getSuppressDuplicates( )
+	{
+		return getBooleanProperty( ColumnHandle.SUPPRESS_DUPLICATES_PROP );
+	}
+
+	/**
+	 * Set the suppress duplicates property of this column.
+	 * 
+	 * @param suppressDuplicates
+	 *            the suppress duplicates value.
+	 */
+	public void setSuppressDuplicates( boolean suppressDuplicates )
+	{
+		try
+		{
+			setProperty( ColumnHandle.SUPPRESS_DUPLICATES_PROP, String
+					.valueOf( suppressDuplicates ) );
+		}
+		catch ( SemanticException e )
+		{
+			assert false;
+		}
+	}
 }

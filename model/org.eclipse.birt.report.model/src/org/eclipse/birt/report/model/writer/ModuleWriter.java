@@ -1505,7 +1505,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, TableColumn.WIDTH_PROP );
 		property( obj, TableColumn.REPEAT_PROP );
-
+		property( obj, TableColumn.SUPPRESS_DUPLICATES_PROP );
+		
 		writeStyle( obj );
 
 		writer.endElement( );
@@ -2275,9 +2276,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDataSet(org.eclipse.birt.report.model.elements.DataSet)
 	 */
 
-	public void visitDataSet( SimpleDataSet obj )
+	public void visitSimpleDataSet( SimpleDataSet obj )
 	{
-		super.visitDataSet( obj );
+		super.visitSimpleDataSet( obj );
 
 		property( obj, SimpleDataSet.DATA_SOURCE_PROP );
 

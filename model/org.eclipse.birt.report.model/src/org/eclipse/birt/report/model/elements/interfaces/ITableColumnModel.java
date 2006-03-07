@@ -38,4 +38,10 @@ public interface ITableColumnModel
 
 	public static final String STYLE_PROP = "style"; //$NON-NLS-1$
 
+	/**
+	 * Property name of suppress duplicates.
+	 */
+
+	public static final String SUPPRESS_DUPLICATES_PROP = "suppressDuplicates"; //$NON-NLS-1$
+
 }

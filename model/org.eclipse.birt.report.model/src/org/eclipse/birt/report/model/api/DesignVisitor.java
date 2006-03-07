@@ -116,6 +116,18 @@ public class DesignVisitor
 	}
 
 	/**
+	 * Visits the simple data set element.
+	 * 
+	 * @param obj
+	 *            the handle of the simple data set to traverse
+	 */
+
+	protected void visitSimpleDataSet( DataSetHandle obj )
+	{
+		visitDataSet( obj );
+	}
+
+	/**
 	 * Visits the script data set element.
 	 * 
 	 * @param obj
@@ -124,7 +136,7 @@ public class DesignVisitor
 
 	protected void visitScriptDataSet( ScriptDataSetHandle obj )
 	{
-		visitDataSet( obj );
+		visitSimpleDataSet( obj );
 	}
 
 	/**
@@ -136,7 +148,7 @@ public class DesignVisitor
 
 	protected void visitJointDataSet( JointDataSetHandle obj )
 	{
-		visitDesignElement( obj );
+		visitSimpleDataSet( obj );
 	}
 
 	/**
