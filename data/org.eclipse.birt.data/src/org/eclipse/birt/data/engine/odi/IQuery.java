@@ -17,7 +17,7 @@ package org.eclipse.birt.data.engine.odi;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.transformation.IExpressionProcessor;
+import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 
 /**
  * The IQuery interface allows applications to specify 
