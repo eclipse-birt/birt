@@ -171,8 +171,7 @@ public class ContentCommand extends AbstractElementCommand
 		// Can not change the structure of child element or a virtual element(
 		// inside the child ).
 
-		if ( element.isVirtualElement( )
-				|| element.getExtendsName( ) != null )
+		if ( element.isVirtualElement( ) || element.getExtendsName( ) != null )
 			throw new ContentException(
 					element,
 					slotID,
@@ -545,7 +544,7 @@ public class ContentCommand extends AbstractElementCommand
 
 			if ( DesignElement.EXTENDS_PROP.equalsIgnoreCase( propDefn
 					.getName( ) )
-					|| StyledElement.STYLE_PROP.equalsIgnoreCase( propDefn //$NON-NLS-1$
+					|| StyledElement.STYLE_PROP.equalsIgnoreCase( propDefn
 							.getName( ) ) )
 				continue;
 
@@ -572,6 +571,37 @@ public class ContentCommand extends AbstractElementCommand
 						catch ( SemanticException e )
 						{
 							assert false;
+						}
+					}
+				}
+			}
+			else if ( propDefn.getTypeCode( ) == PropertyType.LIST_TYPE
+					&& propDefn.getSubTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+			{
+				List valueList = (List) element.getLocalProperty( module,
+						(ElementPropertyDefn) propDefn );
+				if ( valueList != null )
+				{
+					for ( int i = valueList.size( ) - 1; i >= 0; i-- )
+					{
+						ElementRefValue item = (ElementRefValue) valueList
+								.get( i );
+						if ( item.isResolved( ) )
+						{
+							try
+							{
+								// Clear all element reference property for
+								// dropped element
+
+								PropertyCommand cmd = new PropertyCommand(
+										module, element );
+								cmd.removeItem( (ElementPropertyDefn) propDefn,
+										item );
+							}
+							catch ( SemanticException e )
+							{
+								assert false;
+							}
 						}
 					}
 				}
@@ -677,8 +707,7 @@ public class ContentCommand extends AbstractElementCommand
 		// Can not change the structure of child element or a virtual element(
 		// inside the child ).
 
-		if ( content.isVirtualElement( )
-				|| content.getExtendsName( ) != null )
+		if ( content.isVirtualElement( ) || content.getExtendsName( ) != null )
 			throw new ContentException(
 					element,
 					fromSlotID,

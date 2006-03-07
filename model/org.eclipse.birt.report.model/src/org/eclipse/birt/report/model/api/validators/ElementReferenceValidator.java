@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.SemanticError;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -71,18 +70,48 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element,
-			String propName )
+	public List validate( Module module, DesignElement element, String propName )
 	{
 		List list = new ArrayList( );
 
-		if ( !checkElementReference( module, element, propName ) )
-		{
-			Object value = element.getLocalProperty( module, propName );
+		ElementPropertyDefn prop = element.getPropertyDefn( propName );
 
-			list.add( new SemanticError( element, new String[]{propName,
-					( (ElementRefValue) value ).getName( )},
-					SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF ) );
+		if ( prop.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+		{
+			if ( !checkElementReference( module, element, prop ) )
+			{
+				Object value = element.getLocalProperty( module, propName );
+
+				list.add( new SemanticError( element, new String[]{propName,
+						( (ElementRefValue) value ).getName( )},
+						SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF ) );
+			}
+		}
+		else if ( prop.getTypeCode( ) == PropertyType.LIST_TYPE
+				&& prop.getSubTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+		{
+			List valueList = element.resolveElementReferenceList( module, prop );
+			if ( valueList != null )
+			{
+				for ( int i = 0; i < valueList.size( ); i++ )
+				{
+					// check each reference value in the list
+					
+					ElementRefValue item = (ElementRefValue) valueList.get( i );
+					if ( !item.isResolved( ) )
+					{
+						list
+								.add( new SemanticError(
+										element,
+										new String[]{propName, item.getName( )},
+										SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF ) );
+					}
+				}
+			}
+		}
+		else
+		{
+			assert false;
 		}
 
 		return list;
@@ -105,21 +134,18 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 	 */
 
 	private boolean checkElementReference( Module module,
-			DesignElement element, String propName )
+			DesignElement element, ElementPropertyDefn prop )
 	{
-		assert !StringUtil.isBlank( propName );
+		// This must be an element reference property 
 
-		// This must be an element reference property.
-
-		ElementPropertyDefn prop = element.getPropertyDefn( propName );
 		assert PropertyType.ELEMENT_REF_TYPE == prop.getTypeCode( );
 
 		// Attempt to resolve the reference.
 
 		ElementRefValue ref = element.resolveElementReference( module, prop );
-		if ( ref == null )		
+		if ( ref == null )
 			return true;
-			
+
 		return ref.isResolved( );
 	}
 

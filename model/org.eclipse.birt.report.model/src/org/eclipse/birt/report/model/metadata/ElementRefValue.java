@@ -165,4 +165,15 @@ public class ElementRefValue extends ReferenceValue
 
 		return false;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	
+	public Object copy( )
+	{
+		return new ElementRefValue( getLibraryNamespace( ), getName( ) );
+	}
+	
+	
 }

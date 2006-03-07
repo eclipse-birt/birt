@@ -131,7 +131,7 @@ public class UserPropertyStructureState extends StructureState
 	 * choice and store it as <code>UserChoice</code>.
 	 */
 
-	class ChoiceStructureListState extends PropertyListState
+	class ChoiceStructureListState extends ListPropertyState
 	{
 
 		/**

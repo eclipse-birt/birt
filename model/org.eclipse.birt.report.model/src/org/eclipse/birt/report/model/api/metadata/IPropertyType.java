@@ -146,10 +146,16 @@ public interface IPropertyType
 	public static final int STRUCT_REF_TYPE = 19;
 	
 	/**
+	 * Type code for the list property type. 
+	 */
+	
+	public static final int LIST_TYPE = 20;
+	
+	/**
 	 * Number of types defined.
 	 */
 
-	public static final int TYPE_COUNT = 20;
+	public static final int TYPE_COUNT = 21;
 
 	/**
 	 * Name of the String property type.
@@ -277,6 +283,12 @@ public interface IPropertyType
 	 */
 	
 	public static final String STRUCT_REF_TYPE_NAME = "structRef"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the list property type.
+	 */
+	
+	public static final String LIST_TYPE_NAME = "list"; //$NON-NLS-1$
 	
 	/**
 	 * Returns the localized display name.

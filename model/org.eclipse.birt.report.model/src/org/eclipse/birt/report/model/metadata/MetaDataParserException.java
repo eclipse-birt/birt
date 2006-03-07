@@ -24,6 +24,12 @@ public class MetaDataParserException extends XMLParserException
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>.
+	 */
+	
+	private static final long serialVersionUID = 6591085093091880807L;
+
+	/**
 	 * The name of the file being parsed.
 	 */
 
@@ -198,6 +204,12 @@ public class MetaDataParserException extends XMLParserException
 	 */
 	
 	public static final String DESIGN_EXCEPTION_DEFAULT_UNIT_NOT_ALLOWED = "DEFAULT_UNIT_NOT_ALLOWED"; //$NON-NLS-1$
+	
+	/**
+	 * Sub-type is required for list type property.
+	 */
+	
+	public static final String DESIGN_EXCEPTION_MISSING_SUB_TYPE = "MISSING_SUB_TYPE"; //$NON-NLS-1$
 
 	/**
 	 * Constructs an exception given the file name and error code.

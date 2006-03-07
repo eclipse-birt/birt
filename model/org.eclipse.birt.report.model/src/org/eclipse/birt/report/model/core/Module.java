@@ -1845,12 +1845,28 @@ public abstract class Module extends DesignElement implements IModuleModel
 			BackRef ref = (BackRef) iter.next( );
 			DesignElement client = ref.element;
 
-			ElementRefValue value = (ElementRefValue) client.getLocalProperty(
-					this, ref.propName );
+			Object value = client.getLocalProperty( this, ref.propName );
+			if ( value instanceof ElementRefValue )
+			{
+				ElementRefValue refValue = (ElementRefValue) value;
 
-			value.unresolved( value.getName( ) );
+				refValue.unresolved( refValue.getName( ) );
 
-			referred.dropClient( client );
+				referred.dropClient( client );
+			}
+			else if ( value instanceof List )
+			{
+				List valueList = (List) value;
+				for ( int i = 0; i < valueList.size( ); i++ )
+				{
+					ElementRefValue item = (ElementRefValue) valueList.get( i );
+					if ( item.getElement( ) == referred )
+					{
+						item.unresolved( item.getName( ) );
+						referred.dropClient( client );
+					}
+				}
+			}
 
 			if ( IStyledElementModel.STYLE_PROP.equalsIgnoreCase( ref.propName ) )
 				client.broadcast( new StyleEvent( client ) );

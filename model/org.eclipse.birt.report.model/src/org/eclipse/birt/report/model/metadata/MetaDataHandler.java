@@ -70,6 +70,7 @@ class MetaDataHandler extends XMLParserHandler
 	private static final String DISPLAY_NAME_ID_ATTRIB = "displayNameID"; //$NON-NLS-1$ 
 	private static final String EXTENDS_ATTRIB = "extends"; //$NON-NLS-1$ 
 	private static final String TYPE_ATTRIB = "type"; //$NON-NLS-1$ 
+	private static final String SUB_TYPE_ATTRIB = "subType"; //$NON-NLS-1$
 	private static final String HAS_STYLE_ATTRIB = "hasStyle"; //$NON-NLS-1$ 
 	private static final String SELECTOR_ATTRIB = "selector"; //$NON-NLS-1$ 
 	private static final String ALLOWS_USER_PROPERTIES_ATTRIB = "allowsUserProperties"; //$NON-NLS-1$ 
@@ -712,6 +713,7 @@ class MetaDataHandler extends XMLParserHandler
 			String displayNameID = getAttrib( attrs, DISPLAY_NAME_ID_ATTRIB );
 			String type = getAttrib( attrs, TYPE_ATTRIB );
 			String validator = getAttrib( attrs, VALIDATOR_ATTRIB );
+			String subType = getAttrib( attrs, SUB_TYPE_ATTRIB );
 
 			boolean ok = ( elementDefn != null );
 			if ( name == null )
@@ -754,6 +756,8 @@ class MetaDataHandler extends XMLParserHandler
 			String detailName = getAttrib( attrs, DETAIL_TYPE_ATTRIB );
 			ChoiceSet choiceSet = null;
 			StructureDefn struct = null;
+			PropertyType subTypeDefn = null;
+
 			switch ( typeDefn.getTypeCode( ) )
 			{
 				case PropertyType.DIMENSION_TYPE :
@@ -826,6 +830,37 @@ class MetaDataHandler extends XMLParserHandler
 					if ( detailName.equals( THIS_KEYWORD ) )
 						detailName = elementDefn.getName( );
 					break;
+				case PropertyType.LIST_TYPE :
+					if ( subType == null )
+					{
+						errorHandler
+								.semanticError( new MetaDataParserException(
+										MetaDataParserException.DESIGN_EXCEPTION_MISSING_SUB_TYPE ) );
+					}
+					else
+					{
+						subTypeDefn = dictionary.getPropertyType( subType );
+						if ( subTypeDefn == null )
+						{
+							errorHandler
+									.semanticError( new MetaDataParserException(
+											MetaDataParserException.DESIGN_EXCEPTION_INVALID_TYPE ) );
+							return;
+						}
+						else if ( subTypeDefn.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+						{
+							if ( detailName == null )
+							{
+								errorHandler
+										.semanticError( new MetaDataParserException(
+												MetaDataParserException.DESIGN_EXCEPTION_ELEMENT_REF_TYPE_REQUIRED ) );
+								return;
+							}
+							if ( detailName.equals( THIS_KEYWORD ) )
+								detailName = elementDefn.getName( );
+						}
+
+					}
 
 				default :
 					// Ignore the detail name for other types.
@@ -838,6 +873,8 @@ class MetaDataHandler extends XMLParserHandler
 			propDefn.setName( name );
 			propDefn.setDisplayNameID( displayNameID );
 			propDefn.setType( typeDefn );
+			if ( typeDefn.getTypeCode( ) == PropertyType.LIST_TYPE )
+				propDefn.setSubType( subTypeDefn );
 			propDefn.setGroupNameKey( groupNameID );
 			propDefn.setCanInherit( getBooleanAttrib( attrs,
 					CAN_INHERIT_ATTRIBUTE, true ) );

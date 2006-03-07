@@ -247,6 +247,11 @@ The 'extends' attribute is optional, in this case, it means this report element 
 		<xs:attribute name="name" type="xs:string" use="required"/>
 		<xs:attribute name="displayNameID" type="xs:string" use="required"/>
 		<xs:attribute name="type" type="PropertyType" use="required"/>
+		<xs:attribute name="subType" type="PropertyType" use="optional">
+			<xs:annotation>
+				<xs:documentation>If the property is "list" -- simeple property list type, then the sub-type of it is required. Now, only some simple type, such as Integer, Float, DateTime, Expression, Number, Element and so on are supported sub-types.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="canInherit" type="xs:boolean" use="optional" default="true"/>
 		<xs:attribute name="isIntrinsic" type="xs:boolean" use="optional" default="false">
 			<xs:annotation>

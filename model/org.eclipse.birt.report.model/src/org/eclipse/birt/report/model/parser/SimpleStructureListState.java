@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
  * also can be considered as String List.
  */
 
-public class SimpleStructureListState extends PropertyListState
+public class SimpleStructureListState extends ListPropertyState
 {
 
 	protected String memberName = null;

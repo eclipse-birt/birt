@@ -201,7 +201,11 @@ public class DesignParserException extends ModelException
 
 	public static final String DESIGN_EXCEPTION_MISSING_TEMPLATE_PARAMETER_DEFAULT = MessageConstants.DESIGN_PARSER_EXCEPTION_MISSING_TEMPLATE_PARAMETER_DEFAULT;
 
+	/**
+	 * The simple list property has no definition in the element.
+	 */
 	
+	public static final String DESIGN_EXCEPTION_WRONG_SIMPLE_LIST_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_WRONG_SIMPLE_LIST_TYPE;
 	
 	/**
 	 * Constructs the design parser exception with the error code.

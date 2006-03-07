@@ -63,7 +63,6 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
-import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.xml.sax.SAXException;
 
@@ -481,7 +480,7 @@ public class ModelUtil
 	 * @return The cloned structure list.
 	 */
 
-	public static ArrayList cloneStructList( ArrayList list )
+	private static ArrayList cloneStructList( List list )
 	{
 		if ( list == null )
 			return null;
@@ -532,25 +531,50 @@ public class ModelUtil
 			case PropertyType.STRUCT_TYPE :
 
 				if ( propDefn.isList( ) )
-					return ModelUtil.cloneStructList( (ArrayList) value );
+					return ModelUtil.cloneStructList( (List) value );
 
 				return ( (Structure) value ).copy( );
 
 			case PropertyType.ELEMENT_REF_TYPE :
-
-				ElementRefValue refValue = (ElementRefValue) value;
-				return new ElementRefValue( refValue.getLibraryNamespace( ),
-						refValue.getName( ) );
-
 			case PropertyType.STRUCT_REF_TYPE :
 
-				StructRefValue structRefValue = (StructRefValue) value;
-				return new StructRefValue(
-						structRefValue.getLibraryNamespace( ), structRefValue
-								.getName( ) );
+				ReferenceValue refValue = (ReferenceValue) value;
+				return refValue.copy( );
+
+			case PropertyType.LIST_TYPE :
+				return ModelUtil.clonePropertyList( (List) value );
 		}
 
 		return value;
+	}
+
+	/**
+	 * Copies a list of simple property values.
+	 * 
+	 * @param value
+	 *            the original value to copy
+	 * @return the cloned list of simple property values
+	 */
+
+	private static Object clonePropertyList( List value )
+	{
+		if ( value == null )
+			return null;
+
+		ArrayList returnList = new ArrayList( );
+		for ( int i = 0; i < value.size( ); i++ )
+		{
+			Object item = value.get( i );
+			if ( item instanceof ElementRefValue )
+			{
+				returnList.add( ( (ElementRefValue) item ).copy( ) );
+			}
+			else
+			{
+				returnList.add( item );
+			}
+		}
+		return returnList;
 	}
 
 	/**

@@ -129,7 +129,6 @@ public interface DesignSchemaConstants
 	static final String	PARAMETER_TAG							= "parameter";					//$NON-NLS-1$
 	static final String	PARAMETERS_TAG							= "parameters";					//$NON-NLS-1$
 	static final String	PROPERTY_DEFN_TAG						= "property-defn";				//$NON-NLS-1$ 
-	static final String PROPERTY_LIST_TAG						= "property-list";				//$NON-NLS-1$
 	static final String	PROPERTY_MASK_TAG						= "property-mask";				//$NON-NLS-1$ 
 	static final String	PROPERTY_TAG							= "property";					//$NON-NLS-1$ 
 	static final String	PROPERTY_VALUE_TAG						= "property-value";				//$NON-NLS-1$
@@ -151,6 +150,7 @@ public interface DesignSchemaConstants
 	static final String	SECTION_PAGE_BREAK_INSIDE_ATTRIB		= "page-break-inside";			//$NON-NLS-1$
 	static final String	SECTION_SHOW_LF_BLANK_ATTRIB			= "show-if-blank";				//$NON-NLS-1$
 	static final String	SIMPLE_MASTER_PAGE_TAG					= "simple-master-page";			//$NON-NLS-1$
+	static final String SIMPLE_PROPERTY_LIST_TAG				= "simple-property-list";		//$NON-NLS-1$
 	static final String	STRING_FORMAT_ATTRIB					= "string-format";				//$NON-NLS-1$ 
 	static final String STRUCTURE_TAG							= "structure";					//$NON-NLS-1$
 	static final String	STYLE_TAG								= "style";						//$NON-NLS-1$ 

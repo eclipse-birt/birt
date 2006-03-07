@@ -108,7 +108,7 @@ public class StructureListValidator extends AbstractPropertyValidator
 	 * @param module
 	 *            the module
 	 * @param element
-	 *            the master page to validate
+	 *            the element to validate
 	 * @param propName
 	 *            the name of the list property to validate
 	 * 

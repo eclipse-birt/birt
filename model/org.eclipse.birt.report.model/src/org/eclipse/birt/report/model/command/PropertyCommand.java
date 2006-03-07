@@ -45,6 +45,8 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
@@ -696,7 +698,7 @@ public class PropertyCommand extends AbstractElementCommand
 
 		PropertyListRecord record = new PropertyListRecord( element, structRef,
 				list );
-		getActivityStack( ).execute( record );
+		stack.execute( record );
 		stack.commit( );
 	}
 
@@ -1059,6 +1061,289 @@ public class PropertyCommand extends AbstractElementCommand
 			}
 		}
 
+	}
+
+	/**
+	 * Adds an item to a property list.
+	 * <ul>
+	 * <li>If the property is currently unset anywhere up the inheritance
+	 * hierarchy, then a new list is created on this element, and the list
+	 * contains the only the new item.</li>
+	 * <li>If the property is currently set on this element, then the item is
+	 * added to the existing list.</li>
+	 * <li>If the list is not set on this element, but is set by an ancestor
+	 * element, then the list is <strong>copied </strong> onto this element, and
+	 * the new element is then appended to the copy.</li>
+	 * </ul>
+	 * 
+	 * @param prop
+	 *            the property definition whose type is list
+	 * @param item
+	 *            the item to add to the list
+	 * @throws SemanticException
+	 *             if the item to add is invalid.
+	 */
+
+	public void addItem( ElementPropertyDefn prop, Object item )
+			throws SemanticException
+	{
+		assert prop != null;
+
+		if ( item == null )
+			return;
+
+		// this method is not called for structure list property
+
+		assert !( item instanceof IStructure );
+
+		assertExtendedElement( module, element, prop );
+
+		// check the property type is list and do some validation about the item
+
+		checkListProperty( prop );
+
+		Object value = checkItem( prop, item );
+
+		// check whether the value in the list is unique when the sub-type is
+		// element reference value
+
+		List list = element.getListProperty( module, prop.getName( ) );
+		element.checkSimpleList( module, prop, list, value );
+
+		ActivityStack stack = getActivityStack( );
+		stack.startTrans( ModelMessages
+				.getMessage( MessageConstants.ADD_ITEM_MESSAGE ) );
+
+		makeLocalCompositeValue( prop );
+		list = element.getListProperty( module, prop.getName( ) );
+		if ( null == list )
+		{
+			list = new ArrayList( );
+			PropertyRecord propRecord = new PropertyRecord( element, prop, list );
+			stack.execute( propRecord );
+		}
+
+		SimplePropertyListRecord record = new SimplePropertyListRecord(
+				element, prop, list, value, list.size( ) );
+		stack.execute( record );
+		stack.commit( );
+	}
+
+	/**
+	 * Check to see whether the reference points to a list.
+	 * 
+	 * @param prop
+	 *            the property definition to check whether it is list type
+	 * @throws PropertyValueException
+	 *             if the property definition is not a list type
+	 */
+
+	private void checkListProperty( ElementPropertyDefn prop )
+			throws PropertyValueException
+	{
+		if ( prop.getTypeCode( ) != PropertyType.LIST_TYPE )
+			throw new PropertyValueException( element, prop, null,
+					PropertyValueException.DESIGN_EXCEPTION_NOT_LIST_TYPE );
+	}
+
+	/**
+	 * Validates the values of the item members.
+	 * 
+	 * @param ref
+	 *            reference to a list.
+	 * @param item
+	 *            the item to check
+	 * @throws SemanticException
+	 *             if the item has any member with invalid value or if the given
+	 *             structure is not of a valid type that can be contained in the
+	 *             list.
+	 */
+
+	private Object checkItem( ElementPropertyDefn prop, Object item )
+			throws PropertyValueException
+	{
+		assert item != null;
+		assert prop.getTypeCode( ) == PropertyType.LIST_TYPE;
+		Object value = item;
+		if ( item instanceof DesignElementHandle )
+			value = ( (DesignElementHandle) item ).getElement( );
+
+		// make use of the sub-type to get the validated value
+
+		PropertyType type = prop.getSubType( );
+		assert type != null;
+		return type.validateValue( module, prop, value );
+
+	}
+
+	/**
+	 * The property is a simple value list. If property is a list property, the
+	 * method will check to see if the current element has the local list value,
+	 * if it has, the method returns, otherwise, a copy of the list value
+	 * inherited from container or parent will be set locally on the element
+	 * itself.
+	 * <p>
+	 * This method is supposed to be used when we need to change the value of a
+	 * composite property( a simple list property ). These kind of property is
+	 * inherited as a whole, so when the value changed from a child element.
+	 * This method will be called to ensure that a local copy will be made, so
+	 * change to the child won't affect the original value in the parent.
+	 * 
+	 * @param ref
+	 *            a reference to a list property or member.
+	 */
+
+	void makeLocalCompositeValue( ElementPropertyDefn prop )
+	{
+		assert prop != null;
+
+		// Top level property is a list.
+
+		ArrayList list = (ArrayList) element.getLocalProperty( module, prop );
+
+		if ( list != null )
+			return;
+
+		// Make a local copy of the inherited list value.
+
+		ArrayList inherited = (ArrayList) element.getProperty( module, prop );
+
+		Object value = ModelUtil.copyValue( prop, inherited );
+
+		// Set the list value on the element itself.
+
+		PropertyRecord propRecord = new PropertyRecord( element, prop, value );
+		getActivityStack( ).execute( propRecord );
+		return;
+
+	}
+
+	/**
+	 * Removes a value item from a simple value list.
+	 * <ul>
+	 * <li>The item must exist in the current effective value for the list.
+	 * This means the list must be set on this element or a ancestor element.
+	 * </li>
+	 * <li>If the property is set on this element, then the item is simply
+	 * removed.</li>
+	 * <li>If the property is set on an ancestor element, then the inherited
+	 * list is first <strong>copied </strong> into this element. Then, the copy
+	 * of the target item is removed from the copy of the list.</li>
+	 * </ul>
+	 * 
+	 * @param prop
+	 *            definition of the simple value list property
+	 * @param posn
+	 *            position of the item to be removed from the list.
+	 * @throws SemanticException
+	 *             if the item to remove is not found.
+	 * @throws IndexOutOfBoundsException
+	 *             if the given posn is out of range
+	 *             <code>(index &lt; 0 || index &gt;= list.size())</code>.
+	 */
+
+	public void removeItem( ElementPropertyDefn prop, int posn )
+			throws SemanticException
+	{
+		assert prop != null;
+
+		// TODO: if the property is "style", jump to the style command
+
+		assertExtendedElement( module, element, prop );
+
+		checkListProperty( prop );
+
+		List list = element.getListProperty( module, prop.getName( ) );
+		if ( list == null )
+			throw new PropertyValueException( element, prop.getName( ), null,
+					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
+
+		if ( posn < 0 || posn >= list.size( ) )
+			throw new IndexOutOfBoundsException(
+					"Posn: " + posn + ", List Size: " + list.size( ) ); //$NON-NLS-1$//$NON-NLS-2$
+
+		doRemoveItem( prop, posn );
+	}
+
+	/**
+	 * Removes a value item from a simple value list.
+	 * <ul>
+	 * <li>The item must exist in the current effective value for the list.
+	 * This means the list must be set on this element or a ancestor element.
+	 * </li>
+	 * <li>If the property is set on this element, then the item is simply
+	 * removed.</li>
+	 * <li>If the property is set on an ancestor element, then the inherited
+	 * list is first <strong>copied </strong> into this element. Then, the copy
+	 * of the target item is removed from the copy of the list.</li>
+	 * </ul>
+	 * 
+	 * @param prop
+	 *            definition of the simple value list property
+	 * @param item
+	 *            the item to be removed from the list.
+	 * @throws SemanticException
+	 *             if the item to remove is not found.
+	 * @throws IndexOutOfBoundsException
+	 *             if the given posn is out of range
+	 *             <code>(index &lt; 0 || index &gt;= list.size())</code>.
+	 */
+
+	public void removeItem( ElementPropertyDefn prop, Object item )
+			throws SemanticException
+	{
+		assert prop != null;
+
+		if ( item == null )
+			return;
+
+		assertExtendedElement( module, element, prop );
+
+		checkListProperty( prop );
+
+		Object value = null;
+
+		if ( prop.getSubTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+			value = checkItem( prop, item );
+		else
+			value = item;
+
+		List list = element.getListProperty( module, prop.getName( ) );
+		if ( list == null )
+			throw new PropertyValueException( element, prop, null,
+					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
+
+		int posn = list.indexOf( value );
+		if ( posn == -1 )
+			throw new PropertyValueException( element, prop.getName( ), null,
+					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
+
+		doRemoveItem( prop, posn );
+	}
+
+	/**
+	 * Removes structure from structure list.
+	 * 
+	 * @param structRef
+	 *            reference to the item to remove
+	 */
+
+	private void doRemoveItem( ElementPropertyDefn prop, int posn )
+	{
+		String label = ModelMessages
+				.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE );
+
+		ActivityStack stack = module.getActivityStack( );
+		stack.startTrans( label );
+
+		makeLocalCompositeValue( prop );
+		List list = element.getListProperty( module, prop.getName( ) );
+		assert list != null;
+
+		SimplePropertyListRecord record = new SimplePropertyListRecord(
+				element, prop, list, posn );
+		stack.execute( record );
+		stack.commit( );
 	}
 
 }

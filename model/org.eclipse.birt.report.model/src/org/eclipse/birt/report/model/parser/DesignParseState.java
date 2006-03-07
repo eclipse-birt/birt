@@ -110,7 +110,7 @@ public abstract class DesignParseState extends AbstractParseState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
 			return new PropertyState( handler, getElement( ) );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_PROPERTY_TAG ) )
-			return new PropertyListState( handler, getElement( ) );
+			return new ListPropertyState( handler, getElement( ) );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EXPRESSION_TAG ) )
 			return new ExpressionState( handler, getElement( ) );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.XML_PROPERTY_TAG ) )
@@ -126,6 +126,8 @@ public abstract class DesignParseState extends AbstractParseState
 		if ( tagName
 				.equalsIgnoreCase( DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG ) )
 			return new EncryptedPropertyState( handler, getElement( ) );
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG ) )
+			return new SimplePropertyListState( handler, getElement( ) );
 
 		return super.startElement( tagName );
 	}

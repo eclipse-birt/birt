@@ -101,7 +101,7 @@ public class ActionStructureState extends StructureState
 	 * <li>drillThroughParamBindings =>paramBindings
 	 */
 
-	static class CompatibleActionListPropertyState extends PropertyListState
+	static class CompatibleActionListPropertyState extends ListPropertyState
 	{
 
 		CompatibleActionListPropertyState( ModuleParserHandler theHandler,

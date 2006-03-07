@@ -232,7 +232,7 @@ public class AbstractPropertyState extends AbstractParseState
 	 *            value string from the XML file
 	 */
 
-	protected void setProperty( String propName, String value )
+	protected void setProperty( String propName, Object value )
 	{
 		assert propName != null;
 
@@ -287,14 +287,15 @@ public class AbstractPropertyState extends AbstractParseState
 		doSetProperty( propDefn, value );
 	}
 
-	protected void doSetProperty( PropertyDefn propDefn, String valueToSet )
+	protected void doSetProperty( PropertyDefn propDefn, Object valueToSet )
 	{
 		// Validate the value.
 
 		try
 		{
+			assert valueToSet instanceof String || valueToSet == null;
 			Object propValue = propDefn.validateXml( handler.getModule( ),
-					valueToSet );
+					(String) valueToSet );
 			element.setProperty( propDefn, propValue );
 		}
 		catch ( PropertyValueException ex )
@@ -314,7 +315,7 @@ public class AbstractPropertyState extends AbstractParseState
 	 *            the property value exception
 	 */
 
-	private void handlePropertyValueException( PropertyValueException e )
+	protected void handlePropertyValueException( PropertyValueException e )
 	{
 		String propName = e.getPropertyName( );
 

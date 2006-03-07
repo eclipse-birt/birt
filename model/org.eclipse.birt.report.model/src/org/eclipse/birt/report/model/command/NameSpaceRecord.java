@@ -116,9 +116,9 @@ public class NameSpaceRecord extends SimpleRecord
 								element
 										.getPropertyDefn( IDesignElementModel.NAME_PROP ) );
 				ns.insert( element );
-				
+
 				// drop the element from the cached name manager
-				
+
 				root.getNameManager( ).dropElement( element );
 				if ( originalElement != null )
 					updateAllElementReferences( originalElement );
@@ -126,9 +126,9 @@ public class NameSpaceRecord extends SimpleRecord
 			else
 			{
 				ns.insert( element );
-				
+
 				// drop the element from the cached name manager
-				
+
 				root.getNameManager( ).dropElement( element );
 			}
 		}
@@ -150,14 +150,37 @@ public class NameSpaceRecord extends SimpleRecord
 			BackRef ref = (BackRef) iter.next( );
 			DesignElement client = ref.element;
 
-			ElementRefValue value = (ElementRefValue) client.getLocalProperty(
-					root, ref.propName );
-			value.unresolved( value.getName( ) );
+			Object value = client.getLocalProperty( root, ref.propName );
+			if ( value instanceof ElementRefValue )
+			{
+				ElementRefValue refValue = (ElementRefValue) value;
+				refValue.unresolved( refValue.getName( ) );
 
-			referred.dropClient( client );
+				referred.dropClient( client );
 
-			client.resolveElementReference( root, client
-					.getPropertyDefn( ref.propName ) );
+				client.resolveElementReference( root, client
+						.getPropertyDefn( ref.propName ) );
+			}
+			else if ( value instanceof List )
+			{
+				List valueList = (List) value;
+				for ( int i = 0; i < valueList.size( ); i++ )
+				{
+					ElementRefValue item = (ElementRefValue) valueList.get( i );
+					if ( referred == item.getElement( ) )
+					{
+						item.unresolved( item.getName( ) );
+						referred.dropClient( client );
+						client.resolveElementReference( root, client
+								.getPropertyDefn( ref.propName ), item );
+						break;
+					}
+				}
+			}
+			else
+			{
+				assert false;
+			}
 		}
 	}
 

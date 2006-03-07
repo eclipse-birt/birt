@@ -123,5 +123,14 @@ public class StructRefValue extends ReferenceValue
 		name = null;
 		resolved = (Structure) structure;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	
+	public Object copy( )
+	{
+		return new StructRefValue( getLibraryNamespace( ), getName( ) );
+	}
 
 }

@@ -240,7 +240,7 @@ public class StructureState extends AbstractPropertyState
 			return new XmlPropertyState( handler, element, propDefn, struct );
 
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_PROPERTY_TAG ) )
-			return new PropertyListState( handler, element, propDefn, struct );
+			return new ListPropertyState( handler, element, propDefn, struct );
 
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_PROPERTY_TAG ) )
 			return new TextPropertyState( handler, element, struct );

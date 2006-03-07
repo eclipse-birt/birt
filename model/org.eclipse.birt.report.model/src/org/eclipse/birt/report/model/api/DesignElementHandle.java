@@ -220,6 +220,21 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			return ReferenceValueUtil.needTheNamespacePrefix(
 					(ReferenceValue) value, getModule( ) );
 
+		PropertyDefn defn = (PropertyDefn) getPropertyDefn( propName );
+		if ( value instanceof List && defn != null
+				&& defn.getSubTypeCode( ) == PropertyType.LIST_TYPE )
+		{
+			List valueList = (List) value;
+			List names = new ArrayList( );
+			for ( int i = 0; i < valueList.size( ); i++ )
+			{
+				ElementRefValue item = (ElementRefValue) valueList.get( i );
+				names.add( ReferenceValueUtil.needTheNamespacePrefix( item,
+						getModule( ) ) );
+			}
+			return names;
+		}
+
 		return value;
 
 	}
@@ -1631,6 +1646,34 @@ public abstract class DesignElementHandle implements IDesignElementModel
 				{
 					IStructure struct = (IStructure) value;
 					targetHandle.setProperty( propName, struct.copy( ) );
+				}
+				break;
+
+			case PropertyType.LIST_TYPE :
+
+				assert value instanceof List;
+				List valueList = (List) value;
+				PropertyHandle propHandle = targetHandle
+						.getPropertyHandle( propName );
+				for ( int i = 0; i < valueList.size( ); i++ )
+				{
+					Object item = valueList.get( i );
+					if ( propDefn.getSubTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
+						propHandle.addItem( item );
+					else
+					{
+						assert item instanceof ElementRefValue;
+						refValue = (ElementRefValue) item;
+						if ( refValue.isResolved( ) )
+						{
+							propHandle.addItem( refValue.getElement( ) );
+						}
+						else
+						{
+							propHandle.addItem( refValue
+									.getQualifiedReference( ) );
+						}
+					}
 				}
 				break;
 

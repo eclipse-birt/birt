@@ -186,4 +186,12 @@ public abstract class ReferenceValue
 	{
 		this.libraryNamespace = libraryNamespace;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	
+	abstract public Object copy( );
+	
+	
 }

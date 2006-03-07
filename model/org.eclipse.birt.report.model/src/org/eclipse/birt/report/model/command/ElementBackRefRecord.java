@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
@@ -48,9 +50,8 @@ public class ElementBackRefRecord extends BackRefRecord
 	 *            <code>DesignElement.STYLE_PROP</code>
 	 */
 
-	public ElementBackRefRecord( Module module,
-			ReferenceableElement referred, DesignElement reference,
-			String propName )
+	public ElementBackRefRecord( Module module, ReferenceableElement referred,
+			DesignElement reference, String propName )
 	{
 		super( module, reference, propName );
 		this.referred = referred;
@@ -76,11 +77,28 @@ public class ElementBackRefRecord extends BackRefRecord
 		}
 		else
 		{
-			ElementRefValue value = (ElementRefValue) reference.getLocalProperty(
-					module, propName );
-			value.unresolved( value.getName( ) );
+			Object value = reference.getLocalProperty( module, propName );
+			if ( value instanceof ElementRefValue )
+			{
+				ElementRefValue refValue = (ElementRefValue) value;
+				refValue.unresolved( refValue.getName( ) );
 
-			referred.dropClient( reference );
+				referred.dropClient( reference );
+			}
+			else if ( value instanceof List )
+			{
+				List listValue = (List) value;
+				for ( int i = 0; i < listValue.size( ); i++ )
+				{
+					ElementRefValue item = (ElementRefValue) listValue.get( i );
+					if ( item.getElement( ) == referred )
+					{
+						item.unresolved( item.getName( ) );
+						referred.dropClient( reference );
+						break;
+					}
+				}
+			}
 		}
 	}
 

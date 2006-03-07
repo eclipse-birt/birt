@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
@@ -186,7 +187,8 @@ public class PropertyHandle extends SimpleValueHandle
 
 	public List getReferenceableElementList( )
 	{
-		if ( propDefn.getTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
+		if ( propDefn.getTypeCode( ) != PropertyType.ELEMENT_REF_TYPE
+				&& propDefn.getSubTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
 			return Collections.EMPTY_LIST;
 
 		List list = new ArrayList( );
@@ -279,6 +281,57 @@ public class PropertyHandle extends SimpleValueHandle
 
 		return isVisible;
 	}
+
+	/**
+	 * Adds an item to the end of a list property. The handle must be working on
+	 * a list property.
+	 * 
+	 * @param item
+	 *            The new item to add.
+	 * @throws SemanticException
+	 *             If the property is not a list property, or if the the value
+	 *             of the item is incorrect.
+	 */
+
+	public void addItem( Object item ) throws SemanticException
+	{
+		if ( item == null )
+			return;
+		if ( item instanceof IStructure )
+			super.addItem( (IStructure) item );
+		else
+		{
+			PropertyCommand cmd = new PropertyCommand( getModule( ),
+					getElement( ) );
+			cmd.addItem( propDefn, item );
+		}
+	}
+
+	/**
+	 * Removes an item from a list property. The handle must be working on a
+	 * list property.
+	 * 
+	 * @param item
+	 *            The new item to add.
+	 * @throws SemanticException
+	 *             If the property is not a list property, or if the the value
+	 *             of the item does not exist in the element.
+	 */
+
+	public void removeItem( Object item ) throws SemanticException
+	{
+		if ( item == null )
+			return;
+		if ( item instanceof IStructure )
+			super.removeItem( (IStructure) item );
+		else
+		{
+			PropertyCommand cmd = new PropertyCommand( getModule( ),
+					getElement( ) );
+			cmd.removeItem( propDefn, item );
+		}
+	}
+
 
 	/**
 	 * Returns whether the property value is read-only in the report context.

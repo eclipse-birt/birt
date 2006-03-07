@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.validators.SimpleListValidator;
 import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
@@ -927,22 +928,6 @@ public abstract class DesignElement
 		return getProperty( module, prop );
 	}
 
-//	/**
-//	 * Tests if the property is inheritable in the context.
-//	 * 
-//	 * @param prop
-//	 *            definition of the property to test
-//	 * @return <code>true</code> if the property is inheritable in the
-//	 *         context, otherwise, <code>false</code>.
-//	 */
-//
-//	protected boolean isInheritableProperty( ElementPropertyDefn prop )
-//	{
-//		assert prop != null;
-//
-//		return prop.canInherit( );
-//	}
-
 	/**
 	 * Gets a property value given its definition. This version does the full
 	 * property search as defined by the given derived component. That is, it
@@ -964,20 +949,20 @@ public abstract class DesignElement
 
 	public Object getProperty( Module module, ElementPropertyDefn prop )
 	{
-		Object value = getStrategy( ).getPropertyExceptRomDefault( module, this,
-				prop );
+		Object value = getStrategy( ).getPropertyExceptRomDefault( module,
+				this, prop );
 		if ( value != null )
 			return value;
 
 		return prop.getDefault( );
 	}
-	
+
 	/**
 	 * Gets the search strategy for this element.
 	 * 
 	 * @return the search strategy for this element.
 	 */
-	
+
 	public PropertySearchStrategy getStrategy( )
 	{
 		return PropertySearchStrategy.getInstance( );
@@ -1098,6 +1083,12 @@ public abstract class DesignElement
 		if ( prop.getTypeCode( ) == PropertyType.STRUCT_REF_TYPE )
 		{
 			return resolveStructReference( module, prop );
+		}
+
+		if ( prop.getTypeCode( ) == PropertyType.LIST_TYPE
+				&& prop.getSubTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+		{
+			return resolveElementReferenceList( module, prop );
 		}
 
 		// Get the value of a non-intrinsic property.
@@ -1546,10 +1537,10 @@ public abstract class DesignElement
 		if ( extendsRef == null )
 			return null;
 		if ( !extendsRef.isResolved( ) )
-			resolveExtends(  getRoot( ) );
+			resolveExtends( getRoot( ) );
 		return extendsRef.getElement( );
 	}
-	
+
 	/**
 	 * Resolves the parent element reference.
 	 * 
@@ -1581,7 +1572,7 @@ public abstract class DesignElement
 						extendsRef, module ), ns, propDefn );
 
 		if ( resolvedParent != null )
-		{			
+		{
 			extendsRef.resolve( resolvedParent );
 			resolvedParent.addDerived( this );
 		}
@@ -3080,28 +3071,10 @@ public abstract class DesignElement
 		Object value = propValues.get( prop.getName( ) );
 
 		assert value == null || value instanceof ElementRefValue;
+		assert prop.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE;
 
-		if ( value == null || module == null )
-			return (ElementRefValue) value;
+		return resolveElementReference( module, prop, (ElementRefValue) value );
 
-		ElementRefValue ref = (ElementRefValue) value;
-		if ( ref.isResolved( ) )
-			return ref;
-
-		// The element exist and is not resolved. Try to resolve it.
-		// If it is now resolved, cache the back pointer.
-		// Note that this is a safe operation to do without the
-		// use of the command stack. We are not changing the meaning
-		// of the property: we are only changing the form: from name
-		// to element pointer.
-
-		ElementRefPropertyType refType = (ElementRefPropertyType) prop
-				.getType( );
-		refType.resolve( module, prop, ref );
-		if ( ref.isResolved( ) )
-			ref.getTargetElement( ).addClient( this, prop.getName( ) );
-
-		return ref;
 	}
 
 	/**
@@ -3144,41 +3117,6 @@ public abstract class DesignElement
 			ref.getTargetStructure( ).addClient( this, prop.getName( ) );
 
 		return ref;
-	}
-
-	/**
-	 * Attempts to resolve an element reference property. If the property is
-	 * empty, or the reference is already resolved, return true. If the
-	 * reference is not resolved, attempt to resolve it. If it cannot be
-	 * resolved, return false.
-	 * 
-	 * @param module
-	 *            the module
-	 * @param propName
-	 *            the name of the property
-	 * @return <code>true</code> if the property is resolved;
-	 *         <code>false</code> otherwise.
-	 */
-
-	public boolean checkElementReference( Module module, String propName )
-	{
-		assert !StringUtil.isBlank( propName );
-
-		// Is the value set?
-
-		Object value = propValues.get( propName );
-		if ( value == null )
-			return true;
-
-		// This must be an element reference property.
-
-		ElementPropertyDefn prop = getPropertyDefn( propName );
-		assert PropertyType.ELEMENT_REF_TYPE == prop.getTypeCode( );
-
-		// Attempt to resolve the reference.
-
-		ElementRefValue ref = resolveElementReference( module, prop );
-		return ref.isResolved( );
 	}
 
 	/**
@@ -3639,4 +3577,122 @@ public abstract class DesignElement
 	{
 		return getTemplateParameterElement( module ) != null;
 	}
+
+	/**
+	 * Resolves a list of element reference.
+	 * 
+	 * @param module
+	 *            the module information needed for the check, and records any
+	 *            errors
+	 * @param prop
+	 *            the property whose type is element reference
+	 * @return the list of element reference value and each reference value is
+	 *         tried to resolve
+	 */
+
+	public List resolveElementReferenceList( Module module,
+			ElementPropertyDefn prop )
+	{
+		Object value = propValues.get( prop.getName( ) );
+
+		assert value == null || value instanceof List;
+		assert prop.getTypeCode( ) == PropertyType.LIST_TYPE
+				&& prop.getSubTypeCode( ) == PropertyType.ELEMENT_REF_TYPE;
+
+		if ( value == null )
+			return null;
+
+		List valueList = (List) value;
+		for ( int i = 0; i < valueList.size( ); i++ )
+		{
+			// try to resolve every
+			ElementRefValue item = (ElementRefValue) valueList.get( i );
+			resolveElementReference( module, prop, item );
+		}
+
+		return valueList;
+
+	}
+
+	/**
+	 * Resolves a property element reference. The reference is the value of a
+	 * property of type property element reference.
+	 * 
+	 * @param module
+	 *            the module information needed for the check, and records any
+	 *            errors
+	 * @param prop
+	 *            the property whose type is element reference
+	 * @param value
+	 *            the element reference value to resolve
+	 * @return the element reference value is always returned, which contains
+	 *         the information of element resolution.
+	 */
+
+	public ElementRefValue resolveElementReference( Module module,
+			ElementPropertyDefn prop, ElementRefValue value )
+	{
+		if ( value == null || module == null )
+			return (ElementRefValue) value;
+
+		ElementRefValue ref = (ElementRefValue) value;
+		if ( ref.isResolved( ) )
+			return ref;
+
+		// The element exist and is not resolved. Try to resolve it.
+		// If it is now resolved, cache the back pointer.
+		// Note that this is a safe operation to do without the
+		// use of the command stack. We are not changing the meaning
+		// of the property: we are only changing the form: from name
+		// to element pointer.
+
+		// property may be a list type of element reference or the element
+		// reference type
+
+		assert prop.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE
+				|| prop.getSubTypeCode( ) == PropertyType.ELEMENT_REF_TYPE;
+
+		ElementRefPropertyType refType = null;
+		if ( prop.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+			refType = (ElementRefPropertyType) prop.getType( );
+		else
+			refType = (ElementRefPropertyType) prop.getSubType( );
+
+		refType.resolve( module, prop, ref );
+		if ( ref.isResolved( ) )
+			ref.getTargetElement( ).addClient( this, prop.getName( ) );
+
+		return ref;
+	}
+
+	/**
+	 * Checks all value items in the specific property whose type is list
+	 * property type. This method is used in command. If any error is found, the
+	 * exception will be thrown.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param propDefn
+	 *            the property definition of the list property
+	 * @param list
+	 *            the value list to check
+	 * @param toAdd
+	 *            the value item to add. This parameter maybe is
+	 *            <code>null</code>.
+	 * @throws PropertyValueException
+	 *             if the structure list or the item to add has any semantic
+	 *             error..
+	 */
+
+	public void checkSimpleList( Module module, PropertyDefn propDefn,
+			List list, Object toAdd ) throws PropertyValueException
+	{
+		List errorList = SimpleListValidator.getInstance( ).validateForAdding(
+				getHandle( module ), propDefn, list, toAdd );
+		if ( errorList.size( ) > 0 )
+		{
+			throw (PropertyValueException) errorList.get( 0 );
+		}
+	}
+
 }

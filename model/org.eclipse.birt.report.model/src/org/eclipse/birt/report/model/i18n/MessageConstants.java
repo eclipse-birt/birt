@@ -210,6 +210,7 @@ public interface MessageConstants
 	public static final String DESIGN_PARSER_EXCEPTION_DUPLICATE_ELEMENT_ID = "Error.DesignParserException.DUPLICATE_ELEMENT_ID"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_INCONSISTENT_TEMPLATE_ELEMENT_TYPE = "Error.DesignParserException.INCONSISTENT_TEMPLATE_ELEMENT_TYPE"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_MISSING_TEMPLATE_PARAMETER_DEFAULT = "Error.DesignParserException.MISSING_TEMPLATE_PARAMETER_DEFAULT"; //$NON-NLS-1$
+	public static final String DESIGN_PARSER_EXCEPTION_WRONG_SIMPLE_LIST_TYPE = "Error.DesignParserException.WRONG_SIMPLE_LIST_TYPE"; //$NON-NLS-1$
 	
 	// DesignFileException
 	public static final String DESIGN_FILE_EXCEPTION_SYNTAX_ERROR = "Error.DesignFileException.SYNTAX_ERROR"; //$NON-NLS-1$

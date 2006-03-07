@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -27,6 +29,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
+import org.eclipse.birt.report.model.api.validators.SimpleListValidator;
 import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.api.validators.StructureReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.StructureValidator;
@@ -79,6 +82,12 @@ public abstract class PropertyDefn
 	public static final int ODA_PROPERTY = 4;
 
 	/**
+	 * Supported sub-types for list property type.
+	 */
+
+	public static List supportedSubTypes = null;
+
+	/**
 	 * Where the property is defined.
 	 */
 
@@ -89,6 +98,13 @@ public abstract class PropertyDefn
 	 */
 
 	protected PropertyType type = null;
+
+	/**
+	 * The sub-type of the property definition. This is required if property
+	 * type is "list".
+	 */
+
+	protected PropertyType subType = null;
 
 	/**
 	 * The internal (non-localized) name for the property. This name is used in
@@ -109,7 +125,7 @@ public abstract class PropertyDefn
 	 * share the default unit set on the report design.
 	 */
 
-	protected String defaultUnit = DimensionValue.DEFAULT_UNIT; //$NON-NLS-1$
+	protected String defaultUnit = DimensionValue.DEFAULT_UNIT;
 
 	/**
 	 * Optional detailed information for the property type. The type of this
@@ -248,7 +264,7 @@ public abstract class PropertyDefn
 	 * 
 	 * @return the owner definition
 	 */
-	
+
 	public ObjectDefn definedBy( )
 	{
 		return definedBy;
@@ -311,9 +327,9 @@ public abstract class PropertyDefn
 
 				if ( details == null )
 					throw new MetaDataException(
-							new String[]{name, definedBy().getName( ) },
+							new String[]{name, definedBy( ).getName( )},
 							MetaDataException.DESIGN_EXCEPTION_MISSING_STRUCT_DEFN );
-				
+
 				// Look up a string name reference.
 
 				if ( details instanceof String )
@@ -348,46 +364,7 @@ public abstract class PropertyDefn
 				break;
 
 			case PropertyType.ELEMENT_REF_TYPE :
-				if ( details == null )
-					throw new MetaDataException(
-							new String[]{name},
-							MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE );
-
-				// Look up a string name reference.
-
-				if ( details instanceof String )
-				{
-					MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-					ElementDefn elementDefn = (ElementDefn) dd
-							.getElement( StringUtil
-									.trimString( (String) details ) );
-					if ( elementDefn == null )
-						throw new MetaDataException(
-								new String[]{(String) details, name},
-								MetaDataException.DESIGN_EXCEPTION_UNDEFINED_ELEMENT_TYPE );
-					if ( elementDefn.getNameSpaceID( ) == MetaDataConstants.NO_NAME_SPACE )
-						throw new MetaDataException(
-								new String[]{(String) details, name},
-								MetaDataException.DESIGN_EXCEPTION_UNNAMED_ELEMENT_TYPE );
-					details = elementDefn;
-				}
-
-				// Otherwise, an element definition must be provided.
-
-				else if ( getTargetElementType( ) == null )
-					throw new MetaDataException(
-							new String[]{name},
-							MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE );
-
-				if ( !name.equalsIgnoreCase( StyledElement.STYLE_PROP ) )
-				{
-					SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
-							ElementReferenceValidator.NAME );
-					triggerDefn.setPropertyName( getName( ) );
-					triggerDefn.setValidator( ElementReferenceValidator
-							.getInstance( ) );
-					getTriggerDefnSet( ).add( triggerDefn );
-				}
+				buildElementType( );
 				break;
 
 			case PropertyType.STRUCT_REF_TYPE :
@@ -398,7 +375,7 @@ public abstract class PropertyDefn
 					throw new MetaDataException(
 							new String[]{name},
 							MetaDataException.DESIGN_EXCEPTION_MISSING_STRUCT_DEFN );
-				
+
 				// Look up a string name reference.
 
 				if ( details instanceof String )
@@ -442,6 +419,37 @@ public abstract class PropertyDefn
 				getTriggerDefnSet( ).add( triggerDefn );
 
 				break;
+
+			case PropertyType.LIST_TYPE :
+
+				// list property must provide the subtype
+
+				if ( subType == null )
+					throw new MetaDataException( new String[]{name},
+							MetaDataException.DESIGN_EXCEPTION_MISSING_SUB_TYPE );
+
+				// check the subtype, not all simple types are supported
+
+				if ( !getSupportedSubTypes( ).contains( subType ) )
+					throw new MetaDataException(
+							new String[]{name, subType.getName( )},
+							MetaDataException.DESIGN_EXCEPTION_UNSUPPORTED_SUB_TYPE );
+				
+				// add the simple list validator
+				// TODO exclude the style property
+				SimpleListValidator validator = SimpleListValidator.getInstance( );
+				triggerDefn = new SemanticTriggerDefn(
+						SimpleListValidator.NAME );
+				triggerDefn.setPropertyName( getName( ) );
+				triggerDefn.setValidator( validator );
+				getTriggerDefnSet( ).add( triggerDefn );
+
+				// sub-type is element, then do some checks for it
+
+				if ( subType.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+					buildElementType( );
+
+				break;
 		}
 
 		if ( isValueRequired( ) )
@@ -461,6 +469,14 @@ public abstract class PropertyDefn
 			triggerDefn.setPropertyName( getName( ) );
 			triggerDefn.setValidator( ExtensionValidator.getInstance( ) );
 			getTriggerDefnSet( ).add( triggerDefn );
+		}
+
+		if ( getTypeCode( ) != PropertyType.LIST_TYPE && subType != null )
+		{
+			// only when the type is list, the subtype is set
+
+			throw new MetaDataException( new String[]{name},
+					MetaDataException.DESIGN_EXCEPTION_SUB_TYPE_FORBIDDEN );
 		}
 
 		if ( getTypeCode( ) != PropertyType.STRUCT_TYPE && isList == true )
@@ -502,7 +518,9 @@ public abstract class PropertyDefn
 		getTriggerDefnSet( ).build( );
 
 		// default unit check
-		if ( getTypeCode( ) == PropertyType.DIMENSION_TYPE )
+		if ( getTypeCode( ) == PropertyType.DIMENSION_TYPE
+				|| ( getTypeCode( ) == PropertyType.LIST_TYPE && subType
+						.getTypeCode( ) == PropertyType.DIMENSION_TYPE ) )
 		{
 			String defaultUnit = getDefaultUnit( );
 			if ( !StringUtil.isBlank( defaultUnit ) )
@@ -520,6 +538,52 @@ public abstract class PropertyDefn
 			}
 		}
 
+	}
+
+	/**
+	 * Builds the semantic checks for the element reference type.
+	 * 
+	 * @throws MetaDataException
+	 */
+
+	private void buildElementType( ) throws MetaDataException
+	{
+		if ( details == null )
+			throw new MetaDataException( new String[]{name},
+					MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE );
+
+		// Look up a string name reference.
+
+		if ( details instanceof String )
+		{
+			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+			ElementDefn elementDefn = (ElementDefn) dd.getElement( StringUtil
+					.trimString( (String) details ) );
+			if ( elementDefn == null )
+				throw new MetaDataException(
+						new String[]{(String) details, name},
+						MetaDataException.DESIGN_EXCEPTION_UNDEFINED_ELEMENT_TYPE );
+			if ( elementDefn.getNameSpaceID( ) == MetaDataConstants.NO_NAME_SPACE )
+				throw new MetaDataException( new String[]{(String) details,
+						name},
+						MetaDataException.DESIGN_EXCEPTION_UNNAMED_ELEMENT_TYPE );
+			details = elementDefn;
+		}
+
+		// Otherwise, an element definition must be provided.
+
+		else if ( getTargetElementType( ) == null )
+			throw new MetaDataException( new String[]{name},
+					MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE );
+
+		if ( !name.equalsIgnoreCase( StyledElement.STYLE_PROP ) )
+		{
+			SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
+					ElementReferenceValidator.NAME );
+			triggerDefn.setPropertyName( getName( ) );
+			triggerDefn.setValidator( ElementReferenceValidator.getInstance( ) );
+			getTriggerDefnSet( ).add( triggerDefn );
+		}
 	}
 
 	/**
@@ -577,7 +641,7 @@ public abstract class PropertyDefn
 
 	public int getTypeCode( )
 	{
-		return getType( ).getTypeCode( );
+		return type.getTypeCode( );
 	}
 
 	/**
@@ -1212,7 +1276,7 @@ public abstract class PropertyDefn
 	public String getDefaultUnit( )
 	{
 		if ( getTypeCode( ) != PropertyType.DIMENSION_TYPE )
-			return DimensionValue.DEFAULT_UNIT; //$NON-NLS-1$
+			return DimensionValue.DEFAULT_UNIT;
 
 		return defaultUnit;
 	}
@@ -1359,5 +1423,80 @@ public abstract class PropertyDefn
 		if ( !StringUtil.isBlank( getName( ) ) )
 			return getName( );
 		return super.toString( );
+	}
+
+	/**
+	 * Gets all the supported sub-types for the list property type.
+	 * 
+	 * @return all the supported sub-types for the list property type
+	 */
+
+	public static final List getSupportedSubTypes( )
+	{
+		if ( supportedSubTypes != null && !supportedSubTypes.isEmpty( ) )
+			return supportedSubTypes;
+
+		supportedSubTypes = new ArrayList( );
+		Iterator iter = MetaDataDictionary.getInstance( ).getPropertyTypes( )
+				.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			PropertyType propType = (PropertyType) iter.next( );
+			int type = propType.getTypeCode( );
+			switch ( type )
+			{
+				case PropertyType.STRING_TYPE :
+				case PropertyType.BOOLEAN_TYPE :
+				case PropertyType.DATE_TIME_TYPE :
+				case PropertyType.FLOAT_TYPE :
+				case PropertyType.INTEGER_TYPE :
+				case PropertyType.EXPRESSION_TYPE :
+				case PropertyType.ELEMENT_REF_TYPE :
+					supportedSubTypes.add( propType );
+					break;
+				default :
+					break;
+			}
+		}
+
+		return supportedSubTypes;
+	}
+
+	/**
+	 * Sets the sub-type of this property definition.
+	 * 
+	 * @param subType
+	 *            the sub-type to set
+	 */
+
+	void setSubType( PropertyType subType )
+	{
+		this.subType = subType;
+	}
+
+	/**
+	 * Gets the sub-type of this property definition.
+	 * 
+	 * @return the sub-type of this property definition
+	 */
+
+	public PropertyType getSubType( )
+	{
+		return subType;
+	}
+
+	/**
+	 * Gets the sub-type code of this property definition. This method returns
+	 * an effective type code only when the type is list; otherwise return
+	 * <code>-1</code>.
+	 * 
+	 * @return the sub-type code of this property defintion
+	 */
+
+	public int getSubTypeCode( )
+	{
+		if ( subType != null )
+			return subType.getTypeCode( );
+		return -1;
 	}
 }

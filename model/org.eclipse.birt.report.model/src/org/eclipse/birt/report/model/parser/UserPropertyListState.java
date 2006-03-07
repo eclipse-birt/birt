@@ -19,7 +19,7 @@ import org.xml.sax.SAXException;
  * Parses the user property list.
  */
 
-public class UserPropertyListState extends PropertyListState
+public class UserPropertyListState extends ListPropertyState
 {
 
 	/**

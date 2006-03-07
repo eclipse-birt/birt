@@ -44,7 +44,6 @@ import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
-import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
@@ -70,6 +69,7 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.elements.ScriptDataSource;
+import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
@@ -746,6 +746,45 @@ public abstract class ModuleWriter extends ElementVisitor
 			StructPropertyDefn strcutPropDefn = (StructPropertyDefn) iter
 					.next( );
 			property( struct, strcutPropDefn.getName( ) );
+		}
+
+		writer.endElement( );
+	}
+
+	/**
+	 * Writes the structure list, each of which has only one member.
+	 * 
+	 * @param obj
+	 *            the design element
+	 * @param propName
+	 *            the name of the list property
+	 */
+
+	protected void writeSimplePropertyList( DesignElement obj, String propName )
+	{
+		PropertyDefn prop = (ElementPropertyDefn) obj.getDefn( ).getProperty(
+				propName );
+		if ( prop == null || prop.getTypeCode( ) != PropertyType.LIST_TYPE )
+			return;
+
+		List values = (List) obj.getLocalProperty( getModule( ), propName );
+		if ( values == null || values.isEmpty( ) )
+			return;
+
+		writer
+				.conditionalStartElement( DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG );
+		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, propName );
+
+		for ( int i = 0; i < values.size( ); i++ )
+		{
+			PropertyType type = prop.getSubType( );
+			String xmlValue = type.toXml( getModule( ), prop, values.get( i ) );
+			if ( xmlValue != null )
+			{
+				writer.startElement( DesignSchemaConstants.VALUE_TAG );
+				writer.text( xmlValue );
+				writer.endElement( );
+			}
 		}
 
 		writer.endElement( );
@@ -2273,7 +2312,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDataSet(org.eclipse.birt.report.model.elements.DataSet)
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitSimpleDataSet(org.eclipse.birt.report.model.elements.SimpleDataSet)
 	 */
 
 	public void visitSimpleDataSet( SimpleDataSet obj )
@@ -2656,6 +2695,8 @@ public abstract class ModuleWriter extends ElementVisitor
 					else
 						writeStructure( virtualElement, propDefn.getName( ) );
 				}
+				else if ( propDefn.getTypeCode( ) == PropertyType.LIST_TYPE )
+					writeSimplePropertyList( virtualElement, propDefn.getName( ) );
 				else
 					writeProperty( virtualElement,
 							getTagByPropertyType( propDefn ), propDefn
@@ -2675,7 +2716,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * 
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitJointDataSet(org.eclipse.birt.report.model.elements.JointDataSet)
 	 */
-	 
+
 	public void visitJointDataSet( JointDataSet obj )
 	{
 
