@@ -3518,8 +3518,7 @@ public abstract class DesignElement
 
 	public boolean canTransformToTemplate( Module module )
 	{
-		if ( this instanceof TemplateElement || ( !canDrop( ) )
-				|| ( isContainTamplateElement( ) ) )
+		if ( this instanceof TemplateElement || ( !canDrop( ) ) )
 			return false;
 
 		IElementDefn templateReportItem = MetaDataDictionary.getInstance( )
@@ -3533,34 +3532,6 @@ public abstract class DesignElement
 							templateDataSet );
 
 		return true;
-	}
-
-	/**
-	 * checks if the element contains any sub level element is a template.
-	 * 
-	 * @return true if contain template element, otherwise return false.
-	 */
-
-	private boolean isContainTamplateElement( )
-	{
-		int slotCount = getDefn( ).getSlotCount( );
-		for ( int i = 0; i < slotCount; i++ )
-		{
-			ContainerSlot contentSlot = getSlot( i );
-
-			Iterator iter = contentSlot.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				Object content = iter.next( );
-				if ( content instanceof TemplateElement )
-					return true;
-				else if ( ( (DesignElement) content )
-						.isContainTamplateElement( ) )
-					return true;
-			}
-		}
-
-		return false;
 	}
 
 	/**
