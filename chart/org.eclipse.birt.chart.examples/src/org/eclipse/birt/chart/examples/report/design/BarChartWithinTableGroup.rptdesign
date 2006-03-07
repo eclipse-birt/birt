@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 1.0 -->
-<report xmlns=" http://www.eclipse.org/birt/2005/design" version="1">
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 0.0.1 Build &lt;20050405-1230></property>
     <property name="units">in</property>
     <data-sources>
-        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.sampledb" name="Data Source"/>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="67">
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
     </data-sources>
     <data-sets>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dSet">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dSet" id="5">
             <property name="dataSource">Data Source</property>
             <property name="queryText">SELECT CLASSICMODELS.PRODUCTS.PRODUCTCODE,
        CLASSICMODELS.PRODUCTS.PRODUCTNAME,
@@ -20,7 +24,7 @@
  FROM CLASSICMODELS.PRODUCTS,CLASSICMODELS.ORDERDETAILS
  WHERE CLASSICMODELS.PRODUCTS.PRODUCTCODE=CLASSICMODELS.ORDERDETAILS.PRODUCTCODE</property>
         </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="6">
             <property name="dataSource">Data Source</property>
             <list-property name="parameters">
                 <structure>
@@ -36,7 +40,7 @@
             <list-property name="columnHints">
                 <structure>
                     <property name="columnName">3</property>
-                    <property name="alias">TotalOrders</property>
+                    <property name="alias">TOTALORDERS</property>
                     <property name="displayName">TOTALORDERS</property>
                 </structure>
             </list-property>
@@ -52,27 +56,27 @@ GROUP BY  CLASSICMODELS.PRODUCTS.PRODUCTLINE, CLASSICMODELS.PRODUCTS.PRODUCTNAME
         </oda-data-set>
     </data-sets>
     <styles>
-        <style name="Label">
+        <style name="Label" id="2">
             <property name="fontFamily">Book Antiqua</property>
             <property name="fontWeight">bold</property>
             <property name="color">#004080</property>
         </style>
-        <style name="Data">
+        <style name="Data" id="3">
             <property name="fontFamily">Book Antiqua</property>
             <property name="fontSize">small</property>
         </style>
     </styles>
     <page-setup>
-        <simple-master-page name="Simple MasterPage">
+        <simple-master-page name="Simple MasterPage" id="7">
             <property name="type">us-letter</property>
             <property name="leftMargin">0.25in</property>
             <property name="rightMargin">0.25in</property>
             <page-header>
-                <grid>
+                <grid id="8">
                     <property name="width">100%</property>
-                    <column/>
-                    <row>
-                        <cell>
+                    <column id="9"/>
+                    <row id="10">
+                        <cell id="11">
                             <property name="fontSize">xx-large</property>
                             <property name="fontWeight">bold</property>
                             <property name="textAlign">center</property>
@@ -81,18 +85,18 @@ GROUP BY  CLASSICMODELS.PRODUCTS.PRODUCTLINE, CLASSICMODELS.PRODUCTS.PRODUCTNAME
                 </grid>
             </page-header>
             <page-footer>
-                <grid>
+                <grid id="12">
                     <property name="width">100%</property>
-                    <column/>
-                    <column/>
-                    <row>
-                        <cell>
-                            <text>
+                    <column id="13"/>
+                    <column id="14"/>
+                    <row id="15">
+                        <cell id="16">
+                            <text id="17">
                                 <property name="contentType">html</property>
                                 <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
                             </text>
                         </cell>
-                        <cell>
+                        <cell id="18">
                             <property name="textAlign">right</property>
                         </cell>
                     </row>
@@ -101,64 +105,64 @@ GROUP BY  CLASSICMODELS.PRODUCTS.PRODUCTLINE, CLASSICMODELS.PRODUCTS.PRODUCTNAME
         </simple-master-page>
     </page-setup>
     <body>
-        <table>
+        <table id="19">
             <property name="width">100%</property>
             <property name="dataSet">dSet</property>
             <list-property name="sort">
                 <structure>
-                    <expression name="key">row["productCode"]</expression>
+                    <expression name="key">row["PRODUCTCODE"]</expression>
                     <property name="direction">asc</property>
                 </structure>
             </list-property>
-            <column>
+            <column id="60">
                 <property name="width">13%</property>
             </column>
-            <column>
+            <column id="61">
                 <property name="width">25%</property>
             </column>
-            <column>
+            <column id="62">
                 <property name="width">20%</property>
             </column>
-            <column>
+            <column id="63">
                 <property name="width">10%</property>
             </column>
-            <column>
+            <column id="64">
                 <property name="width">10%</property>
             </column>
-            <column>
+            <column id="65">
                 <property name="width">10%</property>
             </column>
-            <column>
+            <column id="66">
                 <property name="width">12%</property>
             </column>
-            <group>
+            <group id="20">
                 <property name="groupName">productCategory</property>
                 <property name="interval">none</property>
                 <property name="sortDirection">asc</property>
-                <expression name="keyExpr">row["productLine"]</expression>
+                <expression name="keyExpr">row["PRODUCTLINE"]</expression>
                 <header>
-                    <row>
-                        <cell>
+                    <row id="21">
+                        <cell id="22">
                             <property name="colSpan">7</property>
                             <property name="rowSpan">1</property>
                             <property name="paddingTop">2cm</property>
                             <property name="textAlign">center</property>
-                            <data>
+                            <data id="23">
                                 <property name="fontFamily">Arial Black</property>
                                 <property name="fontSize">x-large</property>
                                 <property name="fontWeight">bold</property>
                                 <property name="color">#004080</property>
                                 <property name="paddingLeft">0cm</property>
-                                <expression name="valueExpr">row["productLine"]</expression>
+                                <expression name="valueExpr">row["PRODUCTLINE"]</expression>
                             </data>
                         </cell>
                     </row>
-                    <row>
-                        <cell>
+                    <row id="24">
+                        <cell id="25">
                             <property name="colSpan">7</property>
                             <property name="rowSpan">1</property>
                             <property name="textAlign">center</property>
-                            <extended-item extensionName="Chart">
+                            <extended-item extensionName="Chart" id="26">
                                 <property name="height">400pt</property>
                                 <property name="width">550pt</property>
                                 <property name="dataSet">Data Set</property>
@@ -384,8 +388,8 @@ GROUP BY  CLASSICMODELS.PRODUCTS.PRODUCTLINE, CLASSICMODELS.PRODUCTS.PRODUCTNAME
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>550.0</Width>
-      <Height>400.0</Height>
+      <Width>549.75</Width>
+      <Height>399.75</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -640,7 +644,7 @@ GROUP BY  CLASSICMODELS.PRODUCTS.PRODUCTLINE, CLASSICMODELS.PRODUCTS.PRODUCTNAME
             <Visible>true</Visible>
           </Label>
           <DataDefinition>
-            <Definition>row[&quot;TotalOrders&quot;]</Definition>
+            <Definition>row[&quot;TOTALORDERS&quot;]</Definition>
           </DataDefinition>
           <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
           <DataPoint>
@@ -918,6 +922,825 @@ GROUP BY  CLASSICMODELS.PRODUCTS.PRODUCTLINE, CLASSICMODELS.PRODUCTS.PRODUCTNAME
         <LabelPosition>Outside</LabelPosition>
         <Stacked>false</Stacked>
       </Series>
+      <Series>
+        <Visible>true</Visible>
+        <Label>
+          <Caption>
+            <Value>&lt;undefined></Value>
+            <Font>
+              <Name>SansSerif</Name>
+              <Size>12.0</Size>
+              <Bold>false</Bold>
+              <Italic>false</Italic>
+              <Strikethrough>false</Strikethrough>
+              <Underline>false</Underline>
+              <Alignment>
+                <horizontalAlignment>Left</horizontalAlignment>
+                <verticalAlignment>Top</verticalAlignment>
+              </Alignment>
+              <Rotation>0.0</Rotation>
+            </Font>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>false</Visible>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>false</Visible>
+        </Label>
+        <DataDefinition>
+          <Definition>row[&quot;PRODUCTNAME&quot;]</Definition>
+        </DataDefinition>
+        <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
+        <DataPoint>
+          <Components>
+            <Type>Orthogonal_Value</Type>
+          </Components>
+          <Separator>, </Separator>
+        </DataPoint>
+        <LabelPosition>Outside</LabelPosition>
+        <Stacked>false</Stacked>
+      </Series>
+      <Series>
+        <Visible>true</Visible>
+        <Label>
+          <Caption>
+            <Value>&lt;undefined></Value>
+            <Font>
+              <Name>SansSerif</Name>
+              <Size>12.0</Size>
+              <Bold>false</Bold>
+              <Italic>false</Italic>
+              <Strikethrough>false</Strikethrough>
+              <Underline>false</Underline>
+              <Alignment>
+                <horizontalAlignment>Left</horizontalAlignment>
+                <verticalAlignment>Top</verticalAlignment>
+              </Alignment>
+              <Rotation>0.0</Rotation>
+            </Font>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>false</Visible>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>false</Visible>
+        </Label>
+        <DataDefinition>
+          <Definition>row[&quot;PRODUCTNAME&quot;]</Definition>
+        </DataDefinition>
+        <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
+        <DataPoint>
+          <Components>
+            <Type>Orthogonal_Value</Type>
+          </Components>
+          <Separator>, </Separator>
+        </DataPoint>
+        <LabelPosition>Outside</LabelPosition>
+        <Stacked>false</Stacked>
+      </Series>
+      <Series>
+        <Visible>true</Visible>
+        <Label>
+          <Caption>
+            <Value>&lt;undefined></Value>
+            <Font>
+              <Name>SansSerif</Name>
+              <Size>12.0</Size>
+              <Bold>false</Bold>
+              <Italic>false</Italic>
+              <Strikethrough>false</Strikethrough>
+              <Underline>false</Underline>
+              <Alignment>
+                <horizontalAlignment>Left</horizontalAlignment>
+                <verticalAlignment>Top</verticalAlignment>
+              </Alignment>
+              <Rotation>0.0</Rotation>
+            </Font>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>false</Visible>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>false</Visible>
+        </Label>
+        <DataDefinition>
+          <Definition>row[&quot;PRODUCTNAME&quot;]</Definition>
+        </DataDefinition>
+        <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
+        <DataPoint>
+          <Components>
+            <Type>Orthogonal_Value</Type>
+          </Components>
+          <Separator>, </Separator>
+        </DataPoint>
+        <LabelPosition>Outside</LabelPosition>
+        <Stacked>false</Stacked>
+      </Series>
+      <Series>
+        <Visible>true</Visible>
+        <Label>
+          <Caption>
+            <Value>&lt;undefined></Value>
+            <Font>
+              <Name>SansSerif</Name>
+              <Size>12.0</Size>
+              <Bold>false</Bold>
+              <Italic>false</Italic>
+              <Strikethrough>false</Strikethrough>
+              <Underline>false</Underline>
+              <Alignment>
+                <horizontalAlignment>Left</horizontalAlignment>
+                <verticalAlignment>Top</verticalAlignment>
+              </Alignment>
+              <Rotation>0.0</Rotation>
+            </Font>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>false</Visible>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>false</Visible>
+        </Label>
+        <DataDefinition>
+          <Definition>row[&quot;PRODUCTNAME&quot;]</Definition>
+        </DataDefinition>
+        <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
+        <DataPoint>
+          <Components>
+            <Type>Orthogonal_Value</Type>
+          </Components>
+          <Separator>, </Separator>
+        </DataPoint>
+        <LabelPosition>Outside</LabelPosition>
+        <Stacked>false</Stacked>
+      </Series>
+      <Series>
+        <Visible>true</Visible>
+        <Label>
+          <Caption>
+            <Value>&lt;undefined></Value>
+            <Font>
+              <Name>SansSerif</Name>
+              <Size>12.0</Size>
+              <Bold>false</Bold>
+              <Italic>false</Italic>
+              <Strikethrough>false</Strikethrough>
+              <Underline>false</Underline>
+              <Alignment>
+                <horizontalAlignment>Left</horizontalAlignment>
+                <verticalAlignment>Top</verticalAlignment>
+              </Alignment>
+              <Rotation>0.0</Rotation>
+            </Font>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>false</Visible>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>false</Visible>
+        </Label>
+        <DataDefinition>
+          <Definition>row[&quot;PRODUCTNAME&quot;]</Definition>
+        </DataDefinition>
+        <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
+        <DataPoint>
+          <Components>
+            <Type>Orthogonal_Value</Type>
+          </Components>
+          <Separator>, </Separator>
+        </DataPoint>
+        <LabelPosition>Outside</LabelPosition>
+        <Stacked>false</Stacked>
+      </Series>
+      <Series>
+        <Visible>true</Visible>
+        <Label>
+          <Caption>
+            <Value>&lt;undefined></Value>
+            <Font>
+              <Name>SansSerif</Name>
+              <Size>12.0</Size>
+              <Bold>false</Bold>
+              <Italic>false</Italic>
+              <Strikethrough>false</Strikethrough>
+              <Underline>false</Underline>
+              <Alignment>
+                <horizontalAlignment>Left</horizontalAlignment>
+                <verticalAlignment>Top</verticalAlignment>
+              </Alignment>
+              <Rotation>0.0</Rotation>
+            </Font>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>false</Visible>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>false</Visible>
+        </Label>
+        <DataDefinition>
+          <Definition>row[&quot;PRODUCTNAME&quot;]</Definition>
+        </DataDefinition>
+        <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
+        <DataPoint>
+          <Components>
+            <Type>Orthogonal_Value</Type>
+          </Components>
+          <Separator>, </Separator>
+        </DataPoint>
+        <LabelPosition>Outside</LabelPosition>
+        <Stacked>false</Stacked>
+      </Series>
+      <Series>
+        <Visible>true</Visible>
+        <Label>
+          <Caption>
+            <Value>&lt;undefined></Value>
+            <Font>
+              <Name>SansSerif</Name>
+              <Size>12.0</Size>
+              <Bold>false</Bold>
+              <Italic>false</Italic>
+              <Strikethrough>false</Strikethrough>
+              <Underline>false</Underline>
+              <Alignment>
+                <horizontalAlignment>Left</horizontalAlignment>
+                <verticalAlignment>Top</verticalAlignment>
+              </Alignment>
+              <Rotation>0.0</Rotation>
+            </Font>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>false</Visible>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>false</Visible>
+        </Label>
+        <DataDefinition>
+          <Definition>row[&quot;PRODUCTNAME&quot;]</Definition>
+        </DataDefinition>
+        <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
+        <DataPoint>
+          <Components>
+            <Type>Orthogonal_Value</Type>
+          </Components>
+          <Separator>, </Separator>
+        </DataPoint>
+        <LabelPosition>Outside</LabelPosition>
+        <Stacked>false</Stacked>
+      </Series>
+      <Series>
+        <Visible>true</Visible>
+        <Label>
+          <Caption>
+            <Value>&lt;undefined></Value>
+            <Font>
+              <Name>SansSerif</Name>
+              <Size>12.0</Size>
+              <Bold>false</Bold>
+              <Italic>false</Italic>
+              <Strikethrough>false</Strikethrough>
+              <Underline>false</Underline>
+              <Alignment>
+                <horizontalAlignment>Left</horizontalAlignment>
+                <verticalAlignment>Top</verticalAlignment>
+              </Alignment>
+              <Rotation>0.0</Rotation>
+            </Font>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>false</Visible>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>false</Visible>
+        </Label>
+        <DataDefinition>
+          <Definition>row[&quot;PRODUCTNAME&quot;]</Definition>
+        </DataDefinition>
+        <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
+        <DataPoint>
+          <Components>
+            <Type>Orthogonal_Value</Type>
+          </Components>
+          <Separator>, </Separator>
+        </DataPoint>
+        <LabelPosition>Outside</LabelPosition>
+        <Stacked>false</Stacked>
+      </Series>
+      <Series>
+        <Visible>true</Visible>
+        <Label>
+          <Caption>
+            <Value>&lt;undefined></Value>
+            <Font>
+              <Name>SansSerif</Name>
+              <Size>12.0</Size>
+              <Bold>false</Bold>
+              <Italic>false</Italic>
+              <Strikethrough>false</Strikethrough>
+              <Underline>false</Underline>
+              <Alignment>
+                <horizontalAlignment>Left</horizontalAlignment>
+                <verticalAlignment>Top</verticalAlignment>
+              </Alignment>
+              <Rotation>0.0</Rotation>
+            </Font>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>false</Visible>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>false</Visible>
+        </Label>
+        <DataDefinition>
+          <Definition>row[&quot;PRODUCTNAME&quot;]</Definition>
+        </DataDefinition>
+        <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
+        <DataPoint>
+          <Components>
+            <Type>Orthogonal_Value</Type>
+          </Components>
+          <Separator>, </Separator>
+        </DataPoint>
+        <LabelPosition>Outside</LabelPosition>
+        <Stacked>false</Stacked>
+      </Series>
+      <Series>
+        <Visible>true</Visible>
+        <Label>
+          <Caption>
+            <Value>&lt;undefined></Value>
+            <Font>
+              <Name>SansSerif</Name>
+              <Size>12.0</Size>
+              <Bold>false</Bold>
+              <Italic>false</Italic>
+              <Strikethrough>false</Strikethrough>
+              <Underline>false</Underline>
+              <Alignment>
+                <horizontalAlignment>Left</horizontalAlignment>
+                <verticalAlignment>Top</verticalAlignment>
+              </Alignment>
+              <Rotation>0.0</Rotation>
+            </Font>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>false</Visible>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>false</Visible>
+        </Label>
+        <DataDefinition>
+          <Definition>row[&quot;PRODUCTNAME&quot;]</Definition>
+        </DataDefinition>
+        <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
+        <DataPoint>
+          <Components>
+            <Type>Orthogonal_Value</Type>
+          </Components>
+          <Separator>, </Separator>
+        </DataPoint>
+        <LabelPosition>Outside</LabelPosition>
+        <Stacked>false</Stacked>
+      </Series>
+      <Series>
+        <Visible>true</Visible>
+        <Label>
+          <Caption>
+            <Value>&lt;undefined></Value>
+            <Font>
+              <Name>SansSerif</Name>
+              <Size>12.0</Size>
+              <Bold>false</Bold>
+              <Italic>false</Italic>
+              <Strikethrough>false</Strikethrough>
+              <Underline>false</Underline>
+              <Alignment>
+                <horizontalAlignment>Left</horizontalAlignment>
+                <verticalAlignment>Top</verticalAlignment>
+              </Alignment>
+              <Rotation>0.0</Rotation>
+            </Font>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>false</Visible>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>false</Visible>
+        </Label>
+        <DataDefinition>
+          <Definition>row[&quot;PRODUCTNAME&quot;]</Definition>
+        </DataDefinition>
+        <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
+        <DataPoint>
+          <Components>
+            <Type>Orthogonal_Value</Type>
+          </Components>
+          <Separator>, </Separator>
+        </DataPoint>
+        <LabelPosition>Outside</LabelPosition>
+        <Stacked>false</Stacked>
+      </Series>
+      <Series>
+        <Visible>true</Visible>
+        <Label>
+          <Caption>
+            <Value>&lt;undefined></Value>
+            <Font>
+              <Name>SansSerif</Name>
+              <Size>12.0</Size>
+              <Bold>false</Bold>
+              <Italic>false</Italic>
+              <Strikethrough>false</Strikethrough>
+              <Underline>false</Underline>
+              <Alignment>
+                <horizontalAlignment>Left</horizontalAlignment>
+                <verticalAlignment>Top</verticalAlignment>
+              </Alignment>
+              <Rotation>0.0</Rotation>
+            </Font>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>false</Visible>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>false</Visible>
+        </Label>
+        <DataDefinition>
+          <Definition>row[&quot;PRODUCTNAME&quot;]</Definition>
+        </DataDefinition>
+        <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
+        <DataPoint>
+          <Components>
+            <Type>Orthogonal_Value</Type>
+          </Components>
+          <Separator>, </Separator>
+        </DataPoint>
+        <LabelPosition>Outside</LabelPosition>
+        <Stacked>false</Stacked>
+      </Series>
+      <Series>
+        <Visible>true</Visible>
+        <Label>
+          <Caption>
+            <Value>&lt;undefined></Value>
+            <Font>
+              <Name>SansSerif</Name>
+              <Size>12.0</Size>
+              <Bold>false</Bold>
+              <Italic>false</Italic>
+              <Strikethrough>false</Strikethrough>
+              <Underline>false</Underline>
+              <Alignment>
+                <horizontalAlignment>Left</horizontalAlignment>
+                <verticalAlignment>Top</verticalAlignment>
+              </Alignment>
+              <Rotation>0.0</Rotation>
+            </Font>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>false</Visible>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>false</Visible>
+        </Label>
+        <DataDefinition>
+          <Definition>row[&quot;PRODUCTNAME&quot;]</Definition>
+        </DataDefinition>
+        <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
+        <DataPoint>
+          <Components>
+            <Type>Orthogonal_Value</Type>
+          </Components>
+          <Separator>, </Separator>
+        </DataPoint>
+        <LabelPosition>Outside</LabelPosition>
+        <Stacked>false</Stacked>
+      </Series>
       <Grouping>
         <Enabled>false</Enabled>
         <GroupingInterval>30</GroupingInterval>
@@ -1052,83 +1875,84 @@ GROUP BY  CLASSICMODELS.PRODUCTS.PRODUCTLINE, CLASSICMODELS.PRODUCTS.PRODUCTNAME
   <Orientation>Vertical</Orientation>
 </model:ChartWithAxes>
 ]]></xml-property>
+                                <property name="outputFormat">SVG</property>
                             </extended-item>
                         </cell>
                     </row>
-                    <row>
-                        <cell>
+                    <row id="27">
+                        <cell id="28">
                             <property name="borderBottomColor">#004080</property>
                             <property name="borderBottomStyle">solid</property>
                             <property name="borderBottomWidth">thin</property>
                             <property name="paddingTop">0.5cm</property>
                             <property name="textAlign">left</property>
-                            <label>
+                            <label id="29">
                                 <property name="style">Label</property>
                                 <text-property name="text">Product Code</text-property>
                             </label>
                         </cell>
-                        <cell>
+                        <cell id="30">
                             <property name="borderBottomColor">#004080</property>
                             <property name="borderBottomStyle">solid</property>
                             <property name="borderBottomWidth">thin</property>
                             <property name="paddingTop">0.5cm</property>
                             <property name="textAlign">left</property>
-                            <label>
+                            <label id="31">
                                 <property name="style">Label</property>
                                 <text-property name="text">Product Name</text-property>
                             </label>
                         </cell>
-                        <cell>
+                        <cell id="32">
                             <property name="borderBottomColor">#004080</property>
                             <property name="borderBottomStyle">solid</property>
                             <property name="borderBottomWidth">thin</property>
                             <property name="paddingTop">0.5cm</property>
                             <property name="textAlign">left</property>
-                            <label>
+                            <label id="33">
                                 <property name="style">Label</property>
                                 <text-property name="text">Vendor</text-property>
                             </label>
                         </cell>
-                        <cell>
+                        <cell id="34">
                             <property name="borderBottomColor">#004080</property>
                             <property name="borderBottomStyle">solid</property>
                             <property name="borderBottomWidth">thin</property>
                             <property name="paddingTop">0.5cm</property>
                             <property name="textAlign">left</property>
-                            <label>
+                            <label id="35">
                                 <property name="style">Label</property>
                                 <text-property name="text">Stock</text-property>
                             </label>
                         </cell>
-                        <cell>
+                        <cell id="36">
                             <property name="borderBottomColor">#004080</property>
                             <property name="borderBottomStyle">solid</property>
                             <property name="borderBottomWidth">thin</property>
                             <property name="paddingTop">0.5cm</property>
                             <property name="textAlign">left</property>
-                            <label>
+                            <label id="37">
                                 <property name="style">Label</property>
                                 <text-property name="text">Buy Price</text-property>
                             </label>
                         </cell>
-                        <cell>
+                        <cell id="38">
                             <property name="borderBottomColor">#004080</property>
                             <property name="borderBottomStyle">solid</property>
                             <property name="borderBottomWidth">thin</property>
                             <property name="paddingTop">0.5cm</property>
                             <property name="textAlign">left</property>
-                            <label>
+                            <label id="39">
                                 <property name="style">Label</property>
                                 <text-property name="text">MSRP</text-property>
                             </label>
                         </cell>
-                        <cell>
+                        <cell id="40">
                             <property name="borderBottomColor">#004080</property>
                             <property name="borderBottomStyle">solid</property>
                             <property name="borderBottomWidth">thin</property>
                             <property name="paddingTop">0.5cm</property>
                             <property name="textAlign">left</property>
-                            <label>
+                            <label id="41">
                                 <property name="style">Label</property>
                                 <text-property name="text">Orders</text-property>
                             </label>
@@ -1136,8 +1960,8 @@ GROUP BY  CLASSICMODELS.PRODUCTS.PRODUCTLINE, CLASSICMODELS.PRODUCTS.PRODUCTNAME
                     </row>
                 </header>
                 <footer>
-                    <row>
-                        <cell>
+                    <row id="42">
+                        <cell id="43">
                             <property name="colSpan">7</property>
                             <property name="rowSpan">1</property>
                             <property name="borderTopColor">#004080</property>
@@ -1147,53 +1971,57 @@ GROUP BY  CLASSICMODELS.PRODUCTS.PRODUCTLINE, CLASSICMODELS.PRODUCTS.PRODUCTNAME
                     </row>
                 </footer>
             </group>
-            <group>
+            <group id="44">
                 <property name="groupName">group</property>
                 <property name="interval">none</property>
                 <property name="sortDirection">asc</property>
-                <expression name="keyExpr">row["productCode"]</expression>
+                <expression name="keyExpr">row["PRODUCTCODE"]</expression>
+                <expression name="toc">row["PRODUCTCODE"]</expression>
                 <header>
-                    <row>
-                        <cell>
-                            <data>
+                    <row id="45">
+                        <cell id="46">
+                            <data id="47">
                                 <property name="style">Data</property>
-                                <expression name="valueExpr">row["productCode"]</expression>
+                                <expression name="valueExpr">row["PRODUCTCODE"]</expression>
+                            </data>
+                            <data id="69">
+                                <expression name="valueExpr">row["PRODUCTCODE"]</expression>
                             </data>
                         </cell>
-                        <cell>
-                            <data>
+                        <cell id="48">
+                            <data id="49">
                                 <property name="style">Data</property>
-                                <expression name="valueExpr">row["productName"]</expression>
+                                <expression name="valueExpr">row["PRODUCTNAME"]</expression>
                             </data>
                         </cell>
-                        <cell>
-                            <data>
+                        <cell id="50">
+                            <data id="51">
                                 <property name="style">Data</property>
-                                <expression name="valueExpr">row["productVendor"]</expression>
+                                <expression name="valueExpr">row["PRODUCTVENDOR"]</expression>
                             </data>
                         </cell>
-                        <cell>
-                            <data>
+                        <cell id="52">
+                            <data id="53">
                                 <property name="style">Data</property>
-                                <expression name="valueExpr">row["quantityInStock"]</expression>
+                                <expression name="valueExpr">row["QUANTITYINSTOCK"]</expression>
                             </data>
                         </cell>
-                        <cell>
-                            <data>
+                        <cell id="54">
+                            <data id="55">
                                 <property name="style">Data</property>
-                                <expression name="valueExpr">row["buyPrice"]</expression>
+                                <expression name="valueExpr">row["BUYPRICE"]</expression>
                             </data>
                         </cell>
-                        <cell>
-                            <data>
+                        <cell id="56">
+                            <data id="57">
                                 <property name="style">Data</property>
                                 <expression name="valueExpr">row["MSRP"]</expression>
                             </data>
                         </cell>
-                        <cell>
-                            <data>
+                        <cell id="58">
+                            <data id="59">
                                 <property name="style">Data</property>
-                                <expression name="valueExpr">Total.sum(row["quantityOrdered"])</expression>
+                                <expression name="valueExpr">Total.sum(row["QUANTITYORDERED"])</expression>
                             </data>
                         </cell>
                     </row>
