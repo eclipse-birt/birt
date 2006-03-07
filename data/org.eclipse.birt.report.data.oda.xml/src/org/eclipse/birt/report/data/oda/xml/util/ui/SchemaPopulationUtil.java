@@ -367,8 +367,9 @@ final class XSDFileSchemaTreePopulator
 				if ( complexType.getName( ) != null )
 				{
 					node.setDataType( complexType.getName( ) );
-					node.addChild( findComplexElement( complexTypesRoot,
-							complexType.getName( ) ).getChildren( ) );
+					ATreeNode n = findComplexElement( complexTypesRoot,	complexType.getName( ) );
+					if( n!= null)
+						node.addChild( n.getChildren( ) );
 				}
 				//If the complex type is implicitly defined, that is, it has no name.
 				else
@@ -413,8 +414,12 @@ final class XSDFileSchemaTreePopulator
 				if ((!dataType.equals("anyType"))
 						&& ((XSElementDecl) ((XSParticleDecl) list.item(j))
 								.getTerm()).getTypeDefinition() instanceof XSComplexTypeDecl)
-					childNode.addChild(findComplexElement(complexTypesRoot,
-							dataType).getChildren());
+				{	ATreeNode n = findComplexElement(complexTypesRoot,dataType);
+					if( n!= null )
+					{
+						childNode.addChild(n.getChildren());
+					}
+				}
 				node.addChild(childNode);
 			}
 		}
