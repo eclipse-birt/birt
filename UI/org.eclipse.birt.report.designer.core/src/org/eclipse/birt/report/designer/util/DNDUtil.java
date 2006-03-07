@@ -529,8 +529,8 @@ public class DNDUtil
 				|| selection instanceof StyleHandle
 				|| selection instanceof ThemeHandle
 				|| selection instanceof EmbeddedImageHandle
-				|| selection instanceof TemplateElementHandle
-				|| selection instanceof DataSetItemModel;
+				|| selection instanceof TemplateElementHandle;
+			//	|| selection instanceof DataSetItemModel;
 	}
 
 	/**
