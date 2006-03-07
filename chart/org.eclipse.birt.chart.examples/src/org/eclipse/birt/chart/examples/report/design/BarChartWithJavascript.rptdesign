@@ -333,17 +333,17 @@ sourcedata[4][1] = -790;]]></method>
   <Dimension>Two_Dimensional</Dimension>
   <Script>previousFill = null; // USED FOR RESTORING
 
-  function beforeDrawElement(dataPointHints, fill){
+  function beforeDrawDataPoint(dataPointHints, fill, isce){
 
-      //logger.logFromScript(&quot;beforeDrawElement(&quot; + dataPointHints + &quot;, &quot; + fill + &quot;)&quot;);
+	  logger = isce.getLogger();
 
       val = dataPointHints.getOrthogonalValue();
 
-      logger.logFromScript(&quot;val is &quot; + val);
+      logger.log(1, &quot;val is &quot; + val);
 
       if (val &lt; 0){
 
-            logger.logFromScript(&quot;val was less than 0&quot;);
+            logger.log(1, &quot;val was less than 0&quot;);
 
             previousFill = new Object(); // USED FOR RESTORING
 
@@ -356,28 +356,27 @@ sourcedata[4][1] = -790;]]></method>
             fill.set(255, 127, 127);
 
       }
-
       else{
 
-            logger.logFromScript(&quot;val was greater or equal to 0&quot;);
+            logger.log(1, &quot;val was greater or equal to 0&quot;);
 
             previousFill = null;
 
       }
-
 }
 
-function afterDrawElement(dataPointHints, fill){
+	function afterDrawElement(dataPointHints, fill){
 
-      //logger.logFromScript(&quot;afterDrawElement(&quot; + dataPointHints + &quot;, &quot; + fill + &quot;)&quot;);
+      logger.log(1, getLocale());
 
-      if (previousFill != null){
+      if (previousFill != null)
+      {
 
             fill.set(previousFill.r, previousFill.g, previousFill.b);
-
       }
+}
 
-}</Script>
+</Script>
   <Units>Points</Units>
   <SeriesThickness>10.0</SeriesThickness>
   <SampleData>
