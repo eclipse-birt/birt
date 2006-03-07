@@ -1,0 +1,417 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.chart.ui.swt.wizard.format.popup.series;
+
+import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.event.StructureSource;
+import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.Location;
+import org.eclipse.birt.chart.model.attribute.Marker;
+import org.eclipse.birt.chart.model.attribute.MarkerType;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
+import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
+import org.eclipse.birt.chart.model.type.LineSeries;
+import org.eclipse.birt.chart.render.MarkerRenderer;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.composites.MarkerEditorComposite;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
+import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.ScrollBar;
+
+/**
+ * 
+ */
+
+public class LineSeriesMarkerSheet extends AbstractPopupSheet
+		implements
+			SelectionListener,
+			PaintListener,
+			MouseListener
+{
+
+	private transient LineSeries series;
+
+	private transient IDeviceRenderer idrSWT = null;
+
+	/** Holds the width of each marker UI block */
+	private final static int MARKER_BLOCK_WIDTH = 40;
+
+	/** Holds the width of each marker UI block */
+	private final static int MARKER_BLOCK_HEIGHT = 25;
+
+	/** Holds the max number of each row */
+	private final static int MARKER_ROW_MAX_NUMBER = 4;
+
+	/** Holds the max number of columns */
+	private final static int MARKER_COLUMN_MAX_NUMBER = 3;
+
+	private transient Canvas cnvMarkers;
+
+	private transient Button btnAdd;
+
+	private transient Button btnRemove;
+
+	private transient Button btnUp;
+
+	private transient Button btnDown;
+
+	private transient MarkerEditorComposite newMarkerEditor;
+
+	private transient MarkerEditorComposite currentMarkerEditor;
+
+	/** Holds the selected index of marker */
+	private transient int iSelectedIndex = -1;
+
+	/** Holds the starting row of marker list */
+	private transient int iStartRow = 0;
+
+	public LineSeriesMarkerSheet( Composite parent, ChartWizardContext context,
+			LineSeries series )
+	{
+		super( parent, context, false );
+		this.series = series;
+		cmpTop = getComponent( parent );
+	}
+
+	protected Composite getComponent( Composite parent )
+	{
+		Composite cmpContent = new Composite( parent, SWT.NONE );
+		{
+			GridLayout layout = new GridLayout( );
+			cmpContent.setLayout( layout );
+		}
+
+		Group grpTop = new Group( cmpContent, SWT.NONE );
+		{
+			GridLayout layout = new GridLayout( 5, false );
+			grpTop.setLayout( layout );
+			grpTop.setLayoutData( new GridData( ) );
+			grpTop.setText( Messages.getString( "LineSeriesMarkerSheet.Label.Markers" ) ); //$NON-NLS-1$
+		}
+
+		cnvMarkers = new Canvas( grpTop, SWT.V_SCROLL );
+		{
+			GridData gd = new GridData( GridData.FILL_BOTH );
+			gd.horizontalSpan = 5;
+			gd.widthHint = MARKER_ROW_MAX_NUMBER * MARKER_BLOCK_WIDTH + 10;
+			gd.heightHint = MARKER_COLUMN_MAX_NUMBER * MARKER_BLOCK_HEIGHT + 5;
+			cnvMarkers.setLayoutData( gd );
+			cnvMarkers.addPaintListener( this );
+			cnvMarkers.addMouseListener( this );
+
+			updateScrollBar( );
+			cnvMarkers.getVerticalBar( ).addSelectionListener( this );
+		}
+
+		btnAdd = new Button( grpTop, SWT.NONE );
+		{
+			btnAdd.setText( Messages.getString( "LineSeriesMarkerSheet.Label.Add" ) ); //$NON-NLS-1$
+			btnAdd.addSelectionListener( this );
+		}
+
+		newMarkerEditor = new MarkerEditorComposite( grpTop, createMarker( ) );
+
+		btnRemove = new Button( grpTop, SWT.NONE );
+		{
+			btnRemove.setText( Messages.getString( "LineSeriesMarkerSheet.Label.Remove" ) ); //$NON-NLS-1$
+			btnRemove.addSelectionListener( this );
+		}
+
+		btnUp = new Button( grpTop, SWT.ARROW | SWT.UP );
+		{
+			btnUp.addSelectionListener( this );
+		}
+
+		btnDown = new Button( grpTop, SWT.ARROW | SWT.DOWN );
+		{
+			btnDown.addSelectionListener( this );
+		}
+
+		// This control needs to be repainted by gc
+		currentMarkerEditor = new MarkerEditorComposite( cnvMarkers,
+				createMarker( ) );
+		{
+			currentMarkerEditor.setBounds( 0,
+					0,
+					MARKER_BLOCK_WIDTH,
+					MARKER_BLOCK_HEIGHT );
+		}
+
+		setEnabledState( );
+
+		try
+		{
+			idrSWT = PluginSettings.instance( ).getDevice( "dv.SWT" ); //$NON-NLS-1$
+			idrSWT.getDisplayServer( );
+		}
+		catch ( ChartException pex )
+		{
+			WizardBase.displayException( pex );
+		}
+
+		return cmpContent;
+	}
+
+	public void widgetSelected( SelectionEvent e )
+	{
+		if ( e.widget.equals( btnAdd ) )
+		{
+			// Select the new marker
+			iSelectedIndex = getMarkers( ).size( );
+
+			// If the selected is under the bottom, move to new row
+			if ( ( iStartRow + MARKER_COLUMN_MAX_NUMBER )
+					* MARKER_ROW_MAX_NUMBER == iSelectedIndex )
+			{
+				iStartRow++;
+			}
+
+			getMarkers( ).add( newMarkerEditor.getMarker( ) );
+			newMarkerEditor.setMarker( createMarker( ) );
+
+			cnvMarkers.redraw( );
+			updateScrollBar( );
+			setEnabledState( );
+		}
+		else if ( e.widget.equals( btnRemove ) )
+		{
+			// If the selected is the first of the bottom row, move to the
+			// previous
+			if ( iStartRow > 0
+					&& ( iStartRow + MARKER_COLUMN_MAX_NUMBER - 1 )
+							* MARKER_ROW_MAX_NUMBER == iSelectedIndex )
+			{
+				iStartRow--;
+			}
+
+			// Return to the previous if it's the last
+			if ( this.iSelectedIndex == getMarkers( ).size( ) - 1 )
+			{
+				iSelectedIndex--;
+			}
+
+			getMarkers( ).remove( currentMarkerEditor.getMarker( ) );
+			currentMarkerEditor.setMarker( (Marker) getMarkers( ).get( iSelectedIndex ) );
+
+			cnvMarkers.redraw( );
+			updateScrollBar( );
+			setEnabledState( );
+		}
+		else if ( e.widget.equals( btnUp ) )
+		{
+			if ( iSelectedIndex > 0 )
+			{
+				iSelectedIndex--;
+				getMarkers( ).move( iSelectedIndex,
+						currentMarkerEditor.getMarker( ) );
+				cnvMarkers.redraw( );
+				setEnabledState( );
+			}
+		}
+		else if ( e.widget.equals( btnDown ) )
+		{
+			if ( iSelectedIndex < getMarkers( ).size( ) - 1 )
+			{
+				iSelectedIndex++;
+				getMarkers( ).move( iSelectedIndex,
+						currentMarkerEditor.getMarker( ) );
+				cnvMarkers.redraw( );
+				setEnabledState( );
+			}
+		}
+		else if ( e.widget.equals( cnvMarkers.getVerticalBar( ) ) )
+		{
+			iStartRow = cnvMarkers.getVerticalBar( ).getSelection( );
+			cnvMarkers.redraw( );
+		}
+	}
+
+	public void widgetDefaultSelected( SelectionEvent e )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	private Marker createMarker( )
+	{
+		Marker marker = MarkerImpl.create( MarkerType.BOX_LITERAL, 5 );
+		marker.eAdapters( ).addAll( series.eAdapters( ) );
+		return marker;
+	}
+
+	public void paintControl( PaintEvent e )
+	{
+		GC gc = e.gc;
+
+		int markerSize = getMarkers( ).size( );
+		int x = 0;
+		int y = 0;
+		for ( int i = 0; i < markerSize; )
+		{
+			if ( i < iStartRow * MARKER_ROW_MAX_NUMBER )
+			{
+				i += MARKER_ROW_MAX_NUMBER;
+				continue;
+			}
+
+			paintMarker( gc,
+					(Marker) getMarkers( ).get( i ),
+					LocationImpl.create( x + MARKER_BLOCK_WIDTH / 2, y
+							+ MARKER_BLOCK_HEIGHT / 2 ) );
+
+			if ( i == iSelectedIndex )
+			{
+				currentMarkerEditor.setMarker( (Marker) getMarkers( ).get( i ) );
+				currentMarkerEditor.setLocation( x + 8, y );
+			}
+
+			i++;
+			if ( i % MARKER_ROW_MAX_NUMBER == 0 )
+			{
+				y += MARKER_BLOCK_HEIGHT;
+				x = 0;
+			}
+			else
+			{
+				x += MARKER_BLOCK_WIDTH;
+			}
+		}
+	}
+
+	private void paintMarker( GC gc, Marker currentMarker, Location location )
+	{
+		// Paint an icon sample, not a real icon in the Fill
+		Marker renderMarker = currentMarker;
+		if ( currentMarker.getType( ) == MarkerType.ICON_LITERAL )
+		{
+			renderMarker = (Marker) EcoreUtil.copy( currentMarker );
+			renderMarker.setFill( ImageImpl.create( UIHelper.getURL( "icons/obj16/marker_icon.gif" ).toString( ) ) ); //$NON-NLS-1$
+		}
+
+		idrSWT.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, gc );
+		final MarkerRenderer mr = new MarkerRenderer( idrSWT,
+				StructureSource.createUnknown( null ),
+				location,
+				LineAttributesImpl.create( renderMarker.isVisible( )
+						? ColorDefinitionImpl.BLUE( )
+						: ColorDefinitionImpl.GREY( ),
+						LineStyle.SOLID_LITERAL,
+						1 ),
+				renderMarker.isVisible( ) ? ColorDefinitionImpl.create( 80,
+						168,
+						218 ) : ColorDefinitionImpl.GREY( ),
+				renderMarker,
+				5,
+				null,
+				false,
+				false,
+				null,
+				null );
+		try
+		{
+			mr.draw( idrSWT );
+		}
+		catch ( ChartException ex )
+		{
+			WizardBase.displayException( ex );
+		}
+	}
+
+	private EList getMarkers( )
+	{
+		return series.getMarkers( );
+	}
+
+	private void updateScrollBar( )
+	{
+		ScrollBar vsb = cnvMarkers.getVerticalBar( );
+		vsb.setValues( iStartRow,
+				0,
+				Math.max( 0, ( getMarkers( ).size( ) - 1 )
+						/ MARKER_ROW_MAX_NUMBER + 2 - MARKER_COLUMN_MAX_NUMBER ),
+				1,
+				1,
+				1 );
+	}
+
+	public void mouseDoubleClick( MouseEvent e )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public void mouseDown( MouseEvent e )
+	{
+		if ( e.widget.equals( cnvMarkers ) )
+		{
+			int ix = e.x / MARKER_BLOCK_WIDTH;
+			int iy = e.y / MARKER_BLOCK_HEIGHT + iStartRow;
+			iSelectedIndex = iy * MARKER_ROW_MAX_NUMBER + ix;
+			if ( ix >= MARKER_ROW_MAX_NUMBER
+					|| iSelectedIndex >= getMarkers( ).size( ) )
+			{
+				iSelectedIndex = -1;
+			}
+			this.cnvMarkers.redraw( );
+
+			setEnabledState( );
+		}
+	}
+
+	public void mouseUp( MouseEvent e )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	private void setEnabledState( )
+	{
+		if ( iSelectedIndex < 0 )
+		{
+			btnUp.setEnabled( false );
+			btnDown.setEnabled( false );
+			btnRemove.setEnabled( false );
+			currentMarkerEditor.setVisible( false );
+		}
+		else
+		{
+			btnUp.setEnabled( iSelectedIndex > 0 );
+			btnDown.setEnabled( iSelectedIndex < getMarkers( ).size( ) - 1 );
+			btnRemove.setEnabled( getMarkers( ).size( ) > 1 );
+			currentMarkerEditor.setVisible( true );
+		}
+	}
+
+}

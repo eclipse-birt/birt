@@ -14,12 +14,8 @@ package org.eclipse.birt.chart.ui.swt.series;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
-import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.Marker;
-import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
@@ -28,12 +24,7 @@ import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
-import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.composites.MarkerIconDialog;
-import org.eclipse.birt.chart.util.LiteralHelper;
-import org.eclipse.birt.chart.util.NameSet;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -42,7 +33,6 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -53,9 +43,10 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class LineSeriesAttributeComposite extends Composite implements
-		SelectionListener,
-		Listener
+public class LineSeriesAttributeComposite extends Composite
+		implements
+			SelectionListener,
+			Listener
 {
 
 	private transient Button btnCurve = null;
@@ -64,15 +55,9 @@ public class LineSeriesAttributeComposite extends Composite implements
 
 	private transient Button btnPalette = null;
 
+	private transient Label lblShadow;
+
 	private transient FillChooserComposite fccShadow = null;
-
-	private transient Group grpMarker = null;
-
-	private transient Button btnMarkerVisible = null;
-
-	private transient Combo cmbMarkerTypes = null;
-
-	private transient IntegerSpinControl iscMarkerSize = null;
 
 	private transient Group grpLine = null;
 
@@ -106,26 +91,6 @@ public class LineSeriesAttributeComposite extends Composite implements
 		}
 		this.series = series;
 
-		if ( ( (LineSeries) series ).getMarkers( ).size( ) == 0 )
-		{
-			Marker mk;
-			if ( ( (LineSeries) series ).getMarker( ) != null )
-			{
-				mk = (Marker) EcoreUtil.copy( ( (LineSeries) series ).getMarker( ) );
-			}
-			else
-			{
-				mk = AttributeFactory.eINSTANCE.createMarker( );
-				mk.setType( MarkerType.BOX_LITERAL );
-				mk.setSize( 5 );
-				mk.setVisible( true );
-			}
-
-			mk.eAdapters( ).addAll( series.eAdapters( ) );
-
-			( (LineSeries) series ).getMarkers( ).add( mk );
-		}
-
 		init( );
 		placeComponents( );
 	}
@@ -139,16 +104,33 @@ public class LineSeriesAttributeComposite extends Composite implements
 	private void placeComponents( )
 	{
 		// Layout for content composite
-		GridLayout glContent = new GridLayout( 4, false );
+		GridLayout glContent = new GridLayout( 3, false );
 		glContent.marginHeight = 2;
 		glContent.marginWidth = 2;
 
 		// Main content composite
 		this.setLayout( glContent );
 
+		grpLine = new Group( this, SWT.NONE );
+		{
+			GridData gdGRPLine = new GridData( GridData.FILL_BOTH );
+			gdGRPLine.verticalSpan = 5;
+			grpLine.setLayout( new FillLayout( ) );
+			grpLine.setLayoutData( gdGRPLine );
+			grpLine.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.Line" ) ); //$NON-NLS-1$
+		}
+
+		liacLine = new LineAttributesComposite( grpLine,
+				SWT.NONE,
+				( (LineSeries) series ).getLineAttributes( ),
+				true,
+				true,
+				true );
+		liacLine.addListener( this );
+
 		if ( isShadowNeeded( ) )
 		{
-			Label lblShadow = new Label( this, SWT.NONE );
+			lblShadow = new Label( this, SWT.NONE );
 			GridData gdLBLShadow = new GridData( );
 			lblShadow.setLayoutData( gdLBLShadow );
 			lblShadow.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ShadowColor" ) ); //$NON-NLS-1$
@@ -160,13 +142,15 @@ public class LineSeriesAttributeComposite extends Composite implements
 					false,
 					false );
 			GridData gdFCCShadow = new GridData( GridData.FILL_HORIZONTAL );
-			gdFCCShadow.widthHint = 180;
 			fccShadow.setLayoutData( gdFCCShadow );
 			fccShadow.addListener( this );
 		}
 
 		btnPalette = new Button( this, SWT.CHECK );
 		{
+			GridData gd = new GridData( );
+			gd.horizontalSpan = 2;
+			btnPalette.setLayoutData( gd );
 			btnPalette.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
 			btnPalette.setSelection( ( (LineSeries) series ).isPaletteLineColor( ) );
 			btnPalette.addSelectionListener( this );
@@ -174,6 +158,9 @@ public class LineSeriesAttributeComposite extends Composite implements
 
 		btnCurve = new Button( this, SWT.CHECK );
 		{
+			GridData gd = new GridData( );
+			gd.horizontalSpan = 2;
+			btnCurve.setLayoutData( gd );
 			btnCurve.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves" ) ); //$NON-NLS-1$
 			btnCurve.setSelection( ( (LineSeries) series ).isCurve( ) );
 			btnCurve.addSelectionListener( this );
@@ -183,105 +170,17 @@ public class LineSeriesAttributeComposite extends Composite implements
 		{
 			btnMissingValue = new Button( this, SWT.CHECK );
 			{
+				GridData gd = new GridData( );
+				gd.horizontalSpan = 2;
+				btnMissingValue.setLayoutData( gd );
 				btnMissingValue.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ConnectMissingValue" ) ); //$NON-NLS-1$
-				GridData gdBTNMissingValue = new GridData( );
-				gdBTNMissingValue.horizontalSpan = 4;
-				btnMissingValue.setLayoutData( gdBTNMissingValue );
 				btnMissingValue.setSelection( ( (LineSeries) series ).isConnectMissingValue( ) );
 				btnMissingValue.addSelectionListener( this );
 			}
 		}
 
-		if ( !isShadowNeeded( ) )
-		{
-			GridData gd = new GridData( );
-			gd.horizontalSpan = 2;
-			gd.horizontalIndent = 5;
-			btnPalette.setLayoutData( gd );
-
-			gd = new GridData( );
-			gd.horizontalSpan = 2;
-			gd.horizontalIndent = 5;
-			btnCurve.setLayoutData( gd );
-		}
-
-		// Layout for the Marker group
-		GridLayout glMarker = new GridLayout( );
-		glMarker.numColumns = 2;
-		glMarker.marginHeight = 4;
-		glMarker.marginWidth = 4;
-		glMarker.verticalSpacing = 4;
-		glMarker.horizontalSpacing = 4;
-
-		grpMarker = new Group( this, SWT.NONE );
-		GridData gdGRPMarker = new GridData( GridData.FILL_BOTH );
-		gdGRPMarker.horizontalSpan = 2;
-		grpMarker.setLayoutData( gdGRPMarker );
-		grpMarker.setLayout( glMarker );
-		grpMarker.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.Marker" ) ); //$NON-NLS-1$
-
-		btnMarkerVisible = new Button( grpMarker, SWT.CHECK );
-		GridData gdBTNVisible = new GridData( );
-		gdBTNVisible.horizontalSpan = 2;
-		btnMarkerVisible.setLayoutData( gdBTNVisible );
-		btnMarkerVisible.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
-		btnMarkerVisible.addSelectionListener( this );
-		btnMarkerVisible.setSelection( ( (Marker) ( (LineSeries) series ).getMarkers( )
-				.get( 0 ) ).isVisible( ) );
-
-		Label lblType = new Label( grpMarker, SWT.NONE );
-		GridData gdLBLType = new GridData( );
-		lblType.setLayoutData( gdLBLType );
-		lblType.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.Type" ) ); //$NON-NLS-1$
-
-		cmbMarkerTypes = new Combo( grpMarker, SWT.DROP_DOWN | SWT.READ_ONLY );
-		GridData gdCMBMarkerTypes = new GridData( GridData.FILL_HORIZONTAL );
-		cmbMarkerTypes.setLayoutData( gdCMBMarkerTypes );
-		cmbMarkerTypes.addSelectionListener( this );
-		cmbMarkerTypes.setEnabled( btnMarkerVisible.getSelection( ) );
-
-		Label lblSize = new Label( grpMarker, SWT.NONE );
-		GridData gdLBLSize = new GridData( );
-		lblSize.setLayoutData( gdLBLSize );
-		lblSize.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.Size" ) ); //$NON-NLS-1$
-
-		iscMarkerSize = new IntegerSpinControl( grpMarker,
-				SWT.NONE,
-				( (Marker) ( (LineSeries) series ).getMarkers( ).get( 0 ) ).getSize( ) );
-		GridData gdISCMarkerSize = new GridData( GridData.FILL_HORIZONTAL );
-		iscMarkerSize.setLayoutData( gdISCMarkerSize );
-		iscMarkerSize.setMinimum( 0 );
-		iscMarkerSize.setMaximum( 100 );
-		iscMarkerSize.addListener( this );
-		iscMarkerSize.setEnabled( btnMarkerVisible.getSelection( ) );
-
-		grpLine = new Group( this, SWT.NONE );
-		GridData gdGRPLine = new GridData( GridData.FILL_BOTH );
-		gdGRPLine.horizontalSpan = 2;
-		grpLine.setLayout( new FillLayout( ) );
-		grpLine.setLayoutData( gdGRPLine );
-		grpLine.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.Line" ) ); //$NON-NLS-1$
-
-		liacLine = new LineAttributesComposite( grpLine,
-				SWT.NONE,
-				( (LineSeries) series ).getLineAttributes( ),
-				true,
-				true,
-				true );
-		liacLine.addListener( this );
-
 		enableLineSettings( ( (LineSeries) series ).getLineAttributes( )
 				.isVisible( ) );
-
-		populateLists( );
-	}
-
-	private void populateLists( )
-	{
-		NameSet ns = LiteralHelper.supportedMarkerTypeSet;
-		cmbMarkerTypes.setItems( ns.getDisplayNames( ) );
-		cmbMarkerTypes.select( ns.getSafeNameIndex( ( (Marker) ( (LineSeries) series ).getMarkers( )
-				.get( 0 ) ).getType( ).getName( ) ) );
 	}
 
 	public Point getPreferredSize( )
@@ -308,49 +207,6 @@ public class LineSeriesAttributeComposite extends Composite implements
 		{
 			( (LineSeries) series ).setConnectMissingValue( btnMissingValue.getSelection( ) );
 		}
-		else if ( e.getSource( ).equals( btnMarkerVisible ) )
-		{
-			( (Marker) ( (LineSeries) series ).getMarkers( ).get( 0 ) ).setVisible( btnMarkerVisible.getSelection( ) );
-			cmbMarkerTypes.setEnabled( btnMarkerVisible.getSelection( ) );
-			iscMarkerSize.setEnabled( btnMarkerVisible.getSelection( ) );
-		}
-		else if ( e.getSource( ).equals( cmbMarkerTypes ) )
-		{
-			if ( MarkerType.getByName( getSelectedMarkerName( ) ) == MarkerType.ICON_LITERAL )
-			{
-				MarkerIconDialog iconDialog = new MarkerIconDialog( this.getShell( ),
-						getSeriesMarker( ).getFill( ) );
-
-				if ( iconDialog.applyMarkerIcon( ) )
-				{
-					Fill resultFill = iconDialog.getFill( );
-					if ( resultFill.eAdapters( ).isEmpty( ) )
-					{
-						// Add adapters to new EObject
-						resultFill.eAdapters( )
-								.addAll( getSeriesMarker( ).eAdapters( ) );
-					}
-					getSeriesMarker( ).setFill( resultFill );
-				}
-				else
-				{
-					cmbMarkerTypes.setText( LiteralHelper.markerTypeSet.getDisplayNameByName( getSeriesMarker( ).getType( )
-							.getName( ) ) );
-				}
-			}
-
-			getSeriesMarker( ).setType( MarkerType.getByName( getSelectedMarkerName( ) ) );
-		}
-	}
-
-	private Marker getSeriesMarker( )
-	{
-		return ( (Marker) ( (LineSeries) series ).getMarkers( ).get( 0 ) );
-	}
-
-	private String getSelectedMarkerName( )
-	{
-		return LiteralHelper.markerTypeSet.getNameByDisplayName( cmbMarkerTypes.getText( ) );
 	}
 
 	/*
@@ -369,11 +225,7 @@ public class LineSeriesAttributeComposite extends Composite implements
 	 */
 	public void handleEvent( Event event )
 	{
-		if ( event.widget.equals( iscMarkerSize ) )
-		{
-			( (Marker) ( (LineSeries) series ).getMarkers( ).get( 0 ) ).setSize( ( (Integer) event.data ).intValue( ) );
-		}
-		else if ( event.widget.equals( liacLine ) )
+		if ( event.widget.equals( liacLine ) )
 		{
 			if ( event.type == LineAttributesComposite.VISIBILITY_CHANGED_EVENT )
 			{
@@ -411,6 +263,10 @@ public class LineSeriesAttributeComposite extends Composite implements
 
 	private void enableLineSettings( boolean isEnabled )
 	{
+		if ( lblShadow != null )
+		{
+			lblShadow.setEnabled( isEnabled );
+		}
 		if ( fccShadow != null )
 		{
 			fccShadow.setEnabled( isEnabled );

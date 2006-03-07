@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Marker;
@@ -612,5 +613,14 @@ public class MarkerImpl extends EObjectImpl implements Marker
 		result.append( ')' );
 		return result.toString( );
 	}
-
+	
+	public static final Marker create( MarkerType markerType, int size )
+	{
+		Marker marker = AttributeFactory.eINSTANCE.createMarker( );
+		marker.setType( markerType );
+		marker.setSize( size );
+		marker.setVisible( true );
+		return marker;
+	}
+	
 } // MarkerImpl

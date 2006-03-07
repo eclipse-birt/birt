@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.DialSeries;
+import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -30,6 +31,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.DialLabelSheet;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.LineSeriesMarkerSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.PieTitleSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesLabelSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesPaletteSheet;
@@ -71,6 +73,8 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 	private transient Button btnInteractivity;
 
 	private transient Button btnTrendline;
+
+	private transient Button btnLineMarker;
 
 	private transient Button btnPalette;
 
@@ -121,7 +125,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
-			cmp.setLayout( new GridLayout( 5, false ) );
+			cmp.setLayout( new GridLayout( 6, false ) );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.horizontalSpan = 2;
 			gridData.grabExcessVerticalSpace = true;
@@ -156,11 +160,20 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			btnLabel.setVisible( false );
 		}
 
+		// Titles for Pie series
 		if ( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof PieSeries )
 		{
 			btnPieTitle = createToggleButton( cmp,
 					Messages.getString( "SeriesYSheetImpl.Label.Titles" ) ); //$NON-NLS-1$
 			btnPieTitle.addSelectionListener( this );
+		}
+
+		// Markers for Line/Area/Scatter series
+		if ( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof LineSeries )
+		{
+			btnLineMarker = createToggleButton( cmp,
+					Messages.getString( "SeriesYSheetImpl.Label.Markers" ) ); //$NON-NLS-1$
+			btnLineMarker.addSelectionListener( this );
 		}
 
 		// Interactivity
@@ -295,6 +308,16 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 					getContext( ),
 					getSeriesDefinitionForProcessing( ) );
 			getWizard( ).attachPopup( btnPalette.getText( ), -1, -1 );
+		}
+		else if ( e.widget.equals( btnLineMarker ) )
+		{
+			Series series = getSeriesDefinitionForProcessing( ).getDesignTimeSeries( );
+			assert series instanceof LineSeries;
+			popupShell = createPopupShell( );
+			popupSheet = new LineSeriesMarkerSheet( popupShell,
+					getContext( ),
+					(LineSeries) series );
+			getWizard( ).attachPopup( btnLineMarker.getText( ), -1, -1 );
 		}
 
 		if ( e.widget.equals( btnShowLine ) )
