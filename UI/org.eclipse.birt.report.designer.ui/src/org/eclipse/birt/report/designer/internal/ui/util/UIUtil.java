@@ -976,11 +976,11 @@ public class UIUtil
 			moduleHandle.includeLibrary( DEUtil.getRelativedPath( moduleHandle.getFileName( ),
 					libraryPath ),
 					namespace );
-			ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
-					MessageFormat.format( MSG_DIALOG_MSG, new String[]{
-						libraryPath
-					} ),
-					SWT.ICON_INFORMATION );
+//			ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
+//					MessageFormat.format( MSG_DIALOG_MSG, new String[]{
+//						libraryPath
+//					} ),
+//					SWT.ICON_INFORMATION );
 			return true;
 		}
 		return false;
