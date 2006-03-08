@@ -120,11 +120,11 @@ public class ChoiceSetFactory
 		}
 		else if ( StyleHandle.PAGE_BREAK_BEFORE_PROP.equals( property ) )
 		{
-			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK;
+			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK_BEFORE;
 		}
 		else if ( StyleHandle.PAGE_BREAK_AFTER_PROP.equals( property ) )
 		{
-			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK;
+			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK_AFTER;
 		}
 		else if ( StyleHandle.PAGE_BREAK_INSIDE_PROP.equals( property ) )
 		{
@@ -502,11 +502,11 @@ public class ChoiceSetFactory
 		}
 		else if ( StyleHandle.PAGE_BREAK_BEFORE_PROP.equals( property ) )
 		{
-			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK;
+			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK_BEFORE;
 		}
 		else if ( StyleHandle.PAGE_BREAK_AFTER_PROP.equals( property ) )
 		{
-			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK;
+			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK_AFTER;
 		}
 		else if ( StyleHandle.PAGE_BREAK_INSIDE_PROP.equals( property ) )
 		{
