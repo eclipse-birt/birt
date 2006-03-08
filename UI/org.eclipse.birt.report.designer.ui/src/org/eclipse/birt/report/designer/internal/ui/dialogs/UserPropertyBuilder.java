@@ -124,6 +124,11 @@ public class UserPropertyBuilder extends BaseDialog
 		layout.marginHeight = layout.marginWidth = 10;
 		composite.setLayout( layout );
 
+		messageLine = new CLabel( composite, SWT.NONE );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		messageLine.setLayoutData( gd );
+		
 		switch ( style )
 		{
 			case USER_PROPERTY :
@@ -134,7 +139,7 @@ public class UserPropertyBuilder extends BaseDialog
 				break;
 		}
 		nameEditor = new Text( composite, SWT.BORDER | SWT.SINGLE );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.widthHint = 200;
 		nameEditor.setLayoutData( gd );
 		nameEditor.addModifyListener( new ModifyListener( ) {
@@ -144,11 +149,6 @@ public class UserPropertyBuilder extends BaseDialog
 				checkName( );
 			}
 		} );
-
-		messageLine = new CLabel( composite, SWT.NONE );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
-		messageLine.setLayoutData( gd );
 
 		switch ( style )
 		{
@@ -227,15 +227,18 @@ public class UserPropertyBuilder extends BaseDialog
 		if ( name.length( ) == 0 )
 		{
 			errorMessage = ERROR_MSG_NAME_IS_REQUIRED;
+			messageLine.setImage( null );
+
 		}
 		else if ( input.getPropertyHandle( name ) != null )
 		{
 			errorMessage = ERROR_MSG_NAME_DUPLICATED;
+			messageLine.setImage( ERROR_ICON );
 		}
+		
 		if ( errorMessage != null )
 		{
-			messageLine.setText( errorMessage );
-			messageLine.setImage( ERROR_ICON );
+			messageLine.setText( errorMessage );			
 		}
 		else
 		{
