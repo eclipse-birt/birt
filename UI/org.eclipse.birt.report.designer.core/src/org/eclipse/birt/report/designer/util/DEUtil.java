@@ -798,6 +798,31 @@ public class DEUtil
 	}
 
 	/**
+	 * Gets the list of data sets which can be used for the specified element
+	 * 
+	 * @param handle
+	 *            the handle of the element
+	 * @return Returns the list of data sets which can be used for this element excluding itself
+	 */
+	public static List getDataSetListExcludeSelf( DesignElementHandle handle )
+	{
+		List dataSetList = new ArrayList( );
+		if ( handle instanceof ReportElementHandle )
+		{
+			for ( Iterator itor = getDataSetList( handle.getContainer( ) )
+					.iterator( ); itor.hasNext( ); )
+			{
+				DesignElementHandle dataSet = (DesignElementHandle) itor.next( );
+				if ( !dataSetList.contains( dataSet ) )
+				{
+					dataSetList.add( dataSet );
+				}
+			}
+		}
+		return dataSetList;
+	}
+	
+	/**
 	 * Get definition of model property.
 	 * 
 	 * @param elementName

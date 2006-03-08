@@ -114,8 +114,9 @@ public class ImageBuilder extends BaseDialog
 
 	private int selectedType = -1;
 
-	private java.util.List dataSetList = new ArrayList( );
+	private java.util.List dataSetList = null;
 
+	private java.util.List inputDataSetList = null;
 	/**
 	 * The constructor.
 	 * 
@@ -135,7 +136,8 @@ public class ImageBuilder extends BaseDialog
 			java.util.List dataSetList )
 	{
 		super( parentShell, title, false );
-		this.dataSetList = dataSetList;
+		this.inputDataSetList = dataSetList;
+		this.dataSetList = new ArrayList(inputDataSetList);
 	}
 
 	private ModuleHandle getModuleHandle( )
@@ -703,7 +705,9 @@ public class ImageBuilder extends BaseDialog
 				.getDisplay( )
 				.getActiveShell( ),
 				handle );
-
+		
+		
+		
 		if ( dialog.open( ) == Dialog.OK )
 		{
 			stack.commit( );
@@ -716,11 +720,12 @@ public class ImageBuilder extends BaseDialog
 
 	private java.util.List unionDataSets( )
 	{
+		dataSetList = new ArrayList(inputDataSetList);
 		if ( inputImage == null || inputImage.getDataSet( ) == null )
 		{
 			return dataSetList;
 		}
-		int i = dataSetList.indexOf( inputImage.getDataSet( ) );
+		int i = inputDataSetList.indexOf( inputImage.getDataSet( ) );
 		if ( i == -1 )
 		{
 			dataSetList.add( inputImage.getDataSet( ) );

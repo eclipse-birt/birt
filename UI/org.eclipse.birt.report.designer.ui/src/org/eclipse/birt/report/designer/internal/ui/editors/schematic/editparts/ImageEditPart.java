@@ -214,7 +214,8 @@ public class ImageEditPart extends ReportElementEditPart
 	 */
 	private void performDirectEdit( )
 	{
-		List dataSetList = DEUtil.getDataSetList( (DesignElementHandle) getModel( ) );
+//		List dataSetList = DEUtil.getDataSetList( (DesignElementHandle) getModel( ) );
+		List dataSetList = DEUtil.getDataSetListExcludeSelf( (DesignElementHandle) getModel( ) );
 		ImageBuilder dialog = new ImageBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getActiveShell( ), ImageBuilder.DLG_TITLE_EDIT, dataSetList );
