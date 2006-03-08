@@ -1090,6 +1090,16 @@ public final class LegendBuilder
 		}
 
 		itm.dispose( ); // DISPOSE RESOURCE AFTER USE
+
+		if ( rtc != null )
+		{
+			LegendItemLayoutHints lilh = new LegendItemLayoutHints( );
+			
+			lilh.set( SizeImpl.create( dWidth, dHeight ) );
+
+			rtc.setLegendItemLayoutHints( lilh );
+		}
+
 		sz = SizeImpl.create( dWidth, dHeight );
 		return sz;
 	}

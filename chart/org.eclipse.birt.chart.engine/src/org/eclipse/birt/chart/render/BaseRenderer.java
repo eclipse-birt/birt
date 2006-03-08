@@ -23,9 +23,9 @@ import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.ValueFormatter;
-import org.eclipse.birt.chart.computation.withaxes.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.withaxes.PlotWithAxes;
 import org.eclipse.birt.chart.computation.withoutaxes.Coordinates;
 import org.eclipse.birt.chart.computation.withoutaxes.PlotWithoutAxes;
@@ -3263,7 +3263,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param ll
 	 * @return
 	 */
-	protected List filterNull( List ll )
+	protected static List filterNull( List ll )
 	{
 		ArrayList al = new ArrayList( );
 		for ( Iterator itr = ll.iterator( ); itr.hasNext( ); )
@@ -3287,7 +3287,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param ll
 	 * @return
 	 */
-	protected Location[] filterNull( Location[] ll )
+	protected static Location[] filterNull( Location[] ll )
 	{
 		ArrayList al = new ArrayList( );
 		for ( int i = 0; i < ll.length; i++ )
@@ -3316,7 +3316,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param value
 	 * @return
 	 */
-	protected boolean isNaN( Object value )
+	protected static boolean isNaN( Object value )
 	{
 		return ( !( value instanceof Number ) || Double.isNaN( ( (Number) value ).doubleValue( ) ) );
 	}
@@ -3333,6 +3333,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			return false;
 		}
 		return rtc.isRightToLeft( );
+	}
+
+	/**
+	 * Returns if current palette is from the category series.
+	 * 
+	 * @return
+	 */
+	protected boolean isPaletteByCategory( )
+	{
+		return ( cm.getLegend( ).getItemType( ).getValue( ) == LegendItemType.CATEGORIES );
 	}
 
 	/**
@@ -3423,6 +3433,22 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	{
 		return ( cm.getInteractivity( ) == null || cm.getInteractivity( )
 				.isEnable( ) );
+	}
+
+	/**
+	 * Returns if the corresponding category entry is filtered in legend.
+	 * Subclass should override this method to implement their own legend
+	 * strategy.
+	 * 
+	 * @param categoryIndex
+	 * @param categoryValue
+	 * @return
+	 */
+	public boolean isFilteredForCategoryLegend( int categoryIndex,
+			Object categoryValue )
+	{
+		// Filter none by default.
+		return false;
 	}
 
 	/**

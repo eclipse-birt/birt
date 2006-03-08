@@ -50,32 +50,33 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getHorizontalSpacing <em>Horizontal Spacing</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getVerticalSpacing <em>Vertical Spacing</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getClientArea <em>Client Area</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getText <em>Text</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getOrientation <em>Orientation</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getDirection <em>Direction</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getSeparator <em>Separator</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getPosition <em>Position</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getItemType <em>Item Type</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getTitle <em>Title</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getTitlePosition <em>Title Position</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowValue <em>Show Value</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowPercent <em>Show Percent</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowTotal <em>Show Total</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getWrappingSize <em>Wrapping Size</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getHorizontalSpacing <em>Horizontal Spacing</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getVerticalSpacing <em>Vertical Spacing</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getClientArea <em>Client Area</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getText <em>Text</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getOrientation <em>Orientation</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getDirection <em>Direction</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getSeparator <em>Separator</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getPosition <em>Position</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getItemType <em>Item Type</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getTitle <em>Title</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getTitlePosition <em>Title Position</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowValue <em>Show Value</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowPercent <em>Show Percent</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowTotal <em>Show Total</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getWrappingSize <em>Wrapping Size</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class LegendImpl extends BlockImpl implements Legend
 {
 
 	/**
-	 * The default value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getHorizontalSpacing()
 	 * @generated
 	 * @ordered
@@ -83,8 +84,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final int HORIZONTAL_SPACING_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getHorizontalSpacing()
 	 * @generated
 	 * @ordered
@@ -132,8 +134,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected boolean verticalSpacingESet = false;
 
 	/**
-	 * The cached value of the '{@link #getClientArea() <em>Client Area</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getClientArea() <em>Client Area</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getClientArea()
 	 * @generated
 	 * @ordered
@@ -141,8 +144,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected ClientArea clientArea = null;
 
 	/**
-	 * The cached value of the '{@link #getText() <em>Text</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getText() <em>Text</em>}' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getText()
 	 * @generated
 	 * @ordered
@@ -150,8 +154,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected Text text = null;
 
 	/**
-	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getOrientation()
 	 * @generated
 	 * @ordered
@@ -159,8 +164,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final Orientation ORIENTATION_EDEFAULT = Orientation.HORIZONTAL_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getOrientation()
 	 * @generated
 	 * @ordered
@@ -177,8 +183,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected boolean orientationESet = false;
 
 	/**
-	 * The default value of the '{@link #getDirection() <em>Direction</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getDirection() <em>Direction</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getDirection()
 	 * @generated
 	 * @ordered
@@ -186,8 +193,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final Direction DIRECTION_EDEFAULT = Direction.LEFT_RIGHT_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getDirection() <em>Direction</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getDirection() <em>Direction</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getDirection()
 	 * @generated
 	 * @ordered
@@ -195,17 +203,18 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected Direction direction = DIRECTION_EDEFAULT;
 
 	/**
-	 * This is true if the Direction attribute has been set.
-	 * <!-- begin-user-doc
+	 * This is true if the Direction attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean directionESet = false;
 
 	/**
-	 * The cached value of the '{@link #getSeparator() <em>Separator</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getSeparator() <em>Separator</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSeparator()
 	 * @generated
 	 * @ordered
@@ -213,8 +222,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected LineAttributes separator = null;
 
 	/**
-	 * The default value of the '{@link #getPosition() <em>Position</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getPosition() <em>Position</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getPosition()
 	 * @generated
 	 * @ordered
@@ -222,8 +232,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final Position POSITION_EDEFAULT = Position.ABOVE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getPosition() <em>Position</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getPosition() <em>Position</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getPosition()
 	 * @generated
 	 * @ordered
@@ -231,17 +242,18 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected Position position = POSITION_EDEFAULT;
 
 	/**
-	 * This is true if the Position attribute has been set.
-	 * <!-- begin-user-doc
+	 * This is true if the Position attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean positionESet = false;
 
 	/**
-	 * The default value of the '{@link #getItemType() <em>Item Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getItemType() <em>Item Type</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getItemType()
 	 * @generated
 	 * @ordered
@@ -249,8 +261,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final LegendItemType ITEM_TYPE_EDEFAULT = LegendItemType.SERIES_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getItemType() <em>Item Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getItemType() <em>Item Type</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getItemType()
 	 * @generated
 	 * @ordered
@@ -258,17 +271,18 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected LegendItemType itemType = ITEM_TYPE_EDEFAULT;
 
 	/**
-	 * This is true if the Item Type attribute has been set.
-	 * <!-- begin-user-doc
+	 * This is true if the Item Type attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean itemTypeESet = false;
 
 	/**
-	 * The cached value of the '{@link #getTitle() <em>Title</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getTitle() <em>Title</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getTitle()
 	 * @generated
 	 * @ordered
@@ -276,8 +290,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected Label title = null;
 
 	/**
-	 * The default value of the '{@link #getTitlePosition() <em>Title Position</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getTitlePosition() <em>Title Position</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getTitlePosition()
 	 * @generated
 	 * @ordered
@@ -285,8 +300,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final Position TITLE_POSITION_EDEFAULT = Position.ABOVE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getTitlePosition() <em>Title Position</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getTitlePosition() <em>Title Position</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getTitlePosition()
 	 * @generated
 	 * @ordered
@@ -303,9 +319,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected boolean titlePositionESet = false;
 
 	/**
-	 * The default value of the '{@link #isShowValue() <em>Show Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #isShowValue() <em>Show Value</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isShowValue()
 	 * @generated
 	 * @ordered
@@ -313,9 +329,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final boolean SHOW_VALUE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isShowValue() <em>Show Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #isShowValue() <em>Show Value</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isShowValue()
 	 * @generated
 	 * @ordered
@@ -323,18 +339,18 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected boolean showValue = SHOW_VALUE_EDEFAULT;
 
 	/**
-	 * This is true if the Show Value attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This is true if the Show Value attribute has been set. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean showValueESet = false;
 
 	/**
-	 * The default value of the '{@link #isShowPercent() <em>Show Percent</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #isShowPercent() <em>Show Percent</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isShowPercent()
 	 * @generated
 	 * @ordered
@@ -342,9 +358,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final boolean SHOW_PERCENT_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isShowPercent() <em>Show Percent</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #isShowPercent() <em>Show Percent</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isShowPercent()
 	 * @generated
 	 * @ordered
@@ -352,18 +368,18 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected boolean showPercent = SHOW_PERCENT_EDEFAULT;
 
 	/**
-	 * This is true if the Show Percent attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This is true if the Show Percent attribute has been set. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean showPercentESet = false;
 
 	/**
-	 * The default value of the '{@link #isShowTotal() <em>Show Total</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #isShowTotal() <em>Show Total</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isShowTotal()
 	 * @generated
 	 * @ordered
@@ -371,9 +387,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final boolean SHOW_TOTAL_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isShowTotal() <em>Show Total</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #isShowTotal() <em>Show Total</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isShowTotal()
 	 * @generated
 	 * @ordered
@@ -381,18 +397,18 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected boolean showTotal = SHOW_TOTAL_EDEFAULT;
 
 	/**
-	 * This is true if the Show Total attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This is true if the Show Total attribute has been set. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean showTotalESet = false;
 
 	/**
-	 * The default value of the '{@link #getWrappingSize() <em>Wrapping Size</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getWrappingSize() <em>Wrapping Size</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getWrappingSize()
 	 * @generated
 	 * @ordered
@@ -400,9 +416,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final double WRAPPING_SIZE_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getWrappingSize() <em>Wrapping Size</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getWrappingSize() <em>Wrapping Size</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getWrappingSize()
 	 * @generated
 	 * @ordered
@@ -410,9 +426,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected double wrappingSize = WRAPPING_SIZE_EDEFAULT;
 
 	/**
-	 * This is true if the Wrapping Size attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This is true if the Wrapping Size attribute has been set. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -420,6 +436,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected LegendImpl( )
@@ -429,6 +446,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -438,6 +456,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public int getHorizontalSpacing( )
@@ -447,6 +466,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setHorizontalSpacing( int newHorizontalSpacing )
@@ -466,6 +486,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetHorizontalSpacing( )
@@ -485,6 +506,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetHorizontalSpacing( )
@@ -494,6 +516,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public int getVerticalSpacing( )
@@ -503,6 +526,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setVerticalSpacing( int newVerticalSpacing )
@@ -522,6 +546,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetVerticalSpacing( )
@@ -541,6 +566,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetVerticalSpacing( )
@@ -550,6 +576,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public ClientArea getClientArea( )
@@ -559,6 +586,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetClientArea( ClientArea newClientArea,
@@ -583,6 +611,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setClientArea( ClientArea newClientArea )
@@ -616,6 +645,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Text getText( )
@@ -625,6 +655,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetText( Text newText, NotificationChain msgs )
@@ -648,6 +679,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setText( Text newText )
@@ -679,6 +711,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Orientation getOrientation( )
@@ -688,6 +721,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setOrientation( Orientation newOrientation )
@@ -708,6 +742,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetOrientation( )
@@ -727,6 +762,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetOrientation( )
@@ -736,6 +772,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Direction getDirection( )
@@ -745,6 +782,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setDirection( Direction newDirection )
@@ -764,6 +802,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetDirection( )
@@ -783,6 +822,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetDirection( )
@@ -792,6 +832,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public LineAttributes getSeparator( )
@@ -801,6 +842,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetSeparator( LineAttributes newSeparator,
@@ -825,6 +867,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setSeparator( LineAttributes newSeparator )
@@ -858,6 +901,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Position getPosition( )
@@ -867,6 +911,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setPosition( Position newPosition )
@@ -886,6 +931,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetPosition( )
@@ -905,6 +951,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetPosition( )
@@ -914,6 +961,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public LegendItemType getItemType( )
@@ -923,6 +971,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setItemType( LegendItemType newItemType )
@@ -942,6 +991,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetItemType( )
@@ -961,6 +1011,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetItemType( )
@@ -970,6 +1021,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Label getTitle( )
@@ -979,6 +1031,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetTitle( Label newTitle,
@@ -1003,6 +1056,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setTitle( Label newTitle )
@@ -1034,6 +1088,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Position getTitlePosition( )
@@ -1043,6 +1098,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setTitlePosition( Position newTitlePosition )
@@ -1063,6 +1119,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetTitlePosition( )
@@ -1082,6 +1139,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetTitlePosition( )
@@ -1090,8 +1148,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isShowValue( )
@@ -1100,8 +1158,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setShowValue( boolean newShowValue )
@@ -1120,8 +1178,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetShowValue( )
@@ -1140,8 +1198,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetShowValue( )
@@ -1150,8 +1208,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isShowPercent( )
@@ -1160,8 +1218,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setShowPercent( boolean newShowPercent )
@@ -1180,8 +1238,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetShowPercent( )
@@ -1200,8 +1258,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetShowPercent( )
@@ -1210,8 +1268,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isShowTotal( )
@@ -1220,8 +1278,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setShowTotal( boolean newShowTotal )
@@ -1240,8 +1298,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetShowTotal( )
@@ -1260,8 +1318,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetShowTotal( )
@@ -1270,8 +1328,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public double getWrappingSize( )
@@ -1280,8 +1338,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setWrappingSize( double newWrappingSize )
@@ -1300,8 +1358,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetWrappingSize( )
@@ -1320,8 +1378,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetWrappingSize( )
@@ -1330,8 +1388,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -1352,8 +1410,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
@@ -1395,8 +1453,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eSet( int featureID, Object newValue )
@@ -1453,8 +1511,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eUnset( int featureID )
@@ -1511,8 +1569,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( int featureID )
@@ -1555,6 +1613,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -1654,14 +1713,27 @@ public class LegendImpl extends BlockImpl implements Legend
 	public final Size getPreferredSize( IDisplayServer xs, Chart cm,
 			RunTimeContext rtc ) throws ChartException
 	{
-		// COMPUTE THE LEGEND CONTENT (TO ENSURE THAT THE PREFERRED SIZE IS
-		// OBTAINED)
-		final LegendBuilder lb = new LegendBuilder( );
-		final SeriesDefinition[] seda = cm.getSeriesForLegend( );
+		Size sz;
 
-		Size sz = null;
-		sz = lb.compute( xs, cm, seda, rtc );
-		sz.scale( 72d / xs.getDpiResolution( ) ); // CONVERT TO POINTS
+		// TODO check context consistency.
+
+		if ( rtc != null
+				&& rtc.getLegendItemLayoutHints( ) != null
+				&& rtc.getLegendItemLayoutHints( ).getCachedSize( ) != null )
+		{
+			sz = rtc.getLegendItemLayoutHints( ).getCachedSize( );
+		}
+		else
+		{
+			// COMPUTE THE LEGEND CONTENT (TO ENSURE THAT THE PREFERRED SIZE IS
+			// OBTAINED)
+			final LegendBuilder lb = new LegendBuilder( );
+			final SeriesDefinition[] seda = cm.getSeriesForLegend( );
+			sz = lb.compute( xs, cm, seda, rtc );
+		}
+
+		// CONVERT TO POINTS
+		sz = sz.scaleInstance( 72d / xs.getDpiResolution( ) );
 		final Insets ins = this.getInsets( );
 		sz.setWidth( sz.getWidth( ) + ins.getLeft( ) + ins.getRight( ) );
 		sz.setHeight( sz.getHeight( ) + ins.getTop( ) + ins.getBottom( ) );

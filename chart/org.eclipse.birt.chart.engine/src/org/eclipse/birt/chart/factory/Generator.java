@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 import java.util.Stack;
 
 import org.eclipse.birt.chart.computation.IConstants;
-import org.eclipse.birt.chart.computation.withaxes.LegendItemRenderingHints;
+import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.withaxes.PlotWith2DAxes;
 import org.eclipse.birt.chart.computation.withaxes.PlotWith3DAxes;
 import org.eclipse.birt.chart.computation.withaxes.PlotWithAxes;
@@ -900,6 +900,11 @@ public final class Generator
 						new LegendItemRenderingHints( brna[i],
 								BoundsImpl.create( 0, 0, 0, 0 ) ) );
 			}
+
+			// Set series renderers info.
+			rtc.setSeriesRenderers( lhmRenderers );
+			// Clean legend state.
+			rtc.setLegendItemLayoutHints( null );
 		}
 		catch ( Exception ex )
 		{

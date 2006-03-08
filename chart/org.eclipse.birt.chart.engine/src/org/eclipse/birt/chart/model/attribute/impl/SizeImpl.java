@@ -13,12 +13,14 @@ package org.eclipse.birt.chart.model.attribute.impl;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
+import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -26,19 +28,20 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.SizeImpl#getHeight <em>Height</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.SizeImpl#getWidth <em>Width</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.SizeImpl#getHeight <em>Height</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.SizeImpl#getWidth <em>Width</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class SizeImpl extends EObjectImpl implements Size
 {
 
 	/**
-	 * The default value of the '{@link #getHeight() <em>Height</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getHeight() <em>Height</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getHeight()
 	 * @generated
 	 * @ordered
@@ -46,8 +49,9 @@ public class SizeImpl extends EObjectImpl implements Size
 	protected static final double HEIGHT_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getHeight() <em>Height</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getHeight() <em>Height</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getHeight()
 	 * @generated
 	 * @ordered
@@ -55,17 +59,18 @@ public class SizeImpl extends EObjectImpl implements Size
 	protected double height = HEIGHT_EDEFAULT;
 
 	/**
-	 * This is true if the Height attribute has been set.
-	 * <!-- begin-user-doc
+	 * This is true if the Height attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean heightESet = false;
 
 	/**
-	 * The default value of the '{@link #getWidth() <em>Width</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getWidth() <em>Width</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getWidth()
 	 * @generated
 	 * @ordered
@@ -75,6 +80,7 @@ public class SizeImpl extends EObjectImpl implements Size
 	/**
 	 * The cached value of the '{@link #getWidth() <em>Width</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getWidth()
 	 * @generated
 	 * @ordered
@@ -82,9 +88,9 @@ public class SizeImpl extends EObjectImpl implements Size
 	protected double width = WIDTH_EDEFAULT;
 
 	/**
-	 * This is true if the Width attribute has been set.
-	 * <!-- begin-user-doc -->
+	 * This is true if the Width attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -92,6 +98,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected SizeImpl( )
@@ -116,6 +123,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -125,6 +133,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public double getHeight( )
@@ -134,6 +143,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setHeight( double newHeight )
@@ -153,6 +163,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetHeight( )
@@ -172,6 +183,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetHeight( )
@@ -181,6 +193,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public double getWidth( )
@@ -190,6 +203,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setWidth( double newWidth )
@@ -209,6 +223,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetWidth( )
@@ -228,6 +243,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetWidth( )
@@ -236,8 +252,8 @@ public class SizeImpl extends EObjectImpl implements Size
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
@@ -253,8 +269,8 @@ public class SizeImpl extends EObjectImpl implements Size
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eSet( int featureID, Object newValue )
@@ -272,8 +288,8 @@ public class SizeImpl extends EObjectImpl implements Size
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eUnset( int featureID )
@@ -291,8 +307,8 @@ public class SizeImpl extends EObjectImpl implements Size
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( int featureID )
@@ -309,6 +325,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -359,6 +376,18 @@ public class SizeImpl extends EObjectImpl implements Size
 	{
 		setWidth( getWidth( ) * dScale );
 		setHeight( getHeight( ) * dScale );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.model.attribute.Size#scaleInstance(double)
+	 */
+	public final Size scaleInstance( double dScale )
+	{
+		final Size sz = (Size) EcoreUtil.copy( this );
+		sz.scale( dScale );
+		return sz;
 	}
 
 } // SizeImpl
