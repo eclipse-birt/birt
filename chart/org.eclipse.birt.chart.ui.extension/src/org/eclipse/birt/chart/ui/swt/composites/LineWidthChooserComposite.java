@@ -169,9 +169,14 @@ public class LineWidthChooserComposite extends Composite implements
 		{
 			return;
 		}
+		int shellWidth = this.getSize( ).x;
 		Shell shell = new Shell( this.getShell( ), SWT.NONE );
 		shell.setLayout( new FillLayout( ) );
-		shell.setSize( this.getSize( ).x, 150 );
+		shell.setSize( shellWidth, 150 );
+		if ( ( getStyle( ) & SWT.RIGHT_TO_LEFT ) != 0 )
+		{
+			iXLoc -= shellWidth;
+		}
 		shell.setLocation( iXLoc, iYLoc );
 		cmpDropDown = new Composite( shell, SWT.NONE );
 		FillLayout fillDropDown = new FillLayout( );

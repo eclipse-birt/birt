@@ -61,13 +61,12 @@ import org.eclipse.swt.widgets.Slider;
 /**
  * FillChooserComposite
  */
-public class FillChooserComposite extends Composite
-		implements
-			SelectionListener,
-			MouseListener,
-			DisposeListener,
-			KeyListener,
-			FocusListener
+public class FillChooserComposite extends Composite implements
+		SelectionListener,
+		MouseListener,
+		DisposeListener,
+		KeyListener,
+		FocusListener
 {
 
 	private transient Composite cmpContentInner = null;
@@ -327,6 +326,11 @@ public class FillChooserComposite extends Composite
 		Shell shell = new Shell( this.getShell( ), SWT.NONE );
 		shell.setLayout( new FillLayout( ) );
 		shell.setSize( iShellWidth, iShellHeight );
+
+		if ( ( getStyle( ) & SWT.RIGHT_TO_LEFT ) != 0 )
+		{
+			iXLoc -= iShellWidth;
+		}
 		shell.setLocation( iXLoc, iYLoc );
 
 		cmpDropDown = new Composite( shell, SWT.NONE );
@@ -523,11 +527,13 @@ public class FillChooserComposite extends Composite
 		}
 
 		if ( cmpDropDown == null
-				|| cmpDropDown.isDisposed( ) || !cmpDropDown.isVisible( ) )
+				|| cmpDropDown.isDisposed( )
+				|| !cmpDropDown.isVisible( ) )
 		{
 			Point pLoc = UIHelper.getScreenLocation( cnvSelection );
 			createDropDownComponent( pLoc.x, pLoc.y
-					+ cnvSelection.getSize( ).y + 1 );
+					+ cnvSelection.getSize( ).y
+					+ 1 );
 		}
 		else
 		{
@@ -590,8 +596,8 @@ public class FillChooserComposite extends Composite
 			{
 				ColorDefinition cdNew = AttributeFactory.eINSTANCE.createColorDefinition( );
 				cdNew.set( rgb.red, rgb.green, rgb.blue );
-				cdNew.setTransparency( ( bTransparencyChanged )
-						? this.iTransparency : iTrans );
+				cdNew.setTransparency( ( bTransparencyChanged ) ? this.iTransparency
+						: iTrans );
 				addAdapters( cdNew );
 				this.setFill( cdNew );
 				fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );

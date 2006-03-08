@@ -171,6 +171,11 @@ public class MarkerEditorComposite extends Composite
 		int iYLoc = pLoc.y + btnDropDown.getParent( ).getSize( ).y;
 		int iShellWidth = MARKER_BLOCK_HEIGHT * MARKER_ROW_MAX_NUMBER + 15;
 		int iShellHeight = 150;
+		
+		if ( ( getStyle( ) & SWT.RIGHT_TO_LEFT ) != 0 )
+		{
+			iXLoc -= iShellWidth;
+		}
 
 		// Avoid the right boundary out of screen
 		if ( iXLoc + iShellWidth > this.getDisplay( ).getClientArea( ).width )
