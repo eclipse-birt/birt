@@ -36,7 +36,7 @@ import org.w3c.tidy.Tidy;
  * that need to be processed to output are the descendant nodes of "body" node.
  * <p>
  * 
- * @version $Revision: 1.7 $ $Date: 2005/07/25 09:06:42 $
+ * @version $Revision: 1.8 $ $Date: 2005/12/23 06:37:23 $
  */
 public class HTMLTextParser
 {
@@ -93,6 +93,9 @@ public class HTMLTextParser
 	/** For heading level */
 	private static Pattern hn = Pattern.compile( "h[\\d]" ); //$NON-NLS-1$
 
+	/** whether use the supportedTags map */
+	private boolean supportAllTags = true;
+	
 	/**
 	 * Constructor
 	 *  
@@ -106,6 +109,7 @@ public class HTMLTextParser
 					"htmlparser.properties" ) ); //$NON-NLS-1$
 
 			tidy.setConfigurationFromProps( props );
+			supportAllTags = true;
 		}
 		catch ( Exception ex )
 		{
@@ -216,15 +220,17 @@ public class HTMLTextParser
 			// it is unsupported, then skip it and call this method recursively.
 			else if ( child.getNodeType( ) == Node.ELEMENT_NODE )
 			{
-				boolean bSupported = false;
-				if ( supportedTags.contains( child.getNodeName( ) ) )
+				boolean bSupported = true;
+				
+				if ( !supportAllTags ){
+					if ( !supportedTags.contains( child.getNodeName( ) ) )
 				{
-					bSupported = true;
-				}
-				//Check if it is a heading level
-				else if ( hn.matcher( child.getNodeName( ) ).matches( ) )
+						//Check if it is not a heading level
+						if ( !hn.matcher( child.getNodeName( ) ).matches( ) )
 				{
-					bSupported = true;
+							bSupported = false;
+						}
+					}
 				}
 				if ( bSupported )
 				{
