@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.NewSectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TemplateReportItemPropertiesDialog;
@@ -150,7 +151,10 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( copyAction.isEnabled( ) )
 			menu.add( copyAction );
 
-		menu.add( new PasteAction( object ) );
+		if(!(object instanceof DataSetItemModel))
+		{
+			menu.add( new PasteAction( object ) );	
+		}		
 
 		// Insert point for refresh action
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
