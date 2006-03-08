@@ -66,7 +66,6 @@ public interface IGroupElementModel
 
 	public static final String INTERVAL_BASE_PROP = "intervalBase"; //$NON-NLS-1$
 
-	
 	/**
 	 * Name of the grouping interval property. This is a choice with values such
 	 * as "year", "month" and "day."
@@ -99,7 +98,7 @@ public interface IGroupElementModel
 	 */
 
 	public static final String SORT_TYPE_PROP = "sortType"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the TOC expression property. This determines the TOC entry to
 	 * appear for this group.
@@ -120,10 +119,18 @@ public interface IGroupElementModel
 	 */
 
 	public static final String ON_PREPARE_METHOD = "onPrepare"; //$NON-NLS-1$
-	
+
 	/**
-	 * Name of the repeat header property.
+	 * Name of the repeat header property. If it is set to true, need to repeat
+	 * header of the group.
 	 */
 
 	public static final String REPEAT_HEADER_PROP = "repeatHeader"; //$NON-NLS-1$
+
+	/**
+	 * Name of the hide detail property. If it is set to true, no detail rows
+	 * are shown.
+	 */
+
+	public static final String HIDE_DETAIL_PROP = "hideDetail"; //$NON-NLS-1$
 }

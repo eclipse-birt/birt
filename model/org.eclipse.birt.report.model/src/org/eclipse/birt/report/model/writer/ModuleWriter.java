@@ -2513,6 +2513,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, GroupElement.EVENT_HANDLER_CLASS_PROP );
 		property( obj, GroupElement.ON_PREPARE_METHOD );
 		property( obj, GroupElement.REPEAT_HEADER_PROP );
+		property( obj, GroupElement.HIDE_DETAIL_PROP );
 
 		property( obj, Style.PAGE_BREAK_AFTER_PROP );
 		property( obj, Style.PAGE_BREAK_BEFORE_PROP );

@@ -465,7 +465,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	{
 		setProperty( GroupElement.ON_PREPARE_METHOD, script );
 	}
-	
+
 	/**
 	 * Tests whether to repeat the headings at the top of each page.
 	 * 
@@ -492,7 +492,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	{
 		setProperty( REPEAT_HEADER_PROP, Boolean.valueOf( value ) );
 	}
-	
+
 	/**
 	 * Gets page break after property value of this group.
 	 * 
@@ -508,7 +508,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * Sets page break after property value of this group.
 	 * 
 	 * @param value
-	 *             value of page break after property
+	 *            value of page break after property
 	 * @throws SemanticException
 	 *             if the property is locked.
 	 */
@@ -517,7 +517,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	{
 		setProperty( Style.PAGE_BREAK_AFTER_PROP, value );
 	}
-	
+
 	/**
 	 * Gets page break before property value of this group.
 	 * 
@@ -533,7 +533,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * Sets page break before property value of this group.
 	 * 
 	 * @param value
-	 *             value of page break before property
+	 *            value of page break before property
 	 * @throws SemanticException
 	 *             if the property is locked.
 	 */
@@ -541,5 +541,32 @@ public abstract class GroupHandle extends ReportElementHandle
 	public void setPageBreakBefore( String value ) throws SemanticException
 	{
 		setProperty( Style.PAGE_BREAK_BEFORE_PROP, value );
+	}
+
+	/**
+	 * Tests whether to hide the detail rows of this group.
+	 * 
+	 * @return <code>true</code> if hide the detail rows, otherwise
+	 *         <code>false</code>.
+	 */
+
+	public boolean hideDetail( )
+	{
+		return getBooleanProperty( HIDE_DETAIL_PROP );
+	}
+
+	/**
+	 * Sets whether to hide the detail rows of this group.
+	 * 
+	 * @param value
+	 *            <code>true</code> if hide the detail rows, otherwise
+	 *            <code>false</code>.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setHideDetail( boolean value ) throws SemanticException
+	{
+		setProperty( HIDE_DETAIL_PROP, Boolean.valueOf( value ) );
 	}
 }

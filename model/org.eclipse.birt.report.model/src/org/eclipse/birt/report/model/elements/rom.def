@@ -2506,6 +2506,9 @@
     <Property detailType="SortKey" displayNameID="Element.ListingGroup.sort" isList="true" name="sort" runtimeSettable="false" since="reserved" type="structure"/>
     <Property detailType="FilterCondition" displayNameID="Element.ListingGroup.filter" isList="true" name="filter" runtimeSettable="false" since="reserved" type="structure"/>
     <Property displayNameID="Element.ListingGroup.toc" name="toc" returnType="string" runtimeSettable="false" since="2.0" type="expression"/>
+    <Property displayNameID="Element.ListingGroup.hideDetail" name="hideDetail" runtimeSettable="false" since="2.1" type="boolean">
+      <Default>false</Default>
+    </Property>
     <Property displayNameID="Element.ListingGroup.groupName" name="groupName" runtimeSettable="false" since="1.0" type="string">
       <Trigger targetElement="Listing" validator="GroupNameValidator"/>
 	</Property>
