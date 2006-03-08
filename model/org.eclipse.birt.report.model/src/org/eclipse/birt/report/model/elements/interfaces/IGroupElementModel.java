@@ -120,4 +120,10 @@ public interface IGroupElementModel
 	 */
 
 	public static final String ON_PREPARE_METHOD = "onPrepare"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the repeat header property.
+	 */
+
+	public static final String REPEAT_HEADER_PROP = "repeatHeader"; //$NON-NLS-1$
 }

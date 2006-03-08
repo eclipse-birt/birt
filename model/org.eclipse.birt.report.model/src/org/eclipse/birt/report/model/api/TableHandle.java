@@ -75,33 +75,6 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	}
 
 	/**
-	 * Tests whether to repeat the headings at the top of each page.
-	 * 
-	 * @return <code>true</code> if repeat the headings, otherwise
-	 *         <code>false</code>.
-	 */
-
-	public boolean repeatHeader( )
-	{
-		return getBooleanProperty( TableItem.REPEAT_HEADER_PROP );
-	}
-
-	/**
-	 * Sets whether to repeat the headings at the top of each page.
-	 * 
-	 * @param value
-	 *            <code>true</code> if repeat the headings, otherwise
-	 *            <code>false</code>.
-	 * @throws SemanticException
-	 *             if the property is locked.
-	 */
-
-	public void setRepeatHeader( boolean value ) throws SemanticException
-	{
-		setProperty( TableItem.REPEAT_HEADER_PROP, Boolean.valueOf( value ) );
-	}
-
-	/**
 	 * Returns the caption text of this table.
 	 * 
 	 * @return the caption text

@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
+import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
@@ -69,7 +70,6 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.elements.ScriptDataSource;
-import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
@@ -1480,8 +1480,6 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitTable( obj );
 
-		property( obj, TableItem.REPEAT_HEADER_PROP );
-
 		resourceKey( obj, TableItem.CAPTION_KEY_PROP, TableItem.CAPTION_PROP );
 
 		// There is no columns tag for this slot. All columns are written under
@@ -2485,8 +2483,8 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitListing( ListingElement obj )
 	{
 		super.visitListing( obj );
-
-		property( obj, ListingElement.PAGE_BREAK_INTERVAL_PROP );
+		
+		property( obj, ListingElement.REPEAT_HEADER_PROP );
 
 		writeStructureList( obj, ListingElement.SORT_PROP );
 		writeStructureList( obj, ListingElement.FILTER_PROP );
@@ -2514,7 +2512,11 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, GroupElement.EVENT_HANDLER_CLASS_PROP );
 		property( obj, GroupElement.ON_PREPARE_METHOD );
+		property( obj, GroupElement.REPEAT_HEADER_PROP );
 
+		property( obj, Style.PAGE_BREAK_AFTER_PROP );
+		property( obj, Style.PAGE_BREAK_BEFORE_PROP );
+		
 		// write user property definitions and values
 
 		writeUserPropertyDefns( obj );
@@ -2716,7 +2718,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * 
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitJointDataSet(org.eclipse.birt.report.model.elements.JointDataSet)
 	 */
-
+	 
 	public void visitJointDataSet( JointDataSet obj )
 	{
 

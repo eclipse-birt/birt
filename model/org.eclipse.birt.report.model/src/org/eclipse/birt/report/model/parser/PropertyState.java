@@ -26,7 +26,9 @@ import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
@@ -198,12 +200,7 @@ class PropertyState extends AbstractPropertyState
 		{
 			if ( IListingElementModel.PAGE_BREAK_INTERVAL_PROP
 					.equalsIgnoreCase( name ) )
-			{
-				CompatiblePropertyTypeState state = new CompatiblePropertyTypeState(
-						handler, element );
-				state.setName( name );
-				return state;
-			}
+				return new CompatibleIgnorePropertyState( handler, element );
 
 			if ( name.equalsIgnoreCase( "onStart" ) || name //$NON-NLS-1$
 					.equalsIgnoreCase( "onFinish" ) ) //$NON-NLS-1$
@@ -217,12 +214,26 @@ class PropertyState extends AbstractPropertyState
 				return new CompatibleOnRowPropertyState( handler, element );
 		}
 
-		if ( ( element instanceof GroupElement ) )
+		if ( element instanceof GroupElement )
 		{
 			if ( "onCreate".equalsIgnoreCase( name ) || //$NON-NLS-1$
 					"onRender".equalsIgnoreCase( name ) ) //$NON-NLS-1$
 				return new CompatibleIgnorePropertyState( handler, element );
 		}
+
+		if ( element instanceof TableRow )
+			if ( IStyleModel.PAGE_BREAK_BEFORE_PROP.equalsIgnoreCase( name )
+					|| IStyleModel.PAGE_BREAK_AFTER_PROP
+							.equalsIgnoreCase( name )
+					|| IStyleModel.PAGE_BREAK_INSIDE_PROP
+							.equalsIgnoreCase( name ) )
+
+			{
+				CompatiblePageBreakPropState state = new CompatiblePageBreakPropState(
+						handler, element );
+				state.setName( name );
+				return state;
+			}
 
 		return super.jumpTo( );
 	}

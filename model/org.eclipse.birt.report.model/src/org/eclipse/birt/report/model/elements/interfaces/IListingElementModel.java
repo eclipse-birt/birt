@@ -59,6 +59,8 @@ public interface IListingElementModel
 	
 	/**
 	 * Name of the pageBreakInterval property. 
+	 * 
+	 * @deprecated
 	 */
 
 	public static final String PAGE_BREAK_INTERVAL_PROP = "pageBreakInterval"; //$NON-NLS-1$
@@ -92,4 +94,10 @@ public interface IListingElementModel
 	 */
 
 	public static final String ON_FINISH_METHOD = "onFinish"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the repeat header property.
+	 */
+
+	public static final String REPEAT_HEADER_PROP = "repeatHeader"; //$NON-NLS-1$
 }

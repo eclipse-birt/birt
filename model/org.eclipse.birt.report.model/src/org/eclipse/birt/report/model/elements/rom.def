@@ -110,18 +110,21 @@
     <Choice displayNameID="Choices.display.inline" name="inline"/>
     <Choice displayNameID="Choices.display.none" name="none"/>
   </ChoiceType>
-  <ChoiceType name="pageBreak">
-    <Choice displayNameID="Choices.pageBreak.auto" name="auto"/>
-    <Choice displayNameID="Choices.pageBreak.always" name="always"/>
-    <Choice displayNameID="Choices.pageBreak.avoid" name="avoid"/>
-    <Choice displayNameID="Choices.pageBreak.left" name="left"/>
-    <Choice displayNameID="Choices.pageBreak.right" name="right"/>
-    <Choice displayNameID="Choices.pageBreak.inherit" name="inherit"/>
+  <ChoiceType name="pageBreakAfter">
+    <Choice displayNameID="Choices.pageBreakAfter.auto" name="auto"/>
+    <Choice displayNameID="Choices.pageBreakAfter.always" name="always"/>
+    <Choice displayNameID="Choices.pageBreakAfter.avoid" name="avoid"/>
+    <Choice displayNameID="Choices.pageBreakAfter.alwaysExcludingLast" name="always-excluding-last"/>
+  </ChoiceType>
+  <ChoiceType name="pageBreakBefore">
+    <Choice displayNameID="Choices.pageBreakBefore.auto" name="auto"/>
+    <Choice displayNameID="Choices.pageBreakBefore.always" name="always"/>
+    <Choice displayNameID="Choices.pageBreakBefore.avoid" name="avoid"/>
+    <Choice displayNameID="Choices.pageBreakBefore.alwaysExcludingFirst" name="always-excluding-first"/>
   </ChoiceType>
   <ChoiceType name="pageBreakInside">
     <Choice displayNameID="Choices.pageBreakInside.avoid" name="avoid"/>
     <Choice displayNameID="Choices.pageBreakInside.auto" name="auto"/>
-    <Choice displayNameID="Choices.pageBreakInside.inherit" name="inherit"/>
   </ChoiceType>
   <ChoiceType name="margin">
     <Choice displayNameID="Choices.margine.auto" name="auto"/>
@@ -2043,10 +2046,10 @@
         <Default>block</Default>
       </Property>
       <Property displayNameID="Element.Style.masterPage" isStyleProperty="true" name="masterPage" since="reserved" type="name"/>
-      <Property canInherit="false" detailType="pageBreak" displayNameID="Element.Style.pageBreakBefore" isStyleProperty="true" name="pageBreakBefore" since="1.0" type="choice">
+      <Property canInherit="false" detailType="pageBreakBefore" displayNameID="Element.Style.pageBreakBefore" isStyleProperty="true" name="pageBreakBefore" since="1.0" type="choice">
         <Default>auto</Default>
       </Property>
-      <Property canInherit="false" detailType="pageBreak" displayNameID="Element.Style.pageBreakAfter" isStyleProperty="true" name="pageBreakAfter" since="1.0" type="choice">
+      <Property canInherit="false" detailType="pageBreakAfter" displayNameID="Element.Style.pageBreakAfter" isStyleProperty="true" name="pageBreakAfter" since="1.0" type="choice">
         <Default>auto</Default>
       </Property>
       <Property detailType="pageBreakInside" displayNameID="Element.Style.pageBreakInside" isStyleProperty="true" name="pageBreakInside" since="1.0" type="choice">
@@ -2506,6 +2509,9 @@
     <Property displayNameID="Element.ListingGroup.groupName" name="groupName" runtimeSettable="false" since="1.0" type="string">
       <Trigger targetElement="Listing" validator="GroupNameValidator"/>
 	</Property>
+    <Property displayNameID="Element.ListingGroup.repeatHeader" name="repeatHeader" runtimeSettable="false" since="2.0" type="boolean">
+      <Default>true</Default>
+    </Property>
 	<PropertyGroup displayNameID="Element.ListingGroup.Interval">
 		<Property displayNameID="Element.ListingGroup.intervalBase" name="intervalBase" runtimeSettable="false" since="1.0" type="string" />
    		<Property detailType="interval" displayNameID="Element.ListingGroup.interval" name="interval" runtimeSettable="false" since="1.0" type="choice">
@@ -2526,9 +2532,9 @@
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Listing" extends="ReportItem" isAbstract="true" name="Listing" nameSpace="none" since="1.0">
     <Property detailType="SortKey" displayNameID="Element.Listing.sorting" isList="true" name="sort" runtimeSettable="false" since="1.0" type="structure"/>
     <Property detailType="FilterCondition" displayNameID="Element.Listing.filter" isList="true" name="filter" runtimeSettable="false" since="1.0" type="structure"/>
-    <Property displayNameID="Element.Listing.pageBreakInterval" name="pageBreakInterval" runtimeSettable="false" since="2.0" type="integer">
-      <Default>0</Default>
-    </Property>  
+    <Property displayNameID="Element.Listing.repeatHeader" name="repeatHeader" runtimeSettable="false" since="2.1" type="boolean">
+      <Default>true</Default>
+    </Property>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.List" extends="Listing" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ListItem" name="List" selector="list" since="1.0" xmlName="list">
     <Slot displayNameID="Element.List.slot.header" multipleCardinality="true" name="header" selector="list-header" since="1.0" xmlName="header">
@@ -2627,9 +2633,6 @@
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Table" extends="Listing" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.TableItem" name="Table" selector="table" since="1.0" xmlName="table">
     <Property displayNameID="Element.Table.caption" name="caption" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.Table.captionID" name="captionID" since="1.0" type="resourceKey"/>
-    <Property displayNameID="Element.Table.repeatHeader" name="repeatHeader" runtimeSettable="false" since="1.0" type="boolean">
-      <Default>true</Default>
-    </Property>
     <Slot displayNameID="Element.Table.slot.header" multipleCardinality="true" name="header" selector="table-header" since="1.0" xmlName="header">
       <Type name="Row"/>
       <Trigger validator="InconsistentColumnsValidator"/>
@@ -2763,7 +2766,7 @@
     <PropertyVisibility name="borderRightWidth" visibility="hide"/>                  
     <PropertyVisibility name="borderBottomColor" visibility="hide"/>          
     <PropertyVisibility name="borderBottomStyle" visibility="hide"/>              
-    <PropertyVisibility name="borderBottomWidth" visibility="hide"/>                           
+    <PropertyVisibility name="borderBottomWidth" visibility="hide"/>                                                     
     <Slot displayNameID="Element.Row.slot.cells" multipleCardinality="true" name="cells" since="1.0" xmlName="cells">
       <Type name="Cell"/>
       <Trigger validator="CellOverlappingValidator"/>

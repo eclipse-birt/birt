@@ -54,6 +54,7 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -377,11 +378,16 @@ public class ModelUtil
 
 			Object value = null;
 
-			// the special case for the toc property on the group element since
-			// the default toc is the group expression.
+			// the special case for the toc, pageBreakAfter and pageBreakBefore
+			// properties on the group element
+
+			// for toc the default value is the group expression.
 
 			if ( propHandle.getElement( ) instanceof GroupElement
-					&& GroupElement.TOC_PROP.equals( propName ) )
+					&& ( GroupElement.TOC_PROP.equals( propName )
+							|| IStyleModel.PAGE_BREAK_AFTER_PROP
+									.equals( propName ) || IStyleModel.PAGE_BREAK_BEFORE_PROP
+							.equals( propName ) ) )
 				value = propHandle.getElement( ).getLocalProperty(
 						propHandle.getModule( ), propDefn );
 			else if ( onlyFactoryProperty )

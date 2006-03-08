@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -41,14 +42,14 @@ import org.xml.sax.Attributes;
  * Parses the abstract property. The XML file is like:
  * 
  * <pre>
- *  
- *   
  *    
- *      
- *      &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
  *     
- *    
- *   
+ *      
+ *        
+ *        &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
+ *       
+ *      
+ *     
  * </pre>
  * 
  * The supported tags are:
@@ -247,7 +248,7 @@ public class AbstractPropertyState extends AbstractParseState
 		}
 
 		// Avoid overriden properties that may cause structure change.
-		
+
 		if ( element.isVirtualElement( ) )
 		{
 			if ( element instanceof Cell )
@@ -349,7 +350,8 @@ public class AbstractPropertyState extends AbstractParseState
 	/**
 	 * Checks whether the given exception is an error that the parser can
 	 * recover.
-	 * @param invalidValue 
+	 * 
+	 * @param invalidValue
 	 * @param errorCode
 	 *            the error code of the property value exception
 	 * @param propDefn
@@ -378,13 +380,20 @@ public class AbstractPropertyState extends AbstractParseState
 				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND
 						.equalsIgnoreCase( errorCode ) )
 		{
-			ObjectDefn objDefn = ( (PropertyDefn) propDefn ).definedBy( );
-
 			if ( element instanceof TextDataItem
 					&& TextDataItem.CONTENT_TYPE_PROP
 							.equalsIgnoreCase( propDefn.getName( ) ) )
 				return true;
 
+			if ( Style.PAGE_BREAK_AFTER_PROP.equalsIgnoreCase( propDefn
+					.getName( ) )
+					|| Style.PAGE_BREAK_BEFORE_PROP.equalsIgnoreCase( propDefn
+							.getName( ) )
+					|| Style.PAGE_BREAK_INSIDE_PROP.equalsIgnoreCase( propDefn
+							.getName( ) ) )
+				return true;
+			
+			ObjectDefn objDefn = ( (PropertyDefn) propDefn ).definedBy( );
 			if ( objDefn instanceof StructureDefn )
 			{
 				// DateTimeFormatValue.CATEGORY_MEMBER

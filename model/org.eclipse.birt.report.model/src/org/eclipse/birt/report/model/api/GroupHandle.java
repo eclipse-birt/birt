@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.GroupElement;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 
 /**
@@ -463,5 +464,82 @@ public abstract class GroupHandle extends ReportElementHandle
 	public void setOnPrepare( String script ) throws SemanticException
 	{
 		setProperty( GroupElement.ON_PREPARE_METHOD, script );
+	}
+	
+	/**
+	 * Tests whether to repeat the headings at the top of each page.
+	 * 
+	 * @return <code>true</code> if repeat the headings, otherwise
+	 *         <code>false</code>.
+	 */
+
+	public boolean repeatHeader( )
+	{
+		return getBooleanProperty( REPEAT_HEADER_PROP );
+	}
+
+	/**
+	 * Sets whether to repeat the headings at the top of each page.
+	 * 
+	 * @param value
+	 *            <code>true</code> if repeat the headings, otherwise
+	 *            <code>false</code>.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setRepeatHeader( boolean value ) throws SemanticException
+	{
+		setProperty( REPEAT_HEADER_PROP, Boolean.valueOf( value ) );
+	}
+	
+	/**
+	 * Gets page break after property value of this group.
+	 * 
+	 * @return page break after property value of this group.
+	 */
+
+	public String getPageBreakAfter( )
+	{
+		return getStringProperty( Style.PAGE_BREAK_AFTER_PROP );
+	}
+
+	/**
+	 * Sets page break after property value of this group.
+	 * 
+	 * @param value
+	 *             value of page break after property
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setPageBreakAfter( String value ) throws SemanticException
+	{
+		setProperty( Style.PAGE_BREAK_AFTER_PROP, value );
+	}
+	
+	/**
+	 * Gets page break before property value of this group.
+	 * 
+	 * @return page break before property value of this group.
+	 */
+
+	public String getPageBreakBefore( )
+	{
+		return getStringProperty( Style.PAGE_BREAK_BEFORE_PROP );
+	}
+
+	/**
+	 * Sets page break before property value of this group.
+	 * 
+	 * @param value
+	 *             value of page break before property
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setPageBreakBefore( String value ) throws SemanticException
+	{
+		setProperty( Style.PAGE_BREAK_BEFORE_PROP, value );
 	}
 }

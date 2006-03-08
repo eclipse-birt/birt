@@ -28,6 +28,8 @@ import org.eclipse.birt.report.model.api.validators.StyleReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
 
 /**
@@ -508,18 +510,6 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			e = e.parent;
 		}
 
-		// Get the property definition if this element is container and can have
-		// style or the element is ExtendedItem.
-
-		if ( ( isContainer( ) && hasStyle( ) ) )
-		{
-			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-			SystemPropertyDefn prop = (SystemPropertyDefn) ( (ElementDefn) dd
-					.getStyle( ) ).properties.get( propName );
-			if ( prop != null )
-				return prop;
-		}
-
 		return null;
 	}
 
@@ -760,17 +750,17 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 	/**
 	 * Builds the style properties in this element.
+	 * 
 	 * @throws MetaDataException
 	 */
-	
+
 	protected void buildStyleProperties( ) throws MetaDataException
 	{
 		// If this item has a style, copy the relevant style properties onto
 		// this element if it's leaf element or copy all the style properties
 		// onto this element if it is a container.
 
-		if ( hasStyle )
-			addStyleProperties( );
+		addStyleProperties( );
 
 		if ( ReportDesignConstants.EXTENDED_ITEM.equalsIgnoreCase( getName( ) ) )
 		{
@@ -983,18 +973,46 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 	private void addStyleProperties( ) throws MetaDataException
 	{
-		assert hasStyle( );
+		// deal with listing group element, it has no style. But must add two style properties to listingGroup.
+
+		if ( ReportDesignConstants.GROUP_ELEMENT.equalsIgnoreCase( name ) )
+		{
+			IElementDefn styleDefn = MetaDataDictionary.getInstance( )
+					.getStyle( );
+			IElementPropertyDefn pageBreakProp = styleDefn
+					.getProperty( Style.PAGE_BREAK_AFTER_PROP );
+			properties.put( pageBreakProp.getName( ), pageBreakProp );
+
+			pageBreakProp = styleDefn
+					.getProperty( Style.PAGE_BREAK_BEFORE_PROP );
+			properties.put( pageBreakProp.getName( ), pageBreakProp );
+			return;
+		}
+
+		if ( !hasStyle( ) )
+			return;
+
 		if ( isContainer( ) )
 		{
 			// Add all style properties if this element is container and can
-			// have
-			// style or the element is ExtendedItem.
+			// have style or the element is ExtendedItem.
 
 			List styleProperties = MetaDataDictionary.getInstance( ).getStyle( )
 					.getLocalProperties( );
 			for ( int i = 0; i < styleProperties.size( ); i++ )
 			{
 				PropertyDefn prop = (PropertyDefn) styleProperties.get( i );
+				
+				// special cases for row. PageBreak properties are not supported on TableRow element.
+				
+				if ( ReportDesignConstants.ROW_ELEMENT.equalsIgnoreCase( name ) )
+					if ( IStyleModel.PAGE_BREAK_AFTER_PROP
+							.equalsIgnoreCase( prop.getName( ) )
+							|| IStyleModel.PAGE_BREAK_BEFORE_PROP
+									.equalsIgnoreCase( prop.getName( ) )
+							|| IStyleModel.PAGE_BREAK_INSIDE_PROP
+									.equalsIgnoreCase( prop.getName( ) ) )
+						continue;
 				properties.put( prop.getName( ), prop );
 			}
 		}

@@ -144,6 +144,7 @@ public abstract class ListingHandle extends ReportItemHandle
 	 * Returns the page break interval value
 	 * 
 	 * @return the page break interval value
+	 * @deprecated
 	 */
 
 	public int getPageBreakInterval( )
@@ -158,13 +159,38 @@ public abstract class ListingHandle extends ReportItemHandle
 	 *            the page break interval
 	 * @throws SemanticException
 	 *             if the parameter is not a valid integer
+	 * @deprecated
 	 */
 
 	public void setPageBreakInterval( int pageBreakInterval )
 			throws SemanticException
 	{
-		setIntProperty( ListingElement.PAGE_BREAK_INTERVAL_PROP,
-				pageBreakInterval );
+	}
+	
+	/**
+	 * Tests whether to repeat the headings at the top of each page.
+	 * 
+	 * @return <code>true</code> if repeat the headings, otherwise
+	 *         <code>false</code>.
+	 */
+
+	public boolean repeatHeader( )
+	{
+		return getBooleanProperty( REPEAT_HEADER_PROP );
 	}
 
+	/**
+	 * Sets whether to repeat the headings at the top of each page.
+	 * 
+	 * @param value
+	 *            <code>true</code> if repeat the headings, otherwise
+	 *            <code>false</code>.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setRepeatHeader( boolean value ) throws SemanticException
+	{
+		setProperty( REPEAT_HEADER_PROP, Boolean.valueOf( value ) );
+	}
 }

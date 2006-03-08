@@ -139,22 +139,27 @@ public interface DesignChoiceConstants
 	public static final String DISPLAY_INLINE = "inline"; //$NON-NLS-1$
 	public static final String DISPLAY_NONE = "none"; //$NON-NLS-1$
 
-	// pageBreak
+	// pageBreakAfter
 
-	public static final String CHOICE_PAGE_BREAK = "pageBreak"; //$NON-NLS-1$
-	public static final String PAGE_BREAK_AUTO = "auto"; //$NON-NLS-1$
-	public static final String PAGE_BREAK_ALWAYS = "always"; //$NON-NLS-1$
-	public static final String PAGE_BREAK_AVOID = "avoid"; //$NON-NLS-1$
-	public static final String PAGE_BREAK_LEFT = "left"; //$NON-NLS-1$
-	public static final String PAGE_BREAK_RIGHT = "right"; //$NON-NLS-1$
-	public static final String PAGE_BREAK_INHERIT = "inherit"; //$NON-NLS-1$
+	public static final String CHOICE_PAGE_BREAK_AFTER = "pageBreakAfter"; //$NON-NLS-1$
+	public static final String PAGE_BREAK_AFTER_AUTO = "auto"; //$NON-NLS-1$
+	public static final String PAGE_BREAK_AFTER_ALWAYS = "always"; //$NON-NLS-1$
+	public static final String PAGE_BREAK_AFTER_AVOID = "avoid"; //$NON-NLS-1$
+	public static final String PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST = "always-excluding-last"; //$NON-NLS-1$
+	
+	// pageBreakBefore
 
+	public static final String CHOICE_PAGE_BREAK_BEFORE = "pageBreakBefore"; //$NON-NLS-1$
+	public static final String PAGE_BREAK_BREAK_AUTO = "auto"; //$NON-NLS-1$
+	public static final String PAGE_BREAK_BREAK_ALWAYS = "always"; //$NON-NLS-1$
+	public static final String PAGE_BREAK_BEFORE_AVOID = "avoid"; //$NON-NLS-1$
+	public static final String PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST = "always-excluding-first"; //$NON-NLS-1$
+	
 	// pageBreakInside
 
 	public static final String CHOICE_PAGE_BREAK_INSIDE = "pageBreakInside"; //$NON-NLS-1$
 	public static final String PAGE_BREAK_INSIDE_AVOID = "avoid"; //$NON-NLS-1$
 	public static final String PAGE_BREAK_INSIDE_AUTO = "auto"; //$NON-NLS-1$
-	public static final String PAGE_BREAK_INSIDE_INHERIT = "inherit"; //$NON-NLS-1$
 
 	// margin
 

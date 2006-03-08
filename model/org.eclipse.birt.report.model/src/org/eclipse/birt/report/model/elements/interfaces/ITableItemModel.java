@@ -30,12 +30,6 @@ public interface ITableItemModel
 	public static final String CAPTION_KEY_PROP = "captionID"; //$NON-NLS-1$
 
 	/**
-	 * Name of the repeat header property.
-	 */
-
-	public static final String REPEAT_HEADER_PROP = "repeatHeader"; //$NON-NLS-1$
-
-	/**
 	 * Column definitions.
 	 */
 
