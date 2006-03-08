@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
+import com.ibm.icu.util.ULocale;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -136,6 +137,14 @@ public abstract class EngineTask implements IEngineTask
 	}
 
 	/**
+	 * @return Returns the ulocale.
+	 */
+	public ULocale getULocale( )
+	{
+		return ULocale.forLocale( locale );
+	}
+
+	/**
 	 * sets the task locale
 	 * 
 	 * @param locale
@@ -145,6 +154,17 @@ public abstract class EngineTask implements IEngineTask
 	{
 		this.locale = locale;
 		executionContext.setLocale( locale );
+	}
+	
+	/**
+	 * sets the task locale
+	 * 
+	 * @param locale
+	 *            the task locale
+	 */
+	public void setLocale( ULocale locale )
+	{
+		setLocale(locale.toLocale());
 	}
 
 	/**
@@ -487,7 +507,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.29 $ $Date: 2006/01/09 10:40:42 $
+	 * @version $Revision: 1.30 $ $Date: 2006/01/11 06:29:02 $
 	 */
 	static abstract class ParameterVisitor
 	{

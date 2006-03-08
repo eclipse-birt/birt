@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
+import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
@@ -47,6 +48,11 @@ public class ReportParameterConverter
 		}
 
 		this.locale = locale;
+	}
+	
+	public ReportParameterConverter( String format, ULocale locale )
+	{
+		this(format, locale.toLocale( ));
 	}
 
 	/**

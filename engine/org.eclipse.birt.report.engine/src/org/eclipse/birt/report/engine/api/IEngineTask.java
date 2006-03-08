@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.api;
 
 import java.util.HashMap;
 import java.util.Locale;
+import com.ibm.icu.util.ULocale;
 import java.util.Map;
 
 /**
@@ -27,6 +28,12 @@ public interface IEngineTask {
 	public abstract void setLocale(Locale locale);
 
 	/**
+	 * sets the task locale
+	 * @param locale the task locale
+	 */
+	public abstract void setLocale(ULocale locale);
+
+	/**
 	 * sets the task context
 	 * @param context - task contexts in a map. The map contains name-value pairs
 	 */
@@ -37,6 +44,12 @@ public interface IEngineTask {
 	 * @return the locale for running the task
 	 */
 	public abstract Locale getLocale();
+	
+	/**
+	 * returns the locale for running the task
+	 * @return the locale for running the task
+	 */
+	public abstract ULocale getULocale();
 	
 	/**
 	 * returns the context objects for the task
