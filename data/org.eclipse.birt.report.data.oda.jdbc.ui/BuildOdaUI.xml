@@ -265,7 +265,7 @@
 		<ant dir="${designer.ui.dir}" antfile="BuildDesignerUI.xml" target="Jar" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}"/>
 		</ant>
-		<ant dir="${oda.designer.ui.dir}" antfile="BuildOdaDesignUI.xml" target="Jar" inheritAll="false">
+		<ant dir="${oda.designer.ui.dir}" antfile="build.xml" target="Jar" inheritAll="false">
 			<property name="dtp.home" value="${dtp.home}"/>
 		</ant>
 	</target>	

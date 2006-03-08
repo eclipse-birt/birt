@@ -259,13 +259,13 @@
 		<ant dir="${viewer.dir}" antfile="BuildViewer.xml" target="Jar" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}"/>
 		</ant>
-		<ant dir="${dtp.oda.design.ui}" antfile="BuildOdaDesignUI.xml" target="Jar" inheritAll="false">
+		<ant dir="${dtp.oda.design.ui}" antfile="build.xml" target="Jar" inheritAll="false">
 			<property name="dtp.home" value="${dtp.home}"/>
 		</ant>
 		<ant dir="${model.oda.adapter}" antfile="BuildModelOdaAdapter.xml" target="Jar" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}"/>
 		</ant>
-		<ant dir="${dtp.oda.design}" antfile="BuildOdaDesign.xml" target="Jar" inheritAll="false">
+		<ant dir="${dtp.oda.design}" antfile="build.xml" target="Jar" inheritAll="false">
 			<property name="dtp.home" value="${dtp.home}"/>
 		</ant>
 	</target>	
