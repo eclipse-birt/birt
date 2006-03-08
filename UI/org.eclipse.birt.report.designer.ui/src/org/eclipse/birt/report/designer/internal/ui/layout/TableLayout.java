@@ -40,6 +40,7 @@ import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * The layout manager for Table report element
@@ -171,6 +172,20 @@ public class TableLayout extends XYLayout
 
 		setConstraint( container, data );
 		needlayout = false;
+		int containerWidth = getOwner( ).getFigure( ).getParent( )
+		.getClientArea( ).getSize( ).width;
+
+		if ( containerWidth < 0 )
+		{			
+			Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+				public void run( )
+				{  
+					getOwner().markDirty(true, true);
+				}
+			} );
+			return;
+		}
 		reselect();
 	}
 	
