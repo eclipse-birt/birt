@@ -12,6 +12,7 @@
 package org.eclipse.birt.core.archive;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
@@ -27,19 +28,20 @@ public class FileArchiveReader implements IDocArchiveReader
 	private RandomAccessFile file = null;
 	private HashMap lookupMap = new HashMap( );
 
-	/**
-	 * @param absolute
-	 *            fileName the name of the archive
+	/** 
+	 * @param fileName - the absolute name of the file archive
 	 */
 	public FileArchiveReader( String fileName ) throws IOException
 	{
 		if ( fileName == null ||
 			 fileName.length() == 0 )
-			throw new IOException("The file name is null or empty string.");
+			throw new IOException("The file archive name is null or empty string.");
 
 		File fd = new File( fileName );
-		fileName = fd.getCanonicalPath( ); // make sure the file name is an absolute path
-		this.fileName = fileName;
+		if ( !fd.isFile() )
+			throw new IOException("The specified name is not a file name. The FileArchiveReader is expecting a valid file archive name.");
+
+		this.fileName = fd.getCanonicalPath( ); // make sure the file name is an absolute path		
 	}
 
 	/*
@@ -148,6 +150,74 @@ public class FileArchiveReader implements IDocArchiveReader
 		}
 
 		return streamList;
+	}
+
+	/**
+	 * Explode the existing compound file archive to a folder that contains corresponding files in it.
+	 * NOTE: The original file archive will NOT be deleted. However, if the specified folder archive exists already, its old content will be totally erased first. 
+	 * @param folderArchiveName - the name of the folder archive.
+	 * @throws IOException
+	 */
+	public void expandFileArchive( String folderArchiveName ) throws IOException
+	{
+		File folder = new File( folderArchiveName );
+		folderArchiveName = folder.getCanonicalPath( );
+		
+		ArchiveUtil.DeleteAllFiles( folder ); // Clean up the folder if it exists.					
+		folder.mkdirs(); 					  // Create archive folder
+				
+		List streamList = getAllStreams();
+		for ( int i=0; i<streamList.size(); i++ )
+		{
+			String streamPath = (String)streamList.get( i );
+			RAInputStream in = getStream( streamPath );
+			
+			String newFileName = ArchiveUtil.generateFullPath( folderArchiveName, streamPath );
+			File fd = new File( newFileName );
+			ArchiveUtil.createParentFolder( fd );
+			FileOutputStream out = new FileOutputStream( fd );
+			
+			copyFileFromTheArchive( in, out );
+		}
+	}
+
+	/**
+	 * @return the list of all the streams in the file archive. The returnd list contains the stream paths within the file archive.
+	 */
+	private List getAllStreams()
+	{
+		ArrayList streamList = new ArrayList( );
+		
+		// loop through the lookup map
+		Iterator entryIter = lookupMap.entrySet( ).iterator( );
+		while ( entryIter.hasNext( ) )
+		{
+			Map.Entry entry = (Map.Entry) entryIter.next( );
+			String relativePath = (String) entry.getKey( );
+			streamList.add( relativePath );
+		}
+		
+		return streamList;
+	}
+
+	/**
+	 * Copy a file from compound FileArchive (RAInputStream) to a regular file (FileOutputStream) 
+	 * @param in - RAInputStream in the file archive
+	 * @param out - FileOutputStream of the output file
+	 * @throws IOException
+	 */
+	private void copyFileFromTheArchive( RAInputStream in, FileOutputStream out ) throws IOException
+	{	
+	    byte[] buf = new byte[1024 * 5]; // 5K buffer
+	    
+	    int i = 0;
+	    while( (i=in.read(buf))!=-1 ) 
+	    {
+	      out.write( buf, 0, i );
+	    }
+	    
+	    in.close();
+	    out.close();
 	}
 
 }

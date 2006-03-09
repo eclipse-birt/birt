@@ -48,6 +48,15 @@ public interface IDocArchiveWriter {
 	public RAOutputStream createRandomAccessStream(String relativePath) throws IOException;
 	
 	/**
+	 * Delete a stream from the archive. 
+	 * Note: Not all of the derived classes support this function. E.g. FileArchiveWriter doesn't support it.  
+	 * @param relativePath - the relative path of the stream
+	 * @return whether the operation was successful
+	 * @throws IOException
+	 */
+	public boolean dropStream( String relativePath );
+	
+	/**
 	 * @param relativePath - the relative stream path in the archive. 
 	 * The relative path is based on Unix syntax, with the root of the archive denoted 
 	 * by "/". The initial "/" character can be skipped.

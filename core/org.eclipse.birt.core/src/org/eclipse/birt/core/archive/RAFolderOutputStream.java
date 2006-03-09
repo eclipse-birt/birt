@@ -11,40 +11,22 @@
 
 package org.eclipse.birt.core.archive;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
 /**
- * This class is to be used by engine host (viewer), but not engine.  
- *
+ * RAOutputStream implementation for folder based report archive  
+ * The implementation is based on Java random acess file.
  */
-public class RAFileOutputStream extends RAOutputStream
+public class RAFolderOutputStream extends RAOutputStream
 {
-	private RandomAccessFile parent;
-	private long startPos; 	// in parentFile, the position of the first character
-	private long endPos;   	// in parentFile, the position of EOF mark (not a valid character in the file)
-	private long cur;		// in current stream, the virtual file pointer (in bytes) in local file
+	private RandomAccessFile randomFile;
 	
-	/**
-	 * @param parentFile - underlying RandomAccess file
-	 * @param startPos - the (global) position of the first character in parentFile 
-	 * @param endPos - the (global) position of EOF mark (not a valid character in the file)
-	 */
-	public RAFileOutputStream( RandomAccessFile parentFile, long startPos )
+	public RAFolderOutputStream( File file ) throws FileNotFoundException
 	{
-		this.parent = parentFile;
-		this.startPos = startPos;
-		this.endPos = startPos;
-		
-		try 
-		{
-			seekParent( 0 );
-		} 
-		catch (IOException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.randomFile = new RandomAccessFile( file, "rw" ); //$NON-NLS-1$
 	}
 
     /**
@@ -65,14 +47,7 @@ public class RAFileOutputStream extends RAOutputStream
      */
 	public void write( int b ) throws IOException 
 	{	
-		seekParent( cur );
-		parent.write( b );
-		
-		long tmp = parent.getFilePointer();
-		if ( tmp > endPos)
-			endPos = tmp;
-		
-		cur++; // since we write a byte, the pointer (in bytes) should be increased by 1
+		randomFile.write( b );		
 	}
 
     /**
@@ -87,14 +62,7 @@ public class RAFileOutputStream extends RAOutputStream
      */
 	public void write(byte b[]) throws IOException
     {
-		seekParent( cur );
-		parent.write( b );
-		
-		long tmp = parent.getFilePointer();
-		if ( tmp > endPos )
-			endPos = tmp;
-		
-		cur += b.length; // since we write a byte, the pointer (in bytes) should be increased by 1    	
+		randomFile.write( b );		
     }
 
     /**
@@ -113,14 +81,7 @@ public class RAFileOutputStream extends RAOutputStream
      */
     public void write(byte b[], int off, int len) throws IOException 
     {
-		seekParent( cur );
-		parent.write( b, off, len );
-		
-		long tmp = parent.getFilePointer();
-		if ( tmp > endPos )
-			endPos = tmp;
-		
-		cur += len; // since we write a byte, the pointer (in bytes) should be increased by 1    	
+		randomFile.write( b, off, len );		
     }
 
 	/**
@@ -136,37 +97,17 @@ public class RAFileOutputStream extends RAOutputStream
      *                   beginning of the stream  
 	 */
 	public void seek( long localPos ) throws IOException 
-	{		
-		seekParent( localPos );
-		cur = localPos;		
+	{
+		randomFile.seek( localPos );
 	}
 
 	/**
-	 * @return the length of the stream
+	 * Close the stream. If the stream is the only one in the underlying file, the file will be close too.
 	 */
-	public long getStreamLength()
-	{
-		return endPos - startPos;
-	}
+    public void close() throws IOException 
+    {
+   		randomFile.close(); // Since the the underlying random access file is created by us, we need to close it
+   		super.close();
+    }
 
-	/**
-	 * Convert the local position to global position.
-	 * @param localPos - the local postion which starts from 0
-	 * @return
-	 */
-	private long localPosToGlobalPos( long localPos )
-	{
-		return localPos + startPos;
-	}
-	
-	/**
-	 * Convert the local position to global position and move the file pointer to there in parent file.
-	 * @param localPos - the local position which starts from 0
-	 * @throws IOException
-	 */
-	private void seekParent( long localPos ) throws IOException
-	{
-		parent.seek( localPosToGlobalPos(localPos) );
-	}
-	
 }

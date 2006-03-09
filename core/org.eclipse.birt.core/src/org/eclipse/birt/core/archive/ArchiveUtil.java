@@ -20,11 +20,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.Enumeration;
+import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
+import com.ibm.icu.text.SimpleDateFormat;
 
 public class ArchiveUtil
 {
@@ -104,7 +107,45 @@ public class ArchiveUtil
 		return path.replace( UNIX_SEPERATOR.charAt(0), File.separator.charAt(0) );
 	}
 
+	/**
+	 * Generate a unique file or folder name which is in the same folder as the originalName 
+	 * @param originalName - the original Name. For example, it could be the name of the file archive
+	 * @return a unique file or folder name which is in the same folder as the originalName
+	 */
+	synchronized public static String generateUniqueFileFolderName( String originalName )
+	{
+		SimpleDateFormat df = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss"); //$NON-NLS-1$
+		String dateTimeString = df.format( new Date() );
+		String folderName = originalName + "_" + dateTimeString; //$NON-NLS-1$
 
+		Random generator = new Random();
+		File folder = new File( folderName );
+		while( folder.exists() )
+		{
+			folderName += generator.nextInt();
+			folder = new File( folderName );
+		}
+		
+		return folderName;
+	}
+	
+	/**
+	 * 	If the parent folder of the file doesn't exsit, create the parent folder. 
+	 */
+	public static void createParentFolder( File fd )
+	{		
+		if ( fd != null && 
+			 fd.getParentFile() != null &&
+			 fd.getParentFile().exists() == false ) 
+		{
+			fd.getParentFile().mkdirs();
+		}
+	}
+	
+	/**
+	 * Recursively delete all the files and folders under dirOrFile
+	 * @param dirOrFile - the File object which could be either a folder or a file.
+	 */
 	public static void DeleteAllFiles( File dirOrFile )
 	{	
 		if ( !dirOrFile.exists() )
