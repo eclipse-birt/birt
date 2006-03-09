@@ -18,7 +18,9 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.text.IDocument;
@@ -44,6 +46,8 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
@@ -373,16 +377,16 @@ public class ExpressionBuilder extends TitleAreaDialog
 		ruler.addDecorator( 0, new LineNumberRulerColumn( ) );
 		sourceViewer = new SourceViewer( composite, ruler, SWT.H_SCROLL
 				| SWT.V_SCROLL );
-//		JSSyntaxContext context = new JSSyntaxContext( );
-//		try
-//		{
-//			context.setVariable( IReportGraphicConstants.REPORT_KEY_WORD,
-//					IReportDesign.class ); //$NON-NLS-1$
-//		}
-//		catch ( ClassNotFoundException e )
-//		{
-//		}
-//		sourceViewer.configure( new JSSourceViewerConfiguration( context ) );
+		// JSSyntaxContext context = new JSSyntaxContext( );
+		// try
+		// {
+		// context.setVariable( IReportGraphicConstants.REPORT_KEY_WORD,
+		// IReportDesign.class ); //$NON-NLS-1$
+		// }
+		// catch ( ClassNotFoundException e )
+		// {
+		// }
+		// sourceViewer.configure( new JSSourceViewerConfiguration( context ) );
 		sourceViewer.configure( new JSSourceViewerConfiguration( ) );
 		// Document doc = new Document( expression );
 		// sourceViewer.setDocument( doc );
@@ -405,6 +409,15 @@ public class ExpressionBuilder extends TitleAreaDialog
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		gd.heightHint = 150;
 		sourceViewer.getControl( ).setLayoutData( gd );
+		if ( Platform.getOS( ).equals( Platform.WS_WIN32 ) )
+		{
+			Font font = sourceViewer.getTextWidget( ).getFont( );
+			FontData data = font.getFontData( )[0];
+			Font newFont = FontManager.getFont( data.getName( ),
+					data.getHeight( ) + 1,
+					data.getStyle( ) );
+			sourceViewer.getTextWidget( ).setFont( newFont );
+		}
 		sourceViewer.getTextWidget( ).addKeyListener( new KeyAdapter( ) {
 
 			public void keyPressed( KeyEvent e )
