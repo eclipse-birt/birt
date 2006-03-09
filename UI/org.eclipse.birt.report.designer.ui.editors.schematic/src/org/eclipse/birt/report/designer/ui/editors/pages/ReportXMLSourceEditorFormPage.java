@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.xml.XMLEditor;
+import org.eclipse.birt.report.designer.internal.ui.editors.util.EditorUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
@@ -78,10 +79,9 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 	public void doSave( IProgressMonitor progressMonitor )
 	{
 		super.doSave( progressMonitor );
-		Object adapter = ( (IEditorPart) this ).getAdapter( IReportProvider.class );
-		if ( adapter != null && isValidModelFile( ) )
+		IReportProvider provider = EditorUtil.getReportProvider( this, getEditorInput( ) );
+		if ( provider != null && isValidModelFile( ) )
 		{
-			IReportProvider provider = (IReportProvider) adapter;
 			ModuleHandle model = provider.getReportModuleHandle( getEditorInput( ),
 					true );
 			SessionHandleAdapter.getInstance( ).setReportDesignHandle( model );

@@ -1,5 +1,4 @@
 /*************************************************************************************
- * Copyright (c) 2004 Actuate Corporation and others.
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,12 +16,17 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.internal.ui.editors.FileReportProvider;
+import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
+import org.eclipse.birt.report.designer.internal.ui.editors.LibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportMultiBookPage;
+import org.eclipse.birt.report.designer.internal.ui.editors.util.EditorUtil;
 import org.eclipse.birt.report.designer.internal.ui.extension.EditorContributorManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.FormPageDef;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -62,7 +66,8 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  * @see IReportEditorPage
  */
 public class MultiPageReportEditor extends AbstractMultiPageEditor implements
-		IPartListener
+		IPartListener,
+		IReportEditor
 {
 
 	private boolean fLastDirtyState;
@@ -157,11 +162,14 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 				.addPartListener( this );
 		site.setSelectionProvider( new FormEditorSelectionProvider( this ) );
 
-		Object adapter = ( (IEditorPart) this ).getAdapter( IReportProvider.class );
-		if ( adapter != null )
+		IReportProvider provider = EditorUtil.getReportProvider( this, input );
+		if ( provider != null && provider.getInputPath( input ) != null )
 		{
-			IReportProvider provider = (IReportProvider) adapter;
 			setPartName( provider.getInputPath( input ).lastSegment( ) );
+		}
+		else
+		{
+			setPartName( input.getName( ) );
 		}
 
 	}
@@ -276,10 +284,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		getActivePageInstance( ).doSaveAs( );
 		setInput( getActivePageInstance( ).getEditorInput( ) );
 		// update site name
-		Object adapter = ( (IEditorPart) this ).getAdapter( IReportProvider.class );
-		if ( adapter != null )
+		IReportProvider provider = EditorUtil.getReportProvider( this,
+				getEditorInput( ) );
+		if ( provider != null )
 		{
-			IReportProvider provider = (IReportProvider) adapter;
 			setPartName( provider.getInputPath( getEditorInput( ) )
 					.lastSegment( ) );
 		}
@@ -295,24 +303,24 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		return getActivePageInstance( ).isSaveAsAllowed( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.forms.editor.FormEditor#isDirty()
-	 */
-	public boolean isDirty( )
-	{
-		fLastDirtyState = computeDirtyState( );
-		return fLastDirtyState;
-	}
-
-	private boolean computeDirtyState( )
-	{
-		IFormPage page = getActivePageInstance( );
-		if ( page != null && page.isDirty( ) )
-			return true;
-		return false;
-	}
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see org.eclipse.ui.forms.editor.FormEditor#isDirty()
+	// */
+	// public boolean isDirty( )
+	// {
+	// fLastDirtyState = computeDirtyState( );
+	// return fLastDirtyState;
+	// }
+	//
+	// private boolean computeDirtyState( )
+	// {
+	// IFormPage page = getActivePageInstance( );
+	// if ( page != null && page.isDirty( ) )
+	// return true;
+	// return false;
+	// }
 
 	/*
 	 * (non-Javadoc)
@@ -321,6 +329,16 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public Object getAdapter( Class type )
 	{
+		if ( type == IReportProvider.class )
+		{
+			return new FileReportProvider( );
+		}
+
+		if ( type == ILibraryProvider.class )
+		{
+			return new LibraryProvider( );
+		}
+
 		if ( type == PalettePage.class )
 		{
 			Object adapter = getPalettePage( );
@@ -550,10 +568,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	{
 		if ( model == null )
 		{
-			Object adapter = ( (IEditorPart) this ).getAdapter( IReportProvider.class );
-			if ( adapter != null )
+			IReportProvider provider = EditorUtil.getReportProvider( this,
+					getEditorInput( ) );
+			if ( provider != null )
 			{
-				IReportProvider provider = (IReportProvider) adapter;
 				model = provider.getReportModuleHandle( getEditorInput( ) );
 				return model;
 			}
@@ -657,9 +675,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public void partClosed( IWorkbenchPart part )
 	{
-		if(part== this)
+		if ( part == this )
 		{
-			SessionHandleAdapter.getInstance( ).clear(getModel( ));
+			SessionHandleAdapter.getInstance( ).clear( getModel( ) );
 		}
 	}
 
@@ -683,7 +701,11 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 	}
 
-	private void handleActivation( )
+	/**
+	 * Tell me, i am activated.
+	 * 
+	 */
+	public void handleActivation( )
 	{
 		if ( fIsHandlingActivation )
 			return;
@@ -759,10 +781,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	{
 		if ( element instanceof IEditorInput )
 		{
-			Object adapter = getAdapter( IReportProvider.class );
-			if ( adapter != null )
+			IReportProvider provider = EditorUtil.getReportProvider( this,
+					getEditorInput( ) );
+			if ( provider != null )
 			{
-				IReportProvider provider = (IReportProvider) adapter;
 				return computeModificationStamp( provider.getInputPath( (IEditorInput) element ) );
 			}
 		}
@@ -786,7 +808,26 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 				.getPartService( )
 				.removePartListener( this );
 		DataSetManager.removeInstance( this.getEditorInput( ) );
+
+		if ( fPalettePage != null )
+		{
+			fPalettePage.dispose( );
+		}
+		if ( outlinePage != null )
+		{
+			outlinePage.dispose( );
+		}
+		if ( dataPage != null )
+		{
+			dataPage.dispose( );
+		}
+
 		super.dispose( );
+	}
+
+	public IEditorPart getEditorPart( )
+	{
+		return this;
 	}
 
 }

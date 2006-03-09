@@ -15,7 +15,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.script.JSEditor;
+import org.eclipse.birt.report.designer.internal.ui.editors.util.EditorUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
@@ -160,14 +162,14 @@ public class ReportScriptFormPage extends ReportFormPage
 	public void doSave( IProgressMonitor monitor )
 	{
 		jsEditor.saveModel( );
-		Object adapter = getAdapter( IReportProvider.class );
-		if ( adapter != null )
+		IReportProvider provider = EditorUtil.getReportProvider( this, getEditorInput( ) );
+		if ( provider != null )
 		{
-			IReportProvider provider = (IReportProvider) adapter;
 			provider.saveReport( getReportModel( ), getEditorInput( ), monitor );
 			firePropertyChange( PROP_DIRTY );
 		}
 		markPageStale( IPageStaleType.NONE );
+		getEditor( ).editorDirtyStateChanged( );
 	}
 
 	/**
@@ -177,11 +179,10 @@ public class ReportScriptFormPage extends ReportFormPage
 	{
 		if ( model == null )
 		{
-			Object adapter = ( (IEditorPart) this ).getAdapter( IReportProvider.class );
-			if ( adapter != null )
+			IReportProvider provider = EditorUtil.getReportProvider( this, getEditorInput( ) );
+			if ( provider != null )
 			{
-				IReportProvider provider = (IReportProvider) adapter;
-				return provider.getReportModuleHandle( getEditorInput( ) );
+				model = provider.getReportModuleHandle( getEditorInput( ) );
 			}
 		}
 		return model;
@@ -192,10 +193,9 @@ public class ReportScriptFormPage extends ReportFormPage
 	 */
 	public void doSaveAs( )
 	{
-		Object adapter = ( (IEditorPart) this ).getAdapter( IReportProvider.class );
-		if ( adapter != null )
+		IReportProvider provider = EditorUtil.getReportProvider( this, getEditorInput( ) );
+		if ( provider != null )
 		{
-			IReportProvider provider = (IReportProvider) adapter;
 			IPath path = provider.getSaveAsPath( getEditorInput( ) );
 
 			final IEditorInput input = provider.createNewEditorInput( path );
@@ -350,7 +350,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	 */
 	public boolean canLeaveThePage( )
 	{
-		jsEditor.saveModel( );
+		jsEditor.saveModelIfNeeds( );
 		return super.canLeaveThePage( );
 	}
 	

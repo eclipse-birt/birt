@@ -47,6 +47,8 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 
 	private int staleType;
 
+	private DataViewTreeViewerPage dataViewPage;
+
 	private ActivityStackListener commandStackListener = new ActivityStackListener( ) {
 
 		public void stackChanged( ActivityStackEvent event )
@@ -256,8 +258,11 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	{
 		if ( adapter == DataViewPage.class )
 		{
-			DataViewTreeViewerPage page = new DataViewTreeViewerPage( getModel( ) );
-			return page;
+			if ( dataViewPage == null )
+			{
+				dataViewPage = new DataViewTreeViewerPage( getModel( ) );
+			}
+			return dataViewPage;
 		}
 		return super.getAdapter( adapter );
 	}
@@ -273,11 +278,12 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 		{
 			setInput( prePage.getEditorInput( ) );
 		}
-		ModuleHandle model = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
-		if ( model != null && getModel() != model)
+		ModuleHandle model = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+		if ( model != null && getModel( ) != model )
 		{
 			Object oldModel = getModel( );
-				
+
 			setModel( model );
 			rebuildReportDesign( oldModel );
 			if ( getModel( ) != null )
@@ -311,8 +317,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 		SessionHandleAdapter.getInstance( ).resetReportDesign( oldModel,
 				getModel( ) );
 
-		SessionHandleAdapter.getInstance( )
-				.setReportDesignHandle( getModel( ) );
+		SessionHandleAdapter.getInstance( ).setReportDesignHandle( getModel( ) );
 
 	}
 

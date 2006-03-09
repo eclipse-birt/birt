@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
+import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -172,6 +173,32 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 							{
 								( (LabelEditPart) cpart ).performDirectEdit( );
 							}
+						}
+					}
+					else if ( part instanceof IReportEditor )
+					{
+						IEditorPart activeEditor = ( (IReportEditor) part ).getEditorPart( );
+						if ( activeEditor instanceof AbstractMultiPageEditor )
+						{
+							IEditorPart epart = ( (AbstractMultiPageEditor) activeEditor ).getActivePageInstance( );
+
+							if ( epart instanceof GraphicalEditorWithFlyoutPalette )
+							{
+								GraphicalViewer viewer = ( (GraphicalEditorWithFlyoutPalette) epart ).getGraphicalViewer( );
+								Object cpart = viewer.getEditPartRegistry( )
+										.get( element );
+
+								if ( cpart instanceof EditPart )
+								{
+									viewer.flush( );
+									viewer.select( (EditPart) cpart );
+								}
+
+								if ( edit && cpart instanceof LabelEditPart )
+								{
+									( (LabelEditPart) cpart ).performDirectEdit( );
+								}
+							}		
 						}
 					}
 				}

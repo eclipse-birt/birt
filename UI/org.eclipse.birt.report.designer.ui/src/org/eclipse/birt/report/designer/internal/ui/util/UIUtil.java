@@ -20,10 +20,12 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportLibraryDialog;
+import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
@@ -59,6 +61,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
@@ -83,6 +86,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.ILayoutExtension;
 import org.osgi.framework.Bundle;
@@ -114,7 +118,7 @@ public class UIUtil
 	 * @return the current active report editor, or null if no report editor is
 	 *         active.
 	 */
-	public static AbstractMultiPageEditor getActiveReportEditor( )
+	public static FormEditor getActiveReportEditor( )
 	{
 		return getActiveReportEditor( true );
 	}
@@ -130,8 +134,7 @@ public class UIUtil
 	 * @return the current active report editor, or null if no report editor is
 	 *         active.
 	 */
-	public static AbstractMultiPageEditor getActiveReportEditor(
-			boolean activePageOnly )
+	public static FormEditor getActiveReportEditor( boolean activePageOnly )
 	{
 		IWorkbenchWindow window = PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( );
@@ -148,9 +151,17 @@ public class UIUtil
 
 					if ( editor != null )
 					{
-						if ( editor instanceof AbstractMultiPageEditor )
+						if ( editor instanceof IReportEditor )
 						{
-							return (AbstractMultiPageEditor) editor;
+							IEditorPart part = ( (IReportEditor) editor ).getEditorPart( );
+							if ( part instanceof FormEditor )
+							{
+								return (FormEditor) part;
+							}
+						}
+						else if ( editor instanceof FormEditor )
+						{
+							return (FormEditor) editor;
 						}
 					}
 				}
@@ -167,9 +178,17 @@ public class UIUtil
 					{
 						IEditorPart editor = pg.getActiveEditor( );
 
-						if ( editor instanceof AbstractMultiPageEditor )
+						if ( editor instanceof IReportEditor )
 						{
-							return (AbstractMultiPageEditor) editor;
+							IEditorPart part = ( (IReportEditor) editor ).getEditorPart( );
+							if ( part instanceof FormEditor )
+							{
+								return (FormEditor) part;
+							}
+						}
+						else if ( editor instanceof FormEditor )
+						{
+							return (FormEditor) editor;
 						}
 					}
 				}
@@ -439,10 +458,25 @@ public class UIUtil
 	 */
 	public static EditPartViewer getLayoutEditPartViewer( )
 	{
-		AbstractMultiPageEditor reportEditor = (AbstractMultiPageEditor) PlatformUI.getWorkbench( )
+		IEditorPart part = PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( )
 				.getActivePage( )
 				.getActiveEditor( );
+
+		AbstractMultiPageEditor reportEditor = null;
+		if ( part instanceof AbstractMultiPageEditor )
+		{
+			reportEditor = (AbstractMultiPageEditor)part;
+		}
+		else if ( part instanceof IReportEditor )
+		{
+			IEditorPart activeEditor = ( (IReportEditor) part ).getEditorPart( );
+			if ( activeEditor instanceof AbstractMultiPageEditor )
+			{
+				reportEditor = (AbstractMultiPageEditor) activeEditor;
+			}
+		}
+
 		if ( reportEditor == null
 				|| !( reportEditor.getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette ) )
 		{
@@ -976,11 +1010,11 @@ public class UIUtil
 			moduleHandle.includeLibrary( DEUtil.getRelativedPath( moduleHandle.getFileName( ),
 					libraryPath ),
 					namespace );
-//			ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
-//					MessageFormat.format( MSG_DIALOG_MSG, new String[]{
-//						libraryPath
-//					} ),
-//					SWT.ICON_INFORMATION );
+			// ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
+			// MessageFormat.format( MSG_DIALOG_MSG, new String[]{
+			// libraryPath
+			// } ),
+			// SWT.ICON_INFORMATION );
 			return true;
 		}
 		return false;

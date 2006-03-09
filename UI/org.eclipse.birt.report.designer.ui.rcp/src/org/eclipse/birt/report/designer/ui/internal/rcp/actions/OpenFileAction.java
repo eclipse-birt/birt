@@ -13,8 +13,8 @@ package org.eclipse.birt.report.designer.ui.internal.rcp.actions;
 
 import java.io.File;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.ui.rcp.nls.DesignerWorkbenchMessages;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Platform;

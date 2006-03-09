@@ -41,7 +41,7 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="org.eclipse.birt.report.designer.ui.editors.IDEMultiPageReportEditor"
+            class="org.eclipse.birt.report.designer.ui.editors.ReportEditorProxy"
             contributorClass="org.eclipse.birt.report.designer.internal.ui.editors.DesignerActionBarContributor"
             default="false"
             extensions="rptdesign"
@@ -49,7 +49,7 @@
             id="org.eclipse.birt.report.designer.ui.editors.ReportEditor"
             name="%ReportEditor"/>
       <editor
-            class="org.eclipse.birt.report.designer.ui.editors.IDEMultiPageReportEditor"
+            class="org.eclipse.birt.report.designer.ui.editors.ReportEditorProxy"
             contributorClass="org.eclipse.birt.report.designer.internal.ui.editors.DesignerActionBarContributor"
             default="false"
             extensions="rpttemplate"
@@ -57,7 +57,7 @@
             id="org.eclipse.birt.report.designer.ui.editors.TemplateEditor"
             name="%TemplateEditor"/>
       <editor
-            class="org.eclipse.birt.report.designer.ui.editors.IDEMultiPageReportEditor"
+            class="org.eclipse.birt.report.designer.ui.editors.ReportEditorProxy"
             contributorClass="org.eclipse.birt.report.designer.internal.ui.editors.DesignerActionBarContributor"
             default="false"
             extensions="rptlibrary"
@@ -158,8 +158,8 @@
       </factory>
       <factory
             adaptableType="org.eclipse.ui.IEditorPart"
-            class="org.eclipse.birt.report.designer.internal.ui.ide.adapters.ReportProviderFactory">
-         <adapter type="org.eclipse.birt.report.designer.ui.editors.IReportProvider"/>
+            class="org.eclipse.birt.report.designer.internal.ui.ide.adapters.ReportProviderFactoryAdapterFactory">
+         <adapter type="org.eclipse.birt.report.designer.ui.editors.IReportProviderFactory"/>
       </factory>
       <factory
             adaptableType="org.eclipse.ui.IEditorPart"

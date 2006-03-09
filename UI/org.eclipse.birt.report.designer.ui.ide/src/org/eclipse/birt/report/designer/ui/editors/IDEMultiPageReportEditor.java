@@ -14,6 +14,9 @@ package org.eclipse.birt.report.designer.ui.editors;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.ide.adapters.FileReportProvider;
+import org.eclipse.birt.report.designer.internal.ui.ide.adapters.LibraryProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -50,6 +53,8 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 	private static final String DLG_SAVE_CONFIRM_DELETE = Messages.getString( "ReportEditor.Dlg.Confirm" ); //$NON-NLS-1$
 
 	private static final String DLG_SAVE_TITLE = Messages.getString( "ReportEditor.Dlg.Save" ); //$NON-NLS-1$
+
+	private boolean isWorkspaceResource = false;
 
 	private ResourceTracker resourceListener = new ResourceTracker( );
 
@@ -170,7 +175,7 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 				// {
 				// try
 				// {
-				// 		refreshMarkers( getEditorInput( ) );
+				// refreshMarkers( getEditorInput( ) );
 				// }
 				// catch ( CoreException e )
 				// {
@@ -186,7 +191,7 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		private void setAllInput( FileEditorInput input )
 		{
 			setInput( input );
-			if ( getEditorInput( ) != null )
+			if ( getEditorInput( ) instanceof IFileEditorInput )
 			{
 				setPartName( getEditorInput( ).getName( ) );
 			}
@@ -204,6 +209,7 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 
 	protected void setInput( IEditorInput input )
 	{
+
 		// The workspace never changes for an editor. So, removing and re-adding
 		// the
 		// resourceListener is not necessary. But it is being done here for the
@@ -211,15 +217,17 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		// of proper implementation. Plus, the resourceListener needs to be
 		// added
 		// to the workspace the first time around.
-		if ( getEditorInput( ) != null )
+		if ( isWorkspaceResource )
 		{
 			getFile( getEditorInput( ) ).getWorkspace( )
 					.removeResourceChangeListener( resourceListener );
 		}
 
+		isWorkspaceResource = input instanceof IFileEditorInput;
+
 		super.setInput( input );
 
-		if ( getEditorInput( ) != null )
+		if ( isWorkspaceResource )
 		{
 			getFile( getEditorInput( ) ).getWorkspace( )
 					.addResourceChangeListener( resourceListener );
@@ -228,69 +236,73 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 
 	private IFile getFile( IEditorInput editorInput )
 	{
-		if ( editorInput instanceof FileEditorInput )
+		if ( isWorkspaceResource )
 		{
-			return ( (FileEditorInput) editorInput ).getFile( );
+			return ( (IFileEditorInput) editorInput ).getFile( );
 		}
 		return null;
 	}
 
 	public void partActivated( IWorkbenchPart part )
 	{
-		super.partActivated(part );
+		super.partActivated( part );
 		if ( part != this )
 
 			return;
-
-		if ( !( (IFileEditorInput) getEditorInput( ) ).getFile( ).exists( ) )
+		if ( isWorkspaceResource )
 		{
-
-			Shell shell = getSite( ).getShell( );
-
-			String title = DLG_SAVE_TITLE;
-
-			String message = DLG_SAVE_CONFIRM_DELETE;
-
-			String[] buttons = {
-					DLG_SAVE_BUTTON_SAVE,
-					DLG_SAVE_BUTTON_CLOSE
-			};
-
-			MessageDialog dialog = new MessageDialog( shell,
-					title,
-					null,
-					message,
-					MessageDialog.QUESTION,
-					buttons,
-					0 );
-
-			if ( dialog.open( ) == 0 )
+			if ( !( (IFileEditorInput) getEditorInput( ) ).getFile( ).exists( ) )
 			{
-				doSaveAs( );
-				partActivated( part );
-			}
 
-			else
-			{
-				closeEditor( false );
-			}
+				Shell shell = getSite( ).getShell( );
 
+				String title = DLG_SAVE_TITLE;
+
+				String message = DLG_SAVE_CONFIRM_DELETE;
+
+				String[] buttons = {
+						DLG_SAVE_BUTTON_SAVE, DLG_SAVE_BUTTON_CLOSE
+				};
+
+				MessageDialog dialog = new MessageDialog( shell,
+						title,
+						null,
+						message,
+						MessageDialog.QUESTION,
+						buttons,
+						0 );
+
+				if ( dialog.open( ) == 0 )
+				{
+					doSaveAs( );
+					partActivated( part );
+				}
+
+				else
+				{
+					closeEditor( false );
+				}
+
+			}
 		}
 	}
-	
+
 	protected void addPages( )
 	{
 		super.addPages( );
-		try
+		if ( isWorkspaceResource )
 		{
-			refreshMarkers(getEditorInput( ));
-		}
-		catch ( CoreException e )
-		{
-			e.printStackTrace();
+			try
+			{
+				refreshMarkers( getEditorInput( ) );
+			}
+			catch ( CoreException e )
+			{
+				e.printStackTrace( );
+			}
 		}
 	}
-	
+
 	/**
 	 * Deletes existed problem markers and adds new markers
 	 * 
@@ -304,8 +316,8 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		file.deleteMarkers( IMarker.PROBLEM, true, IResource.DEPTH_INFINITE );
 
 		// Adds markers
-		ModuleHandle reportDesignHandle =  getModel( );
-		if(reportDesignHandle== null)
+		ModuleHandle reportDesignHandle = getModel( );
+		if ( reportDesignHandle == null )
 		{
 			return;
 		}
@@ -328,34 +340,31 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 			marker.setAttribute( IMarker.LOCATION, errorDetail.getTagName( ) );
 		}
 	}
-	
+
 	public void doSave( IProgressMonitor monitor )
 	{
 		super.doSave( monitor );
 		try
 		{
-			refreshMarkers(getEditorInput( ));
+			refreshMarkers( getEditorInput( ) );
 		}
 		catch ( CoreException e )
 		{
-			e.printStackTrace();
 		}
 	}
-	
+
 	public void dispose( )
 	{
 		try
 		{
-			clearMarkers();
+			clearMarkers( );
 		}
 		catch ( CoreException e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		super.dispose( );
 	}
-	
+
 	/**
 	 * Deletes all markers
 	 * 
@@ -366,9 +375,20 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		IResource resource = getFile( getEditorInput( ) );
 		if ( resource.exists( ) )
 		{
-			resource.deleteMarkers( IMarker.PROBLEM,
-					true,
-					IResource.DEPTH_ONE );
+			resource.deleteMarkers( IMarker.PROBLEM, true, IResource.DEPTH_ONE );
 		}
+	}
+
+	public Object getAdapter( Class type )
+	{
+		if ( type == IReportProvider.class && isWorkspaceResource )
+		{
+			return FileReportProvider.getInstance( );
+		}
+		if ( type == ILibraryProvider.class )
+		{
+			return new LibraryProvider();
+		}
+		return super.getAdapter( type );
 	}
 }

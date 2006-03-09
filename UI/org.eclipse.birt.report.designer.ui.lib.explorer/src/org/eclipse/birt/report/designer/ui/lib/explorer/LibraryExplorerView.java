@@ -89,8 +89,8 @@ public class LibraryExplorerView extends PageBookView
 	 */
 	protected PageRec doCreatePage( IWorkbenchPart part )
 	{
-		if ( part instanceof AbstractMultiPageEditor )
-		{
+//		if ( part instanceof AbstractMultiPageEditor )
+//		{
 			IEditorPart editor = UIUtil.getActiveEditor( true );
 			if ( editor != null )
 			{
@@ -101,7 +101,7 @@ public class LibraryExplorerView extends PageBookView
 				page.createControl( getPageBook( ) );
 				return new PageRec( part, page );
 			}
-		}
+//		}
 		return null;
 	}
 

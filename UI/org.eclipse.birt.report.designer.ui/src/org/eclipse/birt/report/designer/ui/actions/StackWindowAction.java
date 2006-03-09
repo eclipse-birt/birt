@@ -15,6 +15,7 @@ import java.text.MessageFormat;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
+import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
@@ -31,6 +32,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.forms.editor.FormEditor;
 
 /**
  * Undo/Redo action for contribution of toolbar or menu.
@@ -188,6 +190,15 @@ public abstract class StackWindowAction implements
 				{
 					isEnabled = canDo( );
 					break;
+				}
+				else if ( editor instanceof IReportEditor )
+				{
+					IEditorPart activeEditor = ( (IReportEditor) editor ).getEditorPart( );
+					if ( activeEditor instanceof AbstractMultiPageEditor )
+					{
+						isEnabled = canDo( );
+						break;				
+					}
 				}
 			}
 		}
