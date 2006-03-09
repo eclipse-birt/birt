@@ -114,9 +114,9 @@ public class ImageBuilder extends BaseDialog
 
 	private int selectedType = -1;
 
-	private java.util.List dataSetList = null;
+	private java.util.List dataSetList = new ArrayList();
 
-	private java.util.List inputDataSetList = null;
+	private java.util.List inputDataSetList =  new ArrayList();
 	/**
 	 * The constructor.
 	 * 
