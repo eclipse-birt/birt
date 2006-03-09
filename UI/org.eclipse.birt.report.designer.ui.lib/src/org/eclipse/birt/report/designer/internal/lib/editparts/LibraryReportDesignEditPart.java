@@ -15,11 +15,16 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.commands.CreateCommand;
 import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
+import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
+import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.lib.commands.SetCurrentEditModelCommand;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportDesignEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportRootFigure;
 import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
@@ -30,6 +35,9 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.commands.UnexecutableCommand;
+import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -158,7 +166,7 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 					if ( editpart instanceof EditPart )
 					{
 						getViewer( ).flush( );
-						if(! (editpart instanceof EmptyEditPart))
+						if ( !( editpart instanceof EmptyEditPart ) )
 						{
 							getViewer( ).select( (EditPart) editpart );
 						}
@@ -225,5 +233,69 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 			}
 		}
 		return true;
+	}
+
+	protected void createEditPolicies( )
+	{
+		installEditPolicy( EditPolicy.LAYOUT_ROLE,
+				new ReportFlowLayoutEditPolicy( ) {
+
+					protected org.eclipse.gef.commands.Command getCreateCommand(
+							CreateRequest request )
+					{
+						List list = getHost( ).getChildren( );
+						if ( list.size( ) != 0
+								&& !( list.get( 0 ) instanceof EmptyEditPart ) )
+						{
+							return UnexecutableCommand.INSTANCE;
+						}
+						// EditPart after = getInsertionReference( request );
+//						final DesignElementHandle newObject = (DesignElementHandle) request.getExtendedData( )
+//								.get( DesignerConstants.KEY_NEWOBJECT );
+						
+						CreateCommand command = new CreateCommand( request.getExtendedData( ) ) 
+						{
+
+							public void execute( )
+							{
+								super.execute( );
+								Display.getCurrent( )
+										.asyncExec( new Runnable( ) {
+
+											public void run( )
+											{
+												SetCurrentEditModelCommand c = new SetCurrentEditModelCommand( getNewObject() );
+												c.execute( );
+											}
+										} );
+
+							}
+						};
+
+						Object model = this.getHost( ).getModel( );
+						if ( model instanceof ReportElementModel )
+						{
+							command.setParent( ( (ReportElementModel) model ).getSlotHandle( ) );
+						}
+						else if ( model instanceof ListBandProxy )
+						{
+							command.setParent( ( (ListBandProxy) model ).getSlotHandle( ) );
+						}
+						else
+						{
+							command.setParent( model );
+						}
+						// No previous edit part
+						// if ( after != null )
+						// {
+						// command.setAfter( after.getModel( ) );
+						// }
+
+						return command;
+					}
+				} );
+
+		installEditPolicy( EditPolicy.CONTAINER_ROLE,
+				new ReportContainerEditPolicy( ) );
 	}
 }

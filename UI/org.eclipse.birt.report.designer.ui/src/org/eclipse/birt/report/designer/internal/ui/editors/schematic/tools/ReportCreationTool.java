@@ -303,7 +303,7 @@ public class ReportCreationTool extends CreationTool
 		
 		if (getTargetEditPart().getModel() instanceof LibraryHandle)
 		{
-			return true;
+			//return true;
 		}
 		
 		if ( getTargetEditPart( ) != null )

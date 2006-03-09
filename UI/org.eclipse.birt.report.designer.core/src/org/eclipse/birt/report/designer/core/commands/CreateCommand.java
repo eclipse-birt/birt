@@ -54,7 +54,8 @@ public class CreateCommand extends Command
 	 */
 	public void execute( )
 	{
-		DesignElementHandle newObject = (DesignElementHandle) extendsData.get( DesignerConstants.KEY_NEWOBJECT );
+		//DesignElementHandle newObject = (DesignElementHandle) extendsData.get( DesignerConstants.KEY_NEWOBJECT );
+		DesignElementHandle newObject = getNewObject();
 		if ( DesignerConstants.TRACING_COMMANDS )
 		{
 			System.out.println( "CreateCommand >> Starts ... " ); //$NON-NLS-1$
@@ -150,5 +151,13 @@ public class CreateCommand extends Command
 	{
 		this.after = model;
 
+	}
+	
+	/**
+	 * @return
+	 */
+	public DesignElementHandle getNewObject()
+	{
+		return (DesignElementHandle) extendsData.get( DesignerConstants.KEY_NEWOBJECT );
 	}
 }
