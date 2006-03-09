@@ -26,8 +26,8 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.Wizard;
-
 
 /**
  * PublishTemplateWizard
@@ -76,8 +76,18 @@ public class PublishTemplateWizard extends Wizard
 				.getReportDesignHandle( )
 				.getFileName( );
 		String fileName = filePath.substring( filePath.lastIndexOf( File.separator ) + 1 );
-		String targetPath = templateFolderPath + fileName;
-		File targetFile = new File( targetPath );
+		File targetFolder = new File( templateFolderPath );
+		if ( !targetFolder.isDirectory( ) )
+		{
+			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishTemplateAction.wizard.errorTitle" ), //$NON-NLS-1$
+					Messages.getString( "PublishTemplateAction.wizard.notvalidfolder" ) ); //$NON-NLS-1$
+			return true;
+		}
+		if ( !targetFolder.exists( ) )
+		{
+			targetFolder.mkdirs( );
+		}
+		File targetFile = new File( targetFolder, fileName );
 		if ( new File( filePath ).compareTo( targetFile ) == 0 )
 		{
 			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishTemplateAction.wizard.errorTitle" ), //$NON-NLS-1$
@@ -85,7 +95,7 @@ public class PublishTemplateWizard extends Wizard
 			return true;
 		}
 
-		int overwrite = 0;
+		int overwrite = Window.OK;
 		try
 		{
 			if ( targetFile.exists( ) )
@@ -97,7 +107,7 @@ public class PublishTemplateWizard extends Wizard
 				};
 				String question = Messages.getFormattedString( "SaveAsDialog.overwriteQuestion", //$NON-NLS-1$
 						new Object[]{
-							targetPath
+							targetFile.getAbsolutePath( )
 						} );
 				MessageDialog d = new MessageDialog( getShell( ),
 						Messages.getString( "SaveAsDialog.Question" ), //$NON-NLS-1$
@@ -108,9 +118,9 @@ public class PublishTemplateWizard extends Wizard
 						0 );
 				overwrite = d.open( );
 			}
-			if ( overwrite == 0 )
+			if ( overwrite == Window.OK && targetFile.createNewFile( ) )
 			{
-				copyFile( filePath, targetPath );
+				copyFile( filePath, targetFile );
 			}
 		}
 		catch ( IOException e )
@@ -169,10 +179,10 @@ public class PublishTemplateWizard extends Wizard
 		handle.close( );
 	}
 
-	private void copyFile( String in, String out ) throws IOException
+	private void copyFile( String in, File targetFile ) throws IOException
 	{
 		FileInputStream fis = new FileInputStream( in );
-		FileOutputStream fos = new FileOutputStream( out );
+		FileOutputStream fos = new FileOutputStream( targetFile );
 		byte[] buf = new byte[1024];
 		int i = 0;
 		while ( ( i = fis.read( buf ) ) != -1 )
@@ -182,14 +192,14 @@ public class PublishTemplateWizard extends Wizard
 		fis.close( );
 		fos.close( );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#canFinish()
 	 */
-	public boolean canFinish()
-	{		
-		return page.canFinish();
+	public boolean canFinish( )
+	{
+		return page.canFinish( );
 	}
 }
