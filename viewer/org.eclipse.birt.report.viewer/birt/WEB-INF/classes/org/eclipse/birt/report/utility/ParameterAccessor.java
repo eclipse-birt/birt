@@ -24,7 +24,10 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+
+import org.eclipse.birt.core.framework.Platform;
 
 /**
  * Utilites class for all types of URl related operatnios.
@@ -68,6 +71,7 @@ public class ParameterAccessor
 	public static final String INIT_PARAM_LOG_DIR = "BIRT_VIEWER_LOG_DIR"; //$NON-NLS-1$
 	public static final String INIT_PARAM_LOG_LEVEL = "BIRT_VIEWER_LOG_LEVEL"; //$NON-NLS-1$
 	public static final String INIT_PARAM_SCRIPTLIB_DIR = "BIRT_VIEWER_SCRIPTLIB_DIR"; //$NON-NLS-1$
+	public static final String INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY = "WORKING_FOLDER_ACCESS_ONLY"; //$NON-NLS-1$
 
 	/**
 	 * Suffix of report document.
@@ -82,6 +86,12 @@ public class ParameterAccessor
 	 * Current web application locale.
 	 */
 	private static Locale webAppLocale = null;
+
+	/**
+	 * Flag indicating that if user can only access the file in working folder.
+	 */
+
+	private static boolean isWorkingFolderAccessOnly = true;
 
 	/**
 	 * Get bookmark. If page exists, ignore bookmark.
@@ -517,13 +527,13 @@ public class ParameterAccessor
 	public synchronized static void initParameters( ServletConfig config )
 	{
 		// Report root.in the web.xml has higher priority.
-		workingFolder = config.getServletContext( ).getInitParameter(
-				INIT_PARAM_REPORT_DIR );
+		ServletContext context = config.getServletContext( );
+		workingFolder = context.getInitParameter( INIT_PARAM_REPORT_DIR );
 
 		if ( workingFolder == null || workingFolder.trim( ).length( ) <= 0 )
 		{
 			// Use birt dir as default report root.
-			workingFolder = config.getServletContext( ).getRealPath( "/" ); //$NON-NLS-1$
+			workingFolder = context.getRealPath( "/" ); //$NON-NLS-1$
 		}
 
 		// Report root could be empty. .WAR
@@ -535,8 +545,14 @@ public class ParameterAccessor
 					workingFolder.trim( ).length( ) - 1 );
 		}
 
-		webAppLocale = getLocaleFromString( config.getServletContext( )
+		webAppLocale = getLocaleFromString( context
 				.getInitParameter( INIT_PARAM_LOCALE ) );
+
+		isWorkingFolderAccessOnly = Boolean
+				.valueOf(
+						context
+								.getInitParameter( INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY ) )
+				.booleanValue( );
 	}
 
 	/**
@@ -671,9 +687,9 @@ public class ParameterAccessor
 	 */
 	private static String createAbsolutePath( String filePath )
 	{
-		if ( isRelativePath( filePath ) )
+		if ( isWorkingFolderAccessOnly || isRelativePath( filePath ) )
 		{
-			filePath = workingFolder + File.separator + filePath;
+			return workingFolder + File.separator + filePath;
 		}
 		return filePath;
 	}

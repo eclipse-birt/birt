@@ -15,6 +15,12 @@
 		<param-value></param-value>
 	</context-param>
 
+	<!-- If usr can only access the reprot under working folder. Default is true -->
+	<context-param>
+		<param-name>WORKING_FOLDER_ACCESS_ONLY</param-name>
+		<param-value>false</param-value>
+	</context-param>
+
 	<!-- Absolute downloaded image/chart directory. Default to ${birt home}/report/images -->
 	<context-param>
 		<param-name>BIRT_VIEWER_IMAGE_DIR</param-name>
