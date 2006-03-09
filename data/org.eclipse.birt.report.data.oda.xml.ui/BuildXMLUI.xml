@@ -94,6 +94,9 @@
 		<fileset dir="${oda.designer.ui.dir}">
 			<include name="${oda.designer.ui.jar}"/>
 		</fileset>
+		<fileset dir="${oda.connectivity.ui.dir}">
+			<include name="${oda.connectivity.ui.jar}" /> 
+		</fileset>
 
 		<!-- dependend on eclipse due to Plugin class -->
 		<fileset dir="${eclipse.home}/plugins">
@@ -104,6 +107,7 @@
 			<include name="org.eclipse.jface_*.jar"/>
 			<include name="org.eclipse.ui*.jar"/>
 			<include name="org.eclipse.equinox*.jar"/>
+			<include name="org.eclipse.ui*.jar"/>
 		</fileset>
 		
 	</path>
