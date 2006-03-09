@@ -89,7 +89,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.76 $ $Date: 2006/02/16 05:47:54 $
+ * @version $Revision: 1.77 $ $Date: 2006/02/28 07:45:56 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -517,7 +517,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				styleBuffer.delete( 0, styleBuffer.capacity( ) );
 				style = (IStyle) reportDesign.getStyle( n );
-				AttributeBuilder.buildStyle( styleBuffer, style, this, false );
+				AttributeBuilder.buildStyle( styleBuffer, style, this, true );
 				writer.style( Report.PREFIX_STYLE_NAME + n, styleBuffer
 						.toString( ), false );
 			}
@@ -2106,6 +2106,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			style = element.getInlineStyle( );
 		}
 		AttributeBuilder.buildStyle( styleBuffer, style, this, bContainer );
+		if ( element instanceof ITextContent )
+		{
+			AttributeBuilder.buildComputedTextStyle( styleBuffer, element.getComputedStyle( ),this , bContainer );
+		}
 
 		// output in-line style
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );

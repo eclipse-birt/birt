@@ -41,7 +41,7 @@ public class TextLineThroughManager extends IdentifierManager
 
 	public boolean isInheritedProperty( )
 	{
-		return false;
+		return true;
 	}
 
 	public Value getDefaultValue( )

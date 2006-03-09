@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.80 $ $Date: 2006/02/28 03:53:14 $
+ * @version $Revision: 1.81 $ $Date: 2006/03/06 08:58:10 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1649,8 +1649,6 @@ class EngineIRVisitor extends DesignVisitor
 				.setTextIndent( getElementProperty( handle,
 						Style.TEXT_INDENT_PROP ) );
 
-		if ( !isContainer )
-		{
 			style.setTextUnderline( getElementProperty( handle,
 					Style.TEXT_UNDERLINE_PROP ) );
 
@@ -1658,7 +1656,7 @@ class EngineIRVisitor extends DesignVisitor
 					Style.TEXT_LINE_THROUGH_PROP ) );
 			style.setTextOverline( getElementProperty( handle,
 					Style.TEXT_OVERLINE_PROP ) );
-		}
+		
 		style.setLetterSpacing( getElementProperty( handle,
 				Style.LETTER_SPACING_PROP ) );
 		style

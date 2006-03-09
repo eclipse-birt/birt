@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.20 $ $Date: 2005/11/18 06:11:27 $
+ * @version $Revision: 1.21 $ $Date: 2005/12/23 06:37:47 $
  */
 public class AttributeBuilder
 {
@@ -77,6 +77,25 @@ public class AttributeBuilder
 		/*
 		 * style.getNumberAlign(); style.getID(); style.getName();
 		 */
+	}
+	
+	/**
+	 * bug128358
+	 * This method is just like buildStyle.
+	 * But it is used to deal with text-decoration which is inheritable now. 
+	 */
+	public static void buildComputedTextStyle( StringBuffer content, IStyle style,
+			HTMLReportEmitter emitter, boolean bContainer )
+	{
+		if ( style == null )
+		{
+			return;
+		}
+		if ( !bContainer )
+		{
+			buildTextDecoration( content, style.getTextLineThrough( ), style
+					.getTextUnderline( ), style.getTextOverline( ) );
+		}
 	}
 
 	public static void buildStyle( StringBuffer content, IStyle style,
