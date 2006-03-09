@@ -16,8 +16,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
  * Base class for parameter definition. 
@@ -41,7 +41,7 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	
 	protected String 		typeName;
 	
-	protected ReportDesign 	reportDesign;
+	protected ReportDesignHandle	reportDesignHandle;
 	protected Locale 		locale = null;
 	
 	protected ReportElementHandle handle = null;
@@ -49,9 +49,9 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	/**
 	 * @param reportDesign The reportDesign to set.
 	 */
-	public void setReportDesign(ReportDesign reportDesign)
+	public void setReportDesign(ReportDesignHandle reportDesignHandle)
 	{
-		this.reportDesign = reportDesign;
+		this.reportDesignHandle = reportDesignHandle;
 	}
 	
 	/**
@@ -122,7 +122,7 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 		if (displayNameKey == null)
 			return displayName;
 		
-		String ret = reportDesign.getMessage( displayNameKey, 
+		String ret = reportDesignHandle.getMessage( displayNameKey, 
 				(locale == null ) ? Locale.getDefault() : locale);
 		if (ret == null || ret.length() == 0)
 			return displayName;
@@ -150,7 +150,7 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 		if (helpTextKey == null)
 			return helpText;
 		
-		String ret = reportDesign.getMessage( helpTextKey, 
+		String ret = reportDesignHandle.getMessage( helpTextKey, 
 				(locale == null ) ? Locale.getDefault() : locale);
 		if (ret == null || ret.length() == 0)
 			return helpText;

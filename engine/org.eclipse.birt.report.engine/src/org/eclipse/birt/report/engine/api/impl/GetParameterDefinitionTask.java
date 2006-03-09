@@ -47,8 +47,9 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 /**
  * Defines an engine task that handles parameter definition retrieval
  */
-public class GetParameterDefinitionTask extends EngineTask implements
-		IGetParameterDefinitionTask
+public class GetParameterDefinitionTask extends EngineTask
+		implements
+			IGetParameterDefinitionTask
 {
 
 	// stores all parameter definitions. Each task clones the parameter
@@ -82,7 +83,7 @@ public class GetParameterDefinitionTask extends EngineTask implements
 	 */
 	public Collection getParameterDefns( boolean includeParameterGroups )
 	{
-		Collection original = ( ( ReportRunnable ) runnable )
+		Collection original = ( (ReportRunnable) runnable )
 				.getParameterDefns( includeParameterGroups );
 		Iterator iter = original.iterator( );
 
@@ -92,11 +93,12 @@ public class GetParameterDefinitionTask extends EngineTask implements
 
 		while ( iter.hasNext( ) )
 		{
-			ParameterDefnBase pBase = ( ParameterDefnBase ) iter.next( );
+			ParameterDefnBase pBase = (ParameterDefnBase) iter.next( );
 			try
 			{
 				parameterDefns.add( pBase.clone( ) );
-			} catch ( CloneNotSupportedException e ) // This is a Java
+			}
+			catch ( CloneNotSupportedException e ) // This is a Java
 			// exception
 			{
 				log.log( Level.SEVERE, e.getMessage( ), e );
@@ -108,29 +110,30 @@ public class GetParameterDefinitionTask extends EngineTask implements
 			iter = parameterDefns.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				IParameterDefnBase pBase = ( IParameterDefnBase ) iter.next( );
+				IParameterDefnBase pBase = (IParameterDefnBase) iter.next( );
 				if ( pBase instanceof ScalarParameterDefn )
 				{
-					( ( ScalarParameterDefn ) pBase ).setReportDesign( runnable
-							.getDesignHandle( ).getDesign( ) );
-					( ( ScalarParameterDefn ) pBase ).setLocale( locale );
-					( ( ScalarParameterDefn ) pBase ).evaluateSelectionList( );
-				} else if ( pBase instanceof ParameterGroupDefn )
+					( (ScalarParameterDefn) pBase )
+							.setReportDesign( (ReportDesignHandle) runnable
+									.getDesignHandle( ) );
+					( (ScalarParameterDefn) pBase ).setLocale( locale );
+					( (ScalarParameterDefn) pBase ).evaluateSelectionList( );
+				}
+				else if ( pBase instanceof ParameterGroupDefn )
 				{
-					Iterator iter2 = ( ( ParameterGroupDefn ) pBase )
+					Iterator iter2 = ( (ParameterGroupDefn) pBase )
 							.getContents( ).iterator( );
 					while ( iter2.hasNext( ) )
 					{
-						IParameterDefnBase p = ( IParameterDefnBase ) iter2
+						IParameterDefnBase p = (IParameterDefnBase) iter2
 								.next( );
 						if ( p instanceof ScalarParameterDefn )
 						{
-							( ( ScalarParameterDefn ) p )
-									.setReportDesign( runnable
-											.getDesignHandle( ).getDesign( ) );
-							( ( ScalarParameterDefn ) p ).setLocale( locale );
-							( ( ScalarParameterDefn ) p )
-									.evaluateSelectionList( );
+							( (ScalarParameterDefn) p )
+									.setReportDesign( (ReportDesignHandle) runnable
+											.getDesignHandle( ) );
+							( (ScalarParameterDefn) p ).setLocale( locale );
+							( (ScalarParameterDefn) p ).evaluateSelectionList( );
 						}
 					}
 				}
@@ -161,20 +164,21 @@ public class GetParameterDefinitionTask extends EngineTask implements
 			return ret;
 		}
 
-		Collection original = ( ( ReportRunnable ) runnable )
+		Collection original = ( (ReportRunnable) runnable )
 				.getParameterDefns( false );
 		Iterator iter = original.iterator( );
 
 		while ( iter.hasNext( ) )
 		{
-			ParameterDefnBase pBase = ( ParameterDefnBase ) iter.next( );
+			ParameterDefnBase pBase = (ParameterDefnBase) iter.next( );
 			if ( name.equals( pBase.getName( ) ) )
 			{
 				try
 				{
-					ret = ( IParameterDefnBase ) pBase.clone( );
+					ret = (IParameterDefnBase) pBase.clone( );
 					break;
-				} catch ( CloneNotSupportedException e ) // This is a Java
+				}
+				catch ( CloneNotSupportedException e ) // This is a Java
 				// exception
 				{
 					log.log( Level.SEVERE, e.getMessage( ), e );
@@ -187,23 +191,26 @@ public class GetParameterDefinitionTask extends EngineTask implements
 
 			if ( ret instanceof ScalarParameterDefn )
 			{
-				( ( ScalarParameterDefn ) ret ).setReportDesign( runnable
-						.getDesignHandle( ).getDesign( ) );
-				( ( ScalarParameterDefn ) ret ).setLocale( locale );
-				( ( ScalarParameterDefn ) ret ).evaluateSelectionList( );
-			} else if ( ret instanceof ParameterGroupDefn )
+				( (ScalarParameterDefn) ret )
+						.setReportDesign( (ReportDesignHandle) runnable
+								.getDesignHandle( ) );
+				( (ScalarParameterDefn) ret ).setLocale( locale );
+				( (ScalarParameterDefn) ret ).evaluateSelectionList( );
+			}
+			else if ( ret instanceof ParameterGroupDefn )
 			{
-				Iterator iter2 = ( ( ParameterGroupDefn ) ret ).getContents( )
+				Iterator iter2 = ( (ParameterGroupDefn) ret ).getContents( )
 						.iterator( );
 				while ( iter2.hasNext( ) )
 				{
-					IParameterDefnBase p = ( IParameterDefnBase ) iter2.next( );
+					IParameterDefnBase p = (IParameterDefnBase) iter2.next( );
 					if ( p instanceof ScalarParameterDefn )
 					{
-						( ( ScalarParameterDefn ) p ).setReportDesign( runnable
-								.getDesignHandle( ).getDesign( ) );
-						( ( ScalarParameterDefn ) p ).setLocale( locale );
-						( ( ScalarParameterDefn ) p ).evaluateSelectionList( );
+						( (ScalarParameterDefn) p )
+								.setReportDesign( (ReportDesignHandle) runnable
+										.getDesignHandle( ) );
+						( (ScalarParameterDefn) p ).setLocale( locale );
+						( (ScalarParameterDefn) p ).evaluateSelectionList( );
 					}
 				}
 			}
@@ -213,14 +220,14 @@ public class GetParameterDefinitionTask extends EngineTask implements
 
 	public SlotHandle getParameters( )
 	{
-		ReportDesignHandle report = ( ReportDesignHandle ) runnable
+		ReportDesignHandle report = (ReportDesignHandle) runnable
 				.getDesignHandle( );
 		return report.getParameters( );
 	}
 
 	public ParameterHandle getParameter( String name )
 	{
-		ReportDesignHandle report = ( ReportDesignHandle ) runnable
+		ReportDesignHandle report = (ReportDesignHandle) runnable
 				.getDesignHandle( );
 		return report.findParameter( name );
 
@@ -233,8 +240,7 @@ public class GetParameterDefinitionTask extends EngineTask implements
 
 		final HashMap values = new HashMap( );
 		// reset the context parameters
-		new ParameterVisitor( )
-		{
+		new ParameterVisitor( ) {
 
 			boolean visitScalarParameter( ScalarParameterHandle param,
 					Object userData )
@@ -252,7 +258,7 @@ public class GetParameterDefinitionTask extends EngineTask implements
 			{
 				return visitParametersInGroup( group, userData );
 			}
-		}.visit( ( ReportDesignHandle ) runnable.getDesignHandle( ) );
+		}.visit( (ReportDesignHandle) runnable.getDesignHandle( ) );
 		return values;
 	}
 
@@ -268,9 +274,9 @@ public class GetParameterDefinitionTask extends EngineTask implements
 
 	public Object getDefaultValue( String name )
 	{
-		ReportDesignHandle report = ( ReportDesignHandle ) runnable
+		ReportDesignHandle report = (ReportDesignHandle) runnable
 				.getDesignHandle( );
-		ScalarParameterHandle parameter = ( ScalarParameterHandle ) report
+		ScalarParameterHandle parameter = (ScalarParameterHandle) report
 				.findParameter( name );
 		if ( parameter == null )
 		{
@@ -297,9 +303,9 @@ public class GetParameterDefinitionTask extends EngineTask implements
 	{
 		usingParameterValues( );
 
-		ReportDesignHandle report = ( ReportDesignHandle ) this.runnable
+		ReportDesignHandle report = (ReportDesignHandle) this.runnable
 				.getDesignHandle( );
-		ScalarParameterHandle parameter = ( ScalarParameterHandle ) report
+		ScalarParameterHandle parameter = (ScalarParameterHandle) report
 				.findParameter( name );
 		if ( parameter == null )
 		{
@@ -318,7 +324,8 @@ public class GetParameterDefinitionTask extends EngineTask implements
 
 			return createDynamicSelectionChoices( dataSetName, labelExpr,
 					valueExpr, dataType, limit, fixedOrder );
-		} else if ( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC
+		}
+		else if ( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC
 				.equals( selectionType ) )
 		{
 			Iterator iter = parameter.choiceIterator( );
@@ -326,7 +333,7 @@ public class GetParameterDefinitionTask extends EngineTask implements
 			while ( iter.hasNext( ) )
 			{
 
-				SelectionChoiceHandle choice = ( SelectionChoiceHandle ) iter
+				SelectionChoiceHandle choice = (SelectionChoiceHandle) iter
 						.next( );
 
 				String label = report
@@ -368,7 +375,8 @@ public class GetParameterDefinitionTask extends EngineTask implements
 				return DataTypeUtil.toBigDecimal( value );
 			if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( valueType ) )
 				return DataTypeUtil.toDouble( value );
-		} catch ( BirtException e )
+		}
+		catch ( BirtException e )
 		{
 			log.log( Level.SEVERE, e.getLocalizedMessage( ), e );
 		}
@@ -393,7 +401,7 @@ public class GetParameterDefinitionTask extends EngineTask implements
 			boolean fixedOrder )
 	{
 		ArrayList choices = new ArrayList( );
-		ReportDesignHandle report = ( ReportDesignHandle ) this.runnable
+		ReportDesignHandle report = (ReportDesignHandle) this.runnable
 				.getDesignHandle( );
 
 		DataSetHandle dataSet = report.findDataSet( dataSetName );
@@ -413,7 +421,8 @@ public class GetParameterDefinitionTask extends EngineTask implements
 							.createDataSourceDesign( dataSource ) );
 					dataEngine.defineDataSet( adaptor
 							.createDataSetDesign( dataSet ) );
-				} catch ( BirtException e )
+				}
+				catch ( BirtException e )
 				{
 					log.log( Level.SEVERE, e.getMessage( ) );
 				}
@@ -431,7 +440,7 @@ public class GetParameterDefinitionTask extends EngineTask implements
 				Iterator paramIter = dataSet.paramBindingsIterator( );
 				while ( paramIter.hasNext( ) )
 				{
-					ParamBindingHandle binding = ( ParamBindingHandle ) paramIter
+					ParamBindingHandle binding = (ParamBindingHandle) paramIter
 							.next( );
 					String paramName = binding.getParamName( );
 					String paramExpr = binding.getExpression( );
@@ -474,7 +483,8 @@ public class GetParameterDefinitionTask extends EngineTask implements
 					iter.skipToEnd( 1 ); // Skip all of the duplicate values
 
 				}
-			} catch ( BirtException ex )
+			}
+			catch ( BirtException ex )
 			{
 				ex.printStackTrace( );
 			}
@@ -519,7 +529,8 @@ public class GetParameterDefinitionTask extends EngineTask implements
 							.createDataSourceDesign( dataSource ) );
 					dataEngine.defineDataSet( adaptor
 							.createDataSetDesign( dataSet ) );
-				} catch ( BirtException e )
+				}
+				catch ( BirtException e )
 				{
 					log.log( Level.SEVERE, e.getMessage( ) );
 				}
@@ -539,18 +550,16 @@ public class GetParameterDefinitionTask extends EngineTask implements
 					Object param = iter.next( );
 					if ( param instanceof ScalarParameterHandle )
 					{
-						String valueExpString = ( ( ScalarParameterHandle ) param )
+						String valueExpString = ( (ScalarParameterHandle) param )
 								.getValueExpr( );
 						Object valueExpObject = new ScriptExpression(
 								valueExpString );
-						valueMap.put(
-								parameterGroup.getName( )
-										+ "_"
-										+ ( ( ScalarParameterHandle ) param )
-												.getName( ), valueExpObject );
+						valueMap.put( parameterGroup.getName( ) + "_"
+								+ ( (ScalarParameterHandle) param ).getName( ),
+								valueExpObject );
 						queryDefn.getRowExpressions( ).add( valueExpObject );
 
-						String labelExpString = ( ( ScalarParameterHandle ) param )
+						String labelExpString = ( (ScalarParameterHandle) param )
 								.getLabelExpr( );
 
 						if ( labelExpString != null
@@ -560,7 +569,7 @@ public class GetParameterDefinitionTask extends EngineTask implements
 									labelExpString );
 							labelMap.put( parameterGroup.getName( )
 									+ "_"
-									+ ( ( ScalarParameterHandle ) param )
+									+ ( (ScalarParameterHandle) param )
 											.getName( ), labelExpObject );
 							queryDefn.getRowExpressions( ).add( labelExpObject );
 						}
@@ -577,7 +586,8 @@ public class GetParameterDefinitionTask extends EngineTask implements
 				IResultIterator resultIter = result.getResultIterator( );
 				dataCache.put( parameterGroup.getName( ), resultIter );
 				return;
-			} catch ( BirtException ex )
+			}
+			catch ( BirtException ex )
 			{
 				ex.printStackTrace( );
 			}
@@ -615,8 +625,8 @@ public class GetParameterDefinitionTask extends EngineTask implements
 		if ( parameterGroup == null )
 			return Collections.EMPTY_LIST;
 
-		IResultIterator iter = ( IResultIterator ) dataCache
-				.get( parameterGroup.getName( ) );
+		IResultIterator iter = (IResultIterator) dataCache.get( parameterGroup
+				.getName( ) );
 		if ( iter == null )
 			return Collections.EMPTY_LIST;
 
@@ -624,7 +634,7 @@ public class GetParameterDefinitionTask extends EngineTask implements
 		assert ( groupKeyValues.length < slotHandle.getCount( ) );
 		int skipLevel = groupKeyValues.length + 1;
 
-		ScalarParameterHandle requestedParam = ( ScalarParameterHandle ) slotHandle
+		ScalarParameterHandle requestedParam = (ScalarParameterHandle) slotHandle
 				.get( groupKeyValues.length ); // The parameters in
 		// parameterGroup must be scalar
 		// parameters.
@@ -641,10 +651,10 @@ public class GetParameterDefinitionTask extends EngineTask implements
 		// the expression object can be used to get the real value from the
 		// result set.
 		// If we create a new expression object here, it won't work.
-		ScriptExpression labelExpr = ( ScriptExpression ) labelMap
+		ScriptExpression labelExpr = (ScriptExpression) labelMap
 				.get( parameterGroup.getName( ) + "_"
 						+ requestedParam.getName( ) );
-		ScriptExpression valueExpr = ( ScriptExpression ) valueMap
+		ScriptExpression valueExpr = (ScriptExpression) valueMap
 				.get( parameterGroup.getName( ) + "_"
 						+ requestedParam.getName( ) );
 
@@ -659,7 +669,8 @@ public class GetParameterDefinitionTask extends EngineTask implements
 			while ( iter.next( ) )
 			{
 				// startGroupLevel = iter.getStartingGroupLevel();
-				String label = ( labelExpr != null ? iter.getString( labelExpr )
+				String label = ( labelExpr != null
+						? iter.getString( labelExpr )
 						: null );
 				Object value = iter.getValue( valueExpr );
 				// value = convertToType( value, valueType );
@@ -676,7 +687,8 @@ public class GetParameterDefinitionTask extends EngineTask implements
 					break;
 				}
 			}
-		} catch ( BirtException e )
+		}
+		catch ( BirtException e )
 		{
 			e.printStackTrace( );
 		}
@@ -688,7 +700,7 @@ public class GetParameterDefinitionTask extends EngineTask implements
 	private CascadingParameterGroupHandle getCascadingParameterGroup(
 			String name )
 	{
-		ReportDesignHandle report = ( ReportDesignHandle ) runnable
+		ReportDesignHandle report = (ReportDesignHandle) runnable
 				.getDesignHandle( );
 
 		return report.findCascadingParameterGroup( name );
