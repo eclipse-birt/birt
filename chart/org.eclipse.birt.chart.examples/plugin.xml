@@ -21,6 +21,7 @@
       <import plugin="org.eclipse.birt.core.ui"/>
       <import plugin="org.eclipse.birt.chart.ui.extension"/>
       <import plugin="org.eclipse.birt.chart.ui"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
    </requires>
    <extension
          point="org.eclipse.birt.chart.engine.displayservers">
