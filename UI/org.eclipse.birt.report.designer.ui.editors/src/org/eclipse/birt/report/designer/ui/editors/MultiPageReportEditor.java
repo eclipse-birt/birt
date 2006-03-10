@@ -613,13 +613,13 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 							.pushState( );
 				}
 			}
-			if ( getActiveEditor( ) instanceof GraphicalEditorWithFlyoutPalette )
+			if ( getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette )
 			{
-				if ( ( (GraphicalEditorWithFlyoutPalette) getActiveEditor( ) ).getGraphicalViewer( )
+				if ( ( (GraphicalEditorWithFlyoutPalette) getActivePageInstance( ) ).getGraphicalViewer( )
 						.getEditDomain( )
 						.getPaletteViewer( ) != null )
 				{
-					GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) getActiveEditor( );
+					GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) getActivePageInstance( );
 					GraphicalViewer view = editor.getGraphicalViewer( );
 					view.getEditDomain( ).loadDefaultTool( );
 				}
