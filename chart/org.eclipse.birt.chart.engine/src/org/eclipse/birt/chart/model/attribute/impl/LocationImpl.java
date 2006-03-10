@@ -16,7 +16,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -26,11 +25,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getX <em>X</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getY <em>Y</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getX <em>X</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getY <em>Y</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class LocationImpl extends EObjectImpl implements Location
@@ -57,9 +56,9 @@ public class LocationImpl extends EObjectImpl implements Location
 	protected double x = X_EDEFAULT;
 
 	/**
-	 * This is true if the X attribute has been set.
-	 * <!-- begin-user-doc -->
+	 * This is true if the X attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -86,9 +85,9 @@ public class LocationImpl extends EObjectImpl implements Location
 	protected double y = Y_EDEFAULT;
 
 	/**
-	 * This is true if the Y attribute has been set.
-	 * <!-- begin-user-doc -->
+	 * This is true if the Y attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -96,6 +95,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected LocationImpl( )
@@ -105,6 +105,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -114,6 +115,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public double getX( )
@@ -123,6 +125,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setX( double newX )
@@ -142,6 +145,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetX( )
@@ -161,6 +165,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetX( )
@@ -170,6 +175,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public double getY( )
@@ -179,6 +185,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setY( double newY )
@@ -198,6 +205,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetY( )
@@ -217,6 +225,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetY( )
@@ -225,8 +234,8 @@ public class LocationImpl extends EObjectImpl implements Location
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
@@ -242,8 +251,8 @@ public class LocationImpl extends EObjectImpl implements Location
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eSet( int featureID, Object newValue )
@@ -261,8 +270,8 @@ public class LocationImpl extends EObjectImpl implements Location
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eUnset( int featureID )
@@ -280,8 +289,8 @@ public class LocationImpl extends EObjectImpl implements Location
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( int featureID )
@@ -298,6 +307,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -424,6 +434,27 @@ public class LocationImpl extends EObjectImpl implements Location
 			return getX( ) == lo.getX( ) && getY( ) == lo.getY( );
 		}
 		return super.equals( obj );
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Location copyInstance( Location src )
+	{
+		if (src == null)
+		{
+			return null;
+		}
+		LocationImpl lo = new LocationImpl( );
+		lo.x = src.getX( );
+		lo.y = src.getY( );
+		lo.xESet = src.isSetX( );
+		lo.yESet = src.isSetY( );
+		return lo;
 	}
 
 } // LocationImpl

@@ -12,12 +12,11 @@
 package org.eclipse.birt.chart.event;
 
 import org.eclipse.birt.chart.computation.Object3D;
-import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
-import org.eclipse.birt.chart.model.attribute.TextAlignment;
-import org.eclipse.birt.chart.model.component.Label;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 
 /**
  * Text3DRenderEvent
@@ -64,13 +63,13 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 		Text3DRenderEvent tre = new Text3DRenderEvent( source );
 		if ( _boBlock != null )
 		{
-			tre.setBlockBounds( (Bounds) EcoreUtil.copy( _boBlock ) );
+			tre.setBlockBounds( BoundsImpl.copyInstance( _boBlock ) );
 		}
 		tre.setAction( _iAction );
 		tre.setTextPosition( _iTextPosition );
 		if ( _la != null )
 		{
-			tre.setLabel( (Label) EcoreUtil.copy( _la ) );
+			tre.setLabel( LabelImpl.copyInstance( _la ) );
 		}
 		if ( object3D != null )
 		{
@@ -78,7 +77,7 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 		}
 		if ( _taBlock != null )
 		{
-			tre.setBlockAlignment( (TextAlignment) EcoreUtil.copy( _taBlock ) );
+			tre.setBlockAlignment( TextAlignmentImpl.copyInstance( _taBlock ) );
 		}
 		return tre;
 	}

@@ -18,6 +18,8 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -118,14 +120,14 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent
 			final Location[] loa = new Location[this._loa.length];
 			for ( int i = 0; i < loa.length; i++ )
 			{
-				loa[i] = (Location) EcoreUtil.copy( _loa[i] );
+				loa[i] = LocationImpl.copyInstance( _loa[i] );
 			}
 			pre.setPoints( loa );
 		}
 
 		if ( _lia != null )
 		{
-			pre.setOutline( (LineAttributes) EcoreUtil.copy( _lia ) );
+			pre.setOutline( LineAttributesImpl.copyInstance( _lia ) );
 		}
 
 		if ( _ifBackground != null )

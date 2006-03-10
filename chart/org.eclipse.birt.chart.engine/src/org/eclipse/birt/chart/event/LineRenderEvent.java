@@ -17,7 +17,8 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 
 /**
  * LineRenderEvent
@@ -120,17 +121,17 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 		LineRenderEvent lre = new LineRenderEvent( source );
 		if ( lia != null )
 		{
-			lre.setLineAttributes( (LineAttributes) EcoreUtil.copy( lia ) );
+			lre.setLineAttributes( LineAttributesImpl.copyInstance( lia ) );
 		}
 
 		if ( loStart != null )
 		{
-			lre.setStart( (Location) EcoreUtil.copy( loStart ) );
+			lre.setStart( LocationImpl.copyInstance( loStart ) );
 		}
 
 		if ( loEnd != null )
 		{
-			lre.setEnd( (Location) EcoreUtil.copy( loEnd ) );
+			lre.setEnd( LocationImpl.copyInstance( loEnd ) );
 		}
 		return lre;
 	}

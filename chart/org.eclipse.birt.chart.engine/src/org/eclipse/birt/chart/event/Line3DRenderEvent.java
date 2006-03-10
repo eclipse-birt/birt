@@ -13,10 +13,9 @@ package org.eclipse.birt.chart.event;
 
 import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.computation.Vector;
-import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 
 /**
  * Line3DRenderEvent
@@ -104,7 +103,7 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 		Line3DRenderEvent lre = new Line3DRenderEvent( source );
 		if ( lia != null )
 		{
-			lre.setLineAttributes( (LineAttributes) EcoreUtil.copy( lia ) );
+			lre.setLineAttributes( LineAttributesImpl.copyInstance( lia ) );
 		}
 		if ( object3D != null )
 		{

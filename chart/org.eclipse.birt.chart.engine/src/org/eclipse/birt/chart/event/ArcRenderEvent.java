@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -233,6 +234,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	 */
 	public final Bounds getBounds( )
 	{
+		// use full boudns temporarialy
 		return getEllipseBounds( );
 
 		// double dMinY = -1, dMinX = -1, dMaxY = -1, dMaxX = -1;
@@ -320,26 +322,26 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 		// );
 	}
 
-	/**
-	 * 
-	 * @param dAngle
-	 * @return
-	 */
-	private static final int getQuadrant( double dAngle )
-	{
-		if ( dAngle < 0 )
-		{
-			dAngle = 360 + dAngle;
-		}
-		if ( dAngle >= 0 && dAngle < 90 )
-			return 1;
-		if ( dAngle >= 90 && dAngle < 180 )
-			return 2;
-		if ( dAngle >= 180 && dAngle < 270 )
-			return 3;
-		else
-			return 4;
-	}
+	// /**
+	// *
+	// * @param dAngle
+	// * @return
+	// */
+	// private static final int getQuadrant( double dAngle )
+	// {
+	// if ( dAngle < 0 )
+	// {
+	// dAngle = 360 + dAngle;
+	// }
+	// if ( dAngle >= 0 && dAngle < 90 )
+	// return 1;
+	// if ( dAngle >= 90 && dAngle < 180 )
+	// return 2;
+	// if ( dAngle >= 180 && dAngle < 270 )
+	// return 3;
+	// else
+	// return 4;
+	// }
 
 	/**
 	 * @return Returns the outline.
@@ -388,7 +390,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 		ArcRenderEvent are = new ArcRenderEvent( source );
 		if ( outline != null )
 		{
-			are.setOutline( (LineAttributes) EcoreUtil.copy( outline ) );
+			are.setOutline( LineAttributesImpl.copyInstance( outline ) );
 		}
 
 		if ( ifBackground != null )
@@ -398,7 +400,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 
 		if ( loTopLeft != null )
 		{
-			are.setTopLeft( (Location) EcoreUtil.copy( loTopLeft ) );
+			are.setTopLeft( LocationImpl.copyInstance( loTopLeft ) );
 		}
 
 		are.setStyle( iStyle );

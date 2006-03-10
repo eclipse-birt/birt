@@ -18,10 +18,10 @@ import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * SeriesRenderingHints
@@ -194,7 +194,7 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 	 */
 	public Bounds getClientAreaBounds( boolean bReduceByInsets )
 	{
-		final Bounds boClientArea = (Bounds) EcoreUtil.copy( pwoa.getBounds( ) );
+		final Bounds boClientArea = BoundsImpl.copyInstance( pwoa.getBounds( ) );
 		if ( bReduceByInsets )
 		{
 			boClientArea.adjust( pwoa.getCellInsets( ) );

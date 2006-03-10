@@ -18,9 +18,12 @@ import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
+import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
+import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * TextRenderEvent
@@ -253,7 +256,10 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 		bo = bo.adjustedInstance( lb.getInsets( ).scaledInstance( dScale ) );
 
 		setBlockBounds( bo );
-		setBlockAlignment( lb.getLabel().getCaption().getFont().getAlignment() );
+		setBlockAlignment( lb.getLabel( )
+				.getCaption( )
+				.getFont( )
+				.getAlignment( ) );
 		setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 		return sPreviousValue;
 	}
@@ -268,21 +274,21 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 		final TextRenderEvent tre = new TextRenderEvent( source );
 		if ( _boBlock != null )
 		{
-			tre.setBlockBounds( (Bounds) EcoreUtil.copy( _boBlock ) );
+			tre.setBlockBounds( BoundsImpl.copyInstance( _boBlock ) );
 		}
 		tre.setAction( _iAction );
 		tre.setTextPosition( _iTextPosition );
 		if ( _la != null )
 		{
-			tre.setLabel( (Label) EcoreUtil.copy( _la ) );
+			tre.setLabel( LabelImpl.copyInstance( _la ) );
 		}
 		if ( _lo != null )
 		{
-			tre.setLocation( (Location) EcoreUtil.copy( _lo ) );
+			tre.setLocation( LocationImpl.copyInstance( _lo ) );
 		}
 		if ( _taBlock != null )
 		{
-			tre.setBlockAlignment( (TextAlignment) EcoreUtil.copy( _taBlock ) );
+			tre.setBlockAlignment( TextAlignmentImpl.copyInstance( _taBlock ) );
 		}
 		return tre;
 	}

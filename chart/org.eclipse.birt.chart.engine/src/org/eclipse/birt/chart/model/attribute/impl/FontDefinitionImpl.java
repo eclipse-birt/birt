@@ -18,7 +18,6 @@ import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -29,18 +28,18 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl#getSize <em>Size</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl#isBold <em>Bold</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl#isItalic <em>Italic</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl#isStrikethrough <em>Strikethrough</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl#isUnderline <em>Underline</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl#isWordWrap <em>Word Wrap</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl#getAlignment <em>Alignment</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl#getRotation <em>Rotation</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl#getName <em>Name</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl#getSize <em>Size</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl#isBold <em>Bold</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl#isItalic <em>Italic</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl#isStrikethrough <em>Strikethrough</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl#isUnderline <em>Underline</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl#isWordWrap <em>Word Wrap</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl#getAlignment <em>Alignment</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl#getRotation <em>Rotation</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
@@ -49,6 +48,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -58,6 +58,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -67,6 +68,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	/**
 	 * The default value of the '{@link #getSize() <em>Size</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSize()
 	 * @generated
 	 * @ordered
@@ -76,6 +78,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	/**
 	 * The cached value of the '{@link #getSize() <em>Size</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSize()
 	 * @generated
 	 * @ordered
@@ -83,9 +86,9 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	protected float size = SIZE_EDEFAULT;
 
 	/**
-	 * This is true if the Size attribute has been set.
-	 * <!-- begin-user-doc -->
+	 * This is true if the Size attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -94,6 +97,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	/**
 	 * The default value of the '{@link #isBold() <em>Bold</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isBold()
 	 * @generated
 	 * @ordered
@@ -103,6 +107,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	/**
 	 * The cached value of the '{@link #isBold() <em>Bold</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isBold()
 	 * @generated
 	 * @ordered
@@ -110,17 +115,18 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	protected boolean bold = BOLD_EDEFAULT;
 
 	/**
-	 * This is true if the Bold attribute has been set.
-	 * <!-- begin-user-doc -->
+	 * This is true if the Bold attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean boldESet = false;
 
 	/**
-	 * The default value of the '{@link #isItalic() <em>Italic</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #isItalic() <em>Italic</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isItalic()
 	 * @generated
 	 * @ordered
@@ -128,8 +134,9 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	protected static final boolean ITALIC_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isItalic() <em>Italic</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #isItalic() <em>Italic</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isItalic()
 	 * @generated
 	 * @ordered
@@ -137,9 +144,9 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	protected boolean italic = ITALIC_EDEFAULT;
 
 	/**
-	 * This is true if the Italic attribute has been set.
-	 * <!-- begin-user-doc
+	 * This is true if the Italic attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -177,8 +184,9 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	protected boolean strikethroughESet = false;
 
 	/**
-	 * The default value of the '{@link #isUnderline() <em>Underline</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #isUnderline() <em>Underline</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isUnderline()
 	 * @generated
 	 * @ordered
@@ -186,8 +194,9 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	protected static final boolean UNDERLINE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isUnderline() <em>Underline</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #isUnderline() <em>Underline</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isUnderline()
 	 * @generated
 	 * @ordered
@@ -195,17 +204,18 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	protected boolean underline = UNDERLINE_EDEFAULT;
 
 	/**
-	 * This is true if the Underline attribute has been set.
-	 * <!-- begin-user-doc
+	 * This is true if the Underline attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean underlineESet = false;
 
 	/**
-	 * The default value of the '{@link #isWordWrap() <em>Word Wrap</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #isWordWrap() <em>Word Wrap</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isWordWrap()
 	 * @generated
 	 * @ordered
@@ -213,8 +223,9 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	protected static final boolean WORD_WRAP_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isWordWrap() <em>Word Wrap</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #isWordWrap() <em>Word Wrap</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isWordWrap()
 	 * @generated
 	 * @ordered
@@ -222,17 +233,18 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	protected boolean wordWrap = WORD_WRAP_EDEFAULT;
 
 	/**
-	 * This is true if the Word Wrap attribute has been set.
-	 * <!-- begin-user-doc
+	 * This is true if the Word Wrap attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean wordWrapESet = false;
 
 	/**
-	 * The cached value of the '{@link #getAlignment() <em>Alignment</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getAlignment() <em>Alignment</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getAlignment()
 	 * @generated
 	 * @ordered
@@ -240,8 +252,9 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	protected TextAlignment alignment = null;
 
 	/**
-	 * The default value of the '{@link #getRotation() <em>Rotation</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getRotation() <em>Rotation</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getRotation()
 	 * @generated
 	 * @ordered
@@ -249,8 +262,9 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	protected static final double ROTATION_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getRotation() <em>Rotation</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getRotation() <em>Rotation</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getRotation()
 	 * @generated
 	 * @ordered
@@ -258,9 +272,9 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	protected double rotation = ROTATION_EDEFAULT;
 
 	/**
-	 * This is true if the Rotation attribute has been set.
-	 * <!-- begin-user-doc
+	 * This is true if the Rotation attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -268,6 +282,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected FontDefinitionImpl( )
@@ -293,6 +308,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -302,6 +318,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String getName( )
@@ -311,6 +328,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setName( String newName )
@@ -327,6 +345,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public float getSize( )
@@ -336,6 +355,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setSize( float newSize )
@@ -355,6 +375,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetSize( )
@@ -374,6 +395,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetSize( )
@@ -383,6 +405,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isBold( )
@@ -392,6 +415,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setBold( boolean newBold )
@@ -411,6 +435,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetBold( )
@@ -430,6 +455,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetBold( )
@@ -439,6 +465,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isItalic( )
@@ -448,6 +475,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setItalic( boolean newItalic )
@@ -467,6 +495,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetItalic( )
@@ -486,6 +515,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetItalic( )
@@ -495,6 +525,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isStrikethrough( )
@@ -504,6 +535,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setStrikethrough( boolean newStrikethrough )
@@ -523,6 +555,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetStrikethrough( )
@@ -542,6 +575,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetStrikethrough( )
@@ -551,6 +585,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isUnderline( )
@@ -560,6 +595,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setUnderline( boolean newUnderline )
@@ -579,6 +615,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetUnderline( )
@@ -598,6 +635,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetUnderline( )
@@ -607,6 +645,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isWordWrap( )
@@ -616,6 +655,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setWordWrap( boolean newWordWrap )
@@ -635,6 +675,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetWordWrap( )
@@ -654,6 +695,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetWordWrap( )
@@ -663,6 +705,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public TextAlignment getAlignment( )
@@ -672,6 +715,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetAlignment( TextAlignment newAlignment,
@@ -696,6 +740,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setAlignment( TextAlignment newAlignment )
@@ -729,6 +774,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public double getRotation( )
@@ -738,6 +784,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setRotation( double newRotation )
@@ -757,6 +804,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetRotation( )
@@ -776,6 +824,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetRotation( )
@@ -784,8 +833,8 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -800,8 +849,8 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
@@ -831,8 +880,8 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eSet( int featureID, Object newValue )
@@ -871,8 +920,8 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eUnset( int featureID )
@@ -911,8 +960,8 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( int featureID )
@@ -944,6 +993,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -1034,6 +1084,39 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	{
 		FontDefinition fd = AttributeFactory.eINSTANCE.createFontDefinition( );
 		fd.setAlignment( AttributeFactory.eINSTANCE.createTextAlignment( ) );
+		return fd;
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static FontDefinition copyInstance( FontDefinition src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+		FontDefinitionImpl fd = new FontDefinitionImpl( );
+		fd.alignment = TextAlignmentImpl.copyInstance( src.getAlignment( ) );
+		fd.bold = src.isBold( );
+		fd.boldESet = src.isSetBold( );
+		fd.italic = src.isItalic( );
+		fd.italicESet = src.isSetItalic( );
+		fd.name = src.getName( );
+		fd.rotation = src.getRotation( );
+		fd.rotationESet = src.isSetRotation( );
+		fd.size = src.getSize( );
+		fd.sizeESet = src.isSetSize( );
+		fd.strikethrough = src.isStrikethrough( );
+		fd.strikethroughESet = src.isSetStrikethrough( );
+		fd.underline = src.isUnderline( );
+		fd.underlineESet = src.isSetUnderline( );
+		fd.wordWrap = src.isWordWrap( );
+		fd.wordWrapESet = src.isSetWordWrap( );
 		return fd;
 	}
 

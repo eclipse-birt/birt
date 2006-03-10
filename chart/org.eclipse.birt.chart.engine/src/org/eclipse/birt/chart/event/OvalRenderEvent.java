@@ -16,6 +16,8 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -102,12 +104,12 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 		final OvalRenderEvent ore = new OvalRenderEvent( source );
 		if ( _bo != null )
 		{
-			ore.setBounds( (Bounds) EcoreUtil.copy( _bo ) );
+			ore.setBounds( BoundsImpl.copyInstance( _bo ) );
 		}
 
 		if ( _lia != null )
 		{
-			ore.setOutline( (LineAttributes) EcoreUtil.copy( _lia ) );
+			ore.setOutline( LineAttributesImpl.copyInstance( _lia ) );
 		}
 
 		if ( _ifBackground != null )

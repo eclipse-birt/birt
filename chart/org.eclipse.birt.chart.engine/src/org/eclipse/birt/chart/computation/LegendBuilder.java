@@ -12,7 +12,10 @@
 package org.eclipse.birt.chart.computation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -32,8 +35,8 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
-import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
+import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
@@ -43,12 +46,12 @@ import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.birt.chart.render.BaseRenderer;
 
 /**
  * A helper class for Legend computation.
  */
-public final class LegendBuilder
+public final class LegendBuilder implements IConstants
 {
 
 	private final double dHorizontalSpacing = 4;
@@ -65,7 +68,8 @@ public final class LegendBuilder
 	}
 
 	/**
-	 * Computes the size of the legend
+	 * Computes the size of the legend. Note the computation relies on the title
+	 * size, so the title block must be layouted first before this.
 	 * 
 	 * @param lg
 	 * @param sea
@@ -80,7 +84,7 @@ public final class LegendBuilder
 		// 2. ONE SERIES PER ARRAYLIST
 		// 3. ALL OTHERS
 
-		Legend lg = cm.getLegend( );
+		final Legend lg = cm.getLegend( );
 		if ( !lg.isSetOrientation( ) )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
@@ -97,12 +101,12 @@ public final class LegendBuilder
 		}
 
 		// INITIALIZATION OF VARS USED IN FOLLOWING LOOPS
-		Orientation orientation = lg.getOrientation( );
-		Direction direction = lg.getDirection( );
-		double maxWrappingSize = lg.getWrappingSize( );
+		final Orientation orientation = lg.getOrientation( );
+		final Direction direction = lg.getDirection( );
+		final double maxWrappingSize = lg.getWrappingSize( );
 
 		Label la = LabelImpl.create( );
-		la.setCaption( (Text) EcoreUtil.copy( lg.getText( ) ) );
+		la.setCaption( TextImpl.copyInstance( lg.getText( ) ) );
 
 		ClientArea ca = lg.getClientArea( );
 		LineAttributes lia = ca.getOutline( );
@@ -120,8 +124,9 @@ public final class LegendBuilder
 				.getValue( ) == LegendItemType.CATEGORIES );
 
 		Series seBase;
+		final List legendItems = new ArrayList( );
 
-		// Get available maximum block width/height.
+		// Get maximum block width/height available
 		Block bl = cm.getBlock( );
 		Bounds boFull = bl.getBounds( ).scaledInstance( dScale );
 		Insets ins = bl.getInsets( ).scaledInstance( dScale );
@@ -144,16 +149,13 @@ public final class LegendBuilder
 
 		// Calculate if minSlice applicable.
 		boolean bMinSliceDefined = false;
-		double dMinSlice = 0;
-		boolean bPercentageMinSlice = false;
 		String sMinSliceLabel = null;
 		boolean bMinSliceApplied = false;
+		int[] filteredMinSliceEntry = null;
 
 		if ( cm instanceof ChartWithoutAxes )
 		{
 			bMinSliceDefined = ( (ChartWithoutAxes) cm ).isSetMinSlice( );
-			dMinSlice = ( (ChartWithoutAxes) cm ).getMinSlice( );
-			bPercentageMinSlice = ( (ChartWithoutAxes) cm ).isMinSlicePercent( );
 			sMinSliceLabel = ( (ChartWithoutAxes) cm ).getMinSliceLabel( );
 			if ( sMinSliceLabel == null || sMinSliceLabel.length( ) == 0 )
 			{
@@ -170,71 +172,82 @@ public final class LegendBuilder
 				&& bPaletteByCategory
 				&& cm instanceof ChartWithoutAxes )
 		{
-			if ( !( (ChartWithoutAxes) cm ).getSeriesDefinitions( ).isEmpty( ) )
+			Map renders = rtc.getSeriesRenderers( );
+
+			if ( renders != null
+					&& !( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
+							.isEmpty( ) )
 			{
 				// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
 				SeriesDefinition sdBase = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
 						.get( 0 );
-
 				SeriesDefinition[] sdOrtho = (SeriesDefinition[]) sdBase.getSeriesDefinitions( )
-						.toArray( );
+						.toArray( new SeriesDefinition[0] );
 
 				DataSetIterator dsiOrtho = null;
-				double dCurrentMinSlice = 0;
+				BaseRenderer br;
+				boolean started = false;
 
-				for ( int i = 0; i < sdOrtho.length && !bMinSliceApplied; i++ )
+				ENTRANCE: for ( int i = 0; i < sdOrtho.length; i++ )
 				{
-					try
+					Series[] alRuntimeSeries = (Series[]) sdOrtho[i].getRunTimeSeries( )
+							.toArray( new Series[0] );
+					for ( int j = 0; j < alRuntimeSeries.length; j++ )
 					{
-						dsiOrtho = new DataSetIterator( ( (Series) sdOrtho[i].getRunTimeSeries( )
-								.get( 0 ) ).getDataSet( ) );
-					}
-					catch ( Exception ex )
-					{
-						throw new ChartException( ChartEnginePlugin.ID,
-								ChartException.RENDERING,
-								ex );
-					}
-
-					// TODO Check dataSet type, throw exception or ignore?.
-
-					if ( bPercentageMinSlice )
-					{
-						double total = 0;
-
-						while ( dsiOrtho.hasNext( ) )
+						try
 						{
-							Object obj = dsiOrtho.next( );
+							dsiOrtho = new DataSetIterator( alRuntimeSeries[j].getDataSet( ) );
 
-							if ( obj instanceof Number )
+							LegendItemRenderingHints lirh = (LegendItemRenderingHints) renders.get( alRuntimeSeries[j] );
+
+							if ( lirh == null )
 							{
-								total += ( (Number) obj ).doubleValue( );
+								filteredMinSliceEntry = null;
+								break ENTRANCE;
 							}
-						}
 
-						dsiOrtho.reset( );
+							br = lirh.getRenderer( );
 
-						dCurrentMinSlice = total * dMinSlice / 100d;
-					}
-					else
-					{
-						dCurrentMinSlice = dMinSlice;
-					}
+							// ask each render for filtered min slice info
+							int[] fsa = br.getFilteredMinSliceEntry( dsiOrtho );
 
-					while ( dsiOrtho.hasNext( ) )
-					{
-						Object obj = dsiOrtho.next( );
-						if ( obj instanceof Number )
-						{
-							double val = ( (Number) obj ).doubleValue( );
-
-							if ( val < dCurrentMinSlice )
+							if ( fsa != null && fsa.length > 0 )
 							{
 								bMinSliceApplied = true;
-								break;
+							}
+
+							if ( !started )
+							{
+								started = true;
+								filteredMinSliceEntry = fsa;
+							}
+							else
+							{
+								// get duplicate indices for all renderers
+								filteredMinSliceEntry = getDuplicateIndices( fsa,
+										filteredMinSliceEntry );
+
+								if ( filteredMinSliceEntry == null
+										|| filteredMinSliceEntry.length == 0 )
+								{
+									filteredMinSliceEntry = null;
+									break ENTRANCE;
+								}
 							}
 						}
+						catch ( Exception ex )
+						{
+							throw new ChartException( ChartEnginePlugin.ID,
+									ChartException.RENDERING,
+									ex );
+						}
 					}
+				}
+
+				// assign a zero-length array for successive convenience
+				if ( filteredMinSliceEntry == null )
+				{
+					filteredMinSliceEntry = new int[0];
 				}
 			}
 		}
@@ -243,27 +256,22 @@ public final class LegendBuilder
 		if ( orientation.getValue( ) == Orientation.VERTICAL )
 		{
 			double dW, dMaxW = 0;
-			double dFullHeight = 0, dExtraWidth = 0, dDeltaHeight;
+			double dRealHeight = 0, dExtraWidth = 0, dDeltaHeight;
 
 			if ( bPaletteByCategory )
 			{
 				SeriesDefinition sdBase = null;
 				if ( cm instanceof ChartWithAxes )
 				{
-					final Axis axPrimaryBase = ( (ChartWithAxes) cm ).getBaseAxes( )[0]; // ONLY
-					// SUPPORT
-					// 1
-					// BASE
-					// AXIS
-					// FOR
-					// NOW
+					// ONLY SUPPORT 1 BASE AXIS FOR NOW
+					final Axis axPrimaryBase = ( (ChartWithAxes) cm ).getBaseAxes( )[0];
 					if ( axPrimaryBase.getSeriesDefinitions( ).isEmpty( ) )
 					{
 						return SizeImpl.create( 0, 0 );
 					}
+					// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
 					sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions( )
-							.get( 0 ); // OK TO ASSUME THAT 1 BASE SERIES
-					// DEFINITION EXISTS
+							.get( 0 );
 				}
 				else if ( cm instanceof ChartWithoutAxes )
 				{
@@ -272,17 +280,12 @@ public final class LegendBuilder
 					{
 						return SizeImpl.create( 0, 0 );
 					}
+					// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
 					sdBase = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
-							.get( 0 ); // OK TO ASSUME THAT 1 BASE SERIES
-					// DEFINITION EXISTS
+							.get( 0 );
 				}
-				seBase = (Series) sdBase.getRunTimeSeries( ).get( 0 ); // OK TO
-				// ASSUME
-				// THAT 1
-				// BASE
-				// RUNTIME
-				// SERIES
-				// EXISTS
+				// OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
+				seBase = (Series) sdBase.getRunTimeSeries( ).get( 0 );
 
 				DataSetIterator dsiBase = null;
 				try
@@ -302,11 +305,20 @@ public final class LegendBuilder
 					fs = sdBase.getFormatSpecifier( );
 				}
 
+				int pos = -1;
 				while ( dsiBase.hasNext( ) )
 				{
-					// TODO filter the not-used legend.
-
 					Object obj = dsiBase.next( );
+
+					pos++;
+
+					// filter the not-used legend.
+					if ( bMinSliceApplied
+							&& Arrays.binarySearch( filteredMinSliceEntry, pos ) >= 0 )
+					{
+						continue;
+					}
+
 					String lgtext = String.valueOf( obj );
 					if ( fs != null )
 					{
@@ -325,8 +337,11 @@ public final class LegendBuilder
 					la.getCaption( ).setValue( lgtext );
 					itm.reuse( la, maxWrappingSize );
 
+					double dFWidth = itm.getFullWidth( );
+					double dFHeight = itm.getFullHeight( );
+
 					dDeltaHeight = insCA.getTop( )
-							+ itm.getFullHeight( )
+							+ dFHeight
 							+ insCA.getBottom( );
 
 					if ( dHeight + dDeltaHeight > dAvailableHeight )
@@ -337,25 +352,35 @@ public final class LegendBuilder
 								+ ( 3 * dItemHeight )
 								/ 2
 								+ dHorizontalSpacing;
-						dWidth = itm.getFullWidth( );
-						dFullHeight = Math.max( dFullHeight, dHeight );
+						dWidth = dFWidth;
+						dRealHeight = Math.max( dRealHeight, dHeight );
 						dHeight = dDeltaHeight;
 					}
 					else
 					{
-						dWidth = Math.max( itm.getFullWidth( ), dWidth );
+						dWidth = Math.max( dFWidth, dWidth );
 						dHeight += dDeltaHeight;
 					}
+
+					legendItems.add( new LegendItemHints( LEGEND_ENTRY,
+							new Point( dExtraWidth, dHeight - dDeltaHeight ),
+							dFWidth,
+							dFHeight,
+							la.getCaption( ).getValue( ),
+							pos ) );
 				}
 
 				// compute the extra MinSlice legend item if applicable.
-				if ( bMinSliceDefined && bMinSliceApplied )
+				if ( bMinSliceApplied )
 				{
 					la.getCaption( ).setValue( sMinSliceLabel );
 					itm.reuse( la, maxWrappingSize );
 
+					double dFWidth = itm.getFullWidth( );
+					double dFHeight = itm.getFullHeight( );
+
 					dDeltaHeight = insCA.getTop( )
-							+ itm.getFullHeight( )
+							+ dFHeight
 							+ insCA.getBottom( );
 
 					if ( dHeight + dDeltaHeight > dAvailableHeight )
@@ -366,15 +391,22 @@ public final class LegendBuilder
 								+ ( 3 * dItemHeight )
 								/ 2
 								+ dHorizontalSpacing;
-						dWidth = itm.getFullWidth( );
-						dFullHeight = Math.max( dFullHeight, dHeight );
+						dWidth = dFWidth;
+						dRealHeight = Math.max( dRealHeight, dHeight );
 						dHeight = dDeltaHeight;
 					}
 					else
 					{
-						dWidth = Math.max( itm.getFullWidth( ), dWidth );
+						dWidth = Math.max( dFWidth, dWidth );
 						dHeight += dDeltaHeight;
 					}
+
+					legendItems.add( new LegendItemHints( LEGEND_MINSLICE_ENTRY,
+							new Point( dExtraWidth, dHeight - dDeltaHeight ),
+							dFWidth,
+							dFHeight,
+							la.getCaption( ).getValue( ),
+							dsiBase.size( ) ) );
 				}
 
 				dWidth += insCA.getLeft( )
@@ -383,13 +415,14 @@ public final class LegendBuilder
 						+ dHorizontalSpacing
 						+ insCA.getRight( )
 						+ dExtraWidth;
-				dHeight = Math.max( dFullHeight, dHeight );
+				dHeight = Math.max( dRealHeight, dHeight );
 			}
-			else if ( direction.getValue( ) == Direction.TOP_BOTTOM ) // (VERTICAL
-			// =>
-			// TB)
+			else if ( direction.getValue( ) == Direction.TOP_BOTTOM )
 			{
+				// (VERTICAL => TB)
+
 				dSeparatorThickness += dVerticalSpacing;
+
 				for ( int j = 0; j < seda.length; j++ )
 				{
 					al = seda[j].getRunTimeSeries( );
@@ -415,10 +448,15 @@ public final class LegendBuilder
 						}
 						la.getCaption( ).setValue( lgtext );
 						itm.reuse( la, maxWrappingSize );
+
 						dW = itm.getFullWidth( );
 
+						double dFHeight = itm.getFullHeight( );
+						double dExtraHeight = 0;
+						String extraText = null;
+
 						dDeltaHeight = insCA.getTop( )
-								+ itm.getFullHeight( )
+								+ dFHeight
 								+ insCA.getBottom( );
 
 						if ( lg.isShowValue( ) )
@@ -455,12 +493,16 @@ public final class LegendBuilder
 									}
 								}
 
-								Label seLabel = (Label) EcoreUtil.copy( se.getLabel( ) );
+								Label seLabel = LabelImpl.copyInstance( se.getLabel( ) );
 								seLabel.getCaption( ).setValue( valueText );
 								itm.reuse( seLabel );
+
 								dW = Math.max( dW, itm.getFullWidth( ) );
 
-								dDeltaHeight += itm.getFullHeight( ) + 2;
+								dExtraHeight = itm.getFullHeight( );
+								extraText = seLabel.getCaption( ).getValue( );
+
+								dDeltaHeight += dExtraHeight + 2;
 							}
 						}
 
@@ -473,7 +515,7 @@ public final class LegendBuilder
 									/ 2
 									+ dHorizontalSpacing;
 							dMaxW = dW;
-							dFullHeight = Math.max( dFullHeight, dHeight );
+							dRealHeight = Math.max( dRealHeight, dHeight );
 							dHeight = dDeltaHeight;
 						}
 						else
@@ -482,12 +524,33 @@ public final class LegendBuilder
 							dHeight += dDeltaHeight;
 						}
 
+						legendItems.add( new LegendItemHints( LEGEND_ENTRY,
+								new Point( dExtraWidth, dHeight - dDeltaHeight ),
+								dW,
+								dFHeight,
+								la.getCaption( ).getValue( ),
+								dExtraHeight,
+								extraText ) );
 					}
 
 					// SETUP HORIZONTAL SEPARATOR SPACING
 					if ( j < seda.length - 1 )
 					{
 						dHeight += dSeparatorThickness;
+
+						legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
+								new Point( dExtraWidth, dHeight
+										- dSeparatorThickness
+										/ 2 ),
+								dMaxW
+										+ insCA.getLeft( )
+										+ insCA.getRight( )
+										+ ( 3 * dItemHeight )
+										/ 2,
+								0,
+								null,
+								0,
+								null ) );
 					}
 				}
 
@@ -500,13 +563,14 @@ public final class LegendBuilder
 						+ dMaxW
 						+ insCA.getRight( )
 						+ dExtraWidth;
-				dHeight = Math.max( dFullHeight, dHeight );
+				dHeight = Math.max( dRealHeight, dHeight );
 			}
-			else if ( direction.getValue( ) == Direction.LEFT_RIGHT ) // (VERTICAL
-			// =>
-			// LR)
+			else if ( direction.getValue( ) == Direction.LEFT_RIGHT )
 			{
+				// (VERTICAL => LR)
+
 				dSeparatorThickness += dHorizontalSpacing;
+
 				for ( int j = 0; j < seda.length; j++ )
 				{
 					al = seda[j].getRunTimeSeries( );
@@ -534,8 +598,13 @@ public final class LegendBuilder
 						itm.reuse( la, maxWrappingSize );
 
 						dW = itm.getFullWidth( );
+
+						double dFHeight = itm.getFullHeight( );
+						double dExtraHeight = 0;
+						String extraText = null;
+
 						dDeltaHeight = insCA.getTop( )
-								+ itm.getFullHeight( )
+								+ dFHeight
 								+ insCA.getBottom( );
 
 						if ( lg.isShowValue( ) )
@@ -572,11 +641,15 @@ public final class LegendBuilder
 									}
 								}
 
-								Label seLabel = (Label) EcoreUtil.copy( se.getLabel( ) );
+								Label seLabel = LabelImpl.copyInstance( se.getLabel( ) );
 								seLabel.getCaption( ).setValue( valueText );
 								itm.reuse( seLabel );
 
 								dW = Math.max( dW, itm.getFullWidth( ) );
+
+								dExtraHeight = itm.getFullHeight( );
+								extraText = seLabel.getCaption( ).getValue( );
+
 								dDeltaHeight += itm.getFullHeight( ) + 2;
 							}
 						}
@@ -590,7 +663,7 @@ public final class LegendBuilder
 									/ 2
 									+ dHorizontalSpacing;
 							dMaxW = dW;
-							dFullHeight = Math.max( dFullHeight, dHeight );
+							dRealHeight = Math.max( dRealHeight, dHeight );
 							dHeight = dDeltaHeight;
 						}
 						else
@@ -599,6 +672,13 @@ public final class LegendBuilder
 							dHeight += dDeltaHeight;
 						}
 
+						legendItems.add( new LegendItemHints( LEGEND_ENTRY,
+								new Point( dExtraWidth, dHeight - dDeltaHeight ),
+								dW,
+								dFHeight,
+								la.getCaption( ).getValue( ),
+								dExtraHeight,
+								extraText ) );
 					}
 
 					dExtraWidth += dMaxW
@@ -608,25 +688,31 @@ public final class LegendBuilder
 							/ 2
 							+ dHorizontalSpacing;
 					dMaxW = 0;
-					dFullHeight = Math.max( dFullHeight, dHeight );
+					dRealHeight = Math.max( dRealHeight, dHeight );
 					dHeight = 0;
 
 					// SETUP VERTICAL SEPARATOR SPACING
 					if ( j < seda.length - 1 )
 					{
 						dExtraWidth += dSeparatorThickness;
+
+						legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
+								new Point( dExtraWidth
+										- dSeparatorThickness
+										/ 2, 0 ),
+								0,
+								dRealHeight,
+								null,
+								0,
+								null ) );
 					}
 				}
 
 				// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING +
 				// MAX ITEM WIDTH + RIGHT INSETS
-				dWidth += insCA.getLeft( )
-						+ ( 3 * dItemHeight / 2 )
-						+ dHorizontalSpacing
-						+ insCA.getRight( )
-						+ dExtraWidth;
+				dWidth += dExtraWidth;
 
-				dHeight = Math.max( dFullHeight, dHeight );
+				dHeight = Math.max( dRealHeight, dHeight );
 			}
 			else
 			{
@@ -643,20 +729,15 @@ public final class LegendBuilder
 		else if ( orientation.getValue( ) == Orientation.HORIZONTAL )
 		{
 			double dH, dMaxH = 0;
-			double dFullWidth = 0, dExtraHeight = 0, dDeltaWidth;
+			double dRealWidth = 0, dExtraHeight = 0, dDeltaWidth;
 
 			if ( bPaletteByCategory )
 			{
 				SeriesDefinition sdBase = null;
 				if ( cm instanceof ChartWithAxes )
 				{
-					final Axis axPrimaryBase = ( (ChartWithAxes) cm ).getBaseAxes( )[0]; // ONLY
-					// SUPPORT
-					// 1
-					// BASE
-					// AXIS
-					// FOR
-					// NOW
+					// ONLY SUPPORT 1 BASE AXIS FOR NOW
+					final Axis axPrimaryBase = ( (ChartWithAxes) cm ).getBaseAxes( )[0];
 					if ( axPrimaryBase.getSeriesDefinitions( ).isEmpty( ) )
 					{
 						throw new ChartException( ChartEnginePlugin.ID,
@@ -665,12 +746,9 @@ public final class LegendBuilder
 								ResourceBundle.getBundle( Messages.ENGINE,
 										xs.getLocale( ) ) );
 					}
+					// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
 					sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions( )
-							.get( 0 ); // OK TO ASSUME
-					// THAT 1 BASE
-					// SERIES
-					// DEFINITION
-					// EXISTS
+							.get( 0 );
 				}
 				else if ( cm instanceof ChartWithoutAxes )
 				{
@@ -683,20 +761,12 @@ public final class LegendBuilder
 								ResourceBundle.getBundle( Messages.ENGINE,
 										xs.getLocale( ) ) );
 					}
+					// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
 					sdBase = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
-							.get( 0 ); // OK TO ASSUME
-					// THAT 1 BASE
-					// SERIES
-					// DEFINITION
-					// EXISTS
+							.get( 0 );
 				}
-				seBase = (Series) sdBase.getRunTimeSeries( ).get( 0 ); // OK TO
-				// ASSUME
-				// THAT 1
-				// BASE
-				// RUNTIME
-				// SERIES
-				// EXISTS
+				// OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
+				seBase = (Series) sdBase.getRunTimeSeries( ).get( 0 );
 
 				DataSetIterator dsiBase = null;
 				try
@@ -716,11 +786,20 @@ public final class LegendBuilder
 					fs = sdBase.getFormatSpecifier( );
 				}
 
+				int pos = -1;
 				while ( dsiBase.hasNext( ) )
 				{
-					// TODO filter the not-used legend.
-
 					Object obj = dsiBase.next( );
+
+					pos++;
+
+					// filter the not-used legend.
+					if ( bMinSliceApplied
+							&& Arrays.binarySearch( filteredMinSliceEntry, pos ) >= 0 )
+					{
+						continue;
+					}
+
 					String lgtext = String.valueOf( obj );
 					if ( fs != null )
 					{
@@ -739,8 +818,11 @@ public final class LegendBuilder
 					la.getCaption( ).setValue( lgtext );
 					itm.reuse( la, maxWrappingSize );
 
+					double dFWidth = itm.getFullWidth( );
+					double dFHeight = itm.getFullHeight( );
+
 					dDeltaWidth = insCA.getLeft( )
-							+ itm.getFullWidth( )
+							+ dFWidth
 							+ ( 3 * dItemHeight )
 							/ 2
 							+ insCA.getRight( );
@@ -751,25 +833,35 @@ public final class LegendBuilder
 								+ insCA.getTop( )
 								+ insCA.getBottom( )
 								+ dVerticalSpacing;
-						dHeight = itm.getFullHeight( );
-						dFullWidth = Math.max( dFullWidth, dWidth );
+						dHeight = dFHeight;
+						dRealWidth = Math.max( dRealWidth, dWidth );
 						dWidth = dDeltaWidth;
 					}
 					else
 					{
-						dHeight = Math.max( itm.getFullHeight( ), dHeight );
+						dHeight = Math.max( dFHeight, dHeight );
 						dWidth += dDeltaWidth;
 					}
+
+					legendItems.add( new LegendItemHints( LEGEND_ENTRY,
+							new Point( dWidth - dDeltaWidth, dExtraHeight ),
+							dFWidth,
+							dFHeight,
+							la.getCaption( ).getValue( ),
+							pos ) );
 				}
 
 				// compute the extra MinSlice legend item if applicable.
-				if ( bMinSliceDefined && bMinSliceApplied )
+				if ( bMinSliceApplied )
 				{
 					la.getCaption( ).setValue( sMinSliceLabel );
 					itm.reuse( la, maxWrappingSize );
 
+					double dFWidth = itm.getFullWidth( );
+					double dFHeight = itm.getFullHeight( );
+
 					dDeltaWidth = insCA.getLeft( )
-							+ itm.getFullWidth( )
+							+ dFWidth
 							+ ( 3 * dItemHeight )
 							/ 2
 							+ insCA.getRight( );
@@ -780,28 +872,36 @@ public final class LegendBuilder
 								+ insCA.getTop( )
 								+ insCA.getBottom( )
 								+ dVerticalSpacing;
-						dHeight = itm.getFullHeight( );
-						dFullWidth = Math.max( dFullWidth, dWidth );
+						dHeight = dFHeight;
+						dRealWidth = Math.max( dRealWidth, dWidth );
 						dWidth = dDeltaWidth;
 					}
 					else
 					{
-						dHeight = Math.max( itm.getFullHeight( ), dHeight );
+						dHeight = Math.max( dFHeight, dHeight );
 						dWidth += dDeltaWidth;
 					}
+
+					legendItems.add( new LegendItemHints( LEGEND_MINSLICE_ENTRY,
+							new Point( dWidth - dDeltaWidth, dExtraHeight ),
+							dFWidth,
+							dFHeight,
+							la.getCaption( ).getValue( ),
+							dsiBase.size( ) ) );
 				}
 
 				dHeight += dExtraHeight
 						+ insCA.getTop( )
 						+ insCA.getBottom( )
 						+ dVerticalSpacing;
-				dWidth = Math.max( dWidth, dFullWidth );
+				dWidth = Math.max( dWidth, dRealWidth );
 			}
-			else if ( direction.getValue( ) == Direction.TOP_BOTTOM ) // (HORIZONTAL
-			// =>
-			// TB)
+			else if ( direction.getValue( ) == Direction.TOP_BOTTOM )
 			{
+				// (HORIZONTAL => TB)
+
 				dSeparatorThickness += dVerticalSpacing;
+
 				for ( int j = 0; j < seda.length; j++ )
 				{
 					dWidth = 0;
@@ -830,11 +930,18 @@ public final class LegendBuilder
 						itm.reuse( la, maxWrappingSize );
 
 						dH = itm.getFullHeight( );
+
+						double dFHeight = dH;
+						double dFWidth = itm.getFullWidth( );
+						double dEHeight = 0;
+						String extraText = null;
+
 						dDeltaWidth = insCA.getLeft( )
 								+ ( 3 * dItemHeight )
 								/ 2
-								+ itm.getFullWidth( )
-								+ insCA.getRight( );
+								+ dFWidth
+								+ insCA.getRight( )
+								+ dHorizontalSpacing;
 
 						if ( lg.isShowValue( ) )
 						{
@@ -870,11 +977,14 @@ public final class LegendBuilder
 									}
 								}
 
-								Label seLabel = (Label) EcoreUtil.copy( se.getLabel( ) );
+								Label seLabel = LabelImpl.copyInstance( se.getLabel( ) );
 								seLabel.getCaption( ).setValue( valueText );
 								itm.reuse( seLabel );
 
-								dH += itm.getFullHeight( ) + 2;
+								dEHeight = itm.getFullHeight( );
+								extraText = seLabel.getCaption( ).getValue( );
+
+								dH += dEHeight + 2;
 								dDeltaWidth = Math.max( dDeltaWidth,
 										itm.getFullWidth( ) );
 							}
@@ -887,7 +997,7 @@ public final class LegendBuilder
 									+ insCA.getBottom( )
 									+ dVerticalSpacing;
 							dMaxH = dH;
-							dFullWidth = Math.max( dFullWidth, dWidth );
+							dRealWidth = Math.max( dRealWidth, dWidth );
 							dWidth = dDeltaWidth;
 						}
 						else
@@ -895,6 +1005,14 @@ public final class LegendBuilder
 							dMaxH = Math.max( dH, dMaxH );
 							dWidth += dDeltaWidth;
 						}
+
+						legendItems.add( new LegendItemHints( LEGEND_ENTRY,
+								new Point( dWidth - dDeltaWidth, dExtraHeight ),
+								dFWidth,
+								dFHeight,
+								la.getCaption( ).getValue( ),
+								dEHeight,
+								extraText ) );
 					}
 
 					dExtraHeight += dMaxH
@@ -902,29 +1020,37 @@ public final class LegendBuilder
 							+ insCA.getBottom( )
 							+ dVerticalSpacing;
 					dMaxH = 0;
-					dFullWidth = Math.max( dFullWidth, dWidth );
+					dRealWidth = Math.max( dRealWidth, dWidth );
 					dWidth = 0;
 
 					// SETUP HORIZONTAL SEPARATOR SPACING
 					if ( j < seda.length - 1 )
 					{
 						dHeight += dSeparatorThickness;
+
+						legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
+								new Point( 0, dExtraHeight
+										- dSeparatorThickness
+										/ 2 ),
+								dRealWidth,
+								0,
+								null,
+								0,
+								null ) );
 					}
 				}
 
-				dHeight += insCA.getTop( )
-						+ dVerticalSpacing
-						+ insCA.getBottom( )
-						+ dExtraHeight;
+				dHeight += dExtraHeight;
 
-				dWidth = Math.max( dFullWidth, dWidth );
+				dWidth = Math.max( dRealWidth, dWidth );
 
 			}
-			else if ( direction.getValue( ) == Direction.LEFT_RIGHT ) // (HORIZONTAL
-			// =>
-			// LR)
+			else if ( direction.getValue( ) == Direction.LEFT_RIGHT )
 			{
+				// (HORIZONTAL => LR)
+
 				dSeparatorThickness += dHorizontalSpacing;
+
 				for ( int j = 0; j < seda.length; j++ )
 				{
 					al = seda[j].getRunTimeSeries( );
@@ -952,11 +1078,18 @@ public final class LegendBuilder
 						itm.reuse( la, maxWrappingSize );
 
 						dH = itm.getFullHeight( );
+
+						double dFHeight = dH;
+						double dFWidth = itm.getFullWidth( );
+						double dEHeight = 0;
+						String extraText = null;
+
 						dDeltaWidth = insCA.getLeft( )
 								+ ( 3 * dItemHeight )
 								/ 2
-								+ itm.getFullWidth( )
-								+ insCA.getRight( );
+								+ dFWidth
+								+ insCA.getRight( )
+								+ dHorizontalSpacing;
 
 						if ( lg.isShowValue( ) )
 						{
@@ -992,11 +1125,14 @@ public final class LegendBuilder
 									}
 								}
 
-								Label seLabel = (Label) EcoreUtil.copy( se.getLabel( ) );
+								Label seLabel = LabelImpl.copyInstance( se.getLabel( ) );
 								seLabel.getCaption( ).setValue( valueText );
 								itm.reuse( seLabel );
 
-								dH += itm.getFullHeight( ) + 2;
+								dEHeight = itm.getFullHeight( );
+								extraText = seLabel.getCaption( ).getValue( );
+
+								dH += dEHeight + 2;
 								dDeltaWidth = Math.max( dDeltaWidth,
 										itm.getFullWidth( ) );
 							}
@@ -1009,7 +1145,7 @@ public final class LegendBuilder
 									+ insCA.getBottom( )
 									+ dVerticalSpacing;
 							dMaxH = dH;
-							dFullWidth = Math.max( dFullWidth, dWidth );
+							dRealWidth = Math.max( dRealWidth, dWidth );
 							dWidth = dDeltaWidth;
 						}
 						else
@@ -1017,12 +1153,29 @@ public final class LegendBuilder
 							dMaxH = Math.max( dH, dMaxH );
 							dWidth += dDeltaWidth;
 						}
+
+						legendItems.add( new LegendItemHints( LEGEND_ENTRY,
+								new Point( dWidth - dDeltaWidth, dExtraHeight ),
+								dFWidth,
+								dFHeight,
+								la.getCaption( ).getValue( ),
+								dEHeight,
+								extraText ) );
 					}
 
 					// SETUP VERTICAL SEPARATOR SPACING
 					if ( j < seda.length - 1 )
 					{
 						dWidth += dSeparatorThickness;
+
+						legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
+								new Point( dWidth - dSeparatorThickness / 2,
+										dExtraHeight ),
+								0,
+								dMaxH,
+								null,
+								0,
+								null ) );
 					}
 				}
 
@@ -1032,7 +1185,7 @@ public final class LegendBuilder
 						+ dMaxH
 						+ dExtraHeight;
 
-				dWidth = Math.max( dFullWidth, dWidth );
+				dWidth = Math.max( dRealWidth, dWidth );
 			}
 			else
 			{
@@ -1060,8 +1213,17 @@ public final class LegendBuilder
 		// consider legend title size.
 		Label lgTitle = lg.getTitle( );
 
+		Size titleSize = null;
+
 		if ( lgTitle != null && lgTitle.isSetVisible( ) && lgTitle.isVisible( ) )
 		{
+			lgTitle = LabelImpl.copyInstance( lgTitle );
+
+			// handle external resource string
+			final String sPreviousValue = lgTitle.getCaption( ).getValue( );
+			lgTitle.getCaption( )
+					.setValue( rtc.externalizedMessage( sPreviousValue ) );
+
 			BoundingBox bb = null;
 			try
 			{
@@ -1074,7 +1236,22 @@ public final class LegendBuilder
 						uiex );
 			}
 
-			switch ( lg.getTitlePosition( ).getValue( ) )
+			int iTitlePos = lg.getTitlePosition( ).getValue( );
+
+			// swap left/right
+			if ( rtc.isRightToLeft( ) )
+			{
+				if ( iTitlePos == Position.LEFT )
+				{
+					iTitlePos = Position.RIGHT;
+				}
+				else if ( iTitlePos == Position.RIGHT )
+				{
+					iTitlePos = Position.LEFT;
+				}
+			}
+
+			switch ( iTitlePos )
 			{
 				case Position.ABOVE :
 				case Position.BELOW :
@@ -1087,21 +1264,81 @@ public final class LegendBuilder
 					dHeight = Math.max( dHeight, bb.getHeight( ) );
 					break;
 			}
+
+			titleSize = SizeImpl.create( bb.getWidth( ), bb.getHeight( ) );
 		}
 
 		itm.dispose( ); // DISPOSE RESOURCE AFTER USE
 
 		if ( rtc != null )
 		{
-			LegendItemLayoutHints lilh = new LegendItemLayoutHints( );
-			
-			lilh.set( SizeImpl.create( dWidth, dHeight ) );
+			LegendItemHints[] liha = (LegendItemHints[]) legendItems.toArray( new LegendItemHints[0] );
 
-			rtc.setLegendItemLayoutHints( lilh );
+			// update context hints here.
+			LegendLayoutHints lilh = new LegendLayoutHints( SizeImpl.create( dWidth,
+					dHeight ),
+					titleSize,
+					bMinSliceApplied,
+					sMinSliceLabel,
+					liha );
+
+			rtc.setLegendLayoutHints( lilh );
 		}
 
 		sz = SizeImpl.create( dWidth, dHeight );
 		return sz;
+	}
+
+	private static int[] getDuplicateIndices( int[] a1, int[] a2 )
+	{
+		if ( a1 == null || a2 == null || a1.length == 0 || a2.length == 0 )
+		{
+			return null;
+		}
+
+		// sort first.
+		Arrays.sort( a1 );
+		Arrays.sort( a2 );
+
+		if ( a1[a1.length - 1] < a2[0] || a1[0] > a2[a2.length - 1] )
+		{
+			return null;
+		}
+
+		// swap to keep a1 have the min length.
+		if ( a1.length > a2.length )
+		{
+			int[] tmp = a1;
+			a1 = a2;
+			a2 = tmp;
+		}
+
+		List dup = new ArrayList( );
+
+		// check duplicate
+		for ( int i = 0; i < a1.length; i++ )
+		{
+			if ( Arrays.binarySearch( a2, a1[i] ) >= 0 )
+			{
+				dup.add( new Integer( a1[i] ) );
+			}
+		}
+
+		if ( dup.size( ) == 0 )
+		{
+			return null;
+		}
+		else
+		{
+			Integer[] ia = (Integer[]) dup.toArray( new Integer[0] );
+			int[] pia = new int[ia.length];
+
+			for ( int i = 0; i < ia.length; i++ )
+			{
+				pia[i] = ia[i].intValue( );
+			}
+			return pia;
+		}
 	}
 
 	/**

@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -156,7 +157,7 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 
 		if ( loc != null )
 		{
-			ire.setLocation( (Location) EcoreUtil.copy( loc ) );
+			ire.setLocation( LocationImpl.copyInstance( loc ) );
 		}
 
 		if ( img != null )

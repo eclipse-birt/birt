@@ -20,7 +20,6 @@ import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -31,20 +30,21 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getValue <em>Value</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getFont <em>Font</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getColor <em>Color</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getValue <em>Value</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getFont <em>Font</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getColor <em>Color</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class TextImpl extends EObjectImpl implements Text
 {
 
 	/**
-	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getValue() <em>Value</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -54,6 +54,7 @@ public class TextImpl extends EObjectImpl implements Text
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -61,8 +62,9 @@ public class TextImpl extends EObjectImpl implements Text
 	protected String value = VALUE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getFont() <em>Font</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getFont() <em>Font</em>}' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getFont()
 	 * @generated
 	 * @ordered
@@ -70,8 +72,9 @@ public class TextImpl extends EObjectImpl implements Text
 	protected FontDefinition font = null;
 
 	/**
-	 * The cached value of the '{@link #getColor() <em>Color</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getColor() <em>Color</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getColor()
 	 * @generated
 	 * @ordered
@@ -80,6 +83,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected TextImpl( )
@@ -89,6 +93,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -98,6 +103,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String getValue( )
@@ -107,6 +113,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setValue( String newValue )
@@ -123,6 +130,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public FontDefinition getFont( )
@@ -132,6 +140,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFont( FontDefinition newFont,
@@ -156,6 +165,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setFont( FontDefinition newFont )
@@ -187,6 +197,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public ColorDefinition getColor( )
@@ -196,6 +207,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetColor( ColorDefinition newColor,
@@ -220,6 +232,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setColor( ColorDefinition newColor )
@@ -250,8 +263,8 @@ public class TextImpl extends EObjectImpl implements Text
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -268,8 +281,8 @@ public class TextImpl extends EObjectImpl implements Text
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
@@ -287,8 +300,8 @@ public class TextImpl extends EObjectImpl implements Text
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eSet( int featureID, Object newValue )
@@ -309,8 +322,8 @@ public class TextImpl extends EObjectImpl implements Text
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eUnset( int featureID )
@@ -331,8 +344,8 @@ public class TextImpl extends EObjectImpl implements Text
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( int featureID )
@@ -352,6 +365,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -392,6 +406,26 @@ public class TextImpl extends EObjectImpl implements Text
 		}
 		tx.setValue( sValue );
 		return tx;
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Text copyInstance( Text src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+		TextImpl txt = new TextImpl( );
+		txt.color = ColorDefinitionImpl.copyInstance( src.getColor( ) );
+		txt.font = FontDefinitionImpl.copyInstance( src.getFont( ) );
+		txt.value = src.getValue( );
+		return txt;
 	}
 
 } // TextImpl

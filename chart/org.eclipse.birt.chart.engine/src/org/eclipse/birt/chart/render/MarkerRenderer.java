@@ -14,13 +14,13 @@ package org.eclipse.birt.chart.render;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.Engine3D;
-import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.Arc3DRenderEvent;
 import org.eclipse.birt.chart.event.ArcRenderEvent;
-import org.eclipse.birt.chart.event.AreaRenderEvent;
 import org.eclipse.birt.chart.event.Area3DRenderEvent;
+import org.eclipse.birt.chart.event.AreaRenderEvent;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.Image3DRenderEvent;
 import org.eclipse.birt.chart.event.ImageRenderEvent;
@@ -35,8 +35,8 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DeferredCache;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
-import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
@@ -47,11 +47,11 @@ import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 public final class MarkerRenderer
 {
@@ -188,7 +188,7 @@ public final class MarkerRenderer
 							iRender.getLocale( ) ) );
 		}
 		final ColorDefinition cd = (ColorDefinition) paletteEntry;
-		final LineAttributes lia = LineAttributesImpl.create( (ColorDefinition) EcoreUtil.copy( cd ),
+		final LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.copyInstance( cd ),
 				LineStyle.SOLID_LITERAL,
 				la.getThickness( ) );
 
@@ -859,48 +859,40 @@ public final class MarkerRenderer
 
 	private void drawCross( IPrimitiveRenderer ipr ) throws ChartException
 	{
-		double offset = Math.floor(  0.5 * iSize );
+		double offset = Math.floor( 0.5 * iSize );
 		if ( bRendering3D )
 		{
 			final Polygon3DRenderEvent pre3d = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 					Polygon3DRenderEvent.class );
 			final Location3D[] loa = new Location3D[12];
-			loa[0] = Location3DImpl.create( lo3d.getX( ) - iSize,
-					lo3d.getY( ) + offset,
-					lo3d.getZ( ) );
-			loa[1] = Location3DImpl.create( lo3d.getX( ) - offset ,
+			loa[0] = Location3DImpl.create( lo3d.getX( ) - iSize, lo3d.getY( )
+					+ offset, lo3d.getZ( ) );
+			loa[1] = Location3DImpl.create( lo3d.getX( ) - offset,
 					lo3d.getY( ),
 					lo3d.getZ( ) );
-			loa[2] = Location3DImpl.create( lo3d.getX( ) - iSize,
+			loa[2] = Location3DImpl.create( lo3d.getX( ) - iSize, lo3d.getY( )
+					- offset, lo3d.getZ( ) );
+			loa[3] = Location3DImpl.create( lo3d.getX( ) - offset, lo3d.getY( )
+					- iSize, lo3d.getZ( ) );
+			loa[4] = Location3DImpl.create( lo3d.getX( ),
 					lo3d.getY( ) - offset,
 					lo3d.getZ( ) );
-			loa[3] = Location3DImpl.create( lo3d.getX( ) - offset,
-					lo3d.getY( ) - iSize,
-					lo3d.getZ( ) );
-			loa[4] = Location3DImpl.create( lo3d.getX( ) ,
-					lo3d.getY( ) - offset,
-					lo3d.getZ( ) );
-			loa[5] = Location3DImpl.create( lo3d.getX( ) + offset,
-					lo3d.getY( ) - iSize,
-					lo3d.getZ( ) );
-			loa[6] = Location3DImpl.create( lo3d.getX( ) + iSize,
-					lo3d.getY( ) - offset,
-					lo3d.getZ( ) );
+			loa[5] = Location3DImpl.create( lo3d.getX( ) + offset, lo3d.getY( )
+					- iSize, lo3d.getZ( ) );
+			loa[6] = Location3DImpl.create( lo3d.getX( ) + iSize, lo3d.getY( )
+					- offset, lo3d.getZ( ) );
 			loa[7] = Location3DImpl.create( lo3d.getX( ) + offset,
 					lo3d.getY( ),
 					lo3d.getZ( ) );
-			loa[8] = Location3DImpl.create( lo3d.getX( ) + iSize,
-					lo3d.getY( ) + offset,
-					lo3d.getZ( ) );
-			loa[9] = Location3DImpl.create( lo3d.getX( ) + offset,
-					lo3d.getY( ) + iSize,
-					lo3d.getZ( ) );
+			loa[8] = Location3DImpl.create( lo3d.getX( ) + iSize, lo3d.getY( )
+					+ offset, lo3d.getZ( ) );
+			loa[9] = Location3DImpl.create( lo3d.getX( ) + offset, lo3d.getY( )
+					+ iSize, lo3d.getZ( ) );
 			loa[10] = Location3DImpl.create( lo3d.getX( ) + offset,
 					lo3d.getY( ),
 					lo3d.getZ( ) );
-			loa[11] = Location3DImpl.create( lo3d.getX( ) - offset,
-					lo3d.getY( ) + iSize,
-					lo3d.getZ( ) );
+			loa[11] = Location3DImpl.create( lo3d.getX( ) - offset, lo3d.getY( )
+					+ iSize, lo3d.getZ( ) );
 			pre3d.setPoints3D( loa );
 			preCopy = pre3d.copy( );
 
@@ -927,8 +919,7 @@ public final class MarkerRenderer
 					- iSize );
 			loa[6] = LocationImpl.create( lo.getX( ) + iSize, lo.getY( )
 					- offset );
-			loa[7] = LocationImpl.create( lo.getX( ) + offset ,
-					lo.getY( ) );
+			loa[7] = LocationImpl.create( lo.getX( ) + offset, lo.getY( ) );
 			loa[8] = LocationImpl.create( lo.getX( ) + iSize, lo.getY( )
 					+ offset );
 			loa[9] = LocationImpl.create( lo.getX( ) + offset, lo.getY( )
@@ -965,7 +956,7 @@ public final class MarkerRenderer
 			lre.setLineAttributes( la );
 			engine3d.processEvent( lre, boPlot.getLeft( ), boPlot.getTop( ) );
 
-			Location loa = (Location) lre.getStart( );
+			Location loa = lre.getStart( );
 
 			final ArcRenderEvent areL = new ArcRenderEvent( oSource );
 			areL.setStartAngle( 90.0 );

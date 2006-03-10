@@ -16,10 +16,8 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -27,13 +25,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl#getTop <em>Top</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl#getLeft <em>Left</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl#getBottom <em>Bottom</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl#getRight <em>Right</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl#getTop <em>Top</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl#getLeft <em>Left</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl#getBottom <em>Bottom</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl#getRight <em>Right</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class InsetsImpl extends EObjectImpl implements Insets
@@ -42,6 +40,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	/**
 	 * The default value of the '{@link #getTop() <em>Top</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getTop()
 	 * @generated
 	 * @ordered
@@ -51,6 +50,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	/**
 	 * The cached value of the '{@link #getTop() <em>Top</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getTop()
 	 * @generated
 	 * @ordered
@@ -58,9 +58,9 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	protected double top = TOP_EDEFAULT;
 
 	/**
-	 * This is true if the Top attribute has been set.
-	 * <!-- begin-user-doc -->
+	 * This is true if the Top attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -69,6 +69,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	/**
 	 * The default value of the '{@link #getLeft() <em>Left</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getLeft()
 	 * @generated
 	 * @ordered
@@ -78,6 +79,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	/**
 	 * The cached value of the '{@link #getLeft() <em>Left</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getLeft()
 	 * @generated
 	 * @ordered
@@ -85,17 +87,18 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	protected double left = LEFT_EDEFAULT;
 
 	/**
-	 * This is true if the Left attribute has been set.
-	 * <!-- begin-user-doc -->
+	 * This is true if the Left attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean leftESet = false;
 
 	/**
-	 * The default value of the '{@link #getBottom() <em>Bottom</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getBottom() <em>Bottom</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getBottom()
 	 * @generated
 	 * @ordered
@@ -103,8 +106,9 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	protected static final double BOTTOM_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getBottom() <em>Bottom</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getBottom() <em>Bottom</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getBottom()
 	 * @generated
 	 * @ordered
@@ -112,17 +116,18 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	protected double bottom = BOTTOM_EDEFAULT;
 
 	/**
-	 * This is true if the Bottom attribute has been set.
-	 * <!-- begin-user-doc
+	 * This is true if the Bottom attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean bottomESet = false;
 
 	/**
-	 * The default value of the '{@link #getRight() <em>Right</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getRight() <em>Right</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getRight()
 	 * @generated
 	 * @ordered
@@ -132,6 +137,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	/**
 	 * The cached value of the '{@link #getRight() <em>Right</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getRight()
 	 * @generated
 	 * @ordered
@@ -139,9 +145,9 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	protected double right = RIGHT_EDEFAULT;
 
 	/**
-	 * This is true if the Right attribute has been set.
-	 * <!-- begin-user-doc -->
+	 * This is true if the Right attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -149,6 +155,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected InsetsImpl( )
@@ -158,6 +165,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -167,6 +175,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public double getTop( )
@@ -176,6 +185,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setTop( double newTop )
@@ -195,6 +205,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetTop( )
@@ -214,6 +225,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetTop( )
@@ -223,6 +235,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public double getLeft( )
@@ -232,6 +245,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setLeft( double newLeft )
@@ -251,6 +265,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetLeft( )
@@ -270,6 +285,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetLeft( )
@@ -279,6 +295,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public double getBottom( )
@@ -288,6 +305,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setBottom( double newBottom )
@@ -307,6 +325,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetBottom( )
@@ -326,6 +345,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetBottom( )
@@ -335,6 +355,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public double getRight( )
@@ -344,6 +365,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setRight( double newRight )
@@ -363,6 +385,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetRight( )
@@ -382,6 +405,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetRight( )
@@ -390,8 +414,8 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
@@ -411,8 +435,8 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eSet( int featureID, Object newValue )
@@ -436,8 +460,8 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eUnset( int featureID )
@@ -461,8 +485,8 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( int featureID )
@@ -483,6 +507,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -564,7 +589,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	 */
 	public final Insets scaledInstance( double dScale )
 	{
-		final Insets ins = (Insets) EcoreUtil.copy( this );
+		final Insets ins = copyInstance( this );
 		ins.setTop( ins.getTop( ) * dScale );
 		ins.setLeft( ins.getLeft( ) * dScale );
 		ins.setBottom( ins.getBottom( ) * dScale );
@@ -612,4 +637,30 @@ public class InsetsImpl extends EObjectImpl implements Insets
 				Math.min( ins1.getBottom( ), ins2.getBottom( ) ),
 				Math.min( ins1.getRight( ), ins2.getRight( ) ) );
 	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Insets copyInstance( Insets src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+		InsetsImpl ins = new InsetsImpl( );
+		ins.bottom = src.getBottom( );
+		ins.bottomESet = src.isSetBottom( );
+		ins.left = src.getLeft( );
+		ins.leftESet = src.isSetLeft( );
+		ins.right = src.getRight( );
+		ins.rightESet = src.isSetRight( );
+		ins.top = src.getTop( );
+		ins.topESet = src.isSetTop( );
+		return ins;
+	}
+
 } // InsetsImpl

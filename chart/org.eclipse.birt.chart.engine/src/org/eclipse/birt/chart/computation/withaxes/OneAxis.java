@@ -18,7 +18,7 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 
 /**
  * This class provides an internal implementation of the axis class used by the
@@ -268,8 +268,8 @@ public final class OneAxis
 
 	void set( Label _laAxisLabels, Label _laAxisTitle )
 	{
-		la = (Label) EcoreUtil.copy( _laAxisLabels );
-		laTitle = (Label) EcoreUtil.copy( _laAxisTitle );
+		la = LabelImpl.copyInstance( _laAxisLabels );
+		laTitle = LabelImpl.copyInstance( _laAxisTitle );
 	}
 
 	void set( LineAttributes _la )

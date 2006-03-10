@@ -53,6 +53,8 @@ import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
@@ -413,13 +415,13 @@ public final class Generator
 			{
 				if ( newStyle.getFont( ) != null )
 				{
-					currentStyle.setFont( (FontDefinition) EcoreUtil.copy( newStyle.getFont( ) ) );
+					currentStyle.setFont( FontDefinitionImpl.copyInstance( newStyle.getFont( ) ) );
 				}
 			}
 			else if ( newStyle.getFont( ) != null )
 			{
 				FontDefinition fd = currentStyle.getFont( );
-				FontDefinition newFd = (FontDefinition) EcoreUtil.copy( newStyle.getFont( ) );
+				FontDefinition newFd = FontDefinitionImpl.copyInstance( newStyle.getFont( ) );
 
 				ChartUtil.mergeFont( fd, newFd );
 			}
@@ -427,7 +429,7 @@ public final class Generator
 			if ( currentStyle.getColor( ) == null
 					&& newStyle.getColor( ) != null )
 			{
-				currentStyle.setColor( (ColorDefinition) EcoreUtil.copy( newStyle.getColor( ) ) );
+				currentStyle.setColor( ColorDefinitionImpl.copyInstance( newStyle.getColor( ) ) );
 			}
 		}
 
@@ -904,7 +906,7 @@ public final class Generator
 			// Set series renderers info.
 			rtc.setSeriesRenderers( lhmRenderers );
 			// Clean legend state.
-			rtc.setLegendItemLayoutHints( null );
+			rtc.setLegendLayoutHints( null );
 		}
 		catch ( Exception ex )
 		{

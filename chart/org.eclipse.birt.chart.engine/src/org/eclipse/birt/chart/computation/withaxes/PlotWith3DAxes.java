@@ -35,6 +35,7 @@ import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
@@ -52,7 +53,6 @@ import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * This class is capable of computing the content of a chart (with axes) based
@@ -325,7 +325,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 				dZAxisLocation,
 				0 ) );
 
-		boPlotBackground = (Bounds) EcoreUtil.copy( bo );
+		boPlotBackground = BoundsImpl.copyInstance( bo );
 	}
 
 	/**

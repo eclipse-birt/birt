@@ -14,16 +14,15 @@ package org.eclipse.birt.chart.style;
 import java.util.Iterator;
 
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Image;
-import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Style;
 import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -92,15 +91,15 @@ public final class SimpleProcessor implements IStyleProcessor
 
 					if ( ss.getFont( ) != null )
 					{
-						rt.setFont( (FontDefinition) EcoreUtil.copy( ss.getFont( ) ) );
+						rt.setFont( FontDefinitionImpl.copyInstance( ss.getFont( ) ) );
 					}
 					if ( ss.getColor( ) != null )
 					{
-						rt.setColor( (ColorDefinition) EcoreUtil.copy( ss.getColor( ) ) );
+						rt.setColor( ColorDefinitionImpl.copyInstance( ss.getColor( ) ) );
 					}
 					if ( ss.getBackgroundColor( ) != null )
 					{
-						rt.setBackgroundColor( (ColorDefinition) EcoreUtil.copy( ss.getBackgroundColor( ) ) );
+						rt.setBackgroundColor( ColorDefinitionImpl.copyInstance( ss.getBackgroundColor( ) ) );
 					}
 					if ( ss.getBackgroundImage( ) != null )
 					{
@@ -108,7 +107,7 @@ public final class SimpleProcessor implements IStyleProcessor
 					}
 					if ( ss.getPadding( ) != null )
 					{
-						rt.setPadding( (Insets) EcoreUtil.copy( ss.getPadding( ) ) );
+						rt.setPadding( InsetsImpl.copyInstance( ss.getPadding( ) ) );
 					}
 
 					return rt;

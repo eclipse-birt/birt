@@ -15,6 +15,9 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Insets;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -74,15 +77,15 @@ public final class SimpleStyle implements IStyle
 		{
 			if ( src.getFont( ) != null )
 			{
-				setFont( (FontDefinition) EcoreUtil.copy( src.getFont( ) ) );
+				setFont( FontDefinitionImpl.copyInstance( src.getFont( ) ) );
 			}
 			if ( src.getColor( ) != null )
 			{
-				setColor( (ColorDefinition) EcoreUtil.copy( src.getColor( ) ) );
+				setColor( ColorDefinitionImpl.copyInstance( src.getColor( ) ) );
 			}
 			if ( src.getBackgroundColor( ) != null )
 			{
-				setBackgroundColor( (ColorDefinition) EcoreUtil.copy( src.getBackgroundColor( ) ) );
+				setBackgroundColor( ColorDefinitionImpl.copyInstance( src.getBackgroundColor( ) ) );
 			}
 			if ( src.getBackgroundImage( ) != null )
 			{
@@ -90,7 +93,7 @@ public final class SimpleStyle implements IStyle
 			}
 			if ( src.getPadding( ) != null )
 			{
-				setPadding( (Insets) EcoreUtil.copy( src.getPadding( ) ) );
+				setPadding( InsetsImpl.copyInstance( src.getPadding( ) ) );
 			}
 		}
 	}
@@ -106,15 +109,15 @@ public final class SimpleStyle implements IStyle
 
 		if ( font != null )
 		{
-			ss.setFont( (FontDefinition) EcoreUtil.copy( font ) );
+			ss.setFont( FontDefinitionImpl.copyInstance( font ) );
 		}
 		if ( color != null )
 		{
-			ss.setColor( (ColorDefinition) EcoreUtil.copy( color ) );
+			ss.setColor( ColorDefinitionImpl.copyInstance( color ) );
 		}
 		if ( backcolor != null )
 		{
-			ss.setBackgroundColor( (ColorDefinition) EcoreUtil.copy( backcolor ) );
+			ss.setBackgroundColor( ColorDefinitionImpl.copyInstance( backcolor ) );
 		}
 		if ( backimage != null )
 		{
@@ -122,7 +125,7 @@ public final class SimpleStyle implements IStyle
 		}
 		if ( padding != null )
 		{
-			ss.setPadding( (Insets) EcoreUtil.copy( padding ) );
+			ss.setPadding( InsetsImpl.copyInstance( padding ) );
 		}
 
 		return ss;

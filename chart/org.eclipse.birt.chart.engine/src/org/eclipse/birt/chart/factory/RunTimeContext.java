@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import org.eclipse.birt.chart.computation.LegendItemLayoutHints;
+import org.eclipse.birt.chart.computation.LegendLayoutHints;
 import org.eclipse.birt.chart.device.IStructureDefinitionListener;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.StructureChangeEvent;
@@ -78,7 +78,7 @@ public final class RunTimeContext implements Serializable
 	/**
 	 * A legend item layout hints asscociated with current context.
 	 */
-	private transient LegendItemLayoutHints lilh = null;
+	private transient LegendLayoutHints lilh = null;
 
 	/**
 	 * A map holds all series renderers for current context.
@@ -242,7 +242,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @param lilh
 	 */
-	public void setLegendItemLayoutHints( LegendItemLayoutHints lilh )
+	public void setLegendLayoutHints( LegendLayoutHints lilh )
 	{
 		this.lilh = lilh;
 	}
@@ -252,7 +252,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return
 	 */
-	public LegendItemLayoutHints getLegendItemLayoutHints( )
+	public LegendLayoutHints getLegendLayoutHints( )
 	{
 		return lilh;
 	}

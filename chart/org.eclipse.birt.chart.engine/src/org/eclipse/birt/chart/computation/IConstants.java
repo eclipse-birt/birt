@@ -22,7 +22,7 @@ public interface IConstants
 {
 
 	public final double LOG_10 = Math.log( 10 );
-	
+
 	public final int LINE_EXPAND_SIZE = 2;
 
 	public final int LINE_EXPAND_DOUBLE_SIZE = 4;
@@ -72,7 +72,7 @@ public interface IConstants
 	public final int HORIZONTAL = 0;
 
 	public final int VERTICAL = 1;
-	
+
 	public final int AUTO = 0;
 
 	public final int FORWARD = 1;
@@ -150,4 +150,10 @@ public interface IConstants
 	public final int EQUAL = 0;
 
 	public final int MORE = 1;
+
+	public final int LEGEND_ENTRY = 1;
+
+	public final int LEGEND_SEPERATOR = 2;
+	
+	public final int LEGEND_MINSLICE_ENTRY = 5;
 }

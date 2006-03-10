@@ -19,9 +19,10 @@ import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
-import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -125,7 +126,7 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 
 		if ( _ifBackground instanceof ColorDefinition )
 		{
-			ColorDefinition cdf = (ColorDefinition) EcoreUtil.copy( _ifBackground );
+			ColorDefinition cdf = ColorDefinitionImpl.copyInstance( (ColorDefinition) _ifBackground );
 
 			cdf.set( (int) ( cdf.getRed( ) * dBrightness ),
 					(int) ( cdf.getGreen( ) * dBrightness ),
@@ -196,7 +197,7 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 
 		if ( _lia != null )
 		{
-			pre.setOutline( (LineAttributes) EcoreUtil.copy( _lia ) );
+			pre.setOutline( LineAttributesImpl.copyInstance( _lia ) );
 		}
 
 		if ( _ifBackground != null )

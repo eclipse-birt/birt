@@ -1718,10 +1718,10 @@ public class LegendImpl extends BlockImpl implements Legend
 		// TODO check context consistency.
 
 		if ( rtc != null
-				&& rtc.getLegendItemLayoutHints( ) != null
-				&& rtc.getLegendItemLayoutHints( ).getCachedSize( ) != null )
+				&& rtc.getLegendLayoutHints( ) != null
+				&& rtc.getLegendLayoutHints( ).getLegendSize( ) != null )
 		{
-			sz = rtc.getLegendItemLayoutHints( ).getCachedSize( );
+			sz = rtc.getLegendLayoutHints( ).getLegendSize( );
 		}
 		else
 		{

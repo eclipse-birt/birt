@@ -34,11 +34,12 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * CurveRenderer
@@ -77,7 +78,7 @@ public final class CurveRenderer
 	private final boolean bTranslucent;
 
 	private final boolean bDeferred;
-	
+
 	private final boolean bConnectMissingValue;
 
 	private final Location[] loa;
@@ -85,7 +86,7 @@ public final class CurveRenderer
 	private final Location3D[] loa3d;
 
 	private final Location[] loPoints;
-	
+
 	private Location[] tempPoints;
 
 	private final double dTapeWidth;
@@ -190,15 +191,15 @@ public final class CurveRenderer
 
 		if ( paletteEntry instanceof ColorDefinition && usePaletteLineColor )
 		{
-			lia = (LineAttributes) EcoreUtil.copy( lia );
-			lia.setColor( (ColorDefinition) EcoreUtil.copy( paletteEntry ) );
+			lia = LineAttributesImpl.copyInstance( lia );
+			lia.setColor( ColorDefinitionImpl.copyInstance( (ColorDefinition) paletteEntry ) );
 		}
 
 		if ( bFillArea && paletteEntry instanceof ColorDefinition )
 		{
 			// TODO support gradient and image.
 
-			fillColor = (ColorDefinition) EcoreUtil.copy( paletteEntry );
+			fillColor = ColorDefinitionImpl.copyInstance( (ColorDefinition) paletteEntry );
 			tapeColor = fillColor.brighter( );
 			sideColor = fillColor.darker( );
 		}
@@ -239,6 +240,7 @@ public final class CurveRenderer
 			return (Location[]) al.toArray( new Location[0] );
 		}
 	}
+
 	/**
 	 * 
 	 * @param ipr
@@ -260,7 +262,7 @@ public final class CurveRenderer
 			return;
 		}
 
-		if ( ! bConnectMissingValue )
+		if ( !bConnectMissingValue )
 		{
 			for ( int i = 0; i < loPoints.length; i++ )
 			{
@@ -305,7 +307,7 @@ public final class CurveRenderer
 				}
 				else if ( iNumberOfPoints == 1 )
 				{
-					double iSize = (double) lia.getThickness( );
+					double iSize = lia.getThickness( );
 
 					if ( bRendering3D )
 					{

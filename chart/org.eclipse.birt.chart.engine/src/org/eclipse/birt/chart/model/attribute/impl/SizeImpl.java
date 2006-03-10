@@ -13,14 +13,11 @@ package org.eclipse.birt.chart.model.attribute.impl;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
-import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -385,8 +382,29 @@ public class SizeImpl extends EObjectImpl implements Size
 	 */
 	public final Size scaleInstance( double dScale )
 	{
-		final Size sz = (Size) EcoreUtil.copy( this );
+		final Size sz = copyInstance( this );
 		sz.scale( dScale );
+		return sz;
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Size copyInstance( Size src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+		SizeImpl sz = new SizeImpl( );
+		sz.height = src.getHeight( );
+		sz.heightESet = src.isSetHeight( );
+		sz.width = src.getWidth( );
+		sz.widthESet = src.isSetWidth( );
 		return sz;
 	}
 

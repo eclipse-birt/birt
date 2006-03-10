@@ -87,6 +87,7 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
@@ -94,6 +95,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.TextDataElement;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
+import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
@@ -675,7 +677,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			if ( curve.getLabel( ).isSetVisible( )
 					&& curve.getLabel( ).isVisible( ) )
 			{
-				Label lb = (Label) EcoreUtil.copy( curve.getLabel( ) );
+				Label lb = LabelImpl.copyInstance( curve.getLabel( ) );
 
 				// handle external resource string
 				final String sPreviousValue = lb.getCaption( ).getValue( );
@@ -1074,7 +1076,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				idr.fillRectangle( rre );
 				idr.drawRectangle( rre );
 
-				la = (Label) EcoreUtil.copy( mr.getLabel( ) );
+				la = LabelImpl.copyInstance( mr.getLabel( ) );
 				if ( la.isVisible( ) )
 				{
 					if ( la.getCaption( ).getValue( ) != null
@@ -1178,7 +1180,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								InteractionEvent.class );
 						for ( int t = 0; t < elTriggers.size( ); t++ )
 						{
-							tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+							tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
 							processTrigger( tg,
 									StructureSource.createMarkerRange( mr ) );
 							iev.addTrigger( tg );
@@ -2305,7 +2307,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 
 				// UPDATE THE LABEL CONTENT ASSOCIATED WITH THE MARKER LINE
-				la = (Label) EcoreUtil.copy( ml.getLabel( ) );
+				la = LabelImpl.copyInstance( ml.getLabel( ) );
 
 				if ( la.getCaption( ).getValue( ) != null
 						&& !IConstants.UNDEFINED_STRING.equals( la.getCaption( )
@@ -2609,7 +2611,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								InteractionEvent.class );
 						for ( int t = 0; t < elTriggers.size( ); t++ )
 						{
-							tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+							tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
 							processTrigger( tg,
 									StructureSource.createMarkerLine( ml ) );
 							iev.addTrigger( tg );
@@ -2691,7 +2693,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		final int iLabelLocation = ax.getLabelPosition( );
 		final int iOrientation = ax.getOrientation( );
 		final IDisplayServer xs = this.getDevice( ).getDisplayServer( );
-		Label la = (Label) EcoreUtil.copy( ax.getLabel( ) );
+		Label la = LabelImpl.copyInstance( ax.getLabel( ) );
 
 		final double[] daEndPoints = sc.getEndPoints( );
 		final double[] da = sc.getTickCordinates( );
@@ -2888,11 +2890,11 @@ public abstract class AxesRenderer extends BaseRenderer
 								cachedTriggers = new ArrayList( );
 								for ( int t = 0; t < elTriggers.size( ); t++ )
 								{
-									tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+									tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
 									processTrigger( tg,
 											StructureSource.createAxis( axModel ) );
 									cachedTriggers.add( tg );
-									iev.addTrigger( (Trigger) EcoreUtil.copy( tg ) );
+									iev.addTrigger( TriggerImpl.copyInstance( tg ) );
 								}
 
 								iev.setHotSpot( pre3d );
@@ -2935,11 +2937,11 @@ public abstract class AxesRenderer extends BaseRenderer
 									cachedTriggers = new ArrayList( );
 									for ( int t = 0; t < elTriggers.size( ); t++ )
 									{
-										tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+										tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
 										processTrigger( tg,
 												StructureSource.createAxis( axModel ) );
 										cachedTriggers.add( tg );
-										iev.addTrigger( (Trigger) EcoreUtil.copy( tg ) );
+										iev.addTrigger( TriggerImpl.copyInstance( tg ) );
 									}
 
 								}
@@ -2947,7 +2949,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								{
 									for ( int t = 0; t < cachedTriggers.size( ); t++ )
 									{
-										iev.addTrigger( (Trigger) EcoreUtil.copy( (Trigger) cachedTriggers.get( t ) ) );
+										iev.addTrigger( TriggerImpl.copyInstance( (Trigger) cachedTriggers.get( t ) ) );
 									}
 								}
 
@@ -2994,7 +2996,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								{
 									for ( int t = 0; t < elTriggers.size( ); t++ )
 									{
-										tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+										tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
 										processTrigger( tg,
 												StructureSource.createAxis( axModel ) );
 										iev.addTrigger( tg );
@@ -3064,7 +3066,7 @@ public abstract class AxesRenderer extends BaseRenderer
 									InteractionEvent.class );
 							for ( int t = 0; t < elTriggers.size( ); t++ )
 							{
-								tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+								tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
 								processTrigger( tg,
 										StructureSource.createAxis( axModel ) );
 								iev.addTrigger( tg );
@@ -3839,7 +3841,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 			}
 
-			la = (Label) EcoreUtil.copy( ax.getTitle( ) ); // TEMPORARILY USE
+			la = LabelImpl.copyInstance( ax.getTitle( ) ); // TEMPORARILY USE
 			// FOR AXIS TITLE
 			if ( la.isVisible( ) && bRenderAxisTitle )
 			{
@@ -3928,7 +3930,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_AXIS_TITLE,
 						la );
 			}
-			la = (Label) EcoreUtil.copy( ax.getLabel( ) );
+			la = LabelImpl.copyInstance( ax.getLabel( ) );
 
 			if ( iv != null
 					&& iv.getType( ) == IntersectionValue.MAX
@@ -4016,7 +4018,7 @@ public abstract class AxesRenderer extends BaseRenderer
 										InteractionEvent.class );
 								for ( int t = 0; t < elTriggers.size( ); t++ )
 								{
-									tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+									tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
 									processTrigger( tg,
 											StructureSource.createAxis( axModel ) );
 									iev.addTrigger( tg );
@@ -4070,7 +4072,7 @@ public abstract class AxesRenderer extends BaseRenderer
 										InteractionEvent.class );
 								for ( int t = 0; t < elTriggers.size( ); t++ )
 								{
-									tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+									tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
 									processTrigger( tg,
 											StructureSource.createAxis( axModel ) );
 									iev.addTrigger( tg );
@@ -4133,7 +4135,7 @@ public abstract class AxesRenderer extends BaseRenderer
 									InteractionEvent.class );
 							for ( int t = 0; t < elTriggers.size( ); t++ )
 							{
-								tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+								tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
 								processTrigger( tg,
 										StructureSource.createAxis( axModel ) );
 								iev.addTrigger( tg );
@@ -5021,7 +5023,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			}
 
 			// RENDER THE AXIS TITLE
-			la = (Label) EcoreUtil.copy( ax.getTitle( ) ); // TEMPORARILY USE
+			la = LabelImpl.copyInstance( ax.getTitle( ) ); // TEMPORARILY USE
 			// FOR AXIS TITLE
 			if ( la.isVisible( ) && bRenderAxisTitle )
 			{
@@ -5124,7 +5126,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_AXIS_TITLE,
 						la );
 			}
-			la = (Label) EcoreUtil.copy( ax.getLabel( ) ); // RESTORE BACK TO
+			la = LabelImpl.copyInstance( ax.getLabel( ) ); // RESTORE BACK TO
 			// AXIS LABEL
 
 			if ( iv != null
