@@ -25,16 +25,14 @@
       <import plugin="org.eclipse.birt.report.engine"/>
       <import plugin="org.eclipse.birt.report.designer.core"/>
       <import plugin="org.eclipse.ui.forms"/>
-      <import plugin="org.eclipse.ui.cheatsheets"/>
       <import plugin="org.eclipse.birt.report.viewer"/>
-      <import plugin="org.eclipse.help.base"/>
       <import plugin="org.eclipse.datatools.connectivity.oda"/>
       <import plugin="org.eclipse.birt.data.oda"/>
       <import plugin="org.eclipse.birt.data"/>
-      <import plugin="org.eclipse.team.core"/>
       <import plugin="org.eclipse.datatools.connectivity.oda.design.ui"/>
       <import plugin="org.eclipse.birt.report.model.adapter.oda"/>
       <import plugin="org.eclipse.datatools.connectivity.oda.design"/>
+      <import plugin="org.eclipse.core.expressions"/>
    </requires>
    
    <!-- Extension points -->

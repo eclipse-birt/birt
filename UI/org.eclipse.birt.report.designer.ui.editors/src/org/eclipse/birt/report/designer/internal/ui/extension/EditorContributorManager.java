@@ -41,9 +41,52 @@ public class EditorContributorManager implements IExtensionConstants
 
 		public String targetEditorId;
 		public List formPageList;
+
+		public boolean merge( EditorContributor contributor )
+		{
+			Assert.isNotNull( targetEditorId );
+			boolean merged = false;
+			if ( targetEditorId.equals( contributor.targetEditorId ) )
+			{
+				for ( Iterator itor = contributor.formPageList.iterator( ); itor.hasNext( ); )
+				{
+					FormPageDef incomingPage = (FormPageDef) itor.next( );
+					FormPageDef exsitPage = getPage( incomingPage.id );
+					if ( exsitPage == null )
+					{
+						formPageList.add( incomingPage );
+						merged = true;
+					}
+					else
+					{
+						int index = formPageList.indexOf( exsitPage );
+						formPageList.remove( exsitPage );
+						formPageList.add( index, incomingPage );
+					}
+				}
+			}
+			return merged;
+		}
+
+		public FormPageDef getPage( int index )
+		{
+			return (FormPageDef) formPageList.get( index );
+		}
+
+		public FormPageDef getPage( String id )
+		{
+			for ( Iterator itor = formPageList.iterator( ); itor.hasNext( ); )
+			{
+				FormPageDef page = (FormPageDef) itor.next( );
+				if ( page.id.equals( id ) )
+				{
+					return page;
+				}
+			}
+			return null;
+		}
 	}
 
-	
 	private HashMap editorContributorMap;
 
 	private static EditorContributorManager instance = null;
@@ -188,6 +231,11 @@ public class EditorContributorManager implements IExtensionConstants
 					{
 						editorContributorMap.put( editorContributor.targetEditorId,
 								editorContributor );
+					}
+					else
+					{
+						EditorContributor exsitContributor = (EditorContributor) editorContributorMap.get( editorContributor.targetEditorId );
+						exsitContributor.merge( editorContributor );
 					}
 				}
 			}

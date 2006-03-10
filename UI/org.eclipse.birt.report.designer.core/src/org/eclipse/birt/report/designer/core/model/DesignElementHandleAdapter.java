@@ -33,7 +33,7 @@ import org.eclipse.draw2d.geometry.Point;
  * methods to GUI requirement DesignElementHandleAdapter responds to model
  * DesignElmentHandle
  * 
- *  
+ * 
  */
 
 public abstract class DesignElementHandleAdapter
@@ -96,15 +96,21 @@ public abstract class DesignElementHandleAdapter
 	{
 		return elementHandle.getDesignHandle( );
 	}
-	
-	/**Gets the handle of the moudule handle
+
+	/**
+	 * Gets the handle of the moudule handle
+	 * 
 	 * @return
 	 */
-	public ModuleHandle getModuleHandle()
+	public ModuleHandle getModuleHandle( )
 	{
-		return elementHandle.getModuleHandle();
+		if ( elementHandle != null )
+		{
+			return elementHandle.getModuleHandle( );
+		}
+		return null;
 	}
-	
+
 	/**
 	 * Reloads all properties from model
 	 */
@@ -161,7 +167,7 @@ public abstract class DesignElementHandleAdapter
 	public void transStar( String name )
 	{
 		CommandStack stack = getModuleHandle( ).getCommandStack( );
-		//start trans
+		// start trans
 		stack.startTrans( name );
 	}
 
@@ -192,7 +198,7 @@ public abstract class DesignElementHandleAdapter
 			retValue = new Insets( retValue );
 		}
 
-		int fontSize = DEUtil.getFontSizeIntValue(getHandle( ));
+		int fontSize = DEUtil.getFontSizeIntValue( getHandle( ) );
 
 		DimensionValue dimensionValue = (DimensionValue) getHandle( ).getProperty( StyleHandle.PADDING_TOP_PROP );
 		double px = DEUtil.convertToPixel( dimensionValue, fontSize );
@@ -233,7 +239,7 @@ public abstract class DesignElementHandleAdapter
 			retValue = new Insets( retValue );
 		}
 
-		int fontSize = DEUtil.getFontSizeIntValue(getHandle( ));
+		int fontSize = DEUtil.getFontSizeIntValue( getHandle( ) );
 
 		double px = 0;
 		Object prop = getHandle( ).getProperty( StyleHandle.MARGIN_TOP_PROP );
@@ -346,7 +352,7 @@ public abstract class DesignElementHandleAdapter
 		Object px = handle.getProperty( StyleHandle.BACKGROUND_POSITION_X_PROP );
 		Object py = handle.getProperty( StyleHandle.BACKGROUND_POSITION_Y_PROP );
 
-		//left, center, right, top, bottom
+		// left, center, right, top, bottom
 		if ( px instanceof String && py instanceof String )
 		{
 			return new int[]{
