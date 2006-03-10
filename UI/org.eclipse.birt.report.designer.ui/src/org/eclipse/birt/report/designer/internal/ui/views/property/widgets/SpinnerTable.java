@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import com.ibm.icu.util.Calendar;
 
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.jface.util.IPropertyChangeListener;

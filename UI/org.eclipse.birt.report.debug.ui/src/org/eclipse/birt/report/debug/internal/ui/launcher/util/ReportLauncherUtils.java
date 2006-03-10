@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
-import java.util.StringTokenizer;
+import com.ibm.icu.util.StringTokenizer;
 import java.util.TreeSet;
 
 import org.eclipse.birt.report.debug.internal.ui.launcher.IReportLauncherSettings;

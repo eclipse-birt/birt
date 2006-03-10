@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.debug.internal.ui.launcher;
 
-import java.util.StringTokenizer;
+import com.ibm.icu.util.StringTokenizer;
 
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.DebugUtil;
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.WorkspaceClassPathFinder;

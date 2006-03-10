@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Locale;
+import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -73,7 +73,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 
 	private static final String DEFAULT_PREVIEW_TEXT = Messages.getString( "FormatStringPage.default.preview.text" ); //$NON-NLS-1$
 
-	Locale DEFAULT_LOCALE = Locale.getDefault( );
+	ULocale DEFAULT_LOCALE = ULocale.getDefault( );
 
 	private String pattern = null;
 	private String category = null;

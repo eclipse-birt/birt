@@ -15,7 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
+import com.ibm.icu.util.StringTokenizer;
 
 import org.eclipse.birt.report.viewer.utilities.IWorkspaceClasspathFinder;
 import org.eclipse.core.resources.IProject;

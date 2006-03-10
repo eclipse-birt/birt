@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Locale;
+import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -1761,7 +1761,7 @@ public class ParameterDialog extends BaseDialog
 			gd.verticalAlignment = GridData.BEGINNING;
 		}
 		gd.widthHint = 100;
-		if ( Locale.getDefault( ).getLanguage( ).equals( "es" ) ) //$NON-NLS-1$
+		if ( ULocale.getDefault( ).getLanguage( ).equals( "es" ) ) //$NON-NLS-1$
 		{
 			gd.widthHint += 15;
 		}
@@ -2068,7 +2068,7 @@ public class ParameterDialog extends BaseDialog
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
 			{
-				DataTypeUtil.toDate( value, Locale.US );
+				DataTypeUtil.toDate( value, ULocale.US );
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( getSelectedDataType( ) ) )
 			{
@@ -2136,19 +2136,19 @@ public class ParameterDialog extends BaseDialog
 				{
 					previewString = new DateFormatter( formatPattern == null ? formatCategroy
 							: formatPattern,
-							Locale.getDefault( ) ).format( new Date( ) );
+							ULocale.getDefault( ) ).format( new Date( ) );
 				}
 				else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 				{
 					previewString = new StringFormatter( formatPattern == null ? formatCategroy
 							: formatPattern,
-							Locale.getDefault( ) ).format( Messages.getString( "ParameterDialog.Label.Sample" ) ); //$NON-NLS-1$
+							ULocale.getDefault( ) ).format( Messages.getString( "ParameterDialog.Label.Sample" ) ); //$NON-NLS-1$
 				}
 				else
 				{
 					previewString = new NumberFormatter( formatPattern == null ? formatCategroy
 							: formatPattern,
-							Locale.getDefault( ) ).format( 123456789.01234 );
+							ULocale.getDefault( ) ).format( 123456789.01234 );
 				}
 			}
 		}
@@ -2357,7 +2357,7 @@ public class ParameterDialog extends BaseDialog
 			try
 			{
 				string = new DateFormatter( STANDARD_DATE_TIME_PATTERN ).format( DataTypeUtil.toDate( string,
-						Locale.US ) );
+						ULocale.US ) );
 			}
 			catch ( BirtException e )
 			{

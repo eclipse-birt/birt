@@ -9,13 +9,14 @@
 
 package org.eclipse.birt.report.designer.util;
 
-import java.text.Collator;
 import java.util.Comparator;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
+
+import com.ibm.icu.text.Collator;
 
 /**
  * A text based comparator is used to reorder the elements.

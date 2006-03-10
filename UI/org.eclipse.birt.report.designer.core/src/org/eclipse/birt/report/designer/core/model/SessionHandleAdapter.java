@@ -13,7 +13,8 @@ package org.eclipse.birt.report.designer.core.model;
 
 import java.io.InputStream;
 import java.util.Iterator;
-import java.util.Locale;
+import com.ibm.icu.util.ULocale;
+
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -107,7 +108,7 @@ public class SessionHandleAdapter
 	{
 		if ( sessionHandle == null )
 		{
-			sessionHandle = DesignEngine.newSession( Locale.getDefault( ) );
+			sessionHandle = DesignEngine.newSession( ULocale.getDefault( ) );
 			IMetaDataDictionary metadata = DesignEngine.getMetaDataDictionary( );
 			metadata.enableElementID( );
 		}

@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
-import java.util.Calendar;
+import com.ibm.icu.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
+import com.ibm.icu.util.TimeZone;
 
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.FontManager;

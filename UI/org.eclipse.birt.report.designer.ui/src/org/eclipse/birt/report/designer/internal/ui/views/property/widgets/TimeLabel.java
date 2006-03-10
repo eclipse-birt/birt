@@ -11,10 +11,10 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
+import com.ibm.icu.util.TimeZone;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;

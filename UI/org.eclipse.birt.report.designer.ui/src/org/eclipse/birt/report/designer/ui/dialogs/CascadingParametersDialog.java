@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.Locale;
+import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.format.DateFormatter;
@@ -1454,7 +1454,7 @@ public class CascadingParametersDialog extends BaseDialog
 		String formatStr = ""; //$NON-NLS-1$
 		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
 		{
-			formatStr = new StringFormatter( pattern, Locale.getDefault( ) ).format( DEFAULT_PREVIEW_STRING );
+			formatStr = new StringFormatter( pattern, ULocale.getDefault( ) ).format( DEFAULT_PREVIEW_STRING );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
 		{

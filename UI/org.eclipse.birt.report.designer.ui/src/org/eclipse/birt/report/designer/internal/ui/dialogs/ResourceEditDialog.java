@@ -16,7 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Locale;
+import com.ibm.icu.util.ULocale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -295,9 +295,9 @@ public class ResourceEditDialog extends BaseDialog
 			return;
 		}
 
-		Locale lc = SessionHandleAdapter.getInstance( )
+		ULocale lc = SessionHandleAdapter.getInstance( )
 				.getSessionHandle( )
-				.getLocale( );
+				.getULocale( );
 
 		String fullBaseName = folderName + File.separator + baseName + "_" //$NON-NLS-1$
 				+ lc.getLanguage( ) + "_" + lc.getCountry( ) + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
