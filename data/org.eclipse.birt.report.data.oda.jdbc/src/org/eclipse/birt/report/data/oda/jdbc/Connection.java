@@ -279,7 +279,8 @@ public class Connection implements IConnection
 		}
 		try
 		{
-			jdbcConn.close( );
+			if ( jdbcConn.isClosed( ) == false )
+				jdbcConn.close( );
 		}
 		catch ( SQLException e )
 		{
