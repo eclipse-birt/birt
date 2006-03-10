@@ -265,9 +265,9 @@ abstract class PreparedQuery
 		throws DataException
 	{
 		// prepare expressions appearing in this group
-		prepareExpressions( trans.getAfterExpressions(), groupLevel, true, cx );
-		prepareExpressions( trans.getBeforeExpressions(), groupLevel, false, cx );
-		prepareExpressions( trans.getRowExpressions(), groupLevel, false, cx );
+		prepareExpressions( trans.getAfterExpressions(), groupLevel, true, false,cx );
+		prepareExpressions( trans.getBeforeExpressions(), groupLevel, false, false, cx );
+		prepareExpressions( trans.getRowExpressions(),groupLevel, false, true, cx );
 		
 		// Prepare subqueries appearing in this group
 		Collection subQueries = trans.getSubqueries( );
@@ -289,12 +289,12 @@ abstract class PreparedQuery
 	 * @param cx
 	 */
 	private void prepareExpressions( Collection expressions, int groupLevel,
-			boolean afterGroup, Context cx )
+			boolean afterGroup, boolean isDetailedRow, Context cx )
 	{
 	    if ( expressions == null )
 	        return;
 	    
-	    AggregateRegistry reg = this.aggrTable.getAggrRegistry( groupLevel, afterGroup, cx );
+	    AggregateRegistry reg = this.aggrTable.getAggrRegistry( groupLevel, afterGroup, isDetailedRow, cx );
 	    Iterator it = expressions.iterator();
 	    while ( it.hasNext() )
 	    {
@@ -359,19 +359,19 @@ abstract class PreparedQuery
 		String prefix = null;
 		if ( ce.getOperator( ) == IConditionalExpression.OP_TOP_N )
 		{
-			prefix = "Total.TopN";
+			prefix = "Total.isTopN";
 		}
 		if ( ce.getOperator( ) == IConditionalExpression.OP_TOP_PERCENT )
 		{
-			prefix = "Total.TopPercent";
+			prefix = "Total.isTopPercent";
 		}
 		if ( ce.getOperator( ) == IConditionalExpression.OP_BOTTOM_N )
 		{
-			prefix = "Total.BottomN";
+			prefix = "Total.isBottomN";
 		}
 		if ( ce.getOperator( ) == IConditionalExpression.OP_BOTTOM_PERCENT )
 		{
-			prefix = "Total.BottomPercent";
+			prefix = "Total.isBottomPercent";
 		}
 		if( prefix != null )
 		{
