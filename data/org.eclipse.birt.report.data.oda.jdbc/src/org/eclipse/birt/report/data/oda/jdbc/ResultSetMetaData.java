@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.logging.Logger;
 
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
@@ -144,6 +145,14 @@ public class ResultSetMetaData implements IResultSetMetaData
 		assertNotNull( rsMetadata );
 		try
 		{
+			// There is a special case for oracle14 JDBC driver. When getting
+			// the data type of one column, it returns java.sql.Types.Date for
+			// Timestamp type. So here we have to handle such a case manually.
+			// Notice, if in future, this kind of case becomes more and more, we
+			// need to add a method to handle it.
+			if ( "java.sql.Timestamp".equals( rsMetadata.getColumnClassName( index ) ) )
+				return Types.TIMESTAMP;
+			
 			/* redirect the call to JDBC ResultSetMetaData.getColumnType(int) */
 			return rsMetadata.getColumnType( index );
 		}
