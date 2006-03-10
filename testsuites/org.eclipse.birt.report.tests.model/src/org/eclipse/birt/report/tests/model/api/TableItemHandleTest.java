@@ -33,6 +33,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * The test case of the method <code>getColumnCount</code> in
  * <code>TableItemHandle</code>.
@@ -223,7 +225,7 @@ public class TableItemHandleTest extends BaseTestCase
 
 	public void testInsertGroup( ) throws Exception
 	{
-		SessionHandle session = DesignEngine.newSession( null );
+		SessionHandle session = DesignEngine.newSession( ULocale.ENGLISH );
 		designHandle = session.createDesign( );
 		design = (ReportDesign) designHandle.getModule( );
 

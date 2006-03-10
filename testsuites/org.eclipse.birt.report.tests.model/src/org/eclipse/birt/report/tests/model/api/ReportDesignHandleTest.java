@@ -54,6 +54,8 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * 
  * Tests cases for ReportDesignHandle.
@@ -468,7 +470,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 	public void testTranslations( ) throws Exception
 	{
-		openDesign( "ReportDesignHandleTest.xml", Locale.CHINA ); //$NON-NLS-1$
+		openDesign( "ReportDesignHandleTest.xml", ULocale.CHINA ); //$NON-NLS-1$
 
 		List translations = designHandle.getTranslations( );
 		assertTrue( translations.size( ) == 4 );
@@ -497,7 +499,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		String str = design
 				.getMessage(
-						"ResourceKey.ReportDesign.Title", new Locale( "zh", "CN", "tai" ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"ResourceKey.ReportDesign.Title", new ULocale( "zh", "CN", "tai" ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		assertEquals( "zh_CN:\u7B80\u5355\u62A5\u8868.", str ); //$NON-NLS-1$
 	}
 
@@ -510,7 +512,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 	public void testAddTranslation( ) throws DesignFileException,
 			CustomMsgException
 	{
-		openDesign( "ReportDesignHandleTest.xml", Locale.CHINA ); //$NON-NLS-1$
+		openDesign( "ReportDesignHandleTest.xml", ULocale.CHINA ); //$NON-NLS-1$
 
 		List translations = designHandle.getTranslations( );
 		assertTrue( translations.size( ) == 4 );
@@ -544,7 +546,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 	public void testDropTranslation( ) throws DesignFileException,
 			CustomMsgException
 	{
-		openDesign( "ReportDesignHandleTest.xml", Locale.CHINA ); //$NON-NLS-1$
+		openDesign( "ReportDesignHandleTest.xml", ULocale.CHINA ); //$NON-NLS-1$
 
 		List translations = designHandle.getTranslations( );
 		assertTrue( translations.size( ) == 4 );
@@ -569,7 +571,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 	public void testEmbeddedImage( ) throws Exception
 	{
-		openDesign( "EmbeddedImageTest.xml", Locale.ENGLISH ); //$NON-NLS-1$
+		openDesign( "EmbeddedImageTest.xml", ULocale.ENGLISH ); //$NON-NLS-1$
 		PropertyHandle images = designHandle
 				.getPropertyHandle( ReportDesign.IMAGES_PROP );
 		assertNotNull( images );

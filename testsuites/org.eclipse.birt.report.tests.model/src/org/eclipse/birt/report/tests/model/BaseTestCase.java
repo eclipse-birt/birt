@@ -23,7 +23,7 @@ import java.io.Reader;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
+import com.ibm.icu.util.ULocale;
 
 import junit.framework.TestCase;
 
@@ -119,7 +119,7 @@ public abstract class BaseTestCase extends TestCase
 	protected static final String INPUT_FOLDER = "/input/"; //$NON-NLS-1$
 	protected static final String GOLDEN_FOLDER = "/golden/"; //$NON-NLS-1$
 
-	protected static final Locale TEST_LOCALE = new Locale( "aa" ); //$NON-NLS-1$
+	protected static final ULocale TEST_LOCALE = new ULocale( "aa" ); //$NON-NLS-1$
 
 
 	public BaseTestCase( String name )
@@ -131,7 +131,7 @@ public abstract class BaseTestCase extends TestCase
 	{
 		super.setUp( );
 
-		ThreadResources.setLocale( Locale.getDefault( ) );
+		ThreadResources.setLocale( ULocale.ENGLISH );
 		MetaDataDictionary.reset( );
 
 		try
@@ -177,7 +177,7 @@ public abstract class BaseTestCase extends TestCase
 	 * @return the handle for new report
 	 */
 
-	protected ReportDesignHandle createDesign( Locale locale )
+	protected ReportDesignHandle createDesign( ULocale locale )
 	{
 		sessionHandle = DesignEngine.newSession( locale );
 		designHandle = sessionHandle.createDesign( );
@@ -197,7 +197,7 @@ public abstract class BaseTestCase extends TestCase
 
 	protected void openDesign( String fileName ) throws DesignFileException
 	{
-		openDesign( fileName, Locale.getDefault( ) );
+		openDesign( fileName, ULocale.getDefault( ) );
 	}
 
 	/**
@@ -211,7 +211,7 @@ public abstract class BaseTestCase extends TestCase
 	 *             if any exception.
 	 */
 
-	protected void openDesign( String fileName, Locale locale )
+	protected void openDesign( String fileName, ULocale locale )
 			throws DesignFileException
 	{
 
@@ -233,7 +233,7 @@ public abstract class BaseTestCase extends TestCase
 	 */
 	protected void openLibrary( String fileName ) throws DesignFileException
 	{
-		openLibrary( fileName, Locale.getDefault( ) );
+		openLibrary( fileName, ULocale.getDefault( ) );
 	}
 
 	/**
@@ -247,7 +247,7 @@ public abstract class BaseTestCase extends TestCase
 	 *             if any exception
 	 */
 
-	protected void openLibrary( String fileName, Locale locale )
+	protected void openLibrary( String fileName, ULocale locale )
 			throws DesignFileException
 	{
 		sessionHandle = DesignEngine.newSession( locale );
@@ -270,7 +270,7 @@ public abstract class BaseTestCase extends TestCase
 	protected void openLibrary( URL systemId, InputStream is )
 			throws DesignFileException
 	{
-		sessionHandle = DesignEngine.newSession( Locale.getDefault( ) );
+		sessionHandle = DesignEngine.newSession( ULocale.getDefault( ) );
 		assertNotNull( sessionHandle );
 		libraryHandle = sessionHandle.openLibrary( systemId, is );
 	}
@@ -278,7 +278,7 @@ public abstract class BaseTestCase extends TestCase
 	protected void openDesignAsResource( Class theClass, String fileName )
 			throws DesignFileException
 	{
-		openDesignAsResource( theClass, fileName, Locale.getDefault( ) );
+		openDesignAsResource( theClass, fileName, ULocale.getDefault( ) );
 	}
 
 	/**
@@ -293,11 +293,11 @@ public abstract class BaseTestCase extends TestCase
 	 */
 
 	protected void openDesignAsResource( Class theClass, String fileName,
-			Locale locale ) throws DesignFileException
+			ULocale locale ) throws DesignFileException
 	{
 		fileName = PLUGIN_PATH + getFullQualifiedClassName( ) + INPUT_FOLDER
 				+ fileName;
-		sessionHandle = DesignEngine.newSession( Locale.ENGLISH );
+		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
 		assertNotNull( sessionHandle );
 
 		InputStream stream = theClass.getResourceAsStream( fileName );
@@ -319,7 +319,7 @@ public abstract class BaseTestCase extends TestCase
 	protected void openDesign( String fileName, InputStream is )
 			throws DesignFileException
 	{
-		openDesign( fileName, is, Locale.getDefault( ) );
+		openDesign( fileName, is, ULocale.getDefault( ) );
 	}
 
 	/**
@@ -334,7 +334,7 @@ public abstract class BaseTestCase extends TestCase
 	 * @throws DesignFileException
 	 *             if any exception.
 	 */
-	protected void openDesign( String fileName, InputStream is, Locale locale )
+	protected void openDesign( String fileName, InputStream is, ULocale locale )
 			throws DesignFileException
 	{
 		sessionHandle = DesignEngine.newSession( locale );

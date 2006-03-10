@@ -19,6 +19,8 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
+import com.ibm.icu.util.ULocale;
+
 public class ThemeTest extends BaseTestCase
 {
    private ElementFactory factory = null;
@@ -50,7 +52,7 @@ public class ThemeTest extends BaseTestCase
 	}
 	public void testDefineThemes() throws Exception
 	{
-		sessionHandle = DesignEngine.newSession(null);
+		sessionHandle = DesignEngine.newSession(ULocale.ENGLISH);
 		libraryHandle = sessionHandle.createLibrary();
 		library = (Library) libraryHandle.getModule();
 		factory = new ElementFactory( library );
@@ -233,7 +235,7 @@ public class ThemeTest extends BaseTestCase
 	  
     	  public void testExportStyleToDefaultTheme() throws Exception
       	{
-    		sessionHandle = DesignEngine.newSession(null);
+    		sessionHandle = DesignEngine.newSession(ULocale.ENGLISH);
     		libraryHandle = sessionHandle.createLibrary();
     	    		
     	   openDesign("ThemeTest2.xml");

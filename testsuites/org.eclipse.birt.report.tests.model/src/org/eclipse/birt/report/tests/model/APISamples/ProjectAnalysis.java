@@ -42,6 +42,8 @@ import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * This is a demo usage of Model, this class generate a sample design file using
  * pure Model APIs.
@@ -75,7 +77,7 @@ public class ProjectAnalysis
 		// Create a session handle. This is used to manage all open designs.
 		// Your application need create the session only once.
 
-		SessionHandle session = DesignEngine.newSession( null );
+		SessionHandle session = DesignEngine.newSession( ULocale.ENGLISH );
 
 		// Create a new report design.
 

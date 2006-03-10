@@ -17,6 +17,8 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
+import com.ibm.icu.util.ULocale;
+
 public class TemplateElementHandleTest extends BaseTestCase
 {
 	private ElementFactory factory = null;
@@ -38,7 +40,7 @@ public class TemplateElementHandleTest extends BaseTestCase
 	public void setUp( ) throws Exception
 	{
 
-		sessionHandle = DesignEngine.newSession(null);
+		sessionHandle = DesignEngine.newSession(ULocale.ENGLISH);
 		designHandle = sessionHandle.createDesign();
 		design = (ReportDesign) designHandle.getModule();
 		factory = designHandle.getElementFactory();
