@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.context;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
@@ -22,6 +23,8 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.utility.ParameterAccessor;
@@ -41,16 +44,17 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  */
 public class ViewerAttributeBean
 {
+
 	/**
 	 * Identify the incoming request category.
 	 */
 	private String category = "BIRT"; //$NON-NLS-1$
-	
+
 	/**
 	 * Need to store the exception.
 	 */
 	private Exception exception = null;
-	
+
 	/**
 	 * Report runnable.
 	 */
@@ -60,7 +64,7 @@ public class ViewerAttributeBean
 	 * Report document.
 	 */
 	private IReportDocument reportDocumentInstance = null;
-	
+
 	/**
 	 * Get report parameter task.
 	 */
@@ -75,7 +79,7 @@ public class ViewerAttributeBean
 	 * Whether missing parameters.
 	 */
 	private boolean missingParameter = false;
-	
+
 	/**
 	 * scalar parameter bean.
 	 */
@@ -100,7 +104,7 @@ public class ViewerAttributeBean
 	 * Current locale.
 	 */
 	private Locale locale = null;
-	
+
 	/**
 	 * Enable master page content.
 	 */
@@ -110,7 +114,7 @@ public class ViewerAttributeBean
 	 * In designer context.
 	 */
 	private boolean isDesigner = false;
-	
+
 	/**
 	 * Bookmark.
 	 */
@@ -123,7 +127,7 @@ public class ViewerAttributeBean
 	{
 		this.init( request );
 	}
-	
+
 	/**
 	 * Init the bean.
 	 * 
@@ -132,59 +136,65 @@ public class ViewerAttributeBean
 	 */
 	public void init( HttpServletRequest request )
 	{
-		String servletPath = request.getServletPath();
+		String servletPath = request.getServletPath( );
 		if ( servletPath.indexOf( "/wr" ) != -1 ) //$NON-NLS-1$
 		{
 			this.category = "ERNI"; //$NON-NLS-1$
 		}
-		
+
 		if ( ParameterAccessor.isGetImageOperator( request ) )
 		{
 			return;
 		}
 
-		this.masterPageContent = ParameterAccessor.isMasterPageContent( request );
+		this.masterPageContent = ParameterAccessor
+				.isMasterPageContent( request );
 
 		// Is in designer?
 		this.isDesigner = ParameterAccessor.isDesigner( request );
-		
+
 		// Determine the report design and doc 's timestamp
 		this.reportDocumentName = ParameterAccessor.getReportDocument( request );
 		File reportDocFile = new File( this.reportDocumentName );
-		
+
 		String reportDesignName = ParameterAccessor.getReport( request );
 		File reportDesignDocFile = new File( reportDesignName );
 
 		// If it is in designer and refresh the browser.
-		if ( reportDesignDocFile != null && reportDesignDocFile.exists( ) && reportDesignDocFile.isFile( )
-				&& reportDocFile != null && reportDocFile.exists( ) && reportDocFile.isFile( )
+		if ( reportDesignDocFile != null && reportDesignDocFile.exists( )
+				&& reportDesignDocFile.isFile( ) && reportDocFile != null
+				&& reportDocFile.exists( ) && reportDocFile.isFile( )
 				&& "get".equalsIgnoreCase( request.getMethod( ) ) ) //$NON-NLS-1$
 		{
-			if ( reportDesignDocFile.lastModified( ) > reportDocFile.lastModified( )
+			if ( reportDesignDocFile.lastModified( ) > reportDocFile
+					.lastModified( )
 					|| ParameterAccessor.isOverwrite( request ) )
 			{
 				reportDocFile.delete( );
 			}
 		}
-		
+
 		if ( reportDocFile.exists( ) && reportDocFile.isFile( ) )
 		{
-			this.reportDocumentInstance = ReportEngineService.getInstance( ).openReportDocument( this.reportDocumentName );
+			this.reportDocumentInstance = ReportEngineService.getInstance( )
+					.openReportDocument( this.reportDocumentName );
 			if ( this.reportDocumentInstance == null )
 			{
 				this.exception = new Exception( "Can not open report doc from " //$NON-NLS-1$
 						+ ParameterAccessor.getReportDocument( request ) );
 				return;
 			}
-			
-			this.reportRunnable = this.reportDocumentInstance.getReportRunnable( );
+
+			this.reportRunnable = this.reportDocumentInstance
+					.getReportRunnable( );
 		}
 		else
 		{
 			try
 			{
-				this.reportRunnable = ReportEngineService.getInstance( ).
-					openReportDesign( ParameterAccessor.getReport( request ) );
+				this.reportRunnable = ReportEngineService.getInstance( )
+						.openReportDesign(
+								ParameterAccessor.getReport( request ) );
 			}
 			catch ( EngineException e )
 			{
@@ -210,29 +220,32 @@ public class ViewerAttributeBean
 		String title = null;
 		if ( this.reportRunnable != null )
 		{
-			title = ( String ) this.reportRunnable.getProperty( "title" ); //$NON-NLS-1$
+			title = (String) this.reportRunnable.getProperty( "title" ); //$NON-NLS-1$
 		}
 		if ( title == null || title.trim( ).length( ) <= 0 )
 		{
 			title = BirtResources.getString( "birt.viewer.title" ); //$NON-NLS-1$
 		}
 		this.reportTitle = ParameterAccessor.htmlEncode( title );
-		
+
 		// Bookmark.
 		this.bookmark = ParameterAccessor.getBookmark( request );
 
 		// Prameter task.
-		this.parameterTask = ReportEngineService.getInstance( ).createGetParameterDefinitionTask( this.reportRunnable );
+		this.parameterTask = ReportEngineService.getInstance( )
+				.createGetParameterDefinitionTask( this.reportRunnable );
 		if ( this.parameterTask != null )
 		{
 			this.parameterTask.setLocale( this.locale );
 		}
 
 		// Prepare the report parameters
-		this.parameters = ReportEngineService.getInstance( )
-			.parseParameters( request, this.parameterTask, this.reportRunnable.getTestConfig( ), this.locale );
-		
-		this.missingParameter = ReportEngineService.getInstance( ).validateParameters( this.parameterTask, this.parameters );
+		this.parameters = ReportEngineService.getInstance( ).parseParameters(
+				request, this.parameterTask,
+				this.reportRunnable.getTestConfig( ), this.locale );
+
+		this.missingParameter = ReportEngineService.getInstance( )
+				.validateParameters( this.parameterTask, this.parameters );
 	}
 
 	/**
@@ -245,13 +258,13 @@ public class ViewerAttributeBean
 			this.parameterTask.close( );
 			this.parameterTask = null;
 		}
-	
+
 		if ( this.reportDocumentInstance != null )
 		{
 			this.reportDocumentInstance.close( );
 			this.reportDocumentInstance = null;
 		}
-		
+
 		if ( this.reportRunnable != null )
 		{
 			this.reportRunnable = null;
@@ -318,9 +331,10 @@ public class ViewerAttributeBean
 	{
 		if ( parameterTask != null )
 		{
-			return parameterTask.getParameterDefns( false );
+			return parameterTask.getParameters( ).getContents( );
 		}
 		return null;
+
 	}
 
 	/**
@@ -354,7 +368,7 @@ public class ViewerAttributeBean
 	{
 		this.reportTitle = reportTitle;
 	}
-	
+
 	/**
 	 * @return Returns the reportPage.
 	 */
@@ -362,15 +376,16 @@ public class ViewerAttributeBean
 	{
 		return reportPage;
 	}
-	
+
 	/**
-	 * @param reportPage The reportPage to set.
+	 * @param reportPage
+	 *            The reportPage to set.
 	 */
 	public void setReportPage( String reportPage )
 	{
 		this.reportPage = reportPage;
 	}
-	
+
 	/**
 	 * @return Returns the locale.
 	 */
@@ -378,15 +393,16 @@ public class ViewerAttributeBean
 	{
 		return locale;
 	}
-	
+
 	/**
-	 * @param locale The locale to set.
+	 * @param locale
+	 *            The locale to set.
 	 */
 	public void setLocale( Locale locale )
 	{
 		this.locale = locale;
 	}
-	
+
 	/**
 	 * @return Returns the useTestConfig.
 	 */
@@ -394,7 +410,7 @@ public class ViewerAttributeBean
 	{
 		return isDesigner;
 	}
-	
+
 	/**
 	 * @return Returns the exception.
 	 */
@@ -402,7 +418,7 @@ public class ViewerAttributeBean
 	{
 		return exception;
 	}
-	
+
 	/**
 	 * @return Returns the reportDocumentName.
 	 */
@@ -410,7 +426,7 @@ public class ViewerAttributeBean
 	{
 		return reportDocumentName;
 	}
-	
+
 	/**
 	 * @return Returns the reportDocumentInstance.
 	 */
@@ -426,7 +442,7 @@ public class ViewerAttributeBean
 	{
 		return bookmark;
 	}
-	
+
 	/**
 	 * @return Returns the parameters.
 	 */
@@ -442,7 +458,7 @@ public class ViewerAttributeBean
 	{
 		return masterPageContent;
 	}
-	
+
 	/**
 	 * @return Returns the missingParameter.
 	 */
