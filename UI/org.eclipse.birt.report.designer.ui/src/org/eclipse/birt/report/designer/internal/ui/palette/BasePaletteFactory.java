@@ -653,10 +653,12 @@ public class BasePaletteFactory
 						newObj = ( (Object[]) newObj )[0];
 					}
 					DesignElementHandle elementHandle = (DesignElementHandle) newObj;
-					if ( elementHandle.getRoot( ) instanceof LibraryHandle )
+					ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( );
+					//element comes from library and not to itself.
+					if ( elementHandle.getRoot( ) instanceof LibraryHandle
+							&& elementHandle.getRoot( ) != moduleHandle )
 					{
-						ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-								.getReportDesignHandle( );
 						LibraryHandle library = (LibraryHandle) elementHandle.getRoot( );
 						try
 						{
