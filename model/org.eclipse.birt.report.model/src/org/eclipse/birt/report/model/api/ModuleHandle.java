@@ -66,6 +66,8 @@ import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Abstract module handle which provides the common functionalities of report
  * design and library.
@@ -1112,6 +1114,29 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 */
 
 	public String getMessage( String resourceKey, Locale locale )
+	{
+		return getModule( )
+				.getMessage( resourceKey, ULocale.forLocale( locale ) );
+	}
+
+	/**
+	 * Finds user-defined messages for the given locale.
+	 * <p>
+	 * First we look up in the report itself, then look into the referenced
+	 * message file. Each search uses a reduced form of Java locale-driven
+	 * search algorithm: Language&Country, language, default.
+	 * 
+	 * @param resourceKey
+	 *            Resource key of the user defined message.
+	 * @param locale
+	 *            locale of message, if the input <code>locale</code> is
+	 *            <code>null</code>, the locale for the current thread will
+	 *            be used instead.
+	 * @return the corresponding locale-dependent messages. Return
+	 *         <code>null</code> if resoueceKey is blank.
+	 */
+
+	public String getMessage( String resourceKey, ULocale locale )
 	{
 		return getModule( ).getMessage( resourceKey, locale );
 	}

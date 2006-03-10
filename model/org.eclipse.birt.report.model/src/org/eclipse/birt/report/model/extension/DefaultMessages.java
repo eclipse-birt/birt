@@ -19,6 +19,8 @@ import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.extension.IResourceBundleProvider;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Represents the default implementation for <code>IMessages</code>. This
  * implementation takes the instance of <code>ThreadResources</code> or
@@ -65,7 +67,7 @@ public class DefaultMessages implements IMessages
 	 *      java.util.Locale)
 	 */
 
-	public String getMessage( String key, Locale locale )
+	public String getMessage( String key, ULocale locale )
 	{
 		if ( provider != null )
 		{
@@ -91,5 +93,17 @@ public class DefaultMessages implements IMessages
 		}
 
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.IMessages#getMessage(java.lang.String,
+	 *      java.util.Locale)
+	 */
+	
+	public String getMessage( String key, Locale locale )
+	{
+		return getMessage( key, ULocale.forLocale( locale ) );
 	}
 }

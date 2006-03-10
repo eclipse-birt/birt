@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
@@ -28,6 +27,8 @@ import org.eclipse.birt.report.model.metadata.BooleanPropertyType;
 
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.util.ULocale;
+import com.ibm.icu.util.UResourceBundle;
 
 /**
  * Validates the parameter value with the given data type and format pattern
@@ -52,7 +53,7 @@ public class ParameterValidationUtil
 	 * the locale information, we will use it.
 	 */
 
-	private static Locale DEFAULT_LOCALE = Locale.US;
+	private static ULocale DEFAULT_LOCALE = ULocale.US;
 
 	/**
 	 * Default date-time format string.
@@ -85,8 +86,8 @@ public class ParameterValidationUtil
 	 *             if the input value is not valid with the given data type
 	 */
 
-	static private Object validate( String dataType, String value, Locale locale )
-			throws ValidationValueException
+	static private Object validate( String dataType, String value,
+			ULocale locale ) throws ValidationValueException
 	{
 		if ( value == null )
 			return null;
@@ -141,7 +142,7 @@ public class ParameterValidationUtil
 	 *             if the value is invalid
 	 */
 
-	static final Date doVidateDateTime( String value, Locale locale )
+	static final Date doVidateDateTime( String value, ULocale locale )
 			throws ValidationValueException
 	{
 
@@ -175,7 +176,7 @@ public class ParameterValidationUtil
 	 */
 
 	static final Number doValidateNumber( String dataType, String value,
-			Locale locale ) throws ValidationValueException
+			ULocale locale ) throws ValidationValueException
 	{
 		assert DesignChoiceConstants.PARAM_TYPE_FLOAT
 				.equalsIgnoreCase( dataType )
@@ -272,6 +273,81 @@ public class ParameterValidationUtil
 
 	static public Object validate( String dataType, String format,
 			String value, Locale locale ) throws ValidationValueException
+	{
+		return validate( dataType, format, value, ULocale.forLocale( locale ) );
+	}
+
+	/**
+	 * Validates a input parameter value with the given data type, format choice
+	 * string. The returned value is locale and pattern dependent. The data type
+	 * and the format can be one pair of the following:
+	 * <p>
+	 * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
+	 * collapse" bordercolor="#111111" width="36%" id="AutoNumber1">
+	 * <tr>
+	 * <td width="16%">Data Type</td>
+	 * <td width="84%">Format Type</td>
+	 * </tr>
+	 * <tr>
+	 * <td width="16%">Float/Decimal</td>
+	 * <td width="84%">
+	 * <ul>
+	 * <li>General Number</li>
+	 * <li>Currency</li>
+	 * <li>Fixed</li>
+	 * <li>Percent</li>
+	 * <li>Scientific</li>
+	 * <li>Standard</li>
+	 * <li>pattern string, such as "###,##0", "###,##0.00 'm/s'", "###.#\';';#"
+	 * and so on.</li>
+	 * </ul>
+	 * </td>
+	 * </tr>
+	 * <tr>
+	 * <td width="16%">Date time</td>
+	 * <td width="84%">
+	 * <ul>
+	 * <li>General Date</li>
+	 * <li>Long Date</li>
+	 * <li>Medium Date</li>
+	 * <li>Short Date</li>
+	 * <li>Long Time</li>
+	 * <li>Medium Time</li>
+	 * <li>Short Time</li>
+	 * <li>pattern string, such as "MM/dd/yyyy hh:mm:ss a", "yyyy-MM-dd
+	 * HH:mm:ss" and so on.</li>
+	 * </ul>
+	 * </td>
+	 * </tr>
+	 * <tr>
+	 * <td width="16%">String</td>
+	 * <td width="84%">
+	 * <ul>
+	 * <li>Upper case</li>
+	 * <li>Lower case</li>
+	 * <li>pattern string, such as "lt!" and so on.</li>
+	 * </ul>
+	 * </td>
+	 * </tr>
+	 * </table>
+	 * 
+	 * @param dataType
+	 *            the data type of the value
+	 * @param format
+	 *            the format choice string
+	 * @param value
+	 *            the input value to validate
+	 * @param locale
+	 *            the locale information
+	 * @return the validated value if the input value is valid for the given
+	 *         data type and format choice string
+	 * @throws ValidationValueException
+	 *             if the input value is not valid with the given data type and
+	 *             format string
+	 */
+
+	static public Object validate( String dataType, String format,
+			String value, ULocale locale ) throws ValidationValueException
 	{
 		if ( value == null )
 			return null;
@@ -424,7 +500,7 @@ public class ParameterValidationUtil
 	 * @throws ValidationValueException
 	 */
 
-	static private Boolean doValidateBoolean( String value, Locale locale )
+	static private Boolean doValidateBoolean( String value, ULocale locale )
 			throws ValidationValueException
 	{
 		if ( StringUtil.isBlank( value ) )
@@ -466,15 +542,15 @@ public class ParameterValidationUtil
 	 * @return the message if found, otherwise the message key
 	 */
 
-	static private String getMessage( Locale locale, String key )
+	static private String getMessage( ULocale locale, String key )
 	{
 		// works around bug in some J2EE server; see Bugzilla #126073
 
 		String packageName = ModelMessages.class.getName( ).substring( 0,
 				ModelMessages.class.getName( ).lastIndexOf( "." ) ); //$NON-NLS-1$
 
-		ResourceBundle resourceBundle = ResourceBundle.getBundle( packageName
-				+ ".Messages", //$NON-NLS-1$
+		UResourceBundle resourceBundle = UResourceBundle.getBundleInstance(
+				packageName + ".Messages", //$NON-NLS-1$
 				locale, ModelMessages.class.getClassLoader( ) );
 		if ( resourceBundle != null )
 			return resourceBundle.getString( key );
@@ -497,7 +573,7 @@ public class ParameterValidationUtil
 	 */
 
 	static private Date doValidateDateTimeByPattern( String format,
-			String value, Locale locale ) throws ValidationValueException
+			String value, ULocale locale ) throws ValidationValueException
 	{
 		assert !StringUtil.isBlank( format );
 		if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED
@@ -537,7 +613,7 @@ public class ParameterValidationUtil
 	 */
 
 	static private Number doValidateNumberByPattern( String dataType,
-			String format, String value, Locale locale )
+			String format, String value, ULocale locale )
 			throws ValidationValueException
 	{
 		assert DesignChoiceConstants.PARAM_TYPE_FLOAT
@@ -594,6 +670,41 @@ public class ParameterValidationUtil
 
 	static public String getDisplayValue( String dataType, String format,
 			Object value, Locale locale )
+	{
+		return getDisplayValue( dataType, format, value, ULocale
+				.forLocale( locale ) );
+	}
+
+	/**
+	 * Gets the display string for the value with the given data type, format,
+	 * locale. The value must be the valid data type. That is:
+	 * 
+	 * <ul>
+	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value
+	 * must be <code>java.util.Date<code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value must
+	 * be <code>java.lang.Double</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value must
+	 * be <code>java.math.BigDecimal</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value must
+	 * be <code>java.lang.Boolean</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must
+	 * be <code>java.lang.String</code>.</li>
+	 * </ul>
+	 * 
+	 * @param dataType
+	 *  		the data type of the input value
+	 * @param format
+	 *  		the format pattern to validate
+	 * @param value
+	 *  		the input value to validate
+	 * @param locale
+	 *  		the locale information
+	 * @return the formatted string
+	 */
+
+	static public String getDisplayValue( String dataType, String format,
+			Object value, ULocale locale )
 	{
 		if ( value == null )
 			return null;
@@ -698,7 +809,7 @@ public class ParameterValidationUtil
 	 */
 
 	static private String getDisplayValue( String dataType, Object value,
-			Locale locale )
+			ULocale locale )
 	{
 		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
 				.equalsIgnoreCase( dataType ) )

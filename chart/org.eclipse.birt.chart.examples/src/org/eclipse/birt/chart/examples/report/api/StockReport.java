@@ -68,6 +68,8 @@ import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
+import com.ibm.icu.util.ULocale;
+
 public class StockReport
 {
 
@@ -88,7 +90,7 @@ public class StockReport
 	void createReport( ) throws SemanticException, IOException
 	{
 		// A session handle for all open reports
-		SessionHandle session = DesignEngine.newSession( null );
+		SessionHandle session = DesignEngine.newSession( (ULocale) null );
 
 		// Create a new report
 		reportDesignHandle = session.createDesign( );
@@ -112,80 +114,84 @@ public class StockReport
 		{
 			throw new IOException( "Can not create the output folder" );//$NON-NLS-1$
 		}
-		reportDesignHandle.saveAs( outputPath + "/" + "StockAnalysis.rptdesign" );//$NON-NLS-1$//$NON-NLS-2$
+		reportDesignHandle
+				.saveAs( outputPath + "/" + "StockAnalysis.rptdesign" );//$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	private void createDataSources( ) throws SemanticException
 	{
-		ScriptDataSourceHandle dataSourceHandle = elementFactory.newScriptDataSource( "Data Source" );//$NON-NLS-1$
+		ScriptDataSourceHandle dataSourceHandle = elementFactory
+				.newScriptDataSource( "Data Source" );//$NON-NLS-1$
 		reportDesignHandle.getDataSources( ).add( dataSourceHandle );
 	}
 
 	private void createDataSets( ) throws SemanticException
 	{
 		// Data Set
-		ScriptDataSetHandle dataSetHandle = elementFactory.newScriptDataSet( "Data Set" );//$NON-NLS-1$
+		ScriptDataSetHandle dataSetHandle = elementFactory
+				.newScriptDataSet( "Data Set" );//$NON-NLS-1$
 		dataSetHandle.setDataSource( "Data Source" );//$NON-NLS-1$
 
 		// Set open( ) in code
-		dataSetHandle.setOpen( "i=0;"//$NON-NLS-1$
-				+ "sourcedata = new Array( new Array(6), new Array(6), new Array(6), new Array(6),"//$NON-NLS-1$
-				+ "new Array(6), new Array(6), new Array(6), new Array(6));"//$NON-NLS-1$
-				+ "sourcedata[0][0] = \"3/1/2005\"; "//$NON-NLS-1$
-				+ "sourcedata[0][1] = 2.77;"//$NON-NLS-1$
-				+ "sourcedata[0][2] = 2.73;"//$NON-NLS-1$
-				+ "sourcedata[0][3] = 2.69; "//$NON-NLS-1$
-				+ "sourcedata[0][4] = 2.71;"//$NON-NLS-1$
-				+ "sourcedata[0][5] = 341900;"//$NON-NLS-1$
+		dataSetHandle
+				.setOpen( "i=0;"//$NON-NLS-1$
+						+ "sourcedata = new Array( new Array(6), new Array(6), new Array(6), new Array(6),"//$NON-NLS-1$
+						+ "new Array(6), new Array(6), new Array(6), new Array(6));"//$NON-NLS-1$
+						+ "sourcedata[0][0] = \"3/1/2005\"; "//$NON-NLS-1$
+						+ "sourcedata[0][1] = 2.77;"//$NON-NLS-1$
+						+ "sourcedata[0][2] = 2.73;"//$NON-NLS-1$
+						+ "sourcedata[0][3] = 2.69; "//$NON-NLS-1$
+						+ "sourcedata[0][4] = 2.71;"//$NON-NLS-1$
+						+ "sourcedata[0][5] = 341900;"//$NON-NLS-1$
 
-				+ "sourcedata[1][0] = \"3/2/2005\"; "//$NON-NLS-1$
-				+ "sourcedata[1][1] = 2.8;"//$NON-NLS-1$
-				+ "sourcedata[1][2] = 2.64;"//$NON-NLS-1$
-				+ "sourcedata[1][3] = 2.6; "//$NON-NLS-1$
-				+ "sourcedata[1][4] = 2.71;"//$NON-NLS-1$
-				+ "sourcedata[1][5] = 249900;"//$NON-NLS-1$
+						+ "sourcedata[1][0] = \"3/2/2005\"; "//$NON-NLS-1$
+						+ "sourcedata[1][1] = 2.8;"//$NON-NLS-1$
+						+ "sourcedata[1][2] = 2.64;"//$NON-NLS-1$
+						+ "sourcedata[1][3] = 2.6; "//$NON-NLS-1$
+						+ "sourcedata[1][4] = 2.71;"//$NON-NLS-1$
+						+ "sourcedata[1][5] = 249900;"//$NON-NLS-1$
 
-				+ "sourcedata[2][0] = \"3/3/2005\"; "//$NON-NLS-1$
-				+ "sourcedata[2][1] = 2.6;"//$NON-NLS-1$
-				+ "sourcedata[2][2] = 2.28;"//$NON-NLS-1$
-				+ "sourcedata[2][3] = 2.13; "//$NON-NLS-1$
-				+ "sourcedata[2][4] = 2.59;"//$NON-NLS-1$
-				+ "sourcedata[2][5] = 394800;"//$NON-NLS-1$
+						+ "sourcedata[2][0] = \"3/3/2005\"; "//$NON-NLS-1$
+						+ "sourcedata[2][1] = 2.6;"//$NON-NLS-1$
+						+ "sourcedata[2][2] = 2.28;"//$NON-NLS-1$
+						+ "sourcedata[2][3] = 2.13; "//$NON-NLS-1$
+						+ "sourcedata[2][4] = 2.59;"//$NON-NLS-1$
+						+ "sourcedata[2][5] = 394800;"//$NON-NLS-1$
 
-				+ "sourcedata[3][0] = \"3/4/2005\"; "//$NON-NLS-1$
-				+ "sourcedata[3][1] = 2.87;"//$NON-NLS-1$
-				+ "sourcedata[3][2] = 2.87;"//$NON-NLS-1$
-				+ "sourcedata[3][3] = 2.03; "//$NON-NLS-1$
-				+ "sourcedata[3][4] = 2.21;"//$NON-NLS-1$
-				+ "sourcedata[3][5] = 358200;"//$NON-NLS-1$
+						+ "sourcedata[3][0] = \"3/4/2005\"; "//$NON-NLS-1$
+						+ "sourcedata[3][1] = 2.87;"//$NON-NLS-1$
+						+ "sourcedata[3][2] = 2.87;"//$NON-NLS-1$
+						+ "sourcedata[3][3] = 2.03; "//$NON-NLS-1$
+						+ "sourcedata[3][4] = 2.21;"//$NON-NLS-1$
+						+ "sourcedata[3][5] = 358200;"//$NON-NLS-1$
 
-				+ "sourcedata[4][0] = \"3/5/2005\"; "//$NON-NLS-1$
-				+ "sourcedata[4][1] = 2.48;"//$NON-NLS-1$
-				+ "sourcedata[4][2] = 2.26;"//$NON-NLS-1$
-				+ "sourcedata[4][3] = 2.16; "//$NON-NLS-1$
-				+ "sourcedata[4][4] = 2.39;"//$NON-NLS-1$
-				+ "sourcedata[4][5] = 339000;"//$NON-NLS-1$
+						+ "sourcedata[4][0] = \"3/5/2005\"; "//$NON-NLS-1$
+						+ "sourcedata[4][1] = 2.48;"//$NON-NLS-1$
+						+ "sourcedata[4][2] = 2.26;"//$NON-NLS-1$
+						+ "sourcedata[4][3] = 2.16; "//$NON-NLS-1$
+						+ "sourcedata[4][4] = 2.39;"//$NON-NLS-1$
+						+ "sourcedata[4][5] = 339000;"//$NON-NLS-1$
 
-				+ "sourcedata[5][0] = \"3/6/2005\"; "//$NON-NLS-1$
-				+ "sourcedata[5][1] = 2.98;"//$NON-NLS-1$
-				+ "sourcedata[5][2] = 2.86;"//$NON-NLS-1$
-				+ "sourcedata[5][3] = 2.04; "//$NON-NLS-1$
-				+ "sourcedata[5][4] = 2.19;"//$NON-NLS-1$
-				+ "sourcedata[5][5] = 221000;"//$NON-NLS-1$
+						+ "sourcedata[5][0] = \"3/6/2005\"; "//$NON-NLS-1$
+						+ "sourcedata[5][1] = 2.98;"//$NON-NLS-1$
+						+ "sourcedata[5][2] = 2.86;"//$NON-NLS-1$
+						+ "sourcedata[5][3] = 2.04; "//$NON-NLS-1$
+						+ "sourcedata[5][4] = 2.19;"//$NON-NLS-1$
+						+ "sourcedata[5][5] = 221000;"//$NON-NLS-1$
 
-				+ "sourcedata[6][0] = \"3/7/2005\"; "//$NON-NLS-1$
-				+ "sourcedata[6][1] = 2.87;"//$NON-NLS-1$
-				+ "sourcedata[6][2] = 2.17;"//$NON-NLS-1$
-				+ "sourcedata[6][3] = 2.14; "//$NON-NLS-1$
-				+ "sourcedata[6][4] = 2.62;"//$NON-NLS-1$
-				+ "sourcedata[6][5] = 183600;"//$NON-NLS-1$
+						+ "sourcedata[6][0] = \"3/7/2005\"; "//$NON-NLS-1$
+						+ "sourcedata[6][1] = 2.87;"//$NON-NLS-1$
+						+ "sourcedata[6][2] = 2.17;"//$NON-NLS-1$
+						+ "sourcedata[6][3] = 2.14; "//$NON-NLS-1$
+						+ "sourcedata[6][4] = 2.62;"//$NON-NLS-1$
+						+ "sourcedata[6][5] = 183600;"//$NON-NLS-1$
 
-				+ "sourcedata[7][0] = \"3/8/2005\"; "//$NON-NLS-1$
-				+ "sourcedata[7][1] = 2.8;"//$NON-NLS-1$
-				+ "sourcedata[7][2] = 2.78;"//$NON-NLS-1$
-				+ "sourcedata[7][3] = 2.65; "//$NON-NLS-1$
-				+ "sourcedata[7][4] = 2.66;"//$NON-NLS-1$
-				+ "sourcedata[7][5] = 194800;" );//$NON-NLS-1$
+						+ "sourcedata[7][0] = \"3/8/2005\"; "//$NON-NLS-1$
+						+ "sourcedata[7][1] = 2.8;"//$NON-NLS-1$
+						+ "sourcedata[7][2] = 2.78;"//$NON-NLS-1$
+						+ "sourcedata[7][3] = 2.65; "//$NON-NLS-1$
+						+ "sourcedata[7][4] = 2.66;"//$NON-NLS-1$
+						+ "sourcedata[7][5] = 194800;" );//$NON-NLS-1$
 
 		// Set fetch( ) in code
 		dataSetHandle.setFetch( "if ( i < 8 ){"//$NON-NLS-1$
@@ -216,7 +222,8 @@ public class StockReport
 		ColumnHint ch6 = StructureFactory.createColumnHint( );
 		ch6.setProperty( "columnName", "Volume" );//$NON-NLS-1$//$NON-NLS-2$
 
-		PropertyHandle columnHint = dataSetHandle.getPropertyHandle( ScriptDataSetHandle.COLUMN_HINTS_PROP );
+		PropertyHandle columnHint = dataSetHandle
+				.getPropertyHandle( ScriptDataSetHandle.COLUMN_HINTS_PROP );
 		columnHint.addItem( ch1 );
 		columnHint.addItem( ch2 );
 		columnHint.addItem( ch3 );
@@ -255,7 +262,8 @@ public class StockReport
 		rs6.setPosition( new Integer( 6 ) );
 		rs6.setDataType( "integer" );//$NON-NLS-1$
 
-		PropertyHandle resultSet = dataSetHandle.getPropertyHandle( ScriptDataSetHandle.RESULT_SET_PROP );
+		PropertyHandle resultSet = dataSetHandle
+				.getPropertyHandle( ScriptDataSetHandle.RESULT_SET_PROP );
 		resultSet.addItem( rs1 );
 		resultSet.addItem( rs2 );
 		resultSet.addItem( rs3 );
@@ -268,7 +276,8 @@ public class StockReport
 
 	private void createMasterPages( ) throws ContentException, NameException
 	{
-		DesignElementHandle simpleMasterPage = elementFactory.newSimpleMasterPage( "Master Page" );//$NON-NLS-1$
+		DesignElementHandle simpleMasterPage = elementFactory
+				.newSimpleMasterPage( "Master Page" );//$NON-NLS-1$
 		try
 		{
 			simpleMasterPage.setProperty( MasterPageHandle.LEFT_MARGIN_PROP,
@@ -301,7 +310,8 @@ public class StockReport
 		borderStyle.setProperty( StyleHandle.BORDER_BOTTOM_COLOR_PROP,
 				"#808080" );//$NON-NLS-1$
 		borderStyle.setProperty( StyleHandle.BORDER_LEFT_COLOR_PROP, "#808080" );//$NON-NLS-1$
-		borderStyle.setProperty( StyleHandle.BORDER_RIGHT_COLOR_PROP, "#808080" );//$NON-NLS-1$
+		borderStyle
+				.setProperty( StyleHandle.BORDER_RIGHT_COLOR_PROP, "#808080" );//$NON-NLS-1$
 		borderStyle.setProperty( StyleHandle.BORDER_TOP_COLOR_PROP, "#808080" );//$NON-NLS-1$
 
 		StyleHandle textStyle = elementFactory.newStyle( "Text" );//$NON-NLS-1$
@@ -393,8 +403,8 @@ public class StockReport
 		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
 		data.setValueExpr( "Total.max(row[\"High\"])" );//$NON-NLS-1$
 		data.setStyleName( "Text" );//$NON-NLS-1$
-		data.getPrivateStyle( )
-				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
+		data.getPrivateStyle( ).setNumberFormatCategory(
+				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
 		data.getPrivateStyle( ).setNumberFormat( "$###,##0.00" );//$NON-NLS-1$
 		cell.getContent( ).add( data );
 
@@ -415,8 +425,8 @@ public class StockReport
 		data = elementFactory.newDataItem( null );
 		data.setValueExpr( "Total.min(row[\"Low\"])" );//$NON-NLS-1$
 		data.setStyleName( "Text" );//$NON-NLS-1$
-		data.getPrivateStyle( )
-				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
+		data.getPrivateStyle( ).setNumberFormatCategory(
+				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
 		data.getPrivateStyle( ).setNumberFormat( "$###,##0.00" );//$NON-NLS-1$
 		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
 		cell.getContent( ).add( data );
@@ -438,8 +448,8 @@ public class StockReport
 		data = elementFactory.newDataItem( null );
 		data.setValueExpr( "Total.Ave(row[\"Open\"])" );//$NON-NLS-1$
 		data.setStyleName( "Text" );//$NON-NLS-1$
-		data.getPrivateStyle( )
-				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
+		data.getPrivateStyle( ).setNumberFormatCategory(
+				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
 		data.getPrivateStyle( ).setNumberFormat( "$###,##0.00" );//$NON-NLS-1$
 		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
 		cell.getContent( ).add( data );
@@ -461,8 +471,8 @@ public class StockReport
 		data = elementFactory.newDataItem( null );
 		data.setValueExpr( "Total.Ave(row[\"Close\"])" );//$NON-NLS-1$
 		data.setStyleName( "Text" );//$NON-NLS-1$
-		data.getPrivateStyle( )
-				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
+		data.getPrivateStyle( ).setNumberFormatCategory(
+				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
 		data.getPrivateStyle( ).setNumberFormat( "$###,##0.00" );//$NON-NLS-1$
 		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
 		cell.getContent( ).add( data );
@@ -513,8 +523,8 @@ public class StockReport
 		data = elementFactory.newDataItem( null );
 		data.setValueExpr( "Total.max(row[\"Volume\"])" );//$NON-NLS-1$
 		data.setStyleName( "Text" );//$NON-NLS-1$
-		data.getPrivateStyle( )
-				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
+		data.getPrivateStyle( ).setNumberFormatCategory(
+				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
 		data.getPrivateStyle( ).setNumberFormat( "###,###" );//$NON-NLS-1$
 		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
 		cell.getContent( ).add( data );
@@ -536,8 +546,8 @@ public class StockReport
 		data = elementFactory.newDataItem( null );
 		data.setValueExpr( "Total.min(row[\"Volume\"])" );//$NON-NLS-1$
 		data.setStyleName( "Text" );//$NON-NLS-1$
-		data.getPrivateStyle( )
-				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
+		data.getPrivateStyle( ).setNumberFormatCategory(
+				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
 		data.getPrivateStyle( ).setNumberFormat( "###,###" );//$NON-NLS-1$
 		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
 		cell.getContent( ).add( data );
@@ -559,8 +569,8 @@ public class StockReport
 		data = elementFactory.newDataItem( null );
 		data.setValueExpr( "Total.sum(row[\"Volume\"])" );//$NON-NLS-1$
 		data.setStyleName( "Text" );//$NON-NLS-1$
-		data.getPrivateStyle( )
-				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
+		data.getPrivateStyle( ).setNumberFormatCategory(
+				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
 		data.getPrivateStyle( ).setNumberFormat( "###,###" );//$NON-NLS-1$
 		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
 		cell.getContent( ).add( data );
@@ -582,8 +592,8 @@ public class StockReport
 		data = elementFactory.newDataItem( null );
 		data.setValueExpr( "Total.ave(row[\"Volume\"])" );//$NON-NLS-1$
 		data.setStyleName( "Text" );//$NON-NLS-1$
-		data.getPrivateStyle( )
-				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
+		data.getPrivateStyle( ).setNumberFormatCategory(
+				DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
 		data.getPrivateStyle( ).setNumberFormat( "###,###" );//$NON-NLS-1$
 		data.setProperty( DataItemHandle.DATA_SET_PROP, "Data Set" );//$NON-NLS-1$
 		cell.getContent( ).add( data );
@@ -615,32 +625,28 @@ public class StockReport
 		cwaStock.setOrientation( Orientation.VERTICAL_LITERAL );
 		cwaStock.getBlock( ).setBounds( BoundsImpl.create( 0, 0, 450, 175 ) );
 		cwaStock.getPlot( ).getClientArea( ).getOutline( ).setVisible( true );
-		cwaStock.getPlot( )
-				.getClientArea( )
-				.setBackground( ColorDefinitionImpl.create( 254, 251, 233 ) );
+		cwaStock.getPlot( ).getClientArea( ).setBackground(
+				ColorDefinitionImpl.create( 254, 251, 233 ) );
 
 		Axis xAxisPrimary = cwaStock.getPrimaryBaseAxes( )[0];
 		xAxisPrimary.setCategoryAxis( true );
 		xAxisPrimary.getTitle( ).getCaption( ).setValue( "Trading Date" );//$NON-NLS-1$
-		xAxisPrimary.getMajorGrid( )
-				.getLineAttributes( )
-				.setStyle( LineStyle.DOTTED_LITERAL );
+		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setStyle(
+				LineStyle.DOTTED_LITERAL );
 		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
-		xAxisPrimary.getMajorGrid( )
-				.getLineAttributes( )
-				.setColor( ColorDefinitionImpl.GREY( ) );
+		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setColor(
+				ColorDefinitionImpl.GREY( ) );
 		xAxisPrimary.setType( AxisType.DATE_TIME_LITERAL );
-		xAxisPrimary.setFormatSpecifier( JavaDateFormatSpecifierImpl.create( "MM/dd/yyyy" ) );//$NON-NLS-1$
+		xAxisPrimary.setFormatSpecifier( JavaDateFormatSpecifierImpl
+				.create( "MM/dd/yyyy" ) );//$NON-NLS-1$
 
 		Axis yAxisPrimary = cwaStock.getPrimaryOrthogonalAxis( xAxisPrimary );
 		yAxisPrimary.getTitle( ).getCaption( ).setValue( "Price" );//$NON-NLS-1$
-		yAxisPrimary.getMajorGrid( )
-				.getLineAttributes( )
-				.setStyle( LineStyle.DOTTED_LITERAL );
+		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setStyle(
+				LineStyle.DOTTED_LITERAL );
 		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
-		yAxisPrimary.getMajorGrid( )
-				.getLineAttributes( )
-				.setColor( ColorDefinitionImpl.GREY( ) );
+		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setColor(
+				ColorDefinitionImpl.GREY( ) );
 		yAxisPrimary.getScale( ).setMin( NumberDataElementImpl.create( 2.0 ) );
 		yAxisPrimary.getScale( ).setMax( NumberDataElementImpl.create( 3.0 ) );
 		yAxisPrimary.getScale( ).setStep( 0.2 );
@@ -650,7 +656,8 @@ public class StockReport
 		sdBase.setDataSetRepresentation( "01/25/2005" );//$NON-NLS-1$
 		sd.getBaseSampleData( ).add( sdBase );
 
-		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE.createOrthogonalSampleData( );
+		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE
+				.createOrthogonalSampleData( );
 		sdOrthogonal.setDataSetRepresentation( "H5.3 L1.3 O4.5 C3.4" );//$NON-NLS-1$
 		sdOrthogonal.setSeriesDefinitionIndex( 0 );
 		sd.getOrthogonalSampleData( ).add( sdOrthogonal );
@@ -679,9 +686,8 @@ public class StockReport
 		ss.getDataDefinition( ).addAll( list );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.create( 168,
-				225,
-				253 ) );
+		sdY.getSeriesPalette( ).update(
+				ColorDefinitionImpl.create( 168, 225, 253 ) );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( ss );
 
@@ -724,39 +730,36 @@ public class StockReport
 		cwaBar.setOrientation( Orientation.VERTICAL_LITERAL );
 		cwaBar.getBlock( ).setBounds( BoundsImpl.create( 0, 0, 450, 175 ) );
 		cwaBar.getPlot( ).getClientArea( ).getOutline( ).setVisible( true );
-		cwaBar.getPlot( )
-				.getClientArea( )
-				.setBackground( ColorDefinitionImpl.create( 254, 251, 233 ) );
+		cwaBar.getPlot( ).getClientArea( ).setBackground(
+				ColorDefinitionImpl.create( 254, 251, 233 ) );
 
 		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
 		xAxisPrimary.setCategoryAxis( true );
 		xAxisPrimary.getTitle( ).getCaption( ).setValue( "Trading Date" );//$NON-NLS-1$
-		xAxisPrimary.getMajorGrid( )
-				.getLineAttributes( )
-				.setStyle( LineStyle.DOTTED_LITERAL );
+		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setStyle(
+				LineStyle.DOTTED_LITERAL );
 		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
-		xAxisPrimary.getMajorGrid( )
-				.getLineAttributes( )
-				.setColor( ColorDefinitionImpl.GREY( ) );
+		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setColor(
+				ColorDefinitionImpl.GREY( ) );
 		xAxisPrimary.setType( AxisType.DATE_TIME_LITERAL );
-		xAxisPrimary.setFormatSpecifier( JavaDateFormatSpecifierImpl.create( "MM/dd/yyyy" ) );//$NON-NLS-1$
+		xAxisPrimary.setFormatSpecifier( JavaDateFormatSpecifierImpl
+				.create( "MM/dd/yyyy" ) );//$NON-NLS-1$
 
 		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
 		yAxisPrimary.getTitle( ).getCaption( ).setValue( "Volume" );//$NON-NLS-1$
-		yAxisPrimary.getMajorGrid( )
-				.getLineAttributes( )
-				.setStyle( LineStyle.DOTTED_LITERAL );
+		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setStyle(
+				LineStyle.DOTTED_LITERAL );
 		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
-		yAxisPrimary.getMajorGrid( )
-				.getLineAttributes( )
-				.setColor( ColorDefinitionImpl.GREY( ) );
+		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setColor(
+				ColorDefinitionImpl.GREY( ) );
 
 		SampleData sd = DataFactory.eINSTANCE.createSampleData( );
 		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
 		sdBase.setDataSetRepresentation( "01/25/2005" );//$NON-NLS-1$
 		sd.getBaseSampleData( ).add( sdBase );
 
-		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE.createOrthogonalSampleData( );
+		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE
+				.createOrthogonalSampleData( );
 		sdOrthogonal.setDataSetRepresentation( "5" );//$NON-NLS-1$
 		sdOrthogonal.setSeriesDefinitionIndex( 0 );
 		sd.getOrthogonalSampleData( ).add( sdOrthogonal );
@@ -776,13 +779,13 @@ public class StockReport
 		bs.getDataDefinition( ).add( query2 );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.create( 168,
-				225,
-				253 ) );
+		sdY.getSeriesPalette( ).update(
+				ColorDefinitionImpl.create( 168, 225, 253 ) );
 		sdY.getSeries( ).add( bs );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 
-		DataPointComponent dpc = DataPointComponentImpl.create( DataPointComponentType.ORTHOGONAL_VALUE_LITERAL,
+		DataPointComponent dpc = DataPointComponentImpl.create(
+				DataPointComponentType.ORTHOGONAL_VALUE_LITERAL,
 				JavaNumberFormatSpecifierImpl.create( "###,###" ) );//$NON-NLS-1$
 		bs.getDataPoint( ).getComponents( ).clear( );
 		bs.getDataPoint( ).getComponents( ).add( dpc );
@@ -791,9 +794,9 @@ public class StockReport
 		ChartReportItemImpl crii;
 		try
 		{
-			//Add ChartReportItemImpl to ExtendedItemHandle
+			// Add ChartReportItemImpl to ExtendedItemHandle
 			crii = (ChartReportItemImpl) eih.getReportItem( );
-			//Add chart instance to ChartReportItemImpl
+			// Add chart instance to ChartReportItemImpl
 			crii.setProperty( "chart.instance", cwaBar );//$NON-NLS-1$
 		}
 		catch ( ExtendedElementException e )

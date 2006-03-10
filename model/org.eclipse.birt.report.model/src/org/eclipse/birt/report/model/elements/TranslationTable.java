@@ -15,12 +15,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Internal data structure to store a bunch of user-defined messages. The
@@ -155,7 +156,7 @@ public final class TranslationTable implements Cloneable
 	 *         <code>null</code> if resoueceKey is blank.
 	 */
 
-	public String getMessage( String resourceKey, Locale theLocale )
+	public String getMessage( String resourceKey, ULocale theLocale )
 	{
 		if ( StringUtil.isBlank( resourceKey ) )
 			return null;

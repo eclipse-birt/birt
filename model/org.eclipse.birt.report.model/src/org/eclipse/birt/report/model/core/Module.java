@@ -77,6 +77,8 @@ import org.eclipse.birt.report.model.util.StructureRefUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 import org.eclipse.birt.report.model.writer.ModuleWriter;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Core representation of the module element. The module contains:
  * <ul>
@@ -905,7 +907,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *         <code>resourceKey</code> is blank or <code>null</code>.
 	 */
 
-	public String getMessage( String resourceKey, Locale locale )
+	public String getMessage( String resourceKey, ULocale locale )
 	{
 		if ( StringUtil.isBlank( resourceKey ) )
 			return ""; //$NON-NLS-1$

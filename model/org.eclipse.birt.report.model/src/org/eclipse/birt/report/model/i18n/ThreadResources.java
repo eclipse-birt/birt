@@ -12,10 +12,11 @@
 package org.eclipse.birt.report.model.i18n;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+
+import com.ibm.icu.util.ULocale;
+import com.ibm.icu.util.UResourceBundle;
 
 /**
  * Represents the set of resource bundle with the specific base name of resource
@@ -26,7 +27,7 @@ import java.util.ResourceBundle;
  * calls <code>setLocale(Locale)</code> to set the locale for the current
  * thread, before calling the <code>getMessage()</code> methods.
  * 
- * @see ResourceHandle
+ * @see ModelResourceHandle
  */
 
 public class ThreadResources
@@ -83,8 +84,8 @@ public class ThreadResources
 		this.classLoader = classLoader;
 		this.baseName = baseName;
 
-		ResourceBundle resourceBundle = ResourceBundle.getBundle( baseName,
-				getLocale( ), classLoader );
+		UResourceBundle resourceBundle = UResourceBundle.getBundleInstance(
+				baseName, getLocale( ), classLoader );
 	}
 
 	/**
@@ -96,10 +97,10 @@ public class ThreadResources
 	 *            locale of the current thread.
 	 */
 
-	public static void setLocale( Locale locale )
+	public static void setLocale( ULocale locale )
 	{
 		if ( locale == null )
-			threadLocal.set( Locale.getDefault( ) );
+			threadLocal.set( ULocale.getDefault( ) );
 		else
 			threadLocal.set( locale );
 	}
@@ -110,11 +111,11 @@ public class ThreadResources
 	 * @return the locale of the current thread.
 	 */
 
-	public static Locale getLocale( )
+	public static ULocale getLocale( )
 	{
-		Locale locale = (Locale) threadLocal.get( );
+		ULocale locale = (ULocale) threadLocal.get( );
 		if ( locale == null )
-			locale = Locale.getDefault( );
+			locale = ULocale.getDefault( );
 		return locale;
 	}
 
@@ -129,7 +130,7 @@ public class ThreadResources
 
 	public String getMessage( String key )
 	{
-		ResourceHandle resourceHandle = getResourceHandle( );
+		ModelResourceHandle resourceHandle = getResourceHandle( );
 		if ( resourceHandle != null )
 			return resourceHandle.getMessage( key );
 
@@ -149,7 +150,7 @@ public class ThreadResources
 
 	public String getMessage( String key, Object[] arguments )
 	{
-		ResourceHandle resourceHandle = getResourceHandle( );
+		ModelResourceHandle resourceHandle = getResourceHandle( );
 		if ( resourceHandle != null )
 			return resourceHandle.getMessage( key, arguments );
 
@@ -163,19 +164,16 @@ public class ThreadResources
 	 * @return the resource handle with the locale of this thread
 	 */
 
-	private ResourceHandle getResourceHandle( )
+	private ModelResourceHandle getResourceHandle( )
 	{
-		Locale locale = getLocale( );
+		ULocale locale = getLocale( );
 
-		ResourceHandle resourceHandle = (ResourceHandle) resourceMap
+		ModelResourceHandle resourceHandle = (ModelResourceHandle) resourceMap
 				.get( locale );
 		if ( resourceHandle != null )
 			return resourceHandle;
 
-		ResourceBundle resourceBundle = ResourceBundle.getBundle( baseName,
-				locale, classLoader );
-
-		resourceHandle = new ResourceHandle( resourceBundle );
+		resourceHandle = new ModelResourceHandle( locale );
 
 		synchronized ( resourceMap )
 		{

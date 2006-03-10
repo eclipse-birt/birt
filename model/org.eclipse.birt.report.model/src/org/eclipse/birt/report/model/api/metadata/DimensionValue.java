@@ -258,8 +258,8 @@ public class DimensionValue
 			throws PropertyValueException
 	{
 		assert value != null;
-		char separator = new DecimalFormatSymbols( ThreadResources.getLocale( ) )
-				.getDecimalSeparator( );
+		char separator = new DecimalFormatSymbols( ThreadResources.getLocale( )
+				.toLocale( ) ).getDecimalSeparator( );
 
 		if ( separator == '.' )
 		{

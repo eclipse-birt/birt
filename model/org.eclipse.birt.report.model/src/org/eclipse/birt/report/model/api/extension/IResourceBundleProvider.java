@@ -14,6 +14,8 @@ package org.eclipse.birt.report.model.api.extension;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Provides the resource bundle with the given locale.
  */
@@ -27,8 +29,20 @@ public interface IResourceBundleProvider
 	 * @param locale
 	 *            the given locale
 	 * @return the resource bundle
+	 * @deprecated to support ICU4J, replaced by :
+	 *             getResourceBundle(ULocale locale)
 	 */
 
 	public ResourceBundle getResourceBundle( Locale locale );
+	
+	/**
+	 * Returns the resource bundle with the locale.
+	 * 
+	 * @param locale
+	 *            the given locale
+	 * @return the resource bundle
+	 */
+
+	public ResourceBundle getResourceBundle( ULocale locale );
 
 }

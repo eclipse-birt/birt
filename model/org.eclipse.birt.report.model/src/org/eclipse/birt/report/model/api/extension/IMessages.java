@@ -13,6 +13,8 @@ package org.eclipse.birt.report.model.api.extension;
 
 import java.util.Locale;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * The interface for getting localized messages from extension element. The
  * extension element can has its own message file to take the translation from
@@ -30,8 +32,22 @@ public interface IMessages
 	 * @param locale
 	 *            the locale
 	 * @return the localized message
+	 * @deprecated to support ICU4J, replaced by : getMessage(String key,
+	 *             ULocale lcoale)
 	 */
 
 	public String getMessage( String key, Locale locale );
+
+	/**
+	 * Returns the localized message given the resource key and given locale.
+	 * 
+	 * @param key
+	 *            the resource key
+	 * @param locale
+	 *            the locale of type <code>ULocale</code>
+	 * @return the localized message
+	 */
+
+	public String getMessage( String key, ULocale locale );
 
 }

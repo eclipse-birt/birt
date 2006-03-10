@@ -22,11 +22,12 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.Set;
 
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Helper class to deal with user-defined message files. The message files is
@@ -103,7 +104,7 @@ class BundleHelper
 	 *         files.
 	 */
 
-	public Collection getMessageKeys( Locale locale )
+	public Collection getMessageKeys( ULocale locale )
 	{
 		Set keys = new LinkedHashSet( );
 		Iterator bundleIter = gatherMessageBundles( locale ).iterator( );
@@ -137,7 +138,7 @@ class BundleHelper
 	 *  
 	 */
 
-	public String getMessage( String resourceKey, Locale locale )
+	public String getMessage( String resourceKey, ULocale locale )
 	{
 		Iterator bundleIter = gatherMessageBundles( locale ).iterator( );
 		while ( bundleIter.hasNext( ) )
@@ -166,7 +167,7 @@ class BundleHelper
 	 * @return a message file list for the given locale.
 	 */
 
-	private List gatherMessageBundles( Locale locale )
+	private List gatherMessageBundles( ULocale locale )
 	{
 		if ( locale == null )
 			locale = ThreadResources.getLocale( );

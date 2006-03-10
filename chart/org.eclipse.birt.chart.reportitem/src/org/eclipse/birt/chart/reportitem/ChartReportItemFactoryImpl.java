@@ -19,11 +19,14 @@ import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.ReportItemFactory;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * ChartReportItemFactoryImpl
  */
-public class ChartReportItemFactoryImpl extends ReportItemFactory implements
-		IMessages
+public class ChartReportItemFactoryImpl extends ReportItemFactory
+		implements
+			IMessages
 {
 
 	/**
@@ -61,6 +64,18 @@ public class ChartReportItemFactoryImpl extends ReportItemFactory implements
 	 *      java.util.Locale)
 	 */
 	public String getMessage( String key, Locale locale )
+	{
+		return Messages.getString( key );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.IMessages#getMessage(java.lang.String,
+	 *      com.ibm.icu.util.ULocale)
+	 */
+
+	public String getMessage( String key, ULocale locale )
 	{
 		return Messages.getString( key );
 	}

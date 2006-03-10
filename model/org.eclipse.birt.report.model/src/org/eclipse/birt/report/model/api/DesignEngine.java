@@ -24,6 +24,8 @@ import org.eclipse.birt.report.model.metadata.MetaDataParserException;
 import org.eclipse.birt.report.model.metadata.MetaDataReader;
 import org.eclipse.birt.report.model.metadata.MetaLogManager;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Represents the BIRT design engine as a whole. Used to create new designs or
  * open existing designs.
@@ -125,9 +127,28 @@ public final class DesignEngine
 	 *            locale.
 	 * @return the design session handle
 	 * @see SessionHandle
+	 * @deprecated to support ICU4J, replaced by: SessionHandle newSession(
+	 *             ULocale locale )
 	 */
 
 	public static SessionHandle newSession( Locale locale )
+	{
+		return newSession( ULocale.forLocale( locale ) );
+	}
+
+	/**
+	 * Creates a new design session handle. The application uses the handle to
+	 * open, create and manage designs. The session also represents the user and
+	 * maintains the user's locale information.
+	 * 
+	 * @param locale
+	 *            the user's locale. If <code>null</code>, uses the system
+	 *            locale.
+	 * @return the design session handle
+	 * @see SessionHandle
+	 */
+
+	public static SessionHandle newSession( ULocale locale )
 	{
 		// meta-data ready.
 
@@ -161,12 +182,13 @@ public final class DesignEngine
 
 		return new SessionHandle( locale );
 	}
-	
+
 	/**
 	 * Gets the meta-data dictionary of the design engine.
+	 * 
 	 * @return the meta-data dictionary of the design engine
 	 */
-	
+
 	public static IMetaDataDictionary getMetaDataDictionary( )
 	{
 		// meta-data ready.
@@ -216,7 +238,7 @@ public final class DesignEngine
 	public static ReportDesignHandle openDesign( String fileName )
 			throws DesignFileException
 	{
-		SessionHandle session = newSession( null );
+		SessionHandle session = newSession( (ULocale) null );
 		return session.openDesign( fileName );
 	}
 
@@ -239,7 +261,7 @@ public final class DesignEngine
 	public static ReportDesignHandle openDesign( String fileName, InputStream is )
 			throws DesignFileException
 	{
-		SessionHandle session = newSession( null );
+		SessionHandle session = newSession( (ULocale) null );
 		return session.openDesign( fileName, is );
 	}
 

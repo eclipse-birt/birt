@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -34,7 +33,7 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
-import org.eclipse.birt.report.model.i18n.ResourceHandle;
+import org.eclipse.birt.report.model.i18n.ModelResourceHandle;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.DefaultAbsoluteFontSizeValueProvider;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -45,6 +44,8 @@ import org.eclipse.birt.report.model.parser.DesignReader;
 import org.eclipse.birt.report.model.parser.GenericModuleReader;
 import org.eclipse.birt.report.model.parser.LibraryReader;
 import org.eclipse.birt.report.model.util.ModelUtil;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Represents a design session for a user of the application based on the Design
@@ -94,13 +95,13 @@ public class DesignSession
 	 * The user's locale.
 	 */
 
-	protected Locale locale;
+	protected ULocale locale;
 
 	/**
 	 * The resource bundle for the user's locale.
 	 */
 
-	protected ResourceHandle resources;
+	protected ModelResourceHandle resources;
 
 	/**
 	 * The units of measure used by the application.
@@ -127,11 +128,12 @@ public class DesignSession
 	 *            the user's locale. If null, use the system locale.
 	 */
 
-	public DesignSession( Locale theLocale )
+	public DesignSession( ULocale theLocale )
 	{
-		if ( theLocale == null )
-			theLocale = Locale.getDefault( );
 		locale = theLocale;
+		if ( locale == null )
+			locale = ULocale.getDefault( );
+		
 		activate( );
 	}
 
@@ -700,9 +702,21 @@ public class DesignSession
 	 * @return the locale of the current session
 	 */
 
-	public Locale getLocale( )
+	public ULocale getLocale( )
 	{
 		return locale;
 	}
-
+//
+//	/**
+//	 * Returns the locale of the current session.
+//	 * 
+//	 * @return the locale of the current session
+//	 * @deprecated to support ICU4J, this method is replaced by:
+//	 *             getULocale
+//	 */
+//
+//	public Locale getLocale( )
+//	{
+//		return Locale.getDefault( );
+//	}
 }

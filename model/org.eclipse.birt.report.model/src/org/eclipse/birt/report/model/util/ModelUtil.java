@@ -70,6 +70,7 @@ import org.xml.sax.SAXException;
 import com.ibm.icu.text.CollationKey;
 import com.ibm.icu.text.Collator;
 import com.ibm.icu.util.SimpleTimeZone;
+import com.ibm.icu.util.ULocale;
 
 /**
  * The utility class which provides many static methods used in Model.
@@ -742,7 +743,7 @@ public class ModelUtil
 		// The Collator instance that performs locale-sensitive String
 		// comparison.
 
-		Locale locale = ThreadResources.getLocale( );
+		ULocale locale = ThreadResources.getLocale( );
 		Collator collator = Collator.getInstance( locale );
 
 		// Sorting in English should ignore case.

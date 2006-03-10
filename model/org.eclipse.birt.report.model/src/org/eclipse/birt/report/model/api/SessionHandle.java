@@ -21,6 +21,8 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Represents the design state -- a session for a user. In the Eclipse
  * environment, this represents the set of open designs. In the web environment,
@@ -55,9 +57,26 @@ public class SessionHandle
 	 * 
 	 * @param locale
 	 *            the user's locale. If null, then the system locale is assumed.
+	 *       
+	 * @deprecated to use ICU4J, this method is replaced by:
+	 *             SessionHandle(ULocale locale)
 	 */
 
 	public SessionHandle( Locale locale )
+	{
+		ULocale uLocale = ULocale.forLocale( locale );
+		session = new DesignSession( uLocale );
+	}
+
+	/**
+	 * Constructs a handle for the session with the given locale.
+	 * 
+	 * @param locale
+	 *            the user's locale which is <code>ULocale</code>. If null,
+	 *            then the system locale is assumed.
+	 */
+
+	public SessionHandle( ULocale locale )
 	{
 		session = new DesignSession( locale );
 	}
@@ -91,7 +110,7 @@ public class SessionHandle
 			throws DesignFileException
 	{
 		Module module = session.openModule( fileName, is );
-		return module.getModuleHandle();
+		return module.getModuleHandle( );
 	}
 
 	/**
@@ -109,10 +128,9 @@ public class SessionHandle
 			throws DesignFileException
 	{
 		Module module = session.openModule( fileName );
-		return module.getModuleHandle();
+		return module.getModuleHandle( );
 	}
 
-	
 	/**
 	 * Opens a design with the given the file name.
 	 * 
@@ -456,9 +474,22 @@ public class SessionHandle
 	 * Returns the locale of the current session.
 	 * 
 	 * @return the locale of the current session
+	 * @deprecated to use ICU4J, replaced by: public ULocale getLocale()
 	 */
 
 	public Locale getLocale( )
+	{
+		return Locale.getDefault( );
+	}
+
+	/**
+	 * Returns the locale of the current session.
+	 * 
+	 * @return the locale of the current session, the return value is of
+	 *         <code>ULocale</code>.
+	 */
+
+	public ULocale getULocale( )
 	{
 		return session.getLocale( );
 	}
