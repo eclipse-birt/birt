@@ -1641,7 +1641,6 @@
     </Slot>
     <Slot displayNameID="Element.Library.slot.dataSets" multipleCardinality="true" name="dataSets" since="1.0" xmlName="data-sets">
       <Type name="DataSet"/>
-      <Type name="JointDataSet"/>
     </Slot>
     <Slot displayNameID="Element.Library.slot.pageSetup" multipleCardinality="true" name="pageSetup" since="1.0" xmlName="page-setup">
       <Type name="MasterPage"/>
@@ -1885,7 +1884,7 @@
     <PropertyVisibility name="privateDriverProperties" visibility="hide"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.JointDataSet" extends="DataSet" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.JointDataSet" name="JointDataSet" since="2.1" xmlName="joint-data-set">
-    <!--<Property subType="element" detailType="Dataset" displayNameID="Element.JointDataSet.dataSets" name="datasets" runtimeSettable="true" since="2.1" type="list"/>-->
+    <Property subType="element" detailType="SimpleDataSet" displayNameID="Element.JointDataSet.dataSets" name="dataSets" runtimeSettable="true" since="2.1" type="list"/>
     <Property detailType="JoinCondition" displayNameID="Element.JointDataSet.joinConditions" isList="true" name="joinConditions" runtimeSettable="true" since="2.1" type="structure"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Parameter" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="Parameter" nameSpace="parameter" since="1.0">

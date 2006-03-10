@@ -2726,8 +2726,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.JOINT_DATA_SET_TAG );
 		super.visitJointDataSet( obj );
 
-		// TODO: property list SOURCE_DATASETS_PROP
-		// property(obj, JointDataSet.SOURCE_DATASETS_PROP);
+		writeSimplePropertyList( obj, JointDataSet.DATA_SETS_PROP);
 
 		writeStructureList( obj, JointDataSet.JOIN_CONDITONS_PROP );
 		writer.endElement( );

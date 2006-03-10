@@ -20,11 +20,11 @@ public interface IJointDataSetModel
 {
 
 	/**
-	 * Name of the source datasets property which gives all the source datasets
+	 * Name of the source data sets property which gives all the source datasets
 	 * in this joint dataset.
 	 */
 
-	public static final String DATASETS_PROP = "dataSets"; //$NON-NLS-1$
+	public static final String DATA_SETS_PROP = "dataSets"; //$NON-NLS-1$
 
 	/**
 	 * Name of the joint conditions property which gives all the join conditions

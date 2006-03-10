@@ -861,7 +861,7 @@ class MetaDataHandler extends XMLParserHandler
 						}
 
 					}
-
+					break;
 				default :
 					// Ignore the detail name for other types.
 

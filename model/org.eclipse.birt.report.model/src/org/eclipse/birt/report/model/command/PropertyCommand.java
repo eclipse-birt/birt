@@ -1153,14 +1153,16 @@ public class PropertyCommand extends AbstractElementCommand
 	 *            reference to a list.
 	 * @param item
 	 *            the item to check
-	 * @throws SemanticException
+	 * @throws SemanticError 
+	 *            if element reference is invalid.
+	 * @throws PropertyValueException
 	 *             if the item has any member with invalid value or if the given
 	 *             structure is not of a valid type that can be contained in the
 	 *             list.
 	 */
 
 	private Object checkItem( ElementPropertyDefn prop, Object item )
-			throws PropertyValueException
+			throws PropertyValueException, SemanticError
 	{
 		assert item != null;
 		assert prop.getTypeCode( ) == PropertyType.LIST_TYPE;
@@ -1172,7 +1174,14 @@ public class PropertyCommand extends AbstractElementCommand
 
 		PropertyType type = prop.getSubType( );
 		assert type != null;
-		return type.validateValue( module, prop, value );
+		Object result = type.validateValue( module, prop, value );
+		if ( result instanceof ElementRefValue
+				&& !( (ElementRefValue) result ).isResolved( ) )
+		{
+			throw new SemanticError( element,
+					SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF );
+		}
+		return result;
 
 	}
 

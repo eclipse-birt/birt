@@ -11,12 +11,18 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IJointDataSetModel;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Provides API to operate a joint data set.
@@ -47,15 +53,25 @@ public class JointDataSetHandle extends DataSetHandle
 	}
 
 	/**
-	 * Gets the names of the source data sets in this joint data set.
+	 * Gets the names of the data sets in this joint data set.
 	 * 
 	 * @return a list of names of data sets in this joint data set.
 	 */
 
 	public List getDataSetNames( )
 	{
-		// TODO: logic to get the name list of the source datasets.
-		return null;
+		List dataSetsReferences = getListProperty( JointDataSet.DATA_SETS_PROP );
+		if ( dataSetsReferences == null )
+		{
+			return Collections.EMPTY_LIST;
+		}
+		List results = new ArrayList( );
+		for ( int i = 0; i < dataSetsReferences.size( ); i++ )
+		{
+			results.add( ( (ElementRefValue) dataSetsReferences.get( i ) )
+					.getName( ) );
+		}
+		return results;
 	}
 
 	/**
@@ -63,11 +79,16 @@ public class JointDataSetHandle extends DataSetHandle
 	 * 
 	 * @param dataSetName
 	 *            the name of the data set to be added in.
+	 * @throws SemanticException
+	 *             if the the value of the item is incorrect.
 	 */
 
-	public void addDataSet( String dataSetName )
+	public void addDataSet( String dataSetName ) throws SemanticException
 	{
-		// TODO: add the data set element reference.
+		PropertyCommand command = new PropertyCommand( module, getElement( ) );
+		command.addItem(
+				(ElementPropertyDefn) getPropertyDefn( DATA_SETS_PROP ),
+				dataSetName );
 	}
 
 	/**
@@ -75,11 +96,17 @@ public class JointDataSetHandle extends DataSetHandle
 	 * 
 	 * @param dataSetName
 	 *            the name of the data set to be removed.
+	 * @throws SemanticException
+	 *             if the the value of the item is incorrect.
+	 * 
 	 */
 
-	public void removeDataSet( String dataSetName )
+	public void removeDataSet( String dataSetName ) throws SemanticException
 	{
-		// TODO: add the data set element reference.
+		PropertyCommand command = new PropertyCommand( module, getElement( ) );
+		command.removeItem(
+				(ElementPropertyDefn) getPropertyDefn( DATA_SETS_PROP ),
+				dataSetName );
 	}
 
 	/**
@@ -169,7 +196,9 @@ public class JointDataSetHandle extends DataSetHandle
 		throw new IllegalOperationException( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getCachedRowCount()
 	 */
 	public int getCachedRowCount( )
@@ -177,7 +206,9 @@ public class JointDataSetHandle extends DataSetHandle
 		throw new IllegalOperationException( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getAfterClose()
 	 */
 	public String getAfterClose( )
@@ -185,7 +216,9 @@ public class JointDataSetHandle extends DataSetHandle
 		throw new IllegalOperationException( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getAfterOpen()
 	 */
 	public String getAfterOpen( )
@@ -193,7 +226,9 @@ public class JointDataSetHandle extends DataSetHandle
 		throw new IllegalOperationException( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getBeforeClose()
 	 */
 	public String getBeforeClose( )
@@ -201,7 +236,9 @@ public class JointDataSetHandle extends DataSetHandle
 		throw new IllegalOperationException( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getBeforeOpen()
 	 */
 	public String getBeforeOpen( )
@@ -209,7 +246,9 @@ public class JointDataSetHandle extends DataSetHandle
 		throw new IllegalOperationException( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getDataSource()
 	 */
 	public DataSourceHandle getDataSource( )
@@ -217,7 +256,9 @@ public class JointDataSetHandle extends DataSetHandle
 		throw new IllegalOperationException( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getDataSourceName()
 	 */
 	public String getDataSourceName( )
@@ -225,11 +266,13 @@ public class JointDataSetHandle extends DataSetHandle
 		throw new IllegalOperationException( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getOnFetch()
 	 */
 	public String getOnFetch( )
 	{
 		throw new IllegalOperationException( );
-	}	
+	}
 }
