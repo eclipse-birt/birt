@@ -3,9 +3,15 @@
 <plugin
    id="org.eclipse.birt.report.data.oda.sampledb.ui"
    name="BIRT Sample Database UI Plug-in"
-   version="2.0.0"
+   version="2.1.0"
    provider-name="Eclipse.org"
    class="org.eclipse.birt.report.data.oda.sampledb.ui.plugin.SampledbUIPlugin">
+
+   <runtime>
+      <library name="sampledbui.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
 
    <requires>
       <import plugin="org.eclipse.ui"/>
