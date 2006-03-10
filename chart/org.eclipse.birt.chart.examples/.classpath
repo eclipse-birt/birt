@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/org.eclipse.birt.core/lib/js.jar"/>
+	<classpathentry kind="lib" path="D:/Project/Eclipse_3.2/plugins/org.eclipse.emf.ecore.xmi_2.2.0.v200602241148.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

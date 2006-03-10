@@ -27,6 +27,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,15 +37,17 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
-import org.eclipse.birt.chart.device.IUpdateNotifier;
+import org.eclipse.birt.chart.device.ICallBackNotifier;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
@@ -50,12 +55,17 @@ import org.eclipse.birt.core.exception.BirtException;
 /**
  * The selector of interactivity charts in Swing JPanel.
  * 
+ * Note: Use an extra off-screen image buffer as the actual drawing canvas instead of 
+ * 		 the original chart rendering code in paint( ) method. 
+ *   	 Please see [bugzilla] 127615 for more details.
  */
 public final class SwingInteractivityViewer extends JPanel implements
-		IUpdateNotifier,
+        ICallBackNotifier,
 		ComponentListener
 {
 
+	private static final long serialVersionUID = 1L;
+	
 	private boolean bNeedsGeneration = true;
 
 	private GeneratedChartState gcs = null;
@@ -63,6 +73,8 @@ public final class SwingInteractivityViewer extends JPanel implements
 	private Chart cm = null;
 
 	private IDeviceRenderer idr = null;
+	
+	private BufferedImage bi = null;
 
 	private Map contextMap;
 	
@@ -74,7 +86,7 @@ public final class SwingInteractivityViewer extends JPanel implements
 	 */
 	public static void main( String[] args )
 	{
-		SwingInteractivityViewer siv = new SwingInteractivityViewer( );
+		final SwingInteractivityViewer siv = new SwingInteractivityViewer( );
 
 		JFrame jf = new JFrame( );
 		jf.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
@@ -95,6 +107,17 @@ public final class SwingInteractivityViewer extends JPanel implements
 
 		ControlPanel cp = siv.new ControlPanel( siv );
 		co.add( cp, BorderLayout.SOUTH );
+		
+		siv.idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER, siv );
+
+		jf.addWindowListener( new WindowAdapter( ) {
+
+			public void windowClosing( WindowEvent e )
+			{
+				siv.idr.dispose( );
+			}
+
+		} );
 
 		jf.show( );
 	}
@@ -126,6 +149,7 @@ public final class SwingInteractivityViewer extends JPanel implements
 	public void regenerateChart( )
 	{
 		bNeedsGeneration = true;
+		updateBuffer( );
 		repaint( );
 	}
 
@@ -162,6 +186,16 @@ public final class SwingInteractivityViewer extends JPanel implements
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getRunTimeModel()
+	 */
+	public Chart getRunTimeModel( )
+	{
+		return gcs.getChartModel( );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getContext(java.lang.Object)
 	 */
 	public Object getContext( Object key )
@@ -190,31 +224,31 @@ public final class SwingInteractivityViewer extends JPanel implements
 		return contextMap.remove( key );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getRunTimeModel()
-	 */
-	public Chart getRunTimeModel( )
+	public void updateBuffer( )
 	{
-		return gcs.getChartModel( );
-	}
-
-	public void paint( Graphics g )
-	{
-		super.paint( g );
-
-		Graphics2D g2d = (Graphics2D) g;
-		idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
-		idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER, this );
-
 		Dimension d = getSize( );
+
+		if ( bi == null
+				|| bi.getWidth( ) != d.width
+				|| bi.getHeight( ) != d.height )
+		{
+			bi = new BufferedImage( d.width,
+					d.height,
+					BufferedImage.TYPE_INT_ARGB );
+		}
+
+		Graphics2D g2d = (Graphics2D) bi.getGraphics( );
+
+		idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
 		Bounds bo = BoundsImpl.create( 0, 0, d.width, d.height );
-		bo.scale( 72d / idr.getDisplayServer( ).getDpiResolution( ) );
+		bo.scale( 72d / idr.getDisplayServer( ).getDpiResolution( ) ); // BOUNDS
+		// MUST
+		// BE
+		// SPECIFIED
+		// IN
+		// POINTS
 
 		Generator gr = Generator.instance( );
-
-		// When the update button has been pushed, build a chart offscreen.
 		if ( bNeedsGeneration )
 		{
 			bNeedsGeneration = false;
@@ -233,15 +267,36 @@ public final class SwingInteractivityViewer extends JPanel implements
 			}
 		}
 
-		// Draw the previous built chart on screen.
 		try
 		{
 			gr.render( idr, gcs );
 		}
-		catch ( ChartException ex )
+		catch ( ChartException rex )
 		{
-			showException( g2d, ex );
+			showException( g2d, rex );
 		}
+		finally
+		{
+			g2d.dispose( );
+		}
+
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
+	 */
+	public void paint( Graphics g )
+	{
+		super.paint( g );
+
+		if ( bi == null )
+		{
+			updateBuffer( );
+		}
+		
+		g.drawImage( bi, 0, 0, this );
 	}
 
 	/**
@@ -381,6 +436,8 @@ public final class SwingInteractivityViewer extends JPanel implements
 	private final class ControlPanel extends JPanel implements ActionListener
 	{
 
+		private static final long serialVersionUID = 1L;
+		
 		private JComboBox jcbModels = null;
 
 		private JButton jbUpdate = null;
@@ -490,7 +547,14 @@ public final class SwingInteractivityViewer extends JPanel implements
 			}
 
 			bNeedsGeneration = true;
+			siv.updateBuffer( );
 			siv.repaint( );
 		}
+	}
+	
+	public void callback( Object event, Object source, CallBackValue value )
+	{
+		JOptionPane.showMessageDialog( SwingInteractivityViewer.this,
+				value.getIdentifier( ) ); 
 	}
 }
