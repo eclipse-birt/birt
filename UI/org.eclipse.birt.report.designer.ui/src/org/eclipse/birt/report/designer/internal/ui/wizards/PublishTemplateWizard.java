@@ -118,9 +118,30 @@ public class PublishTemplateWizard extends Wizard
 						0 );
 				overwrite = d.open( );
 			}
-			if ( overwrite == Window.OK && targetFile.createNewFile( ) )
+			if ( overwrite == Window.OK
+					&& ( targetFile.exists( ) || ( !targetFile.exists( ) && targetFile.createNewFile( ) ) ) )
 			{
 				copyFile( filePath, targetFile );
+
+				try
+				{
+					setDesignFile( targetFile.getAbsolutePath( ) );
+				}
+				catch ( DesignFileException e )
+				{
+					ExceptionHandler.handle( e );
+					return false;
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+					return false;
+				}
+				catch ( IOException e )
+				{
+					ExceptionHandler.handle( e );
+					return false;
+				}
 			}
 		}
 		catch ( IOException e )
@@ -128,25 +149,6 @@ public class PublishTemplateWizard extends Wizard
 			ExceptionHandler.handle( e );
 		}
 
-		try
-		{
-			setDesignFile( templateFolderPath + fileName );
-		}
-		catch ( DesignFileException e )
-		{
-			ExceptionHandler.handle( e );
-			return false;
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
-			return false;
-		}
-		catch ( IOException e )
-		{
-			ExceptionHandler.handle( e );
-			return false;
-		}
 		return overwrite != 1;
 	}
 
