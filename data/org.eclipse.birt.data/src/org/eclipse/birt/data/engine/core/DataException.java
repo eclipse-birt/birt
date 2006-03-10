@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.data.engine.core;
 
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -21,12 +20,11 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 /**
  * Implementation of BirtException in DtE project.
  */
-
 public class DataException extends BirtException
 {
 	/** static ResourceHandle */
-	private static ResourceBundle resourceBundle = 
-		new DataResourceHandle( Locale.getDefault( ) ).getResourceBundle();
+	private static ResourceBundle resourceBundle = DataResourceHandle.getInstance( )
+			.getResourceBundle( );
 	
 	/** pluginId, probably this value should be obtained externally */
 	private final static String _pluginId = "org.eclipse.birt.data";
