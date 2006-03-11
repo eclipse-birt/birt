@@ -41,8 +41,9 @@ abstract public class Accumulator
     /**
      * This method is called before the the first onRow() call. This is an opportunity to 
      * initialize any internal data structure. 
+     * @throws DataException 
      */
-    public void start()
+    public void start() throws DataException
     {}
     
     /**
