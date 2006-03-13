@@ -195,7 +195,7 @@ public class SwingRendererImpl extends DeviceAdapter
 					}
 				}
 
-				_eh = new SwingEventHandler( _lhmAllTriggers, _iun, getLocale( ) );
+				_eh = new SwingEventHandler( _lhmAllTriggers, _iun, getULocale( ) );
 				jc.addMouseListener( _eh );
 				jc.addMouseMotionListener( _eh );
 				jc.addKeyListener( _eh );
@@ -219,7 +219,7 @@ public class SwingRendererImpl extends DeviceAdapter
 							new Object[]{
 								_g2d
 							},
-							getLocale( ) ) );
+							getULocale( ) ) );
 		}
 		else if ( sProperty.equals( IDeviceRenderer.DPI_RESOLUTION ) )
 		{
@@ -1517,7 +1517,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		if ( _iun == null )
 		{
 			logger.log( ILogger.WARNING,
-					Messages.getString( "exception.missing.component.interaction", getLocale( ) ) ); //$NON-NLS-1$
+					Messages.getString( "exception.missing.component.interaction", getULocale( ) ) ); //$NON-NLS-1$
 			return;
 		}
 

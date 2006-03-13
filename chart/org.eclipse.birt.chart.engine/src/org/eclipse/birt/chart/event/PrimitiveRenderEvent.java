@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.event;
 
 import java.util.EventObject;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.IConstants;
@@ -67,7 +66,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 				new Object[]{
 					this
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) );
+				ResourceBundle.getBundle( Messages.ENGINE ) );
 	}
 
 	/**
@@ -85,7 +84,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 				new Object[]{
 					this
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) );
+				ResourceBundle.getBundle( Messages.ENGINE ) );
 	}
 
 	/**
@@ -208,8 +207,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 					new Object[]{
 						o
 					},
-					ResourceBundle.getBundle( Messages.ENGINE,
-							Locale.getDefault( ) ) ) );
+					ResourceBundle.getBundle( Messages.ENGINE ) ) );
 		}
 		/*
 		 * if (dDepth != pre.dDepth) { return (dDepth > pre.dDepth) ?
@@ -243,7 +241,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 				new Object[]{
 					this
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) );
+				ResourceBundle.getBundle( Messages.ENGINE ) );
 	}
 
 	/**
@@ -260,7 +258,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 				new Object[]{
 					this
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) );
+				ResourceBundle.getBundle( Messages.ENGINE ) );
 	}
 
 	/**
@@ -275,7 +273,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 	public final void setSourceObject( Object oSource )
 	{
 		if ( oSource == null )
-			throw new IllegalArgumentException( Messages.getString( "error.null.source", Locale.getDefault( ) ) ); //$NON-NLS-1$ 
+			throw new IllegalArgumentException( Messages.getString( "error.null.source" ) ); //$NON-NLS-1$ 
 		super.source = oSource;
 	}
 

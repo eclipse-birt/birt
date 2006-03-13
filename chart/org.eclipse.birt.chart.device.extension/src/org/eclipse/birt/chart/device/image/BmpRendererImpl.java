@@ -30,7 +30,9 @@ public final class BmpRendererImpl extends JavaxImageIOWriter
 		return "bmp"; //$NON-NLS-1$
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.device.IImageMapEmitter#getMimeType()
 	 */
 	public final String getMimeType( )
@@ -65,59 +67,57 @@ public final class BmpRendererImpl extends JavaxImageIOWriter
 			{
 				throw e;
 			}
-			else
+			logger.log( ILogger.INFORMATION,
+					Messages.getString( "info.use.custom.image.writer", //$NON-NLS-1$
+							new Object[]{
+									getFormat( ), BmpWriter.class.getName( )
+							},
+							getULocale( ) ) );
+
+			// If not supported by JavaxImageIO, use our own.
+			BmpWriter bw = null;
+
+			if ( _oOutputIdentifier instanceof OutputStream )
 			{
-				logger.log( ILogger.INFORMATION,
-						Messages.getString( "info.use.custom.image.writer", //$NON-NLS-1$
-								new Object[]{
-										getFormat( ), BmpWriter.class.getName( )
-								}, getLocale( ) ) );
-
-				// If not supported by JavaxImageIO, use our own.
-				BmpWriter bw = null;
-
-				if ( _oOutputIdentifier instanceof OutputStream )
+				bw = new BmpWriter( _img );
+				try
 				{
-					bw = new BmpWriter( _img );
-					try
-					{
-						bw.write( (OutputStream) _oOutputIdentifier );
-					}
-					catch ( Exception ex )
-					{
-						throw new ChartException( ChartDeviceExtensionPlugin.ID,
-								ChartException.RENDERING,
-								ex );
-					}
+					bw.write( (OutputStream) _oOutputIdentifier );
 				}
-				else if ( _oOutputIdentifier instanceof String )
-				{
-					FileOutputStream fos = null;
-					try
-					{
-						fos = new FileOutputStream( (String) _oOutputIdentifier );
-						bw = new BmpWriter( _img );
-						bw.write( fos );
-						fos.close( );
-					}
-					catch ( Exception ex )
-					{
-						throw new ChartException( ChartDeviceExtensionPlugin.ID,
-								ChartException.RENDERING,
-								ex );
-					}
-				}
-				else
+				catch ( Exception ex )
 				{
 					throw new ChartException( ChartDeviceExtensionPlugin.ID,
 							ChartException.RENDERING,
-							"exception.unable.write.output.identifier", //$NON-NLS-1$
-							new Object[]{
-								_oOutputIdentifier
-							},
-							ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-									getLocale( ) ) );
+							ex );
 				}
+			}
+			else if ( _oOutputIdentifier instanceof String )
+			{
+				FileOutputStream fos = null;
+				try
+				{
+					fos = new FileOutputStream( (String) _oOutputIdentifier );
+					bw = new BmpWriter( _img );
+					bw.write( fos );
+					fos.close( );
+				}
+				catch ( Exception ex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							ex );
+				}
+			}
+			else
+			{
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
+						"exception.unable.write.output.identifier", //$NON-NLS-1$
+						new Object[]{
+							_oOutputIdentifier
+						},
+						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
+								getLocale( ) ) );
 			}
 		}
 

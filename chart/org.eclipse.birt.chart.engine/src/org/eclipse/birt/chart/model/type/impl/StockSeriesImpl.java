@@ -11,10 +11,7 @@
 
 package org.eclipse.birt.chart.model.type.impl;
 
-import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Locale;
-import java.util.StringTokenizer;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.Chart;
@@ -45,6 +42,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.util.StringTokenizer;
+import com.ibm.icu.util.ULocale;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -626,7 +627,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 					new Object[]{
 						chart.getClass( ).getName( )
 					},
-					Locale.getDefault( ) ) );
+					ULocale.getDefault( ) ) );
 		}
 
 		// Update the sampledata in the model

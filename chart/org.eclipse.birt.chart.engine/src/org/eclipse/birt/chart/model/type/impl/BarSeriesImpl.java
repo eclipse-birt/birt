@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.chart.model.type.impl;
 
-import java.util.Locale;
-import java.util.StringTokenizer;
-
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -37,6 +34,9 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import com.ibm.icu.util.StringTokenizer;
+import com.ibm.icu.util.ULocale;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -447,7 +447,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 					new Object[]{
 						chart.getClass( ).getName( )
 					},
-					Locale.getDefault( ) ) );
+					ULocale.getDefault( ) ) );
 		}
 
 		// Update the sampledata in the model

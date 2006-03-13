@@ -11,11 +11,7 @@
 
 package org.eclipse.birt.chart.computation.withaxes;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
@@ -40,6 +36,11 @@ import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
+
+import com.ibm.icu.text.DecimalFormat;
+import com.ibm.icu.text.DecimalFormatSymbols;
+import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.Calendar;
 
 /**
  * Encapsulates the auto scaling algorithms used by the rendering and chart
@@ -472,7 +473,7 @@ public final class AutoScale extends Methods implements Cloneable
 									new Double( dStep )
 								},
 								ResourceBundle.getBundle( Messages.ENGINE,
-										rtc.getLocale( ) ) ) );
+										rtc.getULocale( ).toLocale( ) ) ) );
 					}
 
 					if ( ( (Number) oStep ).doubleValue( ) == dStep )
@@ -745,7 +746,7 @@ public final class AutoScale extends Methods implements Cloneable
 			throw new RuntimeException( new ChartException( ChartEnginePlugin.ID,
 					ChartException.COMPUTATION,
 					"exception.tick.computations", //$NON-NLS-1$ 
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ) );
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( ).toLocale( ) ) ) );
 		}
 		daTickCoordinates = da;
 	}
@@ -975,7 +976,7 @@ public final class AutoScale extends Methods implements Cloneable
 			throw new RuntimeException( new ChartException( ChartEnginePlugin.ID,
 					ChartException.COMPUTATION,
 					"exception.unit.size.failure", //$NON-NLS-1$ 
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ) );
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( ).toLocale( ) ) ) );
 		}
 		return Math.abs( daTickCoordinates[1] - daTickCoordinates[0] );
 	}
@@ -1130,7 +1131,7 @@ public final class AutoScale extends Methods implements Cloneable
 					new Object[]{
 						oValue
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( ).toLocale( ) ) );
 		}
 		return null;
 	}
@@ -1352,7 +1353,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					sText = ValueFormatter.format( nde,
 							fs,
-							rtc.getLocale( ),
+							rtc.getULocale( ),
 							df );
 				}
 				catch ( ChartException dfex )
@@ -1430,7 +1431,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					sText = ValueFormatter.format( nde,
 							fs,
-							rtc.getLocale( ),
+							rtc.getULocale( ),
 							df );
 				}
 				catch ( ChartException dfex )
@@ -1963,7 +1964,7 @@ public final class AutoScale extends Methods implements Cloneable
 									ax.getModelAxis( ).getType( ).getName( )
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) );
+									rtc.getULocale( ).toLocale( ) ) );
 				}
 				sc.bMinimumFixed = true;
 			}
@@ -1990,7 +1991,7 @@ public final class AutoScale extends Methods implements Cloneable
 									ax.getModelAxis( ).getType( ).getName( )
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) );
+									rtc.getULocale( ).toLocale( ) ) );
 				}
 				sc.bMaximumFixed = true;
 			}
@@ -2011,7 +2012,7 @@ public final class AutoScale extends Methods implements Cloneable
 								oStep
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) );
+									rtc.getULocale( ).toLocale( ) ) );
 				}
 			}
 
@@ -2027,7 +2028,7 @@ public final class AutoScale extends Methods implements Cloneable
 									sc.oMinimum, sc.oMaximum
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) );
+									rtc.getULocale( ).toLocale( ) ) );
 				}
 			}
 
@@ -2297,7 +2298,7 @@ public final class AutoScale extends Methods implements Cloneable
 												.getName( )
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) );
+									rtc.getULocale( ).toLocale( ) ) );
 				}
 				sc.bMinimumFixed = true;
 			}
@@ -2321,7 +2322,7 @@ public final class AutoScale extends Methods implements Cloneable
 												.getName( )
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) );
+									rtc.getULocale( ).toLocale( ) ) );
 				}
 				sc.bMaximumFixed = true;
 			}
@@ -2347,7 +2348,7 @@ public final class AutoScale extends Methods implements Cloneable
 									sc.oMinimum, sc.oMaximum
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) );
+									rtc.getULocale( ).toLocale( ) ) );
 				}
 			}
 
@@ -2468,7 +2469,7 @@ public final class AutoScale extends Methods implements Cloneable
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.GENERATION,
 					"exception.unknown.axis.type.tick.computations", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( ).toLocale( ) ) );
 		}
 
 		final double dTickGap = dLength / ( nTicks - 1 ) * iDirection;
@@ -2522,7 +2523,7 @@ public final class AutoScale extends Methods implements Cloneable
 			// ADJUST THE START POSITION
 			try
 			{
-				return ValueFormatter.format( ca, fs, rtc.getLocale( ), sdf );
+				return ValueFormatter.format( ca, fs, rtc.getULocale( ), sdf );
 			}
 			catch ( ChartException dfex )
 			{
@@ -2540,7 +2541,7 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 			try
 			{
-				return ValueFormatter.format( oValue, fs, rtc.getLocale( ), df );
+				return ValueFormatter.format( oValue, fs, rtc.getULocale( ), df );
 			}
 			catch ( ChartException dfex )
 			{
@@ -2598,7 +2599,7 @@ public final class AutoScale extends Methods implements Cloneable
 						ChartException.GENERATION,
 						"exception.dataset.non.datetime", //$NON-NLS-1$
 						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) );
+								rtc.getULocale( ).toLocale( ) ) );
 
 			}
 
@@ -2761,7 +2762,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					sValue = ValueFormatter.format( getMinimum( ),
 							fs,
-							rtc.getLocale( ),
+							rtc.getULocale( ),
 							df );
 				}
 				catch ( ChartException dfex )
@@ -2796,7 +2797,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					sValue = ValueFormatter.format( getMaximum( ),
 							fs,
-							rtc.getLocale( ),
+							rtc.getULocale( ),
 							df );
 				}
 				catch ( ChartException dfex )
@@ -2842,7 +2843,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					sValue = ValueFormatter.format( getMinimum( ),
 							fs,
-							rtc.getLocale( ),
+							rtc.getULocale( ),
 							df );
 				}
 				catch ( ChartException dfex )
@@ -2883,7 +2884,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					sValue = ValueFormatter.format( getMaximum( ),
 							fs,
-							rtc.getLocale( ),
+							rtc.getULocale( ),
 							df );
 				}
 				catch ( ChartException dfex )
@@ -2933,7 +2934,7 @@ public final class AutoScale extends Methods implements Cloneable
 			// ADJUST THE START POSITION
 			try
 			{
-				sText = ValueFormatter.format( cdt, fs, rtc.getLocale( ), sdf );
+				sText = ValueFormatter.format( cdt, fs, rtc.getULocale( ), sdf );
 			}
 			catch ( ChartException dfex )
 			{
@@ -2967,7 +2968,7 @@ public final class AutoScale extends Methods implements Cloneable
 			cdt = asDateTime( getMaximum( ) );
 			try
 			{
-				sText = ValueFormatter.format( cdt, fs, rtc.getLocale( ), sdf );
+				sText = ValueFormatter.format( cdt, fs, rtc.getULocale( ), sdf );
 			}
 			catch ( ChartException dfex )
 			{
@@ -3008,7 +3009,7 @@ public final class AutoScale extends Methods implements Cloneable
 					new Object[]{
 						la.getCaption( ).getValue( )
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( ).toLocale( ) ) );
 		}
 
 		if ( !la.isVisible( ) )
@@ -3064,7 +3065,7 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						sText = ValueFormatter.format( nde,
 								fs,
-								rtc.getLocale( ),
+								rtc.getULocale( ),
 								df );
 					}
 					catch ( ChartException dfex )
@@ -3103,7 +3104,7 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						sText = ValueFormatter.format( nde,
 								fs,
-								rtc.getLocale( ),
+								rtc.getULocale( ),
 								df );
 					}
 					catch ( ChartException dfex )
@@ -3140,7 +3141,7 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						sText = ValueFormatter.format( cdtAxisValue,
 								fs,
-								rtc.getLocale( ),
+								rtc.getULocale( ),
 								sdf );
 					}
 					catch ( ChartException dfex )
@@ -3208,7 +3209,7 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						sText = ValueFormatter.format( nde,
 								fs,
-								rtc.getLocale( ),
+								rtc.getULocale( ),
 								df );
 					}
 					catch ( ChartException dfex )
@@ -3246,7 +3247,7 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						sText = ValueFormatter.format( nde,
 								fs,
-								rtc.getLocale( ),
+								rtc.getULocale( ),
 								df );
 					}
 					catch ( ChartException dfex )
@@ -3283,7 +3284,7 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						sText = ValueFormatter.format( cdtAxisValue,
 								fs,
-								rtc.getLocale( ),
+								rtc.getULocale( ),
 								sdf );
 					}
 					catch ( ChartException dfex )
@@ -3327,7 +3328,7 @@ public final class AutoScale extends Methods implements Cloneable
 					new Object[]{
 						la.getCaption( ).getValue( )
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( ).toLocale( ) ) );
 		}
 
 		if ( !la.isVisible( ) || !isAxisLabelStaggered( ) )
@@ -3382,7 +3383,7 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						sText = ValueFormatter.format( nde,
 								fs,
-								rtc.getLocale( ),
+								rtc.getULocale( ),
 								df );
 					}
 					catch ( ChartException dfex )
@@ -3421,7 +3422,7 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						sText = ValueFormatter.format( nde,
 								fs,
-								rtc.getLocale( ),
+								rtc.getULocale( ),
 								df );
 					}
 					catch ( ChartException dfex )
@@ -3459,7 +3460,7 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						sText = ValueFormatter.format( cdtAxisValue,
 								fs,
-								rtc.getLocale( ),
+								rtc.getULocale( ),
 								sdf );
 					}
 					catch ( ChartException dfex )
@@ -3529,7 +3530,7 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						sText = ValueFormatter.format( nde,
 								fs,
-								rtc.getLocale( ),
+								rtc.getULocale( ),
 								df );
 					}
 					catch ( ChartException dfex )
@@ -3568,7 +3569,7 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						sText = ValueFormatter.format( nde,
 								fs,
-								rtc.getLocale( ),
+								rtc.getULocale( ),
 								df );
 					}
 					catch ( ChartException dfex )
@@ -3606,7 +3607,7 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						sText = ValueFormatter.format( cdtAxisValue,
 								fs,
-								rtc.getLocale( ),
+								rtc.getULocale( ),
 								sdf );
 					}
 					catch ( ChartException dfex )

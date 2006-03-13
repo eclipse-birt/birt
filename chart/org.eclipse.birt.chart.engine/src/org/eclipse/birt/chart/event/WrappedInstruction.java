@@ -12,12 +12,13 @@
 package org.eclipse.birt.chart.event;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.factory.DeferredCache;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * WrappedInstruction
@@ -122,7 +123,7 @@ public final class WrappedInstruction implements Comparable
 						super.toString( ),
 						new Boolean( isModel( ) ),
 						getBounds( )
-				}, Locale.getDefault( ) );
+				}, ULocale.getDefault( ) );
 	}
 
 	public final Bounds getBounds( )

@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.chart.tests.engine.datafeed;
 
-import java.util.Calendar;
 
+import junit.framework.TestCase;
+
+import org.eclipse.birt.chart.datafeed.DataSetProcessorImpl;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.TextDataSet;
@@ -20,9 +22,8 @@ import org.eclipse.birt.chart.model.data.impl.DateTimeDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.util.CDateTime;
-import org.eclipse.birt.chart.datafeed.DataSetProcessorImpl;
 
-import junit.framework.TestCase;
+import com.ibm.icu.util.Calendar;
 
 
 /**

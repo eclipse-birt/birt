@@ -20,6 +20,8 @@ import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.component.Label;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Provides generic services to a device renderer for computing metrics and
  * centralized creation of device specific resources. This class is analogus to
@@ -133,8 +135,18 @@ public interface IDisplayServer
 	 * Provides the locale to display server implementations as needed to
 	 * retrieve localized resources for presentation.
 	 * 
-	 * @return
+	 * @return locale
+	 * @deprecated
 	 */
 	Locale getLocale( );
+
+	/**
+	 * Provides the locale to display server implementations as needed to
+	 * retrieve localized resources for presentation.
+	 * 
+	 * @return ulocale
+	 * @since 2.1
+	 */
+	ULocale getULocale( );
 
 }

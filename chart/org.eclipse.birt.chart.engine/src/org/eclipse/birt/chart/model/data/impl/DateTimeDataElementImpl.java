@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.model.data.impl;
 
-import java.util.Calendar;
-
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
@@ -20,6 +18,8 @@ import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '

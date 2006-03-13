@@ -12,9 +12,10 @@
 package org.eclipse.birt.chart.device.extension.i18n;
 
 import java.text.MessageFormat;
-import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Provides useful methods to retrieve localized text for the
@@ -32,12 +33,11 @@ public final class Messages
 	/**
 	 * @param key
 	 * @param lcl
-	 * @return
 	 */
-	public static String getString( String key, Locale lcl )
+	public static String getString( String key, ULocale lcl )
 	{
 		final ResourceBundle rb = ResourceBundle.getBundle( DEVICE_EXTENSION,
-				lcl );
+				lcl.toLocale( ) );
 		try
 		{
 			return rb.getString( key );
@@ -52,12 +52,11 @@ public final class Messages
 	 * @param key
 	 * @param oa
 	 * @param lcl
-	 * @return
 	 */
-	public static String getString( String key, Object[] oa, Locale lcl )
+	public static String getString( String key, Object[] oa, ULocale lcl )
 	{
 		final ResourceBundle rb = ResourceBundle.getBundle( DEVICE_EXTENSION,
-				lcl );
+				lcl.toLocale( ) );
 		try
 		{
 			return MessageFormat.format( rb.getString( key ), oa );

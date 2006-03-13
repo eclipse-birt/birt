@@ -448,7 +448,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		if ( _iun == null )
 		{
 			logger.log( ILogger.WARNING,
-					Messages.getString( "exception.missing.component.interaction", getLocale( ) ) ); //$NON-NLS-1$
+					Messages.getString( "exception.missing.component.interaction", getULocale( ) ) ); //$NON-NLS-1$
 			return;
 		}
 		
@@ -592,7 +592,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 						final Series seRT = (Series) src.getSource( );					
 						logger.log( ILogger.INFORMATION,
 								Messages.getString( "info.toggle.visibility", //$NON-NLS-1$
-										getLocale() )
+										getULocale() )
 										+ seRT );
 						Series seDT = null;
 						try
@@ -619,7 +619,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 						final Series seRT = (Series) src.getSource( );
 						logger.log( ILogger.INFORMATION,
 								Messages.getString( "info.toggle.datapoint.visibility", //$NON-NLS-1$
-										getLocale() )
+										getULocale() )
 										+ seRT );
 						Series seDT = null;
 						try
@@ -644,7 +644,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 						final Series seRT = (Series) src.getSource( );					
 						logger.log( ILogger.INFORMATION,
 								Messages.getString( "info.toggle.visibility", //$NON-NLS-1$
-										getLocale() )
+										getULocale() )
 										+ seRT );
 						String scriptEvent = getJsScriptEvent(tg.getCondition().getValue());
 						if (scriptEvent != null){
@@ -1115,7 +1115,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		if ( _iun == null )
 		{
 			logger.log( ILogger.WARNING,
-					Messages.getString( "exception.missing.component.interaction", getLocale( ) ) ); //$NON-NLS-1$
+					Messages.getString( "exception.missing.component.interaction", getULocale( ) ) ); //$NON-NLS-1$
 			return;
 		}		
 		SVGGraphics2D svg_g2d = (SVGGraphics2D) _g2d;
@@ -1210,7 +1210,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		if ( _iun == null )
 		{
 			logger.log( ILogger.WARNING,
-					Messages.getString( "exception.missing.component.interaction", getLocale( ) ) ); //$NON-NLS-1$
+					Messages.getString( "exception.missing.component.interaction", getULocale( ) ) ); //$NON-NLS-1$
 			return;
 		}		
 		SVGGraphics2D svg_g2d = (SVGGraphics2D)_g2d;

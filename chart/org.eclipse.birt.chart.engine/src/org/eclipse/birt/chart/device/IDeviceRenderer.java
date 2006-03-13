@@ -15,6 +15,8 @@ import java.util.Locale;
 
 import org.eclipse.birt.chart.exception.ChartException;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Combines the primitive rendering notifications provided in the primitive and
  * other convenience methods needed by a device renderer. In addition, it
@@ -159,6 +161,16 @@ public interface IDeviceRenderer extends
 	 * retrieve localized resources for presentation.
 	 * 
 	 * @return The locale to be used
+	 * @deprecated
 	 */
 	Locale getLocale( );
+	
+	/**
+	 * Provides the locale to device renderer implementations as needed to
+	 * retrieve localized resources for presentation.
+	 * 
+	 * @return The locale to be used
+	 * @since 2.1
+	 */
+	ULocale getULocale( );
 }

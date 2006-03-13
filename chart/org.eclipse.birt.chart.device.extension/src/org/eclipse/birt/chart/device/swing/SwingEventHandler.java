@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.JComponent;
@@ -54,6 +53,8 @@ import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.emf.common.util.EList;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Provides a reference implementation into handling events generated on a SWING
  * JComponent with a rendered chart.
@@ -74,7 +75,7 @@ public final class SwingEventHandler implements
 
 	private final IUpdateNotifier iun;
 
-	private final Locale lcl;
+	private final ULocale lcl;
 
 	/**
 	 * The constructor.
@@ -84,7 +85,7 @@ public final class SwingEventHandler implements
 	 * @param _lcl
 	 */
 	SwingEventHandler( LinkedHashMap _lhmAllTriggers, IUpdateNotifier _jc,
-			Locale _lcl )
+			ULocale _lcl )
 	{
 		lhmAllTriggers = _lhmAllTriggers;
 		iun = _jc;
@@ -403,7 +404,7 @@ public final class SwingEventHandler implements
 							seRT
 						},
 						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								lcl ) );
+								lcl.toLocale( ) ) );
 			}
 
 			// MAP TO INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN DESIGN TIME
@@ -489,7 +490,7 @@ public final class SwingEventHandler implements
 							seRT
 						},
 						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								lcl ) );
+								lcl.toLocale( ) ) );
 			}
 
 			if ( i == -1 )

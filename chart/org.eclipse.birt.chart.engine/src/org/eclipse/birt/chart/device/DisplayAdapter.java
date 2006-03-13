@@ -20,6 +20,8 @@ import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.component.Label;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * A no-op adapter implementation for the
  * {@link org.eclipse.birt.chart.device.IDisplayServer}interface definition.
@@ -30,7 +32,7 @@ public abstract class DisplayAdapter implements IDisplayServer
 	/**
 	 * An internal instance of the locale being used for processing
 	 */
-	private transient Locale lcl = null;
+	private transient ULocale lcl = null;
 
 	/*
 	 * (non-Javadoc)
@@ -140,7 +142,12 @@ public abstract class DisplayAdapter implements IDisplayServer
 	 */
 	public final Locale getLocale( )
 	{
-		return ( lcl == null ) ? Locale.getDefault( ) : lcl;
+		return getULocale( ).toLocale( );
+	}
+	
+	public final ULocale getULocale( )
+	{
+		return ( lcl == null ) ? ULocale.getDefault( ) : lcl;
 	}
 
 	/**
@@ -149,7 +156,7 @@ public abstract class DisplayAdapter implements IDisplayServer
 	 * @param lcl
 	 *            The locale to be set
 	 */
-	public final void setLocale( Locale lcl )
+	public final void setLocale( ULocale lcl )
 	{
 		this.lcl = lcl;
 	}

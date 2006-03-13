@@ -16,7 +16,6 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -113,6 +112,8 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Provides a generic framework that initiates the rendering sequence of the
@@ -504,7 +505,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							new Object[]{
 								new Long( lTimer )
 							},
-							rtc.getLocale( ) ) );
+							rtc.getULocale( ) ) );
 			htRenderers.remove( TIMER );
 		}
 	}
@@ -761,6 +762,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		ipr.drawRectangle( rre );
 		lia = LineAttributesImpl.copyInstance( lia );
 		lia.setVisible( true ); // SEPARATOR LINES MUST BE VISIBLE
+		
+		LineAttributes liSep = lg.getSeparator( ) == null ? lia
+				: lg.getSeparator( );
 
 		final SeriesDefinition[] seda = cm.getSeriesForLegend( );
 
@@ -1044,7 +1048,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							{
 								lgtext = ValueFormatter.format( obj,
 										fs,
-										getRunTimeContext( ).getLocale( ),
+										getRunTimeContext( ).getULocale( ),
 										null );
 							}
 							catch ( ChartException e )
@@ -1211,13 +1215,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 						if ( j < seda.length - 1 )
 						{
-							lih = liha[k++];
+							lih = liha[k];
 
 							if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
 							{
+								k++;
 								renderSeparator( ipr,
 										lg,
-										lia,
+										liSep,
 										dBaseX + lih.getLeft( ),
 										dBaseY + lih.getTop( ),
 										lih.getWidth( ),
@@ -1253,7 +1258,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								{
 									lgtext = ValueFormatter.format( obj,
 											fs,
-											getRunTimeContext( ).getLocale( ),
+											getRunTimeContext( ).getULocale( ),
 											null );
 								}
 								catch ( ChartException e )
@@ -1295,7 +1300,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										{
 											lgtext = ValueFormatter.format( obj,
 													fs,
-													Locale.getDefault( ),
+													ULocale.getDefault( ),
 													null );
 										}
 										catch ( ChartException e )
@@ -1361,7 +1366,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 						if ( j < seda.length - 1 )
 						{
-							renderSeparator( ipr, lg, lia, dX, dY
+							renderSeparator( ipr, lg, liSep, dX, dY
 									+ dSeparatorThickness
 									/ 2, dMaxW
 									+ insCA.getLeft( )
@@ -1446,13 +1451,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 						if ( j < seda.length - 1 )
 						{
-							lih = liha[k++];
+							lih = liha[k];
 
 							if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
 							{
+								k++;
 								renderSeparator( ipr,
 										lg,
-										lia,
+										liSep,
 										dBaseX + lih.getLeft( ),
 										dBaseY + lih.getTop( ),
 										bo.getHeight( ),
@@ -1488,7 +1494,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								{
 									lgtext = ValueFormatter.format( obj,
 											fs,
-											getRunTimeContext( ).getLocale( ),
+											getRunTimeContext( ).getULocale( ),
 											null );
 								}
 								catch ( ChartException e )
@@ -1530,7 +1536,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										{
 											lgtext = ValueFormatter.format( obj,
 													fs,
-													Locale.getDefault( ),
+													ULocale.getDefault( ),
 													null );
 										}
 										catch ( ChartException e )
@@ -1614,7 +1620,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						{
 							renderSeparator( ipr,
 									lg,
-									lia,
+									liSep,
 									dX + dSeparatorThickness / 2,
 									dY,
 									bo.getHeight( ),
@@ -1758,7 +1764,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							{
 								lgtext = ValueFormatter.format( obj,
 										fs,
-										getRunTimeContext( ).getLocale( ),
+										getRunTimeContext( ).getULocale( ),
 										null );
 							}
 							catch ( ChartException e )
@@ -1937,13 +1943,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 						if ( j < seda.length - 1 )
 						{
-							lih = liha[k++];
+							lih = liha[k];
 
 							if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
 							{
+								k++;
 								renderSeparator( ipr,
 										lg,
-										lia,
+										liSep,
 										dBaseX + lih.getLeft( ),
 										dBaseY + lih.getTop( ),
 										bo.getWidth( ),
@@ -1979,7 +1986,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								{
 									lgtext = ValueFormatter.format( obj,
 											fs,
-											getRunTimeContext( ).getLocale( ),
+											getRunTimeContext( ).getULocale( ),
 											null );
 								}
 								catch ( ChartException e )
@@ -2021,7 +2028,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										{
 											lgtext = ValueFormatter.format( obj,
 													fs,
-													Locale.getDefault( ),
+													ULocale.getDefault( ),
 													null );
 										}
 										catch ( ChartException e )
@@ -2109,7 +2116,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						{
 							renderSeparator( ipr,
 									lg,
-									lia,
+									liSep,
 									dX,
 									dY + dSeparatorThickness / 2,
 									bo.getWidth( ),
@@ -2182,13 +2189,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 						if ( j < seda.length - 1 )
 						{
-							lih = liha[k++];
+							lih = liha[k];
 
 							if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
 							{
+								k++;
 								renderSeparator( ipr,
 										lg,
-										lia,
+										liSep,
 										dBaseX + lih.getLeft( ),
 										dBaseY + lih.getTop( ),
 										lih.getHeight( ),
@@ -2223,7 +2231,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								{
 									lgtext = ValueFormatter.format( obj,
 											fs,
-											getRunTimeContext( ).getLocale( ),
+											getRunTimeContext( ).getULocale( ),
 											null );
 								}
 								catch ( ChartException e )
@@ -2265,7 +2273,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										{
 											lgtext = ValueFormatter.format( obj,
 													fs,
-													Locale.getDefault( ),
+													ULocale.getDefault( ),
 													null );
 										}
 										catch ( ChartException e )
@@ -2344,7 +2352,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						{
 							renderSeparator( ipr,
 									lg,
-									lia,
+									liSep,
 									dX + dSeparatorThickness / 2,
 									dY,
 									dMaxH,

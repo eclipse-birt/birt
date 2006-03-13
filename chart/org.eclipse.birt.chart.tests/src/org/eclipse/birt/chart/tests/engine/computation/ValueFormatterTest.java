@@ -11,13 +11,15 @@
 
 package org.eclipse.birt.chart.tests.engine.computation;
 
-import java.text.DecimalFormat;
-import java.util.Calendar;
 import junit.framework.TestCase;
+
 import org.eclipse.birt.chart.computation.ValueFormatter;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl;
+import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
+
+import com.ibm.icu.text.DecimalFormat;
+import com.ibm.icu.util.Calendar;
 
 public class ValueFormatterTest extends TestCase {
 	

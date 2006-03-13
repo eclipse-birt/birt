@@ -15,7 +15,6 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Locale;
 
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
@@ -32,6 +31,8 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * ChartReportItemGenerationImpl
@@ -136,7 +137,7 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 		rtc = Generator.instance( ).prepare( cm,
 				new BIRTExternalContext( context ),
 				new BIRTScriptClassLoader( ),
-				Locale.getDefault( ) );
+				ULocale.getDefault( ) );
 
 		// check
 		if ( rowSets == null
@@ -148,32 +149,29 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 			// if the Data rows are null/empty, do nothing.
 			return;
 		}
-		else
+		// Evaluate the expressions so that they are registered by the DtE
+		// in the Report
+		// Document
+		IRowSet rowSet = rowSets[0];
+		Collection expressions = queries[0].getBeforeExpressions( );
+		for ( Iterator iter = expressions.iterator( ); iter.hasNext( ); )
 		{
-			// Evaluate the expressions so that they are registered by the DtE
-			// in the Report
-			// Document
-			IRowSet rowSet = rowSets[0];
-			Collection expressions = queries[0].getBeforeExpressions( );
+			rowSet.evaluate( (IBaseExpression) iter.next( ) );
+		}
+
+		expressions = queries[0].getRowExpressions( );
+		while ( rowSet.next( ) )
+		{
 			for ( Iterator iter = expressions.iterator( ); iter.hasNext( ); )
 			{
 				rowSet.evaluate( (IBaseExpression) iter.next( ) );
 			}
+		}
 
-			expressions = queries[0].getRowExpressions( );
-			while ( rowSet.next( ) )
-			{
-				for ( Iterator iter = expressions.iterator( ); iter.hasNext( ); )
-				{
-					rowSet.evaluate( (IBaseExpression) iter.next( ) );
-				}
-			}
-
-			expressions = queries[0].getAfterExpressions( );
-			for ( Iterator iter = expressions.iterator( ); iter.hasNext( ); )
-			{
-				rowSet.evaluate( (IBaseExpression) iter.next( ) );
-			}
+		expressions = queries[0].getAfterExpressions( );
+		for ( Iterator iter = expressions.iterator( ); iter.hasNext( ); )
+		{
+			rowSet.evaluate( (IBaseExpression) iter.next( ) );
 		}
 
 	}

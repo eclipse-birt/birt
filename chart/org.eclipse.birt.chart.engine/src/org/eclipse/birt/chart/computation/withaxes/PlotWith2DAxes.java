@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.computation.withaxes;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
@@ -50,6 +49,8 @@ import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * This class is capable of computing the content of a chart (with axes) based
@@ -384,7 +385,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 							new Object[]{
 								ax
 							},
-							rtc.getLocale( ) ) );
+							rtc.getULocale( ) ) );
 			int iSeriesIndex, iDataSetCount = ssl.getUnitCount( );
 
 			for ( int k = 0; k < iDataSetCount; k++ ) // PER UNIT
@@ -1597,7 +1598,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 									new Integer( iBaseCount ),
 									new Integer( iOrthogonalCount )
 							},
-							rtc.getLocale( ) ) );
+							rtc.getULocale( ) ) );
 		}
 		else
 		{

@@ -21,10 +21,12 @@ import org.eclipse.birt.chart.device.IStructureDefinitionListener;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.StructureChangeEvent;
 import org.eclipse.birt.chart.model.ScriptHandler;
-import org.eclipse.birt.core.i18n.ResourceHandle;
 import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.script.IChartScriptContext;
 import org.eclipse.birt.chart.script.IScriptClassLoader;
+import org.eclipse.birt.core.i18n.ResourceHandle;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Encapsulates runtime information associated with each chart generation and
@@ -38,7 +40,7 @@ public final class RunTimeContext implements Serializable
 	/**
 	 * The locale associated with the runtime context.
 	 */
-	private Locale lcl = null;
+	private ULocale lcl = null;
 
 	/**
 	 * A chart script context associated with a chart model.
@@ -307,8 +309,33 @@ public final class RunTimeContext implements Serializable
 	 * Returns the locale associated with this runtime context.
 	 * 
 	 * @return The locale associated with this runtime context.
+	 * @deprecated
 	 */
 	public Locale getLocale( )
+	{
+		return lcl == null ? null : lcl.toLocale( );
+	}
+
+	/**
+	 * Sets the locale associated with this runtime context. This is usually
+	 * done when chart generation begins.
+	 * 
+	 * @param lcl
+	 *            The locale associated with the runtime context.
+	 * @deprecated
+	 */
+	public void setLocale( Locale lcl )
+	{
+		this.lcl = ULocale.forLocale( lcl );
+	}
+	
+	/**
+	 * Returns the locale associated with this runtime context.
+	 * 
+	 * @return The locale associated with this runtime context.
+	 * @since 2.1
+	 */
+	public ULocale getULocale( )
 	{
 		return lcl;
 	}
@@ -319,8 +346,9 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @param lcl
 	 *            The locale associated with the runtime context.
+	 * @since 2.1
 	 */
-	public void setLocale( Locale lcl )
+	public void setULocale( ULocale lcl )
 	{
 		this.lcl = lcl;
 	}
@@ -337,8 +365,8 @@ public final class RunTimeContext implements Serializable
 		{
 			if ( lcl != null
 					&& ( lcl.getLanguage( )
-							.equals( new Locale( "he" ).getLanguage( ) ) || lcl.getLanguage( ) //$NON-NLS-1$
-							.equals( new Locale( "ar" ).getLanguage( ) ) ) ) //$NON-NLS-1$
+							.equals( new ULocale( "he" ).getLanguage( ) ) || lcl.getLanguage( ) //$NON-NLS-1$
+							.equals( new ULocale( "ar" ).getLanguage( ) ) ) ) //$NON-NLS-1$
 			{
 				iRightToLeft = 1;
 			}

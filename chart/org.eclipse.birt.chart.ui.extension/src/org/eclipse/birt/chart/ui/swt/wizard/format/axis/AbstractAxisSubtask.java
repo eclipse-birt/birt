@@ -9,14 +9,9 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.axis;
 
-import java.text.NumberFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AngleType;
@@ -59,6 +54,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+
+import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
 
 /**
  * @author Actuate Corporation
@@ -302,7 +302,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		{
 			Date dt = ( (DateTimeDataElement) de ).getValueAsCalendar( )
 					.getTime( );
-			SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy", Locale.getDefault( ) ); //$NON-NLS-1$
+			SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
 			return sdf.format( dt );
 		}
 		else if ( de instanceof NumberDataElement )
@@ -314,14 +314,13 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 	private DataElement getTypedDataElement( String strDataElement )
 	{
-		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy", Locale.getDefault( ) ); //$NON-NLS-1$
-		NumberFormat nf = NumberFormat.getNumberInstance( Locale.getDefault( ) );
+		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
+		NumberFormat nf = NumberFormat.getNumberInstance( );
 		try
 		{
 			// First try Date
 			Date dateElement = sdf.parse( strDataElement );
-			Calendar cal = Calendar.getInstance( TimeZone.getDefault( ),
-					Locale.getDefault( ) );
+			Calendar cal = Calendar.getInstance( TimeZone.getDefault( ) );
 			cal.setTime( dateElement );
 			return DateTimeDataElementImpl.create( cal );
 		}

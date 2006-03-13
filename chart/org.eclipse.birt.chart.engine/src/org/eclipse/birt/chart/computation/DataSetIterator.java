@@ -12,10 +12,8 @@
 package org.eclipse.birt.chart.computation;
 
 import java.text.MessageFormat;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -27,6 +25,8 @@ import org.eclipse.birt.chart.model.data.StockDataSet;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.CDateTime;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * An immutable class with convenience methods provided to retrieve data from
@@ -182,9 +182,7 @@ public final class DataSetIterator implements Iterator
 
 		if ( iContentType == IConstants.UNDEFINED )
 		{
-			throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-					Locale.getDefault( ) // LOCALE?
-					)
+			throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE )
 					.getString( "exception.process.content.type" ), //$NON-NLS-1$
 					new Object[]{
 							oContent, new Integer( iDataType )
@@ -289,9 +287,7 @@ public final class DataSetIterator implements Iterator
 
 		if ( iContentType == IConstants.UNDEFINED )
 		{
-			throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-					Locale.getDefault( ) // LOCALE?
-					)
+			throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE )
 					.getString( "exception.process.content.dataset" ), //$NON-NLS-1$
 					new Object[]{
 							oContent, ds
@@ -453,9 +449,7 @@ public final class DataSetIterator implements Iterator
 			throw new RuntimeException( new ChartException( ChartEnginePlugin.ID,
 					ChartException.COMPUTATION,
 					"exception.out.of.bounds", //$NON-NLS-1$
-					ResourceBundle.getBundle( Messages.ENGINE,
-							Locale.getDefault( ) // LOCALE?
-							) ) );
+					ResourceBundle.getBundle( Messages.ENGINE ) ) );
 		}
 
 		if ( it != null )

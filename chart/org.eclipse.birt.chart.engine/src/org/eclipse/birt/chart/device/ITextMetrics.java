@@ -15,6 +15,8 @@ import java.util.Locale;
 
 import org.eclipse.birt.chart.model.component.Label;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Provides a layer of abstraction for text metrics retrieval via display server
  * dependent implementations.
@@ -105,6 +107,15 @@ public interface ITextMetrics
 	 * Returns the locale associated with the text metrics implementer
 	 * 
 	 * @return The locale
+	 * @deprecated
 	 */
 	Locale getLocale( );
+	
+	/**
+	 * Returns the locale associated with the text metrics implementer
+	 * 
+	 * @return The locale
+	 * @since 2.1
+	 */
+	ULocale getULocale( );
 }

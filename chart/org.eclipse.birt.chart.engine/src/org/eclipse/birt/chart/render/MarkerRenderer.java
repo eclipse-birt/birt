@@ -478,7 +478,7 @@ public final class MarkerRenderer
 							new Object[]{
 								fil
 							},
-							iRender.getLocale( ) ) );
+							iRender.getULocale( ) ) );
 			return;
 		}
 		Image icon = (Image) fil;

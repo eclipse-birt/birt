@@ -11,12 +11,13 @@
 
 package org.eclipse.birt.chart.examples.api.script.java;
 
-import java.util.Locale;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.birt.chart.script.ChartEventHandlerAdapter;
 import org.eclipse.birt.chart.script.IChartScriptContext;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * 
@@ -35,8 +36,8 @@ public class MarkerScript extends ChartEventHandlerAdapter
 	public void beforeDrawMarkerLine( Axis axis, MarkerLine mLine,
 			IChartScriptContext icsc )
 	{
-		Locale.setDefault( Locale.US );
-		if ( icsc.getLocale( ).equals( Locale.US ) )
+		ULocale.setDefault( ULocale.US );
+		if ( icsc.getULocale( ).equals( ULocale.US ) )
 		{
 			mLine.getLabel( ).getCaption( ).getColor( ).set( 165, 184, 55 );
 			mLine.getLineAttributes( ).getColor( ).set( 165, 184, 55 );

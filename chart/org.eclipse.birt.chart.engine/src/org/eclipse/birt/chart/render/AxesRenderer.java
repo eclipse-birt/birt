@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.render;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -107,6 +105,9 @@ import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+
+import com.ibm.icu.text.DecimalFormat;
+import com.ibm.icu.text.SimpleDateFormat;
 
 /**
  * Provides a base framework for custom series rendering extensions that are
@@ -416,7 +417,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							new Object[]{
 								new Long( lTimer )
 							},
-							getRunTimeContext( ).getLocale( ) ) );
+							getRunTimeContext( ).getULocale( ) ) );
 			htRenderers.remove( TIMER );
 		}
 	}
@@ -451,7 +452,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						ChartException.DATA_FORMAT,
 						"exception.unsupported.compare.text", //$NON-NLS-1$ 
 						ResourceBundle.getBundle( Messages.ENGINE,
-								getRunTimeContext( ).getLocale( ) ) );
+								getRunTimeContext( ).getULocale( ).toLocale( ) ) );
 			}
 			else
 			{
@@ -462,26 +463,22 @@ public abstract class AxesRenderer extends BaseRenderer
 								de1, de2
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								getRunTimeContext( ).getULocale( ).toLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
 			}
 		}
-		else
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.DATA_FORMAT,
-					"exception.unsupported.compare.different.objects", //$NON-NLS-1$
-					new Object[]{
-							de1, de2
-					},
-					ResourceBundle.getBundle( Messages.ENGINE,
-							getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
-		}
+		throw new ChartException( ChartEnginePlugin.ID,
+				ChartException.DATA_FORMAT,
+				"exception.unsupported.compare.different.objects", //$NON-NLS-1$
+				new Object[]{
+						de1, de2
+				},
+				ResourceBundle.getBundle( Messages.ENGINE,
+						getRunTimeContext( ).getULocale( ).toLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
 	}
 
 	/**
 	 * 
 	 * @param anc
-	 * @return
 	 */
 	private static final TextAlignment anchorToAlignment( Anchor anc )
 	{
@@ -607,7 +604,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					ChartException.RENDERING,
 					"exception.curve.line.visibility.not.defined", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.ENGINE,
-							getRunTimeContext( ).getLocale( ) ) );
+							getRunTimeContext( ).getULocale( ).toLocale( ) ) );
 		}
 
 		boolean isTransposed = ( (ChartWithAxes) getModel( ) ).isTransposed( );
@@ -851,7 +848,6 @@ public abstract class AxesRenderer extends BaseRenderer
 	 * @param center
 	 * @param width
 	 * @param height
-	 * @return
 	 */
 	private double getFitYPosition( double[] xa, double[] ya, double center,
 			double width, double height, boolean above )
@@ -991,7 +987,7 @@ public abstract class AxesRenderer extends BaseRenderer
 									new Object[]{
 											deStart, mr
 									},
-									getRunTimeContext( ).getLocale( ) ) );
+									getRunTimeContext( ).getULocale( ) ) );
 					continue; // TRY NEXT MARKER RANGE
 				}
 
@@ -1010,7 +1006,7 @@ public abstract class AxesRenderer extends BaseRenderer
 									new Object[]{
 											deEnd, mr
 									},
-									getRunTimeContext( ).getLocale( ) ) );
+									getRunTimeContext( ).getULocale( ) ) );
 					continue; // TRY NEXT MARKER RANGE
 				}
 
@@ -1094,19 +1090,19 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							sb.delete( 0, sb.length( ) );
 							sb.append( Messages.getString( "prefix.marker.range.caption", //$NON-NLS-1$ 
-									getRunTimeContext( ).getLocale( ) ) );
+									getRunTimeContext( ).getULocale( ) ) );
 							sb.append( ValueFormatter.format( deStart,
 									mr.getFormatSpecifier( ),
-									oaxa[i].getRunTimeContext( ).getLocale( ),
+									oaxa[i].getRunTimeContext( ).getULocale( ),
 									null ) );
 							sb.append( Messages.getString( "separator.marker.range.caption", //$NON-NLS-1$ 
-									getRunTimeContext( ).getLocale( ) ) );
+									getRunTimeContext( ).getULocale( ) ) );
 							sb.append( ValueFormatter.format( deEnd,
 									mr.getFormatSpecifier( ),
-									oaxa[i].getRunTimeContext( ).getLocale( ),
+									oaxa[i].getRunTimeContext( ).getULocale( ),
 									null ) );
 							sb.append( Messages.getString( "suffix.marker.range.caption", //$NON-NLS-1$ 
-									getRunTimeContext( ).getLocale( ) ) );
+									getRunTimeContext( ).getULocale( ) ) );
 							la.getCaption( ).setValue( sb.toString( ) );
 						}
 						catch ( ChartException dfex )
@@ -1509,7 +1505,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							new Integer( iCount )
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								getRunTimeContext( ).getLocale( ) ) );
+								getRunTimeContext( ).getULocale( ).toLocale( ) ) );
 			}
 
 			AutoScale sc = oaxa[i].getScale( );
@@ -2303,7 +2299,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								ml
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									getRunTimeContext( ).getLocale( ) ) );
+									getRunTimeContext( ).getULocale( ).toLocale( ) ) );
 				}
 
 				// UPDATE THE LABEL CONTENT ASSOCIATED WITH THE MARKER LINE
@@ -2327,7 +2323,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								.setValue( ValueFormatter.format( deValue,
 										ml.getFormatSpecifier( ),
 										oaxa[i].getRunTimeContext( )
-												.getLocale( ),
+												.getULocale( ),
 										null ) );
 					}
 					catch ( ChartException dfex )
@@ -2356,7 +2352,7 @@ public abstract class AxesRenderer extends BaseRenderer
 									new Object[]{
 											deValue, ml
 									},
-									getRunTimeContext( ).getLocale( ) ) );
+									getRunTimeContext( ).getULocale( ) ) );
 					continue; // TRY NEXT MARKER RANGE
 				}
 
@@ -2724,7 +2720,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					ChartException.RENDERING,
 					"exception.unset.axis.visibility", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.ENGINE,
-							getRunTimeContext( ).getLocale( ) ) );
+							getRunTimeContext( ).getULocale( ).toLocale( ) ) );
 		}
 		final boolean bRenderAxisLabels = ( ( iWhatToDraw & IConstants.LABELS ) == IConstants.LABELS && la.isVisible( ) );
 		final boolean bRenderAxisTitle = ( ( iWhatToDraw & IConstants.LABELS ) == IConstants.LABELS );
@@ -3327,7 +3323,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							sText = ValueFormatter.format( nde,
 									fs,
-									ax.getRunTimeContext( ).getLocale( ),
+									ax.getRunTimeContext( ).getULocale( ),
 									df );
 						}
 						catch ( ChartException dfex )
@@ -3507,7 +3503,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					{
 						sText = ValueFormatter.format( nde,
 								fs,
-								ax.getRunTimeContext( ).getLocale( ),
+								ax.getRunTimeContext( ).getULocale( ),
 								df );
 					}
 					catch ( ChartException dfex )
@@ -3683,7 +3679,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					{
 						sText = ValueFormatter.format( cdt,
 								ax.getFormatSpecifier( ),
-								ax.getRunTimeContext( ).getLocale( ),
+								ax.getRunTimeContext( ).getULocale( ),
 								sdf );
 					}
 					catch ( ChartException dfex )
@@ -4542,7 +4538,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							sText = ValueFormatter.format( nde,
 									ax.getFormatSpecifier( ),
-									ax.getRunTimeContext( ).getLocale( ),
+									ax.getRunTimeContext( ).getULocale( ),
 									df );
 						}
 						catch ( ChartException dfex )
@@ -4748,7 +4744,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							sText = ValueFormatter.format( nde,
 									ax.getFormatSpecifier( ),
-									ax.getRunTimeContext( ).getLocale( ),
+									ax.getRunTimeContext( ).getULocale( ),
 									df );
 						}
 						catch ( ChartException dfex )
@@ -4954,7 +4950,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							sText = ValueFormatter.format( cdt,
 									ax.getFormatSpecifier( ),
-									ax.getRunTimeContext( ).getLocale( ),
+									ax.getRunTimeContext( ).getULocale( ),
 									sdf );
 						}
 						catch ( ChartException dfex )
@@ -5157,7 +5153,6 @@ public abstract class AxesRenderer extends BaseRenderer
 	/**
 	 * Returns if its a 3D rendering.
 	 * 
-	 * @return
 	 */
 	public final boolean isDimension3D( )
 	{

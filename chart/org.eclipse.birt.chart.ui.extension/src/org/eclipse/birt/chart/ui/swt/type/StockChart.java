@@ -11,13 +11,8 @@
 
 package org.eclipse.birt.chart.ui.swt.type;
 
-import java.text.NumberFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Locale;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -60,6 +55,11 @@ import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
+
+import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.StringTokenizer;
 
 /**
  * StockChart
@@ -551,7 +551,7 @@ public class StockChart extends DefaultChartTypeImpl
 	{
 		StringTokenizer strtok = new StringTokenizer( sOldRepresentation, "," ); //$NON-NLS-1$
 		StringBuffer sbNewRepresentation = new StringBuffer( "" ); //$NON-NLS-1$
-		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy", Locale.getDefault( ) ); //$NON-NLS-1$
+		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
 		int iValueCount = 0;
 		while ( strtok.hasMoreTokens( ) )
 		{

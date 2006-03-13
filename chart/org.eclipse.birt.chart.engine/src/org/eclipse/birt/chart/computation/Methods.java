@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.computation;
 
 import java.text.MessageFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -30,6 +29,8 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.util.CDateTime;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * Methods

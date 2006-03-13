@@ -11,18 +11,20 @@
 
 package org.eclipse.birt.chart.util;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.TimeZone;
 
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+
+import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.GregorianCalendar;
+import com.ibm.icu.util.TimeZone;
+import com.ibm.icu.util.ULocale;
 
 /**
  * A convenience data type provided to aid in wrapping a datetime value used
@@ -98,7 +100,7 @@ public class CDateTime extends GregorianCalendar
 
 	/**
 	 * A constructor that creates an instance from a given
-	 * <code>java.util.Calendar</code> value
+	 * <code>Calendar</code> value
 	 * 
 	 * @param c
 	 *            A previously defined Calendar instance
@@ -188,10 +190,23 @@ public class CDateTime extends GregorianCalendar
 	 * 
 	 * @param locale
 	 *            The locale for which the instance is being created
+	 * @deprecated
 	 */
 	public CDateTime( Locale aLocale )
 	{
 		super( aLocale );
+	}
+
+	/**
+	 * A constructor that creates a default instance for a given locale
+	 * 
+	 * @param locale
+	 *            The locale for which the instance is being created
+	 * @since 2.1
+	 */
+	public CDateTime( ULocale locale )
+	{
+		super( locale );
 	}
 
 	/**
@@ -215,6 +230,20 @@ public class CDateTime extends GregorianCalendar
 	 *            The locale for which the instance is being created
 	 */
 	public CDateTime( TimeZone tz, Locale locale )
+	{
+		super( tz, locale );
+	}
+	
+	/**
+	 * A constructor that creates a default instance for a given timezone and
+	 * locale
+	 * 
+	 * @param tz
+	 *            The timezone for which the instance is being created
+	 * @param locale
+	 *            The locale for which the instance is being created
+	 */
+	public CDateTime( TimeZone tz, ULocale locale )
 	{
 		super( tz, locale );
 	}

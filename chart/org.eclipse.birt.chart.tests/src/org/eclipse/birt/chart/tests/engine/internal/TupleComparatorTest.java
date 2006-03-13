@@ -11,11 +11,13 @@
 
 package org.eclipse.birt.chart.tests.engine.internal;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import junit.framework.TestCase;
+
 import org.eclipse.birt.chart.internal.factory.TupleComparator;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * Test class for checking the correctness of compareObjects() method 

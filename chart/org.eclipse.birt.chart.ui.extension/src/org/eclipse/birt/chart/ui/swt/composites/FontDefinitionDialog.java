@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.ui.swt.composites;
 import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
@@ -503,7 +502,7 @@ public class FontDefinitionDialog implements
 	{
 		// Populate font names list
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment( );
-		String[] saFontNames = ge.getAvailableFontFamilyNames( Locale.getDefault( ) );
+		String[] saFontNames = ge.getAvailableFontFamilyNames( );
 		for ( int iC = 0; iC < saFontNames.length; iC++ )
 		{
 			cmbFontNames.add( saFontNames[iC] );

@@ -16,6 +16,8 @@ import java.util.Locale;
 import org.eclipse.birt.chart.factory.IMessageLookup;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 
+import com.ibm.icu.util.ULocale;
+
 
 public class BIRTMessageLookup implements IMessageLookup
 {
@@ -30,12 +32,14 @@ public class BIRTMessageLookup implements IMessageLookup
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.factory.IMessageLookup#getMessageValue(java.lang.String, java.util.Locale)
-	 */
 	public String getMessageValue( String sKey, Locale lcl )
 	{
 		return context.getMessage(sKey, lcl );
+	}
+	
+	public String getMessageValue( String sKey, ULocale lcl )
+	{
+		return context.getMessage(sKey, lcl.toLocale( ) );
 	}
 
 }

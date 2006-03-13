@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
-import java.util.Calendar;
 import java.util.Locale;
+
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.ULocale;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Java Date Format Specifier</b></em>'. <!--
@@ -71,7 +73,18 @@ public interface JavaDateFormatSpecifier extends FormatSpecifier
 	 * 
 	 * @param c
 	 * @param lcl
-	 * @return
+	 * @deprecated
 	 */
 	String format( Calendar c, Locale lcl );
+
+	/**
+	 * Formats a calendar value using the Java date format pattern
+	 * 
+	 * NOTE: Manually written
+	 * 
+	 * @param c
+	 * @param lcl
+	 * @since 2.1
+	 */
+	String format( Calendar c, ULocale lcl );
 } // JavaDateFormatSpecifier

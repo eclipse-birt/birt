@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.chart.model.data;
 
-import java.util.Calendar;
-
 import org.eclipse.birt.chart.util.CDateTime;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Date Time Data Element</b></em>'. <!--
@@ -93,7 +93,7 @@ public interface DateTimeDataElement extends DataElement
 	boolean isSetValue( );
 
 	/**
-	 * A convenient method provided to return the datetime value as a java.util.Calendar
+	 * A convenient method provided to return the datetime value as a Calendar
 	 * 
 	 * NOTE: Manually written
 	 * 

@@ -11,10 +11,6 @@
 
 package org.eclipse.birt.chart.computation;
 
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.util.Calendar;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -28,6 +24,11 @@ import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+
+import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.DecimalFormat;
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.ULocale;
 
 /**
  * 
@@ -48,7 +49,7 @@ public final class ValueFormatter
 	 * @return formatted string
 	 */
 	public static final String format( Object oValue, FormatSpecifier fs,
-			Locale lcl, Object oCachedJavaFormatter ) throws ChartException
+			ULocale lcl, Object oCachedJavaFormatter ) throws ChartException
 	{
 		String sValue;
 		if ( oValue == null ) // NULL VALUES CANNOT BE FORMATTED
@@ -153,7 +154,7 @@ public final class ValueFormatter
 		return oValue.toString( );
 	}
 
-	private static final double asPrimitiveDouble( Object o, Locale lcl )
+	private static final double asPrimitiveDouble( Object o, ULocale lcl )
 			throws ChartException
 	{
 		if ( o instanceof Number )
@@ -170,10 +171,10 @@ public final class ValueFormatter
 				new Object[]{
 					o
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, lcl ) );
+				ResourceBundle.getBundle( Messages.ENGINE, lcl.toLocale( ) ) );
 	}
 
-	private static final Calendar asCalendar( Object o, Locale lcl )
+	private static final Calendar asCalendar( Object o, ULocale lcl )
 			throws ChartException
 	{
 		if ( o instanceof Calendar )
@@ -190,7 +191,7 @@ public final class ValueFormatter
 				new Object[]{
 					o
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, lcl ) );
+				ResourceBundle.getBundle( Messages.ENGINE, lcl.toLocale( ) ) );
 	}
 
 	/**

@@ -10,7 +10,6 @@
 package org.eclipse.birt.chart.ui.swt.type;
 
 import java.util.Collection;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -51,6 +50,8 @@ import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
+
+import com.ibm.icu.util.StringTokenizer;
 
 /**
  * PieChart
@@ -137,7 +138,7 @@ public class PieChart extends DefaultChartTypeImpl
 			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
 					img2D,
 					sStandardDescription,
-					Messages.getString( "PieChart.SubType.Standard" ) ) );
+					Messages.getString( "PieChart.SubType.Standard" ) ) ); //$NON-NLS-1$
 		}
 		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
@@ -147,7 +148,7 @@ public class PieChart extends DefaultChartTypeImpl
 			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
 					img2DWithDepth,
 					sStandardDescription,
-					Messages.getString( "PieChart.SubType.Standard" ) ) );
+					Messages.getString( "PieChart.SubType.Standard" ) ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}
@@ -189,7 +190,7 @@ public class PieChart extends DefaultChartTypeImpl
 		sdX.getSeries( ).add( categorySeries );
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
 
-		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE ); //$NON-NLS-1$
+		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).update( 0 );
@@ -617,7 +618,7 @@ public class PieChart extends DefaultChartTypeImpl
 	 */
 	public String getDisplayName( )
 	{
-		return Messages.getString( "PieChart.Txt.DisplayName" );
+		return Messages.getString( "PieChart.Txt.DisplayName" ); //$NON-NLS-1$
 	}
 
 }

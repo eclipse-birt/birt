@@ -74,7 +74,7 @@ public final class SwingImageCache
 					Messages.getString( "info.using.swing.cached.image",//$NON-NLS-1$
 							new Object[]{
 								url
-							}, idsSWING.getLocale( ) ) );
+							}, idsSWING.getULocale( ) ) );
 		}
 		else
 		{
@@ -82,7 +82,7 @@ public final class SwingImageCache
 					Messages.getString( "info.loading.swing.image",//$NON-NLS-1$
 							new Object[]{
 								url
-							}, idsSWING.getLocale( ) ) );
+							}, idsSWING.getULocale( ) ) );
 			img = ( new ImageIcon( url ) ).getImage( );
 			try
 			{
@@ -147,7 +147,7 @@ public final class SwingImageCache
 				Messages.getString( "info.flushed.swing.images",//$NON-NLS-1$
 						new Object[]{
 							new Integer( n )
-						}, idsSWING.getLocale( ) ) );
+						}, idsSWING.getULocale( ) ) );
 	}
 
 	/**

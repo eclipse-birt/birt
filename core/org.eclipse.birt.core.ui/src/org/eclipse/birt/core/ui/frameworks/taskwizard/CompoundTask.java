@@ -2,12 +2,13 @@
 package org.eclipse.birt.core.ui.frameworks.taskwizard;
 
 import java.util.LinkedHashMap;
-import java.util.Locale;
 
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.swt.widgets.Composite;
+
+import com.ibm.icu.util.ULocale;
 
 public class CompoundTask implements ITask
 {
@@ -34,12 +35,7 @@ public class CompoundTask implements ITask
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#getDisplayLabel(java.util.Locale)
-	 */
-	public String getDisplayLabel( Locale locale )
+	public String getDisplayLabel( ULocale locale )
 	{
 		return sLabel;
 	}

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.datafeed;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -21,6 +20,9 @@ import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+
+import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.ULocale;
 
 /**
  * Provides a no-op implementation of the
@@ -33,7 +35,7 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 	/**
 	 * An internal instance of the locale being used for processing
 	 */
-	private transient Locale lcl = null;
+	private transient ULocale lcl = null;
 	
 	protected static final String DELIMITER = ","; //$NON-NLS-1$
 
@@ -103,7 +105,12 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 	 */
 	public Locale getLocale( )
 	{
-		return ( lcl == null ) ? Locale.getDefault( ) : lcl;
+		return ( lcl == null ) ? Locale.getDefault( ) : lcl.toLocale( );
+	}
+
+	public ULocale getULocale( )
+	{
+		return ( lcl == null ) ? ULocale.getDefault( ) : lcl;
 	}
 
 	/**
@@ -112,7 +119,7 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 	 * @param lcl
 	 *            The locale to be set
 	 */
-	public final void setLocale( Locale lcl )
+	public final void setLocale( ULocale lcl )
 	{
 		this.lcl = lcl;
 	}

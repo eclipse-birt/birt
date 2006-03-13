@@ -2,7 +2,6 @@
 package org.eclipse.birt.core.ui.frameworks.taskwizard;
 
 import java.util.LinkedHashMap;
-import java.util.Locale;
 import java.util.Vector;
 
 import org.eclipse.birt.core.ui.frameworks.errordisplay.ErrorDialog;
@@ -32,6 +31,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+
+import com.ibm.icu.util.ULocale;
 
 public class WizardBase
 		implements
@@ -250,7 +251,7 @@ public class WizardBase
 		}
 		// REGISTER WIZARDBASE INSTANCE WITH TASK
 		task.setUIProvider( this );
-		String sLabel = task.getDisplayLabel( Locale.getDefault( ) );
+		String sLabel = task.getDisplayLabel( ULocale.getDefault( ) );
 
 		// Create the blank tab item. UI is only created after the first
 		// initializtion.
@@ -380,8 +381,8 @@ public class WizardBase
 	 * Attaches the popup window.
 	 * 
 	 * @param sPopupTitle
-	 *            '&' will be removed for accelerator key, if the popup
-	 *            title is from the control text.
+	 *            '&' will be removed for accelerator key, if the popup title is
+	 *            from the control text.
 	 */
 	public void attachPopup( String sPopupTitle, int iWidth, int iHeight )
 	{

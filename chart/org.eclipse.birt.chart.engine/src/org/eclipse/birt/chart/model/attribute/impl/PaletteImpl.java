@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.model.attribute.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.log.ILogger;
@@ -27,12 +26,13 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -251,7 +251,6 @@ public class PaletteImpl extends EObjectImpl implements Palette
 	 * NOTE: Manually written
 	 * 
 	 * @param bEmpty
-	 * @return
 	 */
 	public static final Palette create( int iIndex, boolean bEmpty )
 	{
@@ -271,7 +270,6 @@ public class PaletteImpl extends EObjectImpl implements Palette
 	 * NOTE: Manually written
 	 * 
 	 * @param f
-	 * @return
 	 */
 	public static final Palette create( Fill f )
 	{
@@ -377,7 +375,7 @@ public class PaletteImpl extends EObjectImpl implements Palette
 							new Object[]{
 								new Integer( iIndex )
 							},
-							Locale.getDefault( ) ) );
+							ULocale.getDefault( ) ) );
 			update( 0 );
 		}
 	}

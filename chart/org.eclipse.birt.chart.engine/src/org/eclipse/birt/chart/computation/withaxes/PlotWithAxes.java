@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.computation.withaxes;
 
 import java.text.MessageFormat;
-import java.util.Calendar;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.DataSetIterator;
@@ -47,6 +46,8 @@ import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.birt.chart.util.CDateTime;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * PlotWithAxes

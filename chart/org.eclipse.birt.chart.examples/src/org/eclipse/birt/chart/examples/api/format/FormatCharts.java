@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.examples.api.format;
 
-import java.util.Calendar;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -55,6 +54,8 @@ import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl;
 import org.eclipse.birt.chart.util.CDateTime;
+
+import com.ibm.icu.util.Calendar;
 
 public class FormatCharts
 {

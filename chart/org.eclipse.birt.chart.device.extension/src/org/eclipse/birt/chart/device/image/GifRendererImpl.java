@@ -75,7 +75,7 @@ public final class GifRendererImpl extends JavaxImageIOWriter
 			logger.log( ILogger.INFORMATION, Messages.getString(
 					"info.use.custom.image.writer", //$NON-NLS-1$
 					new Object[]
-					{ getFormat(), GifWriter.class.getName() }, getLocale() ) );
+					{ getFormat(), GifWriter.class.getName() }, getULocale() ) );
 
 			// If not supported by JavaxImageIO, use our own.
 			GifWriter gw = null;

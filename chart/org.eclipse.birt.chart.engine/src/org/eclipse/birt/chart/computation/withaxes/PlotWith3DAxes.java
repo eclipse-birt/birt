@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.computation.withaxes;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -53,6 +52,8 @@ import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * This class is capable of computing the content of a chart (with axes) based
@@ -1910,7 +1911,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 									new Integer( iBaseCount ),
 									new Integer( iOrthogonalCount )
 							},
-							rtc.getLocale( ) ) );
+							rtc.getULocale( ) ) );
 		}
 		else
 		{

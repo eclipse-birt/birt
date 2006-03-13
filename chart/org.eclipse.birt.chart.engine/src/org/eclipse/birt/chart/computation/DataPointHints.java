@@ -469,7 +469,7 @@ public final class DataPointHints
 		{
 			return ValueFormatter.format( oBaseValue,
 					fs,
-					rtc.getLocale( ),
+					rtc.getULocale( ),
 					null );
 		}
 		catch ( Exception ex )
@@ -479,7 +479,7 @@ public final class DataPointHints
 							new Object[]{
 									oBaseValue, fs
 							},
-							rtc.getLocale( ) ) );
+							rtc.getULocale( ) ) );
 		}
 		return IConstants.NULL_STRING;
 	}
@@ -500,7 +500,7 @@ public final class DataPointHints
 		{
 			return ValueFormatter.format( oOrthogonalValue,
 					fs,
-					rtc.getLocale( ),
+					rtc.getULocale( ),
 					null );
 		}
 		catch ( Exception ex )
@@ -510,7 +510,7 @@ public final class DataPointHints
 							new Object[]{
 									oOrthogonalValue, fs
 							},
-							rtc.getLocale( ) ) );
+							rtc.getULocale( ) ) );
 		}
 		return String.valueOf( oOrthogonalValue );
 	}
@@ -531,7 +531,7 @@ public final class DataPointHints
 		{
 			return ValueFormatter.format( oSeriesValue,
 					fs,
-					rtc.getLocale( ),
+					rtc.getULocale( ),
 					null );
 		}
 		catch ( Exception ex )
@@ -541,7 +541,7 @@ public final class DataPointHints
 							new Object[]{
 									oSeriesValue, fs
 							},
-							rtc.getLocale( ) ) );
+							rtc.getULocale( ) ) );
 		}
 		return IConstants.NULL_STRING;
 	}
@@ -562,7 +562,7 @@ public final class DataPointHints
 		{
 			return ValueFormatter.format( oPercentileOrthogonalValue,
 					fs,
-					rtc.getLocale( ),
+					rtc.getULocale( ),
 					null );
 		}
 		catch ( Exception ex )
@@ -572,7 +572,7 @@ public final class DataPointHints
 							new Object[]{
 									oPercentileOrthogonalValue, fs
 							},
-							rtc.getLocale( ) ) );
+							rtc.getULocale( ) ) );
 		}
 		return String.valueOf( oPercentileOrthogonalValue );
 	}
@@ -638,6 +638,6 @@ public final class DataPointHints
 				new Object[]{
 						this, getDisplayValue( )
 				},
-				rtc.getLocale( ) );
+				rtc.getULocale( ) );
 	}
 }

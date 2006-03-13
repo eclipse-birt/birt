@@ -3,6 +3,8 @@ package org.eclipse.birt.chart.factory;
 
 import java.util.Locale;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Provides services for externalization of static text messages rendered in a
  * chart. The chart title and axis titles are presently externalizable. Custom
@@ -32,6 +34,22 @@ public interface IMessageLookup
 	 *            retrieved.
 	 * 
 	 * @return An externalized message for the specified key and locale.
+	 * @deprecated
 	 */
 	public String getMessageValue( String sKey, Locale lcl );
+	
+	/**
+	 * Retrieves an externalized text message value from a message base file
+	 * associated with the report design.
+	 * 
+	 * @param sKey
+	 *            The key for which an externalized message is looked up.
+	 * @param lcl
+	 *            The locale for which an externalized message file is
+	 *            retrieved.
+	 * 
+	 * @return An externalized message for the specified key and locale.
+	 * @since 2.1
+	 */
+	public String getMessageValue( String sKey, ULocale lcl );
 }

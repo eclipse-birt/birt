@@ -215,7 +215,7 @@ public final class PlotWithoutAxes
 									new Integer( dsiBaseValues.size( ) ),
 									new Integer( dsiOrthogonalValues.size( ) )
 							},
-							rtc.getLocale( ) ) );
+							rtc.getULocale( ) ) );
 		}
 		else
 		{

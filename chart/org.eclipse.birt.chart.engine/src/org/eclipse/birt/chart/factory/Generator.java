@@ -81,6 +81,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Scriptable;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Provides an entry point into building a chart for a given model. It is
  * implemented as a singleton and does not maintain any state information hence
@@ -577,23 +579,47 @@ public final class Generator
 	 *            Locale
 	 * @return a runtime context used by build( )
 	 * 
-	 * @since 2.0
+	 * @deprecated
 	 */
 	public RunTimeContext prepare( Chart model,
 			IExternalContext externalContext, IScriptClassLoader iscl,
 			Locale locale ) throws ChartException
+	{
+		return prepare( model,
+				externalContext,
+				iscl,
+				ULocale.forLocale( locale ) );
+	}
+	
+	/**
+	 * Since v2, it must be called before build( ), and should only be called
+	 * once per design model.
+	 * 
+	 * @param model
+	 *            Chart design model
+	 * @param externalContext
+	 *            External Context
+	 * @param locale
+	 *            Locale
+	 * @return a runtime context used by build( )
+	 * 
+	 * @since 2.1
+	 */
+	public RunTimeContext prepare( Chart model,
+			IExternalContext externalContext, IScriptClassLoader iscl,
+			ULocale locale ) throws ChartException
 	{
 		RunTimeContext rtc = new RunTimeContext( );
 		rtc.setScriptClassLoader( iscl );
 
 		// Update the context with a locale if it is undefined.
 		final Chart cmRunTime = (Chart) EcoreUtil.copy( model );
-		rtc.setLocale( Locale.getDefault( ) );
+		rtc.setULocale( locale != null ? locale : ULocale.getDefault( ) );
 
 		ChartScriptContext csc = new ChartScriptContext( );
 		csc.setChartInstance( cmRunTime );
 		csc.setExternalContext( externalContext );
-		csc.setLocale( rtc.getLocale( ) );
+		csc.setULocale( rtc.getULocale( ) );
 		csc.setLogger( logger );
 		rtc.setScriptContext( csc );
 
@@ -750,9 +776,7 @@ public final class Generator
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.GENERATION,
 					"exception.illegal.null.value", //$NON-NLS-1$ 
-					ResourceBundle.getBundle( Messages.ENGINE,
-							Locale.getDefault( ) // LOCALE?
-					) );
+					ResourceBundle.getBundle( Messages.ENGINE ) );
 		}
 
 		// CREATE A RUNTIME CONTEXT IF NEEDED
@@ -762,9 +786,9 @@ public final class Generator
 		}
 
 		// UPDATE THE CONTEXT WITH A LOCALE IF IT IS UNDEFINED
-		if ( rtc.getLocale( ) == null )
+		if ( rtc.getULocale( ) == null )
 		{
-			rtc.setLocale( Locale.getDefault( ) );
+			rtc.setULocale( ULocale.getDefault( ) );
 		}
 
 		// UPDATE THE CHART SCRIPT CONTEXT
@@ -775,7 +799,7 @@ public final class Generator
 			ChartScriptContext csc = new ChartScriptContext( );
 			csc.setChartInstance( (Chart) EcoreUtil.copy( cmDesignTime ) );
 			csc.setExternalContext( externalContext );
-			csc.setLocale( rtc.getLocale( ) );
+			csc.setULocale( rtc.getULocale( ) );
 			csc.setLogger( logger );
 
 			rtc.setScriptContext( csc );
@@ -887,7 +911,7 @@ public final class Generator
 					new Object[]{
 						cmRunTime
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getULocale( ).toLocale( ) ) );
 		}
 
 		// OBTAIN THE RENDERERS
@@ -1019,7 +1043,7 @@ public final class Generator
 						new Object[]{
 							new Long( System.currentTimeMillis( ) - lTimer )
 						},
-						rtc.getLocale( ) ) );
+						rtc.getULocale( ) ) );
 
 		final GeneratedChartState gcs = new GeneratedChartState( ids,
 				cmRunTime,
@@ -1087,7 +1111,7 @@ public final class Generator
 							new Object[]{
 								new Long( System.currentTimeMillis( ) - lTimer )
 							},
-							gcs.getRunTimeContext( ).getLocale( ) ) );
+							gcs.getRunTimeContext( ).getULocale( ) ) );
 		}
 		else if ( iChartType == WITHOUT_AXES )
 		{
@@ -1107,7 +1131,7 @@ public final class Generator
 							new Object[]{
 								new Long( System.currentTimeMillis( ) - lTimer )
 							},
-							gcs.getRunTimeContext( ).getLocale( ) ) );
+							gcs.getRunTimeContext( ).getULocale( ) ) );
 		}
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.AFTER_COMPUTATIONS,

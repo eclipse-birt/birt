@@ -13,8 +13,11 @@ package org.eclipse.birt.chart.script;
 
 import java.io.Serializable;
 import java.util.Locale;
+
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * This interface allows the script to get access to common chart varialbes and
@@ -33,8 +36,15 @@ public interface IChartScriptContext extends Serializable
 
 	/**
 	 * @return Returns the locale used by the engine.
+	 * @deprecated
 	 */
 	Locale getLocale( );
+
+	/**
+	 * @return Returns the locale used by the engine.
+	 * @since 2.1
+	 */
+	ULocale getULocale( );
 
 	/**
 	 * @return Returns the external context.

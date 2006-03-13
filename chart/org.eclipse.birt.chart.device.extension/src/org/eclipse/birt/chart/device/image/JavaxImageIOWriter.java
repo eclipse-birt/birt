@@ -568,7 +568,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			final ImageWriter iw = (ImageWriter) it.next( );
 
 			logger.log( ILogger.INFORMATION,
-					Messages.getString( "info.using.imagewriter", getLocale( ) ) //$NON-NLS-1$
+					Messages.getString( "info.using.imagewriter", getULocale( ) ) //$NON-NLS-1$
 							+ getFormat( )
 							+ iw.getClass( ).getName( ) );
 
@@ -679,9 +679,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		_g2d.drawRect( 20, 20, d.width - 40, d.height - 40 );
 		_g2d.setClip( 20, 20, d.width - 40, d.height - 40 );
 		int x = 25, y = 20 + fm.getHeight( );
-		_g2d.drawString( Messages.getString( "exception.caption", getLocale( ) ), x, y ); //$NON-NLS-1$
+		_g2d.drawString( Messages.getString( "exception.caption", getULocale( ) ), x, y ); //$NON-NLS-1$
 		x += fm.stringWidth( Messages.getString( "exception.caption",//$NON-NLS-1$
-				getLocale( ) ) ) + 5;
+				getULocale( ) ) ) + 5;
 		_g2d.setColor( Color.RED );
 		_g2d.drawString( sException, x, y );
 		x = 25;
@@ -689,9 +689,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		if ( sWrappedException != null )
 		{
 			_g2d.setColor( Color.BLACK );
-			_g2d.drawString( Messages.getString( "wrapped.caption", getLocale( ) ), x, y ); //$NON-NLS-1$
+			_g2d.drawString( Messages.getString( "wrapped.caption", getULocale( ) ), x, y ); //$NON-NLS-1$
 			x += fm.stringWidth( Messages.getString( "wrapped.caption",//$NON-NLS-1$
-					getLocale( ) ) ) + 5;
+					getULocale( ) ) ) + 5;
 			_g2d.setColor( Color.RED );
 			_g2d.drawString( sWrappedException, x, y );
 			x = 25;
@@ -699,15 +699,15 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		}
 		_g2d.setColor( Color.BLACK );
 		y += 10;
-		_g2d.drawString( Messages.getString( "message.caption", getLocale( ) ), x, y ); //$NON-NLS-1$
-		x += fm.stringWidth( Messages.getString( "message.caption", getLocale( ) ) ) + 5; //$NON-NLS-1$
+		_g2d.drawString( Messages.getString( "message.caption", getULocale( ) ), x, y ); //$NON-NLS-1$
+		x += fm.stringWidth( Messages.getString( "message.caption", getULocale( ) ) ) + 5; //$NON-NLS-1$
 		_g2d.setColor( Color.BLUE );
 		_g2d.drawString( sMessage, x, y );
 		x = 25;
 		y += fm.getHeight( );
 		_g2d.setColor( Color.BLACK );
 		y += 10;
-		_g2d.drawString( Messages.getString( "trace.caption", getLocale( ) ), x, y );x = 40;y += fm.getHeight( ); //$NON-NLS-1$
+		_g2d.drawString( Messages.getString( "trace.caption", getULocale( ) ), x, y );x = 40;y += fm.getHeight( ); //$NON-NLS-1$
 		_g2d.setColor( Color.GREEN.darker( ) );
 		for ( int i = 0; i < stea.length; i++ )
 		{
@@ -717,7 +717,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 							stea[i].getMethodName( ),
 							String.valueOf( stea[i].getLineNumber( ) )
 					},
-					getLocale( ) ), x, y );
+					getULocale( ) ), x, y );
 			x = 40;
 			y += fm.getHeight( );
 		}
@@ -730,11 +730,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		{
 			return ""; //$NON-NLS-1$
 		}
-		else
-		{
-			expr = expr.replaceAll( "\"", "&quot;" ); //$NON-NLS-1$ //$NON-NLS-2$
-			return expr;
-		}
+		expr = expr.replaceAll( "\"", "&quot;" ); //$NON-NLS-1$ //$NON-NLS-2$
+		return expr;
 	}
 
 }

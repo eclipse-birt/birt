@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.ui.swt.type;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -63,6 +62,8 @@ import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
+
+import com.ibm.icu.util.StringTokenizer;
 
 /**
  * AreaChart

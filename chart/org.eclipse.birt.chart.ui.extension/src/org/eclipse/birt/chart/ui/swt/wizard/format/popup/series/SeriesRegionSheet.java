@@ -12,20 +12,16 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.series;
 
 import java.text.MessageFormat;
-import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Locale;
 
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
-//import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Dial;
 import org.eclipse.birt.chart.model.component.DialRegion;
 import org.eclipse.birt.chart.model.component.impl.DialRegionImpl;
-//import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -35,7 +31,6 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
-//import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -54,6 +49,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
+
+import com.ibm.icu.text.NumberFormat;
 
 /**
  * 
@@ -671,7 +668,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet
 		{
 			return NumberDataElementImpl.create( 0.0 );
 		}
-		NumberFormat nf = NumberFormat.getNumberInstance( Locale.getDefault( ) );
+		NumberFormat nf = NumberFormat.getNumberInstance( );
 
 		try
 		{

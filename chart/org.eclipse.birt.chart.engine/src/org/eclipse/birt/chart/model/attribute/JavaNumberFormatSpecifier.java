@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.model.attribute;
 
 import java.util.Locale;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Java Number Format Specifier</b></em>'.
  * <!-- end-user-doc -->
@@ -115,11 +117,23 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier
 	boolean isSetMultiplier( );
 
 	/**
+	 * Formats a value using the internally defined format specifier rules
 	 * 
 	 * @param dValue
-	 * @param lo
-	 * @return
+	 * 
+	 * @return A formatted string representation of the numerical value provided
+	 * @deprecated
 	 */
 	String format( double dValue, Locale lo );
+
+	/**
+	 * Formats a value using the internally defined format specifier rules
+	 * 
+	 * @param dValue
+	 * 
+	 * @return A formatted string representation of the numerical value provided
+	 * @since 2.1
+	 */
+	String format( double dValue, ULocale lo );
 
 } // JavaNumberFormatSpecifier

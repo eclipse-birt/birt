@@ -11,13 +11,15 @@
 
 package org.eclipse.birt.chart.examples.api.viewer;
 
-import java.util.Calendar;
+import java.io.File;
+import java.io.FileInputStream;
 
 import org.eclipse.birt.chart.datafeed.StockEntry;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
+import org.eclipse.birt.chart.model.Serializer;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AxisType;
@@ -26,16 +28,16 @@ import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
+import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
-import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
-import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
+import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
-import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
@@ -69,6 +71,7 @@ import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
 import org.eclipse.birt.chart.model.impl.DialChartImpl;
+import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
@@ -86,7 +89,11 @@ import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.StockSeriesImpl;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.CDateTime;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * The class cannot be run individually. It provides sample model
@@ -2477,5 +2484,44 @@ public final class PrimitiveCharts
 		} ) );
 
 		return cwa3DArea;
+	}
+
+	public static final Chart openChart( )
+	{
+		Chart chart = null;
+		Serializer serializer = null;
+		File chartFile = new File( "testChart.chart" ); //$NON-NLS-1$
+
+		// Reads the chart model
+		try
+		{
+			serializer = SerializerImpl.instance( );
+			if ( chartFile.exists( ) )
+			{
+
+				chart = serializer.read( new FileInputStream( chartFile ) );
+			}
+		}
+		catch ( Exception e )
+		{
+			WizardBase.displayException( e );
+		}
+
+		// Data Set
+		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
+				"Jan.", "Feb.", "Mar.", "Apr", "May"} ); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$//$NON-NLS-5$
+		NumberDataSet orthoValues1 = NumberDataSetImpl.create( new double[]{
+				14.32, -19.5, 8.38, 0.34, 9.22
+		} );
+		NumberDataSet orthoValues2 = NumberDataSetImpl.create( new double[]{
+				4.2, -19.5, 0.0, 9.2, 7.6
+		} );
+
+		( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
+				.get( 0 ) ).getDesignTimeSeries( ).setDataSet( categoryValues );
+		( (SeriesDefinition) ChartUIUtil.getOrthogonalSeriesDefinitions( chart,
+				0 ).get( 0 ) ).getDesignTimeSeries( )
+				.setDataSet( orthoValues1 );
+		return chart;
 	}
 }

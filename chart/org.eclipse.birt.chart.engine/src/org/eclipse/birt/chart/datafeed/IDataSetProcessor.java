@@ -16,6 +16,8 @@ import java.util.Locale;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.data.DataSet;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Provides a generic definition of a data set processor capable of building or
  * scanning through data sets associated with specific series types.
@@ -108,6 +110,17 @@ public interface IDataSetProcessor
 	 * retrieve localized resources for presentation.
 	 * 
 	 * @return The locale to be used
+	 * @deprecated
+	 * 
 	 */
 	public Locale getLocale( );
+	
+	/**
+	 * Provides the locale to device renderer implementations as needed to
+	 * retrieve localized resources for presentation.
+	 * 
+	 * @return The locale to be used
+	 * @since 2.1
+	 */
+	public ULocale getULocale( );
 }

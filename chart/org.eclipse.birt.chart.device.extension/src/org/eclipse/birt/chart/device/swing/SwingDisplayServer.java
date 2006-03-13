@@ -88,7 +88,7 @@ public class SwingDisplayServer extends DisplayAdapter
 				Messages.getString( "info.display.server", //$NON-NLS-1$ 
 						new Object[]{
 								System.getProperty( "java.vendor" ), System.getProperty( "java.version" )}, //$NON-NLS-1$ //$NON-NLS-2$
-						getLocale( ) ) );
+						getULocale( ) ) );
 		_simc = new SwingImageCache( this );
 	}
 

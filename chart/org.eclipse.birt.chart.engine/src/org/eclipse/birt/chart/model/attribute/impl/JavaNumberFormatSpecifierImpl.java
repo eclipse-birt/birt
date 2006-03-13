@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
-import java.text.DecimalFormat;
 import java.util.Locale;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
@@ -20,6 +19,9 @@ import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import com.ibm.icu.text.DecimalFormat;
+import com.ibm.icu.util.ULocale;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -298,11 +300,16 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	 * 
 	 * @see org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#format(double)
 	 */
-	public String format( double dValue, Locale lo )
+	public String format( double dValue, ULocale lo )
 	{
 		final DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance( lo );
 		df.applyLocalizedPattern( getPattern( ) );
 		return isSetMultiplier( ) ? df.format( dValue * getMultiplier( ) )
 				: df.format( dValue );
+	}
+	
+	public String format( double dValue, Locale lo )
+	{
+		return format( dValue, ULocale.forLocale( lo ) );
 	}
 } // JavaNumberFormatSpecifierImpl

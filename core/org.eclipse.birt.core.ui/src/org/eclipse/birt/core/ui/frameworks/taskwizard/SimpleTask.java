@@ -3,7 +3,6 @@ package org.eclipse.birt.core.ui.frameworks.taskwizard;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
@@ -11,6 +10,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+
+import com.ibm.icu.util.ULocale;
 
 public class SimpleTask implements ITask
 {
@@ -41,15 +42,10 @@ public class SimpleTask implements ITask
 	{
 		Label lbl = new Label( cmpTask, SWT.SHADOW_IN | SWT.CENTER );
 		lbl.setText( "This is a placeholder for the task : " //$NON-NLS-1$
-				+ getDisplayLabel( Locale.getDefault( ) ) );
+				+ getDisplayLabel( ULocale.getDefault( ) ) );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#getDisplayLabel(java.util.Locale)
-	 */
-	public String getDisplayLabel( Locale locale )
+	public String getDisplayLabel( ULocale locale )
 	{
 		return sLabel;
 	}

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
-import java.text.DecimalFormat;
 import java.util.Locale;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
@@ -20,6 +19,9 @@ import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import com.ibm.icu.text.DecimalFormat;
+import com.ibm.icu.util.ULocale;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -452,12 +454,12 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 		return nfs;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#format(double)
-	 */
 	public String format( double dValue, Locale lo )
+	{
+		return format( dValue, ULocale.forLocale( lo ) );
+	}
+	
+	public String format( double dValue, ULocale lo )
 	{
 		final DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance( lo );
 		if ( isSetFractionDigits( ) )

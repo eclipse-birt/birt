@@ -53,7 +53,7 @@ public final class EmptyWithAxes extends AxesRenderer
 								getClass( ).getName( ),
 								new Integer( iSeriesIndex + 1 ),
 								new Integer( iSeriesCount )
-						}, getRunTimeContext( ).getLocale( ) ) );
+						}, getRunTimeContext( ).getULocale( ) ) );
 	}
 
 	/*

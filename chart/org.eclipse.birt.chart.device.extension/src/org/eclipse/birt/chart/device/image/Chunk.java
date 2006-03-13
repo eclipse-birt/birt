@@ -4,10 +4,11 @@ package org.eclipse.birt.chart.device.image;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Locale;
 import java.util.zip.CRC32;
 
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Class representing a single PNG chunk.
@@ -42,7 +43,7 @@ class Chunk
 		this.type = type;
 		if ( type == null || type.length( ) != 4 )
 		{
-			throw new IllegalArgumentException( Messages.getString( "exception.invalid.png.chunk", new Object[]{type}, Locale.getDefault( ) ) ); //$NON-NLS-1$
+			throw new IllegalArgumentException( Messages.getString( "exception.invalid.png.chunk", new Object[]{type}, ULocale.getDefault( ) ) ); //$NON-NLS-1$
 		}
 		this.data = new ByteArrayOutputStream( );
 	}
@@ -126,8 +127,8 @@ class Chunk
 		out.write( lenBytes );
 		for ( int i = 0; i < 4; i++ )
 		{
-			crc.update( (int) type.charAt( i ) );
-			out.write( (int) type.charAt( i ) );
+			crc.update( type.charAt( i ) );
+			out.write( type.charAt( i ) );
 		}
 		crc.update( dataBytes );
 		out.write( dataBytes );

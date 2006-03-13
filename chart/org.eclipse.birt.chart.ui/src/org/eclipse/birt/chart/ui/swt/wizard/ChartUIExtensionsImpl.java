@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.ui.swt.wizard;
 
 import java.util.Collection;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.log.ILogger;
@@ -26,6 +25,8 @@ import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
 import org.eclipse.birt.core.ui.utils.UIHelper;
+
+import com.ibm.icu.util.StringTokenizer;
 
 /**
  * @author Actuate Corporation

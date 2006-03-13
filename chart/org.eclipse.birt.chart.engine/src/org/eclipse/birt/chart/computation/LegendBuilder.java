@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.computation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -47,6 +46,8 @@ import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * A helper class for Legend computation.
@@ -326,7 +327,7 @@ public final class LegendBuilder implements IConstants
 						{
 							lgtext = ValueFormatter.format( obj,
 									fs,
-									Locale.getDefault( ),
+									ULocale.getDefault( ),
 									null );
 						}
 						catch ( ChartException e )
@@ -438,7 +439,7 @@ public final class LegendBuilder implements IConstants
 							{
 								lgtext = ValueFormatter.format( obj,
 										fs,
-										Locale.getDefault( ),
+										ULocale.getDefault( ),
 										null );
 							}
 							catch ( ChartException e )
@@ -484,7 +485,7 @@ public final class LegendBuilder implements IConstants
 									{
 										lgtext = ValueFormatter.format( obj,
 												fs,
-												Locale.getDefault( ),
+												ULocale.getDefault( ),
 												null );
 									}
 									catch ( ChartException e )
@@ -534,7 +535,9 @@ public final class LegendBuilder implements IConstants
 					}
 
 					// SETUP HORIZONTAL SEPARATOR SPACING
-					if ( j < seda.length - 1 )
+					if ( j < seda.length - 1
+							&& ( lg.getSeparator( ) == null || lg.getSeparator( )
+									.isVisible( ) ) )
 					{
 						dHeight += dSeparatorThickness;
 
@@ -586,7 +589,7 @@ public final class LegendBuilder implements IConstants
 							{
 								lgtext = ValueFormatter.format( obj,
 										fs,
-										Locale.getDefault( ),
+										ULocale.getDefault( ),
 										null );
 							}
 							catch ( ChartException e )
@@ -632,7 +635,7 @@ public final class LegendBuilder implements IConstants
 									{
 										lgtext = ValueFormatter.format( obj,
 												fs,
-												Locale.getDefault( ),
+												ULocale.getDefault( ),
 												null );
 									}
 									catch ( ChartException e )
@@ -692,7 +695,9 @@ public final class LegendBuilder implements IConstants
 					dHeight = 0;
 
 					// SETUP VERTICAL SEPARATOR SPACING
-					if ( j < seda.length - 1 )
+					if ( j < seda.length - 1
+							&& ( lg.getSeparator( ) == null || lg.getSeparator( )
+									.isVisible( ) ) )
 					{
 						dExtraWidth += dSeparatorThickness;
 
@@ -807,7 +812,7 @@ public final class LegendBuilder implements IConstants
 						{
 							lgtext = ValueFormatter.format( obj,
 									fs,
-									Locale.getDefault( ),
+									ULocale.getDefault( ),
 									null );
 						}
 						catch ( ChartException e )
@@ -918,7 +923,7 @@ public final class LegendBuilder implements IConstants
 							{
 								lgtext = ValueFormatter.format( obj,
 										fs,
-										Locale.getDefault( ),
+										ULocale.getDefault( ),
 										null );
 							}
 							catch ( ChartException e )
@@ -968,7 +973,7 @@ public final class LegendBuilder implements IConstants
 									{
 										lgtext = ValueFormatter.format( obj,
 												fs,
-												Locale.getDefault( ),
+												ULocale.getDefault( ),
 												null );
 									}
 									catch ( ChartException e )
@@ -1024,7 +1029,9 @@ public final class LegendBuilder implements IConstants
 					dWidth = 0;
 
 					// SETUP HORIZONTAL SEPARATOR SPACING
-					if ( j < seda.length - 1 )
+					if ( j < seda.length - 1
+							&& ( lg.getSeparator( ) == null || lg.getSeparator( )
+									.isVisible( ) ) )
 					{
 						dHeight += dSeparatorThickness;
 
@@ -1066,7 +1073,7 @@ public final class LegendBuilder implements IConstants
 							{
 								lgtext = ValueFormatter.format( obj,
 										fs,
-										Locale.getDefault( ),
+										ULocale.getDefault( ),
 										null );
 							}
 							catch ( ChartException e )
@@ -1116,7 +1123,7 @@ public final class LegendBuilder implements IConstants
 									{
 										lgtext = ValueFormatter.format( obj,
 												fs,
-												Locale.getDefault( ),
+												ULocale.getDefault( ),
 												null );
 									}
 									catch ( ChartException e )
@@ -1164,7 +1171,9 @@ public final class LegendBuilder implements IConstants
 					}
 
 					// SETUP VERTICAL SEPARATOR SPACING
-					if ( j < seda.length - 1 )
+					if ( j < seda.length - 1
+							&& ( lg.getSeparator( ) == null || lg.getSeparator( )
+									.isVisible( ) ) )
 					{
 						dWidth += dSeparatorThickness;
 

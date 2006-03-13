@@ -11,14 +11,10 @@
 
 package org.eclipse.birt.chart.ui.util;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.birt.chart.exception.ChartException;
@@ -56,6 +52,11 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+
+import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.GregorianCalendar;
+import com.ibm.icu.util.ULocale;
 
 /**
  * ChartUIUtil
@@ -534,7 +535,7 @@ public class ChartUIUtil
 		};
 
 		RunTimeContext context = new RunTimeContext( );
-		context.setLocale( Locale.getDefault( ) );
+		context.setULocale( ULocale.getDefault( ) );
 		Generator.instance( ).bindData( evaluator, chart, context );
 
 		// Original live preview code: use sample data. See TaskSelectData
@@ -632,7 +633,7 @@ public class ChartUIUtil
 	{
 		if ( axisType.equals( AxisType.DATE_TIME_LITERAL ) )
 		{
-			SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy", Locale.getDefault( ) ); //$NON-NLS-1$
+			SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
 			Calendar today = new GregorianCalendar( );
 			Calendar firstDay = new GregorianCalendar( today.get( Calendar.YEAR ),
 					0,

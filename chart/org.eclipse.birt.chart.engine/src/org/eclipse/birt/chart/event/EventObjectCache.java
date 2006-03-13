@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.event;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Hashtable;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -119,8 +118,7 @@ public class EventObjectCache
 					new Object[]{
 						oSource
 					},
-					ResourceBundle.getBundle( Messages.ENGINE,
-							Locale.getDefault( ) ) );
+					ResourceBundle.getBundle( Messages.ENGINE ) );
 		}
 
 		if ( !lia.isVisible( ) )

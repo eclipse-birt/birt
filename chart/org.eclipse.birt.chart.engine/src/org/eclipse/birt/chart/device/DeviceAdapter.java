@@ -28,6 +28,8 @@ import org.eclipse.birt.chart.event.TextRenderEvent;
 import org.eclipse.birt.chart.event.TransformationEvent;
 import org.eclipse.birt.chart.exception.ChartException;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * A no-op adapter implementation for the
  * {@link org.eclipse.birt.chart.device.IDeviceRenderer}interface definition.
@@ -68,7 +70,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements
 		// DO NOTHING IN NO-OP IMPL
 		return null;
 	}
-
+	
 	/**
 	 * A convenience method the provides the locale as needed to fetch localized
 	 * resources.
@@ -83,6 +85,22 @@ public abstract class DeviceAdapter extends EventObjectCache implements
 			return Locale.getDefault( );
 		}
 		return ids.getLocale( ); // ALREADY BEING CHECKED FOR NULL
+	}
+
+	/**
+	 * A convenience method the provides the locale as needed to fetch localized
+	 * resources.
+	 * 
+	 * @return The locale instance
+	 */
+	public final ULocale getULocale( )
+	{
+		final IDisplayServer ids = getDisplayServer( );
+		if ( ids == null )
+		{
+			return ULocale.getDefault( );
+		}
+		return ids.getULocale( ); // ALREADY BEING CHECKED FOR NULL
 	}
 
 	/*

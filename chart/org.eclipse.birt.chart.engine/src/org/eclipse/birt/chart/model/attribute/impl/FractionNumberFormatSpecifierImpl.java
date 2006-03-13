@@ -18,6 +18,8 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Fraction Number Format Specifier</b></em>'.
  * <!-- end-user-doc -->
@@ -641,6 +643,11 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	}
 
 	public String format( double dValue, Locale lo )
+	{
+		return format( dValue, ULocale.forLocale( lo ) );
+	}
+	
+	public String format( double dValue, ULocale lo )
 	{
 		// Convert the decimal value to the fraction
 		Fraction fraction = null;

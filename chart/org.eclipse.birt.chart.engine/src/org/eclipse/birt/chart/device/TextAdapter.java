@@ -15,6 +15,8 @@ import java.util.Locale;
 
 import org.eclipse.birt.chart.model.component.Label;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * A no-op adapter implementation for the
  * {@link org.eclipse.birt.chart.device.ITextMetrics}interface definition.
@@ -22,7 +24,7 @@ import org.eclipse.birt.chart.model.component.Label;
 public class TextAdapter implements ITextMetrics
 {
 
-	private transient Locale lcl = null;
+	private transient ULocale lcl = null;
 
 	/*
 	 * (non-Javadoc)
@@ -113,14 +115,14 @@ public class TextAdapter implements ITextMetrics
 	{
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.ITextMetrics#getLocale()
-	 */
 	public final Locale getLocale( )
 	{
-		return ( lcl == null ) ? Locale.getDefault( ) : lcl;
+		return getULocale( ).toLocale( );
+	}
+	
+	public final ULocale getULocale( )
+	{
+		return ( lcl == null ) ? ULocale.getDefault( ) : lcl;
 	}
 
 	/**
@@ -128,7 +130,7 @@ public class TextAdapter implements ITextMetrics
 	 * 
 	 * @param lcl
 	 */
-	public final void setLocale( Locale lcl )
+	public final void setLocale( ULocale lcl )
 	{
 		this.lcl = lcl;
 	}

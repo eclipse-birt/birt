@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
-import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Locale;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -24,8 +22,11 @@ import org.eclipse.birt.chart.model.attribute.DateFormatType;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.ULocale;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -160,7 +161,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.UNDEFINED_VALUE,
-					Messages.getString( "error.type.not.set", Locale.getDefault( ) ) ); //$NON-NLS-1$
+					Messages.getString( "error.type.not.set" ) ); //$NON-NLS-1$
 		}
 		switch ( getType( ).getValue( ) )
 		{
@@ -351,12 +352,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 		return super.eIsSet( featureID );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#format(java.util.Calendar)
-	 */
-	public String format( Calendar c, Locale lcl )
+	public String format( Calendar c, ULocale lcl )
 	{
 		DateFormat df = null;
 		if ( getDetail( ).getValue( ) == DateFormatDetail.DATE_TIME )
@@ -384,6 +380,11 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 			}
 		}
 		return df.format( c.getTime( ) );
+	}
+	
+	public String format( Calendar c, Locale lcl )
+	{
+		return format(c, ULocale.forLocale( lcl ));
 	}
 
 } // DateFormatSpecifierImpl

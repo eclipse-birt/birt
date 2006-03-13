@@ -12,13 +12,8 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis;
 
 import java.text.MessageFormat;
-import java.text.NumberFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AxisType;
@@ -73,6 +68,11 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
+
+import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
 
 /**
  * 
@@ -934,7 +934,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		else if ( de instanceof DateTimeDataElement )
 		{
 			Date date = new Date( ( (DateTimeDataElement) de ).getValue( ) );
-			SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy", Locale.getDefault( ) ); //$NON-NLS-1$
+			SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
 			sValue = sdf.format( date );
 		}
 		return sValue;
@@ -1130,23 +1130,21 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 					&& !axis.isCategoryAxis( ) )
 			{
 				Date dateElement = new Date( );
-				Calendar cal = Calendar.getInstance( TimeZone.getDefault( ),
-						Locale.getDefault( ) );
+				Calendar cal = Calendar.getInstance( TimeZone.getDefault( ) );
 				cal.setTime( dateElement );
 				return DateTimeDataElementImpl.create( cal );
 			}
 			return NumberDataElementImpl.create( 0.0 );
 		}
-		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy", Locale.getDefault( ) ); //$NON-NLS-1$
-		NumberFormat nf = NumberFormat.getNumberInstance( Locale.getDefault( ) );
+		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
+		NumberFormat nf = NumberFormat.getNumberInstance( );
 		if ( axis.getType( ).equals( AxisType.DATE_TIME_LITERAL )
 				&& !axis.isCategoryAxis( ) )
 		{
 			try
 			{
 				Date dateElement = sdf.parse( strDataElement );
-				Calendar cal = Calendar.getInstance( TimeZone.getDefault( ),
-						Locale.getDefault( ) );
+				Calendar cal = Calendar.getInstance( TimeZone.getDefault( ) );
 				cal.setTime( dateElement );
 				return DateTimeDataElementImpl.create( cal );
 			}

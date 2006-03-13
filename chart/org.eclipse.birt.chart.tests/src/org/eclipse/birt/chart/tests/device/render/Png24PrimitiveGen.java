@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.tests.device.render;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.image.PngRendererImpl;
@@ -47,6 +46,8 @@ import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
+
+import com.ibm.icu.util.StringTokenizer;
 
 /**
  * Concrete class that is used to parse a file with drawing primitives. Each

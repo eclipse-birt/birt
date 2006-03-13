@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.ui.swt.type;
 
 import java.util.Collection;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -53,6 +52,8 @@ import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
+
+import com.ibm.icu.util.StringTokenizer;
 
 /**
  * MeterChart
@@ -144,7 +145,7 @@ public class MeterChart extends DefaultChartTypeImpl
 			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
 					imgStandard,
 					sStandardDescription,
-					Messages.getString( "MeterChart.SubType.Standard" ) ) );
+					Messages.getString( "MeterChart.SubType.Standard" ) ) ); //$NON-NLS-1$
 			vSubTypes.add( new DefaultChartSubTypeImpl( SUPERIMPOSED_SUBTYPE_LITERAL,
 					imgSuperimposed,
 					sSuperimposedDescription,
@@ -588,7 +589,7 @@ public class MeterChart extends DefaultChartTypeImpl
 	 */
 	public String getDisplayName( )
 	{
-		return Messages.getString( "MeterChart.Txt.DisplayName" );
+		return Messages.getString( "MeterChart.Txt.DisplayName" ); //$NON-NLS-1$
 	}
 
 }

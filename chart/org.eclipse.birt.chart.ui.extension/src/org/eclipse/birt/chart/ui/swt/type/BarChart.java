@@ -11,7 +11,6 @@ package org.eclipse.birt.chart.ui.swt.type;
 
 import java.util.Collection;
 import java.util.Hashtable;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -59,6 +58,8 @@ import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
+
+import com.ibm.icu.util.StringTokenizer;
 
 /**
  * BarChart
@@ -171,15 +172,15 @@ public class BarChart extends DefaultChartTypeImpl
 			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL,
 					imgSideBySide,
 					sSideBySideDescription,
-					Messages.getString( "BarChart.SubType.Side" ) ) );
+					Messages.getString( "BarChart.SubType.Side" ) ) ); //$NON-NLS-1$
 			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
 					imgStacked,
 					sStackedDescription,
-					Messages.getString( "BarChart.SubType.Stacked" ) ) );
+					Messages.getString( "BarChart.SubType.Stacked" ) ) ); //$NON-NLS-1$
 			vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
 					imgPercentStacked,
 					sPercentStackedDescription,
-					Messages.getString( "BarChart.SubType.PercentStacked" ) ) );
+					Messages.getString( "BarChart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
 		}
 		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
@@ -199,15 +200,15 @@ public class BarChart extends DefaultChartTypeImpl
 			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL,
 					imgSideBySideWithDepth,
 					sSideBySideDescription,
-					Messages.getString( "BarChart.SubType.Side" ) ) );
+					Messages.getString( "BarChart.SubType.Side" ) ) ); //$NON-NLS-1$
 			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
 					imgStackedWithDepth,
 					sStackedDescription,
-					Messages.getString( "BarChart.SubType.Stacked" ) ) );
+					Messages.getString( "BarChart.SubType.Stacked" ) ) ); //$NON-NLS-1$
 			vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
 					imgPercentStackedWithDepth,
 					sPercentStackedDescription,
-					Messages.getString( "BarChart.SubType.PercentStacked" ) ) );
+					Messages.getString( "BarChart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
 		}
 		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
@@ -223,7 +224,7 @@ public class BarChart extends DefaultChartTypeImpl
 			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL,
 					imgSideBySide3D,
 					sSideBySideDescription,
-					Messages.getString( "BarChart.SubType.Side" ) ) );
+					Messages.getString( "BarChart.SubType.Side" ) ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}
@@ -902,6 +903,6 @@ public class BarChart extends DefaultChartTypeImpl
 	 */
 	public String getDisplayName( )
 	{
-		return Messages.getString( "BarChart.Txt.DisplayName" );
+		return Messages.getString( "BarChart.Txt.DisplayName" ); //$NON-NLS-1$
 	}
 }

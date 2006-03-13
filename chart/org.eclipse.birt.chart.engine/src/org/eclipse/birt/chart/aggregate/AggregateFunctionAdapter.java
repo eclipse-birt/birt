@@ -6,12 +6,13 @@ package org.eclipse.birt.chart.aggregate;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
+
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.ULocale;
 
 /**
  *  
@@ -27,7 +28,7 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction
 	/**
 	 *  
 	 */
-	private Locale lcl = null;
+	private ULocale lcl = null;
 
 	/*
 	 * (non-Javadoc)
@@ -133,7 +134,7 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction
 			if ( iExistingType != iDataType )
 			{
 				throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
-						lcl )
+						lcl.toLocale( ) )
 						.getString( "exception.mixed.data.types" ), //$NON-NLS-1$
 						new Object[]{
 							getClass( ).getName( )
@@ -148,7 +149,7 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction
 	 * @param lcl
 	 *            A locale associated with this aggregate function instance
 	 */
-	public final void setLocale( Locale lcl )
+	public final void setLocale( ULocale lcl )
 	{
 		this.lcl = lcl;
 	}
@@ -159,9 +160,9 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction
 	 * 
 	 * @return The locale associated with this aggregate function instance
 	 */
-	protected final Locale getLocale( )
+	protected final ULocale getLocale( )
 	{
-		return ( lcl == null ) ? Locale.getDefault( ) : lcl;
+		return ( lcl == null ) ? ULocale.getDefault( ) : lcl;
 	}
 
 	/**
