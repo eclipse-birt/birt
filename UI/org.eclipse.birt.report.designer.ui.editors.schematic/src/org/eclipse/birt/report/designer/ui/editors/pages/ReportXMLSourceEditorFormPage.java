@@ -11,9 +11,10 @@
 
 package org.eclipse.birt.report.designer.ui.editors.pages;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.xml.XMLEditor;
@@ -24,17 +25,20 @@ import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
+import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
@@ -64,6 +68,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 	public void initialize( FormEditor editor )
 	{
 		this.editor = editor;
+		setRangeIndicator( new Annotation(){} );
 	}
 
 	/*
@@ -79,8 +84,9 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 	public void doSave( IProgressMonitor progressMonitor )
 	{
 		super.doSave( progressMonitor );
-		IReportProvider provider = EditorUtil.getReportProvider( this, getEditorInput( ) );
-		if ( provider != null && isValidModelFile( ) )
+		IReportProvider provider = EditorUtil.getReportProvider( this,
+				getEditorInput( ) );
+		if ( provider != null && getErrorLIine( ) > -1 )
 		{
 			ModuleHandle model = provider.getReportModuleHandle( getEditorInput( ),
 					true );
@@ -88,40 +94,65 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		}
 	}
 
-	private boolean isValidModelFile( )
+	private int getErrorLIine( )
 	{
 		IEditorInput input = getEditorInput( );
 
 		if ( !( input instanceof IPathEditorInput ) )
 		{
-			return false;
+			return 0;
 		}
-		boolean validModel = false;
 		IPath path = ( (IPathEditorInput) input ).getPath( );
 		try
 		{
 			if ( path.toOSString( )
 					.endsWith( IReportEditorContants.LIBRARY_FILE_EXTENTION ) )
 			{
-				validModel = ModuleUtil.isValidLibrary( SessionHandleAdapter.getInstance( )
-						.getSessionHandle( ),
-						path.toOSString( ),
-						new FileInputStream( new File( path.toOSString( ) ) ) );
+				try
+				{
+					SessionHandleAdapter.getInstance( )
+							.getSessionHandle( )
+							.openLibrary( path.toOSString( ) );
+				}
+				catch ( DesignFileException e )
+				{
+					return getExpetionErrorLine( e );
+				}
 			}
 			else
 			{
-				validModel = ModuleUtil.isValidDesign( SessionHandleAdapter.getInstance( )
-						.getSessionHandle( ),
-						path.toOSString( ),
-						new FileInputStream( new File( path.toOSString( ) ) ) );
-
+				try
+				{
+					SessionHandleAdapter.getInstance( )
+							.getSessionHandle( )
+							.openDesign( path.toOSString( ),
+									new FileInputStream( path.toFile( ) ) );
+				}
+				catch ( DesignFileException e )
+				{
+					return getExpetionErrorLine( e );
+				}
 			}
-			return validModel;
 		}
 		catch ( FileNotFoundException e )
 		{
-			return validModel;
+			return 0;
 		}
+		return -1;
+	}
+
+	private int getExpetionErrorLine( DesignFileException e )
+	{
+		List errorList = e.getErrorList( );
+		for ( Iterator iter = errorList.iterator( ); iter.hasNext( ); )
+		{
+			Object element = iter.next( );
+			if ( element instanceof ErrorDetail )
+			{
+				return ( (ErrorDetail) element ).getLineNo( );
+			}
+		}
+		return 0;
 	}
 
 	/*
@@ -189,19 +220,34 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 					return false;
 			}
 		}
-		boolean validModel = false;
 
-		validModel = isValidModelFile( );
+		int errorLine = getErrorLIine( );
 
-		if ( !validModel )
+		if ( errorLine > -1 )
 		{
-			Display.getCurrent( ).beep( );
+//			Display.getCurrent( ).beep( );
 			MessageDialog.openError( Display.getCurrent( ).getActiveShell( ),
 					Messages.getString( "XMLSourcePage.Error.Dialog.title" ), //$NON-NLS-1$
 					Messages.getString( "XMLSourcePage.Error.Dialog.Message.InvalidFile" ) ); //$NON-NLS-1$
+			setFocus( );
+			setHighlightLine( errorLine );
+
 			return false;
 		}
 		return true;
+	}
+
+	private void setHighlightLine( int errorLine )
+	{
+		try
+		{
+			IRegion region = getDocumentProvider( ).getDocument( getEditorInput( ) )
+					.getLineInformation( errorLine );
+			setHighlightRange( region.getOffset( ), region.getLength( ), true );
+		}
+		catch ( BadLocationException e )
+		{
+		}
 	}
 
 	/*

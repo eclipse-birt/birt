@@ -189,11 +189,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			FormPageDef pagedef = (FormPageDef) iter.next( );
 			try
 			{
-				if ( !error
-						|| "org.eclipse.birt.report.designer.ui.editors.design.xmlsource".equals( pagedef.id ) )
-				{
-					addPage( pagedef.createPage( ), pagedef.displayName );
-				}
+				addPage( pagedef.createPage( ), pagedef.displayName );
 			}
 			catch ( Exception e )
 			{
@@ -201,10 +197,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			}
 		}
 
-		// if(getPageCount( )>=0)
-		// {
-		// pageChange(0);
-		// }
+		if ( error )
+		{
+			setActivePage( "BIRT.XMLSourceFormPage" ); //$NON-NLS-1$
+		}
 
 	}
 
@@ -226,12 +222,12 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		}
 		try
 		{
-			page.init( createSite( page ), getEditorInput( ) );
 			page.initialize( this );
+			page.init( createSite( page ), getEditorInput( ) );
 		}
 		catch ( Exception e )
 		{
-			removePage( index );
+			// removePage( index );
 			throw new PartInitException( e.getMessage( ) );
 		}
 		return index;
@@ -475,7 +471,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	{
 		final IKeyBindingService service = getSite( ).getKeyBindingService( );
 		final IEditorPart editor = (IEditorPart) pages.get( newPageIndex );
-		if ( editor != null )
+		if ( editor != null && editor.getEditorSite( )!=null)
 		{
 			editor.setFocus( );
 			// There is no selected page, so deactivate the active service.
