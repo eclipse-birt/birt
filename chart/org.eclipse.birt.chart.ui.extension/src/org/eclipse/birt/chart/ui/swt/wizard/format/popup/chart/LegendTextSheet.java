@@ -27,8 +27,6 @@ import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -42,10 +40,7 @@ import org.eclipse.swt.widgets.Listener;
  * 
  */
 
-public class LegendTextSheet extends AbstractPopupSheet
-		implements
-			SelectionListener,
-			Listener
+public class LegendTextSheet extends AbstractPopupSheet implements Listener
 {
 
 	private transient Composite cmpContent = null;
@@ -53,6 +48,8 @@ public class LegendTextSheet extends AbstractPopupSheet
 	private transient LabelAttributesComposite lacTitle = null;
 
 	private transient FontDefinitionComposite fdcFont = null;
+
+	private transient LineAttributesComposite lineSeparator;
 
 	private transient FillChooserComposite fccShadow;
 
@@ -92,6 +89,7 @@ public class LegendTextSheet extends AbstractPopupSheet
 				false );
 		{
 			GridData gdLACTitle = new GridData( GridData.FILL_BOTH );
+			gdLACTitle.verticalSpan = 2;
 			lacTitle.setLayoutData( gdLACTitle );
 			lacTitle.addListener( this );
 			lacTitle.setEnabled( getLegend( ).getTitle( ).isVisible( ) );
@@ -136,8 +134,6 @@ public class LegendTextSheet extends AbstractPopupSheet
 		fccShadow.setEnabled( getLegend( ).isVisible( ) );
 		fccShadow.addListener( this );
 
-		new Label( grpTxtArea, SWT.NONE ).setLayoutData( new GridData( GridData.FILL_BOTH ) );
-
 		Group grpOutline = new Group( grpTxtArea, SWT.NONE );
 		GridData gdGRPOutline = new GridData( GridData.FILL_HORIZONTAL );
 		gdGRPOutline.horizontalSpan = 2;
@@ -162,6 +158,27 @@ public class LegendTextSheet extends AbstractPopupSheet
 		gdInsets.horizontalSpan = 2;
 		icText.setLayoutData( gdInsets );
 		icText.addListener( this );
+
+		Group grpSeparator = new Group( cmpContent, SWT.NONE );
+		{
+			GridLayout layout = new GridLayout( );
+			layout.marginHeight = 0;
+			layout.marginWidth = 5;
+			grpSeparator.setLayout( layout );
+			grpSeparator.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			grpSeparator.setText( Messages.getString( "LegendTextSheet.Label.Separator" ) ); //$NON-NLS-1$
+		}
+
+		lineSeparator = new LineAttributesComposite( grpSeparator,
+				SWT.NONE,
+				getLegend( ).getSeparator( ),
+				true,
+				true,
+				true );
+		{
+			lineSeparator.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			lineSeparator.addListener( this );
+		}
 
 		return cmpContent;
 	}
@@ -266,25 +283,28 @@ public class LegendTextSheet extends AbstractPopupSheet
 					break;
 			}
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-	public void widgetSelected( SelectionEvent e )
-	{
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-	public void widgetDefaultSelected( SelectionEvent e )
-	{
+		else if ( event.widget.equals( lineSeparator ) )
+		{
+			switch ( event.type )
+			{
+				case LineAttributesComposite.STYLE_CHANGED_EVENT :
+					getLegend( ).getSeparator( )
+							.setStyle( (LineStyle) event.data );
+					break;
+				case LineAttributesComposite.WIDTH_CHANGED_EVENT :
+					getLegend( ).getSeparator( )
+							.setThickness( ( (Integer) event.data ).intValue( ) );
+					break;
+				case LineAttributesComposite.COLOR_CHANGED_EVENT :
+					getLegend( ).getSeparator( )
+							.setColor( (ColorDefinition) event.data );
+					break;
+				case LineAttributesComposite.VISIBILITY_CHANGED_EVENT :
+					getLegend( ).getSeparator( )
+							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					break;
+			}
+		}
 	}
 
 	private Legend getLegend( )

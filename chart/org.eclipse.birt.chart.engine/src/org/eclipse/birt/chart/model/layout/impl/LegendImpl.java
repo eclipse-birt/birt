@@ -1774,6 +1774,12 @@ public class LegendImpl extends BlockImpl implements Legend
 		la.setVisible( false );
 		setTitle( la );
 		setTitlePosition( Position.ABOVE_LITERAL );
+		
+		LineAttributes separator = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
+				LineStyle.SOLID_LITERAL,
+				1 );
+		separator.setVisible( true );
+		setSeparator( separator );
 
 		final ClientArea ca = LayoutFactory.eINSTANCE.createClientArea( );
 		( (ClientAreaImpl) ca ).initialize( );

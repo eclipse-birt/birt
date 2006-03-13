@@ -22,8 +22,12 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
+import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.SortOption;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -52,9 +56,10 @@ import org.eclipse.swt.widgets.Label;
  * 
  */
 
-public class TaskFormatChart extends TreeCompoundTask implements
-		IUIManager,
-		ITaskChangeListener
+public class TaskFormatChart extends TreeCompoundTask
+		implements
+			IUIManager,
+			ITaskChangeListener
 {
 
 	private transient ChartPreviewPainter previewPainter = null;
@@ -681,6 +686,16 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			interactivity.eAdapters( )
 					.addAll( getCurrentModelState( ).eAdapters( ) );
 			getCurrentModelState( ).setInteractivity( interactivity );
+		}
+		if ( getCurrentModelState( ).getLegend( ).getSeparator( ) == null )
+		{
+			LineAttributes separator = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
+					LineStyle.SOLID_LITERAL,
+					1 );
+			separator.setVisible( true );
+			separator.eAdapters( )
+					.addAll( getCurrentModelState( ).eAdapters( ) );
+			getCurrentModelState( ).getLegend( ).setSeparator( separator );
 		}
 	}
 
