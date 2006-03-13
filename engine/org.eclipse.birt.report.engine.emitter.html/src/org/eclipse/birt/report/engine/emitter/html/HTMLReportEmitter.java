@@ -72,6 +72,7 @@ import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.parser.TextParser;
@@ -89,7 +90,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.77 $ $Date: 2006/02/28 07:45:56 $
+ * @version $Revision: 1.78 $ $Date: 2006/03/09 09:17:41 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -782,7 +783,46 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.closeTag( HTMLTags.TAG_CAPTION );
 		}
 
+		// include select handle table
+		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
+		{
+			HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
+		
+			if ( htmlOption.getIncludeSelectionHandle( )
+					&& generateBy instanceof TableItemDesign )
+			{
+				startSelectHandleTable( );
+			}
+		}
+
 		writeColumns( table );
+	}
+
+	/**
+	 * bug128480
+	 * render table with a highlight handle
+	 */	
+	protected void startSelectHandleTable( )
+	{
+		writer.openTag( HTMLTags.TAG_COL );
+		writer.attribute( HTMLTags.ATTR_STYLE, "width:5%;background-color:black" );
+		writer.closeTag( HTMLTags.TAG_COL );
+		writer.openTag( HTMLTags.TAG_COL );
+		writer.attribute( HTMLTags.ATTR_STYLE, "width:95%" );
+		writer.closeTag( HTMLTags.TAG_COL );
+		writer.openTag( HTMLTags.TAG_TR );
+		writer.openTag( HTMLTags.TAG_TD );
+		writer.closeTag( HTMLTags.TAG_TD );
+		writer.openTag( HTMLTags.TAG_TD );
+		writer.openTag( HTMLTags.TAG_TABLE );
+		writer.attribute( HTMLTags.ATTR_STYLE, "width:100%" );
+	}
+	
+	protected void endSelectHandleTable( )
+	{
+		writer.closeTag( HTMLTags.TAG_TABLE );
+		writer.closeTag( HTMLTags.TAG_TD );
+		writer.closeTag( HTMLTags.TAG_TR );
 	}
 
 	protected void writeColumns( ITableContent table )
@@ -830,6 +870,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			return;
 		}
 
+		//	include select handle table
+		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
+		{
+			HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
+			Object generateBy = table.getGenerateBy();
+			
+			if ( htmlOption.getIncludeSelectionHandle( )
+					&& generateBy instanceof TableItemDesign )
+			{
+				endSelectHandleTable( );
+			}
+		}
+				
 		writer.closeTag( HTMLTags.TAG_TABLE );
 
 		logger.log( Level.FINE, "[HTMLTableEmitter] End table" ); //$NON-NLS-1$
@@ -1463,6 +1516,20 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		logger.log( Level.FINE, "[HTMLImageEmitter] Start image" ); //$NON-NLS-1$ 
 
+		Object generateBy = image.getGenerateBy( );
+		
+		// include select handle chart
+		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
+		{
+			HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
+			
+			if ( htmlOption.getIncludeSelectionHandle( )
+					&& generateBy instanceof ExtendedItemDesign )
+			{
+				startSelectHandleTableChart( );
+			}
+		}		
+
 		StringBuffer styleBuffer = new StringBuffer( );
 		int display = checkElementType( image.getX( ), image.getY( ),
 				mergedStyle, styleBuffer );
@@ -1629,6 +1696,46 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		writer.closeTag( tag );
+		
+		// include	select handle chart
+		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
+		{
+			HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
+			
+			if ( htmlOption.getIncludeSelectionHandle( )
+					&& generateBy instanceof ExtendedItemDesign )
+			{
+				endSelectHandleTableChart( );
+			}
+		}		
+
+	}
+	
+	/**
+	 * bug128480
+	 * render chard with a highlight handle
+	 */
+	protected void startSelectHandleTableChart( )
+	{
+		writer.openTag( HTMLTags.TAG_TABLE );
+		writer.attribute( HTMLTags.ATTR_STYLE, "width:100%" );
+		writer.openTag( HTMLTags.TAG_COL );
+		writer.attribute( HTMLTags.ATTR_STYLE, "width:5%;background-color:black" );
+		writer.closeTag( HTMLTags.TAG_COL );
+		writer.openTag( HTMLTags.TAG_COL );
+		writer.attribute( HTMLTags.ATTR_STYLE, "width:95%" );
+		writer.closeTag( HTMLTags.TAG_COL );
+		writer.openTag( HTMLTags.TAG_TR );
+		writer.openTag( HTMLTags.TAG_TD );
+		writer.closeTag( HTMLTags.TAG_TD );
+		writer.openTag( HTMLTags.TAG_TD );
+	}
+	
+	protected void endSelectHandleTableChart( )
+	{
+		writer.closeTag( HTMLTags.TAG_TD );
+		writer.closeTag( HTMLTags.TAG_TR );
+		writer.closeTag( HTMLTags.TAG_TABLE );		
 	}
 
 	/**

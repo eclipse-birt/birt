@@ -27,6 +27,7 @@ public class HTMLRenderOption extends RenderOptionBase
 	public static final String HTML_PAGINATION = "htmlPagination"; //$NON-NLS-1$
 	public static final String MASTER_PAGE_CONTENT = "htmlMasterPageContent"; //$NON-NLS-1$
 	public static final String OBSERVE_TEMPLATE_DEFAULT = "observeTemplateDefault"; //$NON-NLS-1$
+	public static final String HTML_INCLUDE_SELECTION_HANDLE = "includeSelectionHandle"; //$NON-NLS-1$
 
 	// used to pass back a set of instance IDs. One use is for interactivity
 	protected List instanceIDs = null;
@@ -145,6 +146,27 @@ public class HTMLRenderOption extends RenderOptionBase
 	
 	public boolean getRenderTemplateUseDefault()
 	{
-		return ((Boolean)options.get( OBSERVE_TEMPLATE_DEFAULT) ).booleanValue();
+		Boolean value = (Boolean) options.get( OBSERVE_TEMPLATE_DEFAULT);
+		if ( value != null )
+		{
+			return value.booleanValue( );
 	}
+		return false;
+	}
+	
+	public void setIncludeSelectionHandle(boolean option)
+	{
+		options.put( HTML_INCLUDE_SELECTION_HANDLE, new Boolean(option) );
+	}
+	
+	public boolean getIncludeSelectionHandle()
+	{
+		Boolean value = (Boolean) options.get( HTML_INCLUDE_SELECTION_HANDLE);
+		if ( value != null )
+		{
+			return value.booleanValue( );
+		}
+		return false;
+	}
+	
 }
