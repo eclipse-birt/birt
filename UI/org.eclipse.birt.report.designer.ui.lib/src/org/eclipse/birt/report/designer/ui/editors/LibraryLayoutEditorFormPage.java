@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.ui.editors;
 
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.ReportMultiPageEditorSite;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -25,6 +24,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
+import org.eclipse.ui.part.MultiPageEditorSite;
 
 /**
  * 
@@ -94,7 +94,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 			throws PartInitException
 	{
 		super.init( site, input );
-		initialize( (FormEditor)((ReportMultiPageEditorSite)site).getMultiPageEditor() );
+		initialize( (FormEditor)((MultiPageEditorSite)site).getMultiPageEditor() );
 		// Initializes command stack
 //		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );
 //		if ( stack != null )

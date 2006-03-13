@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.editors;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.ReportMultiPageEditorSite;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.forms.editor.FormEditor;
@@ -25,6 +24,7 @@ public abstract class AbstractMultiPageEditor extends FormEditor
 {
 	protected IEditorSite createSite( IEditorPart editor )
 	{
-		 return new ReportMultiPageEditorSite(this, editor);
+		return super.createSite( editor );
+		// return new ReportMultiPageEditorSite(this, editor);
 	}
 }
