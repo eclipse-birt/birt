@@ -114,8 +114,11 @@ RUNNINGNPV,COUNTDISTINCT;
          <attribute name="aggregationClass" type="string" use="required">
             <annotation>
                <documentation>
-                  The class which implements the aggregation.
+                  The class which extends org.eclipse.birt.data.engine.api.aggregation.Aggregation.
                </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="org.eclipse.birt.data.engine.api.aggregation.Aggregation"/>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>
@@ -153,40 +156,39 @@ RUNNINGNPV,COUNTDISTINCT;
          point=&quot;org.eclipse.birt.data.aggregation&quot;&gt;
          &lt;Aggregations&gt;
          
-	         	&lt;Aggregation
-	         		name= &quot;NewAve&quot;
-	         		aggregationClass = &quot;org.eclipse.birt.thirdparty.aggregation.TotalAve&quot;
-	         	&gt;
-	     		&lt;UIInfo
-		         	tip=&quot;New Ave tip~&quot;
-		         	textData=&quot;Total.NewAve()&quot;
-		         	parameterMetaInfo=&quot;String a, String b,Stringc&quot;
-		        /&gt;
-	          	&lt;/Aggregation&gt;
-	            &lt;Aggregation
-	             	name=&quot;NewCount&quot;
-             	 	aggregationClass = &quot;org.eclipse.birt.thirdparty.aggregation.TotalCount&quot;
-	            &gt;	 
-	            &lt;UIInfo
-		         	tip=&quot;New Count tip~&quot;
-		         	textData=&quot;Total.NewCount()&quot;
-		         	parameterMetaInfo=&quot;String aa, String bb,String cc&quot;
-		        /&gt;
-	         	&lt;/Aggregation&gt;
-	         	&lt;Aggregation
-				    name =&quot;NewSum&quot;
-	         	    aggregationClass = &quot;org.eclipse.birt.thirdparty.aggregation.TotalSum&quot;
-		        &gt;
-		        &lt;UIInfo
-		         	tip=&quot;New Sum tip~&quot;
-		        	textData=&quot;Total.NewSum()&quot;
-		         	parameterMetaInfo=&quot;String aaa, String bbb,String ccc&quot;
-		        /&gt;
-	         	&lt;/Aggregation&gt;
+           &lt;Aggregation
+            name= &quot;NewAve&quot;
+            aggregationClass = &quot;org.eclipse.birt.thirdparty.aggregation.TotalAve&quot;
+           &gt;
+        &lt;UIInfo
+            tip=&quot;New Ave tip~&quot;
+            textData=&quot;Total.NewAve()&quot;
+            parameterMetaInfo=&quot;String a, String b,Stringc&quot;
+          /&gt;
+            &lt;/Aggregation&gt;
+             &lt;Aggregation
+               name=&quot;NewCount&quot;
+                aggregationClass = &quot;org.eclipse.birt.thirdparty.aggregation.TotalCount&quot;
+             &gt;  
+             &lt;UIInfo
+            tip=&quot;New Count tip~&quot;
+            textData=&quot;Total.NewCount()&quot;
+            parameterMetaInfo=&quot;String aa, String bb,String cc&quot;
+          /&gt;
+           &lt;/Aggregation&gt;
+           &lt;Aggregation
+        name =&quot;NewSum&quot;
+               aggregationClass = &quot;org.eclipse.birt.thirdparty.aggregation.TotalSum&quot;
+          &gt;
+          &lt;UIInfo
+            tip=&quot;New Sum tip~&quot;
+           textData=&quot;Total.NewSum()&quot;
+            parameterMetaInfo=&quot;String aaa, String bbb,String ccc&quot;
+          /&gt;
+           &lt;/Aggregation&gt;
          &lt;/Aggregations&gt;
    &lt;/extension&gt;
 &lt;/plugin&gt;
-
       </documentation>
    </annotation>
 

@@ -40,7 +40,8 @@ abstract public class Accumulator
     
     /**
      * This method is called before the the first onRow() call. This is an opportunity to 
-     * initialize any internal data structure. 
+     * initialize any internal data structure. If the accumulator is multi-pass, then this method
+     * will be called at the begin of each iteration.
      * @throws DataException 
      */
     public void start() throws DataException
@@ -49,7 +50,8 @@ abstract public class Accumulator
     /**
      * This method is called after the last onRow() call. This is an opportunity for the Accumulator 
      * to finalize its calculation, and to release any resource allocated to facilitate the calcuation.
-     * getValue() may be called after finish() for SUMMARY_AGGR type of aggregation.
+     * If the accumulator is multi-pass, then this method will be called by the end of each iteration.
+     * getValue() may be called after finish() of lass pass for SUMMARY_AGGR type of aggregation.
      * @throws DataException
      */
     public void	finish() throws DataException
@@ -72,8 +74,8 @@ abstract public class Accumulator
     abstract public void onRow( Object[] args ) throws DataException;
     
     /**
-     * This method is called after the finish() method to obtain the aggregate value. The return value
-     * can be of class   java.lang.Integer, java.lang.Double, java.lang.Boolean, java.lang.String, java.util.Date, 
+     * This method is called after the finish() method to obtain the aggregate value in last pass of this 
+     * aggregation. The return value can be of class   java.lang.Integer, java.lang.Double, java.lang.Boolean, java.lang.String, java.util.Date, 
      * java.math.BigDecimal or java.sql.Blob. Or it can be null to indicate a null aggregate value.
      * @return Aggregate value calculated over the processed rows  
      */
