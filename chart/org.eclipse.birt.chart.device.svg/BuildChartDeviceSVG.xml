@@ -95,6 +95,7 @@
 			<include name="org.eclipse.emf.common_*.jar"/>
 			<include name="org.eclipse.emf.ecore_*.jar"/>
 			<include name="org.eclipse.emf.ecore.xmi_*.jar"/>
+			<include name="com.ibm.icu_*.jar"/>
 		</fileset>
 
 		<fileset dir="${core.dir}/lib">

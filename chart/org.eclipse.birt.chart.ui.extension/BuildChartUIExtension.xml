@@ -121,7 +121,8 @@
 			<include name="${swt.dir}.${basews}_*/ws/${basews}/swt.jar"/>
 			<include name="org.eclipse.swt*.jar"/>
 			<include name="${eclipse.jface.dir}_*/jface.jar"/>
-			<include name="org.eclipse.jface*.jar"/>			
+			<include name="org.eclipse.jface*.jar"/>		
+			<include name="com.ibm.icu_*.jar"/>
 		</fileset>
 	</path>
 		

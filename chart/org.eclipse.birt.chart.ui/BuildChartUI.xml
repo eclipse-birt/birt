@@ -119,6 +119,7 @@
 			<include name="${swt.dir}.${basews}_*/ws/${basews}/swt.jar"/>
 			<include name="org.eclipse.swt*.jar"/>
 			<include name="org.eclipse.equinox*.jar"/>
+			<include name="com.ibm.icu_*.jar"/>
 		</fileset>
 
 		<fileset dir="${core.dir}/lib">

@@ -96,6 +96,7 @@
 			<include name="${emf.ecore.dir}_*/runtime/ecore.jar"/>
 			<include name="org.eclipse.emf.common_*.jar"/>
 			<include name="org.eclipse.emf.ecore_*.jar"/>
+			<include name="com.ibm.icu_*.jar"/>
 		</fileset>
 		
 		<fileset dir="${core.dir}/lib">
