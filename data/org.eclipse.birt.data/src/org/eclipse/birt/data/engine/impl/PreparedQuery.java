@@ -985,21 +985,21 @@ abstract class PreparedQuery
 			    }
 			    
 			    // set filter event
-			    List mergedFilters = new ArrayList( );
-			    
+			    List dataSetFilters = new ArrayList( );
+			    List queryFilters = new ArrayList( );
 			    if ( dataSet.getFilters( ) != null )
 				{
-					mergedFilters.addAll( dataSet.getFilters( ) );
+					dataSetFilters = dataSet.getFilters( );
 				}
 			    
 			    if ( queryDefn.getFilters( ) != null )
 				{
-					mergedFilters.addAll( queryDefn.getFilters( ) );
+			    	queryFilters = queryDefn.getFilters( );
 				}
 			   		   			    
-			    if ( mergedFilters.size() > 0 )
+			    if ( dataSetFilters.size( ) + queryFilters.size( ) > 0 )
 			    {
-			    	IResultObjectEvent objectEvent = new FilterByRow( mergedFilters, 
+			    	IResultObjectEvent objectEvent = new FilterByRow( dataSetFilters, queryFilters,
 			    			dataSet );
 			    	odiQuery.addOnFetchEvent( objectEvent );
 			    }

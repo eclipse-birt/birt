@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -36,18 +37,107 @@ import org.mozilla.javascript.Context;
  */
 public class FilterByRow implements IResultObjectEvent
 {
-	protected DataSetRuntime dataSet;
-	protected List filters;
+	//
+	public static final int DATASET_FILTER = 1;
+	public static final int QUERY_FILTER = 2;
+	public static final int ALL_FILTER = 3;
+	public static final int NO_FILTER = 4;
+	
+	//
+	private DataSetRuntime dataSet;
+	private List currentFilters;
+	private List dataSetFilters;
+	private List queryFilters;
+	private List allFilters;
+	private int currentWorkingFilters;
+	
+
 	
 	protected static Logger logger = Logger.getLogger( FilterByRow.class.getName( ) );
 	
-	FilterByRow( List filters, DataSetRuntime dataSet ) throws DataException
+	/**
+	 * 
+	 * @param dataSetFilters
+	 * @param queryFilters
+	 * @param dataSet
+	 * @throws DataException
+	 */
+	FilterByRow( List dataSetFilters, List queryFilters, DataSetRuntime dataSet ) throws DataException
 	{
-		assert filters!= null && dataSet != null;
-		isLegal( filters );
+		isLegal( dataSetFilters );
+		isLegal( queryFilters);
 		this.dataSet = dataSet;
-		this.filters = FilterUtil.sortFilters( filters );
+		
+		
+		this.dataSetFilters = FilterUtil.sortFilters(dataSetFilters);
+		this.queryFilters = FilterUtil.sortFilters(queryFilters);
+		
+		this.allFilters = getAllFilters( dataSetFilters, queryFilters );
+		this.currentWorkingFilters = ALL_FILTER;
+		
 		logger.log( Level.FINER, "FilterByRow starts up" );
+	}
+
+	/**
+	 * @param dataSetFilters
+	 * @param queryFilters
+	 */
+	private List getAllFilters( List dataSetFilters, List queryFilters )
+	{
+		//When the all filters need to be processed at same time,that is, no multi-pass filters exists,
+		//the order of filters becomes not important.
+		List temp = new ArrayList();
+		temp.addAll( dataSetFilters );
+		temp.addAll( queryFilters );
+		return temp;
+	}
+
+	/**
+	 * Set the working filter set. The working filter set might be one of followings:
+	 * 1. ALL_FILTER
+	 * 2. DATASET_FILTER
+	 * 3. QUERY_FILTER
+	 * 4. NO_FILTER
+	 * 
+	 * @param filterSetType
+	 * @throws DataException
+	 */
+	public void setWorkingFilterSet( int filterSetType ) throws DataException
+	{
+		this.validateFilterType( filterSetType );
+		this.currentWorkingFilters = filterSetType;
+	}
+	
+	/**
+	 * Reset the current working filter set to the default value.
+	 *
+	 */
+	public void restoreWorkingFilterSet()
+	{
+		this.currentWorkingFilters = ALL_FILTER;
+	}
+	
+	/**
+	 * 
+	 * @param filterSetType
+	 * @return
+	 * @throws DataException
+	 */	
+	public boolean isFilterSetExist( int filterSetType ) throws DataException
+	{
+		this.validateFilterType( filterSetType );
+		if( DATASET_FILTER == filterSetType )
+		{
+			return this.dataSetFilters.size( ) > 0;
+		}
+		else if ( QUERY_FILTER == filterSetType )
+		{
+			return this.queryFilters.size( ) > 0;
+		}
+		else 
+		{
+			return this.dataSetFilters.size( )+this.queryFilters.size( ) > 0;
+		}
 	}
 	
 	/**
@@ -92,9 +182,11 @@ public class FilterByRow implements IResultObjectEvent
 		try
 		{
 			boolean isAccepted = true;
-			Iterator filterIt = filters.iterator( );
+			this.currentFilters = this.getFilterList( currentWorkingFilters );
+			Iterator filterIt = currentFilters.iterator( );
 			dataSet.setRowObject( row, false );
 			dataSet.setCurrentRowIndex( rowIndex );
+			
 			while ( filterIt.hasNext( ) )
 			{
 				IFilterDefinition filter = (IFilterDefinition) filterIt.next( );
@@ -142,9 +234,52 @@ public class FilterByRow implements IResultObjectEvent
 		}
 	}
 	
-	public List getFilterList()
+	/**
+	 * Get the current working filter list.
+	 * 
+	 * @return
+	 * @throws DataException
+	 */
+	public List getFilterList( ) throws DataException
 	{
-		return filters;
+		return this.getFilterList( this.currentWorkingFilters );
+	}
+	/**
+	 * Get the filter list according to the given filter set type.
+	 * 
+	 * @param filterSetType
+	 * @return
+	 * @throws DataException
+	 */
+	public List getFilterList( int filterSetType ) throws DataException
+	{
+		validateFilterType( filterSetType );
+		if( DATASET_FILTER == filterSetType )
+		{
+			return this.dataSetFilters;
+		}
+		else if ( QUERY_FILTER == filterSetType )
+		{
+			return this.queryFilters;
+		}
+		else if ( ALL_FILTER == filterSetType )
+		{
+			return this.allFilters;
+		}else
+		{
+			return new ArrayList();
+		}
+	}
+	
+	private void validateFilterType( int filterSetType ) throws DataException
+	{
+		if( filterSetType != NO_FILTER &&
+			filterSetType != DATASET_FILTER &&
+			filterSetType != ALL_FILTER &&
+			filterSetType != QUERY_FILTER)
+		{
+			throw new DataException( "shit");
+		}
 	}
 
 }

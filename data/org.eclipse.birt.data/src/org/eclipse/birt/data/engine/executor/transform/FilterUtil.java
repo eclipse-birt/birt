@@ -117,7 +117,7 @@ public final class FilterUtil
 		{
 			if ( fetchEventsList[i] instanceof FilterByRow )
 			{
-				List list = ( (FilterByRow) fetchEventsList[i] ).getFilterList( );
+				List list = ( (FilterByRow) fetchEventsList[i] ).getFilterList( FilterByRow.ALL_FILTER );
 				if ( list == null )
 					return false;
 				for ( int j = 0; j < list.size( ); j++ )
