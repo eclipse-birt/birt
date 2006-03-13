@@ -55,6 +55,7 @@ public class JDBCPropertyPage extends DataSourceEditorPage
 			m_pageHelper = new JDBCSelectionPageHelper( this );
 
 		m_pageHelper.createCustomControl( parent );
+		this.setPingButtonVisible( false );
 		m_pageHelper.initCustomControl( profileProps );
 	}
 

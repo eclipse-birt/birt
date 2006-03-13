@@ -61,18 +61,6 @@
    </extension>
 
    <extension
-         point="org.eclipse.ui.propertyPages">
-      <page
-            id="%oda.data.source.id"
-            name="%profile.propertypage.name"
-            class="org.eclipse.birt.report.data.oda.sampledb.ui.profile.SampleDbPropertyPage"
-            objectClass="org.eclipse.datatools.connectivity.IConnectionProfile">
-         <filter
-               name="org.eclipse.datatools.profile.property.id"
-               value="%oda.data.source.id"/>
-      </page>
-   </extension>
-   <extension
          point="org.eclipse.datatools.connectivity.oda.design.ui.dataSource">
       <dataSourceUI id="%oda.data.source.id">
          <newDataSourceWizard

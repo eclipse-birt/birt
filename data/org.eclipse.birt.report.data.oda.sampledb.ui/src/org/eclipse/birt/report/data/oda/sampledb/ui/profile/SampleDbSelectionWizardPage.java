@@ -43,7 +43,9 @@ public class SampleDbSelectionWizardPage extends DataSourceWizardPage
         if( m_pageHelper == null )
             m_pageHelper = new SampleDbSelectionPageHelper( this );
         m_pageHelper.createCustomControl( parent );
-        m_pageHelper.initCustomControl( m_folderProperties );   // in case init was called before create 
+        // in case init was called before create 
+        m_pageHelper.initCustomControl( m_folderProperties ); 
+        this.setPingButtonVisible( false );
     }
 
     /* (non-Javadoc)

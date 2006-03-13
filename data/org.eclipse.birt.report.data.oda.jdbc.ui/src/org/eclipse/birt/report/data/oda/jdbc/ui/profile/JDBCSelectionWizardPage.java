@@ -48,6 +48,7 @@ public class JDBCSelectionWizardPage extends DataSourceWizardPage
             m_pageHelper = new JDBCSelectionPageHelper( this );
         m_pageHelper.createCustomControl( parent );
         m_pageHelper.initCustomControl( m_folderProperties );   // in case init was called before create 
+        this.setPingButtonVisible( false );
     }
 
     /* (non-Javadoc)
