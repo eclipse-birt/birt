@@ -12,14 +12,17 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage;
@@ -46,6 +49,8 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -135,7 +140,7 @@ public class GroupDialog extends BaseDialog
 
 	private Text tocEditor;
 
-	final private static IChoice[] intervalChoices = DesignEngine.getMetaDataDictionary( )
+	final private static IChoice[] intervalChoicesAll = DesignEngine.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_INTERVAL )
 			.getChoices( );
 
@@ -150,6 +155,12 @@ public class GroupDialog extends BaseDialog
 	final private static String SORT_GROUP_TITLE = DEUtil.getPropertyDefn( ReportDesignConstants.TABLE_GROUP_ELEMENT,
 			GroupHandle.SORT_DIRECTION_PROP )
 			.getDisplayName( );
+	
+	final private static IChoice[] intervalChoicesString = getIntervalChoicesString( );
+	final private static IChoice[] intervalChoicesDate = getIntervalChoicesDate( );
+	final private static IChoice[] intervalChoicesNumeric = getIntervalChoicesNumeric( );
+	private static IChoice[] intervalChoices = intervalChoicesAll;
+	private String previoiusKeyExpression = "";
 
 	/**
 	 * Constructor.
@@ -296,6 +307,15 @@ public class GroupDialog extends BaseDialog
 
 		keyChooser = new Combo( keyArea, SWT.DROP_DOWN );
 		keyChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		keyChooser.addModifyListener( new ModifyListener(){
+
+			public void modifyText( ModifyEvent e )
+			{
+				if ( !keyChooser.getText( ).trim( ).equals( "" ) )
+					resetInterval( );
+			}
+			
+		});
 		Button exprButton = new Button( keyArea, SWT.PUSH );
 		exprButton.setText( "..." ); //$NON-NLS-1$
 		exprButton.addSelectionListener( new SelectionAdapter( ) {
@@ -348,7 +368,8 @@ public class GroupDialog extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				intervalRange.setEnabled( intervalType.getSelectionIndex( ) != 0 );
-				intervalBaseButton.setEnabled( intervalType.getSelectionIndex( ) != 0 );
+				intervalBaseButton.setEnabled( intervalType.getSelectionIndex( ) != 0
+						&& ( getColumnType( ) != String.class ) );
 				intervalBaseText.setEnabled( intervalBaseButton.getEnabled( )
 						&& intervalBaseButton.getSelection( ) );
 			}
@@ -504,14 +525,23 @@ public class GroupDialog extends BaseDialog
 		}
 		else
 		{
+			intervalRange.setEnabled( true );
 			intervalRange.setSelection( inputGroup.getIntervalRange( ) );
-			intervalBaseButton.setSelection( inputGroup.getIntervalBase( ) != null );
-			intervalBaseText.setEnabled( intervalBaseButton.getSelection( ) );
-			if ( inputGroup.getIntervalBase( ) != null )
+			if ( getColumnType( ) == String.class )
 			{
-				intervalBaseText.setText( inputGroup.getIntervalBase( ) );
+				intervalBaseButton.setEnabled( false );
+				intervalBaseText.setEnabled( false );
 			}
-
+			else
+			{
+				intervalBaseButton.setEnabled( true );
+				intervalBaseButton.setSelection( inputGroup.getIntervalBase( ) != null );
+				intervalBaseText.setEnabled( intervalBaseButton.getSelection( ) );
+				if ( inputGroup.getIntervalBase( ) != null )
+				{
+					intervalBaseText.setText( inputGroup.getIntervalBase( ) );
+				}
+			}
 		}
 
 		if ( inputGroup instanceof TableGroupHandle )
@@ -760,4 +790,181 @@ public class GroupDialog extends BaseDialog
 		}
 		return exp;
 	}
+	
+	/**
+	 * Reset interval
+	 * 
+	 */
+	private void resetInterval( )
+	{
+		String currentKeyExpression = getKeyExpression( ).trim( );
+		if ( previoiusKeyExpression.equals( currentKeyExpression ) )
+			return;
+
+		if ( ExpressionUtility.isColumnExpression( currentKeyExpression ) )
+			intervalChoices = getSubIntervalChoice( );
+		else
+			intervalChoices = intervalChoicesAll;
+
+		resetIntervalType( intervalChoices );
+
+		previoiusKeyExpression = currentKeyExpression;
+	}
+	
+	/**
+	 * Get subIntervalChoice, could be String,Date,Numeric or All
+	 * 
+	 * @return
+	 */
+	private IChoice[] getSubIntervalChoice( )
+	{
+		Class columnType = getColumnType( );
+
+		if ( columnType == null )
+			return intervalChoicesAll;
+
+		if ( String.class.isAssignableFrom( columnType ) )
+		{
+			return intervalChoicesString;
+		}
+		else if ( Date.class.isAssignableFrom( columnType ) )
+		{
+			return intervalChoicesDate;
+		}
+		else if ( Number.class.isAssignableFrom( columnType ) )
+		{
+			return intervalChoicesNumeric;
+		}
+		else
+		{
+			return intervalChoicesAll;
+		}
+	}
+	
+	private static IChoice[] getIntervalChoicesString( )
+	{
+		String[] str = new String[]{
+				DesignChoiceConstants.INTERVAL_NONE,
+				DesignChoiceConstants.INTERVAL_PREFIX,
+		};
+
+		return getIntervalChoiceArray( str );
+	}
+	
+	private static IChoice[] getIntervalChoicesDate( )
+	{
+		String[] str = new String[]{
+				DesignChoiceConstants.INTERVAL_NONE,
+				DesignChoiceConstants.INTERVAL_YEAR,
+				DesignChoiceConstants.INTERVAL_QUARTER,
+				DesignChoiceConstants.INTERVAL_MONTH,
+				DesignChoiceConstants.INTERVAL_WEEK,
+				DesignChoiceConstants.INTERVAL_DAY,
+				DesignChoiceConstants.INTERVAL_HOUR,
+				DesignChoiceConstants.INTERVAL_MINUTE,
+				DesignChoiceConstants.INTERVAL_SECOND
+		};
+
+		return getIntervalChoiceArray( str );
+	}
+	
+	private static IChoice[] getIntervalChoicesNumeric()
+	{
+		String[] str = new String[]{
+				DesignChoiceConstants.INTERVAL_NONE,
+				DesignChoiceConstants.INTERVAL_INTERVAL,
+		};
+
+		return getIntervalChoiceArray( str );
+	}
+	
+	/**
+	 * Get intervalChoiceArray
+	 * 
+	 * @param str
+	 * @return
+	 */
+	private static IChoice[] getIntervalChoiceArray( String[] str )
+	{
+		List choiceList = new ArrayList( );
+		for ( int i = 0; i < intervalChoicesAll.length; i++ )
+		{
+			for ( int j = 0; j < str.length; j++ )
+			{
+				if ( intervalChoicesAll[i].getName( ).equals( str[j] ) )
+				{
+					choiceList.add( intervalChoicesAll[i] );
+					break;
+				}
+			}
+		}
+		IChoice[] choice = new IChoice[choiceList.size( )];
+
+		return (IChoice[]) choiceList.toArray( choice );
+	}
+	
+	/**
+	 * Get columnDataType
+	 * 
+	 * @return
+	 */
+	private Class getColumnType( )
+	{
+		for ( int i = 0; i < columnList.size( ); i++ )
+		{
+			Object dataSetItemModel = columnList.get( i );
+
+			if ( dataSetItemModel instanceof DataSetItemModel )
+			{
+				if ( ( (DataSetItemModel) dataSetItemModel ).getDataSetColumnName( )
+						.equals( keyChooser.getText( ) ) )
+					return DataType.getClass( ( (DataSetItemModel) dataSetItemModel ).getDataType( ) );
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Reset intervalType
+	 * 
+	 * @param choice
+	 */
+	private void resetIntervalType( IChoice[] choice )
+	{
+		intervalType.removeAll( );
+
+		for ( int i = 0; i < choice.length; i++ )
+		{
+			intervalType.add( choice[i].getDisplayName( ) );
+		}
+		intervalType.setData( choice );
+		intervalType.select( 0 );
+		intervalType.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				intervalRange.setEnabled( intervalType.getSelectionIndex( ) != 0 );
+				intervalBaseButton.setEnabled( intervalType.getSelectionIndex( ) != 0
+						&& ( getColumnType( ) != String.class ) );
+				intervalBaseText.setEnabled( intervalBaseButton.getEnabled( )
+						&& intervalBaseButton.getSelection( ) );
+			}
+		} );
+
+		enableIntervalRangeAndBase( false );
+	}
+	
+	/**
+	 * Enable the interval range and base right after refreshing the interval
+	 * type
+	 * 
+	 */
+	private void enableIntervalRangeAndBase( boolean bool)
+	{
+		intervalRange.setEnabled( bool );
+		intervalBaseButton.setEnabled( bool );
+		intervalBaseText.setEnabled( bool );
+	}
+
 }
