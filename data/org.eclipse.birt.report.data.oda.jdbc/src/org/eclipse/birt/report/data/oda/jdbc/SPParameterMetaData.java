@@ -29,7 +29,7 @@ public class SPParameterMetaData implements IParameterMetaData
 {
 
 	/** JDBC ParameterMetaData instance */
-	private java.util.List paramMetadataList;
+	private Object[] paramMetadataArray;
 
 	private static Logger logger = Logger.getLogger( SPParameterMetaData.class.getName( ) );	
 
@@ -59,7 +59,8 @@ public class SPParameterMetaData implements IParameterMetaData
 	public SPParameterMetaData( List paraMetadataList )
 			throws OdaException
 	{
-		this.paramMetadataList = paraMetadataList;
+		assertNotNull( paraMetadataList );
+		this.paramMetadataArray = paraMetadataList.toArray( );
 	}
 
 	/*
@@ -72,8 +73,8 @@ public class SPParameterMetaData implements IParameterMetaData
 				SPParameterMetaData.class.getName( ),
 				"getParameterCount",
 				"SPParameterMetaData.getParameterCount( )" );
-		assertNotNull( paramMetadataList );
-		return paramMetadataList.size();
+		assertNotNull( paramMetadataArray );
+		return paramMetadataArray.length;
 	}
 
 	/*
@@ -86,9 +87,9 @@ public class SPParameterMetaData implements IParameterMetaData
 				SPParameterMetaData.class.getName( ),
 				"getParameterMode",
 				"SPParameterMetaData.getParameterMode( )" );
-		assertNotNull( paramMetadataList );
+		assertNotNull( paramMetadataArray );
 		int result = IParameterMetaData.parameterModeUnknown;
-		ParameterDefn paramDefn = (ParameterDefn) paramMetadataList.get( param -1 );
+		ParameterDefn paramDefn = (ParameterDefn) paramMetadataArray[param - 1];
 		if ( paramDefn.getParamInOutType( ) == java.sql.ParameterMetaData.parameterModeIn )
 			result = IParameterMetaData.parameterModeIn;
 		else if ( paramDefn.getParamInOutType( ) == java.sql.ParameterMetaData.parameterModeOut )
@@ -108,8 +109,8 @@ public class SPParameterMetaData implements IParameterMetaData
 				SPParameterMetaData.class.getName( ),
 				"getParameterType",
 				"SPParameterMetaData.getParameterType( )" );
-		assertNotNull( paramMetadataList );
-		ParameterDefn paramDefn = (ParameterDefn) paramMetadataList.get( param -1 );
+		assertNotNull( paramMetadataArray );
+		ParameterDefn paramDefn = (ParameterDefn) paramMetadataArray[param - 1];
 		return paramDefn.getParamType( );
 	}
 
@@ -123,8 +124,8 @@ public class SPParameterMetaData implements IParameterMetaData
 				SPParameterMetaData.class.getName( ),
 				"getParameterTypeName",
 				"SPParameterMetaData.getParameterTypeName( )" );
-		assertNotNull( paramMetadataList );
-		ParameterDefn paramDefn = (ParameterDefn) paramMetadataList.get( param -1 );
+		assertNotNull( paramMetadataArray );
+		ParameterDefn paramDefn = (ParameterDefn) paramMetadataArray[param - 1];
 		return paramDefn.getParamTypeName();
 	}
 
@@ -138,8 +139,8 @@ public class SPParameterMetaData implements IParameterMetaData
 				SPParameterMetaData.class.getName( ),
 				"getPrecision",
 				"SPParameterMetaData.getPrecision( )" );
-		assertNotNull( paramMetadataList );
-		ParameterDefn paramDefn = (ParameterDefn) paramMetadataList.get( param -1 );
+		assertNotNull( paramMetadataArray );
+		ParameterDefn paramDefn = (ParameterDefn) paramMetadataArray[param - 1];
 		return paramDefn.getPrecision( );
 	}
 
@@ -153,8 +154,8 @@ public class SPParameterMetaData implements IParameterMetaData
 				SPParameterMetaData.class.getName( ),
 				"getScale",
 				"SPParameterMetaData.getScale( )" );
-		assertNotNull( paramMetadataList );
-		ParameterDefn paramDefn = (ParameterDefn) paramMetadataList.get( param -1);
+		assertNotNull( paramMetadataArray );
+		ParameterDefn paramDefn = (ParameterDefn) paramMetadataArray[param - 1];
 		return paramDefn.getScale();
 	}
 
@@ -168,9 +169,9 @@ public class SPParameterMetaData implements IParameterMetaData
 				SPParameterMetaData.class.getName( ),
 				"isNullable",
 				"SPParameterMetaData.isNullable( )" );
-		assertNotNull( paramMetadataList );
+		assertNotNull( paramMetadataArray );
 		int result = IParameterMetaData.parameterNullableUnknown;
-		ParameterDefn paramDefn = (ParameterDefn) paramMetadataList.get( param -1 );
+		ParameterDefn paramDefn = (ParameterDefn) paramMetadataArray[param - 1];
 
 		if ( paramDefn.getIsNullable( ) == java.sql.ParameterMetaData.parameterNullable )
 			result = IParameterMetaData.parameterNullable;

@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.DatabaseMetaData;
 import java.sql.Date;
+import java.sql.ParameterMetaData;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -55,7 +56,10 @@ public class CallStatement implements IAdvancedQuery
 
 	/** indicates if need to call JDBC setMaxRows before execute statement */
 	protected boolean maxRowsUpToDate = false;
-
+	
+	/** utility object to get position of parameter */
+	private SPParameterPositionUtil paramUtil;
+	
 	/** Error message for ERRMSG_SET_PARAMETER */
 	private final static String ERRMSG_SET_PARAMETER = "Error setting value for SQL parameter #";
 
@@ -133,6 +137,8 @@ public class CallStatement implements IAdvancedQuery
 			 */
 			procedureName = getProcedureName( command );
 			this.callStat = conn.prepareCall( formatQueryText( command ) );
+			paramUtil = new SPParameterPositionUtil( formatQueryText( command ),
+					'@' );
 		}
 		catch ( SQLException e )
 		{
@@ -335,17 +341,9 @@ public class CallStatement implements IAdvancedQuery
 				}
 				maxRowsUpToDate = true;
 			}
+			registerOutputParameter( );
+		
 			/* redirect the call to JDBC callableStatement.executeQuery() */
-			//get procedure parameter metadata and register the output
-			// parameter
-			IParameterMetaData paramInfo = getParameterMetaData( );
-			int count = paramInfo.getParameterCount( );
-			for ( int i = 1; i <= count; i++ )
-			{
-				if ( paramInfo.getParameterMode( i ) == IParameterMetaData.parameterModeInOut
-						|| paramInfo.getParameterMode( i ) == IParameterMetaData.parameterModeOut )
-					registerOutParameter( i, paramInfo.getParameterType( i ) );
-			}
 			this.callStat.execute( );
 			if ( this.callStat.getResultSet( ) != null )
 				return new ResultSet( this.callStat.getResultSet( ) );
@@ -358,7 +356,84 @@ public class CallStatement implements IAdvancedQuery
 					e );
 		}
 	}
+	
+	/**
+	 * get paremeter metadata for callableStatement, if metadata is null or data
+	 * mode is unknown or SQLException is thrown, register output parameter on
+	 * DatabaseMetadata, else register output paremeter on statement's metadata.
+	 * 
+	 * @throws OdaException
+	 */
+	private void registerOutputParameter( ) throws OdaException
+	{
+		ParameterMetaData metaData = null;
+		try
+		{
+			metaData = this.callStat.getParameterMetaData( );
+		}
+		catch ( SQLException e )
+		{
+			metaData = null;
+		}
+		try
+		{
+			if ( metaData != null )
+			{
+				for ( int index = 1; index <= metaData.getParameterCount( ); index++ )
+				{
+					if ( metaData.getParameterMode( index ) == ParameterMetaData.parameterModeUnknown )
+					{
+						registerOnDbMetaData( );
+						break;
+					}
+					else if ( metaData.getParameterMode( index ) == java.sql.ParameterMetaData.parameterModeOut
+							|| metaData.getParameterMode( index ) == java.sql.ParameterMetaData.parameterModeInOut )
+						registerOutParameter( index,
+								metaData.getParameterType( index ) );
+				}
+			}
+			else
+				registerOnDbMetaData( );
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.QUERY_EXECUTE_FAIL, e );
+		}
+	}
 
+	/**
+	 * register output parameter based on database metadata
+	 * 
+	 * @throws OdaException
+	 */
+	private void registerOnDbMetaData( ) throws OdaException
+	{
+		IParameterMetaData paramInfo = getParameterMetaData( );
+		if ( !paramUtil.hasNonDefaultParameter( ) )
+		{
+
+			int count = paramInfo.getParameterCount( );
+			for ( int i = 1; i <= count; i++ )
+			{
+				if ( paramInfo.getParameterMode( i ) == IParameterMetaData.parameterModeInOut
+						|| paramInfo.getParameterMode( i ) == IParameterMetaData.parameterModeOut )
+					registerOutParameter( i, paramInfo.getParameterType( i ) );
+			}
+		}
+		else
+		{
+			int[] positionArray = paramUtil.getParameterPositions( );
+			for ( int index = 0; index < positionArray.length; index++ )
+			{
+				int position = positionArray[index];
+				if ( paramInfo.getParameterMode( position ) == IParameterMetaData.parameterModeInOut
+						|| paramInfo.getParameterMode( position ) == IParameterMetaData.parameterModeOut )
+					registerOutParameter( index + 1,
+							paramInfo.getParameterType( position ) );
+			}
+		}
+	}
+	
 	/**
 	 * 
 	 * @param position
@@ -371,6 +446,25 @@ public class CallStatement implements IAdvancedQuery
 		try
 		{
 			callStat.registerOutParameter( position, type );
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.QUERY_EXECUTE_FAIL, e );
+		}
+	}
+	
+	/**
+	 * 
+	 * @param position
+	 * @param type
+	 * @throws OdaException
+	 */
+	void registerOutParameter( String name, int type ) throws OdaException
+	{
+		assertNotNull( callStat );
+		try
+		{
+			callStat.registerOutParameter( name, type );
 		}
 		catch ( SQLException e )
 		{
