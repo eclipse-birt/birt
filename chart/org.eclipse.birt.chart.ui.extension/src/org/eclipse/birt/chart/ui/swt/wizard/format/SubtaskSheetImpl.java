@@ -261,12 +261,10 @@ public class SubtaskSheetImpl
 		int width = Math.max( 80, gc.textExtent( text ).x );
 		gc.dispose( );
 
-		if ( text.length( ) <= 15 )
-		{
-			GridData gd = new GridData( );
-			gd.widthHint = width;
-			button.setLayoutData( gd );
-		}
+		GridData gd = new GridData( );
+		gd.widthHint = width;
+		button.setLayoutData( gd );
+		
 		buttonRegistry.add( button );
 		return button;
 	}
