@@ -11,10 +11,31 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
+import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
+import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.ColumnHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
+import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.ListGroupHandle;
+import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.ParameterGroupHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.TemplateElementHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.gef.ui.actions.Clipboard;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
@@ -79,9 +100,100 @@ public class CopyAction extends AbstractViewAction
 	 */
 	public boolean isEnabled( )
 	{
-		if ( DNDUtil.handleValidateDragInOutline( getSelection( ) ) )
+		if ( canCopy( getSelection( ) ) )
 			return super.isEnabled( );
 		return false;
+	}
+
+	// this function is from DNDUtil.handleValidateDragInOutline( Object
+	// selection )
+	public boolean canCopy( Object selection )
+	{
+		if ( selection instanceof StructuredSelection )
+		{
+			return canCopy( ( (StructuredSelection) selection ).toArray( ) );
+		}
+		if ( selection instanceof Object[] )
+		{
+			Object[] array = (Object[]) selection;
+			if ( array.length == 0 )
+			{
+				return false;
+			}
+
+			if ( array[0] instanceof ColumnHandle
+					&& ( (ColumnHandle) array[0] ).getRoot( ) != null )
+			{
+				boolean bool = false;
+				int columnNumber = HandleAdapterFactory.getInstance( )
+						.getColumnHandleAdapter( array[0] )
+						.getColumnNumber( );
+				Object parent = ( (ColumnHandle) array[0] ).getContainer( );
+				if ( parent instanceof TableHandle )
+				{
+					bool = ( (TableHandle) parent ).canCopyColumn( columnNumber );
+				}
+				else if ( parent instanceof GridHandle )
+				{
+					bool = ( (GridHandle) parent ).canCopyColumn( columnNumber );
+				}
+				if ( bool && array.length == 1 )
+				{
+					return true;
+				}
+				if ( bool && array[1] instanceof CellHandle )
+				{
+					return true;
+				}
+				return false;
+			}
+
+			for ( int i = 0; i < array.length; i++ )
+			{
+				if ( DNDUtil.checkContainerExists( array[i], array ) )
+					continue;
+				if ( !canCopy( array[i] ) )
+					return false;
+			}
+			return true;
+		}
+		if ( selection instanceof ReportElementModel )
+		{
+			return canCopy( ( (ReportElementModel) selection ).getSlotHandle( ) );
+		}
+		if ( selection instanceof SlotHandle )
+		{
+			SlotHandle slot = (SlotHandle) selection;
+			DesignElementHandle handle = slot.getElementHandle( );
+			return slot.getContents( ).size( ) > 0
+					&& ( handle instanceof ListHandle || handle instanceof ListGroupHandle );
+		}
+		if ( selection instanceof ColumnHandle
+				&& ( (ColumnHandle) selection ).getRoot( ) != null )
+		{
+			int columnNumber = HandleAdapterFactory.getInstance( )
+					.getColumnHandleAdapter( selection )
+					.getColumnNumber( );
+			Object parent = ( (ColumnHandle) selection ).getContainer( );
+			if ( parent instanceof TableHandle )
+			{
+				return ( (TableHandle) parent ).canCopyColumn( columnNumber );
+			}
+			else if ( parent instanceof GridHandle )
+			{
+				return ( (GridHandle) parent ).canCopyColumn( columnNumber );
+			}
+		}
+		return selection instanceof ReportItemHandle
+				|| selection instanceof DataSetHandle
+				|| selection instanceof DataSourceHandle
+				|| selection instanceof ScalarParameterHandle
+				|| selection instanceof ParameterGroupHandle
+				|| selection instanceof GroupHandle
+				|| selection instanceof StyleHandle
+				|| selection instanceof ThemeHandle
+				|| selection instanceof EmbeddedImageHandle
+				|| selection instanceof TemplateElementHandle;
 	}
 
 }
