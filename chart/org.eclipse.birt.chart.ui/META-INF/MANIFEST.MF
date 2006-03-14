@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT Chart Library UI Plug-in
+Bundle-SymbolicName: org.eclipse.birt.chart.ui; singleton:=true
+Bundle-Version: 2.1.0.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: org.eclipse.birt.chart.ui.plugin.ChartUIPlugin
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Export-Package: org.eclipse.birt.chart.ui.i18n,
+ org.eclipse.birt.chart.ui.plugin,
+ org.eclipse.birt.chart.ui.swt,
+ org.eclipse.birt.chart.ui.swt.interfaces,
+ org.eclipse.birt.chart.ui.swt.wizard,
+ org.eclipse.birt.chart.ui.util
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.emf.common,
+ org.eclipse.emf.ecore,
+ org.eclipse.birt.chart.engine,
+ org.eclipse.birt.core,
+ org.eclipse.birt.core.ui
+Eclipse-LazyStart: true

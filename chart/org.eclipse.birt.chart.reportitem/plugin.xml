@@ -1,34 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.birt.chart.reportitem"
-   name="BIRT Chart-Report Integration"
-   version="2.1.0"
-   provider-name="Eclipse.org"
-   class="org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin">
+<plugin>
 
-   <runtime>
-      <library name="reportitem.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-
-   <requires>
-      <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.eclipse.birt.report.designer.ui"/>
-      <import plugin="org.eclipse.birt.report.model"/>
-      <import plugin="org.eclipse.draw2d"/>
-      <import plugin="org.eclipse.birt.report.designer.core"/>
-      <import plugin="org.eclipse.birt.chart.ui"/>
-      <import plugin="org.eclipse.birt.chart.engine"/>
-      <import plugin="org.eclipse.birt.report.engine"/>
-      <import plugin="org.eclipse.jface"/>
-      <import plugin="org.eclipse.birt.data"/>
-      <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.birt.core.ui"/>
-      <import plugin="org.eclipse.ui.workbench"/>
-   </requires>
-   <extension
+     <extension
          id="chart"
          name="The chart extension"
          point="org.eclipse.birt.report.designer.ui.reportitemUI">

@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT Chart Device SVG Extension
+Bundle-SymbolicName: org.eclipse.birt.chart.device.svg; singleton:=true
+Bundle-Version: 2.1.0.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: org.eclipse.birt.chart.device.svg.plugin.ChartDeviceSVGPlugin
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Export-Package: org.eclipse.birt.chart.device.svg,
+ org.eclipse.birt.chart.device.svg.i18n,
+ org.eclipse.birt.chart.device.svg.plugin
+Require-Bundle: org.eclipse.birt.chart.engine,
+ org.eclipse.birt.chart.device.extension,
+ org.eclipse.birt.core,
+ org.eclipse.emf.ecore
+Eclipse-LazyStart: true

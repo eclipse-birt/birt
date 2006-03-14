@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT Core UI
+Bundle-SymbolicName: org.eclipse.birt.core.ui; singleton:=true
+Bundle-Version: 2.1.0.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: org.eclipse.birt.core.ui.plugin.CoreUIPlugin
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Export-Package: org.eclipse.birt.core.ui.frameworks.errordisplay,
+ org.eclipse.birt.core.ui.frameworks.taskwizard,
+ org.eclipse.birt.core.ui.frameworks.taskwizard.composites,
+ org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces,
+ org.eclipse.birt.core.ui.i18n,
+ org.eclipse.birt.core.ui.plugin,
+ org.eclipse.birt.core.ui.utils
+Require-Bundle: org.eclipse.swt,
+ org.eclipse.jface,
+ org.eclipse.birt.core
+Eclipse-LazyStart: true

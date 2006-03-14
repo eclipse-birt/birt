@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT Chart Device Extension(s)
+Bundle-SymbolicName: org.eclipse.birt.chart.device.extension; singleton:=true
+Bundle-Version: 2.1.0.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Export-Package: org.eclipse.birt.chart.device.extension.i18n,
+ org.eclipse.birt.chart.device.image,
+ org.eclipse.birt.chart.device.plugin,
+ org.eclipse.birt.chart.device.swing,
+ org.eclipse.birt.chart.device.swt,
+ org.eclipse.birt.chart.device.util
+Require-Bundle: org.eclipse.swt,
+ org.eclipse.birt.chart.engine,
+ org.eclipse.emf.ecore,
+ org.eclipse.birt.core
+Eclipse-LazyStart: true

@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.birt.core.ui"
-   name="BIRT Core UI"
-   version="2.1.0"
-   provider-name="Eclipse.org"
-   class="org.eclipse.birt.core.ui.plugin.CoreUIPlugin">
-   <runtime>
-      <library name="coreui.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-   <requires>
-      <import plugin="org.eclipse.swt"/>
-      <import plugin="org.eclipse.jface"/>
-      <import plugin="org.eclipse.birt.core"/>
-   </requires>
-
-   <extension-point id="tasks" name="Task to be used in a Task-oriented Wizard" schema="schema/tasks.exsd"/>
+<plugin>
+     <extension-point id="tasks" name="Task to be used in a Task-oriented Wizard" schema="schema/tasks.exsd"/>
    <extension-point id="taskWizards" name="A Task-oriented Wizard" schema="schema/taskWizards.exsd"/>
 
 </plugin>

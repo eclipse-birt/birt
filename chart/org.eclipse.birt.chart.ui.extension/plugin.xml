@@ -1,29 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.birt.chart.ui.extension"
-   name="BIRT Chart UI Extension"
-   version="2.1.0"
-   provider-name="Eclipse.org"
-   class="org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin">
+<plugin>
 
-   <runtime>
-      <library name="ui-extension.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-
-   <requires import_order="org.eclipse.pde.internal.ui.model.plugin.PluginImportNode@118bfb2">
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.emf.common"/>
-      <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.eclipse.birt.chart.engine"/>
-      <import plugin="org.eclipse.birt.chart.ui"/>
-      <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.birt.core.ui"/>
-   </requires>
-
-   <!-- Change Listener Extensions -->
+     <!-- Change Listener Extensions -->
    <extension
          point="org.eclipse.birt.chart.ui.changelisteners">
       <changeListener listenerClassDefinition="org.eclipse.birt.chart.ui.event.ChangeListenerImpl"/>

@@ -63,10 +63,10 @@
 			     eclipse.home
 			     utest.report.dir
 			     javadoc.dir
-			     plugin.version 
 	-->
 	
 	<!-- ===== Default value for public properties ============= -->
+	<property file="META-INF/MANIFEST.MF" />
 	<property name="utest.report.dir" location="utestreports" />
 	<property name="javadoc.dir" location="docs/api" />
 	<property name="export.dir" location="export" />
@@ -90,6 +90,8 @@
 	<property name="emf.common.dir" value="org.eclipse.emf.common" />
 	<property name="emf.ecore.dir" value="org.eclipse.emf.ecore" />
 	<property name="emf.ecore.xmi.dir" value="org.eclipse.emf.ecore.xmi" />
+	
+	<property name="jar.name" value="${module.name}_${Bundle-Version}.jar" />	
 
 	<path id="class.path">
 		<pathelement path="${dir.bin}"/>
@@ -124,7 +126,7 @@
 	-->
 	<target name="Jar" depends="compileSource" description="create project jar">
 		<!-- Create the project jar -->
-		<jar destfile="engine.jar">
+		<jar destfile="${jar.name}" manifest="./META-INF/MANIFEST.MF">
 			<fileset dir="${dir.bin}">
 				<include name="**/*.class"/>
 				<include name="**/*.txt"/>
@@ -132,6 +134,7 @@
 				<include name="**/*.def"/>
 				<include name="**/*.properties"/>
 			</fileset>
+			<fileset dir="." includes="about.html,plugin.xml,.options,schema/**,lib/**"/>
 		</jar>
 	</target>
 
@@ -142,10 +145,9 @@
 				 		- ${plugin.version} the version of plugin exported
 	-->
 	<target name="Export">
-		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
-	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
-	        <fileset dir="." includes="engine.jar,about.html,plugin.xml,.options,dir.lib/**,schema/**"/>
-	    </copy>
+		<copy todir="${export.dir}">
+	        <fileset dir="." includes="${jar.name}"/>
+	  </copy>
 	</target>
 	
 	
@@ -166,7 +168,7 @@
 	<target name="Clean"  description="clean up">
 		<!-- Delete the binary directory trees -->
 		<delete dir="${dir.bin}"/>
-		<delete file="engine.jar"/>
+		<delete file="${jar.name}"/>
 	</target>
 	
 	<!-- Compile Source Files -->

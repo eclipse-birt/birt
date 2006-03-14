@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT Chart Engine Extension
+Bundle-SymbolicName: org.eclipse.birt.chart.engine.extension; singleton:=true
+Bundle-Version: 2.1.0.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: org.eclipse.birt.chart.plugin.ChartEngineExtensionPlugin
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Export-Package: org.eclipse.birt.chart.aggregate,
+ org.eclipse.birt.chart.datafeed,
+ org.eclipse.birt.chart.engine.extension.i18n,
+ org.eclipse.birt.chart.plugin,
+ org.eclipse.birt.chart.render
+Require-Bundle: org.eclipse.birt.chart.engine,
+ org.eclipse.emf.ecore,
+ org.eclipse.birt.core
+Eclipse-LazyStart: true

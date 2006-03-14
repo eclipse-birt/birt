@@ -64,6 +64,7 @@
 	-->
 	
 	<!-- ===== Default value for public properties ============= -->
+	<property file="META-INF/MANIFEST.MF" />
 	<property name="utest.report.dir" location="utestreports" />
 	<property name="api.javadoc.dir" location="docs/api" />
 	<property name="javadoc.dir" location="docs/api" />
@@ -101,6 +102,7 @@
 	<property name="emf.ecore.dir" value="org.eclipse.emf.ecore" />
 	<property name="swt.dir" value="org.eclipse.swt" />
 
+	<property name="jar.name" value="${module.name}_${Bundle-Version}.jar" />	
 	
 	<path id="class.path">
 		<pathelement path="${bin}"/>
@@ -122,13 +124,10 @@
 			<include name="com.ibm.icu_*.jar"/>
 		</fileset>
 
-		<fileset dir="${core.dir}/lib">
-				<include name="**/*.jar"/>
-		</fileset>
-		
+		<fileset file="${core.dir}/lib/*.jar" />
 		<pathelement path="${core.dir}/core.jar"/>
-		<pathelement path="${chart.engine.dir}/engine.jar"/>
-		<pathelement path="${core.ui.dir}/coreui.jar"/>
+		<pathelement path="${chart.engine.dir}/org.eclipse.birt.chart.engine_${Bundle-Version}.jar"/>
+		<pathelement path="${core.ui.dir}/org.eclipse.birt.core.ui_${Bundle-Version}.jar"/>
 	</path>
 	
 	
@@ -138,7 +137,7 @@
 	-->
 	<target name="Jar" depends="compileSource" description="create project jar">
 		<!-- Create the project jar -->
-		<jar destfile="ui.jar">
+		<jar destfile="${jar.name}" manifest="./META-INF/MANIFEST.MF">
 			<fileset dir="${bin}">
 				<include name="**/*.class"/>
 				<include name="**/*.txt"/>
@@ -146,6 +145,7 @@
 				<include name="**/*.def"/>
 				<include name="**/*.properties"/>
 			</fileset>
+			<fileset dir="." includes="about.html,plugin.xml,.options,schema/**,lib/**,icons/**"/>
 		</jar>
 	</target>
 	
@@ -196,10 +196,9 @@
 				 		- ${plugin.version} the version of plugin exported
 	-->
 	<target name="Export">
-		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
-	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
-	        <fileset dir="." includes="ui.jar,about.html,plugin.xml,.options,lib/**,schema/**,icons/**"/>
-	    </copy>
+		<copy todir="${export.dir}">
+	        <fileset dir="." includes="${jar.name}"/>
+	  </copy>
 	</target>
 	
 	
@@ -218,7 +217,7 @@
 	<target name="Clean" description="clean up">
 		<!-- Delete the binary directory trees -->
 		<delete dir="${bin}"/>
-		<delete file="ui.jar"/>
+		<delete file="${jar.name}"/>
 	</target>
 	
 	<!-- Generate the JavaDoc.

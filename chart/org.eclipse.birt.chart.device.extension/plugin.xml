@@ -1,26 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.birt.chart.device.extension"
-   name="BIRT Chart Device Extension(s)"
-   version="2.1.0"
-   provider-name="Eclipse.org"
-   class="org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin">
+<plugin>
 
-   <runtime>
-      <library name="device-extension.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-
-   <requires>
-      <import plugin="org.eclipse.swt"/>
-      <import plugin="org.eclipse.birt.chart.engine"/>
-      <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.eclipse.birt.core"/>
-   </requires>
-
-   <extension
+     <extension
          point="org.eclipse.birt.chart.engine.devicerenderers">
       <deviceRenderer
             device="org.eclipse.birt.chart.device.swing.SwingRendererImpl"

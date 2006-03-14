@@ -1,29 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.birt.chart.engine"
-   name="BIRT Chart Engine"
-   version="2.1.0"
-   provider-name="Eclipse.org"
-   class="org.eclipse.birt.chart.plugin.ChartEnginePlugin">
+<plugin>
 
-   <runtime>
-      <library name="engine.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/js.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-
-   <requires>
-      <import plugin="org.eclipse.emf"/>
-      <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.eclipse.emf.ecore.xmi"/>
-      <import plugin="org.eclipse.birt.core"/>
-   </requires>
-   
-   <!-- Engine Framework Extension Points -->
+     <!-- Engine Framework Extension Points -->
    <!-- 
    		Model Renderer Extension Point. 
    		Use this to register a custom Model Renderer.
