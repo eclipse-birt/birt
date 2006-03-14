@@ -1,27 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.birt.chart.examples"
-   name="BIRT Chart Examples Plug-in"
-   version="2.1.0"
-   provider-name="Eclipse.org"
-   >
+<plugin>
 
-   <requires>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.birt.chart.engine"/>
-      <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.birt.chart.device.extension"/>
-      <import plugin="org.eclipse.birt.report.model"/>
-      <import plugin="org.eclipse.birt.chart.reportitem"/>
-      <import plugin="org.eclipse.birt.core.ui"/>
-      <import plugin="org.eclipse.birt.chart.ui.extension"/>
-      <import plugin="org.eclipse.birt.chart.ui"/>
-      <import plugin="org.eclipse.emf.ecore.xmi"/>
-   </requires>
-   <extension
+    <extension
          point="org.eclipse.birt.chart.engine.displayservers">
       <displayserver
             server="org.eclipse.birt.chart.device.svg.SVGDisplayServer"

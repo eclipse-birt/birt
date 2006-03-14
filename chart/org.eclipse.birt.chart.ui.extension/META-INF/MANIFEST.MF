@@ -7,26 +7,6 @@ Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
-Export-Package: org.eclipse.birt.chart.ui.event,
- org.eclipse.birt.chart.ui.extension.i18n,
- org.eclipse.birt.chart.ui.plugin,
- org.eclipse.birt.chart.ui.swt.attribute,
- org.eclipse.birt.chart.ui.swt.composites,
- org.eclipse.birt.chart.ui.swt.data,
- org.eclipse.birt.chart.ui.swt.general,
- org.eclipse.birt.chart.ui.swt.series,
- org.eclipse.birt.chart.ui.swt.type,
- org.eclipse.birt.chart.ui.swt.wizard,
- org.eclipse.birt.chart.ui.swt.wizard.data,
- org.eclipse.birt.chart.ui.swt.wizard.format,
- org.eclipse.birt.chart.ui.swt.wizard.format.axis,
- org.eclipse.birt.chart.ui.swt.wizard.format.chart,
- org.eclipse.birt.chart.ui.swt.wizard.format.popup,
- org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis,
- org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart,
- org.eclipse.birt.chart.ui.swt.wizard.format.popup.series,
- org.eclipse.birt.chart.ui.swt.wizard.format.series,
- org.eclipse.birt.chart.ui.swt.wizard.internal
 Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.common,
  org.eclipse.emf.ecore,
@@ -35,3 +15,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.birt.core,
  org.eclipse.birt.core.ui
 Eclipse-LazyStart: true
+Export-Package: org.eclipse.birt.chart.ui.swt.wizard

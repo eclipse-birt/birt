@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT Chart Examples Plug-in
+Bundle-SymbolicName: org.eclipse.birt.chart.examples; singleton:=true
+Bundle-Version: 2.1.0.qualifier
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.birt.chart.engine,
+ org.eclipse.emf.ecore,
+ org.eclipse.birt.core,
+ org.eclipse.birt.chart.engine.extension,
+ org.eclipse.birt.chart.device.extension,
+ org.eclipse.birt.report.model,
+ org.eclipse.birt.chart.reportitem,
+ org.eclipse.birt.report.engine,
+ org.eclipse.birt.core.ui,
+ org.eclipse.birt.chart.ui.extension,
+ org.eclipse.birt.chart.ui,
+ org.eclipse.emf.ecore.xmi
+Eclipse-LazyStart: true
