@@ -157,9 +157,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	{
 		super.init( site, input );
 
-		getSite( ).getWorkbenchWindow( )
-				.getPartService( )
-				.addPartListener( this );
+//		getSite( ).getWorkbenchWindow( )
+//				.getPartService( )
+//				.addPartListener( this );
 		site.setSelectionProvider( new FormEditorSelectionProvider( this ) );
 
 		IReportProvider provider = EditorUtil.getReportProvider( this, input );
@@ -800,9 +800,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public void dispose( )
 	{
-		getSite( ).getWorkbenchWindow( )
-				.getPartService( )
-				.removePartListener( this );
+//		getSite( ).getWorkbenchWindow( )
+//				.getPartService( )
+//				.removePartListener( this );
 		DataSetManager.removeInstance( this.getEditorInput( ) );
 
 		if ( fPalettePage != null )

@@ -202,7 +202,7 @@ public class ReportEditorProxy extends EditorPart implements
 
 	public void partActivated( IWorkbenchPart part )
 	{
-		instance.partActivated( part );
+//		instance.partActivated( part );
 		if ( part != this )
 		{
 			if ( part instanceof PageBookView )
