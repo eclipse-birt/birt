@@ -301,6 +301,8 @@ public interface DesignChoiceConstants
 	public static final String MAP_OPERATOR_FALSE = "is-false"; //$NON-NLS-1$
 	public static final String MAP_OPERATOR_LIKE = "like"; //$NON-NLS-1$
 	public static final String MAP_OPERATOR_MATCH ="match"; //$NON-NLS-1$
+	public static final String MAP_OPERATOR_TOP_N ="top-n"; //$NON-NLS-1$
+	public static final String MAP_OPERATOR_BOTTOM_N ="bottom-n"; //$NON-NLS-1$
     
 
 	public static final String MAP_OPERATOR_ANY = "any"; //$NON-NLS-1$
