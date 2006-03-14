@@ -32,6 +32,7 @@ import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Orientation;
@@ -315,7 +316,10 @@ public final class PrimitiveCharts
 		LineSeries ls = (LineSeries) LineSeriesImpl.create( );
 		ls.setDataSet( orthoValues );
 		ls.getLineAttributes( ).setColor( ColorDefinitionImpl.CREAM( ) );
-		ls.getMarker( ).setType( MarkerType.TRIANGLE_LITERAL );
+		for ( int i = 0; i < ls.getMarkers( ).size( ); i++ )
+		{
+			( (Marker) ls.getMarkers( ).get( i ) ).setType( MarkerType.TRIANGLE_LITERAL);
+		}
 		ls.getLabel( ).setVisible( true );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
@@ -676,7 +680,10 @@ public final class PrimitiveCharts
 		LineSeries ls1 = (LineSeries) LineSeriesImpl.create( );
 		ls1.setSeriesIdentifier( "Expected Growth" );//$NON-NLS-1$
 		ls1.setDataSet( seriesTwoValues );
-		ls1.getMarker( ).setType( MarkerType.BOX_LITERAL );
+		for ( int i = 0; i < ls1.getMarkers( ).size( ); i++ )
+		{
+			( (Marker) ls1.getMarkers( ).get( i ) ).setType( MarkerType.BOX_LITERAL);
+		}
 		ls1.getLabel( ).setVisible( true );
 
 		SeriesDefinition sdY1 = SeriesDefinitionImpl.create( );
@@ -794,7 +801,10 @@ public final class PrimitiveCharts
 		// Y-Series
 		ScatterSeries ss = (ScatterSeries) ScatterSeriesImpl.create( );
 		ss.setSeriesIdentifier( "Unit Price" );//$NON-NLS-1$
-		ss.getMarker( ).setType( MarkerType.CIRCLE_LITERAL );
+		for ( int i = 0; i < ss.getMarkers( ).size( ); i++ )
+		{
+			( (Marker) ss.getMarkers( ).get( i ) ).setType( MarkerType.CIRCLE_LITERAL);
+		}
 		DataPoint dp = ss.getDataPoint( );
 		dp.getComponents( ).clear( );
 		dp.setPrefix( "(" );//$NON-NLS-1$
@@ -1977,7 +1987,10 @@ public final class PrimitiveCharts
 		LineSeries ls = (LineSeries) LineSeriesImpl.create( );
 		ls.setDataSet( orthoValues );
 		ls.getLineAttributes( ).setColor( ColorDefinitionImpl.CREAM( ) );
-		ls.getMarker( ).setType( MarkerType.TRIANGLE_LITERAL );
+		for ( int i = 0; i < ls.getMarkers( ).size( ); i++ )
+		{
+			( (Marker) ls.getMarkers( ).get( i ) ).setType( MarkerType.TRIANGLE_LITERAL);
+		}
 		ls.getLabel( ).setVisible( true );
 		ls.setCurve( true );
 
@@ -2365,7 +2378,10 @@ public final class PrimitiveCharts
 		LineSeries ls = (LineSeries) LineSeriesImpl.create( );
 		ls.setDataSet( orthoValues );
 		ls.getLineAttributes( ).setColor( ColorDefinitionImpl.CREAM( ) );
-		ls.getMarker( ).setType( MarkerType.TRIANGLE_LITERAL );
+		for ( int i = 0; i < ls.getMarkers( ).size( ); i++ )
+		{
+			( (Marker) ls.getMarkers( ).get( i ) ).setType( MarkerType.TRIANGLE_LITERAL);
+		}
 		ls.getLabel( ).setVisible( true );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
@@ -2512,9 +2528,6 @@ public final class PrimitiveCharts
 				"Jan.", "Feb.", "Mar.", "Apr", "May"} ); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$//$NON-NLS-5$
 		NumberDataSet orthoValues1 = NumberDataSetImpl.create( new double[]{
 				14.32, -19.5, 8.38, 0.34, 9.22
-		} );
-		NumberDataSet orthoValues2 = NumberDataSetImpl.create( new double[]{
-				4.2, -19.5, 0.0, 9.2, 7.6
 		} );
 
 		( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )

@@ -15,12 +15,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
-import org.eclipse.birt.chart.device.IUpdateNotifier;
+import org.eclipse.birt.chart.device.ICallBackNotifier;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.swt.SWT;
@@ -40,6 +41,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.MessageBox;
 
 /**
  * The selector of charts in SWT.
@@ -47,7 +49,7 @@ import org.eclipse.swt.widgets.Shell;
  */
 public final class SwtInteractivityViewer extends Composite implements
 		PaintListener,
-		IUpdateNotifier,
+		ICallBackNotifier,
 		SelectionListener
 {
 	private IDeviceRenderer idr = null;
@@ -93,6 +95,7 @@ public final class SwtInteractivityViewer extends Composite implements
 		cbType.add( "Show Tooltip" );//$NON-NLS-1$
 		cbType.add( "Toggle Visibility" );//$NON-NLS-1$
 		cbType.add( "URL Redirect" );//$NON-NLS-1$
+		cbType.add( "Call Back" );//$NON-NLS-1$
 		cbType.select( 0 );
 
 		btn = new Button( cBottom, SWT.NONE );
@@ -200,6 +203,9 @@ public final class SwtInteractivityViewer extends Composite implements
 				case 3 :
 					cm = InteractivityCharts.createURChart( );
 					break;
+				case 4 :
+					cm = InteractivityCharts.createCBChart( );
+					break;
 			}
 			bNeedsGeneration = true;
 			this.redraw( );
@@ -281,6 +287,13 @@ public final class SwtInteractivityViewer extends Composite implements
 	public Object removeContext( Object key )
 	{
 		return contextMap.remove( key );
+	}
+	
+	public void callback( Object event, Object source, CallBackValue value )
+	{
+		MessageBox mb = new MessageBox ( this.getShell( ) );
+		mb.setText( value.getIdentifier( ) ); 
+		mb.open( );
 	}
 
 }

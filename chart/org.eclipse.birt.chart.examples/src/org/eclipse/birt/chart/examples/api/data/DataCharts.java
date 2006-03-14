@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
@@ -202,8 +203,11 @@ public class DataCharts
 		ls1.setSeriesIdentifier( "A Corp." );//$NON-NLS-1$
 		ls1.setDataSet( orthoValues1 );
 		ls1.getLineAttributes( ).setColor( ColorDefinitionImpl.CREAM( ) );
-		ls1.getMarker( ).setType( MarkerType.TRIANGLE_LITERAL );
-		ls1.getMarker( ).setSize( 10 );
+		for ( int i = 0; i < ls1.getMarkers( ).size( ); i++ )
+		{
+			( (Marker) ls1.getMarkers( ).get( i ) ).setType( MarkerType.TRIANGLE_LITERAL );
+			( (Marker) ls1.getMarkers( ).get( i ) ).setSize( 10 );
+		}
 		ls1.getLabel( ).setVisible( true );
 
 		SeriesDefinition sdY1 = SeriesDefinitionImpl.create( );
@@ -216,8 +220,11 @@ public class DataCharts
 		ls2.setSeriesIdentifier( "B Corp." );//$NON-NLS-1$
 		ls2.setDataSet( orthoValues2 );
 		ls2.getLineAttributes( ).setColor( ColorDefinitionImpl.CREAM( ) );
-		ls2.getMarker( ).setType( MarkerType.CIRCLE_LITERAL );
-		ls2.getMarker( ).setSize( 10 );
+		for ( int i = 0; i < ls2.getMarkers( ).size( ); i++ )
+		{
+			( (Marker) ls2.getMarkers( ).get( i ) ).setType( MarkerType.CIRCLE_LITERAL );
+			( (Marker) ls2.getMarkers( ).get( i ) ).setSize( 10 );
+		}
 		ls2.getLabel( ).setVisible( true );
 
 		SeriesDefinition sdY2 = SeriesDefinitionImpl.create( );

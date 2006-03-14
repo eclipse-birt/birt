@@ -12,7 +12,9 @@
 package org.eclipse.birt.chart.examples.api.viewer;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.examples.api.script.JavaScriptViewer;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -23,36 +25,44 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.SelectionListener;
 
-public class Chart3DViewer implements PaintListener, SelectionListener
+public class Chart3DViewer extends Composite implements
+		PaintListener,
+		SelectionListener
 {
 
 	private IDeviceRenderer idr = null;
+
 	private Chart cm = null;
-	private Canvas ca = null;
-	private Combo cb = null;
 
-	private static ILogger logger = Logger.getLogger( Chart3DViewer.class.getName( ) );
+	private static Combo cbType = null;
 
+	private static Button btn = null;
+
+	private GeneratedChartState gcs = null;
+
+	private boolean bNeedsGeneration = true;
+
+	private static ILogger logger = Logger.getLogger( JavaScriptViewer.class.getName( ) );
 	/**
 	 * execute application
 	 * 
@@ -60,60 +70,47 @@ public class Chart3DViewer implements PaintListener, SelectionListener
 	 */
 	public static void main( String[] args )
 	{
+		Display display = Display.getDefault( );
+		Shell shell = new Shell( display );
+		shell.setSize( 600, 400 );
+		shell.setLayout( new GridLayout( ) );
 
-		Chart3DViewer c3dViewer = new Chart3DViewer( );
-		GridLayout gl = new GridLayout( );
-		gl.numColumns = 1;
-		Display d = Display.getDefault( );
-		Shell sh = new Shell( d );
-		sh.setSize( 600, 400 );
-		sh.setLayout( gl );
-		sh.setText( c3dViewer.getClass( ).getName( ) + " [device="//$NON-NLS-1$
-				+ c3dViewer.idr.getClass( ).getName( )
-				+ "]" );//$NON-NLS-1$
+		Chart3DViewer c3dViewer = new Chart3DViewer( shell, SWT.NO_BACKGROUND );
+		c3dViewer.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		c3dViewer.addPaintListener( c3dViewer );
 
-		GridData gd = new GridData( GridData.FILL_BOTH );
-		Canvas cCenter = new Canvas( sh, SWT.NONE );
-		cCenter.setLayoutData( gd );
-		cCenter.addPaintListener( c3dViewer );
+		Composite cBottom = new Composite( shell, SWT.NONE );
+		cBottom.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		cBottom.setLayout( new RowLayout( ) );
 
-		Composite choicePanel = new Composite( sh, SWT.NONE );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		choicePanel.setLayoutData( gd );
-		choicePanel.setLayout( new RowLayout( ) );
+		Label la = new Label( cBottom, SWT.NONE );
 
-		Label la = new Label( choicePanel, SWT.NONE );
-		la.setText( "Choose: " ); //$NON-NLS-1$
-
-		Combo cbType = new Combo( choicePanel, SWT.DROP_DOWN | SWT.READ_ONLY );
+		la.setText( "Choose: " );//$NON-NLS-1$
+		cbType = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
 		cbType.add( "3D Bar Chart" ); //$NON-NLS-1$
 		cbType.add( "3D Line Chart" );//$NON-NLS-1$
 		cbType.add( "3D Area Chart" );//$NON-NLS-1$
 		cbType.select( 0 );
 
-		Button btn = new Button( choicePanel, SWT.NONE );
+		btn = new Button( cBottom, SWT.NONE );
 		btn.setText( "Update" );//$NON-NLS-1$
 		btn.addSelectionListener( c3dViewer );
 
-		c3dViewer.cb = cbType;
-		c3dViewer.ca = cCenter;
-
-		sh.open( );
-
-		while ( !sh.isDisposed( ) )
+		shell.open( );
+		while ( !shell.isDisposed( ) )
 		{
-			if ( !d.readAndDispatch( ) )
-			{
-				d.sleep( );
-			}
+			if ( !display.readAndDispatch( ) )
+				display.sleep( );
 		}
+		display.dispose( );
 	}
 
 	/**
 	 * Constructor
 	 */
-	Chart3DViewer( )
+	Chart3DViewer( Composite parent, int style )
 	{
+		super( parent, style );
 		final PluginSettings ps = PluginSettings.instance( );
 		try
 		{
@@ -131,28 +128,44 @@ public class Chart3DViewer implements PaintListener, SelectionListener
 	 * 
 	 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.PaintEvent)
 	 */
-	public final void paintControl( PaintEvent pe )
+	public final void paintControl( PaintEvent e )
 	{
-		idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, pe.gc );
+		Rectangle d = this.getClientArea( );
+		Image imgChart = new Image( this.getDisplay( ), d );
+		GC gcImage = new GC( imgChart );
+		idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, gcImage );
 
-		Composite co = (Composite) pe.getSource( );
-		Rectangle re = co.getClientArea( );
-		Bounds bo = BoundsImpl.create( re.x, re.y, re.width, re.height );
+		Bounds bo = BoundsImpl.create( 0, 0, d.width, d.height );
 		bo.scale( 72d / idr.getDisplayServer( ).getDpiResolution( ) );
 
 		Generator gr = Generator.instance( );
+		if ( bNeedsGeneration )
+		{
+			bNeedsGeneration = false;
+			try
+			{
+				gcs = gr.build( idr.getDisplayServer( ),
+						cm,
+						bo,
+						null,
+						null,
+						null );
+			}
+			catch ( ChartException ce )
+			{
+				ce.printStackTrace( );
+			}
+		}
+
 		try
 		{
-			gr.render( idr, gr.build( idr.getDisplayServer( ),
-					cm,
-					bo,
-					null,
-					null,
-					null ) );
+			gr.render( idr, gcs );
+			GC gc = e.gc;
+			gc.drawImage( imgChart, d.x, d.y );
 		}
 		catch ( ChartException gex )
 		{
-			showException( pe.gc, gex );
+			showException( e.gc, gex );
 		}
 	}
 
@@ -163,20 +176,24 @@ public class Chart3DViewer implements PaintListener, SelectionListener
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		int iSelection = cb.getSelectionIndex( );
-		switch ( iSelection )
+		if ( e.widget.equals( btn ) )
 		{
-			case 0 :
-				cm = PrimitiveCharts.create3DBarChart( );
-				break;
-			case 1 :
-				cm = PrimitiveCharts.create3DLineChart( );
-				break;
-			case 2 :
-				cm = PrimitiveCharts.create3DAreaChart( );
-				break;
+			int iSelection = cbType.getSelectionIndex( );
+			switch ( iSelection )
+			{
+				case 0 :
+					cm = PrimitiveCharts.create3DBarChart( );
+					break;
+				case 1 :
+					cm = PrimitiveCharts.create3DLineChart( );
+					break;
+				case 2 :
+					cm = PrimitiveCharts.create3DAreaChart( );
+					break;
+			}
+			bNeedsGeneration = true;
+			this.redraw( );
 		}
-		ca.redraw( );
 	}
 
 	/*
@@ -219,7 +236,7 @@ public class Chart3DViewer implements PaintListener, SelectionListener
 			sMessage = "<null>";//$NON-NLS-1$
 		}
 		StackTraceElement[] stea = ex.getStackTrace( );
-		Point d = ca.getSize( );
+		Point d = this.getSize( );
 
 		Device dv = Display.getCurrent( );
 		Font fo = new Font( dv, "Courier", SWT.BOLD, 16 );//$NON-NLS-1$

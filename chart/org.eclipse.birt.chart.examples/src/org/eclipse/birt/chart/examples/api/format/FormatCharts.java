@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -457,7 +458,10 @@ public class FormatCharts
 		// Y-Series
 		ScatterSeries ss = (ScatterSeries) ScatterSeriesImpl.create( );
 		ss.setSeriesIdentifier( "Unit Price" );//$NON-NLS-1$
-		ss.getMarker( ).setType( MarkerType.CIRCLE_LITERAL );
+		for ( int i = 0; i < ss.getMarkers( ).size( ); i++ )
+		{
+			( (Marker) ss.getMarkers( ).get( i ) ).setType( MarkerType.CIRCLE_LITERAL );
+		}
 		DataPoint dp = ss.getDataPoint( );
 		dp.getComponents( ).clear( );
 		dp.setPrefix( "(" );//$NON-NLS-1$

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.examples.api.script;
 
+import java.util.Locale;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -39,8 +40,6 @@ import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
-
-import com.ibm.icu.util.ULocale;
 
 public class ScriptCharts
 {
@@ -151,10 +150,10 @@ public class ScriptCharts
 	protected static final Chart createChart_Marker( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
-		ULocale.setDefault( ULocale.US );
+		Locale.setDefault( Locale.US );
 		cwaBar.setScript( "function beforeDrawMarkerLine(axis, line, scriptContext)" //$NON-NLS-1$
 				+ "{ importPackage(Packages.java.util);" //$NON-NLS-1$
-				+ "if (scriptContext.getULocale().equals(ULocale.US))" //$NON-NLS-1$
+				+ "if (scriptContext.getLocale().equals(Locale.US))" //$NON-NLS-1$
 				+ "{line.getLabel().getCaption( ).getColor().set( 165, 184, 55 );" //$NON-NLS-1$
 				+ "line.getLineAttributes().getColor().set( 165, 184, 55 );}}" //$NON-NLS-1$
 

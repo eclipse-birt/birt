@@ -12,8 +12,12 @@
 package org.eclipse.birt.chart.examples.api.viewer;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.examples.api.script.JavaScriptViewer;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -35,13 +39,13 @@ import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -52,7 +56,7 @@ import org.eclipse.swt.widgets.Shell;
  * The selector of charts in SWT.
  * 
  */
-public final class SwtChartViewerSelector implements
+public final class SwtChartViewerSelector extends Composite implements
 		PaintListener,
 		SelectionListener
 {
@@ -61,14 +65,23 @@ public final class SwtChartViewerSelector implements
 
 	private Chart cm = null;
 
-	private Combo cb = null;
+	private static Combo cbType = null;
+	
+	private static Combo cbDimension = null;
 
-	private Combo cbDimension = null;
+	private static Button btn = null;
 
-	private Canvas ca = null;
+	private GeneratedChartState gcs = null;
 
-	private Button cbPercent, cbLogarithmic, cbTransposed;
+	private boolean bNeedsGeneration = true;
 
+	private static Button cbPercent = null;
+	
+	private static Button cbLogarithmic = null;
+	
+	private static Button cbTransposed = null;
+
+	private static ILogger logger = Logger.getLogger( JavaScriptViewer.class.getName( ) );
 	/**
 	 * main() method for constructing the selector layout.
 	 * 
@@ -76,31 +89,23 @@ public final class SwtChartViewerSelector implements
 	 */
 	public static void main( String[] args )
 	{
-		SwtChartViewerSelector scv = new SwtChartViewerSelector( );
+		Display display = Display.getDefault( );
+		Shell shell = new Shell( display );
+		shell.setSize( 800, 600 );
+		shell.setLayout( new GridLayout( ) );
 
-		GridLayout gl = new GridLayout( );
-		// gl.numColumns = 1;
-		Display d = Display.getDefault( );
-		Shell sh = new Shell( d );
-		sh.setSize( 800, 600 );
-		sh.setLayout( gl );
-		sh.setText( scv.getClass( ).getName( ) + " [device="//$NON-NLS-1$
-				+ scv.idr.getClass( ).getName( ) + "]" );//$NON-NLS-1$
+		SwtChartViewerSelector scv = new SwtChartViewerSelector( shell, SWT.NO_BACKGROUND );
+		scv.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		scv.addPaintListener( scv );
 
-		GridData gd = new GridData( GridData.FILL_BOTH );
-		Canvas cCenter = new Canvas( sh, SWT.NONE );
-		cCenter.setLayoutData( gd );
-		cCenter.addPaintListener( scv );
-
-		Composite cBottom = new Composite( sh, SWT.NONE );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		cBottom.setLayoutData( gd );
+		Composite cBottom = new Composite( shell, SWT.NONE );
+		cBottom.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		cBottom.setLayout( new RowLayout( ) );
 
 		Label la = new Label( cBottom, SWT.NONE );
 
 		la.setText( "Choose: " );//$NON-NLS-1$
-		Combo cbType = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cbType = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
 		cbType.add( "Bar Chart" );//$NON-NLS-1$
 		cbType.add( "Bar Chart(2 Series)" );//$NON-NLS-1$
 		cbType.add( "Pie Chart" );//$NON-NLS-1$
@@ -110,51 +115,41 @@ public final class SwtChartViewerSelector implements
 		cbType.add( "Scatter Chart" );//$NON-NLS-1$
 		cbType.add( "Stock Chart" );//$NON-NLS-1$
 		cbType.add( "Area Chart" );//$NON-NLS-1$
-
 		cbType.select( 0 );
 
-		Combo cbDimension = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cbDimension = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
 		cbDimension.add( "2D" );//$NON-NLS-1$
 		cbDimension.add( "2D with Depth" );//$NON-NLS-1$
 		cbDimension.select( 0 );
 
-		Button cbTransposed = new Button( cBottom, SWT.CHECK );
+		cbTransposed = new Button( cBottom, SWT.CHECK );
 		cbTransposed.setText( "Transposed" );//$NON-NLS-1$
 
-		Button cbPercent = new Button( cBottom, SWT.CHECK );
+		cbPercent = new Button( cBottom, SWT.CHECK );
 		cbPercent.setText( "Percent" );//$NON-NLS-1$
 
-		Button cbLogarithmic = new Button( cBottom, SWT.CHECK );
+		cbLogarithmic = new Button( cBottom, SWT.CHECK );
 		cbLogarithmic.setText( "Logarithmic" );//$NON-NLS-1$
-
-		Button btn = new Button( cBottom, SWT.NONE );
+		
+		btn = new Button( cBottom, SWT.NONE );
 		btn.setText( "Update" );//$NON-NLS-1$
 		btn.addSelectionListener( scv );
 
-		scv.cb = cbType;
-		scv.ca = cCenter;
-
-		scv.cbDimension = cbDimension;
-		scv.cbTransposed = cbTransposed;
-		scv.cbPercent = cbPercent;
-		scv.cbLogarithmic = cbLogarithmic;
-
-		sh.open( );
-
-		while ( !sh.isDisposed( ) )
+		shell.open( );
+		while ( !shell.isDisposed( ) )
 		{
-			if ( !d.readAndDispatch( ) )
-			{
-				d.sleep( );
-			}
+			if ( !display.readAndDispatch( ) )
+				display.sleep( );
 		}
+		display.dispose( );
 	}
 
 	/**
 	 * Get the connection with SWT device to render the graphics.
 	 */
-	SwtChartViewerSelector( )
+	SwtChartViewerSelector( Composite parent, int style )
 	{
+		super( parent, style );
 		final PluginSettings ps = PluginSettings.instance( );
 		try
 		{
@@ -162,7 +157,7 @@ public final class SwtChartViewerSelector implements
 		}
 		catch ( ChartException ex )
 		{
-			ex.printStackTrace( );
+			logger.log( ex );
 		}
 		cm = PrimitiveCharts.createBarChart( );
 
@@ -173,28 +168,44 @@ public final class SwtChartViewerSelector implements
 	 * 
 	 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.PaintEvent)
 	 */
-	public final void paintControl( PaintEvent pe )
+	public final void paintControl( PaintEvent e )
 	{
-		idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, pe.gc );
+		Rectangle d = this.getClientArea( );
+		Image imgChart = new Image( this.getDisplay( ), d );
+		GC gcImage = new GC( imgChart );
+		idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, gcImage );
 
-		Composite co = (Composite) pe.getSource( );
-		Rectangle re = co.getClientArea( );
-		Bounds bo = BoundsImpl.create( re.x, re.y, re.width, re.height );
+		Bounds bo = BoundsImpl.create( 0, 0, d.width, d.height );
 		bo.scale( 72d / idr.getDisplayServer( ).getDpiResolution( ) );
 
 		Generator gr = Generator.instance( );
+		if ( bNeedsGeneration )
+		{
+			bNeedsGeneration = false;
+			try
+			{
+				gcs = gr.build( idr.getDisplayServer( ),
+						cm,
+						bo,
+						null,
+						null,
+						null );
+			}
+			catch ( ChartException ce )
+			{
+				ce.printStackTrace( );
+			}
+		}
+
 		try
 		{
-			gr.render( idr, gr.build( idr.getDisplayServer( ),
-					cm,
-					bo,
-					null,
-					null,
-					null ) );
+			gr.render( idr, gcs );
+			GC gc = e.gc;
+			gc.drawImage( imgChart, d.x, d.y );
 		}
-		catch ( ChartException ex )
+		catch ( ChartException gex )
 		{
-			showException( pe.gc, ex );
+			showException( e.gc, gex );
 		}
 	}
 
@@ -205,7 +216,9 @@ public final class SwtChartViewerSelector implements
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		int iSelection = cb.getSelectionIndex( );
+		if ( e.widget.equals( btn ) )
+		{
+			int iSelection = cbType.getSelectionIndex( );
 		switch ( iSelection )
 		{
 			case 0 :
@@ -280,7 +293,7 @@ public final class SwtChartViewerSelector implements
 			cbPercent.setEnabled( false );
 		}
 
-		if ( cb.getSelectionIndex( ) == 7 )
+		if ( cbType.getSelectionIndex( ) == 7 )
 		{
 			cm.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
 		}
@@ -298,7 +311,9 @@ public final class SwtChartViewerSelector implements
 			}
 		}
 
-		ca.redraw( );
+		bNeedsGeneration = true;
+		this.redraw( );
+	}
 	}
 
 	/*
@@ -341,7 +356,7 @@ public final class SwtChartViewerSelector implements
 			sMessage = "<null>";//$NON-NLS-1$
 		}
 		StackTraceElement[] stea = ex.getStackTrace( );
-		Point d = ca.getSize( );
+		Point d = this.getSize( );
 
 		Device dv = Display.getCurrent( );
 		Font fo = new Font( dv, "Courier", SWT.BOLD, 16 );//$NON-NLS-1$

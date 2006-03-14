@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
@@ -65,6 +66,7 @@ import org.eclipse.birt.chart.util.PluginSettings;
 public final class SwingLiveChartViewer extends JPanel
 {
 
+	private static final long serialVersionUID = 1L;
 	/**
 	 * A chart model instance
 	 */
@@ -293,7 +295,10 @@ public final class SwingLiveChartViewer extends JPanel
 		ls1.setSeriesIdentifier( "Quantity" );//$NON-NLS-1$
 		ls1.setDataSet( seriesTwoValues );
 		ls1.getLineAttributes( ).setColor( ColorDefinitionImpl.GREEN( ) );
-		ls1.getMarker( ).setType( MarkerType.BOX_LITERAL );
+		for ( int i = 0; i < ls1.getMarkers( ).size( ); i++ )
+		{
+			( (Marker) ls1.getMarkers( ).get( i ) ).setType( MarkerType.BOX_LITERAL );
+		}
 		ls1.setCurve( true );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );

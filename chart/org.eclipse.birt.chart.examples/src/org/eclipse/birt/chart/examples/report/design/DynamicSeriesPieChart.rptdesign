@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 1.0 -->
-<report xmlns=" http://www.eclipse.org/birt/2005/design" version="1">
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 1.0.0 Build &lt;20050531-0733></property>
     <property name="units">in</property>
     <data-sources>
-        <script-data-source name="Data Source"/>
+        <script-data-source name="Data Source" id="2"/>
     </data-sources>
     <data-sets>
-        <script-data-set name="Data Set">
+        <script-data-set name="Data Set" id="3">
             <property name="dataSource">Data Source</property>
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
                     <property name="name">Month</property>
-                    <property name="dataType">any</property>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">Product</property>
-                    <property name="dataType">any</property>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">Amount</property>
-                    <property name="dataType">any</property>
+                    <property name="dataType">decimal</property>
                 </structure>
             </list-property>
             <list-property name="columnHints">
@@ -81,9 +81,9 @@ sourcedata[5][2] = 212;]]></method>
         </script-data-set>
     </data-sets>
     <page-setup>
-        <simple-master-page name="Simple MasterPage">
+        <simple-master-page name="Simple MasterPage" id="4">
             <page-footer>
-                <text>
+                <text id="5">
                     <property name="contentType">html</property>
                     <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
                 </text>
@@ -91,13 +91,13 @@ sourcedata[5][2] = 212;]]></method>
         </simple-master-page>
     </page-setup>
     <body>
-        <grid>
+        <grid id="6">
             <property name="width">100%</property>
-            <column/>
-            <row>
-                <cell>
+            <column id="7"/>
+            <row id="8">
+                <cell id="9">
                     <property name="textAlign">center</property>
-                    <extended-item extensionName="Chart">
+                    <extended-item extensionName="Chart" id="10">
                         <property name="height">452.25pt</property>
                         <property name="width">399.75pt</property>
                         <property name="dataSet">Data Set</property>

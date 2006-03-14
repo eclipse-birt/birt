@@ -55,6 +55,8 @@ public final class FormatChartsViewer extends JPanel implements
 		ComponentListener
 {
 
+	private static final long serialVersionUID = 1L;
+
 	private boolean bNeedsGeneration = true;
 
 	private GeneratedChartState gcs = null;
@@ -379,6 +381,8 @@ public final class FormatChartsViewer extends JPanel implements
 	 */
 	private final class ControlPanel extends JPanel implements ActionListener
 	{
+
+		private static final long serialVersionUID = 1L;
 
 		private JComboBox jcbModels = null;
 
