@@ -27,7 +27,8 @@
       <import plugin="org.eclipse.birt.report.designer.ui"/>
       <import plugin="org.eclipse.birt.report.data.oda.jdbc.ui"/>
       <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.eclipse.ui.forms"/>      
+      <import plugin="org.eclipse.ui.forms"/>
+      <import plugin="org.eclipse.birt.report.designer.ui.ide"/>      
       
    </requires>
    <extension
