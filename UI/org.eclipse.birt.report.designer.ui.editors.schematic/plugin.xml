@@ -20,11 +20,6 @@
             id="org.eclipse.birt.report.designer.ui.editors.design.script"
             visible="true"/>
       <formPage
-            class="org.eclipse.birt.report.designer.ui.editors.pages.ReportPreviewFormPage"
-            displayName="%design.preview"
-            id="org.eclipse.birt.report.designer.ui.editors.design.preview"
-            visible="true"/>
-      <formPage
             class="org.eclipse.birt.report.designer.ui.editors.pages.ReportXMLSourceEditorFormPage"
             displayName="%design.xmlsource"
             id="org.eclipse.birt.report.designer.ui.editors.design.xmlsource"
@@ -40,11 +35,6 @@
             class="org.eclipse.birt.report.designer.ui.editors.pages.ReportMasterPageEditorFormPage"
             displayName="%template.masterPage"
             id="org.eclipse.birt.report.designer.ui.editors.template.masterpage"
-            visible="true"/>
-      <formPage
-            class="org.eclipse.birt.report.designer.ui.editors.pages.ReportPreviewFormPage"
-            displayName="%template.preview"
-            id="org.eclipse.birt.report.designer.ui.editors.template.preview"
             visible="true"/>
       <formPage
             class="org.eclipse.birt.report.designer.ui.editors.pages.ReportScriptFormPage"

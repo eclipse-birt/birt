@@ -51,5 +51,34 @@
          </action>
       </actionSet>
    </extension>
-
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.eclipse.birt.report.designer.ui.preferences.PreviewPreferencePage"
+            category="org.eclipse.birt.report.designer.ui.preferences"
+            name="%preference.preview"
+            id="org.eclipse.birt.report.designer.ui.preferences.PreviewPreferencePage"/>
+      <page
+            class="org.eclipse.birt.report.designer.ui.preferences.PreviewServerPreferencePage"
+            category="org.eclipse.birt.report.designer.ui.preferences.PreviewPreferencePage"
+            name="%preference.preview.server"
+            id="org.eclipse.birt.report.designer.ui.preferences.PreviewServerPreferencePage"/>
+   </extension>
+<extension
+         point="org.eclipse.birt.report.designer.ui.editors.multiPageEditorContributor">
+      <targetEditor targetEditorId="org.eclipse.birt.report.designer.ui.editors.ReportEditor">
+      <formPage
+            class="org.eclipse.birt.report.designer.ui.preview.editors.ReportPreviewFormPage"
+            displayName="%design.preview"
+            id="org.eclipse.birt.report.designer.ui.editors.design.preview"
+            visible="true"/>
+      </targetEditor>
+      <targetEditor targetEditorId="org.eclipse.birt.report.designer.ui.editors.TemplateEditor">
+      <formPage
+            class="org.eclipse.birt.report.designer.ui.preview.editors.ReportPreviewFormPage"
+            displayName="%template.preview"
+            id="org.eclipse.birt.report.designer.ui.editors.template.preview"
+            visible="true"/>
+      </targetEditor>
+   </extension>
 </plugin>
