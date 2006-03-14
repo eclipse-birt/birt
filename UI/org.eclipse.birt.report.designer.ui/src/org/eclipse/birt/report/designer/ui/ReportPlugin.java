@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.preferences.TemplatePreferencePage;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeView;
+import org.eclipse.birt.report.designer.ui.views.data.DataView;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -128,6 +129,7 @@ public class ReportPlugin extends AbstractUIPlugin
 		addIgnoreViewID(IPageLayout.ID_OUTLINE);
 		addIgnoreViewID(AttributeView.ID);
 		addIgnoreViewID(PaletteView.ID);
+		addIgnoreViewID(DataView.ID);
 	}
 
 	/**
