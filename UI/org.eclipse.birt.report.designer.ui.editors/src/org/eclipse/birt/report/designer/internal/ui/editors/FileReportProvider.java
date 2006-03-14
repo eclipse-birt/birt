@@ -28,7 +28,6 @@ import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -224,7 +223,7 @@ public class FileReportProvider implements IReportProvider
 			ModuleHandle handle = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
 			SaveReportAsWizardDialog dialog = new SaveReportAsWizardDialog( UIUtil.getDefaultShell( ),
-					new SaveReportAsWizard( (ReportDesignHandle) handle, input ) );
+					new SaveReportAsWizard( handle, input ) );
 			if ( dialog.open( ) == Window.OK )
 			{
 				return dialog.getResult( );

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.wizards;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.runtime.IPath;
@@ -27,19 +28,18 @@ import org.eclipse.ui.IEditorInput;
 public class SaveReportAsWizard extends Wizard
 {
 
-	private static final String SaveAsWizardWindowTitle = Messages.getString( "SaveReportAsWizard.SaveAsWizardWindowTitle" );
-	private static final String SaveAsWizardPageTitle = Messages.getString( "SaveReportAsWizard.SaveAsWizardPageTitle" );
-	private static final String SaveAsWizardPageDesc = Messages.getString( "SaveReportAsWizard.SaveAsWizardPageDesc" );
-	private static final String ReportSettingPageTitle = Messages.getString( "SaveReportAsWizard.SettingPage.message" );
-	
-	
-	private ReportDesignHandle model;
+	private static final String SaveAsWizardWindowTitle = Messages.getString( "SaveReportAsWizard.SaveAsWizardWindowTitle" ); //$NON-NLS-1$
+	private static final String SaveAsWizardPageTitle = Messages.getString( "SaveReportAsWizard.SaveAsWizardPageTitle" ); //$NON-NLS-1$
+	private static final String SaveAsWizardPageDesc = Messages.getString( "SaveReportAsWizard.SaveAsWizardPageDesc" ); //$NON-NLS-1$
+	private static final String ReportSettingPageTitle = Messages.getString( "SaveReportAsWizard.SettingPage.message" ); //$NON-NLS-1$
+
+	private ModuleHandle model;
 	private IEditorInput orginalFile;
 	private WizardSaveAsPage saveAsPage;
 	private WizardReportSettingPage settingPage;
 	private IPath saveAsPath;
 
-	public SaveReportAsWizard( ReportDesignHandle model,
+	public SaveReportAsWizard( ModuleHandle model,
 			IEditorInput orginalFile )
 	{
 		setWindowTitle( SaveAsWizardWindowTitle );
@@ -63,12 +63,14 @@ public class SaveReportAsWizard extends Wizard
 		// IDEInternalWorkbenchImages.getImageDescriptor(
 		// IDEInternalWorkbenchImages.IMG_DLGBAN_SAVEAS_DLG ) );
 		addPage( saveAsPage );
+		if ( model instanceof ReportDesignHandle )
+		{
+			settingPage = new WizardReportSettingPage( (ReportDesignHandle)model );
+			settingPage.setTitle( ReportSettingPageTitle );
+			settingPage.setMessage( Messages.getString( "SaveReportAsWizard.SettingPage.message" ) ); //$NON-NLS-1$
 
-		settingPage = new WizardReportSettingPage( model );
-		settingPage.setTitle( ReportSettingPageTitle );
-		settingPage.setMessage( Messages.getString( "SaveReportAsWizard.SettingPage.message" ) ); //$NON-NLS-1$
-
-		addPage( settingPage );
+			addPage( settingPage );
+		}
 	}
 
 	/*
@@ -84,13 +86,15 @@ public class SaveReportAsWizard extends Wizard
 	public boolean performFinish( )
 	{
 		saveAsPath = saveAsPage.getResult( );
-		if ( saveAsPath != null )
+		if ( saveAsPath != null && model instanceof ReportDesignHandle )
 		{
+			ReportDesignHandle reportHandle = (ReportDesignHandle)model;
 			try
 			{
-				model.setDisplayName( settingPage.getDisplayName( ) );
-				model.setDescription( settingPage.getDescription( ) );
-				model.setIconFile( settingPage.getPreviewImagePath( ) );
+				reportHandle.setDisplayName( settingPage.getDisplayName( ) );
+				reportHandle.setDescription( settingPage.getDescription( ) );
+				reportHandle.setIconFile( settingPage.getPreviewImagePath( ) );
+				reportHandle.setFileName( saveAsPath.toOSString( ) );
 			}
 			catch ( SemanticException e )
 			{
