@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
-import org.eclipse.birt.chart.log.impl.JavaUtilLoggerImpl;
+import org.eclipse.birt.chart.internal.log.JavaUtilLoggerImpl;
 import org.eclipse.birt.core.framework.Platform;
 
 /**

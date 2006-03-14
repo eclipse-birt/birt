@@ -14,7 +14,8 @@ package org.eclipse.birt.chart.examples.api.viewer;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.Generator;
-import org.eclipse.birt.chart.log.impl.DefaultLoggerImpl;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
@@ -22,7 +23,9 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontMetrics;
@@ -39,15 +42,16 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.events.SelectionListener;
 
 public class Chart3DViewer implements PaintListener, SelectionListener
 {
+
 	private IDeviceRenderer idr = null;
 	private Chart cm = null;
 	private Canvas ca = null;
 	private Combo cb = null;
+
+	private static ILogger logger = Logger.getLogger( Chart3DViewer.class.getName( ) );
 
 	/**
 	 * execute application
@@ -65,7 +69,8 @@ public class Chart3DViewer implements PaintListener, SelectionListener
 		sh.setSize( 600, 400 );
 		sh.setLayout( gl );
 		sh.setText( c3dViewer.getClass( ).getName( ) + " [device="//$NON-NLS-1$
-				+ c3dViewer.idr.getClass( ).getName( ) + "]" );//$NON-NLS-1$
+				+ c3dViewer.idr.getClass( ).getName( )
+				+ "]" );//$NON-NLS-1$
 
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		Canvas cCenter = new Canvas( sh, SWT.NONE );
@@ -116,7 +121,7 @@ public class Chart3DViewer implements PaintListener, SelectionListener
 		}
 		catch ( ChartException pex )
 		{
-			DefaultLoggerImpl.instance( ).log( pex );
+			logger.log( pex );
 		}
 		cm = PrimitiveCharts.create3DBarChart( );
 	}
@@ -259,7 +264,8 @@ public class Chart3DViewer implements PaintListener, SelectionListener
 		for ( int i = 0; i < stea.length; i++ )
 		{
 			g2d.drawString( stea[i].getClassName( ) + ":"//$NON-NLS-1$
-					+ stea[i].getMethodName( ) + "(...):"//$NON-NLS-1$
+					+ stea[i].getMethodName( )
+					+ "(...):"//$NON-NLS-1$
 					+ stea[i].getLineNumber( ), x, y );
 			x = 40;
 			y += fm.getHeight( );

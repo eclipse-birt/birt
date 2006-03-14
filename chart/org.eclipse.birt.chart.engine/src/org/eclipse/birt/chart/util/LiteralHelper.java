@@ -82,10 +82,6 @@ public class LiteralHelper
 	 */
 	public static final NameSet markerTypeSet = getMarkerTypeSet( );
 	/**
-	 * Comment for <code>supportedMarkerTypeSet</code>
-	 */
-	public static final NameSet supportedMarkerTypeSet = getSupportedMarkerTypeSet( );
-	/**
 	 * Comment for <code>orientationSet</code>
 	 */
 	public static final NameSet orientationSet = getOrientationSet( );
@@ -318,33 +314,6 @@ public class LiteralHelper
 		return new NameSet( prefix,
 				suffix,
 				toStringNameArray( MarkerType.VALUES ) );
-	}
-
-	/**
-	 * @return
-	 */
-	private static NameSet getSupportedMarkerTypeSet( )
-	{
-		String prefix = "MarkerType."; //$NON-NLS-1$
-		String suffix = ".displayName"; //$NON-NLS-1$
-
-		return new NameSet( prefix, suffix, new String[]{
-				MarkerType.CROSSHAIR_LITERAL.getName( ),
-				MarkerType.TRIANGLE_LITERAL.getName( ),
-				MarkerType.BOX_LITERAL.getName( ),
-				MarkerType.CIRCLE_LITERAL.getName( ),
-				MarkerType.ICON_LITERAL.getName( ),
-				MarkerType.NABLA_LITERAL.getName( ),
-				MarkerType.DIAMOND_LITERAL.getName( ),
-				MarkerType.FOUR_DIAMONDS_LITERAL.getName( ),
-				MarkerType.BUTTON_LITERAL.getName( ),
-				MarkerType.SEMI_CIRCLE_LITERAL.getName( ),
-				MarkerType.HEXAGON_LITERAL.getName( ),
-				MarkerType.RECTANGLE_LITERAL.getName( ),
-				MarkerType.STAR_LITERAL.getName( ),
-				MarkerType.COLUMN_LITERAL.getName( ),
-				MarkerType.CROSS_LITERAL.getName( )
-		} );
 	}
 
 	/**

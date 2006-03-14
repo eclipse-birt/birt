@@ -14,7 +14,8 @@ package org.eclipse.birt.chart.examples.api.script;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.Generator;
-import org.eclipse.birt.chart.log.impl.DefaultLoggerImpl;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
@@ -45,12 +46,15 @@ import org.eclipse.swt.widgets.Shell;
 
 public class JavaViewer implements PaintListener, SelectionListener
 {
+
 	private IDeviceRenderer idr = null;
 	private Chart cm = null;
 	private Canvas ca = null;
 	private Combo cb = null;
 	private IExternalContext ec = null;
 	private transient static Label description = null;
+
+	private static ILogger logger = Logger.getLogger( JavaViewer.class.getName( ) );
 
 	/**
 	 * Execute application
@@ -66,7 +70,8 @@ public class JavaViewer implements PaintListener, SelectionListener
 		sh.setSize( 500, 400 );
 		sh.setLayout( new GridLayout( ) );
 		sh.setText( jViewer.getClass( ).getName( ) + " [device="//$NON-NLS-1$
-				+ jViewer.idr.getClass( ).getName( ) + "]" );//$NON-NLS-1$
+				+ jViewer.idr.getClass( ).getName( )
+				+ "]" );//$NON-NLS-1$
 
 		Canvas cCenter = new Canvas( sh, SWT.NONE );
 		cCenter.setLayoutData( new GridData( GridData.FILL_BOTH ) );
@@ -124,7 +129,7 @@ public class JavaViewer implements PaintListener, SelectionListener
 		}
 		catch ( ChartException pex )
 		{
-			DefaultLoggerImpl.instance( ).log( pex );
+			logger.log( pex );
 		}
 		cm = ScriptCharts.createJChart_Axis( );
 	}
@@ -287,7 +292,8 @@ public class JavaViewer implements PaintListener, SelectionListener
 		for ( int i = 0; i < stea.length; i++ )
 		{
 			g2d.drawString( stea[i].getClassName( ) + ":"//$NON-NLS-1$
-					+ stea[i].getMethodName( ) + "(...):"//$NON-NLS-1$
+					+ stea[i].getMethodName( )
+					+ "(...):"//$NON-NLS-1$
 					+ stea[i].getLineNumber( ), x, y );
 			x = 40;
 			y += fm.getHeight( );

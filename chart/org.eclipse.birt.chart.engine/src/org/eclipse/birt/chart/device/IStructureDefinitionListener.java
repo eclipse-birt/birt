@@ -12,7 +12,7 @@
 package org.eclipse.birt.chart.device;
 
 import org.eclipse.birt.chart.event.StructureChangeEvent;
-import org.eclipse.birt.chart.model.ScriptHandler;
+import org.eclipse.birt.chart.script.ScriptHandler;
 
 /**
  * Notifies a listener of group change events associated with a structure being

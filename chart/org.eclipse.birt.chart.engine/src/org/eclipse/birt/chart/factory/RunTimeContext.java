@@ -20,10 +20,10 @@ import org.eclipse.birt.chart.computation.LegendLayoutHints;
 import org.eclipse.birt.chart.device.IStructureDefinitionListener;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.StructureChangeEvent;
-import org.eclipse.birt.chart.model.ScriptHandler;
 import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.script.IChartScriptContext;
 import org.eclipse.birt.chart.script.IScriptClassLoader;
+import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.core.i18n.ResourceHandle;
 
 import com.ibm.icu.util.ULocale;
