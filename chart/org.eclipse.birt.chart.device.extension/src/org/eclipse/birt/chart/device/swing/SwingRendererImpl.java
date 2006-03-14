@@ -195,7 +195,9 @@ public class SwingRendererImpl extends DeviceAdapter
 					}
 				}
 
-				_eh = new SwingEventHandler( _lhmAllTriggers, _iun, getULocale( ) );
+				_eh = new SwingEventHandler( _lhmAllTriggers,
+						_iun,
+						getULocale( ) );
 				jc.addMouseListener( _eh );
 				jc.addMouseMotionListener( _eh );
 				jc.addKeyListener( _eh );
@@ -368,6 +370,12 @@ public class SwingRendererImpl extends DeviceAdapter
 			return;
 		}
 
+		if ( lia.getColor( ).isSetTransparency( )
+				&& lia.getColor( ).getTransparency( ) == 0 )
+		{
+			return;
+		}
+
 		// DRAW THE LINE
 		final Location loStart = lre.getStart( );
 		final Location loEnd = lre.getEnd( );
@@ -408,7 +416,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		final Color cFG = (Color) validateEdgeColor( lia.getColor( ),
 				rre.getBackground( ),
 				_ids );
-		if ( cFG == null )
+		if ( cFG == null || cFG.getAlpha( ) == 0 )
 		{
 			return;
 		}
@@ -441,6 +449,12 @@ public class SwingRendererImpl extends DeviceAdapter
 	public void fillRectangle( RectangleRenderEvent rre ) throws ChartException
 	{
 		final Fill flBackground = rre.getBackground( );
+
+		if ( isFullTransparent( flBackground ) )
+		{
+			return;
+		}
+
 		final Bounds bo = normalizeBounds( rre.getBounds( ) );
 		final Rectangle2D.Double r2d = new Rectangle2D.Double( bo.getLeft( ),
 				bo.getTop( ),
@@ -645,6 +659,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.output.IPrimitiveRenderListener#drawPolygon(org.eclipse.birt.chart.output.PolygonRenderEvent)
 	 */
+
 	public void drawPolygon( PolygonRenderEvent pre ) throws ChartException
 	{
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
@@ -658,7 +673,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		final Color cFG = (Color) validateEdgeColor( lia.getColor( ),
 				pre.getBackground( ),
 				_ids );
-		if ( cFG == null ) // IF UNDEFINED, EXIT
+		if ( cFG == null || cFG.getAlpha( ) == 0 )
 		{
 			return;
 		}
@@ -691,6 +706,12 @@ public class SwingRendererImpl extends DeviceAdapter
 	public void fillPolygon( PolygonRenderEvent pre ) throws ChartException
 	{
 		final Fill flBackground = pre.getBackground( );
+
+		if ( isFullTransparent( flBackground ) )
+		{
+			return;
+		}
+
 		final Location[] loa = pre.getPoints( );
 		final int[][] i2a = getCoordinatesAsInts( loa );
 
@@ -870,7 +891,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		final Color cFG = (Color) validateEdgeColor( lia.getColor( ),
 				are.getBackground( ),
 				_ids );
-		if ( cFG == null )
+		if ( cFG == null || cFG.getAlpha( ) == 0 )
 		{
 			return;
 		}
@@ -970,10 +991,17 @@ public class SwingRendererImpl extends DeviceAdapter
 	public void fillArc( ArcRenderEvent are ) throws ChartException
 	{
 		final Fill flBackground = are.getBackground( );
+
+		if ( isFullTransparent( flBackground ) )
+		{
+			return;
+		}
+
 		if ( flBackground instanceof ColorDefinition )
 		{
+			final ColorDefinition cl = (ColorDefinition) flBackground;
 			final Color clrPrevious = _g2d.getColor( );
-			final Color currentColor = (Color) _ids.getColor( (ColorDefinition) flBackground );
+			final Color currentColor = (Color) _ids.getColor( cl );
 			_g2d.setColor( currentColor );
 
 			if ( are.getInnerRadius( ) >= 0
@@ -1293,7 +1321,8 @@ public class SwingRendererImpl extends DeviceAdapter
 		final Color cFG = (Color) validateEdgeColor( lia.getColor( ),
 				are.getBackground( ),
 				_ids );
-		if ( cFG == null ) // IF UNDEFINED, EXIT
+		// IF UNDEFINED OR TOTALLY TRANSPARENT, EXIT
+		if ( cFG == null || cFG.getAlpha( ) == 0 )
 		{
 			return;
 		}
@@ -1354,6 +1383,13 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void fillArea( AreaRenderEvent are ) throws ChartException
 	{
+		final Fill flBackground = are.getBackground( );
+
+		if ( isFullTransparent( flBackground ) )
+		{
+			return;
+		}
+
 		// SETUP SWING DATA STRUCTURES
 		final GeneralPath gp = new GeneralPath( );
 		PrimitiveRenderEvent pre;
@@ -1386,7 +1422,6 @@ public class SwingRendererImpl extends DeviceAdapter
 		}
 
 		// BEGIN FILLING
-		final Fill flBackground = are.getBackground( );
 		if ( flBackground instanceof ColorDefinition )
 		{
 			_g2d.setColor( (Color) _ids.getColor( (ColorDefinition) flBackground ) );
@@ -1737,7 +1772,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		final Color cFG = (Color) validateEdgeColor( lia.getColor( ),
 				ore.getBackground( ),
 				_ids );
-		if ( cFG == null )
+		if ( cFG == null || cFG.getAlpha( ) == 0 )
 		{
 			return;
 		}
@@ -1774,6 +1809,12 @@ public class SwingRendererImpl extends DeviceAdapter
 	public void fillOval( OvalRenderEvent ore ) throws ChartException
 	{
 		final Fill flBackground = ore.getBackground( );
+
+		if ( isFullTransparent( flBackground ) )
+		{
+			return;
+		}
+
 		final Bounds bo = ore.getBounds( );
 		final Ellipse2D.Double e2d = new Ellipse2D.Double( bo.getLeft( ),
 				bo.getTop( ),

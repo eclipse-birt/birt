@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
@@ -143,13 +144,8 @@ public class EventObjectCache
 		if ( cdEdge == null )
 		{
 			if ( !( fBackground instanceof ColorDefinition )
-					|| ( (ColorDefinition) fBackground ).getTransparency( ) == 0 )
+					|| ( ( (ColorDefinition) fBackground ).isSetTransparency( ) && ( (ColorDefinition) fBackground ).getTransparency( ) == 0 ) )
 			{
-				/*
-				 * DefaultLoggerImpl.instance().log(ILogger.WARNING, "Cannot
-				 * draw edge with an undefined color because the fill color is
-				 * not a solid color");
-				 */
 				return null;
 			}
 			else
@@ -163,4 +159,27 @@ public class EventObjectCache
 		}
 		return cFG;
 	}
+	
+	protected final boolean isFullTransparent( Fill fill )
+	{
+		if ( fill == null )
+		{
+			return true;
+		}
+
+		if ( fill instanceof ColorDefinition )
+		{
+			ColorDefinition cd = (ColorDefinition) fill;
+			return cd.isSetTransparency( ) && cd.getTransparency( ) == 0;
+		}
+		else if ( fill instanceof Gradient )
+		{
+			Gradient g = (Gradient) fill;
+			return g.isSetTransparency( ) && g.getTransparency( ) == 0;
+		}
+
+		return false;
+	}
+
+	
 }
