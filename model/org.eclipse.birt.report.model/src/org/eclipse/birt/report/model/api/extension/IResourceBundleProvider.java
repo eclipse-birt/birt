@@ -15,6 +15,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import com.ibm.icu.util.ULocale;
+import com.ibm.icu.util.UResourceBundle;
 
 /**
  * Provides the resource bundle with the given locale.
@@ -43,6 +44,6 @@ public interface IResourceBundleProvider
 	 * @return the resource bundle
 	 */
 
-	public ResourceBundle getResourceBundle( ULocale locale );
+	public UResourceBundle getResourceBundle( ULocale locale );
 
 }
