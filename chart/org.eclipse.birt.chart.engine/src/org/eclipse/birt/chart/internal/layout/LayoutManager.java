@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.internal.layout;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -21,6 +23,7 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
+import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.Legend;
@@ -31,30 +34,21 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import com.ibm.icu.util.ULocale;
 
 /**
- * 
+ * A default layout policy implementation
  */
 public final class LayoutManager
 {
 
-	// private transient final Block blRoot;
-
 	/**
+	 * The constructor.
 	 * 
 	 * @param _blRoot
 	 */
 	public LayoutManager( Block _blRoot )
 	{
-		// blRoot = _blRoot;
 	}
 
-	/**
-	 * 
-	 * @param bo
-	 * @param cm
-	 * 
-	 * @throws OverlapException
-	 */
-	public final void doLayout_tmp( IDisplayServer xs, Chart cm, Bounds boFull,
+	private void doLayout_tmp( IDisplayServer xs, Chart cm, Bounds boFull,
 			RunTimeContext rtc ) throws ChartException
 	{
 		final boolean isRightToLeft = rtc.isRightToLeft( );
@@ -445,6 +439,145 @@ public final class LayoutManager
 				break;
 		}
 
+		// layout custom blocks.
+		for ( Iterator itr = bl.getChildren( ).iterator( ); itr.hasNext( ); )
+		{
+			Block cbl = (Block) itr.next( );
+
+			if ( cbl != lg && cbl != p && cbl != tb )
+			{
+				layoutBlock( xs, cm, bl.getBounds( ), bl.getInsets( ), cbl, rtc );
+			}
+		}
+
+		// layout custom legend blocks.
+		for ( Iterator itr = lg.getChildren( ).iterator( ); itr.hasNext( ); )
+		{
+			Block cbl = (Block) itr.next( );
+
+			layoutBlock( xs, cm, lg.getBounds( ), lg.getInsets( ), cbl, rtc );
+		}
+
+		// layout custom title blocks.
+		for ( Iterator itr = tb.getChildren( ).iterator( ); itr.hasNext( ); )
+		{
+			Block cbl = (Block) itr.next( );
+
+			layoutBlock( xs, cm, tb.getBounds( ), tb.getInsets( ), cbl, rtc );
+		}
+
+		// layout custom plot blocks.
+		for ( Iterator itr = p.getChildren( ).iterator( ); itr.hasNext( ); )
+		{
+			Block cbl = (Block) itr.next( );
+
+			layoutBlock( xs, cm, p.getBounds( ), p.getInsets( ), cbl, rtc );
+		}
+
+	}
+
+	private void layoutBlock( IDisplayServer xs, Chart cm, Bounds bo,
+			Insets ins, Block block, RunTimeContext rtc ) throws ChartException
+	{
+		if ( !block.isSetAnchor( ) )
+		{
+			return;
+		}
+
+		Bounds cbo = block.getBounds( );
+
+		if ( cbo == null )
+		{
+			cbo = BoundsImpl.create( 0, 0, 0, 0 );
+		}
+		else if ( cbo.getLeft( ) != 0
+				|| cbo.getTop( ) != 0
+				|| cbo.getWidth( ) != 0
+				|| cbo.getHeight( ) != 0 )
+		{
+			return;
+		}
+
+		bo = bo.adjustedInstance( ins );
+
+		Anchor anchor = block.getAnchor( );
+
+		// swap west/east
+		if ( rtc != null && rtc.isRightToLeft( ) )
+		{
+			switch ( anchor.getValue( ) )
+			{
+				case Anchor.EAST :
+					anchor = Anchor.WEST_LITERAL;
+					break;
+				case Anchor.NORTH_EAST :
+					anchor = Anchor.NORTH_WEST_LITERAL;
+					break;
+				case Anchor.SOUTH_EAST :
+					anchor = Anchor.SOUTH_WEST_LITERAL;
+					break;
+				case Anchor.WEST :
+					anchor = Anchor.EAST_LITERAL;
+					break;
+				case Anchor.NORTH_WEST :
+					anchor = Anchor.NORTH_EAST_LITERAL;
+					break;
+				case Anchor.SOUTH_WEST :
+					anchor = Anchor.SOUTH_EAST_LITERAL;
+					break;
+			}
+		}
+
+		Size sz = block.getPreferredSize( xs, cm, rtc );
+
+		cbo.setWidth( sz.getWidth( ) );
+		cbo.setHeight( sz.getHeight( ) );
+
+		switch ( anchor.getValue( ) )
+		{
+			case Anchor.EAST :
+				cbo.setLeft( bo.getLeft( ) + bo.getWidth( ) - sz.getWidth( ) );
+				cbo.setTop( bo.getTop( )
+						+ ( bo.getHeight( ) - sz.getHeight( ) )
+						/ 2 );
+				break;
+			case Anchor.NORTH :
+				cbo.setLeft( bo.getLeft( )
+						+ ( bo.getWidth( ) - sz.getWidth( ) )
+						/ 2 );
+				cbo.setTop( bo.getTop( ) );
+				break;
+			case Anchor.NORTH_EAST :
+				cbo.setLeft( bo.getLeft( ) + bo.getWidth( ) - sz.getWidth( ) );
+				cbo.setTop( bo.getTop( ) );
+				break;
+			case Anchor.NORTH_WEST :
+				cbo.setLeft( bo.getLeft( ) );
+				cbo.setTop( bo.getTop( ) );
+				break;
+			case Anchor.SOUTH :
+				cbo.setLeft( bo.getLeft( )
+						+ ( bo.getWidth( ) - sz.getWidth( ) )
+						/ 2 );
+				cbo.setTop( bo.getTop( ) + bo.getHeight( ) - sz.getHeight( ) );
+				break;
+			case Anchor.SOUTH_EAST :
+				cbo.setLeft( bo.getLeft( ) + bo.getWidth( ) - sz.getWidth( ) );
+				cbo.setTop( bo.getTop( ) + bo.getHeight( ) - sz.getHeight( ) );
+				break;
+			case Anchor.SOUTH_WEST :
+				cbo.setLeft( bo.getLeft( ) );
+				cbo.setTop( bo.getTop( ) + bo.getHeight( ) - sz.getHeight( ) );
+				break;
+			case Anchor.WEST :
+				cbo.setLeft( bo.getLeft( ) );
+				cbo.setTop( bo.getTop( )
+						+ ( bo.getHeight( ) - sz.getHeight( ) )
+						/ 2 );
+				break;
+		}
+
+		block.setBounds( cbo );
 	}
 
 	/**
@@ -455,14 +588,12 @@ public final class LayoutManager
 	 * appropriate constraints All other children (at deeper levels) are added
 	 * as NullLayout with fixed 'relative' bounds
 	 * 
-	 * NOTE: This method is incomplete and not currently referenced
-	 * 
 	 * @param bo
 	 * @throws OverlapException
 	 */
-	public final void doLayout( IDisplayServer xs, Chart cm, Bounds bo )
-			throws ChartException
+	public void doLayout( IDisplayServer xs, Chart cm, Bounds bo,
+			RunTimeContext rtc ) throws ChartException
 	{
-		// TBD
+		doLayout_tmp( xs, cm, bo, rtc );
 	}
 }

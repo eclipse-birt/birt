@@ -946,7 +946,7 @@ public final class Generator
 		ScriptHandler.callFunction( sh, ScriptHandler.BEFORE_LAYOUT, cmRunTime );
 		try
 		{
-			lm.doLayout_tmp( ids, cmRunTime, bo, rtc );
+			lm.doLayout( ids, cmRunTime, bo, rtc );
 		}
 		catch ( ChartException oex )
 		{
