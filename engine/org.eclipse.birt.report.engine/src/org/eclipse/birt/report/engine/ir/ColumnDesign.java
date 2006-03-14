@@ -16,7 +16,7 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * @see TableItemDesign
  * @see GridItemDesign
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:41 $
  */
 public class ColumnDesign extends StyledElementDesign
 {
@@ -24,6 +24,11 @@ public class ColumnDesign extends StyledElementDesign
 	 * width of this column
 	 */
 	protected DimensionType width;
+
+	/**
+	 * suppressDuplicate
+	 */
+	protected boolean suppressDuplicate = false; 
 
 	/**
 	 * @return Returns the width.
@@ -40,5 +45,22 @@ public class ColumnDesign extends StyledElementDesign
 	public void setWidth( DimensionType width )
 	{
 		this.width = width;
+	}
+	
+	/**
+	 * @param suppress
+	 *            The suppressDuplicate to set.
+	 */
+	public void setSuppressDuplicate(boolean suppress)
+	{
+		suppressDuplicate = suppress;
+	}
+	
+	/**
+	 * @return Returns the suppressDuplicate.
+	 */
+	public boolean getSuppressDuplicate()
+	{
+		return suppressDuplicate;
 	}
 }

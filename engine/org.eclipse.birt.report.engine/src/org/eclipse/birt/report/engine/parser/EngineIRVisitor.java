@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.81 $ $Date: 2006/03/06 08:58:10 $
+ * @version $Revision: 1.82 $ $Date: 2006/03/09 09:17:32 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -874,6 +874,33 @@ class EngineIRVisitor extends DesignVisitor
 
 		new TableItemDesignLayout( ).layout( table );
 
+		//setup the supressDuplicate property of the data items in the 
+		//detail band		
+		
+		detail = table.getDetail( );
+		
+		for ( int i = 0; i < detail.getRowCount( ); i++ )
+		{
+			RowDesign row = detail.getRow(i);
+			for (int j = 0; j < row.getCellCount( ); j++)
+			{
+				CellDesign cell = row.getCell( j );
+				ColumnDesign column = table.getColumn( cell.getColumn( ) );
+				if ( column.getSuppressDuplicate( ) )
+				{
+					for ( int k = 0; k < cell.getContentCount( ); k++ )
+					{
+						ReportItemDesign item = cell.getContent( k );
+						if ( item instanceof DataItemDesign ) 
+						{
+							DataItemDesign dataItem = ( DataItemDesign )item;
+							dataItem.setSuppressDuplicate( true );
+						}
+					}
+				}
+			}
+		}
+
 		currentElement = table;
 	}
 
@@ -886,6 +913,9 @@ class EngineIRVisitor extends DesignVisitor
 		// Column Width
 		DimensionType width = createDimension( handle.getWidth( ) );
 		col.setWidth( width );
+		
+		boolean supress = handle.getSuppressDuplicates( );
+		col.setSuppressDuplicate( supress );
 
 		currentElement = col;
 	}
