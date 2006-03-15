@@ -14,6 +14,9 @@ package org.eclipse.birt.chart.examples.api.viewer;
 import java.io.File;
 import java.io.FileInputStream;
 
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+
 import org.eclipse.birt.chart.datafeed.StockEntry;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -2504,9 +2507,33 @@ public final class PrimitiveCharts
 
 	public static final Chart openChart( )
 	{
+		JFileChooser fileChooser = new JFileChooser( System.getProperty( "user.dir" )); //$NON-NLS-1$
+		fileChooser.setFileFilter( new FileFilter( ) {
+
+			public boolean accept( File f )
+			{
+				return f.isDirectory( )
+						|| f.isFile( ) && f.getName( ).endsWith( ".chart" ); //$NON-NLS-1$
+			}
+
+			public String getDescription( )
+			{
+				return "*.chart(Chart files)"; //$NON-NLS-1$
+			}
+		} );
+		
 		Chart chart = null;
 		Serializer serializer = null;
-		File chartFile = new File( "testChart.chart" ); //$NON-NLS-1$
+		fileChooser.showOpenDialog( fileChooser.getParent( ) );
+		File chartFile = fileChooser.getSelectedFile( );
+		if ( chartFile == null )
+		{
+			chartFile = new File( "testChart.chart" ); //$NON-NLS-1$
+		}
+		if ( chartFile == null )
+		{
+			throw new RuntimeException("No chart file specified!"); //$NON-NLS-1$
+		}
 
 		// Reads the chart model
 		try

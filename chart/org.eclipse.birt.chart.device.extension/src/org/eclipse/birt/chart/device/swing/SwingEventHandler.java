@@ -698,7 +698,7 @@ public final class SwingEventHandler implements
 		TooltipValue tv = (TooltipValue) ac.getValue( );
 
 		// Handle character conversion of \n in the tooltip
-		String tooltip = tv.getText( ).replaceAll( "\\\\n", "<br>" ); //$NON-NLS-1$//$NON-NLS-2$
+		String tooltip = tv.getText( ).replaceAll( "\\\n", "<br>" ); //$NON-NLS-1$//$NON-NLS-2$
 		if ( !tooltip.equals( tv.getText( ) ) )
 		{
 			tooltip = "<html>" + tooltip + "</html>"; //$NON-NLS-1$ //$NON-NLS-2$

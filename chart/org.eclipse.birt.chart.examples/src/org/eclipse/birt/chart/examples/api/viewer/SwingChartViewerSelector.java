@@ -430,6 +430,7 @@ public final class SwingChartViewerSelector extends JPanel implements
 			jcbModels.addItem( "Scatter Chart" );//$NON-NLS-1$
 			jcbModels.addItem( "Stock Chart" );//$NON-NLS-1$
 			jcbModels.addItem( "Area Chart" );//$NON-NLS-1$
+			jcbModels.addItem( "Open Chart File" ); //$NON-NLS-1$
 
 			jcbModels.setSelectedIndex( 0 );
 			jp1.add( jcbModels );
@@ -542,6 +543,9 @@ public final class SwingChartViewerSelector extends JPanel implements
 					break;
 				case 8 :
 					cm = PrimitiveCharts.createAreaChart( );
+					break;
+				case 9 :
+					cm = PrimitiveCharts.openChart( );
 					break;
 			}
 
