@@ -25,7 +25,6 @@ import org.mozilla.javascript.ScriptableObject;
  */
 public class JSRows extends ScriptableObject 
 {
-
 	/**
 	 * Array of nested data sets; element[0] is data set for outermost query;
 	 * last element is current query's data set
@@ -33,6 +32,8 @@ public class JSRows extends ScriptableObject
 	private DataSetRuntime[] dataSets;
 
 	private static Logger logger = Logger.getLogger( JSRows.class.getName( ) );
+	private static final long serialVersionUID = -6381733586388272803L;
+	
 	/*
 	 * return the Class Name
 	 * 

@@ -41,7 +41,8 @@ public class JSRowObject extends ScriptableObject
     private JSColumnMetaData cachedColumnMetaData;
     
 	private static Logger logger = Logger.getLogger( JSRowObject.class.getName( ) );
-
+	private static final long serialVersionUID = 6087456639367600994L;
+	
 	/**
      * Constructor. Creates an empty row object with no binding.
      */

@@ -29,10 +29,11 @@ import org.mozilla.javascript.ScriptableObject;
  */
 public class JSStringMap extends ScriptableObject
 {
-	 private Map map;
+	private Map map;
 	
-	 private static Logger logger = Logger.getLogger( JSStringMap.class.getName( ) );
-
+	private static Logger logger = Logger.getLogger( JSStringMap.class.getName( ) );
+	private static final long serialVersionUID = -4866037635884065761L;
+	
 	 /**
 	 * Constructor
 	 * @param map Java Map to wrap

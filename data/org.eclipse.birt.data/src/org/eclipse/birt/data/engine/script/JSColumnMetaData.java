@@ -27,6 +27,7 @@ public class JSColumnMetaData extends NativeArray
 	private IResultClass resultClass;
 	
 	private static Logger logger = Logger.getLogger( JSColumnMetaData.class.getName( ) );
+	private static final long serialVersionUID = 4836558843807755596L;
 
 	public JSColumnMetaData( IResultClass resultClass )
 	{

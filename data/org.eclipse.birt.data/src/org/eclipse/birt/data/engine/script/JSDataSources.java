@@ -30,6 +30,8 @@ public class JSDataSources extends ScriptableObject
 	private Map			dataSources;
 	
 	private static Logger logger = Logger.getLogger( JSDataSources.class.getName( ) );
+	private static final long serialVersionUID = -3214290672302098993L;
+	
 	/**
 	 * Constructor.
 	 * @param dataSourceMap A map of data source name (String) to DataSourceRuntime objects

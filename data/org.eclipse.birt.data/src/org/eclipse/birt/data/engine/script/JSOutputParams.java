@@ -32,6 +32,9 @@ public class JSOutputParams extends ScriptableObject
 	// parameter value provider
 	PreparedExtendedDSQuery.ExtendedDSQueryExecutor queryExecutor;
 	
+	/** */
+	private static final long serialVersionUID = 2535883419826794186L;
+	
 	public JSOutputParams( DataSetRuntime dataSet )
 	{
 		// Output param is only available for ODA data sets

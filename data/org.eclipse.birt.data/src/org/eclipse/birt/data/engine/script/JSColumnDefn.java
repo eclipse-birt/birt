@@ -64,6 +64,7 @@ public class JSColumnDefn extends ScriptableObject
 	private int fieldIndex;
 	
 	private static Logger logger = Logger.getLogger( JSColumnDefn.class.getName( ) );
+	private static final long serialVersionUID = -4456827193707814588L;
 	
 	/**
 	 * Constructor
