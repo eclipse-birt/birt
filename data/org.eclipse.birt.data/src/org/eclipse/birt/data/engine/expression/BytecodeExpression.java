@@ -1,0 +1,58 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.data.engine.expression;
+
+import java.util.logging.Logger;
+
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.RhinoException;
+import org.mozilla.javascript.Script;
+import org.mozilla.javascript.Scriptable;
+
+abstract class BytecodeExpression extends CompiledExpression
+{
+	private Script m_script;
+	  
+	protected static Logger logger = Logger.getLogger( BytecodeExpression.class.getName( ) );
+	/**
+	 * Sets the compiled Javascript bytecode for this 
+	 * <code>BytecodeExpression</code>.
+	 * @param script	the compiled Javascript bytecode.
+	 */
+    void setScript( Script script )
+    {
+    	assert script != null;
+    	m_script = script;
+    }
+
+	/**
+	 * Evaluates the compiled byte code
+	 */
+	public Object evaluate( Context context, Scriptable scope ) 
+		throws DataException
+	{
+	    try
+	    {
+	    	Object result = JavascriptEvalUtil.convertJavascriptValue(
+	    			m_script.exec( context, scope ) );
+	    	return result;
+	    }
+	    catch ( RhinoException e )
+	    {
+	    	throw DataException.wrap( 
+	    			JavascriptEvalUtil.wrapRhinoException(e, "<compiled script>", null, 0) );
+	    }
+	}
+	
+}

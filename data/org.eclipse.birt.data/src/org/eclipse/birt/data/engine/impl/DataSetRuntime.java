@@ -322,7 +322,7 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 	 * Sets the internal aggregate helper object
 	 * TODO: review the necessity of this object
 	 */
-	void setJSTempAggrValueObject( Scriptable obj)
+	public void setJSTempAggrValueObject( Scriptable obj)
 	{
 		jsTempAggrValueObject = obj;
 	}

@@ -40,7 +40,14 @@ import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
+import org.eclipse.birt.data.engine.expression.ColumnReferenceExpression;
+import org.eclipse.birt.data.engine.expression.CompiledExpression;
+import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
+import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.aggregation.AggregateCalculator;
+import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
+import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
@@ -55,7 +62,7 @@ import org.mozilla.javascript.Scriptable;
 /** 
  * Base class for a prepared query or subquery. 
  */
-abstract class PreparedQuery 
+public abstract class PreparedQuery 
 {
 	private 	IBaseQueryDefinition 	queryDefn;
 	private 	DataEngineImpl	engine;
@@ -462,7 +469,7 @@ abstract class PreparedQuery
 	/**
 	 * @return
 	 */
-	DataEngineImpl getDataEngine()
+	public DataEngineImpl getDataEngine()
 	{
 		return engine;
 	}
@@ -497,7 +504,7 @@ abstract class PreparedQuery
 	 * @param groupText
 	 * @return
 	 */
-	int getGroupIndex( String groupText )
+	public int getGroupIndex( String groupText )
 	{
 		assert groupText != null;
 		assert queryDefn != null; 
@@ -519,7 +526,7 @@ abstract class PreparedQuery
 	/**
 	 * @return the group count defined in report query
 	 */
-	int getGroupCount()
+	public int getGroupCount()
 	{
 		assert queryDefn != null;
 		return queryDefn.getGroups().size();

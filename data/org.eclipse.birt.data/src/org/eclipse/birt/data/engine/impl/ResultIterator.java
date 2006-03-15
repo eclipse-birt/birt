@@ -34,6 +34,8 @@ import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
+import org.eclipse.birt.data.engine.expression.ColumnReferenceExpression;
+import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.RDSave;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
@@ -206,7 +208,7 @@ public class ResultIterator implements IResultIterator
 	 * @return
 	 * @throws DataException
 	 */
-	static Object evaluateCompiledExpression( CompiledExpression expr,
+	public static Object evaluateCompiledExpression( CompiledExpression expr,
 			org.eclipse.birt.data.engine.odi.IResultIterator odiResult,
 			Scriptable scope ) throws DataException
 	{
