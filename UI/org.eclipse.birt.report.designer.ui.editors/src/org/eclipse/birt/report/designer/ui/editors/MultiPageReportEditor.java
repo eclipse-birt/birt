@@ -792,7 +792,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		}
 	}
 
-	protected void closeEditor( boolean save )
+	public void closeEditor( boolean save )
 	{
 		getSite( ).getPage( ).closeEditor( this, save );
 	}

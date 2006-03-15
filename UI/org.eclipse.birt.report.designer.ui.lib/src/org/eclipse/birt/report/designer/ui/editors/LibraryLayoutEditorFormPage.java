@@ -211,4 +211,19 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 		
 		return provider;
 	}	
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#firePropertyChange(int)
+	 */
+	protected void firePropertyChange( int type )
+	{
+		if ( type == PROP_DIRTY )
+		{
+			editor.editorDirtyStateChanged( );
+		}
+		else
+			super.firePropertyChange( type );
+	}
 }
