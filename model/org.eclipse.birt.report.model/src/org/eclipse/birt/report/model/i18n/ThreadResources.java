@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.MissingResourceException;
 
 import com.ibm.icu.util.ULocale;
-import com.ibm.icu.util.UResourceBundle;
 
 /**
  * Represents the set of resource bundle with the specific base name of resource
@@ -47,18 +46,6 @@ public class ThreadResources
 	private static ThreadLocal threadLocal = new ThreadLocal( );
 
 	/**
-	 * The class loader for loading resource bundle.
-	 */
-
-	private ClassLoader classLoader;
-
-	/**
-	 * The base name of resource bundle.
-	 */
-
-	private String baseName;
-
-	/**
 	 * Constructs the thread resources with the given class loader and base
 	 * name. The <code>theClass</code> provides the class loader for loading
 	 * resource bundle, and the <code>baseName</code> is the full qualified
@@ -76,16 +63,8 @@ public class ThreadResources
 	 *             found.
 	 */
 
-	public ThreadResources( ClassLoader classLoader, String baseName )
+	public ThreadResources( )
 	{
-		assert classLoader != null;
-		assert baseName != null;
-
-		this.classLoader = classLoader;
-		this.baseName = baseName;
-
-		UResourceBundle resourceBundle = UResourceBundle.getBundleInstance(
-				baseName, getLocale( ), classLoader );
 	}
 
 	/**

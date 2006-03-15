@@ -35,13 +35,7 @@ public class ModelMessages
 
 	static
 	{
-		// works around bug in some J2EE server; see Bugzilla #126073
-
-		String packageName = ModelMessages.class.getName( ).substring( 0,
-				ModelMessages.class.getName( ).lastIndexOf( "." ) ); //$NON-NLS-1$
-
-		threadResources = new ThreadResources( ModelMessages.class
-				.getClassLoader( ), packageName + ".Messages" ); //$NON-NLS-1$
+		threadResources = new ThreadResources( ); 
 	}
 
 	/**

@@ -13,13 +13,13 @@ package org.eclipse.birt.report.model.extension;
 
 import java.util.Locale;
 import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.extension.IResourceBundleProvider;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 import com.ibm.icu.util.ULocale;
+import com.ibm.icu.util.UResourceBundle;
 
 /**
  * Represents the default implementation for <code>IMessages</code>. This
@@ -71,7 +71,7 @@ public class DefaultMessages implements IMessages
 	{
 		if ( provider != null )
 		{
-			ResourceBundle resourceBundle = provider.getResourceBundle( locale );
+			UResourceBundle resourceBundle = provider.getResourceBundle( locale );
 			if ( resourceBundle != null )
 				try
 				{

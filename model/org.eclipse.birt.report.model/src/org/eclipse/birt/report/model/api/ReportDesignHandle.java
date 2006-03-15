@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +31,7 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.util.LevelContentIterator;
 
 /**
  * Represents the overall report design. The report design defines a set of
@@ -123,21 +126,21 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
  * </ul>
  * 
  * <pre>
- *                                           // Include one library
- *                                           
- *                                           ReportDesignHandle designHandle = ...;
- *                                           designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
- *                                           LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
- *                                            
- *                                           // Create one label based on the one in library
- *                                          
- *                                           LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
- *                                           LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
- *                                          
- *                                           // Add the new label into design file
- *                                          
- *                                           designHandle.getBody().add(myLabelHandle);
- *                                        
+ *                                                              // Include one library
+ *                                                              
+ *                                                              ReportDesignHandle designHandle = ...;
+ *                                                              designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
+ *                                                              LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *                                                               
+ *                                                              // Create one label based on the one in library
+ *                                                             
+ *                                                              LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
+ *                                                              LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
+ *                                                             
+ *                                                              // Add the new label into design file
+ *                                                             
+ *                                                              designHandle.getBody().add(myLabelHandle);
+ *                                                           
  * </pre>
  * 
  * @see org.eclipse.birt.report.model.elements.ReportDesign
@@ -805,4 +808,56 @@ public class ReportDesignHandle extends ModuleHandle
 
 	}
 
+	/**
+	 * Gets report items which holds a template definition, that is, report item
+	 * in body slot and page slot. Notice, nested template items is excluded.
+	 * 
+	 * @return report items which holds a template definition, nested template
+	 *         items is excluded.
+	 */
+
+	public List getReportItemsBasedonTempalates( )
+	{
+		ArrayList rtnList = new ArrayList( );
+		ArrayList tempList = new ArrayList( );
+
+		List contents = getElement( ).getSlot( BODY_SLOT ).getContents( );
+		contents.addAll( getElement( ).getSlot( PAGE_SLOT ).getContents( ) );
+
+		findTemplateItemIn( contents.iterator( ), tempList );
+
+		for ( Iterator iter = tempList.iterator( ); iter.hasNext( ); )
+		{
+			rtnList.add( ( (DesignElement) iter.next( ) ).getHandle( module ) );
+		}
+
+		return Collections.unmodifiableList( rtnList );
+	}
+
+	/**
+	 * Auxilary method, help to find design element which holds and template
+	 * definition.
+	 * 
+	 * @param contents
+	 *            the contents to search.
+	 * @param addTo
+	 *            The list to add to.
+	 */
+
+	private void findTemplateItemIn( Iterator contents, List addTo )
+	{
+		for ( ; contents.hasNext( ); )
+		{
+			DesignElement e = (DesignElement) contents.next( );
+			if ( e.isTemplateParameterValue( module ) )
+			{
+				addTo.add( e );
+				continue;
+			}
+
+			LevelContentIterator children = new LevelContentIterator( e, 1 );
+
+			findTemplateItemIn( children, addTo );
+		}
+	}
 }

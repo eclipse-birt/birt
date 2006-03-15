@@ -11,11 +11,8 @@
 
 package org.eclipse.birt.report.model.util;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
@@ -27,8 +24,14 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * 
  */
 
-public class ContentIterator implements Iterator
+public class ContentIterator extends LevelContentIterator
 {
+
+	/**
+	 * The maximal level.
+	 */
+
+	protected static final int MAX_LEVEL = Integer.MAX_VALUE;
 
 	/**
 	 * List of content elements.
@@ -52,10 +55,7 @@ public class ContentIterator implements Iterator
 
 	public ContentIterator( DesignElement element )
 	{
-		assert element != null;
-
-		elementContents = new ArrayList( );
-		buildContentsList( element );
+		super( element, LevelContentIterator.MAX_LEVEL );
 	}
 
 	/**
@@ -64,85 +64,12 @@ public class ContentIterator implements Iterator
 	 * 
 	 * @param element
 	 *            the element to visit.
+	 * @param slotId
+	 *            the slot id
 	 */
 
 	public ContentIterator( DesignElement element, int slotId )
 	{
-		assert element != null;
-
-		elementContents = new ArrayList( );
-		buildContentsList( element, slotId );
+		super( element, slotId, LevelContentIterator.MAX_LEVEL );
 	}
-
-	/**
-	 * Adds the content elements in the given container element into
-	 * <code>elementContents</code>
-	 * 
-	 * @param element
-	 *            the next element to build.
-	 */
-
-	private void buildContentsList( DesignElement element )
-	{
-		for ( int i = 0; i < element.getDefn( ).getSlotCount( ); i++ )
-		{
-			buildContentsList( element, i );
-		}
-	}
-
-	/**
-	 * Adds the content elements of the given slot in the given container
-	 * element into <code>elementContents</code>
-	 * 
-	 * @param element
-	 *            the next element to build.
-	 * @param slotId
-	 *            the slot id.
-	 */
-
-	private void buildContentsList( DesignElement element, int slotId )
-	{
-		ContainerSlot slot = element.getSlot( slotId );
-		assert slot != null;
-
-		for ( Iterator iter = slot.getContents( ).iterator( ); iter.hasNext( ); )
-		{
-			DesignElement e = (DesignElement) iter.next( );
-			elementContents.add( e );
-
-			buildContentsList( e );
-		}
-	}
-
-	/**
-	 * Not allowed.
-	 */
-
-	public void remove( )
-	{
-		assert false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.Iterator#hasNext()
-	 */
-
-	public boolean hasNext( )
-	{
-		return posn < elementContents.size( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.Iterator#next()
-	 */
-
-	public Object next( )
-	{
-		return elementContents.get( posn++ );
-	}
-
 }
