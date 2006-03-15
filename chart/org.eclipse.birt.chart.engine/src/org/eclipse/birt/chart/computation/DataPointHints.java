@@ -50,6 +50,8 @@ public final class DataPointHints
 
 	private Map userValueMap;
 
+	private final int index;
+
 	private final Location lo;
 
 	private final double[] dSize;
@@ -72,14 +74,10 @@ public final class DataPointHints
 	 * @param _lcl
 	 * @throws UndefinedValueException
 	 */
-	public DataPointHints( Object _oBaseValue,
-			Object _oOrthogonalValue,
-			Object _oSeriesValue,
-			Object _oPercentileValue,
-			DataPoint _dp, // FOR COMBINED VALUE
-			// RETRIEVAL
+	public DataPointHints( Object _oBaseValue, Object _oOrthogonalValue,
+			Object _oSeriesValue, Object _oPercentileValue, DataPoint _dp,
 			FormatSpecifier _fsBase, FormatSpecifier _fsOrthogonal,
-			FormatSpecifier _fsSeries, FormatSpecifier _fsPercentile,
+			FormatSpecifier _fsSeries, FormatSpecifier _fsPercentile, int _idx,
 			Location _lo, double _dSize, RunTimeContext _rtc )
 			throws ChartException
 	{
@@ -101,6 +99,7 @@ public final class DataPointHints
 		fsSeries = _fsSeries;
 		fsPercentile = _fsPercentile;
 
+		index = _idx;
 		lo = _lo;
 		rtc = _rtc;
 
@@ -123,14 +122,10 @@ public final class DataPointHints
 	 * @param _rtc
 	 * @throws ChartException
 	 */
-	public DataPointHints( Object _oBaseValue,
-			Object _oOrthogonalValue,
-			Object _oSeriesValue,
-			Object _oPercentileValue,
-			DataPoint _dp, // FOR COMBINED VALUE
-			// RETRIEVAL
+	public DataPointHints( Object _oBaseValue, Object _oOrthogonalValue,
+			Object _oSeriesValue, Object _oPercentileValue, DataPoint _dp,
 			FormatSpecifier _fsBase, FormatSpecifier _fsOrthogonal,
-			FormatSpecifier _fsSeries, FormatSpecifier _fsPercentile,
+			FormatSpecifier _fsSeries, FormatSpecifier _fsPercentile, int _idx,
 			Location _lo, double[] _dSize, RunTimeContext _rtc )
 			throws ChartException
 	{
@@ -143,6 +138,7 @@ public final class DataPointHints
 				_fsOrthogonal,
 				_fsSeries,
 				_fsPercentile,
+				_idx,
 				_lo,
 				0,
 				_rtc );
@@ -168,6 +164,7 @@ public final class DataPointHints
 				fsOrthogonal,
 				fsSeries,
 				fsPercentile,
+				index,
 				lo,
 				dSize,
 				rtc );
@@ -357,6 +354,16 @@ public final class DataPointHints
 		}
 
 		return null;
+	}
+
+	/**
+	 * Returns the index of current DataPointHints.
+	 * 
+	 * @return
+	 */
+	public final int getIndex( )
+	{
+		return index;
 	}
 
 	/**

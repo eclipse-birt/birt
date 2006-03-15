@@ -1775,6 +1775,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						fsOrthogonal,
 						fsSeries,
 						fsPercentile,
+						i,
 						lo,
 						dLength,
 						rtc );

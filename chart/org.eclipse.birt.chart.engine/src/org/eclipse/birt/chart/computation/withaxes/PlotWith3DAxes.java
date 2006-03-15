@@ -2125,6 +2125,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 						fsOrthogonal,
 						fsSeries,
 						fsPercentile,
+						i,
 						lo3d,
 						new double[]{
 								dXLength, dZLength

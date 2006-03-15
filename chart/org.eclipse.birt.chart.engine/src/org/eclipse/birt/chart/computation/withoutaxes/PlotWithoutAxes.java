@@ -311,6 +311,7 @@ public final class PlotWithoutAxes
 						fsOrthogonal,
 						fsSeries,
 						fsPercentile,
+						i,
 						null,
 						-1,
 						rtc );

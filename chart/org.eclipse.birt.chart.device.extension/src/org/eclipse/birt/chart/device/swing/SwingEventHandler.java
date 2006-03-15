@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.util.DeviceUtil;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.event.StructureType;
+import org.eclipse.birt.chart.event.WrappedStructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -187,9 +188,19 @@ public final class SwingEventHandler implements
 						break LOOP;
 
 					case ActionType.TOGGLE_VISIBILITY :
-						if ( src.getType( ) == StructureType.SERIES )
+						if ( src.getType( ) == StructureType.SERIES
+								|| src.getType( ) == StructureType.SERIES_DATA_POINT )
 						{
-							final Series seRT = (Series) src.getSource( );
+							final Series seRT;
+							if ( src.getType( ) == StructureType.SERIES )
+							{
+								seRT = (Series) src.getSource( );
+							}
+							else
+							{
+								seRT = (Series) ( (WrappedStructureSource) src ).getParent( )
+										.getSource( );
+							}
 							logger.log( ILogger.INFORMATION,
 									Messages.getString( "info.toggle.visibility", //$NON-NLS-1$
 											lcl )
@@ -209,11 +220,20 @@ public final class SwingEventHandler implements
 							break LOOP;
 						}
 						break;
-						
+
 					case ActionType.TOGGLE_DATA_POINT_VISIBILITY :
 						if ( src.getType( ) == StructureType.SERIES )
 						{
-							final Series seRT = (Series) src.getSource( );
+							final Series seRT;
+							if ( src.getType( ) == StructureType.SERIES )
+							{
+								seRT = (Series) src.getSource( );
+							}
+							else
+							{
+								seRT = (Series) ( (WrappedStructureSource) src ).getParent( )
+										.getSource( );
+							}
 							logger.log( ILogger.INFORMATION,
 									Messages.getString( "info.toggle.datapoint.visibility", //$NON-NLS-1$
 											lcl )
@@ -234,7 +254,7 @@ public final class SwingEventHandler implements
 							break LOOP;
 						}
 						break;
-						
+
 					case ActionType.HIGHLIGHT :
 						bFound = true;
 
@@ -256,7 +276,7 @@ public final class SwingEventHandler implements
 							break LOOP;
 						}
 						break;
-						
+
 					case ActionType.CALL_BACK :
 						if ( iun instanceof ICallBackNotifier )
 						{
@@ -689,7 +709,6 @@ public final class SwingEventHandler implements
 		}
 		( (JComponent) iun.peerInstance( ) ).setToolTipText( tooltip );
 	}
-	
 
 	private final void toggleHighlight( ShapedAction sa )
 	{
@@ -700,9 +719,19 @@ public final class SwingEventHandler implements
 
 		final StructureSource src = (StructureSource) sa.getSource( );
 
-		if ( src.getType( ) == StructureType.SERIES )
+		if ( src.getType( ) == StructureType.SERIES
+				|| src.getType( ) == StructureType.SERIES_DATA_POINT )
 		{
-			final Series seRT = (Series) src.getSource( );
+			final Series seRT;
+			if ( src.getType( ) == StructureType.SERIES )
+			{
+				seRT = (Series) src.getSource( );
+			}
+			else
+			{
+				seRT = (Series) ( (WrappedStructureSource) src ).getParent( )
+						.getSource( );
+			}
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "info.toggle.visibility", //$NON-NLS-1$
 							lcl ) + seRT );

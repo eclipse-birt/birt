@@ -2955,7 +2955,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 			if ( !elTriggers.isEmpty( ) )
 			{
-				final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createUnknown( b ),
+				final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createChartBlock( b ),
 						InteractionEvent.class );
 				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
@@ -2964,7 +2964,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					iev.addTrigger( tg );
 				}
 
-				final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createUnknown( b ),
+				final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createChartBlock( b ),
 						PolygonRenderEvent.class );
 				pre.setPoints( loaHotspot );
 				iev.setHotSpot( pre );
