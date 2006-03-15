@@ -36,6 +36,7 @@
       <import plugin="org.eclipse.birt.report.designer.ui.editors"/>
       <import plugin="org.eclipse.birt.report.designer.ui.editors.schematic"/>
       <import plugin="org.eclipse.birt.report.viewer"/>
+      <import plugin="org.eclipse.jdt.launching"/>
    </requires>
    
    <extension
