@@ -248,9 +248,26 @@
                   value="rpttemplate"/>
          </and>
       </visibility>
-   </viewerContribution>
-   
+   </viewerContribution> 
  
 </extension>
+ <extension
+        point="org.eclipse.ui.activities">
+     <activity
+         description="%org.eclipse.birt.activity.description"
+         id="org.eclipse.birt.activity"
+         name="Report Desgin"/>
+     <category
+         description="%org.eclipse.birt.category.description"
+         id="org.eclipse.birt.category"
+         name="BIRT"/>
+     <categoryActivityBinding
+         activityId="org.eclipse.birt.activity"
+         categoryId="org.eclipse.birt.category"/>
+     <activityPatternBinding
+         activityId="org.eclipse.birt.activity"
+         pattern="org\.eclipse\.birt\..*/.*"/>
+     <defaultEnablement id="org.eclipse.birt.activity"/>
+ </extension>
 
 </plugin>
