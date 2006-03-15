@@ -62,10 +62,10 @@
 		     eclipse.home
 		     utest.report.dir
 		     javadoc.dir
+		     plugin.version
 	-->
 	
 	<!-- ===== Default value for public properties ============= -->
-	<property file="META-INF/MANIFEST.MF" />
 	<property name="javadoc.dir" location="docs/api" />
 	<property name="export.dir" location="export" />
 	<property name="eclipse.home" location="." />
@@ -77,7 +77,7 @@
 	<property name="core.dir" location="../org.eclipse.birt.core"/>
 	
  	<property name="module.name" value="org.eclipse.birt.core.ui" />
-	<property name="jar.name" value="${module.name}_${Bundle-Version}.jar" />	
+	<property name="jar.name" value="coreui.jar" />	
 	
 	<path id="class.path">
 		<pathelement path="${dir.bin}"/>
@@ -109,7 +109,7 @@
 		 	eclipse.home
 	-->
 	<target name="Jar" depends="compileSource">
-		<jar destfile="${jar.name}" manifest="./META-INF/MANIFEST.MF">
+		<jar destfile="${jar.name}">
 			<fileset dir="${dir.bin}">
 				<include name="**/*.class"/>
 				<include name="**/*.xml"/>
@@ -117,7 +117,6 @@
 				<include name="**/*.properties"/>
 				<exclude name="**/*Test.class"/>
 			</fileset>
-			<fileset dir="." includes="about.html,plugin.xml,.options,schema/**,icons/**"/>
 		</jar>
 	</target>
 
@@ -159,9 +158,10 @@
 		 		- ${plugin.version} the version of plugin exported
 	 -->
 	<target name="Export">
-		<copy todir="${export.dir}">
-	        <fileset dir="." includes="${jar.name}"/>
-	  </copy>
+		<property file="META-INF/MANIFEST.MF" />
+		<copy todir="${export.dir}/${module.name}_${Bundle-Version}">
+	        <fileset dir="." includes="${jar.name},about.html,plugin.xml,.options,schema/**,icons/**,META-INF/MANIFEST.MF"/>
+	    </copy>
 	</target>
 
 

@@ -64,7 +64,6 @@
 	-->
 	
 	<!-- ===== Default value for public properties ============= -->
-	<property file="META-INF/MANIFEST.MF" />
 	<property name="utest.report.dir" location="utestreports" />
 	<property name="javadoc.dir" location="docs/api" />
 	<property name="export.dir" location="export" />
@@ -98,11 +97,15 @@
 	<property name="emf.common.dir" value="org.eclipse.emf.common" />
 	<property name="emf.ecore.dir" value="org.eclipse.emf.ecore" />
 	<property name="swt.dir" value="org.eclipse.swt" />
-	
-	<property name="jar.name" value="${module.name}_${Bundle-Version}.jar" />	
 
 	<path id="class.path">
 		<pathelement path="${bin}"/>
+	
+		<fileset file="${core.dir}/lib/*.jar" />
+		<pathelement path="${core.dir}/core.jar"/>
+		<pathelement path="${chart.engine.dir}/engine.jar"/>
+		<pathelement path="${chart.ui.dir}/ui.jar"/>
+		<pathelement path="${core.ui.dir}/coreui.jar"/>
 		
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.core.runtime_*/runtime.jar"/>
@@ -121,12 +124,6 @@
 			<include name="org.eclipse.jface*.jar"/>		
 			<include name="com.ibm.icu_*.jar"/>
 		</fileset>
-		
-		<fileset file="${core.dir}/lib/*.jar" />
-		<pathelement path="${core.dir}/core.jar"/>
-		<pathelement path="${chart.engine.dir}/org.eclipse.birt.chart.engine_${Bundle-Version}.jar"/>
-		<pathelement path="${core.ui.dir}/org.eclipse.birt.core.ui_${Bundle-Version}.jar"/>
-		<pathelement path="${chart.ui.dir}/org.eclipse.birt.chart.ui_${Bundle-Version}.jar"/>
 	</path>
 		
 	
@@ -137,7 +134,7 @@
 	-->
 	<target name="Jar" depends="compileSource" description="create project jar">
 		<!-- Create the project jar -->
-		<jar destfile="${jar.name}" manifest="./META-INF/MANIFEST.MF">
+		<jar destfile="ui-extension.jar">
 			<fileset dir="${bin}">
 				<include name="**/*.class"/>
 				<include name="**/*.txt"/>
@@ -145,7 +142,6 @@
 				<include name="**/*.def"/>
 				<include name="**/*.properties"/>
 			</fileset>
-			<fileset dir="." includes="about.html,plugin.xml,plugin.properties,.options,schema/**,lib/**,icons/**"/>
 		</jar>
 	</target>
 	
@@ -198,9 +194,10 @@
 				 		- ${plugin.version} the version of plugin exported
 	-->
 	<target name="Export">
-		<copy todir="${export.dir}">
-	        <fileset dir="." includes="${jar.name}"/>
-	  </copy>
+		<property file="META-INF/MANIFEST.MF" />
+	  	<copy todir="${export.dir}/${module.name}_${Bundle-Version}">
+	        <fileset dir="." includes="ui-extension.jar,about.html,plugin.xml,plugin*.properties,.options,lib/**,schema/**,META-INF/MANIFEST.MF"/>
+	    </copy>
 	</target>
 	
 	
@@ -219,7 +216,7 @@
 	<target name="Clean" description="clean up">
 		<!-- Delete the binary directory trees -->
 		<delete dir="${bin}"/>
-		<delete file="${jar.name}"/>
+		<delete file="ui-extension.jar"/>
 	</target>
 	
 	<!-- Generate the JavaDoc.
