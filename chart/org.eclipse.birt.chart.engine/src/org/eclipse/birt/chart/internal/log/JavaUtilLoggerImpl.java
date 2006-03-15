@@ -115,7 +115,7 @@ public class JavaUtilLoggerImpl implements ILogger
 	private String[] inferCaller( )
 	{
 		String[] rt = new String[2];
-		rt[0] = "org.eclipse.birt.chart.log.impl.JavaUtilLoggerImpl"; //$NON-NLS-1$
+		rt[0] = this.getClass( ).getName( );
 		rt[1] = "log"; //$NON-NLS-1$
 
 		// Get the stack trace.
@@ -126,7 +126,7 @@ public class JavaUtilLoggerImpl implements ILogger
 		{
 			StackTraceElement frame = stack[ix];
 			String cname = frame.getClassName( );
-			if ( cname.equals( "org.eclipse.birt.chart.log.impl.JavaUtilLoggerImpl" ) ) //$NON-NLS-1$
+			if ( cname.equals( this.getClass( ).getName( ) ) )
 			{
 				break;
 			}
@@ -137,7 +137,7 @@ public class JavaUtilLoggerImpl implements ILogger
 		{
 			StackTraceElement frame = stack[ix];
 			String cname = frame.getClassName( );
-			if ( !cname.equals( "org.eclipse.birt.chart.log.impl.JavaUtilLoggerImpl" ) ) //$NON-NLS-1$
+			if ( !cname.equals( this.getClass( ).getName( ) ) )
 			{
 				// We've found the relevant frame.
 				rt[0] = cname;
