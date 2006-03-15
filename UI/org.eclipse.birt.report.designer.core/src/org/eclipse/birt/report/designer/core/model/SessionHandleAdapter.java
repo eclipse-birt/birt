@@ -13,8 +13,6 @@ package org.eclipse.birt.report.designer.core.model;
 
 import java.io.InputStream;
 import java.util.Iterator;
-import com.ibm.icu.util.ULocale;
-
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -33,6 +31,8 @@ import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Adapter class to adpat model handle. This adapter provides convenience
  * methods to GUI requirement SessionHandleAdapter responds to model
@@ -40,6 +40,10 @@ import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
  * 
  */
 
+/**
+ * @author Actuate
+ *
+ */
 public class SessionHandleAdapter
 {
 
@@ -53,7 +57,8 @@ public class SessionHandleAdapter
 
 		public void moduleDisposed( ModuleHandle targetElement, DisposeEvent ev )
 		{
-			ReportMediator media = (ReportMediator) mediatorMap.get( targetElement );
+			ReportMediator media = (ReportMediator) mediatorMap
+					.get( targetElement );
 			if ( media != null )
 			{
 				media.dispose( );
@@ -82,8 +87,7 @@ public class SessionHandleAdapter
 	private static SessionHandleAdapter sessionAdapter;
 
 	private SessionHandle sessionHandle;
-
-	private ReportDesignHandleAdapter designHandleAdapter;
+	private ModuleHandle model;
 
 	/**
 	 * Gets singleton instance method
@@ -116,69 +120,21 @@ public class SessionHandleAdapter
 		return sessionHandle;
 	}
 
-	public void init( String fileName, InputStream input )
-			throws DesignFileException
-	{
-		init( fileName, input, DESIGNEFILE );
-	}
-
-	public void init( String fileName, InputStream input,boolean flag )
-			throws DesignFileException
-	{
-		init( fileName, input, DESIGNEFILE,true );
-	}
-
 	/**
-	 * Initialize a report design file
-	 * 
+	 * Open a design/library file.
 	 * @param fileName
-	 *            design file name
 	 * @param input
-	 *            File input stream
+	 * @return
 	 * @throws DesignFileException
 	 */
-
-	public void init( String fileName, InputStream input, int type )
-			throws DesignFileException
+	public ModuleHandle init( String fileName, InputStream input) throws DesignFileException
 	{
-
-		if ( getReportDesignHandle( ) != null
-				&& fileName.equalsIgnoreCase( getReportDesignHandle( ).getFileName( ) ) )
-		{
-			return;
-		}
-
-		init( fileName, input, type, true );
-
-	}
-
-	public void init( String fileName, InputStream input, int type,
-			boolean reLoad ) throws DesignFileException
-	{
-
-		try
-		{
-			ModuleHandle handle = null;
-			if ( type == DESIGNEFILE || type == TEMPLATEFILE )
-			{
-				handle = getSessionHandle( ).openDesign( fileName, input );
-			}
-			else if ( type == LIBRARYFILE )
-			{
-				handle = getSessionHandle( ).openLibrary( fileName );
-			}
-			else
-			{
-				throw new RuntimeException( "Not support this type of file" );
-			}
-			postInit( handle );
-			designHandleAdapter = new ReportDesignHandleAdapter( handle );
-		}
-		catch ( DesignFileException e )
-		{
-			throw e;
-		}
-
+		ModuleHandle handle = null;
+		handle = getSessionHandle( ).openModule( fileName, input );
+		
+		postInit( handle );
+		setReportDesignHandle(handle);
+		return handle;
 	}
 
 	/**
@@ -189,8 +145,8 @@ public class SessionHandleAdapter
 		SimpleMasterPageHandle masterPage = null;
 		if ( handle.getMasterPages( ).getCount( ) == 0 )
 		{
-			masterPage = handle.getElementFactory( )
-					.newSimpleMasterPage( "Simple MasterPage" ); //$NON-NLS-1$
+			masterPage = handle.getElementFactory( ).newSimpleMasterPage(
+					"Simple MasterPage" ); //$NON-NLS-1$
 			try
 			{
 				handle.getMasterPages( ).add( masterPage );
@@ -217,38 +173,28 @@ public class SessionHandleAdapter
 	}
 
 	/**
+	 * @deprecated
 	 * @return wrapped report design handle.
 	 */
 	public ModuleHandle getReportDesignHandle( )
 	{
-		if ( designHandleAdapter != null )
-		{
-			return designHandleAdapter.getModuleHandle( );
-		}
-		return null;
-
+		return model;
 	}
 
-	/**
-	 * Sets report design.
-	 * 
-	 * @param handle
-	 *            the model
-	 */
+	 /**
+		 * Sets report design.
+		 * 
+		 * @param handle
+		 *            the model
+		 */
 	public void setReportDesignHandle( ModuleHandle handle )
 	{
+		model = handle;
 
-		if(designHandleAdapter!=null)
-		{
-			designHandleAdapter.setReportDesignHandle( handle );
-		}
-		else if(handle!=null){
-			
-			designHandleAdapter = new ReportDesignHandleAdapter(handle);
-		}
 	}
 
 	/**
+	 * @deprecated
 	 * @return Command stack of current session.
 	 */
 	public CommandStack getCommandStack( )
@@ -262,6 +208,7 @@ public class SessionHandleAdapter
 	}
 
 	/**
+	 * @deprecated
 	 * Gets the first MasterPageHandle
 	 * 
 	 */
@@ -271,6 +218,7 @@ public class SessionHandleAdapter
 	}
 
 	/**
+	 * @deprecated
 	 * Gets the first MasterPageHandle
 	 * 
 	 * @param handle
@@ -328,15 +276,13 @@ public class SessionHandleAdapter
 		mediatorMap.remove( oldObj );
 		mediatorMap.put( newObj, mediator );
 	}
-
+	
 	public void clear(ModuleHandle handle )
 	{
 		mediatorMap.remove( handle );
 		if(handle == getReportDesignHandle( ))
 		{
 			setReportDesignHandle( null );
-			designHandleAdapter = null;
 		}
 	}
-
 }

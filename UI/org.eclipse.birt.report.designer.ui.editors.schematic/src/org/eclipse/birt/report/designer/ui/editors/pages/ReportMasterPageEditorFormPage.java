@@ -23,15 +23,15 @@ import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 
 /**
  * Report masterpage is the graphical edior for report masterpage.
  */
-public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor implements
-		IReportEditorPage
+public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor
+		implements
+			IReportEditorPage
 {
 
 	public static final String ID = "BIRT.LayoutMasterPage"; //$NON-NLS-1$
@@ -47,7 +47,7 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 			editor.editorDirtyStateChanged( );
 		}
 	};
-	
+
 	private int staleType;
 
 	protected void configureGraphicalViewer( )
@@ -69,7 +69,9 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		return commandStackListener;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop(org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
 	 */
 	public boolean onBroughtToTop( IReportEditorPage prePage )
@@ -78,29 +80,32 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		{
 			setInput( prePage.getEditorInput( ) );
 		}
-		
-		ModuleHandle model = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
-		if ( model != null && getModel() != model)
-		{		
+
+		ModuleHandle model = getProvider( ).getReportModuleHandle(
+				getEditorInput( ) );
+		if ( model != null && getModel( ) != model )
+		{
 			Object oldModel = getModel( );
-				
-			setModel( model );
+
+			getProvider( ).connect( model );
+
 			rebuildReportDesign( oldModel );
 			if ( getModel( ) != null )
 			{
-				setViewContentsAsMasterPage();
+				setViewContentsAsMasterPage( );
 				markPageStale( IPageStaleType.NONE );
 			}
 			updateStackActions( );
-			
+
 		}
-			
+
 		return true;
-		
+
 	}
-	
+
 	/**
 	 * Rebuild report design model.
+	 * 
 	 * @param oldModel
 	 */
 	protected void rebuildReportDesign( Object oldModel )
@@ -118,10 +123,14 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		SessionHandleAdapter.getInstance( ).resetReportDesign( oldModel,
 				getModel( ) );
 
-		SessionHandleAdapter.getInstance( ).setReportDesignHandle( getModel( ) );
-	
+		SessionHandleAdapter.getInstance( ).setReportDesignHandle(
+				getProvider( ).getReportModuleHandle( getEditorInput( ) ) );
+
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms.editor.FormEditor)
 	 */
 	public void initialize( FormEditor editor )
@@ -130,7 +139,9 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		this.editor = editor;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getEditor()
 	 */
 	public FormEditor getEditor( )
@@ -138,7 +149,9 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		return editor;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getManagedForm()
 	 */
 	public IManagedForm getManagedForm( )
@@ -146,14 +159,18 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setActive(boolean)
 	 */
 	public void setActive( boolean active )
 	{
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isActive()
 	 */
 	public boolean isActive( )
@@ -161,7 +178,9 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#canLeaveThePage()
 	 */
 	public boolean canLeaveThePage( )
@@ -169,7 +188,9 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getPartControl()
 	 */
 	public Control getPartControl( )
@@ -177,7 +198,9 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		return control;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getId()
 	 */
 	public String getId( )
@@ -185,7 +208,9 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		return ID;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getIndex()
 	 */
 	public int getIndex( )
@@ -193,7 +218,9 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		return index;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setIndex(int)
 	 */
 	public void setIndex( int index )
@@ -201,7 +228,9 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		this.index = index;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isEditor()
 	 */
 	public boolean isEditor( )
@@ -209,7 +238,9 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#selectReveal(java.lang.Object)
 	 */
 	public boolean selectReveal( Object object )
@@ -229,7 +260,9 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		control = children[children.length - 1];
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale(int)
 	 */
 	public void markPageStale( int type )
@@ -237,7 +270,9 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		staleType = type;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.schematic.layout.AbstractReportGraphicalEditorWithRuler#dispose()
 	 */
 	public void dispose( )
@@ -251,22 +286,26 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		super.dispose( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType()
 	 */
 	public int getStaleType( )
 	{
 		return staleType;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
 	 */
-	public void setInput(IEditorInput input)
+	public void setInput( IEditorInput input )
 	{
-		super.setInput(input);
+		super.setInput( input );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -280,5 +319,17 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		}
 		else
 			super.firePropertyChange( type );
+	}
+
+	protected IReportProvider getProvider( )
+	{
+		IReportProvider provider = (IReportProvider) editor
+				.getAdapter( IReportProvider.class );
+		if ( provider == null )
+		{
+			provider = super.getProvider( );
+		}
+
+		return provider;
 	}
 }

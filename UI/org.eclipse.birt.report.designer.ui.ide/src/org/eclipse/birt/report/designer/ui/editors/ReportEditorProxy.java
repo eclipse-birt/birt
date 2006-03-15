@@ -18,7 +18,6 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
-import org.eclipse.birt.report.designer.internal.ui.editors.util.EditorUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
@@ -36,6 +35,7 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartConstants;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
@@ -54,6 +54,7 @@ public class ReportEditorProxy extends EditorPart implements
 		IReportEditor
 {
 
+    
 	MultiPageReportEditor instance;
 	private String title = "";
 
@@ -81,10 +82,12 @@ public class ReportEditorProxy extends EditorPart implements
 		if ( input instanceof IFileEditorInput )
 		{
 			instance = new IDEMultiPageReportEditor( );
+			instance.addPropertyListener( this );
 		}
 		else
 		{
 			instance = new MultiPageReportEditor( );
+			instance.addPropertyListener( this );
 		}
 		instance.init( site, input );
 		instance.addPropertyListener( this );
@@ -92,7 +95,6 @@ public class ReportEditorProxy extends EditorPart implements
 				.getPartService( )
 				.addPartListener( this );
 
-		setPartName( getEditorInput( ).getName( ) );
 
 	}
 
@@ -153,13 +155,7 @@ public class ReportEditorProxy extends EditorPart implements
 	public void doSaveAs( )
 	{
 		instance.doSaveAs( );
-		IReportProvider provider = EditorUtil.getReportProvider( this,
-				getEditorInput( ) );
-		if ( provider != null )
-		{
-			setPartName( provider.getInputPath( getEditorInput( ) )
-					.lastSegment( ) );
-		}
+
 		firePropertyChange( PROP_DIRTY );
 	}
 
@@ -240,7 +236,6 @@ public class ReportEditorProxy extends EditorPart implements
 					GraphicalViewer view = editor.getGraphicalViewer( );
 					view.getEditDomain( ).loadDefaultTool( );
 				}
-
 			}
 			return;
 		}
@@ -253,7 +248,7 @@ public class ReportEditorProxy extends EditorPart implements
 
 				public void run( )
 				{
-					if ( instance.getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette )
+					if ( instance!=null && instance.getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette )
 					{
 						GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) instance.getActivePageInstance( );
 						GraphicalViewer view = editor.getGraphicalViewer( );
@@ -302,6 +297,11 @@ public class ReportEditorProxy extends EditorPart implements
 
 	public void propertyChanged( Object source, int propId )
 	{
+		if(propId == IWorkbenchPartConstants.PROP_PART_NAME )
+		{
+			setPartName( instance.getPartName( ) );
+		}
+		
 		firePropertyChange( propId );
 	}
 

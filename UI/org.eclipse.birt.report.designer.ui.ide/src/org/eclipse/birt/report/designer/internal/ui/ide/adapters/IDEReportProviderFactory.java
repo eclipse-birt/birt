@@ -33,16 +33,17 @@ public class IDEReportProviderFactory extends ReportProviderFactory
 	{
 		if ( input instanceof IFileEditorInput )
 		{
-			return FileReportProvider.getInstance( );
+			return new IDEFileReportProvider( );
 		}
 		else if ( input instanceof IPathEditorInput )
 		{
 			return super.getProvider( input );
 		}
-		else
-		{
-			return FileReportProvider.getInstance( );
-		}
+//		else
+//		{
+//			return FileReportProvider.getInstance( );
+//		}
+		return null;
 	}
 
 }

@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.ui.editors;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.ide.adapters.FileReportProvider;
+import org.eclipse.birt.report.designer.internal.ui.ide.adapters.IDEFileReportProvider;
 import org.eclipse.birt.report.designer.internal.ui.ide.adapters.LibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartConstants;
 import org.eclipse.ui.part.FileEditorInput;
 
 /**
@@ -151,22 +152,22 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 			}
 			else if ( delta.getKind( ) == IResourceDelta.CHANGED )
 			{
-				final IFile newFile = ResourcesPlugin.getWorkspace( )
-						.getRoot( )
-						.getFile( delta.getFullPath( ) );
-				Display display = getSite( ).getShell( ).getDisplay( );
-				if ( ( delta.getFlags( ) & IResourceDelta.MARKERS ) == 0 )
-				{
-					// The file was overwritten somehow (could have been
-					// replaced by another
-					// version in the repository)
-					display.asyncExec( new Runnable( ) {
-
-						public void run( )
-						{
-						}
-					} );
-				}
+//				final IFile newFile = ResourcesPlugin.getWorkspace( )
+//						.getRoot( )
+//						.getFile( delta.getFullPath( ) );
+//				Display display = getSite( ).getShell( ).getDisplay( );
+//				if ( ( delta.getFlags( ) & IResourceDelta.MARKERS ) == 0 )
+//				{
+//					// The file was overwritten somehow (could have been
+//					// replaced by another
+//					// version in the repository)
+//					display.asyncExec( new Runnable( ) {
+//
+//						public void run( )
+//						{
+//						}
+//					} );
+//				}
 				// else if ( isEditorSaving( ) )
 				// {
 				// display.asyncExec( new Runnable( ) {
@@ -190,10 +191,22 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 
 		private void setAllInput( FileEditorInput input )
 		{
+			//This for a bug. When close editor, the resource listener fire to multi page editor, but all embedded pages disposed.
+			if(pages==null)
+			{
+				return;
+			}
+			
 			setInput( input );
-			if ( getEditorInput( ) instanceof IFileEditorInput )
+			
+			if ( getEditorInput( ) !=null )
 			{
 				setPartName( getEditorInput( ).getName( ) );
+				firePropertyChange( IWorkbenchPartConstants.PROP_PART_NAME );
+				firePropertyChange( IWorkbenchPartConstants.PROP_PART_NAME );
+				getProvider( ).getReportModuleHandle( getEditorInput( ) )
+						.setFileName(
+								getProvider( ).getInputPath( getEditorInput( ) ).toOSString( ) );
 			}
 
 			for ( Iterator it = pages.iterator( ); it.hasNext( ); )
@@ -381,14 +394,26 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 
 	public Object getAdapter( Class type )
 	{
-		if ( type == IReportProvider.class && isWorkspaceResource )
-		{
-			return FileReportProvider.getInstance( );
-		}
 		if ( type == ILibraryProvider.class )
 		{
 			return new LibraryProvider();
 		}
+		
+		if ( type == IReportProvider.class )
+		{
+
+			return getProvider();
+		}
+		
 		return super.getAdapter( type );
+	}
+	
+	protected IReportProvider getProvider()
+	{
+		if(reportProvider == null)
+		{
+			reportProvider = new IDEFileReportProvider( );
+		}
+		return reportProvider;
 	}
 }

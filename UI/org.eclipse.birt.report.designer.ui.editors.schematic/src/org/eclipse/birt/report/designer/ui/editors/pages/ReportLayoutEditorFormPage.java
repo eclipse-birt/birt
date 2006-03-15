@@ -20,21 +20,20 @@ import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 
 /**
  * Report layout page is the graphical editor for report layout.
  */
-public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
-		IReportEditorPage
+public class ReportLayoutEditorFormPage extends ReportLayoutEditor
+		implements
+			IReportEditorPage
 {
 
 	public static final String ID = "BIRT.LayoutFormPage"; //$NON-NLS-1$
@@ -278,13 +277,14 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 		{
 			setInput( prePage.getEditorInput( ) );
 		}
-		ModuleHandle model = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
+		ModuleHandle model = getProvider( ).getReportModuleHandle( getEditorInput( ) );
+		
 		if ( model != null && getModel( ) != model )
 		{
 			Object oldModel = getModel( );
 
 			setModel( model );
+			
 			rebuildReportDesign( oldModel );
 			if ( getModel( ) != null )
 			{
@@ -317,7 +317,8 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 		SessionHandleAdapter.getInstance( ).resetReportDesign( oldModel,
 				getModel( ) );
 
-		SessionHandleAdapter.getInstance( ).setReportDesignHandle( getModel( ) );
+		SessionHandleAdapter.getInstance( ).setReportDesignHandle(
+				getProvider( ).getReportModuleHandle( getEditorInput( ) ) );
 
 	}
 
@@ -344,5 +345,16 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	public void setInput( IEditorInput input )
 	{
 		super.setInput( input );
+	}
+
+	protected IReportProvider getProvider( )
+	{
+		IReportProvider provider =  (IReportProvider) editor.getAdapter( IReportProvider.class );
+		if(provider == null)
+		{
+			provider = super.getProvider( );
+		}
+		
+		return provider;
 	}
 }

@@ -15,9 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.script.JSEditor;
-import org.eclipse.birt.report.designer.internal.ui.editors.util.EditorUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
@@ -162,7 +160,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	public void doSave( IProgressMonitor monitor )
 	{
 		jsEditor.saveModel( );
-		IReportProvider provider = EditorUtil.getReportProvider( this, getEditorInput( ) );
+		IReportProvider provider = getProvider( );
 		if ( provider != null )
 		{
 			provider.saveReport( getReportModel( ), getEditorInput( ), monitor );
@@ -179,7 +177,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	{
 		if ( model == null )
 		{
-			IReportProvider provider = EditorUtil.getReportProvider( this, getEditorInput( ) );
+			IReportProvider provider =  getProvider( );
 			if ( provider != null )
 			{
 				model = provider.getReportModuleHandle( getEditorInput( ) );
@@ -193,10 +191,15 @@ public class ReportScriptFormPage extends ReportFormPage
 	 */
 	public void doSaveAs( )
 	{
-		IReportProvider provider = EditorUtil.getReportProvider( this, getEditorInput( ) );
+		IReportProvider provider =  getProvider( );
 		if ( provider != null )
 		{
 			IPath path = provider.getSaveAsPath( getEditorInput( ) );
+			
+			if(path == null)
+			{
+				return;
+			}
 
 			final IEditorInput input = provider.createNewEditorInput( path );
 
@@ -354,5 +357,8 @@ public class ReportScriptFormPage extends ReportFormPage
 		return super.canLeaveThePage( );
 	}
 	
-	
+	private IReportProvider getProvider( )
+	{
+		return (IReportProvider) getEditor( ).getAdapter( IReportProvider.class );
+	}
 }

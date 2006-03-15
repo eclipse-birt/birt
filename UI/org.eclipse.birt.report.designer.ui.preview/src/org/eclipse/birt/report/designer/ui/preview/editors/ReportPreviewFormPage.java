@@ -12,20 +12,18 @@
 package org.eclipse.birt.report.designer.ui.preview.editors;
 
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
-import org.eclipse.birt.report.designer.ui.editors.pages.ReportFormPage;
-import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.gef.ui.actions.ActionRegistry;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.forms.editor.FormEditor;
 
 /**
  * Preview page.
  */
-public class ReportPreviewFormPage extends ReportFormPage implements
+public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		IReportEditorPage
 {
 
@@ -35,20 +33,9 @@ public class ReportPreviewFormPage extends ReportFormPage implements
 
 	private int staleType;
 
-	private ReportPreviewEditor previewEditor = new ReportPreviewEditor( );
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.pages.ReportFormPage#init(org.eclipse.ui.IEditorSite,
-	 *      org.eclipse.ui.IEditorInput)
-	 */
-	public void init( IEditorSite site, IEditorInput input )
-			throws PartInitException
-	{
-		super.init( site, input );
-		previewEditor.init( site, input );
-	}
+	private FormEditor editor;
+
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop(org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
@@ -63,9 +50,9 @@ public class ReportPreviewFormPage extends ReportFormPage implements
 		{
 			prePage.doSave( null );
 		}
-		if ( previewEditor.getBrowser( ) != null )
+		if ( getBrowser( ) != null )
 		{
-			previewEditor.display( );
+			display( );
 		}
 		return true;
 	}
@@ -93,11 +80,11 @@ public class ReportPreviewFormPage extends ReportFormPage implements
 	 */
 	public void createPartControl( Composite parent )
 	{
-		// Control[] children = parent.getChildren();
-		control = new Composite( parent, SWT.NONE );
-		previewEditor.createPartControl( (Composite) control );
+		super.createPartControl( parent );
+		Control[] children = parent.getChildren( );
+		control = children[children.length - 1];
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale(int)
 	 */
@@ -114,19 +101,6 @@ public class ReportPreviewFormPage extends ReportFormPage implements
 		return staleType;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
-	 */
-	public void doSave( IProgressMonitor monitor )
-	{
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.part.EditorPart#doSaveAs()
-	 */
-	public void doSaveAs( )
-	{
-	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.part.EditorPart#isDirty()
@@ -135,6 +109,18 @@ public class ReportPreviewFormPage extends ReportFormPage implements
 	{
 		return false;
 	}
+	
+	protected IReportProvider getProvider( )
+	{
+		IReportProvider provider =  (IReportProvider) editor.getAdapter( IReportProvider.class );
+		
+		if(provider == null)
+		{
+			provider = super.getProvider( );
+		}
+		
+		return provider;
+	}	
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.part.WorkbenchPart#getAdapter(java.lang.Class)
@@ -147,5 +133,60 @@ public class ReportPreviewFormPage extends ReportFormPage implements
 		}
 		return super.getAdapter( adapter );
 	}
+
+	public void initialize( FormEditor editor )
+	{
+		this.editor = editor;
+		
+	}
+
+	public FormEditor getEditor( )
+	{
+		return editor;
+	}
+
+	public IManagedForm getManagedForm( )
+	{
+		return null;
+	}
+
+	public void setActive( boolean active )
+	{
+		
+	}
+
+	public boolean isActive( )
+	{
+		return false;
+	}
+
+	public boolean canLeaveThePage( )
+	{
+		return true;
+	}
+
+	public int getIndex( )
+	{
+		return 0;
+	}
+
+	public void setIndex( int index )
+	{
+		
+	}
+
+	public boolean isEditor( )
+	{
+		return true;
+	}
+
+	public boolean selectReveal( Object object )
+	{
+		return false;
+	}
 	
+	public void setInput(IEditorInput input)
+	{
+		super.setInput( input );
+	}
 }

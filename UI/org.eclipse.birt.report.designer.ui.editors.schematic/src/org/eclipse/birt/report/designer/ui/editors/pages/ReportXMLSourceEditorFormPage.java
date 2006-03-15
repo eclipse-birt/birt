@@ -18,7 +18,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.xml.XMLEditor;
-import org.eclipse.birt.report.designer.internal.ui.editors.util.EditorUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
@@ -84,9 +83,8 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 	public void doSave( IProgressMonitor progressMonitor )
 	{
 		super.doSave( progressMonitor );
-		IReportProvider provider = EditorUtil.getReportProvider( this,
-				getEditorInput( ) );
-		if ( provider != null && getErrorLIine( ) > -1 )
+		IReportProvider provider = getProvider();
+		if ( provider != null && getErrorLIine( ) == -1 )
 		{
 			ModuleHandle model = provider.getReportModuleHandle( getEditorInput( ),
 					true );
@@ -395,8 +393,8 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		}
 	}
 
-	/*
-	 * 
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#getAdapter(java.lang.Class)
 	 */
 	public Object getAdapter( Class required )
 	{
@@ -409,5 +407,19 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 			return registry;
 		}
 		return super.getAdapter( required );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.xml.XMLEditor#getProvider()
+	 */
+	protected IReportProvider getProvider( )
+	{
+		IReportProvider provider =  (IReportProvider) editor.getAdapter( IReportProvider.class );
+		if(provider == null)
+		{
+			provider = super.getProvider( );
+		}
+		
+		return provider;
 	}
 }

@@ -75,5 +75,7 @@ public interface IReportProvider
 	 * @return
 	 */
 	IPath getInputPath(IEditorInput input);
+	
+	void connect(ModuleHandle handle);
 
 }

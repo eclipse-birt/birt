@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.ui.editors;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.swt.widgets.Composite;
@@ -44,7 +43,6 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 
 	private int staleType;
 
-	private boolean stale;
 
 	private ActivityStackListener commandStackListener = new ActivityStackListener( ) {
 
@@ -56,7 +54,6 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 		}
 	};
 
-	private ModuleHandle model;
 
 	protected void configureGraphicalViewer( )
 	{
@@ -181,7 +178,6 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 
 	public void markPageStale( int type )
 	{
-		stale = true;
 		staleType = type;
 	}
 
@@ -204,4 +200,15 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 	{
 		super.setInput(input);
 	}
+	
+	protected IReportProvider getProvider( )
+	{
+		IReportProvider provider =  (IReportProvider) editor.getAdapter( IReportProvider.class );
+		if(provider == null)
+		{
+			provider = super.getProvider( );
+		}
+		
+		return provider;
+	}	
 }

@@ -24,7 +24,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.notification.Deferre
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layout.AbstractReportGraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.palette.DesignerPaletteFactory;
-import org.eclipse.birt.report.designer.internal.ui.palette.ReportTemplateTransferDropTargetListener;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.property.ReportPropertySheetPage;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -33,7 +32,6 @@ import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.gef.EditPartFactory;
 import org.eclipse.gef.EditPartViewer;
-import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.jface.viewers.ISelection;

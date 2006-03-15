@@ -21,7 +21,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.LibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportMultiBookPage;
-import org.eclipse.birt.report.designer.internal.ui.editors.util.EditorUtil;
 import org.eclipse.birt.report.designer.internal.ui.extension.EditorContributorManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.FormPageDef;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
@@ -48,6 +47,7 @@ import org.eclipse.ui.IKeyBindingService;
 import org.eclipse.ui.INestableKeyBindingService;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartConstants;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.IFormPage;
@@ -65,12 +65,11 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  * 
  * @see IReportEditorPage
  */
-public class MultiPageReportEditor extends AbstractMultiPageEditor implements
-		IPartListener,
-		IReportEditor
+public class MultiPageReportEditor extends AbstractMultiPageEditor
+		implements
+			IPartListener,
+			IReportEditor
 {
-
-	private boolean fLastDirtyState;
 
 	private ReportMultiBookPage fPalettePage;
 
@@ -82,14 +81,15 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 	private long fModificationStamp = -1;;
 
-	private ModuleHandle model;
+	protected IReportProvider reportProvider;
 
 	// this is a bug because the getActiveEditor() return null, we should change
 	// the getActivePage()
 	// return the correct current page index.we may delete this class
 	// TODO
-	private static class FormEditorSelectionProvider extends
-			MultiPageSelectionProvider
+	private static class FormEditorSelectionProvider
+			extends
+				MultiPageSelectionProvider
 	{
 
 		private ISelection globalSelection;
@@ -104,7 +104,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 		public ISelection getSelection( )
 		{
-			IEditorPart activeEditor = ( (FormEditor) getMultiPageEditor( ) ).getActivePageInstance( );
+			IEditorPart activeEditor = ( (FormEditor) getMultiPageEditor( ) )
+					.getActivePageInstance( );
 			// IEditorPart activeEditor = getActivePageInstance( );
 			if ( activeEditor != null )
 			{
@@ -121,7 +122,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		 */
 		public void setSelection( ISelection selection )
 		{
-			IEditorPart activeEditor = ( (FormEditor) getMultiPageEditor( ) ).getActivePageInstance( );
+			IEditorPart activeEditor = ( (FormEditor) getMultiPageEditor( ) )
+					.getActivePageInstance( );
 			if ( activeEditor != null )
 			{
 				ISelectionProvider selectionProvider = activeEditor.getSite( )
@@ -162,16 +164,27 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 //				.addPartListener( this );
 		site.setSelectionProvider( new FormEditorSelectionProvider( this ) );
 
-		IReportProvider provider = EditorUtil.getReportProvider( this, input );
+		IReportProvider provider = getProvider( );
+
 		if ( provider != null && provider.getInputPath( input ) != null )
 		{
 			setPartName( provider.getInputPath( input ).lastSegment( ) );
+			firePropertyChange( IWorkbenchPartConstants.PROP_PART_NAME );
 		}
 		else
 		{
 			setPartName( input.getName( ) );
+			firePropertyChange( IWorkbenchPartConstants.PROP_PART_NAME );
 		}
+	}
 
+	protected IReportProvider getProvider( )
+	{
+		if ( reportProvider == null )
+		{
+			reportProvider = new FileReportProvider( );
+		}
+		return reportProvider;
 	}
 
 	/*
@@ -280,13 +293,17 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		getActivePageInstance( ).doSaveAs( );
 		setInput( getActivePageInstance( ).getEditorInput( ) );
 		// update site name
-		IReportProvider provider = EditorUtil.getReportProvider( this,
-				getEditorInput( ) );
+		IReportProvider provider = getProvider( );
 		if ( provider != null )
 		{
 			setPartName( provider.getInputPath( getEditorInput( ) )
 					.lastSegment( ) );
+			firePropertyChange( IWorkbenchPartConstants.PROP_PART_NAME );
+			getProvider( ).getReportModuleHandle( getEditorInput( ) )
+					.setFileName(
+							getProvider( ).getInputPath( getEditorInput( ) ).toOSString( ) );
 		}
+
 	}
 
 	/*
@@ -327,7 +344,11 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	{
 		if ( type == IReportProvider.class )
 		{
-			return new FileReportProvider( );
+			if ( reportProvider == null )
+			{
+				reportProvider = new FileReportProvider( );
+			}
+			return reportProvider;
 		}
 
 		if ( type == ILibraryProvider.class )
@@ -382,7 +403,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			return;
 		}
 
-		Object designOutLinePage = activePageInstance.getAdapter( IContentOutlinePage.class );
+		Object designOutLinePage = activePageInstance
+				.getAdapter( IContentOutlinePage.class );
 		outlinePage.setActivePage( (IPageBookViewPage) designOutLinePage );
 	}
 
@@ -480,7 +502,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 				final INestableKeyBindingService nestableService = (INestableKeyBindingService) service;
 				if ( editor != null )
 				{
-					nestableService.activateKeyBindingService( editor.getEditorSite( ) );
+					nestableService.activateKeyBindingService( editor
+							.getEditorSite( ) );
 				}
 				else
 				{
@@ -508,8 +531,11 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		if ( oldPage instanceof IReportEditorPage
 				&& newPage instanceof IReportEditorPage )
 		{
-			isNewPageValid = ( (IReportEditorPage) newPage ).onBroughtToTop( (IReportEditorPage) oldPage );
-			model = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+			isNewPageValid = ( (IReportEditorPage) newPage )
+					.onBroughtToTop( (IReportEditorPage) oldPage );
+			// TODO: HOW TO RESET MODEL?????????
+			// model = SessionHandleAdapter.getInstance(
+			// ).getReportDesignHandle( );
 		}
 
 		return isNewPageValid;
@@ -562,17 +588,12 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public ModuleHandle getModel( )
 	{
-		if ( model == null )
+		if ( reportProvider != null )
 		{
-			IReportProvider provider = EditorUtil.getReportProvider( this,
-					getEditorInput( ) );
-			if ( provider != null )
-			{
-				model = provider.getReportModuleHandle( getEditorInput( ) );
-				return model;
-			}
+			return reportProvider.getReportModuleHandle( getEditorInput( ) );
 		}
-		return model;
+
+		return null;
 	}
 
 	/*
@@ -589,30 +610,31 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 				PageBookView view = (PageBookView) part;
 				if ( view.getCurrentPage( ) instanceof DesignerOutlinePage )
 				{
-					ISelectionProvider provider = (ISelectionProvider) view.getCurrentPage( );
-					ReportRequest request = new ReportRequest( view.getCurrentPage( ) );
+					ISelectionProvider provider = (ISelectionProvider) view
+							.getCurrentPage( );
+					ReportRequest request = new ReportRequest( view
+							.getCurrentPage( ) );
 					List list = new ArrayList( );
 					if ( provider.getSelection( ) instanceof IStructuredSelection )
 					{
-						list = ( (IStructuredSelection) provider.getSelection( ) ).toList( );
+						list = ( (IStructuredSelection) provider.getSelection( ) )
+								.toList( );
 					}
 					request.setSelectionObject( list );
 					request.setType( ReportRequest.SELECTION );
 					// no convert
 					// request.setRequestConvert(new
 					// EditorReportRequestConvert());
-					SessionHandleAdapter.getInstance( )
-							.getMediator( )
+					SessionHandleAdapter.getInstance( ).getMediator( )
 							.notifyRequest( request );
-					SessionHandleAdapter.getInstance( )
-							.getMediator( )
+					SessionHandleAdapter.getInstance( ).getMediator( )
 							.pushState( );
 				}
 			}
 			if ( getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette )
 			{
-				if ( ( (GraphicalEditorWithFlyoutPalette) getActivePageInstance( ) ).getGraphicalViewer( )
-						.getEditDomain( )
+				if ( ( (GraphicalEditorWithFlyoutPalette) getActivePageInstance( ) )
+						.getGraphicalViewer( ).getEditDomain( )
 						.getPaletteViewer( ) != null )
 				{
 					GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) getActivePageInstance( );
@@ -647,8 +669,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			{
 				handleActivation( );
 
-				SessionHandleAdapter.getInstance( )
-						.setReportDesignHandle( getModel( ) );
+				SessionHandleAdapter.getInstance( ).setReportDesignHandle(
+						getModel( ) );
 				DataSetManager.initCurrentInstance( getEditorInput( ) );
 			}
 		}
@@ -671,10 +693,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public void partClosed( IWorkbenchPart part )
 	{
-		if ( part == this )
-		{
-			SessionHandleAdapter.getInstance( ).clear( getModel( ) );
-		}
+		 if ( part == this )
+		 {
+			 SessionHandleAdapter.getInstance( ).clear( getModel( ) );
+		 }
 	}
 
 	/*
@@ -748,8 +770,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	protected void handleEditorInputChanged( )
 	{
 
-		String title = Messages.getString( "ReportEditor.error.activated.outofsync.title" ); //$NON-NLS-1$
-		String msg = Messages.getString( "ReportEditor.error.activated.outofsync.message" ); //$NON-NLS-1$
+		String title = Messages
+				.getString( "ReportEditor.error.activated.outofsync.title" ); //$NON-NLS-1$
+		String msg = Messages
+				.getString( "ReportEditor.error.activated.outofsync.message" ); //$NON-NLS-1$
 
 		if ( MessageDialog.openQuestion( getSite( ).getShell( ), title, msg ) )
 		{
@@ -777,11 +801,11 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	{
 		if ( element instanceof IEditorInput )
 		{
-			IReportProvider provider = EditorUtil.getReportProvider( this,
-					getEditorInput( ) );
+			IReportProvider provider = getProvider( );
 			if ( provider != null )
 			{
-				return computeModificationStamp( provider.getInputPath( (IEditorInput) element ) );
+				return computeModificationStamp( provider
+						.getInputPath( (IEditorInput) element ) );
 			}
 		}
 

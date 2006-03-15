@@ -9,24 +9,26 @@
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
 
-package org.eclipse.birt.report.designer.internal.ui.editors;
+package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.editors.wizards.SaveReportAsWizard;
-import org.eclipse.birt.report.designer.internal.ui.editors.wizards.SaveReportAsWizardDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
+import org.eclipse.birt.report.designer.ui.ide.wizards.SaveReportAsWizard;
+import org.eclipse.birt.report.designer.ui.ide.wizards.SaveReportAsWizardDialog;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -38,16 +40,27 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.Window;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IPathEditorInput;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IStorageEditorInput;
+import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 
 /**
- * Report provider for file system report input.
+ * IDE ReportProvider This ReportProvider uses IFileEditorInput as report editor
+ * input class.
  */
-public class FileReportProvider implements IReportProvider
+public class IDEFileReportProvider implements IReportProvider
 {
 
-	private ModuleHandle model;
+	private ModuleHandle model = null;
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#connect(org.eclipse.birt.report.model.api.ModuleHandle)
+	 */
+	public void connect( ModuleHandle model )
+	{
+		this.model = model;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -56,42 +69,8 @@ public class FileReportProvider implements IReportProvider
 	 */
 	public ModuleHandle getReportModuleHandle( Object element )
 	{
-		return getReportModuleHandle( element, false );
-	}
+		return getReportModuleHandle( element,false );
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#getReportModuleHandle(java.lang.Object,
-	 *      boolean)
-	 */
-	public ModuleHandle getReportModuleHandle( Object element, boolean reset )
-	{
-
-		if ( model == null && element instanceof IPathEditorInput )
-		{
-			IPath path = ( (IPathEditorInput) element ).getPath( );
-
-			if ( path != null )
-			{
-				String fileName = path.toOSString( );
-				try
-				{
-					InputStream stream = new FileInputStream( path.toFile( ) );
-					model = SessionHandleAdapter.getInstance( ).init( fileName,
-							stream );
-				}
-				catch ( DesignFileException e )
-				{
-					// ExceptionHandler.handle( e );
-				}
-				catch ( FileNotFoundException e )
-				{
-					e.printStackTrace( );
-				}
-			}
-		}
-		return model;
 	}
 
 	/*
@@ -103,17 +82,23 @@ public class FileReportProvider implements IReportProvider
 	public void saveReport( ModuleHandle moduleHandle, Object element,
 			IProgressMonitor monitor )
 	{
-		if ( element instanceof IPathEditorInput )
+		if ( element instanceof IFileEditorInput )
 		{
-			IPathEditorInput input = (IPathEditorInput) element;
-			saveFile( moduleHandle, input.getPath( ).toFile( ), monitor );
+			IFileEditorInput input = (IFileEditorInput) element;
+			saveFile( moduleHandle, input.getFile( ), monitor );
 		}
 
 	}
 
-	private void saveFile( final ModuleHandle moduleHandle, final File file,
+	/**
+	 * @param moduleHandle
+	 * @param file
+	 * @param monitor
+	 */
+	private void saveFile( final ModuleHandle moduleHandle, final IFile file,
 			IProgressMonitor monitor )
 	{
+		// TODO
 		IRunnableWithProgress op = new IRunnableWithProgress( ) {
 
 			public synchronized final void run( IProgressMonitor monitor )
@@ -158,11 +143,28 @@ public class FileReportProvider implements IReportProvider
 			public void execute( final IProgressMonitor monitor )
 					throws CoreException, IOException
 			{
-				if ( file.exists( ) || file.createNewFile( ) )
+
+				ByteArrayOutputStream out = new ByteArrayOutputStream( );
+				moduleHandle.serialize( out );
+				byte[] bytes = out.toByteArray( );
+				out.close( );
+
+				ByteArrayInputStream is = new ByteArrayInputStream( bytes );
+
+				IContainer container = file.getParent( );
+				if ( !container.exists( ) && container instanceof IFolder )
 				{
-					FileOutputStream out = new FileOutputStream( file );
-					moduleHandle.serialize( out );
-					out.close( );
+					UIUtil.createFolder( (IFolder) container, monitor );
+				}
+
+				if ( file.exists( ) )
+				{
+					file.setContents( is, true, true, monitor );
+				}
+				else
+				{
+					// Save to new file.
+					file.create( is, true, monitor );
 				}
 			}
 		};
@@ -177,6 +179,15 @@ public class FileReportProvider implements IReportProvider
 		{
 			ExceptionHandler.handle( e );
 		}
+
+		try
+		{
+			file.refreshLocal( 0, monitor );
+		}
+		catch ( CoreException e )
+		{
+			ExceptionHandler.handle( e );
+		}
 	}
 
 	/*
@@ -186,13 +197,13 @@ public class FileReportProvider implements IReportProvider
 	 */
 	public IPath getSaveAsPath( Object element )
 	{
-		if ( element instanceof IPathEditorInput )
+		if ( element instanceof IFileEditorInput )
 		{
-			IEditorInput input = (IEditorInput) element;
-			
+			IFileEditorInput input = (IFileEditorInput) element;
+
 			SaveReportAsWizardDialog dialog = new SaveReportAsWizardDialog(
 					UIUtil.getDefaultShell( ), new SaveReportAsWizard(
-							(ModuleHandle) model, input ) );
+							(ModuleHandle) model, input.getFile( ) ) );
 			if ( dialog.open( ) == Window.OK )
 			{
 				return dialog.getResult( );
@@ -208,18 +219,8 @@ public class FileReportProvider implements IReportProvider
 	 */
 	public IEditorInput createNewEditorInput( IPath path )
 	{
-		File file = new File( path.toOSString( ) );
-		try
-		{
-			if ( file.exists( ) || file.createNewFile( ) )
-			{
-				return new ReportEditorInput( file );
-			}
-		}
-		catch ( IOException e )
-		{
-		}
-		return null;
+		return new FileEditorInput( ResourcesPlugin.getWorkspace( ).getRoot( )
+				.getFile( path ) );
 	}
 
 	/*
@@ -229,9 +230,9 @@ public class FileReportProvider implements IReportProvider
 	 */
 	public IPath getInputPath( IEditorInput input )
 	{
-		if ( input instanceof IPathEditorInput )
+		if ( input instanceof FileEditorInput )
 		{
-			return ( (IPathEditorInput) input ).getPath( );
+			return ( (FileEditorInput) input ).getPath( );
 		}
 		return null;
 	}
@@ -243,15 +244,50 @@ public class FileReportProvider implements IReportProvider
 	 */
 	public IDocumentProvider getReportDocumentProvider( Object element )
 	{
-		return new FileReportDocumentProvider( );
+		return new ReportDocumentProvider( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#connect(org.eclipse.birt.report.model.api.ModuleHandle)
-	 */
-	public void connect( ModuleHandle handle )
+	public ModuleHandle getReportModuleHandle( Object element, boolean reset )
 	{
-		model = handle;
+		if ( model == null || reset )
+		{
+			if ( element instanceof IStorageEditorInput )
+			{
+				IEditorInput input = (IEditorInput) element;
+				String fileName = input.getName( );
+				int blankIndex;
+				if ( ( blankIndex = fileName.lastIndexOf( " " ) ) > 0 ) //$NON-NLS-1$
+				{
+					fileName = fileName.substring( 0, blankIndex );
+				}
+
+				if ( element instanceof IFileEditorInput )
+				{
+					fileName = ( (IFileEditorInput) element ).getFile( )
+							.getLocation( ).toOSString( );
+				}
+				InputStream stream;
+				try
+				{
+					stream = ( (IStorageEditorInput) element ).getStorage( )
+							.getContents( );
+
+					model = SessionHandleAdapter.getInstance( ).init( fileName,
+							stream );
+				}
+				catch ( CoreException e )
+				{
+					// TODO throw exception
+					// ExceptionHandler.handle( e );
+				}
+				catch ( DesignFileException e )
+				{
+					// ExceptionHandler.handle( e );
+				}
+			}
+		}
+
+		return model;
 	}
 
 }

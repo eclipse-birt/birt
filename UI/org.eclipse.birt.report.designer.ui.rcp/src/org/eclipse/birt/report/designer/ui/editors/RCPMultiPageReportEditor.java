@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.designer.ui.editors;
 
 /**
- * Use this class to activate IDE plug-in.
+ * Use this class to activate RCP plug-in.
  */
 
 public class RCPMultiPageReportEditor extends MultiPageReportEditor
