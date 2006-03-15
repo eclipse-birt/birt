@@ -99,9 +99,6 @@ public abstract class StyledElement extends DesignElement
 				style.getName( ), Module.STYLE_NAME_SPACE,
 				getPropertyDefn( STYLE_PROP ) );
 
-		// IModuleNameSpace resolver = module
-		// .getModuleNameSpace( Module.STYLE_NAME_SPACE );
-		// ElementRefValue refValue = resolver.resolve( style.getName( ) );
 		StyleElement target = null;
 		if ( resolvedElement != null )
 		{

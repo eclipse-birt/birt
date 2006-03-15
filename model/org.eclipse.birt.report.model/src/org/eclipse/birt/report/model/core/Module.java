@@ -33,8 +33,6 @@ import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.PropertyEvent;
-import org.eclipse.birt.report.model.api.command.StyleEvent;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
@@ -59,15 +57,12 @@ import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.TranslationTable;
-import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
-import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.parser.LibraryReader;
@@ -1722,163 +1717,6 @@ public abstract class Module extends DesignElement implements IModuleModel
 	}
 
 	/**
-	 * Updates the style reference using the element in the given library list.
-	 * 
-	 * @param librariesToUpdate
-	 *            library list
-	 */
-
-	public void updateReferenceableClients( List librariesToUpdate )
-	{
-		int size = librariesToUpdate.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			updateReferenceableClients( (Library) libraries.get( i ) );
-		}
-	}
-
-	/**
-	 * Updates the theme/style element reference which refers to the given
-	 * library.
-	 * 
-	 * @param library
-	 *            the library whose element references are updated.
-	 */
-
-	public void updateReferenceableClients( Library library )
-	{
-		updateReferenceableClients( library, ILibraryModel.THEMES_SLOT );
-
-		// update clients of embedded images
-
-		List images = library.getListProperty( library, Module.IMAGES_PROP );
-		if ( images == null || images.isEmpty( ) )
-			return;
-		boolean sendEvent = false;
-		for ( int i = 0; i < images.size( ); i++ )
-		{
-			EmbeddedImage image = (EmbeddedImage) images.get( i );
-			List clients = image.getClientStructures( );
-			if ( clients == null || clients.isEmpty( ) )
-				continue;
-			for ( int j = 0; j < clients.size( ); j++ )
-			{
-				Structure client = (Structure) clients.get( j );
-				StructRefValue value = (StructRefValue) client
-						.getLocalProperty( this,
-								ReferencableStructure.LIB_REFERENCE_MEMBER );
-				assert value != null;
-				value.unresolved( value.getName( ) );
-				image.dropClientStructure( client );
-				sendEvent = true;
-			}
-
-			clients = image.getClientList( );
-			if ( clients == null || clients.isEmpty( ) )
-				continue;
-			for ( int j = 0; j < clients.size( ); j++ )
-			{
-				BackRef client = (BackRef) clients.get( j );
-				DesignElement element = client.getElement( );
-
-				StructRefValue value = (StructRefValue) element
-						.getLocalProperty( this, client.getPropertyName( ) );
-				assert value != null;
-				value.unresolved( value.getName( ) );
-				image.dropClient( element );
-				element.broadcast( new PropertyEvent( this, client
-						.getPropertyName( ) ) );
-			}
-		}
-
-		// send the property event to current module
-
-		if ( sendEvent )
-			broadcast( new PropertyEvent( this, Module.IMAGES_PROP ) );
-	}
-
-	/**
-	 * Updates the element reference which refers to the given library.
-	 * 
-	 * @param target
-	 *            the library whose element references are updated.
-	 * @param slotId
-	 *            the id of themes/styles slot
-	 */
-
-	private void updateReferenceableClients( DesignElement target, int slotId )
-	{
-		ContainerSlot slot = target.getSlot( slotId );
-		Iterator iter = slot.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			DesignElement element = (DesignElement) iter.next( );
-			assert element instanceof ReferenceableElement;
-
-			ReferenceableElement referenceableElement = (ReferenceableElement) element;
-
-			// first unresolve theme itself first
-
-			updateClientReferences( referenceableElement );
-
-			// removes references of styles in the theme
-
-			if ( referenceableElement instanceof Theme )
-				updateReferenceableClients( referenceableElement,
-						Theme.STYLES_SLOT );
-		}
-	}
-
-	/**
-	 * Updates the element reference which refers to the given referenceable
-	 * element.
-	 * 
-	 * @param referred
-	 *            the element whose element references are updated
-	 */
-
-	public void updateClientReferences( ReferenceableElement referred )
-	{
-		List clients = referred.getClientList( );
-		Iterator iter = clients.iterator( );
-
-		while ( iter.hasNext( ) )
-		{
-			BackRef ref = (BackRef) iter.next( );
-			DesignElement client = ref.element;
-
-			Object value = client.getLocalProperty( this, ref.propName );
-			if ( value instanceof ElementRefValue )
-			{
-				ElementRefValue refValue = (ElementRefValue) value;
-
-				refValue.unresolved( refValue.getName( ) );
-
-				referred.dropClient( client );
-			}
-			else if ( value instanceof List )
-			{
-				List valueList = (List) value;
-				for ( int i = 0; i < valueList.size( ); i++ )
-				{
-					ElementRefValue item = (ElementRefValue) valueList.get( i );
-					if ( item.getElement( ) == referred )
-					{
-						item.unresolved( item.getName( ) );
-						referred.dropClient( client );
-					}
-				}
-			}
-
-			if ( IStyledElementModel.STYLE_PROP.equalsIgnoreCase( ref.propName ) )
-				client.broadcast( new StyleEvent( client ) );
-			else
-				client.resolveElementReference( this, client
-						.getPropertyDefn( ref.propName ) );
-		}
-	}
-
-	/**
 	 * Returns whether this module is read-only.
 	 * 
 	 * @return true, if this module is read-only. Otherwise, return false.
@@ -2346,6 +2184,28 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( fileName == null )
 			return systemId.toString( );
 		return systemId + StringUtil.extractFileNameWithSuffix( fileName );
+	}
+
+	/**
+	 * @param namespace
+	 * @return
+	 */
+
+	public IncludedLibrary findIncludedLibrary( String namespace )
+	{
+		List libs = getIncludedLibraries( );
+
+		IncludedLibrary includedItem = null;
+		for ( int i = 0; i < libs.size( ); i++ )
+		{
+			IncludedLibrary incluedLib = (IncludedLibrary) libs.get( i );
+			if ( incluedLib.getNamespace( ).equalsIgnoreCase( namespace ) )
+			{
+				includedItem = incluedLib;
+				break;
+			}
+		}
+		return includedItem;
 	}
 
 	/**

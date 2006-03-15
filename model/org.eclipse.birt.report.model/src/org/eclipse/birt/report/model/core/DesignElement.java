@@ -61,6 +61,7 @@ import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.metadata.StructRefPropertyType;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.ContentIterator;
+import org.eclipse.birt.report.model.util.ElementStructureUtil;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
@@ -853,7 +854,7 @@ public abstract class DesignElement
 
 		// Copies top level slots from cloned element to the target element.
 
-		return ModelUtil.duplicateStructure( parent, this );
+		return ElementStructureUtil.updateStructureFromParent( this, parent );
 	}
 
 	/**
@@ -1147,16 +1148,6 @@ public abstract class DesignElement
 		if ( propName.equals( NAME_PROP ) )
 		{
 			setName( (String) value );
-		}
-		else if ( propName.equals( EXTENDS_PROP ) )
-		{
-			assert getDefn( ).canExtend( );
-			assert !( value instanceof ElementRefValue );
-
-			if ( value == null || value instanceof DesignElement )
-				setExtendsElement( (DesignElement) value );
-			else
-				setExtendsName( (String) value );
 		}
 		else
 		{
@@ -1571,7 +1562,7 @@ public abstract class DesignElement
 				.resolveElement( ReferenceValueUtil.needTheNamespacePrefix(
 						extendsRef, module ), ns, propDefn );
 
-		if ( resolvedParent != null )
+		if ( resolvedParent != null && isExtendsValid( resolvedParent ) )
 		{
 			extendsRef.resolve( resolvedParent );
 			resolvedParent.addDerived( this );
@@ -1799,7 +1790,7 @@ public abstract class DesignElement
 	 *            The old derived element.
 	 */
 
-	protected void dropDerived( DesignElement child )
+	public void dropDerived( DesignElement child )
 	{
 		assert derived != null;
 		assert child != null;
@@ -2353,6 +2344,30 @@ public abstract class DesignElement
 		{
 			throw (PropertyValueException) errorList.get( 0 );
 		}
+	}
+
+	/**
+	 * Checks the parent element.
+	 * 
+	 * @param parent
+	 *            the parent element
+	 * @return <true> if the parent element is <code>NOT_FOUND</code>,<code>WRONG_TYPE</code>,
+	 *         <code>SELF_EXTEND</code>,<code>CIRCULAR</code>. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	private boolean isExtendsValid( DesignElement parent )
+	{
+		try
+		{
+			checkExtends( parent );
+		}
+		catch ( ExtendsException e )
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -3665,5 +3680,4 @@ public abstract class DesignElement
 			throw (PropertyValueException) errorList.get( 0 );
 		}
 	}
-
 }

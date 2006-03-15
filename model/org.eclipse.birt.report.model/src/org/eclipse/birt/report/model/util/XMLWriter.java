@@ -21,7 +21,6 @@ import java.util.Stack;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 
-
 /**
  * General-purpose utility to write an XML file. Provides methods for writing
  * tags, attributes and text. Maintains state for elements and generates the
@@ -71,16 +70,17 @@ public class XMLWriter
 	 * something.
 	 */
 
-	private Stack pendingElementStack = new Stack( );
+	protected Stack pendingElementStack = new Stack( );
 
 	/**
 	 * Protected constructor
-	 *
+	 * 
 	 */
-	
-	protected XMLWriter()
-	{}
-	
+
+	protected XMLWriter( )
+	{
+	}
+
 	/**
 	 * Constructor.
 	 * 
@@ -133,8 +133,8 @@ public class XMLWriter
 	}
 
 	/**
-	 * Writes the unicode signature (BOM) information to the file. Currently only
-	 * UTF-8 is supported.
+	 * Writes the unicode signature (BOM) information to the file. Currently
+	 * only UTF-8 is supported.
 	 * 
 	 * @param signature
 	 *            the unicode signature in the design file.
@@ -142,7 +142,7 @@ public class XMLWriter
 
 	protected void writeUTFSignature( String signature )
 	{
-		if ( UnicodeUtil.SIGNATURE_UTF_8.equals( signature ) ) 
+		if ( UnicodeUtil.SIGNATURE_UTF_8.equals( signature ) )
 		{
 			out.write( 0xEF );
 			out.write( 0xBB );
@@ -154,29 +154,29 @@ public class XMLWriter
 			out.write( 0xFE );
 			out.write( 0xFF );
 		}
-		
+
 		if ( UnicodeUtil.SIGNATURE_UNICODE_LITTLE.equals( signature ) )
 		{
 			out.write( 0xFF );
 			out.write( 0xFE );
 		}
-		
-		if ( UnicodeUtil.SIGNATURE_UCS4_BIG.equals( signature ) ) 
+
+		if ( UnicodeUtil.SIGNATURE_UCS4_BIG.equals( signature ) )
 		{
 			out.write( 0x00 );
 			out.write( 0x00 );
 			out.write( 0xFE );
 			out.write( 0xFF );
 		}
-		
-		if ( UnicodeUtil.SIGNATURE_UNICODE_LITTLE.equals( signature ) ) //$NON-NLS-1$
+
+		if ( UnicodeUtil.SIGNATURE_UNICODE_LITTLE.equals( signature ) ) 
 		{
 			out.write( 0x00 );
 			out.write( 0x00 );
 			out.write( 0xFF );
 			out.write( 0xFE );
 		}
-		
+
 	}
 
 	/**
@@ -289,11 +289,11 @@ public class XMLWriter
 				out.print( "&lt;" ); //$NON-NLS-1$ 
 			else if ( c == '"' )
 				out.print( "&quot;" ); //$NON-NLS-1$
-			else if ( c < 0x20 ) //$NON-NLS-1$ 
+			else if ( c < 0x20 )  
 			{
 				out.print( "&#x" ); //$NON-NLS-1$ 
 				out.print( Integer.toHexString( c ) );
-				out.print( ';' ); //$NON-NLS-1$ 
+				out.print( ';' );  
 			}
 			else
 				out.print( c );

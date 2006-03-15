@@ -1928,6 +1928,32 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
+	 * Reloads the library with the given library file path. If the library
+	 * already is included, reload it. If the library is not included, exception
+	 * will be thrown.
+	 * 
+	 * @param libraryToReload
+	 *            the library instance
+	 * @throws SemanticException
+	 *             if error is encountered when handling
+	 *             <code>IncludeLibrary</code> structure list. Or it maybe
+	 *             because that the given library is not found in the design. Or
+	 *             that the library has descedents in the current module
+	 * @throws DesignFileException
+	 *             if the library file is not found, or has fatal error.
+	 */
+
+	public void reloadLibrary( LibraryHandle libraryToReload )
+			throws SemanticException, DesignFileException
+	{
+		if ( libraryToReload == null )
+			return;
+
+		LibraryCommand command = new LibraryCommand( module );
+		command.reloadLibrary( libraryToReload.getLocation( ) );
+	}
+
+	/**
 	 * Drops the given library from the design and break all the parent/child
 	 * relationships. All child element will be localized in the module.
 	 * 

@@ -40,6 +40,12 @@ public class LibraryEvent extends NotificationEvent
 	public static final int SHIFT = 3;
 
 	/**
+	 * The library is shifted downwards or forwards.
+	 */
+	
+	public static final int RELOAD = 4;
+	
+	/**
 	 * The type of change. One of {@link #ADD}, or {@link #DROP}.
 	 */
 

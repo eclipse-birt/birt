@@ -309,8 +309,6 @@ public class TableItem extends ListingElement implements ITableItemModel
 	{
 		boolean retValue = super.refreshStructureFromParent( module );
 
-		assert retValue;
-
 		table = LayoutHelper.applyLayout( module, this );
 
 		return retValue;

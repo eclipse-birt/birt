@@ -355,6 +355,40 @@ public class ContentCommand extends AbstractElementCommand
 	}
 
 	/**
+	 * Removes an item from its container. This is equivalent to deleting the
+	 * element from the design. Because the element is being deleted, we must
+	 * clean up all references to or from the element. References include:
+	 * <p>
+	 * <ul>
+	 * <li>The elements that this content extends.
+	 * <li>The elements that extend this content.
+	 * <li>The style that this content uses.
+	 * <li>The elements that use this style.
+	 * <li>The elements that this content contains.
+	 * <li>The name space that contains this content.
+	 * </ul>
+	 * 
+	 * @param content
+	 *            the element to remove
+	 * @param slotID
+	 *            the slot from which to remove the content
+	 * @param unresolveReference
+	 *            status whether to un-resolve the references
+	 * @param flag
+	 *            <code>true</code> to avoid the exception when the
+	 *            <code>content</code> is a virtual element. Otherwise,
+	 *            <code>false</code>.
+	 * @throws SemanticException
+	 *             if this content cannot be removed from container.
+	 */
+
+	public void remove( DesignElement content, int slotID,
+			boolean unresolveReference, boolean flag ) throws SemanticException
+	{
+		doRemove( content, slotID, unresolveReference, flag );
+	}
+
+	/**
 	 * @see #remove(DesignElement, int, boolean)
 	 * @param content
 	 *            the element to remove

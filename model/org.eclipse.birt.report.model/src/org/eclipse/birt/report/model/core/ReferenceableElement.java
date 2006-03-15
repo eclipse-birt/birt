@@ -12,19 +12,25 @@
 package org.eclipse.birt.report.model.core;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.command.StyleEvent;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Represents an element that can be referenced using an element reference. This
  * element maintains a cached set of back-references to the "clients" so that
  * changes can be automatically propagated.
- *  
+ * 
  */
 
-public abstract class ReferenceableElement extends DesignElement implements IReferencable
+public abstract class ReferenceableElement extends DesignElement
+		implements
+			IReferencable
 {
 
 	/**
@@ -122,7 +128,7 @@ public abstract class ReferenceableElement extends DesignElement implements IRef
 	 * 
 	 * @see org.eclipse.birt.report.model.api.core.IReferencable#hasReferences()
 	 */
-	
+
 	public boolean hasReferences( )
 	{
 		return !clients.isEmpty( );
@@ -171,4 +177,56 @@ public abstract class ReferenceableElement extends DesignElement implements IRef
 			( (BackRef) clients.get( i ) ).element.broadcast( ev, module );
 		}
 	}
+
+	/**
+	 * Updates the element reference which refers to the given referenceable
+	 * element.
+	 * 
+	 */
+
+	public void updateClientReferences( )
+	{
+		// creates another list for the iterator
+
+		Iterator backRefIter = new ArrayList( clients ).iterator( );
+
+		while ( backRefIter.hasNext( ) )
+		{
+			BackRef ref = (BackRef) backRefIter.next( );
+			DesignElement client = ref.element;
+
+			Module root = client.getRoot( );
+
+			Object value = client.getLocalProperty( root, ref.propName );
+			if ( value instanceof ElementRefValue )
+			{
+				ElementRefValue refValue = (ElementRefValue) value;
+				refValue.unresolved( refValue.getName( ) );
+				dropClient( client );
+			}
+			else if ( value instanceof List )
+			{
+				List valueList = (List) value;
+				for ( int i = 0; i < valueList.size( ); i++ )
+				{
+					ElementRefValue item = (ElementRefValue) valueList.get( i );
+					if ( item.getElement( ) == this )
+					{
+						item.unresolved( item.getName( ) );
+						dropClient( client );
+					}
+				}
+			}
+
+			// for the style, send out a event to let UI repaint the element.
+			// otherwise, try to resolve it.
+
+			if ( IStyledElementModel.STYLE_PROP.equalsIgnoreCase( ref.propName ) )
+				client.broadcast( new StyleEvent( client ) );
+			else
+				client.resolveElementReference( root, client
+						.getPropertyDefn( ref.propName ) );
+		}
+	}
+
 }

@@ -130,7 +130,8 @@ public class IndentableXMLWriter extends XMLWriter
 		// name="height">x</property>, <freeform name="freeform1"/>
 
 		if ( !elementStack.isEmpty( )
-				&& !tagName.equalsIgnoreCase( currentTagName ) )
+				&& !tagName.equalsIgnoreCase( currentTagName )
+				&& pendingElementStack.isEmpty( ) )
 			literal( getIndent( elementStack.size( ) - 1 ) );
 
 		// currentTagName is the last tag that was written to the output stream.
@@ -140,7 +141,6 @@ public class IndentableXMLWriter extends XMLWriter
 		currentTagName = tagName;
 
 		super.endElement( );
-
 	}
 
 	/**

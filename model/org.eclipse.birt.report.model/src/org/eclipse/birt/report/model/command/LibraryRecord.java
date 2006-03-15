@@ -12,32 +12,25 @@
 package org.eclipse.birt.report.model.command;
 
 import java.util.List;
+import java.util.Map;
 
-import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.LibraryEvent;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.util.ContentIterator;
+import org.eclipse.birt.report.model.util.ElementStructureUtil;
 
 /**
  * Records to add/drop library.
  */
 
-class LibraryRecord extends SimpleRecord
+class LibraryRecord extends AbstractLibraryRecord
 {
-
-	/**
-	 * The target module
-	 */
-
-	protected Module module;
-
-	/**
-	 * The library to operate
-	 */
-
-	protected Library library;
 
 	/**
 	 * The position of the library
@@ -52,6 +45,11 @@ class LibraryRecord extends SimpleRecord
 	protected boolean add = true;
 
 	/**
+	 * The cached overridden values when removing one library.
+	 */
+	protected Map overriddenValues = null;
+
+	/**
 	 * Constructs the library record.
 	 * 
 	 * @param module
@@ -64,9 +62,28 @@ class LibraryRecord extends SimpleRecord
 
 	LibraryRecord( Module module, Library library, boolean add )
 	{
-		this.module = module;
-		this.library = library;
+		super( module, library );
+
 		this.add = add;
+	}
+
+	/**
+	 * Constructs the library record. Only for adding library.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param library
+	 *            the library to add/drop
+	 * @param values
+	 *            the cached overridden values when removing a library
+	 */
+
+	LibraryRecord( Module module, Library library, Map values )
+	{
+		this( module, library, true );
+
+		overriddenValues = values;
+		assert overriddenValues != null;
 	}
 
 	/*
@@ -74,6 +91,7 @@ class LibraryRecord extends SimpleRecord
 	 * 
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
+
 	protected void perform( boolean undo )
 	{
 		if ( add && !undo || !add && undo )
@@ -90,12 +108,20 @@ class LibraryRecord extends SimpleRecord
 				toUpdateLibraryCount = position;
 			}
 
+			// first resolve the extends and apply overridden values to virtual
+			// elements. Only for the add & do case. For remove & undo, it is
+			// supported by ContentCommand. See LibraryCommand.reloadLibrary for
+			// details.
+
+			if ( add && !undo )
+				resolveAllElementDescendants( );
+
 			// One library is added, and the style in it can override the
 			// previouse one.
 
 			List librariesToUpdate = module.getLibraries( ).subList( 0,
 					toUpdateLibraryCount );
-			module.updateReferenceableClients( librariesToUpdate );
+			updateReferenceableClients( librariesToUpdate );
 		}
 		else
 		{
@@ -104,7 +130,7 @@ class LibraryRecord extends SimpleRecord
 			// The update is performed only on the referred elements in the
 			// dropped library.
 
-			module.updateReferenceableClients( library );
+			updateReferenceableClients( library );
 		}
 	}
 
@@ -131,6 +157,64 @@ class LibraryRecord extends SimpleRecord
 			return new LibraryEvent( library, LibraryEvent.ADD );
 
 		return new LibraryEvent( library, LibraryEvent.DROP );
+	}
+
+	/**
+	 * Resolves extends references for elements in the <code>module</code>.
+	 * During the resolving procedure, cached overridden values are also
+	 * distributed.
+	 */
+	
+	protected void resolveAllElementDescendants( )
+	{
+		if ( module instanceof ReportDesign )
+			resolveElementDescendantsInSlot( ReportDesign.BODY_SLOT );
+
+		resolveElementDescendantsInSlot( Module.COMPONENT_SLOT );
+		resolveElementDescendantsInSlot( Module.DATA_SOURCE_SLOT );
+		resolveElementDescendantsInSlot( Module.DATA_SET_SLOT );
+		resolveElementDescendantsInSlot( Module.PARAMETER_SLOT );
+	}
+
+	/**
+	 * Resolves extends references for elements in the given slot. During the
+	 * resolving procedure, cached overridden values are also distributed.
+	 * 
+	 * @param slotId
+	 *            the slot id
+	 */
+	
+	private void resolveElementDescendantsInSlot( int slotId )
+	{
+		ContentIterator contentIter = new ContentIterator( module, slotId );
+
+		while ( contentIter.hasNext( ) )
+		{
+			DesignElement tmpElement = (DesignElement) contentIter.next( );
+			ElementDefn elementDefn = (ElementDefn) tmpElement.getDefn( );
+			if ( !elementDefn.canExtend( ) )
+				continue;
+
+			String name = tmpElement.getExtendsName( );
+			if ( StringUtil.isBlank( name ) )
+				continue;
+
+			tmpElement.resolveExtends( module );
+			if ( tmpElement.getDefn( ).getSlotCount( ) <= 0 )
+				continue;
+
+			tmpElement.refreshStructureFromParent( module );
+
+			if ( overriddenValues == null )
+				return;
+
+			Long idObj = new Long( tmpElement.getID( ) );
+			Map values = (Map) overriddenValues.get( idObj );
+			ElementStructureUtil.distributeValues( tmpElement, values );
+
+			ElementStructureUtil.addTheVirualElementsToNamesapce( tmpElement,
+					module );
+		}
 	}
 
 }

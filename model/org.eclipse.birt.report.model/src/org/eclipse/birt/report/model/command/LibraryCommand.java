@@ -13,8 +13,11 @@ package org.eclipse.birt.report.model.command;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
@@ -22,6 +25,7 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.LibraryEvent;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -30,6 +34,10 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.parser.DesignParserException;
+import org.eclipse.birt.report.model.util.ElementStructureUtil;
+import org.eclipse.birt.report.model.util.LevelContentIterator;
 
 /**
  * Represents the command for adding and dropping library from report design.
@@ -37,6 +45,18 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 public class LibraryCommand extends AbstractElementCommand
 {
+
+	/**
+	 * The action to reload the library.
+	 */
+
+	static final int RELOAD_ACTION = 1;
+
+	/**
+	 * The simple action like add/remove.
+	 */
+
+	static final int SIMPLE_ACTION = 2;
 
 	/**
 	 * Construct the command with the report design.
@@ -96,28 +116,7 @@ public class LibraryCommand extends AbstractElementCommand
 					new String[]{namespace},
 					LibraryException.DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY );
 
-		Library library = module.loadLibrary( libraryFileName, namespace );
-		assert library != null;
-		library.setReadOnly( );
-
-		getActivityStack( ).startTrans( );
-
-		LibraryRecord record = new LibraryRecord( module, library, true );
-		getActivityStack( ).execute( record );
-
-		// Add includedLibraries
-
-		IncludedLibrary includeLibrary = StructureFactory
-				.createIncludeLibrary( );
-		includeLibrary.setFileName( libraryFileName );
-		includeLibrary.setNamespace( namespace );
-
-		ElementPropertyDefn propDefn = module
-				.getPropertyDefn( Module.LIBRARIES_PROP );
-		PropertyCommand propCommand = new PropertyCommand( module, module );
-		propCommand.addItem( new CachedMemberRef( propDefn ), includeLibrary );
-
-		getActivityStack( ).commit( );
+		doAddLibrary( libraryFileName, namespace, SIMPLE_ACTION, null );
 	}
 
 	/**
@@ -191,6 +190,11 @@ public class LibraryCommand extends AbstractElementCommand
 	 * 
 	 * @param library
 	 *            the library to drop
+	 * @param inForce
+	 *            <code>true</code> if drop the library even the module has
+	 *            element reference to this library. <code>false</code> if do
+	 *            not drop library when the module has element reference to this
+	 *            library.
 	 * @throws SemanticException
 	 *             if failed to remove <code>IncludeLibrary</code> strcutre
 	 */
@@ -205,39 +209,27 @@ public class LibraryCommand extends AbstractElementCommand
 					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
 		}
 
-		// library has decendents in the current module.
-		for ( int slotID = 0; slotID < library.getDefn( ).getSlotCount( ); slotID++ )
-		{
-			if ( slotID == Library.THEMES_SLOT )
-				continue;
+		// library has decendents in the current module. And check the inForce
+		// flag.
 
-			for ( Iterator iter = library.getSlot( slotID ).iterator( ); iter
-					.hasNext( ); )
-			{
-				DesignElement element = (DesignElement) iter.next( );
-				List allDescendents = new ArrayList( );
-				getAllDescdents( element, allDescendents );
+		dealAllElementDecendents( library, SIMPLE_ACTION );
 
-				for ( int i = 0; i < allDescendents.size( ); i++ )
-				{
-					DesignElement child = (DesignElement) allDescendents
-							.get( i );
-					do
-					{
-						if ( child.getRoot( ) == getModule( ) )
-						{
-							throw new LibraryException(
-									library,
-									new String[]{child.getHandle( module )
-											.getDisplayLabel( )},
-									LibraryException.DESIGN_EXCEPTION_LIBRARY_HAS_DESCENDENTS );
-						}
+		doDropLibrary( library );
+	}
 
-					} while ( child.hasDerived( ) );
-				}
-			}
-		}
+	/**
+	 * Performs the action to drop the library from the module.
+	 * 
+	 * @param library
+	 *            the library to drop
+	 * @param action
+	 *            can be RELOAD or SIMPLE.
+	 * @throws SemanticException
+	 *             if error occurs during insert an included library
+	 */
 
+	private void doDropLibrary( Library library ) throws SemanticException
+	{
 		// Remove the include library structure.
 
 		ActivityStack stack = getActivityStack( );
@@ -246,6 +238,7 @@ public class LibraryCommand extends AbstractElementCommand
 		// Drop the library and update the client references.
 
 		LibraryRecord record = new LibraryRecord( module, library, false );
+
 		getActivityStack( ).execute( record );
 
 		try
@@ -260,6 +253,281 @@ public class LibraryCommand extends AbstractElementCommand
 			throw ex;
 		}
 		getActivityStack( ).commit( );
+
+	}
+
+	/**
+	 * Checks possible extends references for the given element. If extends
+	 * reference is unresolve, virtual elements of extends children are removed.
+	 * And local property values of virtual elements are returned.
+	 * 
+	 * @param parent
+	 *            the design element
+	 * @return the map containing local values of virtual elements. Each key is
+	 *         the id of extends child. Each value is another map of which the
+	 *         key is the base id of virtual element and the value is property
+	 *         name/value pair.
+	 * @throws SemanticException
+	 *             if error occurs during removing virtual elements.
+	 */
+
+	private Map dealElementDecendents( Library library, DesignElement parent,
+			int actionCode ) throws SemanticException
+	{
+		List allDescendents = new ArrayList( );
+		getAllDescdents( parent, allDescendents );
+
+		Map overriddenValues = new HashMap( );
+
+		for ( int i = 0; i < allDescendents.size( ); i++ )
+		{
+			DesignElement child = (DesignElement) allDescendents.get( i );
+			do
+			{
+				if ( child.getRoot( ) != module )
+					continue;
+
+				if ( actionCode == RELOAD_ACTION )
+				{
+					Map values = unresolveElementDescendent( module, child );
+					values.put( new Long( child.getID( ) ), values );
+					overriddenValues.putAll( values );
+				}
+
+				if ( actionCode == SIMPLE_ACTION )
+					throw new LibraryException(
+							library,
+							new String[]{child.getHandle( module )
+									.getDisplayLabel( )},
+							LibraryException.DESIGN_EXCEPTION_LIBRARY_HAS_DESCENDENTS );
+
+			} while ( child.hasDerived( ) );
+		}
+
+		return overriddenValues;
+	}
+
+	/**
+	 * Reloads the library with the given file path. After reloading, acticity
+	 * stack is cleared.
+	 * 
+	 * @param location
+	 *            the URL file path of the library file.
+	 * @throws DesignFileException
+	 *             if the file does no exist.
+	 * @throws SemanticException
+	 *             if the library is not included in the current module.
+	 */
+
+	public void reloadLibrary( String location ) throws DesignFileException,
+			SemanticException
+	{
+		Library library = module.getLibraryByLocation( location );
+
+		// library not found.
+
+		if ( !module.getLibraries( ).contains( library ) )
+		{
+			throw new LibraryException( library,
+					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
+		}
+
+		String namespace = library.getNamespace( );
+		IncludedLibrary includedItem = module.findIncludedLibrary( namespace );
+
+		String path = includedItem.getFileName( );
+		URL url = module.findResource( path, IResourceLocator.LIBRARY );
+		if ( url == null )
+		{
+			DesignParserException ex = new DesignParserException(
+					new String[]{path},
+					DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
+			List exceptionList = new ArrayList( );
+			exceptionList.add( ex );
+			throw new DesignFileException( path, exceptionList );
+		}
+
+		Map overriddenValues = null;
+
+		ActivityStack activityStack = getActivityStack( );
+
+		// TODO only send the library reload event in the end.
+
+		activityStack.startFilterEventTrans( null );
+
+		try
+		{
+			// must use content command to remove all virtual elements if
+			// required. This can solve unresolving issues like DataSet, Style
+			// references, as well as removing names from name space.
+
+			overriddenValues = dealAllElementDecendents( library, RELOAD_ACTION );
+			doDropLibrary( library );
+			doAddLibrary( path, namespace, RELOAD_ACTION, overriddenValues );
+		}
+		catch ( SemanticException e )
+		{
+			activityStack.rollback( );
+			throw e;
+		}
+		catch ( DesignFileException e )
+		{
+			activityStack.rollback( );
+			throw e;
+		}
+
+		activityStack.commit( );
+
+		// clears the activity stack to avoid potential problems.
+
+		activityStack.flush( );
+
+		LibraryEvent event = new LibraryEvent( module
+				.getLibraryByLocation( location ), LibraryEvent.RELOAD );
+
+		module.broadcast( event );
+	}
+
+	/**
+	 * Checks possible extends references to element in the given Library. If
+	 * extends reference is unresolve, virtual elements are removed. And local
+	 * property values of virtual elements are returned.
+	 * 
+	 * @param library
+	 *            the library instance
+	 * @return the map containing local values of virtual elements. Each key is
+	 *         the id of extends child. Each value is another map of which the
+	 *         key is the base id of virtual element and the value is property
+	 *         name/value pair.
+	 * @throws LibraryException
+	 *             if there is any extends reference.
+	 */
+
+	private Map dealAllElementDecendents( Library library, int actionCode )
+			throws SemanticException
+	{
+		// library has decendents in the current module. And check the inForce
+		// flag.
+
+		Map overriddenValues = new HashMap( );
+
+		LevelContentIterator contentIter = new LevelContentIterator( library, 1 );
+		while ( contentIter.hasNext( ) )
+		{
+			DesignElement tmpElement = (DesignElement) contentIter.next( );
+			if ( !tmpElement.getDefn( ).canExtend( ) )
+				continue;
+
+			Map values = dealElementDecendents( library, tmpElement, actionCode );
+			if ( actionCode == RELOAD_ACTION )
+				overriddenValues.putAll( values );
+		}
+
+		return overriddenValues;
+	}
+
+	/**
+	 * Performs the action to add the library to the module.
+	 * 
+	 * @param libraryFileName
+	 *            the library path
+	 * @param namespace
+	 *            the library namespace
+	 * @param action
+	 *            can be RELOAD or SIMPLE.
+	 * @param overriddenValues
+	 *            the overridden values.
+	 * @throws SemanticException
+	 *             if the library file is invalid.
+	 */
+
+	private void doAddLibrary( String libraryFileName, String namespace,
+			int action, Map overriddenValues ) throws SemanticException,
+			DesignFileException
+	{
+		Library library = module.loadLibrary( libraryFileName, namespace );
+
+		library.setReadOnly( );
+
+		ActivityStack activityStack = getActivityStack( );
+
+		activityStack.startTrans( );
+
+		LibraryRecord record = null;
+
+		if ( action == SIMPLE_ACTION )
+			record = new LibraryRecord( module, library, true );
+		if ( action == RELOAD_ACTION )
+			record = new LibraryRecord( module, library, overriddenValues );
+
+		getActivityStack( ).execute( record );
+
+		// Add includedLibraries
+
+		IncludedLibrary includeLibrary = StructureFactory
+				.createIncludeLibrary( );
+		includeLibrary.setFileName( libraryFileName );
+		includeLibrary.setNamespace( namespace );
+
+		ElementPropertyDefn propDefn = module
+				.getPropertyDefn( Module.LIBRARIES_PROP );
+		PropertyCommand propCommand = new PropertyCommand( module, module );
+		propCommand.addItem( new CachedMemberRef( propDefn ), includeLibrary );
+
+		activityStack.commit( );
+	}
+
+	/**
+	 * Unresolves extends reference for the given element. Besides the change on
+	 * extends reference, all virtual elements in the given element are removed.
+	 * Their element references are also cleared. Moreover, their names are
+	 * removed from name spaces.
+	 * 
+	 * @param module
+	 *            the root of the element
+	 * @param child
+	 *            the design element
+	 * @return the map containing local values of virtual elements. The key is
+	 *         the base id of virtual element and the value is property
+	 *         name/value pair.
+	 * @throws SemanticException
+	 *             if error occurs during removing virtual elements.
+	 */
+
+	private Map unresolveElementDescendent( Module module, DesignElement child )
+			throws SemanticException
+	{
+		ElementRefValue value = (ElementRefValue) child.getLocalProperty(
+				module, DesignElement.EXTENDS_PROP );
+
+		DesignElement parent = value.getElement( );
+		assert parent != null;
+
+		// not layout structure involved.
+
+		if ( child.getDefn( ).getSlotCount( ) == 0 )
+			return Collections.EMPTY_MAP;
+
+		Map overriddenValues = ElementStructureUtil
+				.collectPropertyValues( child );
+
+		// remove virtual elements in the element
+
+		LevelContentIterator contentIter = new LevelContentIterator( child, 1 );
+		while ( contentIter.hasNext( ) )
+		{
+			DesignElement tmpElement = (DesignElement) contentIter.next( );
+			ContentCommand command = new ContentCommand( module, child );
+			command.remove( tmpElement, tmpElement.getContainerSlot( ), false,
+					true );
+		}
+
+		// unresolves the extends child
+
+		parent.dropDerived( child );
+		value.unresolved( value.getName( ) );
+
+		return overriddenValues;
 	}
 
 	/**

@@ -320,6 +320,34 @@ public class DesignSession
 	}
 
 	/**
+	 * Opens a library given a stream to the library and the the file name of
+	 * the library.
+	 * 
+	 * @param fileName
+	 *            The name of the file to open. If null, the library will be
+	 *            treated as a new library, and will be saved to a different
+	 *            file. If not <code>null</code>, this name must include the
+	 *            file name with the filename extension.
+	 * @param is
+	 *            stream to read the design
+	 * @return the opened report design
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public Library openLibrary( String fileName, InputStream is )
+			throws DesignFileException
+	{
+		if ( is == null )
+			throw new IllegalArgumentException(
+					"The input stream must not be null" ); //$NON-NLS-1$
+
+		Library design = LibraryReader.getInstance( ).read( this, fileName, is );
+		designs.add( design );
+		return design;
+	}
+
+	/**
 	 * Opens a library with the given library file name.
 	 * 
 	 * @param systemId

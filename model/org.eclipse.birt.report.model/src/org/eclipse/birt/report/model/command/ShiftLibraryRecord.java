@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.command;
 
 import java.util.List;
 
-import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.LibraryEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -24,20 +23,8 @@ import org.eclipse.birt.report.model.elements.Library;
  * Record for shifting library
  */
 
-public class ShiftLibraryRecord extends SimpleRecord
+public class ShiftLibraryRecord extends AbstractLibraryRecord
 {
-
-	/**
-	 * The module containing the shifted library.
-	 */
-
-	private Module module;
-
-	/**
-	 * The library to shift
-	 */
-
-	private Library library;
 
 	/**
 	 * The old position
@@ -64,7 +51,7 @@ public class ShiftLibraryRecord extends SimpleRecord
 
 	ShiftLibraryRecord( Module module, int oldPosn, int newPosn )
 	{
-		this.module = module;
+		super( module );
 		this.oldPosn = oldPosn;
 		this.newPosn = newPosn;
 	}
@@ -86,7 +73,8 @@ public class ShiftLibraryRecord extends SimpleRecord
 
 		List librariesToUpdate = module.getLibraries( ).subList(
 				Math.min( oldPosn, newPosn ), Math.max( oldPosn, newPosn ) );
-		module.updateReferenceableClients( librariesToUpdate );
+
+		updateReferenceableClients( librariesToUpdate );
 	}
 
 	/*

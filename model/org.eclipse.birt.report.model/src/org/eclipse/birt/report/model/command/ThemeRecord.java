@@ -143,7 +143,7 @@ public class ThemeRecord extends SimpleRecord
 
 			ReferenceableElement referenceableElement = (ReferenceableElement) element;
 
-			module.updateClientReferences( referenceableElement );
+			referenceableElement.updateClientReferences( );
 		}
 	}
 }

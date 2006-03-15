@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
- * 
+ * Iterate content elements within the given level.
  */
 
 public class LevelContentIterator implements Iterator

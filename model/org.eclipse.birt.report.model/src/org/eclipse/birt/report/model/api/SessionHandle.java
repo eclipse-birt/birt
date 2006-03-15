@@ -214,6 +214,29 @@ public class SessionHandle
 	}
 
 	/**
+	 * Opens a library given a stream to the design and the the file name of the
+	 * design.
+	 * 
+	 * @param fileName
+	 *            name of the file to open. If <code>null</code>, the library
+	 *            will be treated as a new library, and will be saved to a
+	 *            different file. If not <code>null</code>, it may contain
+	 *            the relative/absolute path information. This name must include
+	 *            the file name with the filename extension.
+	 * @param is
+	 *            the stream to read the library
+	 * @return the library instance
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public LibraryHandle openLibrary( String fileName, InputStream is )
+			throws DesignFileException
+	{
+		return session.openLibrary( fileName, is ).handle( );
+	}
+
+	/**
 	 * Opens a library with the given the file name.
 	 * 
 	 * @param systemId
