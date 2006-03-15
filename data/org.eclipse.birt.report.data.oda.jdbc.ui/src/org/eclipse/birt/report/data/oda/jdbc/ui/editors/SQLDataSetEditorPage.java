@@ -98,7 +98,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.38 $ $Date: 2006/02/16 04:03:05 $
+ * @version $Revision: 1.39 $ $Date: 2006/02/28 04:12:06 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -130,7 +130,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	OdaDataSourceHandle prevDataSourceHandle = null;
 	Connection jdbcConnection = null;
 	boolean validConnection = false;
-	
+	private Button identifierQuoteStringCheckBox = null; 
 	private static String TABLE_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.TableIcon";
 	private static String VIEW_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.ViewIcon";
 	private static String PAGE_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.PageIcon";
@@ -357,10 +357,26 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			}
 		} );
 		
+		setupIdentifierQuoteStringCheckBox( selectTableGroup );
+		
 		setRootElement();
 		
 		//	 Create the drag source on the tree
 		addDragSupportToTree();   
+	}
+	
+	/**
+	 * 
+	 * @param group
+	 */
+	private void setupIdentifierQuoteStringCheckBox(Group group )
+	{
+		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
+		layoutData.horizontalSpan = 3;
+		identifierQuoteStringCheckBox = new Button( group, SWT.CHECK );
+		identifierQuoteStringCheckBox.setText( JdbcPlugin.getResourceString( "tablepage.button.dnd" ) ); //$NON-NLS-1$
+		identifierQuoteStringCheckBox.setSelection( false );
+		identifierQuoteStringCheckBox.setLayoutData( layoutData );
 	}
 	
 	private void enableSchemaComponent( boolean b )
@@ -681,14 +697,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 								dbType = DbObject.VIEW_TYPE;
 							}
 
-							String fullyQualifiedTableName = tableName;
-							if ( schemaName != null
-									&& schemaName.trim( ).length( ) > 0 )
-							{
-								fullyQualifiedTableName = schemaName
-										+ "." + tableName;
-							}
-							DbObject dbObject = new DbObject( fullyQualifiedTableName,
+							DbObject dbObject = new DbObject( getTableNameWithSchema( schemaName,
+									tableName ),
 									tableName,
 									dbType,
 									image );
@@ -729,6 +739,25 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 				}
 			}
 		}
+	}
+	
+	/**
+	 * 
+	 * @param schemaName
+	 * @param tableName
+	 * @return
+	 */
+	private String getTableNameWithSchema( String schemaName,
+			String tableName )
+	{
+		String tableNameWithSchema = tableName;
+
+		if ( schemaName != null && schemaName.trim( ).length( ) > 0 )
+		{
+			tableNameWithSchema = schemaName + "." + tableName;
+		}
+
+		return tableNameWithSchema;
 	}
 	
 	/**
@@ -820,7 +849,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 						dbType = DbObject.VIEW_TYPE;
 					}
 
-					DbObject dbObject = new DbObject( tableName,
+					DbObject dbObject = new DbObject( getTableNameWithSchema( null,
+							tableName ),
 							tableName,
 							dbType,
 							image );
@@ -1313,20 +1343,66 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 					if ( selection.length > 0 )
 					{
 						Object obj = selection[0].getData( );
+						// table 
 						if ( obj instanceof DbObject )
 						{
-							event.data = ( (DbObject) obj ).getName( );
+							event.data = getDnDString( ( (DbObject) obj ).getName( ) );
 						}
+						// stored procedure
 						else if ( obj instanceof Procedure )
 						{
-							event.data = ( (Procedure) obj ).getProcedureNameWithSchema( );
+							event.data = getDnDString( ( (Procedure) obj ).getProcedureNameWithSchema( ) );
 						}
+						// column
 						else
-							event.data = selection[0].getData( );
+						{
+							event.data = getDnDString( selection[0].getData( ) );
+						}
 					}
 				}
 			}
 		} );
+	}
+	
+	/**
+	 * @param obj
+	 * @return
+	 */
+	private Object getDnDString(Object obj )
+	{
+		if ( !identifierQuoteStringCheckBox.getSelection( )
+				|| !( obj instanceof String ) )
+			return obj;
+
+		String identifierQuoteString = "";
+		String dndString = (String) obj;
+		try
+		{
+			identifierQuoteString = metaDataProvider.getMetaData( )
+					.getIdentifierQuoteString( );
+		}
+		catch ( SQLException e )
+		{
+			identifierQuoteString = " ";
+		}
+
+		if ( !identifierQuoteString.equals( " " ) )
+		{
+			if ( dndString.indexOf( "." ) == -1 )
+				return identifierQuoteString + dndString + identifierQuoteString;
+
+			String[] str = dndString.split( "[.]" );
+			dndString = "";
+
+			for ( int i = 0; i < str.length; i++ )
+			{
+				dndString += identifierQuoteString
+						+ str[i] + identifierQuoteString + ".";
+			}
+			return dndString.substring( 0, dndString.lastIndexOf( "." ) );
+		}
+
+		return dndString;
 	}
 	
 	/**
