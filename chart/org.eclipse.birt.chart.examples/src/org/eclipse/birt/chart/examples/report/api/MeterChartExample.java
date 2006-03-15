@@ -224,7 +224,7 @@ public class MeterChartExample
 
 		SampleData sd = DataFactory.eINSTANCE.createSampleData( );
 		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
-		sdBase.setDataSetRepresentation( "A, B, C" );//$NON-NLS-1$//$NON-NLS-2$
+		sdBase.setDataSetRepresentation( "A, B, C" );//$NON-NLS-1$
 		sd.getBaseSampleData( ).add( sdBase );
 
 		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE

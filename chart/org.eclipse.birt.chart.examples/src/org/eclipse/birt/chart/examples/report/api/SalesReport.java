@@ -460,7 +460,7 @@ public class SalesReport
 
 		SampleData sd = DataFactory.eINSTANCE.createSampleData( );
 		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
-		sdBase.setDataSetRepresentation( "Category-A, Category-B" );//$NON-NLS-1$//$NON-NLS-2$
+		sdBase.setDataSetRepresentation( "Category-A, Category-B" );//$NON-NLS-1$
 		sd.getBaseSampleData( ).add( sdBase );
 
 		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE.createOrthogonalSampleData( );
