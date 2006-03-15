@@ -20,7 +20,7 @@ import java.util.Iterator;
  * CompiledExpression. An expression of this type has been compiled to Rhino
  * byte code.
  */
-final class ComplexExpression extends BytecodeExpression
+public final class ComplexExpression extends BytecodeExpression
 {
     private ArrayList m_subExpressions;
     private ArrayList m_tokenList;
