@@ -14,9 +14,9 @@ package org.eclipse.birt.chart.event;
 import java.util.ArrayList;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
-import org.eclipse.birt.chart.factory.DeferredCache;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.render.DeferredCache;
 
 import com.ibm.icu.util.ULocale;
 

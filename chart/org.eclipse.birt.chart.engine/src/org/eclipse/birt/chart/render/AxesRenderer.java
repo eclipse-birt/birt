@@ -52,7 +52,6 @@ import org.eclipse.birt.chart.event.Text3DRenderEvent;
 import org.eclipse.birt.chart.event.TextRenderEvent;
 import org.eclipse.birt.chart.event.TransformationEvent;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.factory.DeferredCache;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.internal.model.FittingCalculator;
 import org.eclipse.birt.chart.log.ILogger;
