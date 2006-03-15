@@ -100,7 +100,7 @@ public final class AggregateExpression extends BytecodeExpression
     }
     
     // Gets the ID of this aggregate expression in the registry
-    int getRegId( )
+    public int getRegId( )
     {
     	return m_id;
     }
