@@ -1834,7 +1834,7 @@
 	</Method>				
     <Method context="factory" displayNameID="Element.SimpleDataSet.onFetch" name="onFetch" since="1.0" toolTipID="Element.SimpleDataSet.onFetch.toolTip" >
       <Argument name="this" tagID="Element.SimpleDataSet.onFetch.this" type="org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance"/>
-	  <Argument name="dataSetRow" tagID="Element.SimpleDataSet.onFetch.dataSetRow" type="org.eclipse.birt.report.engine.api.script.IDataSetRow"/>
+	  <Argument name="row" tagID="Element.SimpleDataSet.onFetch.row" type="org.eclipse.birt.report.engine.api.script.IDataSetRow"/>
       <Argument name="reportContext" tagID="Element.SimpleDataSet.onFetch.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
 	</Method>				  
     <Method context="factory" displayNameID="Element.SimpleDataSet.afterOpen" name="afterOpen" since="1.0" toolTipID="Element.SimpleDataSet.afterOpen.toolTip" >
