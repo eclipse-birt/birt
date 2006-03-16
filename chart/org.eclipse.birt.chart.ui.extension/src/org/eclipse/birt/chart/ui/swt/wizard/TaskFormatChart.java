@@ -52,6 +52,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * 
  */
@@ -130,6 +132,11 @@ public class TaskFormatChart extends TreeCompoundTask
 	public TaskFormatChart( )
 	{
 		super( Messages.getString( "TaskFormatChart.TaskExp" ) ); //$NON-NLS-1$
+	}
+	
+	public String getDescription( ULocale locale )
+	{
+		return Messages.getString( "TaskFormatChart.Task.Description" ); //$NON-NLS-1$
 	}
 
 	protected void populateSubtasks( )

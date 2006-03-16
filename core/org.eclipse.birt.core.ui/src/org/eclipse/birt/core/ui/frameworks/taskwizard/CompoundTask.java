@@ -152,4 +152,9 @@ public class CompoundTask implements ITask
 		sCurrentTaskSheet = null;
 		subtasks.clear( );
 	}
+
+	public String getDescription( ULocale locale )
+	{
+		return sLabel;
+	}
 }

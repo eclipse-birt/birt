@@ -27,7 +27,7 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.ui.i18n.Messages;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
@@ -60,6 +60,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * TaskSelectType
@@ -141,6 +143,11 @@ public class TaskSelectType extends SimpleTask
 			}
 		}
 		htTypes = new LinkedHashMap( );
+	}
+	
+	public String getDescription( ULocale locale )
+	{
+		return Messages.getString( "TaskSelectType.Task.Description" ); //$NON-NLS-1$
 	}
 
 	public Composite getUI( Composite parent )
@@ -227,7 +234,7 @@ public class TaskSelectType extends SimpleTask
 		GridData gridData = null;
 
 		lblDimension = new Label( cmpMisc, SWT.NONE );
-		lblDimension.setText( Messages.getString( "ChartSelector.Lbl.Dimension" ) ); //$NON-NLS-1$
+		lblDimension.setText( Messages.getString( "TaskSelectType.Label.Dimension" ) ); //$NON-NLS-1$
 
 		// Add the ComboBox for Dimensions
 		cbDimension = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
@@ -324,7 +331,7 @@ public class TaskSelectType extends SimpleTask
 		GridData gdTable = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
 		gdTable.heightHint = 120;
 		table.setLayoutData( gdTable );
-		table.setToolTipText( Messages.getString( "ChartSelector.Lbl.ChartTypes2" ) ); //$NON-NLS-1$
+		table.setToolTipText( Messages.getString( "TaskSelectType.Label.ChartTypes" ) ); //$NON-NLS-1$
 		table.addSelectionListener( this );
 	}
 
@@ -377,7 +384,7 @@ public class TaskSelectType extends SimpleTask
 		cmpSubTypes = new Composite( cmpType, SWT.NONE );
 		createGroups( vSubTypes );
 		cmpSubTypes.setLayoutData( gdTypes );
-		cmpSubTypes.setToolTipText( Messages.getString( "ChartSelector.Lbl.ChartSubtypes" ) ); //$NON-NLS-1$
+		cmpSubTypes.setToolTipText( Messages.getString( "TaskSelectType.Label.ChartSubtypes" ) ); //$NON-NLS-1$
 		cmpSubTypes.setLayout( new GridLayout( ) );
 		cmpSubTypes.setVisible( true );
 	}

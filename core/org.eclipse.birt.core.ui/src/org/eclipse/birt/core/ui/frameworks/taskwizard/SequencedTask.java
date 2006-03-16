@@ -16,6 +16,12 @@ class SequencedTask implements ITask
 	protected transient IWizardContext context = null;
 	protected transient WizardBase container = null;
 	private transient int iCurrentSubtaskIndex = 0;
+	private transient String sLabel = ""; //$NON-NLS-1$
+
+	public SequencedTask( String sLabel )
+	{
+		this.sLabel = sLabel;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -30,8 +36,7 @@ class SequencedTask implements ITask
 
 	public String getDisplayLabel( ULocale locale )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return sLabel;
 	}
 
 	public void addSubtask( int iSubtaskIndex, ITask task )
@@ -108,5 +113,10 @@ class SequencedTask implements ITask
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	public String getDescription( ULocale locale )
+	{
+		return sLabel;
 	}
 }

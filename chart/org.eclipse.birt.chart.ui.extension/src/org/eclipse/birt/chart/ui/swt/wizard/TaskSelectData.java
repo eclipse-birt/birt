@@ -63,6 +63,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * 
  */
@@ -99,6 +101,11 @@ public class TaskSelectData extends SimpleTask
 	public TaskSelectData( )
 	{
 		super( Messages.getString( "TaskSelectData.TaskExp" ) ); //$NON-NLS-1$
+	}
+	
+	public String getDescription( ULocale locale )
+	{
+		return Messages.getString( "TaskSelectData.Task.Description" ); //$NON-NLS-1$
 	}
 
 	public Composite getUI( Composite parent )

@@ -76,6 +76,8 @@ public class WizardBase
 
 	private transient String strHeader = ""; //$NON-NLS-1$
 
+	private transient Label lblHeader;
+
 	private transient Image imgShell = null;
 
 	private transient Image imgHeader = null;
@@ -346,6 +348,13 @@ public class WizardBase
 		}
 		cmpTask.layout( );
 
+		// Set the description for each task
+		String strDesc = getCurrentTask( ).getDescription( ULocale.getDefault( ) );
+		if ( strDesc != null )
+		{
+			lblHeader.setText( strDesc );
+		}
+
 		// Pack every task to show as much as possible
 		packWizard( );
 	}
@@ -574,7 +583,7 @@ public class WizardBase
 			GridLayout layout = new GridLayout( 2, false );
 			layout.marginHeight = 0;
 			layout.marginWidth = 0;
-			layout.verticalSpacing = 0;
+			layout.verticalSpacing = 5;
 			layout.horizontalSpacing = 0;
 			cmpHeader.setLayout( layout );
 			cmpHeader.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -584,7 +593,7 @@ public class WizardBase
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalIndent = 10;
-			gd.verticalIndent = 10;
+			gd.verticalIndent = 5;
 			lblTitle.setLayoutData( gd );
 			lblTitle.setBackground( Display.getDefault( )
 					.getSystemColor( SWT.COLOR_WHITE ) );
@@ -601,10 +610,11 @@ public class WizardBase
 			lblImage.setImage( imgHeader );
 		}
 
-		Label lblHeader = new Label( cmpHeader, SWT.NONE );
+		lblHeader = new Label( cmpHeader, SWT.WRAP );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gd = new GridData( GridData.FILL_VERTICAL );
 			gd.horizontalIndent = 15;
+			gd.widthHint = iWizardWidthMinimum - 50;
 			lblHeader.setLayoutData( gd );
 			lblHeader.setBackground( Display.getDefault( )
 					.getSystemColor( SWT.COLOR_WHITE ) );
@@ -618,7 +628,7 @@ public class WizardBase
 		{
 			cmpTaskContainer.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 			cmpTaskContainer.setTabHeight( 25 );
-			cmpTaskContainer.setSimple( false );
+			// cmpTaskContainer.setSimple( false );
 			cmpTaskContainer.addSelectionListener( this );
 		}
 

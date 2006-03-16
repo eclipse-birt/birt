@@ -132,4 +132,9 @@ public class SimpleTask implements ITask
 		container = null;
 		errorList.clear( );
 	}
+
+	public String getDescription( ULocale locale )
+	{
+		return sLabel;
+	}
 }

@@ -11,7 +11,20 @@ public interface ITask
 
 	public Composite getUI( Composite parent );
 
+	/**
+	 * Returns the brief display text for this task
+	 * 
+	 * @param locale
+	 */
 	public String getDisplayLabel( ULocale locale );
+
+	/**
+	 * Returns the description for this task
+	 * 
+	 * @param locale
+	 * @since 2.1
+	 */
+	public String getDescription( ULocale locale );
 
 	/**
 	 * Called just before the UI for this Task is shown. Intended for the UI to
