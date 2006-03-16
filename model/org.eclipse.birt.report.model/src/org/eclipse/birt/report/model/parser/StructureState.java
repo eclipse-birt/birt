@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.elements.structures.JoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
+import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
@@ -44,9 +45,9 @@ import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DataItem;
-import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Label;
+import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -445,6 +446,9 @@ public class StructureState extends AbstractPropertyState
 
 		structDict.put( DateTimeFormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
 				DateTimeFormatValue.class );
+		
+		structDict.put( ParameterFormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
+				ParameterFormatValue.class );
 
 		structDict.put( DataSourceParamBinding.STRUCT_NAME.toLowerCase( ),
 				DataSourceParamBinding.class );

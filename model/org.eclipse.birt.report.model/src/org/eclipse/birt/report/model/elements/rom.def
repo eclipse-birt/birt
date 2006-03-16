@@ -1393,6 +1393,10 @@
     <Member detailType="dateTimeFormat" displayNameID="Structure.DateTimeFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
     <Member displayNameID="Structure.DateTimeFormatValue.pattern" isIntrinsic="true" name="pattern" since="1.0" type="string"/>		
   </Structure>     
+  <Structure displayNameID="Structure.ParameterFormatValue" name="ParameterFormatValue" since="2.1">
+    <Member displayNameID="Structure.ParameterFormatValue.category" isIntrinsic="true" name="category" since="2.1" type="string"/>
+    <Member displayNameID="Structure.ParameterFormatValue.pattern" isIntrinsic="true" name="pattern" since="2.1" type="string"/>		
+  </Structure> 
   <Structure displayNameID="Structure.MapRule" name="MapRule" since="1.0">
     <Member detailType="mapOperator" displayNameID="Structure.MapRule.operator" isIntrinsic="true" name="operator" since="1.0" type="choice">
       <Default>eq</Default>
@@ -1912,7 +1916,7 @@
     <Property displayNameID="Element.ScalarParameter.allowBlank" name="allowBlank" runtimeSettable="false" since="1.0" type="boolean">
       <Default>true</Default>
     </Property>
-    <Property displayNameID="Element.ScalarParameter.format" name="format" runtimeSettable="false" since="1.0" type="string"/>
+    <Property detailType="ParameterFormatValue" displayNameID="Element.ScalarParameter.format" name="format" runtimeSettable="false" since="1.0" type="structure"/>
     <Property detailType="paramControl" displayNameID="Element.ScalarParameter.controlType" name="controlType" runtimeSettable="false" since="1.0" type="choice"/>
     <Property displayNameID="Element.ScalarParameter.promptText" name="promptText" runtimeSettable="false" since="2.0" type="string"/>
     <Property displayNameID="Element.ScalarParameter.listLimit" name="listLimit" runtimeSettable="false" since="2.0" type="integer"/>

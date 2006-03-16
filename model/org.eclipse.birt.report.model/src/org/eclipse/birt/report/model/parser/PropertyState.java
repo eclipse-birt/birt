@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -181,7 +182,10 @@ class PropertyState extends AbstractPropertyState
 									.getName( ) )
 					|| StringFormatValue.FORMAT_VALUE_STRUCT
 							.equalsIgnoreCase( jmpDefn.getStructDefn( )
-									.getName( ) ) )
+									.getName( ) ) 
+					|| ParameterFormatValue.FORMAT_VALUE_STRUCT
+									.equalsIgnoreCase( jmpDefn.getStructDefn( )
+											.getName( ) ) )
 			{
 				CompatibleFormatPropertyState state = new CompatibleFormatPropertyState(
 						handler, element, propDefn, struct );

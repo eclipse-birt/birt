@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValue;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -27,28 +28,28 @@ import org.xml.sax.SAXException;
  * Can translate the obsolete format
  * 
  * <pre>
- *   
- *   Old design file:
- *   
- *      &lt;property name=&quot;dateTimeFormat&quot;&gt;:yyyy/mm/dd&lt;/property&gt;
- *      &lt;property name=&quot;numberFormat&quot;&gt;:&lt;/property&gt;
- *      &lt;property name=&quot;stringFormat&quot;&gt;noformat:&lt;/property&gt;
- *      
- *   New design file:
- *   
- *   	&lt;structure name=&quot;dateTimeFormat&quot;&gt;
- *   	  &lt;property name=&quot;category&quot;&gt;Custom&lt;/property&gt;
- *   	  &lt;property name=&quot;pattern&quot;&gt;yyyy/mm/dd&lt;/property&gt;
- *   	&lt;/structure&gt;
- *   	&lt;structure name=&quot;numberFormat&quot;&gt;
- *   	  &lt;property name=&quot;category&quot;&gt;Currency&lt;/property&gt;
- *   	  &lt;property name=&quot;pattern&quot;&gt;$###,###.##&lt;/property&gt;
- *   	&lt;/structure&gt;
- *   	&lt;structure name=&quot;stringFormat&quot;&gt;
- *   	  &lt;property name=&quot;category&quot;&gt;noformat&lt;/property&gt;
- *   	  &lt;property name=&quot;pattern&quot;&gt;***&lt;/property&gt;
- *   	&lt;/structure&gt;
- *   
+ *    
+ *    Old design file:
+ *    
+ *       &lt;property name=&quot;dateTimeFormat&quot;&gt;:yyyy/mm/dd&lt;/property&gt;
+ *       &lt;property name=&quot;numberFormat&quot;&gt;:&lt;/property&gt;
+ *       &lt;property name=&quot;stringFormat&quot;&gt;noformat:&lt;/property&gt;
+ *       
+ *    New design file:
+ *    
+ *    	&lt;structure name=&quot;dateTimeFormat&quot;&gt;
+ *    	  &lt;property name=&quot;category&quot;&gt;Custom&lt;/property&gt;
+ *    	  &lt;property name=&quot;pattern&quot;&gt;yyyy/mm/dd&lt;/property&gt;
+ *    	&lt;/structure&gt;
+ *    	&lt;structure name=&quot;numberFormat&quot;&gt;
+ *    	  &lt;property name=&quot;category&quot;&gt;Currency&lt;/property&gt;
+ *    	  &lt;property name=&quot;pattern&quot;&gt;$###,###.##&lt;/property&gt;
+ *    	&lt;/structure&gt;
+ *    	&lt;structure name=&quot;stringFormat&quot;&gt;
+ *    	  &lt;property name=&quot;category&quot;&gt;noformat&lt;/property&gt;
+ *    	  &lt;property name=&quot;pattern&quot;&gt;***&lt;/property&gt;
+ *    	&lt;/structure&gt;
+ *    
  * </pre>
  */
 
@@ -107,7 +108,13 @@ public class CompatibleFormatPropertyState extends PropertyState
 			pattern = value.substring( index + 1 );
 		}
 		else
-			pattern = value;
+		{
+			if ( ParameterFormatValue.FORMAT_VALUE_STRUCT
+					.equalsIgnoreCase( propDefn.getStructDefn( ).getName( ) ) )
+				category = value;
+			else
+				pattern = value;
+		}
 
 		if ( StringUtil.isBlank( category ) )
 			category = DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM;

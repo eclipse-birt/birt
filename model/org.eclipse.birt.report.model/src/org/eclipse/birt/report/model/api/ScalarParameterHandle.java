@@ -14,9 +14,15 @@ package org.eclipse.birt.report.model.api;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 
 /**
@@ -239,11 +245,48 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * used by the UI to display the value.
 	 * 
 	 * @return the format for the parameter value
+	 * @deprecated replaced by getPattern and getCategory.
 	 */
 
 	public String getFormat( )
 	{
-		return getStringProperty( ScalarParameter.FORMAT_PROP );
+		return getPattern( );
+	}
+
+	/**
+	 * Returns the pattern of format instructions for the parameter value. The
+	 * format is used by the UI to display the value.
+	 * 
+	 * @return the pattern of format for the parameter value
+	 */
+
+	public String getPattern( )
+	{
+		Object value = getProperty( FORMAT_PROP );
+		if ( value == null )
+			return null;
+
+		assert value instanceof ParameterFormatValue;
+
+		return ( (ParameterFormatValue) value ).getPattern( );
+	}
+
+	/**
+	 * Returns the category for the parameter format. The format is used by the
+	 * UI to display the value.
+	 * 
+	 * @return the category for the parameter format
+	 */
+
+	public String getCategory( )
+	{
+		Object value = getProperty( FORMAT_PROP );
+		if ( value == null )
+			return null;
+
+		assert value instanceof ParameterFormatValue;
+
+		return ( (ParameterFormatValue) value ).getCategory( );
 	}
 
 	/**
@@ -254,11 +297,76 @@ public class ScalarParameterHandle extends ParameterHandle
 	 *            the format for the parameter value
 	 * @throws SemanticException
 	 *             if the property is locked.
+	 * @deprecated replaced by setPattern and setCategory.
 	 */
 
 	public void setFormat( String format ) throws SemanticException
 	{
-		setStringProperty( ScalarParameter.FORMAT_PROP, format );
+		setPattern( format );
+	}
+
+	/**
+	 * Sets the pattern of format instructions for the parameter value. The
+	 * format is used by the UI to display the value.
+	 * 
+	 * @param pattern
+	 *            the format for the parameter value
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setPattern( String pattern ) throws SemanticException
+	{
+
+		Object value = element.getLocalProperty( module, FORMAT_PROP );
+
+		if ( value == null )
+		{
+			FormatValue formatValueToSet = new ParameterFormatValue( );
+			formatValueToSet.setPattern( pattern );
+			setProperty( FORMAT_PROP, formatValueToSet );
+		}
+		else
+		{
+			PropertyHandle propHandle = getPropertyHandle( FORMAT_PROP );
+			FormatValue formatValueToSet = (FormatValue) value;
+			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet
+					.getHandle( propHandle );
+
+			formatHandle.setPattern( pattern );
+		}
+	}
+
+	/**
+	 * Sets the category for the parameter format. The format is used by the UI
+	 * to display the value.
+	 * 
+	 * @param category
+	 *            the category for the format
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setCategory( String category ) throws SemanticException
+	{
+
+		Object value = element.getLocalProperty( module, FORMAT_PROP );
+
+		if ( value == null )
+		{
+			FormatValue formatValueToSet = new ParameterFormatValue( );
+			formatValueToSet.setCategory( category );
+			setProperty( FORMAT_PROP, formatValueToSet );
+		}
+		else
+		{
+			PropertyHandle propHandle = getPropertyHandle( FORMAT_PROP );
+			FormatValue formatValueToSet = (FormatValue) value;
+			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet
+					.getHandle( propHandle );
+
+			formatHandle.setCategory( category );
+		}
 	}
 
 	/**

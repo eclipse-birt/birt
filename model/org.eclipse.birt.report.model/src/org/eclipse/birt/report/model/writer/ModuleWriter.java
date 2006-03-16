@@ -1765,7 +1765,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ScalarParameter.CONCEAL_VALUE_PROP );
 		property( obj, ScalarParameter.ALLOW_BLANK_PROP );
 		property( obj, ScalarParameter.ALLOW_NULL_PROP );
-		property( obj, ScalarParameter.FORMAT_PROP );
 		property( obj, ScalarParameter.CONTROL_TYPE_PROP );
 		property( obj, ScalarParameter.ALIGNMENT_PROP );
 		property( obj, ScalarParameter.DATASET_NAME_PROP );
@@ -1775,6 +1774,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ScalarParameter.FIXED_ORDER_PROP );
 		property( obj, ScalarParameter.DEFAULT_VALUE_PROP );
 
+		writeStructure( obj, ScalarParameter.FORMAT_PROP );
 		writeStructureList( obj, ScalarParameter.SELECTION_LIST_PROP );
 
 		writer.endElement( );
