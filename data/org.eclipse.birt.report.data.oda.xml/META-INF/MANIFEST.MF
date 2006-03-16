@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT ODA-XML Driver
+Bundle-SymbolicName: org.eclipse.birt.report.data.oda.xml;singleton:=true
+Bundle-Version: 2.1.0
+Bundle-ClassPath: oda-xml.jar,
+ lib/resolver.jar,
+ lib/xercesImpl.jar,
+ lib/xml-apis.jar
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.birt.core,
+ org.eclipse.datatools.connectivity.oda,
+ com.ibm.icu.source
+Eclipse-LazyStart: true
+Export-Package: org.eclipse.birt.report.data.oda.xml,
+ org.eclipse.birt.report.data.oda.xml.util,
+ org.eclipse.birt.report.data.oda.xml.util.ui
