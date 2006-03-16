@@ -144,10 +144,10 @@
 	<target name="Export">
 		<property file="META-INF/MANIFEST.MF" />
 		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
-	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
+	  	<copy todir="${export.dir}/${module.name}_${Bundle-Version}">
 	        <fileset dir="." includes="*.jar,plugin.xml,plugin*.properties,about.html, .options, about_files/**, META-INF/**"/>
 	    </copy>
-		<copy todir="${export.dir}/${module.name}_${plugin.version}/lib">
+		<copy todir="${export.dir}/${module.name}_${Bundle-Version}/lib">
 			<fileset dir="./lib" includes="**/*.*"/>
 	    </copy>
 	</target>

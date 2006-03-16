@@ -186,7 +186,7 @@
 	<target name="Export">
 		<property file="META-INF/MANIFEST.MF" />
 		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
-	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
+	  	<copy todir="${export.dir}/${module.name}_${Bundle-Version}">
 	        <fileset dir="." 
 	        	includes="dte.jar, about.html, plugin.xml, .options, schema/**, META-INF/**"
 	        />
