@@ -30,7 +30,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
-import org.eclipse.birt.report.model.elements.ExtendedItem;
 
 import com.ibm.icu.util.ULocale;
 
@@ -71,12 +70,12 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 			try
 			{
 				eih.loadExtendedElement( );
+				item = eih.getReportItem( );
 			}
 			catch ( ExtendedElementException eeex )
 			{
 				logger.log( eeex );
 			}
-			item = ( (ExtendedItem) eih.getElement( ) ).getExtendedElement( );
 			if ( item == null )
 			{
 				logger.log( ILogger.ERROR,

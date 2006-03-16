@@ -43,7 +43,6 @@ import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
-import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -168,12 +167,12 @@ public final class ChartReportItemPresentationImpl extends
 			try
 			{
 				eih.loadExtendedElement( );
+				item = eih.getReportItem( );
 			}
 			catch ( ExtendedElementException eeex )
 			{
 				logger.log( eeex );
 			}
-			item = ( (ExtendedItem) eih.getElement( ) ).getExtendedElement( );
 			if ( item == null )
 			{
 				logger.log( ILogger.ERROR,
@@ -297,7 +296,7 @@ public final class ChartReportItemPresentationImpl extends
 				// presentation.
 				if ( cm != null && handle != null )
 				{
-					IReportItem item = ( (ExtendedItem) handle.getElement( ) ).getExtendedElement( );
+					IReportItem item = handle.getReportItem( );
 					item.setProperty( "chart.instance", cm );//$NON-NLS-1$
 				}
 			}

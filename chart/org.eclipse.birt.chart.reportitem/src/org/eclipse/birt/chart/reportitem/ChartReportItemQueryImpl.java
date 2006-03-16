@@ -9,7 +9,6 @@
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
 
-
 package org.eclipse.birt.chart.reportitem;
 
 import org.eclipse.birt.chart.exception.ChartException;
@@ -24,7 +23,6 @@ import org.eclipse.birt.report.engine.extension.ReportItemQueryBase;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
-import org.eclipse.birt.report.model.elements.ExtendedItem;
 
 /**
  * 
@@ -59,24 +57,34 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 	 */
 	public void setModelObject( ExtendedItemHandle eih )
 	{
-		IReportItem item = ( (ExtendedItem) eih.getElement( ) ).getExtendedElement( );
-		if ( item == null )
+		IReportItem item;
+		try
 		{
-			try
-			{
-				eih.loadExtendedElement( );
-			}
-			catch ( ExtendedElementException eeex )
-			{
-				logger.log( eeex );
-			}
-			item = ( (ExtendedItem) eih.getElement( ) ).getExtendedElement( );
+			item = eih.getReportItem( );
 			if ( item == null )
 			{
-				logger.log( ILogger.ERROR,
-						Messages.getString( "ChartReportItemQueryImpl.log.UnableToLocate" ) ); //$NON-NLS-1$
-				return;
+				try
+				{
+					eih.loadExtendedElement( );
+				}
+				catch ( ExtendedElementException eeex )
+				{
+					logger.log( eeex );
+				}
+				item = eih.getReportItem( );
+				if ( item == null )
+				{
+					logger.log( ILogger.ERROR,
+							Messages.getString( "ChartReportItemQueryImpl.log.UnableToLocate" ) ); //$NON-NLS-1$
+					return;
+				}
 			}
+		}
+		catch ( ExtendedElementException e )
+		{
+			logger.log( ILogger.ERROR,
+					Messages.getString( "ChartReportItemQueryImpl.log.UnableToLocate" ) ); //$NON-NLS-1$
+			return;
 		}
 		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( "chart.instance" ); //$NON-NLS-1$
 		this.eih = eih;
@@ -94,11 +102,11 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 				Messages.getString( "ChartReportItemQueryImpl.log.getReportQueries.start" ) ); //$NON-NLS-1$
 
 		// BUILD THE QUERY ASSOCIATED WITH THE CHART MODEL
-		
+
 		IBaseQueryDefinition ibqd = null;
 		try
 		{
-			ibqd = (new QueryHelper()).build( eih, ibqdParent, cm );
+			ibqd = ( new QueryHelper( ) ).build( eih, ibqdParent, cm );
 		}
 		catch ( RuntimeException gex )
 		{

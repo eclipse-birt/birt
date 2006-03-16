@@ -37,7 +37,7 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.ReportItem;
-import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -251,7 +251,7 @@ public final class ChartReportItemImpl extends ReportItem
 
 		return new ChartPropertyDefinitionImpl( null,
 				"script", "property.script", false, //$NON-NLS-1$ //$NON-NLS-2$
-				PropertyType.STRING_TYPE,
+				IPropertyType.STRING_TYPE,
 				null,
 				null,
 				null );
@@ -275,49 +275,49 @@ public final class ChartReportItemImpl extends ReportItem
 
 				new ChartPropertyDefinitionImpl( null,
 						"title.value", "property.label.title.value", false, //$NON-NLS-1$ //$NON-NLS-2$
-						PropertyType.STRING_TYPE,
+						IPropertyType.STRING_TYPE,
 						null,
 						null,
 						null ),
 
 				new ChartPropertyDefinitionImpl( null,
 						"title.font.rotation", "property.label.title.font.rotation", false, //$NON-NLS-1$ //$NON-NLS-2$
-						PropertyType.FLOAT_TYPE,
+						IPropertyType.FLOAT_TYPE,
 						null,
 						null,
 						null ),
 
 				new ChartPropertyDefinitionImpl( null,
 						"legend.position", "property.label.legend.position", false, //$NON-NLS-1$ //$NON-NLS-2$
-						PropertyType.CHOICE_TYPE,
+						IPropertyType.CHOICE_TYPE,
 						liLegendPositions,
 						null,
 						null ),
 
 				new ChartPropertyDefinitionImpl( null,
 						"legend.anchor", "property.label.legend.anchor", false, //$NON-NLS-1$ //$NON-NLS-2$
-						PropertyType.CHOICE_TYPE,
+						IPropertyType.CHOICE_TYPE,
 						liLegendAnchors,
 						null,
 						null ),
 
 				new ChartPropertyDefinitionImpl( null,
 						"chart.dimension", "property.label.chart.dimension", false, //$NON-NLS-1$ //$NON-NLS-2$
-						PropertyType.CHOICE_TYPE,
+						IPropertyType.CHOICE_TYPE,
 						liChartDimensions,
 						null,
 						null ),
 
 				new ChartPropertyDefinitionImpl( null,
 						"plot.transposed", "property.label.chart.plot.transposed", false, //$NON-NLS-1$ //$NON-NLS-2$
-						PropertyType.BOOLEAN_TYPE,
+						IPropertyType.BOOLEAN_TYPE,
 						null,
 						null,
 						null ),
 
 				new ChartPropertyDefinitionImpl( null,
 						"script", "property.script", false, //$NON-NLS-1$ //$NON-NLS-2$
-						PropertyType.STRING_TYPE,
+						IPropertyType.STRING_TYPE,
 						null,
 						null,
 						null ),

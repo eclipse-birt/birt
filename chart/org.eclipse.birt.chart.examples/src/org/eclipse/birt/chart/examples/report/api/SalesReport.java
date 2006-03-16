@@ -64,7 +64,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 
 import com.ibm.icu.util.ULocale;
 
@@ -75,7 +75,7 @@ public class SalesReport
 
 	ElementFactory elementFactory = null;
 
-	MetaDataDictionary dict = null;
+	IMetaDataDictionary dict = null;
 
 	public static void main( String[] args ) throws SemanticException,
 			IOException
@@ -94,7 +94,7 @@ public class SalesReport
 		// Element factory is used to create instances of BIRT elements.
 		elementFactory = reportDesignHandle.getElementFactory( );
 
-		dict = MetaDataDictionary.getInstance( );
+		dict = DesignEngine.getMetaDataDictionary( );
 
 		createMasterPages( );
 		createDataSources( );

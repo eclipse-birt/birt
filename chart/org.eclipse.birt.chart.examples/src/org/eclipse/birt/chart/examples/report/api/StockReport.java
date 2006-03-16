@@ -66,7 +66,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 
 import com.ibm.icu.util.ULocale;
 
@@ -79,7 +79,7 @@ public class StockReport
 
 	StructureFactory structFactory = null;
 
-	MetaDataDictionary dict = null;
+	IMetaDataDictionary dict = null;
 
 	public static void main( String[] args ) throws SemanticException,
 			IOException
@@ -100,7 +100,7 @@ public class StockReport
 
 		structFactory = new StructureFactory( );
 
-		dict = MetaDataDictionary.getInstance( );
+		dict = DesignEngine.getMetaDataDictionary( );
 
 		createMasterPages( );
 		createDataSources( );
