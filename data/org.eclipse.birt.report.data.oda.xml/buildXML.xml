@@ -142,9 +142,10 @@
 		 		- ${plugin.version} the version of plugin exported
 	 -->
 	<target name="Export">
+		<property file="META-INF/MANIFEST.MF" />
 		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
 	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
-	        <fileset dir="." includes="*.jar,plugin.xml,plugin*.properties,about.html, .options, about_files/**"/>
+	        <fileset dir="." includes="*.jar,plugin.xml,plugin*.properties,about.html, .options, about_files/**, META-INF/**"/>
 	    </copy>
 		<copy todir="${export.dir}/${module.name}_${plugin.version}/lib">
 			<fileset dir="./lib" includes="**/*.*"/>
