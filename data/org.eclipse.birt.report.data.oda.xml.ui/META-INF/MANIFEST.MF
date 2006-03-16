@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT XML UI Plug-in
+Bundle-SymbolicName: org.eclipse.birt.report.data.oda.xml.ui;singleton:=true
+Bundle-Version: 2.1.0
+Bundle-ClassPath: xmlui.jar
+Bundle-Activator: org.eclipse.birt.report.data.oda.xml.ui.UiPlugin
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.birt.report.designer.ui,
+ org.eclipse.birt.report.model,
+ org.eclipse.birt.core,
+ org.eclipse.birt.report.data.oda.xml,
+ org.eclipse.datatools.connectivity.oda.design.ui
+Eclipse-LazyStart: true
+Export-Package: org.eclipse.birt.report.data.oda.xml.ui,
+ org.eclipse.birt.report.data.oda.xml.ui.profile,
+ org.eclipse.birt.report.data.oda.xml.ui.utils,
+ org.eclipse.birt.report.data.oda.xml.ui.wizards
