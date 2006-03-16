@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -27,6 +28,7 @@ import org.eclipse.birt.data.engine.executor.DataSourceFactory;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.ResultObject;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -57,7 +59,22 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 				"PreparedScriptDSQuery",
 				"PreparedScriptDSQuery starts up." );
 	}
-
+		
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getParameterMetaData()
+	 */
+    public Collection getParameterMetaData() throws DataException
+	{
+		DataException e = new DataException( ResourceConstants.PARAMETER_METADATA_NOT_SUPPORTED );
+		logger.logp( Level.FINE,
+				PreparedDataSourceQuery.class.getName( ),
+				"getParameterMetaData",
+				"Cannot get parameter metadata for this type of data source.",
+				e );
+		throw e;
+	}
+    
 	/**
 	 * @see org.eclipse.birt.data.engine.impl.PreparedQuery#newExecutor()
 	 */

@@ -14,12 +14,15 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
 import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
+import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IQuery;
@@ -30,11 +33,15 @@ import org.mozilla.javascript.Scriptable;
  * A prepared Sub query, which does not have its own data set, but rather queries a subset of 
  * data produced by its a parent query.
  */
-class PreparedSubquery extends PreparedQuery
+class PreparedSubquery implements IPreparedQueryService
 {
 	private int groupLevel;
-	private PreparedQuery parentQuery;
+	private IPreparedQueryService queryService;
 	private IResultIterator parentIterator;
+	
+	private PreparedQuery preparedQuery;
+	
+	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 	
 	/**
 	 * @param subquery Subquery definition
@@ -45,12 +52,16 @@ class PreparedSubquery extends PreparedQuery
 	 */
 	PreparedSubquery( DataEngineContext context, ExpressionCompiler exCompiler,
 			Scriptable scope, ISubqueryDefinition subquery,
-			PreparedQuery parentQuery, int groupLevel ) throws DataException
+			IPreparedQueryService queryService, int groupLevel ) throws DataException
 	{
-		super( context, exCompiler, scope, subquery );
+		preparedQuery = new PreparedQuery( context,
+				exCompiler,
+				scope,
+				subquery,
+				this );
 		
 		this.groupLevel = groupLevel;
-		this.parentQuery = parentQuery;
+		this.queryService = queryService;
 		logger.logp( Level.FINER,
 				PreparedSubquery.class.getName( ),
 				"PreparedSubquery",
@@ -75,7 +86,7 @@ class PreparedSubquery extends PreparedQuery
 		try
 		{
 			this.parentIterator = parentIterator;
-			return doPrepare( null,scope );
+			return preparedQuery.doPrepare( null, scope, newExecutor( ), getDataSourceQuery( ) );
 		}
 		finally
 		{
@@ -89,10 +100,10 @@ class PreparedSubquery extends PreparedQuery
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.PreparedQuery#getReportQuery()
 	 */
-	protected PreparedDataSourceQuery getDataSourceQuery()
+	public PreparedDataSourceQuery getDataSourceQuery()
 	{
 		// Gets the parent's report query
-		return parentQuery.getDataSourceQuery();
+		return queryService.getDataSourceQuery();
 	}
 	
 	/*
@@ -106,7 +117,7 @@ class PreparedSubquery extends PreparedQuery
 	/**
 	 * Concrete class of PreparedQuery.Executor used in PreparedSubquery
 	 */
-	class SubQueryExecutor extends ExQueryExecutor
+	class SubQueryExecutor extends QueryExecutor
 	{
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiDataSource()
@@ -161,6 +172,26 @@ class PreparedSubquery extends PreparedQuery
 			
 			return ret;
 		}
+		
+		public Scriptable getSharedScope( )
+		{
+			return preparedQuery.getSharedScope( );
+		}
+		
+		protected IBaseQueryDefinition getBaseQueryDefn( )
+		{
+			return preparedQuery.getBaseQueryDefn( );
+		}
+
+		protected AggregateTable getAggrTable( )
+		{
+			return preparedQuery.getAggrTable( );
+		}
+		
+		protected ExpressionCompiler getExpressionCompiler( )
+		{
+			return preparedQuery.getExpressionCompiler( );
+		}
 	}
 	
 	/**
@@ -169,6 +200,14 @@ class PreparedSubquery extends PreparedQuery
 	public int getGroupLevel( )
 	{
 		return this.groupLevel;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IPreparedQueryService#execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator, java.lang.String, org.mozilla.javascript.Scriptable)
+	 */
+	public QueryResults execSubquery( IResultIterator iterator, String subQueryName, Scriptable subScope ) throws DataException
+	{
+		return this.preparedQuery.execSubquery( iterator, subQueryName, subScope );
 	}
 	
 }

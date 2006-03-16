@@ -45,7 +45,7 @@ import org.mozilla.javascript.Scriptable;
 /** 
  * Base class for a prepared query or subquery. 
  */
-abstract class PreparedQuery 
+final class PreparedQuery 
 {
 	private 	IBaseQueryDefinition 	queryDefn;
 	
@@ -60,14 +60,16 @@ abstract class PreparedQuery
 	protected HashMap subQueryMap = new HashMap();
 	
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
-
+	
+	private IPreparedQueryService queryService;
+	
 	/**
 	 * @param engine
 	 * @param queryDefn
 	 * @throws DataException
 	 */
 	PreparedQuery( DataEngineContext deContext, ExpressionCompiler exCompiler,
-			Scriptable scope, IBaseQueryDefinition queryDefn )
+			Scriptable scope, IBaseQueryDefinition queryDefn, IPreparedQueryService queryService )
 			throws DataException
 	{
 		logger.logp( Level.FINE,
@@ -82,6 +84,7 @@ abstract class PreparedQuery
 
 		this.queryDefn = queryDefn;
 		this.aggrTable = new AggregateTable( this.sharedScope, queryDefn );
+		this.queryService = queryService;
 
 		logger.fine( "Start to prepare a PreparedQuery." );
 		prepare( );
@@ -97,19 +100,6 @@ abstract class PreparedQuery
 	}
 	
 	/**
-	 * @return the appropriate subclass of the Executor
-	 */
-	protected abstract QueryExecutor newExecutor();
-	
-	/**
-	 * For a SubQuery, this returns the top-level data source query that
-	 * contains the SubQuery. For other queries, "this" is returned
-	 * 
-	 * @return the main data source query
-	 */
-	abstract protected PreparedDataSourceQuery getDataSourceQuery();
-	
-	/**
 	 * Return the QueryResults. But the execution of query would be deferred
 	 * 
 	 * @param outerResults
@@ -119,7 +109,9 @@ abstract class PreparedQuery
 	 *            The ElementState object for the report item using the query;
 	 *            this acts as the JS scope for evaluating script expressions.
 	 */
-	protected QueryResults doPrepare( IQueryResults outerResults, Scriptable scope ) throws DataException
+	protected QueryResults doPrepare( IQueryResults outerResults,
+			Scriptable scope, QueryExecutor executor,
+			PreparedDataSourceQuery dataSourceQuery ) throws DataException
 	{
 		if ( this.queryDefn == null )
 		{
@@ -133,7 +125,6 @@ abstract class PreparedQuery
 			throw e;
 		}
 		
-		QueryExecutor executor = newExecutor();
 		// pass the prepared query's pass thru context to its executor
 		executor.setAppContext( this.appContext );
 		
@@ -144,9 +135,12 @@ abstract class PreparedQuery
 		logger.finer( "Finish preparing the execution." );
 		
 	    return new QueryResults( new QueryService( this.deContext,
-				getDataSourceQuery( ),
-				this,
-				executor, this.queryDefn ), executor.getQueryScope( ), executor.nestedLevel + 1 );
+				dataSourceQuery,
+				queryService,
+				executor,
+				this.queryDefn ),
+				executor.getQueryScope( ),
+				executor.nestedLevel + 1 );
 	}
 	
 	/**
@@ -231,7 +225,7 @@ abstract class PreparedQuery
 					this.exCompiler,
 					this.sharedScope,
 					subquery,
-					this,
+					queryService,
 					groupLevel );
 			subQueryMap.put( subquery.getName(), pq);
 		}
@@ -387,28 +381,25 @@ abstract class PreparedQuery
 				"Prepared query closed" );
 		// TODO: close all open QueryResults obtained from this PreparedQuery
 	}
-	
-	abstract class ExQueryExecutor extends QueryExecutor
-	{
-		public Scriptable getSharedScope( )
-		{
-			return sharedScope;
-		}
-		
-		protected IBaseQueryDefinition getBaseQueryDefn( )
-		{
-			return queryDefn;
-		}
 
-		protected AggregateTable getAggrTable( )
-		{
-			return aggrTable;
-		}
-		
-		protected ExpressionCompiler getExpressionCompiler( )
-		{
-			return exCompiler;
-		}
+	public Scriptable getSharedScope( )
+	{
+		return sharedScope;
+	}
+
+	protected IBaseQueryDefinition getBaseQueryDefn( )
+	{
+		return queryDefn;
+	}
+
+	protected AggregateTable getAggrTable( )
+	{
+		return aggrTable;
+	}
+
+	protected ExpressionCompiler getExpressionCompiler( )
+	{
+		return exCompiler;
 	}
 		
 }
