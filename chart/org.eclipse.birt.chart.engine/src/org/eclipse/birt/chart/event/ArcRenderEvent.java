@@ -234,8 +234,10 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	 */
 	public final Bounds getBounds( )
 	{
-		// use full boudns temporarialy
+		// use full bounds temporarialy
 		return getEllipseBounds( );
+		
+		//TODO calculate the actual bounds.
 
 		// double dMinY = -1, dMinX = -1, dMaxY = -1, dMaxX = -1;
 		//
