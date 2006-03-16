@@ -147,7 +147,7 @@ class Driver
 			throw new DataException( ResourceConstants.INVALID_DATA_SET_TYPE, ex );
 		}
 
-		DataTypeMapping mapping = dsType.getDataTypeMapping( (short) nativeType );
+		DataTypeMapping mapping = dsType.getDataTypeMapping( nativeType );
 		
 		// no mapping found in data source extension configuration, return a default type
 		if( mapping == null )	
