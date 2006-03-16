@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.ImageItem;
+import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.LineItem;
@@ -827,6 +828,22 @@ public class ElementFactory
 	public OdaDataSetHandle newOdaDataSet( String name )
 	{
 		OdaDataSet element = new OdaDataSet( name );
+		module.makeUniqueName( element );
+		return element.handle( module );
+	}
+
+	/**
+	 * Creates a new joint data set. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the required joint data set name.
+	 * @return a handle to joint data set
+	 */
+
+	public JointDataSetHandle newJointDataSet( String name )
+	{
+		JointDataSet element = new JointDataSet( name );
 		module.makeUniqueName( element );
 		return element.handle( module );
 	}
