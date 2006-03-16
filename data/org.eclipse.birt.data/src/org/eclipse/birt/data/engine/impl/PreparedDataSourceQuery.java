@@ -91,14 +91,19 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 	}
 	
 	private IQueryDefinition queryDefn;
+	private DataEngineImpl dataEngine;
 	
 	protected PreparedDataSourceQuery( DataEngineImpl dataEngine, IQueryDefinition queryDefn, 
 			IBaseDataSetDesign dataSetDesign)
 		throws DataException
 	{
-		super(dataEngine, queryDefn);
+		super( dataEngine.getContext( ),
+				dataEngine.getExpressionCompiler( ),
+				dataEngine.getSharedScope( ),
+				queryDefn );
 		this.dataSetDesign = dataSetDesign;
 		this.queryDefn = queryDefn;
+		this.dataEngine = dataEngine;
 	}
 	
 	/* (non-Javadoc)
@@ -162,13 +167,12 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 		return doPrepare( outerResults, scope );
 	}
 	
-	abstract class DSQueryExecutor extends PreparedQuery.Executor
+	abstract class DSQueryExecutor extends ExQueryExecutor
 	{
 		protected DataSourceRuntime findDataSource( ) throws DataException
 		{
 			assert dataSetDesign != null;
-			DataSourceRuntime dsRT = getDataEngine().getDataSourceRuntime( 
-					dataSetDesign.getDataSourceName() );
+			DataSourceRuntime dsRT = dataEngine.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) );
 			return dsRT;
 		}
 		

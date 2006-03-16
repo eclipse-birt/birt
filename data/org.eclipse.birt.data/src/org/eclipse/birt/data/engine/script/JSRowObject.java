@@ -186,7 +186,7 @@ public class JSRowObject extends ScriptableObject
     		Object value = dataSet.getDataRow().getColumnValue( index );
     		return  JavascriptEvalUtil.convertToJavascriptValue (
     					value,
-    					dataSet.getDataEngine().getSharedScope() );
+    					dataSet.getSharedScope( ) );
 		}
     	catch ( BirtException e )
 		{
@@ -244,7 +244,7 @@ public class JSRowObject extends ScriptableObject
         	Object value = dataSet.getDataRow().getColumnValue( name );
     		return  JavascriptEvalUtil.convertToJavascriptValue (
 					value,
-					dataSet.getDataEngine().getSharedScope() );
+					dataSet.getSharedScope( ) );
 		}
 		catch ( BirtException e )
 		{

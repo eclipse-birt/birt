@@ -116,29 +116,6 @@ public class DataEngineImpl extends DataEngine
 
 		return new QueryResults( this.context, queryResultID );
 	}
-	
-	/**
-	 * Creates a subscope within parent scope
-	 * @param parentScope parent scope. If null, the shared top-level scope is used as parent
-	 */
-	Scriptable newSubScope( Scriptable parentScope )
-	{
-		if ( parentScope == null )
-			parentScope = getSharedScope();
-		
-		Context cx = Context.enter( );
-		try
-		{
-			Scriptable scope = cx.newObject( parentScope );
-			scope.setParentScope( parentScope );
-			scope.setPrototype( parentScope );
-			return scope;
-		}
-		finally
-		{
-			Context.exit( );
-		}
-	}
 
 	/**
 	 * Provides the definition of a data source to Data Engine. A data source

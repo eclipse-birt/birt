@@ -61,7 +61,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 	/**
 	 * @see org.eclipse.birt.data.engine.impl.PreparedQuery#newExecutor()
 	 */
-	protected Executor newExecutor()
+	protected QueryExecutor newExecutor()
 	{
 		return new ScriptDSQueryExecutor();
 	}

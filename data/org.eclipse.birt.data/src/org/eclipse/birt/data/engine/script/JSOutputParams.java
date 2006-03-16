@@ -17,7 +17,7 @@ import java.util.Map;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
-import org.eclipse.birt.data.engine.impl.PreparedExtendedDSQuery;
+import org.eclipse.birt.data.engine.impl.PreparedOdaDSQuery;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -30,7 +30,7 @@ public class JSOutputParams extends ScriptableObject
 	private Map valueMap = new HashMap( );
 
 	// parameter value provider
-	PreparedExtendedDSQuery.ExtendedDSQueryExecutor queryExecutor;
+	PreparedOdaDSQuery.ExtendedDSQueryExecutor queryExecutor;
 	
 	/** */
 	private static final long serialVersionUID = 2535883419826794186L;
@@ -38,9 +38,9 @@ public class JSOutputParams extends ScriptableObject
 	public JSOutputParams( DataSetRuntime dataSet )
 	{
 		// Output param is only available for ODA data sets
-		if ( dataSet.getQueryExecutor() instanceof PreparedExtendedDSQuery.ExtendedDSQueryExecutor )
+		if ( dataSet.getQueryExecutor() instanceof PreparedOdaDSQuery.ExtendedDSQueryExecutor )
 		{
-			queryExecutor = (PreparedExtendedDSQuery.ExtendedDSQueryExecutor)( 
+			queryExecutor = (PreparedOdaDSQuery.ExtendedDSQueryExecutor)( 
 					dataSet.getQueryExecutor() );
 		}
 	}
@@ -86,7 +86,7 @@ public class JSOutputParams extends ScriptableObject
 		
 		return  JavascriptEvalUtil.convertToJavascriptValue (
 				paramValue,
-				queryExecutor.getDataEngine().getSharedScope() );
+				queryExecutor.getSharedScope() );
 	}
 
 	/*
@@ -122,7 +122,7 @@ public class JSOutputParams extends ScriptableObject
 
 		return  JavascriptEvalUtil.convertToJavascriptValue (
 				paramValue,
-				queryExecutor.getDataEngine().getSharedScope() );
+				queryExecutor.getSharedScope() );
 	}
 
 	/*

@@ -15,9 +15,11 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.logging.Level;
 
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
+import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IQuery;
@@ -41,10 +43,11 @@ class PreparedSubquery extends PreparedQuery
 	 * If 0, subquery is defined outside of any groups.
 	 * @throws DataException
 	 */
-	PreparedSubquery( ISubqueryDefinition subquery, PreparedQuery parentQuery, int groupLevel )
-		throws DataException
+	PreparedSubquery( DataEngineContext context, ExpressionCompiler exCompiler,
+			Scriptable scope, ISubqueryDefinition subquery,
+			PreparedQuery parentQuery, int groupLevel ) throws DataException
 	{
-		super( parentQuery.getDataEngine(), subquery);
+		super( context, exCompiler, scope, subquery );
 		
 		this.groupLevel = groupLevel;
 		this.parentQuery = parentQuery;
@@ -95,7 +98,7 @@ class PreparedSubquery extends PreparedQuery
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.PreparedQuery#newExecutor()
 	 */
-	protected Executor newExecutor()
+	protected QueryExecutor newExecutor()
 	{
 		return new SubQueryExecutor();
 	}
@@ -103,7 +106,7 @@ class PreparedSubquery extends PreparedQuery
 	/**
 	 * Concrete class of PreparedQuery.Executor used in PreparedSubquery
 	 */
-	class SubQueryExecutor extends PreparedQuery.Executor
+	class SubQueryExecutor extends ExQueryExecutor
 	{
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiDataSource()

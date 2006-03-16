@@ -30,7 +30,7 @@ public class OdaDataSetRuntime extends DataSetRuntime
 	/** Public properties as a (String -> String) map */
 	private Map		publicProperties;
 	
-    OdaDataSetRuntime( IOdaDataSetDesign dataSet, PreparedQuery.Executor executor )
+    OdaDataSetRuntime( IOdaDataSetDesign dataSet, QueryExecutor executor )
     {
         super( dataSet, executor );
         

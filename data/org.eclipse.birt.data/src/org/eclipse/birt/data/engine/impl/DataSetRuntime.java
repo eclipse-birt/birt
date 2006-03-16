@@ -59,7 +59,7 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 	/** Javascript object implementing the DataSet class */
 	private Scriptable		jsDataSetObject;
 	
-	protected PreparedQuery.Executor queryExecutor;
+	protected QueryExecutor queryExecutor;
 	protected static Logger logger = Logger.getLogger( DataSetRuntime.class.getName( ) );
 
 	// Fields related to current data row
@@ -88,7 +88,7 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
     private IBaseDataSetEventHandler eventHandler;
     protected boolean isOpen;
 
-	protected DataSetRuntime( IBaseDataSetDesign dataSetDesign, PreparedQuery.Executor queryExecutor)
+	protected DataSetRuntime( IBaseDataSetDesign dataSetDesign, QueryExecutor queryExecutor)
 	{
 		this.dataSetDesign = dataSetDesign;
 		this.queryExecutor = queryExecutor;
@@ -114,7 +114,7 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 		 */
 	}
 
-	public PreparedQuery.Executor getQueryExecutor()
+	public QueryExecutor getQueryExecutor()
 	{
 		return queryExecutor;
 	}
@@ -158,7 +158,7 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 		{
 			// Construct an array of nested data sets
 			int size = queryExecutor.nestedLevel;
-			PreparedQuery.Executor executor = queryExecutor;									
+			QueryExecutor executor = queryExecutor;									
 			DataSetRuntime[] dataSets = new DataSetRuntime[ size ];			
 			dataSets[ size - 1 ] = executor.getDataSet();			
 			if ( size - 1 > 0 )
@@ -244,7 +244,7 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 	 * @param dataSetDefn Design-time data set definition.
 	 */
 	public static DataSetRuntime newInstance( IBaseDataSetDesign dataSetDefn, 
-			PreparedQuery.Executor queryExecutor ) throws DataException
+			QueryExecutor queryExecutor ) throws DataException
 	{
 		DataSetRuntime dataSet = null;
 		if ( dataSetDefn instanceof IOdaDataSetDesign )
@@ -266,9 +266,9 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 	/**
 	 * Gets the Data Engine
 	 */
-	public DataEngineImpl getDataEngine()
+	public Scriptable getSharedScope()
 	{
-		return queryExecutor.getDataEngine();
+		return queryExecutor.getSharedScope( );
 	}
 	
 	/**
@@ -279,7 +279,7 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 		// JS wrapper is created on demand
 		if ( jsDataSetObject == null )
 		{
-			Scriptable topScope = queryExecutor.getDataEngine().getSharedScope();
+			Scriptable topScope = queryExecutor.getSharedScope();
 			Context.enter();
 			try
 			{
