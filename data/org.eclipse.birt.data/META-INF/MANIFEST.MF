@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT Data Engine
+Bundle-SymbolicName: org.eclipse.birt.data;singleton:=true
+Bundle-Version: 2.1.0
+Bundle-ClassPath: dte.jar
+Bundle-Activator: org.eclipse.birt.data.engine.plugin.DataEnginePlugin
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.birt.core,
+ org.eclipse.datatools.connectivity.oda,
+ com.ibm.icu.source
+Eclipse-LazyStart: true
+Export-Package: org.eclipse.birt.data.engine.api,
+ org.eclipse.birt.data.engine.api.aggregation,
+ org.eclipse.birt.data.engine.api.querydefn,
+ org.eclipse.birt.data.engine.api.script,
+ org.eclipse.birt.data.engine.plugin
