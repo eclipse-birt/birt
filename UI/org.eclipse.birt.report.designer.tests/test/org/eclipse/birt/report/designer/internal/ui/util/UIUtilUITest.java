@@ -11,22 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.util;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.tests.ITestConstants;
 import org.eclipse.birt.report.designer.testutil.BirtUITestCase;
-import org.eclipse.birt.report.designer.testutil.PrivateAccessor;
-import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
-import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.LabelHandle;
-import org.eclipse.birt.report.model.api.ListGroupHandle;
-import org.eclipse.birt.report.model.api.ListHandle;
-import org.eclipse.birt.report.model.api.ParameterGroupHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.model.api.TextItemHandle;
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
 /**
  * UI tests for UIUtil

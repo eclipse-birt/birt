@@ -47,7 +47,7 @@
  * Change History:
  *
  *    1. 03/16/2005: initial version
- *
+ *    2. 03/16/2006: single jar version
 -->
 
 
@@ -79,12 +79,10 @@
 	<property name="dir.src" location="src" />
 	<property name="dir.bin" location="temp.folder"/>	
 	<property name="module.name" value="org.eclipse.birt.report.designer.ui.rcp" />
-	<property name="designer.core.dir" value="../org.eclipse.birt.report.designer.core" />
 	<property name="designer.ui.dir" value="../org.eclipse.birt.report.designer.ui" />			
 	<property name="designer.lib.dir" value="../org.eclipse.birt.report.designer.ui.lib" />			
 	<property name="designer.lib.explorer.dir" value="../org.eclipse.birt.report.designer.ui.lib.explorer" />			
 	<property name="viewer.dir" value="../org.eclipse.birt.report.viewer" />		
-	<property name="jar.name" value="uircp.jar"/>
 	
 	<property name="arch" value="x86" />	
 	
@@ -135,15 +133,11 @@
 		 Input parameters:
 		 	eclipse.home
 	-->
-	<target name="Jar" depends="buildDependents,generateBuildScript">
-		<ant inheritAll="false">
-			<property name="javacFailOnError" value="true" />
-			<property name="javacSource" value="1.4" />
-			<property name="javacTarget" value="1.4" />
-			<property name="os" value="${os}" />
-			<property name="ws" value="${ws}" />
-			<property name="arch" value="${arch}" />			
-		</ant>
+	<target name="Jar" depends="build,clearJars">
+		<java classpath="${eclipse.home}/startup.jar" classname="org.eclipse.core.launcher.Main" fork="true" dir="." failonerror="true">
+			<arg line="-application org.eclipse.ant.core.antRunner -file build.xml build.update.jar" />
+			<jvmarg line="-Declipse.home=${eclipse.home} -Dclean=true -Dos=${os} -Dws=${ws} -Darch=${arch} -DjavacSource=1.4 -DjavacTarget=1.4" />
+		</java>
 	</target>
 
 	<!-- Export the project, for instance, jar files are copied to a designated folder
@@ -152,25 +146,9 @@
 		 		- ${export.dir} target directory to put the plugin binaries
 		 		- ${plugin.version} the version of plugin exported
 	 -->
-	<target name="Export">
-	  	<xmlproperty file="plugin.xml" collapseAttributes="true"/>
-		<property name="plugin.package" value="${module.name}_${plugin.version}" />
-		<copy todir="${export.dir}\${plugin.package}">
-			<fileset dir=".">
-				<exclude name="plugin*.properties"/>
-	 			<include name="${jar.name}"/>
- 				<include name="plugin*.*"/>
-				<include name="about.html"/>
-				<include name="splash.bmp"/>
-			</fileset>
-		</copy>
-		<copy todir="${export.dir}\${plugin.package}" overwrite="true">
-			<fileset dir=".">
-				<include name="plugin*.properties"/>
-			</fileset>
-			<filterset>
-		    	<filter token="BUILD" value="${TODAY}"/>
-			</filterset>
+	<target name="Export" description="Export">
+		<copy todir="${export.dir}">
+			<fileset dir="." includes="${module.name}*.jar" />
 		</copy>
 	</target>
 
@@ -189,9 +167,8 @@
 	</target>
 
 	<!-- Clean all objects manually when the script generated is lost-->
-	<target name="exceptionalClean" depends="checkBuildScript" unless="buildScript.available">
+	<target name="exceptionalClean" depends="checkBuildScript,clearJars" unless="buildScript.available">
 		<delete dir="${dir.bin}" />
-		<delete file="${jar.name}" />
 	</target>
 
 	<!-- Generate the JavaDoc.
@@ -203,7 +180,7 @@
 		<javadoc destdir="${javadoc.dir}" author="true" version="true" use="true" access="private" windowtitle="Birt Designer Core API" source="1.4" packagenames="org.eclipse.birt.*">
 			<packageset dir="${dir.src}" defaultexcludes="yes" />
 			<bottom>
-				<![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
+				<![CDATA[<i>Copyright &#169;  2006 Actuate Corp. All rights reserved. </i>]]></bottom>
 			<classpath refid="class.path" />
 		</javadoc>
 	</target>
@@ -221,25 +198,25 @@
 	</target>
 	
 	<target name="buildDependents">
-		<ant dir="${designer.ui.dir}" antfile="BuildDesignerUI.xml" target="Jar" inheritAll="false">
+		<ant dir="${designer.ui.dir}" antfile="BuildDesignerUI.xml" target="nuild" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}"/>
 			<property name="os" value="${os}"/>
 			<property name="ws" value="${ws}"/>
 			<property name="arch" value="${arch}"/>
 		</ant>
-		<ant dir="${designer.lib.dir}" antfile="BuildDesignerLib.xml" target="Jar" inheritAll="false">
+		<ant dir="${designer.lib.dir}" antfile="BuildDesignerLib.xml" target="build" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}"/>
 			<property name="os" value="${os}"/>
 			<property name="ws" value="${ws}"/>
 			<property name="arch" value="${arch}"/>
 		</ant>
-		<ant dir="${designer.lib.explorer.dir}" antfile="BuildLibraryExplorer.xml" target="Jar" inheritAll="false">
+		<ant dir="${designer.lib.explorer.dir}" antfile="BuildLibraryExplorer.xml" target="build" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}"/>
 			<property name="os" value="${os}"/>
 			<property name="ws" value="${ws}"/>
 			<property name="arch" value="${arch}"/>
 		</ant>
-		<ant dir="${designer.editor.dir}" antfile="BuildDesignerEditors.xml" target="Jar" inheritAll="false">
+		<ant dir="${designer.editor.dir}" antfile="BuildDesignerEditors.xml" target="build" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}"/>
 			<property name="os" value="${os}"/>
 			<property name="ws" value="${ws}"/>
@@ -252,5 +229,25 @@
 			<property name="arch" value="${arch}"/>
 		</ant>
 	</target>	
+	
+	
+	<target name="build" depends="buildDependents,generateBuildScript">
+		<ant inheritAll="false">
+			<property name="javacFailOnError" value="true" />
+			<property name="javacSource" value="1.4" />
+			<property name="javacTarget" value="1.4" />
+			<property name="os" value="${os}" />
+			<property name="ws" value="${ws}" />
+			<property name="arch" value="${arch}" />
+		</ant>
+	</target>
+	
+	<target name="clearJars">
+		<delete>
+			<fileset dir=".">
+				<include name="${module.name}*.jar" />
+			</fileset>
+		</delete>
+	</target>
 	
 </project>
