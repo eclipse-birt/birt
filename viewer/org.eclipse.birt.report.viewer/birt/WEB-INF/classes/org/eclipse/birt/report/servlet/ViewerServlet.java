@@ -31,97 +31,107 @@ import org.eclipse.birt.report.presentation.aggregation.layout.FramesetFragment;
  * Servlet implementation of BIRT Web Viewer.
  * <p>
  * There are four servlet mappings defined for ViewerServlet in the web.xml.
- * 	<ul>
- * 		<li>Frameset - Displays the whole web viewer frameset. (Public)</li>
- *		<li>Run - Runs the report and displays the output as a stand-alone HTML page, or as a PDF document. (Public)</li>
- *		<li>Navigation - Displays the leftside navigation frame that contains the report parameter page. (Internal)</li>
- *		<li>Toolbar - Displays the toolbar above the report content. (Internal)</li>
- *	</ul>
+ * <ul>
+ * <li>Frameset - Displays the whole web viewer frameset. (Public)</li>
+ * <li>Run - Runs the report and displays the output as a stand-alone HTML
+ * page, or as a PDF document. (Public)</li>
+ * <li>Navigation - Displays the leftside navigation frame that contains the
+ * report parameter page. (Internal)</li>
+ * <li>Toolbar - Displays the toolbar above the report content. (Internal)</li>
+ * </ul>
  * <p>
  * Each public mapping expects some URL parameters,
- * 	<ul>
- * 		<li>Frameset
- * 		<ul>
- * 			<li>__report</li>
- * 			<li>__locale</li>
- * 			<li><i>report parameter</i></li>
- * 		</ul>
- *		<li>Run
- *		<ul>
- *			<li>__report</li>
- *			<li>__format</li>
- *			<li>__locale</li>
- *			<li>__page</li>
- *			<li><i>report parameter</i></li>
- *		</ul>
- *	</ul>
+ * <ul>
+ * <li>Frameset
+ * <ul>
+ * <li>__report</li>
+ * <li>__locale</li>
+ * <li><i>report parameter</i></li>
+ * </ul>
+ * <li>Run
+ * <ul>
+ * <li>__report</li>
+ * <li>__format</li>
+ * <li>__locale</li>
+ * <li>__page</li>
+ * <li><i>report parameter</i></li>
+ * </ul>
+ * </ul>
  * <p>
- * Each URL parameter is described below.
- * 	<table border=1>
- *		<tr>
- *			<td><b>Parameter</b></td>
- *			<td><b>Description</b></td>
- *			<td><b>Values</b></td>
- *			<td><b>Default</b></td>
- *		</tr>
- *		<tr>
- *			<td>__report</td>
- *			<td>The path to the report document</td>
- *			<td>&nbsp;</td>
- *			<td>required</td>
- *		</tr>
- *		<tr>
- *			<td>__format</td>
- *			<td>The output format</td>
- *			<td>html or pdf</td>
- *			<td>optional, default to html</td>
- *		</tr>
- *		<tr>
- *			<td>__locale</td>
- *			<td>Report locale</td>
- *			<td>Java locale value such as en or ch-zh.</td>
- *			<td>optional, default to JVM locale</td>
- *		</tr>
- *		<tr>
- *			<td>__page</td>
- *			<td>Report page number</td>
- *			<td>Report page to be viewed.</td>
- *			<td>optional, default to 0</td>
- *		</tr>
- *		<tr>
- *			<td><i>reportParam</i></td>
- *			<td>User defined report parameter.</td>
- *			<td>As specified in the report design.</td>
- *			<td>As specified in the report design.</td>
- *		</tr>
- *	</table>
+ * Each URL parameter is described below. <table border=1>
+ * <tr>
+ * <td><b>Parameter</b></td>
+ * <td><b>Description</b></td>
+ * <td><b>Values</b></td>
+ * <td><b>Default</b></td>
+ * </tr>
+ * <tr>
+ * <td>__report</td>
+ * <td>The path to the report document</td>
+ * <td>&nbsp;</td>
+ * <td>required</td>
+ * </tr>
+ * <tr>
+ * <td>__format</td>
+ * <td>The output format</td>
+ * <td>html or pdf</td>
+ * <td>optional, default to html</td>
+ * </tr>
+ * <tr>
+ * <td>__locale</td>
+ * <td>Report locale</td>
+ * <td>Java locale value such as en or ch-zh.</td>
+ * <td>optional, default to JVM locale</td>
+ * </tr>
+ * <tr>
+ * <td>__page</td>
+ * <td>Report page number</td>
+ * <td>Report page to be viewed.</td>
+ * <td>optional, default to 0</td>
+ * </tr>
+ * <tr>
+ * <td><i>reportParam</i></td>
+ * <td>User defined report parameter.</td>
+ * <td>As specified in the report design.</td>
+ * <td>As specified in the report design.</td>
+ * </tr>
+ * </table>
  * <p>
  */
 public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 {
+
 	/**
-	 * Viewer fragment references. 
+	 * Comment for <code>serialVersionUID</code>.
 	 */
+	
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Viewer fragment references.
+	 */
+	
 	private IFragment viewer = null;
 	private IFragment preview = null;
 	private IFragment engine = null;
 	private IFragment parameter = null;
-	
+
 	/**
-	 * Servlet initialization.
-	 * 	Initialize engine, parameter, resources, and viewer fragment.
-	 *  Birt viewer uses a composite of fragments to control the layout renderring.
-	 *  The Composite is initialized here and will be shared by all incoming servlet
-	 * 	requests. Four fragment references are stored as properties of servlet instance.
-	 * 	Each fragments is read only.
+	 * Servlet initialization. Initialize engine, parameter, resources, and
+	 * viewer fragment. Birt viewer uses a composite of fragments to control the
+	 * layout renderring. The Composite is initialized here and will be shared
+	 * by all incoming servlet requests. Four fragment references are stored as
+	 * properties of servlet instance. Each fragments is read only.
 	 * 
 	 * @see org.eclipse.birt.report.viewer.aggregation.BaseFragment
-	 * @param config servlet configuration
+	 * @param config
+	 *            servlet configuration
 	 */
+	
 	public void init( ServletConfig config ) throws ServletException
 	{
 		super.init( config );
-		
+
 		ParameterAccessor.initParameters( config );
 		BirtResources.initResource( ParameterAccessor.getWebAppLocale( ) );
 
@@ -130,25 +140,30 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 		engine = FramesetFragment.getEngineFragment( );
 		parameter = FramesetFragment.getParameterFragment( );
 	}
-	
+
 	/**
 	 * Process http request with GET method
 	 * 
-	 * @param request incoming http request
-	 * @param response http response
+	 * @param request
+	 *            incoming http request
+	 * @param response
+	 *            http response
 	 * @exception ServletException
 	 * @exception IOException
 	 */
-	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+	
+	public void doGet( HttpServletRequest request, HttpServletResponse response )
+			throws ServletException, IOException
 	{
-		ReportEngineService.getInstance().setEngineContext( getServletContext( ), request );
+		ReportEngineService.getInstance( ).setEngineContext(
+				getServletContext( ), request );
 
 		// Exception happened during context init.
 		BirtContext context = new BirtContext( request );
 		if ( context.getBean( ).getException( ) != null )
 		{
 			context.finalize( );
-			
+
 			String target = "pages/common/Error.jsp"; //$NON-NLS-1$
 			request.setAttribute( "error", context.getBean( ).getException( ) ); //$NON-NLS-1$
 			RequestDispatcher rd = request.getRequestDispatcher( target );
@@ -170,9 +185,9 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 				{
 					engine.service( request, response );
 				}
-				else if( "/parameter".equalsIgnoreCase( request.getServletPath( ) ) )//$NON-NLS-1$
+				else if ( "/parameter".equalsIgnoreCase( request.getServletPath( ) ) )//$NON-NLS-1$
 				{
-					parameter.service( request, response);
+					parameter.service( request, response );
 				}
 			}
 			catch ( BirtException e )
@@ -187,57 +202,76 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 				context.finalize( );
 			}
 		}
-		
+
 	}
 
 	/**
-	 * Process http request with POST method.
-	 * Four different servlet paths are expected: "/frameset", "/navigation", "/toolbar", and "/run".
+	 * Process http request with POST method. Four different servlet paths are
+	 * expected: "/frameset", "/navigation", "/toolbar", and "/run".
 	 * 
-	 * @param request incoming http request
-	 * @param response http response
+	 * @param request
+	 *            incoming http request
+	 * @param response
+	 *            http response
 	 * @exception ServletException
 	 * @exception IOException
 	 */
-	public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+	
+	public void doPost( HttpServletRequest request, HttpServletResponse response )
+			throws ServletException, IOException
 	{
-		ReportEngineService.getInstance().setEngineContext( getServletContext( ), request );
-		BirtContext context = new BirtContext( request );
-		
-		if ( "/download".equalsIgnoreCase( request.getServletPath( ) ) ) //$NON-NLS-1$
+		String requestType = request
+				.getHeader( ParameterAccessor.HEADER_REQUEST_TYPE );
+
+		if ( ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
+				.equalsIgnoreCase( requestType ) )
 		{
-			if ( context.getBean( ).getException( ) != null )
+			ReportEngineService.getInstance( ).setEngineContext(
+					getServletContext( ), request );
+			BirtContext context = new BirtContext( request );
+
+			if ( "/download".equalsIgnoreCase( request.getServletPath( ) ) ) //$NON-NLS-1$
 			{
-				context.finalize( );
-				
-				String target = "pages/common/Error.jsp"; //$NON-NLS-1$
-				request.setAttribute( "error", context.getBean( ).getException( ) ); //$NON-NLS-1$
-				RequestDispatcher rd = request.getRequestDispatcher( target );
-				rd.include( request, response );
+				if ( context.getBean( ).getException( ) != null )
+				{
+					context.finalize( );
+
+					String target = "pages/common/Error.jsp"; //$NON-NLS-1$
+					request.setAttribute(
+							"error", context.getBean( ).getException( ) ); //$NON-NLS-1$
+					RequestDispatcher rd = request
+							.getRequestDispatcher( target );
+					rd.include( request, response );
+				}
+				else
+				{
+					try
+					{
+						engine.service( request, response );
+					}
+					catch ( BirtException e )
+					{
+						String target = "pages/common/Error.jsp"; //$NON-NLS-1$
+						request.setAttribute( "error", e ); //$NON-NLS-1$
+						RequestDispatcher rd = request
+								.getRequestDispatcher( target );
+						rd.include( request, response );
+					}
+					finally
+					{
+						context.finalize( );
+					}
+				}
 			}
 			else
 			{
-				try
-				{
-					engine.service( request, response );
-				}
-				catch ( BirtException e )
-				{
-					String target = "pages/common/Error.jsp"; //$NON-NLS-1$
-					request.setAttribute( "error", e ); //$NON-NLS-1$
-					RequestDispatcher rd = request.getRequestDispatcher( target );
-					rd.include( request, response );
-				}
-				finally
-				{
-					context.finalize( );
-				}
+				super.doPost( request, response );
+				context.finalize( );
 			}
 		}
 		else
 		{
-			super.doPost( request, response );
-			context.finalize( );
+			doGet( request, response );
 		}
 
 	}

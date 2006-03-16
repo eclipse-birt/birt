@@ -27,18 +27,18 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.eclipse.birt.core.framework.Platform;
-
 /**
  * Utilites class for all types of URl related operatnios.
  * <p>
  */
+
 public class ParameterAccessor
 {
 
 	/**
 	 * URL parameter names.
 	 */
+	
 	public static final String PARAM_REPORT = "__report"; //$NON-NLS-1$
 	public static final String PARAM_REPORT_DOCUMENT = "__document"; //$NON-NLS-1$
 	public static final String PARAM_FORMAT = "__format"; //$NON-NLS-1$
@@ -53,10 +53,18 @@ public class ParameterAccessor
 	public static final String PARAM_OVERWRITE = "__overwrite"; //$NON-NLS-1$
 	public static final String PARAM_IMAGEID = "__imageID"; //$NON-NLS-1$
 	public static final String PARAM_BOOKMARK = "__bookmark"; //$NON-NLS-1$
+	
+	/**
+	 * Custom request headers.
+	 */
+	
+	public static final String HEADER_REQUEST_TYPE = "request-type"; //$NON-NLS-1$
+	public static final String HEADER_REQUEST_TYPE_SOAP = "soap"; //$NON-NLS-1$
 
 	/**
 	 * Parametrer passed over by export data form.
 	 */
+	
 	public static final String PARAM_IID = "iid"; //$NON-NLS-1$
 	public static final String PARAM_RESULTSETNAME = "ResultSetName"; //$NON-NLS-1$
 	public static final String PARAM_SELECTEDCOLUMNNUMBER = "SelectedColumnNumber"; //$NON-NLS-1$
@@ -65,6 +73,7 @@ public class ParameterAccessor
 	/**
 	 * Servlet configuration parameter names.
 	 */
+	
 	public static final String INIT_PARAM_LOCALE = "BIRT_VIEWER_LOCALE"; //$NON-NLS-1$
 	public static final String INIT_PARAM_REPORT_DIR = "BIRT_VIEWER_WORKING_FOLDER"; //$NON-NLS-1$
 	public static final String INIT_PARAM_IMAGE_DIR = "BIRT_VIEWER_IMAGE_DIR"; //$NON-NLS-1$
@@ -76,15 +85,18 @@ public class ParameterAccessor
 	/**
 	 * Suffix of report document.
 	 */
+	
 	public static final String SUFFIX_REPORT_DOCUMENT = ".rptdocument"; //$NON-NLS-1$
 	/**
 	 * Report working folder.
 	 */
+	
 	private static String workingFolder = null;
 
 	/**
 	 * Current web application locale.
 	 */
+	
 	private static Locale webAppLocale = null;
 
 	/**
@@ -99,6 +111,7 @@ public class ParameterAccessor
 	 * @param request
 	 * @return
 	 */
+	
 	public static String getBookmark( HttpServletRequest request )
 	{
 		int page = getParameterAsInt( request, PARAM_PAGE );
@@ -118,6 +131,7 @@ public class ParameterAccessor
 	 *            default parameter value
 	 * @return new query string with new parameter value
 	 */
+	
 	public static String getEncodedQueryString( HttpServletRequest request,
 			String name, String value )
 	{
@@ -194,6 +208,7 @@ public class ParameterAccessor
 	 *            http request
 	 * @return report format
 	 */
+
 	public static String getFormat( HttpServletRequest request )
 	{
 		String format = getParameter( request, PARAM_FORMAT );
@@ -211,6 +226,7 @@ public class ParameterAccessor
 	 * @param request
 	 * @return
 	 */
+	
 	public static String getIId( HttpServletRequest request )
 	{
 		return getReportParameter( request, PARAM_IID, null );
@@ -223,6 +239,7 @@ public class ParameterAccessor
 	 *            http request
 	 * @return report locale
 	 */
+	
 	public static Locale getLocale( HttpServletRequest request )
 	{
 		return getLocaleFromString( getParameter( request, PARAM_LOCALE ) );
@@ -235,6 +252,7 @@ public class ParameterAccessor
 	 *            locale string
 	 * @return report locale
 	 */
+	
 	public static Locale getLocaleFromString( String locale )
 	{
 		if ( locale == null || locale.length( ) <= 0 )
@@ -261,6 +279,7 @@ public class ParameterAccessor
 	 *            http request
 	 * @return report String
 	 */
+	
 	public static String getLocaleString( HttpServletRequest request )
 	{
 		return getParameter( request, PARAM_LOCALE );
@@ -273,6 +292,7 @@ public class ParameterAccessor
 	 *            http request
 	 * @return report locale
 	 */
+	
 	public static int getPage( HttpServletRequest request )
 	{
 		int page = getParameterAsInt( request, PARAM_PAGE );
@@ -289,6 +309,7 @@ public class ParameterAccessor
 	 *            parameter name in UTF-8 format
 	 * @return
 	 */
+	
 	public static Set getParameterValues( HttpServletRequest request,
 			String parameterName )
 	{
@@ -302,6 +323,7 @@ public class ParameterAccessor
 	 *            http request
 	 * @return report file name
 	 */
+	
 	public static String getReport( HttpServletRequest request )
 	{
 		String filePath = getParameter( request, PARAM_REPORT );
@@ -317,6 +339,7 @@ public class ParameterAccessor
 	 *            http request
 	 * @return report file name
 	 */
+	
 	public static String getReportDocument( HttpServletRequest request )
 	{
 		String filePath = getParameter( request, PARAM_REPORT_DOCUMENT );
@@ -346,6 +369,7 @@ public class ParameterAccessor
 	 *            default parameter value
 	 * @return parameter value
 	 */
+	
 	public static String getReportParameter( HttpServletRequest request,
 			String name, String defaultValue )
 	{
@@ -386,6 +410,7 @@ public class ParameterAccessor
 	 * @param request
 	 * @return
 	 */
+	
 	public static String getResultSetName( HttpServletRequest request )
 	{
 		return getReportParameter( request, PARAM_RESULTSETNAME, null );
@@ -397,6 +422,7 @@ public class ParameterAccessor
 	 * @param request
 	 * @return
 	 */
+	
 	public static Collection getSelectedColumns( HttpServletRequest request )
 	{
 		ArrayList columns = new ArrayList( );
@@ -420,6 +446,7 @@ public class ParameterAccessor
 	 *            http request
 	 * @return whether or not render content toolbar
 	 */
+	
 	public static boolean getSVGFlag( HttpServletRequest request )
 	{
 		boolean svg = false;
@@ -437,6 +464,7 @@ public class ParameterAccessor
 	 * 
 	 * @return report locale
 	 */
+	
 	public static Locale getWebAppLocale( )
 	{
 		return webAppLocale;
@@ -447,6 +475,7 @@ public class ParameterAccessor
 	 * 
 	 * @return Returns the workingFolder.
 	 */
+	
 	public static String getWorkingFolder( )
 	{
 		return workingFolder;
@@ -460,6 +489,7 @@ public class ParameterAccessor
 	 * @param s
 	 * @return String
 	 */
+	
 	public static final String htmlEncode( String s )
 	{
 		String sHtmlEncoded = ""; //$NON-NLS-1$
@@ -524,6 +554,7 @@ public class ParameterAccessor
 	 * @param config
 	 *            Servlet configuration
 	 */
+	
 	public synchronized static void initParameters( ServletConfig config )
 	{
 		// Report root.in the web.xml has higher priority.
@@ -561,6 +592,7 @@ public class ParameterAccessor
 	 * @param request
 	 * @return
 	 */
+	
 	public static boolean isDesigner( HttpServletRequest request )
 	{
 		boolean inDEsigner = false;
@@ -584,6 +616,7 @@ public class ParameterAccessor
 	 *            http request
 	 * @return is get image or not
 	 */
+	
 	public static boolean isGetImageOperator( HttpServletRequest request )
 	{
 		String imageName = getParameter( request, PARAM_IMAGEID );
@@ -596,6 +629,7 @@ public class ParameterAccessor
 	 * @param request
 	 * @return
 	 */
+	
 	public static boolean isMasterPageContent( HttpServletRequest request )
 	{
 		boolean isMasterPageContent = true;
@@ -614,6 +648,7 @@ public class ParameterAccessor
 	 * @param request
 	 * @return
 	 */
+	
 	public static boolean isOverwrite( HttpServletRequest request )
 	{
 		boolean overwrite = false;
@@ -638,6 +673,7 @@ public class ParameterAccessor
 	 * @return A <code>boolean</code> value indicating if the file name is a
 	 *         relative path or not.
 	 */
+	
 	public static boolean isRelativePath( String fileName )
 	{
 		return !new File( fileName ).isAbsolute( );
@@ -652,6 +688,7 @@ public class ParameterAccessor
 	 *            parameter name
 	 * @return whether report parameter exists in the url
 	 */
+	
 	public static boolean isReportParameterExist( HttpServletRequest request,
 			String name )
 	{
@@ -685,6 +722,7 @@ public class ParameterAccessor
 	 * @param file
 	 * @return
 	 */
+	
 	private static String createAbsolutePath( String filePath )
 	{
 		if ( isWorkingFolderAccessOnly || isRelativePath( filePath ) )
@@ -700,6 +738,7 @@ public class ParameterAccessor
 	 * @param request
 	 * @return document name.
 	 */
+	
 	private static String generateDocumentFromReport( HttpServletRequest request )
 	{
 		String fileName = getReport( request );
@@ -725,6 +764,7 @@ public class ParameterAccessor
 	 *            parameter name in UTF-8 format
 	 * @return
 	 */
+	
 	private static String getParameter( HttpServletRequest request,
 			String parameterName )
 	{
@@ -743,6 +783,7 @@ public class ParameterAccessor
 	 *            is parameter in UTF-8 formator not
 	 * @return
 	 */
+	
 	private static String getParameter( HttpServletRequest request,
 			String parameterName, boolean isUTF )
 	{
@@ -760,6 +801,7 @@ public class ParameterAccessor
 	 * @param parameterName
 	 * @return
 	 */
+	
 	private static int getParameterAsInt( HttpServletRequest request,
 			String parameterName )
 	{
@@ -792,6 +834,7 @@ public class ParameterAccessor
 	 *            is parameter in UTF-8 formator not
 	 * @return
 	 */
+	
 	private static Set getParameterValues( HttpServletRequest request,
 			String parameterName, boolean isUTF )
 	{
@@ -816,25 +859,6 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * Check if a request parameter is a report parameter.
-	 * 
-	 * @param paraName
-	 * @return boolean
-	 */
-	private static final boolean isReportParameter( String paraName )
-	{
-		boolean isReportParameter = false;
-
-		if ( paraName != null && paraName.trim( ).length( ) > 2
-				&& !paraName.substring( 0, 2 ).equalsIgnoreCase( "__" ) ) //$NON-NLS-1$
-		{
-			isReportParameter = true;
-		}
-
-		return isReportParameter;
-	}
-
-	/**
 	 * Preprocess a string.
 	 * 
 	 * @param string
@@ -854,6 +878,7 @@ public class ParameterAccessor
 	 *            UTF-8 string
 	 * @return
 	 */
+	
 	private static String toISOString( String s )
 	{
 		String ISOString = s;
@@ -880,6 +905,7 @@ public class ParameterAccessor
 	 *            ISO-8895-1 string
 	 * @return
 	 */
+	
 	private static String toUTFString( String s )
 	{
 		String UTFString = s;
@@ -908,6 +934,7 @@ public class ParameterAccessor
 	 *            encoding format.
 	 * @return
 	 */
+	
 	private static String urlEncode( String s, String format )
 	{
 		assert "ISO-8859-1".equalsIgnoreCase( format ) || "UTF-8".equalsIgnoreCase( format ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -917,7 +944,7 @@ public class ParameterAccessor
 		{
 			try
 			{
-				encodedString = URLEncoder.encode( s, format ); //$NON-NLS-1$
+				encodedString = URLEncoder.encode( s, format );
 			}
 			catch ( UnsupportedEncodingException e )
 			{
