@@ -178,11 +178,10 @@ public class PropertyValueValidationUtil
 
 		switch ( propDefn.getTypeCode( ) )
 		{
-			case IPropertyType.ELEMENT_REF_TYPE :
 			case IPropertyType.EXTENDS_TYPE :
 				throw new PropertyValueException( propValue,
 						PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-						propDefn.getTypeCode( ) );
+						propDefn.getTypeCode( ) );			
 			case IPropertyType.STRUCT_TYPE :
 				if ( propDefn.isList( ) )
 					retValue = validateList( element, propDefn, propValue );
