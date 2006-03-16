@@ -53,7 +53,6 @@ import org.mozilla.javascript.Scriptable;
 public class ResultIterator implements IResultIterator
 {
 	protected org.eclipse.birt.data.engine.odi.IResultIterator odiResult;
-	protected IQueryResults queryResults;
 	protected Scriptable scope;
 	
 	protected static final int NOT_STARTED = 0;
@@ -63,8 +62,6 @@ public class ResultIterator implements IResultIterator
 	protected static final int CLOSED = -1;
 	
 	protected int state = NOT_STARTED;
-	
-	protected PreparedQuery query;
 
 	// used in (usesDetails == false)
 	protected boolean useDetails;
@@ -74,6 +71,8 @@ public class ResultIterator implements IResultIterator
 	// context of data engine
 	private DataEngineContext context;
 	private RDSaveUtil rdSaveUtil;
+	
+	private IResultService rService;
 	
 	// util to findGroup
 	private GroupUtil groupUtil;
@@ -90,21 +89,21 @@ public class ResultIterator implements IResultIterator
 	 * @param scope
 	 * @throws DataException
 	 */
-	ResultIterator( DataEngineContext context, IQueryResults queryResults,
-			PreparedQuery query,
+	ResultIterator( IResultService rService,
 			org.eclipse.birt.data.engine.odi.IResultIterator odiResult,
 			Scriptable scope ) throws DataException
 	{
-		assert queryResults != null
-				&& query != null && odiResult != null && scope != null;
-		this.queryResults = queryResults;
-		this.query = query;
+		assert rService != null
+				&& rService.getQueryResults( ) != null && odiResult != null
+				&& scope != null;
+
+		this.rService = rService;
 		this.odiResult = odiResult;
 		this.scope = scope;
 
-		this.context = context;
+		this.context = rService.getContext( );
 
-		IBaseQueryDefinition queryDefn = query.getQueryDefn( );
+		IBaseQueryDefinition queryDefn = rService.getQueryDefn( );
 		assert queryDefn != null;
 		this.useDetails = queryDefn.usesDetails( );
 		this.lowestGroupLevel = queryDefn.getGroups( ).size( );
@@ -162,7 +161,7 @@ public class ResultIterator implements IResultIterator
 	 */
 	public IQueryResults getQueryResults( )
 	{
-		return queryResults;
+		return rService.getQueryResults( );
 	}
 	
 	/*
@@ -338,7 +337,7 @@ public class ResultIterator implements IResultIterator
 		if ( this.rdSaveUtil == null )
 		{
 			rdSaveUtil = new RDSaveUtil( this.context,
-					this.queryResults.getID( ),
+					this.rService.getQueryResults( ).getID( ),
 					this.odiResult );
 		}
 		
@@ -467,7 +466,7 @@ public class ResultIterator implements IResultIterator
 	{
 		checkStarted( );
 		
-		QueryResults results = query.execSubquery( odiResult,
+		QueryResults results = rService.execSubquery( odiResult,
 				subQueryName,
 				subScope );
 		logger.logp( Level.FINE,
@@ -515,7 +514,7 @@ public class ResultIterator implements IResultIterator
 				odiResult.close( );
 
 		odiResult = null;
-		queryResults = null;
+		rService = null;
 		state = CLOSED;
 		logger.logp( Level.FINE,
 				ResultIterator.class.getName( ),
@@ -539,7 +538,7 @@ public class ResultIterator implements IResultIterator
 	public boolean findGroup( Object[] groupKeyValues ) throws BirtException
 	{
 		if ( groupUtil == null )
-			groupUtil = new GroupUtil( this.query, this );
+			groupUtil = new GroupUtil( this.rService.getQueryDefn( ), this );
 		return groupUtil.findGroup( groupKeyValues );
 	}
 
@@ -548,16 +547,17 @@ public class ResultIterator implements IResultIterator
 	 */
 	private class GroupUtil
 	{
-		private PreparedQuery query;
+		private IBaseQueryDefinition queryDefn;
 		private ResultIterator resultIterator;
 		
 		/**
 		 * @param query
 		 * @param resultIterator
 		 */
-		private GroupUtil(PreparedQuery query, ResultIterator resultIterator)
+		private GroupUtil( IBaseQueryDefinition queryDefn,
+				ResultIterator resultIterator )
 		{
-			this.query = query;
+			this.queryDefn = queryDefn;
 			this.resultIterator = resultIterator;
 		}
 		
@@ -573,7 +573,7 @@ public class ResultIterator implements IResultIterator
 		{
 			org.eclipse.birt.data.engine.odi.IResultIterator odiResult = resultIterator.getOdiResult( );
 			
-			List groups = query.getQueryDefn( ).getGroups( );
+			List groups = queryDefn.getGroups( );
 			if ( groupKeyValues.length > groups.size( ) )
 				throw new DataException( ResourceConstants.INCORRECT_GROUP_KEY_VALUES );
 

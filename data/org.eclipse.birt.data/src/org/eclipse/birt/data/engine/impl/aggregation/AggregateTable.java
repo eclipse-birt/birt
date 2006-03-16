@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
@@ -27,9 +29,9 @@ import org.eclipse.birt.data.engine.expression.AggregationConstantsUtil;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ConstantExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.PreparedQuery;
 import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * A registry of aggregate expressions. Stores all aggregate expressions that appears
@@ -37,11 +39,6 @@ import org.mozilla.javascript.Context;
  */
 public class AggregateTable
 {
-
-	/**
-	 * the prepared query contains aggregate
-	 */
-	private PreparedQuery query;
 	/**
 	 * the base query contains aggregate
 	 */
@@ -54,17 +51,60 @@ public class AggregateTable
 	// log instance
 	protected static Logger logger = Logger.getLogger( AggregateTable.class.getName( ) );
 
+	private int runStates;
+	
+	private static int PREPARED_QUERY = 1;
+	private static int BASE_QUERY = 2;
+	
+	private int groupCount;
+	private IBaseQueryDefinition queryDefn;
+	private Scriptable scope;
+	
 	/**
 	 * construct the aggregateTable from preparedQuery
 	 * @param query
 	 */
-	public AggregateTable( PreparedQuery query )
+	public AggregateTable( Scriptable scope, IBaseQueryDefinition queryDefn )
 	{
 		logger.entering( AggregateTable.class.getName( ), "AggregateTable" );
-		this.query = query;
 		logger.exiting( AggregateTable.class.getName( ), "AggregateTable" );
+		
+		this.queryDefn = queryDefn;
+		this.groupCount = queryDefn.getGroups( ).size( );		
+		this.scope = scope;
+		
+		runStates = PREPARED_QUERY;
 	}
 
+	/**
+	 * 
+	 * Finds a group given a text identifier of a group. Returns index of group
+	 * found (1 = outermost group, 2 = second level group etc.). The text
+	 * identifier can be the group name, the group key column name, or the group
+	 * key expression text. Returns -1 if no matching group is found
+	 * 
+	 * @param groupText
+	 * @return
+	 */
+	private int getGroupIndexFromPreparedQuery( String groupText )
+	{
+		assert groupText != null;
+		assert queryDefn != null; 
+		
+		List groups = queryDefn.getGroups();
+		for ( int i = 0; i < groups.size(); i++)
+		{
+			IGroupDefinition group = (IGroupDefinition) groups.get(i);
+			if ( groupText.equals( group.getName()) ||
+				 groupText.equals( group.getKeyColumn() ) ||
+				 groupText.equals( group.getKeyExpression()) )
+			 {
+				return i + 1;			// Note that group index is 1-based
+			 }
+		}
+		return -1;
+	}
+	
 	/**
 	 * construct the aggregateTable from baseQuery
 	 * @param query
@@ -74,6 +114,8 @@ public class AggregateTable
 		logger.entering( AggregateTable.class.getName( ), "AggregateTable" );
 		this.baseQuery = query;
 		logger.exiting( AggregateTable.class.getName( ), "AggregateTable" );
+		
+		runStates = BASE_QUERY;
 
 	}
 	
@@ -275,9 +317,9 @@ public class AggregateTable
 				// is not expected to depend on any query execution. In fact it
 				// should just be a constant
 				// expression most of the case
-				Object groupLevelObj = groupExpr.evaluate( cx, query == null
-						? cx.initStandardObjects( ) : query.getDataEngine( )
-								.getSharedScope( ) );
+				Object groupLevelObj = groupExpr.evaluate( cx,
+						runStates == BASE_QUERY ? cx.initStandardObjects( )
+								: scope );
 				if ( groupLevelObj == null )
 				{
 					// null argument; use default level
@@ -285,12 +327,14 @@ public class AggregateTable
 				else if ( groupLevelObj instanceof String )
 				{
 					int innerMostGroup = 0;
-					if( query != null )
+					if ( runStates == PREPARED_QUERY )
 					{
-						innerMostGroup =  query.getGroupCount( );
-					}else
+						innerMostGroup = groupCount;
+					}
+					else
 					{
-						innerMostGroup = baseQuery.getGrouping( )!= null?baseQuery.getGrouping( ).length:0;
+						innerMostGroup = baseQuery.getGrouping( ) != null
+								? baseQuery.getGrouping( ).length : 0;
 					}	
 					int groupLevel = AggregationConstantsUtil.getGroupLevel( (String)groupLevelObj, currentGroupLevel,innerMostGroup, isDetailedRow);
 					//When the groupLevelObj can be recognized, it will return a non-negative value.Else return -1.
@@ -300,9 +344,9 @@ public class AggregateTable
 					}
 					else
 					{
-						aggr.groupLevel = ( query == null )
+						aggr.groupLevel = ( runStates == BASE_QUERY )
 								? getGroupIndex( groupLevelObj.toString( ) )
-								: query.getGroupIndex( (String) groupLevelObj );
+								: getGroupIndexFromPreparedQuery( (String) groupLevelObj );
 					}
 				}
 				else if ( groupLevelObj instanceof Number )
@@ -315,10 +359,10 @@ public class AggregateTable
 				}
 
 				if ( aggr.groupLevel < 0
-						|| aggr.groupLevel > ( query == null
+						|| aggr.groupLevel > ( runStates == BASE_QUERY
 								? ( baseQuery.getGrouping( ) == null ? 0
 										: baseQuery.getGrouping( ).length )
-								: query.getGroupCount( ) ) )
+								: groupCount ) )
 				{
 					DataException e = new DataException( ResourceConstants.INVALID_GROUP_LEVEL,
 							aggr.func.getName( ) );

@@ -17,13 +17,13 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.logging.Level;
 
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
-import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.mozilla.javascript.Scriptable;
 
@@ -71,7 +71,7 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 		}
 		else if ( dset instanceof IOdaDataSetDesign )
 		{
-		    preparedQuery = new PreparedExtendedDSQuery( dataEngine, queryDefn, dset );
+		    preparedQuery = new PreparedOdaDSQuery( dataEngine, queryDefn, dset );
 		}
 		else
 		{
@@ -90,12 +90,15 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 		return preparedQuery;
 	}
 	
+	private IQueryDefinition queryDefn;
+	
 	protected PreparedDataSourceQuery( DataEngineImpl dataEngine, IQueryDefinition queryDefn, 
 			IBaseDataSetDesign dataSetDesign)
 		throws DataException
 	{
 		super(dataEngine, queryDefn);
 		this.dataSetDesign = dataSetDesign;
+		this.queryDefn = queryDefn;
 	}
 	
 	/* (non-Javadoc)
@@ -111,8 +114,7 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 	 */
 	public IQueryDefinition getReportQueryDefn()
 	{
-	    assert getQueryDefn() instanceof IQueryDefinition;
-		return (IQueryDefinition) getQueryDefn();
+		return this.queryDefn;
 	}
 	
 	/*

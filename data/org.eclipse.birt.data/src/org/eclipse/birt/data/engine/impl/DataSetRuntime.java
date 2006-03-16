@@ -158,13 +158,14 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 		{
 			// Construct an array of nested data sets
 			int size = queryExecutor.nestedLevel;
-			DataSetRuntime[] dataSets = new DataSetRuntime[ size ];
-			PreparedQuery.Executor executor = queryExecutor;
-			dataSets[ size - 1 ] = executor.getDataSet();
-			for ( int i = size -2; i >=0; i--)
+			PreparedQuery.Executor executor = queryExecutor;									
+			DataSetRuntime[] dataSets = new DataSetRuntime[ size ];			
+			dataSets[ size - 1 ] = executor.getDataSet();			
+			if ( size - 1 > 0 )
 			{
-				executor = executor.outerResults.queryExecutor;
-				dataSets[i] = executor.getDataSet();
+				DataSetRuntime[] innerDSs = executor.outerResults.getDataSetRuntime( size - 1 );
+				for ( int i = 0; i < size - 1; i++ )
+					dataSets[i] = innerDSs[i];
 			}
 			jsRowsObject = new JSRows( dataSets );
 		}

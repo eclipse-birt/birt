@@ -19,12 +19,14 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.mozilla.javascript.Scriptable;
 
 /** 
  * A report query's results opened and ready for data retrieval.  
@@ -36,17 +38,18 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
  */
 class QueryResults implements IQueryResults
 {
-	protected PreparedDataSourceQuery 	reportQuery;
-	protected PreparedQuery				query;
-	protected ResultIterator			iterator;
-	protected PreparedQuery.Executor	queryExecutor;
-	protected static Logger logger = Logger.getLogger( QueryResults.class.getName( ) );
-
 	// context of data engine
-	private DataEngineContext context;
-	
+	private DataEngineContext 			context;
+	private Scriptable 					queryScope;
+	private int 						nestedLevel;	
 	// id of this instance
-	private String queryResultID;
+	private String 						queryResultID;
+
+	// query service instance
+	private IQueryService 				queryService;		
+	private ResultIterator				iterator;
+		
+	private static Logger logger = Logger.getLogger( QueryResults.class.getName( ) );
 	
 	/**
 	 * @param context Current data engine running context
@@ -54,23 +57,31 @@ class QueryResults implements IQueryResults
 	 * @param query The actual query (either report query or subquery)
 	 * @param executor The executor in PreparedQuery
 	 */
-	QueryResults( DataEngineContext context,
-			PreparedDataSourceQuery reportQuery, PreparedQuery query,
-			PreparedQuery.Executor executor )
+	QueryResults( IQueryService queryService, Scriptable queryScope,
+			int nestedLevel )
 	{
-		assert executor != null;
-	    assert query != null;
-	    assert reportQuery != null;
-	    
-	    this.context = context;
-	    this.reportQuery = reportQuery;
-	    this.query = query;
-	    this.queryExecutor = executor;
+		assert queryService != null;
 
-	    logger.logp( Level.FINER,
+		this.context = queryService.getContext( );
+		this.queryService = queryService;
+		this.queryScope = queryScope;
+		this.nestedLevel = nestedLevel;
+
+		logger.logp( Level.FINER,
 				QueryResults.class.getName( ),
 				"QueryResults",
 				"QueryResults starts up" );
+	}
+		
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getName()
+	 */
+	public String getID( )
+	{
+		if ( queryResultID == null )
+			queryResultID = IDUtil.nextQursID( );
+		
+		return queryResultID;
 	}
 	
 	/*
@@ -81,7 +92,32 @@ class QueryResults implements IQueryResults
 	 */
 	public IPreparedQuery getPreparedQuery()
 	{ 
-		return reportQuery;
+		return queryService.getPreparedQuery( );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getResultMetaData()
+	 */
+	public IResultMetaData getResultMetaData( ) throws DataException
+	{
+		if ( queryService == null )
+			throw new DataException( ResourceConstants.RESULT_CLOSED );
+		
+		try
+		{
+			return queryService.getResultMetaData( );
+		}
+		catch ( DataException e )
+		{
+			throw e;
+		}
+		finally
+		{
+			logger.logp( Level.FINE,
+					QueryResults.class.getName( ),
+					"getResultMetaData",
+					"return the result metadata" );
+		}
 	}
 	
 	/*
@@ -92,61 +128,30 @@ class QueryResults implements IQueryResults
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getResultIterator()
 	 */
-	public IResultIterator getResultIterator()
-			throws DataException
+	public IResultIterator getResultIterator( ) throws DataException
 	{ 
 		logger.logp( Level.FINE,
 				QueryResults.class.getName( ),
 				"getResultIterator",
 				"start" );
 		
-		if ( queryExecutor == null )
-		{
+		if ( queryService == null )
 			throw new DataException( ResourceConstants.RESULT_CLOSED );
+
+		if ( iterator == null )
+		{
+			iterator = new ResultIterator( new ResultService( context, this ),
+					queryService.executeQuery( ),
+					this.queryScope );
 		}
-		
-	    if ( iterator == null )
-	    {
-	    	queryExecutor.execute();
-	    	iterator = new ResultIterator( context,
-					this,
-					this.query,
-					queryExecutor.odiResult,
-					queryExecutor.getQueryScope() );
-	    }
+
 		logger.logp( Level.FINE,
 				QueryResults.class.getName( ),
 				"getResultIterator",
 				"finished" );
 		return iterator;
 	}
-	
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getResultMetaData()
-	 */
-	public IResultMetaData getResultMetaData() throws DataException
-	{
-		if ( queryExecutor == null )
-		{
-			throw new DataException( ResourceConstants.RESULT_CLOSED );
-		}
 		
-		try
-		{
-			return queryExecutor.getResultMetaData();
-		}
-		catch ( DataException e )
-		{
-			throw e;
-		}
-		finally{
-			logger.logp( Level.FINE,
-					QueryResults.class.getName( ),
-					"getResultMetaData",
-					"return the result metadata" );			
-		}
-	}
-	
 	/*
 	 * Closes all query result set(s) associated with this object; provides a
 	 * hint to the query that it can safely release all associated resources.
@@ -155,33 +160,60 @@ class QueryResults implements IQueryResults
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#close()
 	 */
-	public void close() throws BirtException
+	public void close( ) throws BirtException
 	{
-		if ( queryExecutor == null )
+		if ( this.queryService == null )
 		{
 			// already closed
-		    logger.logp( Level.FINE,
+			logger.logp( Level.FINE,
 					QueryResults.class.getName( ),
 					"close",
 					"QueryResults is closed" );
 			return;
 		}
-		
-	    if ( iterator != null )
-	    {
-	        iterator.close();
-	        iterator = null;
-	    }
-	    
-	    reportQuery = null;
-	    query = null;
 
-	    queryExecutor.close();
-	    queryExecutor = null;
-	    logger.logp( Level.FINE,
+		if ( iterator != null )
+		{
+			iterator.close( );
+			iterator = null;
+		}
+	    
+		queryService.close( );
+		queryService = null;
+		logger.logp( Level.FINE,
 				QueryResults.class.getName( ),
 				"close",
 				"QueryResults is closed" );
+	}
+	
+	/**
+	 * @param count
+	 * @return
+	 */
+	DataSetRuntime[] getDataSetRuntime( int count )
+	{
+		return this.queryService.getDataSetRuntimes( count );
+	}
+
+	int getNestedLevel( )
+	{
+		return this.nestedLevel;
+	}
+	
+	/**
+	 * @return
+	 */
+	Scriptable getQueryScope( )
+	{
+		return this.queryScope;
+	}
+	
+	/**
+	 * @return
+	 */
+	boolean isClosed( )
+	{
+		return queryService == null;
 	}
 	
 	/**
@@ -192,15 +224,7 @@ class QueryResults implements IQueryResults
 	 */
 	int getGroupLevel( )
 	{
-		if ( query instanceof PreparedSubquery )
-		{
-			PreparedSubquery subQuery = (PreparedSubquery) query;
-			return subQuery.getGroupLevel( );
-		}
-		else
-		{
-			return 0;
-		}
+		return queryService.getGroupLevel( );
 	}
 	
 	/**
@@ -214,17 +238,62 @@ class QueryResults implements IQueryResults
 	{
 		this.queryResultID = queryResultID;
 	}
-	
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getName()
-	 */
-	public String getID( )
-	{
-		if ( queryResultID == null )
-			queryResultID = IDUtil.nextQursID( );
-		
-		return queryResultID;
-	}
 
+	/**
+	 *
+	 */
+	private static class ResultService implements IResultService
+	{
+		/** */
+		private DataEngineContext context;
+		private QueryResults queryResults;
+		
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.IResultService#getContext()
+		 */
+		public DataEngineContext getContext( )
+		{
+			return context;
+		}
+		
+		/**
+		 * @param queryResults
+		 */
+		public ResultService( DataEngineContext context,
+				QueryResults queryResults )
+		{
+			this.context = context;
+			this.queryResults = queryResults;
+		}
+		
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.IResultService#getQueryResults()
+		 */
+		public IQueryResults getQueryResults( )
+		{
+			return queryResults;
+		}
+		
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.IResultService#execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator, java.lang.String, org.mozilla.javascript.Scriptable)
+		 */
+		public QueryResults execSubquery(
+				org.eclipse.birt.data.engine.odi.IResultIterator iterator,
+				String subQueryName, Scriptable subScope ) throws DataException
+		{
+			return queryResults.queryService.execSubquery( iterator,
+					subQueryName,
+					subScope );
+		}
+
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.IResultService#getQueryDefn()
+		 */
+		public IBaseQueryDefinition getQueryDefn( )
+		{
+			return queryResults.queryService.getQueryDefn( );
+		}
+	}
+	
 }
 

@@ -89,27 +89,12 @@ public abstract class PreparedQuery
 	    assert engine != null && queryDefn != null;
 		this.engine = engine;
 		this.queryDefn = queryDefn;
-		this.aggrTable = new AggregateTable(this);
+		this.aggrTable = new AggregateTable( this.getDataEngine( )
+				.getSharedScope( ), queryDefn );
 		
 		logger.fine( "Start to prepare a PreparedQuery." );
 		prepare();
 		logger.fine( "Finished preparing the PreparedQuery." );
-	}
-	
-	/**
-	 * @return the IBaseQueryDefn instance which defines this query
-	 */	
-	protected IBaseQueryDefinition getQueryDefn( )
-	{
-		return queryDefn;
-	}
-	
-	/**
-	 * @return the registry of all aggregate expression
-	 */
-	AggregateTable getAggrTable()
-	{
-		return aggrTable;
 	}
 
 	/**
@@ -232,10 +217,11 @@ public abstract class PreparedQuery
 		logger.finer( "Start to prepare the execution." );
 		executor.prepareExecution( outerResults, scope );
 		logger.finer( "Finish preparing the execution." );
-	    return new QueryResults( engine.getContext( ),
+		
+	    return new QueryResults( new QueryService( this.engine.getContext( ),
 				getDataSourceQuery( ),
 				this,
-				executor );
+				executor, this.queryDefn ), executor.getQueryScope( ), executor.nestedLevel + 1 );
 	}
 	
 	/**
@@ -398,7 +384,7 @@ public abstract class PreparedQuery
 	 * @return
 	 * @throws DataException
 	 */
-	protected IQuery.GroupSpec groupDefnToSpec( Context cx,
+	private IQuery.GroupSpec groupDefnToSpec( Context cx,
 			IGroupDefinition src, String columnName, int index )
 			throws DataException
 	{
@@ -491,45 +477,6 @@ public abstract class PreparedQuery
 				"close",
 				"Prepared query closed" );
 		// TODO: close all open QueryResults obtained from this PreparedQuery
-	}
-	
-
-	/**
-	 * 
-	 * Finds a group given a text identifier of a group. Returns index of group
-	 * found (1 = outermost group, 2 = second level group etc.). The text
-	 * identifier can be the group name, the group key column name, or the group
-	 * key expression text. Returns -1 if no matching group is found
-	 * 
-	 * @param groupText
-	 * @return
-	 */
-	public int getGroupIndex( String groupText )
-	{
-		assert groupText != null;
-		assert queryDefn != null; 
-		
-		List groups = queryDefn.getGroups();
-		for ( int i = 0; i < groups.size(); i++)
-		{
-			IGroupDefinition group = (IGroupDefinition) groups.get(i);
-			if ( groupText.equals( group.getName()) ||
-				 groupText.equals( group.getKeyColumn() ) ||
-				 groupText.equals( group.getKeyExpression()) )
-			 {
-				return i + 1;			// Note that group index is 1-based
-			 }
-		}
-		return -1;
-	}
-	
-	/**
-	 * @return the group count defined in report query
-	 */
-	public int getGroupCount()
-	{
-		assert queryDefn != null;
-		return queryDefn.getGroups().size();
 	}
 	
 	/**
@@ -690,12 +637,12 @@ public abstract class PreparedQuery
 			if ( outerRts != null )
 			{
 				outerResults = ((QueryResults) outerRts );
-				if ( outerResults.queryExecutor == null )
+				if ( outerResults.isClosed( ) )
 				{
 					// Outer result is closed; invalid
 					throw new DataException( ResourceConstants.RESULT_CLOSED );
 				}
-				this.nestedLevel = outerResults.queryExecutor.nestedLevel + 1;
+				this.nestedLevel = outerResults.getNestedLevel( );
 			}
 			
 			// Create the data set runtime
