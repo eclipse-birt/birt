@@ -252,7 +252,13 @@ public class LabelAttributesComposite extends Composite
 		init( );
 		placeComponents( );
 	}
-
+	
+	/**
+	 * Please use LabelAttributesComposite(Composite, int, String, Label, 
+	 * String, boolean, boolean, IUIServiceProvider, boolean, boolean, boolean)
+	 * 
+	 * @deprecated
+	 */
 	public LabelAttributesComposite( Composite parent, int style,
 			String sGroupName,
 			org.eclipse.birt.chart.model.component.Label lblCurrent,
@@ -275,6 +281,33 @@ public class LabelAttributesComposite extends Composite
 		this.serviceprovider = serviceprovider;
 		this.bInsetsEnabled = bInsetsEnabled;
 		this.bShadowEnabled = bShadowEnabled;
+		init( );
+		placeComponents( );
+	}
+
+	public LabelAttributesComposite( Composite parent, int style,
+			String sGroupName,
+			org.eclipse.birt.chart.model.component.Label lblCurrent,
+			String sUnits, boolean bPositionEnabled,
+			boolean bVisibilityEnabled, IUIServiceProvider serviceprovider,
+			boolean bInsetsEnabled, boolean bShadowEnabled, boolean isAlignmentEnabled )
+	{
+		super( parent, style );
+		this.sGroupName = sGroupName;
+		this.lblCurrent = lblCurrent;
+		this.sUnits = sUnits;
+		this.fdCurrent = lblCurrent.getCaption( ).getFont( );
+		this.cdFont = lblCurrent.getCaption( ).getColor( );
+		this.fBackground = lblCurrent.getBackground( );
+		this.cdShadow = lblCurrent.getShadowColor( );
+		this.laCurrent = lblCurrent.getOutline( );
+		this.insets = lblCurrent.getInsets( );
+		this.bPositionEnabled = bPositionEnabled;
+		this.bVisibilityEnabled = bVisibilityEnabled;
+		this.serviceprovider = serviceprovider;
+		this.bInsetsEnabled = bInsetsEnabled;
+		this.bShadowEnabled = bShadowEnabled;
+		this.isAlignmentEnabled = isAlignmentEnabled;
 		init( );
 		placeComponents( );
 	}

@@ -108,7 +108,8 @@ public class DialLabelSheet extends AbstractPopupSheet
 				true,
 				serviceprovider,
 				true,
-				true );
+				true,
+				false );
 		GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL );
 		gdLACTitle.horizontalSpan = 2;
 		lacTitle.setLayoutData( gdLACTitle );
