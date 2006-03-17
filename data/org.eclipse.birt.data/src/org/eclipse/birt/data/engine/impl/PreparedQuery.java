@@ -49,19 +49,18 @@ final class PreparedQuery
 {
 	private 	IBaseQueryDefinition 	queryDefn;
 	
-	private     DataEngineContext deContext;
-	private     ExpressionCompiler exCompiler;
-	private     Scriptable sharedScope;
+	private     DataEngineContext 		dataEngineContext;	
+	private     Scriptable 				sharedScope;
+	private     ExpressionCompiler 		expressionCompiler;
+	private 	IPreparedQueryService 	queryService;
 	
-	private  	AggregateTable	aggrTable;
-	private 	Map appContext;
+	private  	AggregateTable			aggrTable;
+	private 	Map 					appContext;
 	
 	// Map of Subquery name (String) to PreparedSubquery
-	protected HashMap subQueryMap = new HashMap();
+	private 	HashMap subQueryMap = new HashMap();
 	
-	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
-	
-	private IPreparedQueryService queryService;
+	private 	static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 	
 	/**
 	 * @param engine
@@ -69,7 +68,8 @@ final class PreparedQuery
 	 * @throws DataException
 	 */
 	PreparedQuery( DataEngineContext deContext, ExpressionCompiler exCompiler,
-			Scriptable scope, IBaseQueryDefinition queryDefn, IPreparedQueryService queryService )
+			Scriptable scope, IBaseQueryDefinition queryDefn,
+			IPreparedQueryService queryService, Map appContext )
 			throws DataException
 	{
 		logger.logp( Level.FINE,
@@ -78,69 +78,19 @@ final class PreparedQuery
 				"PreparedQuery starts up." );
 		assert queryDefn != null;
 
-		this.exCompiler = exCompiler;
-		this.deContext = deContext;
+		this.expressionCompiler = exCompiler;
+		this.dataEngineContext = deContext;
 		this.sharedScope = scope;
 
 		this.queryDefn = queryDefn;
-		this.aggrTable = new AggregateTable( this.sharedScope, queryDefn );
 		this.queryService = queryService;
+		this.appContext = appContext;
+		
+		this.aggrTable = new AggregateTable( this.sharedScope, queryDefn );
 
 		logger.fine( "Start to prepare a PreparedQuery." );
 		prepare( );
 		logger.fine( "Finished preparing the PreparedQuery." );
-	}
-	
-	/**
-	 * @param context
-	 */
-	protected void setAppContext( Map context )
-	{
-	    appContext = context;
-	}
-	
-	/**
-	 * Return the QueryResults. But the execution of query would be deferred
-	 * 
-	 * @param outerResults
-	 *            If query is nested within another query, this is the outer
-	 *            query's query result handle.
-	 * @param scope
-	 *            The ElementState object for the report item using the query;
-	 *            this acts as the JS scope for evaluating script expressions.
-	 */
-	protected QueryResults doPrepare( IQueryResults outerResults,
-			Scriptable scope, QueryExecutor executor,
-			PreparedDataSourceQuery dataSourceQuery ) throws DataException
-	{
-		if ( this.queryDefn == null )
-		{
-			// we are closed
-			DataException e = new DataException(ResourceConstants.PREPARED_QUERY_CLOSED);
-			logger.logp( Level.WARNING,
-					PreparedQuery.class.getName( ),
-					"doPrepare",
-					"PreparedQuery instance is closed.",
-					e );
-			throw e;
-		}
-		
-		// pass the prepared query's pass thru context to its executor
-		executor.setAppContext( this.appContext );
-		
-		//here prepare the execution. After the preparation the result metadata is available by
-		//calling getResultClass, and the query is ready for execution.
-		logger.finer( "Start to prepare the execution." );
-		executor.prepareExecution( outerResults, scope );
-		logger.finer( "Finish preparing the execution." );
-		
-	    return new QueryResults( new QueryService( this.deContext,
-				dataSourceQuery,
-				queryService,
-				executor,
-				this.queryDefn ),
-				executor.getQueryScope( ),
-				executor.nestedLevel + 1 );
 	}
 	
 	/**
@@ -150,16 +100,16 @@ final class PreparedQuery
 	{
 	    // TODO - validation of static queryDefn
 
-		Context cx = Context.enter();
-		
+		Context cx = Context.enter();		
 		try
 		{
 			// Prepare all groups; note that the report query iteself
-			// is treated as a group (with group level 0 )
+			// is treated as a group (with group level 0 ), If there are group
+			// definitions that of invalid or duplicate group name, then throw
+			// exceptions.
+			
 			List groups = queryDefn.getGroups( );
 			IGroupDefinition group;
-			//If there are group definitions that of invalid or duplicate group name ,then
-			//throw exceptions.
 			for ( int i = 0; i < groups.size( ); i++ )
 			{
 				group = (IGroupDefinition) groups.get( i );
@@ -186,14 +136,9 @@ final class PreparedQuery
 				else
 				{
 					groupDefn = (IGroupDefinition) groups.get( i - 1 );
-					// Filter on group is not supported now, throw exception
-					// TODO support filter on group in the future
-					//if ( groupDefn.getFilters( ).size( ) > 0 )
-					//	throw new DataException( ResourceConstants.UNSUPPORTED_FILTER_ON_GROUP );
 				}
 				prepareGroup( groupDefn, i, cx );
-			}			
-			
+			}
 		}
 		finally
 		{
@@ -221,8 +166,8 @@ final class PreparedQuery
 		while ( subIt.hasNext( ) )
 		{
 			ISubqueryDefinition subquery = (ISubqueryDefinition) subIt.next( );
-			PreparedSubquery pq = new PreparedSubquery( this.deContext,
-					this.exCompiler,
+			PreparedSubquery pq = new PreparedSubquery( this.dataEngineContext,
+					this.expressionCompiler,
 					this.sharedScope,
 					subquery,
 					queryService,
@@ -264,7 +209,7 @@ final class PreparedQuery
 	private void prepareExpression( IBaseExpression expr, int groupLevel,
 			Context cx, AggregateRegistry reg )
 	{
-	    ExpressionCompiler compiler = this.exCompiler;
+	    ExpressionCompiler compiler = this.expressionCompiler;
 	    
 	    if ( expr instanceof IScriptExpression )
 	    {
@@ -299,8 +244,10 @@ final class PreparedQuery
 	}
 
 	/**
-	 * When a TopN/TopPercent/BottomN/BottomPercent ConditionalExpression is set, transform it to Total.TopN/
-	 * Total.TopPercent/Total.BottomN/Total.BottomPercent aggregations with "isTrue" operator.
+	 * When a TopN/TopPercent/BottomN/BottomPercent ConditionalExpression is
+	 * set, transform it to
+	 * Total.TopN/Total.TopPercent/Total.BottomN/Total.BottomPercent
+	 * aggregations with "isTrue" operator.
 	 * 
 	 * @param ce
 	 * @return
@@ -308,22 +255,23 @@ final class PreparedQuery
 	private IConditionalExpression transformConditionalExpression( IConditionalExpression ce )
 	{
 		String prefix = null;
-		if ( ce.getOperator( ) == IConditionalExpression.OP_TOP_N )
+		
+		switch ( ce.getOperator( ) )
 		{
-			prefix = "Total.isTopN";
+			case IConditionalExpression.OP_TOP_N :
+				prefix = "Total.isTopN";
+				break;
+			case IConditionalExpression.OP_TOP_PERCENT :
+				prefix = "Total.isTopPercent";
+				break;
+			case IConditionalExpression.OP_BOTTOM_N :
+				prefix = "Total.isBottomN";
+				break;
+			case IConditionalExpression.OP_BOTTOM_PERCENT :
+				prefix = "Total.isBottomPercent";
+				break;
 		}
-		if ( ce.getOperator( ) == IConditionalExpression.OP_TOP_PERCENT )
-		{
-			prefix = "Total.isTopPercent";
-		}
-		if ( ce.getOperator( ) == IConditionalExpression.OP_BOTTOM_N )
-		{
-			prefix = "Total.isBottomN";
-		}
-		if ( ce.getOperator( ) == IConditionalExpression.OP_BOTTOM_PERCENT )
-		{
-			prefix = "Total.isBottomPercent";
-		}
+		
 		if( prefix != null )
 		{
 			ce = new ConditionalExpression( prefix+"("
@@ -332,6 +280,50 @@ final class PreparedQuery
 					IConditionalExpression.OP_TRUE );
 		}
 		return ce;
+	}
+	
+	/**
+	 * Return the QueryResults. But the execution of query would be deferred
+	 * 
+	 * @param outerResults
+	 *            If query is nested within another query, this is the outer
+	 *            query's query result handle.
+	 * @param scope
+	 *            The ElementState object for the report item using the query;
+	 *            this acts as the JS scope for evaluating script expressions.
+	 */
+	QueryResults doPrepare( IQueryResults outerResults,
+			Scriptable scope, QueryExecutor executor,
+			PreparedDataSourceQuery dataSourceQuery ) throws DataException
+	{
+		if ( this.queryDefn == null )
+		{
+			// we are closed
+			DataException e = new DataException(ResourceConstants.PREPARED_QUERY_CLOSED);
+			logger.logp( Level.WARNING,
+					PreparedQuery.class.getName( ),
+					"doPrepare",
+					"PreparedQuery instance is closed.",
+					e );
+			throw e;
+		}
+		
+		// pass the prepared query's pass thru context to its executor
+		executor.setAppContext( this.appContext );
+		
+		//here prepare the execution. After the preparation the result metadata is available by
+		//calling getResultClass, and the query is ready for execution.
+		logger.finer( "Start to prepare the execution." );
+		executor.prepareExecution( outerResults, scope );
+		logger.finer( "Finish preparing the execution." );
+		
+	    return new QueryResults( new QueryService( this.dataEngineContext,
+				dataSourceQuery,
+				queryService,
+				executor,
+				this.queryDefn ),
+				executor.getQueryScope( ),
+				executor.nestedLevel + 1 );
 	}
 	
 	/**
@@ -370,7 +362,7 @@ final class PreparedQuery
 	 * 
 	 * TODO: expose this method in the IPreparedQuery interface
 	 */
-	public void close()
+	void close()
 	{
 		queryDefn = null;
 		this.aggrTable = null;
@@ -382,17 +374,17 @@ final class PreparedQuery
 		// TODO: close all open QueryResults obtained from this PreparedQuery
 	}
 
-	public Scriptable getSharedScope( )
+	Scriptable getSharedScope( )
 	{
 		return sharedScope;
 	}
 
-	protected IBaseQueryDefinition getBaseQueryDefn( )
+	IBaseQueryDefinition getBaseQueryDefn( )
 	{
 		return queryDefn;
 	}
 
-	protected AggregateTable getAggrTable( )
+	AggregateTable getAggrTable( )
 	{
 		return aggrTable;
 	}

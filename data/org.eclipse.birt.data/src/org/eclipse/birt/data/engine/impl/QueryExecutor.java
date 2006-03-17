@@ -28,11 +28,9 @@ import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
-import org.eclipse.birt.data.engine.expression.ColumnReferenceExpression;
-import org.eclipse.birt.data.engine.expression.CompiledExpression;
-import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.QueryExeutorUtil.ColumnInfo;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateCalculator;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
@@ -48,7 +46,7 @@ import org.mozilla.javascript.Scriptable;
 /**
  * 
  */
-public abstract class QueryExecutor
+abstract class QueryExecutor
 {
 	protected 	IQuery			odiQuery;
 	protected 	IDataSource		odiDataSource;
@@ -75,23 +73,25 @@ public abstract class QueryExecutor
 	/** Query nesting level, 1 - outermost query */
 	protected	int				nestedLevel = 1;
 	
+	private 	Scriptable 				sharedScope;	
+	private 	IBaseQueryDefinition 	baseQueryDefn;
+	private 	AggregateTable 			aggrTable;
+	
 	private static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 	
 	/**
-	 * @return
+	 * @param sharedScope
+	 * @param baseQueryDefn
+	 * @param aggrTable
 	 */
-	abstract public Scriptable getSharedScope( );
+	public QueryExecutor( Scriptable sharedScope,
+			IBaseQueryDefinition baseQueryDefn, AggregateTable aggrTable )
+	{
+		this.sharedScope = sharedScope;
+		this.baseQueryDefn = baseQueryDefn;
+		this.aggrTable = aggrTable;
+	}
 	
-	/**
-	 * @return
-	 */
-	abstract protected IBaseQueryDefinition getBaseQueryDefn( );
-	
-	/**
-	 * @return
-	 */
-	abstract protected AggregateTable getAggrTable( );
-
 	/**
 	 * Provide the actual DataSourceRuntime used for the query.
 	 * 
@@ -139,26 +139,29 @@ public abstract class QueryExecutor
 	 */
 	abstract protected IResultIterator executeOdiQuery( )
 			throws DataException;
-	
+		
 	/**
-	 * @param context
+	 * @return
 	 */
-	protected void setAppContext( Map context )
+	public DataSetRuntime getDataSet( )
 	{
-	    queryAppContext = context;
+		return dataSet;
 	}
 	
 	/**
 	 * @return
 	 */
-	public DataSetRuntime getDataSet()
+	public Scriptable getSharedScope( )
 	{
-		return dataSet;
-	} 
+		return this.sharedScope;
+	}
 	
-	public QueryExecutor( )
+	/**
+	 * @param context
+	 */
+	void setAppContext( Map context )
 	{
-
+	    queryAppContext = context;
 	}
 	
 	/**
@@ -166,7 +169,7 @@ public abstract class QueryExecutor
 	 * 
 	 * @return
 	 */
-	public Scriptable getQueryScope()
+	Scriptable getQueryScope()
 	{
 		if ( queryScope == null )
 		{
@@ -187,7 +190,7 @@ public abstract class QueryExecutor
 	Scriptable newSubScope( Scriptable parentScope )
 	{
 		if ( parentScope == null )
-			parentScope = getSharedScope( );
+			parentScope = sharedScope;
 		
 		Context cx = Context.enter( );
 		try
@@ -254,6 +257,178 @@ public abstract class QueryExecutor
 	}
 	
 	/**
+	 * Open the required DataSource. This method should be called after
+	 * "dataSource" is initialized by findDataSource() method.
+	 * 
+	 * @throws DataException
+	 */
+	protected void openDataSource( ) throws DataException
+	{
+		assert odiDataSource == null;
+		
+		// Open the underlying data source
+	    // dataSource = findDataSource( );
+		if ( dataSource != null  )
+		{
+			// TODO: potential bug
+			if ( !dataSource.isOpen( )
+					|| DataSetCacheManager.getInstance( ).doesLoadFromCache( ) == true )
+			{
+				// Data source is not open; create an Odi Data Source and open it
+				// We should run the beforeOpen script now to give it a chance to modify
+				// runtime data source properties
+				dataSource.beforeOpen();
+				
+				// Let subclass create a new unopened odi data source
+				odiDataSource = createOdiDataSource( ); 
+				
+				// Passes thru the prepared query executor's 
+				// context to the new odi data source
+			    odiDataSource.setAppContext( queryAppContext );
+
+				// Open the odi data source
+				dataSource.openOdiDataSource( odiDataSource );
+				
+				dataSource.afterOpen();
+			}
+			else
+			{
+				// Use existing odiDataSource created for the data source runtime
+				odiDataSource = dataSource.getOdiDataSource();
+				
+				// Passes thru the prepared query executor's 
+				// current context to existing data source
+			    odiDataSource.setAppContext( queryAppContext );
+			}
+		}
+	}
+	
+	/**
+	 * Populates odiQuery with this query's definitions
+	 */
+	protected void populateOdiQuery( ) throws DataException
+	{
+		assert odiQuery != null;
+		assert this.baseQueryDefn != null;
+		
+		Context cx = Context.enter();
+		try
+		{
+			List temporaryComputedColumns = new ArrayList();
+			
+			// Set grouping
+			List groups = this.baseQueryDefn.getGroups();
+			if ( groups != null && ! groups.isEmpty() )
+			{
+				IQuery.GroupSpec[] groupSpecs = new IQuery.GroupSpec[ groups.size() ];
+				Iterator it = groups.iterator();
+				for ( int i = 0; it.hasNext(); i++ )
+				{
+					IGroupDefinition src = (IGroupDefinition) it.next();
+					//TODO does the index of column significant?
+					IQuery.GroupSpec dest = QueryExeutorUtil.groupDefnToSpec( cx,
+							src,
+							"_{$TEMP_GROUP_" + i + "$}_",
+							-1 );
+					groupSpecs[i] = dest;
+					
+					if( groupSpecs[i].isCompleteExpression() )
+					{
+						temporaryComputedColumns.add( new ComputedColumn( "_{$TEMP_GROUP_"
+								+ i + "$}_",
+								src.getKeyExpression( ),
+								QueryExeutorUtil.getTempComputedColumnType( groupSpecs[i].getInterval( ) ) ) );
+					}
+				}
+				odiQuery.setGrouping( Arrays.asList( groupSpecs));
+			}		
+			// Set sorting
+			List sorts = this.baseQueryDefn.getSorts();
+			if ( sorts != null && !sorts.isEmpty( ) )
+			{
+				IQuery.SortSpec[] sortSpecs = new IQuery.SortSpec[ sorts.size() ];
+				Iterator it = sorts.iterator();
+				for ( int i = 0; it.hasNext(); i++ )
+				{
+					ISortDefinition src = (ISortDefinition) it.next();
+					int sortIndex = -1;
+					String sortKey = src.getColumn();
+					if ( sortKey == null || sortKey.length() == 0 )
+					{ 
+						//Firstly try to treat sort key as a column reference expression
+						ColumnInfo columnInfo = QueryExeutorUtil.getColInfoFromJSExpr( cx,
+								src.getExpression( ).getText( ) );
+													
+						sortIndex = columnInfo.getColumnIndex(); 
+						sortKey = columnInfo.getColumnName( );
+					}
+					if ( sortKey == null && sortIndex < 0 )
+					{
+						//If failed to treate sort key as a column reference expression
+						//then treat it as a computed column expression
+						temporaryComputedColumns.add(new ComputedColumn( "_{$TEMP_SORT_"+i+"$}_", src.getExpression().getText(), DataType.ANY_TYPE));
+						sortIndex = -1; 
+						sortKey = String.valueOf("_{$TEMP_SORT_"+i+"$}_");
+					}
+					
+					IQuery.SortSpec dest = new IQuery.SortSpec( sortIndex,
+							sortKey,
+							src.getSortDirection( ) == ISortDefinition.SORT_ASC );
+					sortSpecs[i] = dest;
+				}
+				odiQuery.setOrdering( Arrays.asList( sortSpecs));
+			}
+
+			
+			List computedColumns = null;
+		    // set computed column event
+			computedColumns = this.dataSet.getComputedColumns( );
+			if ( computedColumns != null )
+			{
+				computedColumns.addAll( temporaryComputedColumns );
+			}
+			if ( (computedColumns != null && computedColumns.size() > 0)|| temporaryComputedColumns.size( ) > 0 )
+			{
+				IResultObjectEvent objectEvent = new ComputedColumnHelper( this.dataSet,
+						(computedColumns == null&&computedColumns.size()>0) ? temporaryComputedColumns : computedColumns );
+				odiQuery.addOnFetchEvent( objectEvent );
+			}
+	    	if ( dataSet.getEventHandler() != null )
+	    	{
+	    		OnFetchScriptHelper event = new OnFetchScriptHelper( dataSet ); 
+	    		odiQuery.addOnFetchEvent( event );
+		    }
+		    
+		    // set filter event
+		    List dataSetFilters = new ArrayList( );
+		    List queryFilters = new ArrayList( );
+		    if ( dataSet.getFilters( ) != null )
+			{
+				dataSetFilters = dataSet.getFilters( );
+			}
+		    
+		    if ( this.baseQueryDefn.getFilters( ) != null )
+			{
+		    	queryFilters = this.baseQueryDefn.getFilters( );
+			}
+		   		   			    
+		    if ( dataSetFilters.size( ) + queryFilters.size( ) > 0 )
+		    {
+		    	IResultObjectEvent objectEvent = new FilterByRow( dataSetFilters, queryFilters,
+		    			dataSet );
+		    	odiQuery.addOnFetchEvent( objectEvent );
+		    }
+		    
+			// specify max rows the query should fetch
+		    odiQuery.setMaxRows( this.baseQueryDefn.getMaxRows() );
+		}
+		finally
+		{
+			Context.exit();
+		}
+	}
+	
+	/**
 	 * @return
 	 * @throws DataException
 	 */
@@ -277,7 +452,7 @@ public abstract class QueryExecutor
 	/**
 	 * @throws DataException
 	 */
-	void execute() throws DataException
+	void execute( ) throws DataException
 	{
 		logger.logp( Level.FINER,
 				QueryExecutor.class.getName( ),
@@ -294,7 +469,7 @@ public abstract class QueryExecutor
 		this.dataSet.setResultSet( odiResult, false );
 			
 	    // Calculate aggregate values
-	    aggregates = new AggregateCalculator( getAggrTable( ), odiResult );
+	    aggregates = new AggregateCalculator( this.aggrTable, odiResult );
 		    
 	    // Calculate aggregate values
 	    aggregates.calculate( getQueryScope() );
@@ -310,7 +485,7 @@ public abstract class QueryExecutor
 	/**
 	 * Closes the executor; release all odi resources
 	 */
-	void close()
+	void close( )
 	{
 		if ( odiQuery == null )
 		{
@@ -382,292 +557,6 @@ public abstract class QueryExecutor
 				QueryExecutor.class.getName( ),
 				"close",
 				"executor closed " );
-	}
-	
-	/**
-	 * Open the required DataSource. This method should be called after
-	 * "dataSource" is initialized by findDataSource() method.
-	 * 
-	 * @throws DataException
-	 */
-	protected void openDataSource( ) throws DataException
-	{
-		assert odiDataSource == null;
-		
-		// Open the underlying data source
-	    // dataSource = findDataSource( );
-		if ( dataSource != null  )
-		{
-			// TODO: potential bug
-			if ( !dataSource.isOpen( )
-					|| DataSetCacheManager.getInstance( ).doesLoadFromCache( ) == true )
-			{
-				// Data source is not open; create an Odi Data Source and open it
-				// We should run the beforeOpen script now to give it a chance to modify
-				// runtime data source properties
-				dataSource.beforeOpen();
-				
-				// Let subclass create a new unopened odi data source
-				odiDataSource = createOdiDataSource( ); 
-				
-				// Passes thru the prepared query executor's 
-				// context to the new odi data source
-			    odiDataSource.setAppContext( queryAppContext );
-
-				// Open the odi data source
-				dataSource.openOdiDataSource( odiDataSource );
-				
-				dataSource.afterOpen();
-			}
-			else
-			{
-				// Use existing odiDataSource created for the data source runtime
-				odiDataSource = dataSource.getOdiDataSource();
-				
-				// Passes thru the prepared query executor's 
-				// current context to existing data source
-			    odiDataSource.setAppContext( queryAppContext );
-			}
-		}
-	}
-	
-	/**
-	 * Populates odiQuery with this query's definitions
-	 */
-	protected void populateOdiQuery( ) throws DataException
-	{
-		assert odiQuery != null;
-		assert getBaseQueryDefn( ) != null;
-		
-		Context cx = Context.enter();
-		try
-		{
-			List temporaryComputedColumns = new ArrayList();
-			
-			// Set grouping
-			List groups = getBaseQueryDefn( ).getGroups();
-			if ( groups != null && ! groups.isEmpty() )
-			{
-				IQuery.GroupSpec[] groupSpecs = new IQuery.GroupSpec[ groups.size() ];
-				Iterator it = groups.iterator();
-				for ( int i = 0; it.hasNext(); i++ )
-				{
-					IGroupDefinition src = (IGroupDefinition) it.next();
-					//TODO does the index of column significant?
-					IQuery.GroupSpec dest = groupDefnToSpec(cx, src,"_{$TEMP_GROUP_"+i+"$}_", -1 );
-					groupSpecs[i] = dest;
-					
-					if( groupSpecs[i].isCompleteExpression() )
-					{
-						temporaryComputedColumns.add(new ComputedColumn( "_{$TEMP_GROUP_"+i+"$}_", src.getKeyExpression(), getTempComputedColumnType( groupSpecs[i].getInterval() )));
-					}
-				}
-				odiQuery.setGrouping( Arrays.asList( groupSpecs));
-			}		
-			// Set sorting
-			List sorts = getBaseQueryDefn( ).getSorts();
-			if ( sorts != null && !sorts.isEmpty( ) )
-			{
-				IQuery.SortSpec[] sortSpecs = new IQuery.SortSpec[ sorts.size() ];
-				Iterator it = sorts.iterator();
-				for ( int i = 0; it.hasNext(); i++ )
-				{
-					ISortDefinition src = (ISortDefinition) it.next();
-					int sortIndex = -1;
-					String sortKey = src.getColumn();
-					if ( sortKey == null || sortKey.length() == 0 )
-					{ 
-						//Firstly try to treat sort key as a column reference expression
-						ColumnInfo columnInfo = getColInfoFromJSExpr( cx,
-								src.getExpression( ).getText() );
-													
-						sortIndex = columnInfo.getColumnIndex(); 
-						sortKey = columnInfo.getColumnName( );
-					}
-					if ( sortKey == null && sortIndex < 0 )
-					{
-						//If failed to treate sort key as a column reference expression
-						//then treat it as a computed column expression
-						temporaryComputedColumns.add(new ComputedColumn( "_{$TEMP_SORT_"+i+"$}_", src.getExpression().getText(), DataType.ANY_TYPE));
-						sortIndex = -1; 
-						sortKey = String.valueOf("_{$TEMP_SORT_"+i+"$}_");
-					}
-					
-					IQuery.SortSpec dest = new IQuery.SortSpec( sortIndex,
-							sortKey,
-							src.getSortDirection( ) == ISortDefinition.SORT_ASC );
-					sortSpecs[i] = dest;
-				}
-				odiQuery.setOrdering( Arrays.asList( sortSpecs));
-			}
-
-			
-			List computedColumns = null;
-		    // set computed column event
-			computedColumns = this.dataSet.getComputedColumns( );
-			if ( computedColumns != null )
-			{
-				computedColumns.addAll( temporaryComputedColumns );
-			}
-			if ( (computedColumns != null && computedColumns.size() > 0)|| temporaryComputedColumns.size( ) > 0 )
-			{
-				IResultObjectEvent objectEvent = new ComputedColumnHelper( this.dataSet,
-						(computedColumns == null&&computedColumns.size()>0) ? temporaryComputedColumns : computedColumns );
-				odiQuery.addOnFetchEvent( objectEvent );
-			}
-	    	if ( dataSet.getEventHandler() != null )
-	    	{
-	    		OnFetchScriptHelper event = new OnFetchScriptHelper( dataSet ); 
-	    		odiQuery.addOnFetchEvent( event );
-		    }
-		    
-		    // set filter event
-		    List dataSetFilters = new ArrayList( );
-		    List queryFilters = new ArrayList( );
-		    if ( dataSet.getFilters( ) != null )
-			{
-				dataSetFilters = dataSet.getFilters( );
-			}
-		    
-		    if ( getBaseQueryDefn( ).getFilters( ) != null )
-			{
-		    	queryFilters = getBaseQueryDefn( ).getFilters( );
-			}
-		   		   			    
-		    if ( dataSetFilters.size( ) + queryFilters.size( ) > 0 )
-		    {
-		    	IResultObjectEvent objectEvent = new FilterByRow( dataSetFilters, queryFilters,
-		    			dataSet );
-		    	odiQuery.addOnFetchEvent( objectEvent );
-		    }
-		    
-			// specify max rows the query should fetch
-		    odiQuery.setMaxRows( getBaseQueryDefn( ).getMaxRows() );
-		}
-		finally
-		{
-			Context.exit();
-		}
-	}
-	
-	/**
-	 * Convert IGroupDefn to IQuery.GroupSpec
-	 * 
-	 * @param cx
-	 * @param src
-	 * @return
-	 * @throws DataException
-	 */
-	private IQuery.GroupSpec groupDefnToSpec( Context cx,
-			IGroupDefinition src, String columnName, int index )
-			throws DataException
-	{
-		int groupIndex = -1;
-		String groupKey = src.getKeyColumn();
-		boolean isComplexExpression = false;
-		if ( groupKey == null || groupKey.length() == 0 )
-		{
-			// Group key expressed as expression; convert it to column name
-			// TODO support key expression in the future by creating implicit
-			// computed columns
-			ColumnInfo groupKeyInfo = getColInfoFromJSExpr( cx,
-				src.getKeyExpression( ) );
-			//getColInfoFromJSExpr( cx,src.getKeyExpression( ) );
-			groupIndex = groupKeyInfo.getColumnIndex( );
-			groupKey = groupKeyInfo.getColumnName();
-		}
-		if ( groupKey == null && groupIndex < 0 )
-		{
-			ColumnInfo groupKeyInfo = new ColumnInfo(index, columnName );
-			groupIndex = groupKeyInfo.getColumnIndex( );
-			groupKey = groupKeyInfo.getColumnName();
-			isComplexExpression = true;
-		}
-		
-		IQuery.GroupSpec dest = new IQuery.GroupSpec( groupIndex, groupKey );
-		dest.setName( src.getName() );
-		dest.setInterval( src.getInterval());
-		dest.setIntervalRange( src.getIntervalRange());
-		dest.setIntervalStart( src.getIntervalStart());
-		dest.setSortDirection( src.getSortDirection());
-		dest.setFilters( src.getFilters());
-		dest.setSorts( src.getSorts() );
-		dest.setIsComplexExpression( isComplexExpression );
-		return dest;
-	}
-	
-	/**
-	 * Common code to extract the name of a column from a JS expression which is
-	 * in the form of "row.col". If expression is not in expected format,
-	 * returns null
-	 * 
-	 * @param cx
-	 * @param expr
-	 * @return
-	 */
-	private ColumnInfo getColInfoFromJSExpr( Context cx, String expr )
-	{
-		int colIndex = -1;
-		String colName = null;
-		CompiledExpression ce = ExpressionCompilerUtil.compile( expr, null, cx );
-		if ( ce instanceof ColumnReferenceExpression )
-		{
-			ColumnReferenceExpression cre = ( (ColumnReferenceExpression) ce );
-			colIndex = cre.getColumnindex( );
-			colName = cre.getColumnName( );
-		}
-		return new ColumnInfo( colIndex, colName );
-	}
-	
-	/**
-	 * @param groupSpecs
-	 * @param i
-	 */
-	private int getTempComputedColumnType( int i )
-	{
-		int interval = i;
-		if( interval == IQuery.GroupSpec.DAY_INTERVAL 
-			|| interval == IQuery.GroupSpec.HOUR_INTERVAL
-			|| interval == IQuery.GroupSpec.MINUTE_INTERVAL
-			|| interval == IQuery.GroupSpec.SECOND_INTERVAL
-			|| interval == IQuery.GroupSpec.MONTH_INTERVAL
-			|| interval == IQuery.GroupSpec.QUARTER_INTERVAL
-			|| interval == IQuery.GroupSpec.YEAR_INTERVAL
-			|| interval == IQuery.GroupSpec.WEEK_INTERVAL )
-			interval = DataType.DATE_TYPE;
-		else if ( interval == IQuery.GroupSpec.NUMERIC_INTERVAL )
-			interval = DataType.DOUBLE_TYPE;
-		else if ( interval == IQuery.GroupSpec.STRING_PREFIX_INTERVAL )
-			interval = DataType.STRING_TYPE;
-		else
-			interval = DataType.ANY_TYPE;
-		return interval;
-	}
-	
-	/**
-	 * Simple wrapper of colum information, including column index and column
-	 * name.
-	 */
-	private static class ColumnInfo
-	{
-		private int columnIndex;
-		private String columnName;
-
-		ColumnInfo( int columnIndex, String columnName )
-		{
-			this.columnIndex = columnIndex;
-			this.columnName = columnName;
-		}
-
-		public int getColumnIndex( )
-		{
-			return columnIndex;
-		}
-
-		public String getColumnName( )
-		{
-			return columnName;
-		}
 	}
 	
 }

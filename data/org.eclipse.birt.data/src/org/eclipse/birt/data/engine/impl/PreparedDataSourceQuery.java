@@ -18,7 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -26,7 +25,6 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Scriptable;
 
@@ -124,8 +122,8 @@ abstract class PreparedDataSourceQuery
 				dataEngine.getExpressionCompiler( ),
 				dataEngine.getSharedScope( ),
 				queryDefn,
-				this );
-		preparedQuery.setAppContext( appContext );
+				this,
+				appContext );
 	}
 	
 	/*
@@ -201,6 +199,14 @@ abstract class PreparedDataSourceQuery
 	 */
 	abstract class DSQueryExecutor extends QueryExecutor
 	{
+
+		public DSQueryExecutor( )
+		{
+			super( preparedQuery.getSharedScope( ),
+					preparedQuery.getBaseQueryDefn( ),
+					preparedQuery.getAggrTable( ) );
+		}
+
 		protected DataSourceRuntime findDataSource( ) throws DataException
 		{
 			assert dataSetDesign != null;
@@ -211,21 +217,6 @@ abstract class PreparedDataSourceQuery
 		protected DataSetRuntime newDataSetRuntime( ) throws DataException
 		{
 			return DataSetRuntime.newInstance( dataSetDesign, this );
-		}
-		
-		public Scriptable getSharedScope( )
-		{
-			return preparedQuery.getSharedScope( );
-		}
-		
-		protected IBaseQueryDefinition getBaseQueryDefn( )
-		{
-			return preparedQuery.getBaseQueryDefn( );
-		}
-
-		protected AggregateTable getAggrTable( )
-		{
-			return preparedQuery.getAggrTable( );
 		}
 	}
 }

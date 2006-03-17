@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.expression;
 
-import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
 import org.mozilla.javascript.Context;
 
 /**
@@ -26,10 +25,9 @@ public class ExpressionCompilerUtil
 	 * @param cx
 	 * @return
 	 */
-	public static CompiledExpression compile( String expr,
-			AggregateRegistry registry, Context cx )
+	public static CompiledExpression compile( String expr, Context cx )
 	{
-		return expressionCompiler.compile( expr, registry, cx );
+		return expressionCompiler.compile( expr, null, cx );
 	}
 
 }

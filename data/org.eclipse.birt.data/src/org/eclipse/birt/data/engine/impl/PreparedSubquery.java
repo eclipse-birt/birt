@@ -17,12 +17,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
 import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
-import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IQuery;
@@ -54,18 +52,19 @@ class PreparedSubquery implements IPreparedQueryService
 			Scriptable scope, ISubqueryDefinition subquery,
 			IPreparedQueryService queryService, int groupLevel ) throws DataException
 	{
-		preparedQuery = new PreparedQuery( context,
-				exCompiler,
-				scope,
-				subquery,
-				this );
-		
 		this.groupLevel = groupLevel;
 		this.queryService = queryService;
 		logger.logp( Level.FINER,
 				PreparedSubquery.class.getName( ),
 				"PreparedSubquery",
 				"PreparedSubquery starts up." );
+		
+		this.preparedQuery = new PreparedQuery( context,
+				exCompiler,
+				scope,
+				subquery,
+				this,
+				null );
 	}
 	
 	/**
@@ -119,6 +118,13 @@ class PreparedSubquery implements IPreparedQueryService
 	 */
 	class SubQueryExecutor extends QueryExecutor
 	{
+		public SubQueryExecutor( )
+		{
+			super( preparedQuery.getSharedScope( ),
+					preparedQuery.getBaseQueryDefn( ),
+					preparedQuery.getAggrTable( ) );
+		}
+		
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiDataSource()
 		 */
@@ -171,21 +177,6 @@ class PreparedSubquery implements IPreparedQueryService
 			parentIterator = null;
 			
 			return ret;
-		}
-		
-		public Scriptable getSharedScope( )
-		{
-			return preparedQuery.getSharedScope( );
-		}
-		
-		protected IBaseQueryDefinition getBaseQueryDefn( )
-		{
-			return preparedQuery.getBaseQueryDefn( );
-		}
-
-		protected AggregateTable getAggrTable( )
-		{
-			return preparedQuery.getAggrTable( );
 		}
 	}
 	

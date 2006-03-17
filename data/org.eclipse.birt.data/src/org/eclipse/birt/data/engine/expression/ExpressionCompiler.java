@@ -50,11 +50,7 @@ public final class ExpressionCompiler
 	public final static String AGGR_VALUE = "_aggr_value";
 
 	protected static Logger logger = Logger.getLogger( ExpressionCompiler.class.getName() );
-
-	public ExpressionCompiler( )
-	{
-	}
-
+	
 	/**
 	 * Compiles a Javascript expression to produce a subclass of CompileExpression, which
 	 * contains the compiled form of the JS expression, after suitable replacement
