@@ -1,8 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin>
+<plugin
+   id="org.eclipse.birt.report.viewer"
+   name="BIRT Web Viewer"
+   version="2.1.0"
+   provider-name="Eclipse.org"
+   class="org.eclipse.birt.report.viewer.ViewerPlugin">
 
-     <extension-point id="browser" name="Web Browser" schema="schema/browser.exsd"/>
+   <runtime>
+      <library name="viewer.jar">
+         <export name="*"/>
+      </library>
+      <library name="birt/WEB-INF/lib/viewservlets.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.tomcat"/>
+      <import plugin="org.eclipse.birt.core"/>
+      <import plugin="org.eclipse.birt.report.engine"/>
+      <import plugin="org.eclipse.help.base"/>
+      <import plugin="org.eclipse.help.appserver"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.birt.report.model"/>
+      <import plugin="org.eclipse.birt.data"/>
+   </requires>
+
+   <extension-point id="browser" name="Web Browser" schema="schema/browser.exsd"/>
 
    <extension
          point="org.eclipse.birt.report.viewer.browser">
