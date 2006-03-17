@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 /**
  * Collection of file utility.
  * 
- * @version $Revision: 1.13 $ $Date: 2005/05/08 06:59:46 $
+ * @version $Revision: 1.14 $ $Date: 2005/11/17 16:50:52 $
  */
 public class FileUtil
 {
@@ -60,9 +60,10 @@ public class FileUtil
 		// initialize fileExtension
 		fileExtension.put( "image/bmp", ".bmp" ); //$NON-NLS-1$ //$NON-NLS-2$
 		fileExtension.put( "image/gif", ".gif" );  //$NON-NLS-1$//$NON-NLS-2$
-		fileExtension.put( "image/jpg", ".jpg" );  //$NON-NLS-1$//$NON-NLS-2$
+		fileExtension.put( "image/jpeg", ".jpg" );  //$NON-NLS-1$//$NON-NLS-2$
 		fileExtension.put( "image/pcx", ".pcx" );  //$NON-NLS-1$//$NON-NLS-2$
 		fileExtension.put( "image/png", ".png" );  //$NON-NLS-1$//$NON-NLS-2$
+		fileExtension.put( "image/x-png", ".png" );  //$NON-NLS-1$//$NON-NLS-2$
 		fileExtension.put( "image/tif", ".tif" );  //$NON-NLS-1$//$NON-NLS-2$
 	}
 
