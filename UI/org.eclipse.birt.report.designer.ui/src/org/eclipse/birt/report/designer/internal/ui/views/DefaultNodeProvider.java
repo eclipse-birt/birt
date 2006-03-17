@@ -42,6 +42,7 @@ import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -159,6 +160,7 @@ public class DefaultNodeProvider implements INodeProvider
 		// Insert point for refresh action
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
 				+ "-refresh" ) );//$NON-NLS-1$
+		
 
 		// Action action = new CodePageAction( object );
 		// if ( action.isEnabled( ) )
@@ -171,18 +173,7 @@ public class DefaultNodeProvider implements INodeProvider
 		// || ( object instanceof ReportElementHandle && !( (
 		// (ReportElementHandle) object ).getRoot( ) instanceof LibraryHandle )
 		// ) )
-		if ( object instanceof ReportDesignHandle )
-		{
-			menu.add( new ExportToLibraryAction( object ) );
-			ReportDesignHandle report = (ReportDesignHandle) object;
-			if ( report.getModuleHandle( )
-					.getFileName( )
-					.endsWith( Messages.getString( "DefaultNodeProvider.template.suffix" ) ) )
-			{
-				menu.add( new PublishTemplateViewAction( object ) );
-			}
 
-		}
 
 		// action = new CreatePlaceHolderAction( object );
 		// if ( action.isEnabled( ) )
