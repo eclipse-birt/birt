@@ -1702,23 +1702,23 @@ public class DEUtil
 	public static Map getDesignElementMethodArguments(
 			DesignElementHandle handle, String methodName )
 	{
-		List methods;
-		if ( handle instanceof DataSetHandle )
-		{
-			methods = DesignEngine.getMetaDataDictionary( )
-					.getElement( ReportDesignConstants.DATA_SET_ELEMENT ) //$NON-NLS-1$
-					.getMethods( );
-		}
-		else if ( handle instanceof DataSourceHandle )
-		{
-			methods = DesignEngine.getMetaDataDictionary( )
-					.getElement( ReportDesignConstants.DATA_SOURCE_ELEMENT ) //$NON-NLS-1$
-					.getMethods( );
-		}
-		else
-		{
-			methods = handle.getDefn( ).getLocalMethods( );
-		}
+		List methods = handle.getDefn( ).getMethods( );
+//		if ( handle instanceof DataSetHandle )
+//		{
+//			methods = DesignEngine.getMetaDataDictionary( )
+//					.getElement( ReportDesignConstants.DATA_SET_ELEMENT ) //$NON-NLS-1$
+//					.getMethods( );
+//		}
+//		else if ( handle instanceof DataSourceHandle )
+//		{
+//			methods = DesignEngine.getMetaDataDictionary( )
+//					.getElement( ReportDesignConstants.DATA_SOURCE_ELEMENT ) //$NON-NLS-1$
+//					.getMethods( );
+//		}
+//		else
+//		{
+//			methods = handle.getDefn( ).getLocalMethods( );
+//		}
 		Map argMap = new LinkedHashMap( methods.size( ) * 2 );
 
 		for ( Iterator iter = methods.iterator( ); iter.hasNext( ); )
