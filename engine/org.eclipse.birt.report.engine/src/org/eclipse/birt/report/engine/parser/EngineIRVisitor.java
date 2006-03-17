@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.82 $ $Date: 2006/03/09 09:17:32 $
+ * @version $Revision: 1.83 $ $Date: 2006/03/14 09:35:24 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1101,6 +1101,9 @@ class EngineIRVisitor extends DesignVisitor
 		ListBandDesign footer = createListBand( handle.getFooter( ) );
 		listGroup.setFooter( footer );
 
+		boolean hideDetail = handle.hideDetail( );
+		listGroup.setHideDetail( hideDetail );
+
 		currentElement = listGroup;
 	}
 
@@ -1133,6 +1136,10 @@ class EngineIRVisitor extends DesignVisitor
 
 		TableBandDesign footer = createTableBand( handle.getFooter( ) );
 		tableGroup.setFooter( footer );
+		
+		boolean hideDetail = handle.hideDetail( );
+		tableGroup.setHideDetail( hideDetail );
+		
 		currentElement = tableGroup;
 	}
 

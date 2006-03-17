@@ -17,7 +17,7 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * used by ListItem and TableItem.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.6 $ $Date: 2005/12/23 06:37:24 $
  */
 public class GroupDesign
 {
@@ -25,6 +25,11 @@ public class GroupDesign
 	 * group expression
 	 */
 	protected String name;
+
+	/**
+	 * group hideDetail
+	 */
+	protected boolean hideDetail;
 
 	/**
 	 * @return Returns the name.
@@ -39,6 +44,23 @@ public class GroupDesign
 	public void setName( String name )
 	{
 		this.name = name;
+	}
+	
+	/**
+	 * @param hide
+	 *            The hideDetail to set.
+	 */
+	public void setHideDetail( boolean hide )
+	{
+		hideDetail = hide;
+	}
+	
+	/**
+	 * @return Returns the hideDetail.
+	 */
+	public boolean getHideDetail( )
+	{
+		return hideDetail;
 	}
 	
 }
