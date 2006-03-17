@@ -130,11 +130,13 @@
 		 		- ${export.dir} target directory to put the plugin binaries
 	 -->
 	<target name="Export" >
-		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
-		<echo message="Export Model version = ${plugin.version}" />
+		<property file="META-INF/MANIFEST.MF" />
+		<property name="plugin.package" value="${module.name}_${Bundle-Version}" />		
 		
-	  	<copy todir="${export.dir}/${module.name}_${plugin.version}" failonerror="false">
-	        <fileset dir="." includes="modeloda.jar,plugin.xml,about.html,.options,lib/**,schema/**, about_files/**"/>
+		<echo message="Export Model Oda Adapter version = ${Bundle-Version}" />
+		
+	  	<copy todir="${export.dir}/${module.name}_${plugin.package}" failonerror="false">
+	        <fileset dir="." includes="modeloda.jar,plugin.xml,META-INF/**,about.html,.options,lib/**,schema/**, about_files/**"/>
 	    </copy>		    
 	</target>
 
