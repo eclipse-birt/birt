@@ -90,7 +90,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.78 $ $Date: 2006/03/09 09:17:41 $
+ * @version $Revision: 1.79 $ $Date: 2006/03/13 09:21:47 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -501,8 +501,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// output general styles
 		writer.style( "*", "vertical-align: baseline;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
-		writer.style(
-				"table", "border-collapse: collapse; empty-cells: show;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
 
 		IStyle style;
 		StringBuffer styleBuffer = new StringBuffer( );
@@ -2246,11 +2244,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	protected void addDefaultTableStyles( StringBuffer styleBuffer )
 	{
-		if ( isEmbeddable )
-		{
 			styleBuffer
 					.append( "border-collapse: collapse; empty-cells: show;" ); //$NON-NLS-1$
-		}
 	}
 
 	protected void exportElementID( IContent content, String bookmark,
