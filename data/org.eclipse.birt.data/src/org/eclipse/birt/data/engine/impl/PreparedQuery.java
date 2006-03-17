@@ -323,7 +323,7 @@ final class PreparedQuery
 				executor,
 				this.queryDefn ),
 				executor.getQueryScope( ),
-				executor.nestedLevel + 1 );
+				executor.getNestedLevel( ) + 1 );
 	}
 	
 	/**

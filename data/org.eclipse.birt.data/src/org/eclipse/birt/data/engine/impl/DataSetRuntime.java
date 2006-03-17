@@ -59,7 +59,7 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 	/** Javascript object implementing the DataSet class */
 	private Scriptable		jsDataSetObject;
 	
-	protected QueryExecutor queryExecutor;
+	protected IQueryExecutor queryExecutor;
 	protected static Logger logger = Logger.getLogger( DataSetRuntime.class.getName( ) );
 
 	// Fields related to current data row
@@ -88,7 +88,8 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
     private IBaseDataSetEventHandler eventHandler;
     protected boolean isOpen;
 
-	protected DataSetRuntime( IBaseDataSetDesign dataSetDesign, QueryExecutor queryExecutor)
+	protected DataSetRuntime( IBaseDataSetDesign dataSetDesign,
+			IQueryExecutor queryExecutor )
 	{
 		this.dataSetDesign = dataSetDesign;
 		this.queryExecutor = queryExecutor;
@@ -114,7 +115,7 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 		 */
 	}
 
-	public QueryExecutor getQueryExecutor()
+	public IQueryExecutor getQueryExecutor()
 	{
 		return queryExecutor;
 	}
@@ -157,13 +158,13 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 		if ( this.jsRowsObject == null )
 		{
 			// Construct an array of nested data sets
-			int size = queryExecutor.nestedLevel;
-			QueryExecutor executor = queryExecutor;									
+			int size = queryExecutor.getNestedLevel( );
+			IQueryExecutor executor = queryExecutor;									
 			DataSetRuntime[] dataSets = new DataSetRuntime[ size ];			
-			dataSets[ size - 1 ] = executor.getDataSet();			
+			dataSets[size - 1] = executor.getDataSet( );			
 			if ( size - 1 > 0 )
 			{
-				DataSetRuntime[] innerDSs = executor.outerResults.getDataSetRuntime( size - 1 );
+				DataSetRuntime[] innerDSs = executor.getDataSetRuntime( size - 1 );
 				for ( int i = 0; i < size - 1; i++ )
 					dataSets[i] = innerDSs[i];
 			}
@@ -235,7 +236,7 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 	 */
 	public IDataSourceInstanceHandle getDataSource()
 	{
-		return this.queryExecutor.dataSource;
+		return this.queryExecutor.getDataSourceInstanceHandle( );
 	}
 
 	/**
@@ -243,8 +244,8 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 	 * design-time data set definition
 	 * @param dataSetDefn Design-time data set definition.
 	 */
-	public static DataSetRuntime newInstance( IBaseDataSetDesign dataSetDefn, 
-			QueryExecutor queryExecutor ) throws DataException
+	public static DataSetRuntime newInstance( IBaseDataSetDesign dataSetDefn,
+			IQueryExecutor queryExecutor ) throws DataException
 	{
 		DataSetRuntime dataSet = null;
 		if ( dataSetDefn instanceof IOdaDataSetDesign )
@@ -303,9 +304,9 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 	{
 		if ( !isOpen )
 			return null;
-		if (jsAggrValueObject == null && queryExecutor.aggregates != null )
+		if (jsAggrValueObject == null )
 		{
-			jsAggrValueObject = queryExecutor.aggregates.getJSAggrValueObject();
+			jsAggrValueObject = queryExecutor.getJSAggrValueObject( );
 		}
 		return jsAggrValueObject;
 	}

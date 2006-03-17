@@ -38,7 +38,7 @@ public class ScriptDataSetRuntime extends DataSetRuntime
 	 * A list of ResultFieldMetadata objects*/
 	private List describedColumns;
 	
-    ScriptDataSetRuntime( IScriptDataSetDesign dataSet, QueryExecutor executor )
+    ScriptDataSetRuntime( IScriptDataSetDesign dataSet, IQueryExecutor executor )
     {
         super( dataSet, executor);
     	if ( getEventHandler() instanceof IScriptDataSetEventHandler )

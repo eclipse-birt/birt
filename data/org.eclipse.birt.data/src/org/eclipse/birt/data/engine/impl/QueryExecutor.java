@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
+import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
@@ -46,36 +47,34 @@ import org.mozilla.javascript.Scriptable;
 /**
  * 
  */
-abstract class QueryExecutor
-{
-	protected 	IQuery			odiQuery;
-	protected 	IDataSource		odiDataSource;
-	protected 	DataSourceRuntime	dataSource;
-	
-	/** Runtime data set used by this instance of executor */
-	protected	DataSetRuntime	dataSet;
-	
-	/** Outer query's results; null if this query is not nested */
-	protected	QueryResults	outerResults;
-	
-	protected 	AggregateCalculator		aggregates;
-	protected 	IResultIterator	odiResult;
-	
-	private		Scriptable		queryScope;
-	
-	/** Externally provided query scope; can be null */
-	private		Scriptable		parentScope;
-
-	private 	boolean 		isPrepared = false;
-	private 	boolean			isExecuted = false;
-	private		Map				queryAppContext;
-
-	/** Query nesting level, 1 - outermost query */
-	protected	int				nestedLevel = 1;
-	
+abstract class QueryExecutor implements IQueryExecutor
+{	
 	private 	Scriptable 				sharedScope;	
 	private 	IBaseQueryDefinition 	baseQueryDefn;
 	private 	AggregateTable 			aggrTable;
+	private 	AggregateCalculator		aggregates;
+	private		Scriptable				queryScope;
+	
+	/** Externally provided query scope; can be null */
+	private		Scriptable				parentScope;
+
+	private 	boolean 				isPrepared = false;
+	private 	boolean					isExecuted = false;
+	private		Map						queryAppContext;
+
+	/** Query nesting level, 1 - outermost query */
+	private		int						nestedLevel = 1;
+
+	/** Runtime data source and data set used by this instance of executor */
+	protected 	DataSourceRuntime		dataSource;	
+	protected	DataSetRuntime			dataSet;
+	
+	protected 	IDataSource				odiDataSource;
+	protected 	IQuery					odiQuery;
+	
+	/** Outer query's results; null if this query is not nested */
+	protected	QueryResults			outerResults;	
+	private 	IResultIterator			odiResult;
 	
 	private static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 	
@@ -84,8 +83,8 @@ abstract class QueryExecutor
 	 * @param baseQueryDefn
 	 * @param aggrTable
 	 */
-	public QueryExecutor( Scriptable sharedScope,
-			IBaseQueryDefinition baseQueryDefn, AggregateTable aggrTable )
+	QueryExecutor( Scriptable sharedScope, IBaseQueryDefinition baseQueryDefn,
+			AggregateTable aggrTable )
 	{
 		this.sharedScope = sharedScope;
 		this.baseQueryDefn = baseQueryDefn;
@@ -140,22 +139,6 @@ abstract class QueryExecutor
 	abstract protected IResultIterator executeOdiQuery( )
 			throws DataException;
 		
-	/**
-	 * @return
-	 */
-	public DataSetRuntime getDataSet( )
-	{
-		return dataSet;
-	}
-	
-	/**
-	 * @return
-	 */
-	public Scriptable getSharedScope( )
-	{
-		return this.sharedScope;
-	}
-	
 	/**
 	 * @param context
 	 */
@@ -428,11 +411,10 @@ abstract class QueryExecutor
 		}
 	}
 	
-	/**
-	 * @return
-	 * @throws DataException
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getResultMetaData()
 	 */
-	IResultMetaData getResultMetaData( ) throws DataException
+	public IResultMetaData getResultMetaData( ) throws DataException
 	{
 		assert odiQuery instanceof IPreparedDSQuery
 				|| odiQuery instanceof ICandidateQuery;
@@ -449,10 +431,10 @@ abstract class QueryExecutor
 		}
 	}
 	
-	/**
-	 * @throws DataException
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#execute()
 	 */
-	void execute( ) throws DataException
+	public void execute( ) throws DataException
 	{
 		logger.logp( Level.FINER,
 				QueryExecutor.class.getName( ),
@@ -481,11 +463,13 @@ abstract class QueryExecutor
 				"execute",
 				"Finish executing" );
 	}
-
-	/**
+	
+	/*
 	 * Closes the executor; release all odi resources
+	 * 
+	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#close()
 	 */
-	void close( )
+	public void close( )
 	{
 		if ( odiQuery == null )
 		{
@@ -557,6 +541,65 @@ abstract class QueryExecutor
 				QueryExecutor.class.getName( ),
 				"close",
 				"executor closed " );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getDataSet()
+	 */
+	public DataSetRuntime getDataSet( )
+	{
+		return dataSet;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getSharedScope()
+	 */
+	public Scriptable getSharedScope( )
+	{
+		return this.sharedScope;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getNestedLevel()
+	 */
+	public int getNestedLevel( )
+	{
+		return this.nestedLevel;
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getDataSourceInstanceHandle()
+	 */
+	public IDataSourceInstanceHandle getDataSourceInstanceHandle( )
+	{
+		return this.dataSource;
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getJSAggrValueObject()
+	 */
+	public Scriptable getJSAggrValueObject( )
+	{
+		if ( aggregates != null )
+			return aggregates.getJSAggrValueObject( );
+		else
+			return null;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getDataSetRuntime(int)
+	 */
+	public DataSetRuntime[] getDataSetRuntime( int count )
+	{
+		return outerResults.getDataSetRuntime( count );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getOdiResultSet()
+	 */
+	public IResultIterator getOdiResultSet( )
+	{
+		return this.odiResult;
 	}
 	
 }

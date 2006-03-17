@@ -148,7 +148,7 @@ class PreparedSubquery implements IPreparedQueryService
 		 */
 		protected DataSetRuntime newDataSetRuntime()
 		{
-			return new SubqueryDataSetRuntime( this);
+			return new SubqueryDataSetRuntime( this );
 		}
 		
 		/*

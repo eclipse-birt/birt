@@ -27,7 +27,7 @@ public class SubqueryDataSetRuntime extends DataSetRuntime
 	 * @param executor Subquery executor
 	 * @param outerDataSet DataSet runtime of the "real" data set associated with the outer query
 	 */
-	public SubqueryDataSetRuntime( QueryExecutor executor )
+	public SubqueryDataSetRuntime( IQueryExecutor executor )
 	{
 		// Subquery data set does not have an associated data set design
 		super( null, executor );
