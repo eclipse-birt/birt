@@ -75,7 +75,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 	 */
 	protected QueryExecutor newExecutor()
 	{
-		return new ExtendedDSQueryExecutor();
+		return new OdaDSQueryExecutor();
 	}	
 
 	/**
@@ -127,7 +127,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 	 */
     public Collection getParameterMetaData() throws DataException
 	{
-    	ExtendedDSQueryExecutor exec = new ExtendedDSQueryExecutor();
+    	OdaDSQueryExecutor exec = new OdaDSQueryExecutor();
     	return exec.getParameterMetaData();
 	}
     
@@ -136,7 +136,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 	 * Concrete class of DSQueryExecutor used in PreparedExtendedDSQuery
 	 * 
 	 */
-	public class ExtendedDSQueryExecutor extends DSQueryExecutor
+	public class OdaDSQueryExecutor extends DSQueryExecutor
 	{
 		// prepared query
 		private IPreparedDSQuery odiPreparedQuery;

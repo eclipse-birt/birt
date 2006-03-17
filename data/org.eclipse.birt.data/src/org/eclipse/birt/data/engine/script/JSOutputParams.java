@@ -30,17 +30,20 @@ public class JSOutputParams extends ScriptableObject
 	private Map valueMap = new HashMap( );
 
 	// parameter value provider
-	PreparedOdaDSQuery.ExtendedDSQueryExecutor queryExecutor;
+	PreparedOdaDSQuery.OdaDSQueryExecutor queryExecutor;
 	
 	/** */
 	private static final long serialVersionUID = 2535883419826794186L;
 	
+	/**
+	 * @param dataSet
+	 */
 	public JSOutputParams( DataSetRuntime dataSet )
 	{
 		// Output param is only available for ODA data sets
-		if ( dataSet.getQueryExecutor() instanceof PreparedOdaDSQuery.ExtendedDSQueryExecutor )
+		if ( dataSet.getQueryExecutor() instanceof PreparedOdaDSQuery.OdaDSQueryExecutor )
 		{
-			queryExecutor = (PreparedOdaDSQuery.ExtendedDSQueryExecutor)( 
+			queryExecutor = (PreparedOdaDSQuery.OdaDSQueryExecutor)( 
 					dataSet.getQueryExecutor() );
 		}
 	}
@@ -72,9 +75,10 @@ public class JSOutputParams extends ScriptableObject
 		{
 			try
 			{
-				if ( queryExecutor.getPreparedOdiQuery() != null )
+				if ( queryExecutor.getPreparedOdiQuery( ) != null )
 				{
-					paramValue = queryExecutor.getPreparedOdiQuery().getOutputParameterValue( index );
+					paramValue = queryExecutor.getPreparedOdiQuery( )
+							.getOutputParameterValue( index );
 					valueMap.put( new Integer( index ), paramValue );
 				}
 			}
@@ -84,9 +88,8 @@ public class JSOutputParams extends ScriptableObject
 			}
 		}
 		
-		return  JavascriptEvalUtil.convertToJavascriptValue (
-				paramValue,
-				queryExecutor.getSharedScope() );
+		return JavascriptEvalUtil.convertToJavascriptValue( paramValue,
+				queryExecutor.getSharedScope( ) );
 	}
 
 	/*
@@ -108,9 +111,10 @@ public class JSOutputParams extends ScriptableObject
 		{
 			try
 			{
-				if ( queryExecutor.getPreparedOdiQuery() != null )
+				if ( queryExecutor.getPreparedOdiQuery( ) != null )
 				{
-					paramValue = queryExecutor.getPreparedOdiQuery().getOutputParameterValue( name );
+					paramValue = queryExecutor.getPreparedOdiQuery( )
+							.getOutputParameterValue( name );
 					valueMap.put( name, paramValue );
 				}
 			}
@@ -120,9 +124,8 @@ public class JSOutputParams extends ScriptableObject
 			}
 		}
 
-		return  JavascriptEvalUtil.convertToJavascriptValue (
-				paramValue,
-				queryExecutor.getSharedScope() );
+		return JavascriptEvalUtil.convertToJavascriptValue( paramValue,
+				queryExecutor.getSharedScope( ) );
 	}
 
 	/*

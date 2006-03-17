@@ -164,7 +164,7 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 			dataSets[size - 1] = executor.getDataSet( );			
 			if ( size - 1 > 0 )
 			{
-				DataSetRuntime[] innerDSs = executor.getDataSetRuntime( size - 1 );
+				DataSetRuntime[] innerDSs = executor.getNestedDataSets( size - 1 );
 				for ( int i = 0; i < size - 1; i++ )
 					dataSets[i] = innerDSs[i];
 			}

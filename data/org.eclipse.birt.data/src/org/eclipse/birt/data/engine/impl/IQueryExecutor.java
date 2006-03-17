@@ -21,25 +21,58 @@ import org.mozilla.javascript.Scriptable;
  */
 public interface IQueryExecutor
 {
-
+	/**
+	 * Execute query
+	 * 
+	 * @throws DataException
+	 */
 	void execute( ) throws DataException;
-	
+
+	/**
+	 * @return shard scope
+	 */
 	Scriptable getSharedScope( );
 
+	/**
+	 * @return scope of JS aggregation object
+	 */
 	Scriptable getJSAggrValueObject( );
 	
+	/**
+	 * @return the nested level of this executor
+	 */
 	int getNestedLevel( );
 
+	/**
+	 * @return
+	 */
 	IDataSourceInstanceHandle getDataSourceInstanceHandle( );
 
+	/**
+	 * @return the data set associated with this executor
+	 */
 	DataSetRuntime getDataSet( );
 
-	DataSetRuntime[] getDataSetRuntime( int count );
+	/**
+	 * @param nestedCount
+	 * @return nested data set
+	 */
+	DataSetRuntime[] getNestedDataSets( int nestedCount );
 
+	/**
+	 * @return result set of underlying ODI layer
+	 */
 	IResultIterator getOdiResultSet( );
-	
+
+	/**
+	 * @return meta data of data set
+	 * @throws DataException
+	 */
 	IResultMetaData getResultMetaData( ) throws DataException;
-	
+
+	/**
+	 * close
+	 */
 	void close( );
 	
 }

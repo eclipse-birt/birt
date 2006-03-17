@@ -587,11 +587,11 @@ abstract class QueryExecutor implements IQueryExecutor
 	}
 	
 	/*
-	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getDataSetRuntime(int)
+	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getNestedDataSets(int)
 	 */
-	public DataSetRuntime[] getDataSetRuntime( int count )
+	public DataSetRuntime[] getNestedDataSets( int nestedCount )
 	{
-		return outerResults.getDataSetRuntime( count );
+		return outerResults.getDataSetRuntime( nestedCount );
 	}
 	
 	/*
