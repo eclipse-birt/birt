@@ -25,7 +25,6 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
@@ -40,12 +39,6 @@ abstract class PreparedDataSourceQuery
 			IPreparedQuery,
 			IPreparedQueryService
 {
-	private IQueryDefinition queryDefn;
-	private DataEngineImpl dataEngine;
-	protected IBaseDataSetDesign dataSetDesign;
-	
-	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
-	
 	/**
 	 * Creates a new instance of the proper subclass based on the type of the
 	 * query passed in.
@@ -56,8 +49,7 @@ abstract class PreparedDataSourceQuery
 	 * @throws DataException
 	 */
 	static PreparedDataSourceQuery newInstance( DataEngineImpl dataEngine,
-			IQueryDefinition queryDefn, Map appContext ) 
-		throws DataException
+			IQueryDefinition queryDefn, Map appContext ) throws DataException
 	{
 		assert dataEngine != null;
 		assert queryDefn != null;
@@ -70,24 +62,31 @@ abstract class PreparedDataSourceQuery
 			logger.logp( Level.WARNING,
 					PreparedDataSourceQuery.class.getName( ),
 					"newInstance",
-					"Data set {" + queryDefn.getDataSetName( ) + "} is not defined",
+					"Data set {"
+							+ queryDefn.getDataSetName( ) + "} is not defined",
 					e );
 			throw e;
 		}
-		
+
 		PreparedDataSourceQuery preparedQuery;
+		
 		if ( dset instanceof IScriptDataSetDesign )
 		{
-		    preparedQuery = new PreparedScriptDSQuery( dataEngine, queryDefn, dset );
+			preparedQuery = new PreparedScriptDSQuery( dataEngine,
+					queryDefn,
+					dset, appContext );
 		}
 		else if ( dset instanceof IOdaDataSetDesign )
 		{
-		    preparedQuery = new PreparedOdaDSQuery( dataEngine, queryDefn, dset );
+			preparedQuery = new PreparedOdaDSQuery( dataEngine,
+					queryDefn,
+					dset,
+					appContext );
 		}
 		else
 		{
 			DataException e = new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE,
-					dset.getName() );
+					dset.getName( ) );
 			logger.logp( Level.FINE,
 					PreparedDataSourceQuery.class.getName( ),
 					"newInstance",
@@ -95,46 +94,56 @@ abstract class PreparedDataSourceQuery
 					e );
 			throw e;
 		}
-		
-		if( preparedQuery != null )
-		    preparedQuery.setAppContext( appContext );
+
 		return preparedQuery;
 	}
-	
+		
+	private DataEngineImpl dataEngine;
+	private IQueryDefinition queryDefn;
+	private IBaseDataSetDesign dataSetDesign;	
 	private PreparedQuery preparedQuery;
 	
-	protected PreparedDataSourceQuery( DataEngineImpl dataEngine, IQueryDefinition queryDefn, 
-			IBaseDataSetDesign dataSetDesign)
-		throws DataException
+	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
+	
+	/**
+	 * @param dataEngine
+	 * @param queryDefn
+	 * @param dataSetDesign
+	 * @throws DataException
+	 */
+	PreparedDataSourceQuery( DataEngineImpl dataEngine,
+			IQueryDefinition queryDefn, IBaseDataSetDesign dataSetDesign,
+			Map appContext )
+			throws DataException
 	{
+		this.dataSetDesign = dataSetDesign;
+		this.queryDefn = queryDefn;
+		this.dataEngine = dataEngine;
+		
 		preparedQuery = new PreparedQuery( dataEngine.getContext( ),
 				dataEngine.getExpressionCompiler( ),
 				dataEngine.getSharedScope( ),
 				queryDefn,
 				this );
-		this.dataSetDesign = dataSetDesign;
-		this.queryDefn = queryDefn;
-		this.dataEngine = dataEngine;
-	}
-
-	public void setAppContext( Map appContext )
-	{
 		preparedQuery.setAppContext( appContext );
 	}
 	
-	/**
+	/*
 	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getReportQueryDefn()
 	 */
 	public IQueryDefinition getReportQueryDefn()
 	{
 		return this.queryDefn;
 	}
-
-	/**
-	 * @return the appropriate subclass of the Executor
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IPreparedQueryService#getDataSourceQuery()
 	 */
-	protected abstract QueryExecutor newExecutor();
-
+	public PreparedDataSourceQuery getDataSourceQuery( )
+	{
+		return this;
+	}
+	
 	/**
 	 * Executes the prepared execution plan.  This returns
 	 * a QueryResult object at a state ready to return its 
@@ -146,46 +155,52 @@ abstract class PreparedDataSourceQuery
 	 * 		the results of a report query. 
 	 */
 	public IQueryResults execute( Scriptable scope ) throws DataException
-	{ 
-    	return preparedQuery.doPrepare( null,
-				scope,
-				newExecutor( ),
-				getDataSourceQuery( ) );
+	{
+		return this.execute( null, scope );
 	}
 
 	/**
-	 * Executes the prepared execution plan as an inner query 
-	 * that appears within the scope of another report query. 
-	 * The outer query must have been prepared and executed, and 
-	 * its results given as a parameter to this method.
-	 * @param outerResults	QueryResults for the executed outer query
-	 * @return The QueryResults object opened and ready to return
-	 * 		the results of a report query. 
+	 * Executes the prepared execution plan as an inner query that appears
+	 * within the scope of another report query. The outer query must have been
+	 * prepared and executed, and its results given as a parameter to this
+	 * method.
+	 * 
+	 * @param outerResults
+	 *            QueryResults for the executed outer query
+	 * @return The QueryResults object opened and ready to return the results of
+	 *         a report query.
 	 */
 	public IQueryResults execute( IQueryResults outerResults, Scriptable scope )
-		throws DataException
-	{ 
+			throws DataException
+	{
 		return preparedQuery.doPrepare( outerResults,
 				scope,
 				newExecutor( ),
-				getDataSourceQuery( ) );
+				this );
 	}
+	
+	/**
+	 * @return the appropriate subclass of the Executor
+	 */
+	protected abstract QueryExecutor newExecutor( );
 	
 	/*
-	 * @see org.eclipse.birt.data.engine.impl.IPreparedQueryService#execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator, java.lang.String, org.mozilla.javascript.Scriptable)
+	 * @see org.eclipse.birt.data.engine.impl.IPreparedQueryService#execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator,
+	 *      java.lang.String, org.mozilla.javascript.Scriptable)
 	 */
-	public QueryResults execSubquery( IResultIterator iterator, String subQueryName, Scriptable subScope ) throws DataException
+	public QueryResults execSubquery( IResultIterator iterator,
+			String subQueryName, Scriptable subScope ) throws DataException
 	{
-		return this.preparedQuery.execSubquery( iterator, subQueryName, subScope );
+		return this.preparedQuery.execSubquery( iterator,
+				subQueryName,
+				subScope );
 	}
 	
-	public PreparedDataSourceQuery getDataSourceQuery()
-	{
-		return this;
-	}
-	
+	/**
+	 * 
+	 */
 	abstract class DSQueryExecutor extends QueryExecutor
-	{		
+	{
 		protected DataSourceRuntime findDataSource( ) throws DataException
 		{
 			assert dataSetDesign != null;
@@ -211,11 +226,6 @@ abstract class PreparedDataSourceQuery
 		protected AggregateTable getAggrTable( )
 		{
 			return preparedQuery.getAggrTable( );
-		}
-		
-		protected ExpressionCompiler getExpressionCompiler( )
-		{
-			return preparedQuery.getExpressionCompiler( );
 		}
 	}
 }

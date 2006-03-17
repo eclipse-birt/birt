@@ -30,7 +30,7 @@ import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.expression.ColumnReferenceExpression;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
-import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateCalculator;
@@ -84,11 +84,6 @@ public abstract class QueryExecutor
 	
 	/**
 	 * @return
-	 */	
-	abstract protected ExpressionCompiler getExpressionCompiler( );
-	
-	/**
-	 * @return
 	 */
 	abstract protected IBaseQueryDefinition getBaseQueryDefn( );
 	
@@ -96,15 +91,6 @@ public abstract class QueryExecutor
 	 * @return
 	 */
 	abstract protected AggregateTable getAggrTable( );
-	
-	/**
-	 * Create a new unopened odiDataSource given the data source runtime
-	 * definition
-	 * 
-	 * @return
-	 */
-	abstract protected IDataSource createOdiDataSource( )
-			throws DataException;
 
 	/**
 	 * Provide the actual DataSourceRuntime used for the query.
@@ -122,6 +108,16 @@ public abstract class QueryExecutor
 	abstract protected DataSetRuntime newDataSetRuntime( )
 			throws DataException;
 
+	
+	/**
+	 * Create a new unopened odiDataSource given the data source runtime
+	 * definition
+	 * 
+	 * @return
+	 */
+	abstract protected IDataSource createOdiDataSource( )
+			throws DataException;
+	
 	/**
 	 * Create an empty instance of odi query
 	 * 
@@ -130,19 +126,19 @@ public abstract class QueryExecutor
 	abstract protected IQuery createOdiQuery( ) throws DataException;
 	
 	/**
+	 * Prepares the ODI query
+	 */
+	protected void prepareOdiQuery( ) throws DataException
+	{
+	}
+	
+	/**
 	 * Executes the ODI query to reproduce a ODI result set
 	 * 
 	 * @return
 	 */
 	abstract protected IResultIterator executeOdiQuery( )
 			throws DataException;
-
-	/**
-	 * Prepares the ODI query
-	 */
-	protected void prepareOdiQuery( ) throws DataException
-	{
-	}
 	
 	/**
 	 * @param context
@@ -159,6 +155,11 @@ public abstract class QueryExecutor
 	{
 		return dataSet;
 	} 
+	
+	public QueryExecutor( )
+	{
+
+	}
 	
 	/**
 	 * Gets the Javascript scope for evaluating expressions for this query
@@ -209,7 +210,7 @@ public abstract class QueryExecutor
 	 * @param targetScope
 	 * @throws DataException
 	 */
-	public void prepareExecution( IQueryResults outerRts, Scriptable targetScope ) throws DataException
+	void prepareExecution( IQueryResults outerRts, Scriptable targetScope ) throws DataException
 	{
 		if(isPrepared)return;
 		
@@ -256,7 +257,7 @@ public abstract class QueryExecutor
 	 * @return
 	 * @throws DataException
 	 */
-	public IResultMetaData getResultMetaData( ) throws DataException
+	IResultMetaData getResultMetaData( ) throws DataException
 	{
 		assert odiQuery instanceof IPreparedDSQuery
 				|| odiQuery instanceof ICandidateQuery;
@@ -276,7 +277,7 @@ public abstract class QueryExecutor
 	/**
 	 * @throws DataException
 	 */
-	public void execute() throws DataException
+	void execute() throws DataException
 	{
 		logger.logp( Level.FINER,
 				QueryExecutor.class.getName( ),
@@ -309,7 +310,7 @@ public abstract class QueryExecutor
 	/**
 	 * Closes the executor; release all odi resources
 	 */
-	public void close()
+	void close()
 	{
 		if ( odiQuery == null )
 		{
@@ -608,8 +609,7 @@ public abstract class QueryExecutor
 	{
 		int colIndex = -1;
 		String colName = null;
-		ExpressionCompiler compiler = getExpressionCompiler( );
-		CompiledExpression ce = compiler.compile( expr, null, cx );
+		CompiledExpression ce = ExpressionCompilerUtil.compile( expr, null, cx );
 		if ( ce instanceof ColumnReferenceExpression )
 		{
 			ColumnReferenceExpression cre = ( (ColumnReferenceExpression) ce );

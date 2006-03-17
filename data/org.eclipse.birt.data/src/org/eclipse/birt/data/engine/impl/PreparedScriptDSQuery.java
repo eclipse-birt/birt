@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.data.DataType;
@@ -51,9 +52,9 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 	 * @throws DataException
 	 */
 	PreparedScriptDSQuery( DataEngineImpl dataEngine, IQueryDefinition queryDefn, 
-			IBaseDataSetDesign dataSetDesign ) throws DataException
+			IBaseDataSetDesign dataSetDesign, Map appContext ) throws DataException
 	{
-		super( dataEngine, queryDefn, dataSetDesign );
+		super( dataEngine, queryDefn, dataSetDesign, appContext );
 		logger.logp( Level.FINER,
 				PreparedScriptDSQuery.class.getName( ),
 				"PreparedScriptDSQuery",

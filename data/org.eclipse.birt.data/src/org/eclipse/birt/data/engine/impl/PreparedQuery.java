@@ -396,10 +396,5 @@ final class PreparedQuery
 	{
 		return aggrTable;
 	}
-
-	protected ExpressionCompiler getExpressionCompiler( )
-	{
-		return exCompiler;
-	}
 		
 }

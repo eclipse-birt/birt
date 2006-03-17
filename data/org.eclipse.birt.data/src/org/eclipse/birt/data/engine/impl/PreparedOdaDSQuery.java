@@ -59,10 +59,11 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 	 * @param dataSetDesign
 	 * @throws DataException
 	 */
-	PreparedOdaDSQuery( DataEngineImpl dataEngine,
-			IQueryDefinition queryDefn, IBaseDataSetDesign dataSetDesign ) throws DataException
+	PreparedOdaDSQuery( DataEngineImpl dataEngine, IQueryDefinition queryDefn,
+			IBaseDataSetDesign dataSetDesign, Map appContext )
+			throws DataException
 	{
-		super( dataEngine, queryDefn, dataSetDesign );
+		super( dataEngine, queryDefn, dataSetDesign, appContext );
 		logger.logp( Level.FINER,
 				PreparedOdaDSQuery.class.getName( ),
 				"PreparedExtendedDSQuery",

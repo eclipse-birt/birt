@@ -187,11 +187,6 @@ class PreparedSubquery implements IPreparedQueryService
 		{
 			return preparedQuery.getAggrTable( );
 		}
-		
-		protected ExpressionCompiler getExpressionCompiler( )
-		{
-			return preparedQuery.getExpressionCompiler( );
-		}
 	}
 	
 	/**
