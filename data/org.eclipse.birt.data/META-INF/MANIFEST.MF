@@ -15,4 +15,5 @@ Export-Package: org.eclipse.birt.data.engine.api,
  org.eclipse.birt.data.engine.api.aggregation,
  org.eclipse.birt.data.engine.api.querydefn,
  org.eclipse.birt.data.engine.api.script,
- org.eclipse.birt.data.engine.plugin
+ org.eclipse.birt.data.engine.plugin,
+ org.eclipse.birt.data.engine.script
