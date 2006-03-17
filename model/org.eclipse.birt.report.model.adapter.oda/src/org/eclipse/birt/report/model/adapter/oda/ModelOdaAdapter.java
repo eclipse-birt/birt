@@ -40,7 +40,6 @@ import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
-import org.eclipse.datatools.connectivity.oda.design.DataSetQuery;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.InputElementAttributes;
@@ -130,8 +129,7 @@ public class ModelOdaAdapter
 
 		// validate the source design to make sure it is valid
 
-		// TODO, not know how to set native type
-		// DesignUtil.validateObject( setDesign );
+		DesignUtil.validateObject( setDesign );
 
 		OdaDataSetHandle setHandle = module.getElementFactory( ).newOdaDataSet(
 				setDesign.getName( ), setDesign.getOdaExtensionDataSetId( ) );
@@ -211,6 +209,9 @@ public class ModelOdaAdapter
 									setHandle,
 									OdaDataSetHandle.DATA_SOURCE_PROP,
 									dataSourceName ) );
+		else
+			setHandle.getElement( ).clearProperty(
+					OdaDataSetHandle.DATA_SOURCE_PROP );
 
 		// set the data set parameter list.
 
@@ -860,42 +861,6 @@ public class ModelOdaAdapter
 	}
 
 	/**
-	 * Creates the ODA DataSetQuery with the given query text.
-	 * 
-	 * @param queryText
-	 *            the query text
-	 * @return the created DataSetQuery
-	 */
-
-	private DataSetQuery newOdaQuery( String queryText )
-	{
-		if ( queryText == null )
-			return null;
-
-		DataSetQuery odaQuery = DesignFactory.eINSTANCE.createDataSetQuery( );
-		odaQuery.setQueryText( queryText );
-		return odaQuery;
-	}
-
-	/**
-	 * Returns the query text for the given ODA DataSet query.
-	 * 
-	 * @param odaQuery
-	 *            ODA DataSet query
-	 * @return the query text in string
-	 */
-
-	private String newROMQueryText( DataSetQuery odaQuery )
-	{
-		String queryText = null;
-
-		if ( odaQuery != null )
-			queryText = odaQuery.getQueryText( );
-
-		return queryText;
-	}
-
-	/**
 	 * Creates a ResultSetDefinition with the given ROM ResultSet columns.
 	 * 
 	 * @param romResultSet
@@ -1071,6 +1036,7 @@ public class ModelOdaAdapter
 			return;
 
 		DesignUtil.validateObject( setDesign );
+
 		CommandStack stack = setHandle.getModuleHandle( ).getCommandStack( );
 
 		stack.startTrans( null );
@@ -1114,6 +1080,37 @@ public class ModelOdaAdapter
 				}
 			}
 
+			updateROMStructureList( setHandle
+					.getPropertyHandle( OdaDataSetHandle.PARAMETERS_PROP ),
+					newROMSetParams( setDesign.getParameters( ) ) );
+
+			ResultSetDefinition resultDefn = setDesign.getPrimaryResultSet( );
+			if ( resultDefn == null )
+			{
+				ResultSets resultSets = setDesign.getResultSets( );
+				if ( resultSets != null
+						&& !resultSets.getResultSetDefinitions( ).isEmpty( ) )
+					resultDefn = (ResultSetDefinition) resultSets
+							.getResultSetDefinitions( ).get( 0 );
+			}
+
+			updateROMStructureList( setHandle
+					.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP ),
+					newROMResultSets( resultDefn ) );
+
+			setHandle.setResultSetName( setDesign.getPrimaryResultSetName( ) );
+
+			setHandle.setQueryText( setDesign.getQueryText( ) );
+
+			DataSourceDesign sourceDesign = setDesign.getDataSourceDesign( );
+			if ( sourceDesign != null )
+			{
+				setHandle.setDataSource( sourceDesign.getName( ) );
+				updateDataSourceHandle( sourceDesign,
+						(OdaDataSourceHandle) setHandle.getDataSource( ) );
+			}
+			else
+				setHandle.setDataSource( null );
 		}
 		catch ( SemanticException e )
 		{
@@ -1122,5 +1119,30 @@ public class ModelOdaAdapter
 		}
 
 		stack.commit( );
+	}
+
+	/**
+	 * Updates a strucutre list with the corresponding property handle.
+	 * 
+	 * @param propHandle
+	 *            the property handle
+	 * @param structList
+	 *            the structure list
+	 * @throws SemanticException
+	 *             if any strucutre has invalid value.
+	 */
+
+	private void updateROMStructureList( PropertyHandle propHandle,
+			List structList ) throws SemanticException
+	{
+		assert propHandle != null;
+
+		propHandle.clearValue( );
+
+		if ( structList == null || structList.isEmpty( ) )
+			return;
+
+		for ( int i = 0; i < structList.size( ); i++ )
+			propHandle.addItem( structList.get( i ) );
 	}
 }
