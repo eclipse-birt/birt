@@ -288,6 +288,8 @@ abstract class QueryExecutor implements IQueryExecutor
 	
 	/**
 	 * Populates odiQuery with this query's definitions
+	 * 
+	 * @throws DataException
 	 */
 	protected void populateOdiQuery( ) throws DataException
 	{

@@ -41,21 +41,20 @@ class QueryResults implements IQueryResults
 	// context of data engine
 	private DataEngineContext 			context;
 	private Scriptable 					queryScope;
-	private int 						nestedLevel;	
+	private int 						nestedLevel;
 	// id of this instance
 	private String 						queryResultID;
 
 	// query service instance
-	private IQueryService 				queryService;		
+	private IQueryService 				queryService;
 	private ResultIterator				iterator;
 		
 	private static Logger logger = Logger.getLogger( QueryResults.class.getName( ) );
 	
 	/**
-	 * @param context Current data engine running context
-	 * @param reportQuery The associated report query.
-	 * @param query The actual query (either report query or subquery)
-	 * @param executor The executor in PreparedQuery
+	 * @param queryService
+	 * @param queryScope
+	 * @param nestedLevel
 	 */
 	QueryResults( IQueryService queryService, Scriptable queryScope,
 			int nestedLevel )
@@ -187,33 +186,19 @@ class QueryResults implements IQueryResults
 	}
 	
 	/**
-	 * @param count
 	 * @return
 	 */
-	DataSetRuntime[] getDataSetRuntime( int count )
+	boolean isClosed( )
 	{
-		return this.queryService.getDataSetRuntimes( count );
+		return queryService == null;
 	}
 
-	int getNestedLevel( )
-	{
-		return this.nestedLevel;
-	}
-	
 	/**
 	 * @return
 	 */
 	Scriptable getQueryScope( )
 	{
 		return this.queryScope;
-	}
-	
-	/**
-	 * @return
-	 */
-	boolean isClosed( )
-	{
-		return queryService == null;
 	}
 	
 	/**
@@ -225,6 +210,23 @@ class QueryResults implements IQueryResults
 	int getGroupLevel( )
 	{
 		return queryService.getGroupLevel( );
+	}
+	
+	/**
+	 * @return
+	 */
+	int getNestedLevel( )
+	{
+		return this.nestedLevel;
+	}
+	
+	/**
+	 * @param count
+	 * @return
+	 */
+	DataSetRuntime[] getDataSetRuntime( int count )
+	{
+		return this.queryService.getDataSetRuntimes( count );
 	}
 	
 	/**
@@ -240,21 +242,13 @@ class QueryResults implements IQueryResults
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private static class ResultService implements IResultService
 	{
 		/** */
 		private DataEngineContext context;
 		private QueryResults queryResults;
-		
-		/*
-		 * @see org.eclipse.birt.data.engine.impl.IResultService#getContext()
-		 */
-		public DataEngineContext getContext( )
-		{
-			return context;
-		}
 		
 		/**
 		 * @param queryResults
@@ -264,6 +258,14 @@ class QueryResults implements IQueryResults
 		{
 			this.context = context;
 			this.queryResults = queryResults;
+		}		
+
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.IResultService#getContext()
+		 */
+		public DataEngineContext getContext( )
+		{
+			return context;
 		}
 		
 		/*
@@ -273,9 +275,18 @@ class QueryResults implements IQueryResults
 		{
 			return queryResults;
 		}
+
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.IResultService#getQueryDefn()
+		 */
+		public IBaseQueryDefinition getQueryDefn( )
+		{
+			return queryResults.queryService.getQueryDefn( );
+		}
 		
 		/*
-		 * @see org.eclipse.birt.data.engine.impl.IResultService#execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator, java.lang.String, org.mozilla.javascript.Scriptable)
+		 * @see org.eclipse.birt.data.engine.impl.IResultService#execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator,
+		 *      java.lang.String, org.mozilla.javascript.Scriptable)
 		 */
 		public QueryResults execSubquery(
 				org.eclipse.birt.data.engine.odi.IResultIterator iterator,
@@ -284,14 +295,6 @@ class QueryResults implements IQueryResults
 			return queryResults.queryService.execSubquery( iterator,
 					subQueryName,
 					subScope );
-		}
-
-		/*
-		 * @see org.eclipse.birt.data.engine.impl.IResultService#getQueryDefn()
-		 */
-		public IBaseQueryDefinition getQueryDefn( )
-		{
-			return queryResults.queryService.getQueryDefn( );
 		}
 	}
 	

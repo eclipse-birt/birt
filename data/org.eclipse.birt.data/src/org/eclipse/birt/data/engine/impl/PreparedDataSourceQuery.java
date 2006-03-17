@@ -206,7 +206,10 @@ abstract class PreparedDataSourceQuery
 					preparedQuery.getBaseQueryDefn( ),
 					preparedQuery.getAggrTable( ) );
 		}
-
+		
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.QueryExecutor#findDataSource()
+		 */
 		protected DataSourceRuntime findDataSource( ) throws DataException
 		{
 			assert dataSetDesign != null;
@@ -214,9 +217,13 @@ abstract class PreparedDataSourceQuery
 			return dsRT;
 		}
 		
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.QueryExecutor#newDataSetRuntime()
+		 */
 		protected DataSetRuntime newDataSetRuntime( ) throws DataException
 		{
 			return DataSetRuntime.newInstance( dataSetDesign, this );
 		}
 	}
+	
 }

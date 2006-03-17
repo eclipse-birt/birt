@@ -15,13 +15,22 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * 
+ * Mainly provided for subquery execution
  */
-
 public interface IPreparedQueryService
 {
+	/**
+	 * @return the associated data source query
+	 */
 	PreparedDataSourceQuery getDataSourceQuery( );
 
+	/**
+	 * @param iterator
+	 * @param subQueryName
+	 * @param subScope
+	 * @return query execution result of sub query
+	 * @throws DataException
+	 */
 	QueryResults execSubquery( IResultIterator iterator, String subQueryName,
 			Scriptable subScope ) throws DataException;
 	

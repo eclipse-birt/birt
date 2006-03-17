@@ -28,24 +28,26 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * A prepared Sub query, which does not have its own data set, but rather queries a subset of 
- * data produced by its a parent query.
+ * A prepared Sub query, which does not have its own data set, but rather
+ * queries a subset of data produced by its a parent query.
  */
 class PreparedSubquery implements IPreparedQueryService
 {
 	private int groupLevel;
-	private IPreparedQueryService queryService;
-	private IResultIterator parentIterator;
-	
 	private PreparedQuery preparedQuery;
+	private IPreparedQueryService queryService;
 	
-	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
+	private static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 	
 	/**
-	 * @param subquery Subquery definition
-	 * @param parentQuery Parent query (which can be a subquery itself, or a PreparedReportQuery)
-	 * @param groupLevel Index of group in which this subquery is defined within the parent query.
-	 * If 0, subquery is defined outside of any groups.
+	 * @param subquery
+	 *            Subquery definition
+	 * @param parentQuery
+	 *            Parent query (which can be a subquery itself, or a
+	 *            PreparedReportQuery)
+	 * @param groupLevel
+	 *            Index of group in which this subquery is defined within the
+	 *            parent query. If 0, subquery is defined outside of any groups.
 	 * @throws DataException
 	 */
 	PreparedSubquery( DataEngineContext context, ExpressionCompiler exCompiler,
@@ -67,6 +69,32 @@ class PreparedSubquery implements IPreparedQueryService
 				null );
 	}
 	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IPreparedQueryService#getDataSourceQuery()
+	 */
+	public PreparedDataSourceQuery getDataSourceQuery( )
+	{
+		// Gets the parent's report query
+		return queryService.getDataSourceQuery( );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.IPreparedQueryService#execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator,
+	 *      java.lang.String, org.mozilla.javascript.Scriptable)
+	 */
+	public QueryResults execSubquery( IResultIterator iterator, String subQueryName, Scriptable subScope ) throws DataException
+	{
+		return this.preparedQuery.execSubquery( iterator, subQueryName, subScope );
+	}
+	
+	/**
+	 * @return group level of current sub query
+	 */
+	int getGroupLevel( )
+	{
+		return this.groupLevel;
+	}
+	
 	/**
 	 * Executes this subquery
 	 * 
@@ -84,8 +112,10 @@ class PreparedSubquery implements IPreparedQueryService
 				"start to execute a PreparedSubquery." );
 		try
 		{
-			this.parentIterator = parentIterator;
-			return preparedQuery.doPrepare( null, scope, newExecutor( ), getDataSourceQuery( ) );
+			return preparedQuery.doPrepare( null,
+					scope,
+					new SubQueryExecutor( parentIterator ),
+					getDataSourceQuery( ) );
 		}
 		finally
 		{
@@ -96,33 +126,23 @@ class PreparedSubquery implements IPreparedQueryService
 		}
 	}
 	
-	/*
-	 * @see org.eclipse.birt.data.engine.impl.PreparedQuery#getReportQuery()
-	 */
-	public PreparedDataSourceQuery getDataSourceQuery()
-	{
-		// Gets the parent's report query
-		return queryService.getDataSourceQuery();
-	}
-	
-	/*
-	 * @see org.eclipse.birt.data.engine.impl.PreparedQuery#newExecutor()
-	 */
-	protected QueryExecutor newExecutor()
-	{
-		return new SubQueryExecutor();
-	}
-	
 	/**
 	 * Concrete class of PreparedQuery.Executor used in PreparedSubquery
 	 */
-	class SubQueryExecutor extends QueryExecutor
+	private class SubQueryExecutor extends QueryExecutor
 	{
-		public SubQueryExecutor( )
-		{
+		private IResultIterator parentIterator;
+		
+		/**
+		 * @param parentIterator
+		 */
+		public SubQueryExecutor( IResultIterator parentIterator )
+		{	
 			super( preparedQuery.getSharedScope( ),
 					preparedQuery.getBaseQueryDefn( ),
 					preparedQuery.getAggrTable( ) );
+			
+			this.parentIterator = parentIterator;
 		}
 		
 		/*
@@ -178,22 +198,6 @@ class PreparedSubquery implements IPreparedQueryService
 			
 			return ret;
 		}
-	}
-	
-	/**
-	 * @return group level of current sub query
-	 */
-	public int getGroupLevel( )
-	{
-		return this.groupLevel;
-	}
-	
-	/*
-	 * @see org.eclipse.birt.data.engine.impl.IPreparedQueryService#execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator, java.lang.String, org.mozilla.javascript.Scriptable)
-	 */
-	public QueryResults execSubquery( IResultIterator iterator, String subQueryName, Scriptable subScope ) throws DataException
-	{
-		return this.preparedQuery.execSubquery( iterator, subQueryName, subScope );
 	}
 	
 }

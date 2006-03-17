@@ -41,14 +41,15 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 /**
  * A prepared query which uses a Script Data Source.
  */
-class PreparedScriptDSQuery extends PreparedDataSourceQuery 
-	implements	IPreparedQuery
+class PreparedScriptDSQuery extends PreparedDataSourceQuery
+		implements
+			IPreparedQuery
 {
-	
-	/** 
+	/**
 	 * @param dataEngine
 	 * @param queryDefn
 	 * @param dataSetDesign
+	 * @param appContext
 	 * @throws DataException
 	 */
 	PreparedScriptDSQuery( DataEngineImpl dataEngine, IQueryDefinition queryDefn, 
@@ -62,7 +63,6 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 	}
 		
 	/*
-	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getParameterMetaData()
 	 */
     public Collection getParameterMetaData() throws DataException
@@ -76,9 +76,9 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 		throw e;
 	}
     
-	/**
-	 * @see org.eclipse.birt.data.engine.impl.PreparedQuery#newExecutor()
-	 */
+    /*
+     * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#newExecutor()
+     */
 	protected QueryExecutor newExecutor()
 	{
 		return new ScriptDSQueryExecutor();
@@ -87,7 +87,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 	/**
 	 * Concrete class of DSQueryExecutor used in PreparedScriptDSQuery
 	 */
-	class ScriptDSQueryExecutor extends DSQueryExecutor
+	private class ScriptDSQueryExecutor extends DSQueryExecutor
 	{
 		private ResultClass resultClass;
 		private CustomDataSet customDataSet;
@@ -245,8 +245,8 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			 */
 			public void close( ) throws DataException
 			{
-				((ScriptDataSetRuntime) dataSet).close();
-			}	
+				( (ScriptDataSetRuntime) dataSet ).close( );
+			}
 		}
 	}
 	

@@ -43,11 +43,13 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /** 
- * Base class for a prepared query or subquery. 
+ * Two main functions for PreparedDataSourceQuery or PreparedSubQuery:
+ * 		1: prepare group, subquery and expressions
+ * 		2: query preparation and sub query execution
  */
 final class PreparedQuery 
 {
-	private 	IBaseQueryDefinition 	queryDefn;
+	private 	IBaseQueryDefinition 	baseQueryDefn;
 	
 	private     DataEngineContext 		dataEngineContext;	
 	private     Scriptable 				sharedScope;
@@ -58,7 +60,7 @@ final class PreparedQuery
 	private 	Map 					appContext;
 	
 	// Map of Subquery name (String) to PreparedSubquery
-	private 	HashMap subQueryMap = new HashMap();
+	private 	HashMap 				subQueryMap;
 	
 	private 	static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 	
@@ -82,10 +84,11 @@ final class PreparedQuery
 		this.dataEngineContext = deContext;
 		this.sharedScope = scope;
 
-		this.queryDefn = queryDefn;
+		this.baseQueryDefn = queryDefn;
 		this.queryService = queryService;
 		this.appContext = appContext;
 		
+		this.subQueryMap = new HashMap( );
 		this.aggrTable = new AggregateTable( this.sharedScope, queryDefn );
 
 		logger.fine( "Start to prepare a PreparedQuery." );
@@ -96,7 +99,7 @@ final class PreparedQuery
 	/**
 	 * @throws DataException
 	 */
-	private void prepare( )	throws DataException
+	private void prepare( ) throws DataException
 	{
 	    // TODO - validation of static queryDefn
 
@@ -108,7 +111,7 @@ final class PreparedQuery
 			// definitions that of invalid or duplicate group name, then throw
 			// exceptions.
 			
-			List groups = queryDefn.getGroups( );
+			List groups = baseQueryDefn.getGroups( );
 			IGroupDefinition group;
 			for ( int i = 0; i < groups.size( ); i++ )
 			{
@@ -132,7 +135,7 @@ final class PreparedQuery
 				// Group 0
 				IBaseTransform groupDefn;
 				if ( i == 0 )
-					groupDefn = queryDefn;
+					groupDefn = baseQueryDefn;
 				else
 				{
 					groupDefn = (IGroupDefinition) groups.get( i - 1 );
@@ -153,7 +156,7 @@ final class PreparedQuery
 	 * @throws DataException
 	 */
 	private void prepareGroup( IBaseTransform trans, int groupLevel, Context cx )
-		throws DataException
+			throws DataException
 	{
 		// prepare expressions appearing in this group
 		prepareExpressions( trans.getAfterExpressions(), groupLevel, true, false,cx );
@@ -252,7 +255,8 @@ final class PreparedQuery
 	 * @param ce
 	 * @return
 	 */
-	private IConditionalExpression transformConditionalExpression( IConditionalExpression ce )
+	private IConditionalExpression transformConditionalExpression(
+			IConditionalExpression ce )
 	{
 		String prefix = null;
 		
@@ -291,12 +295,14 @@ final class PreparedQuery
 	 * @param scope
 	 *            The ElementState object for the report item using the query;
 	 *            this acts as the JS scope for evaluating script expressions.
+	 * @param executor
+	 * @parem dataSourceQuery
 	 */
 	QueryResults doPrepare( IQueryResults outerResults,
 			Scriptable scope, QueryExecutor executor,
 			PreparedDataSourceQuery dataSourceQuery ) throws DataException
 	{
-		if ( this.queryDefn == null )
+		if ( this.baseQueryDefn == null )
 		{
 			// we are closed
 			DataException e = new DataException(ResourceConstants.PREPARED_QUERY_CLOSED);
@@ -321,7 +327,7 @@ final class PreparedQuery
 				dataSourceQuery,
 				queryService,
 				executor,
-				this.queryDefn ),
+				this.baseQueryDefn ),
 				executor.getQueryScope( ),
 				executor.getNestedLevel( ) + 1 );
 	}
@@ -352,7 +358,7 @@ final class PreparedQuery
 					e );
 			throw e;
 		}
-		
+
 		return subquery.execute( iterator, subScope );
 	}
 	
@@ -362,31 +368,43 @@ final class PreparedQuery
 	 * 
 	 * TODO: expose this method in the IPreparedQuery interface
 	 */
-	void close()
+	void close( )
 	{
-		queryDefn = null;
+		this.baseQueryDefn = null;
 		this.aggrTable = null;
 		this.subQueryMap = null;
+		
 		logger.logp( Level.FINER,
 				PreparedQuery.class.getName( ),
 				"close",
 				"Prepared query closed" );
+		
 		// TODO: close all open QueryResults obtained from this PreparedQuery
 	}
-
+	
+	
+	/**
+	 * @return sharedScope
+	 */
 	Scriptable getSharedScope( )
 	{
 		return sharedScope;
 	}
 
+	/**
+	 * @return baseQueryDefinition
+	 */
 	IBaseQueryDefinition getBaseQueryDefn( )
 	{
-		return queryDefn;
+		return baseQueryDefn;
 	}
-
+	
+	/**
+	 * @return aggregateTable
+	 */
 	AggregateTable getAggrTable( )
 	{
 		return aggrTable;
 	}
-		
+	
 }
