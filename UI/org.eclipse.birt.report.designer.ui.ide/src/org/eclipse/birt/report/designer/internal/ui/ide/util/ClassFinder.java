@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.birt.report.designer.internal.ui.ide.dialog.HandlerClassSelectionDialog;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -49,11 +50,11 @@ import org.eclipse.ui.dialogs.SelectionDialog;
 public class ClassFinder
 {
 
-	private static final String TASK_START = "Searching handler class...";
-	private static final String DIALOG_TITLE = "Class Selection";
-	private static final String DIALOG_MESSAGE = "Choose a handler class";
-	private static final String ERROR_MESSAGE = "No class found";
-	private static final String ID = "Hnadle class finder";
+	private static final String TASK_START = Messages.getString("ClassFinder.TaskStart"); //$NON-NLS-1$
+	private static final String DIALOG_TITLE = Messages.getString("ClassFinder.DialogTitle"); //$NON-NLS-1$
+	private static final String DIALOG_MESSAGE = Messages.getString("ClassFinder.DialogMessage"); //$NON-NLS-1$
+	private static final String ERROR_MESSAGE = Messages.getString("ClassFinder.ErrorMessage"); //$NON-NLS-1$
+	private static final String ID = "Hnadle class finder"; //$NON-NLS-1$
 
 	/**
 	 * Parent class name
