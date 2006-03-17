@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.device.svg;
 
-import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 
 /**
  * This class provides javascript helper functions to enable user interactions
@@ -94,55 +93,82 @@ public final class EventHandlers
 			.append( "	}	\n" ) //$NON-NLS-1$
 			.append( "	}	\n" ) //$NON-NLS-1$
 			.append( "		\n" ) //$NON-NLS-1$
-			.append( "	TM.show = function TooltiplManager_showTooltip(evt){	\n" ) //$NON-NLS-1$
-			.append( "	var text = TM.getText(TM.getTitleElement(evt));	\n" ) //$NON-NLS-1$
-			.append( "	x = evt.clientX;	\n" ) //$NON-NLS-1$
-			.append( "	y = evt.clientY;	\n" ) //$NON-NLS-1$
-			.append( "	update = true;\n" ) //$NON-NLS-1$
-			.append( "    if (this.oldX != 'undefined'){\n" ) //$NON-NLS-1$
-			.append( "      diffX = (x - this.oldX);\n" ) //$NON-NLS-1$
-			.append( "      if (diffX < 0) diffX= diffX*(-1);\n" ) //$NON-NLS-1$
-			.append( "      diffY = (y - this.oldY);\n" ) //$NON-NLS-1$
-			.append( "      if (diffY < 0) diffY= diffY*(-1);\n" ) //$NON-NLS-1$
-			.append( "      if ((diffY > 5) || (diffX > 5))\n" ) //$NON-NLS-1$
-			.append( "        update = true;\n" ) //$NON-NLS-1$
-			.append( "    }\n" ) //$NON-NLS-1$
-			.append( "    if (update)\n" ) //$NON-NLS-1$
-			.append( "       TM.remove();			\n" ) //$NON-NLS-1$
-			.append( "	if (typeof this.group == 'undefined'){	\n" ) //$NON-NLS-1$
-			.append( " this.oldX = x;\n" ) //$NON-NLS-1$
-			.append( " this.oldY = y;		\n" ) //$NON-NLS-1$	
-			.append( "	this.height = 15;	\n" ) //$NON-NLS-1$
-			.append( "	this.xPadding = 5;	\n" ) //$NON-NLS-1$
-			.append( "	   this.yPadding = -20;\n" ) //$NON-NLS-1$
-			.append( "	   var mainSvg = evt.target.ownerDocument.documentElement;\n" ) //$NON-NLS-1$
-			.append( "	   var off = mainSvg.currentTranslate;\n" ) //$NON-NLS-1$
-			.append( "	   var scl = mainSvg.currentScale;\n" ) //$NON-NLS-1$
-			.append( "	   this.group = new BuildHelper(\"g\",\n" ) //$NON-NLS-1$
-			.append( "	     {\n" ) //$NON-NLS-1$
-			.append( "	     transform:\"translate(\"+(((x+20))/scl)+\",\"+(((y+20))/scl)+\")\"\n" ) //$NON-NLS-1$
-			.append( "	 } );\n" ) //$NON-NLS-1$
-			.append( "	   this.group.addToParent(mainSvg);\n" ) //$NON-NLS-1$
-			.append( "	   this.rectangle = new BuildHelper(\"rect\",\n" ) //$NON-NLS-1$
-			.append( "	     {id:\"test\",\n" ) //$NON-NLS-1$
-			.append( "	      x: 0,\n" ) //$NON-NLS-1$
-			.append( "	      y: this.yPadding,\n" ) //$NON-NLS-1$
-			.append( "	      height: this.height,\n" ) //$NON-NLS-1$
-			.append( "	      classType: \"tooltip\"\n" ) //$NON-NLS-1$
-			.append( "	 } );\n" ) //$NON-NLS-1$
-			.append( "	   this.rectangle.addToParent(this.group.element);\n" ) //$NON-NLS-1$
-			.append( "	   var textObj = new BuildHelper(\"text\",\n" ) //$NON-NLS-1$
-			.append( "	     {id:\"tooltip\",\n" ) //$NON-NLS-1$
-			.append( "	      x: this.xPadding,\n" ) //$NON-NLS-1$
-			.append( "	      y: (this.height/2+4+this.yPadding),\n" ) //$NON-NLS-1$
-			.append( "	      classType: \"tooltip text\"\n" ) //$NON-NLS-1$
-			.append( "	 },text);\n" ) //$NON-NLS-1$
-			.append( "	   textObj.addToParent(this.group.element);\n" ) //$NON-NLS-1$
-			.append( "	   var itemlength = textObj.element.getComputedTextLength();\n" ) //$NON-NLS-1$
-			.append( "	   this.rectangle.element.setAttributeNS(null, \"width\", (itemlength+2*this.xPadding));\n" ) //$NON-NLS-1$
-			.append( "	  }\n" ) //$NON-NLS-1$
-			.append( "	}\n" ) //$NON-NLS-1$
-			.append( "		\n" ) //$NON-NLS-1$
+			.append( "			TM.show = function TooltiplManager_showTooltip(evt){	\n" ) //$NON-NLS-1$
+			.append( "		var text = TM.getText(TM.getTitleElement(evt));	\n" ) //$NON-NLS-1$
+			.append( "		x = evt.clientX;	\n" ) //$NON-NLS-1$
+			.append( "		y = evt.clientY;	\n" ) //$NON-NLS-1$
+			.append( "		update = true;\n" ) //$NON-NLS-1$
+			.append( "	    if (this.oldX != 'undefined'){\n" ) //$NON-NLS-1$
+			.append( "	      diffX = (x - this.oldX);\n" ) //$NON-NLS-1$
+			.append( "	      if (diffX < 0) diffX= diffX*(-1);\n" ) //$NON-NLS-1$
+			.append( "	      diffY = (y - this.oldY);\n" ) //$NON-NLS-1$
+			.append( "	      if (diffY < 0) diffY= diffY*(-1);\n" ) //$NON-NLS-1$
+			.append( "	      if ((diffY > 5) || (diffX > 5))\n" ) //$NON-NLS-1$
+			.append( "	        update = true;\n" ) //$NON-NLS-1$
+			.append( "	    }\n" ) //$NON-NLS-1$
+			.append( "	    if (update)\n" ) //$NON-NLS-1$
+			.append( "	       TM.remove();			\n" ) //$NON-NLS-1$
+			.append( "		if (typeof this.group == 'undefined'){	\n" ) //$NON-NLS-1$
+			.append( "	           this.oldX = x;\n" ) //$NON-NLS-1$
+			.append( "	           this.oldY = y;		\n" ) //$NON-NLS-1$
+			.append( "	   	   this.height = 15;	\n" ) //$NON-NLS-1$
+			.append( "	 	   this.xPadding = 5;	\n" ) //$NON-NLS-1$
+			.append( "		   this.yPadding = 20;\n" ) //$NON-NLS-1$
+			.append( "		   var mainSvg = evt.target.ownerDocument.documentElement;\n" ) //$NON-NLS-1$
+			.append( "		   var off = mainSvg.currentTranslate;\n" ) //$NON-NLS-1$
+			.append( "		   var scl = mainSvg.currentScale;\n" ) //$NON-NLS-1$
+			.append( "	           var adjustedX = (x-off.x)/scl;\n" ) //$NON-NLS-1$
+			.append( "	           var adjustedY = (y-off.y)/scl;\n" ) //$NON-NLS-1$
+			.append( "		   this.group = new BuildHelper(\"g\",\n" ) //$NON-NLS-1$
+			.append( "		     {\n" ) //$NON-NLS-1$
+			.append( "	             opacity:0.8,\n" ) //$NON-NLS-1$
+			.append( "	  	     display: \"inline\",\n" ) //$NON-NLS-1$
+			.append( "		     transform:\"translate(\"+(adjustedX + (10/scl))+\",\"+(adjustedY + (10/scl))+\")\"\n" ) //$NON-NLS-1$
+			.append( "		 } );\n" ) //$NON-NLS-1$
+			.append( "		   this.group.addToParent(mainSvg);\n" ) //$NON-NLS-1$
+			.append( "		   this.rectangle = new BuildHelper(\"rect\",\n" ) //$NON-NLS-1$
+			.append( "		     {id:\"test\",\n" ) //$NON-NLS-1$
+			.append( "		      x: 0,\n" ) //$NON-NLS-1$
+			.append( "		      y: 5,\n" ) //$NON-NLS-1$
+			.append( "		      transform:\"scale(\"+(1/scl)+\",\"+(1/scl)+\")\",\n" ) //$NON-NLS-1$
+			.append( "	              rx: 2,\n" ) //$NON-NLS-1$
+			.append( "	              ry: 2,\n" ) //$NON-NLS-1$
+			.append( "	              stroke: \"black\",\n" ) //$NON-NLS-1$
+			.append( "		      height: this.height,\n" ) //$NON-NLS-1$
+			.append( "		      classType: \"tooltip\"\n" ) //$NON-NLS-1$
+			.append( "		 } );\n" ) //$NON-NLS-1$
+			.append( "		   this.rectangle.addToParent(this.group.element);\n" ) //$NON-NLS-1$
+			.append( "		   var textObj = new BuildHelper(\"text\",\n" ) //$NON-NLS-1$
+			.append( "		     {id:\"tooltip\",\n" ) //$NON-NLS-1$
+			.append( "		      x: this.xPadding,\n" ) //$NON-NLS-1$
+			.append( "		      y: (this.yPadding),\n" ) //$NON-NLS-1$
+			.append( "		      transform:\"scale(\"+(1/scl)+\",\"+(1/scl)+\")\",\n" ) //$NON-NLS-1$
+			.append( "		      classType: \"tooltip text\"\n" ) //$NON-NLS-1$
+			.append( "		 });\n" ) //$NON-NLS-1$
+			.append( "		   textObj.addToParent(this.group.element);\n" ) //$NON-NLS-1$
+			.append( "	           TM.setContent(textObj, text);\n" ) //$NON-NLS-1$
+			.append( "	           var outline = textObj.element.getBBox();\n" ) //$NON-NLS-1$
+			.append( "		   this.rectangle.element.setAttributeNS(null, \"width\", (outline.width+2*this.xPadding));\n" ) //$NON-NLS-1$
+			.append( "		   this.rectangle.element.setAttributeNS(null, \"height\", (outline.height+6));\n" ) //$NON-NLS-1$
+			.append( "		  }\n" ) //$NON-NLS-1$
+			.append( "		}\n" ) //$NON-NLS-1$
+			.append( "		TM.setContent = function TooltipManager_setContent(textElement, text){\n" ) //$NON-NLS-1$
+			.append( "		    var multiLine = text.split(/\\n/);\n" ) //$NON-NLS-1$
+			.append( "		    for (var x=0; x<multiLine.length; x++){\n" ) //$NON-NLS-1$
+			.append( "			if (x == 0){\n" ) //$NON-NLS-1$
+			.append( "	 	         textObj = new BuildHelper(\"tspan\",\n" ) //$NON-NLS-1$
+			.append( "	   	             {x: 5\n" ) //$NON-NLS-1$
+			.append( "		             },multiLine[x]);\n" ) //$NON-NLS-1$
+			.append( "	                 }\n" ) //$NON-NLS-1$
+			.append( "	                 else{\n" ) //$NON-NLS-1$
+			.append( "	 	         textObj = new BuildHelper(\"tspan\",\n" ) //$NON-NLS-1$
+			.append( "	   	             {x: 5,\n" ) //$NON-NLS-1$
+			.append( "	                      dy:17\n" ) //$NON-NLS-1$
+			.append( "		             },multiLine[x]);\n" ) //$NON-NLS-1$
+			.append( "	                 }\n" ) //$NON-NLS-1$
+			.append( "		      textObj.addToParent(textElement.element);\n" ) //$NON-NLS-1$
+			.append( "	            }\n" ) //$NON-NLS-1$
+			.append( "	        }\n" ) //$NON-NLS-1$
 			.append( "		\n" ) //$NON-NLS-1$
 			.append( "	TM.getTitleElement = function TM_getTitleElement(evt){\n" ) //$NON-NLS-1$
 			.append( "	    var elem = evt.currentTarget;\n" ) //$NON-NLS-1$
