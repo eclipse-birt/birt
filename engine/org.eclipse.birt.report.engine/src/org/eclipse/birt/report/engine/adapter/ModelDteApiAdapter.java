@@ -65,6 +65,7 @@ import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
@@ -255,7 +256,17 @@ public class ModelDteApiAdapter
 					propValue = ( String ) staticProps.get( propName );
 				}
 
-				dteSource.addPublicProperty( ( String ) propName, propValue );
+				/**
+				 * Here is a temp solution to adapt relative path to xml driver.
+				 * TODO Enhance me.
+				 */
+				if( "org.eclipse.birt.report.data.oda.xml".equals( driverName )
+					&& (propName.equals( "FILELIST" )||propName.equals( "SCHEMAFILE" )))
+				{
+					Object url = source.getModuleHandle( ).findResource( ( String ) propValue,IResourceLocator.LIBRARY );
+					propValue = url == null? "":url.toString( );
+				}	
+				dteSource.addPublicProperty( propName, propValue );
 			}
 		}
 

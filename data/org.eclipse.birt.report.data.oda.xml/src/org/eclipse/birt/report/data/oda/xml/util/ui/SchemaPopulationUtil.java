@@ -15,6 +15,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,7 @@ import org.eclipse.birt.report.data.oda.xml.util.ISaxParserConsumer;
 import org.eclipse.birt.report.data.oda.xml.util.SaxParser;
 import org.eclipse.birt.report.data.oda.xml.util.XMLDataInputStream;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+
 
 /**
  * This class is used to offer GUI a utility to get an tree from certain xml/xsd
@@ -332,10 +334,15 @@ final class XSDFileSchemaTreePopulator
 		includeAttribute = incAttr;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance( );
 		factory.setNamespaceAware( true );
-
 		URI uri = null;
 		File f = new File(fileName);
-		uri = f.toURI(); 
+		if( f.exists( ))
+			uri = f.toURI();
+		else
+		{
+			URL url = new URL(fileName);
+			uri = new URI(url.getProtocol( ), url.getUserInfo( ), url.getHost( ), url.getPort( ), url.getPath( ), url.getQuery( ), url.getRef( ));
+		}
 		
 		//Then try to parse the input string as a url in web.
 		if ( uri == null )
