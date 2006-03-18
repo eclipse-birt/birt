@@ -27,6 +27,12 @@ import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.designer.util.FormatNumberPattern;
+import org.eclipse.birt.report.designer.util.FormatCustomNumPattern;
+import org.eclipse.birt.report.designer.util.FormatCurrencyNumPattern;
+import org.eclipse.birt.report.designer.util.FormatFixedNumPattern;
+import org.eclipse.birt.report.designer.util.FormatPercentNumPattern;
+import org.eclipse.birt.report.designer.util.FormatScientificNumPattern;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.FocusEvent;
@@ -81,10 +87,6 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	private static final String LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_CODE = Messages.getString( "FormatNumberPage.label.table.column.format.code" ); //$NON-NLS-1$
 	private static final String LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_RESULT = Messages.getString( "FormatNumberPage.label.table.column.format.result" ); //$NON-NLS-1$
 	private static final String LABEL_GENERAL_PREVIEW_GROUP = Messages.getString( "FormatNumberPage.label.general.preview.group" ); //$NON-NLS-1$
-
-	public static final String TEXT_CURRENCY_SYMBOL_NONE = Messages.getString( "FormatNumberPage.currency.symbol.none" ); //$NON-NLS-1$
-	public static final String SYMBOL_POSITION_AFTER = Messages.getString( "FormatNumberPage.symblePos.after" ); //$NON-NLS-1$
-	public static final String SYMBOL_POSITION_BEFORE = Messages.getString( "FormatNumberPage.symblePos.before" ); //$NON-NLS-1$
 
 	private String pattern = null;
 	private String category = null;
@@ -1371,7 +1373,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		new Label( setting, SWT.NONE ).setText( LABEL_SYMBOL_POSITION );
 		cSymPosChoice = new Combo( setting, SWT.DROP_DOWN | SWT.READ_ONLY );
 		cSymPosChoice.setItems( new String[]{
-				SYMBOL_POSITION_AFTER, SYMBOL_POSITION_BEFORE
+				FormatNumberPattern.SYMBOL_POSITION_AFTER, FormatNumberPattern.SYMBOL_POSITION_BEFORE
 		} );
 		cSymPosChoice.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		cSymPosChoice.addSelectionListener( mySelectionListener );
@@ -1487,7 +1489,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		new Label( setting, SWT.NONE ).setText( LABEL_SYMBOL_POSITION );
 		pSymPosChoice = new Combo( setting, SWT.DROP_DOWN | SWT.READ_ONLY );
 		pSymPosChoice.setItems( new String[]{
-				SYMBOL_POSITION_AFTER, SYMBOL_POSITION_BEFORE
+				FormatNumberPattern.SYMBOL_POSITION_AFTER, FormatNumberPattern.SYMBOL_POSITION_BEFORE
 		} );
 		pSymPosChoice.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		pSymPosChoice.addSelectionListener( mySelectionListener );

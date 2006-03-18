@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.designer.util.FormatStringPattern;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.FocusEvent;
@@ -403,49 +404,6 @@ public class FormatStringPage extends Composite implements IFormatPage
 				category );
 	}
 
-	/**
-	 * Retrieves format pattern from arrays given format type name.
-	 * 
-	 * @param formatType
-	 *            Given format type name.
-	 * @return The corresponding format pattern string.
-	 */
-
-	private String getPatternForCategory( String category )
-	{
-		String pattern;
-
-		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE.equals( category ) )
-		{
-			pattern = ">"; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_LOWERCASE.equals( category ) )
-		{
-			pattern = "<"; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE.equals( category ) )
-		{
-			pattern = "@@@@@"; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE_4.equals( category ) )
-		{
-			pattern = "@@@@@-@@@@"; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER.equals( category ) )
-		{
-			pattern = "(@@@)@@@-@@@@"; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER.equals( category ) )
-		{
-			pattern = "@@@-@@-@@@@"; //$NON-NLS-1$
-		}
-		else
-		{
-			pattern = ""; //$NON-NLS-1$
-		}
-		return pattern;
-	}
-
 	private void fireFormatChanged( String newCategory, String newPattern )
 	{
 		if ( listeners.isEmpty( ) )
@@ -765,42 +723,42 @@ public class FormatStringPage extends Composite implements IFormatPage
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE.equals( category ) )
 		{
-			String pattern = getPatternForCategory( category );
+			String pattern = FormatStringPattern.getPatternForCategory( category );
 			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_LOWERCASE.equals( category ) )
 		{
-			String pattern = getPatternForCategory( category );
+			String pattern = FormatStringPattern.getPatternForCategory( category );
 			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE.equals( category ) )
 		{
-			String pattern = getPatternForCategory( category );
+			String pattern = FormatStringPattern.getPatternForCategory( category );
 			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( SAMPLE_TEXT_ZIP_CODE );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE_4.equals( category ) )
 		{
-			String pattern = getPatternForCategory( category );
+			String pattern = FormatStringPattern.getPatternForCategory( category );
 			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( SAMPLE_TEXT_ZIP_C0DE4 );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER.equals( category ) )
 		{
-			String pattern = getPatternForCategory( category );
+			String pattern = FormatStringPattern.getPatternForCategory( category );
 			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( SAMPLE_TEXT_PHONE_NUMBER );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER.equals( category ) )
 		{
-			String pattern = getPatternForCategory( category );
+			String pattern = FormatStringPattern.getPatternForCategory( category );
 			gText = SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER;
 			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
@@ -1120,7 +1078,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 				String category = ChoiceSetFactory.getStructPropValue( StringFormatValue.FORMAT_VALUE_STRUCT,
 						StringFormatValue.CATEGORY_MEMBER,
 						displayName );
-				String pattern = getPatternForCategory( category );
+				String pattern = FormatStringPattern.getPatternForCategory( category );
 				formatCode.setText( pattern );
 				
 				updatePreview( );
@@ -1139,27 +1097,27 @@ public class FormatStringPage extends Composite implements IFormatPage
 
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE ),
-				new StringFormatter( getPatternForCategory( DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE ),
+				new StringFormatter( FormatStringPattern.getPatternForCategory( DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE ),
 						DEFAULT_LOCALE ).format( DEFAULT_PREVIEW_TEXT )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.STRING_FORMAT_TYPE_LOWERCASE ),
-				new StringFormatter( getPatternForCategory( DesignChoiceConstants.STRING_FORMAT_TYPE_LOWERCASE ),
+				new StringFormatter( FormatStringPattern.getPatternForCategory( DesignChoiceConstants.STRING_FORMAT_TYPE_LOWERCASE ),
 						DEFAULT_LOCALE ).format( DEFAULT_PREVIEW_TEXT )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE_4 ),
-				new StringFormatter( getPatternForCategory( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE_4 ),
+				new StringFormatter( FormatStringPattern.getPatternForCategory( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE_4 ),
 						DEFAULT_LOCALE ).format( SAMPLE_TEXT_ZIP_C0DE4 )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER ),
-				new StringFormatter( getPatternForCategory( DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER ),
+				new StringFormatter( FormatStringPattern.getPatternForCategory( DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER ),
 						DEFAULT_LOCALE ).format( SAMPLE_TEXT_PHONE_NUMBER )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER ),
-				new StringFormatter( getPatternForCategory( DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER ),
+				new StringFormatter( FormatStringPattern.getPatternForCategory( DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER ),
 						DEFAULT_LOCALE ).format( SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER )
 		} );
 	}

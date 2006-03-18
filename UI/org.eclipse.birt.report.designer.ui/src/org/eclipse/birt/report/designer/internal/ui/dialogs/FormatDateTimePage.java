@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.designer.util.FormatDateTimePattern;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
@@ -358,7 +359,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 				else
 				{
 					// uses UI specified display names.
-					String pattern = getPatternForCategory( category );
+					String pattern = FormatDateTimePattern.getPatternForCategory( category );
 					fmtStr = new DateFormatter( pattern ).format( defaultDate );
 				}
 				formatTypes[i] = fmtStr;
@@ -421,53 +422,6 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		return ChoiceSetFactory.getStructDisplayName( DateTimeFormatValue.FORMAT_VALUE_STRUCT,
 				DateTimeFormatValue.CATEGORY_MEMBER,
 				category );
-	}
-
-	/**
-	 * Retrieves format pattern from arrays given format type categorys.
-	 * 
-	 * @param category
-	 *            Given format type category.
-	 * @return The corresponding format pattern string.
-	 */
-
-	private String getPatternForCategory( String category )
-	{
-		String pattern;
-		if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE.equals( category ) )
-		{
-			pattern = "General Date"; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE.equals( category ) )
-		{
-			pattern = "Long Date"; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE.equals( category ) )
-		{
-			pattern = "Medium Date"; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE.equals( category ) )
-		{
-			pattern = "Short Date"; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME.equals( category ) )
-		{
-			pattern = "Long Time"; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME.equals( category ) )
-		{
-			pattern = "Medium Time"; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME.equals( category ) )
-		{
-			pattern = "Short Time"; //$NON-NLS-1$
-		}
-		else
-		{
-			// default, unformatted.
-			pattern = ""; //$NON-NLS-1$
-		}
-		return pattern;
 	}
 
 	private void fireFormatChanged( String newCategory, String newPattern )
@@ -784,49 +738,49 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		}
 		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE.equals( category ) )
 		{
-			String pattern = getPatternForCategory( category );
+			String pattern = FormatDateTimePattern.getPatternForCategory( category );
 			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE.equals( category ) )
 		{
-			String pattern = getPatternForCategory( category );
+			String pattern = FormatDateTimePattern.getPatternForCategory( category );
 			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE.equals( category ) )
 		{
-			String pattern = getPatternForCategory( category );
+			String pattern = FormatDateTimePattern.getPatternForCategory( category );
 			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE.equals( category ) )
 		{
-			String pattern = getPatternForCategory( category );
+			String pattern = FormatDateTimePattern.getPatternForCategory( category );
 			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME.equals( category ) )
 		{
-			String pattern = getPatternForCategory( category );
+			String pattern = FormatDateTimePattern.getPatternForCategory( category );
 			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME.equals( category ) )
 		{
-			String pattern = getPatternForCategory( category );
+			String pattern = FormatDateTimePattern.getPatternForCategory( category );
 			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME.equals( category ) )
 		{
-			String pattern = getPatternForCategory( category );
+			String pattern = FormatDateTimePattern.getPatternForCategory( category );
 			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
@@ -1187,7 +1141,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 				String category = ChoiceSetFactory.getStructPropValue( DateTimeFormatValue.FORMAT_VALUE_STRUCT,
 						DateTimeFormatValue.CATEGORY_MEMBER,
 						displayName );
-				String pattern = getPatternForCategory( category );
+				String pattern = FormatDateTimePattern.getPatternForCategory( category );
 				formatCode.setText( pattern );
 				updatePreview( );
 				notifyFormatChange( );
@@ -1205,31 +1159,31 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ),
-				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ) ).format( defaultDate )
+				new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ) ).format( defaultDate )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ),
-				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ) ).format( defaultDate )
+				new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ) ).format( defaultDate )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ),
-				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ) ).format( defaultDate )
+				new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ) ).format( defaultDate )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ),
-				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ) ).format( defaultDate )
+				new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ) ).format( defaultDate )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ),
-				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ) ).format( defaultDate )
+				new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ) ).format( defaultDate )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ),
-				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ) ).format( defaultDate )
+				new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ) ).format( defaultDate )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ),
-				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ) ).format( defaultDate )
+				new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ) ).format( defaultDate )
 		} );
 	}
 
