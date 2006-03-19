@@ -13,6 +13,10 @@ package org.eclipse.birt.core.data;
 
 import java.math.BigDecimal;
 import java.sql.Blob;
+import java.sql.Clob;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.sql.Types;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
@@ -723,17 +727,33 @@ public final class DataTypeUtil
 			return DataType.DATE_TYPE;
 		else if ( byte[].class.isAssignableFrom( clazz))
 			return DataType.BINARY_TYPE;
-		// this is only a temporary solution for Clob type and Blob type
-		else if ( clazz.getName().equals( 
+        else if ( Clob.class.isAssignableFrom( clazz ) ||
+                  clazz.getName().equals( 
 				"org.eclipse.datatools.connectivity.oda.IClob" ) )
 			return DataType.STRING_TYPE;
-		else if ( clazz.getName( ).equals( 
+		else if ( Blob.class.isAssignableFrom( clazz ) ||
+                  clazz.getName( ).equals( 
 				"org.eclipse.datatools.connectivity.oda.IBlob" ) )
 			return DataType.BINARY_TYPE;
 
 		// any other types are not recognized nor supported;
 		return DataType.UNKNOWN_TYPE;
 	}
+    
+    /**
+     * Converts an ODA data type code to its 
+     * corresponding Data Engine API data type constant
+     * defined in DataType.
+     * @param odaDataTypeCode   an ODA data type code
+     * @throws BirtException if the specified ODA data type code
+     *                      is not a supported type
+     */
+    public static int toApiDataType( int odaDataTypeCode )
+        throws BirtException
+    {
+        Class odiTypeClass = toOdiTypeClass( odaDataTypeCode );
+        return toApiDataType( odiTypeClass );
+    }
 	
 	/**
 	 * Convert object to a suitable type from its value 
@@ -860,5 +880,164 @@ public final class DataTypeUtil
 		DateFormatter df = new DateFormatter( locale );
 		return df.format( (Date) source );
 	}
+    
+    /**
+     * Converts an ODA data type code to the Java class
+     * of its corresponding Data Engine ODI data type. <br><br>
+     * <b>ODA Data Type -> ODI Type Class</b><br>
+     * <i>Integer -> java.lang.Integer<br>
+     * Double -> java.lang.Double<br>
+     * Character -> java.lang.String<br>
+     * Decimal -> java.math.BigDecimal<br>
+     * Date -> java.util.Date<br>
+     * Time -> java.sql.Time<br>
+     * Timestamp -> java.sql.Timestamp<br>
+     * Blob -> java.sql.Blob<br>
+     * Clob -> java.sql.Clob<br></i>
+     * @param odaDataTypeCode   an ODA data type code
+     * @return  the ODI type class that corresponds with 
+     *          the specified ODA data type
+     * @throws BirtException if the specified ODA data type is not a supported type
+     */
+    public static Class toOdiTypeClass( int odaDataTypeCode )
+        throws BirtException
+    {
+        if( odaDataTypeCode != Types.CHAR &&
+            odaDataTypeCode != Types.INTEGER &&
+            odaDataTypeCode != Types.DOUBLE &&           
+            odaDataTypeCode != Types.DECIMAL &&
+            odaDataTypeCode != Types.DATE &&
+            odaDataTypeCode != Types.TIME &&
+            odaDataTypeCode != Types.TIMESTAMP &&
+            odaDataTypeCode != Types.BLOB &&
+            odaDataTypeCode != Types.CLOB &&
+            odaDataTypeCode != Types.NULL )
+        {
+            throw new BirtException( pluginId,
+                    ResourceConstants.INVALID_TYPE,
+                    resourceBundle );
+        }
+        
+        Class fieldClass = null;
+        switch( odaDataTypeCode )
+        {
+            case Types.CHAR:
+                fieldClass = String.class;
+                break;
+            
+            case Types.INTEGER:
+                fieldClass = Integer.class;
+                break;
+            
+            case Types.DOUBLE:
+                fieldClass = Double.class;
+                break;
+                
+            case Types.DECIMAL:
+                fieldClass = BigDecimal.class;
+                break;
+                
+            case Types.DATE:
+                fieldClass = Date.class;
+                break;
+                
+            case Types.TIME:
+                fieldClass = Time.class;
+                break;
+
+            case Types.TIMESTAMP:
+                fieldClass = Timestamp.class;
+                break;
+                
+            case Types.BLOB:
+                fieldClass = Blob.class;
+                break;
+                
+            case Types.CLOB:
+                fieldClass = Clob.class;
+                break;
+                
+            case Types.NULL:
+                fieldClass = null;
+                break;                  
+        }
+                
+        return fieldClass;
+    }
+    
+    /**
+     * Converts an ODI type class to its corresponding 
+     * ODA data type code. <br>
+     * <b>ODI Type Class -> ODA Data Type</b><br>
+     * <i>java.lang.Integer -> Integer<br>
+     * java.lang.Double -> Double<br>
+     * java.lang.String -> Character<br>
+     * java.math.BigDecimal -> Decimal<br>
+     * java.util.Date -> Date<br>
+     * java.sql.Time -> Time<br>
+     * java.sql.Timestamp -> Timestamp<br>
+     * java.sql.Blob -> Blob<br>
+     * java.sql.Clob -> Clob<br></i><br>
+     * All other type classes are mapped to the ODA String data type.
+     * @param odiTypeClass  a type class used by the Data Engine ODI component
+     * @return  the ODA data type that maps to the ODI type class.
+     */
+    public static int toOdaDataType( Class odiTypeClass )
+    {
+        int odaType = Types.CHAR;   // default
+        
+        if( odiTypeClass == null )
+            odaType = Types.CHAR;       
+        else if( odiTypeClass == String.class )
+            odaType = Types.CHAR;
+        else if( odiTypeClass == Integer.class )
+            odaType = Types.INTEGER;
+        else if( odiTypeClass == Double.class )
+            odaType = Types.DOUBLE;
+        else if( odiTypeClass == BigDecimal.class )
+            odaType = Types.DECIMAL;
+        else if( odiTypeClass == Date.class )
+            odaType = Types.DATE;
+        else if( odiTypeClass == Time.class )
+            odaType = Types.TIME;
+        else if( odiTypeClass == Timestamp.class )
+            odaType = Types.TIMESTAMP;
+        else if( odiTypeClass == Blob.class )
+            odaType = Types.BLOB;
+        else if( odiTypeClass == Clob.class )
+            odaType = Types.CLOB;
+
+        return odaType;
+    }
+
+    /**
+     * Converts an ODA data type literal value to its
+     * corresponding code value.
+     * @param odaDataTypeLiteral    a literal value of an ODA data type 
+     * @return  corresponding ODA data type code value
+     */
+    public static int toOdaDataTypeCode( String odaDataTypeLiteral )
+    {
+        // TODO - move implementation to DTP oda.util.manifest
+        if( odaDataTypeLiteral.equalsIgnoreCase( "String" ) )
+            return Types.CHAR;
+        if( odaDataTypeLiteral.equalsIgnoreCase( "Integer" ) )
+            return Types.INTEGER;
+        if( odaDataTypeLiteral.equalsIgnoreCase( "Double" ) )
+            return Types.DOUBLE;
+        if( odaDataTypeLiteral.equalsIgnoreCase( "Decimal" ) )
+            return Types.DECIMAL;
+        if( odaDataTypeLiteral.equalsIgnoreCase( "Date" ) )
+            return Types.DATE;
+        if( odaDataTypeLiteral.equalsIgnoreCase( "Time" ) )
+            return Types.TIME;
+        if( odaDataTypeLiteral.equalsIgnoreCase( "Timestamp" ) )
+            return Types.TIMESTAMP;
+        if( odaDataTypeLiteral.equalsIgnoreCase( "Blob" ) )
+            return Types.BLOB;
+        if( odaDataTypeLiteral.equalsIgnoreCase( "Clob" ) )
+            return Types.CLOB;
+        return Types.NULL;
+    }
 	
 }

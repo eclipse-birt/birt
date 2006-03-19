@@ -19,6 +19,7 @@ import java.net.URL;
 import java.sql.Types;
 import java.util.logging.Level;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.framework.IBundle;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -153,35 +154,30 @@ class Driver
 		if( mapping == null )	
 			return Types.NULL;
 		
-		String odaType = mapping.getOdaScalarDataType();
-		
-		if( odaType.equalsIgnoreCase( "Date" ) )
-			return Types.DATE;
-		else if( odaType.equalsIgnoreCase( "Decimal" ) )
-			return Types.DECIMAL;
-		else if( odaType.equalsIgnoreCase( "Double" ) )
-			return Types.DOUBLE;
-		else if( odaType.equalsIgnoreCase( "Integer" ) )
-			return Types.INTEGER;
-		else if( odaType.equalsIgnoreCase( "String" ) )
-			return Types.CHAR;
-		else if( odaType.equalsIgnoreCase( "Time" ) )
-			return Types.TIME;
-		else if( odaType.equalsIgnoreCase( "Timestamp" ) )
-			return Types.TIMESTAMP;
-		else if( odaType.equalsIgnoreCase( "Blob" ) )
-			return Types.BLOB;
-		else if( odaType.equalsIgnoreCase( "Clob" ) )
-			return Types.CLOB;
-		else
-		{
+		String odaType = mapping.getOdaScalarDataType();		
+		int odaTypeCode = toOdaDataTypeCode( odaType );
+
+        if( odaTypeCode == Types.NULL )
+        {
 			// shouldn't be in here, the configuration should only have the 
 			// types above
 			sm_logger.logp( Level.WARNING, sm_className, methodName,
 					"Invalid ODA data type {0} specified in data source extension mapping.", odaType );
-			return Types.NULL;
 		}
+        return odaTypeCode;
 	}
+
+    /**
+     * Converts an ODA data type literal value to its
+     * corresponding code value.
+     * @param odaDataTypeLiteral
+     * @return
+     */
+    int toOdaDataTypeCode( String odaDataTypeLiteral )
+    {
+        // TODO - replace with call to oda.util.manifest
+        return DataTypeUtil.toOdaDataTypeCode( odaDataTypeLiteral );
+    }
 	
     /**
      * Passes the trace logging configuration values to the
