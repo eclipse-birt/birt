@@ -11,23 +11,11 @@
 
 package org.eclipse.birt.report.designer.ui.editors;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
-import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
@@ -39,7 +27,6 @@ import org.eclipse.ui.IWorkbenchPartConstants;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
-import org.eclipse.ui.part.PageBookView;
 
 /**
  * ReportEditorProxy is a editor proxy, which use in eclipse IDE enviroment.
@@ -198,85 +185,105 @@ public class ReportEditorProxy extends EditorPart implements
 
 	public void partActivated( IWorkbenchPart part )
 	{
-//		instance.partActivated( part );
-		if ( part != this )
-		{
-			if ( part instanceof PageBookView )
-			{
-				PageBookView view = (PageBookView) part;
-				if ( view.getCurrentPage( ) instanceof DesignerOutlinePage )
-				{
-					ISelectionProvider provider = (ISelectionProvider) view.getCurrentPage( );
-					ReportRequest request = new ReportRequest( view.getCurrentPage( ) );
-					List list = new ArrayList( );
-					if ( provider.getSelection( ) instanceof IStructuredSelection )
-					{
-						list = ( (IStructuredSelection) provider.getSelection( ) ).toList( );
-					}
-					request.setSelectionObject( list );
-					request.setType( ReportRequest.SELECTION );
-					// no convert
-					// request.setRequestConvert(new
-					// EditorReportRequestConvert());
-					SessionHandleAdapter.getInstance( )
-							.getMediator( )
-							.notifyRequest( request );
-					SessionHandleAdapter.getInstance( )
-							.getMediator( )
-							.pushState( );
-				}
-			}
-			if ( instance.getActiveEditor( ) instanceof GraphicalEditorWithFlyoutPalette )
-			{
-				if ( ( (GraphicalEditorWithFlyoutPalette) instance.getActiveEditor( ) ).getGraphicalViewer( )
-						.getEditDomain( )
-						.getPaletteViewer( ) != null )
-				{
-					GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) instance.getActiveEditor( );
-					GraphicalViewer view = editor.getGraphicalViewer( );
-					view.getEditDomain( ).loadDefaultTool( );
-				}
-			}
-			return;
+		if(part instanceof ReportEditorProxy){
+			instance.partActivated( ((ReportEditorProxy)part).getEditorPart( ) );
 		}
-
-		if ( part == this )
+		else
 		{
-			// use the asynchronized execution to ensure correct active page
-			// index.
-			Display.getCurrent( ).asyncExec( new Runnable( ) {
-
-				public void run( )
-				{
-					if ( instance!=null && instance.getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette )
-					{
-						GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) instance.getActivePageInstance( );
-						GraphicalViewer view = editor.getGraphicalViewer( );
-
-						UIUtil.resetViewSelection( view, true );
-					}
-				};
-
-			} );
-
-			if ( getEditorInput( ).exists( ) )
-			{
-				instance.handleActivation( );
-
-				SessionHandleAdapter.getInstance( )
-						.setReportDesignHandle( instance.getModel( ) );
-				DataSetManager.initCurrentInstance( getEditorInput( ) );
-			}
+			instance.partActivated( part );
 		}
+//		if ( part != this )
+//		{
+//			if ( part instanceof PageBookView )
+//			{
+//				PageBookView view = (PageBookView) part;
+//				if ( view.getCurrentPage( ) instanceof DesignerOutlinePage )
+//				{
+//					ISelectionProvider provider = (ISelectionProvider) view.getCurrentPage( );
+//					ReportRequest request = new ReportRequest( view.getCurrentPage( ) );
+//					List list = new ArrayList( );
+//					if ( provider.getSelection( ) instanceof IStructuredSelection )
+//					{
+//						list = ( (IStructuredSelection) provider.getSelection( ) ).toList( );
+//					}
+//					request.setSelectionObject( list );
+//					request.setType( ReportRequest.SELECTION );
+//					// no convert
+//					// request.setRequestConvert(new
+//					// EditorReportRequestConvert());
+//					SessionHandleAdapter.getInstance( )
+//							.getMediator( )
+//							.notifyRequest( request );
+//					SessionHandleAdapter.getInstance( )
+//							.getMediator( )
+//							.pushState( );
+//				}
+//			}
+//			if ( instance.getActiveEditor( ) instanceof GraphicalEditorWithFlyoutPalette )
+//			{
+//				if ( ( (GraphicalEditorWithFlyoutPalette) instance.getActiveEditor( ) ).getGraphicalViewer( )
+//						.getEditDomain( )
+//						.getPaletteViewer( ) != null )
+//				{
+//					GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) instance.getActiveEditor( );
+//					GraphicalViewer view = editor.getGraphicalViewer( );
+//					view.getEditDomain( ).loadDefaultTool( );
+//				}
+//
+//			}
+//			return;
+//		}
+//
+//		if ( part == this )
+//		{
+//			// use the asynchronized execution to ensure correct active page
+//			// index.
+//			Display.getCurrent( ).asyncExec( new Runnable( ) {
+//
+//				public void run( )
+//				{
+////					if ( instance.getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette )
+////					{
+////						GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) instance.getActivePageInstance( );
+////						GraphicalViewer view = editor.getGraphicalViewer( );
+////
+////						UIUtil.resetViewSelection( view, true );
+////					}
+//				};
+//
+//			} );
+//
+//			if ( getEditorInput( ).exists( ) )
+//			{
+//				instance.handleActivation( );
+//
+//				SessionHandleAdapter.getInstance( )
+//						.setReportDesignHandle( instance.getModel( ) );
+//				DataSetManager.initCurrentInstance( getEditorInput( ) );
+//			}
+//		}
 	}
 
 	public void partBroughtToTop( IWorkbenchPart part )
 	{
-		instance.partBroughtToTop( part );
+		if(part instanceof ReportEditorProxy){
+			instance.partBroughtToTop( ((ReportEditorProxy)part).getEditorPart( ) );
+		}
+		else
+		{
+			instance.partBroughtToTop( part );
+		}
 	}
 
 	public void partClosed( IWorkbenchPart part )
 	{
+		if(part instanceof ReportEditorProxy){
+			instance.partClosed( ((ReportEditorProxy)part).getEditorPart( ) );
+		}
+		else
+		{
+			instance.partClosed( part );
+		}
 		// instance.partClosed( part );
 		// FIXME ugly code
 		if ( part == this )
@@ -287,12 +294,24 @@ public class ReportEditorProxy extends EditorPart implements
 
 	public void partDeactivated( IWorkbenchPart part )
 	{
-		instance.partDeactivated( part );
+		if(part instanceof ReportEditorProxy){
+			instance.partDeactivated( ((ReportEditorProxy)part).getEditorPart( ) );
+		}
+		else
+		{
+			instance.partDeactivated( part );
+		}
 	}
 
 	public void partOpened( IWorkbenchPart part )
 	{
-		instance.partOpened( part );
+		if(part instanceof ReportEditorProxy){
+			instance.partOpened( ((ReportEditorProxy)part).getEditorPart( ) );
+		}
+		else
+		{
+			instance.partOpened( part );
+		}
 	}
 
 	public void propertyChanged( Object source, int propId )

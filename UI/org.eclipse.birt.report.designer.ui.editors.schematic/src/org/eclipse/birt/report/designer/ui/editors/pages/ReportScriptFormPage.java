@@ -39,6 +39,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
@@ -57,8 +58,11 @@ public class ReportScriptFormPage extends ReportFormPage
 
 	private IReportEditorPage previouPage;
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.editors.pages.ReportFormPage#init(org.eclipse.ui.IEditorSite, org.eclipse.ui.IEditorInput)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.editors.pages.ReportFormPage#init(org.eclipse.ui.IEditorSite,
+	 *      org.eclipse.ui.IEditorInput)
 	 */
 	public void init( IEditorSite site, IEditorInput input )
 			throws PartInitException
@@ -74,7 +78,9 @@ public class ReportScriptFormPage extends ReportFormPage
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop(org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
 	 */
 	public boolean onBroughtToTop( IReportEditorPage prePage )
@@ -85,10 +91,10 @@ public class ReportScriptFormPage extends ReportFormPage
 			setInput( prePage.getEditorInput( ) );
 		}
 		previouPage = prePage;
-		if ( prePage != null && jsEditor != null )
-		{
-			jsEditor.setIsModified( prePage.isDirty( ) );
-		}
+//		if ( prePage != null && jsEditor != null )
+//		{
+//			jsEditor.setIsModified( prePage.isDirty( ) );
+//		}
 
 		ISelection selection = new StructuredSelection( SessionHandleAdapter.getInstance( )
 				.getMediator( )
@@ -100,7 +106,9 @@ public class ReportScriptFormPage extends ReportFormPage
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale(int)
 	 */
 	public void markPageStale( int type )
@@ -108,7 +116,9 @@ public class ReportScriptFormPage extends ReportFormPage
 		this.staleType = type;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType()
 	 */
 	public int getStaleType( )
@@ -116,7 +126,9 @@ public class ReportScriptFormPage extends ReportFormPage
 		return staleType;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getPartControl()
 	 */
 	public Control getPartControl( )
@@ -124,7 +136,9 @@ public class ReportScriptFormPage extends ReportFormPage
 		return this.control;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getId()
 	 */
 	public String getId( )
@@ -132,7 +146,9 @@ public class ReportScriptFormPage extends ReportFormPage
 		return ID;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public void createPartControl( Composite parent )
@@ -154,7 +170,9 @@ public class ReportScriptFormPage extends ReportFormPage
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void doSave( IProgressMonitor monitor )
@@ -177,7 +195,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	{
 		if ( model == null )
 		{
-			IReportProvider provider =  getProvider( );
+			IReportProvider provider = getProvider( );
 			if ( provider != null )
 			{
 				model = provider.getReportModuleHandle( getEditorInput( ) );
@@ -186,17 +204,19 @@ public class ReportScriptFormPage extends ReportFormPage
 		return model;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#doSaveAs()
 	 */
 	public void doSaveAs( )
 	{
-		IReportProvider provider =  getProvider( );
+		IReportProvider provider = getProvider( );
 		if ( provider != null )
 		{
 			IPath path = provider.getSaveAsPath( getEditorInput( ) );
-			
-			if(path == null)
+
+			if ( path == null )
 			{
 				return;
 			}
@@ -293,7 +313,9 @@ public class ReportScriptFormPage extends ReportFormPage
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isDirty()
 	 */
 	public boolean isDirty( )
@@ -301,7 +323,9 @@ public class ReportScriptFormPage extends ReportFormPage
 		return jsEditor.isDirty( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#dispose()
 	 */
 	public void dispose( )
@@ -310,7 +334,9 @@ public class ReportScriptFormPage extends ReportFormPage
 		jsEditor = null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#getAdapter(java.lang.Class)
 	 */
 	public Object getAdapter( Class adapter )
@@ -341,6 +367,7 @@ public class ReportScriptFormPage extends ReportFormPage
 
 	/**
 	 * Get JS Script editor.
+	 * 
 	 * @return
 	 */
 	public IEditorPart getScriptEditor( )
@@ -348,15 +375,20 @@ public class ReportScriptFormPage extends ReportFormPage
 		return jsEditor;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.pages.ReportFormPage#canLeaveThePage()
 	 */
 	public boolean canLeaveThePage( )
 	{
-		jsEditor.saveModelIfNeeds( );
+		if ( isDirty( ) )
+		{
+			doSave( null );
+		}
 		return super.canLeaveThePage( );
 	}
-	
+
 	private IReportProvider getProvider( )
 	{
 		return (IReportProvider) getEditor( ).getAdapter( IReportProvider.class );
