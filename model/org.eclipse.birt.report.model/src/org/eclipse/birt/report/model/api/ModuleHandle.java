@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -33,12 +34,14 @@ import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
@@ -60,7 +63,10 @@ import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.SimpleMasterPage;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
+import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
@@ -137,6 +143,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 		implements
 			IModuleModel
 {
+
+	protected boolean isInitialized = false;
 
 	/**
 	 * Constructs one module handle with the given module element.
@@ -2357,5 +2365,48 @@ public abstract class ModuleHandle extends DesignElementHandle
 			throws SemanticException
 	{
 		setStringProperty( Module.DESCRIPTION_ID_PROP, resourceKey );
+	}
+
+	/**
+	 * Initializes the report design when it is just created.
+	 * <p>
+	 * Set the value to the properties on repot design element which need
+	 * the initialize valuel. 
+	 * 
+	 * All initialize operations will not go into the command stack and can not
+	 * be undo redo.
+	 * 
+	 * @param properties
+	 *            the property name value pairs.Those properties in the map are
+	 *            which need to be initialized.
+	 * @throws SemanticException
+	 *             SemamticException will throw out when the give properties map
+	 *             contians invlid property name or property value.
+	 * @deprecated
+	 */
+	
+	public void initializeModule( Map properties ) throws SemanticException
+	{
+		// if this report deisgn has been initialized, return.
+		if ( isInitialized )
+			return;
+
+		String name = null;
+		Object value = null;
+		ReportDesign design = (ReportDesign) getElement( );
+		Set propNames = properties.keySet( );
+
+		// initialize the properties for the reprot design.
+		Iterator itre = propNames.iterator( );
+		while ( itre.hasNext( ) )
+		{
+			name = (String) itre.next( );
+			value = PropertyValueValidationUtil.validateProperty( this, name,
+					properties.get( name ) );
+			design.setProperty( name, value );
+		}
+
+		isInitialized = true;
+
 	}
 }
