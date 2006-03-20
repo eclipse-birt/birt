@@ -44,6 +44,8 @@ public class ReportLaunchConfigurationDelegate extends
 	private static final String PROJECT_NAMES_KEY = "user.projectname"; //$NON-NLS-1$
 
 	private static final String PROJECT_CLASSPATH_KEY = "user.projectclasspath"; //$NON-NLS-1$
+	
+	private static final String PROJECT_OPENFILES_KEY = "user.openfiles"; //$NON-NLS-1$
 
 	private static WorkspaceClassPathFinder finder = new WorkspaceClassPathFinder( );
 
@@ -193,8 +195,10 @@ public class ReportLaunchConfigurationDelegate extends
 			classPath = "-D" + PROJECT_CLASSPATH_KEY + "=" + projectClassPaths; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
+		String openFiles = "-D" + PROJECT_OPENFILES_KEY + "=" + configuration.getAttribute( OPENFILENAMES, "" );
+		
 		return new String[]{
-				append, classPath
+				append, classPath, openFiles
 		};
 
 	}

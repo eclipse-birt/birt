@@ -11,12 +11,26 @@
 
 package org.eclipse.birt.report.debug.internal.ui.launcher;
 
-import com.ibm.icu.util.StringTokenizer;
-
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.DebugUtil;
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.WorkspaceClassPathFinder;
+import org.eclipse.birt.report.designer.ui.editors.ReportEditorProxy;
+import org.eclipse.birt.report.designer.ui.preview.editors.ReportPreviewFormPage;
 import org.eclipse.birt.report.viewer.utilities.WorkspaceClasspathManager;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IStartup;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.forms.editor.FormEditor;
+import org.eclipse.ui.ide.IDE;
+
+import com.ibm.icu.util.StringTokenizer;
 
 /**
  * Copy the seletion of the project in the debug lauch.The key name is
@@ -68,5 +82,81 @@ public class DebugStartupClass implements IStartup
 				// e1.printStackTrace( );
 			}
 		}
+		Display.getDefault( ).asyncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				int openCount = 0;
+				try
+				{
+					String value = System.getProperty( "user.openfiles" ); //$NON-NLS-1$
+					if ( value == null || value.length( ) == 0 )
+					{
+						return;
+					}
+					StringTokenizer token = new StringTokenizer( value, ";" ); //$NON-NLS-1$
+					while ( token.hasMoreTokens( ) )
+					{
+						String str = token.nextToken( );
+						final IFile file = ResourcesPlugin.getWorkspace( )
+								.getRoot( )
+								.getFile( new Path( str ) );
+
+						IWorkbench workbench = PlatformUI.getWorkbench( );
+						IWorkbenchWindow window = workbench.getActiveWorkbenchWindow( );
+						IWorkbenchPage page = window.getActivePage( );
+						IDE.openEditor( page, file, true );
+						openCount++;
+					}
+				}
+				catch ( PartInitException e )
+				{
+
+					// Do nothing
+				}
+				if (openCount == 1)
+				{
+					FormEditor editor = getActiveReportEditor();
+					editor.setActivePage(ReportPreviewFormPage.ID);
+				}
+				
+			}
+
+		} );
+
+	}
+	
+	/**Returns the current active report editor in current active page or
+	 * current active workbench.
+	 * @return
+	 */
+	public static FormEditor getActiveReportEditor() 
+	{
+		IWorkbenchWindow window = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow();
+
+		if (window != null) {
+
+			IWorkbenchPage pg = window.getActivePage();
+
+			if (pg != null) {
+				IEditorPart editor = pg.getActiveEditor();
+
+				if (editor != null) {
+					if (editor instanceof ReportEditorProxy) {
+						IEditorPart part = ((ReportEditorProxy) editor)
+								.getEditorPart();
+						if (part instanceof FormEditor) {
+							return (FormEditor) part;
+						}
+					} else if (editor instanceof FormEditor) {
+						return (FormEditor) editor;
+					}
+				}
+
+			}
+		}
+		return null;
+
 	}
 }

@@ -27,6 +27,10 @@
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.birt.report.viewer"/>
       <import plugin="org.eclipse.birt.report.designer.core"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.birt.report.designer.ui.preview"/>
+      <import plugin="org.eclipse.birt.report.designer.ui.ide"/>
+      <import plugin="org.eclipse.ui.forms"/>
    </requires>
    
    

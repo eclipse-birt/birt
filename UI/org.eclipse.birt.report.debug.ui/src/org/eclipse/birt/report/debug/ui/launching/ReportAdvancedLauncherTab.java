@@ -14,6 +14,7 @@ import org.eclipse.birt.report.debug.internal.ui.launcher.IReportLauncherSetting
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.ReportLauncherUtils;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
@@ -58,6 +59,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 {
 
 	private static final String REPORTPROJECTKID = "org.eclipse.birt.report.designer.ui.reportprojectnature"; //$NON-NLS-1$
+	private static final String DESIGN_FILE_EXTENTION = "rptdesign"; //$NON-NLS-1$
 	private Label fUseListRadio;
 	private CheckboxTreeViewer fPluginTreeViewer;
 	private Label fVisibleLabel;
@@ -90,12 +92,26 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 
 		public Object[] getChildren( Object parent )
 		{
-			if ( parent == fWorkspacePlugins[0] )
-				return fWorkspaceBIRTModels;
-			else if ( parent == fWorkspacePlugins[1] )
-				return fWorkspaceJavaModels;
-			else
-				return new Object[0];
+			try
+			{
+				if ( parent == fWorkspacePlugins[0] )
+					return fWorkspaceBIRTModels;
+				else if ( parent == fWorkspacePlugins[1] )
+					return fWorkspaceJavaModels;
+				else if ( parent instanceof IProject
+						&& ( (IProject) parent ).hasNature( REPORTPROJECTKID ) )
+				{
+					List retValue = getReportDesignFileFromProject( (IProject) parent );
+					return (Object[]) retValue.toArray( new Object[retValue.size( )] );
+
+				}
+			}
+			catch ( CoreException e )
+			{
+
+			}
+
+			return new Object[0];
 		}
 
 		public Object getParent( Object child )
@@ -109,6 +125,33 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 			return fWorkspacePlugins;
 		}
 
+	}
+
+	private List getReportDesignFileFromProject( IProject project )
+	{
+		List retValue = new ArrayList( );
+		try
+		{
+			IResource[] resources = project.members( );
+			if ( resources != null && resources.length > 0 )
+			{
+				for ( int i = 0; i < resources.length; i++ )
+				{
+					IResource resource = resources[i];
+					// System.out.println(resource.getFullPath(
+					// ).toPortableString( ));
+					if ( DESIGN_FILE_EXTENTION.equals( resource.getFileExtension( ) ) )
+					{
+						retValue.add( resource );
+					}
+				}
+			}
+		}
+		catch ( CoreException e )
+		{
+			// donothing
+		}
+		return retValue;
 	}
 
 	public ReportAdvancedLauncherTab( )
@@ -188,7 +231,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 		hookListeners( );
 		setControl( composite );
 		Dialog.applyDialogFont( composite );
-		PlatformUI.getWorkbench().getHelpSystem().setHelp( composite,
+		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( composite,
 				"org.eclipse.pde.doc.user.launcher_advanced" ); //$NON-NLS-1$
 	}
 
@@ -352,6 +395,31 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 	private void adjustGroupState( )
 	{
 
+		int size = fWorkspaceBIRTModels.length;
+		for ( int i = 0; i < size; i++ )
+		{
+			IProject project = fWorkspaceBIRTModels[i];
+			List list = getReportDesignFileFromProject( project );
+			int len = list.size( );
+			int ori = 0;
+			for ( int j = 0; j < len; j++ )
+			{
+				Object obj = list.get( j );
+				if ( fPluginTreeViewer.getChecked( obj ) )
+				{
+					ori++;
+				}
+			}
+			if ( ori > 0 )
+			{
+				if ( !fPluginTreeViewer.getChecked( project ) )
+				{
+					fNumWorkspaceBIRTChecked++;
+					fPluginTreeViewer.setChecked( project, true );
+				}
+			}
+			fPluginTreeViewer.setGrayed( project, ori > 0 && ori < len );
+		}
 		fPluginTreeViewer.setChecked( fWorkspacePlugins[0],
 				fNumWorkspaceBIRTChecked > 0 );
 
@@ -365,6 +433,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 		fPluginTreeViewer.setGrayed( fWorkspacePlugins[1],
 				fNumWorkspaceJavaChecked > 0
 						&& fNumWorkspaceJavaChecked < fWorkspaceJavaModels.length );
+
 	}
 
 	/**
@@ -381,6 +450,10 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 				if ( obj instanceof IProject )
 				{
 					return ( (IProject) obj ).getName( );
+				}
+				if ( obj instanceof IResource )
+				{
+					return ( (IResource) obj ).getName( );
 				}
 				return super.getText( obj );
 			}
@@ -507,6 +580,33 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 					&& checked[i] < length[i] );
 		}
 
+		int size = fWorkspaceBIRTModels.length;
+		deselected = ReportLauncherUtils.parseDeselectedOpenFileNames( config );
+		for ( int i = 0; i < size; i++ )
+		{
+			IProject project = fWorkspaceBIRTModels[i];
+			List list = getReportDesignFileFromProject( project );
+			int len = list.size( );
+			int ori = len;
+			for ( int j = 0; j < len; j++ )
+			{
+				IResource resource = (IResource) list.get( j );
+				String path = resource.getFullPath( ).toString( );
+				if ( !deselected.contains( path ) )
+				{
+					if ( fPluginTreeViewer.setChecked( resource, false ) )
+					{
+						ori--;
+					}
+				}
+
+			}
+			if ( ori > 0 )
+			{
+				fPluginTreeViewer.setChecked( project, true );
+			}
+			fPluginTreeViewer.setGrayed( project, ori > 0 && ori < len );
+		}
 	}
 
 	/**
@@ -701,8 +801,9 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 	public void performApply( ILaunchConfigurationWorkingCopy config )
 	{
 		StringBuffer wbuf = new StringBuffer( );
+		int size = fWorkspaceBIRTModels.length;
 
-		for ( int i = 0; i < fWorkspaceBIRTModels.length; i++ )
+		for ( int i = 0; i < size; i++ )
 		{
 			IProject model = fWorkspaceBIRTModels[i];
 			String path = model.getLocation( ).toOSString( );
@@ -719,9 +820,25 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 				wbuf.append( PROPERTYSEPARATOR + path );
 
 		}
-
 		config.setAttribute( IMPORTPROJECT, wbuf.toString( ) );
 
+		wbuf = new StringBuffer( );
+		for ( int i = 0; i < size; i++ )
+		{
+			IProject project = fWorkspaceBIRTModels[i];
+			List list = getReportDesignFileFromProject( project );
+			for ( int j = 0; j < list.size( ); j++ )
+			{
+				IResource resource = (IResource) list.get( j );
+				String path = resource.getFullPath( ).toString( );
+				if ( fPluginTreeViewer.getChecked( resource ) )
+				{
+					wbuf.append( PROPERTYSEPARATOR + path );
+				}
+			}
+		}
+
+		config.setAttribute( OPENFILENAMES, wbuf.toString( ) );
 		config.setAttribute( "clearws", true ); //$NON-NLS-1$
 
 		config.setAttribute( "askclear", false ); //$NON-NLS-1$
@@ -739,37 +856,50 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 		return createStatus( 0, "" ); //$NON-NLS-1$
 	}
 
-	protected void updateStatus(IStatus status) {
-		applyToStatusLine(status);
+	protected void updateStatus( IStatus status )
+	{
+		applyToStatusLine( status );
 	}
 
 	/**
 	 * Applies the status to a dialog page
 	 */
-	public  void applyToStatusLine(IStatus status) {
-		String errorMessage= null;
-		String warningMessage= null;
-		String statusMessage= status.getMessage();
-		if (statusMessage.length() > 0) {
-			if (status.matches(IStatus.ERROR)) {
-				errorMessage= statusMessage;
-			} else if (!status.isOK()) {
-				warningMessage= statusMessage;
+	public void applyToStatusLine( IStatus status )
+	{
+		String errorMessage = null;
+		String warningMessage = null;
+		String statusMessage = status.getMessage( );
+		if ( statusMessage.length( ) > 0 )
+		{
+			if ( status.matches( IStatus.ERROR ) )
+			{
+				errorMessage = statusMessage;
+			}
+			else if ( !status.isOK( ) )
+			{
+				warningMessage = statusMessage;
 			}
 		}
-		
-		setErrorMessage(errorMessage);
-		setMessage(warningMessage);
-		updateLaunchConfigurationDialog();
+
+		setErrorMessage( errorMessage );
+		setMessage( warningMessage );
+		updateLaunchConfigurationDialog( );
 	}
-	
-	public static IStatus getMoreSevere(IStatus s1, IStatus s2) {
-		return (s1.getSeverity() >= s2.getSeverity()) ? s1 : s2;
-	}	
-	
-	public static IStatus createStatus(int severity, String message) {
-		return new Status(severity, PDEPlugin.getPluginId(), severity, message, null);
+
+	public static IStatus getMoreSevere( IStatus s1, IStatus s2 )
+	{
+		return ( s1.getSeverity( ) >= s2.getSeverity( ) ) ? s1 : s2;
 	}
+
+	public static IStatus createStatus( int severity, String message )
+	{
+		return new Status( severity,
+				PDEPlugin.getPluginId( ),
+				severity,
+				message,
+				null );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -791,6 +921,6 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 	}
 
 	public void validateTab( )
-	{		
+	{
 	}
 }

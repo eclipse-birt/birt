@@ -220,6 +220,29 @@ public class ReportLauncherUtils
 		return deselected;
 	}
 
+	public static TreeSet parseDeselectedOpenFileNames( ILaunchConfiguration config )
+			throws CoreException
+	{
+		TreeSet deselected = new TreeSet( );
+		String ids = config.getAttribute( IReportLauncherSettings.OPENFILENAMES,
+				(String) null );
+		if ( ids != null && ids.length( ) > 0 )
+		{
+			StringTokenizer token = new StringTokenizer( ids, ";" ); //$NON-NLS-1$
+			while ( token.hasMoreTokens( ) )
+			{
+				String str = token.nextToken( );
+				int index = str.lastIndexOf( File.separator );
+				if ( index > 0 )
+				{
+					str = str.substring( index + 1 );
+				}
+				deselected.add( str );
+			}
+		}
+		return deselected;
+	}
+
 	public static TreeSet parseDeselectedClassIds( ILaunchConfiguration config )
 			throws CoreException
 	{
