@@ -579,4 +579,54 @@ public class ActionHandle extends StructureHandle
 
 		return null;
 	}
+
+	/**
+	 * Sets target bookmark type for a drill-through or bookmark-link action.
+	 * The bookmark type for action are defined in DesignChoiceConstants and can
+	 * be one of the following:
+	 * 
+	 * <p>
+	 * <ul>
+	 * <li><code>ACTION_BOOKMARK_TYPE_BOOKMARK</code>
+	 * <li><code>ACTION_BOOKMARK_TYPE_TOC</code>
+	 * </ul>
+	 * 
+	 * @param targetBookmarkType
+	 *            the type of the target bookmark
+	 * @throws SemanticException
+	 *             if type of the target bookmark is not in the choice list.
+	 * @see #getTargetBookmarkType()
+	 */
+
+	public void setTargetBookmarkType( String targetBookmarkType )
+			throws SemanticException
+	{
+		setProperty( Action.TARGET_BOOKMARK_TYPE_MEMBER, targetBookmarkType );
+	}
+
+	/**
+	 * Gets target bookmark type for a drill-through or bookmark-link action.
+	 * The bookmark type for action are defined in DesignChoiceConstants and can
+	 * be one of the following:
+	 * 
+	 * <p>
+	 * <ul>
+	 * <li><code>ACTION_BOOKMARK_TYPE_BOOKMARK</code>
+	 * <li><code>ACTION_BOOKMARK_TYPE_TOC</code>
+	 * </ul>
+	 * 
+	 * @return target bookmark type for a drill-through or bookmark-link action
+	 */
+
+	public String getTargetBookmarkType( )
+	{
+		String linkType = getLinkType( );
+		if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
+				.equalsIgnoreCase( linkType )
+				|| DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH
+						.equalsIgnoreCase( linkType ) )
+			return getStringProperty( Action.TARGET_BOOKMARK_TYPE_MEMBER );
+
+		return null;
+	}
 }

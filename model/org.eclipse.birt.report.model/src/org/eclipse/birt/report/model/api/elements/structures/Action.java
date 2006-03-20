@@ -117,6 +117,12 @@ public class Action extends PropertyStructure
 
 	public final static String TARGET_FILE_TYPE_MEMBER = "targetFileType"; //$NON-NLS-1$
 
+	/**
+	 * Property name of target bookmark type.
+	 */
+
+	public final static String TARGET_BOOKMARK_TYPE_MEMBER = "targetBookmarkType"; //$NON-NLS-1$
+	
 	/*
 	 * (non-Javadoc)
 	 * 

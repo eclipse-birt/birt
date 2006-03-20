@@ -300,6 +300,10 @@
     <Choice displayNameID="Choices.actionTargetFileType.report-design" name="report-design"/>
     <Choice displayNameID="Choices.actionTargetFileType.report-document" name="report-document"/>
   </ChoiceType>  
+  <ChoiceType name="actionBookmarkType">
+    <Choice displayNameID="Choices.actionBookmarkType.bookmark" name="bookmark"/>
+    <Choice displayNameID="Choices.actionBookmarkType.toc" name="toc"/>
+  </ChoiceType>  
   <ChoiceType name="actionFormatType">
     <Choice displayNameID="Choices.actionFormatType.html" name="html"/>
     <Choice displayNameID="Choices.actionFormatType.pdf" name="pdf"/>
@@ -1575,6 +1579,7 @@
     </Member>
     <Member detailType="actionFormatType" displayNameID="Structure.Action.formatType" name="formatType" since="2.0" type="choice"/>
     <Member detailType="actionTargetFileType" displayNameID="Structure.Action.targetFileType" name="targetFileType" since="2.1" type="choice"/>
+    <Member detailType="actionBookmarkType" displayNameID="Structure.Action.targetBookmarkType" name="targetBookmarkType" since="2.1" type="choice"/>
     <Member displayNameID="Structure.Action.uri" name="uri" since="1.0" returnType="string" type="expression"/>
     <Member displayNameID="Structure.Action.targetBookmark" name="targetBookmark" returnType="string" since="reserved" type="expression"/>
     <Member displayNameID="Structure.Action.reportName" name="reportName" since="reserved" type="string"/>
