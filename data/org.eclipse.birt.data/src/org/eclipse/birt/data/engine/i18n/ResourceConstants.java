@@ -126,6 +126,7 @@ public class ResourceConstants
 	
 	public final static String INVALID_ROW_INDEX = "data.engine.invalidRowIndex";
 	public final static String BACKWARD_SEEK_ERROR = "data.engine.backwardSeekError";
+	public final static String START_ERROR = "data.engine.startError";
 	
 	// other error
 	public final static String SCRIPT_EVAL_ERROR = "data.engine.ScriptEvalError";

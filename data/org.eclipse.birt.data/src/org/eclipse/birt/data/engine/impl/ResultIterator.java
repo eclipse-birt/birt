@@ -215,7 +215,23 @@ public class ResultIterator implements IResultIterator
 	public void moveTo( int rowIndex ) throws BirtException
 	{
 		checkStarted( );
-		throw new DataException( "unsupported in generation time" );
+		
+		if ( state == BEFORE_FIRST_ROW )
+			throw new DataException( ResourceConstants.START_ERROR );
+		
+		int currRowIndex = odiResult.getCurrentResultIndex( );
+		
+		if ( rowIndex < 0 || rowIndex >= this.odiResult.getRowCount( ) )
+			throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
+					new Integer( rowIndex ) );
+		else if ( rowIndex < currRowIndex )
+			throw new DataException( ResourceConstants.BACKWARD_SEEK_ERROR );
+		else if ( rowIndex == currRowIndex )
+			return;
+
+		int gapRows = rowIndex - currRowIndex;
+		for ( int i = 0; i < gapRows; i++ )
+			this.next( );
 	}
 	
 	/**

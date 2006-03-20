@@ -135,4 +135,9 @@ public interface IResultIterator
      */
     public int[] getGroupStartAndEndIndex( int groupLevel ) throws DataException;
 
+    /**
+	 * @return the count of rows
+	 */
+	public int getRowCount( ) throws DataException;
+
 }

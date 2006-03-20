@@ -155,9 +155,11 @@ public class CachedResultSet implements IResultIterator
 			}
 		}
 	}
-
-	/**
+	
+	/*
 	 * Close this data set
+	 * 
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#close()
 	 */
 	public void close( )
 	{
@@ -176,9 +178,9 @@ public class CachedResultSet implements IResultIterator
 				|| this.resultSetPopulator.getCache( ) == null )
 			throw new DataException( ResourceConstants.NO_CURRENT_ROW );
 	}
-
-	/**
-	 * return data of current row
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getCurrentResult()
 	 */
 	public IResultObject getCurrentResult( ) throws DataException
 	{
@@ -186,10 +188,10 @@ public class CachedResultSet implements IResultIterator
 		return this.resultSetPopulator.getCache( ).getCurrentResult( );
 	}
 
-	/**
+	/*
 	 * Advances row cursor, return false if no more rows.
 	 * 
-	 * @return true if success, false if already at the last row.
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#next()
 	 */
 	public boolean next( ) throws DataException
 	{
@@ -204,8 +206,8 @@ public class CachedResultSet implements IResultIterator
 
 		return hasNext;
 	}
-
-	/**
+	
+	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getEndingGroupLevel()
 	 */
 	public int getEndingGroupLevel( ) throws DataException
@@ -221,31 +223,27 @@ public class CachedResultSet implements IResultIterator
 		return this.resultSetPopulator.getStartingGroupLevel( );
 	}
 
-	/**
+	/*
 	 * Rewinds row cursor to the first row at the specified group level
 	 * 
-	 * @param groupLevel
-	 *            the specified group level that will be skipped, 1 indicate the
-	 *            highest level. 0 indicates whole list.
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#first(int)
 	 */
 	public void first( int groupLevel ) throws DataException
 	{
 		this.resultSetPopulator.first( groupLevel );
 	}
-
-	/**
+	
+	/*
 	 * Advances row cursor to the last row at the specified group level
 	 * 
-	 * @param groupLevel
-	 *            the specified group level that will be skipped, 1 indicate the
-	 *            highest level. 0 indicates whole list.
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#last(int)
 	 */
 	public void last( int groupLevel ) throws DataException
 	{
 		this.resultSetPopulator.last( groupLevel );
 	}
 
-	/**
+	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getResultClass()
 	 */
 	public IResultClass getResultClass( ) throws DataException
@@ -253,7 +251,7 @@ public class CachedResultSet implements IResultIterator
 		return this.resultSetPopulator.getResultSetMetadata( );
 	}
 
-	/**
+	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getCurrentResultIndex()
 	 */
 	public int getCurrentResultIndex( ) throws DataException
@@ -262,7 +260,7 @@ public class CachedResultSet implements IResultIterator
 		return this.resultSetPopulator.getCache( ).getCurrentIndex( );
 	}
 
-	/**
+	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getCurrentGroupIndex(int)
 	 */
 	public int getCurrentGroupIndex( int groupLevel ) throws DataException
@@ -278,10 +276,9 @@ public class CachedResultSet implements IResultIterator
 	{
 		return this.resultSetPopulator.getGroupStartAndEndIndex( groupLevel );
 	}
-
-	/**
-	 * @return
-	 * @throws DataException
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getRowCount()
 	 */
 	public int getRowCount( ) throws DataException
 	{
