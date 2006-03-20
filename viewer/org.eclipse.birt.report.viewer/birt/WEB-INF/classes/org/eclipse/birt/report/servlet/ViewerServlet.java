@@ -20,12 +20,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.resource.BirtResources;
-import org.eclipse.birt.report.service.ReportEngineService;
-import org.eclipse.birt.report.utility.ParameterAccessor;
 import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
 import org.eclipse.birt.report.presentation.aggregation.layout.FramesetFragment;
+import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.service.ReportEngineService;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Servlet implementation of BIRT Web Viewer.
@@ -104,17 +104,42 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 	/**
 	 * Comment for <code>serialVersionUID</code>.
 	 */
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Viewer fragment references.
 	 */
-	
+
 	private IFragment viewer = null;
 	private IFragment preview = null;
 	private IFragment engine = null;
 	private IFragment parameter = null;
+
+	/**
+	 * Servlet path for parameter model.
+	 */
+	public static final String SERVLET_PATH_PARAMETER = "/parameter"; //$NON-NLS-1$
+
+	/**
+	 * Servlet path for preview model.
+	 */
+	public static final String SERVLET_PATH_PREVIEW = "/preview"; //$NON-NLS-1$
+
+	/**
+	 * Servlet path for frameset model.
+	 */
+	public static final String SERVLET_PATH_FRAMESET = "/frameset"; //$NON-NLS-1$
+
+	/**
+	 * Servlet path for running model.
+	 */
+	public static final String SERVLET_PATH_RUN = "/run"; //$NON-NLS-1$
+
+	/**
+	 * The error page.
+	 */
+	private static final String EORROR_PAGE = "pages/common/Error.jsp";
 
 	/**
 	 * Servlet initialization. Initialize engine, parameter, resources, and
@@ -127,7 +152,7 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 	 * @param config
 	 *            servlet configuration
 	 */
-	
+
 	public void init( ServletConfig config ) throws ServletException
 	{
 		super.init( config );
@@ -151,7 +176,7 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 	 * @exception ServletException
 	 * @exception IOException
 	 */
-	
+
 	public void doGet( HttpServletRequest request, HttpServletResponse response )
 			throws ServletException, IOException
 	{
@@ -163,39 +188,37 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 		if ( context.getBean( ).getException( ) != null )
 		{
 			context.finalize( );
-
-			String target = "pages/common/Error.jsp"; //$NON-NLS-1$
-			request.setAttribute( "error", context.getBean( ).getException( ) ); //$NON-NLS-1$
-			RequestDispatcher rd = request.getRequestDispatcher( target );
-			rd.include( request, response );
+			displayException( request, response, context.getBean( )
+					.getException( ) );
 		}
 		else
 		{
 			try
 			{
-				if ( "/frameset".equalsIgnoreCase( request.getServletPath( ) ) ) //$NON-NLS-1$
+				if ( SERVLET_PATH_FRAMESET.equalsIgnoreCase( request
+						.getServletPath( ) ) )
 				{
 					viewer.service( request, response );
 				}
-				if ( "/preview".equalsIgnoreCase( request.getServletPath( ) ) ) //$NON-NLS-1$
+				else if ( SERVLET_PATH_PREVIEW.equalsIgnoreCase( request
+						.getServletPath( ) ) )
 				{
 					preview.service( request, response );
 				}
-				else if ( "/run".equalsIgnoreCase( request.getServletPath( ) ) ) //$NON-NLS-1$
+				else if ( SERVLET_PATH_RUN.equalsIgnoreCase( request
+						.getServletPath( ) ) )
 				{
 					engine.service( request, response );
 				}
-				else if ( "/parameter".equalsIgnoreCase( request.getServletPath( ) ) )//$NON-NLS-1$
+				else if ( SERVLET_PATH_PARAMETER.equalsIgnoreCase( request
+						.getServletPath( ) ) )
 				{
 					parameter.service( request, response );
 				}
 			}
 			catch ( BirtException e )
 			{
-				String target = "pages/common/Error.jsp"; //$NON-NLS-1$
-				request.setAttribute( "error", e ); //$NON-NLS-1$
-				RequestDispatcher rd = request.getRequestDispatcher( target );
-				rd.include( request, response );
+				displayException( request, response, e );
 			}
 			finally
 			{
@@ -216,7 +239,7 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 	 * @exception ServletException
 	 * @exception IOException
 	 */
-	
+
 	public void doPost( HttpServletRequest request, HttpServletResponse response )
 			throws ServletException, IOException
 	{
@@ -235,13 +258,8 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 				if ( context.getBean( ).getException( ) != null )
 				{
 					context.finalize( );
-
-					String target = "pages/common/Error.jsp"; //$NON-NLS-1$
-					request.setAttribute(
-							"error", context.getBean( ).getException( ) ); //$NON-NLS-1$
-					RequestDispatcher rd = request
-							.getRequestDispatcher( target );
-					rd.include( request, response );
+					displayException( request, response, context.getBean( )
+							.getException( ) );
 				}
 				else
 				{
@@ -251,11 +269,7 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 					}
 					catch ( BirtException e )
 					{
-						String target = "pages/common/Error.jsp"; //$NON-NLS-1$
-						request.setAttribute( "error", e ); //$NON-NLS-1$
-						RequestDispatcher rd = request
-								.getRequestDispatcher( target );
-						rd.include( request, response );
+						displayException( request, response, e );
 					}
 					finally
 					{
@@ -275,4 +289,28 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 		}
 
 	}
+
+	/**
+	 * Display exception.
+	 * 
+	 * @param request
+	 *            the request.
+	 * @param response
+	 *            the response.
+	 * @param exception
+	 *            the exception to display.
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+
+	private void displayException( HttpServletRequest request,
+			HttpServletResponse response, Exception exception )
+			throws ServletException, IOException
+	{
+		String target = EORROR_PAGE;
+		request.setAttribute( "error", exception ); //$NON-NLS-1$
+		RequestDispatcher rd = request.getRequestDispatcher( target );
+		rd.include( request, response );
+	}
+
 }

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.context;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
@@ -23,10 +22,11 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.resource.MessageConstants;
 import org.eclipse.birt.report.service.ReportEngineService;
+import org.eclipse.birt.report.servlet.ViewerServlet;
+import org.eclipse.birt.report.utility.MessageUtility;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -190,6 +190,22 @@ public class ViewerAttributeBean
 		}
 		else
 		{
+			if ( ViewerServlet.SERVLET_PATH_FRAMESET.equalsIgnoreCase( request
+					.getServletPath( ) )
+					|| ViewerServlet.SERVLET_PATH_PREVIEW
+							.equalsIgnoreCase( request.getServletPath( ) )
+					|| ViewerServlet.SERVLET_PATH_PARAMETER
+							.equalsIgnoreCase( request.getServletPath( ) ) )
+			{
+				this.exception = new EngineException(
+						MessageUtility
+								.format(
+										BirtResources
+												.getString( MessageConstants.REPORT_DOCUMENT_NOT_FOUND_EXCEPTION ),
+										reportDocumentName ) );
+				return;
+			}
+
 			try
 			{
 				this.reportRunnable = ReportEngineService.getInstance( )
