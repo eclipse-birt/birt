@@ -29,12 +29,14 @@ import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -70,10 +72,19 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 	 */
 	public void getComponent( Composite parent )
 	{
-		final int COLUMN_NUMBER = 6;
-		cmpContent = new Composite( parent, SWT.NONE );
+		final int COLUMN_CONTENT = 4;
+		cmpContent = new Composite( parent, SWT.NONE ) {
+
+			public Point computeSize( int wHint, int hHint, boolean changed )
+			{
+				// Return a fixed height as preferred size of scrolled composite
+				Point p = super.computeSize( wHint, hHint, changed );
+				p.y = 200;
+				return p;
+			}
+		};
 		{
-			GridLayout glContent = new GridLayout( COLUMN_NUMBER, false );
+			GridLayout glContent = new GridLayout( COLUMN_CONTENT, false );
 			glContent.horizontalSpacing = 10;
 			cmpContent.setLayout( glContent );
 			GridData gd = new GridData( GridData.FILL_BOTH );
@@ -85,7 +96,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 		cmbColorBy = new Combo( cmpContent, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
 			GridData gridData = new GridData( );
-			gridData.horizontalSpan = COLUMN_NUMBER - 1;
+			gridData.horizontalSpan = COLUMN_CONTENT - 1;
 			cmbColorBy.setLayoutData( gridData );
 			NameSet ns = LiteralHelper.legendItemTypeSet;
 			cmbColorBy.setItems( ns.getDisplayNames( ) );
@@ -98,12 +109,35 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 		Label separator = new Label( cmpContent, SWT.SEPARATOR | SWT.HORIZONTAL );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			// gd.horizontalIndent = -5;
-			gd.horizontalSpan = COLUMN_NUMBER;
+			gd.horizontalSpan = COLUMN_CONTENT;
 			separator.setLayoutData( gd );
 		}
 
-		Label lblSeries = new Label( cmpContent, SWT.NONE );
+		final int COLUMN_DETAIL = 6;
+
+		ScrolledComposite cmpScroll = new ScrolledComposite( cmpContent,
+				SWT.V_SCROLL );
+		{
+			GridData gd = new GridData( GridData.FILL_BOTH );
+			gd.horizontalSpan = COLUMN_CONTENT;
+			cmpScroll.setLayoutData( gd );
+
+			cmpScroll.setMinHeight( ( ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) )
+					.size( ) + 1 ) * 24 + 40 );
+			cmpScroll.setExpandVertical( true );
+			cmpScroll.setExpandHorizontal( true );
+		}
+
+		Composite cmpList = new Composite( cmpScroll, SWT.NONE );
+		{
+			GridLayout glContent = new GridLayout( COLUMN_DETAIL, false );
+			glContent.horizontalSpacing = 10;
+			cmpList.setLayout( glContent );
+
+			cmpScroll.setContent( cmpList );
+		}
+
+		Label lblSeries = new Label( cmpList, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -112,7 +146,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 			lblSeries.setText( Messages.getString( "SeriesSheetImpl.Label.Series" ) ); //$NON-NLS-1$
 		}
 
-		Label lblTitle = new Label( cmpContent, SWT.NONE );
+		Label lblTitle = new Label( cmpList, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -121,7 +155,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 			lblTitle.setText( Messages.getString( "SeriesSheetImpl.Label.Title" ) ); //$NON-NLS-1$
 		}
 
-		Label lblType = new Label( cmpContent, SWT.NONE );
+		Label lblType = new Label( cmpList, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -130,7 +164,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 			lblType.setText( Messages.getString( "SeriesSheetImpl.Label.Type" ) ); //$NON-NLS-1$
 		}
 
-		Label lblVisible = new Label( cmpContent, SWT.NONE );
+		Label lblVisible = new Label( cmpList, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -139,7 +173,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 			lblVisible.setText( Messages.getString( "SeriesSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
 		}
 
-		Label lblStack = new Label( cmpContent, SWT.NONE );
+		Label lblStack = new Label( cmpList, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -148,7 +182,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 			lblStack.setText( Messages.getString( "SeriesSheetImpl.Label.Stacked" ) ); //$NON-NLS-1$
 		}
 
-		Label lblTranslucent = new Label( cmpContent, SWT.NONE );
+		Label lblTranslucent = new Label( cmpList, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -165,7 +199,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 					getChart( ) instanceof ChartWithAxes
 							? Messages.getString( "SeriesSheetImpl.Label.CategoryXSeries" ) : Messages.getString( "SeriesSheetImpl.Label.CategoryBaseSeries" ), //$NON-NLS-1$ //$NON-NLS-2$
 					i,
-					treeIndex++ ).placeComponents( cmpContent );
+					treeIndex++ ).placeComponents( cmpList );
 		}
 
 		seriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
@@ -175,7 +209,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 					? Messages.getString( "SeriesSheetImpl.Label.ValueYSeries" ) : Messages.getString( "SeriesSheetImpl.Label.ValueOrthogonalSeries" ); //$NON-NLS-1$ //$NON-NLS-2$
 			new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( i ) ),
 					( seriesDefns.size( ) == 1 ? text
-							: ( text + " - " + ( i + 1 ) ) ) + ":", i, treeIndex++ ).placeComponents( cmpContent ); //$NON-NLS-1$ //$NON-NLS-2$
+							: ( text + " - " + ( i + 1 ) ) ) + ":", i, treeIndex++ ).placeComponents( cmpList ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 

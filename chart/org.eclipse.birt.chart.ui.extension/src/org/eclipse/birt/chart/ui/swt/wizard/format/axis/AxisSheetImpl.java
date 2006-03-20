@@ -29,12 +29,14 @@ import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -67,16 +69,46 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 	public void getComponent( Composite parent )
 	{
 		final int COLUMN_NUMBER = ChartUIUtil.is3DType( getChart( ) ) ? 5 : 4;
-		cmpContent = new Composite( parent, SWT.NONE );
+		cmpContent = new Composite( parent, SWT.NONE ) {
+
+			public Point computeSize( int wHint, int hHint, boolean changed )
+			{
+				// Return a fixed height as preferred size of scrolled composite
+				Point p = super.computeSize( wHint, hHint, changed );
+				p.y = 200;
+				return p;
+			}
+		};;
 		{
-			GridLayout glContent = new GridLayout( COLUMN_NUMBER, false );
+			GridLayout glContent = new GridLayout( 1, false );
 			glContent.horizontalSpacing = HORIZONTAL_SPACING;
 			cmpContent.setLayout( glContent );
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			cmpContent.setLayoutData( gd );
 		}
 
-		Label lblAxis = new Label( cmpContent, SWT.NONE );
+		ScrolledComposite cmpScroll = new ScrolledComposite( cmpContent,
+				SWT.V_SCROLL );
+		{
+			GridData gd = new GridData( GridData.FILL_BOTH );
+			cmpScroll.setLayoutData( gd );
+
+			cmpScroll.setMinHeight( ( ChartUIUtil.getOrthogonalAxisNumber( getChart( ) ) + ( ChartUIUtil.is3DType( getChart( ) )
+					? 2 : 1 ) ) * 24 + 40 );
+			cmpScroll.setExpandVertical( true );
+			cmpScroll.setExpandHorizontal( true );
+		}
+
+		Composite cmpList = new Composite( cmpScroll, SWT.NONE );
+		{
+			GridLayout glContent = new GridLayout( COLUMN_NUMBER, false );
+			glContent.horizontalSpacing = 10;
+			cmpList.setLayout( glContent );
+
+			cmpScroll.setContent( cmpList );
+		}
+
+		Label lblAxis = new Label( cmpList, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -85,7 +117,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			lblAxis.setText( Messages.getString( "AxisSheetImpl.Label.Axis" ) ); //$NON-NLS-1$
 		}
 
-		Label lblVisible = new Label( cmpContent, SWT.NONE );
+		Label lblVisible = new Label( cmpList, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -94,7 +126,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			lblVisible.setText( Messages.getString( "AxisSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
 		}
 
-		Label lblType = new Label( cmpContent, SWT.NONE );
+		Label lblType = new Label( cmpList, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -103,7 +135,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			lblType.setText( Messages.getString( "AxisSheetImpl.Label.Type" ) ); //$NON-NLS-1$
 		}
 
-		Label lblColor = new Label( cmpContent, SWT.NONE );
+		Label lblColor = new Label( cmpList, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalAlignment = SWT.CENTER;
@@ -114,7 +146,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 
 		if ( ChartUIUtil.is3DType( getChart( ) ) )
 		{
-			Label lblRotation = new Label( cmpContent, SWT.NONE );
+			Label lblRotation = new Label( cmpList, SWT.NONE );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.BEGINNING;
@@ -129,7 +161,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		new AxisOptionChoser( ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) getChart( ) ),
 				Messages.getString( "AxisSheetImpl.Label.CategoryX" ), //$NON-NLS-1$
 				AngleType.X,
-				treeIndex++ ).placeComponents( cmpContent );
+				treeIndex++ ).placeComponents( cmpList );
 
 		int yaxisNumber = ChartUIUtil.getOrthogonalAxisNumber( getChart( ) );
 		for ( int i = 0; i < yaxisNumber; i++ )
@@ -137,7 +169,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			String text = Messages.getString( "AxisSheetImpl.Label.ValueY" ); //$NON-NLS-1$
 			new AxisOptionChoser( ChartUIUtil.getAxisYForProcessing( (ChartWithAxes) getChart( ),
 					i ),
-					yaxisNumber == 1 ? text : ( text + " - " + ( i + 1 ) ), AngleType.Y, treeIndex++ ).placeComponents( cmpContent ); //$NON-NLS-1$
+					yaxisNumber == 1 ? text : ( text + " - " + ( i + 1 ) ), AngleType.Y, treeIndex++ ).placeComponents( cmpList ); //$NON-NLS-1$
 		}
 
 		if ( ChartUIUtil.is3DType( getChart( ) ) )
@@ -145,7 +177,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			new AxisOptionChoser( ChartUIUtil.getAxisZForProcessing( (ChartWithAxes) getChart( ) ),
 					Messages.getString( "AxisSheetImpl.Label.AncillaryZ" ), //$NON-NLS-1$
 					AngleType.Z,
-					treeIndex++ ).placeComponents( cmpContent );
+					treeIndex++ ).placeComponents( cmpList );
 		}
 
 	}
