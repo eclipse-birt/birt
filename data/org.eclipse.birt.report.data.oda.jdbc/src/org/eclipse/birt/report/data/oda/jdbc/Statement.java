@@ -740,9 +740,9 @@ public class Statement implements IQuery
 	 * @param source
 	 * @return
 	 */
-	private String formatQueryText(String source)
+	private String formatQueryText( String source )
 	{
-		return source.replaceAll("\n"," ");
+		return source.trim( ).replaceAll( "\n", " " );
 	}
 	
 	/**
