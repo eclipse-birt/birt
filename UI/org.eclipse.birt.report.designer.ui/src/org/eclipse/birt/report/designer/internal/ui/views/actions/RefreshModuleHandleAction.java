@@ -82,7 +82,10 @@ public class RefreshModuleHandleAction extends AbstractViewAction
 			{
 				try
 				{
-					moduleHandle.reloadLibrary( libraries[i] );
+					if(moduleHandle.isInclude( libraries[i]))
+					{
+						moduleHandle.reloadLibrary( libraries[i] );
+					}					
 				}
 				catch ( SemanticException e )
 				{
