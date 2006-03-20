@@ -431,6 +431,10 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			if ( getListEditParts( ).size( ) == 1 )
 			{
 				createEditGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
+				Separator separator = new Separator( EditBindingAction.ID );
+				menuManager.add( separator );
+				menuManager.appendToGroup( EditBindingAction.ID,
+						getAction( EditBindingAction.ID ) );
 			}
 		}
 

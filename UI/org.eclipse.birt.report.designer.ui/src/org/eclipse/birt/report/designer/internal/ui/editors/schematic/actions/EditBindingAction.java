@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -62,6 +63,14 @@ public class EditBindingAction extends InsertRowAction
 			return (ReportItemHandle) getTableEditPart( ).getModel( );
 
 		}
+		
+		if ( getListEditPart( ) != null
+				&& getListEditPart( ).getModel( ) instanceof ReportItemHandle )
+		{
+			return (ReportItemHandle) getListEditPart( ).getModel( );
+
+		}
+
 		return null;
 	}
 
@@ -79,7 +88,10 @@ public class EditBindingAction extends InsertRowAction
 		// Get the first item in the list and pass the model object to the
 		// dialog
 		TableEditPart editPart = getTableEditPart( );
-		if ( editPart != null )
+		
+		ListEditPart listPart = getListEditPart( );
+		
+		if ( editPart != null || listPart!=null)
 		{
 			CommandStack stack = SessionHandleAdapter.getInstance( )
 					.getCommandStack( );
