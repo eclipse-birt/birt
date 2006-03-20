@@ -18,15 +18,21 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.wizards.SaveReportAsWizard;
 import org.eclipse.birt.report.designer.internal.ui.editors.wizards.SaveReportAsWizardDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -48,6 +54,8 @@ public class FileReportProvider implements IReportProvider
 {
 
 	private ModuleHandle model;
+	private static final String VERSION_MESSAGE = Messages
+			.getString( "TextPropertyDescriptor.Message.Version" ); //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -78,8 +86,15 @@ public class FileReportProvider implements IReportProvider
 				try
 				{
 					InputStream stream = new FileInputStream( path.toFile( ) );
+
+					Map properties = new HashMap( );
+					properties.put( IModuleModel.CREATED_BY_PROP, MessageFormat
+							.format( VERSION_MESSAGE, new String[]{
+									ReportPlugin.getVersion( ),
+									ReportPlugin.getBuildInfo( )} ) );
+					
 					model = SessionHandleAdapter.getInstance( ).init( fileName,
-							stream );
+							stream,properties );
 				}
 				catch ( DesignFileException e )
 				{
@@ -189,7 +204,7 @@ public class FileReportProvider implements IReportProvider
 		if ( element instanceof IPathEditorInput )
 		{
 			IEditorInput input = (IEditorInput) element;
-			
+
 			SaveReportAsWizardDialog dialog = new SaveReportAsWizardDialog(
 					UIUtil.getDefaultShell( ), new SaveReportAsWizard(
 							(ModuleHandle) model, input ) );
@@ -246,7 +261,9 @@ public class FileReportProvider implements IReportProvider
 		return new FileReportDocumentProvider( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#connect(org.eclipse.birt.report.model.api.ModuleHandle)
 	 */
 	public void connect( ModuleHandle handle )

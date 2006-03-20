@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
@@ -127,12 +128,29 @@ public class SessionHandleAdapter
 	 * @return
 	 * @throws DesignFileException
 	 */
+	public ModuleHandle init( String fileName, InputStream input,Map properties) throws DesignFileException
+	{
+		ModuleHandle handle = init(fileName,input);
+		
+		postInit( handle,properties );
+		setReportDesignHandle(handle);
+		return handle;
+	}
+	
+	
+	/**
+	 * Open a design/library file.
+	 * @param fileName
+	 * @param input
+	 * @return
+	 * @throws DesignFileException
+	 */
 	public ModuleHandle init( String fileName, InputStream input) throws DesignFileException
 	{
 		ModuleHandle handle = null;
 		handle = getSessionHandle( ).openModule( fileName, input );
 		
-		postInit( handle );
+		postInit( handle ,null);
 		setReportDesignHandle(handle);
 		return handle;
 	}
@@ -140,8 +158,24 @@ public class SessionHandleAdapter
 	/**
 	 * @param handle
 	 */
-	private void postInit( ModuleHandle handle )
+	private void postInit( ModuleHandle handle ,Map properties)
 	{
+		if(properties!= null && !properties.isEmpty( ))
+		{
+			String createInfo = model.getCreatedBy( );
+
+			if ( createInfo == null || createInfo.length( ) == 0 )
+			{
+				try
+				{
+					handle.initializeModule( properties );
+				}
+				catch ( SemanticException e )
+				{
+					//ignore
+				}
+			}
+		}
 		SimpleMasterPageHandle masterPage = null;
 		if ( handle.getMasterPages( ).getCount( ) == 0 )
 		{

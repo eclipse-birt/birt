@@ -16,16 +16,21 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.ide.wizards.SaveReportAsWizard;
 import org.eclipse.birt.report.designer.ui.ide.wizards.SaveReportAsWizardDialog;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -53,8 +58,12 @@ public class IDEFileReportProvider implements IReportProvider
 {
 
 	private ModuleHandle model = null;
+	private static final String VERSION_MESSAGE = Messages
+			.getString( "TextPropertyDescriptor.Message.Version" ); //$NON-NLS-1$
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#connect(org.eclipse.birt.report.model.api.ModuleHandle)
 	 */
 	public void connect( ModuleHandle model )
@@ -69,7 +78,7 @@ public class IDEFileReportProvider implements IReportProvider
 	 */
 	public ModuleHandle getReportModuleHandle( Object element )
 	{
-		return getReportModuleHandle( element,false );
+		return getReportModuleHandle( element, false );
 
 	}
 
@@ -272,8 +281,14 @@ public class IDEFileReportProvider implements IReportProvider
 					stream = ( (IStorageEditorInput) element ).getStorage( )
 							.getContents( );
 
+					Map properties = new HashMap( );
+					properties.put( IModuleModel.CREATED_BY_PROP, MessageFormat
+							.format( VERSION_MESSAGE, new String[]{
+									ReportPlugin.getVersion( ),
+									ReportPlugin.getBuildInfo( )} ) );
+
 					model = SessionHandleAdapter.getInstance( ).init( fileName,
-							stream );
+							stream ,properties);
 				}
 				catch ( CoreException e )
 				{

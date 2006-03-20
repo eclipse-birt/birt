@@ -34,7 +34,6 @@ import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -63,10 +62,7 @@ import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.SimpleMasterPage;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
-import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
@@ -2393,7 +2389,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		String name = null;
 		Object value = null;
-		ReportDesign design = (ReportDesign) getElement( );
+		Module module = (Module) getElement( );
 		Set propNames = properties.keySet( );
 
 		// initialize the properties for the reprot design.
@@ -2403,7 +2399,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 			name = (String) itre.next( );
 			value = PropertyValueValidationUtil.validateProperty( this, name,
 					properties.get( name ) );
-			design.setProperty( name, value );
+			module.setProperty( name, value );
 		}
 
 		isInitialized = true;
