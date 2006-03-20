@@ -56,15 +56,15 @@ class RDGroupUtil
 	private int leafGroupIdx = 0;
 
 	// provide service of current data cache
-	private CacheProvider smartCache;
+	private CacheProvider cacheProvider;
 	
 	/**
 	 * @param inputStream
-	 * @param rsMeta
-	 * @param rsCache
+	 * @param cacheProvider
 	 * @throws DataException
 	 */
-	RDGroupUtil( InputStream inputStream, CacheProvider smartCache ) throws DataException
+	RDGroupUtil( InputStream inputStream, CacheProvider cacheProvider )
+			throws DataException
 	{
 		try
 		{
@@ -93,7 +93,7 @@ class RDGroupUtil
 					"Group Info" );
 		}
 		
-		this.smartCache = smartCache;
+		this.cacheProvider = cacheProvider;
 	}
 	
 	// Helper function to find information about a group, given the group level
@@ -109,14 +109,14 @@ class RDGroupUtil
 
 	private void checkStarted( ) throws DataException
 	{
-		if ( smartCache == null )
+		if ( cacheProvider == null )
 			throw new DataException( ResourceConstants.NO_CURRENT_ROW );
 	}
 
 	private void checkHasCurrentRow( ) throws DataException
 	{
 		checkStarted( );
-		if ( smartCache.getCurrentIndex( ) >= smartCache.getCount( ) )
+		if ( cacheProvider.getCurrentIndex( ) >= cacheProvider.getCount( ) )
 			throw new DataException( ResourceConstants.NO_CURRENT_ROW );
 	}
 
@@ -138,7 +138,7 @@ class RDGroupUtil
 		checkHasCurrentRow( );
 
 		// Always return 0 for last row (which ends group 0 - the entire list)
-		if ( smartCache.getCurrentIndex( ) == smartCache.getCount( ) - 1 )
+		if ( cacheProvider.getCurrentIndex( ) == cacheProvider.getCount( ) - 1 )
 			return 0;
 
 		// 1 is returned if no groups are defined
@@ -146,7 +146,7 @@ class RDGroupUtil
 			return 1;
 
 		// Find outermost group that current row ends
-		int childGroupIdx = smartCache.getCurrentIndex( );
+		int childGroupIdx = cacheProvider.getCurrentIndex( );
 		int currentGroupIdx = leafGroupIdx;
 		int level;
 		for ( level = groups.length - 1; level >= 0; level-- )
@@ -187,7 +187,7 @@ class RDGroupUtil
 		checkHasCurrentRow( );
 
 		// Always return 0 for first row, which starts group 0 - the entire list
-		if ( smartCache.getCurrentIndex( ) == 0 )
+		if ( cacheProvider.getCurrentIndex( ) == 0 )
 			return 0;
 
 		// If no groups defined, return 1
@@ -195,7 +195,7 @@ class RDGroupUtil
 			return 1;
 
 		// Find outermost group that current row starts
-		int childGroupIdx = smartCache.getCurrentIndex( );
+		int childGroupIdx = cacheProvider.getCurrentIndex( );
 		int currentGroupIdx = leafGroupIdx;
 		int level;
 		for ( level = groups.length - 1; level >= 0; level-- )
@@ -255,9 +255,9 @@ class RDGroupUtil
 		{
 			// Move to last row in entire list
 			// Last row is in the last leaf group
-			int currentRowID = smartCache.getCount( ) - 1;
+			int currentRowID = cacheProvider.getCount( ) - 1;
 			
-			smartCache.moveTo( currentRowID );
+			cacheProvider.moveTo( currentRowID );
 			if ( groups.length > 0 )
 				leafGroupIdx = groups[groups.length - 1].size( ) - 1;
 			return;
@@ -273,29 +273,8 @@ class RDGroupUtil
 
 		// Move back one row and one leaf group
 		int currentRowID = findGroup( groups.length - 1, currentGroupIdx ).firstChild - 1;
-		smartCache.moveTo( currentRowID );
+		cacheProvider.moveTo( currentRowID );
 		leafGroupIdx = currentGroupIdx - 1;
-	}
-
-	/**
-	 * Gets the index of the current group at the specified group level.
-	 * The index starts at 0  
-	 */
-	int getCurrentGroupIndex( int groupLevel ) throws DataException
-	{
-		checkHasCurrentRow( );
-		if ( groupLevel < 0 || groupLevel > groups.length )
-			throw new DataException( ResourceConstants.INVALID_GROUP_LEVEL,
-					new Integer( groupLevel ) );
-
-		int currentGroupIdx = leafGroupIdx;
-		int level;
-		for ( level = groups.length - 1; level > groupLevel - 1; level-- )
-		{
-			GroupInfo currentGroup = findGroup( level, currentGroupIdx );
-			currentGroupIdx = currentGroup.parent;
-		}
-		return currentGroupIdx;
 	}
 	
 	/**
@@ -313,7 +292,7 @@ class RDGroupUtil
 			GroupInfo nextLeafGroup = findGroup( groups.length - 1,
 					leafGroupIdx + 1 );
 			if ( nextLeafGroup != null
-					&& smartCache.getCurrentIndex( ) >= nextLeafGroup.firstChild )
+					&& cacheProvider.getCurrentIndex( ) >= nextLeafGroup.firstChild )
 			{
 				// Move to next leaft group
 				++leafGroupIdx;

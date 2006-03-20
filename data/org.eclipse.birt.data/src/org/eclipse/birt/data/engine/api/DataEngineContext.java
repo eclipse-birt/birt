@@ -65,6 +65,9 @@ public class DataEngineContext
 	public final static int RESULTCLASS_STREAM = 12;
 	public final static int GROUP_INFO_STREAM = 13;
 	public final static int SUBQUERY_INFO_STREAM = 14;
+	
+	public final static int VERSION_INFO_STREAM = 21;
+	public final static int ROWLENGTH_INFO_STREAM = 22;
 
 	/**
 	 * When mode is MODE_GENERATION, the writer stream of archive will be used.
@@ -217,7 +220,7 @@ public class DataEngineContext
 
 		if ( mode == MODE_GENERATION )
 			return writer.exists( relativePath );
-		else if ( mode == MODE_GENERATION )
+		else if ( mode == MODE_PRESENTATION )
 			return reader.exists( relativePath );
 		else
 			return false;
@@ -263,6 +266,9 @@ public class DataEngineContext
 	 */
 	private static String getPath( String streamID, String subStreamID, int streamType )
 	{
+		if ( streamType == VERSION_INFO_STREAM )
+			return "/VesionInfo";
+		
 		String relativePath = null;
 		
 		String streamRoot = "/" + streamID + "/";
@@ -282,6 +288,9 @@ public class DataEngineContext
 				break;
 			case SUBQUERY_INFO_STREAM :
 				relativePath = streamRoot + "SubQueryInfo";
+				break;
+			case ROWLENGTH_INFO_STREAM :
+				relativePath = streamRoot + "RowLengthInfo";
 				break;
 			default :
 				assert false;

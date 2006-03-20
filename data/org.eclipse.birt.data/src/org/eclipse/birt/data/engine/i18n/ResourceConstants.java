@@ -124,6 +124,9 @@ public class ResourceConstants
 	public final static String RD_EXPR_NULL_ERROR = "data.engine.NullExpr";
 	public final static String RD_EXPR_INVALID_ERROR = "data.engine.InValidExpr";
 	
+	public final static String INVALID_ROW_INDEX = "data.engine.invalidRowIndex";
+	public final static String BACKWARD_SEEK_ERROR = "data.engine.backwardSeekError";
+	
 	// other error
 	public final static String SCRIPT_EVAL_ERROR = "data.engine.ScriptEvalError";
 	public final static String PREPARED_QUERY_CLOSED = "data.engine.PreparedQueryClosed";	

@@ -157,6 +157,22 @@ public class ResultIterator implements IResultIterator
     	return this.getValueLoader( ).next( );
 	}
     
+    /*
+     * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowIndex()
+     */
+	public int getRowIndex( ) throws BirtException
+	{
+		return this.getValueLoader( ).getCurrentIndex( );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#moveTo(int)
+	 */
+	public void moveTo( int rowIndex ) throws BirtException
+	{
+		this.getValueLoader( ).moveTo( rowIndex );		
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getValue(java.lang.String)
 	 */

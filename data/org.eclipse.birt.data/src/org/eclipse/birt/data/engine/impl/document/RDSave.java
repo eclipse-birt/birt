@@ -11,6 +11,7 @@
 package org.eclipse.birt.data.engine.impl.document;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -48,9 +49,14 @@ public class RDSave
 	private int lastRowIndex;
 
 	//
-	private OutputStream outputStream;
-	private BufferedOutputStream bos;
-	private DataOutputStream dos;
+	private OutputStream rowOs;
+	private BufferedOutputStream rowBos;
+	private DataOutputStream rowDos;
+	
+	private OutputStream lenOs;
+	private BufferedOutputStream lenBos;
+	private DataOutputStream lenDos;
+	private byte[] zeroBytes;
 	
 	//
 	private Map exprValueMap = new HashMap( );
@@ -82,17 +88,25 @@ public class RDSave
 	 */
 	private void initSave( ) throws DataException
 	{
-		if ( dos == null )
+		if ( rowDos == null )
 		{
-			outputStream = context.getOutputStream( queryResultID,
+			VersionManager.setVersion( context, VersionManager.VERSION_2_1 );
+			
+			rowOs = context.getOutputStream( queryResultID,
 					subQueryID,
 					DataEngineContext.EXPR_VALUE_STREAM );
-			bos = new BufferedOutputStream( outputStream );
-			dos = new DataOutputStream( bos );
+			rowBos = new BufferedOutputStream( rowOs );
+			rowDos = new DataOutputStream( rowBos );
 
+			lenOs = context.getOutputStream( queryResultID,
+					subQueryID,
+					DataEngineContext.ROWLENGTH_INFO_STREAM );
+			lenBos = new BufferedOutputStream( lenOs );
+			lenDos = new DataOutputStream( lenBos );
+			
 			try
 			{
-				IOUtil.writeInt( dos, rowCount );
+				IOUtil.writeInt( rowDos, rowCount );
 			}
 			catch ( IOException e )
 			{
@@ -142,9 +156,13 @@ public class RDSave
 		{
 			saveExprOfCurrRow( lastRowIndex, currIndex );
 			
-			dos.close( );
-			bos.close( );
-			outputStream.close( );
+			rowDos.close( );
+			rowBos.close( );
+			rowOs.close( );
+			
+			lenDos.close( );
+			lenBos.close( );
+			lenOs.close( );
 		}
 		catch ( IOException e )
 		{
@@ -164,16 +182,29 @@ public class RDSave
 		Set keySet = exprValueMap.keySet( );
 		String[] exprIDs = (String[]) keySet.toArray( new String[0] );
 		
+		ByteArrayOutputStream tempBaos = new ByteArrayOutputStream( );
+		BufferedOutputStream tempBos = new BufferedOutputStream( tempBaos );
+		DataOutputStream tempDos = new DataOutputStream( tempBos );
+		
 		int size = exprIDs.length;
-		IOUtil.writeInt( dos, size );
+		IOUtil.writeInt( tempDos, size );
 		for ( int i = 0; i < size; i++ )
 		{
 			String exprID = exprIDs[i];
 			Object exprValue = exprValueMap.get( exprID );
 
-			IOUtil.writeString( dos, exprID );
-			IOUtil.writeObject( dos, exprValue );
+			IOUtil.writeString( tempDos, exprID );
+			IOUtil.writeObject( tempDos, exprValue );
 		}
+		tempDos.flush( );
+		
+		byte[] bytes = tempBaos.toByteArray( );
+		IOUtil.writeRawBytes( rowDos, bytes );
+		IOUtil.writeInt( lenDos, bytes.length );
+		
+		tempBaos = null;
+		tempBos = null;
+		tempDos = null;
 		
 		saveNullRowsBetween( lastRowIndex, currIndex );
 	}
@@ -185,9 +216,36 @@ public class RDSave
 	private void saveNullRowsBetween( int lastRowIndex, int currIndex )
 			throws IOException
 	{
+		initZeroBytes( );
+		
 		int gapRows = currIndex - lastRowIndex - 1;
 		for ( int i = 0; i < gapRows; i++ )
-			IOUtil.writeInt( dos, 0 );
+		{
+			IOUtil.writeRawBytes( rowDos, zeroBytes );
+			IOUtil.writeInt( lenDos, zeroBytes.length );
+		}
+	}
+	
+	/**
+	 * @throws IOException
+	 */
+	private void initZeroBytes( ) throws IOException
+	{
+		if ( this.zeroBytes == null )
+		{
+			ByteArrayOutputStream tempBaos = new ByteArrayOutputStream( );
+			BufferedOutputStream tempBos = new BufferedOutputStream( tempBaos );
+			DataOutputStream tempDos = new DataOutputStream( tempBos );
+
+			IOUtil.writeInt( tempDos, 0 );
+			tempDos.flush( );
+
+			this.zeroBytes = tempBaos.toByteArray( );
+
+			tempDos.close( );
+			tempBos.close( );
+			tempBaos.close( );
+		}
 	}
 	
 	/**

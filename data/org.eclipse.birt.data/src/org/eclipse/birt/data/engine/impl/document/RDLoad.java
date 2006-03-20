@@ -31,7 +31,7 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
  * Load data from input stream and it simulates the behavior of the
  * IResultIterator of odiLayer.
  */
-public class RDLoad
+class RDLoad
 {
 	//	 
 	private DataEngineContext context;
@@ -47,13 +47,17 @@ public class RDLoad
 
 	//
 	private int rowCount;
-	private int readPos = 0;
+	private int readIndex = 0;
 	private int currPos = 0;
 
-	private InputStream is;
-	private BufferedInputStream bis;
-	private DataInputStream dis;
+	private InputStream rowIs;
+	private BufferedInputStream rowBis;
+	private DataInputStream rowDis;
+	
+	private int[] rowLength;
 
+	private int version;
+	
 	// expression value map
 	private Map exprValueMap = new HashMap( );
 
@@ -70,6 +74,7 @@ public class RDLoad
 		this.context = context;
 		this.queryResultID = queryResultID;
 		this.subQueryName = subQueryName;
+		this.version = VersionManager.getVersion( context );
 
 		if ( subQueryName != null )
 			this.subQueryID = subQueryName
@@ -106,16 +111,16 @@ public class RDLoad
 	 */
 	boolean next( ) throws DataException
 	{
-		if ( dis == null )
+		if ( rowDis == null )
 		{
-			is = context.getInputStream( queryResultID,
+			rowIs = context.getInputStream( queryResultID,
 					subQueryID,
 					DataEngineContext.EXPR_VALUE_STREAM );
-			bis = new BufferedInputStream( is );
+			rowBis = new BufferedInputStream( rowIs );
 			try
 			{
-				dis = new DataInputStream( bis );
-				rowCount = IOUtil.readInt( dis );
+				rowDis = new DataInputStream( rowBis );
+				rowCount = IOUtil.readInt( rowDis );
 			}
 			catch ( IOException e )
 			{
@@ -123,16 +128,47 @@ public class RDLoad
 						e,
 						"result data" );
 			}
-
-			InputStream stream = context.getInputStream( queryResultID,
+			
+			if ( this.version == VersionManager.VERSION_2_1 )
+			{
+				InputStream lenIs = context.getInputStream( queryResultID,
+						subQueryID,
+						DataEngineContext.ROWLENGTH_INFO_STREAM );
+				BufferedInputStream lenBis = new BufferedInputStream( lenIs );
+				DataInputStream lenDis = new DataInputStream( lenBis );
+				this.rowLength = new int[rowCount];
+				try
+				{
+					for ( int i = 0; i < rowCount; i++ )
+						this.rowLength[i] = IOUtil.readInt( lenDis );
+				}
+				catch ( IOException e )
+				{
+					throw new DataException( ResourceConstants.RD_LOAD_ERROR,
+							e,
+							"row length" );
+				}
+				try
+				{
+					lenDis.close( );
+					lenBis.close( );
+					lenIs.close( );
+				}
+				catch ( IOException e )
+				{
+					// ignore it
+				}
+			}
+			
+			InputStream groupIs = context.getInputStream( queryResultID,
 					subQueryID,
 					DataEngineContext.GROUP_INFO_STREAM );
-			BufferedInputStream bis2 = new BufferedInputStream( stream );
-			rdGroupUtil = new RDGroupUtil( bis2, new CacheProviderImpl( this ) );
+			BufferedInputStream groupBis = new BufferedInputStream( groupIs );
+			rdGroupUtil = new RDGroupUtil( groupBis, new CacheProviderImpl( this ) );
 			try
 			{
-				bis2.close( );
-				stream.close( );
+				groupBis.close( );
+				groupIs.close( );
 			}
 			catch ( IOException e )
 			{
@@ -170,30 +206,12 @@ public class RDLoad
 	{
 		try
 		{
-			if ( readPos < currPos )
+			if ( readIndex < currPos )
 			{
-				int exprCount;
-				int gapRows = currPos - readPos - 1;
-				for ( int j = 0; j < gapRows; j++ )
-				{
-					exprCount = IOUtil.readInt( dis );
-					for ( int i = 0; i < exprCount; i++ )
-					{
-						IOUtil.readString( dis );
-						IOUtil.readObject( dis );
-					}
-				}
-
-				exprValueMap.clear( );
-				exprCount = IOUtil.readInt( dis );
-				for ( int i = 0; i < exprCount; i++ )
-				{
-					String exprID = IOUtil.readString( dis );
-					Object exprValue = IOUtil.readObject( dis );
-					exprValueMap.put( exprID, exprValue );
-				}
+				this.skipTo( currPos - 1 );
+				this.loadCurrentRow( );
 			}
-			readPos = currPos;
+			readIndex = currPos;
 		}
 		catch ( IOException e )
 		{
@@ -208,6 +226,71 @@ public class RDLoad
 		return exprValueMap.get( expr.getID( ) );
 	}
 
+	/**
+	 * @param rowIndex
+	 */
+	void moveTo( int rowIndex ) throws DataException
+	{
+		if ( rowIndex < 0 || rowIndex >= this.rowCount )
+			throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
+					new Integer( rowIndex ) );
+		else if ( rowIndex < this.getCurrentIndex( ) )
+			throw new DataException( ResourceConstants.BACKWARD_SEEK_ERROR );
+		else if ( rowIndex == this.getCurrentIndex( ) )
+			return;
+
+		this.currPos = rowIndex + 1;
+	}
+	
+	/**
+	 * @param absoluteIndex
+	 * @throws IOException
+	 */
+	private void skipTo( int absoluteIndex ) throws IOException
+	{
+		if ( version == VersionManager.VERSION_2_0 )
+		{
+			int exprCount;
+			int gapRows = absoluteIndex - readIndex;
+			for ( int j = 0; j < gapRows; j++ )
+			{
+				exprCount = IOUtil.readInt( rowDis );
+				for ( int i = 0; i < exprCount; i++ )
+				{
+					IOUtil.readString( rowDis );
+					IOUtil.readObject( rowDis );
+				}
+			}
+		}
+		else
+		{
+			int skipBytesLen = 0;
+			int gapRows = absoluteIndex - readIndex;
+			for ( int j = 0; j < gapRows; j++ )
+				skipBytesLen += rowLength[readIndex + j];
+
+			if ( skipBytesLen > 0 )
+				this.rowDis.skipBytes( skipBytesLen );
+
+			readIndex = absoluteIndex;
+		}
+	}
+	
+	/**
+	 * @throws IOException
+	 */
+	private void loadCurrentRow( ) throws IOException
+	{
+		exprValueMap.clear( );
+		int exprCount = IOUtil.readInt( rowDis );
+		for ( int i = 0; i < exprCount; i++ )
+		{
+			String exprID = IOUtil.readString( rowDis );
+			Object exprValue = IOUtil.readObject( rowDis );
+			exprValueMap.put( exprID, exprValue );
+		}
+	}
+	
 	/**
 	 * @return
 	 * @throws DataException
@@ -254,11 +337,11 @@ public class RDLoad
 	{
 		try
 		{
-			if ( dis != null )
+			if ( rowDis != null )
 			{
-				dis.close( );
-				bis.close( );
-				is.close();
+				rowDis.close( );
+				rowBis.close( );
+				rowIs.close();
 			}
 		}
 		catch ( IOException e )

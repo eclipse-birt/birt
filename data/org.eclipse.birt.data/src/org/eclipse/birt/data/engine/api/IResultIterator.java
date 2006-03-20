@@ -18,7 +18,6 @@ import java.sql.Blob;
 import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -62,6 +61,31 @@ public interface IResultIterator
      * @throws 	BirtException if error occurs in Data Engine
      */
     public boolean next() throws BirtException;
+    
+	/**
+	 * Each row has its own index, which indicates this row position in the
+	 * result set. This method retrieves current row index. The row index is 0
+	 * based, and -1 is returned when there is no current row.
+	 * 
+	 * @since 2.1
+	 * @return row index of current row
+	 * @throws BirtException
+	 *             if error occurs in Data Engine
+	 */
+	public int getRowIndex( ) throws BirtException;
+
+	/**
+	 * Moves iterator to the row with given absolute index. Valid index must be
+	 * both not less than current row index and not great than the maximum row
+	 * index. Presently backward see is not supportted.
+	 * 
+	 * @since 2.1
+	 * @param rowIndex,
+	 *            which index needs to advance to
+	 * @throws BirtException,
+	 *             if rowIndex is invalid
+	 */
+	public void moveTo( int rowIndex ) throws BirtException;
 
     /**
      * Returns the value of a query result expression. 

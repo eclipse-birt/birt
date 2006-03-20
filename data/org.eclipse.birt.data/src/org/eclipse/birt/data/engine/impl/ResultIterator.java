@@ -199,7 +199,25 @@ public class ResultIterator implements IResultIterator
 		
 		return hasNext;
 	}
-
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowIndex()
+	 */
+	public int getRowIndex( ) throws BirtException
+	{
+		checkStarted( );
+		return odiResult.getCurrentResultIndex( );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#moveTo(int)
+	 */
+	public void moveTo( int rowIndex ) throws BirtException
+	{
+		checkStarted( );
+		throw new DataException( "unsupported in generation time" );
+	}
+	
 	/**
 	 * @param expr
 	 * @param odiResult
