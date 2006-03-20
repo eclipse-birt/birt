@@ -180,7 +180,22 @@ public class IOUtil
 	{
 		outputStream.writeLong( value );
 	}
-
+	
+	/**
+	 * Write a byte array to an output stream only with its raw content.
+	 * 
+	 * @param dos
+	 * @param bytes,
+	 *            it can not be null
+	 * @throws IOException
+	 */
+	public final static void writeRawBytes( DataOutputStream dos, byte[] bytes )
+			throws IOException
+	{
+		assert bytes != null;
+		dos.write( bytes );
+	}
+	
 	//------------for object read/write-------------------
 	
 	private static Map type2IndexMap;
