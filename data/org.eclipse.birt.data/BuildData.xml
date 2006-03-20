@@ -184,11 +184,10 @@
 			 		- ${plugin.version} the version of plugin exported
 	-->
 	<target name="Export">
-		<property file="META-INF/MANIFEST.MF" />
 		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
-	  	<copy todir="${export.dir}/${module.name}_${Bundle-Version}">
+	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
 	        <fileset dir="." 
-	        	includes="dte.jar, about.html, plugin.xml, .options, schema/**, META-INF/**"
+	        	includes="dte.jar, about.html, plugin.xml, .options, schema/**"
 	        />
 	    </copy>
 	</target>
@@ -418,7 +417,7 @@
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.report.data.oda.jdbc/plugin.xml" file="${oda.jdbc.dir}/plugin.xml"/>
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.report.data.oda.jdbc/plugin.properties" file="${oda.jdbc.dir}/plugin.properties"/>
 
-<!--		<echo message="${module.name} start call Jar task in ${oda.flatfile.dir}"/>		
+		<echo message="${module.name} start call Jar task in ${oda.flatfile.dir}"/>		
 		<ant dir="${oda.flatfile.dir}" antfile="BuildOdaFlatfile.xml" target="Jar" inheritall="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 			<property name="dtp.home" value="${dtp.home}" />
@@ -432,7 +431,7 @@
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.datatools.connectivity.oda.flatfile/plugin.properties" file="${dtp.oda-flatfile.dir}/plugin.properties"/>
 		<mkdir dir="${test.src}/plugins/org.eclipse.datatools.connectivity.oda.flatfile/META-INF" />
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.datatools.connectivity.oda.flatfile/META-INF/MANIFEST.MF" file="${dtp.oda-flatfile.dir}/META-INF/MANIFEST.MF"/>
--->	
+	
 		<echo message="${module.name} start call Jar task in ${testOdaDriver.dir}"/>		
 		<ant dir="${testOdaDriver.dir}" antfile="build.xml" target="build.jars" inheritall="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />

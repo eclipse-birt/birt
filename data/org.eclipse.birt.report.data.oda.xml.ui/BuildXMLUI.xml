@@ -138,13 +138,12 @@
 		 		- ${plugin.version} the version of plugin exported
 	 -->
 	<target name="Export">
-		<property file="META-INF/MANIFEST.MF" />
 		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
 		<antcall target="i18n"/>
-	  	<copy todir="${export.dir}/${module.name}_${Bundle-Version}">
+	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
 	        <fileset
 	        	dir="."
-	        	includes="*.jar,about.html,plugin.xml,plugin*.*,.options, META-INF/**"
+	        	includes="*.jar,about.html,plugin.xml,plugin*.*,.options"
 	        />
 	    </copy>
 	</target>
