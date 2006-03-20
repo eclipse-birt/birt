@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.tests.chart.interactivity;
 
-import java.util.Calendar;
+import com.ibm.icu.util.Calendar;
 
 import org.eclipse.birt.chart.datafeed.StockEntry;
 import org.eclipse.birt.chart.model.Chart;
@@ -231,7 +231,7 @@ public final class PrimitiveCharts
 		as.getTriggers( )
 		.add( TriggerImpl.create( TriggerCondition.ONMOUSEOVER_LITERAL,
 				ActionImpl.create( ActionType.SHOW_TOOLTIP_LITERAL,
-						TooltipValueImpl.create( 500, null ) ) ) );
+						TooltipValueImpl.create( 0, "abc\nedd" ) ) ) );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create();
 		yAxisPrimary.getSeriesDefinitions().add(sdY);
