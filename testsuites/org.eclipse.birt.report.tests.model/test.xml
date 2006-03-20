@@ -24,7 +24,7 @@
 	<property name="plugin.version" value="2.0.0" />
 	<property name="export.dir" location="export" />
 	
-	<property name="eclipse.home" location="." />
+	<property name="eclipse.home" location="d:/eclipseM5" />
 	<property name="dtp.home" location=".." />
 	
 	<property name="core.dir" location="..\org.eclipse.birt.core" />
@@ -44,6 +44,7 @@
 			<include name="*.jar" />
 		</fileset>	
 		<pathelement path="${test.build.dir}" />
+		<pathelement path="${test.build.dir}" />
 		<pathelement path="${core.dir}\core.jar" />
 		<pathelement path="${core.dir}\lib\js.jar" />
 		<pathelement path="${core.dir}\lib\junit.jar" />
@@ -56,6 +57,8 @@
 				<include name="org.eclipse.osgi_*/*.jar"/>
 				<include name="org.eclipse.core.runtime*.jar"/>
 				<include name="org.eclipse.osgi*.jar"/>
+			    <include name="com.ibm.icu_3.4.2.jar"/>
+			    <include name="org.eclipse.birt.report.model*/*.jar" />
 		</fileset>	
 		
 		<fileset dir="${module.dir}">
