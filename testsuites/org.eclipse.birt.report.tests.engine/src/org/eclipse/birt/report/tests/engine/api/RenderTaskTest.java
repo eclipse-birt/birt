@@ -674,6 +674,7 @@ public class RenderTaskTest extends EngineCase {
 			task.close();
 
 		} catch (Exception e) {
+			assertTrue(e.getMessage(), false);
 			e.printStackTrace();
 		}
 	}
@@ -942,7 +943,9 @@ public class RenderTaskTest extends EngineCase {
 			task.close();
 
 		} catch (Exception e) {
+			assertTrue(e.toString(), false);
 			e.printStackTrace();
+			
 		}
 	}
 
