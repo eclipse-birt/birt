@@ -31,6 +31,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -174,6 +175,12 @@ public class NewResourceFileDialog extends ElementTreeSelectionDialog
 		}
 
 		updateStatus( fCurrStatus );
+		
+		Button okButton = getOkButton();
+		if(okButton.getEnabled( ) == true && fCurrStatus.getCode( ) == IStatus.ERROR)
+		{
+			okButton.setEnabled( false );
+		}
 	}
 
 	/*
