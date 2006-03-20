@@ -154,7 +154,6 @@ public class ActionHandle extends StructureHandle
 		setProperty( Action.LINK_TYPE_MEMBER, type );
 	}
 
-
 	/**
 	 * Sets the format type of the action. The format type for action are
 	 * defined in DesignChoiceConstants and can be one of the following: *
@@ -165,14 +164,14 @@ public class ActionHandle extends StructureHandle
 	 * </ul>
 	 * 
 	 * @param type
-	 * 			the type of the action
+	 *            the type of the action
 	 * @throws SemanticException
 	 */
 	public void setFormatType( String type ) throws SemanticException
 	{
 		setProperty( Action.FORMAT_TYPE_MEMBER, type );
 	}
-	
+
 	/**
 	 * Gets the format type of the action. The format type for action are
 	 * defined in DesignChoiceConstants and can be one of the following: *
@@ -184,8 +183,9 @@ public class ActionHandle extends StructureHandle
 	 * 
 	 * @return the format type of the action
 	 */
-	public String getFormatType(){
-		
+	public String getFormatType( )
+	{
+
 		return getStringProperty( Action.FORMAT_TYPE_MEMBER );
 	}
 
@@ -530,5 +530,53 @@ public class ActionHandle extends StructureHandle
 
 		MemberHandle memberHandle = getMember( Action.SEARCH_MEMBER );
 		return memberHandle.iterator( );
+	}
+
+	/**
+	 * Sets target report file type for a drill-through action. The format type
+	 * for action are defined in DesignChoiceConstants and can be one of the
+	 * following: *
+	 * <p>
+	 * <ul>
+	 * <li><code>ACTION_TARGET_FILE_TYPE_REPORT_DESIGN</code>
+	 * <li><code>ACTION_TARGET_FILE_TYPE_REPORT_DOCUMENT</code>
+	 * </ul>
+	 * 
+	 * @param targetFileType
+	 *            the type of the target report file
+	 * @throws SemanticException
+	 *             if type of the target report file is not in the choice list.
+	 * @see #getTargetFileType()
+	 */
+
+	public void setTargetFileType( String targetFileType )
+			throws SemanticException
+	{
+		setProperty( Action.TARGET_FILE_TYPE_MEMBER, targetFileType );
+	}
+
+	/**
+	 * Gets target report file type for a drill-through action. The format type
+	 * for action are defined in DesignChoiceConstants and can be one of the
+	 * following: *
+	 * <p>
+	 * <ul>
+	 * <li><code>ACTION_TARGET_FILE_TYPE_REPORT_DESIGN</code>
+	 * <li><code>ACTION_TARGET_FILE_TYPE_REPORT_DOCUMENT</code>
+	 * </ul>
+	 * 
+	 * @return target report file type for a drill-through action
+	 */
+
+	public String getTargetFileType( )
+	{
+		String linkType = getLinkType( );
+		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK
+				.equalsIgnoreCase( linkType )
+				|| DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH
+						.equalsIgnoreCase( linkType ) )
+			return getStringProperty( Action.TARGET_FILE_TYPE_MEMBER );
+
+		return null;
 	}
 }

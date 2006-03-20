@@ -645,4 +645,13 @@ public interface DesignChoiceConstants
 
 	public static final String CHOICE_JOIN_OPERATOR = "joinOperator"; //$NON-NLS-1$
 	public static final String JOIN_OPERATOR_EQALS = "eq"; //$NON-NLS-1$
+	
+	/**
+	 * actionTargetFileType -- target type of the linked file
+	 */
+
+	public static final String CHOICE_ACTION_TARGET_FILE_TYPE = "actionTargetFileType"; //$NON-NLS-1$
+	public static final String ACTION_TARGET_FILE_TYPE_REPORT_DESIGN = "report-design"; //$NON-NLS-1$
+	public static final String ACTION_TARGET_FILE_TYPE_REPORT_DOCUMENT = "report-document"; //$NON-NLS-1$
+	
 }

@@ -111,6 +111,12 @@ public class Action extends PropertyStructure
 
 	public final static String FORMAT_TYPE_MEMBER = "formatType"; //$NON-NLS-1$
 
+	/**
+	 * Property name of target type of linked file.
+	 */
+
+	public final static String TARGET_FILE_TYPE_MEMBER = "targetFileType"; //$NON-NLS-1$
+
 	/*
 	 * (non-Javadoc)
 	 * 

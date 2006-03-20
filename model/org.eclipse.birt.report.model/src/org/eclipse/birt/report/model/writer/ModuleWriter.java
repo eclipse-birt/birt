@@ -2251,6 +2251,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		{
 			property( action, Action.URI_MEMBER );
 			property( action, Action.TARGET_WINDOW_MEMBER );
+			property( action, Action.TARGET_FILE_TYPE_MEMBER );
 		}
 		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
 				.equalsIgnoreCase( linkType ) )
@@ -2263,6 +2264,7 @@ public abstract class ModuleWriter extends ElementVisitor
 			property( action, Action.REPORT_NAME_MEMBER );
 			property( action, Action.TARGET_BOOKMARK_MEMBER );
 			property( action, Action.TARGET_WINDOW_MEMBER );
+			property( action, Action.TARGET_FILE_TYPE_MEMBER );
 			writeStructureList( action, Action.PARAM_BINDINGS_MEMBER );
 			writeStructureList( action, Action.SEARCH_MEMBER );
 		}
