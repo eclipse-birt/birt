@@ -267,7 +267,7 @@ public class DataEngineContext
 	private static String getPath( String streamID, String subStreamID, int streamType )
 	{
 		if ( streamType == VERSION_INFO_STREAM )
-			return "/VesionInfo";
+			return "/DataEngine/VesionInfo";
 		
 		String relativePath = null;
 		
