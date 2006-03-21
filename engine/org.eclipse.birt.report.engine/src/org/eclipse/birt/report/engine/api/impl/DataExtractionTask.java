@@ -35,9 +35,10 @@ import org.eclipse.birt.report.engine.api.ComponentID;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IResultSetItem;
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.dte.AbstractDataEngine;
 import org.eclipse.birt.report.engine.data.dte.DteDataEngine;
@@ -117,7 +118,7 @@ public class DataExtractionTask extends EngineTask
 	protected static Logger logger = Logger.getLogger( DteDataEngine.class
 			.getName( ) );
 	
-	public DataExtractionTask( ReportEngine engine, IReportRunnable runnable,
+	public DataExtractionTask( IReportEngine engine, IReportRunnable runnable,
 			ReportDocumentReader reader ) throws EngineException
 	{
 		super( engine, runnable );

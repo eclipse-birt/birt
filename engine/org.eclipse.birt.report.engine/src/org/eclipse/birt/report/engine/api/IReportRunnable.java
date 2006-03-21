@@ -83,5 +83,5 @@ public interface IReportRunnable {
 	 * 
 	 * @return the report engine
 	 */
-	public abstract ReportEngine getReportEngine();
+	public abstract IReportEngine getReportEngine();
 }

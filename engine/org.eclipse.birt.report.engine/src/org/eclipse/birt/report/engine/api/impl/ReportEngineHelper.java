@@ -25,10 +25,10 @@ import org.eclipse.birt.report.engine.api.IDataPreviewTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
-import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.parser.ReportParser;
@@ -51,7 +51,7 @@ public class ReportEngineHelper
 	/**
 	 * reference the the public report engine object
 	 */
-	private ReportEngine engine;
+	private IReportEngine engine;
 
 	/**
 	 * extension manager
@@ -64,7 +64,7 @@ public class ReportEngineHelper
 	 * @param engine
 	 *            the report engine
 	 */
-	public ReportEngineHelper( ReportEngine engine )
+	public ReportEngineHelper( IReportEngine engine )
 	{
 		this.engine = engine;
 		extensionMgr = ExtensionManager.getInstance( );

@@ -2,14 +2,14 @@
 <HTML>
 <HEAD><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>Emitters that Support Report Rendering</title>
-<style>@import url("file:/c:/eclipse/plugins/org.eclipse.sdk_3.1.0/book.css");</style>
-<style>@import url("file:/c:/eclipse/plugins/org.eclipse.platform.doc.isv_3.1.0/schema.css");</style>
+<style>@import url("file:/C:/eclipse/Eclipse 3.2/plugins/org.eclipse.sdk_3.2.0.v20060214/book.css");</style>
+<style>@import url("file:/C:/eclipse/Eclipse 3.2/configuration/org.eclipse.osgi/bundles/120/1/.cp/schema.css");</style>
 </HEAD>
 <BODY>
 <H1><CENTER>Emitters that Support Report Rendering</CENTER></H1>
 <p></p>
 <h6 class=CaptionFigColumn id=header>Identifier: </h6>org.eclipse.birt.report.engine.emitters<p></p>
-<h6 class=CaptionFigColumn id=header>Since: </h6>1.0
+<h6 class=CaptionFigColumn id=header>Since: </h6>2.0
 <p></p>
 
 <p>
@@ -36,7 +36,7 @@ an emitter that exports one or more output formats</p>
 <br>
 <ul class=ConfigMarkup id=attlistDesc>
 <li><b>id</b> - an optional identifier of the emitter extension</li>
-<li><b>class</b> - the java class that implements the <code>IReportEmitter</code> interface</li>
+<li><b>class</b> - the java class that implements the <code>IContentEmitter</code> interface</li>
 <li><b>format</b> - The output format that the emitter supports</li>
 <li><b>mimeType</b> - The MIME type for the supported output format</li>
 </ul>
@@ -93,12 +93,12 @@ allows a developer to define emitter for a report item. Used mainly for extended
 Notice that in this example, the same class is used for both PDF and FO format. BIRT currently uses FO to generate both FO and PDF output.
 <p></p>
 
-<h6 class=CaptionFigColumn id=header>API Information: </h6>The value of the class attribute for the emitter element must be the fully qualified name of a class that implement  <code>org.eclipse.birt.engine.extension.IReportEmitter</code>.<p>
+<h6 class=CaptionFigColumn id=header>API Information: </h6>The value of the class attribute for the emitter element must be the fully qualified name of a class that implement  <code>org.eclipse.birt.engine.emitter.IContentEmitter</code>.<p>
 The value of the emitterClass attribute for the reportItem element must be a fully  qualified name of a class that implements <code>org.eclipse.birt.engine.extension.IReportItemEmitter</code>.
 <p></p>
 
-<h6 class=CaptionFigColumn id=header>Supplied Implementation: </h6><code>org.eclipse.birt.report.engine.emitter.html</code> ---- An HTML emitter that supports report rendering to HTML format.
-<code>org.eclipse.birt.report.engine.emitter.fo</code> ---- An emitter that supports report rendering to FO format, as well as formats (such as PDF and postscript) that can be derived from FO.
+<h6 class=CaptionFigColumn id=header>Supplied Implementation: </h6><code>org.eclipse.birt.report.engine.emitter.html.HTMLReportEmitter</code> ---- An HTML emitter that supports report rendering to HTML format.
+<code>org.eclipse.birt.report.engine.layout.impl.ReportLayoutEngine</code> ---- An emitter that supports report rendering to PDF format.
 <p></p>
 
 <br>
@@ -106,7 +106,7 @@ The value of the emitterClass attribute for the reportItem element must be a ful
 Copyright (c) 2005 Actuate Corporation. All rights reserved. This program and 
 the accompanying materials are made available under the terms of the Eclipse 
 Public License v1.0 which accompanies this distribution, and is available at 
-http://www.eclipse.org/legal/epl-v10.html<br/><br/>
+http://www.eclipse.org/legal/epl-v10.html<br><br>
 
 Contributors: Actuate Corporation - initial API and implementation
 <p></p>

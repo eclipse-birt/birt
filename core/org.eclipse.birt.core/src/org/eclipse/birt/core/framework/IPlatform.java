@@ -15,20 +15,60 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * Defines the Platform interface that allows BIRT to be run in Eclipse and 
- * server environments 
+ * Defines the Platform interface that allows BIRT to be run in Eclipse and
+ * server environments
  * 
- * @version $Revision: 1.8 $ $Date: 2005/07/07 00:26:36 $
+ * @version $Revision: 1.9 $ $Date: 2005/07/09 06:52:17 $
  */
 public interface IPlatform
 {
+	static final String EXTENSION_POINT_FACTORY_SERVICE = "FactoryService";
+
 	/**
 	 * @return the global extension registry
 	 */
-	IExtensionRegistry getExtensionRegistry();
-	IBundle getBundle(String symblicName);
-	URL find(IBundle bundle, IPlatformPath path);
-	URL asLocalURL(URL url) throws IOException;
-	String getDebugOption(String name);
-	void initializeTracing(String pluginName);
+	IExtensionRegistry getExtensionRegistry( );
+
+	/**
+	 * 
+	 * @param symblicName
+	 * @return
+	 */
+	IBundle getBundle( String symblicName );
+
+	/**
+	 * 
+	 * @param bundle
+	 * @param path
+	 * @return
+	 */
+	URL find( IBundle bundle, IPlatformPath path );
+
+	/**
+	 * 
+	 * @param url
+	 * @return
+	 * @throws IOException
+	 */
+	URL asLocalURL( URL url ) throws IOException;
+
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	String getDebugOption( String name );
+
+	/**
+	 * 
+	 * @param pluginName
+	 */
+	void initializeTracing( String pluginName );
+
+	/**
+	 * 
+	 * @param factory
+	 * @return
+	 */
+	Object createFactoryObject( String factory );
 }

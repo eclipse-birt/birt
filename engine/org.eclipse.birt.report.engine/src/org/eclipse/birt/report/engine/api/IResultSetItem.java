@@ -8,32 +8,24 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-
 package org.eclipse.birt.report.engine.api;
 
+import org.eclipse.birt.data.engine.api.IResultMetaData;
 
-/**
- * default implementation for a status handler. Writes all status information
- * to console. 
- */
-public class DefaultStatusHandler implements IStatusHandler{
+public interface IResultSetItem {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IStatusHandler#initialize()
+	/**
+	 * return the result set name.
+	 * 
+	 * @return the result set name
 	 */
-	public void initialize() {
-	}
+	public String getResultSetName();
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IStatusHandler#finish()
+	/**
+	 * return the result meta data.
+	 * 
+	 * @return the result meta data
 	 */
-	public void finish() {
-	}
+	public IResultMetaData getResultMetaData();
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IStatusHandler#showStatus(java.lang.String)
-	 */
-	public void showStatus(String s) {
-		System.out.println(s);
-	}
 }

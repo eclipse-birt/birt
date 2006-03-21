@@ -14,8 +14,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.api.IImage;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -41,7 +41,7 @@ public class ReportRunnable implements IReportRunnable
 	/**
 	 * reference to report engine
 	 */
-	protected ReportEngine engine = null;
+	protected IReportEngine engine = null;
 
 	/**
 	 * constructor
@@ -166,14 +166,14 @@ public class ReportRunnable implements IReportRunnable
     /* (non-Javadoc)
      * @see org.eclipse.birt.report.engine.api.IReportRunnable#getReportEngine()
      */
-    public ReportEngine getReportEngine() {
+    public IReportEngine getReportEngine() {
         return engine;
     }
 
     /**
      * @param engine The engine to set.
      */
-    public void setReportEngine(ReportEngine engine) {
+    public void setReportEngine(IReportEngine engine) {
         this.engine = engine;
     }
 }

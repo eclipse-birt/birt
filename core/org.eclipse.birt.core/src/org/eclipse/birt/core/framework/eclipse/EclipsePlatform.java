@@ -31,16 +31,20 @@ import org.eclipse.birt.core.framework.IPlatform;
 import org.eclipse.birt.core.framework.IPlatformPath;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
 
 /**
  * 
- * @version $Revision: 1.8 $ $Date: 2005/07/07 00:26:36 $
+ * @version $Revision: 1.9 $ $Date: 2005/07/09 06:52:17 $
  */
 public class EclipsePlatform implements IPlatform
 {
 
-	public EclipsePlatform( )
+	BundleContext context;
+
+	public EclipsePlatform( BundleContext context )
 	{
+		this.context = context;
 	}
 
 	public IExtensionRegistry getExtensionRegistry( )
@@ -84,7 +88,11 @@ public class EclipsePlatform implements IPlatform
 	static IConfigurationElement wrap(
 			org.eclipse.core.runtime.IConfigurationElement object )
 	{
-		return new EclipseConfigurationElement( object );
+		if (object != null)
+		{
+			return new EclipseConfigurationElement( object );
+		}
+		return null;
 	}
 
 	static IConfigurationElement[] wrap(
@@ -104,7 +112,11 @@ public class EclipsePlatform implements IPlatform
 
 	static IExtensionPoint wrap( org.eclipse.core.runtime.IExtensionPoint object )
 	{
-		return new EclipseExtensionPoint( object );
+		if (object != null)
+		{
+			return new EclipseExtensionPoint( object );
+		}
+		return null;
 	}
 
 	static IExtensionPoint[] wrap(
@@ -124,7 +136,11 @@ public class EclipsePlatform implements IPlatform
 
 	static IExtension wrap( org.eclipse.core.runtime.IExtension object )
 	{
-		return new EclipseExtension( object );
+		if ( object != null )
+		{
+			return new EclipseExtension( object );
+		}
+		return null;
 	}
 
 	static IExtension[] wrap( org.eclipse.core.runtime.IExtension[] objects )
@@ -206,7 +222,7 @@ public class EclipsePlatform implements IPlatform
 					{
 						Map.Entry entry = (Map.Entry) entryIter.next( );
 						String option = (String) entry.getKey( );
-						if (!debugFlag.equals(option))
+						if ( !debugFlag.equals( option ) )
 						{
 							String value = org.eclipse.core.runtime.Platform
 									.getDebugOption( option );
@@ -321,4 +337,32 @@ public class EclipsePlatform implements IPlatform
 		return tracingHandler;
 	}
 
+	public Object createFactoryObject( String extensionId )
+	{
+		try
+		{
+			IExtensionRegistry registry = getExtensionRegistry( );
+
+			IExtension factoryExt = registry.getExtension(
+					"org.eclipse.birt.core",
+					IPlatform.EXTENSION_POINT_FACTORY_SERVICE, extensionId );
+			if ( factoryExt != null )
+			{
+				IConfigurationElement[] configs = factoryExt
+						.getConfigurationElements( );
+				if ( configs != null && configs.length > 0 )
+				{
+					IConfigurationElement config = configs[0];
+					Object factory = config.createExecutableExtension( "class" );
+					return factory;
+				}
+			}
+		}
+		catch ( Exception ex )
+		{
+			ex.printStackTrace( );
+		}
+		return null;
+
+	}
 }

@@ -11,34 +11,22 @@
 
 package org.eclipse.birt.core.framework;
 
-import java.io.InputStream;
-import java.net.URL;
-import java.util.List;
 
 /**
- * Defines an interface to access engine context 
+ * Defines an interface to access OSGi framework.
+ * The OSGi framewok is a folder in the disk which has following strcutre:
+ * platform
+ * 		/configuration/config.ini
+ * 		/plugins/
+ * 			plugins in the framework
+ * 			osgi.jar 
  */
 public interface IPlatformContext 
 {	
 	/**
-	 * Return all of the folders under homeFolder\subFolder as a string list.
-	 * @param homeFolder - the home folder
-	 * @param subFolder - a subFolder name under home folder
-	 * @return string list of all of the folders in homeFolder\subFolder. 
+	 * return the folder of the platform.
+	 * 
+	 * @return the folder represent the root of the platform.
 	 */
-	public List getFileList( String homeFolder, String subFolder, boolean includingFiles, boolean relativeFileList );
-	
-	/**
-	 * @param pluginFolder - the folder that contains the file.
-	 * @return the input stream of the file which is under the folder
-	 */
-	public InputStream getInputStream( String folder, String fileName );
-	
-	/**
-	 * @param folder - the folder that contains the file
-	 * @param fileName - the name of the file
-	 * @return the URL of the file. The URL will be used in URLClassLoader in the future.  
-	 */
-	public URL getURL( String folder, String fileName );
-	
+	public String getPlatform();
 }

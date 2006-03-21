@@ -49,8 +49,8 @@ import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -67,6 +67,7 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrapFactory;
 
 /**
@@ -76,7 +77,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.61 $ $Date: 2006/01/17 05:06:44 $
+ * @version $Revision: 1.62 $ $Date: 2006/02/24 12:46:04 $
  */
 public class ExecutionContext
 {
@@ -89,7 +90,7 @@ public class ExecutionContext
 
 	// engines used to create the context
 	/** the engine used to create this context */
-	private ReportEngine engine;
+	private IReportEngine engine;
 
 	/**
 	 * task ID string
@@ -235,7 +236,7 @@ public class ExecutionContext
 	/**
 	 * create a new context. Call close to finish using the execution context
 	 */
-	public ExecutionContext( ReportEngine engine, int taskID )
+	public ExecutionContext( IReportEngine engine, int taskID )
 	{
 		this.engine = engine;
 
@@ -243,10 +244,20 @@ public class ExecutionContext
 
 		locale = Locale.getDefault( );
 
+		ScriptableObject rootScope = null;
 		if ( engine != null )
 		{
-			scriptContext = new ScriptContext( engine.getRootScope( ) );
-		} else
+			Object scope = engine.getRootScope( );
+			if ( scope instanceof ScriptableObject )
+			{
+				rootScope = (ScriptableObject) scope;
+			}
+		}
+		if ( rootScope != null )
+		{
+			scriptContext = new ScriptContext( rootScope );
+		}
+		else
 		{
 			scriptContext = new ScriptContext( );
 		}
@@ -270,8 +281,7 @@ public class ExecutionContext
 
 	protected void initailizeScriptContext( Context cx, Scriptable scope )
 	{
-		scriptContext.getContext( ).setWrapFactory( new WrapFactory( )
-		{
+		scriptContext.getContext( ).setWrapFactory( new WrapFactory( ) {
 
 			protected IJavascriptWrapper coreWrapper = new CoreJavaScriptWrapper( );
 
@@ -298,7 +308,7 @@ public class ExecutionContext
 	 * 
 	 * @return the report engine used to create the context.
 	 */
-	public ReportEngine getEngine( )
+	public IReportEngine getEngine( )
 	{
 		return engine;
 	}
@@ -345,8 +355,9 @@ public class ExecutionContext
 		Object jsObject = scriptContext.javaToJs( object );
 		if ( jsObject instanceof Scriptable )
 		{
-			scriptContext.enterScope( ( Scriptable ) jsObject );
-		} else
+			scriptContext.enterScope( (Scriptable) jsObject );
+		}
+		else
 		{
 			scriptContext.enterScope( );
 		}
@@ -374,7 +385,7 @@ public class ExecutionContext
 			Iterator iter = map.entrySet( ).iterator( );
 			while ( iter.hasNext( ) )
 			{
-				Map.Entry entry = ( Map.Entry ) iter.next( );
+				Map.Entry entry = (Map.Entry) iter.next( );
 				Object keyObj = entry.getKey( );
 				Object value = entry.getValue( );
 				if ( keyObj != null )
@@ -421,13 +432,13 @@ public class ExecutionContext
 			Iterator iter = map.entrySet( ).iterator( );
 			while ( iter.hasNext( ) )
 			{
-				Map.Entry entry = ( Map.Entry ) iter.next( );
+				Map.Entry entry = (Map.Entry) iter.next( );
 				Object keyObj = entry.getKey( );
 				Object value = entry.getValue( );
 				if ( keyObj != null && value instanceof Serializable )
 				{
 					String key = keyObj.toString( );
-					registerGlobalBean( key, ( Serializable ) value );
+					registerGlobalBean( key, (Serializable) value );
 				}
 			}
 		}
@@ -500,7 +511,8 @@ public class ExecutionContext
 			try
 			{
 				return scriptContext.eval( expr, name, lineNo );
-			} catch ( Exception e )
+			}
+			catch ( Exception e )
 			{
 				// TODO eval may throw RuntimeException, which may also need
 				// logging. May need to log more info.
@@ -523,7 +535,8 @@ public class ExecutionContext
 		try
 		{
 			return getDataEngine( ).evaluate( expr );
-		} catch ( Throwable t )
+		}
+		catch ( Throwable t )
 		{
 			// May throw the run-time exception etc.
 			log.log( Level.SEVERE, t.getMessage( ), t );
@@ -576,7 +589,8 @@ public class ExecutionContext
 
 			return ScriptEvalUtil.evalConditionalExpr( testExprValue, expr
 					.getOperator( ), vv1, vv2 );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
 			log.log( Level.SEVERE, e.getMessage( ), e );
 			addException( new EngineException(
@@ -724,7 +738,7 @@ public class ExecutionContext
 	 */
 	public ReportDesignHandle getDesign( )
 	{
-		return ( ReportDesignHandle ) runnable.getDesignHandle( );
+		return (ReportDesignHandle) runnable.getDesignHandle( );
 	}
 
 	/**
@@ -789,7 +803,8 @@ public class ExecutionContext
 			byte[] script = out.toByteArray( );
 			execute( new String( script, "UTF-8" ), fileName, 1 ); //$NON-NLS-1$
 			in.close( );
-		} catch ( IOException ex )
+		}
+		catch ( IOException ex )
 		{
 			log.log( Level.SEVERE,
 					"loading external script file " + fileName + " failed.", //$NON-NLS-1$ //$NON-NLS-2$
@@ -827,7 +842,7 @@ public class ExecutionContext
 	public void pushContent( IContent obj )
 	{
 		reportContents.push( obj );
-		//newScope( obj );
+		// newScope( obj );
 	}
 
 	/**
@@ -835,8 +850,8 @@ public class ExecutionContext
 	 */
 	public IContent popContent( )
 	{
-		//exitScope( );
-		return ( IContent ) reportContents.pop( );
+		// exitScope( );
+		return (IContent) reportContents.pop( );
 	}
 
 	/**
@@ -848,7 +863,7 @@ public class ExecutionContext
 		{
 			return null;
 		}
-		return ( IContent ) reportContents.peek( );
+		return (IContent) reportContents.peek( );
 	}
 
 	/**
@@ -864,7 +879,7 @@ public class ExecutionContext
 	 */
 	public DesignElementHandle popHandle( )
 	{
-		return ( DesignElementHandle ) reportHandles.pop( );
+		return (DesignElementHandle) reportHandles.pop( );
 	}
 
 	/**
@@ -876,7 +891,7 @@ public class ExecutionContext
 		{
 			return null;
 		}
-		return ( DesignElementHandle ) reportHandles.peek( );
+		return (DesignElementHandle) reportHandles.peek( );
 	}
 
 	/**
@@ -894,10 +909,11 @@ public class ExecutionContext
 
 			ReportItemDesign design = null;
 			if ( content != null )
-				design = ( ReportItemDesign ) content.getGenerateBy( );
+				design = (ReportItemDesign) content.getGenerateBy( );
 
 			handle = design == null ? null : design.getHandle( );
-		} else
+		}
+		else
 			handle = getHandle( );
 		addException( handle, ex );
 	}
@@ -906,7 +922,7 @@ public class ExecutionContext
 
 	public void addException( DesignElementHandle element, BirtException ex )
 	{
-		ElementExceptionInfo exInfo = ( ElementExceptionInfo ) elementExceptions
+		ElementExceptionInfo exInfo = (ElementExceptionInfo) elementExceptions
 				.get( element );
 		if ( exInfo == null )
 		{
@@ -1005,7 +1021,7 @@ public class ExecutionContext
 	{
 		this.runnable = runnable;
 
-		ReportDesignHandle reportDesign = ( ReportDesignHandle ) runnable
+		ReportDesignHandle reportDesign = (ReportDesignHandle) runnable
 				.getDesignHandle( );
 		scriptContext.registerBean( "design", new ReportDesign( reportDesign ) );
 	}
@@ -1054,14 +1070,14 @@ public class ExecutionContext
 		{
 			for ( int i = 0; i < exList.size( ); i++ )
 			{
-				BirtException err = ( BirtException ) exList.get( i );
+				BirtException err = (BirtException) exList.get( i );
 				if ( e.getErrorCode( ) != null
 						&& e.getErrorCode( ).equals( err.getErrorCode( ) )
 						&& e.getLocalizedMessage( ) != null
 						&& e.getLocalizedMessage( ).equals(
 								err.getLocalizedMessage( ) ) )
 				{
-					countList.set( i, new Integer( ( ( Integer ) countList
+					countList.set( i, new Integer( ( (Integer) countList
 							.get( i ) ).intValue( ) + 1 ) );
 					return;
 				}
@@ -1223,7 +1239,7 @@ public class ExecutionContext
 	 */
 	public StringFormatter getStringFormatter( String value )
 	{
-		StringFormatter fmt = ( StringFormatter ) stringFormatters.get( value );
+		StringFormatter fmt = (StringFormatter) stringFormatters.get( value );
 		if ( fmt == null )
 		{
 			fmt = new StringFormatter( value, locale );
@@ -1241,7 +1257,7 @@ public class ExecutionContext
 	 */
 	public NumberFormatter getNumberFormatter( String value )
 	{
-		NumberFormatter fmt = ( NumberFormatter ) numberFormatters.get( value );
+		NumberFormatter fmt = (NumberFormatter) numberFormatters.get( value );
 		if ( fmt == null )
 		{
 			fmt = new NumberFormatter( value, locale );
@@ -1259,7 +1275,7 @@ public class ExecutionContext
 	 */
 	public DateFormatter getDateFormatter( String value )
 	{
-		DateFormatter fmt = ( DateFormatter ) dateFormatters.get( value );
+		DateFormatter fmt = (DateFormatter) dateFormatters.get( value );
 		if ( fmt == null )
 		{
 			fmt = new DateFormatter( value, locale );
@@ -1335,7 +1351,7 @@ public class ExecutionContext
 	{
 		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
 		{
-			HTMLRenderOption htmlOption = ( HTMLRenderOption ) renderOption;
+			HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
 			{
 				if ( htmlOption.getActionHandle( ) != null )
 				{
@@ -1352,7 +1368,7 @@ public class ExecutionContext
 				Object htmlEmitterConfig = emitterConfigs.get( "html" );
 				if ( htmlEmitterConfig instanceof HTMLEmitterConfig )
 				{
-					HTMLEmitterConfig htmlConfig = ( HTMLEmitterConfig ) htmlEmitterConfig;
+					HTMLEmitterConfig htmlConfig = (HTMLEmitterConfig) htmlEmitterConfig;
 					return htmlConfig.getActionHandler( );
 				}
 			}
@@ -1361,18 +1377,19 @@ public class ExecutionContext
 	}
 
 	public static ClassLoader getCustomClassLoader( String classPathKey,
-			Map cache)
+			Map cache )
 	{
-		return getCustomClassLoader(classPathKey, cache, null);
+		return getCustomClassLoader( classPathKey, cache, null );
 	}
+
 	public static ClassLoader getCustomClassLoader( String classPathKey,
-			Map cache, ClassLoader parent)
+			Map cache, ClassLoader parent )
 	{
 		Object o = null;
 		if ( cache != null )
 			o = cache.get( classPathKey );
 		if ( o != null )
-			return ( ClassLoader ) o;
+			return (ClassLoader) o;
 		String classPath = System.getProperty( classPathKey );
 		if ( classPath == null || classPath.length( ) == 0 )
 			return null;
@@ -1388,18 +1405,20 @@ public class ExecutionContext
 				try
 				{
 					l.add( file.toURL( ) );
-				} catch ( MalformedURLException e )
+				}
+				catch ( MalformedURLException e )
 				{
 					e.printStackTrace( );
 				}
 			}
-			urls = ( URL[] ) l.toArray( new URL[l.size( )] );
+			urls = (URL[]) l.toArray( new URL[l.size( )] );
 		}
 
 		if ( urls != null )
 		{
-			ClassLoader cl = new URLClassLoader( urls, parent==null? ExecutionContext.class
-					.getClassLoader( ):parent );
+			ClassLoader cl = new URLClassLoader( urls, parent == null
+					? ExecutionContext.class.getClassLoader( )
+					: parent );
 			if ( cache != null )
 				cache.put( classPathKey, cl );
 			return cl;
@@ -1407,8 +1426,9 @@ public class ExecutionContext
 		return null;
 	}
 
-	public ClassLoader getCustomClassLoader( String classPathKey, ClassLoader parent )
+	public ClassLoader getCustomClassLoader( String classPathKey,
+			ClassLoader parent )
 	{
-		return getCustomClassLoader( classPathKey, classLoaderCache,parent );
+		return getCustomClassLoader( classPathKey, classLoaderCache, parent );
 	}
 }

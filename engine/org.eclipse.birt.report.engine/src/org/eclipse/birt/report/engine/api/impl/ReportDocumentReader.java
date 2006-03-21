@@ -27,8 +27,8 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.presentation.PageHint;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
@@ -42,7 +42,7 @@ public class ReportDocumentReader
 	static private Logger logger = Logger.getLogger( ReportDocumentReader.class
 			.getName( ) );
 
-	private ReportEngine engine;
+	private IReportEngine engine;
 	private IDocArchiveReader archive;
 	private String designName;
 	private IReportRunnable reportRunnable;
@@ -55,7 +55,7 @@ public class ReportDocumentReader
 	/** tocId, TOCNode map */
 	private HashMap tocMap;
 
-	public ReportDocumentReader( ReportEngine engine, IDocArchiveReader archive )
+	public ReportDocumentReader( IReportEngine engine, IDocArchiveReader archive )
 	{
 		this.engine = engine;
 		this.archive = archive;

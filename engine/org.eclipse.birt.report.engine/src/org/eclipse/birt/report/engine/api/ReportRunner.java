@@ -26,11 +26,10 @@ import java.util.logging.Logger;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
-import org.eclipse.birt.core.archive.FileArchiveWriter;
-import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.IPlatformContext;
+import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.framework.PlatformFileContext;
 
 /**
@@ -41,7 +40,7 @@ import org.eclipse.birt.core.framework.PlatformFileContext;
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
  * 
- * @version $Revision: 1.16 $ $Date: 2005/12/20 23:58:55 $
+ * @version $Revision: 1.17 $ $Date: 2006/02/15 09:53:55 $
  */
 public class ReportRunner
 {
@@ -97,7 +96,7 @@ public class ReportRunner
 	/**
 	 * engine used to execute the tasks.
 	 */
-	private ReportEngine engine;
+	private IReportEngine engine;
 
 	/**
 	 * Constructor of ReportRunner
@@ -108,14 +107,6 @@ public class ReportRunner
 	protected ReportRunner( String[] args )
 	{
 		this.args = (String[]) args.clone( );
-		EngineConfig config = new EngineConfig( );
-		IPlatformContext context = new PlatformFileContext( );
-		config.setEngineContext( context );
-		engine = new ReportEngine( config );
-
-		// JRE default level is INFO, which may reveal too much internal logging
-		// information.
-		engine.changeLogLevel( Level.WARNING );
 	}
 
 	/**
@@ -143,6 +134,22 @@ public class ReportRunner
 		}
 		try
 		{
+			// startup the platform
+			if ( engine == null )
+			{
+				EngineConfig config = new EngineConfig( );
+				IPlatformContext context = new PlatformFileContext( );
+				Platform.startup( context );
+				IReportEngineFactory factory = (IReportEngineFactory) Platform
+						.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
+				engine = factory.createReportEngine( config );
+
+				// JRE default level is INFO, which may reveal too much internal
+				// logging
+				// information.
+				engine.changeLogLevel( Level.WARNING );
+			}
+
 			// Process command line arguments
 			parseOptions( );
 			if ( "Run".equalsIgnoreCase( mode ) )
@@ -162,6 +169,10 @@ public class ReportRunner
 		{
 			logger.log( Level.SEVERE, "exception in parsing the paramters", ex );
 			return -1;
+		}
+		finally
+		{
+			Platform.shutdown( );
 		}
 
 	}
@@ -258,20 +269,8 @@ public class ReportRunner
 			// set the application context
 			task.setAppContext( new HashMap( ) );
 
-			// open the output archive
-			IDocArchiveWriter archive = null;
-			try 
-			{
-				archive = new FileArchiveWriter( targetFile );
-			}
-			catch ( IOException e )
-			{
-				logger.log( Level.SEVERE, "Can't open file: " + targetFile ); //$NON-NLS-1
-				return -1;
-			}
-
 			// run the task to create the report document
-			task.run( archive );
+			task.run( targetFile );
 
 			// close the task.
 			task.close( );
@@ -764,9 +763,11 @@ public class ReportRunner
 		}
 		else if ( !targetFile.toLowerCase( ).endsWith( fileExt.toLowerCase( ) ) )
 		{
-			targetFile = targetFile + File.separatorChar + designFileName + fileExt;
+			targetFile = targetFile + File.separatorChar + designFileName
+					+ fileExt;
 			File file = new File( targetFile );
-			if ( !file.getParentFile( ).exists( ) ) {
+			if ( !file.getParentFile( ).exists( ) )
+			{
 				file.getParentFile( ).mkdir( );
 			}
 		}

@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
-import com.ibm.icu.util.ULocale;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -28,8 +27,8 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.report.engine.api.FORenderOption;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IRenderOption;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
@@ -41,6 +40,8 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Defines an engine task that could be executed, debugged (runs step by step),
@@ -62,7 +63,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * a reference to the report engine
 	 */
-	protected ReportEngine engine;
+	protected IReportEngine engine;
 
 	/**
 	 * Comment for <code>locale</code>
@@ -111,7 +112,7 @@ public abstract class EngineTask implements IEngineTask
 	 *            that are written by those who embeds engine in their
 	 *            applications
 	 */
-	protected EngineTask( ReportEngine engine, IReportRunnable runnable )
+	protected EngineTask( IReportEngine engine, IReportRunnable runnable )
 	{
 		taskID = id++;
 
@@ -212,7 +213,7 @@ public abstract class EngineTask implements IEngineTask
 		return appContext;
 	}
 
-	protected void setReportEngine( ReportEngine engine )
+	protected void setReportEngine( IReportEngine engine )
 	{
 		this.engine = engine;
 	}
@@ -222,7 +223,7 @@ public abstract class EngineTask implements IEngineTask
 	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IEngineTask#getEngine()
 	 */
-	public ReportEngine getEngine( )
+	public IReportEngine getEngine( )
 	{
 		return engine;
 	}
@@ -507,7 +508,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.30 $ $Date: 2006/01/11 06:29:02 $
+	 * @version $Revision: 1.31 $ $Date: 2006/03/08 02:44:19 $
 	 */
 	static abstract class ParameterVisitor
 	{

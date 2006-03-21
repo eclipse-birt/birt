@@ -61,7 +61,7 @@ public interface IEngineTask {
 	 * returns the report engine object
 	 * @return the engine object
 	 */
-	public abstract ReportEngine getEngine();
+	public abstract IReportEngine getEngine();
 	
 	/**
 	 * defines an additional Java object that is exposed to BIRT scripting at a per-task level

@@ -162,6 +162,15 @@ public class EngineConfig {
     	configObjects.put(LOG_LEVEL, level);
     }
 
+    public Level getLogLevel()
+    {
+    	return (Level)configObjects.get( LOG_LEVEL );
+    }
+    
+    public String getLogDirectory()
+    {
+    	return (String)configObjects.get( LOG_DESTINATION );
+    }
 	/**
 	 * gets a map for emitter configuration objects
 	 * 
@@ -192,13 +201,34 @@ public class EngineConfig {
 		return (String)configObjects.get(TEMP_DIR);
 	}
 	
+	/**
+	 * set the framework context
+	 * @param context the platform context
+	 * @deprecated use setPlatformContext instead.
+	 */
 	public void setEngineContext( IPlatformContext context )
 	{
 		this.context = context;
 	}
 	
+	/**
+	 * set the framework context
+	 * @return context, the framework context
+	 * @deprecated use getPlatformContext instead
+	 */
 	public IPlatformContext getServletContext()
 	{
 		return context;
 	}
+	
+	public void setPlatformContext(IPlatformContext context)
+	{
+		this.context = context;
+	}
+	
+	public IPlatformContext getPlatformContext()
+	{
+		return this.context;
+	}
+	
 }

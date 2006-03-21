@@ -9,28 +9,63 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.engine.api;
+package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.InputStream;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IDataExtractionTask;
+import org.eclipse.birt.report.engine.api.IDataPreviewTask;
+import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
+import org.eclipse.birt.report.engine.api.IRenderTask;
+import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
+import org.eclipse.birt.report.engine.api.IRunTask;
+import org.eclipse.birt.report.engine.api.IStatusHandler;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ScriptableObject;
 
 /**
- * This is a wrapper class for the IReportEngine. 
- * The new user should use the IReportEngineFactory to create the IReportEngine
- * instead of use this class directly.
- * @see org.eclipes.birt.report.engine.api.ReportRunner
- * @deprecated BIRT 2.1
+ * A report engine provides an entry point for reporting functionalities. It is
+ * where the report generation and rendering process are globally customized. It
+ * is also the place where engine statistics are collected. Through report
+ * engine, reports can be generated and rendered to different output formats.
+ * Queries can also be executed for preview purpose without involving a full
+ * report generation.
+ * <p>
+ * Engine supports running different types of tasks. Example tasks include
+ * running a report design to generate a report instance file, rendering a
+ * report instance to output format, running a report directly to output,
+ * running a dataset for preview, seaching a report, etc.
  */
 
 public class ReportEngine implements IReportEngine
 {
 
+	protected static Logger logger = Logger.getLogger( ReportEngine.class
+			.getName( ) );
+
 	/**
-	 * 
+	 * engine configuration object
 	 */
-	protected IReportEngine engine;
+	protected EngineConfig config;
+
+	/**
+	 * A helper object to carry out most ReportEngine jobs
+	 */
+	protected ReportEngineHelper helper;
+
+	/**
+	 * root script scope. contains objects shared by the whole engine.
+	 */
+	protected ScriptableObject rootScope;
 
 	/**
 	 * Constructor. If config is null, engine derives BIRT_HOME from the
@@ -44,18 +79,68 @@ public class ReportEngine implements IReportEngine
 	 */
 	public ReportEngine( EngineConfig config )
 	{
-		Platform.initialize( config.getPlatformContext( ) );
+		this.config = config;
 
-		Object factory = Platform
-				.createFactoryObject(  IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
-		if ( factory instanceof IReportEngineFactory )
+		this.helper = new ReportEngineHelper( this );
+		setupLogging( );
+		setupScriptScope( );
+
+	}
+
+	/**
+	 * set up engine logging
+	 */
+	private void setupLogging( )
+	{
+		if ( config != null )
 		{
-			engine = ( (IReportEngineFactory) factory )
-					.createReportEngine( config );
+			String dest = (String) config.getLogDirectory( );
+
+			if ( dest != null )
+			{
+				Level level = (Level) config.getLogLevel( );
+				if ( level == null )
+					level = Level.WARNING;
+				helper.setupLogging( dest, level );
+			}
 		}
-		if ( engine == null )
+	}
+
+	/**
+	 * register globally available script functions
+	 */
+	private void setupScriptScope( )
+	{
+		if ( config != null )
 		{
-			System.out.println( "Can't load the report engine" );
+			Context cx = Context.enter( );
+			try
+			{
+				rootScope = cx.initStandardObjects( null, true );
+				registerBeans( rootScope, config.getConfigMap( ) );
+				registerBeans( rootScope, config.getScriptObjects( ) );
+				IStatusHandler handler = config.getStatusHandler( );
+				if ( handler != null )
+				{
+					handler.initialize( );
+					rootScope.put( "_statusHandle", rootScope, handler );
+					cx
+							.evaluateString(
+									rootScope,
+									"function writeStatus(msg) { _statusHandle.showStatus(msg); }",
+									"<inline>", 0, null );
+				}
+			}
+			catch ( Exception ex )
+			{
+				rootScope = null;
+				logger.log( Level.INFO,
+						"Error occurs while initialze script scope", ex );
+			}
+			finally
+			{
+				Context.exit( );
+			}
 		}
 	}
 
@@ -66,7 +151,30 @@ public class ReportEngine implements IReportEngine
 	 */
 	public Object getRootScope( )
 	{
-		return engine.getRootScope( );
+		return rootScope;
+	}
+
+	/**
+	 * register the map entry into script object.
+	 * 
+	 * @param scope
+	 *            script scope to be added.
+	 * @param map
+	 *            map
+	 */
+	private void registerBeans( ScriptableObject scope, Map map )
+	{
+		Iterator iter = map.entrySet( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			Map.Entry entry = (Map.Entry) iter.next( );
+			if ( entry.getKey( ) != null )
+			{
+				scope
+						.put( entry.getKey( ).toString( ), scope, entry
+								.getValue( ) );
+			}
+		}
 	}
 
 	/**
@@ -77,7 +185,8 @@ public class ReportEngine implements IReportEngine
 	 */
 	public void changeLogLevel( Level newLevel )
 	{
-		engine.changeLogLevel( newLevel );
+		if ( newLevel != null )
+			helper.changeLogLevel( newLevel );
 	}
 
 	/**
@@ -87,7 +196,7 @@ public class ReportEngine implements IReportEngine
 	 */
 	public EngineConfig getConfig( )
 	{
-		return engine.getConfig( );
+		return config;
 	}
 
 	/**
@@ -106,7 +215,7 @@ public class ReportEngine implements IReportEngine
 	public IReportRunnable openReportDesign( String designName )
 			throws EngineException
 	{
-		return engine.openReportDesign( designName );
+		return helper.openReportDesign( designName );
 	}
 
 	/**
@@ -125,13 +234,13 @@ public class ReportEngine implements IReportEngine
 	public IReportRunnable openReportDesign( InputStream designStream )
 			throws EngineException
 	{
-		return engine.openReportDesign( designStream );
+		return helper.openReportDesign( designStream );
 	}
 
 	public IReportRunnable openReportDesign( String name,
 			InputStream designStream ) throws EngineException
 	{
-		return engine.openReportDesign( name, designStream );
+		return helper.openReportDesign( name, designStream );
 	}
 
 	/**
@@ -145,7 +254,7 @@ public class ReportEngine implements IReportEngine
 	public IRunAndRenderTask createRunAndRenderTask(
 			IReportRunnable reportRunnable )
 	{
-		return engine.createRunAndRenderTask( reportRunnable );
+		return helper.createRunAndRenderTask( reportRunnable );
 	}
 
 	/**
@@ -158,13 +267,13 @@ public class ReportEngine implements IReportEngine
 	public IGetParameterDefinitionTask createGetParameterDefinitionTask(
 			IReportRunnable reportRunnable )
 	{
-		return engine.createGetParameterDefinitionTask( reportRunnable );
+		return helper.createGetParameterDefinitionTask( reportRunnable );
 	}
 
 	public IDataPreviewTask createDataPreviewTask(
 			IReportRunnable reportRunnable )
 	{
-		return engine.createDataPreviewTask( reportRunnable );
+		return helper.createDataPreviewTask( reportRunnable );
 	}
 
 	/**
@@ -176,7 +285,7 @@ public class ReportEngine implements IReportEngine
 	 */
 	public String[] getSupportedFormats( )
 	{
-		return engine.getSupportedFormats( );
+		return helper.getSupportedFormats( );
 	}
 
 	/**
@@ -192,7 +301,7 @@ public class ReportEngine implements IReportEngine
 	 */
 	public String getMIMEType( String format )
 	{
-		return engine.getMIMEType( format );
+		return helper.getMIMEType( format );
 	}
 
 	/**
@@ -200,7 +309,17 @@ public class ReportEngine implements IReportEngine
 	 */
 	public void destroy( )
 	{
-		engine.destroy( );
+		helper.stopLogging( );
+		rootScope = null;
+		helper = null;
+		if ( config != null )
+		{
+			IStatusHandler handler = config.getStatusHandler( );
+			if ( handler != null )
+			{
+				handler.finish( );
+			}
+		}
 	}
 
 	/**
@@ -212,7 +331,7 @@ public class ReportEngine implements IReportEngine
 	 */
 	public IRunTask createRunTask( IReportRunnable reportRunnable )
 	{
-		return engine.createRunTask( reportRunnable );
+		return helper.createRunTask( reportRunnable );
 	}
 
 	/**
@@ -224,7 +343,7 @@ public class ReportEngine implements IReportEngine
 	 */
 	public IRenderTask createRenderTask( IReportDocument reportDocument )
 	{
-		return engine.createRenderTask( reportDocument );
+		return helper.createRenderTask( reportDocument );
 	}
 
 	/**
@@ -242,7 +361,7 @@ public class ReportEngine implements IReportEngine
 	public IReportDocument openReportDocument( String fileName )
 			throws EngineException
 	{
-		return engine.openReportDocument( fileName );
+		return helper.openReportDocument( fileName );
 	}
 
 	/**
@@ -255,7 +374,7 @@ public class ReportEngine implements IReportEngine
 	public IDataExtractionTask createDataExtractionTask(
 			IReportDocument reportDocument )
 	{
-		return engine.createDataExtractionTask( reportDocument );
+		return helper.createDataExtractionTask( reportDocument );
 	}
 
 	/**
@@ -263,6 +382,6 @@ public class ReportEngine implements IReportEngine
 	 */
 	public void shutdown( )
 	{
-		engine.shutdown( );
+
 	}
 }

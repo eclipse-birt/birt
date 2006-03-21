@@ -20,9 +20,9 @@ import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IPageHandler;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
-import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
@@ -47,7 +47,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	 * @param runnable
 	 *            the report runnable instance
 	 */
-	public RunTask( ReportEngine engine, IReportRunnable runnable )
+	public RunTask( IReportEngine engine, IReportRunnable runnable )
 	{
 		super( engine, runnable );
 		executionContext.setFactoryMode( true );

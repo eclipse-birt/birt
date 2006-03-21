@@ -20,9 +20,9 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IRenderTask;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
@@ -44,7 +44,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 * @param reportDoc
 	 *            the report document instance
 	 */
-	public RenderTask( ReportEngine engine, IReportRunnable runnable,
+	public RenderTask( IReportEngine engine, IReportRunnable runnable,
 			ReportDocumentReader reportDoc )
 	{
 		super( engine, runnable );

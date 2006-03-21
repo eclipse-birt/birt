@@ -15,12 +15,12 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
-import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
-import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Utilites class to convert report paramete value between object and string. 

@@ -8,16 +8,6 @@
 
 package org.eclipse.birt.core.framework;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.birt.core.framework.IPlatformContext;
 
 /**
  * An platform context that is based on file operations.
@@ -26,96 +16,27 @@ import org.eclipse.birt.core.framework.IPlatformContext;
  */
 public class PlatformFileContext implements IPlatformContext
 {	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.core.framework.IPlatformContext#getFolderList( String homeFolder, String subFolder )
-	 */
-	public List getFileList( String homeFolder, String subFolder, boolean includingFiles, boolean relativeFileList ) 
-	{
-		List folderList = new ArrayList();
-		String directoryAbsolutePath = new File(homeFolder).getAbsolutePath();
-		
-		File directory = null;
-		if ( (subFolder != null) &&
-			 (subFolder.length() >0) &&
-			 !subFolder.equals("/") )
-		{
-			directory = new File( homeFolder, subFolder ); 
-		}
-		else
-		{
-			directory = new File( homeFolder );
-		}
-				
-		// Get all folders in the directory
-		File[] files = directory.listFiles( );	
-		if (files != null)
-		{
-			// Put all folders (absolute paths) into folderList
-			for ( int i = 0; i < files.length; i++ )
-			{
-				if ( (files[i] != null) &&
-					 (includingFiles || files[i].isDirectory()) )
-				{
-					String pathString = files[i].getAbsolutePath();
-					if ( relativeFileList )
-					{
-						// We assume the first part of the pathString is directoryAbsolutePath.
-						pathString = pathString.substring( directoryAbsolutePath.length() );
-					}
-					folderList.add( pathString );
-				}
-			}
-		}
-
-		return folderList;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.core.framework.IPlatformContext#getInputStream( String folder, String fileName )
-	 */
-	public InputStream getInputStream( String folder, String fileName ) 
-	{
-		InputStream in = null;
-
-		File file = new File( new File(folder), fileName );
-		if ( file.exists() )
-		{
-			try 
-			{
-				in = new FileInputStream( file );
-			} 
-			catch (FileNotFoundException e) 
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+	protected String root;
 	
-		return in;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.core.framework.IPlatformContext#getURL( String folder, String fileName )
-	 */
-	public URL getURL( String folder, String fileName ) 
-	{		
-		URL url = null;
 	
-		File file = new File( folder, fileName );
-		if ( file.exists( ) )
+	public PlatformFileContext()
+	{
+		root = System.getProperty( "BIRT_HOME" );
+		if (root == null)
 		{
-			try
-			{
-				url = file.toURL();
-			}
-			catch ( MalformedURLException e )
-			{
-				e.printStackTrace();
-				assert false; //never occurs
-			}
+			root = ".";
 		}
-
-		return url;
 	}
-
+	
+	public PlatformFileContext(String root)
+	{
+		assert root != null;
+		this.root = root;
+	}
+	
+	public String getPlatform()
+	{
+		return root;
+	}
+	
 }

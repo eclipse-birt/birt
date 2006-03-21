@@ -13,186 +13,250 @@ package org.eclipse.birt.core.framework;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.framework.eclipse.EclipsePlatform;
-import org.eclipse.birt.core.framework.server.ServerPlatform;
-
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.osgi.OSGILauncher;
+import org.osgi.framework.BundleContext;
 
 /**
- * Defines a generic Platform class that wraps around an <code>EclipsePlatform</code> 
- * or <code>ServerPlatform</code> class. 
+ * Defines a generic Platform class that wraps around an
+ * <code>EclipsePlatform</code> or <code>ServerPlatform</code> class.
  * 
  * This class is a singleton.
  * 
- * To use SeverPlatform, you need define two system properties:
- * <code>PROPERTY_RUN_UNDER_ECLIPSE<code> to "false"
- * <code>PROPERTY_BIRT_HOME</code> to a folder which contains a sub folder "plugins".
- * 
- * There are some limitations in server side platform:
- * <li> only support re-export dependence (all packags in depended plugins are re-exported).
- * <li> don't support version matches
- * <li> don't support OSGi bundle mainfest.mf files
- * <li> don't support package level export in running time, all packages are exported.
- * 
- * Assume there is three plugins: A, B, C has following content:
- * <li> plugin A: exportA, exportB, exportC
- * <li> plugin B: exportB, exportC
- * <li> plugin C: exportC
- * If we define the plugin A depends on C, B (exact the order), then from the pluginA, we 
- * can only access:
- * exportA(plugin A), exportB (pluginB), exportC(pluginC).
- * If the dependcy order of plugin A is: B, C, then we can only access classes in plugin A:
- * exportA(pluginA), exportB(plugin B), exportC(plugin B).
- * 
- * @version $Revision: 1.11 $ $Date: 2005/07/09 06:52:17 $
+ * @version $Revision: 1.12 $ $Date: 2005/07/25 07:12:05 $
  */
 public class Platform
 {
-	public static String PROPERTY_RUN_UNDER_ECLIPSE = "RUN_UNDER_ECLIPSE";
-	public static String PROPERTY_BIRT_HOME = "BIRT_HOME";
+	/**
+	 * @deprecated since BIRT 2.1
+	 */
+	public static final String PROPERTY_RUN_UNDER_ECLIPSE = "RUN_UNDER_ECLIPSE";
+	public static final String PROPERTY_BIRT_HOME = "BIRT_HOME";
 
-    public static int UNKNOWN_PLATFORM = 0;    
-    public static int ECLIPSE_PLATFORM = 1;
-    public static int SERVER_PLATFORM = 2;
-    
+	public static int UNKNOWN_PLATFORM = 0;
+	public static int ECLIPSE_PLATFORM = 1;
+	/**
+	 * @deprecated since BIRT 2.1
+	 */
+	public static final int SERVER_PLATFORM = 2;
+
 	protected static int platformType = UNKNOWN_PLATFORM;
 	protected static IPlatform platform = null;
-	
-    protected static Logger log = Logger.getLogger(Platform.class.getName());
-	
-	/**
-	 * creates the appropriate platform object based on the platform type 
-	 * If not running from Eclipse, this functions must be called before calling other functions.
-	 */
-	synchronized static public void initialize( IPlatformContext context )
-	{
-		if (platform == null)
-		{
-			if (runningEclipse())
-			{
-				log.log(Level.FINE, "initialize eclipse framework");
-				platform = new EclipsePlatform(); 
-				platformType = ECLIPSE_PLATFORM;
-			}
-			else
-			{
-				log.log(Level.FINE, "initialize server side framework");
-				if ( context == null )
-					context = new PlatformFileContext();
 
-				platform = new ServerPlatform( context );
-				platformType = SERVER_PLATFORM;
+	protected static Logger log = Logger.getLogger( Platform.class.getName( ) );
+
+	protected static OSGILauncher launcher;
+
+	/**
+	 * creates the appropriate platform object based on the platform type If not
+	 * running from Eclipse, this functions must be called before calling other
+	 * functions.
+	 */
+	synchronized static public void startup( IPlatformContext context )
+			throws BirtException
+	{
+		if ( platform == null )
+		{
+			if ( context == null )
+			{
+				context = new PlatformFileContext( );
+			}
+			// start up the OSGI framework
+			try
+			{
+				launcher = new OSGILauncher( );
+				// startup the OSGi framework,
+				launcher.startup( context );
+				// the core plugins is loaded in the start up
+				// 1. platform should not be null any more.
+				// 2. the IFactoryService has been registed
+				// see
+				// org.eclipse.birt.core.plugin.CorePlugin#start(BundleContext
+				// context).
+				assert platform != null;
+			}
+			catch ( Exception ex )
+			{
+				platform = null;
+				throw new BirtException( "Can't startup the OSGI framework",
+						new Object[]{}, ex );
 			}
 		}
 	}
-	
+
+	public synchronized static void shutdown( )
+	{
+		if ( launcher != null )
+		{
+			launcher.shutdown( );
+			launcher = null;
+		}
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @see org.eclipse.birt.core.Platform.startup(IPlatformContext context)
+	 * @deprecated since BIRT 2.1
+	 */
+	synchronized static public void initialize( IPlatformContext context )
+	{
+		try
+		{
+			startup( context );
+		}
+		catch ( BirtException ex )
+		{
+			ex.printStackTrace( );
+		}
+	}
+
+	/**
+	 * this class can only be called by
+	 * org.eclipse.birt.core.plugin.CorePlugin#start(BundleContext)
+	 * 
+	 * @see org.eclipes.birt.core.plugin.CorePlugin#start(BundleContext)
+	 * @param platform
+	 */
+	public static void setPlatform( IPlatform platform )
+	{
+		Platform.platform = platform;
+	}
+
 	/**
 	 * @return an extension registry
+	 * @see org.eclipse.core.runtime.IExtensionRegistry
 	 */
-	public static IExtensionRegistry getExtensionRegistry()
+	public static IExtensionRegistry getExtensionRegistry( )
 	{
-		if ( platform == null )
+		assert platform != null;
+		if ( platform != null )
 		{
-	        initialize( null );
-		}		
-	    assert platform != null;
-	    
-		return platform.getExtensionRegistry();
+			return platform.getExtensionRegistry( );
+		}
+		return null;
 	}
-	
-	public static IBundle getBundle (String symbolicName)
-	{
-		if ( platform == null )
-		{ 
-	        initialize( null );
-		}		
-	    assert platform != null;
 
-		return platform.getBundle(symbolicName);
-	}
-	
-	public static URL find(IBundle bundle, IPlatformPath path)
-	{
-		if ( platform == null )
-		{
-	        initialize( null );
-		}		
-	    assert platform != null; 
-	    
-		return platform.find( bundle, path );
-	}
-	
 	/**
-	 * @return the type of the platform. Available values are ECLIPSE_PLATFORM and
-	 * SERVER_PLATFORM.
+	 * 
+	 * @param symbolicName
+	 * @return
+	 * @deprecated since BIRT 2.1
 	 */
-	public static int getPlatformType()
+	public static IBundle getBundle( String symbolicName )
 	{
-		if ( platform == null)
+		assert platform != null;
+		if ( platform != null )
 		{
-	        initialize( null );
-		}		
-	    assert platform != null;
-	    
+			return platform.getBundle( symbolicName );
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param bundle
+	 * @param path
+	 * @return
+	 * @deprecated since BIRT 2.1
+	 */
+	public static URL find( IBundle bundle, IPlatformPath path )
+	{
+		assert platform != null;
+		if ( platform != null )
+		{
+			return platform.find( bundle, path );
+		}
+		return null;
+	}
+
+	/**
+	 * @return the type of the platform. Available values are ECLIPSE_PLATFORM
+	 *         and SERVER_PLATFORM.
+	 * @deprecated since BIRT 2.1
+	 */
+	public static int getPlatformType( )
+	{
 		return platformType;
 	}
-	
-	public static URL asLocalURL(URL url) throws IOException
-	{
-		if ( platform == null )
-		{
-	        initialize( null );
-		}		
-	    assert platform != null;
 
-		return platform.asLocalURL(url);
+	/**
+	 * 
+	 * @param url
+	 * @return
+	 * @throws IOException
+	 * @deprecated since BIRT 2.1
+	 */
+	public static URL asLocalURL( URL url ) throws IOException
+	{
+		assert platform != null;
+		if ( platform != null )
+		{
+			return platform.asLocalURL( url );
+		}
+		return null;
 	}
+
 	/**
 	 * Checks whether Eclipse is running
 	 * 
 	 * @return whether we are running in Eclipse
+	 * @deprecated since BIRT 2.1
 	 */
-	public static boolean runningEclipse()
+	public static boolean runningEclipse( )
 	{
-		String runningUnderEclipse = System.getProperty("RUN_UNDER_ECLIPSE");
-		if ("true".equalsIgnoreCase(runningUnderEclipse))
-		{
-			return true;
-		}
-		if ("false".equalsIgnoreCase(runningUnderEclipse))
-		{
-			return false;
-		}
-		if (System.getProperty("eclipse.startTime") != null)
+		if ( platform != null )
 		{
 			return true;
 		}
 		return false;
 	}
-	
-	public static void intializeTracing(String pluginName)
-	{
-		if ( platform == null )
-		{
-	        initialize( null );
-		}		
-	    assert platform != null; 
 
-		platform.initializeTracing(pluginName);
-	}
-	
-	public static String getDebugOption(String name)
+	public static void intializeTracing( String pluginName )
 	{
-		if ( platform == null )
+		if ( platform != null )
 		{
-	        initialize( null );
-		}		
-	    assert platform != null;
-
-		return platform.getDebugOption(name);
+			platform.initializeTracing( pluginName );
+		}
 	}
-	
-	
+
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 * @deprecated since BIRT 2.1
+	 * @see org.eclipse.core.runtime.Platform.getDebugOption(String name)
+	 */
+	public static String getDebugOption( String name )
+	{
+		if ( platform != null )
+		{
+			return platform.getDebugOption( name );
+		}
+		return null;
+	}
+
+	/**
+	 * create an object inside the OSGIframework and give it out of the
+	 * framework. This object can be used in client side.
+	 * 
+	 * If a bundle need export some function outside of the framework, it
+	 * need implmenet a extension "org.eclipse.birt.core.FactoryService".
+	 * 
+	 * @see org.eclipse.birt.core.IPlatform#
+	 * @param extensionId
+	 *            factory extension id
+	 * @return the service object.
+	 */
+	public static Object createFactoryObject( String extensionId )
+	{
+		if ( platform != null )
+		{
+			return platform.createFactoryObject( extensionId );
+		}
+		return null;
+	}
+
 }

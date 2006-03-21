@@ -11,14 +11,18 @@
 
 package org.eclipse.birt.report.engine.plugin;
 
-import org.eclipse.birt.core.plugin.BIRTPlugin;
-import org.osgi.framework.BundleContext;
+import org.eclipse.birt.report.engine.api.ReportRunner;
+import org.eclipse.core.runtime.IPlatformRunnable;
 
-public class EnginePlugin extends BIRTPlugin
+public class ReportExecutor implements IPlatformRunnable
 {
 
-	public void start( BundleContext context ) throws Exception
+	public Object run( Object args ) throws Exception
 	{
-		super.start( context );
+		if ( args instanceof String[] )
+		{
+			ReportRunner.main( (String[]) args );
+		}
+		return null;
 	}
 }

@@ -30,8 +30,8 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -70,7 +70,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	 * @param runnable
 	 *            the runnable report design
 	 */
-	public GetParameterDefinitionTask( ReportEngine engine,
+	public GetParameterDefinitionTask( IReportEngine engine,
 			IReportRunnable runnable )
 	{
 		super( engine, runnable );
