@@ -36,7 +36,6 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.IPlatformContext;
 import org.eclipse.birt.core.framework.PlatformServletContext;
-import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.engine.api.EngineConfig;
@@ -54,16 +53,14 @@ import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IResultSetItem;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
-import org.eclipse.birt.report.engine.api.impl.IResultSetItem;
-import org.eclipse.birt.report.engine.api.impl.ScalarParameterDefn;
 import org.eclipse.birt.report.engine.script.internal.ScriptExecutor;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
@@ -423,7 +420,8 @@ public class ReportEngineService
 		
 		HashMap context = new HashMap( );
 		
-		context.put( DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE );
+		//context.put( DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE );
+		context.put( "org.eclipse.birt.data.engine.dataset.cache.option", Boolean.TRUE );
 		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST, request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY, ReportEngineService.class.getClassLoader());
 		
@@ -476,7 +474,8 @@ public class ReportEngineService
 		runTask.setParameterValues( parameters );
 		
 		HashMap context = new HashMap( );
-		context.put( DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE );
+		//context.put( DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE );
+		context.put( "org.eclipse.birt.data.engine.dataset.cache.option", Boolean.TRUE );
 		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST, request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY, ReportEngineService.class.getClassLoader());
 		runTask.setAppContext( context );
@@ -833,14 +832,14 @@ public class ReportEngineService
 		Collection parameterList = task.getParameterDefns( false );
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			ScalarParameterDefn parameterObj = ( ScalarParameterDefn ) iter.next( );
+			IScalarParameterDefn parameterObj = ( IScalarParameterDefn ) iter.next( );
 
 			String paramValue = null;
 			Object paramValueObj = null;
 
-			ScalarParameterHandle paramHandle = (ScalarParameterHandle) parameterObj.getHandle( );
-			String paramName = paramHandle.getName( );
-			String format = paramHandle.getFormat( );
+			//ScalarParameterHandle paramHandle = (ScalarParameterHandle) parameterObj.getHandle( );
+			String paramName = parameterObj.getName( );
+			String format = parameterObj.getDisplayFormat( );
 
 			// Get default value from task
 			ReportParameterConverter converter = new ReportParameterConverter( format, locale );
@@ -849,18 +848,18 @@ public class ReportEngineService
 			{
 				// Get value from http request
 				paramValue = ParameterAccessor.getReportParameter( request, paramName, paramValue );
-				paramValueObj = converter.parse( paramValue, getEngineDataType( paramHandle.getDataType( ) ) );
+				paramValueObj = converter.parse( paramValue, parameterObj.getDataType( ) );
 			}
 			else if ( ParameterAccessor.isDesigner( request ) && configVars.containsKey( paramName ) )
 			{
 				// Get value from test config
 				String configValue = (String) configVars.get( paramName );
 				ReportParameterConverter cfgConverter = new ReportParameterConverter( format, Locale.US );
-				paramValueObj = cfgConverter.parse( configValue, getEngineDataType( paramHandle.getDataType( ) ) );
+				paramValueObj = cfgConverter.parse( configValue, parameterObj.getDataType( ) );
 			}
 			else
 			{
-				paramValueObj = task.getDefaultValue( paramHandle.getName( ) );
+				paramValueObj = task.getDefaultValue( parameterObj.getName( ) );
 			}
 
 			params.put( paramName, paramValueObj );
@@ -886,27 +885,27 @@ public class ReportEngineService
 		Collection parameterList = task.getParameterDefns( false );
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			ScalarParameterDefn parameterObj = ( ScalarParameterDefn ) iter.next( );
-			ScalarParameterHandle paramHandle = (ScalarParameterHandle) parameterObj.getHandle( );
+			IScalarParameterDefn parameterObj = ( IScalarParameterDefn ) iter.next( );
+			//ScalarParameterHandle paramHandle = (ScalarParameterHandle) parameterObj.getHandle( );
 			
-			String parameterName = paramHandle.getName( );
+			String parameterName = parameterObj.getName( );
 			Object parameterValue = parameters.get( parameterName );
 
-			if ( paramHandle.isHidden( ) )
+			if ( parameterObj.isHidden( ) )
 			{
 				continue;
 			}
 			
-			if ( parameterValue == null && !paramHandle.allowNull( ) )
+			if ( parameterValue == null && !parameterObj.allowNull( ) )
 			{
 				missingParameter = true;
 				break;
 			}
 			
-			if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( paramHandle.getDataType( ) ) )
+			if (IScalarParameterDefn.TYPE_STRING == parameterObj.getDataType( )  )
 			{
 				String parameterStringValue = ( String ) parameterValue;
-				if ( parameterStringValue != null && parameterStringValue.length( ) <= 0 && !paramHandle.allowBlank( ) )
+				if ( parameterStringValue != null && parameterStringValue.length( ) <= 0 && !parameterObj.allowBlank( ) )
 				{
 					missingParameter = true;
 					break;
