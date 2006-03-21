@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.model.elements;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -27,9 +24,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IJointDataSetModel;
  * @see org.eclipse.birt.report.model.elements.SimpleDataSet
  */
 
-public class JointDataSet extends DataSet
-		implements
-			IJointDataSetModel
+public class JointDataSet extends DataSet implements IJointDataSetModel
 {
 
 	/**
@@ -104,11 +99,4 @@ public class JointDataSet extends DataSet
 		return (JointDataSetHandle) handle;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.elements.DataSet#validate(org.eclipse.birt.report.model.core.Module)
-	 */
-	public List validate( Module module )
-	{
-		return Collections.EMPTY_LIST;
-	}
 }

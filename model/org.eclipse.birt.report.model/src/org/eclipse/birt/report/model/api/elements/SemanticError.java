@@ -249,17 +249,24 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_INVALID_PROPERTY_BINDING_ID = MessageConstants.SEMANTIC_ERROR_INVALID_PROPERTY_BINDING_ID;
 
 	/**
-	 * The element is not in the design tree, so it is forbidden to set the property binding.
+	 * The element is not in the design tree, so it is forbidden to set the
+	 * property binding.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_PROPERTY_BINDING_FORBIDDEN = MessageConstants.SEMANTIC_ERROR_PROPERTY_BINDING_FORBIDDEN;
-	
+
 	/**
 	 * The master page can not contain table/list in any level.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT = MessageConstants.SEMANTIC_ERROR_INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT;
-	
+
+	/**
+	 * Data set is not added into this data set.
+	 */
+
+	public static final String DESIGN_EXCEPTION_DATA_SET_MISSED_IN_JOINT_DATA_SET = MessageConstants.SEMANTIC_ERROR_DATA_SET_MISSED_IN_JOINT_DATA_SET;
+
 	/**
 	 * The constant for the semantic error.
 	 */
@@ -421,26 +428,15 @@ public class SemanticError extends SemanticException
 							sResourceKey,
 							new String[]{"The " + element.getElementName( ) + " \"" + name + "\""} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_MISSING_TEMPLATE_PARAMETER_TYPE )
-		{
-			assert oaMessageArguments.length == 1;
-			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_INCONSISTENT_TEMPLATE_PARAMETER_TYPE )
-		{
-			assert oaMessageArguments.length == 3;
-			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_LIBRARY_REFERENCE )
-		{
-			assert oaMessageArguments.length == 3;
-			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
-		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_PROPERTY_BINDING_ID )
 		{
 			assert oaMessageArguments.length == 1;
 			return ModelMessages.getMessage( sResourceKey, new String[]{
 					element.getIdentifier( ), (String) oaMessageArguments[0]} );
+		}
+		else if ( oaMessageArguments != null )
+		{
+			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
 		}
 
 		return ModelMessages.getMessage( sResourceKey, new String[]{element

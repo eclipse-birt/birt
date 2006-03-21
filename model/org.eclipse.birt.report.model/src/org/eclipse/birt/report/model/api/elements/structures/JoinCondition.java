@@ -16,11 +16,14 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.JoinConditionHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.elements.JointDataSet;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Represents a condition used for joint data set. The joint data set is data
@@ -386,17 +389,16 @@ public class JoinCondition extends Structure
 		List list = super.validate( module, element );
 
 		checkStringMember( joinType, JOIN_TYPE_MEMBER, element, list );
-		checkStringMember( joinOperator, JOIN_OPERATOR_MEMBER,
-				element, list );
-		checkStringMember( leftDataSet, LEFT_DATASET_MEMBER, element,
+		checkStringMember( joinOperator, JOIN_OPERATOR_MEMBER, element, list );
+		checkStringMember( leftDataSet, LEFT_DATASET_MEMBER, element, list );
+		checkStringMember( rightDataSet, RIGHT_DATASET_MEMBER, element, list );
+		checkStringMember( leftExpression, LEFT_EXPRESSION_MEMBER, element,
 				list );
-		checkStringMember( rightDataSet, RIGHT_DATASET_MEMBER, element,
+		checkStringMember( rightExpression, RIGHT_EXPRESSION_MEMBER, element,
 				list );
-		checkStringMember( leftExpression, LEFT_EXPRESSION_MEMBER,
-				element, list );
-		checkStringMember( rightExpression, RIGHT_EXPRESSION_MEMBER,
-				element, list );
 
+		checkDataSet( module, leftDataSet, list, element );
+		checkDataSet( module, rightDataSet, list, element );
 		return list;
 	}
 
@@ -414,7 +416,7 @@ public class JoinCondition extends Structure
 	 * @param errorList
 	 *            the error list
 	 */
-	
+
 	private void checkStringMember( String value, String memberName,
 			DesignElement element, List errorList )
 	{
@@ -426,4 +428,43 @@ public class JoinCondition extends Structure
 		}
 	}
 
+	/**
+	 * Check if a data set is added into this joint data set.
+	 * 
+	 * @param module
+	 *            the module.
+	 * @param dataSetName
+	 *            the name of the data set.
+	 * @param errors
+	 *            the errors.
+	 */
+	private void checkDataSet( Module module, String dataSetName, List errors,
+			DesignElement element )
+	{
+		if ( dataSetName == null)
+		{
+			return;
+		}
+
+		List dataSetsReferences = (List) element.getProperty( module,
+				JointDataSet.DATA_SETS_PROP );
+		if ( dataSetsReferences != null )
+		{
+			int dataSetIndex;
+			for ( dataSetIndex = 0; dataSetIndex < dataSetsReferences.size( ); dataSetIndex++ )
+			{
+				if ( ( (ElementRefValue) dataSetsReferences.get( dataSetIndex ) )
+						.getName( ).equals( dataSetName ) )
+				{
+					return;
+				}
+			}
+		}
+
+		errors
+				.add( new SemanticError(
+						element,
+						new String[]{element.getName( ), dataSetName},
+						SemanticError.DESIGN_EXCEPTION_DATA_SET_MISSED_IN_JOINT_DATA_SET ) );
+	}
 }
