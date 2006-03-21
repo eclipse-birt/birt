@@ -153,6 +153,9 @@ public class ScriptEvalUtil
 			case IConditionalExpression.OP_LIKE :
 				result = like( resultObject, resultOp1 );
 				break;
+			case IConditionalExpression.OP_NOT_LIKE :
+				result = !like( resultObject, resultOp1 );
+				break;
 				
 			case IConditionalExpression.OP_TOP_N :
 			case IConditionalExpression.OP_BOTTOM_N :
@@ -162,11 +165,14 @@ public class ScriptEvalUtil
 				throw new DataException(
 						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "Top/Bottom(N) outside of row filters" );
 				
-			case IConditionalExpression.OP_ANY :
+		/*	case IConditionalExpression.OP_ANY :
 				throw new DataException(
-						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "ANY" );
+						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "ANY" );*/
 			case IConditionalExpression.OP_MATCH :
 				result = match( resultObject, resultOp1 );
+				break;
+			case IConditionalExpression.OP_NOT_MATCH :
+				result = !match( resultObject, resultOp1 );
 				break;
 			default :
 				throw new DataException(
@@ -204,7 +210,7 @@ public class ScriptEvalUtil
 	 * @return -1,0 and 1 standing for <,= and > respectively
 	 * @throws DataException
 	 */
-	private static int compare( Object obj1, Object obj2 ) throws DataException
+	public static int compare( Object obj1, Object obj2 ) throws DataException
 	{
 	    if (obj1 == null || obj2 == null) 
 	    {

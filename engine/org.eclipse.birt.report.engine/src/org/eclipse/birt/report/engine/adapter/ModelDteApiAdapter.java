@@ -14,10 +14,10 @@
 
 package org.eclipse.birt.report.engine.adapter;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
@@ -192,12 +192,65 @@ public class ModelDteApiAdapter
 		if ( dataSet instanceof ScriptDataSetHandle )
 			return newScriptDataSet( ( ScriptDataSetHandle ) dataSet,
 					context );
-
+		
+		//if ( dataSet instanceof JointDataSetHandle )
+		//	return newJointDataSet( (JointDataSetHandle)dataSet, context);
 		// any other types are not supported
 		assert false;
 		return null;
 	}
 
+	/*private IJointDataSetDesign newJointDataSet( JointDataSetHandle handle, ExecutionContext context2 ) throws BirtException
+	{
+		Iterator it = handle.joinConditionsIterator( );
+		List joinConditions = new ArrayList();
+		
+		JoinCondition jc = null;
+		
+		while( it.hasNext( ) )
+		{
+			jc = (JoinCondition)it.next( );
+			joinConditions.add( new JoinConditionExpression( new ScriptExpression( jc.getLeftExpression( )), new ScriptExpression(jc.getRightExpression( )),toDteJoinOperator(jc.getOperator( )))) ;
+		}
+		
+		IBaseDataSetDesign leftDataSet = new BaseDataSetDesign(jc.getLeftDataSet( ));
+		IBaseDataSetDesign rightDataSet = new BaseDataSetDesign(jc.getRightDataSet( ));
+		int joinType = toDteJoinType(jc.getJoinType( ));
+		
+		IBaseDataSetEventHandler eventHandler = new DataSetScriptExecutor(
+				handle, context );
+
+		JointDataSetDesign dteDataSet = new JointDataSetDesign(handle.getName( ), leftDataSet, rightDataSet, joinType, joinConditions);
+		dteDataSet.setEventHandler( eventHandler );
+		// Adapt base class properties
+		adaptBaseDataSet( handle, dteDataSet );
+
+		return dteDataSet;
+	}
+
+	private int toDteJoinOperator( String operator )
+	{
+		if( operator.equals( DesignChoiceConstants.JOIN_OPERATOR_EQALS ))
+			return IJoinConditionExpression.OP_EQ;
+		return -1;
+	}
+	
+	private int toDteJoinType ( String joinType )
+	{
+		if( joinType.equals( DesignChoiceConstants.JOIN_TYPE_INNER ))
+		{
+			return IJointDataSetDesign.INNER_JOIN;
+		}
+		else if( joinType.equals( DesignChoiceConstants.JOIN_TYPE_LEFT_OUT ))
+		{
+			return IJointDataSetDesign.LEFT_OUTER_JOIN;
+		}
+		else if( joinType.equals( DesignChoiceConstants.JOIN_TYPE_RIGHT_OUT ))
+		{
+			return IJointDataSetDesign.RIGHT_OUTER_JOIN;
+		}
+		return -1;
+	}*/
 	/**
 	 * Evaluates a property binding Javascript expression
 	 */
@@ -800,10 +853,16 @@ public class ModelDteApiAdapter
 		if ( modelOpr
 				.equals( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT ) )
 			return IConditionalExpression.OP_BOTTOM_PERCENT;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_ANY ) )
-			return IConditionalExpression.OP_ANY;
+		
+		/*		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_ANY ) )
+			return IConditionalExpression.OP_ANY;*/
 		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_MATCH ) )
 			return IConditionalExpression.OP_MATCH;
+		
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_LIKE ))
+			return IConditionalExpression.OP_NOT_LIKE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_MATCH ))
+			return IConditionalExpression.OP_NOT_MATCH;
 		assert false; // unknown filter operator
 		return IConditionalExpression.OP_NONE;
 	}

@@ -104,8 +104,8 @@ public interface IConditionalExpression extends IBaseExpression
 	
 	/**
 	 * The Like operator. Evaluates to true if the left operand is a String that matches the 
-	 * pattern string provided as right operand. the pattern uses “%” to match 0 or 
-	 * more of any characters, “_” to match exactly one character, and “\” as escape character. 
+	 * pattern string provided as right operand. the pattern uses ï¿½%ï¿½ to match 0 or 
+	 * more of any characters, ï¿½_ï¿½ to match exactly one character, and ï¿½\ï¿½ as escape character. 
 	 * All other characters are matched case-sensitively.
 	 */
 	public static final int	OP_LIKE 		  = 13; 
@@ -130,7 +130,8 @@ public interface IConditionalExpression extends IBaseExpression
 	 */
 	public static final int	OP_BOTTOM_PERCENT = 17; 
 	
-	public static final int	OP_ANY 			  = 18; 
+	
+	//public static final int	OP_ANY 			  = 18; 
 	
 	/**
 	 * The Match operator. Evaluates to true if the left operand is a String that matches the 
@@ -139,6 +140,9 @@ public interface IConditionalExpression extends IBaseExpression
 	 */
 	public static final int OP_MATCH 		  = 19;
 
+	public static final int OP_NOT_LIKE 	  = 20;
+
+	public static final int OP_NOT_MATCH      = 21;
 	/**
 	 * Gets the main expression
 	 */

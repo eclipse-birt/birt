@@ -151,7 +151,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.83 $ $Date: 2006/03/14 09:35:24 $
+ * @version $Revision: 1.84 $ $Date: 2006/03/17 02:18:28 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -2022,8 +2022,14 @@ class EngineIRVisitor extends DesignVisitor
 		if ( modelOpr
 				.equals( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT ) )
 			return IConditionalExpression.OP_BOTTOM_PERCENT;
-		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_ANY ) )
-			return IConditionalExpression.OP_ANY;
+		
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_LIKE ))
+			return IConditionalExpression.OP_NOT_LIKE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_MATCH ))
+			return IConditionalExpression.OP_NOT_MATCH;
+		
+		/*	if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_ANY ) )
+			return IConditionalExpression.OP_ANY;*/
 
 		return IConditionalExpression.OP_NONE;
 	}
