@@ -153,7 +153,7 @@ public final class EventHandlers
 			.append( "		  }\n" ) //$NON-NLS-1$
 			.append( "		}\n" ) //$NON-NLS-1$
 			.append( "		TM.setContent = function TooltipManager_setContent(textElement, text){\n" ) //$NON-NLS-1$
-			.append( "		    var multiLine = text.split(/\\n/);\n" ) //$NON-NLS-1$
+			.append( "		    var multiLine = text.split(/\\\\n/);\n" ) //$NON-NLS-1$
 			.append( "		    for (var x=0; x<multiLine.length; x++){\n" ) //$NON-NLS-1$
 			.append( "			if (x == 0){\n" ) //$NON-NLS-1$
 			.append( "	 	         textObj = new BuildHelper(\"tspan\",\n" ) //$NON-NLS-1$
