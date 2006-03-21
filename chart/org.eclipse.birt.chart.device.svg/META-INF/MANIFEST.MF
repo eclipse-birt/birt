@@ -11,7 +11,5 @@ Export-Package: org.eclipse.birt.chart.device.svg,
  org.eclipse.birt.chart.device.svg.i18n,
  org.eclipse.birt.chart.device.svg.plugin
 Require-Bundle: org.eclipse.birt.chart.engine,
- org.eclipse.birt.chart.device.extension,
- org.eclipse.birt.core,
- org.eclipse.emf.ecore
+ org.eclipse.birt.chart.device.extension
 Eclipse-LazyStart: true

@@ -13,8 +13,6 @@ Export-Package: org.eclipse.birt.chart.device.extension.i18n,
  org.eclipse.birt.chart.device.swing,
  org.eclipse.birt.chart.device.swt,
  org.eclipse.birt.chart.device.util
-Require-Bundle: org.eclipse.swt,
- org.eclipse.birt.chart.engine,
- org.eclipse.emf.ecore,
- org.eclipse.birt.core
+Require-Bundle: org.eclipse.swt;resolution:=optional,
+ org.eclipse.birt.chart.engine
 Eclipse-LazyStart: true

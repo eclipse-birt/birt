@@ -12,7 +12,5 @@ Export-Package: org.eclipse.birt.chart.aggregate,
  org.eclipse.birt.chart.engine.extension.i18n,
  org.eclipse.birt.chart.plugin,
  org.eclipse.birt.chart.render
-Require-Bundle: org.eclipse.birt.chart.engine,
- org.eclipse.emf.ecore,
- org.eclipse.birt.core
+Require-Bundle: org.eclipse.birt.chart.engine
 Eclipse-LazyStart: true
