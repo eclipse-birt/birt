@@ -487,9 +487,11 @@
     <Method displayNameID="Class.String.lastIndexOf" name="lastIndexOf" returnType="number" toolTipID="Class.String.lastIndexOf.toolTip">
       <Argument name="substring" tagID="Class.String.lastIndexOf.substring" type="String"/>
     </Method>
+    <!--
     <Method displayNameID="Class.String.localeCompare" name="localeCompare" returnType="number" toolTipID="Class.String.localeCompare.toolTip">
       <Argument name="target" tagID="Class.String.localeCompare.target" type="String"/>
     </Method>
+    -->
     <Method displayNameID="Class.String.match" name="match" returnType="String[]" toolTipID="Class.String.match.toolTip">
       <Argument name="regexp" tagID="Class.String.match.regexp" type="String"/>
     </Method>
