@@ -112,7 +112,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
-	
+
 	/**
 	 * Gets the on-prepare script of the group. Startup phase. No data binding
 	 * yet. The design of an element can be changed here.
@@ -200,7 +200,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 	}
 
 	/**
-	 * Gets a string that defines the event handle class. 
+	 * Gets a string that defines the event handle class.
 	 * 
 	 * @return the expression as a string
 	 * 
@@ -211,7 +211,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 	{
 		return getStringProperty( TableRow.EVENT_HANDLER_CLASS_PROP );
 	}
-	
+
 	/**
 	 * Sets the group expression.
 	 * 
@@ -227,5 +227,35 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 	{
 		setProperty( TableRow.EVENT_HANDLER_CLASS_PROP, expr );
 	}
-	
+
+	/**
+	 * Tests whether to supress duplicates rows with same content.
+	 * 
+	 * @return <code>true</code> if supress duplicates rows with same content,
+	 *         otherwise <code>false</code>.
+	 * 
+	 * @see #setSupressDuplicates(boolean)
+	 */
+
+	public boolean supressDuplicates( )
+	{
+		return getBooleanProperty( SUPPRESS_DUPLICATES_PROP );
+	}
+
+	/**
+	 * Sets the flag whether to supress duplicates rows with same content.
+	 * 
+	 * @param value
+	 *            <code>true</code> if supress duplicates rows with same
+	 *            content, otherwise <code>false</code>.
+	 * @throws SemanticException
+	 *             If the expression is invalid.
+	 * 
+	 * @see #supressDuplicates()
+	 */
+
+	public void setSupressDuplicates( boolean value ) throws SemanticException
+	{
+		setProperty( SUPPRESS_DUPLICATES_PROP, Boolean.valueOf( value ) );
+	}
 }

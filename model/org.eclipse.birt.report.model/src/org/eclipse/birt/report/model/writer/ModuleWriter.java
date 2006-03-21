@@ -1565,6 +1565,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, TableRow.HEIGHT_PROP );
 		property( obj, TableRow.BOOKMARK_PROP );
+		property( obj, TableRow.SUPPRESS_DUPLICATES_PROP );
 
 		property( obj, TableRow.EVENT_HANDLER_CLASS_PROP );
 		property( obj, TableRow.ON_PREPARE_METHOD );

@@ -37,6 +37,13 @@ public interface ITableRowModel
 	public static final String VISIBILITY_PROP = "visibility"; //$NON-NLS-1$
 
 	/**
+	 * Name of the suppress duplicates property. If it is set to be true, then
+	 * the detail rows with same contents will be supressed.
+	 */
+
+	public static final String SUPPRESS_DUPLICATES_PROP = "suppressDuplicates"; //$NON-NLS-1$
+
+	/**
 	 * Property name for the reference to the shared style.
 	 */
 
@@ -63,7 +70,7 @@ public interface ITableRowModel
 	 */
 
 	public static final String ON_PREPARE_METHOD = "onPrepare"; //$NON-NLS-1$
-	
+
 	/**
 	 * Identifier of the slot that holds the cells in row.
 	 */
