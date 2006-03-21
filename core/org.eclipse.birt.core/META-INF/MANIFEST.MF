@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT Core Package
+Bundle-SymbolicName: org.eclipse.birt.core; singleton:=true
+Bundle-Version: 2.1.0
+Bundle-ClassPath: core.jar
+Bundle-Activator: org.eclipse.birt.core.internal.plugin.CorePlugin
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Export-Package: org.eclipse.birt.core.archive,
+ org.eclipse.birt.core.config,
+ org.eclipse.birt.core.data,
+ org.eclipse.birt.core.exception,
+ org.eclipse.birt.core.format,
+ org.eclipse.birt.core.framework,
+ org.eclipse.birt.core.framework.osgi,
+ org.eclipse.birt.core.framework.parser,
+ org.eclipse.birt.core.i18n,
+ org.eclipse.birt.core.plugin,
+ org.eclipse.birt.core.script,
+ org.eclipse.birt.core.util
+Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
+ org.junit;resolution:=optional;visibility:=reexport,
+ com.ibm.icu;visibility:=reexport,
+ org.mozilla.rhino;visibility:=reexport
+Eclipse-LazyStart: true

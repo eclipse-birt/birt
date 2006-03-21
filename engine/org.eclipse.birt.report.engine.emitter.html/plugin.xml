@@ -1,27 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.birt.report.engine.emitter.html"
-   name="BIRT HTML Emitter"
-   version="2.1.0"
-   provider-name="Eclipse.org"
-   class="org.eclipse.birt.report.engine.emitter.html.plugin.HTMLEmitterPlugin">
+<plugin>
 
-   <runtime>
-      <library name="htmlEmitter.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/commons-logging.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-   <requires>
-      <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.birt.data"/>
-      <import plugin="org.eclipse.birt.report.model"/>
-      <import plugin="org.eclipse.birt.report.engine"/>
-   </requires>
-   <extension 
+     <extension 
 	 	point="org.eclipse.birt.report.engine.emitters"
 	 	name = "Engine html Emitters">
 	 	<emitter 

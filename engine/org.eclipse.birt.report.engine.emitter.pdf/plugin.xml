@@ -1,27 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.birt.report.engine.emitter.pdf"
-   name="BIRT PDF emitter"
-   version="2.1.0"
-   provider-name="Eclipse.org"
-   >
+<plugin>
 
-   <runtime>
-   	<library name="enginePdf.jar">
-          <export name="*"/>
-       </library> 
-       <library name="lib/itext-1.3.jar">
-          <export name="*"/>
-       </library>     
-   </runtime>
-   <requires>
-      <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.birt.report.model"/>
-      <import plugin="org.eclipse.birt.data"/>
-      <import plugin="org.eclipse.birt.report.engine"/>
-   </requires>
-  <extension 
+     <extension 
 	 	point="org.eclipse.birt.report.engine.emitters"
 	 	name = "Engine PDF Emitters">
 

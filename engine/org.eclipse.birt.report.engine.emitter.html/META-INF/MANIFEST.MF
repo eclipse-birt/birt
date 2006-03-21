@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT HTML Emitter
+Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.html; singleton:=true
+Bundle-Version: 2.1.0
+Bundle-ClassPath: htmlEmitter.jar
+Bundle-Activator: org.eclipse.birt.report.engine.emitter.html.plugin.HTMLEmitterPlugin
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.birt.core,
+ org.eclipse.birt.report.model,
+ org.eclipse.birt.report.engine
+Eclipse-LazyStart: true

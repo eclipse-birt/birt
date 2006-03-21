@@ -9,15 +9,31 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.engine.emitter.html.plugin;
+package org.eclipse.birt.core.internal.plugin;
 
+import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.core.framework.eclipse.EclipsePlatform;
 import org.eclipse.birt.core.plugin.BIRTPlugin;
 import org.osgi.framework.BundleContext;
 
-public class HTMLEmitterPlugin extends BIRTPlugin
+public class CorePlugin extends BIRTPlugin
 {
-	public void start(BundleContext context) throws Exception
+
+	/**
+	 * This method is called upon plug-in activation.
+	 */
+	public void start( BundleContext context ) throws Exception
 	{
 		super.start( context );
+		Platform.setPlatform( new EclipsePlatform( context ) );
+	}
+
+	/**
+	 * This method is called when the plug-in is stopped
+	 */
+	public void stop( BundleContext context ) throws Exception
+	{
+		super.stop( context );
+		Platform.setPlatform( null );
 	}
 }

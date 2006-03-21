@@ -1,36 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.birt.core"
-   name="BIRT Core Package"
-   version="2.1.0"
-   provider-name="Eclipse.org"
-   class="org.eclipse.birt.core.plugin.CorePlugin">
+<plugin>
    
-   <runtime>
-      <library name="lib/js.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/junit.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/commons-logging.jar">
-         <export name="*"/>
-      </library>
-      <library name="core.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/servlet.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/commons-codec-1.3.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-   
-   <requires>
-      <import plugin="org.eclipse.core.runtime" export="true"/>
-      <import plugin="org.junit" export="true" optional="true"/>
-	  <import plugin="com.ibm.icu" export="true"/>
-   </requires>
+     <extension-point id="FactoryService" name="FactoryService" schema="schema/FactoryService.exsd"/>
+
 </plugin>
