@@ -1402,7 +1402,7 @@ public abstract class PlotWithAxes extends Methods
 						double dT_RI = dBlockX - dX1; // THRESHOLD -
 						// REQUESTEDINTERSECTION
 						double dAMin_AMax = da[1] - da[0];
-						double dAMax_RI = da[1] - dX;
+						double dAMax_RI = Math.abs( da[1] - dX );
 						double dDelta = ( dT_RI / dAMax_RI ) * dAMin_AMax;
 						dStart = da[0] + dDelta;
 						dEnd = da[1];
@@ -1452,7 +1452,6 @@ public abstract class PlotWithAxes extends Methods
 								break;
 							}
 						}
-
 						dX = getLocation( scX, iv );
 						dX1 = dX - dDeltaX1; // RE-CALCULATE X-AXIS BAND LEFT
 						// EDGE
