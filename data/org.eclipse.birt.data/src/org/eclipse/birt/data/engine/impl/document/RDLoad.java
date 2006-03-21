@@ -176,15 +176,7 @@ class RDLoad
 			}
 		}
 	}
-
-	/**
-	 * @return
-	 */
-	private int getCount( )
-	{
-		return this.rowCount;
-	}
-
+	
 	/**
 	 * @return
 	 * @throws DataException
@@ -232,15 +224,17 @@ class RDLoad
 	 */
 	void moveTo( int rowIndex ) throws DataException
 	{
+		int currIndex = this.getCurrentIndex( );
+
 		if ( rowIndex < 0 || rowIndex >= this.rowCount )
 			throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
 					new Integer( rowIndex ) );
-		else if ( rowIndex < this.getCurrentIndex( ) )
+		else if ( rowIndex < currIndex )
 			throw new DataException( ResourceConstants.BACKWARD_SEEK_ERROR );
-		else if ( rowIndex == this.getCurrentIndex( ) )
+		else if ( rowIndex == currIndex )
 			return;
 
-		int gapValue = rowIndex - this.getCurrentIndex( );
+		int gapValue = rowIndex - currIndex;
 		for ( int i = 0; i < gapValue; i++ )
 			this.next( );
 	}
@@ -384,7 +378,7 @@ class RDLoad
 		 */
 		public int getCount( )
 		{
-			return rdLoader.getCount( );
+			return rdLoader.rowCount;
 		}
 
 		/*
