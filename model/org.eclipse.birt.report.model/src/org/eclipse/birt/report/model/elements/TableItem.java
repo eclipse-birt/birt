@@ -314,4 +314,18 @@ public class TableItem extends ListingElement implements ITableItemModel
 		return retValue;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ListingElement#clone()
+	 */
+
+	public Object clone( ) throws CloneNotSupportedException
+	{
+		TableItem clonedTable = (TableItem) super.clone( );
+		clonedTable.refreshRenderModel( table.getTable( ).getModule( ) );
+
+		return clonedTable;
+	}
+
 }

@@ -303,6 +303,8 @@ public interface DesignChoiceConstants
 	public static final String MAP_OPERATOR_MATCH ="match"; //$NON-NLS-1$
 	public static final String MAP_OPERATOR_TOP_N ="top-n"; //$NON-NLS-1$
 	public static final String MAP_OPERATOR_BOTTOM_N ="bottom-n"; //$NON-NLS-1$
+	public static final String MAP_OPERATOR_NOT_LIKE = "not-like"; //$NON-NLS-1$
+	public static final String MAP_OPERATOR_NOT_MATCH ="not-match"; //$NON-NLS-1$
     
 
 	public static final String MAP_OPERATOR_ANY = "any"; //$NON-NLS-1$
@@ -518,9 +520,16 @@ public interface DesignChoiceConstants
 	public static final String FILTER_OPERATOR_BOTTOM_N = "bottom-n"; //$NON-NLS-1$
 	public static final String FILTER_OPERATOR_TOP_PERCENT = "top-percent"; //$NON-NLS-1$
 	public static final String FILTER_OPERATOR_BOTTOM_PERCENT = "bottom-percent"; //$NON-NLS-1$
+	
+	/**
+	 * @deprecated in BIRT 2.1. This operator is not supported. 
+	 */
+	
 	public static final String FILTER_OPERATOR_ANY = "any"; //$NON-NLS-1$
 	public static final String FILTER_OPERATOR_MATCH = "match"; //$NON-NLS-1$
-
+	public static final String FILTER_OPERATOR_NOT_LIKE = "not-like"; //$NON-NLS-1$
+	public static final String FILTER_OPERATOR_NOT_MATCH = "not-match"; //$NON-NLS-1$
+	
 	/**
 	 * columnAlign -- The column alignment The first constant is the name of
 	 * columnAlign choice. The followed constants are valid choice values of

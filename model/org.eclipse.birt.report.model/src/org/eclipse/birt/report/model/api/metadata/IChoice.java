@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api.metadata;
 
 
+
 /**
  * Describes the options for a property value. A choice has a display name and
  * an internal name (XML name). The display name is localized, the XML name is
@@ -54,4 +55,11 @@ public interface IChoice
 
 	public Object getValue( );
 
+	/**
+	 * Creates a deep copy of this choice.
+	 * 
+	 * @return a copy of this choice.
+	 */
+
+	public IChoice copy( );
 }

@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.core.Module;
  * This class represents a set of choices on a predefined or user defined
  * property type or property definition.
  * 
- *  
+ * 
  */
 
 public class ChoiceSet implements Cloneable, IChoiceSet
@@ -68,14 +68,14 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 		if ( choices != null )
 		{
 			for ( int i = 0; i < choices.size( ); i++ )
-				set.choices.add( ( (Choice) choices.get( i ) ).clone( ) );
+				set.choices.add( ( (IChoice) choices.get( i ) ).copy( ) );
 		}
 		return set;
 	}
 
 	/**
 	 * Create a choice set with no name.
-	 *  
+	 * 
 	 */
 
 	public ChoiceSet( )
@@ -145,31 +145,33 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 
 	public IChoice[] getChoices( )
 	{
-        if( choices == null )
-            return null;
-        
-		Choice[] retChoices = new Choice[choices.size( )];
+		if ( choices == null )
+			return null;
+
+		IChoice[] retChoices = new IChoice[choices.size( )];
 		choices.toArray( retChoices );
 
 		return retChoices;
 	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.report.model.api.metadata.IChoiceSet#getChoices(java.util.Comparator)
-     */
-    
-    public IChoice[] getChoices( Comparator c )
-    {
-        if( choices == null )
-            return null;
-        
-        Choice[] retChoices = new Choice[choices.size( )];
-        choices.toArray( retChoices );
-        
-        Arrays.sort( retChoices, c );
-        return retChoices;
-    }
-    
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.metadata.IChoiceSet#getChoices(java.util.Comparator)
+	 */
+
+	public IChoice[] getChoices( Comparator c )
+	{
+		if ( choices == null )
+			return null;
+
+		IChoice[] retChoices = new IChoice[choices.size( )];
+		choices.toArray( retChoices );
+
+		Arrays.sort( retChoices, c );
+		return retChoices;
+	}
+
 	/**
 	 * Finds a Choice in the <code>ChoiceSet</code> for the given choice name.
 	 * 
@@ -177,15 +179,15 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 	 *            the name of a Choice.
 	 * @return the instance of the Choice that matches or <code>null</code> if
 	 *         choice not found.
-	 *  
+	 * 
 	 */
 
 	public IChoice findChoice( String name )
 	{
-		Choice choice = null;
+		IChoice choice = null;
 		for ( int i = 0; i < choices.size( ); i++ )
 		{
-			choice = (Choice) choices.get( i );
+			choice = (IChoice) choices.get( i );
 
 			if ( choice.getName( ).equalsIgnoreCase( name ) )
 			{
@@ -208,10 +210,10 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 
 	public IChoice findChoiceByDisplayName( String name )
 	{
-		Choice choice = null;
+		IChoice choice = null;
 		for ( int i = 0; i < choices.size( ); i++ )
 		{
-			choice = (Choice) choices.get( i );
+			choice = (IChoice) choices.get( i );
 
 			String displayName = choice.getDisplayName( );
 
@@ -237,8 +239,7 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 	 *         choice is not found.
 	 */
 
-	public UserChoice findUserChoiceByDisplayName( Module module,
-			String name )
+	public UserChoice findUserChoiceByDisplayName( Module module, String name )
 	{
 		UserChoice choice = null;
 		for ( int i = 0; i < choices.size( ); i++ )
@@ -262,11 +263,13 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 
 		return null;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	
+
 	public String toString( )
 	{
 		if ( !StringUtil.isBlank( getName( ) ) )

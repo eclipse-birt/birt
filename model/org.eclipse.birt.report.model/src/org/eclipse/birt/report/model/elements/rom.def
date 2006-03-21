@@ -239,9 +239,8 @@
     <Choice displayNameID="Choices.mapOperator.match" name="match"/>
     <Choice displayNameID="Choices.mapOperator.top-n" name="top-n" />
     <Choice displayNameID="Choices.mapOperator.bottom-n" name="bottom-n" />   
-	<!-- DTE doesn't support the following operator
-    <Choice displayNameID="Choices.mapOperator.any" name="any"/>
-    -->
+    <Choice displayNameID="Choices.mapOperator.not-like" name="not-like"/>
+    <Choice displayNameID="Choices.mapOperator.not-match" name="not-match"/>    
   </ChoiceType>
   <ChoiceType name="filterOperator">
     <Choice displayNameID="Choices.filterOperator.eq" name="eq" />
@@ -261,8 +260,9 @@
     <Choice displayNameID="Choices.filterOperator.bottom-n" name="bottom-n" />
     <Choice displayNameID="Choices.filterOperator.top-percent" name="top-percent" />
     <Choice displayNameID="Choices.filterOperator.bottom-percent" name="bottom-percent" />
-    <Choice displayNameID="Choices.filterOperator.any" name="any" />
     <Choice displayNameID="Choices.filterOperator.match" name="match" />
+    <Choice displayNameID="Choices.filterOperator.not-like" name="not-like" />    
+    <Choice displayNameID="Choices.filterOperator.not-match" name="not-match" />
   </ChoiceType>
   <ChoiceType name="imageSize">
     <Choice displayNameID="Choices.imageSize.size-to-image" name="size-to-image"/>

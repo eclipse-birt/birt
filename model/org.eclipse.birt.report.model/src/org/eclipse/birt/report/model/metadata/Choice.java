@@ -66,7 +66,7 @@ public class Choice implements Cloneable, IChoice, Comparable
 
 	/**
 	 * Default constructor.
-	 *  
+	 * 
 	 */
 
 	protected Choice( )
@@ -79,7 +79,8 @@ public class Choice implements Cloneable, IChoice, Comparable
 	 * 
 	 * @see java.lang.Object#clone()
 	 */
-	public Object clone( ) throws CloneNotSupportedException
+
+	protected Object clone( ) throws CloneNotSupportedException
 	{
 		return super.clone( );
 	}
@@ -153,26 +154,49 @@ public class Choice implements Cloneable, IChoice, Comparable
 		return name;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-    
+
 	public int compareTo( Object o )
 	{
-        assert name != null;
+		assert name != null;
 
-        Choice choice = (Choice)o;
-		return name.compareTo( choice.getName() );
+		Choice choice = (Choice) o;
+		return name.compareTo( choice.getName( ) );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	
+
 	public String toString( )
 	{
 		if ( !StringUtil.isBlank( getName( ) ) )
 			return getName( );
 		return super.toString( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.metadata.IChoice#copy()
+	 */
+
+	public IChoice copy( )
+	{
+		try
+		{
+			return (IChoice) clone( );
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			assert false;
+			return null;
+		}
 	}
 }
