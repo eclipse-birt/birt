@@ -1020,7 +1020,7 @@ public final class MarkerRenderer
 			areR.setStartAngle( 270.0 );
 			areR.setEndAngle( 180.0 );
 			areR.setStyle( ArcRenderEvent.OPEN );
-			areR.setBounds( BoundsImpl.create( lo.getX( ) - 1, lo.getY( )
+			areR.setBounds( BoundsImpl.create( lo.getX( ), lo.getY( )
 					- offset, iSize, iSize ) );
 
 			final LineRenderEvent lreU = new LineRenderEvent( oSource );
