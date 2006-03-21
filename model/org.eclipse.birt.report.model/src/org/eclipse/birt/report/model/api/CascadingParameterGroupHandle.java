@@ -61,15 +61,15 @@ public class CascadingParameterGroupHandle extends ParameterGroupHandle
 
 		assert dataSet instanceof SimpleDataSet;
 
-		return (DataSetHandle) dataSet.getHandle( module );
+		return (DataSetHandle) dataSet.getHandle( dataSet.getRoot( ) );
 	}
 
 	/**
 	 * Sets the data set of the report item.
 	 * 
 	 * @param handle
-	 *            the handle of the data set, if <code>handle</code> is null, data set
-	 *		  property will be cleared.
+	 *            the handle of the data set, if <code>handle</code> is null,
+	 *            data set property will be cleared.
 	 * 
 	 * @throws SemanticException
 	 *             if the property is locked.
@@ -90,7 +90,7 @@ public class CascadingParameterGroupHandle extends ParameterGroupHandle
 				valueToSet = StringUtil.buildQualifiedReference( namespace,
 						handle.getName( ) );
 			}
-			
+
 			setStringProperty( DATA_SET_PROP, valueToSet );
 		}
 	}

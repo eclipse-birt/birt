@@ -410,7 +410,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 				propName );
 		if ( target == null )
 			return null;
-		return target.getHandle( module );
+		return target.getHandle( target.getRoot( ) );
 	}
 
 	/**

@@ -140,6 +140,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 			IModuleModel
 {
 
+	/**
+	 * The flag indicates that whether the initialization is finished.
+	 */
+
 	protected boolean isInitialized = false;
 
 	/**
@@ -2366,8 +2370,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	/**
 	 * Initializes the report design when it is just created.
 	 * <p>
-	 * Set the value to the properties on repot design element which need
-	 * the initialize valuel. 
+	 * Set the value to the properties on repot design element which need the
+	 * initialize valuel.
 	 * 
 	 * All initialize operations will not go into the command stack and can not
 	 * be undo redo.
@@ -2380,7 +2384,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *             contians invlid property name or property value.
 	 * @deprecated
 	 */
-	
+
 	public void initializeModule( Map properties ) throws SemanticException
 	{
 		// if this report deisgn has been initialized, return.

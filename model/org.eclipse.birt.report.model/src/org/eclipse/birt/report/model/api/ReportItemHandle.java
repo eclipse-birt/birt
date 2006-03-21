@@ -74,7 +74,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 		assert dataSet instanceof DataSet;
 
-		return (DataSetHandle) dataSet.getHandle( module );
+		return (DataSetHandle) dataSet.getHandle( dataSet.getRoot( ) );
 	}
 
 	/**
@@ -429,7 +429,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	{
 		return getStringProperty( ReportItem.TOC_PROP );
 	}
-	
+
 	/**
 	 * Gets the on-prepare script of the group. Startup phase. No data binding
 	 * yet. The design of an element can be changed here.
@@ -442,7 +442,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	{
 		return getStringProperty( ReportItem.ON_PREPARE_METHOD );
 	}
-	
+
 	/**
 	 * Sets the on-prepare script of the group element.
 	 * 
