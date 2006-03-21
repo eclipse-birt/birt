@@ -1432,8 +1432,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 						seriesOrthogonalRuntime.getDataSet( ) ) );
 
 				// Set sample series identifiers
-				seriesOrthogonalRuntime.setSeriesIdentifier( "Series " //$NON-NLS-1$
-						+ ( iO + 1 ) );
+				// Use the design time settings without consideration of group
+				seriesOrthogonalRuntime.setSeriesIdentifier( sdTmp.getDesignTimeSeries( )
+						.getSeriesIdentifier( ) );
 
 				// Set sample data definition
 				//				Query q = QueryImpl.create( "Data " //$NON-NLS-1$

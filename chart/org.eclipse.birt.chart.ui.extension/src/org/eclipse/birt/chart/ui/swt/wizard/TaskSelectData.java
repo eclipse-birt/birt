@@ -850,11 +850,23 @@ public class TaskSelectData extends SimpleTask
 	private String getSecondMenuText( int axisIndex, int seriesIndex,
 			Series series )
 	{
-		String text = axisIndex == 0
-				? "" : Messages.getString( "TaskSelectData.Label.Overlay" ); //$NON-NLS-1$ //$NON-NLS-2$
-		text += Messages.getString( "TaskSelectData.Label.Series" ) //$NON-NLS-1$
-				+ ( seriesIndex + 1 ) + " (" + series.getDisplayName( ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-		return text;
+		StringBuffer sb = new StringBuffer( );
+		if ( ChartUIUtil.getOrthogonalAxisNumber( getChartModel( ) ) > 2 )
+		{
+			sb.append( Messages.getString( "DataDefinitionSelector.Label.Axis" ) ); //$NON-NLS-1$
+			sb.append( axisIndex + 1 );
+			sb.append( " - " ); //$NON-NLS-1$
+		}
+		else
+		{
+			if ( axisIndex > 0 )
+			{
+				sb.append( Messages.getString( "TaskSelectData.Label.Overlay" ) ); //$NON-NLS-1$ 
+			}
+		}
+		sb.append( Messages.getString( "TaskSelectData.Label.Series" ) //$NON-NLS-1$
+				+ ( seriesIndex + 1 ) + " (" + series.getDisplayName( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+		return sb.toString( );
 	}
 
 	private String getBaseSeriesTitle( Chart chart )
