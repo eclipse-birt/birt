@@ -1841,6 +1841,7 @@
     <Property detailType="ResultSetColumn" displayNameID="Element.DataSet.resultSet" isList="true" name="resultSet" since="1.0" type="structure">
 	  <Trigger validator="DataSetResultSetValidator"/>
 	</Property>
+    <Property detailType="ColumnHint" displayNameID="Element.DataSet.columnHints" isList="true" name="columnHints" since="1.0" type="structure"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.SimpleDataSet" extends="DataSet" hasStyle="false" isAbstract="true" isNameRequired="true" name="SimpleDataSet" since="1.0" xmlName="simple-data-set">
     <Method context="factory" displayNameID="Element.SimpleDataSet.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.SimpleDataSet.beforeOpen.toolTip" >
@@ -1866,7 +1867,6 @@
 	<Property displayNameID="Element.SimpleDataSet.cachedRowCount" name="cachedRowCount" since="2.0" type="integer"/>
     <Property detailType="DataSource" displayNameID="Element.SimpleDataSet.dataSource" name="dataSource" since="1.0" type="element" valueRequired="true"/>    
     <Property detailType="ParamBinding" displayNameID="Element.SimpleDataSet.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>
-    <Property detailType="ColumnHint" displayNameID="Element.SimpleDataSet.columnHints" isList="true" name="columnHints" since="1.0" type="structure"/>
     <Property detailType="DataSetParam" displayNameID="Element.SimpleDataSet.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
 	<Property detailType="CachedMetaData" displayNameID="Element.SimpleDataSet.cachedMetaData" isList="false" name="cachedMetaData" since="1.0" type="structure"/>
   	<Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.SimpleDataSet.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="element"/>

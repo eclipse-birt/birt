@@ -129,16 +129,6 @@ public class JointDataSetHandle extends DataSetHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DataSetHandle#columnHintsIterator()
-	 */
-	public Iterator columnHintsIterator( )
-	{
-		throw new IllegalOperationException( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getCachedMetaDataHandle()
 	 */
 	public CachedMetaDataHandle getCachedMetaDataHandle( )
