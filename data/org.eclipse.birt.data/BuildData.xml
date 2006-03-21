@@ -156,6 +156,11 @@
 				<exclude name="**/golden/**" />
 			</fileset>
 		</jar>
+		<jar destfile="dteapi.jar">
+			<fileset dir="${bin}">
+				<include name="org/eclipse/birt/data/engine/api/IResultMetaData.class" />
+			</fileset>
+		</jar>
 	</target>
 
 	<!-- Jar all code, since some project might have interest on it.
