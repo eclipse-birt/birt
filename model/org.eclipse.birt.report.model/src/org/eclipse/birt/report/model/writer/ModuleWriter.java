@@ -1543,7 +1543,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, TableColumn.WIDTH_PROP );
 		property( obj, TableColumn.REPEAT_PROP );
 		property( obj, TableColumn.SUPPRESS_DUPLICATES_PROP );
-		
+
 		writeStyle( obj );
 
 		writer.endElement( );
@@ -1847,6 +1847,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		writer.startElement( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG );
 		super.visitTemplateReportItem( obj );
+
+		writeStructureList( obj, TemplateReportItem.VISIBILITY_PROP );
+
 		writer.endElement( );
 	}
 
@@ -2488,7 +2491,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitListing( ListingElement obj )
 	{
 		super.visitListing( obj );
-		
+
 		property( obj, ListingElement.REPEAT_HEADER_PROP );
 
 		writeStructureList( obj, ListingElement.SORT_PROP );
@@ -2522,7 +2525,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, Style.PAGE_BREAK_AFTER_PROP );
 		property( obj, Style.PAGE_BREAK_BEFORE_PROP );
-		
+
 		// write user property definitions and values
 
 		writeUserPropertyDefns( obj );
@@ -2724,14 +2727,14 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * 
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitJointDataSet(org.eclipse.birt.report.model.elements.JointDataSet)
 	 */
-	 
+
 	public void visitJointDataSet( JointDataSet obj )
 	{
 
 		writer.startElement( DesignSchemaConstants.JOINT_DATA_SET_TAG );
 		super.visitJointDataSet( obj );
 
-		writeSimplePropertyList( obj, JointDataSet.DATA_SETS_PROP);
+		writeSimplePropertyList( obj, JointDataSet.DATA_SETS_PROP );
 
 		writeStructureList( obj, JointDataSet.JOIN_CONDITONS_PROP );
 		writer.endElement( );

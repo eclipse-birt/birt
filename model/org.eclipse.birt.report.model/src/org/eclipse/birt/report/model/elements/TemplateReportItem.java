@@ -25,6 +25,11 @@ import org.eclipse.birt.report.model.core.Module;
 
 public class TemplateReportItem extends TemplateElement
 {
+	/**
+	 * Name of the visibility property. Define hide rules for an template item.
+	 */
+
+	public static final String VISIBILITY_PROP = "visibility"; //$NON-NLS-1$
 
 	/**
 	 * Default constructor.

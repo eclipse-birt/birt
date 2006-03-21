@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.TemplateException;
 import org.eclipse.birt.report.model.command.TemplateCommand;
@@ -20,8 +22,8 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TemplateReportItem;
 
 /**
- * Handle for template report items. A template report item is a place holder
- * to generate a real report item. 
+ * Handle for template report items. A template report item is a place holder to
+ * generate a real report item.
  * 
  * @see org.eclipse.birt.report.model.api.TemplateElementHandle
  */
@@ -61,7 +63,8 @@ public class TemplateReportItemHandle extends TemplateElementHandle
 			throws SemanticException
 	{
 		if ( getRoot( ) == null )
-			throw new TemplateException( getElement( ),
+			throw new TemplateException(
+					getElement( ),
 					TemplateException.DESIGN_EXCEPTION_CREATE_TEMPLATE_ELEMENT_FORBIDDEN );
 		TemplateCommand cmd = new TemplateCommand( getModule( ), getContainer( )
 				.getElement( ) );
@@ -69,4 +72,23 @@ public class TemplateReportItemHandle extends TemplateElementHandle
 				(ReportItem) reportItemHandle.getElement( ), getElement( )
 						.getContainerSlot( ) );
 	}
+
+	/**
+	 * Returns visibility rules defined on the template report item. The element
+	 * in the iterator is the corresponding <code>StructureHandle</code> that
+	 * deal with a <code>HideRule</code> in the list.
+	 * 
+	 * @return the iterator for visibility rules defined on this template report
+	 *         item.
+	 * 
+	 * @see org.eclipse.birt.report.model.api.elements.structures.HideRule
+	 */
+
+	public Iterator visibilityRulesIterator( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( TemplateReportItem.VISIBILITY_PROP );
+		assert propHandle != null;
+		return propHandle.iterator( );
+	}
+
 }
