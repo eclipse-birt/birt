@@ -139,16 +139,6 @@ public class JointDataSetHandle extends DataSetHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DataSetHandle#filtersIterator()
-	 */
-	public Iterator filtersIterator( )
-	{
-		throw new IllegalOperationException( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getCachedMetaDataHandle()
 	 */
 	public CachedMetaDataHandle getCachedMetaDataHandle( )
@@ -162,6 +152,16 @@ public class JointDataSetHandle extends DataSetHandle
 	 * @see org.eclipse.birt.report.model.api.DataSetHandle#paramBindingsIterator()
 	 */
 	public Iterator paramBindingsIterator( )
+	{
+		throw new IllegalOperationException( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DataSetHandle#parametersIterator()
+	 */
+	public Iterator parametersIterator( )
 	{
 		throw new IllegalOperationException( );
 	}
