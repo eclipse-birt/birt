@@ -188,7 +188,7 @@
 	<ant dir="${designer.ide.dir}" antfile="BuildDesignerIDE.xml" target="Jar" inheritAll="false">
 		<property name="eclipse.home" value="${eclipse.home}" />
 	</ant>
-	<ant dir="${viewer}" antfile="BuildViewer.xml" target="Jar" inheritAll="false">
+	<ant dir="${viewer.dir}" antfile="BuildViewer.xml" target="Jar" inheritAll="false">
 		<property name="eclipse.home" value="${eclipse.home}" />
 	</ant>
 	<ant dir="${preview.dir}" antfile="BuildDesignerPreview.xml" target="Jar" inheritAll="false">
