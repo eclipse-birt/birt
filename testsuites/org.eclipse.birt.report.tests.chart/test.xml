@@ -103,6 +103,7 @@
 		    	<include name="org.eclipse.birt.data/*.jar" />
 		  	
 			    <include name="org.eclipse.birt.report.engine/*.jar" />
+		  	<include name="com.ibm.icu*.jar" />
 		  </fileset>
 	
 	</path>
