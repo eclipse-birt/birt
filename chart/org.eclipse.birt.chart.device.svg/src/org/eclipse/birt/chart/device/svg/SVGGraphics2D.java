@@ -29,6 +29,7 @@ import java.awt.Stroke;
 import java.awt.RenderingHints.Key;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
+import java.awt.font.TextAttribute;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
@@ -1319,6 +1320,32 @@ public class SVGGraphics2D extends Graphics2D
 	{
 		Element elem = dom.createElement( "text" ); //$NON-NLS-1$
 		elem.appendChild( dom.createTextNode( text ) );
+		switch (getFont().getStyle()){
+			case Font.BOLD:
+				elem.setAttribute( "font-weight", "bold"); //$NON-NLS-1$ //$NON-NLS-2$
+				break;
+			case Font.ITALIC:
+				elem.setAttribute( "font-style", "italic"); //$NON-NLS-1$ //$NON-NLS-2$
+				break;
+			case (Font.BOLD+Font.ITALIC):
+				elem.setAttribute( "font-style", "italic"); //$NON-NLS-1$ //$NON-NLS-2$
+				elem.setAttribute( "font-weight", "bold"); //$NON-NLS-1$ //$NON-NLS-2$
+				break;				
+		}
+		String textDecorator = null;
+		Map attributes = getFont().getAttributes();
+		if (attributes.get(TextAttribute.UNDERLINE) == TextAttribute.UNDERLINE_ON){			
+			textDecorator = "underline"; //$NON-NLS-1$ 
+		}
+		if (attributes.get(TextAttribute.STRIKETHROUGH) == TextAttribute.STRIKETHROUGH_ON){			
+			if (textDecorator == null)
+				textDecorator = "line-through"; //$NON-NLS-1$
+			else
+				textDecorator += ",line-through"; //$NON-NLS-1$
+		}
+		if (textDecorator != null)
+			elem.setAttribute( "text-decoration", textDecorator); //$NON-NLS-1$
+		
 		elem.setAttribute( "font-family", getFont().getFamily()); //$NON-NLS-1$
 		elem.setAttribute( "font-size", Integer.toString(getFont().getSize())); //$NON-NLS-1$
 		String style = getRenderingStyle(RenderingHints.KEY_TEXT_ANTIALIASING);
