@@ -97,7 +97,7 @@ public class ResourceConstants
 	
 	// invalid expression
 	public final static String INVALID_EXPRESSION_IN_FILTER = "data.engine.BadFilterExpr";
-	
+	public final static String BAD_GROUP_EXPRESSION = "data.engine.BadGroupExpr";
 	// clob and blob
 	public final static String CLOB_OPEN_ERROR = "data.engine.opencloberror";
 	public final static String CLOB_READ_ERROR = "data.engine.readcloberror";
@@ -241,4 +241,5 @@ public class ResourceConstants
 	public final static String CANNOT_GET_PARAMETER_METADATA = "odaconsumer.CannotGetParameterMetaData";
 	public final static String CANNOT_LOAD_ODA_ADAPTER = "odaconsumer.CannotLoadOdaAdapter";
 	public final static String MUST_SPECIFY_COLUMN_NAME = "odaconsumer.MustSpecifyColumnName";
+	
 }

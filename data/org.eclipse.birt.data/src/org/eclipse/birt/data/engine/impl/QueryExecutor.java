@@ -310,6 +310,10 @@ abstract class QueryExecutor implements IQueryExecutor
 				for ( int i = 0; it.hasNext(); i++ )
 				{
 					IGroupDefinition src = (IGroupDefinition) it.next();
+					
+					if( (src.getKeyColumn( ) == null || src.getKeyColumn( ).trim( ).length( ) == 0)&&
+						(src.getKeyExpression( ) == null || src.getKeyExpression( ).trim( ).length( ) == 0)	)
+						throw new DataException( ResourceConstants.BAD_GROUP_EXPRESSION );
 					//TODO does the index of column significant?
 					IQuery.GroupSpec dest = QueryExeutorUtil.groupDefnToSpec( cx,
 							src,
