@@ -190,22 +190,6 @@ public class ViewerAttributeBean
 		}
 		else
 		{
-			if ( ViewerServlet.SERVLET_PATH_FRAMESET.equalsIgnoreCase( request
-					.getServletPath( ) )
-					|| ViewerServlet.SERVLET_PATH_PREVIEW
-							.equalsIgnoreCase( request.getServletPath( ) )
-					|| ViewerServlet.SERVLET_PATH_PARAMETER
-							.equalsIgnoreCase( request.getServletPath( ) ) )
-			{
-				this.exception = new EngineException(
-						MessageUtility
-								.format(
-										BirtResources
-												.getString( MessageConstants.REPORT_DOCUMENT_NOT_FOUND_EXCEPTION ),
-										reportDocumentName ) );
-				return;
-			}
-
 			try
 			{
 				this.reportRunnable = ReportEngineService.getInstance( )
