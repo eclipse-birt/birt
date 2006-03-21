@@ -104,12 +104,11 @@ class RDLoad
 
 		return new ResultMetaData( resultClass );
 	}
-
+	
 	/**
-	 * @return
 	 * @throws DataException
 	 */
-	boolean next( ) throws DataException
+	private void initNext( ) throws DataException
 	{
 		if ( rowDis == null )
 		{
@@ -128,7 +127,7 @@ class RDLoad
 						e,
 						"result data" );
 			}
-			
+
 			if ( this.version == VersionManager.VERSION_2_1 )
 			{
 				InputStream lenIs = context.getInputStream( queryResultID,
@@ -159,12 +158,13 @@ class RDLoad
 					// ignore it
 				}
 			}
-			
+
 			InputStream groupIs = context.getInputStream( queryResultID,
 					subQueryID,
 					DataEngineContext.GROUP_INFO_STREAM );
 			BufferedInputStream groupBis = new BufferedInputStream( groupIs );
-			rdGroupUtil = new RDGroupUtil( groupBis, new CacheProviderImpl( this ) );
+			rdGroupUtil = new RDGroupUtil( groupBis,
+					new CacheProviderImpl( this ) );
 			try
 			{
 				groupBis.close( );
@@ -175,19 +175,6 @@ class RDLoad
 				// ignore it
 			}
 		}
-
-		boolean hasNext = currPos++ < rowCount;
-		this.rdGroupUtil.next( hasNext );
-		
-		return hasNext;
-	}
-
-	/**
-	 * @return
-	 */
-	int getCurrentIndex( )
-	{
-		return this.currPos - 1;
 	}
 
 	/**
@@ -198,6 +185,20 @@ class RDLoad
 		return this.rowCount;
 	}
 
+	/**
+	 * @return
+	 * @throws DataException
+	 */
+	boolean next( ) throws DataException
+	{
+		initNext( );
+		
+		boolean hasNext = currPos++ < rowCount;
+		this.rdGroupUtil.next( hasNext );
+		
+		return hasNext;
+	}
+	
 	/**
 	 * @param expr
 	 * @throws DataException 
@@ -239,7 +240,9 @@ class RDLoad
 		else if ( rowIndex == this.getCurrentIndex( ) )
 			return;
 
-		this.currPos = rowIndex + 1;
+		int gapValue = rowIndex - this.getCurrentIndex( );
+		for ( int i = 0; i < gapValue; i++ )
+			this.next( );
 	}
 	
 	/**
@@ -289,6 +292,14 @@ class RDLoad
 			Object exprValue = IOUtil.readObject( rowDis );
 			exprValueMap.put( exprID, exprValue );
 		}
+	}
+	
+	/**
+	 * @return
+	 */
+	int getCurrentIndex( )
+	{
+		return this.currPos - 1;
 	}
 	
 	/**
