@@ -200,7 +200,7 @@
 <!-- Class Path -->
 <path id="class.path">
 	<pathelement path="${build.dir}" />
-	<fileset dir="${viewer}">
+	<fileset dir="${viewer.dir}">
 		<include name="*.jar" />
 	</fileset>
 </path>
