@@ -89,7 +89,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.80 $ $Date: 2006/03/17 02:21:23 $
+ * @version $Revision: 1.81 $ $Date: 2006/03/22 03:23:32 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1552,6 +1552,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 			setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
 			exportElementID( image, bookmark, "EXTENDED" );
+			
+			//onresize gives the SVG a change to change its content
+			writer.attribute( "onresize", bookmark+".reload()"); //$NON-NLS-1$
 
 			writer.attribute( HTMLTags.ATTR_TYPE, "image/svg+xml" ); //$NON-NLS-1$
 			writer.attribute( HTMLTags.ATTR_SRC, imgUri );
