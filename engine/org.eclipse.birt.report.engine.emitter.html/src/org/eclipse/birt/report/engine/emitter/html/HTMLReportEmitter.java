@@ -72,7 +72,6 @@ import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.parser.TextParser;
@@ -90,7 +89,7 @@ import org.w3c.dom.NodeList;
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter
  * interface to output IARD Report ojbects to HTML file.
  * 
- * @version $Revision: 1.79 $ $Date: 2006/03/13 09:21:47 $
+ * @version $Revision: 1.80 $ $Date: 2006/03/17 02:21:23 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1381,7 +1380,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 				if ( node.getNodeType( ) == Node.TEXT_NODE )
 				{
-					writer.text( node.getNodeValue( ), false, true );
+				//	bug132213 in text item should only deal with the escape special characters: < > &
+				//  old code:	writer.text( node.getNodeValue( ), false, true );
+					writer.textForHtmlItem( node.getNodeValue( ) );
 				}
 				else
 				{
