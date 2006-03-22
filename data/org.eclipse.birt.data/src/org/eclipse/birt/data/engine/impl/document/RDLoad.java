@@ -54,7 +54,7 @@ class RDLoad
 	private BufferedInputStream rowBis;
 	private DataInputStream rowDis;
 	
-	private int[] rowLength;
+	private int[] rowOffsetLength;
 
 	private int version;
 	
@@ -127,38 +127,7 @@ class RDLoad
 						e,
 						"result data" );
 			}
-
-			if ( this.version == VersionManager.VERSION_2_1 )
-			{
-				InputStream lenIs = context.getInputStream( queryResultID,
-						subQueryID,
-						DataEngineContext.ROWLENGTH_INFO_STREAM );
-				BufferedInputStream lenBis = new BufferedInputStream( lenIs );
-				DataInputStream lenDis = new DataInputStream( lenBis );
-				this.rowLength = new int[rowCount];
-				try
-				{
-					for ( int i = 0; i < rowCount; i++ )
-						this.rowLength[i] = IOUtil.readInt( lenDis );
-				}
-				catch ( IOException e )
-				{
-					throw new DataException( ResourceConstants.RD_LOAD_ERROR,
-							e,
-							"row length" );
-				}
-				try
-				{
-					lenDis.close( );
-					lenBis.close( );
-					lenIs.close( );
-				}
-				catch ( IOException e )
-				{
-					// ignore it
-				}
-			}
-
+			
 			InputStream groupIs = context.getInputStream( queryResultID,
 					subQueryID,
 					DataEngineContext.GROUP_INFO_STREAM );
@@ -242,9 +211,13 @@ class RDLoad
 	/**
 	 * @param absoluteIndex
 	 * @throws IOException
+	 * @throws DataException 
 	 */
-	private void skipTo( int absoluteIndex ) throws IOException
+	private void skipTo( int absoluteIndex ) throws IOException, DataException
 	{
+		if ( readIndex == absoluteIndex )
+			return;
+
 		if ( version == VersionManager.VERSION_2_0 )
 		{
 			int exprCount;
@@ -261,15 +234,59 @@ class RDLoad
 		}
 		else
 		{
-			int skipBytesLen = 0;
-			int gapRows = absoluteIndex - readIndex;
-			for ( int j = 0; j < gapRows; j++ )
-				skipBytesLen += rowLength[readIndex + j];
+			initSkipData( );
+
+			int skipBytesLen = rowOffsetLength[absoluteIndex]
+					- rowOffsetLength[readIndex];
 
 			if ( skipBytesLen > 0 )
 				this.rowDis.skipBytes( skipBytesLen );
 
 			readIndex = absoluteIndex;
+		}
+	}
+	
+	/**
+	 * @throws DataException
+	 */
+	private void initSkipData( ) throws DataException
+	{
+		if ( this.rowOffsetLength != null )
+			return;
+
+		this.rowOffsetLength = new int[rowCount];
+		if ( rowCount > 0 )
+		{
+			InputStream lenIs = context.getInputStream( queryResultID,
+					subQueryID,
+					DataEngineContext.ROWLENGTH_INFO_STREAM );
+			BufferedInputStream lenBis = new BufferedInputStream( lenIs );
+			DataInputStream lenDis = new DataInputStream( lenBis );
+
+			rowOffsetLength[0] = 0;
+			try
+			{
+				for ( int i = 1; i < rowCount; i++ )
+					this.rowOffsetLength[i] = this.rowOffsetLength[i - 1]
+							+ IOUtil.readInt( lenDis );
+
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.RD_LOAD_ERROR,
+						e,
+						"row length" );
+			}
+			try
+			{
+				lenDis.close( );
+				lenBis.close( );
+				lenIs.close( );
+			}
+			catch ( IOException e )
+			{
+				// ignore it
+			}
 		}
 	}
 	
