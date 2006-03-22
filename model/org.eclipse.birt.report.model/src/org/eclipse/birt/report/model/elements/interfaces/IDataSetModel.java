@@ -18,57 +18,9 @@ public interface IDataSetModel
 {
 
 	/**
-	 * Name of the data source property.
-	 */
-
-	public static final String DATA_SOURCE_PROP = "dataSource"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the script called before opening this data set.
-	 */
-
-	public static final String BEFORE_OPEN_METHOD = "beforeOpen"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the script called before closing this data set.
-	 */
-
-	public static final String BEFORE_CLOSE_METHOD = "beforeClose"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the script called after opening this data set.
-	 */
-
-	public static final String AFTER_OPEN_METHOD = "afterOpen"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the script called after closing this data set.
-	 */
-
-	public static final String AFTER_CLOSE_METHOD = "afterClose"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the script called when fetching this data set.
-	 */
-
-	public static final String ON_FETCH_METHOD = "onFetch"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the data set parameters definitions.
-	 */
-
-	public static final String PARAMETERS_PROP = "parameters"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the data set parameter binding elements that bind
-	 * data set input parameters to expressions.
-	 */
-
-	public static final String PARAM_BINDINGS_PROP = "paramBindings"; //$NON-NLS-1$
-
-	/**
 	 * The property name of the structures of the expected result set.
 	 */
+
 	public static final String RESULT_SET_PROP = "resultSet"; //$NON-NLS-1$
 
 	/**
@@ -88,17 +40,5 @@ public interface IDataSetModel
 	 */
 
 	public static final String FILTER_PROP = "filter"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the cached data set information.
-	 */
-
-	public static final String CACHED_METADATA_PROP = "cachedMetaData"; //$NON-NLS-1$
-	
-	/**
-	 * The property name of cached row count.
-	 */
-	public static final String CACHED_ROW_COUNT_PROP = "cachedRowCount"; //$NON-NLS-1$
-
 
 }

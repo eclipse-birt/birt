@@ -44,7 +44,7 @@ import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
-import org.eclipse.birt.report.model.elements.SimpleDataSet;
+import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
@@ -70,6 +70,7 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.elements.ScriptDataSource;
+import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
@@ -2321,6 +2322,23 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitSimpleDataSet(org.eclipse.birt.report.model.elements.SimpleDataSet)
 	 */
 
+	public void visitDataSet( DataSet obj )
+	{
+		super.visitDataSet( obj );
+
+		writeStructureList( obj, DataSet.RESULT_SET_PROP );
+		writeStructureList( obj, DataSet.COMPUTED_COLUMNS_PROP );
+		writeStructureList( obj, DataSet.COLUMN_HINTS_PROP );
+		writeStructureList( obj, DataSet.FILTER_PROP );
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitSimpleDataSet(org.eclipse.birt.report.model.elements.SimpleDataSet)
+	 */
+
 	public void visitSimpleDataSet( SimpleDataSet obj )
 	{
 		super.visitSimpleDataSet( obj );
@@ -2337,10 +2355,6 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writeStructureList( obj, SimpleDataSet.PARAMETERS_PROP );
 		writeStructureList( obj, SimpleDataSet.PARAM_BINDINGS_PROP );
-		writeStructureList( obj, SimpleDataSet.RESULT_SET_PROP );
-		writeStructureList( obj, SimpleDataSet.COMPUTED_COLUMNS_PROP );
-		writeStructureList( obj, SimpleDataSet.COLUMN_HINTS_PROP );
-		writeStructureList( obj, SimpleDataSet.FILTER_PROP );
 
 		CachedMetaData metadata = (CachedMetaData) obj.getLocalProperty(
 				getModule( ), SimpleDataSet.CACHED_METADATA_PROP );

@@ -17,7 +17,7 @@ import org.eclipse.birt.report.model.api.validators.DataSetResultSetValidator;
 import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
 
 /**
  * This class represents a data set: a query, stored procedure, or other source
@@ -37,7 +37,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
  * 
  */
 
-public abstract class SimpleDataSet extends DataSet implements IDataSetModel
+public abstract class SimpleDataSet extends DataSet implements ISimpleDataSetModel
 {
 
 	/**

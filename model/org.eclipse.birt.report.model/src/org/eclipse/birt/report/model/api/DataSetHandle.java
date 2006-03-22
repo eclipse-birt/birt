@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -59,11 +60,11 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * To get a handle for the data source, uses the following example:
  * 
  * <pre>
- *  
- *      
- *  		DataSetHandle dataHandle = designHandle
- *          findDataSet( &quot;My First Data Set &quot; );
- *   
+ *    
+ *        
+ *    		DataSetHandle dataHandle = designHandle
+ *            findDataSet( &quot;My First Data Set &quot; );
+ *     
  * </pre>
  * 
  * <p>
@@ -81,7 +82,8 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 public abstract class DataSetHandle extends ReportElementHandle
 		implements
-			IDataSetModel
+			IDataSetModel,
+			ISimpleDataSetModel
 {
 
 	/**

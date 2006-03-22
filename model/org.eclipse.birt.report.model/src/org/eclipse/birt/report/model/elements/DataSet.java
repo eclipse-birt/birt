@@ -1,5 +1,6 @@
 
 package org.eclipse.birt.report.model.elements;
+
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -13,6 +14,7 @@ package org.eclipse.birt.report.model.elements;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
+import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 
 /**
  * Abastract parent of simple data set and joint data set.
@@ -20,6 +22,8 @@ import org.eclipse.birt.report.model.core.ReferenceableElement;
  */
 
 public abstract class DataSet extends ReferenceableElement
+		implements
+			IDataSetModel
 {
 
 	/**

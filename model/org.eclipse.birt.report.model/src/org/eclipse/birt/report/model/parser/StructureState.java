@@ -45,6 +45,7 @@ import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DataItem;
+import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
@@ -310,7 +311,7 @@ public class StructureState extends AbstractPropertyState
 		}
 
 		String propName = propDefn == null ? null : propDefn.getName( ); 
-		if ( element instanceof SimpleDataSet )
+		if ( element instanceof DataSet )
 		{
 			if ( SimpleDataSet.PARAMETERS_PROP.equalsIgnoreCase( propName ) )
 			{
@@ -320,7 +321,7 @@ public class StructureState extends AbstractPropertyState
 
 				return state;
 			}
-			else if ( SimpleDataSet.COMPUTED_COLUMNS_PROP.equalsIgnoreCase( propName ) )
+			else if ( DataSet.COMPUTED_COLUMNS_PROP.equalsIgnoreCase( propName ) )
 			{
 				CompatibleComputedColumnStructureState state = new CompatibleComputedColumnStructureState(
 						handler, element, propDefn, list );
