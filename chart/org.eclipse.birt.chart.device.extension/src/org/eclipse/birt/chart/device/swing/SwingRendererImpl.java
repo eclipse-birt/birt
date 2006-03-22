@@ -1660,7 +1660,34 @@ public class SwingRendererImpl extends DeviceAdapter
 						clipping ) );
 			}
 		}
+		else if ( pre instanceof AreaRenderEvent )
+		{		
+			final Bounds bo = ( (AreaRenderEvent) pre ).getBounds( );
 
+			final Location[] loa = new Location[4];
+			loa[0] = LocationImpl.create( bo.getLeft( ), bo.getTop( ) );
+			loa[1] = LocationImpl.create( bo.getLeft( ), bo.getTop( )
+					+ bo.getHeight( ) );
+			loa[2] = LocationImpl.create( bo.getLeft( ) + bo.getWidth( ),
+					bo.getTop( ) + bo.getHeight( ) );
+			loa[3] = LocationImpl.create( bo.getLeft( ) + bo.getWidth( ),
+					bo.getTop( ) );
+
+			for ( int i = 0; i < tga.length; i++ )
+			{
+				tc = tga[i].getCondition( );
+				al = (ArrayList) _lhmAllTriggers.get( tc );
+				if ( al == null )
+				{
+					al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
+					_lhmAllTriggers.put( tc, al );
+				}
+				al.add( new ShapedAction( iev.getSource( ),
+						loa,
+						tga[i].getAction( ),
+						clipping ) );
+			}
+		}
 	}
 
 	/**

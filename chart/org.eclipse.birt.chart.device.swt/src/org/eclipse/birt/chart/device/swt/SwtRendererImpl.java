@@ -1308,6 +1308,28 @@ public class SwtRendererImpl extends DeviceAdapter
 						clipping ) );
 			}
 		}
+		else if ( pre instanceof AreaRenderEvent )
+		{
+			final Bounds bo = ( (AreaRenderEvent) pre ).getBounds( );
+
+			for ( int i = 0; i < tga.length; i++ )
+			{
+				tc = tga[i].getCondition( );
+				al = (ArrayList) _lhmAllTriggers.get( tc );
+				if ( al == null )
+				{
+					al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
+					_lhmAllTriggers.put( tc, al );
+				}
+				al.add( new RegionAction( iev.getSource( ),
+						bo,
+						tga[i].getAction( ),
+						dTranslateX,
+						dTranslateY,
+						dScale,
+						clipping ) );
+			}
+		}
 
 		// free the clip region resource.
 		clipping.dispose( );

@@ -14,5 +14,6 @@ Require-Bundle: org.eclipse.birt.chart.engine.extension,
  org.eclipse.birt.chart.reportitem,
  org.eclipse.birt.chart.reportitem.ui,
  org.eclipse.birt.report.model,
- org.eclipse.birt.report.engine
+ org.eclipse.birt.report.engine,
+ org.eclipse.birt.chart.device.swt
 Eclipse-LazyStart: true
