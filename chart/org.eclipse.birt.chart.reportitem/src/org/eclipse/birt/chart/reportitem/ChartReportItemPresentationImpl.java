@@ -433,6 +433,12 @@ public final class ChartReportItemPresentationImpl extends
 					+ sExtension.toUpperCase( Locale.US ) );
 
 			idr.setProperty( IDeviceRenderer.DPI_RESOLUTION, new Integer( dpi ) );
+
+			if ( "SVG".equalsIgnoreCase( sExtension ) ) //$NON-NLS-1$
+			{
+				idr.setProperty( "resize.svg", Boolean.TRUE ); //$NON-NLS-1$
+			}
+
 			// BUILD THE CHART
 			final Bounds originalBounds = cm.getBlock( ).getBounds( );
 
