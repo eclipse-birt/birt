@@ -15,6 +15,8 @@ import java.awt.Image;
 import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -39,6 +41,7 @@ import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.svg.plugin.ChartDeviceSVGPlugin;
+import org.eclipse.birt.chart.device.swing.ShapedAction;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
 import org.eclipse.birt.chart.event.ArcRenderEvent;
 import org.eclipse.birt.chart.event.AreaRenderEvent;
@@ -68,6 +71,7 @@ import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
+import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -488,6 +492,42 @@ public class SVGRendererImpl extends SwingRendererImpl
 
 			elm = svggc.createRect(boRect.getLeft(), boRect.getTop(), boRect.getWidth(), boRect.getHeight());
 		}
+		else if ( pre instanceof AreaRenderEvent )
+		{		
+			AreaRenderEvent are = (AreaRenderEvent)pre;
+						
+			final GeneralPath gp = new GeneralPath( );
+			PrimitiveRenderEvent subPre;
+			
+			for ( int i = 0; i < are.getElementCount( ); i++ )
+			{
+				subPre = are.getElement( i );
+				if ( subPre instanceof ArcRenderEvent )
+				{
+					final ArcRenderEvent acre = (ArcRenderEvent) subPre;
+					final Arc2D.Double a2d = new Arc2D.Double( acre.getTopLeft( )
+							.getX( ),
+							acre.getTopLeft( ).getY( ),
+							acre.getWidth( ),
+							acre.getHeight( ),
+							acre.getStartAngle( ),
+							acre.getAngleExtent( ),
+							toSwingArcType( acre.getStyle( ) ) );
+					gp.append( a2d, true );
+				}
+				else if ( subPre instanceof LineRenderEvent )
+				{
+					final LineRenderEvent lre = (LineRenderEvent) subPre;
+					final Line2D.Double l2d = new Line2D.Double( lre.getStart( )
+							.getX( ),
+							lre.getStart( ).getY( ),
+							lre.getEnd( ).getX( ),
+							lre.getEnd( ).getY( ) );
+					gp.append( l2d, true );
+				}
+			}
+			elm = svggc.createGeneralPath(gp);
+		}			
 		else if ( pre instanceof ArcRenderEvent )
 		{
 			final ArcRenderEvent are = (ArcRenderEvent) pre;
@@ -526,7 +566,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 //				_g2d.setClip( fArea );
 				elm = svggc.createGeneralPath( fArea );
 //				_g2d.setClip( prevClip );
-			}
+			}		
 			else
 			{
 				elm = svggc.createGeneralPath( new Arc2D.Double( are.getTopLeft( ).getX( ),
