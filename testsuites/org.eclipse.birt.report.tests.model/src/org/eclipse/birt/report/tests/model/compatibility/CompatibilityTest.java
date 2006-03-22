@@ -9,28 +9,28 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 public class CompatibilityTest extends BaseTestCase{
 
-	String fileName = "DynamicTextExampleAfter.xml";
-	String fileName1 = "DynamicTextExampleBefore.xml";
-	String fileName2 = "GroupingExampleAfter.xml";
-	String fileName3 = "GroupingExampleBefore.xml";
-	String fileName4 = "HighlightExampleAfter.xml";
-	String fileName5 = "HighlightExampleBefore.xml";
-	String fileName6 = "HyperlinkingExampleBefore.xml";
-	String fileName7 = "ImageExample.xml";
-	String fileName8 = "ListingExampleAfter.xml";
-	String fileName9 = "ListingExampleBefore.xml";
-	String fileName10 = "MappingExampleAfter.xml";
-	String fileName11 = "MappingExampleBefore.xml";
-	String fileName12 = "ParallelReportExampleAfter.xml";
-	String fileName13= "ParametersExampleAfter.xml";
-	String fileName14= "ParametersExampleBefore.xml";
-	String fileName15= "ProductCatalog.xml";
-	String fileName16= "SalesInvoice.xml";
-	String fileName17= "SalesOfAproduct.xml";
-	String fileName18= "SubReportsExampleMainAfter.xml";
-	String fileName19= "SubReportsExampleMainBefore.xml";
-	String fileName20= "TopNPercent.xml";
-	String fileName21= "TopSellingProducts.xml";
+	String fileName = "DynamicTextExampleAfter_2.0.1.xml";
+	String fileName1 = "DynamicTextExampleBefore_2.0.1.xml";
+	String fileName2 = "GroupingExampleAfter_2.0.1.xml";
+	String fileName3 = "GroupingExampleBefore_2.0.1.xml";
+	String fileName4 = "HighlightExampleAfter_2.0.1.xml";
+	String fileName5 = "HighlightExampleBefore_2.0.1.xml";
+	String fileName6 = "HyperlinkingExampleBefore_2.0.1.xml";
+	String fileName7 = "ImageExample_2.0.1.xml";
+	String fileName8 = "ListingExampleAfter_2.0.1.xml";
+	String fileName9 = "ListingExampleBefore_2.0.1.xml";
+	String fileName10 = "MappingExampleAfter_2.0.1.xml";
+	String fileName11 = "MappingExampleBefore_2.0.1.xml";
+	String fileName12 = "ParallelReportExampleAfter_2.0.1.xml";
+	String fileName13= "ParametersExampleAfter_2.0.1.xml";
+	String fileName14= "ParametersExampleBefore_2.0.1.xml";
+	String fileName15= "ProductCatalog_2.0.1.xml";
+	String fileName16= "SalesInvoice_2.0.1.xml";
+	String fileName17= "SalesOfAproduct_2.0.1.xml";
+	String fileName18= "SubReportsExampleMainAfter_2.0.1.xml";
+	String fileName19= "SubReportsExampleMainBefore_2.0.1.xml";
+	String fileName20= "TopNPercent_2.0.1.xml";
+	String fileName21= "TopSellingProducts_2.0.1.xml";
 	
 	public CompatibilityTest(String name) {
 		super(name);
