@@ -104,7 +104,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.26 $ $Date: 2006/02/25 12:37:48 $
+ * @version $Revision: 1.27 $ $Date: 2006/03/13 03:54:50 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
 		EditorSelectionProvider,
@@ -920,6 +920,15 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		}
 
 		return tempList;
+	}
+	
+	public void setFocus( )
+	{
+		if(getGraphicalViewer()!=null && getGraphicalViewer().getControl()!=null)
+		{
+			super.setFocus( );
+		}
+		return;
 	}
 
 }

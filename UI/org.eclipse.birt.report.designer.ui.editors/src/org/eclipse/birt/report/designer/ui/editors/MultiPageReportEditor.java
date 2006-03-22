@@ -650,10 +650,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		{
 			// use the asynchronized execution to ensure correct active page
 			// index.
-			Display.getCurrent( ).asyncExec( new Runnable( ) {
-
-				public void run( )
-				{
+//			Display.getCurrent( ).asyncExec( new Runnable( ) {
+//
+//				public void run( )
+//				{
 					if ( getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette )
 					{
 						GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) getActivePageInstance( );
@@ -661,9 +661,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 						UIUtil.resetViewSelection( view, true );
 					}
-				};
+//				};
 
-			} );
+//			} );
 
 			if ( getEditorInput( ).exists( ) )
 			{
