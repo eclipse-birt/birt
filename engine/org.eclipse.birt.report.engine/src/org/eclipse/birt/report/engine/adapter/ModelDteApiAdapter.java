@@ -228,8 +228,28 @@ public class ModelDteApiAdapter
 			joinConditions.add( new JoinConditionExpression( new ScriptExpression( jc.getLeftExpression( )), new ScriptExpression(jc.getRightExpression( )),toDteJoinOperator(jc.getOperator( )))) ;
 		}
 		
-		IBaseDataSetDesign leftDataSet = new BaseDataSetDesign(jc.getLeftDataSet( ));
-		IBaseDataSetDesign rightDataSet = new BaseDataSetDesign(jc.getRightDataSet( ));
+		
+		IBaseDataSetDesign leftDataSet = null;
+		IBaseDataSetDesign rightDataSet = null;
+		
+		List dataSets = handle.getModuleHandle( ).getAllDataSets( );
+		for( int i = 0; i < dataSets.size( ); i++ )
+		{
+			DataSetHandle dsHandle = (DataSetHandle)dataSets.get( i );
+			if( dsHandle.getName( )!= null)
+			{
+				if( dsHandle.getName( ).equals( jc.getLeftDataSet( ) ))
+				{
+					leftDataSet = createDataSetDesign( dsHandle );
+				}
+				//Do not use "else if" for in self-join the data set name are equal.
+				if( dsHandle.getName( ).equals( jc.getRightDataSet( ) ))
+				{
+					rightDataSet = createDataSetDesign( dsHandle );
+				}
+			}
+		}
+		
 		int joinType = toDteJoinType(jc.getJoinType( ));
 		
 		IBaseDataSetEventHandler eventHandler = new DataSetScriptExecutor(
