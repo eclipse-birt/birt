@@ -110,7 +110,12 @@ public class Methods implements IConstants
 			return da[da.length - 1];
 		}
 
-		if ( ( sc.getType( ) & DATE_TIME ) == DATE_TIME )
+		if ( ( sc.getType( ) & TEXT ) == TEXT || sc.isCategoryScale( ) )
+		{
+			double dValue = iv.getValueAsDouble( sc );
+			return da[0] + ( da[1] - da[0] ) * dValue;
+		}
+		else if ( ( sc.getType( ) & DATE_TIME ) == DATE_TIME )
 		{
 			CDateTime cdtValue = asDateTime( iv.getValue( ) );
 			CDateTime cdt = asDateTime( sc.getMinimum( ) ), cdtPrev = null;
@@ -145,11 +150,6 @@ public class Methods implements IConstants
 				cdt = cdt.forward( iUnit, iStep );
 			}
 			return da[da.length - 1];
-		}
-		else if ( ( sc.getType( ) & TEXT ) == TEXT )
-		{
-			double dValue = iv.getValueAsDouble( sc );
-			return da[0] + ( da[1] - da[0] ) * dValue;
 		}
 		else if ( ( sc.getType( ) & LOGARITHMIC ) == LOGARITHMIC )
 		{
