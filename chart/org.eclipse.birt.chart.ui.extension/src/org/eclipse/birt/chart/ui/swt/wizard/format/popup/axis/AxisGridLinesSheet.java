@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis;
 
+import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
@@ -77,11 +78,26 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 
 	private transient Axis axis;
 
+	private transient int angleType;
+
+	/**
+	 * 
+	 * @param parent
+	 *            parent composite
+	 * @param context
+	 *            wizard context
+	 * @param axis
+	 *            axis model
+	 * @param angleType
+	 *            indicate axis type, value is AngleType.X or AngleType.Y or
+	 *            AngleType.Z
+	 */
 	public AxisGridLinesSheet( Composite parent, ChartWizardContext context,
-			Axis axis )
+			Axis axis, int angleType )
 	{
 		super( parent, context, false );
 		this.axis = axis;
+		this.angleType = angleType;
 		cmpTop = getComponent( parent );
 	}
 
@@ -125,17 +141,6 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 		cmpGeneral.setLayoutData( gdCMPGeneral );
 		cmpGeneral.setLayout( glGeneral );
 
-		// The axis from the model for convenient access
-		Axis axis = null;
-		try
-		{
-			axis = getAxisForProcessing( );
-		}
-		catch ( ClassCastException cce )
-		{
-			cce.printStackTrace( );
-		}
-
 		// Axis Visibility
 		cbHidden = new Button( cmpGeneral, SWT.CHECK );
 		GridData gdCBVisible = new GridData( GridData.FILL_BOTH );
@@ -154,6 +159,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 		cbCategory.setSelection( axis.isCategoryAxis( ) );
 		cbCategory.addSelectionListener( this );
 		cbCategory.setEnabled( ScatterChart.TYPE_LITERAL.equals( chart.getType( ) ) );
+		cbCategory.setVisible( angleType == AngleType.X );
 
 		// Axis Line Color
 		Label lblColor = new Label( cmpGeneral, SWT.NONE );
@@ -201,7 +207,6 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 		lblGridCount.setLayoutData( gdLBLGridCount );
 		lblGridCount.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.MinorGridCount" ) ); //$NON-NLS-1$
 
-		
 		iscGridCount = new Spinner( cmpGeneral, SWT.BORDER );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
@@ -278,7 +283,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 		setStateOfMinorGrid( getAxisForProcessing( ).getMinorGrid( )
 				.getLineAttributes( )
 				.isVisible( ) );
-		
+
 		return cmpContent;
 	}
 

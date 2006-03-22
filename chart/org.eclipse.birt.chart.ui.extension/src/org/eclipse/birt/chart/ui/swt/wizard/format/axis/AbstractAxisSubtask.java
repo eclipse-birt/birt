@@ -391,7 +391,8 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 			popupShell = createPopupShell( );
 			popupSheet = new AxisGridLinesSheet( popupShell,
 					getContext( ),
-					getAxisForProcessing( ) );
+					getAxisForProcessing( ),
+					getAxisAngleType( ) );
 			getWizard( ).attachPopup( btnGridlines.getText( ), -1, -1 );
 		}
 		else if ( e.widget.equals( btnMarkers ) )

@@ -178,7 +178,8 @@ public class AxisZSheetImpl extends SubtaskSheetImpl
 			popupShell = createPopupShell( );
 			popupSheet = new AxisGridLinesSheet( popupShell,
 					getContext( ),
-					getAxisForProcessing( ) );
+					getAxisForProcessing( ),
+					AngleType.Z );
 			getWizard( ).attachPopup( btnGridlines.getText( ), -1, -1 );
 		}
 		else if ( e.widget.equals( btnInteractivity ) )
