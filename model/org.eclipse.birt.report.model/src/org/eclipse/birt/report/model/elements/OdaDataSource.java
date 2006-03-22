@@ -22,7 +22,8 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
-import org.eclipse.birt.report.model.extension.oda.OdaExtensibilityProvider;
+import org.eclipse.birt.report.model.extension.oda.ODAProvider;
+import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 
@@ -48,7 +49,7 @@ public class OdaDataSource extends DataSource
 	 * extendable element.
 	 */
 
-	private OdaExtensibilityProvider provider = null;
+	private ODAProvider provider = null;
 
 	/**
 	 * Default constructor.
@@ -192,7 +193,8 @@ public class OdaDataSource extends DataSource
 		{
 			extensionID = (String) value;
 			if ( extensionID != null )
-				provider = new OdaExtensibilityProvider( this, extensionID );
+				provider = ODAProviderFactory.getInstance( ).createODAProvider(
+						this, extensionID );
 			else
 				provider = null;
 		}

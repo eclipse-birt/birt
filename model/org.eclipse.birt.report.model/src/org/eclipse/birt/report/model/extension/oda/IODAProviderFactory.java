@@ -9,24 +9,17 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.model.plugin;
+package org.eclipse.birt.report.model.extension.oda;
 
-import org.eclipse.birt.core.plugin.BIRTPlugin;
-import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
-import org.osgi.framework.BundleContext;
+import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
- * The class to use the eclipse tracing facilities.
+ * Interface for all ODA provider factory.
+ * 
  */
-
-public class ModelPlugin extends BIRTPlugin
+public interface IODAProviderFactory
 {
 
-	public void start( BundleContext context ) throws Exception
-	{
-		super.start( context );
-		
-		ODAProviderFactory.initeTheFactory( new ODABaseProviderFactory( ) );
-	}
-
+	public ODAProvider createODAProvider( DesignElement element,
+			String extensionID );
 }

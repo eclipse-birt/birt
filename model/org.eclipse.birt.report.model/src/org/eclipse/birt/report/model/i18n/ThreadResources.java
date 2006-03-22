@@ -152,10 +152,12 @@ public class ThreadResources
 		if ( resourceHandle != null )
 			return resourceHandle;
 
-		resourceHandle = new ModelResourceHandle( locale );
-
 		synchronized ( resourceMap )
 		{
+			if ( resourceMap.get( locale ) != null )
+				return (ModelResourceHandle) resourceMap.get( locale );
+
+			resourceHandle = new ModelResourceHandle( locale );
 			resourceMap.put( locale, resourceHandle );
 		}
 

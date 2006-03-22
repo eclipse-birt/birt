@@ -49,7 +49,7 @@ import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
-import org.eclipse.birt.report.model.extension.oda.ODAManifestUtil;
+import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -802,9 +802,14 @@ public class ElementFactory
 
 	public OdaDataSourceHandle newOdaDataSource( String name, String extensionID )
 	{
+
 		if ( extensionID != null )
 		{
-			if ( ODAManifestUtil.getDataSourceExtension( extensionID ) == null )
+			if ( ODAProviderFactory.getInstance( ).createODAProvider( null,
+					extensionID ) == null )
+				return null;
+			if ( !ODAProviderFactory.getInstance( ).createODAProvider( null,
+					extensionID ).isValidODADataSourceExtensionID( extensionID ) )
 				return null;
 		}
 		OdaDataSource element = new OdaDataSource( name );
@@ -867,7 +872,11 @@ public class ElementFactory
 	{
 		if ( extensionID != null )
 		{
-			if ( ODAManifestUtil.getDataSetExtension( extensionID ) == null )
+			if ( ODAProviderFactory.getInstance( ).createODAProvider( null,
+					extensionID ) == null )
+				return null;
+			if ( !ODAProviderFactory.getInstance( ).createODAProvider( null,
+					extensionID ).isValidODADataSetExtensionID( extensionID ) )
 				return null;
 		}
 		OdaDataSet element = new OdaDataSet( name );

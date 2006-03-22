@@ -11,16 +11,14 @@
 
 package org.eclipse.birt.report.model.parser;
 
-
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
-import org.eclipse.birt.report.model.extension.oda.ODAManifestUtil;
+import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
-import org.eclipse.datatools.connectivity.oda.util.manifest.DataSetType;
 import org.xml.sax.Attributes;
 
 /**
@@ -45,7 +43,7 @@ public class OdaDataSetState extends SimpleDataSetState
 
 		element = new OdaDataSet( );
 	}
-	
+
 	/**
 	 * Constructs the data set state with the design parser handler, the
 	 * container element and the container slot of the data set.
@@ -133,16 +131,19 @@ public class OdaDataSetState extends SimpleDataSetState
 		}
 		else
 		{
-			DataSetType dataSetType = ODAManifestUtil
-					.getDataSetExtension( extensionID );
-
-			if ( dataSetType == null )
-			{
-				SemanticError e = new SemanticError( element,
-						new String[]{extensionID},
-						SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND );
-				RecoverableError.dealMissingInvalidExtension( handler, e );
-			}
+			if ( ODAProviderFactory.getInstance( ).createODAProvider( element,
+					extensionID ) == null )
+				return;
+				
+				if ( !ODAProviderFactory.getInstance( ).createODAProvider(
+						element, extensionID ).isValidODADataSetExtensionID(
+						extensionID ) )
+				{
+					SemanticError e = new SemanticError( element,
+							new String[]{extensionID},
+							SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND );
+					RecoverableError.dealMissingInvalidExtension( handler, e );
+				}
 		}
 
 		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );

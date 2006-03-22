@@ -11,15 +11,13 @@
 
 package org.eclipse.birt.report.model.parser;
 
-
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
-import org.eclipse.birt.report.model.extension.oda.ODAManifestUtil;
+import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
-import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
 import org.xml.sax.Attributes;
 
 /**
@@ -102,9 +100,12 @@ public class OdaDataSourceState extends DataSourceState
 		}
 		else
 		{
-			ExtensionManifest extension = ODAManifestUtil
-					.getDataSourceExtension( extensionID );
-			if ( extension == null )
+			if ( ODAProviderFactory.getInstance( ).createODAProvider( element,
+					extensionID ) == null )
+				return;
+
+			if ( !ODAProviderFactory.getInstance( ).createODAProvider( element,
+					extensionID ).isValidODADataSourceExtensionID( extensionID ) )
 			{
 				SemanticError e = new SemanticError( element,
 						new String[]{extensionID},
