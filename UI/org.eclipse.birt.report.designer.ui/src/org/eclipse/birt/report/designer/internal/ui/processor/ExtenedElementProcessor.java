@@ -49,13 +49,6 @@ public class ExtenedElementProcessor extends AbstractElementProcessor
 		// getElementType( ) );
 		ExtendedItemHandle handle = DesignElementFactory.getInstance( )
 				.newExtendedItem( getNewName( extendedData ), getElementType( ) );
-		if ( getBuilder( ) != null )
-		{
-			if ( !editElement( handle ) )
-			{
-				return null;
-			}
-		}
 		return handle;
 	}
 

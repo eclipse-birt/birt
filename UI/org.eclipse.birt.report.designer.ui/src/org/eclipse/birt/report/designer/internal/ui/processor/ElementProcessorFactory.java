@@ -37,13 +37,10 @@ public class ElementProcessorFactory
 		{
 			return new DynamicTextProcessor( elementType );
 		}
-		else
+		if ( DesignEngine.getMetaDataDictionary( )
+				.getExtension( elementType ) != null )
 		{
-			if ( DesignEngine.getMetaDataDictionary( )
-					.getExtension( elementType ) != null )
-			{
-				return new ExtenedElementProcessor( elementType );
-			}
+			return new ExtenedElementProcessor( elementType );
 		}
 		return new DefaultElementProcessor( elementType );
 	}

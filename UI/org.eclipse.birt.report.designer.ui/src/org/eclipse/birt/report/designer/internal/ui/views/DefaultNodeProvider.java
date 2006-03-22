@@ -28,11 +28,9 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
-import org.eclipse.birt.report.designer.internal.ui.views.actions.ExportToLibraryAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayoutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
-import org.eclipse.birt.report.designer.internal.ui.views.actions.PublishTemplateViewAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RenameAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -41,10 +39,9 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
-import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -152,15 +149,14 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( copyAction.isEnabled( ) )
 			menu.add( copyAction );
 
-		if(!(object instanceof DataSetItemModel))
+		if ( !( object instanceof DataSetItemModel ) )
 		{
-			menu.add( new PasteAction( object ) );	
-		}		
+			menu.add( new PasteAction( object ) );
+		}
 
 		// Insert point for refresh action
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
 				+ "-refresh" ) );//$NON-NLS-1$
-		
 
 		// Action action = new CodePageAction( object );
 		// if ( action.isEnabled( ) )
@@ -173,7 +169,6 @@ public class DefaultNodeProvider implements INodeProvider
 		// || ( object instanceof ReportElementHandle && !( (
 		// (ReportElementHandle) object ).getRoot( ) instanceof LibraryHandle )
 		// ) )
-
 
 		// action = new CreatePlaceHolderAction( object );
 		// if ( action.isEnabled( ) )
@@ -583,6 +578,14 @@ public class DefaultNodeProvider implements INodeProvider
 			else
 			{
 				slotHandle.add( elementHandle, pos );
+			}
+		}
+		if ( elementHandle instanceof ExtendedItemHandle )
+		{
+			if ( !ElementProcessorFactory.createProcessor( elementHandle )
+					.editElement( elementHandle ) )
+			{
+				return false;
 			}
 		}
 		return true;
