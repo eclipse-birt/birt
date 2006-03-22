@@ -15,6 +15,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
+import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -46,6 +47,9 @@ class OdiAdapter
 
 	// from input stream
 	private ResultObjectReader roReader;
+	
+	// from Joint data set
+	private IDataSetPopulator populator;
 	
 	/**
 	 * Construction
@@ -113,6 +117,15 @@ class OdiAdapter
 		this.roReader = roReader;
 	}
 	
+	/**
+	 * Construction 
+	 * 
+	 */
+	OdiAdapter( IDataSetPopulator populator)
+	{
+		assert populator != null;
+		this.populator = populator;
+	}
 	
 	/**
 	 * Fetch data from Oda or Odi. After the fetch is done, the cursor
@@ -146,6 +159,10 @@ class OdiAdapter
 		else if ( roReader != null )
 		{
 			return roReader.fetch( );
+		}
+		else if ( populator != null )
+		{
+			return populator.next( );
 		}
 		else
 		{

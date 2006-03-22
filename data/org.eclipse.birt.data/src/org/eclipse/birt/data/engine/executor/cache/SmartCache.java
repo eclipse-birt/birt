@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.executor.transform.OrderingInfo;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
+import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -73,6 +74,26 @@ public class SmartCache implements ResultSetCache
 		assert rsMeta != null;
 
 		OdiAdapter odiAdpater = new OdiAdapter( odaResultSet );
+		initInstance( cacheRequest, odiAdpater, rsMeta );
+	}
+	
+	/**
+	 * Retrieve data from IJointDataSetPopulator, used in joint data set.
+	 * 
+	 * @param odaResultSet
+	 * @param query
+	 * @param rsMeta
+	 * @param sortSpec
+	 * @throws DataException
+	 */
+	public SmartCache( CacheRequest cacheRequest, IDataSetPopulator populator,
+			IResultClass rsMeta ) throws DataException
+	{
+		assert cacheRequest != null;
+		assert populator != null;
+		assert rsMeta != null;
+
+		OdiAdapter odiAdpater = new OdiAdapter( populator );
 		initInstance( cacheRequest, odiAdpater, rsMeta );
 	}
 	
@@ -285,7 +306,10 @@ public class SmartCache implements ResultSetCache
 					//The actual meta data of this odaObject may not equal to 
 					//rsMeta. We simply populate the new ResultObject using the 
 					//given rsMeta.
-					obs[i-1] = odaObject.getFieldValue( rsMeta.getFieldName(i));
+					if( i <= odaObject.getResultClass( ).getFieldCount( ))
+						obs[i-1] = odaObject.getFieldValue( rsMeta.getFieldName(i));
+					else 
+						obs[i-1] = null;
 				}
 				resultObjectsList.add( new ResultObject( rsMeta, obs) );
 			}

@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
@@ -52,7 +53,7 @@ import org.mozilla.javascript.Scriptable;
  * or from a IResultObject (during data set processing).
  */
 
-public abstract class DataSetRuntime implements IDataSetInstanceHandle
+public class DataSetRuntime implements IDataSetInstanceHandle
 {
 	/** Static design of data set */
 	private IBaseDataSetDesign	dataSetDesign;
@@ -255,6 +256,10 @@ public abstract class DataSetRuntime implements IDataSetInstanceHandle
 		else if ( dataSetDefn instanceof IScriptDataSetDesign )
 		{
 			dataSet = new ScriptDataSetRuntime( (IScriptDataSetDesign) dataSetDefn, queryExecutor );
+		}
+		else if ( dataSetDefn instanceof IJointDataSetDesign )
+		{
+			dataSet = new DataSetRuntime(dataSetDefn, queryExecutor);
 		}
 		else
 		{

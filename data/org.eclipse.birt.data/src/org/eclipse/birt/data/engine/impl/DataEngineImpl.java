@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
@@ -237,51 +238,53 @@ public class DataEngineImpl extends DataEngine
 			logger.logp( Level.FINE,
 					DataEngineImpl.class.getName( ),
 					"defineDataSet",
-					"DataEngine.defineDataSet: "
-							+ LogUtil.toString( dataSet ) );
-
-		// Sanity check: a data set must have a data source with the proper
-		// type, and the data source must have be defined
-		String dataSourceName = dataSet.getDataSourceName( );
-		DataSourceRuntime dsource = this.getDataSourceRuntime( dataSourceName );
-		if ( dsource == null )
+					"DataEngine.defineDataSet: " + LogUtil.toString( dataSet ) );
+					
+		if ( !(dataSet instanceof IJointDataSetDesign) )
 		{
-			DataException e = new DataException( ResourceConstants.UNDEFINED_DATA_SOURCE,
-					dataSourceName );
-			logger.logp( Level.WARNING,
-					DataEngineImpl.class.getName( ),
-					"defineDataSet",
-					"Data source {"	+ dataSourceName + "} is not defined",
-					e );
-			throw e;
-		}
+			// Sanity check: a data set must have a data source with the proper
+			// type, and the data source must have be defined
+			String dataSourceName = dataSet.getDataSourceName( );
+			DataSourceRuntime dsource = this.getDataSourceRuntime( dataSourceName );
+			if ( dsource == null )
+			{
+				DataException e = new DataException( ResourceConstants.UNDEFINED_DATA_SOURCE,
+						dataSourceName );
+				logger.logp( Level.WARNING,
+						DataEngineImpl.class.getName( ),
+						"defineDataSet",
+						"Data source {" + dataSourceName + "} is not defined",
+						e );
+				throw e;
+			}
 
-		Class dSourceClass;
-		if ( dataSet instanceof IOdaDataSetDesign )
-			dSourceClass = IOdaDataSourceDesign.class;
-		else if ( dataSet instanceof IScriptDataSetDesign )
-			dSourceClass = IScriptDataSourceDesign.class;
-		else
-		{
-			DataException e = new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE );
-			logger.logp( Level.WARNING,
-					DataEngineImpl.class.getName( ),
-					"defineDataSet",
-					"Unsupported data set type: " + dataSet.getName( ),
-					e );
-			throw e;
-		}
+			Class dSourceClass;
+			if ( dataSet instanceof IOdaDataSetDesign )
+				dSourceClass = IOdaDataSourceDesign.class;
+			else if ( dataSet instanceof IScriptDataSetDesign )
+				dSourceClass = IScriptDataSourceDesign.class;
+			else
+			{
+				DataException e = new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE );
+				logger.logp( Level.WARNING,
+						DataEngineImpl.class.getName( ),
+						"defineDataSet",
+						"Unsupported data set type: " + dataSet.getName( ),
+						e );
+				throw e;
+			}
 
-		if ( !dSourceClass.isInstance( dsource.getDesign( ) ) )
-		{
-			DataException e = new DataException( ResourceConstants.UNSUPPORTED_DATASOURCE_TYPE,
-					dsource.getName() );
-			logger.logp( Level.WARNING,
-					DataEngineImpl.class.getName( ),
-					"defineDataSet",
-					"Unsupported data source type: " + dsource.getName( ),
-					e );
-			throw e;
+			if ( !dSourceClass.isInstance( dsource.getDesign( ) ) )
+			{
+				DataException e = new DataException( ResourceConstants.UNSUPPORTED_DATASOURCE_TYPE,
+						dsource.getName( ) );
+				logger.logp( Level.WARNING,
+						DataEngineImpl.class.getName( ),
+						"defineDataSet",
+						"Unsupported data source type: " + dsource.getName( ),
+						e );
+				throw e;
+			}
 		}
 		dataSetDesigns.put( name, dataSet );
 		logger.exiting( DataEngineImpl.class.getName( ), "defineDataSet" );
@@ -404,8 +407,10 @@ public class DataEngineImpl extends DataEngine
 		
 		String dataSetName = querySpec.getDataSetName( );
 		IBaseDataSetDesign dataSetDesign = this.getDataSetDesign( dataSetName );
-		IBaseDataSourceDesign dataSourceDesign = this.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) )
-				.getDesign( );
+		
+		IBaseDataSourceDesign dataSourceDesign = null;
+		if(this.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) )!= null)
+				dataSourceDesign = this.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) ).getDesign( );
 		DataSetCacheManager.getInstance( )
 				.setDataSourceAndDataSet( dataSourceDesign,
 						dataSetDesign,

@@ -15,6 +15,7 @@
 package org.eclipse.birt.data.engine.odi;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 
 /**
  * An iterator that an user can iterate to get 
@@ -134,6 +135,12 @@ public interface IResultIterator
      * @return
      */
     public int[] getGroupStartAndEndIndex( int groupLevel ) throws DataException;
+    
+    /**
+     * Return the ResultSetCache instance which is used by this odi ResultIterator.
+     * @return
+     */
+    public ResultSetCache getResultSetCache();
 
     /**
 	 * @return the count of rows

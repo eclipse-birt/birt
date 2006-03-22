@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -44,7 +45,7 @@ abstract class PreparedDataSourceQuery
 	 * @param queryDefn
 	 * @param appContext	Application context map; could be null.
 	 * @return PreparedReportQuery
-	 * @throws DataException
+	 * @throws DataException 
 	 */
 	static PreparedDataSourceQuery newInstance( DataEngineImpl dataEngine,
 			IQueryDefinition queryDefn, Map appContext ) throws DataException
@@ -80,6 +81,10 @@ abstract class PreparedDataSourceQuery
 					queryDefn,
 					dset,
 					appContext );
+		}
+		else if ( dset instanceof IJointDataSetDesign )
+		{
+			preparedQuery = new PreparedJointDataSourceQuery( dataEngine, queryDefn, dset, appContext );
 		}
 		else
 		{

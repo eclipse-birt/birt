@@ -18,10 +18,12 @@ import java.io.OutputStream;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
+import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
+import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -47,6 +49,16 @@ public class CachedResultSet implements IResultIterator
 		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaResultSet) );
 	}
 
+	/**
+	 * Constructs and intializes OdiResultSet based on data in an IJointDataSetPopulator
+	 */
+	public CachedResultSet( BaseQuery query, IResultClass meta,
+			IDataSetPopulator odaResultSet ) throws DataException
+	{
+		this.resultSetPopulator = new ResultSetPopulator( query, meta, this );
+		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaResultSet) );
+	}
+	
 	/**
 	 * @param query
 	 * @param meta
@@ -283,6 +295,15 @@ public class CachedResultSet implements IResultIterator
 	public int getRowCount( ) throws DataException
 	{
 		return this.resultSetPopulator.getCache( ).getCount( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getResultSetCache()
+	 */
+	public ResultSetCache getResultSetCache( )
+	{
+		return this.resultSetPopulator.getCache( );
 	}
 
 }

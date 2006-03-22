@@ -28,10 +28,11 @@ import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
+import org.eclipse.birt.data.engine.executor.JointDataSetQuery;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.QueryExeutorUtil.ColumnInfo;
+import org.eclipse.birt.data.engine.impl.QueryExecutorUtil.ColumnInfo;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateCalculator;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
@@ -315,7 +316,7 @@ abstract class QueryExecutor implements IQueryExecutor
 						(src.getKeyExpression( ) == null || src.getKeyExpression( ).trim( ).length( ) == 0)	)
 						throw new DataException( ResourceConstants.BAD_GROUP_EXPRESSION );
 					//TODO does the index of column significant?
-					IQuery.GroupSpec dest = QueryExeutorUtil.groupDefnToSpec( cx,
+					IQuery.GroupSpec dest = QueryExecutorUtil.groupDefnToSpec( cx,
 							src,
 							"_{$TEMP_GROUP_" + i + "$}_",
 							-1 );
@@ -326,7 +327,7 @@ abstract class QueryExecutor implements IQueryExecutor
 						temporaryComputedColumns.add( new ComputedColumn( "_{$TEMP_GROUP_"
 								+ i + "$}_",
 								src.getKeyExpression( ),
-								QueryExeutorUtil.getTempComputedColumnType( groupSpecs[i].getInterval( ) ) ) );
+								QueryExecutorUtil.getTempComputedColumnType( groupSpecs[i].getInterval( ) ) ) );
 					}
 				}
 				odiQuery.setGrouping( Arrays.asList( groupSpecs));
@@ -345,7 +346,7 @@ abstract class QueryExecutor implements IQueryExecutor
 					if ( sortKey == null || sortKey.length() == 0 )
 					{ 
 						//Firstly try to treat sort key as a column reference expression
-						ColumnInfo columnInfo = QueryExeutorUtil.getColInfoFromJSExpr( cx,
+						ColumnInfo columnInfo = QueryExecutorUtil.getColInfoFromJSExpr( cx,
 								src.getExpression( ).getText( ) );
 													
 						sortIndex = columnInfo.getColumnIndex(); 
@@ -423,13 +424,19 @@ abstract class QueryExecutor implements IQueryExecutor
 	public IResultMetaData getResultMetaData( ) throws DataException
 	{
 		assert odiQuery instanceof IPreparedDSQuery
-				|| odiQuery instanceof ICandidateQuery;
+				|| odiQuery instanceof ICandidateQuery
+				|| odiQuery instanceof JointDataSetQuery;
+				
 		if ( odiQuery instanceof IPreparedDSQuery )
 		{
 			if ( ( (IPreparedDSQuery) odiQuery ).getResultClass( ) != null )
 				return new ResultMetaData( ( (IPreparedDSQuery) odiQuery ).getResultClass( ) );
 			else
 			    return null;
+		}
+		else if ( odiQuery instanceof JointDataSetQuery )
+		{
+			return new ResultMetaData( ( (JointDataSetQuery) odiQuery ).getResultClass( ) );
 		}
 		else
 		{

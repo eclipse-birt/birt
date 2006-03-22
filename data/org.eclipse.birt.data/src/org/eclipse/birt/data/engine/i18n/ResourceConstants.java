@@ -89,6 +89,9 @@ public class ResourceConstants
 	public final static String EXPRESSION_CANNOT_BE_NULL_OR_BLANK = "data.engine.EmptyExpression";	
 	public final static String GROUP_FILTERING_IS_NOT_ALLOWED_IN_GIVEN_QUERY="data.engine.GroupFilteringIsNotAllowedInGiverQuery";
 		
+	public final static String INVALID_JOIN_TYPE="data.engine.InvalidJoinType";
+	public final static String INVALID_JOIN_OPERATOR="data.engine.InvalidJoinOperator";
+	
 	// computed column value
 	public final static String EXPR_INVALID_COMPUTED_COLUMN= "data.engine.BadCompColExpr";
 	// Data Type of computed column is not correct
